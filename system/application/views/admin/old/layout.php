@@ -50,17 +50,25 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
     <div id="search"> </div>
   </div>
   <div id="navigation-bar" class="wrap">
-    <!--
-      <ul>
-        <li  <?php if( $className == 'index') : ?> class="active" <?php endif; ?>><a href="<?php print site_url() ?>">1</a></li>
-             
-      </ul>
-    -->
+  
     <?php $this->load->view('admin/top_nav'); ?>
   </div>
 
-  <div>
+  
     <?php if(!empty($form_validation_errors)):  ?>
+    
+    <DIV class="grid_5">
+          <DIV class="box-header"> Notifications </DIV>
+          <DIV class="box">
+            <DIV class="notification success" style="display: block; "> <SPAN class="strong">SUCCESS!</SPAN> This is a success message. <SPAN class="close" title="Dismiss"></SPAN></DIV>
+            <DIV class="notification error" style="display: block; "> <SPAN class="strong">ERROR!</SPAN> This is a error message. <SPAN class="close" title="Dismiss"></SPAN></DIV>
+            <DIV class="notification warning" style="display: block; "> <SPAN class="strong">WARNING!</SPAN> This is a warning message. <SPAN class="close" title="Dismiss"></SPAN></DIV>
+            <DIV class="notification info" style="display: block; "> <SPAN class="strong">INFORMATION!</SPAN> This is a informative message. <SPAN class="close" title="Dismiss"></SPAN></DIV>
+            <DIV class="notification tip" style="display: block; "> <SPAN class="strong">TIP:</SPAN> This is a tip message. <SPAN class="close" title="Dismiss"></SPAN></DIV>
+          </DIV>
+        </DIV>
+    
+    
     <div class="error">
       <?php foreach($form_validation_errors as $item):  ?>
       <ul>
@@ -70,7 +78,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
     </div>
     <?php endif; ?>
 
-  </div>
+ 
   <?php // endif; ?>
   </div> <!-- /Header -->
   <div id="main">

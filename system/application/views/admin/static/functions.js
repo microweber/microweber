@@ -49,14 +49,7 @@ $(this).parent().fadeOut('slow', function() { $(this).remove(); });
 
 
 
-// jQuery UI - Live Search
-$(function() {
-		var availableTags = ["dashboard", "pages", "manage pages", "edit pages", "delete pages", "users", "manage users", "edit users", "delete users", "settings", "system settings", "server settings", "documentation", "help", "community forums", "contact"];
-		$("#livesearch").autocomplete({
-			source: availableTags
-		});
-	});
-
+ 
 
 
 // jQuery UI - Dialog Box

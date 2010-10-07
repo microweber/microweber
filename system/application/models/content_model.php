@@ -9638,8 +9638,6 @@ class content_model extends Model {
 			}
 		
 		}
-		
-		// $real_comments = htmlentitiesdecodeArray($real_comments) ;		
 
 		$real_comments = htmlspecialchars_deep_decode ( $real_comments );
 		

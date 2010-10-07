@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
   //  FCKEditorPath = '<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/fckeditor/';
     imgurl = '<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>images/';
@@ -12,7 +11,6 @@
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/jquery.form.js"></script>
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/jquery.fn.handleKeyboardChange.js"></script>
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/modal.js"></script>
-
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/excanvas.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/visualize.jQuery.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/functions.js"></SCRIPT>
@@ -27,8 +25,6 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datatable/datatable-min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/uploader/uploader.js"></script>-->
 
-
-
 <!--<script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/swfupload/swfupload_fp10/swfupload.js"></script>-->
 
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/swfupload/swfupload.js"></script>
@@ -37,9 +33,6 @@
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/swfupload/fileprogress.js"></script>
 <!--<script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/swfupload/swfupload.speed.js"></script>-->
 <!--<script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/swfupload/swfupload.cookies.js"></script>-->
-
-
-
 <link rel="stylesheet" href="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/jqgrid/css/ui.jqgrid.css" type="text/css" media="all"  />
 <link rel="stylesheet" href="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/jqgrid/css/jquery.searchFilter.css" type="text/css" media="all"  />
 <script type="text/javascript">
@@ -62,8 +55,6 @@ var tb_path = "<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/thickbox/";
 <!-- Load TinyMCE -->
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>js/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php"></script>
-
-
 <script type="text/javascript">
 function category_editor_setup($id) {
 
@@ -118,7 +109,6 @@ function category_editor_setup($id) {
    });*/
 }
 </script>
-
 <script type="text/javascript">
 
 
@@ -1086,7 +1076,6 @@ function move_category_ajax_down($id){
 }
 
 </script>
-
 <script type="text/javascript">
     $(document).ready(function(){
        $("a.treeActivation").click(function(){
@@ -1105,6 +1094,7 @@ function move_category_ajax_down($id){
 
     });
 </script>
+
 <div id="create_new_content_choose_category_conpatiner" style="display:none"> Please select category to add content there.
   <?php $link = site_url('admin/content/posts_edit/id:0/category:'). '{id}';
 	  $link = "<a {active_code} href=$link name='{id}'>{taxonomy_value}</a>";
