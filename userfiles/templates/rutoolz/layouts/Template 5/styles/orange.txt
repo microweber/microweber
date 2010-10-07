@@ -1,0 +1,2 @@
+name: OrangeStyle
+description: Main colors: Orange, black, silver, white

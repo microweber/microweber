@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title>Demo 2 : NicEdit Configuration</title>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<div id="intro">
+<p>NicEdit is highly configurable by passing the configuration when you create the NicEditor. Pass your configuration when you call:</p>
+<p>new NicEditor({CONFIG HERE})</p>
+<p>Add .panelInstance('ID TO TEXTAREA HERE') to add the editor to the textarea.</p>
+<p>See the examples below:</p>
+</div>
+<br />
+
+<div id="sample">
+<script src="../nicEdit.js" type="text/javascript"></script>
+<script type="text/javascript">
+bkLib.onDomLoaded(function() {
+	new nicEditor().panelInstance('area1');
+	new nicEditor({fullPanel : true}).panelInstance('area2');
+	new nicEditor({iconsPath : '../nicEditorIcons.gif'}).panelInstance('area3');
+	new nicEditor({buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image']}).panelInstance('area4');
+	new nicEditor({maxHeight : 100}).panelInstance('area5');
+});
+</script>
+
+<h4>Default (No Config Specified)</h4>
+<p>new nicEditor().panelInstance('area1');</p>
+
+<textarea cols="50" id="area1"></textarea>
+
+<h4>All Available Buttons {fullPanel : true}</h4>
+<p>new nicEditor({fullPanel : true}).panelInstance('area2');</p>
+<textarea cols="60" id="area2">Some Initial Content was in this textarea</textarea>
+
+<h4>Change Path to Icon File {iconsPath : 'path/to/nicEditorIcons.gif'}</h4>
+
+<p>new nicEditor({iconsPath : 'nicEditorIcons.gif'}).panelInstance('area3');</p>
+<textarea cols="50" id="area3"></textarea>
+
+<h4>Customize the Panel Buttons/Select List</h4>
+
+<p>{buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript']}</p>
+<textarea cols="50" id="area4">HTML <b>content</b> <i>default</i> in textarea</textarea>	
+
+<h4>Set a maximum expansion size (maxHeight)</h4>
+
+<p>{maxHeight : 100}</p>
+<textarea style="height: 100px;" cols="50" id="area5">HTML <b>content</b> <i>default</i> in textarea</textarea>	
+</div>
+
+</div>
+
+</body>
+</html>

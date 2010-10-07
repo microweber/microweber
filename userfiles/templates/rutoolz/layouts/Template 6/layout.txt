@@ -1,0 +1,3 @@
+type: layout
+name: Template 6
+description: Clean and stylish

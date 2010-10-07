@@ -1,0 +1,10 @@
+@import url("ooyes.framework.css");
+body {
+	font:13px Verdana, sans-serif;
+	color: #312F2F;
+	background: #C1C1C1;
+	overflow-x:hidden;
+}
+a {
+	color:#312F2F;
+}

@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>Demo 4 : Inline NicEditors</title>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<div id="intro">
+<p>In addition to replacing textareas NicEdit instances can also replace any element (divs,spans,paragraphs,ect.) with editor instances without effecting the layout of the page. As you will see in other examples content can be saved via AJAX to the server or retrieved from javascript</p>
+
+<p>To make use of Inline Editing you should first create an empty element as a placeholder for the Editor Panel. In this case I use a div with id="myNicPanel" set. Its usually a good idea to set a width on element but it is not required.</p>
+</div>
+
+<div id="sample">
+
+<script src="../nicEdit.js" type="text/javascript"></script>
+<script type="text/javascript">
+     bkLib.onDomLoaded(function() {
+          var myNicEditor = new nicEditor();
+          myNicEditor.setPanel('myNicPanel');
+          myNicEditor.addInstance('myInstance1');
+          myNicEditor.addInstance('myInstance2');
+          myNicEditor.addInstance('myInstance3');
+     });
+</script>
+
+This is text above the Panel
+<div id="myNicPanel" style="width: 525px;"></div>
+This is text below the Panel
+<br /><br />
+
+<h4>Inline Div</h4>
+<div id="myInstance1" style="font-size: 16px; background-color: #ccc; padding: 3px; border: 5px solid #000; width: 400px;">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed magna dolor, faucibus ac, iaculis non, cursus et, dui. Donec non urna. Aliquam volutpat ornare augue. Phasellus egestas, nisl fermentum porttitor rutrum, magna metus rutrum risus, id fringilla magna mi nec lorem. Etiam eget metus sed justo ultricies rhoncus. Praesent rhoncus arcu non dolor. Proin eu eros. Curabitur vehicula. Nulla vehicula lectus eget eros. Nulla vel nulla at dui dictum mollis. Etiam purus felis, pretium vel, eleifend id, consectetuer nec, purus. Vivamus pretium orci ac sapien. Etiam at tortor. Nunc tincidunt mi sed sapien. Etiam lacus pede, fermentum eu, blandit ac, congue eget, metus. Quisque sed sem. Mauris at sapien. Ut luctus.
+</div>
+<br />
+<h4>Inline Span</h4>
+<span id="myInstance2" style="display: block;">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed magna dolor, faucibus ac, iaculis non, cursus et, dui. Donec non urna. Aliquam volutpat ornare augue. Phasellus egestas, nisl fermentum porttitor rutrum, magna metus rutrum risus, id fringilla magna mi nec lorem. Etiam eget metus sed justo ultricies rhoncus. Praesent rhoncus arcu non dolor. Proin eu eros. Curabitur vehicula. Nulla vehicula lectus eget eros. Nulla vel nulla at dui dictum mollis. Etiam purus felis, pretium vel, eleifend id, consectetuer nec, purus. Vivamus pretium orci ac sapien. Etiam at tortor. Nunc tincidunt mi sed sapien. Etiam lacus pede, fermentum eu, blandit ac, congue eget, metus. Quisque sed sem. Mauris at sapien. Ut luctus.
+</span>
+<br />
+<h4>Inline Paragraph</h4>
+<p id="myInstance3" style="border: 1px solid #000;">This is some text that can be edited in the inline paragraph editor.</p>
+     
+</div>
+
+</body>
+</html>

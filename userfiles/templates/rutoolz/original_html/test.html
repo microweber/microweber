@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>stu nicholls | CSS PLaY | cross browser fixed header/footer layout basic method</title>
+<style type="text/css" media="screen">
+#printhead {
+	display:none;
+}
+html {
+	height:100%;
+	max-height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	background:#fff;
+	/* hide overflow:hidden from IE5/Mac */ 
+/* \*/ 
+overflow: hidden;/* */ 
+}
+body {
+	height:100%;
+	max-height:100%;
+	overflow:hidden;
+	padding:0;
+	margin:0;
+	border:0;
+}
+#content {
+	display:block;
+	height:100%;
+	max-height:100%;
+	overflow:auto;
+	padding-left:20px;
+	position:relative;
+	z-index:3;
+	word-wrap:break-word;
+}
+#head {
+	position:absolute;
+	margin:0;
+	top:0;
+	right:18px;
+	display:block;
+	width:100%;
+	height:80px;
+	background:#fff;
+	z-index:5;
+	border-bottom:1px solid #fff;
+}
+#foot {
+	position:absolute;
+	margin:0;
+	bottom:-1px;
+	right:18px;
+	display:block;
+	width:100%;
+	height:35px;
+	background:#fff;
+	color:#000;
+	text-align:left;
+	z-index:4;
+	border-top:1px solid #000;
+}
+.pad1 {
+	display:block;
+	width:20px;
+	height:80px;
+	float:left;
+}
+.pad2 {
+	display:block;
+	height:80px;
+}
+
+</style>
+<style type="text/css" media="print">
+#printhead {
+	height:100px;
+	background:#fff;
+	font-size:24pt;
+	color:#000;
+	border-bottom:1px solid #000;
+}
+#printfoot {
+	height:50px;
+	background:#fff;
+	color:#000;
+	text-align:right;
+	font-size:12pt;
+	border-top:1px solid #000;
+	margin-top:20px;
+}
+#foot {
+	display:none;
+}
+</style>
+</head>
+<body>
+<div id="printhead">www.s7u.co.uk - Cutting Edge CSS</div>
+<div id="head">
+  <div class="pad1"></div>
+  Header</div>
+<div id="content"> <a name="Top"></a>
+  <div class="pad2"></div>
+  
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies tellus id felis tempor et tempor dui consequat. Cras nisl justo, adipiscing eu porttitor quis, adipiscing eget elit. Aenean lacinia odio a ligula luctus cursus. Nullam urna velit, blandit vel hendrerit ac, interdum vitae est. Integer congue tincidunt gravida. Curabitur consequat, nisl vitae pulvinar tempus, mauris nulla dictum eros, luctus feugiat risus nunc vitae neque. Integer bibendum lorem in libero pellentesque sed congue justo tincidunt. Proin id nisi elit, eu pretium tortor. Maecenas vel metus augue. Pellentesque eu felis elit. Nulla tempor imperdiet bibendum. Aliquam ullamcorper, leo accumsan dignissim mollis, tortor ipsum gravida magna, quis volutpat odio lectus at leo. Fusce vitae tellus mi. Phasellus metus arcu, scelerisque ac porttitor quis, tempus quis purus. Vestibulum cursus cursus nisi. Duis et elit metus. Vivamus feugiat pulvinar posuere. Nullam non pellentesque massa. Cras sed mauris arcu, vitae molestie justo.
+
+Aenean cursus nisi in nisl facilisis mattis. Vestibulum eu orci ac sapien vulputate rhoncus ac vel felis. Sed non aliquet nisi. Suspendisse faucibus accumsan elementum. Duis magna nibh, facilisis eget sollicitudin sed, accumsan ac nisi. Nam at quam nisl. Duis faucibus egestas tellus, non porta erat congue id. Ut at urna vel diam eleifend blandit. Fusce elementum blandit justo, in accumsan orci eleifend et. Fusce commodo nisl eu tortor porttitor viverra. Nam at eros nisl. Quisque nibh dolor, iaculis ornare bibendum ac, tempor eu lorem. Duis gravida nunc a mauris ultricies tempus in ac ante. Integer aliquet nisi ac turpis dictum placerat.
+
+Integer gravida vestibulum massa, suscipit sagittis leo adipiscing et. Donec gravida dolor vitae ante porttitor eget facilisis orci congue. Mauris dapibus, enim a pellentesque pretium, velit purus tincidunt lectus, vel sagittis libero enim vel arcu. Proin posuere dui vel nibh laoreet rutrum. Maecenas purus urna, elementum nec adipiscing et, varius quis est. Proin libero est, scelerisque in lobortis in, viverra ut eros. Nulla facilisi. Cras gravida, lorem a congue pellentesque, mi risus ornare dolor, eget adipiscing lorem lacus id lacus. Maecenas vel massa lacus, id placerat arcu. Ut congue porta orci, eget rhoncus elit blandit a. Nullam sed ligula eu magna sollicitudin pellentesque. Curabitur eget enim id nisl venenatis dictum vitae vel nibh.
+
+Nullam non orci ac nunc consequat lacinia eu id libero. Curabitur vitae pretium lectus. Fusce eget pulvinar turpis. In hac habitasse platea dictumst. Praesent tincidunt elementum nulla, lobortis posuere justo mattis ultricies. In odio quam, ultricies in gravida non, auctor vitae erat. Mauris aliquet vehicula tincidunt. Pellentesque at elit eget est pharetra volutpat ullamcorper sed libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et auctor felis. Mauris sit amet est odio. Aenean congue sapien eu urna condimentum mattis. Curabitur id ligula massa. Pellentesque a massa a lacus imperdiet interdum ut at diam. Ut semper justo eget urna fermentum vitae sagittis felis blandit. Mauris sed semper mauris. Suspendisse diam magna, luctus id egestas vitae, accumsan quis lectus. Etiam venenatis tincidunt sem eu pulvinar. Maecenas ac quam lorem.
+
+Maecenas lacus nulla, varius non dictum in, vehicula fringilla libero. Curabitur commodo turpis sed magna dictum malesuada. Morbi dignissim tortor et quam convallis et interdum nibh congue. Suspendisse tincidunt bibendum nulla, ut lobortis sapien congue ut. Sed gravida blandit mattis. Donec sit amet erat sed tortor suscipit convallis. Nunc ac libero mauris. Etiam eleifend ultrices mi, id imperdiet tortor aliquam in. Nullam mi tortor, sollicitudin id gravida nec, vehicula eu purus. Nullam luctus ultrices lectus, eu ultrices orci accumsan non. Suspendisse interdum auctor consectetur. Vivamus consequat nulla aliquet nisl imperdiet sed tristique enim vehicula. Nulla arcu mauris, tempus sed venenatis at, vulputate a nulla. Nam tempus, risus vitae tincidunt rutrum, nibh dolor auctor augue, id egestas sapien ligula nec justo. Curabitur a sem id tortor tincidunt molestie non non purus. Aenean rutrum enim a augue adipiscing sed placerat magna eleifend. Aenean at sapien ante. In sollicitudin, tortor sit amet placerat ultrices, nisl massa condimentum nulla, eu hendrerit velit eros sed ligula. Nullam id dui sem, at interdum magna. Suspendisse quis aliquet massa. </p>
+  
+  <div class="pad2"></div>
+</div>
+<div id="foot">
+
+Footer</div>
+<div id="printfoot">Copyright &copy;2004-2008 Stu Nicholls </div>
+
+</body>
+</html>

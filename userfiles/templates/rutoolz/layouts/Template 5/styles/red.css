@@ -1,0 +1,12 @@
+#logo b, #logo strong{
+  color:#D68282;
+}
+#slogan{
+  background: #A63F40 url(img/red/slogan.jpg) no-repeat center top;
+}
+.testimonial h3 a, .testimonial h3{
+  color:#A63F40 !important;
+}
+.list li{
+  background-image: url(img/red/list.jpg);
+}

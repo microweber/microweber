@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ru Toolz</title>
+<link type="text/css" media="all" href="css/visual.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery.js"></script>
+</head>
+
+<body>
+
+<!--Container-->
+<div id="RU-container"> 
+  <!--HEADER-->
+  <div id="RU-header">
+    <div class="pad1"></div>
+    <div class="h-left">
+      <div class="left"> <a href="#" title="#"><img src="images/logo.gif" alt="Ru Tools"/></a> </div>
+      <div class="right">
+        <ul>
+          <li><a href="#" title="#" class="home">Home</a></li>
+          <li><a href="#" title="#" class="settings">Settings</a>
+            <ul>
+              <li><a href="#" title="#">Setting</a></li>
+              <li><a href="#" title="#">Setting</a></li>
+              <li><a href="#" title="#">Setting</a></li>
+              <li><a href="#" title="#">Setting</a></li>
+              <li><a href="#" title="#">Setting</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="clr"></div>
+      </div>
+      <div class="clr"></div>
+    </div>
+    <div class="h-right">
+      <div id="dynatip">&nbsp;</div>
+      <ul id="dyna">
+        <li> <a href="#" title="This Manager will helps you to create the perfect form for your online trade" class="form-mng"> Form Manager </a> </li>
+        <li> <a href="#" title="This Manager will helps you to create the perfect sales page" class="page-mng"> Page Creator </a> </li>
+        <li> <a href="#" title="This Manager will helps you to create and check your campains" class="campain-mng"> Campain Manager </a> </li>
+        <li> <a href="#" title="This Manager will helps you to create affiliates pages" class="affiliate-mng"> Affiliates Manager </a> </li>
+      </ul>
+      <div class="clr"></div>
+    </div>
+    <!--END HEADER-->
+    <div class="clr"></div>
+  </div>
+  
+  <!--CONTENT-->
+  <div id="RU-content">
+    <div class="pad2"></div>
+    <div id="RU-pages"> 
+      <!--SUBNAV-->
+      <div id="RU-subnav"> asdadasd 
+        <!--HELP-->
+        <div id="RU-help"> <a href="#" title="Help">?</a> 
+          <!--END HELP--> 
+        </div>
+        <div class="clr"></div>
+        <!--END SUBNAV--> 
+      </div>
+      <div class="pad2"></div>
+    </div>
+    
+    <!--END CONTENT--> 
+  </div>
+  <div id="RU-footer">
+    <div class="foot-content"> Copyright to </div>
+  </div>
+  <!--END CONTAINER--> 
+</div>
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+
+$(document).ready(function() {
+
+	// initialize tooltip
+	$("ul#dyna li a").tooltip({
+	
+		// use single tooltip element for all tips
+		tip: '#dynatip', 
+		
+		// tweak the position
+		offset: [10, 18],
+		
+		// use "slide" effect
+		effect: 'slide', 
+		position: 'bottom center'	
+
+
+	});
+	
+});
+</script>
+</body>
+</html>

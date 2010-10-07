@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:v='urn:schemas-microsoft-com:vml'>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title></title>
+         <script type="text/javascript">
+            imgurl="img/";
+         </script>
+         <style type="text/css">
+            div.canvas{
+              width: 62px;
+              height: 62px;
+              overflow: hidden;
+              position: relative;
+            }
+            .canvas img{
+              position: absolute;
+              visibility: hidden;
+              left: -200px;
+            }
+
+
+         </style>
+
+        <!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->
+
+        <script type="text/javascript" src="http://google.com/jsapi"></script>
+        <script type="text/javascript">google.load("jquery", "1.3.2")</script>
+        <script type="text/javascript" src="http://workspace.ooyes.net/!api/modal/modal.js"></script>
+        <script type="text/javascript">
+
+        function msieRoundImage(src){
+          if($.browser.msie){
+            document.write('<v:roundrect strokeColor="#B3B3B3" arcsize="50%" style="display:block;width:60px;height:60px"><v:fill type="tile" src="' + src + '" /></v:roundrect>')
+        }}
+        $(document).ready(function(){
+          if($.browser.msie){
+
+          }
+          else{
+               var canvas = document.createElement('canvas');
+               $(".canvas").append(canvas);
+               $(".canvas canvas").each(function(i){
+                      var imageSRC = $(this).parent().find('img').attr('src');
+                      var ctx = $(this)[0].getContext("2d");
+                      img=new Image();
+                      img.src=imageSRC;
+                         var ptrn = ctx.createPattern(img,'no-repeat');
+                         ctx.strokeStyle='#B3B3B3';
+                         ctx.fillStyle = ptrn;
+                         ctx.beginPath();
+                         ctx.arc(30, 30, 30, 0, Math.PI*2, true);
+                         ctx.fill();
+                         ctx.stroke();
+
+
+               });
+          }
+
+
+        });
+        </script>
+
+	</head>
+	<body style="background: url(http://www.freecomputerdesktopwallpaper.com/new_wallpaper/China_Hong_Kong_freecomputer_desktopwallpaper_800.jpg) no-repeat">
+         <div class="canvas">
+             <img src="http://static.universal-music-services.de/asset_new/128845/4/view/I-Keep-My-Cool-0602498592568.jpg" alt="" />
+             <script type="text/javascript">msieRoundImage('http://static.universal-music-services.de/asset_new/128845/4/view/I-Keep-My-Cool-0602498592568.jpg')</script>
+         </div>
+         <div class="canvas">
+            <img src="http://preview3.accesshollywood.com/content/images/109/60x60/109827_dwayne-johnson-billy-crystal-oiled-my-chest.jpg" alt='' />
+            <script type="text/javascript">msieRoundImage('http://preview3.accesshollywood.com/content/images/109/60x60/109827_dwayne-johnson-billy-crystal-oiled-my-chest.jpg')</script>
+         </div>
+         <div class="canvas">
+            <img src="http://images.ctv.ca/archives/CTVNews/img2/20090114/my_montreal.jpg" alt='' />
+            <script type="text/javascript">msieRoundImage('http://images.ctv.ca/archives/CTVNews/img2/20090114/my_montreal.jpg')</script>
+         </div>
+	</body>
+</html>

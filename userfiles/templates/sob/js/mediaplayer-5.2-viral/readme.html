@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<title>JW Player for Flash</title>
+
+	<style type="text/css">
+		body { background-color: #fff; padding: 0 20px; color:#000; font: 13px/18px Arial, sans-serif; }
+		a { color: #360; }
+		h3 { padding-top: 20px; }
+		ol { margin:5px 0 15px 16px; padding:0; list-style-type:square; }
+	</style>
+
+</head>
+<body>
+
+	<h1>Welcome to the World of LongTail Video</h1>
+	<p>Thanks for downloading the JW FLV Player, just one of many products created by Jeroen "JW" Wijering and his company, <a href="http://www.longtailvideo.com">LongTail Video</a>.  Before you get started, let us tell you about a few other products that might interest you:</p>
+
+<ul>
+<li><a href="http://www.longtailvideo.com/players/jw-desktop-player/">Desktop Player</a> - Our sleek new desktop player is the best way to watch all your music and video files.  Plus, you can even search the web for videos without ever opening your browser.  <a href="http://www.longtailvideo.com/players/jw-desktop-player/">Download it now</a>.</li>
+<li><a href="http://www.longtailvideo.com/referral.aspx?page=pubreferral&ref=oryixfvlxlptwph">AdSolution</a> - Monetize your videos with LongTail's AdSolution.  Integrate pre-roll, overlay mid-roll and post-roll ads into your site and starting making money today.  <a href="http://www.longtailvideo.com/referral.aspx?page=pubreferral&ref=oryixfvlxlptwph">Sign up now</a>.</li>
+<li><a href="http://www.bitsontherun.com/via/longtailvideo">Bits on the Run</a> - Upload, encode, store, manage and stream your videos with Bits on the Run, LongTail's end-to-end video content management system.  <a href="http://www.bitsontherun.com/via/longtailvideo">Sign up now</a>.</li>
+<li><a href="http://www.longtailvideo.com/addons/plugins">Plugins</a> - Add functionality to your player, like analytics tracking, embed links, sharing and more.  <a href="http://www.longtailvideo.com/addons/plugins">Find one for you</a>.</li>
+<li><a href="http://www.longtailvideo.com/addons/skins">Skins</a> - Change the look of your player to match your site.  <a href="http://www.longtailvideo.com/addons/skins">View our library</a>.</li>
+</ul>
+
+
+	<h3>Licensing</h3>
+	<p>The player is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons License</a>. It allows you to use, modify and redistribute the script, but only for <b>noncommercial</b> purposes. Examples of <b>commercial use</b> include: 
+	
+	<ul>
+	<li>websites with any advertisements; </li>
+	<li>websites owned or operated by corporations; </li>
+	<li>websites designed to promote other products, such as a band or artist;</li>
+	<li>products (e.g. a CMS) that bundle LongTail products into its offering. </li>
+	</ul>
+	
+	If any of the above conditions apply to you, <a href="http://www.longtailvideo.com/players/order" title="Order commercial licenses">please apply for a commercial license</a> now.  If you are still unsure whether you need to purchase a license, please <a href="http://www.longtailvideo.com/forum/">post your question</a> in the forum. </p>
+
+	<h3>Player Example</h3>
+	<p>Below you see a simple embedded example of the JW Player.  Copy and paste the source code and put the SWF, JS and FLV file on your site to get started.</p>
+
+	<!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE -->
+	
+	<object id="player" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" name="player" width="400" height="315">
+		<param name="movie" value="player.swf" />
+		<param name="allowfullscreen" value="true" />
+		<param name="allowscriptaccess" value="always" />
+		<param name="flashvars" value="file=video.flv&image=preview.jpg" />
+		<embed
+			type="application/x-shockwave-flash"
+			id="player2"
+			name="player2"
+			src="player.swf" 
+			width="400" 
+			height="315"
+			allowscriptaccess="always" 
+			allowfullscreen="true"
+			flashvars="file=video.flv&image=preview.jpg" 
+		/>
+	</object>
+	
+	<!-- END OF THE PLAYER EMBEDDING -->
+
+
+	<h3>Quickstart</h3>
+	<p>The easiest way to get to know the player is by using our <a href="http://www.longtailvideo.com/support/jw-player-setup-wizard">setup wizard</a>. Select an example, set the file or playlist you want to play and copy-paste the embed code to your site. If you want to play Youtube content in the player, you also have to copy the <b>yt.swf</b> file along with the player.swf or player.swf.</p>
+
+	<p>If you need any help, please visit our extensive support section, including <a href="http://www.longtailvideo.com/support/faq">FAQs</a>, a string of <a href="http://www.longtailvideo.com/support/tutorials">tutorials</a> and a very active <a href="http://www.longtailvideo.com/support/forum">support forum</a>.</p>
+
+	<h3>Wiki and Source Code</h3>
+	<p>The <a href="http://developer.longtailvideo.com">Developer Wiki</a> contains a wealth of info about the player, including:</p>
+	<ol>
+		<li><a href="http://developer.longtailvideo.com/trac/wiki/FlashFormats">Supported file formats</a> (and playlists).</li>
+		<li><a href="http://developer.longtailvideo.com/trac/wiki/FlashVars">Supported flashvars</a> (for customizing the player).</li>
+		<li><a href="http://developer.longtailvideo.com/trac/wiki/FlashAPI">Supported API calls</a> (for actionscript / javascript interaction).</li>
+		<li><a href="http://developer.longtailvideo.com/trac/wiki/FlashSkinning">Supported skinning elements</a> (for creating your own graphics).</li>
+		<li><a href="http://developer.longtailvideo.com/trac/roadmap/">Roadmap with full changelogs</a> for each version.</li>
+	</ol>
+	<p>The source code of all different versions of the player can <a href="http://developer.longtailvideo.com/trac/browser/tags">be found here</a>. You can click a version and download the ZIP files (the links are at the bottom).</p>
+
+</body>
+</html>

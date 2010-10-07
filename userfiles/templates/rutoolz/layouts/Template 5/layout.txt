@@ -1,0 +1,3 @@
+type: layout
+name: Template 5
+description: Stylish and attractive

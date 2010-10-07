@@ -1,0 +1,2 @@
+name: RedStlyle
+description: Main colors: Blue, black, silver, white

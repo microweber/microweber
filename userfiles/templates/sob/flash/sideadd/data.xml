@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<main stageWidth="" stageHeight="" stageBgColor="" stageBgTransparency="0" imageWidth="" imageHeight="" imageTransitionType="auto" imageResize="none" imageAlign="TL" imageRandomDisplay="no" imageAutoPlay="yes" thumbnails="no" thumbnailWidth="0" thumbnailHeight="0" thumbnailToThumbnailSpacing="3" thumbnailsArrangeHorizontal="yes" thumbnailsAutoHide="yes" thumbnailsMaskSize="0" thumbnailsScrollSpeed="95" thumbnailsAlign="BR" thumbnailsLeftSpace="0" thumbnailsRightSpace="90" thumbnailsTopSpace="0" thumbnailsBottomSpace="7" textEmbedFont="yes" textShadowTransparency="30" textShadowDistance="1" buttonAutoHide="yes" buttonBgColor="000000" buttonIconColor="000000" buttonAutoPosition="no">
+
+
+<!-- slide1  -->
+<slide image="http://sob.dnsalias.net/userfiles/templates/sob/flash/sideadd/image1.jpg" thumbnailText="1" textTransitionType="4" textWidth="" textAlign="BL" textLeftSpace="15" textRightSpace="0" textTopSpace="" textBottomSpace="15" slideShowDelay="4" url="http://sob.dnsalias.net/users/user_action:register" target="_self">
+	<text font="2" leftMargin=""><![CDATA[<b><font size="26" color="#f49503" >Learn from THE BEST</font></b>]]></text>   
+	<text font="1" leftMargin=""><![CDATA[<font size="16"  color="#333333" >join now in biggest online business network</font>]]></text></slide>
+
+<!-- slide2  -->
+<slide image="http://sob.dnsalias.net/userfiles/templates/sob/flash/sideadd/image2.jpg" thumbnailText="2" textTransitionType="4" textWidth="" textAlign="BL" textLeftSpace="15" textRightSpace="" textTopSpace="" textBottomSpace="15" slideShowDelay="4" url="http://sob.dnsalias.net/users/user_action:register" target="_self"> 
+	<text font="2" leftMargin=""><![CDATA[<b><font size="26" color="#4571d0"  >Share your knowedge</font></b>]]></text>
+	<text font="1" leftMargin=""><![CDATA[<font size="16"  color="#333333" >start teaching and growing</font>]]></text></slide>
+	
+
+
+	
+</main>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        input {
+            font-size: 68px;
+        }
+        .ltr {
+            direction: ltr;
+        }         
+        .rtl {
+            direction: rtl;
+        } 
+	</style>
+</head>
+<body>
+    <div style="visibility:hidden; position:absolute; top:0; left:0; width:1000px; height:500px;">
+    </div>
+    
+    <div><input type="file" /></div>
+    <div class="ltr"><input type="file" /></div>
+    <div class="rtl"><input type="file" /></div>
+    <div><input class="ltr" type="file" /></div>
+    <div><input class="rtl" type="file" /></div>    
+</body>
+</html>

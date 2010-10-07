@@ -1,0 +1,16 @@
+#logo{
+  background:url(img/green/logo.jpg) repeat-x;
+}
+.arrow-down{
+  background-image: url(img/green/arr_down.jpg);
+}
+.arrow-right{
+  background-image: url(img/green/arr_right.jpg);
+}
+.list li{
+  background-image: url(img/green/list.jpg);
+}
+.title{
+  background-color:#618025;
+}
+

@@ -1,0 +1,21 @@
+<div class="main-inner">
+
+	<div class="pad">
+		<h2 class="title">My messages</h2>
+    	<br /><br />
+
+		<? if(!empty($messages)): ?>
+		<? foreach ($messages as $message): ?>
+    	<? $show_edit_and_delete_buttons = true; ?>
+    	<?php include ACTIVE_TEMPLATE_DIR."articles_list_single_post_item.php" ?>
+    	<? endforeach; ?>
+    	<? else : ?>
+	    <div class="post">
+	      <p> There are no posts here. Try again later. </p>
+	    </div>
+    	<? endif; ?>
+	</div>
+	
+</div>
+
+<? include "posts_sidebar.php"  ?>

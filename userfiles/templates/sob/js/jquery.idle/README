@@ -1,0 +1,33 @@
+jQuery Idle Timer Plugin
+
+Detail: http://paulirish.com/2009/jquery-idletimer-plugin/
+
+Fires a custom event when the user is idle. 
+
+Idle is defined by not...
+* moving the mouse
+* scrolling the mouse wheel
+* using the keyboard
+
+Basic idea is presented here:
+  http://www.nczonline.net/blog/2009/06/02/detecting-if-the-user-is-idle-with-javascript-and-yui-3/
+
+  
+To use:
+
+// idleTimer() takes an optional argument that defines the idle timeout
+// timeout is in milliseconds; defaults to 30000
+$.idleTimer(10000);
+        
+        
+$(document).bind("idle.idleTimer", function(){
+ // function you want to fire when the user goes idle
+});
+
+
+$(document).bind("active.idleTimer", function(){
+ // function you want to fire when the user becomes active again
+});
+
+// pass the string 'destroy' to stop the timer
+$.idleTimer('destroy');
