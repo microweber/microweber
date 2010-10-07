@@ -1,0 +1,60 @@
+
+#AddHandler php5-script .php
+
+#Deny Taiwand
+#deny from 77.70.8.0
+
+#AddType application/x-httpd-php .html
+#AddType application/x-httpd-php .htm
+
+
+Options -Indexes
+
+
+ RewriteEngine On
+ 
+	
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+
+    
+    
+Options -Indexes  
+
+php_flag xdebug.profiler_enable 1
+php_value xdebug.profiler_output_dir C:\xampp\xampp\tmp
+php_value xdebug.profiler_output_name cachegrind.out.%t.%p
+php_flag xdebug.show_mem_delta 1
+php_flag xdebug.show_local_vars 1
+
+ 
+<ifModule mod_expires.c>
+  #ExpiresActive On
+  #ExpiresDefault "access plus 1 seconds"
+  #ExpiresByType text/html "access plus 1 seconds"
+  #ExpiresByType image/gif "access plus 2592000 seconds"
+  #ExpiresByType image/jpeg "access plus 2592000 seconds"
+  #ExpiresByType image/png "access plus 2592000 seconds"
+  #ExpiresByType text/css "access plus 604800 seconds"
+  #ExpiresByType text/javascript "access plus 216000 seconds"
+  #ExpiresByType application/x-javascript "access plus 216000 seconds"
+</ifModule>
+
+<ifModule mod_headers.c>
+  <filesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif)$">
+  #  Header set Cache-Control "max-age=2592000, public"
+  </filesMatch>
+  <filesMatch "\\.(css)$">
+   # Header set Cache-Control "max-age=604800, public"
+  </filesMatch>
+  <filesMatch "\\.(js)$">
+    #Header set Cache-Control "max-age=216000, private"
+  </filesMatch>
+  <filesMatch "\\.(xml|txt)$">
+    #Header set Cache-Control "max-age=216000, public, must-revalidate"
+  </filesMatch>
+  <filesMatch "\\.(html|htm|php)$">
+    #Header set Cache-Control "max-age=1, private, must-revalidate"
+  </filesMatch>
+</ifModule>
