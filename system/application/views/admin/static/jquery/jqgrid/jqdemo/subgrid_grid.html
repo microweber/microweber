@@ -1,0 +1,169 @@
+<div style="font-size:12px;">
+This example demonstrates using a grid as subgrid.<br>
+</div>
+<br />
+<table id="listsg11" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pagersg11" class="scroll" style="text-align:center;"></div>
+<script src="subgrid_grid.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="listsg11" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pagersg11" class="scroll" style="text-align:center;"></div>
+<script src="subgrid_grid.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+jQuery("#listsg11").jqGrid({
+   	url:'server.php?q=1',
+	datatype: "xml",
+	height: 190,
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:55},
+   		{name:'invdate',index:'invdate', width:90},
+   		{name:'name',index:'name', width:100},
+   		{name:'amount',index:'amount', width:80, align:"right"},
+   		{name:'tax',index:'tax', width:80, align:"right"},		
+   		{name:'total',index:'total', width:80,align:"right"},		
+   		{name:'note',index:'note', width:150, sortable:false}		
+   	],
+   	rowNum:8,
+   	rowList:[8,10,20,30],
+   	imgpath: gridimgpath,
+   	pager: jQuery('#pagersg11'),
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+	multiselect: false,
+	subGrid: true,
+	caption: "Grid as Subgrid",
+	subGridRowExpanded: function(subgrid_id, row_id) {
+		// we pass two parameters
+		// subgrid_id is a id of the div tag created whitin a table data
+		// the id of this elemenet is a combination of the "sg_" + id of the row
+		// the row_id is the id of the row
+		// If we wan to pass additinal parameters to the url we can use
+		// a method getRowData(row_id) - which returns associative array in type name-value
+		// here we can easy construct the flowing
+		var subgrid_table_id, pager_id;
+		subgrid_table_id = subgrid_id+"_t";
+		pager_id = "p_"+subgrid_table_id;
+		$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+		jQuery("#"+subgrid_table_id).jqGrid({
+			url:"subgrid.php?q=2&id="+row_id,
+			datatype: "xml",
+			colNames: ['No','Item','Qty','Unit','Line Total'],
+			colModel: [
+				{name:"num",index:"num",width:80,key:true},
+				{name:"item",index:"item",width:130},
+				{name:"qty",index:"qty",width:70,align:"right"},
+				{name:"unit",index:"unit",width:70,align:"right"},
+				{name:"total",index:"total",width:70,align:"right",sortable:false}
+			],
+		   	rowNum:20,
+		   	pager: pager_id,
+		   	imgpath: gridimgpath,
+		   	sortname: 'num',
+		    sortorder: "asc",
+		    height: '100%'
+		}).navGrid("#"+pager_id,{edit:false,add:false,del:false})
+	},
+	subGridRowColapsed: function(subgrid_id, row_id) {
+		// this function is called before removing the data
+		//var subgrid_table_id;
+		//subgrid_table_id = subgrid_id+"_t";
+		//jQuery("#"+subgrid_table_id).remove();
+	}
+}).navGrid('#pagersg11',{add:false,edit:false,del:false});
+</XMP>
+<b>PHP with MySQL Master</b>
+<XMP>
+...
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+
+// connect to the database
+$db = mysql_connect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+$result = mysql_query("SELECT COUNT(*) AS count FROM invheader a, clients b WHERE a.client_id=b.client_id");
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+if ($start < 0) $start = 0;
+$SQL = "SELECT a.id, a.invdate, b.name, a.amount,a.tax,a.total,a.note FROM invheader a, clients b WHERE a.client_id=b.client_id ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldnt execute query.".mysql_error());
+
+if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
+header("Content-type: application/xhtml+xml;charset=utf-8"); } else {
+header("Content-type: text/xml;charset=utf-8");
+}
+$et = ">";
+echo "<?xml version='1.0' encoding='utf-8'?$et\n";
+
+echo "<rows>";
+echo "<page>".$page."</page>";
+echo "<total>".$total_pages."</total>";
+echo "<records>".$count."</records>";
+// be sure to put text data in CDATA
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	echo "<row id='". $row[id]."'>";			
+	echo "<cell>". $row[id]."</cell>";
+	echo "<cell>". $row[invdate]."</cell>";
+	echo "<cell><![CDATA[". $row[name]."]]></cell>";
+	echo "<cell>". $row[amount]."</cell>";
+	echo "<cell>". $row[tax]."</cell>";
+	echo "<cell>". $row[total]."</cell>";
+	echo "<cell><![CDATA[". $row[note]."]]></cell>";
+	echo "</row>";
+}
+echo "</rows>";		
+</XMP>
+<b>PHP with MySQL Subgrid</b>
+<XMP>
+$examp = $_GET["q"]; //query number
+
+$id = $_GET['id'];
+
+// connect to the database
+$db = mysql_connect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+$SQL = "SELECT num, item, qty, unit FROM invlines WHERE id=".$id." ORDER BY item";
+$result = mysql_query( $SQL ) or die("Couldnt execute query.".mysql_error());
+
+if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
+header("Content-type: application/xhtml+xml;charset=utf-8"); } else {
+header("Content-type: text/xml;charset=utf-8");
+}
+$et = ">";
+echo "<?xml version='1.0' encoding='utf-8'?$et\n";
+echo "<rows>";
+// be sure to put text data in CDATA
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	echo "<row>";			
+	echo "<cell>". $row[num]."</cell>";
+	echo "<cell><![CDATA[". $row[item]."]]></cell>";
+	echo "<cell>". $row[qty]."</cell>";
+	echo "<cell>". $row[unit]."</cell>";
+	echo "<cell>". number_format($row[qty]*$row[unit],2,'.',' ')."</cell>";
+	echo "</row>";
+}
+echo "</rows>";				
+
+</XMP>
+</div>

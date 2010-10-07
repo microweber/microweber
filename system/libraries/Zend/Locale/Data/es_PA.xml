@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.51 $"/>
+		<generation date="$Date: 2007/11/19 23:42:54 $"/>
+		<language type="es"/>
+		<territory type="PA"/>
+	</identity>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateFormats>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>MM/dd/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>MM/dd/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMdd">MM/dd</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>,</group>
+		</symbols>
+	</numbers>
+</ldml>
+

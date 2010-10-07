@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.45 $"/>
+		<generation date="$Date: 2007/07/14 23:02:17 $"/>
+		<language type="ti"/>
+		<territory type="ER"/>
+	</identity>
+	<characters>
+		<exemplarCharacters>[፟ ፡ ፣-፧ ። ፠ ፨ ፲-፼ ፩-፱ ሀ-ሆ ለ-ሟ ረ-ቆ ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ኆ ኈ ኊ-ኍ ነ-ኮ ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዎ ዐ-ዖ ዘ-ዮ ደ-ዷ ጀ-ጎ ጐ ጒ-ጕ ጠ-ጯ ጸ-ጿ ፈ-ፗ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[᎐-᎙ ሇ ⶀ ᎀ-ᎃ ⶁ ሠ-ሧ ⶂ-ⶄ ቇ ᎄ-ᎇ ⶅ-ⶇ ኇ ⶈ-ⶊ ኯ ዏ ⶋ ዯ ⶌ ዸ-ዿ ⶍ ⶎ ጏ ጘ-ጟ ⶓ-ⶖ ⶏ-ⶑ ፀ-ፇ ᎈ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">ጥሪ</month>
+							<month type="2">ለካቲ</month>
+							<month type="3">መጋቢ</month>
+							<month type="4">ሚያዝ</month>
+							<month type="5">ግንቦ</month>
+							<month type="6">ሰነ</month>
+							<month type="7">ሓምለ</month>
+							<month type="8">ነሓሰ</month>
+							<month type="9">መስከ</month>
+							<month type="10">ጥቅም</month>
+							<month type="11">ሕዳር</month>
+							<month type="12">ታሕሳ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">ጥሪ</month>
+							<month type="2">ለካቲት</month>
+							<month type="3">መጋቢት</month>
+							<month type="4">ሚያዝያ</month>
+							<month type="5">ግንቦት</month>
+							<month type="6">ሰነ</month>
+							<month type="7">ሓምለ</month>
+							<month type="8">ነሓሰ</month>
+							<month type="9">መስከረም</month>
+							<month type="10">ጥቅምቲ</month>
+							<month type="11">ሕዳር</month>
+							<month type="12">ታሕሳስ</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="tue">ሰሉስ</day>
+							<day type="thu">ሓሙስ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="tue">ሰሉስ</day>
+							<day type="thu">ሓሙስ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE፡ dd MMMM መዓልቲ yyyy G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="ERN">
+				<symbol>$</symbol>
+			</currency>
+			<currency type="ETB">
+				<symbol>ETB</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>

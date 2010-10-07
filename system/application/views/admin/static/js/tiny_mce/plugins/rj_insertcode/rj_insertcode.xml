@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+/*******************************************************************************
+  rj_insertcode.xml
+  Copyright (c) 2009 Ryan Juckett
+  http://www.ryanjuckett.com/
+
+  This is the JCE 1.5.x installation file for the TinyMCE 3.x RJ_InsertCode
+  Plugin.
+*******************************************************************************/
+-->
+<install version="1.5.0" type="plugin" plugin="rj_insertcode">
+	<name>RJ_InsertCode</name>
+	<version>1.1.1</version>
+	<creationDate>5 January 2009</creationDate>
+	<author>Ryan Juckett</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://www.ryanjuckett.com/</authorUrl>
+	<copyright>Ryan Juckett</copyright>
+	<license>GPLv2</license>
+	<description>
+		<![CDATA[
+<pre>
+===============================================================================
+Author
+  Ryan Juckett
+  http://www.ryanjuckett.com/
+===============================================================================
+
+===============================================================================
+Required Installation Steps
+
+  TinyMCE 3.x
+    1) Unzip the .zip file containing the plugin.
+    2) Copy the rj_insertcode folder into the TinyMCE plugins folder.
+    3) Register the plugin during your call to tinyMCE.Init(). 
+       a) Add 'rj_insertcode' to the plugins list. For example
+          plugins: "myPlugin1, myPlugin2, rj_insertcode"
+       b) Add 'rj_insertcode' to a toolbar row in the theme list. For example
+          theme_advanced_buttons1: "myButton1, myButton2, rj_insertcode"
+
+  JCE 1.5.x (Joomla Content Editor)
+    1) Install the .zip file through the JCE administration menu.
+    2) Prevent Joomla 1.5.8 from modifying highlighted code containing HTML. 
+       a) In the Joomla administration menu, click the "Content" button in the
+          top menu and select 'Article Manager'
+       b) Click the 'Parameters' button in the top right of the Article
+          Manager.
+       c) Scroll down to the bottom of the parameters window and select
+          'Registered' in the 'Filter Groups' section and check the
+          'Blacklist (Default)' option for the 'Filter Type'
+       d) Scroll to the top of the parameters window and press the save button.
+
+  Other
+    If you are installing to an environment not listed here and you should
+    be able to use the basic TinyMCE installation above. You can also check
+    http://www.ryanjuckett.com/ for any updated installation steps or help.
+===============================================================================
+
+===============================================================================
+Optional Installation Steps
+
+  These steps will let you tweak and customize the RJ_InsertCode plugin. They
+  require knowing where you installed RJ_InsertCode to on your website. Lets
+  quickly run through a scenario of where that might be.
+
+  If you know where your TinyMCE installation is, then the RJ_InsertCode
+  plugin will be in the "plugins/rj_insertcode" folder under your TinyMCE
+  folder. If you are unsure of where your TinyMCE is located, here is one
+  example.
+
+  If you are using the JCE editor for Joomla 1.5, and you have Joomla
+  installed at "http://www.example.com/MyJoomla", then you can find TinyMCE at
+  "http://www.example.com/MyJoomla/plugins/editors/jce/tiny_mce".
+	
+  1) Change supported languages.
+
+     This plugin uses GeSHi (http://qbnz.com/highlighter/) to perform the
+     code highlighting. To remove a supported language, delete the
+     "[RJ_INSERTCODE_FOLDER]/geshi/geshi/[LANGUAGE_NAME].php" file. You can
+     also add support for new languages by uploading GeSHi language files
+     to the same directory.
+ 
+     If you wanted to disable highlighting for C++ and you would delete
+     the "[RJ_INSERTCODE_FOLDER]/geshi/geshi/cpp.php" file.  
+
+  2) Support class based style sheets.
+
+     By default, code will be highlighted using inline style information. If
+     you are highlighting large blocks of code, this can result in a large
+     amount of generated HTML. To reduce the size of your HTML code, you can
+     choose to use "class style sheets" from the code editing dialog. The only
+     catch is that you need to link the style sheets into your website for it
+     to do you much good.
+
+     To create cascading style sheet files for your supported languages, you
+     can load "[RJ_INSERTCODE_FOLDER]/php/rj_cssgen.php" in your browser. This
+     will let you generate style sheets for any individual language or generate
+     a style sheet combining all supported languages. You can then upload your
+     new css file(s) and add them to your website.
+===============================================================================
+
+===============================================================================
+Changelog:
+  ver 1.1.1
+    - French language packs are now UTF-8 encoded.
+    - French translations have been updated thanks to Sarki (www.sarki.ch)
+    - Editing html file now aligns the inputs in a pleasing manner thanks to
+      Sarki (www.sarki.ch)
+
+ver 1.1.0
+    - Made font size pixel based to improve consistency between different
+      browsers.
+    - Added 'verticle-align: top' spans to wrap each line of code. This fixed
+      alignment issues between the line number cell and the code cell when
+      code was using bold or italic font styles.
+    - Removed rj_insertcode.css. The relevant styles now get baked into the
+      language stylesheet files.
+    - Removed the style sheet language files from the installation. Users
+      desiring style sheet support can use rj_cssgen.php to generate the files
+      they need.
+    - Added option for turning off line numbers.
+    - Updated README instructions to reflect the changes in using class based
+      styles.
+    - Added german language files thanks to Achim aka cybergurk
+      (www.filmanleitungen.de)
+  
+  ver 1.0.0
+    - Initial version
+===============================================================================
+
+===============================================================================
+This plugin is derived from the following work:
+
+  Nigel McNie, Benny Baumann, Milian Wolff
+  http://qbnz.com/highlighter/
+  Developers of GeSHi
+
+  Mike Sullivan
+  http://www.analyticsedge.com/
+  Packaged InsertCode as a JCE 1.0.x plugin using bot repackaging from
+  Alastair Patrick @ thinkpond.org.
+  
+  Maxime Lardenois
+  http://www.jpnp.org/
+  Created original InsertCode plugin for TinyMCE.
+===============================================================================
+</pre>
+	]]>
+	</description>
+	<icon>rj_insertcode</icon>
+	<layout>rj_insertcode</layout>
+	<elements></elements>
+	<files>
+		<filename>editor_plugin.js</filename>
+		<filename>index.html</filename>
+		<filename>README.txt</filename>
+		<filename>rj_insertcode.html</filename>
+		
+		<filename>geshi/geshi.php</filename>
+		<filename>geshi/index.html</filename>
+
+		<filename>geshi/geshi/abap.php</filename>
+		<filename>geshi/geshi/actionscript.php</filename>
+		<filename>geshi/geshi/actionscript3.php</filename>
+		<filename>geshi/geshi/ada.php</filename>
+		<filename>geshi/geshi/apache.php</filename>
+		<filename>geshi/geshi/applescript.php</filename>
+		<filename>geshi/geshi/apt_sources.php</filename>
+		<filename>geshi/geshi/asm.php</filename>
+		<filename>geshi/geshi/asp.php</filename>
+		<filename>geshi/geshi/autoit.php</filename>
+		<filename>geshi/geshi/avisynth.php</filename>
+		<filename>geshi/geshi/bash.php</filename>
+		<filename>geshi/geshi/basic4gl.php</filename>
+		<filename>geshi/geshi/bf.php</filename>
+		<filename>geshi/geshi/blitzbasic.php</filename>
+		<filename>geshi/geshi/bnf.php</filename>
+		<filename>geshi/geshi/boo.php</filename>
+		<filename>geshi/geshi/c.php</filename>
+		<filename>geshi/geshi/caddcl.php</filename>
+		<filename>geshi/geshi/cadlisp.php</filename>
+		<filename>geshi/geshi/cfdg.php</filename>
+		<filename>geshi/geshi/cfm.php</filename>
+		<filename>geshi/geshi/cil.php</filename>
+		<filename>geshi/geshi/cobol.php</filename>
+		<filename>geshi/geshi/cpp-qt.php</filename>
+		<filename>geshi/geshi/cpp.php</filename>
+		<filename>geshi/geshi/csharp.php</filename>
+		<filename>geshi/geshi/css.php</filename>
+		<filename>geshi/geshi/c_mac.php</filename>
+		<filename>geshi/geshi/d.php</filename>
+		<filename>geshi/geshi/delphi.php</filename>
+		<filename>geshi/geshi/diff.php</filename>
+		<filename>geshi/geshi/div.php</filename>
+		<filename>geshi/geshi/dos.php</filename>
+		<filename>geshi/geshi/dot.php</filename>
+		<filename>geshi/geshi/eiffel.php</filename>
+		<filename>geshi/geshi/email.php</filename>
+		<filename>geshi/geshi/fortran.php</filename>
+		<filename>geshi/geshi/freebasic.php</filename>
+		<filename>geshi/geshi/genero.php</filename>
+		<filename>geshi/geshi/gettext.php</filename>
+		<filename>geshi/geshi/glsl.php</filename>
+		<filename>geshi/geshi/gml.php</filename>
+		<filename>geshi/geshi/gnuplot.php</filename>
+		<filename>geshi/geshi/groovy.php</filename>
+		<filename>geshi/geshi/haskell.php</filename>
+		<filename>geshi/geshi/hq9plus.php</filename>
+		<filename>geshi/geshi/html4strict.php</filename>
+		<filename>geshi/geshi/idl.php</filename>
+		<filename>geshi/geshi/index.html</filename>
+		<filename>geshi/geshi/ini.php</filename>
+		<filename>geshi/geshi/inno.php</filename>
+		<filename>geshi/geshi/intercal.php</filename>
+		<filename>geshi/geshi/io.php</filename>
+		<filename>geshi/geshi/java.php</filename>
+		<filename>geshi/geshi/java5.php</filename>
+		<filename>geshi/geshi/javascript.php</filename>
+		<filename>geshi/geshi/kixtart.php</filename>
+		<filename>geshi/geshi/klonec.php</filename>
+		<filename>geshi/geshi/klonecpp.php</filename>
+		<filename>geshi/geshi/latex.php</filename>
+		<filename>geshi/geshi/lisp.php</filename>
+		<filename>geshi/geshi/lolcode.php</filename>
+		<filename>geshi/geshi/lotusformulas.php</filename>
+		<filename>geshi/geshi/lotusscript.php</filename>
+		<filename>geshi/geshi/lscript.php</filename>
+		<filename>geshi/geshi/lua.php</filename>
+		<filename>geshi/geshi/m68k.php</filename>
+		<filename>geshi/geshi/make.php</filename>
+		<filename>geshi/geshi/matlab.php</filename>
+		<filename>geshi/geshi/mirc.php</filename>
+		<filename>geshi/geshi/mpasm.php</filename>
+		<filename>geshi/geshi/mxml.php</filename>
+		<filename>geshi/geshi/mysql.php</filename>
+		<filename>geshi/geshi/nsis.php</filename>
+		<filename>geshi/geshi/objc.php</filename>
+		<filename>geshi/geshi/ocaml-brief.php</filename>
+		<filename>geshi/geshi/ocaml.php</filename>
+		<filename>geshi/geshi/oobas.php</filename>
+		<filename>geshi/geshi/oracle11.php</filename>
+		<filename>geshi/geshi/oracle8.php</filename>
+		<filename>geshi/geshi/pascal.php</filename>
+		<filename>geshi/geshi/per.php</filename>
+		<filename>geshi/geshi/perl.php</filename>
+		<filename>geshi/geshi/php-brief.php</filename>
+		<filename>geshi/geshi/php.php</filename>
+		<filename>geshi/geshi/pic16.php</filename>
+		<filename>geshi/geshi/pixelbender.php</filename>
+		<filename>geshi/geshi/plsql.php</filename>
+		<filename>geshi/geshi/povray.php</filename>
+		<filename>geshi/geshi/powershell.php</filename>
+		<filename>geshi/geshi/progress.php</filename>
+		<filename>geshi/geshi/prolog.php</filename>
+		<filename>geshi/geshi/providex.php</filename>
+		<filename>geshi/geshi/python.php</filename>
+		<filename>geshi/geshi/qbasic.php</filename>
+		<filename>geshi/geshi/rails.php</filename>
+		<filename>geshi/geshi/reg.php</filename>
+		<filename>geshi/geshi/robots.php</filename>
+		<filename>geshi/geshi/ruby.php</filename>
+		<filename>geshi/geshi/sas.php</filename>
+		<filename>geshi/geshi/scala.php</filename>
+		<filename>geshi/geshi/scheme.php</filename>
+		<filename>geshi/geshi/scilab.php</filename>
+		<filename>geshi/geshi/sdlbasic.php</filename>
+		<filename>geshi/geshi/smalltalk.php</filename>
+		<filename>geshi/geshi/smarty.php</filename>
+		<filename>geshi/geshi/sql.php</filename>
+		<filename>geshi/geshi/tcl.php</filename>
+		<filename>geshi/geshi/teraterm.php</filename>
+		<filename>geshi/geshi/text.php</filename>
+		<filename>geshi/geshi/thinbasic.php</filename>
+		<filename>geshi/geshi/tsql.php</filename>
+		<filename>geshi/geshi/typoscript.php</filename>
+		<filename>geshi/geshi/vb.php</filename>
+		<filename>geshi/geshi/vbnet.php</filename>
+		<filename>geshi/geshi/verilog.php</filename>
+		<filename>geshi/geshi/vhdl.php</filename>
+		<filename>geshi/geshi/vim.php</filename>
+		<filename>geshi/geshi/visualfoxpro.php</filename>
+		<filename>geshi/geshi/visualprolog.php</filename>
+		<filename>geshi/geshi/whitespace.php</filename>
+		<filename>geshi/geshi/winbatch.php</filename>
+		<filename>geshi/geshi/xml.php</filename>
+		<filename>geshi/geshi/xorg_conf.php</filename>
+		<filename>geshi/geshi/xpp.php</filename>
+		<filename>geshi/geshi/z80.php</filename>
+
+		<filename>img/index.html</filename>
+		<filename>img/rj_insertcode.gif</filename>
+
+		<filename>js/index.html</filename>
+		<filename>js/rj_insertcode.js</filename>
+
+		<filename>langs/de.js</filename>
+		<filename>langs/de_dlg.js</filename>
+		<filename>langs/en.js</filename>
+		<filename>langs/en_dlg.js</filename>
+		<filename>langs/fr.js</filename>
+		<filename>langs/fr_dlg.js</filename>
+		<filename>langs/index.html</filename>
+
+		<filename>php/index.html</filename>
+		<filename>php/rj_common.php</filename>
+		<filename>php/rj_cssgen.php</filename>
+		<filename>php/rj_get_highlighted_code.php</filename>
+		<filename>php/rj_get_lang_select.php</filename>
+	</files>
+</install>

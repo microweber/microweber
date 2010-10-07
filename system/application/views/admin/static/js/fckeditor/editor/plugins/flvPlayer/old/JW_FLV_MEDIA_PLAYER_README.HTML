@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<title>JW FLV Media Player</title>
+
+	<style type="text/css">
+		body { background-color: #fff; padding: 0 25px; color:#000; font: 13px/18px Arial, sans-serif; }
+		a { color: #360; }
+		h3 { padding-top: 50px; }
+		ol { margin:5px 0 15px 16px; padding:0; list-style-type:square; }
+	</style>
+
+</head>
+<body>
+
+	<h3>Example</h3>
+	<p>Here's a simple example of the <a href="http://www.jeroenwijering.com/?item=JW_FLV_Media_Player">JW FLV Media Player</a> embedded in a page. Copy-paste the source code and put the files on your site to get started.</p>
+
+
+
+
+	<div id="container"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</div>
+	<script type="text/javascript" src="swfobject.js"></script>
+	<script type="text/javascript">
+		var s1 = new SWFObject("mediaplayer.swf","mediaplayer","300","185","8");
+		s1.addParam("allowfullscreen","true");
+		s1.addVariable("width","300");
+		s1.addVariable("height","185");
+		s1.addVariable("file","video.flv");
+		s1.write("container");
+	</script>
+
+
+
+	<h3>Quickstart</h3>
+	<p>The easiest way to get going with the mediaplayer is <a href="http://www.jeroenwijering.com/?page=wizard">by using the setup wizard</a>. Select an example, set the file or playlist you want to play and copy-paste the embed code to your site!</p>
+
+	<h3>Licensing</h3>
+	<p>The FLV Media Player is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons License</a>. It allows you to use, modify and redistribute the script for free for noncommercial purposes. For corporate use, <a href="http://www.jeroenwijering.com/?page=order" title="Order commercial licenses">please apply for a 20 euros commercial license</a>!</p>
+
+	<h3>Documentation</h3>
+	<ol>
+	<li>All <a href="http://www.jeroenwijering.com/?item=Supported_Flashvars">supported flashvars</a> (variables) you can set to customize the mediaplayer.</li>
+	<li>All <a href="http://www.jeroenwijering.com/?item=Supported_Playlists">supported playlist formats</a> you can use, plus some implementation info.</li>
+	<li>A large list <a href="http://www.jeroenwijering.com/?item=Third_Party_Plugins">of all third-party plugins</a> for the mediaplayer.</li>
+	<li>A tutorial on <a href="http://www.jeroenwijering.com/?item=Embedding_Flash"> embedding the mediaplayer</a> in your site.</li>
+	<li>A tutorial with <a href="http://www.jeroenwijering.com/?item=Javascript_interaction">all functions of the javascript API</a>.</li>
+	<li>A tutorial on <a href="http://www.jeroenwijering.com/?item=Making_Video_Accessible">adding captions and an audiodescription</a> (accessibility).</li>
+	</ol>
+
+</body>
+</html>

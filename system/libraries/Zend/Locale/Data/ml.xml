@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.42 $"/>
+		<generation date="$Date: 2007/07/26 04:28:12 $"/>
+		<language type="ml"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">അഫാര്‍</language>
+			<language type="ab">അബ്ഖാസിയന്‍</language>
+			<language type="af">ആഫ്രിക്കാന്‍സ്</language>
+			<language type="am">അംഹാറിക്</language>
+			<language type="ar">അറബി</language>
+			<language type="as">ആസ്സാമീസ്</language>
+			<language type="ast">ഓസ്‌ട്രിയന്‍</language>
+			<language type="ay">അയ്മാറ</language>
+			<language type="az">അസര്‍ബൈജാനി</language>
+			<language type="ba">ബഷ്ഖിര്‍</language>
+			<language type="be">ബൈലോറഷ്യന്‍</language>
+			<language type="bh">ബീഹാറി</language>
+			<language type="bi">ബിസ്‌ലാമ</language>
+			<language type="bn">ബംഗാളി</language>
+			<language type="bo">തിബറ്റന്‍</language>
+			<language type="br">ബ്രിറ്റോണ്‍</language>
+			<language type="ca">കറ്റാലന്‍</language>
+			<language type="co">കോര്‍സിക്കന്‍</language>
+			<language type="cs">ചെക്ക്</language>
+			<language type="cy">വെല്‍ഷ്</language>
+			<language type="da">ഡാനിഷ്</language>
+			<language type="de">ജര്‍മ്മന്‍</language>
+			<language type="dgr">ഡോഗ്രിബ്</language>
+			<language type="dra">ദ്രാവിഡഭാഷ</language>
+			<language type="dz">ഭൂട്ടാനി</language>
+			<language type="el">ഗ്രീക്ക്</language>
+			<language type="en">ഇംഗ്ലീഷ്</language>
+			<language type="es">സ്പാനിഷ്</language>
+			<language type="et">എസ്റ്റോണിയന്‍</language>
+			<language type="eu">ബാസ്ക്ക്</language>
+			<language type="fa">പേര്‍ഷ്യന്‍</language>
+			<language type="fi">ഫിന്നിഷ്</language>
+			<language type="fj">ഫിജിയന്‍</language>
+			<language type="fo">ഫാറോസ്</language>
+			<language type="fr">ഫ്രഞ്ച്</language>
+			<language type="fy">ഫ്രീസിയന്‍</language>
+			<language type="ga">ഐറിഷ്</language>
+			<language type="gd">സ്കോട്ടിഷ് ഗൈലിക്</language>
+			<language type="gl">ഗലീഷ്യന്‍</language>
+			<language type="gn">ഗ്വാറാനി</language>
+			<language type="gu">ഗുജറാത്തി</language>
+			<language type="ha">ഹൌസ</language>
+			<language type="he">ഹീബ്രു</language>
+			<language type="hi">ഹിന്ദി</language>
+			<language type="hr">ക്രോയേഷ്യന്‍</language>
+			<language type="hu">ഹംഗേറിയന്‍</language>
+			<language type="hy">അര്‍മേനിയന്‍</language>
+			<language type="ia">ഇന്‍റര്‍ലിംഗ്വാ</language>
+			<language type="id">ഇന്‍ഡോനേഷ്യന്‍</language>
+			<language type="ie">ഇന്‍റര്‍ലിംഗ്വി</language>
+			<language type="ik">ഇനുപിയാക്</language>
+			<language type="is">ഐസ്‌ലാന്‍ഡിക്</language>
+			<language type="it">ഇറ്റാലിയന്‍</language>
+			<language type="iu">ഇനുക്റ്റിറ്റട്ട്</language>
+			<language type="ja">ജപ്പാനീസ്</language>
+			<language type="jv">ജാവാനീസ്</language>
+			<language type="ka">ജോര്‍ജിയന്‍</language>
+			<language type="kha">ഘാസി</language>
+			<language type="kk">കസാഖ്</language>
+			<language type="km">കംമ്പോഡിയന്‍</language>
+			<language type="kn">കന്നഡ</language>
+			<language type="ko">കൊറിയന്‍</language>
+			<language type="kok">കൊങ്കണി</language>
+			<language type="ks">കാശ്മീരി</language>
+			<language type="ku">കുര്‍ദിഷ്</language>
+			<language type="ky">കിര്‍ഗിസ്</language>
+			<language type="la">ലാറ്റിന്‍</language>
+			<language type="ln">ലിംഗാല</language>
+			<language type="lo">ലാവോ</language>
+			<language type="lt">ലിത്വേനിയന്‍</language>
+			<language type="lv">ലാത്വിയന്‍</language>
+			<language type="mai">മൈഥിലി</language>
+			<language type="mg">മലഗാസി</language>
+			<language type="mi">മൌറി</language>
+			<language type="mk">മാസിഡോണിയന്‍</language>
+			<language type="ml">മലയാളം</language>
+			<language type="mn">മംഗോളിയന്‍</language>
+			<language type="mni">മണിപ്പൂരി</language>
+			<language type="mo">മൊള്‍ഡോവന്‍</language>
+			<language type="mr">മറാഠി</language>
+			<language type="ms">മലയ</language>
+			<language type="mt">മാള്‍ട്ടീസ്</language>
+			<language type="my">ബര്‍മീസ്</language>
+			<language type="na">നൌറു</language>
+			<language type="ne">നേപ്പാളി</language>
+			<language type="nl">ഡച്ച്</language>
+			<language type="no">നോര്‍വീജിയന്‍</language>
+			<language type="oc">ഒസിറ്റാന്‍</language>
+			<language type="om">ഒറോമിംഗ</language>
+			<language type="or">ഒറിയ</language>
+			<language type="pa">പഞ്ചാബി</language>
+			<language type="pi">പാലി</language>
+			<language type="pl">പോളിഷ്</language>
+			<language type="ps">പഷ്തു</language>
+			<language type="pt">പോര്‍ച്ചുഗീസ്</language>
+			<language type="qu">ക്വെച്ചുവ</language>
+			<language type="raj">രാജസ്ഥാനി</language>
+			<language type="rm">രഹയ്ട്ടോ-റോമന്‍സ്</language>
+			<language type="rn">കിറുണ്ടി</language>
+			<language type="ro">റൊമാനിയന്‍</language>
+			<language type="root">ശിഖര്‍</language>
+			<language type="ru">റഷ്യന്‍</language>
+			<language type="rw">കിന്യര്‍വണ്ട</language>
+			<language type="sa">സംസ്കൃതം</language>
+			<language type="sah">യാകൂട്</language>
+			<language type="sd">സിന്ധി</language>
+			<language type="sg">സാങ്കോ</language>
+			<language type="si">സിംഹള</language>
+			<language type="sk">സ്ലോവാക്ക്</language>
+			<language type="sl">സ്ലോവേനിയന്‍</language>
+			<language type="sm">സമോവന്‍</language>
+			<language type="sn">ഷോണാ</language>
+			<language type="so">സോമാലി</language>
+			<language type="sq">അല്‍ബേനിയന്‍</language>
+			<language type="sr">സെര്‍ബിയന്‍</language>
+			<language type="ss">സ്വാറ്റി</language>
+			<language type="st">സെസോതോ</language>
+			<language type="su">സുഡാനീസ്</language>
+			<language type="sv">സ്വീഡിഷ്</language>
+			<language type="sw">സ്വാഹിലി</language>
+			<language type="syr">സിറിയക്ക്</language>
+			<language type="ta">തമിഴ്</language>
+			<language type="te">തെലുങ്ക്</language>
+			<language type="tg">താജിക്</language>
+			<language type="th">തായ്</language>
+			<language type="ti">തിഗ്രിഗ്‌നാ</language>
+			<language type="tk">തുര്‍ക്ക് മെന്‍</language>
+			<language type="tl">തഗാലോഗ്</language>
+			<language type="tn">സെറ്റ്സ്വാന</language>
+			<language type="to">ടോംഗന്‍</language>
+			<language type="tr">ടര്‍ക്കിഷ്</language>
+			<language type="ts">ഷോണ</language>
+			<language type="tt">ടാട്ടാര്‍</language>
+			<language type="tw">ത്വവി</language>
+			<language type="udm">ഉഡ്മുര്‍ട്ട്</language>
+			<language type="ug">ഉയ്ഘുര്‍</language>
+			<language type="uga">ഉഗറിട്ടിക്</language>
+			<language type="uk">ഉക്രേനിയന്‍</language>
+			<language type="umb">ഉംബുന്ദു</language>
+			<language type="und">അജ്ഞാതമോ അനിശ്ചിതമോ ആയ ഭാഷ</language>
+			<language type="ur">ഉറുദു</language>
+			<language type="uz">ഉസ്ബെക്</language>
+			<language type="vai">വൈ</language>
+			<language type="ve">വെന്ദ</language>
+			<language type="vi">വിയറ്റ്നാമീസ്</language>
+			<language type="vo">വോളാപുക്</language>
+			<language type="vot">വോട്ടിക്</language>
+			<language type="wa">വല്ലൂണ്‍</language>
+			<language type="wak">വകഷന്‍ ഭാഷകള്‍</language>
+			<language type="wal">വലമൊ</language>
+			<language type="war">വാരേയ്</language>
+			<language type="was">വാഷൊ</language>
+			<language type="wo">വൊളോഫ്</language>
+			<language type="xh">ക്ഷോസാ</language>
+			<language type="yao">യാവോ</language>
+			<language type="yap">യെപ്പീസ്</language>
+			<language type="yi">യിദ്ദിഷ്</language>
+			<language type="yo">യൊറൂബാ</language>
+			<language type="ypk">യുപിക് ഭാഷകള്‍</language>
+			<language type="za">സ്വാംഗ്</language>
+			<language type="zap">സാപ്പോടെക്</language>
+			<language type="zen">സെനഗ</language>
+			<language type="zh">ചൈനീസ്</language>
+			<language type="znd">സാന്ദെ</language>
+			<language type="zu">സുളു</language>
+			<language type="zun">സുനി</language>
+			<language type="zza">സാസാ</language>
+		</languages>
+		<scripts>
+			<script type="Arab">അറബി</script>
+			<script type="Beng">ബംഗാളി</script>
+			<script type="Brah">ബ്രാഹ്മി</script>
+			<script type="Deva">ദേവനാഗരി</script>
+			<script type="Grek">ഗ്രീക്ക്</script>
+			<script type="Gujr">ഗുജറാത്തി</script>
+			<script type="Guru">ഗുരുമുഖി</script>
+			<script type="Hant">പരമ്പരാഗത ചീനലിപി</script>
+			<script type="Hebr">ഹീബ്രു</script>
+			<script type="Hira">ഹിരഗാന</script>
+			<script type="Inds">ഇന്‍ഡസ്</script>
+			<script type="Jpan">ജാപ്പനീസ്</script>
+			<script type="Knda">കന്നഡ</script>
+			<script type="Latn">ലാറ്റിന്‍</script>
+			<script type="Mlym">മലയാളം</script>
+			<script type="Mong">മംഗോളിയന്‍</script>
+			<script type="Mymr">മ്യാന്‍മാര്‍</script>
+			<script type="Orya">ഒറിയ</script>
+			<script type="Saur">സൌരാഷ്ട്ര</script>
+			<script type="Sinh">സിംഹള</script>
+			<script type="Syrc">സിറിയക്ക്</script>
+			<script type="Taml">തമിഴ്</script>
+			<script type="Telu">തെലുങ്ക്</script>
+			<script type="Zxxx">എഴുതപ്പെടാത്തത്</script>
+			<script type="Zzzz">അറിയപ്പെടാത്തതോ നിലവിലില്ലാത്തതോ ആയ ലിപി</script>
+		</scripts>
+		<territories>
+			<territory type="001">ലോകം</territory>
+			<territory type="002">ആഫ്രിക്ക</territory>
+			<territory type="005">ദക്ഷിണ അമേരിക്ക</territory>
+			<territory type="011">പശ്ചിമആഫ്രിക്ക</territory>
+			<territory type="013">മദ്ധ്യഅമേരിക്ക</territory>
+			<territory type="014">കിഴക്കന്‍ ആഫ്രിക്ക</territory>
+			<territory type="015">ഉത്തരആഫ്രിക്ക</territory>
+			<territory type="017">മദ്ധ്യആഫ്രിക്ക</territory>
+			<territory type="019">അമേരിക്കസ്</territory>
+			<territory type="029">കരീബിയന്‍</territory>
+			<territory type="030">കിഴക്കന്‍ ഏഷ്യ</territory>
+			<territory type="035">തെക്ക്-കിഴക്കന്‍ ഏഷ്യ</territory>
+			<territory type="142">ഏഷ്യ</territory>
+			<territory type="145">പശ്ചിമേഷ്യ</territory>
+			<territory type="150">യൂറോപ്പ്</territory>
+			<territory type="151">കിഴക്കന്‍ യൂറോപ്പ്</territory>
+			<territory type="155">പശ്ചിമ യൂറോപ്പ്</territory>
+			<territory type="AD">അന്‍ടോറ</territory>
+			<territory type="AE">സംയുക്ത അറബ് രാഷ്ട്രം</territory>
+			<territory type="AF">അഫ്ഗാനിസ്ഥാന്‍</territory>
+			<territory type="AG">ആന്‍റിഗ്വ ആന്‍റ് ബര്‍ബുഡ</territory>
+			<territory type="AL">അല്‍ബേനിയ</territory>
+			<territory type="AM">അര്‍മേനിയ</territory>
+			<territory type="AO">അംഗോള</territory>
+			<territory type="AQ">അന്‍റാര്‍ട്ടിക്ക</territory>
+			<territory type="AR">അര്‍ജന്‍റീന</territory>
+			<territory type="AT">ഓസ്ട്രിയ</territory>
+			<territory type="AU">ഓസ്ട്രേലിയ</territory>
+			<territory type="AZ">അസര്‍ബൈജാന്‍</territory>
+			<territory type="BA">ബോസ്നിയ ഹെര്‍സഗോവിന</territory>
+			<territory type="BB">ബാര്‍ബഡോസ്</territory>
+			<territory type="BD">ബംഗ്ലാദേശ്</territory>
+			<territory type="BE">ബെല്‍ജിയം</territory>
+			<territory type="BF">ബുര്‍ക്കിനാ ഫാസോ</territory>
+			<territory type="BG">ബള്‍ഗേറിയ</territory>
+			<territory type="BH">ബഹ്റൈന്‍</territory>
+			<territory type="BI">ബുറുണ്ടി</territory>
+			<territory type="BJ">ബെനിന്‍</territory>
+			<territory type="BM">ബര്‍മുഡ</territory>
+			<territory type="BN">ബ്രൂണയ്</territory>
+			<territory type="BO">ബൊളീവിയ</territory>
+			<territory type="BR">ബ്രസീല്‍</territory>
+			<territory type="BS">ബഹാമാസ്</territory>
+			<territory type="BT">ഭൂട്ടാന്‍</territory>
+			<territory type="BW">ബോട്സ്വാന</territory>
+			<territory type="BY">ബെലറൂസ്</territory>
+			<territory type="BZ">ബെലീസ്</territory>
+			<territory type="CA">കാനഡ</territory>
+			<territory type="CC">കോക്കസ്</territory>
+			<territory type="CD">കോംഗോ - കിന്‍ഷാസ</territory>
+			<territory type="CF">സെന്‍ട്രല്‍ ആഫ്രിക്കന്‍ റിപ്പബ്ലിക്</territory>
+			<territory type="CG">കോംഗോ - ബ്രാസാവില്‍</territory>
+			<territory type="CH">സ്വിറ്റ്സര്‍ലന്‍ഡ്</territory>
+			<territory type="CI">ഐവറി കോസ്റ്റ്</territory>
+			<territory type="CL">ചിലി</territory>
+			<territory type="CM">കാമറൂണ്‍</territory>
+			<territory type="CN">ചൈന</territory>
+			<territory type="CO">കൊളംബിയ</territory>
+			<territory type="CR">കോസ്റ്ററിക്ക</territory>
+			<territory type="CU">ക്യൂബ</territory>
+			<territory type="CV">കേപ്പ് വെര്‍ഡെ</territory>
+			<territory type="CX">ക്രിസ്മസ് ദ്വീപ്</territory>
+			<territory type="CY">സൈപ്രസ്സ്</territory>
+			<territory type="CZ">ചെക്ക് റിപ്പബ്ലിക്</territory>
+			<territory type="DE">ജര്‍മനി</territory>
+			<territory type="DJ">ജിബൂട്ടി</territory>
+			<territory type="DK">ഡെന്മാര്‍ക്ക്</territory>
+			<territory type="DM">ഡൊമിനിക്ക</territory>
+			<territory type="DO">ഡൊമിനിക്കന്‍ റിപ്പബ്ലിക്</territory>
+			<territory type="DZ">അല്‍ജീറിയ</territory>
+			<territory type="EC">ഇക്വഡോര്‍</territory>
+			<territory type="EE">എസ്റ്റോണിയ‍</territory>
+			<territory type="EG">ഈജിപ്ത്</territory>
+			<territory type="EH">പശ്ചിമ സഹാറ</territory>
+			<territory type="ER">എരിട്രിയ</territory>
+			<territory type="ES">സ്പെയ്ന്‍</territory>
+			<territory type="ET">എത്യോപ്യ</territory>
+			<territory type="FI">ഫിന്‍ലാന്‍ഡ്</territory>
+			<territory type="FJ">ഫിജി</territory>
+			<territory type="FR">ഫ്രാന്‍സ്</territory>
+			<territory type="GB">ബ്രിട്ടന്‍</territory>
+			<territory type="GD">ഗ്രനേഡ</territory>
+			<territory type="GE">ജോര്‍ജിയ</territory>
+			<territory type="GH">ഖാന</territory>
+			<territory type="GI">ജിബ്രിള്‍ട്ടര്‍</territory>
+			<territory type="GL">ഗ്രീന്‍ലാന്‍റ്</territory>
+			<territory type="GM">ഗാംബിയ</territory>
+			<territory type="GR">ഗ്രീസ്</territory>
+			<territory type="GT">ഗ്വാട്ടിമാലാ</territory>
+			<territory type="GW">ഗിനി-ബിസോ</territory>
+			<territory type="GY">ഗയാന</territory>
+			<territory type="HK">ഹോങ് കോങ് എസ്.ഏ.ആര്‍. ചൈന</territory>
+			<territory type="HR">ക്രൊയേഷ്യ</territory>
+			<territory type="HT">ഹൈയ്തി</territory>
+			<territory type="HU">ഹംഗറി</territory>
+			<territory type="ID">ഇന്‍ഡോനേഷ്യ</territory>
+			<territory type="IE">ഐയര്‍ലാന്‍റ്</territory>
+			<territory type="IL">ഇസ്രായേല്‍</territory>
+			<territory type="IN">ഇന്ത്യ</territory>
+			<territory type="IQ">ഇറാക്ക്</territory>
+			<territory type="IR">ഇറാന്‍</territory>
+			<territory type="IS">ഐസ്‌ലാന്</territory>
+			<territory type="IT">ഇറ്റലി</territory>
+			<territory type="JM">ജമൈക്ക</territory>
+			<territory type="JO">ജോര്‍ദ്ദാന്‍</territory>
+			<territory type="JP">ജപ്പാന്‍</territory>
+			<territory type="KE">കെനിയ</territory>
+			<territory type="KG">കിര്‍ഗിസ്ഥാന്‍</territory>
+			<territory type="KH">കംബോഡിയ</territory>
+			<territory type="KI">കിരിബാത്തി</territory>
+			<territory type="KP">ഉത്തരകൊറിയ</territory>
+			<territory type="KR">ദക്ഷിണകൊറിയ</territory>
+			<territory type="KW">കുവൈറ്റ്</territory>
+			<territory type="KZ">കസാഖ്സ്ഥാന്‍</territory>
+			<territory type="LA">ലാവോസ്</territory>
+			<territory type="LB">ലബനന്‍</territory>
+			<territory type="LK">ശ്രീലങ്ക</territory>
+			<territory type="LR">ലൈബീരിയ</territory>
+			<territory type="LS">ലെസോത്തോ</territory>
+			<territory type="LT">ലിത്വാനിയ</territory>
+			<territory type="LU">ലക്സംബര്‍ഗ്</territory>
+			<territory type="LV">ലാത്വിയ</territory>
+			<territory type="LY">ലിബിയ</territory>
+			<territory type="MA">മൊറോക്കൊ</territory>
+			<territory type="MC">മൊണോക്കൊ</territory>
+			<territory type="MG">മഡഗാസ്കര്‍</territory>
+			<territory type="MK">മാസിഡോണിയ</territory>
+			<territory type="ML">മാലി</territory>
+			<territory type="MM">മ്യാന്‍മാര്‍</territory>
+			<territory type="MN">മംഗോളിയ</territory>
+			<territory type="MO">മക്കാവോ എസ്.ഏ.ആര്‍. ചൈന</territory>
+			<territory type="MT">മാള്‍ട്ട</territory>
+			<territory type="MU">മൌറീഷ്യസ്</territory>
+			<territory type="MV">മാലിദ്വീപ്</territory>
+			<territory type="MX">മേക്സിക്കോ</territory>
+			<territory type="MY">മലേഷ്യ</territory>
+			<territory type="MZ">മൊസാംബിക്ക്</territory>
+			<territory type="NA">നമീബിയ</territory>
+			<territory type="NE">നൈഗര്‍</territory>
+			<territory type="NG">നൈജീരിയ</territory>
+			<territory type="NI">നിക്കാരഗ്വ</territory>
+			<territory type="NO">നോര്‍വെ</territory>
+			<territory type="NP">നേപ്പാള്‍</territory>
+			<territory type="NZ">ന്യൂസിലാന്‍റ്</territory>
+			<territory type="OM">ഒമാന്‍</territory>
+			<territory type="PA">പനാമ</territory>
+			<territory type="PE">പെറു</territory>
+			<territory type="PH">ഫിലിപ്പൈന്‍സ്</territory>
+			<territory type="PK">പാക്കിസ്ഥാന്‍</territory>
+			<territory type="PL">പോളണ്ട്</territory>
+			<territory type="PT">പോര്‍ച്ചുഗല്‍</territory>
+			<territory type="PY">പരാഗ്വേ</territory>
+			<territory type="QA">ഖത്തര്‍</territory>
+			<territory type="RO">റൊമാനിയ</territory>
+			<territory type="RS">സെര്‍ബിയ</territory>
+			<territory type="RU">റഷ്യ</territory>
+			<territory type="RW">റുവാണ്ട</territory>
+			<territory type="SA">സൗദി അറേബ്യ</territory>
+			<territory type="SD">സുഡാന്‍</territory>
+			<territory type="SE">സ്വീഡന്‍</territory>
+			<territory type="SG">സിംഗപ്പുര്‍</territory>
+			<territory type="SK">സ്ലോവാക്യ</territory>
+			<territory type="SN">സെനഗല്‍</territory>
+			<territory type="SO">സോമാലിയ</territory>
+			<territory type="SR">സുറിനാം</territory>
+			<territory type="SY">സിറിയ</territory>
+			<territory type="TG">ടോഗോ</territory>
+			<territory type="TH">തായ് ലന്‍റ്</territory>
+			<territory type="TJ">താജിക്കിസ്ഥാന്‍</territory>
+			<territory type="TL">കിഴക്കന്‍ തിമുര്‍</territory>
+			<territory type="TM">തുര്‍ക്ക് മേനിസ്ഥാന്‍</territory>
+			<territory type="TN">ടുണീഷ്യ</territory>
+			<territory type="TO">ടോംഗ</territory>
+			<territory type="TR">തുര്‍ക്കി</territory>
+			<territory type="TV">തുവാലു</territory>
+			<territory type="TW">തായ്‌വാന്‍</territory>
+			<territory type="TZ">ടാന്‍സാനിയ</territory>
+			<territory type="UA">ഉക്രൈന്‍</territory>
+			<territory type="UG">ഉഗാണ്ട</territory>
+			<territory type="US">യുണൈറ്റഡ് സ്റ്റേറ്റ്സ് ഓഫ് അമേരിക്ക</territory>
+			<territory type="UY">ഉറുഗ്വ</territory>
+			<territory type="UZ">ഉസ്ബക്കിസ്ഥാന്‍</territory>
+			<territory type="VA">വത്തിക്കാന്‍</territory>
+			<territory type="VE">വെനിസ്വേല</territory>
+			<territory type="VN">വിയറ്റ്നാം</territory>
+			<territory type="YE">യമന്‍</territory>
+			<territory type="ZA">ദക്ഷിണ ആഫ്രിക്ക</territory>
+			<territory type="ZM">സാംബിയ</territory>
+			<territory type="ZW">സിംബാവെ</territory>
+			<territory type="ZZ">അറിയപ്പെടാത്തതോ നിലവിലില്ലാത്തതോ ആയ പ്രദേശം</territory>
+		</territories>
+		<keys>
+			<key type="calendar">കലണ്ടര്‍</key>
+			<key type="currency">നാണയം</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation">പരമ്പരാഗത ചൈനീസ് ക്രമീകരണം - ബിഗ്5</type>
+			<type type="buddhist" key="calendar">ബുദ്ധകലണ്ടര്‍</type>
+			<type type="chinese" key="calendar">ചൈനീസ് കലണ്ടര്‍</type>
+			<type type="direct" key="collation">പ്രത്യക്ഷക്രമീകരണം</type>
+			<type type="gb2312han" key="collation">ലളിതമായ ചൈനീസ് ക്രമീകരണം - ജീബി2312</type>
+			<type type="gregorian" key="calendar">ഇംഗ്ലീഷ് കലണ്ടര്‍</type>
+			<type type="hebrew" key="calendar">യഹൂദകലണ്ടര്‍</type>
+			<type type="islamic" key="calendar">ഇസ്ലാം കലണ്ടര്‍</type>
+			<type type="islamic-civil" key="calendar">ഇസ്ലാം-സിവില്‍ കലണ്ടര്‍</type>
+			<type type="japanese" key="calendar">ജപ്പാനീസ് കലണ്ടര്‍</type>
+			<type type="phonebook" key="collation">ഫോണ്‍ബുക്കിലെ ക്രമീകരണം</type>
+			<type type="pinyin" key="collation">പിന്‍‌യിന്‍ ക്രമീകരണം</type>
+			<type type="stroke" key="collation">സ്റ്റ്രോക്ക് ക്രമീകരണം</type>
+			<type type="traditional" key="collation">പരമ്പരാഗത ക്രമീകരണം</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US">യു.എസ്.</measurementSystemName>
+			<measurementSystemName type="metric">മെട്രിക്</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[\u200C \u200D അ-ഋ ൠ ഌ ൡ എ-ഐ ഒ-ന പ-ര ല വ ള ഴ റ ശ-ഹ ഃ ം ാ-ൃ െ-ൈ ൊ-ൌ ൗ ്]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[a-z]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">ജനു</month>
+							<month type="2">ഫെബ്രു</month>
+							<month type="3">മാര്‍</month>
+							<month type="4">ഏപ്രി</month>
+							<month type="5">മെയ്</month>
+							<month type="6">ജൂണ്‍</month>
+							<month type="7">ജൂലൈ</month>
+							<month type="8">ആഗ</month>
+							<month type="9">സെപ്തം</month>
+							<month type="10">ഒക്ടോ</month>
+							<month type="11">നവം</month>
+							<month type="12">ഡിസം</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="2">ഫ</month>
+							<month type="3">മ</month>
+							<month type="4">ഏ</month>
+							<month type="5">മ</month>
+							<month type="6">ജ</month>
+							<month type="7">ജ</month>
+							<month type="8">ആ</month>
+							<month type="9">സ</month>
+							<month type="10">ഒ</month>
+							<month type="11">ന</month>
+							<month type="12">ഡ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">ജനുവരി</month>
+							<month type="2">ഫെബ്രുവരി</month>
+							<month type="3">മാര്‍ച്ച്</month>
+							<month type="4">ഏപ്രില്‍</month>
+							<month type="5">മെയ്</month>
+							<month type="6">ജൂണ്‍</month>
+							<month type="7">ജൂലൈ</month>
+							<month type="8">ആഗസ്ത്</month>
+							<month type="9">സെപ്തംബര്‍</month>
+							<month type="10">ഒക്ടോബര്‍</month>
+							<month type="11">നവംബര്‍</month>
+							<month type="12">ഡിസംബര്‍</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<month type="3">മാര്‍</month>
+							<month type="4">ഏപ്രി</month>
+							<month type="6">ജൂണ്‍</month>
+							<month type="7">ജൂലൈ</month>
+							<month type="10">ഒക്ടോ</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">ജ</month>
+							<month type="2">ഫ</month>
+							<month type="3">മ</month>
+							<month type="4">ഏ</month>
+							<month type="5">മ</month>
+							<month type="6">ജ</month>
+							<month type="7">ജ</month>
+							<month type="8">ആ</month>
+							<month type="9">സ</month>
+							<month type="10">ഒ</month>
+							<month type="11">ന</month>
+							<month type="12">ഡ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="3">മാര്‍ച്ച്</month>
+							<month type="4">ഏപ്രില്‍</month>
+							<month type="6">ജൂണ്‍</month>
+							<month type="7">ജൂലൈ</month>
+							<month type="8">ആഗസ്ത്</month>
+							<month type="9">സെപ്തംബര്‍</month>
+							<month type="10">ഒക്ടോബര്‍</month>
+							<month type="11">നവംബര്‍</month>
+							<month type="12">ഡിസംബര്‍</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">ഞാ</day>
+							<day type="mon">തി</day>
+							<day type="tue">ചൊ</day>
+							<day type="wed">ബു</day>
+							<day type="thu">വ്യാ</day>
+							<day type="fri">വെ</day>
+							<day type="sat">ശ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">ഞായര്‍</day>
+							<day type="mon">തിങ്കള്‍</day>
+							<day type="tue">ചൊവ്വ</day>
+							<day type="wed">ബുധന്‍</day>
+							<day type="thu">വ്യാഴം</day>
+							<day type="fri">വെള്ളി</day>
+							<day type="sat">ശനി</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">ഞ</day>
+							<day type="mon">ത</day>
+							<day type="tue">ച</day>
+							<day type="wed">ബ</day>
+							<day type="thu">വ</day>
+							<day type="fri">വ</day>
+							<day type="sat">ശ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">ഒന്നാം പാദം</quarter>
+							<quarter type="2">രണ്ടാം പാദം</quarter>
+							<quarter type="3">മൂന്നാം പാദം</quarter>
+							<quarter type="4">നാലാം പാദം</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>രാവിലെ</am>
+				<pm>വൈകുന്നേരം</pm>
+				<eras>
+					<eraNames>
+						<era type="0">ക്രിസ്തുവിനു് മുമ്പ്‌</era>
+						<era type="1">ക്രിസ്തുവിനു് പിമ്പ്</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">ക്രി.മു.</era>
+						<era type="1">ക്രി.പി.</era>
+					</eraAbbr>
+					<eraNarrow>
+						<era type="0">ക്രി.മു.</era>
+						<era type="1">ക്രി.പി.</era>
+					</eraNarrow>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>yyyy, MMMM d, EEEE</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>yyyy, MMMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy, MMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd-MM-yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>h:mm:ss a v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>h:mm:ss a z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>h:mm:ss a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>h:mm a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
+						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName>അബ്ദം</displayName>
+					</field>
+					<field type="year">
+						<displayName>വര്‍ഷം</displayName>
+					</field>
+					<field type="month">
+						<displayName>മാസം</displayName>
+					</field>
+					<field type="week">
+						<displayName>ആഴ്ച</displayName>
+					</field>
+					<field type="day">
+						<displayName>ദിവസം</displayName>
+						<relative type="0">ഇന്നു്</relative>
+						<relative type="1">നാളെ</relative>
+						<relative type="2">മറ്റന്നാള്‍</relative>
+						<relative type="-1">ഇന്നലെ</relative>
+						<relative type="-2">മിനിഞ്ഞാന്ന്</relative>
+					</field>
+					<field type="weekday">
+						<displayName>ആഴ്ചയിലെ ദിവസം</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName>AM/PM</displayName>
+					</field>
+					<field type="hour">
+						<displayName>മണിക്കൂര്‍</displayName>
+					</field>
+					<field type="minute">
+						<displayName>മിനിട്ട്</displayName>
+					</field>
+					<field type="second">
+						<displayName>സെക്കന്റ്</displayName>
+					</field>
+					<field type="zone">
+						<displayName>മേഖല</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
+			<regionFormat>{0} സമയം</regionFormat>
+			<zone type="Etc/Unknown">
+				<exemplarCity>അറിയപ്പെടാത്ത നഗരം</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>,</group>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#,##,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##,##0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤ #,##,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="AED">
+				<displayName>യു.എ.ഇ. ദിര്‍ഹം</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName>ആസ്ട്രേലിയന്‍ ഡോളര്‍</displayName>
+			</currency>
+			<currency type="BBD">
+				<displayName>ബാര്‍ബഡോസ് ഡോളര്‍</displayName>
+			</currency>
+			<currency type="BEL">
+				<displayName>ബല്‍ജിയന്‍ ഫ്രാങ്ക്</displayName>
+			</currency>
+			<currency type="BGN">
+				<displayName>ബള്‍ഗേറിയന്‍ ന്യൂലവ്</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName>ബ്രസീലിയന്‍ റിയാല്‍</displayName>
+			</currency>
+			<currency type="EUR">
+				<displayName>യൂറോ</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName>ഫിജി ഡോളര്‍</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName>ബ്രിട്ടീഷ് പൌണ്ട് സ്റ്റെര്‍ലിംങ്</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName>ഇന്ത്യന്‍ രൂപ</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName>ഇറ്റാലിയന്‍ ലിറ</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName>ജപ്പാനീസ് യെന്‍</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName>റഷ്യന്‍ റൂബിള്‍</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName>യു.എസ്. ഡോളര്‍</displayName>
+			</currency>
+			<currency type="XXX">
+				<displayName>അറിയപ്പെടാത്തതോ നിലവിലില്ലാത്തതോ ആയ നാണയം</displayName>
+				<symbol>XXX</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>അതെ</yesstr>
+			<nostr>അല്ല</nostr>
+		</messages>
+	</posix>
+</ldml>

@@ -1,0 +1,266 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item current_page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="6_output.html" title="Output">&laquo;&nbsp;Output</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li>&nbsp;</li>
+				</ul>
+				<h2 style="margin-top:25px;">API</h2>
+				<div class="entry"><div id="documentation">
+
+
+<p>Functions bound directly to the <span class="var">tree_component</span> class:</p>
+<ul>
+<li>
+		<span class="var" id="tree_create">$.tree_create()</span>
+<p>function - accepts no arguments - returns an empty tree instance, which you can call <span class="var">init</span> on.</p>
+</li>
+<li>
+		<span class="var" id="tree_focused">$.tree_focused()</span>
+<p>function - accepts no arguments - returns a reference to the currently selected instance.</p>
+<p class="note">Example: bind <span class="var">$.tree_focused().rename()</span> to the F2 key.</p>
+</li>
+<li>
+		<span class="var" id="tree_reference">$.tree_reference(id)</span>
+<p>function - accepts one argument - the ID of the instance you are looking for (this can be either the container node’s ID attribute or the index of the tree) - returns the desired tree instance or <span class="var">null</span> on error.</p>
+</li>
+<li>
+		<span class="var" id="tree_rollback">$.tree_rollback(rb)</span>
+<p>function - accepts one argument - a rollback object (you get this object as the final argument in the onmove, ondelete, onremove, oncopy, onrename, oncreate callbacks) - returns all the involved trees in their previous state.</p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p>Some of the variables available for each tree instance (commonly used ones are black) (properties):</p>
+<ul>
+<li style="color: gray;"><span class="var">cntr</span>
+<p>integer - a counter of all jstree instances - this number is unique with each instance.</p>
+</li>
+<li style="color: gray;"><span class="var">container</span>
+<p>jQuery - the container of the tree (the node you passed at initialization).</p>
+</li>
+<li style="color: gray;"><span class="var">current_lang</span>
+<p>string - the currently visible language (one of the strings you passed at initialization). If no language versions are used this is <span class="val">false</span>.</p>
+</li>
+<li><span class="var" id="api_hovered">hovered</span>
+<p>jQuery - the currently hovered node, but only if set by the <span class="var">hover_branch</span> function. This variable does not update as the mouse hovers nodes. If no node is hovered equals <span class="val">false</span>.</p>
+</li>
+<li style="color: gray;"><span class="var">li_height</span>
+<p>integer - the height of a node (used internally for calculations).</p>
+</li>
+<li style="color: gray;"><span class="var">locked</span>
+<p>boolean - the current lock status of the tree.</p>
+</li>
+<li style="color: gray;"><span class="var">offset</span>
+<p>object - the offset (left &amp; top) of the container.</p>
+</li>
+<li style="color: gray;"><span class="var">opened</span>
+<p>array - a list of ids that are opened. This is used internally and most of the time this array is empty.<br>If you need to track the open nodes - either implement it yourself using the <span class="var">onopen</span> and <span class="var">onclose</span> callbacks or use the COOKIE functionality.</p>
+</li>
+<li><span class="var" id="path">path</span>
+<p>string - the path to the tree’s files (where you included <span class="file">tree_component.js</span> from).</p>
+</li>
+<li><span class="var" id="selected">selected</span>
+<p>jQuery - the object you selected last (when multiselecting this contains only THE LAST selected node).</p>
+</li>
+<li><span class="var" id="api_selected_arr">selected_arr</span>
+<p>array - array of jQuery objects - all the selected nodes (this array exists only id <span class="var">settings.multiple</span> is different from <span class="val">false</span>).</p>
+</li>
+<li style="color: gray;"><span class="var">settings</span>
+<p>object - the object you passed at initialization merged with the defaults (some properties can be modified runtime).</p>
+</li>
+<li style="color: gray;"><span class="var">sn</span>
+<p>string - the sheet number of <span class="file">tree_component.css</span>.</p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p>Most of the functions available for each tree instance (methods)</p>
+<ul>
+<li><span class="var" id="api_init">init</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>container node, <span class="opt" title="optional">[OPT]</span>options.<br>The function that initializes the tree and binds all events.</p>
+</li>
+<li><span class="var" id="api_off_height">off_height</span>
+<p><strong>Arguments:</strong> none<br>This function is used only internally. It saves the height of a single node and the offset of the container (relative to the document) in member variables (<span class="var">offset</span> and <span class="var">li_height</span>).</p>
+</li>
+<li><span class="var" id="api_refresh">refresh</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>node to refresh<br>This function refreshes the whole tree (saves the status - open nodes, selected nodes, etc). If you pass a node as an argument only the node’s children are refreshed.</p>
+</li>
+<li><span class="var" id="api_parseJSON">parseJSON</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>data<br>This function converts a JSON object (structured acoording to the specification) into the HTML structure required by jsTree.</p>
+</li>
+<li><span class="var" id="api_getJSON">getJSON</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>node to begin from, <span class="opt" title="optional">[OPT]</span>attributes to collect from the <span class="var">&lt;li&gt;</span> node, <span class="opt" title="optional">[OPT]</span>attributes to collect from the <span class="var">&lt;a&gt;</span> node, <span class="opt" title="optional">[OPT]</span>force long JSON format.<br>This function traverses the whole tree and exports it as JSON. Refer do the <a href="/documentation/data">data sources section</a> to see the format of the output. If the third argument is not an empty array, or the node has an icon - the long format is used, otherwise - the short. If you prefer to always have the long format - pass the fourth argument as <span class="val">true</span><br>If you specify a node as the first argument, only that node and its children are included in the export, otherwise the whole tree is exported.<br>The second argument defaults to: <span class="var">[</span><span class="val"> "id"</span><span class="var">, </span><span class="val">"rel"</span><span class="var">, </span><span class="val">"class" </span><span class="var">]</span>. If you want to collect other attributes - pass an array like this one as the second argument.<br>The third argument defaults to an empty array.<br>The fourth argument defaults to <span class="val">false</span>.</p>
+</li>
+<li><span class="var" id="api_getJSON">getXML</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>type (string “flat” or “nested”), <span class="opt" title="optional">[OPT]</span>node to begin from, <span class="opt" title="optional">[OPT]</span>attributes to collect from the <span class="var">&lt;li&gt;</span> node, <span class="opt" title="optional">[OPT]</span>attributes to collect from the <span class="var">&lt;a&gt;</span> node, cb - used only internally.<br>This function traverses the whole tree and exports it as XML. Refer do the <a href="/documentation/data/">data sources section</a> to see the format of the output. <br>If you specify a node as the second argument, only that node and its children are included in the export, otherwise the whole tree is exported.<br>The second argument defaults to: <span class="var">[</span><span class="val"> "id"</span><span class="var">, </span><span class="val">"rel"</span><span class="var">, </span><span class="val">"class" </span><span class="var">]</span>. If you want to collect other attributes - pass an array like this one as the second argument.<br>The third argument defaults to an empty array.</p>
+</li>
+<li><span class="var" id="api_focus">focus</span>
+<p><strong>Arguments:</strong> none<br>This function focuses the instance it is called from. This function is mainly used internally - in most cases you do not need to call that function.</p>
+</li>
+<li><span class="var" id="api_attachEvents">attachEvents</span>
+<p><strong>Arguments:</strong> none<br>This function should be called only once - it attaches all required events to the tree. You do not need to call this function.</p>
+</li>
+<li><span class="var" id="api_checkMove">checkMove</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node(nodes) that are moved or copied, <span class="req" title="required">[REQ]</span>reference node, <span class="req" title="required">[REQ]</span>position <br>This function checks if a move does or does not conflict with the specified rules for the tree. It also checks internal rules specified as metadata. You do not need to call this function. Returns <span class="val">true</span> if a move does not conflict any rules, otherwise <span class="val">false</span>.</p>
+</li>
+<li><span class="var" id="api_reselect">reselect</span>
+<p><strong>Arguments:</strong> none<br>This function is usually called internally after a refresh - it restores the status that was saved before the refresh (scroll position, opened nodes, selected nodes, etc).</p>
+</li>
+<li><span class="var" id="api_get_node">get_node</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>This function returns the jQuery extended copy of the node passed as the first argument if it is a <span class="var">&lt;li&gt;</span> node. Otherwise it searches for the first parent of the passed node that is a list item.</p>
+</li>
+<li><span class="var" id="api_get_type">get_type</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>Return the type of the node passed as the first argument.</p>
+</li>
+<li><span class="var" id="api_scrollCheck">scrollCheck</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>x, <span class="req" title="required">[REQ]</span>y<br>This function is used internally to scroll the container when the user drags a node near its edge.</p>
+</li>
+<li><span class="var" id="api_check">check</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>rule, <span class="req" title="required">[REQ]</span>nodes<br>This function checks a node against rules (clickable, draggable, etc). Returns <span class="val">true</span> or <span class="val">false</span> respectively.</p>
+</li>
+<li><span class="var" id="api_hover_branch">hover_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>Sets the node passed as the first argument as hovered.</p>
+</li>
+<li><span class="var" id="api_select_branch">select_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node, <span class="opt" title="optional">[OPT]</span>is multiselect<br>Selects the node passed as the first argument. If the second argument is set to <span class="val">true</span> the previously selected nodes are not deselected (mutliselect).</p>
+</li>
+<li><span class="var" id="api_deselect_branch">deselect_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>Deselects the node passed as the first argument.</p>
+</li>
+<li><span class="var" id="api_toggle_branch">toggle_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>Toggles the state of the node (opened or closed) passed as the first argument.</p>
+</li>
+<li><span class="var" id="api_open_branch">open_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node, <span class="opt" title="optional">[OPT]</span>disable animation,  <span class="opt" title="optional">[OPT]</span>callback function<br>Opens the node passed as the first argument. If the second argument is set to <span class="val">true</span> there is no animation. The third argument can be a function that will be called upon completion (usually this is used only internally - for most need you could use the <span class="var">onopen</span> callback).</p>
+</li>
+<li><span class="var" id="api_close_branch">close_branch</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node<br>Closes the node passed as the first argument.</p>
+</li>
+<li><span class="var" id="api_open_all">open_all</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>node<br>Opens all nodes. If you pass a node as the first argument - all of its subnodes are opened.</p>
+</li>
+<li><span class="var" id="api_close_all">close_all</span>
+<p><strong>Arguments:</strong> none<br>Closes all nodes.</p>
+</li>
+<li><span class="var" id="api_show_lang">show_lang</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>index<br>Switches to the language specified by the index passed as the first argument (the index corresponds to one of the items in the <span class="var">settings.languages</span> array).</p>
+</li>
+<li><span class="var" id="api_cycle_lang">cycle_lang</span>
+<p><strong>Arguments:</strong> none<br>Switches to the next language in the <span class="var">settings.languages</span> array.</p>
+</li>
+<li><span class="var" id="api_create">create</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>obj, <span class="opt" title="optional">[OPT]</span>reference node, <span class="opt" title="optional">[OPT]</span>position for the new node<br>Creates a new node at the specified location (the second argument). The first argument is a JavaScript object, which follows the JSON jsTree format. If the second argument is not a valid node - then the currently selected node is used. The final argument positions the node amongst the children of the parent node (it is zero-based, so passing 0 would position the node as the first child), if position is not passed - the value from <span class="var">settings.rules.createat</span> is used (”top” or “bottom”). You can also pass <span class="val">“before”</span> or <span class="val">“after”</span> as the final argument - then the new node will be positioned before or after the reference node, and not inside it.</p>
+</li>
+<li><span class="var" id="api_rename">rename</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>node<br>Renames the passed or currently selected node.</p>
+</li>
+<li><span class="var" id="api_remove">remove</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>node<br>Removes the node specified in the first argument. If not present - removes the currently selected node.</p>
+</li>
+
+<li><span class="var" id="api_next">next</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node, <span class="opt" title="optional">[OPT]</span>strict <br>Returns the next sibling of the node passed as the first argument. If strict is not set to <span class="val">true</span> next behaves like the explorer shortcuts (if you are at the last child of a node, calling next will return the next sibling of the parent node).</p></li>
+<li><span class="var" id="api_prev">prev</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node, <span class="opt" title="optional">[OPT]</span>strict <br>Returns the previous sibling of the node passed as the first argument. If strict is not set to <span class="val">true</span> prev behaves like the explorer shortcuts (if you are at the first child of a node, calling prev will return the parent node).</p></li>
+<li><span class="var" id="api_parent">parent</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node <br>Returns the parent node of the node passed as the first argument.</p></li>
+<li><span class="var" id="api_children">children</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node <br>Returns the children nodes of the node passed as the first argument.</p></li>
+
+<li>
+				<span class="var" id="api_get_next">get_next</span><br>
+				<span class="var">get_prev</span><br>
+				<span class="var">get_left</span><br>
+				<span class="var">get_right</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>force selection<br>Those functions recreate the standart functionality of the keyboard arrows when browsing a tree, by moving the selection. If <span class="var">settings.ui.hover_mode</span> is set to <span class="val">true</span> they only move the hover state, unless the force argument is set to <span class="val">true</span>.</p>
+</li>
+<li><span class="var" id="api_toggleDots">toggleDots</span>
+<p><strong>Arguments:</strong> none<br>Toggles the dots connecting the nodes.</p>
+</li>
+<li><span class="var" id="api_set_cookie">set_cookie</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>type<br>Set the cookies if the cookie functionality is enabled. The argument is either <span class="val">“selected”</span> or <span class="val">“open”</span> - this defines which cookie to set.</p>
+</li>
+<li><span class="var" id="api_moved">moved</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>node(nodes) that are moved or copied, <span class="req" title="required">[REQ]</span>reference node, <span class="req" title="required">[REQ]</span>position, <span class="opt" title="optional">[OPT]</span>is new, <span class="opt" title="optional">[OPT]</span>is copy <br>This is the actual function that moves nodes around and performs the cleanup after a move. It is used internally.</p>
+</li>
+<li><span class="var" id="api_error">error</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>error message<br>A simple function that only executes the <span class="var">onerror</span> callback and returns false.</p>
+</li>
+<li><span class="var" id="api_lock">lock</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>state<br>This function locks / unlocks the tree (when locked no user interaction is allowed). The state argument is Boolen - <span class="val">true</span> to lock, <span class="val">false</span> to unlock.</p>
+</li>
+<li>
+				<span class="var" id="api_cut">cut</span><br>
+				<span class="var">copy</span>
+<p><strong>Arguments:</strong> none<br>Those cut/copy functions cut or copy the currently selected nodes.</p>
+</li>
+<li>
+				<span class="var">paste</span>
+<p><strong>Arguments:</strong> <span class="opt" title="optional">[OPT]</span>refenrece node, <span class="opt" title="optional">[OPT]</span>position. <br>The paste function pastes the cut or copied nodes in the specified reference node, or the currently selected node. Position is the same as with the <span class="var">create</span> function.  If you pass <span class="val">-1</span> as reference node, nodes are pasted as root nodes.</p>
+</li>
+<li><span class="var" id="api_search">search</span>
+<p><strong>Arguments:</strong> <span class="req" title="required">[REQ]</span>search string<br>This function performs a search by opening all parent nodes of nodes which contain the search string. Those nodes receive the class <span class="val">“search”</span>. If <span class="var">settings.data.async</span> is set to <span class="val">true</span>, a request is also made to <span class="var">settings.data.url</span> along with the parameter (GET or POST) <span class="val">“search”</span> containing the search string - the expected response is a list of comma-separated IDs which will be loaded.</p>
+</li>
+<li>
+				<span class="var" id="api_context_menu">context_menu</span>
+<p><strong>Arguments:</strong> none<br>Builds the context menu onload and after a refresh.</p>
+</li>
+<li>
+				<span class="var" id="api_context_menu">get_rollback</span>
+<p><strong>Arguments:</strong> none<br>Gets a rollback object for the tree it is executed in.</p>
+</li>
+<li><span class="var" id="api_destroy">destroy</span>
+<p><strong>Arguments:</strong>none<br>This function destroys the instance. It also unbinds all events associated with it. If the instance was focused - the first available instance is focused.</p>
+</li>
+</ul>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

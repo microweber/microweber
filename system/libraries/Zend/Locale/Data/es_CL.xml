@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.53 $"/>
+		<generation date="$Date: 2007/07/21 21:12:28 $"/>
+		<language type="es"/>
+		<territory type="CL"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="arn">mapudungun</language>
+			<language type="ira">iraníes</language>
+		</languages>
+		<scripts>
+			<script type="Bali">balinés</script>
+		</scripts>
+		<territories>
+			<territory type="005">Sudamérica</territory>
+			<territory type="AN">Antillas Holandesas</territory>
+			<territory type="AZ">Azerbayán</territory>
+			<territory type="EH">Sahara Occidental</territory>
+			<territory type="PS">Territorio Palestino</territory>
+			<territory type="RO">Rumania</territory>
+			<territory type="SA">Arabia Saudita</territory>
+			<territory type="TZ">Tanzanía</territory>
+		</territories>
+		<variants>
+			<variant type="1996">Ortografía alemana de 1996</variant>
+		</variants>
+		<keys>
+			<key type="currency">divisa</key>
+		</keys>
+		<types>
+			<type type="phonebook" key="collation">orden de directorio telefónico</type>
+		</types>
+	</localeDisplayNames>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateFormats>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd-MM-yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd-MM-yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH:mm:ss v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>H:mm:ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤#,##0.00;¤-#,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="CLP">
+				<displayName>Peso Chileno</displayName>
+				<symbol>$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

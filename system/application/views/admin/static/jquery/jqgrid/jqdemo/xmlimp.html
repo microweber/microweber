@@ -1,0 +1,31 @@
+<div style="font-size:12px;">
+    This example show how we can load XML Grid Configuration from external xml file <br>
+    A JSON import is also available. Press a Convert link to perform the conversion<br>
+</div>
+<br />
+<table id="xmlist1" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="xmlpager1" class="scroll" style="text-align:center;"></div>
+<script src="xmlimp.js" type="text/javascript"> </script>
+<br />
+<a id="cnvxml" href="#">convert</a>
+<br>
+<br/>
+<a  href="testxml.xml">The XML example file look like this</a>
+<br>
+<br>
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="xmlist1" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="xmlpager1" class="scroll" style="text-align:center;"></div>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+$("#cnvxml").click(function(){
+	$("#xmlist1").jqGridImport({impurl:"testme.xml"});
+	$(this).hide();
+});
+...
+</XMP>
+</div>

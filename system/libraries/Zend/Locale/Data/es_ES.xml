@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.50 $"/>
+		<generation date="$Date: 2007/07/21 21:12:28 $"/>
+		<language type="es"/>
+		<territory type="ES"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ast">bable</language>
+			<language type="chg">chagatai</language>
+			<language type="eu">euskera</language>
+			<language type="fi">finlandés</language>
+			<language type="rom">caló</language>
+		</languages>
+		<scripts>
+			<script type="Egyp">jeroglíficos egipcios</script>
+			<script type="Ethi">etíope</script>
+			<script type="Hung">húngaro antiguo</script>
+			<script type="Ital">antigua itálica</script>
+			<script type="Lina">linear A</script>
+			<script type="Maya">jeroglíficos mayas</script>
+			<script type="Mong">mongol</script>
+			<script type="Phnx">fenicio</script>
+		</scripts>
+		<territories>
+			<territory type="KG">Kirguistán</territory>
+			<territory type="VA">Vaticano</territory>
+		</territories>
+		<measurementSystemNames>
+			<measurementSystemName type="metric">métrico</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a á b-e é f-i í j-n ñ o ó p-u ú ü v-z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH'H'mm''ss&quot; v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="day">
+						<relative type="2">pasado mañana</relative>
+						<relative type="3">dentro de tres días</relative>
+						<relative type="-2">anteayer</relative>
+						<relative type="-3">hace tres días</relative>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>Canarias</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="ARS">
+			</currency>
+			<currency type="AUD">
+			</currency>
+			<currency type="BEF">
+			</currency>
+			<currency type="ESP">
+				<pattern>#,##0 ¤;-#,##0 ¤</pattern>
+				<decimal>,</decimal>
+				<group>.</group>
+			</currency>
+			<currency type="NLG">
+				<displayName>florín holandés</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

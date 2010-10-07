@@ -1,0 +1,45 @@
+pre {
+	border-top: 1px solid #ddd;
+	border-left: 5px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	background-color: #eee;
+	padding: 2px;
+	margin: 0;
+	color: #000066;
+}
+
+.css .de1, .css .de2, .html4strict .de1, .html4strict .de2, .javascript .de1, .javascript .de2, .mysql .de1, .mysql .de2, .php .de1, .php .de2, .smarty .de1, .smarty .de2, .sql .de1, .sql .de2, .xml .de1, .xml .de2 
+{font-family: 'Courier New', Courier, monospace; font-weight: normal;color: #000020;}
+.css .imp, .html4strict .imp, .javascript .imp, .mysql .imp, .php .imp, .smarty .imp, .sql .imp, .xml .imp 
+{font-weight: bold; color: red;}
+.css .kw1, .html4strict .kw1, .javascript .kw1, .mysql .kw1, .php .kw1, .smarty .kw1, .sql .kw1, .xml .kw1 
+{color: #b1b100;}
+.css .kw2, .html4strict .kw2, .javascript .kw2, .mysql .kw2, .php .kw2, .smarty .kw2, .sql .kw2, .xml .kw2 
+{color: #000000; font-weight: bold;}
+.css .kw3, .html4strict .kw3, .javascript .kw3, .mysql .kw3, .php .kw3, .smarty .kw3, .sql .kw3, .xml .kw3 
+{color: #000066;}
+.css .kw4, .html4strict .kw4, .javascript .kw4, .mysql .kw4, .php .kw4, .smarty .kw4, .sql .kw4, .xml .kw4 
+{color: #f63333;}
+.css .co1, .css .co2, .css .coMULTI, .html4strict .co1, .html4strict .co2, .html4strict .coMULTI, .javascript .co1, .javascript .co2, .javascript .coMULTI, .mysql .co1, .mysql .co2, .mysql .coMULTI, .php .co1, .php .co2, .php .coMULTI, .smarty .co1, .smarty .co2, .smarty .coMULTI, .sql .co1, .sql .co2, .sql .coMULTI, .xml .co1, .xml .co2, .xml .coMULTI 
+{color: #808080; font-style: italic;}
+.css .es0, .html4strict .es0, .javascript .es0, .mysql .es0, .php .es0, .smarty .es0, .sql .es0, .xml .es0 
+{color: #000099; font-weight: bold;}
+.css .br0, .html4strict .br0, .javascript .br0, .mysql .br0, .php .br0, .smarty .br0, .sql .br0, .xml .br0 
+{color: #66cc66;}
+.css .st0, .html4strict .st0, .javascript .st0, .mysql .st0, .php .st0, .smarty .st0, .sql .st0, .xml .st0 
+{color: #ff0000;}
+.css .nu0, .html4strict .nu0, .javascript .nu0, .mysql .nu0, .php .nu0, .smarty .nu0, .sql .nu0, .xml .nu0 
+{color: #cc66cc;}
+.php .me1 {color: #006600;}
+.php .me2 {color: #006600;}
+.php .re0 {color: #0000ff;}
+
+pre ol{margin-left: 0;padding-left: 30px;}
+
+pre .head {font-family: Verdana, Arial, sans-serif;color: #333333;font-weight: bold;background-color: #f0f0ff;border-bottom: 1px solid #d0d0d0;padding: 2px;font-size: 12px;}
+pre li, pre li {font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;font: normal normal 95% 'Courier New', Courier, monospace; color: #003030;}
+pre li.li2 {font-weight: bold;font-weight: bold; color: #006060;}
+pre .foot {display: none;}
+pre a:link {color: #000060;}
+pre a:hover {background-color: #f0f000;}

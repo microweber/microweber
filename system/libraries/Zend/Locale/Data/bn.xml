@@ -1,0 +1,766 @@
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.61 $"/>
+		<generation date="$Date: 2007/07/19 23:30:28 $"/>
+		<language type="bn"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">আফার</language>
+			<language type="ab">আব্খাজিয়</language>
+			<language type="ace">অচাইনিজ</language>
+			<language type="ach">অকোলি</language>
+			<language type="ada">অদাগ্মি</language>
+			<language type="ady">অদিঝি</language>
+			<language type="ae">অভেস্তান</language>
+			<language type="af">আফ্রিকান</language>
+			<language type="afa">অফ্রো-এশিয়াটিক</language>
+			<language type="afh">অফ্রিহিলি</language>
+			<language type="ain">আইনু</language>
+			<language type="ak">আকান</language>
+			<language type="akk">আক্কাদিয়ান</language>
+			<language type="ale">অলেউত</language>
+			<language type="alg">আলগোনকিউআন</language>
+			<language type="alt">দক্ষিন আলতাই</language>
+			<language type="am">আমহারিক</language>
+			<language type="an">আর্গোনিজ</language>
+			<language type="ang">ঐতিহাসিক ইংরেজী</language>
+			<language type="apa">অ্যাপাচি</language>
+			<language type="ar">আরবী</language>
+			<language type="arc">আরামেইক</language>
+			<language type="arn">আরাউকানিয়</language>
+			<language type="arp">আরাফাও</language>
+			<language type="art">কৃত্রিম</language>
+			<language type="arw">আরাওয়াক</language>
+			<language type="as">আসামীয়</language>
+			<language type="ast">অস্ট্রিয়</language>
+			<language type="ath">আথাপাস্কেন</language>
+			<language type="aus">অস্ট্রেলিয়ার</language>
+			<language type="av">অভেরিক</language>
+			<language type="awa">আওয়াধি</language>
+			<language type="ay">আয়মারা</language>
+			<language type="az">আজেরবাইজান</language>
+			<language type="ba">বাসখির</language>
+			<language type="bad">বান্দা</language>
+			<language type="bai">বামিলেকে</language>
+			<language type="bal">বেলুচী</language>
+			<language type="ban">বালিনিজ</language>
+			<language type="bas">বাসা</language>
+			<language type="bat">বাল্টিক</language>
+			<language type="be">বেলারুশ</language>
+			<language type="bej">বেজা</language>
+			<language type="bem">বেম্বা</language>
+			<language type="ber">বারবের</language>
+			<language type="bg">বুলগেরিয়</language>
+			<language type="bh">বিহারী</language>
+			<language type="bho">ভোজপুরি</language>
+			<language type="bi">বিসলামা</language>
+			<language type="bik">বিকোল</language>
+			<language type="bin">বিনি</language>
+			<language type="bla">শিকশিকা</language>
+			<language type="bm">বামবারা</language>
+			<language type="bn">বাংলা</language>
+			<language type="bnt">বান্তু</language>
+			<language type="bo">তিবেতেইন</language>
+			<language type="br">ব্রেতন</language>
+			<language type="bra">ব্রাজ</language>
+			<language type="bs">বসনীয়</language>
+			<language type="btk">বাতাক</language>
+			<language type="bua">বুরিয়াত</language>
+			<language type="bug">বুগিনিজ</language>
+			<language type="byn">ব্লিন</language>
+			<language type="ca">কাতালান</language>
+			<language type="cad">ক্যাড্ডাও</language>
+			<language type="cai">মধ্য আমেরিকার ইন্ডিয়ান</language>
+			<language type="car">ক্যারিব</language>
+			<language type="cau">ক্যাওকেশীয়</language>
+			<language type="ce">চেচেন</language>
+			<language type="ceb">চেবুয়ানো</language>
+			<language type="cel">কাল্টিক</language>
+			<language type="co">কর্সিকান</language>
+			<language type="cs">চেক্‌</language>
+			<language type="cy">ওয়েলশ</language>
+			<language type="da">ড্যানিশ</language>
+			<language type="de">জার্মান</language>
+			<language type="dz">ভুটানি</language>
+			<language type="el">গ্রীক্‌</language>
+			<language type="en">ইংরেজি</language>
+			<language type="eo">স্পেরান্তো</language>
+			<language type="es">স্পেনীয়</language>
+			<language type="et">এস্তোনীয়</language>
+			<language type="eu">বাসকিউ</language>
+			<language type="fa">ফার্সি</language>
+			<language type="fi">ফিনিশ</language>
+			<language type="fil">ফিলিপিনো</language>
+			<language type="fj">ফিজি</language>
+			<language type="fo">ফারোয়ী</language>
+			<language type="fr">ফরাসি</language>
+			<language type="fy">ফ্রিজিয়ান</language>
+			<language type="ga">আইরিশ</language>
+			<language type="gd">স্কচ্ গাইলি</language>
+			<language type="gl">গ্যালিশিয়</language>
+			<language type="gn">গুয়ারানী</language>
+			<language type="gu">গুজরাতী</language>
+			<language type="ha">হাউসা</language>
+			<language type="he">হিব্রু</language>
+			<language type="hi">হিন্দী</language>
+			<language type="hr">ক্রোয়েতিয়</language>
+			<language type="hu">হাঙ্গেরীয়</language>
+			<language type="hy">আর্মেনিয়ান</language>
+			<language type="ia">বিভিন্ন ভাষার</language>
+			<language type="id">ইন্দোনেশীয়</language>
+			<language type="ie">বিবিধভাষা</language>
+			<language type="ik">ইনুপিয়াক</language>
+			<language type="is">আইসল্যান্ডীয়</language>
+			<language type="it">ইতালীয়</language>
+			<language type="ja">জাপানি</language>
+			<language type="jv">জাভানি</language>
+			<language type="ka">জর্জীয়</language>
+			<language type="kk">কাজাখ</language>
+			<language type="kl">গ্রিনল্যান্ডিক</language>
+			<language type="km">কাম্বোডিয়</language>
+			<language type="kn">কান্নাড়া</language>
+			<language type="ko">কোরিয়ান</language>
+			<language type="ks">কাশ্মীরী</language>
+			<language type="ku">কুর্দিশ</language>
+			<language type="ky">কির্গিজ</language>
+			<language type="la">ল্যাতিন</language>
+			<language type="ln">লিঙ্গালা</language>
+			<language type="lo">লাও</language>
+			<language type="lt">লিথুয়ানীয়</language>
+			<language type="lv">লাত্‌ভীয়</language>
+			<language type="mg">মালাগ্যাসি</language>
+			<language type="mi">মাওরি</language>
+			<language type="mk">ম্যাসাডোনীয়</language>
+			<language type="ml">মালয়ালম</language>
+			<language type="mn">মঙ্গোলিয়ান</language>
+			<language type="mo">মলদাভিয়</language>
+			<language type="mr">মারাঠি</language>
+			<language type="ms">মালয়</language>
+			<language type="mt">মাল্তেসি</language>
+			<language type="my">বর্মী</language>
+			<language type="na">নাউরু</language>
+			<language type="ne">নেপালী</language>
+			<language type="nl">ডয়েচ্</language>
+			<language type="nn">নরওয়েজীয়</language>
+			<language type="no">নরোয়েজিয়</language>
+			<language type="oc">অক্সিটান</language>
+			<language type="om">আফান(আরোমো)</language>
+			<language type="or">উড়িয়া</language>
+			<language type="pa">পাঞ্জাবী</language>
+			<language type="pl">পোলিশ</language>
+			<language type="ps">পাস্তু</language>
+			<language type="pt">পর্তুগীজ</language>
+			<language type="pt_BR">ব্রাজিলের পর্তুগীজ</language>
+			<language type="qu">কেচুয়া</language>
+			<language type="rm">রোটো-রোমানিশ</language>
+			<language type="rn">কুরুন্দি</language>
+			<language type="ro">রোমানীয়</language>
+			<language type="ru">রাশিয়া</language>
+			<language type="rw">কিন্যারওয়ান্দা</language>
+			<language type="sa">সংষ্কৃত</language>
+			<language type="sd">সিন্ধি</language>
+			<language type="sg">সাংঘো</language>
+			<language type="sh">সের্বো-ক্রাওয়েশিয়</language>
+			<language type="si">সিংহলী</language>
+			<language type="sk">স্লোভাক</language>
+			<language type="sl">স্লোভেনীয়</language>
+			<language type="sm">সামোয়ান</language>
+			<language type="sn">শোনা</language>
+			<language type="so">সোমালী</language>
+			<language type="sq">আলবেনীয়</language>
+			<language type="sr">সার্বীয়</language>
+			<language type="ss">সিস্বাতি</language>
+			<language type="st">সেসোথো</language>
+			<language type="su">সুদানী</language>
+			<language type="sv">সুইডিশ</language>
+			<language type="sw">সোয়াহিলি</language>
+			<language type="ta">তামিল</language>
+			<language type="te">তেলুগু</language>
+			<language type="tg">তাজিক</language>
+			<language type="th">থাই</language>
+			<language type="ti">তিগরিঙা</language>
+			<language type="tk">তুর্কমেনী</language>
+			<language type="tl">তাগালগ</language>
+			<language type="tlh">কলিঙ্গন</language>
+			<language type="tn">সোত্‍সওয়ানা</language>
+			<language type="to">টঙ্গা</language>
+			<language type="tr">তুর্কী</language>
+			<language type="ts">ত্‍সঙ্গা</language>
+			<language type="tt">তাতার</language>
+			<language type="tw">টউই</language>
+			<language type="ug">উইঘুর</language>
+			<language type="uk">ইউক্রেনীয়</language>
+			<language type="und">অজানা বা ভুল ভাষা</language>
+			<language type="ur">উর্দ্দু</language>
+			<language type="uz">উজবেক</language>
+			<language type="vi">ভিয়েতনামী</language>
+			<language type="wo">উওলোফ</language>
+			<language type="xh">জোসা</language>
+			<language type="yi">য়ইদ্দিশ</language>
+			<language type="yo">ইওরুবা</language>
+			<language type="zh">চাইনিজ</language>
+			<language type="zu">ঝুলু</language>
+		</languages>
+		<scripts>
+			<script type="Arab">আরবী</script>
+			<script type="Armn">আর্মেনি</script>
+			<script type="Bali">বিলি</script>
+			<script type="Batk">বটাক</script>
+			<script type="Beng">বাংলা</script>
+			<script type="Blis">ব্লিস</script>
+			<script type="Bopo">বোপো</script>
+			<script type="Brah">ব্রাহ্</script>
+			<script type="Brai">ব্রাই</script>
+			<script type="Bugi">বুগি</script>
+			<script type="Buhd">বুহ্দ</script>
+			<script type="Cans">ক্যান্স</script>
+			<script type="Cham">চ্যাম</script>
+			<script type="Cher">চের</script>
+			<script type="Cirt">সির্ট</script>
+			<script type="Copt">কোপ্ট</script>
+			<script type="Cprt">কিপরোইত</script>
+			<script type="Cyrl">কিরিল্লিক</script>
+			<script type="Cyrs">পুরোনো কিরিল্লিক</script>
+			<script type="Deva">হিন্দি</script>
+			<script type="Dsrt">দেসেরাত</script>
+			<script type="Egyd">মিশরিয় ডেমোটিক</script>
+			<script type="Egyh">মিশরিয় হায়রেটিক</script>
+			<script type="Egyp">মিশরিয় হায়ারোগ্লিপ্</script>
+			<script type="Ethi">ইথিয়োপিয়</script>
+			<script type="Geok">জর্জিয় খুৎসুরি</script>
+			<script type="Geor">জর্জিয়</script>
+			<script type="Glag">গ্লাগ</script>
+			<script type="Goth">গোথ্</script>
+			<script type="Grek">গ্রিক</script>
+			<script type="Gujr">গুজরিটি</script>
+			<script type="Guru">পাঞ্জাবী</script>
+			<script type="Hang">হ্যানগুল</script>
+			<script type="Hani">হ্যান</script>
+			<script type="Hano">হ্যানো</script>
+			<script type="Hans">সাধারণ হ্যান</script>
+			<script type="Hant">হ্যানট্</script>
+			<script type="Hebr">হিব্রু</script>
+			<script type="Hira">হিরাগানা</script>
+			<script type="Hmng">ফারাও</script>
+			<script type="Hrkt">কান্নাটাকা</script>
+			<script type="Hung">পুরোনো হাঙ্গেরীয়</script>
+			<script type="Inds">ইন্দাস</script>
+			<script type="Ital">পুরোনো ইতালী</script>
+			<script type="Java">জাভা</script>
+			<script type="Kali">কায়াহ্</script>
+			<script type="Kana">কানা</script>
+			<script type="Khar">খার</script>
+			<script type="Khmr">খামের</script>
+			<script type="Knda">কান্নাডা</script>
+			<script type="Laoo">লাও</script>
+			<script type="Latf">ফ্রাঙ্কটুর লাতিন</script>
+			<script type="Latg">গার্লিক লাতিন</script>
+			<script type="Latn">লাতিন</script>
+			<script type="Lepc">লেপ্চা</script>
+			<script type="Limb">লিম্বু</script>
+			<script type="Lina">লিন-এ</script>
+			<script type="Linb">লিন-বি</script>
+			<script type="Mand">মান্ড</script>
+			<script type="Maya">মায়া হায়ারোগ্লিপ</script>
+			<script type="Mero">মেরো</script>
+			<script type="Mlym">মালায়ালাম</script>
+			<script type="Mong">মোঙ্গ</script>
+			<script type="Mymr">মায়ানমার</script>
+			<script type="Nkoo">ন-কো</script>
+			<script type="Ogam">ওগহাম</script>
+			<script type="Orkh">অর্খন</script>
+			<script type="Orya">উড়িয়া</script>
+			<script type="Osma">ওসমানিয়</script>
+			<script type="Perm">পুরোনো পের্ম</script>
+			<script type="Phag">ফাগ</script>
+			<script type="Phnx">ফোয়েনিশি</script>
+			<script type="Plrd">পোলার্ড</script>
+			<script type="Qaai">কাই</script>
+			<script type="Roro">রোহো</script>
+			<script type="Runr">রুনিক</script>
+			<script type="Sara">সারাতি</script>
+			<script type="Shaw">সাভিয়ান</script>
+			<script type="Sinh">সিনহালা</script>
+			<script type="Sylo">সিলটি</script>
+			<script type="Zxxx">লেখা হয়নি</script>
+			<script type="Zzzz">অজানা বা ভুল ভাষা</script>
+		</scripts>
+		<territories>
+			<territory type="AD">আন্ডোরা</territory>
+			<territory type="AE">সংযুক্ত আরব আমিরশাহী</territory>
+			<territory type="AF">আফগানিস্তান</territory>
+			<territory type="AG">আন্টিগুয়া ও বার্বুডা</territory>
+			<territory type="AI">আংগুইলা</territory>
+			<territory type="AL">আলব্যানিয়া</territory>
+			<territory type="AM">আর্মেনিয়া</territory>
+			<territory type="AN">নেদারল্যান্ড আন্টেলিস</territory>
+			<territory type="AO">আঙ্গোলা</territory>
+			<territory type="AQ">আন্টার্কটিকা</territory>
+			<territory type="AR">আর্জেণ্টাইনা</territory>
+			<territory type="AS">আমেরিকান সামোয়া</territory>
+			<territory type="AT">অস্ট্রিয়া</territory>
+			<territory type="AU">অস্ট্রেলিয়া</territory>
+			<territory type="AW">আরুবা</territory>
+			<territory type="AX">আলান্ড দ্বীপপুঞ্জ</territory>
+			<territory type="AZ">আজারবাইজান</territory>
+			<territory type="BA">বসনিয়া ও হার্জেগোভিনা</territory>
+			<territory type="BB">বার্বাডোস</territory>
+			<territory type="BD">বাংলাদেশ</territory>
+			<territory type="BE">বেল্জিয়ম</territory>
+			<territory type="BF">বুর্কিনা ফাসো</territory>
+			<territory type="BG">বুলগেরিয়া</territory>
+			<territory type="BH">বাহরাইন</territory>
+			<territory type="BI">বুরুণ্ডি</territory>
+			<territory type="BJ">বেনিন</territory>
+			<territory type="BM">বার্মুডা</territory>
+			<territory type="BN">ব্রুনেই</territory>
+			<territory type="BO">বোলিভিয়া</territory>
+			<territory type="BR">ব্রাজিল</territory>
+			<territory type="BS">বাহামা</territory>
+			<territory type="BT">ভুটান</territory>
+			<territory type="BV">বুভে দ্বীপ</territory>
+			<territory type="BW">বৎসওয়ানা</territory>
+			<territory type="BY">বেলোরুশিয়া</territory>
+			<territory type="BZ">বেলজিয়াম</territory>
+			<territory type="CC">কোকোস (কীলিং) দ্বীপপুঞ্জ</territory>
+			<territory type="CD">কঙ্গো - কিনসাসা</territory>
+			<territory type="CF">মধ্য-আফ্রিকা প্রজাতন্ত্র</territory>
+			<territory type="CG">কঙ্গো</territory>
+			<territory type="CH">সুইজর্লণ্ড</territory>
+			<territory type="CI">ইভয়ার কোস্ট</territory>
+			<territory type="CK">কুক দ্বীপপুঞ্জ</territory>
+			<territory type="CL">চিলি</territory>
+			<territory type="CN">চীন</territory>
+			<territory type="CO">কোলোম্বিয়া</territory>
+			<territory type="CR">কোস্টারিকা</territory>
+			<territory type="CU">কিউবা</territory>
+			<territory type="CV">কেপ ভের্দে</territory>
+			<territory type="CX">ক্রিসমাস দ্বীপপুঞ্জ</territory>
+			<territory type="CY">সাইপ্রাস</territory>
+			<territory type="CZ">চেক প্রজাতন্ত্র</territory>
+			<territory type="DE">জার্মানি</territory>
+			<territory type="DJ">জিবুতি</territory>
+			<territory type="DK">ডেন্মার্ক</territory>
+			<territory type="DM">ডোমিনিকা</territory>
+			<territory type="DO">ডোমিনিকান প্রজাতন্ত্র</territory>
+			<territory type="DZ">এলজিরিয়া</territory>
+			<territory type="EC">ইকোয়াডর</territory>
+			<territory type="EE">এস্তোনিয়া</territory>
+			<territory type="EG">মিশর</territory>
+			<territory type="EH">পশ্চিমী সাহারা</territory>
+			<territory type="ER">এরিট্রিয়া</territory>
+			<territory type="ES">স্পেন</territory>
+			<territory type="ET">ইফিওপিয়া</territory>
+			<territory type="FI">ফিন্ল্যাণ্ড</territory>
+			<territory type="FJ">ফিজি</territory>
+			<territory type="FK">ফকল্যান্ড দ্বীপপুঞ্জ</territory>
+			<territory type="FM">মাইক্রোনেশিয়া</territory>
+			<territory type="FO">ফ্যারো দ্বীপপুঞ্জ</territory>
+			<territory type="FR">ফ্রান্স</territory>
+			<territory type="GA">গ্যাবন</territory>
+			<territory type="GB">গ্রেটবৃটেন</territory>
+			<territory type="GD">গ্রেনাডা</territory>
+			<territory type="GE">জর্জিয়া</territory>
+			<territory type="GF">ফরাসী গায়না</territory>
+			<territory type="GH">গানা</territory>
+			<territory type="GI">জিব্রল্টার</territory>
+			<territory type="GL">গ্রিনল্যান্ড</territory>
+			<territory type="GM">গ্যাম্বিয়া</territory>
+			<territory type="GN">গিনি</territory>
+			<territory type="GP">গুয়াডেলোপ</territory>
+			<territory type="GQ">ইকোয়েটোরিয়াল গিনি</territory>
+			<territory type="GR">গ্রীস্</territory>
+			<territory type="GS">দক্ষিণ জর্জিয়া ও দক্ষিণ স্যান্ডউইচ দ্বীপপুঞ্জ</territory>
+			<territory type="GT">গোয়াটিমালা</territory>
+			<territory type="GU">গুয়াম</territory>
+			<territory type="GW">গিনি-বিসাউ</territory>
+			<territory type="GY">গিয়ানা</territory>
+			<territory type="HM">হার্ড দ্বীপ এবং ম্যাকডোনাল্ড দ্বীপপুঞ্জ</territory>
+			<territory type="HN">হণ্ডুরাস</territory>
+			<territory type="HR">ক্রোয়েশিয়া</territory>
+			<territory type="HT">হাইতি</territory>
+			<territory type="HU">হাঙ্গেরি</territory>
+			<territory type="ID">ইন্দোনেশিয়া</territory>
+			<territory type="IE">আয়ার্লণ্ড</territory>
+			<territory type="IL">ইস্রায়েল</territory>
+			<territory type="IN">ভারত</territory>
+			<territory type="IO">ব্রিটিশ ভারত-মহাসাগরীয় অঞ্চল</territory>
+			<territory type="IQ">ইরাক</territory>
+			<territory type="IR">ইরান</territory>
+			<territory type="IS">আইসলণ্ড</territory>
+			<territory type="IT">ইতালী</territory>
+			<territory type="JM">জ্যামেকা</territory>
+			<territory type="JO">জর্ডন</territory>
+			<territory type="JP">জাপান</territory>
+			<territory type="KE">কেনিয়া</territory>
+			<territory type="KG">কির্গিজিয়া</territory>
+			<territory type="KH">কাম্বোজ</territory>
+			<territory type="KI">কিরিবাতি</territory>
+			<territory type="KM">কমোরস</territory>
+			<territory type="KN">সেন্ট কিটস ও নেভিস</territory>
+			<territory type="KP">উত্তর কোরিয়া</territory>
+			<territory type="KR">দক্ষিণ কোরিয়া</territory>
+			<territory type="KW">কুয়েত</territory>
+			<territory type="KY">কেমান দ্বীপপুঞ্জ</territory>
+			<territory type="KZ">কাজাকস্থান</territory>
+			<territory type="LA">লাওস</territory>
+			<territory type="LB">লেবানন</territory>
+			<territory type="LC">সেন্ট লুসিয়া</territory>
+			<territory type="LK">শ্রীলঙ্কা</territory>
+			<territory type="LR">লাইবিরিয়া</territory>
+			<territory type="LS">লেসোথো</territory>
+			<territory type="LT">লিত্ভা</territory>
+			<territory type="LU">লাক্সেমবার্গ</territory>
+			<territory type="LV">লাত্ভিয়া</territory>
+			<territory type="LY">লিবিয়া</territory>
+			<territory type="MA">মোরক্কো</territory>
+			<territory type="MC">মোনাকো</territory>
+			<territory type="MD">মোল্দাভিয়া</territory>
+			<territory type="MG">মাদাগাস্কার</territory>
+			<territory type="MH">মার্শাল দ্বীপপুঞ্জ</territory>
+			<territory type="MK">প্রাক্তন যুগস্লাভিয় প্রজাতন্ত্র ম্যাসাডোনিয়া</territory>
+			<territory type="ML">মালি</territory>
+			<territory type="MM">মায়নমার</territory>
+			<territory type="MN">মঙ্গোলিয়া</territory>
+			<territory type="MP">উত্তর মেরিয়ানা দ্বীপপুঞ্জ</territory>
+			<territory type="MQ">মার্টিনিক</territory>
+			<territory type="MR">মউরিতানিয়া</territory>
+			<territory type="MS">মন্তেসেরাত</territory>
+			<territory type="MT">মল্টা</territory>
+			<territory type="MU">মউরিশাস</territory>
+			<territory type="MV">মালদ্বীপ</territory>
+			<territory type="MW">মালাউয়ি</territory>
+			<territory type="MX">মক্সিকো</territory>
+			<territory type="MY">মাল্যাশিয়া</territory>
+			<territory type="MZ">মোজাম্বিক</territory>
+			<territory type="NA">নামিবিয়া</territory>
+			<territory type="NC">নিউ ক্যালেডোনিয়া</territory>
+			<territory type="NE">নাইজার</territory>
+			<territory type="NF">নরফোক দ্বীপ</territory>
+			<territory type="NG">নাইজেরিয়া</territory>
+			<territory type="NI">নিকারাগোয়া</territory>
+			<territory type="NL">হলণ্ড</territory>
+			<territory type="NO">নরওয়ে</territory>
+			<territory type="NP">নেপাল</territory>
+			<territory type="NR">নাউরু</territory>
+			<territory type="NU">নিউয়ি</territory>
+			<territory type="NZ">নিউ জিলণ্ড</territory>
+			<territory type="OM">ওমান</territory>
+			<territory type="PA">পানামা</territory>
+			<territory type="PE">পিরু</territory>
+			<territory type="PF">ফরাসী পলিনেশিয়া</territory>
+			<territory type="PG">পাপুয়া নিউ গিনি</territory>
+			<territory type="PH">ফিলিপাইন</territory>
+			<territory type="PK">পাকিস্তান</territory>
+			<territory type="PL">পোল্যাণ্ড</territory>
+			<territory type="PM">সেন্ট পিয়ের ও মিকেলন</territory>
+			<territory type="PN">পিটকেয়ার্ন</territory>
+			<territory type="PR">পুয়ের্তো রিকো</territory>
+			<territory type="PS">অধিকৃত ফিলিস্তিন</territory>
+			<territory type="PT">পর্তুগাল</territory>
+			<territory type="PW">পালাউ</territory>
+			<territory type="PY">প্যারাগোয়ে</territory>
+			<territory type="QA">কাতার</territory>
+			<territory type="RE">রিইউনিয়ন</territory>
+			<territory type="RO">রুমানিয়া</territory>
+			<territory type="RS">সার্বিয়া</territory>
+			<territory type="RU">রাশিয়া</territory>
+			<territory type="RW">রোয়ান্দা</territory>
+			<territory type="SA">সাউদি আরব</territory>
+			<territory type="SB">সোলোমান দ্বীপপুঞ্জ</territory>
+			<territory type="SC">সেশেলেস</territory>
+			<territory type="SD">সুদান</territory>
+			<territory type="SE">সুইডেন</territory>
+			<territory type="SG">সিঙ্গাপুর</territory>
+			<territory type="SH">সেন্ট হেলেনা</territory>
+			<territory type="SI">স্লোভেনিয়া</territory>
+			<territory type="SJ">স্বালবার্ড ও জান মেয়েন</territory>
+			<territory type="SK">শ্লোভাকিয়া</territory>
+			<territory type="SL">সিয়েরা লিওন</territory>
+			<territory type="SM">সান মরিনো</territory>
+			<territory type="SN">সেনেগাল</territory>
+			<territory type="SO">সোমালি</territory>
+			<territory type="SR">সুরিনাম</territory>
+			<territory type="ST">সাও থোম ও প্রিন্সিপ</territory>
+			<territory type="SV">সালভেডর</territory>
+			<territory type="SY">সিরিয়া</territory>
+			<territory type="SZ">সোয়াজিল্যান্ড</territory>
+			<territory type="TC">টার্ক ও কায়কস দ্বীপপুঞ্জ</territory>
+			<territory type="TD">চ্যাড</territory>
+			<territory type="TF">ফরাসী দক্ষিণ অঞ্চল</territory>
+			<territory type="TG">টগো</territory>
+			<territory type="TH">থাই</territory>
+			<territory type="TJ">তাজিকস্থান</territory>
+			<territory type="TK">টকেলাউ</territory>
+			<territory type="TL">পূর্ব-তিমোর</territory>
+			<territory type="TM">তুর্কমেনিয়া</territory>
+			<territory type="TN">টিউনিস্</territory>
+			<territory type="TO">টোঙ্গা</territory>
+			<territory type="TR">তুরস্ক</territory>
+			<territory type="TT">ত্রিনিদাদ ও টবেগো</territory>
+			<territory type="TV">টুভালু</territory>
+			<territory type="TW">তাইওয়ান</territory>
+			<territory type="UA">ইউক্রেইন</territory>
+			<territory type="UG">উগান্ডা</territory>
+			<territory type="UM">ক্ষুদ্র ও পার্শ্ববর্তী দ্বীপপুঞ্জের যুক্তরাষ্ট্র</territory>
+			<territory type="US">মার্কিন যুক্তরাষ্ট্র</territory>
+			<territory type="UY">উরুগোয়ে</territory>
+			<territory type="UZ">উজ্বেকিস্থান</territory>
+			<territory type="VA">ভ্যাটিকান সিটি রাষ্ট্র</territory>
+			<territory type="VC">সেন্ট ভিনসেন্ট ও গ্রেনাডাইন্স</territory>
+			<territory type="VE">ভেনেজুয়েলা</territory>
+			<territory type="VG">ব্রিটিশ ভার্জিন দ্বীপপুঞ্জ</territory>
+			<territory type="VI">মার্কিন ভার্জিন দ্বীপপুঞ্জ</territory>
+			<territory type="VN">ভিয়েতনাম</territory>
+			<territory type="VU">ভানুয়াটু</territory>
+			<territory type="WF">ওয়ালিস ও ফুটুনা</territory>
+			<territory type="WS">সামোয়া</territory>
+			<territory type="YE">ইমেন</territory>
+			<territory type="YT">মেয়ট</territory>
+			<territory type="ZA">দক্ষিণ আফ্রিকা</territory>
+			<territory type="ZM">জাম্বিয়া</territory>
+			<territory type="ZW">জিম্বাবোয়ে</territory>
+			<territory type="ZZ">অজানা অথবা ভুল স্থান</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[় ঁ-ঃ ৺ অ-ঋ ৠ ঌ ৡ এ ঐ ও-ড {ড়} ঢ {ঢ়} ণ ত ৎ থ-ন প-য {য়} র ল শ-হ ঽ-ৄ ৢ ৣ ে ৈ ো-্ ৗ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C \u200D ৸ ৹ ৲ ৳ ০-৪৷ ৫-ৱ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">জানুয়ারী</month>
+							<month type="2">ফেব্রুয়ারী</month>
+							<month type="3">মার্চ</month>
+							<month type="4">এপ্রিল</month>
+							<month type="5">মে</month>
+							<month type="6">জুন</month>
+							<month type="7">জুলাই</month>
+							<month type="8">আগস্ট</month>
+							<month type="9">সেপ্টেম্বর</month>
+							<month type="10">অক্টোবর</month>
+							<month type="11">নভেম্বর</month>
+							<month type="12">ডিসেম্বর</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">জানুয়ারী</month>
+							<month type="2">ফেব্রুয়ারী</month>
+							<month type="3">মার্চ</month>
+							<month type="4">এপ্রিল</month>
+							<month type="5">মে</month>
+							<month type="6">জুন</month>
+							<month type="7">জুলাই</month>
+							<month type="8">আগস্ট</month>
+							<month type="9">সেপ্টেম্বর</month>
+							<month type="10">অক্টোবর</month>
+							<month type="11">নভেম্বর</month>
+							<month type="12">ডিসেম্বর</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">জা</month>
+							<month type="2">ফে</month>
+							<month type="3">মা</month>
+							<month type="4">এ</month>
+							<month type="5">মে</month>
+							<month type="6">জু</month>
+							<month type="7">জু</month>
+							<month type="8">আ</month>
+							<month type="9">সে</month>
+							<month type="10">অ</month>
+							<month type="11">ন</month>
+							<month type="12">ডি</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">রবি</day>
+							<day type="mon">সোম</day>
+							<day type="tue">মঙ্গল</day>
+							<day type="wed">বুধ</day>
+							<day type="thu">বৃহস্পতি</day>
+							<day type="fri">শুক্র</day>
+							<day type="sat">শনি</day>
+						</dayWidth>
+						<dayWidth type="narrow">
+							<day type="sun">র</day>
+							<day type="mon">সো</day>
+							<day type="tue">ম</day>
+							<day type="wed">বু</day>
+							<day type="thu">বৃ</day>
+							<day type="fri">শু</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">রবিবার</day>
+							<day type="mon">সোমবার</day>
+							<day type="tue">মঙ্গলবার</day>
+							<day type="wed">বুধবার</day>
+							<day type="thu">বৃহষ্পতিবার</day>
+							<day type="fri">শুক্রবার</day>
+							<day type="sat">শনিবার</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">র</day>
+							<day type="mon">সো</day>
+							<day type="tue">ম</day>
+							<day type="wed">বু</day>
+							<day type="thu">বৃ</day>
+							<day type="fri">শ</day>
+							<day type="sat">শ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>পূর্বাহ্ণ</am>
+				<pm>অপরাহ্ণ</pm>
+				<eras>
+					<eraNames>
+						<era type="0">খৃষ্টপূর্ব</era>
+						<era type="1">খৃষ্টাব্দ</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">খৃষ্টপূর্ব</era>
+						<era type="1">খৃষ্টাব্দ</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd-MM-yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d-M-yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>h:mm:ss a v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>h:mm:ss a z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>h:mm:ss a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>h:mm a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
+						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
+			<regionFormat>{0}</regionFormat>
+			<zone type="Etc/Unknown">
+				<exemplarCity>অজানা</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>,</group>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#,##,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##,##0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤ #,##,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="BDT">
+				<symbol>৳</symbol>
+			</currency>
+			<currency type="INR">
+				<symbol>টাকা</symbol>
+			</currency>
+			<currency type="XXX">
+				<displayName>অজানা বা ভুল মুদ্রা</displayName>
+				<symbol>XXX</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>হ্য়াঁ</yesstr>
+			<nostr>না</nostr>
+		</messages>
+	</posix>
+</ldml>

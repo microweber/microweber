@@ -1,0 +1,15 @@
+#documentation { font-family:Verdana; font-size:10px; border:1px solid gray; background:white; }
+
+/** TREE & EDITOR **/
+#tree-panel { width:247px; float:left; height:350px; border-right:1px solid gray; }
+#editor-panel { width:400px; height:349px; padding:0; overflow:hidden; margin-left:248px; _width:396px; }
+.mceBlocker, #container .mceProgress { margin-left:248px !important; _margin-left:0 !important; }
+p.message { text-align:center; margin-top:3em !important; }
+#tree-panel .tree { height:309px; padding:5px 0; overflow:auto; border:1px solid silver; border-top:none; }
+#tree-panel .menu { border:1px solid #CCC; background:#F0F0EE; height:27px; position:relative; }
+#tree-panel .menu a { float:left; border:1px solid #F0F0EE; display:inline; height:20px; margin-left:1px; width:20px; margin-top:2px; }
+#tree-panel .menu a:hover { border:1px solid #0A246A; background:#B2BBD0; }
+#tree-panel .menu a img { width:16px; height:16px; border:0; display:block; margin:2px; }
+#tree-panel .menu .cmenu { width:22px; height:22px; position:absolute; right:1px; top:1px; border:1px solid #F0F0EE; background:#F0F0EE; overflow:hidden; }
+#tree-panel .menu .cmenu a { margin:0 0 0 0; }
+#tree-panel .menu .hover { height:auto; overflow:visible; border:1px solid #CCC; }

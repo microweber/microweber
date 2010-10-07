@@ -1,0 +1,210 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Examples </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+
+	<link rel="stylesheet" type="text/css" href="../../source/tree_component.css" />
+	<script type="text/javascript" src="../../source/_lib.js"></script>
+	<script type="text/javascript" src="../../source/tree_component.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Examples</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="../_documentation/1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="../_documentation/2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="../_documentation/3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="../_documentation/4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_documentation/5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="../_documentation/6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="../_documentation/7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item current_page_item"><a href="1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li>&nbsp;</li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="2_operations.html" title="Operations">Operations&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Data sources</h2>
+				<div class="entry"><div id="documentation">
+
+<h2>Predefined HTML</h2>
+<div id="demo1" class="demo">
+	<ul>
+		<li id="phtml_1" class="open"><a href="#">Root node 1</a>
+			<ul>
+				<li id="phtml_2"><a href="#" style="background-image:url('../media/images/ok.png');">Custom icon</a></li>
+				<li id="phtml_3"><a href="#">Child node 2</a></li>
+				<li id="phtml_4"><a href="#">Some other child node 111</a></li>
+			</ul>
+		</li>
+		<li id="phtml_5"><a href="#">Root node 2</a></li>
+	</ul>
+</div>
+<div id="sources1" class="sources">
+<pre>
+$(function () {
+	$("#demo1").tree();
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+	$("#demo1").tree();
+});
+</script>
+<h2>Predefined JSON</h2>
+<div id="demo2" class="demo"></div>
+<div id="sources2" class="sources">
+<pre>
+$("#demo2").tree({
+  data  : {
+    type  : "json",
+    json  : [ 
+      { attributes: { id : "pjson_1" }, state: "open", data: "Root node 1", children : [
+        { attributes: { id : "pjson_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+        { attributes: { id : "pjson_3" }, data: "Child node 2" },
+        { attributes: { id : "pjson_4" }, data: "Some other child node" }
+      ]}, 
+      { attributes: { id : "pjson_5" }, data: "Root node 2" } 
+    ]
+  }
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo2").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson_1" }, state: "open", data: "Root node 1", children : [
+            { attributes: { id : "pjson_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson_3" }, data: "Child node 2" },
+            { attributes: { id : "pjson_4" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson_5" }, data: "Root node 2" } 
+        ]
+      }
+    });
+});
+</script>
+
+<h2>Predefined XML</h2>
+<div id="demo3" class="demo"><span style="margin-top:36px; display:block; text-align:center;">Requires webserver</span></div>
+<div id="sources3" class="sources">
+<pre>
+$(function () {
+    $("#demo3").tree({
+      data  : {
+        type  : "xml_nested", // or "xml_flat"
+        xml  : '&lt;root&gt;&lt;item id="pxml_1" &gt;&lt;content&gt;&lt;name &gt;&lt;![CDATA[Root node 1]]&gt;&lt;/name&gt;&lt;/content&gt;&lt;item id="pxml_2" &gt;&lt;content&gt;&lt;name icon="../media/images/ok.png" &gt;&lt;![CDATA[Custom icon]]&gt;&lt;/name&gt;&lt;/content&gt;&lt;/item&gt;&lt;item id="pxml_3" &gt;&lt;content&gt;&lt;name &gt;&lt;![CDATA[Child node 2]]&gt;&lt;/name&gt;&lt;/content&gt;&lt;/item&gt;&lt;item id="pxml_4" &gt;&lt;content&gt;&lt;name &gt;&lt;![CDATA[Some other child node]]&gt;&lt;/name&gt;&lt;/content&gt;&lt;/item&gt;&lt;/item&gt;&lt;item id="pxml_5" &gt;&lt;content&gt;&lt;name &gt;&lt;![CDATA[Root node 2]]&gt;&lt;/name&gt;&lt;/content&gt;&lt;/item&gt;&lt;/root&gt;'
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo3").tree({
+      data  : {
+        type  : "xml_nested",
+        xml  : '<root><item id="pxml_1" ><content><name ><![CDATA[Root node 1]]></name></content><item id="pxml_2" ><content><name icon="../media/images/ok.png" ><![CDATA[Custom icon]]></name></content></item><item id="pxml_3" ><content><name ><![CDATA[Child node 2]]></name></content></item><item id="pxml_4" ><content><name ><![CDATA[Some other child node]]></name></content></item></item><item id="pxml_5" ><content><name ><![CDATA[Root node 2]]></name></content></item></root>'
+      }
+    });
+});
+</script>
+<p class="note">NOTE:<br />Predefined xml also works with the <span class="val">"xml_flat"</span> <span class="var">data.type</span> setting.<br /> This example requires a web server, due to loading an XSL file for transforming the string.</p>
+
+<h2>Loading from file</h2>
+<div id="demo4" class="demo"><span style="margin-top:36px; display:block; text-align:center;">Requires webserver</span></div>
+<div id="sources4" class="sources">
+<pre>
+$(function () {
+    $("#demo4").tree({
+      data  : {
+        type  : "xml_flat", // or "xml_nested" or "json"
+        url   : "1_xml_flat.xml"
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo4").tree({
+      data  : {
+        type  : "xml_flat",
+        url   : "1_xml_flat.xml"
+      }
+    });
+});
+</script>
+<p class="note">NOTE:<br />"From file" also works with the <span class="val">"xml_nested"</span> and <span class="val">"json"</span> <span class="var">data.type</span> setting.<br /> This example requires a web server for loading both the XML and XSL files.<br />When generating an xml file remember to send the <span class="val">text/xml</span> header.</p>
+
+<h2>Using async loading</h2>
+<p>The <span class="var">async_data</span> function in this example is not required - it is only included to show how you can modify the params sent to the server.</p>
+<div id="demo5" class="demo"><span style="margin-top:36px; display:block; text-align:center;">Requires webserver</span></div>
+<div id="sources5" class="sources">
+<pre>
+$(function () {
+    $("#demo5").tree({
+      data  : {
+        type  : "json", // or "xml_nested" or "xml_nested"
+        url   : "1_async.php",
+        async : true,
+        async_data : function (NODE) { return { id : $(NODE).attr("id") || 0, my_param : "my_value" } }
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo5").tree({
+      data  : {
+        type  : "json",
+        url   : "1_async.php",
+        async : true,
+        async_data : function (NODE) { return { id : $(NODE).attr("id") || 0, my_param : "my_value" } }
+      }
+    });
+});
+</script>
+<p class="note">NOTE:<br />"Async" also works with the <span class="val">"xml_nested"</span> and <span class="val">"xml_flat"</span> <span class="var">data.type</span> setting<br />When using async with <span class="var">"xml_flat"</span> do not set the <span class="val">parent_id</span> xml atttribute.<br /> This example requires a web server for requesting the JSON file.</p>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

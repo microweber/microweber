@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.46 $"/>
+		<generation date="$Date: 2007/08/21 16:11:36 $"/>
+		<language type="en"/>
+		<territory type="AU"/>
+	</identity>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/MM/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<metazone type="Atlantic">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Central">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_CentralWestern">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Eastern">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Western">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="New_Zealand">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="AUD">
+				<symbol>$</symbol>
+			</currency>
+			<currency type="USD">
+				<symbol>US$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

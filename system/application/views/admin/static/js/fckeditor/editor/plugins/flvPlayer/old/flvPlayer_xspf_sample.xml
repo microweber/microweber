@@ -1,0 +1,57 @@
+<playlist version="1" xmlns="http://xspf.org/ns/0/">
+	<title>XSPF Example Playlist</title>
+	<info>http:/xspf.org/xspf-v1.html</info>
+	<trackList>
+
+		<track>
+			<title>Afraid of the Dark</title>
+			<location>http://www.jeroenwijering.com/upload/afraid.flv</location>
+		</track>
+
+		<track>
+			<title>Sunshine up Ahead</title>
+			<creator>Peter Jones</creator>
+			<location>http://www.jeroenwijering.com/upload/peterjones_sunshine_lofi.mp3</location>
+			<info>http://www.peterjonesmusic.net/</info>
+			<image>http://www.jeroenwijering.com/upload/peterjones.jpg</image>
+		</track>
+
+		<track>
+			<title>Aggressive Wallpaper</title>
+			<creator>Jeroen Wijering</creator>
+			<annotation>
+				This is an aggressive wallpaper for public spaces where you don't want 
+				people to linger around (eg. subway tunnels or parking lots). People 
+				feel offended by the aggressive wallpaper and make sure they get out 
+				of these places as soon as their business is done there.
+			</annotation>
+			<location>http://www.jeroenwijering.com/upload/behang.jpg</location>
+			<info>http://www.jeroenwijering.com/?item=Aggressive_Wallpaper</info>
+			<meta rel="duration">12.5</meta>
+		</track>
+
+
+		<track>
+			<title>ITV's Coronation Street</title>
+			<annotation>
+				This example features accessibility content 
+				(closed captions and a descriptive audiotrack).
+			</annotation>
+			<info>http://www.jeroenwijering.com/?item=Making_Video_Accessible</info>
+			<location>http://www.jeroenwijering.com/upload/corrie.flv</location>
+			<image>http://www.jeroenwijering.com/upload/corrie.jpg</image>
+			<meta rel="captions">http://www.jeroenwijering.com/upload/corrie.xml</meta>
+			<meta rel="audio">http://www.jeroenwijering.com/upload/corrie.mp3</meta>
+			<meta rel="duration">00:00:45</meta>
+		</track>
+
+		<track>
+			<title>Bleed It Out</title>
+			<creator>Linkin Park</creator>
+			<location>upload/media/04 Bleed It Out.mp3</location>
+			<info>http://www.linkinpark.com/</info>
+			<image>upload/image/Sample_Preview.jpg</image>
+		</track>
+
+	</trackList>
+</playlist>

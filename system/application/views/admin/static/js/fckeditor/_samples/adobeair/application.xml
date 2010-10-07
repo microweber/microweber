@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.0">
+	<id>net.fckeditor.air.samples.sample01</id>
+	<name>FCKeditor Sample Application 1.0</name>
+	<version>1.0</version>
+	<filename>FCKeditor AIR Sample</filename>
+	<description>This is a sample AIR application including FCKeditor.</description>
+	<copyright>Copyright (C) 2003-2008 Frederico Caldeira Knabben</copyright>
+	<initialWindow>
+		<content>_samples/adobeair/sample01.html</content>
+		<title>FCKeditor AIR Sample</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>true</resizable>
+		<x>100</x>
+		<y>80</y>
+		<width>820</width>
+		<height>600</height>
+		<minSize>600 400</minSize>
+	</initialWindow>
+	<installFolder>FCKeditor/AIR Samples/Sample01</installFolder>
+	<programMenuFolder>FCKeditor/AIR Samples</programMenuFolder>
+	<icon>
+		<image16x16>_samples/adobeair/icons/16.png</image16x16>
+		<image32x32>_samples/adobeair/icons/32.png</image32x32>
+		<image48x48>_samples/adobeair/icons/48.png</image48x48>
+		<image128x128>_samples/adobeair/icons/128.png</image128x128>
+	</icon>
+	<customUpdateUI>false</customUpdateUI>
+	<allowBrowserInvocation>false</allowBrowserInvocation>
+</application>

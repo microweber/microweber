@@ -1,0 +1,186 @@
+/*##########################################
+Name: Default styling for Niceforms v.1.0
+Author: Lucian Slatineanu
+URL: http://www.badboy.ro/
+##########################################*/
+
+/*General styles - NOT really related to the forms*/
+* {
+	margin:0;
+	padding:0;
+}
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#404040;
+	background:#fff;
+}
+img {border:0;}
+#container {padding:20px;}
+
+/*Forms defaults - change as needed*/
+input, textarea {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#404040;
+}
+label {
+	color:#999;
+	cursor:pointer;
+	padding-left:2px;
+	line-height:16px;
+}
+label.chosen {color:#333;}
+
+/*Transparent items*/
+.outtaHere {
+	position:absolute;
+	left:-3000px;
+}
+
+/*Radio buttons*/
+.radioArea, .radioAreaChecked {
+	display:block;
+	float:left;
+	clear:left;
+	width:15px;
+	height:14px;
+	font-size:0;
+	cursor:pointer;
+}
+.radioArea {background:url(images/redtheme/radio.gif) no-repeat left top;}
+.radioAreaChecked {background:url(images/redtheme/radio.gif) no-repeat left bottom;}
+
+/*Checkboxes*/
+.checkboxArea, .checkboxAreaChecked {
+	display:block;
+	float:left;
+	clear:left;
+	width:13px;
+	height:13px;
+	font-size:0;
+	padding:0;
+	margin:0;
+	cursor:pointer;
+}
+.checkboxArea {background:url(images/redtheme/checkbox.gif) no-repeat left top;}
+.checkboxAreaChecked {background:url(images/redtheme/checkbox.gif) no-repeat left bottom;}
+.focused {border:1px dotted #ddd;}
+
+/*Text inputs*/
+.textinput, .textinputHovered {
+	height:15px;
+	background:url(images/redtheme/input_bg.gif) repeat-x left top;
+	border:none;
+	padding:4px 0;
+	vertical-align:middle;
+}
+.textinputHovered {background-position:left bottom;}
+.inputCorner {
+	padding-bottom:0;
+	vertical-align:middle;
+}
+
+/*Text areas*/
+.txtarea .tr, .txtarea .tr_xon {background:url(images/redtheme/txtarea_tr.gif) no-repeat top right;}
+.txtarea .tr_xon {background:url(images/redtheme/txtarea_tr_xon.gif) no-repeat top right;}
+.txtarea img.txt_corner {
+	width:5px;
+	height:5px;
+	display:block;
+}
+.txtarea .br, .txtarea .br_xon {background:url(images/redtheme/txtarea_br.gif) no-repeat top right;}
+.txtarea .br_xon {background:url(images/redtheme/txtarea_br_xon.gif) no-repeat top right;}
+.txtarea .cntr {background:url(images/redtheme/txtarea_cntr.gif) repeat-y right top;}
+.txtarea .cntr_xon {background:url(images/redtheme/txtarea_cntr_xon.gif) repeat-y right top;}
+.txtarea .cntr_l, .txtarea .cntr_l_xon {
+	width:5px;
+	background:url(images/redtheme/txtarea_l.gif) repeat-y left top;
+	float:left;
+}
+.txtarea .cntr_l_xon {background:url(images/redtheme/txtarea_l_xon.gif) repeat-y left top;}
+.txtarea textarea {
+	border:0;
+	background:none;
+	padding:0;
+	margin:5px;
+	overflow:hidden;
+}
+
+/*Selects*/
+.selectArea {
+	width:200px;
+	height:21px;
+	background:url(images/redtheme/select_bg.gif) repeat-x left top;
+}
+.selectArea .left {
+	width:8px;
+	height:21px;
+	float:left;
+	background:url(images/redtheme/select_left.gif) no-repeat left top;
+}
+.selectArea .right {
+	width:21px;
+	height:21px;
+	float:right;
+	background:url(images/redtheme/select_right.gif) no-repeat left top;
+}
+.selectArea .right a {
+	display:block;
+	width:200px;
+	height:21px;
+	margin-left:-179px;
+	position:absolute;
+}
+.selectArea .right i {display:none;}
+.selectArea .center {
+	width:160px;
+	color:#FFF;
+	padding-top:3px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+/*Selects drop-down*/
+.optionsDivInvisible, .optionsDivVisible {
+	position:absolute;
+	margin-top:-1px;
+	margin-left:3px;
+	width:172px;
+	background:#330000;
+	padding:2px;
+	font-size:11px;
+	z-index:20;
+}
+.optionsDivInvisible {display:none;}
+.optionsDivVisible {display:block;}
+.optionsDivVisible p {
+	margin:0;
+	padding:0;
+}
+.optionsDivVisible a {
+	color:#F2F2F2;
+	text-decoration:none;
+	display:block;
+	padding:1px 4px;
+	border:1px solid #330000;
+}
+.optionsDivVisible a:hover {
+	color:#FFF;
+	background:#990000;
+	border-color:#cfd0d6;
+}
+
+/*Button*/
+.buttonSubmit, .buttonSubmitHovered {
+	width:auto;
+	height:26px;
+	color:#FFF;
+	font-weight:bold;
+	padding:2px;
+	background:url(images/redtheme/button_bg.gif) repeat-x left top;
+	cursor:pointer;
+	border:none;
+}
+.buttonSubmitHovered {background-position:left bottom;}
+.buttonImg {vertical-align:bottom;}

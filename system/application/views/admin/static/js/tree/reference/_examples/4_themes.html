@@ -1,0 +1,163 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Examples </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+	<link rel="stylesheet" type="text/css" href="darkness/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>
+
+	<link rel="stylesheet" type="text/css" href="../../source/tree_component.css" />
+	<script type="text/javascript" src="../../source/_lib.js"></script>
+	<script type="text/javascript" src="../../source/tree_component.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Examples</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="../_documentation/1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="../_documentation/2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="../_documentation/3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="../_documentation/4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_documentation/5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="../_documentation/6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="../_documentation/7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item current_page_item"><a href="4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="3_callbacks.html" title="Callbacks">&laquo;&nbsp;Callbacks</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="5_others.html" title="Others">Other examples&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Themes</h2>
+				<div class="entry"><div id="documentation">
+
+<p>A small demo of the included themes. The configuration <span class="var">ui</span> object controls various features of visualization - check the documentation for more.</p>
+
+<input type="button" value="switch RTL" onclick="$.tree_focused().container.toggleClass('rtl');" />
+<input type="button" value="toggleDots" onclick="$.tree_focused().toggleDots();" style="margin-right:20px;"/>
+<input type="button" value="default" onclick="change_theme(this.value)" />
+<input type="button" value="apple" onclick="change_theme(this.value)" />
+<input type="button" value="classic" onclick="change_theme(this.value)" />
+<input type="button" value="checkbox" onclick="change_theme(this.value)" />
+<input type="button" value="themeroller" onclick="change_theme(this.value)" />
+
+<div id="demo" class="demo" style="height:200px;"></div>
+<div id="sources" class="sources" style="200px;">
+<pre style="height:200px;">
+// Buttons
+$.tree_focused().toggleDots();
+change_theme(this.value);
+
+function change_theme(new_theme) {
+  conf.ui.theme_name = new_theme;
+  tree1.destroy();
+  tree1.init($("#demo"), $.extend({},conf));
+};
+conf = { 
+  // Rest omitted
+  ui : {
+    theme_name : "checkbox"
+  }
+};
+$(function () {
+    tree1 = $.tree_create();
+    tree1.init($("#demo"), $.extend({},conf));
+});
+</pre>
+</div>
+<script type="text/javascript">
+conf = {
+	data  : {
+		type  : "json",
+		json  : [ 
+			{ attributes: { id : "pjson4_1" }, data: "Root node 1", children : [
+				{ attributes: { id : "pjson4_2" }, data: { title : "Custom icon" } },
+				{ attributes: { id : "pjson4_3" }, data: "Child node 2" },
+				{ attributes: { id : "pjson4_4" }, data: "Some other child node" }
+			]}, 
+			{ attributes: { id : "pjson4_5" }, data: "Root node 2" } 
+		]
+	},
+	ui : {
+		theme_name : "checkbox"
+	},
+	callback : { 
+		onchange : function (NODE, TREE_OBJ) {
+			if(TREE_OBJ.settings.ui.theme_name == "checkbox") {
+				var $this = $(NODE).is("li") ? $(NODE) : $(NODE).parent();
+				if($this.children("a.unchecked").size() == 0) {
+					TREE_OBJ.container.find("a").addClass("unchecked");
+				}
+				$this.children("a").removeClass("clicked");
+				if($this.children("a").hasClass("checked")) {
+					$this.find("li").andSelf().children("a").removeClass("checked").removeClass("undetermined").addClass("unchecked");
+					var state = 0;
+				}
+				else {
+					$this.find("li").andSelf().children("a").removeClass("unchecked").removeClass("undetermined").addClass("checked");
+					var state = 1;
+				}
+				$this.parents("li").each(function () { 
+					if(state == 1) {
+						if($(this).find("a.unchecked, a.undetermined").size() - 1 > 0) {
+							$(this).parents("li").andSelf().children("a").removeClass("unchecked").removeClass("checked").addClass("undetermined");
+							return false;
+						}
+						else $(this).children("a").removeClass("unchecked").removeClass("undetermined").addClass("checked");
+					}
+					else {
+						if($(this).find("a.checked, a.undetermined").size() - 1 > 0) {
+							$(this).parents("li").andSelf().children("a").removeClass("unchecked").removeClass("checked").addClass("undetermined");
+							return false;
+						}
+						else $(this).children("a").removeClass("checked").removeClass("undetermined").addClass("unchecked");
+					}
+				});
+			}
+		}
+	}
+};
+function change_theme(new_theme) {
+	conf.ui.theme_name = new_theme;
+	tree1.destroy();
+	tree1.init($("#demo"), $.extend({},conf));
+};
+$(function () {
+    tree1 = $.tree_create();
+    tree1.init($("#demo"), $.extend({},conf));
+});
+</script>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

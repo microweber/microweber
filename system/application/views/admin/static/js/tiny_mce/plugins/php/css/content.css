@@ -1,0 +1,8 @@
+.mceItemPHP {
+	border: 1px solid blue;
+	background-image: url('../images/php.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffff;
+	vertical-align: middle;
+}

@@ -1,0 +1,4359 @@
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.89 $"/>
+		<generation date="$Date: 2007/11/14 16:26:57 $"/>
+		<language type="hu"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">afar</language>
+			<language type="ab">abház</language>
+			<language type="ace">achinéz</language>
+			<language type="ach">akoli</language>
+			<language type="ada">adangme</language>
+			<language type="ady">adyghe</language>
+			<language type="ae">avesztán</language>
+			<language type="af">afrikaans</language>
+			<language type="afa">afro-ázsiai (egyéb)</language>
+			<language type="afh">afrihili</language>
+			<language type="ain">ainu</language>
+			<language type="ak">akan</language>
+			<language type="akk">akkád</language>
+			<language type="ale">aleut</language>
+			<language type="alg">algonki nyelvek</language>
+			<language type="alt">dél-altaji</language>
+			<language type="am">amhara</language>
+			<language type="an">aragonéz</language>
+			<language type="ang">óangol</language>
+			<language type="anp">angika</language>
+			<language type="apa">apacs nyelvek</language>
+			<language type="ar">arab</language>
+			<language type="arc">arámi</language>
+			<language type="arn">araucani</language>
+			<language type="arp">arapaho</language>
+			<language type="art">egyéb mesterséges</language>
+			<language type="arw">arawaki</language>
+			<language type="as">asszámi</language>
+			<language type="ast">asztúr</language>
+			<language type="ath">atapaszkan nyelvek</language>
+			<language type="aus">ausztrál nyelvek</language>
+			<language type="av">avar</language>
+			<language type="awa">awádi</language>
+			<language type="ay">ajmara</language>
+			<language type="az">azerbajdzsáni</language>
+			<language type="ba">baskír</language>
+			<language type="bad">banda</language>
+			<language type="bai">bamileke nyelvek</language>
+			<language type="bal">baloci</language>
+			<language type="ban">balinéz</language>
+			<language type="bas">basa</language>
+			<language type="bat">balti (egyéb)</language>
+			<language type="be">belorusz</language>
+			<language type="bej">beja</language>
+			<language type="bem">bemba</language>
+			<language type="ber">berber</language>
+			<language type="bg">bolgár</language>
+			<language type="bh">bihari</language>
+			<language type="bho">bhojpuri</language>
+			<language type="bi">bislama</language>
+			<language type="bik">bikol</language>
+			<language type="bin">bini</language>
+			<language type="bla">siksika</language>
+			<language type="bm">bambara</language>
+			<language type="bn">bengáli</language>
+			<language type="bnt">bantu</language>
+			<language type="bo">tibeti</language>
+			<language type="br">breton</language>
+			<language type="bra">braj</language>
+			<language type="bs">bosnyák</language>
+			<language type="btk">batak</language>
+			<language type="bua">burját</language>
+			<language type="bug">buginéz</language>
+			<language type="byn">blin</language>
+			<language type="ca">katalán</language>
+			<language type="cad">caddo</language>
+			<language type="cai">egyéb közép-amerikai indián</language>
+			<language type="car">karib</language>
+			<language type="cau">egyéb kaukázusi</language>
+			<language type="cch">atszám</language>
+			<language type="ce">csecsen</language>
+			<language type="ceb">cebuáno</language>
+			<language type="cel">egyéb kelta</language>
+			<language type="ch">chamorro</language>
+			<language type="chb">chibcha</language>
+			<language type="chg">csagatáj</language>
+			<language type="chk">csukéz</language>
+			<language type="chm">mari</language>
+			<language type="chn">csinuk zsargon</language>
+			<language type="cho">csoktó</language>
+			<language type="chp">csipevé</language>
+			<language type="chr">cseroki</language>
+			<language type="chy">csejen</language>
+			<language type="cmc">csámi nyelvek</language>
+			<language type="co">korzikai</language>
+			<language type="cop">kopt</language>
+			<language type="cpe">egyéb angol alapú kreol és pidgin</language>
+			<language type="cpf">egyéb francia alapú kreol és pidgin</language>
+			<language type="cpp">egyéb portugál alapú kreol és pidgin</language>
+			<language type="cr">krí</language>
+			<language type="crh">krími tatár</language>
+			<language type="crp">egyéb kreol és pidgin</language>
+			<language type="cs">cseh</language>
+			<language type="csb">kasub</language>
+			<language type="cu">egyházi szláv</language>
+			<language type="cus">egyéb kusita</language>
+			<language type="cv">csuvas</language>
+			<language type="cy">walesi</language>
+			<language type="da">dán</language>
+			<language type="dak">dakota</language>
+			<language type="dar">dargva</language>
+			<language type="day">dajak</language>
+			<language type="de">német</language>
+			<language type="de_AT">osztrák német</language>
+			<language type="de_CH">svájci felső német</language>
+			<language type="del">delavár</language>
+			<language type="den">szlevi</language>
+			<language type="dgr">dogrib</language>
+			<language type="din">dinka</language>
+			<language type="doi">dogri</language>
+			<language type="dra">egyéb dravida</language>
+			<language type="dsb">alsó szorb</language>
+			<language type="dua">duala</language>
+			<language type="dum">közép holland</language>
+			<language type="dv">divehi</language>
+			<language type="dyu">diula</language>
+			<language type="dz">butáni</language>
+			<language type="ee">eve</language>
+			<language type="efi">efik</language>
+			<language type="egy">egyiptomi (ókori)</language>
+			<language type="eka">ekajuk</language>
+			<language type="el">görög</language>
+			<language type="elx">elamit</language>
+			<language type="en">angol</language>
+			<language type="en_AU">angol (ausztrál)</language>
+			<language type="en_CA">kanadai angol</language>
+			<language type="en_GB">angol (brit)</language>
+			<language type="en_US">angol (USA)</language>
+			<language type="enm">közép angol</language>
+			<language type="eo">eszperantó</language>
+			<language type="es">spanyol</language>
+			<language type="es_419">latin-amerikai spanyol</language>
+			<language type="es_ES">ibériai spanyol</language>
+			<language type="et">észt</language>
+			<language type="eu">baszk</language>
+			<language type="ewo">evondo</language>
+			<language type="fa">perzsa</language>
+			<language type="fan">fang</language>
+			<language type="fat">fanti</language>
+			<language type="ff">fulani</language>
+			<language type="fi">finn</language>
+			<language type="fil">filippínó</language>
+			<language type="fiu">egyéb finnugor</language>
+			<language type="fj">fidzsi</language>
+			<language type="fo">feröeri</language>
+			<language type="fon">fon</language>
+			<language type="fr">francia</language>
+			<language type="fr_CA">kanadai francia</language>
+			<language type="fr_CH">svájci francia</language>
+			<language type="frm">közép francia</language>
+			<language type="fro">ófrancia</language>
+			<language type="frr">északi fríz</language>
+			<language type="frs">keleti fríz</language>
+			<language type="fur">friuli</language>
+			<language type="fy">fríz</language>
+			<language type="ga">ír</language>
+			<language type="gaa">ga</language>
+			<language type="gay">gayo</language>
+			<language type="gba">gbaja</language>
+			<language type="gd">skót gael</language>
+			<language type="gem">egyéb germán</language>
+			<language type="gez">geez</language>
+			<language type="gil">ikiribati</language>
+			<language type="gl">galíciai</language>
+			<language type="gmh">közép felső német</language>
+			<language type="gn">guarani</language>
+			<language type="goh">ófelső német</language>
+			<language type="gon">gondi</language>
+			<language type="gor">gorontalo</language>
+			<language type="got">gót</language>
+			<language type="grb">grebo</language>
+			<language type="grc">ógörög</language>
+			<language type="gsw">svájci német</language>
+			<language type="gu">gudzsarati</language>
+			<language type="gv">Man-szigeti</language>
+			<language type="gwi">gvicsin</language>
+			<language type="ha">hausza</language>
+			<language type="hai">haida</language>
+			<language type="haw">hawaii</language>
+			<language type="he">héber</language>
+			<language type="hi">hindi</language>
+			<language type="hil">hiligaynon</language>
+			<language type="him">himaháli</language>
+			<language type="hit">hittite</language>
+			<language type="hmn">hmong</language>
+			<language type="ho">hiri motu</language>
+			<language type="hr">horvát</language>
+			<language type="hsb">felső szorb</language>
+			<language type="ht">haiti</language>
+			<language type="hu">magyar</language>
+			<language type="hup">hupa</language>
+			<language type="hy">örmény</language>
+			<language type="hz">herero</language>
+			<language type="ia">interlingva</language>
+			<language type="iba">iban</language>
+			<language type="id">indonéz</language>
+			<language type="ie">interlingue</language>
+			<language type="ig">igbo</language>
+			<language type="ii">szecsuán ji</language>
+			<language type="ijo">ijo</language>
+			<language type="ik">inupiak</language>
+			<language type="ilo">iloko</language>
+			<language type="inc">egyéb indiai</language>
+			<language type="ine">egyéb indo-európai</language>
+			<language type="inh">ingus</language>
+			<language type="io">ido</language>
+			<language type="ira">iráni</language>
+			<language type="iro">irokéz nyelvek</language>
+			<language type="is">izlandi</language>
+			<language type="it">olasz</language>
+			<language type="iu">inuktitut</language>
+			<language type="ja">japán</language>
+			<language type="jbo">lojban</language>
+			<language type="jpr">zsidó-perzsa</language>
+			<language type="jrb">zsidó-arab</language>
+			<language type="jv">jávai</language>
+			<language type="ka">grúz</language>
+			<language type="kaa">kara-kalpak</language>
+			<language type="kab">kabije</language>
+			<language type="kac">kacsin</language>
+			<language type="kaj">jju</language>
+			<language type="kam">kamba</language>
+			<language type="kar">karen</language>
+			<language type="kaw">kawi</language>
+			<language type="kbd">kabardi</language>
+			<language type="kcg">tyap</language>
+			<language type="kfo">koro</language>
+			<language type="kg">kongo</language>
+			<language type="kha">khasi</language>
+			<language type="khi">egyéb koiszan</language>
+			<language type="kho">kotanéz</language>
+			<language type="ki">kikuju</language>
+			<language type="kj">kuanyama</language>
+			<language type="kk">kazah</language>
+			<language type="kl">grönlandi</language>
+			<language type="km">kambodzsai</language>
+			<language type="kmb">kimbundu</language>
+			<language type="kn">kannada</language>
+			<language type="ko">koreai</language>
+			<language type="kok">konkani</language>
+			<language type="kos">kosrei</language>
+			<language type="kpe">kpelle</language>
+			<language type="kr">kanuri</language>
+			<language type="krc">karacsáj-balkár</language>
+			<language type="krl">karelai</language>
+			<language type="kro">kru</language>
+			<language type="kru">kuruh</language>
+			<language type="ks">kásmíri</language>
+			<language type="ku">kurd</language>
+			<language type="kum">kumük</language>
+			<language type="kut">kutenai</language>
+			<language type="kv">komi</language>
+			<language type="kw">korni</language>
+			<language type="ky">kirgiz</language>
+			<language type="la">latin</language>
+			<language type="lad">ladino</language>
+			<language type="lah">lahnda</language>
+			<language type="lam">lamba</language>
+			<language type="lb">luxemburgi</language>
+			<language type="lez">lezg</language>
+			<language type="lg">ganda</language>
+			<language type="li">limburgi</language>
+			<language type="ln">lingala</language>
+			<language type="lo">laoszi</language>
+			<language type="lol">mongo</language>
+			<language type="loz">lozi</language>
+			<language type="lt">litván</language>
+			<language type="lu">luba-katanga</language>
+			<language type="lua">luba-lulua</language>
+			<language type="lui">luiseno</language>
+			<language type="lun">lunda</language>
+			<language type="luo">luo</language>
+			<language type="lus">lushai</language>
+			<language type="lv">lett</language>
+			<language type="mad">madurai</language>
+			<language type="mag">magahi</language>
+			<language type="mai">maithili</language>
+			<language type="mak">makaszar</language>
+			<language type="man">mandingo</language>
+			<language type="map">ausztronéz</language>
+			<language type="mas">masai</language>
+			<language type="mdf">moksán</language>
+			<language type="mdr">mandar</language>
+			<language type="men">mende</language>
+			<language type="mg">málgas</language>
+			<language type="mga">közép ír</language>
+			<language type="mh">marshalli</language>
+			<language type="mi">maori</language>
+			<language type="mic">mikmak</language>
+			<language type="min">minangkabau</language>
+			<language type="mis">egyéb nyelvek</language>
+			<language type="mk">macedón</language>
+			<language type="mkh">egyéb mon-khmer</language>
+			<language type="ml">malajálam</language>
+			<language type="mn">mongol</language>
+			<language type="mnc">mandzsu</language>
+			<language type="mni">manipuri</language>
+			<language type="mno">manobo nyelvek</language>
+			<language type="mo">moldvai</language>
+			<language type="moh">mohawk</language>
+			<language type="mos">moszi</language>
+			<language type="mr">marathi</language>
+			<language type="ms">maláj</language>
+			<language type="mt">máltai</language>
+			<language type="mul">többszörös nyelvek</language>
+			<language type="mun">munda nyelvek</language>
+			<language type="mus">krík</language>
+			<language type="mwl">mirandéz</language>
+			<language type="mwr">marvari</language>
+			<language type="my">burmai</language>
+			<language type="myn">maja nyelvek</language>
+			<language type="myv">erzjány</language>
+			<language type="na">naurui</language>
+			<language type="nah">nahuati</language>
+			<language type="nai">egyéb észak-amerikai</language>
+			<language type="nap">nápolyi</language>
+			<language type="nb">norvég bokmál</language>
+			<language type="nd">északi ndebele</language>
+			<language type="nds">alsónémet</language>
+			<language type="ne">nepáli</language>
+			<language type="new">nevari</language>
+			<language type="ng">ndonga</language>
+			<language type="nia">nias</language>
+			<language type="nic">egyéb nigér-kordofáni</language>
+			<language type="niu">niui</language>
+			<language type="nl">holland</language>
+			<language type="nl_BE">flamand</language>
+			<language type="nn">norvég nynorsk</language>
+			<language type="no">norvég</language>
+			<language type="nog">nogaj</language>
+			<language type="non">óskandináv</language>
+			<language type="nqo">n'ko</language>
+			<language type="nr">déli ndebele</language>
+			<language type="nso">északi szoto</language>
+			<language type="nub">núbiai nyelvek</language>
+			<language type="nv">navaho</language>
+			<language type="nwc">klasszikus newari</language>
+			<language type="ny">nyanja</language>
+			<language type="nym">nyamvézi</language>
+			<language type="nyn">nyankole</language>
+			<language type="nyo">nyoro</language>
+			<language type="nzi">nzima</language>
+			<language type="oc">okszitán</language>
+			<language type="oj">ojibva</language>
+			<language type="om">oromói</language>
+			<language type="or">orija</language>
+			<language type="os">oszét</language>
+			<language type="osa">osage</language>
+			<language type="ota">ottomán török</language>
+			<language type="oto">egyéb otomi nyelvek</language>
+			<language type="pa">pandzsábi</language>
+			<language type="paa">egyéb pápuai</language>
+			<language type="pag">pangaszinan</language>
+			<language type="pal">pahlavi</language>
+			<language type="pam">pampangan</language>
+			<language type="pap">papiamento</language>
+			<language type="pau">palaui</language>
+			<language type="peo">óperzsa</language>
+			<language type="phi">egyéb filippínó</language>
+			<language type="phn">főniciai</language>
+			<language type="pi">pali</language>
+			<language type="pl">lengyel</language>
+			<language type="pon">pohnpei</language>
+			<language type="pra">prakrit nyelvek</language>
+			<language type="pro">óprovánszi</language>
+			<language type="ps">pastu</language>
+			<language type="pt">portugál</language>
+			<language type="pt_BR">brazil portugál</language>
+			<language type="pt_PT">ibériai portugál</language>
+			<language type="qu">kecsua</language>
+			<language type="raj">radzsasztáni</language>
+			<language type="rap">rapanui</language>
+			<language type="rar">rarotongai</language>
+			<language type="rm">réto-román</language>
+			<language type="rn">kirundi</language>
+			<language type="ro">román</language>
+			<language type="roa">egyéb román</language>
+			<language type="rom">roma</language>
+			<language type="root">eredet</language>
+			<language type="ru">orosz</language>
+			<language type="rup">aromán</language>
+			<language type="rw">kiruanda</language>
+			<language type="sa">szanszkrit</language>
+			<language type="sad">szandave</language>
+			<language type="sah">jakut</language>
+			<language type="sai">dél-amerikai indián (egyéb)</language>
+			<language type="sal">szelis nyelvek</language>
+			<language type="sam">szamaritánus arámi</language>
+			<language type="sas">sasak</language>
+			<language type="sat">szantáli</language>
+			<language type="sc">szardíniai</language>
+			<language type="scn">szicíliai</language>
+			<language type="sco">skót</language>
+			<language type="sd">szindhi</language>
+			<language type="se">északi számi</language>
+			<language type="sel">szölkup</language>
+			<language type="sem">egyéb szemita</language>
+			<language type="sg">sango</language>
+			<language type="sga">óír</language>
+			<language type="sgn">jelbeszédek</language>
+			<language type="sh">szerbhorvát</language>
+			<language type="shn">san</language>
+			<language type="si">szingaléz</language>
+			<language type="sid">szidamó</language>
+			<language type="sio">sziú nyelvek</language>
+			<language type="sit">egyéb sino-tibeti</language>
+			<language type="sk">szlovák</language>
+			<language type="sl">szlovén</language>
+			<language type="sla">egyéb szláv</language>
+			<language type="sm">szamoai</language>
+			<language type="sma">déli számi</language>
+			<language type="smi">egyéb számi nyelvek</language>
+			<language type="smj">lule számi</language>
+			<language type="smn">inar sami</language>
+			<language type="sms">skolt számi</language>
+			<language type="sn">sona</language>
+			<language type="snk">szoninke</language>
+			<language type="so">szomáliai</language>
+			<language type="sog">sogdien</language>
+			<language type="son">szongai</language>
+			<language type="sq">albán</language>
+			<language type="sr">szerb</language>
+			<language type="srn">sranai tongo</language>
+			<language type="srr">szerer</language>
+			<language type="ss">sziszuati</language>
+			<language type="ssa">egyéb nílus-szaharai</language>
+			<language type="st">szeszotó</language>
+			<language type="su">szundanéz</language>
+			<language type="suk">szukuma</language>
+			<language type="sus">szuszu</language>
+			<language type="sux">sumér</language>
+			<language type="sv">svéd</language>
+			<language type="sw">szuahéli</language>
+			<language type="syr">szíriai</language>
+			<language type="ta">tamil</language>
+			<language type="tai">egyéb tai</language>
+			<language type="te">telugu</language>
+			<language type="tem">temne</language>
+			<language type="ter">tereno</language>
+			<language type="tet">tetum</language>
+			<language type="tg">tadzsik</language>
+			<language type="th">thai</language>
+			<language type="ti">tigrinja</language>
+			<language type="tig">tigré</language>
+			<language type="tiv">tiv</language>
+			<language type="tk">türkmén</language>
+			<language type="tkl">tokelaui</language>
+			<language type="tl">tagalog</language>
+			<language type="tlh">klingon</language>
+			<language type="tli">tlingit</language>
+			<language type="tmh">tamasek</language>
+			<language type="tn">szecsuáni</language>
+			<language type="to">tonga</language>
+			<language type="tog">nyasa tonga</language>
+			<language type="tpi">tok pisin</language>
+			<language type="tr">török</language>
+			<language type="ts">conga</language>
+			<language type="tsi">csimsiáni</language>
+			<language type="tt">tatár</language>
+			<language type="tum">tumbuka</language>
+			<language type="tup">tupi nyelvek</language>
+			<language type="tut">egyéb altáj</language>
+			<language type="tvl">tuvalu</language>
+			<language type="tw">twi</language>
+			<language type="ty">tahiti</language>
+			<language type="tyv">tuvai</language>
+			<language type="udm">udmurt</language>
+			<language type="ug">ujgur</language>
+			<language type="uga">ugariti</language>
+			<language type="uk">ukrán</language>
+			<language type="umb">umbundu</language>
+			<language type="und">ismeretlen vagy érvénytelen nyelv</language>
+			<language type="ur">urdu</language>
+			<language type="uz">üzbég</language>
+			<language type="vai">vai</language>
+			<language type="ve">venda</language>
+			<language type="vi">vietnámi</language>
+			<language type="vo">volapük</language>
+			<language type="vot">votják</language>
+			<language type="wa">vallon</language>
+			<language type="wak">vakas nyelvek</language>
+			<language type="wal">valamo</language>
+			<language type="war">varaó</language>
+			<language type="was">vaso</language>
+			<language type="wen">szorb nyelvek</language>
+			<language type="wo">volof</language>
+			<language type="xal">kalmük</language>
+			<language type="xh">hosza</language>
+			<language type="yao">jaó</language>
+			<language type="yap">yapi</language>
+			<language type="yi">jiddis</language>
+			<language type="yo">joruba</language>
+			<language type="ypk">jupik nyelvek</language>
+			<language type="za">zsuang</language>
+			<language type="zap">zapoték</language>
+			<language type="zen">zenaga</language>
+			<language type="zh">kínai</language>
+			<language type="zh_Hans">egyszerűsített kínai</language>
+			<language type="zh_Hant">hagyományos kínai</language>
+			<language type="znd">zande</language>
+			<language type="zu">zulu</language>
+			<language type="zun">zuni</language>
+			<language type="zxx">nincs nyelvészeti tartalom</language>
+			<language type="zza">zaza</language>
+		</languages>
+		<scripts>
+			<script type="Armn">Örmény</script>
+			<script type="Batk">Batak</script>
+			<script type="Beng">Bengáli</script>
+			<script type="Blis">Bliss jelképrendszer</script>
+			<script type="Bopo">Bopomofo</script>
+			<script type="Brah">Brámi</script>
+			<script type="Brai">Vakírás</script>
+			<script type="Bugi">Buginéz</script>
+			<script type="Buhd">Buhid</script>
+			<script type="Cans">Egyesített kanadai őslakos jelek</script>
+			<script type="Cari">Kari</script>
+			<script type="Cham">Csám</script>
+			<script type="Cher">Cseroki</script>
+			<script type="Cirt">Cirt</script>
+			<script type="Copt">Kopt</script>
+			<script type="Cprt">Ciprusi</script>
+			<script type="Cyrl">Cirill</script>
+			<script type="Cyrs">Cirill (régi egyházi szláv variáns)</script>
+			<script type="Deva">Devanagári</script>
+			<script type="Dsrt">Deseret</script>
+			<script type="Egyd">Egyiptomi demotikus</script>
+			<script type="Egyh">Egyiptomi hieratikus</script>
+			<script type="Egyp">Egyiptomi hieroglifák</script>
+			<script type="Ethi">Etióp</script>
+			<script type="Geok">Grúz kucsuri</script>
+			<script type="Geor">Grúz</script>
+			<script type="Glag">Glagolitikus</script>
+			<script type="Goth">Gót</script>
+			<script type="Grek">Görög</script>
+			<script type="Gujr">Gudzsaráti</script>
+			<script type="Guru">Gurmuki</script>
+			<script type="Hang">Hangul</script>
+			<script type="Hani">Han</script>
+			<script type="Hano">Hanunoo</script>
+			<script type="Hans">Egyszerűsített Han</script>
+			<script type="Hant">Hagyományos Han</script>
+			<script type="Hebr">Héber</script>
+			<script type="Hira">Hiragana</script>
+			<script type="Hmng">Pahawh hmong</script>
+			<script type="Hrkt">Katakana vagy hiragana</script>
+			<script type="Hung">Ómagyar</script>
+			<script type="Inds">Indus</script>
+			<script type="Ital">Régi olasz</script>
+			<script type="Java">Jávai</script>
+			<script type="Jpan">Japán</script>
+			<script type="Kali">Kajah li</script>
+			<script type="Kana">Katakana</script>
+			<script type="Khar">Kharoshthi</script>
+			<script type="Khmr">Khmer</script>
+			<script type="Knda">Kannada</script>
+			<script type="Lana">Lanna</script>
+			<script type="Laoo">Lao</script>
+			<script type="Latf">Fraktur latin</script>
+			<script type="Latg">gael latin</script>
+			<script type="Latn">Latin</script>
+			<script type="Lepc">Lepcha</script>
+			<script type="Limb">Limbu</script>
+			<script type="Lina">Lineáris A</script>
+			<script type="Linb">Lineáris B</script>
+			<script type="Lyci">Líciai</script>
+			<script type="Lydi">Lídiai</script>
+			<script type="Mand">Mandai</script>
+			<script type="Maya">Maja hieroglifák</script>
+			<script type="Mero">Meroitikus</script>
+			<script type="Mlym">Malajálam</script>
+			<script type="Mong">Mongol</script>
+			<script type="Moon">Hol</script>
+			<script type="Mtei">Meitei mayek</script>
+			<script type="Mymr">Burmai</script>
+			<script type="Nkoo">N'ko</script>
+			<script type="Ogam">Ogham</script>
+			<script type="Olck">Ol chiki</script>
+			<script type="Orkh">Orhon</script>
+			<script type="Orya">Oriya</script>
+			<script type="Osma">Oszmán</script>
+			<script type="Perm">Ópermikus</script>
+			<script type="Phag">Phags-pa</script>
+			<script type="Phnx">Főniciai</script>
+			<script type="Plrd">Pollard fonetikus</script>
+			<script type="Qaai">Származtatott</script>
+			<script type="Rjng">Redzsang</script>
+			<script type="Roro">Rongorongo</script>
+			<script type="Runr">Runikus</script>
+			<script type="Sara">Szarati</script>
+			<script type="Saur">Szaurastra</script>
+			<script type="Sgnw">Jelírás</script>
+			<script type="Shaw">Shaw ábécé</script>
+			<script type="Sinh">Szingaléz</script>
+			<script type="Sund">Szundanéz</script>
+			<script type="Syrc">Szíriai</script>
+			<script type="Syre">Estrangelo szíriai</script>
+			<script type="Syrj">Nyugat-szíriai</script>
+			<script type="Syrn">Kelet-szíriai</script>
+			<script type="Tagb">Tagbanwa</script>
+			<script type="Tale">Tai Le</script>
+			<script type="Talu">Új tai lue</script>
+			<script type="Taml">Tamil</script>
+			<script type="Telu">Telugu</script>
+			<script type="Tglg">Tagalog</script>
+			<script type="Thaa">Thaana</script>
+			<script type="Thai">Thai</script>
+			<script type="Tibt">Tibeti</script>
+			<script type="Ugar">Ugari</script>
+			<script type="Visp">Látható beszéd</script>
+			<script type="Xpeo">Óperzsa</script>
+			<script type="Yiii">Ji</script>
+			<script type="Zxxx">Íratlan nyelvek kódja</script>
+			<script type="Zyyy">Meghatározatlan</script>
+			<script type="Zzzz">Kódolatlan írásrendszerek kódja</script>
+		</scripts>
+		<territories>
+			<territory type="001">Világ</territory>
+			<territory type="002">Afrika</territory>
+			<territory type="003">Észak-Amerika</territory>
+			<territory type="005">Dél-Amerika</territory>
+			<territory type="009">Óceánia</territory>
+			<territory type="011">Nyugat-Afrika</territory>
+			<territory type="013">Közép-Amerika</territory>
+			<territory type="014">Kelet-Afrika</territory>
+			<territory type="015">Észak-Afrika</territory>
+			<territory type="017">Közép-Afrika</territory>
+			<territory type="018">Afrika déli része</territory>
+			<territory type="019">Amerika</territory>
+			<territory type="029">Karib-térség</territory>
+			<territory type="030">Kelet-Ázsia</territory>
+			<territory type="034">Dél-Ázsia</territory>
+			<territory type="035">Délkelet-Ázsia</territory>
+			<territory type="039">Dél-Európa</territory>
+			<territory type="053">Ausztrália és Új-Zéland</territory>
+			<territory type="054">Melanézia</territory>
+			<territory type="061">Polinézia</territory>
+			<territory type="062">Délközép-Ázsia</territory>
+			<territory type="142">Ázsia</territory>
+			<territory type="143">Közép-Ázsia</territory>
+			<territory type="145">Nyugat-Ázsia</territory>
+			<territory type="150">Európa</territory>
+			<territory type="151">Kelet-Európa</territory>
+			<territory type="154">Észak-Európa</territory>
+			<territory type="155">Nyugat-Európa</territory>
+			<territory type="172">Független Államok Közössége</territory>
+			<territory type="419">Latin-Amerika és a Karib-térség</territory>
+			<territory type="830">Csatorna-szigetek</territory>
+			<territory type="AD">Andorra</territory>
+			<territory type="AE">Egyesült Arab Emirátus</territory>
+			<territory type="AF">Afganisztán</territory>
+			<territory type="AG">Antigua és Barbuda</territory>
+			<territory type="AI">Anguilla</territory>
+			<territory type="AL">Albánia</territory>
+			<territory type="AM">Örményország</territory>
+			<territory type="AN">Holland Antillák</territory>
+			<territory type="AO">Angola</territory>
+			<territory type="AQ">Antarktisz</territory>
+			<territory type="AR">Argentína</territory>
+			<territory type="AS">Amerikai Szamoa</territory>
+			<territory type="AT">Ausztria</territory>
+			<territory type="AU">Ausztrália</territory>
+			<territory type="AW">Aruba</territory>
+			<territory type="AX">Aland-szigetek</territory>
+			<territory type="AZ">Azerbajdzsán</territory>
+			<territory type="BA">Bosznia-Hercegovina</territory>
+			<territory type="BB">Barbados</territory>
+			<territory type="BD">Banglades</territory>
+			<territory type="BE">Belgium</territory>
+			<territory type="BF">Burkina Faso</territory>
+			<territory type="BG">Bulgária</territory>
+			<territory type="BH">Bahrein</territory>
+			<territory type="BI">Burundi</territory>
+			<territory type="BJ">Benin</territory>
+			<territory type="BM">Bermuda</territory>
+			<territory type="BN">Brunei</territory>
+			<territory type="BO">Bolívia</territory>
+			<territory type="BR">Brazília</territory>
+			<territory type="BS">Bahamák</territory>
+			<territory type="BT">Bhután</territory>
+			<territory type="BV">Bouvet-sziget</territory>
+			<territory type="BW">Botswana</territory>
+			<territory type="BY">Fehéroroszország</territory>
+			<territory type="BZ">Belize</territory>
+			<territory type="CA">Kanada</territory>
+			<territory type="CC">Kókusz (Keeling)-szigetek</territory>
+			<territory type="CD">Kongó, Demokratikus köztársaság</territory>
+			<territory type="CF">Közép-afrikai Köztársaság</territory>
+			<territory type="CG">Kongó</territory>
+			<territory type="CH">Svájc</territory>
+			<territory type="CI">Elefántcsontpart</territory>
+			<territory type="CK">Cook-szigetek</territory>
+			<territory type="CL">Chile</territory>
+			<territory type="CM">Kamerun</territory>
+			<territory type="CN">Kína</territory>
+			<territory type="CO">Kolumbia</territory>
+			<territory type="CR">Costa Rica</territory>
+			<territory type="CS">Szerbia és Montenegró</territory>
+			<territory type="CU">Kuba</territory>
+			<territory type="CV">Zöld-foki Köztársaság</territory>
+			<territory type="CX">Karácsony-szigetek</territory>
+			<territory type="CY">Ciprus</territory>
+			<territory type="CZ">Csehország</territory>
+			<territory type="DE">Németország</territory>
+			<territory type="DJ">Dzsibuti</territory>
+			<territory type="DK">Dánia</territory>
+			<territory type="DM">Dominika</territory>
+			<territory type="DO">Dominikai Köztársaság</territory>
+			<territory type="DZ">Algéria</territory>
+			<territory type="EC">Ecuador</territory>
+			<territory type="EE">Észtország</territory>
+			<territory type="EG">Egyiptom</territory>
+			<territory type="EH">Nyugat-Szahara</territory>
+			<territory type="ER">Eritrea</territory>
+			<territory type="ES">Spanyolország</territory>
+			<territory type="ET">Etiópia</territory>
+			<territory type="FI">Finnország</territory>
+			<territory type="FJ">Fidzsi</territory>
+			<territory type="FK">Falkland-szigetek</territory>
+			<territory type="FM">Mikronézia</territory>
+			<territory type="FO">Feröer-szigetek</territory>
+			<territory type="FR">Franciaország</territory>
+			<territory type="GA">Gabon</territory>
+			<territory type="GB">Egyesült Királyság</territory>
+			<territory type="GD">Grenada</territory>
+			<territory type="GE">Grúzia</territory>
+			<territory type="GF">Francia Guyana</territory>
+			<territory type="GG">Guernsey</territory>
+			<territory type="GH">Ghána</territory>
+			<territory type="GI">Gibraltár</territory>
+			<territory type="GL">Grönland</territory>
+			<territory type="GM">Gambia</territory>
+			<territory type="GN">Guinea</territory>
+			<territory type="GP">Guadeloupe</territory>
+			<territory type="GQ">Egyenlítői-Guinea</territory>
+			<territory type="GR">Görögország</territory>
+			<territory type="GS">Dél Grúzia és a Déli Szendvics-szigetek</territory>
+			<territory type="GT">Guatemala</territory>
+			<territory type="GU">Guam</territory>
+			<territory type="GW">Guinea-Bissau</territory>
+			<territory type="GY">Guyana</territory>
+			<territory type="HK">Hong Kong S.A.R., China</territory>
+			<territory type="HM">Heard és McDonald Szigetek</territory>
+			<territory type="HN">Honduras</territory>
+			<territory type="HR">Horvátország</territory>
+			<territory type="HT">Haiti</territory>
+			<territory type="HU">Magyarország</territory>
+			<territory type="ID">Indonézia</territory>
+			<territory type="IE">Írország</territory>
+			<territory type="IL">Izrael</territory>
+			<territory type="IM">Man-sziget</territory>
+			<territory type="IN">India</territory>
+			<territory type="IO">Brit Indiai Oceán</territory>
+			<territory type="IQ">Irak</territory>
+			<territory type="IR">Irán</territory>
+			<territory type="IS">Izland</territory>
+			<territory type="IT">Olaszország</territory>
+			<territory type="JE">Jersey</territory>
+			<territory type="JM">Jamaica</territory>
+			<territory type="JO">Jordánia</territory>
+			<territory type="JP">Japán</territory>
+			<territory type="KE">Kenya</territory>
+			<territory type="KG">Kirgizisztán</territory>
+			<territory type="KH">Kambodzsa</territory>
+			<territory type="KI">Kiribati</territory>
+			<territory type="KM">Comore-szigetek</territory>
+			<territory type="KN">Saint Kitts és Nevis</territory>
+			<territory type="KP">Észak-Korea</territory>
+			<territory type="KR">Dél-Korea</territory>
+			<territory type="KW">Kuvait</territory>
+			<territory type="KY">Kajmán-szigetek</territory>
+			<territory type="KZ">Kazahsztán</territory>
+			<territory type="LA">Laosz</territory>
+			<territory type="LB">Libanon</territory>
+			<territory type="LC">Santa Lucia</territory>
+			<territory type="LI">Liechtenstein</territory>
+			<territory type="LK">Srí Lanka</territory>
+			<territory type="LR">Libéria</territory>
+			<territory type="LS">Lesotho</territory>
+			<territory type="LT">Litvánia</territory>
+			<territory type="LU">Luxemburg</territory>
+			<territory type="LV">Lettország</territory>
+			<territory type="LY">Líbia</territory>
+			<territory type="MA">Marokkó</territory>
+			<territory type="MC">Monaco</territory>
+			<territory type="MD">Moldova</territory>
+			<territory type="ME">Montenegró</territory>
+			<territory type="MG">Madagaszkár</territory>
+			<territory type="MH">Marshall-szigetek</territory>
+			<territory type="MK">Macedónia</territory>
+			<territory type="ML">Mali</territory>
+			<territory type="MM">Mianmar</territory>
+			<territory type="MN">Mongólia</territory>
+			<territory type="MO">Macao S.A.R., China</territory>
+			<territory type="MP">Északi Mariana-szigetek</territory>
+			<territory type="MQ">Martinique</territory>
+			<territory type="MR">Mauritánia</territory>
+			<territory type="MS">Montserrat</territory>
+			<territory type="MT">Málta</territory>
+			<territory type="MU">Mauritius</territory>
+			<territory type="MV">Maldív-szigetek</territory>
+			<territory type="MW">Malawi</territory>
+			<territory type="MX">Mexikó</territory>
+			<territory type="MY">Malajzia</territory>
+			<territory type="MZ">Mozambik</territory>
+			<territory type="NA">Namíbia</territory>
+			<territory type="NC">Új-Kaledónia</territory>
+			<territory type="NE">Niger</territory>
+			<territory type="NF">Norfolk-sziget</territory>
+			<territory type="NG">Nigéria</territory>
+			<territory type="NI">Nicaragua</territory>
+			<territory type="NL">Hollandia</territory>
+			<territory type="NO">Norvégia</territory>
+			<territory type="NP">Nepál</territory>
+			<territory type="NR">Nauru</territory>
+			<territory type="NU">Niue</territory>
+			<territory type="NZ">Új-Zéland</territory>
+			<territory type="OM">Omán</territory>
+			<territory type="PA">Panama</territory>
+			<territory type="PE">Peru</territory>
+			<territory type="PF">Francia Polinézia</territory>
+			<territory type="PG">Pápua Új-Guinea</territory>
+			<territory type="PH">Fülöp-szigetek</territory>
+			<territory type="PK">Pakisztán</territory>
+			<territory type="PL">Lengyelország</territory>
+			<territory type="PM">Saint Pierre és Miquelon</territory>
+			<territory type="PN">Pitcairn-sziget</territory>
+			<territory type="PR">Puerto Rico</territory>
+			<territory type="PS">Palesztin Terület</territory>
+			<territory type="PT">Portugália</territory>
+			<territory type="PW">Palau</territory>
+			<territory type="PY">Paraguay</territory>
+			<territory type="QA">Katar</territory>
+			<territory type="QO">Külső-Óceánia</territory>
+			<territory type="QU">Európai Unió</territory>
+			<territory type="RE">Reunion (francia)</territory>
+			<territory type="RO">Románia</territory>
+			<territory type="RS">Szerbia</territory>
+			<territory type="RU">Oroszország</territory>
+			<territory type="RW">Ruanda</territory>
+			<territory type="SA">Szaúd-Arábia</territory>
+			<territory type="SB">Salamon-szigetek</territory>
+			<territory type="SC">Seychelle-szigetek</territory>
+			<territory type="SD">Szudán</territory>
+			<territory type="SE">Svédország</territory>
+			<territory type="SG">Szingapúr</territory>
+			<territory type="SH">Szent Helena</territory>
+			<territory type="SI">Szlovénia</territory>
+			<territory type="SJ">Svalbard és Jan Mayen</territory>
+			<territory type="SK">Szlovákia</territory>
+			<territory type="SL">Sierra Leone</territory>
+			<territory type="SM">San Marino</territory>
+			<territory type="SN">Szenegál</territory>
+			<territory type="SO">Szomália</territory>
+			<territory type="SR">Suriname</territory>
+			<territory type="ST">São Tomé és Príncipe</territory>
+			<territory type="SV">Salvador</territory>
+			<territory type="SY">Szíria</territory>
+			<territory type="SZ">Szváziföld</territory>
+			<territory type="TC">Turks- és Caicos-szigetek</territory>
+			<territory type="TD">Csád</territory>
+			<territory type="TF">Francia Déli Területek</territory>
+			<territory type="TG">Togo</territory>
+			<territory type="TH">Thaiföld</territory>
+			<territory type="TJ">Tadzsikisztán</territory>
+			<territory type="TK">Tokelau</territory>
+			<territory type="TL">Kelet-Timor</territory>
+			<territory type="TM">Türkmenisztán</territory>
+			<territory type="TN">Tunézia</territory>
+			<territory type="TO">Tonga</territory>
+			<territory type="TR">Törökország</territory>
+			<territory type="TT">Trinidad és Tobago</territory>
+			<territory type="TV">Tuvalu</territory>
+			<territory type="TW">Tajvan</territory>
+			<territory type="TZ">Tanzánia</territory>
+			<territory type="UA">Ukrajna</territory>
+			<territory type="UG">Uganda</territory>
+			<territory type="UM">Amerikai Csendes-óceáni Szigetek</territory>
+			<territory type="US">Egyesült Államok</territory>
+			<territory type="UY">Uruguay</territory>
+			<territory type="UZ">Üzbegisztán</territory>
+			<territory type="VA">Vatikán</territory>
+			<territory type="VC">Saint Vincent és Grenadines</territory>
+			<territory type="VE">Venezuela</territory>
+			<territory type="VG">Brit Virgin-szigetek</territory>
+			<territory type="VI">Amerikai Virgin-szigetek</territory>
+			<territory type="VN">Vietnam</territory>
+			<territory type="VU">Vanuatu</territory>
+			<territory type="WF">Wallis és Futuna</territory>
+			<territory type="WS">Szamoa</territory>
+			<territory type="YE">Jemen</territory>
+			<territory type="YT">Mayotte</territory>
+			<territory type="ZA">Dél-Afrika</territory>
+			<territory type="ZM">Zambia</territory>
+			<territory type="ZW">Zimbabwe</territory>
+			<territory type="ZZ">Ismeretlen vagy érvénytelen körzet</territory>
+		</territories>
+		<variants>
+			<variant type="1901">Hagyományos német helyesírás</variant>
+			<variant type="1996">1996-os német helyesírás</variant>
+			<variant type="AREVELA">Keleti örmény</variant>
+			<variant type="AREVMDA">Nyugati örmény</variant>
+			<variant type="BOONT">Boontling</variant>
+			<variant type="FONIPA">IPA fonetika</variant>
+			<variant type="FONUPA">UPA fonetika</variant>
+			<variant type="MONOTON">Monoton</variant>
+			<variant type="NEDIS">Natisone dialektus</variant>
+			<variant type="POLYTON">Politon</variant>
+			<variant type="POSIX">Kompjúter</variant>
+			<variant type="REVISED">Átdolgozott helyesírás</variant>
+			<variant type="ROZAJ">Resian</variant>
+			<variant type="SAAHO">Saho</variant>
+			<variant type="SCOUSE">Scouse</variant>
+			<variant type="VALENCIA">Valencia</variant>
+		</variants>
+		<keys>
+			<key type="calendar">Naptár</key>
+			<key type="collation">Rendezés</key>
+			<key type="currency">Pénznem</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation">Hagyományos kínai (Big5)</type>
+			<type type="buddhist" key="calendar">buddhista naptár</type>
+			<type type="chinese" key="calendar">kínai naptár</type>
+			<type type="direct" key="collation">Közvetlen sorrend</type>
+			<type type="gb2312han" key="collation">Egyszerűsített kínai (GB2312)</type>
+			<type type="gregorian" key="calendar">Gergely-naptár</type>
+			<type type="hebrew" key="calendar">héber naptár</type>
+			<type type="islamic" key="calendar">iszlám naptár</type>
+			<type type="islamic-civil" key="calendar">iszlám civil naptár</type>
+			<type type="japanese" key="calendar">japán naptár</type>
+			<type type="phonebook" key="collation">Telefonkönyv sorrend</type>
+			<type type="pinyin" key="collation">Pinyin sorrend</type>
+			<type type="stroke" key="collation">Vonássorrend</type>
+			<type type="traditional" key="collation">Hagyományos</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US">amerikai</measurementSystemName>
+			<measurementSystemName type="metric">metrikus</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a á b c {cs} {ccs} d {dz} {ddz} {dzs} {ddzs} e é f g {gy} {ggy} h i í j-l {ly} {lly} m n {ny} {nny} o ó ö ő p r s {sz} {ssz} t {ty} {tty} u ú ü ű v z {zs} {zzs}]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[q w-y]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart>„</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>„</alternateQuotationStart>
+		<alternateQuotationEnd>”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
+		<calendars>
+			<calendar type="buddhist">
+				<eras>
+					<eraAbbr>
+						<era type="0">BK</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">jan.</month>
+							<month type="2">febr.</month>
+							<month type="3">márc.</month>
+							<month type="4">ápr.</month>
+							<month type="5">máj.</month>
+							<month type="6">jún.</month>
+							<month type="7">júl.</month>
+							<month type="8">aug.</month>
+							<month type="9">szept.</month>
+							<month type="10">okt.</month>
+							<month type="11">nov.</month>
+							<month type="12">dec.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">január</month>
+							<month type="2">február</month>
+							<month type="3">március</month>
+							<month type="4">április</month>
+							<month type="5">május</month>
+							<month type="6">június</month>
+							<month type="7">július</month>
+							<month type="8">augusztus</month>
+							<month type="9">szeptember</month>
+							<month type="10">október</month>
+							<month type="11">november</month>
+							<month type="12">december</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">J</month>
+							<month type="2">F</month>
+							<month type="3">M</month>
+							<month type="4">Á</month>
+							<month type="5">M</month>
+							<month type="6">J</month>
+							<month type="7">J</month>
+							<month type="8">A</month>
+							<month type="9">S</month>
+							<month type="10">O</month>
+							<month type="11">N</month>
+							<month type="12">D</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">V</day>
+							<day type="mon">H</day>
+							<day type="tue">K</day>
+							<day type="wed">Sze</day>
+							<day type="thu">Cs</day>
+							<day type="fri">P</day>
+							<day type="sat">Szo</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">vasárnap</day>
+							<day type="mon">hétfő</day>
+							<day type="tue">kedd</day>
+							<day type="wed">szerda</day>
+							<day type="thu">csütörtök</day>
+							<day type="fri">péntek</day>
+							<day type="sat">szombat</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">V</day>
+							<day type="mon">H</day>
+							<day type="tue">K</day>
+							<day type="wed">S</day>
+							<day type="thu">C</day>
+							<day type="fri">P</day>
+							<day type="sat">S</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">N1</quarter>
+							<quarter type="2">N2</quarter>
+							<quarter type="3">N3</quarter>
+							<quarter type="4">N4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">I. negyedév</quarter>
+							<quarter type="2">II. negyedév</quarter>
+							<quarter type="3">III. negyedév</quarter>
+							<quarter type="4">IV. negyedév</quarter>
+						</quarterWidth>
+					</quarterContext>
+					<quarterContext type="stand-alone">
+						<quarterWidth type="narrow">
+							<quarter type="1">1</quarter>
+							<quarter type="2">2</quarter>
+							<quarter type="3">3</quarter>
+							<quarter type="4">4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>de.</am>
+				<pm>du.</pm>
+				<eras>
+					<eraNames>
+						<era type="0">időszámításunk előtt</era>
+						<era type="1">időszámításunk szerint</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">i. e.</era>
+						<era type="1">i. sz.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>yyyy. MMMM d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>yyyy. MMMM d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy.MM.dd.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>yyyy.MM.dd.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>H:mm:ss v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>H:mm:ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="MMMMd">MMMM d.</dateFormatItem>
+						<dateFormatItem id="MMdd">MM.dd.</dateFormatItem>
+						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
+						<dateFormatItem id="yyyyMM">yyyy.MM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">yyyy. MMMM</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName>éra</displayName>
+					</field>
+					<field type="year">
+						<displayName>év</displayName>
+					</field>
+					<field type="month">
+						<displayName>hónap</displayName>
+					</field>
+					<field type="week">
+						<displayName>hét</displayName>
+					</field>
+					<field type="day">
+						<displayName>nap</displayName>
+						<relative type="0">ma</relative>
+						<relative type="1">holnap</relative>
+						<relative type="2">holnapután</relative>
+						<relative type="3">három nap múlva</relative>
+						<relative type="-1">tegnap</relative>
+						<relative type="-2">tegnapelőtt</relative>
+						<relative type="-3">három nappal ezelőtt</relative>
+					</field>
+					<field type="weekday">
+						<displayName>hét napja</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName>napszak</displayName>
+					</field>
+					<field type="hour">
+						<displayName>óra</displayName>
+					</field>
+					<field type="minute">
+						<displayName>perc</displayName>
+					</field>
+					<field type="second">
+						<displayName>másodperc</displayName>
+					</field>
+					<field type="zone">
+						<displayName>zóna</displayName>
+					</field>
+				</fields>
+			</calendar>
+			<calendar type="hebrew">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1">Tisri</month>
+							<month type="2">Hesván</month>
+							<month type="3">Kiszlév</month>
+							<month type="4">Tévész</month>
+							<month type="5">Svát</month>
+							<month type="6">Ádár risón</month>
+							<month type="7">Ádár séni</month>
+							<month type="8">Niszán</month>
+							<month type="9">Ijár</month>
+							<month type="10">Sziván</month>
+							<month type="12">Áv</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">TÉ</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1">Moharrem</month>
+							<month type="3">Rébi el avvel</month>
+							<month type="4">Rébi el accher</month>
+							<month type="5">Dsemádi el avvel</month>
+							<month type="6">Dsemádi el accher</month>
+							<month type="7">Redseb</month>
+							<month type="8">Sabán</month>
+							<month type="9">Ramadán</month>
+							<month type="10">Sevvál</month>
+							<month type="11">Dsül kade</month>
+							<month type="12">Dsül hedse</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">MF</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
+			<regionFormat>{0}</regionFormat>
+			<zone type="America/Argentina/ComodRivadavia">
+				<exemplarCity>Comodoro Rivadavia</exemplarCity>
+			</zone>
+			<zone type="Pacific/Yap">
+				<exemplarCity>Yap-szigetek</exemplarCity>
+			</zone>
+			<zone type="Etc/Unknown">
+				<exemplarCity>Ismeretlen</exemplarCity>
+			</zone>
+			<zone type="Asia/Yerevan">
+				<exemplarCity>Jereván</exemplarCity>
+			</zone>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity>Déli-sark</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Vostok">
+				<exemplarCity>Vosztok</exemplarCity>
+			</zone>
+			<zone type="Antarctica/DumontDUrville">
+				<exemplarCity>Dumont d'Urville</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Rio_Gallegos">
+				<exemplarCity>Río Gallegos</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Tucuman">
+				<exemplarCity>Tucumán</exemplarCity>
+			</zone>
+			<zone type="America/Cordoba">
+				<exemplarCity>Córdoba</exemplarCity>
+			</zone>
+			<zone type="Europe/Vienna">
+				<exemplarCity>Bécs</exemplarCity>
+			</zone>
+			<zone type="America/Barbados">
+				<exemplarCity>Barbadosz</exemplarCity>
+			</zone>
+			<zone type="Europe/Brussels">
+				<exemplarCity>Brüsszel</exemplarCity>
+			</zone>
+			<zone type="Europe/Sofia">
+				<exemplarCity>Szófia</exemplarCity>
+			</zone>
+			<zone type="Asia/Bahrain">
+				<exemplarCity>Bahrein</exemplarCity>
+			</zone>
+			<zone type="America/Eirunepe">
+				<exemplarCity>Eirunepé</exemplarCity>
+			</zone>
+			<zone type="America/Rio_Branco">
+				<exemplarCity>Río Branco</exemplarCity>
+			</zone>
+			<zone type="America/Porto_Velho">
+				<exemplarCity>Pôrto Velho</exemplarCity>
+			</zone>
+			<zone type="America/Cuiaba">
+				<exemplarCity>Cuiabá</exemplarCity>
+			</zone>
+			<zone type="America/Belem">
+				<exemplarCity>Belém</exemplarCity>
+			</zone>
+			<zone type="America/Araguaina">
+				<exemplarCity>Araguaína</exemplarCity>
+			</zone>
+			<zone type="America/Sao_Paulo">
+				<exemplarCity>São Paulo</exemplarCity>
+			</zone>
+			<zone type="America/Maceio">
+				<exemplarCity>Maceió</exemplarCity>
+			</zone>
+			<zone type="Europe/Minsk">
+				<exemplarCity>Minszk</exemplarCity>
+			</zone>
+			<zone type="America/Belize">
+				<exemplarCity>Beliz</exemplarCity>
+			</zone>
+			<zone type="America/Montreal">
+				<exemplarCity>Montréal</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity>St. John's</exemplarCity>
+			</zone>
+			<zone type="Europe/Zurich">
+				<exemplarCity>Zürich</exemplarCity>
+			</zone>
+			<zone type="Pacific/Easter">
+				<exemplarCity>Húsvét-szigetek</exemplarCity>
+			</zone>
+			<zone type="Asia/Kashgar">
+				<exemplarCity>Kasgár</exemplarCity>
+			</zone>
+			<zone type="Asia/Urumqi">
+				<exemplarCity>Ürümqi</exemplarCity>
+			</zone>
+			<zone type="Asia/Chongqing">
+				<exemplarCity>Csungking</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<exemplarCity>Sanghaj</exemplarCity>
+			</zone>
+			<zone type="America/Havana">
+				<exemplarCity>Havanna</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Cape_Verde">
+				<exemplarCity>Zöld-Foki Szigetek</exemplarCity>
+			</zone>
+			<zone type="Africa/Djibouti">
+				<exemplarCity>Dzsibuti</exemplarCity>
+			</zone>
+			<zone type="Europe/Copenhagen">
+				<exemplarCity>Koppenhága</exemplarCity>
+			</zone>
+			<zone type="America/Dominica">
+				<exemplarCity>Dominika</exemplarCity>
+			</zone>
+			<zone type="Pacific/Galapagos">
+				<exemplarCity>Galapagos-szigetek</exemplarCity>
+			</zone>
+			<zone type="Africa/Cairo">
+				<exemplarCity>Kairó</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>Kanári-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Fiji">
+				<exemplarCity>Fidzsi</exemplarCity>
+			</zone>
+			<zone type="Pacific/Truk">
+				<exemplarCity>Truk-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity>Ponape-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kosrae">
+				<exemplarCity>Kosrae-szigetek</exemplarCity>
+			</zone>
+			<zone type="Europe/Paris">
+				<exemplarCity>Párizs</exemplarCity>
+			</zone>
+			<zone type="Europe/Gibraltar">
+				<exemplarCity>Gibraltár</exemplarCity>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Godthåb</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>Scoresby Sound</exemplarCity>
+			</zone>
+			<zone type="America/Danmarkshavn">
+				<exemplarCity>Danmarks Havn</exemplarCity>
+			</zone>
+			<zone type="Europe/Athens">
+				<exemplarCity>Athén</exemplarCity>
+			</zone>
+			<zone type="Atlantic/South_Georgia">
+				<exemplarCity>Dél-Georgia</exemplarCity>
+			</zone>
+			<zone type="Asia/Jakarta">
+				<exemplarCity>Dzsakarta</exemplarCity>
+			</zone>
+			<zone type="Asia/Makassar">
+				<exemplarCity>Makasar</exemplarCity>
+			</zone>
+			<zone type="Asia/Baghdad">
+				<exemplarCity>Bagdad</exemplarCity>
+			</zone>
+			<zone type="Asia/Tehran">
+				<exemplarCity>Teherán</exemplarCity>
+			</zone>
+			<zone type="Europe/Rome">
+				<exemplarCity>Róma</exemplarCity>
+			</zone>
+			<zone type="America/Jamaica">
+				<exemplarCity>Jamaika</exemplarCity>
+			</zone>
+			<zone type="Asia/Tokyo">
+				<exemplarCity>Tokio</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kiritimati">
+				<exemplarCity>Kiritimati-sziget</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tarawa">
+			</zone>
+			<zone type="America/St_Kitts">
+				<exemplarCity>St. Kitts</exemplarCity>
+			</zone>
+			<zone type="Asia/Pyongyang">
+				<exemplarCity>Észak-Korea</exemplarCity>
+			</zone>
+			<zone type="Asia/Seoul">
+				<exemplarCity>Dél-Korea</exemplarCity>
+			</zone>
+			<zone type="Asia/Kuwait">
+				<exemplarCity>Kuvait</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtau">
+				<exemplarCity>Aktau</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtobe">
+				<exemplarCity>Aktöbe</exemplarCity>
+			</zone>
+			<zone type="Asia/Qyzylorda">
+				<exemplarCity>Kizilorda</exemplarCity>
+			</zone>
+			<zone type="Asia/Almaty">
+				<exemplarCity>Alma-Ata</exemplarCity>
+			</zone>
+			<zone type="Asia/Vientiane">
+				<exemplarCity>Laosz</exemplarCity>
+			</zone>
+			<zone type="Asia/Beirut">
+				<exemplarCity>Bejrút</exemplarCity>
+			</zone>
+			<zone type="America/St_Lucia">
+				<exemplarCity>St. Lucia</exemplarCity>
+			</zone>
+			<zone type="Europe/Vilnius">
+				<exemplarCity>Vilniusz</exemplarCity>
+			</zone>
+			<zone type="Europe/Luxembourg">
+				<exemplarCity>Luxemburg</exemplarCity>
+			</zone>
+			<zone type="Europe/Podgorica">
+				<exemplarCity>Montenegró</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kwajalein">
+				<exemplarCity>Kwajalein-zátony</exemplarCity>
+			</zone>
+			<zone type="Pacific/Majuro">
+				<exemplarCity>Majuro-zátony</exemplarCity>
+			</zone>
+			<zone type="Asia/Ulaanbaatar">
+				<exemplarCity>Ulánbátor</exemplarCity>
+			</zone>
+			<zone type="Asia/Choibalsan">
+				<exemplarCity>Csojbalszan</exemplarCity>
+			</zone>
+			<zone type="Asia/Macau">
+				<exemplarCity>Makaó</exemplarCity>
+			</zone>
+			<zone type="Europe/Malta">
+				<exemplarCity>Málta</exemplarCity>
+			</zone>
+			<zone type="Indian/Maldives">
+				<exemplarCity>Maldív-szigetek</exemplarCity>
+			</zone>
+			<zone type="America/Mazatlan">
+				<exemplarCity>Mazatlán</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity>Mexikóváros</exemplarCity>
+			</zone>
+			<zone type="America/Merida">
+				<exemplarCity>Mérida</exemplarCity>
+			</zone>
+			<zone type="America/Cancun">
+				<exemplarCity>Cancún</exemplarCity>
+			</zone>
+			<zone type="Pacific/Chatham">
+				<exemplarCity>Chatham-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tahiti">
+			</zone>
+			<zone type="Pacific/Marquesas">
+				<exemplarCity>Marquesas-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Gambier">
+				<exemplarCity>Gambier-szigetek</exemplarCity>
+			</zone>
+			<zone type="Europe/Warsaw">
+				<exemplarCity>Varsó</exemplarCity>
+			</zone>
+			<zone type="Pacific/Pitcairn">
+				<exemplarCity>Pitcairn-szigetek</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Azores">
+				<exemplarCity>Azori-szigetek</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Madeira">
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity>Lisszabon</exemplarCity>
+			</zone>
+			<zone type="Asia/Qatar">
+				<exemplarCity>Katar</exemplarCity>
+			</zone>
+			<zone type="Europe/Bucharest">
+				<exemplarCity>Bukarest</exemplarCity>
+			</zone>
+			<zone type="Europe/Belgrade">
+				<exemplarCity>Szerbia</exemplarCity>
+			</zone>
+			<zone type="Europe/Kaliningrad">
+				<exemplarCity>Kalinyingrád</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity>Moszkva</exemplarCity>
+			</zone>
+			<zone type="Europe/Samara">
+				<exemplarCity>Szamara</exemplarCity>
+			</zone>
+			<zone type="Asia/Yekaterinburg">
+				<exemplarCity>Jekatyerinburg</exemplarCity>
+			</zone>
+			<zone type="Asia/Omsk">
+				<exemplarCity>Omszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Novosibirsk">
+				<exemplarCity>Novoszibirszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Krasnoyarsk">
+				<exemplarCity>Krasznojarszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Irkutsk">
+				<exemplarCity>Irkutszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Yakutsk">
+				<exemplarCity>Jakutszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Vladivostok">
+				<exemplarCity>Vlagyivosztok</exemplarCity>
+			</zone>
+			<zone type="Asia/Sakhalin">
+				<exemplarCity>Szahalin</exemplarCity>
+			</zone>
+			<zone type="Asia/Magadan">
+				<exemplarCity>Magadán</exemplarCity>
+			</zone>
+			<zone type="Asia/Kamchatka">
+				<exemplarCity>Kamcsatka</exemplarCity>
+			</zone>
+			<zone type="Asia/Anadyr">
+				<exemplarCity>Anadir</exemplarCity>
+			</zone>
+			<zone type="Asia/Singapore">
+				<exemplarCity>Szingapúr</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Jan_Mayen">
+				<exemplarCity>Jan Mayen-szigetek</exemplarCity>
+			</zone>
+			<zone type="America/El_Salvador">
+				<exemplarCity>Salvador</exemplarCity>
+			</zone>
+			<zone type="Asia/Damascus">
+				<exemplarCity>Damaszkusz</exemplarCity>
+			</zone>
+			<zone type="Africa/Tunis">
+				<exemplarCity>Tunisz</exemplarCity>
+			</zone>
+			<zone type="Europe/Istanbul">
+				<exemplarCity>Isztanbul</exemplarCity>
+			</zone>
+			<zone type="Asia/Taipei">
+				<exemplarCity>Tajvan</exemplarCity>
+			</zone>
+			<zone type="Europe/Uzhgorod">
+				<exemplarCity>Ungvár</exemplarCity>
+			</zone>
+			<zone type="Europe/Kiev">
+				<exemplarCity>Kijev</exemplarCity>
+			</zone>
+			<zone type="Europe/Simferopol">
+				<exemplarCity>Szimferopol</exemplarCity>
+			</zone>
+			<zone type="Europe/Zaporozhye">
+				<exemplarCity>Zaporozsje</exemplarCity>
+			</zone>
+			<zone type="Pacific/Midway">
+				<exemplarCity>Midway-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Wake">
+				<exemplarCity>Wake-sziget</exemplarCity>
+			</zone>
+			<zone type="America/Anchorage">
+				<exemplarCity>Alaszkai Idő</exemplarCity>
+			</zone>
+			<zone type="Asia/Samarkand">
+				<exemplarCity>Szamarkand</exemplarCity>
+			</zone>
+			<zone type="Asia/Tashkent">
+				<exemplarCity>Taskent</exemplarCity>
+			</zone>
+			<zone type="America/St_Vincent">
+				<exemplarCity>St. Vincent</exemplarCity>
+			</zone>
+			<zone type="America/St_Thomas">
+				<exemplarCity>St. Thomas</exemplarCity>
+			</zone>
+			<metazone type="Acre">
+				<long>
+					<standard>Acre idő</standard>
+					<daylight>Acre nyári idő</daylight>
+				</long>
+				<short>
+					<standard>ACT (Acre)</standard>
+					<daylight>ACST (Acre)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Afghanistan">
+				<long>
+					<standard>Afganisztáni idő</standard>
+				</long>
+				<short>
+					<standard>AFT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Africa_Central">
+				<long>
+					<standard>Közép-afrikai idő</standard>
+				</long>
+				<short>
+					<standard>CAT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Africa_Eastern">
+				<long>
+					<standard>Kelet-afrikai idő</standard>
+				</long>
+				<short>
+					<standard>EAT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Africa_Southern">
+				<long>
+					<standard>Dél-afrikai szabvány idő</standard>
+				</long>
+				<short>
+					<standard>SAST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Africa_Western">
+				<long>
+					<standard>Nyugat-afrikai idő</standard>
+					<daylight>Nyugat-afrikai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>WAT</standard>
+					<daylight>WAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Aktyubinsk">
+				<long>
+					<standard>Aktyubinszki idő</standard>
+					<daylight>Aktyubinszki nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AKTT</standard>
+					<daylight>AKTST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Alaska">
+				<long>
+					<generic>Alaszkai idő</generic>
+					<standard>Alaszkai szabvány idő</standard>
+					<daylight>Alaszka nappali idő</daylight>
+				</long>
+				<short>
+					<generic>AKT</generic>
+					<standard>AKST</standard>
+					<daylight>AKDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Alaska_Hawaii">
+				<long>
+					<standard>Alaszkai-hawaii idő</standard>
+					<daylight>Alaszka-Hawaii nappali idő</daylight>
+				</long>
+				<short>
+					<standard>AHST</standard>
+					<daylight>AHDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Almaty">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Amazon">
+				<long>
+					<standard>Amazóniai idő</standard>
+					<daylight>Amazóniai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AMT</standard>
+					<daylight>AMST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="America_Central">
+				<long>
+					<generic>Középső idő</generic>
+					<standard>Középső szabvány idő</standard>
+					<daylight>Középső nappali idő</daylight>
+				</long>
+				<short>
+					<generic>CT</generic>
+					<standard>CST</standard>
+					<daylight>CDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="America_Eastern">
+				<long>
+					<generic>Keleti idő</generic>
+					<standard>Kelet-európai szabvány idő</standard>
+					<daylight>Keleti nappali idő</daylight>
+				</long>
+				<short>
+					<generic>ET</generic>
+					<standard>EST</standard>
+					<daylight>EDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="America_Mountain">
+				<long>
+					<generic>Hegységi idő</generic>
+					<standard>Hegységi szabvány idő</standard>
+					<daylight>Hegységi nappali idő</daylight>
+				</long>
+				<short>
+					<generic>MT</generic>
+					<standard>MST</standard>
+					<daylight>MDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="America_Pacific">
+				<long>
+					<generic>Csendes-óceáni idő</generic>
+					<standard>Csendes-óceáni szabvány idő</standard>
+					<daylight>Csendes-óceáni nappali idő</daylight>
+				</long>
+				<short>
+					<generic>PT</generic>
+					<standard>PST</standard>
+					<daylight>PDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Anadyr">
+				<long>
+					<standard>Anadír idő</standard>
+					<daylight>Anadír nyári idő</daylight>
+				</long>
+				<short>
+					<standard>ANAT</standard>
+					<daylight>ANAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Aqtau">
+				<long>
+					<standard>Aqutau idő</standard>
+					<daylight>Aqtau nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AQTT (Aqtau)</standard>
+					<daylight>AQTST (Aqtau)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Aqtobe">
+				<long>
+					<standard>Aqtobe idő</standard>
+					<daylight>Aqtobe nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AQTT (Aqtobe)</standard>
+					<daylight>AQTST (Aqtobe)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Arabian">
+				<long>
+					<generic>Arab idő</generic>
+					<standard>Arab szabvány idő</standard>
+					<daylight>Arab nappali idő</daylight>
+				</long>
+				<short>
+					<standard>AST (arab)</standard>
+					<daylight>ADT (arab)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Argentina">
+				<long>
+					<standard>Argentína idő</standard>
+					<daylight>Argentína nyári idő</daylight>
+				</long>
+				<short>
+					<standard>ART</standard>
+					<daylight>ARST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Argentina_Western">
+				<long>
+					<standard>Nyugat-Argentína idő</standard>
+				</long>
+				<short>
+					<standard>WART</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Armenia">
+				<long>
+					<standard>Örményország idő</standard>
+					<daylight>Örményország nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AMT (Örményország)</standard>
+					<daylight>AMST (Örményország)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Ashkhabad">
+				<long>
+					<standard>Ashkabad idő</standard>
+					<daylight>Ashkabad nyári idő</daylight>
+				</long>
+				<short>
+					<standard>ASHT</standard>
+					<daylight>ASHST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Atlantic">
+				<long>
+					<generic>Atlanti idő</generic>
+					<standard>Atlanti szabvány idő</standard>
+					<daylight>Atlanti nappali idő</daylight>
+				</long>
+				<short>
+					<generic>AT</generic>
+					<standard>AST</standard>
+					<daylight>ADT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Central">
+				<long>
+					<generic>Közép-Ausztrália idő</generic>
+					<standard>Ausztrál középső szabvány idő</standard>
+					<daylight>Ausztrál középső nappali idő</daylight>
+				</long>
+				<short>
+					<standard>ACST</standard>
+					<daylight>ACDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_CentralWestern">
+				<long>
+					<generic>Közép-Nyugat idő</generic>
+					<standard>Nyugat-Középső szabvány idő</standard>
+				</long>
+				<short>
+					<generic>CWT</generic>
+					<standard>CWST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Eastern">
+				<long>
+					<generic>Kelet-Ausztrália idő</generic>
+					<standard>Ausztrál keleti szabvány idő</standard>
+					<daylight>Ausztrál keleti nappali idő</daylight>
+				</long>
+				<short>
+					<standard>AEST</standard>
+					<daylight>AEDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Australia_Western">
+				<long>
+					<generic>Nyugat-Ausztrália idő</generic>
+					<standard>Ausztrál nyugati szabvány idő</standard>
+					<daylight>Ausztrál nyugati nappali idő</daylight>
+				</long>
+				<short>
+					<standard>AWST</standard>
+					<daylight>AWDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Azerbaijan">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Azores">
+				<long>
+					<standard>Azori idő</standard>
+					<daylight>Azori nyári idő</daylight>
+				</long>
+				<short>
+					<standard>AZOT</standard>
+					<daylight>AZOST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Baku">
+				<long>
+					<standard>Baku idő</standard>
+					<daylight>Baku nyári idő</daylight>
+				</long>
+				<short>
+					<standard>BAKT</standard>
+					<daylight>BAKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Bangladesh">
+				<long>
+					<standard>Bangladesh idő</standard>
+				</long>
+				<short>
+					<standard>BDT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Bering">
+				<long>
+					<generic>Bering idő</generic>
+					<standard>Bering szabvány idő</standard>
+					<daylight>Bering nappali idő</daylight>
+				</long>
+				<short>
+					<standard>BST (Bering)</standard>
+					<daylight>BDT (Bering)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Bhutan">
+				<long>
+					<standard>Bután idő</standard>
+				</long>
+				<short>
+					<standard>BTT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Bolivia">
+				<long>
+					<standard>Bolívia idő</standard>
+				</long>
+				<short>
+					<standard>BOT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Borneo">
+				<long>
+					<standard>Borneó idő</standard>
+					<daylight>Borneó nyári idő</daylight>
+				</long>
+				<short>
+					<standard>BORT</standard>
+					<daylight>BORST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Brasilia">
+				<long>
+					<standard>Brazília idő</standard>
+					<daylight>Brazília nyári idő</daylight>
+				</long>
+				<short>
+					<standard>BRT</standard>
+					<daylight>BRST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Brunei">
+				<long>
+					<standard>Brunei Darussalam idő</standard>
+				</long>
+				<short>
+					<standard>BNT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Cape_Verde">
+				<long>
+					<standard>Cape Verde idő</standard>
+					<daylight>Cape Verde nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CVT</standard>
+					<daylight>CVST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Chamorro">
+				<long>
+					<standard>Chamorro szabvány idő</standard>
+				</long>
+				<short>
+					<standard>ChST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Changbai">
+				<long>
+					<standard>Changbai idő</standard>
+				</long>
+				<short>
+					<standard>CHAT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Chatham">
+				<long>
+					<standard>Chatham szabvány idő</standard>
+					<daylight>Chatham nappali idő</daylight>
+				</long>
+				<short>
+					<standard>CHAST</standard>
+					<daylight>CHADT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Chile">
+				<long>
+					<standard>Chile idő</standard>
+					<daylight>Chile nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CLT</standard>
+					<daylight>CLST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="China">
+				<long>
+					<standard>Kínai szabvány idő</standard>
+					<daylight>Kína nappali idő</daylight>
+				</long>
+				<short>
+					<standard>CST (Kína)</standard>
+					<daylight>CDT (Kína)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Choibalsan">
+				<long>
+					<standard>Csojbalszan idő</standard>
+					<daylight>Csojbalszan nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CHOT</standard>
+					<daylight>CHOST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Christmas">
+				<long>
+					<standard>Karácsony-sziget idő</standard>
+				</long>
+				<short>
+					<standard>CXT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Cocos">
+				<long>
+					<standard>Kókusz-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>CCT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Colombia">
+				<long>
+					<standard>Kolumbia idő</standard>
+					<daylight>Kolumbia nyári idő</daylight>
+				</long>
+				<short>
+					<standard>COT</standard>
+					<daylight>COST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Cook">
+				<long>
+					<standard>Cook-szigetek idő</standard>
+					<daylight>Cook-szigetek fél nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CKT</standard>
+					<daylight>CKHST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Cuba">
+				<long>
+					<generic>Kuba idő</generic>
+					<standard>Kuba szabvány idő</standard>
+					<daylight>Kuba nappali idő</daylight>
+				</long>
+				<short>
+					<standard>CST (Kuba)</standard>
+					<daylight>CDT (Kuba)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Dacca">
+				<long>
+					<standard>Dacca idő</standard>
+				</long>
+				<short>
+					<standard>DACT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Davis">
+				<long>
+					<standard>Davis idő</standard>
+				</long>
+				<short>
+					<standard>DAVT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="DumontDUrville">
+				<long>
+					<standard>Dumont-d'Urville idő</standard>
+				</long>
+				<short>
+					<standard>DDUT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Dushanbe">
+				<long>
+					<standard>Dushanbe idő</standard>
+					<daylight>Dushanbe nyári idő</daylight>
+				</long>
+				<short>
+					<standard>DUST</standard>
+					<daylight>DUSST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Dutch_Guiana">
+				<long>
+					<standard>Holland Guiana idő</standard>
+				</long>
+				<short>
+					<standard>NEGT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="East_Timor">
+				<long>
+					<standard>Kelet-Timor idő</standard>
+				</long>
+				<short>
+					<standard>TLT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Easter">
+				<long>
+					<standard>Húsvét-szigetek idő</standard>
+					<daylight>Húsvét-szigetek nyári idő</daylight>
+				</long>
+				<short>
+					<standard>EAST</standard>
+					<daylight>EASST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Ecuador">
+				<long>
+					<standard>Ecuador idő</standard>
+				</long>
+				<short>
+					<standard>ECT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Europe_Central">
+				<long>
+					<standard>közép-európai idő</standard>
+					<daylight>közép-európai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Europe_Eastern">
+				<long>
+					<standard>Kelet-európai idő</standard>
+					<daylight>Kelet-európai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Europe_Western">
+				<long>
+					<standard>Nyugat-európai idő</standard>
+					<daylight>Nyugat-európai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Falkland">
+				<long>
+					<standard>Falkland-szigetek idő</standard>
+					<daylight>Falkland-szigetek nyári idő</daylight>
+				</long>
+				<short>
+					<standard>FKT</standard>
+					<daylight>FKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Fiji">
+				<long>
+					<standard>Fidzsi idő</standard>
+					<daylight>Fidzsi nyári idő</daylight>
+				</long>
+				<short>
+					<standard>FJT</standard>
+					<daylight>FJST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard>Francia Guiana idő</standard>
+				</long>
+				<short>
+					<standard>GFT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="French_Southern">
+				<long>
+					<standard>Francia déli és antarktikus idő</standard>
+				</long>
+				<short>
+					<standard>TFT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Frunze">
+				<long>
+					<standard>Frunze idő</standard>
+					<daylight>Frunze nyári idő</daylight>
+				</long>
+				<short>
+					<standard>FRUT</standard>
+					<daylight>FRUST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="GMT">
+				<long>
+					<standard>Greenwichi közép idő</standard>
+				</long>
+				<short>
+					<standard>GMT</standard>
+				</short>
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Galapagos">
+				<long>
+					<standard>Galapagos idő</standard>
+				</long>
+				<short>
+					<standard>GALT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Gambier">
+				<long>
+					<standard>Gambier idő</standard>
+				</long>
+				<short>
+					<standard>GAMT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<standard>Grúzia idő</standard>
+					<daylight>Grúzia nyári idő</daylight>
+				</long>
+				<short>
+					<standard>GET</standard>
+					<daylight>GEST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Gilbert_Islands">
+				<long>
+					<standard>Gilbert-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>GILT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Greenland_Central">
+				<long>
+					<standard>Közép-Grönland idő</standard>
+					<daylight>Közép-Grönland nyári idő</daylight>
+				</long>
+				<short>
+					<standard>CGT</standard>
+					<daylight>CGST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Greenland_Eastern">
+				<long>
+					<standard>Kelet-Grönland idő</standard>
+					<daylight>Kelet-Grönland nyári idő</daylight>
+				</long>
+				<short>
+					<standard>EGT</standard>
+					<daylight>EGST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<long>
+					<standard>Nyugat-Grönland idő</standard>
+					<daylight>Nyugat-Grönland nyári idő</daylight>
+				</long>
+				<short>
+					<standard>WGT</standard>
+					<daylight>WGST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Guam">
+				<long>
+					<standard>Guam szabvány idő</standard>
+				</long>
+				<short>
+					<standard>GST (Guam)</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Gulf">
+				<long>
+					<standard>Öböl szabvány idő</standard>
+				</long>
+				<short>
+					<standard>GST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard>Guyana idő</standard>
+				</long>
+				<short>
+					<standard>GYT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Hawaii_Aleutian">
+				<long>
+					<standard>Hawaii-aleut szabvány idő</standard>
+				</long>
+				<short>
+					<standard>HST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Hong_Kong">
+				<long>
+					<standard>Hongkong idő</standard>
+					<daylight>Hongkong nyári idő</daylight>
+				</long>
+				<short>
+					<standard>HKT</standard>
+					<daylight>HKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Hovd">
+				<long>
+					<standard>Hovd idő</standard>
+					<daylight>Hovd nyári idő</daylight>
+				</long>
+				<short>
+					<standard>HOVT</standard>
+					<daylight>HOVSKT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="India">
+				<long>
+					<standard>Indiai szabvány idő</standard>
+				</long>
+				<short>
+					<standard>IST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Indian_Ocean">
+				<long>
+					<standard>Indiai-Óceán idő</standard>
+				</long>
+				<short>
+					<standard>IOT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Indochina">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Indonesia_Central">
+				<long>
+					<standard>Közép-Indonézia idő</standard>
+				</long>
+				<short>
+					<standard>CIT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Indonesia_Eastern">
+				<long>
+					<standard>Kelet-Indonézia idő</standard>
+				</long>
+				<short>
+					<standard>EIT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Indonesia_Western">
+				<long>
+					<standard>Nyugat-Indonézia idő</standard>
+				</long>
+				<short>
+					<standard>WIT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Iran">
+				<long>
+					<standard>Irán szabvány idő</standard>
+					<daylight>Irán nappali idő</daylight>
+				</long>
+				<short>
+					<standard>IRST</standard>
+					<daylight>IRDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Irkutsk">
+				<long>
+					<standard>Irkutszk idő</standard>
+					<daylight>Irkutszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>IRKT</standard>
+					<daylight>IRKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Israel">
+				<long>
+					<standard>Izraeli szabvány idő</standard>
+					<daylight>Izrael nappali idő</daylight>
+				</long>
+				<short>
+					<standard>IST (Izrael)</standard>
+					<daylight>IDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Japan">
+				<long>
+					<standard>Japán szabvány idő</standard>
+					<daylight>Japán nappali idő</daylight>
+				</long>
+				<short>
+					<standard>JST</standard>
+					<daylight>JDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kamchatka">
+				<long>
+					<standard>Petropavlovszk-kamcsatkai idő</standard>
+					<daylight>Petropavlovszk-kamcsatkai nyári idő</daylight>
+				</long>
+				<short>
+					<standard>PETT</standard>
+					<daylight>PETST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Karachi">
+				<long>
+					<standard>Karacsi idő</standard>
+				</long>
+				<short>
+					<standard>KART</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kashgar">
+				<long>
+					<standard>Kasgár idő</standard>
+				</long>
+				<short>
+					<standard>KAST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kazakhstan_Eastern">
+				<long>
+					<standard>Kelet-Kazahsztán szabvány idő</standard>
+				</long>
+				<short>
+					<standard>EKST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kazakhstan_Western">
+				<long>
+					<standard>Nyugat-Kazahsztán szabvány idő</standard>
+				</long>
+				<short>
+					<standard>WKST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kizilorda">
+				<long>
+					<standard>Kizilorda idő</standard>
+					<daylight>Kizilorda nyári idő</daylight>
+				</long>
+				<short>
+					<standard>KIZT</standard>
+					<daylight>KIZST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Korea">
+				<long>
+					<generic>Koreai idő</generic>
+					<standard>Koreai szabvány idő</standard>
+					<daylight>Koreai nappali idő</daylight>
+				</long>
+				<short>
+					<standard>KST</standard>
+					<daylight>KDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kosrae">
+				<long>
+					<standard>Kosrae idő</standard>
+				</long>
+				<short>
+					<standard>KOST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Krasnoyarsk">
+				<long>
+					<standard>Krasznojarszk idő</standard>
+					<daylight>Krasznojarszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>KRAT</standard>
+					<daylight>KRAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kuybyshev">
+				<long>
+					<standard>Kujbisev idő</standard>
+					<daylight>Kujbisev nyári idő</daylight>
+				</long>
+				<short>
+					<standard>KUYT</standard>
+					<daylight>KUYST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kwajalein">
+				<long>
+					<standard>Kwajalein idő</standard>
+				</long>
+				<short>
+					<standard>KWAT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Kyrgystan">
+				<long>
+					<standard>Kirgisztán idő</standard>
+				</long>
+				<short>
+					<standard>KGT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Lanka">
+				<long>
+					<standard>Lanka idő</standard>
+				</long>
+				<short>
+					<standard>LKT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Line_Islands">
+				<long>
+					<standard>Line-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>LINT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Long_Shu">
+				<long>
+					<standard>Long-Shu idő</standard>
+				</long>
+				<short>
+					<standard>LONT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Lord_Howe">
+				<long>
+					<generic>Lord Howe idő</generic>
+					<standard>Lord Howe szabvány idő</standard>
+					<daylight>Lord Howe nappali idő</daylight>
+				</long>
+				<short>
+					<standard>LHDT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Macau">
+				<long>
+					<standard>Macau idő</standard>
+					<daylight>Macau nyári idő</daylight>
+				</long>
+				<short>
+					<standard>MOT</standard>
+					<daylight>MOST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Magadan">
+				<long>
+					<standard>Magadán idő</standard>
+					<daylight>Magadán nyári idő</daylight>
+				</long>
+				<short>
+					<standard>MAGT</standard>
+					<daylight>MAGST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Malaya">
+				<long>
+					<standard>Malaya idő</standard>
+				</long>
+				<short>
+					<standard>MALT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Malaysia">
+				<long>
+					<standard>Malajzia idő</standard>
+				</long>
+				<short>
+					<standard>MYT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Maldives">
+				<long>
+					<standard>Maldív-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>MVT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Marquesas">
+				<long>
+					<standard>Marquesas idő</standard>
+				</long>
+				<short>
+					<standard>MART</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Marshall_Islands">
+				<long>
+					<standard>Marshall-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>MHT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Mauritius">
+				<long>
+					<standard>Mauritius idő</standard>
+				</long>
+				<short>
+					<standard>MUT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Mawson">
+				<long>
+					<standard>Mawson idő</standard>
+				</long>
+				<short>
+					<standard>MAWT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Mongolia">
+				<long>
+					<standard>Ulánbátor idő</standard>
+					<daylight>Ulánbátor nyári idő</daylight>
+				</long>
+				<short>
+					<standard>ULAT</standard>
+					<daylight>ULAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Moscow">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Myanmar">
+				<long>
+					<standard>Myanmar idő</standard>
+				</long>
+				<short>
+					<standard>MMT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Nauru">
+				<long>
+					<standard>Nauru idő</standard>
+				</long>
+				<short>
+					<standard>NRT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Nepal">
+				<long>
+					<standard>Nepál idő</standard>
+				</long>
+				<short>
+					<standard>NPT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="New_Caledonia">
+				<long>
+					<standard>Új-Kaledónia idő</standard>
+					<daylight>Új-Kaledónia nyári idő</daylight>
+				</long>
+				<short>
+					<standard>NCT</standard>
+					<daylight>NCST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="New_Zealand">
+				<long>
+					<generic>Új-Zéland idő</generic>
+					<standard>Új-Zéland szabvány idő</standard>
+					<daylight>Új-Zéland nappali idő</daylight>
+				</long>
+				<short>
+					<standard>NZST</standard>
+					<daylight>NZDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Newfoundland">
+				<long>
+					<generic>Új-Fundland idő</generic>
+					<standard>Új-Fundland szabvány idő</standard>
+					<daylight>Új-Fundland nappali idő</daylight>
+				</long>
+				<short>
+					<generic>NT</generic>
+					<standard>NST</standard>
+					<daylight>NDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Niue">
+				<long>
+					<standard>Niue idő</standard>
+				</long>
+				<short>
+					<standard>NUT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Norfolk">
+				<long>
+					<standard>Norfolk-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>NFT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Noronha">
+				<long>
+					<standard>Fernando de Noronha idő</standard>
+					<daylight>Fernando de Noronha nyári idő</daylight>
+				</long>
+				<short>
+					<standard>FNT</standard>
+					<daylight>FNST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="North_Mariana">
+				<long>
+					<standard>Észak-Mariana-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>MPT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Novosibirsk">
+				<long>
+					<standard>Novoszibirszk idő</standard>
+					<daylight>Novoszibirszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>NOVT</standard>
+					<daylight>NOVST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Omsk">
+				<long>
+					<standard>Omszk idő</standard>
+					<daylight>Omszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>OMST</standard>
+					<daylight>OMSST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Pakistan">
+				<long>
+					<standard>Pakisztán idő</standard>
+					<daylight>Pakisztán nyári idő</daylight>
+				</long>
+				<short>
+					<standard>PKT</standard>
+					<daylight>PKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Palau">
+				<long>
+					<standard>Palau idő</standard>
+				</long>
+				<short>
+					<standard>PWT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Papua_New_Guinea">
+				<long>
+					<standard>Pápua Új-Guinea idő</standard>
+				</long>
+				<short>
+					<standard>PGT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Paraguay">
+				<long>
+					<standard>Paraguay idő</standard>
+					<daylight>Paraguay nyári idő</daylight>
+				</long>
+				<short>
+					<standard>PYT</standard>
+					<daylight>PYST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Peru">
+				<long>
+					<standard>Peru idő</standard>
+					<daylight>Peru nyári idő</daylight>
+				</long>
+				<short>
+					<standard>PET</standard>
+					<daylight>PEST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Philippines">
+				<long>
+					<standard>Fülöp-szigetek idő</standard>
+					<daylight>Fülöp-szigetek nyári idő</daylight>
+				</long>
+				<short>
+					<standard>PHT</standard>
+					<daylight>PHST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Phoenix_Islands">
+				<long>
+					<standard>Phoenix-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>PHOT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<long>
+					<generic>Pierre és Miquelon idő</generic>
+					<standard>Pierre és Miquelon szabvány idő</standard>
+					<daylight>Pierre és Miquelon nappali idő</daylight>
+				</long>
+				<short>
+					<standard>PMST</standard>
+					<daylight>PMDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Pitcairn">
+				<long>
+					<standard>Pitcairn idő</standard>
+				</long>
+				<short>
+					<standard>PNT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Ponape">
+				<long>
+					<standard>Ponape idő</standard>
+				</long>
+				<short>
+					<standard>PONT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Qyzylorda">
+				<long>
+					<standard>Qyzylorda idő</standard>
+					<daylight>Qyzylorda nyári idő</daylight>
+				</long>
+				<short>
+					<standard>QYZT</standard>
+					<daylight>QYZST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Reunion">
+				<long>
+					<standard>Réunion idő</standard>
+				</long>
+				<short>
+					<standard>RET</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Rothera">
+				<long>
+					<standard>Rothera idő</standard>
+				</long>
+				<short>
+					<standard>ROTT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Sakhalin">
+				<long>
+					<standard>Sakhalin idő</standard>
+					<daylight>Sakhalin nyári idő</daylight>
+				</long>
+				<short>
+					<standard>SAKT</standard>
+					<daylight>SAKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Samara">
+				<long>
+					<standard>Szamara idő</standard>
+					<daylight>Szamara nyári idő</daylight>
+				</long>
+				<short>
+					<standard>SAMT</standard>
+					<daylight>SAMST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Samarkand">
+				<long>
+					<standard>Szamarkand idő</standard>
+					<daylight>Szamarkand nyári idő</daylight>
+				</long>
+				<short>
+					<standard>SAMT (Szamarkand)</standard>
+					<daylight>SAMST (Szamarkand)</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Samoa">
+				<long>
+					<standard>Szamoa szabvány idő</standard>
+				</long>
+				<short>
+					<standard>SST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Seychelles">
+				<long>
+					<standard>Seychelle-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>SCT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Shevchenko">
+				<long>
+					<standard>Sevcsenkó idő</standard>
+					<daylight>Sevcsenkó nyári idő</daylight>
+				</long>
+				<short>
+					<standard>SHET</standard>
+					<daylight>SHEST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Singapore">
+				<long>
+					<standard>Szingapúr szabvány idő</standard>
+				</long>
+				<short>
+					<standard>SGT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Solomon">
+				<long>
+					<standard>Salamon-szigetek idő</standard>
+				</long>
+				<short>
+					<standard>SBT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="South_Georgia">
+				<long>
+					<standard>Dél-Grúzia idő</standard>
+				</long>
+				<short>
+					<standard>GST (S. Georgia)</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Suriname">
+				<long>
+					<standard>Suriname idő</standard>
+				</long>
+				<short>
+					<standard>SRT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Sverdlovsk">
+				<long>
+					<standard>Szverdlovszk idő</standard>
+					<daylight>Szverdlovszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>SVET</standard>
+					<daylight>SVEST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Syowa">
+				<long>
+					<standard>Syowa idő</standard>
+				</long>
+				<short>
+					<standard>SYOT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tahiti">
+				<long>
+					<standard>Tahiti idő</standard>
+				</long>
+				<short>
+					<standard>TAHT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tajikistan">
+				<long>
+					<standard>Tadzsikisztán idő</standard>
+				</long>
+				<short>
+					<standard>TJT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tashkent">
+				<long>
+					<standard>Taskent idő</standard>
+					<daylight>Taskent nyári idő</daylight>
+				</long>
+				<short>
+					<standard>TAST</standard>
+					<daylight>TASST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tbilisi">
+				<long>
+					<standard>Tbiliszi idő</standard>
+					<daylight>Tbiliszi nyári idő</daylight>
+				</long>
+				<short>
+					<standard>TBIT</standard>
+					<daylight>TBIST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tokelau">
+				<long>
+					<standard>Tokelau idő</standard>
+				</long>
+				<short>
+					<standard>TKT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tonga">
+				<long>
+					<standard>Tonga idő</standard>
+					<daylight>Tonga nyári idő</daylight>
+				</long>
+				<short>
+					<standard>TOT</standard>
+					<daylight>TOST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Truk">
+				<long>
+					<standard>Truk idő</standard>
+				</long>
+				<short>
+					<standard>TRUT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Turkey">
+				<long>
+					<standard>Törökország idő</standard>
+					<daylight>Törökország nyári idő</daylight>
+				</long>
+				<short>
+					<standard>TRT</standard>
+					<daylight>TRST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Turkmenistan">
+				<long>
+					<standard>Türkmenisztán idő</standard>
+					<daylight>Türkmenisztán nyári idő</daylight>
+				</long>
+				<short>
+					<standard>TMT</standard>
+					<daylight>TMST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Tuvalu">
+				<long>
+					<standard>Tuvalu idő</standard>
+				</long>
+				<short>
+					<standard>TVT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Uralsk">
+				<long>
+					<standard>Uráli idő</standard>
+					<daylight>Uráli nyári idő</daylight>
+				</long>
+				<short>
+					<standard>URAT</standard>
+					<daylight>URAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<standard>Uruguay idő</standard>
+					<daylight>Uruguay nyári idő</daylight>
+				</long>
+				<short>
+					<standard>UYT</standard>
+					<daylight>UYST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Urumqi">
+				<long>
+					<standard>Urumqi idő</standard>
+				</long>
+				<short>
+					<standard>URUT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Uzbekistan">
+				<long>
+					<standard>Üzbegisztán idő</standard>
+					<daylight>Üzbegisztán nyári idő</daylight>
+				</long>
+				<short>
+					<standard>UZT</standard>
+					<daylight>UZST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Vanuatu">
+				<long>
+					<standard>Vanuatu idő</standard>
+					<daylight>Vanuatu nyári idő</daylight>
+				</long>
+				<short>
+					<standard>VUT</standard>
+					<daylight>VUST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Venezuela">
+				<long>
+					<standard>Venezuela idő</standard>
+				</long>
+				<short>
+					<standard>VET</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Vladivostok">
+				<long>
+					<standard>Vlagyivosztok idő</standard>
+					<daylight>Vlagyivosztok nyári idő</daylight>
+				</long>
+				<short>
+					<standard>VLAT</standard>
+					<daylight>VLAST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Volgograd">
+				<long>
+					<standard>Volgográd idő</standard>
+					<daylight>Volgográd nyári idő</daylight>
+				</long>
+				<short>
+					<standard>VOLT</standard>
+					<daylight>VOLST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Vostok">
+				<long>
+					<standard>Vosztok idő</standard>
+				</long>
+				<short>
+					<standard>VOST</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Wake">
+				<long>
+					<standard>Wake-sziget idő</standard>
+				</long>
+				<short>
+					<standard>WAKT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Wallis">
+				<long>
+					<standard>Wallis és Futuna idő</standard>
+				</long>
+				<short>
+					<standard>WFT</standard>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Yakutsk">
+				<long>
+					<standard>Jakutszk idő</standard>
+					<daylight>Jakutszk nyári idő</daylight>
+				</long>
+				<short>
+					<standard>YAKT</standard>
+					<daylight>YAKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Yekaterinburg">
+				<long>
+					<standard>Jekatyerinburg idő</standard>
+					<daylight>Jekatyerinburg nyári idő</daylight>
+				</long>
+				<short>
+					<standard>YEKT</standard>
+					<daylight>YEKST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Yerevan">
+				<long>
+					<standard>Jereván idő</standard>
+					<daylight>Jereván nyári idő</daylight>
+				</long>
+				<short>
+					<standard>YERT</standard>
+					<daylight>YERST</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Yukon">
+				<long>
+					<generic>Yukon idő</generic>
+					<standard>Yukon szabvány idő</standard>
+					<daylight>Yukon nappali idő</daylight>
+				</long>
+				<short>
+					<generic>YT</generic>
+					<standard>YST</standard>
+					<daylight>YDT</daylight>
+				</short>
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group> </group>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="ADP">
+				<displayName>Andorrai peseta</displayName>
+			</currency>
+			<currency type="AED">
+				<displayName>EAE dirham</displayName>
+			</currency>
+			<currency type="AFA">
+				<displayName>Afghani (1927-2002)</displayName>
+			</currency>
+			<currency type="AFN">
+				<displayName>Afghani</displayName>
+				<symbol>Af</symbol>
+			</currency>
+			<currency type="ALL">
+				<displayName>Albán lek</displayName>
+				<symbol>lek</symbol>
+			</currency>
+			<currency type="AMD">
+				<displayName>Dram</displayName>
+				<symbol>dram</symbol>
+			</currency>
+			<currency type="ANG">
+				<displayName>Holland-antilla forint</displayName>
+				<symbol>NA f.</symbol>
+			</currency>
+			<currency type="AOA">
+				<displayName>Angolai kwanza</displayName>
+			</currency>
+			<currency type="AOK">
+				<displayName>Angolai kwanza (1977-1990)</displayName>
+			</currency>
+			<currency type="AON">
+				<displayName>Angolai új kwanza (1990-2000)</displayName>
+			</currency>
+			<currency type="AOR">
+				<displayName>Angolai kwanza reajustado (1995-1999)</displayName>
+			</currency>
+			<currency type="ARA">
+				<displayName>Argentín austral</displayName>
+			</currency>
+			<currency type="ARP">
+				<displayName>Argentín peso (1983-1985)</displayName>
+			</currency>
+			<currency type="ARS">
+				<displayName>Peso</displayName>
+				<symbol>Arg$</symbol>
+			</currency>
+			<currency type="ATS">
+				<displayName>Osztrák schilling</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName>Ausztrál dollár</displayName>
+				<symbol>$A</symbol>
+			</currency>
+			<currency type="AWG">
+				<displayName>Arubai forint</displayName>
+			</currency>
+			<currency type="AZM">
+				<displayName>Azerbajdzsáni manat</displayName>
+			</currency>
+			<currency type="BAD">
+				<displayName>Bosznia-hercegovinai dínár</displayName>
+			</currency>
+			<currency type="BAM">
+				<displayName>Bozsnia-hercegovinai konvertibilis márka</displayName>
+				<symbol>KM</symbol>
+			</currency>
+			<currency type="BBD">
+				<displayName>Barbadosi dollár</displayName>
+				<symbol>BDS$</symbol>
+			</currency>
+			<currency type="BDT">
+				<displayName>Bangladesi taka</displayName>
+				<symbol>Tk</symbol>
+			</currency>
+			<currency type="BEC">
+				<displayName>Belga frank (konvertibilis)</displayName>
+			</currency>
+			<currency type="BEF">
+				<displayName>Belga frank</displayName>
+				<symbol>BF</symbol>
+			</currency>
+			<currency type="BEL">
+				<displayName>Belga frank (pénzügyi)</displayName>
+			</currency>
+			<currency type="BGL">
+				<displayName>Bolgár kemény leva</displayName>
+				<symbol>lev</symbol>
+			</currency>
+			<currency type="BGN">
+				<displayName>Bolgár új leva</displayName>
+			</currency>
+			<currency type="BHD">
+				<displayName>Bahreini dinár</displayName>
+				<symbol>BD</symbol>
+			</currency>
+			<currency type="BIF">
+				<displayName>Burundi frank</displayName>
+				<symbol>Fbu</symbol>
+			</currency>
+			<currency type="BMD">
+				<displayName>Bermudai dollár</displayName>
+				<symbol>Ber$</symbol>
+			</currency>
+			<currency type="BND">
+				<displayName>Brunei dollár</displayName>
+			</currency>
+			<currency type="BOB">
+				<displayName>Boliviano</displayName>
+				<symbol>Bs</symbol>
+			</currency>
+			<currency type="BOP">
+				<displayName>Bolíviai peso</displayName>
+			</currency>
+			<currency type="BOV">
+				<displayName>Bolíviai mvdol</displayName>
+			</currency>
+			<currency type="BRB">
+				<displayName>Brazi cruzeiro novo (1967-1986)</displayName>
+			</currency>
+			<currency type="BRC">
+				<displayName>Brazi cruzado</displayName>
+			</currency>
+			<currency type="BRE">
+				<displayName>Brazil cruzeiro (1990-1993)</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName>Brazil real</displayName>
+				<symbol>BRL</symbol>
+			</currency>
+			<currency type="BRN">
+				<displayName>Brazil cruzado novo</displayName>
+			</currency>
+			<currency type="BRR">
+				<displayName>Brazil cruzeiro</displayName>
+			</currency>
+			<currency type="BSD">
+				<displayName>Bahamai dollár</displayName>
+			</currency>
+			<currency type="BTN">
+				<displayName>Bhutáni ngultrum</displayName>
+				<symbol>Nu</symbol>
+			</currency>
+			<currency type="BUK">
+				<displayName>Burmai kyat</displayName>
+			</currency>
+			<currency type="BWP">
+				<displayName>Botswanai pula</displayName>
+			</currency>
+			<currency type="BYB">
+				<displayName>Fehérorosz új rubel (1994-1999)</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>Fehérorosz rubel</displayName>
+				<symbol>Rbl</symbol>
+			</currency>
+			<currency type="BZD">
+				<displayName>Belizei dollár</displayName>
+				<symbol>BZ$</symbol>
+			</currency>
+			<currency type="CAD">
+				<displayName>Kanadai dollár</displayName>
+				<symbol>Can$</symbol>
+			</currency>
+			<currency type="CDF">
+				<displayName>Kongói frank</displayName>
+			</currency>
+			<currency type="CHE">
+				<displayName>WIR euro</displayName>
+			</currency>
+			<currency type="CHF">
+				<displayName>Svájci frank</displayName>
+				<symbol>SwF</symbol>
+			</currency>
+			<currency type="CHW">
+				<displayName>WIR frank</displayName>
+			</currency>
+			<currency type="CLF">
+				<displayName>Chilei unidades de fomento</displayName>
+			</currency>
+			<currency type="CLP">
+				<displayName>Chilei peso</displayName>
+				<symbol>Ch$</symbol>
+			</currency>
+			<currency type="CNY">
+				<displayName>Kínai jüan renminbi</displayName>
+				<symbol>Y</symbol>
+			</currency>
+			<currency type="COP">
+				<displayName>Kolumbiai peso</displayName>
+				<symbol>Col$</symbol>
+			</currency>
+			<currency type="COU">
+				<displayName>unidad de valor real</displayName>
+			</currency>
+			<currency type="CRC">
+				<displayName>Costa Ricai colon</displayName>
+				<symbol>C</symbol>
+			</currency>
+			<currency type="CSD">
+				<displayName>szerb dinár</displayName>
+			</currency>
+			<currency type="CSK">
+				<displayName>Csehszlovák kemény korona</displayName>
+			</currency>
+			<currency type="CUP">
+				<displayName>Kubai peso</displayName>
+			</currency>
+			<currency type="CVE">
+				<displayName>Cape Verdei escudo</displayName>
+				<symbol>CVEsc</symbol>
+			</currency>
+			<currency type="CYP">
+				<displayName>Ciprusi font</displayName>
+				<symbol>£C</symbol>
+			</currency>
+			<currency type="CZK">
+				<displayName>Cseh korona</displayName>
+			</currency>
+			<currency type="DDM">
+				<displayName>Kelet-Német márka</displayName>
+			</currency>
+			<currency type="DEM">
+				<displayName>Német márka</displayName>
+			</currency>
+			<currency type="DJF">
+				<displayName>Dzsibuti frank</displayName>
+				<symbol>DF</symbol>
+			</currency>
+			<currency type="DKK">
+				<displayName>Dán korona</displayName>
+				<symbol>DKr</symbol>
+			</currency>
+			<currency type="DOP">
+				<displayName>Dominikai peso</displayName>
+				<symbol>RD$</symbol>
+			</currency>
+			<currency type="DZD">
+				<displayName>Algériai dínár</displayName>
+				<symbol>DA</symbol>
+			</currency>
+			<currency type="ECS">
+				<displayName>Ecuadori sucre</displayName>
+			</currency>
+			<currency type="ECV">
+				<displayName>Ecuadori Unidad de Valor Constante (UVC)</displayName>
+			</currency>
+			<currency type="EEK">
+				<displayName>Észt korona</displayName>
+			</currency>
+			<currency type="EGP">
+				<displayName>Egyiptomi font</displayName>
+			</currency>
+			<currency type="EQE">
+				<displayName>ekwele</displayName>
+			</currency>
+			<currency type="ERN">
+				<displayName>Eritreai nakfa</displayName>
+			</currency>
+			<currency type="ESA">
+				<displayName>spanyol peseta (A-kontó)</displayName>
+			</currency>
+			<currency type="ESB">
+				<displayName>spanyol peseta (konvertibilis kontó)</displayName>
+			</currency>
+			<currency type="ESP">
+				<displayName>Spanyol peseta</displayName>
+			</currency>
+			<currency type="ETB">
+				<displayName>Etiópiai birr</displayName>
+				<symbol>Br</symbol>
+			</currency>
+			<currency type="EUR">
+				<displayName>Euro</displayName>
+				<symbol>EUR</symbol>
+			</currency>
+			<currency type="FIM">
+				<displayName>Finn markka</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName>Fidzsi dollár</displayName>
+				<symbol>F$</symbol>
+			</currency>
+			<currency type="FKP">
+				<displayName>Falkland-szigeteki font</displayName>
+			</currency>
+			<currency type="FRF">
+				<displayName>Francia frank</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName>Brit font sterling</displayName>
+				<symbol>GBP</symbol>
+			</currency>
+			<currency type="GEK">
+				<displayName>Grúz kupon larit</displayName>
+			</currency>
+			<currency type="GEL">
+				<displayName>Grúz lari</displayName>
+				<symbol>lari</symbol>
+			</currency>
+			<currency type="GHC">
+				<displayName>Ghánai cedi</displayName>
+			</currency>
+			<currency type="GIP">
+				<displayName>Gibraltári font</displayName>
+			</currency>
+			<currency type="GMD">
+				<displayName>Gambiai dalasi</displayName>
+			</currency>
+			<currency type="GNF">
+				<displayName>Guineai frank</displayName>
+				<symbol>GF</symbol>
+			</currency>
+			<currency type="GNS">
+				<displayName>Guineai syli</displayName>
+			</currency>
+			<currency type="GQE">
+				<displayName>Egyenlítői-guineai ekwele guineana</displayName>
+			</currency>
+			<currency type="GRD">
+				<displayName>Görög drachma</displayName>
+			</currency>
+			<currency type="GTQ">
+				<displayName>Guatemalai quetzal</displayName>
+				<symbol>Q</symbol>
+			</currency>
+			<currency type="GWE">
+				<displayName>Portugál guinea escudo</displayName>
+			</currency>
+			<currency type="GWP">
+				<displayName>Guinea-Bissaui peso</displayName>
+			</currency>
+			<currency type="GYD">
+				<displayName>Guyanai dollár</displayName>
+				<symbol>G$</symbol>
+			</currency>
+			<currency type="HKD">
+				<displayName>Hongkongi dollár</displayName>
+				<symbol>HK$</symbol>
+			</currency>
+			<currency type="HNL">
+				<displayName>Hodurasi lempira</displayName>
+				<symbol>L</symbol>
+			</currency>
+			<currency type="HRD">
+				<displayName>Horvát dínár</displayName>
+			</currency>
+			<currency type="HRK">
+				<displayName>Horvát kuna</displayName>
+			</currency>
+			<currency type="HTG">
+				<displayName>Haiti gourde</displayName>
+			</currency>
+			<currency type="HUF">
+				<displayName>Magyar forint</displayName>
+				<symbol>Ft</symbol>
+			</currency>
+			<currency type="IDR">
+				<displayName>Indonéz rúpia</displayName>
+				<symbol>Rp</symbol>
+			</currency>
+			<currency type="IEP">
+				<displayName>Ír font</displayName>
+				<symbol>IR£</symbol>
+			</currency>
+			<currency type="ILP">
+				<displayName>Izraeli font</displayName>
+			</currency>
+			<currency type="ILS">
+				<displayName>Izraeli új sékel</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName>indiai rúpia</displayName>
+				<symbol>INR</symbol>
+			</currency>
+			<currency type="IQD">
+				<displayName>Iraki dínár</displayName>
+				<symbol>ID</symbol>
+			</currency>
+			<currency type="IRR">
+				<displayName>Iráni rial</displayName>
+				<symbol>RI</symbol>
+			</currency>
+			<currency type="ISK">
+				<displayName>Izlandi korona</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName>Olasz líra</displayName>
+				<symbol>LIT</symbol>
+			</currency>
+			<currency type="JMD">
+				<displayName>Jamaikai dollár</displayName>
+				<symbol>J$</symbol>
+			</currency>
+			<currency type="JOD">
+				<displayName>Jordániai dínár</displayName>
+				<symbol>JD</symbol>
+			</currency>
+			<currency type="JPY">
+				<displayName>Japán jen</displayName>
+				<symbol>JPY</symbol>
+			</currency>
+			<currency type="KES">
+				<displayName>Kenyai shilling</displayName>
+				<symbol>K Sh</symbol>
+			</currency>
+			<currency type="KGS">
+				<displayName>Kirgizisztáni szom</displayName>
+				<symbol>som</symbol>
+			</currency>
+			<currency type="KHR">
+				<displayName>Kambodzsai riel</displayName>
+				<symbol>CR</symbol>
+			</currency>
+			<currency type="KMF">
+				<displayName>Comorei frank</displayName>
+				<symbol>CF</symbol>
+			</currency>
+			<currency type="KPW">
+				<displayName>Észak-koreai won</displayName>
+			</currency>
+			<currency type="KRW">
+				<displayName>Dél-koreai won</displayName>
+			</currency>
+			<currency type="KWD">
+				<displayName>Kuvaiti dínár</displayName>
+				<symbol>KD</symbol>
+			</currency>
+			<currency type="KYD">
+				<displayName>Kajmán-szigeteki dollár</displayName>
+			</currency>
+			<currency type="KZT">
+				<displayName>Kazahsztáni tenge</displayName>
+				<symbol>T</symbol>
+			</currency>
+			<currency type="LAK">
+				<displayName>Laoszi kip</displayName>
+			</currency>
+			<currency type="LBP">
+				<displayName>Libanoni font</displayName>
+				<symbol>LL</symbol>
+			</currency>
+			<currency type="LKR">
+				<displayName>Sri Lankai rúpia</displayName>
+				<symbol>SL Re</symbol>
+			</currency>
+			<currency type="LRD">
+				<displayName>Libériai dollár</displayName>
+			</currency>
+			<currency type="LSL">
+				<displayName>Lesothoi loti</displayName>
+				<symbol>M</symbol>
+			</currency>
+			<currency type="LSM">
+				<displayName>maloti</displayName>
+			</currency>
+			<currency type="LTL">
+				<displayName>Litvániai litas</displayName>
+			</currency>
+			<currency type="LTT">
+				<displayName>Litvániai talonas</displayName>
+			</currency>
+			<currency type="LUC">
+				<displayName>luxemburgi konvertibilis frank</displayName>
+			</currency>
+			<currency type="LUF">
+				<displayName>Luxemburgi frank</displayName>
+			</currency>
+			<currency type="LUL">
+				<displayName>luxemburgi pénzügyi frank</displayName>
+			</currency>
+			<currency type="LVL">
+				<displayName>Lett lats</displayName>
+			</currency>
+			<currency type="LVR">
+				<displayName>Lett rubel</displayName>
+			</currency>
+			<currency type="LYD">
+				<displayName>Líbiai dínár</displayName>
+				<symbol>LD</symbol>
+			</currency>
+			<currency type="MAD">
+				<displayName>Marokkói dirham</displayName>
+			</currency>
+			<currency type="MAF">
+				<displayName>Marokkói frank</displayName>
+			</currency>
+			<currency type="MDL">
+				<displayName>Moldován lei</displayName>
+			</currency>
+			<currency type="MGA">
+				<displayName>Madagaszkári ariary</displayName>
+			</currency>
+			<currency type="MGF">
+				<displayName>Madagaszkári frank</displayName>
+			</currency>
+			<currency type="MKD">
+				<displayName>Macedon dínár</displayName>
+				<symbol>MDen</symbol>
+			</currency>
+			<currency type="MLF">
+				<displayName>Mali frank</displayName>
+			</currency>
+			<currency type="MMK">
+				<displayName>Mianmari kyat</displayName>
+			</currency>
+			<currency type="MNT">
+				<displayName>Mongóliai tugrik</displayName>
+				<symbol>Tug</symbol>
+			</currency>
+			<currency type="MOP">
+				<displayName>makaói pataca</displayName>
+			</currency>
+			<currency type="MRO">
+				<displayName>Mauritániai ouguiya</displayName>
+				<symbol>UM</symbol>
+			</currency>
+			<currency type="MTL">
+				<displayName>Máltai líra</displayName>
+				<symbol>Lm</symbol>
+			</currency>
+			<currency type="MTP">
+				<displayName>Máltai font</displayName>
+			</currency>
+			<currency type="MUR">
+				<displayName>Mauritiusi rúpia</displayName>
+			</currency>
+			<currency type="MVR">
+				<displayName>Maldív-szigeteki rufiyaa</displayName>
+			</currency>
+			<currency type="MWK">
+				<displayName>Malawi kwacha</displayName>
+				<symbol>MK</symbol>
+			</currency>
+			<currency type="MXN">
+				<displayName>Mexikói peso</displayName>
+				<symbol>MEX$</symbol>
+			</currency>
+			<currency type="MXP">
+				<displayName>Mexikói ezüst peso (1861-1992)</displayName>
+			</currency>
+			<currency type="MXV">
+				<displayName>Mexikói Unidad de Inversion (UDI)</displayName>
+			</currency>
+			<currency type="MYR">
+				<displayName>Malajziai ringgit</displayName>
+				<symbol>RM</symbol>
+			</currency>
+			<currency type="MZE">
+				<displayName>Mozambik escudo</displayName>
+			</currency>
+			<currency type="MZM">
+				<displayName>Mozambik metical</displayName>
+				<symbol>Mt</symbol>
+			</currency>
+			<currency type="MZN">
+				<displayName>Mozambiki metikális</displayName>
+			</currency>
+			<currency type="NAD">
+				<displayName>Namíbiai dollár</displayName>
+				<symbol>N$</symbol>
+			</currency>
+			<currency type="NGN">
+				<displayName>Nigériai naira</displayName>
+			</currency>
+			<currency type="NIC">
+				<displayName>Nikaraguai cordoba</displayName>
+			</currency>
+			<currency type="NIO">
+				<displayName>Nikaraguai cordoba oro</displayName>
+			</currency>
+			<currency type="NLG">
+				<displayName>Holland forint</displayName>
+			</currency>
+			<currency type="NOK">
+				<displayName>Norvég korona</displayName>
+				<symbol>NKr</symbol>
+			</currency>
+			<currency type="NPR">
+				<displayName>Nepáli rúpia</displayName>
+				<symbol>Nrs</symbol>
+			</currency>
+			<currency type="NZD">
+				<displayName>Új-zélandi dollár</displayName>
+				<symbol>$NZ</symbol>
+			</currency>
+			<currency type="OMR">
+				<displayName>Ománi rial</displayName>
+				<symbol>RO</symbol>
+			</currency>
+			<currency type="PAB">
+				<displayName>Panamai balboa</displayName>
+			</currency>
+			<currency type="PEI">
+				<displayName>Perui inti</displayName>
+			</currency>
+			<currency type="PEN">
+				<displayName>Perui sol nuevo</displayName>
+			</currency>
+			<currency type="PES">
+				<displayName>Perui sol</displayName>
+			</currency>
+			<currency type="PGK">
+				<displayName>Pápua új-guineai kina</displayName>
+			</currency>
+			<currency type="PHP">
+				<displayName>Fülöp-szigeteki peso</displayName>
+			</currency>
+			<currency type="PKR">
+				<displayName>Pakisztáni rúpia</displayName>
+				<symbol>Pra</symbol>
+			</currency>
+			<currency type="PLN">
+				<displayName>Lengyel zloty</displayName>
+				<symbol>Zl</symbol>
+			</currency>
+			<currency type="PLZ">
+				<displayName>Lengyel zloty (1950-1995)</displayName>
+			</currency>
+			<currency type="PTE">
+				<displayName>Portugál escudo</displayName>
+			</currency>
+			<currency type="PYG">
+				<displayName>Paraguayi guarani</displayName>
+			</currency>
+			<currency type="QAR">
+				<displayName>Katari rial</displayName>
+				<symbol>QR</symbol>
+			</currency>
+			<currency type="RHD">
+				<displayName>rhodéziai dollár</displayName>
+			</currency>
+			<currency type="ROL">
+				<displayName>Román lej</displayName>
+				<symbol>leu</symbol>
+			</currency>
+			<currency type="RON">
+				<displayName>Román leu</displayName>
+			</currency>
+			<currency type="RSD">
+				<displayName>Szerb Dínár</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName>Orosz rubel</displayName>
+			</currency>
+			<currency type="RUR">
+				<displayName>Orosz rubel (1991-1998)</displayName>
+			</currency>
+			<currency type="RWF">
+				<displayName>Ruandai frank</displayName>
+			</currency>
+			<currency type="SAR">
+				<displayName>Szaúdi riyal</displayName>
+				<symbol>SRl</symbol>
+			</currency>
+			<currency type="SBD">
+				<displayName>Salamon-szigeteki dollár</displayName>
+				<symbol>SI$</symbol>
+			</currency>
+			<currency type="SCR">
+				<displayName>Seychelle-szigeteki rúpia</displayName>
+				<symbol>SR</symbol>
+			</currency>
+			<currency type="SDD">
+				<displayName>Szudáni dínár</displayName>
+			</currency>
+			<currency type="SDP">
+				<displayName>Szudáni font</displayName>
+			</currency>
+			<currency type="SEK">
+				<displayName>Svéd korona</displayName>
+				<symbol>SKr</symbol>
+			</currency>
+			<currency type="SGD">
+				<displayName>Szingapúri dollár</displayName>
+				<symbol>S$</symbol>
+			</currency>
+			<currency type="SHP">
+				<displayName>Saint Helena font</displayName>
+			</currency>
+			<currency type="SIT">
+				<displayName>Szlovén tolar</displayName>
+			</currency>
+			<currency type="SKK">
+				<displayName>Szlovák korona</displayName>
+				<symbol>Sk</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>Sierra Leonei leone</displayName>
+			</currency>
+			<currency type="SOS">
+				<displayName>Szomáli shilling</displayName>
+				<symbol>So. Sh.</symbol>
+			</currency>
+			<currency type="SRG">
+				<displayName>Suriname-i gulden</displayName>
+				<symbol>Sf</symbol>
+			</currency>
+			<currency type="STD">
+				<displayName>Sao tome-i és principe-i dobra</displayName>
+				<symbol>Db</symbol>
+			</currency>
+			<currency type="SUR">
+				<displayName>Szovjet rubel</displayName>
+			</currency>
+			<currency type="SVC">
+				<displayName>Salvadori colón</displayName>
+			</currency>
+			<currency type="SYP">
+				<displayName>Szíriai font</displayName>
+				<symbol>LS</symbol>
+			</currency>
+			<currency type="SZL">
+				<displayName>Szváziföldi lilangeni</displayName>
+				<symbol>E</symbol>
+			</currency>
+			<currency type="THB">
+				<displayName>Thai baht</displayName>
+			</currency>
+			<currency type="TJR">
+				<displayName>Tádzsikisztáni rubel</displayName>
+			</currency>
+			<currency type="TJS">
+				<displayName>Tádzsikisztáni somoni</displayName>
+			</currency>
+			<currency type="TMM">
+				<displayName>Türkmenisztáni manat</displayName>
+			</currency>
+			<currency type="TND">
+				<displayName>Tunéziai dínár</displayName>
+			</currency>
+			<currency type="TOP">
+				<displayName>pa'anga</displayName>
+			</currency>
+			<currency type="TPE">
+				<displayName>Timori escudo</displayName>
+			</currency>
+			<currency type="TRL">
+				<displayName>Török líra</displayName>
+				<symbol>TL</symbol>
+			</currency>
+			<currency type="TRY">
+				<displayName>új török líra</displayName>
+			</currency>
+			<currency type="TTD">
+				<displayName>Trinidad és tobagoi dollár</displayName>
+				<symbol>TT$</symbol>
+			</currency>
+			<currency type="TWD">
+				<displayName>Tajvani új dollár</displayName>
+				<symbol>NT$</symbol>
+			</currency>
+			<currency type="TZS">
+				<displayName>Tanzániai shilling</displayName>
+				<symbol>T Sh</symbol>
+			</currency>
+			<currency type="UAH">
+				<displayName>Ukrán hrivnya</displayName>
+			</currency>
+			<currency type="UAK">
+				<displayName>Ukrán karbovanec</displayName>
+			</currency>
+			<currency type="UGS">
+				<displayName>Ugandai shilling (1966-1987)</displayName>
+			</currency>
+			<currency type="UGX">
+				<displayName>Ugandai shilling</displayName>
+				<symbol>U Sh</symbol>
+			</currency>
+			<currency type="USD">
+				<displayName>USA dollár</displayName>
+				<symbol>USD</symbol>
+			</currency>
+			<currency type="USN">
+				<displayName>USA dollár (következő napi)</displayName>
+			</currency>
+			<currency type="USS">
+				<displayName>USA dollár (aznapi)</displayName>
+			</currency>
+			<currency type="UYP">
+				<displayName>Uruguay-i peso (1975-1993)</displayName>
+			</currency>
+			<currency type="UYU">
+				<displayName>Uruguay-i peso uruguayo</displayName>
+				<symbol>Ur$</symbol>
+			</currency>
+			<currency type="UZS">
+				<displayName>Üzbegisztáni szum</displayName>
+			</currency>
+			<currency type="VEB">
+				<displayName>Venezuelai bolívar</displayName>
+				<symbol>Be</symbol>
+			</currency>
+			<currency type="VND">
+				<displayName>Vietnámi dong</displayName>
+			</currency>
+			<currency type="VUV">
+				<displayName>Vanuatui vatu</displayName>
+				<symbol>VT</symbol>
+			</currency>
+			<currency type="WST">
+				<displayName>Nyugat-szamoai tala</displayName>
+			</currency>
+			<currency type="XAF">
+				<displayName>CFA frank BEAC</displayName>
+			</currency>
+			<currency type="XAG">
+				<displayName>Ezüst</displayName>
+			</currency>
+			<currency type="XAU">
+				<displayName>Arany</displayName>
+			</currency>
+			<currency type="XBA">
+				<displayName>European Composite Unit</displayName>
+			</currency>
+			<currency type="XBB">
+				<displayName>European Monetary Unit</displayName>
+			</currency>
+			<currency type="XBC">
+				<displayName>European Unit of Account (XBC)</displayName>
+			</currency>
+			<currency type="XBD">
+				<displayName>European Unit of Account (XBD)</displayName>
+			</currency>
+			<currency type="XCD">
+				<displayName>Kelet-karibi dollár</displayName>
+				<symbol>EC$</symbol>
+			</currency>
+			<currency type="XDR">
+				<displayName>Special Drawing Rights</displayName>
+			</currency>
+			<currency type="XEU">
+				<displayName>európai pénznemegység</displayName>
+			</currency>
+			<currency type="XFO">
+				<displayName>Francia arany frank</displayName>
+			</currency>
+			<currency type="XFU">
+				<displayName>Francia UIC-frank</displayName>
+			</currency>
+			<currency type="XOF">
+				<displayName>CFA frank BCEAO</displayName>
+			</currency>
+			<currency type="XPD">
+				<displayName>palládium</displayName>
+			</currency>
+			<currency type="XPF">
+				<displayName>CFP frank</displayName>
+				<symbol>CFPF</symbol>
+			</currency>
+			<currency type="XPT">
+				<displayName>platina</displayName>
+			</currency>
+			<currency type="XRE">
+				<displayName>RINET tőke</displayName>
+			</currency>
+			<currency type="XTS">
+				<displayName>tesztelési pénznemkód</displayName>
+			</currency>
+			<currency type="XXX">
+				<displayName>nincs pénznem</displayName>
+			</currency>
+			<currency type="YDD">
+				<displayName>Jemeni dínár</displayName>
+			</currency>
+			<currency type="YER">
+				<displayName>Jemeni rial</displayName>
+				<symbol>YRl</symbol>
+			</currency>
+			<currency type="YUD">
+				<displayName>Jugoszláv kemény dínár</displayName>
+			</currency>
+			<currency type="YUM">
+				<displayName>Jugoszláv új dínár</displayName>
+			</currency>
+			<currency type="YUN">
+				<displayName>Jugoszláv konvertibilis dínár</displayName>
+			</currency>
+			<currency type="ZAL">
+				<displayName>Dél-afrikai rand (pénzügyi)</displayName>
+			</currency>
+			<currency type="ZAR">
+				<displayName>Dél-afrikai rand</displayName>
+				<symbol>R</symbol>
+			</currency>
+			<currency type="ZMK">
+				<displayName>Zambiai kwacha</displayName>
+			</currency>
+			<currency type="ZRN">
+				<displayName>Zairei új zaire</displayName>
+			</currency>
+			<currency type="ZRZ">
+				<displayName>Zairei zaire</displayName>
+			</currency>
+			<currency type="ZWD">
+				<displayName>Zimbabwei dollár</displayName>
+				<symbol>Z$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>igen:i</yesstr>
+			<nostr>nem:n</nostr>
+		</messages>
+	</posix>
+</ldml>

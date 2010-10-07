@@ -1,0 +1,99 @@
+<div style="font-size:12px;">
+This example shows the tree grid feature of jqGrid with supporting of Adjacency List Model <br>
+All you need is to set treeGrid option to true, and to specify which column is expandable. <br>
+Of course the data from the server should be ajusted in appropriate way.<br>
+</div>
+<br />
+<table id="treegrid2" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="ptreegrid2" class="scroll"></div>
+<script src="treegrid2.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="treegrid2" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="ptreegrid2" class="scroll"></div>
+<script src="treegrid.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+...
+jQuery("#treegrid2").jqGrid({
+    treeGrid: true,
+	treeGridModel : 'adjacency',
+	ExpandColumn : 'name',
+   	url: 'server.php?q=tree3',
+	datatype: "xml",
+	mtype: "POST",
+   	colNames:["id","Account","Acc Num", "Debit", "Credit","Balance"],
+   	colModel:[
+   		{name:'id',index:'id', width:1,hidden:true,key:true},
+   		{name:'name',index:'name', width:180},
+   		{name:'num',index:'acc_num', width:80, align:"center"},
+   		{name:'debit',index:'debit', width:80, align:"right"},		
+   		{name:'credit',index:'credit', width:80,align:"right"},		
+   		{name:'balance',index:'balance', width:80,align:"right"}		
+   	],
+	height:'auto',
+	pager : jQuery("#ptreegrid2"),
+   	imgpath: gridimgpath,
+	caption: "Treegrid example"
+});
+</XMP>
+<b> PHP code </b>
+<XMP>
+// get the leaf nodes first
+$SQLL = "SELECT t1.account_id FROM accounts AS t1 LEFT JOIN accounts as t2 "
+	." ON t1.account_id = t2.parent_id WHERE t2.account_id IS NULL";
+$resultl = mysql_query( $SQLL ) or die("Couldn t execute query.".mysql_error());
+$leafnodes = array();
+while($rw = mysql_fetch_array($resultl,MYSQL_ASSOC)) {
+	$leafnodes[$rw[account_id]] = $rw[account_id];
+}
+// get the needed parameters
+$node = (integer)$_REQUEST["nodeid"];
+$n_lvl = (integer)$_REQUEST["n_level"];
+if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
+ 		header("Content-type: application/xhtml+xml;charset=utf-8"); } else {
+ 		header("Content-type: text/xml;charset=utf-8");
+}
+$et = ">";
+echo "<?xml version='1.0' encoding='utf-8'?$et\n";
+echo "<rows>";
+echo "<page>1</page>";
+echo "<total>1</total>";
+echo "<records>1</records>";
+if($node >0) {
+	$wh = 'parent_id='.$node;
+	// we ouput the next level
+	$n_lvl = $n_lvl+1;
+} else {
+	$wh = 'ISNULL(parent_id)';
+	//$level = 0;
+}
+
+// This is the most easy way for this model - we use autoloading tree 
+// no need for recursion
+
+$SQL = "SELECT account_id, name, acc_num, debit, credit, balance, parent_id FROM accounts WHERE ".$wh;
+$result = mysql_query( $SQL ) or die("Couldn t execute query.".mysql_error());
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	echo "<row>";			
+	echo "<cell>". $row[account_id]."</cell>";
+	echo "<cell>". $row[name]."</cell>";
+	echo "<cell>". $row[acc_num]."</cell>";
+	echo "<cell>". $row[debit]."</cell>";
+	echo "<cell>". $row[credit]."</cell>";
+	echo "<cell>". $row[balance]."</cell>";
+	echo "<cell>". $n_lvl."</cell>";
+	if(!$row[parent_id]) $valp = 'NULL'; else $valp = $row[parent_id]; 
+	echo "<cell><![CDATA[".$valp."]]></cell>";
+	if($row[account_id] == $leafnodes[$row[account_id]]) $leaf='true'; else $leaf = 'false';
+	echo "<cell>".$leaf."</cell>";
+	echo "<cell>false</cell>";
+	echo "</row>";
+}
+echo "</rows>";
+</XMP>   
+</div>

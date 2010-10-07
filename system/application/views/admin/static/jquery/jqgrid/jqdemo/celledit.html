@@ -1,0 +1,104 @@
+<div style="font-size:12px;">
+    This example show the new Cell editing feature of jqGrid. Select some cell. <br>
+    The fields date, amout and tax are editable. When select a cell you can <br>
+	navigate with left, right, up and down keys. The Enter key save the content. The esc does not save the content.<br>
+	Try to change the values of amount or tax and see that the total changes.<br>
+	To enable cell editing you should just set cellEdit: true and ajust the colModel in appropriate way.
+</div>
+<br />
+<table id="celltbl" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pcelltbl" class="scroll" style="text-align:center;"></div>
+<script src="celledit.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="celltbl" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pcelltbl" class="scroll" style="text-align:center;"></div>
+<script src="celledit.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+...
+jQuery("#celltbl").jqGrid({
+   	url:'server.php?q=2',
+	datatype: "json",
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:55},
+   		{name:'invdate',index:'invdate', width:90,editable:true},
+   		{name:'name',index:'name asc, invdate', width:100},
+   		{name:'amount',index:'amount', width:80, align:"right",editable:true,editrules:{number:true}},
+   		{name:'tax',index:'tax', width:80, align:"right",editable:true,editrules:{number:true}},		
+   		{name:'total',index:'total', width:80,align:"right"},		
+   		{name:'note',index:'note', width:150, sortable:false}		
+   	],
+   	rowNum:10,
+   	rowList:[10,20,30],
+   	imgpath: gridimgpath,
+   	pager: jQuery('#pcelltbl'),
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+    caption:"Cell Edit Example",
+	forceFit : true,
+	cellEdit: true,
+	cellsubmit: 'clientArray',
+	afterEditCell: function (id,name,val,iRow,iCol){
+		if(name=='invdate') {
+			jQuery("#"+iRow+"_invdate","#celltbl").datepicker({dateFormat:"yy-mm-dd"});
+		}
+	},
+	afterSaveCell : function(rowid,name,val,iRow,iCol) {
+		if(name == 'amount') {
+			var taxval = jQuery("#celltbl").getCell(rowid,iCol+1);
+			jQuery("#celltbl").setRowData(rowid,{total:parseFloat(val)+parseFloat(taxval)});
+		}
+		if(name == 'tax') {
+			var amtval = jQuery("#celltbl").getCell(rowid,iCol-1);
+			jQuery("#celltbl").setRowData(rowid,{total:parseFloat(val)+parseFloat(amtval)});
+		}
+	}
+}).navGrid('#pgwidth',{edit:false,add:false,del:false});
+</XMP>
+<b>PHP with MySQL</b>
+<XMP>
+...
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+// connect to the database
+$db = mysql_connect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+$result = mysql_query("SELECT COUNT(*) AS count FROM invheader a, clients b WHERE a.client_id=b.client_id");
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+$SQL = "SELECT a.id, a.invdate, b.name, a.amount,a.tax,a.total,a.note FROM invheader a, clients b WHERE a.client_id=b.client_id ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldn t execute query.".mysql_error());
+
+$responce->page = $page;
+$responce->total = $total_pages;
+$responce->records = $count;
+$i=0;
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+    $responce->rows[$i]['id']=$row[id];
+    $responce->rows[$i]['cell']=array($row[id],$row[invdate],$row[name],$row[amount],$row[tax],$row[total],$row[note]);
+    $i++;
+}        
+echo json_encode($responce);
+...
+</XMP>
+</div>

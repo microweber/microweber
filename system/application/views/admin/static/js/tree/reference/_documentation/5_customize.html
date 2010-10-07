@@ -1,0 +1,224 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item current_page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="4_data.html" title="Data sources">&laquo;&nbsp;Data sources</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="6_output.html" title="Output">Output&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Customization</h2>
+				<div class="entry"><div id="documentation">
+
+<h1 id="cust">Customization using themes</h1>
+<p>As of version 0.9.5 jsTree also supports themes - here is a quick intro to themes.</p>
+<p>Each theme must reside in its own directory within the themes path.</p>
+<p class="note">NOTE: The themes path is either auto-detected (<span class="file">path-to-jstree/themes/</span>), or can be set manually using the <span class="var">settings.ui.theme_path</span> setting.</p>
+<p>The theme to use on a tree is set using the <span class="var">settings.ui.theme_name</span> setting - just set it to a string with the name of your directory (for example <span class="var">theme_name : </span><span class="val">"my_theme"</span>). If you set <span class="var">theme_name</span> to <span class="val">false</span> no theme will be included.</p>
+<p>Each theme consists at minimum of a file called <span class="file">style.css</span> within the theme directory. This file gets included after the default theme file, ensuring that any rules you set (even if the selectors have the same weight as the default theme's selectors) will be respected.</p>
+<p>You may also want to include various images in your themes directory, so that you can use them in your <span class="file">style.css</span> file.</p>
+<h2 id="classic-walk">Classic theme walkthrough</h2>
+<p>Here is a walkthrough of the classic theme (included). The most important part is the <span class="file">style.css</span> file.</p>
+<div class='source'>The classic theme</div>
+<pre>
+/* 
+ * Note all selectors begin with <u>.tree .tree-classic</u>
+ * This is necessary - keep to this format. 
+ * Just replace <u>classic</u> with your theme name .
+ */
+
+/* Setting the icon infront of every closed node */
+.tree .tree-classic li.open {
+	background:url("minus.gif") 2px 5px no-repeat;
+}
+/* Setting the icon infront of every open node */
+.tree .tree-classic li.closed {
+	background:url("plus.gif") 2px 5px no-repeat;
+}
+/* This should be same as above.
+ * Used to "close" nested nodes while dragging */
+.tree .tree-classic #dragged li.open {
+	background:url("plus.gif") 2px 5px no-repeat;
+}
+
+/* The opened folder icon */
+.tree .tree-classic li.open a {
+	background-image:url("folderopen.gif");
+}
+/* The closed folder icon */
+.tree .tree-classic li.closed a {
+	background-image:url("folder.gif");
+}
+/* The icon used for nodes with no children */
+.tree .tree-classic li.leaf a {
+	background-image:url("folder.gif");
+}
+/* If you want one icon for all above three states use this selector:
+ * <u>.tree .tree-classic li a</u> 
+ * It is also useful for setting the text color */
+
+/* The default theme has round borders in firefox. 
+ * Undo that if you want */
+.tree .tree-classic li a {
+	-moz-border-radius:0;
+}
+
+/* The colors used on the hovered node. 
+ * Here they match the background color - so no hover.
+ * Note the second selector - it is applied when <u>hover_mode</u> is <u>on</u> 
+ * and you use the <u>get_*</u> functions (mainly used for keyboard shortcuts) */
+.tree .tree-classic li a:hover,
+.tree .tree-classic li a.hover {
+	background-color:white;
+	border-color:white;
+}
+/* The colors for the selected state of the node */
+.tree .tree-classic li a.clicked,
+.tree .tree-classic li span.clicked {
+	background-color:navy;
+	border-color:navy;
+	color:white;
+}
+
+/* What follows here are the styles for right-to-left alignment 
+ * Include such styles only of you want to support RTL languages */
+.rtl .tree-classic li.open {
+	background-position:right 5px;
+	margin-right:-3px;
+	padding-right:19px;
+}
+.rtl .tree-classic li.closed {
+	background-position:right 5px;
+	margin-right:-3px;
+	padding-right:19px;
+}
+.rtl .tree-classic #dragged li.open {
+	background-position: right 5px;
+}
+</pre>
+<h2 id="customize-further">Other customizations</h2>
+<p>The above part does not cover enlarging fonts, or changing the tree background - here is how you do it:</p>
+<div class='source'>Font size/family &amp; height</div>
+<pre>
+.tree .tree-classic li {
+	font-size:11px;
+	line-height:20px;
+	min-height:20px;
+	font-family:Georgia;
+}
+.tree .tree-classic li a {
+	line-height:18px;
+	height:18px;
+}
+</pre>
+<div class='source'>Context menu</div>
+<pre>
+/* Using this selector you can set 
+ * background, width, etc.
+ * Below are the defaults. */
+.tree-default-context {
+	width:160px;
+	background:#F0F0F0 url("context.gif") 22px 0 repeat-y;
+	border:1px solid silver;
+	position:absolute;
+}
+
+.tree-default-context a,
+.tree-default-context a.disabled:hover {
+	display:block;
+	text-decoration:none;
+	color:black;
+	text-indent:26px;
+	line-height:20px;
+	background-repeat: no-repeat;
+	background-position: 3px center;
+	padding:1px 0;
+	background-color:transparent;
+	border:0;
+}
+.tree-default-context a:hover {
+	background-color: #e7f4f9;
+	border:1px solid #d8f0fa;
+	background-position: 2px center;
+	padding:0;
+	text-indent:25px;
+}
+.tree-default-context a.disabled,
+.tree-default-context a.disabled:hover {
+	color:silver;
+	opacity:0.5;
+	-ms-filter:'alpha(opacity=50)';
+	filter:alpha(opacity=50);
+	zoom:1;
+}
+
+.tree-default-context .separator {
+	background:#FFFFFF;
+	border-top:1px solid #E0E0E0;
+	font-size:1px;
+	height:1px;
+	line-height:1px;
+	margin:0 2px 0 24px;
+	min-height:1px;
+	display:block;
+}
+</pre>
+<div class='source'>Background color</div>
+<pre>
+.tree,
+.tree ul, 
+.tree li.last {
+	background-color:#666 !important;
+}
+</pre>
+<p>As of v.0.9.6 you can set any background you like (including images and repeat).</p>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

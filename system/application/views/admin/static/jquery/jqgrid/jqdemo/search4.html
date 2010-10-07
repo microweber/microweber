@@ -1,0 +1,63 @@
+<div style="font-size:12px;">
+    This example demonstartes the entairley rewriten searchGrid method. <br>
+	From now on jqGrid use a new search engine thanks to wonderful plugin provided from Kasey Speakman <br>
+	Note that the old behaviour of the search is saved. <br>
+	I will just say Enjoy! <br>
+</div>
+<br />
+<table id="s4list" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="s4pager" class="scroll" style="text-align:center;"></div>
+<script src="search4.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+<table id="s4list" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="s4pager" class="scroll" style="text-align:center;"></div>
+<script src="search4.js" type="text/javascript"> </script>
+
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+...
+jQuery("#s4list").jqGrid({
+   	url:'search_adv.php?q=1',
+	datatype: "json",
+	width: 700,
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:65, searchoptions:{sopt:['eq','ne','lt','le','gt','ge']}},
+   		{name:'invdate',index:'invdate', width:90, searchoptions:{dataInit:function(el){$(el).datepicker({dateFormat:'yy-mm-dd'});} }},
+   		{name:'name',index:'name', width:100},
+   		{name:'amount',index:'amount', width:80, align:"right",searchoptions:{sopt:['eq','ne','lt','le','gt','ge']}},
+   		{name:'tax',index:'tax', width:80, align:"right", stype:'select', editoptions:{value:":All;0.00:0.00;12:12.00;20:20.00;40:40.00;60:60.00;120:120.00"}},
+   		{name:'total',index:'total', width:80,align:"right",searchoptions:{sopt:['eq','ne','lt','le','gt','ge']}},
+   		{name:'note',index:'note', width:150, sortable:false}		
+   	],
+   	rowNum:10,
+   	mtype: "POST",
+   	rowList:[10,20,30],
+   	imgpath: gridimgpath,
+   	pager: '#s4pager',
+   	sortname: 'id',
+    viewrecords: true,
+	rownumbers: true,
+	gridview : true,
+    sortorder: "desc",
+    caption:"Advanced Search Example"
+}).navGrid('#s3pager',
+{
+	edit:false,add:false,del:false,search:true,refresh:true
+},
+{}, // edit options
+{}, // add options
+{}, //del options
+{multipleSearch:true} // search options
+);
+
+</XMP>
+<b>PHP with MySQL</b>
+<XMP>
+See search_adv.php file from demo package
+</XMP>
+</div>

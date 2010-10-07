@@ -1,0 +1,129 @@
+﻿<table id="list1" class="scroll"></table>
+<div id="pager1" class="scroll"></div>
+<br/>
+<br/>
+<div id="acc_list1">
+				<div>
+					<h3><a href="#">HTML and Java script </a></h3>
+					<div style="font-size:12px;">
+<XMP>
+<html>
+...
+<table id="list1"></table>
+<div id="pager1" class="scroll"></div>
+...
+</html>
+<script type="text/javascript"> 
+jQuery().ready(function (){
+jQuery("#list1").jqGrid({
+   	url:'server.php?q=1',
+	datatype: "xml",
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:75},
+   		{name:'invdate',index:'invdate', width:90},
+   		{name:'name',index:'name', width:100},
+   		{name:'amount',index:'amount', width:80, align:"right"},
+   		{name:'tax',index:'tax', width:80, align:"right"},		
+   		{name:'total',index:'total', width:80,align:"right"},		
+   		{name:'note',index:'note', width:150, sortable:false}		
+   	],
+   	rowNum:10,
+   	autowidth: true,
+   	rowList:[10,20,30],
+   	pager: jQuery('#pager1'),
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+    caption:"XML Example"
+}).navGrid('#pager1',{edit:false,add:false,del:false});					
+</script> 
+</XMP>
+					</div>
+				</div>
+				<div>
+					<h3><a href="#">PHP Code</a></h3>
+					<div style="font-size:12px;">
+<XMP>
+<?php
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+// connect to the database
+$db = mysql_connect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+$result = mysql_query("SELECT COUNT(*) AS count FROM invheader a, clients b WHERE a.client_id=b.client_id");
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+$SQL = "SELECT a.id, a.invdate, b.name, a.amount,a.tax,a.total,a.note FROM invheader a, clients b WHERE "
+." a.client_id=b.client_id ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldnt execute query.".mysql_error());
+
+if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
+header("Content-type: application/xhtml+xml;charset=utf-8"); } else {
+header("Content-type: text/xml;charset=utf-8");
+}
+$et = ">";
+
+echo "<?xml version='1.0' encoding='utf-8'?$et\n";
+echo "<rows>";
+echo "<page>".$page."</page>";
+echo "<total>".$total_pages."</total>";
+echo "<records>".$count."</records>";
+// be sure to put text data in CDATA
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	echo "<row id='". $row[id]."'>";			
+	echo "<cell>". $row[id]."</cell>";
+	echo "<cell>". $row[invdate]."</cell>";
+	echo "<cell><![CDATA[". $row[name]."]]></cell>";
+	echo "<cell>". $row[amount]."</cell>";
+	echo "<cell>". $row[tax]."</cell>";
+	echo "<cell>". $row[total]."</cell>";
+	echo "<cell><![CDATA[". $row[note]."]]></cell>";
+	echo "</row>";
+}
+echo "</rows>";		
+?>
+</XMP>					
+					</div>
+				</div>
+</div>
+<script type="text/javascript"> 
+jQuery().ready(function (){
+jQuery("#list1").jqGrid({
+   	url:'server.php?q=1',
+	datatype: "xml",
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:75},
+   		{name:'invdate',index:'invdate', width:90},
+   		{name:'name',index:'name', width:100},
+   		{name:'amount',index:'amount', width:80, align:"right"},
+   		{name:'tax',index:'tax', width:80, align:"right"},		
+   		{name:'total',index:'total', width:80,align:"right"},		
+   		{name:'note',index:'note', width:150, sortable:false}		
+   	],
+   	rowNum:10,
+   	autowidth: true,
+   	rowList:[10,20,30],
+   	pager: jQuery('#pager1'),
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+    caption:"XML Example"
+}).navGrid('#pager1',{edit:false,add:false,del:false});
+});
+
+</script>

@@ -1,0 +1,17 @@
+FCKLang['GeshiproTitle'] 				= 'Insert Syntax Highlighted Code';
+FCKLang['GeshiproSourceCode']    		= 'Source code';
+FCKLang['GeshiproOptions']    			= 'Options';
+FCKLang['GeshiproLanguage']       		= 'Language';
+FCKLang['GeshiproLineNumbers']   	 	= 'Line Numbers';
+FCKLang['GeshiproNoLines']    			= 'None';
+FCKLang['GeshiproNormalLines']    		= 'Normal';
+FCKLang['GeshiproFancyLines']     		= 'Fancy';
+FCKLang['GeshiproTabWidth']				= 'Tab Width';
+FCKLang['GeshiproCssClasses']			= 'CSS Classes';
+FCKLang['GeshiproCssClassesDisable']	= 'Disabled';
+FCKLang['GeshiproCssClassesEnable']		= 'Enabled';
+FCKLang['GeshiproCodeContainer']		= 'Code Container';
+FCKLang['GeshiproContainerNone']		= 'No Container';
+FCKLang['GeshiproContainerPre']			= 'pre Tag';
+FCKLang['GeshiproContainerDiv']			= 'div Tag';
+FCKLang['GeshiproWaitMsg']				= 'Waiting for GeSHi to respond...'; 

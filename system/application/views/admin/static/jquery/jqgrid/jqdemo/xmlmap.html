@@ -1,0 +1,46 @@
+<div style="font-size:12px;">
+From now jqGrid can accept XML and JSON data with arbitrary structure. In this release we introduce a xmlReader and jsonReader.<br>
+This way we can analyze and display a wide range of data structures. More information will be<br>
+available in the upcoming documentation.<br>
+<a href="books.xml" target="_blank"> View the book.xml file </a>
+</div>
+<br />
+<table id="list19" class="scroll" cellpadding="0" cellspacing="0"></table>
+<script src="xmlmap.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="list19" class="scroll" cellpadding="0" cellspacing="0"></table>
+<script src="xmlmap.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+...
+jQuery("#list19").jqGrid({
+   	url: 'books.xml',
+	datatype: "xml",
+   	colNames:["Author","Title", "Price", "Published Date"],
+   	colModel:[
+   		{name:"Author",index:"Author", width:120, xmlmap:"ItemAttributes>Author"},
+   		{name:"Title",index:"Title", width:180,xmlmap:"ItemAttributes>Title"},
+   		{name:"Price",index:"Manufacturer", width:100, align:"right",xmlmap:"ItemAttributes>Price", sorttype:"float"},
+   		{name:"DatePub",index:"ProductGroup", width:130,xmlmap:"ItemAttributes>DatePub",sorttype:"date"}
+   	],
+	height:250,
+   	rowNum:10,
+   	rowList:[10,20,30],
+   	imgpath: gridimgpath,
+    viewrecords: true,
+	loadonce: true,
+	xmlReader: {
+			root : "Items",
+			row: "Item",
+			repeatitems: false,
+			id: "ASIN"
+	},
+	caption: "XML Mapping example"
+});
+</XMP>
+</div>

@@ -1,0 +1,382 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Examples </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+
+	<link rel="stylesheet" type="text/css" href="../../source/tree_component.css" />
+	<script type="text/javascript" src="../../source/_lib.js"></script>
+	<script type="text/javascript" src="../../source/tree_component.js"></script>
+
+	<style type="text/css">
+	.demo .search {
+		color:#8b0000;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Examples</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="../_documentation/1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="../_documentation/2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="../_documentation/3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="../_documentation/4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_documentation/5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="../_documentation/6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="../_documentation/7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item current_page_item"><a href="5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="4_themes.html" title="Themes">&laquo;&nbsp;Themes</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Other examples</h2>
+				<div class="entry"><div id="documentation">
+
+<h2>Rules</h2>
+<p>Using the various rules, the developer can limit the user interactions.</p>
+<p>In this example you won't be able to select the first root node, all nodes are renamable, but you can only create new items inside folders. You can drag folders around, but not the root nodes. While dragging, you won't be able to place the dragged item inside the second root node (you can only initiate the drag using the left mouse button). There is also one foreign item, that can be dragged onto the tree, but only on the second root node.</p>
+<div class="tree-drop" style="line-height:16px; background:silver; color:gray; border:3px solid gray; width:200px; text-align:center; margin:10px 0; cursor:move;">You can drop me on the tree</div>
+<input type="button" value="refresh" onclick="$.tree_reference('demo1').refresh();" style="margin-right:20px;"/>
+<input type="button" value="create" onclick="$.tree_reference('demo1').create();" />
+<input type="button" value="rename" onclick="$.tree_reference('demo1').rename();" />
+<input type="button" value="remove" onclick="$.tree_reference('demo1').remove();" />
+<input type="button" value="copy" onclick="$.tree_reference('demo1').copy();" />
+<input type="button" value="cut" onclick="$.tree_reference('demo1').cut();" />
+<input type="button" value="paste" onclick="$.tree_reference('demo1').paste();" />
+<div id="demo1" class="demo" style="height:200px;"></div>
+<div id="sources1" class="sources">
+<pre>
+$(function () {
+    $("#demo1").tree({
+      // Data configuration omitted
+      rules : {
+        clickable : [ "root2", "folder" ],
+        deletable : [ "root2", "folder" ],
+        renameable : "all",
+        creatable : [ "folder" ],
+        draggable : [ "folder" ],
+        dragrules : [ "folder * folder", "folder inside root", "tree-drop * folder" ],
+        drag_button : "left",
+        droppable : [ "tree-drop" ]
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo1").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson_1", rel : "root" }, state: "open", data: "Root node 1", children : [
+            { attributes: { id : "pjson_2", rel : "folder" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson_3", rel : "folder" }, data: "Child node 2" },
+            { attributes: { id : "pjson_4", rel : "folder" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson_5", rel : "root2" }, data: "Root node 2" } 
+        ]
+      },
+      rules : {
+        clickable : [ "root2", "folder" ],
+        deletable : "none",
+        renameable : "all",
+        creatable : [ "folder" ],
+        draggable : [ "folder" ],
+        dragrules : [ "folder * folder", "folder inside root", "tree-drop inside root2" ],
+        drag_button : "left",
+        droppable : [ "tree-drop" ]
+      }
+    });
+});
+</script>
+
+<h2>Metadata</h2>
+<p>Metadata allows you to store the node type in a javascript object, passed as an attribute to each node. You can also store any data you need.</p>
+<p>Combined with <span class="var">rules.use_inline</span> metadata allows you to set per-node rules - clickable, renamable, etc. (You can also use three new rules: <span class="var">valid_children</span>, <span class="var">max_depth</span> and <span class="var">max_children</span>)</p>
+<p>This is the previous example, but with metadata added. You won't be able to drag the 'Child node 2' node, although its type is "folder". It may also contain only one node, and that node won't be allowed to have children.</p>
+<div class="tree-drop" style="line-height:16px; background:silver; color:gray; border:3px solid gray; width:200px; text-align:center; margin:10px 0; cursor:move;">You can drop me on the tree</div>
+<input type="button" value="refresh" onclick="$.tree_reference('demo2').refresh();" style="margin-right:20px;"/>
+<input type="button" value="create" onclick="$.tree_reference('demo2').create();" />
+<input type="button" value="rename" onclick="$.tree_reference('demo2').rename();" />
+<input type="button" value="remove" onclick="$.tree_reference('demo2').remove();" />
+<input type="button" value="copy" onclick="$.tree_reference('demo2').copy();" />
+<input type="button" value="cut" onclick="$.tree_reference('demo2').cut();" />
+<input type="button" value="paste" onclick="$.tree_reference('demo2').paste();" />
+<div id="demo2" class="demo" style="height:200px;"></div>
+<div id="sources2" class="sources">
+<pre>
+$(function () {
+    $("#demo2").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson1_1", rel : "root" }, state: "open", data: "Root node 1", children : [
+            { attributes: { id : "pjson1_2", rel : "folder" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson1_3", rel : "folder", mdata : "{ draggable : false, max_children : 1, max_depth : 1 }" }, data: "Child node 2" },
+            { attributes: { id : "pjson1_4", rel : "folder" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson1_5", rel : "root2" }, data: "Root node 2" } 
+        ]
+      },
+      rules : {
+        metadata : "mdata",
+        use_inline : true,
+        clickable : [ "root2", "folder" ],
+        deletable : "none",
+        renameable : "all",
+        creatable : [ "folder" ],
+        draggable : [ "folder" ],
+        dragrules : [ "folder * folder", "folder inside root", "tree-drop inside root2" ],
+        drag_button : "left",
+        droppable : [ "tree-drop" ]
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo2").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson1_1", rel : "root" }, state: "open", data: "Root node 1", children : [
+            { attributes: { id : "pjson1_2", rel : "folder" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson1_3", rel : "folder", mdata : "{ draggable : false, max_children : 1, max_depth : 1 }" }, data: "Child node 2" },
+            { attributes: { id : "pjson1_4", rel : "folder" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson1_5", rel : "root2" }, data: "Root node 2" } 
+        ]
+      },
+      rules : {
+        metadata : "mdata",
+        use_inline : true,
+        clickable : [ "root2", "folder" ],
+        deletable : "none",
+        renameable : "all",
+        creatable : [ "folder" ],
+        draggable : [ "folder" ],
+        dragrules : [ "folder * folder", "folder inside root", "tree-drop inside root2" ],
+        drag_button : "left",
+        droppable : [ "tree-drop" ]
+      }
+    });
+});
+</script>
+
+<h2>Cookies</h2>
+<p>jsTree can save the user's current view in a cookie - for more on the cookie options - check the documentation. To see it in action - make a selection (or open/close a node) and refresh the page.</p>
+<div id="demo3" class="demo"></div>
+<div id="sources3" class="sources">
+<pre>
+$(function () {
+    $("#demo3").tree({
+      // data configuration omitted
+      cookies : { prefix : "tree1", opts : { path : '/' } } 
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo3").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson2_1" }, data: "Root node 1", children : [
+            { attributes: { id : "pjson2_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson2_3" }, data: "Child node 2" },
+            { attributes: { id : "pjson2_4" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson2_5" }, data: "Root node 2" } 
+        ]
+      },
+      cookies : { prefix : "tree1", opts : { path : '/' } } 
+    });
+});
+</script>
+
+<h2>Rollback</h2>
+<p>Rollbacks are good to use when you need to do some async calls and then maybe revert the tree to a previous state (for example, if the server operation failed).</p>
+<input type="button" value="rename" onclick="$.tree_reference('demo4').rename();" />
+<div id="demo4" class="demo"></div>
+<div id="sources4" class="sources">
+<pre>
+$(function () {
+    $("#demo4").tree({
+      // data configuration omitted
+      callback : { 
+        onrename : function (n,l,tree_ref,rollback) {
+          tree_ref.lock(true);
+          setTimeout(function () {
+            $.tree_rollback(rollback);
+            tree_ref.lock(false);
+          },1000);
+        }
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo4").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson3_1" }, data: "Root node 1", children : [
+            { attributes: { id : "pjson3_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson3_3" }, data: "Child node 2" },
+            { attributes: { id : "pjson3_4" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson3_5" }, data: "Root node 2" } 
+        ]
+      },
+      callback : { 
+        onrename : function (n,l,tree_ref,rollback) {
+          tree_ref.lock(true);
+          setTimeout(function () {
+            $.tree_rollback(rollback);
+            tree_ref.lock(false);
+          },1000);
+        }
+      } 
+    });
+});
+</script>
+
+<h2>Search</h2>
+<p>You can pass the search function a string, and the nodes in the tree containing that string will have the class "search" applied to them. If async is used, a request is made to the server (<span class="var">data.url</span>) with the GET/POST (according to <span class="var">data.method</span> config) param "search" filled with the user search string - the expected response is a JSON array of node ids which need to be opened in order to get to the search results.</p>
+<input type="button" value="Search for 'other'" onclick="$.tree_reference('demo5').search('other');" />
+<input type="button" value="Clear search" onclick="$.tree_reference('demo5').search('');" />
+<div id="demo5" class="demo"></div>
+<div id="sources5" class="sources">
+<pre>
+// Search
+$.tree_reference('demo5').search('other');
+// Clear search
+$.tree_reference('demo5').search('');
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo5").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson4_1" }, data: "Root node 1", children : [
+            { attributes: { id : "pjson4_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson4_3" }, data: "Child node 2" },
+            { attributes: { id : "pjson4_4" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson4_5" }, data: "Root node 2" } 
+        ]
+      }
+    });
+});
+</script>
+
+<h2>Context menu</h2>
+<p>You can modify the functions shown in the context menu or disable it altogether (just set <span class="var">ui.context</span> to <span class="val">false</span>. In this example the context menu is be replaced.</p>
+<div id="demo6" class="demo"></div>
+<div id="sources6" class="sources">
+<pre>
+$(function () {
+    $("#demo6").tree({
+      // data config omitted
+      ui : {
+        context : [
+			{
+				id		: "ok",
+				label	: "test entry", 
+				icon	: "../media/images/ok.png",
+				visible	: function (NODE, TREE_OBJ) { 
+					// return -1 for not visible
+					if(NODE.attr("id") == "pjson5_2") return -1; 
+					// return false for disabled
+					if(NODE.attr("id") == "pjson5_3") return false; 
+					// return true for visible and clickable
+					return true;
+				}, 
+				action	: function (NODE, TREE_OBJ) { 
+					// Just a demo of the arguments
+					alert('"' + NODE.children("a").text() + '" from "' + TREE_OBJ.container.attr("id") + '"'); 
+				} 
+			}
+        ]
+      }
+    });
+});
+</pre>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#demo6").tree({
+      data  : {
+        type  : "json",
+        json  : [ 
+          { attributes: { id : "pjson5_1" }, state : "open", data: "Root node 1", children : [
+            { attributes: { id : "pjson5_2" }, data: { title : "Custom icon", icon : "../media/images/ok.png" } },
+            { attributes: { id : "pjson5_3" }, data: "Child node 2" },
+            { attributes: { id : "pjson5_4" }, data: "Some other child node" }
+          ]}, 
+          { attributes: { id : "pjson5_5" }, data: "Root node 2" } 
+        ]
+      },
+      ui : {
+        context : [
+			{
+				id		: "ok",
+				label	: "test entry", 
+				icon	: "../media/images/ok.png",
+				visible	: function (NODE, TREE_OBJ) { 
+					if(NODE.attr("id") == "pjson5_2") return -1; 
+					if(NODE.attr("id") == "pjson5_3") return false; 
+					return true;
+				}, 
+				action	: function (NODE, TREE_OBJ) { alert('"' + NODE.children("a").text() + '" from "' + TREE_OBJ.container.attr("id") + '"'); } 
+			}
+        ]
+      }
+    });
+});
+</script>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

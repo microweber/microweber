@@ -1,0 +1,170 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item current_page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="2_creation.html" title="Instance creation">&laquo;&nbsp;Instance creation</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="4_data.html" title="Data sources">Data sources&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Configuration</h2>
+				<div class="entry"><div id="documentation">
+
+<p>The <span class="var">options</span> object you pass at <a href="/documentation/create">initialization</a> contains all of the configuration options for the tree.</p>
+<p>You could save some time and pass only the properties that are different from the defaults:</p>
+<div class="source" id="defaults">Configuration defaults</div>
+<pre style="height:400px;">{
+	data	: {
+		type	: "predefined",	// ENUM [json, xml_flat, xml_nested, predefined]
+		method	: "GET",		// HOW TO REQUEST FILES
+		async	: false,		// BOOL - async loading onopen
+		async_data : function (NODE) { return { id : $(NODE).attr("id") || 0 } }, // PARAMETERS PASSED TO SERVER
+		url		: false,		// FALSE or STRING - url to document to be used (async or not)
+		json	: false,		// FALSE or OBJECT if type is JSON and async is false - the tree dump as json
+		xml		: false			// FALSE or STRING
+	},
+	selected	: false,		// FALSE or STRING or ARRAY
+	opened		: [],			// ARRAY OF INITIALLY OPENED NODES
+	languages	: [],			// ARRAY of string values (which will be used as CSS classes - so they must be valid)
+	path		: false,		// FALSE or STRING (if false - will be autodetected)
+	cookies		: false,		// FALSE or OBJECT (prefix, open, selected, opts - from jqCookie - expires, path, domain, secure)
+	ui		: {
+		dots		: true,		// BOOL - dots or no dots
+		rtl			: false,	// BOOL - is the tree right-to-left
+		animation	: 0,		// INT - duration of open/close animations in miliseconds
+		hover_mode	: true,		// SHOULD get_* functions chage focus or change hovered item
+		scroll_spd	: 4,
+		theme_path	: false,	// Path to themes
+		theme_name	: "default",// Name of theme
+		context		: [ 
+			{
+				id		: "create",
+				label	: "Create", 
+				icon	: "create.png",
+				visible	: function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("creatable", NODE); }, 
+				action	: function (NODE, TREE_OBJ) { TREE_OBJ.create(false, TREE_OBJ.get_node(NODE)); } 
+			},
+			"separator",
+			{ 
+				id		: "rename",
+				label	: "Rename", 
+				icon	: "rename.png",
+				visible	: function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
+				action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(); } 
+			},
+			{ 
+				id		: "delete",
+				label	: "Delete",
+				icon	: "remove.png",
+				visible	: function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+				action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+			}
+		]
+	},
+	rules	: {
+		multiple	: false,	// FALSE | CTRL | ON - multiple selection off/ with or without holding Ctrl
+		metadata	: false,	// FALSE or STRING - attribute name (use metadata plugin)
+		type_attr	: "rel",	// STRING attribute name (where is the type stored if no metadata)
+		multitree	: false,	// BOOL - is drag n drop between trees allowed
+		createat	: "bottom",	// STRING (top or bottom) new nodes get inserted at top or bottom
+		use_inline	: false,	// CHECK FOR INLINE RULES - REQUIRES METADATA
+		clickable	: "all",	// which node types can the user select | default - all
+		renameable	: "all",	// which node types can the user select | default - all
+		deletable	: "all",	// which node types can the user delete | default - all
+		creatable	: "all",	// which node types can the user create in | default - all
+		draggable	: "none",	// which node types can the user move | default - none | "all"
+		dragrules	: "all",	// what move operations between nodes are allowed | default - none | "all"
+		drag_copy	: false,	// FALSE | CTRL | ON - drag to copy off/ with or without holding Ctrl
+		droppable	: [],
+		drag_button	: "left"
+	},
+	lang : {
+		new_node	: "New folder",
+		loading		: "Loading ..."
+	},
+	callback	: {				// various callbacks to attach custom logic to
+		// before focus  - should return true | false
+		beforechange: function(NODE,TREE_OBJ) { return true },
+		beforeopen	: function(NODE,TREE_OBJ) { return true },
+		beforeclose	: function(NODE,TREE_OBJ) { return true },
+		// before move   - should return true | false
+		beforemove  : function(NODE,REF_NODE,TYPE,TREE_OBJ) { return true }, 
+		// before create - should return true | false
+		beforecreate: function(NODE,REF_NODE,TYPE,TREE_OBJ) { return true }, 
+		// before rename - should return true | false
+		beforerename: function(NODE,LANG,TREE_OBJ) { return true }, 
+		// before delete - should return true | false
+		beforedelete: function(NODE,TREE_OBJ) { return true }, 
+
+		onJSONdata	: function(DATA,TREE_OBJ) { return DATA; },
+		onselect	: function(NODE,TREE_OBJ) { },					// node selected
+		ondeselect	: function(NODE,TREE_OBJ) { },					// node deselected
+		onchange	: function(NODE,TREE_OBJ) { },					// focus changed
+		onrename	: function(NODE,LANG,TREE_OBJ,RB) { },				// node renamed ISNEW - TRUE|FALSE, current language
+		onmove		: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { },	// move completed (TYPE is BELOW|ABOVE|INSIDE)
+		oncopy		: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { },	// copy completed (TYPE is BELOW|ABOVE|INSIDE)
+		oncreate	: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { },	// node created, parent node (TYPE is createat)
+		ondelete	: function(NODE, TREE_OBJ,RB) { },					// node deleted
+		onopen		: function(NODE, TREE_OBJ) { },					// node opened
+		onopen_all	: function(TREE_OBJ) { },						// all nodes opened
+		onclose		: function(NODE, TREE_OBJ) { },					// node closed
+		error		: function(TEXT, TREE_OBJ) { },					// error occured
+		// double click on node - defaults to open/close & select
+		ondblclk	: function(NODE, TREE_OBJ) { TREE_OBJ.toggle_branch.call(TREE_OBJ, NODE); TREE_OBJ.select_branch.call(TREE_OBJ, NODE); },
+		// right click - to prevent use: EV.preventDefault(); EV.stopPropagation(); return false
+		onrgtclk	: function(NODE, TREE_OBJ, EV) { },
+		onload		: function(TREE_OBJ) { },
+		onfocus		: function(TREE_OBJ) { },
+		ondrop		: function(NODE,REF_NODE,TYPE,TREE_OBJ) {}
+	}
+}</pre>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

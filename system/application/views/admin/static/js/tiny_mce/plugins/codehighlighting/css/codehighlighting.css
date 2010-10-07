@@ -1,0 +1,32 @@
+body
+{
+    width:530px;
+    height: 500px;
+    direction:ltr;
+    text-align:left;
+}
+.Container
+{
+    padding-left:5px;
+    padding-top:5px;
+}
+.CodeArea
+{
+    width:500px;
+    height:400px;
+    direction:ltr;
+    text-align:left;
+}
+
+.Actions
+{
+    padding-top:5px;
+    padding-right:24px;
+    float:right;
+}
+
+.Options
+{
+    float:left;
+    text-align:left;
+}

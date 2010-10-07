@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<users>
+    <user id="0" name="admin" password="foobar" status="active"></user>
+    <user id="1" name="jonas" password="heyho" status="active"></user>
+    <user id="2" name="jack" password="daniels" status="drunk"></user>
+    <user id="3" name="bill" password="kill" status="dead"></user>
+    <user id="4" name="homer" password="kenny" status="active"></user>
+</users>

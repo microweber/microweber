@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Abstract.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Alnum.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Alpha.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Barcode.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Between.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Ccnum.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Date.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Digits.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="EmailAddress.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Exception.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Float.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="GreaterThan.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Hex.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Hostname.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Identical.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="InArray.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Int.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Interface.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Ip.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="LessThan.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="NotEmpty.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="Regex.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+<file name="StringLength.php" server="test.look-estates.com" local="128817510000000000" remote="128817510000000000" />
+</dwsync>

@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+
+<head>
+	<title>Destroydrop &raquo; Javascripts &raquo; Tree &raquo; Api</title>
+
+	<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+	<link rel="stylesheet" href="/dd.css" type="text/css" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+</head>
+
+<body>
+
+<div id="shadow">
+
+	<div id="content">
+
+		<div id="location">
+			<h1><a href="/">Destroydrop</a> &raquo; <a href="/javascripts/">Javascripts</a> &raquo; <a href="/javascripts/tree/">Tree</a> &raquo; <a href="/javascripts/tree/api/">Api</a></h1>
+		</div>
+
+
+		<div class="line"></div>
+
+		<div id="files">
+
+
+<h3>Overview</h3>
+<div class="line"></div>
+<div class="item">
+
+	<ul class="arrow">
+		<li><a href="#functions">Functions</a>
+			<ul class="arrow">
+				<li><a href="#add">add</a></li>
+				<li><a href="#openall">openAll</a></li>
+				<li><a href="#closeall">closeAll</a></li>
+				<li><a href="#opento">openTo</a></li>
+			</ul>
+		</li>
+		<li><a href="#configuration">Configuration</a></li>
+	</ul>
+
+</div>
+
+<a name="functions"></a>
+<h3>Functions</h3>
+<div class="line"></div>
+<div class="item">
+
+	<a name="add"></a>
+	<h4 class="func">add()</h4>
+	<p>Adds a node to the tree.<br />Can only be called before the tree is drawn.</p>
+	<p>id, pid and name are required.</p>
+
+	<h4>Parameters</h4>
+	<table class="files">
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>id</td>
+		<td>Number</td>
+		<td>Unique identity number.</td>
+	</tr>
+	<tr>
+		<td>pid</td>
+		<td>Number</td>
+		<td>Number refering to the parent node. The value for the root node has to be -1.</td>
+	</tr>
+	<tr>
+		<td>name</td>
+		<td>String</td>
+		<td>Text label for the node.</td>
+	</tr>
+	<tr>
+		<td>url</td>
+		<td>String</td>
+		<td>Url for the node.</td>
+	</tr>
+	<tr>
+		<td>title</td>
+		<td>String</td>
+		<td>Title for the node.</td>
+	</tr>
+	<tr>
+		<td>target</td>
+		<td>String</td>
+		<td>Target for the node.</td>
+	</tr>
+	<tr>
+		<td>icon</td>
+		<td>String</td>
+		<td>Image file to use as the icon. Uses default if not specified.</td>
+	</tr>
+	<tr>
+		<td>iconOpen</td>
+		<td>String</td>
+		<td>Image file to use as the open icon. Uses default if not specified.</td>
+	</tr>
+	<tr>
+		<td>open</td>
+		<td>Boolean</td>
+		<td>Is the node open.</td>
+	</tr>
+	</table>
+	<br />
+
+
+	<h4>Example</h4>
+	<p><code>mytree.add(1, 0, 'My node', 'node.html', 'node title', 'mainframe', 'img/musicfolder.gif');</code></p>
+	<br />
+
+	<a name="openall"></a>
+	<h4 class="func">openAll()</h4>
+	<p>Opens all the nodes.<br />Can be called before and after the tree is drawn.</p>
+	<h4>Example</h4>
+	<p><code>mytree.openAll();</code></p>
+	<br />
+
+
+	<a name="closeall"></a>
+	<h4 class="func">closeAll()</h4>
+	<p>Closes all the nodes.<br />Can be called before and after the tree is drawn.</p>
+	<h4>Example</h4>
+	<p><code>mytree.closeAll();</code></p>
+	<br />
+
+
+	<a name="opento"></a>
+	<h4 class="func">openTo()</h4>
+	<p>Opens the tree to a certain node and can also select the node.<br />
+	Can only be called after the tree is drawn.</p>
+
+	<h4>Parameters</h4>
+	<table class="files">
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>id</td>
+		<td>Number</td>
+		<td>Identity number for the node.</td>
+	</tr>
+	<tr>
+		<td>select</td>
+		<td>Boolean</td>
+		<td>Should the node be selected.</td>
+	</tr>
+	</table>
+
+	<h4>Example</h4>
+	<p><code>mytree.openTo(4, true);</code></p>
+
+</div>
+
+<a name="configuration"></a>
+<h3>Configuration</h3>
+<div class="line"></div>
+<div class="item">
+
+	<table class="files">
+	<tr>
+		<th>Variable</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>target</td>
+		<td>String</td>
+		<td>true</td>
+		<td>Target for all the nodes.</td>
+	</tr>
+	<tr>
+		<td>folderLinks</td>
+		<td>Boolean</td>
+		<td>true</td>
+		<td>Should folders be links.</td>
+	</tr>
+	<tr>
+		<td>useSelection</td>
+		<td>Boolean</td>
+		<td>true</td>
+		<td>Nodes can be selected(highlighted).</td>
+	</tr>
+	<tr>
+		<td>useCookies</td>
+		<td>Boolean</td>
+		<td>true</td>
+		<td>The tree uses cookies to rember it's state.</td>
+	</tr>
+	<tr>
+		<td>useLines</td>
+		<td>Boolean</td>
+		<td>true</td>
+		<td>Tree is drawn with lines.</td>
+	</tr>
+	<tr>
+		<td>useIcons</td>
+		<td>Boolean</td>
+		<td>true</td>
+		<td>Tree is drawn with icons.</td>
+	</tr>
+	<tr>
+		<td>useStatusText</td>
+		<td>Boolean</td>
+		<td>false</td>
+		<td>Displays node names in the statusbar instead of the url.</td>
+	</tr>
+	<tr>
+		<td>closeSameLevel</td>
+		<td>Boolean</td>
+		<td>false</td>
+		<td>Only one node within a parent can be expanded at the same time.  openAll() and closeAll() functions do not work when this is enabled.</td>
+	</tr>
+	<tr>
+		<td>inOrder</td>
+		<td>Boolean</td>
+		<td>false</td>
+		<td>If parent nodes are always added before children, setting this to true speeds up the tree.</td>
+	</tr>
+	</table>
+
+	<h4>Example</h4>
+	<p><code>mytree.config.target = "mytarget";</code></p>
+
+</div>
+
+		</div>
+
+		<div class="line"></div>
+
+
+		<div id="copy">
+			<p class="right"><a href="http://validator.w3.org/check/referer">XHTML</a>, <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
+			<p><a href="mailto&#58;drop&#64;destroydrop&#46;com">&copy;2002-2003 Geir Landr&ouml;</a></p>
+		</div>
+
+	</div>
+
+</div>
+
+
+</body>
+
+</html>

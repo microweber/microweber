@@ -1,0 +1,79 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item current_page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="1_files.html" title="Required &amp; optional files">&laquo;&nbsp;Required &#038; optional files</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="3_configuration.html" title="Configuration">Configuration&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Instance creation</h2>
+				<div class="entry"><div id="documentation">
+
+
+<p>There are two ways to instantiate the tree.</p>
+<p class="note">NOTE: This only covers versions 0.9.6 and up. For older versions check the documentation included in the download.</p>
+<div class="source">Method 1</div>
+<pre><span class="pln">$</span><span class="pun">(</span><em><span class="pln">container_node</span></em><span class="pun">).</span><span class="pln">tree</span><span class="pun">([{</span><span class="pln"> </span><em><span class="pln">options</span></em><span class="pln"> </span><span class="pun">}]);</span></pre>
+<div class="source">Method 2</div>
+<pre><span class="kwd">var</span><span class="pln"> tree </span><span class="pun">=</span><span class="pln"> $</span><span class="pun">.</span><span class="pln">tree_create</span><span class="pun">();</span><span class="pln"><br>tree</span><span class="pun">.</span><span class="pln">init</span><span class="pun">(</span><em><span class="pln">container_node</span></em><span class="pun">,[{</span><span class="pln"> </span><em><span class="pln">options</span></em><span class="pln"> </span><span class="pun">}]);</span></pre>
+<ul>
+<li>
+		<span class="req" title="required">[REQ]</span> <span class="var">container_node</span>
+<p>A jQuery object or the DOM node of the tree container.</p>
+</li>
+<li>
+		<span class="opt" title="optional">[OPT]</span> <span class="var">options</span>
+<p>A javascript object containing all the configurations for the tree that are different from the <a href="/documentation/configuration/#defaults">defaults</a>.</p>
+</li>
+</ul>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

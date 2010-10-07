@@ -1,0 +1,9 @@
+NOTES FROM FXS:
+
+1) Create a database and a user with all privileges for this database.
+2) Edit the reference/_examples/full/server.php file and update the configuration for the database at the top of the file
+3) (OPTIONAL) Change the php short tag at the beginning of php files from <? to <?php for:
+   * reference/_examples/full/server.php, 
+   * reference/_examples/full/
+   * _inc/database.php, 
+   * reference/_examples/full/_inc/class.tree.php

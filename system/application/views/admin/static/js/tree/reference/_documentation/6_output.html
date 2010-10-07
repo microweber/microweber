@@ -1,0 +1,82 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item current_page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li><a href="5_customize.html" title="Customization">&laquo;&nbsp;Customization</a></li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="7_api.html" title="API">API&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Output</h2>
+				<div class="entry"><div id="documentation">
+
+<p>The output basically follows the structure of the HTML data source:</p>
+<pre>
+&lt;your-container-node class="tree"&gt;
+  &lt;ul class="jstree-default jstree-your-theme-name"&gt;
+    &lt;li class="open|closed|leaf [your-class-names]" [your-attributes="attribute_values"]&gt;
+      &lt;a 
+        class="language-of-node [your-class-names]"
+        style="[background-image:url(your-icon-name);] [your-styles]" 
+        [your-attributes="attribute_values"]&gt;Your node name&lt;/a&gt;
+        &lt;ul&gt;
+        &lt;!-- CHILD NODES --&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/your-container-node&gt;
+</pre>
+<p>Your container node get the class <span class="val">tree</span> applied to it. The first <span class="var">&lt;ul&gt;</span> has the class <span class="val">jstree-default</span> and then if different - the name of the theme applied. This ensures that the applied theme's rules override the matching default theme rules.</p>
+<p class="note">NOTE that it is not good practice to set the actual <span class="var">&lt;ul&gt;</span> node as the source of the tree (when using predefined HTML).</p>
+<p>Each <span class="var">&lt;li&gt;</span> node has one of the classes <span class="val">open</span>, <span class="val">closed</span> or <span class="val">leaf</span>. You can check for those classes in the callback functions, so that you know what node you are dealing with. A <span class="val">leaf</span> node has no children, a <span class="val">closed</span> node has chidren but they are not visible (if there is no <span class="var">&lt;ul&gt;</span> node within this one - the children are not loaded yet), an <span class="val">open</span> node has children, and they are visible.</p>
+<p>The count of <span class="var">&lt;a&gt;</span> nodes in each <span class="var">&lt;li&gt;</span> depends on the count of languages for the tree (there is one <span class="var">&lt;a&gt;</span> node for each language, and the node has the language name as a class) (NOTE that only one language is visible at a time). If you do not set the <span class="var">href</span> attribute, a <span class="val">#</span> is set.</p>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

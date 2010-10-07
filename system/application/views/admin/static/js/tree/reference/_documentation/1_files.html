@@ -1,0 +1,96 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jsTree &raquo; Documentation </title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css" />
+
+	<link rel="shortcut icon" href="../media/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../media/prettify.css" />
+	<script type="text/javascript" src="../media/prettify.js"></script>
+	<script type="text/javascript" src="../media/iepngfix_tilebg.js"></script>  
+	<script type="text/javascript">window.onload = function() { prettyPrint(); }</script>  
+</head>
+<body>
+	<div id="container">
+		<div id="head">
+			<h1>jsTree</h1>
+			<h2>javascript tree component</h2>
+			<h3>Documentation</h3>
+		</div>
+
+		<div id="sidebar">
+			<h3 style="margin-top:0;">Documentation</h3>
+			<ul>
+				<li class="page_item current_page_item"><a href="1_files.html" title="Required &amp; optional files">Required &#038; optional files</a></li>
+				<li class="page_item"><a href="2_creation.html" title="Instance creation">Instance creation</a></li>
+				<li class="page_item"><a href="3_configuration.html" title="Configuration">Configuration</a></li>
+				<li class="page_item"><a href="4_data.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="5_customize.html" title="Customization">Customization</a></li>
+				<li class="page_item"><a href="6_output.html" title="Output">Output</a></li>
+				<li class="page_item"><a href="7_api.html" title="API">API&nbsp;</a></li>
+			</ul>
+			<h3>Examples</h3>
+			<ul>
+				<li class="page_item"><a href="../_examples/1_datasources.html" title="Data sources">Data sources</a></li>
+				<li class="page_item"><a href="../_examples/2_operations.html" title="Operations">Operations</a></li>
+				<li class="page_item"><a href="../_examples/3_callbacks.html" title="Callbacks">Callbacks</a></li>
+				<li class="page_item"><a href="../_examples/4_themes.html" title="Themes">Themes</a></li>
+				<li class="page_item"><a href="../_examples/5_others.html" title="Others">Other examples</a></li>
+				<li class="page_item important"><a href="../_examples/7_full.html" title="Full example">Full PHP &amp; mySQL example&nbsp;</a></li>
+			</ul>
+		</div>
+		<div id="data" style="margin-top:-45px;">
+			<div id="content">
+				<ul class='nav'>
+					<li>&nbsp;</li>
+					<li><a href="../index.html">Up to Reference</a></li>
+					<li><a href="2_creation.html" title="Instance creation">Instance creation&nbsp;&raquo;</a></li>
+				</ul>
+				<h2 style="margin-top:25px;">Required &#038; optional files</h2>
+				<div class="entry"><div id="documentation">
+
+
+<p>Note, that you could use the minified version along with the <span class="file">lib.js</span> file, which means you only have to include <span class="file">lib.js</span>, <span class="file">tree_component.js</span> and <span class="file">tree_component.css</span> - see <a href="#minified">below</a>.</p>
+<p>Otherwise: only four files are <strong>required</strong>:</p>
+<ul>
+<li><span class="file">source/_lib/jquery.js</span> - the <a href="http://jquery.com">jQuery</a> library.</li>
+<li><span class="file">source/_lib/css.js</span> - a small collection of usefull css commands (those enable fast language switching, themes, etc).</li>
+<li><span class="file">source/tree_component.js</span></li>
+<li><span class="file">source/tree_component.css</span></li>
+</ul>
+<p class="note">NOTE: Once loaded jsTree also includes the CSS file of the theme you specified.</p>
+<p style="margin-top: 1em;">All other files are <strong>optional</strong> and needed only in certain scenarios:</p>
+<ol>
+<li>XML data source. I will also need to include:
+<ul>
+<li><span class="file">source/_lib/sarissa.js</span> - part of the <a href="http://dev.abiss.gr/sarissa/">Sarissa</a> library (used for xsl transformations).</li>
+<li><span class="file">source/_lib/sarissa_ieemu_xpath.js</span> - same as above.</li>
+<li><span class="file">source/_lib/jquery.xslt.js</span> - <a href="http://jquery.glyphix.com/">jQuery XSLT plugin</a> - a jQuery wrapper for Sarissa.</li>
+</ul>
+</li>
+<li>Metadata stored inside nodes. If you don’t know what this is - check out the examples.
+<ul>
+<li><span class="file">source/_lib/jquery.metadata.js</span> - <a href="http://plugins.jquery.com/project/metadata">jQuery metadata plugin</a></li>
+</ul>
+</li>
+<li>Cookie functionality needed. Also include:
+<ul>
+<li><span class="file">source/_lib/jquery.cookie.js</span> - <a href="http://plugins.jquery.com/project/cookie">jQuery cookie plugin</a></li>
+</ul>
+</li>
+</ol>
+<div class="source">Example source</div>
+<pre><span class="com">&lt;!-- REQUIRED SCRIPTS AND STYLES --&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"path-to-jsTree/tree_component.css"</span><span class="pln"> </span><span class="pun">/&gt;</span><span class="pln"><br><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/css.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/jquery.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/tree_component.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br><br></span><span class="com">&lt;!-- required for xml data type --&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/sarissa.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/sarissa_ieemu_xpath.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/jquery.xslt.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="com">&lt;!-- required for metadata rule definitions --&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/jquery.metadata.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br><br></span><span class="com">&lt;!-- required for cookie functionality --&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib/jquery.cookie.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span></pre>
+<div class="source" id="minified">Example source - minified</div>
+<pre><span class="pun">&lt;</span><span class="tag">link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"path-to-jsTree/tree_component.css"</span><span class="pln"> </span><span class="pun">/&gt;</span><span class="pln"><br><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/_lib.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="tag">script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"path-to-jsTree/tree_component.min.js"</span><span class="pun">&gt;&lt;/</span><span class="tag">script</span><span class="pun">&gt;</span></pre>
+
+				</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

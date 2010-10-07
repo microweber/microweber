@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.50 $"/>
+		<generation date="$Date: 2007/08/21 16:11:36 $"/>
+		<language type="fr"/>
+		<territory type="CA"/>
+	</identity>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateFormats>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy-MM-dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>yy-MM-dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH 'h' mm 'min' ss 's' v</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
+						<dateFormatItem id="yyMM">yy-MM</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<metazone type="Alaska">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Eastern">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Central">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Mountain">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="America_Pacific">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Atlantic">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Europe_Central">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Europe_Eastern">
+				<commonlyUsed>false</commonlyUsed>
+			</metazone>
+			<metazone type="Newfoundland">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤;(#,##0.00¤)</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="CAD">
+				<symbol>$</symbol>
+			</currency>
+			<currency type="USD">
+				<symbol>$ US</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+
