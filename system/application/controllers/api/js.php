@@ -17,7 +17,7 @@ class js extends Controller {
 		header ( 'Content-type: application/javascript' );
 		$files = readDirIntoArray ( APPPATH . 'controllers/api/js/', 'files' );
 
-		$layout = $layout . "\n\n\n // File: _php.default.min.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_php.default.min.js', true );
+		//$layout = $layout . "\n\n\n // File: _php.default.min.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_php.default.min.js', true );
 
 
 		$layout = $layout . "\n\n\n // File: _mw.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw.js', true );
