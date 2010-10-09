@@ -1,4 +1,4 @@
-/* 
+/*
 Admin Base Template
 Author: MaestroX (http://themeforest.net/user/MaestroX)
 */
@@ -166,7 +166,7 @@ address {
 	padding:6px 25px 2px;
 }
 .header-middle {
-	background:#404040 url('../img/header-middle.gif') repeat-x bottom;
+	background:#404040 url('adminimg/header-middle.gif') repeat-x bottom;
 	border-top:1px solid #606060;
 	border-bottom:1px solid #050505;
 	padding:0 25px;
@@ -174,7 +174,7 @@ address {
 min-width:1000px;
 }
 .header-bottom {
-	background:#313131 url('../img/header-bottom.gif') repeat-x bottom;
+	background:#313131 url('adminimg/header-bottom.gif') repeat-x bottom;
 	border-top:1px solid #545454;
 	border-bottom:1px solid #545454;
 	padding:7px 25px;
@@ -186,7 +186,7 @@ min-width:1000px;
 	color:#6e7d87;
 }
 .footer {
-	background:#313131 url('../img/header-bottom.gif') repeat-x bottom;
+	background:#313131 url('adminimg/header-bottom.gif') repeat-x bottom;
 	border-top:1px solid #545454;
 	border-bottom:1px solid #000;
 	padding:10px 25px;
@@ -203,10 +203,10 @@ min-width:1000px;
 #page-wrapper {
 	border-top:1px solid #060606;
 	border-bottom:1px solid #000000;
-	background:#f4f4f4 url('../img/page-bg.gif') repeat-x top;
+	background:#f4f4f4 url('adminimg/page-bg.gif') repeat-x top;
 }
 .page {
-	background: url('../img/sidebar-bg.png') repeat-y left;
+	background: url('adminimg/sidebar-bg.png') repeat-y left;
 }
 #page-content {
 	margin-left:250px;
@@ -228,8 +228,8 @@ min-width:1000px;
 	list-style-type:none;
 	margin:0;
 	padding:0;
-	width:78%;
 	height:62px;
+    float: right;
 }
 #nav li {
 	display:block;
@@ -259,19 +259,22 @@ min-width:1000px;
 	text-decoration:none;
 }
 #nav li a.help {
-	background: url('../img/icons/nav/help.png') no-repeat 0 -38px;
+	background: url('adminimg/icons/nav/help.png') no-repeat 0 -38px;
 }
 #nav li a.settings {
-	background: url('../img/icons/nav/settings.png') no-repeat 0 -38px;
+	background: url('adminimg/icons/nav/settings.png') no-repeat 0 -38px;
 }
 #nav li a.users {
-	background: url('../img/icons/nav/users.png') no-repeat 0 -38px;
+	background: url('adminimg/icons/nav/users.png') no-repeat 0 -38px;
 }
 #nav li a.content {
-	background: url('../img/icons/nav/content.png') no-repeat 0 -38px;
+	background: url('adminimg/icons/nav/content.png') no-repeat 0 -38px;
+}
+#nav li a.current {
+	text-decoration: underline;
 }
 #nav li a.dashboard {
-	background: url('../img/icons/nav/dashboard.png') no-repeat 0 -38px;
+	background: url('adminimg/icons/nav/dashboard.png') no-repeat 0 -38px;
 }
 #nav li:hover > a {
 	background-position: 0 16px;
@@ -438,10 +441,12 @@ html[xmlns] #nav {
 }
 /* sidebar */
 #sidebar {
-	float:left;
-	width:185px;
-	color:#333;
-	padding:25px 25px;
+color:#333333;
+float:left;
+padding:25px 0;
+width:235px;
+overflow: hidden;
+zoom:1;
 }
 #sidebar a {
 	color:#333;
@@ -454,17 +459,20 @@ html[xmlns] #nav {
 #sidebar ul li {
 	border-top:1px solid #f6f6f6;
 	border-bottom:1px solid #e0e0e0;
-	padding:6px;
-	width:175px;
+    width: 228px;
+
 }
 #sidebar ul li a {
-	padding:8px 25px 6px;
+	padding:12px 5px 12px 15px;
 	text-decoration:none;
+    display: block;
 }
 #sidebar ul li a:hover {
 	color:#333333;
-	font-weight:bold;
+    background: #CDCDCD url(adminimg/boxheader.gif) repeat-x;
 }
+
+
 .ul-header {
 	border-bottom:1px solid #e0e0e0;
 	font-weight:bold;
@@ -483,67 +491,68 @@ html[xmlns] #nav {
 }
 /** sidebar icons **/
 #sidebar ul li a.icn_manage_image {
-	background: url('../img/icons/small/image_manage.png') no-repeat left;
+	background: url('adminimg/icons/small/image_manage.png') no-repeat left;
 }
 #sidebar ul li a.icn_add_image {
-	background: url('../img/icons/small/image_add.png') no-repeat left;
+	background: url('adminimg/icons/small/image_add.png') no-repeat left;
 }
 #sidebar ul li a.icn_edit_image {
-	background: url('../img/icons/small/image_edit.png') no-repeat left;
+	background: url('adminimg/icons/small/image_edit.png') no-repeat left;
 }
 #sidebar ul li a.icn_delete_image {
-	background: url('../img/icons/small/image_delete.png') no-repeat left;
+	background: url('adminimg/icons/small/image_delete.png') no-repeat left;
 }
 #sidebar ul li a.icn_manage_users {
-	background: url('../img/icons/small/user.png') no-repeat left;
+	background: url('adminimg/icons/small/user.png') no-repeat left;
 }
 #sidebar ul li a.icn_add_users {
-	background: url('../img/icons/small/user_add.png') no-repeat left;
+	background: url('adminimg/icons/small/user_add.png') no-repeat left;
 }
 #sidebar ul li a.icn_edit_users {
-	background: url('../img/icons/small/user_edit.png') no-repeat left;
+	background: url('adminimg/icons/small/user_edit.png') no-repeat left;
 }
 #sidebar ul li a.icn_delete_users {
-	background: url('../img/icons/small/user_delete.png') no-repeat left;
+	background: url('adminimg/icons/small/user_delete.png') no-repeat left;
 }
 #sidebar ul li a.icn_manage_pages {
-	background: url('../img/icons/small/page.png') no-repeat left;
+	background: url('adminimg/icons/small/page.png') no-repeat left;
 }
 #sidebar ul li a.icn_add_pages {
-	background: url('../img/icons/small/page_add.png') no-repeat left;
+	background: url('adminimg/icons/small/page_add.png') no-repeat left;
 }
 #sidebar ul li a.icn_edit_pages {
-	background: url('../img/icons/small/page_edit.png') no-repeat left;
+	background: url('adminimg/icons/small/page_edit.png') no-repeat left;
 }
 #sidebar ul li a.icn_delete_pages {
-	background: url('../img/icons/small/page_delete.png') no-repeat left;
+	background: url('adminimg/icons/small/page_delete.png') no-repeat left;
 }
 #sidebar ul li a.icn_manage_comments {
-	background: url('../img/icons/small/comment.png') no-repeat left;
+	background: url('adminimg/icons/small/comment.png') no-repeat left;
 }
 #sidebar ul li a.icn_add_comments {
-	background: url('../img/icons/small/comment_add.png') no-repeat left;
+	background: url('adminimg/icons/small/comment_add.png') no-repeat left;
 }
 #sidebar ul li a.icn_edit_comments {
-	background: url('../img/icons/small/comment_edit.png') no-repeat left;
+	background: url('adminimg/icons/small/comment_edit.png') no-repeat left;
 }
 #sidebar ul li a.icn_delete_comments {
-	background: url('../img/icons/small/comment_delete.png') no-repeat left;
+	background: url('adminimg/icons/small/comment_delete.png') no-repeat left;
 }
 .toggle {
 	display:block;
 }
 .ul-header a.visible {
-	background:url('../img/icons/small/toggle_close.png') no-repeat scroll 97% 50%;
+	background:url('adminimg/icons/small/toggle_close.png') no-repeat scroll 97% 50%;
 }
 .ul-header a.hidden {
-	background:url('../img/icons/small/toggle_open.png') no-repeat scroll 97% 50%;
+	background:url('adminimg/icons/small/toggle_open.png') no-repeat scroll 97% 50%;
 }
 /* Live Search (Sidebar) */
 .searchform {
 	display:inline-block;
 	margin-bottom:15px;
 	padding:0;
+    padding-left: 20px;
 }
 .searchform input {
 	font:12px/100% Arial, Helvetica, sans-serif;
@@ -553,7 +562,7 @@ html[xmlns] #nav {
 	-moz-box-shadow:0 1px 2px #c7c6c6 inset;
 	-webkit-border-radius:5px 0 0 5px;
 	-webkit-box-shadow:0 1px 2px #c7c6c6 inset;
-	background:#FFFFFF url(../img/search-bg.gif) no-repeat 10px center;
+	background:#FFFFFF url(adminimg/search-bg.gif) no-repeat 10px center;
 	border:1px solid #c7c6c6;
 	outline:medium none;
 	padding:7px 6px 6px 28px;
@@ -571,7 +580,7 @@ html[xmlns] #nav {
 	-moz-box-shadow:0 1px 2px #c7c6c6;
 	-webkit-border-radius:0 5px 5px 0;
 	-webkit-box-shadow:0 1px 2px #c7c6c6;
-	background:#d6d6d6 url(../img/go-bg.gif) repeat-x top;
+	background:#d6d6d6 url(adminimg/go-bg.gif) repeat-x top;
 	border:1px solid #a9a8a8;
 	color:#888888;
 	font-size:12px;
@@ -582,6 +591,7 @@ html[xmlns] #nav {
 	float:left;
 	margin:0;
 	padding:0;
+    cursor: pointer;
 }
 /* Page Blocks */
 .box {
@@ -613,7 +623,7 @@ html[xmlns] #nav {
 	border:1px solid #9d9d9d;
 	font-weight:bold;
 	font-size:14px;
-	background:#cdcdcd url('../img/boxheader.gif') repeat-x top;
+	background:#cdcdcd url('adminimg/boxheader.gif') repeat-x top;
 	padding:10px 15px;
 	color:#333333;
 	-moz-border-radius-topleft :3px;
@@ -667,23 +677,23 @@ html[xmlns] #nav {
 }
 /* notifications */
 .notification.success {
-	background:#effeb9 url('../img/icons/notifications/success.png') no-repeat 10px 10px;
+	background:#effeb9 url('adminimg/icons/notifications/success.png') no-repeat 10px 10px;
 	border-color:#98c700;
 }
 .notification.error {
-	background:#fccac3 url('../img/icons/notifications/error.png') no-repeat 10px 10px;
+	background:#fccac3 url('adminimg/icons/notifications/error.png') no-repeat 10px 10px;
 	border-color:#ea5338;
 }
 .notification.warning {
-	background:#ffeaa7 url('../img/icons/notifications/warning.png') no-repeat 10px 10px;
+	background:#ffeaa7 url('adminimg/icons/notifications/warning.png') no-repeat 10px 10px;
 	border-color:#f9b418;
 }
 .notification.info {
-	background:#d1e4f3 url('../img/icons/notifications/info.png') no-repeat 10px 10px;
+	background:#d1e4f3 url('adminimg/icons/notifications/info.png') no-repeat 10px 10px;
 	border-color:#4d8fcc;
 }
 .notification.tip {
-	background:#feeac9 url('../img/icons/notifications/tip.png') no-repeat 10px 10px;
+	background:#feeac9 url('adminimg/icons/notifications/tip.png') no-repeat 10px 10px;
 	border-color:#d38e49;
 }
 .notification {
@@ -696,7 +706,7 @@ html[xmlns] #nav {
 	border-radius:3px;
 }
 .notification .close {
-	background:url("../img/icons/small/close.png") no-repeat scroll 0 0 transparent;
+	background:url("adminimg/icons/small/close.png") no-repeat scroll 0 0 transparent;
 	cursor:pointer;
 	display:block;
 	float:right;
@@ -734,7 +744,7 @@ form .row .checkbox, form .row .radio {
 	width:auto;
 }
 form input, form textarea, form select {
-	background: #FFFFFF url('../img/input-bg.gif') repeat-x top;
+	background: #FFFFFF url('adminimg/input-bg.gif') repeat-x top;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border:1px solid #c7c6c6;
@@ -793,15 +803,15 @@ fieldset {
 	text-decoration:none;
 	text-shadow:0 1px 1px rgba(0, 0, 0, 0.3);
 	vertical-align:baseline;
-	background:#868686 url('../img/btn-bg-dark.gif') repeat-x bottom;
+	background:#868686 url('adminimg/btn-bg-dark.gif') repeat-x bottom;
 	color:#E9E9E9;
 }
 .button:hover {
-	background:#585858 url('../img/btn-bg-dark-hover.gif') repeat-x bottom;
+	background:#585858 url('adminimg/btn-bg-dark-hover.gif') repeat-x bottom;
 	text-decoration:none;
 }
 .button:active {
-	background:#585858 url('../img/btn-bg-dark-active.gif') repeat-x bottom;
+	background:#585858 url('adminimg/btn-bg-dark-active.gif') repeat-x bottom;
 	color:#AFAFAF;
 	position:relative;
 	top:1px;
@@ -896,3 +906,15 @@ form.login label {
 form.login input {
 	width:200px;
 }
+
+.bindContextNav{
+  display: none;
+  position: absolute;
+  z-index: 99;
+  background: #E6E6E6;
+  padding: 10px;
+}
+.table #sortedtable tr{
+  cursor: move;
+}
+

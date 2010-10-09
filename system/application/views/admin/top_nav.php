@@ -51,7 +51,7 @@ $admin_loaded_plugins[] = $tempdata;
         </UL>
       </LI>
        Nav - End Users  
-       Nav - Start Content 
+       Nav - Start Content
       <LI class="content"><A class="content" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Content</A>
         <UL>
           <LI><A href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Manage Pages  »</A>
@@ -72,37 +72,37 @@ $admin_loaded_plugins[] = $tempdata;
           <LI><A href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Page Tags</A></LI>
         </UL>
       </LI>
-       Nav - End Content  
+       Nav - End Content
        Nav - Start Help 
       <LI class="dashboard"><A class="dashboard" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Dashboard</A></LI>
        Nav - End Dashboard 
     </UL>-->
 
 <ul id="nav" class="fr">
-  <LI class="settings"><A class="settings<?php if( $className == 'options')  : ?> active<?php endif; ?>"  href="<?php print site_url('admin/options') ?>">Settings</A>
+  <LI class="settings"><A class="settings<?php if( $className == 'options')  : ?> current<?php endif; ?>"  href="<?php print site_url('admin/options') ?>">Settings</A>
     <UL>
       <LI><A href="<?php print site_url('admin/options') ?>">Site settings</A></LI>
-      <li <?php if( $className == 'menus' )  : ?> class="active" <?php endif; ?> ><a href="<?php print site_url('admin/menus')  ?>">Menus</a></li>
-      <!--  <li <?php if( $className == 'content' and $functionName == 'taxonomy_categories')  : ?> class="active" <?php endif; ?> ><a  
+      <li <?php if( $className == 'menus' )  : ?> class="current" <?php endif; ?> ><a href="<?php print site_url('admin/menus')  ?>">Menus</a></li>
+      <!--  <li <?php if( $className == 'content' and $functionName == 'taxonomy_categories')  : ?> class="current" <?php endif; ?> ><a
       href="<?php print site_url('admin/content/taxonomy_categories')  ?>"> Categories </a></li>-->
       <?php foreach($admin_loaded_plugins as $plugin) : ?>
-      <li  <?php if( $pluginName == $plugin['plugin'])  : ?> class="active" <?php endif; ?>><a href="<?php print site_url('admin/plugins/load') ?>/<?php print $plugin['plugin'] ?>"><?php print $plugin['plugin_name'] ?></a></li>
+      <li  <?php if( $pluginName == $plugin['plugin'])  : ?> class="current" <?php endif; ?>><a href="<?php print site_url('admin/plugins/load') ?>/<?php print $plugin['plugin'] ?>"><?php print $plugin['plugin_name'] ?></a></li>
       <?php endforeach;  ?>
     </UL>
   </LI>
-  <LI class="users"> <A class="users<?php if(( $className == 'users' and $functionName == 'index') or ( $className == 'users' and $functionName == 'index') ) : ?> active<?php endif; ?>" href="<?php print site_url('admin/users/index')  ?>">Users</A>
+  <LI class="users"> <A class="users<?php if(( $className == 'users' and $functionName == 'index') or ( $className == 'users' and $functionName == 'index') ) : ?> current<?php endif; ?>" href="<?php print site_url('admin/users/index')  ?>">Users</A>
     <UL>
       <LI><A href="<?php print site_url('admin/users/index')  ?>">User Manager</A></LI>
-      <li <?php if( $className == 'reports')  : ?> class="active" <?php endif; ?> ><a href="<?php print site_url('admin/reports')  ?>">Reports</a></li>
+      <li <?php if( $className == 'reports')  : ?> class="current" <?php endif; ?> ><a href="<?php print site_url('admin/reports')  ?>">Reports</a></li>
     </UL>
   </LI>
-  <li <?php if( $className == 'comments')  : ?> class="active" <?php endif; ?> ><a href="<?php print site_url('admin/comments/index')  ?>">Comments
+  <li <?php if( $className == 'comments')  : ?> class="current" <?php endif; ?> ><a href="<?php print site_url('admin/comments/index')  ?>">Comments
     <?php $new_comments_counts = $this->content_model->commentsGetNewCommentsCount ();
 	if(intval($new_comments_counts) > 0) : ?>
     <sup style="font-size:7px"><?php print $new_comments_counts ?> new</sup>
     <?php endif;  ?>
     </a></li>
-  <LI class="content"> <A class="content<?php if(( $className == 'content' and $functionName == 'posts_manage') or ( $className == 'content' and $functionName == 'posts_edit') ) : ?> active<?php endif; ?>" href="<?php print site_url('admin/content/posts_manage')  ?>">Content</A>
+  <LI class="content"> <A class="content<?php if(( $className == 'content' and $functionName == 'posts_manage') or ( $className == 'content' and $functionName == 'posts_edit') ) : ?> current<?php endif; ?>" href="<?php print site_url('admin/content/posts_manage')  ?>">Content</A>
     <UL>
       <!--       <LI><A href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Manage Pages  »</A>
           <UL>
@@ -118,8 +118,8 @@ $admin_loaded_plugins[] = $tempdata;
             </UL>
           </LI>-->
       
-      <li  <?php if(( $className == 'content' and $functionName == 'posts_manage') or ( $className == 'content' and $functionName == 'posts_edit') ) : ?>    class="active" <?php endif; ?> > <a href="<?php print site_url('admin/content/posts_manage')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/page.png"  border="0" alt=" " />Content manager</a></li>
-      <li  <?php if(( $className == 'content' and $functionName == 'pages_index') or ( $className == 'content' and $functionName == 'pages_edit') ) : ?>    class="active" <?php endif; ?> > <a href="<?php print site_url('admin/content/pages_index')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/layout_header.png"  border="0" alt=" " />Pages manager</a></li>
+      <li  <?php if(( $className == 'content' and $functionName == 'posts_manage') or ( $className == 'content' and $functionName == 'posts_edit') ) : ?>    class="current" <?php endif; ?> > <a href="<?php print site_url('admin/content/posts_manage')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/page.png"  border="0" alt=" " />Content manager</a></li>
+      <li  <?php if(( $className == 'content' and $functionName == 'pages_index') or ( $className == 'content' and $functionName == 'pages_edit') ) : ?>    class="current" <?php endif; ?> > <a href="<?php print site_url('admin/content/pages_index')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/layout_header.png"  border="0" alt=" " />Pages manager</a></li>
       
       <!--  <LI><A href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Page Statstics</A></LI>
           <LI><A href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/Admin Base.htm">Page Categories</A></LI>

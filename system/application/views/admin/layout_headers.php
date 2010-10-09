@@ -14,6 +14,7 @@
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/excanvas.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/visualize.jQuery.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/functions.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>/js/engine.js"></SCRIPT>
 <!-- Individual YUI CSS files -->
 <!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datatable/assets/skins/sam/datatable.css">-->
 <!-- Individual YUI JS files -->
