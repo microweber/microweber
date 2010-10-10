@@ -1,4 +1,4 @@
-include ACTIVE_TEMPLATE_DIR."header.php" ?>
+<?php include ACTIVE_TEMPLATE_DIR."header.php" ?>
     <!-- /home_head -->
     
 	<div id="main">
@@ -10,4 +10,4 @@ include ACTIVE_TEMPLATE_DIR."header.php" ?>
 	<div class="clear"></div>
     <!-- /#content -->
     
-include ACTIVE_TEMPLATE_DIR."footer.php" ?>
+<?php include ACTIVE_TEMPLATE_DIR."footer.php" ?>
