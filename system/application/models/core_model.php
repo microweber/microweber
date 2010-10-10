@@ -316,8 +316,9 @@ class Core_model extends Model {
 			
 			}
 			
-		//	$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
+			//	$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
 			
+
 			foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
 				
 				$q = " INSERT INTO  $taxonomy_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$taxonomy_item'   ";
@@ -325,7 +326,7 @@ class Core_model extends Model {
 				$this->dbQ ( $q );
 			
 			}
-		
+			
 		//exit ();
 		}
 		
@@ -404,7 +405,7 @@ class Core_model extends Model {
 			$this->mediaFixOrder ( $to_table, $to_table_id, 'video' );
 			
 			$this->mediaFixOrder ( $to_table, $to_table_id, 'file' );
-		
+			
 		//var_dump ( $id_to_return );
 		//exit ();
 		} else {
@@ -430,8 +431,8 @@ class Core_model extends Model {
 						$custom_field_to_save [$k1] = $v;
 					
 					}
-				
-		//}
+					
+				//}
 				}
 			
 			}
@@ -651,8 +652,8 @@ class Core_model extends Model {
 				} else {
 					
 					$v = str_ireplace ( $site, '{SITE_URL}', $v );
-				
-		//$v = addslashes ( $v );
+					
+				//$v = addslashes ( $v );
 				//$v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
 				}
 				
@@ -685,8 +686,8 @@ class Core_model extends Model {
 					
 					//var_dump( $v);
 					$v = str_ireplace ( '{SITE_URL}', $site, $v );
-				
-		//var_dump( $v);
+					
+				//var_dump( $v);
 				//exit;
 				//$v = addslashes ( $v );
 				//$v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
@@ -1413,7 +1414,7 @@ class Core_model extends Model {
 		if (! empty ( $criteria ['only_those_fields'] )) {
 			
 			$only_those_fields = $criteria ['only_those_fields'];
-		
+			
 		//unset($criteria['only_those_fields']);
 		//no unset xcause f cache
 		}
@@ -1431,7 +1432,7 @@ class Core_model extends Model {
 		if (! empty ( $criteria ['exclude_ids'] )) {
 			
 			$exclude_ids = $criteria ['exclude_ids'];
-		
+			
 		//unset($criteria['only_those_fields']);
 		//no unset xcause f cache
 		}
@@ -1441,7 +1442,7 @@ class Core_model extends Model {
 		if (strval ( trim ( $criteria ['search_by_keyword'] ) ) != '') {
 			
 			$to_search = trim ( $criteria ['search_by_keyword'] );
-		
+			
 		//p($to_search,1);
 		}
 		
@@ -1492,8 +1493,8 @@ class Core_model extends Model {
 			$cache_content = $this->cacheGetContentAndDecode ( $original_cache_id, $original_cache_group );
 			
 			if ($cache_group == 'taxonomy') {
-			
-		//var_dump($cache_content);
+				
+			//var_dump($cache_content);
 			}
 			
 			if (($cache_content) != false) {
@@ -1545,10 +1546,10 @@ class Core_model extends Model {
 		$criteria = $this->mapArrayToDatabaseTable ( $table, $criteria );
 		
 		if (! empty ( $criteria )) {
-		
+			
 		//$query = $this->db->get_where ( $table, $criteria, $limit, $offset );
 		} else {
-		
+			
 		//$query = $this->db->get ( $table, $limit, $offset );
 		}
 		
@@ -1622,8 +1623,8 @@ class Core_model extends Model {
 						
 
 						$where .= " $v REGEXP '$to_search' " . $where_post;
-					
-		// 'new\\*.\\*line';
+						
+					// 'new\\*.\\*line';
 					
 
 					//$where .= " MATCH($v) AGAINST ('*$to_search* in boolean mode')  " . $where_post;
@@ -1755,7 +1756,7 @@ class Core_model extends Model {
 		//$stmt = $this->db->query ( $q );
 		//$result = $stmt->fetchAll ();
 		if ($count_only == true) {
-		
+			
 		//var_dump ( $q );
 		//exit ();
 		}
@@ -1934,8 +1935,8 @@ class Core_model extends Model {
 					}
 					
 					if ($table_assoc_name != 'table_taxonomy') {
-					
-		//todo
+						
+					//todo
 					}
 				
 				}
@@ -1976,7 +1977,7 @@ class Core_model extends Model {
 				//if ($include_taxonomy == true) {
 				
 
-			/*	if ($table_assoc_name == 'table_content') {
+				/*	if ($table_assoc_name == 'table_content') {
 					
 					if ($get_only_whats_requested_without_additional_stuff == false) {
 						
@@ -2441,8 +2442,8 @@ class Core_model extends Model {
 						$qLimit .= "OFFSET {$page_start} ";
 					
 					}
-				
-		//$qLimit .= "LIMIT {$page_start}, {$page_end}";
+					
+				//$qLimit .= "LIMIT {$page_start}, {$page_end}";
 				}
 			
 			}
@@ -2640,8 +2641,8 @@ class Core_model extends Model {
 					}
 				
 				}
-			
-		//		$wheres [] = "\n {$q} ";
+				
+			//		$wheres [] = "\n {$q} ";
 			
 
 			} else {
@@ -2767,8 +2768,8 @@ class Core_model extends Model {
 									$qSelect .= "\n\t{$q}";
 									
 									$qHaving_a [] = ' commented > 0  ';
-								
-		//
+									
+								//
 								} else {
 									
 									$q = " and id IN (SELECT (to_table_id) from $table_comments where
@@ -2840,8 +2841,8 @@ class Core_model extends Model {
 							break;
 					
 					}
-				
-		//}
+					
+				//}
 				
 
 				}
@@ -3000,8 +3001,8 @@ class Core_model extends Model {
 			$qOrder = rtrim ( $qOrder, ',' );
 			
 			if (! $getCount) {
-			
-		//$qOrder .= "\n\t{$orderby1 [0]} {$orderby1 [1]}";
+				
+			//$qOrder .= "\n\t{$orderby1 [0]} {$orderby1 [1]}";
 			} else {
 				
 				switch ($orderby1 [0]) {
@@ -3546,7 +3547,7 @@ class Core_model extends Model {
 			return ($memory);
 		
 		} else {
-		
+			
 		//print 'nomem';
 		}
 		
@@ -3666,8 +3667,6 @@ class Core_model extends Model {
 			if (is_dir ( $see_if_dir_is_there ) == false) {
 				
 				@mkdir_recursive ( $see_if_dir_is_there );
-				
-				
 			
 			}
 			
@@ -3682,8 +3681,8 @@ class Core_model extends Model {
 				
 				} else {
 					exit ( 'cache file ' . $cache_file . 'is not writable' );
-				
-		//error_log ( $cache_file . 'not writable' );
+					
+				//error_log ( $cache_file . 'not writable' );
 				
 
 				}
@@ -3752,15 +3751,42 @@ class Core_model extends Model {
 	}
 	
 	private function _getCacheFile($cache_id, $cache_group = 'global') {
-		
+		$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
 		return $this->_getCacheDir ( $cache_group ) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
 	
 	}
 	
 	private function _getCacheDir($cache_group = 'global') {
+		$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
+		
+		
+		
+		
+		
+		
+		//we will seperate the dirs by 1000s
+		$cache_group_explode = explode(DIRECTORY_SEPARATOR,$cache_group);
+		$cache_group_new = array();
+		foreach($cache_group_explode as $item){
+			if(intval($item) != 0){
+				$item_temp = intval($item)/1000;
+				$item_temp = ceil($item_temp);
+				$item_temp = $item_temp.'000';
+				$cache_group_new[] =$item_temp;
+				$cache_group_new[] =$item;
+				
+				
+			} else {
+				
+				$cache_group_new[] =$item;
+			}
+			
+		}
+		$cache_group = implode(DIRECTORY_SEPARATOR,$cache_group_new);
+		
+		
 		
 		$cacheDir = CACHEDIR . $cache_group;
-		
 		if (! is_dir ( $cacheDir )) {
 			
 			mkdir_recursive ( $cacheDir );
@@ -3799,11 +3825,13 @@ class Core_model extends Model {
 		
 		//print 'delete cache:'  .$cache_group;
 		
-//var_dump(CACHEDIR . $cache_group);
-		if (is_dir ( CACHEDIR . $cache_group )) {
-			recursive_remove_directory(CACHEDIR . $cache_group);
+$dir = $this->_getCacheDir($cache_group);
+		//var_dump(CACHEDIR . $cache_group);
+		if (is_dir ( $dir )) {
+			recursive_remove_directory ( $dir );
 			//rename ( CACHEDIR . $cache_group, $recycle_bin . md5 ( $cache_group ) . rand () . rand () . '_deleted' . DIRECTORY_SEPARATOR );
 		
+
 		}
 		
 	/*foreach ( glob ( $cleanPattern ) as $file ) {
@@ -4023,8 +4051,8 @@ $w
 			return $job;
 		
 		}
-	
-		//
+		
+	//
 	}
 	
 	function extractEmailsFromString($string) {
@@ -4421,8 +4449,8 @@ $w
 										echo $this->image_lib->display_errors ();
 									
 									}
-								
-		//	$this->image_lib->resize ();
+									
+								//	$this->image_lib->resize ();
 								}
 							
 							} else {
@@ -4562,8 +4590,8 @@ $w
 								$src = str_ireplace ( '%', '-', $src );
 								
 								$src = str_ireplace ( '%', '-', $src );
-							
-		//	$data = array ();
+								
+							//	$data = array ();
 							//	$data ['url'] = $this->mediaGetUrlDir () . 'pictures/original/' . $item ['filename'];
 							////	$data ['id'] = $item ['id'];
 							//	$data ['filename'] = $item ['filename'];
@@ -4587,8 +4615,8 @@ $w
 							break;
 					
 					}
-				
-		//$media_get_to_return[] = $item;
+					
+				//$media_get_to_return[] = $item;
 				}
 			
 			} else {
@@ -4745,11 +4773,11 @@ $w
 		if (($cache_content) != false) {
 			
 			if (trim ( strval ( $cache_content ) ) == 'false') {
-			
-		//	return false;
+				
+			//	return false;
 			} else {
-			
-		//return $cache_content;
+				
+			//return $cache_content;
 			}
 		
 		}
@@ -4951,7 +4979,7 @@ $w
 					break;
 			
 			}
-		
+			
 		//$media_get_to_return[] = $item;
 		}
 		
@@ -5234,7 +5262,7 @@ $w
 					break;
 			
 			}
-		
+			
 		//$media_get_to_return[] = $item;
 		}
 		
@@ -5417,7 +5445,7 @@ $w
 					break;
 			
 			}
-		
+			
 		//$media_get_to_return[] = $item;
 		}
 		
@@ -5538,8 +5566,8 @@ $w
 						if (is_dir ( $path ) == false) {
 							
 							@mkdir ( $path );
-						
-		//@chmod ( $path, '0777' );
+							
+						//@chmod ( $path, '0777' );
 						}
 						
 						$the_target_path = $target_path . 'pictures/original/';
@@ -5549,8 +5577,8 @@ $w
 						if (is_dir ( $the_target_path ) == false) {
 							
 							@mkdir ( $the_target_path );
-						
-		//@chmod ( $the_target_path, '0777' );
+							
+						//@chmod ( $the_target_path, '0777' );
 						}
 						
 						$the_target_path = $the_target_path . $filename;
@@ -5803,9 +5831,8 @@ $w
 			
 			}
 			
-			 
 			return $uploaded;
-		
+			
 		//exit ();
 		} else {
 			
@@ -5813,8 +5840,8 @@ $w
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+	//	exit ();
 	}
 	
 	/**
@@ -5865,8 +5892,8 @@ $w
 							if (is_dir ( $path ) == false) {
 								
 								@mkdir ( $path );
-							
-		//@chmod ( $path, '0777' );
+								
+							//@chmod ( $path, '0777' );
 							}
 							
 							$the_target_path = $target_path . 'videos/';
@@ -5876,8 +5903,8 @@ $w
 							if (is_dir ( $the_target_path ) == false) {
 								
 								@mkdir ( $the_target_path );
-							
-		//@chmod ( $the_target_path, '0777' );
+								
+							//@chmod ( $the_target_path, '0777' );
 							}
 							
 							$the_target_path = $the_target_path . $filename;
@@ -5974,7 +6001,7 @@ $w
 			
 			//	$this->core_model->cacheDeleteAll ();
 			return $uploaded;
-		
+			
 		//exit ();
 		} else {
 			
@@ -5982,8 +6009,8 @@ $w
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+	//	exit ();
 	}
 	
 	/**
@@ -6038,8 +6065,8 @@ $w
 						if (is_dir ( $path ) == false) {
 							
 							@mkdir ( $path );
-						
-		//@chmod ( $path, '0777' );
+							
+						//@chmod ( $path, '0777' );
 						}
 						
 						$the_target_path = $target_path . 'pictures/original/';
@@ -6049,8 +6076,8 @@ $w
 						if (is_dir ( $the_target_path ) == false) {
 							
 							@mkdir ( $the_target_path );
-						
-		//@chmod ( $the_target_path, '0777' );
+							
+						//@chmod ( $the_target_path, '0777' );
 						}
 						
 						$the_target_path = $the_target_path . $filename;
@@ -6302,7 +6329,7 @@ $w
 			//$this->core_model->cacheDeleteAll ();
 			//	p ( $uploaded );
 			return $uploaded;
-		
+			
 		//exit ();
 		} else {
 			
@@ -6310,8 +6337,8 @@ $w
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+	//	exit ();
 	}
 	
 	/*function cacheDelete($what, $value) {
@@ -6613,8 +6640,8 @@ $w
 		$this->cleanCacheGroup ( 'search' );
 		
 		$this->cleanCacheGroup ( 'regex' );
-	
-		//		return;
+		
+	//		return;
 	//
 	//		die("Deprecated");
 	//
@@ -7031,8 +7058,8 @@ $w
 		if (is_dir ( $filename ) == false) {
 			
 			if (! $handle = @fopen ( $filename, 'w+b' )) {
-			
-		//echo "Cannot open file ($filename)";
+				
+			//echo "Cannot open file ($filename)";
 			//exit ();
 			}
 		
@@ -7061,10 +7088,10 @@ $w
 			
 			//echo "Cannot write to file ($filename)";
 			return false;
-		
+			
 		//exit;
 		} else {
-		
+			
 		//print "saved: $newfilename";
 		}
 		
@@ -7537,7 +7564,7 @@ $w
 				return false;
 			
 			}
-		
+			
 		//return false;
 		
 

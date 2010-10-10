@@ -290,29 +290,30 @@ class content_model extends Model {
 		
 		//$this->core_model->cacheDeleteAll (); 		
 
-		if (intval ( $data_to_save ['content_parent'] ) != 0) {
-			$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . intval ( $data_to_save ['content_parent'] ) );
-		}
-		$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
-		$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . '0' );
-		$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . 'global' );
-		
-		if (! empty ( $data_to_save ['taxonomy_categories'] )) {
-			foreach ( $data_to_save ['taxonomy_categories'] as $cat ) {
-				//var_dump('taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
-				$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+		if ($data_to_save ['preserve_cache'] == false) {
+			if (intval ( $data_to_save ['content_parent'] ) != 0) {
+				$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . intval ( $data_to_save ['content_parent'] ) );
 			}
-			$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
-			$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
-		
-		}
-		
-		if (! empty ( $more_categories_to_delete )) {
-			foreach ( $more_categories_to_delete as $cat ) {
-				$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+			$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
+			$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . '0' );
+			$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . 'global' );
+			
+			if (! empty ( $data_to_save ['taxonomy_categories'] )) {
+				foreach ( $data_to_save ['taxonomy_categories'] as $cat ) {
+					//var_dump('taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+					$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+				}
+				$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
+				$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
+			
+			}
+			
+			if (! empty ( $more_categories_to_delete )) {
+				foreach ( $more_categories_to_delete as $cat ) {
+					$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+				}
 			}
 		}
-		
 		return $save;
 	
 	}
@@ -770,7 +771,7 @@ class content_model extends Model {
 		
 		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
-		if (($cache_content) != false) { 
+		if (($cache_content) != false) {
 			
 			return $cache_content;
 		
@@ -1472,8 +1473,7 @@ class content_model extends Model {
 	
 	}
 	
-	
-function contentsGetTheFirstBlogSectionForCategory($category_id) {
+	function contentsGetTheFirstBlogSectionForCategory($category_id) {
 		
 		if (intval ( $category_id ) == 0) {
 			
@@ -2655,7 +2655,7 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 								
 								//var_dump($possible_ids);								
 
-								$results = $this->taxonomyGet ( $data );
+								$results = $this->taxonomyGetAndCache ( $data );
 								
 								//  var_dump ( $results );								
 
@@ -2752,8 +2752,7 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 			$cf = $this->core_model->getParamFromURL ( 'custom_fields_criteria' );
 			
 			if ($cf != false) {
-	
-
+				
 				$posts_data ['custom_fields_criteria'] = $cf;
 			
 			}
@@ -4803,7 +4802,7 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 		
 		//$content = preg_replace ( '/<!--(.|\s)*?-->/', '', $content );		
 
-		//$content =    preg_replace('<%DIV%[^>]*>(.*?)</%DIV                                                                                                                                                                                                                                                                                                                       %>', '', $content);		
+		//$content =    preg_replace('<%DIV%[^>]*>(.*?)</%DIV                                                                                                                                                                                                                                                                                                                       								%>', '', $content);		
 
 		//  $content = preg_replace('#{(?!div|div)[a-z0-9]+}#is', '$1', $content);		
 
@@ -5034,196 +5033,29 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 		$quick_nav = $this->getBreadcrumbsByURLAsArray ( $the_url, $include_home );
 		
 		?>        <?php
-		if (! empty ( $quick_nav )) :
+		if (! empty ( $quick_nav )) {
 			
 			?>
 
 <ul class="breadcrumb">                     <?php
-			foreach ( $quick_nav as $item ) :
+			foreach ( $quick_nav as $item ) {
 				
-				?>                        <li><a href="<?php
-				print $item ['url']?>"><?php
-				print ucwords ( $item ['title'] )?></a></li>                     <?php
-			endforeach
-			
-			;
-			
-			?>                     </ul>
+				?>                        <li><a
+        href="<?php
+				print $item ['url'];
+				?>"><?php
+				print ucwords ( $item ['title'] );
+				?></a></li>
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		<?php endif;
-	
+<?php
+			}
+			print '</ul>';
+		}
 	}
-	
 	function getBreadcrumbsByURLAsArray($the_url = false, $include_home = true, $options = array()) {
 		
 		if ($the_url != false) {
@@ -8212,7 +8044,7 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForTaxonomyRootId($root, $incliude_root = false) {
+	function taxonomyGetTaxonomyIdsForTaxonomyRootId($root, $incliude_root = false, $recursive = false) {
 		
 		if (intval ( $root ) == 0) {
 			
@@ -8247,22 +8079,23 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 				
 				}
 				
-				$next = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $item ['id'] );
-				
-				if (! empty ( $next )) {
+				if ($recursive == true) {
+					$next = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $item ['id'], false, $recursive );
 					
-					foreach ( $next as $n ) {
+					if (! empty ( $next )) {
 						
-						if ($n != '') {
+						foreach ( $next as $n ) {
 							
-							$ids [] = $n;
+							if ($n != '') {
+								
+								$ids [] = $n;
+							
+							}
 						
 						}
 					
 					}
-				
 				}
-			
 			}
 		
 		}
@@ -9709,7 +9542,7 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 			}
 		
 		}
-
+		
 		$real_comments = htmlspecialchars_deep_decode ( $real_comments );
 		
 		return $real_comments;
@@ -10017,6 +9850,16 @@ function contentsGetTheFirstBlogSectionForCategory($category_id) {
 	}
 	
 	function content_pingServersWithNewContent() {
+		
+		if($_SERVER ["SERVER_NAME"] == 'localhost'){
+		return false;	
+		}
+		
+	if($_SERVER ["SERVER_NAME"] == '127.0.0.1'){
+		return false;	
+		}
+		
+		
 		
 		global $cms_db_tables;
 		
