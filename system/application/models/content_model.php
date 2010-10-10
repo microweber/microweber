@@ -2453,7 +2453,7 @@ class content_model extends Model {
 								
 								$taxonomy_value = $item [1];
 								
-								$possible_ids = $this->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true );
+								$possible_ids = $this->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
 								
 								//var_dump ( $possible_ids );								
 
@@ -2647,7 +2647,7 @@ class content_model extends Model {
 								
 								$taxonomy_value = $item [1];
 								
-								$possible_ids = $this->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true );
+								$possible_ids = $this->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
 								
 								$data = array ();
 								
@@ -7801,8 +7801,10 @@ class content_model extends Model {
 			$type_q = " and taxonomy_type='$type'   ";
 		
 		} else {
+			$type =  'category_item';
+			$data ['taxonomy_type'] = $type;
 			
-			$type_q = false;
+			$type_q = " and taxonomy_type='$type'   ";
 		
 		}
 		
@@ -7955,7 +7957,7 @@ class content_model extends Model {
 		$data ['parent_id'] = $root;
 		$root = intval ( $root );
 		
-		$q = " SELECT id, parent_id,to_table_id from $table where parent_id=$root $visible_on_frontend_q ";
+		$q = " SELECT id, parent_id,to_table_id from $table where parent_id=$root $visible_on_frontend_q and taxonomy_type='category_item' ";
 		
 		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/' . $root );
 		
@@ -8008,7 +8010,7 @@ class content_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache($root, $incliude_root = false) {
+	function taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache($root, $incliude_root = false, $recursive = false, $type='category' ) {
 		
 		//return false;		
 
@@ -8034,7 +8036,7 @@ class content_model extends Model {
 		
 		} else {
 			
-			$to_cache = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $root, $incliude_root );
+			$to_cache = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $root, $incliude_root , $recursive, $type);
 			
 			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
@@ -8044,7 +8046,7 @@ class content_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForTaxonomyRootId($root, $incliude_root = false, $recursive = false) {
+	function taxonomyGetTaxonomyIdsForTaxonomyRootId($root, $incliude_root = false, $recursive = false, $type='category') {
 		
 		if (intval ( $root ) == 0) {
 			
@@ -8065,7 +8067,7 @@ class content_model extends Model {
 		}
 		
 		$root = intval ( $root );
-		$q = " select id from $table where parent_id = $root";
+		$q = " select id from $table where parent_id = $root and taxonomy_type='{$type}' ";
 		
 		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q . $root . serialize ( $incliude_root ) ), $cache_group = 'taxonomy/' . $root );
 		
@@ -8080,7 +8082,7 @@ class content_model extends Model {
 				}
 				
 				if ($recursive == true) {
-					$next = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $item ['id'], false, $recursive );
+					$next = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $item ['id'], false, $recursive, $type );
 					
 					if (! empty ( $next )) {
 						
@@ -8959,11 +8961,13 @@ class content_model extends Model {
 
 		$content_type = addslashes ( $content_type );
 		
+		
+		
 		if ($content_type == false) {
 			
 			if ($include_first == true) {
 				
-				$sql = "SELECT * from $table where id=$content_parent   $remove_ids_q $add_ids_q order by {$orderby [0]}  {$orderby [1]}  ";
+				$sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q order by {$orderby [0]}  {$orderby [1]}  ";
 			
 			} else {
 				
@@ -9073,13 +9077,17 @@ class content_model extends Model {
 
 							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
 							
-							$children_of_the_next_parent = $this->taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache ( $only_with_content [0], $type = 'category_item', $visible_on_frontend );
+							$children_of_the_next_parent = $this->taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache ( $only_with_content [0],  $visible_on_frontend, false, $type = 'category_item');
 							
 							$children_of_the_next_parent_i = implode ( ',', $children_of_the_next_parent );
 							
 							$children_of_the_next_parent_qty = count ( $chosen_categories_array );
 							
-							$q = " select id , count(to_table_id) as qty from $table_taxonomy where                             to_table_id in($children_of_the_next_parent_i)                              and parent_id  IN ($chosen_categories_array_i)                               group by to_table_id                         ";
+							$q = " select id , count(to_table_id) as qty from $table_taxonomy where                             to_table_id in($children_of_the_next_parent_i)                              and parent_id  IN ($chosen_categories_array_i) 
+                             and taxonomy_type =  'category_item'
+                             
+                             
+                                                          group by to_table_id                         ";
 							
 							//  p ( $q );							
 
