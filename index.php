@@ -234,10 +234,14 @@ define ( 'DBDATABASE', "cms2" );
 
 define ( "USER_IP", $_SERVER ["REMOTE_ADDR"] );
 
-//var_dump($_SERVER);
+$subdir = $_SERVER['PHP_SELF'];
+$subdir = dirname($subdir);
+$subdir = ltrim($subdir, '/');
+$subdir = rtrim($subdir, '/');
+ 
 $get_url_dir = $_SERVER ["SERVER_NAME"] . (trim ( $_SERVER ["REQUEST_URI"] ));
 
-define ( 'SITEURL', 'http://'.$_SERVER ["SERVER_NAME"] .'/cms/' );
+define ( 'SITEURL', 'http://'.$_SERVER ["SERVER_NAME"] .'/'.$subdir.'/' );
 
 $cache_main_dir = ROOTPATH .DIRECTORY_SEPARATOR. 'cache'.DIRECTORY_SEPARATOR;
 if (is_dir ( $cache_main_dir ) == false) {
