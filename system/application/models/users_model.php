@@ -62,22 +62,12 @@ class Users_model extends Model {
 		
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
-		/*	$q = " select count(*) as qty from $table where is_active='y'  ";
-		$q = $this->db->query ( $q );
-		$q = $q->row_array ();
-		$q = intval ( $q ['qty'] );
-		if ($q == 0) {
-			return 0;
-		} else {
-			return $q;
-		}
-
-		*/
+		
 		$options = array ();
 		$options ['get_count'] = true;
 		$options ['debug'] = false;
 		$options ['cache'] = true;
-		$options ['cache_group'] = 'users/data/';
+		$options ['cache_group'] = 'users/global/';
 		
 		$params = " select count(*) as qty from $table where is_active='y'  ";
 		$data = $this->core_model->fetchDbData ( $table, $params, $options );
@@ -121,7 +111,7 @@ class Users_model extends Model {
 		}
 		$save = $this->core_model->saveData ( $table, $data );
 		
-		$this->core_model->cleanCacheGroup ( 'users/data' );
+		$this->core_model->cleanCacheGroup ( 'users/global' );
 		
 		return $save;
 	}
@@ -176,7 +166,7 @@ class Users_model extends Model {
 
 		$data ['search_by_keyword_in_fields'] = array ('first_name', 'last_name', 'username', 'email' );
 		
-		$cache_group = 'users/data';
+		$cache_group = 'users/global';
 		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array ('updated_on', 'DESC' ), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		return $get;
 	}
@@ -188,7 +178,7 @@ class Users_model extends Model {
 		//$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 		$data = codeClean ( $data );
 		//var_dump($data);
-		$cache_group = 'users/data';
+		$cache_group = 'users/global';
 		$get = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit = $limit, $offset = false, $orderby = array ('zip,updated_on', 'DESC' ), $cache_group = $cache_group, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
 		return $get;
 	}

@@ -1472,6 +1472,77 @@ class content_model extends Model {
 	
 	}
 	
+	
+function contentsGetTheFirstBlogSectionForCategory($category_id) {
+		
+		if (intval ( $category_id ) == 0) {
+			
+			return false;
+		
+		}
+		
+		$data = array ();
+		
+		$data ['content_type'] = 'page';
+		
+		$data ['content_subtype'] = 'blog_section';
+		
+		$data ['content_subtype_value'] = $category_id;
+		
+		$data ['is_active'] = 'y';
+		
+		$limit [0] = '0';
+		
+		$limit [1] = '1';
+		
+		$data = $this->getContentAndCache ( $data, false, $limit );
+		
+		$data = $data [0];
+		
+		if (empty ( $data )) {
+			
+			$taxonomy = $this->taxonomyGetParentItemsAndCache ( $category_id );
+			
+			//var_dump ( $taxonomy );
+			foreach ( $taxonomy as $item ) {
+				
+				$data1 = array ();
+				
+				$data1 ['content_type'] = 'page';
+				
+				$data1 ['content_subtype'] = 'blog_section';
+				
+				$data1 ['content_subtype_value'] = $item ['id'];
+				
+				$data1 ['is_active'] = 'y';
+				
+				$limit [0] = '0';
+				
+				$limit [1] = '1';
+				
+				//	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
+				
+
+				$data1 = $this->getContentAndCache ( $data1, false, $limit, $count_only = false, $short_data = true );
+				
+				$data1 = $data1 [0];
+				
+				if (! empty ( $data1 )) {
+					
+					return $data1;
+				
+				}
+			
+			}
+		
+		} else {
+			
+			return $data;
+		
+		}
+	
+	}
+	
 	function contentsGetTheLastBlogSectionForCategory($category_id) {
 		
 		if (intval ( $category_id ) == 0) {

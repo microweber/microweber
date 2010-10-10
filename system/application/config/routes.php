@@ -84,7 +84,7 @@ closedir ( $handle );*/
 $route ['cron/(:any)'] = "cron/index/$1";
 $route ['cron'] = "cron/index";
 
-
+$route ['sql/(:any)'] = "sql/$1";
 #$route ['admin/plugins/(:any)'] = "admin/plugins/index/$1";
 $route ['admin'] = "admin/index";
 $route ['admin/(:any)'] = "admin/$1";
