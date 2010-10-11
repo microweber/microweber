@@ -233,8 +233,8 @@ define ( 'DBPASSWORD', "123456" );
 define ( 'DBDATABASE', "cms2" );   
 
 define ( "USER_IP", $_SERVER ["REMOTE_ADDR"] );
-
-$subdir = $_SERVER['PHP_SELF'];
+ 
+$subdir = $_SERVER['SCRIPT_NAME'];
 $subdir = dirname($subdir);
 $subdir = ltrim($subdir, '/');
 $subdir = rtrim($subdir, '/');

@@ -56,7 +56,7 @@ class content_model extends Model {
 			
 			$thecontent_url = $q;
 			
-			$more_categories_to_delete = $this->taxonomyGetTaxonomyIdsForContentId ( $data ['id'] );
+			$more_categories_to_delete = $this->taxonomyGetTaxonomyIdsForContentId ( $data ['id'] , 'categories');
 			
 		//var_dump($thecontent_url);		
 
@@ -7650,6 +7650,7 @@ class content_model extends Model {
 		$data = array ();
 		
 		$data ['id'] = $id;
+		$data ['taxonomy_type'] = 'category';
 		
 		$data = $this->taxonomyGet ( $data );
 		
@@ -7723,6 +7724,8 @@ class content_model extends Model {
 			
 			$data ['taxonomy_type'] = $taxonomy_type;
 		
+		} else {
+			$data ['taxonomy_type'] = 'category';
 		}
 		
 		$save = $this->taxonomyGet ( $data, $orderby, $no_limits = true );
@@ -8120,7 +8123,7 @@ class content_model extends Model {
 	
 	}
 	
-	function taxonomyGetParentIdsForId($id, $without_main_parrent = false) {
+	function taxonomyGetParentIdsForId($id, $without_main_parrent = false, $taxonomy_type = 'category') {
 		
 		if (intval ( $id ) == 0) {
 			
@@ -8146,7 +8149,7 @@ class content_model extends Model {
 		
 		}
 		$id = intval ( $id );
-		$q = " select id, parent_id  from $table where id = $id   $with_main_parrent_q ";
+		$q = " select id, parent_id  from $table where id = $id and  taxonomy_type='{$taxonomy_type}'  $with_main_parrent_q ";
 		
 		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q ), $cache_group = 'taxonomy/' . $id );
 		
@@ -8251,7 +8254,7 @@ class content_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForContentId($content_id, $taxonomy_type = false) {
+	function taxonomyGetTaxonomyIdsForContentId($content_id, $taxonomy_type = 'categories') {
 		
 		if (intval ( $content_id ) == 0) {
 			
