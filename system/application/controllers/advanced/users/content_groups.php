@@ -13,7 +13,7 @@ if ($_POST) {
 		$_POST ['taxonomy_value'] = 'Group-' . date ( "Ymdhis" );
 	}
 	if (empty ( $errors )) {
-		$save = $this->content_model->taxonomySave ( $_POST );
+		$save = $this->taxonomy_model->taxonomySave ( $_POST );
 	} else {
 		$this->template ['errors'] = $errors;
 	}
@@ -24,7 +24,7 @@ if (($id) == false and $add != 'yes') {
 	$user_content = array ();
 	$user_content ['taxonomy_type'] = 'group';
 	$user_content ['created_by'] = $this->core_model->userId ();
-	$groups = $this->content_model->taxonomyGet ( $data = $user_content, $orderby = false, $no_limits = true, $no_cache = false );
+	$groups = $this->taxonomy_model->taxonomyGet ( $data = $user_content, $orderby = false, $no_limits = true, $no_cache = false );
 
 	//p($groups);
 	$this->template ['groups'] = $groups;
@@ -36,7 +36,7 @@ if (($id) == false and $add != 'yes') {
 	$user_content ['taxonomy_type'] = 'group';
 	$user_content ['created_by'] = $this->core_model->userId ();
 	$user_content ['id'] = $id;
-	$form_values = $this->content_model->taxonomyGet ( $data = $user_content, $orderby = false, $no_limits = true, $no_cache = false );
+	$form_values = $this->taxonomy_model->taxonomyGet ( $data = $user_content, $orderby = false, $no_limits = true, $no_cache = false );
 	if (empty ( $form_values )) {
 		$content ['content_filename'] = 'users/content_groups_no_access.php';
 	} else {

@@ -50,10 +50,10 @@ class Init_model extends Model {
 		}
 
 		if (is_dir ( $dir ) == false) {
-			@mkdir ( $dir );
+			@mkdir_recursive ( $dir );
 		}
 		if (is_dir ( $dir2 ) == false) {
-			@mkdir ( $dir2 );
+			@mkdir_recursive ( $dir2 );
 		}
 
 		/*if (is_writable ( $dir ) == false) {
@@ -276,9 +276,11 @@ class Init_model extends Model {
 		$query = $this->db->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
 
 		if ($query->num_rows() == 0) {
-			$this->db->query("
+			$q = "
 				ALTER TABLE {$aTable} ADD INDEX `{$aIndexName}` ({$columns});
-			");
+			";
+			var_dump($q);
+			$this->db->query($q);
 		}
 
 	}

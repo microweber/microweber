@@ -191,7 +191,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 		
 		} else {
 			
-			$togo = $this->content_model->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
+			$togo = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
 		
 		}
 		
@@ -403,7 +403,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 				//var_dump ( $post );
 				
 
-				$the_taxonomy_item_fulll = $this->content_model->taxonomyGetSingleItemById ( $active_cat );
+				$the_taxonomy_item_fulll = $this->taxonomy_model->taxonomyGetSingleItemById ( $active_cat );
 				
 				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
 					
@@ -717,7 +717,7 @@ if (! empty ( $active_categories_temp )) {
 	
 	foreach ( $active_categories_temp as $thecategory ) {
 		
-		$temp = $this->content_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
+		$temp = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
 		
 		$taxonomy_tree = @array_merge ( $taxonomy_tree, $temp );
 	
@@ -757,7 +757,7 @@ if (! empty ( $taxonomy_tree )) {
 		
 		$temp ['id'] = $something;
 		
-		$temp = $this->content_model->taxonomyGet ( $temp );
+		$temp = $this->taxonomy_model->taxonomyGet ( $temp );
 		
 		$temp = $temp [0];
 		

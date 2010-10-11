@@ -16,7 +16,16 @@ require_once 'cyrlat/cyrlat.class.php';
 $cms_db_tables = array ();
 $cms_db_tables ['table_cache'] = TABLE_PREFIX . 'cache';
 $cms_db_tables ['table_content'] = TABLE_PREFIX . 'content';
+
+
+
 $cms_db_tables ['table_taxonomy'] = TABLE_PREFIX . 'taxonomy';
+$cms_db_tables ['table_taxonomy_items'] = TABLE_PREFIX . 'taxonomy_items';
+
+
+
+
+
 $cms_db_tables ['table_menus'] = TABLE_PREFIX . 'menus';
 $cms_db_tables ['table_options'] = TABLE_PREFIX . 'options';
 $cms_db_tables ['table_media'] = TABLE_PREFIX . 'media';

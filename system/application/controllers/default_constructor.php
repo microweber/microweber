@@ -16,10 +16,7 @@ if (stristr ( $the_curent_link123, 'api' ) == false) {
 
 //}
 
-if ($_COOKIES ['search_engine'] == false) {
-	
-//setcookie ( "search_engine", 'search-site' );
-}
+ 
 
 $profiler = getParamFromURL ( 'profiler' );
 
@@ -40,16 +37,14 @@ if ($profiler) {
 //$before = memory_get_usage();
 
 
+
+//must be in this order!
 $this->load->model ( 'Init_model', 'init_model' );
-
 $this->load->model ( 'Core_model', 'core_model' );
-
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 $this->load->model ( 'Content_model', 'content_model' );
-
 $this->load->model ( 'Users_model', 'users_model' );
-
 $this->load->model ( 'Cart_model', 'cart_model' );
-
 $this->load->model ( 'Template_model', 'template_model' );
 
 

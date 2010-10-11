@@ -175,7 +175,7 @@ tb_remove();
                 <input name="menu_url_no_such_thing" type="text" style="width:400px;"   disabled="disabled"    id="menu_item_form_<?php print $menu_item['id'] ;  ?>_menu_url_no_such_thing"     value="<?php print $this->content_model->contentGetHrefForPostId($menu_item['content_id']) ; ?>" />
                 </label>-->
                 <?php elseif($menu_item['taxonomy_id'] != 0):  ?>
-                <?php $url = $this->content_model->taxonomyGetUrlForTaxonomyId($menu_item['taxonomy_id']);    ?>
+                <?php $url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId($menu_item['taxonomy_id']);    ?>
                 <!--<a href="<?php print $url ; ?>" target="_blank">url</a>:
                 <input name="menu_url_no_such_thing" type="text" style="width:400px;" id="menu_item_form_<?php print $menu_item['id'] ;  ?>_menu_url_no_such_thing"  disabled="disabled" value="<?php print $url ; ?>" />-->
                 <?php else : ?>

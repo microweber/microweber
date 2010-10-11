@@ -41,7 +41,7 @@ class Sql extends Controller {
 			if (! empty ( $categories )) {
 				
 				foreach ( $categories as $cat ) {
-					$parrent_cats = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $cat );
+					$parrent_cats = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $cat );
 					
 					foreach ( $parrent_cats as $par_cat ) {
 						$categories [] = $par_cat;
@@ -73,7 +73,7 @@ class Sql extends Controller {
 				} else {
 					
 					$taxonomy_categories = array ($category );
-					$taxonomy = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
+					$taxonomy = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
 					if (! empty ( $taxonomy )) {
 						foreach ( $taxonomy as $i ) {
 							$taxonomy_categories [] = $i;

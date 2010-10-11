@@ -268,16 +268,16 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			foreacH ( $data_to_work as $item ) {
 				$category_array = array ();
 
-				$lets_get_parent_cats = $this->content_model->taxonomyGetParentIdsForId ( $item );
+				$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $item );
 				if (! empty ( $lets_get_parent_cats )) {
 					foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-						$parent_cat_item = $this->content_model->taxonomyGetSingleItemById ( $parent_cat_id );
+						$parent_cat_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $parent_cat_id );
 						if (! empty ( $parent_cat_item )) {
 							$category_array [] = $parent_cat_item;
 						}
 					}
 				}
-				$taxonomy = $this->content_model->taxonomyGetSingleItemById ( $item );
+				$taxonomy = $this->taxonomy_model->taxonomyGetSingleItemById ( $item );
 				$category_array [] = $taxonomy;
 				$taxonomy_values [] = $category_array;
 			}
@@ -385,7 +385,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		}
 		$lets_get_parent_cats_return = array ();
 		foreach ( $data_to_work as $item ) {
-			$lets_get_parent_cats = $this->content_model->taxonomyGetParentIdsForId ( $item );
+			$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $item );
 			if (! empty ( $lets_get_parent_cats )) {
 				foreach ( $lets_get_parent_cats as $id ) {
 					if (intval ( $id ) != 0) {

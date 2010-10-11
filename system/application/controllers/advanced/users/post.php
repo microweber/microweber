@@ -4,13 +4,13 @@ $content_id = $this->core_model->getParamFromURL ( 'id' );
 $categories_ids_to_remove = array ();
 $categories_ids_to_remove ['taxonomy_type'] = 'category';
 $categories_ids_to_remove ['users_can_create_content'] = 'n';
-$categories_ids_to_remove = $this->content_model->taxonomyGetIds ( $data = $categories_ids_to_remove, $orderby = false );
+$categories_ids_to_remove = $this->taxonomy_model->taxonomyGetIds ( $data = $categories_ids_to_remove, $orderby = false );
 $this->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
 
 $categories_ids_to_add = array ();
 $categories_ids_to_add ['taxonomy_type'] = 'category';
 $categories_ids_to_add ['users_can_create_content'] = 'y';
-$categories_ids_to_add = $this->content_model->taxonomyGetIds ( $data = $categories_ids_to_add, $orderby = false );
+$categories_ids_to_add = $this->taxonomy_model->taxonomyGetIds ( $data = $categories_ids_to_add, $orderby = false );
 $this->template ['categories_ids_to_add'] = $categories_ids_to_add;
 
 //	p($categories_ids_to_remove);
@@ -57,7 +57,7 @@ if ($_POST) {
 	if (! empty ( $categories )) {
 
 		foreach ( $categories as $cat ) {
-			$parrent_cats = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $cat );
+			$parrent_cats = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $cat );
 
 			foreach ( $parrent_cats as $par_cat ) {
 				$categories [] = $par_cat;
@@ -138,7 +138,7 @@ if ($_POST) {
 
 			$taxonomy_categories = array ($category );
 
-			$taxonomy = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
+			$taxonomy = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
 
 			if (! empty ( $taxonomy )) {
 

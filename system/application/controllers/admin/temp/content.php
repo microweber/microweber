@@ -177,7 +177,7 @@ class Content extends Controller {
 			$taxonomy_data = array ( );
 			$taxonomy_data ['taxonomy_type'] = 'category';
 			$taxonomy_data ['to_table'] = 'table_content';
-			$taxonomy_data = $this->content_model->taxonomyGet ( $taxonomy_data );
+			$taxonomy_data = $this->taxonomy_model->taxonomyGet ( $taxonomy_data );
 			if (! empty ( $taxonomy_data )) {
 			foreach ( $taxonomy_data as $item ) {
 			$categories [] = intval ( $item ['id'] );
@@ -206,7 +206,7 @@ class Content extends Controller {
 			//var_dump($tags);
 			//exit;
 			if (empty ( $tags )) {
-				$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+				$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 				$tags = $avalable_tags;
 			}
 
@@ -311,7 +311,7 @@ class Content extends Controller {
 		$latest_posts = $this->content_model->getContent ( $latest_posts, false, array (0, 5 ), false );
 		$this->template ['latest_posts'] = $latest_posts;
 
-		$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+		$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 
 		$this->load->vars ( $this->template );
@@ -368,7 +368,7 @@ class Content extends Controller {
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 
-		$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+		$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		$this->template ['load_google_map'] = true;
 
@@ -718,7 +718,7 @@ $this->load->helper(array('form', 'url'));
 		$to_go = site_url ( 'admin/content/taxonomy_categories' );
 		$delete_id = intval ( $delete_id );
 
-		$this->content_model->taxonomyDelete ( $delete_id );
+		$this->taxonomy_model->taxonomyDelete ( $delete_id );
 		//exit ('1');
 		//header("Location: $to_go");
 		//redirect (  );
@@ -731,7 +731,7 @@ $this->load->helper(array('form', 'url'));
 		$id = $this->core_model->getParamFromURL ( 'id' );
 		$dir = $this->core_model->getParamFromURL ( 'direction' );
 
-		$this->content_model->taxonomyChangePosition ( $id, $dir );
+		$this->taxonomy_model->taxonomyChangePosition ( $id, $dir );
 
 		redirect ( 'admin/content/taxonomy_categories' );
 	}
@@ -753,7 +753,7 @@ $this->load->helper(array('form', 'url'));
 		$data ['taxonomy_type'] = 'category';
 		$data ['to_table'] = 'table_content';
 
-		$taxonomy = $this->content_model->taxonomyGet ( $data );
+		$taxonomy = $this->taxonomy_model->taxonomyGet ( $data );
 		$this->template ['taxonomy_items'] = $taxonomy;
 		//taxonomyGet
 
@@ -763,7 +763,7 @@ $this->load->helper(array('form', 'url'));
 			$data = array ( );
 			$data ['id'] = $id;
 $data ['include_taxonomy'] = 'y';
-			$data = $this->content_model->taxonomyGet ( $data );
+			$data = $this->taxonomy_model->taxonomyGet ( $data );
 			//var_dump($data);
 			$this->template ['form_values'] = $data [0];
 			$this->load->vars ( $this->template );
@@ -781,7 +781,7 @@ $data ['include_taxonomy'] = 'y';
 			$to_save = $_POST;
 			$to_save ['taxonomy_type'] = 'category';
 			$to_save ['to_table'] = 'table_content';
-			$this->content_model->taxonomySave ( $to_save );
+			$this->taxonomy_model->taxonomySave ( $to_save );
 			redirect ( 'admin/content/taxonomy_categories' );
 		}
 
@@ -801,14 +801,14 @@ $data ['include_taxonomy'] = 'y';
 
 	function taxonomy_tags_update() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
+			$this->taxonomy_model->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
 		}
 		redirect ( 'admin/content/taxonomy_tags' );
 	}
 
 	function taxonomy_tags_delete() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
+			$this->taxonomy_model->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
 		}
 		print 'ok';
 		//	redirect ( 'admin/content/taxonomy_tags' );
@@ -816,7 +816,7 @@ $data ['include_taxonomy'] = 'y';
 
 	function taxonomy_tags_delete_less_than() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
+			$this->taxonomy_model->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
 		}
 
 		redirect ( 'admin/content/taxonomy_tags' );
@@ -826,7 +826,7 @@ $data ['include_taxonomy'] = 'y';
 	function taxonomy_tags() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 
-		$tags = $this->content_model->taxonomyTagsGetOrderByPopularity ();
+		$tags = $this->taxonomy_model->taxonomyTagsGetOrderByPopularity ();
 		$this->template ['form_values'] = $tags;
 
 		$this->load->vars ( $this->template );
@@ -845,7 +845,7 @@ $data ['include_taxonomy'] = 'y';
 
 	function taxonomy_delete() {
 		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->content_model->taxonomyDelete ( $id );
+		$this->taxonomy_model->taxonomyDelete ( $id );
 	}
 
 	function content_delete() {
@@ -1230,7 +1230,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 			//print $q;
 
 
-			//$this->content_model->taxonomySave ( $taxnomy_save );
+			//$this->taxonomy_model->taxonomySave ( $taxnomy_save );
 			//var_dump ( $taxnomy_save );
 
 
@@ -1313,7 +1313,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 			$to_insert ['content_body'] = $body;
 
 			$to_insert ['taxonomy_categories'] = array (5 );
-			$to_insert ['taxonomy_tags_csv'] = $this->content_model->taxonomyGenerateAndGuessTagsFromString ( $item ['textstr'] );
+			$to_insert ['taxonomy_tags_csv'] = $this->taxonomy_model->taxonomyGenerateAndGuessTagsFromString ( $item ['textstr'] );
 			$to_insert ['content_title'] = $item ['name'];
 			$to_insert ['the_old_id'] = $item ['id'];
 
@@ -1399,7 +1399,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 		/*$data = trim ( $data );
 		$data = reduce_multiples ( $data );
 		$data = strip_quotes ( $data );
-		$data = $this->content_model->taxonomyGenerateTagsFromString ( $data );
+		$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
 
 		if ($data != '') {
 		$data = explode ( ',', $data );
@@ -1411,7 +1411,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 
 		}
 		}*/
-		$data = $this->content_model->taxonomyGenerateAndGuessTagsFromString ( $data );
+		$data = $this->taxonomy_model->taxonomyGenerateAndGuessTagsFromString ( $data );
 		print $data;
 
 	}
@@ -1551,7 +1551,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 				$data = mb_trim ( $data );
 				$data = trim ( $data );
 
-				$data = $this->content_model->taxonomyGenerateTagsFromString ( $data );
+				$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
 				$data = word_limiter ( $data, 30, ' ' );
 				print $data;
 				break;

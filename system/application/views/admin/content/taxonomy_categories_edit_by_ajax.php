@@ -2,7 +2,7 @@
 
  $criteria = array();
  $criteria['taxonomy_type'] = 'category';
- $categories =  $this->content_model->taxonomyGet($criteria, false, true, true); 
+ $categories =  $this->taxonomy_model->taxonomyGet($criteria, false, true, true); 
  
  ?>
 <?php $categories_content_types = $this->core_model->optionsGetByKeyAsArray('content_types'); 	 ?>

@@ -195,7 +195,7 @@ class Content extends Controller {
 			$taxonomy_data = array ( );
 			$taxonomy_data ['taxonomy_type'] = 'category';
 			$taxonomy_data ['to_table'] = 'table_content';
-			$taxonomy_data = $this->content_model->taxonomyGet ( $taxonomy_data );
+			$taxonomy_data = $this->taxonomy_model->taxonomyGet ( $taxonomy_data );
 			if (! empty ( $taxonomy_data )) {
 			foreach ( $taxonomy_data as $item ) {
 			$categories [] = intval ( $item ['id'] );
@@ -227,7 +227,7 @@ class Content extends Controller {
 			//var_dump($tags);
 			//exit;
 			if (empty ( $tags )) {
-				$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+				$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 				$tags = $avalable_tags;
 			}
 		
@@ -349,7 +349,7 @@ class Content extends Controller {
 		$latest_posts = $this->content_model->getContent ( $latest_posts, false, array (0, 5 ), false );
 		$this->template ['latest_posts'] = $latest_posts;
 		
-		$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+		$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		
 		$this->load->vars ( $this->template );
@@ -418,7 +418,7 @@ class Content extends Controller {
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		//$avalable_tags = $this->content_model->taxonomyGetAvailableTags ( 'table_content' );
+		//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		$this->template ['load_google_map'] = true;
 		
@@ -434,15 +434,15 @@ class Content extends Controller {
 		if (intval ( $id ) == 0) {
 			$data ['active_categories'] = array ($category );
 			
-			$category_item = $this->content_model->taxonomyGetSingleItemById ( $category );
+			$category_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $category );
 			if (! empty ( $category_item )) {
 				$content_type = 'default';
 				$content_type_check = $category_item ['taxonomy_content_type'];
 				if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-					$lets_get_parent_cats = $this->content_model->taxonomyGetParentIdsForId ( $category );
+					$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $category );
 					if (! empty ( $lets_get_parent_cats )) {
 						foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-							$parent_cat_item = $this->content_model->taxonomyGetSingleItemById ( $parent_cat_id );
+							$parent_cat_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $parent_cat_id );
 							if (! empty ( $parent_cat_item )) {
 								$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 								
@@ -473,21 +473,21 @@ class Content extends Controller {
 			//$data = $this->content_model->getContent ( $data, false, array (0, 1 ) );
 			//$data = $data [0];
 			$data = $this->content_model->contentGetById($id);
-			$active_categories = $this->content_model->taxonomyGetTaxonomyIdsForContentId ( $data ['id'], 'categories' );
+			$active_categories = $this->taxonomy_model->taxonomyGetTaxonomyIdsForContentId ( $data ['id'], 'categories' );
 			$content_type = 'default';
 			if (! empty ( $active_categories )) {
 				$data ['active_categories'] = $active_categories;
 				foreach ( $active_categories as $cat_id ) {
-					$category_item = $this->content_model->taxonomyGetSingleItemById ( $cat_id );
+					$category_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $cat_id );
 					//var_dump($cat_item);
 					if (! empty ( $category_item )) {
 						$content_type = 'default';
 						$content_type_check = $category_item ['taxonomy_content_type'];
 						if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-							$lets_get_parent_cats = $this->content_model->taxonomyGetParentIdsForId ( $cat_id );
+							$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $cat_id );
 							if (! empty ( $lets_get_parent_cats )) {
 								foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-									$parent_cat_item = $this->content_model->taxonomyGetSingleItemById ( $parent_cat_id );
+									$parent_cat_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $parent_cat_id );
 									if (! empty ( $parent_cat_item )) {
 										$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 										//var_dump($content_type);
@@ -874,7 +874,7 @@ class Content extends Controller {
 		$to_go = site_url ( 'admin/content/taxonomy_categories' );
 		$delete_id = intval ( $delete_id );
 		
-		$this->content_model->taxonomyDelete ( $delete_id );
+		$this->taxonomy_model->taxonomyDelete ( $delete_id );
 		//exit ('1');
 		//header("Location: $to_go");
 		//redirect (  );
@@ -887,7 +887,7 @@ class Content extends Controller {
 		$id = $this->core_model->getParamFromURL ( 'id' );
 		$dir = $this->core_model->getParamFromURL ( 'direction' );
 		
-		$this->content_model->taxonomyChangePosition ( $id, $dir );
+		$this->taxonomy_model->taxonomyChangePosition ( $id, $dir );
 		
 		redirect ( 'admin/content/taxonomy_categories' );
 	}
@@ -897,7 +897,7 @@ class Content extends Controller {
 		$id = $this->core_model->getParamFromURL ( 'id' );
 		$dir = $this->core_model->getParamFromURL ( 'direction' );
 		
-		$this->content_model->taxonomyChangePosition ( $id, $dir );
+		$this->taxonomy_model->taxonomyChangePosition ( $id, $dir );
 		$this->core_model->cacheDeleteAll ();
 		exit ();
 		//redirect ( 'admin/content/taxonomy_categories' );
@@ -907,7 +907,7 @@ class Content extends Controller {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$id = $_POST ['id'];
 		$id = intval ( $id );
-		$this->content_model->taxonomyDelete ( $id );
+		$this->taxonomy_model->taxonomyDelete ( $id );
 		$this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
 		//var_dump($_POST);
 		exit ( 'ok' );
@@ -940,7 +940,7 @@ class Content extends Controller {
 				$to_save = $_POST;
 				$to_save ['taxonomy_type'] = 'category';
 				$to_save ['to_table'] = 'table_content';
-				$save = $this->content_model->taxonomySave ( $to_save );
+				$save = $this->taxonomy_model->taxonomySave ( $to_save );
 				//	$this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
 				p ( $_POST );
 				
@@ -954,7 +954,7 @@ class Content extends Controller {
 				$data = array ();
 				$data ['id'] = $id;
 				$data ['include_taxonomy'] = 'y';
-				$data = $this->content_model->taxonomyGet ( $data );
+				$data = $this->taxonomy_model->taxonomyGet ( $data );
 				//var_dump($data);
 				$this->template ['form_values'] = $data [0];
 				$this->load->vars ( $this->template );
@@ -990,7 +990,7 @@ class Content extends Controller {
 		$data ['taxonomy_type'] = 'category';
 		$data ['to_table'] = 'table_content';
 		
-		$taxonomy = $this->content_model->taxonomyGet ( $data );
+		$taxonomy = $this->taxonomy_model->taxonomyGet ( $data );
 		$this->template ['taxonomy_items'] = $taxonomy;
 		//taxonomyGet
 		
@@ -1000,7 +1000,7 @@ class Content extends Controller {
 			$data = array ();
 			$data ['id'] = $id;
 			$data ['include_taxonomy'] = 'y';
-			$data = $this->content_model->taxonomyGet ( $data );
+			$data = $this->taxonomy_model->taxonomyGet ( $data );
 			//var_dump($data);
 			$this->template ['form_values'] = $data [0];
 			$this->load->vars ( $this->template );
@@ -1018,7 +1018,7 @@ class Content extends Controller {
 			$to_save = $_POST;
 			$to_save ['taxonomy_type'] = 'category';
 			$to_save ['to_table'] = 'table_content';
-			$save = $this->content_model->taxonomySave ( $to_save );
+			$save = $this->taxonomy_model->taxonomySave ( $to_save );
 			//.var_dump($save);
 			$this->core_model->cacheDeleteAll ();
 			//sleep ( 1 );
@@ -1041,14 +1041,14 @@ class Content extends Controller {
 	
 	function taxonomy_tags_update() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
+			$this->taxonomy_model->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
 		}
 		redirect ( 'admin/content/taxonomy_tags' );
 	}
 	
 	function taxonomy_tags_delete() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
+			$this->taxonomy_model->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
 		}
 		print 'ok';
 		//	redirect ( 'admin/content/taxonomy_tags' );
@@ -1056,7 +1056,7 @@ class Content extends Controller {
 	
 	function taxonomy_tags_delete_less_than() {
 		if ($_POST) {
-			$this->content_model->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
+			$this->taxonomy_model->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
 		}
 		
 		redirect ( 'admin/content/taxonomy_tags' );
@@ -1066,7 +1066,7 @@ class Content extends Controller {
 	function taxonomy_tags() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$tags = $this->content_model->taxonomyTagsGetOrderByPopularity ();
+		$tags = $this->taxonomy_model->taxonomyTagsGetOrderByPopularity ();
 		$this->template ['form_values'] = $tags;
 		
 		$this->load->vars ( $this->template );
@@ -1085,7 +1085,7 @@ class Content extends Controller {
 	
 	function taxonomy_delete() {
 		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->content_model->taxonomyDelete ( $id );
+		$this->taxonomy_model->taxonomyDelete ( $id );
 	}
 	
 	function content_delete() {
@@ -1106,7 +1106,7 @@ class Content extends Controller {
 		/*$data = trim ( $data );
 		$data = reduce_multiples ( $data );
 		$data = strip_quotes ( $data );
-		$data = $this->content_model->taxonomyGenerateTagsFromString ( $data );
+		$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
 
 		if ($data != '') {
 		$data = explode ( ',', $data );
@@ -1118,7 +1118,7 @@ class Content extends Controller {
 
 		}
 		}*/
-		$data = $this->content_model->taxonomyGenerateAndGuessTagsFromString ( $data );
+		$data = $this->taxonomy_model->taxonomyGenerateAndGuessTagsFromString ( $data );
 		print $data;
 	
 	}
@@ -1249,7 +1249,7 @@ class Content extends Controller {
 				$data = mb_trim ( $data );
 				$data = trim ( $data );
 				
-				$data = $this->content_model->taxonomyGenerateTagsFromString ( $data );
+				$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
 				$data = word_limiter ( $data, 30, ' ' );
 				print $data;
 				break;
