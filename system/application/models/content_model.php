@@ -3,11 +3,54 @@ if (! defined ( 'BASEPATH' ))
 	
 	exit ( 'No direct script access allowed' );
 
-/** * Microweber * * An open source CMS and application development framework for PHP 5.1 or newer * * @package     Microweber * @author      Peter Ivanov * @copyright   Copyright (c), Mass Media Group, LTD. * @license     http://ooyes.net * @link        http://ooyes.net * @since       Version 1.0 */
+/**
 
-// ------------------------------------------------------------------------
+ * Microweber
 
-/**  * Content class * * @desc Functions for manipulation the main content of the cms, mainly in the content table from the DB * @access      public * @category    Content API * @subpackage      Core * @author      Peter Ivanov * @link        http://ooyes.net */
+ *
+
+ * An open source CMS and application development framework for PHP 5.1 or newer
+
+ *
+
+ * @package     Microweber
+
+ * @author      Peter Ivanov
+
+ * @copyright   Copyright (c), Mass Media Group, LTD.
+
+ * @license     http://ooyes.net
+
+ * @link        http://ooyes.net
+
+ * @since       Version 1.0
+
+
+
+ */
+
+// ------------------------------------------------------------------------
+
+
+/** 
+
+ * Content class
+
+ *
+
+ * @desc Functions for manipulation the main content of the cms, mainly in the content table from the DB
+
+ * @access      public
+
+ * @category    Content API
+
+ * @subpackage      Core
+
+ * @author      Peter Ivanov
+
+ * @link        http://ooyes.net
+
+ */
 
 class content_model extends Model {
 	
@@ -15,7 +58,8 @@ class content_model extends Model {
 		
 		parent::Model ();
 		
-		// ping google on random? must be set on cronjob		$rand = rand ( 0, 100 );
+		// ping google on random? must be set on cronjob
+		$rand = rand ( 0, 100 );
 		
 		if ($rand < 5) {
 			
@@ -25,7 +69,23 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc Function to save content into the content_table	 * @param array	 * @param boolean	 * @return string | the id saved	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**
+
+	 * @desc Function to save content into the content_table
+
+	 * @param array
+
+	 * @param boolean
+
+	 * @return string | the id saved
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function saveContent($data, $delete_the_cache = true) {
 		
@@ -41,7 +101,8 @@ class content_model extends Model {
 		
 		$data_to_save = $data;
 		
-		//var_dump($data);		
+		//var_dump($data);
+		
 
 		$more_categories_to_delete = array ();
 		if (intval ( $data ['id'] ) != 0) {
@@ -56,13 +117,15 @@ class content_model extends Model {
 			
 			$thecontent_url = $q;
 			
-			$more_categories_to_delete = $this->taxonomy_model->taxonomyGetTaxonomyIdsForContentId ( $data ['id'], 'categories' );
+			$more_categories_to_delete = $this->taxonomy_model->getTaxonomiesForContent ( $data ['id'], 'categories' );
 			
-		//var_dump($thecontent_url);		
+		//var_dump($thecontent_url);
+		
 
 		} else {
 			
-			//print 'asd3';			
+			//print 'asd3';
+			
 
 			$thecontent_url = $data ['content_url'];
 			
@@ -74,7 +137,8 @@ class content_model extends Model {
 			
 			if ($data ['content_url'] == $thecontent_url) {
 				
-				//print 'asd2';				
+				//print 'asd2';
+				
 
 				$data ['content_url'] = $thecontent_url;
 			
@@ -84,7 +148,8 @@ class content_model extends Model {
 			
 			if (strval ( $data ['content_url'] ) == '') {
 				
-				//print 'asd1';				
+				//print 'asd1';
+				
 
 				$data ['content_url'] = $thecontent_url;
 			
@@ -92,7 +157,8 @@ class content_model extends Model {
 			
 			if ((strval ( $data ['content_url'] ) == '') and (strval ( $thecontent_url ) == '')) {
 				
-				//print 'asd';				
+				//print 'asd';
+				
 
 				$data ['content_url'] = $this->core_model->url_title ( $thecontent_title );
 			
@@ -130,7 +196,8 @@ class content_model extends Model {
 		
 		}
 		
-		//  var_dump($data_to_save);		
+		//  var_dump($data_to_save);
+		
 
 		if (strval ( $data_to_save ['content_url'] ) == '') {
 			
@@ -146,7 +213,7 @@ class content_model extends Model {
 		
 		$data_to_save ['content_url'] = strtolower ( reduce_double_slashes ( $data ['content_url'] ) );
 		
-		$data_to_save ['content_url_md5'] = md5 ( $data_to_save ['content_url'] );
+//		$data_to_save ['content_url_md5'] = md5 ( $data_to_save ['content_url'] );
 		
 		$data_to_save_options = array ();
 		
@@ -163,7 +230,8 @@ class content_model extends Model {
 			$q = $this->db->query ( $sql );
 		}
 		
-		//parse images		
+		//parse images
+		
 
 		$data_to_save ['content_body'] = $this->parseContentBodyItems ( $data_to_save ['content_body'], $data_to_save ['content_title'] );
 		
@@ -250,7 +318,8 @@ class content_model extends Model {
 		//var_dump ( $data_to_save );
 		
 
-		//return false;		
+		//return false;
+		
 
 		//exit ();
 		
@@ -262,7 +331,8 @@ class content_model extends Model {
 			
 			if (! empty ( $data_to_save ['menus'] )) {
 				
-				//housekeep				
+				//housekeep
+				
 
 				$this->removeContentFromUnusedMenus ( $save, $data_to_save ['menus'] );
 				
@@ -288,7 +358,8 @@ class content_model extends Model {
 		
 		}
 		
-		//$this->core_model->cacheDeleteAll (); 		
+		//$this->core_model->cacheDeleteAll (); 
+		
 
 		if ($data_to_save ['preserve_cache'] == false) {
 			if (intval ( $data_to_save ['content_parent'] ) != 0) {
@@ -332,7 +403,8 @@ class content_model extends Model {
 		
 		$original_content = str_ireplace ( 'class=mcevisualaid>', ' ', $original_content );
 		
-		//  $original_content = html_entity_decode($original_content);		
+		//  $original_content = html_entity_decode($original_content);
+		
 
 		$site_url = site_url ();
 		
@@ -386,11 +458,14 @@ class content_model extends Model {
 		
 		$input = $content_item;
 		
-		//var_dump($input);		
+		//var_dump($input);
+		
 
-		//  exit;		
+		//  exit;
+		
 
-		//		
+		//
+		
 
 		$regexp = "<img\s[^>]*src=(\"??)([^\" >]*?)\\1[^>]*";
 		
@@ -400,9 +475,11 @@ class content_model extends Model {
 			
 			foreach ( $matches as $match ) {
 				
-				# $match[2] = link address				
+				# $match[2] = link address
+				
 
-				# $match[3] = link text				
+				# $match[3] = link text
+				
 
 				$images [] = $match [2];
 			
@@ -420,7 +497,8 @@ class content_model extends Model {
 		
 		@touch ( $dir . 'index.html' );
 		
-		//mkdir		
+		//mkdir
+		
 
 		$media_url = $this->core_model->mediaGetUrlDir ();
 		
@@ -460,7 +538,8 @@ class content_model extends Model {
 								
 								if (stristr ( $image, $media_url ) == false) {
 									
-									//print 'file: ' . $image;									
+									//print 'file: ' . $image;
+									
 
 									$parts = explode ( '/', $image );
 									
@@ -470,9 +549,11 @@ class content_model extends Model {
 									
 									$ext = substr ( $image, strrpos ( $image, '.' ) + 1 );
 									
-									//$to_save =									
+									//$to_save =
+									
 
-									//exit($ext);									
+									//exit($ext);
+									
 
 									$orig_file_clean = strip_punctuation ( $orig_file );
 									
@@ -546,21 +627,34 @@ class content_model extends Model {
 									
 									}
 									
-									//get									
-
-									/*  var_dump ( $image );                                print "<hr>";                                var_dump ( $dir . $currentFile );                                print "<hr>";                                print "<hr>";*/
+									//get
 									
-									//$this->core_model->url_getPageToFile ( $image, $dir . $currentFile );									
 
-									//p($orig_image,1);									
+									/*  var_dump ( $image );
 
-									//p($currentFile,1);									
+                                print "<hr>";
+
+                                var_dump ( $dir . $currentFile );
+
+                                print "<hr>";
+
+                                print "<hr>";*/
+									
+									//$this->core_model->url_getPageToFile ( $image, $dir . $currentFile );
+									
+
+									//p($orig_image,1);
+									
+
+									//p($currentFile,1);
+									
 
 									CurlTool::downloadFile ( $image, $dir . $currentFile, false );
 									
 									$the_new_image = '{MEDIAURL}' . 'downloaded/' . $currentFile;
 									
-									//  $content_item = str_ireplace ( $image, $the_new_image, $content_item );									
+									//  $content_item = str_ireplace ( $image, $the_new_image, $content_item );
+									
 
 									$content_item = str_ireplace ( $orig_image, $the_new_image, $content_item );
 									
@@ -568,15 +662,18 @@ class content_model extends Model {
 								
 								}
 								
-							//var_dump ( $currentFile, $image, $the_new_image );							
+							//var_dump ( $currentFile, $image, $the_new_image );
+							
 
 							} else {
 								
-							//print 'no file: ' . $image;							
+							//print 'no file: ' . $image;
+							
 
 							}
 							
-						//var_dump ( $content_item );						
+						//var_dump ( $content_item );
+						
 
 						}
 					
@@ -588,9 +685,11 @@ class content_model extends Model {
 		
 		}
 		
-		//  var_dump ( $content_item );		
+		//  var_dump ( $content_item );
+		
 
-		//exit ();		
+		//exit ();
+		
 
 		return $content_item;
 	
@@ -690,30 +789,41 @@ class content_model extends Model {
 		$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . '0' );
 		$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . 'global' );
 		
-	//$table = $table_menus;	
+	//$table = $table_menus;
+	
 
-	//$data = array ( );	
+	//$data = array ( );
+	
 
-	//$data ['content_id'] = $id;	
+	//$data ['content_id'] = $id;
+	
 
-	//$del = $this->core_model->deleteData ( $table, $data, 'menus' );	
+	//$del = $this->core_model->deleteData ( $table, $data, 'menus' );
+	
 
-	//$this->fixMenusPositions ();	
+	//$this->fixMenusPositions ();
+	
 
-	//$data = array ( );	
+	//$data = array ( );
+	
 
-	//$data ['to_table'] = 'table_content';	
+	//$data ['to_table'] = 'table_content';
+	
 
-	//$data ['to_table_id'] = $id;	
+	//$data ['to_table_id'] = $id;
+	
 
-	//$del = $this->core_model->deleteData ( $table_taxonomy, $data, 'taxonomy' );	
+	//$del = $this->core_model->deleteData ( $table_taxonomy, $data, 'taxonomy' );
+	
 
 	//$this->core_model->cleanCacheGroup ( 'content' );
 	
 
-	//  $this->core_model->cleanCacheGroup ( 'core' );	
+	//  $this->core_model->cleanCacheGroup ( 'core' );
+	
 
-	//$this->core_model->cleanCacheGroup ( 'global' );	
+	//$this->core_model->cleanCacheGroup ( 'global' );
+	
 
 	}
 	
@@ -752,7 +862,8 @@ class content_model extends Model {
 	
 	function getPostByURL($content_id, $url, $no_recursive = false) {
 		
-		//  header("Content-type: text/plain; charset=UTF-8");		
+		//  header("Content-type: text/plain; charset=UTF-8");
+		
 
 		$function_cache_id = false;
 		
@@ -801,7 +912,7 @@ class content_model extends Model {
 		
 		$url = strtolower ( $url );
 		
-		$content_url_md5 = md5 ( $url );
+		//$content_url_md5 = md5 ( $url );
 		
 		$sql = "SELECT id, content_url from $table where content_url='$url' and content_type='post'   order by updated_on desc limit 0,1 ";
 		
@@ -809,7 +920,8 @@ class content_model extends Model {
 		
 		$result = $q;
 		
-		//var_dump($result);		
+		//var_dump($result);
+		
 
 		if (! empty ( $result )) {
 			
@@ -869,7 +981,8 @@ class content_model extends Model {
 			
 			$to_cache = $this->getContentByURL ( $url, $no_recursive = $no_recursive );
 			
-			//var_dump($to_cache);			
+			//var_dump($to_cache);
+			
 
 			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
@@ -909,7 +1022,8 @@ class content_model extends Model {
 			if ($to_cache == false) {
 				$to_cache == '--false--';
 			}
-			//var_dump($to_cache);			
+			//var_dump($to_cache);
+			
 
 			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
@@ -923,17 +1037,20 @@ class content_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//return false;		
+		//return false;
+		
 
 		if (strval ( $url ) == '') {
 			
-			//return false;			
+			//return false;
+			
 
 			$url = getCurentURL ();
 		
 		}
 		
-		//var_dump($url);		
+		//var_dump($url);
+		
 
 		$table = $cms_db_tables ['table_content'];
 		
@@ -941,11 +1058,13 @@ class content_model extends Model {
 		
 		$url = addslashes ( $url );
 		
-		$sql = "SELECT id,content_url_md5,content_url from $table where content_url='$url' and is_active='y'   and content_type='page' order by updated_on desc limit 0,1 ";
+		$sql = "SELECT id,content_url from $table where content_url='$url' and is_active='y'   and content_type='page' order by updated_on desc limit 0,1 ";
 		
-		//print $sql;		
+		//print $sql;
+		
 
-		//exit ();		
+		//exit ();
+		
 
 		$q = $this->core_model->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
 		
@@ -969,7 +1088,8 @@ class content_model extends Model {
 			
 			if (! empty ( $content )) {
 				
-				//var_dump($content['content_body']);				
+				//var_dump($content['content_body']);
+				
 
 				$content = $this->contentGetByIdAndCache ( $content ['id'] );
 			
@@ -977,9 +1097,11 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump($content);		
+		//var_dump($content);
+		
 
-		//exit;		
+		//exit;
+		
 
 		if (! empty ( $content )) {
 			
@@ -997,7 +1119,8 @@ class content_model extends Model {
 			
 			if (empty ( $content ) == true) {
 				
-				///var_dump ( $url );				
+				///var_dump ( $url );
+				
 
 				$segs = explode ( '/', $url );
 				
@@ -1009,13 +1132,16 @@ class content_model extends Model {
 					
 					$test = array_reverse ( $test );
 					
-					//var_dump($test);					
+					//var_dump($test);
+					
 
-					//$url = implode ( '/', $test );					
+					//$url = implode ( '/', $test );
+					
 
 					$url = $this->getPageByURLAndCache ( $test [0], true );
 					
-					//var_dump ( $url );					
+					//var_dump ( $url );
+					
 
 					if (! empty ( $url )) {
 						
@@ -1047,13 +1173,15 @@ class content_model extends Model {
 		
 		if (strval ( $url ) == '') {
 			
-			//return false;			
+			//return false;
+			
 
 			$url = getCurentURL ();
 		
 		}
 		
-		//var_dump($url);		
+		//var_dump($url);
+		
 
 		$table = $cms_db_tables ['table_content'];
 		
@@ -1062,9 +1190,11 @@ class content_model extends Model {
 		$url = addslashes ( $url );
 		$sql = "SELECT id,content_url from $table where content_url='$url'  order by updated_on desc limit 0,1 ";
 		
-		//print $sql;		
+		//print $sql;
+		
 
-		//exit ();		
+		//exit ();
+		
 
 		$q = $this->core_model->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
 		
@@ -1084,7 +1214,8 @@ class content_model extends Model {
 			
 			if (empty ( $content ) == true) {
 				
-				///var_dump ( $url );				
+				///var_dump ( $url );
+				
 
 				$segs = explode ( '/', $url );
 				
@@ -1169,7 +1300,8 @@ class content_model extends Model {
 			
 			$url = $this->contentGetHrefForPostId ( $id );
 			
-			//  $url = site_url ( $content ['content_url'] );			
+			//  $url = site_url ( $content ['content_url'] );
+			
 
 			return $url;
 		
@@ -1177,7 +1309,8 @@ class content_model extends Model {
 		
 		return false;
 		
-	//var_dump ( $content );	
+	//var_dump ( $content );
+	
 
 	}
 	
@@ -1187,7 +1320,8 @@ class content_model extends Model {
 		
 		$table = $cms_db_tables ['table_content'];
 		
-		//var_dump($cms_db_tables);		
+		//var_dump($cms_db_tables);
+		
 
 		$sql = "SELECT * from $table where is_home='y' and is_active='y' order by updated_on desc limit 0,1 ";
 		
@@ -1197,13 +1331,15 @@ class content_model extends Model {
 		
 		$content = $result [0];
 		
-		//var_dump($content);		
+		//var_dump($content);
+		
 
 		return $content;
 	
 	}
 	
-	//double function but why? next time watch more :)	
+	//double function but why? next time watch more :)
+	
 
 	function contentDelete($id) {
 		
@@ -1281,15 +1417,19 @@ class content_model extends Model {
 		
 		$q = " select id, content_parent,  content_type  from $table where id = $id";
 		
-		//$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content' );		
+		//$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content' );
+		
 
 		$taxonomies = $this->core_model->dbQuery ( $q );
 		
-		//  var_dump($q);		
+		//  var_dump($q);
+		
 
-		//  var_dump($taxonomies);		
+		//  var_dump($taxonomies);
+		
 
-		//  exit;		
+		//  exit;
+		
 
 		if (! empty ( $taxonomies )) {
 			
@@ -1299,7 +1439,8 @@ class content_model extends Model {
 					
 					$ids [] = $item ['content_parent'];
 					
-					//} else {					
+					//} else {
+					
 
 					$next = false;
 					
@@ -1335,7 +1476,8 @@ class content_model extends Model {
 		
 		if (! empty ( $ids )) {
 			
-			//var_dump($ids);			
+			//var_dump($ids);
+			
 
 			$ids = array_unique ( $ids );
 			
@@ -1381,9 +1523,10 @@ class content_model extends Model {
 			
 			$url = false;
 			
-			$master = $this->taxonomy_model->taxonomyGetMasterCategories ();
+			$master = $this->taxonomy_model->getMasterCategories ();
 			
-			//.p($master);			
+			//.p($master);
+			
 
 			foreach ( $cats as $c ) {
 				
@@ -1393,11 +1536,13 @@ class content_model extends Model {
 						
 						if ($m ['id'] == $c) {
 							
-							$url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];							
+							$url = $this->taxonomy_model->getUrlForIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];
+							
 
 							$url1 = $url . '/' . $content ['content_url'];
 							
-						//var_dump($url1);						
+						//var_dump($url1);
+						
 
 						}
 					
@@ -1413,7 +1558,8 @@ class content_model extends Model {
 			
 			if (intval ( $content ['content_parent'] ) == 0) {
 				
-				//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];				
+				//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];
+				
 
 				$the_url = $the_url . '/' . $content ['content_url'];
 				
@@ -1427,19 +1573,39 @@ class content_model extends Model {
 				
 				$the_url = reduce_double_slashes ( $the_url );
 				
-			//var_dump($the_url);			
+			//var_dump($the_url);
+			
 
-			//var_dump( $content);			
+			//var_dump( $content);
+			
 
 			}
 		
 		}
 		
-		//var_dump($cats);		
-
-		/*$cache = base64_encode ( $the_url );        $table_cache = $cms_db_tables ['table_cache'];        $q = "delete from $table_cache where cache_id='$cache_id'  ";        $this->core_model->dbQ ( $q );        $this->core_model->cacheDeleteFile ( $cache_id );        $this->core_model->cacheWriteContent ( $cache_id, $cache );        $q = "INSERT INTO $table_cache set cache_id='$cache_id', cache_group='content' ";        $this->core_model->dbQ ( $q );        */
+		//var_dump($cats);
 		
-		//cache		
+
+		/*$cache = base64_encode ( $the_url );
+
+        $table_cache = $cms_db_tables ['table_cache'];
+
+        $q = "delete from $table_cache where cache_id='$cache_id'  ";
+
+        $this->core_model->dbQ ( $q );
+
+        $this->core_model->cacheDeleteFile ( $cache_id );
+
+        $this->core_model->cacheWriteContent ( $cache_id, $cache );
+
+        $q = "INSERT INTO $table_cache set cache_id='$cache_id', cache_group='content' ";
+
+        $this->core_model->dbQ ( $q );
+
+        */
+		
+		//cache
+		
 
 		$cache = $this->core_model->cacheWriteAndEncode ( $the_url, $function_cache_id );
 		
@@ -1459,7 +1625,8 @@ class content_model extends Model {
 		
 		$q = $q [0] ['qty'];
 		
-		//var_dump($q);		
+		//var_dump($q);
+		
 
 		if (intval ( $q ) > 0) {
 			
@@ -1501,7 +1668,7 @@ class content_model extends Model {
 		
 		if (empty ( $data )) {
 			
-			$taxonomy = $this->taxonomy_model->taxonomyGetParentItemsAndCache ( $category_id );
+			$taxonomy = $this->taxonomy_model->getParents ( $category_id );
 			
 			//var_dump ( $taxonomy );
 			foreach ( $taxonomy as $item ) {
@@ -1512,7 +1679,7 @@ class content_model extends Model {
 				
 				$data1 ['content_subtype'] = 'blog_section';
 				
-				$data1 ['content_subtype_value'] = $item ['id'];
+				$data1 ['content_subtype_value'] = $item ;
 				
 				$data1 ['is_active'] = 'y';
 				
@@ -1573,9 +1740,10 @@ class content_model extends Model {
 
 		if (empty ( $data )) {
 			
-			$taxonomy = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $category_id, $type = 'category' );
+			$taxonomy = $this->taxonomy_model->getChildrensRecursiveAndCache ( $category_id, $type = 'category' );
 			
-			//var_dump ( $taxonomy );			
+			//var_dump ( $taxonomy );
+			
 
 			if (! empty ( $taxonomy )) {
 				
@@ -1613,9 +1781,10 @@ class content_model extends Model {
 		
 		if (empty ( $data )) {
 			
-			$taxonomy = $this->taxonomy_model->taxonomyGetParentItemsAndCache ( $category_id );
+			$taxonomy = $this->taxonomy_model->getParents ( $category_id );
 			
-			//var_dump ( $taxonomy );			
+			//var_dump ( $taxonomy );
+			
 
 			if (! empty ( $taxonomy )) {
 				
@@ -1627,7 +1796,7 @@ class content_model extends Model {
 					
 					$data1 ['content_subtype'] = 'blog_section';
 					
-					$data1 ['content_subtype_value'] = $item ['id'];
+					$data1 ['content_subtype_value'] = $item ;
 					
 					$data1 ['is_active'] = 'y';
 					
@@ -1669,9 +1838,20 @@ class content_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//return false;		
+		//return false;
+		
 
-		/*$function_cache_id = serialize ( $id ) . serialize ( $size ) . serialize ( $size_h );        $function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );        $cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );        if (($cache_content) != false) {            //return $cache_content;        }*/
+		/*$function_cache_id = serialize ( $id ) . serialize ( $size ) . serialize ( $size_h );
+
+        $function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
+
+        $cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+
+        if (($cache_content) != false) {
+
+            //return $cache_content;
+
+        }*/
 		
 		$data = false;
 		
@@ -1703,7 +1883,8 @@ class content_model extends Model {
 		
 		$data ['id'] = $id;
 		
-		//  $imgages = $this->mediaGetForContentId ( $id, $media_type = 'picture' );		
+		//  $imgages = $this->mediaGetForContentId ( $id, $media_type = 'picture' );
+		
 
 		$images = array ();
 		
@@ -1799,29 +1980,36 @@ class content_model extends Model {
 						
 						$update_body_src = str_ireplace ( site_url (), '{SITE_URL}', $image_new );
 						
-						//  $update_body_src_escaped =  $this->db->escape ( $update_body_src );						
+						//  $update_body_src_escaped =  $this->db->escape ( $update_body_src );
+						
 
-						//p($update_body_src_escaped,1);						
+						//p($update_body_src_escaped,1);
+						
 
 						$new_body = str_replace ( $images [0], $update_body_src, $content ['content_body'] );
 						
-						//p($new_body,1);						
+						//p($new_body,1);
+						
 
 						$q = "UPDATE $table_content set content_body= '$new_body' where id ='{$content ['id']}'  ";
 						
 						$q = $this->core_model->dbQ ( $q );
 						
-						//var_dump($q);						
+						//var_dump($q);
+						
 
 						$images [0] = $media_url . $newfilename;
 					
 					}
 					
-				//p($path_parts);				
+				//p($path_parts);
+				
 
-				//var_dump ( $images [0] );				
+				//var_dump ( $images [0] );
+				
 
-				//var_Dump ( $media_url, MEDIAFILES );				
+				//var_Dump ( $media_url, MEDIAFILES );
+				
 
 				}
 			
@@ -1829,11 +2017,13 @@ class content_model extends Model {
 			
 			$test1 = str_ireplace ( $media_url, '', $images [0] );
 			
-			//var_dump ( $test1 );			
+			//var_dump ( $test1 );
+			
 
 			if (is_file ( MEDIAFILES . $test1 ) == true) {
 				
-				//$test1				
+				//$test1
+				
 
 				$the_original_dir = MEDIAFILES . $test1;
 				
@@ -1847,13 +2037,16 @@ class content_model extends Model {
 				
 				$new_filename = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 				
-				//$new_filename = str_ireplace (' ', '-',$new_filename );				
+				//$new_filename = str_ireplace (' ', '-',$new_filename );
+				
 
-				//$new_filename = str_ireplace (' ', '-',$new_filename );				
+				//$new_filename = str_ireplace (' ', '-',$new_filename );
+				
 
 				mkdir_recursive ( $the_original_dir . $size . '_' . $size_h . '/' );
 				
-				//var_dump($new_filename);				
+				//var_dump($new_filename);
+				
 
 				$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 				
@@ -1907,7 +2100,8 @@ class content_model extends Model {
 				
 				if (is_file ( MEDIAFILES . $test1 ) == true) {
 					
-					//$test1					
+					//$test1
+					
 
 					$the_original_dir = MEDIAFILES . $test1;
 					
@@ -1923,7 +2117,8 @@ class content_model extends Model {
 					
 					@mkdir ( $the_original_dir . $size . '_' . $size_h . '/' );
 					
-					//var_dump($new_filename);					
+					//var_dump($new_filename);
+					
 
 					$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 					
@@ -1971,7 +2166,8 @@ class content_model extends Model {
 			
 			if (is_file ( MEDIAFILES . $test1 ) == true) {
 				
-				//$test1				
+				//$test1
+				
 
 				$the_original_dir = MEDIAFILES . $test1;
 				
@@ -1987,7 +2183,8 @@ class content_model extends Model {
 				
 				@mkdir ( $the_original_dir . $size . '_' . $size_h . '/' );
 				
-				//var_dump($new_filename);				
+				//var_dump($new_filename);
+				
 
 				$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 				
@@ -2025,7 +2222,8 @@ class content_model extends Model {
 		
 		}
 		
-		//}		
+		//}
+		
 
 		$src = str_ireplace ( ' ', '%20', $src );
 		
@@ -2087,7 +2285,21 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc  Cache function for contentGetByIdAndCache	 * @param int	 * @return array	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**
+
+	 * @desc  Cache function for contentGetByIdAndCache
+
+	 * @param int
+
+	 * @return array
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function contentGetByIdAndCache($id) {
 		$id = intval ( $id );
@@ -2107,7 +2319,8 @@ class content_model extends Model {
 		
 		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
-		//  $cache_content = false;		
+		//  $cache_content = false;
+		
 
 		if (($cache_content) != false) {
 			
@@ -2127,7 +2340,21 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc Function to get single content item by id from the content_table	 * @param int	 * @return array	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**
+
+	 * @desc Function to get single content item by id from the content_table
+
+	 * @param int
+
+	 * @return array
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function contentGetById($id) {
 		global $cms_db_tables;
@@ -2175,7 +2402,23 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc Generate unique content URL for post by specifying the id and the titile	 * @param the_id	 * @param the_content_title	 * @return string	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**
+
+	 * @desc Generate unique content URL for post by specifying the id and the titile
+
+	 * @param the_id
+
+	 * @param the_content_title
+
+	 * @return string
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function contentGenerateUniqueUrlTitleFromContentTitle($the_id, $the_content_title, $the_content_url_overide = false) {
 		
@@ -2195,7 +2438,8 @@ class content_model extends Model {
 		
 		$the_content_title = mb_strtolower ( $the_content_title );
 		
-		//var_dump($the_content_title);		
+		//var_dump($the_content_title);
+		
 
 		if (function_exists ( 'string_cyr2lat' )) {
 			
@@ -2283,13 +2527,16 @@ class content_model extends Model {
 		
 		$taxonomy ['taxonomy_type'] = 'category_item';
 		
-		//$taxonomy ['content_type'] = 'post';		
+		//$taxonomy ['content_type'] = 'post';
+		
 
 		$cats = $this->taxonomy_model->taxonomyGet ( $taxonomy, $orderby = false, $no_limits = true );
 		
-		//taxonomyGet($data = false, $orderby = false, $no_limits = false)		
+		//taxonomyGet($data = false, $orderby = false, $no_limits = false)
+		
 
-		//  var_dump($cats);		
+		//  var_dump($cats);
+		
 
 		if (empty ( $cats )) {
 			
@@ -2301,7 +2548,7 @@ class content_model extends Model {
 			
 			if ($starting_from_category_id != false) {
 				
-				$available_cats = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $starting_from_category_id, $type = 'category' );
+				$available_cats = $this->taxonomy_model->getChildrensRecursiveAndCache ( $starting_from_category_id, $type = 'category' );
 				
 				if (! empty ( $available_cats )) {
 					
@@ -2333,7 +2580,8 @@ class content_model extends Model {
 							
 							$return_cats [] = $item ['parent_id'];
 							
-						//$parent = $item ['parent_id'];						
+						//$parent = $item ['parent_id'];
+						
 
 						}
 					
@@ -2387,7 +2635,31 @@ class content_model extends Model {
 	
 	function contentActiveCategoriesForPageId2($page_id, $url, $no_base = false) {
 		
-		/*$args = func_get_args ();        foreach ( $args as $k => $v ) {            $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );        }        $function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );        $cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );        if (($cache_content) != false) {            if ($cache_content == 'false') {                return false;            } else {                return $cache_content;            }        }*/
+		/*$args = func_get_args ();
+
+        foreach ( $args as $k => $v ) {
+
+            $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+        }
+
+        $function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+        $cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+
+        if (($cache_content) != false) {
+
+            if ($cache_content == 'false') {
+
+                return false;
+
+            } else {
+
+                return $cache_content;
+
+            }
+
+        }*/
 		
 		global $cms_db_tables;
 		
@@ -2413,9 +2685,11 @@ class content_model extends Model {
 			
 			$pge_url = $content ['content_url'];
 			
-			//print $pge_url;			
+			//print $pge_url;
+			
 
-			//exit();			
+			//exit();
+			
 
 			if ($pge_url == $url) {
 				
@@ -2429,15 +2703,18 @@ class content_model extends Model {
 				
 				$url_full = site_url ( $url );
 				
-				//$cat_urls = str_ireplace ( $pge_url, '', $url_full );				
+				//$cat_urls = str_ireplace ( $pge_url, '', $url_full );
+				
 
 				$cat_urls = $url_full;
 				
-				//var_dump($cat_urls);				
+				//var_dump($cat_urls);
+				
 
 				$urls = explode ( '/', $cat_urls );
 				
-				//$categories_to_return = array ();				
+				//$categories_to_return = array ();
+				
 
 				foreacH ( $urls as $item ) {
 					
@@ -2453,11 +2730,20 @@ class content_model extends Model {
 								
 								$taxonomy_value = $item [1];
 								
-								$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
+								//$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
 								
-								//var_dump ( $possible_ids );								
+								$possible_ids = array($base_category);
+								$possible_ids_more=$this->taxonomy_model->getChildrensRecursive($base_category);
+								if(!empty($possible_ids_more)){
+									$possible_ids = array_merge($possible_ids, $possible_ids_more);
+									
+								}
+								
+								//var_dump ( $possible_ids );
+								
 
-								//exit ();								
+								//exit ();
+								
 
 								$data = array ();
 								
@@ -2469,11 +2755,24 @@ class content_model extends Model {
 								
 								$some_integer = intval ( $data ['taxonomy_value'] );
 								
-								$q = "Select id from $table_taxonomy where                                (taxonomy_value='{$data ['taxonomy_value']}' or                                taxonomy_value='{$data ['taxonomy_value2']}' or id=$some_integer                                )                                and taxonomy_type='{$data ['taxonomy_type']}'                                ";
+								$q = "Select id from $table_taxonomy where
+
+                                (taxonomy_value='{$data ['taxonomy_value']}' or
+
+                                taxonomy_value='{$data ['taxonomy_value2']}' or id=$some_integer
+
+
+
+                                )
+
+                                and taxonomy_type='{$data ['taxonomy_type']}'
+
+                                ";
 								
 								$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 								
-								//  p($results,1);								
+								//  p($results,1);
+								
 
 								if (! empty ( $results )) {
 									
@@ -2491,25 +2790,32 @@ class content_model extends Model {
 							
 							}
 							
-							//  p($categories_to_return,1);							
+							//  p($categories_to_return,1);
+							
 
-							//							
+							//
+							
 
 							$categories_get_from_url = $this->core_model->getParamFromURL ( 'categories' );
 							
 							if ($categories_get_from_url != false) {
 								
-								//$taxonomy_value = $item [1];								
+								//$taxonomy_value = $item [1];
+								
 
 								$taxonomy_values = explode ( ',', $categories_get_from_url );
 								
-								//$categories_to_return = array ();								
+								//$categories_to_return = array ();
+								
 
-								//var_dump ( $possible_ids );								
+								//var_dump ( $possible_ids );
+								
 
-								//exit ();								
+								//exit ();
+								
 
-								// var_dump ( $taxonomy_values );								
+								// var_dump ( $taxonomy_values );
+								
 
 								if (! empty ( $taxonomy_values )) {
 									
@@ -2517,35 +2823,61 @@ class content_model extends Model {
 										
 										$data = array ();
 										
-										/*$data ['taxonomy_value'] = $taxonomy_value;                                        $data ['taxonomy_type'] = 'category';                                        //  $data ['to_table'] = 'tab';                                        //var_dump($possible_ids);                                        $results = $this->taxonomy_model->taxonomyGet ( $data );*/
+										/*$data ['taxonomy_value'] = $taxonomy_value;
+
+                                        $data ['taxonomy_type'] = 'category';
+
+                                        //  $data ['to_table'] = 'tab';
+
+                                        //var_dump($possible_ids);
+
+                                        $results = $this->taxonomy_model->taxonomyGet ( $data );*/
 										
 										$some_integer = intval ( $taxonomy_value );
 										
-										$q = "Select id from $table_taxonomy where                                (taxonomy_value='{$taxonomy_value}' or                                taxonomy_value='{$taxonomy_value}' or id=$some_integer                                )                                and taxonomy_type='category'                                ";
+										$q = "Select id from $table_taxonomy where
+
+                                (taxonomy_value='{$taxonomy_value}' or
+
+                                taxonomy_value='{$taxonomy_value}' or id=$some_integer
+
+
+
+                                )
+
+                                and taxonomy_type='category'
+
+                                ";
 										
-										// p($q);										
+										// p($q);
+										
 
 										$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 										
-										//var_dump ( $results );										
+										//var_dump ( $results );
+										
 
 										if (! empty ( $results )) {
 											
 											foreach ( $results as $res ) {
 												
-												//  if (in_array ( $res ["id"], $possible_ids ) == true) {												
+												//  if (in_array ( $res ["id"], $possible_ids ) == true) {
+												
 
 												if (intval ( $res ["id"] ) != 0) {
 													
 													$categories_to_return [] = $res ["id"];
 													
-												//  $possible_ids1 = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache (  $res ["id"], true );												
+												//  $possible_ids1 = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache (  $res ["id"], true );
+												
 
-												//p($possible_ids1);												
+												//p($possible_ids1);
+												
 
 												}
 												
-											//  }											
+											//  }
+											
 
 											}
 										
@@ -2555,7 +2887,8 @@ class content_model extends Model {
 								
 								}
 								
-							//}							
+							//}
+							
 
 							}
 						
@@ -2567,17 +2900,35 @@ class content_model extends Model {
 			
 			}
 			
-			//exit ( 'asdas' );			
+			//exit ( 'asdas' );
+			
 
 			$categories_to_return = array_unique ( $categories_to_return );
 			
 			return $categories_to_return;
 			
-		/*if (! empty ( $categories_to_return )) {                $this->core_model->cacheWriteAndEncode ( $categories_to_return, $function_cache_id );                                return $categories_to_return;            } else {                $this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id );                                return false;            }*/
+		/*if (! empty ( $categories_to_return )) {
+
+                $this->core_model->cacheWriteAndEncode ( $categories_to_return, $function_cache_id );
+
+                
+
+                return $categories_to_return;
+
+            } else {
+
+                $this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id );
+
+                
+
+                return false;
+
+            }*/
 		
 		} else {
 			
-			//$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id );			
+			//$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id );
+			
 
 			return false;
 		
@@ -2615,7 +2966,8 @@ class content_model extends Model {
 			
 			$pge_url = $this->getContentURLByIdAndCache ( $page_id );
 			
-			//print $pge_url;			
+			//print $pge_url;
+			
 
 			if ($pge_url == $url) {
 				
@@ -2631,7 +2983,8 @@ class content_model extends Model {
 				
 				$cat_urls = str_ireplace ( $pge_url, '', $url_full );
 				
-				//var_dump($cat_urls);				
+				//var_dump($cat_urls);
+				
 
 				$urls = explode ( '/', $cat_urls );
 				
@@ -2647,17 +3000,26 @@ class content_model extends Model {
 								
 								$taxonomy_value = $item [1];
 								
-								$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
+								//$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
+								
+									$possible_ids = array($base_category);
+								$possible_ids_more=$this->taxonomy_model->getChildrensRecursive($base_category);
+								if(!empty($possible_ids_more)){
+									$possible_ids = array_merge($possible_ids, $possible_ids_more);
+									
+								}
 								
 								$data = array ();
 								
 								$data ['taxonomy_value'] = $taxonomy_value;
 								
-								//var_dump($possible_ids);								
+								//var_dump($possible_ids);
+								
 
 								$results = $this->taxonomy_model->taxonomyGetAndCache ( $data );
 								
-								//  var_dump ( $results );								
+								//  var_dump ( $results );
+								
 
 								if (! empty ( $results )) {
 									
@@ -2703,19 +3065,44 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * Gets content by params	 * if no params are used it will try to get them from the URL	 *	 *	 *	 *	 *	 *	 *	 *	 */
+	/**
+
+	 * Gets content by params
+
+	 * if no params are used it will try to get them from the URL
+
+	 *
+
+	 *
+
+	 *
+
+	 *
+
+	 *
+
+	 *
+
+	 *
+
+	 *
+
+	 */
 	
 	function contentGetByParams($params) {
 		//return false;
-		//$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );		
+		//$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+		
 
-		//var_dump ( $params );		
+		//var_dump ( $params );
+		
 
 		extract ( $params );
 		
 		$posts_data = false;
 		
-		//var_dump($active_categories2);		
+		//var_dump($active_categories2);
+		
 
 		$posts_data ['selected_categories'] = ($params ['selected_categories']);
 		
@@ -2885,13 +3272,15 @@ class content_model extends Model {
 		
 		if (($timestamp = strtotime ( $commented )) === false) {
 			
-		//$this->template ['selected_voted'] = false;		
+		//$this->template ['selected_voted'] = false;
+		
 
 		} else {
 			
 			$posts_data ['commented'] = $commented;
 			
-		//$this->template ['selected_voted'] = true;		
+		//$this->template ['selected_voted'] = true;
+		
 
 		}
 		
@@ -2915,7 +3304,8 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump($tags);		
+		//var_dump($tags);
+		
 
 		if (strval ( $created_by ) != '') {
 			
@@ -2923,7 +3313,8 @@ class content_model extends Model {
 		
 		} else {
 			
-		//$this->template ['created_by'] = false;		
+		//$this->template ['created_by'] = false;
+		
 
 		}
 		
@@ -2989,15 +3380,18 @@ class content_model extends Model {
 			
 			}
 			
-			//@todo add getContentAndCache, isted of getContent			
+			//@todo add getContentAndCache, isted of getContent
+			
 
 			$posts_data ['use_fetch_db_data'] = true;
 			
-			//                      var_dump($posts_data);			
+			//                      var_dump($posts_data);
+			
 
 			$data = $this->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ), true );
 			
-			//      p($data, 1);			
+			//      p($data, 1);
+			
 
 			$to_return ['posts'] = $data;
 			
@@ -3005,23 +3399,27 @@ class content_model extends Model {
 			
 			$results_count = $this->getContentAndCache ( $posts_data, $orderby1, $limit = false, $count_only = true, $short_data = true, $only_fields = false );
 			
-			//var_dump($results_count);			
+			//var_dump($results_count);
+			
 
 			$results_count = intval ( $results_count );
 			
 			$content_pages_count = ceil ( $results_count / $items_per_page );
 			
-			//var_dump ( $results_count, $items_per_page );			
+			//var_dump ( $results_count, $items_per_page );
+			
 
 			$to_return ['posts_pages_count'] = $content_pages_count;
 			
 			$to_return ['posts_pages_curent_page'] = $curent_page;
 			
-			//get paging urls			
+			//get paging urls
+			
 
 			$content_pages = $this->pagingPrepareUrls ( false, $content_pages_count );
 			
-			//var_dump($content_pages);			
+			//var_dump($content_pages);
+			
 
 			$to_return ['posts_pages_links'] = $content_pages;
 			
@@ -3039,7 +3437,8 @@ class content_model extends Model {
 		
 		}
 		
-		//return;		
+		//return;
+		
 
 		return;
 		
@@ -3047,13 +3446,15 @@ class content_model extends Model {
 		
 		$params [] = array ('taxonomy_type', 'category' );
 		
-		//  $params[] =array ('taxonomy_value', 'NULL', '<>', 'and' );		
+		//  $params[] =array ('taxonomy_value', 'NULL', '<>', 'and' );
+		
 
 		$params [] = array ('taxonomy_silo_keywords', '', '<>', 'and' );
 		
 		$params [] = array ('taxonomy_silo_keywords', 'IS NOT NULL' );
 		
-		//  $params[] =array ('taxonomy_value', 'IS NOT NULL' );		
+		//  $params[] =array ('taxonomy_value', 'IS NOT NULL' );
+		
 
 		$opts = array ();
 		
@@ -3073,9 +3474,11 @@ class content_model extends Model {
 		
 		}
 		
-		//p($categories,1);		
+		//p($categories,1);
+		
 
-		//return;		
+		//return;
+		
 
 		$this->load->helper ( 'mw_string' );
 		
@@ -3089,7 +3492,7 @@ class content_model extends Model {
 				
 				$siloLink ['keywords'] = array ();
 				
-				$siloLink ['url'] = $this->taxonomy_model->taxonomyGetUrlForTaxonomyIdAndCache ( $category ['id'] );
+				$siloLink ['url'] = $this->taxonomy_model->getUrlForIdAndCache ( $category ['id'] );
 				
 				$siloLink ['id'] = ($category ['id']);
 				
@@ -3113,7 +3516,8 @@ class content_model extends Model {
 		
 		}
 		
-		//  p ( $siloLinks, 1 );		
+		//  p ( $siloLinks, 1 );
+		
 
 		$linksPerCategory = 1;
 		
@@ -3135,7 +3539,11 @@ class content_model extends Model {
 			
 			}
 			
-		/*            $categoryLink = "' <a href=\"{$siloLink['url']}\">'.trim($0).'</a> '";            $content = preg_replace ( $siloLink ['keywords'], $categoryLink, $content, $linksPerCategory );*/
+		/*
+
+            $categoryLink = "' <a href=\"{$siloLink['url']}\">'.trim($0).'</a> '";
+
+            $content = preg_replace ( $siloLink ['keywords'], $categoryLink, $content, $linksPerCategory );*/
 		
 		}
 		
@@ -3143,7 +3551,25 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc Get latest content from categories that you define + more flexibility	 * @param array	 * @param array	 * @param boolean	 * @return array	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**
+
+	 * @desc Get latest content from categories that you define + more flexibility
+
+	 * @param array
+
+	 * @param array
+
+	 * @param boolean
+
+	 * @return array
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function getContentAndCache($data, $orderby = false, $limit = false, $count_only = false, $short_data = true, $only_fields = false) {
 		
@@ -3159,7 +3585,8 @@ class content_model extends Model {
 		
 		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'content/global' );
 		
-		//$cache_content = false;		
+		//$cache_content = false;
+		
 
 		if (($cache_content) != false) {
 			
@@ -3197,9 +3624,11 @@ class content_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//print 'getContent params:'.   var_dump($data);		
+		//print 'getContent params:'.   var_dump($data);
+		
 
-		//p($data);		
+		//p($data);
+		
 
 		if ($data ['use_fetch_db_data'] == true) {
 			
@@ -3227,15 +3656,18 @@ class content_model extends Model {
 		
 		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
 		
-		$cache_content = false; //@todo XXX?		
+		$cache_content = false; //@todo XXX?
+		
 
 		if (($cache_content) != false) {
 			
-		//  return $cache_content;		
+		//  return $cache_content;
+		
 
 		}
 		
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
+		$table_taxonomy_items = $cms_db_tables ['table_taxonomy_items'];
 		
 		if ($orderby == false) {
 			
@@ -3267,7 +3699,8 @@ class content_model extends Model {
 		
 		}
 		
-		//exit($my_limit_q);		
+		//exit($my_limit_q);
+		
 
 		if (($data ['strict_category_selection']) == true) {
 			
@@ -3289,15 +3722,18 @@ class content_model extends Model {
 			
 			$category_content_ids = array ();
 			
-			//			
+			//
+			
 
 			if (! empty ( $categories )) {
 				
 				if (is_array ( $categories ) and ! empty ( $categories )) {
 					
-					//if($strict_category_selection == false){					
+					//if($strict_category_selection == false){
+					
 
-					//var_dump($categories);					
+					//var_dump($categories);
+					
 
 					$categories_intvals = array ();
 					$categories_count = count ( $categories );
@@ -3311,14 +3747,16 @@ class content_model extends Model {
 							$category_ids [] = $item;
 						}
 						
-					//}					
+					//}
+					
 
 					}
-					//  p($categories_intvals);					$only_thise_content = $this->taxonomy_model->taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache ( $categories_intvals [0] );
+					//  p($categories_intvals);
+					$only_thise_content = $this->taxonomy_model->getToTableIds ( $categories_intvals [0] );
 					
-					//  p($only_thise_content);					
-
-					//var_dump(count ( $categories_intvals ));					//exit;					$only_thise_content_new = array ();
+					/*	  var_dump($only_thise_content);
+		 
+					$only_thise_content_new = array ();
 					if (($categories_count) > 1) {
 						if (! empty ( $only_thise_content )) {
 							
@@ -3326,10 +3764,16 @@ class content_model extends Model {
 							$categories_intvals_count = count ( $categories_intvals );
 							
 							$only_thise_content_i = implode ( ',', $only_thise_content );
-							/*foreach ( $only_thise_content as $only_thise_content_item ) {                                                                $q = " SELECT parent_id from   $table_taxonomy where                                 parent_id in ({$categories_intvals_i})                        and          content_type='post'                         and to_table_id =$only_thise_content_item                        and to_table ='table_content'                          group by parent_id  ";                                                                                                $q_check1 = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );                                if(count($q_check1) == $categories_intvals_count){                                    $only_thise_content_new [] = $only_thise_content_item;                                }                            }*/
+							 
 							
-							$q = " SELECT to_table_id , count(parent_id) as qty from   $table_taxonomy where                                 parent_id in ({$categories_intvals_i})                        and          content_type='post'                         and to_table_id in ($only_thise_content_i)                        and to_table ='table_content'                          group by to_table_id  ";
-							//  var_dump($q);							$q_check1 = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
+							$q = " SELECT to_table_id , count(parent_id) as qty from   $table_taxonomy_items where 
+                                parent_id in ({$categories_intvals_i})
+                        and          content_type='post' 
+                        and to_table_id in ($only_thise_content_i)
+                        and to_table ='table_content'
+                          group by to_table_id  ";
+							//  var_dump($q);
+							$q_check1 = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 							foreach ( $q_check1 as $q_check2 ) {
 								if (intval ( $q_check2 ['qty'] ) == intval ( $categories_intvals_count )) {
 									$only_thise_content_new [] = $q_check2 ['to_table_id'];
@@ -3340,7 +3784,7 @@ class content_model extends Model {
 							$only_thise_content = $only_thise_content_new;
 						}
 					
-					}
+					}*/
 					
 					$q_check = array ();
 					
@@ -3367,7 +3811,11 @@ class content_model extends Model {
 						$category_content_ids = $only_thise_content;
 						
 						$only_thise_content_implode = implode ( ',', $only_thise_content );
-						$q = " SELECT to_table_id, parent_id from   $table_taxonomy where  $only_thise_content_q content_type='post'                         and to_table_id in ($only_thise_content_implode)                        and to_table_id is not null group by to_table_id  ";
+						
+						$categories_intvals_implode = implode ( ',', $category_ids );
+						$q = " SELECT to_table_id, parent_id from   $table_taxonomy_items where  $only_thise_content_q content_type='post' 
+                        and parent_id in ($categories_intvals_implode)
+                         group by to_table_id  ";
 						$q_check = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 					} else {
 					
@@ -3376,11 +3824,6 @@ class content_model extends Model {
 					if (! empty ( $q_check )) {
 						
 						$parent_id_items = $q_check;
-						
-						// var_dump($parent_id_items);						
-
-						//$parent_id_items - array_unique($parent_id_items);						
-
 						foreach ( $parent_id_items as $parent_id_item ) {
 							
 							if (! in_array ( intval ( $parent_id_item ['to_table_id'] ), $ids )) {
@@ -3419,28 +3862,42 @@ class content_model extends Model {
 			
 			}
 			
-			//p($only_thise_content);			
-
-			//} else {			
-
-			if ($strict_category_selection == true) {
+		/*if ($strict_category_selection == true) {
 				$strict_ids = array ();
 				$categories = array_unique ( $categories );
 				$categories_q = (implode ( ',', $categories ));
 				
 				foreach ( $ids as $id ) {
 					
-					$q = " select  count(*) as qty from $table_taxonomy where                    to_table= 'table_content'                    and to_table_id= '$id'                    and content_type = 'post'                    and parent_id  IN ($categories_q)                    and taxonomy_type = 'category_item'                    and to_table_id is not null                    group by to_table_id                    ;";
+					$q = " select  count(*) as qty from $table_taxonomy where
+
+                    to_table= 'table_content'
+
+                    and to_table_id= '$id'
+
+                    and content_type = 'post'
+
+                    and parent_id  IN ($categories_q)
+
+                    and taxonomy_type = 'category_item'
+
+                    and to_table_id is not null
+
+                    group by to_table_id
+
+
+
+                    ;";
 					
-					//print $q ;					
+
+					
 
 					$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 					
 					$q = $q [0] ['qty'];
 					
-					//  print $q ;					
-
-					//  print "<hr>";					
+				
+					
 
 					if ($q == count ( $categories )) {
 						
@@ -3466,10 +3923,8 @@ class content_model extends Model {
 				
 				}
 			
-			}
-			
-		//}		
-
+			}*/
+		
 		}
 		
 		if (! empty ( $data ['selected_tags'] )) {
@@ -3484,13 +3939,34 @@ class content_model extends Model {
 					
 					$taxonomy_data = array ();
 					
-					//  var_dump ( $item );					
+					//  var_dump ( $item );
+					
 
 					$taxonomy_data ['taxonomy_type'] = 'tag';
 					
 					$taxonomy_data ['to_table'] = 'table_content';
 					
-					$q = " select to_table_id , id, to_table from $table_taxonomy where                    to_table= '{$taxonomy_data ['to_table']}'                    and content_type = 'post'                    and taxonomy_type = '{$taxonomy_data ['taxonomy_type']}'                    and taxonomy_value = '$item'                    and to_table_id is not null                    group by to_table_id                    ;                    ";
+					$q = " select to_table_id , id, to_table from $table_taxonomy where
+
+                    to_table= '{$taxonomy_data ['to_table']}'
+
+                    and content_type = 'post'
+
+                    and taxonomy_type = '{$taxonomy_data ['taxonomy_type']}'
+
+                    and taxonomy_value = '$item'
+
+                    and to_table_id is not null
+
+                    group by to_table_id
+
+                    ;
+
+
+
+
+
+                    ";
 					
 					$cache_id = __FUNCTION__ . 'selected_tags' . md5 ( $q );
 					
@@ -3510,9 +3986,62 @@ class content_model extends Model {
 						
 						}
 						
-					//lets cleanup unused items					
+					//lets cleanup unused items
+					
 
-					/*if (! empty ( $tag_ids )) {                            $category_ids_count = count ( $tag_ids );                            $category_ids_q = implode ( ", ", $tag_ids );                                                        $q = " select count(*) as qty from $table_content where                        id in ($category_ids_q)";                            //var_dump($q);                            $q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );                            $q = $q [0] ['qty'];                            //  var_dump($q, $category_ids_count);                            //  exit();                            if (intval ( $q ) != $category_ids_count) {                                foreach ( $items as $clean_me ) {                                    $clean_table = $cms_db_tables [$clean_me ['to_table']];                                    $clean_table_id = $clean_me ['to_table_id'];                                    $clean_id = $clean_me ['id'];                                    //var_dump($clean_table, $clean_table_id);                                    $chek = $this->core_model->dbCheckIfIdExistsInTable ( $clean_table, $clean_table_id );                                    //  var_dump($chek);                                    if ($chek == false) {                                        $this->core_model->deleteDataById ( $table_taxonomy, $clean_id, $delete_cache_group = false );                                    }                                }                                $this->core_model->cleanCacheGroup ( 'taxonomy' );                            }                                                }*/
+					/*if (! empty ( $tag_ids )) {
+
+                            $category_ids_count = count ( $tag_ids );
+
+                            $category_ids_q = implode ( ", ", $tag_ids );
+
+                            
+
+                            $q = " select count(*) as qty from $table_content where
+
+                        id in ($category_ids_q)";
+
+                            //var_dump($q);
+
+                            $q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );
+
+                            $q = $q [0] ['qty'];
+
+                            //  var_dump($q, $category_ids_count);
+
+                            //  exit();
+
+                            if (intval ( $q ) != $category_ids_count) {
+
+                                foreach ( $items as $clean_me ) {
+
+                                    $clean_table = $cms_db_tables [$clean_me ['to_table']];
+
+                                    $clean_table_id = $clean_me ['to_table_id'];
+
+                                    $clean_id = $clean_me ['id'];
+
+                                    //var_dump($clean_table, $clean_table_id);
+
+                                    $chek = $this->core_model->dbCheckIfIdExistsInTable ( $clean_table, $clean_table_id );
+
+                                    //  var_dump($chek);
+
+                                    if ($chek == false) {
+
+                                        $this->core_model->deleteDataById ( $table_taxonomy, $clean_id, $delete_cache_group = false );
+
+                                    }
+
+                                }
+
+                                $this->core_model->cleanCacheGroup ( 'taxonomy' );
+
+                            }
+
+                        
+
+                        }*/
 					
 					} else {
 						
@@ -3534,17 +4063,20 @@ class content_model extends Model {
 		
 		if (! empty ( $ids )) {
 			
-			//asort ( $ids );			
+			//asort ( $ids );
+			
 
 			array_unique ( $ids );
 			
-		//		
+		//
+		
 
 		}
 		
 		if (! empty ( $tag_ids )) {
 			
-			//asort ( $tag_ids );			
+			//asort ( $tag_ids );
+			
 
 			array_unique ( $tag_ids );
 		
@@ -3552,13 +4084,32 @@ class content_model extends Model {
 		
 		if (! empty ( $category_ids )) {
 			
-			//asort ( $category_ids );			
+			//asort ( $category_ids );
+			
 
 			array_unique ( $category_ids );
 		
 		}
 		
-		/*if ((! empty ( $category_ids )) and (! empty ( $tag_ids ))) {                        $new_ids = array ();                                foreach ( $tag_ids as $id ) {                                if (in_array ( $id, $category_ids ) == true) {                                        $new_ids [] = $id;                                }                        }                        $ids = $new_ids;                }        */
+		/*if ((! empty ( $category_ids )) and (! empty ( $tag_ids ))) {
+            
+            $new_ids = array ();
+            
+        
+            foreach ( $tag_ids as $id ) {
+                
+                if (in_array ( $id, $category_ids ) == true) {
+                    
+                    $new_ids [] = $id;
+                
+                }
+            
+            }
+            
+            $ids = $new_ids;
+        
+        }
+        */
 		if ($data ['have_original_link'] == 'y') {
 			
 			$q = " SELECT id  from   $table_content where  original_link is NOT NULL   and original_link_include_in_advanced_search = 'y' and original_link NOT LIKE ''";
@@ -3645,13 +4196,15 @@ class content_model extends Model {
 		
 		}
 		
-		//search_by_keyword		
+		//search_by_keyword
+		
 
 		if (trim ( strval ( $data ['search_by_keyword'] ) ) != '') {
 			
 			$kw = $data ['search_by_keyword'];
 			
-			//print $kw;			
+			//print $kw;
+			
 
 			$kw_ids = false;
 			$kw_ids_q = false;
@@ -3665,7 +4218,8 @@ class content_model extends Model {
 			
 			$only_in_those_table_fields = array ('content_title', 'content_body', 'content_description' );
 			
-			//  $keyword_results = $this->core_model->dbRegexpSearch ( $table, $kw, $kw_ids );			
+			//  $keyword_results = $this->core_model->dbRegexpSearch ( $table, $kw, $kw_ids );
+			
 
 			$kw = html_entity_decode ( $kw );
 			
@@ -3673,11 +4227,13 @@ class content_model extends Model {
 			
 			$kw = htmlspecialchars_decode ( $kw );
 			
-			//var_dump ( $kw );			
+			//var_dump ( $kw );
+			
 
 			$the_words_no_explode = ($kw);
 			
-			//$the_words = explode ( ',', $kw );			$the_words = array ();
+			//$the_words = explode ( ',', $kw );
+			$the_words = array ();
 			$the_words [0] = $kw;
 			
 			if (($kw) != '') {
@@ -3693,14 +4249,144 @@ class content_model extends Model {
 				
 				}
 				
-				//var_dump($category_ids_q);				
-
-				/*$search_for_those_kw_in_fetch = $the_words_no_explode;                                $the_words = $this->core_model->addSlashesToArrayAndEncodeHtmlChars ( $the_words );                                $kyworords_q = " SELECT id from $table where ";                                $kyworords_q2 = " SELECT id from $table where ";                                $kyworords_q .= " (( content_title LIKE '%$the_words_no_explode%' ) OR  ";                                $kyworords_q2 .= " (( content_body LIKE '%$the_words_no_explode%' ) OR  ";                                $kyworords_q_1st = " SELECT id from $table where content_title REGEXP '$the_words_no_explode'   $category_ids_q";                                $kyworords_q2_1st = "  SELECT id from $table where content_body REGEXP '$the_words_no_explode'    $category_ids_q";                                //  var_Dump($the_words);                                foreach ( $the_words as $the_word ) {                                        if (trim ( $the_word ) != '') {                                                $kyworords_q .= " ( content_title LIKE '%$the_word%' ) OR  ";                                                $kyworords_q2 .= " ( content_body LIKE '%$the_word%' ) AND  ";                                        }                                }                                if ($kyworords_q != '') {                                        $kyworords_q = '' . $kyworords_q . '  ID is not null  ) OR ';                                }                                if ($kyworords_q2 != '') {                                        $kyworords_q2 = '' . $kyworords_q2 . '  ID is not null )  OR ';                                }                                $kyworords_q .= " ( content_title REGEXP '{$the_words[0]}' )   ";                                $kyworords_q2 .= " ( content_body REGEXP '{$the_words[0]}' )   ";                                $kyworords_q .= " ORDER BY updated_on DESC limit 0,100 ";                                $kyworords_q2 .= " ORDER BY updated_on DESC limit 0,100 ";                                $kyworords_q_1st .= " ORDER BY updated_on DESC limit 0,100 ";                                $kyworords_q2_1st .= " ORDER BY updated_on DESC limit 0,100 ";                                $the_search_q_kw1 = false;                                $the_search_q_kw2 = false;                                foreach ( $the_words as $the_word ) {                                        if (trim ( $the_word ) != '') {                                                $the_search_q_kw1 .= " +*$the_word* ";                                                $the_search_q_kw2 .= "+$the_word ";                                                $the_search_q_kw3 .= "$the_word";                                        }                        //$the_search_q_kw1 = mysql_real_escape_string ( $the_search_q_kw1 );                //$the_search_q_kw2 = mysql_real_escape_string ( $the_search_q_kw2 );                                }                                                                (( content_title LIKE '%$the_search_q_kw3%' or   content_description LIKE '%$the_search_q_kw3%'   or   content_body LIKE '%$the_search_q_kw3%' or content_url LIKE '%$the_search_q_kw3%'  ) )                                                             and ( MATCH content_title   AGAINST ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or   MATCH content_description    AGAINST  ('+".$the_search_q_kw3."' IN BOOLEAN MODE)   or   MATCH content_body   AGAINST   ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or MATCH content_url  AGAINST    ('+".$the_search_q_kw3."' IN BOOLEAN MODE)  )                  */
-				$the_search_q_kw3 = $kw;
-				$the_search_q = "SELECT idFROM $table_contentwhere $category_ids_q  (( content_title LIKE '%$the_search_q_kw3%' or   content_description LIKE '%$the_search_q_kw3%'   or   content_body LIKE '%$the_search_q_kw3%' or content_url LIKE '%$the_search_q_kw3%'  ) )  and content_type='post'                ";
-				/*$the_search_q = "SELECT idFROM `$table_content`where $category_ids_q MATCH (`content_title`,`content_description`, `content_body`, `content_url`) AGAINST ('$the_search_q_kw3' in boolean mode)                 ";*/
+				//var_dump($category_ids_q);
 				
-				/*$the_search_q = "SELECT idFROM $table_contentwhere ( content_title REGEXP '$the_search_q_kw3' or   content_description REGEXP '$the_search_q_kw3'   or   content_body REGEXP '$the_search_q_kw3' or content_url REGEXP '$the_search_q_kw3'  )   ORDER BY id DESC                ";*/
+
+				/*$search_for_those_kw_in_fetch = $the_words_no_explode;
+                
+                $the_words = $this->core_model->addSlashesToArrayAndEncodeHtmlChars ( $the_words );
+                
+                $kyworords_q = " SELECT id from $table where ";
+                
+                $kyworords_q2 = " SELECT id from $table where ";
+                
+                $kyworords_q .= " (( content_title LIKE '%$the_words_no_explode%' ) OR  ";
+                
+                $kyworords_q2 .= " (( content_body LIKE '%$the_words_no_explode%' ) OR  ";
+                
+                $kyworords_q_1st = " SELECT id from $table where content_title REGEXP '$the_words_no_explode'   $category_ids_q";
+                
+                $kyworords_q2_1st = "  SELECT id from $table where content_body REGEXP '$the_words_no_explode'    $category_ids_q";
+                
+                //  var_Dump($the_words);
+                
+
+                foreach ( $the_words as $the_word ) {
+                    
+                    if (trim ( $the_word ) != '') {
+                        
+                        $kyworords_q .= " ( content_title LIKE '%$the_word%' ) OR  ";
+                        
+                        $kyworords_q2 .= " ( content_body LIKE '%$the_word%' ) AND  ";
+                    
+                    }
+                
+                }
+                
+                if ($kyworords_q != '') {
+                    
+                    $kyworords_q = '' . $kyworords_q . '  ID is not null  ) OR ';
+                
+                }
+                
+                if ($kyworords_q2 != '') {
+                    
+                    $kyworords_q2 = '' . $kyworords_q2 . '  ID is not null )  OR ';
+                
+                }
+                
+                $kyworords_q .= " ( content_title REGEXP '{$the_words[0]}' )   ";
+                
+                $kyworords_q2 .= " ( content_body REGEXP '{$the_words[0]}' )   ";
+                
+                $kyworords_q .= " ORDER BY updated_on DESC limit 0,100 ";
+                
+                $kyworords_q2 .= " ORDER BY updated_on DESC limit 0,100 ";
+                
+                $kyworords_q_1st .= " ORDER BY updated_on DESC limit 0,100 ";
+                
+                $kyworords_q2_1st .= " ORDER BY updated_on DESC limit 0,100 ";
+                
+                $the_search_q_kw1 = false;
+                
+                $the_search_q_kw2 = false;
+                
+                foreach ( $the_words as $the_word ) {
+                    
+                    if (trim ( $the_word ) != '') {
+                        
+                        $the_search_q_kw1 .= " +*$the_word* ";
+                        
+                        $the_search_q_kw2 .= "+$the_word ";
+                        
+                        $the_search_q_kw3 .= "$the_word";
+                    
+                    }
+                
+        //$the_search_q_kw1 = mysql_real_escape_string ( $the_search_q_kw1 );
+                //$the_search_q_kw2 = mysql_real_escape_string ( $the_search_q_kw2 );
+                
+
+                }
+                
+                
+                
+                
+(( content_title LIKE '%$the_search_q_kw3%' or   
+content_description LIKE '%$the_search_q_kw3%'   or   
+content_body LIKE '%$the_search_q_kw3%' or 
+content_url LIKE '%$the_search_q_kw3%'  ) ) 
+                
+                
+                
+            and ( MATCH content_title   AGAINST ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or   
+MATCH content_description    AGAINST  ('+".$the_search_q_kw3."' IN BOOLEAN MODE)   or   
+MATCH content_body   AGAINST   ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or 
+MATCH content_url  AGAINST    ('+".$the_search_q_kw3."' IN BOOLEAN MODE)  )  
+                */
+				$the_search_q_kw3 = $kw;
+				$the_search_q = "SELECT id
+
+FROM $table_content
+
+where 
+
+$category_ids_q 
+
+
+
+
+ (( content_title LIKE '%$the_search_q_kw3%' or   
+content_description LIKE '%$the_search_q_kw3%'   or   
+content_body LIKE '%$the_search_q_kw3%' or 
+content_url LIKE '%$the_search_q_kw3%'  ) ) 
+ 
+and content_type='post'
+                ";
+				/*
+
+$the_search_q = "SELECT id
+
+FROM `$table_content`
+
+where $category_ids_q MATCH (`content_title`,`content_description`, `content_body`, `content_url`) AGAINST ('$the_search_q_kw3' in boolean mode)
+
+ 
+
+                ";*/
+				
+				/*$the_search_q = "SELECT id
+
+FROM $table_content
+
+where ( content_title REGEXP '$the_search_q_kw3' or   
+content_description REGEXP '$the_search_q_kw3'   or   
+content_body REGEXP '$the_search_q_kw3' or 
+content_url REGEXP '$the_search_q_kw3'  )  
+ 
+ORDER BY id DESC
+
+                ";*/
 				
 				$queries = array ();
 				
@@ -3721,7 +4407,8 @@ class content_model extends Model {
 				
 				$keyword_results = $result_ids;
 				
-			//p ( $result_ids );			}
+			//p ( $result_ids );
+			}
 			
 			if (! empty ( $result_ids )) {
 				unset ( $data ['search_by_keyword'] );
@@ -3731,7 +4418,27 @@ class content_model extends Model {
 				}
 				$ids = $ids_temp;
 				
-			/*if (! empty ( $category_content_ids )) {                                        $ids_temp = array ();                                                                                $ids = $ids_temp;                                        if (empty ( $ids )) {                                                $ids = false;                                                $ids [] = '0';                                        }                                } else {                                        $ids = $keyword_results;                                }*/
+			/*if (! empty ( $category_content_ids )) {
+                    
+                    $ids_temp = array ();
+                    
+                    
+                    
+                    $ids = $ids_temp;
+                    
+                    if (empty ( $ids )) {
+                        
+                        $ids = false;
+                        
+                        $ids [] = '0';
+                    
+                    }
+                
+                } else {
+                    
+                    $ids = $keyword_results;
+                
+                }*/
 			
 			} else {
 				
@@ -3743,9 +4450,12 @@ class content_model extends Model {
 		
 		}
 		
-		//		
+		//
+		
 
-		//p($ids);		//search_by_rss		
+		//p($ids);
+		//search_by_rss
+		
 
 		if (($data ['search_by_is_from_rss'] == 'y') or ($data ['search_by_is_from_rss'] == 'n') or (intval ( $data ['search_by_is_from_rss'] ) != 0)) {
 			
@@ -3773,7 +4483,8 @@ class content_model extends Model {
 					
 					} else {
 						
-					//$data ['rss_feed_id'] = fas;					
+					//$data ['rss_feed_id'] = fas;
+					
 
 					}
 					
@@ -3783,11 +4494,14 @@ class content_model extends Model {
 		
 		}
 		
-		//		
+		//
+		
 
-		//var_dump($data);		
+		//var_dump($data);
+		
 
-		//exit;		
+		//exit;
+		
 
 		if (($data ['is_featured'] == 'y') or ($data ['is_featured'] == 'n')) {
 		
@@ -3797,7 +4511,8 @@ class content_model extends Model {
 		
 		}
 		
-		//search by  with_comments		
+		//search by  with_comments
+		
 
 		if (($data ['with_comments'] == 'y') or ($data ['with_comments'] == 'n')) {
 			
@@ -3807,15 +4522,18 @@ class content_model extends Model {
 				
 				$the_ids = $ids;
 				
-				//$the_ids [] = '0';				
+				//$the_ids [] = '0';
+				
 
 				$some_ids = implode ( ',', $the_ids );
 				
-				$some_ids_not = implode ( ',', $the_ids ); //not used!				
+				$some_ids_not = implode ( ',', $the_ids ); //not used!
+				
 
 				$some_ids = "  and to_table_id in ($some_ids)  ";
 				
-				$some_ids_not = "  and to_table_id NOT in ($some_ids_not)  "; //not used!			
+				$some_ids_not = "  and to_table_id NOT in ($some_ids_not)  "; //not used!
+			
 
 			}
 			
@@ -3825,13 +4543,17 @@ class content_model extends Model {
 					
 					$table_comments = $cms_db_tables ['table_comments'];
 					
-					$q = " SELECT id, to_table_id from $table_comments where to_table = 'table_content'                    $some_ids group by to_table_id  ";
+					$q = " SELECT id, to_table_id from $table_comments where to_table = 'table_content'
+
+                    $some_ids group by to_table_id  ";
 					
-					//  var_dump($q);					
+					//  var_dump($q);
+					
 
 					$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 					
-					//  var_dump($q);					
+					//  var_dump($q);
+					
 
 					if (! empty ( $q )) {
 						
@@ -3841,11 +4563,14 @@ class content_model extends Model {
 							
 							$check = true;
 							
-							//@delete							
+							//@delete
+							
 
-							//$check = $this->contentsCheckIfContentExistsById ( $itm ['to_table_id'] );							
+							//$check = $this->contentsCheckIfContentExistsById ( $itm ['to_table_id'] );
+							
 
-							//  var_dump ( $check );							
+							//  var_dump ( $check );
+							
 
 							if ($check == true) {
 								
@@ -3865,9 +4590,11 @@ class content_model extends Model {
 					
 					$new_ids = array ();
 					
-					//var_dump($only_comments_ids);					
+					//var_dump($only_comments_ids);
+					
 
-					//exit;					
+					//exit;
+					
 
 					if (! empty ( $only_comments_ids )) {
 						
@@ -3893,7 +4620,8 @@ class content_model extends Model {
 					
 					}
 					
-					//					
+					//
+					
 
 					break;
 				
@@ -3903,15 +4631,22 @@ class content_model extends Model {
 					
 					$table_content = $cms_db_tables ['table_content'];
 					
-					$q = "SELECT id from $table_content where id not in (select to_table_id from $table_comments where to_table = 'table_content' group by to_table_id )                    ";
+					$q = "SELECT id from $table_content where id not in (
+
+select to_table_id from $table_comments where to_table = 'table_content' group by to_table_id )
+
+                    ";
 					
-					//					
+					//
+					
 
 					$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 					
-					//var_dump($q);					
+					//var_dump($q);
+					
 
-					//exit;					
+					//exit;
+					
 
 					if (! empty ( $q )) {
 						
@@ -3959,23 +4694,28 @@ class content_model extends Model {
 			
 			}
 			
-		//var_dump ( $ids );		
+		//var_dump ( $ids );
+		
 
-		//  exit ();		
+		//  exit ();
+		
 
 		} else {
 			
-			//exit ( '?' );			
+			//exit ( '?' );
+			
 
 			unset ( $data ['with_comments'] );
 		
 		}
 		
-		//the voted functionality is built in into $this->core_model->fetchDbData thats why we romove it from here		
+		//the voted functionality is built in into $this->core_model->fetchDbData thats why we romove it from here
+		
 
 		if ($use_fetch_db_data == false) {
 			
-			//  var_dump($data ['voted']);			
+			//  var_dump($data ['voted']);
+			
 
 			if (($timestamp = strtotime ( $data ['voted'] )) !== false) {
 				
@@ -3985,15 +4725,25 @@ class content_model extends Model {
 				
 				$table_content = $cms_db_tables ['table_content'];
 				
-				//$pastday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $voted, date ( "Y" ) ) );				
+				//$pastday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $voted, date ( "Y" ) ) );
+				
 
 				$pastday = date ( 'Y-m-d H:i:s', $voted );
 				
 				$now = date ( 'Y-m-d H:i:s' );
 				
-				$q = "SELECT count(to_table_id) as qty, to_table_id from $table_votes where            to_table = 'table_content'            and created_on >'$pastday'            group by to_table_id order by qty desc                    ";
+				$q = "SELECT count(to_table_id) as qty, to_table_id from $table_votes where
+
+            to_table = 'table_content'
+
+            and created_on >'$pastday'
+
+            group by to_table_id order by qty desc
+
+                    ";
 				
-				//p ( $q, 1 );				
+				//p ( $q, 1 );
+				
 
 				$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'votes' );
 				
@@ -4043,7 +4793,8 @@ class content_model extends Model {
 		
 		if (! empty ( $data ['custom_fields_criteria'] )) {
 			
-			//var_Dump( $data ['custom_fields_criteria'] );			
+			//var_Dump( $data ['custom_fields_criteria'] );
+			
 
 			$table_custom_fields = $cms_db_tables ['table_custom_fields'];
 			
@@ -4061,13 +4812,25 @@ class content_model extends Model {
 				
 				$ids_q = " and to_table_id in ($ids_i) ";
 				
-			/*foreach ( $ids as $id ) {                    if (in_array ( $category_content_ids, $id )) {                                        }                    var_dump($id);                }*/
+			/*foreach ( $ids as $id ) {
+
+                    if (in_array ( $category_content_ids, $id )) {
+
+                    
+
+                    }
+
+                    var_dump($id);
+
+                }*/
 			
 			}
 			
-			//var_dump($ids);			
+			//var_dump($ids);
+			
 
-			//var_dump($category_content_ids);			
+			//var_dump($category_content_ids);
+			
 
 			$only_custom_fieldd_ids = array ();
 			
@@ -4103,15 +4866,27 @@ class content_model extends Model {
 				
 				}
 				
-				$q = "SELECT  to_table_id from $table_custom_fields where            to_table = 'table_content' and            custom_field_name = '$k' and            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q                                  ";
+				$q = "SELECT  to_table_id from $table_custom_fields where
+
+            to_table = 'table_content' and
+
+            custom_field_name = '$k' and
+
+            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
+
+             
+
+                    ";
 				
 				$q2 = $q;
 				
-				// var_dump($q);				
+				// var_dump($q);
+				
 
 				$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 				
-				//var_dump($q); 				
+				//var_dump($q); 
+				
 
 				if (! empty ( $q )) {
 					
@@ -4123,23 +4898,29 @@ class content_model extends Model {
 						
 						$only_custom_fieldd_ids [] = $itm ['to_table_id'];
 						
-						//  if(in_array($itm ['to_table_id'],$category_ids)== false){						
+						//  if(in_array($itm ['to_table_id'],$category_ids)== false){
+						
 
 						$ids [] = $itm ['to_table_id'];
 						
-					//  }					
+					//  }
+					
 
-					//					
+					//
+					
 
 					}
 					
-				//var_dump ( $ids );				
+				//var_dump ( $ids );
+				
 
-				//var_dump($ids_old);				
+				//var_dump($ids_old);
+				
 
 				} else {
 					
-					//  $ids = array();					
+					//  $ids = array();
+					
 
 					$remove_all_ids = true;
 					
@@ -4149,18 +4930,13 @@ class content_model extends Model {
 					
 					$ids [] = 0;
 					
-				//  var_dump($q);				
+				//  var_dump($q);
+				
 
 				}
 			
 			}
-			
-		/*$new_ids = array ();            if (! empty ( $only_custom_fieldd_ids )) {                if (! empty ( $only_custom_fieldd_ids )) {                    foreach ( $only_custom_fieldd_ids as $id ) {                        //if (in_array ( $id, $only_custom_fieldd_ids ) == true) {                            $new_ids [] = $id;                        //}                    }                    $ids = $new_ids;                } else {                    $ids = $only_custom_fieldd_ids;                }            }*/
 		
-		//var_dump($ids);		
-
-		//exit;		
-
 		}
 		
 		if ($remove_all_ids == true) {
@@ -4179,10 +4955,9 @@ class content_model extends Model {
 		
 		$flds = $only_fields;
 		
-		//save is get!!!		
-
-		/*$this_function_cache_id = 'content_get_the_ids' . $function_cache_id . md5 ( serialize ( $flds ) );        $this_function_cache_content = $this->core_model->cacheGetContentAndDecode ( $this_function_cache_id );        if (($this_function_cache_content) != false) {        $save = $this_function_cache_content;        } else {        $save = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit, $offset = false, $orderby = $orderby, $cache_group = 'content', $debug = false, $ids = $ids, $count_only = $count_only, $flds );        $this->core_model->cacheWriteAndEncode ( $save, $this_function_cache_id, $cache_group = 'content' );        }*/
+		//save is get!!! ?
 		
+
 		if (! empty ( $data ['exclude_ids'] )) {
 			
 			$exclude_ids = $data ['exclude_ids'];
@@ -4193,24 +4968,24 @@ class content_model extends Model {
 		
 		}
 		
-		//  var_dump($data, $limit);		
-
-		//function getDbData($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {		
-
-		//$use_fetch_db_data = true;		
-
-		//var_dump($data ['use_fetch_db_data']);		
-
-		//exit;		
-
+		if (! empty ( $limit )) {
+			
+			$ids = array_slice ( $ids, $limit [0], $limit [1] );
+			//var_dump($ids);
+		}
+		
 		if ($use_fetch_db_data == false) {
-			//print '---------';			/*      var_dump($those_ids);            var_dump($ids);                var_dump($category_content_ids);*/
+			//print '---------';
+			/*      var_dump($those_ids);
+            var_dump($ids);
+                var_dump($category_content_ids);*/
 			$flds = array ('id' );
 			$data ['search_by_keyword_in_fields'] = $only_in_those_table_fields;
 			
 			$save = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit, $offset = false, $orderby = $orderby, $cache_group = 'content/global', $debug = false, $ids = $ids, $count_only = $count_only, $flds, $exclude_ids, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = $short_data );
 			
-		//var_dump($save);		
+		//var_dump($save);
+		
 
 		} else {
 			
@@ -4248,13 +5023,22 @@ class content_model extends Model {
 			
 			$db_opt ['order'] = $orderby;
 			
-			//$aOptions ['search_keyword_only_in_those_fields'] = array('id', 'content_body');			
-
-			//$only_in_those_table_fields;			
-
-			/*  $save = $this->core_model->fetchDbData ( $table, $criteria, array ('only_fields' => $flds, 'include_ids' => $ids, 'exclude_ids' => $exclude_ids,            'limit' => $limit, 'get_count' => $count_only, 'search_keyword' => $search_for_those_kw_in_fetch,            'debug' => $deb, 'cache_group' => 'content', 'order' => $orderby ) );*/
+			//$aOptions ['search_keyword_only_in_those_fields'] = array('id', 'content_body');
 			
-			//p($db_opt);			
+
+			//$only_in_those_table_fields;
+			
+
+			/*  $save = $this->core_model->fetchDbData ( $table, $criteria, array ('only_fields' => $flds, 'include_ids' => $ids, 'exclude_ids' => $exclude_ids,
+
+            'limit' => $limit, 'get_count' => $count_only, 'search_keyword' => $search_for_those_kw_in_fetch,
+
+
+
+            'debug' => $deb, 'cache_group' => 'content', 'order' => $orderby ) );*/
+			
+			//p($db_opt);
+			
 
 			$save = $this->core_model->fetchDbData ( $table, $criteria, $db_opt );
 		
@@ -4262,7 +5046,8 @@ class content_model extends Model {
 		
 		if ($count_only == true) {
 			
-			//$this->core_model->cacheWriteAndEncode ( $save, $function_cache_id, $cache_group = 'content' );			
+			//$this->core_model->cacheWriteAndEncode ( $save, $function_cache_id, $cache_group = 'content' );
+			
 
 			return $save;
 		
@@ -4310,7 +5095,8 @@ class content_model extends Model {
 				
 				if (trim ( $content_style ) != '') {
 					
-					//print  TEMPLATE_DIR . 'layouts/' . $content_layout . '/styles/' . $content_style;					
+					//print  TEMPLATE_DIR . 'layouts/' . $content_layout . '/styles/' . $content_style;
+					
 
 					$content_style_file = false;
 					
@@ -4320,7 +5106,8 @@ class content_model extends Model {
 						
 						$content_style_url_replace = TEMPLATE_URL . 'layouts/' . $content_layout . '/styles/' . $content_style;
 						
-						//p($content_style_url_replace);						
+						//p($content_style_url_replace);
+						
 
 						$content_style_url_replace = str_ireplace ( '.css', '/', $content_style_url_replace );
 					
@@ -4340,7 +5127,8 @@ class content_model extends Model {
 							
 							$desc = str_ireplace ( '{SITEURL}', site_url (), $desc );
 							
-							//$item [$k] = $desc;							
+							//$item [$k] = $desc;
+							
 
 							if ($content_layout_url_replace != false) {
 								
@@ -4364,7 +5152,8 @@ class content_model extends Model {
 						
 						if (strstr ( $v, '<microweber>' ) == true) {
 							
-							//exit($v);							
+							//exit($v);
+							
 
 							$item ['dynamic_content_relations'] = array ('asd' );
 							
@@ -4374,7 +5163,8 @@ class content_model extends Model {
 								
 								foreach ( $matches as $m ) {
 									
-									//p ( $m );									
+									//p ( $m );
+									
 
 									if (! empty ( $m )) {
 										
@@ -4382,7 +5172,8 @@ class content_model extends Model {
 											
 											if (trim ( $n ) != '') {
 												
-												//												
+												//
+												
 
 												$n = str_replace ( '<microweber>', '', $n );
 												
@@ -4392,7 +5183,8 @@ class content_model extends Model {
 												
 												$exist = false;
 												
-												//  $m = json_decode ( $m );												
+												//  $m = json_decode ( $m );
+												
 
 												foreach ( $relations as $re => $rel ) {
 													
@@ -4400,7 +5192,8 @@ class content_model extends Model {
 														
 														$exist = true;
 														
-													//  var_dump ( $n );													
+													//  var_dump ( $n );
+													
 
 													}
 												
@@ -4412,7 +5205,8 @@ class content_model extends Model {
 												
 												}
 												
-											//											
+											//
+											
 
 											}
 										
@@ -4426,7 +5220,8 @@ class content_model extends Model {
 							
 							}
 							
-						//p($matches, 0);						
+						//p($matches, 0);
+						
 
 						}
 						
@@ -4436,7 +5231,8 @@ class content_model extends Model {
 							
 							if (! empty ( $media )) {
 								
-								//var_dump($media);								
+								//var_dump($media);
+								
 
 								$item ['media'] = $media;
 							
@@ -4452,7 +5248,39 @@ class content_model extends Model {
 							
 							if (is_array ( $v ) == false) {
 								
-								/*if ($item ['content_filename_sync_with_editor'] == 'y') {                                    if (trim ( $item ['content_filename'] ) != '') {                                        $the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );                                        $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';                                        if (is_file ( $the_active_site_template_dir . $item ['content_filename'] ) == true) {                                            {                                                //  var_dump ( $the_active_site_template_dir );                                            //$v = $the_active_site_template_dir;                                            //$v = file_get_contents ( $the_active_site_template_dir . $item ['content_filename'] );                                            //print $v;                                            //exit;                                            }                                        }                                    }                                }*/
+								/*if ($item ['content_filename_sync_with_editor'] == 'y') {
+
+                                    if (trim ( $item ['content_filename'] ) != '') {
+
+                                        $the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+
+                                        $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
+
+                                        if (is_file ( $the_active_site_template_dir . $item ['content_filename'] ) == true) {
+
+                                            {
+
+                                                //  var_dump ( $the_active_site_template_dir );
+
+                                            //$v = $the_active_site_template_dir;
+
+                                            //$v = file_get_contents ( $the_active_site_template_dir . $item ['content_filename'] );
+
+                                            //print $v;
+
+                                            //exit;
+
+                                            }
+
+                                        }
+
+
+
+                                    }
+
+
+
+                                }*/
 								
 								if ($item ['content_body_filename'] != false) {
 									
@@ -4466,11 +5294,14 @@ class content_model extends Model {
 											
 											{
 												
-												//$v = file_get_contents ( $the_active_site_template_dir . $item ['content_body_filename'] );												
+												//$v = file_get_contents ( $the_active_site_template_dir . $item ['content_body_filename'] );
+												
 
-												//  $v = html_entity_decode ( $v );												
+												//  $v = html_entity_decode ( $v );
+												
 
-												//$v = htmlspecialchars_decode ( $v );												
+												//$v = htmlspecialchars_decode ( $v );
+												
 
 												$this->load->vars ( $this->template );
 												
@@ -4504,17 +5335,21 @@ class content_model extends Model {
 									
 									if ($somepos !== false) {
 										
-									//$desc = substr ( $desc, 0, $somepos );									
+									//$desc = substr ( $desc, 0, $somepos );
+									
 
 									}
 									
-									//  $desc = 'aaaa';									
+									//  $desc = 'aaaa';
+									
 
 									$item ['the_content_body'] = $desc;
 									
-									// Silo linking									
+									// Silo linking
+									
 
-									// This field is used only for content visualization and it's not used by admin panel									
+									// This field is used only for content visualization and it's not used by admin panel
+									
 
 									if ($this->optionsGetByKey ( 'enable_silo_linking' )) {
 										
@@ -4560,7 +5395,8 @@ class content_model extends Model {
 						
 						}
 						
-						//put links						
+						//put links
+						
 
 						if (is_array ( $v ) == false) {
 							
@@ -4626,7 +5462,8 @@ class content_model extends Model {
 										
 										}
 										
-										//  var_dump ( $cfv );										
+										//  var_dump ( $cfv );
+										
 
 										$v2 [$cfk] = $cfv;
 									
@@ -4642,7 +5479,8 @@ class content_model extends Model {
 					
 					}
 					
-					//var_dump($k);					
+					//var_dump($k);
+					
 
 					$item2 [$k] = $v;
 				
@@ -4664,7 +5502,8 @@ class content_model extends Model {
 	
 	function pagingPrepareUrls($base_url = false, $pages_count) {
 		
-		//getCurentURL()		
+		//getCurentURL()
+		
 
 		if ($base_url == false) {
 			
@@ -4672,7 +5511,8 @@ class content_model extends Model {
 		
 		}
 		
-		//  print $base_url;		
+		//  print $base_url;
+		
 
 		$page_links = array ();
 		
@@ -4682,7 +5522,8 @@ class content_model extends Model {
 		
 		$the_url = explode ( '/', $the_url );
 		
-		//var_dump ( $the_url );		
+		//var_dump ( $the_url );
+		
 
 		for($x = 1; $x <= $pages_count; $x ++) {
 			
@@ -4706,7 +5547,8 @@ class content_model extends Model {
 			
 			$new_url = implode ( '/', $new );
 			
-			//var_dump ( $new_url);			
+			//var_dump ( $new_url);
+			
 
 			$page_links [$x] = $new_url;
 		
@@ -4722,7 +5564,8 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump($page_links);		
+		//var_dump($page_links);
+		
 
 		return $page_links;
 	
@@ -4734,9 +5577,11 @@ class content_model extends Model {
 		
 		$table = $cms_db_tables ['table_content'];
 		
-		//var_dump($_GLOBALS ['table_content'] );		
+		//var_dump($_GLOBALS ['table_content'] );
+		
 
-		//exit;		
+		//exit;
+		
 
 		$orderby [0] = 'updated_on';
 		
@@ -4750,7 +5595,8 @@ class content_model extends Model {
 		
 		$get = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit = false, $offset = false, $orderby = $orderby, $cache_group = 'content', $debug = false, $ids = false );
 		
-		//var_dump($save);		
+		//var_dump($save);
+		
 
 		return $get;
 	
@@ -4758,7 +5604,8 @@ class content_model extends Model {
 	
 	function applyGlobalTemplateReplaceables($content, $replaceables = false) {
 		
-		//return false;		
+		//return false;
+		
 
 		$content_meta_title = $this->content_model->optionsGetByKey ( 'content_meta_title' );
 		
@@ -4782,7 +5629,8 @@ class content_model extends Model {
 		
 		foreach ( $global_replaceables as $k => $v ) {
 			
-			//if (array_key_exists ( $k, $replaceables ) == true) {			
+			//if (array_key_exists ( $k, $replaceables ) == true) {
+			
 
 			$v = $replaceables [$k];
 			
@@ -4792,38 +5640,44 @@ class content_model extends Model {
 			
 			}
 			
-			//print $k;			
-
 			$content = str_ireplace ( '{' . $k . '}', $v, $content );
 			
-		//}		
+		//}
+		
 
 		}
-	 
+		
 		$content = str_ireplace ( '{SITEURL}', site_url (), $content );
 		
 		$content = str_ireplace ( '{SITE_URL}', site_url (), $content );
 		
 		$content = str_ireplace ( '{JS_API_URL}', site_url ( 'api/js' ) . '/', $content );
+		
 		$content = str_ireplace ( '{API_URL}', site_url ( 'api' ) . '/', $content );
+		
 		return $content;
+	
 	}
 	
-	//this funtion is used in the backend (admin) its diferent from the one in templates model	
+	//this funtion is used in the backend (admin) its diferent from the one in templates model
+	
 
 	function getLayoutFiles() {
 		
 		$this->load->helper ( 'directory' );
 		
-		//$path = BASEPATH . 'content/templates/';		
+		//$path = BASEPATH . 'content/templates/';
+		
 
 		$the_active_site_template = $this->optionsGetByKey ( 'curent_template' );
 		
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/';
 		
-		//  print $path;		
+		//  print $path;
+		
 
-		//exit;		
+		//exit;
+		
 
 		$map = directory_map ( $path, TRUE );
 		
@@ -4913,7 +5767,8 @@ class content_model extends Model {
 			
 			if (intval ( $check ['position'] ) == 0) {
 				
-				//find position				
+				//find position
+				
 
 				$sql = "SELECT max(position) as maxpos from $table where item_parent='{$data ['item_parent']}'  ";
 				
@@ -4923,19 +5778,23 @@ class content_model extends Model {
 				
 				$maxpos = intval ( $result ['maxpos'] ) + 1;
 				
-				//var_dump($maxpos);				
+				//var_dump($maxpos);
+				
 
 				$data ['position'] = $maxpos;
 				
-			//exit;			
+			//exit;
+			
 
 			}
 		
 		}
 		
-		//var_dump ( $data );		
+		//var_dump ( $data );
+		
 
-		//  exit ();		
+		//  exit ();
+		
 
 		$data_to_save = $data;
 		
@@ -4975,9 +5834,11 @@ class content_model extends Model {
 		
 		$this->fixMenusPositions ();
 		
-		//var_dump ( $data_to_save );		
+		//var_dump ( $data_to_save );
+		
 
-		//exit ();		
+		//exit ();
+		
 
 		return $save;
 	
@@ -5003,7 +5864,8 @@ class content_model extends Model {
 	
 	function getBreadcrumbsByURLAndPrintThem($the_url = false, $include_home = true) {
 		
-		//return false;		
+		//return false;
+		
 
 		$quick_nav = $this->getBreadcrumbsByURLAsArray ( $the_url, $include_home );
 		
@@ -5012,10 +5874,14 @@ class content_model extends Model {
 			
 			?>
 
-<ul class="breadcrumb">                     <?php
+<ul class="breadcrumb">
+
+                     <?php
 			foreach ( $quick_nav as $item ) {
 				
-				?>                        <li><a
+				?>
+
+                        <li><a
         href="<?php
 				print $item ['url'];
 				?>"><?php
@@ -5035,7 +5901,8 @@ class content_model extends Model {
 		
 		if ($the_url != false) {
 			
-		//$the_url = $the_url;		
+		//$the_url = $the_url;
+		
 
 		} else {
 			
@@ -5075,7 +5942,8 @@ class content_model extends Model {
 			
 			$the_page = $this->getContentByURL ( $the_url );
 			
-		//var_dump($the_page);		
+		//var_dump($the_page);
+		
 
 		}
 		
@@ -5109,7 +5977,19 @@ class content_model extends Model {
 		
 		}
 		
-		/*  $parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page );        if (! empty ( $parent_ids )) {            foreach ( $parent_ids as $item ) {                $the_pages_nav [] = $item;            }        }        */
+		/*  $parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page );
+
+        if (! empty ( $parent_ids )) {
+
+            foreach ( $parent_ids as $item ) {
+
+                $the_pages_nav [] = $item;
+
+            }
+
+        }
+
+        */
 		
 		$home_page = $this->content_model->getContentHomepage ();
 		
@@ -5131,9 +6011,11 @@ class content_model extends Model {
 		
 		$active_categories_for_nav = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $the_page, $the_url );
 		
-		//var_dump($active_categories2);   		
+		//var_dump($active_categories2);   
+		
 
-		//var_dump($parent_ids);		
+		//var_dump($parent_ids);
+		
 
 		if (! empty ( $the_pages_nav )) {
 			
@@ -5181,7 +6063,8 @@ class content_model extends Model {
 						
 						}
 						
-						//if is post we will get the categories						
+						//if is post we will get the categories
+						
 
 						if ($page ['content_type'] == 'post') {
 							
@@ -5195,9 +6078,11 @@ class content_model extends Model {
 							
 							}
 							
-							//$some_categories = $active_categories_for_nav;							
+							//$some_categories = $active_categories_for_nav;
+							
 
-							//  var_dump($some_categories);							
+							//  var_dump($some_categories);
+							
 
 							if (! empty ( $some_categories )) {
 								
@@ -5205,9 +6090,9 @@ class content_model extends Model {
 								
 								foreach ( $some_categories as $item ) {
 									
-									$cat_url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId ( $item );
+									$cat_url = $this->taxonomy_model->getUrlForId ( $item );
 									
-									$cat_info = $this->taxonomy_model->taxonomyGetSingleItemById ( $item );
+									$cat_info = $this->taxonomy_model->getSingleItem ( $item );
 									
 									$cat_temp = array ();
 									
@@ -5221,7 +6106,8 @@ class content_model extends Model {
 									
 									$titles_already_shown [] = $cat_info ['taxonomy_value'];
 									
-									//check for dupes									
+									//check for dupes
+									
 
 									$skip = false;
 									
@@ -5245,11 +6131,13 @@ class content_model extends Model {
 									
 									}
 									
-								//var_dump($cat_url);								
+								//var_dump($cat_url);
+								
 
 								}
 								
-							//var_dump($some_categories);							
+							//var_dump($some_categories);
+							
 
 							}
 						
@@ -5257,7 +6145,8 @@ class content_model extends Model {
 						
 						$the_nav [] = $temp;
 						
-						//if (intval ( $page ['content_subtype_value'] ) != 0) {						
+						//if (intval ( $page ['content_subtype_value'] ) != 0) {
+						
 
 						if ($page ['content_subtype'] == 'blog_section') {
 							
@@ -5265,11 +6154,7 @@ class content_model extends Model {
 							
 							if (! empty ( $active_categories )) {
 								
-								//  $active_categories_children = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $active_categories [0] ,'category' );								
-
-								//  var_dump ( $active_categories );								
-
-								$active_categories_children = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $active_categories [0], 'category' );
+								$active_categories_children = $this->taxonomy_model->getParents ( $active_categories [0]);
 								
 								if (! empty ( $active_categories_children )) {
 									
@@ -5279,13 +6164,14 @@ class content_model extends Model {
 								
 								}
 								
-								//var_dump($active_categories_children);								
+								//var_dump($active_categories_children);
+								
 
 								foreach ( $active_categories as $item ) {
 									
-									$cat_url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId ( $item );
+									$cat_url = $this->taxonomy_model->getUrlForId ( $item );
 									
-									$cat_info = $this->taxonomy_model->taxonomyGetSingleItemById ( $item );
+									$cat_info = $this->taxonomy_model->getSingleItem ( $item );
 									
 									$cat_temp = array ();
 									
@@ -5299,7 +6185,8 @@ class content_model extends Model {
 									
 									$cat_temp ['url'] = $cat_url;
 									
-									//check for dupes									
+									//check for dupes
+									
 
 									$skip = false;
 									
@@ -5333,13 +6220,19 @@ class content_model extends Model {
 							
 							}
 							
-						/*$item = $page ['content_subtype_value'];*/
+						/*$item = $page ['content_subtype_value'];
+
+
+
+*/
 						
 						}
 						
-					//}					
+					//}
+					
 
-					//var_dump ( $page );					
+					//var_dump ( $page );
+					
 
 					}
 				
@@ -5353,13 +6246,14 @@ class content_model extends Model {
 					
 					if (! in_array ( $item, $categories_already_shown )) {
 						
-						//var_dump($item)   ;						
+						//var_dump($item)   ;
+						
 
 						$categories_already_shown [] = $item;
 						
-						$cat_url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId ( $item );
+						$cat_url = $this->taxonomy_model->getUrlForId ( $item );
 						
-						$cat_info = $this->taxonomy_model->taxonomyGetSingleItemById ( $item );
+						$cat_info = $this->taxonomy_model->getSingleItem ( $item );
 						
 						$cat_temp = array ();
 						
@@ -5389,7 +6283,8 @@ class content_model extends Model {
 		
 		return $the_nav;
 		
-	//var_dump ( $content_id, $the_url );	
+	//var_dump ( $content_id, $the_url );
+	
 
 	}
 	
@@ -5449,7 +6344,8 @@ class content_model extends Model {
 		
 		$the_curent_url = $this->uri->uri_string ();
 		
-		//is slash		
+		//is slash
+		
 
 		$slash = substr ( "$the_curent_url", 0, 1 );
 		
@@ -5459,9 +6355,11 @@ class content_model extends Model {
 		
 		}
 		
-		//print $the_curent_url;		
+		//print $the_curent_url;
+		
 
-		//print ACTIVE_CONTENT_ID;		
+		//print ACTIVE_CONTENT_ID;
+		
 
 		$menu_data = array ();
 		
@@ -5523,25 +6421,32 @@ class content_model extends Model {
 			
 			$is_active = false;
 			
-			//print $url;			
+			//print $url;
+			
 
-			//print site_url ( $the_curent_url );			
+			//print site_url ( $the_curent_url );
+			
 
-			//print "<hr>";			
+			//print "<hr>";
+			
 
 			if ($url == site_url ( $the_curent_url )) {
 				
-			//  $is_active = true;			
+			//  $is_active = true;
+			
 
 			}
 			
 			if ($content_item ['is_home'] == 'y') {
 				
-			//  if($the_curent_url = ''){			
+			//  if($the_curent_url = ''){
+			
 
-			//      $is_active = true;			
+			//      $is_active = true;
+			
 
-			//  }			
+			//  }
+			
 
 			}
 			
@@ -5557,11 +6462,14 @@ class content_model extends Model {
 			
 			}
 			
-			/*      var_dump(ACTIVE_PAGE_ID, $content_item ['id']);            print "<br>";*/
+			/*      var_dump(ACTIVE_PAGE_ID, $content_item ['id']);
+
+            print "<br>";*/
 			
 			$parents = $this->getParentPagesIdsForPageIdAndCache ( ACTIVE_PAGE_ID );
 			
-			//var_dump($parents);			
+			//var_dump($parents);
+			
 
 			if (! empty ( $parents )) {
 				
@@ -5589,7 +6497,8 @@ class content_model extends Model {
 			
 			}
 			
-			//check we are on subpage and if the parent is active is active?			
+			//check we are on subpage and if the parent is active is active?
+			
 
 			$data_to_append ['is_active'] = $is_active;
 			
@@ -5689,7 +6598,8 @@ class content_model extends Model {
 			
 			}
 			
-			//$menu_item = $item;			
+			//$menu_item = $item;
+			
 
 			if ($item ['content_id'] != 0) {
 				
@@ -5699,7 +6609,8 @@ class content_model extends Model {
 				
 				$check_if_this_is_page_or_post ['only_those_fields'] = array ('content_type', 'id' );
 				
-				//          //				
+				//          //
+				
 
 				$check_if_this_is_page_or_post = $this->getContentAndCache ( $check_if_this_is_page_or_post, $orderby = false, $limit = false, $count_only = false, $short_data = true );
 				
@@ -5727,7 +6638,8 @@ class content_model extends Model {
 						
 						$fix_title = $q [0] ['content_title'];
 						
-						//  print $fix_title;						
+						//  print $fix_title;
+						
 
 						$item ['item_title'] = $fix_title;
 						
@@ -5735,9 +6647,11 @@ class content_model extends Model {
 						
 						$this->core_model->dbQ ( $q );
 						
-					//  var_Dump ( $q );					
+					//  var_Dump ( $q );
+					
 
-					//  exit ();					
+					//  exit ();
+					
 
 					}
 				
@@ -5749,7 +6663,7 @@ class content_model extends Model {
 				
 				if (strval ( $item ['item_title'] ) == '') {
 					
-					$get_taxonomy = $this->taxonomy_model->taxonomyGetSingleItemById ( $item ['taxonomy_id'] );
+					$get_taxonomy = $this->taxonomy_model->getSingleItem ( $item ['taxonomy_id'] );
 					
 					$fix_title = $get_taxonomy ['taxonomy_value'];
 					
@@ -5759,15 +6673,18 @@ class content_model extends Model {
 					
 					$this->core_model->dbQ ( $q );
 					
-				//  var_Dump ( $q );				
+				//  var_Dump ( $q );
+				
 
-				//  exit ();				
+				//  exit ();
+				
 
 				}
 				
-				//				
+				//
+				
 
-				$url = $this->taxonomy_model->taxonomyGetUrlForTaxonomyId ( $item ['taxonomy_id'] );
+				$url = $this->taxonomy_model->getUrlForId ( $item ['taxonomy_id'] );
 			
 			} else {
 				
@@ -5789,11 +6706,14 @@ class content_model extends Model {
 	
 	function menusGetThumbnailImageById($id, $size = 128, $direction = "DESC") {
 		
-		//$data ['id'] = $id;		
+		//$data ['id'] = $id;
+		
 
-		//$data = $this->taxonomy_model->taxonomyGet ( $data );		
+		//$data = $this->taxonomy_model->taxonomyGet ( $data );
+		
 
-		//var_dump ( $data );		
+		//var_dump ( $data );
+		
 
 		$data = $this->core_model->mediaGetThumbnailForItem ( $to_table = 'table_menus', $to_table_id = $id, $size, $direction );
 		
@@ -5839,11 +6759,13 @@ class content_model extends Model {
 		
 		$the_menu = $this->getMenuItems ( $the_menu ['id'] );
 		
-		//var_dump($the_menu);		
+		//var_dump($the_menu);
+		
 
 		$the_curent_url = $this->uri->uri_string ();
 		
-		//is slash		
+		//is slash
+		
 
 		$slash = substr ( "$the_curent_url", 0, 1 );
 		
@@ -5853,9 +6775,11 @@ class content_model extends Model {
 		
 		}
 		
-		//print $the_curent_url;		
+		//print $the_curent_url;
+		
 
-		//print ACTIVE_CONTENT_ID;		
+		//print ACTIVE_CONTENT_ID;
+		
 
 		$menu_data = array ();
 		
@@ -5867,7 +6791,8 @@ class content_model extends Model {
 			
 			$data ['id'] = $item ['content_id'];
 			
-			//			
+			//
+			
 
 			$content_item = $this->getContent ( $data, $orderby = false, $limit = false, $count_only = false, $short_data = true );
 			
@@ -5903,25 +6828,32 @@ class content_model extends Model {
 			
 			$is_active = false;
 			
-			//print $url;			
+			//print $url;
+			
 
-			//print site_url ( $the_curent_url );			
+			//print site_url ( $the_curent_url );
+			
 
-			//print "<hr>";			
+			//print "<hr>";
+			
 
 			if ($url == site_url ( $the_curent_url )) {
 				
-			//  $is_active = true;			
+			//  $is_active = true;
+			
 
 			}
 			
 			if ($content_item ['is_home'] == 'y') {
 				
-			//  if($the_curent_url = ''){			
+			//  if($the_curent_url = ''){
+			
 
-			//      $is_active = true;			
+			//      $is_active = true;
+			
 
-			//  }			
+			//  }
+			
 
 			}
 			
@@ -5949,9 +6881,11 @@ class content_model extends Model {
 		
 		}
 		
-		//$		
+		//$
+		
 
-		//var_dump ( $menu_data );		
+		//var_dump ( $menu_data );
+		
 
 		$this->core_model->cacheWriteAndEncode ( $menu_data, $function_cache_id );
 		
@@ -5965,7 +6899,8 @@ class content_model extends Model {
 		
 		if (intval ( $id ) == 0) {
 			
-			//$this->fixMenusPositions ();			
+			//$this->fixMenusPositions ();
+			
 
 			return false;
 		
@@ -5993,7 +6928,8 @@ class content_model extends Model {
 		
 		}
 		
-		//get next		
+		//get next
+		
 
 		$data = false;
 		
@@ -6009,7 +6945,8 @@ class content_model extends Model {
 		
 		$next_item = $data [0];
 		
-		//get prev		
+		//get prev
+		
 
 		$this->core_model->cleanCacheGroup ( 'menus' );
 		
@@ -6035,7 +6972,8 @@ class content_model extends Model {
 			
 			} else {
 				
-				//update curent				
+				//update curent
+				
 
 				$table = TABLE_PREFIX . 'menus';
 				
@@ -6089,7 +7027,15 @@ class content_model extends Model {
 	
 	}
 	
-	/**	 * @desc fix Menus Positions	 * @author Peter Ivanov	 *	 */
+	/**
+
+	 * @desc fix Menus Positions
+
+	 * @author Peter Ivanov
+
+	 *
+
+	 */
 	
 	function fixMenusPositions() {
 		
@@ -6099,9 +7045,11 @@ class content_model extends Model {
 		
 		$table_content = $cms_db_tables ['table_content'];
 		
-		//$table = TABLE_PREFIX . 'menus';		
+		//$table = TABLE_PREFIX . 'menus';
+		
 
-		//get all menus		
+		//get all menus
+		
 
 		$sql = "SELECT * from $table where item_type='menu'  ";
 		
@@ -6117,7 +7065,8 @@ class content_model extends Model {
 			
 			$i = 1;
 			
-			//var_dump($q);			
+			//var_dump($q);
+			
 
 			foreach ( $q as $menu_item ) {
 				
@@ -6155,7 +7104,8 @@ class content_model extends Model {
 				
 				} else {
 					
-					//delete					
+					//delete
+					
 
 					$check = "delete from $table where id={$menu_item['id']} ";
 					
@@ -6225,13 +7175,15 @@ class content_model extends Model {
 			
 			$selected_taxonomy_descs = array ();
 			
-			//$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data, 3 );			
+			//$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data, 3 );
+			
 
-			//$meta ['content_meta_keywords'] = $data;			
+			//$meta ['content_meta_keywords'] = $data;
+			
 
 			foreach ( $selected_taxonomy as $the_taxonomy ) {
 				
-				$the_taxonomy_full = $this->taxonomy_model->taxonomyGetSingleItemById ( $the_taxonomy );
+				$the_taxonomy_full = $this->taxonomy_model->getSingleItem ( $the_taxonomy );
 				
 				$selected_taxonomy_titles [] = $the_taxonomy_full ['taxonomy_value'];
 				
@@ -6258,7 +7210,8 @@ class content_model extends Model {
 		
 		$data ['id'] = $id;
 		
-		//($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false)		
+		//($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false)
+		
 
 		$only_fields = array ();
 		
@@ -6376,22 +7329,25 @@ class content_model extends Model {
 				
 				$data = trim ( $content ['content_body_nohtml'] );
 				
-				//var_dump($data);				
+				//var_dump($data);
+				
 
 				//				$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data, 3 );
 				
 
 				$meta ['content_meta_keywords'] = $data;
 				
-				//  var_dump($data);				
+				//  var_dump($data);
+				
 
-				//exit;				
+				//exit;
+				
 
 				if ($meta ['content_meta_keywords'] == '') {
 					
 					if ($content ['content_subtype'] == 'blog_section') {
 						
-						$temp = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
+						$temp = $this->taxonomy_model->getChildrensRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
 						
 						if (! empty ( $temp )) {
 							
@@ -6399,7 +7355,7 @@ class content_model extends Model {
 							
 							foreach ( $temp as $tax_id ) {
 								
-								$temp_data = $this->taxonomy_model->taxonomyGetSingleItemById ( $tax_id );
+								$temp_data = $this->taxonomy_model->getSingleItem ( $tax_id );
 								
 								$taxonomy_tree [] = trim ( $temp_data ['taxonomy_value'] );
 							
@@ -6419,11 +7375,12 @@ class content_model extends Model {
 							
 							if (! empty ( $posts_data )) {
 								
-								$temp_data = $this->taxonomy_model->taxonomyGetSingleItemById ( $selected_taxonomy [0] );
+								$temp_data = $this->taxonomy_model->getSingleItem ( $selected_taxonomy [0] );
 								
 								$meta ['content_meta_title'] = $temp_data ['taxonomy_value'];
 								
-								//var_dump($posts_data);								
+								//var_dump($posts_data);
+								
 
 								$categories = array ();
 								
@@ -6492,7 +7449,8 @@ class content_model extends Model {
 		
 		} else {
 			
-			//  var_dump ( $post ["content_title"] );			
+			//  var_dump ( $post ["content_title"] );
+			
 
 			$post ["content_title"] = str_ireplace ( '(', '', $post ["content_title"] );
 			
@@ -6526,7 +7484,8 @@ class content_model extends Model {
 			
 			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
 				
-				//echo $i;				
+				//echo $i;
+				
 
 				$fruit = array_pop ( $keywords_array );
 				
@@ -6712,21 +7671,25 @@ class content_model extends Model {
 			
 			}
 			
-		//}		
+		//}
+		
 
-		//var_dump($post["content_body_nohtml"]);		
+		//var_dump($post["content_body_nohtml"]);
+		
 
 		}
 		
 		$the_results_to_return_revalency = array ();
 		
-		//var_dump ( $the_results_to_return );		
+		//var_dump ( $the_results_to_return );
+		
 
 		foreach ( $the_results_to_return as $item ) {
 			
 			if (intval ( $item ) != intval ( $post_id )) {
 				
-				//var_dump ( $item ['content_title'] );				
+				//var_dump ( $item ['content_title'] );
+				
 
 				$the_results_to_return_revalency [$item] = intval ( $the_results_to_return_revalency [$item] ) + 1;
 			
@@ -6770,7 +7733,8 @@ class content_model extends Model {
 		
 		return $posts;
 		
-	//var_dump ( $the_results_to_return_revalency );	
+	//var_dump ( $the_results_to_return_revalency );
+	
 
 	}
 	
@@ -6784,7 +7748,15 @@ class content_model extends Model {
 		
 		return true;
 		
-	/*global $cms_db_tables;        $table = $cms_db_tables ['table_options'];        $save = $this->core_model->saveData ( $table, $data );        $this->core_model->cacheDelete ( 'cache_group', 'options' );        return true;*/
+	/*global $cms_db_tables;
+
+        $table = $cms_db_tables ['table_options'];
+
+        $save = $this->core_model->saveData ( $table, $data );
+
+        $this->core_model->cacheDelete ( 'cache_group', 'options' );
+
+        return true;*/
 	
 	}
 	
@@ -6794,7 +7766,21 @@ class content_model extends Model {
 		
 		return $data;
 		
-	/*global $cms_db_tables;        $table = $cms_db_tables ['table_options'];        if ($orderby == false) {        $orderby [0] = 'created_on';        $orderby [1] = 'DESC';        }        $save = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );        return $save;*/
+	/*global $cms_db_tables;
+
+        $table = $cms_db_tables ['table_options'];
+
+        if ($orderby == false) {
+
+        $orderby [0] = 'created_on';
+
+        $orderby [1] = 'DESC';
+
+        }
+
+        $save = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
+
+        return $save;*/
 	
 	}
 	
@@ -6804,7 +7790,27 @@ class content_model extends Model {
 		
 		return $data;
 		
-	/*global $cms_db_tables;        $table = $cms_db_tables ['table_options'];        if ($orderby == false) {        $orderby [0] = 'created_on';        $orderby [1] = 'DESC';        }        $data = array ( );        $data ['option_key'] = $key;        $get = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );        $get = $get [0] ['option_value'];        return $get;*/
+	/*global $cms_db_tables;
+
+        $table = $cms_db_tables ['table_options'];
+
+        if ($orderby == false) {
+
+        $orderby [0] = 'created_on';
+
+        $orderby [1] = 'DESC';
+
+        }
+
+        $data = array ( );
+
+        $data ['option_key'] = $key;
+
+        $get = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
+
+        $get = $get [0] ['option_value'];
+
+        return $get;*/
 	
 	}
 	
@@ -6828,7 +7834,8 @@ class content_model extends Model {
 		
 		if (! empty ( $result )) {
 			
-			//$output = "<ul>";			
+			//$output = "<ul>";
+			
 
 			print "<ul>";
 			
@@ -6984,7 +7991,21 @@ class content_model extends Model {
 	
 	}
 	
-	/**`	 * @desc Prints the selected categories as an <UL> tree, you might pass several options for more flexibility	 * @param array	 * @param boolean	 * @author      Peter Ivanov	 * @version 1.0	 * @since Version 1.0	 */
+	/**`
+
+	 * @desc Prints the selected categories as an <UL> tree, you might pass several options for more flexibility
+
+	 * @param array
+
+	 * @param boolean
+
+	 * @author      Peter Ivanov
+
+	 * @version 1.0
+
+	 * @since Version 1.0
+
+	 */
 	
 	function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
 		
@@ -7014,9 +8035,11 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump($orderby);		
+		//var_dump($orderby);
+		
 
-		//exit;		
+		//exit;
+		
 
 		if (! empty ( $remove_ids )) {
 			
@@ -7042,7 +8065,8 @@ class content_model extends Model {
 		
 		}
 		
-		//p($content_type,1);		
+		//p($content_type,1);
+		
 
 		$content_type = addslashes ( $content_type );
 		
@@ -7072,17 +8096,17 @@ class content_model extends Model {
 		
 		}
 		
-		//  p($sql);		
-
-		$children_of_the_main_parent = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $content_parent, $type = 'category_item', $visible_on_frontend );
+		//  p($sql);
 		
-		//  p($children_of_the_main_parent);		
 
+		$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend );
+		
 		$q = $this->core_model->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), $cache_group = 'taxonomy/' . $content_parent );
 		
 		$result = $q;
 		
-		//		
+		//
+		
 
 		$only_with_content2 = $only_with_content;
 		
@@ -7092,7 +8116,8 @@ class content_model extends Model {
 		
 		if (! empty ( $result )) {
 			
-			//$output = "<ul>";			
+			//$output = "<ul>";
+			
 
 			$i = 0;
 			
@@ -7106,15 +8131,18 @@ class content_model extends Model {
 					
 					if (is_array ( $only_with_content ) and ! empty ( $only_with_content )) {
 						
-						$content_ids_of_the_1_parent = $this->taxonomy_model->taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache ( $only_with_content [0], $visible_on_frontend, $non_recursive = true );
+						$content_ids_of_the_1_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $visible_on_frontend, $non_recursive = true );
 						
 						$content_ids_of_the_1_parent_o = $content_ids_of_the_1_parent;
 						
-						//p($content_ids_of_the_1_parent);						
+						//p($content_ids_of_the_1_parent);
+						
 
-						//  and visible_on_frontend = 'y'						
+						//  and visible_on_frontend = 'y'
+						
 
-						// p($item);						
+						// p($item);
+						
 
 						if (! empty ( $content_ids_of_the_1_parent )) {
 							
@@ -7129,54 +8157,45 @@ class content_model extends Model {
 								$only_with_content2_i = intval ( $only_with_content2_i );
 								
 								$chosen_categories_array [] = $only_with_content2_i;
-								
-							//$parentz = $this->taxonomy_model->taxonomyGetParentIdsForId ( $only_with_content2_i, true );							
-
-							//if (! empty ( $parentz )) {							
-
-							//  $chosen_categories_array = array_merge ( $chosen_categories_array, $parentz );							
-
-							//}							
-
-							//p ( $parentz );							
-
-							//  $content_ids_of_the_next_parent = $this->taxonomy_model->taxonomyGetTaxonomyToTableIdsForTaxonomyRootId ( $only_with_content2_i, $visible_on_frontend );							
-
-							//$content_ids_of_the_1_parent = array_unique ( $content_ids_of_the_1_parent );							
-
+							
 							}
 							
-							//$chosen_categories_array [] = $content_parent;							
-
-							//p($content_ids_of_the_1_parent);							
-
 							if (count ( $chosen_categories_array ) > 1) {
 								
-							//array_shift ( $chosen_categories_array );							
+							//array_shift ( $chosen_categories_array );
+							
 
 							}
 							
-							//  p($chosen_categories_array);							
-
 							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
 							
-							$children_of_the_next_parent = $this->taxonomy_model->taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache ( $only_with_content [0], $visible_on_frontend, false, $type = 'category_item' );
+							$children_of_the_next_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $visible_on_frontend, false, $type = 'category_item' );
 							
 							$children_of_the_next_parent_i = implode ( ',', $children_of_the_next_parent );
 							
 							$children_of_the_next_parent_qty = count ( $chosen_categories_array );
 							
-							$q = " select id , count(to_table_id) as qty from $table_taxonomy where                             to_table_id in($children_of_the_next_parent_i)                              and parent_id  IN ($chosen_categories_array_i) 
+							$q = " select id , count(to_table_id) as qty from $table_taxonomy where
+
+                             to_table_id in($children_of_the_next_parent_i) 
+
+                             and parent_id  IN ($chosen_categories_array_i) 
                              and taxonomy_type =  'category_item'
                              
                              
-                                                          group by to_table_id                         ";
+                             
+
+                             group by to_table_id
+
+                         ";
 							
-							//  p ( $q );							
+							//  p ( $q );
+							
 
 							$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 							
-							// p ( $q );							
+							// p ( $q );
+							
 
 							$total_count_array = array ();
 							
@@ -7184,17 +8203,21 @@ class content_model extends Model {
 								
 								foreach ( $q as $q1 ) {
 									
-									//  p ( $q1 );									
+									//  p ( $q1 );
+									
 
 									$qty = intval ( $q1 ['qty'] );
 									
-									//print 									
+									//print 
+									
 
-									//  print $qty .'---------'.$children_of_the_next_parent_qty. '<br>';									
+									//  print $qty .'---------'.$children_of_the_next_parent_qty. '<br>';
+									
 
 									if (($children_of_the_next_parent_qty) == $qty) {
 										
-										//  print 'asdasd';										
+										//  print 'asdasd';
+										
 
 										$total_count_array [] = $q1;
 									
@@ -7204,45 +8227,214 @@ class content_model extends Model {
 							
 							}
 							
-							//$q = intval ( $q [0] ['qty'] );							
+							//$q = intval ( $q [0] ['qty'] );
+							
 
 							$results_count = count ( $total_count_array );
 							
-							//  var_dump( $results_count);							
+							//  var_dump( $results_count);
+							
 
-							//p ( $q );							
+							//p ( $q );
+							
 
-							//p($children_of_the_next_parent);							
+							//p($children_of_the_next_parent);
+							
 
-							//p($chosen_categories_array);							
+							//p($chosen_categories_array);
+							
 
-							/*  $posts_data = array ();                            $posts_data ['selected_categories'] = $chosen_categories_array;                            $posts_data ['strict_category_selection'] = true;                            if ($visible_on_frontend == true) {                                $posts_data ['visible_on_frontend'] = 'y';                            }                            $results_count = 1;                            $posts_data = $this->getContentAndCache($posts_data, $orderby = false, $limit = array(0,1), $count_only = false, $short_data = true, $only_fields = false) ;                            */
+							/*  $posts_data = array ();
+
+                            $posts_data ['selected_categories'] = $chosen_categories_array;
+
+                            $posts_data ['strict_category_selection'] = true;
+
+                            if ($visible_on_frontend == true) {
+
+                                $posts_data ['visible_on_frontend'] = 'y';
+
+                            }
+
+                            $results_count = 1;
+
+                            $posts_data = $this->getContentAndCache($posts_data, $orderby = false, $limit = array(0,1), $count_only = false, $short_data = true, $only_fields = false) ;
+
+                            */
 							
 							$content_ids_of_the_1_parent_i = implode ( ',', $children_of_the_main_parent );
 							
 							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
 							
-							/*  $q = " select  count(*) as qty from $table_taxonomy where                    to_table= 'table_content'                    and to_table_id in($content_ids_of_the_1_parent_i)                    and content_type = 'post'                    and parent_id  IN ($chosen_categories_array_i)                    and taxonomy_type = 'category_item'                                 ;";*/
+							/*  $q = " select  count(*) as qty from $table_taxonomy where
+
+                    to_table= 'table_content'
+
+                    and to_table_id in($content_ids_of_the_1_parent_i)
+
+                    and content_type = 'post'
+
+                    and parent_id  IN ($chosen_categories_array_i)
+
+                    and taxonomy_type = 'category_item'
+
+             
+
+
+
+                    ;";*/
 							
-							//       print $q ; 							
-
-							/*                            $q = " select  to_table_id,  count(parent_id) as parent_id123  from $table_taxonomy where                    to_table= 'table_content'                                    and content_type = 'post'                    and parent_id  IN ($chosen_categories_array_i)                    and taxonomy_type = 'category_item'             group by to_table_id                    ;";                            //$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );                            $qty123 = array();                            if (! empty ( $q )) {                                //$q = intval ( $q [0] ['qty'] );                            //var_dump( $q) ;                            //  $results_count = $q;                            foreach($q as $q1){                                if(intval($q1['parent_id123']) == count($chosen_categories_array) ){                                //  var_dump( $q) ;                                //$results_count = 1;                                //$qty123[] = $q1;                                }                                                           }                                                                                             } else {                                $results_count = 0;                            }*/
+							//       print $q ; 
 							
-							//  print "<hr>";							
 
-							/*  if ($q == count ( $categories )) {                        $strict_ids [] = $id;                    } else {                        $strict_ids [] = 'No such id';                    }                 */
+							/*
+
+                            $q = " select  to_table_id,  count(parent_id) as parent_id123  from $table_taxonomy where
+
+                    to_table= 'table_content'
+
+                
+
+                    and content_type = 'post'
+
+                    and parent_id  IN ($chosen_categories_array_i)
+
+                    and taxonomy_type = 'category_item'
+
+             group by to_table_id
+
+
+
+                    ;";
+
+                            //$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );
+
+                            $qty123 = array();
+
+                            if (! empty ( $q )) {
+
+                                //$q = intval ( $q [0] ['qty'] );
+
+                            //var_dump( $q) ;
+
+                            //  $results_count = $q;
+
+                            foreach($q as $q1){
+
+                                if(intval($q1['parent_id123']) == count($chosen_categories_array) ){
+
+                                //  var_dump( $q) ;
+
+                                //$results_count = 1;
+
+                                //$qty123[] = $q1;
+
+                                }                               
+
+                            } 
+
+                                
+
+                                
+
+                            } else {
+
+                                $results_count = 0;
+
+                            }*/
 							
-							//  $posts_data = $this->contentGetByParams ( $posts_data );							
+							//  print "<hr>";
+							
 
-							//      p($posts_data);							
+							/*  if ($q == count ( $categories )) {
 
-							/*if (! empty ( $posts_data ['posts'] )) {                                $results_count = count ( $posts_data ['posts'] );                                //print $results_count;                                                        } else {                                $results_count = 0;                            }*/
+                        $strict_ids [] = $id;
+
+                    } else {
+
+                        $strict_ids [] = 'No such id';
+
+                    }
+
+                 */
+							
+							//  $posts_data = $this->contentGetByParams ( $posts_data );
+							
+
+							//      p($posts_data);
+							
+
+							/*if (! empty ( $posts_data ['posts'] )) {
+
+                                $results_count = count ( $posts_data ['posts'] );
+
+                                //print $results_count;
+
+                            
+
+
+
+                            } else {
+
+                                $results_count = 0;
+
+                            }*/
 							
 							$result [$i] ['content_count'] = $results_count;
 							
 							$item ['content_count'] = $results_count;
 							
-						/*$only_with_content3 [] = $item ['id'];                                                        $only_with_content3 = array_unique ( $only_with_content3 );                            $only_with_content3_i = implode ( ',', $only_with_content3 );                            $content_ids_of_the_main_parent_i = implode ( ',', $content_ids_of_the_1_parent );                                                        if ($visible_on_frontend == true) {                                $visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";                                                        }                                                        $q_1 = "select count(*) as qty from $table where                        content_type = 'post'                         and parent_id in ({$item ['id']})                          and to_table_id in ($content_ids_of_the_main_parent_i)                                                  $visible_on_frontend_q                                                                          and to_table_id is not null                          group by to_table_id                        ";                                                        $q_1 = $this->core_model->dbQuery ( $q_1, $cache_id = basename ( __FILE__, '.php' ) . __LINE__ . md5 ( $q_1 ), $cache_group = 'taxonomy' );                                                        $results_count = intval ( $q_1 [0] ['qty'] );*/
+						/*$only_with_content3 [] = $item ['id'];
+
+                            
+
+                            $only_with_content3 = array_unique ( $only_with_content3 );
+
+                            $only_with_content3_i = implode ( ',', $only_with_content3 );
+
+                            $content_ids_of_the_main_parent_i = implode ( ',', $content_ids_of_the_1_parent );
+
+                            
+
+                            if ($visible_on_frontend == true) {
+
+                                $visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
+
+                            
+
+                            }
+
+                            
+
+                            $q_1 = "select count(*) as qty from $table where
+
+                        content_type = 'post' 
+
+                        and parent_id in ({$item ['id']}) 
+
+                         and to_table_id in ($content_ids_of_the_main_parent_i) 
+
+                         
+
+                        $visible_on_frontend_q
+
+                         
+
+                         
+
+                        and to_table_id is not null
+
+                          group by to_table_id
+
+                        ";
+
+                            
+
+                            $q_1 = $this->core_model->dbQuery ( $q_1, $cache_id = basename ( __FILE__, '.php' ) . __LINE__ . md5 ( $q_1 ), $cache_group = 'taxonomy' );
+
+                            
+
+                            $results_count = intval ( $q_1 [0] ['qty'] );*/
 						
 						} else {
 							
@@ -7250,7 +8442,8 @@ class content_model extends Model {
 						
 						}
 						
-						// var_dump($results_count);						
+						// var_dump($results_count);
+						
 
 						$result [$i] ['content_count'] = $results_count;
 						
@@ -7258,14 +8451,6 @@ class content_model extends Model {
 					
 					} else {
 						
-						//  var_dump($results_count);						
-
-						/*      if ($results_count != 0) {                            $childern_content = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $item ['parent_id'], $type = 'category_item', $visible_on_frontend );                        } else {                            $childern_content = false;                        }                                                                         if (! empty ( $childern_content )) {                                                        $do_not_show = false;                        } else {                            $do_not_show = false;                        }*/
-						
-						//$result [$i] ['content_count'] = $results_count;						
-
-						//$item ['content_count'] = $results_count;						
-
 						$do_not_show = false;
 					
 					}
@@ -7278,11 +8463,13 @@ class content_model extends Model {
 			
 			if ($content_parent == 2163) {
 				
-			//p ( $do_not_show );			
+			//p ( $do_not_show );
+			
 
 			}
 			
-			//var_dump($do_not_show);			
+			//var_dump($do_not_show);
+			
 
 			if ($do_not_show == false) {
 				
@@ -7308,23 +8495,72 @@ class content_model extends Model {
 						
 						$check_in_table_content = false;
 						
-						$childern_content = $this->taxonomy_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $item ['id'], $type = 'category_item', $visible_on_frontend );
+						$childern_content = $this->taxonomy_model->getItems ( $item ['id'], $type = 'category_item', $visible_on_frontend );
 						
-						//$childern_content2 = " SELECT  "						
+						//$childern_content2 = " SELECT  "
+						
 
-						//p($item);						
+						//p($item);
+						
 
 						if (! empty ( $childern_content )) {
 							
-							//p($childern_content);							
+							//p($childern_content);
+							
 
-							//var_dump($childern_content);							
+							//var_dump($childern_content);
+							
 
-							//exit;							
+							//exit;
+							
 
 							$do_not_show = false;
 							
-						/*if (! empty ( $chosen_categories_array )) {                                                        $posts_data = array ();                            $posts_data ['selected_categories'] = $chosen_categories_array;                            $posts_data ['strict_category_selection'] = true;                            if ($visible_on_frontend == true) {                                $posts_data ['visible_on_frontend'] = 'y';                            }                            //$posts_data = $this->contentGetByParams ( $posts_data );                            //p($posts_data);                                                        //$posts_data = $this->getContentAndCache($posts_data, $orderby = false, $limit = array(0,1), $count_only = false, $short_data = true, $only_fields = false) ;                            $do_not_show = false;                            //var_Dump($posts_data);                            if (! empty ( $posts_data ['posts'] )) {                                //$results_count = count ( $posts_data ['posts'] );                            //$do_not_show = false;                            } else {                                //$do_not_show = true;                            }                        }*/
+						/*if (! empty ( $chosen_categories_array )) {
+
+                            
+
+                            $posts_data = array ();
+
+                            $posts_data ['selected_categories'] = $chosen_categories_array;
+
+                            $posts_data ['strict_category_selection'] = true;
+
+                            if ($visible_on_frontend == true) {
+
+                                $posts_data ['visible_on_frontend'] = 'y';
+
+                            }
+
+                            //$posts_data = $this->contentGetByParams ( $posts_data );
+
+                            //p($posts_data);
+
+                            
+
+
+
+                            //$posts_data = $this->getContentAndCache($posts_data, $orderby = false, $limit = array(0,1), $count_only = false, $short_data = true, $only_fields = false) ;
+
+                            $do_not_show = false;
+
+
+
+                            //var_Dump($posts_data);
+
+                            if (! empty ( $posts_data ['posts'] )) {
+
+                                //$results_count = count ( $posts_data ['posts'] );
+
+                            //$do_not_show = false;
+
+                            } else {
+
+                                //$do_not_show = true;
+
+                            }
+
+                        }*/
 						
 						} else {
 							
@@ -7338,7 +8574,8 @@ class content_model extends Model {
 					
 					}
 					
-					//  p($do_not_show);					
+					//  p($do_not_show);
+					
 
 					if ($do_not_show == false) {
 						
@@ -7364,7 +8601,7 @@ class content_model extends Model {
 							
 							$to_print = str_ireplace ( '{id}', $item ['id'], $link );
 							
-							$to_print = str_ireplace ( '{taxonomy_url}', $this->taxonomy_model->taxonomyGetUrlForTaxonomyIdAndCache ( $item ['id'] ), $to_print );
+							$to_print = str_ireplace ( '{taxonomy_url}', $this->taxonomy_model->getUrlForIdAndCache ( $item ['id'] ), $to_print );
 							
 							$to_print = str_ireplace ( '{taxonomy_value}', $item ['taxonomy_value'], $to_print );
 							
@@ -7386,7 +8623,8 @@ class content_model extends Model {
 							
 							}
 							
-							//print $item ['content_count'];							
+							//print $item ['content_count'];
+							
 
 							if (is_array ( $actve_ids ) == true) {
 								
@@ -7406,7 +8644,8 @@ class content_model extends Model {
 							
 							}
 							
-							//  p($item);							
+							//  p($item);
+							
 
 							if (is_array ( $remove_ids ) == true) {
 								
@@ -7440,9 +8679,11 @@ class content_model extends Model {
 							
 							}
 							
-						//p($item);						
+						//p($item);
+						
 
-						//  var_dump ($to_print);						
+						//  var_dump ($to_print);
+						
 
 						} else {
 							
@@ -7450,11 +8691,14 @@ class content_model extends Model {
 						
 						}
 						
-						//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false) {						
+						//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false) {
+						
 
-						//p( $item);						
+						//p( $item);
+						
 
-						// $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false						
+						// $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false
+						
 
 						$children = $this->content_helpers_getCaregoriesUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend );
 						
@@ -7478,7 +8722,8 @@ class content_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//$table = $cms_db_tables ['table_content'];		
+		//$table = $cms_db_tables ['table_content'];
+		
 
 		if (intval ( $content_id ) == 0) {
 			
@@ -7486,7 +8731,8 @@ class content_model extends Model {
 		
 		}
 		
-		//  var_dump ( $content_id, $menu_id );		
+		//  var_dump ( $content_id, $menu_id );
+		
 
 		$table = TABLE_PREFIX . 'menus';
 		
@@ -7614,17 +8860,39 @@ class content_model extends Model {
 				
 				foreach ( $cms_db_tables as $k => $v ) {
 					
-					//var_dump($k, $v);					
+					//var_dump($k, $v);
+					
 
 					if (strtolower ( $comment ['to_table'] ) == strtolower ( $k )) {
 						
-						//  var_dump($v);						
+						//  var_dump($v);
+						
 
 						$id = $comment ['to_table_id'];
 						
 						$real_comments [] = $comment;
 						
-					/*$id = intval ( $id );                        $check = "select count(*) as check_if_exist from $v where id=$id";                        $q = $this->core_model->dbQuery ( $check );                        $check = intval ( $q [0] ['check_if_exist'] );                        if ($check == 0) {                            $del = "delete from $table where id={$comment['id']}";                            //var_dump($del );                            $q = $this->core_model->dbQ ( $del );                        } else {                            $real_comments [] = $comment;                        }*/
+					/*$id = intval ( $id );
+
+                        $check = "select count(*) as check_if_exist from $v where id=$id";
+
+                        $q = $this->core_model->dbQuery ( $check );
+
+                        $check = intval ( $q [0] ['check_if_exist'] );
+
+                        if ($check == 0) {
+
+                            $del = "delete from $table where id={$comment['id']}";
+
+                            //var_dump($del );
+
+                            $q = $this->core_model->dbQ ( $del );
+
+                        } else {
+
+                            $real_comments [] = $comment;
+
+                        }*/
 					
 					}
 				
@@ -7660,7 +8928,8 @@ class content_model extends Model {
 		
 		return intval ( $q [0] ['qty'] );
 		
-	//  p ( $q ,1);	
+	//  p ( $q ,1);
+	
 
 	}
 	
@@ -7702,7 +8971,8 @@ class content_model extends Model {
 		
 		}
 		
-		//var_Dump($c);		
+		//var_Dump($c);
+		
 
 		return intval ( count ( $c ) );
 	
@@ -7724,9 +8994,36 @@ class content_model extends Model {
 		
 		}
 		
-		$query = "            select                COUNT(comments.id) AS comments_total,                master_table.id AS item_id            FROM                {$table} AS comments            INNER JOIN                {$master_table} AS master_table            ON                (comments.to_table = '{$to_table}' AND comments.to_table_id = master_table.id)            {$where}            GROUP BY                comments.to_table, comments.to_table_id        ";
+		$query = "
+
+            select
+
+                COUNT(comments.id) AS comments_total,
+
+                master_table.id AS item_id
+
+            FROM
+
+                {$table} AS comments
+
+            INNER JOIN
+
+                {$master_table} AS master_table
+
+            ON
+
+                (comments.to_table = '{$to_table}' AND comments.to_table_id = master_table.id)
+
+            {$where}
+
+            GROUP BY
+
+                comments.to_table, comments.to_table_id
+
+        ";
 		
-		//      $this->core_model->cleanCacheGroup('comments');		
+		//      $this->core_model->cleanCacheGroup('comments');
+		
 
 		$qty = $this->core_model->dbQuery ( $query, md5 ( $query ), 'comments' );
 		
@@ -7764,7 +9061,8 @@ class content_model extends Model {
 		
 		if ($check == false) {
 			
-			//print 'id not exist?';			
+			//print 'id not exist?';
+			
 
 			return FALSE;
 		
@@ -7776,11 +9074,24 @@ class content_model extends Model {
 			
 			$created_by = $this->users_model->userId ();
 			
-			//p($created_by, 1);			
+			//p($created_by, 1);
+			
 
 			if ($created_by > 0) {
 				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_by=$created_by            ";
+				$check_if_user_voted_for_today = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_by=$created_by
+
+
+
+
+
+            ";
 			
 			} else {
 				
@@ -7788,11 +9099,24 @@ class content_model extends Model {
 				
 				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
 				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_on > '$yesterday'            and user_ip = '$ip'            ";
+				$check_if_user_voted_for_today = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_on > '$yesterday'
+
+            and user_ip = '$ip'
+
+
+
+            ";
 			
 			}
 			
-			//var_dump ( $check_if_user_voted_for_today );			
+			//var_dump ( $check_if_user_voted_for_today );
+			
 
 			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
 			
@@ -7878,21 +9202,34 @@ class content_model extends Model {
 		
 		} else {
 			
-			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );			
+			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );
+			
 
 			$voted = strtotime ( $since_time . ' ago' );
 			
-			//var_dump($voted);			
+			//var_dump($voted);
+			
 
-			//$when = strtotime ( 'now') - $voted;			
+			//$when = strtotime ( 'now') - $voted;
+			
 
-			//$when = strtotime ( 'now') - $when;			
+			//$when = strtotime ( 'now') - $when;
+			
 
 			$yesterday = date ( 'Y-m-d H:i:s', $voted );
 			
-			$qty = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_on > '$yesterday'            ";
+			$qty = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_on > '$yesterday'
+
+            ";
 			
-			//var_dump($qty);			
+			//var_dump($qty);
+			
 
 			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'votes' );
 			
@@ -7932,9 +9269,36 @@ class content_model extends Model {
 		
 		}
 		
-		$query = "            select                COUNT(votes.id) AS votes_total,                master_table.id AS item_id            FROM                {$table} AS votes            INNER JOIN                {$master_table} AS master_table            ON                (votes.to_table = '{$to_table}' AND votes.to_table_id = master_table.id)            {$where}            GROUP BY                votes.to_table, votes.to_table_id        ";
+		$query = "
+
+            select
+
+                COUNT(votes.id) AS votes_total,
+
+                master_table.id AS item_id
+
+            FROM
+
+                {$table} AS votes
+
+            INNER JOIN
+
+                {$master_table} AS master_table
+
+            ON
+
+                (votes.to_table = '{$to_table}' AND votes.to_table_id = master_table.id)
+
+            {$where}
+
+            GROUP BY
+
+                votes.to_table, votes.to_table_id
+
+        ";
 		
-		//      $this->core_model->cleanCacheGroup ( 'votes');		
+		//      $this->core_model->cleanCacheGroup ( 'votes');
+		
 
 		return $this->core_model->dbQuery ( $query, md5 ( $query ), 'votes' );
 	
@@ -7960,7 +9324,8 @@ class content_model extends Model {
 		
 		if (empty ( $q ) == true) {
 			
-			//print "Nothing to ping! \n\n  ";			
+			//print "Nothing to ping! \n\n  ";
+			
 
 			return false;
 		
@@ -7968,9 +9333,11 @@ class content_model extends Model {
 		
 		$server = array (
 
-		# See http://codex.wordpress.org/Update_Services for		
+		# See http://codex.wordpress.org/Update_Services for
+		
 
-		# a more comprehensive list.		
+		# a more comprehensive list.
+		
 
 		'Google' => 'http://blogsearch.google.com/ping/RPC2', 'Feed Burner' => 'http://ping.feedburner.com/', 'Moreover' => 'http://api.moreover.com/RPC2', 'Syndic8' => 'http://ping.syndic8.com/xmlrpc.php', 'BlogRolling' => 'http://rpc.blogrolling.com/pinger/', 'Technorati' => 'http://rpc.technorati.com/rpc/ping', 'Ping-o-Matic!' => 'http://rpc.pingomatic.com/' );
 		
@@ -7984,13 +9351,15 @@ class content_model extends Model {
 				
 				if (empty ( $q ) == true) {
 					
-					//print "Nothing to ping2! \n\n  ";					
+					//print "Nothing to ping2! \n\n  ";
+					
 
 					return false;
 				
 				}
 				
-				//var_dump($q);				
+				//var_dump($q);
+				
 
 				foreach ( $q as $the_post ) {
 					
@@ -8008,21 +9377,27 @@ class content_model extends Model {
 					
 					$line = trim ( $line );
 					
-					//print "Pinging $line \n\r";					
+					//print "Pinging $line \n\r";
+					
 
-					//$this->xmlrpc->server('http://rpc.pingomatic.com/', 80);					
+					//$this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
+					
 
 					$this->xmlrpc->server ( $line, 80 );
 					
 					$this->xmlrpc->method ( 'weblogUpdates.ping' );
 					
-					//$this->xmlrpc->set_debug(TRUE);					
+					//$this->xmlrpc->set_debug(TRUE);
+					
 
-					//$this->xmlrpc->display_response ();					
+					//$this->xmlrpc->display_response ();
+					
 
-					//print "With:  \n\r";					
+					//print "With:  \n\r";
+					
 
-					//print_r ( $pages );					
+					//print_r ( $pages );
+					
 
 					$request = $pages;
 					
@@ -8030,11 +9405,13 @@ class content_model extends Model {
 					
 					if (! $this->xmlrpc->send_request ()) {
 						
-					//echo $this->xmlrpc->display_error ();					
+					//echo $this->xmlrpc->display_error ();
+					
 
 					}
 					
-				//print "\n Done pinging $line \n\r\n\r\n\r\n\r";				
+				//print "\n Done pinging $line \n\r\n\r\n\r\n\r";
+				
 
 				}
 			
@@ -8072,15 +9449,27 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump('content.id '. $content_id);		
+		//var_dump('content.id '. $content_id);
+		
 
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_media'];
 		
-		$q = "SELECT id FROM $table WHERE to_table = 'table_content'        AND to_table_id = '$content_id'        AND media_type = '$media_type'        AND ID is not null ORDER BY media_order ASC";
+		$q = "SELECT id FROM $table WHERE to_table = 'table_content'
+
+        AND to_table_id = '$content_id'
+
+        AND media_type = '$media_type'
+
+
+
+
+
+        AND ID is not null ORDER BY media_order ASC";
 		
-		//($q);		
+		//($q);
+		
 
 		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'media' );
 		
@@ -8092,13 +9481,16 @@ class content_model extends Model {
 			
 			$this->core_model->cacheWriteAndEncode ( $media, $function_cache_id, $cache_group );
 			
-			//$media = $this->core_model->mediaGet ( $to_table = 'table_content', $content_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false );			
+			//$media = $this->core_model->mediaGet ( $to_table = 'table_content', $content_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false );
+			
 
 			return $media;
 			
-		//p($media2);		
+		//p($media2);
+		
 
-		//$this->template ['videos'] = $media2 ['videos'];		
+		//$this->template ['videos'] = $media2 ['videos'];
+		
 
 		} else {
 			
@@ -8138,15 +9530,27 @@ class content_model extends Model {
 		
 		}
 		
-		//var_dump('content.id '. $content_id);		
+		//var_dump('content.id '. $content_id);
+		
 
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_media'];
 		
-		$q = "SELECT id FROM $table WHERE to_table = 'table_content'        AND to_table_id = '$content_id'        AND media_type = '$media_type'        AND ID is not null ORDER BY media_order ASC";
+		$q = "SELECT id FROM $table WHERE to_table = 'table_content'
+
+        AND to_table_id = '$content_id'
+
+        AND media_type = '$media_type'
+
+
+
+
+
+        AND ID is not null ORDER BY media_order ASC";
 		
-		//($q);		
+		//($q);
+		
 
 		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
@@ -8178,7 +9582,8 @@ class content_model extends Model {
 		
 		if ($check == false) {
 			
-			//print 'id not exist?';			
+			//print 'id not exist?';
+			
 
 			return FALSE;
 		
@@ -8190,11 +9595,24 @@ class content_model extends Model {
 			
 			$created_by = $this->users_model->userId ();
 			
-			//p($created_by, 1);			
+			//p($created_by, 1);
+			
 
 			if ($created_by > 0) {
 				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_by=$created_by            ";
+				$check_if_user_voted_for_today = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_by=$created_by
+
+
+
+
+
+            ";
 			
 			} else {
 				
@@ -8202,11 +9620,24 @@ class content_model extends Model {
 				
 				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
 				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_on > '$yesterday'            and user_ip = '$ip'            ";
+				$check_if_user_voted_for_today = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_on > '$yesterday'
+
+            and user_ip = '$ip'
+
+
+
+            ";
 			
 			}
 			
-			//var_dump ( $check_if_user_voted_for_today );			
+			//var_dump ( $check_if_user_voted_for_today );
+			
 
 			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
 			
@@ -8292,21 +9723,34 @@ class content_model extends Model {
 		
 		} else {
 			
-			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );			
+			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );
+			
 
 			$voted = strtotime ( $since_time . ' ago' );
 			
-			//var_dump($voted);			
+			//var_dump($voted);
+			
 
-			//$when = strtotime ( 'now') - $voted;			
+			//$when = strtotime ( 'now') - $voted;
+			
 
-			//$when = strtotime ( 'now') - $when;			
+			//$when = strtotime ( 'now') - $when;
+			
 
 			$yesterday = date ( 'Y-m-d H:i:s', $voted );
 			
-			$qty = " SELECT count(*) as qty            from $table            where to_table='$to_table' and  to_table_id='$to_table_id'            and created_on > '$yesterday'            ";
+			$qty = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+            and created_on > '$yesterday'
+
+            ";
 			
-			//var_dump($qty);			
+			//var_dump($qty);
+			
 
 			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'reports' );
 			
@@ -8358,11 +9802,13 @@ class content_model extends Model {
 		
 		$options ['items_per_page'] = 100;
 		
-		//$options ['group_by'] = 'to_table, to_table_id,from_user, type';		
+		//$options ['group_by'] = 'to_table, to_table_id,from_user, type';
+		
 
 		$options ['group_by'] = 'to_table, to_table_id';
 		
-		//$options ['order'] = $orderby;		
+		//$options ['order'] = $orderby;
+		
 
 		$options ['cache'] = true;
 		

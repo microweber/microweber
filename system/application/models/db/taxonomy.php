@@ -34,25 +34,25 @@ if ($query [0] == $table_name) {
 	$fields_to_add = array ( );
 	$fields_to_add [] = array ('taxonomy_type', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('taxonomy_value', 'varchar(1500) default NULL' );
-	$fields_to_add [] = array ('taxonomy_value2', 'varchar(1500) default NULL' );
-	$fields_to_add [] = array ('taxonomy_value3', 'varchar(1500) default NULL' );
+	//$fields_to_add [] = array ('taxonomy_value2', 'varchar(1500) default NULL' );
+	//$fields_to_add [] = array ('taxonomy_value3', 'varchar(1500) default NULL' );
 	//$fields_to_add [] = array ('taxonomy_value', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('parent_id', 'int(11) default NULL' );
 	$fields_to_add [] = array ('content_type', 'varchar(1500) default NULL' );
-	$fields_to_add [] = array ('content_id', 'int(11) default NULL' );
+	//$fields_to_add [] = array ('content_id', 'int(11) default NULL' );
 	$fields_to_add [] = array ('taxonomy_description', "TEXT default NULL" );
 	$fields_to_add [] = array ('to_table', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('to_table_id', 'int(11) default NULL' );
-	$fields_to_add [] = array ('taxonomy_include_in_advanced_search', 'char(1) default "y"' );
+	//$fields_to_add [] = array ('taxonomy_include_in_advanced_search', 'char(1) default "y"' );
 	$fields_to_add [] = array ('content_body', "TEXT default NULL" );
 
 	//$fields_to_add [] = array ('taxonomy_related_tags', "TEXT default NULL" );
 	//$fields_to_add [] = array ('taxonomy_related_categories', "TEXT default NULL" );
 
-	$fields_to_add [] = array ('taxonomy_filename', 'varchar(1500) default NULL' );
-	$fields_to_add [] = array ('taxonomy_filename_exclusive', 'varchar(1500) default NULL' );
-	$fields_to_add [] = array ('taxonomy_filename_apply_to_child', 'char(1) default "n"' );
-	$fields_to_add [] = array ('taxonomy_params', "TEXT default NULL" );
+	//$fields_to_add [] = array ('taxonomy_filename', 'varchar(1500) default NULL' );
+	//$fields_to_add [] = array ('taxonomy_filename_exclusive', 'varchar(1500) default NULL' );
+	//$fields_to_add [] = array ('taxonomy_filename_apply_to_child', 'char(1) default "n"' );
+	//$fields_to_add [] = array ('taxonomy_params', "TEXT default NULL" );
 	$fields_to_add [] = array ('taxonomy_silo_keywords', "TEXT default NULL" );
 	$fields_to_add [] = array ('position', "int(11) default 999" );
 	$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
@@ -67,8 +67,8 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('created_by', 'int(11) default NULL' );
 	$fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
 
-	$fields_to_add [] = array ('page_301_redirect_link', 'TEXT default NULL' );
-	$fields_to_add [] = array ('page_301_redirect_to_post_id', 'TEXT default NULL' );
+	//$fields_to_add [] = array ('page_301_redirect_link', 'TEXT default NULL' );
+	//$fields_to_add [] = array ('page_301_redirect_to_post_id', 'TEXT default NULL' );
 
 	$fields_to_add [] = array ('taxonomy_content_type', 'varchar(1500) default NULL' );
 
@@ -92,5 +92,15 @@ if ($query [0] == $table_name) {
 	}
 	*/
 	$this->set_db_tables($table_name, $fields_to_add );
+	
+	
+	
+	
+	$this->addIndex('parent_id', $table_name, array('parent_id'));
+	$this->addIndex('to_table', $table_name, array('to_table'));
+ 	$this->addIndex('content_type', $table_name, array('content_type'));
+ 
+	
+	
 }
 ?>

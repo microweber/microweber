@@ -1,5 +1,5 @@
 <?php $thecat = $active_categories[count($active_categories) - 1] ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat);
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat);
 		  $thecat_body = false;
 		  if(trim($thecat['content_body'])!= ''){
 			  $thecat['content_body'] = html_entity_decode($thecat['content_body']);
@@ -26,7 +26,7 @@ $cat_pic = $this->core_model->mediaGet($to_table = 'table_taxonomy', $to_table_i
 	  $limit[1] = 3;
 	  $related = $this->content_model->getContentAndCache($related, false,$limit ); ?>
     <?php if(!empty($related)): ?>
-    <div class="offers"> <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache(1871) ; ?>/view:all" class="seeall right">Вижте цялото портфолио</a>
+    <div class="offers"> <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache(1871) ; ?>/view:all" class="seeall right">Вижте цялото портфолио</a>
       <h2 class="gtitle">Портфолио</h2>
       <span class="hr">&nbsp;</span>
       <ul class="offers-list 3rd-elem">
@@ -41,7 +41,7 @@ $cat_pic = $this->core_model->mediaGet($to_table = 'table_taxonomy', $to_table_i
     </div>
     <?php endif;  ?>
     <div class="richtext"> <?php print $page['content_body'] ?> </div>
-    <div class="list-offers"> <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache(1872) ; ?>/view:all" class="seeall right">Виж всички предложения</a>
+    <div class="list-offers"> <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache(1872) ; ?>/view:all" class="seeall right">Виж всички предложения</a>
       <h2 class="gtitle">Хотели</h2>
       <span class="hr"></span>
       <div id="Slider">

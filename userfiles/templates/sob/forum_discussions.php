@@ -5,7 +5,7 @@
     
     if(!empty($active_categories)) {
         $cat = $active_categories[count($active_categories) - 1];
-	    $cat = $this->content_model->taxonomyGetSingleItemById($cat);
+	    $cat = $this->taxonomy_model->getSingleItem($cat);
     }
 
     // Parse it

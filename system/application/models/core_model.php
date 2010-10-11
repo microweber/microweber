@@ -299,6 +299,7 @@ class Core_model extends Model {
 		//var_dump ( $original_data ['taxonomy_categories'], $table_assoc_name );
 		//exit ();
 		$taxonomy_table = $cms_db_tables ['table_taxonomy'];
+		$taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
 		
 		if (! empty ( $original_data ['taxonomy_categories'] )) {
 			
@@ -317,11 +318,13 @@ class Core_model extends Model {
 			}
 			
 			//	$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
+			$q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return' and  content_type='{$original_data ['content_type']}' and  taxonomy_type= 'category_item'     ";
 			
-
+			$this->dbQ ( $q );
+			
 			foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
 				
-				$q = " INSERT INTO  $taxonomy_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$taxonomy_item'   ";
+				$q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$taxonomy_item'   ";
 				
 				$this->dbQ ( $q );
 			
@@ -332,7 +335,7 @@ class Core_model extends Model {
 		
 		if (($original_data ['taxonomy_tags_csv']) != '') {
 			
-			$taxonomy_save = array ();
+		/*$taxonomy_save = array ();
 			
 			$taxonomy_save ['to_table'] = $table_assoc_name;
 			
@@ -368,7 +371,7 @@ class Core_model extends Model {
 				
 				}
 			
-			}
+			}*/
 		
 		}
 		
@@ -3759,32 +3762,24 @@ class Core_model extends Model {
 	private function _getCacheDir($cache_group = 'global') {
 		$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
 		
-		
-		
-		
-		
-		
 		//we will seperate the dirs by 1000s
-		$cache_group_explode = explode(DIRECTORY_SEPARATOR,$cache_group);
-		$cache_group_new = array();
-		foreach($cache_group_explode as $item){
-			if(intval($item) != 0){
-				$item_temp = intval($item)/1000;
-				$item_temp = ceil($item_temp);
-				$item_temp = $item_temp.'000';
-				$cache_group_new[] =$item_temp;
-				$cache_group_new[] =$item;
-				
-				
+		$cache_group_explode = explode ( DIRECTORY_SEPARATOR, $cache_group );
+		$cache_group_new = array ();
+		foreach ( $cache_group_explode as $item ) {
+			if (intval ( $item ) != 0) {
+				$item_temp = intval ( $item ) / 1000;
+				$item_temp = ceil ( $item_temp );
+				$item_temp = $item_temp . '000';
+				$cache_group_new [] = $item_temp;
+				$cache_group_new [] = $item;
+			
 			} else {
 				
-				$cache_group_new[] =$item;
+				$cache_group_new [] = $item;
 			}
-			
+		
 		}
-		$cache_group = implode(DIRECTORY_SEPARATOR,$cache_group_new);
-		
-		
+		$cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
 		
 		$cacheDir = CACHEDIR . $cache_group;
 		if (! is_dir ( $cacheDir )) {
@@ -3825,7 +3820,8 @@ class Core_model extends Model {
 		
 		//print 'delete cache:'  .$cache_group;
 		
-$dir = $this->_getCacheDir($cache_group);
+
+		$dir = $this->_getCacheDir ( $cache_group );
 		//var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
 			recursive_remove_directory ( $dir );

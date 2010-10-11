@@ -1,6 +1,6 @@
 <?php dbg(__FILE__); ?>
 <?php if(empty($active_categories)){
-		$active_categories =  $this->content_model->taxonomyGetMasterCategories(false);
+		$active_categories =  $this->taxonomy_model->getMasterCategories(false);
 		$active_categories = $this->core_model->dbExtractIdsFromArray($active_categories);
 	 }
 	 
@@ -69,11 +69,11 @@
           <ul>
             <li><span class="date"><?php print date(DATETIME_FORMAT, strtotime($the_post['created_on'])); ?></span></li>
             <?php if(!empty($cats)): ?>
-            <li><span>Category: <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($cats[0]['id']); ?>"> <?php print $cats[0]['taxonomy_value'];  ?></a>
+            <li><span>Category: <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($cats[0]['id']); ?>"> <?php print $cats[0]['taxonomy_value'];  ?></a>
               <?php if(count($cats)> 1): ?>
               <?php $popup_html = '';
 				foreach($cats as $c){
-				$popup_html .= '<a href="'.$this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
+				$popup_html .= '<a href="'.$this->taxonomy_model->getUrlForIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
 
 				}?>
               , <span style="display: none" class="more-cats" id="more-cats-<?php print $the_post['id']?>">

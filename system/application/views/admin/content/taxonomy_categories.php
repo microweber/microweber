@@ -133,11 +133,11 @@ $.post("<?php print site_url('admin/content/contentGenerateTagsForPost') ?>", { 
             <?php endforeach;  ?>
           </ul>
           <div id="alphabetic_tags_tabs_all">
-            <?php $this->taxonomy_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
+            <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
           </div>
           <?php foreach($letters  as $letter_item): ?>
           <div id="alphabetic_tags_tabs_<?php print md5($letter_item) ?>">
-            <?php $this->taxonomy_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')", false,$letter_item );  ?>
+            <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')", false,$letter_item );  ?>
           </div>
           <?php endforeach;  ?>
         </div>

@@ -1,6 +1,6 @@
 <?php if(!empty($active_categories)) : ?>
 <?php $thecat = $active_categories[count($active_categories) - 1] ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat); 
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat); 
 		  $thecat_body = false;
 		  if(trim($thecat['content_body'])!= ''){
 			  $thecat['content_body'] = html_entity_decode($thecat['content_body']);
@@ -22,7 +22,7 @@ $cat_pic = $this->core_model->mediaGet($to_table = 'table_taxonomy', $to_table_i
   <?php endif; ?>
   <h2><?php print $thecat['taxonomy_value'] ?></h2>
   <?php print $thecat_body ; ?></div>
-<?php $subcats = $this->content_model->taxonomyGetChildrenItems($thecat['id'], $taxonomy_type = 'category', $orderby = array('position', 'asc')) ; ?>
+<?php $subcats = $this->taxonomy_model->taxonomyGetChildrenItems($thecat['id'], $taxonomy_type = 'category', $orderby = array('position', 'asc')) ; ?>
 <?php if(!empty( $subcats)): ?>
 
       <?php /*
@@ -40,7 +40,7 @@ $cat_pic = $this->core_model->mediaGet($to_table = 'table_taxonomy', $to_table_i
 
 
             <?php endif; ?>
-            <a class="sotw" <?php if(!empty($scat_pic)): ?>style="background-image: url(<?php print $cat_thumb; ?>)"<?php endif;?> href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($sc['id']); ?>"><?php print $sc['taxonomy_value'] ?></a>
+            <a class="sotw" <?php if(!empty($scat_pic)): ?>style="background-image: url(<?php print $cat_thumb; ?>)"<?php endif;?> href="<?php print $this->taxonomy_model->getUrlForIdAndCache($sc['id']); ?>"><?php print $sc['taxonomy_value'] ?></a>
    
    
    

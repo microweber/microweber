@@ -10,7 +10,7 @@
 }
 
 if(!empty($active_categories)){
-$force_seach_url =$this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]); 	
+$force_seach_url =$this->taxonomy_model->getUrlForIdAndCache($active_categories[0]); 	
 }
 
 

@@ -1,5 +1,5 @@
 <?php dbg(__FILE__); ?>
-<?php $cats = $this->content_model->taxonomyGetTaxonomyIdsForContentId($post['id']);
+<?php $cats = $this->taxonomy_model->getTaxonomiesForContent($post['id']);
 	  $related = array();
 	  $related['selected_categories'] = $cats;
 	  $related['created_by'] = $post['created_by'];

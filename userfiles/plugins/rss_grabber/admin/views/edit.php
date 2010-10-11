@@ -58,7 +58,7 @@ $("#feed_content_category").val($id);
 		
 		$orderby[0] = 'taxonomy_value';
 		$orderby[1] = 'ASC';
-		$cats = $this->content_model->taxonomyGet($data, $orderby ); 
+		$cats = $this->taxonomy_model->taxonomyGet($data, $orderby ); 
 		
 		//var_dump($cats);
 		foreach($cats as $c){
@@ -119,7 +119,7 @@ mytree.config.target = "mytarget";
 		<?php //$link = site_url('admin/content/posts_manage/categories:'. $item['id']);
 		$link = 'javascript:rss_set_active_content_category('. $item['id'] .')';   
 		$link  = addslashes($link ); 
-		$thumb = $this->content_model->taxonomyGetThumbnailImageById($item['id'] , 16); 
+		$thumb = $this->taxonomy_model->getThumbnail($item['id'] , 16); 
 		if($thumb == ''){
 		$thumb = 'false';	
 		} else {

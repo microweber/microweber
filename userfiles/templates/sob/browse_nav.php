@@ -3,7 +3,7 @@
 <div id="comunity-bar">
  
   <?php $active_categories123 = count($active_categories);
-  $cat = ( $this->content_model->taxonomyGetSingleItemById($active_categories[$active_categories123 - 1])); 
+  $cat = ( $this->taxonomy_model->getSingleItem($active_categories[$active_categories123 - 1])); 
   $view = $this->core_model->getParamFromURL ( 'view' ); 
  ?>
   <?php if($cat['taxonomy_value']): ?>

@@ -215,7 +215,7 @@ function do_the_taxonomy_categories_show_selected_values(){
                 <tr>
                   <td><div class="ullist"  id="thetaxonomycategorieshiddenModalContent_categories1">
                       <?php $this->firecms = get_instance();
-	 $active_categories = $this->firecms->content_model->taxonomyGetTaxonomyIdsForContentId( $form_values['id'] , 'categories');
+	 $active_categories = $this->taxonomy_model->getTaxonomiesForContent( $form_values['id'] , 'categories');
 	// var_dump($active_categories );
 	  $actve_ids = $active_categories;
 	 $active_code = ' checked="checked"  ';
@@ -281,17 +281,17 @@ $.post("<?php print site_url('admin/content/contentGenerateTagsForPost') ?>", { 
               <div id="alphabetic_tags_tabs">
                 <ul>
                   <li><a href="#alphabetic_tags_tabs_all">All</a></li>
-                  <?php $letters = $this->content_model->taxonomyTagsGetExisingTagsFirstLetters(); ?>
+                  <?php $letters = $this->taxonomy_model->taxonomyTagsGetExisingTagsFirstLetters(); ?>
                   <?php foreach($letters  as $letter_item): ?>
                   <li><a href="#alphabetic_tags_tabs_<?php print md5($letter_item) ?>"><?php print $letter_item ?></a></li>
                   <?php endforeach;  ?>
                 </ul>
                 <div id="alphabetic_tags_tabs_all">
-                  <?php $this->content_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
+                  <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
                 </div>
                 <?php foreach($letters  as $letter_item): ?>
                 <div id="alphabetic_tags_tabs_<?php print md5($letter_item) ?>">
-                  <?php $this->content_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')", false,$letter_item );  ?>
+                  <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')", false,$letter_item );  ?>
                 </div>
                 <?php endforeach;  ?>
               </div>

@@ -57,7 +57,7 @@
          <a href="<?php print site_url('users/user_action:post/id:').$the_post['id']; ?>" class="user-post-edit-btn">Edit</a> | <a href="javascript:usersPostDelete('<?php print $the_post['id']; ?>');" class="user-post-delete-btn">Delete</a>
         </span>
       <?php endif; ?>
-      <?php $cats = $this->content_model->taxonomyGetCategoriesForContentId( $the_post['id']);
+      <?php $cats = $this->taxonomy_model->getCategoriesForContent( $the_post['id']);
 	 @array_pop($cats);
 				//var_dump($cats);
 				?>
@@ -72,11 +72,11 @@
     <ul>
       <li><span class="date"><?php print date(DATETIME_FORMAT, strtotime($the_post['created_on'])); ?></span></li>
       <?php if(!empty($cats)): ?>
-      <li><span>Category: <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($cats[0]['id']); ?>"> <?php print $cats[0]['taxonomy_value'];  ?></a>
+      <li><span>Category: <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($cats[0]['id']); ?>"> <?php print $cats[0]['taxonomy_value'];  ?></a>
         <?php if(count($cats)> 1): ?>
         <?php $popup_html = '';
 				foreach($cats as $c){
-				$popup_html .= '<a href="'.$this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
+				$popup_html .= '<a href="'.$this->taxonomy_model->getUrlForIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
 
 				}?>
         , <span style="display: none" class="more-cats" id="more-cats-<?php print $the_post['id']?>">

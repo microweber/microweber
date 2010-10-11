@@ -77,7 +77,7 @@ function content_url_holder_assign($id){
         <h2>Categories</h2>
         <div class="ullist"  id="categories1">
           <?php $this->firecms = get_instance();
-	 $active_categories = $this->firecms->content_model->taxonomyGetTaxonomyIdsForContentId( $form_values['id'] , 'categories');
+	 $active_categories = $this->taxonomy_model->getTaxonomiesForContent( $form_values['id'] , 'categories');
 	// var_dump($active_categories );
 	  $actve_ids = $active_categories;
 	 $active_code = ' checked="checked"  ';
@@ -190,7 +190,7 @@ $.post("<?php print site_url('admin/content/contentGenerateTagsForPost') ?>", { 
               <?php // endforeach; ?>
               
               
-              <?php $this->content_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
+              <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv('{taxonomy_value}')");  ?>
               </td>
           </tr>
           <tr>

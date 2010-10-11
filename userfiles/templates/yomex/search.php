@@ -7,7 +7,7 @@ $posts = $search_data;
 
 
 
-  <?php $cat  = $this->content_model->taxonomyGetSingleItemById($this->core_model->getParamFromURL ( 'categories' )); ?>
+  <?php $cat  = $this->taxonomy_model->getSingleItem($this->core_model->getParamFromURL ( 'categories' )); ?>
 <div class="heading">
   <h1><?php print $page['content_title']; ?></h1>
 </div>

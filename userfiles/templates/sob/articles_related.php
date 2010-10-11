@@ -3,7 +3,7 @@
 	$author['id'] = $post['created_by'];
 }
 
-	 $cats = $this->content_model->taxonomyGetTaxonomyIdsForContentId($post['id']);
+	 $cats = $this->taxonomy_model->getTaxonomiesForContent($post['id']);
 	  $related = array();
 	  $related['selected_categories'] = $cats;
 	  $related['created_by'] = $post['created_by'];

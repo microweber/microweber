@@ -230,7 +230,7 @@ define ( 'DBUSERNAME', "root" );
 
 define ( 'DBPASSWORD', "123456" );
 
-define ( 'DBDATABASE', "cms2" );   
+define ( 'DBDATABASE', "cms3" );   
 
 define ( "USER_IP", $_SERVER ["REMOTE_ADDR"] );
  
@@ -243,7 +243,7 @@ $get_url_dir = $_SERVER ["SERVER_NAME"] . (trim ( $_SERVER ["REQUEST_URI"] ));
 
 define ( 'SITEURL', 'http://'.$_SERVER ["SERVER_NAME"] .'/'.$subdir.'/' );
 
-$cache_main_dir = ROOTPATH .DIRECTORY_SEPARATOR. 'cache'.DIRECTORY_SEPARATOR;
+$cache_main_dir = dirname (dirname( __FILE__ )) .DIRECTORY_SEPARATOR. 'cache'.DIRECTORY_SEPARATOR;
 if (is_dir ( $cache_main_dir ) == false) {
 	@mkdir ( $cache_main_dir );
 }
@@ -256,8 +256,8 @@ define ( 'CACHE_FILES_EXTENSION', '.php' );
 define ( 'CACHE_CONTENT_PREPEND', '<?php exit(); ?>' );
 //define ( 'CACHEDIR', ROOTPATH . '/cache/' );
 
-
-define ( 'CACHEDIR_ROOT', ROOTPATH .DIRECTORY_SEPARATOR. 'cache'. DIRECTORY_SEPARATOR );
+ 
+define ( 'CACHEDIR_ROOT', dirname (dirname( __FILE__ )) .DIRECTORY_SEPARATOR. 'cache'. DIRECTORY_SEPARATOR );
 
 
 

@@ -6,7 +6,7 @@
 
 if((!empty($active_categories)) and $active_categories != "false"){
 //	var_dump($active_categories);
-$seach_url =$this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]); 	
+$seach_url =$this->taxonomy_model->getUrlForIdAndCache($active_categories[0]); 	
 } else {
 	$seach_url =site_url('browse');
 }

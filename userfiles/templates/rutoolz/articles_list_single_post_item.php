@@ -51,7 +51,7 @@ kjhkjh
       ( <a href="<? print site_url('users/user_action:post/id:').$the_post['id']; ?>" class="user-post-edit-btn">Edit</a> | <a href="javascript:usersPostDelete('<? print $the_post['id']; ?>');" class="user-post-delete-btn">Delete</a> )
       <?  endif; ?>
       
-      <? $cats = $this->content_model->taxonomyGetCategoriesForContentId( $the_post['id']); 
+      <? $cats = $this->taxonomy_model->getCategoriesForContent( $the_post['id']); 
 			//	var_dump($cats);  
 				?>
     </p>
@@ -63,14 +63,14 @@ kjhkjh
                
                <? if(!empty($cats)): ?>
                 <li><span>Category: 
-                <a href="<? print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($cats[0]['id']); ?>">
+                <a href="<? print $this->taxonomy_model->getUrlForIdAndCache($cats[0]['id']); ?>">
            
                 <? print $cats[0]['taxonomy_value'];  ?></a>
                 <? if(count($cats)> 1): ?>
                 <? 
 				$popup_html = '';	
 				foreach($cats as $c){
-				$popup_html .= '<a href="'.$this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
+				$popup_html .= '<a href="'.$this->taxonomy_model->getUrlForIdAndCache($c['id']).'">'.$c['taxonomy_value'] . '</a><br>';
 					
 				}?>
                 

@@ -60,7 +60,8 @@
         </tr>
       </thead>
       <tbody>
-      <? $items = $this->content_model->taxonomyGetChildrenItems($grp['id'], $taxonomy_type = 'group_item', $orderby = false); ?>
+      <h1>taxonomyGetChildrenItems mut be changed</h1>
+      <? $items = $this->taxonomy_model->taxonomyGetChildrenItems($grp['id'], $taxonomy_type = 'group_item', $orderby = false); ?>
         <? if(!empty($items)): ?>
 	   <? foreach($items as $content_item):	 
 	      $content_item_full  = array();

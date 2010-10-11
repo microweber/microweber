@@ -43,7 +43,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomy_helpers_generateTagCloud($href = false, $criteria = false, $beginning_only_with_letter = false, $clould_order = false, $clould_limits = false, $min_max_sizes = false, $only_for_categories = false) {
+	function generateTagCloud($href = false, $criteria = false, $beginning_only_with_letter = false, $clould_order = false, $clould_limits = false, $min_max_sizes = false, $only_for_categories = false) {
 		
 		global $cms_db_tables;
 		
@@ -101,17 +101,18 @@ class taxonomy_model extends Model {
 			
 			foreach ( $only_for_categories as $only_for_cat )
 				
-				$cchidlern_ids = $this->taxonomyGetChildrenItems ( $only_for_cat );
-			
-			if (! empty ( $cchidlern_ids )) {
+				//$cchidlern_ids = $this->taxonomyGetChildrenItems ( $only_for_cat );
 				
-				foreach ( $cchidlern_ids as $temp ) {
+
+				if (! empty ( $cchidlern_ids )) {
 					
-					$chidlern_ids [] = $temp ['id'];
+					foreach ( $cchidlern_ids as $temp ) {
+						
+						$chidlern_ids [] = $temp ['id'];
+					
+					}
 				
 				}
-			
-			}
 			
 			if (! empty ( $chidlern_ids )) {
 				
@@ -384,6 +385,7 @@ class taxonomy_model extends Model {
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
+		$table_items = $cms_db_tables ['table_taxonomy_items'];
 		
 		if ($data ['content_body'] == '') {
 			
@@ -402,12 +404,7 @@ class taxonomy_model extends Model {
 		if ($data ['content_id']) {
 			
 			if (is_array ( $data ['content_id'] ) and ! empty ( $data ['content_id'] ) and trim ( $data ['taxonomy_type'] ) != '') {
-				
-				//p($data, 1);
-				
-
 				$content_ids = $data ['content_id'];
-			
 			}
 		
 		}
@@ -460,7 +457,7 @@ class taxonomy_model extends Model {
 				
 				$item_save ['parent_id'] = intval ( $save );
 				
-				$item_save = $this->core_model->saveData ( $table, $item_save );
+				$item_save = $this->core_model->saveData ( $table_items, $item_save );
 				
 				$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
 			
@@ -485,7 +482,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetIds($data = false, $orderby = false) {
+	function getIds($data = false, $orderby = false) {
 		$function_cache_id = false;
 		
 		$args = func_get_args ();
@@ -568,10 +565,10 @@ class taxonomy_model extends Model {
 		}
 		
 		if (intval ( $data ['id'] ) != 0) {
-			$data = $this->taxonomyGetSingleItemById ( $data ['id'] );
+			$data = $this->getSingleItem ( $data ['id'] );
 			return $data;
 		} elseif (intval ( $data ['parent_id'] ) != 0) {
-			$data = $this->taxonomyGetSingleItemById ( $data ['parent_id'] );
+			$data = $this->getSingleItem ( $data ['parent_id'] );
 			return $data;
 		
 		} else {
@@ -634,7 +631,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetThumbnailImageById($id, $size = 128) {
+	function getThumbnail($id, $size = 128) {
 		
 		//$data ['id'] = $id;
 		
@@ -651,7 +648,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetUrlForTaxonomyIdAndCache($id) {
+	function getUrlForIdAndCache($id) {
 		
 		$function_cache_id = false;
 		
@@ -676,7 +673,7 @@ class taxonomy_model extends Model {
 		
 		} else {
 			
-			$to_cache = $this->taxonomyGetUrlForTaxonomyId ( $id );
+			$to_cache = $this->getUrlForId ( $id );
 			
 			//var_dump($to_cache);
 			
@@ -689,7 +686,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetUrlForTaxonomyId($id) {
+	function getUrlForId($id) {
 		
 		//return false ;
 		
@@ -704,7 +701,7 @@ class taxonomy_model extends Model {
 		
 		$data ['id'] = $id;
 		
-		$data = $this->taxonomyGetSingleItemById ( $id );
+		$data = $this->getSingleItem ( $id );
 		
 		if (empty ( $data )) {
 			
@@ -730,15 +727,11 @@ class taxonomy_model extends Model {
 		if (! empty ( $content )) {
 			
 			if ($content ['content_type'] == 'page') {
-				
 				$url = $CI->content_model->getContentURLByIdAndCache ( $content ['id'] );
-			
 			}
 			
 			if ($content ['content_type'] == 'post') {
-				
 				$url = $CI->content_model->contentGetHrefForPostId ( $content ['id'] );
-			
 			}
 		
 		}
@@ -749,7 +742,7 @@ class taxonomy_model extends Model {
 		
 		}
 		
-		$parent_ids = $this->taxonomyGetParentIdsForId ( $data ['id'] );
+		$parent_ids = $this->getParentsIds ( $data ['id'] );
 		
 		foreach ( $parent_ids as $item ) {
 			
@@ -793,110 +786,6 @@ class taxonomy_model extends Model {
 
 	}
 	
-	function taxonomyCategoriesGetNextOrPrevCategoryFotCategoryId($cat_id, $next_or_prev = 'next') {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_taxonomy'];
-		
-		$item = $this->taxonomyGetSingleItemById ( $cat_id );
-		
-		$item_main = $item;
-		
-		if (empty ( $item )) {
-			
-			return false;
-		
-		}
-		
-		if ($next_or_prev == 'next') {
-			
-			$pos = $item ['position'];
-			
-			$q = " SELECT id from $table where position > $pos and taxonomy_type = 'category' and parent_id = '{$item['parent_id']}' order by position ASC  limit 0,1";
-			
-			$q = $this->core_model->dbQuery ( $q );
-			
-			$q = $q [0] ['id'];
-			
-			$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			if (empty ( $item )) {
-				
-				$q = " SELECT id from $table where position > 0 and taxonomy_type = 'category' and parent_id = '{$item_main['id']}' order by position ASC limit 0,1";
-				
-				$q = $this->core_model->dbQuery ( $q );
-				
-				$q = $q [0] ['id'];
-				
-				$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			}
-			
-			if (empty ( $item )) {
-				
-				$q = " SELECT id from $table where position > 0 and taxonomy_type = 'category' and parent_id = '{$item_main['parent_id']}' order by position ASC limit 0,1";
-				
-				$q = $this->core_model->dbQuery ( $q );
-				
-				$q = $q [0] ['id'];
-				
-				$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			}
-			
-			return $item;
-		
-		}
-		
-		if ($next_or_prev == 'prev') {
-			
-			$pos = $item ['position'];
-			
-			$q = " SELECT id from $table where position < $pos and taxonomy_type = 'category' and parent_id = '{$item['parent_id']}' order by position DESC  limit 0,1";
-			
-			//var_dump($q);
-			
-
-			$q = $this->core_model->dbQuery ( $q );
-			
-			$q = $q [0] ['id'];
-			
-			$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			if (empty ( $item )) {
-				
-				$q = " SELECT id from $table where position < 10000 and taxonomy_type = 'category' and parent_id = '{$item_main['id']}' order by position DESC limit 0,1";
-				
-				//var_dump($q);
-				
-
-				$q = $this->core_model->dbQuery ( $q );
-				
-				$q = $q [0] ['id'];
-				
-				$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			}
-			
-			if (empty ( $item )) {
-				
-				$q = " SELECT id from $table where position < 10000 and taxonomy_type = 'category' and parent_id = '{$item_main['parent_id']}' order by position DESC limit 0,1";
-				
-				$q = $this->core_model->dbQuery ( $q );
-				
-				$q = $q [0] ['id'];
-				
-				$item = $this->taxonomyGetSingleItemById ( $q );
-			
-			}
-			
-			return $item;
-		
-		}
-	
-	}
-	
 	function taxonomyChangePosition($id, $direction) {
 		
 		global $cms_db_tables;
@@ -905,7 +794,7 @@ class taxonomy_model extends Model {
 		
 		if (($direction == 'up') or ($direction == 'down')) {
 			
-			$item = $this->taxonomyGetSingleItemById ( $id );
+			$item = $this->getSingleItem ( $id );
 			
 			if (empty ( $item )) {
 				
@@ -1046,7 +935,7 @@ class taxonomy_model extends Model {
 		
 		$table = $cms_db_tables ['table_taxonomy'];
 		
-		$item = $this->taxonomyGetSingleItemById ( $id );
+		$item = $this->getSingleItem ( $id );
 		
 		if (empty ( $item )) {
 			
@@ -1099,7 +988,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetMasterCategories($data = array()) {
+	function getMasterCategories($data = array()) {
 		
 		$get_master_categories = $data;
 		
@@ -1137,7 +1026,7 @@ class taxonomy_model extends Model {
 
 	 */
 	
-	function taxonomyGetSingleItemById($id) {
+	function getSingleItem($id) {
 		
 		$function_cache_id = false;
 		
@@ -1191,211 +1080,58 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyCheckIfParamExistForSingleItemIdAndReturnVal($id, $the_param) {
-		
-		$data = $this->taxonomyGetSingleItemById ( $id );
-		
-		if ($data ["taxonomy_params"] != '') {
-			
-			//var_dump($data ["taxonomy_params"], $the_param);
-			
-
-			$params = explode ( ',', $data ["taxonomy_params"] );
-			
-			$params = mb_trimArray ( $params );
-			
-			foreach ( $params as $item ) {
-				
-				$itemss = explode ( ':', $item );
-				
-				//var_dump( $item);
-				
-
-				//foreach($itemss as $itm){
-				
-
-				$item1 = mb_trim ( $itemss [0] );
-				
-				$item2 = trim ( $itemss [0] );
-				
-				if (mb_strtolower ( $item1 ) == mb_strtolower ( $the_param )) {
-					return $itemss [1];
-				
-				}
-				
-				if (strtolower ( $item2 ) == strtolower ( $the_param )) {
-					return $itemss [1];
-				
-				}
-				
-				if (md5 ( $item2 ) == md5 ( $the_param )) {
-					return $itemss [1];
-				
-				}
-				
-			//}
-			
-
-			}
-		
-		}
+	 
 	
-	}
-	
-	function taxonomyGetParentItemsAndReturnOnlyIds($id) {
+	function getParents($id) {
 		
-		$items = $this->taxonomyGetParentItemsAndCache ( $id );
-		
-		if (! empty ( $items )) {
-			
-			$ids = array ();
-			
-			foreach ( $items as $item ) {
-				
-				$ids [] = $item ['id'];
-			
-			}
-			
-			$ids = array_unique ( $ids );
-			
-			return $ids;
-		
-		} else {
-			
-			return false;
-		
-		}
-	
-	}
-	
-	function taxonomyGetParentItemsAndCache($id) {
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$taxonomy_id = intval ( $id );
-		$cache_group = 'taxonomy/' . $taxonomy_id;
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		$data = $this->taxonomyGetParentItems ( $id );
-		
-		$this->core_model->cacheWriteAndEncode ( $data, $function_cache_id, $cache_group );
-		
-		return $data;
-	
-	}
-	
-	function taxonomyGetParentItems($id) {
-		
-		//var_dump($id);
-		
-
-		$data = array ();
-		
-		$data ['id'] = $id;
-		$data ['taxonomy_type'] = 'category';
-		
-		$data = $this->taxonomyGet ( $data );
-		
-		$data = $data [0];
-		
-		$to_return = array ();
-		
-		if (empty ( $data )) {
-			
-			return false;
-		
-		}
-		
-		$to_return [] = $data;
-		
-		//$to_return
-		
-
-		if (intval ( $data ['parent_id'] ) != 0) {
-			
-			$data1 = array ();
-			
-			$data1 ['id'] = $data ['parent_id'];
-			
-			$data1 = $this->taxonomyGet ( $data1 );
-			
-			foreach ( $data1 as $item ) {
-				
-				$to_return [] = $item;
-				
-				$more = $this->taxonomyGetParentItems ( $item ['id'] );
-				
-				if (! empty ( $more )) {
-					
-					foreach ( $more as $mo ) {
-						
-						$to_return [] = $mo;
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-		
-		//$to_return = array_unique($to_return);
-		
-
-		return $to_return;
-	
-	}
-	
-	function taxonomyGetChildrenItems($parent_id, $taxonomy_type = false, $orderby = false) {
+		 
 		
 		global $cms_db_tables;
-		
+		$id = intval ( $id );
+		if ($id == 0) {
+			return false;
+		}
+		$to_return = array ();
 		$table = $cms_db_tables ['table_taxonomy'];
 		
-		if ($orderby == false) {
+		$cache_group = 'taxonomy/' . $id;
+		$q = " SELECT parent_id from $table where id= $id    ";
+		//var_dump($cache_group);
+		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		//var_dump($q_cache_id);
+		$get = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
+		
+		if (empty ( $get )) {
+			return false;
+		}
+		
+		foreach ( $get as $item ) {
 			
-			$orderby [0] = 'updated_on';
+			$to_return [] = $item ['parent_id'];
 			
-			$orderby [1] = 'DESC';
+			$more = $this->getParents ( $item ['parent_id'] );
+			
+			if (! empty ( $more )) {
+				
+				foreach ( $more as $mo ) {
+					
+					$to_return [] = $mo;
+				
+				}
+			
+			}
 		
 		}
 		
-		$data = array ();
+		return $to_return;
 		
-		$data ['parent_id'] = $parent_id;
-		
-		if ($taxonomy_type != false) {
-			
-			$data ['taxonomy_type'] = $taxonomy_type;
-		
-		} else {
-			$data ['taxonomy_type'] = 'category';
-		}
-		
-		$save = $this->taxonomyGet ( $data, $orderby, $no_limits = true );
-		
-		return $save;
 	
 	}
 	
-	function taxonomyGetChildrenItemsIdsRecursiveAndCache($parent_id, $type = false, $visible_on_frontend = false) {
+	  
+	 
+	
+	function getChildrensRecursiveAndCache($parent_id, $type = false, $visible_on_frontend = false) {
 		
 		$function_cache_id = false;
 		
@@ -1420,7 +1156,7 @@ class taxonomy_model extends Model {
 		
 		} else {
 			
-			$to_cache = $this->taxonomyGetChildrenItemsIdsRecursive ( $parent_id, $type, $visible_on_frontend );
+			$to_cache = $this->getChildrensRecursive ( $parent_id, $type, $visible_on_frontend );
 			
 			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
@@ -1430,7 +1166,90 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetChildrenItemsIdsRecursive($parent_id, $type = false, $visible_on_frontend = false) {
+	function getItems($parent_id, $type = false, $visible_on_frontend = false) {
+		
+		global $cms_db_tables;
+		$taxonomy_id = intval ( $parent_id );
+		$cache_group = 'taxonomy/' . $taxonomy_id;
+		
+		$table = $cms_db_tables ['table_taxonomy'];
+		$table_items = $cms_db_tables ['table_taxonomy_items'];
+		
+		$table_content = $cms_db_tables ['table_content'];
+		
+		if ($orderby == false) {
+			
+			$orderby [0] = 'updated_on';
+			
+			$orderby [1] = 'DESC';
+		
+		}
+		
+		if (intval ( $parent_id ) == 0) {
+			
+			return false;
+		
+		}
+		
+		$data = array ();
+		
+		$data ['parent_id'] = $parent_id;
+		
+		if ($type != FALSE) {
+			
+			$data ['taxonomy_type'] = $type;
+			
+			$type_q = " and taxonomy_type='$type'   ";
+		
+		} else {
+			$type = 'category_item';
+			$data ['taxonomy_type'] = $type;
+			
+			$type_q = " and taxonomy_type='$type'   ";
+		
+		}
+		
+		if ($visible_on_frontend == true) {
+			
+			$visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
+		
+		}
+		
+		//$save = $this->taxonomyGet ( $data = $data, $orderby = $orderby );
+		
+
+		$cache_group = 'taxonomy/' . $parent_id;
+		$q = " SELECT id,    parent_id from $table_items where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
+		//var_dump($cache_group);
+		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		//var_dump($q_cache_id);
+		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
+		
+		//$save = $this->getSingleItem ( $parent_id );
+		if (empty ( $save )) {
+			return false;
+		}
+		$to_return = array ();
+		if (! empty ( $save )) {
+			$to_return [] = $parent_id;
+		}
+		foreach ( $save as $item ) {
+			$to_return [] = $item ['id'];
+			/*$clidren = $this->getItemsRecursive ( $item ['id'], $type, $visible_on_frontend );
+			if (! empty ( $clidren )) {
+				foreach ( $clidren as $temp ) {
+					$to_return [] = $temp;
+				}
+			}*/
+		}
+		
+		$to_return = array_unique ( $to_return );
+		
+		return $to_return;
+	
+	}
+	
+	function getChildrensRecursive($parent_id, $type = false, $visible_on_frontend = false) {
 		
 		global $cms_db_tables;
 		$taxonomy_id = intval ( $parent_id );
@@ -1477,7 +1296,7 @@ class taxonomy_model extends Model {
 			$visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
 		
 		}
-		
+		$visible_on_frontend_q = false;
 		//$save = $this->taxonomyGet ( $data = $data, $orderby = $orderby );
 		
 
@@ -1488,7 +1307,7 @@ class taxonomy_model extends Model {
 		//var_dump($q_cache_id);
 		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
 		
-		//$save = $this->taxonomyGetSingleItemById ( $parent_id );
+		//$save = $this->getSingleItem ( $parent_id );
 		if (empty ( $save )) {
 			return false;
 		}
@@ -1498,7 +1317,7 @@ class taxonomy_model extends Model {
 		}
 		foreach ( $save as $item ) {
 			$to_return [] = $item ['id'];
-			$clidren = $this->taxonomyGetChildrenItemsIdsRecursive ( $item ['id'], $type, $visible_on_frontend );
+			$clidren = $this->getChildrensRecursive ( $item ['id'], $type, $visible_on_frontend );
 			if (! empty ( $clidren )) {
 				foreach ( $clidren as $temp ) {
 					$to_return [] = $temp;
@@ -1557,41 +1376,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyToTableIdsForTaxonomyRootIdAndCache($root, $visible_on_frontend = false, $non_recursive = false) {
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$taxonomy_id = intval ( $root );
-		$cache_group = 'taxonomy/' . $taxonomy_id;
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		} else {
-			
-			$to_cache = $this->taxonomyGetTaxonomyToTableIdsForTaxonomyRootId ( $root, $visible_on_frontend, $non_recursive );
-			
-			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
-			
-			return $to_cache;
-		
-		}
-	
-	}
-	function taxonomyGetTaxonomyToTableIdsForTaxonomyRootId($root, $visible_on_frontend = false, $non_recursive = false) {
+	function getToTableIds($root, $visible_on_frontend = false, $non_recursive = false) {
 		
 		if (intval ( $root ) == 0) {
 			
@@ -1602,6 +1387,7 @@ class taxonomy_model extends Model {
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
+		$table_taxonomy_items = $cms_db_tables ['table_taxonomy_items'];
 		
 		$table_content = $cms_db_tables ['table_content'];
 		
@@ -1623,7 +1409,7 @@ class taxonomy_model extends Model {
 		$data ['parent_id'] = $root;
 		$root = intval ( $root );
 		
-		$q = " SELECT id, parent_id,to_table_id from $table where parent_id=$root $visible_on_frontend_q and taxonomy_type='category_item' ";
+		$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where parent_id=$root $visible_on_frontend_q and taxonomy_type='category_item' ";
 		
 		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/' . $root );
 		
@@ -1639,8 +1425,8 @@ class taxonomy_model extends Model {
 					$ids [] = $item ['to_table_id'];
 				}
 				
-				if ($non_recursive == false) {
-					$next = $this->taxonomyGetTaxonomyToTableIdsForTaxonomyRootId ( $item ['id'], $visible_on_frontend );
+			/*if ($non_recursive == false) {
+					$next = $this->getToTableIds ( $item ['id'], $visible_on_frontend );
 					
 					if (! empty ( $next )) {
 						
@@ -1655,7 +1441,7 @@ class taxonomy_model extends Model {
 						}
 					
 					}
-				}
+				}*/
 			
 			}
 		
@@ -1677,7 +1463,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache($root, $incliude_root = false, $recursive = false, $type = 'category') {
+	/*function taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache($root, $incliude_root = false, $recursive = false, $type = 'category') {
 		
 		//return false;
 		
@@ -1788,9 +1574,9 @@ class taxonomy_model extends Model {
 		
 		}
 	
-	}
+	}*/
 	
-	function taxonomyGetParentIdsForId($id, $without_main_parrent = false, $taxonomy_type = 'category') {
+	function getParentsIds($id, $without_main_parrent = false, $taxonomy_type = 'category') {
 		
 		if (intval ( $id ) == 0) {
 			
@@ -1839,7 +1625,7 @@ class taxonomy_model extends Model {
 				
 				}
 				
-				$next = $this->taxonomyGetParentIdsForId ( $item ['parent_id'], $without_main_parrent );
+				$next = $this->getParentsIds ( $item ['parent_id'], $without_main_parrent );
 				
 				if (! empty ( $next )) {
 					
@@ -1879,7 +1665,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetCategoriesForContentId($content_id) {
+	function getCategoriesForContent($content_id) {
 		
 		if (intval ( $content_id ) == 0) {
 			
@@ -1908,13 +1694,13 @@ class taxonomy_model extends Model {
 		
 		}
 		
-		$cat_ids = $this->taxonomyGetTaxonomyIdsForContentId ( $content_id, $taxonomy_type = 'categories' );
+		$cat_ids = $this->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
 		
 		$to_return = array ();
 		
 		foreach ( $cat_ids as $item ) {
 			
-			$cat = $this->taxonomyGetSingleItemById ( $item );
+			$cat = $this->getSingleItem ( $item );
 			
 			$to_return [] = $cat;
 		
@@ -1926,7 +1712,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function taxonomyGetTaxonomyIdsForContentId($content_id, $taxonomy_type = 'categories') {
+	function getTaxonomiesForContent($content_id, $taxonomy_type = 'categories') {
 		
 		if (intval ( $content_id ) == 0) {
 			
@@ -1959,6 +1745,7 @@ class taxonomy_model extends Model {
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
+		$table_items = $cms_db_tables ['table_taxonomy'];
 		
 		$data = array ();
 		
@@ -1967,93 +1754,34 @@ class taxonomy_model extends Model {
 		$data ['to_table_id'] = $content_id;
 		$taxonomy_type_q = false;
 		if ($taxonomy_type == 'categories') {
-			
 			$data ['taxonomy_type'] = 'category_item';
 			$taxonomy_type_q = "and taxonomy_type = 'category_item' ";
-		
 		}
 		
 		if ($taxonomy_type == 'tags') {
-			
 			$data ['taxonomy_type'] = 'tag_item';
 			$taxonomy_type_q = "and taxonomy_type = 'tag_item' ";
 		}
 		
-		$q = "select parent_id from $table where  to_table='to_table' and to_table_id=$content_id $taxonomy_type_q ";
+		$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $taxonomy_type_q ";
 		$data = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group = 'content/' . $content_id );
 		// var_dump ( $data );
 		
 
 		if (! empty ( $data )) {
-			
 			$results = array ();
-			
 			foreach ( $data as $item ) {
-				
 				$results [] = $item ['parent_id'];
-			
 			}
-			
 			$results = array_unique ( $results );
-		
 		}
-		
 		$this->core_model->cacheWriteAndEncode ( $results, $function_cache_id, $cache_group );
-		
 		return $results;
-		
-	//var_dump ( $data );
-	
-
 	}
 	
-	function contentActiveCategoriesForToTableId($to_table_id = false) {
+	 
 	
-	}
-	
-	function taxonomyGetAvailableTags($to_table = false, $to_table_id = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_taxonomy'];
-		
-		if ($to_table != false) {
-			
-			$q1 = " and to_table='$to_table'   ";
-		
-		}
-		
-		if ($to_table_id != false) {
-			
-			$q2 = " and to_table_id='$to_table_id'   ";
-		
-		}
-		
-		$q = "select taxonomy_value from $table where taxonomy_type='tag'  $q1  $q2 group by taxonomy_value";
-		
-		$cache_id = __FUNCTION__ . md5 ( $q );
-		
-		$q = $this->core_model->dbQuery ( $q, $cache_id, 'taxonomy/global' );
-		
-		$to_return = array ();
-		
-		if (! empty ( $q )) {
-			
-			foreach ( $q as $item ) {
-				
-				$to_return [] = $item ['taxonomy_value'];
-			
-			}
-			
-			return $to_return;
-		
-		} else {
-			
-			return false;
-		
-		}
-	
-	}
+	 
 
 }
 

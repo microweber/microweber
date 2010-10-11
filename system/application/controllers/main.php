@@ -421,7 +421,7 @@ $skip = false;
 
 			foreacH ( $data_to_work as $item ) {
 
-				$taxonomy = $this->taxonomy_model->taxonomyGetSingleItemById ( $item );
+				$taxonomy = $this->taxonomy_model->getSingleItem ( $item );
 
 				$taxonomy_values [] = $taxonomy ['taxonomy_value'];
 

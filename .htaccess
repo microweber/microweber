@@ -22,11 +22,11 @@ Options -Indexes
     
 Options -Indexes  
 
-php_flag xdebug.profiler_enable 1
+php_flag xdebug.profiler_enable 0
 php_value xdebug.profiler_output_dir C:\xampp\xampp\tmp
 php_value xdebug.profiler_output_name cachegrind.out.%t.%p
-php_flag xdebug.show_mem_delta 1
-php_flag xdebug.show_local_vars 1
+php_flag xdebug.show_mem_delta 0
+php_flag xdebug.show_local_vars 0
 
  
 <ifModule mod_expires.c>

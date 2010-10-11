@@ -46,8 +46,10 @@ class Init_model extends Model {
 			$dir2 = $plugin_dir . '/db/tmp/';
 		} else {
 			$dir = APPPATH . '/models/db/';
-			$dir2 = APPPATH . '/models/db/tmp/';
+			$dir2 = CACHEDIR_ROOT . '/models/db/tmp/';
 		}
+		
+		$dir2 = CACHEDIR_ROOT . '/db_tmp/';
 
 		if (is_dir ( $dir ) == false) {
 			@mkdir_recursive ( $dir );
@@ -179,7 +181,7 @@ class Init_model extends Model {
 
 
 		$dir = APPPATH . '/models/db/';
-		$dir2 = APPPATH . '/models/db/tmp/';
+		$dir2 = CACHEDIR_ROOT . '/db_tmp/';
 
 		if (is_dir ( $dir ) == false) {
 			@mkdir ( $dir );
@@ -269,17 +271,28 @@ class Init_model extends Model {
 	 * @param unknown_type $aTable Table name
 	 * @param unknown_type $aOnColumns Involved columns
 	 */
-	public function addIndex($aIndexName, $aTable, $aOnColumns)
+	public function addIndex($aIndexName, $aTable, $aOnColumns, $indexType = false )
 	{
 		$columns = implode(',', $aOnColumns);
 
 		$query = $this->db->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
 
+		if($indexType != false){
+			
+			$index = $indexType;
+		}else {
+			$index = " INDEX ";
+			
+			
+			//FULLTEXT
+		}
+		
+		
 		if ($query->num_rows() == 0) {
 			$q = "
-				ALTER TABLE {$aTable} ADD INDEX `{$aIndexName}` ({$columns});
+				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
 			";
-			var_dump($q);
+			//var_dump($q);
 			$this->db->query($q);
 		}
 

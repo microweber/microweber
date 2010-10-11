@@ -1,7 +1,7 @@
 <?php include (ACTIVE_TEMPLATE_DIR."offers_heading_nav.php"); ?>
 <?php if(!empty($active_categories)) : ?>
 <?php $thecat = $active_categories[count($active_categories) - 1] ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat); 
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat); 
 		  $thecat_body = false;
 		  if(trim($thecat['content_body'])!= ''){
 			  $thecat['content_body'] = html_entity_decode($thecat['content_body']);
@@ -15,7 +15,7 @@
 
 <div class="holder">
   <div class="hleft">
-    <div class="offers"> <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($thecat['id']); ?>/view:all" class="seeall right">Вижте всички предложения</a>
+    <div class="offers"> <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($thecat['id']); ?>/view:all" class="seeall right">Вижте всички предложения</a>
       <h2 class="gtitle">Специални предложения</h2>
       <span class="hr">&nbsp;</span>
       <?php if(!empty($posts)):  ?>

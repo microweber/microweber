@@ -20,7 +20,7 @@
     <?php endif; ?>
   </div>
   <?php //var_dump( ); ?>
-  <a class="btn right" style="margin-right: 15px;" href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list"><span>See all</span></a>
+  <a class="btn right" style="margin-right: 15px;" href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list"><span>See all</span></a>
   <div class="border-bottom clear">
       <?php require (ACTIVE_TEMPLATE_DIR.'become_a_coach.php') ?></div>
   

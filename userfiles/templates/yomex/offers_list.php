@@ -1,5 +1,5 @@
 <?php $thecat = $active_categories[count($active_categories) - 1] ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat); 
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat); 
 		  $thecat_body = false;
 		  if(trim($thecat['content_body'])!= ''){
 			  $thecat['content_body'] = html_entity_decode($thecat['content_body']);

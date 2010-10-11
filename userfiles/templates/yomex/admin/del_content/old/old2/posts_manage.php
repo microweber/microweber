@@ -161,7 +161,7 @@ function do_the_content_search(){
 		
 		$orderby[0] = 'taxonomy_value';
 		$orderby[1] = 'ASC';
-		$cats = $this->content_model->taxonomyGet($data, $orderby ); 
+		$cats = $this->taxonomy_model->taxonomyGet($data, $orderby ); 
 		
 		//var_dump($cats);
 		foreach($cats as $c){
@@ -221,7 +221,7 @@ mytree.config.target = "mytarget";
 		
 		<?php foreach($cats as $item) : ?>
 		<?php $link = site_url('admin/content/posts_manage/categories:'. $item['id']); 
-		$thumb = $this->content_model->taxonomyGetThumbnailImageById($item['id'] , 16); 
+		$thumb = $this->taxonomy_model->getThumbnail($item['id'] , 16); 
 		if($thumb == ''){
 		$thumb = 'false';	
 		} else {
@@ -293,7 +293,7 @@ d.openTo(<?php print $item ; ?>, true);
 <br />
 
       <div class="admin_tag_cloud">
-        <?php $this->content_model->taxonomy_helpers_generateTagCloud("javascript:tags_append_csv_to_search('{taxonomy_value}')");  ?>
+        <?php $this->taxonomy_model->generateTagCloud("javascript:tags_append_csv_to_search('{taxonomy_value}')");  ?>
       </div>
       <br />
 
@@ -581,7 +581,7 @@ function batch_delete_all_items(){
  <h2>Categories</h2>
         <div class="ullist"  id="categories1">
           <?php $this->firecms = get_instance();
-	// $active_categories = $this->firecms->content_model->taxonomyGetTaxonomyIdsForContentId( $form_values['id'] , 'categories');
+	// $active_categories = $this->taxonomy_model->getTaxonomiesForContent( $form_values['id'] , 'categories');
 	// var_dump($active_categories );
 	  $actve_ids = $active_categories;
 	 $active_code = ' checked="checked"  ';

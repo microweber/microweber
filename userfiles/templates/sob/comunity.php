@@ -93,7 +93,7 @@
   </div>
   <!-- /#popular-discussions --> 
   
-  <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache(1870) ; ?>" class="btn right wmarg">All Announcements</a>
+  <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache(1870) ; ?>" class="btn right wmarg">All Announcements</a>
   <div style="height:20px;clear:both"> </div>
   <div id="home-tops-slider-wrapper" class="border-top hpad">
     <h2 class="title">Welcome to your <strong>online social business</strong> network.</h2>

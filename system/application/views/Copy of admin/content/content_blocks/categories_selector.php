@@ -33,7 +33,7 @@ function process_selected_categoeries(){
 			  $.ajax({
    type: "POST",
    
-   url: "<?php print site_url('ajax_helpers/taxonomy_taxonomyGetParentIdsForId') ?>",
+   url: "<?php print site_url('ajax_helpers/taxonomy_getParentsIds') ?>",
    data: "category_ids="+temp,
      async: false,
    success: function(data){

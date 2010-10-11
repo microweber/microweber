@@ -25,11 +25,17 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('parent_id', 'int(11) default NULL' );
 	$fields_to_add [] = array ('to_table', 'varchar(35) default NULL' );
 	$fields_to_add [] = array ('to_table_id', 'int(11) default NULL' );
+	$fields_to_add [] = array ('content_type', 'varchar(35) default NULL' );
+	$fields_to_add [] = array ('taxonomy_type', 'varchar(35) default NULL' );
+	
+	
  
 	$this->set_db_tables($table_name, $fields_to_add );
 	
 	$this->addIndex('parent_id', $table_name, array('parent_id'));
 	$this->addIndex('to_table', $table_name, array('to_table'));
 	$this->addIndex('to_table_id', $table_name, array('to_table_id'));
+	$this->addIndex('content_type', $table_name, array('content_type'));
+	$this->addIndex('taxonomy_type', $table_name, array('taxonomy_type'));
 }
 ?>

@@ -10,7 +10,7 @@ $thecat = $active_categories[count($active_categories) - 1] ;
 
 
 ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat);
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat);
 		  $thecat_body = false;
 		  if(trim($thecat['content_body'])!= ''){
 			  $thecat['content_body'] = html_entity_decode($thecat['content_body']);
@@ -24,7 +24,7 @@ $thecat = $active_categories[count($active_categories) - 1] ;
 <?php $keyword = $this->core_model->getParamFromURL ( 'keyword' ); ?>
 <?php if(!empty($active_categories)) : ?>
 <?php $thecat = $active_categories[count($active_categories) - 1] ?>
-<?php $thecat =  $this->content_model->taxonomyGetSingleItemById($thecat);  ?>
+<?php $thecat =  $this->taxonomy_model->getSingleItem($thecat);  ?>
 <?php endif; ?>
 
 <div class="holder">
@@ -43,7 +43,7 @@ $thecat = $active_categories[count($active_categories) - 1] ;
 	 
 	 $link_to_here = $this->content_model->getContentURLByIdAndCache($page['id']).'/categories:'.$thecat['taxonomy_value'];
 	 ?>
-      <!--  <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($thecat['id']); ?>/view:all/is_special:y" class="seeall right">Вижте нашите специални предложения</a>-->
+      <!--  <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($thecat['id']); ?>/view:all/is_special:y" class="seeall right">Вижте нашите специални предложения</a>-->
       <?php endif; ?>
       <h2 class="gtitle"><?php print $thecat['taxonomy_value'] ?> - Всички предложения</h2>
       
@@ -137,7 +137,7 @@ $thecat = $active_categories[count($active_categories) - 1] ;
 		  ?>
         <small class="tag-dest">
         <?php $cp = 0; foreach($cats_for_post as $cats_for_post_item): ?>
-        <?php $cats_for_post_item_full = $this->content_model->taxonomyGetSingleItemById($cats_for_post_item); ?>
+        <?php $cats_for_post_item_full = $this->taxonomy_model->getSingleItem($cats_for_post_item); ?>
         <a href="<?php print $this->content_model->getContentURLByIdAndCache($page['id']); ?>/categories:<?php print $cats_for_post_item_full['taxonomy_value']; ?>/view:all/"><?php print $cats_for_post_item_full['taxonomy_value']; ?></a>
         <?php if(!empty($cats_for_post[$cp+1])):  ?>,<?php endif; ?>
         <?php $cp++; endforeach;  ?>

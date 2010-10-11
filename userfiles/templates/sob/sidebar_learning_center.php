@@ -8,7 +8,7 @@
   </ul>
   <div class="tab" id="Hot">
     <?php if(empty($active_categories)){
-		$active_categories =  $this->content_model->taxonomyGetMasterCategories(false);
+		$active_categories =  $this->taxonomy_model->getMasterCategories(false);
 		$active_categories = $this->core_model->dbExtractIdsFromArray($active_categories);
 		
 	 }

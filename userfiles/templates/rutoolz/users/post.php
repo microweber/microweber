@@ -130,7 +130,7 @@
     		//  $categories_ids_to_remove = false;
     		//p($categories_ids_to_remove);
     		//p($categories_ids_to_add);
-    		$categories = $this->content_model->taxonomyGetTaxonomyIdsForContentId($form_values['id'], 'categories');
+    		$categories = $this->taxonomy_model->getTaxonomiesForContent($form_values['id'], 'categories');
     		//var_dump($categories);
     	//$last = count($categories);
     	  $actve_ids = false;

@@ -7,11 +7,11 @@ class Sql extends Controller {
 	}
 	function dummy_posts() {
 		
-		header ( 'Content-type: text/plain; charset=utf-8' );
+		header ( 'Content-type: text/html; charset=utf-8' );
 		$to_save = $_POST;
 		$i = 0;
 		
-		for($i = 0; $i < 10000; $i ++) {
+		for($i = 0; $i < 100; $i ++) {
 			
 			//print $sentence . "\n\n";
 			//print $vic . "\n\n";
@@ -41,7 +41,7 @@ class Sql extends Controller {
 			if (! empty ( $categories )) {
 				
 				foreach ( $categories as $cat ) {
-					$parrent_cats = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $cat );
+					$parrent_cats = $this->taxonomy_model->getParents ( $cat );
 					
 					foreach ( $parrent_cats as $par_cat ) {
 						$categories [] = $par_cat;
@@ -73,7 +73,7 @@ class Sql extends Controller {
 				} else {
 					
 					$taxonomy_categories = array ($category );
-					$taxonomy = $this->taxonomy_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
+					$taxonomy = $this->taxonomy_model->getParents ( $category );
 					if (! empty ( $taxonomy )) {
 						foreach ( $taxonomy as $i ) {
 							$taxonomy_categories [] = $i;
@@ -124,8 +124,12 @@ class Sql extends Controller {
 			}
 		
 		}
+		print '<meta http-equiv="refresh" content="2">';
 	
 	}
+	
+	
+	
 	
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );

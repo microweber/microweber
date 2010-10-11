@@ -9,10 +9,10 @@
     <li><a href="<?php print $this->content_model->getContentURLByIdAndCache(258) ; ?>" <?php if($page['id'] == 258): ?> class="active" <?php endif; ?>>Community home</a></li>
     <li><a href="<?php print site_url('userbase') ?>">Users</a></li>
     <li><a href="<?php print site_url('forum') ?>" target="_blank">Forum</a></li>
-    <li><a  <?php if($page['id'] == 490): ?> class="active" <?php endif; ?> href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache(1859) ; ?>">Blog</a></li>
+    <li><a  <?php if($page['id'] == 490): ?> class="active" <?php endif; ?> href="<?php print $this->taxonomy_model->getUrlForIdAndCache(1859) ; ?>">Blog</a></li>
   </ul>
   
-   <?php $cat = ( $this->content_model->taxonomyGetSingleItemById($active_categories[0])); 
+   <?php $cat = ( $this->taxonomy_model->getSingleItem($active_categories[0])); 
   $view = $this->core_model->getParamFromURL ( 'view' ); 
  ?>
  

@@ -1,14 +1,19 @@
 <?php dbg(__FILE__); ?>
 
 <div id="top-inner-title" class="border-bottom">
-  <?php $cat = ( $this->content_model->taxonomyGetSingleItemById($active_categories[0])); 
+  <?php 
+  
+// var_Dump($active_categories);
+  $cat = ( $this->taxonomy_model->getSingleItem($active_categories[0])); 
   $view = $this->core_model->getParamFromURL ( 'view' ); 
    $type = $this->core_model->getParamFromURL ( 'type' ); 
+   
+  // p($cat,1);
  ?>
   <?php if($view != 'list' ) : ?>
-  <a class="btn right" href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list"> <span>See all <?php print $cat['taxonomy_value'] ?> articles</span> </a>
+  <a class="btn right" href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list"> <span>See all <?php print $cat['taxonomy_value'] ?> articles</span> </a>
   <?php else: ?>
-  <a class="btn right" href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>"> <span> Back to <?php print $cat['taxonomy_value'] ?> home </span> </a>
+  <a class="btn right" href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>"> <span> Back to <?php print $cat['taxonomy_value'] ?> home </span> </a>
   <?php endif; ?>
   <h2><?php print $cat['taxonomy_value'] ?>
     <?php ($type)? print $type : print 'articles'   ?>
@@ -16,10 +21,10 @@
   <?php if($view == 'list' ) : ?>
   <div class="status-nav top-status-nav">
     <ul>
-      <li<?php if(!$type): ?>  class="u" <?php endif; ?>><a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list"><span>Artciles</span></a></li>
-      <li<?php if($type == 'trainings'): ?>  class="u" <?php endif; ?>><a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list/type:trainings"><span>Trainings</span></a></li>
-      <li<?php if($type == 'products'): ?>  class="u" <?php endif; ?>><a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list/type:products"><span>Products</span></a></li>
-      <li<?php if($type == 'services'): ?>  class="u" <?php endif; ?> ><a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list/type:services"><span>Services</span></a></li>
+      <li<?php if(!$type): ?>  class="u" <?php endif; ?>><a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list"><span>Artciles</span></a></li>
+      <li<?php if($type == 'trainings'): ?>  class="u" <?php endif; ?>><a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list/type:trainings"><span>Trainings</span></a></li>
+      <li<?php if($type == 'products'): ?>  class="u" <?php endif; ?>><a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list/type:products"><span>Products</span></a></li>
+      <li<?php if($type == 'services'): ?>  class="u" <?php endif; ?> ><a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list/type:services"><span>Services</span></a></li>
       <?php $params = array();
 $params['view'] = 'inherit';
 $params['commented'] == 'inherit';
@@ -43,7 +48,7 @@ $time_span[] = '1 year';
 ?>
       <li>
         <select class="select_redirect">
-          <option value="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list">Most voted:&nbsp;</option>
+          <option value="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list">Most voted:&nbsp;</option>
           <?php foreach($time_span as $item):
   $params = array();
   $params['view'] = 'inherit';
@@ -55,7 +60,7 @@ $time_span[] = '1 year';
   $params['curent_page'] = 1;
   $params['type'] = 'inherit';
 
-  $temp = $this->core_model->urlConstruct($base_url = $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]),$params );
+  $temp = $this->core_model->urlConstruct($base_url = $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]),$params );
   ?>
           <option value="<?php print  $temp ?>"  <?php if ($this->core_model->getParamFromURL ( 'voted' ) == $item) { print ' selected="selected" ' ; }  ?> >&nbsp;-&nbsp;<?php print $item ?></option>
           <?php endforeach; ?>
@@ -63,7 +68,7 @@ $time_span[] = '1 year';
       </li>
       <li>
         <select class='select_redirect'>
-          <option value="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]);  ?>/view:list">Most commented:&nbsp;</option>
+          <option value="<?php print $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]);  ?>/view:list">Most commented:&nbsp;</option>
           <?php foreach($time_span as $item): 
 $params = array();
   $params['view'] = 'inherit';
@@ -76,7 +81,7 @@ $params['ord'] =  'commented';
 $params['type'] = 'inherit';
 $params['curent_page'] = 1;
 $params['type'] = 'inherit';
-$temp = $this->core_model->urlConstruct($base_url = $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($active_categories[0]),$params );
+$temp = $this->core_model->urlConstruct($base_url = $this->taxonomy_model->getUrlForIdAndCache($active_categories[0]),$params );
 ?>
           <option value="<?php print  $temp ?>"  <?php if ($this->core_model->getParamFromURL ( 'commented' ) == $item) { print ' selected="selected" ' ; }  ?> >&nbsp;-&nbsp;<?php print $item ?></option>
           <?php endforeach; ?>

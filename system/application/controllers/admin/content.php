@@ -227,7 +227,7 @@ class Content extends Controller {
 			//var_dump($tags);
 			//exit;
 			if (empty ( $tags )) {
-				$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
+				//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 				$tags = $avalable_tags;
 			}
 		
@@ -349,7 +349,7 @@ class Content extends Controller {
 		$latest_posts = $this->content_model->getContent ( $latest_posts, false, array (0, 5 ), false );
 		$this->template ['latest_posts'] = $latest_posts;
 		
-		$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
+		//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		
 		$this->load->vars ( $this->template );
@@ -434,15 +434,15 @@ class Content extends Controller {
 		if (intval ( $id ) == 0) {
 			$data ['active_categories'] = array ($category );
 			
-			$category_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $category );
+			$category_item = $this->taxonomy_model->getSingleItem ( $category );
 			if (! empty ( $category_item )) {
 				$content_type = 'default';
 				$content_type_check = $category_item ['taxonomy_content_type'];
 				if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-					$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $category );
+					$lets_get_parent_cats = $this->taxonomy_model->getParentsIds ( $category );
 					if (! empty ( $lets_get_parent_cats )) {
 						foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-							$parent_cat_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $parent_cat_id );
+							$parent_cat_item = $this->taxonomy_model->getSingleItem ( $parent_cat_id );
 							if (! empty ( $parent_cat_item )) {
 								$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 								
@@ -473,21 +473,21 @@ class Content extends Controller {
 			//$data = $this->content_model->getContent ( $data, false, array (0, 1 ) );
 			//$data = $data [0];
 			$data = $this->content_model->contentGetById($id);
-			$active_categories = $this->taxonomy_model->taxonomyGetTaxonomyIdsForContentId ( $data ['id'], 'categories' );
+			$active_categories = $this->taxonomy_model->getTaxonomiesForContent ( $data ['id'], 'categories' );
 			$content_type = 'default';
 			if (! empty ( $active_categories )) {
 				$data ['active_categories'] = $active_categories;
 				foreach ( $active_categories as $cat_id ) {
-					$category_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $cat_id );
+					$category_item = $this->taxonomy_model->getSingleItem ( $cat_id );
 					//var_dump($cat_item);
 					if (! empty ( $category_item )) {
 						$content_type = 'default';
 						$content_type_check = $category_item ['taxonomy_content_type'];
 						if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-							$lets_get_parent_cats = $this->taxonomy_model->taxonomyGetParentIdsForId ( $cat_id );
+							$lets_get_parent_cats = $this->taxonomy_model->getParentsIds ( $cat_id );
 							if (! empty ( $lets_get_parent_cats )) {
 								foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-									$parent_cat_item = $this->taxonomy_model->taxonomyGetSingleItemById ( $parent_cat_id );
+									$parent_cat_item = $this->taxonomy_model->getSingleItem ( $parent_cat_id );
 									if (! empty ( $parent_cat_item )) {
 										$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 										//var_dump($content_type);

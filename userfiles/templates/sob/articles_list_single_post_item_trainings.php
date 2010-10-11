@@ -72,7 +72,7 @@
       <?php if($show_edit_and_delete_buttons == true): ?>
       ( <a href="<?php print site_url('users/user_action:post/id:').$the_post['id']; ?>" class="user-post-edit-btn">Edit</a> | <a href="javascript:usersPostDelete('<?php print $the_post['id']; ?>');" class="user-post-delete-btn">Delete</a> )
       <?php endif; ?>
-      <?php $cats = $this->content_model->taxonomyGetCategoriesForContentId( $the_post['id']);
+      <?php $cats = $this->taxonomy_model->getCategoriesForContent( $the_post['id']);
 	 @array_pop($cats);
 				//var_dump($cats);
 				?>

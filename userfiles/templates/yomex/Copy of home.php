@@ -11,11 +11,11 @@
     <li> <a href="#"> <img src="<?php print TEMPLATE_URL; ?>img/slide_image_1.jpg" alt=""  /> <strong>... Вашият път е нашата цел ...</strong> </a> </li>
   </ul>
 </div>
-<?php $chosen = $this->content_model->taxonomyGetChildrenItemsIdsRecursiveAndCache(1952, 'category');
+<?php $chosen = $this->taxonomy_model->getChildrensRecursiveAndCache(1952, 'category');
  $chosen_count = count($chosen);
 //p($chosen);
 ?>
-<?php $cat  = $this->content_model->taxonomyGetSingleItemById($chosen[1]);
+<?php $cat  = $this->taxonomy_model->getSingleItem($chosen[1]);
 //p($cat);
  ?>
 <div id="Fslider"> <a href="#" id="fsliderleft">&nbsp;</a> <a href="#" id="fsliderright">&nbsp;</a>
@@ -56,9 +56,9 @@
   <!-- /Fslidercontent -->
 </div>
 <!-- /Fslider -->
-<?php $cat  = $this->content_model->taxonomyGetSingleItemById($chosen[2]); ?>
+<?php $cat  = $this->taxonomy_model->getSingleItem($chosen[2]); ?>
 <div class="offers">
-  <!--<a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($chosen[2]); ?>" class="seeall right">Виж всички</a>-->
+  <!--<a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($chosen[2]); ?>" class="seeall right">Виж всички</a>-->
   <a href="<?php print site_url('search/categories:'.$chosen[2]); ?>" class="seeall right">Виж всички</a>
   <h2 class="gtitle"><?php print $cat['taxonomy_value'] ?></h2>
   <?php $related = array();
@@ -94,7 +94,7 @@
 <div class="offers offers-tabs">
   <ul class="tab-nav">
     <?php for($i =3; $i<$chosen_count; $i++): ?>
-    <?php $cat  = $this->content_model->taxonomyGetSingleItemById($chosen[$i]); ?>
+    <?php $cat  = $this->taxonomy_model->getSingleItem($chosen[$i]); ?>
     <li><a href="#category-<?php print $i?>"><?php print $cat['taxonomy_value'] ?></a></li>
     <?php endfor; ?>
     <!--    <li><a href="#spa-hoteli">Спа хотели</a></li>
@@ -103,7 +103,7 @@
   </ul>
   <div class="c"></div>
   <?php for($i =3; $i<$chosen_count; $i++): ?>
-  <?php $cat  = $this->content_model->taxonomyGetSingleItemById($chosen[$i]); ?>
+  <?php $cat  = $this->taxonomy_model->getSingleItem($chosen[$i]); ?>
   <div id="category-<?php print $i?>" class="xtab">
     <ul class="offers-list">
       <?php $related = array();
@@ -130,7 +130,7 @@
       <?php endforeach; ?>
       <?php endif;  ?>
     </ul>
-    <!--    <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache($cat['id']); ?>" class="seeall right" style="margin: 25px 0 0">Виж всички</a> -->
+    <!--    <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache($cat['id']); ?>" class="seeall right" style="margin: 25px 0 0">Виж всички</a> -->
     <a href="<?php print site_url('search/categories:'.$cat['id']); ?>" class="seeall right">Виж всички</a> </div>
   <?php endfor; ?>
   <!-- <div class="xtab" id="spa-hoteli">2</div>
@@ -188,7 +188,7 @@
       <li>Голф туризъм</li>
     </ul>
     <?php /*
-    <a href="<?php print $this->content_model->taxonomyGetUrlForTaxonomyIdAndCache(2169); ?>" class="more">Прочети повече</a> <br />
+    <a href="<?php print $this->taxonomy_model->getUrlForIdAndCache(2169); ?>" class="more">Прочети повече</a> <br />
     */ ?>
     <a href="<?php print site_url('uslugi'); ?>" class="more">Прочети повече</a> <br />
   </div>

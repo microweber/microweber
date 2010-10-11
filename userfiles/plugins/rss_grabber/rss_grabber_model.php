@@ -180,7 +180,7 @@
 			}
 			
 			$taxonomy_categories = array ($feed ['feed_content_category'] );
-			$taxonomy = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $feed ['feed_content_category'] );
+			$taxonomy = $this->taxonomy_model->getParents ( $feed ['feed_content_category'] );
 			if (! empty ( $taxonomy )) {
 				foreach ( $taxonomy as $i ) {
 					$taxonomy_categories [] = $i;
@@ -253,7 +253,7 @@
 							if ($to_save ['content_url'] != '') {
 								if (trim ( $to_save ['content_body'] ) != '') {
 									$tags = false;
-									//	$tags = $this->content_model->taxonomyGenerateAndGuessTagsFromString ( $to_save ['content_body'] );
+									//	$tags = $this->taxonomy_model->taxonomyGenerateAndGuessTagsFromString ( $to_save ['content_body'] );
 									$tags = trim ( $tags );
 									if ($tags != '') {
 										//$to_save ['taxonomy_tags_csv'] = $tags;
@@ -337,7 +337,7 @@
 									
 									}
 									
-								//$this->content_model->taxonomyGenerateAndGuessTagsAndSaveTagsForContentItemId ( $id );
+								//$this->taxonomy_model->taxonomyGenerateAndGuessTagsAndSaveTagsForContentItemId ( $id );
 								
 
 								} else {
