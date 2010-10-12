@@ -441,11 +441,7 @@ $skip = false;
 
 		ob_clean ();
 
-		require_once 'Zend/Validate.php';
-
-		require_once 'Zend/Validate/Hostname.php';
-
-		$validator = new Zend_Validate_Hostname ( Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP );
+	 
 
 		$data_to_validate = $_REQUEST ['data_to_validate'];
 
@@ -461,9 +457,7 @@ $skip = false;
 
 		}
 
-		//	var_dump($data_to_validate);
-		//	exit;
-
+		 
 
 		if (strval ( $data_to_validate ) == '') {
 
@@ -485,7 +479,8 @@ $skip = false;
 
 		}
 
-		if ($validator->isValid ( $data_to_validate )) {
+	exit ( 'yes' );
+		/*if ($validator->isValid ( $data_to_validate )) {
 
 			exit ( 'yes' );
 
@@ -493,7 +488,7 @@ $skip = false;
 
 			exit ( 'no' );
 
-		}
+		}*/
 
 		exit ( 'no' );
 

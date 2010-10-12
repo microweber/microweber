@@ -5399,12 +5399,8 @@ $my_limit_q
 		
 		if ($data_to_save ['menu_url']) {
 			
-			require_once 'Zend/Uri.php';
-			
-			require_once 'Zend/Uri/Http.php';
-			
-			$valid = Zend_Uri::check ( $data_to_save ['menu_url'] );
-			
+			 
+			$valid  = true;
 			if ($valid == false) {
 				
 				unset ( $data_to_save ['menu_url'] );
