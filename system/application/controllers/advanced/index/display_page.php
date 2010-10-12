@@ -87,7 +87,7 @@ if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -97,7 +97,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -178,7 +178,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 
 
 	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
-	
+	//var_dump($active_categories2);
 	$posts_data = false;
 
 	$posts_data ['selected_categories'] = ($active_categories2);
@@ -381,7 +381,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	$posts_data ['visible_on_frontend'] = 'y';
 	
-	$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+	$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 	
 	$items_per_page = intval ( $items_per_page );
 	
@@ -708,7 +708,7 @@ if (is_array ( $active_categories2 ) == false) {
 $active_categories_temp = array_merge ( $active_categories_temp, $active_categories, $active_categories2 );
 
 $active_categories_temp = array_unique ( $active_categories_temp );
-
+/*
 if (! empty ( $active_categories_temp )) {
 	
 	$taxonomy_tree = array ();
@@ -729,7 +729,7 @@ if (! empty ( $taxonomy_tree )) {
 	
 	$taxonomy_tree = @array_unique ( $taxonomy_tree );
 
-}
+}*/
 
 //var_dump($taxonomy_tree);
 //print '<pre>';
@@ -742,10 +742,10 @@ if (! empty ( $taxonomy_tree_reverse )) {
 	rsort ( $taxonomy_tree_reverse );
 
 }
-
+/*
 if (! empty ( $taxonomy_tree )) {
 	
-	$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+	$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 	
 	$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 	
@@ -826,4 +826,4 @@ if (! empty ( $taxonomy_tree )) {
 
 }
 
- 
+ */

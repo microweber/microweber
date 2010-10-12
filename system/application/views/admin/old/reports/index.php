@@ -74,7 +74,7 @@ function <? print $funcname_delete ?>($to_table, $to_table_id){
             <? endif;  ?>
             
             <? if($item['to_table'] == 'table_comments') : ?>
-            <? $comment = $this->content_model->commentGetById($item['to_table_id']); ?>
+            <? $comment = $this->comments_model->commentGetById($item['to_table_id']); ?>
             <? // p($comment) ?>
             <?  print($comment['comment_body']) ?>
             

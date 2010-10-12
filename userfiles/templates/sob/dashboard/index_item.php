@@ -44,7 +44,7 @@
 	          <strong style="padding-right: 0">
               
               
-              <?php if($log['user_id'] != $this->users_model->userId()): ?>
+              <?php if($log['user_id'] != $this->core_model->userId()): ?>
 	          	<a href="<?php print site_url('userbase/action:profile/username:'.$author['username']) ?>">
 
                
@@ -126,7 +126,7 @@ posted <a href="<?php print $url; ?>"><?php print( $content_data['content_title'
 added to the circle on influence 
 <?php else : ?>
 
-<?php if($log['user_id'] != $this->users_model->userId()): ?>
+<?php if($log['user_id'] != $this->core_model->userId()): ?>
 is following
 <?php else: ?>
 are following
@@ -154,12 +154,12 @@ are following
 	          <div class="status-nav">
 	              <ul>
 	                <li><span class="date"><?php echo date(DATETIME_FORMAT, strtotime($log['created_on']));?></span></li>
-	                <li><a href="#" class="voteUp dashboard-votes-<?php print $log['id']; ?>"><?php print $this->content_model->votesGetCount($log['to_table'], $log['to_table_id'], '1 year'); ?></a></li>
+	                <li><a href="#" class="voteUp dashboard-votes-<?php print $log['id']; ?>"><?php print $this->votes_model->votesGetCount($log['to_table'], $log['to_table_id'], '1 year'); ?></a></li>
                       <li><a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString($log['to_table']) ?>', '<?php print $this->core_model->securityEncryptString($log['to_table_id']) ?>', '.dashboard-votes-<?php print $log['id'] ?>');" class="like">like</a></li>
                     
                     
                     
-	                <li><a href="javascript:mw.comments.getComments('<?php print $log['to_table'] ?>', '<?php print $log['to_table_id'] ?>', '#comments-for-dashboard-ajax-<?php print $log['id'] ?>');"   class="cmm" id="status-comments-<?php print $log['id'] ?>"><?php print $this->content_model->commentsGetCount($log['to_table'], $log['to_table_id'], $is_moderated = false); ?></a></li>
+	                <li><a href="javascript:mw.comments.getComments('<?php print $log['to_table'] ?>', '<?php print $log['to_table_id'] ?>', '#comments-for-dashboard-ajax-<?php print $log['id'] ?>');"   class="cmm" id="status-comments-<?php print $log['id'] ?>"><?php print $this->comments_model->commentsGetCount($log['to_table'], $log['to_table_id'], $is_moderated = false); ?></a></li>
 	              
 	                <li><a href="javascript:mw.comments.getComments('<?php print $log['to_table'] ?>', '<?php print $log['to_table_id'] ?>', '#comments-for-dashboard-ajax-<?php print $log['id'] ?>');"   class="add-comment-anchor">Add comment</a></li>
 	              </ul>

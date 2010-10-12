@@ -1,7 +1,7 @@
 <?php
 
 
-$user_id = $this->users_model->userId ();
+$user_id = $this->core_model->userId ();
 
 if (intval ( $user_id ) != 0) {
 	if ($user_action != 'profile') {

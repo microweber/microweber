@@ -37,9 +37,9 @@ class Comments extends Controller {
 		
 		
 		
-		$results_count = $this->content_model->commentsGet ($data,false,true);
+		$results_count = $this->comments_model->commentsGet ($data,false,true);
 		
-		$items_per_page = $this->content_model->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 		
@@ -52,7 +52,7 @@ class Comments extends Controller {
 		$page_end = ($page_start) + $items_per_page;
 		
 		//$data ['is_moderated'] = 'n';
-		$form_values = $this->content_model->commentsGet ( $data ,array ($page_start, $page_end ),false);
+		$form_values = $this->comments_model->commentsGet ( $data ,array ($page_start, $page_end ),false);
 		$new_comments = array();
 		$old_comments = array();
 		for($i=0; $i < count($form_values);$i++){
@@ -76,7 +76,7 @@ class Comments extends Controller {
 		$limit [0] = 0;
 		$limit [1] = 100;
 		
-		$form_values = $this->content_model->commentsGet ( $data );
+		$form_values = $this->comments_model->commentsGet ( $data );
 		*/
 		$this->template ['old_comments'] = $old_comments;
 		$this->load->vars ( $this->template );
@@ -100,7 +100,7 @@ class Comments extends Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			$this->content_model->commentApprove ( $id );
+			$this->comments_model->commentApprove ( $id );
 		}
 	}
 	
@@ -109,7 +109,7 @@ class Comments extends Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			$this->content_model->commentsDeleteById ( $id );
+			$this->comments_model->commentsDeleteById ( $id );
 		}
 	}
 

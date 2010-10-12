@@ -22,7 +22,7 @@ $admin_loaded_plugins[] = $tempdata;
   <li  <?php if(( $className == 'content' and $functionName == 'posts_manage') or ( $className == 'content' and $functionName == 'posts_edit') ) : ?>    class="active" <?php endif; ?> > <a href="<?php print site_url('admin/content/posts_manage')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/page.png"  border="0" alt=" " />Content manager</a></li>
   <li  <?php if(( $className == 'content' and $functionName == 'pages_index') or ( $className == 'content' and $functionName == 'pages_edit') ) : ?>    class="active" <?php endif; ?> > <a href="<?php print site_url('admin/content/pages_index')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/layout_header.png"  border="0" alt=" " />Pages manager</a></li>
   <li <?php if( $className == 'comments')  : ?> class="active" <?php endif; ?> ><a href="<?php print site_url('admin/comments/index')  ?>"><img src="<?php print_the_static_files_url() ; ?>icons/comments.png"  border="0" alt=" " />Comments
-    <?php $new_comments_counts = $this->content_model->commentsGetNewCommentsCount ();
+    <?php $new_comments_counts = $this->comments_model->commentsGetNewCommentsCount ();
 	if(intval($new_comments_counts) > 0) : ?>
     <sup style="font-size:7px"><?php print $new_comments_counts ?> new</sup>
     <?php endif;  ?>

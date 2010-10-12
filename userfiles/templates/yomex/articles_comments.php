@@ -1,4 +1,4 @@
-<?php if($this->content_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y'): ?>
+<?php if($this->core_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y'): ?>
 <?php if(strval($user_session['is_logged'] ) != 'yes'):  ?>
 
 <form method="post" class="validate" action="<?php print site_url('users/user_action:login'); ?>/back_to:<?php print base64_encode(getCurentURL()); ?>" id="logIn">

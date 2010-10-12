@@ -14,7 +14,7 @@ class Comments extends Controller {
 		
 		$data = array ( );
 		$data ['is_moderated'] = 'n';
-		$form_values = $this->content_model->commentsGet ( $data );
+		$form_values = $this->comments_model->commentsGet ( $data );
 		$this->template ['new_comments'] = $form_values;
 		$this->load->vars ( $this->template );
 		
@@ -23,7 +23,7 @@ class Comments extends Controller {
 		$limit [0] = 0;
 		$limit [1] = 100;
 		
-		$form_values = $this->content_model->commentsGet ( $data );
+		$form_values = $this->comments_model->commentsGet ( $data );
 		$this->template ['old_comments'] = $form_values;
 		$this->load->vars ( $this->template );
 		
@@ -46,7 +46,7 @@ class Comments extends Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			$this->content_model->commentApprove ( $id );
+			$this->comments_model->commentApprove ( $id );
 		}
 	}
 	
@@ -55,7 +55,7 @@ class Comments extends Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			$this->content_model->commentsDeleteById ( $id );
+			$this->comments_model->commentsDeleteById ( $id );
 		}
 	}
 

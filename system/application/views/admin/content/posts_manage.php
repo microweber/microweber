@@ -387,7 +387,7 @@ $(document).ready(function(){
                 <?php print character_limiter(strip_tags(html_entity_decode($item['content_body_nohtml'])), 250, '...'); ?>
                 <?php endif; ?>
               </div></td>
-            <td ><?php $temp= $this->content_model->commentsGetCountForContentId( $item['id']); print ((  $temp )); ?></td>
+            <td ><?php $temp= $this->comments_model->commentsGetCountForContentId( $item['id']); print ((  $temp )); ?></td>
             <!-- <td ><?php if($selected_voted == false) : ?>
                   <?php $temp = 7 ?>
                   <?php else: ?>

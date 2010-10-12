@@ -16,7 +16,7 @@ $content ['content_layout_file'] = 'default_layout.php';
 
 $user_action = $this->core_model->getParamFromURL ( 'user_action' );
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -26,7 +26,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -158,7 +158,7 @@ switch ($user_action) {
 
 			$get_id = array ();
 			$get_id ['id'] = $content_id;
-			$get_id = $this->content_model->commentsGet ( $get_id );
+			$get_id = $this->comments_model->commentsGet ( $get_id );
 			$get_id = $get_id [0];
 
 			$post_id = $get_id ['to_table_id'];
@@ -184,7 +184,7 @@ switch ($user_action) {
 
 
 					//var_dump($content_id);
-					$this->content_model->commentsDeleteById ( $content_id );
+					$this->comments_model->commentsDeleteById ( $content_id );
 					exit ( 'ok' );
 					//redirect ( 'users/posts' );
 

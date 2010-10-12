@@ -18,7 +18,7 @@
       <?php $author = $this->users_model->getUserById($the_post['created_by']); ?>
       <img src="<?php print $thumb; ?>" alt="" class="img" />
       <h2 class="post-title"><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"><?php print $the_post['content_title']; ?></a></h2>
-      <span class="date">by <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>"><?php print $author['first_name']; ?> <?php print $author['last_name']; ?> <small>(<?php print $author['username']; ?>)</small></a> | <?php print $the_post['created_on']; ?> | <a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor" class="comments-date"><?php print $this->content_model->commentsGetCountForContentId($the_post['id']); ?> Comments</a></span> <br />
+      <span class="date">by <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>"><?php print $author['first_name']; ?> <?php print $author['last_name']; ?> <small>(<?php print $author['username']; ?>)</small></a> | <?php print $the_post['created_on']; ?> | <a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor" class="comments-date"><?php print $this->comments_model->commentsGetCountForContentId($the_post['id']); ?> Comments</a></span> <br />
       <p>
         <?php if($the_post['content_description'] != ''): ?>
         <?php print (character_limiter($the_post['content_description'], 200, '...')); ?>

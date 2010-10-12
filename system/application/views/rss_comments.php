@@ -12,13 +12,13 @@ echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
 
     <channel>
     
-    <title><?php print $this->content_model->optionsGetByKey ('rss_title'); ?></title>
+    <title><?php print $this->core_model->optionsGetByKey ('rss_title'); ?></title>
 
     <link><?php print current_url(); ?></link>
 	<atom:link href="<?php print current_url(); ?>" rel="self" type="application/rss+xml" />
-    <description><?php print $this->content_model->optionsGetByKey ( 'content_meta_description' ); ?></description>
-    <dc:language><?php print $this->content_model->optionsGetByKey ( 'rss_language'); ?></dc:language>
-    <dc:creator><?php print $this->content_model->optionsGetByKey ('creator_email'); ?></dc:creator>
+    <description><?php print $this->core_model->optionsGetByKey ( 'content_meta_description' ); ?></description>
+    <dc:language><?php print $this->core_model->optionsGetByKey ( 'rss_language'); ?></dc:language>
+    <dc:creator><?php print $this->core_model->optionsGetByKey ('creator_email'); ?></dc:creator>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
     <dc:rights>Copyright <?php echo gmdate("Y", time()); ?></dc:rights>

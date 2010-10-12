@@ -53,7 +53,7 @@ class User extends Controller {
 	function statusUpdate() {
 		if ($_POST) {
 			$currentUser = $this->session->userdata ( 'user' );
-			$status = array ('user_id' => $this->users_model->userId (), 'status' => $_POST ['status'] );
+			$status = array ('user_id' => $this->core_model->userId (), 'status' => $_POST ['status'] );
 			$updated = $this->core_model->saveData ( TABLE_PREFIX . 'users_statuses', $status );
 			echo $updated;
 			$this->users_model->cleanOldStatuses ( $currentUser );
@@ -70,10 +70,10 @@ class User extends Controller {
 			unset ( $_POST ['mk'] );
 			//$messageKey =  ( $messageKey );
 			$messageKey = $this->core_model->securityDecryptString ( $messageKey );
-			//var_dump( $this->users_model->userId (), $messageKey);
+			//var_dump( $this->core_model->userId (), $messageKey);
 
 
-			if ($this->users_model->userId () != $messageKey) {
+			if ($this->core_model->userId () != $messageKey) {
 				exit ( 'Error in $messageKey' );
 			}
 
@@ -86,7 +86,7 @@ class User extends Controller {
 			 */
 
 			// from user
-			$data ['from_user'] = intval ( $this->users_model->userId () );
+			$data ['from_user'] = intval ( $this->core_model->userId () );
 
 			// to user
 			if (intval ( $data ['receiver'] ) == 0) {
@@ -137,7 +137,7 @@ class User extends Controller {
 
 			$messageId = $_POST ['id'];
 			$messageId - intval ( $messageId );
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 
 			$message = $this->core_model->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 
@@ -196,7 +196,7 @@ class User extends Controller {
 
 			$messageId = $_POST ['id'];
 
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 
 			$message = $this->core_model->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 
@@ -234,7 +234,7 @@ and to_table_id='{$message['to_table_id']}'
 
 			$messageId = $_POST ['id'];
 
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 
 			$message = $this->core_model->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 
@@ -267,7 +267,7 @@ and to_table_id='{$message['to_table_id']}'
 
 			$messageId = $_POST ['id'];
 
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 
 			$message = $this->core_model->fetchDbData ( TABLE_PREFIX . 'messages', array (array ('id', $messageId ) ) );
 
@@ -301,9 +301,9 @@ and to_table_id='{$message['to_table_id']}'
 
 			$message = $message [0];
 			//p($message);
-			if ($message ['from_user'] == $this->users_model->userId ()) {
+			if ($message ['from_user'] == $this->core_model->userId ()) {
 				$deletedFrom = 'sender';
-			} elseif ($message ['to_user'] == $this->users_model->userId ()) {
+			} elseif ($message ['to_user'] == $this->core_model->userId ()) {
 				$deletedFrom = 'receiver';
 			} else {
 				throw new Exception ( 'You have no permission to delete this message.' );
@@ -322,7 +322,7 @@ and to_table_id='{$message['to_table_id']}'
 	function followingSystem() {
 
 		if ($_POST) {
-			$you = $this->users_model->userId ();
+			$you = $this->core_model->userId ();
 			if (intval ( $you ) == 0) {
 				exit ( 'You must login.' );
 			}
@@ -342,13 +342,13 @@ and to_table_id='{$message['to_table_id']}'
 				}
 			}
 
-			if ($followerId == $this->users_model->userId ()) {
+			if ($followerId == $this->core_model->userId ()) {
 				exit ( 'Error: you cant follow yourself :)' );
 			}
 
 			$currentUser = $this->session->userdata ( 'user' );
 
-			$followed = $this->users_model->saveFollower ( array ('user' => $this->users_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special ) );
+			$followed = $this->users_model->saveFollower ( array ('user' => $this->core_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special ) );
 
 			//echo $followed;
 

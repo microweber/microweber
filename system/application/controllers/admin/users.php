@@ -65,7 +65,7 @@ class Users extends Controller {
 
 		$results_count = $this->users_model->getUsers ( $criteria, false, true );
 
-		$items_per_page = $this->content_model->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 

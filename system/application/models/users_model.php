@@ -415,7 +415,7 @@ STR;
 		if ($aUserId == false) {
 			//	$user_session = $this->session->userdata ( 'user_session' );
 			//p($user_session);
-			$aUserId = $this->users_model->userId ();
+			$aUserId = $this->core_model->userId ();
 		}
 		
 		$table = TABLE_PREFIX . 'followers';
@@ -456,7 +456,7 @@ STR;
 		
 		if ($aUserId == false) {
 			
-			$aUserId = $this->users_model->userId ();
+			$aUserId = $this->core_model->userId ();
 		}
 		
 		$table = TABLE_PREFIX . 'followers';
@@ -538,7 +538,7 @@ STR;
 	function messagesGetUnreadCountForUser($user_id = false) {
 		if ($user_id == false) {
 			
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 		}
 		$table = TABLE_PREFIX . 'messages';
 		$params = array ();
@@ -753,8 +753,8 @@ WHERE
 	 */
 	function messagesGetByDefaultParams($params = false, $db_options = false) {
 		if (empty ( $params )) {
-			$currentUserId = intval ( $this->users_model->userId () );
-			if ($this->users_model->userId () == 0) {
+			$currentUserId = intval ( $this->core_model->userId () );
+			if ($this->core_model->userId () == 0) {
 				exit ( "Error in " . __FILE__ . " on line " . __LINE__ );
 			}
 			$params = array ();
@@ -1010,7 +1010,7 @@ WHERE
 			
 
 			$params = array ();
-			$params [] = array ('to_user', $this->users_model->userId () );
+			$params [] = array ('to_user', $this->core_model->userId () );
 			$params [] = array ("log_id", "0", '>', 'and', true );
 			$params [] = array ("is_read", "n" );
 		}
@@ -1078,7 +1078,7 @@ WHERE
 	function notificationsGetUnreadCountForUser($user_id = false) {
 		if ($user_id == false) {
 			
-			$user_id = $this->users_model->userId ();
+			$user_id = $this->core_model->userId ();
 		}
 		$params = array ();
 		$params [] = array ('to_user', $user_id );
@@ -1125,7 +1125,7 @@ WHERE
 	function realtionsCheckIfUserIsFollowedByUser($curent_user = false, $relation_with_user, $is_special = false) {
 		if ($curent_user == false) {
 			
-			$curent_user = $this->users_model->userId ();
+			$curent_user = $this->core_model->userId ();
 			;
 		}
 		$params = array ();
@@ -1164,7 +1164,7 @@ WHERE
 	function realtionsGetFollowersIdsForUser($aUserId = false, $special = false, $query_options = false) {
 		if ($aUserId == false) {
 			
-			$aUserId = $this->users_model->userId ();
+			$aUserId = $this->core_model->userId ();
 		}
 		
 		$params = array ();
@@ -1218,7 +1218,7 @@ WHERE
 		
 		if ($aUserId == false) {
 			
-			$aUserId = $this->users_model->userId ();
+			$aUserId = $this->core_model->userId ();
 			;
 		}
 		
@@ -1478,7 +1478,7 @@ WHERE
 		
 		if (intval ( $id ) == 0) {
 			
-			$id = $this->users_model->userId ();
+			$id = $this->core_model->userId ();
 		
 		}
 		

@@ -495,7 +495,7 @@ var answer = confirm("Are you sure?")
       </table>
     </div>
     <div id="tab_comments">
-      <?php $comments = $temp= $this->content_model->commentsGetForContentId( $form_values['id']); ?>
+      <?php $comments = $temp= $this->comments_model->commentsGetForContentId( $form_values['id']); ?>
       <?php include (ADMINVIEWSPATH.'comments/comments_list.php') ?>
     </div>
   </div>

@@ -31,7 +31,7 @@ class Content extends Controller {
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
+			$save = $this->votes_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
 			if ($save == true) {
 				exit ( 'yes' );
 			} else {
@@ -57,7 +57,7 @@ function report() {
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->report ( $_POST ['to_table'], $_POST ['to_table_id'] );
+			$save = $this->reports_model->report ( $_POST ['to_table'], $_POST ['to_table_id'] );
 			if ($save == true) {
 				exit ( 'yes' );
 			} else {

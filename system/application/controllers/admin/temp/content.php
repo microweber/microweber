@@ -251,7 +251,7 @@ class Content extends Controller {
 		$original_criteria = $data;
 		//var_dump($original_criteria);
 		//paging
-		$items_per_page = $this->content_model->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 		$items_per_page = intval ( $items_per_page );
 		//	var_dump($items_per_page);
 		if ($items_per_page != $_SESSION ['items_per_page']) {

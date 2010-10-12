@@ -42,7 +42,14 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('is_read', 'char(1) default "n"' );
 	$fields_to_add [] = array ('notifications_parsed', 'char(1) default "n"' );
 	$this->set_db_tables ( $table_name, $fields_to_add );
-
+	
 	$this->setEngine ( $table_name );
+	
+	$this->addIndex ( 'to_table_id', $table_name, array ('to_table_id' ) );
+	$this->addIndex ( 'user_id', $table_name, array ('user_id' ) );
+	$this->addIndex ( 'to_table', $table_name, array ('to_table' ) );
+	$this->addIndex ( 'is_read', $table_name, array ('is_read' ) );
+	$this->addIndex ( 'notifications_parsed', $table_name, array ('notifications_parsed' ) );
+
 }
 ?>

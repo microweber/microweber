@@ -119,7 +119,7 @@ class Main extends Controller {
 			$comments = array ();
 			$comments ['to_table'] = 'table_content';
 			$comments ['to_table_id'] = $post ['id'];
-			$comments = $this->content_model->commentsGet ( $comments );
+			$comments = $this->comments_model->commentsGet ( $comments );
 			$this->template ['post'] = $post;
 		}
 
@@ -307,7 +307,7 @@ $skip = false;
 
 		if ($_POST) {
 
-			if ($this->content_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
+			if ($this->core_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
 				$user_session = $this->session->userdata ( 'user_session' );
 				if (strval ( $user_session ['is_logged'] ) != 'yes') {
 					exit ( 'Error: You must be logged in. Your comment was not posted.' );
@@ -329,7 +329,7 @@ $skip = false;
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->commentsSave ( $_POST );
+			$save = $this->comments_model->commentsSave ( $_POST );
 
 
 
@@ -361,7 +361,7 @@ $skip = false;
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
+			$save = $this->votes_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
 
 			if ($save == true) {
 

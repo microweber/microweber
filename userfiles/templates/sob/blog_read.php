@@ -14,7 +14,7 @@
     <?php /*
     <a href="#" class="article-back" onclick="history.back();">Back</a>
     */ ?>
-    <a href="#" onclick="scrollto('#comments');" class="ainfo"> <b class="cmm">&nbsp;</b> <?php print $this->content_model->commentsGetCountForContentId($post['id']); ?> <span>see all</span> </a> <a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');" class="ainfo"> <b class="voteUp">&nbsp;</b> <strong class="content-votes-count-<?php print $post['id'] ?>"><?php print $this->content_model->commentsGetCountForContentId($post['id']); ?></strong> <span>like</span> </a> </div>
+    <a href="#" onclick="scrollto('#comments');" class="ainfo"> <b class="cmm">&nbsp;</b> <?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?> <span>see all</span> </a> <a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');" class="ainfo"> <b class="voteUp">&nbsp;</b> <strong class="content-votes-count-<?php print $post['id'] ?>"><?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?></strong> <span>like</span> </a> </div>
     <h2 class="post-title" style="width:490px"><?php print $post['content_title']; ?></h2>
     <div class="richtext"><?php print ($post['the_content_body']); ?><br />
       <!--<span class="uppercase">Please vote for this post</span> <span class="voteUp">2,470</span>--> </div>
@@ -23,13 +23,13 @@
     <div class="status-nav">
       <ul>
         <li><span class="date"><?php print date(DATETIME_FORMAT, strtotime($post['created_on'])); ?></span></li>
-        <li><a title="<?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?> Votes" id="content-votes-<?php print $post['id'] ?>" class="voteUp title-tip content-votes-count-<?php print $post['id'] ?>" href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">
-          <?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?>
+        <li><a title="<?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?> Votes" id="content-votes-<?php print $post['id'] ?>" class="voteUp title-tip content-votes-count-<?php print $post['id'] ?>" href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">
+          <?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?>
           </a></li>
         <?php /*
         <li><a  href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">Like</a></li>
         */ ?>
-        <li><a title="<?php print $this->content_model->commentsGetCountForContentId($post['id']); ?> Comments" id="content-comments-<?php print $post['id'] ?>" class="cmm title-tip"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->content_model->commentsGetCountForContentId($post['id']); ?></a></li>
+        <li><a title="<?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?> Comments" id="content-comments-<?php print $post['id'] ?>" class="cmm title-tip"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?></a></li>
         <li>
           <?php require (ACTIVE_TEMPLATE_DIR.'share.php') ?>
         </li>

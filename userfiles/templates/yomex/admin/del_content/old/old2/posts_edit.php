@@ -509,7 +509,7 @@ $.post("<?php print site_url('admin/content/contentGenerateMeta') ?>", { generat
       <?php include_once ('geodata_map.php') ; ?>
     </div>
      <div id="tab_comments">
-       <?php $comments = $temp= $this->content_model->commentsGetForContentId( $form_values['id']); ?>
+       <?php $comments = $temp= $this->comments_model->commentsGetForContentId( $form_values['id']); ?>
   <?php include (ADMINVIEWSPATH.'comments/comments_list.php') ?>
     </div>
   </div>

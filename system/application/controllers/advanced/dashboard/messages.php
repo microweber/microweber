@@ -5,7 +5,7 @@ if (! defined ( 'BASEPATH' ))
 $show = $this->core_model->getParamFromURL ( 'show' );
 $conversation = $this->core_model->getParamFromURL ( 'conversation' );
 $currentUser = $this->session->userdata ( 'user' );
-$userid = $this->users_model->userId ();
+$userid = $this->core_model->userId ();
 $show_inbox = $this->core_model->getParamFromURL  ( 'show_inbox' );
 if ($show == false and $conversation == false) {
 	$show = 'read';
@@ -19,7 +19,7 @@ if ($show_inbox == 1 and $conversation == false) {
 
 
 if ($show == 'unread') {
-	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->users_model->userId () );
+	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->core_model->userId () );
 	$this->template ['conversations'] = $unreadedMessages;
 	$this->template ['show'] = 'unread';
 	$content ['content_filename'] = 'dashboard/messages/conversations.php';
@@ -62,9 +62,9 @@ and to_user=$userid
 	$parentMessage = $this->users_model->messagesGetByParams ( $params, $options = false );
 	$parentMessage = $parentMessage [0];
 
-	if ($parentMessage ['from_user'] == $this->users_model->userId ()) {
+	if ($parentMessage ['from_user'] == $this->core_model->userId ()) {
 		$receiver = $parentMessage ['to_user'];
-	} elseif ($parentMessage ['to_user'] == $this->users_model->userId ()) {
+	} elseif ($parentMessage ['to_user'] == $this->core_model->userId ()) {
 		$receiver = $parentMessage ['from_user'];
 	} else {
 		//throw new Exception ( 'You have no permission to view this conversation.' );
@@ -101,7 +101,7 @@ if ($showUnreaded) {
 	// show all unreaded messages
 
 
-	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->users_model->userId () );
+	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->core_model->userId () );
 	$this->template ['messages'] = $unreadedMessages;
 	$content ['content_filename'] = 'dashboard/messages/unreaded.php';
 
@@ -120,9 +120,9 @@ and to_user=$userid
 	 $parentMessage = $this->users_model->messagesGetByParams ( $params, $options = false );
 	$parentMessage = $parentMessage [0];
 
-	if ($parentMessage ['from_user'] == $this->users_model->userId ()) {
+	if ($parentMessage ['from_user'] == $this->core_model->userId ()) {
 		$receiver = $parentMessage ['to_user'];
-	} elseif ($parentMessage ['to_user'] == $this->users_model->userId ()) {
+	} elseif ($parentMessage ['to_user'] == $this->core_model->userId ()) {
 		$receiver = $parentMessage ['from_user'];
 	} else {
 		//throw new Exception ( 'You have no permission to view this conversation.' );
@@ -145,8 +145,8 @@ and to_user=$userid
 
 } else {
 	// show all conversations
-	$currentUser ['id'] = intval ( $this->users_model->userId () );
-	if ($this->users_model->userId () == 0) {
+	$currentUser ['id'] = intval ( $this->core_model->userId () );
+	if ($this->core_model->userId () == 0) {
 		exit ( "Error in " . __FILE__ . " on line " . __LINE__ );
 	}
 

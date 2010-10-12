@@ -670,7 +670,7 @@ function batch_delete_all_items(){
             <td><?php print ($item['content_title']) ?></td>
             <td><?php print ($item['is_active']) ?></td>
             <td>
-			<?php $temp= $this->content_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
+			<?php $temp= $this->comments_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
             </td>
             
             <td>

@@ -12,7 +12,7 @@
 		
 		if ($_POST) {
 			$this->core_model->cacheDelete ( 'cache_group', 'options' );
-			$this->content_model->optionsSave ( $_POST );
+			$this->core_model->optionsSave ( $_POST );
 			
 			redirect ( 'admin/options/index' );
 		}
@@ -20,7 +20,7 @@
 		
 		
 		
-		$all_options = $this->content_model->optionsGet(false);
+		$all_options = $this->core_model->optionsGet(false);
 		$this->template ['all_options'] = $all_options;
 		
 		

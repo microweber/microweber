@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <?php if($message['from_user'] != $this->users_model->userId ()): ?>
+  <?php if($message['from_user'] != $this->core_model->userId ()): ?>
 
   <div class="box-ico-holder" style="width: 105px;margin:10px 50px 0 0 ;"> <a href="<?php echo site_url('dashboard/action:messages/conversation:'.($message['parent_id'] ? $message['parent_id'] : $message['id'])); ?>#messageItem-<?php print  $message['id'] ?>"> <span class="box-ico box-ico-reply title-tip" title="Reply <?php print $this->users_model->getPrintableName($message['from_user'], 'first'); ?>"></span> </a>
     <?php $to_user = $message['from_user'];

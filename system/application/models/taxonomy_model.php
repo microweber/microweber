@@ -1080,11 +1080,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	 
-	
 	function getParents($id) {
-		
-		 
 		
 		global $cms_db_tables;
 		$id = intval ( $id );
@@ -1124,12 +1120,8 @@ class taxonomy_model extends Model {
 		}
 		
 		return $to_return;
-		
 	
 	}
-	
-	  
-	 
 	
 	function getChildrensRecursiveAndCache($parent_id, $type = false, $visible_on_frontend = false) {
 		
@@ -1166,7 +1158,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function getItems($parent_id, $type = false, $visible_on_frontend = false) {
+	function getItems($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
 		
 		global $cms_db_tables;
 		$taxonomy_id = intval ( $parent_id );
@@ -1188,6 +1180,18 @@ class taxonomy_model extends Model {
 		if (intval ( $parent_id ) == 0) {
 			
 			return false;
+		
+		}
+		
+		if (! empty ( $limit )) {
+			
+			$my_offset = $limit [1] - $limit [0];
+			
+			$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
+		
+		} else {
+			
+			$my_limit_q = false;
 		
 		}
 		
@@ -1219,7 +1223,7 @@ class taxonomy_model extends Model {
 		
 
 		$cache_group = 'taxonomy/' . $parent_id;
-		$q = " SELECT id,    parent_id from $table_items where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
+		$q = " SELECT id,    parent_id from $table_items where parent_id= $parent_id   $type_q  $visible_on_frontend_q $my_limit_q ";
 		//var_dump($cache_group);
 		$q_cache_id = __FUNCTION__ . md5 ( $q );
 		//var_dump($q_cache_id);
@@ -1301,7 +1305,7 @@ class taxonomy_model extends Model {
 		
 
 		$cache_group = 'taxonomy/' . $parent_id;
-		$q = " SELECT id,    parent_id from $table where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
+		$q = " SELECT id,  parent_id from $table where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
 		//var_dump($cache_group);
 		$q_cache_id = __FUNCTION__ . md5 ( $q );
 		//var_dump($q_cache_id);
@@ -1317,12 +1321,12 @@ class taxonomy_model extends Model {
 		}
 		foreach ( $save as $item ) {
 			$to_return [] = $item ['id'];
-			$clidren = $this->getChildrensRecursive ( $item ['id'], $type, $visible_on_frontend );
+			/*$clidren = $this->getChildrensRecursive ( $item ['id'], $type, $visible_on_frontend );
 			if (! empty ( $clidren )) {
 				foreach ( $clidren as $temp ) {
 					$to_return [] = $temp;
 				}
-			}
+			}*/
 		}
 		
 		$to_return = array_unique ( $to_return );
@@ -1376,14 +1380,15 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function getToTableIds($root, $visible_on_frontend = false, $non_recursive = false) {
-		
-		if (intval ( $root ) == 0) {
+	function getToTableIds($root, $limit = false) {
+		if (! is_array ( $root )) {
+			$root = intval ( $root );
+			if (intval ( $root ) == 0) {
+				
+				return false;
 			
-			return false;
-		
+			}
 		}
-		
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
@@ -1398,20 +1403,40 @@ class taxonomy_model extends Model {
 
 		if ($visible_on_frontend == true) {
 			
-			$visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
+		//$visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
+		
+
+		}
+		
+		if (! empty ( $limit )) {
+			
+			$my_offset = $limit [1] - $limit [0];
+			
+			$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
+		
+		} else {
+			
+			$my_limit_q = " limit  0 , 500  ";
 		
 		}
 		
-		$root = intval ( $root );
+		
 		
 		$data = array ();
 		
 		$data ['parent_id'] = $root;
-		$root = intval ( $root );
+			if (! is_array ( $root )) {
+				$root_q = " parent_id=$root ";
+				$cache_group = 'taxonomy/' . $root;
+			} else {
+				$root_i = implode(',', $root);
+				$root_q = " parent_id in ($root_i) ";
+				$cache_group = 'taxonomy/global';
+			}
 		
-		$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where parent_id=$root $visible_on_frontend_q and taxonomy_type='category_item' ";
+		$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and taxonomy_type='category_item'  group by to_table_id   $my_limit_q ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/' . $root );
+		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		//var_dump($taxonomies);
 		
@@ -1778,10 +1803,6 @@ class taxonomy_model extends Model {
 		$this->core_model->cacheWriteAndEncode ( $results, $function_cache_id, $cache_group );
 		return $results;
 	}
-	
-	 
-	
-	 
 
 }
 

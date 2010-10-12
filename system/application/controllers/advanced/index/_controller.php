@@ -79,10 +79,10 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 
 		$global_template_replaceables = array ();
 		$global_template_replaceables ["content_meta_title"] = $content ['content_title'];
-		$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->content_model->optionsGetByKey ( 'content_meta_title' );
-		$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->content_model->optionsGetByKey ( 'content_meta_description' );
-		$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->content_model->optionsGetByKey ( 'content_meta_keywords' );
-		$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->content_model->optionsGetByKey ( 'content_meta_other_code' );
+		$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->core_model->optionsGetByKey ( 'content_meta_title' );
+		$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->core_model->optionsGetByKey ( 'content_meta_description' );
+		$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
+		$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
 		$global_template_replaceables ["content_meta_other_code"] = htmlspecialchars_decode ( $global_template_replaceables ["content_meta_other_code"], ENT_QUOTES );
 		$global_template_replaceables ["content_meta_other_code"] = html_entity_decode ( $global_template_replaceables ["content_meta_other_code"] );
 		
@@ -252,7 +252,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		//var_dump($post ['content_body_filename']);
 		if ($content ['content_body_filename'] != false) {
 			if (trim ( $content ['content_body_filename'] ) != '') {
-				//$the_active_site_template12 = $this->content_model->optionsGetByKey ( 'curent_template' );
+				//$the_active_site_template12 = $this->core_model->optionsGetByKey ( 'curent_template' );
 				//$the_active_site_template_dir1 = TEMPLATEFILES . $the_active_site_template12 . '/content_files/';
 				
 

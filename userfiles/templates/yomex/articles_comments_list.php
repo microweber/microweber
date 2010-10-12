@@ -5,7 +5,7 @@
   <?php $comments = array();
 $comments ['to_table'] = 'table_content';
 $comments ['to_table_id'] = $post['id'];
-$comments = $this->content_model->commentsGet($comments);
+$comments = $this->comments_model->commentsGet($comments);
 ?>
   <?php if(!empty($comments)) : ?>
   <h2 class="in-content-title" style="background-image: none">Comments</h2>

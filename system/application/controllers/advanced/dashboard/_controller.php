@@ -17,7 +17,7 @@ $content ['content_layout_file'] = 'default_layout.php';
 
 $user_action = $this->core_model->getParamFromURL ( 'action' );
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -27,7 +27,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -47,7 +47,7 @@ $user = $this->session->userdata ( 'user' );
 //
 $the_userid = false;
 if (intval ( $the_user ['id'] ) != 0) {
-	$the_userid = $this->users_model->userId ();
+	$the_userid = $this->core_model->userId ();
 } else {
 	$the_userid = $the_user ['id'];
 }

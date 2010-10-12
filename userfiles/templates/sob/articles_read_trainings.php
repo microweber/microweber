@@ -8,7 +8,7 @@
 <?php // ($images);?>
 
 <div class="main-inner clear">
-  <div class="article-info"> <a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');" class="ainfo"> <b class="voteUp">&nbsp;</b> <strong class="content-votes-count-<?php print $post['id'] ?>"><?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?></strong> <span>like</span> </a> </div>
+  <div class="article-info"> <a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');" class="ainfo"> <b class="voteUp">&nbsp;</b> <strong class="content-votes-count-<?php print $post['id'] ?>"><?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?></strong> <span>like</span> </a> </div>
   <h2 class="training-title"><?php print $post['content_title']; ?></h2>
   
   <!--  <h2 class="in-content-title in-content-title-ico"> <span>Find <a href="#">John Charter</a> at:</span> <a href="#" class="youtube-ico profile-ico">Watch in YouTube </a> <a href="#" class="twitter-ico profile-ico">Follow me	on Twitter </a> <a href="#" class="facebook-ico profile-ico">Become a Fan</a> <b class="titleleft"></b> </h2>-->
@@ -52,17 +52,17 @@
         <div class="status-nav left">
       <ul>
         <li><span class="date"><?php print date(DATETIME_FORMAT, strtotime($post['created_on'])); ?></span></li>
-        <li><a title="<?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?> Votes"  id="content-votes-<?php print $post['id'] ?>" class="title-tip voteUp content-votes-count-<?php print $post['id'] ?>" href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">
-          <?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?>
+        <li><a title="<?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?> Votes"  id="content-votes-<?php print $post['id'] ?>" class="title-tip voteUp content-votes-count-<?php print $post['id'] ?>" href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">
+          <?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?>
           </a></li>
         <?php /*
         <li><a href="javascript:mw.content.Vote('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-votes-count-<?php print $post['id'] ?>');">Like</a></li>
         */ ?>
         <?php /*
-        <li><a id="content-comments-<?php print $post['id'] ?>" class="cmm title-tip" title="<?php print $this->content_model->commentsGetCountForContentId($post['id']); ?> Comments"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->content_model->commentsGetCountForContentId($post['id']); ?></a></li>
+        <li><a id="content-comments-<?php print $post['id'] ?>" class="cmm title-tip" title="<?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?> Comments"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?></a></li>
         */ ?>
-        <li><a title="Report for spam. <?php print $this->content_model->reportsGetCount('table_content', $post['id'], '1 year'); ?> reports so far"  id="content-reports-<?php print $post['id'] ?>" class="title-tip reportUp content-reports-count-<?php print $post['id'] ?>" href="javascript:mw.content.report('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-reports-count-<?php print $post['id'] ?>');">
-          <?php print $this->content_model->reportsGetCount('table_content', $post['id'], '1 year'); ?>
+        <li><a title="Report for spam. <?php print $this->reports_model->reportsGetCount('table_content', $post['id'], '1 year'); ?> reports so far"  id="content-reports-<?php print $post['id'] ?>" class="title-tip reportUp content-reports-count-<?php print $post['id'] ?>" href="javascript:mw.content.report('<?php print $this->core_model->securityEncryptString('table_content') ?>', '<?php print $this->core_model->securityEncryptString($post['id']) ?>', '.content-reports-count-<?php print $post['id'] ?>');">
+          <?php print $this->reports_model->reportsGetCount('table_content', $post['id'], '1 year'); ?>
           </a></li>
         <li>
           <?php require (ACTIVE_TEMPLATE_DIR.'share.php') ?>

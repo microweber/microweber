@@ -37,7 +37,7 @@ class Comments extends Controller {
 				exit ( 'to_table' );
 			}
 
-			$save = $this->content_model->commentsSave ( $_POST );
+			$save = $this->comments_model->commentsSave ( $_POST );
 
 			print $save;
 
@@ -58,7 +58,7 @@ class Comments extends Controller {
 		$comments = array ();
 		$comments ['to_table'] = addslashes ( $_POST ['to_table'] );
 		$comments ['to_table_id'] = addslashes ( $_POST ['to_table_id'] );
-		$comments = $this->content_model->commentsGet ( $comments );
+		$comments = $this->comments_model->commentsGet ( $comments );
 
 		$this->template ['comments'] = $comments;
 

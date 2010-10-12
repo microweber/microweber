@@ -37,8 +37,8 @@ if ($query [0] == $table_name) {
 	$fields_to_add = array ();
 	$fields_to_add [] = array ('to_table', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('to_table_id', 'int(11) default NULL' );
-	$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
-	$fields_to_add [] = array ('created_on', 'datetime default NULL' );
+	//$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
+	//$fields_to_add [] = array ('created_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('custom_field_name', 'TEXT default NULL' );
 	$fields_to_add [] = array ('custom_field_value', 'TEXT default NULL' );
 
@@ -56,6 +56,13 @@ if ($query [0] == $table_name) {
 	}
 	*/
 	$this->set_db_tables($table_name, $fields_to_add );
+	
+	
+		$this->addIndex ( 'to_table', $table_name, array ('to_table' ) );
+	$this->addIndex ( 'to_table_id', $table_name, array ('to_table_id' ) );
+	$this->addIndex ( 'custom_field_name', $table_name, array ('custom_field_name' ), "FULLTEXT" );
+	$this->addIndex ( 'custom_field_value', $table_name, array ('custom_field_value' ), "FULLTEXT" );
+ 
 
 }
 

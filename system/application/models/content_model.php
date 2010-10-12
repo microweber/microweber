@@ -213,8 +213,9 @@ class content_model extends Model {
 		
 		$data_to_save ['content_url'] = strtolower ( reduce_double_slashes ( $data ['content_url'] ) );
 		
-//		$data_to_save ['content_url_md5'] = md5 ( $data_to_save ['content_url'] );
+		//		$data_to_save ['content_url_md5'] = md5 ( $data_to_save ['content_url'] );
 		
+
 		$data_to_save_options = array ();
 		
 		$table = $table;
@@ -253,7 +254,7 @@ class content_model extends Model {
 			
 			if (trim ( $data_to_save ['content_body_filename'] ) != '') {
 				
-				$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+				$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 				
 				$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/content_files/';
 				
@@ -914,6 +915,7 @@ class content_model extends Model {
 		
 		//$content_url_md5 = md5 ( $url );
 		
+
 		$sql = "SELECT id, content_url from $table where content_url='$url' and content_type='post'   order by updated_on desc limit 0,1 ";
 		
 		$q = $this->core_model->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
@@ -1679,7 +1681,7 @@ class content_model extends Model {
 				
 				$data1 ['content_subtype'] = 'blog_section';
 				
-				$data1 ['content_subtype_value'] = $item ;
+				$data1 ['content_subtype_value'] = $item;
 				
 				$data1 ['is_active'] = 'y';
 				
@@ -1796,7 +1798,7 @@ class content_model extends Model {
 					
 					$data1 ['content_subtype'] = 'blog_section';
 					
-					$data1 ['content_subtype_value'] = $item ;
+					$data1 ['content_subtype_value'] = $item;
 					
 					$data1 ['is_active'] = 'y';
 					
@@ -2732,11 +2734,12 @@ class content_model extends Model {
 								
 								//$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
 								
-								$possible_ids = array($base_category);
-								$possible_ids_more=$this->taxonomy_model->getChildrensRecursive($base_category);
-								if(!empty($possible_ids_more)){
-									$possible_ids = array_merge($possible_ids, $possible_ids_more);
-									
+
+								$possible_ids = array ($base_category );
+								$possible_ids_more = $this->taxonomy_model->getChildrensRecursive ( $base_category, 'category' );
+								if (! empty ( $possible_ids_more )) {
+									$possible_ids = array_merge ( $possible_ids, $possible_ids_more );
+								
 								}
 								
 								//var_dump ( $possible_ids );
@@ -3002,11 +3005,12 @@ class content_model extends Model {
 								
 								//$possible_ids = $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache ( $base_category, true, false, 'category' );
 								
-									$possible_ids = array($base_category);
-								$possible_ids_more=$this->taxonomy_model->getChildrensRecursive($base_category);
-								if(!empty($possible_ids_more)){
-									$possible_ids = array_merge($possible_ids, $possible_ids_more);
-									
+
+								$possible_ids = array ($base_category );
+								$possible_ids_more = $this->taxonomy_model->getChildrensRecursive ( $base_category, 'category' );
+								if (! empty ( $possible_ids_more )) {
+									$possible_ids = array_merge ( $possible_ids, $possible_ids_more );
+								
 								}
 								
 								$data = array ();
@@ -3095,7 +3099,7 @@ class content_model extends Model {
 		
 
 		//var_dump ( $params );
-		
+	//.		p($data);
 
 		extract ( $params );
 		
@@ -3240,7 +3244,7 @@ class content_model extends Model {
 		
 		if ($items_per_page == false) {
 			
-			$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+			$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 		
 		}
 		
@@ -3620,14 +3624,23 @@ class content_model extends Model {
 	
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 		
 		global $cms_db_tables;
 		
-		//print 'getContent params:'.   var_dump($data);
-		
-
-		//p($data);
+		 
+	
 		
 
 		if ($data ['use_fetch_db_data'] == true) {
@@ -3652,20 +3665,11 @@ class content_model extends Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $check . $function_cache_id );
+		$function_cache_id = __FUNCTION__ . md5 (  $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+		//$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
 		
-		$cache_content = false; //@todo XXX?
-		
-
-		if (($cache_content) != false) {
-			
-		//  return $cache_content;
-		
-
-		}
-		
+		 
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
 		$table_taxonomy_items = $cms_db_tables ['table_taxonomy_items'];
 		
@@ -3684,8 +3688,14 @@ class content_model extends Model {
 		}
 		
 		$ids = array ();
-		
-		;
+			if ($count_only == false) {
+		if (empty ( $limit )) {
+			
+			$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
+			
+			$items_per_page = intval ( $items_per_page );
+			$limit = array (0, $items_per_page );
+		}}
 		
 		if (! empty ( $limit )) {
 			
@@ -3696,7 +3706,9 @@ class content_model extends Model {
 		} else {
 			
 			$my_limit_q = false;
+			//print "NO LIMMITS@!!!";
 		
+
 		}
 		
 		//exit($my_limit_q);
@@ -3714,6 +3726,10 @@ class content_model extends Model {
 		
 		unset ( $data ['strict_category_selection'] );
 		
+		 
+			
+		
+		
 		if (! empty ( $data ['selected_categories'] )) {
 			
 			$categories = $data ['selected_categories'];
@@ -3723,75 +3739,30 @@ class content_model extends Model {
 			$category_content_ids = array ();
 			
 			//
-			
+	
 
 			if (! empty ( $categories )) {
+					
+				
 				
 				if (is_array ( $categories ) and ! empty ( $categories )) {
 					
-					//if($strict_category_selection == false){
-					
-
-					//var_dump($categories);
-					
-
 					$categories_intvals = array ();
 					$categories_count = count ( $categories );
 					foreach ( $categories as $item ) {
-						
 						$item = intval ( $item );
-						
 						if ($item != 0) {
-							
 							$categories_intvals [] = $item;
 							$category_ids [] = $item;
 						}
-						
-					//}
-					
-
 					}
-					//  p($categories_intvals);
-					$only_thise_content = $this->taxonomy_model->getToTableIds ( $categories_intvals [0] );
-					
-					/*	  var_dump($only_thise_content);
-		 
-					$only_thise_content_new = array ();
-					if (($categories_count) > 1) {
-						if (! empty ( $only_thise_content )) {
-							
-							$categories_intvals_i = implode ( ',', $categories_intvals );
-							$categories_intvals_count = count ( $categories_intvals );
-							
-							$only_thise_content_i = implode ( ',', $only_thise_content );
-							 
-							
-							$q = " SELECT to_table_id , count(parent_id) as qty from   $table_taxonomy_items where 
-                                parent_id in ({$categories_intvals_i})
-                        and          content_type='post' 
-                        and to_table_id in ($only_thise_content_i)
-                        and to_table ='table_content'
-                          group by to_table_id  ";
-							//  var_dump($q);
-							$q_check1 = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
-							foreach ( $q_check1 as $q_check2 ) {
-								if (intval ( $q_check2 ['qty'] ) == intval ( $categories_intvals_count )) {
-									$only_thise_content_new [] = $q_check2 ['to_table_id'];
-								}
-							
-							}
-							
-							$only_thise_content = $only_thise_content_new;
-						}
-					
-					}*/
-					
+					   
+					$only_thise_content = $this->taxonomy_model->getToTableIds ( $categories_intvals, $limit );
+				 
 					$q_check = array ();
 					
 					if (count ( $categories_intvals > 0 )) {
-						
 						array_shift ( $categories_intvals );
-					
 					}
 					
 					if (! empty ( $categories_intvals )) {
@@ -3814,8 +3785,8 @@ class content_model extends Model {
 						
 						$categories_intvals_implode = implode ( ',', $category_ids );
 						$q = " SELECT to_table_id, parent_id from   $table_taxonomy_items where  $only_thise_content_q content_type='post' 
-                        and parent_id in ($categories_intvals_implode)
-                         group by to_table_id  ";
+                        and parent_id in ($categories_intvals_implode) and to_table_id in ($only_thise_content_implode)
+                         group by to_table_id  $my_limit_q ";
 						$q_check = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 					} else {
 					
@@ -3861,258 +3832,27 @@ class content_model extends Model {
 				}
 			
 			}
-			
-		/*if ($strict_category_selection == true) {
-				$strict_ids = array ();
-				$categories = array_unique ( $categories );
-				$categories_q = (implode ( ',', $categories ));
-				
-				foreach ( $ids as $id ) {
-					
-					$q = " select  count(*) as qty from $table_taxonomy where
-
-                    to_table= 'table_content'
-
-                    and to_table_id= '$id'
-
-                    and content_type = 'post'
-
-                    and parent_id  IN ($categories_q)
-
-                    and taxonomy_type = 'category_item'
-
-                    and to_table_id is not null
-
-                    group by to_table_id
-
-
-
-                    ;";
-					
-
-					
-
-					$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
-					
-					$q = $q [0] ['qty'];
-					
-				
-					
-
-					if ($q == count ( $categories )) {
-						
-						$strict_ids [] = $id;
-					
-					} else {
-						
-						$strict_ids [] = 'No such id';
-					
-					}
-				
-				}
-				
-				if (! empty ( $strict_ids )) {
-					
-					$ids = $strict_ids;
-					
-					$category_ids = $strict_ids;
-				
-				} else {
-					
-					$ids = false;
-				
-				}
-			
-			}*/
-		
-		}
-		
-		if (! empty ( $data ['selected_tags'] )) {
-			
-			$categories = $data ['selected_tags'];
-			
-			$tag_ids = array ();
-			
-			foreach ( $categories as $item ) {
-				
-				if (strval ( $item ) != '') {
-					
-					$taxonomy_data = array ();
-					
-					//  var_dump ( $item );
-					
-
-					$taxonomy_data ['taxonomy_type'] = 'tag';
-					
-					$taxonomy_data ['to_table'] = 'table_content';
-					
-					$q = " select to_table_id , id, to_table from $table_taxonomy where
-
-                    to_table= '{$taxonomy_data ['to_table']}'
-
-                    and content_type = 'post'
-
-                    and taxonomy_type = '{$taxonomy_data ['taxonomy_type']}'
-
-                    and taxonomy_value = '$item'
-
-                    and to_table_id is not null
-
-                    group by to_table_id
-
-                    ;
-
-
-
-
-
-                    ";
-					
-					$cache_id = __FUNCTION__ . 'selected_tags' . md5 ( $q );
-					
-					$cache_id = md5 ( $cache_id );
-					
-					$q = $this->core_model->dbQuery ( $q, $cache_id, 'taxonomy/global' );
-					
-					$items = $q;
-					
-					if (! empty ( $items )) {
-						
-						foreach ( $items as $the_id ) {
-							
-							$ids [] = intval ( $the_id ['to_table_id'] );
-							
-							$tag_ids [] = intval ( $the_id ['to_table_id'] );
-						
-						}
-						
-					//lets cleanup unused items
-					
-
-					/*if (! empty ( $tag_ids )) {
-
-                            $category_ids_count = count ( $tag_ids );
-
-                            $category_ids_q = implode ( ", ", $tag_ids );
-
-                            
-
-                            $q = " select count(*) as qty from $table_content where
-
-                        id in ($category_ids_q)";
-
-                            //var_dump($q);
-
-                            $q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'taxonomy' );
-
-                            $q = $q [0] ['qty'];
-
-                            //  var_dump($q, $category_ids_count);
-
-                            //  exit();
-
-                            if (intval ( $q ) != $category_ids_count) {
-
-                                foreach ( $items as $clean_me ) {
-
-                                    $clean_table = $cms_db_tables [$clean_me ['to_table']];
-
-                                    $clean_table_id = $clean_me ['to_table_id'];
-
-                                    $clean_id = $clean_me ['id'];
-
-                                    //var_dump($clean_table, $clean_table_id);
-
-                                    $chek = $this->core_model->dbCheckIfIdExistsInTable ( $clean_table, $clean_table_id );
-
-                                    //  var_dump($chek);
-
-                                    if ($chek == false) {
-
-                                        $this->core_model->deleteDataById ( $table_taxonomy, $clean_id, $delete_cache_group = false );
-
-                                    }
-
-                                }
-
-                                $this->core_model->cleanCacheGroup ( 'taxonomy' );
-
-                            }
-
-                        
-
-                        }*/
-					
-					} else {
-						
-						$ids [] = 'NOTHING FOUND';
-						
-						$ids [] = 999999999999999999999999999;
-						
-						$ids [] = 'SOME DUMMY NON EXISTING ID GOES HERE';
-						
-						$ids [] = 'I AM SURE THERE IS NO SUCH IDS IN ANY DB ON THE WORLD';
-					
-					}
-				
-				}
-			
-			}
 		
 		}
 		
 		if (! empty ( $ids )) {
-			
-			//asort ( $ids );
-			
-
 			array_unique ( $ids );
-			
-		//
-		
-
 		}
 		
 		if (! empty ( $tag_ids )) {
-			
-			//asort ( $tag_ids );
-			
-
 			array_unique ( $tag_ids );
 		
 		}
 		
 		if (! empty ( $category_ids )) {
-			
-			//asort ( $category_ids );
-			
-
 			array_unique ( $category_ids );
 		
 		}
 		
-		/*if ((! empty ( $category_ids )) and (! empty ( $tag_ids ))) {
-            
-            $new_ids = array ();
-            
-        
-            foreach ( $tag_ids as $id ) {
-                
-                if (in_array ( $id, $category_ids ) == true) {
-                    
-                    $new_ids [] = $id;
-                
-                }
-            
-            }
-            
-            $ids = $new_ids;
-        
-        }
-        */
+		 
 		if ($data ['have_original_link'] == 'y') {
 			
-			$q = " SELECT id  from   $table_content where  original_link is NOT NULL   and original_link_include_in_advanced_search = 'y' and original_link NOT LIKE ''";
+			$q = " SELECT id  from   $table_content where  original_link is NOT NULL   and original_link_include_in_advanced_search = 'y' and original_link NOT LIKE '' $my_limit_q ";
 			
 			$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'content/global' );
 			
@@ -4156,7 +3896,7 @@ class content_model extends Model {
 			
 			$ids_imploded = implode ( ',', $ids );
 			
-			$q = " SELECT id, to_table_id  from   $table_media where  to_table='table_content' and media_type = 'videos' and to_table_id IN ($ids_imploded)  ";
+			$q = " SELECT id, to_table_id  from   $table_media where  to_table='table_content' and media_type = 'videos' and to_table_id IN ($ids_imploded)  $my_limit_q  ";
 			
 			$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'media' );
 			
@@ -4249,101 +3989,7 @@ class content_model extends Model {
 				
 				}
 				
-				//var_dump($category_ids_q);
-				
-
-				/*$search_for_those_kw_in_fetch = $the_words_no_explode;
-                
-                $the_words = $this->core_model->addSlashesToArrayAndEncodeHtmlChars ( $the_words );
-                
-                $kyworords_q = " SELECT id from $table where ";
-                
-                $kyworords_q2 = " SELECT id from $table where ";
-                
-                $kyworords_q .= " (( content_title LIKE '%$the_words_no_explode%' ) OR  ";
-                
-                $kyworords_q2 .= " (( content_body LIKE '%$the_words_no_explode%' ) OR  ";
-                
-                $kyworords_q_1st = " SELECT id from $table where content_title REGEXP '$the_words_no_explode'   $category_ids_q";
-                
-                $kyworords_q2_1st = "  SELECT id from $table where content_body REGEXP '$the_words_no_explode'    $category_ids_q";
-                
-                //  var_Dump($the_words);
-                
-
-                foreach ( $the_words as $the_word ) {
-                    
-                    if (trim ( $the_word ) != '') {
-                        
-                        $kyworords_q .= " ( content_title LIKE '%$the_word%' ) OR  ";
-                        
-                        $kyworords_q2 .= " ( content_body LIKE '%$the_word%' ) AND  ";
-                    
-                    }
-                
-                }
-                
-                if ($kyworords_q != '') {
-                    
-                    $kyworords_q = '' . $kyworords_q . '  ID is not null  ) OR ';
-                
-                }
-                
-                if ($kyworords_q2 != '') {
-                    
-                    $kyworords_q2 = '' . $kyworords_q2 . '  ID is not null )  OR ';
-                
-                }
-                
-                $kyworords_q .= " ( content_title REGEXP '{$the_words[0]}' )   ";
-                
-                $kyworords_q2 .= " ( content_body REGEXP '{$the_words[0]}' )   ";
-                
-                $kyworords_q .= " ORDER BY updated_on DESC limit 0,100 ";
-                
-                $kyworords_q2 .= " ORDER BY updated_on DESC limit 0,100 ";
-                
-                $kyworords_q_1st .= " ORDER BY updated_on DESC limit 0,100 ";
-                
-                $kyworords_q2_1st .= " ORDER BY updated_on DESC limit 0,100 ";
-                
-                $the_search_q_kw1 = false;
-                
-                $the_search_q_kw2 = false;
-                
-                foreach ( $the_words as $the_word ) {
-                    
-                    if (trim ( $the_word ) != '') {
-                        
-                        $the_search_q_kw1 .= " +*$the_word* ";
-                        
-                        $the_search_q_kw2 .= "+$the_word ";
-                        
-                        $the_search_q_kw3 .= "$the_word";
-                    
-                    }
-                
-        //$the_search_q_kw1 = mysql_real_escape_string ( $the_search_q_kw1 );
-                //$the_search_q_kw2 = mysql_real_escape_string ( $the_search_q_kw2 );
-                
-
-                }
-                
-                
-                
-                
-(( content_title LIKE '%$the_search_q_kw3%' or   
-content_description LIKE '%$the_search_q_kw3%'   or   
-content_body LIKE '%$the_search_q_kw3%' or 
-content_url LIKE '%$the_search_q_kw3%'  ) ) 
-                
-                
-                
-            and ( MATCH content_title   AGAINST ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or   
-MATCH content_description    AGAINST  ('+".$the_search_q_kw3."' IN BOOLEAN MODE)   or   
-MATCH content_body   AGAINST   ('+".$the_search_q_kw3."' IN BOOLEAN MODE) or 
-MATCH content_url  AGAINST    ('+".$the_search_q_kw3."' IN BOOLEAN MODE)  )  
-                */
+			 
 				$the_search_q_kw3 = $kw;
 				$the_search_q = "SELECT id
 
@@ -4362,6 +4008,8 @@ content_body LIKE '%$the_search_q_kw3%' or
 content_url LIKE '%$the_search_q_kw3%'  ) ) 
  
 and content_type='post'
+
+$my_limit_q
                 ";
 				/*
 
@@ -4418,27 +4066,7 @@ ORDER BY id DESC
 				}
 				$ids = $ids_temp;
 				
-			/*if (! empty ( $category_content_ids )) {
-                    
-                    $ids_temp = array ();
-                    
-                    
-                    
-                    $ids = $ids_temp;
-                    
-                    if (empty ( $ids )) {
-                        
-                        $ids = false;
-                        
-                        $ids [] = '0';
-                    
-                    }
-                
-                } else {
-                    
-                    $ids = $keyword_results;
-                
-                }*/
+		 
 			
 			} else {
 				
@@ -4545,7 +4173,7 @@ ORDER BY id DESC
 					
 					$q = " SELECT id, to_table_id from $table_comments where to_table = 'table_content'
 
-                    $some_ids group by to_table_id  ";
+                    $some_ids group by to_table_id  $my_limit_q ";
 					
 					//  var_dump($q);
 					
@@ -4635,7 +4263,7 @@ ORDER BY id DESC
 
 select to_table_id from $table_comments where to_table = 'table_content' group by to_table_id )
 
-                    ";
+                  $my_limit_q  ";
 					
 					//
 					
@@ -4739,7 +4367,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
             and created_on >'$pastday'
 
             group by to_table_id order by qty desc
-
+$my_limit_q
                     ";
 				
 				//p ( $q, 1 );
@@ -4874,7 +4502,8 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 
             custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
 
-             
+            
+             $my_limit_q
 
                     ";
 				
@@ -4969,7 +4598,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		}
 		
 		if (! empty ( $limit )) {
-			
+			//p($limit);
 			$ids = array_slice ( $ids, $limit [0], $limit [1] );
 			//var_dump($ids);
 		}
@@ -4992,54 +4621,20 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 			$criteria = array ();
 			
 			foreach ( $data as $k => $v ) {
-				
 				$criteria [] = array ($k, $v );
-			
 			}
-			
 			$deb = false; //debug
-			
-
 			$db_opt = array ();
-			
-			//$db_opt ['only_fields'] = $flds;
 			$db_opt ['only_fields'] = array ('id' );
-			
 			$db_opt ['include_ids'] = $ids;
-			
 			$db_opt ['exclude_ids'] = $exclude_ids;
-			
 			$db_opt ['limit'] = $limit;
-			
 			$db_opt ['get_count'] = $count_only;
-			
 			$db_opt ['search_keyword'] = $search_for_those_kw_in_fetch;
-			
 			$db_opt ['search_keyword_only_in_those_fields'] = $only_in_those_table_fields;
-			
 			$db_opt ['debug'] = false;
-			
 			$db_opt ['cache_group'] = 'content/global';
-			
 			$db_opt ['order'] = $orderby;
-			
-			//$aOptions ['search_keyword_only_in_those_fields'] = array('id', 'content_body');
-			
-
-			//$only_in_those_table_fields;
-			
-
-			/*  $save = $this->core_model->fetchDbData ( $table, $criteria, array ('only_fields' => $flds, 'include_ids' => $ids, 'exclude_ids' => $exclude_ids,
-
-            'limit' => $limit, 'get_count' => $count_only, 'search_keyword' => $search_for_those_kw_in_fetch,
-
-
-
-            'debug' => $deb, 'cache_group' => 'content', 'order' => $orderby ) );*/
-			
-			//p($db_opt);
-			
-
 			$save = $this->core_model->fetchDbData ( $table, $criteria, $db_opt );
 		
 		}
@@ -5252,7 +4847,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 
                                     if (trim ( $item ['content_filename'] ) != '') {
 
-                                        $the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+                                        $the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
                                         $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -5286,7 +4881,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 									
 									if (trim ( $item ['content_body_filename'] ) != '') {
 										
-										$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+										$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 										
 										$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/content_files/';
 										
@@ -5351,7 +4946,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 									// This field is used only for content visualization and it's not used by admin panel
 									
 
-									if ($this->optionsGetByKey ( 'enable_silo_linking' )) {
+									if ($this->core_model->optionsGetByKey ( 'enable_silo_linking' )) {
 										
 										$item ['the_content_body'] = $this->contentsAddSiloLinks ( $item ['the_content_body'] );
 									
@@ -5607,13 +5202,13 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		//return false;
 		
 
-		$content_meta_title = $this->content_model->optionsGetByKey ( 'content_meta_title' );
+		$content_meta_title = $this->core_model->optionsGetByKey ( 'content_meta_title' );
 		
-		$content_meta_description = $this->content_model->optionsGetByKey ( 'content_meta_description' );
+		$content_meta_description = $this->core_model->optionsGetByKey ( 'content_meta_description' );
 		
-		$content_meta_keywords = $this->content_model->optionsGetByKey ( 'content_meta_keywords' );
+		$content_meta_keywords = $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
 		
-		$content_meta_other_code = $this->content_model->optionsGetByKey ( 'content_meta_other_code' );
+		$content_meta_other_code = $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
 		
 		$global_replaceables = array ();
 		
@@ -5669,7 +5264,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		//$path = BASEPATH . 'content/templates/';
 		
 
-		$the_active_site_template = $this->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 		
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/';
 		
@@ -6154,7 +5749,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 							
 							if (! empty ( $active_categories )) {
 								
-								$active_categories_children = $this->taxonomy_model->getParents ( $active_categories [0]);
+								$active_categories_children = $this->taxonomy_model->getParents ( $active_categories [0] );
 								
 								if (! empty ( $active_categories_children )) {
 									
@@ -7247,13 +6842,13 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 			
 			$meta ["content_meta_title"] = $content ['content_title'];
 			
-			$meta ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->content_model->optionsGetByKey ( 'content_meta_title' );
+			$meta ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->core_model->optionsGetByKey ( 'content_meta_title' );
 			
-			$meta ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->content_model->optionsGetByKey ( 'content_meta_description' );
+			$meta ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->core_model->optionsGetByKey ( 'content_meta_description' );
 			
-			$meta ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->content_model->optionsGetByKey ( 'content_meta_keywords' );
+			$meta ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
 			
-			$meta ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->content_model->optionsGetByKey ( 'content_meta_other_code' );
+			$meta ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
 			
 			$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
 			
@@ -7738,82 +7333,8 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 
 	}
 	
-	function optionsSave($data) {
-		
-		$data = $this->core_model->optionsSave ( $data );
-		
-		$this->core_model->cleanCacheGroup ( 'options' );
-		
-		$this->core_model->cacheDeleteAll ();
-		
-		return true;
-		
-	/*global $cms_db_tables;
-
-        $table = $cms_db_tables ['table_options'];
-
-        $save = $this->core_model->saveData ( $table, $data );
-
-        $this->core_model->cacheDelete ( 'cache_group', 'options' );
-
-        return true;*/
-	
-	}
-	
-	function optionsGet($data) {
-		
-		$data = $this->core_model->optionsGet ( $data );
-		
-		return $data;
-		
-	/*global $cms_db_tables;
-
-        $table = $cms_db_tables ['table_options'];
-
-        if ($orderby == false) {
-
-        $orderby [0] = 'created_on';
-
-        $orderby [1] = 'DESC';
-
-        }
-
-        $save = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
-
-        return $save;*/
-	
-	}
-	
-	function optionsGetByKey($key) {
-		
-		$data = $this->core_model->optionsGetByKey ( $key );
-		
-		return $data;
-		
-	/*global $cms_db_tables;
-
-        $table = $cms_db_tables ['table_options'];
-
-        if ($orderby == false) {
-
-        $orderby [0] = 'created_on';
-
-        $orderby [1] = 'DESC';
-
-        }
-
-        $data = array ( );
-
-        $data ['option_key'] = $key;
-
-        $get = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
-
-        $get = $get [0] ['option_value'];
-
-        return $get;*/
-	
-	}
-	
+	 
+	 
 	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false) {
 		
 		global $cms_db_tables;
@@ -8096,10 +7617,26 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		
 		}
 		
+		if (empty ( $limit )) {
+			$limit = array (0, 10 );
+		}
+		
+		if (! empty ( $limit )) {
+			
+			$my_offset = $limit [1] - $limit [0];
+			
+			$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
+		
+		} else {
+			
+			$my_limit_q = false;
+		
+		}
+		
 		//  p($sql);
 		
 
-		$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend );
+		$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
 		
 		$q = $this->core_model->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), $cache_group = 'taxonomy/' . $content_parent );
 		
@@ -8131,7 +7668,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 					
 					if (is_array ( $only_with_content ) and ! empty ( $only_with_content )) {
 						
-						$content_ids_of_the_1_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $visible_on_frontend, $non_recursive = true );
+						$content_ids_of_the_1_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
 						
 						$content_ids_of_the_1_parent_o = $content_ids_of_the_1_parent;
 						
@@ -8169,7 +7706,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 							
 							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
 							
-							$children_of_the_next_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $visible_on_frontend, false, $type = 'category_item' );
+							$children_of_the_next_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
 							
 							$children_of_the_next_parent_i = implode ( ',', $children_of_the_next_parent );
 							
@@ -8186,6 +7723,9 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
                              
 
                              group by to_table_id
+                             
+                             
+                             $my_limit_q
 
                          ";
 							
@@ -8495,7 +8035,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 						
 						$check_in_table_content = false;
 						
-						$childern_content = $this->taxonomy_model->getItems ( $item ['id'], $type = 'category_item', $visible_on_frontend );
+						$childern_content = $this->taxonomy_model->getItems ( $item ['id'], $type = 'category_item', $visible_on_frontend, $limit );
 						
 						//$childern_content2 = " SELECT  "
 						
@@ -8762,547 +8302,9 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 	
 	}
 	
-	function commentsDeleteById($id) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$this->core_model->deleteDataById ( $table, $id, $delete_cache_group = 'comments' );
-		
-		return true;
 	
-	}
 	
-	function commentsSave($data) {
-		
-		global $cms_db_tables;
-		
-		$data = stripFromArray ( $data );
-		
-		$data = htmlspecialchars_deep ( $data );
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$data_to_save_options ['delete_cache_groups'] = array ('comments' );
-		
-		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
-		
-		return $id;
 	
-	}
-	
-	function commentApprove($id) {
-		
-		global $cms_db_tables;
-		
-		$data ['id'] = $id;
-		
-		$data ['is_moderated'] = 'y';
-		
-		$this->commentsSave ( $data );
-		
-		return $id;
-	
-	}
-	
-	function commentGetById($id) {
-		
-		$data ['id'] = intval ( $id );
-		
-		$real_comments = $this->commentsGet ( $data );
-		
-		if (! empty ( $real_comments )) {
-			
-			return $real_comments [0];
-		
-		}
-	
-	}
-	
-	function commentsGet($data, $limit = false, $count_only = false, $orderby = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		if (empty ( $orderby )) {
-			
-			$orderby [0] = 'updated_on';
-			
-			$orderby [1] = 'DESC';
-		
-		} else {
-			
-			$orderby = $orderby;
-		
-		}
-		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = false, $orderby, $cache_group = 'comments', false, $ids = false, $count_only );
-		
-		if ($count_only) {
-			
-			return $get;
-		
-		}
-		
-		$real_comments = array ();
-		
-		if (empty ( $get )) {
-			
-			return false;
-		
-		}
-		
-		foreach ( $get as $comment ) {
-			
-			if (! empty ( $cms_db_tables )) {
-				
-				foreach ( $cms_db_tables as $k => $v ) {
-					
-					//var_dump($k, $v);
-					
-
-					if (strtolower ( $comment ['to_table'] ) == strtolower ( $k )) {
-						
-						//  var_dump($v);
-						
-
-						$id = $comment ['to_table_id'];
-						
-						$real_comments [] = $comment;
-						
-					/*$id = intval ( $id );
-
-                        $check = "select count(*) as check_if_exist from $v where id=$id";
-
-                        $q = $this->core_model->dbQuery ( $check );
-
-                        $check = intval ( $q [0] ['check_if_exist'] );
-
-                        if ($check == 0) {
-
-                            $del = "delete from $table where id={$comment['id']}";
-
-                            //var_dump($del );
-
-                            $q = $this->core_model->dbQ ( $del );
-
-                        } else {
-
-                            $real_comments [] = $comment;
-
-                        }*/
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-		
-		$real_comments = htmlspecialchars_deep_decode ( $real_comments );
-		
-		return $real_comments;
-	
-	}
-	
-	function commentsGetCount($to_table, $to_table_id, $is_moderated = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$to_table_id = intval ( $to_table_id );
-		
-		if ($is_moderated != false) {
-			
-			$more_q = ' and is_moderated="y" ';
-		
-		}
-		
-		$q = "SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id=$to_table_id  {$more_q}";
-		
-		$q = $this->core_model->dbQuery ( $q );
-		
-		return intval ( $q [0] ['qty'] );
-		
-	//  p ( $q ,1);
-	
-
-	}
-	
-	function commentsGetForContentId($id, $is_moderated = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$orderby [0] = 'created_on';
-		
-		$orderby [1] = 'DESC';
-		
-		$comments = array ();
-		
-		$comments ['to_table'] = 'table_content';
-		
-		$comments ['to_table_id'] = $id;
-		
-		if ($is_moderated != false) {
-			
-			$comments ['is_moderated'] = 'y';
-		
-		}
-		
-		$comments = $this->commentsGet ( $comments );
-		
-		return $comments;
-	
-	}
-	
-	function commentsGetCountForContentId($id, $is_moderated = false) {
-		
-		$c = $this->commentsGetForContentId ( $id, $is_moderated );
-		
-		if ($c == false) {
-			
-			return 0;
-		
-		}
-		
-		//var_Dump($c);
-		
-
-		return intval ( count ( $c ) );
-	
-	}
-	
-	function commentsGetCounts($to_table, $only_ids = null) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$master_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$where = "WHERE comments.is_moderated = 'n'";
-		
-		if ($only_ids !== null && is_array ( $only_ids )) {
-			
-			$where = "\n AND comments.to_table_id IN (" . implode ( ',', $only_ids ) . ")";
-		
-		}
-		
-		$query = "
-
-            select
-
-                COUNT(comments.id) AS comments_total,
-
-                master_table.id AS item_id
-
-            FROM
-
-                {$table} AS comments
-
-            INNER JOIN
-
-                {$master_table} AS master_table
-
-            ON
-
-                (comments.to_table = '{$to_table}' AND comments.to_table_id = master_table.id)
-
-            {$where}
-
-            GROUP BY
-
-                comments.to_table, comments.to_table_id
-
-        ";
-		
-		//      $this->core_model->cleanCacheGroup('comments');
-		
-
-		$qty = $this->core_model->dbQuery ( $query, md5 ( $query ), 'comments' );
-		
-		return $qty;
-	
-	}
-	
-	function commentsGetNewCommentsCount() {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$data ['is_moderated'] = 'n';
-		
-		$orderby [0] = 'updated_on';
-		
-		$orderby [1] = 'DESC';
-		
-		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit = false, $offset = false, $orderby = false, $cache_group = 'comments', $debug = false, $ids = false, $count_only = true );
-		
-		return $get;
-	
-	}
-	
-	function votesCast($to_table, $to_table_id) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_votes'];
-		
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
-		
-		if ($check == false) {
-			
-			//print 'id not exist?';
-			
-
-			return FALSE;
-		
-		} else {
-			
-			$user_session = $this->session->userdata ( 'user_session' );
-			
-			$created_by = intval ( $user_session ['user_id'] );
-			
-			$created_by = $this->users_model->userId ();
-			
-			//p($created_by, 1);
-			
-
-			if ($created_by > 0) {
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_by=$created_by
-
-
-
-
-
-            ";
-			
-			} else {
-				
-				$ip = visitorIP ();
-				
-				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_on > '$yesterday'
-
-            and user_ip = '$ip'
-
-
-
-            ";
-			
-			}
-			
-			//var_dump ( $check_if_user_voted_for_today );
-			
-
-			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
-			
-			$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
-			
-			if ($check_if_user_voted_for_today == 0) {
-				
-				$cast_vote = array ();
-				
-				$cast_vote ['to_table'] = $to_table;
-				
-				$cast_vote ['to_table_id'] = $to_table_id;
-				
-				$cast_vote ['user_ip'] = $ip;
-				
-				$this->core_model->saveData ( $table, $cast_vote, $data_to_save_options = false );
-				
-				$this->core_model->cleanCacheGroup ( 'votes' );
-				
-				return true;
-			
-			} else {
-				
-				return false;
-			
-			}
-		
-		}
-	
-	}
-	
-	function votesGetCount($to_table, $to_table_id, $since_time = false) {
-		
-		if ($since_time == false) {
-			
-			$since_time = ' 1 year ';
-		
-		}
-		
-		if (($timestamp = strtotime ( $since_time )) === false) {
-			
-			return FALSE;
-		
-		}
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'votes' );
-		
-		if (($cache_content) != false) {
-			
-			if ($cache_content == 'false') {
-				
-				return 0;
-			
-			} else {
-				
-				return $cache_content;
-			
-			}
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_votes'];
-		
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
-		
-		if ($check == false) {
-			
-			return FALSE;
-		
-		} else {
-			
-			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );
-			
-
-			$voted = strtotime ( $since_time . ' ago' );
-			
-			//var_dump($voted);
-			
-
-			//$when = strtotime ( 'now') - $voted;
-			
-
-			//$when = strtotime ( 'now') - $when;
-			
-
-			$yesterday = date ( 'Y-m-d H:i:s', $voted );
-			
-			$qty = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_on > '$yesterday'
-
-            ";
-			
-			//var_dump($qty);
-			
-
-			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'votes' );
-			
-			$qty = $qty [0] ['qty'];
-			
-			$qty = intval ( $qty );
-			
-			if ($qty == 0) {
-				
-				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, 'votes' );
-			
-			} else {
-				
-				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, 'votes' );
-			
-			}
-			
-			return $qty;
-		
-		}
-	
-	}
-	
-	function votesGetCounts($to_table, $only_ids = null) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_votes'];
-		
-		$master_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$where = '';
-		
-		if ($only_ids !== null && is_array ( $only_ids )) {
-			
-			$where = "WHERE votes.to_table_id IN (" . implode ( ',', $only_ids ) . ")";
-		
-		}
-		
-		$query = "
-
-            select
-
-                COUNT(votes.id) AS votes_total,
-
-                master_table.id AS item_id
-
-            FROM
-
-                {$table} AS votes
-
-            INNER JOIN
-
-                {$master_table} AS master_table
-
-            ON
-
-                (votes.to_table = '{$to_table}' AND votes.to_table_id = master_table.id)
-
-            {$where}
-
-            GROUP BY
-
-                votes.to_table, votes.to_table_id
-
-        ";
-		
-		//      $this->core_model->cleanCacheGroup ( 'votes');
-		
-
-		return $this->core_model->dbQuery ( $query, md5 ( $query ), 'votes' );
-	
-	}
 	
 	function content_pingServersWithNewContent() {
 		
@@ -9569,266 +8571,8 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		}
 	
 	}
+ 
 	
-	function report($to_table, $to_table_id) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_reports'];
-		
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
-		
-		if ($check == false) {
-			
-			//print 'id not exist?';
-			
-
-			return FALSE;
-		
-		} else {
-			
-			$user_session = $this->session->userdata ( 'user_session' );
-			
-			$created_by = intval ( $user_session ['user_id'] );
-			
-			$created_by = $this->users_model->userId ();
-			
-			//p($created_by, 1);
-			
-
-			if ($created_by > 0) {
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_by=$created_by
-
-
-
-
-
-            ";
-			
-			} else {
-				
-				$ip = visitorIP ();
-				
-				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_on > '$yesterday'
-
-            and user_ip = '$ip'
-
-
-
-            ";
-			
-			}
-			
-			//var_dump ( $check_if_user_voted_for_today );
-			
-
-			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
-			
-			$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
-			
-			if ($check_if_user_voted_for_today == 0) {
-				
-				$cast_vote = array ();
-				
-				$cast_vote ['to_table'] = $to_table;
-				
-				$cast_vote ['to_table_id'] = $to_table_id;
-				
-				$cast_vote ['user_ip'] = $ip;
-				
-				$this->core_model->saveData ( $table, $cast_vote, $data_to_save_options = false );
-				
-				$this->core_model->cleanCacheGroup ( 'reports' );
-				
-				return true;
-			
-			} else {
-				
-				return false;
-			
-			}
-		
-		}
-	
-	}
-	
-	function reportsGetCount($to_table, $to_table_id, $since_time = false) {
-		
-		if ($since_time == false) {
-			
-			$since_time = ' 1 year ';
-		
-		}
-		
-		if (($timestamp = strtotime ( $since_time )) === false) {
-			
-			return FALSE;
-		
-		}
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'reports' );
-		
-		if (($cache_content) != false) {
-			
-			if ($cache_content == 'false') {
-				
-				return 0;
-			
-			} else {
-				
-				return $cache_content;
-			
-			}
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_reports'];
-		
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
-		
-		if ($check == false) {
-			
-			return FALSE;
-		
-		} else {
-			
-			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );
-			
-
-			$voted = strtotime ( $since_time . ' ago' );
-			
-			//var_dump($voted);
-			
-
-			//$when = strtotime ( 'now') - $voted;
-			
-
-			//$when = strtotime ( 'now') - $when;
-			
-
-			$yesterday = date ( 'Y-m-d H:i:s', $voted );
-			
-			$qty = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_on > '$yesterday'
-
-            ";
-			
-			//var_dump($qty);
-			
-
-			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'reports' );
-			
-			$qty = $qty [0] ['qty'];
-			
-			$qty = intval ( $qty );
-			
-			if ($qty == 0) {
-				
-				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, 'reports' );
-			
-			} else {
-				
-				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, 'reports' );
-			
-			}
-			
-			return $qty;
-		
-		}
-	
-	}
-	
-	function reportsGet($params, $options = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_reports'];
-		
-		if (empty ( $options ['order'] )) {
-			
-			$orderby [0] = 'created_on';
-			
-			$orderby [1] = 'DESC';
-			
-			$options ['order'] = $orderby;
-		
-		} else {
-			
-			$options ['order'] = $options ['order'];
-		
-		}
-		
-		$options = array ();
-		
-		$options ['get_params_from_url'] = true;
-		
-		$options ['debug'] = false;
-		
-		$options ['items_per_page'] = 100;
-		
-		//$options ['group_by'] = 'to_table, to_table_id,from_user, type';
-		
-
-		$options ['group_by'] = 'to_table, to_table_id';
-		
-		//$options ['order'] = $orderby;
-		
-
-		$options ['cache'] = true;
-		
-		$options ['cache_group'] = 'reports';
-		
-		if (! empty ( $db_options )) {
-			
-			foreach ( $db_options as $k => $v ) {
-				
-				$options ["{$k}"] = $v;
-			
-			}
-		
-		}
-		
-		$data = $this->core_model->fetchDbData ( $table, $params, $options );
-		
-		return $data;
-	
-	}
 
 }
 

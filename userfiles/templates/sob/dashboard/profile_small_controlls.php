@@ -1,7 +1,7 @@
 <?php
 
 
-if($to_user != $this->users_model->userId ()): ?>
+if($to_user != $this->core_model->userId ()): ?>
 
 
 <?php   $author  = $this->users_model->getUserById($to_user); ?>

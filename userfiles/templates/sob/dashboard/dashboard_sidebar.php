@@ -1,6 +1,6 @@
 <?php dbg(__FILE__); ?>
 <!-- <?php print __FILE__ ?>  -->
-<?php $user_id = $this->users_model->userId(); 
+<?php $user_id = $this->core_model->userId(); 
 $current_user =  $this->users_model->getUserById($user_id);
 ?>
 
@@ -64,7 +64,7 @@ $current_user =  $this->users_model->getUserById($user_id);
       <?php $relations_options = array ();
 		$relations_options ['order'] = array ('RAND()', ' ' );
 		$relations_options ['limit'] = 12;
-	$followed_ids = $this->users_model->realtionsGetFollowedIdsForUser ( $this->users_model->userId(), 'n', $relations_options );
+	$followed_ids = $this->users_model->realtionsGetFollowedIdsForUser ( $this->core_model->userId(), 'n', $relations_options );
 	
 	
 	 ?>
@@ -90,7 +90,7 @@ $current_user =  $this->users_model->getUserById($user_id);
 		$relations_options ['limit'] = 12;
  
 	
-	$circleOfInfluenceIds = $this->users_model->realtionsGetFollowedIdsForUser ( $this->users_model->userId(), 'y', $relations_options );
+	$circleOfInfluenceIds = $this->users_model->realtionsGetFollowedIdsForUser ( $this->core_model->userId(), 'y', $relations_options );
 		if (! empty ( $circleOfInfluenceIds )) {
 			shuffle ( $circleOfInfluenceIds );
 			}
@@ -120,7 +120,7 @@ $current_user =  $this->users_model->getUserById($user_id);
       <?php $relations_options = array ();
 		$relations_options ['order'] = array ('RAND()', ' ' );
 		$relations_options ['limit'] = 12;
-		$relations = $this->users_model->realtionsGetFollowersIdsForUser (  $this->users_model->userId(), false, $relations_options );
+		$relations = $this->users_model->realtionsGetFollowersIdsForUser (  $this->core_model->userId(), false, $relations_options );
 		if (! empty ( $relations )) {
 			shuffle ( $relations );
 			$followers_ids = $relations;

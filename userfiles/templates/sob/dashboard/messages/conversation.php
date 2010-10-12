@@ -12,7 +12,7 @@
     <?php require (ACTIVE_TEMPLATE_DIR.'dashboard/messages/messages_nav.php') ?>
  </div>
   
-  <?php $your_id = $this->users_model->userId ();
+  <?php $your_id = $this->core_model->userId ();
  
  if(intval($your_id ) == intval($messages[0]['from_user'])){
 	 $between1 = 'you';

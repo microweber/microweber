@@ -24,7 +24,7 @@ class Media extends Controller {
 			exit ( 'Error!' );
 		}
 
-		$user_id = $this->users_model->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error!' );
 		}
@@ -41,7 +41,7 @@ class Media extends Controller {
 
 	function user_upload_picture() {
 		@ob_clean ();
-		$user_id = $this->users_model->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error! You are not logged in.' );
 		}
@@ -59,7 +59,7 @@ class Media extends Controller {
 
 	function crop_picture_by_id() {
 		@ob_clean ();
-		$user_id = $this->users_model->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error! You are not logged in.' );
 		}
@@ -93,7 +93,7 @@ class Media extends Controller {
 	}
 
 	function user_get_picture_info() {
-		$user_id = $this->users_model->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error! You are not logged in.' );
 		}

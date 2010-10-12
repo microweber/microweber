@@ -16,8 +16,8 @@ kjhkjh
 
   <?
  // var_dump($since);
-  //print $this->content_model->votesGetCount('table_content', $the_post['id'], $this->core_model->getParamFromURL ( 'voted' ));
-  print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
+  //print $this->votes_model->votesGetCount('table_content', $the_post['id'], $this->core_model->getParamFromURL ( 'voted' ));
+  print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
   </span><br />
   votes
 
@@ -84,8 +84,8 @@ kjhkjh
                 
                 <? endif;  ?>
                 
-                <li><span class="voteUp"> <?  print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?></span></li>
-                <li><a class="cmm" href="<? print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><? print $this->content_model->commentsGetCountForContentId($the_post['id']); ?></a></li>
+                <li><span class="voteUp"> <?  print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?></span></li>
+                <li><a class="cmm" href="<? print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><? print $this->comments_model->commentsGetCountForContentId($the_post['id']); ?></a></li>
                 <li><a href="<? print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>">Read more</a></li>
               </ul>
           </div>

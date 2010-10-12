@@ -72,7 +72,7 @@
         <?php $thumb = $this->content_model->contentGetThumbnailForContentId( $the_post['id'], 250, 250);  ?>
         <div class="post"> <a class="eimg" href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"> <span style="background-image:url('<?php print $thumb; ?>')"></span> </a>
           <h2 class="post-title"><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"><?php print $the_post['content_title']; ?></a></h2>
-          <span class="date">by <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>"> <?php print $author['first_name']; ?> <?php print $author['last_name']; ?> </a> | <?php print date(DATETIME_FORMAT, strtotime($the_post['created_on'])); ?> | <a class="comments-date" href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><?php print $this->content_model->commentsGetCountForContentId($the_post['id']); ?> Comments</a></span>
+          <span class="date">by <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>"> <?php print $author['first_name']; ?> <?php print $author['last_name']; ?> </a> | <?php print date(DATETIME_FORMAT, strtotime($the_post['created_on'])); ?> | <a class="comments-date" href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><?php print $this->comments_model->commentsGetCountForContentId($the_post['id']); ?> Comments</a></span>
           <p>
             <?php if($the_post['content_description'] != ''): ?>
             <?php print (character_limiter($the_post['content_description'], 150, '...')); ?>

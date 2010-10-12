@@ -18,7 +18,7 @@ class Reports extends Controller {
 			$data [] = array ('to_table', $reports_for );
 		}
 
-		$reports = $this->content_model->reportsGet ( $data, false );
+		$reports = $this->reports_model->reportsGet ( $data, false );
 
 		$this->template ['reports'] = $reports;
 
@@ -84,7 +84,7 @@ class Reports extends Controller {
 		 	break;
 		 }
 
-			//$this->content_model->commentsDeleteById ( $id );
+			//$this->comments_model->commentsDeleteById ( $id );
 		}
 	}
 

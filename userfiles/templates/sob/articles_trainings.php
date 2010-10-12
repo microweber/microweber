@@ -6,7 +6,7 @@
   <div class="pad">
   <!--  <h2 class="title">From My Blog</h2>-->
 
-    <a href="#" onclick="scrollto('#comments');" class="comments-link-big right"><?php print $this->content_model->commentsGetCountForContentId($post['id']); ?> comments</a>
+    <a href="#" onclick="scrollto('#comments');" class="comments-link-big right"><?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?> comments</a>
     <h2 class="post-title" style="width:490px"><?php print $post['content_title']; ?></h2>
     <div class="richtext"><?php print ($post['the_content_body']); ?><br />
       <!--<span class="uppercase">Please vote for this post</span> <span class="voteUp">2,470</span>--> </div>
@@ -19,7 +19,7 @@
 
 
 
-                <li><a id="content-votes-<?php print $post['id'] ?>" class="voteUp" href="javascript:voteUp('<?php print base64_encode('table_content') ?>', '<?php print base64_encode($post['id']) ?>', 'content-votes-<?php print $post['id'] ?>');"><?php print $this->content_model->votesGetCount('table_content', $post['id'], '1 year'); ?> </a></li>
+                <li><a id="content-votes-<?php print $post['id'] ?>" class="voteUp" href="javascript:voteUp('<?php print base64_encode('table_content') ?>', '<?php print base64_encode($post['id']) ?>', 'content-votes-<?php print $post['id'] ?>');"><?php print $this->votes_model->votesGetCount('table_content', $post['id'], '1 year'); ?> </a></li>
 
 
 
@@ -29,7 +29,7 @@
 
 
 
-                <li><a id="content-comments-<?php print $post['id'] ?>" class="cmm"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->content_model->commentsGetCountForContentId($post['id']); ?></a></li>
+                <li><a id="content-comments-<?php print $post['id'] ?>" class="cmm"  onclick="scrollto('#comments');" href="javascript:void(0)"><?php print $this->comments_model->commentsGetCountForContentId($post['id']); ?></a></li>
 
                 <li><a href="http://www.addthis.com/bookmark.php?v=20&amp;username=xa-4b86539e06631c47" class="addthis_button_compact">Share</a></li>
 

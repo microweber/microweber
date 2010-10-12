@@ -89,9 +89,9 @@ var dtree_root_folder = '<?php print_the_static_files_url() ; ?>js/dtree/';
 </script>-->
 <!--<script type="text/javascript" src="<?php print_the_static_files_url() ; ?>js/dtree/dtree.js"></script>
 <link rel="stylesheet" href="<?php print_the_static_files_url() ; ?>js/dtree/dtree.css" type="text/css" media="all"  />-->
-<!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<?php print $this->content_model->optionsGetByKey ( 'google_maps_api_key' ); ?>&amp;sensor=true"  type="text/javascript"></script>-->
+<!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<?php print $this->core_model->optionsGetByKey ( 'google_maps_api_key' ); ?>&amp;sensor=true"  type="text/javascript"></script>-->
 <?php if($load_google_map == true) : ?>
-<!--<script src="http://www.google.com/jsapi?key=<?php print $this->content_model->optionsGetByKey ( 'google_maps_api_key' ); ?>" type="text/javascript"></script>-->
+<!--<script src="http://www.google.com/jsapi?key=<?php print $this->core_model->optionsGetByKey ( 'google_maps_api_key' ); ?>" type="text/javascript"></script>-->
 <script type="text/javascript">
 //google.load("maps", "2");
 </script>
@@ -109,7 +109,7 @@ $(document).ready(function(){
     oFCKeditor.Height = 500 ;
     oFCKeditor.Width = 645 ;
     //oFCKeditor.Config["CustomConfigurationsPath"] = "<?php print_the_static_files_url() ; ?>js/fckeditor/myconfig.js?" + ( new Date() * 1 ) ;
-	oFCKeditor.Config["GoogleMaps_Key"] =  '<?php print $this->content_model->optionsGetByKey ( 'google_maps_api_key' ); ?>';
+	oFCKeditor.Config["GoogleMaps_Key"] =  '<?php print $this->core_model->optionsGetByKey ( 'google_maps_api_key' ); ?>';
     oFCKeditor.Config["CustomConfigurationsPath"] = "<?php print_the_static_files_url() ; ?>js/fckeditor/myconfig.js" ;
     oFCKeditor.ReplaceTextarea() ;
    // })
@@ -133,7 +133,7 @@ $.fck.config = {
 			height: 500,
             config:{
                 AutoDetectLanguage:false,
-				GoogleMaps_Key: '<?php print $this->content_model->optionsGetByKey ( 'google_maps_api_key' ); ?>' , 
+				GoogleMaps_Key: '<?php print $this->core_model->optionsGetByKey ( 'google_maps_api_key' ); ?>' , 
                 CustomConfigurationsPath:'<?php print_the_static_files_url() ; ?>js/fckeditor/myconfig.js'
                 }
 	}; 

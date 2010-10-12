@@ -12,7 +12,7 @@
     </td>
   </tr>
   <tr>
-    <td>  <?php $comments = $temp= $this->content_model->commentsGetForContentId( $form_values['id']); ?>
+    <td>  <?php $comments = $temp= $this->comments_model->commentsGetForContentId( $form_values['id']); ?>
         <?php include (ADMINVIEWSPATH.'comments/comments_list.php') ?></td>
   </tr>
 </table>

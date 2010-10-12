@@ -174,7 +174,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->commentsSave ( $_POST );
+			$save = $this->comments_model->commentsSave ( $_POST );
 
 			print $save;
 
@@ -206,7 +206,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			$comments ['to_table_id'] = $toTableId;
 			$comments ['is_moderated'] = 'n';
 
-			$comments = $this->content_model->commentsGet ( $comments );
+			$comments = $this->comments_model->commentsGet ( $comments );
 
 			ob_start ();
 			foreach ( $comments as $comment ) {
@@ -230,7 +230,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				exit ( '2' );
 			}
 
-			$save = $this->content_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
+			$save = $this->votes_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
 			if ($save == true) {
 				exit ( 'yes' );
 			} else {
@@ -893,7 +893,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 
 			$this->_requireLogin ();
 
-			$currentUser_id = $this->users_model->userId ();
+			$currentUser_id = $this->core_model->userId ();
 
 			$status = array ('user_id' => $currentUser_id, 'status' => $_POST ['status'] );
 
@@ -1123,11 +1123,11 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 
 			/* comments and votes count */
 
-			$contentVotes = $this->content_model->votesGetCounts ( 'table_content', $contentsIds );
-			$contentComments = $this->content_model->commentsGetCounts ( 'table_content', $contentsIds );
+			$contentVotes = $this->votes_model->votesGetCounts ( 'table_content', $contentsIds );
+			$contentComments = $this->comments_model->commentsGetCounts ( 'table_content', $contentsIds );
 
-			$statusesVotes = $this->content_model->votesGetCounts ( 'table_users_statuses', $statusesIds );
-			$statusesComments = $this->content_model->commentsGetCounts ( 'table_users_statuses', $statusesIds );
+			$statusesVotes = $this->votes_model->votesGetCounts ( 'table_users_statuses', $statusesIds );
+			$statusesComments = $this->comments_model->commentsGetCounts ( 'table_users_statuses', $statusesIds );
 
 			$stats = array ('statuses' => array ('votes' => $statusesVotes, 'comments' => $statusesComments ), 'contents' => array ('votes' => $contentVotes, 'comments' => $contentComments ) );
 

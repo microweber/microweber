@@ -8,7 +8,7 @@ if (intval ( $curent_page ) < 1) {
 
 }
 
-$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 
 $items_per_page = intval ( $items_per_page );
 
@@ -28,7 +28,7 @@ $this->template ['user_action'] = $action;
 
 $id = $this->core_model->getParamFromURL ( $id );
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -38,7 +38,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 

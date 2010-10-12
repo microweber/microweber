@@ -22,8 +22,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=7" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="<?php print site_url('main/rss'); ?>" />
 <link rel="sitemap" type="application/rss+xml" title="Sitemap" href="<?php print site_url('main/sitemaps'); ?>" />
-<meta name="reply-to" content="<?php print $this->content_model->optionsGetByKey ( 'creator_email' ); ?>" />
-<link rev="made" href="mailto:<?php print $this->content_model->optionsGetByKey ( 'creator_email' ); ?>" />
+<meta name="reply-to" content="<?php print $this->core_model->optionsGetByKey ( 'creator_email' ); ?>" />
+<link rev="made" href="mailto:<?php print $this->core_model->optionsGetByKey ( 'creator_email' ); ?>" />
 <meta name="author" content="http://ooyes.net" />
 <meta name="language" content="en" />
 <meta name="distribution" content="global" />

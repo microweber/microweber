@@ -188,7 +188,7 @@
 
 		default :
 
-			$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+			$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 
 			$items_per_page = intval ( $items_per_page );
 

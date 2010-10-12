@@ -3,8 +3,8 @@
 
 <form method="post" id="message-compose">
 
-<input name="mk" type="hidden" value="<?php print ($this->core_model->securityEncryptString ( $this->users_model->userId () )) ?>" />
-<input name="from_user" type="hidden" value="<?php print intval( $this->users_model->userId () ) ?>" />
+<input name="mk" type="hidden" value="<?php print ($this->core_model->securityEncryptString ( $this->core_model->userId () )) ?>" />
+<input name="from_user" type="hidden" value="<?php print intval( $this->core_model->userId () ) ?>" />
 <input name="receiver" id="message-compose-receiver" type="hidden" value="<?php print intval( $message_to_user['id'] ) ?>" />
 
 <label class="block" style="padding: 8px 0 5px">Receiver:</label>

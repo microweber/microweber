@@ -29,7 +29,7 @@
       <?php $author = $this->users_model->getUserById($the_post['created_by']); ?>
       <?php $thumb = $this->content_model->contentGetThumbnailForContentId( $the_post['id'], 250, 250);  ?>
       <li> <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>" class="author">by <?php print $this->users_model->getPrintableName (  $author['id'], 'full' ); ?></a> <span class="voteUp">
-        <?php print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
+        <?php print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
         </span>
         <h2><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"><?php print $the_post['content_title']; ?></a></h2>
       </li>
@@ -55,7 +55,7 @@
       <?php $author = $this->users_model->getUserById($the_post['created_by']); ?>
       <?php $thumb = $this->content_model->contentGetThumbnailForContentId( $the_post['id'], 250, 250);  ?>
       <li> <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>" class="author">by <?php print $this->users_model->getPrintableName (  $author['id'], 'full' ); ?></a> <span class="voteUp">
-        <?php print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
+        <?php print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
         </span>
         <h2><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"><?php print $the_post['content_title']; ?></a></h2>
       </li>
@@ -78,7 +78,7 @@
       <?php $author = $this->users_model->getUserById($the_post['created_by']); ?>
       <?php $thumb = $this->content_model->contentGetThumbnailForContentId( $the_post['id'], 250, 250);  ?>
       <li> <a href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>" class="author">by <?php print $this->users_model->getPrintableName (  $author['id'], 'full' ); ?></a> <span class="voteUp">
-        <?php print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
+        <?php print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
         </span>
         <h2><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>"><?php print $the_post['content_title']; ?></a></h2>
       </li>

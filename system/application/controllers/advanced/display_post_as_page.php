@@ -75,7 +75,7 @@ if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 
 }
 
-$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 

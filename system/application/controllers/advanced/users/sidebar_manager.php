@@ -9,7 +9,7 @@ $this->load->vars ( $this->template );
 if ($_POST) {
 
 		$to_save = $_POST;
-		$to_save ['id'] = $this->users_model->userId() ;
+		$to_save ['id'] = $this->core_model->userId() ;
 		$saved_id = $this->users_model->saveUser ( $to_save );
 		$this->template ['user_edit_done'] = true;
 		$this->load->vars ( $this->template );

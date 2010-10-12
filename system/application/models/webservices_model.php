@@ -7,8 +7,8 @@
 	
 	function google_Analytics_listProfiles() {
 		
-		$email = $this->content_model->optionsGetByKey ( 'google_analytics_login' );
-		$pass = $this->content_model->optionsGetByKey ( 'google_analytics_pass' );
+		$email = $this->core_model->optionsGetByKey ( 'google_analytics_login' );
+		$pass = $this->core_model->optionsGetByKey ( 'google_analytics_pass' );
 		require_once ("Zend/Loader.php");
 		Zend_Loader::loadClass ( 'Zend_Gdata' );
 		Zend_Loader::loadClass ( 'Zend_Gdata_Query' );
@@ -30,8 +30,8 @@
 	
 	function google_Analytics_getVisitsAndPageviewsForProfileId($profile_id, $start_date = false, $end_date = false) {
 		
-		$email = $this->content_model->optionsGetByKey ( 'google_analytics_login' );
-		$pass = $this->content_model->optionsGetByKey ( 'google_analytics_pass' );
+		$email = $this->core_model->optionsGetByKey ( 'google_analytics_login' );
+		$pass = $this->core_model->optionsGetByKey ( 'google_analytics_pass' );
 		require_once ("Zend/Loader.php");
 		Zend_Loader::loadClass ( 'Zend_Gdata' );
 		Zend_Loader::loadClass ( 'Zend_Gdata_Query' );
@@ -97,8 +97,8 @@
 function google_Analytics_getKeywordsForProfile($profile_id, $start_date = false, $end_date = false) {
 		
 
-		$email = $this->content_model->optionsGetByKey ( 'google_analytics_login' );
-		$pass = $this->content_model->optionsGetByKey ( 'google_analytics_pass' );
+		$email = $this->core_model->optionsGetByKey ( 'google_analytics_login' );
+		$pass = $this->core_model->optionsGetByKey ( 'google_analytics_pass' );
 		require_once ("Zend/Loader.php");
 		Zend_Loader::loadClass ( 'Zend_Gdata' );
 		Zend_Loader::loadClass ( 'Zend_Gdata_Query' );

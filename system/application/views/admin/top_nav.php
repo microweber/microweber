@@ -97,7 +97,7 @@ $admin_loaded_plugins[] = $tempdata;
     </UL>
   </LI>
   <li <?php if( $className == 'comments')  : ?> class="current" <?php endif; ?> ><a href="<?php print site_url('admin/comments/index')  ?>">Comments
-    <?php $new_comments_counts = $this->content_model->commentsGetNewCommentsCount ();
+    <?php $new_comments_counts = $this->comments_model->commentsGetNewCommentsCount ();
 	if(intval($new_comments_counts) > 0) : ?>
     <sup style="font-size:7px"><?php print $new_comments_counts ?> new</sup>
     <?php endif;  ?>

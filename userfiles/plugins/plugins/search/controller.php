@@ -115,7 +115,7 @@ switch ( $search_what) {
 
 
 	default:
-		$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 		$items_per_page = intval ( $items_per_page );
 		$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		if (intval ( $curent_page ) < 1) {

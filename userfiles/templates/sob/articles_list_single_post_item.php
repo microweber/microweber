@@ -85,10 +85,10 @@
         <?php endif;  ?>
         </span></li>
       <?php endif;  ?>
-      <li><span class="voteUp title-tip" title="<?php print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?> Votes">
-        <?php print $this->content_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
+      <li><span class="voteUp title-tip" title="<?php print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?> Votes">
+        <?php print $this->votes_model->votesGetCount('table_content', $the_post['id'], '1 year'); ?>
         </span></li>
-      <li><a class="cmm title-tip" title="<?php print $this->content_model->commentsGetCountForContentId($the_post['id']); ?> Comments" href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><?php print $this->content_model->commentsGetCountForContentId($the_post['id']); ?></a></li>
+      <li><a class="cmm title-tip" title="<?php print $this->comments_model->commentsGetCountForContentId($the_post['id']); ?> Comments" href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>#the_comments_anchor"><?php print $this->comments_model->commentsGetCountForContentId($the_post['id']); ?></a></li>
       <li><a href="<?php print $this->content_model->contentGetHrefForPostId($the_post['id']) ; ?>">Read more</a></li>
     </ul>
   </div>

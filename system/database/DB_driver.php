@@ -243,7 +243,7 @@ class CI_DB_driver {
 	 */	
 	function query($sql, $binds = FALSE, $return_object = TRUE)
 	{
-		if ($sql == '')
+		if (trim($sql) == '')
 		{
 			if ($this->db_debug)
 			{

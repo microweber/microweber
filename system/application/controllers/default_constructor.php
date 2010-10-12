@@ -43,7 +43,13 @@ $this->load->model ( 'Init_model', 'init_model' );
 $this->load->model ( 'Core_model', 'core_model' );
 $this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 $this->load->model ( 'Content_model', 'content_model' );
+$this->load->model ( 'Comments_model', 'comments_model' );
+$this->load->model ( 'Reports_model', 'reports_model' );
+ 
 $this->load->model ( 'Users_model', 'users_model' );
+
+$this->load->model ( 'Votes_model', 'votes_model' );
+
 $this->load->model ( 'Cart_model', 'cart_model' );
 $this->load->model ( 'Template_model', 'template_model' );
 

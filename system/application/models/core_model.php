@@ -1189,6 +1189,10 @@ class Core_model extends Model {
 		
 		global $cms_db_tables;
 		
+		if (trim ( $q ) == '') {
+			return false;
+		}
+		
 		//$this->db->query ( 'SET NAMES utf8' );
 		//$this->db->query ( $q );
 		$this->db->query ( $q );
@@ -1222,6 +1226,9 @@ class Core_model extends Model {
 	}
 	
 	function dbQuery($q, $cache_id = false, $cache_group = 'global') {
+		if (trim ( $q ) == '') {
+			return false;
+		}
 		
 		if ($cache_id != false) {
 			$results = $this->cacheGetContentAndDecode ( $cache_id, $cache_group );
@@ -2088,7 +2095,7 @@ class Core_model extends Model {
 				$comments = array ( );
 				$comments ['to_table'] = 'table_content';
 				$comments ['to_table_id'] = $item ['id'];
-				$comments = $this->content_model->commentsGet ( $comments );
+				$comments = $this->comments_model->commentsGet ( $comments );
 				if (! empty ( $comments )) {
 				$item ['comments'] = $comments;
 				}
@@ -2107,7 +2114,7 @@ class Core_model extends Model {
 				$comments ['to_table_id'] = $item ['id'];
 				$comments ['is_moderated'] = 'y';
 
-				$comments = $this->content_model->commentsGet ( $comments );
+				$comments = $this->comments_model->commentsGet ( $comments );
 				if (! empty ( $comments )) {
 				$item ['comments_approved'] = $comments;
 				}
@@ -2125,7 +2132,7 @@ class Core_model extends Model {
 			$comments ['to_table_id'] = $item ['id'];
 			$comments ['is_moderated'] = 'n';
 
-			$comments = $this->content_model->commentsGet ( $comments );
+			$comments = $this->comments_model->commentsGet ( $comments );
 			if (! empty ( $comments )) {
 			$item ['comments_not_approved'] = $comments;
 			}
@@ -2408,7 +2415,7 @@ class Core_model extends Model {
 					
 					if ($items_per_page == false) {
 						
-						$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
+						$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 					
 					}
 					

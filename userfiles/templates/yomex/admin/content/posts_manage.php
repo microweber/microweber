@@ -574,7 +574,7 @@ $(document).ready(function(){
                
                 </td>
                 <td style="display: none"><?php print ($item['is_active']) ?></td>
-                <td style="display: none"><?php $temp= $this->content_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
+                <td style="display: none"><?php $temp= $this->comments_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
                 </td>
                 <td style="display: none"><?php if($selected_voted == false) : ?>
                   <?php $temp = 7 ?>
@@ -590,7 +590,7 @@ $(document).ready(function(){
             
 
                   <div class="visibleCell_right"> <span class="visibleCell_right_comments">Comments
-                    <?php $temp= $this->content_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
+                    <?php $temp= $this->comments_model->commentsGetForContentId( $item['id']); print (count(  $temp )); ?>
                     </span> <a href="<?php print site_url('admin/content/posts_edit/id:'.$item['id'])  ?>" class="btnedit">Edit post</a>
                     <div style="height: 0px;clear: both;overflow: hidden;">
                       <!--  -->

@@ -48,7 +48,7 @@ var tb_path = "<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/thickbox/";
 <script type="text/javascript" src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/thickbox/thickbox.js"></script>
 <link rel="stylesheet" href="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>jquery/thickbox/thickbox.css" type="text/css" media="all"  />
 <?php if($load_google_map == true) : ?>
-<!--<script src="http://www.google.com/jsapi?key=<?php print $this->content_model->optionsGetByKey ( 'google_maps_api_key' ); ?>" type="text/javascript"></script>-->
+<!--<script src="http://www.google.com/jsapi?key=<?php print $this->core_model->optionsGetByKey ( 'google_maps_api_key' ); ?>" type="text/javascript"></script>-->
 <script type="text/javascript">
 //google.load("maps", "2");
 </script>

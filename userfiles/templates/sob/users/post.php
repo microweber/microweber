@@ -483,7 +483,7 @@ function deletePicture(id, id_to_fade){
       <?php $comments = array ();
 			$comments ['to_table'] = 'table_content';
 			$comments ['to_table_id'] = $form_values ['id'];
-			$comments = $this->content_model->commentsGet ( $comments );
+			$comments = $this->comments_model->commentsGet ( $comments );
 
 ?>
       <?php if(!empty($comments)): ?>
