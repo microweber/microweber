@@ -87,9 +87,16 @@ class Comments_model extends Model {
 			
 		//	$orderby = $orderby;
 		
+
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit , $offset = false, $orderby, $cache_group = 'comments', false, $ids = false, $count_only );
+		$cache_group = "comments/global";
+		if (intval ( $data ['id'] ) != 0) {
+			$cache_group = "comments/{$data['id']}";
+		
+		}
+		
+		$get = $this->core_model->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group, false, $ids = false, $count_only );
 		
 		if ($count_only) {
 			
@@ -117,7 +124,7 @@ class Comments_model extends Model {
 					if (strtolower ( $comment ['to_table'] ) == strtolower ( $k )) {
 						$id = $comment ['to_table_id'];
 						$real_comments [] = $comment;
-			
+					
 					}
 				
 				}
@@ -249,7 +256,7 @@ class Comments_model extends Model {
 		//      $this->core_model->cleanCacheGroup('comments');
 		
 
-		$qty = $this->core_model->dbQuery ( $query, md5 ( $query ), 'comments' );
+		$qty = $this->core_model->dbQuery ( $query, __FUNCTION__.md5 ( $query ), 'comments/global' );
 		
 		return $qty;
 	
@@ -267,7 +274,7 @@ class Comments_model extends Model {
 		
 		$orderby [1] = 'DESC';
 		
-		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit = false, $offset = false, $orderby = false, $cache_group = 'comments', $debug = false, $ids = false, $count_only = true );
+		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit = false, $offset = false, $orderby = false, $cache_group = 'comments/global', $debug = false, $ids = false, $count_only = true );
 		
 		return $get;
 	
@@ -283,9 +290,12 @@ class Comments_model extends Model {
 		
 		$table = $cms_db_tables ['table_comments'];
 		
-		$data_to_save_options ['delete_cache_groups'] = array ('comments' );
+		//$data_to_save_options ['delete_cache_groups'] = array ('comments' );
 		
 		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
+		
+		$this->core_model->cleanCacheGroup('comments/'.$id);
+		$this->core_model->cleanCacheGroup('comments/global');
 		
 		return $id;
 	
@@ -297,7 +307,10 @@ class Comments_model extends Model {
 		
 		$table = $cms_db_tables ['table_comments'];
 		
-		$this->core_model->deleteDataById ( $table, $id, $delete_cache_group = 'comments' );
+		$this->core_model->deleteDataById ( $table, $id );
+		
+		$this->core_model->cleanCacheGroup('comments/'.$id);
+		$this->core_model->cleanCacheGroup('comments/global');
 		
 		return true;
 	

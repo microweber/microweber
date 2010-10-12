@@ -43,7 +43,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 	}
 
-	if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
+	/*if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
 
 		$gogo = $this->content_model->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
 		
@@ -60,7 +60,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 		}
 
-	}
+	}*/
 }
 
 $this->template ['page'] = $page;

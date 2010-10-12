@@ -30,7 +30,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 	}
 
-	if (trim ( $post ['page_301_redirect_link'] ) != '') {
+	/*if (trim ( $post ['page_301_redirect_link'] ) != '') {
 
 		$gogo = $post ['page_301_redirect_link'];
 
@@ -56,7 +56,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 		}
 
-	}
+	}*/
 }
 
 $this->template ['page'] = $page;
@@ -302,7 +302,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 
 				$the_taxonomy_item_fulll = $this->taxonomy_model->getSingleItem ( $active_cat );
 
-				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
+				/*if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
 
 					$gogo = $the_taxonomy_item_fulll ['page_301_redirect_link'];
 
@@ -320,28 +320,9 @@ if ($page ['content_subtype'] == 'blog_section') {
 
 				} else {
 
-				}
+				}*/
 
-				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] ) != '') {
-
-					$gogo = $this->content_model->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
-
-					//exit($gogo);
-					if ($this->core_model->validators_isUrl ( $gogo ) == true) {
-
-						header ( 'Location: ' . $gogo );
-
-						exit ();
-
-					} else {
-
-						exit ( "Trying to go to invalid url: $gogo" );
-
-					}
-
-				} else {
-
-				}
+			 
 
 			}
 

@@ -6745,34 +6745,7 @@ $w
 	// Data_length
 	
 
-	function helpers_treeRead($tree, $BUFFER = array()) {
-		
-		foreach ( $tree as $k => $v ) {
-			
-			if (is_array ( $v )) {
-				
-				echo "\n<ul>\n<li>" . $k;
-				
-				$this->helpers_treeRead ( $v, $BUFFER );
-				
-				echo "</li>\n</ul>";
-			
-			} else {
-				
-				$BUFFER [] = $v;
-			
-			}
-		
-		}
-		
-		if (count ( $BUFFER ) > 0) {
-			
-			echo "\n<ul>\n <li>" . (implode ( "</li>\n <li>", $BUFFER )) . "</li>\n</ul>\n";
-		
-		}
-	
-	}
-	
+	 
 	function urlConstruct($base_url = false, $params = array()) {
 		
 		//getCurentURL()
@@ -7579,11 +7552,7 @@ $w
 	
 	}
 	
-	function validators_isUrl($string) {
-		
-		return false;
-	
-	}
+	 
 	
 	function securityEncryptArray($arr) {
 		
@@ -7713,7 +7682,7 @@ $w
 		return $q;
 	
 	}
-	
+	/*
 	function geoGetAllContinents() {
 		
 		global $cms_db_tables;
@@ -7735,7 +7704,7 @@ $w
 		return $ret;
 	
 	}
-	
+	*/
 	function sendMail($opt = array(), $return_full = false) {
 		
 		if (empty ( $opt ))

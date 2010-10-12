@@ -72,7 +72,7 @@ if ($_POST) {
 		if ($back_to != '') {
 			$back_to = base64_decode ( $back_to );
 
-			if ($this->core_model->validators_isUrl ( $back_to ) == true) {
+			if (trim ( $back_to ) != '') {
 
 				header ( 'Location: ' . $back_to );
 
