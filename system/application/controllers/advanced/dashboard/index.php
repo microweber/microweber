@@ -22,12 +22,12 @@ if ($user_action != 'live') {
 }
 $log_params [] = array ("is_read", 'n' );
 
-$log = $this->users_model->logGetByParams ( $log_params, $query_options );
+$log = $this->notifications_model->logGetByParams ( $log_params, $query_options );
 $query_options ['group_by'] = false;
 //$query_options ['debug'] = true;
 $query_options ['get_count'] = true;
 $query_options ['items_per_page'] = false;
-$log_count = $this->users_model->logGetByParams ( $log_params, $query_options );
+$log_count = $this->notifications_model->logGetByParams ( $log_params, $query_options );
 //p($log_count);
 $results_count = intval ( $log_count );
 $log_count = ceil ( $results_count / $some_items_per_page );

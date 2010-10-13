@@ -19,7 +19,7 @@ if ($show_inbox == 1 and $conversation == false) {
 
 
 if ($show == 'unread') {
-	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->core_model->userId () );
+	$unreadedMessages = $this->messages_model->messagesGetUnreadForUser ( $this->core_model->userId () );
 	$this->template ['conversations'] = $unreadedMessages;
 	$this->template ['show'] = 'unread';
 	$content ['content_filename'] = 'dashboard/messages/conversations.php';
@@ -31,11 +31,11 @@ $this->template ['show'] = 'read';
 	$opts = array ();
 	$opts ['get_count'] = false;
 	$opts ['items_per_page'] = $some_items_per_page;
-	$conversations = $this->users_model->messagesGetByDefaultParams ( false, $opts );
+	$conversations = $this->messages_model->messagesGetByDefaultParams ( false, $opts );
 	$opts = array ();
 	$opts ['get_count'] = true;
 	$opts ['items_per_page'] = 2000;
-	$conversations_count = $this->users_model->messagesGetByDefaultParams ( false, $opts );
+	$conversations_count = $this->messages_model->messagesGetByDefaultParams ( false, $opts );
 	$results_count = intval ( $conversations_count );
 	$pages_count = ceil ( $results_count / $some_items_per_page );
 
@@ -59,7 +59,7 @@ and to_user=$userid
 
 	$params = array ();
 	$params [] = array ('id', $conversation );
-	$parentMessage = $this->users_model->messagesGetByParams ( $params, $options = false );
+	$parentMessage = $this->messages_model->messagesGetByParams ( $params, $options = false );
 	$parentMessage = $parentMessage [0];
 
 	if ($parentMessage ['from_user'] == $this->core_model->userId ()) {
@@ -77,7 +77,7 @@ and to_user=$userid
 	AND deleted_from_sender = 'n') OR (to_user = {$currentUser['id']}
 	AND deleted_from_receiver = 'n'))";
 
-	$messages = $this->users_model->messagesThread ( $conversation );
+	$messages = $this->messages_model->messagesThread ( $conversation );
 
 	$this->template ['messages'] = $messages;
 
@@ -101,7 +101,7 @@ if ($showUnreaded) {
 	// show all unreaded messages
 
 
-	$unreadedMessages = $this->users_model->messagesGetUnreadForUser ( $this->core_model->userId () );
+	$unreadedMessages = $this->messages_model->messagesGetUnreadForUser ( $this->core_model->userId () );
 	$this->template ['messages'] = $unreadedMessages;
 	$content ['content_filename'] = 'dashboard/messages/unreaded.php';
 
@@ -117,7 +117,7 @@ and to_user=$userid
 
 	$params = array ();
 	$params [] = array ('id', $conversation );
-	 $parentMessage = $this->users_model->messagesGetByParams ( $params, $options = false );
+	 $parentMessage = $this->messages_model->messagesGetByParams ( $params, $options = false );
 	$parentMessage = $parentMessage [0];
 
 	if ($parentMessage ['from_user'] == $this->core_model->userId ()) {
@@ -136,7 +136,7 @@ and to_user=$userid
 	AND deleted_from_receiver = 'n'))";
 
 
-	$messages = $this->users_model->messagesThread ( $conversation );
+	$messages = $this->messages_model->messagesThread ( $conversation );
 
 	$this->template ['messages'] = $messages;
 	$this->template ['message_parent'] = $conversation;
@@ -165,7 +165,7 @@ and to_user=$userid
 
 	$conversations = $this->core_model->fetchDbData ( TABLE_PREFIX . 'messages', $q, $db_opts );
 	//p ( $conversations );
-	//$conversations = $this->users_model->messagesGetByParams ( $params, $options = false );
+	//$conversations = $this->messages_model->messagesGetByParams ( $params, $options = false );
 
 
 	//	$conversations = $this->core_model->fetchDbData ( 'firecms_messages', "parent_id is NULL AND (from_user = {$currentUser['id']} AND deleted_from_sender = 'n' OR to_user = {$currentUser['id']} AND deleted_from_receiver = 'n')" );

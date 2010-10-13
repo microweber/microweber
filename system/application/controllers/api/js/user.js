@@ -252,9 +252,6 @@ mw.users.UserNotification = new function() {
 	
 	
 	this.remove = function(id) {
-
-	
-		
 			$.post('{SITEURL}api/user/notification_delete', {
 				id : id
 			}, function(response) {
@@ -358,19 +355,16 @@ mw.users.User = new function() {
 	/* ~~~ public methods ~~~ */
 
 	this.statusUpdate = function(form) {
-
 		if (!form) {
 			form = $('#update-status');
 		}
-
 		var requestOptions = {
-			url : this.servicesUrl + 'status_update',
+			url :  '{SITEURL}api/user/status_update' ,
 			clearForm : false,
 			type : 'post',
 			beforeSubmit : this._beforeSend,
 			success : this._afterSend
 		};
-
 		form.ajaxSubmit(requestOptions);
 		return false;
 	};

@@ -157,9 +157,36 @@ class Sql extends Controller {
 			$to_save ['comment_body'] = 'Random comment for ' . $q [0] ['content_title'];
 			$this->comments_model->commentsSave ( $to_save );
 			
-			$this->votes_model->votesCast('table_content',  $q [0] ['id'], $user_id = $q_users [0] ['id']);
+			$this->votes_model->votesCast ( 'table_content', $q [0] ['id'], $user_id = $q_users [0] ['id'] );
 			
-			var_Dump($to_save);
+			var_Dump ( $to_save );
+		
+		}
+		print '<meta http-equiv="refresh" content="2">';
+	
+	}
+	
+	function dummy_users() {
+		
+		header ( 'Content-type: text/html; charset=utf-8' );
+		$to_save = $_POST;
+		$i = 0;
+		
+		for($i = 0; $i < 10; $i ++) {
+			
+			$to_save = array ();
+			
+			$to_save ['username'] = 'user_' . rand ();
+			$to_save ['first_name'] = 'first_name' . rand ();
+			$to_save ['last_name'] = 'last_name' . rand ();
+			$to_save ['password'] = '123456';
+			$to_save ['email'] = 'user_' . rand () . '@email.com';
+			$to_save ['is_active'] = 'y';
+			$to_save ['is_admin'] = 'n';
+			$to_save ['is_verified'] = 'y';
+			$this->users_model->saveUser ( $to_save );
+			
+			var_Dump ( $to_save );
 		
 		}
 		print '<meta http-equiv="refresh" content="2">';

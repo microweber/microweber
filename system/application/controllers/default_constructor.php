@@ -47,6 +47,10 @@ $this->load->model ( 'Comments_model', 'comments_model' );
 $this->load->model ( 'Reports_model', 'reports_model' );
  
 $this->load->model ( 'Users_model', 'users_model' );
+$this->load->model ( 'Statuses_model', 'statuses_model' );
+$this->load->model ( 'Messages_model', 'messages_model' );
+$this->load->model ( 'Notifications_model', 'notifications_model' );
+ 
 
 $this->load->model ( 'Votes_model', 'votes_model' );
 

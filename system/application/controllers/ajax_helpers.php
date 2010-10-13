@@ -888,22 +888,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 
 	}
 
-	function status_update() {
-		if ($_POST) {
-
-			$this->_requireLogin ();
-
-			$currentUser_id = $this->core_model->userId ();
-
-			$status = array ('user_id' => $currentUser_id, 'status' => $_POST ['status'] );
-
-			$updated = $this->core_model->saveData ( TABLE_PREFIX . 'users_statuses', $status );
-			$this->users_model->cleanOldStatuses ( $currentUser );
-			$this->core_model->cleanCacheGroup ( 'users/statuses' );
-			echo $updated;
-
-		}
-	}
+	
 
 	function _requireLogin() {
 		$user_session = $this->session->userdata ( 'user_session' );
@@ -976,99 +961,8 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 
 	}
 
-	/**
-	 * Mark given message as read
-	 */
-	function message_read() {
-		exit ( 'Function ' . __FUNCTION__ . ' moved to the users API' );
-		if ($_POST) {
-
-			$this->_requireLogin ();
-
-			$messageId = $_POST ['id'];
-
-			$currentUser = $this->session->userdata ( 'user' );
-
-			$message = $this->core_model->fetchDbData ( 'firecms_messages', array (array ('id', $messageId ) ) );
-
-			$message = $message [0];
-
-			if ($currentUser ['id'] != $message ['to_user']) {
-				throw new Exception ( 'You have no rights to read this message.' );
-			}
-
-			$read = $this->core_model->saveData ( 'firecms_messages', array ('id' => $message ['id'], 'is_read' => 'y' ) );
-
-			echo $read;
-
-			$this->core_model->cleanCacheGroup ( 'messages' );
-		}
-
-	}
-
-	/**
-	 * Mark given message as not read
-	 */
-	function message_unread() {
-		exit ( 'Function ' . __FUNCTION__ . ' moved to the users API' );
-		if ($_POST) {
-
-			$this->_requireLogin ();
-
-			$messageId = $_POST ['id'];
-
-			$currentUser = $this->session->userdata ( 'user' );
-
-			$message = $this->core_model->fetchDbData ( 'firecms_messages', array (array ('id', $messageId ) ) );
-
-			$message = $message [0];
-
-			if ($currentUser ['id'] != $message ['to_user']) {
-				throw new Exception ( 'You have no rights to unread this message.' );
-			}
-
-			$read = $this->core_model->saveData ( 'firecms_messages', array ('id' => $message ['id'], 'is_read' => 'n' ) );
-
-			echo $read;
-
-			$this->core_model->cleanCacheGroup ( 'messages' );
-		}
-	}
-
-	/**
-	 * Delete message
-	 */
-	function message_delete() {
-
-		exit ( 'Function ' . __FUNCTION__ . ' moved to the users API' );
-		if ($_POST) {
-
-			$this->_requireLogin ();
-
-			$messageId = $_POST ['id'];
-
-			$currentUser = $this->session->userdata ( 'user' );
-
-			$message = $this->core_model->fetchDbData ( 'firecms_messages', array (array ('id', $messageId ) ) );
-
-			$message = $message [0];
-
-			if ($message ['from_user'] == $currentUser ['id']) {
-				$deletedFrom = 'sender';
-			} elseif ($message ['to_user'] == $currentUser ['id']) {
-				$deletedFrom = 'receiver';
-			} else {
-				throw new Exception ( 'You have no permission to delete this message.' );
-			}
-
-			$deleted = $this->core_model->saveData ( 'firecms_messages', array ('id' => $message ['id'], 'deleted_from_' . $deletedFrom => 'y' ) );
-
-			echo $deleted;
-
-			$this->core_model->cleanCacheGroup ( 'messages' );
-		}
-
-	}
+	  
+	 
 
 	/*~~~~~~~~~~~~~~~ Following system methods ~~~~~~~~~~~~~~~~~~~*/
 

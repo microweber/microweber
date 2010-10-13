@@ -2,7 +2,7 @@
 
 global $cms_db_tables;
 
-$this->users_model->notificationsParseFromLog ();
+$this->notifications_model->notificationsParseFromLog ();
 $table = $cms_db_tables ['table_users'];
 
 $this->template ['load_tiny_mce'] = true;

@@ -17,11 +17,11 @@ $query_options ['group_by'] = 'to_table, to_table_id,from_user, type';
 
 
 
-$notifications = $this->users_model->notificationsGetByDefaultParams ( $params = false , $query_options = false);
+$notifications = $this->notifications_model->notificationsGetByDefaultParams ( $params = false , $query_options = false);
 $query_options ['get_count'] = true;
 
 $query_options ['items_per_page'] = false;
-$notifications_count = $this->users_model->notificationsGetByDefaultParams ( $params  = false , $query_options );
+$notifications_count = $this->notifications_model->notificationsGetByDefaultParams ( $params  = false , $query_options );
 $results_count = intval ( $notifications_count );
 $following_pages_count = ceil ( $results_count / $some_items_per_page );
 
