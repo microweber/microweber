@@ -901,9 +901,9 @@ class Core_model extends Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 (  $function_cache_id );
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id , 'db');
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, 'db' );
 		
 		if (($cache_content) != false) {
 			
@@ -1924,7 +1924,7 @@ class Core_model extends Model {
 											
 											if (! empty ( $media )) {
 												
-												$item ['media'] = $media;
+												$item ['media/global'] = $media;
 											
 											}
 										
@@ -4253,7 +4253,16 @@ $w
 	 */
 	
 	function mediaGetThumbnailForMediaId($id, $size_width = 128, $size_height = false) {
+		if (! is_array ( $id )) {
+			if (intval ( $id ) == 0) {
+				return false;
+			}
+			
+			$cache_group = 'media/' . $id;
+		} else {
+			$cache_group = 'media/global';
 		
+		}
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
@@ -4264,7 +4273,7 @@ $w
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, 'media' );
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -4333,7 +4342,7 @@ $w
 			//	$media_get = $media_get ["pictures"];
 			$media_get ['id'] = $id;
 			
-			$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group = false, $debug = false );
+			$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false );
 			
 			//	var_dump ( $media_get );
 			
@@ -4356,7 +4365,7 @@ $w
 									
 									$src = pathToURL ( $file_path );
 									
-									$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group = 'media' );
+									$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group );
 									
 									return $src;
 								
@@ -4744,13 +4753,13 @@ $w
 			
 			//	p ( $src );
 			//$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group = 'global' );
-			$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group = 'media' );
+			$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group );
 			
 			return $src;
 		
 		} else {
 			
-			$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group = 'media' );
+			$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 			
 			return false;
 		
@@ -4759,6 +4768,12 @@ $w
 	}
 	
 	function mediaGetThumbnailForItem($to_table, $to_table_id, $size = 128, $order_direction = "ASC", $media_type = 'picture') {
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "media/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'media/global';
+		
+		}
 		
 		//	return false;
 		$args = func_get_args ();
@@ -4771,7 +4786,7 @@ $w
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, 'media' );
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -4798,7 +4813,7 @@ $w
 
 		AND ID is not null ORDER BY media_order $order_direction limit 0,1";
 		
-		$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'media' );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		if (! empty ( $q [0] )) {
 			
@@ -4999,7 +5014,7 @@ $w
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 		
 		}
 		
@@ -5044,6 +5059,13 @@ $w
 			return false;
 		}
 		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "media/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'media/global';
+		
+		}
+		
 		$args = func_get_args ();
 		
 		//$id = intval ( $args [5] );
@@ -5059,7 +5081,7 @@ $w
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'media' );
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -5120,13 +5142,13 @@ $w
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id='$to_table_id' $media_type_q  ";
 				
-				$q = $this->dbQuery ( $q );
+				$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 				
 				$q = $q [0] ['qty'];
 				
 				if (intval ( $q ) == 0) {
 					
-					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group = 'media' );
+					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 					
 					return false;
 				
@@ -5137,15 +5159,10 @@ $w
 			if ($queue_id != false) {
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and queue_id='$queue_id' $media_type_q  ";
-				
 				$q = $this->dbQuery ( $q );
-				
 				$q = $q [0] ['qty'];
-				
 				if (intval ( $q ) == 0) {
-					
-					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group = 'media' );
-					
+					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 					return false;
 				
 				}
@@ -5171,27 +5188,16 @@ $w
 		//	var_dump ( $media_get );
 		if ($no_cache == false) {
 			
-			$cache_group = 'media';
+		//$cache_group = 'media/global';
 		
+
 		} else {
 			
 			$cache_group = false;
 		
 		}
 		
-		//var_dump($media_get);
-		
-
-		//	p ( $media_get );
-		//var_dump($media_get);
-		
-
-		// getDbData($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
-		
-
-		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group = 'media', $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
-		
-		//var_dump($media_get);
+		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		$target_path = MEDIAFILES;
 		
 		$media_get_to_return = array ();
@@ -5287,10 +5293,11 @@ $w
 				$qd = " delete from  $table where id='$del'  ";
 				
 				$qd = $this->dbQ ( $qd );
+				$this->cleanCacheGroup ( 'media/' . $del );
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 		
 		}
 		
@@ -5311,7 +5318,7 @@ $w
 			//var_dump($media_get_to_return);
 			
 
-			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group = 'media' );
+			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group );
 			
 			return $media_get_to_return;
 		
@@ -5326,14 +5333,16 @@ $w
 	function mediaGetById($id) {
 		
 		$id = intval ( $id );
+		if ($id == 0) {
+			return false;
+		}
+		
+		$cache_group = 'media/' . $id;
 		
 		global $cms_db_tables;
-		
 		$table = $cms_db_tables ['table_media'];
-		
 		$q = " SELECT * from $table where id='$id'  ";
-		
-		$q = $this->dbQuery ( $q, md5 ( $q ), 'media' );
+		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		if (empty ( $q )) {
 			
@@ -5359,8 +5368,7 @@ $w
 	
 	function mediaGetImages($to_table, $to_table_id, $size = 128, $order = "ASC") {
 		
-		
-	if (trim ( $to_table ) == '') {
+		if (trim ( $to_table ) == '') {
 			return false;
 		}
 		
@@ -5368,6 +5376,12 @@ $w
 			return false;
 		}
 		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "media/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'media/global';
+		
+		}
 		
 		global $cms_db_tables;
 		
@@ -5391,13 +5405,6 @@ $w
 		
 		}
 		
-		/*$q = " SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id='$to_table_id' $media_type_q  ";
-		$q = $this->dbQuery ( $q );
-		$q = $q [0] ['qty'];
-		if (intval ( $q ) == 0) {
-			return false;
-		}*/
-		
 		if ($orderby == false) {
 			
 			$orderby [0] = 'media_order';
@@ -5406,7 +5413,7 @@ $w
 		
 		}
 		
-		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group = 'media' );
+		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group );
 		
 		if (empty ( $media_get )) {
 			
@@ -5477,10 +5484,11 @@ $w
 				$qd = " delete from  $table where id='$del'  ";
 				
 				$qd = $this->dbQ ( $qd );
+				$this->cleanCacheGroup ( 'media/' . $del );
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 		
 		}
 		
@@ -5536,7 +5544,7 @@ $w
 		//var_dump(	$q);
 		$this->dbQ ( $q );
 		
-		//$this->cacheDelete ( 'cache_group', 'media' );
+		//$this->cacheDelete ( 'cache_group', 'media/global' );
 		return true;
 	
 	}
@@ -5563,8 +5571,9 @@ $w
 		
 		}
 		
-		$this->cleanCacheGroup ( 'media' );
+		//$this->cleanCacheGroup ( 'media/global' );
 		
+
 		//var_dump($_FILES);
 		
 
@@ -5844,7 +5853,12 @@ $w
 			}
 			
 			//
-			$this->cleanCacheGroup ( 'media' );
+			if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+				$cache_group = "media/{$to_table}/{$to_table_id}";
+				$this->cleanCacheGroup ( $cache_group );
+			}
+			
+			$this->cleanCacheGroup ( 'media/global' );
 			
 			if (intval ( $to_table_id ) != 0) {
 				
@@ -6012,7 +6026,7 @@ $w
 			}
 			
 			//
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 			
 			if (intval ( $to_table_id ) != 0) {
 				
@@ -6020,7 +6034,6 @@ $w
 			
 			}
 			
-			//	$this->core_model->cacheDeleteAll ();
 			return $uploaded;
 			
 		//exit ();
@@ -6063,7 +6076,7 @@ $w
 			//load the session library the new way, by passing it the session id
 			$this->load->library ( 'session', $params );
 			
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 			
 			$this->load->library ( 'upload' );
 			
@@ -6341,14 +6354,15 @@ $w
 			}
 			
 			//
+			if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+				$cache_group = "media/{$to_table}/{$to_table_id}";
+				$this->cleanCacheGroup ( $cache_group );
+			}
 			
-
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/global' );
 			
 			$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
 			
-			//$this->core_model->cacheDeleteAll ();
-			//	p ( $uploaded );
 			return $uploaded;
 			
 		//exit ();
@@ -6370,6 +6384,13 @@ $w
 	}*/
 	
 	function mediaFixOrder($to_table, $to_table_id, $media_type = 'picture') {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "media/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'media/global';
+		
+		}
 		
 		global $cms_db_tables;
 		
@@ -6413,7 +6434,7 @@ $w
 		
 		}
 		
-		$this->cleanCacheGroup ( 'media' );
+		$this->cleanCacheGroup ( $cache_group );
 		
 		return true;
 	
@@ -6433,7 +6454,7 @@ $w
 		
 		$one = $new_order [0];
 		
-		$q = " SELECT * from $table where id=$one ";
+		$q = " SELECT id,to_table,to_table_id,media_type,media_order from $table where id=$one ";
 		
 		$q = $this->dbQuery ( $q );
 		
@@ -6460,6 +6481,7 @@ $w
 					$q = " UPDATE $table set media_order = $i  where id=$item ";
 					
 					$q = $this->dbQ ( $q );
+					$this->cleanCacheGroup ( 'media/' . $item );
 					
 					$i ++;
 				
@@ -6481,13 +6503,18 @@ $w
 		
 		$table = $cms_db_tables ['table_media'];
 		
-		//$this->cacheDelete ( 'cache_group', 'media' );
+		//$this->cacheDelete ( 'cache_group', 'media/global' );
 		$save = $this->saveData ( $table, $data );
 		
-		$this->cleanCacheGroup ( 'media' );
+		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
+			
+			$this->cleanCacheGroup ( "media/{$data['to_table']}/{$data['to_table_id']}" );
 		
-		// @todo: fix the cache issue here
-		//$this->cacheDeleteAll ();
+		}
+		$this->cleanCacheGroup ( 'media/' . $save );
+		
+		$this->cleanCacheGroup ( 'media/global' );
+		
 		return true;
 	
 	}
@@ -6536,12 +6563,10 @@ $w
 			foreach ( $media as $variable ) {
 				
 				$this->deleteDataById ( $table, $variable ['id'] );
-			
+				$this->core_model->cleanCacheGroup ( 'media/' . $variable ['id'] );
 			}
 			
-			//$this->cleanCacheGroup ( 'media' );
-			//$this->cacheDeleteAll ();
-			$this->core_model->cleanCacheGroup ( 'media' );
+			$this->core_model->cleanCacheGroup ( 'media/global' );
 		
 		}
 	
@@ -6564,7 +6589,7 @@ $w
 		
 		$one = $id;
 		
-		$this->cleanCacheGroup ( 'media' );
+		$this->cleanCacheGroup ( 'media/global' );
 		
 		$q = " SELECT * from $table where id=$one ";
 		
@@ -6588,8 +6613,8 @@ $w
 			
 			//deltete
 			$this->deleteDataById ( $table, $id );
-			
-			$this->cleanCacheGroup ( 'media' );
+			$this->cleanCacheGroup ( 'media/' . $id );
+			$this->cleanCacheGroup ( 'media/global' );
 			
 			$this->mediaFixOrder ( $to_table, $to_table_id, $media_type );
 			
@@ -6619,8 +6644,6 @@ $w
 		
 		}
 		
-		$this->cacheDeleteAll ();
-		
 		return true;
 	
 	}
@@ -6638,16 +6661,6 @@ $w
 		recursive_remove_directory ( CACHEDIR, true );
 		
 		recursive_remove_directory ( CACHEDIR_ROOT, true );
-		
-		//$past = strtotime ( '-2 days' );
-		//$past = intval ( $past );
-		
-
-		//$table = $cms_db_tables ['table_sessions'];
-		//$q = " delete from $table where last_activity < $past ";
-		
-
-		//$this->dbQ ( $q );
 		return true;
 	
 	}
@@ -6657,39 +6670,7 @@ $w
 		$this->cleanCacheGroup ( $value );
 		
 		$this->cleanCacheGroup ( 'global' );
-		
-		$this->cleanCacheGroup ( 'search' );
-		
-		$this->cleanCacheGroup ( 'regex' );
-		
-	//		return;
-	//
-	//		die("Deprecated");
-	//
-	//		global $cms_db;
-	//		global $cache;
-	//		global $cms_db_tables;
-	//		$table = $cms_db_tables ['table_cache'];
-	//
-	//		//
-	//		$q = " select cache_id from $table where $what='$value' OR  cache_group='search'
-	//OR cache_group='global' OR cache_group='regex'  ";
-	//		$q = $this->dbQuery ( $q );
-	//		//p ( $q );
-	//
-	//
-	//		foreach ( $q as $item ) {
-	//
-	//			$cache_id = $item ['cache_id'];
-	//			$this->cacheDeleteFile ( $cache_id );
-	//		}
-	//
-	//		$q = " delete from $table where cache_group='search'
-	//OR cache_group='global' OR cache_group='regex' or  $what='$value'
-	//		";
-	//		$this->dbQ ( $q );
 	
-
 	}
 	
 	function cacheGetCount() {

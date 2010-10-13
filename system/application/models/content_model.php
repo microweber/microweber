@@ -8430,7 +8430,7 @@ $my_limit_q
 		}
 		$content_id = intval ( $content_id );
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		$cache_group = 'content/' . $content_id;
+		$cache_group = 'media/table_content/' . $content_id;
 		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
@@ -8469,7 +8469,7 @@ $my_limit_q
 		//($q);
 		
 
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'media' );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		$ids = $this->core_model->dbExtractIdsFromArray ( $q );
 		
@@ -8508,7 +8508,7 @@ $my_limit_q
 		
 		}
 		$content_id = intval ( $content_id );
-		$cache_group = 'content/' . $content_id;
+		$cache_group = 'media/table_content/' . $content_id;
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
