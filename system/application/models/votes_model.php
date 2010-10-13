@@ -43,106 +43,79 @@ class votes_model extends Model {
 	
 	}
 	
-function votesCast($to_table, $to_table_id) {
+	function votesCast($to_table, $to_table_id, $user_id = false) {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "votes/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'votes/global';
+		
+		}
 		
 		global $cms_db_tables;
-		
 		$table = $cms_db_tables ['table_votes'];
-		
 		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		
 		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		if ($user_id == false) {
+			
+			$created_by = $this->core_model->userId ();
+		} else {
+			$created_by = $user_id;
+		}
 		
-		if ($check == false) {
+		if ($created_by > 0) {
+			$check_if_user_voted_for_today = " SELECT count(*) as qty
+            from $table
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+            and created_by=$created_by ";
+		} else {
+			$ip = visitorIP ();
+			$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
+			$check_if_user_voted_for_today = " SELECT count(*) as qty
+            from $table
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+            and created_on > '$yesterday'
+            and user_ip = '$ip'   ";
+		
+		}
+		
+		$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today, __FUNCTION__ . md5 ( $check_if_user_voted_for_today ), $cache_group );
+		
+		$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
+		
+		if ($check_if_user_voted_for_today == 0) {
 			
-			//print 'id not exist?';
+			$cast_vote = array ();
 			
-
-			return FALSE;
+			$cast_vote ['to_table'] = $to_table;
+			
+			$cast_vote ['to_table_id'] = $to_table_id;
+			
+			$cast_vote ['user_ip'] = $ip;
+			
+			$this->core_model->saveData ( $table, $cast_vote );
+			
+			$this->core_model->cleanCacheGroup ( $cache_group );
+			$this->core_model->cleanCacheGroup ( 'votes/global' );
+			
+			return true;
 		
 		} else {
 			
-			$user_session = $this->session->userdata ( 'user_session' );
-			
-			$created_by = intval ( $user_session ['user_id'] );
-			
-			$created_by = $this->core_model->userId ();
-			
-			//p($created_by, 1);
-			
-
-			if ($created_by > 0) {
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_by=$created_by
-
-
-
-
-
-            ";
-			
-			} else {
-				
-				$ip = visitorIP ();
-				
-				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_on > '$yesterday'
-
-            and user_ip = '$ip'
-
-
-
-            ";
-			
-			}
-			
-			//var_dump ( $check_if_user_voted_for_today );
-			
-
-			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
-			
-			$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
-			
-			if ($check_if_user_voted_for_today == 0) {
-				
-				$cast_vote = array ();
-				
-				$cast_vote ['to_table'] = $to_table;
-				
-				$cast_vote ['to_table_id'] = $to_table_id;
-				
-				$cast_vote ['user_ip'] = $ip;
-				
-				$this->core_model->saveData ( $table, $cast_vote, $data_to_save_options = false );
-				
-				$this->core_model->cleanCacheGroup ( 'votes' );
-				
-				return true;
-			
-			} else {
-				
-				return false;
-			
-			}
+			return false;
 		
 		}
 	
 	}
 	
 	function votesGetCount($to_table, $to_table_id, $since_time = false) {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "votes/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'votes/global';
+		
+		}
 		
 		if ($since_time == false) {
 			
@@ -166,7 +139,7 @@ function votesCast($to_table, $to_table_id) {
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'votes' );
+		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -195,21 +168,7 @@ function votesCast($to_table, $to_table_id) {
 			return FALSE;
 		
 		} else {
-			
-			//$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - $since_days, date ( "Y" ) ) );
-			
-
 			$voted = strtotime ( $since_time . ' ago' );
-			
-			//var_dump($voted);
-			
-
-			//$when = strtotime ( 'now') - $voted;
-			
-
-			//$when = strtotime ( 'now') - $when;
-			
-
 			$yesterday = date ( 'Y-m-d H:i:s', $voted );
 			
 			$qty = " SELECT count(*) as qty
@@ -225,7 +184,7 @@ function votesCast($to_table, $to_table_id) {
 			//var_dump($qty);
 			
 
-			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'votes' );
+			$qty = $this->core_model->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
 			
 			$qty = $qty [0] ['qty'];
 			
@@ -233,11 +192,11 @@ function votesCast($to_table, $to_table_id) {
 			
 			if ($qty == 0) {
 				
-				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, 'votes' );
+				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 			
 			} else {
 				
-				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, 'votes' );
+				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
 			
 			}
 			
@@ -291,10 +250,9 @@ function votesCast($to_table, $to_table_id) {
 
         ";
 		
-		//      $this->core_model->cleanCacheGroup ( 'votes');
+		print __FILE__ . __LINE__ . ' dont use this replace it with sometginh else - poorly writen function ';
 		
-
-		return $this->core_model->dbQuery ( $query, md5 ( $query ), 'votes' );
+		return $this->core_model->dbQuery ( $query, md5 ( $query ), 'votes/global' );
 	
 	}
 

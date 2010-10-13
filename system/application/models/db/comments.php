@@ -65,7 +65,12 @@ if ($query [0] == $table_name) {
 	$this->set_db_tables ( $table_name, $fields_to_add );
 	
 	$sql = "alter table $table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
-	$this->db->query($sql);
+	$this->db->query ( $sql );
+	
+	$this->addIndex ( 'to_table', $table_name, array ('to_table' ) );
+	$this->addIndex ( 'to_table_id', $table_name, array ('to_table_id' ) );
+	$this->addIndex ( 'created_by', $table_name, array ('created_by' ) );
+	$this->addIndex ( 'is_moderated', $table_name, array ('is_moderated' ) );
 
 }
 

@@ -4,7 +4,9 @@ class Sql extends Controller {
 	function __construct() {
 		parent::Controller ();
 		require_once (APPPATH . 'controllers/default_constructor.php');
+		//require_once (APPPATH . 'controllers/admin/default_constructor.php');
 	}
+	
 	function dummy_posts() {
 		
 		header ( 'Content-type: text/html; charset=utf-8' );
@@ -34,9 +36,7 @@ class Sql extends Controller {
 			
 			$errors = array ();
 			
-			
-			
-			$categories =  ($this->core_model->dbExtractIdsFromArray($q) );
+			$categories = ($this->core_model->dbExtractIdsFromArray ( $q ));
 			
 			if (! empty ( $categories )) {
 				
@@ -92,9 +92,9 @@ class Sql extends Controller {
 					
 					foreach ( $categories as $cat ) {
 						//vAR_dump($parent_page);
-						if($parent_page == false){
-						$parent_page = $this->content_model->contentsGetTheFirstBlogSectionForCategory ( $cat );
-						//vAR_dump($parent_page);
+						if ($parent_page == false) {
+							$parent_page = $this->content_model->contentsGetTheFirstBlogSectionForCategory ( $cat );
+							//vAR_dump($parent_page);
 						}
 					}
 					
@@ -103,18 +103,17 @@ class Sql extends Controller {
 						}
 					}
 					if (empty ( $errors )) {
-						if($parent_page != false){
-						$to_save ['content_parent'] = $parent_page ['id'];
-						$to_save ['is_home'] = 'n';
-						$to_save ['preserve_cache'] = true;
-						$to_save ['content_type'] = 'post';
-						//var_dump ( $to_save );
-						print $i . " - ". $to_save ['content_title']. "\n";
-						
-						 $saved = $this->content_model->saveContent ( $to_save );
+						if ($parent_page != false) {
+							$to_save ['content_parent'] = $parent_page ['id'];
+							$to_save ['is_home'] = 'n';
+							$to_save ['preserve_cache'] = true;
+							$to_save ['content_type'] = 'post';
+							//var_dump ( $to_save );
+							print $i . " - " . $to_save ['content_title'] . "\n";
+							
+							$saved = $this->content_model->saveContent ( $to_save );
 						}
 					
-
 					} else {
 						var_dump ( $errors );
 					}
@@ -128,8 +127,44 @@ class Sql extends Controller {
 	
 	}
 	
+	function dummy_comments() {
+		
+		header ( 'Content-type: text/html; charset=utf-8' );
+		$to_save = $_POST;
+		$i = 0;
+		
+		for($i = 0; $i < 10; $i ++) {
+			
+			//print $sentence . "\n\n";
+			//print $vic . "\n\n";
+			
+
+			global $cms_db_tables;
+			$table = $cms_db_tables ['table_taxonomy'];
+			$table_content = $cms_db_tables ['table_content'];
+			$q = " select id, content_title from $table_content where content_type = 'post'     order by RAND() limit 0,1   ";
+			$q = $this->core_model->dbQuery ( $q );
+			
+			$table_users = $cms_db_tables ['table_users'];
+			$q_users = " select id from $table_users     order by RAND() limit 0,1   ";
+			$q_users = $this->core_model->dbQuery ( $q_users );
+			
+			$to_save = array ();
+			$to_save ['created_by'] = $q_users [0] ['id'];
+			$to_save ['edited_by'] = $q_users [0] ['id'];
+			$to_save ['to_table'] = 'table_content';
+			$to_save ['to_table_id'] = $q [0] ['id'];
+			$to_save ['comment_body'] = 'Random comment for ' . $q [0] ['content_title'];
+			$this->comments_model->commentsSave ( $to_save );
+			
+			$this->votes_model->votesCast('table_content',  $q [0] ['id'], $user_id = $q_users [0] ['id']);
+			
+			var_Dump($to_save);
+		
+		}
+		print '<meta http-equiv="refresh" content="2">';
 	
-	
+	}
 	
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );

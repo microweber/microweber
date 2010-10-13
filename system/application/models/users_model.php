@@ -171,17 +171,7 @@ class Users_model extends Model {
 		return $get;
 	}
 	
-	function getUsersForGMaps($data = false, $limit = false, $count_only = false) {
-		
-		global $cms_db_tables;
-		$table = $cms_db_tables ['table_users'];
-		//$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
-		$data = codeClean ( $data );
-		//var_dump($data);
-		$cache_group = 'users/global';
-		$get = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit = $limit, $offset = false, $orderby = array ('zip,updated_on', 'DESC' ), $cache_group = $cache_group, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
-		return $get;
-	}
+	 
 	
 	function getUserThumbnail($user_id, $size = 128) {
 		$image = $this->core_model->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );

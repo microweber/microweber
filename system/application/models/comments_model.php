@@ -93,7 +93,10 @@ class Comments_model extends Model {
 		$cache_group = "comments/global";
 		if (intval ( $data ['id'] ) != 0) {
 			$cache_group = "comments/{$data['id']}";
+		}
 		
+		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
+			$cache_group = "comments/{$data ['to_table']}/{$data ['to_table_id']}";
 		}
 		
 		$get = $this->core_model->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group, false, $ids = false, $count_only );
@@ -211,6 +214,16 @@ class Comments_model extends Model {
 	
 	function commentsGetCounts($to_table, $only_ids = null) {
 		
+		$args = func_get_args ();
+		
+		foreach ( $args as $k => $v ) {
+			
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_comments'];
@@ -256,7 +269,7 @@ class Comments_model extends Model {
 		//      $this->core_model->cleanCacheGroup('comments');
 		
 
-		$qty = $this->core_model->dbQuery ( $query, __FUNCTION__.md5 ( $query ), 'comments/global' );
+		$qty = $this->core_model->dbQuery ( $query, $function_cache_id . md5 ( $query ), 'comments/global' );
 		
 		return $qty;
 	
@@ -292,27 +305,44 @@ class Comments_model extends Model {
 		
 		//$data_to_save_options ['delete_cache_groups'] = array ('comments' );
 		
-		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
+
+		$id = $this->core_model->saveData ( $table, $data );
 		
-		$this->core_model->cleanCacheGroup('comments/'.$id);
-		$this->core_model->cleanCacheGroup('comments/global');
+		if (intval ( $id ) != 0) {
+			$this->core_model->cleanCacheGroup ( 'comments/' . $id );
+		}
+		$this->core_model->cleanCacheGroup ( 'comments/global' );
+		
+		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
+			$cache_group = "comments/{$data['to_table']}/{$data['to_table_id']}";
+			//var_dump($cache_group);
+			$this->core_model->cleanCacheGroup ( $cache_group );
+		}
 		
 		return $id;
 	
 	}
 	
 	function commentsDeleteById($id) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_comments'];
-		
-		$this->core_model->deleteDataById ( $table, $id );
-		
-		$this->core_model->cleanCacheGroup('comments/'.$id);
-		$this->core_model->cleanCacheGroup('comments/global');
-		
-		return true;
+		if (intval ( $id ) != 0) {
+			global $cms_db_tables;
+			
+			$data = $this->commentGetById ( $id );
+			
+			$table = $cms_db_tables ['table_comments'];
+			
+			$this->core_model->deleteDataById ( $table, $id );
+			
+			$this->core_model->cleanCacheGroup ( 'comments/' . $id );
+			$this->core_model->cleanCacheGroup ( 'comments/global' );
+			
+			if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
+				$cache_group = "comments/{$data ['to_table']}/{$data ['to_table_id']}";
+				$this->core_model->cleanCacheGroup ( $cache_group );
+			}
+			
+			return true;
+		}
 	
 	}
 

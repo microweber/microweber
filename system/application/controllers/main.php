@@ -340,7 +340,7 @@ $skip = false;
 
 		}
 
-		$this->core_model->cacheDeleteAll ();
+	//	$this->core_model->cacheDeleteAll ();
 
 	}
 

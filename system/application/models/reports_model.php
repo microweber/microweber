@@ -43,7 +43,14 @@ class reports_model extends Model {
 	
 	}
 	
-	function report($to_table, $to_table_id) {
+	function report($to_table, $to_table_id, $user_id = false) {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "reports/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'reports/global';
+		
+		}
 		
 		global $cms_db_tables;
 		
@@ -51,49 +58,28 @@ class reports_model extends Model {
 		
 		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
 		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		if ($user_id == false) {
+			$created_by = $this->core_model->userId ();
+		} else {
+			$created_by = $user_id;
+		}
 		
-		if ($check == false) {
+		if ($created_by > 0) {
 			
-			//print 'id not exist?';
-			
+			$check_if_user_reported_for_today = " SELECT count(*) as qty
 
-			return FALSE;
+            from $table
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+            and created_by=$created_by
+            ";
 		
 		} else {
 			
-			$user_session = $this->session->userdata ( 'user_session' );
+			$ip = visitorIP ();
 			
-			$created_by = intval ( $user_session ['user_id'] );
+			$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
 			
-			$created_by = $this->core_model->userId ();
-			
-			//p($created_by, 1);
-			
-
-			if ($created_by > 0) {
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
-
-            from $table
-
-            where to_table='$to_table' and  to_table_id='$to_table_id'
-
-            and created_by=$created_by
-
-
-
-
-
-            ";
-			
-			} else {
-				
-				$ip = visitorIP ();
-				
-				$yesterday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ), date ( "d" ) - 1, date ( "Y" ) ) );
-				
-				$check_if_user_voted_for_today = " SELECT count(*) as qty
+			$check_if_user_reported_for_today = " SELECT count(*) as qty
 
             from $table
 
@@ -106,43 +92,42 @@ class reports_model extends Model {
 
 
             ";
-			
-			}
-			
-			//var_dump ( $check_if_user_voted_for_today );
-			
+		
+		}
+		
+		//var_dump ( $check_if_user_reported_for_today );
+		
 
-			$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today );
+		$check_if_user_reported_for_today = $this->core_model->dbQuery ( $check_if_user_reported_for_today, __FUNCTION__ . md5 ( $check_if_user_reported_for_today ), $cache_group );
+		
+		$check_if_user_reported_for_today = intval ( $check_if_user_reported_for_today [0] ['qty'] );
+		
+		if ($check_if_user_reported_for_today == 0) {
 			
-			$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
+			$cast_vote = array ();
 			
-			if ($check_if_user_voted_for_today == 0) {
-				
-				$cast_vote = array ();
-				
-				$cast_vote ['to_table'] = $to_table;
-				
-				$cast_vote ['to_table_id'] = $to_table_id;
-				
-				$cast_vote ['user_ip'] = $ip;
-				
-				$this->core_model->saveData ( $table, $cast_vote, $data_to_save_options = false );
-				
-				$this->core_model->cleanCacheGroup ( 'reports' );
-				
-				return true;
+			$cast_vote ['to_table'] = $to_table;
 			
-			} else {
-				
-				return false;
+			$cast_vote ['to_table_id'] = $to_table_id;
 			
-			}
+			$cast_vote ['user_ip'] = $ip;
+			
+			$this->core_model->saveData ( $table, $cast_vote );
+			
+			$this->core_model->cleanCacheGroup ( $cache_group );
+			$this->core_model->cleanCacheGroup ( 'reports/global' );
+			
+			return true;
+		
+		} else {
+			
+			return false;
 		
 		}
 	
 	}
 	
-	function reportsGet($params, $options = false) {
+	function reportsGet($params, $db_options = false) {
 		
 		global $cms_db_tables;
 		
@@ -162,6 +147,13 @@ class reports_model extends Model {
 		
 		}
 		
+		if ((trim ( $params ['to_table'] ) != '') and (trim ( $params ['to_table_id'] ) != '')) {
+			$cache_group = "reports/{$params['to_table']}/{$params['to_table_id']}";
+		} else {
+			$cache_group = 'reports/global';
+		
+		}
+		
 		$options = array ();
 		
 		$options ['get_params_from_url'] = true;
@@ -169,18 +161,9 @@ class reports_model extends Model {
 		$options ['debug'] = false;
 		
 		$options ['items_per_page'] = 100;
-		
-		//$options ['group_by'] = 'to_table, to_table_id,from_user, type';
-		
-
 		$options ['group_by'] = 'to_table, to_table_id';
-		
-		//$options ['order'] = $orderby;
-		
-
 		$options ['cache'] = true;
-		
-		$options ['cache_group'] = 'reports';
+		$options ['cache_group'] = $cache_group;
 		
 		if (! empty ( $db_options )) {
 			
@@ -212,6 +195,13 @@ class reports_model extends Model {
 		
 		}
 		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "reports/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'reports/global';
+		
+		}
+		
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
@@ -222,7 +212,7 @@ class reports_model extends Model {
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'reports' );
+		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -281,7 +271,7 @@ class reports_model extends Model {
 			//var_dump($qty);
 			
 
-			$qty = $this->core_model->dbQuery ( $qty, $cache_id = md5 ( $qty ), $cache_group = 'reports' );
+			$qty = $this->core_model->dbQuery ( $qty, $cache_id = __FUNCTION__ . md5 ( $qty ), $cache_group );
 			
 			$qty = $qty [0] ['qty'];
 			
@@ -289,11 +279,11 @@ class reports_model extends Model {
 			
 			if ($qty == 0) {
 				
-				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, 'reports' );
+				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 			
 			} else {
 				
-				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, 'reports' );
+				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
 			
 			}
 			

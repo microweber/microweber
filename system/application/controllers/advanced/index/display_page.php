@@ -595,13 +595,14 @@ if (! empty ( $post )) {
 	
 	$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
 	
-	if ($this->core_model->validators_isUrl ( $gogo ) == true) {
-		
+	if(trim($gogo) != ''){
 		header ( 'Location: ' . $gogo );
 		
 		exit ();
-	
+		
 	}
+	
+ 
 	$cats = $this->content_model->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
 	$this->template ['active_categories'] = $cats;
 	$this->load->vars ( $this->template );

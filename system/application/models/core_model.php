@@ -901,9 +901,9 @@ class Core_model extends Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $check . $function_cache_id );
+		$function_cache_id = __FUNCTION__ . md5 (  $function_cache_id );
 		
-		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id );
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id , 'db');
 		
 		if (($cache_content) != false) {
 			
@@ -951,7 +951,7 @@ class Core_model extends Model {
 		
 		}
 		
-		$this->core_model->cacheWriteAndEncode ( $fields, $function_cache_id, $cache_group = 'global' );
+		$this->core_model->cacheWriteAndEncode ( $fields, $function_cache_id, $cache_group = 'db' );
 		
 		//$fields = (array_change_key_case ( $fields, CASE_LOWER ));
 		return $fields;
@@ -3690,11 +3690,11 @@ class Core_model extends Model {
 					$cache = file_put_contents ( $cache_file, $content );
 				
 				} else {
-					exit ( 'cache file ' . $cache_file . 'is not writable' );
+					//	exit ( 'cache file ' . $cache_file . 'is not writable' );
 					
-				//error_log ( $cache_file . 'not writable' );
-				
 
+					error_log ( $cache_file . 'not writable' );
+				
 				}
 			
 			} else {
@@ -5036,6 +5036,14 @@ $w
 	
 	function mediaGet($to_table, $to_table_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false) {
 		
+		if (trim ( $to_table ) == '') {
+			return false;
+		}
+		
+		if (intval ( $to_table_id ) == 0) {
+			return false;
+		}
+		
 		$args = func_get_args ();
 		
 		//$id = intval ( $args [5] );
@@ -5350,6 +5358,16 @@ $w
 	 */
 	
 	function mediaGetImages($to_table, $to_table_id, $size = 128, $order = "ASC") {
+		
+		
+	if (trim ( $to_table ) == '') {
+			return false;
+		}
+		
+		if (intval ( $to_table_id ) == 0) {
+			return false;
+		}
+		
 		
 		global $cms_db_tables;
 		
@@ -6745,7 +6763,34 @@ $w
 	// Data_length
 	
 
-	 
+	function helpers_treeRead($tree, $BUFFER = array()) {
+		
+		foreach ( $tree as $k => $v ) {
+			
+			if (is_array ( $v )) {
+				
+				echo "\n<ul>\n<li>" . $k;
+				
+				$this->helpers_treeRead ( $v, $BUFFER );
+				
+				echo "</li>\n</ul>";
+			
+			} else {
+				
+				$BUFFER [] = $v;
+			
+			}
+		
+		}
+		
+		if (count ( $BUFFER ) > 0) {
+			
+			echo "\n<ul>\n <li>" . (implode ( "</li>\n <li>", $BUFFER )) . "</li>\n</ul>\n";
+		
+		}
+	
+	}
+	
 	function urlConstruct($base_url = false, $params = array()) {
 		
 		//getCurentURL()
@@ -7552,7 +7597,11 @@ $w
 	
 	}
 	
-	 
+	function validators_isUrl($string) {
+		
+		return false;
+	
+	}
 	
 	function securityEncryptArray($arr) {
 		
@@ -7682,7 +7731,7 @@ $w
 		return $q;
 	
 	}
-	/*
+	
 	function geoGetAllContinents() {
 		
 		global $cms_db_tables;
@@ -7704,7 +7753,7 @@ $w
 		return $ret;
 	
 	}
-	*/
+	
 	function sendMail($opt = array(), $return_full = false) {
 		
 		if (empty ( $opt ))
