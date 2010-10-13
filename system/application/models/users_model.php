@@ -10,9 +10,6 @@ class Users_model extends Model {
 	function __construct() {
 		parent::Model ();
 	
-		
-
-	
 	}
 	
 	protected function _initActivitiesTypes() {
@@ -97,18 +94,13 @@ class Users_model extends Model {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		if ($_FILES) {
-			
-		/*$del_media_params = array ();
-			$del_media_params ['to_table'] = 'table_users';
-			$del_media_params ['to_table_id'] = $data ['id'];
-			$del_media_params ['media_type'] = 'picture';
-			$this->core_model->mediaDeleteAllByParams ( $del_media_params );
-
-			$this->core_model->mediaUpload ( 'table_users', $data ['id'] );
-			$this->core_model->cleanCacheGroup ( 'media' );*/
 		
 		}
 		$save = $this->core_model->saveData ( $table, $data );
+		
+		if (intval ( $data ['id'] ) != 0) {
+			$this->core_model->cleanCacheGroup ( 'users/' . $data ['id'] );
+		}
 		
 		$this->core_model->cleanCacheGroup ( 'users/global' );
 		
@@ -165,12 +157,17 @@ class Users_model extends Model {
 
 		$data ['search_by_keyword_in_fields'] = array ('first_name', 'last_name', 'username', 'email' );
 		
-		$cache_group = 'users/global';
+		if (intval ( $data ['id'] ) != 0) {
+			$cache_group = 'users/' . $data ['id'];
+		} else {
+			
+			$cache_group = 'users/global';
+		}
+		
 		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array ('updated_on', 'DESC' ), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
+		
 		return $get;
 	}
-	
-	 
 	
 	function getUserThumbnail($user_id, $size = 128) {
 		$image = $this->core_model->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );
@@ -197,17 +194,25 @@ class Users_model extends Model {
 	 *
 	 */
 	function getIdByUsername($username = false) {
+		
 		if ($username == false) {
 			return false;
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		$users_list = array ();
-		
 		$users_list ['username'] = $username;
-		
 		$users_list = $this->getUsers ( $users_list, array (0, 1 ) );
-		//p($users_list);
 		$currentUser = $users_list [0];
-		
 		return intval ( $currentUser ['id'] );
 	
 	}
@@ -233,6 +238,9 @@ class Users_model extends Model {
 		if (empty ( $user )) {
 			return false;
 		}
+		
+		
+		
 		switch ($mode) {
 			case 'first' :
 			case 'fist' : //because of a common typo :)
@@ -274,8 +282,11 @@ class Users_model extends Model {
 		$table = $cms_db_tables ['table_users'];
 		$data = array ();
 		$data ['id'] = $id;
-		$del = $this->core_model->deleteData ( $table, $data, 'users' );
-		$this->core_model->cleanCacheGroup ( 'users' );
+		$del = $this->core_model->deleteData ( $table, $data );
+		$this->core_model->cleanCacheGroup ( 'users/global' );
+		$this->core_model->cleanCacheGroup ( 'users/'.$id );
+ 
+		
 		return true;
 	}
 	
@@ -475,18 +486,6 @@ STR;
 		}
 		return $return;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * Get the ids of all Followers for given user id and return them as array of ids
@@ -807,10 +806,6 @@ STR;
 	
 	}
 	
-	
-	
-	
-	
 	function is_logged_in() {
 		$user_session = $this->session->userdata ( 'user_session' );
 		if (strval ( $user_session ['is_logged'] ) != 'yes') {
@@ -873,6 +868,6 @@ STR;
 		} else {
 			return $password;
 		}
-		
+	
 	}
 }

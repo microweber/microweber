@@ -1244,6 +1244,9 @@ class Core_model extends Model {
 		
 		$q = $this->db->query ( $q );
 		if (empty ( $q )) {
+			if ($cache_id != false) {
+				$this->cacheWriteAndEncode ( '---empty---', $cache_id, $cache_group );
+			}
 			return false;
 		}
 		
@@ -4792,10 +4795,10 @@ $w
 			
 			if (trim ( strval ( $cache_content ) ) == 'false') {
 				
-			//	return false;
+				return false;
 			} else {
 				
-			//return $cache_content;
+				return $cache_content;
 			}
 		
 		}
@@ -4813,14 +4816,14 @@ $w
 
 		AND ID is not null ORDER BY media_order $order_direction limit 0,1";
 		
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		if (! empty ( $q [0] )) {
 			
 			$id = $q [0] ['id'];
 			
-			$thumb = $this->mediaGetThumbnailForMediaId ( $id, $size = $size );
-			
+			$thumb = $this->mediaGetThumbnailForMediaId ( $id, $size );
+			$this->cacheWriteAndEncode ( $thumb, $function_cache_id, $cache_group );
 			return (trim ( $thumb ));
 		
 		} else {
@@ -4832,7 +4835,7 @@ $w
 			$media ['no_picture_to_table'] = $to_table;
 			
 			$thumb = $this->mediaGetThumbnailForMediaId ( $media, $size = $size );
-			
+			$this->cacheWriteAndEncode ( $thumb, $function_cache_id, $cache_group );
 			return (trim ( $thumb ));
 		
 		}
