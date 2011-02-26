@@ -1,13 +1,11 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-if ( ! function_exists('reduce_double_slashes'))
-{
-	function reduce_double_slashes($str)
-	{
-		return preg_replace("#([^:])//+#", "\\1/", $str);
+<?php
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
+if (! function_exists ( 'reduce_double_slashes' )) {
+	function reduce_double_slashes($str) {
+		return preg_replace ( "#([^:])//+#", "\\1/", $str );
 	}
 }
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +13,16 @@ if ( ! function_exists('reduce_double_slashes'))
 |--------------------------------------------------------------------------
 |
 */
-parse_str($_SERVER['QUERY_STRING'], $_GET);
+parse_str ( $_SERVER ['QUERY_STRING'], $_GET );
 ini_set ( 'max_execution_time', '3600' );
-ini_set('post_max_size', '200M');
-ini_set('upload_max_filesize', '200M');
-ini_set('memory_limit','160M');
-
-
-
-
+ini_set ( 'post_max_size', '200M' );
+ini_set ( 'upload_max_filesize', '200M' );
+ini_set ( 'memory_limit', '160M' );
+  
+ //error_reporting(E_ALL); 
+ //ini_set("display_errors", 1); 
+ //ini_set("log_errors", 1);
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -39,40 +38,42 @@ ini_set('memory_limit','160M');
 //$pageUR1  = ereg_replace("/(.+)", "", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
 //$pageUR1 = ($_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
 
-$pageUR1 = $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-$curdomain  = str_replace("www.", "", $pageUR1);
+
+$pageUR1 = $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
+$curdomain = str_replace ( "www.", "", $pageUR1 );
 
 //var_dump($_SERVER,$pageUR1 );
 //exit;
 
+
 //echo $curdomain;
+
 
 //$curdomain  = 'omnitom.com';
 //$curdomain  = 'bulgaria.ooyes.net/omnitom_www2';
 
-$config['base_url']	=  reduce_double_slashes(SITEURL);
-$config['static_url']	=  reduce_double_slashes(SITEURL."/static/");
-define('THE_STATIC_URL',$config['static_url']  );
-define('BASEURL',$config['base_url']  );
-define('BASEURL_STATIC',$config['static_url']  );
+
+$config ['base_url'] = reduce_double_slashes ( SITEURL );
+$config ['static_url'] = reduce_double_slashes ( SITEURL . "/static/" );
+define ( 'THE_STATIC_URL', $config ['static_url'] );
+define ( 'BASEURL', $config ['base_url'] );
+define ( 'BASEURL_STATIC', $config ['static_url'] );
 //print THE_STATIC_URL;
 
-if ( ! function_exists('static_url'))
-{
-	function static_url()
-	{
+
+if (! function_exists ( 'static_url' )) {
+	function static_url() {
 		return THE_STATIC_URL;
 	}
 }
 
-if ( ! function_exists('print_the_static_files_url'))
-{
-	function print_the_static_files_url()
-	{
+if (! function_exists ( 'print_the_static_files_url' )) {
+	function print_the_static_files_url() {
 		print THE_STATIC_URL;
 	}
 }
 //$config['base_url']	= "http://emailmarketing.ooyes.net/";
+
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +85,7 @@ if ( ! function_exists('print_the_static_files_url'))
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "";
+$config ['index_page'] = "";
 
 /*
 |--------------------------------------------------------------------------
@@ -102,9 +103,10 @@ $config['index_page'] = "";
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= "AUTO";
+$config ['uri_protocol'] = "AUTO";
 //$config['uri_protocol']	= "AUTO";
 //$config['uri_protocol']	= "AUTO";
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +119,7 @@ $config['uri_protocol']	= "AUTO";
 | http://codeigniter.com/user_guide/general/urls.html
 */
 
-$config['url_suffix'] = "";
+$config ['url_suffix'] = "";
 
 /*
 |--------------------------------------------------------------------------
@@ -129,7 +131,7 @@ $config['url_suffix'] = "";
 | than english.
 |
 */
-$config['language']	= "english";
+$config ['language'] = "english";
 
 /*
 |--------------------------------------------------------------------------
@@ -140,7 +142,7 @@ $config['language']	= "english";
 | that require a character set to be provided.
 |
 */
-$config['charset'] = "UTF-8";
+$config ['charset'] = "UTF-8";
 
 /*
 |--------------------------------------------------------------------------
@@ -151,8 +153,7 @@ $config['charset'] = "UTF-8";
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = TRUE;
-
+$config ['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,8 +167,7 @@ $config['enable_hooks'] = TRUE;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'MY_';
-
+$config ['subclass_prefix'] = 'MY_';
 
 /*
 |--------------------------------------------------------------------------
@@ -186,8 +186,8 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-//$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
-$config['permitted_uri_chars'] = '';
+$config ['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+//$config['permitted_uri_chars'] = '';
 
 
 /*
@@ -212,10 +212,10 @@ $config['permitted_uri_chars'] = '';
 | use segment based URLs.
 |
 */
-$config['enable_query_strings'] = true;
-$config['directory_trigger'] = 'mw_d';	 // experimental not currently in use
-$config['controller_trigger'] = 'mw_c';
-$config['function_trigger'] = 'mw_m';
+$config ['enable_query_strings'] = true;
+$config ['directory_trigger'] = 'mw_d'; // experimental not currently in use
+$config ['controller_trigger'] = 'mw_c';
+$config ['function_trigger'] = 'mw_m';
 
 /*
 |--------------------------------------------------------------------------
@@ -237,7 +237,7 @@ $config['function_trigger'] = 'mw_m';
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config ['log_threshold'] = 0;
 
 /*
 |--------------------------------------------------------------------------
@@ -248,7 +248,7 @@ $config['log_threshold'] = 0;
 | system/logs/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config ['log_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -259,7 +259,7 @@ $config['log_path'] = '';
 | codes to set your own date formatting
 |
 */
-$config['log_date_format'] = 'Y-m-d H:i:s';
+$config ['log_date_format'] = 'Y-m-d H:i:s';
 
 /*
 |--------------------------------------------------------------------------
@@ -270,7 +270,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | system/cache/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = '';
+$config ['cache_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -281,7 +281,7 @@ $config['cache_path'] = '';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "microweber_".md5(ROOTPATH).md5(DBPASSWORD).md5(DBUSERNAME);
+$config ['encryption_key'] = "microweber_" . md5 ( ROOTPATH ) . md5 ( DBPASSWORD ) . md5 ( DBUSERNAME );
 
 /*
 |--------------------------------------------------------------------------
@@ -295,14 +295,14 @@ $config['encryption_key'] = "microweber_".md5(ROOTPATH).md5(DBPASSWORD).md5(DBUS
 | 'time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'microweber_session';
-$config['sess_expiration']		= 72000;
-$config['sess_encrypt_cookie']	= false;
-$config['sess_use_database']	= TRUE;
-$config['sess_table_name']		= TABLE_PREFIX. 'sessions';
-$config['sess_match_ip']		= false;
-$config['sess_match_useragent']	= false;
-$config['sess_time_to_update'] 		= 3000;
+$config ['sess_cookie_name'] = 'microweber_session_' . md5 ( ROOTPATH );
+$config ['sess_expiration'] = 72000;
+$config ['sess_encrypt_cookie'] = false;
+$config ['sess_use_database'] = TRUE;
+$config ['sess_table_name'] = TABLE_PREFIX . 'sessions';
+$config ['sess_match_ip'] = false;
+$config ['sess_match_useragent'] = false;
+$config ['sess_time_to_update'] = 3000;
 
 /*
 |--------------------------------------------------------------------------
@@ -314,9 +314,9 @@ $config['sess_time_to_update'] 		= 3000;
 | 'cookie_path'   =  Typically will be a forward slash
 |
 */
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
+$config ['cookie_prefix'] = "";
+$config ['cookie_domain'] = "";
+$config ['cookie_path'] = "/";
 
 /*
 |--------------------------------------------------------------------------
@@ -327,7 +327,7 @@ $config['cookie_path']		= "/";
 | COOKIE data is encountered
 |
 */
-$config['global_xss_filtering'] = FALSE;
+$config ['global_xss_filtering'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -346,7 +346,7 @@ $config['global_xss_filtering'] = FALSE;
 | by the output class.  Do not "echo" any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config ['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -359,8 +359,7 @@ $config['compress_output'] = FALSE;
 | regarding date handling.
 |
 */
-$config['time_reference'] = 'gmt';
-
+$config ['time_reference'] = 'gmt';
 
 /*
 |--------------------------------------------------------------------------
@@ -372,9 +371,9 @@ $config['time_reference'] = 'gmt';
 | in your view files.  Options are TRUE or FALSE (boolean)
 |
 */
-$config['rewrite_short_tags'] = FALSE;
+$config ['rewrite_short_tags'] = FALSE;
 
-$config['proxy_ips'] = '';
+$config ['proxy_ips'] = '';
 
 
 

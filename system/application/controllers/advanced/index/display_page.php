@@ -4,12 +4,6 @@ $content = $page;
 //exit();
 
 
-
-
-
-
-
-
 if ($content_display_mode != 'extended_api_with_no_template') {
 	
 	if ($url != '') {
@@ -26,7 +20,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 	
 	} else {
 		
-		$content = $this->content_model->getContentHomepage ();
+		$content = CI::model ( 'content' )->getContentHomepage ();
 		
 		if (empty ( $content )) {
 			
@@ -49,34 +43,36 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 		exit ();
 	
 	}
-	
-	/*if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
-		
-		$gogo = $this->content_model->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
-		
-		if ($this->core_model->validators_isUrl ( $gogo ) == true) {
-			
-			header ( 'Location: ' . $gogo );
-			
-			exit ();
-		
-		} else {
-			
-			exit ( "Trying to go to invalid url: $gogo" );
-		
-		}
-	
-	}*/
 
 }
 
 $this->template ['page'] = $page;
 
+if ($page ['require_login'] == 'y') {
+	require (APPPATH . 'controllers/advanced/requre_login_or_redirect.php');
+}
+
+if (! empty ( $post )) {
+	$post ['custom_fields'] = CI::model ( 'core' )->getCustomFields ( 'table_content', $post ['id'] );
+	$active_categories = CI::model ( 'taxonomy' )->getCategoriesForContent ( $post ['id'], true );
+	//p($active_categories);
+	if (! empty ( $active_categories )) {
+		$this->template ['active_categories'] = $active_categories;
+		$this->template ['active_category'] = ($active_categories [0]);
+		$this->load->vars ( $this->template );
+	}
+	
+	if ($post ['require_login'] == 'y') {
+		require (APPPATH . 'controllers/advanced/requre_login_or_redirect.php');
+	}
+
+}
+
 $this->template ['post'] = $post;
 
 $this->load->vars ( $this->template );
 
-//var_dump($post);
+//var_dump($page);
 
 
 $GLOBALS ['ACTIVE_PAGE_ID'] = $content ['id'];
@@ -87,7 +83,7 @@ if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 
 }
 
-$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -97,7 +93,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -118,21 +114,31 @@ if (defined ( 'USERFILES_URL' ) == false) {
 }
 
 $ipto = $_SERVER ["REMOTE_ADDR"];
-
-$active_categories = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
+if (empty ( $post )) {
+	$active_categories = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
+	if (! empty ( $active_categories )) {
+		$this->template ['active_categories'] = $active_categories;
+		$this->template ['active_category'] = end ( $active_categories );
+		if (defined ( 'CATEGORY_ID' ) == false) {
+			define ( 'CATEGORY_ID', end ( $active_categories ) );
+		}
+	if (defined ( 'CATEGORY_IDS' ) == false) {
+		define ( 'CATEGORY_IDS', implode ( ',', $active_categories ) );
+	}
+		$this->load->vars ( $this->template );
+	}
+} else {
+	//$active_categories = CI::model('taxonomy')->getCategoriesForContent ( $post ['id'], $return_only_ids = true );
+}
 
 //
-//$active_categories = $this->content_model->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
+//$active_categories = CI::model('content')->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
 
-
-$this->template ['active_categories'] = $active_categories;
-
-$this->load->vars ( $this->template );
 
 //tags
 
 
-$tags = $this->core_model->getParamFromURL ( 'tags' );
+$tags = CI::model ( 'core' )->getParamFromURL ( 'tags' );
 
 //var_dump($tags);
 if ($tags != '') {
@@ -155,7 +161,7 @@ if ($tags != '') {
 
 }
 
-$created_by = $this->core_model->getParamFromURL ( 'author' );
+$created_by = CI::model ( 'core' )->getParamFromURL ( 'author' );
 
 //var_dump($tags);
 if ($created_by != '') {
@@ -163,8 +169,8 @@ if ($created_by != '') {
 	$this->template ['created_by'] = $created_by;
 
 } else {
-
-	//$this->template ['created_by'] = false;
+	
+//$this->template ['created_by'] = false;
 }
 
 $this->template ['selected_tags'] = $selected_tags;
@@ -175,23 +181,21 @@ $this->load->vars ( $this->template );
 
 if ($page ['content_subtype'] == 'blog_section') {
 	
-
-
-	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 	//var_dump($active_categories2);
 	$posts_data = false;
-
+	
 	$posts_data ['selected_categories'] = ($active_categories2);
 	
 	if (($_POST ['search_by_keyword'] != '') or ($_POST ['begin_search'] != '')) {
- 
+		
 		if (empty ( $active_categories2 )) {
 			
-			$togo = $this->content_model->getContentURLByIdAndCache ( $page ['id'] );
+			$togo = CI::model ( 'content' )->getContentURLByIdAndCache ( $page ['id'] );
 		
 		} else {
 			
-			$togo = $this->taxonomy_model->getUrlForId ( $active_categories2 [0] );
+			$togo = CI::model ( 'taxonomy' )->getUrlForId ( $active_categories2 [0] );
 		
 		}
 		
@@ -266,8 +270,6 @@ if ($page ['content_subtype'] == 'blog_section') {
 			
 			}
 		
-	 
-		
 		}
 		
 		if ($_POST ['ord'] != '') {
@@ -294,7 +296,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 		
 		}
 		
-		$temp1 = $this->core_model->getParamFromURL ( 'view' );
+		$temp1 = CI::model ( 'core' )->getParamFromURL ( 'view' );
 		
 		if (trim ( $temp1 ) != '') {
 			
@@ -310,7 +312,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$strict_category_selection = $this->core_model->getParamFromURL ( 'strict_category_selection' );
+	$strict_category_selection = CI::model ( 'core' )->getParamFromURL ( 'strict_category_selection' );
 	
 	if ($strict_category_selection == 'y') {
 		
@@ -322,7 +324,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$search_for = $this->core_model->getParamFromURL ( 'keyword' );
+	$search_for = CI::model ( 'core' )->getParamFromURL ( 'keyword' );
 	
 	if ($search_for != '') {
 		
@@ -340,7 +342,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$strict_category_selection = $this->core_model->getParamFromURL ( 'strict-category' );
+	$strict_category_selection = CI::model ( 'core' )->getParamFromURL ( 'strict-category' );
 	
 	if ($strict_category_selection == 'y') {
 		
@@ -348,10 +350,9 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	} else {
 	
-	 
 	}
 	
-	$type = $this->core_model->getParamFromURL ( 'type' );
+	$type = CI::model ( 'core' )->getParamFromURL ( 'type' );
 	
 	if (trim ( $type ) != '' && trim ( $type ) != 'blog') {
 		
@@ -363,7 +364,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$typev = $this->core_model->getParamFromURL ( 'typev' );
+	$typev = CI::model ( 'core' )->getParamFromURL ( 'typev' );
 	
 	if (trim ( $typev ) != '') {
 		
@@ -375,17 +376,17 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$posts_data ['selected_tags'] = ($selected_tags);
+	//$posts_data ['selected_tags'] = ($selected_tags);
 	
+
 	$posts_data ['content_type'] = 'post';
 	
 	$posts_data ['visible_on_frontend'] = 'y';
 	
-	$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
+	$items_per_page = CI::model ( 'core' )->optionsGetByKey ( 'default_items_per_page' );
 	
 	$items_per_page = intval ( $items_per_page );
 	
- 
 	if (empty ( $active_categories2 )) {
 		
 		$active_categories2 = array ();
@@ -394,8 +395,6 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	foreach ( $active_categories2 as $active_cat ) {
 		
-		 
-		
 		if ($post == false) {
 			
 			if (empty ( $post )) {
@@ -403,15 +402,15 @@ if ($page ['content_subtype'] == 'blog_section') {
 				//var_dump ( $post );
 				
 
-				$the_taxonomy_item_fulll = $this->taxonomy_model->getSingleItem ( $active_cat );
+				$the_taxonomy_item_fulll = CI::model ( 'taxonomy' )->getSingleItem ( $active_cat );
 				
-				/*if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
+			/*if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
 					
 					$gogo = $the_taxonomy_item_fulll ['page_301_redirect_link'];
 					
-					$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
+					$gogo = CI::model('content')->applyGlobalTemplateReplaceables ( $gogo, false );
 					
-					if ($this->core_model->validators_isUrl ( $gogo ) == true) {
+					if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
 						
 						header ( 'Location: ' . $gogo );
 						
@@ -419,7 +418,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 					
 					} else {
 						
-						$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
+						$gogo = CI::model('content')->applyGlobalTemplateReplaceables ( $gogo, false );
 						
 						exit ( "Trying to go to invalid url: $gogo" );
 					
@@ -431,12 +430,12 @@ if ($page ['content_subtype'] == 'blog_section') {
 				
 				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] ) != '') {
 					
-					$gogo = $this->content_model->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
+					$gogo = CI::model('content')->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
 					
 					//exit($gogo);
-					if ($this->core_model->validators_isUrl ( $gogo ) == true) {
+					if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
 						
-						$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
+						$gogo = CI::model('content')->applyGlobalTemplateReplaceables ( $gogo, false );
 						
 						header ( 'Location: ' . $gogo );
 						
@@ -444,7 +443,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 					
 					} else {
 						
-						$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
+						$gogo = CI::model('content')->applyGlobalTemplateReplaceables ( $gogo, false );
 						
 						exit ( "Trying to go to invalid url: $gogo" );
 					
@@ -460,7 +459,7 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
+	$curent_page = CI::model ( 'core' )->getParamFromURL ( 'curent_page' );
 	
 	if (intval ( $curent_page ) < 1) {
 		
@@ -468,12 +467,10 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-	 
-	$voted = $this->core_model->getParamFromURL ( 'voted' );
+	$voted = CI::model ( 'core' )->getParamFromURL ( 'voted' );
 	
 	if (($timestamp = strtotime ( $voted )) === false) {
 		
-		 
 		$this->template ['selected_voted'] = false;
 	
 	} else {
@@ -484,15 +481,13 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
- 
-	
 	$this->load->vars ( $this->template );
 	
 	$orderby1 = array ();
 	
-	$order_url = $this->core_model->getParamFromURL ( 'ord' );
+	$order_url = CI::model ( 'core' )->getParamFromURL ( 'ord' );
 	
-	$order_direction_url = $this->core_model->getParamFromURL ( 'ord-dir' );
+	$order_direction_url = CI::model ( 'core' )->getParamFromURL ( 'ord-dir' );
 	
 	if ($order_url != false) {
 		
@@ -514,59 +509,49 @@ if ($page ['content_subtype'] == 'blog_section') {
 	
 	}
 	
-
-
 	$page_start = ($curent_page - 1) * $items_per_page;
 	
 	$page_end = ($page_start) + $items_per_page;
 	
 	if (! empty ( $posts_data )) {
-		 
-		 
-
+		
 		if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_posts_get.php' )) {
 			
 			include_once ACTIVE_TEMPLATE_DIR . 'controllers/pre_posts_get.php';
 		
 		}
 		
-		 
 		$posts_data2 = $posts_data;
 		
 		$posts_data2 ['use_fetch_db_data'] = true;
 		
 		$posts_data2 ['orderby'] = $orderby1;
 		
-		$posts_data2 ['visible_on_frontend'] = 'y';
-		
-		//$data = $this->content_model->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
-		//p($posts_data2);
+		//	$posts_data2 ['visible_on_frontend'] = 'y';
 		
 
-		$data = $this->content_model->contentGetByParams ( $posts_data2 );
-		
-		//var_dump($data);
-		//						p($data, 1);
+		//$data = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
 		
 
+		$data = CI::model ( 'content' )->contentGetByParams ( $posts_data2 );
+		
 		$this->template ['posts'] = $data ['posts'];
 		
 		$posts = $data;
-	 
+		
 		$content_pages_count = $data ["posts_pages_count"];
-	 	$this->template ['posts_pages_count'] = $data ["posts_pages_count"];
+		$this->template ['posts_pages_count'] = $data ["posts_pages_count"];
 		
 		$this->template ['posts_pages_curent_page'] = $data ["posts_pages_curent_page"];
 		
 		//get paging urls
-		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = CI::model ( 'content' )->pagingPrepareUrls ( false, $content_pages_count );
 		
 		//var_dump($content_pages);
 		$this->template ['posts_pages_links'] = $content_pages;
 	
 	}
 
- 
 }
 
 if ($page ['content_subtype'] == 'module') {
@@ -577,7 +562,7 @@ if ($page ['content_subtype'] == 'module') {
 		
 		if (is_file ( PLUGINS_DIRNAME . $dirname . '/controller.php' )) {
 			
-			$this->core_model->plugins_setRunningPlugin ( $dirname );
+			CI::model ( 'core' )->plugins_setRunningPlugin ( $dirname );
 			
 			//$this->load->file ( PLUGINS_DIRNAME . $dirname . '/controller.php', true );
 			include_once PLUGINS_DIRNAME . $dirname . '/controller.php';
@@ -593,60 +578,56 @@ if (! empty ( $post )) {
 	//p($post);
 	$gogo = $post ['page_301_redirect_link'];
 	
-	$gogo = $this->content_model->applyGlobalTemplateReplaceables ( $gogo, false );
+	$gogo = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $gogo, false );
 	
-	if(trim($gogo) != ''){
+	if (trim ( $gogo ) != '') {
 		header ( 'Location: ' . $gogo );
 		
 		exit ();
-		
+	
 	}
 	
- 
-	$cats = $this->content_model->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
+/*	$cats = CI::model('content')->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
 	$this->template ['active_categories'] = $cats;
-	$this->load->vars ( $this->template );
+	$this->load->vars ( $this->template );*/
 }
-
- 
 
 if (! empty ( $posts )) {
 	
-	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 	
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+	$meta = CI::model ( 'content' )->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 
 }
 
 if (! empty ( $post )) {
 	
 	//	var_dump ( $post );
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
-
-	//	var_dump ( $meta );
+	$meta = CI::model ( 'content' )->metaTagsGenerateByContentId ( $post ['id'] );
+	
+//	var_dump ( $meta );
 } elseif (! empty ( $posts )) {
 	
-	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 	
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+	$meta = CI::model ( 'content' )->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 
 } 
 
 elseif (! empty ( $page )) {
 	
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'] );
+	$meta = CI::model ( 'content' )->metaTagsGenerateByContentId ( $page ['id'] );
 
 }
 
 if (! empty ( $post )) {
 	
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
+	$meta = CI::model ( 'content' )->metaTagsGenerateByContentId ( $post ['id'] );
 
 }
 
 if (! empty ( $post )) {
 
- 
 }
 
 $content ['content_meta_title'] = $meta ['content_meta_title'];
@@ -654,8 +635,6 @@ $content ['content_meta_title'] = $meta ['content_meta_title'];
 $content ['content_meta_description'] = $meta ['content_meta_description'];
 
 $content ['content_meta_keywords'] = $meta ['content_meta_keywords'];
-
- 
 
 if (empty ( $active_categories )) {
 	
@@ -667,6 +646,13 @@ if (empty ( $active_categories2 )) {
 	
 	$active_categories2 = array ();
 
+} else {
+	if (defined ( 'CATEGORY_ID' ) == false) {
+		define ( 'CATEGORY_ID', end ( $active_categories2 ) );
+	}
+	if (defined ( 'CATEGORY_IDS' ) == false) {
+		define ( 'CATEGORY_IDS', implode ( ',', $active_categories2 ) );
+	}
 }
 
 //p($page)
@@ -709,32 +695,6 @@ if (is_array ( $active_categories2 ) == false) {
 $active_categories_temp = array_merge ( $active_categories_temp, $active_categories, $active_categories2 );
 
 $active_categories_temp = array_unique ( $active_categories_temp );
-/*
-if (! empty ( $active_categories_temp )) {
-	
-	$taxonomy_tree = array ();
-	
-	$taxonomy_tree [] = $content_category_temp_id;
-	
-	foreach ( $active_categories_temp as $thecategory ) {
-		
-		$temp = $this->taxonomy_model->getChildrensRecursiveAndCache ( $thecategory, 'category' );
-		
-		$taxonomy_tree = @array_merge ( $taxonomy_tree, $temp );
-	
-	}
-
-}
-
-if (! empty ( $taxonomy_tree )) {
-	
-	$taxonomy_tree = @array_unique ( $taxonomy_tree );
-
-}*/
-
-//var_dump($taxonomy_tree);
-//print '<pre>';
-
 
 $taxonomy_tree_reverse = ($taxonomy_tree);
 
@@ -743,88 +703,4 @@ if (! empty ( $taxonomy_tree_reverse )) {
 	rsort ( $taxonomy_tree_reverse );
 
 }
-/*
-if (! empty ( $taxonomy_tree )) {
-	
-	$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
-	
-	$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
-	
-	$append_files = true;
-	
-	foreach ( $taxonomy_tree_reverse as $something ) {
-		
-		$temp = array ();
-		
-		$temp ['id'] = $something;
-		
-		$temp = $this->taxonomy_model->taxonomyGet ( $temp );
-		
-		$temp = $temp [0];
-		
-		//print
-		//var_dump ( $temp );
-		
-
-		if ($temp ['taxonomy_filename_exclusive'] != '') {
-			
-			$the_file = $the_active_site_template_dir . $temp ['taxonomy_filename_exclusive'];
-			
-			if (is_file ( $the_file )) {
-				
-				if (is_readable ( $the_file )) {
-					
-					//print $the_file;
-					//include_once $the_file;
-					$this->load->vars ( $this->template );
-					
-					$taxonomy_data = $taxonomy_data . $this->load->file ( $the_file, true );
-					
-					$append_files = false;
-				
-				} else {
-					
-					exit ( $the_file );
-				
-				}
-			
-			}
-		
-		}
-		
-		if ($append_files == true) {
-			
-			if ($temp ['taxonomy_filename'] != '') {
-				
-				$the_file = $the_active_site_template_dir . $temp ['taxonomy_filename'];
-				
-				if (is_file ( $the_file )) {
-					
-					if (is_readable ( $the_file )) {
-						
-						//include_once $the_file;
-						$this->load->vars ( $this->template );
-						
-						$taxonomy_data = $taxonomy_data . $this->load->file ( $the_file, true );
-					
-					} else {
-						
-						exit ( $the_file );
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-	
-	}
-
-} else {
-	
-	$taxonomy_data = false;
-
-}
-
- */
+ 

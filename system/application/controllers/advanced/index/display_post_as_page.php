@@ -17,7 +17,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 	
 	} else {
 		
-		$content = $this->content_model->getContentHomepage ();
+		$content = CI::model('content')->getContentHomepage ();
 		
 		if (empty ( $content )) {
 			
@@ -43,9 +43,9 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 	
 	/*if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
 		
-		$gogo = $this->content_model->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
+		$gogo = CI::model('content')->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
 		
-		if ($this->core_model->validators_isUrl ( $gogo ) == true) {
+		if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
 			
 			header ( 'Location: ' . $gogo );
 			
@@ -72,7 +72,7 @@ if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 
 }
 
-$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -88,7 +88,7 @@ if ($page ['content_subtype'] == 'module') {
 		
 		if (is_file ( PLUGINS_DIRNAME . $dirname . '/controller.php' )) {
 			
-			$this->core_model->plugins_setRunningPlugin ( $dirname );
+			CI::model('core')->plugins_setRunningPlugin ( $dirname );
 			
 			//$this->load->file ( PLUGINS_DIRNAME . $dirname . '/controller.php', true );
 			include_once PLUGINS_DIRNAME . $dirname . '/controller.php';
@@ -100,7 +100,7 @@ if ($page ['content_subtype'] == 'module') {
 }
 
 if (! empty ( $post )) {
-	$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
+	$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
 	$content ['content_meta_title'] = $meta ['content_meta_title'];
 	$content ['content_meta_description'] = $meta ['content_meta_description'];
 	$content ['content_meta_keywords'] = $meta ['content_meta_keywords'];

@@ -1,0 +1,89 @@
+Version 1.3.0 (2010-11-24)
+	Added new jQuery UI widget that supports jQuery UI themes.
+	Added new multiple_queues option that enables you to upload multiple times in the queue widgets.
+	Added support for crossdomain loading of the XAP and SWF files and crossdomain upload.
+	Added new multiple_queues option that enables you to upload multiple times in the queue widgets.
+	Added support for crossdomain loading of the XAP and SWF files and crossdomain upload.
+	Added preinit/init options to to ease up the binding of custom events to queueWidget and the Uploader class.
+	Added drag/drop support for Safari until they fix the broken drag/drop support on Windows.
+	Added events example file that show how to bind all events and display event specific data.
+	Added support for retaining Exif data on images when they where resized using the HTML5 runtime.
+	Fixed logic issue with the upload.php example file. Chunking wasn't working correctly.
+	Fixed issue with HTML4 not handling the form encoding correctly on older IE versions. Patch contributed by jinxdone.
+	Fixed so the HTML4 runtime only submits the defined multipart_params arguments.
+	Fixes issue where it wasn't possible to dynamically override url or mutlipart_params for the HTML4 runtime.
+	Fixed so all runtimes pass the name, chunk and chunks parameters as multipart parameters instead of querystring parameters.
+	Fixed so files are read using the newer FileReader class if it's available if not it tries the older getAsXXX on Gecko.
+	Fixed bug where IE 9 beta 1 wouldn't render Silverlight properly.
+	Fixed bug where Flash would do extra empty requests if images below a specific size would be uploaded.
+	Fixed bug where Google Gears would resize and re-encode images even if the it wasn't changed in scale.
+	Fixed bug where the HTML5 runtime wouldn't free memory after each request on Gecko.
+Version 1.2.4 (2010-09-08)
+	Added new BeforeUpload event to make it easier to override settings before a file is uploaded.
+	Added new automatic usage of FileReference in Flash if it's possible. Contributed by Marcel Jackwerth.
+	Added new chunking support for Chrome 5 and Firefox 3.6 using the HTML 5 runtime.
+	Added new multipart upload support for WebKit using the HTML 5 runtime and the FormData object.
+	Added new image scaling method for the Flash runtime contributed by rcoopman.
+	Added new alert error message if the user selected invalid files.
+	Added new automatic unique name generation to the example.php script. Contributed by Brandon Kelly.
+	Changed so the default upload method is multipart and the default chunk size is 0.
+	Fixed progress issue with the HTML5 runtime running on Gecko.
+	Fixed so longer extensions can be used such as .tar.gz.
+	Fixed so the file extension is retained when using the unique_names option.
+Version 1.2.3 (2010-05-27)
+	Added new drag/drop support for HTML5 running on Chrome beta.
+	Added new multipart state for the features object. It's now possible to detect multipart support.
+	Added new getFeatures function to all runtime. Basic concept by Javier Martinez Fernandez.
+	Fixed bug where runtimes where initialized even if they didn't match the required_features setting.
+Version 1.2.2.1 (2010-05-04)
+	Added new headers option, enables you to set custom headers for the upload requests.
+	Fixed bug where the file extension checking was case sensitive.
+Version 1.2.2 (2010-04-26)
+	Added new file_data_name option that enables you to set the multipart file data param. Patch contributed by Alex Ganov.
+	Added new FILE_SIZE_ERROR type that will be triggered if the user selected a file that is to large or zero bytes.
+	Added new FILE_EXTENSION_ERROR type that will be triggered if you add a file with an invalid file extension.
+	Added new required_features setting, enables you to specify a list of required features that the runtime must have.
+	Fixed so the plupload.buildUrl function uses the UTF compatible encodeURIComponent method instead of escape.
+	Fixed so that all file types can be selected if you don't specify a filter setting.
+	Fixed so more valid HTTP status codes are accepted as valid responses.
+	Fixed so all runtimes fills the features object with available features.
+	Fixed some issues with the HTML4 runtime if there wasn't any existing forms on the page.
+	Fixed some conflict issues with HTML4 runtime and forms with the input names of action or target.
+	Fixed bug where some Gecko versions would produce exceptions when checking the HTTP status of a XHR.
+Version 1.2.1 (2010-03-22)
+	Fixed bug with incorrect aspect ratio in Flash image scaling.
+	Fixed bug where chunked uploads could get scrambled in the Flash runtime. Patch contributed by Grady Werner.
+	Fixed bug where a beta version of Chrome wouldn't handle drag/drop correctly because of missing drag effect.
+	Fixed so the HTML 4 runtime displays N/A for file sizes and the progress is based on uploaded files instead of bytes.
+	Fixed so chunking can be disabled properly in Flash but that will affect the progress bar.
+	Fixed so queue widget displays the drag/drop message if file queue is emptied.
+	Fixed small files are uploaded as one single chunk and not forced into 4 chunks in the Flash runtime.
+Version 1.2 (2010-03-09)
+	Added new rename file support for jQuery queue widget, click on a file name to rename it if it's enabled.
+	Added official ChunkUploaded event, it similar to FileUploaded but executed for each chunk.
+	Added bytes per second support to total queue progress.
+	Added better error handling to core API using the new Error event.
+	Added better error handling to jQuery queue widget.
+	Fixed so chunking uploads is dispatch from JS not from inside Flash/Silverlight.
+Version 1.1.1 (2010-02-25)
+	Added new setup setting to queue widget. Makes it easier to bind custom events to uploader instance.
+	Fixed so it's possible to disable chunking compleatly. It's now disabled by default.
+	Fixed bug where multipart mode was enabled all the time in the Flash runtime.
+	Fixed bug where chunked uploading in Silverlight would fail.
+	Fixed bug where the delete button was visible while uploading.
+	Fixed bug where unique_names setting wasn't working when the core API was used.
+	Fixed bug where the queue widget wouldn't display the currently uploaded file if the unique_names was enabled.
+Version 1.1 (2010-02-24)
+	Added new multipart and multipart_params support.
+	Added new container option, enables you to specify where flash/silverlight objects would be added.
+	Added chunking support to BrowserPlus runtime, contributed by Steve Spencer.
+	Added FileUploaded event that fires when a file is uploaded.
+	Added more easily understandable buttons to queue widget.
+	Added html4 runtime, contributed by Ryan Demmer.
+	Fixed issues with i18n support and added a Swedish and Danish language pack.
+	Fixed bug where the Flash runtime could do empty requests if the image was scaled down.
+	Fixed bug where uploading small images in Silverlight would produce an exception.
+	Fixed so the runtime list can include whitespace or missing runtimes. Patch contributed by Øyvind Sean Kinsey.
+	Fixed so to large files are ignored and never dispatched to the FilesAdded event.
+Version 1.0 (2010-02-03)
+	First official release of Plupload.

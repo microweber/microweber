@@ -1,0 +1,130 @@
+h1 {
+	font-size: 18px;	
+	font-weight:bold; 	
+	color: #7e7363;	
+	padding:3px 0  7px 0;	
+	clear:both;
+}
+
+h2 {
+	font-size: 18px;
+	font-weight:normal;
+ 	color: #7e7363;
+	padding:12px 0  7px 0;
+	clear:both;
+}
+
+h2 a {
+	text-decoration:none;
+ 	color: #7e7363;
+}
+
+h3 {
+	font-size: 1.3em;
+	margin-top: 2em;
+	color: #1D3256;
+}
+
+.home p {
+	padding-bottom: 1em;
+	margin-right: 1em;
+	margin-left:1em;
+}
+
+.page{
+	background: url(../../../themes/default/images/page_border_grad.png) no-repeat 0 20px;
+	min-height:10px;
+	
+}
+
+.pageWrap{
+	padding:15px 15px 0 15px;
+	min-height:10px;
+	position:relative;
+	background: url(../../../themes/default/images/page_border_grad.png) no-repeat right  20px;
+	
+}
+
+
+
+.nav_sep{  
+	height:39px;
+	margin:-15px -15px 18px -15px;
+	border-radius: 0 4px 0 0;
+	-moz-border-radius:  0 4px 0 0;
+	-webkit-border-radius:  0 4px 0 0;
+	border:1px solid #dddddd;
+}
+
+
+/* Content */
+#content.home {
+	padding-top:5px;
+	font-size:14px;
+}
+
+
+/* 2 columns reports */
+#leftcolumn {
+	float: left;
+	width: 50%;
+}
+#rightcolumn {
+	float: right;
+	width: 45%;
+}
+/* not in widget */
+.widget #leftcolumn, .widget #rightcolumn {
+	float:left;
+	padding: 0 10px;
+	width:auto;
+}
+
+/* Calendar*/
+div.ui-datepicker {
+	font-size: 62.5%;
+}
+
+.ui-datepicker-current-period a, .ui-datepicker-current-period a:link, .ui-datepicker-current-period a:visited {
+	border: 1px solid #2E85FF;
+	color: #2E85FF;
+}
+
+#otherPeriods a {
+	text-decoration: none;
+}
+
+#otherPeriods a:hover {
+	text-decoration: underline;
+}
+
+#currentPeriod {
+	border-bottom: 1px dotted #520202;
+}
+
+.hoverPeriod {
+	cursor: pointer;
+	font-weight: bold;
+	border-bottom: 1px solid #520202;
+}
+
+div .sparkline {
+	float:left;
+	clear:both;
+	padding-bottom: 1px;
+	margin-top:10px;
+	border-bottom:1px solid white;
+}
+
+.sparkline img {
+	vertical-align: middle;
+	padding-right: 10px;
+	margin-top: 0;
+}
+
+div.pk-emptyGraph {
+        padding-top: 20px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-style: italic;
+}

@@ -7,6 +7,8 @@ class Users_model extends Model {
 	private $_notificationTypes;
 	public $user_id;
 	
+	var $fb_uid = "";
+	
 	function __construct() {
 		parent::Model ();
 	
@@ -15,12 +17,74 @@ class Users_model extends Model {
 	protected function _initActivitiesTypes() {
 		//	$this->_notificationTypes = array ('comment_on_post' => 'commented on your post: <a href="{content_url}">{content_title}</a>', 'vote_on_post' => 'voted on your post: <a href="{content_url}">{content_title}</a>', 'comment_on_status' => 'commented on your <a href="{status_url}">status</a>', 'vote_on_status' => 'liked your <a href="{status_url}">status</a>', 'add_to_followers' => 'followed you', 'add_to_circle' => 'added you to you <a href="{circle_url}">his/her circle of influence</a>' );
 	}
+	function validate_user_facebook($uid = 0) {
+		//confirm that facebook session data is still valid and matches
+		$this->load->library ( 'fb_connect' );
+		
+		//see if the facebook session is valid and the user id in the sesison is equal to the user_id you want to validate
+		$session_uid = 'fb:' . $this->fb_connect->fbSession ['uid'];
+		if (! $this->fb_connect->fbSession || $session_uid != $uid) {
+			return false;
+		}
+		
+		//Receive Data
+		$this->user_id = $uid;
+		
+		//See if User exists
+		$this->db->where ( 'user_id', $this->user_id );
+		$q = $this->db->get ( 'users' );
+		
+		if ($q->num_rows == 1) {
+			//yes, a user exists,
+			return true;
+		}
+		
+		//no user exists
+		return false;
+	}
+	
+	function create_user($db_values = '') {
+		$this->user_id = $db_values ["user_id"];
+		$this->full_name = $db_values ["full_name"];
+		$this->pwd = md5 ( $db_values ["pwd"] );
+		if (strlen ( $db_values ['fb_uid'] ) > 0) {
+			$this->fb_uid = $db_values ['fb_uid'];
+		} else {
+			$this->fb_uid = "";
+		}
+		
+		$new_user_data = array ('user_id' => $this->user_id, 'full_name' => $this->full_name, 'pwd' => $this->pwd, 'fb_uid' => $this->fb_uid );
+		p ( $new_user_data );
+		print __LINE__ . __FILE__;
+		exit ();
+		//  $insert = $this->db->insert('users', $new_user_data);
+		
+
+		return $insert;
+	}
+	
+	function get_user_by_fb_uid($fb_uid = 0) {
+		//returns the facebook user as an array.
+		global $cms_db_tables;
+		$table = $cms_db_tables ['table_users'];
+		
+		$sql = " SELECT * FROM $table WHERE 0 = 0 AND fb_uid = ?";
+		$usr_qry = CI::db()->query ( $sql, array ('fb:' . $fb_uid ) );
+		
+		if ($usr_qry->num_rows == 1) {
+			//yes, a user exists
+			return $usr_qry->result ();
+		} else {
+			// no user exists
+			return false;
+		}
+	}
 	
 	function checkUser($field_criteria, $username) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		$q = " select count(*) as qty from $table where $field_criteria like '%$username%' ";
-		$q = $this->db->query ( $q );
+		$q = CI::db()->query ( $q );
 		$q = $q->row_array ();
 		$q = intval ( $q ['qty'] );
 		if ($q == 0) {
@@ -43,7 +107,7 @@ class Users_model extends Model {
 		//print $q;
 		
 
-		$q = $this->db->query ( $q );
+		$q = CI::db()->query ( $q );
 		$q = $q->row_array ();
 		$q = intval ( $q ['qty'] );
 		if ($q == 0) {
@@ -66,7 +130,7 @@ class Users_model extends Model {
 		$options ['cache_group'] = 'users/global/';
 		
 		$params = " select count(*) as qty from $table where is_active='y'  ";
-		$data = $this->core_model->fetchDbData ( $table, $params, $options );
+		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
 		
 		//	p($data);
 		
@@ -79,7 +143,7 @@ class Users_model extends Model {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		$q = " select count(*) as qty from $table where password like '%$pass%' and id='$id' ";
-		$q = $this->db->query ( $q );
+		$q = CI::db()->query ( $q );
 		$q = $q->row_array ();
 		$q = intval ( $q ['qty'] );
 		if ($q == 0) {
@@ -96,13 +160,35 @@ class Users_model extends Model {
 		if ($_FILES) {
 		
 		}
-		$save = $this->core_model->saveData ( $table, $data );
-		
-		if (intval ( $data ['id'] ) != 0) {
-			$this->core_model->cleanCacheGroup ( 'users/' . $data ['id'] );
+		if (intval ( $data ['id'] ) == 0) {
+			$accounts_expiration = CI::model('core')->optionsGetByKey ( 'accounts_expiration' );
+			if ($accounts_expiration != false) {
+				$now = strtotime ( "now" );
+				if (strtotime ( $accounts_expiration, $now ) != false) {
+					$expires_on = strtotime ( $accounts_expiration, $now );
+					$expires_on = date ( "Y-m-d H:i:s", $expires_on );
+					
+					$data ['expires_on'] = $expires_on;
+				}
+			}
+			
+		// 
+		}
+		if ($data ['username']) {
+			$data ['username'] = str_ireplace ( ' ', '', $data ['username'] );
 		}
 		
-		$this->core_model->cleanCacheGroup ( 'users/global' );
+		$save = CI::model('core')->saveData ( $table, $data );
+		
+		if (intval ( $data ['id'] ) != 0) {
+			CI::model('core')->cleanCacheGroup ( 'users/' . $data ['id'] );
+		}
+		
+		if (intval ( $data ['parent_id'] ) != 0) {
+			CI::model('core')->cleanCacheGroup ( 'users/' . $data ['parent_id'] );
+		}
+		
+		CI::model('core')->cleanCacheGroup ( 'users/global' );
 		
 		return $save;
 	}
@@ -137,7 +223,7 @@ class Users_model extends Model {
 	function getUsers($data = false, $limit = false, $count_only = false) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
-		//$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
+		//$q = CI::model('core')->dbQuery ( $q, md5 ( $q ), 'comments' );
 		$data = codeClean ( $data );
 		//var_dump($data);
 		
@@ -164,13 +250,17 @@ class Users_model extends Model {
 			$cache_group = 'users/global';
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array ('updated_on', 'DESC' ), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
+		if ($data ['only_those_fields']) {
+			$only_those_fields = $data ['only_those_fields'];
+		}
+		
+		$get = CI::model('core')->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array ('updated_on', 'DESC' ), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		
 		return $get;
 	}
 	
 	function getUserThumbnail($user_id, $size = 128) {
-		$image = $this->core_model->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );
+		$image = CI::model('core')->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );
 		return $image;
 	}
 	
@@ -179,7 +269,7 @@ class Users_model extends Model {
 		//mediaGet($to_table, $to_table_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false)
 		
 
-		$image = $this->core_model->mediaGet ( 'table_users', $to_table_id = $user_id, $media_type = 'picture', $order_direction = "DESC" );
+		$image = CI::model('core')->mediaGet ( 'table_users', $to_table_id = $user_id, $media_type = 'picture', $order_direction = "DESC" );
 		
 		return $image ["pictures"] [0];
 	}
@@ -190,7 +280,7 @@ class Users_model extends Model {
 	 * @return string | false
 	 * @example
 	 *
-	 * $this->users_model->getIdByUsername('admin');
+	 * CI::model('users')->getIdByUsername('admin');
 	 *
 	 */
 	function getIdByUsername($username = false) {
@@ -198,16 +288,6 @@ class Users_model extends Model {
 		if ($username == false) {
 			return false;
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		$users_list = array ();
 		$users_list ['username'] = $username;
@@ -229,7 +309,7 @@ class Users_model extends Model {
 	 * @return string
 	 * @example
 	 * Delete relation:
-	 * $this->users_model->getPrintableName(10, 'full');
+	 * CI::model('users')->getPrintableName(10, 'full');
 	 *
 	 */
 	function getPrintableName($id, $mode = 'full') {
@@ -238,8 +318,6 @@ class Users_model extends Model {
 		if (empty ( $user )) {
 			return false;
 		}
-		
-		
 		
 		switch ($mode) {
 			case 'first' :
@@ -282,10 +360,33 @@ class Users_model extends Model {
 		$table = $cms_db_tables ['table_users'];
 		$data = array ();
 		$data ['id'] = $id;
-		$del = $this->core_model->deleteData ( $table, $data );
-		$this->core_model->cleanCacheGroup ( 'users/global' );
-		$this->core_model->cleanCacheGroup ( 'users/'.$id );
- 
+		$del = CI::model('core')->deleteData ( $table, $data );
+		
+		$table = $cms_db_tables ['table_followers'];
+		//$options ['only_fields'] = array ('id', 'user_id', 'follower_id', 'is_special' );
+		//deleteData($table, $data, $delete_cache_group = false)
+		$data = array ();
+		$data ['user_id'] = $id;
+		CI::model('core')->deleteData ( $table, $data, $delete_cache_group = false );
+		
+		$data = array ();
+		$data ['follower_id'] = $id;
+		CI::model('core')->deleteData ( $table, $data, $delete_cache_group = false );
+		
+		$table = $cms_db_tables ['table_votes'];
+		$data = array ();
+		$data ['created_by'] = $id;
+		CI::model('core')->deleteData ( $table, $data, $delete_cache_group = false );
+		
+		$log_table = $cms_db_tables ['table_users_log'];
+		$data = array ();
+		$data ['created_by'] = $id;
+		CI::model('core')->deleteData ( $log_table, $data, $delete_cache_group = false );
+		
+		CI::model('core')->cleanCacheGroup ( 'votes/global' );
+		CI::model('core')->cleanCacheGroup ( 'users/global' );
+		CI::model('core')->cleanCacheGroup ( 'users/relations' );
+		CI::model('core')->cleanCacheGroup ( 'users/' . $id );
 		
 		return true;
 	}
@@ -296,7 +397,7 @@ class Users_model extends Model {
 	 *
 	 */
 	function userId() {
-		return $this->core_model->userId ();
+		return CI::model('core')->userId ();
 	
 	}
 	
@@ -305,7 +406,7 @@ class Users_model extends Model {
 			return false;
 		
 		$to = $opt ['email'];
-		$admin_options = $this->core_model->optionsGetByKey ( 'admin_email', true );
+		$admin_options = CI::model('core')->optionsGetByKey ( 'admin_email', true );
 		
 		$from = (empty ( $admin_options )) ? 'noreply@ooyes.net' : $admin_options ['option_value'];
 		
@@ -334,14 +435,14 @@ STR;
 	 * @return bool
 	 * @example
 	 * Delete relation:
-	 * $this->users_model->saveFollower(array(
+	 * CI::model('users')->saveFollower(array(
 	 * 'user' => <<currentUser>>['id'],
 	 * 'follower' => 100000,
 	 * 'follow' => false,
 	 * ));
 	 *
 	 * Add special follower:
-	 * $this->users_model->saveFollower(array(
+	 * CI::model('users')->saveFollower(array(
 	 * 'user' => <<currentUser>>['id'],
 	 * 'follower' => 100000,
 	 * 'special' => true,
@@ -356,6 +457,8 @@ STR;
 		$userId = $aData ['user'];
 		$follow = isset ( $aData ['follow'] ) ? $aData ['follow'] : true;
 		$isSpecial = isset ( $aData ['special'] ) ? $aData ['special'] : false;
+		$isApproved = isset ( $aData ['is_approved'] ) ? $aData ['is_approved'] : false;
+		$cancel = isset ( $aData ['cancel'] ) ? $aData ['cancel'] : false;
 		
 		$return = null;
 		if ($followerId == $userId) {
@@ -364,17 +467,18 @@ STR;
 		if ($follow) {
 			$table = TABLE_PREFIX . 'followers';
 			
-			//@XXX $existsCheck = $this->core_model->fetchDbData ( TABLE_PREFIX . 'followers', array (array ('user_id', $userId ), array ('follower_id', $followerId ) ), array ('only_fields' => array ('id' ) ) );
+			//@XXX $existsCheck = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'followers', array (array ('user_id', $userId ), array ('follower_id', $followerId ) ), array ('only_fields' => array ('id' ) ) );
 			
 
 			$params = array (array ('user_id', $userId ), array ('follower_id', $followerId ) );
 			$opts = array ('only_fields' => array ('id' ) );
 			
-			$existsCheck = $this->core_model->fetchDbData ( $table, $params, $opts );
+			$existsCheck = CI::model('core')->fetchDbData ( $table, $params, $opts );
 			//p($existsCheck, 1);
 			
 
-			$saveData = array ('user_id' => $userId, 'follower_id' => $followerId, 'is_special' => ($isSpecial ? 'y' : 'n') );
+			$saveData = array ('user_id' => $userId, 'follower_id' => $followerId, 'is_special' => ($isSpecial ? 'y' : 'n'), 'is_approved' => ($isApproved ? 'y' : 'n') );
+			
 			if (! empty ( $existsCheck [0] )) {
 				if (count ( $existsCheck ) > 1) {
 					$i = 1;
@@ -382,7 +486,7 @@ STR;
 						if (! empty ( $item )) {
 							$id_del = intval ( $item [$i] ['id'] );
 							$del_q = "DELETE FROM $table where id=$id_del";
-							$this->core_model->dbQ ( $del_q );
+							CI::model('core')->dbQ ( $del_q );
 							
 							$i ++;
 						}
@@ -392,14 +496,30 @@ STR;
 				$saveData ['id'] = $existsCheck [0] ['id'];
 			}
 			
-			$return = $this->core_model->saveData ( TABLE_PREFIX . 'followers', $saveData );
+			$return = CI::model('core')->saveData ( TABLE_PREFIX . 'followers', $saveData );
+			
+			$params = array (array ('user_id', $followerId ), array ('follower_id', $userId ) );
+			$opts = array ('only_fields' => array ('id' ) );
+			$check_for_mutual = CI::model('core')->fetchDbData ( $table, $params, $opts );
+			if (! empty ( $check_for_mutual [0] )) {
+				$approve = "UPDATE  $table set is_approved='y' where user_id={$followerId} and follower_id={$userId}";
+				CI::model('core')->dbQ ( $approve );
+				
+				$approve = "UPDATE  $table set is_approved='y' where user_id={$userId} and follower_id={$followerId}";
+				CI::model('core')->dbQ ( $approve );
+			}
 		
 		} else {
 			
-			$return = $this->core_model->deleteData ( TABLE_PREFIX . 'followers', array ('user_id' => $userId, 'follower_id' => $followerId ) );
+			$return = CI::model('core')->deleteData ( TABLE_PREFIX . 'followers', array ('user_id' => $userId, 'follower_id' => $followerId ) );
+			if ($cancel == true) {
+				$return = CI::model('core')->deleteData ( TABLE_PREFIX . 'followers', array ('user_id' => $followerId, 'follower_id' => $userId ) );
+			
+			}
+		
 		}
 		
-		$this->core_model->cleanCacheGroup ( 'users/relations' );
+		CI::model('core')->cleanCacheGroup ( 'users/relations' );
 		return $return;
 	}
 	
@@ -411,11 +531,11 @@ STR;
 	 * @return array msg
 	 */
 	public function getFollowing($aUserId = false, $aOnlyIds = false, $db_options = false) {
-		exit ( 'Use the $this->users_model->realtionsGetFollowedIdsForUser function instead' );
+		exit ( 'dep' );
 		if ($aUserId == false) {
-			//	$user_session = $this->session->userdata ( 'user_session' );
+			//	$user_session = CI::library('session')->userdata ( 'user_session' );
 			//p($user_session);
-			$aUserId = $this->core_model->userId ();
+			$aUserId = CI::model('core')->userId ();
 		}
 		
 		$table = TABLE_PREFIX . 'followers';
@@ -431,7 +551,7 @@ STR;
 				$db_options [$k] = $v;
 			}
 		}
-		$followers = $this->core_model->fetchDbData ( $table, array (array ('follower_id', $aUserId ) ), $db_options );
+		$followers = CI::model('core')->fetchDbData ( $table, array (array ('follower_id', $aUserId ) ), $db_options );
 		//p($followers);
 		$return = array ();
 		
@@ -456,7 +576,13 @@ STR;
 		
 		if ($aUserId == false) {
 			
-			$aUserId = $this->core_model->userId ();
+			$aUserId = CI::model('core')->userId ();
+		}
+		
+		if (is_array ( $aUserId )) {
+			$params = $aUserId;
+		} else {
+			$params = array (array ('user_id', $aUserId ) );
 		}
 		
 		$table = TABLE_PREFIX . 'followers';
@@ -473,18 +599,119 @@ STR;
 				$db_options1 [$k] = $v;
 			}
 		}
-		$followers = $this->core_model->fetchDbData ( $table, array (array ('user_id', $aUserId ) ), $db_options1 );
+		$followers = CI::model('core')->fetchDbData ( $table, $params, $db_options1 );
 		//p($followers);
 		$return = array ();
 		
 		if ($aOnlyIds) {
+			
 			foreach ( $followers as $follower ) {
-				$return [] = $follower ['follower_id'];
+				if (is_string ( $aOnlyIds )) {
+					$return [] = $follower [$aOnlyIds];
+				} else {
+					
+					$return [] = $follower ['follower_id'];
+				}
 			}
 		} else {
 			$return = $followers;
 		}
 		return $return;
+	}
+	
+	function realtionsCheckIfUserHasFriendRequestToUser($curent_user = false, $relation_with_user, $is_special = false) {
+		if ($curent_user == false) {
+			
+			$curent_user = CI::model('core')->userId ();
+		
+		}
+		$params = array ();
+		$params [] = array ('user_id', intval ( $curent_user ) );
+		$params [] = array ('follower_id', intval ( $relation_with_user ) );
+		
+		if (intval ( $curent_user ) == intval ( $relation_with_user )) {
+			return false;
+		}
+		
+		if ($is_special == true) {
+			//$params ['is_special'] = 'y';
+			$params [] = array ('is_special', 'y' );
+		}
+		
+		$options = array ();
+		$options ['get_count'] = true;
+		$options ['cache'] = true;
+		$options ['cache_group'] = 'users/relations';
+		//p($params);
+		$check = $this->realtionsGetByParams ( $params, $options );
+		//	var_dump($check);
+		if (intval ( $check ) != 0) {
+			
+			//check if the request is still uncofirmed
+			$params = array ();
+			
+			$params [] = array ('follower_id', intval ( $curent_user ) );
+			$params [] = array ('user_id', intval ( $relation_with_user ) );
+			$check = $this->realtionsGetByParams ( $params, $options );
+			//var_dump($check);
+			if (intval ( $check ) == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		
+		} else {
+			
+			/*$params = array ();
+			$params [] = array ('follower_id', intval ( $curent_user ) );
+			$params [] = array ('user_id', intval ( $relation_with_user ) );
+			$check = $this->realtionsGetByParams ( $params, $options );
+			if (intval ( $check ) != 0) {
+				return true;
+			}*/
+			return false;
+		}
+	}
+	
+	function realtionsCheckIfUserIsConfirmedFriendWithUser($curent_user = false, $relation_with_user, $is_special = false) {
+		if ($curent_user == false) {
+			
+			$curent_user = CI::model('core')->userId ();
+		
+		}
+		
+		$params = array ();
+		$params [] = array ('user_id', intval ( $curent_user ) );
+		$params [] = array ('follower_id', intval ( $relation_with_user ) );
+		
+		if (intval ( $curent_user ) == intval ( $relation_with_user )) {
+			return true;
+		}
+		
+		if ($is_special == true) {
+			//$params ['is_special'] = 'y';
+		//$params [] = array ('is_special', 'y' );
+		}
+		
+		$options = array ();
+		$options ['get_count'] = true;
+		$options ['cache'] = true;
+		$options ['cache_group'] = 'users/relations';
+		//p($params);
+		$check = $this->realtionsGetByParams ( $params, $options );
+		if (intval ( $check ) != 0) {
+			
+			$params = array ();
+			$params [] = array ('follower_id', intval ( $curent_user ) );
+			$params [] = array ('user_id', intval ( $relation_with_user ) );
+			
+			$check = $this->realtionsGetByParams ( $params, $options );
+			if (intval ( $check ) != 0) {
+				return true;
+			}
+		
+		}
+		return false;
 	}
 	
 	/**
@@ -496,8 +723,8 @@ STR;
 	function realtionsCheckIfUserIsFollowedByUser($curent_user = false, $relation_with_user, $is_special = false) {
 		if ($curent_user == false) {
 			
-			$curent_user = $this->core_model->userId ();
-			;
+			$curent_user = CI::model('core')->userId ();
+		
 		}
 		$params = array ();
 		$params [] = array ('user_id', intval ( $curent_user ) );
@@ -521,6 +748,14 @@ STR;
 		if (intval ( $check ) != 0) {
 			return true;
 		} else {
+			
+			/*$params = array ();
+			$params [] = array ('follower_id', intval ( $curent_user ) );
+			$params [] = array ('user_id', intval ( $relation_with_user ) );
+			$check = $this->realtionsGetByParams ( $params, $options );
+			if (intval ( $check ) != 0) {
+				return true;
+			}*/
 			return false;
 		}
 		//p($check,1);
@@ -535,7 +770,7 @@ STR;
 	function realtionsGetFollowersIdsForUser($aUserId = false, $special = false, $query_options = false) {
 		if ($aUserId == false) {
 			
-			$aUserId = $this->core_model->userId ();
+			$aUserId = CI::model('core')->userId ();
 		}
 		
 		$params = array ();
@@ -579,7 +814,7 @@ STR;
 	}
 	
 	/**
-	 * Get the ids of all Followed users (users that the $aUserId is folowing  ) ids for given user id and return them as array of ids
+	 * Get the ids of all Followed users (users that the $aUserId is folowing aka is freind with  ) ids for given user id and return them as array of ids
 	 * @param int $id user id
 	 * @param string $special returns the special (circle of influence)
 	 * @param array $query_options db options
@@ -589,8 +824,8 @@ STR;
 		
 		if ($aUserId == false) {
 			
-			$aUserId = $this->core_model->userId ();
-			;
+			$aUserId = CI::model('core')->userId ();
+		
 		}
 		
 		$params = array ();
@@ -653,7 +888,7 @@ STR;
 		}
 		if ($updates_type == 'statuses') {
 			
-			/*	$latestStatusUpdates = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users_statuses',
+			/*	$latestStatusUpdates = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users_statuses',
 			array (array ('user_id', '(' . implode ( ',', $friendsIds ) . ')', 'IN' ) ), array ('order' => array ('created_on', 'DESC' ), 'limit' => 10 ) );
 			*/
 			
@@ -667,12 +902,12 @@ STR;
 			$options ['cache'] = true;
 			$options ['cache_group'] = 'users/statuses/';
 			
-			$data = $this->core_model->fetchDbData ( $table, $params, $options );
+			$data = CI::model('core')->fetchDbData ( $table, $params, $options );
 			return $data;
 		}
 		
 		if ($updates_type == 'posts') {
-			//	$latestPosts = $this->core_model->fetchDbData ( TABLE_PREFIX . 'content', array (array ('created_by', '(' . implode ( ',', $friendsIds ) . ')', 'IN' ) ), array ('order' => array ('created_on', 'DESC' ), 'limit' => 10 ) );
+			//	$latestPosts = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'content', array (array ('created_by', '(' . implode ( ',', $friendsIds ) . ')', 'IN' ) ), array ('order' => array ('created_on', 'DESC' ), 'limit' => 10 ) );
 			$table = TABLE_PREFIX . 'content';
 			$params [] = array ('created_by', '(' . implode ( ',', $friendsIds ) . ')', 'IN' );
 			$params [] = array ('is_active', 'y' );
@@ -684,7 +919,7 @@ STR;
 			$options ['cache'] = true;
 			$options ['cache_group'] = 'content';
 			
-			$data = $this->core_model->fetchDbData ( $table, $params, $options );
+			$data = CI::model('core')->fetchDbData ( $table, $params, $options );
 			return $data;
 		
 		}
@@ -733,8 +968,35 @@ STR;
 		if (empty ( $options )) {
 		
 		} else {
+			
 			foreach ( $options as $k => $item ) {
 				$pass_to_fetch [$k] = $item;
+			}
+			
+			if ($pass_to_fetch ['search_keyword'] != false) {
+				// p ( $pass_to_fetch );
+				$kw_data = array ();
+				$kw_data ['search_keyword'] = $pass_to_fetch ['search_keyword'];
+				$kw_data ['only_those_fields'] = array ('id' );
+				
+				$kw_ids = $this->getUsers ( $kw_data, $limit = false, $count_only = false );
+				//p ( $kw_ids );
+				$idd_array = array ();
+				
+				if (! empty ( $kw_ids )) {
+					foreach ( $kw_ids as $idd ) {
+						// 'include_ids' => array(1, 2, 3)
+						$idd_array [] = $idd ['id'];
+					}
+					
+					if ($pass_to_fetch ['include_ids'] != false) {
+						$pass_to_fetch ['include_ids'] = array_merge ( $pass_to_fetch ['include_ids'], $idd_array );
+					} else {
+						$pass_to_fetch ['include_ids'] = $idd_array;
+					}
+					$pass_to_fetch ['include_ids_field'] = 'follower_id';
+				}
+				unset ( $pass_to_fetch ['search_keyword'] );
 			}
 		
 		}
@@ -742,8 +1004,8 @@ STR;
 		//p ( $pass_to_fetch );
 		
 
-		$data = $this->core_model->fetchDbData ( $table, $params, $pass_to_fetch );
-		//p($data);
+		$data = CI::model('core')->fetchDbData ( $table, $params, $pass_to_fetch );
+		//	p($data);
 		return $data;
 	}
 	
@@ -764,7 +1026,7 @@ STR;
 		$defalut_options ['query'] = true;
 		
 		$defalut_options ['cache_group'] = 'users/rankings/';
-		$q = $this->core_model->fetchDbData ( $table, $q, $defalut_options );
+		$q = CI::model('core')->fetchDbData ( $table, $q, $defalut_options );
 		if (empty ( $q )) {
 			return false;
 		} else {
@@ -793,7 +1055,7 @@ STR;
 		$defalut_options ['cache'] = true;
 		$defalut_options ['query'] = true;
 		$defalut_options ['cache_group'] = 'users/rankings/';
-		$q = $this->core_model->fetchDbData ( $table, $q, $defalut_options );
+		$q = CI::model('core')->fetchDbData ( $table, $q, $defalut_options );
 		if (empty ( $q )) {
 			return false;
 		} else {
@@ -806,13 +1068,82 @@ STR;
 	
 	}
 	
-	function is_logged_in() {
-		$user_session = $this->session->userdata ( 'user_session' );
-		if (strval ( $user_session ['is_logged'] ) != 'yes') {
-			return false;
+	function logOut() {
+		
+		CI::library('session')->unset_userdata ( 'user_session' );
+		CI::library('session')->unset_userdata ( 'user' );
+		CI::library('session')->unset_userdata ( 'the_user' );
+		return true;
+	}
+	
+	function logIn() {
+		
+		if ($_POST) {
+			
+			$username_or_email = $this->input->post ( 'username' );
+			
+			$password = $this->input->post ( 'password' );
+			
+			$check = array ();
+			$check ['username'] = $username_or_email;
+			$check ['password'] = $password;
+			$check = $this->getUsers ( $check );
+			
+			if (empty ( $check [0] )) {
+				
+				$check = array ();
+				$check ['email'] = $username_or_email;
+				$check ['password'] = $password;
+				$check = $this->getUsers ( $check );
+			
+			}
+			
+			if (empty ( $check [0] )) {
+				$return_result ['fail'] = 'Login failed.';
+			} else {
+				if (($check [0] ['is_active'] == 'n')) {
+					$return_result ['fail'] = 'Login failed. Your acount is not activated!';
+				} else {
+					
+					$user_session ['is_logged'] = 'yes';
+					
+					$user_session ['user_id'] = $check [0] ['id'];
+					
+					CI::library('session')->set_userdata ( 'user_session', $user_session );
+					CI::library('session')->set_userdata ( 'user', $check [0] );
+					$back_to = CI::model('core')->getParamFromURL ( 'back_to' );
+					if (trim ( $_POST ['back_to'] ) != '') {
+						
+						$back_to = $_POST ['back_to'];
+					}
+					
+					if ($back_to != '') {
+						$back_to = base64_decode ( $back_to );
+						if (trim ( $back_to ) != '') {
+							$return_result ['redirect'] = $back_to;
+							//header ( 'Location: ' . $back_to );
+						//exit ();
+						} else {
+						
+						}
+					} else {
+						$return_result ['ok'] = true;
+					}
+				}
+			}
+		
 		} else {
-			return true;
+			$return_result ['fail'] = 'Login failed.';
 		}
+		
+		return $return_result;
+	
+	}
+	
+	function is_logged_in() {
+		
+		return CI::model('core')->userId ();
+	
 	}
 	
 	function forum_sync($user) {
@@ -833,7 +1164,7 @@ STR;
             display_name    => $user['username']
         */
 		
-		$this->db->query ( 'REPLACE
+		CI::db()->query ( 'REPLACE
                              INTO bb_users
                               SET id              = ?,
                                   user_login      = ?,
@@ -850,7 +1181,7 @@ STR;
 		$admin_cap = 'a:1:{s:9:"keymaster";b:1;}';
 		$member_cap = 'a:1:{s:6:"member";b:1;}';
 		
-		$this->db->query ( 'REPLACE
+		CI::db()->query ( 'REPLACE
                              INTO bb_usermeta
                               SET user_id    = ?,
                                   meta_key   = ?,

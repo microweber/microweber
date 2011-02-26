@@ -1,0 +1,1 @@
+<mw module="users/user_media" type="pictures" />

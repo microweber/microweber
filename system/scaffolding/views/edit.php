@@ -1,4 +1,4 @@
-<?php $this->load->view('header');  ?>
+<?php CI::view('header');  ?>
 
 
 <p><?php echo anchor(array($base_uri, 'view'), '&lt; '.$scaff_view_all);?></p>
@@ -28,6 +28,6 @@
 
 </form>
 
-<?php $this->load->view('footer'); 
+<?php CI::view('footer'); 
 /* End of file edit.php */
 /* Location: ./system/scaffolding/views/edit.php */

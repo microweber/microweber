@@ -1,0 +1,1 @@
+<h2><? print ucfirst(url_param('show')); ?> messages</h2>

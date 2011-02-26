@@ -1,0 +1,183 @@
+.admin img {
+	vertical-align: baseline;
+}
+.admin a {
+	color: black;
+}
+
+#content.admin {
+	margin:0px 15px;
+	padding:0px 0 0 0;
+	font:13px Arial, Helvetica, sans-serif
+}
+
+.admin #header_message{
+	margin-top:-10px;
+}
+
+table.admin {
+	font-size: 0.9em;
+	font-family: Arial, Helvetica, verdana sans-serif;
+	background-color: #fff;
+	border-collapse: collapse;
+}
+
+table.admin thead th {
+	border-right: 1px solid #fff;
+	color: #fff;
+	text-align: center;
+	padding: 5px;
+	text-transform: uppercase;
+	height: 25px;
+	background-color: #a3c159;
+	font-weight:bold;
+}
+
+table.admin tbody tr {
+	background-color: #fff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+table.admin tbody td {
+	color: #414141;
+	text-align: left;
+	vertical-align:top;
+}
+
+table.admin tbody th {
+	text-align: left;
+	padding: 2px;
+}
+table.admin tbody td, table.admin tbody th {
+	color: #536C2A;
+	text-decoration: none;
+	font-weight: normal;
+	padding: 10px;
+	padding:10px;
+}
+
+table.admin  tbody td:hover, table.admin  tbody th:hover {
+	color: #009193;
+	text-decoration: none;
+}
+
+.warning {
+	border: 1px dotted gray;
+	padding: 15px;
+	font-size: .8em;
+}
+
+.warning ul {
+	margin-left: 50px;
+}
+
+.access_error {
+	font-size: .7em;
+	padding: 15px;
+}
+
+.admin h2 {
+	border-bottom:1px solid #DADADA;
+	margin:15px -15px 20px 0px;
+	padding:0pt 0px 5px 0pt;
+	font-size:24px;
+}
+
+.admin p {
+	smargin-top:10px;
+	line-height:140%;
+	padding-bottom:20px;
+}
+.adminTable {
+	border-width: 1px;
+	border-style: solid;
+	border-collapse: collapse;
+	width: 100%;
+	clear: both;
+	margin: 0;
+}
+.adminTable a {
+	text-decoration: none;
+}
+.adminTable abbr {
+	white-space: nowrap;
+}
+.adminTable td, .adminTable th {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ccc;
+	font-size: 13px;
+	vertical-align: text-top;
+	vertical-align:top;
+}
+.adminTable td {
+	padding: 7px 15px 9px 10px;
+	vertical-align: top;
+}
+.adminTable th {
+	padding: 9px 15px 6px 10px;
+	text-align: left;
+	line-height: 1.3em;
+}
+.adminTable th input {
+	margin: 0 0 0 8px;
+	padding: 0;
+}
+.adminTable .check-column {
+	text-align: right;
+	width: 1.5em;
+	padding: 0;
+}
+.adminTable {
+	border-color: #ccc;
+}
+.adminTable tbody th.check-column {
+	padding: 8px 0 22px;
+}
+.adminTable .num {
+	text-align: center;
+}
+.adminTable td, .adminTable th {
+	border-bottom-color: #ccc;
+}
+.adminTable thead {
+	background-color: #464646;
+	color: #d7d7d7;
+}
+.adminTable td.action-links, .adminTable th.action-links {
+	text-align: right;
+}
+.adminTable .name {
+	font-weight: bold;
+}
+.adminTable a {
+	border-bottom:1px dotted;
+	color:#2B5C97;
+}
+.adminTable .active {
+	background-color: #ECF9DD;
+}
+
+.adminTable .ui-inline-help {
+	margin-top:0;
+	width:100%;
+}
+/* admin table, without borders */
+.adminTableNoBorder {
+	border:0;
+}
+.adminTableNoBorder td, .adminTableNoBorder th {
+	border:0;
+}
+
+/* other styles */
+
+.form-description {
+	color:#666666;
+	font-style:italic;
+	margin-left:10px;
+}
+
+#smtpSettings {
+	margin-left:50px;
+}

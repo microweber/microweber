@@ -43,9 +43,9 @@ if (! defined ( 'BASEPATH' ))
 */
 
 $route ['default_controller'] = "index";
-$route ['scaffolding_trigger'] = "adasdasdasdasdasdasdasdasdasdasdasd";
+//$route ['scaffolding_trigger'] = md5(APPPATH);
 
-$exclude_controllers_autoinstall = array ('.', '..', 'index.html', 'content.php' );
+/*$exclude_controllers_autoinstall = array ('.', '..', 'index.html', 'content.php' );
 
 $handle = (opendir ( APPPATH . 'controllers/' ));
 while ( false !== ($file = readdir ( $handle )) ) {
@@ -54,7 +54,7 @@ while ( false !== ($file = readdir ( $handle )) ) {
 		$installed_modules [] = $file;
 	}
 }
-closedir ( $handle );
+closedir ( $handle );*/
 
 //print_r($installed_modules);
 
@@ -84,11 +84,24 @@ closedir ( $handle );*/
 $route ['cron/(:any)'] = "cron/index/$1";
 $route ['cron'] = "cron/index";
 
-$route ['sql/(:any)'] = "sql/$1";
+//$route ['sql/(:any)'] = "sql/$1";
 #$route ['admin/plugins/(:any)'] = "admin/plugins/index/$1";
+
+
 $route ['admin'] = "admin/index";
-$route ['admin/(:any)'] = "admin/$1";
+$route ['admin/toolbar'] = "admin/index/toolbar";
+$route ['admin/edit'] = "admin/index/edit";
+$route ['admin/edit/(:any)'] = "admin/index/edit/$1";
+
+$route ['admin/(:any)'] = "admin/index/index/$1";
+ 
+$route ['api/module/(:any)'] = "api/module/index";
 $route ['api/(:any)'] = "api/$1";
+
+
+$route ['webdav'] = "webdav/index";
+$route ['webdav/(:any)'] = "webdav/index/$1";
+
 //$route ['admin/plugins'] = "admin/plugins/index";
 //$route ['page.php'] = "oldpage/index/$1";
 
@@ -104,10 +117,15 @@ $route ['dashboard/(:any)'] = "index/dashboard/$1";
 
 $route ['login'] = "login/index";
 $route ['login/(:any)'] = "login/$1";
+$route ['fb_login'] = "fb_login/index";
+$route ['fb_login/(:any)'] = "fb_login/$1";
+
+
 $route ['main'] = "main/index";
 $route ['main/(:any)'] = "main/$1";
 $route ['ajax_helpers'] = "ajax_helpers/index";
 $route ['ajax_helpers/(:any)'] = "ajax_helpers/$1";
+
 
 
 

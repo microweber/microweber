@@ -8,7 +8,7 @@ class Mailcampaigns extends Controller {
 	{
 		parent::Controller();
 		require_once(APPPATH.'controllers/default_constructor.php');
-		if($this->session->userdata('user') == false){
+		if(CI::library('session')->userdata('user') == false){
 			redirect('index/login');
 		}
 	}
@@ -19,7 +19,7 @@ class Mailcampaigns extends Controller {
 		$this->load->vars ( $this->template );
 
 
-		$layout = $this->load->view('layout', true,true);
+		$layout = CI::view('layout', true,true);
 		$primarycontent = '';
 		$secondarycontent = '';
 
@@ -28,13 +28,13 @@ class Mailcampaigns extends Controller {
 
 
 		$this->load->vars ( $this->template );
-		$primarycontent = $this->load->view('mailcampaigns/index', true,true);
-		$secondarycontent = $this->load->view('mailcampaigns/sidebar', true,true);
+		$primarycontent = CI::view('mailcampaigns/index', true,true);
+		$secondarycontent = CI::view('mailcampaigns/sidebar', true,true);
 		$layout = str_ireplace('{primarycontent}', $primarycontent, $layout);
 		$layout = str_ireplace('{secondarycontent}', $secondarycontent, $layout);
-		//$this->load->view('welcome_message');
+		//CI::view('welcome_message');
 
-		$this->output->set_output($layout);
+		CI::library('output')->set_output($layout);
 	}
 
 
@@ -80,17 +80,17 @@ class Mailcampaigns extends Controller {
 
 
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view('layout', true,true);
+		$layout = CI::view('layout', true,true);
 		$primarycontent = '';
 		$secondarycontent = '';
 
-		$primarycontent = $this->load->view('mailcampaigns/edit', true,true);
-		$secondarycontent = $this->load->view('mailcampaigns/sidebar', true,true);
+		$primarycontent = CI::view('mailcampaigns/edit', true,true);
+		$secondarycontent = CI::view('mailcampaigns/sidebar', true,true);
 		$layout = str_ireplace('{primarycontent}', $primarycontent, $layout);
 		$layout = str_ireplace('{secondarycontent}', $secondarycontent, $layout);
-		//$this->load->view('welcome_message');
+		//CI::view('welcome_message');
 
-		$this->output->set_output($layout);
+		CI::library('output')->set_output($layout);
 	}
 
 	function delete()

@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AIE (Ajax Image Editor) Test-Page</title>
+<script language="javascript1.2" type="text/javascript">
+function showimageeditor( bild ) {
+	LeftPosition = ( screen.width ) ? ( screen.width - 660 ) / 2 : 0;
+	TopPosition = ( screen.height ) ? ( screen.height - 700 ) / 2 : 0;
+	settings = 'height=700, width=660, top=' + TopPosition + ', left=' + LeftPosition + ', scrollbars=no, resizable=no, menubar=no, dependent=yes, status=no, toolbar=no'
+	win = window.open( "aie/imageeditor.php?img=" + encodeURIComponent(bild), "imageeditorwin", settings )
+	
+}
+
+function imagesaved(){
+  window.location.reload();  
+}
+</script>
+</head>
+
+<body>
+<a href="#" onclick="showimageeditor('images/album/Tree.jpg')" ><img src="aie/getthumbnail.php?dat=images/album/Tree.jpg&maxx=320&maxy=320" /></a>
+</body>
+</html>

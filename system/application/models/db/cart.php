@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "cart";
-$query = $this->db->query ( "show tables like '$table_name'" );
+$query = CI::db()->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -12,11 +12,11 @@ if ($query [0] != $table_name) {
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);";
-	$this->db->query ( $sql );
+	CI::db()->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = $this->db->query ( $sql );
+$query = CI::db()->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
@@ -42,6 +42,12 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('colors', 'TEXT default NULL' );
 	$fields_to_add [] = array ('order_completed', 'char(1) default "n"' );
 	$fields_to_add [] = array ('order_id', 'TEXT default NULL' );
+$fields_to_add [] = array ('added_shipping_price', 'varchar(50) default NULL' );
+$fields_to_add [] = array ('skip_promo_code', 'char(1) default "n"' );
+	$fields_to_add [] = array ('to_table', 'varchar(1500) default NULL' );
+	
+
+
 
 
 	$this->set_db_tables($table_name, $fields_to_add );

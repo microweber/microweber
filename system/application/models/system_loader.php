@@ -17,14 +17,8 @@ $cms_db_tables = array ();
 $cms_db_tables ['table_cache'] = TABLE_PREFIX . 'cache';
 $cms_db_tables ['table_content'] = TABLE_PREFIX . 'content';
 
-
-
 $cms_db_tables ['table_taxonomy'] = TABLE_PREFIX . 'taxonomy';
 $cms_db_tables ['table_taxonomy_items'] = TABLE_PREFIX . 'taxonomy_items';
-
-
-
-
 
 $cms_db_tables ['table_menus'] = TABLE_PREFIX . 'menus';
 $cms_db_tables ['table_options'] = TABLE_PREFIX . 'options';
@@ -37,12 +31,15 @@ $cms_db_tables ['table_messages'] = TABLE_PREFIX . 'messages';
 $cms_db_tables ['table_users_log'] = TABLE_PREFIX . 'users_log';
 $cms_db_tables ['table_users_statuses'] = TABLE_PREFIX . 'users_statuses';
 
+$cms_db_tables ['table_stats_sites'] = TABLE_PREFIX . 'statssite';
+
 $cms_db_tables ['table_users_notifications'] = TABLE_PREFIX . 'users_notifications';
 $cms_db_tables ['table_users_statuses'] = TABLE_PREFIX . 'users_statuses';
 $cms_db_tables ['table_followers'] = TABLE_PREFIX . 'followers';
 
 $cms_db_tables ['table_sessions'] = TABLE_PREFIX . 'sessions';
 $cms_db_tables ['table_custom_fields'] = TABLE_PREFIX . 'content_custom_fields';
+$cms_db_tables ['table_custom_fields_config'] = TABLE_PREFIX . 'content_custom_fields_config';
 $cms_db_tables ['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables ['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
 $cms_db_tables ['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
@@ -103,6 +100,40 @@ if (is_dir ( MEDIAFILES ) == false) {
 
 }
 
+function word_cleanup($str) {
+	$pattern = "/<(\w+)>(\s|&nbsp;)*<\/\1>/";
+	$str = preg_replace ( $pattern, '', $str );
+	return mb_convert_encoding ( $str, 'HTML-ENTITIES', 'UTF-8' );
+}
+/**
+ * Recursive glob()
+ */
+
+/**
+ * @param int $pattern
+ * the pattern passed to glob()
+ * @param int $flags
+ * the flags passed to glob()
+ * @param string $path
+ * the path to scan
+ * @return mixed
+ * an array of files in the given path matching the pattern.
+ */
+
+function rglob($pattern = '*', $flags = 0, $path = '') {
+	$paths = glob ( $path . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT );
+	$files = glob ( $path . $pattern, $flags );
+	foreach ( $paths as $path ) {
+		$files = array_merge ( $files, rglob ( $pattern, $flags, $path ) );
+	}
+	return $files;
+}
+function add_date($givendate, $day = 0, $mth = 0, $yr = 0) {
+	$cd = strtotime ( $givendate );
+	$newdate = date ( 'Y-m-d h:i:s', mktime ( date ( 'h', $cd ), date ( 'i', $cd ), date ( 's', $cd ), date ( 'm', $cd ) + $mth, date ( 'd', $cd ) + $day, date ( 'Y', $cd ) + $yr ) );
+	return $newdate;
+}
+
 if (! function_exists ( 'getCurentURL' )) {
 	
 	function getCurentURL() {
@@ -131,6 +162,151 @@ if (! function_exists ( 'getCurentURL' )) {
 	
 	}
 
+}
+
+if (! function_exists ( 'array_extend' )) {
+	function array_extend($a, $b) {
+		foreach ( $b as $k => $v ) {
+			if (is_array ( $v )) {
+				if (! isset ( $a [$k] )) {
+					$a [$k] = $v;
+				} else {
+					$a [$k] = array_extend ( $a [$k], $v );
+				}
+			} else {
+				$a [$k] = $v;
+			}
+		}
+		return $a;
+	}
+}
+if (! function_exists ( 'microtime_float' )) {
+	/**
+	 * Simple function to replicate PHP 5 behaviour
+	 */
+	function microtime_float() {
+		list ( $usec, $sec ) = explode ( " ", microtime () );
+		return (( float ) $usec + ( float ) $sec);
+	}
+}
+
+if (! function_exists ( 'safe_redirect' )) {
+	function safe_redirect($url) {
+		
+		if (trim ( $url ) == '') {
+			return false;
+		}
+		
+		$url = str_ireplace ( 'Location:', '', $url );
+		$url = trim ( $url );
+		
+		if (headers_sent ()) {
+			print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
+		} else {
+			header ( 'Location: ' . $url );
+		}
+		
+		exit ();
+	}
+}
+/*
+PHP CSS Browser Selector v0.0.1
+Bastian Allgeier (http://bastian-allgeier.de)
+http://bastian-allgeier.de/css_browser_selector
+License: http://creativecommons.org/licenses/by/2.5/
+Credits: This is a php port from Rafael Lima's original Javascript CSS Browser Selector: http://rafael.adm.br/css_browser_selector
+*/
+
+function css_browser_selector($ua = null) {
+	$ua = ($ua) ? strtolower ( $ua ) : strtolower ( $_SERVER ['HTTP_USER_AGENT'] );
+	
+	$g = 'gecko';
+	$w = 'webkit';
+	$s = 'safari';
+	$b = array ();
+	
+	// browser
+	if (! preg_match ( '/opera|webtv/i', $ua ) && preg_match ( '/msie\s(\d)/', $ua, $array )) {
+		$b [] = 'ie ie' . $array [1];
+	} else if (strstr ( $ua, 'firefox/2' )) {
+		$b [] = $g . ' ff2';
+	} else if (strstr ( $ua, 'firefox/3.5' )) {
+		$b [] = $g . ' ff3 ff3_5';
+	} else if (strstr ( $ua, 'firefox/3' )) {
+		$b [] = $g . ' ff3';
+	} else if (strstr ( $ua, 'gecko/' )) {
+		$b [] = $g;
+	} else if (preg_match ( '/opera(\s|\/)(\d+)/', $ua, $array )) {
+		$b [] = 'opera opera' . $array [2];
+	} else if (strstr ( $ua, 'konqueror' )) {
+		$b [] = 'konqueror';
+	} else if (strstr ( $ua, 'chrome' )) {
+		$b [] = $w . ' ' . $s . ' chrome';
+	} else if (strstr ( $ua, 'iron' )) {
+		$b [] = $w . ' ' . $s . ' iron';
+	} else if (strstr ( $ua, 'applewebkit/' )) {
+		$b [] = (preg_match ( '/version\/(\d+)/i', $ua, $array )) ? $w . ' ' . $s . ' ' . $s . $array [1] : $w . ' ' . $s;
+	} else if (strstr ( $ua, 'mozilla/' )) {
+		$b [] = $g;
+	}
+	
+	// platform				
+	if (strstr ( $ua, 'j2me' )) {
+		$b [] = 'mobile';
+	} else if (strstr ( $ua, 'iphone' )) {
+		$b [] = 'iphone';
+	} else if (strstr ( $ua, 'ipod' )) {
+		$b [] = 'ipod';
+	} else if (strstr ( $ua, 'mac' )) {
+		$b [] = 'mac';
+	} else if (strstr ( $ua, 'darwin' )) {
+		$b [] = 'mac';
+	} else if (strstr ( $ua, 'webtv' )) {
+		$b [] = 'webtv';
+	} else if (strstr ( $ua, 'win' )) {
+		$b [] = 'win';
+	} else if (strstr ( $ua, 'freebsd' )) {
+		$b [] = 'freebsd';
+	} else if (strstr ( $ua, 'x11' ) || strstr ( $ua, 'linux' )) {
+		$b [] = 'linux';
+	}
+	
+	return join ( ' ', $b );
+
+}
+function normalize_path($path, $slash_it = true) {
+	
+	// DIRECTORY_SEPARATOR is a system variable
+	// which contains the right slash for the current 
+	// system (windows = \ or linux = /)
+	
+
+	$s = DIRECTORY_SEPARATOR;
+	$path = preg_replace ( '/[\/\\\]/', $s, $path );
+	$path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
+	
+	$path = str_replace ( $s . $s, $s, $path );
+	
+	if ($slash_it == false) {
+		$path = rtrim ( $path, DIRECTORY_SEPARATOR );
+	}
+	return $path;
+}
+function base64_to_file($data, $target) {
+	//$data = 'your base64 data';
+	//$target = 'localfile.data';
+	touch ( $target );
+	if (is_writable ( $target ) == false) {
+		exit ( "$target is not writable" );
+	}
+	
+	//$whandle = fopen ( $target, 'wb' );
+	//stream_filter_append ( $whandle, 'convert.base64-decode', STREAM_FILTER_WRITE );
+	
+
+	file_put_contents ( $whandle, base64_decode ( $data ) );
+	
+//fclose ( $whandle );
 }
 
 if (! function_exists ( 'getCurentURL' )) {
@@ -193,13 +369,19 @@ if (! function_exists ( 'getParamFromURL' )) {
 
 }
 
+function isAjax() {
+	return (isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) && ($_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
+}
+
 if (! function_exists ( 'pathToURL' )) {
 	
 	function pathToURL($path) {
 		
 		//var_dump($path);
-		$path = str_ireplace ( ROOTPATH, '', $path );
 		
+
+		$path = str_ireplace ( ROOTPATH, '', $path );
+		$path = str_ireplace ( '\\', '/', $path );
 		//var_dump($path);
 		return site_url ( $path );
 	
@@ -430,6 +612,15 @@ if (! function_exists ( 'ToSql' )) {
 				else
 					return " '" . addslashes ( $val ) . "' ";
 		}
+	}
+}
+function substring_between($haystack, $start, $end) {
+	if (strpos ( $haystack, $start ) === false || strpos ( $haystack, $end ) === false) {
+		return false;
+	} else {
+		$start_position = strpos ( $haystack, $start ) + strlen ( $start );
+		$end_position = strpos ( $haystack, $end );
+		return substr ( $haystack, $start_position, $end_position - $start_position );
 	}
 }
 
@@ -954,6 +1145,19 @@ function mb_str_replace($needle, $replacement, $haystack) {
 	return $haystack;
 
 }
+function utfString($content) {
+	if (! mb_check_encoding ( $content, 'UTF-8' ) or ! ($content === mb_convert_encoding ( mb_convert_encoding ( $content, 'UTF-32', 'UTF-8' ), 'UTF-8', 'UTF-32' ))) {
+		
+		$content = mb_convert_encoding ( $content, 'UTF-8' );
+		
+		if (mb_check_encoding ( $content, 'UTF-8' )) {
+			// log('Converted to UTF-8'); 
+		} else {
+			// log('Could not converted to UTF-8'); 
+		}
+	}
+	return $content;
+}
 
 /**
  * Makes directory, returns TRUE if exists or made
@@ -963,6 +1167,10 @@ function mb_str_replace($needle, $replacement, $haystack) {
  */
 
 function mkdir_recursive($pathname) {
+	
+	if ($pathname == '') {
+		return false;
+	}
 	
 	is_dir ( dirname ( $pathname ) ) || mkdir_recursive ( dirname ( $pathname ) );
 	
@@ -1099,7 +1307,7 @@ function str_replace_count($search, $replace, $subject, $times) {
 	
 	for($i = 1; $i <= $times; $i ++) {
 		
-		$pos = stripos ( $subject, $search, $pos );
+		$pos = strpos ( $subject, $search, $pos );
 		
 		if ($pos !== false) {
 			
@@ -1651,6 +1859,7 @@ function codeClean($var) {
 			$output [$key] = codeClean ( $val );
 		}
 	} else {
+		$var = html_entity_decode ( $var );
 		$var = strip_tags ( trim ( $var ) );
 		if (function_exists ( "mysql_real_escape_string" )) {
 			$output = mysql_real_escape_string ( $var );
@@ -1741,13 +1950,51 @@ function random_file_from_dir($folder = '', $extensions = '.*') {
 
 }
 
+/**
+ *
+ * Convert an object to an array
+ *
+ * @param    object  $object The object to convert
+ * @reeturn      array
+ *
+ */
+function objectToArray($object) {
+	if (! is_object ( $object ) && ! is_array ( $object )) {
+		return $object;
+	}
+	if (is_object ( $object )) {
+		$object = get_object_vars ( $object );
+	}
+	return array_map ( 'objectToArray', $object );
+}
+
 function p($for_print, $is_die = 0) {
 	echo "<pre>";
 	var_dump ( $for_print );
 	echo "</pre>";
-	if ($is_die)
+	if ($is_die) {
 		die ();
+	}
 
+}
+function ago($time, $granularity = 2) {
+	$date = strtotime ( $time );
+	$difference = time () - $date;
+	$periods = array ('decade' => 315360000, 'year' => 31536000, 'month' => 2628000, 'week' => 604800, 'day' => 86400, 'hour' => 3600, 'minute' => 60, 'second' => 1 );
+	
+	foreach ( $periods as $key => $value ) {
+		if ($difference >= $value) {
+			$time = floor ( $difference / $value );
+			$difference %= $value;
+			$retval .= ($retval ? ' ' : '') . $time . ' ';
+			$retval .= (($time > 1) ? $key . 's' : $key);
+			$granularity --;
+		}
+		if ($granularity == '0') {
+			break;
+		}
+	}
+	return '' . $retval . ' ago';
 }
 
 function urlencode2($url) {
@@ -1787,6 +2034,128 @@ $anc; // anchor
 	}
 	$urlenc = htmlentities ( $urlenc, ENT_QUOTES );
 	return $urlenc;
+}
+function cache_file_memory_storage($path) {
+	
+	static $mem = array ();
+	$path_md = md5 ( $path );
+	if ($mem ["{$path_md}"] != false) {
+		return $mem [$path_md];
+	}
+	
+	$cont = @file_get_contents ( $path );
+	$mem [$path_md] = $cont;
+	return $cont;
+}
+/**
+ * extract_tags()
+ * Extract specific HTML tags and their attributes from a string.
+ *
+ * You can either specify one tag, an array of tag names, or a regular expression that matches the tag name(s). 
+ * If multiple tags are specified you must also set the $selfclosing parameter and it must be the same for 
+ * all specified tags (so you can't extract both normal and self-closing tags in one go).
+ * 
+ * The function returns a numerically indexed array of extracted tags. Each entry is an associative array
+ * with these keys :
+ * tag_name	- the name of the extracted tag, e.g. "a" or "img".
+ * offset		- the numberic offset of the first character of the tag within the HTML source.
+ * contents	- the inner HTML of the tag. This is always empty for self-closing tags.
+ * attributes	- a name -> value array of the tag's attributes, or an empty array if the tag has none.
+ * full_tag	- the entire matched tag, e.g. '<a href="http://example.com">example.com</a>'. This key 
+ * will only be present if you set $return_the_entire_tag to true.	   
+ *
+ * @param string $html The HTML code to search for tags.
+ * @param string|array $tag The tag(s) to extract.							 
+ * @param bool $selfclosing	Whether the tag is self-closing or not. Setting it to null will force the script to try and make an educated guess. 
+ * @param bool $return_the_entire_tag Return the entire matched tag in 'full_tag' key of the results array.  
+ * @param string $charset The character set of the HTML code. Defaults to ISO-8859-1.
+ *
+ * @return array An array of extracted tags, or an empty array if no matching tags were found. 
+ */
+function extract_tags($html, $tag, $selfclosing = null, $return_the_entire_tag = false, $charset = 'ISO-8859-1') {
+	
+	if (is_array ( $tag )) {
+		$tag = implode ( '|', $tag );
+	}
+	
+	//If the user didn't specify if $tag is a self-closing tag we try to auto-detect it
+	//by checking against a list of known self-closing tags.
+	$selfclosing_tags = array ('area', 'base', 'basefont', 'br', 'hr', 'input', 'img', 'link', 'meta', 'col', 'param' );
+	if (is_null ( $selfclosing )) {
+		$selfclosing = in_array ( $tag, $selfclosing_tags );
+	}
+	
+	//The regexp is different for normal and self-closing tags because I can't figure out 
+	//how to make a sufficiently robust unified one.
+	if ($selfclosing) {
+		$tag_pattern = '@<(?P<tag>' . $tag . ')			# <tag
+			(?P<attributes>\s[^>]+)?		# attributes, if any
+			\s*/?>					# /> or just >, being lenient here 
+			@xsi';
+	} else {
+		$tag_pattern = '@<(?P<tag>' . $tag . ')			# <tag
+			(?P<attributes>\s[^>]+)?		# attributes, if any
+			\s*>					# >
+			(?P<contents>.*?)			# tag contents
+			</(?P=tag)>				# the closing </tag>
+			@xsi';
+	}
+	
+	$attribute_pattern = '@
+		(?P<name>\w+)							# attribute name
+		\s*=\s*
+		(
+			(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)	# a quoted value
+			|							# or
+			(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)			# an unquoted value (terminated by whitespace or EOF) 
+		)
+		@xsi';
+	
+	//Find all tags 
+	if (! preg_match_all ( $tag_pattern, $html, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE )) {
+		//Return an empty array if we didn't find anything
+		return array ();
+	}
+	
+	$tags = array ();
+	foreach ( $matches as $match ) {
+		
+		//Parse tag attributes, if any
+		$attributes = array ();
+		if (! empty ( $match ['attributes'] [0] )) {
+			
+			if (preg_match_all ( $attribute_pattern, $match ['attributes'] [0], $attribute_data, PREG_SET_ORDER )) {
+				//Turn the attribute data into a name->value array
+				foreach ( $attribute_data as $attr ) {
+					if (! empty ( $attr ['value_quoted'] )) {
+						$value = $attr ['value_quoted'];
+					} else if (! empty ( $attr ['value_unquoted'] )) {
+						$value = $attr ['value_unquoted'];
+					} else {
+						$value = '';
+					}
+					
+					//Passing the value through html_entity_decode is handy when you want
+					//to extract link URLs or something like that. You might want to remove
+					//or modify this call if it doesn't fit your situation.
+					$value = html_entity_decode ( $value, ENT_QUOTES, $charset );
+					
+					$attributes [$attr ['name']] = $value;
+				}
+			}
+		
+		}
+		
+		$tag = array ('tag_name' => $match ['tag'] [0], 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', //empty for self-closing tags
+'attributes' => $attributes );
+		if ($return_the_entire_tag) {
+			$tag ['full_tag'] = $match [0] [0];
+		}
+		
+		$tags [] = $tag;
+	}
+	
+	return $tags;
 }
 
 ?>

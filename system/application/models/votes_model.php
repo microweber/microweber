@@ -46,6 +46,9 @@ class votes_model extends Model {
 	function votesCast($to_table, $to_table_id, $user_id = false) {
 		
 		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			
+			$to_table = CI::model('core')->guessDbTable($to_table);
+			
 			$cache_group = "votes/{$to_table}/{$to_table_id}";
 		} else {
 			$cache_group = 'votes/global';
@@ -54,11 +57,11 @@ class votes_model extends Model {
 		
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_votes'];
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
+		$check = CI::model('core')->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
 		if ($user_id == false) {
 			
-			$created_by = $this->core_model->userId ();
+			$created_by = CI::model('core')->userId ();
 		} else {
 			$created_by = $user_id;
 		}
@@ -79,7 +82,7 @@ class votes_model extends Model {
 		
 		}
 		
-		$check_if_user_voted_for_today = $this->core_model->dbQuery ( $check_if_user_voted_for_today, __FUNCTION__ . md5 ( $check_if_user_voted_for_today ), $cache_group );
+		$check_if_user_voted_for_today = CI::model('core')->dbQuery ( $check_if_user_voted_for_today, __FUNCTION__ . md5 ( $check_if_user_voted_for_today ), $cache_group );
 		
 		$check_if_user_voted_for_today = intval ( $check_if_user_voted_for_today [0] ['qty'] );
 		
@@ -93,10 +96,10 @@ class votes_model extends Model {
 			
 			$cast_vote ['user_ip'] = $ip;
 			
-			$this->core_model->saveData ( $table, $cast_vote );
+			CI::model('core')->saveData ( $table, $cast_vote );
 			
-			$this->core_model->cleanCacheGroup ( $cache_group );
-			$this->core_model->cleanCacheGroup ( 'votes/global' );
+			CI::model('core')->cleanCacheGroup ( $cache_group );
+			CI::model('core')->cleanCacheGroup ( 'votes/global' );
 			
 			return true;
 		
@@ -125,8 +128,9 @@ class votes_model extends Model {
 		
 		if (($timestamp = strtotime ( $since_time )) === false) {
 			
-			return FALSE;
+		//return FALSE;
 		
+
 		}
 		
 		$args = func_get_args ();
@@ -139,7 +143,7 @@ class votes_model extends Model {
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -159,32 +163,35 @@ class votes_model extends Model {
 		
 		$table = $cms_db_tables ['table_votes'];
 		
-		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
+		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
 		
-		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		$check = CI::model('core')->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
 		
 		if ($check == false) {
 			
 			return FALSE;
 		
 		} else {
-			$voted = strtotime ( $since_time . ' ago' );
-			$yesterday = date ( 'Y-m-d H:i:s', $voted );
-			
+			if ($since_time != false) {
+				$voted = strtotime ( $since_time . ' ago' );
+				$yesterday = date ( 'Y-m-d H:i:s', $voted );
+				
+				$since_time_q = " and created_on > '$yesterday' ";
+			}
 			$qty = " SELECT count(*) as qty
 
             from $table
 
             where to_table='$to_table' and  to_table_id='$to_table_id'
 
-            and created_on > '$yesterday'
+           $since_time_q
 
             ";
 			
-			//var_dump($qty);
+			//	var_dump($qty);
 			
 
-			$qty = $this->core_model->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
+			$qty = CI::model('core')->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
 			
 			$qty = $qty [0] ['qty'];
 			
@@ -192,15 +199,234 @@ class votes_model extends Model {
 			
 			if ($qty == 0) {
 				
-				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+				CI::model('core')->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 			
 			} else {
 				
-				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
+				CI::model('core')->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
 			
 			}
 			
 			return $qty;
+		
+		}
+	
+	}
+	
+	function voteGetById($vote_id) {
+		$vote_id = intval ( $vote_id );
+		if ($vote_id == 0) {
+		
+		} else {
+			global $cms_db_tables;
+			$cache_group = 'votes/' . $vote_id;
+			$table = $cms_db_tables ['table_votes'];
+			$qty = " SELECT * from $table where id ={$vote_id} limit 0,1 ";
+			
+			$qty = CI::model('core')->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
+			return $qty[0];
+		
+		}
+	
+	}
+	
+	function votesGet($to_table, $to_table_id, $since_time = false) {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "votes/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'votes/global';
+		
+		}
+		
+		if ($since_time == false) {
+			
+			$since_time = ' 1 year ';
+		
+		}
+		
+		if (($timestamp = strtotime ( $since_time )) === false) {
+			
+		//return FALSE;
+		
+
+		}
+		
+		$args = func_get_args ();
+		
+		foreach ( $args as $k => $v ) {
+			
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		
+		if (($cache_content) != false) {
+			
+			if ($cache_content == 'false') {
+				
+				return 0;
+			
+			} else {
+				
+				return $cache_content;
+			
+			}
+		
+		}
+		
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_votes'];
+		
+		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
+		
+		$check = CI::model('core')->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		
+		if ($check == false) {
+			
+			return FALSE;
+		
+		} else {
+			if ($since_time != false) {
+				$voted = strtotime ( $since_time . ' ago' );
+				$yesterday = date ( 'Y-m-d H:i:s', $voted );
+				
+				$since_time_q = " and created_on > '$yesterday' ";
+			}
+			$qty = " SELECT count(*) as qty
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+           $since_time_q
+
+            ";
+			
+			//	var_dump($qty);
+			
+
+			$qty = CI::model('core')->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
+			
+			$qty = $qty [0] ['qty'];
+			
+			$qty = intval ( $qty );
+			
+			if ($qty == 0) {
+				
+				CI::model('core')->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+			
+			} else {
+				
+				CI::model('core')->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
+			
+			}
+			
+			return $qty;
+		
+		}
+	
+	}
+	
+	function getVotedUsers($to_table, $to_table_id, $since_time = false) {
+		
+		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
+			$cache_group = "votes/{$to_table}/{$to_table_id}";
+		} else {
+			$cache_group = 'votes/global';
+		
+		}
+		
+		if ($since_time == false) {
+			
+			$since_time = ' 1 year ';
+		
+		}
+		
+		if (($timestamp = strtotime ( $since_time )) === false) {
+			
+		//return FALSE;
+		
+
+		}
+		
+		$args = func_get_args ();
+		
+		foreach ( $args as $k => $v ) {
+			
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		
+		if (($cache_content) != false) {
+			
+			if ($cache_content == 'false') {
+				
+				return 0;
+			
+			} else {
+				
+				return $cache_content;
+			
+			}
+		
+		}
+		
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_votes'];
+		
+		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
+		
+		$check = CI::model('core')->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		
+		if ($check == false) {
+			
+			return FALSE;
+		
+		} else {
+			if ($since_time != false) {
+				$voted = strtotime ( $since_time . ' ago' );
+				$yesterday = date ( 'Y-m-d H:i:s', $voted );
+				
+				$since_time_q = " and created_on > '$yesterday' ";
+			}
+			$qty = " SELECT created_by
+
+            from $table
+
+            where to_table='$to_table' and  to_table_id='$to_table_id'
+
+           $since_time_q
+
+            ";
+			
+			//	var_dump($qty);
+			
+
+			$who = CI::model('core')->dbQuery ( $qty, __FUNCTION__ . md5 ( $qty ), $cache_group );
+			
+			if (empty ( $who )) {
+				
+				CI::model('core')->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+				return false;
+			} else {
+				$who2 = array ();
+				foreach ( $who as $wh ) {
+					$who2 [] = $wh ['created_by'];
+				}
+				
+				CI::model('core')->cacheWriteAndEncode ( $who2, $function_cache_id, $cache_group );
+				return $who2;
+			}
 		
 		}
 	
@@ -212,7 +438,7 @@ class votes_model extends Model {
 		
 		$table = $cms_db_tables ['table_votes'];
 		
-		$master_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
+		$master_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
 		
 		$where = '';
 		
@@ -252,7 +478,7 @@ class votes_model extends Model {
 		
 		print __FILE__ . __LINE__ . ' dont use this replace it with sometginh else - poorly writen function ';
 		
-		return $this->core_model->dbQuery ( $query, md5 ( $query ), 'votes/global' );
+		return CI::model('core')->dbQuery ( $query, md5 ( $query ), 'votes/global' );
 	
 	}
 

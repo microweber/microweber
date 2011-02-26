@@ -1,0 +1,22 @@
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:1.2em;
+}
+h1 {
+	font-family:Georgia;
+	color:red;
+}
+#message {
+	background-color:#eee;
+}
+pre {
+	background-color:#eee;
+}
+.line-number {
+	background-color:#000;
+	color:#fff;
+	font-weight:bold;
+}
+.error-line {
+	background-color:#ffc5bc;
+} 

@@ -1,0 +1,1 @@
+ns1.microweber.com.INdasdaA184.107.137.226<br>ns2.microweber.com.INA184.107.137.227<br>microweber.com.INMX10ASPMX.L.GOOGLE.COM.<br>microweber.com.INMX20ALT1.ASPMX.L.GOOGLE.COM.<br>microweber.com.INMX20ALT2.ASPMX.L.GOOGLE.COM.<br>microweber.com.INMX30ASPMX2.GOOGLEMAIL.COM.

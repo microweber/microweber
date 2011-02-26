@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "taxonomy_items";
-$query = $this->db->query ( "show tables like '$table_name'" );
+$query = CI::db()->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -11,11 +11,11 @@ if ($query [0] != $table_name) {
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);";
-	$this->db->query ( $sql );
+	CI::db()->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = $this->db->query ( $sql );
+$query = CI::db()->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {

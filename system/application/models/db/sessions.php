@@ -5,7 +5,7 @@
 $column_for_not_drop = array('session_id');
 $table_name = false;
 			$table_name = TABLE_PREFIX . "sessions";
-			$query = $this->db->query("show tables like '$table_name'");
+			$query = CI::db()->query("show tables like '$table_name'");
 			$query = $query->row_array();
 			$query = (array_values($query));
 			if($query[0] != $table_name) {
@@ -13,12 +13,12 @@ $table_name = false;
 						session_id varchar(40) DEFAULT '0' NOT NULL
 						PRIMARY KEY (session_id)
 						);";
-				$this->db->query($sql);
+				CI::db()->query($sql);
 			}
 
 
 			$sql = "show tables like '$table_name'";
-			$query = $this->db->query($sql);
+			$query = CI::db()->query($sql);
 			$query = $query->row_array();
 			$query = (array_values($query));
 
@@ -26,7 +26,7 @@ $table_name = false;
 				//$columns = $db->fetchAll("show columns from $table_name");
 				/*
 				$sql = "show columns from $table_name";
-				$query = $this->db->query($sql);
+				$query = CI::db()->query($sql);
 				$columns = $query->result_array();
 
 
@@ -47,10 +47,10 @@ $table_name = false;
 					$the_field[0] = strtolower($the_field[0]);
 					if ($exisiting_fields[$the_field[0]] != true) {
 						$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-						$this->db->query($sql);
+						CI::db()->query($sql);
 					} else {
 						$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-						$this->db->query($sql);
+						CI::db()->query($sql);
 					}
 				}
 				*/

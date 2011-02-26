@@ -11,20 +11,20 @@ class Me extends Controller {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'layout', true, true );
-		$primarycontent = $this->load->view ( 'me/index', true, true );
+		$layout = CI::view ( 'layout', true, true );
+		$primarycontent = CI::view ( 'me/index', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function login() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'layout', true, true );
-		$primarycontent = $this->load->view ( 'me/index', true, true );
+		$layout = CI::view ( 'layout', true, true );
+		$primarycontent = CI::view ( 'me/index', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function register() {
@@ -50,27 +50,27 @@ class Me extends Controller {
 		$this->validation->set_error_delimiters ( '<div class="error">', '</div>' );
 		
 		if ($this->validation->run () == FALSE) {
-			$primarycontent = $this->load->view ( 'me/register', true, true );
+			$primarycontent = CI::view ( 'me/register', true, true );
 		} else {
 			$register = array ( );
 			$register ['username'] = $this->input->post ( 'username' );
 			$register ['password'] = $this->input->post ( 'password' );
 			$register ['email'] = $this->input->post ( 'email' );
 			$register ['is_active'] = 1;
-			$this->users_model->saveUser ( $register );
+			CI::model('users')->saveUser ( $register );
 			
-			$primarycontent = $this->load->view ( 'me/register_done', true, true );
+			$primarycontent = CI::view ( 'me/register_done', true, true );
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'layout', true, true );
+		$layout = CI::view ( 'layout', true, true );
 		
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function username_check($username) {
-		$check = $this->users_model->doUserExist ( 'username', $username );
+		$check = CI::model('users')->doUserExist ( 'username', $username );
 		if ($check == true) {
 			$this->validation->set_message ( 'username_check', "The username $username already exists!" );
 			return FALSE;
@@ -80,7 +80,7 @@ class Me extends Controller {
 	}
 	
 	function useremail_check($username) {
-		$check = $this->users_model->doUserExist ( 'email', $username );
+		$check = CI::model('users')->doUserExist ( 'email', $username );
 		if ($check == true) {
 			$this->validation->set_message ( 'useremail_check', "The email $username is already assigned to another user! Please choose new one!" );
 			return FALSE;

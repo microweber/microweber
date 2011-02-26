@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "content";
-$query = $this->db->query ( "show tables like '$table_name'" );
+$query = CI::db()->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -13,11 +13,11 @@ if ($query [0] != $table_name) {
 		);
 		ENGINE=MyISAM   DEFAULT CHARSET=utf8
 		";
-	$this->db->query ( $sql );
+	CI::db()->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = $this->db->query ( $sql );
+$query = CI::db()->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
@@ -82,6 +82,7 @@ if ($query [0] == $table_name) {
 	//$fields_to_add [] = array ('content_unique_id', 'varchar(150) default NULL' );
 	
 
+	$fields_to_add [] = array ('require_login', "ENUM('n', 'y') default 'n'" );
 	$fields_to_add [] = array ('created_by', 'int(11) default NULL' );
 	$fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
 	$fields_to_add [] = array ('is_special', 'char(1) default "n"' );
@@ -91,7 +92,7 @@ if ($query [0] == $table_name) {
 	//add fulltext search
 	//ALTER TABLE articles ADD FULLTEXT(body, title);
 	//$sql = "alter table $table_name add FULLTEXT (content_url, content_title, content_body)  ";
-	//$this->db->query ( $sql );
+	//CI::db()->query ( $sql );
 	
 
 	$this->addIndex ( 'content_type', $table_name, array ('content_type' ) );

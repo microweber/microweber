@@ -55,7 +55,7 @@ class taxonomy_model extends Model {
 		//$sql = "SELECT taxonomy_value from $table where taxonomy_type='tag' and taxonomy_value LIKE ('%$item%') group by taxonomy_value  limit 1 ";
 		
 
-		//      $q = $this->core_model->sqlQuery ( $sql );
+		//      $q = CI::model('core')->sqlQuery ( $sql );
 		
 
 		//var_dump($criteria);
@@ -63,7 +63,7 @@ class taxonomy_model extends Model {
 
 		if (! empty ( $criteria )) {
 			
-			$get = $this->core_model->getDbData ( $table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group = 'taxonomy/global' );
+			$get = CI::model('core')->getDbData ( $table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group = 'taxonomy/global' );
 			
 			if (! empty ( $get )) {
 				
@@ -123,7 +123,7 @@ class taxonomy_model extends Model {
 				
 				$q = " SELECT id, to_table_id from $table where taxonomy_type='category_item' and id IN ($chidlern_ids_implode) group  by   to_table_id ";
 				
-				$q = $this->core_model->dbQuery ( $q );
+				$q = CI::model('core')->dbQuery ( $q );
 				
 				//var_dump($q);
 				
@@ -210,7 +210,7 @@ class taxonomy_model extends Model {
 
         ";
 		
-		$q = $this->core_model->sqlQuery ( $query );
+		$q = CI::model('core')->sqlQuery ( $query );
 		
 		foreach ( $q as $row ) {
 			
@@ -387,9 +387,9 @@ class taxonomy_model extends Model {
 		$table = $cms_db_tables ['table_taxonomy'];
 		$table_items = $cms_db_tables ['table_taxonomy_items'];
 		
-		if ($data ['content_body'] == '') {
-			
-			$data ['content_body'] = $this->parseContentBodyItems ( $data ['content_body'], $data ['taxonomy_value'] );
+		if (trim ( $data ['content_body'] ) != '') {
+			$CI = get_instance ();
+			$data ['content_body'] = CI::model('content')->parseContentBodyItems ( $data ['content_body'], $data ['taxonomy_value'] );
 		
 		}
 		
@@ -408,15 +408,23 @@ class taxonomy_model extends Model {
 			}
 		
 		}
+		$no_position_fix = false;
+		if (trim ( $data ['to_table'] ) != '' and trim ( $data ['to_table_id'] ) != '') {
+			
+			$table = $table_items;
+			$no_position_fix = true;
 		
-		$save = $this->core_model->saveData ( $table, $data );
+		}
+		
+		//p($data,1);
+		$save = CI::model('core')->saveData ( $table, $data );
 		
 		if (intval ( $save ) == 0) {
 			
 			return false;
 		
 		}
-		
+		CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
 		if (! empty ( $content_ids )) {
 			
 			$content_ids = array_unique ( $content_ids );
@@ -429,19 +437,14 @@ class taxonomy_model extends Model {
 			$content_ids_all = implode ( ',', $content_ids );
 			
 			$q = "delete from $table where to_table='table_content'
-
-
-
             and content_type='post'
-
             and parent_id=$save
-
             and  taxonomy_type ='{$taxonomy_type}' ";
 			
 			//p($q,1);
 			
 
-			$this->core_model->dbQ ( $q );
+			CI::model('core')->dbQ ( $q );
 			
 			foreach ( $content_ids as $id ) {
 				
@@ -457,25 +460,25 @@ class taxonomy_model extends Model {
 				
 				$item_save ['parent_id'] = intval ( $save );
 				
-				$item_save = $this->core_model->saveData ( $table_items, $item_save );
+				$item_save = CI::model('core')->saveData ( $table_items, $item_save );
 				
-				$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
+				CI::model('core')->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
 			
 			}
 		
 		}
-		
-		$this->taxonomyFixPositionsForId ( $save );
-		
-		//  $this->core_model->cleanCacheGroup ( 'taxonomy' );
+		if ($no_position_fix == false) {
+			$this->taxonomyFixPositionsForId ( $save );
+		}
+		//  CI::model('core')->cleanCacheGroup ( 'taxonomy' );
 		
 
 		if ($preserve_cache == false) {
 			
-			//$this->core_model->cleanCacheGroup ( 'taxonomy' );
-			$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
-			$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
-			$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
+			//CI::model('core')->cleanCacheGroup ( 'taxonomy' );
+			CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
+			CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
+			CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
 		}
 		
 		return $save;
@@ -532,7 +535,7 @@ class taxonomy_model extends Model {
 		
 		}
 		
-		$save = $this->core_model->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group = 'taxonomy/global', $debug = false, $ids = false, $count_only = false, $only_those_fields = array ('id' ), $exclude_ids = false, $force_cache_id = $function_cache_id );
+		$save = CI::model('core')->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group = 'taxonomy/global', $debug = false, $ids = false, $count_only = false, $only_those_fields = array ('id' ), $exclude_ids = false, $force_cache_id = $function_cache_id );
 		
 		if (empty ( $save )) {
 			
@@ -624,7 +627,7 @@ class taxonomy_model extends Model {
 			
 			}
 			
-			$save = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = false, $orderby, $cache_group = $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false );
+			$save = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = false, $orderby, $cache_group = $cache_group, $debug = $data ['debug'], $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false );
 			
 			return $save;
 		}
@@ -642,7 +645,7 @@ class taxonomy_model extends Model {
 		//var_dump ( $data );
 		
 
-		$data = $this->core_model->mediaGetThumbnailForItem ( $to_table = 'table_taxonomy', $to_table_id = $id, $size );
+		$data = CI::model('core')->mediaGetThumbnailForItem ( $to_table = 'table_taxonomy', $to_table_id = $id, $size );
 		
 		return $data;
 	
@@ -665,7 +668,7 @@ class taxonomy_model extends Model {
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -678,7 +681,7 @@ class taxonomy_model extends Model {
 			//var_dump($to_cache);
 			
 
-			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
+			CI::model('core')->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
 			return $to_cache;
 		
@@ -697,78 +700,83 @@ class taxonomy_model extends Model {
 		
 		}
 		
-		$data = array ();
+		$function_cache_id = false;
 		
-		$data ['id'] = $id;
+		$args = func_get_args ();
 		
-		$data = $this->getSingleItem ( $id );
-		
-		if (empty ( $data )) {
+		foreach ( $args as $k => $v ) {
 			
-			return false;
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
-		//$this->load->model ( 'Content_model', 'content_model' );
-		$CI = get_instance ();
-		$content = array ();
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$content ['content_subtype'] = 'blog_section';
+		$taxonomy_id = intval ( $id );
+		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$content ['content_subtype_value'] = $id;
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
-		$orderby = array ('id', 'desc' );
-		
-		$content = $CI->content_model->getContentAndCache ( $content, $orderby );
-		
-		$content = $content [0];
-		
-		$url = false;
-		
-		if (! empty ( $content )) {
+		if (($cache_content) != false) {
 			
-			if ($content ['content_type'] == 'page') {
-				$url = $CI->content_model->getContentURLByIdAndCache ( $content ['id'] );
+			return $cache_content;
+		
+		} else {
+			
+			$data = array ();
+			
+			$data ['id'] = $id;
+			
+			$data = $this->getSingleItem ( $id );
+			
+			if (empty ( $data )) {
+				
+				return false;
+			
 			}
+			//$this->load->model ( 'Content_model', 'content_model' );
+			global $cms_db_tables;
+			//global $CI;
 			
-			if ($content ['content_type'] == 'post') {
-				$url = $CI->content_model->contentGetHrefForPostId ( $content ['id'] );
+
+			$table = $cms_db_tables ['table_taxonomy'];
+			$table_content = $cms_db_tables ['table_content'];
+			if (! $CI) {
+				//$CI = &get_instance ();
 			}
-		
-		}
-		
-		if ($url != false) {
-			
-			return $url;
-		
-		}
-		
-		$parent_ids = $this->getParentsIds ( $data ['id'] );
-		
-		foreach ( $parent_ids as $item ) {
-			
 			$content = array ();
 			
 			$content ['content_subtype'] = 'blog_section';
 			
-			$content ['content_subtype_value'] = $item;
+			$content ['content_subtype_value'] = $id;
 			
-			$orderby = array ('id', 'desc' );
+			//$orderby = array ('id', 'desc' );
 			
-			$content = $CI->content_model->getContentAndCache ( $content, $orderby );
+
+			$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$id} limit 0,1";
 			
-			$content = $content [0];
+			$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+			
+			//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
+			
+
+			$content = $q [0];
 			
 			$url = false;
 			
 			if (! empty ( $content )) {
 				
 				if ($content ['content_type'] == 'page') {
-					$url = $CI->content_model->getContentURLByIdAndCache ( $content ['id'] );
-					$url = $url . '/category:' . $data ['taxonomy_value'];
+					if (function_exists ( 'page_link' )) {
+						$url = page_link ( $content ['id'] );
+					}
 				}
+				
 				if ($content ['content_type'] == 'post') {
-					$url = $CI->content_model->contentGetHrefForPostId ( $content ['id'] );
+					if (function_exists ( 'post_link' )) {
+						$url = post_link ( $content ['id'] );
+					}
 				}
+			
 			}
 			
 			if ($url != false) {
@@ -776,12 +784,59 @@ class taxonomy_model extends Model {
 				return $url;
 			
 			}
-		
+			
+			$parent_ids = $this->getParentsIds ( $data ['id'] );
+			
+			foreach ( $parent_ids as $item ) {
+				
+				$content = array ();
+				
+				$content ['content_subtype'] = 'blog_section';
+				
+				$content ['content_subtype_value'] = $item;
+				
+				$orderby = array ('id', 'desc' );
+				
+				$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
+				
+				$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+				
+				//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
+				
+
+				$content = $q [0];
+				
+				$content = $content [0];
+				
+				$url = false;
+				
+				if (! empty ( $content )) {
+					
+					if ($content ['content_type'] == 'page') {
+						if (function_exists ( 'page_link' )) {
+							$url = page_link ( $content ['id'] );
+							//$url = $url . '/category:' . $data ['taxonomy_value'];
+							$url = $url . '/categories:' . $data ['id'];
+						}
+					}
+					if ($content ['content_type'] == 'post') {
+						if (function_exists ( 'post_link' )) {
+							$url = post_link ( $content ['id'] );
+						}
+					}
+				}
+				
+				if ($url != false) {
+					CI::model('core')->cacheWriteAndEncode ( $url, $function_cache_id, $cache_group );
+					return $url;
+				
+				}
+			
+			}
+			
+			return false;
 		}
-		
-		return false;
-		
-	//var_dump ( $parent_ids );
+		//var_dump ( $parent_ids );
 	
 
 	}
@@ -841,7 +896,7 @@ class taxonomy_model extends Model {
 
 						$q = " UPDATE $table set position='{$update_pos['position']}' where id='{$update_pos['id']}'  ";
 						
-						$q = $this->core_model->dbQ ( $q );
+						$q = CI::model('core')->dbQ ( $q );
 						
 						$update_pos = array ();
 						
@@ -851,7 +906,7 @@ class taxonomy_model extends Model {
 						
 						$q = " UPDATE $table set position='{$update_pos['position']}' where id='{$update_pos['id']}'  ";
 						
-						$q = $this->core_model->dbQ ( $q );
+						$q = CI::model('core')->dbQ ( $q );
 						
 					//$this->taxonomySave ( $update_pos );
 					
@@ -885,7 +940,7 @@ class taxonomy_model extends Model {
 
 						$q = " UPDATE $table set position='{$update_pos['position']}' where id='{$update_pos['id']}'  ";
 						
-						$q = $this->core_model->dbQ ( $q );
+						$q = CI::model('core')->dbQ ( $q );
 						
 						$update_pos = array ();
 						
@@ -898,15 +953,15 @@ class taxonomy_model extends Model {
 
 						$q = " UPDATE $table set position='{$update_pos['position']}' where id='{$update_pos['id']}'  ";
 						
-						$q = $this->core_model->dbQ ( $q );
+						$q = CI::model('core')->dbQ ( $q );
 					
 					}
 				
 				}
 				
-				$this->core_model->cleanCacheGroup ( 'taxonomy' );
+				CI::model('core')->cleanCacheGroup ( 'taxonomy' );
 				
-				$this->core_model->cleanCacheGroup ( 'global' );
+				CI::model('core')->cleanCacheGroup ( 'global' );
 				
 				//  $this->taxonomyFixPositionsForId ( $cur_item ['id'] );
 				
@@ -975,13 +1030,13 @@ class taxonomy_model extends Model {
 
 			$q = " UPDATE $table set position='{$update_pos['position']}' where id='{$update_pos['id']}'  ";
 			
-			$q = $this->core_model->dbQ ( $q );
+			$q = CI::model('core')->dbQ ( $q );
 			
 			$i ++;
 		
 		}
 		
-		//  $this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
+		//  CI::model('core')->cacheDelete ( 'cache_group', 'taxonomy' );
 		
 
 		return $id;
@@ -989,11 +1044,8 @@ class taxonomy_model extends Model {
 	}
 	
 	function getMasterCategories($data = array()) {
-		
 		$get_master_categories = $data;
-		
 		$get_master_categories ['taxonomy_type'] = 'category';
-		
 		$get_master_categories ['parent_id'] = '0';
 		
 		if ($orderby == false) {
@@ -1007,6 +1059,40 @@ class taxonomy_model extends Model {
 		$items = $this->taxonomyGet ( $get_master_categories, $orderby );
 		
 		return $items;
+	
+	}
+	
+	function getIdsByNames($array_of_names) {
+		if (! empty ( $array_of_names )) {
+			$ids = array ();
+			foreach ( $array_of_names as $name ) {
+				
+				$id = $this->getIdByName ( $name );
+				$ids [] = $id;
+			}
+			return $ids;
+		
+		}
+	}
+	
+	function getIdByName($name) {
+		
+		$cache_group = 'taxonomy/global';
+		
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_taxonomy'];
+		
+		$name = codeClean ( $name );
+		$q = " select id from $table where taxonomy_value like '{$name}' limit 0,1";
+		
+		$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		if (! empty ( $q )) {
+			$q = $q [0] ['id'];
+			return $q;
+		} else {
+			return $name;
+		}
 	
 	}
 	
@@ -1027,7 +1113,10 @@ class taxonomy_model extends Model {
 	 */
 	
 	function getSingleItem($id) {
-		
+	$id = intval ( $id );
+		if ($id == 0) {
+			return false;
+		}
 		$function_cache_id = false;
 		
 		$args = func_get_args ();
@@ -1043,7 +1132,7 @@ class taxonomy_model extends Model {
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1059,13 +1148,13 @@ class taxonomy_model extends Model {
 		
 		$q = " select * from $table where id = $id limit 0,1";
 		
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		
 		$q = $q [0];
 		
 		if (! empty ( $q )) {
 			
-			$this->core_model->cacheWriteAndEncode ( $q, $function_cache_id, $cache_group );
+			CI::model('core')->cacheWriteAndEncode ( $q, $function_cache_id, $cache_group );
 			
 			//return $to_cache;
 			
@@ -1092,10 +1181,10 @@ class taxonomy_model extends Model {
 		
 		$cache_group = 'taxonomy/' . $id;
 		$q = " SELECT parent_id from $table where id= $id    ";
-		//var_dump($cache_group);
+		//var_dump($q);
 		$q_cache_id = __FUNCTION__ . md5 ( $q );
 		//var_dump($q_cache_id);
-		$get = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
+		$get = CI::model('core')->dbQuery ( $q, $q_cache_id, $cache_group );
 		
 		if (empty ( $get )) {
 			return false;
@@ -1140,7 +1229,7 @@ class taxonomy_model extends Model {
 		$taxonomy_id = intval ( $parent_id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1150,7 +1239,7 @@ class taxonomy_model extends Model {
 			
 			$to_cache = $this->getChildrensRecursive ( $parent_id, $type, $visible_on_frontend );
 			
-			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
+			CI::model('core')->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
 			return $to_cache;
 		
@@ -1162,6 +1251,7 @@ class taxonomy_model extends Model {
 		
 		global $cms_db_tables;
 		$taxonomy_id = intval ( $parent_id );
+		
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
@@ -1200,13 +1290,20 @@ class taxonomy_model extends Model {
 		$data ['parent_id'] = $parent_id;
 		
 		if ($type != FALSE) {
+			//var_Dump($type);
 			
+
 			$data ['taxonomy_type'] = $type;
 			
 			$type_q = " and taxonomy_type='$type'   ";
 		
 		} else {
+			# @doto: remove the hard coded part here by revieweing all the other files for diferent values of $type 
 			$type = 'category_item';
+			
+			//var_Dump($type);
+			
+
 			$data ['taxonomy_type'] = $type;
 			
 			$type_q = " and taxonomy_type='$type'   ";
@@ -1224,10 +1321,10 @@ class taxonomy_model extends Model {
 
 		$cache_group = 'taxonomy/' . $parent_id;
 		$q = " SELECT id,    parent_id from $table_items where parent_id= $parent_id   $type_q  $visible_on_frontend_q $my_limit_q ";
-		//var_dump($cache_group);
+		//var_dump($q);
 		$q_cache_id = __FUNCTION__ . md5 ( $q );
 		//var_dump($q_cache_id);
-		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
+		$save = CI::model('core')->dbQuery ( $q, $q_cache_id, $cache_group );
 		
 		//$save = $this->getSingleItem ( $parent_id );
 		if (empty ( $save )) {
@@ -1309,7 +1406,7 @@ class taxonomy_model extends Model {
 		//var_dump($cache_group);
 		$q_cache_id = __FUNCTION__ . md5 ( $q );
 		//var_dump($q_cache_id);
-		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
+		$save = CI::model('core')->dbQuery ( $q, $q_cache_id, $cache_group );
 		
 		//$save = $this->getSingleItem ( $parent_id );
 		if (empty ( $save )) {
@@ -1317,7 +1414,7 @@ class taxonomy_model extends Model {
 		}
 		$to_return = array ();
 		if (! empty ( $save )) {
-			$to_return [] = $parent_id;
+			//$to_return [] = $parent_id;
 		}
 		foreach ( $save as $item ) {
 			$to_return [] = $item ['id'];
@@ -1332,6 +1429,62 @@ class taxonomy_model extends Model {
 		$to_return = array_unique ( $to_return );
 		
 		return $to_return;
+	
+	}
+	
+	function getChildrensCount($parent_id) {
+		
+		global $cms_db_tables;
+		$taxonomy_id = intval ( $parent_id );
+		$cache_group = 'taxonomy/' . $taxonomy_id;
+		
+		$table = $cms_db_tables ['table_taxonomy_items'];
+		
+		$table_content = $cms_db_tables ['table_content'];
+		
+		if ($orderby == false) {
+			
+			$orderby [0] = 'updated_on';
+			
+			$orderby [1] = 'DESC';
+		
+		}
+		
+		if (intval ( $parent_id ) == 0) {
+			
+			return false;
+		
+		}
+		
+		$data = array ();
+		
+		$data ['parent_id'] = $parent_id;
+		
+		if ($type != FALSE) {
+			
+			$data ['taxonomy_type'] = $type;
+			
+			$type_q = " and taxonomy_type='$type'   ";
+		
+		} else {
+			$type = 'category_item';
+			$data ['taxonomy_type'] = $type;
+			
+			$type_q = " and taxonomy_type='$type'   ";
+		
+		}
+		
+		$cache_group = 'taxonomy/' . $parent_id;
+		$q = " SELECT count(*) as qty from $table where parent_id= $parent_id   $type_q ";
+		//var_dump($q);
+		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		//var_dump($q_cache_id);
+		$get = CI::model('core')->dbQuery ( $q, $q_cache_id, $cache_group );
+		
+		if (empty ( $get )) {
+			return false;
+		}
+		return $get [0] ['qty'];
 	
 	}
 	
@@ -1354,33 +1507,44 @@ class taxonomy_model extends Model {
 		$item_to_delete = $this->taxonomyGet ( $item_to_delete );
 		
 		$item_to_delete = $item_to_delete [0];
+		/*var_dump($item_to_delete);
 		
 		if (empty ( $item_to_delete )) {
 			
 			return false;
 		
-		}
+		}*/
 		
-		$new_parent = intval ( $item_to_delete ['parent_id'] );
+		$parr = $this->getParents ( $id );
+		//var_dump($parr);
+		//exit();
 		
-		$old_parent = intval ( $item_to_delete ['id'] );
+
+		$new_parent = intval ( $parr [0] );
+		
+		$old_parent = intval ( $id );
 		
 		$q = "UPDATE $table set parent_id = $new_parent where parent_id= $old_parent";
 		
-		$this->core_model->dbQ ( $q );
+		CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->deleteDataById ( $table, $id );
+		CI::model('core')->deleteDataById ( $table, $id );
 		
-		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $id );
-		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $new_parent );
-		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
-		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
+		foreach ( $parr as $par ) {
+			CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $par );
+		}
+		
+		CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $id );
+		CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $new_parent );
+		CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
+		CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
 		
 		return true;
 	
 	}
 	
 	function getToTableIds($root, $limit = false) {
+		
 		if (! is_array ( $root )) {
 			$root = intval ( $root );
 			if (intval ( $root ) == 0) {
@@ -1420,25 +1584,25 @@ class taxonomy_model extends Model {
 		
 		}
 		
-		
-		
 		$data = array ();
 		
 		$data ['parent_id'] = $root;
-			if (! is_array ( $root )) {
-				$root_q = " parent_id=$root ";
-				$cache_group = 'taxonomy/' . $root;
-			} else {
-				$root_i = implode(',', $root);
-				$root_q = " parent_id in ($root_i) ";
-				$cache_group = 'taxonomy/global';
-			}
+		if (! is_array ( $root )) {
+			$root_q = " parent_id=$root ";
+			$cache_group = 'taxonomy/' . $root;
+		} else {
+			$root_i = implode ( ',', $root );
+			$root_q = " parent_id in ($root_i) ";
+			$cache_group = 'taxonomy/global';
+		}
 		
 		$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and taxonomy_type='category_item'  group by to_table_id   $my_limit_q ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		//	var_dump($q);
+		$taxonomies = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		//var_dump($taxonomies);
+		//print 'asds';;
 		
 
 		if (! empty ( $taxonomies )) {
@@ -1471,7 +1635,7 @@ class taxonomy_model extends Model {
 			}
 		
 		}
-		
+		//p($ids);
 		if (! empty ( $ids )) {
 			
 			$ids = array_unique ( $ids );
@@ -1507,7 +1671,7 @@ class taxonomy_model extends Model {
 		
 		$cache_group = 'taxonomy/' . $root;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1517,7 +1681,7 @@ class taxonomy_model extends Model {
 			
 			$to_cache = $this->taxonomyGetTaxonomyIdsForTaxonomyRootId ( $root, $incliude_root, $recursive, $type );
 			
-			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
+			CI::model('core')->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
 			
 			return $to_cache;
 		
@@ -1548,7 +1712,7 @@ class taxonomy_model extends Model {
 		$root = intval ( $root );
 		$q = " select id from $table where parent_id = $root and taxonomy_type='{$type}' ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q . $root . serialize ( $incliude_root ) ), $cache_group = 'taxonomy/' . $root );
+		$taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q . $root . serialize ( $incliude_root ) ), $cache_group = 'taxonomy/' . $root );
 		
 		if (! empty ( $taxonomies )) {
 			
@@ -1629,7 +1793,7 @@ class taxonomy_model extends Model {
 		$id = intval ( $id );
 		$q = " select id, parent_id  from $table where id = $id and  taxonomy_type='{$taxonomy_type}'  $with_main_parrent_q ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q ), $cache_group = 'taxonomy/' . $id );
+		$taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q ), $cache_group = 'taxonomy/' . $id );
 		
 		//var_dump($q);
 		
@@ -1690,7 +1854,7 @@ class taxonomy_model extends Model {
 	
 	}
 	
-	function getCategoriesForContent($content_id) {
+	function getCategoriesForContent($content_id, $return_only_ids = false) {
 		
 		if (intval ( $content_id ) == 0) {
 			
@@ -1711,7 +1875,7 @@ class taxonomy_model extends Model {
 		$cache_group = 'content/' . $content_id;
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1724,14 +1888,21 @@ class taxonomy_model extends Model {
 		$to_return = array ();
 		
 		foreach ( $cat_ids as $item ) {
-			
 			$cat = $this->getSingleItem ( $item );
 			
-			$to_return [] = $cat;
+			if ($return_only_ids == false) {
+				$to_return [] = $cat;
+			} else {
+				if (intval ( $cat ['id'] ) != 0) {
+					$to_return [] = $cat ['id'];
+				}
+			}
 		
 		}
+		//	var_dump($to_return);
 		
-		$this->core_model->cacheWriteAndEncode ( $to_return, $function_cache_id, $cache_group );
+
+		CI::model('core')->cacheWriteAndEncode ( $to_return, $function_cache_id, $cache_group );
 		
 		return $to_return;
 	
@@ -1759,7 +1930,7 @@ class taxonomy_model extends Model {
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1770,7 +1941,7 @@ class taxonomy_model extends Model {
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_taxonomy'];
-		$table_items = $cms_db_tables ['table_taxonomy'];
+		$table_items = $cms_db_tables ['table_taxonomy_items'];
 		
 		$data = array ();
 		
@@ -1789,7 +1960,8 @@ class taxonomy_model extends Model {
 		}
 		
 		$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $taxonomy_type_q ";
-		$data = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group = 'content/' . $content_id );
+		//var_dump($q);
+		$data = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group = 'content/' . $content_id );
 		// var_dump ( $data );
 		
 
@@ -1800,7 +1972,7 @@ class taxonomy_model extends Model {
 			}
 			$results = array_unique ( $results );
 		}
-		$this->core_model->cacheWriteAndEncode ( $results, $function_cache_id, $cache_group );
+		CI::model('core')->cacheWriteAndEncode ( $results, $function_cache_id, $cache_group );
 		return $results;
 	}
 

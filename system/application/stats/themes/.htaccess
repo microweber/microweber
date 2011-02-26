@@ -1,0 +1,7 @@
+<Files ~ "\.(php|php4|php5|inc|tpl|in)$">
+Deny from all
+</Files>
+<Files ~ "\.(test\.php|gif|ico|jpg|png|js|css|swf)$">
+Satisfy any
+Allow from all
+</Files>

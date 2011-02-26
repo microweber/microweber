@@ -1,0 +1,1 @@
+<mw module='messages/list' />

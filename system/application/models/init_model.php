@@ -9,7 +9,7 @@ $media_url = base_url ();
 $media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
 $media_url = reduce_double_slashes ( $media_url );
 
-if ($_COOKIE ['fckEditor_filespath'] == false) {
+/*if ($_COOKIE ['fckEditor_filespath'] == false) {
 	setcookie ( 'fckEditor_filespath', base64_encode ( MEDIAFILES ), time () + 36000, '/' );
 }
 if ($_COOKIE ['fckEditor_filesurl'] == false) {
@@ -31,13 +31,13 @@ if ($_COOKIE ['index_path'] != FCPATH) {
 $tbpath = static_url () . 'js/tiny_mce/plugins/tinybrowser/';
 if ($_COOKIE ['tiny_browser_path'] != $tbpath) {
 	setcookie ( 'tiny_browser_path', $tbpath, time () + 36000, '/' );
-}
+}*/
 
 class Init_model extends Model {
 
 	function __construct() {
 		parent::Model ();
-		$this->db_setup ();
+		//$this->db_setup ();
 	}
 
 	function db_setup($plugin_dir = false) {
@@ -67,7 +67,7 @@ class Init_model extends Model {
 			@chmod ( $dir2, 0777 );
 		}*/
 
-		$cache_file = $dir2.'done.txt';
+		$cache_file = $dir2.'index.php';
 		if(is_file($cache_file) == true){
 			
 			return true;
@@ -121,7 +121,7 @@ class Init_model extends Model {
 
 
 	/*	$q = "select option_value from ".TABLE_PREFIX."options where option_key='firecms_db_version' ";
-		$query = $this->db->query($q);
+		$query = CI::db()->query($q);
 		$query = $query->row_array();
 		$query = (array_values($query));
 		$curent_db_version = $query[0];
@@ -133,7 +133,7 @@ class Init_model extends Model {
 		//var_dump($curent_db_version);
 		if($firecms_db_version != $curent_db_version){
 			$q = "select option_value from ".TABLE_PREFIX."options where option_key='firecms_db_version' ";
-			$query = $this->db->query($q);
+			$query = CI::db()->query($q);
 			$query = $query->row_array();
 			$query = (array_values($query));
 			$curent_db_version = $query[0];
@@ -214,7 +214,7 @@ class Init_model extends Model {
 					$column_for_not_drop = array ('id' );
 
 				$sql = "show columns from $table_name";
-				$query = $this->db->query ( $sql );
+				$query = CI::db()->query ( $sql );
 				$columns = $query->result_array ();
 
 				$exisiting_fields = array ();
@@ -242,7 +242,7 @@ class Init_model extends Model {
 							$sql = "alter table $table_name drop column {$columns[$i]['Field']} ";
 						}
 						if ($sql)
-							$this->db->query ( $sql );
+							CI::db()->query ( $sql );
 					}
 				}
 
@@ -252,10 +252,10 @@ class Init_model extends Model {
 					$sql = false;
 					if ($exisiting_fields [$the_field [0]] != true) {
 						$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-						$this->db->query ( $sql );
+						CI::db()->query ( $sql );
 					} else {
 						//$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-					//$this->db->query ( $sql );
+					//CI::db()->query ( $sql );
 					}
 
 				}
@@ -275,7 +275,7 @@ class Init_model extends Model {
 	{
 		$columns = implode(',', $aOnColumns);
 
-		$query = $this->db->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+		$query = CI::db()->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
 
 		if($indexType != false){
 			
@@ -293,7 +293,7 @@ class Init_model extends Model {
 				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
 			";
 			//var_dump($q);
-			$this->db->query($q);
+			CI::db()->query($q);
 		}
 
 	}
@@ -306,7 +306,7 @@ class Init_model extends Model {
 	 */
 	public function setEngine($aTable, $aEngine = 'InnoDB')
 	{
-		$this->db->query("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+		CI::db()->query("ALTER TABLE {$aTable} ENGINE={$aEngine};");
 	}
 
 	/**
@@ -321,7 +321,7 @@ class Init_model extends Model {
 	 */
 	public function addForeignKey($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
 	{
-		$query = $this->db->query("
+		$query = CI::db()->query("
 			SELECT
 				*
 			FROM
@@ -349,7 +349,7 @@ class Init_model extends Model {
 			    {$onUpdate}
 			";
 
-			$this->db->query($q);
+			CI::db()->query($q);
 		}
 
 	}

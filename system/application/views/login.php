@@ -6,71 +6,89 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<link href="<?php print_the_static_files_url() ; ?>css/login.css" rel="stylesheet" type="text/css"/>
 
-<title>Login</title>
+<link rel="stylesheet" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/style.css" type="text/css" media="screen"  />
+<script type="text/javascript" src="<?php print site_url('api/js')  ?>"></script>
+
+<style type="text/css">
+#submit{
+  position: relative;
+  width:88px;
+  height:55px;
+  float: right;
+}
+#submit input{
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity:0;
+  filter:alpha(opacity=0);
+  width:88px;
+  height:55px;
+  cursor: pointer;
+  border: none
+}
+
+
+</style>
+
+<title>Login to Microweber</title>
+
 
 </head>
 
-<body  id="login">
+<body id="login">
 
 <div class="main-content">
 
-<div class="branding" align="center">
 
-<h2>Admin Panel</h2>
-
-</div>
 
 <div class="login">
 
 <!--<h1>Control panel login</h1>-->
+<div class="box radius">
 
 
 
-<form name="loginform" id="loginform" action="<?php print site_url ('login'); ?>" method="post" class="form" >
 
-<table width="550px" border="0" cellpadding="0" cellspacing="0" align="center" id="lgtbl">
 
-  <tr>
+<form name="loginform" id="loginform" action="<?php print site_url ('login'); ?>" method="post" class="form col" >
 
-    <td align="center">
+    <h2>Login to Microweber</h2>
+    <br />
 
-    <label class="llabel">Email or Username:</label>
+    <div><label class="llabel">Email or Username:</label>
+    <div class="field2">
+     <input name="username" type="text" id="username" tabindex="1" value="" size="40" />
+    </div>
+    </div>
 
-    <input name="username" type="text" id="username" tabindex="1" value="" size="40" />
 
-    </td>
 
-    </tr>
 
-  <tr>
+    <div>
+        <label class="llabel">Password:</label>
+      <div class="field2">
+        <input  name="password" type="password" id="password" tabindex="2" value="" size="40" />
+      </div>
+    </div>
 
-    <td align="center">
 
-      <label class="llabel">Password:</label>
 
-      <input name="password" type="password" id="password" tabindex="2" value="" size="40" />
+   <div id="submit">
+     <input type="submit"  name="submit" id="submit" value="Login" tabindex="3" />
 
-      </td>
+     <a href="#" class="btn" id="login_submit">Login</a>
+   </div>
 
-    </tr>
 
-  <tr>
-
-    <td align="center">
-
-      <input type="submit" name="submit" id="submit" value="Login" tabindex="3" />
-
-      </td>
-
-    </tr>
-
-</table>
 
 
 
 </form>
+</div>
 
 </div>
 

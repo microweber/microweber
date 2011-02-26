@@ -1,7 +1,7 @@
 <?php
 
 
-$mw_user = $this->core_model->userId();
+$mw_user = CI::model('core')->userId();
 if(intval($mw_user) != 0){
 	redirect ( 'dashboard' );
 }
@@ -26,7 +26,7 @@ if ($_POST) {
 
 	$check ['is_active'] = 'y';
 
-	$check = $this->users_model->getUsers ( $check );
+	$check = CI::model('users')->getUsers ( $check );
 
 	//	var_dump($check);
 	if (empty ( $check [0] )) {
@@ -39,7 +39,7 @@ if ($_POST) {
 
 		$check ['is_active'] = 'y';
 
-		$check = $this->users_model->getUsers ( $check );
+		$check = CI::model('users')->getUsers ( $check );
 
 	}
 
@@ -50,15 +50,15 @@ if ($_POST) {
 	} else {
 
         //sync with the forum userbase
-        $this->users_model->forum_sync($check[0]);
+        CI::model('users')->forum_sync($check[0]);
 
 		$user_session ['is_logged'] = 'yes';
 
 		$user_session ['user_id'] = $check [0] ['id'];
 
-		$this->session->set_userdata ( 'user_session', $user_session );
-		$this->session->set_userdata ( 'user', $check [0] );
-		$back_to = $this->core_model->getParamFromURL ( 'back_to' );
+		CI::library('session')->set_userdata ( 'user_session', $user_session );
+		CI::library('session')->set_userdata ( 'user', $check [0] );
+		$back_to = CI::model('core')->getParamFromURL ( 'back_to' );
 
 		$first_name = $check [0] ['first_name'];
 		$last_name = $check [0] ['last_name'];

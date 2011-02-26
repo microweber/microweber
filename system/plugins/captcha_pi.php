@@ -117,7 +117,7 @@ On the page where the captcha will be shown you'll have something like this:
 				);
 
 	$query = $this->db->insert_string('captcha', $data);
-	$this->db->query($query);
+	CI::db()->query($query);
 		
 	echo 'Submit the word you see below:';
 	echo $cap['image'];
@@ -133,7 +133,7 @@ Then, on the page that accepts the submission you'll have something like this:
 	// Then see if a captcha exists:
 	$sql = "SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date > ?";
 	$binds = array($_POST['captcha'], $this->input->ip_address(), $expiration);
-	$query = $this->db->query($sql, $binds);
+	$query = CI::db()->query($sql, $binds);
 	$row = $query->row();
 
 	if ($row->count == 0)

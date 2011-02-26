@@ -1,5 +1,5 @@
 mw.content = {};
-mw.content.CategoriesTree = new function() {
+mw.content.CategoriesTree = function() {
 
 	this.servicesUrl = '{SITEURL}ajax_helpers/';
 
@@ -15,31 +15,52 @@ mw.content.CategoriesTree = new function() {
 
 }
 
+mw.content.del = function(post_id, hide_element_or_callback) {
+	var answer = confirm("Are you sure you want to delete this?");
+
+	if (answer) {
+
+		$.post('{SITEURL}api/content/delete', {
+			id : post_id
+		}, function(response) {
+			if (response.indexOf('yes')!=-1) {
+				if (typeof (hide_element_or_callback) == 'function') {
+					hide_element_or_callback.call(this);
+				} else {
+					$(hide_element_or_callback).fadeOut();
+				}
+			} else {
+				alert(response);
+			}
+		});
+
+	}
+
+}
+
 mw.content.Vote = function(toTable, toTableId, updateElementSelector) {
+
 	$.post('{SITEURL}api/content/vote', {
 		t : toTable,
 		tt : toTableId
 	}, function(response) {
-		
-		
-		if (response == 'yes') {
+
+		if (response.indexOf("yes")!= -1) {
 			$(updateElementSelector).each(function() {
 				$(this).html(parseFloat($(this).html()) + 1);
 			});
+
+			eventlistener = 'onAfterVote';
+
 			return;
 		}
-		
 
-		if ((response.valueOf())== 'no') {
-		//	mw.box.notification('You have already voted!')
-		//	return 'You have already voted!';
-			//alert('asd');
-			mw.box.alert('You have already liked this!');
+		if ((response.valueOf()) == 'no') {
+			// mw.box.notification('You have already voted!')
+			// return 'You have already voted!';
+			// alert('asd');
+			// mw.box.alert('You have already liked this!');
 		}
-		
-		
-		
-		
 
 		if (response == 'login required') {
 			if ((response.valueOf()) == 'login required') {
@@ -49,8 +70,6 @@ mw.content.Vote = function(toTable, toTableId, updateElementSelector) {
 			}
 		}
 
-		
-		
 	});
 }
 
@@ -59,15 +78,13 @@ mw.content.report = function(toTable, toTableId, updateElementSelector) {
 		t : toTable,
 		tt : toTableId
 	}, function(response) {
-		if (response == 'yes') {
+		if (response.indexOf("yes")== true) {
 
 			$(updateElementSelector).each(function() {
-			    var curr = parseFloat($(this).html());
-                if(!isNaN(curr)){
-                  $(this).html(curr + 1);
-                }
-            
-
+				var curr = parseFloat($(this).html());
+				if (!isNaN(curr)) {
+					$(this).html(curr + 1);
+				}
 
 			});
 

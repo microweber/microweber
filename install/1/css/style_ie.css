@@ -1,0 +1,35 @@
+#menu li {
+	width: 3em;
+}
+#menu a {
+	width:100%;
+}
+#menu li li {
+	width:105px;
+}
+
+.sidebar {
+	padding:10px 0 0 10px;
+}
+#contents {
+	margin-top:0;
+}
+
+.calendar-info {
+	white-space:normal !important;
+}
+
+/*Icons*/
+.icon,.page-next,.page-back,.page-first,.page-last {
+	font-size:0px;
+	padding:8px 8px;
+}
+.list-with-icon li,.list-with-icon dt, .with-icon {
+	padding:2px 0 2px 18px;
+}
+#error-message,#success-message {
+	padding:0 0 0 18px;
+}
+.menu-with-icon li a {
+	padding-left:12px;
+}

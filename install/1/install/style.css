@@ -1,0 +1,30 @@
+body {
+	font:12pt 'Trebuchet MS',Arial,sans-serif;
+	text-align:center;
+	background-color:#ccc;
+}
+label {
+	width:200px;
+	margin:5px 0;
+	line-height:35px;
+}
+input, select {
+	margin:5px 0;
+	font-size:16pt;
+}
+#header {
+	background-color:#fff;
+	text-align:left;
+	width:600px;
+	margin:0 auto;
+	margin-top:10px;
+}
+#main {
+	background-color:#fff;
+	text-align:left;
+	width:600px;
+	margin:0 auto;
+}
+form {
+	padding:20px;
+} 

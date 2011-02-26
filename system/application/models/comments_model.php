@@ -99,7 +99,7 @@ class Comments_model extends Model {
 			$cache_group = "comments/{$data ['to_table']}/{$data ['to_table_id']}";
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group, false, $ids = false, $count_only );
+		$get = CI::model('core')->getDbData ( $table, $data, $limit, $offset = false, $orderby, $cache_group, false, $ids = false, $count_only );
 		
 		if ($count_only) {
 			
@@ -157,8 +157,9 @@ class Comments_model extends Model {
 		}
 		
 		$q = "SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id=$to_table_id  {$more_q}";
-		
-		$q = $this->core_model->dbQuery ( $q );
+		//p($q);
+	 
+		$q = CI::model('core')->dbQuery ( $q , __FUNCTION__.md5($q), 'comments/global');
 		
 		return intval ( $q [0] ['qty'] );
 		
@@ -228,7 +229,7 @@ class Comments_model extends Model {
 		
 		$table = $cms_db_tables ['table_comments'];
 		
-		$master_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
+		$master_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
 		
 		$where = "WHERE comments.is_moderated = 'n'";
 		
@@ -266,10 +267,10 @@ class Comments_model extends Model {
 
         ";
 		
-		//      $this->core_model->cleanCacheGroup('comments');
+		//      CI::model('core')->cleanCacheGroup('comments');
 		
 
-		$qty = $this->core_model->dbQuery ( $query, $function_cache_id . md5 ( $query ), 'comments/global' );
+		$qty = CI::model('core')->dbQuery ( $query, $function_cache_id . md5 ( $query ), 'comments/global' );
 		
 		return $qty;
 	
@@ -287,7 +288,7 @@ class Comments_model extends Model {
 		
 		$orderby [1] = 'DESC';
 		
-		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit = false, $offset = false, $orderby = false, $cache_group = 'comments/global', $debug = false, $ids = false, $count_only = true );
+		$get = CI::model('core')->getDbData ( $table, $criteria = $data, $limit = false, $offset = false, $orderby = false, $cache_group = 'comments/global', $debug = false, $ids = false, $count_only = true );
 		
 		return $get;
 	
@@ -306,17 +307,17 @@ class Comments_model extends Model {
 		//$data_to_save_options ['delete_cache_groups'] = array ('comments' );
 		
 
-		$id = $this->core_model->saveData ( $table, $data );
+		$id = CI::model('core')->saveData ( $table, $data );
 		
 		if (intval ( $id ) != 0) {
-			$this->core_model->cleanCacheGroup ( 'comments/' . $id );
+			CI::model('core')->cleanCacheGroup ( 'comments/' . $id );
 		}
-		$this->core_model->cleanCacheGroup ( 'comments/global' );
+		CI::model('core')->cleanCacheGroup ( 'comments/global' );
 		
 		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
 			$cache_group = "comments/{$data['to_table']}/{$data['to_table_id']}";
 			//var_dump($cache_group);
-			$this->core_model->cleanCacheGroup ( $cache_group );
+			CI::model('core')->cleanCacheGroup ( $cache_group );
 		}
 		
 		return $id;
@@ -331,14 +332,14 @@ class Comments_model extends Model {
 			
 			$table = $cms_db_tables ['table_comments'];
 			
-			$this->core_model->deleteDataById ( $table, $id );
+			CI::model('core')->deleteDataById ( $table, $id );
 			
-			$this->core_model->cleanCacheGroup ( 'comments/' . $id );
-			$this->core_model->cleanCacheGroup ( 'comments/global' );
+			CI::model('core')->cleanCacheGroup ( 'comments/' . $id );
+			CI::model('core')->cleanCacheGroup ( 'comments/global' );
 			
 			if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
 				$cache_group = "comments/{$data ['to_table']}/{$data ['to_table_id']}";
-				$this->core_model->cleanCacheGroup ( $cache_group );
+				CI::model('core')->cleanCacheGroup ( $cache_group );
 			}
 			
 			return true;

@@ -1,0 +1,10 @@
+input, textarea, select {
+	width:250px;
+	margin-top:10px;
+}
+textarea {
+	width:500px;
+}
+label {
+	margin-top:12px;
+}

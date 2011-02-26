@@ -6,7 +6,7 @@ $user_content = array ();
 
 $user_content ['content_type'] = 'post';
 
-$type = $this->core_model->getParamFromURL ( 'type' );
+$type = CI::model('core')->getParamFromURL ( 'type' );
 
 if ($type == 'trainings') {
 	$user_content ['content_subtype'] = 'trainings';
@@ -28,14 +28,14 @@ if ($type == 'gallery') {
 	$user_content ['content_subtype'] = 'gallery';
 }
 
-$user_content ['created_by'] = $this->core_model->userId ();
+$user_content ['created_by'] = CI::model('core')->userId ();
 
-$user_content = $this->content_model->contentGetByParams ( $user_content );
+$user_content = CI::model('content')->contentGetByParams ( $user_content );
 
 //p($user_content);
 
 
-//$user_content = $this->content_model->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
+//$user_content = CI::model('content')->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
 
 
 //	var_dump ( $user_content );
@@ -46,14 +46,14 @@ $this->template ['user_content'] = $user_content ['posts'];
 $user_session ['user_action'] = $user_action;
 
 //$this->load->vars ( $this->template );
-$small_posts_view = $this->core_model->getParamFromURL ( 'tinymce_posts_view' );
+$small_posts_view = CI::model('core')->getParamFromURL ( 'tinymce_posts_view' );
 $this->load->vars ( $this->template );
 if ($small_posts_view == 'yes') {
 	$params = array ();
 	$params ['user_action'] = 'posts';
 	$params ['tinymce_posts_view'] = 'yes';
 	$params ['type'] = 'inherit';
-	$url = $this->core_model->urlConstruct ( $base_url = site_url ( 'users' ), $params );
+	$url = CI::model('core')->urlConstruct ( $base_url = site_url ( 'users' ), $params );
 	$this->template ['controller_url'] = $url; //user_action:posts/tinymce_posts_view:yes' ) . '/';
 
 
@@ -68,9 +68,9 @@ if ($small_posts_view == 'yes') {
 	$content ['content_filename'] = 'users/posts_tinymce_view.php';
 } else {
 
-	$try_view = $this->core_model->getParamFromURL ( 'view' );
-	$try_type = $this->core_model->getParamFromURL ( 'type' );
-	$try_layout = $this->core_model->getParamFromURL ( 'layout' );
+	$try_view = CI::model('core')->getParamFromURL ( 'view' );
+	$try_type = CI::model('core')->getParamFromURL ( 'type' );
+	$try_layout = CI::model('core')->getParamFromURL ( 'layout' );
 
 	if ($try_type == 'form') {
 		$this->template ['forms_manager_active'] = true;

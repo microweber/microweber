@@ -13,15 +13,15 @@ class Plugins extends Controller {
 		
 		$this->load->vars ( $this->template );
 		
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
-		//$primarycontent = $this->load->view ( 'admin/comments/index', true, true );
-		//$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		//$primarycontent = CI::view ( 'admin/comments/index', true, true );
+		//$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function load() {
@@ -30,10 +30,10 @@ class Plugins extends Controller {
 		$this->template ['pluginName'] = $plugin_name;
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
-		$plugindata = $this->core_model->plugins_getPluginConfig ( $plugin_name );
+		$plugindata = CI::model('core')->plugins_getPluginConfig ( $plugin_name );
 		//
 		//print  PLUGINS_DIRNAME . $dirname .$plugin_name.'/'.$plugindata['plugin_admin_dir']. '/controller.php' ;
 		if (is_file ( PLUGINS_DIRNAME . $dirname . $plugin_name . '/' . $plugindata ['plugin_admin_dir'] . '/controller.php' ) == true) {
@@ -44,12 +44,12 @@ class Plugins extends Controller {
 			require_once (PLUGINS_DIRNAME . $dirname . $plugin_name . '/' . $plugindata ['plugin_admin_dir'] . '/controller.php');
 		}
 		
-		//$primarycontent = $this->load->view ( 'admin/comments/index', true, true );
-		//$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		//$primarycontent = CI::view ( 'admin/comments/index', true, true );
+		//$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		CI::library('output')->set_output ( $layout );
 	}
 
 }

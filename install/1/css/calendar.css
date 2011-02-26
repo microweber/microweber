@@ -1,0 +1,46 @@
+table.calendar th a {
+	font-size:80%;
+	text-decoration:none;
+}
+table.calendar {
+	width:100%;
+	background:none;
+}
+table.calendar td {
+	width:13%;
+	height:100px;
+	padding:0;
+	vertical-align:top;
+	border:1px solid black;
+}
+table.calendar tr.weekday-names td {
+	height:20px;
+	border:0px solid #fff;
+	text-align:center;
+	font-weight:bold;
+}
+.calendar .date-number {
+	font-weight:bold;
+	color:#666;
+}
+table.calendar div.calendar-info {
+	overflow:auto;
+	height:100px;
+}
+#info-area {
+	background-color:#ccc;
+}
+.calendar-info .calendar-row {
+	display:block;
+	border-bottom:1px solid #666;
+}
+.today {
+	background-color:#e9ffdb;
+}
+.due-on {
+	background-color:#FF9999;
+}
+#expand {
+	text-align:center;
+	color:blue;
+}

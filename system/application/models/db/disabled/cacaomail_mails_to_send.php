@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "cacaomail_mails_to_send";
-$query = $this->db->query ( "show tables like '$table_name'" );
+$query = CI::db()->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] != $table_name) {
@@ -10,18 +10,18 @@ if ($query [0] != $table_name) {
 						id int(11) NOT NULL auto_increment,
 						UNIQUE KEY id (id)
 						);";
-	$this->db->query ( $sql );
+	CI::db()->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = $this->db->query ( $sql );
+$query = CI::db()->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
 if ($query [0] == $table_name) {
 	//$columns = $db->fetchAll("show columns from $table_name");
 	$sql = "show columns from $table_name";
-	$query = $this->db->query ( $sql );
+	$query = CI::db()->query ( $sql );
 	$columns = $query->result_array ();
 	
 	$exisiting_fields = array ( );
@@ -53,17 +53,17 @@ if ($query [0] == $table_name) {
 		$the_field [0] = strtolower ( $the_field [0] );
 		if ($exisiting_fields [$the_field [0]] != true) {
 			$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-			$this->db->query ( $sql );
+			CI::db()->query ( $sql );
 		} else {
 			$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-			$this->db->query ( $sql );
+			CI::db()->query ( $sql );
 		}
 	
 	}
 	
 	$sql = "SHOW INDEXES FROM $table_name 	";
 	//print $sql; 
-	$query = $this->db->query ( $sql );
+	$query = CI::db()->query ( $sql );
 	$query = $query->result_array ();
 	$query = array_change_key_case ( $query, CASE_LOWER );
 	$indexes = array ( );
@@ -79,7 +79,7 @@ if ($query [0] == $table_name) {
 		
 	if(in_array('job_email', $indexes) == false){
 		$q = "ALTER IGNORE TABLE $table_name ADD FULLTEXT KEY job_email (job_email)  ";
-		$this->db->query ( $q );
+		CI::db()->query ( $q );
 	}
 	
 

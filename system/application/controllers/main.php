@@ -28,18 +28,18 @@ class Main extends Controller {
 
 		if ($what == false) {
 
-			$this->content_model->content_pingServersWithNewContent ();
+			CI::model('content')->content_pingServersWithNewContent ();
 
 		//sleep ( 5 );
 
 
-		//$this->content_model->content_cleanUpGarbageFromRss ();
+		//CI::model('content')->content_cleanUpGarbageFromRss ();
 
 
 		//sleep ( 5 );
 
 
-		//$this->content_model->content_RemapExternalLinkFromRssWithInternal ();
+		//CI::model('content')->content_RemapExternalLinkFromRssWithInternal ();
 
 
 		}
@@ -70,7 +70,7 @@ class Main extends Controller {
 
 		if ($name and $val) {
 
-			$this->session->set_userdata ( $name, $val );
+			CI::library('session')->set_userdata ( $name, $val );
 
 		}
 
@@ -88,7 +88,7 @@ class Main extends Controller {
 
 		$data = array ();
 
-		$categories = $this->core_model->getParamFromURL ( 'categories' );
+		$categories = CI::model('core')->getParamFromURL ( 'categories' );
 		if (trim ( $categories ) != '') {
 
 			$categories = explode ( ',', $categories );
@@ -96,7 +96,7 @@ class Main extends Controller {
 				$data ['selected_categories'] = $categories;
 			}
 		}
-		$post = $this->core_model->getParamFromURL ( 'post' );
+		$post = CI::model('core')->getParamFromURL ( 'post' );
 		if (intval ( $post ) != 0) {
 			$data ['id'] = intval ( $post );
 
@@ -113,26 +113,26 @@ class Main extends Controller {
 		//	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 
 
-		$posts = $this->content_model->getContent ( $data, $orderby, $limit, false, true );
+		$posts = CI::model('content')->getContent ( $data, $orderby, $limit, false, true );
 		$post = $posts [0];
 		if (! empty ( $post )) {
 			$comments = array ();
 			$comments ['to_table'] = 'table_content';
 			$comments ['to_table_id'] = $post ['id'];
-			$comments = $this->comments_model->commentsGet ( $comments );
+			$comments = CI::model('comments')->commentsGet ( $comments );
 			$this->template ['post'] = $post;
 		}
 
 		//	var_dump($posts);
-		$this->load->helper ( 'url' );
+		CI::helper ( 'url' );
 
 		$this->template ['comments'] = $comments;
 
 		$this->load->vars ( $this->template );
 
-		$layout = $this->load->view ( 'rss_comments.php', true, true );
+		$layout = CI::view ( 'rss_comments.php', true, true );
 
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 
 	/*
 		* $newline = "\n";
@@ -149,7 +149,7 @@ class Main extends Controller {
     ' . $newline;
     echo '
     <link>
-    ' . $this->content_model->contentGetHrefForPostId ( $item ['id'] ) . '
+    ' . CI::model('content')->contentGetHrefForPostId ( $item ['id'] ) . '
     </link>
     ' . $newline;
     echo '
@@ -175,7 +175,7 @@ class Main extends Controller {
 
 		$data = array ();
 
-		$categories = $this->core_model->getParamFromURL ( 'categories' );
+		$categories = CI::model('core')->getParamFromURL ( 'categories' );
 		if (trim ( $categories ) != '') {
 
 			$categories = explode ( ',', $categories );
@@ -183,7 +183,7 @@ class Main extends Controller {
 				$data ['selected_categories'] = $categories;
 			}
 		}
-		$created_by = $this->core_model->getParamFromURL ( 'author' );
+		$created_by = CI::model('core')->getParamFromURL ( 'author' );
 		if (intval ( $created_by ) != 0) {
 			$data ['created_by'] = $created_by;
 
@@ -200,18 +200,18 @@ class Main extends Controller {
 		//	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 
 
-		$posts = $this->content_model->getContent ( $data, $orderby, $limit, false, true );
+		$posts = CI::model('content')->getContent ( $data, $orderby, $limit, false, true );
 
 		//	var_dump($posts);
-		$this->load->helper ( 'url' );
+		CI::helper ( 'url' );
 
 		$this->template ['posts'] = $posts;
 
 		$this->load->vars ( $this->template );
 
-		$layout = $this->load->view ( 'rss.php', true, true );
+		$layout = CI::view ( 'rss.php', true, true );
 
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 
 	/*
 		* $newline = "\n";
@@ -228,7 +228,7 @@ class Main extends Controller {
     ' . $newline;
     echo '
     <link>
-    ' . $this->content_model->contentGetHrefForPostId ( $item ['id'] ) . '
+    ' . CI::model('content')->contentGetHrefForPostId ( $item ['id'] ) . '
     </link>
     ' . $newline;
     echo '
@@ -245,7 +245,7 @@ class Main extends Controller {
 	}
 
 	function bb_sync() {
-		$this->load->helper ( 'url' );
+		CI::helper ( 'url' );
 		global $cms_db_tables;
 
 		$table = $cms_db_tables ['table_taxonomy'];
@@ -256,7 +256,7 @@ class Main extends Controller {
 
 		$q = "select * from $table  where taxonomy_type='category' and users_can_create_content='y' ";
 
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 
 		$data_to_save_options ['use_this_field_for_id'] = 'forum_id';
 		foreach ( $q as $item ) {
@@ -280,12 +280,12 @@ $skip = false;
 
 			$to_save ['forum_parent'] = ($item ['parent_id']);
 
-			//$this->core_model-> saveData($table2, $to_save, $data_to_save_options);
+			//CI::model('core')-> saveData($table2, $to_save, $data_to_save_options);
 
 
 			if ($skip == false) {
 
-				$this->db->query ( "REPLACE
+				CI::db()->query ( "REPLACE
                              INTO {$table2}
                               SET forum_id              = ?,
                                   forum_name      = ?,
@@ -307,19 +307,19 @@ $skip = false;
 
 		if ($_POST) {
 
-			if ($this->core_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
-				$user_session = $this->session->userdata ( 'user_session' );
+			if (CI::model('core')->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
+				/*$user_session = CI::library('session')->userdata ( 'user_session' );
 				if (strval ( $user_session ['is_logged'] ) != 'yes') {
 					exit ( 'Error: You must be logged in. Your comment was not posted.' );
-				}
+				}*/
 
 			}
 
-			$_POST ['to_table_id'] = base64_decode ( $_POST ['to_table_id'] );
-			$_POST ['to_table'] = base64_decode ( $_POST ['to_table'] );
+		//	$_POST ['to_table_id'] = base64_decode ( $_POST ['to_table_id'] );
+		//	$_POST ['to_table'] = base64_decode ( $_POST ['to_table'] );
 
-			$_POST ['to_table_id'] = $this->core_model->securityDecryptString ( $_POST ['to_table_id'] );
-			$_POST ['to_table'] = $this->core_model->securityDecryptString ( $_POST ['to_table'] );
+			$_POST ['to_table_id'] = CI::model('core')->securityDecryptString ( $_POST ['to_table_id'] );
+			$_POST ['to_table'] = CI::model('core')->securityDecryptString ( $_POST ['to_table'] );
 
 			if (intval ( $_POST ['to_table_id'] ) == 0) {
 				exit ( '1' );
@@ -329,7 +329,7 @@ $skip = false;
 				exit ( '2' );
 			}
 
-			$save = $this->comments_model->commentsSave ( $_POST );
+			$save = CI::model('comments')->commentsSave ( $_POST );
 
 
 
@@ -340,7 +340,7 @@ $skip = false;
 
 		}
 
-	//	$this->core_model->cacheDeleteAll ();
+	//	CI::model('core')->cacheDeleteAll ();
 
 	}
 
@@ -361,24 +361,24 @@ $skip = false;
 				exit ( '2' );
 			}
 
-			$save = $this->votes_model->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
+			$save = CI::model('votes')->votesCast ( $_POST ['to_table'], $_POST ['to_table_id'] );
 
 			if ($save == true) {
 
 				// send user notification
 
 
-				$user = $this->session->userdata ( 'user' );
+				$user = CI::library('session')->userdata ( 'user' );
 
-				$content = $this->core_model->fetchDbData ( TABLE_PREFIX . 'content', array (array ('id', $_POST ['to_table_id'] ) ) );
+				$content = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'content', array (array ('id', $_POST ['to_table_id'] ) ) );
 				$content = $content [0];
 
-				$author = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', $content ['created_by'] ) ) );
+				$author = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', $content ['created_by'] ) ) );
 				$author = $author [0];
 
-				$notification = array ('from_user' => $user ['id'], 'to_user' => $author ['id'], 'type' => 'vote_on_post', 'message_params' => array ('content_url' => $this->content_model->getContentURLByIdAndCache ( $content ['id'] ), 'content_title' => $content ['content_title'] ) );
+				$notification = array ('from_user' => $user ['id'], 'to_user' => $author ['id'], 'type' => 'vote_on_post', 'message_params' => array ('content_url' => CI::model('content')->getContentURLByIdAndCache ( $content ['id'] ), 'content_title' => $content ['content_title'] ) );
 
-				$this->users_model->sendNotification ( $notification );
+				CI::model('users')->sendNotification ( $notification );
 
 				exit ( 'yes' );
 
@@ -401,7 +401,7 @@ $skip = false;
 
 	//	ob_clean ();
 
-		$this->core_model->cacheDeleteAll ();
+		CI::model('core')->cacheDeleteAll ();
 
 		exit ( '1' );
 
@@ -421,7 +421,7 @@ $skip = false;
 
 			foreacH ( $data_to_work as $item ) {
 
-				$taxonomy = $this->taxonomy_model->getSingleItem ( $item );
+				$taxonomy = CI::model('taxonomy')->getSingleItem ( $item );
 
 				$taxonomy_values [] = $taxonomy ['taxonomy_value'];
 
@@ -498,7 +498,7 @@ $skip = false;
 
 		$only_valiudation = false;
 
-		$only_valiudation_check = $this->core_model->getParamFromURL ( 'validate' );
+		$only_valiudation_check = CI::model('core')->getParamFromURL ( 'validate' );
 
 		if ($only_valiudation_check == 'yes') {
 
@@ -510,7 +510,7 @@ $skip = false;
 
 		}
 
-		$subject = $this->core_model->optionsGetByKey ( 'mailform_subject' );
+		$subject = CI::model('core')->optionsGetByKey ( 'mailform_subject' );
 
 		$subject = $subject . ' ' . $_REQUEST ['subject'];
 
@@ -606,7 +606,7 @@ $skip = false;
 
 			if ($only_valiudation == false) {
 
-				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
+				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
 
 				//$sendto = 'boksiora@gmail.com';
 
@@ -705,7 +705,7 @@ $skip = false;
 
 		}
 
-		$subject = $this->core_model->optionsGetByKey ( 'mailform_subject' );
+		$subject = CI::model('core')->optionsGetByKey ( 'mailform_subject' );
 
 		$subject = $subject . ' ' . $_REQUEST ['subject'];
 
@@ -739,7 +739,7 @@ $skip = false;
 
 				$message = $message . $what . ': ' . $v . "\r\n";
 			} else {
-				$auto_rep_temp = $this->core_model->optionsGetByKeyAsArray ( 'mailform_' . trim ( $v ) );
+				$auto_rep_temp = CI::model('core')->optionsGetByKeyAsArray ( 'mailform_' . trim ( $v ) );
 				$autoreply_msg ['subject'] = $auto_rep_temp ['option_value'];
 				$autoreply_msg ['message'] = $auto_rep_temp ['option_value2'];
 				//var_dump($autoreply_msg);
@@ -756,7 +756,7 @@ $skip = false;
 				$autoreply_msg_headers .= "Content-type: text/plain; charset=utf-8\r\n";
 				$autoreply_msg_headers .= "Content-Transfer-Encoding: quoted-printable\r\n";
 				$autoreply_msg_headers .= "MIME-Version: 1.0\r\n";
-				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
+				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
 				$autoreply_msg_headers .= "From: $sendto" . "\r\n" . #    "Reply-To: webmaster@example.com" . "\r\n" .
 $to1 = $_REQUEST ['email'];
 
@@ -791,7 +791,7 @@ $to1 = $_REQUEST ['email'];
 
 			if ($only_valiudation == false) {
 
-				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
+				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
 
 				//				$sendto = 'boksiora@gmail.com';
 				//				$sendto = 'stoil@ooyes.net';
@@ -846,7 +846,7 @@ $to1 = $_REQUEST ['email'];
 
 		$q = "select count(*) as qty from $table  ";
 
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 
 		$q = $q [0] ['qty'];
 
@@ -885,7 +885,7 @@ $to1 = $_REQUEST ['email'];
 				//var_dump($q);
 
 
-				$q = $this->core_model->dbQuery ( $q );
+				$q = CI::model('core')->dbQuery ( $q );
 
 				$q = $q [0] ['updated_on'];
 
@@ -940,7 +940,7 @@ $to1 = $_REQUEST ['email'];
 
 			$q = "select id, updated_on from $table  order by updated_on DESC limit $some,$some2 ";
 
-			$q = $this->core_model->dbQuery ( $q );
+			$q = CI::model('core')->dbQuery ( $q );
 
 			$updates = $q;
 
@@ -957,9 +957,9 @@ $to1 = $_REQUEST ['email'];
 
 		$this->load->vars ( $this->template );
 
-		$layout = $this->load->view ( 'sitemap.php', true, true );
+		$layout = CI::view ( 'sitemap.php', true, true );
 
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 
 	}
 

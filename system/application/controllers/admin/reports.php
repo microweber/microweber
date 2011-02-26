@@ -12,28 +12,28 @@ class Reports extends Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$data = array ();
-		$reports_for = $this->core_model->getParamFromURL ( 't' );
+		$reports_for = CI::model('core')->getParamFromURL ( 't' );
 		if ($reports_for != false) {
 			// $data['to_table'] = $reports_for;
 			$data [] = array ('to_table', $reports_for );
 		}
 
-		$reports = $this->reports_model->reportsGet ( $data, false );
+		$reports = CI::model('reports')->reportsGet ( $data, false );
 
 		$this->template ['reports'] = $reports;
 
 		$this->load->vars ( $this->template );
 
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
 
-		$primarycontent = $this->load->view ( 'admin/reports/index', true, true );
-		//$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$primarycontent = CI::view ( 'admin/reports/index', true, true );
+		//$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		CI::library('output')->set_output ( $layout );
 	}
 
 	function approve() {
@@ -45,8 +45,8 @@ class Reports extends Controller {
 			global $cms_db_tables;
 			$table = $cms_db_tables ['table_reports'];
 			$q = "delete from {$table} where to_table='{$_POST['to_table']}' and to_table_id='{$_POST['to_table_id']}'  ";
-			$q = $this->core_model->dbQ ( $q );
-			$this->core_model->cleanCacheGroup( 'reports');
+			$q = CI::model('core')->dbQ ( $q );
+			CI::model('core')->cleanCacheGroup( 'reports');
 
 		}
 	}
@@ -63,28 +63,28 @@ class Reports extends Controller {
 
 			$q = "delete from {$real_table} where id={$id}  ";
 
-			$q = $this->core_model->dbQ ( $q );
+			$q = CI::model('core')->dbQ ( $q );
 
 
 			$table = $cms_db_tables ['table_reports'];
 			$q = "delete from {$table} where to_table='{$_POST['to_table']}' and to_table_id='{$_POST['to_table_id']}'  ";
-			$q = $this->core_model->dbQ ( $q );
-			$this->core_model->cleanCacheGroup( 'reports');
+			$q = CI::model('core')->dbQ ( $q );
+			CI::model('core')->cleanCacheGroup( 'reports');
 
 		 switch ($_POST['to_table']) {
 		 	case 'table_content':
-		 	$this->core_model->cleanCacheGroup( 'content');
+		 	CI::model('core')->cleanCacheGroup( 'content');
 		 	break;
 
 		 	case 'table_comments':
-		 	$this->core_model->cleanCacheGroup( 'comments');
+		 	CI::model('core')->cleanCacheGroup( 'comments');
 		 	break;
 		 	default:
-		 		$this->core_model->cacheDeleteAll();
+		 		CI::model('core')->cacheDeleteAll();
 		 	break;
 		 }
 
-			//$this->comments_model->commentsDeleteById ( $id );
+			//CI::model('comments')->commentsDeleteById ( $id );
 		}
 	}
 

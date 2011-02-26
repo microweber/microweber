@@ -12,9 +12,10 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 	//require (APPPATH . 'controllers/advanced/users/force_profile_complete.php');
 	
 
-	$subdomain_user = $this->session->userdata ( 'subdomain_user' );
+	$output_format = false;
+	$subdomain_user = CI::library ( 'session' )->userdata ( 'subdomain_user' );
 	$this->template ['subdomain_user'] = $subdomain_user;
-	
+	$subdomain_user = false;
 	if ($content_display_mode != 'extended_api_with_no_template') {
 	
 	}
@@ -26,36 +27,51 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 	$cache_content = false;
 	$whole_site_cache_id = 'url_' . md5 ( $url );
 	if (! $_POST) {
-		//$cache_content = $this->core_model->cacheGetContentAndDecode ( $whole_site_cache_id, $site_cache_time );
+		//$cache_content = CI::model('core')->cacheGetContentAndDecode ( $whole_site_cache_id, $site_cache_time );
 	}
 	
+	$is_json = url_param ( 'json' );
+	if ($is_json) {
+		$output_format = 'json';
+		$url = url_param_unset ( 'json', $url );
+	}
+	
+	$is_debug = url_param ( 'debug' );
+	if ($is_debug) {
+		
+		$url = url_param_unset ( 'debug', $url );
+	}
+	//p($output_format);
 	$cache_content = false;
 	
 	if (($cache_content) != false) {
 		//$layout = $cache_content;
-	//$this->output->set_output ( $layout );
+	//CI::library('output')->set_output ( $layout );
 	} else {
 		$slash = substr ( "$url", 0, 1 );
 		if ($slash == '/') {
 			$url = substr ( "$url", 1, strlen ( $url ) );
 		}
-	//	var_dump($url);
-		if (trim ( $url ) == '') {
-		//	var_dump($url);
-			$page = $this->content_model->getContentHomepage ();
 		
+		if (trim ( $url ) == '') {
+			//	var_dump($url);
+			$page = CI::model ( 'content' )->getContentHomepage ();
+			//	var_dump($page);
 		} else {
-			$post_maybe = $this->content_model->getContentByURLAndCache ( $url );
+			
+			if ($page ['is_home'] != 'y')
+				$post_maybe = CI::model ( 'content' )->getContentByURLAndCache ( $url );
 			if (intval ( $post_maybe ['id'] ) != 0) {
-				$post_maybe = $this->content_model->contentGetByIdAndCache ( $post_maybe ['id'] );
+				$post_maybe = CI::model ( 'content' )->contentGetByIdAndCache ( $post_maybe ['id'] );
 			}
-			$page = $this->content_model->getPageByURLAndCache ( $url );
+			$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
 			
 			if (empty ( $page )) {
 				return false;
-			
-	//exit ( '404: Nothing found on line ' . __LINE__ );
+				
+			//exit ( '404: Nothing found on line ' . __LINE__ );
 			}
+		
 		}
 		//p($post);
 		//	p($page);
@@ -63,6 +79,51 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 
 		if ($post_maybe ['content_type'] == 'post') {
 			$post = $post_maybe;
+			if (defined ( 'POST_ID' ) == false) {
+				define ( 'POST_ID', $post ['id'] );
+			}
+			
+			if (defined ( 'PAGE_ID' ) == false) {
+				define ( 'PAGE_ID', $page ['id'] );
+			}
+		}
+		
+		if (empty ( $post )) {
+			$content = $page;
+		}
+		if (user_id () != false) {
+			//$full_page = get_page ( $page ['id'] );
+			$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $page ['id'] );
+			$page ['custom_fields'] = $more;
+			//p($page);
+			if (trim ( $more ["logged_redirect"] ) != '') {
+				//redirect ( $more ["logged_redirect"] );
+				//ob_start();
+				CI::helper ( 'url' );
+				$redir = site_url ( $more ["logged_redirect"] );
+				//p($redir);
+				//header ( "HTTP/1.1 301 Moved Permanently" );
+				//header ( "Location: " . $redir );
+				//redirect ( $redir, 'refresh' );
+				echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
+				//ob_end_flush(); //now the headers are sent
+				exit ();
+			}
+		
+		}
+		
+		if ($_POST ['format'] == 'json') {
+			$output_format = 'json';
+		}
+		
+		if ($output_format == 'json') {
+			$json = array ();
+			$json ['page'] = $page;
+			$json ['post'] = $post;
+			$json = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $json );
+			$json = json_encode ( $json );
+			
+			exit ( $json );
 		}
 		
 		if ($page ['content_type'] == 'post') {
@@ -70,19 +131,24 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		}
 		
 		if ($page ['content_type'] == 'page') {
+			if (defined ( 'PAGE_ID' ) == false) {
+				define ( 'PAGE_ID', $page ['id'] );
+			}
+			
 			require (APPPATH . 'controllers/advanced/index/display_page.php');
 		}
 		
-		//	p ( $post ,1 );
+		
+		
 		//print '</pre>';
 		
 
 		$global_template_replaceables = array ();
 		$global_template_replaceables ["content_meta_title"] = $content ['content_title'];
-		$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->core_model->optionsGetByKey ( 'content_meta_title' );
-		$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->core_model->optionsGetByKey ( 'content_meta_description' );
-		$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
-		$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
+		$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : CI::model ( 'core' )->optionsGetByKey ( 'content_meta_title' );
+		$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : CI::model ( 'core' )->optionsGetByKey ( 'content_meta_description' );
+		$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : CI::model ( 'core' )->optionsGetByKey ( 'content_meta_keywords' );
+		$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : CI::model ( 'core' )->optionsGetByKey ( 'content_meta_other_code' );
 		$global_template_replaceables ["content_meta_other_code"] = htmlspecialchars_decode ( $global_template_replaceables ["content_meta_other_code"], ENT_QUOTES );
 		$global_template_replaceables ["content_meta_other_code"] = html_entity_decode ( $global_template_replaceables ["content_meta_other_code"] );
 		
@@ -131,17 +197,17 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		if ($content ['content_layout_file'] != '') {
 			
 			//$this->template ['title'] = 'adasdsad';
-			if (is_readable ( $the_active_site_template_dir . $content ['content_layout_file'] ) == true) {
+			if (is_readable ( $the_active_site_template_dir . 'layouts/' . $content ['content_layout_file'] ) == true) {
 				
 				$this->load->vars ( $this->template );
 				
-				$layout = $this->load->file ( $the_active_site_template_dir . $content ['content_layout_file'], true );
+				$layout = $this->load->file ( $the_active_site_template_dir . 'layouts/' . $content ['content_layout_file'], true );
 			
-			} elseif (is_readable ( $the_active_site_template_dir . 'default_layout.php' ) == true) {
+			} elseif (is_readable ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
 				
 				$this->load->vars ( $this->template );
 				
-				$layout = $this->load->file ( $the_active_site_template_dir . 'default_layout.php', true );
+				$layout = $this->load->file ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php', true );
 			
 			} else {
 				
@@ -154,45 +220,60 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			}
 		
 		} else {
-			
+			$skip_layout_load1 = false;
 			if ($content ['content_type'] == 'page') {
+				
 				if ($content ['content_layout_file'] == '') {
 					$use_the_parent_page_layout = false;
-					$parent_pages = $this->content_model->getParentPagesIdsForPageIdAndCache ( $content ['id'] );
+					$parent_pages = CI::model ( 'content' )->getParentPagesIdsForPageIdAndCache ( $content ['id'] );
 					if (! empty ( $parent_pages )) {
 						foreach ( $parent_pages as $parent_page ) {
 							if ($use_the_parent_page_layout == false) {
-								$parent_page_info = $this->content_model->contentGetByIdAndCache ( $parent_page );
+								$parent_page_info = CI::model ( 'content' )->contentGetByIdAndCache ( $parent_page );
+								
 								if (strval ( $parent_page_info ['content_layout_file'] ) != '') {
-									if (is_readable ( $the_active_site_template_dir . $parent_page_info ['content_layout_file'] ) == true) {
+									if (is_file ( $the_active_site_template_dir . $parent_page_info ['content_layout_file'] ) == true) {
 										$use_the_parent_page_layout = $parent_page_info ['content_layout_file'];
 									}
+								}
+								
+								if (strval ( $parent_page_info ['content_layout_name'] ) != '') {
+									//	if (is_file ( $the_active_site_template_dir . $parent_page_info ['content_layout_file'] ) == true) {
+									$use_the_parent_page_layout_name = $parent_page_info ['content_layout_name'];
+									$skip_layout_load1 = true;
+									$content ['content_layout_name'] = $parent_page_info ['content_layout_name'];
+									
+								//}
 								}
 							}
 						}
 					}
 					
-					if (is_readable ( $the_active_site_template_dir . $use_the_parent_page_layout ) == true) {
+					if ($skip_layout_load1 == false) {
 						
-						$this->load->vars ( $this->template );
-						
-						$layout = $this->load->file ( $the_active_site_template_dir . $use_the_parent_page_layout, true );
-					
-					}
-					if (strval ( $layout == '' )) {
-						if (is_readable ( $the_active_site_template_dir . 'default_layout.php' ) == true) {
+						if (is_readable ( $the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout ) == true) {
 							
 							$this->load->vars ( $this->template );
 							
-							$layout = $this->load->file ( $the_active_site_template_dir . 'default_layout.php', true );
+							$layout = $this->load->file ( $the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout, true );
 						
-						} else {
+						}
+						if (strval ( $layout == '' )) {
+							if (is_readable ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
+								
+								$this->load->vars ( $this->template );
+								
+								$layout = $this->load->file ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php', true );
 							
-							header ( "HTTP/1.1 500 Internal Server Error" );
+							} else {
+								
+								header ( "HTTP/1.1 500 Internal Server Error" );
+								
+								show_error ( "Layout file {$content ['content_layout_file']} is not readable or doesn't exist in the templates directory!" );
+								
+								exit ();
 							
-							show_error ( "Layout file {$content ['content_layout_file']} is not readable or doesn't exist in the templates directory!" );
-							
-							exit ();
+							}
 						
 						}
 					
@@ -211,11 +292,11 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			$this->template ['layout_dir'] = $layout_dir;
 			$this->template ['layout_url'] = reduce_double_slashes ( dirToURL ( $layout_dir ) . '/' );
 			$this->load->vars ( $this->template );
-			$layout = TEMPLATES_DIR . 'layouts/' . $content ['content_layout_name'] . '/_view.php';
+			$layout = TEMPLATES_DIR . 'layouts/' . $content ['content_layout_name'] . '/index.php';
 			
 			$layout = $this->load->file ( $layout, true );
-		
-	//
+			
+		//
 		}
 		//	p($page);
 		
@@ -252,7 +333,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		//var_dump($post ['content_body_filename']);
 		if ($content ['content_body_filename'] != false) {
 			if (trim ( $content ['content_body_filename'] ) != '') {
-				//$the_active_site_template12 = $this->core_model->optionsGetByKey ( 'curent_template' );
+				//$the_active_site_template12 = CI::model('core')->optionsGetByKey ( 'curent_template' );
 				//$the_active_site_template_dir1 = TEMPLATEFILES . $the_active_site_template12 . '/content_files/';
 				
 
@@ -268,8 +349,8 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 						//print($content ['content_body']);
 						$layout = str_ireplace ( '{content}', $content_filename1, $layout );
 						$layout = str_ireplace ( '{content_body_filename}', $content_filename1, $layout );
-					
-	//$v = htmlspecialchars_decode ( $v );
+						
+					//$v = htmlspecialchars_decode ( $v );
 					}
 				}
 			
@@ -312,39 +393,78 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		//
 		
 
-		//	p(array_size($this->core_model->cache_storage));
+		//	p(array_size(CI::model('core')->cache_storage));
 		
 
-		$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
+		$layout = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
 		
-		//$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
+		//$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
 		//	var_dump ( $taxonomy_tree );
-		$layout = $this->template_model->replaceTemplateTags ( $layout );
+		$layout = CI::model ( 'template' )->replaceTemplateTags ( $layout );
 		//var_dump ( $taxonomy_tree );
 		$opts = array ();
 		$opts ['no_microwber_tags'] = true;
 		$opts ['no_remove_div'] = true;
-		//p($layout);
-		//	$layout = $this->template_model->parseMicrwoberTags ( $layout, $opts );
+		
+		$layout = str_ireplace ( '{content}', '', $layout );
+		
+		if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php' )) {
+			
+			include_once ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php';
+		
+		}
+		
+		$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
+		
+		//$layout = CI::model('template')->parseMicrwoberTags($layout);
+		//	$layout = CI::model('template')->parseMicrwoberTags($layout);
+		
+
+		$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
+		if ($editmode == true) {
+			$is_admin = is_admin ();
+			if ($is_admin == true) {
+				$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
+				$layout_toolbar = CI::view ( 'admin/toolbar', true, true );
+				if ($layout_toolbar != '') {
+					$layout = str_ireplace ( '</body>', $layout_toolbar . '</body>', $layout );
+					$layout = str_ireplace ( '</ body>', $layout_toolbar . '</ body>', $layout ); //some developers put spaces
+					$layout = str_ireplace ( '</  body>', $layout_toolbar . '</  body>', $layout ); //some developers put moooore spaces
+				
+
+				}
+			
+			}
+		
+		}
+		
+		//<script type="text/javascript" src="http://google.com/jsapi"></script>
+		
+
+		//	$layout = CI::model('template')->parseMicrwoberTags ( $layout, $opts );
 		if ($content_display_mode == 'extended_api_with_no_template') {
 			
-			$the_user = $this->session->userdata ( 'the_user' );
+			$the_user = CI::library ( 'session' )->userdata ( 'the_user' );
 			$api_data = $the_user;
 			
 			$CI = get_instance ();
 			return $CI;
 		
 		} else {
-			//$this->core_model->cacheWriteAndEncode ( $layout, $whole_site_cache_id, $cache_group = 'global' );
+			//CI::model('core')->cacheWriteAndEncode ( $layout, $whole_site_cache_id, $cache_group = 'global' );
 			
 
-			//p($this->core_model->cache_storage_hits);
-			//p($this->core_model->cache_storage_decoded);
+			//p(CI::model('core')->cache_storage_hits);
+			//p(CI::model('core')->cache_storage_decoded);
+			if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php' )) {
+				
+				include ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php';
 			
-
-			$this->output->set_output ( $layout );
+			}
+			
+			CI::library ( 'output' )->set_output ( $layout );
 		}
-	
+		
 	//var_dump($_SERVER);
 	
 

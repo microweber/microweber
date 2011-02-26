@@ -1,6 +1,6 @@
 <?php
 
-$the_user = $this->session->userdata ( 'the_user' );
+$the_user = CI::library('session')->userdata ( 'the_user' );
 
 if (empty ( $the_user )) {
 	$go = site_url ( 'login' );

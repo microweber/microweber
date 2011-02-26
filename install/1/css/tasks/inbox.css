@@ -1,0 +1,11 @@
+textarea {
+	width:100%;
+} 
+ul#inbox-rules {
+	padding-left:20px;
+	list-style:disc;
+}
+
+#project {
+	float:none;
+}

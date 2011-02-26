@@ -683,6 +683,9 @@ class CI_Loader {
 		if ($_ci_return === TRUE)
 		{		
 			$buffer = ob_get_contents();
+			
+			//$buffer= '<!-- '.$_ci_path. '-->'.$buffer;
+			
 			@ob_end_clean();
 			return $buffer;
 		}

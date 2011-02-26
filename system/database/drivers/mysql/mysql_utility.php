@@ -96,7 +96,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Get the table schema
-			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.'.$table);
+			$query = CI::db()->query("SHOW CREATE TABLE `".$this->db->database.'`.'.$table);
 			
 			// No result means the table name was invalid
 			if ($query === FALSE)
@@ -129,7 +129,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Grab all the data from the current table
-			$query = $this->db->query("SELECT * FROM $table");
+			$query = CI::db()->query("SELECT * FROM $table");
 			
 			if ($query->num_rows() == 0)
 			{

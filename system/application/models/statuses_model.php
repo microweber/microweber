@@ -18,7 +18,7 @@ class Statuses_model extends Model {
 		
 		if (intval ( $id ) == 0) {
 			
-			$id = $this->core_model->userId ();
+			$id = CI::model('core')->userId ();
 		
 		}
 		
@@ -60,7 +60,7 @@ class Statuses_model extends Model {
 	}
 	
 public function cleanOldStatuses($aUser, $aHistoryLength = 100) {
-		$oldStatuses = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users_statuses', array (array ('user_id', $aUser ['id'] ) ), array ('only_fields' => array ('id' ), 'oder' => array ('created_on' ), 'limit' => 100000, //no limit
+		$oldStatuses = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users_statuses', array (array ('user_id', $aUser ['id'] ) ), array ('only_fields' => array ('id' ), 'oder' => array ('created_on' ), 'limit' => 100000, //no limit
 'offset' => $aHistoryLength ) );
 		
 		if ($oldStatuses) {
@@ -70,8 +70,8 @@ public function cleanOldStatuses($aUser, $aHistoryLength = 100) {
 				$oldStatusesIds [] = $status ['id'];
 			}
 			
-			$this->core_model->db->query ( "DELETE FROM " . TABLE_PREFIX . 'users_statuses' . " WHERE id IN (" . implode ( ',', $oldStatusesIds ) . ")" );
-			$this->core_model->cleanCacheGroup ( 'users/statuses' );
+			CI::model('core')->db->query ( "DELETE FROM " . TABLE_PREFIX . 'users_statuses' . " WHERE id IN (" . implode ( ',', $oldStatusesIds ) . ")" );
+			CI::model('core')->cleanCacheGroup ( 'users/statuses' );
 		}
 	
 	}
@@ -106,7 +106,7 @@ public function cleanOldStatuses($aUser, $aHistoryLength = 100) {
 			$defalut_options [$k] = $item;
 		}
 		
-		$data = $this->core_model->fetchDbData ( $table, $params, $defalut_options );
+		$data = CI::model('core')->fetchDbData ( $table, $params, $defalut_options );
 		return $data;
 	}
 

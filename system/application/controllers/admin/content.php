@@ -12,22 +12,23 @@ class Content extends Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		if ($this->session->userdata ( 'user' ) == false) {
+		if (CI::library('session')->userdata ( 'user' ) == false) {
 			//redirect ( 'index' );
 		}
 		
 		$this->load->vars ( $this->template );
 		
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
 		
-		$primarycontent = $this->load->view ( 'admin/content/index', true, true );
-		$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$primarycontent = CI::view ( 'admin/content/index', true, true );
+		$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function pages_index() {
@@ -35,26 +36,28 @@ class Content extends Controller {
 		
 		$data = array ();
 		$data ['content_type'] = 'page';
-		$data = $this->content_model->getContent ( $data );
+		$data = CI::model('content')->getContent ( $data );
 		//var_dump($data);
 		$dbdata ['pages'] = $data;
 		
 		$this->template ['dbdata'] = $dbdata;
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
-		$nav = $this->load->view ( 'admin/content/pages_nav', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/pages_index', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
+		$nav = CI::view ( 'admin/content/pages_nav', true, true );
+		$primarycontent = CI::view ( 'admin/content/pages_index', true, true );
 		$primarycontent = $nav . $primarycontent;
-		$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	function pages_delete() {
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->content_model->deleteContent ( $id );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
+		CI::model('content')->deleteContent ( $id );
+		
 		redirect ( 'admin/content/pages_index' );
 	}
 	
@@ -181,7 +184,7 @@ class Content extends Controller {
 		$data = array ();
 		$data ['content_type'] = 'post';
 		
-		$categories = $this->core_model->getParamFromURL ( 'categories' );
+		$categories = CI::model('core')->getParamFromURL ( 'categories' );
 		if ($categories != '') {
 			setcookie ( "admin_content_posts_manage_selected_categories", $categories, time () + 36000 );
 			$categories = explode ( ',', $categories );
@@ -195,7 +198,7 @@ class Content extends Controller {
 			$taxonomy_data = array ( );
 			$taxonomy_data ['taxonomy_type'] = 'category';
 			$taxonomy_data ['to_table'] = 'table_content';
-			$taxonomy_data = $this->taxonomy_model->taxonomyGet ( $taxonomy_data );
+			$taxonomy_data = CI::model('taxonomy')->taxonomyGet ( $taxonomy_data );
 			if (! empty ( $taxonomy_data )) {
 			foreach ( $taxonomy_data as $item ) {
 			$categories [] = intval ( $item ['id'] );
@@ -214,11 +217,11 @@ class Content extends Controller {
 		$this->template ['selected_categories'] = $categories;
 		$this->template ['active_categories'] = $categories;
 		
-		$keywords = $this->core_model->getParamFromURL ( 'keyword' );
+		$keywords = CI::model('core')->getParamFromURL ( 'keyword' );
 		$data ['search_by_keyword'] = $keywords;
 		$this->template ['search_by_keyword'] = $keywords;
 		
-		$tags = $this->core_model->getParamFromURL ( 'tags' );
+		$tags = CI::model('core')->getParamFromURL ( 'tags' );
 		//var_dump ( $tags );
 		//exit;
 		if ($tags != '') {
@@ -227,7 +230,7 @@ class Content extends Controller {
 			//var_dump($tags);
 			//exit;
 			if (empty ( $tags )) {
-				//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
+				//$avalable_tags = CI::model('taxonomy')->taxonomyGetAvailableTags ( 'table_content' );
 				$tags = $avalable_tags;
 			}
 		
@@ -248,7 +251,7 @@ class Content extends Controller {
 		
 
 		//voted?
-		$voted = $this->core_model->getParamFromURL ( 'voted' );
+		$voted = CI::model('core')->getParamFromURL ( 'voted' );
 		if (intval ( $voted ) > 0) {
 			$data ['voted'] = $voted;
 			$this->template ['selected_voted'] = intval ( $voted );
@@ -257,25 +260,25 @@ class Content extends Controller {
 		}
 		$this->load->vars ( $this->template );
 		
-		$is_from_rss = $this->core_model->getParamFromURL ( 'is_from_rss' );
+		$is_from_rss = CI::model('core')->getParamFromURL ( 'is_from_rss' );
 		$data ['search_by_is_from_rss'] = $is_from_rss;
 		$this->template ['search_by_is_from_rss'] = $is_from_rss;
 		
-		$visible_on_frontend = $this->core_model->getParamFromURL ( 'visible_on_frontend' );
+		$visible_on_frontend = CI::model('core')->getParamFromURL ( 'visible_on_frontend' );
 		if (trim ( $visible_on_frontend ) != '') {
 			$data ['visible_on_frontend'] = $visible_on_frontend;
 			$this->template ['search_by_visible_on_frontend'] = $visible_on_frontend;
 		}
-		$is_featured = $this->core_model->getParamFromURL ( 'is_featured' );
+		$is_featured = CI::model('core')->getParamFromURL ( 'is_featured' );
 		$data ['is_featured'] = $is_featured;
 		$this->template ['search_by_is_is_featured'] = $is_featured;
 		
-		$type = $this->core_model->getParamFromURL ( 'type' );
+		$type = CI::model('core')->getParamFromURL ( 'type' );
 		if ($type) {
 			$data ['content_subtype'] = $type;
 			$this->template ['content_subtype'] = $type;
 		}
-		$with_comments = $this->core_model->getParamFromURL ( 'with_comments' );
+		$with_comments = CI::model('core')->getParamFromURL ( 'with_comments' );
 		if ($with_comments) {
 			$data ['commented'] = $with_comments;
 			$this->template ['search_by_with_comments'] = $with_comments;
@@ -283,7 +286,7 @@ class Content extends Controller {
 		$original_criteria = $data;
 		//var_dump($original_criteria);
 		//paging
-		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = CI::model('core')->optionsGetByKey ( 'admin_default_items_per_page' );
 		$items_per_page = intval ( $items_per_page );
 		//	var_dump($items_per_page);
 		if ($items_per_page != $_SESSION ['items_per_page']) {
@@ -293,7 +296,7 @@ class Content extends Controller {
 			}
 		}
 		
-		$user_items_per_page = $this->core_model->getParamFromURL ( 'items_per_page' );
+		$user_items_per_page = CI::model('core')->getParamFromURL ( 'items_per_page' );
 		if ((intval ( $user_items_per_page )) != 0) {
 			$items_per_page = $user_items_per_page;
 		}
@@ -309,7 +312,7 @@ class Content extends Controller {
 			
 			$items_per_page = 10;
 		}
-		$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
+		$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
 		if (intval ( $curent_page ) < 1) {
 			$curent_page = 1;
 		}
@@ -320,10 +323,10 @@ class Content extends Controller {
 		$page_start = ($curent_page - 1) * $items_per_page;
 		$page_end = ($page_start) + $items_per_page;
 		//	var_dump($original_criteria);
-		//$results_count = $this->content_model->getContent ( $original_criteria, false, false, true, $short_data = true );
+		//$results_count = CI::model('content')->getContent ( $original_criteria, false, false, true, $short_data = true );
 		
 
-		$results_count = $this->content_model->getContent ( $original_criteria, false, false, true, $short_data = true );
+		$results_count = CI::model('content')->getContent ( $original_criteria, false, false, true, $short_data = true );
 		
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 		$this->template ['content_pages_count'] = $content_pages_count;
@@ -331,10 +334,10 @@ class Content extends Controller {
 		$this->template ['content_pages_curent_page'] = $curent_page;
 		
 		//get paging urls
-		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
 		$this->template ['content_pages_links'] = $content_pages;
 		
-		$data = $this->content_model->getContent ( $original_criteria, false, array ($page_start, $page_end ), false, $short_data = true );
+		$data = CI::model('content')->getContent ( $original_criteria, false, array ($page_start, $page_end ), false, $short_data = true );
 		
 		//var_dump( $data);
 		//exit;
@@ -346,53 +349,54 @@ class Content extends Controller {
 		
 		$latest_posts = array ();
 		$latest_posts ['content_type'] = 'post';
-		$latest_posts = $this->content_model->getContent ( $latest_posts, false, array (0, 5 ), false );
+		$latest_posts = CI::model('content')->getContent ( $latest_posts, false, array (0, 5 ), false );
 		$this->template ['latest_posts'] = $latest_posts;
 		
-		//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
+		//$avalable_tags = CI::model('taxonomy')->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		
 		$this->load->vars ( $this->template );
 		
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		
-		//$layout = $this->load->view ( 'admin/layout', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/posts_manage', true, true );
-		$nav = $this->load->view ( 'admin/content/posts_nav', true, true );
+		//$layout = CI::view ( 'admin/layout', true, true );
+		$primarycontent = CI::view ( 'admin/content/posts_manage', true, true );
+		$nav = CI::view ( 'admin/content/posts_nav', true, true );
 		$primarycontent = $nav . $primarycontent;
-		$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		//$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		
 
 		$try_view = TEMPLATE_DIR . 'admin/content/posts_manage.php';
 		
 		if (is_file ( $try_view )) {
-			//$primarycontent = $this->load->view ( $try_view, true, true );
+			//$primarycontent = CI::view ( $try_view, true, true );
 			$primarycontent = $this->load->file ( $try_view, true );
 		} else {
-			$primarycontent = $this->load->view ( 'admin/content/posts_manage', true, true );
+			$primarycontent = CI::view ( 'admin/content/posts_manage', true, true );
 		
 		}
 		
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		//$nav = $this->load->view ( 'admin/content/posts_nav', true, true );
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		//$nav = CI::view ( 'admin/content/posts_nav', true, true );
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function posts_edit_done() {
-		$this->load->helper ( array ('form', 'url' ) );
+		CI::helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		$id = $this->core_model->getParamFromURL ( 'id' );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
 		
 		if ($id != 0) {
 			$data = array ();
 			$data ['id'] = $id;
 			$data ['content_type'] = 'post';
 			//print $data;
-			$data = $this->content_model->getContent ( $data, false, array (0, 1 ) );
+			$data = CI::model('content')->getContent ( $data, false, array (0, 1 ) );
 			//var_dump($data[0]);
 			
 
@@ -402,28 +406,29 @@ class Content extends Controller {
 		
 		$this->template ['id'] = $id;
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/content/posts_edit_done', true, true );
-		$this->output->set_output ( $layout );
+		$layout = CI::view ( 'admin/content/posts_edit_done', true, true );
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function posts_delete() {
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		//$this->content_model->deleteContent ( $id );
-		$this->content_model->contentDelete ( $id );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
+		//CI::model('content')->deleteContent ( $id );
+		CI::model('content')->contentDelete ( $id );
 		redirect ( 'admin/content/posts_manage' );
 	}
 	
 	function posts_edit() {
-		$this->load->helper ( array ('form', 'url' ) );
+		CI::helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		//$avalable_tags = $this->taxonomy_model->taxonomyGetAvailableTags ( 'table_content' );
+		//$avalable_tags = CI::model('taxonomy')->taxonomyGetAvailableTags ( 'table_content' );
 		$this->template ['avalable_tags'] = $avalable_tags;
 		$this->template ['load_google_map'] = true;
 		
-		$id = $this->core_model->getParamFromURL2 ( 'id' );
-		$category = $this->core_model->getParamFromURL2 ( 'category' );
+		$id = CI::model('core')->getParamFromURL2 ( 'id' );
+		$category = CI::model('core')->getParamFromURL2 ( 'category' );
 		
 		$this->template ['content_selected_categories'] = array ($category );
 		$this->template ['selected_categories'] = array ($category );
@@ -434,15 +439,15 @@ class Content extends Controller {
 		if (intval ( $id ) == 0) {
 			$data ['active_categories'] = array ($category );
 			
-			$category_item = $this->taxonomy_model->getSingleItem ( $category );
+			$category_item = CI::model('taxonomy')->getSingleItem ( $category );
 			if (! empty ( $category_item )) {
 				$content_type = 'default';
 				$content_type_check = $category_item ['taxonomy_content_type'];
 				if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-					$lets_get_parent_cats = $this->taxonomy_model->getParentsIds ( $category );
+					$lets_get_parent_cats = CI::model('taxonomy')->getParentsIds ( $category );
 					if (! empty ( $lets_get_parent_cats )) {
 						foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-							$parent_cat_item = $this->taxonomy_model->getSingleItem ( $parent_cat_id );
+							$parent_cat_item = CI::model('taxonomy')->getSingleItem ( $parent_cat_id );
 							if (! empty ( $parent_cat_item )) {
 								$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 								
@@ -470,24 +475,36 @@ class Content extends Controller {
 			$data ['id'] = $id;
 			$data ['content_type'] = 'post';
 			$data ['include_taxonomy'] = 'y';
-			//$data = $this->content_model->getContent ( $data, false, array (0, 1 ) );
+			//$data = CI::model('content')->getContent ( $data, false, array (0, 1 ) );
 			//$data = $data [0];
-			$data = $this->content_model->contentGetById($id);
-			$active_categories = $this->taxonomy_model->getTaxonomiesForContent ( $data ['id'], 'categories' );
+			$data = CI::model('content')->contentGetById ( $id );
+			
+			$more = false;
+			$more = CI::model('core')->getCustomFields ( 'table_content', $data ['id'] );
+			$data ['custom_fields'] = $more;
+			
+			$active_categories = CI::model('taxonomy')->getCategoriesForContent ( $data ['id'], true );
+			//	var_dump($active_categories);
+			$data ["active_categories"] = $active_categories;
+			
+			$this->template ['content_selected_categories'] = $active_categories;
+			$this->template ['selected_categories'] = $active_categories;
+			$this->template ['active_categories'] = $active_categories;
+			
 			$content_type = 'default';
 			if (! empty ( $active_categories )) {
 				$data ['active_categories'] = $active_categories;
 				foreach ( $active_categories as $cat_id ) {
-					$category_item = $this->taxonomy_model->getSingleItem ( $cat_id );
+					$category_item = CI::model('taxonomy')->getSingleItem ( $cat_id );
 					//var_dump($cat_item);
 					if (! empty ( $category_item )) {
 						$content_type = 'default';
 						$content_type_check = $category_item ['taxonomy_content_type'];
 						if (strval ( $content_type_check ) == 'inherit' or strval ( $content_type_check ) == '') {
-							$lets_get_parent_cats = $this->taxonomy_model->getParentsIds ( $cat_id );
+							$lets_get_parent_cats = CI::model('taxonomy')->getParentsIds ( $cat_id );
 							if (! empty ( $lets_get_parent_cats )) {
 								foreach ( $lets_get_parent_cats as $parent_cat_id ) {
-									$parent_cat_item = $this->taxonomy_model->getSingleItem ( $parent_cat_id );
+									$parent_cat_item = CI::model('taxonomy')->getSingleItem ( $parent_cat_id );
 									if (! empty ( $parent_cat_item )) {
 										$content_type_check = $parent_cat_item ['taxonomy_content_type'];
 										//var_dump($content_type);
@@ -515,9 +532,9 @@ class Content extends Controller {
 		}
 		//var_dump($content_type);
 		//exit;
-		$this->load->helper(array('form', 'url'));
+		CI::helper ( array ('form', 'url' ) );
 		
-		$this->load->library('form_validation');
+		$this->load->library ( 'form_validation' );
 		$this->template ['form_values'] = $data;
 		$this->template ['content_type'] = $content_type;
 		$this->load->vars ( $this->template );
@@ -531,7 +548,7 @@ class Content extends Controller {
 			//get all pages
 			//$data = array ( );
 			//$data ['content_type'] = 'post';
-			//$data = $this->content_model->getContent ( $data );
+			//$data = CI::model('content')->getContent ( $data );
 			//$this->template ['form_values_all_pages'] = $data;
 			//	$this-Core_model::helpers_treeRead($data);
 			if ($_POST) {
@@ -546,78 +563,79 @@ class Content extends Controller {
 			$to_save = array ();
 			$to_save = $_POST;
 			$to_save ['content_type'] = 'post';
-			$to_save = $this->content_model->saveContent ( $to_save );
+			$to_save = CI::model('content')->saveContent ( $to_save );
 			//exit(var_dump($to_save));
 			redirect ( 'admin/content/posts_edit_done/id:' . $to_save );
 			//redirect ( 'admin/content/posts_manage' );
 		
 
-		//$this->load->view ( 'formsuccess' );
+		//CI::view ( 'formsuccess' );
 		}
 		
 		$this->load->vars ( $this->template );
 		
-		$editsmall = $this->core_model->getParamFromURL ( 'editsmall' );
+		$editsmall = CI::model('core')->getParamFromURL ( 'editsmall' );
 		
 		if ($editsmall == 'y') {
-			$layout = $this->load->view ( 'admin/layout_small', true, true );
+			$layout = CI::view ( 'admin/layout_small', true, true );
 		} else {
-			$layout = $this->load->view ( 'admin/layout', true, true );
+			$layout = CI::view ( 'admin/layout', true, true );
 		}
 		
-		//$layout = $this->load->view ( 'admin/layout', true, true );
-		$nav = $this->load->view ( 'admin/content/posts_nav', true, true );
+		//$layout = CI::view ( 'admin/layout', true, true );
+		$nav = CI::view ( 'admin/content/posts_nav', true, true );
 		$try_view = TEMPLATE_DIR . 'admin/content/content_types/' . $content_type . '.php';
 		$try_view_default = TEMPLATE_DIR . 'admin/content/content_types/' . 'default' . '.php';
 		if (is_file ( $try_view )) {
-			//$primarycontent = $this->load->view ( $try_view, true, true );
+			//$primarycontent = CI::view ( $try_view, true, true );
 			$primarycontent = $this->load->file ( $try_view, true );
 		} else {
 			
 			if (is_file ( $try_view_default )) {
-				//$primarycontent = $this->load->view ( $try_view, true, true );
+				//$primarycontent = CI::view ( $try_view, true, true );
 				$primarycontent = $this->load->file ( $try_view_default, true );
 			} else {
-				$primarycontent = $this->load->view ( 'admin/content/content_types/' . $content_type, true, true );
+				$primarycontent = CI::view ( 'admin/content/content_types/' . $content_type, true, true );
 			}
 		
 		}
 		
 		if (strval ( $primarycontent ) == '') {
-			$primarycontent = $this->load->view ( 'admin/content/content_types/default', true, true );
+			$primarycontent = CI::view ( 'admin/content/content_types/default', true, true );
 			if (strval ( $primarycontent ) == '') {
-				$primarycontent = $this->load->view ( 'admin/content/posts_edit', true, true );
+				$primarycontent = CI::view ( 'admin/content/posts_edit', true, true );
 			}
 		}
 		//} else {
-		//	$primarycontent = $this->load->view ( 'admin/content/posts_edit', true, true );
+		//	$primarycontent = CI::view ( 'admin/content/posts_edit', true, true );
 		//}
 		
 
 		$primarycontent = $nav . $primarycontent;
-		//$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		//$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		//$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
+		//CI::view('welcome_message');
 		
 
 		$layout = trim ( $layout );
-		$this->output->set_output ( $layout );
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	
 	}
 	
 	function pages_edit() {
-		$this->load->helper ( array ('form', 'url' ) );
+		CI::helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		$id = $this->core_model->getParamFromURL ( 'id' );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
 		if (! $_POST) {
 			if ($id != 0) {
 				$data = array ();
 				$data ['id'] = $id;
 				$data ['content_type'] = 'page';
 				$data ['include_taxonomy'] = 'y';
-				$data = $this->content_model->getContent ( $data );
+				$data = CI::model('content')->getContent ( $data );
 				//var_dump($data);
 				$this->template ['form_values'] = $data [0];
 				$this->load->vars ( $this->template );
@@ -633,7 +651,7 @@ class Content extends Controller {
 			//get all pages
 			$data = array ();
 			$data ['content_type'] = 'page';
-			$data = $this->content_model->getContent ( $data );
+			$data = CI::model('content')->getContent ( $data );
 			$this->template ['form_values_all_pages'] = $data;
 			//	$this-Core_model::helpers_treeRead($data);
 			if ($_POST) {
@@ -650,23 +668,24 @@ class Content extends Controller {
 			$to_save ['content_type'] = 'page';
 			$to_save ['content_parent'] = intval ( $to_save ['content_parent'] );
 			
-			$to_save = $this->content_model->saveContent ( $to_save );
-			$this->core_model->cacheDeleteAll ();
+			$to_save = CI::model('content')->saveContent ( $to_save );
+			CI::model('core')->cacheDeleteAll ();
 			
 			redirect ( 'admin/content/pages_index' );
 			
-		//$this->load->view ( 'formsuccess' );
+		//CI::view ( 'formsuccess' );
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		
-		$nav = $this->load->view ( 'admin/content/pages_nav', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/pages/default.php', true, true );
+		$nav = CI::view ( 'admin/content/pages_nav', true, true );
+		$primarycontent = CI::view ( 'admin/content/pages/default.php', true, true );
 		$primarycontent = $nav . $primarycontent;
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		$this->output->set_output ( $layout );
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function pages_edit_ajax_content_subtype() {
@@ -677,42 +696,42 @@ class Content extends Controller {
 		//if($_POST['content_subtype'] == 'blog_section'){
 		$this->template ['form_values'] = $_POST;
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/content/pages_edit_ajax_content_subtype', true, true );
-		$this->output->set_output ( $layout );
+		$layout = CI::view ( 'admin/content/pages_edit_ajax_content_subtype', true, true );
+		CI::library('output')->set_output ( $layout );
 		//}
 	}
 	
 	function menus_show_menu_ajax() {
-		$edit = $this->core_model->getParamFromURL ( 'id' );
+		$edit = CI::model('core')->getParamFromURL ( 'id' );
 		//var_dump ( $edit );
 		if (intval ( $edit ) != 0) {
 			$data = array ();
 			$data ['item_type'] = 'menu';
 			$data ['id'] = $edit;
-			$menu = $this->content_model->getMenus ( $data );
+			$menu = CI::model('content')->getMenus ( $data );
 			$this->template ['item'] = $menu [0];
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/content/menus_show_menu_ajax.php', true, true );
+		$layout = CI::view ( 'admin/content/menus_show_menu_ajax.php', true, true );
 		exit ( $layout );
 	}
 	
 	function menus_edit_small_menu_item() {
-		$edit = $this->core_model->getParamFromURL ( 'id' );
-		$form = $this->core_model->getParamFromURL ( 'form' );
+		$edit = CI::model('core')->getParamFromURL ( 'id' );
+		$form = CI::model('core')->getParamFromURL ( 'form' );
 		$this->template ['form_id'] = $form;
 		//var_dump ( $edit );
 		if (intval ( $edit ) != 0) {
 			$data = array ();
 			$data ['item_type'] = 'menu_item';
 			$data ['id'] = $edit;
-			$menu = $this->content_model->getMenus ( $data );
+			$menu = CI::model('content')->getMenus ( $data );
 			$this->template ['form_values'] = $menu [0];
 		}
 		//	var_dump ( $menu );
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/content/menus_edit_small_menu_item.php', true, true );
+		$layout = CI::view ( 'admin/content/menus_edit_small_menu_item.php', true, true );
 		exit ( $layout );
 	}
 	
@@ -720,33 +739,33 @@ class Content extends Controller {
 		if ($_POST) {
 			$to_save = $_POST;
 			$to_save ['item_type'] = 'menu';
-			$this->content_model->saveMenu ( $to_save );
+			CI::model('content')->saveMenu ( $to_save );
 		}
 		
-		$edit = $this->core_model->getParamFromURL ( 'id' );
+		$edit = CI::model('core')->getParamFromURL ( 'id' );
 		//var_dump ( $edit );
 		if (intval ( $edit ) != 0) {
 			$data = array ();
 			$data ['item_type'] = 'menu';
 			$data ['id'] = $edit;
-			$menu = $this->content_model->getMenus ( $data );
+			$menu = CI::model('content')->getMenus ( $data );
 			$this->template ['form_values'] = $menu [0];
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/content/menus_edit_small.php', true, true );
+		$layout = CI::view ( 'admin/content/menus_edit_small.php', true, true );
 		exit ( $layout );
 	}
 	
 	function menus_delete_menu_item() {
-		$delete_menu_item = $this->core_model->getParamFromURL ( 'delete_menu_item' );
+		$delete_menu_item = CI::model('core')->getParamFromURL ( 'delete_menu_item' );
 		$delete_menu_item = $_POST ['delete_menu_item'];
 		
 		if (intval ( $delete_menu_item ) != 0) {
 			$table = TABLE_PREFIX . 'menus';
 			$data = array ();
 			$data ['id'] = $delete_menu_item;
-			$del = $this->core_model->deleteData ( $table, $data, 'menus' );
+			$del = CI::model('core')->deleteData ( $table, $data, 'menus' );
 			//redirect ( 'admin/content/menus' );
 			exit ( 'ok' );
 		}
@@ -773,7 +792,7 @@ class Content extends Controller {
 			$data ['content_id'] = '0';
 		}
 		
-		$this->content_model->saveMenu ( $data );
+		CI::model('content')->saveMenu ( $data );
 		redirect ( 'admin/content/menus' );
 		exit ();
 	
@@ -784,62 +803,62 @@ class Content extends Controller {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/menus/menus_add', true, true );
-		$nav = $this->load->view ( 'admin/content/menus/menus_nav', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
+		$primarycontent = CI::view ( 'admin/content/menus/menus_add', true, true );
+		$nav = CI::view ( 'admin/content/menus/menus_nav', true, true );
 		$primarycontent = $nav . $primarycontent;
 		
 		$secondarycontent = false;
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function menus() {
 		redirect ( 'admin/menus' );
-		$this->load->helper(array('form', 'url'));
+		CI::helper ( array ('form', 'url' ) );
 		
-		$this->load->library('form_validation');
+		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->form_validation->set_rules ( 'menu_unique_id', 'Menu unique ID', 'trim|required' );
 		$this->form_validation->set_error_delimiters ( '<div class="error">', '</div>' );
 		//delete menu item
-		$move_up = $this->core_model->getParamFromURL ( 'move_up' );
-		$move_down = $this->core_model->getParamFromURL ( 'move_down' );
+		$move_up = CI::model('core')->getParamFromURL ( 'move_up' );
+		$move_down = CI::model('core')->getParamFromURL ( 'move_down' );
 		if (intval ( $move_down ) != 0) {
-			$this->content_model->reorderMenuItem ( 'down', $move_down );
+			CI::model('content')->reorderMenuItem ( 'down', $move_down );
 			redirect ( 'admin/content/menus' );
 		}
 		
 		if (intval ( $move_up ) != 0) {
-			$this->content_model->reorderMenuItem ( 'up', $move_up );
+			CI::model('content')->reorderMenuItem ( 'up', $move_up );
 			redirect ( 'admin/content/menus' );
 		}
 		
 		$data = array ();
 		$data ['item_type'] = 'menu';
-		$menus = $this->content_model->getMenus ( $data );
+		$menus = CI::model('content')->getMenus ( $data );
 		$this->template ['menus'] = $menus;
 		
 		//edit menu
-		$edit = $this->core_model->getParamFromURL ( 'edit' );
+		$edit = CI::model('core')->getParamFromURL ( 'edit' );
 		//var_dump ( $edit );
 		if (intval ( $edit ) != 0) {
 			$data = array ();
 			$data ['item_type'] = 'menu';
 			$data ['id'] = $edit;
-			$menu = $this->content_model->getMenus ( $data );
+			$menu = CI::model('content')->getMenus ( $data );
 			$this->template ['form_values'] = $menu [0];
 		}
 		
 		//delete menu
-		$delete = $this->core_model->getParamFromURL ( 'delete' );
+		$delete = CI::model('core')->getParamFromURL ( 'delete' );
 		if (intval ( $delete ) != 0) {
 			$table = TABLE_PREFIX . 'menus';
 			$data = array ();
 			$data ['id'] = $delete;
-			$del = $this->core_model->deleteData ( $table, $data, 'menus' );
-			$this->content_model->fixMenusPositions ();
+			$del = CI::model('core')->deleteData ( $table, $data, 'menus' );
+			CI::model('content')->fixMenusPositions ();
 			redirect ( 'admin/content/menus' );
 		}
 		
@@ -853,20 +872,21 @@ class Content extends Controller {
 		} else {
 			$to_save = $_POST;
 			$to_save ['item_type'] = 'menu';
-			$this->content_model->saveMenu ( $to_save );
+			CI::model('content')->saveMenu ( $to_save );
 			redirect ( 'admin/content/menus' );
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/menus/menus_list', true, true );
-		$nav = $this->load->view ( 'admin/content/menus/menus_nav', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
+		$primarycontent = CI::view ( 'admin/content/menus/menus_list', true, true );
+		$nav = CI::view ( 'admin/content/menus/menus_nav', true, true );
 		$primarycontent = $nav . $primarycontent;
 		
 		$secondarycontent = false;
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		$this->output->set_output ( $layout );
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function taxonomy_categories_delete() {
@@ -874,7 +894,7 @@ class Content extends Controller {
 		$to_go = site_url ( 'admin/content/taxonomy_categories' );
 		$delete_id = intval ( $delete_id );
 		
-		$this->taxonomy_model->taxonomyDelete ( $delete_id );
+		CI::model('taxonomy')->taxonomyDelete ( $delete_id );
 		//exit ('1');
 		//header("Location: $to_go");
 		//redirect (  );
@@ -884,21 +904,21 @@ class Content extends Controller {
 	
 	function taxonomy_categories_move() {
 		
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$dir = $this->core_model->getParamFromURL ( 'direction' );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
+		$dir = CI::model('core')->getParamFromURL ( 'direction' );
 		
-		$this->taxonomy_model->taxonomyChangePosition ( $id, $dir );
+		CI::model('taxonomy')->taxonomyChangePosition ( $id, $dir );
 		
 		redirect ( 'admin/content/taxonomy_categories' );
 	}
 	
 	function taxonomy_categories_move_ajax() {
 		
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$dir = $this->core_model->getParamFromURL ( 'direction' );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
+		$dir = CI::model('core')->getParamFromURL ( 'direction' );
 		
-		$this->taxonomy_model->taxonomyChangePosition ( $id, $dir );
-		$this->core_model->cacheDeleteAll ();
+		CI::model('taxonomy')->taxonomyChangePosition ( $id, $dir );
+		CI::model('core')->cacheDeleteAll ();
 		exit ();
 		//redirect ( 'admin/content/taxonomy_categories' );
 	}
@@ -907,80 +927,106 @@ class Content extends Controller {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$id = $_POST ['id'];
 		$id = intval ( $id );
-		$this->taxonomy_model->taxonomyDelete ( $id );
-		$this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
+		CI::model('taxonomy')->taxonomyDelete ( $id );
+		//CI::model('core')->cacheDelete ( 'cache_group', 'taxonomy' );
+		//CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR );
 		//var_dump($_POST);
 		exit ( 'ok' );
 	}
 	
 	function taxonomy_categories_edit_by_ajax() {
-		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
+		
+		//$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$id = $_POST ['id'];
 		$id = intval ( $id );
-		$this->load->helper(array('form', 'url'));
+		//CI::helper ( array ('form', 'url' ) );
 		
-		$this->load->library('form_validation');
+
+		/*	$this->load->library ( 'form_validation' );
+		CI::helper ( 'form' );
+		CI::helper ( 'url' );*/
 		$parent_id = $_POST ['parent_id'];
+		
+		if ($parent_id == 'undefined') {
+			
+			$parent_id = false;
+			//@unset ( $_POST ['parent_id'] );
+			$_POST ['parent_id'] = 0;
+		}
+		
 		if ($_POST ['saving'] == 'yes') {
-			$this->form_validation->set_rules ( 'taxonomy_value', 'Category name', 'trim|required' );
-			$this->form_validation->set_rules ( 'taxonomy_content_type', 'Category content type', 'trim|required' );
-			//$this->form_validation->set_message ( 'required', 'Your custom message here' );
-			$this->form_validation->set_error_delimiters ( '<div class="error">', '</div>' );
-			if ($this->form_validation->run () == FALSE) {
-				if ($_POST) {
-					$this->template ['form_values'] = $_POST;
-					$this->template ['form_validation_errors'] = $this->form_validation->_error_array;
-				}
-				
-				$this->load->vars ( $this->template );
-				exit ( 'errors' );
+			
+			$to_save = $_POST;
+			$to_save ['taxonomy_type'] = 'category';
+			//var_dump($to_save);
+			$save = CI::model('taxonomy')->taxonomySave ( $to_save );
+			CI::model('core')->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR );
+			
+			//var_dump($save);
+			//	p($_POST,1);
+			if (intval ( $_POST ['id'] ) == 0) {
+				exit ( 'new' );
 			} else {
-				//
-				$this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
-				$to_save = $_POST;
-				$to_save ['taxonomy_type'] = 'category';
-				$to_save ['to_table'] = 'table_content';
-				$save = $this->taxonomy_model->taxonomySave ( $to_save );
-				//	$this->core_model->cacheDelete ( 'cache_group', 'taxonomy' );
-				p ( $_POST );
-				
-				if (intval ( $_POST ['id'] ) == 0) {
-					exit ( 'new' );
-				}
 				exit ( 'saved' );
 			}
+		
 		} else {
 			if (intval ( $id ) != 0) {
 				$data = array ();
 				$data ['id'] = $id;
-				$data ['include_taxonomy'] = 'y';
-				$data = $this->taxonomy_model->taxonomyGet ( $data );
-				//var_dump($data);
-				$this->template ['form_values'] = $data [0];
+				//$data ['include_taxonomy'] = 'y';
+				$data = CI::model('taxonomy')->taxonomyGet ( $data );
+				//	var_dump($data); 
+				$this->template ['form_values'] = $data;
 				$this->load->vars ( $this->template );
 			} else {
 				$this->template ['form_values'] = $_POST;
 				$this->load->vars ( $this->template );
 			}
 		}
-		if ($_POST) {
-			//var_dump($_POST);
-		//exit;
-		}
 		
 		$this->load->vars ( $this->template );
-		$primarycontent = $this->load->view ( 'admin/content/taxonomy_categories_edit_by_ajax', true, true );
-		$this->output->set_output ( $primarycontent );
+		
+		$primarycontent = CI::view ( 'admin/content/taxonomy_categories_edit_by_ajax', true, true );
+		$primarycontent = CI::model('template')->replaceTemplateTags ( $primarycontent );
+		CI::library('output')->set_output ( $primarycontent );
+	}
+	
+	function categories_migrate_old_category_items() {
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_taxonomy'];
+		$table_items = $cms_db_tables ['table_taxonomy_items'];
+		
+		$q = "select * from $table where taxonomy_type='category_item' ";
+		$q = CI::model('core')->dbQuery ( $q );
+		if (! empty ( $q )) {
+			foreacH ( $q as $item ) {
+				
+				$item_to_save = $item;
+				$item_to_save ['id'] = false;
+				$save = CI::model('taxonomy')->taxonomySave ( $item_to_save );
+				
+				$q1 = "delete from $table where id='{$item['id']}' ";
+				$q1 = CI::model('core')->dbQ ( $q1 );
+			
+			}
+		
+		}
+		p ( $q );
+		
+		//	var_dump($_REQUEST);
+		exit ();
 	}
 	
 	function taxonomy_categories() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->template ['load_google_map'] = true;
 		//print $delete_id;
-		$this->load->helper(array('form', 'url'));
+		CI::helper ( array ('form', 'url' ) );
 		
-		$this->load->library('form_validation');
-
+		$this->load->library ( 'form_validation' );
+		
 		$this->form_validation->set_rules ( 'taxonomy_value', 'Category name', 'trim|required' );
 		//$this->form_validation->set_rules ( 'content_title', 'content title', 'trim|required' );
 		//$this->form_validation->set_message ( 'required', 'Your custom message here' );
@@ -990,17 +1036,17 @@ class Content extends Controller {
 		$data ['taxonomy_type'] = 'category';
 		$data ['to_table'] = 'table_content';
 		
-		$taxonomy = $this->taxonomy_model->taxonomyGet ( $data );
+		$taxonomy = CI::model('taxonomy')->taxonomyGet ( $data );
 		$this->template ['taxonomy_items'] = $taxonomy;
 		//taxonomyGet
 		
 
-		$id = $this->core_model->getParamFromURL ( 'category_edit' );
+		$id = CI::model('core')->getParamFromURL ( 'category_edit' );
 		if ($id != 0) {
 			$data = array ();
 			$data ['id'] = $id;
 			$data ['include_taxonomy'] = 'y';
-			$data = $this->taxonomy_model->taxonomyGet ( $data );
+			$data = CI::model('taxonomy')->taxonomyGet ( $data );
 			//var_dump($data);
 			$this->template ['form_values'] = $data [0];
 			$this->load->vars ( $this->template );
@@ -1018,37 +1064,38 @@ class Content extends Controller {
 			$to_save = $_POST;
 			$to_save ['taxonomy_type'] = 'category';
 			$to_save ['to_table'] = 'table_content';
-			$save = $this->taxonomy_model->taxonomySave ( $to_save );
+			$save = CI::model('taxonomy')->taxonomySave ( $to_save );
 			//.var_dump($save);
-			$this->core_model->cacheDeleteAll ();
+			CI::model('core')->cacheDeleteAll ();
 			//sleep ( 1 );
 			redirect ( 'admin/content/taxonomy_categories' );
 		}
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
-		//$layout = $this->load->view ( 'admin/layout', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/taxonomy_categories', true, true );
-		$nav = $this->load->view ( 'admin/content/taxonomy_nav', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
+		//$layout = CI::view ( 'admin/layout', true, true );
+		$primarycontent = CI::view ( 'admin/content/taxonomy_categories', true, true );
+		$nav = CI::view ( 'admin/content/taxonomy_nav', true, true );
 		$primarycontent = $nav . $primarycontent;
-		$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		$layout = CI::model('template')->replaceTemplateTags ( $layout );
+		CI::library('output')->set_output ( $layout );
 	
 	}
 	
 	function taxonomy_tags_update() {
 		if ($_POST) {
-			$this->taxonomy_model->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
+			CI::model('taxonomy')->taxonomyTagsCombine ( $_POST ["tag_old_name"], $_POST ["taxonomy_value"] );
 		}
 		redirect ( 'admin/content/taxonomy_tags' );
 	}
 	
 	function taxonomy_tags_delete() {
 		if ($_POST) {
-			$this->taxonomy_model->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
+			CI::model('taxonomy')->taxonomyTagsDelete ( $_POST ["taxonomy_value"] );
 		}
 		print 'ok';
 		//	redirect ( 'admin/content/taxonomy_tags' );
@@ -1056,7 +1103,7 @@ class Content extends Controller {
 	
 	function taxonomy_tags_delete_less_than() {
 		if ($_POST) {
-			$this->taxonomy_model->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
+			CI::model('taxonomy')->taxonomyTagsDeleteLessThanCount ( $_POST ["less_than"] );
 		}
 		
 		redirect ( 'admin/content/taxonomy_tags' );
@@ -1066,37 +1113,40 @@ class Content extends Controller {
 	function taxonomy_tags() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$tags = $this->taxonomy_model->taxonomyTagsGetOrderByPopularity ();
+		$tags = CI::model('taxonomy')->taxonomyTagsGetOrderByPopularity ();
 		$this->template ['form_values'] = $tags;
 		
 		$this->load->vars ( $this->template );
-		$layout = $this->load->view ( 'admin/layout', true, true );
-		//$layout = $this->load->view ( 'admin/layout', true, true );
-		$primarycontent = $this->load->view ( 'admin/content/taxonomy_tags', true, true );
-		$nav = $this->load->view ( 'admin/content/taxonomy_nav', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
+		//$layout = CI::view ( 'admin/layout', true, true );
+		$primarycontent = CI::view ( 'admin/content/taxonomy_tags', true, true );
+		$nav = CI::view ( 'admin/content/taxonomy_nav', true, true );
 		$primarycontent = $nav . $primarycontent;
-		$secondarycontent = $this->load->view ( 'admin/content/sidebar', true, true );
+		$secondarycontent = CI::view ( 'admin/content/sidebar', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		CI::library('output')->set_output ( $layout );
 	
 	}
 	
 	function taxonomy_delete() {
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->taxonomy_model->taxonomyDelete ( $id );
+		$id = CI::model('core')->getParamFromURL ( 'id' ,false,true );
+		CI::model('taxonomy')->taxonomyDelete ( $id );
 	}
 	
 	function content_delete() {
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->content_model->contentDelete ( $id );
+		$id = CI::model('core')->getParamFromURL ( 'id', false,true );
+ 
+	 
+	//	CI::model('content')->contentDelete ( $id );
+		CI::model('content')->deleteContent ( $id );
 	}
 	
 	function contentGenerateTagsForPost() {
 		ob_end_clean ();
 		
-		$what = $this->core_model->getParamFromURL ( 'generate_what' );
+		$what = CI::model('core')->getParamFromURL ( 'generate_what' );
 		$what = trim ( $what );
 		if ($what == '') {
 			$what = $_POST ['generate_what'];
@@ -1106,7 +1156,7 @@ class Content extends Controller {
 		/*$data = trim ( $data );
 		$data = reduce_multiples ( $data );
 		$data = strip_quotes ( $data );
-		$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
+		$data = CI::model('taxonomy')->taxonomyGenerateTagsFromString ( $data );
 
 		if ($data != '') {
 		$data = explode ( ',', $data );
@@ -1118,7 +1168,7 @@ class Content extends Controller {
 
 		}
 		}*/
-		$data = $this->taxonomy_model->taxonomyGenerateAndGuessTagsFromString ( $data );
+		$data = CI::model('taxonomy')->taxonomyGenerateAndGuessTagsFromString ( $data );
 		print $data;
 	
 	}
@@ -1135,7 +1185,7 @@ class Content extends Controller {
 		$table = $cms_db_tables ['table_content'];
 		
 		$q = " SELECT id, updated_on from $table where id IN ($ids_implode)  order by updated_on DESC  ";
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		$max_date = $q [0] ['updated_on'];
 		$max_date_str = strtotime ( $max_date );
 		$i = 1;
@@ -1144,14 +1194,14 @@ class Content extends Controller {
 			$nw_date = date ( 'Y-m-d H:i:s', $max_date_str );
 			
 			$q = " UPDATE $table set updated_on='$nw_date' where id = '$id'    ";
-			$q = $this->core_model->dbQ ( $q );
+			$q = CI::model('core')->dbQ ( $q );
 			//var_dump($nw_date);
 			
 
 			$i ++;
 		}
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'content' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'content' );
 		
 		//var_dump($q);
 		exit ();
@@ -1169,7 +1219,7 @@ class Content extends Controller {
 			$item = trim ( $item );
 			$data_to_save = $_POST;
 			$data_to_save ['id'] = $item;
-			$content = $this->content_model->contentGetById ( $item );
+			$content = CI::model('content')->contentGetById ( $item );
 			
 			$data_to_save ['content_body'] = ($content ['content_body']);
 			
@@ -1197,7 +1247,7 @@ class Content extends Controller {
 			//var_dump ( $save_me );
 			//var_dump ( $_POST );
 			//exit ();
-			$this->content_model->saveContent ( $save_me );
+			CI::model('content')->saveContent ( $save_me );
 			//var_dump($data_to_save);
 		//exit;
 		//var_dump($item);
@@ -1215,7 +1265,7 @@ class Content extends Controller {
 	function contentGenerateMeta() {
 		ob_end_clean ();
 		//var_dump($_POST);
-		$what = $this->core_model->getParamFromURL ( 'generate_what' );
+		$what = CI::model('core')->getParamFromURL ( 'generate_what' );
 		$what = trim ( $what );
 		if ($what == '') {
 			$what = $_POST ['generate_what'];
@@ -1249,7 +1299,7 @@ class Content extends Controller {
 				$data = mb_trim ( $data );
 				$data = trim ( $data );
 				
-				$data = $this->taxonomy_model->taxonomyGenerateTagsFromString ( $data );
+				$data = CI::model('taxonomy')->taxonomyGenerateTagsFromString ( $data );
 				$data = word_limiter ( $data, 30, ' ' );
 				print $data;
 				break;

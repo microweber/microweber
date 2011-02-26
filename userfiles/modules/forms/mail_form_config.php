@@ -1,0 +1,17 @@
+<? 
+
+$config = array();
+$config['name'] = "Mailform module";
+$config['author'] = "Microweber";
+$config['description'] = "A simple contact form";
+$config['no_cache'] = false;
+$config['ui'] = true;
+
+
+
+
+$config['params']['email']['name'] = "Receive emails at";
+$config['params']['email']['help'] = "Enter one or more emails on which to receive the form";
+$config['params']['email']['type'] = "text";
+$config['params']['email']['default'] = "your@email.com, my@email.com,";
+$config['params']['email']['param'] = "email";

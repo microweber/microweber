@@ -1,0 +1,67 @@
+.formDiv{
+	position:relative;
+	color:#0066FF;
+	text-align:left;
+	z-index:100;
+}
+.formDiv_main_link{
+	color:#000;
+	outline:none;
+	text-decoration:none;
+	padding:2px 4px 2px 4px;
+}
+.formDiv ul li a{
+	color:#1F447F;
+	text-decoration:none;
+	padding:2px 4px 2px 4px;
+}
+.formDiv a.collapsed{
+	background:#FFF url('images/sortdesc.png') no-repeat right center;
+	padding-right:18px;
+	color:#255792;
+	text-decoration:none;
+}
+.formDiv a.expanded{
+	background: url('images/sortasc.png') no-repeat right center;
+	padding-right:18px;
+	color:#255792;
+	text-decoration:none;
+}
+.formDiv a:hover{
+	text-decoration:underline;
+}
+.formDiv_ul_list{
+	list-style:none;
+	background:#FFF;
+	border: 1px solid #1F447F;
+	overflow:auto;
+	width:190px;
+	height:400px;
+}
+.formDiv_ul_list li {
+	padding:0px;
+}
+.formDiv_ul_list li a{
+	height:auto;
+	display:block;
+}
+.formDiv_ul_list li a:hover{
+	background:#176999;
+	color:#FFF;
+	text-decoration:none;
+}
+
+code {
+	background-color:#F6F9F9;
+	border-color:#3B3BB5;
+	border-style:dashed dashed dashed solid;
+	border-width:1px 1px 1px 5px;
+	direction:ltr;
+	display:table;
+	font-size:100%;
+	margin:12px 2px 0px;
+	padding:5px 50px 5px 15px;
+	text-align:left;
+	line-height:1.3em;
+	font-family: "Courier New" Courier monospace;
+}

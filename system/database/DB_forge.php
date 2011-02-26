@@ -61,7 +61,7 @@ class CI_DB_forge {
 			return $sql;
 		}
 	
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -82,7 +82,7 @@ class CI_DB_forge {
 			return $sql;
 		}
 	
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -193,7 +193,7 @@ class CI_DB_forge {
 		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
 		
 		$this->_reset();
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -214,7 +214,7 @@ class CI_DB_forge {
 			return $sql;
 		}
 	
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -235,7 +235,7 @@ class CI_DB_forge {
 		}
 			
 		$sql = $this->_rename_table($table_name, $new_table_name);
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -272,7 +272,7 @@ class CI_DB_forge {
 
 			$this->_reset();
 	
-			if ($this->db->query($sql) === FALSE)
+			if (CI::db()->query($sql) === FALSE)
 			{
 				return FALSE;
 			}
@@ -306,7 +306,7 @@ class CI_DB_forge {
 
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
 	
-		return $this->db->query($sql);
+		return CI::db()->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -343,7 +343,7 @@ class CI_DB_forge {
 
 			$this->_reset();
 	
-			if ($this->db->query($sql) === FALSE)
+			if (CI::db()->query($sql) === FALSE)
 			{
 				return FALSE;
 			}

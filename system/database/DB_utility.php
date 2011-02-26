@@ -58,7 +58,7 @@ class CI_DB_utility extends CI_DB_forge {
 			return $this->data_cache['db_names'];
 		}
 	
-		$query = $this->db->query($this->_list_databases());
+		$query = CI::db()->query($this->_list_databases());
 		$dbs = array();
 		if ($query->num_rows() > 0)
 		{
@@ -90,7 +90,7 @@ class CI_DB_utility extends CI_DB_forge {
 				show_error('db_must_use_set');
 		}
 	
-		$query = $this->db->query($sql);
+		$query = CI::db()->query($sql);
 		$res = $query->result_array();
 		
 		// Note: Due to a bug in current() that affects some versions
@@ -118,7 +118,7 @@ class CI_DB_utility extends CI_DB_forge {
 				return $sql;
 			}
 			
-			$query = $this->db->query($sql);
+			$query = CI::db()->query($sql);
 			
 			// Build the result array...
 			// Note: Due to a bug in current() that affects some versions
@@ -153,7 +153,7 @@ class CI_DB_utility extends CI_DB_forge {
 			return $sql;
 		}
 	
-		$query = $this->db->query($sql);
+		$query = CI::db()->query($sql);
 		
 		// Note: Due to a bug in current() that affects some versions
 		// of PHP we can not pass function call directly into it

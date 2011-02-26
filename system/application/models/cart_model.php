@@ -5,7 +5,7 @@ if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
 /**
- 
+
  * Microweber
 
  *
@@ -15,11 +15,17 @@ if (! defined ( 'BASEPATH' ))
  *
 
  * @package		Microweber
+
  * @author		Peter Ivanov
+
  * @copyright	Copyright (c), Mass Media Group, LTD.
+
  * @license		http://ooyes.net
+
  * @link		http://ooyes.net
+
  * @since		Version 1.0
+
  * @filesource
 
  */
@@ -52,7 +58,71 @@ class Cart_model extends Model {
 	function __construct() {
 		
 		parent::Model ();
+		
+		$country_name = CI::library('session')->userdata ( 'country_name' );
+		
+		if (strval ( trim ( $country_name ) ) == '') {
+			if (! defined ( 'USER_COUNTRY_NAME' )) {
+				if (is_file ( BASEPATH . 'libraries/maxmind/geoip.inc' ) == true) {
+					include (BASEPATH . 'libraries/maxmind/geoip.inc');
+					$handle = geoip_open ( BASEPATH . "libraries/maxmind/GeoIP.dat", GEOIP_STANDARD );
+					
+					//var_Dump($_SERVER ["REMOTE_ADDR"]);
+					if ($_SERVER ["REMOTE_ADDR"] == '::1') {
+						$ip = '77.70.8.202';
+					} else {
+						$ip = $_SERVER ["REMOTE_ADDR"];
+					}
+					
+					$the_user_coutry = geoip_country_code_by_addr ( $handle, $ip );
+					$the_user_coutry_name = geoip_country_name_by_addr ( $handle, $ip );
+					//var_dump( $the_user_coutry);
+					define ( "USER_COUNTRY", $the_user_coutry );
+					define ( "USER_COUNTRY_NAME", $the_user_coutry_name );
+					geoip_close ( $handle );
+				} else {
+					//exit('need geo ip');
+				}
+			}
+			//var_dump(USER_COUNTRY);
+			
+
+			CI::library('session')->set_userdata ( 'country_name', USER_COUNTRY_NAME );
+		
+		}
+		//print(USER_COUNTRY);
+		//print(USER_COUNTRY_NAME);
+		
+
+		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		
+		$country_name = CI::library('session')->userdata ( 'country_name' );
+		
+		if (strval ( $country_name ) == '') {
+			CI::library('session')->set_userdata ( 'country_name', USER_COUNTRY_NAME );
+		}
+		
+		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		//print $shop_currency;
+		if (strval ( $shop_currency ) == '') {
+			switch (strtolower ( USER_COUNTRY )) {
+				case 'uk' :
+					$this->currencyChangeSessionData ( "GBP" );
+					break;
+				case 'us' :
+				case 'usa' :
+					$this->currencyChangeSessionData ( "USD" );
+					break;
+				default :
+					$this->currencyChangeSessionData ( "EUR" );
+					break;
+			
+			}
+		}
+		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		//	print $shop_currency;
 	
+
 	}
 	
 	function itemSave($data) {
@@ -81,19 +151,21 @@ class Cart_model extends Model {
 	
 	function itemAdd($data) {
 		
-	//	$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
+
 		if (empty ( $data )) {
 			
 			return false;
 		
 		}
 		
-		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
+
 		if ($data ['sid'] == false) {
 			
-			$session_id = $this->session->userdata ( 'session_id' );
+			$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		} else {
 			
@@ -101,7 +173,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -114,24 +186,12 @@ class Cart_model extends Model {
 		}
 		
 		$data ['sid'] = $session_id;
-		if ($data ['sku']) {
-			$q = "select * from $table where sid='{$session_id}' and sku='{$data['sku']}' ";
-			$q = $this->core_model->dbQuery($q);
-			if(!empty($q)){
-				$q = $q[0];
-				if(!empty($q)){
-					$data['id'] = $q['id'];
-					$data['qty'] = intval($q['qty'] ) + intval( $data['qty']);
-				}
-			}
 		
-		}
-		var_dump($data);
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
+		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return $id;
 	
@@ -157,13 +217,13 @@ class Cart_model extends Model {
 		
 		if (empty ( $orderby )) {
 			
-			$orderby [0] = 'created_on';
+			$orderby [0] = 'updated_on';
 			
 			$orderby [1] = 'DESC';
 		
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -187,35 +247,35 @@ class Cart_model extends Model {
 
 
 
-function itemDeleteBySku($sku) {
+	function itemDeleteBySku($sku) {
 
-if (strval ( $sku ) == '') {
+		if (strval ( $sku ) == '') {
 
-return false;
+			return false;
 
-}
+		}
 
-$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 
-global $cms_db_tables;
+		global $cms_db_tables;
 
-$table = $cms_db_tables ['table_cart'];
-
-
-
-$data = array ();
-
-$data ['sku'] = $sku;
-
-$data ['sid'] = $session_id;
-
-$del = $this->core_model->deleteData ( $table, $data, 'cart' );
+		$table = $cms_db_tables ['table_cart'];
 
 
 
-$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		$data = array ();
 
-return $id;
+		$data ['sku'] = $sku;
+
+		$data ['sid'] = $session_id;
+
+		$del = CI::model('core')->deleteData ( $table, $data, 'cart' );
+
+
+
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+
+		return $id;
 
 	 */
 	
@@ -243,7 +303,7 @@ return $id;
 		
 		if ($check_session == true) {
 			
-			$session_id = $this->session->userdata ( 'session_id' );
+			$session_id = CI::library('session')->userdata ( 'session_id' );
 			
 			$sid_where = " and sid='$session_id' ";
 		
@@ -261,9 +321,9 @@ return $id;
 		
 		$q = "delete from $table where $only_uncompleted_orders_q  $sid_where and id=$id";
 		
-		$q = $this->core_model->dbQ ( $q );
+		$q = CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -283,15 +343,15 @@ return $id;
 	
 	function itemsGetQty() {
 		
-		$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_cart'];
 		
 		$q = "select sum(qty) as qty_sum from $table where sid='$session_id'  and order_completed='n'";
-		
-		$q = $this->core_model->dbQuery ( $q );
+		//p($q);
+		$q = CI::model('core')->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -302,7 +362,7 @@ return $id;
 
 		return $q;
 		
-	//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+	//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -324,7 +384,7 @@ return $id;
 	
 	function itemsGetTotal($with_promo_code = false, $convert_to_currency = 'EUR') {
 		
-		$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -332,9 +392,9 @@ return $id;
 		
 		$table = $cms_db_tables ['table_cart'];
 		
-		$q = "select qty, price from $table where sid='$session_id'  and order_completed='n'";
+		$q = "select * from $table where sid='$session_id'  and order_completed='n'";
 		
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		
 		if (empty ( $q )) {
 			
@@ -343,12 +403,28 @@ return $id;
 		} else {
 			
 			$total = 0;
+			$total_no_promo = 0;
 			
 			foreach ( $q as $item ) {
 				
-				$do_math = $item ['qty'] * $item ['price'];
+				//p($item);
 				
-				$total = $total + $do_math;
+
+				if (intval ( $item ['to_table_id'] ) != 0) {
+					$do_math = intval ( $item ['qty'] ) * floatval ( $item ['price'] );
+					if (trim ( $item ['skip_promo_code'] ) != 'y') {
+						$total = $total + $do_math;
+					} else {
+						$total_no_promo = $total_no_promo + $do_math;
+					}
+				
+				} else {
+					
+					$do_math = intval ( $item ['qty'] ) * floatval ( $item ['price'] );
+					
+					$total = $total + $do_math;
+				
+				}
 			
 			}
 		
@@ -366,13 +442,16 @@ return $id;
 			
 			$get_promo ['promo_code'] = $with_promo_code;
 			
-			$codes = $this->cart_model->promoCodesGet ( $get_promo );
+			$codes = $this->promoCodesGet ( $get_promo );
 			
 			$code = $codes [0];
 			
 			if (! empty ( $code )) {
+				$final_price = $total - $code ['amount_modifier'];
 				
-				if ($code ['amount_modifier'] != 0) {
+				$to_return = $this->promoCodeApplyToAmount ( $total, $with_promo_code );
+				
+			/*if ($code ['amount_modifier'] != 0) {
 					
 					switch ($code ['amount_modifier_type']) {
 						
@@ -381,16 +460,10 @@ return $id;
 							$percent = $code ['amount_modifier']; // without %
 							
 
-							$total = $total; // initial value
-							
-
 							$discount_value = ($total / 100) * $percent;
 							
 							$final_price = $total - $discount_value;
 							
-							//print $final_price;
-							
-
 							$to_return = $final_price;
 							
 							break;
@@ -408,7 +481,7 @@ return $id;
 					
 					}
 				
-				}
+				}*/
 			
 			} else {
 				
@@ -418,17 +491,21 @@ return $id;
 		
 		}
 		
-		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 
 		//return $id;
+		//	var_dump( $total_no_promo);
+		//	var_dump( $total); 
 		
 
+		$to_return = $to_return + $total_no_promo;
+		
 		if ($convert_to_currency == "EUR") {
 			return $to_return;
 		} else {
 			$convert_to_currency_price = $this->currencyConvertPrice ( $to_return, $convert_to_currency );
-			return ceil ( $convert_to_currency_price );
+			return ($convert_to_currency_price);
 		}
 	}
 	
@@ -448,7 +525,7 @@ return $id;
 		
 		$this->itemsCleanupOldAddedToCartItemsWhereTheOrderWasNeverCompleted ();
 		
-		$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -459,11 +536,11 @@ return $id;
 		//print $q;
 		
 
-		$q = $this->core_model->dbQ ( $q );
+		$q = CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
-	//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+	//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -471,6 +548,327 @@ return $id;
 
 	}
 	
+	/**
+	 * @desc billingCheckCreditCard
+	 * @author		Peter Ivanov
+	 * @version 1.0
+	 * @since Version 1.0
+	 */
+	
+	function billing_borica_ProcessCreditCard() {
+		
+		$formdata ['orderno'] = CI::library('session')->userdata ( 'order_id' );
+		$formdata ['shipping_total_charges'] = CI::library('session')->userdata ( 'shipping' );
+		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library('session')->userdata ( 'cart_promo_code' ), CI::library('session')->userdata ( 'shop_currency' ) ) );
+		$formdata ['amount'] = $formdata ['amount'] + $formdata ['shipping_total_charges'];
+		$formdata ['first_name'] = CI::library('session')->userdata ( 'first_name' );
+		$formdata ['last_name'] = CI::library('session')->userdata ( 'last_name' );
+		$formdata ['country'] = CI::library('session')->userdata ( 'country' );
+		$formdata ['phone'] = CI::library('session')->userdata ( 'night_phone_a' );
+		$formdata ['email'] = CI::library('session')->userdata ( 'email' );
+		//	$formdata ['country'] = CI::library('session')->userdata ( 'country' );
+		$formdata ['city'] = CI::library('session')->userdata ( 'city' );
+		
+		$formdata ['state'] = CI::library('session')->userdata ( 'state' );
+		$formdata ['zip'] = CI::library('session')->userdata ( 'zip' );
+		
+		/*$ord_desc = $formdata ['orderno']. " ";
+		$ord_desc .= $formdata ['amount']. " ";
+		$ord_desc .= $formdata ['first_name']. " ";
+		$ord_desc .= $formdata ['last_name']. " ";
+		$ord_desc .= $formdata ['country']. " ";
+		$ord_desc .= $formdata ['phone']. " ";
+		$ord_desc .= $formdata ['email']. " ";
+		$ord_desc .= $formdata ['state']. " ";
+		$ord_desc .= $formdata ['zip']. " ";*/
+		//print CI::library('session')->userdata ( 'shop_currency' );
+		$formdata ['amount'] = $this->currencyExchange ( $from = CI::library('session')->userdata ( 'shop_currency' ), $to = "bgn", $formdata ['amount'] );
+		//$formdata ['amount'] = $formdata ['amount']+floatval('0.'.rand());
+		$formdata ['amount'] = floatval ( $formdata ['amount'] );
+		$formdata ['amount'] = ($formdata ['amount'] * 100);
+		//exit($formdata ['amount']);
+		define ( "TRANS_CODE", 10 );
+		define ( "TRANS_TIME", date ( "YmdHis" ) );
+		define ( "AMOUNT", $formdata ['amount'] );
+		define ( "TERMID", 62160252 );
+		define ( "ORDERID", $formdata ['orderno'] );
+		
+		$desc = false;
+		//foreach ( $formdata as $k => $v ) { 
+		$desc = $desc . "email: " . $formdata ['email'] . "     ";
+		$desc = $desc . "ip: " . $_SERVER ['REMOTE_ADDR'] . "     ";
+		$desc = $desc . "order id: " . $formdata ['orderno'] . "     ";
+		
+		//}
+		
+
+		define ( "ORDERDESC", $desc );
+		
+		define ( "LANG", 'EN' );
+		define ( "PROT_VER", '1.0' );
+		
+		$message = TRANS_CODE;
+		$message .= TRANS_TIME;
+		$amount = AMOUNT;
+		$message .= str_pad ( $amount, 12, "0", STR_PAD_LEFT );
+		$message .= 62160252; //term id
+		
+
+		$message .= str_pad ( ORDERID, 15 );
+		$message .= str_pad ( ORDERDESC, 125 );
+		$message .= LANG;
+		$message .= PROT_VER;
+		//var_Dump ( $message );
+		
+
+		$filename = ROOTPATH . "/eborica/prod_requests.key";
+		$fp = fopen ( $filename, "r" );
+		$priv_key = fread ( $fp, 8192 );
+		fclose ( $fp );
+		$pkeyid = openssl_get_privatekey ( $priv_key );
+		openssl_sign ( $message, $signature, $pkeyid );
+		openssl_free_key ( $pkeyid );
+		$message .= $signature;
+		
+		$action = "registerTransaction?eBorica=";
+		$gateBoricaURL = 'https://gate.borica.bg/boreps/';
+		
+		$url = $gateBoricaURL . $action . urlencode ( base64_encode ( $message ) );
+		//echo ($url);
+		//$result = file_get_contents ( $url );
+		
+
+		return $url;
+	
+	}
+	
+	function billing_borica_getBOResp($message) {
+		// manipulation of the $_GET["eBorica"] parameter 
+		$message = base64_decode ( $message );
+		$response [TRANS_CODE] = substr ( $message, 0, 2 );
+		$response [TRANS_TIME] = substr ( $message, 2, 14 );
+		$response [AMOUNT] = substr ( $message, 16, 12 );
+		$response [TERMID] = substr ( $message, 28, 8 );
+		$response [ORDERID] = substr ( $message, 36, 15 );
+		$response [RESP_CODE] = substr ( $message, 51, 2 );
+		$response [PROT_VER] = substr ( $message, 53, 3 );
+		$response [SIGN] = substr ( $message, 56, 128 );
+		$filename = ROOTPATH . "/eborica/prod_requests.key";
+		$fp = fopen ( $filename, "r" );
+		$cert = fread ( $fp, 8192 );
+		fclose ( $fp );
+		$pubkeyid = openssl_get_publickey ( $cert );
+		$response [SIGNOK] = openssl_verify ( substr ( $message, 0, strlen ( $message ) - 128 ), $response [SIGN], $pubkeyid );
+		openssl_free_key ( $pubkeyid );
+		return $response;
+	}
+	function billing_borica_generateBOReq($transCode, $transStatusFlag, $amount, $termID, $orderID, $orderDescr, $lang, $protVer, $filename, $password = false, $gateBoricaURL = false) {
+		$message = $transCode;
+		$message .= date ( "YmdHis", mktime () );
+		$amount *= 100;
+		$message .= str_pad ( $amount, 12, "0", STR_PAD_LEFT );
+		$message .= $termID;
+		$message .= str_pad ( $orderID, 15 );
+		$message .= str_pad ( $orderDescr, 125 );
+		$message .= $lang;
+		//$message .= str_pad ( $protVer, 3, "0", STR_PAD_LEFT );;
+		$message .= ($protVer);
+		var_Dump ( $message );
+		
+		$fp = fopen ( $filename, "r" );
+		$priv_key = fread ( $fp, 8192 );
+		fclose ( $fp );
+		if ($password != false) {
+			$pkeyid = openssl_get_privatekey ( $priv_key, $password );
+		} else {
+			$pkeyid = openssl_get_privatekey ( $priv_key );
+		
+		}
+		openssl_sign ( $message, $signature, $pkeyid );
+		openssl_free_key ( $pkeyid );
+		$message .= $signature;
+		
+		if ($transCode == '10' && $transStatusFlag == "0") {
+			$action = "registerTransaction?eBorica=";
+		} else {
+			if ($transCode == '10' && $transStatusFlag == "1") {
+				$action = "transactionStatusReport?eBorica=";
+			} else {
+				$action = "manageTransaction?eBorica=";
+			}
+		}
+		$action = "registerTransaction?eBorica=";
+		if ($gateBoricaURL == false) {
+			$gateBoricaURL = 'https://gatet.borica.bg/boreps/';
+		
+		}
+		
+		//echo('<br>'); 
+		$url = $gateBoricaURL . $action . urlencode ( base64_encode ( $message ) );
+		echo ($url);
+		$result = file_get_contents ( $url );
+		echo ($result);
+		return $url;
+	}
+	
+	/**
+	 * @desc billingCheckCreditCard
+	 * @author		Peter Ivanov
+	 * @version 1.0
+	 * @since Version 1.0
+	 */
+	
+	function billingProcessCreditCard($make_transaction = false) {
+		global $cms_db_tables;
+		
+		return array ('success' => 'ok' );
+		$formdata = array ();
+		
+		$formdata ['clientid'] = $shop_transaction_method_user_id;
+		$formdata ['merchantaccountid'] = $shop_transaction_method_merchantaccountid;
+		$formdata ['transactiontype'] = 'SALE';
+		$formdata ['INDUSTRYTYPE'] = '013'; //ELECTRONIC COMMERCE
+		
+
+		$formdata ['customercode'] = CI::library('session')->userdata ( 'session_id' ) . date ( 'ymdHis' );
+		
+		//			$formdata ['amount'] = CI::library('session')->userdata ( 'amount' ) + (float)(rand(1, 20) / 100);
+		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library('session')->userdata ( 'cart_promo_code' ), CI::library('session')->userdata ( 'shop_currency' ) ) ) + ( float ) (rand ( 1, 20 ) / 100);
+		$paidAmount = $formdata ['amount'];
+		
+		$formdata ['orderno'] = CI::library('session')->userdata ( 'order_id' );
+		//			$formdata ['order_id'] = CI::library('session')->userdata ( 'order_id' );
+		$formdata ['cardholdernumber'] = CI::library('session')->userdata ( 'billing_cardholdernumber' );
+		
+		///!Important AUTHORIZATIONNUMBER go only with FORCE/TICKET
+		//$formdata['AUTHORIZATIONNUMBER'] = $formdata ['customercode'];
+		
+
+		$formdata ['expiresmonth'] = CI::library('session')->userdata ( 'billing_expiresmonth' );
+		$formdata ['expiresyear'] = CI::library('session')->userdata ( 'billing_expiresyear' );
+		//			$formdata ['ccv2'] = false;
+		$formdata ['bname'] = CI::library('session')->userdata ( 'billing_first_name' ) . ' ' . CI::library('session')->userdata ( 'billing_last_name' );
+		$formdata ['bemailaddress'] = CI::library('session')->userdata ( 'billing_user_email' );
+		$formdata ['baddress1'] = CI::library('session')->userdata ( 'billing_address' );
+		$formdata ['bcity'] = CI::library('session')->userdata ( 'billing_city' );
+		$formdata ['bstate'] = CI::library('session')->userdata ( 'billing_state' );
+		$formdata ['bzipcode'] = CI::library('session')->userdata ( 'billing_zip' );
+		$formdata ['bcountry'] = CI::library('session')->userdata ( 'billing_country' );
+		$formdata ['bphone'] = CI::library('session')->userdata ( 'billing_user_phone' );
+		
+		$formdata ['sname'] = CI::library('session')->userdata ( 'shipping_first_name' ) . ' ' . CI::library('session')->userdata ( 'shipping_last_name' );
+		$formdata ['scompany'] = CI::library('session')->userdata ( 'shipping_company_name' );
+		$formdata ['saddress1'] = CI::library('session')->userdata ( 'shipping_address' );
+		$formdata ['saddress2'] = CI::library('session')->userdata ( 'shipping_city' ) . ', ' . CI::library('session')->userdata ( 'shipping_zip' );
+		$formdata ['scity'] = CI::library('session')->userdata ( 'shipping_city' );
+		$formdata ['sstate'] = CI::library('session')->userdata ( 'shipping_state' );
+		$formdata ['szipcode'] = CI::library('session')->userdata ( 'shipping_zip' );
+		$formdata ['sphone'] = CI::library('session')->userdata ( 'shipping_user_phone' );
+		$formdata ['scountry'] = CI::library('session')->userdata ( 'shipping_state' );
+		$formdata ['promo_code'] = CI::library('session')->userdata ( 'cart_promo_code' );
+		$formdata ['shipping_total_charges'] = CI::library('session')->userdata ( 'shipping_total_charges' );
+		$formdata ['shipping_service'] = CI::library('session')->userdata ( 'shipping_service' );
+		$formdata ['semailaddress'] = CI::library('session')->userdata ( 'shipping_user_email' );
+		
+		//			file_put_contents('stest.txt', serialize($formdata));
+		//	p($formdata, 1);
+		
+
+		if (function_exists ( "curl_init" )) {
+			//$ckfile = tempnam ("/tmp", "CURLCOOKIE");
+			/*~~~~~~~~~ Pay pal payment ~~~~~~~~~~*/
+			$userData = array ();
+			$userData ['payment_type'] = 'Sale';
+			$userData ['first_name'] = CI::library('session')->userdata ( 'billing_first_name' );
+			$userData ['last_name'] = CI::library('session')->userdata ( 'billing_last_name' );
+			$userData ['credit_card_type'] = CI::library('session')->userdata ( 'credit_card_type' );
+			$userData ['credit_card_number'] = str_replace ( ' ', '', $formdata ['cardholdernumber'] );
+			$userData ['exp_date_month'] = str_pad ( $formdata ['expiresmonth'], 2, '0', STR_PAD_LEFT ); // Month must be padded with leading zero
+			$userData ['exp_date_year'] = $formdata ['expiresyear'];
+			
+			//$userData ['from_date_month'] = str_pad ( CI::library('session')->userdata ( 'billing_validfrommonth' ), 2, '0', STR_PAD_LEFT ); // Month must be padded with leading zero
+			//$userData ['from_date_year'] = CI::library('session')->userdata ( 'billing_validfromyear' );
+			
+
+			$userData ['cvv2'] = CI::library('session')->userdata ( 'billing_cvv2' );
+			$userData ['address'] = $formdata ['baddress1'];
+			$userData ['city'] = $formdata ['bcity'];
+			$userData ['state'] = $formdata ['bstate'];
+			$userData ['zip'] = $formdata ['bzipcode'];
+			$userData ['country'] = $formdata ['bcountry'];
+			$userData ['amount'] = floatval ( $formdata ['amount'] ) + floatval ( $formdata ['shipping_total_charges'] );
+			$userData ['currency_id'] = 'USD';
+			
+			//XXX: This is debug case. Remove it on production only from OOYES IP
+			if ($_SERVER ['REMOTE_ADDR'] == '77.70.8.202') {
+				$userData ['amount'] = '0.01';
+			}
+			
+			//var_dump ( $userData  );
+			//exit ();
+			
+
+			$nvpStr = $this->_payPalFormatNVP ( $userData );
+			//var_dump($nvpStr);
+			// Execute the API operation; see the PPHttpPost function above.
+			$httpParsedResponseAr = $this->_payPalHttpPost ( 'DoDirectPayment', $nvpStr );
+			// var_dump($httpParsedResponseAr);
+			// exit;
+			foreach ( $httpParsedResponseAr as $key => $val ) {
+				$httpParsedResponseAr [$key] = urldecode ( $val );
+			}
+			
+			if ("SUCCESS" == strtoupper ( $httpParsedResponseAr ["ACK"] ) || "SUCCESSWITHWARNING" == strtoupper ( $httpParsedResponseAr ["ACK"] )) {
+				
+				$formdata ['referrer_id'] = $_COOKIE ['referrer_id'];
+				//	$formdata ['to_table_id'] = $_COOKIE['group_id'];
+				//Delete ccv2			
+				$formdata ['ccv2'] = false;
+				$formdata ['order_id'] = $formdata ['orderno'];
+				
+				$formdata ['order_completed'] = 'y';
+				$formdata ['payment_completed'] = 'y';
+				/////////$this->orderPlace($formdata);
+				
+
+				//Unset Card Data
+				CI::library('session')->set_userdata ( 'billing_cvv2', '' );
+				CI::library('session')->set_userdata ( 'billing_cardholdernumber', '' );
+				
+				//Set Affiliate
+				//$countries = $this->paymentmethods_tpro_get_countries_list_as_array ();
+				//$formdata ['country'] = $countries [$formdata ['bcountry']];
+				$formdata ['country_id'] = $formdata ['bcountry'];
+				$formdata ['payment_response'] = serialize ( $httpParsedResponseAr );
+				
+				$formdata ['transactionid'] = $httpParsedResponseAr ['TRANSACTIONID'];
+				
+				if (isset ( $formdata ['transactionid'] )) {
+					//$this->orderPlace ( $formdata );
+					$formdata ['from_log'] = $_COOKIE ['from_log'];
+					
+					CI::library('session')->set_userdata ( 'billing_cvv2', '' );
+					CI::library('session')->set_userdata ( 'billing_cardholdernumber', '' );
+					
+					CI::library('session')->set_userdata ( 'order_id', '' . date ( 'ymdHis' ) . rand () );
+					
+					return true;
+				} else {
+					return array ('error' => $httpParsedResponseAr ["L_LONGMESSAGE0"] );
+				
+				}
+			
+			} else {
+				//Unset Card Data
+				return array ('error' => $httpParsedResponseAr ["L_LONGMESSAGE0"] );
+			}
+		
+		} else {
+			exit ( 'Error: You need the CURL library on your server in order to run payment processing functions' );
+		
+		}
+	
+	}
 	/**
 
 	 * @desc Sum various things
@@ -485,7 +883,7 @@ return $id;
 	
 	function cartSumByFields($fld) {
 		
-		$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -493,7 +891,7 @@ return $id;
 		
 		$q = "select sum($fld) as qty_sum from $table where sid='$session_id' and order_completed='n'";
 		
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -517,7 +915,7 @@ return $id;
 	
 	function cartSumByParams($fld, $params = false) {
 		
-		$session_id = $this->session->userdata ( 'session_id' );
+		$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -536,6 +934,16 @@ return $id;
 		return $sum;
 	
 	}
+	function orderPaid($ord_id) {
+		global $cms_db_tables;
+		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
+		$ord_id = codeClean ( $ord_id );
+		$q = "Update $table_cart_orders set is_paid='y'  where order_id='$ord_id'";
+		
+		$q = CI::model('core')->dbQ ( $q );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		return true;
+	}
 	
 	/**
 
@@ -553,7 +961,7 @@ return $id;
 		
 		if ($sid == false) {
 			
-			$session_id = $this->session->userdata ( 'session_id' );
+			$session_id = CI::library('session')->userdata ( 'session_id' );
 		
 		} else {
 			
@@ -561,7 +969,7 @@ return $id;
 		
 		}
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -577,9 +985,11 @@ return $id;
 		
 		$q = "Update $table set order_completed='y' $order_id_q where sid='$session_id' and order_completed='n'";
 		
-		$q = $this->core_model->dbQ ( $q );
+		$q = CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		
+		CI::library('session')->set_userdata ( 'cart_promo_code', false );
 		
 		return true;
 	
@@ -601,7 +1011,7 @@ return $id;
 		
 		if ($data ['sid'] == false) {
 			
-			$session_id = $this->session->userdata ( 'session_id' );
+			$session_id = CI::library('session')->userdata ( 'session_id' );
 			
 			$data ['sid'] = $session_id;
 		
@@ -613,7 +1023,7 @@ return $id;
 		
 		global $cms_db_tables;
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -621,9 +1031,9 @@ return $id;
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -643,7 +1053,7 @@ return $id;
 		
 		if ($data ['sid'] == false) {
 			
-			$session_id = $this->session->userdata ( 'session_id' );
+			$session_id = CI::library('session')->userdata ( 'session_id' );
 			
 			$data ['sid'] = $session_id;
 		
@@ -655,7 +1065,7 @@ return $id;
 		
 		global $cms_db_tables;
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -663,11 +1073,12 @@ return $id;
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
 		$this->orderConfirm ( $data ['sid'], $order_id = $data ['order_id'] );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		return $id;
 	
 	}
 	
@@ -717,7 +1128,7 @@ return $id;
 		
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -745,7 +1156,7 @@ return $id;
 		
 		$q = "delete from $table where created_on<'$the_old_times' and order_completed='n'";
 		
-		$q = $this->core_model->dbQ ( $q );
+		$q = CI::model('core')->dbQ ( $q );
 		
 		return true;
 	
@@ -793,13 +1204,13 @@ return $id;
 			
 			$order_id = $order_data ['order_id'];
 			
-			$q = " delete from $table_cart where order_id = '$order_id' AND sid='{$order_data ['sid']}' ";
+			$q = " delete from $table_cart where order_id = '$order_id' ";
 			
-			$this->core_model->dbQ ( $q );
+			CI::model('core')->dbQ ( $q );
 			
 			$q = " delete from $table_orders where id = $id ";
 			
-			$this->core_model->dbQ ( $q );
+			CI::model('core')->dbQ ( $q );
 		
 		}
 		
@@ -809,10 +1220,120 @@ return $id;
 		//order_id
 		
 
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
+	}
+	
+	function promoCodeApplyToCart($with_promo_code) {
+		
+		$promo_code = $with_promo_code;
+		
+		$get_promo = array ();
+		
+		$get_promo ['promo_code'] = $with_promo_code;
+		
+		$codes = $this->promoCodesGet ( $get_promo );
+		
+		$code = $codes [0];
+		
+		if (! empty ( $code )) {
+			
+			if ($code ['amount_modifier'] != 0) {
+				
+				switch ($code ['amount_modifier_type']) {
+					
+					case 'percent' :
+						
+						$percent = $code ['amount_modifier']; // without %
+						
+
+						$total = $total; // initial value
+						
+
+						$discount_value = ($total / 100) * $percent;
+						
+						$final_price = $total - $discount_value;
+						
+						//print $final_price;
+						
+
+						$to_return = $final_price;
+						
+						break;
+					
+					default :
+						
+						$final_price = $total - $code ['amount_modifier'];
+						
+						$to_return = $final_price;
+						
+						//var_Dump ( $amount );
+						
+
+						break;
+				
+				}
+			
+			}
+		}
+		return $to_return;
+	}
+	
+	function promoCodeApplyToAmount($total, $with_promo_code) {
+		
+		$promo_code = $with_promo_code;
+		
+		$get_promo = array ();
+		
+		$get_promo ['promo_code'] = $with_promo_code;
+		
+		$codes = $this->promoCodesGet ( $get_promo );
+		
+		$code = $codes [0];
+		
+		if (! empty ( $code )) {
+			
+			if ($code ['amount_modifier'] != 0) {
+				
+				switch ($code ['amount_modifier_type']) {
+					
+					case 'percent' :
+						
+						$percent = $code ['amount_modifier']; // without %
+						
+
+						$total = $total; // initial value
+						
+
+						$discount_value = ($total / 100) * $percent;
+						
+						$final_price = $total - $discount_value;
+						
+						//print $final_price;
+						
+
+						$to_return = $final_price;
+						
+						break;
+					
+					default :
+						
+						$final_price = $total - $code ['amount_modifier'];
+						
+						$to_return = $final_price;
+						
+						//var_Dump ( $amount );
+						
+
+						break;
+				
+				}
+			
+			}
+		}
+		return $to_return;
 	}
 	
 	/**
@@ -841,7 +1362,11 @@ return $id;
 		
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		if ($cache_group == false) {
+			$cache_group = 'cart/promo';
+		}
+		
+		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -863,7 +1388,7 @@ return $id;
 		
 		global $cms_db_tables;
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_promo_codes'];
 		
@@ -871,9 +1396,9 @@ return $id;
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -907,9 +1432,9 @@ return $id;
 		
 		$q = " delete from $table where id = $id ";
 		
-		$this->core_model->dbQ ( $q );
+		CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -929,11 +1454,11 @@ return $id;
 	
 	function shippingCalculateToCountryName($country_name = false, $convert_to_currency = 'EUR') {
 		
-		$countries = $this->core_model->geoGetAllCountries ();
+		$countries = CI::model('core')->geoGetAllCountries ();
 		
 		if ($country_name == false) {
 			
-			$country_name = $this->session->userdata ( 'country_name' );
+			$country_name = CI::library('session')->userdata ( 'country_name' );
 		
 		}
 		
@@ -965,7 +1490,7 @@ return $id;
 		
 		}
 		
-		//	var_dump($the_c);
+		//	
 		
 
 		if (empty ( $the_c )) {
@@ -998,8 +1523,23 @@ return $id;
 				$ship_price = $shippingCostsGet ['shiping_cost_per_item'];
 				
 				$num = $this->itemsGetQty ();
-				
+				//v//ar_dump($num);
 				$total = ($ship_price * $num);
+				//var_dump($total);
+				$sid = CI::library('session')->userdata ( 'session_id' );
+				$cart_item = array ();
+				$cart_item ['sid'] = $sid;
+				$cart_item ['order_completed'] = 'n';
+				
+				$cart_items = $this->cart_model->itemsGet ( $cart_item );
+				if (! empty ( $cart_items )) {
+					foreach ( $cart_items as $variable ) {
+						if (intval ( $variable ['added_shipping_price'] ) > 0) {
+							$total = $total + ((intval ( $variable ['added_shipping_price'] )) * intval ( $variable ['qty'] ));
+						}
+					}
+				}
+				
 				//	var_dump($convert_to_currency);
 				if ($convert_to_currency == "EUR") {
 					return $total;
@@ -1013,491 +1553,6 @@ return $id;
 			}
 		
 		}
-	
-	}
-	
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * UPS Service Selection Codes
-	 * 01 � UPS Next Day Air
-	 * 02 � UPS Second Day Air
-	 * 03 � UPS Ground
-		07 � UPS Worldwide Express
-		08 � UPS Worldwide Expedited
-		11 � UPS Standard
-		12 � UPS Three-Day Select
-		13 - Next Day Air Saver
-		14 � UPS Next Day Air Early AM
-		54 � UPS Worldwide Express Plus
-		59 � UPS Second Day Air AM
-		65 � UPS Saver
-	 * 
-	 * 
-	 * 
-	 * 
-
-	 * @desc calculate UPS shipping costs
-
-	 * @author		Peter Ivanov
-
-	 * @version 1.0
-
-	 * @since Version 1.0
-
-	 */
-	
-	function shippingUPSGetCost($data = array()) {
-		//require_once 'ups/upsRate.php';
-		global $cms_db_tables, $CFG;
-		
-		$cost = $data ['cost'];
-		$from_zip = $data ['from_zip'];
-		$to_zip = $data ['shipping_to_zip'];
-		$service = $data ['shipping_service'];
-		$length = $data ['length'];
-		$width = $data ['width'];
-		$height = $data ['height'];
-		$address_type = $data ['shipping_address_type'];
-		$weight = $data ['weight'];
-		
-		$CFG->ups_userid = $this->core_model->optionsGetByKey ( 'shop_ups_username', false );
-		; // Enter your UPS User ID
-		$CFG->ups_password = $this->core_model->optionsGetByKey ( 'shop_ups_password', false );
-		; // Enter your UPS Password
-		$CFG->ups_xml_access_key = $this->core_model->optionsGetByKey ( 'shop_ups_xml_key', false );
-		; // Enter your UPS Access Key
-		$CFG->ups_shipper_number = $this->core_model->optionsGetByKey ( 'shop_ups_shipper_number', false );
-		; // Enter your UPS Shipper Number
-		$CFG->ups_testmode = "TRUE"; // "TRUE" for test transactions "FALSE" for live transactions
-		$CFG->companystate = 'NY'; //$options['country'];						// Your State
-		$CFG->companyzipcode = $from_zip; //$options['zip'];					// Your Zipcode
-		
-
-		$CFG->companyname = "Some Company"; // Your Company Name
-		$CFG->companystreetaddress1 = "12 Country Ln"; // Your Street Addres
-		$CFG->companystreetaddress2 = ""; // Your Street Address
-		$CFG->companycity = "New York"; // Your City
-		$CFG->companystate = "NY";
-		
-		$ship_to = array ();
-		$ship_to ["company_name"] = $data ['shipping_company_name']; // Ship To Company
-		$ship_to ["attn_name"] = $data ['shipping_name']; // Ship To Name
-		$ship_to ["phone_dial_plan_number"] = trim ( substr ( $data ['shipping_user_phone'], 0, 6 ) ); // Ship To First 6 Of Phone Number
-		$ship_to ["phone_line_number"] = trim ( substr ( $data ['shipping_user_phone'], 6 ) ); // Ship To Last 4 Of Phone Number
-		$ship_to ["phone_extension"] = "1"; // Ship To Phone Extension
-		$ship_to ["address_1"] = $data ['shipping_address']; // Ship To 1st Address Line
-		$ship_to ["address_2"] = ""; // Ship To 2nd Address Line
-		$ship_to ["address_3"] = ""; // Ship To 3rd Address Line
-		$ship_to ["city"] = $data ['shipping_to_city']; // Ship To City
-		$ship_to ["state_province_code"] = $data ['shipping_state']; // Ship To State
-		$ship_to ["postal_code"] = $to_zip; // Ship To Postal Code
-		$ship_to ["country_code"] = "US"; // Ship To Country Code
-		
-
-		$ship_from = array ();
-		$ship_from ["company_name"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_name", false ); // Ship From Company
-		$ship_from ["attn_name"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_person_name", false ); // Ship From Name
-		$ship_from ["phone_dial_plan_number"] = trim ( substr ( $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 0, 6 ) ); // Ship From First 6 Of Phone Number
-		$ship_from ["phone_line_number"] = trim ( substr ( $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 6 ) );
-		; // Ship From Last 4 Of Phone Number
-		$ship_from ["phone_extension"] = "1"; // Ship From Phone Extension
-		$ship_from ["address_1"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_address", false ); // Ship From 1st Address Line
-		$ship_from ["address_2"] = ""; // Ship From 2nd Address Line
-		$ship_from ["address_3"] = ""; // Ship From 3rd Address Line
-		$ship_from ["city"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_city", false ); // Ship From City
-		$ship_from ["state_province_code"] = "WA"; // Ship From State
-		$ship_from ["postal_code"] = $from_zip; // Ship From Postal Code
-		$ship_from ["country_code"] = "US"; // Ship From Country Code
-		
-
-		$shipment ["bill_shipper_account_number"] = $CFG->ups_shipper_number; // This will bill the shipper
-		$shipment ["service_code"] = $service;
-		$shipment ["packaging_type"] = "02"; // 02 For "Your Packaging"
-		$shipment ["invoice_number"] = "12345"; // Invoice Number
-		$shipment ["weight"] = $weight; // Total Weight Of Package (Not Less Than 1lb.)
-		$shipment ["length"] = $length;
-		$shipment ["width"] = $width;
-		$shipment ["height"] = $height;
-		$shipment ["insured_value"] = $cost; // Insured Value Of Package
-		
-
-		$res = $this->ups_ship_confirm ( $ship_to, $ship_from, $shipment );
-		return $res;
-		
-	/*		
-		$Url = join ( "&", array ("http://www.ups.com/using/services/rave/qcostcgi.cgi?accept_UPS_license_agreement=yes", "10_action=3", "13_product=" . $service, "14_origCountry=" . "US", "15_origPostal=" . $from_zip, "origCity=" . '', "19_destPostal=" . $to_zip, "20_destCity=" . '', "22_destCountry=US" . '', "23_weight=" . $width, "47_rateChart=" . 'Regular+Daily+Pickup', "48_container=" . '00', "49_residential=" . $address_type, "25_length=" . $length, "26_width=" . $width, "27_height=" . $height ) );
-		
-		$Resp = fopen ( $Url, "r" );
-		while ( ! feof ( $Resp ) ) {
-			$Result = fgets ( $Resp, 500 );
-			$Result = explode ( "%", $Result );
-			$Err = substr ( $Result [0], - 1 );
-			
-			switch ($Err) {
-				case 3 :
-					$ResCode = $Result [8];
-					break;
-				case 4 :
-					$ResCode = $Result [8];
-					break;
-				case 5 :
-					$ResCode = $Result [1];
-					break;
-				case 6 :
-					$ResCode = $Result [1];
-					break;
-			}
-		}
-		fclose ( $Resp );
-		if (! $ResCode) {
-			$ResCode = "An error occured.";
-		}
-		// echo "<h1>The cost is: ".$ResCode . '</h1>';
-		
-*/
-	//return $ResCode;
-	}
-	
-	function ups_ship_confirm($ship_to, $ship_from, $shipment) {
-		/////////////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////| UPS Ship Confirm Function |////////////////////////////////
-		/////////////////////////////////////////////////////////////////////////////////////////////
-		// NOTE: The XML request docment contains some static values that can be changed for the
-		// requirements of your specific application.  Examples include LabelPrintMethod,
-		// LabelImageFormat, and LabelStockSize.  Please refer to the UPS Developer's Guide for
-		// allowed values for these fields.
-		//
-		// ALSO: Characters such as "&" "<" ">" """ "'" have to be replaced in regard of the W3C
-		// definition of XML.  These characters will break the XML document if they are not replaced.
-		/////////////////////////////////////////////////////////////////////////////////////////////
-		
-
-		global $CFG;
-		
-		// UPS will not allow a weight value of anything less than 0lbs
-		if ($shipment ["weight"] < 1) {
-			$shipment ["weight"] = 1;
-		}
-		
-		// define some required values
-		$access_license_number = $CFG->ups_xml_access_key;
-		$user_id = $CFG->ups_userid;
-		$password = $CFG->ups_password;
-		$label_height = "4";
-		$label_width = "6";
-		$shipper_name = $CFG->companyname;
-		$shipper_attn_name = "Shipping Department";
-		$shipper_phone_dial_plan_number = "123456";
-		$shipper_phone_line_number = "7890";
-		$shipper_phone_extension = "001";
-		$shipper_number = $CFG->ups_shipper_number;
-		$shipper_address_1 = $CFG->companystreetaddress1;
-		$shipper_address_2 = $CFG->companystreetaddress2;
-		$shipper_address_3 = "";
-		$shipper_city = $CFG->companycity;
-		$shipper_state_province_code = $CFG->companystate;
-		$shipper_postal_code = $CFG->companyzipcode;
-		$shipper_country_code = "US";
-		if ($CFG->ups_testmode == "FALSE") {
-			$post_url = "https://www.ups.com/ups.app/xml/ShipConfirm";
-		} else {
-			$post_url = "https://wwwcie.ups.com/ups.app/xml/ShipConfirm";
-		}
-		
-		// construct the xml query document
-		$xml_request = "<?xml version=\"1.0\"?>
-<AccessRequest xml:lang=\"en-US\">
-	<AccessLicenseNumber>
-		$access_license_number
-	</AccessLicenseNumber>
-	<UserId>
-		$user_id
-	</UserId>
-	<Password>
-		$password
-	</Password>
-</AccessRequest>
-<?xml version=\"1.0\"?>
-<ShipmentConfirmRequest xml:lang=\"en-US\">
-   <Request>
-      <TransactionReference>
-         <CustomerContext>ShipConfirmUS</CustomerContext>
-         <XpciVersion>1.0001</XpciVersion>
-      </TransactionReference>
-      <RequestAction>ShipConfirm</RequestAction>
-      <RequestOption>nonvalidate</RequestOption>
-   </Request>
-   <LabelSpecification>
-      <LabelPrintMethod>
-         <Code>EPL</Code>
-      </LabelPrintMethod>
-      <LabelImageFormat>
-      	<Code>EPL</Code>
-      </LabelImageFormat>
-      <LabelStockSize>
-      	<Height>4</Height>
-      	<Width>6</Width>
-      </LabelStockSize>
-   </LabelSpecification>
-   <Shipment>
-      <Shipper>
-         <Name>$shipper_name</Name>
-         <AttentionName>$shipper_attn_name</AttentionName>
-         <PhoneNumber>
-            <StructuredPhoneNumber>
-               <PhoneDialPlanNumber>$shipper_phone_dial_plan_number</PhoneDialPlanNumber>
-               <PhoneLineNumber>$shipper_phone_line_number</PhoneLineNumber>
-               <PhoneExtension>$shipper_phone_extension</PhoneExtension>
-            </StructuredPhoneNumber>
-         </PhoneNumber>
-         <ShipperNumber>$shipper_number</ShipperNumber>
-         <Address>
-            <AddressLine1>$shipper_address_1</AddressLine1>
-            <AddressLine2>$shipper_address_2</AddressLine2>
-            <AddressLine3>$shipper_address_3</AddressLine3>
-            <City>$shipper_city</City>
-            <StateProvinceCode>$shipper_state_province_code</StateProvinceCode>
-            <PostalCode>$shipper_postal_code</PostalCode>
-            <CountryCode>$shipper_country_code</CountryCode>
-         </Address>
-      </Shipper>
-      <ShipTo>
-         <CompanyName>$ship_to[company_name]</CompanyName>
-         <AttentionName>$ship_to[attn_name]</AttentionName>
-         <PhoneNumber>
-            <StructuredPhoneNumber>
-               <PhoneDialPlanNumber>$ship_to[phone_dial_plan_number]</PhoneDialPlanNumber>
-               <PhoneLineNumber>$ship_to[phone_line_number]</PhoneLineNumber>
-               <PhoneExtension>$ship_to[phone_extension]</PhoneExtension>
-            </StructuredPhoneNumber>
-         </PhoneNumber>
-         <Address>
-            <AddressLine1>$ship_to[address_1]</AddressLine1>
-            <AddressLine2>$ship_to[address_2]</AddressLine2>
-            <AddressLine3>$ship_to[address_3]</AddressLine3>
-            <City>$ship_to[city]</City>
-            <StateProvinceCode>$ship_to[state_province_code]</StateProvinceCode>
-            <PostalCode>$ship_to[postal_code]</PostalCode>
-            <CountryCode>$ship_to[country_code]</CountryCode>
-            <ResidentialAddress/>
-         </Address>
-      </ShipTo>
-      <ShipFrom>
-         <CompanyName>$ship_from[company_name]</CompanyName>
-         <AttentionName>$ship_from[attn_name]</AttentionName>
-         <PhoneNumber>
-            <StructuredPhoneNumber>
-               <PhoneDialPlanNumber>$ship_from[phone_dial_plan_number]</PhoneDialPlanNumber>
-               <PhoneLineNumber>$ship_from[phone_line_number]</PhoneLineNumber>
-               <PhoneExtension>$ship_from[phone_extension]</PhoneExtension>
-            </StructuredPhoneNumber>
-         </PhoneNumber>
-         <Address>
-            <AddressLine1>$ship_from[address_1]</AddressLine1>
-            <AddressLine2>$ship_from[address_2]</AddressLine2>
-            <AddressLine3>$ship_from[address_3]</AddressLine3>
-            <City>$ship_from[city]</City>
-            <StateProvinceCode>$ship_from[state_province_code]</StateProvinceCode>
-            <PostalCode>$ship_from[postal_code]</PostalCode>
-            <CountryCode>$ship_from[country_code]</CountryCode>
-         </Address>
-      </ShipFrom>
-      <PaymentInformation>
-         <Prepaid>
-            <BillShipper>
-               <AccountNumber>$shipment[bill_shipper_account_number]</AccountNumber>
-            </BillShipper>
-         </Prepaid>
-      </PaymentInformation>
-      <Service>
-         <Code>$shipment[service_code]</Code>
-      </Service>
-      <Package>
-         <PackagingType>
-            <Code>$shipment[packaging_type]</Code>
-         </PackagingType>
-         <Dimensions>
-         	<UnitOfMeasurement>
-         		<Code>IN</Code>
-         	</UnitOfMeasurement>
-         	<Length>$shipment[length]</Length>
-         	<Width>$shipment[width]</Width>
-         	<Height>$shipment[height]</Height>
-         </Dimensions>
-         <ReferenceNumber>
-            <Code>IK</Code>
-            <Value>$shipment[invoice_number]</Value>
-         </ReferenceNumber>
-         <PackageWeight>
-            <UnitOfMeasurement>
-               <Code>LBS</Code>
-            </UnitOfMeasurement>
-            <Weight>$shipment[weight]</Weight>
-         </PackageWeight>
-         <PackageServiceOptions>
-            <InsuredValue>
-               <CurrencyCode>USD</CurrencyCode>
-               <MonetaryValue>$shipment[insured_value]</MonetaryValue>
-            </InsuredValue>
-         </PackageServiceOptions>
-      </Package>
-   </Shipment>
-</ShipmentConfirmRequest>";
-		
-		// execute the curl function and return the result document to $result
-		$ch = curl_init ();
-		curl_setopt ( $ch, CURLOPT_URL, $post_url );
-		curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-		curl_setopt ( $ch, CURLOPT_POST, 1 );
-		curl_setopt ( $ch, CURLOPT_POSTFIELDS, "$xml_request" );
-		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		$xml_result = curl_exec ( $ch );
-		curl_close ( $ch );
-		
-		$data = $this->parse_xml ( $xml_result );
-		
-		$result = array ();
-		if ($data ["ShipmentConfirmResponse"] ["#"] ["Response"] [0] ["#"] ["ResponseStatusCode"] [0] ["#"] == 1) {
-			$result ["total_charges"] = $data ["ShipmentConfirmResponse"] ["#"] ["ShipmentCharges"] [0] ["#"] ["TotalCharges"] [0] ["#"] ["MonetaryValue"] [0] ["#"];
-		} else {
-			$result ["error_description"] = $data ["ShipmentConfirmResponse"] ["#"] ["Response"] [0] ["#"] ["Error"] [0] ["#"] ["ErrorDescription"] [0] ["#"];
-		
-		}
-		if (! array_key_exists ( 'error_description', $result )) {
-			//echo number_format($result["total_charges"],2);
-			return number_format ( $result ["total_charges"], 2 );
-		} else {
-			echo "<div style='color:red'>{$result["error_description"]}</div>";
-			exit ();
-		}
-	
-	}
-	
-	function parse_xml($data) {
-		
-		$vals = $index = $array = array ();
-		$parser = xml_parser_create ();
-		xml_parser_set_option ( $parser, XML_OPTION_CASE_FOLDING, 0 );
-		xml_parser_set_option ( $parser, XML_OPTION_SKIP_WHITE, 1 );
-		xml_parse_into_struct ( $parser, $data, $vals, $index );
-		xml_parser_free ( $parser );
-		
-		$i = 0;
-		
-		if (isset ( $vals [$i] ['tag'] )) {
-			$tagname = $vals [$i] ['tag'];
-			if (isset ( $vals [$i] ["attributes"] )) {
-				$array [$tagname] ["@"] = $vals [$i] ["attributes"];
-			}
-			
-			$array [$tagname] ["#"] = $this->xml_get_depth ( $vals, $i );
-		}
-		return $array;
-	}
-	
-	function xml_get_depth($vals, &$i) {
-		$children = array ();
-		if (isset ( $vals [$i] ['value'] ))
-			array_push ( $children, $vals [$i] ['value'] );
-		
-		while ( ++ $i < count ( $vals ) ) {
-			
-			switch ($vals [$i] ['type']) {
-				
-				case 'cdata' :
-					array_push ( $children, $vals [$i] ['value'] );
-					break;
-				
-				case 'complete' :
-					$tagname = $vals [$i] ['tag'];
-					if (isset ( $children ["$tagname"] )) {
-						$size = sizeof ( $children ["$tagname"] );
-					} else {
-						$size = 0;
-					}
-					
-					if (isset ( $vals [$i] ['value'] )) {
-						$children [$tagname] [$size] ["#"] = $vals [$i] ['value'];
-					}
-					if (isset ( $vals [$i] ["attributes"] )) {
-						$children [$tagname] [$size] ["@"] = $vals [$i] ["attributes"];
-					}
-					break;
-				
-				case 'open' :
-					$tagname = $vals [$i] ['tag'];
-					if (isset ( $children ["$tagname"] )) {
-						$size = sizeof ( $children ["$tagname"] );
-					} else {
-						$size = 0;
-					}
-					if (isset ( $vals [$i] ["attributes"] )) {
-						$children ["$tagname"] [$size] ["@"] = $vals [$i] ["attributes"];
-						$children ["$tagname"] [$size] ["#"] = $this->xml_get_depth ( $vals, $i );
-					} else {
-						$children ["$tagname"] [$size] ["#"] = $this->xml_get_depth ( $vals, $i );
-					}
-					break;
-				
-				case 'close' :
-					return $children;
-					break;
-			}
-		
-		}
-		
-		return $children;
-	
-	}
-	
-	/**
-
-	 * @desc get shipping dimensions
-
-	 * @author		Peter Ivanov
-
-	 * @version 1.0
-
-	 * @since Version 1.0
-
-	 */
-	
-	function shippingGetOrderPackageSize() {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_cart'];
-		$session_id = $this->session->userdata ( 'session_id' );
-		$q = "select * from $table where sid='$session_id' and order_completed='n'";
-		
-		$q = $this->core_model->dbQuery ( $q );
-		
-		$weight = false;
-		$height = false;
-		$width = false;
-		$height = false;
-		// var_dump(	$q);
-		if (! empty ( $q )) {
-			foreach ( $q as $item ) {
-				$weight = $weight + (floatval ( $item ['weight'] ) * $item ['qty']);
-				$height = $height + (floatval ( $item ['height'] ) * $item ['qty']);
-				$length = $length + (floatval ( $item ['length'] ) * $item ['qty']);
-				$width = $width + (floatval ( $item ['width'] ) * $item ['qty']);
-			}
-		} else {
-			return false;
-		}
-		
-		$temp = array ();
-		$temp ['weight'] = $weight;
-		$temp ['height'] = $height;
-		$temp ['length'] = $length;
-		$temp ['width'] = $width;
-		
-		return $temp;
 	
 	}
 	
@@ -1527,7 +1582,7 @@ return $id;
 		
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1549,7 +1604,7 @@ return $id;
 		
 		global $cms_db_tables;
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table = $cms_db_tables ['table_cart_orders_shipping_cost'];
 		
@@ -1557,7 +1612,7 @@ return $id;
 			
 			$q = "delete from $table where ship_to_continent like '{$data['ship_to_continent']}' ";
 			
-			$this->core_model->dbQ ( $q );
+			CI::model('core')->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
@@ -1565,9 +1620,9 @@ return $id;
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
+		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -1601,9 +1656,9 @@ return $id;
 		
 		$q = " delete from $table where id = $id ";
 		
-		$this->core_model->dbQ ( $q );
+		CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1629,7 +1684,7 @@ return $id;
 		
 		$q = " select ship_to_continent from $table where is_active='y' ";
 		
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		
 		$q1 = array ();
 		
@@ -1642,263 +1697,20 @@ return $id;
 		return $q1;
 	
 	}
+	function payPalCardTypes() {
+		return array ('Visa' => 'Visa', 'MasterCard' => 'MasterCard', 'Discover' => 'Discover', 'Amex' => 'Amex', 'Maestro' => 'Maestro' ); //'Solo' => 'Solo',
 	
-	/**
-	 * @desc billingCheckCreditCard
-	 * @author		Peter Ivanov
-	 * @version 1.0
-	 * @since Version 1.0
-	 */
-	
-	function billingProcessCreditCard($make_transaction = false) {
-		global $cms_db_tables;
-		
-		$shop_transaction_method = $this->core_model->optionsGetByKey ( 'shop_transaction_method' );
-		if ($shop_transaction_method == false) {
-			return false;
-		}
-		
-		if (trim ( $shop_transaction_method ) == 'tpro') {
-			$shop_transaction_method_user_id = $this->core_model->optionsGetByKey ( 'shop_transaction_method_user_id' );
-			if ($shop_transaction_method_user_id == false) {
-				return false;
-			}
-			
-			$shop_transaction_method_username = $this->core_model->optionsGetByKey ( 'shop_transaction_method_username' );
-			if ($shop_transaction_method_username == false) {
-				return false;
-			}
-			
-			$shop_transaction_method_password = $this->core_model->optionsGetByKey ( 'shop_transaction_method_password' );
-			if ($shop_transaction_method_password == false) {
-				return false;
-			}
-			
-			$shop_transaction_method_merchantaccountid = $this->core_model->optionsGetByKey ( 'shop_transaction_method_merchantaccountid' );
-			if ($shop_transaction_method_merchantaccountid == false) {
-				return false;
-			}
-			
-			$billing_cvv2 = $this->session->userdata ( 'billing_cvv2' );
-			if ($billing_cvv2 == false) {
-				return false;
-			}
-			$formdata = array ();
-			
-			$formdata ['clientid'] = $shop_transaction_method_user_id;
-			$formdata ['merchantaccountid'] = $shop_transaction_method_merchantaccountid;
-			$formdata ['transactiontype'] = 'SALE';
-			$formdata ['INDUSTRYTYPE'] = '013'; //ELECTRONIC COMMERCE
-			
 
-			$formdata ['customercode'] = $this->session->userdata ( 'session_id' ) . date ( 'ymdHis' );
-			
-			$formdata ['amount'] = $this->session->userdata ( 'amount' );
-			
-			//$formdata ['orderno'] = $this->session->userdata ( 'order_id' );
-			$formdata ['order_id'] = $this->session->userdata ( 'order_id' );
-			$formdata ['cardholdernumber'] = $this->session->userdata ( 'billing_cardholdernumber' );
-			
-			///!Important AUTHORIZATIONNUMBER go only with FORCE/TICKET
-			//$formdata['AUTHORIZATIONNUMBER'] = $formdata ['customercode'];
-			
-
-			$formdata ['expiresmonth'] = $this->session->userdata ( 'billing_expiresmonth' );
-			$formdata ['expiresyear'] = $this->session->userdata ( 'billing_expiresyear' );
-			$formdata ['ccv2'] = false;
-			$formdata ['bname'] = $this->session->userdata ( 'billing_first_name' ) . ' ' . $this->session->userdata ( 'billing_last_name' );
-			$formdata ['bemailaddress'] = $this->session->userdata ( 'billing_user_email' );
-			$formdata ['baddress1'] = $this->session->userdata ( 'billing_address' );
-			$formdata ['bcity'] = $this->session->userdata ( 'billing_city' );
-			$formdata ['bstate'] = $this->session->userdata ( 'billing_state' );
-			$formdata ['bzipcode'] = $this->session->userdata ( 'billing_zip' );
-			$formdata ['bcountry'] = $this->session->userdata ( 'billing_country' );
-			$formdata ['bphone'] = $this->session->userdata ( 'billing_user_phone' );
-			
-			$formdata ['sname'] = $this->session->userdata ( 'shipping_first_name' ) . ' ' . $this->session->userdata ( 'shipping_last_name' );
-			$formdata ['scompany'] = $this->session->userdata ( 'shipping_company_name' );
-			$formdata ['saddress1'] = $this->session->userdata ( 'shipping_address' );
-			$formdata ['saddress2'] = $this->session->userdata ( 'shipping_city' ) . ', ' . $this->session->userdata ( 'shipping_zip' );
-			$formdata ['scity'] = $this->session->userdata ( 'shipping_city' );
-			$formdata ['sstate'] = $this->session->userdata ( 'shipping_state' );
-			$formdata ['szipcode'] = $this->session->userdata ( 'shipping_zip' );
-			$formdata ['sphone'] = $this->session->userdata ( 'shipping_user_phone' );
-			$formdata ['scountry'] = $this->session->userdata ( 'shipping_state' );
-			$formdata ['promo_code'] = $this->session->userdata ( 'cart_promo_code' );
-			$formdata ['shipping_total_charges'] = $this->session->userdata ( 'shipping_total_charges' );
-			$formdata ['shipping_service'] = $this->session->userdata ( 'shipping_service' );
-			$formdata ['semailaddress'] = $this->session->userdata ( 'shipping_user_email' );
-			
-			//build the post string
-			$poststring = '';
-			foreach ( $formdata as $key => $val ) {
-				$poststring .= urlencode ( $key ) . "=" . urlencode ( mb_trim ( $val ) ) . "&";
-			}
-			//echo "Poststring: ".$poststring."\n";
-			// strip off trailing ampersand
-			$poststring = substr ( $poststring, 0, - 1 );
-			
-			if (function_exists ( "curl_init" )) {
-				//$ckfile = tempnam ("/tmp", "CURLCOOKIE"); 
-				
-
-				$url = "https://gateway.mbs-us.com/ccgateway.asp";
-				$ch = curl_init ();
-				
-				//curl_setopt ($ch, CURLOPT_COOKIEJAR, $ckfile);
-				//curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-				
-
-				curl_setopt ( $ch, CURLOPT_URL, $url ); // set url to post to 
-				curl_setopt ( $ch, CURLOPT_FAILONERROR, 0 );
-				curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, 1 ); // allow redirects 
-				curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 ); // return into a variable 
-				curl_setopt ( $ch, CURLOPT_TIMEOUT, 60 ); // times out after Ns 
-				curl_setopt ( $ch, CURLOPT_POST, 1 ); // set POST method 
-				curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
-				//$params .= "CLIENTID=$clientid&MERCHANTACCOUNTID=$mid&CARDHOLDERNUMBER=$cardholdernumber";
-				//$params .= "&EXPIRESMONTH=$expmo&EXPIRESYEAR=$expyear&TRANSACTIONTYPE=$trantype";
-				$params = $poststring;
-				// add POST fields
-				curl_setopt ( $ch, CURLOPT_POSTFIELDS, $params );
-				
-				curl_setopt ( $ch, CURLOPT_FAILONERROR, 0 );
-				curl_setopt ( $ch, CURLOPT_VERBOSE, 0 );
-				curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-				//curl_setopt ( $ch, CURLOPT_COOKIEFILE, 1 );
-				curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-				
-				$result = curl_exec ( $ch ); // run the whole process 
-				curl_close ( $ch );
-				
-				if (preg_match ( '/APPROVED=N/i', $result, $res_buf )) {
-					//Unset Card Data
-					$this->session->set_userdata ( 'billing_cvv2', '' );
-					$this->session->set_userdata ( 'billing_cardholdernumber', '' );
-					return $result;
-				} else {
-					$formdata ['referrer_id'] = $_COOKIE ['referrer_id'];
-					//	$formdata ['to_table_id'] = $_COOKIE['group_id'];
-					//Delete ccv2			
-					$formdata ['ccv2'] = false;
-					
-					$formdata ['order_completed'] = 'y';
-					$formdata ['payment_completed'] = 'y';
-					/////////$this->orderPlace($formdata);
-					
-
-					//Unset Card Data
-					$this->session->set_userdata ( 'billing_cvv2', '' );
-					$this->session->set_userdata ( 'billing_cardholdernumber', '' );
-					
-					//Set Affiliate
-					$countries = $this->paymentmethods_tpro_get_countries_list_as_array ();
-					$formdata ['country'] = $countries [$formdata ['bcountry']];
-					$formdata ['country_id'] = $formdata ['bcountry'];
-					
-					$res_buf = array ();
-					$res_buf = explode ( '&', $result );
-					foreach ( $res_buf as $key => $val ) {
-						if (($pos = strpos ( $val, 'SEQNO=' )) !== false) {
-							$formdata ['transactionid'] = substr ( $val, 6 );
-						}
-					}
-					if (isset ( $formdata ['transactionid'] )) {
-						$this->orderPlace ( $formdata );
-						$formdata ['from_log'] = $_COOKIE ['from_log'];
-						
-						$sql = "SELECT * FROM {$cms_db_tables['table_cart']} WHERE sid='{$this->session->userdata ( 'session_id' )}' AND order_id='{$formdata ['order_id']}' ";
-						$items = $this->core_model->dbQuery ( $sql );
-						
-						for($i = 0; $i < count ( $items ); $i ++) {
-							
-							$formdata ['to_table_id'] = $items [$i] ['to_table_id'];
-							$formdata ['amount'] = intval ( $items [$i] ['qty'] ) * intval ( $items [$i] ['price'] );
-							$formdata ['sku'] = $items [$i] ['sku'];
-							
-							$poststring = '';
-							foreach ( $formdata as $key => $val ) {
-								$poststring .= urlencode ( $key ) . "=" . urlencode ( mb_trim ( $val ) ) . "&";
-							}
-							reset ( $formdata );
-							
-							//$ckfile = tempnam ("/tmp", "CURLCOOKIE2"); 
-							
-
-							$url = site_url ( '/affiliate_center/callbacks/callback_microweber.php' );
-							$ch = curl_init ();
-							
-							//curl_setopt ($ch, CURLOPT_COOKIEJAR, $ckfile);
-							//curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-							
-
-							curl_setopt ( $ch, CURLOPT_URL, $url ); // set url to post to 
-							curl_setopt ( $ch, CURLOPT_FAILONERROR, 0 );
-							curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, 1 ); // allow redirects 
-							curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 ); // return into a variable 
-							curl_setopt ( $ch, CURLOPT_TIMEOUT, 60 ); // times out after Ns 
-							curl_setopt ( $ch, CURLOPT_POST, 1 ); // set POST method 
-							curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
-							
-							curl_setopt ( $ch, CURLOPT_FAILONERROR, 0 );
-							curl_setopt ( $ch, CURLOPT_VERBOSE, 0 );
-							curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-							//curl_setopt ( $ch, CURLOPT_COOKIEFILE, 1 );
-							curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-							
-							curl_setopt ( $ch, CURLOPT_POSTFIELDS, $poststring );
-							$result = curl_exec ( $ch ); // run the whole process 
-							
-
-							curl_close ( $ch );
-							//echo 'MSG=';
-						//p($result);
-						///////////////////////	
-						
-
-						}
-						$userdata ['id'] = $formdata ['referrer_id'];
-						$parent = $this->users_model->getUsers ( $userdata );
-						
-						$opt = array ();
-						$opt ['email'] = $formdata ['bemailaddress'];
-						$opt ['name'] = $formdata ['bname'];
-						
-						$opt ['order_id'] = $formdata ['order_id'];
-						$opt ['shop'] = $items;
-						$opt ['total'] = $formdata ['amount'] + $formdata ['shipping_total_charges'];
-						$opt ['charge'] = $formdata ['shipping_total_charges'];
-						
-						$this->cart_model->sendMailToBilling ( $opt, true );
-						if ($formdata ['semailaddress'] && ($formdata ['bemailaddress'] != $formdata ['semailaddress'])) {
-							$opt ['email'] = $formdata ['semailaddress'];
-							$this->sendMailToBilling ( $opt, true );
-						}
-						$this->session->set_userdata ( 'order_id', 'WFL' . date ( 'ymdHis' ) . rand () );
-						return true;
-					} else {
-						
-						return false;
-					}
-					
-				////////////////////////
-				/////////Call Microweaber
-				
-
-				}
-			
-			} else {
-				exit ( 'Error: You need the CURL library on your server in order to run payment processing functions' );
-			
-			}
-		}
 	}
 	
 	/**
 
 	 * @desc get currencies by criteria
+
 	 * @author		Peter Ivanov
+
 	 * @version 1.0
+
 	 * @since Version 1.0
 
 	 */
@@ -1917,17 +1729,22 @@ return $id;
 		
 		}
 		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
 	}
 	
 	/**
+
 	 * @desc save the currency
+
 	 * @author		Peter Ivanov
+
 	 * @version 1.0
+
 	 * @since Version 1.0
+
 	 */
 	
 	function currencySave($data) {
@@ -1939,15 +1756,15 @@ return $id;
 			$q = "delete from $table where currency_from like '{$data['currency_from']}' and currency_to like '{$data['currency_to']}' ";
 			
 			//var_dump($q );
-			$this->core_model->dbQ ( $q );
+			CI::model('core')->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
 		}
 		//var_dump($data);
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
-		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		return true;
 	}
 	
@@ -1981,9 +1798,9 @@ return $id;
 		
 		$q = " delete from $table where id = $id ";
 		
-		$this->core_model->dbQ ( $q );
+		CI::model('core')->dbQ ( $q );
 		
-		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
+		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -2001,7 +1818,7 @@ return $id;
 
 	 */
 	
-	function currencyExchange($from = "EUR", $to = "EUR") {
+	function currencyExchange($from = "EUR", $to = "EUR", $amount = false) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_cart_currency'];
 		
@@ -2010,105 +1827,115 @@ return $id;
 		} else {
 			
 			$q = "select  currency_rate from $table where currency_from like '$from' and currency_to like '$to' limit 0,1 ";
-			$q = $this->core_model->dbQuery ( $q );
+			//	var_dump($q);
+			$q = CI::model('core')->dbQuery ( $q );
 			if (empty ( $q )) {
-				$rate = 10;
+				$rate = 1;
 			} else {
 				$q = $q [0] ['currency_rate'];
 				$rate = $q;
 			}
 		
 		}
+		//var_Dump($amount, $rate);
+		if ($amount != false) {
+			$rate = $amount * $rate;
+			//print $rate;
+			$rate = number_format ( ($rate), 2, '.', '' );
+			//print $rate;
+		
+
+		}
 		return $rate;
 		/*$cache_file = CACHEDIR . 'currencyExchange_' . md5 ( $from ) . md5 ( $to );
 
-if (is_file ( $cache_file ) == false) {
+		if (is_file ( $cache_file ) == false) {
 
-$cache_file_time = strtotime ( '1984-01-11 07:15' );
+			$cache_file_time = strtotime ( '1984-01-11 07:15' );
 
-} else {
+		} else {
 
-$cache_file_time = filemtime ( $cache_file );
+			$cache_file_time = filemtime ( $cache_file );
 
-}
+		}
 
-//hadcode exchange cause we dont have suitable real time excange service that is free if youk now some please let me know at peter@ooyes.net and info@microweber.com
-
-
-// note no no its fine! :)
+		//hadcode exchange cause we dont have suitable real time excange service that is free if youk now some please let me know at peter@ooyes.net and info@microweber.com
 
 
-$now = strtotime ( date ( 'Y-m-d H:i:s' ) );
-
-$api_call = $cache_file_time;
-
-$difference = $now - $api_call;
-
-$api_time_seconds = 1800;
-
-if ($difference >= $api_time_seconds) {
-
-$url = "http://www.webservicex.com/CurrencyConvertor.asmx/ConversionRate?FromCurrency=$from&ToCurrency=$to";
-
-$count = $this->core_model->url_getPage ( $url, $timeout = 60 );
-//$count = strval ( $count );
-//	$xml = new SimpleXMLElement($count);
-//	$count1 = substr ( $count, 0, 16 );
-//$xmlobj = simplexml_load_string($count);
-//print_r($xmlobj->xpath("//*[level='1']"));
-//var_dump($xmlobj->xpath("//0"));
-//print_r($xmlobj->xpath("/0"));
-//$catArray = xml2array($xml);
-$dom = new domDocument ( );
-$dom->loadXML ( $count );
-if (! $dom) {
-//  echo 'Error while parsing the document';
-//exit;
-}
-$s = makeThisXMLtoArray ( $dom );
-$s = $s ['#document'] ['double'];
-//echo $s->book[0]->title;
+		// note no no its fine! :)
 
 
-$count = $s;
-//var_dump ( 'aaaaa' );
-//var_dump ( $s );
+		$now = strtotime ( date ( 'Y-m-d H:i:s' ) );
+
+		$api_call = $cache_file_time;
+
+		$difference = $now - $api_call;
+
+		$api_time_seconds = 1800;
+
+		if ($difference >= $api_time_seconds) {
+
+			$url = "http://www.webservicex.com/CurrencyConvertor.asmx/ConversionRate?FromCurrency=$from&ToCurrency=$to";
+
+			$count = CI::model('core')->url_getPage ( $url, $timeout = 60 );
+			//$count = strval ( $count );
+			//	$xml = new SimpleXMLElement($count);
+			//	$count1 = substr ( $count, 0, 16 );
+			//$xmlobj = simplexml_load_string($count);
+			//print_r($xmlobj->xpath("//*[level='1']"));
+			//var_dump($xmlobj->xpath("//0"));
+			//print_r($xmlobj->xpath("/0"));
+			//$catArray = xml2array($xml);
+			$dom = new domDocument ( );
+			$dom->loadXML ( $count );
+			if (! $dom) {
+				//  echo 'Error while parsing the document';
+			//exit;
+			}
+			$s = makeThisXMLtoArray ( $dom );
+			$s = $s ['#document'] ['double'];
+			//echo $s->book[0]->title;
 
 
-//	$what = $xml->double[0];
-//$count = explode('>',$count);
-//var_dump($count);
-//$count = $count[1];
-//$count = explode('<',$count);
-//var_dump($count);
-//$count = $count[0];
-//$count
+			$count = $s;
+			//var_dump ( 'aaaaa' );
+			//var_dump ( $s );
 
 
-//
+			//	$what = $xml->double[0];
+			//$count = explode('>',$count);
+			//var_dump($count);
+			//$count = $count[1];
+			//$count = explode('<',$count);
+			//var_dump($count);
+			//$count = $count[0];
+			//$count
 
 
-//var_dump($what);
-//exit;
-if (is_file ( $cache_file ) == true) {
+			//
 
-@unlink ( $cache_file );
 
-}
+			//var_dump($what);
+			//exit;
+			if (is_file ( $cache_file ) == true) {
 
-touch ( $cache_file );
+				@unlink ( $cache_file );
 
-file_put_contents ( $cache_file, ($count) );
+			}
 
-return ($count);
+			touch ( $cache_file );
 
-} else {
+			file_put_contents ( $cache_file, ($count) );
 
-$count = file_get_contents ( $cache_file );
+			return ($count);
 
-return ($count);
+		} else {
 
-}*/
+			$count = file_get_contents ( $cache_file );
+
+			return ($count);
+
+		}*/
 	
 	}
 	
@@ -2117,36 +1944,39 @@ return ($count);
 		switch ($to) {
 			
 			case "EUR" :
-				$this->session->set_userdata ( 'shop_currency', $to );
-				$this->session->set_userdata ( 'shop_currency_sign', '&euro;' );
-				$this->session->set_userdata ( 'shop_currency_code', 'EUR' );
+				CI::library('session')->set_userdata ( 'shop_currency', $to );
+				CI::library('session')->set_userdata ( 'shop_currency_sign', '&euro;' );
+				CI::library('session')->set_userdata ( 'shop_currency_code', 'EUR' );
 				break;
 			
 			case "USD" :
-				$this->session->set_userdata ( 'shop_currency', $to );
-				$this->session->set_userdata ( 'shop_currency_sign', '$' );
-				$this->session->set_userdata ( 'shop_currency_code', 'USD' );
+				CI::library('session')->set_userdata ( 'shop_currency', $to );
+				CI::library('session')->set_userdata ( 'shop_currency_sign', '$' );
+				CI::library('session')->set_userdata ( 'shop_currency_code', 'USD' );
 				break;
 			
 			case "GBP" :
-				$this->session->set_userdata ( 'shop_currency', $to );
-				$this->session->set_userdata ( 'shop_currency_sign', '&pound;' );
-				$this->session->set_userdata ( 'shop_currency_code', 'GBP' );
+				
+				CI::library('session')->set_userdata ( 'shop_currency', $to );
+				CI::library('session')->set_userdata ( 'shop_currency_sign', '&pound;' );
+				CI::library('session')->set_userdata ( 'shop_currency_code', 'GBP' );
 				break;
 			
 			default :
-				$this->session->set_userdata ( 'shop_currency', $to );
-				$this->session->set_userdata ( 'shop_currency_sign', $sign );
-				$this->session->set_userdata ( 'shop_currency_code', $code );
+				CI::library('session')->set_userdata ( 'shop_currency', $to );
+				CI::library('session')->set_userdata ( 'shop_currency_sign', $sign );
+				CI::library('session')->set_userdata ( 'shop_currency_code', $code );
 				break;
 		
 		}
+		
+	//print CI::library('session')->userdata ( 'shop_currency' ); 
 	
+
 	}
 	
 	function currencyConvertPrice($price, $currency = 'EUR') {
 		global $cms_db;
-		return $price;
 		if ($currency == 'EUR') {
 			
 			return $price;
@@ -2157,9 +1987,9 @@ return ($count);
 			//	var_dump($rate_please_work);
 			$rate = $rate_please_work;
 			
-			$rate = (floatval ( $rate ));
+			$rate = (($rate));
 			//	var_dump ( $rate );
-			$price = floatval ( $price );
+			$price = ($price);
 			//	var_dump($price);
 			$english_format_number = number_format ( ($rate * $price), 2, '.', '' );
 			
@@ -2225,20 +2055,20 @@ return ($count);
 		//$result = $cms_db->fetchAll($q );
 		//	var_dump ( $result );
 		//$cms_db
-		//$query = $this->db->query($q);
+		//$query = CI::db()->query($q);
 		//$query = $query->row_array ();
 		
 
-		//$q = $this->core_model->dbQuery ( $q );
+		//$q = CI::model('core')->dbQuery ( $q );
 		//	$q  = $q [0];
 		//var_dump($query);
-		//$q = $this->db->query ( $q );
+		//$q = CI::db()->query ( $q );
 		//	$q = $q->row_array ();
 		//
 		//$q = $q [0] ['the_correct_results_that_php_is_bugging_about'];
 		
 
-		//	$query = $this->db->query($q);
+		//	$query = CI::db()->query($q);
 		
 
 		//if ($query->num_rows() > 0)
@@ -2256,83 +2086,6 @@ return ($count);
 
 		}
 	
-	}
-	
-	function paymentmethods_tpro_get_countries_list_as_array() {
-		$fname = BASEPATH . '/libraries/' . 'tpro_country_codes.txt';
-		if (is_file ( $fname )) {
-			//$txt = file_get_contents ();
-			//var_dump ( $txt );
-			
-
-			$filename = $fname;
-			$contents = file ( $filename );
-			$arr = array ();
-			foreach ( $contents as $line ) {
-				if ($line != NULL) {
-					$line_exploded = explode ( ' ', $line );
-					$line_clean = str_ireplace ( $line_exploded [0], '', $line );
-					$arr [$line_exploded [0]] = $line_clean;
-				}
-			}
-			return $arr;
-		} else {
-			return false;
-		}
-	
-	}
-	
-	function sendMailToBilling($opt = array(), $return_full = false) {
-		if (empty ( $opt ))
-			return false;
-		
-		$to = $opt ['email'];
-		$admin_options = $this->core_model->optionsGetByKey ( 'admin_email', true );
-		
-		$from = (empty ( $admin_options )) ? 'noreply@ooyes.net' : $admin_options ['option_value'];
-		$site = site_url ();
-		$object = 'Billing Proccess';
-		$total = 0;
-		$message = <<<STR
-		Hello, <b>{$opt ['name']}</b>!
-
-		 
-		Thank you for your order from {$site} . 
-		
-		Your order id is: <b>{$opt ['order_id']}</b>
-		
-		Here are your billing proccess details:<br />
-		<p>
-STR;
-		for($i = 0; $i < count ( $opt ['shop'] ); $i ++) {
-			$total = $opt ['shop'] [$i] ['price'] * $opt ['shop'] [$i] ['qty'];
-			
-			$message .= <<<STR
-			<p>
-			Item name: {$opt['shop'][$i]['item_name']}<br />
-			SKU: {$opt['shop'][$i]['sku']}<br /><br /><br />
-			Quantity: {$opt['shop'][$i]['qty']}<br />
-			Price: {$opt['shop'][$i]['price']}<br />
-			<b>Total: $total</b><br /><br />
-			
-			Size: {$opt['shop'][$i]['size']}<br />
-			Height: {$opt['shop'][$i]['height']}<br />
-			Width: {$opt['shop'][$i]['width']}<br />
-			Length: {$opt['shop'][$i]['length']}<br />
-			<p>
-STR;
-		}
-		$message .= <<<STR
-		<p> </p>
-		<p>
-		Shipping Charge:{$opt['charge']}		
-		</p>
-		<p>
-		All Totals:{$opt['total']}		
-		</p>
-STR;
-		
-		@mail ( $to, $object, $message, "From: $from\nReply-To: $from\nContent-Type: text/html;charset=\"windows-1251\"\nContent-Transfer-Encoding: 8bit" );
 	}
 
 }

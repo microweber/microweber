@@ -1,70 +1,196 @@
+$(document).ready(function(){
+
+});
+
+
 mw.comments = {};
 
 mw.comments = new function() {
 
 	this.servicesUrl = '{SITEURL}/ajax_helpers/',
+	
+	 this.ajax_element_update = false,
+	
+ 
+	
 
-	/* ~~~ private methods ~~~ */
+	
 
-	this._beforeSend = function() {
-
+	
+	
+	this._beforeSend = function(formData, jqForm, options) {
+		var queryString = $.param(formData);
 		var isValid;
-		if ($(".commentForm").hasClass("error")) {
+		this.ajax_element_update = false;
+
+
+
+		if ($(".ajax_comment_form").hasClass("error")) {
 			isValid = false;
+		//	this.ajax_element_update = false;
 		} else {
-			isValid = true;
+			for (var i=0; i < formData.length; i++) {
+		        if (formData[i].value) {
+		        	//alert(formData[i].name);
+		            if(formData[i].name == 'update_element'){
+		            //	alert(formData[i].value);
+		            	 this.ajax_element_update = formData[i].value;
+		            //	alert(mw.comments. ajax_element_update);
+		            }
+
+
+		            if(formData[i].name == 'hide_element'){
+		            	$(formData[i].value).fadeOut();
+		            }
+		            
+		            if(formData[i].name == 'show_element'){
+		            	$(formData[i].value).fadeIn();
+		            }
+		            
+		           // return false; 
+		        } 
+		    }
+			
+
 		}
 
 		return isValid;
 	}
 
-	this._afterSend = function(t, tt, updateElementId) {
-		// getComments(t, tt, updateElementId);
+	this._afterSend = function(responseText, statusText, xhr, $form) {
+	//	alert( this.ajax_element_update);
+		                    eventlistener = 'onAfterComment';
+		mw.comments.getComments($form, $update_element_selector = this.ajax_element_update);
 	}
 
 	/* ~~~ public methods ~~~ */
 
-	this.postComment = function(form, t, tt, updateElementId) {
+	this.postComment = function(form) {
 
 		var requestOptions = {
 			url : '{SITEURL}api/comments/' + 'comments_post',
-			clearForm : true,
+			clearForm : false,
+			async : false,
 			type : 'post',
+			data: form.fieldSerialize(),
 			beforeSubmit : this._beforeSend,
-			success : this._afterSend(t, tt, updateElementId)
+			success : this._afterSend
 		};
 
 		form.ajaxSubmit(requestOptions);
 		return false;
 	};
+ 
 
-	this.getComments = function($to_table, $to_table_id, $placeholder) {
+	this.getComments = function(form) {
+ 
+		 
+		
+		$upd =($update_element_selector);
+		//alert($upd);
+		var requestOptions = {
+				url : '{SITEURL}api/comments/' + 'comments_list',
+				resetForm : true,
+				async : false,
+				type : 'post',
+			//	data: form.fieldSerialize(),
+				success: function(resp){
+			$($upd).html(resp);
+			
+		     //alert( "Data Saved: " + resp );
+		   }
+			};
 
-		$.post("{SITEURL}api/comments/comments_list", {
-			to_table : $to_table,
-			to_table_id : $to_table_id
-		}, function(data) {
-			$($placeholder).html(data);
-		});
+			form.ajaxSubmit(requestOptions);
+			return false;
+ 
 	};
 
 }
 
-$(document).ready(
-		function() {
 
-			$('.commentForm').submit(
-					function() {
-						mw.comments.postComment($(this), $(this).find(
-								"input[name='to_table']").val(), $(this).find(
-								"input[name='to_table_id']").val(), $(this)
-								.find("input[name='related_list']").val());
-						$(this).fadeOut();
+			  mw.ready(".ajax_comment_form", function(){
+		         $(this).submit(function(){
+                      if($(this).isValid()){
+                          mw.comments.postComment($(this));
+  					  }
+      				  return false;
+		         })
+			  });
 
-						$(this).find('.commentFormSuccess').fadeIn();
+$(document).ready(function() {
+			
+			     $(window).load(function(){
 
-						return false;
-					});
-			// mw.users.Dashboard.getCounts(<?php echo $statuses_ids_json;?>,
-			// <?php echo $contents_ids_json;?>);
+			     })
+
+
+
+
+			
+			
+
+			
+			
+			
+			
+
+			
+			
+			
+			
+
+			
+			
+
+			
+			$('.commentForm').submit(function(){
+
+                if($(this).isValid()){
+                  mw.comments.postComment($(this), $(this).find(
+                  		"input[name='to_table']").val(), $(this).find(
+                  		"input[name='to_table_id']").val(), $(this)
+                  		.find("input[name='update_element']").val());
+                  $(this).fadeOut();
+
+                  $(this).find('.commentFormSuccess').fadeIn();
+                  location.reload(true);
+
+
+
+                }
+                else{
+
+                }
+
+                return false;
+			});
+
+			
 		});
+
+
+
+
+mw.comments.del = function(id, hide_element_or_callback) {
+	var answer = confirm("Are you sure you want to delete this comment?");
+
+	if (answer) {
+
+		$.post('{SITEURL}api/comments/delete', {
+			id : id
+		}, function(response) {
+			if (response.indexOf('yes')!=-1) {
+				if (typeof (hide_element_or_callback) == 'function') {
+					hide_element_or_callback.call(this);
+				} else {
+					$(hide_element_or_callback).fadeOut();
+				}
+			} else {
+				alert(response);
+			}
+		});
+
+	}
+
+}

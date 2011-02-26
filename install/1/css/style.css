@@ -1,0 +1,263 @@
+body {
+	margin:0px;
+	background:#fff;
+	color:#000;
+	font:76%/140% Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+a {
+	text-decoration:none;
+	color:blue;
+}
+label,.item-name {
+	width:100px;
+	display:block;
+	float:left;
+	text-align:right;
+	padding-right:5px;
+}
+inupt, select,.item-value {
+	float:left;
+}
+ul {
+	margin:0 0 15px 0;
+	padding:0;
+	list-style:none;
+}
+br {
+	clear:both;
+}
+h1 {
+	margin-top:13px;
+}
+
+.checkboxs label,.checkboxs inupt {
+	float:none;
+	display:inline;
+	padding:0;
+}
+#logo {
+	width:200px;
+	height:70px;
+	background:url(../images/nexty_logo.png) no-repeat top left;
+	font-size:0px;
+	margin:0;
+}
+#logo a {
+	width:200px;
+	height:70px;
+	display:block;
+}
+
+#time,#top-new-task {
+	float:right;
+	clear:both;
+}
+#contents {
+	margin:5px;
+	width:65%;
+	float:left;
+}
+#loading {
+	position:absolute;
+	top:0;
+	left:0;
+	color:#fff;
+	padding:2px 2px 2px 20px;
+	background:red url(../images/loading-indicator.gif) no-repeat 2px;
+	display:none;
+}
+
+/*Menu*/
+#menu, #menu ul {
+	float: left;
+	list-style: none;
+	line-height: 1;
+	background-color:#eee;
+	padding: 0;
+	margin: 0 0 1em 0;
+}
+
+#menu a {
+	display: block;
+	text-decoration: none;
+	padding-right:2em;
+}
+
+#menu .dropdown {
+	background: url(../images/dropdown.png) 90% 50% no-repeat;
+}
+
+#menu li {
+	float: left;
+	padding: 0;
+	white-space:nowrap;
+	
+	padding-left:10px;
+	display:block;
+	border:1px solid #ccc;
+	background-color:#eee;
+	line-height:30px;
+	height:30px;
+}
+
+#menu li:hover {
+	background-color:#ccc;
+}
+
+#menu li ul {
+	position: absolute;
+	left: -999em;
+	height: auto;
+}
+
+#menu li li {
+	float:none;
+	min-width: 120px;
+}
+
+#menu li:hover ul, #menu li.over ul {
+	left: auto;
+	margin:0 0 0 -10px;
+}
+
+#menu li li:hover {
+	background-color:#ccc;
+}
+
+#menu li li a {
+	padding-right: 7px;
+}
+
+/*SideBars*/
+.sidebar {
+	width:15%;
+	float:left;
+	padding:0 0 0 10px;
+}
+.sidebar ul li {
+	margin:5px 0;
+}
+.sidebar dl dd {
+	margin:0;
+	padding:0;
+}
+.due-tommorow {
+	margin:0;
+	padding:0;
+}
+.todays-reminder {
+	background-color:#fffed6;
+}
+.due-on-today li {
+	background-color:#ff9999;
+	margin-bottom:5px;
+}
+
+#search {
+	width:110px;
+}
+#search-button {
+	width:30px;
+}
+
+/*Messages*/
+#warning-message,.warning {
+	font-weight:bold;
+	color:red;
+}
+#error-message,.error {
+	font-weight:bold;
+	color:red;
+	border-top:1px solid #d4d4d4;
+	border-bottom:1px solid #d4d4d4;
+	width:80%;
+}
+#success-message,.success {
+	font-weight:bold;
+	color:darkgreen;
+	border-top:1px solid #d4d4d4;
+	border-bottom:1px solid #d4d4d4;
+	width:80%;
+}
+
+/* Tables */
+table {
+	width:100%;
+	border-collapse:collapse;
+	margin-bottom:10px;
+}
+table td.action {
+	width:5%;
+}
+th,td {
+	text-align:left;
+	padding:0 10px 0 0;
+}
+th.task-order {
+	white-space:nowrap;
+}
+
+/**/
+table.task-listing,table.reminder-listing {
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+}
+.task-name,.reminder-name {
+	border-left:1px solid #000;
+}
+.action-actions,.action-delete {
+	border-right:1px solid #000;
+}
+.task-description,.reminder-description {
+	border-left:1px solid #000;
+	border-right:1px solid #000;
+}
+.spacer td {
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+}
+
+tr.odd {
+	background-color:#eee;
+}
+tr.odd:hover,tr.even:hover {
+	background-color:#ddd;
+}
+tr.spacer {
+	height:5px;
+}
+table tr.type-immediate {
+	background-color:#fff;
+}
+table tr.type-done {
+	background-color:#eee;
+}
+th {
+	font:12pt Arial,sans-serif;
+}
+.task-date {
+	white-space:nowrap;
+}
+
+/*Formatting*/
+.title-type {
+	color:red;
+}
+.title-project {
+	color:blue;
+}
+.title-context {
+	color:green;
+}
+
+/*Icons*/
+.icon,.page-next,.page-back,.page-first,.page-last {
+	font-size:0px;
+	padding:6px 8px;
+}
+.list-with-icon li,.list-with-icon dt, .with-icon {
+	padding-left:18px;
+}
+.menu-with-icon li a {
+	padding-left:12px;
+}

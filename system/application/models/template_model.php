@@ -1,8 +1,106 @@
-<?php class Template_model extends Model {
+<?php
+
+function parse_memory_storage($id, $content) {
 	
+	static $parse_mem;
+	$path_md = ($id);
+	// p($parse_mem);
+	
+
+	if ($parse_mem [$path_md] != false) {
+		
+		return $parse_mem [$path_md];
+	}
+	
+	if ($content != false) {
+		
+		$parse_mem [$path_md] = $content;
+		return $content;
+	}
+}
+
+class Template_model extends Model {
+	public static $parse_memory = array ();
 	function __construct() {
 		parent::Model ();
+		
+	//	CI::model ( 'content' )->define_vars ();
 	
+
+	}
+	
+	function addTransparentBackgroudToFlash($layout) {
+		if (strstr ( $layout, '<object' ) == true) {
+			
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'object', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			// p($tags);
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				//
+				foreach ( $matches as $m ) {
+					$full = $m ['full_tag'];
+					
+					if (strstr ( $full, 'wmode' ) == false) {
+						
+						$tag = '<param name="wmode" value="transparent"></object>';
+						
+						$full = str_ireplace ( '</object>', $tag, $full );
+						
+						$layout = str_replace_count ( $m ['full_tag'], $full, $layout, 1 );
+					}
+				
+				}
+			}
+		
+		}
+		
+		if (strstr ( $layout, '<embed' ) == true) {
+			
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'embed', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				//
+				foreach ( $matches as $m ) {
+					$full = $m ['full_tag'];
+					
+					if (strstr ( $full, 'wmode' ) == false) {
+						
+						$tag = '<embed wmode="transparent" ';
+						
+						$full = str_ireplace ( '<embed', $tag, $full );
+						
+						$layout = str_replace_count ( $m ['full_tag'], $full, $layout, 1 );
+					}
+				
+				}
+			}
+			
+			$tags = extract_tags ( $layout, 'embed', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				//
+				foreach ( $matches as $m ) {
+					$full = $m ['full_tag'];
+					
+					if (strstr ( $full, 'wmode' ) == false) {
+						
+						$tag = '<embed wmode="transparent" ';
+						
+						$full = str_ireplace ( '<embed', $tag, $full );
+						
+						$layout = str_replace_count ( $m ['full_tag'], $full, $layout, 1 );
+					}
+				
+				}
+			}
+		
+		}
+		
+		return $layout;
 	}
 	
 	function replaceTemplateTags($layout) {
@@ -10,7 +108,7 @@
 		// @todo cleaup here
 		
 
-		$html = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
+		$html = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $layout );
 		
 		/*require_once 'htmlsql-v0.5/htmlsql.class.php';
 		require_once ("htmlsql-v0.5/snoopy.class.php");
@@ -48,19 +146,30 @@
 		return $html;
 	}
 	
+	function layoutGet($filename) {
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
+		$layout_path = $path;
+		//$file = @file_get_contents ( $layout_path. $filename );
+		$file = $this->load->file ( $layout_path . $filename, true );
+		return $file;
+	}
+	
 	/**
 	 * @desc  Get the template layouts info under the layouts subdir on your active template
 	 * @param $options
-	 * 		$options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
+	 * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
 	 * @return array
 	 * @author	Microweber Dev Team
 	 * @since Version 1.0
 	 */
 	function layoutsList($options = false) {
-		$this->load->helper ( 'directory' );
+		CI::helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
+		$path_to_layouts = $path;
+		$layout_path = $path;
 		//	print $path;
 		//exit;
 		
@@ -71,43 +180,129 @@
 		$to_return = array ();
 		
 		foreach ( $map as $dir ) {
-			$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
-			//var_dump($filename);
+			
+			//$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
+			$filename = $path . $dir;
+			$filename_location = false;
+			$filename_dir = false;
+			$filename = normalize_path ( $filename );
+			$filename = rtrim ( $filename, '\\' );
+			//p ( $filename );
+			if (is_dir ( $filename )) {
+				//
+				$fn1 = normalize_path ( $filename ) . 'index.php';
+				$fn2 = normalize_path ( $filename );
+				
+				//  p ( $fn1 );
+				
+
+				$default_config_location = false;
+				$default_config_location_full_path = false;
+				if (is_file ( $fn1 )) {
+					$filename = $fn1;
+					$filename_dir = $dir;
+					$filename_location = $dir . '/index.php';
+					
+					$default_config_location = normalize_path ( $fn2 );
+					$default_config_location2 = $default_config_location;
+					//$default_config_location = rtrim ( $default_config_location, '\\' );
+					
+
+					$default_config_location_full_path = $default_config_location . 'config.php';
+					if (is_file ( $default_config_location_full_path )) {
+						$default_config_location = $dir . '/config.php';
+					}
+					
+					$default_custom_fields = $default_config_location2 . 'custom_fields.php';
+					//p($default_custom_fields);
+					if (is_file ( $default_custom_fields )) {
+						$default_custom_fields = $default_custom_fields;
+					} else {
+						$default_custom_fields = false;
+					}
+				
+				} else {
+					$filename_dir = false;
+				}
+				//	$path = $filename;
+			}
+			//p($filename);
 			if (is_file ( $filename )) {
+				
 				$ext = file_extension ( $filename );
 				if ($ext == 'php') {
 					
 					$filename_no_ext = $file = basename ( $filename, "." . $ext );
-					$txt_file = $path . $dir . DIRECTORY_SEPARATOR . $filename_no_ext . '.txt';
+					//	$txt_file = $path . $dir . DIRECTORY_SEPARATOR . $filename_no_ext . '.txt';
+					//	$the_file = str_replace($path_to_layouts, '',$filename );;
 					
-					if (is_file ( $txt_file )) {
-						$fin = @file_get_contents ( $txt_file );
-						if (preg_match ( '/type:.+/', $fin, $regs )) {
+
+					//if (is_file ( $txt_file )) {
+					$fin = cache_file_memory_storage ( $filename );
+					if (preg_match ( '/type:.+/', $fin, $regs )) {
+						$result = $regs [0];
+						$result = str_ireplace ( 'type:', '', $result );
+						$to_return_temp ['type'] = trim ( $result );
+					}
+					
+					if ($options ['type'] == '') {
+						$options ['type'] = 'layout';
+					}
+					if (strtolower ( $to_return_temp ['type'] ) == strtolower ( $options ['type'] )) {
+						$to_return_temp = array ();
+						
+						//$to_return_temp ['dir'] = trim ( $dir );
+						if (preg_match ( '/description:.+/', $fin, $regs )) {
 							$result = $regs [0];
-							$result = str_ireplace ( 'type:', '', $result );
-							$to_return_temp ['type'] = trim ( $result );
+							$result = str_ireplace ( 'description:', '', $result );
+							$to_return_temp ['description'] = trim ( $result );
+						}
+						if (preg_match ( '/name:.+/', $fin, $regs )) {
+							$result = $regs [0];
+							$result = str_ireplace ( 'name:', '', $result );
+							$to_return_temp ['name'] = trim ( $result );
 						}
 						
-						if ($options ['type'] == '') {
-							$options ['type'] = 'layout';
+						if (preg_match ( '/content_type:.+/', $fin, $regs )) {
+							$result = $regs [0];
+							$result = str_ireplace ( 'content_type:', '', $result );
+							$to_return_temp ['content_type'] = trim ( $result );
 						}
-						if (strtolower ( $to_return_temp ['type'] ) == strtolower ( $options ['type'] )) {
-							$to_return_temp = array ();
-							$to_return_temp ['filename'] = $filename;
-							$to_return_temp ['dir'] = trim ( $dir );
-							if (preg_match ( '/description:.+/', $fin, $regs )) {
-								$result = $regs [0];
-								$result = str_ireplace ( 'description:', '', $result );
-								$to_return_temp ['description'] = trim ( $result );
-							}
-							if (preg_match ( '/name:.+/', $fin, $regs )) {
-								$result = $regs [0];
-								$result = str_ireplace ( 'name:', '', $result );
-								$to_return_temp ['name'] = trim ( $result );
-							}
+						$screensshot_file = $path . 'screenshots' . DIRECTORY_SEPARATOR . $filename_no_ext . '.jpg';
+						//p($screensshot_file);
+						if (is_file ( $screensshot_file )) {
+							$to_return_temp ['screenshot'] = pathToURL ( $screensshot_file );
+						}
+						if ($filename_dir != false) {
+							$to_return_temp ['layout_name'] = $filename_dir;
+						}
+						if ($filename_location == false) {
 							
-							$screens_dir = $path . $dir . DIRECTORY_SEPARATOR . 'screenshots' . DIRECTORY_SEPARATOR;
-							if (is_dir ( $screens_dir )) {
+							$to_return_temp ['filename'] = $dir;
+						} else {
+							$to_return_temp ['filename'] = $filename_location;
+							
+							if ($default_config_location_full_path != false) {
+								if (is_file ( $default_config_location_full_path )) {
+									include ($default_config_location_full_path);
+									$to_return_temp ['config'] = ($config);
+									$to_return_temp ['params'] = ($config ['params']);
+								
+								}
+								
+								if ($default_custom_fields != false) {
+									
+									include ($default_custom_fields);
+									$to_return_temp ['custom_fields'] = ($custom_fields);
+									//p($custom_fields);
+								}
+							}
+						
+						}
+						
+						//$screens_dir = $path . $dir . DIRECTORY_SEPARATOR . 'screenshots' . DIRECTORY_SEPARATOR;
+						//p($screens_dir);
+						/*if (is_dir ( $screens_dir )) {
 								$screens_dir = array_filter ( glob ( $screens_dir . '*.jpg' ), 'is_file' );
 								//$screens_dir = readDirIntoArray($screens_dir, 'files');
 								//var_dump($screens_dir);
@@ -119,11 +314,11 @@
 									}
 									$to_return_temp ['screenshots'] = $screenshots;
 								}
-							}
-							
-							$to_return [] = $to_return_temp;
-						}
+							}*/
+						//p ( $to_return_temp );
+						$to_return [] = $to_return_temp;
 					}
+					//}
 				}
 			}
 		
@@ -140,9 +335,9 @@
 	 * @since Version 1.0
 	 */
 	function layoutGetHTMLByDirName($layout_name) {
-		$this->load->helper ( 'directory' );
+		CI::helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
 		//	print $path;
 		//exit;
@@ -150,12 +345,12 @@
 
 		$filename = $path . $layout_name . DIRECTORY_SEPARATOR . 'layout.php';
 		if (is_file ( $filename )) {
-			$html = @file_get_contents ( $filename );
+			$html = cache_file_memory_storage ( $filename );
 			if ($html != '') {
 				require_once 'htmlsql-v0.5/htmlsql.class.php';
 				require_once ("htmlsql-v0.5/snoopy.class.php");
 				
-				$wsql = new htmlsql ( );
+				$wsql = new htmlsql ();
 				
 				// connect to a string
 				if (! $wsql->connect ( 'string', $html )) {
@@ -200,9 +395,9 @@
 	 */
 	function stylesList($layout_name) {
 		
-		$this->load->helper ( 'directory' );
+		CI::helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 		$path = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR;
 		//int $path;
 		//exit;
@@ -227,7 +422,7 @@
 				if ($ext == 'css') {
 					$filename2 = $txt_file;
 					if (is_file ( $filename2 )) {
-						$fin = @file_get_contents ( $filename2 );
+						$fin = cache_file_memory_storage ( $filename2 );
 						$to_return_temp = array ();
 						$to_return_temp ['filename'] = $file;
 						
@@ -278,7 +473,7 @@
 	 * @since Version 1.0
 	 */
 	function styleGetCSSURLsAsString($layout_name, $style_css = false) {
-		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 		$path_layout_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'layout.css';
 		$path_style_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR . $style_css;
 		$defalt_style_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR . 'default.css';
@@ -301,9 +496,9 @@
 	 * @desc  Generate Microweber tags to use in tinymce editor
 	 * @param $data
 	 * @param $options
-	 * 		$options ['no_microwber_tags'] - default: false - removes the <microweber> tags
-	 * 		$options ['no_remove_div'] - default: false - removes the <div class="remove-on-submit"> tags
-	 * 		$options ['get_only_stylesheets_as_csv'] - default: false - return the CSS files urls as csv string
+	 * $options ['no_microwber_tags'] - default: false - removes the <microweber> tags
+	 * $options ['no_remove_div'] - default: false - removes the <div class="remove-on-submit"> tags
+	 * $options ['get_only_stylesheets_as_csv'] - default: false - return the CSS files urls as csv string
 	 * @return string
 	 * @author	Microweber Dev Team
 	 * @version 1.0
@@ -335,7 +530,7 @@
 		
 
 		if ($data ['to_table_field'] != '') {
-			//$res = $this->core_model->fetchDbData ( $data ['to_table'], array (array ('is_active', 'y' ), array ('id', $data ['to_table_id'] ) ), array ('debug' => false, 'cache_group' => false, 'order' => array (array ('id', 'DESC' ) ) ) );
+			//$res = CI::model('core')->fetchDbData ( $data ['to_table'], array (array ('is_active', 'y' ), array ('id', $data ['to_table_id'] ) ), array ('debug' => false, 'cache_group' => false, 'order' => array (array ('id', 'DESC' ) ) ) );
 		
 
 		}
@@ -359,7 +554,6 @@
 		} else {
 			$relation = $res;
 			
-
 			$file1 = LAYOUTS_DIR . $relation ['content_layout_name'] . '/layout.css';
 			$file1_url = LAYOUTS_URL . $relation ['content_layout_name'] . '/layout.css';
 			
@@ -372,16 +566,16 @@
 			//print $file1;
 			$return = array ();
 			if (is_file ( $file1 ) == true) {
-				$return[] = $file1_url;
+				$return [] = $file1_url;
 			}
 			if (is_file ( $file2 ) == true) {
-				$return[] = $file2_url;
+				$return [] = $file2_url;
 			} else {
 				if (is_file ( $file3 ) == true) {
-					$return[] = $file3_url;
+					$return [] = $file3_url;
 				}
 			}
-		//	p($return);
+			//	p($return);
 			if (! empty ( $return )) {
 				return implode ( ',', $return );
 			} else {
@@ -395,10 +589,10 @@
 	 * @desc  Parses the relations array and returns the aprropriate data. Define your custom parser with the 'type' option
 	 * @param $data
 	 * @param $options
-	 * 		$options ['to_table'] - give the table name
-	 * 		$options ['to_table_id'] - give the id
-	 * 		$options ['type'] 	- if 'content' - get data from the database
-	 * 							- no other types defined for now
+	 * $options ['to_table'] - give the table name
+	 * $options ['to_table_id'] - give the id
+	 * $options ['type'] 	- if 'content' - get data from the database
+	 * - no other types defined for now
 	 * @return string
 	 * @author	Microweber Dev Team
 	 * @version 1.0
@@ -424,13 +618,13 @@
 		if ($data ['type'] == 'content') {
 			if (strval ( $data ['to_table'] ) != '') {
 				if (strval ( $data ['to_table_id'] ) != '') {
-					$res = $this->core_model->fetchDbData ( $data ['to_table'], array (array ('is_active', 'y' ), array ('id', $data ['to_table_id'] ) ), array ('debug' => false, 'cache_group' => false, 'order' => array (array ('id', 'DESC' ) ) ) );
+					$res = CI::model ( 'core' )->fetchDbData ( $data ['to_table'], array (array ('is_active', 'y' ), array ('id', $data ['to_table_id'] ) ), array ('debug' => false, 'cache_group' => false, 'order' => array (array ('id', 'DESC' ) ) ) );
 					$res = $res [0];
 				} else {
 					
 					print __FUNCTION__ . ' is not yet finished at line:  ' . __LINE__;
 					
-				/*$res = $this->core_model->fetchDbData ( $data ['to_table'], 
+				/*$res = CI::model('core')->fetchDbData ( $data ['to_table'], 
 					array (
 					array ('is_active', 'y' ), 
 					//array ('id', $data ['to_table_id'] ) ), 
@@ -445,68 +639,1016 @@
 		return $res;
 	}
 	
-	function parseMicrwoberTags($layout, $options = false) {
-		$v = $layout;
-		if (strstr ( $v, '<microweber>' ) == true) {
-			//exit($v);
-			$relations = array ();
-			// @todo ? whats this  delete it? - > $item ['dynamic_content_relations'] = array ('asd' );
-			preg_match_all ( '|<microweber.*?</microweber>|ms', $v, $matches );
-			if (! empty ( $matches )) {
+	function loadEditBlock($id, $page_id = false, $history_file = false) {
+		
+		if ($history_file == false) {
+			
+			if ($page_id == false) {
+				$try_file = TEMPLATE_DIR . 'blocks/' . $id . '.php';
+			} else {
+				$try_file = TEMPLATE_DIR . 'blocks/' . $page_id;
+				$try_file = normalize_path ( $try_file );
+				$try_file .= $id . '.php';
 				
-				foreach ( $matches as $m ) {
-					//p ( $m );
-					if (! empty ( $m )) {
-						foreach ( $m as $n ) {
-							if (trim ( $n ) != '') {
-								//	
-								$orig_n = $n;
-								$n = str_replace ( '<microweber>', '', $n );
-								$n = str_replace ( '</microweber>', '', $n );
-								$n = json_decode ( $n, 1 );
-								if (is_array ( $n )) {
-									if (! empty ( $n )) {
-										$exist = false;
-										//	$m = json_decode ( $m );
-										foreach ( $relations as $re => $rel ) {
-											if ($rel == $n) {
-												$exist = true;
-												//	var_dump ( $n );
-											}
-										}
-										if ($exist == false) {
-											$test = $this->microweberTagsGenerate ( $n, $options );
-											$parsed = $this->template_model->parseDynamicRelations ( $n );
-											if ($parsed ['content_layout_name'] != '') {
-												$prepend_to_head = ' <link rel="stylesheet" href="' . LAYOUTS_URL . $parsed ['content_layout_name'] . 
+				if (is_file ( $try_file ) == false) {
+					$try_file = TEMPLATE_DIR . 'blocks/' . $id . '.php';
+				
+				}
+			}
+		} else {
+			$try_file = $history_file;
+		}
+		//p($try_file);
+		$module_file = $this->load->file ( $try_file, true );
+		//$module_file = html_entity_decode ( $module_file );
+		
 
-												'/layout.css" type="text/css" media="all"  />';
-												$prepend_to_head = $prepend_to_head . '<link rel="stylesheet" href="' . LAYOUTS_URL . $parsed ['content_layout_name'] . '/styles/' . $parsed ['content_layout_style'] . '" type="text/css" media="all"  />';
-											}
-											
-											$v = str_replace ( $orig_n, $test, $v );
-											//	p ( $test );
-											$relations [] = $n;
-										}
-									}
-								}
-								//	
+		$module_file = $this->parseMicrwoberTags ( $module_file );
+		return $module_file;
+	}
+	function saveEditBlock($id, $content, $page_id = false) {
+		
+		$content = html_entity_decode ( $content );
+		
+		$content = str_ireplace ( '</mw>', '', $content );
+		$content = str_ireplace ( ' style=""', '', $content );
+		$content = str_ireplace ( ' class="create_module"', '', $content );
+		
+		if ($page_id == true) {
+			$the_dir = TEMPLATE_DIR . 'blocks/' . $page_id;
+			$the_dir = normalize_path ( $the_dir );
+			$try_file = $the_dir . $id . '.php';
+			if (is_dir ( $the_dir ) == false) {
+				mkdir_recursive ( $the_dir );
+			}
+			
+			if (is_file ( $try_file )) {
+			
+			} else {
+				
+				touch ( $try_file );
+			}
+		} else {
+			$try_file = TEMPLATE_DIR . 'blocks/' . $id . '.php';
+			$the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
+		}
+		//p($try_file);
+		$to_save = array ();
+		
+		//p($try_file);
+		
+
+		if (is_file ( $try_file )) {
+			
+			if (strstr ( $content, '<microweber' ) == true) {
+				
+				$relations = array ();
+				$tags = extract_tags ( $content, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+				//	p($tags);
+				$matches = $tags;
+				if (! empty ( $matches )) {
+					//
+					foreach ( $matches as $m ) {
+						
+						//
+						
+
+						if ($m ['tag_name'] == 'microweber') {
+							$replaced = false;
+							$attr = $m ['attributes'];
+							$tag = $m ['full_tag'];
+							$to_save [] = $tag;
+							if ($tag != false) {
+								$content = str_ireplace ( $m ['full_tag'], '', $content );
 							}
+						
 						}
+					
 					}
+				
 				}
 			
 			}
-			//p($matches, 0);
+			
+			if (strstr ( $content, '<div' ) == true) {
+				
+				$relations = array ();
+				$tags = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+				//	p($tags);
+				$matches = $tags;
+				if (! empty ( $matches )) {
+					//
+					foreach ( $matches as $m ) {
+						
+						//
+						
+
+						if ($m ['tag_name'] == 'div') {
+							$replaced = false;
+							$attr = $m ['attributes'];
+							
+							if ($attr ['class'] == 'module') {
+								if ($attr ['base64_array'] != '') {
+									
+									$base64_array = base64_decode ( $attr ['base64_array'] );
+									$base64_array = unserialize ( $base64_array );
+									if (! empty ( $base64_array )) {
+										$tag1 = "<microweber ";
+										
+										foreach ( $base64_array as $k => $v ) {
+											if ((strtolower ( trim ( $k ) ) != 'save') and (strtolower ( trim ( $k ) ) != 'submit')) {
+												$tag1 = $tag1 . "{$k}=\"{$v}\" ";
+											}
+										}
+										$tag1 .= " />";
+										$to_save [] = $tag1;
+										
+										$content = str_ireplace ( $m ['full_tag'], $tag1, $content );
+										$replaced = true;
+										//p($base64_array);
+									}
+								}
+								if ($replaced == false) {
+									if ($attr ['edit'] != '') {
+										$tag = ($attr ['edit']);
+										$tag = base64_decode ( $tag );
+										//p ( $tag );
+										
+
+										if (strstr ( $tag, 'module_id=' ) == false) {
+											
+											$tag = str_replace ( '/>', ' module_id="module_' . date ( 'Ymdhis' ) . rand () . '" />', $tag );
+										
+										}
+										
+										$to_save [] = $tag;
+										if ($tag != false) {
+											$content = str_ireplace ( $m ['full_tag'], $tag, $content );
+										}
+									}
+								}
+							}
+						
+						}
+					
+					}
+				
+				}
+			
+			}
+			
+			if (! empty ( $to_save )) {
+				$to_save_text = implode ( "\n", $to_save );
+			}
+			
+			//	p ( $try_file );
+			
+
+			if ($to_save_text != '') {
+				
+				$to_save_text = str_replace ( '\\', '/', $to_save_text );
+				print ($to_save_text) ;
+				//copy for hiustory
+				$today = date ( 'Y-m-d H-i-s' );
+				$history_f = md5 ( $try_file );
+				//$history_dir = $the_dir . '/history/' . $id . '/';
+				
+
+				$history_dir = APPPATH . '/history/blocks/' . $id . '/';
+				
+				$history_dir = normalize_path ( $history_dir );
+				
+				if (is_dir ( $history_dir ) == false) {
+					mkdir_recursive ( $history_dir );
+				}
+				$history_file = $history_dir . $today . '.php';
+				$saveh = array ();
+				$saveh ['value'] = $to_save_text;
+				$saveh ['full_path'] = $history_file;
+				CI::model ( 'core' )->saveHistory ( $saveh );
+				
+				//copy ( $try_file, $history_file );
+				
+
+				file_put_contents ( $try_file, $to_save_text );
+				CI::model ( 'core' )->cleanCacheGroup ( 'global/blocks' );
+			}
 		}
+	
+	}
+	
+	/**
+
+	 * @desc Function getModules
+	 * @param array
+	 * @return array
+	 * @author      Peter Ivanov
+	 * @version 1.0
+	 * @since Version 1.0
+	 * @example 
+$modules_options = array();
+$modules_options['skip_admin'] = true;
+$modules_options['ui'] = true;
+
+
+$modules = CI::model('template')->getModules($modules_options );
+
+
+p($modules );
+
+	 */
+	
+	function getModules($options = false) {
+		//p($options);
+		$dir_name = normalize_path ( MODULES_DIR );
+		$dir = rglob ( '*_config.php', 0, $dir_name );
+		
+		if (! empty ( $dir )) {
+			$configs = array ();
+			foreach ( $dir as $key => $value ) {
+				$skip_module = false;
+				if ($options ['skip_admin'] == true) {
+					//p($value);
+					if (strstr ( $value, 'admin' )) {
+						$skip_module = true;
+					}
+				}
+				
+				if ($skip_module == false) {
+					
+					$config = array ();
+					$value = normalize_path ( $value, false );
+					$value_fn = $mod_name = str_replace ( '_config.php', '', $value );
+					$value_fn = str_replace ( $dir_name, '', $value_fn );
+					
+					$value_fn = reduce_double_slashes ( $value_fn );
+					//p($value);
+					$try_icon = $mod_name . '.png';
+					
+					include ($value);
+					$config ['module'] = $value_fn . '';
+					
+					if (is_file ( $try_icon )) {
+						//p($try_icon);
+						$config ['icon'] = pathToURL ( $try_icon );
+					}
+					
+					$mmd5 = md5 ( $config ['module'] );
+					$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
+					if (is_file ( $check_if_uninstalled )) {
+						$config ['uninstalled'] = true;
+						$config ['installed'] = false;
+					} else {
+						$config ['uninstalled'] = false;
+						$config ['installed'] = true;
+					}
+					
+					if ($options ['ui'] == true) {
+						if ($config ['ui'] == false) {
+							$skip_module = true;
+						}
+					}
+					
+					if ($skip_module == false) {
+						$configs [] = $config;
+					}
+				}
+				//p ( $value );
+			}
+			
+			return $configs;
+		}
+	
+	}
+	
+	/**
+	 * @desc  parses the mw tags
+	 * @param $layout - string
+	 * @param $options
+	 * $options ['admin'] - loads the module admin
+	 * @return string
+	 * @author	Microweber Dev Team
+	 * @version 1.0
+	 * @since Version 1.0
+	 */
+	function parseMicrwoberTags($layout, $options = false) {
+		//echo memory_get_usage() . "\n"; // 36640
+		/*$cache_id = intval(PAGE_ID).'/' . md5 ( $layout ) . md5 ( serialize ( $options ) );
+		$cache_group = 'global/blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
+		
+		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
+		
+		if (($cache_content) != false) {
+			
+			//return $cache_content;
+		
+		} */
+		
+		static $mem = array ();
+		static $mem2 = array ();
+		$layout_md5 = md5 ( $layout );
+		$options_md5 = md5 ( serialize ( $options ) );
+		$check = $layout_md5 . $options_md5;
+		if ($mem ["{$check}"] != false) {
+			return $mem [$check];
+		}
+		//var_dump( $this->$parse_memory);
+		$layout = str_ireplace ( '<mw', '<microweber', $layout );
+		
+		$v = $layout;
+		
+		//	$tags1 = extract_tags ( $v, '*', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+		
+
+		if (strstr ( $layout, '<microweber' ) == true) {
+			
+		//$layout = $this->parseMicrwoberTags ( $layout, $options );
+		
+
+		}
+		
+		if (strstr ( $layout, '<mw' ) == true) {
+			//$layout = $this->parseMicrwoberTags ( $layout, $options );
+		}
+		
+		if (strstr ( $layout, '<nomw' ) == true) {
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			//	p($tags);
+			$matches = $tags;
+			$txt_to_replace_back = array ();
+			if (! empty ( $matches )) {
+				//
+				foreach ( $matches as $m ) {
+					
+					$hash = md5 ( $m ['full_tag'] );
+					$hash = 'replace_back_' . $hash;
+					
+					$txt_to_replace_back [$hash] = $m ['full_tag'];
+					
+					$layout = str_replace ( $m ['full_tag'], $hash, $layout );
+				
+				}
+			}
+		}
+		
+		if (strstr ( $layout, '<block' ) == true) {
+			
+			$editmode = CI::model ( 'core' )->is_editmode ();
+			//p($editmode);
+			
+
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'block', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			//	p($tags);
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				//
+				foreach ( $matches as $m ) {
+					
+					//
+					
+
+					if ($m ['tag_name'] == 'block') {
+						
+						$attr = $m ['attributes'];
+						
+						if ($attr ['id'] != '') {
+							//	p($m);
+							$attr ['id'] = trim ( $attr ['id'] );
+							
+							$is_global = $attr ['global'];
+							
+							if ($is_global == false) {
+								$is_global2 = $attr ['rel'];
+								if (trim ( $is_global2 ) == 'global') {
+									$is_global = true;
+								}
+							}
+							
+							if ((PAGE_ID != false) and $is_global == false) {
+								$try_file = TEMPLATE_DIR . 'blocks/' . PAGE_ID;
+								$try_file = normalize_path ( $try_file );
+								$try_file .= $attr ['id'] . '.php';
+								//p($try_file);
+								if (is_file ( $try_file )) {
+								
+								} else {
+									$try_file = TEMPLATE_DIR . 'blocks/' . $attr ['id'] . '.php';
+								}
+							} else {
+								$try_file = TEMPLATE_DIR . 'blocks/' . $attr ['id'] . '.php';
+							}
+							
+							$try_file_default = TEMPLATE_DIR . 'blocks/default.php';
+							
+							if (is_file ( $try_file ) == false) {
+								
+								$is_admin = is_admin ();
+								
+								if ($is_admin == true) {
+									
+									$dir = dirname ( $try_file );
+									if (is_dir ( $dir ) == false) {
+										@mkdir_recursive ( $dir );
+									}
+									if (! copy ( $try_file_default, $try_file )) {
+										@touch ( $try_file );
+										//echo "failed to copy $file...\n";
+									}
+								
+								}
+							}
+							
+							if (is_file ( $try_file ) == true) {
+								$arrts = array ();
+								foreach ( $attr as $att => $at ) {
+									$this->template [$att] = ($at);
+									
+									$arrts [$att] = ($at);
+								}
+								
+								$this->template ['params'] = $arrts;
+								$this->load->vars ( $this->template );
+								$module_file = $this->load->file ( $try_file, true );
+								
+								//p($arrts);
+								
+
+								/*	if ($editmode == true) {
+									//p($m);
+									$edtid_hash = base64_encode ( $m ['full_tag'] );
+									if (strval ( $module_file ) != '') {
+										$module_file = '<div class="editblock"  id="' . $attr ['id'] . '">' . $module_file . '</div>';
+									} else {
+										$module_file = false;
+									}
+								
+								} else {
+									if (strval ( $module_file ) != '') {
+										$module_file = '<div class="editblock" id="' . $attr ['id'] . '">' . $module_file . '</div>';
+									}
+								}*/
+								
+								if (strval ( $module_file ) != '') {
+									
+									if ($is_global == true) {
+										$str123 = ' rel="global" ';
+									
+									} else {
+										$str123 = false;
+									}
+									
+									$module_file = '<div class="editblock" ' . $str123 . '   id="' . $attr ['id'] . '">' . $module_file . '</div>';
+								} else {
+									//$module_file = false;
+									$module_file = '<div class="editblock" ' . $str123 . '   id="' . $attr ['id'] . '">' . '</div>';
+								
+								}
+								
+								if (strstr ( $module_file, '<block' ) == true) {
+									$module_file = self::parseMicrwoberTags ( $module_file, $options );
+								}
+								
+								$layout = str_replace_count ( $m ['full_tag'], $module_file, $layout, 1 );
+								//$layout = str_replace ( $m ['full_tag'], '', $layout );
+								$layout = str_replace_count ( '</block>', '', $layout, 1 );
+								//$layout = str_replace ( '</microweber>', '', $layout );
+							
+
+							}
+						
+						}
+					
+					}
+				
+				}
+			
+			}
+		
+		}
+		
+		if (strstr ( $layout, '<microweber' ) == true) {
+			
+			$editmode = CI::model ( 'core' )->is_editmode ();
+			
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			//	p($tags);
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				
+				//
+				foreach ( $matches as $m ) {
+					if ($m ['tag_name'] == 'microweber') {
+						
+						$attr = $m ['attributes'];
+						
+						if ($attr ['module'] != '') {
+							
+							$mmd5 = md5 ( $attr ['module'] );
+							$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
+							
+							if (is_dir ( MODULES_DIR . '_system/' ) == false) {
+								touch ( MODULES_DIR . '_system/' );
+							}
+							if (is_file ( $check_if_uninstalled ) == true) {
+								$attr ['module'] = false;
+							}
+						}
+						if ($attr ['module'] != '') {
+							
+							$attr ['module'] = trim ( $attr ['module'] );
+							$try_file1 = MODULES_DIR . '' . $attr ['module'] . '.php';
+							
+							$try_file = MODULES_DIR . 'modules/' . $attr ['module'] . '.php';
+							
+							if ($options ['admin'] == true) {
+								$try_file1 = MODULES_DIR . 'admin/' . $attr ['module'] . '.php';
+								$try_filefront = MODULES_DIR . '' . $attr ['module'] . '.php';
+								
+								if (strstr ( $attr ['module'], 'admin' ) == false) {
+									
+									$try_file1 = MODULES_DIR . 'admin/' . $attr ['module'] . '.php';
+								} else {
+									$try_file1 = MODULES_DIR . '' . $attr ['module'] . '.php';
+								}
+							
+							}
+							$try_file1 = normalize_path($try_file1, false);
+							//$a = is_file ( $try_file1 );
+							//p($try_file1);
+							//p($a);
+							if (is_file ( $try_file1 ) == false) {
+								
+								if (is_file ( $try_file ) == true) {
+									$try_config_file = DEFAULT_TEMPLATE_DIR . 'modules/' . $attr ['module'] . '_config.php';
+								} else {
+									if ($options ['admin'] == true) {
+										if (strstr ( $attr ['module'], 'admin' ) == false) {
+											
+											$try_file = MODULES_DIR . 'admin/' . '' . 'default' . '.php';
+										} else {
+											$try_file = MODULES_DIR . '' . '' . 'default' . '.php';
+										}
+									
+									}
+								}
+								
+								$is_admin = is_admin ();
+								
+								if ($is_admin == true) {
+									$try_file1 = $try_filefront;
+									$try_config_file = MODULES_DIR . '' . $attr ['module'] . '_config.php';
+									
+									$dir = dirname ( $try_file1 );
+									if (is_dir ( $dir ) == false) {
+										mkdir_recursive ( $dir );
+									}
+									//var_dump( $try_file, $try_file1);
+								//exit ( "Modile file not found in $try_file1. Please create it!" );
+								//if (! copy ( $try_file, $try_file1 )) {
+								//echo "failed to copy $file...\n";
+								//}
+								
+
+								}
+							} else {
+								$try_config_file = MODULES_DIR . '' . $attr ['module'] . '_config.php';
+							}
+							
+							if (is_file ( $try_file1 ) == true) {
+								$arrts = array ();
+								foreach ( $attr as $att => $at ) {
+									$this->template [$att] = ($at);
+									//$this->template [$att] = mw_get_var($at);
+									$arrts [$att] = ($at);
+								}
+								$no_edit = false;
+								$no_admin = false;
+								$check2 = false;
+								$mem2_md5_1 = md5 ( serialize ( $m ) );
+								//$mem2_md5_2 = md5 ( serialize ( $arrts ) );
+								$temp2 = false;
+								$check2 = $mem2_md5_1;
+								$check2 = strval ( $check2 );
+								//
+								$temp1 = parse_memory_storage ( $check2 );
+								
+								if ($temp1 != false) {
+									//var_dump ( $temp1 );
+									$module_file = $temp1;
+								} else {
+									//
+									$try_config_file = normalize_path ( $try_config_file );
+									$try_config_file = rtrim ( $try_config_file, '\\' );
+									
+									$cache_this = true;
+									
+									if (is_file ( $try_config_file )) {
+										$config = false;
+										include ($try_config_file);
+										
+										if (! empty ( $config )) {
+											$this->template ['config'] = $config;
+											if ($config ['no_cache'] == true) {
+												$cache_this = false;
+												$do_not_cache_whole_block = true;
+											}
+											//p($config);
+											if ($config ['no_edit'] == true) {
+												$no_edit = true;
+											
+											}
+											
+											if ($config ['no_admin'] == true) {
+												$no_admin = true;
+											
+											}
+										}
+									
+									}
+									
+									if ($arrts ['no_cache'] == true) {
+										$cache_this = false;
+									}
+									
+									if ($options ['no_cache'] == true) {
+										$cache_this = false;
+									}
+									
+									if (strstr ( $attr ['module'], 'admin/' ) == true) {
+										$cache_this = false;
+									}
+									
+									if (($attr ['module_id']) == true) {
+										$mod_id = $attr ['module_id'];
+									} else {
+										$mod_id = false;
+									}
+									
+									if ($options ['admin'] == true) {
+										$cache_this = false;
+									}
+									
+									if ($cache_this == true) {
+										$cache_id = md5 ( $try_file1 ) . md5 ( serialize ( $arrts ) );
+										$cache_group = 'global/blocks/';
+										
+										$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
+										
+										if (($cache_content) != false) {
+											
+											$module_file = $cache_content;
+										
+										} else {
+											$this->template ['params'] = $arrts;
+											$this->load->vars ( $this->template );
+											
+											//$module_file = $this->load->file ( $try_file1, true );
+											$module_file = CI::file ( $try_file1, true );
+											CI::model ( 'core' )->cacheWriteAndEncode ( $module_file, $cache_id, $cache_group );
+										}
+									
+									} else {
+										$this->template ['params'] = $arrts;
+										$this->load->vars ( $this->template );
+										
+										//$module_file = $this->load->file ( $try_file1, true );
+										$module_file = CI::file ( $try_file1, true );
+									}
+								
+								}
+								//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
+								if ($editmode == true) {
+									//	p($m);
+									//p( $arrts);
+									
+
+									if ($no_admin == true) {
+										$no_admin_tag = ' no_admin="true" ';
+									} else {
+										$no_admin_tag = '';
+									}
+									
+									if ($mod_id == true) {
+										$mod_id_tag = ' module_id="' . $mod_id . '" ';
+									} else {
+										$mod_id_tag = '';
+									}
+									
+									$edtid_hash = base64_encode ( $m ['full_tag'] );
+									if (strval ( $module_file ) != '') {
+										 
+										if ($options ['do_not_wrap'] == true) {
+											$module_file = $module_file ;
+										
+										} else {
+											
+											if ($no_edit == false) {
+												$module_file = '<div ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+											} else {
+												$module_file = '<div ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
+											
+											}
+										}
+									
+									} else {
+										$module_file = false;
+									}
+									//	p($m ['full_tag']);
+								
+
+								} else {
+									if (strval ( $module_file ) != '') {
+										$module_file = '<div class="module">' . $module_file . '</div>';
+									}
+								}
+								//}  ++
+								
+
+								$module_file = str_replace ( '<mw', '<microweber', $module_file );
+								if (strstr ( $module_file, '<microweber' ) == true) {
+									$module_file = self::parseMicrwoberTags ( $module_file, $options );
+								}
+								
+								$layout = str_replace_count ( $m ['full_tag'], $module_file, $layout, 1 );
+								//$layout = str_replace ( $m ['full_tag'], $module_file, $layout );
+								//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
+								$layout = str_replace_count ( '</mw>', '', $layout, 1 );
+								$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
+								//$layout = str_replace ( '</mw>', '', $layout );
+							//$layout = str_replace ( '</microweber>', '', $layout );
+							
+
+							//parse_memory_storage ( $check2, $layout );
+							
+
+							}
+						
+						}
+					
+					}
+				
+				}
+			
+			}
+		
+		}
+		
+		if (strstr ( $layout, '<editable' ) == true) {
+			
+			$editmode = CI::model ( 'core' )->is_editmode ();
+			//p($editmode);
+			
+
+			$relations = array ();
+			$tags = extract_tags ( $layout, 'editable', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$matches = $tags;
+			if (! empty ( $matches )) {
+				foreach ( $matches as $m ) {
+					if ($m ['tag_name'] == 'editable') {
+						$attr = $m ['attributes'];
+						$get_global = false;
+						if ($editmode == true) {
+						
+						}
+						
+						if ($attr ['rel'] == 'global') {
+							$attr ['global'] = true;
+							$get_global = true;
+						}
+						
+						if ($attr ['rel'] == 'page') {
+							$attr ['page'] = PAGE_ID;
+						}
+						
+						if ($attr ['rel'] == 'post') {
+							$attr ['post'] = POST_ID;
+							if ($attr ['post'] == false) {
+								$attr ['post'] = PAGE_ID;
+								//$attr ['page'] = PAGE_ID;
+							}
+						}
+						if ($attr ['rel'] == 'category') {
+							$attr ['category'] = CATEGORY_ID;
+						}
+						
+						if ($attr ['rel'] == 'module') {
+							$relate_to_module = true;
+						} else {
+							$relate_to_module = false;
+						}
+						
+						if ($relate_to_module == false) {
+							if ($attr ['page']) {
+								$data = get_page ( $attr ['page'] );
+							} else if ($attr ['post']) {
+								$data = get_post ( $attr ['post'] );
+								if ($data == false) {
+									$data = get_page ( $attr ['post'] );
+								}
+								//p ( $data );
+							//p ( $attr );
+							} else if ($attr ['category']) {
+								$data = get_category ( $attr ['category'] );
+							} else if ($attr ['global']) {
+								$get_global = true;
+							}
+						}
+						
+						$cf = false;
+						$field_content = false;
+						
+						if ($get_global == true) {
+							
+							$field_content = CI::model ( 'core' )->optionsGetByKey ( $attr ['field'], $return_full = false, $orderby = false );
+						
+						} else {
+							if (strstr ( $attr ['field'], 'custom_field_' ) == true) {
+								$cf = str_replace ( 'custom_field_', '', $attr ['field'] );
+								$field_content = $data ['custom_fields'] [$cf];
+							
+							} else {
+								$field_content = $data [$attr ['field']];
+							
+							}
+						}
+						
+						//p($m ['full_tag']);
+						
+
+						if (trim ( $field_content ) == '') {
+							
+							$field_content = $m ['contents'];
+						} else {
+							//$quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]]
+							$field_content = htmlspecialchars_decode ( $field_content );
+							
+						//$field_content = html_entity_decode ( $field_content, $quote_style = ENT_COMPAT, $charset = 'UTF-8' );
+						}
+						//	$field_content = html_entity_decode ( $field_content );
+						$field_content = htmlspecialchars_decode ( $field_content );
+						
+						$attrs_to_append = false;
+						
+						if ($editmode == true) {
+							
+							foreach ( $attr as $at_key => $at_value ) {
+								$attrs_to_append .= "$at_key='$at_value' ";
+							}
+							//p($attrs_to_append);
+							$layout = str_replace_count ( $m ['full_tag'], "<div class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
+						} else {
+							$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+						}
+					
+					}
+				
+				}
+			
+			}
+		
+		}
+		
+		//{SITE_URL}
+		$site_url = site_url ();
+		
+		$layout = str_ireplace ( '{SITE_URL}', $site_url, $layout );
+		$layout = str_ireplace ( '{SITEURL}', $site_url, $layout );
+		//$layout = $this->badWordsRemove ( $layout );
+		
+
+		if (defined ( 'POST_ID' ) == true) {
+			$layout = str_ireplace ( '{POST_ID}', POST_ID, $layout );
+		}
+		
+		if (defined ( 'PAGE_ID' ) == true) {
+			$layout = str_ireplace ( '{PAGE_ID}', PAGE_ID, $layout );
+		}
+		
+		if (defined ( 'CATEGORY_ID' ) == true) {
+			$layout = str_ireplace ( '{CATEGORY_ID}', CATEGORY_ID, $layout );
+		}
+		
+		//	$this->load->vars ( $this->template );
+		if (stristr ( $layout, 'content_meta_title' )) {
+			
+			if (defined ( 'POST_ID' ) == true) {
+				$is_content = get_post ( POST_ID );
+				$is_content_post = $is_content;
+				$layout = str_ireplace ( '{POST_ID}', POST_ID, $layout );
+			}
+			
+			if ($is_content == false) {
+				if (defined ( 'PAGE_ID' ) == true) {
+					$is_content = get_page ( PAGE_ID );
+					$is_content_page = $is_content;
+				}
+			}
+			
+			if ($is_content ['content_meta_title']) {
+				$content_meta_title = $is_content ['content_meta_title'];
+			} elseif ($is_content ['content_title']) {
+				$content_meta_title = codeClean ( $is_content ['content_title'] );
+			} else {
+				$content_meta_title = CI::model ( 'core' )->optionsGetByKey ( 'content_meta_title' );
+			}
+			$layout = str_ireplace ( '{content_meta_title}', $content_meta_title, $layout );
+			
+			if ($is_content ['content_meta_keywords']) {
+				$content_meta_title = $is_content ['content_meta_keywords'];
+			} else {
+				$content_meta_title = CI::model ( 'core' )->optionsGetByKey ( 'content_meta_keywords' );
+			}
+			$layout = str_ireplace ( '{content_meta_keywords}', $content_meta_title, $layout );
+			
+			if ($is_content ['content_meta_description']) {
+				$content_meta_title = $is_content ['content_meta_description'];
+			} elseif ($is_content ['content_description']) {
+				$content_meta_title = codeClean ( $is_content ['content_description'] );
+			} elseif ($is_content ['content_body']) {
+				$content_meta_title = codeClean ( $is_content ['content_body'] );
+			} else {
+				$content_meta_title = CI::model ( 'core' )->optionsGetByKey ( 'content_meta_title' );
+			}
+			$layout = str_ireplace ( '{content_description}', $content_meta_title, $layout );
+		
+		}
+		
+		if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php' )) {
+			
+			include ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php';
+		
+		}
+		
+		if ((strstr ( $layout, '<editable' ) == true) or (strstr ( $layout, '<mw' ) == true) or (strstr ( $layout, '<microweber' ) == true) or (strstr ( $layout, '<block' ) == true)) {
+			$layout = self::parseMicrwoberTags ( $layout, $options );
+		}
+		
+		if (! empty ( $txt_to_replace_back )) {
+			
+			foreach ( $txt_to_replace_back as $k => $v ) {
+				//	$v = html_entity_decode($v);
+				$layout = str_replace ( $k, $v, $layout );
+			
+			}
+			$layout = str_replace ( '<nomw>', '', $layout );
+			$layout = str_replace ( '</nomw>', '', $layout );
+		}
+		
 		if (empty ( $relations )) {
 			$layout = str_ireplace ( '</head>', $prepend_to_head . '</head>', $layout );
-			
+			//$layout= '<div class="mw_module">'.$layout.'</div>';
+			$mem [$check] = $layout;
+			if ($do_not_cache_whole_block == false) {
+				//	CI::model ( 'core' )->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
+			}
 			return $layout;
 		} else {
+			if ($do_not_cache_whole_block == false) {
+				//	CI::model ( 'core' )->cacheWriteAndEncode ( $v, $cache_id, $cache_group );
+			}
+			$mem [$check] = $v;
 			return $v;
 		}
 		//p($relations);
 	}
+	
+	function badWordsRemove($layout) {
+		
+		$bad_words = CI::model ( 'core' )->optionsGetByKey ( 'bad_words' );
+		
+		if ($bad_words) {
+			
+			$bad_words_a = explode ( ',', $bad_words );
+			foreach ( $bad_words_a as $bad_word ) {
+				$rep = str_repeat ( "#", strlen ( $bad_word ) );
+				$layout = str_ireplace ( ' ' . $bad_word . ' ', ' ' . $rep . ' ', $layout );
+			}
+		
+		}
+		return $layout;
+	}
+	
+	function getAttributes($input) {
+		$dom = new DomDocument ();
+		$dom->loadHtml ( "<foo " . $input . "/>" );
+		$attributes = array ();
+		foreach ( $dom->documentElement->attributes as $name => $attr ) {
+			$attributes [$name] = $node->value;
+		}
+		return $attributes;
+	}
+	
+	function getAttribute($attrib, $tag) {
+		//get attribute from html tag
+		$re = '/' . preg_quote ( $attrib ) . '=([\'"])?((?(1).+?|[^\s>]+))(?(1)\1)/is';
+		if (preg_match ( $re, $tag, $match )) {
+			return urldecode ( $match [2] );
+		}
+		return false;
+	}
 
 }
+ 

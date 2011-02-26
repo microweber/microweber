@@ -9,13 +9,23 @@ class Template extends Controller {
 		require_once (APPPATH . 'controllers/default_constructor.php');
 		//p($user_session);
 		require_once (APPPATH . 'controllers/api/default_constructor.php');
-
-		 
 	
 	}
 	
 	function index() {
 		var_dump ( $_COOKIE );
+	}
+	
+	function install_module() {
+		$mmd5 = md5 ( $_POST ['module'] );
+		$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
+		@unlink ( $check_if_uninstalled );
+	}
+	
+	function uninstall_module() {
+		$mmd5 = md5 ( $_POST ['module'] );
+		$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
+		@touch ( $check_if_uninstalled );
 	}
 	
 	function test1() {
@@ -24,8 +34,16 @@ class Template extends Controller {
 		exit ();
 	}
 	
+	function encode_post() {
+		$post = serialize ( $_POST );
+		$post = base64_encode ( $post );
+		
+		//print mt_rand(1, 65654);
+		exit ( $post );
+	}
+	
 	function layoutGetHTML() {
-		$data = $this->template_model->layoutGetHTMLByDirName ( $_REQUEST ['name'] );
+		$data = CI::model ( 'template' )->layoutGetHTMLByDirName ( $_REQUEST ['name'] );
 		print $data;
 	}
 	
@@ -37,21 +55,21 @@ class Template extends Controller {
 		$this->template ['active'] = $active;
 		$options = array ();
 		$options ['type'] = $type;
-		$data = $this->template_model->layoutsList ( $options );
+		$data = CI::model ( 'template' )->layoutsList ( $options );
 		$view = TEMPLATES_DIR . 'layouts/layouts_list.php';
 		$this->template ['data'] = $data;
 		if (is_readable ( $view ) == true) {
 			$this->load->vars ( $this->template );
 			$layout = $this->load->file ( $view, true );
-			$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
-			$this->output->set_output ( $layout );
+			$layout = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+			CI::library ( 'output' )->set_output ( $layout );
 		} else {
 			exit ( "Error: the file {$view} is not readable or does not exist." );
 		}
 	}
 	
 	function stylesList() {
-		$data = $this->template_model->stylesList ( trim ( $_REQUEST ['layout'] ) );
+		$data = CI::model ( 'template' )->stylesList ( trim ( $_REQUEST ['layout'] ) );
 		$active = trim ( $_REQUEST ['active_style'] );
 		$this->template ['active'] = $active;
 		$view = TEMPLATES_DIR . 'layouts/styles_list.php';
@@ -59,8 +77,8 @@ class Template extends Controller {
 		if (is_readable ( $view ) == true) {
 			$this->load->vars ( $this->template );
 			$layout = $this->load->file ( $view, true );
-			$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
-			$this->output->set_output ( $layout );
+			$layout = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+			CI::library ( 'output' )->set_output ( $layout );
 		} else {
 			exit ( "Error: the file {$view} is not readable or does not exist." );
 		}
@@ -73,7 +91,7 @@ class Template extends Controller {
 		if ($layout == '') {
 			exit ( "Error: Please define $layout by $ REQUEST param" );
 		} else {
-			$styles = $this->template_model->styleGetCSSURLsAsString ( $layout, $style );
+			$styles = CI::model ( 'template' )->styleGetCSSURLsAsString ( $layout, $style );
 			exit ( $styles );
 		}
 	}
@@ -100,7 +118,7 @@ class Template extends Controller {
 		if ($data == false) {
 			exit ( 'Error: Please send params by POST. $_POST[params] must not be blank ' );
 		} else {
-			$data = $this->template_model->microweberTagsGenerate ( $data, $options );
+			$data = CI::model ( 'template' )->microweberTagsGenerate ( $data, $options );
 			print $data;
 			exit ();
 		}

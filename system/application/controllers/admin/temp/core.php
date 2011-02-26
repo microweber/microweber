@@ -11,27 +11,27 @@ class Core extends Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		if ($this->session->userdata ( 'user' ) == false) {
+		if (CI::library('session')->userdata ( 'user' ) == false) {
 			//redirect ( 'index' );
 		}
 		
 		$this->load->vars ( $this->template );
 		
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
 		
-		$primarycontent = $this->load->view ( 'admin/index', true, true );
+		$primarycontent = CI::view ( 'admin/index', true, true );
 		//$layout = str_ireplace ( '{primarycontent }', $primarycontent, $layout );
 		//$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
-		//$this->load->view('welcome_message');
-		$this->output->set_output ( $layout );
+		//CI::view('welcome_message');
+		CI::library('output')->set_output ( $layout );
 	}
 	
 	function reorderMedia() {
 		$positions = $_POST ['positions'];
 		if (! empty ( $positions )) {
-			$this->core_model->mediaReOrder ( $positions );
+			CI::model('core')->mediaReOrder ( $positions );
 		}
 		exit ();
 	}
@@ -39,7 +39,7 @@ class Core extends Controller {
 	function mediaDelete() {
 		$id = $_POST ['id'];
 		if (intval ( $id ) != 0) {
-			$this->core_model->mediaDelete ( $id );
+			CI::model('core')->mediaDelete ( $id );
 		}
 		exit ();
 	}

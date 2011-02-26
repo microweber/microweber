@@ -1,0 +1,1 @@
+microweber.com.    IN    MX    10 ASPMX.L.GOOGLE.COM.<br>microweber.com.    IN    MX    20 ALT1.ASPMX.L.GOOGLE.COM.<br>microweber.com.    IN    MX    20 ALT2.ASPMX.L.GOOGLE.COM.<br>microweber.com.    IN    MX    30 ASPMX2.GOOGLEMAIL.COM.

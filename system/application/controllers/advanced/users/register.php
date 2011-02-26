@@ -1,7 +1,7 @@
 <?php
 
 
-$mw_user = $this->core_model->userId();
+$mw_user = CI::model('core')->userId();
 if(intval($mw_user) != 0){
 	redirect ( 'dashboard' );
 }
@@ -49,9 +49,9 @@ if ($_POST) {
 
 	$reg_is_error = false;
 
-	$check_if_exist = $this->users_model->checkUser ( 'username', $to_reg ['username'] );
+	$check_if_exist = CI::model('users')->checkUser ( 'username', $to_reg ['username'] );
 
-	$check_if_exist_email = $this->users_model->checkUser ( 'email', $to_reg ['email'] );
+	$check_if_exist_email = CI::model('users')->checkUser ( 'email', $to_reg ['email'] );
 
 	if ($username == '') {
 
@@ -122,38 +122,38 @@ if ($_POST) {
 		//Send mail
 		//						$userdata = array ();
 		//						$userdata ['id'] = $to_reg ['parent_affil'];
-		//						$parent = $this->users_model->getUsers ( $userdata );
+		//						$parent = CI::model('users')->getUsers ( $userdata );
 		//						//$this->dbQuery("select * from firecms_users where id={$to_reg ['parent_affil']}");
 		//						$to_reg ['parent'] = $parent [0] ['username'];
 		//
 		//						$to_reg ['option_key'] = 'mail_new_user_reg';
-		//						$this->core_model->sendMail ( $to_reg, true );
+		//						CI::model('core')->sendMail ( $to_reg, true );
 
 
-		//$primarycontent = $this->load->view ( 'me/register_done', true, true );
+		//$primarycontent = CI::view ( 'me/register_done', true, true );
 		$this->template ['user_registration_done'] = true;
-		$userId = $this->users_model->saveUser ( $to_reg );
+		$userId = CI::model('users')->saveUser ( $to_reg );
 
 		/*~~~~~~~~~~~~~~~ Send activation email ~~~~~~~~~~~~~~~~~~~*/
 
-		$emailTemplate = $this->core_model->optionsGetByKey ( 'registration_email', true );
-		$from = $this->core_model->optionsGetByKey ( 'reg_email_from', true );
+		$emailTemplate = CI::model('core')->optionsGetByKey ( 'registration_email', true );
+		$from = CI::model('core')->optionsGetByKey ( 'reg_email_from', true );
 
 		$message = str_replace ( "{activation_url}", site_url ( 'users/user_action:activate/code:' . md5 ( $userId ) ), $emailTemplate ['option_value2'] );
 
 		// Send activation email
 		$sendOptions = array ('subject' => $emailTemplate ['option_value'], 'message' => $message, 'from_email' => $from ['option_value'], 'from_name' => $from ['option_value2'], 'to_email' => $to_reg ['email'] );
 
-		$this->core_model->sendMail2 ( $sendOptions );
+		CI::model('core')->sendMail2 ( $sendOptions );
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 		// redirect user to back_url
-		$back_to = $this->session->userdata ( 'back_to' );
+		$back_to = CI::library('session')->userdata ( 'back_to' );
 		if ($back_to) {
 
 			$back_to = base64_decode ( $back_to );
-			$this->session->unset_userdata ( 'back_to' );
+			CI::library('session')->unset_userdata ( 'back_to' );
 
 				if (trim ( $back_to ) != '') {
 

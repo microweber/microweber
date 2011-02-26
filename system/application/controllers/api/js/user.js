@@ -6,8 +6,13 @@ mw.users.get = function() {
 };
 
 
-mw.users.AjaxLogin =  function() {
+mw.users.AjaxLogin =  function($redirect_to) {
+	if($redirect_to == false){
 	$back_location = (window.location.href);
+	} else {
+		$back_location = ($redirect_to);
+	}
+	
 	$backto = Base64.encode($back_location)	
 		mw.box.remove();
         mw.box.overlay();
@@ -26,16 +31,42 @@ mw.users.ChangePass =  function() {
 //	$backto = Base64.encode($back_location)	
 		mw.box.remove();
         mw.box.overlay();
-		mw.box.ajax( {
-			url : '{SITEURL}users/user_action:password/',
-			width : 370,
-			height : 340,
-			id : 'change_password_modal_window'
-		});
-        msRoundedField();
+        $.post('{SITEURL}users/user_action:password/', function(data){
+          var checker = document.createElement('div');
+          checker.innerHTML = data;
+            if($(checker).find("meta").length==0){
+        		mw.box.html({
+        			width : 370,
+        			height : 340,
+                    html:data,
+        			id : 'change_password_modal_window'
+        		});
+          }
+          else{
+            window.location.href = '{SITEURL}users/user_action:login/';
+          }
+
+        });
+
+
 }
 
 
+
+mw.users.LogOut =  function() {
+
+	$.ajax({ async: false, url: "{SITEURL}fb_login/logout", context: document.body, success: function(){
+		 
+      }});
+	
+	
+	$.ajax({ async: false, url: "{SITEURL}api/user/logOut", context: document.body, success: function(){
+		window.location.reload();
+      }});
+	
+	 
+
+	}
 
 mw.users.UserMessage = new function() {
 
@@ -89,10 +120,9 @@ mw.users.UserMessage = new function() {
 			type : 'post',
 			beforeSubmit : this._beforeSend,
 			success : function(response) {
+
 				mw.box.remove();
-				mw.box.notification( {
-					html : response
-				})
+                mw.box.alert("<h2 style='text-align:center'>"+response+"</h2>")
 			}
 		};
 
@@ -206,6 +236,8 @@ mw.users.UserMessage = new function() {
 	};
 
 	this.compose = function(to, conversation) {
+	 
+		
 		var params = '';
 		if (to) {
 			params += '/to:' + to;
@@ -215,14 +247,58 @@ mw.users.UserMessage = new function() {
 		}
 		// mwbox.displayAjax(this.servicesUrl + 'send_form' + params, 400, 300);
 		mw.box.remove();
-		mw.box.ajax( {
+/*		mw.box.ajax( {
 			url : '{SITEURL}dashboard/action:message_compose/' + params,
 			width : 400,
 			height : 360,
 			id : 'messagecompose'
-		});
+		});*/
+		
+var params = { module: "messages/compose", to: to, conversation: conversation}
+ 
+
+		
+		$.post("{SITEURL}api/module",params, function(data){
+
+			mw.box.html({
+				html:data,
+				width : 430,
+				height : 360,
+				id : 'messagecompose'
+			})
+		})
 
 	};
+
+}
+
+
+
+
+mw.users.log_delete = function(post_id, hide_element_or_callback) {
+	var answer = confirm("Are you sure you want to delete this?");
+
+	if (answer) {
+
+		$.post('{SITEURL}api/user/delete_log_item', {
+			id : post_id 
+		}, function(response) {
+			
+		//	if (response == 'yes') {
+				if (typeof (hide_element_or_callback) == 'function') {
+					hide_element_or_callback.call(this);
+				} else {
+					$(hide_element_or_callback).fadeOut();
+				}
+			//} else {
+			//	alert(response); 
+		//	}
+			
+			
+			
+		});
+
+	}
 
 }
 
@@ -273,10 +349,11 @@ mw.users.FollowingSystem = new function() {
 			this.servicesUrl = '{SITEURL}api/user/followingSystem',
 			/* ~~~ private methods ~~~ */
 
-			this._follow = function(follower_id, follow, special) {
+			this._follow = function(follower_id, follow, special, cancel) {
 				$.post(this.servicesUrl, {
 					follower_id : follower_id,
 					follow : follow,
+					cancel : cancel,
 					special : special
 				}, function(response) {
 				//	 alert("Response: " + response);
@@ -303,17 +380,37 @@ mw.users.FollowingSystem = new function() {
 
 	/* ~~~ public methods ~~~ */
 
-	this.follow = function(follower_id, special) {
+	this.follow = function(follower_id, special, hide_element_or_callback) {
 		this._follow(follower_id, 1, special);
+		
+		if (typeof (hide_element_or_callback) == 'function') {
+			hide_element_or_callback.call(this);
+		} else {
+			$(hide_element_or_callback).fadeOut();
+		}
+		
+		
 	};
 
 	this.unfollow = function(follower_id, itemContainerId) {
-		this._follow(follower_id, 0);
-		$('#' + itemContainerId).fadeOut(300, function() {
+		//this._follow(follower_id, 0);
+		this._follow(follower_id, 0, 0, 1);
+		/*$('#' + itemContainerId).fadeOut(300, function() {
 			$('#' + itemContainerId).remove();
-		});
+		});*/
+		$(itemContainerId).fadeOut();
 
 	};
+	this.cancel_relationship = function(follower_id, itemContainerId) {
+		this._follow(follower_id, 0, 0, 1);
+		/*$('#' + itemContainerId).fadeOut(300, function() {
+			$('#' + itemContainerId).remove();
+		});*/
+		$(itemContainerId).fadeOut();
+
+	};
+	
+	
 
 	this.makeSpecial = function(followers_ids) {
 		/*for ( var i = 0; i < followers_ids.length; i++) {
@@ -343,27 +440,52 @@ mw.users.User = new function() {
 		return isValid;
 	}
 
-	this._afterSend = function() {
-		// window.location.reload();
-		$("#update-status").fadeOut();
-		$("#update-status").fadeIn();
-		$("#update-status-done").fadeIn();
-		$("#update-status-done").fadeOut(5000);
+	this._afterSend = function(hide_element_or_callback) {
+		 
+		
+		
+		
+		
+		setTimeout(function(){
+			
+			$("#update-status").fadeOut();
+			$("#update-status").fadeIn();
+			$("#update-status-done").fadeIn();
+			$("#update-status-done").fadeOut(5000);
+			
+			if (typeof (hide_element_or_callback) == 'function') {
+				hide_element_or_callback.call(this);
+			} else {
+				$(hide_element_or_callback).fadeOut();
+			}
+			
+		}, 500);
+		
+		
+
+		
+
+		
+		
+		
 		
 	}
 
 	/* ~~~ public methods ~~~ */
 
-	this.statusUpdate = function(form) {
+	this.statusUpdate = function(form, hide_element_or_callback) {
 		if (!form) {
 			form = $('#update-status');
+		} else {
+			form = $(form);
 		}
 		var requestOptions = {
 			url :  '{SITEURL}api/user/status_update' ,
 			clearForm : false,
+			async : false,
 			type : 'post',
 			beforeSubmit : this._beforeSend,
-			success : this._afterSend
+			success : this._afterSend(hide_element_or_callback)
 		};
 		form.ajaxSubmit(requestOptions);
 		return false;

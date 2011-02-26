@@ -1,15 +1,24 @@
 <?php
-//var_dump($_POST );
+
+////var_dump($_POST );
+
+
+include_once 'mw.config.php';
+
 function mw_curent_url() {
 	
 	$pageURL = 'http';
-	if (isset ( $_SERVER ["HTTPS"] )) {
+	
+	if (isset ( $_SERVER ["HTTPS"] )) { 
+		
 		if ($_SERVER ["HTTPS"] == "on") {
 			
 			$pageURL .= "s";
 		
 		}
+	
 	}
+	
 	$pageURL .= "://";
 	
 	if ($_SERVER ["SERVER_PORT"] != "80") {
@@ -32,21 +41,39 @@ $the_curent_link123 = strtolower ( $the_curent_link123 );
 
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | PHP ERROR REPORTING LEVEL
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | By default CI runs with error reporting set to ALL.  For security
 
+
+
 | reasons you are encouraged to change this when your site goes live.
+
+
 
 | For more info visit:  http://www.php.net/error_reporting
 
+
+
 |
+
+
 
 */
 
@@ -61,138 +88,236 @@ if (! defined ( 'E_STRICT' )) {
 
 error_reporting ( E_ALL & ~ E_NOTICE | E_STRICT );
 
-//error_reporting(E_ALL);
+//error_reporting ( E_ALL & ~ E_STRICT );
 
 
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | SYSTEM FOLDER NAME
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | This variable must contain the name of your "system" folder.
 
+
+
 | Include the path if the folder is not in the same  directory
+
+
 
 | as this file.
 
+
+
 |
+
+
 
 | NO TRAILING SLASH!
 
+
+
 |
+
+
 
 */
 
-$system_folder = "system";
-
+$system_folder = $mw_config ['system_folder'];
 
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | APPLICATION FOLDER NAME
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | If you want this front controller to use a different "application"
 
+
+
 | folder then the default one you can set its name here. The folder
+
+
 
 | can also be renamed or relocated anywhere on your server.
 
+
+
 | For more info please see the user guide:
+
+
 
 | http://codeigniter.com/user_guide/general/managing_apps.html
 
-|
+
 
 |
+
+
+
+|
+
+
 
 | NO TRAILING SLASH!
 
+
+
 |
+
+
 
 */
 
-$application_folder = "application";
+$application_folder = $mw_config ['application_folder'];
 
 /*
 
+
+
 |===============================================================
+
+
 
 | END OF USER CONFIGURABLE SETTINGS
 
+
+
 |===============================================================
+
+
 
 */
 
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | SET THE SERVER PATH
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | Let's attempt to determine the full-server path to the "system"
 
+
+
 | folder in order to reduce the possibility of path problems.
+
+
 
 | Note: We only attempt this if the user hasn't specified a
 
+
+
 | full server path.
+
+
 
 |
 
+
+
 */
-
-if (strpos ( $system_folder, '/' ) === FALSE) {
-	
-	if (function_exists ( 'realpath' ) and @realpath ( dirname ( __FILE__ ) ) !== FALSE) {
+if (isset ( $mw_config ['system_folder_shared'] )) {
+	if ($mw_config ['system_folder_shared'] == false) {
 		
-		$system_folder = realpath ( dirname ( __FILE__ ) ) . '/' . $system_folder;
-	
+		if (strpos ( $system_folder, '/' ) === FALSE) {
+			if (function_exists ( 'realpath' ) and @realpath ( dirname ( __FILE__ ) ) !== FALSE) {
+				$system_folder = realpath ( dirname ( __FILE__ ) ) . '/' . $system_folder;
+			}
+		
+		} else {
+			// Swap directory separators to Unix style for consistency
+			$system_folder = str_replace ( "\\", "/", $system_folder );
+		
+		}
+	} else {
+		$system_folder = $mw_config ['system_folder_shared'];
 	}
-
-} else {
-	
-	// Swap directory separators to Unix style for consistency
-	
-
-	$system_folder = str_replace ( "\\", "/", $system_folder );
-
 }
-
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | DEFINE APPLICATION CONSTANTS
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | EXT		- The file extension.  Typically ".php"
 
+
+
 | FCPATH	- The full server path to THIS file
+
+
 
 | SELF		- The name of THIS file (typically "index.php)
 
+
+
 | BASEPATH	- The full server path to the "system" folder
+
+
 
 | APPPATH	- The full server path to the "application" folder
 
+
+
 |
+
+
 
 */
 
@@ -208,7 +333,8 @@ define ( 'BASEPATH', $system_folder . '/' );
 
 define ( 'BASEPATHSTATIC', ROOTPATH . '/static/' );
 
-define ( 'BASEPATHCONTENT', BASEPATH . 'content/' );
+#define ( 'BASEPATHCONTENT', BASEPATH . 'content/' );
+
 
 define ( 'TABLE_PREFIX', 'firecms_' );
 
@@ -224,55 +350,69 @@ define ( 'MEDIAFILES', USERFILES . 'media' . '/' );
 
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );
 
-define ( 'DBHOSTNAME', "127.0.0.1" );
+define ( 'DBHOSTNAME', $mw_config ['db_hostname'] );
 
-define ( 'DBUSERNAME', "root" );
+define ( 'DBUSERNAME', $mw_config ['db_username'] );
 
-define ( 'DBPASSWORD', "123456" );
+define ( 'DBPASSWORD', $mw_config ['db_password'] );
 
-define ( 'DBDATABASE', "cms3" );   
+define ( 'DBDATABASE', $mw_config ['db_database'] );
 
 define ( "USER_IP", $_SERVER ["REMOTE_ADDR"] );
- 
-$subdir = $_SERVER['SCRIPT_NAME'];
-$subdir = dirname($subdir);
-$subdir = ltrim($subdir, '/');
-$subdir = rtrim($subdir, '/');
- 
+
+$subdir = $_SERVER ['SCRIPT_NAME'];
+
+$subdir = dirname ( $subdir );
+
+$subdir = ltrim ( $subdir, '/' );
+
+$subdir = rtrim ( $subdir, '/' );
+
 $get_url_dir = $_SERVER ["SERVER_NAME"] . (trim ( $_SERVER ["REQUEST_URI"] ));
 
-define ( 'SITEURL', 'http://'.$_SERVER ["SERVER_NAME"] .'/'.$subdir.'/' );
-
-$cache_main_dir = dirname (dirname( __FILE__ )) .DIRECTORY_SEPARATOR. 'cache'.DIRECTORY_SEPARATOR;
-if (is_dir ( $cache_main_dir ) == false) {
-	@mkdir ( $cache_main_dir );
-}
-$cache_main_dir = $cache_main_dir . md5 ( SITEURL ) . DIRECTORY_SEPARATOR;
-if (is_dir ( $cache_main_dir ) == false) {
-	@mkdir ( $cache_main_dir );
-}
-define ( 'CACHEDIR', $cache_main_dir );
-define ( 'CACHE_FILES_EXTENSION', '.php' );
-define ( 'CACHE_CONTENT_PREPEND', '<?php exit(); ?>' );
-//define ( 'CACHEDIR', ROOTPATH . '/cache/' );
-
- 
-define ( 'CACHEDIR_ROOT', dirname (dirname( __FILE__ )) .DIRECTORY_SEPARATOR. 'cache'. DIRECTORY_SEPARATOR );
+//define ( 'SITEURL', 'http://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 
 
+$pageURL = 'http';
 
-/*if (is_file ( BASEPATH . 'libraries/maxmind/geoip.inc' ) == true) {
-	include (BASEPATH . 'libraries/maxmind/geoip.inc');
-	$handle = geoip_open ( BASEPATH . "libraries/maxmind/GeoIP.dat", GEOIP_STANDARD );
-	$the_user_coutry = geoip_country_code_by_addr ( $handle, $_SERVER ["REMOTE_ADDR"] );
-	$the_user_coutry_name = geoip_country_name_by_addr ( $handle, $_SERVER ["REMOTE_ADDR"] );
+if (isset ( $_SERVER ["HTTPS"] )) {
 	
-	define ( "USER_COUNTRY", $the_user_coutry );
-	define ( "USER_COUNTRY_NAME", $the_user_coutry_name );
-	geoip_close ( $handle );
-}*/
-//var_dump(USER_COUNTRY);
+	if ($_SERVER ["HTTPS"] == "on") {
+		
+		$pageURL .= "s";
+	
+	}
 
+}
+if ($mw_config ['site_url']) {
+	define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
+} else {
+	define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
+}
+//define ( 'SITEURL', $pageURL . '://' . 'skidekids.com' . '/' . $subdir . '/' );
+$cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
+
+if (is_dir ( $cache_main_dir ) == false) {
+	
+	@mkdir ( $cache_main_dir );
+
+}
+
+$cache_main_dir = $cache_main_dir . md5 ( ROOTPATH ) . DIRECTORY_SEPARATOR;
+
+if (is_dir ( $cache_main_dir ) == false) {
+	
+	@mkdir ( $cache_main_dir );
+
+}
+
+define ( 'CACHEDIR', $cache_main_dir );
+
+define ( 'CACHE_FILES_EXTENSION', '.php' );
+
+define ( 'CACHE_CONTENT_PREPEND', '<?php exit(); ?>' );
+
+define ( 'CACHEDIR_ROOT', dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR );
 
 define ( 'DATETIME_FORMAT', 'F j g:m a' );
 
@@ -294,39 +434,57 @@ if (is_dir ( $application_folder )) {
 
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
 define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
+define ( 'ADMIN_URL', SITEURL . 'admin' );
+define ( 'ADMIN_STATIC_FILES_URL', SITEURL . 'system/' . $application_folder . '/views/admin/static/' );
+
+$media_url = SITEURL;
+
+$media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
+
+define ( 'MEDIA_URL', $media_url );
+
+////var_dump( ADMIN_STATIC_FILES_URL);  
 
 
-define ( 'ADMIN_URL', SITEURL.'admin' );  
-define ( 'ADMIN_STATIC_FILES_URL', SITEURL.'system/'.$application_folder.'/views/admin/static/' );
-   //var_dump( ADMIN_STATIC_FILES_URL);  
- 
 /*
 
+
+
 |---------------------------------------------------------------
+
+
 
 | LOAD THE FRONT CONTROLLER
 
+
+
 |---------------------------------------------------------------
 
+
+
 |
+
+
 
 | And away we go...
 
+
+
 |
 
+
+
 */
+
 ini_set ( 'include_path', ini_get ( 'include_path' ) . ':' . BASEPATH . 'libraries/' );
 
 if (defined ( 'NO_MICROWEBER' ) == false) {
 	
+	//rm(($file));
 	require_once (APPPATH . 'models/system_loader.php');
 	require_once BASEPATH . 'codeigniter/CodeIgniter' . EXT;
+	
 	if (defined ( 'INTERNAL_API_CALL' ) == false) {
-		
-		//ini_set ( 'output_buffering', true );
-		
-
-		//ini_set ( 'zlib.output_compression', true );
 		require_once (APPPATH . 'models/system_loaded.php');
 	}
 
@@ -338,8 +496,20 @@ if (defined ( 'NO_MICROWEBER' ) == false) {
 
 
 
+
+
+
+
+
+
+
+
 //require_once BASEPATH.'init.php';
 
+
+
 /* End of file index.php */
+
+
 
 /* Location: ./index.php */

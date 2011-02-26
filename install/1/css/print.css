@@ -1,0 +1,60 @@
+a {
+	text-decoration:underline;
+	color:black;
+}
+/*General*/
+#logo,#time,#top-new-task,.sidebar,#menu,#header, .no-print  {
+	display:none;
+}
+
+#contents {
+	width:95%;
+	float:none;
+} 
+
+#error-message,.error,#success-message,.success {
+	display:none;
+}
+
+/*Index*/
+#task-actions,.done {
+	display:none;
+}
+
+/*Listing*/
+td,tr,th,table {
+	border:0px solid #fff;
+}
+table.task-listing,table.reminder-listing,
+	.task-name,.reminder-name,.action-actions,
+	.action-delete,.task-description,.reminder-description {
+	border:0px solid #fff;
+}
+table {
+	width:100%;
+	border-collapse:collapse;
+}
+th {
+	text-align:left;
+}
+.row-description td,.row-description th {
+	border-bottom:1px solid #000;
+	padding:0 0 20px 0;
+}
+.spacer, .action, .action-actions {
+	display:none;
+}
+table tr.type-done {
+	background-color:#fff;
+}
+table tr.type-done .task-name {
+	text-decoration:line-through;
+}
+
+input {
+	border:0px dotted #fff;
+	border-bottom:1px dotted #000;
+}
+textarea {
+	border:1px dotted #000;
+}

@@ -20,8 +20,8 @@ class Users extends Controller {
 	function delete() {
 
 
-		$id = $this->core_model->getParamFromURL ( 'id' );
-		$this->users_model->userDeleteById ( $id );
+		$id = CI::model('core')->getParamFromURL ( 'id' );
+		CI::model('users')->userDeleteById ( $id );
 		redirect ( 'admin/users/index' );
 
 
@@ -36,7 +36,7 @@ class Users extends Controller {
 
 		
 
-		if ($this->session->userdata ( 'user' ) == false) {
+		if (CI::library('session')->userdata ( 'user' ) == false) {
 
 			//redirect ( 'index' );
 
@@ -46,13 +46,13 @@ class Users extends Controller {
 
 		if ($_POST) {
 
-			$this->users_model->saveUser ( $_POST );
+			CI::model('users')->saveUser ( $_POST );
 
 		}
 
 		
 
-		$users = $this->users_model->getUsers ();
+		$users = CI::model('users')->getUsers ();
 
 		
 
@@ -64,7 +64,7 @@ class Users extends Controller {
 
 		
 
-		$layout = $this->load->view ( 'admin/layout', true, true );
+		$layout = CI::view ( 'admin/layout', true, true );
 
 		$primarycontent = '';
 
@@ -72,17 +72,17 @@ class Users extends Controller {
 
 		
 
-		$primarycontent = $this->load->view ( 'admin/users/index', true, true );
+		$primarycontent = CI::view ( 'admin/users/index', true, true );
 
-		$secondarycontent = $this->load->view ( 'admin/users/sidebar', true, true );
+		$secondarycontent = CI::view ( 'admin/users/sidebar', true, true );
 
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
 
-		//$this->load->view('welcome_message');
+		//CI::view('welcome_message');
 
-		$this->output->set_output ( $layout );
+		CI::library('output')->set_output ( $layout );
 
 	}
 

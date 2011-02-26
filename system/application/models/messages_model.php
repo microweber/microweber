@@ -9,6 +9,38 @@ class Messages_model extends Model {
 	
 	}
 	
+	public function cleanup() {
+		global $cms_db_tables;
+		$table_notifications = $cms_db_tables ['table_users_notifications'];
+		
+		$user_id = CI::model('core')->userId ();
+		if (intval ( $user_id ) == 0) {
+			return false;
+		}
+		
+		$timeFile = CACHEDIR . 'interval_' . __FUNCTION__;
+		if (! file_exists ( $timeFile )) {
+			@touch ( $timeFile );
+		}
+		
+		if (filemtime ( $timeFile ) < strtotime ( "-2 hours" )) {
+			@touch ( $timeFile );
+			$table = TABLE_PREFIX . 'messages';
+			
+			$q = "delete
+	
+FROM
+	$table
+WHERE
+	deleted_from_sender = 'y'
+	AND deleted_from_receiver = 'y'
+	 ";
+			$q = CI::model('core')->dbQ ( $q );
+		
+		}
+	
+	}
+	
 	/**
 	 * Get unread messages for given user ID
 	 * @param int $user_id user id - if false the curent user is used
@@ -17,7 +49,7 @@ class Messages_model extends Model {
 	function messagesGetUnreadCountForUser($user_id = false) {
 		if ($user_id == false) {
 			
-			$user_id = $this->core_model->userId ();
+			$user_id = CI::model('core')->userId ();
 		}
 		$table = TABLE_PREFIX . 'messages';
 		$params = array ();
@@ -32,13 +64,14 @@ FROM
 	$table
 WHERE
 	 to_user = $user_id
+	 AND created_by <> $user_id
 	 AND from_user <> $user_id
 	AND is_read = 'n'
-	AND deleted_from_receiver = 'n'
+	AND deleted_from_receiver = 'n' AND deleted_from_sender = 'n'
 	 ";
 		
 		//print $q;
-		$q = $this->core_model->dbQuery ( $q );
+		$q = CI::model('core')->dbQuery ( $q );
 		$q = $q [0] ['qty'];
 		return intval ( $q );
 		
@@ -47,7 +80,7 @@ WHERE
 		$options ['debug'] = true;
 		$options ['cache'] = false;
 		//$options ['cache_group'] = false;
-		//	$options [] = array ('cache_group' => 'users/messages' . $user_id );
+		//	$options [] = array ('cache_group' => 'users/messages/global' . $user_id );
 		
 
 		$data = $this->messagesGetByParams ( $params, $options );
@@ -61,8 +94,11 @@ WHERE
 	 * @return int id saved
 	 */
 	function messageSave($data) {
-		$id = $this->core_model->saveData ( TABLE_PREFIX . 'messages', $data );
-		$this->core_model->cleanCacheGroup ( 'users/messages' );
+		
+		
+		
+		$id = CI::model('core')->saveData ( TABLE_PREFIX . 'messages', $data );
+		CI::model('core')->cleanCacheGroup ( 'users/messages/global' );
 		return $id;
 	}
 	/**
@@ -78,10 +114,11 @@ WHERE
 		}
 		//$messages = array ();
 		$table = TABLE_PREFIX . 'messages';
-		$q = "SELECT * from $table where parent_id={$msg_id}  ";
-		$cache_group = 'users/messages';
+		
+		$q = "SELECT * from $table where parent_id={$msg_id} and deleted_from_receiver='n' and deleted_from_sender='n' ";
+		$cache_group = 'users/messages/' . $msg_id;
 		$cache_group_id = __FUNCTION__ . md5 ( $q );
-		$resutlt = $this->core_model->dbQuery ( $q, $cache_group_id, $cache_group );
+		$resutlt = CI::model('core')->dbQuery ( $q, $cache_group_id, $cache_group );
 		$return = array ();
 		if (empty ( $resutlt )) {
 			return false;
@@ -102,6 +139,28 @@ WHERE
 		return $return;
 	}
 	
+	function messagesGetById($msg_id) {
+		$msg_id = intval ( $msg_id );
+		
+		if ($msg_id == 0) {
+			return false;
+		}
+		//$messages = array ();  
+		$table = TABLE_PREFIX . 'messages';
+		$q = "SELECT * from $table where id={$msg_id}  ";
+		$cache_group = 'users/messages/' . $msg_id;
+		$cache_group_id = __FUNCTION__ . md5 ( $q );
+		$resutlt = CI::model('core')->dbQuery ( $q, $cache_group_id, $cache_group );
+		
+		if (empty ( $resutlt )) {
+			return false;
+		} else {
+			return $resutlt [0];
+		}
+		//$return = array_unique ( $return );
+		return $return;
+	}
+	
 	/**
 	 * Get the whole message thread
 	 * @param int $msg_id msg id
@@ -114,17 +173,24 @@ WHERE
 			return false;
 		}
 		//$messages = array ();
-		$table = TABLE_PREFIX . 'messages';
-		$q = "SELECT * from $table where id={$msg_id} ";
 		
-		$resutlt = $this->core_model->dbQuery ( $q );
+
+		$table = TABLE_PREFIX . 'messages';
+		$q = "SELECT * from $table where id={$msg_id} and deleted_from_receiver='n' and deleted_from_sender='n' ";
+		
+		$resutlt = CI::model('core')->dbQuery ( $q, md5 ( $q ), 'users/messages/' . $msg_id );
 		//var_dump($resutlt);
 		if (empty ( $resutlt )) {
 			return false;
 		} else {
 			foreach ( $resutlt as $item ) {
 				$messages [] = $item;
-				$more = $this->messagesGetByParent ( $item ['id'] );
+				if (intval ( $item ['parent_id'] ) != 0) {
+					$more = $this->messagesGetByParent ( $item ['parent_id'] );
+				} else {
+					$more = $this->messagesGetByParent ( $item ['id'] );
+				}
+				
 				if (! empty ( $more )) {
 					foreach ( $more as $item1 ) {
 						$messages [] = $item1;
@@ -156,8 +222,12 @@ WHERE
 		$params [] = array ('is_read', 'n' );
 		$params [] = array ('deleted_from_receiver', 'n' );
 		$params [] = array ('from_user', $user_id, '<>', 'and' );
+		$params [] = array ('created_by', $user_id, '<>', 'and' );
+		$db_options = array();
+		$db_options['debug'] = 1;
 		
-		$data = $this->messagesGetByParams ( $params );
+		
+		$data = $this->messagesGetByParams ( $params ,$db_options);
 		return $data;
 	}
 	
@@ -169,8 +239,8 @@ WHERE
 	 */
 	function messagesGetByDefaultParams($params = false, $db_options = false) {
 		if (empty ( $params )) {
-			$currentUserId = intval ( $this->core_model->userId () );
-			if ($this->core_model->userId () == 0) {
+			$currentUserId = intval ( CI::model('core')->userId () );
+			if (CI::model('core')->userId () == 0) {
 				exit ( "Error in " . __FILE__ . " on line " . __LINE__ );
 			}
 			$params = array ();
@@ -195,14 +265,14 @@ WHERE
 		$options ['order'] = array ('created_on', 'DESC' );
 		
 		$options ['cache'] = true;
-		$options ['cache_group'] = 'users/messages';
+		$options ['cache_group'] = 'users/messages/global';
 		if (! empty ( $db_options )) {
 			foreach ( $db_options as $k => $v ) {
 				$options ["{$k}"] = $v;
 			}
 		}
 		
-		$data = $this->core_model->fetchDbData ( $table, $params, $options );
+		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
 		return $data;
 	}
 	
@@ -226,15 +296,16 @@ WHERE
 		$options ['get_count'] = false;
 		$options ['debug'] = false;
 		$options ['cache'] = true;
-		$options ['cache_group'] = 'users/messages/';
+		$options ['cache_group'] = 'users/messages/global/';
 		
 		if (! empty ( $db_options )) {
 			foreach ( $db_options as $k => $v ) {
+				
 				$options ["{$k}"] = $v;
 			}
 		}
 		
-		$data = $this->core_model->fetchDbData ( $table, $params, $options );
+		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
 		return $data;
 	}
 

@@ -1,7 +1,7 @@
    <?php if(!empty($comments)) : ?>
   <?php foreach($comments as $item): ?>
-  <?php $author = $this->users_model->getUserById( $item['created_by']); ?>
-  <?php $thumb = $this->users_model->getUserThumbnail( $author['id'], 45); ?>
+  <?php $author = CI::model('users')->getUserById( $item['created_by']); ?>
+  <?php $thumb = CI::model('users')->getUserThumbnail( $author['id'], 45); ?>
   <?php //  print $thumb; ?>
   <div class="comment"><a style="background-image: url('<?php print $thumb; ?>');" href="<?php print site_url('userbase/action:profile/username:'); ?><?php print $author['username']; ?>" class="img">
     <?php if($thumb != ''): ?>

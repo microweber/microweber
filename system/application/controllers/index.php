@@ -40,7 +40,7 @@ class Index extends Controller {
 	}
 
 	function login() {
-		$back_to = $this->core_model->getParamFromURL ( 'back_to' );
+		$back_to = CI::model('core')->getParamFromURL ( 'back_to' );
 
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
@@ -55,7 +55,7 @@ class Index extends Controller {
 
 			$q = "select username from " . $table . " where username='$username' ";
 
-			$query = $this->db->query ( $q );
+			$query = CI::db()->query ( $q );
 
 			$query = $query->row_array ();
 
@@ -81,7 +81,7 @@ class Index extends Controller {
 
 			$q = "select * from " . $table . " where username='$username' and password='$password' and is_active=1";
 
-			$query = $this->db->query ( $q );
+			$query = CI::db()->query ( $q );
 
 			$query = $query->row_array ();
 
@@ -91,7 +91,7 @@ class Index extends Controller {
 
 			} else {
 
-				$this->session->set_userdata ( 'user', $query );
+				CI::library('session')->set_userdata ( 'user', $query );
 				if ($back_to == false) {
 					redirect ( 'dashboard' );
 				} else {
@@ -104,22 +104,22 @@ class Index extends Controller {
 
 		$this->load->vars ( $this->template );
 
-		$layout = $this->load->view ( 'layout', true, true );
+		$layout = CI::view ( 'layout', true, true );
 
 		$primarycontent = '';
 
 		$secondarycontent = '';
 
-		$primarycontent = $this->load->view ( 'login', true, true );
+		$primarycontent = CI::view ( 'login', true, true );
 
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
 
 		$layout = str_ireplace ( '{secondarycontent}', $secondarycontent, $layout );
 
-	//$this->load->view('welcome_message');
+	//CI::view('welcome_message');
 
 
-	//$this->output->set_output ( $layout );
+	//CI::library('output')->set_output ( $layout );
 	}
 
 }

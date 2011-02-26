@@ -1,0 +1,18 @@
+.calendar-box {
+	display:none;
+	background-color:#fff;
+	position:absolute;
+	width:250px;
+	height:150px;
+}
+.calendar-box table td {
+	width:14%;
+}
+.calendar-box .calendar-title {
+	text-align:center;
+}
+.calendar-box .today a {
+	padding:0 5px;
+	margin-left:-5px;
+	background-color:#ffe9c6;
+} 

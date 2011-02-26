@@ -1,0 +1,3 @@
+calendar.init({
+	'input':'day'	
+});

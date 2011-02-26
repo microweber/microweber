@@ -39,7 +39,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session',     'encrypt');
+$autoload['libraries'] = array('database', 'session');
 
 //$autoload['libraries'] = array('database', 'session');
 
@@ -65,7 +65,7 @@ $autoload['helper'] = array('url', 'text', 'string');
 |	$autoload['plugin'] = array('captcha', 'js_calendar');
 */
 
-$autoload['plugin'] = array();
+$autoload['plugin'] = array('loader_php5');
 
 
 /*
@@ -126,13 +126,13 @@ $this->load->model ( 'Cart_model', 'cart_model' );
 $this->load->model ( 'Template_model', 'template_model' );
 */
 
-$autoloads = array();
+/*$autoloads = array();
 $autoloads[] = array('Init_model','init_model');
 $autoloads[] = array( 'Core_model', 'core_model');
 $autoloads[] = array('Content_model', 'content_model');
 $autoloads[] = array('Users_model', 'users_model');
 $autoloads[] = array('Cart_model', 'cart_model');
-$autoloads[] = array('Template_model', 'template_model');
+$autoloads[] = array('Template_model', 'template_model');*/
  
 
 $autoload['model'] =array(); 

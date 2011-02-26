@@ -1,6 +1,6 @@
 <?php
-if ($this->core_model->userId() == false) {
-	exit ( 'login required' );
+if (CI::model('core')->userId() == false) {
+	//exit ( 'login required' );
 }
 
 

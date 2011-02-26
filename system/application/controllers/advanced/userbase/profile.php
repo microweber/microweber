@@ -1,5 +1,5 @@
 <?php
-$username = $this->core_model->getParamFromURL ( 'username' );
+$username = CI::model('core')->getParamFromURL ( 'username' );
 
 //print $username;
 
@@ -8,7 +8,7 @@ $users_list = array ();
 
 $users_list ['username'] = $username;
 
-$users_list = $this->users_model->getUsers ( $users_list );
+$users_list = CI::model('users')->getUsers ( $users_list );
 
 $currentUser = $users_list [0];
 
@@ -20,7 +20,7 @@ $this->template ['author'] = $currentUser;
 /*~~~~~~ Following and followers ~~~~~~~*/
 
 // get all relations that user take part
-/*$relations = $this->core_model->fetchDbData ( TABLE_PREFIX . 'followers', array (array ('user_id', $currentUser ['id'] ), array ('follower_id', $currentUser ['id'], '=', 'OR' ) ) );
+/*$relations = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'followers', array (array ('user_id', $currentUser ['id'] ), array ('follower_id', $currentUser ['id'], '=', 'OR' ) ) );
 
 				$followingIds = array ();
 				$followersIds = array ();
@@ -40,12 +40,12 @@ $this->template ['author'] = $currentUser;
 
 				$following = array ();
 				if ($followingIds) {
-					$following = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', '(' . implode ( ',', $followingIds ) . ')', 'IN' ) ) );
+					$following = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', '(' . implode ( ',', $followingIds ) . ')', 'IN' ) ) );
 				}
 
 				$followers = array ();
 				if ($followersIds) {
-					$followers = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', '(' . implode ( ',', $followersIds ) . ')', 'IN' ) ) );
+					$followers = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', '(' . implode ( ',', $followersIds ) . ')', 'IN' ) ) );
 				}
 
 				$circleOfInfluence = array ();
