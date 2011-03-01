@@ -320,22 +320,7 @@ case 'category_selector': ?>
       
       <?php break;?>
       
-      <?php case 'dropdown': ?>
-      <select name="custom_field_<? print $item['param'] ?>">
-      <?  $dd_vals = explode(',',$item['values']);  ?>
-      <? foreach($dd_vals as $dd_val): ?>
-      
-      <? $whats_the_val =  $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; 
-	  //var_dump($whats_the_val);
-	  ?>
-      
-      <option value="<? print $dd_val ?>"  <?   if($dd_val ==$whats_the_val ):  ?> selected="selected"   <? endif; ?> ><? print $dd_val ?></option>
-      <? endforeach; ?>
-      </select>
-     
-      
-      
-      <?php break;?>
+    
       
       <?php case 'number': ?>
       <?php default: ?>

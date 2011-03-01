@@ -1480,7 +1480,7 @@ class Core_model extends Model {
 	
 	}
 	
-	function getCustomFields($table, $id = 0) {
+	function getCustomFields($table, $id = 0, $return_full = false) {
 		
 		$id = intval ( $id );
 		
@@ -1545,8 +1545,19 @@ class Core_model extends Model {
 						}
 						
 						if ($the_name != false and $the_val != false) {
-							
-							$the_data_with_custom_field__stuff [$the_name] = $the_val;
+							if ($return_full == false) {
+								$the_data_with_custom_field__stuff [$the_name] = $the_val;
+							} else {
+								$cf_cfg = array ();
+								$cf_cfg ['name'] = $the_name;
+								$cf_cfg = $this->getCustomFieldsConfig ( $cf_cfg );
+								if (! empty ( $cf_cfg )) {
+									$cf_cfg = $cf_cfg [0];
+									$q2 ['config'] = $cf_cfg;
+								}
+								
+								$the_data_with_custom_field__stuff [$the_name] = $q2;
+							}
 						
 						}
 					
@@ -5604,8 +5615,8 @@ $w
 			if ($media_type != false) {
 				
 				$media_type = str_ireplace ( 'pictures', 'picture', $media_type );
-				$media_type = str_ireplace ( 'videos', 'video' , $media_type );
-				$media_type = str_ireplace ( 'files', 'file' , $media_type );
+				$media_type = str_ireplace ( 'videos', 'video', $media_type );
+				$media_type = str_ireplace ( 'files', 'file', $media_type );
 				
 				$media_get ['media_type'] = $media_type;
 				

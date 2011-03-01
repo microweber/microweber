@@ -248,7 +248,7 @@ function add_post_form($params) {
 function get_custom_fields_for_content($content_id) {
 	
 	$more = false;
-	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id );
+	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id , true);
 	
 	return $more;
 
