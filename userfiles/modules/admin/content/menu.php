@@ -33,7 +33,7 @@ save
 <? 
  
 
-$pages = get_pages() ;
+$pages = get_pages_old() ;
 //p($pages);
 ?>
 

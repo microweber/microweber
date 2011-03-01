@@ -203,7 +203,7 @@ function set_categories(){
 /*$pages_params = array();
 $pages_params['content_subtype'] = 'blog_section';
 $pages_params['content_type'] = 'page';
-$pages = get_pages($pages_params);
+$pages = get_pages_old($pages_params);
 */
  ?>
   <? if(!empty($pages['posts'])): ?>

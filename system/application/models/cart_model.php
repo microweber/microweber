@@ -59,7 +59,7 @@ class Cart_model extends Model {
 		
 		parent::Model ();
 		
-		$country_name = CI::library('session')->userdata ( 'country_name' );
+		$country_name = CI::library ( 'session' )->userdata ( 'country_name' );
 		
 		if (strval ( trim ( $country_name ) ) == '') {
 			if (! defined ( 'USER_COUNTRY_NAME' )) {
@@ -87,22 +87,22 @@ class Cart_model extends Model {
 			//var_dump(USER_COUNTRY);
 			
 
-			CI::library('session')->set_userdata ( 'country_name', USER_COUNTRY_NAME );
+			CI::library ( 'session' )->set_userdata ( 'country_name', USER_COUNTRY_NAME );
 		
 		}
 		//print(USER_COUNTRY);
 		//print(USER_COUNTRY_NAME);
 		
 
-		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		$shop_currency = CI::library ( 'session' )->userdata ( 'shop_currency' );
 		
-		$country_name = CI::library('session')->userdata ( 'country_name' );
+		$country_name = CI::library ( 'session' )->userdata ( 'country_name' );
 		
 		if (strval ( $country_name ) == '') {
-			CI::library('session')->set_userdata ( 'country_name', USER_COUNTRY_NAME );
+			CI::library ( 'session' )->set_userdata ( 'country_name', USER_COUNTRY_NAME );
 		}
 		
-		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		$shop_currency = CI::library ( 'session' )->userdata ( 'shop_currency' );
 		//print $shop_currency;
 		if (strval ( $shop_currency ) == '') {
 			switch (strtolower ( USER_COUNTRY )) {
@@ -119,7 +119,7 @@ class Cart_model extends Model {
 			
 			}
 		}
-		$shop_currency = CI::library('session')->userdata ( 'shop_currency' );
+		$shop_currency = CI::library ( 'session' )->userdata ( 'shop_currency' );
 		//	print $shop_currency;
 	
 
@@ -165,7 +165,7 @@ class Cart_model extends Model {
 
 		if ($data ['sid'] == false) {
 			
-			$session_id = CI::library('session')->userdata ( 'session_id' );
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		} else {
 			
@@ -173,7 +173,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -186,12 +186,47 @@ class Cart_model extends Model {
 		}
 		
 		$data ['sid'] = $session_id;
+		if (intval ( $data ['page_id'] ) != 0) {
+			$data ['to_table'] = 'table_content';
+			$data ['to_table_id'] = intval ( $data ['page_id'] );
+		
+		}
+		
+		if (intval ( $data ['content_id'] ) != 0) {
+			$data ['to_table'] = 'table_content';
+			$data ['to_table_id'] = intval ( $data ['content_id'] );
+		}
+		
+		if (intval ( $data ['post_id'] ) != 0) {
+			$data ['to_table'] = 'table_content';
+			$data ['to_table_id'] = intval ( $data ['post_id'] );
+		}
+		
+		if (($data ['price']) == false) {
+			if (($data ['custom_field_price']) != false) {
+				$data ['price'] = $data ['custom_field_price'];
+			}
+		}
+		
+		if (($data ['qty']) == false) {
+			$data ['qty'] = 1;
+		}
+		
+		if (($data ['item_name']) == false) {
+			if ($data ['to_table'] == 'table_content' and $data ['to_table_id'] != false) {
+				$content_data = CI::model ( 'content' )->contentGetById ( $data ['to_table_id'] );
+				$data ['item_name'] = $content_data ['content_title'];
+			}
+		}
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
+		//p ( $data );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+
+		$id = CI::model ( 'core' )->saveData ( $table, $data, $data_to_save_options );
+		
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return $id;
 	
@@ -223,7 +258,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -303,7 +338,7 @@ class Cart_model extends Model {
 		
 		if ($check_session == true) {
 			
-			$session_id = CI::library('session')->userdata ( 'session_id' );
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 			
 			$sid_where = " and sid='$session_id' ";
 		
@@ -321,9 +356,9 @@ class Cart_model extends Model {
 		
 		$q = "delete from $table where $only_uncompleted_orders_q  $sid_where and id=$id";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -343,7 +378,7 @@ class Cart_model extends Model {
 	
 	function itemsGetQty() {
 		
-		$session_id = CI::library('session')->userdata ( 'session_id' );
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -351,7 +386,7 @@ class Cart_model extends Model {
 		
 		$q = "select sum(qty) as qty_sum from $table where sid='$session_id'  and order_completed='n'";
 		//p($q);
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = CI::model ( 'core' )->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -384,7 +419,7 @@ class Cart_model extends Model {
 	
 	function itemsGetTotal($with_promo_code = false, $convert_to_currency = 'EUR') {
 		
-		$session_id = CI::library('session')->userdata ( 'session_id' );
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -394,7 +429,7 @@ class Cart_model extends Model {
 		
 		$q = "select * from $table where sid='$session_id'  and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = CI::model ( 'core' )->dbQuery ( $q );
 		
 		if (empty ( $q )) {
 			
@@ -525,7 +560,7 @@ class Cart_model extends Model {
 		
 		$this->itemsCleanupOldAddedToCartItemsWhereTheOrderWasNeverCompleted ();
 		
-		$session_id = CI::library('session')->userdata ( 'session_id' );
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -536,9 +571,9 @@ class Cart_model extends Model {
 		//print $q;
 		
 
-		$q = CI::model('core')->dbQ ( $q );
+		$q = CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 	//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
 	
@@ -557,20 +592,20 @@ class Cart_model extends Model {
 	
 	function billing_borica_ProcessCreditCard() {
 		
-		$formdata ['orderno'] = CI::library('session')->userdata ( 'order_id' );
-		$formdata ['shipping_total_charges'] = CI::library('session')->userdata ( 'shipping' );
-		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library('session')->userdata ( 'cart_promo_code' ), CI::library('session')->userdata ( 'shop_currency' ) ) );
+		$formdata ['orderno'] = CI::library ( 'session' )->userdata ( 'order_id' );
+		$formdata ['shipping_total_charges'] = CI::library ( 'session' )->userdata ( 'shipping' );
+		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library ( 'session' )->userdata ( 'cart_promo_code' ), CI::library ( 'session' )->userdata ( 'shop_currency' ) ) );
 		$formdata ['amount'] = $formdata ['amount'] + $formdata ['shipping_total_charges'];
-		$formdata ['first_name'] = CI::library('session')->userdata ( 'first_name' );
-		$formdata ['last_name'] = CI::library('session')->userdata ( 'last_name' );
-		$formdata ['country'] = CI::library('session')->userdata ( 'country' );
-		$formdata ['phone'] = CI::library('session')->userdata ( 'night_phone_a' );
-		$formdata ['email'] = CI::library('session')->userdata ( 'email' );
+		$formdata ['first_name'] = CI::library ( 'session' )->userdata ( 'first_name' );
+		$formdata ['last_name'] = CI::library ( 'session' )->userdata ( 'last_name' );
+		$formdata ['country'] = CI::library ( 'session' )->userdata ( 'country' );
+		$formdata ['phone'] = CI::library ( 'session' )->userdata ( 'night_phone_a' );
+		$formdata ['email'] = CI::library ( 'session' )->userdata ( 'email' );
 		//	$formdata ['country'] = CI::library('session')->userdata ( 'country' );
-		$formdata ['city'] = CI::library('session')->userdata ( 'city' );
+		$formdata ['city'] = CI::library ( 'session' )->userdata ( 'city' );
 		
-		$formdata ['state'] = CI::library('session')->userdata ( 'state' );
-		$formdata ['zip'] = CI::library('session')->userdata ( 'zip' );
+		$formdata ['state'] = CI::library ( 'session' )->userdata ( 'state' );
+		$formdata ['zip'] = CI::library ( 'session' )->userdata ( 'zip' );
 		
 		/*$ord_desc = $formdata ['orderno']. " ";
 		$ord_desc .= $formdata ['amount']. " ";
@@ -582,7 +617,7 @@ class Cart_model extends Model {
 		$ord_desc .= $formdata ['state']. " ";
 		$ord_desc .= $formdata ['zip']. " ";*/
 		//print CI::library('session')->userdata ( 'shop_currency' );
-		$formdata ['amount'] = $this->currencyExchange ( $from = CI::library('session')->userdata ( 'shop_currency' ), $to = "bgn", $formdata ['amount'] );
+		$formdata ['amount'] = $this->currencyExchange ( $from = CI::library ( 'session' )->userdata ( 'shop_currency' ), $to = "bgn", $formdata ['amount'] );
 		//$formdata ['amount'] = $formdata ['amount']+floatval('0.'.rand());
 		$formdata ['amount'] = floatval ( $formdata ['amount'] );
 		$formdata ['amount'] = ($formdata ['amount'] * 100);
@@ -730,45 +765,45 @@ class Cart_model extends Model {
 		$formdata ['INDUSTRYTYPE'] = '013'; //ELECTRONIC COMMERCE
 		
 
-		$formdata ['customercode'] = CI::library('session')->userdata ( 'session_id' ) . date ( 'ymdHis' );
+		$formdata ['customercode'] = CI::library ( 'session' )->userdata ( 'session_id' ) . date ( 'ymdHis' );
 		
 		//			$formdata ['amount'] = CI::library('session')->userdata ( 'amount' ) + (float)(rand(1, 20) / 100);
-		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library('session')->userdata ( 'cart_promo_code' ), CI::library('session')->userdata ( 'shop_currency' ) ) ) + ( float ) (rand ( 1, 20 ) / 100);
+		$formdata ['amount'] = floatval ( $this->itemsGetTotal ( CI::library ( 'session' )->userdata ( 'cart_promo_code' ), CI::library ( 'session' )->userdata ( 'shop_currency' ) ) ) + ( float ) (rand ( 1, 20 ) / 100);
 		$paidAmount = $formdata ['amount'];
 		
-		$formdata ['orderno'] = CI::library('session')->userdata ( 'order_id' );
+		$formdata ['orderno'] = CI::library ( 'session' )->userdata ( 'order_id' );
 		//			$formdata ['order_id'] = CI::library('session')->userdata ( 'order_id' );
-		$formdata ['cardholdernumber'] = CI::library('session')->userdata ( 'billing_cardholdernumber' );
+		$formdata ['cardholdernumber'] = CI::library ( 'session' )->userdata ( 'billing_cardholdernumber' );
 		
 		///!Important AUTHORIZATIONNUMBER go only with FORCE/TICKET
 		//$formdata['AUTHORIZATIONNUMBER'] = $formdata ['customercode'];
 		
 
-		$formdata ['expiresmonth'] = CI::library('session')->userdata ( 'billing_expiresmonth' );
-		$formdata ['expiresyear'] = CI::library('session')->userdata ( 'billing_expiresyear' );
+		$formdata ['expiresmonth'] = CI::library ( 'session' )->userdata ( 'billing_expiresmonth' );
+		$formdata ['expiresyear'] = CI::library ( 'session' )->userdata ( 'billing_expiresyear' );
 		//			$formdata ['ccv2'] = false;
-		$formdata ['bname'] = CI::library('session')->userdata ( 'billing_first_name' ) . ' ' . CI::library('session')->userdata ( 'billing_last_name' );
-		$formdata ['bemailaddress'] = CI::library('session')->userdata ( 'billing_user_email' );
-		$formdata ['baddress1'] = CI::library('session')->userdata ( 'billing_address' );
-		$formdata ['bcity'] = CI::library('session')->userdata ( 'billing_city' );
-		$formdata ['bstate'] = CI::library('session')->userdata ( 'billing_state' );
-		$formdata ['bzipcode'] = CI::library('session')->userdata ( 'billing_zip' );
-		$formdata ['bcountry'] = CI::library('session')->userdata ( 'billing_country' );
-		$formdata ['bphone'] = CI::library('session')->userdata ( 'billing_user_phone' );
+		$formdata ['bname'] = CI::library ( 'session' )->userdata ( 'billing_first_name' ) . ' ' . CI::library ( 'session' )->userdata ( 'billing_last_name' );
+		$formdata ['bemailaddress'] = CI::library ( 'session' )->userdata ( 'billing_user_email' );
+		$formdata ['baddress1'] = CI::library ( 'session' )->userdata ( 'billing_address' );
+		$formdata ['bcity'] = CI::library ( 'session' )->userdata ( 'billing_city' );
+		$formdata ['bstate'] = CI::library ( 'session' )->userdata ( 'billing_state' );
+		$formdata ['bzipcode'] = CI::library ( 'session' )->userdata ( 'billing_zip' );
+		$formdata ['bcountry'] = CI::library ( 'session' )->userdata ( 'billing_country' );
+		$formdata ['bphone'] = CI::library ( 'session' )->userdata ( 'billing_user_phone' );
 		
-		$formdata ['sname'] = CI::library('session')->userdata ( 'shipping_first_name' ) . ' ' . CI::library('session')->userdata ( 'shipping_last_name' );
-		$formdata ['scompany'] = CI::library('session')->userdata ( 'shipping_company_name' );
-		$formdata ['saddress1'] = CI::library('session')->userdata ( 'shipping_address' );
-		$formdata ['saddress2'] = CI::library('session')->userdata ( 'shipping_city' ) . ', ' . CI::library('session')->userdata ( 'shipping_zip' );
-		$formdata ['scity'] = CI::library('session')->userdata ( 'shipping_city' );
-		$formdata ['sstate'] = CI::library('session')->userdata ( 'shipping_state' );
-		$formdata ['szipcode'] = CI::library('session')->userdata ( 'shipping_zip' );
-		$formdata ['sphone'] = CI::library('session')->userdata ( 'shipping_user_phone' );
-		$formdata ['scountry'] = CI::library('session')->userdata ( 'shipping_state' );
-		$formdata ['promo_code'] = CI::library('session')->userdata ( 'cart_promo_code' );
-		$formdata ['shipping_total_charges'] = CI::library('session')->userdata ( 'shipping_total_charges' );
-		$formdata ['shipping_service'] = CI::library('session')->userdata ( 'shipping_service' );
-		$formdata ['semailaddress'] = CI::library('session')->userdata ( 'shipping_user_email' );
+		$formdata ['sname'] = CI::library ( 'session' )->userdata ( 'shipping_first_name' ) . ' ' . CI::library ( 'session' )->userdata ( 'shipping_last_name' );
+		$formdata ['scompany'] = CI::library ( 'session' )->userdata ( 'shipping_company_name' );
+		$formdata ['saddress1'] = CI::library ( 'session' )->userdata ( 'shipping_address' );
+		$formdata ['saddress2'] = CI::library ( 'session' )->userdata ( 'shipping_city' ) . ', ' . CI::library ( 'session' )->userdata ( 'shipping_zip' );
+		$formdata ['scity'] = CI::library ( 'session' )->userdata ( 'shipping_city' );
+		$formdata ['sstate'] = CI::library ( 'session' )->userdata ( 'shipping_state' );
+		$formdata ['szipcode'] = CI::library ( 'session' )->userdata ( 'shipping_zip' );
+		$formdata ['sphone'] = CI::library ( 'session' )->userdata ( 'shipping_user_phone' );
+		$formdata ['scountry'] = CI::library ( 'session' )->userdata ( 'shipping_state' );
+		$formdata ['promo_code'] = CI::library ( 'session' )->userdata ( 'cart_promo_code' );
+		$formdata ['shipping_total_charges'] = CI::library ( 'session' )->userdata ( 'shipping_total_charges' );
+		$formdata ['shipping_service'] = CI::library ( 'session' )->userdata ( 'shipping_service' );
+		$formdata ['semailaddress'] = CI::library ( 'session' )->userdata ( 'shipping_user_email' );
 		
 		//			file_put_contents('stest.txt', serialize($formdata));
 		//	p($formdata, 1);
@@ -779,9 +814,9 @@ class Cart_model extends Model {
 			/*~~~~~~~~~ Pay pal payment ~~~~~~~~~~*/
 			$userData = array ();
 			$userData ['payment_type'] = 'Sale';
-			$userData ['first_name'] = CI::library('session')->userdata ( 'billing_first_name' );
-			$userData ['last_name'] = CI::library('session')->userdata ( 'billing_last_name' );
-			$userData ['credit_card_type'] = CI::library('session')->userdata ( 'credit_card_type' );
+			$userData ['first_name'] = CI::library ( 'session' )->userdata ( 'billing_first_name' );
+			$userData ['last_name'] = CI::library ( 'session' )->userdata ( 'billing_last_name' );
+			$userData ['credit_card_type'] = CI::library ( 'session' )->userdata ( 'credit_card_type' );
 			$userData ['credit_card_number'] = str_replace ( ' ', '', $formdata ['cardholdernumber'] );
 			$userData ['exp_date_month'] = str_pad ( $formdata ['expiresmonth'], 2, '0', STR_PAD_LEFT ); // Month must be padded with leading zero
 			$userData ['exp_date_year'] = $formdata ['expiresyear'];
@@ -790,7 +825,7 @@ class Cart_model extends Model {
 			//$userData ['from_date_year'] = CI::library('session')->userdata ( 'billing_validfromyear' );
 			
 
-			$userData ['cvv2'] = CI::library('session')->userdata ( 'billing_cvv2' );
+			$userData ['cvv2'] = CI::library ( 'session' )->userdata ( 'billing_cvv2' );
 			$userData ['address'] = $formdata ['baddress1'];
 			$userData ['city'] = $formdata ['bcity'];
 			$userData ['state'] = $formdata ['bstate'];
@@ -832,8 +867,8 @@ class Cart_model extends Model {
 				
 
 				//Unset Card Data
-				CI::library('session')->set_userdata ( 'billing_cvv2', '' );
-				CI::library('session')->set_userdata ( 'billing_cardholdernumber', '' );
+				CI::library ( 'session' )->set_userdata ( 'billing_cvv2', '' );
+				CI::library ( 'session' )->set_userdata ( 'billing_cardholdernumber', '' );
 				
 				//Set Affiliate
 				//$countries = $this->paymentmethods_tpro_get_countries_list_as_array ();
@@ -847,10 +882,10 @@ class Cart_model extends Model {
 					//$this->orderPlace ( $formdata );
 					$formdata ['from_log'] = $_COOKIE ['from_log'];
 					
-					CI::library('session')->set_userdata ( 'billing_cvv2', '' );
-					CI::library('session')->set_userdata ( 'billing_cardholdernumber', '' );
+					CI::library ( 'session' )->set_userdata ( 'billing_cvv2', '' );
+					CI::library ( 'session' )->set_userdata ( 'billing_cardholdernumber', '' );
 					
-					CI::library('session')->set_userdata ( 'order_id', '' . date ( 'ymdHis' ) . rand () );
+					CI::library ( 'session' )->set_userdata ( 'order_id', '' . date ( 'ymdHis' ) . rand () );
 					
 					return true;
 				} else {
@@ -883,7 +918,7 @@ class Cart_model extends Model {
 	
 	function cartSumByFields($fld) {
 		
-		$session_id = CI::library('session')->userdata ( 'session_id' );
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -891,7 +926,7 @@ class Cart_model extends Model {
 		
 		$q = "select sum($fld) as qty_sum from $table where sid='$session_id' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = CI::model ( 'core' )->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -915,7 +950,7 @@ class Cart_model extends Model {
 	
 	function cartSumByParams($fld, $params = false) {
 		
-		$session_id = CI::library('session')->userdata ( 'session_id' );
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		global $cms_db_tables;
 		
@@ -940,8 +975,8 @@ class Cart_model extends Model {
 		$ord_id = codeClean ( $ord_id );
 		$q = "Update $table_cart_orders set is_paid='y'  where order_id='$ord_id'";
 		
-		$q = CI::model('core')->dbQ ( $q );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$q = CI::model ( 'core' )->dbQ ( $q );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		return true;
 	}
 	
@@ -961,7 +996,7 @@ class Cart_model extends Model {
 		
 		if ($sid == false) {
 			
-			$session_id = CI::library('session')->userdata ( 'session_id' );
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		} else {
 			
@@ -969,7 +1004,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -985,11 +1020,11 @@ class Cart_model extends Model {
 		
 		$q = "Update $table set order_completed='y' $order_id_q where sid='$session_id' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
-		CI::library('session')->set_userdata ( 'cart_promo_code', false );
+		CI::library ( 'session' )->set_userdata ( 'cart_promo_code', false );
 		
 		return true;
 	
@@ -1011,7 +1046,7 @@ class Cart_model extends Model {
 		
 		if ($data ['sid'] == false) {
 			
-			$session_id = CI::library('session')->userdata ( 'session_id' );
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 			
 			$data ['sid'] = $session_id;
 		
@@ -1023,7 +1058,7 @@ class Cart_model extends Model {
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -1031,9 +1066,9 @@ class Cart_model extends Model {
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -1053,7 +1088,7 @@ class Cart_model extends Model {
 		
 		if ($data ['sid'] == false) {
 			
-			$session_id = CI::library('session')->userdata ( 'session_id' );
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 			
 			$data ['sid'] = $session_id;
 		
@@ -1065,7 +1100,7 @@ class Cart_model extends Model {
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -1073,11 +1108,11 @@ class Cart_model extends Model {
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
 		$this->orderConfirm ( $data ['sid'], $order_id = $data ['order_id'] );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		return $id;
 	
 	}
@@ -1128,7 +1163,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1156,7 +1191,7 @@ class Cart_model extends Model {
 		
 		$q = "delete from $table where created_on<'$the_old_times' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = CI::model ( 'core' )->dbQ ( $q );
 		
 		return true;
 	
@@ -1206,11 +1241,11 @@ class Cart_model extends Model {
 			
 			$q = " delete from $table_cart where order_id = '$order_id' ";
 			
-			CI::model('core')->dbQ ( $q );
+			CI::model ( 'core' )->dbQ ( $q );
 			
 			$q = " delete from $table_orders where id = $id ";
 			
-			CI::model('core')->dbQ ( $q );
+			CI::model ( 'core' )->dbQ ( $q );
 		
 		}
 		
@@ -1220,7 +1255,7 @@ class Cart_model extends Model {
 		//order_id
 		
 
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1366,7 +1401,7 @@ class Cart_model extends Model {
 			$cache_group = 'cart/promo';
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1388,7 +1423,7 @@ class Cart_model extends Model {
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_promo_codes'];
 		
@@ -1396,9 +1431,9 @@ class Cart_model extends Model {
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -1432,9 +1467,9 @@ class Cart_model extends Model {
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1454,11 +1489,11 @@ class Cart_model extends Model {
 	
 	function shippingCalculateToCountryName($country_name = false, $convert_to_currency = 'EUR') {
 		
-		$countries = CI::model('core')->geoGetAllCountries ();
+		$countries = CI::model ( 'core' )->geoGetAllCountries ();
 		
 		if ($country_name == false) {
 			
-			$country_name = CI::library('session')->userdata ( 'country_name' );
+			$country_name = CI::library ( 'session' )->userdata ( 'country_name' );
 		
 		}
 		
@@ -1526,7 +1561,7 @@ class Cart_model extends Model {
 				//v//ar_dump($num);
 				$total = ($ship_price * $num);
 				//var_dump($total);
-				$sid = CI::library('session')->userdata ( 'session_id' );
+				$sid = CI::library ( 'session' )->userdata ( 'session_id' );
 				$cart_item = array ();
 				$cart_item ['sid'] = $sid;
 				$cart_item ['order_completed'] = 'n';
@@ -1582,7 +1617,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1604,7 +1639,7 @@ class Cart_model extends Model {
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table = $cms_db_tables ['table_cart_orders_shipping_cost'];
 		
@@ -1612,7 +1647,7 @@ class Cart_model extends Model {
 			
 			$q = "delete from $table where ship_to_continent like '{$data['ship_to_continent']}' ";
 			
-			CI::model('core')->dbQ ( $q );
+			CI::model ( 'core' )->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
@@ -1620,9 +1655,9 @@ class Cart_model extends Model {
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
+		$id = CI::model ( 'core' )->saveData ( $table, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -1656,9 +1691,9 @@ class Cart_model extends Model {
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1684,7 +1719,7 @@ class Cart_model extends Model {
 		
 		$q = " select ship_to_continent from $table where is_active='y' ";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = CI::model ( 'core' )->dbQuery ( $q );
 		
 		$q1 = array ();
 		
@@ -1729,7 +1764,7 @@ class Cart_model extends Model {
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1756,15 +1791,15 @@ class Cart_model extends Model {
 			$q = "delete from $table where currency_from like '{$data['currency_from']}' and currency_to like '{$data['currency_to']}' ";
 			
 			//var_dump($q );
-			CI::model('core')->dbQ ( $q );
+			CI::model ( 'core' )->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
 		}
 		//var_dump($data);
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$id = CI::model ( 'core' )->saveData ( $table, $data, $data_to_save_options );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		return true;
 	}
 	
@@ -1798,9 +1833,9 @@ class Cart_model extends Model {
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		CI::model ( 'core' )->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1828,7 +1863,7 @@ class Cart_model extends Model {
 			
 			$q = "select  currency_rate from $table where currency_from like '$from' and currency_to like '$to' limit 0,1 ";
 			//	var_dump($q);
-			$q = CI::model('core')->dbQuery ( $q );
+			$q = CI::model ( 'core' )->dbQuery ( $q );
 			if (empty ( $q )) {
 				$rate = 1;
 			} else {
@@ -1944,28 +1979,28 @@ class Cart_model extends Model {
 		switch ($to) {
 			
 			case "EUR" :
-				CI::library('session')->set_userdata ( 'shop_currency', $to );
-				CI::library('session')->set_userdata ( 'shop_currency_sign', '&euro;' );
-				CI::library('session')->set_userdata ( 'shop_currency_code', 'EUR' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency', $to );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_sign', '&euro;' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_code', 'EUR' );
 				break;
 			
 			case "USD" :
-				CI::library('session')->set_userdata ( 'shop_currency', $to );
-				CI::library('session')->set_userdata ( 'shop_currency_sign', '$' );
-				CI::library('session')->set_userdata ( 'shop_currency_code', 'USD' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency', $to );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_sign', '$' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_code', 'USD' );
 				break;
 			
 			case "GBP" :
 				
-				CI::library('session')->set_userdata ( 'shop_currency', $to );
-				CI::library('session')->set_userdata ( 'shop_currency_sign', '&pound;' );
-				CI::library('session')->set_userdata ( 'shop_currency_code', 'GBP' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency', $to );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_sign', '&pound;' );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_code', 'GBP' );
 				break;
 			
 			default :
-				CI::library('session')->set_userdata ( 'shop_currency', $to );
-				CI::library('session')->set_userdata ( 'shop_currency_sign', $sign );
-				CI::library('session')->set_userdata ( 'shop_currency_code', $code );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency', $to );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_sign', $sign );
+				CI::library ( 'session' )->set_userdata ( 'shop_currency_code', $code );
 				break;
 		
 		}

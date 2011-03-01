@@ -3295,6 +3295,19 @@ class content_model extends Model {
 
 		}
 		
+	if (strval ( $content_layout_name ) != '') {
+			
+			$posts_data ['content_layout_name'] = $content_layout_name;
+		
+		} else {
+			
+		//$this->template ['created_by'] = false;
+		
+
+		}
+		
+		
+		
 		$url = uri_string ();
 		
 		if (stristr ( $url, 'admin/' ) == true) {

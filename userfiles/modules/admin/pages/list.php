@@ -1,6 +1,6 @@
 
 
-    <? $pages = get_pages(); $pages = $pages['posts']; ?>
+    <? $pages = get_pages_old(); $pages = $pages['posts']; ?>
     <? if(!empty($pages)): ?>
     <? foreach($pages as $page): ?>
     <div class="field" style="display:none">

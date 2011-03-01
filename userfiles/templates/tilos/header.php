@@ -22,12 +22,12 @@
             <div id="header">
                 <div id="header_top">
                   <div id="logo">
-                    <a href="#">Tilos</a>
+                    <a href="<? print site_url(); ?>">Tilos</a>
                   </div>
                   <div id="top_nav">
                     <ul>
                       <li><a href="#">Create an account</a>|</li>
-                      <li><a href="#">Wishlist</a>|</li>
+                     
                       <li><a href="#">Login</a>|</li>
                       <li><a href="#">View cart</a></li>
                     </ul>
@@ -46,12 +46,25 @@
                     <block id="header_block" global="true" />
   
                   
+                  
+                  <? 
+				   $shop_page = array();
+				   $shop_page['content_layout_name'] = 'shop';
+				  
+				  $shop_page=get_pages($shop_page);
+				  $shop_page = $shop_page[0];
+				//  var_dump($shop_page);
+				  ?>
+                  <? if(!empty($shop_page)): ?>
                   <div id="nav_cart">
-                     <span class="items">0</span>
+                     <span class="items"><? print get_items_qty() ; ?></span>
                      <strong>Items</strong>
                      <img src="<? print TEMPLATE_URL ?>img/cart.png" alt="" />
-                     <a href="#">View cart </a>
+                     <a href="<? print page_link($shop_page['id']); ?>/view:cart">View cart </a>
                   </div>
+                  <? endif; ?>
+                  
+                  
                 </div>
             </div><!-- /#header -->
             <div id="content">

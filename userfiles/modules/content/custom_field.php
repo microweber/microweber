@@ -37,8 +37,10 @@ $cf_cfg = array ();
 			 } else {
 				 
 				 ?>
-				 <input name="custom_fields_<? print $cf_cfg['param'] ?>" value="<? print  $params['value']   ?>" type="text">
-				 
+                 <span><? print $cf_cfg['name'] ?>
+				 <input name="custom_field_<? print $cf_cfg['param'] ?>" value="<? print  $params['value']   ?>" type="hidden">
+				</span> <? print  $params['value']   ?>
+                
 				 
 				<?
 			 }

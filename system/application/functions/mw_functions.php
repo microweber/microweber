@@ -248,7 +248,7 @@ function add_post_form($params) {
 function get_custom_fields_for_content($content_id) {
 	
 	$more = false;
-	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id , true);
+	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id, true );
 	
 	return $more;
 
@@ -327,8 +327,16 @@ function get_post($id, $display = false) {
 	$post ['custom_fields'] = $more;
 	return $post;
 }
-
 function get_pages($params = array()) {
+	global $CI;
+	
+	$params ['content_type'] = 'page';
+	$posts = CI::model ( 'content' )->contentGetByParams ( $params );
+	
+	return $posts ['posts'];
+
+}
+function get_pages_old($params = array()) {
 	global $CI;
 	
 	$params ['content_type'] = 'page';
@@ -1649,5 +1657,6 @@ function get_ref_category() {
 
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
 
  

@@ -14,12 +14,12 @@ if( $vals != false){
 <label class="custom_field_label custom_field_label_<?  print $data['param'];  ?>"> <span>
   <?  print $data['name'];  ?>
   </span>
-  <select  <?  if( $data['help']) : ?> title="<?  print addslashes($data['help']);  ?>"   <? endif; ?> name="custom_field_<?  print $data['param'];  ?>" class="custom_field_<?  print $data['param'];  ?>">
+ 
     <? if(!empty($vals)) :?>
     <? foreach($vals as $val): ?>
-    <option value="<? print $val  ?>"     <?  if( $data['param_default'] == $val) : ?> selected="selected"   <? endif; ?>      ><? print $val  ?></option>
+    <input type="radio" class="custom_field_radio custom_field_<?  print $data['param'];  ?>" value="<? print $val  ?>"  name="custom_field_<?  print $data['param'];  ?>"      <?  if( $data['param_default'] == $val) : ?> checked="checked"   <? endif; ?>  <?  if( $data['help']) : ?> title="<?  print addslashes($data['help']);  ?>"   <? endif; ?>     ><? print $val  ?> 
     <? endforeach; ?>
     <? endif; ?>
-  </select>
+  
 </label>
 <?  endif; ?>
