@@ -15,7 +15,8 @@ class Cart extends Controller {
 	function add() {
 		
 		if ($_POST) {
-			
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+			$check ['sid'] = $session_id;
 			$cart = CI::model ( 'cart' )->itemAdd ( $_POST );
 			$cart = CI::model ( 'cart' )->itemsGetQty ();
 			print $cart;
@@ -26,9 +27,42 @@ class Cart extends Controller {
 	
 	function remove_item() {
 		$id = $_POST ['id'];
-		print CI::model ( 'cart' )->itemDeleteById ( $id );
+		
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+		$check = array ();
+		$check ['id'] = $id;
+		$check ['sid'] = $session_id;
+		$check ['order_completed'] = 'n';
+		
+		
+		$check = get_cart_items ( $check );
+		if (! empty ( $check )) {
+			print CI::model ( 'cart' )->itemDeleteById ( $id );
+		}
+	
 	}
 	
+	function modify_item_properties() {
+		$id = $_POST ['id'];
+		$property = $_POST ['propery_name'];
+		$new_value = $_POST ['new_value'];
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+		$check = array ();
+		$check ['id'] = $id;
+		$check ['sid'] = $session_id;
+		
+		$check ['order_completed'] = 'n';
+		
+		$check = get_cart_items ( $check );
+		if (! empty ( $check )) {
+			if ($property != 'sid') {
+				$new = array ();
+				$new ['id'] = $id;
+				$new [$property] = $new_value;
+				CI::model ( 'cart' )->itemSave ( $new );
+			}
+		}
+	}
 	function checkout_return() {
 		//var_dump($_SERVER);
 		$get = $_REQUEST ['eBorica'];

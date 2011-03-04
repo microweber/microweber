@@ -168,8 +168,10 @@ class Cart_model extends Model {
 			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		} else {
-			
-			$session_id = $data ['sid'];
+			$adm = is_admin ();
+			if ($adm == true) {
+				$session_id = $data ['sid'];
+			}
 		
 		}
 		

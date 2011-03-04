@@ -22,30 +22,18 @@ description: shop site layout
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
-
-
-
-
-
-
 <? $view = url_param('view'); ?>
-
 <?  if($view == 'cart'):  ?>
 <div id="main">
-<? include  "checkout.php"; ?>
-
+  <? include  "cart.php"; ?>
 </div>
-
-<? else: ?>
-
-
-<? include TEMPLATE_DIR."sidebar.php"; ?>
-
+<?  elseif($view == 'checkout'):  ?>
 <div id="main">
-
-
-
-
+  <? include  "checkout.php"; ?>
+</div>
+<? else: ?>
+<? include TEMPLATE_DIR."sidebar.php"; ?>
+<div id="main">
   <? if(empty($post)): ?>
   <? foreach($posts as $post): ?>
   <div class="product_item"> <a class="product" href="#"> <span class="img" style="background-image: url(img/_demo_featured.jpg)">&nbsp;</span> <strong>
@@ -124,12 +112,7 @@ description: shop site layout
   </div>
   <div id="product_main">
     <form id="add_to_cart_product_<? print $post['id'] ?>">
-    <input type="hidden" value="<? print $post['id'] ?>"   name="post_id" />
-    
-    
-    
-    
-    
+      <input type="hidden" value="<? print $post['id'] ?>"   name="post_id" />
       <h3 class="title nopadding">
         <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
       </h3>
@@ -199,13 +182,6 @@ description: shop site layout
     <br />
     <a href="#" class="btnH left">Read more</a> <a href="#" class="lbuy right">Buy now</a> </div>
   <? endif; ?>
-  
-  </div>
-   <? endif; ?>
-  
-  
-  
-  
-  
-
+</div>
+<? endif; ?>
 <? include   TEMPLATE_DIR.  "footer.php"; ?>
