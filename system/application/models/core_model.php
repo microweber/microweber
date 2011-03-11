@@ -1648,6 +1648,20 @@ class Core_model extends Model {
 			return false;
 		
 		}
+		if (! empty ( $cms_db_tables )) {
+			
+			foreach ( $cms_db_tables as $k => $v ) {
+				
+				//var_dump($k, $v);
+				if (strtolower ( $table ) == strtolower ( $v )) {
+					
+					$table_assoc_name = $k;
+				
+				}
+			
+			}
+		
+		}
 		
 		if (! empty ( $criteria )) {
 			if ($criteria ['debug'] == true) {
@@ -1666,6 +1680,10 @@ class Core_model extends Model {
 				} else {
 					unset ( $criteria ['no_cache'] );
 				}
+			}
+			
+			if ($criteria ['with_pictures'] == true) {
+				$with_pics = true;
 			}
 			
 			if ($criteria ['fields'] == true) {
@@ -1952,6 +1970,12 @@ class Core_model extends Model {
 					$where .= "$k {$compare_sign} '$v' AND ";
 				
 				}
+				if ($table_assoc_name != 'table_comments') {
+					if ($with_pics == true) {
+						$table_media = $cms_db_tables ['table_media'];
+						$where .= " id in (select to_table_id from $table_media where to_table='$table_assoc_name'   )     AND ";
+					}
+				}
 				
 				$where .= " ID is not null ";
 			
@@ -2039,21 +2063,8 @@ class Core_model extends Model {
 		//exit;
 		//$select = $this->db->select()->from("$table"),array('product_id', 'product_name'))  ->limit(10, 20);
 		//$select = $this->db->select ()->from ( "$table" ) . eval($where);
-		if (! empty ( $cms_db_tables )) {
-			
-			foreach ( $cms_db_tables as $k => $v ) {
-				
-				//var_dump($k, $v);
-				if (strtolower ( $table ) == strtolower ( $v )) {
-					
-					$table_assoc_name = $k;
-				
-				}
-			
-			}
 		
-		}
-		
+
 		//$stmt = CI::db()->query ( $q );
 		//$result = $stmt->fetchAll ();
 		if ($count_only == true) {
