@@ -281,14 +281,20 @@ function normalize_path($path, $slash_it = true) {
 	// system (windows = \ or linux = /)
 	
 
+	$path_original = $path;
 	$s = DIRECTORY_SEPARATOR;
 	$path = preg_replace ( '/[\/\\\]/', $s, $path );
 	$path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
 	
 	$path = str_replace ( $s . $s, $s, $path );
-	
+	if (strval ( $path ) == '') {
+		$path = $path_original;
+	}
 	if ($slash_it == false) {
 		$path = rtrim ( $path, DIRECTORY_SEPARATOR );
+	}
+	if (strval ( $path ) == '') {
+		$path = $path_original;
 	}
 	return $path;
 }
