@@ -5,7 +5,8 @@
   <thead>
     <tr>
       <th width="320">Name of the product</th>
-      <th width="120">QTY</th>
+      <th  width="320">Details</th>
+      <th width="80">QTY</th>
       <th width="70">Single price</th>
       <th width="45">Remove</th>
     </tr>
@@ -14,6 +15,20 @@
     <? foreach($cart_items as $item): ?>
     <tr id="cart_item_row_<? print $item['id'] ?>">
       <td class="name_of_product"><? print $item['item_name'] ?></td>
+      
+       <td> <?  if(!empty($item['custom_fields'])) :  ?>
+ 
+
+    <? foreach( $item['custom_fields'] as $cf): ?>
+   
+    
+    <?   print ($cf['custom_field_name']);	?>:    <?   print ($cf['custom_field_value']);	?>    <br />
+    <?  endforeach;  ?>
+    <? endif;?></td>
+      
+      
+      
+      
       <td class="product_qty"><select class="select_qty" name="qty" style="width: 38px;" id="qty_for_cart_item_id_<? print $item['id'] ?>" onchange="mw.cart.modify_item_properties('<? print $item['id'] ?>', 'qty', $(this).val());">
           <? if(intval($item['qty']) > 100) { $max = intval($item['qty']) + 50 ; } else { $max = 100; }  ?>
           <? for ($x = 1; $x <= $max; $x++) : ?>
