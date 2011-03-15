@@ -186,7 +186,7 @@ function jcrop_init(){
 
     }
     cropimg.src = data.urls.original;
-    document.body.appendChild(cropimg);
+ //   document.body.appendChild(cropimg);
 		  }
 		});
 
@@ -331,8 +331,7 @@ $form_values['custom_fields'] = $more;
             <ul class="stabs-nav">
               <!--  <li><a href="#">Change password</a></li>-->
             </ul>
-           
-           <? 
+            <? 
 		   $iframe_module_params = array();
 		   $iframe_module_params['module'] = 'users/profile_picture_edit';
 		     $iframe_module_params['user_id'] = $user_id;
@@ -341,10 +340,7 @@ $form_values['custom_fields'] = $more;
 		   
 		   
 		   ?>
-           <iframe height="200" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
-             
-            
-            
+            <iframe height="200" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
             <div class="stab">
               <div class="item">
                 <label>Username: *</label>
@@ -385,6 +381,35 @@ $form_values['custom_fields'] = $more;
                 <span class="field">
                 <input  name="custom_field_city" type="text" value="<?php print $form_values['custom_fields']['city'];  ?>" />
                 </span> </div>
+                
+                           <div class="item">
+                <label>Address:</label>
+                <span class="field">
+                <input  name="custom_field_address" type="text" value="<?php print $form_values['custom_fields']['address'];  ?>" />
+                </span> </div>
+                
+                
+                
+                
+                           <div class="item">
+                <label>Zip:</label>
+                <span class="field">
+                <input  name="custom_field_zip" type="text" value="<?php print $form_values['custom_fields']['zip'];  ?>" />
+                </span> </div>
+                
+                               <div class="item">
+                <label>Phone:</label>
+                <span class="field">
+                <input  name="custom_field_phone" type="text" value="<?php print $form_values['custom_fields']['phone'];  ?>" />
+                </span> </div>
+                
+                
+                
+                
+                
+                
+                
+                
               <div class="c">&nbsp;</div>
               <div class="item">
                 <label>Birth day:</label>
@@ -421,33 +446,15 @@ $form_values['custom_fields'] = $more;
                 </span> </div>
               <div class="c">&nbsp;</div>
               <div class="item" style="">
-                <label>About me:</label>
+                <label>About info:</label>
                 <span class="field">
                 <textarea style="width: 420px;"  name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
                 </span> </div>
               <div class='c'>&nbsp;</div>
               <? // p($form_values); ?>
-
-
-
-
-<div class="item" style="width: 400px;">
-                <label>Paypal account (needed to trade toys in toy-swap):</label>
-               <div class="c" style="padding-bottom: 5px;">&nbsp;</div>
-                <img style="float: left;margin-right: 7px;margin-top: 5px;" alt="" src="<? print TEMPLATE_URL; ?>static/img/pp_profile.jpg" />
-
-                <span class="field">
-                    <input  name="custom_field_paypal" type="text" value="<?php print $form_values['custom_fields']['paypal'];  ?>" />
-                </span>
-</div>
-
+               
               <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
-
-              <h4>Your account will expire on  <? print $form_values['expires_on'] ?></h4>
-             
-              
-              
-
+              <h4>Your account will expire on <? print $form_values['expires_on'] ?></h4>
               <div class="c">&nbsp;</div>
               <?php /*
         <input name="test" type="button" onClick="refresh_user_picture_info()" value="test" />
@@ -455,19 +462,17 @@ $form_values['custom_fields'] = $more;
 */ ?>
               <div class='c'>&nbsp;</div>
               <br />
-              <div class="item"> <span>Change password: </span>
-              
-              <a href='javascript:change_pass_show();' class="mw_blue_link">click here</a>
-
-             <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
-
-              <div id="change_pass_holder" style="display:none">
-                <label>Enter new password</label>
-                <span><input class="required-equal" equalto="pass" type="password" name="password" type="text" value="<?php print $form_values['password'];  ?>" /> </span>
-                <label>Repeat new password</label>
-                <span><input class="required-equal" equalto="pass" type="password" value="<?php print $form_values['password'];  ?>"  /></span>
-              </div>
-
+              <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="mw_blue_link">click here</a>
+                <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
+                <div id="change_pass_holder" style="display:none">
+                  <label>Enter new password</label>
+                  <span>
+                  <input class="required-equal" equalto="pass" type="password" name="password"   value="<?php print $form_values['password'];  ?>" />
+                  </span>
+                  <label>Repeat new password</label>
+                  <span>
+                  <input class="required-equal" equalto="pass" type="password" value="<?php print $form_values['password'];  ?>"  />
+                  </span> </div>
               </div>
               <div class='c'>&nbsp;</div>
               <br />
@@ -483,12 +488,9 @@ $form_values['custom_fields'] = $more;
       <br />
       <!--<a href="javascript:;" class="btn submit">SAVE</a>-->
     </form>
-    
     <div id="user_save_success" style="display:none;">
-    <h2>Profile saved.</h2>
-    
+      <h2>Profile saved.</h2>
     </div>
-    
     <?php //require (ACTIVE_TEMPLATE_DIR.'users/right_sidebar.php') ?>
   </div>
   <?php dbg(__FILE__, 1); ?>

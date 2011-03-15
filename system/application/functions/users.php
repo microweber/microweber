@@ -32,6 +32,15 @@ function user_name($user_id = false, $mode = 'full') {
 	return $name;
 }
 
+function online_users_count() {
+	global $CI;
+	$CI->load->library ( 'OnlineUsers' );
+	$u = $CI->onlineusers->total_users ();
+	
+	//$u = CI::library( 'OnlineUsers' )->total_users();
+	return $u;
+}
+
 /**
  * get_new_users 
  *
@@ -78,9 +87,11 @@ function get_user($id) {
 	global $CI;
 	$res = CI::model ( 'users' )->getUserById ( $id );
 	
-	$more = CI::model ( 'core' )->getCustomFields ( 'table_users', $res ['id'] );
-	
-	$res ['custom_fields'] = $more;
+	if (! empty ( $res )) {
+		$more = CI::model ( 'core' )->getCustomFields ( 'table_users', $res ['id'] );
+		
+		$res ['custom_fields'] = $more;
+	}
 	return $res;
 }
 

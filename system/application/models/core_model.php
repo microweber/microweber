@@ -176,6 +176,18 @@ class Core_model extends Model {
 			$screenshot_url = $data ['screenshot_url'];
 		}
 		
+		if ($data ['url'] == false) {
+			$url = url ();
+			$data ['url'] = $url;
+		
+		}
+		
+		if ($data ['user_ip'] == false) {
+			
+			$data ['user_ip'] = USER_IP;
+		
+		}
+		
 		//	var_dump($data);
 		if (intval ( $data ['id'] ) == 0) {
 			

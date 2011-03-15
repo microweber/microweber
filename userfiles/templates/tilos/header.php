@@ -25,13 +25,14 @@
                     <a href="<? print site_url(); ?>">Tilos</a>
                   </div>
                   <div id="top_nav">
+                    <editable rel="global"  field="top_links">
                     <ul>
                       <li><a href="#">Create an account</a>|</li>
                      
                       <li><a href="#">Login</a>|</li>
                       <li><a href="#">View cart</a></li>
                     </ul>
-                    
+                    </editable>
                     <editable rel="global"  field="welcome_text">
                    <p>Welcome to Tilos Inc</p>  
                      </editable>
@@ -57,7 +58,7 @@
 				  ?>
                   <? if(!empty($shop_page)): ?>
                   <div id="nav_cart">
-                     <span class="items"><? print get_items_qty() ; ?></span>
+                     <span class="items cart_items_qty"><? print get_items_qty() ; ?></span>
                      <strong>Items</strong>
                      <img src="<? print TEMPLATE_URL ?>img/cart.png" alt="" />
                      <a href="<? print page_link($shop_page['id']); ?>/view:cart">View cart </a>

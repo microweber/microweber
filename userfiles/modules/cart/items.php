@@ -26,7 +26,7 @@
     <? endforeach; ?>
   </tbody>
 </table>
-<div id="total"> <span><strong>Total price:</strong></span> <b>$<? print ($this->cart_model->itemsGetTotal(false)); ?></b> </div>
+<div id="total"> <span><strong>Total price:</strong></span> <b>$ <span class="cart_items_total"><? print get_cart_total()  ?></span></b> </div>
 <? else: ?>
 <span class="cartico">The cart is empty. Please add some products.</span>
 <? endif; ?>

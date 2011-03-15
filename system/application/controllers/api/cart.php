@@ -8,11 +8,21 @@ class Cart extends Controller {
 		
 		require_once (APPPATH . 'controllers/default_constructor.php');
 		//	require_once (APPPATH . 'controllers/api/default_constructor.php');
-	
+		
 
+		$order_id = CI::library ( 'session' )->userdata ( 'order_id' );
+		if ($order_id == false) {
+			
+			$order_id = "ORD" . date ( "ymdHis" ) . rand ();
+			
+			$order_id = CI::library ( 'session' )->set_userdata ( 'order_id', $order_id );
+		
+		}
+	
 	}
 	
 	function add() {
+		
 		
 		if ($_POST) {
 			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
@@ -25,6 +35,25 @@ class Cart extends Controller {
 	
 	}
 	
+	function order_info() {
+		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+		$check ['sid'] = $session_id;
+		$check ['order_completed'] = 'n';
+		
+		$info = array ();
+		$items = get_cart_items ( $check );
+		$info ['items'] = $items;
+		$total = get_cart_total ();
+		
+		$info ['total'] = $total;
+		$qty = get_items_qty ();
+		
+		$info ['qty'] = $qty;
+		$info = json_encode ( $info );
+		exit ( $info );
+	
+	}
+	
 	function remove_item() {
 		$id = $_POST ['id'];
 		
@@ -34,10 +63,25 @@ class Cart extends Controller {
 		$check ['sid'] = $session_id;
 		$check ['order_completed'] = 'n';
 		
-		
 		$check = get_cart_items ( $check );
 		if (! empty ( $check )) {
 			print CI::model ( 'cart' )->itemDeleteById ( $id );
+		}
+	
+	}
+	
+	function delete_order() {
+		
+		$adm = is_admin ();
+		if ($adm == true) {
+			$id = $_POST ['id'];
+			$id = intval ( $id );
+			if ($id != 0) {
+				print CI::model ( 'cart' )->orderDeleteById ( $id );
+			}
+		
+		} else {
+			exit ( 'You must be logged as admin to do that' );
 		}
 	
 	}
@@ -61,8 +105,29 @@ class Cart extends Controller {
 				$new [$property] = $new_value;
 				CI::model ( 'cart' )->itemSave ( $new );
 			}
+		} else {
+			exit ( 'Error: invalid item in cart' );
 		}
 	}
+	
+	function complete_order() {
+		if ($_POST) {
+			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+			$order_id = CI::library ( 'session' )->userdata ( 'order_id' );
+			$data = $_POST;
+			$data ['sid'] = $session_id;
+			$data ['order_id'] = $order_id;
+			
+			$total = get_cart_total ();
+			$data ['amount'] = $total;
+			
+			p ( $data );
+			$cart = CI::model ( 'cart' )->orderPlace ( $data );
+			$cart = json_encode ( $cart );
+			exit ();
+		}
+	}
+	
 	function checkout_return() {
 		//var_dump($_SERVER);
 		$get = $_REQUEST ['eBorica'];

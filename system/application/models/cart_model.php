@@ -262,7 +262,19 @@ class Cart_model extends Model {
 		
 		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
-		return $get;
+		$get2 = array ();
+		if (! empty ( $get )) {
+			foreach ( $get as $g ) {
+				$more = false;
+				$more = CI::model ( 'core' )->getCustomFields ( 'table_cart', $g ['id'], true );
+				$g ['custom_fields'] = $more;
+				$get2 [] = $g;
+			}
+		} else {
+			return false;
+		}
+		
+		return $get2;
 	
 	}
 	
@@ -1109,7 +1121,7 @@ class Cart_model extends Model {
 		$table_cart = $cms_db_tables ['table_cart'];
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
-		
+		p ( $data );
 		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
 		$this->orderConfirm ( $data ['sid'], $order_id = $data ['order_id'] );
@@ -1241,7 +1253,7 @@ class Cart_model extends Model {
 			
 			$order_id = $order_data ['order_id'];
 			
-			$q = " delete from $table_cart where order_id = '$order_id' ";
+			$q = " delete from $table_cart where order_id = '$order_id'   ";
 			
 			CI::model ( 'core' )->dbQ ( $q );
 			
