@@ -38,6 +38,15 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('option_key2', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('option_value', 'TEXT default NULL' );
 	$fields_to_add [] = array ('option_value2', 'TEXT default NULL' );
+	
+	$fields_to_add [] = array ('name', 'TEXT default NULL' );
+	$fields_to_add [] = array ('help', 'TEXT default NULL' );
+	$fields_to_add [] = array ('type', 'varchar(1500) default NULL' );
+	$fields_to_add [] = array ('module', 'varchar(1500) default NULL' );
+	
+	
+	
+	
 	$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('created_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('option_group', 'varchar(1500) default NULL' );

@@ -1,7 +1,25 @@
 
 <?
-$all_options = CI::model('core')->optionsGet ( false );
 
+
+
+//p($params);
+
+
+$options = array();
+if($params['for_module'] != ''){
+	
+	$options['module']= $params['for_module'];
+	
+}
+
+
+ 
+
+$all_options = CI::model('core')->optionsGet ( $options );
+if($all_options == false){
+$all_options = array();	
+}
 //p($all_options);
 $all_options[] = array();
 ?>
@@ -37,7 +55,13 @@ var save_option = function($form_id){
   
   <tr>
     <td>option_value</td>
-    <td><input name="option_value" value="<? print $item['option_value']?>" type="text" /></td>
+    <td>
+    <textarea name="option_value"><? print $item['option_value']?></textarea>
+    
+ 
+    
+    
+    </td>
   </tr>
   
   

@@ -1175,7 +1175,7 @@ p($modules );
 								}
 							
 							}
-							$try_file1 = normalize_path($try_file1, false);
+							$try_file1 = normalize_path ( $try_file1, false );
 							//$a = is_file ( $try_file1 );
 							//p($try_file1);
 							//p($a);
@@ -1251,6 +1251,12 @@ p($modules );
 										
 										if (! empty ( $config )) {
 											$this->template ['config'] = $config;
+											
+											if (! empty ( $config ['options'] )) {
+												$this->setup_module_options ( $config ['options'] );
+											
+											}
+											
 											if ($config ['no_cache'] == true) {
 												$cache_this = false;
 												$do_not_cache_whole_block = true;
@@ -1339,9 +1345,9 @@ p($modules );
 									
 									$edtid_hash = base64_encode ( $m ['full_tag'] );
 									if (strval ( $module_file ) != '') {
-										 
+										
 										if ($options ['do_not_wrap'] == true) {
-											$module_file = $module_file ;
+											$module_file = $module_file;
 										
 										} else {
 											
@@ -1614,7 +1620,65 @@ p($modules );
 		}
 		//p($relations);
 	}
+	function setup_module_options($options_array_from_config) {
+		$function_cache_id = false;
+		
+		$args = func_get_args ();
+		
+		foreach ( $args as $k => $v ) {
+			
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		
+		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'options' );
+		
+		if (($cache_content) != false) {
+			
+			return $cache_content;
+		
+		} else {
+			
+			foreach ( $options_array_from_config as $option ) {
+				//p ( $option );
+				$get_option = array ();
+				$get_option ['option_key'] = $option ['param'];
+				if ($option ['group']) {
+					$get_option ['option_group'] = $option ['group'];
+				}
+				if ($option ['module']) {
+					$get_option ['module'] = $option ['module'];
+				}
+				$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option );
+				if (empty ( $get_option1 )) {
+					$get_option ['name'] = $option ['name'];
+					$get_option ['help'] = $option ['help'];
+					$get_option ['type'] = $option ['type'];
+					$get_option ['name'] = $option ['name'];
+					$get_option ['option_value'] = $option ['default'];
+					$get_option ['option_value2'] = $option ['values'];
+					
+					$save = CI::model ( 'core' )->optionsSave ( $get_option );
+					
+				//p ( $save );
+				
+
+				}
+			
+			}
+			CI::model ( 'core' )->cacheWriteAndEncode ( 'true', $function_cache_id, $cache_group = 'options' );
+			
+			return true;
+		
+		}
 	
+	}
+	
+	//$bad_words = CI::model ( 'core' )->optionsGetByKey ( 'bad_words' );
+	
+
 	function badWordsRemove($layout) {
 		
 		$bad_words = CI::model ( 'core' )->optionsGetByKey ( 'bad_words' );

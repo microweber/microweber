@@ -5,7 +5,23 @@ $(document).ready(function(){
 
  $("a[href='#']").attr("javascript:void(0)");
 
+  $(".mw_boxctrl").click(function(){
 
+
+  $(this).parents(".mw_box").find(".mw_box_content").toggleSlide();
+
+
+  $(this).toggleClass("mw_boxctrl_open");
+
+if(this.innerHTML=='Open'){
+  this.innerHTML = 'Close';
+}
+else if(this.innerHTML=='Close'){
+  this.innerHTML = 'Open';
+}
+
+
+});
   $(".createpages").sortable({
     handle:'.FieldHandle'
   });

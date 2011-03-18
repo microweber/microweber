@@ -1121,12 +1121,44 @@ class Cart_model extends Model {
 		$table_cart = $cms_db_tables ['table_cart'];
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
-		p ( $data );
+		//	p ( $data );
 		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
 		$this->orderConfirm ( $data ['sid'], $order_id = $data ['order_id'] );
 		
 		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
+		
+		$get_option = array ();
+		$get_option ['option_key'] = 'order_complete_email';
+		$get_option ['option_group'] = 'orders';
+		$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+		$subj = $get_option1 ['option_value'];
+		
+		$get_option = array ();
+		$get_option ['option_key'] = 'order_complete_email_body';
+		$get_option ['option_group'] = 'orders';
+		$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+		$body = $get_option1 ['option_value'];
+		
+		if ($subj and $body) {
+			$get_option = array ();
+			$get_option ['option_key'] = 'mailform_to';
+			//$get_option ['option_group'] = 'orders';
+			$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+			$from = $get_option1 ['option_value'];
+			$headers = 'From: ' . $from . "\r\n" . 'X-Mailer: Microweber - PHP/' . phpversion ();
+			// To send HTML mail, the Content-type header must be set
+			$headers .= 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+	
+			$headers .= 'Cc: ' .$from. "\r\n";
+		
+			
+			mail ( $data ['email'], $subj, $body, $additional_headers = $headers, $additional_parameters = null );
+		
+		}
+		
+		//p($get_option1);
 		return $id;
 	
 	}

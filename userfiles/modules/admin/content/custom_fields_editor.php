@@ -58,13 +58,42 @@ if($params['file'] == ''){
 	$params['file'] =$page_data['content_layout_file'];
 }
 ?>
-<? if(($params['file']) != '') :  ?>
-<? $layouts = CI::model('template')->layoutsList(); 
+
+
+
+
+
+
+
+
+
+
+
+
+<? if(($params['file']) != '' or ($params['for']== 'global')) :  ?>
+
+
+
+<? 
+
+$layouts = CI::model('template')->layoutsList(); 
  
 ?>
+<? if(($params['for']) == 'global') :  
+$layouts = array();
+$layouts1 = CI::model('template')->layoutsList(); 
+$layouts[] = $layouts1[0];
+?>
+
+ 
+
+<? endif; ?>
+
+
+
 <? if(!empty($layouts)): ?>
 <? foreach($layouts as $layout): ?>
-<? if($layout['filename'] == $params['file']): ?>
+<? if($layout['filename'] == $params['file'] or ($params['for']== 'global')): ?>
 <? 
 
 // p($custom_fields);
@@ -132,7 +161,36 @@ if(!empty($custom_fields)){
 	}
 }
 
- 
+ if(!empty($params)){
+	
+		
+		
+		
+		$param_to_find = $params['param'];
+		$for1 = $params['for'];
+		$name1 = $params['name'];
+		
+		$found = false;
+		foreach($layout['custom_fields'][$for] as $item){
+			if($item['param'] ==$k ){
+			$found = true;
+			}
+		}
+		if($found == false){
+			
+			
+			$new_cf = array();
+			$new_cf['param'] = $param_to_find;
+			$new_cf['name'] =      ucfirst($param_to_find);
+			$new_cf['not_in_config'] =true;
+			$new_cf['default'] = $param_to_find;
+			$new_cf['content_type'] =$for1 ;
+		 
+			//p($new_cf);
+			//$cfg['values'] = $v;
+			$layout['custom_fields'][$for][] = $new_cf;
+		}
+}
  
 
  

@@ -8592,9 +8592,11 @@ $w
 			}
 			
 			$data = array ();
-			
-			$data ['option_key'] = $key;
-			
+			if (is_array ( $key )) {
+				$data = $key;
+			} else {
+				$data ['option_key'] = $key;
+			}
 			$get = $this->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
 			
 			if (! empty ( $get )) {

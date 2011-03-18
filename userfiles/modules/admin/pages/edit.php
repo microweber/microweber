@@ -13,53 +13,53 @@ if(intval($id) == 0){
 	if(intval($try_parent) != 0){
 	$form_values['content_parent'] = $try_parent;
 	}
-	 
-	
+
+
 }
 //p($form_values);
 
 ?>
 <script type="text/javascript">
-// prepare the form when the DOM is ready 
-$(document).ready(function() { 
-    var save_page_options = { 
+// prepare the form when the DOM is ready
+$(document).ready(function() {
+    var save_page_options = {
         type:      'post',
 		dataType: 'json',
 		url:       '<? print site_url('api/content/save_page') ?>' ,
-        beforeSubmit:  save_page_showRequest,  // pre-submit callback 
-        success:       save_page_showResponse  // post-submit callback 
-    }; 
- 
-    $('#save_page_form').submit(function() { 
-        $(this).ajaxSubmit(save_page_options); 
-        return false; 
-    }); 
+        beforeSubmit:  save_page_showRequest,  // pre-submit callback
+        success:       save_page_showResponse  // post-submit callback
+    };
+
+    $('#save_page_form').submit(function() {
+        $(this).ajaxSubmit(save_page_options);
+        return false;
+    });
 
 	//call_layout_config_module();
-}); 
+});
 
-// pre-submit callback 
-function save_page_showRequest(formData, jqForm, options) { 
-    var queryString = $.param(formData); 
-    return true; 
-} 
- 
-// post-submit callback 
-function save_page_showResponse(responseText, statusText, xhr, $form)  { 
+// pre-submit callback
+function save_page_showRequest(formData, jqForm, options) {
+    var queryString = $.param(formData);
+    return true;
+}
+
+// post-submit callback
+function save_page_showResponse(responseText, statusText, xhr, $form)  {
 //document.getElementById('edit_frame').contentWindow.location.reload();
 
 
-   // alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +    '\n\nThe output div should have already been updated with the responseText.'); 
-} 
+   // alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +    '\n\nThe output div should have already been updated with the responseText.');
+}
 </script>
 <script type="text/javascript">
 function set_layout($filename, $layout_name){
 
 	 $('#content_layout_file').val($filename);
- 
+
   $('#content_layout_name').val($layout_name);
-  
-  
+
+
   call_layout_config_module();
 }
 
@@ -69,7 +69,7 @@ $(window).load(function(){
 });
 
 function call_layout_config_module(){
-	
+
  $file = $('#content_layout_file').val();
  $page_id = $('#page_id').val();
 
@@ -94,42 +94,42 @@ function call_layout_config_module(){
 
 
 $(document).ready(function () {
-  // 
+  //
    var flora_tabs = $(".flora").tabs();
  });
 
 
- 
- 
- 
+
+
+
 
 
 function ajax_content_subtype_change(){
-	
-	
-	
-	
+
+
+
+
 
 	var content_subtype = $("#content_subtype").val();
 
 	var content_subtype_value = $("#content_subtype_value").val();
-	
-	
-	
-	
+
+
+
+
 	 $.ajax({
   url: '<? print site_url('api/module'); ?>',
    type: "POST",
       data: ({module : 'admin/content/pages_content_subtype' ,content_subtype : content_subtype, content_subtype_value: content_subtype_value }),
      // dataType: "html",
       async:true,
-      
+
   success: function(resp) {
      // $("#content_subtype_changer").html(resp);
   }
     });
-	
- 
+
+
 
 }
 
@@ -139,7 +139,7 @@ function ajax_content_subtype_change(){
 
 function ajax_content_subtype_change_set_form_value(val){
 
-	 
+
 	 $("#content_subtype_value").setValue(val);
 
 }
@@ -154,10 +154,10 @@ function ajax_content_subtype_change_set_form_value(val){
 
 <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
 
-<hr />
+
 
 <form action="" method="post" id="save_page_form">
-  <input name="save" type="submit" value="save" />
+  <input class="btn" name="save" type="submit" value="save" />
 
 
   <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
@@ -227,7 +227,7 @@ function ajax_content_subtype_change_set_form_value(val){
   <?php
 
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input type='radio' name='content_parent'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
-  <hr />
+
   <label>Required Login </label>
   <span class="formfield"><input name="require_login" type="text" value="<? print $form_values['require_login'] ?>" /> </span>
 
