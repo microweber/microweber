@@ -59,6 +59,7 @@ class Core_model extends Model {
 	function __construct() {
 		
 		parent::Model ();
+		
 	
 	}
 	
@@ -8694,6 +8695,184 @@ $w
 	function plugins_getLoadedPlugins() {
 		
 		return $this->loaded_plugins;
+	
+	}
+	
+	function options_setup_default() {
+		$function_cache_id = false;
+		
+		$args = func_get_args ();
+		
+		foreach ( $args as $k => $v ) {
+			
+			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		
+		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'options' );
+		
+		if (($cache_content) != false) {
+			
+			return $cache_content;
+		
+		} else {
+			
+			$options_array_from_config = array ();
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Site template";
+			$options_array_from_config_new_option ['help'] = "Select the curent site template";
+			$options_array_from_config_new_option ['type'] = "select_template";
+			$options_array_from_config_new_option ['default'] = "default";
+			$options_array_from_config_new_option ['param'] = "curent_template";
+			$options_array_from_config_new_option ['group'] = "site";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Meta title";
+			$options_array_from_config_new_option ['help'] = "Edit the default meta title";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "";
+			$options_array_from_config_new_option ['param'] = "content_meta_title";
+			$options_array_from_config_new_option ['group'] = "meta";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Meta description";
+			$options_array_from_config_new_option ['help'] = "Edit the default meta description";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "";
+			$options_array_from_config_new_option ['param'] = "content_meta_description";
+			$options_array_from_config_new_option ['group'] = "meta";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Meta keywords";
+			$options_array_from_config_new_option ['help'] = "Edit the default meta keywords";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "";
+			$options_array_from_config_new_option ['param'] = "content_meta_keywords";
+			$options_array_from_config_new_option ['group'] = "meta";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Admin items per page";
+			$options_array_from_config_new_option ['help'] = "Default items per page in admin";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "100";
+			$options_array_from_config_new_option ['param'] = "admin_default_items_per_page";
+			$options_array_from_config_new_option ['group'] = "admin";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Number of items per page";
+			$options_array_from_config_new_option ['help'] = "Default items per page in site";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "30";
+			$options_array_from_config_new_option ['param'] = "default_items_per_page";
+			$options_array_from_config_new_option ['group'] = "site";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "RSS language";
+			$options_array_from_config_new_option ['help'] = "Set the RSS feed language";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "EN";
+			$options_array_from_config_new_option ['param'] = "rss_language";
+			$options_array_from_config_new_option ['group'] = "rss";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "RSS title";
+			$options_array_from_config_new_option ['help'] = "Set the RSS feed title";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "RSS Feed";
+			$options_array_from_config_new_option ['param'] = "rss_title";
+			$options_array_from_config_new_option ['group'] = "rss";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Site creator email";
+			$options_array_from_config_new_option ['help'] = "Put your email here.";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "support@microweber.com";
+			$options_array_from_config_new_option ['param'] = "creator_email";
+			$options_array_from_config_new_option ['group'] = "admin";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Default subject from the site mailforms";
+			$options_array_from_config_new_option ['help'] = "Type the desired subject";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "[Mailform]";
+			$options_array_from_config_new_option ['param'] = "mailform_subject";
+			$options_array_from_config_new_option ['group'] = "mailform";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Receive the mailforms in this email";
+			$options_array_from_config_new_option ['help'] = "Put your email here.";
+			$options_array_from_config_new_option ['type'] = "email";
+			$options_array_from_config_new_option ['default'] = "support@microweber.com";
+			$options_array_from_config_new_option ['param'] = "mailform_to";
+			$options_array_from_config_new_option ['group'] = "mailform";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Types of content";
+			$options_array_from_config_new_option ['help'] = "Put your types here. Sepecate them with comma.";
+			$options_array_from_config_new_option ['type'] = "text";
+			$options_array_from_config_new_option ['default'] = "inherit, posts, shop";
+			$options_array_from_config_new_option ['param'] = "content_types";
+			$options_array_from_config_new_option ['group'] = "advanced";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			$options_array_from_config_new_option = array ();
+			$options_array_from_config_new_option ['name'] = "Forgot password email from";
+			$options_array_from_config_new_option ['help'] = "We will send the reset password link from this email";
+			$options_array_from_config_new_option ['type'] = "email";
+			$options_array_from_config_new_option ['default'] = "noreply@microweber.com";
+			$options_array_from_config_new_option ['param'] = "forgot_pass_email_from";
+			$options_array_from_config_new_option ['group'] = "advanced";
+			$options_array_from_config [] = $options_array_from_config_new_option;
+			
+			
+		 
+			
+			
+			
+			foreach ( $options_array_from_config as $option ) {
+				//p ( $option );
+				$get_option = array ();
+				$get_option ['option_key'] = $option ['param'];
+				 
+				$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option );
+				if (empty ( $get_option1 )) {
+					$get_option ['name'] = $option ['name'];
+					$get_option ['group'] = $option ['group'];
+					$get_option ['module'] = $option ['module'];
+					$get_option ['help'] = $option ['help'];
+					$get_option ['type'] = $option ['type'];
+					$get_option ['name'] = $option ['name'];
+					$get_option ['option_value'] = $option ['default'];
+					$get_option ['option_value2'] = $option ['values'];
+					
+					$save = CI::model ( 'core' )->optionsSave ( $get_option );
+					
+				//p ( $save );
+				
+
+				}
+			
+			}
+			CI::model ( 'core' )->cacheWriteAndEncode ( 'true', $function_cache_id, $cache_group = 'options' );
+			
+			return true;
+		
+		}
 	
 	}
 	

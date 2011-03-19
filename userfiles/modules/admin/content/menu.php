@@ -11,7 +11,6 @@ if($params['name'] != false){
 }
 
 ?>
-
 <? 
 $rand = rand();
 
@@ -19,8 +18,9 @@ if($params['save']){
 
 	
 	?>
+
 save
-	<?
+<?
 
 	return;
 }
@@ -29,14 +29,19 @@ save
 
 
 ?>
-
+<?php  $menu_data = CI::model('content')->getMenus(array('id' => $params['id']));
+		if(!empty($menu_data)){
+		$menu_data = $menu_data[0];	
+		}
+		//p($menu_data);
+		?>
+        
 <? 
  
 
 $pages = get_pages_old() ;
 //p($pages);
 ?>
-
 <script type="text/javascript">
 var add_menus_controlls = function(){
 	$('.remove_me').remove();
@@ -153,38 +158,29 @@ var edit_menu_item = function($id){
 	 
 	
 	</script>
- 
-
- 
- 
-
-
 <table width="100%" border="0">
   <tr>
-    <td>
-<h2>Pages</h2>
-<ul>
-<? foreach($pages['posts'] as $page): ?>
- <li>
-      <div>Page <? print $page['content_title'] ?> <a onclick="add_to_menu('<? print $page['id'] ?>', '<? print addslashes($page['content_title']) ?>')">add</a></div>
-    </li>
-  <? endforeach; ?>
-</ul> 
-<hr />
-
-
-<h2>menu items</h2>
-<div class="cat_list" >
-  <? $menu_items = CI::model('content')->menuTree($params['id']) ;
+    <th><? print $menu_data['menu_title'] ;?></th>
+  </tr>
+  <tr>
+    <td><h2>Pages</h2>
+      <ul>
+        <? foreach($pages['posts'] as $page): ?>
+        <li>
+          <div>Page <? print $page['content_title'] ?> <a onclick="add_to_menu('<? print $page['id'] ?>', '<? print addslashes($page['content_title']) ?>')">add</a></div>
+        </li>
+        <? endforeach; ?>
+      </ul>
+      <hr />
+      <h2>menu items</h2>
+      <div class="cat_list" >
+        <? $menu_items = CI::model('content')->menuTree($params['id']) ;
 
 print $menu_items ; ?>
-   
-   
-</div></td>
+      </div></td>
     <td><div id="edit_menu_item"></div></td>
   </tr>
 </table>
-
 <script> 
   
 	$(document).ready(function(){

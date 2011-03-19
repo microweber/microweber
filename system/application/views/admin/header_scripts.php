@@ -16,3 +16,21 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery.ui.nestedSortable.js"></script>
+
+
+<script type="text/javascript">
+$(window).load(function(){
+	  $(".richtext").each(function(){
+		 var id = mw.id();
+		 $(this).attr("id", "edit_" + id);
+		// myNicEditor.addInstance("edit_" + id);
+		new nicEditor({fullPanel : true, iconsPath : "<?php print( ADMIN_STATIC_FILES_URL);  ?>js/nicEditorIcons.gif",
+			  uploadURI : "{SITE_URL}/api/media/nic_upload"}).panelInstance("edit_" + id);
+	  });
+	  
+});
+
+
+ 
+
+</script>

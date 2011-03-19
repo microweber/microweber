@@ -17,6 +17,16 @@ if($params['category_id']){
 }
 
 
+
+if($for == false){
+	
+	$for = $params['for'];
+}
+
+if($id == false){
+	
+	$id = $params['for_id'];
+}
 ?>
 
 
@@ -71,16 +81,16 @@ var call_media_manager = function(){
 $(document).ready(function(){
 						   
 						   call_media_manager();
-    $(document.body).append('<div class="drag_files"></div>');
+   $(document.body).append('<div class="drag_files"></div>');
 
      
 
  	$(".drag_files").pluploadQueue({
 		// General settings
-		runtimes: 'gears,html5,browserplus',
+		runtimes: 'flash,gears,html5,browserplus',
 		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id); ?>",
 		max_file_size: '100mb',
-		chunk_size: '100mb',
+		chunk_size: '1000mb',
 		unique_names: true,
 
 
@@ -137,4 +147,6 @@ $(document).ready(function(){
 // ******************************** END UPLOADER *******************************
 
 </script>
- 
+  
+			
+ <div class="drag_files"></div>

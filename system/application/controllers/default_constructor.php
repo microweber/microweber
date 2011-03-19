@@ -34,15 +34,7 @@ if ($profiler) {
 }
 
 
-$db_setup = CACHEDIR_ROOT . '/db_tmp/index.php';
-if(is_file($db_setup) == false){
-	CI::model ( 'init' )->db_setup ();
-	
-	
- 	
-	
-	
-}
+
 
 
 /*print $cms_db_tables ['table_stats_sites'];
@@ -93,7 +85,15 @@ $this->load->model ( 'Mw_model', 'mw' );*/
 
 require (APPPATH . 'functions' . '/mw_functions.php');
 
-
+$db_setup = CACHEDIR_ROOT . '/db_tmp/index.php';
+if(is_file($db_setup) == false){
+	CI::model ( 'init' )->db_setup ();
+	
+	CI::model ( 'core' )->options_setup_default();
+ 	
+	
+	
+}
  
 //some random factor
 $rand = rand ( 1, 30 );

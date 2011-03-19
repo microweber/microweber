@@ -5,16 +5,17 @@ menus
     <td>
     
     
+ <?php  $menus = CI::model('content')->content_model->getMenus(array('item_type' => 'menu'));
+		
+		 
+		?>
     
-    <?
-	$menus_data = array();
-	$menus_data['item_type']= 'menu';
-	$menus = CI::model('content')->getMenus($menus_data) ;
-
-	?>
-    
-    
-    <mw module="admin/content/menu" id="1" />
+     <?php foreach($menus as $item): ?>
+      <mw module="admin/content/menu" id="<?php print $item['id'] ?>" />
+         
+        <?php endforeach; ?>
+        
+   
     
     </td>
     <td>&nbsp;</td>

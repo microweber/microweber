@@ -653,7 +653,21 @@ function get_page_for_post($post_id) {
 	return $page;
 
 }
-
+function get_content($id) {
+	global $CI;
+	$page = CI::model ( 'content' )->contentGetById ( $id );
+	
+	if (empty ( $page )) {
+		$page = CI::model ( 'content' )->getContentByURL ( $id );
+	}
+	
+	if (! empty ( $page )) {
+		$more = false;
+		$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $page ['id'] );
+		$page ['custom_fields'] = $more;
+	}
+	return $page;
+}
 function get_page($id) {
 	
 	global $CI;

@@ -12,7 +12,11 @@
 <?
   $id = $params['for_id'];
   $for = $params['for'];
+  
+  
+   
   $media_type = $params['type'];
+ 
 //p($params); 
   
   ?>

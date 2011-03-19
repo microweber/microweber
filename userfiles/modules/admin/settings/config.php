@@ -56,7 +56,16 @@ var save_option = function($form_id){
   <tr>
     <td>option_value</td>
     <td>
-    <textarea name="option_value"><? print $item['option_value']?></textarea>
+    
+    
+    
+    
+ 
+  <textarea name="option_value" class="editor_on_click"><? print $item['option_value']?></textarea>
+  
+  
+    
+    
     
  
     
@@ -69,7 +78,6 @@ var save_option = function($form_id){
     <td>option_group</td>
     <td><input name="option_group" value="<? print $item['option_group']?>" type="text" /></td>
   </tr>
-  
   
   
   <tr>

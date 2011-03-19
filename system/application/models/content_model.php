@@ -310,7 +310,7 @@ class content_model extends Model {
 		$save = CI::model ( 'core' )->saveData ( $table, $data_to_save );
 		$id = $save;
 		
-		if ($data_to_save ['content_type'] == 'page') {
+		//if ($data_to_save ['content_type'] == 'page') {
 			
 			if (! empty ( $data_to_save ['menus'] )) {
 				
@@ -339,7 +339,7 @@ class content_model extends Model {
 			
 			}
 		
-		}
+	//	}
 		
 		//CI::model('core')->cacheDeleteAll (); 
 		
@@ -3295,7 +3295,7 @@ class content_model extends Model {
 
 		}
 		
-	if (strval ( $content_layout_name ) != '') {
+		if (strval ( $content_layout_name ) != '') {
 			
 			$posts_data ['content_layout_name'] = $content_layout_name;
 		
@@ -3305,8 +3305,6 @@ class content_model extends Model {
 		
 
 		}
-		
-		
 		
 		$url = uri_string ();
 		
@@ -5160,14 +5158,8 @@ $my_limit_q
 	
 	}
 	
+	function define_vars() {
 	
-	function define_vars(){
-		
-		
-		
-		
-		
-		
 	}
 	
 	function applyGlobalTemplateReplaceables($content, $replaceables = false) {
@@ -5652,6 +5644,22 @@ $my_limit_q
 		
 		$save = CI::model ( 'core' )->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus' );
 		
+		if ($data ['item_type'] == 'menu' and count ( $data ) == 1) {
+			//p($save);
+			if (empty ( $save )) {
+				$add_main_menu = array ();
+				
+				$add_main_menu ['item_type'] = 'menu';
+				$add_main_menu ['item_title'] = 'Main menu';
+				$add_main_menu ['menu_description'] = 'Main menu';
+				$add_main_menu ['menu_title'] = 'Main menu';
+				
+				$add_main_menu ['is_active'] = 'y';
+				$this->saveMenu ( $add_main_menu );
+				$save = CI::model ( 'core' )->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus' );
+			
+			}
+		}
 		return $save;
 	
 	}
@@ -8478,7 +8486,7 @@ $my_limit_q
 		$data ['content_id'] = $content_id;
 		
 		$data ['item_parent'] = $menu_id;
-		
+		 
 		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus', false );
 		
 		$get = $get [0];
