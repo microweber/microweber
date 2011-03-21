@@ -18,6 +18,36 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery.ui.nestedSortable.js"></script>
 
 
+<?
+/*
+
+
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.js"></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.autogrow.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.ajaxupload.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.masked.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.time.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.timepicker.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.datepicker.js" type="text/javascript" ></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/jquery.jeditable.charcounter.js" type="text/javascript" ></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.maskedinput.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.timepicker.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.autogrow.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.charcounter.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/date.js"></script>
+<!--
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.bgigframe.js"></script>
+-->
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.dimensions.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.datePicker.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery-jeditable/js/jquery.ajaxfileupload.js"></script>
+
+*/
+?>
+
+
+
+
 <script type="text/javascript">
 $(window).load(function(){
 	  $(".richtext").each(function(){
@@ -31,6 +61,12 @@ $(window).load(function(){
 });
 
 
- 
+
+
 
 </script>
+
+
+<script type="text/javascript" charset="utf-8"> 
+ 
+</script>  

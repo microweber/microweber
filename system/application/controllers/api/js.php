@@ -64,12 +64,13 @@ class js extends Controller {
 		}
 		$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.form.js', true );
 		$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.embedly.min.js', true );
+		$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery_plugins.js', true );
 		
 		$layout = $layout . "\n\n\n // File: _mw.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw.js', true );
 		
 		$ajax = isAjax ();
 		if ($ajax == false) {
-			if ($edit == true and $in_admin == false and $no_mw_edit==false) {
+			if ($edit == true and $in_admin == false and $no_mw_edit == false) {
 				$layout = $layout . "\n\n\n // File: _mw_edit.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_edit.js', true );
 			}
 			if (($editmode == true) or $load_extra_libs == true) {

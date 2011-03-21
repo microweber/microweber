@@ -56,17 +56,15 @@ var save_option = function($form_id){
   <tr>
     <td>option_value</td>
     <td>
+    <?  //p($item)?>
     
     
     
-    
- 
-  <textarea name="option_value" class="editor_on_click"><? print $item['option_value']?></textarea>
-  
+ <mw module="forms/field" name="option_value" value="<? print encode_var($item['option_value'])?>" type="<? print $item['type']?>" />
   
     
     
-    
+
  
     
     

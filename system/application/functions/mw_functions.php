@@ -113,19 +113,23 @@ function url_param_unset($param, $url = false) {
 	return $site;
 }
 
-function mw_test() {
-	global $CI;
-	$CI->mw->test ();
-}
+ 
 
 function encode_var($var) {
+	
+	if ($var == '') {
+		return '';
+	}
+	
 	$var = serialize ( $var );
 	$var = base64_encode ( $var );
 	return $var;
 }
 
 function decode_var($var) {
-	
+	if ($var == '') {
+		return '';
+	}
 	$var = base64_decode ( $var );
 	$var = unserialize ( $var );
 	return $var;

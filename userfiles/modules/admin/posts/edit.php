@@ -24,7 +24,7 @@ $(document).ready(function () {
  
 
 </script>
- 
+
 <form action="" method="post" id="save_post_form">
 <input name="save" type="submit" value="save" />
 <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
@@ -97,19 +97,14 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
   <textarea name="content_body" class="richtext" cols="50" rows="80"><? print $form_values['content_body'] ?></textarea>
   <br />
   <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
-  
- 
-  
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Media</h3>
     </div>
     <div class="mw_box_content">
-       <mw module="admin/media/gallery" for="post" for_id="<? print $form_values['id'] ?>" />
+      <mw module="admin/media/gallery" for="post" for_id="<? print $form_values['id'] ?>" />
     </div>
   </div>
-  
-  
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Advanced options</h3>
@@ -134,10 +129,7 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
       <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
     </div>
   </div>
-  
-  
-  
-    <div class="mw_box mw_box_closed">
+  <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Menus</h3>
     </div>

@@ -152,7 +152,7 @@ function ajax_content_subtype_change_set_form_value(val){
 
 </script>
 
-<mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
+
 
 
 
@@ -235,27 +235,48 @@ function ajax_content_subtype_change_set_form_value(val){
   <span class="formfield"><input name="original_link" type="text" value="<? print $form_values['original_link'] ?>" /></span>
  <label>Is Home</label>
   <span class="formfield"><input name="is_home" type="text" value="<? print $form_values['is_home'] ?>" /> </span>
+  
+  
+  
+  
+  
+  
+  <div class="mw_box mw_box_closed">
+    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+      <h3>Advanced options</h3>
+    </div>
+    <div class="mw_box_content">
+      <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
+    </div>
+  </div>
+  <div class="mw_box mw_box_closed">
+    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+      <h3>Custom Fields</h3>
+    </div>
+    <div class="mw_box_content">
+      <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
+    </div>
+  </div>
+  
+  
+  
+  
 
-  <h2>Meta</h2>
+  <div class="mw_box mw_box_closed">
+    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+      <h3>Meta tags</h3>
+    </div>
+    <div class="mw_box_content">
+      <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
+    </div>
+  </div>
 
-  <label>Meta Title</label>
-  <span class="formfield"><input name="content_meta_title" type="text" value="<? print $form_values['content_meta_title'] ?>" /> </span>
-
- <label>Meta description</label>
-  <span class="formfield"><input name="content_meta_description" type="text" value="<? print $form_values['content_meta_description'] ?>" /></span>
-
-  <label>Meta Keywords</label>
-  <span class="formfield"><input name="content_meta_keywords" type="text" value="<? print $form_values['content_meta_keywords'] ?>" /></span>
-
-  <fieldset>
-    <legend>Add this page to menus</legend>
-    <?php  CI::model('content')->content_model->getMenus(array('item_type' => 'menu')); ?>
-    <?php foreach($menus as $item): ?>
-    <?php $is_checked = false; $is_checked = CI::model('content')->content_helpers_IsContentInMenu($form_values['id'],$item['id'] ); ?>
-    <label class="lbl"> <?php print $item['item_title'] ?>&nbsp;
-      <input name="menus[]" type="checkbox" <?php if($is_checked  == true): ?> checked="checked"  <?php endif; ?> value="<?php print $item['id'] ?>" />
-    </label>
-    <?php endforeach; ?>
-    <?php //  var_dump( $menus);  ?>
-  </fieldset>
+ <div class="mw_box mw_box_closed">
+    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+      <h3>Menus</h3>
+    </div>
+    <div class="mw_box_content">
+      <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+    </div>
+  </div>
 </form>
