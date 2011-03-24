@@ -306,41 +306,62 @@ class content_model extends Model {
 		
 		}
 		
-		//p($data_to_save);
+		if ($data_to_save ['content_subtype_value_new']) {
+			
+			$adm = is_admin ();
+			
+			if ($adm == true) {
+				
+				$new_category = array ();
+				$new_category ["taxonomy_type"] = "category";
+				$new_category ["taxonomy_value"] = $data_to_save ['content_subtype_value_new'];
+				$new_category ["parent_id"] = "0";
+				
+				$new_category = CI::model ( 'taxonomy' )->taxonomySave ( $new_category );
+				
+				$data_to_save ['content_subtype_value'] = $new_category;
+				$data_to_save ['content_subtype'] = 'blog_section';
+			
+			}
+		}
+		
+	//	p ( $data_to_save, 1 );
 		$save = CI::model ( 'core' )->saveData ( $table, $data_to_save );
 		$id = $save;
 		
 		//if ($data_to_save ['content_type'] == 'page') {
-			
-			if (! empty ( $data_to_save ['menus'] )) {
-				
-				//housekeep
-				
+		
 
-				$this->removeContentFromUnusedMenus ( $save, $data_to_save ['menus'] );
+		if (! empty ( $data_to_save ['menus'] )) {
+			
+			//housekeep
+			
+
+			$this->removeContentFromUnusedMenus ( $save, $data_to_save ['menus'] );
+			
+			foreach ( $data_to_save ['menus'] as $menu_item ) {
 				
-				foreach ( $data_to_save ['menus'] as $menu_item ) {
-					
-					$to_save = array ();
-					
-					$to_save ['item_type'] = 'menu_item';
-					
-					$to_save ['item_parent'] = $menu_item;
-					
-					$to_save ['content_id'] = intval ( $save );
-					
-					$to_save ['item_title'] = $data_to_save ['content_title'];
-					
-					$this->saveMenu ( $to_save );
-					
-					CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
+				$to_save = array ();
 				
-				}
+				$to_save ['item_type'] = 'menu_item';
+				
+				$to_save ['item_parent'] = $menu_item;
+				
+				$to_save ['content_id'] = intval ( $save );
+				
+				$to_save ['item_title'] = $data_to_save ['content_title'];
+				
+				$this->saveMenu ( $to_save );
+				
+				CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
 			
 			}
 		
-	//	}
+		}
 		
+		//	}
+		
+
 		//CI::model('core')->cacheDeleteAll (); 
 		
 
@@ -8486,7 +8507,7 @@ $my_limit_q
 		$data ['content_id'] = $content_id;
 		
 		$data ['item_parent'] = $menu_id;
-		 
+		
 		$get = CI::model ( 'core' )->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus', false );
 		
 		$get = $get [0];

@@ -115,10 +115,21 @@ a{
 
 .box{
   background: white;
-  padding:10px;
   min-height: 100px;
 
 }
+.box_content{
+  margin:0 80px;
+}
+.box_header{
+  margin-bottom: 15px;
+}
+.box_header{
+  background: #F4F4F4;
+  padding: 12px 30px;
+  border-bottom: 1px solid #DADADA;
+}
+
 
 .field{
   padding:5px;

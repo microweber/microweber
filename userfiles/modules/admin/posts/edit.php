@@ -15,7 +15,7 @@ $(document).ready(function () {
  
  
 
-   var flora_tabs = $(".flora").tabs();
+    
  
    
 
@@ -83,26 +83,33 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
   <input name="content_type" type="hidden" value="post" />
   <hr />
   <hr />
-  content_title
-  <input name="content_title" type="text" value="<? print $form_values['content_title'] ?>" />
-  <hr />
-  content_url
+  <div class="formitem">
+    <label>Title</label>
+    <span class="formfield"><input style="width: 100%" name="content_title" type="text" value="<? print $form_values['content_title'] ?>" /> </span>
+  </div>
+
+  <div class="formitem">
+  <label>URL</label>
   <div id="content_url_page"></div>
-  <input name="content_url" type="text" style="width:300px;" value="<? print $form_values['content_url'] ?>" />
-  <hr />
-  content_description
-  <input name="content_description" type="text" value="<? print $form_values['content_description'] ?>" />
-  <hr />
-  content_body
-  <textarea name="content_body" class="richtext" cols="50" rows="80"><? print $form_values['content_body'] ?></textarea>
-  <br />
+  <span class="formfield"><input style="width: 100%" name="content_url" type="text" style="width:300px;" value="<? print $form_values['content_url'] ?>" /></span>
+ </div>
+  <div class="formitem">
+  <label>Description</label>
+  <span class="formfield"><input style="width: 100%" name="content_description" type="text" value="<? print $form_values['content_description'] ?>" /></span>
+   </div>
+  <div class="formitem">
+  <label>Content</label>
+
+  <textarea name="content_body" style="width: 100%" class="richtext" rows="20" cols="150"><? print $form_values['content_body'] ?></textarea>
+  </div>
   <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
+
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Media</h3>
     </div>
     <div class="mw_box_content">
-      <mw module="admin/media/gallery" for="post" for_id="<? print $form_values['id'] ?>" />
+      <mw module="admin/media/gallery" for="post" post_id="<? print $form_values['id'] ?>" />
     </div>
   </div>
   <div class="mw_box mw_box_closed">
@@ -118,7 +125,15 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
       <h3>Custom Fields</h3>
     </div>
     <div class="mw_box_content">
+    
+    
+    
+    
+    
       <div id="post_custom_fields"></div>
+      
+      
+      
     </div>
   </div>
   <div class="mw_box mw_box_closed">

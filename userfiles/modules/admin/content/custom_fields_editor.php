@@ -52,6 +52,7 @@ if($params['file'] == ''){
 	$params['file'] =$page_data['content_layout_file'];
 }
 ?>
+<? // p($params); ?>
 <? if(($params['file']) != '' or ($params['for']== 'global')) :  ?>
 <? 
 
@@ -246,7 +247,11 @@ function cf_add($tr_id){
 <form id="cf_edit_<? print $item['param'] ?>">
   <table width="100%" border="0">
     <tr id="cf_<? print $item['param'] ?>">
-      <td><input type="hidden"    name="for" value="<? print $for; ?>" />
+    
+      <td>
+      <? // p($item); ?>
+      
+      <input type="hidden"    name="for" value="<? print $for; ?>" />
         <input type="hidden"    name="content_id" value="<? print $the_content_id; ?>" />
         <? if( $item['not_in_config']) :?>
         <? $item['name'] = str_replace('_', ' ', $item['name']);  ?>

@@ -130,8 +130,9 @@ function set_categories(){
 
 
 
+<div class="formitem">
+<label>Parent page </label>
 
-parent page
   <?php
  
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input onchange='javascript:set_categories()' type='radio' name='content_parent' category_id='{content_subtype_value}'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
@@ -152,7 +153,7 @@ $pages = get_pages_old($pages_params);
   </select>
   <? endif; ?>
   <?
- $get_categories_params = array(); 
+ $get_categories_params = array();
     $get_categories_params['for_content'] = $form_values['id']; //if integer - will get the categories for given content it (post)
 $get_categories = get_categories($get_categories_params) ;
 //p($get_categories);
@@ -172,3 +173,5 @@ $get_categories = get_categories($get_categories_params) ;
   
   
   <div id="category_module_holder" style="display:none"></div>
+
+  </div>

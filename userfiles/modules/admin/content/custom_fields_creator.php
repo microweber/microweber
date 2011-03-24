@@ -1,5 +1,3 @@
-
-
 <?
 
 $temp = $params['base64'];
@@ -166,112 +164,78 @@ if($base64_val_for_insert != false){
 
 
 ?>
+
 <div id="cf_save_resp"></div>
-
-
-<div class="mw_box mw_box_closed">
-  <div class="mw_box_header">
-  <span class="mw_boxctrl">
-    Open
-  </span>
-  <h3>Custom Fields</h3>
-</div>
-<div class="mw_box_content">
-
-<? foreach($data as $item): ?> 
+<? foreach($data as $item): ?>
 <? /// p($item); ?>
-
 <form class="cf_form" action="" method="post" id="cf_form_<? print $item['id'] ?>">
-
   <input name="id" type="hidden" value="<? print $item['id'] ?>" />
-<input name="page_id" type="hidden" value="<? print $params['page_id'] ?>" />
+  <input name="page_id" type="hidden" value="<? print $params['page_id'] ?>" />
   <div class="formitem">
-  <label>Name:</label>
-  <span class="formfield">
+    <label>Name:</label>
+    <span class="formfield">
     <input name="name" type="text" value="<? print $item['name'] ?>"  />
-  </span>
-  </div>
+    </span> </div>
   <div class="formitem">
-  <label>Group:</label>
-  <span class="formfield">
+    <label>Group:</label>
+    <span class="formfield">
     <input name="param_group" type="text" value="<? print $item['param_group'] ?>"  />
-  </span>
-  </div>
+    </span> </div>
   <div class="formitem">
-  <label>Help:</label>
-  <span class="formfield">
+    <label>Help:</label>
+    <span class="formfield">
     <input name="help" type="text" value="<? print $item['help'] ?>"  />
-  </span>
- </div>
- <div class="formitem">
-  <label>Content Type:</label>
-   <span class="formfield">
+    </span> </div>
+  <div class="formitem">
+    <label>Content Type:</label>
+    <span class="formfield">
     <select name="content_type">
       <option <? if(($item['content_type']) == 'page') :  ?>  selected="selected" <? endif; ?> value="page">page</option>
       <option  <? if(($item['content_type']) == 'post') :  ?>  selected="selected" <? endif; ?> value="post">post</option>
       <option  <? if(($item['content_type']) == 'category') :  ?>  selected="selected" <? endif; ?> value="category">category</option>
       <option  <? if(($item['content_type']) == 'media') :  ?>  selected="selected" <? endif; ?> value="media">media</option>
     </select>
-   </span>
-  </div>
-
+    </span> </div>
   <div class="formitem">
-
-  <label>Type: </label>
-  <span class="formfield">
+    <label>Type: </label>
+    <span class="formfield">
     <input name="type" type="text" value="<? print $item['type'] ?>"  />
-  </span>
-
-  </div>
-
+    </span> </div>
   <div class="formitem">
-  
-   <label>Type:</label>
+    <label>Type:</label>
     <select name="type">
       <option <? if(($item['type']) == 'text') :  ?>  selected="selected" <? endif; ?> value="text">text</option>
       <option <? if(($item['type']) == 'textarea') :  ?>  selected="selected" <? endif; ?> value="textarea">textarea</option>
       <option  <? if(($item['type']) == 'richtext') :  ?>  selected="selected" <? endif; ?> value="richtext">richtext</option>
       <option  <? if(($item['type']) == 'dropdown') :  ?>  selected="selected" <? endif; ?> value="dropdown">dropdown</option>
       <option  <? if(($item['type']) == 'radio') :  ?>  selected="selected" <? endif; ?> value="radio">radio</option>
-      <option  <? if(($item['type']) == 'checkbox') :  ?>  selected="selected" <? endif; ?> value="checkbox">checkbox</option>      
+      <option  <? if(($item['type']) == 'checkbox') :  ?>  selected="selected" <? endif; ?> value="checkbox">checkbox</option>
       <option  <? if(($item['type']) == 'date') :  ?>  selected="selected" <? endif; ?> value="date">date</option>
       <option  <? if(($item['type']) == 'category_selector') :  ?>  selected="selected" <? endif; ?> value="category_selector">category_selector</option>
       <option  <? if(($item['type']) == 'image') :  ?>  selected="selected" <? endif; ?> value="image">image</option>
     </select>
-    </div>
-  
-  
- <div class="formitem">
-  <label>Param:</label>
-  <span class="formfield"><input name="param" type="text" value="<? print $item['param'] ?>"  /></span>
- </div>
- <div class="formitem">
-  <label>Param values:</label>
-  <span class="formfield">
-    <input name="param_values" type="text" value="<? print $item['param_values'] ?>"  />
-  </span>
-
   </div>
-
   <div class="formitem">
-
-  <label>Param default:  </label>
-  <span class="formfield">
+    <label>Param:</label>
+    <span class="formfield">
+    <input name="param" type="text" value="<? print $item['param'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Param values:</label>
+    <span class="formfield">
+    <input name="param_values" type="text" value="<? print $item['param_values'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Param default: </label>
+    <span class="formfield">
     <input name="param_default" type="text" value="<? print $item['param_default'] ?>"  />
-  </span>
-  </div>
+    </span> </div>
   <input class="btn" name="save" value="save <? print $item['id'] ?>" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" />
   <? if(($item['id']) != false) :  ?>
   <input class="btn" name="delete" value="delete <? print $item['id'] ?>" type="button" onClick="delete_cf('cf_form_<? print $item['id'] ?>')" />
   <? endif; ?>
 </form>
-
-
 <? endforeach; ?>
-
-</div>
-</div>
-
 <? else :?>
 You must save the page before you can edit the custom fields data.
 <? endif; ?>

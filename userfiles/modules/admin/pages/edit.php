@@ -52,105 +52,7 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
    // alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +    '\n\nThe output div should have already been updated with the responseText.');
 }
 </script>
-<script type="text/javascript">
-function set_layout($filename, $layout_name){
 
-	 $('#content_layout_file').val($filename);
-
-  $('#content_layout_name').val($layout_name);
-
-
-  call_layout_config_module();
-}
-
-$(window).load(function(){
-  call_layout_config_module();
-  ajax_content_subtype_change();
-});
-
-function call_layout_config_module(){
-
- $file = $('#content_layout_file').val();
- $page_id = $('#page_id').val();
-
-
- $.ajax({
-  url: '<? print site_url('api/module'); ?>',
-   type: "POST",
-      data: ({module : 'admin/pages/layout_config' ,page_id : $page_id, file: $file }),
-     // dataType: "html",
-      async:false,
-	  success: function(resp) {
-	   $('#layout_config_module_placeholder').html(resp);
-	  }
-    });
-
-
-}
-
-</script>
-<script type="text/javascript">
-
-
-
-$(document).ready(function () {
-  //
-   var flora_tabs = $(".flora").tabs();
- });
-
-
-
-
-
-
-
-function ajax_content_subtype_change(){
-
-
-
-
-
-	var content_subtype = $("#content_subtype").val();
-
-	var content_subtype_value = $("#content_subtype_value").val();
-
-
-
-
-	 $.ajax({
-  url: '<? print site_url('api/module'); ?>',
-   type: "POST",
-      data: ({module : 'admin/content/pages_content_subtype' ,content_subtype : content_subtype, content_subtype_value: content_subtype_value }),
-     // dataType: "html",
-      async:true,
-
-  success: function(resp) {
-     // $("#content_subtype_changer").html(resp);
-  }
-    });
-
-
-
-}
-
-
-
-
-
-function ajax_content_subtype_change_set_form_value(val){
-
-
-	 $("#content_subtype_value").setValue(val);
-
-}
-
-
-
-
-
-
-
-</script>
 
 
 
@@ -168,27 +70,6 @@ function ajax_content_subtype_change_set_form_value(val){
 
 
 
-  <div class="formitem">
-
-  <label>Page File</label>
-  <div class="formfield"><input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" /></div>
-  </div>
-  <div class="formitem">
-   <label>Layout</label>
-  <span class="formfield"><input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" /> </span>
-  </div>
-  <div id="layout_config_module_placeholder"></div>
-  <? $layouts = CI::model('template')->layoutsList();  ?>
-  <? if(!empty($layouts)): ?>
-  <? foreach($layouts as $layout): ?>
-  <? if($layout['screenshot']): ?>
-  <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->
-  <? endif; ?>
-  <input type="radio"  value="<? print $layout['filename'] ?>" name="layoutsList" onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')"  />
-  <? print $layout['name'] ?> <? print $layout['description'] ?>
-
-  <? endforeach; ?>
-  <? endif; ?>
 
   <label>Page title</label>
   <span class="formfield"><input name="content_title" onchange="mw.buildURL(this.value, '#content_url')" type="text" value="<? print $form_values['content_title'] ?>" /></span>
@@ -200,44 +81,41 @@ function ajax_content_subtype_change_set_form_value(val){
   <span class="formfield"><input name="content_description" type="text" value="<? print $form_values['content_description'] ?>" /></span>
 
   <label>Content</label>
-  <span class="formfield"><textarea name="content_body" cols="" rows=""><? print $form_values['content_body'] ?></textarea></span>
+  <span class="formfield"><textarea name="content_body" class="richtext" cols="" rows=""><? print $form_values['content_body'] ?></textarea></span>
 
 
 
+<br />
+<hr />
 
 
-  <h1>Advanced</h1>
 
-  <label>Filename</label>
-  <input name="content_filename" type="text" value="<? print $form_values['content_filename'] ?>" />
+ <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
+  
 
 
-    <!--<legend>Content sub type</legend>-->
-    <label class="lbl">Content Subtype: </label>
-    <select   name="content_subtype" id="content_subtype" onchange="ajax_content_subtype_change()">
-      <option <?php if($form_values['content_subtype'] == '' ): ?> selected="selected" <?php endif; ?>  value="">None</option>
-      <option <?php if($form_values['content_subtype'] == 'blog_section' ): ?> selected="selected" <?php endif; ?>  value="blog_section">Blog section</option>
-      <option <?php if($form_values['content_subtype'] == 'module' ): ?> selected="selected" <?php endif; ?>  value="module">Module</option>
-    </select>
-    <label class="lbl">Content Subtype Value:</label>
-    <input   name="content_subtype_value" id="content_subtype_value" type="text" value="<?php print $form_values['content_subtype_value']; ?>">
-    <div id="content_subtype_changer"></div>
+  
+
+  <div class="formitem">
+
+  <label>Page File</label>
+  <div class="formfield"><input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" /></div>
+  </div>
+  <div class="formitem">
+   <label>Layout</label>
+  <span class="formfield"><input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" /> </span>
+  </div>
+  
+  
+    <br />
+<hr />
 
 <h2>  parent page </h2>
   <?php
 
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input type='radio' name='content_parent'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
 
-  <label>Required Login </label>
-  <span class="formfield"><input name="require_login" type="text" value="<? print $form_values['require_login'] ?>" /> </span>
-
-  <label>original_link</label>
-  <span class="formfield"><input name="original_link" type="text" value="<? print $form_values['original_link'] ?>" /></span>
- <label>Is Home</label>
-  <span class="formfield"><input name="is_home" type="text" value="<? print $form_values['is_home'] ?>" /> </span>
-  
-  
-  
+ 
   
   
   
@@ -246,10 +124,10 @@ function ajax_content_subtype_change_set_form_value(val){
       <h3>Advanced options</h3>
     </div>
     <div class="mw_box_content">
-      <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
+      <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" for="page"  />
     </div>
   </div>
-  <div class="mw_box mw_box_closed">
+  <div class="mw_box mw_box_open">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Custom Fields</h3>
     </div>
