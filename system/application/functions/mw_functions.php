@@ -1006,7 +1006,7 @@ function post_pictures($post_id, $size = 128) {
 function category_tree($params) {
 	global $CI;
 	
-	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : false;
+	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : $params ['content_subtype_value'];
 	$link = ($params ['link']) ? $params ['link'] : false;
 	
 	if ($link == false) {

@@ -696,6 +696,7 @@ class Content extends Controller {
 		
 		if ($_POST) {
 			$save = page_save ( $_POST );
+			
 			$save = json_encode ( $save );
 			print $save;
 			exit ();

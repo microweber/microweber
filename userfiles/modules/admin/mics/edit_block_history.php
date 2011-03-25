@@ -84,7 +84,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 			//p($history_dir);
 			?>
             
-<script type="application/javascript"> 
+<script type="text/javascript"> 
  
 
  

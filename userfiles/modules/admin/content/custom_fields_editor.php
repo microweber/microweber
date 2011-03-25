@@ -172,7 +172,7 @@ if(!empty($custom_fields)){
  
  
 if(!empty($layout['custom_fields'][$for])): ?>
-<script type="application/javascript">
+<script type="text/javascript">
 
 
 function cf_save($form){
@@ -201,6 +201,37 @@ function cf_save($form){
 	
 	
 }
+
+
+function cf_delete($form){
+	
+	data1 = ($('#'+$form).serialize());
+	
+	
+	
+ 
+   $.ajax({
+  url: '<? print site_url('api/content/delete_custom_field') ?>',
+   type: "POST",
+      data: data1,
+
+      async:true,
+
+  success: function(resp) {
+
+  // $('#cf_adresp').html(resp);
+
+ 
+ 
+  }
+    });
+	
+	
+	
+}
+
+
+
 
 function cf_add($tr_id){
 	//alert($('#'+$tr_id).serialize());
@@ -267,7 +298,12 @@ function cf_add($tr_id){
         <small style="color:#999"><? print( $item['param_group']) ?></small></td>
       <td><mw module="forms/field" name="custom_field_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" type="<? print $item['type']?>" quick_edit="true" /></td>
       <td><? // p($item) ?>
-        <input name="save" type="button" onclick="cf_save('cf_edit_<? print $item['param'] ?>')" value="save" /></td>
+        <input name="save" type="button" onclick="cf_save('cf_edit_<? print $item['param'] ?>')" value="save" />
+        
+        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="save" />
+        
+        
+        </td>
     </tr>
     <? endif; ?>
   </table>

@@ -18,10 +18,11 @@ mw.modal={
       else{
          var content_obj = content;
       }
-
     }
     else{
-      var modal_content = content;
+      //var modal_content = content;
+      var modal_content = '';
+      var content_obj = document.createElement('div').innerHTML = content;
     }
     var modal_source = ''
     +'<div class="mw_modal_box">'
@@ -206,7 +207,7 @@ mw.modal={
         id:isobj(obj.id)?obj.id:mw.id(),
         customPosition:{
           top:obj.event.pageY,
-          left:obj.event.pageX +5
+          left:obj.event.pageX + 5
         },
         oninit:isobj(obj.oninit)?obj.oninit:''
      });
@@ -214,8 +215,6 @@ mw.modal={
         return false;
       }
       mw.prevent(obj.event);
-
-
   }
 }
 

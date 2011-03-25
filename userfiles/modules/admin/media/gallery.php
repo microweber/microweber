@@ -1,4 +1,6 @@
 <?
+
+$rand = rand();
 //p($params);
 
 if($params['page_id']){
@@ -30,14 +32,14 @@ if($id == false){
 ?>
 
 
-<div id="media_manager"></div>
+<div id="media_manager<? print $rand ?>"></div>
 
 
 <script>
 
 
 
-var call_media_manager = function(){
+var call_media_manager<? print $rand ?> = function(){
 	
 	
 	//alert($id);
@@ -58,7 +60,7 @@ var call_media_manager = function(){
 
   success: function(resp) {
 
-   $('#media_manager').html(resp);
+   $('#media_manager<? print $rand ?>').html(resp);
 
  
 
@@ -80,14 +82,14 @@ var call_media_manager = function(){
 
 $(document).ready(function(){
 						   
-						   call_media_manager();
-   $(document.body).append('<div class="drag_files"></div>');
+						   call_media_manager<? print $rand ?>();
+   $(document.body).append('<div class="drag_files<? print $rand ?>"></div>');
 
      
 
- 	$(".drag_files").pluploadQueue({
+ 	$(".drag_files<? print $rand ?>").pluploadQueue({
 		// General settings
-		runtimes: 'flash,gears,html5,browserplus',
+		runtimes: 'html5,flash,gears,browserplus',
 		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id); ?>",
 		max_file_size: '100mb',
 		chunk_size: '1000mb',
@@ -123,7 +125,7 @@ $(document).ready(function(){
             })  */
          },
          FileUploaded: function(up, file, info) {
-			 call_media_manager();
+			 call_media_manager<? print $rand ?>();
        //   var obj = eval("(" + info.response + ")");
             //$(document.body).append(obj.url);
         /*    var image = new Image();
@@ -149,4 +151,4 @@ $(document).ready(function(){
 </script>
   
 			
- <div class="drag_files"></div>
+ <div class="drag_files<? print $rand ?> drag_files_here">drag files here</div>

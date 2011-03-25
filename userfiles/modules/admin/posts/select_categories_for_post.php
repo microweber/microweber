@@ -84,10 +84,16 @@ function set_categories(){
   data: ({module : 'admin/content/custom_fields_editor',page_id : content_parent , post_id : post_id}),
   success: function(resp3) {
 	 // alert(resp2);
-	   $("#post_custom_fields").html(resp3);
+	 /*var div1 = document.createElement('div');
+	 div1.innerHTML = resp3;
+	 div1.className = 'aaaaaaaaaaaaaaaaaauuuuuuuuuuuuuuuuuuuuuuuuuu'+
+	 	   $("#post_custom_fields").empty().append(div1);
+	 +*/
+	 
+	 	   $("#post_custom_fields").html(resp3);
+
 	   
-  },
-  dataType: 'html'
+  } 
 });
 		
 		

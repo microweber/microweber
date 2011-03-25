@@ -1,5 +1,5 @@
 <div id="sidebar">
-  <block id="sidebar_1" rel="page" />
+ 
   <div id="tilos_store">
     <form method="post" action="" id="tilos_store_form">
       <input type="text" id="tilos_store_txt" />

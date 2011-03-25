@@ -3,7 +3,7 @@
 	$params['id'] =url_param('id');
 }
 
-
+$rand = rand();
 //p($params);
 ?>
 
@@ -58,48 +58,38 @@ $cat = get_category(intval($params['id']));
 
 ?>
 
+ 
+<script type="text/javascript" language="javascript">
+ 
 
  
-<script type="text/javascript">
+  
+ 
 
-
-
-$(document).ready(function () {
+ 
 
 
 <? if(intval($the_page['id']) != 0): ?>
+$(document).ready(function () {
 $.ajax({
   type: 'POST',
   url: '<? print site_url('api/module'); ?>',
   data: ({module : 'admin/content/custom_fields_editor',page_id : <? print $the_page['id'] ?>, 'for' : 'category', category_id:"<? print intval($params['id']) ?>" }),
   success: function(resp3) {
 	 // alert(resp2);
+	  
 	   $("#cat_custom_fields").html(resp3);
 	   
-  },
-  dataType: 'html'
+	   
+  } 
+  
 });
-		
-		
+ });
 <? endif; ?>		
 
 
-
- });
-
-
-
-
-
-
-
-
-
-
-
-
-
-function save_category($form){
+ 
+  function save_the_category1($form){
 	
 $f = '#'+$form;
 	 data1 = ($($f).serialize());
@@ -108,7 +98,7 @@ $f = '#'+$form;
 	//  data1=data1+'&page_id=<? print $params['page_id'] ?>';
 	   data1=data1+'&save=true';
 	 
-	//alert(data1);
+	 
 	
 	 $.ajax({
   url: '<? print site_url('api/module'); ?>',
@@ -125,8 +115,14 @@ $f = '#'+$form;
  
 
 }
+ 
+
+
 
 </script>
+
+
+
 <div id="save_category_resp"></div>
 
 
@@ -143,7 +139,7 @@ $f = '#'+$form;
 <form id="save_category">
   
     <input name="id" type="hidden" value="<? print intval($cat['id']) ?>" />
- 
+<a href="javascript:save_the_category1('save_category')" class="btn2 right">Save</a>
    
     <input name="taxonomy_type" type="hidden" value="category" />
    
@@ -163,7 +159,7 @@ $f = '#'+$form;
   <label>Description:</label>
     <input class="field3" name="taxonomy_description" type="text" value="<? print $cat['taxonomy_description'] ?>" />
 
-
+ 
   <label>Full Description:</label>
     <input class="field3" name="content_body" type="text" value="<? print $cat['content_body'] ?>" />
 
@@ -183,7 +179,7 @@ $f = '#'+$form;
   
   <div id="cat_custom_fields"></div>
    <br />
-  <a href="javascript:;" class="btn2 right" onclick="save_category('save_category');">Save</a>
+  <a href="javascript:save_the_category1('save_category')" class="btn2 right">Save</a>
 
   <br />
 </form>

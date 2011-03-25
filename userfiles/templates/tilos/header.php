@@ -15,6 +15,21 @@
  
         <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/libs.js"></script>
         <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/functions.js"></script>
+        
+         <script type="text/javascript">
+         function add_to_cart_callback(){
+			 
+			//alert(1); 
+			
+			 
+		 }
+         
+         
+         </script>
+        
+        
+        
+        
 	</head>
 	<body>
         <div id="container">

@@ -1,2 +1,1 @@
-<microweber module="content/menu"  module_id="module_2011021703253620463" />
-<microweber module="content/menu" name="header_menu" menu_level="" module_id="module_201102170325362812" max_levels="91"  />
+<microweber module="content/menu"  name="main_menu" module_id="module_2011021703253620463" />

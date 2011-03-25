@@ -91,7 +91,7 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
   <div class="formitem">
   <label>URL</label>
   <div id="content_url_page"></div>
-  <span class="formfield"><input style="width: 100%" name="content_url" type="text" style="width:300px;" value="<? print $form_values['content_url'] ?>" /></span>
+  <span class="formfield"><input style="width: 100%" name="content_url" type="text"   value="<? print $form_values['content_url'] ?>" /></span>
  </div>
   <div class="formitem">
   <label>Description</label>

@@ -53,7 +53,7 @@ Example:
 
 ?> 
 
- <mw module="posts/share_post" />
+ 
 
 
 <?php

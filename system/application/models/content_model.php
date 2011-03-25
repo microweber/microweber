@@ -305,27 +305,27 @@ class content_model extends Model {
 			}
 		
 		}
-		
-		if ($data_to_save ['content_subtype_value_new']) {
-			
-			$adm = is_admin ();
-			
-			if ($adm == true) {
+		if (strval ( $data_to_save ['content_subtype_value'] ) == '') {
+			if ($data_to_save ['content_subtype_value_new'] != '') {
 				
-				$new_category = array ();
-				$new_category ["taxonomy_type"] = "category";
-				$new_category ["taxonomy_value"] = $data_to_save ['content_subtype_value_new'];
-				$new_category ["parent_id"] = "0";
+				$adm = is_admin ();
 				
-				$new_category = CI::model ( 'taxonomy' )->taxonomySave ( $new_category );
+				if ($adm == true) {
+					
+					$new_category = array ();
+					$new_category ["taxonomy_type"] = "category";
+					$new_category ["taxonomy_value"] = $data_to_save ['content_subtype_value_new'];
+					$new_category ["parent_id"] = "0";
+					
+					$new_category = CI::model ( 'taxonomy' )->taxonomySave ( $new_category );
+					
+					$data_to_save ['content_subtype_value'] = $new_category;
+					$data_to_save ['content_subtype'] = 'blog_section';
 				
-				$data_to_save ['content_subtype_value'] = $new_category;
-				$data_to_save ['content_subtype'] = 'blog_section';
-			
+				}
 			}
 		}
-		
-	//	p ( $data_to_save, 1 );
+		//p ( $data_to_save, 1 );
 		$save = CI::model ( 'core' )->saveData ( $table, $data_to_save );
 		$id = $save;
 		
@@ -3126,7 +3126,7 @@ class content_model extends Model {
 		if ($custom_fields_criteria == false) {
 			
 			$cf = CI::model ( 'core' )->getParamFromURL ( 'custom_fields_criteria' );
-			
+			//p($cf,1);
 			if ($cf != false) {
 				
 				$posts_data ['custom_fields_criteria'] = $cf;
@@ -3138,6 +3138,8 @@ class content_model extends Model {
 			$posts_data ['custom_fields_criteria'] = $custom_fields_criteria;
 		
 		}
+		
+		
 		
 		if ($params ['search_for'] == false) {
 			
@@ -4463,7 +4465,7 @@ $my_limit_q
 			}
 			
 			$only_custom_fieldd_ids = array ();
-			
+		//	p($data ['custom_fields_criteria'],1);
 			foreach ( $data ['custom_fields_criteria'] as $k => $v ) {
 				
 				if (is_array ( $v ) == false) {
@@ -4510,9 +4512,9 @@ $my_limit_q
                     ";
 				
 				$q2 = $q;
-				
+				//p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-				
+					//p($q,1);
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;
@@ -5674,6 +5676,7 @@ $my_limit_q
 				$add_main_menu ['item_title'] = 'Main menu';
 				$add_main_menu ['menu_description'] = 'Main menu';
 				$add_main_menu ['menu_title'] = 'Main menu';
+				$add_main_menu ['menu_unique_id'] = 'main_menu';
 				
 				$add_main_menu ['is_active'] = 'y';
 				$this->saveMenu ( $add_main_menu );
@@ -7943,7 +7946,7 @@ $my_limit_q
 		}
 		
 		$children_of_the_main_parent = CI::model ( 'taxonomy' )->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
-		
+		// 
 		$q = CI::model ( 'core' )->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/global' );
 		
 		$result = $q;

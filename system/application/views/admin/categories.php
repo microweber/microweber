@@ -110,11 +110,12 @@ function edit_category_dialog( $category_id, $parent_cat){
    type: "POST",
       data: data1,
 
-      async:true,
+      async:false,
 
   success: function(resp) {
- 
-   //$('#content_list').html(resp);
+
+
+
    mw.modal.close('edit_cat_modal');
    mw.modal.overlay();
    mw.modal.init({
@@ -211,15 +212,15 @@ function content_list($kw, $category_id){
 }
 
  
-	$(document).ready(function () {
+	//$(document).ready(function () {
 					
-					
+			 window.onload = function () {		
 
 					
 	update_category_list()				
 								
     
- });
+ } 
 
 
 

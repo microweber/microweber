@@ -5,11 +5,11 @@
 <? if($params['title'] != false): ?>
 <? print $params['title']; ?>
 <? else : ?>
-<? print $config['patams']['title']['default']; ?>
+<? print $config['params']['title']['default']; ?>
 <? endif; ?>
 </h2>
    
-   
+   <? //p($params); ?>
    
  
    
