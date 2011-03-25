@@ -396,8 +396,133 @@ class Content extends Controller {
 		
 		}
 	}*/
+	function delete_custom_field_by_name() {
+		$a = is_admin ();
+		if ($a == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		
+		if ($_POST) {
+			$the_field_data_all = $_POST;
+		} else {
+			exit ( 'Error: no POST?' );
+		}
+		
+		if ($_POST ['id']) {
+			$id = intval ( $_POST ['id'] );
+		}
+		if ($_POST ['field_id']) {
+			$id = intval ( $_POST ['field_id'] );
+		}
+		
+		$content_id = $_POST ['content_id'];
+		
+		foreach ( $_POST as $k => $v ) {
+			if (strstr ( $k, 'custom_field_' )) {
+				$field = $k;
+				$field = str_ireplace ( 'custom_field_', '', $field );
+				$html_to_save = $v;
+			}
+		}
+		
+		if ($content_id) {
+			
+			$for_histroy = get_page ( $content_id );
+			if (empty ( $for_histroy )) {
+				$for_histroy = get_post ( $content_id );
+			}
+			
+			if (stristr ( $field, 'custom_field_' )) {
+				$field123 = str_ireplace ( 'custom_field_', '', $field );
+				$old = $for_histroy ['custom_fields'] [$field123];
+			} else {
+				$old = $for_histroy [$field];
+			}
+			
+			$history_to_save = array ();
+			$history_to_save ['table'] = 'table_content';
+			$history_to_save ['id'] = $content_id;
+			$history_to_save ['value'] = $old;
+			$history_to_save ['field'] = $field;
+			//p ( $history_to_save );
+			CI::model ( 'core' )->saveHistory ( $history_to_save );
+			CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $content_id );
+		
+		 
+			
+			global $cms_db_tables;
+			$custom_field_table = $cms_db_tables ['table_custom_fields'];
+			$custom_field_to_delete = array ();
+			$custom_field_to_delete ['custom_field_name'] = $field;
+			$custom_field_to_delete ['to_table'] = 'table_content';
+			$custom_field_to_delete ['to_table_id'] = $content_id;
+			p($custom_field_to_delete);
+			$id = CI::model ( 'core' )->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
+			
+			//$saved = CI::model ( 'core' )->deleteCustomFieldById ( $id );
+			print ($id) ;
+		}
+	}
 	
-/*
+	function delete_custom_field_by_id() {
+		$a = is_admin ();
+		if ($a == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		
+		if ($_POST) {
+			$the_field_data_all = $_POST;
+		} else {
+			exit ( 'Error: no POST?' );
+		}
+		
+		if ($_POST ['id']) {
+			$id = intval ( $_POST ['id'] );
+		}
+		if ($_POST ['field_id']) {
+			$id = intval ( $_POST ['field_id'] );
+		}
+		
+		$content_id = $_POST ['content_id'];
+		
+		foreach ( $_POST as $k => $v ) {
+			if (strstr ( $k, 'custom_field_' )) {
+				$field = $k;
+				$html_to_save = $v;
+			}
+		}
+		
+		if ($content_id) {
+			
+			$for_histroy = get_page ( $content_id );
+			if (empty ( $for_histroy )) {
+				$for_histroy = get_post ( $content_id );
+			}
+			
+			if (stristr ( $field, 'custom_field_' )) {
+				$field123 = str_ireplace ( 'custom_field_', '', $field );
+				$old = $for_histroy ['custom_fields'] [$field123];
+			} else {
+				$old = $for_histroy [$field];
+			}
+			
+			$history_to_save = array ();
+			$history_to_save ['table'] = 'table_content';
+			$history_to_save ['id'] = $content_id;
+			$history_to_save ['value'] = $old;
+			$history_to_save ['field'] = $field;
+			//p ( $history_to_save );
+			CI::model ( 'core' )->saveHistory ( $history_to_save );
+			CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $content_id );
+		
+		}
+		if ($id) {
+			$saved = CI::model ( 'core' )->deleteCustomFieldById ( $id );
+			print ($saved) ;
+		}
+	}
+	
+	/*
 @todo: for categories also
 */
 	function save_field_simple() {

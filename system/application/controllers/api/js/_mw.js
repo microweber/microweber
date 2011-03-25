@@ -72,6 +72,38 @@ mw.module =  function($vars, $update_element) {
 			});
 }
 
+mw.reload_module =  function($module_name) {
+
+$("div.module").each(function(){
+	var mw_params_module = $(this).attr("mw_params_module");
+	if(mw_params_module==$module_name){
+		var mw_params_encoded = $(this).attr("mw_params_encoded");
+		var elem = $(this)
+	 
+		$.ajax({
+			  url: '{SITE_URL}api/module/index/decode_vars:'+mw_params_encoded,
+			   type: "POST",
+			  
+			      async:true,
+				  
+			  success: function(resp) {
+			 //$(this).empty();
+			 
+			 
+			 elem.html(resp);
+
+			  
+			   
+			  }
+				});
+		
+	 
+		
+		
+	}
+});
+ 
+}
 
 mw.clear_cache =  function() {
 	$.ajax({

@@ -1296,7 +1296,7 @@ p($modules );
 									if ($options ['admin'] == true) {
 										$cache_this = false;
 									}
-									
+									$params_encoded = false;
 									if ($cache_this == true) {
 										$cache_id = md5 ( $try_file1 ) . md5 ( serialize ( $arrts ) );
 										$cache_group = 'global/blocks/';
@@ -1323,6 +1323,8 @@ p($modules );
 										//$module_file = $this->load->file ( $try_file1, true );
 										$module_file = CI::file ( $try_file1, true );
 									}
+									$params_encoded = encode_var($arrts);
+									$params_module = codeClean($arrts['module']);
 								
 								}
 								//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
@@ -1344,6 +1346,12 @@ p($modules );
 									}
 									
 									$edtid_hash = base64_encode ( $m ['full_tag'] );
+									
+									
+									
+									
+									
+									
 									if (strval ( $module_file ) != '') {
 										
 										if ($options ['do_not_wrap'] == true) {
@@ -1352,9 +1360,9 @@ p($modules );
 										} else {
 											
 											if ($no_edit == false) {
-												$module_file = '<div ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div mw_params_encoded="'.$params_encoded.'"  mw_params_module="'.$params_module.'"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 											} else {
-												$module_file = '<div ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
+												$module_file = '<div mw_params_encoded="'.$params_encoded.'" mw_params_module="'.$params_module.'"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
 											
 											}
 										}
@@ -1367,7 +1375,7 @@ p($modules );
 
 								} else {
 									if (strval ( $module_file ) != '') {
-										$module_file = '<div class="module">' . $module_file . '</div>';
+										$module_file = '<div class="module" mw_params_encoded="'.$params_encoded.'" mw_params_module="'.$params_module.'"  >' . $module_file . '</div>';
 									}
 								}
 								//}  ++

@@ -59,7 +59,6 @@ class Core_model extends Model {
 	function __construct() {
 		
 		parent::Model ();
-		
 	
 	}
 	
@@ -516,9 +515,9 @@ class Core_model extends Model {
 					
 					$this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
 					
-					$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
+					//$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
 					
-					$this->dbQ ( $clean );
+				//	$this->dbQ ( $clean );
 				
 				}
 				
@@ -1491,6 +1490,27 @@ class Core_model extends Model {
 		
 		return $get;
 	
+	}
+	
+	function deleteCustomFieldById($id) {
+		
+		$id = intval ( $id );
+		
+		if ($id == 0) {
+			
+			return false;
+		
+		}
+		global $cms_db_tables;
+		$custom_field_table = $cms_db_tables ['table_custom_fields'];
+		$custom_field_to_delete = array();
+		$custom_field_to_delete ['id'] = $id;
+		
+
+		
+		$id = $this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
+		print $id;
+		
 	}
 	
 	function getCustomFields($table, $id = 0, $return_full = false) {
@@ -4132,7 +4152,7 @@ class Core_model extends Model {
 	
 	}
 	
-	function _getCacheDir($cache_group = 'global') {
+	function _getCacheDir($cache_group = 'global', $deleted_cache_dir = false) {
 		
 		if (strval ( $cache_group ) != '') {
 			$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
@@ -4155,8 +4175,11 @@ class Core_model extends Model {
 			
 			}
 			$cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
-			
-			$cacheDir = CACHEDIR . $cache_group;
+			if ($deleted_cache_dir == false) {
+				$cacheDir = CACHEDIR . $cache_group;
+			} else {
+				$cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
+			}
 			if (! is_dir ( $cacheDir )) {
 				
 				mkdir_recursive ( $cacheDir );
@@ -4170,7 +4193,7 @@ class Core_model extends Model {
 	}
 	
 	public function cleanCacheGroup($cache_group = 'global') {
-		
+		//$startTime = slog_time ();
 		/*$cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' . CACHE_FILES_EXTENSION;
 		
 		$cache_group = $cache_group . DIRECTORY_SEPARATOR;
@@ -4197,21 +4220,27 @@ class Core_model extends Model {
 		
 		//print 'delete cache:'  .$cache_group;
 		$dir = $this->_getCacheDir ( 'global' );
+		$dir_del = $this->_getCacheDir ( 'global', true );
 		//var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			recursive_remove_directory ( $dir );
+			dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			//recursive_remove_directory ( $dir );
+		
+
 		}
 		
 		$dir = $this->_getCacheDir ( $cache_group );
+		$dir_del = $this->_getCacheDir ( $cache_group, true );
 		//var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			recursive_remove_directory ( $dir );
+			dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			//recursive_remove_directory ( $dir );
 		}
 		
 	/*foreach ( glob ( $cleanPattern ) as $file ) {
 			@unlink ( $file );
 		}*/
-	
+	//print elog_time ( $startTime );
 	//		recursive_remove_directory(CACHEDIR. $cache_group);
 	}
 	
@@ -4652,6 +4681,7 @@ $w
 						
 						//$the_param1 = base64_decode ( $the_param );
 						
+
 						$the_param1 = decode_var ( $the_param );
 						
 						return $the_param1;
@@ -8820,7 +8850,6 @@ $w
 			$options_array_from_config_new_option ['group'] = "mailform";
 			$options_array_from_config [] = $options_array_from_config_new_option;
 			
-			
 			$options_array_from_config_new_option = array ();
 			$options_array_from_config_new_option ['name'] = "Types of content";
 			$options_array_from_config_new_option ['help'] = "Put your types here. Sepecate them with comma.";
@@ -8839,16 +8868,11 @@ $w
 			$options_array_from_config_new_option ['group'] = "advanced";
 			$options_array_from_config [] = $options_array_from_config_new_option;
 			
-			
-		 
-			
-			
-			
 			foreach ( $options_array_from_config as $option ) {
 				//p ( $option );
 				$get_option = array ();
 				$get_option ['option_key'] = $option ['param'];
-				 
+				
 				$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option );
 				if (empty ( $get_option1 )) {
 					$get_option ['name'] = $option ['name'];

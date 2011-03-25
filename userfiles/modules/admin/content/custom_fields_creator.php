@@ -26,7 +26,7 @@ if($params['post_id'] == false){
 } else {
 	$parent_params = false;
 }
-//p($parent_params);
+
 
 
 
@@ -58,6 +58,7 @@ $f = '#'+$form;
       async:true,
 	  success: function(resp) {
 		  $("#cf_save_resp").html(resp);
+		  mw.reload_module('admin/content/custom_fields_editor');
 		
 	  }
     });
@@ -140,19 +141,17 @@ if($params['delete']){
 <? 
 
 
-
-/*if($found == false){
-			$new_cf = array();
-			$new_cf['param'] = $k;
-			$new_cf['name'] = ucfirst($k);
-			$new_cf['default'] = $v;
-			$layout['custom_fields'][$for][] = $new_cf;
-		}*/
+$cf_cfg = array ();
+ if($page_data != false){
+		
+								$cf_cfg ['page_id'] = $page_data['id'];
+								 
+		} 
 
 
 
 
-$data =  CI::model('core')->getCustomFieldsConfig();
+$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
 //p($data);
 if($base64_val_for_insert != false){
 	$data[] = $base64_val_for_insert;
@@ -166,8 +165,14 @@ if($base64_val_for_insert != false){
 ?>
 
 <div id="cf_save_resp"></div>
+
+
+
+<input name="reload module" type="button"  />
+
+
 <? foreach($data as $item): ?>
-<? /// p($item); ?>
+ 
 <form class="cf_form" action="" method="post" id="cf_form_<? print $item['id'] ?>">
   <input name="id" type="hidden" value="<? print $item['id'] ?>" />
   <input name="page_id" type="hidden" value="<? print $params['page_id'] ?>" />

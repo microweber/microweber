@@ -209,6 +209,109 @@ if (! function_exists ( 'safe_redirect' )) {
 		exit ();
 	}
 }
+
+
+/////////////////////////////////////////////////////////////////
+// Title: execution_time.php
+// Description: Displays how long a script took
+// http://www.codecall.net
+//
+// Usage:
+//      include execution_time.php
+//      In header place 
+//				$startTime = slog_time();
+//      In footer place 
+//				$totalTime = elog_time($startTime);
+//              print "Execution Time: $totalTime Seconds";
+/////////////////////////////////////////////////////////////////
+
+// Determine Start Time
+function slog_time() {
+	$mtime = microtime();
+	$mtime = explode(" ",$mtime);
+	$mtime = $mtime[1] + $mtime[0];
+	$starttime = $mtime; 
+	
+	// Return our time
+	return $startTime;
+}
+
+// Determine end time
+function elog_time($starttime) {
+	$mtime = microtime();
+   $mtime = explode(" ",$mtime);
+   $mtime = $mtime[1] + $mtime[0];
+   $endtime = $mtime;
+   $totaltime = ($endtime - $starttime);
+   
+   // Return our display
+   return $totalTime;
+}
+
+
+
+
+ 
+
+  // move a directory and all subdirectories and files (recursive)
+  // void dirmv( str 'source directory', str 'destination directory' [, bool 'overwrite existing files' [, str 'location within the directory (for recurse)']] )
+function dirmv($source, $dest, $overwrite = false, $funcloc = NULL){
+
+  if(is_null($funcloc)){
+    $dest .= '/' . strrev(substr(strrev($source), 0, strpos(strrev($source), '/')));
+    $funcloc = '/';
+  }
+
+  if(!is_dir( $dest . $funcloc))
+    mkdir( $dest . $funcloc); // make subdirectory before subdirectory is copied
+
+  if($handle = opendir( $source . $funcloc)){ // if the folder exploration is sucsessful, continue
+    while(false !== ($file = readdir($handle))){ // as long as storing the next file to $file is successful, continue
+      if($file != '.' && $file != '..'){
+        $path  = $source . $funcloc . $file;
+        $path2 = $dest . $funcloc . $file;
+
+        if(is_file( $path)){
+          if(!is_file( $path2)){
+            if(!@rename( $path,  $path2)){
+             // echo '<font color="red">File ('.$path.') could not be moved, likely a permissions problem.</font>';
+            }
+          } elseif($overwrite){
+            if(!@unlink( $path2)){
+             // echo 'Unable to overwrite file ("'.$path2.'"), likely to be a permissions problem.';
+            } else
+              if(!@rename( $path,  $path2)){
+               // echo '<font color="red">File ('.$path.') could not be moved while overwritting, likely a permissions problem.</font>';
+              }
+          }
+        } elseif(is_dir( $path)){
+          dirmv($source, $dest, $overwrite, $funcloc . $file . '/'); //recurse!
+          rmdir( $path);
+        }
+      }
+    }
+    closedir($handle);
+  }
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 PHP CSS Browser Selector v0.0.1
 Bastian Allgeier (http://bastian-allgeier.de)

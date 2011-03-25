@@ -52,7 +52,7 @@ if($params['file'] == ''){
 	$params['file'] =$page_data['content_layout_file'];
 }
 ?>
-<? // p($params); ?>
+ 
 <? if(($params['file']) != '' or ($params['for']== 'global')) :  ?>
 <? 
 
@@ -97,7 +97,7 @@ $layouts[] = $layouts1[0];
 			if($cfg['content_type'] == $for){
 			$new_cf = array();
 			// p($cfg);
-			//p($for);
+			  
 			$cfg['values'] = $cfg['param_values'];
 			$cfg['default'] = $cfg['param_default'];
 			
@@ -127,6 +127,18 @@ if(!empty($custom_fields)){
 			$new_cf['default'] = $v;
 			$new_cf['content_type'] =$for ;
 		 
+		// p($item);
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 			
 			//$cfg['values'] = $v;
 			$layout['custom_fields'][$for][] = $new_cf;
@@ -143,6 +155,7 @@ if(!empty($custom_fields)){
 		$param_to_find = $params['param'];
 		$for1 = $params['for'];
 		$name1 = $params['name'];
+		$param_id = $params['id'];
 		
 		$found = false;
 		foreach($layout['custom_fields'][$for] as $item){
@@ -159,8 +172,9 @@ if(!empty($custom_fields)){
 			$new_cf['not_in_config'] =true;
 			$new_cf['default'] = $param_to_find;
 			$new_cf['content_type'] =$for1 ;
+			$new_cf['param_id'] =$param_id ;
 		 
-			//p($new_cf);
+	 
 			//$cfg['values'] = $v;
 			$layout['custom_fields'][$for][] = $new_cf;
 		}
@@ -211,14 +225,14 @@ function cf_delete($form){
 	
  
    $.ajax({
-  url: '<? print site_url('api/content/delete_custom_field') ?>',
+  url: '<? print site_url('api/content/delete_custom_field_by_name') ?>',
    type: "POST",
       data: data1,
 
       async:true,
 
   success: function(resp) {
-
+($('#'+$form).fadeOut());
   // $('#cf_adresp').html(resp);
 
  
@@ -272,6 +286,8 @@ function cf_add($tr_id){
 
 </script>
 
+ 
+ 
 <div id="cf_adresp"></div>
 <? foreach($layout['custom_fields'][$for] as $item): ?>
 <?   if(($item['disable_edit']) == false):  ?>
@@ -281,7 +297,7 @@ function cf_add($tr_id){
     
       <td>
       <? // p($item); ?>
-      
+       <input type="hidden"    name="field_id" value="<? print $item['id'] ?>" />
       <input type="hidden"    name="for" value="<? print $for; ?>" />
         <input type="hidden"    name="content_id" value="<? print $the_content_id; ?>" />
         <? if( $item['not_in_config']) :?>
@@ -295,13 +311,19 @@ function cf_add($tr_id){
         <?   if(($item['help'])):  ?>
         <small><? print $item['help'] ?></small>
         <? endif; ?>
+         
         <small style="color:#999"><? print( $item['param_group']) ?></small></td>
       <td><mw module="forms/field" name="custom_field_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" type="<? print $item['type']?>" quick_edit="true" /></td>
       <td><? // p($item) ?>
         <input name="save" type="button" onclick="cf_save('cf_edit_<? print $item['param'] ?>')" value="save" />
+        <? if( $item['not_in_config']) :?>
         
-        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="save" />
         
+         
+        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="clear" />
+        <? else: ?>
+        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="clear" />
+         <? endif; ?>
         
         </td>
     </tr>

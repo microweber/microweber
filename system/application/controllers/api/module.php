@@ -22,11 +22,18 @@ class Module extends Controller {
 		
 		$mod1 = url_param ( 'module_name', true );
 		
+		$decode_vars = url_param ( 'decode_vars', true );
+		
+		
+		
 		if ($mod1 != false) {
 			$mod1 = urldecode ( $mod1 );
 		}
 		
-		if ($base64 == false) {
+		
+		
+		
+		if ($base64 == false ) {
 			if ($is_iframe) {
 				$data = $is_iframe;
 				$data = base64_decode ( $data );
@@ -36,6 +43,14 @@ class Module extends Controller {
 			} else {
 				$data = $_POST;
 			}
+			
+			
+		if($decode_vars){
+			$decode_vars = decode_var($decode_vars);
+			$data = $decode_vars;
+			//p($data);
+		}
+			
 			if ($mod1 != '') {
 				$data ['module'] = $mod1;
 			}
