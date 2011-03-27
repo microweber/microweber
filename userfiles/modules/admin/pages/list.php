@@ -39,6 +39,15 @@ var del_page_confirm = function(id){
 
 
   <div class="Pages">
+  
+  
+  
+  
+  
+  
+  
+  
+  
     <? 
 	
 	$url  =  '<div class="field" id="page_list_{id}"><div class="field_ctrl">';
@@ -58,6 +67,12 @@ var del_page_confirm = function(id){
 	 CI::model('content')->content_helpers_getPagesAsUlTree($content_parent = 0, $link = $url, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false);
 	?>
     
+
+
+
+
+
+
 
   </div>
   <!-- /.createpages -->

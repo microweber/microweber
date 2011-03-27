@@ -64,44 +64,45 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			if (intval ( $post_maybe ['id'] ) != 0) {
 				$post_maybe = CI::model ( 'content' )->contentGetByIdAndCache ( $post_maybe ['id'] );
 			}
-			$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
-			
-			if (empty ( $page )) {
-				$adm = is_admin ();
-				if ($adm == true) {
-					if (is_file ( TEMPLATES_DIR . 'layouts/' . $url . '/index.php' ) == true) {
-						if (is_file ( TEMPLATES_DIR . 'layouts/' . $url . '/config.php' ) == true) {
-							$new_page_conf = TEMPLATES_DIR . 'layouts/' . $url . '/config.php';
-						}
-						$to_save = array ();
-						$to_save ['content_title'] = $url;
-						$to_save ['content_url'] = $url;
-						$to_save ['content_type'] = 'page';
-						$to_save ['content_layout_name'] = $url;
-						$to_save ['content_layout_file'] = $url . '/index.php';
-						
-						$new_page = CI::model ( 'content' )->saveContent ( $to_save );
-						//	p($new_page,1);
-						//$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
-						safe_redirect ( site_url ( $url ) );
-						exit ();
-						//p($new_page_conf,1);
-					
-
-					//	p ( TEMPLATES_DIR . 'layouts/' . $url );
-					
-
-					} else {
-						return false;
+		
+		}
+		
+		$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
+		
+		if (empty ( $page )) {
+			$adm = is_admin ();
+			if ($adm == true) {
+				if (is_file ( TEMPLATES_DIR . 'layouts/' . $url . '/index.php' ) == true) {
+					if (is_file ( TEMPLATES_DIR . 'layouts/' . $url . '/config.php' ) == true) {
+						$new_page_conf = TEMPLATES_DIR . 'layouts/' . $url . '/config.php';
 					}
-					//p ( $url, 1 );
-				} else {
+					$to_save = array ();
+					$to_save ['content_title'] = $url;
+					$to_save ['content_url'] = $url;
+					$to_save ['content_type'] = 'page';
+					$to_save ['content_layout_name'] = $url;
+					$to_save ['content_layout_file'] = $url . '/index.php';
 					
+					$new_page = CI::model ( 'content' )->saveContent ( $to_save );
+					//	p($new_page,1);
+					//$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
+					safe_redirect ( site_url ( $url ) );
+					exit ();
+					//p($new_page_conf,1);
+				
+
+				//	p ( TEMPLATES_DIR . 'layouts/' . $url );
+				
+
+				} else {
 					return false;
 				}
-				//exit ( '404: Nothing found on line ' . __LINE__ );
+				//p ( $url, 1 );
+			} else {
+				
+				return false;
 			}
-		
+			//exit ( '404: Nothing found on line ' . __LINE__ );
 		}
 		
 		/*if (is_readable ( TEMPLATES_DIR . 'layouts/' . $content ['content_layout_file'] ) == true) {

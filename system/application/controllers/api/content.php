@@ -53,9 +53,21 @@ class Content extends Controller {
 		}
 		
 		if ($_POST) {
+			
 			p ( $_POST );
+			exit ( 'TODO: not finished in file: ' . __FILE__ );
 			exit ();
 		}
+	}
+	
+	function get_layout_config() {
+		if ($_POST ['filename']) {
+			$file = CI::model ( 'template' )->layoutGetConfig ( $_POST ['filename'] );
+			$file = json_encode ( $file );
+			print $file;
+			exit ();
+		}
+	
 	}
 	
 	function delete_taxonomy() {
@@ -447,8 +459,6 @@ class Content extends Controller {
 			//p ( $history_to_save );
 			CI::model ( 'core' )->saveHistory ( $history_to_save );
 			CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $content_id );
-		
-		 
 			
 			global $cms_db_tables;
 			$custom_field_table = $cms_db_tables ['table_custom_fields'];
@@ -456,7 +466,7 @@ class Content extends Controller {
 			$custom_field_to_delete ['custom_field_name'] = $field;
 			$custom_field_to_delete ['to_table'] = 'table_content';
 			$custom_field_to_delete ['to_table_id'] = $content_id;
-			p($custom_field_to_delete);
+			p ( $custom_field_to_delete );
 			$id = CI::model ( 'core' )->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
 			
 			//$saved = CI::model ( 'core' )->deleteCustomFieldById ( $id );
@@ -810,12 +820,12 @@ class Content extends Controller {
 	}
 	
 	function save_page() {
-		$id = user_id ();
-		if ($id == 0) {
+		$usr = user_id ();
+		if ($usr == 0) {
 			exit ( 'Error: not logged in.' );
 		}
-		$id = is_admin ();
-		if ($id == false) {
+		$usr = is_admin ();
+		if ($usr == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
 		

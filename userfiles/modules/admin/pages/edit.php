@@ -53,72 +53,66 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
 }
 </script>
 
-
-
-
-
-
 <form action="" method="post" id="save_page_form">
   <input class="btn" name="save" type="submit" value="save" />
-
-
   <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
-
-
   <input name="content_type" type="hidden" value="page" />
-
-
-
-
-
   <label>Page title</label>
-  <span class="formfield"><input name="content_title" onchange="mw.buildURL(this.value, '#content_url')" type="text" value="<? print $form_values['content_title'] ?>" /></span>
-
+  <span class="formfield">
+  <input name="content_title" onchange="mw.buildURL(this.value, '#content_url')" type="text" value="<? print $form_values['content_title'] ?>" />
+  </span>
   <label>Content URL </label>
-  <span class="formfield"><input id="content_url" name="content_url" type="text" value="<? print $form_values['content_url'] ?>" /></span>
-
+  <span class="formfield">
+  <input id="content_url" name="content_url" type="text" value="<? print $form_values['content_url'] ?>" />
+  </span>
   <label>Description</label>
-  <span class="formfield"><input name="content_description" type="text" value="<? print $form_values['content_description'] ?>" /></span>
-
+  <span class="formfield">
+  <input name="content_description" type="text" value="<? print $form_values['content_description'] ?>" />
+  </span>
   <label>Content</label>
-  <span class="formfield"><textarea name="content_body" class="richtext" cols="" rows=""><? print $form_values['content_body'] ?></textarea></span>
-
-
-
-<br />
-<hr />
-
-
-
- <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
-  
-
-
-  
-
+  <span class="formfield">
+  <textarea name="content_body" class="richtext" cols="" rows=""><? print $form_values['content_body'] ?></textarea>
+  </span> <br />
+  <hr />
+  <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
   <div class="formitem">
-
-  <label>Page File</label>
-  <div class="formfield"><input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" /></div>
+    <label>Page File</label>
+    <div class="formfield">
+      <input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" />
+    </div>
   </div>
   <div class="formitem">
-   <label>Layout</label>
-  <span class="formfield"><input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" /> </span>
-  </div>
-  
-  
-    <br />
-<hr />
-
-<h2>  parent page </h2>
+    <label>Layout</label>
+    <span class="formfield">
+    <input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" />
+    </span> </div>
+  <br />
+  <hr />
+  <h2> parent page </h2>
   <?php
 
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input type='radio' name='content_parent'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
+ 
+ 
+ 
+ 
+ 
+ 
+ <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
  
-  
-  
-  
+ 
+ 
+ 
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Advanced options</h3>
@@ -135,11 +129,6 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
       <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
     </div>
   </div>
-  
-  
-  
-  
-
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Meta tags</h3>
@@ -148,8 +137,7 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
       <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
     </div>
   </div>
-
- <div class="mw_box mw_box_closed">
+  <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Menus</h3>
     </div>

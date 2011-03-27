@@ -306,9 +306,9 @@ class content_model extends Model {
 		
 		}
 		if (strval ( $data_to_save ['content_subtype_value'] ) == '') {
+			$adm = is_admin ();
+			
 			if ($data_to_save ['content_subtype_value_new'] != '') {
-				
-				$adm = is_admin ();
 				
 				if ($adm == true) {
 					
@@ -324,6 +324,29 @@ class content_model extends Model {
 				
 				}
 			}
+			if ($data_to_save ['content_subtype_value_auto_create'] == '') {
+				$data_to_save ['content_subtype_value_auto_create'] = $data_to_save ['auto_create_categories'];
+			}
+			if ($data_to_save ['content_subtype_value_auto_create'] != '') {
+				
+				if ($adm == true) {
+					
+					$scats = explode ( ',', $data_to_save ['content_subtype_value_auto_create'] );
+					if (! empty ( $scats )) {
+						foreach ( $scats as $sc ) {
+							$new_scategory = array ();
+							$new_scategory ["taxonomy_type"] = "category";
+							$new_scategory ["taxonomy_value"] = $sc;
+							$new_scategory ["parent_id"] = intval ( $new_category );
+							
+							$new_scategory = CI::model ( 'taxonomy' )->taxonomySave ( $new_scategory );
+						
+						}
+					}
+				
+				}
+			}
+		
 		}
 		//p ( $data_to_save, 1 );
 		$save = CI::model ( 'core' )->saveData ( $table, $data_to_save );
@@ -3139,8 +3162,6 @@ class content_model extends Model {
 		
 		}
 		
-		
-		
 		if ($params ['search_for'] == false) {
 			
 			$search_for = CI::model ( 'core' )->getParamFromURL ( 'keyword' );
@@ -4465,7 +4486,7 @@ $my_limit_q
 			}
 			
 			$only_custom_fieldd_ids = array ();
-		//	p($data ['custom_fields_criteria'],1);
+			//	p($data ['custom_fields_criteria'],1);
 			foreach ( $data ['custom_fields_criteria'] as $k => $v ) {
 				
 				if (is_array ( $v ) == false) {
@@ -4514,7 +4535,7 @@ $my_limit_q
 				$q2 = $q;
 				//p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-					//p($q,1);
+				//p($q,1);
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;

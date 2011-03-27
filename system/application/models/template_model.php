@@ -155,6 +155,32 @@ class Template_model extends Model {
 		return $file;
 	}
 	
+	function layoutGetConfig($filename) {
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
+		$layout_path = $path;
+		//$file = @file_get_contents ( $layout_path. $filename );
+		
+
+		$try = $layout_path . $filename;
+		$try = str_ireplace ( '.php', '_config.php', $try );
+		if (is_file ( $try )) {
+			include($try);
+			//$file = $this->load->file ( $try, true );
+		} else {
+			$try = $layout_path . $filename;
+			$try = dirname ( $try );
+			$try = $try . DIRECTORY_SEPARATOR . 'config.php';
+			if (is_file ( $try )) {
+				include($try);
+				//$file = $this->load->file ( $try, true );
+			}
+		}
+		//p ( $try );
+		
+		return $config ;
+	}
+	
 	/**
 	 * @desc  Get the template layouts info under the layouts subdir on your active template
 	 * @param $options
@@ -1323,8 +1349,8 @@ p($modules );
 										//$module_file = $this->load->file ( $try_file1, true );
 										$module_file = CI::file ( $try_file1, true );
 									}
-									$params_encoded = encode_var($arrts);
-									$params_module = codeClean($arrts['module']);
+									$params_encoded = encode_var ( $arrts );
+									$params_module = codeClean ( $arrts ['module'] );
 								
 								}
 								//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
@@ -1347,11 +1373,6 @@ p($modules );
 									
 									$edtid_hash = base64_encode ( $m ['full_tag'] );
 									
-									
-									
-									
-									
-									
 									if (strval ( $module_file ) != '') {
 										
 										if ($options ['do_not_wrap'] == true) {
@@ -1360,9 +1381,9 @@ p($modules );
 										} else {
 											
 											if ($no_edit == false) {
-												$module_file = '<div mw_params_encoded="'.$params_encoded.'"  mw_params_module="'.$params_module.'"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 											} else {
-												$module_file = '<div mw_params_encoded="'.$params_encoded.'" mw_params_module="'.$params_module.'"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
+												$module_file = '<div mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
 											
 											}
 										}
@@ -1375,7 +1396,7 @@ p($modules );
 
 								} else {
 									if (strval ( $module_file ) != '') {
-										$module_file = '<div class="module" mw_params_encoded="'.$params_encoded.'" mw_params_module="'.$params_module.'"  >' . $module_file . '</div>';
+										$module_file = '<div class="module" mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
 									}
 								}
 								//}  ++
