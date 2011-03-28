@@ -56,6 +56,7 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
 <form action="" method="post" id="save_page_form">
   <input class="btn" name="save" type="submit" value="save" />
   <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
+    <input name="page_id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
   <input name="content_type" type="hidden" value="page" />
   <label>Page title</label>
   <span class="formfield">

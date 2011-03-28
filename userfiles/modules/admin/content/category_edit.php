@@ -138,12 +138,12 @@ $f = '#'+$form;
 
 <form id="save_category">
   
-    <input name="id" type="hidden" value="<? print intval($cat['id']) ?>" />
+
 <a href="javascript:save_the_category1('save_category')" class="btn2 right">Save</a>
    
     <input name="taxonomy_type" type="hidden" value="category" />
-   
- 
+    <label>Id:</label>
+     <input name="id" type="text" value="<? print intval($cat['id']) ?>" />
   <label>Category Title:</label>
   <input class="field3" name="taxonomy_value" type="text" value="<? print $cat['taxonomy_value'] ?>" />
 

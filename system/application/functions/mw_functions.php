@@ -113,8 +113,6 @@ function url_param_unset($param, $url = false) {
 	return $site;
 }
 
- 
-
 function encode_var($var) {
 	
 	if ($var == '') {
@@ -447,18 +445,24 @@ function get_posts($params = array()) {
 			$posts = CI::model ( 'content' )->contentGetByParams ( $params );
 			return $posts;
 			//p($posts);
-			if ($posts ["posts_pages_count"]) {
-				app_var ( 'posts_pages_count', $posts ["posts_pages_count"] );
+			if (! empty ( $posts )) {
+				if ($posts ["posts_pages_count"]) {
+					app_var ( 'posts_pages_count', $posts ["posts_pages_count"] );
+				}
 			}
-			if ($posts ["posts_pages_curent_page"]) {
-				app_var ( 'posts_pages_curent_page', $posts ["posts_pages_curent_page"] );
+			if (! empty ( $posts )) {
+				if ($posts ["posts_pages_curent_page"]) {
+					app_var ( 'posts_pages_curent_page', $posts ["posts_pages_curent_page"] );
+				}
 			}
-			
-			if ($posts ["posts_pages_links"]) {
-				app_var ( 'posts_pages_links', $posts ["posts_pages_links"] );
+			if (! empty ( $posts )) {
+				if ($posts ["posts_pages_links"]) {
+					app_var ( 'posts_pages_links', $posts ["posts_pages_links"] );
+				}
 			}
-			$posts = $posts ['posts'];
-		
+			if (! empty ( $posts )) {
+				$posts = $posts ['posts'];
+			}
 		} else {
 			$posts = $CI->template ['posts'];
 		}
@@ -1135,10 +1139,11 @@ function get_category($category_id) {
 	
 	$category_id = CI::model ( 'taxonomy' )->getIdByName ( $category_id );
 	$c = CI::model ( 'taxonomy' )->getSingleItem ( $category_id );
-	$more = false;
-	$more = CI::model ( 'core' )->getCustomFields ( 'table_taxonomy', $category_id );
-	$c ['custom_fields'] = $more;
-	
+	if (! empty ( $c )) {
+		$more = false;
+		$more = CI::model ( 'core' )->getCustomFields ( 'table_taxonomy', $category_id );
+		$c ['custom_fields'] = $more;
+	}
 	return $c;
 
 }

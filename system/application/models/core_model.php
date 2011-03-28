@@ -3053,6 +3053,9 @@ class Core_model extends Model {
 					
 
 					switch ($field) {
+						case strstr($field, 'custom_field_') :
+							p($field);
+							break;
 						
 						case 'voted' :
 							

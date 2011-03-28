@@ -119,6 +119,11 @@ class Content extends Controller {
 		}
 		
 		if ($_POST) {
+			
+			if ($_POST ['post_id']) {
+				$_POST ['id'] = $_POST ['post_id'];
+			}
+			
 			if ($_POST ['id']) {
 				
 				if ($_POST ['rel'] == 'global') {
@@ -830,6 +835,11 @@ class Content extends Controller {
 		}
 		
 		if ($_POST) {
+			
+			if ($_POST ['page_id']) {
+				$_POST ['id'] = $_POST ['page_id'];
+			}
+			
 			$save = page_save ( $_POST );
 			
 			$save = json_encode ( $save );

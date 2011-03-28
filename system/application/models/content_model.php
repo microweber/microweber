@@ -3429,9 +3429,9 @@ class content_model extends Model {
 			$posts_data ['use_fetch_db_data'] = true;
 			
 			$data = $this->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ), true );
-			
-			$to_return ['posts'] = $data;
-			
+			if (! empty ( $data )) {
+				$to_return ['posts'] = $data;
+			}
 			$posts = $data;
 			
 			$results_count = $this->getContentAndCache ( $posts_data, $orderby1, $limit = false, $count_only = true, $short_data = true, $only_fields = false );
@@ -3446,21 +3446,25 @@ class content_model extends Model {
 			//var_dump ( $results_count, $items_per_page );
 			
 
-			$to_return ['count'] = $results_count;
-			$to_return ['posts_pages_count'] = $content_pages_count;
-			
-			$to_return ['posts_pages_curent_page'] = $curent_page;
-			
+			if (! empty ( $data )) {
+				$to_return ['count'] = $results_count;
+				$to_return ['posts_pages_count'] = $content_pages_count;
+				
+				$to_return ['posts_pages_curent_page'] = $curent_page;
+			}
 			//get paging urls
 			
 
 			$content_pages = $this->pagingPrepareUrls ( false, $content_pages_count );
 			
 			//var_dump($content_pages);
-			
-
-			$to_return ['posts_pages_links'] = $content_pages;
-			
+			if (! empty ( $data )) {
+				
+				$to_return ['posts_pages_links'] = $content_pages;
+			}
+			if (empty ( $data )) {
+				return false;
+			}
 			return $to_return;
 		
 		}
