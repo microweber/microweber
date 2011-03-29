@@ -4537,9 +4537,9 @@ $my_limit_q
                     ";
 				
 				$q2 = $q;
-				//p($q);
+		//	p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-				//p($q,1);
+			//	p($q,1);
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;
@@ -4667,6 +4667,10 @@ $my_limit_q
 			$db_opt ['debug'] = false;
 			$db_opt ['cache_group'] = 'content/global';
 			$db_opt ['order'] = $orderby;
+			
+		//	p($criteria);
+			
+			
 			$save = CI::model ( 'core' )->fetchDbData ( $table, $criteria, $db_opt );
 		
 		}

@@ -515,10 +515,12 @@ class Core_model extends Model {
 					
 					$this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
 					
-					//$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
-					
+				//$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
+				
+
 				//	$this->dbQ ( $clean );
 				
+
 				}
 				
 				foreach ( $custom_field_to_save as $cf_k => $cf_v ) {
@@ -1503,14 +1505,12 @@ class Core_model extends Model {
 		}
 		global $cms_db_tables;
 		$custom_field_table = $cms_db_tables ['table_custom_fields'];
-		$custom_field_to_delete = array();
+		$custom_field_to_delete = array ();
 		$custom_field_to_delete ['id'] = $id;
-		
-
 		
 		$id = $this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
 		print $id;
-		
+	
 	}
 	
 	function getCustomFields($table, $id = 0, $return_full = false) {
@@ -2917,7 +2917,7 @@ class Core_model extends Model {
 		
 		$all_table_fields = $this->dbGetTableFields ( $aTable );
 		
-		$aTable = $this->dbGetRealDbTableNameByAssocName ( $aTable );
+		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $aTable );
 		
 		/*if ($searchKeyword) {
 
@@ -3038,6 +3038,126 @@ class Core_model extends Model {
 			
 			if (is_array ( $aFilter )) {
 				
+				foreach ( $aFilter as $fk => $fv ) {
+					if (strstr ( $fk, 'custom_field_' ) == true) {
+						
+						$addcf = str_replace ( 'custom_field_', '', $fk );
+						$aFilter ['custom_fields_criteria'] [] = array ($addcf => $fv );
+					
+					}
+				}
+				
+				if (! empty ( $aFilter ['custom_fields_criteria'] )) {
+					
+					$table_custom_fields = $cms_db_tables ['table_custom_fields'];
+					
+					$only_custom_fieldd_ids = array ();
+					
+					$use_fetch_db_data = true;
+					
+					$ids_q = "";
+					
+					if (! empty ( $ids )) {
+						
+						$ids_i = implode ( ',', $ids );
+						
+						$ids_q = " and to_table_id in ($ids_i) ";
+					
+					}
+					
+					$only_custom_fieldd_ids = array ();
+					//	p($data ['custom_fields_criteria'],1);
+					foreach ( $aFilter ['custom_fields_criteria'] as $k => $v ) {
+						
+						if (is_array ( $v ) == false) {
+							
+							$v = addslashes ( $v );
+						
+						}
+						
+						$k = addslashes ( $k );
+						
+						if (! empty ( $category_content_ids )) {
+							
+							$category_ids_q = implode ( ',', $category_content_ids );
+							
+							$category_ids_q = " and to_table_id in ($category_ids_q) ";
+						
+						} else {
+							
+							$category_ids_q = false;
+						
+						}
+						
+						$only_custom_fieldd_ids_q = false;
+						
+						if (! empty ( $only_custom_fieldd_ids )) {
+							
+							$only_custom_fieldd_ids_i = implode ( ',', $only_custom_fieldd_ids );
+							
+							$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
+						
+						}
+						
+						$q = "SELECT  to_table_id from $table_custom_fields where
+
+            to_table = '$aTable_assoc' and
+
+            custom_field_name = '$k' and
+
+            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
+
+            
+             $my_limit_q
+
+                    ";
+						
+						$q2 = $q;
+						//	p($q);
+						$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
+						//	p($q,1);
+						if (! empty ( $q )) {
+							
+							$ids_old = $ids;
+							
+							$ids = array ();
+							
+							foreach ( $q as $itm ) {
+								
+								$only_custom_fieldd_ids [] = $itm ['to_table_id'];
+								
+								//  if(in_array($itm ['to_table_id'],$category_ids)== false){
+								
+
+								$includeIds [] = $itm ['to_table_id'];
+								
+							//  }
+							
+
+							//
+							
+
+							}
+						
+						} else {
+							
+							//  $ids = array();
+							
+
+							$remove_all_ids = true;
+							
+							$includeIds = false;
+							
+							$includeIds [] = '0';
+							
+							$includeIds [] = 0;
+						
+						}
+					
+					}
+				
+				}
+				
 				foreach ( $aFilter as $filter ) {
 					
 					list ( $field, $value, $relation, $connection, $no_escape ) = $filter;
@@ -3053,10 +3173,9 @@ class Core_model extends Model {
 					
 
 					switch ($field) {
-						case strstr($field, 'custom_field_') :
-							p($field);
-							break;
+						//
 						
+
 						case 'voted' :
 							
 							if (($timestamp = strtotime ( $value )) !== false) {
@@ -3496,7 +3615,11 @@ class Core_model extends Model {
 		$query = $qSelect . "\n" . $qWhere . "\n" . $qHaving . "\n" . $qGroupBy . "\n" . $qOrder . "\n" . $qLimit . "\n" . $qOffset . "\n";
 		
 		/*~~~~~~~~~~~~~ Print query if debug mode is enabled ~~~~~~~~~~~~~*/
+		//	var_dump($includeIds);
+		//	var_dump($query);
+		//	exit();
 		
+
 		if ($debugQuery == true) {
 			
 			p ( '------------------------------------' );
@@ -8166,6 +8289,9 @@ $w
 		$str = str_ireplace ( ':', '-', $str );
 		
 		$str = str_ireplace ( ';', '-', $str );
+		
+		$str = str_ireplace ( '”', '-', $str );
+		
 		
 		$str = str_ireplace ( '"', '-', $str );
 		if ($leave_dots == false) {

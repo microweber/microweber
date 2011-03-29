@@ -202,6 +202,7 @@ foreach ( $posts as $post ) {
 	
 	$item_save = array ();
 	$item_save ['content_title'] = $post [26];
+	$item_save ['content_url'] = $post [26];
 	$item_save ['custom_field_original_id_from_old_website'] = $post [30];
 	$item_save ['custom_field_original_category_from_old_website'] = $post [1];
 	$item_save ['custom_field_model'] = $post [25];
@@ -210,7 +211,7 @@ foreach ( $posts as $post ) {
 	$is_cat = get_category ( $post [1] );
 	
 	if (! empty ( $is_cat )) {
-		//		p ( $is_cat );
+		p ( $is_cat );
 		$item_save ['taxonomy_categories'] = array ($is_cat [0] ['id'] );
 	
 	}
@@ -223,13 +224,47 @@ foreach ( $posts as $post ) {
 
 	$params = array ();
 	//params for the output
-	$params ['custom_fields_criteria'] = array('price' => 4);
- 
+	$params ['custom_fields_criteria'] = array ('custom_field_original_id_from_old_website' => $post [30] );
 	
-	 
-
 	$check = get_posts ( $params );
-	p($check);
+	if (empty ( $check )) {
+		//post_save ( $item_save );
+	//	p ( $item_save );
+	} else {
+		print 'post is found';
+		p ( $check );
+	}
+	p ( $check );
+
+}
+
+$csvarray = array ();
+// add more if you want
+$filezz = ($dir . 'temp/products_attributes.csv');
+# Open the File.
+if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
+	# Set the parent multidimensional array key to 0.
+	$nn = 0;
+	while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
+		# Count the total keys in the row.
+		$c = count ( $data );
+		# Populate the multidimensional array.
+		for($x = 0; $x < $c; $x ++) {
+			$csvarray [$nn] [$x] = $data [$x];
+		}
+		$nn ++;
+	}
+	# Close the File.
+	fclose ( $handle );
+}
+# Print the contents of the multidimensional array.
+
+
+$posts = ($csvarray);
+
+foreach ( $posts as $post ) {
+	
+	p ( $post );
 
 }
 
