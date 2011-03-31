@@ -55,7 +55,10 @@ function set_categories(){
       
   success: function(resp) {
       $("#category_module_holder").html(resp);
-	  
+
+      $("#category_module_holder span:odd").addClass("even");
+      $("#category_module_holder span").append('<a href="#" class="btn_small">Edit</a>');
+
 	  
 	  var temp_1 = $("input[name='content_parent']:checked").attr("category_id");
 	  if(temp_1 != ""){
@@ -133,16 +136,19 @@ function set_categories(){
 
 
 
+<br /><br />
+<div class="mw_box mw_box_closed">
+ <div class="mw_box_header">
+ <span class="mw_boxctrl"> Open </span>
+ <h3>Add Post to Category</h3>
+ </div>
+<div class="mw_box_content">
 
-
-
-<div class="formitem">
-<label>Parent page </label>
 
   <?php
  
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input onchange='javascript:set_categories()' type='radio' name='content_parent' category_id='{content_subtype_value}'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
- 
+
   <? 
 /*$pages_params = array();
 $pages_params['content_subtype'] = 'blog_section';
@@ -168,16 +174,17 @@ $get_categories = get_categories($get_categories_params) ;
   <? $category_ids = CI::model('core')->dbExtractIdsFromArray($get_categories); ?>
   <? else : ?>
   <? endif; ?>
-  taxonomy_categories
+
   <input name="taxonomy_categories" id="taxonomy_categories" type="text"   value="<? print implode(',',$category_ids); ?>" />
   
-  
+
   
    
-  
-  <a href="#" onclick='$("#category_module_holder").show();'>edit categories</a>
-  
-  
-  <div id="category_module_holder" style="display:none"></div>
 
+  <a href="javascript:void(0)" class="btn" onclick=''>Choose categories</a>
+
+
+  <div id="category_module_holder"></div>
+
+  </div>
   </div>

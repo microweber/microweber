@@ -1,8 +1,11 @@
 /**
- * $Id: editor_plugin_src.js 787 2008-04-10 11:40:57Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -19,27 +22,30 @@
 				var x, i, f, el, v;
 
 				function find(d) {
-					f = DOM.getParent(ed.id, 'form');
-					el = f.elements;
+					el = DOM.select(':input:enabled,*[tabindex]');
+					function canSelect(e) {
+						return e.type != 'hidden' && 
+						e.tabIndex != '-1' && 
+							!(el[i].style.display == "none") && 
+							!(el[i].style.visibility == "hidden");
+				    }
 
-					if (f) {
-						each(el, function(e, i) {
-							if (e.id == ed.id) {
-								x = i;
-								return false;
-							}
-						});
+					each(el, function(e, i) {
+						if (e.id == ed.id) {
+							x = i;
+							return false;
+						}
+					});
 
-						if (d > 0) {
-							for (i = x + 1; i < el.length; i++) {
-								if (el[i].type != 'hidden')
-									return el[i];
-							}
-						} else {
-							for (i = x - 1; i >= 0; i--) {
-								if (el[i].type != 'hidden')
-									return el[i];
-							}
+					if (d > 0) {
+						for (i = x + 1; i < el.length; i++) {
+							if (canSelect(el[i]))
+								return el[i];
+						}
+					} else {
+						for (i = x - 1; i >= 0; i--) {
+							if (canSelect(el[i]))
+								return el[i];
 						}
 					}
 
@@ -68,10 +74,14 @@
 					}
 
 					if (el) {
-						if (ed = tinymce.EditorManager.get(el.id || el.name))
+						if (el.id && (ed = tinymce.get(el.id || el.name)))
 							ed.focus();
 						else
-							window.setTimeout(function() {window.focus();el.focus();}, 10);
+							window.setTimeout(function() {
+								if (!tinymce.isWebKit)
+									window.focus();
+								el.focus();
+							}, 10);
 
 						return Event.cancel(e);
 					}
@@ -86,11 +96,6 @@
 			} else
 				ed.onKeyDown.add(tabHandler);
 
-			ed.onInit.add(function() {
-				each(DOM.select('a:first,a:last', ed.getContainer()), function(n) {
-					Event.add(n, 'focus', function() {ed.focus();});
-				});
-			});
 		},
 
 		getInfo : function() {

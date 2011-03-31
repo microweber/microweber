@@ -1,4 +1,8 @@
 <?php
+
+if($_POST['start_import']){
+
+
 $dir = dirname ( __FILE__ ) . '/import/';
 
 $csvarray = array ();
@@ -28,7 +32,10 @@ $categories = ($csvarray);
 foreach ( $categories as $category ) {
 	
 	/*	
-	[0] => Category ID
+		
+		
+		
+		[0] => Category ID
             [1] => Date added
             [2] => Description
             [3] => Enabled
@@ -40,7 +47,9 @@ foreach ( $categories as $category ) {
             [9] => Name
             [10] => Parent category ID
             [11] => Parent category: Name
-            [12] => Sort order*/
+            [12] => Sort order
+            
+      */
 	
 	$item_save = array ();
 	$item_save ['taxonomy_value'] = $category [9];
@@ -73,9 +82,8 @@ foreach ( $categories as $category ) {
 	
 	?><pre><?php
 	
-	//$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
+	$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
 	
-
 	//var_dump ( $s, $item_save );
 	?></pre>
 
@@ -109,7 +117,8 @@ if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
 $posts = ($csvarray);
 
 foreach ( $posts as $post ) {
-	/*array(44) {
+	/*
+	 * array(44) {
   [0]=>
   string(20) "Always free shipping"
   [1]=>
@@ -198,7 +207,10 @@ foreach ( $posts as $post ) {
   string(6) "Viewed"
   [43]=>
   string(6) "Weight"
-}*/
+}
+
+
+*/
 	
 	$item_save = array ();
 	$item_save ['content_title'] = $post [26];
@@ -207,12 +219,17 @@ foreach ( $posts as $post ) {
 	$item_save ['custom_field_original_category_from_old_website'] = $post [1];
 	$item_save ['custom_field_model'] = $post [25];
 	$item_save ['content_body'] = $post [4];
+	$item_save ['content_parent'] = 2598;
 	
 	$is_cat = get_category ( $post [1] );
 	
 	if (! empty ( $is_cat )) {
-		p ( $is_cat );
-		$item_save ['taxonomy_categories'] = array ($is_cat [0] ['id'] );
+		//p ( $is_cat );
+		$item_save ['taxonomy_categories'] = array (266, $is_cat ['id'] );
+	
+	} else {
+		$is_cat ['id'] = 266;
+		$item_save ['taxonomy_categories'] = array (266 );
 	
 	}
 	
@@ -224,17 +241,24 @@ foreach ( $posts as $post ) {
 
 	$params = array ();
 	//params for the output
-	$params ['custom_fields_criteria'] = array ('custom_field_original_id_from_old_website' => $post [30] );
+	$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $post [30] );
 	
 	$check = get_posts ( $params );
-	if (empty ( $check )) {
-		//post_save ( $item_save );
-	//	p ( $item_save );
+	if (empty ( $check ['posts'] )) {
+		if (! empty ( $is_cat )) {
+			$saved = post_save ( $item_save );
+		} else {
+			print 'cant save in non existing category ' . $saved;
+		}
+		
+		//p ( $item_save );
 	} else {
-		print 'post is found';
-		p ( $check );
+		print 'post is updated ' . $saved;
+		$saved = post_save ( $item_save );
+	//p ( $check );
 	}
-	p ( $check );
+	//p ( $check );
+
 
 }
 
@@ -260,12 +284,173 @@ if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
 # Print the contents of the multidimensional array.
 
 
-$posts = ($csvarray);
-
-foreach ( $posts as $post ) {
-	
-	p ( $post );
-
+$custom_fields = ($csvarray);
+$the_posts_to_save = array ();
+foreach ( $custom_fields as $custom_field ) {
+	/*
+	 * array(33) {
+  [0]=>
+  string(17) "Attribute is free"
+  [1]=>
+  string(23) "Attribute price letters"
+  [2]=>
+  string(28) "Attribute price letters free"
+  [3]=>
+  string(21) "Attribute price words"
+  [4]=>
+  string(26) "Attribute price words free"
+  [5]=>
+  string(19) "Attribute qty price"
+  [6]=>
+  string(27) "Attribute qty price onetime"
+  [7]=>
+  string(18) "Attribute required"
+  [8]=>
+  string(16) "Attribute weight"
+  [9]=>
+  string(23) "Attribute weight prefix"
+  [10]=>
+  string(7) "Default"
+  [11]=>
+  string(10) "Discounted"
+  [12]=>
+  string(12) "Display only"
+  [13]=>
+  string(18) "Download file name"
+  [14]=>
+  string(18) "Download max count"
+  [15]=>
+  string(17) "Download max days"
+  [16]=>
+  string(5) "Image"
+  [17]=>
+  string(9) "Option ID"
+  [18]=>
+  string(12) "Option: Name"
+  [19]=>
+  string(15) "Option value ID"
+  [20]=>
+  string(18) "Option value: Name"
+  [21]=>
+  string(18) "Option value price"
+  [22]=>
+  string(19) "Price base included"
+  [23]=>
+  string(12) "Price factor"
+  [24]=>
+  string(19) "Price factor offset"
+  [25]=>
+  string(20) "Price factor onetime"
+  [26]=>
+  string(27) "Price factor onetime offset"
+  [27]=>
+  string(13) "Price onetime"
+  [28]=>
+  string(12) "Price prefix"
+  [29]=>
+  string(10) "Product ID"
+  [30]=>
+  string(13) "Product: Name"
+  [31]=>
+  string(20) "Product attribute ID"
+  [32]=>
+  string(25) "Product option sort order"
 }
 
+
+
+*
+*/
+	$params = array ();
+	//params for the output
+	$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $custom_field [29] );
+	
+	//p(	$custom_field [20]);
+	
+
+	$check = get_posts ( $params );
+	//p($check);
+	if (! empty ( $check ['posts'] [0] )) {
+		$post = $check ['posts'] [0];
+		
+		$aa = array ($custom_field [18] => $custom_field [20] );
+		
+		//array_push_array($the_posts_to_save[$post ['id']],$aa);
+		
+
+		$the_posts_to_save [$post ['id']] [$custom_field [18]] [] = $aa;
+		//p($post);
+	}
+	
+//
+
+
+}
+//ksort ( $the_posts_to_save );
+print "<hr>";
+
+$tosave = array ();
+foreach ( $the_posts_to_save as $k => $v ) {
+	$new = array ();
+	$new ['id'] = $k;
+	
+	if (is_array ( $v )) {
+		foreach ( $v as $vk => $vv ) {
+			
+			$temp = array ();
+			foreach ( $vv as $vvk => $vvv ) {
+				$name = (array_keys ( $vvv ));
+				$temp = array_values ( $vvv );
+				//p($vvv);
+			}
+			//	 p($name);
+		// p($temp);
+		
+
+		//$new ['custom_field_' . strtolower ( $name [0] )] = $new ['custom_field_' . strtolower ( $name [0] )] . ',' . implode ( ',', $temp );
+		}
+	}
+	$new ['cf'] = $v;
+	$tosave [] = $new;
+	//var_dump ( $k );
+//	var_dump ( $v );
+//print "<hr>";
+}
+foreach ( $tosave as $item ) {
+	
+	$cfs = ($item ['cf']);
+	$cfkeys = array_keys ( $item ['cf'] );
+	
+	foreach ( $cfkeys as $cfkey ) {
+		foreach ( $cfs as $cfs_k => $cfs_v ) {
+			if (strtolower ( $cfkey ) == strtolower ( $cfs_k )) {
+				//p($cfs_v);
+				$vv = array_values_recursive ( $cfs_v );
+				//p($vv);
+				$cfs_k = strtolower ( $cfs_k );
+				$post = array ();
+				$post ['id'] = $item ['id'];
+				$post ['custom_field_' . $cfs_k] = implode ( ',', $vv );
+				$saved = post_save ( $post );
+				//print $cfs_k . implode ( ',', $vv );
+				p ( $post );
+				print "<hr>";
+			}
+		}
+	}
+	
+//p ( $cfkeys );
+
+
+}
+//var_dump ( $k );
+} else {
+	
+	?> <form method="post"><input type="hidden" name="start_import" value="1" />    
+    
+    <input type="submit" value="start">
+    </form> <?php 
+}
+
+print "<hr>";
 ?>

@@ -1,14 +1,17 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
 	tinymce.create('tinymce.plugins.PageBreakPlugin', {
 		init : function(ed, url) {
-			var pb = '<img src="' + url + '/img/trans.gif" class="mcePageBreak mceItemNoResize" />', cls = 'mcePageBreak', sep = ed.getParam('pagebreak_separator', '<!-- pagebreak -->'), pbRE;
+			var pb = '<img src="' + ed.theme.url + '/img/trans.gif" class="mcePageBreak mceItemNoResize" />', cls = 'mcePageBreak', sep = ed.getParam('pagebreak_separator', '<!-- pagebreak -->'), pbRE;
 
 			pbRE = new RegExp(sep.replace(/[\?\.\*\[\]\(\)\{\}\+\^\$\:]/g, function(a) {return '\\' + a;}), 'g');
 
@@ -21,9 +24,6 @@
 			ed.addButton('pagebreak', {title : 'pagebreak.desc', cmd : cls});
 
 			ed.onInit.add(function() {
-				if (ed.settings.content_css !== false)
-					ed.dom.loadCSS(url + "/css/content.css");
-
 				if (ed.theme.onResolveName) {
 					ed.theme.onResolveName.add(function(th, o) {
 						if (o.node.nodeName == 'IMG' && ed.dom.hasClass(o.node, cls))

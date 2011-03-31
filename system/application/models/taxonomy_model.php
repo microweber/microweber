@@ -753,8 +753,9 @@ class taxonomy_model extends Model {
 			
 
 			$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$id} limit 0,1";
-			
+			//p($q,1);
 			$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		 
 			
 			//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
 			
@@ -786,7 +787,7 @@ class taxonomy_model extends Model {
 			}
 			
 			$parent_ids = $this->getParentsIds ( $data ['id'] );
-			
+			array_rpush(&$parent_ids,  $data ['id'] );
 			foreach ( $parent_ids as $item ) {
 				
 				$content = array ();
@@ -797,10 +798,10 @@ class taxonomy_model extends Model {
 				
 				$orderby = array ('id', 'desc' );
 				
-				$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
-				
+				 $q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
+				//p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-				
+				//p($q);
 				//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
 				
 

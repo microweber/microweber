@@ -180,6 +180,73 @@ if (! function_exists ( 'array_extend' )) {
 		return $a;
 	}
 }
+
+function array_push_array(&$arr) {
+	$args = func_get_args ();
+	array_shift ( $args );
+	
+	if (! is_array ( $arr )) {
+		trigger_error ( sprintf ( "%s: Cannot perform push on something that isn't an array!", __FUNCTION__ ), E_USER_WARNING );
+		return false;
+	}
+	
+	foreach ( $args as $v ) {
+		if (is_array ( $v )) {
+			if (count ( $v ) > 0) {
+				array_unshift ( $v, &$arr );
+				call_user_func_array ( 'array_push', $v );
+			}
+		} else {
+			$arr [] = $v;
+		}
+	}
+	return count ( $arr );
+}
+
+function array_values_deep($array) {
+	$temp = array ();
+	foreach ( $array as $key => $value ) {
+		if (is_numeric ( $key )) {
+			$temp [] = is_array ( $value ) ? array_values_deep ( $value ) : $value;
+		} else {
+			$temp [$key] = is_array ( $value ) ? array_values_deep ( $value ) : $value;
+		}
+	}
+	return $temp;
+}
+function array_rpush(&$arr, $item)
+{
+  $arr = array_pad($arr, -(count($arr) + 1), $item);
+}
+/**********************************************
+ *
+ *   PURPOSE: Flatten a deep multidimensional array into a list of its
+ *   scalar values
+ *
+ *   array array_values_recursive (array array)
+ *
+ *   WARNING: Array keys will be lost
+ *
+ *********************************************/
+
+function array_values_recursive($array)
+{
+    $arrayValues = array();
+
+    foreach ($array as $value)
+    {
+        if (is_scalar($value) OR is_resource($value))
+        {
+             $arrayValues[] = $value;
+        }
+        elseif (is_array($value))
+        {
+             $arrayValues = array_merge($arrayValues, array_values_recursive($value));
+        }
+    }
+
+    return $arrayValues;
+}
 if (! function_exists ( 'microtime_float' )) {
 	/**
 	 * Simple function to replicate PHP 5 behaviour
@@ -210,7 +277,6 @@ if (! function_exists ( 'safe_redirect' )) {
 	}
 }
 
-
 /////////////////////////////////////////////////////////////////
 // Title: execution_time.php
 // Description: Displays how long a script took
@@ -225,12 +291,13 @@ if (! function_exists ( 'safe_redirect' )) {
 //              print "Execution Time: $totalTime Seconds";
 /////////////////////////////////////////////////////////////////
 
+
 // Determine Start Time
 function slog_time() {
-	$mtime = microtime();
-	$mtime = explode(" ",$mtime);
-	$mtime = $mtime[1] + $mtime[0];
-	$starttime = $mtime; 
+	$mtime = microtime ();
+	$mtime = explode ( " ", $mtime );
+	$mtime = $mtime [1] + $mtime [0];
+	$starttime = $mtime;
 	
 	// Return our time
 	return $startTime;
@@ -238,79 +305,56 @@ function slog_time() {
 
 // Determine end time
 function elog_time($starttime) {
-	$mtime = microtime();
-   $mtime = explode(" ",$mtime);
-   $mtime = $mtime[1] + $mtime[0];
-   $endtime = $mtime;
-   $totaltime = ($endtime - $starttime);
-   
-   // Return our display
-   return $totalTime;
+	$mtime = microtime ();
+	$mtime = explode ( " ", $mtime );
+	$mtime = $mtime [1] + $mtime [0];
+	$endtime = $mtime;
+	$totaltime = ($endtime - $starttime);
+	
+	// Return our display
+	return $totalTime;
 }
 
+// move a directory and all subdirectories and files (recursive)
+// void dirmv( str 'source directory', str 'destination directory' [, bool 'overwrite existing files' [, str 'location within the directory (for recurse)']] )
+function dirmv($source, $dest, $overwrite = false, $funcloc = NULL) {
+	
+	if (is_null ( $funcloc )) {
+		$dest .= '/' . strrev ( substr ( strrev ( $source ), 0, strpos ( strrev ( $source ), '/' ) ) );
+		$funcloc = '/';
+	}
+	
+	if (! is_dir ( $dest . $funcloc ))
+		mkdir ( $dest . $funcloc ); // make subdirectory before subdirectory is copied
+	
 
-
-
- 
-
-  // move a directory and all subdirectories and files (recursive)
-  // void dirmv( str 'source directory', str 'destination directory' [, bool 'overwrite existing files' [, str 'location within the directory (for recurse)']] )
-function dirmv($source, $dest, $overwrite = false, $funcloc = NULL){
-
-  if(is_null($funcloc)){
-    $dest .= '/' . strrev(substr(strrev($source), 0, strpos(strrev($source), '/')));
-    $funcloc = '/';
-  }
-
-  if(!is_dir( $dest . $funcloc))
-    mkdir( $dest . $funcloc); // make subdirectory before subdirectory is copied
-
-  if($handle = opendir( $source . $funcloc)){ // if the folder exploration is sucsessful, continue
-    while(false !== ($file = readdir($handle))){ // as long as storing the next file to $file is successful, continue
-      if($file != '.' && $file != '..'){
-        $path  = $source . $funcloc . $file;
-        $path2 = $dest . $funcloc . $file;
-
-        if(is_file( $path)){
-          if(!is_file( $path2)){
-            if(!@rename( $path,  $path2)){
-             // echo '<font color="red">File ('.$path.') could not be moved, likely a permissions problem.</font>';
-            }
-          } elseif($overwrite){
-            if(!@unlink( $path2)){
-             // echo 'Unable to overwrite file ("'.$path2.'"), likely to be a permissions problem.';
-            } else
-              if(!@rename( $path,  $path2)){
-               // echo '<font color="red">File ('.$path.') could not be moved while overwritting, likely a permissions problem.</font>';
-              }
-          }
-        } elseif(is_dir( $path)){
-          dirmv($source, $dest, $overwrite, $funcloc . $file . '/'); //recurse!
-          rmdir( $path);
-        }
-      }
-    }
-    closedir($handle);
-  }
-} 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	if ($handle = opendir ( $source . $funcloc )) { // if the folder exploration is sucsessful, continue
+		while ( false !== ($file = readdir ( $handle )) ) { // as long as storing the next file to $file is successful, continue
+			if ($file != '.' && $file != '..') {
+				$path = $source . $funcloc . $file;
+				$path2 = $dest . $funcloc . $file;
+				
+				if (is_file ( $path )) {
+					if (! is_file ( $path2 )) {
+						if (! @rename ( $path, $path2 )) {
+							// echo '<font color="red">File ('.$path.') could not be moved, likely a permissions problem.</font>';
+						}
+					} elseif ($overwrite) {
+						if (! @unlink ( $path2 )) {
+							// echo 'Unable to overwrite file ("'.$path2.'"), likely to be a permissions problem.';
+						} else if (! @rename ( $path, $path2 )) {
+							// echo '<font color="red">File ('.$path.') could not be moved while overwritting, likely a permissions problem.</font>';
+						}
+					}
+				} elseif (is_dir ( $path )) {
+					dirmv ( $source, $dest, $overwrite, $funcloc . $file . '/' ); //recurse!
+					rmdir ( $path );
+				}
+			}
+		}
+		closedir ( $handle );
+	}
+}
 
 /*
 PHP CSS Browser Selector v0.0.1

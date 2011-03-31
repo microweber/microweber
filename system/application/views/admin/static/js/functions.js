@@ -5,19 +5,19 @@ $(document).ready(function(){
 
  $("a[href='#']").attr("javascript:void(0)");
 
-  $(".mw_boxctrl").click(function(){
+  $(".mw_box_header").click(function(){
 
 
   $(this).parents(".mw_box").find(".mw_box_content").toggleSlide();
 
 
-  $(this).toggleClass("mw_boxctrl_open");
+  $(this).find(".mw_boxctrl").toggleClass("mw_boxctrl_open");
 
-if(this.innerHTML=='Open'){
-  this.innerHTML = 'Close';
+if($(this).find(".mw_boxctrl").html()=='Open'){
+  $(this).find(".mw_boxctrl").html( 'Close');
 }
-else if(this.innerHTML=='Close'){
-  this.innerHTML = 'Open';
+else if($(this).find(".mw_boxctrl").html()=='Close'){
+  $(this).find(".mw_boxctrl").html('Open');
 }
 
 

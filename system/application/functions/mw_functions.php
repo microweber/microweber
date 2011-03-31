@@ -1014,7 +1014,7 @@ function category_tree($params) {
 	$link = ($params ['link']) ? $params ['link'] : false;
 	
 	if ($link == false) {
-		$link = "<a href='{taxonomy_url}' >{taxonomy_value}</a>";
+		$link = "<a href='{taxonomy_url}' >{id}{taxonomy_url}{taxonomy_value}</a>";
 	}
 	
 	$actve_ids = ($params ['actve_ids']) ? $params ['actve_ids'] : false;
@@ -1314,6 +1314,12 @@ function voting_link($content_id, $counter_selector = false, $for = 'post') {
 	
 	return $return;
 
+}
+
+
+function sess_id(){
+	$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
+	return $session_id;
 }
 
 /**

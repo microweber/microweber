@@ -1,29 +1,76 @@
 /**
- * $Id: editor_plugin_src.js 848 2008-05-15 11:54:40Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
 	var Event = tinymce.dom.Event, each = tinymce.each, DOM = tinymce.DOM;
 
+	/**
+	 * This plugin a context menu to TinyMCE editor instances.
+	 *
+	 * @class tinymce.plugins.ContextMenu
+	 */
 	tinymce.create('tinymce.plugins.ContextMenu', {
+		/**
+		 * Initializes the plugin, this will be executed after the plugin has been created.
+		 * This call is done before the editor instance has finished it's initialization so use the onInit event
+		 * of the editor instance to intercept that event.
+		 *
+		 * @method init
+		 * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
+		 * @param {string} url Absolute URL to where the plugin is located.
+		 */
 		init : function(ed) {
-			var t = this;
+			var t = this, lastRng, showMenu, contextmenuNeverUseNative;
 
 			t.editor = ed;
+
+			contextmenuNeverUseNative = ed.settings.contextmenu_never_use_native;
+
+			/**
+			 * This event gets fired when the context menu is shown.
+			 *
+			 * @event onContextMenu
+			 * @param {tinymce.plugins.ContextMenu} sender Plugin instance sending the event.
+			 * @param {tinymce.ui.DropMenu} menu Drop down menu to fill with more items if needed.
+			 */
 			t.onContextMenu = new tinymce.util.Dispatcher(this);
 
-			ed.onContextMenu.add(function(ed, e) {
-				if (!e.ctrlKey) {
-					t._getMenu(ed).showMenu(e.clientX, e.clientY);
-					Event.add(ed.getDoc(), 'click', hide);
-					Event.cancel(e);
-				}
+			showMenu = ed.onContextMenu.add(function(ed, e) {
+				if (e.ctrlKey && !contextmenuNeverUseNative) return;
+
+				// Restore the last selection since it was removed
+				if (lastRng)
+					ed.selection.setRng(lastRng);
+
+				t._getMenu(ed).showMenu(e.clientX || e.pageX, e.clientY || e.pageX);
+				Event.add(ed.getDoc(), 'click', function(e) {
+					hide(ed, e);
+				});
+				Event.cancel(e);
 			});
 
-			function hide() {
+			ed.onRemove.add(function() {
+				if (t._menu)
+					t._menu.removeAll();
+			});
+
+			function hide(ed, e) {
+				lastRng = null;
+
+				// Since the contextmenu event moves
+				// the selection we need to store it away
+				if (e && e.button == 2) {
+					lastRng = ed.selection.getRng();
+					return;
+				}
+
 				if (t._menu) {
 					t._menu.removeAll();
 					t._menu.destroy();
@@ -33,8 +80,21 @@
 
 			ed.onMouseDown.add(hide);
 			ed.onKeyDown.add(hide);
+			ed.onKeyDown.add(function(ed, e) {
+				if (e.shiftKey && !e.ctrlKey && !e.altKey && e.keyCode === 121) {
+					Event.cancel(e);
+					showMenu(ed, e);
+				}
+			});
 		},
 
+		/**
+		 * Returns information about the plugin as a name/value array.
+		 * The current keys are longname, author, authorurl, infourl and version.
+		 *
+		 * @method getInfo
+		 * @return {Object} Name/value array containing information about the plugin.
+		 */
 		getInfo : function() {
 			return {
 				longname : 'Contextmenu',
@@ -59,7 +119,8 @@
 			m = ed.controlManager.createDropMenu('contextmenu', {
 				offset_x : p1.x + ed.getParam('contextmenu_offset_x', 0),
 				offset_y : p1.y + ed.getParam('contextmenu_offset_y', 0),
-				constrain : 1
+				constrain : 1,
+				keyboard_focus: true
 			});
 
 			t._menu = m;

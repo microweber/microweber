@@ -27,7 +27,9 @@ mw.modal={
     var modal_source = ''
     +'<div class="mw_modal_box">'
        + '<div class="mw_modal_main" style="height:' + height + 'px">'
-        + '<span class="mw_modalclose" title="Close"></span>'
+        + '<div class="mw_modal_header radius_t">'
+            + '<span class="mw_modalclose" title="Close">Close</span>'
+        + '</div>'
         + modal_content
        + '</div>'
        + '<div class="drag_area">&nbsp;</div>'

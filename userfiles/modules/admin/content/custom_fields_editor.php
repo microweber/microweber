@@ -1,7 +1,7 @@
 <?
 
  
-//p($params);
+p($params);
 
 
 
@@ -22,7 +22,8 @@ $for = 'post';
 <? endif; ?>
 <? if(isset($params['post_id'])) :  ?>
 <? $post_data = get_post($params['post_id']); 
-$custom_fields = $post_data['custom_fields' ];
+ 
+$post_custom_fields = $custom_fields = $post_data['custom_fields' ];
 
 $the_content_id = $post_data['id'];
 
@@ -36,6 +37,14 @@ $custom_fields = $cat['custom_fields' ];
 $for = 'category';
 ?>
 <? endif; ?>
+<?
+
+ if(empty($page_data) and !empty($post_custom_fields )){
+	$no_page_data_only_post = true;
+	
+ }
+?>
+
 <? 
 
 if($params['file'] == ''){
@@ -47,31 +56,39 @@ if($params['file'] == ''){
 		}
 	
 	}
-	
-	
 	$params['file'] =$page_data['content_layout_file'];
 }
 ?>
+
  
-<? if(($params['file']) != '' or ($params['for']== 'global')) :  ?>
+<? if(($params['file']) != '' or ($params['for']== 'global') or ($no_page_data_only_post== true) ) :  ?>
 <? 
 
 $layouts = CI::model('template')->layoutsList(); 
  
 ?>
-<? if(($params['for']) == 'global') :  
+
+
+
+<? if(($params['for']) == 'global' or $no_page_data_only_post  == true) :  
 $layouts = array();
 $layouts1 = CI::model('template')->layoutsList(); 
 $layouts[] = $layouts1[0];
 ?>
 <? endif; ?>
+
+
+
+<? //p($post_custom_fields); ?>
+
+
 <? if(!empty($layouts)): ?>
 <? foreach($layouts as $layout): ?>
-<? if($layout['filename'] == $params['file'] or ($params['for']== 'global')): ?>
+<? if($layout['filename'] == $params['file'] or ($params['for']== 'global') or  $no_page_data_only_post  == true): ?>
 <? 
 
-// p($custom_fields);
-//p($layout['custom_fields'][$for]);
+ 
+
 
 
  $custom_fields_from_page_config = array();
@@ -108,7 +125,7 @@ $layouts[] = $layouts1[0];
 
 	}
 }
- 
+
 if(!empty($custom_fields)){
 	foreach($custom_fields as $k=>$v){
 		$param_to_find = $k;
@@ -126,26 +143,40 @@ if(!empty($custom_fields)){
 			$new_cf['not_in_config'] =true;
 			$new_cf['default'] = $v;
 			$new_cf['content_type'] =$for ;
-		 
-		// p($item);
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-			
 			//$cfg['values'] = $v;
 			$layout['custom_fields'][$for][] = $new_cf;
 		}
 
 	}
 }
+
+
+
+if(!empty($post_custom_fields)){
+	foreach($post_custom_fields as $k=>$v){
+		$param_to_find = $k;
+		
+		$found = false;
+		foreach($layout['custom_fields'][$for] as $item){
+			if($item['param'] ==$k ){
+			$found = true;
+			}
+		}
+		if($found == false){
+			$new_cf = array();
+			$new_cf['param'] = $k;
+			$new_cf['name'] = ucfirst($k);
+			$new_cf['not_in_config'] =true;
+			$new_cf['default'] = $v;
+			$new_cf['content_type'] =$for ;
+			//$cfg['values'] = $v;
+			$layout['custom_fields'][$for][] = $new_cf;
+		}
+
+	}
+}
+
+
 
  if(!empty($params)){
 	
@@ -181,12 +212,12 @@ if(!empty($custom_fields)){
 }
  
 
- 
+
  
  
  
 if(!empty($layout['custom_fields'][$for])): ?>
-<script type="text/javascript">
+<script>
 
 
 function cf_save($form){

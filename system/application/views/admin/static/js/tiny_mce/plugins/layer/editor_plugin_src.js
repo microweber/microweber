@@ -1,8 +1,11 @@
 /**
- * $Id: editor_plugin_src.js 652 2008-02-29 13:09:46Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -195,6 +198,8 @@
 						le.style.height = le.height ? (le.height + 'px') : '100px';
 
 					le.style.position = "absolute";
+
+					ed.dom.setAttrib(le, 'data-mce-style', '');
 					ed.addVisual(ed.getBody());
 				}
 

@@ -3,7 +3,7 @@ Modules
 
 <? 
 $modules_options = array();
-$modules_options['skip_admin'] = true;
+//$modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
 
 
@@ -64,6 +64,18 @@ function install_module($module_name){
     
     <input value="Install" onclick="install_module('<? print $module['module'] ?>')" type="button" />
     <? else: ?>
+    
+    
+         <? 
+           $iframe_module_params = array();
+           $iframe_module_params['module'] = $module['module'] ;
+           $iframe_module_params = base64_encode(serialize($iframe_module_params));
+           
+           
+           
+           ?>
+            <a href="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>" target="_blank">Open</a>
+    
     <input value="Uninstall" onclick="uninstall_module('<? print $module['module'] ?>')" type="button" />
     
     <? endif; ?>

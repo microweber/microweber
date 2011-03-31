@@ -1282,10 +1282,11 @@ p($modules );
 												$this->setup_module_options ( $config ['options'] );
 											
 											}
-											
+											$cache_for_session = false;
 											if ($config ['no_cache'] == true) {
 												$cache_this = false;
 												$do_not_cache_whole_block = true;
+												$cache_for_session = true;
 											}
 											//p($config);
 											if ($config ['no_edit'] == true) {
@@ -1313,6 +1314,10 @@ p($modules );
 										$cache_this = false;
 									}
 									
+									
+								 
+									
+									
 									if (($attr ['module_id']) == true) {
 										$mod_id = $attr ['module_id'];
 									} else {
@@ -1325,6 +1330,11 @@ p($modules );
 									$params_encoded = false;
 									if ($cache_this == true) {
 										$cache_id = md5 ( $try_file1 ) . md5 ( serialize ( $arrts ) );
+										if($cache_for_session == true){
+											$cache_id = md5 ( $try_file1 ). sess_id() . md5 ( serialize ( $arrts ) );
+										}
+										
+										
 										$cache_group = 'global/blocks/';
 										
 										$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );

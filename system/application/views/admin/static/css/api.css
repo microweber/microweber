@@ -2,11 +2,11 @@
   position: absolute;
   z-index: 200;
   background: white;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -khtml-border-radius:10px;
-  border-radius: 10px;
-  padding: 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -khtml-border-radius:8px;
+  border-radius: 8px;
+  padding: 0px;
   -moz-box-shadow: 0px 0px 4px #4D556C;
   -webkit-box-shadow: 0px 0px 4px #4D556C;
   box-shadow: 0px 0px 4px #4D556C;
@@ -54,19 +54,21 @@
 }
 
 .mw_modalclose{
-  display: block;
-  width: 16px;
-  height: 15px;
+  display: inline-block;
   overflow: hidden;
   cursor: pointer;
   position: absolute;
   top: 10px;
   right: 10px;
-background: url(../img/mw_close.jpg) no-repeat;
+  background: url(../img/mw_close.png) no-repeat right top;
+  padding-right: 21px;
+  width: auto;
 }
 .mw_modalclose:hover{
-  background-position:0 -15px;
+  text-decoration: underline;
 }
+
+
 .mwedit{
   position: absolute;
   height: 20px;

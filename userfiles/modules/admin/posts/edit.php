@@ -26,7 +26,8 @@ $(document).ready(function () {
 </script>
 
 <form action="" method="post" id="save_post_form">
-<input name="save" type="submit" value="save" />
+
+
 <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
 <input name="content_type" type="hidden" value="post" />
 <?
@@ -100,7 +101,13 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
   <div class="formitem">
   <label>Content</label>
 
-  <textarea name="content_body" style="width: 100%" class="richtext" rows="20" cols="150"><? print $form_values['content_body'] ?></textarea>
+
+        <textarea name="content_body" style="width: 100%" class="richtext" rows="20" cols="150"><? print $form_values['content_body'] ?></textarea>
+
+
+
+
+
   </div>
   <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
 

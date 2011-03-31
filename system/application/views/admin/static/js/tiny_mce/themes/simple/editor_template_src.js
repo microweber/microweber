@@ -1,11 +1,11 @@
 /**
- * $Id: editor_template_src.js 920 2008-09-09 14:05:33Z spocke $
+ * editor_template_src.js
  *
- * This file is meant to showcase how to create a simple theme. The advanced
- * theme is more suitable for production use.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -19,6 +19,7 @@
 			var t = this, states = ['Bold', 'Italic', 'Underline', 'Strikethrough', 'InsertUnorderedList', 'InsertOrderedList'], s = ed.settings;
 
 			t.editor = ed;
+			ed.contentCSS.push(url + "/skins/" + s.skin + "/content.css");
 
 			ed.onInit.add(function() {
 				ed.onNodeChange.add(function(ed, cm) {
@@ -26,8 +27,6 @@
 						cm.get(c.toLowerCase()).setActive(ed.queryCommandState(c));
 					});
 				});
-
-				ed.dom.loadCSS(url + "/skins/" + s.skin + "/content.css");
 			});
 
 			DOM.loadCSS((s.editor_css ? ed.documentBaseURI.toAbsolute(s.editor_css) : '') || url + "/skins/" + s.skin + "/ui.css");
