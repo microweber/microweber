@@ -1,15 +1,15 @@
 /*
- * jQuery UI Nested Sortable 1.2.1
- *
- * Copyright 2010, Manuele J Sarfatti
- *
+ * jQuery UI Nested Sortable
+ * v 1.2.3 / 28 mar 2011
  * http://mjsarfatti.com/sandbox/nestedSortable
  *
  * Depends:
- *	 jquery.ui.core.js 1.8+
- *	 jquery.ui.widget.js 1.8+
  *	 jquery.ui.sortable.js 1.8+
+ *
+ * License CC BY-SA 3.0
+ * Copyright 2010-2011, Manuele J Sarfatti
  */
+
 (function($) {
 
 	$.widget("ui.nestedSortable", $.extend({}, $.ui.sortable.prototype, {
@@ -18,11 +18,14 @@
 			tabSize: 20,
 			disableNesting: 'ui-nestedSortable-no-nesting',
 			errorClass: 'ui-nestedSortable-error',
-			listType: 'ul'
+			listType: 'ol',
+			noJumpFix: '0'
 		},
 
 		_create: function(){
-			this.element.data('sortable', this.element.data('sortableTree'));
+			if (this.noJumpFix == false)
+				this.element.height(this.element.height());
+			this.element.data('sortable', this.element.data('nestedSortable'));
 			return $.ui.sortable.prototype._create.apply(this, arguments);
 		},
 
@@ -120,9 +123,10 @@
 			newList = document.createElement(o.listType);
 
 			// Make/delete nested ul's/ol's
-			if (parentItem != null && parentItem.nodeName == 'LI' && this.positionAbs.left < $(parentItem).offset().left) {
+			if (parentItem != null && parentItem.nodeName == 'LI' && $(parentItem).closest('.ui-sortable').length  && this.positionAbs.left < $(parentItem).offset().left) {
 				$(parentItem).after(this.placeholder[0]);
 				this._clearEmpty(parentItem);
+				this._trigger("change", event, this._uiHash());
 			} else if (itemBefore != null && itemBefore.nodeName == 'LI' && this.positionAbs.left > $(itemBefore).offset().left + this.options.tabSize) {
 				if (!($(itemBefore).hasClass(this.options.disableNesting))) {
 					if ($(this.placeholder[0]).hasClass(this.options.errorClass)) {
@@ -132,6 +136,7 @@
 						itemBefore.appendChild(newList);
 					}
 					itemBefore.children[1].appendChild(this.placeholder[0]);
+					this._trigger("change", event, this._uiHash());
 				} else {
 					$(this.placeholder[0]).addClass(this.options.errorClass).css('marginLeft', this.options.tabSize);
 				}
@@ -179,8 +184,38 @@
 
 		},
 
+		toHierarchy: function(o) {
+
+			o = o || {};
+			var sDepth = o.startDepthCount || 0;
+			var ret = [];
+
+			$(this.element).children('li').each(function() {
+				var level = _recursiveItems($(this));
+				ret.push(level);
+			});
+
+			return ret;
+
+			function _recursiveItems(li) {
+				var id = ($(li).attr(o.attribute || 'id') || '').match(o.expression || (/(.+)[-=_](.+)/));
+				if (id != null) {
+					var item = {"id" : id[2]};
+					if ($(li).children(o.listType).children('li').length > 0) {
+						item.children = [];
+						$(li).children(o.listType).children('li').each(function() {
+							var level = _recursiveItems($(this));
+							item.children.push(level);
+						});
+					}
+					return item;
+				}
+			}
+        },
+
 		toArray: function(o) {
 
+			var items = this._getItemsAsjQuery(o && o.connected);
 			o = o || {};
 			var sDepth = o.startDepthCount || 0;
 			var ret = [];
@@ -188,9 +223,14 @@
 
 			ret.push({"item_id": 'root', "parent_id": 'none', "depth": sDepth, "left": '1', "right": ($('li', this.element).length + 1) * 2});
 
-			$(this.element).children('li').each(function() {
+			$(items).each(function() {
 				left = _recursiveArray($(this), sDepth + 1, left);
 			});
+
+			function _sortByLeft(a,b) {
+				return a['left'] - b['left'];
+			}
+			ret = ret.sort(_sortByLeft);
 
 			return ret;
 
@@ -206,7 +246,7 @@
 					depth --;
 				}
 
-				id = $(item).attr('id').match(o.expression || (/(.+)[-=_](.+)/));
+				id = ($(item).attr(o.attribute || 'id')).match(o.expression || (/(.+)[-=_](.+)/));
 
 				if (depth === sDepth + 1) pid = 'root';
 				else {
@@ -214,7 +254,9 @@
 					pid = parentItem[2];
 				}
 
-				ret.push({"item_id": id[2], "parent_id": pid, "depth": depth, "left": left, "right": right});
+				if (id != null) {
+						ret.push({"item_id": id[2], "parent_id": pid, "depth": depth, "left": left, "right": right});
+				}
 
 				return left = right + 1;
 			}
@@ -246,8 +288,8 @@
 						if(className && !o.forcePlaceholderSize) return;
 
 						//If the element doesn't have an actual height by itself (without styles coming from a stylesheet), it receives the inline height from the dragged item
-						if(!p.height() || p.css('height') == 'auto') { p.height(self.currentItem.height()); };
-						if(!p.width()) { p.width(self.currentItem.width()); };
+						if(!p.height() || p.css('height') == 'auto') { p.height(self.currentItem.height()); }
+						if(!p.width()) { p.width(self.currentItem.width()); }
 					}
 				};
 			}

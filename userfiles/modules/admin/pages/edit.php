@@ -55,25 +55,28 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
 
 <form action="" method="post" id="save_page_form">
   <input class="btn" name="save" type="submit" value="save" />
-  <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
+  <input name="id" id="id" type="hidden" value="<? print $form_values['id'] ?>" />
     <input name="page_id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
   <input name="content_type" type="hidden" value="page" />
-  <label>Page title</label>
-  <span class="formfield">
-  <input name="content_title" onchange="mw.buildURL(this.value, '#content_url')" type="text" value="<? print $form_values['content_title'] ?>" />
-  </span>
-  <label>Content URL </label>
-  <span class="formfield">
-  <input id="content_url" name="content_url" type="text" value="<? print $form_values['content_url'] ?>" />
-  </span>
-  <label>Description</label>
-  <span class="formfield">
-  <input name="content_description" type="text" value="<? print $form_values['content_description'] ?>" />
-  </span>
-  <label>Content</label>
-  <span class="formfield">
-  <textarea name="content_body" class="richtext" cols="" rows=""><? print $form_values['content_body'] ?></textarea>
-  </span> <br />
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <hr />
   <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
   <div class="formitem">
@@ -99,10 +102,7 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
  
  
  
- <br />
-<br />
-<br />
-<br />
+ 
 <br />
 <br />
 <br />

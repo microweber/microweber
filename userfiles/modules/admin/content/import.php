@@ -1,37 +1,47 @@
+<form method="post"><input type="hidden" name="step1" value="1" /> <input
+    type="submit" value="step1 - categories"></form>
+<form method="post"><input type="hidden" name="step2" value="1" /> <input
+    type="submit" value="step2 - posts"></form>
+<form method="post"><input type="hidden" name="step3" value="1" /> <input
+    type="submit" value="step3 - custom fields"></form>
 <?php
 
-if($_POST['start_import']){
+print "<hr>";
+?>
+<?php
 
-
-$dir = dirname ( __FILE__ ) . '/import/';
-
-$csvarray = array ();
-// add more if you want
-$filezz = ($dir . 'temp/category.csv');
-# Open the File.
-if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
-	# Set the parent multidimensional array key to 0.
-	$nn = 0;
-	while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
-		# Count the total keys in the row.
-		$c = count ( $data );
-		# Populate the multidimensional array.
-		for($x = 0; $x < $c; $x ++) {
-			$csvarray [$nn] [$x] = $data [$x];
-		}
-		$nn ++;
-	}
-	# Close the File.
-	fclose ( $handle );
-}
-# Print the contents of the multidimensional array.
-
-
-$categories = ($csvarray);
-
-foreach ( $categories as $category ) {
+if ($_POST) {
 	
-	/*	
+	$dir = dirname ( __FILE__ ) . '/import/';
+	
+	if ($_POST ['step1']) {
+		$csvarray = array ();
+		// add more if you want
+		$filezz = ($dir . 'temp/category.csv');
+		# Open the File.
+		if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
+			# Set the parent multidimensional array key to 0.
+			$nn = 0;
+			while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
+				# Count the total keys in the row.
+				$c = count ( $data );
+				# Populate the multidimensional array.
+				for($x = 0; $x < $c; $x ++) {
+					$csvarray [$nn] [$x] = $data [$x];
+				}
+				$nn ++;
+			}
+			# Close the File.
+			fclose ( $handle );
+		}
+		# Print the contents of the multidimensional array.
+		
+
+		$categories = ($csvarray);
+		
+		foreach ( $categories as $category ) {
+			
+			/*	
 		
 		
 		
@@ -50,74 +60,106 @@ foreach ( $categories as $category ) {
             [12] => Sort order
             
       */
-	
-	$item_save = array ();
-	$item_save ['taxonomy_value'] = $category [9];
-	$item_save ['taxonomy_description'] = $category [2];
-	$item_save ['taxonomy_type'] = 'category';
-	
-	$item_save ['custom_field_original_id'] = $category [0];
-	$item_save ['custom_field_original_parent_id'] = $category [10];
-	
-	if (strstr ( $category [4], 'jpg' )) {
-		$item_save ['screenshot_url'] = "http://tilos.com/cart/images/" . $category [4];
-	}
-	
-	$is_cat = get_category ( $item_save ['taxonomy_value'] );
-	
-	if (empty ( $is_cat )) {
-		$item_save ['id'] = false;
-	} else {
-		$item_save ['id'] = $is_cat ['id'];
-	}
-	
-	$is_parrent = get_category ( $category [11] );
-	if (empty ( $is_parrent )) {
-		$item_save ['parent_id'] = 60;
-	} else {
-		if ($is_parrent ['id'] != $item_save ['id']) {
-			$item_save ['parent_id'] = $is_parrent ['id'];
-		}
-	}
-	
-	?><pre><?php
-	
-	$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
-	
-	//var_dump ( $s, $item_save );
-	?></pre>
+			
+			$catnames = $category [9];
+			$cats_from_name = explode ( ':', $catnames );
+			//p ( $cats_from_name );
+			
+
+			$item_save = array ();
+			$item_save ['taxonomy_value'] = $category [9];
+			$item_save ['taxonomy_description'] = $category [2];
+			$item_save ['taxonomy_type'] = 'category';
+			
+			$item_save ['custom_field_original_id'] = $category [9];
+			$item_save ['custom_field_original_parent_id'] = $category [11];
+			
+			if (strstr ( $category [4], 'jpg' )) {
+				$item_save ['screenshot_url'] = "http://tilos.com/cart/images/" . $category [4];
+			}
+			
+			$get_categories_params = array ();
+			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [11];
+			//	p($get_categories_params);
+			$is_cat = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+			//p ( $is_cat );
+			$is_cat = $is_cat [0];
+			
+			//$is_cat = get_category ( $item_save ['taxonomy_value'] );
+			
+			if (empty ( $is_cat )) {
+				$item_save ['id'] = false;
+			} else {
+				$item_save ['id'] = $is_cat ['id'];
+				$item_save ['screenshot_url'] = false;
+			}
+			
+			$get_categories_params = array ();
+			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [11];
+			//p ( $category [11] );
+			//	p ( $get_categories_params );
+			$get_categories_params = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+			
+			$is_parrent = $get_categories_params [0];
+			//p ( $is_parrent );
+			//p ( $category );
+			
+
+			if (empty ( $is_parrent )) {
+				$item_save ['parent_id'] = 60;
+			} else {
+				print "parrr...";
+				
+				p ( $is_parrent );
+				
+				if ($is_parrent ['id'] != $item_save ['id']) {
+					$item_save ['parent_id'] = $is_parrent ['id'];
+				} else {
+					$item_save ['parent_id'] = 60;
+				}
+			}
+			
+			?><pre><?php
+			print "saving...";
+			//p ( $get_categories_params );
+			$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
+			
+			var_dump ( $s, $item_save );
+			print "<hr>";
+			?></pre>
 
 
 <?php
-
-}
-
-$csvarray = array ();
-// add more if you want
-$filezz = ($dir . 'temp/product.csv');
-# Open the File.
-if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
-	# Set the parent multidimensional array key to 0.
-	$nn = 0;
-	while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
-		# Count the total keys in the row.
-		$c = count ( $data );
-		# Populate the multidimensional array.
-		for($x = 0; $x < $c; $x ++) {
-			$csvarray [$nn] [$x] = $data [$x];
 		}
-		$nn ++;
 	}
-	# Close the File.
-	fclose ( $handle );
-}
-# Print the contents of the multidimensional array.
+	
+	if ($_POST ['step2']) {
+		$csvarray = array ();
+		// add more if you want
+		$filezz = ($dir . 'temp/product.csv');
+		# Open the File.
+		if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
+			# Set the parent multidimensional array key to 0.
+			$nn = 0;
+			while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
+				# Count the total keys in the row.
+				$c = count ( $data );
+				# Populate the multidimensional array.
+				for($x = 0; $x < $c; $x ++) {
+					$csvarray [$nn] [$x] = $data [$x];
+				}
+				$nn ++;
+			}
+			# Close the File.
+			fclose ( $handle );
+		}
+		# Print the contents of the multidimensional array.
+		
 
-
-$posts = ($csvarray);
-
-foreach ( $posts as $post ) {
-	/*
+		$posts = ($csvarray);
+		
+		foreach ( $posts as $post ) {
+			/*
 	 * array(44) {
   [0]=>
   string(20) "Always free shipping"
@@ -211,83 +253,103 @@ foreach ( $posts as $post ) {
 
 
 */
-	
-	$item_save = array ();
-	$item_save ['content_title'] = $post [26];
-	$item_save ['content_url'] = $post [26];
-	$item_save ['custom_field_original_id_from_old_website'] = $post [30];
-	$item_save ['custom_field_original_category_from_old_website'] = $post [1];
-	$item_save ['custom_field_model'] = $post [25];
-	$item_save ['content_body'] = $post [4];
-	$item_save ['content_parent'] = 2598;
-	
-	$is_cat = get_category ( $post [1] );
-	
-	if (! empty ( $is_cat )) {
-		//p ( $is_cat );
-		$item_save ['taxonomy_categories'] = array (266, $is_cat ['id'] );
-	
-	} else {
-		$is_cat ['id'] = 266;
-		$item_save ['taxonomy_categories'] = array (266 );
-	
-	}
-	
-	if (strstr ( $post [8], 'jpg' )) {
-		$item_save ['screenshot_url'] = "http://tilos.com/cart/images/" . $post [8];
-	}
-	//p ( $item_save );
-	
+			
+			$cats_from_name = explode ( ':', $post [1] );
+			
+			$cat_from_name = $cats_from_name [0];
+			
+			$item_save = array ();
+			$item_save ['content_title'] = $post [26];
+			$item_save ['content_url'] = url_string ($post [26]);
+			$item_save ['custom_field_original_id_from_old_website'] = $post [30];
+			$item_save ['custom_field_original_category_from_old_website'] = $post [1];
+			$item_save ['custom_field_model'] = $post [25];
+			$item_save ['content_body'] = $post [4];
+			$item_save ['content_parent'] = 2598;
+			//p($post [1]);
+			//p($post [15]);
+			$is_cat = get_category ( $cat_from_name );
+			
+			$get_categories_params = array ();
+			$get_categories_params ['taxonomy_value'] = $cat_from_name;
+			
+			p ( $get_categories_params );
+			$get_categories_params = get_categories ( $get_categories_params );
+			p ( $get_categories_params );
+			
+			if (! empty ( $is_cat )) {
+				//	p ( $is_cat );
+				$item_save ['taxonomy_categories'] = array (60, $is_cat ['id'] );
+			
+			} else {
+				$is_cat ['id'] = 60;
+				$item_save ['taxonomy_categories'] = array (60 );
+			
+			}
+			
+			if (strstr ( $post [8], 'jpg' )) {
+				$item_save ['screenshot_url'] = "http://tilos.com/cart/images/" . $post [8];
+			}
+			//p ( $item_save );
+			
 
-	$params = array ();
-	//params for the output
-	$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $post [30] );
-	
-	$check = get_posts ( $params );
-	if (empty ( $check ['posts'] )) {
-		if (! empty ( $is_cat )) {
-			$saved = post_save ( $item_save );
-		} else {
-			print 'cant save in non existing category ' . $saved;
-		}
+			$params = array ();
+			//params for the output
+			$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $post [30] );
+			
+			$check = get_posts ( $params );
+			if (empty ( $check ['posts'] )) {
+				if (! empty ( $is_cat )) {
+					//$saved = post_save ( $item_save );
+				} else {
+					print 'cant save in non existing category ' . $saved;
+				}
+				
+			//p ( $item_save );
+			} else {
+				print 'post is updated ' . $saved;
+				
+				if ($check ['posts'] [0] ['id']) {
+					$item_save ['id'] = $check ['posts'] [0] ['id'];
+					$item_save ['screenshot_url'] = false;
+				}
+				//p ( $item_save );
+				$saved = post_save ( $item_save );
+			
+			}
+			//p ( $check );
 		
-		//p ( $item_save );
-	} else {
-		print 'post is updated ' . $saved;
-		$saved = post_save ( $item_save );
-	//p ( $check );
-	}
-	//p ( $check );
 
-
-}
-
-$csvarray = array ();
-// add more if you want
-$filezz = ($dir . 'temp/products_attributes.csv');
-# Open the File.
-if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
-	# Set the parent multidimensional array key to 0.
-	$nn = 0;
-	while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
-		# Count the total keys in the row.
-		$c = count ( $data );
-		# Populate the multidimensional array.
-		for($x = 0; $x < $c; $x ++) {
-			$csvarray [$nn] [$x] = $data [$x];
 		}
-		$nn ++;
 	}
-	# Close the File.
-	fclose ( $handle );
-}
-# Print the contents of the multidimensional array.
+	
+	if ($_POST ['step3']) {
+		$csvarray = array ();
+		// add more if you want
+		$filezz = ($dir . 'temp/products_attributes.csv');
+		# Open the File.
+		if (($handle = fopen ( $filezz, "r" )) !== FALSE) {
+			# Set the parent multidimensional array key to 0.
+			$nn = 0;
+			while ( ($data = fgetcsv ( $handle, 1000, "," )) !== FALSE ) {
+				# Count the total keys in the row.
+				$c = count ( $data );
+				# Populate the multidimensional array.
+				for($x = 0; $x < $c; $x ++) {
+					$csvarray [$nn] [$x] = $data [$x];
+				}
+				$nn ++;
+			}
+			# Close the File.
+			fclose ( $handle );
+		}
+		# Print the contents of the multidimensional array.
+		
 
-
-$custom_fields = ($csvarray);
-$the_posts_to_save = array ();
-foreach ( $custom_fields as $custom_field ) {
-	/*
+		$custom_fields = ($csvarray);
+		$the_posts_to_save = array ();
+		foreach ( $custom_fields as $custom_field ) {
+			/*
 	 * array(33) {
   [0]=>
   string(17) "Attribute is free"
@@ -361,96 +423,91 @@ foreach ( $custom_fields as $custom_field ) {
 
 *
 */
-	$params = array ();
-	//params for the output
-	$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $custom_field [29] );
-	
-	//p(	$custom_field [20]);
-	
-
-	$check = get_posts ( $params );
-	//p($check);
-	if (! empty ( $check ['posts'] [0] )) {
-		$post = $check ['posts'] [0];
-		
-		$aa = array ($custom_field [18] => $custom_field [20] );
-		
-		//array_push_array($the_posts_to_save[$post ['id']],$aa);
-		
-
-		$the_posts_to_save [$post ['id']] [$custom_field [18]] [] = $aa;
-		//p($post);
-	}
-	
-//
-
-
-}
-//ksort ( $the_posts_to_save );
-print "<hr>";
-
-$tosave = array ();
-foreach ( $the_posts_to_save as $k => $v ) {
-	$new = array ();
-	$new ['id'] = $k;
-	
-	if (is_array ( $v )) {
-		foreach ( $v as $vk => $vv ) {
+			$params = array ();
+			//params for the output
+			$params ['custom_fields_criteria'] = array ('original_id_from_old_website' => $custom_field [29] );
 			
-			$temp = array ();
-			foreach ( $vv as $vvk => $vvv ) {
-				$name = (array_keys ( $vvv ));
-				$temp = array_values ( $vvv );
-				//p($vvv);
+			//p(	$custom_field [20]);
+			
+
+			$check = get_posts ( $params );
+			//p($check);
+			if (! empty ( $check ['posts'] [0] )) {
+				$post = $check ['posts'] [0];
+				
+				$aa = array ($custom_field [18] => $custom_field [20] );
+				
+				//array_push_array($the_posts_to_save[$post ['id']],$aa);
+				
+
+				$the_posts_to_save [$post ['id']] [$custom_field [18]] [] = $aa;
+				//p($post);
 			}
-			//	 p($name);
-		// p($temp);
+			
+		//
 		
 
-		//$new ['custom_field_' . strtolower ( $name [0] )] = $new ['custom_field_' . strtolower ( $name [0] )] . ',' . implode ( ',', $temp );
 		}
-	}
-	$new ['cf'] = $v;
-	$tosave [] = $new;
-	//var_dump ( $k );
-//	var_dump ( $v );
-//print "<hr>";
-}
-foreach ( $tosave as $item ) {
-	
-	$cfs = ($item ['cf']);
-	$cfkeys = array_keys ( $item ['cf'] );
-	
-	foreach ( $cfkeys as $cfkey ) {
-		foreach ( $cfs as $cfs_k => $cfs_v ) {
-			if (strtolower ( $cfkey ) == strtolower ( $cfs_k )) {
-				//p($cfs_v);
-				$vv = array_values_recursive ( $cfs_v );
-				//p($vv);
-				$cfs_k = strtolower ( $cfs_k );
-				$post = array ();
-				$post ['id'] = $item ['id'];
-				$post ['custom_field_' . $cfs_k] = implode ( ',', $vv );
-				$saved = post_save ( $post );
-				//print $cfs_k . implode ( ',', $vv );
-				p ( $post );
-				print "<hr>";
+		//ksort ( $the_posts_to_save );
+		print "<hr>";
+		
+		$tosave = array ();
+		foreach ( $the_posts_to_save as $k => $v ) {
+			$new = array ();
+			$new ['id'] = $k;
+			
+			if (is_array ( $v )) {
+				foreach ( $v as $vk => $vv ) {
+					
+					$temp = array ();
+					foreach ( $vv as $vvk => $vvv ) {
+						$name = (array_keys ( $vvv ));
+						$temp = array_values ( $vvv );
+						//p($vvv);
+					}
+					//	 p($name);
+				// p($temp);
+				
+
+				//$new ['custom_field_' . strtolower ( $name [0] )] = $new ['custom_field_' . strtolower ( $name [0] )] . ',' . implode ( ',', $temp );
+				}
 			}
+			$new ['cf'] = $v;
+			$tosave [] = $new;
+			//var_dump ( $k );
+		//	var_dump ( $v );
+		//print "<hr>";
+		}
+		foreach ( $tosave as $item ) {
+			
+			$cfs = ($item ['cf']);
+			$cfkeys = array_keys ( $item ['cf'] );
+			
+			foreach ( $cfkeys as $cfkey ) {
+				foreach ( $cfs as $cfs_k => $cfs_v ) {
+					if (strtolower ( $cfkey ) == strtolower ( $cfs_k )) {
+						//p($cfs_v);
+						$vv = array_values_recursive ( $cfs_v );
+						//p($vv);
+						$cfs_k = strtolower ( $cfs_k );
+						$post = array ();
+						$post ['id'] = $item ['id'];
+						$post ['custom_field_' . $cfs_k] = implode ( ',', $vv );
+						$saved = post_save ( $post );
+						//print $cfs_k . implode ( ',', $vv );
+						p ( $post );
+						print "<hr>";
+					}
+				}
+			}
+			
+		//p ( $cfkeys );
+		
+
 		}
 	}
-	
-//p ( $cfkeys );
-
-
-}
-//var_dump ( $k );
+	//var_dump ( $k );
 } else {
-	
-	?> <form method="post"><input type="hidden" name="start_import" value="1" />    
-    
-    <input type="submit" value="start">
-    </form> <?php 
-}
 
-print "<hr>";
+}
 ?>

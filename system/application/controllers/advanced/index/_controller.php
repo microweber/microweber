@@ -54,21 +54,20 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		}
 		
 		if (trim ( $url ) == '') {
-			//	var_dump($url);
+			//	
 			$page = CI::model ( 'content' )->getContentHomepage ();
 			//	var_dump($page);
 		} else {
 			
-			if ($page ['is_home'] != 'y')
+			if ($page ['is_home'] != 'y') {
 				$post_maybe = CI::model ( 'content' )->getContentByURLAndCache ( $url );
+			}
 			if (intval ( $post_maybe ['id'] ) != 0) {
 				$post_maybe = CI::model ( 'content' )->contentGetByIdAndCache ( $post_maybe ['id'] );
 			}
-		
+			
+			$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
 		}
-		
-		$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
-		
 		if (empty ( $page )) {
 			$adm = is_admin ();
 			if ($adm == true) {

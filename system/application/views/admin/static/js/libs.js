@@ -424,6 +424,21 @@ $.fn.dataCollect = function() {
     return result;
   }
 
+    $(window).bind("load hashchange", function(){
+     if(document.getHashProperty("tab") !=-1){
+       var hash = document.getHashProperty("tab");
+       $("a[href='" + window.location.hash + "']").parents("ul").find("a").removeClass("active");
+       $("a[href='" + window.location.hash + "']").addClass("active");
+       $("#" + hash).parent().find(".tab").hide();
+       $("#" + hash).show();
+     }
+     if(window.location.hash==""){
+      $(".shop_nav a:first").addClass("active");
+      $("#orders_tabs .tab").hide();
+      $("#orders_tabs .tab:first").show()
+     }
+  });
+
 
 
 

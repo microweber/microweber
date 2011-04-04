@@ -1,5 +1,5 @@
 <? if($params['id'] == false){
-	
+
 	$params['id'] =url_param('id');
 }
 
@@ -139,17 +139,32 @@ $f = '#'+$form;
 <form id="save_category">
   
 
-<a href="javascript:save_the_category1('save_category')" class="btn2 right">Save</a>
-   
+
+
     <input name="taxonomy_type" type="hidden" value="category" />
-    <label>Id:</label>
-     <input name="id" type="text" value="<? print intval($cat['id']) ?>" />
+    <label style="position: absolute;bottom:0;left:0">Id: <? print intval($cat['id']) ?></label>
+     <input name="id" type="hidden" value="<? print intval($cat['id']) ?>" />
   <label>Category Title:</label>
   <input class="field3" name="taxonomy_value" type="text" value="<? print $cat['taxonomy_value'] ?>" />
 
 
   <label>Parent Category </label>
-    <input class="field3" name="parent_id" type="text" value="<? print $cat['parent_id'] ?>" />
+
+
+    <input class="field3" name="parent_id" id="cat_parent_id" type="hidden" value="<? print $cat['parent_id'] ?>" />
+
+    <div class="drop drop_white">
+    <span class="drop_arr"></span>
+           <span class="val">Choose Category</span>
+           <div class="drop_list" style="display: none; top: 34px;height: auto">
+      <microweber module="admin/content/category_selector" active_category="<? print $cat['parent_id'] ?>" update_field="#cat_parent_id"  />
+      </div>
+    </div>
+
+
+
+
+    <?                if($params['quick_edit'] == false){             ?>
 
 
   <label>Content Type: </label>
@@ -159,7 +174,7 @@ $f = '#'+$form;
   <label>Description:</label>
     <input class="field3" name="taxonomy_description" type="text" value="<? print $cat['taxonomy_description'] ?>" />
 
- 
+
   <label>Full Description:</label>
     <input class="field3" name="content_body" type="text" value="<? print $cat['content_body'] ?>" />
 
@@ -171,14 +186,15 @@ $f = '#'+$form;
 
   <label>Users can create content:</label>
     <input class="field3" name="users_can_create_content" type="text" value="<? print $cat['users_can_create_content'] ?>" />
-
- 
+       <div id="cat_custom_fields"></div>
+                  <? } ?>
     <input class="field3" name="taxonomy_content_type" type="hidden" value="inherit" />
 
 
-  
-  <div id="cat_custom_fields"></div>
+
+
    <br />
+ <a href="javascript:void(0);" class="delete_cat">Delete</a>
   <a href="javascript:save_the_category1('save_category')" class="btn2 right">Save</a>
 
   <br />

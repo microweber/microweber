@@ -3,6 +3,8 @@
 
 $(document).ready(function(){
 
+
+
  $("a[href='#']").attr("javascript:void(0)");
 
   $(".mw_box_header").click(function(){
@@ -144,7 +146,7 @@ $("input[type='text'], textarea, input[type='password']").each(function(){
 
 $("#d_bar ul:first").prepend("<li><a href='javascript:content_list(\"\",0);'>All categories</a></li>");
 
-$(".drop").click(function(){
+$(".drop").live("click", function(){
    var top = $(this).outerHeight();
    $(this).find(".drop_list").toggle().css("top", top);
    $(this).toggleClass("active");
@@ -160,7 +162,12 @@ $(document.body).click(function(){
      $(".drop").removeClass("active");
    }
 });
-$(".drop a").click(function(){
+$(".drop a").live("click", function(){
+   var html = $(this).html();
+   $(this).parents(".drop").find(".val").html(html);
+});
+
+$(".drop li span").live("click", function(){
    var html = $(this).html();
    $(this).parents(".drop").find(".val").html(html);
 });

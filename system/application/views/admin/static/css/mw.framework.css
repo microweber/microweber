@@ -401,6 +401,15 @@ h5{
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F1F1F1), to(#BBBBBB));
 }
 
+.btn_plus{
+  display: block;
+  float: left;
+  width: 14px;
+  height: 14px;
+  background: url(../img/plus.gif) no-repeat;
+  margin: 0 5px 0 -4px;
+}
+
 
 
 

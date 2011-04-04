@@ -26,8 +26,6 @@ $(document).ready(function () {
 </script>
 
 <form action="" method="post" id="save_post_form">
-
-
 <input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
 <input name="content_type" type="hidden" value="post" />
 <?
@@ -56,7 +54,7 @@ $(document).ready(function() {
     }); 
 	
 	 
-}); 
+});
  
 // pre-submit callback 
 function save_post_showRequest(formData, jqForm, options) { 
@@ -79,38 +77,30 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
 
 </script>
 <form action="" method="post" id="save_post_form">
-  <input name="save" type="submit" value="save" />
   <input name="id" id="post_id" type="hidden" value="<? print $form_values['id'] ?>" />
   <input name="content_type" type="hidden" value="post" />
-  <hr />
-  <hr />
-  <div class="formitem">
-    <label>Title</label>
-    <span class="formfield"><input style="width: 100%" name="content_title" type="text" value="<? print $form_values['content_title'] ?>" /> </span>
-  </div>
+ 
+ 
+ 
+ 
+  <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
+ 
+ 
+ 
 
-  <div class="formitem">
-  <label>URL</label>
-  <div id="content_url_page"></div>
-  <span class="formfield"><input style="width: 100%" name="content_url" type="text"   value="<? print $form_values['content_url'] ?>" /></span>
- </div>
-  <div class="formitem">
-  <label>Description</label>
-  <span class="formfield"><input style="width: 100%" name="content_description" type="text" value="<? print $form_values['content_description'] ?>" /></span>
-   </div>
-  <div class="formitem">
-  <label>Content</label>
-
-
-        <textarea name="content_body" style="width: 100%" class="richtext" rows="20" cols="150"><? print $form_values['content_body'] ?></textarea>
-
-
-
-
-
-  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
-
   <div class="mw_box mw_box_closed">
     <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
       <h3>Media</h3>
@@ -132,15 +122,7 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
       <h3>Custom Fields</h3>
     </div>
     <div class="mw_box_content">
-    
-    
-    
-    
-    
       <div id="post_custom_fields"></div>
-      
-      
-      
     </div>
   </div>
   <div class="mw_box mw_box_closed">

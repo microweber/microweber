@@ -801,13 +801,13 @@ class taxonomy_model extends Model {
 				 $q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
 				//p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-				//p($q);
+				 
 				//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
 				
 
 				$content = $q [0];
 				
-				$content = $content [0];
+				//$content = $content [0];
 				
 				$url = false;
 				

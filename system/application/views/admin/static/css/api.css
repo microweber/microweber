@@ -37,7 +37,7 @@
   position: absolute;
   bottom: 15px;
   text-align: center;
-  width: 400px;
+  width: 380px;
 }
 .okCancel a{
   display: inline-block;
@@ -58,14 +58,16 @@
   overflow: hidden;
   cursor: pointer;
   position: absolute;
-  top: 10px;
+  top: 14px;
   right: 10px;
-  background: url(../img/mw_close.png) no-repeat right top;
+  background: url(../img/mw_close.png) no-repeat 100% 1px;
   padding-right: 21px;
   width: auto;
+  padding-bottom: 2px;
 }
 .mw_modalclose:hover{
   text-decoration: underline;
+  background: url(../img/mw_close.png) no-repeat 100% 1px;
 }
 
 

@@ -28,11 +28,13 @@ mw.modal={
     +'<div class="mw_modal_box">'
        + '<div class="mw_modal_main" style="height:' + height + 'px">'
         + '<div class="mw_modal_header radius_t">'
+            + '<h2><!-- Title Comes Here --></h2>'
             + '<span class="mw_modalclose" title="Close">Close</span>'
         + '</div>'
-        + modal_content
+        + '<div class="mw_modal_content_box">'
+            + modal_content
+        + '</div>'
        + '</div>'
-       + '<div class="drag_area">&nbsp;</div>'
     +'</div>';
     var modaler = document.createElement('div');
     if(modal_tag_id!=false){
@@ -40,7 +42,7 @@ mw.modal={
     }
     modaler.innerHTML = modal_source;
     modaler.className = 'modal_data';
-    $(modaler).find(".mw_modal_main").append(content_obj);
+    $(modaler).find(".mw_modal_content_box").append(content_obj);
 
     return modaler;
   },
@@ -74,6 +76,10 @@ mw.modal={
           modal.id = 'mw_modal_' + id;
           obj.width = !isobj(obj.width)?400:obj.width;
           obj.height = !isobj(obj.height)?250:obj.height;
+          obj.title = !isobj(obj.title)?'':obj.title;
+
+
+
           modal.appendChild(mw.modal.create(obj.html, obj.height));
           modal.style.width = obj.width + 'px';
           if(!isobj(obj.customPosition)){
@@ -94,6 +100,7 @@ mw.modal={
             modal.style.top = obj.customPosition.top + 'px';
             modal.style.left = obj.customPosition.left != 'center'?obj.customPosition.left + 'px':$(window).width()/2 - obj.width/2 + 'px';
           }
+          $(modal).find(".mw_modal_header h2").html(obj.title);
           $(modal).find(".mw_modalclose").click(function(){
             
             mw.modal.close(id);
@@ -110,7 +117,7 @@ mw.modal={
               this.style.zIndex = mw.modal.zindex();
             }
           }
-          $(modal).draggable({handle:'.drag_area', iframeFix:true});
+          $(modal).draggable({handle:'.mw_modal_header', iframeFix:true});
           return modal;
       }
     }
@@ -173,7 +180,7 @@ mw.modal={
   },
   alert:function(obj){
       mw.modal.init({
-      html:'<table width="400" height="150"><tr><td style="text-align:center">'+obj + '</td></tr></table><div class="c"></div><div class="okCancel"><a href="javascript:;" class="mw_confirm_yes">OK</a></div>',
+      html:'<table width="380" height="130"><tr><td style="text-align:center">'+obj + '</td></tr></table><div class="c"></div><div class="okCancel"><a href="javascript:;" class="mw_confirm_yes">OK</a></div>',
       oninit:function(){
         el = this;
         $(this).find(".mw_confirm_yes").click(function(){

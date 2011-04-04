@@ -27,8 +27,7 @@ div#submit{
 
 table td{
   border-collapse: collapse;
-  border: 1px solid #ccc;
-  padding: 10px;
+
 }
 table th{
   border-collapse: collapse;
@@ -392,7 +391,7 @@ a{
   position: absolute;
   bottom: 15px;
   text-align: center;
-  width: 400px;
+  width: 380px;
 }
 .okCancel a{
   display: inline-block;
@@ -632,19 +631,20 @@ background: url(../img/mw_close.jpg) no-repeat;
 .drop .val{
   display: block;
   padding: 5px 0 0 0;
+  padding: 2px 0 3px;
 }
 
 
 .drop_arr{
   display: block;
   float: right;
-  margin: 0 5px 0;
-  width:24px;
-  height: 24px;
-  background: url(../img/drop.jpg) no-repeat;
+  margin: 9px 6px;;
+  width:7px;
+  height: 4px;
+  background: url(../img/drop.gif) no-repeat;
 }
 .drop.active .drop_arr{
-  background-position: 0 -24px;
+  background-position: 0 -40px;
 }
 
 
@@ -689,8 +689,9 @@ background: url(../img/mw_close.jpg) no-repeat;
 }
 
 #category_module_holder{
-  width:371px;
+  width:50%;
   border: 1px solid #C5C5C5;
+  float: left;
 
 }
 
@@ -698,24 +699,34 @@ background: url(../img/mw_close.jpg) no-repeat;
 .cat_lis{
   padding: 0;
 }
+.cat_list li span, .cat_lis li span{
+  display: block;
+  padding: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  border-top: 1px solid #e2e2e2;
 
+}
 
 .cat_list li, .cat_lis li{
   list-style: none;
 
 }
+.cat_list li span{
+  padding-left: 35px;
+}
 .cat_list li li span{
-  padding-left: 12px;
+  padding-left: 45px;
 }
 .cat_list li li li span{
-  padding-left: 24px;
+  padding-left: 55px;
 }
 
 .cat_list li li li li span{
-  padding-left: 36px;
+  padding-left: 65px;
 }
 .cat_list li li li li li span{
-  padding-left: 48px;
+  padding-left: 75px;
 }
 .cat_list li span.even{
   background: #F5F5F5;
@@ -736,20 +747,31 @@ background: url(../img/mw_close.jpg) no-repeat;
   display: inline-block;
   color: #003F73;
 }
+.cat_list .placeholder{
+    background: #FF8025
+}
 
 
 .cat_list{
   padding: 0;
 }
-
-.cat_list li span, .cat_lis li span{
-  display: block;
-  padding: 6px;
-  cursor: pointer;
-  overflow: hidden;
-  border-top: 1px solid #e2e2e2;
-
+#cat_sel_right{
+  float: left;
+  width:44%;
+  text-align: center;
+  margin:0 0 0 20px;
 }
+#cat_sel_right em{
+  display: block;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+#cat_sel_right h3{
+  padding-bottom: 30px;
+}
+
+
+
 .cat_list li span input, .cat_lis li span input{
   margin-right: 4px;
   position: relative;
@@ -763,6 +785,23 @@ background: url(../img/mw_close.jpg) no-repeat;
 
 .cat_list li span:hover, .cat_list li span.active, .cat_lis li span:hover{
 
+}
+.catmove{
+  display: none;
+  width:16px;
+  height: 16px;
+  overflow: hidden;
+  position:absolute;
+  top: 5px;
+  left: 9px;
+  background: url(../img/move.gif) no-repeat;
+  cursor: move;
+  text-indent: -9999px;
+}
+
+
+.cat_list li span:hover .catmove, .cat_lis li span:hover .catmove{
+    display: block;
 }
 
 .cat_list li span strong, .cat_lis li span strong{
@@ -1144,7 +1183,27 @@ div.error input[type="text"], div.error input[type="password"], div.error textar
   background: -webkit-gradient(linear, left top, left bottom, from(#F1F1F1), to(#E9E9E9));
   background: -moz-linear-gradient(top,  #F1F1F1,  #E9E9E9);
   min-height: 22px;
-  padding:10px 20px;
+  padding:10px;
+  cursor: move;
+}
+.mw_modal_content_box{
+  padding: 10px;
+  zoom:1;
+}
+.mw_modal_content_box:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.mw_modal_header h2{
+  color:#004073;
+  font-weight: bold;
+  font-size: 12px;
+  padding-top: 5px;
 }
 
 
@@ -1521,19 +1580,142 @@ li.plupload_droptext {
 
 }
 
+.delete_cat{
+  display: inline-block;
+  padding:0px 0 2px 20px;
+  background: url(../img/delete.png) no-repeat;
+  text-decoration: none;
+  float: left;
+  margin-top: 4px;
+
+}
+
+#orders_table{
+    border: none;
+    border-collapse: collapse;
+}
+#orders_table th{
+    font-size: 11px;
+    color: #0D5C98;
+    font-weight: normal;
+    border: none;
+    border-right:1px solid  #E3E3E3;
+    border-bottom:1px solid  #E3E3E3;
+    background: #F4F4F4;
+}
+#orders_table th:last-child{
+  border-right: none
+}
+#orders_table td{
+font-size: 12px;
+    border-right:1px solid  #E3E3E3;
+    border-bottom:1px solid  #E3E3E3;
+    padding: 10px;
+}
+#orders_table td:last-child{
+  border-right: none
+}
+
+
+.edit_order_cell, .edit_order_cell *{
+  color:#0D5C98;
+}
+.edit_order_cell .view_order_link:hover{
+  text-decoration: underline;
+}
+
+
+.edit_order_delete{
+    display: block;
+    width:19px;
+    height: 18px;
+    background: url(../img/delete_order.png) no-repeat;
+    overflow: hidden;
+    text-indent: -9999px;
+    cursor: pointer;
+    display: none;
+position: absolute;
+top: 5px;
+right: 5px;
+}
+.edit_order_delete:hover{
+  background-position: 0 -21px;
+}
+#orders_table tr:hover .edit_order_delete{
+  display: block;
+}
+#orders_table tr:hover{
+  background: #F4F4F4
+}
+
+
+.edit_order_cell .relative{
+  float: right;
+  width:20px;
+  height: 20px;
+  margin: -9px -9px auto auto;
+
+}
+.order_options_table td{
+  vertical-align: top;
+  padding: 5px;
+}
+.order_options_form{
+  padding: 10px;
+  background: #FCFCFC;
+  margin: 10px;
+  border: 1px solid #F4F4F4;
+  overflow: hidden;
+  zoom:1;
+}
+.order_options_form .btn{
+  float: right;
+}
+.order_options_form input[type='text']{
+  width: 60%;
+}
+.order_options_form textarea{
+  width: 60%;
+}
+
+.shop_nav{
+  float: left;
+  list-style: none
+}
+.shop_nav li{
+  float: left;
+  list-style: none
+}
+.shop_nav li a{
+  display: block;
+  padding:20px;
+  border-right: 1px solid #E2E2E2;
+}
+.shop_nav li a:hover, .shop_nav li a.active{
+  background: url(../img/shop_nav_active.jpg) no-repeat;
+}
+
+
+.box_title{
+  float: left;
+  display: inline-block;
+  white-space: nowrap;
+  margin: 18px 30px 0 30px;
+
+}
+.shop_nav_main{
+    overflow: hidden;
+    zoom:1;
+    border-bottom: 1px solid #E2E2E2;
+    margin-bottom: 1px;
+}
+
+.order_totals{
+  background:#FAF7E3 
+}
 
 
 
-
-
-
-.
-
-
-
-
-
-.
 
 
 

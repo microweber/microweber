@@ -1,5 +1,10 @@
 <?php
+function url_string($string) {
+	
+	$string = CI::model ( 'core' )->url_title ( $string );
+	return $string;
 
+}
 function url($skip_ajax = false) {
 	if ($skip_ajax == false) {
 		$is_ajax = isAjax ();
@@ -246,6 +251,9 @@ function add_post_form($params) {
 	
 //return $post;
 }
+function get_custom_fields($content_id) {
+	return get_custom_fields_for_content ( $content_id );
+}
 
 function get_custom_fields_for_content($content_id) {
 	
@@ -474,9 +482,9 @@ function get_posts($params = array()) {
 	if (! empty ( $posts )) {
 		$posts_cf = array ();
 		foreach ( $posts as $post ) {
-			$more = false;
-			$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $post ['id'] );
-			$post ['custom_fields'] = $more;
+			//$more = false;
+			//$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $post ['id'] );
+			//$post ['custom_fields'] = $more;
 			$posts_cf [] = $post;
 		}
 		$posts = $posts_cf;
@@ -1014,7 +1022,7 @@ function category_tree($params) {
 	$link = ($params ['link']) ? $params ['link'] : false;
 	
 	if ($link == false) {
-		$link = "<a href='{taxonomy_url}' >{id}{taxonomy_url}{taxonomy_value}</a>";
+		$link = "<a href='{taxonomy_url}' >{taxonomy_value}</a>";
 	}
 	
 	$actve_ids = ($params ['actve_ids']) ? $params ['actve_ids'] : false;
@@ -1316,8 +1324,7 @@ function voting_link($content_id, $counter_selector = false, $for = 'post') {
 
 }
 
-
-function sess_id(){
+function sess_id() {
 	$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 	return $session_id;
 }

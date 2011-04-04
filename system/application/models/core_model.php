@@ -1696,6 +1696,8 @@ class Core_model extends Model {
 		
 		}
 		
+		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $table );
+		
 		if (! empty ( $criteria )) {
 			if ($criteria ['debug'] == true) {
 				$debug = true;
@@ -1729,6 +1731,128 @@ class Core_model extends Model {
 			}
 		
 		}
+		
+		foreach ( $criteria as $fk => $fv ) {
+			if (strstr ( $fk, 'custom_field_' ) == true) {
+				
+				$addcf = str_replace ( 'custom_field_', '', $fk );
+				$criteria ['custom_fields_criteria'] [] = array ($addcf => $fv );
+			
+			}
+		}
+		
+		if (! empty ( $criteria ['custom_fields_criteria'] )) {
+			
+			$table_custom_fields = $cms_db_tables ['table_custom_fields'];
+			
+			$only_custom_fieldd_ids = array ();
+			
+			$use_fetch_db_data = true;
+			
+			$ids_q = "";
+			
+			if (! empty ( $ids )) {
+				
+				$ids_i = implode ( ',', $ids );
+				
+				$ids_q = " and to_table_id in ($ids_i) ";
+			
+			}
+			
+			$only_custom_fieldd_ids = array ();
+			//	p($data ['custom_fields_criteria'],1);
+			foreach ( $criteria ['custom_fields_criteria'] as $k => $v ) {
+				//	var_dump($v);
+				if (is_array ( $v ) == false) {
+					
+					$v = addslashes ( $v );
+				
+				}
+				
+				$k = addslashes ( $k );
+				
+				if (! empty ( $category_content_ids )) {
+					
+					$category_ids_q = implode ( ',', $category_content_ids );
+					
+					$category_ids_q = " and to_table_id in ($category_ids_q) ";
+				
+				} else {
+					
+					$category_ids_q = false;
+				
+				}
+				
+				$only_custom_fieldd_ids_q = false;
+				
+				if (! empty ( $only_custom_fieldd_ids )) {
+					
+					$only_custom_fieldd_ids_i = implode ( ',', $only_custom_fieldd_ids );
+					
+					$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
+				
+				}
+				
+				$q = "SELECT  to_table_id from $table_custom_fields where
+
+            to_table = '$aTable_assoc' and
+
+            custom_field_name = '$k' and
+
+            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
+
+            
+             $my_limit_q
+
+                    ";
+				
+				$q2 = $q;
+				// p($q);
+				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
+				//	
+				//	p($q);
+				if (! empty ( $q )) {
+					
+					$ids_old = $ids;
+					
+					$ids = array ();
+					
+					foreach ( $q as $itm ) {
+						
+						$only_custom_fieldd_ids [] = $itm ['to_table_id'];
+						
+						//  if(in_array($itm ['to_table_id'],$category_ids)== false){
+						
+
+						$includeIds [] = $itm ['to_table_id'];
+						
+					//  }
+					
+
+					//
+					
+
+					}
+				
+				} else {
+					
+					//  $ids = array();
+					
+
+					$remove_all_ids = true;
+					
+					$includeIds = false;
+					
+					$includeIds [] = '0';
+					
+					$includeIds [] = 0;
+				
+				}
+			
+			}
+		
+		}
+		
 		$original_cache_group = $cache_group;
 		
 		if (! empty ( $criteria ['only_those_fields'] )) {
@@ -2068,10 +2192,30 @@ class Core_model extends Model {
 		
 		}
 		
+		if (! empty ( $includeIds )) {
+			
+			$first = array_shift ( $includeIds );
+			
+			$includeIds_idds = false;
+			p ( $includeIds );
+			
+			$includeIds_i = implode ( ',', $includeIds );
+			
+			$includeIds_idds .= "   AND id IN ($includeIds_i)   ";
+		
+		} else {
+			
+			$includeIds_idds = false;
+		
+		}
+		
 		if ($where != false) {
 			
 			$q = $q . $where . $idds . $exclude_idds;
 		
+		}
+		if ($includeIds_idds != false) {
+			$q = $q . $includeIds_idds;
 		}
 		
 		if ($order_by != false) {
@@ -2091,7 +2235,7 @@ class Core_model extends Model {
 			var_dump ( $table, $q );
 		
 		}
-		
+		//var_dump ( $table, $q );
 		//print $q;
 		//exit;
 		//$select = $this->db->select()->from("$table"),array('product_id', 'product_name'))  ->limit(10, 20);
@@ -8292,7 +8436,6 @@ $w
 		
 		$str = str_ireplace ( '”', '-', $str );
 		
-		
 		$str = str_ireplace ( '"', '-', $str );
 		if ($leave_dots == false) {
 			$str = str_ireplace ( '.', '-', $str );
@@ -8341,6 +8484,8 @@ $w
 		$str = str_ireplace ( '@', '-', $str );
 		
 		$str = mb_strtolower ( $str );
+		
+		$str = rtrim ( $str, "-" );
 		
 		if ($no_slashes == true) {
 			
