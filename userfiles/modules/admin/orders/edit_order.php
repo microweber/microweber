@@ -70,11 +70,11 @@ $data = array ();
     <td></td>
     <td></td>
 </tr>
-<tr><td></td><td></td><td>Subtotal:</td>         <td class="order_totals">$175,00</td></tr>
-<tr><td></td><td></td><td>Promo Codes:</td>      <td class="order_totals">- $35,00</td></tr>
-<tr><td></td><td></td><td>Shipping price:</td>   <td class="order_totals">$20,00</td></tr>
+<tr><td style="border: none"></td><td style="border: none"></td><td>Subtotal:</td>         <td class="order_totals">$175,00</td></tr>
+<tr><td style="border: none"></td><td style="border: none"></td><td>Promo Codes:</td>      <td class="order_totals">- $35,00</td></tr>
+<tr><td style="border: none"></td><td style="border: none"></td><td>Shipping price:</td>   <td class="order_totals">$20,00</td></tr>
 
-<tr><td></td><td></td><td>Total:</td>		      <td class="order_totals">$120,00</td></tr>
+<tr><td style="border: none"></td><td style="border: none"></td><td>Total:</td>		      <td class="order_totals">$120,00</td></tr>
 
 
 </table>
@@ -104,7 +104,63 @@ $data = array ();
 
  <div class="mw_box_content">
 
-       uhuuu
+       <table>
+        <tr>
+            <td>Customer Name</td>
+            <td class="orange">Jane Doe</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><a href="mailto:janedoe@microweber.com">janedoe@microweber.com</a></td>
+        </tr>
+        <tr>
+            <td>Customer Group </td>
+            <td><strong>General</strong></td>
+        </tr>
+       </table>
+
+      <br /><br />
+
+       <table>
+        <tr>
+
+            <td>
+                <h4>Shipping Address</h4>
+
+
+                Jane Doe<br />
+
+                10441 Jefferson Blvd, Suite 200
+                Culever City, California, 90232
+                United Stated
+                Phone: 8665986
+
+            </td>
+            <td>
+                <img src="http://maps.google.com/maps/api/staticmap?center=Sofia&zoom=15&size=185x137&sensor=false&markers=color:red%7CSofia" alt="" />
+            </td>
+        </tr>
+       </table>
+
+
+       <table>
+        <tr>
+            <td>
+                <h4>Shipping Address</h4>
+
+
+                Jane Doe<br />
+
+                10441 Jefferson Blvd, Suite 200
+                Culever City, California, 90232
+                United Stated
+                Phone: 8665986
+
+            </td>
+        </tr>
+       </table>
+
+
 
 </div>
 

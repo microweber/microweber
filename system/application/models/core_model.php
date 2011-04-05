@@ -1485,7 +1485,7 @@ class Core_model extends Model {
 	function getCustomFieldsConfig($get) {
 		
 		global $cms_db_tables;
-		
+		$cache_group = 'custom_fields';
 		$table_custom_field = $cms_db_tables ['table_custom_fields_config'];
 		
 		$get = $this->getDbData ( $table_custom_field, $get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );

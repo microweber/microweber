@@ -1711,7 +1711,18 @@ right: 5px;
 }
 
 .order_totals{
-  background:#FAF7E3 
+  background:#FAF7E3
+}
+#orders_table .orders_table_bord td{
+  padding: 5px;
+  background: #f4f4f4;
+  border: none;
+}
+.orange{
+    color: #FF6C00;
+}
+.orange a{
+    color: #FF6C00; 
 }
 
 
