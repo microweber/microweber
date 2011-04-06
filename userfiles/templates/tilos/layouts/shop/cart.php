@@ -26,6 +26,11 @@ $(document).ready(function(){
   </div>
   <!-- /#cart -->
   <? else : ?>
+  
+  
   <h1><a href="<? print page_link($shop_page['id']); ?>">Your cart is empty. Click here to go to the products page.</a></h1>
+  
+  
+  
   <? endif ?>
 </div>

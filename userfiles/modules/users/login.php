@@ -1,5 +1,7 @@
 <? $form_id = "login_form_".md5(url()).rand(); ?>
 
+
+
 <div class="login_engine">
   <script type="text/javascript">
  
@@ -17,7 +19,8 @@
     success:    function(resp) {
         //alert(resp.);
 		if(resp.fail != undefined){
-			mw.box.alert(resp.fail);
+			Modal.box("<h2 style='padding:20px;text-align:center'>" + resp.fail + "</h2>", 300, 80);
+            Modal.overlay()
 		}
 
 		if(resp.ok != undefined){
@@ -42,7 +45,10 @@ $('#<? print $form_id ?>').ajaxForm(<? print $form_id ?>options);
   <? /*
 <a href="<? print site_url('fb_login'); ?>">Login with Facebook</a>
 */ ?>
-  <form method="post" id="<? print $form_id ?>" class="validate form">
+      <h2 class="title">
+    Login
+  </h2>
+  <form method="post" id="<? print $form_id ?>"  style="padding-top:40px;">
     <?php if(!empty($user_login_errors)) : ?>
     <script>
             $(document).ready(function(){
@@ -59,16 +65,21 @@ $('#<? print $form_id ?>').ajaxForm(<? print $form_id ?>options);
             });
           </script>
     <?php endif ?>
-    <div class="login_wrapper">
-      <h2 style="padding-bottom: 16px">Login </h2>
-      <div class="login-item"> <span class="linput">
-        <input tabindex="1" id="LoginUsername" class="type-text required" name="username" type="text" default="Username or email" value="<?php print $form_values['username'];  ?>" />
-        <a class="reg-help" href="<?php print site_url('users/user_action:forgotten_pass'); ?>"><small>Lost your username?</small></a> </span> </div>
-      <div class="login-item"> <span class="linput">
-        <input tabindex="2" id="LoginPassword" class="type-text required" name="password" type="password" default="Password" value="<?php print $form_values['password'];  ?>" />
-        <a class="reg-help" href="<?php print site_url('users/user_action:forgotten_pass'); ?>"><small>Lost your password?</small></a> </span> </div>
-      <div class="clear" style="height: 31px;">&nbsp;</div>
-      <span class="lw_left">Login with</span> <a href="#" title="Login" class="the_login submit right">&nbsp;</a>
+    <div>
+
+
+
+      <div class="login-item">
+      <span class="field" style="margin-bottom: 0">
+        <input tabindex="1" id="LoginUsername" class="type-text required" name="username" type="text" default="Username or email" value="<?php print $form_values['username'];  ?>" /></span>
+
+        <a style="padding-left: 12px" class="reg-help" href="<?php print site_url('users/user_action:forgotten_pass'); ?>"><small>Lost your username?</small></a>  </div>
+         <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
+      <div class="login-item"> <span class="field" style="margin-bottom: 0">
+        <input tabindex="2" id="LoginPassword" class="type-text required" name="password" type="password" default="Password" value="<?php print $form_values['password'];  ?>" /></span>
+        <a style="padding-left: 12px" class="reg-help" href="<?php print site_url('users/user_action:forgotten_pass'); ?>"><small>Lost your password?</small></a>  </div>
+      <div class="clear" style="height: 10px;">&nbsp;</div>
+
       <div class="c">&nbsp;</div>
       <? /*
                    <span class="remember-me">
@@ -77,9 +88,13 @@ $('#<? print $form_id ?>').ajaxForm(<? print $form_id ?>options);
             </span>
                    */ ?>
       <input type="submit" value="Login" class="xhidden" />
-      <div class="login_nr">
-        <p>Not registered yet? </p>
-        <a href="<?php print site_url('users/user_action:register'); ?>" class="new_reg">Make new registration click here</a> </div>
+      <a href="#" class="btn2 submit left" style="margin-left: 230px">Login</a>
+
+      <? /*
+      <div class="login_nr" style="float: left;width: 300px;margin:12px 0 0 15px;">
+
+        <a href="<?php print site_url('users/user_action:register'); ?>" class="new_reg">Make new registration <u>click here</u></a> </div>
+      */ ?>
     </div>
   </form>
 </div>

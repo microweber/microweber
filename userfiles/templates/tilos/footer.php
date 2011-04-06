@@ -1,13 +1,13 @@
- 
+
 </div><!-- /#content -->
 
             <div id="footer">
                 <div id="footer_share">
-                <editable  rel="global" field="foot_text1">
+                
                     <h2>Be our friend  join us now</h2>
                     <a href="#" class="tw right">Follow us on Twitter</a>
-                    <a href="#" class="fb right">Become fan on facebook</a>
- </editable>
+                    <a href="http://www.facebook.com/pages/Tilos-Scuba/114145641946570" target="_blank" class="fb right">Become fan on facebook</a>
+ 
                 </div>
                 <div id="footer_nav">
                     <a href="#">Privacy Policy</a>|
@@ -17,9 +17,9 @@
                     <a href="#">Site Map</a>
                 </div>
                 <div id="copy">
-                  <editable    rel="global"  field="copyright_text_footer">
+                  
                     <address>Copyright &copy; 2011 <a href="http://tilos.com">Tilos.com</a>. All rights reserved.</address>
-                     </editable>
+
                     <div id="yes">
                       <a href="http://ooyes.net" title="Website design">Website designt</a>
                        by

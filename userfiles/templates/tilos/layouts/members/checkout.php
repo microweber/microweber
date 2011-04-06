@@ -1,8 +1,0 @@
- 
- 
- 
- 
- 
- 
-<mw module="cart/checkout" />
- 

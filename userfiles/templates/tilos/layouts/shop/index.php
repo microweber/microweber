@@ -37,26 +37,32 @@ description: shop site layout
 <div id="main">
   <? if(empty($post)): ?>
   <? if($posts): ?>
-  <? foreach($posts as $post): ?>
+  <? foreach($posts as $post): ?> <? $cf = get_custom_fields($post['id']); 
+	
+//	p($cf);
+	?>
   <div class="product_item"> <a class="product" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print thumbnail($post['id'], 250);  ?>')">&nbsp;</span> <strong>
     <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
-    </strong> <span class="best_seller">&nbsp;</span> </a> <a href="<? print post_link($post['id']) ?>" class="ai">
-      See product
-    </a> </div>
+    </strong> 
+    
+   
+    <? if($cf['is_featured']['custom_field_value'] == 'y'): ?>
+    <span class="best_seller">&nbsp;</span>
+    <? endif; ?>
+    
+    
+     </a> <a href="<? print post_link($post['id']) ?>" class="ai"> See product </a> </div>
   <? endforeach; ?>
-  
-  
-  
-  
-<mw module="content/paging" />
-  
-  
-  
-  
+  <mw module="content/paging" />
   <? else :?>
   <editable  page="<? print $page['id'] ?>" field="no_posts">No products found.</editable>
   <? endif; ?>
   <? else :?>
+   <? $cf = get_custom_fields($post['id']); 
+	
+//	p($cf);
+	?>
+    
   <div id="product_image" rel="post" module="media/gallery">
     <?  $pics = get_media($post['id'], $for = 'content', $media_type = 'picture')  ;
 		
@@ -65,7 +71,15 @@ description: shop site layout
     <? if(!empty($pics['pictures'])): ?>
     <?  $main_pic = $pics['pictures'][0];  ?>
     <? endif; ?>
-    <a class="product product_active" href="#"> <span class="img" style="background-image: url('<? print get_media_thumbnail($main_pic['id'], 250);  ?>')">&nbsp;</span> <strong> <? print addslashes($main_pic['media_name']);?> </strong> <span class="best_seller">&nbsp;</span> </a>
+    <a class="product product_active" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print get_media_thumbnail($main_pic['id'], 250);  ?>')">&nbsp;</span> <strong> <? print addslashes($main_pic['media_name']);?> </strong> 
+    
+    
+    
+     <? if($cf['is_featured']['custom_field_value'] == 'y'): ?>
+    <span class="best_seller">&nbsp;</span>
+    <? endif; ?>
+    
+    </a>
     <script type="text/javascript">
 
                     $(document).ready(function(){
@@ -146,15 +160,16 @@ description: shop site layout
         </h4>
         <div class="borc"> <a href="#" onclick="mw.cart.add('#add_to_cart_product_<? print $post['id'] ?>', function(){add_to_cart_callback()});" class="buy">Buy now</a>
           <div>OR</div>
-          <a href="#" class="con_tag">Contact us</a> </div>
+          <a href="<? print page_link_to_layout('contacts'); ?>" class="con_tag">Contact us</a> </div>
       </div>
     </form>
   </div>
   <div class="c"></div>
   <br />
   <br />
-   <editable  page="<? print $page['id'] ?>" field="simmilar_posts_title"><h2 class="title">Similar products</h2></editable>
- 
+  <editable  page="<? print $page['id'] ?>" field="simmilar_posts_title">
+    <h2 class="title">Simmilar products</h2>
+  </editable>
   <br />
   <div class="photoslider" id="related_slide">
     <div class="photoslider_holder" style="width: 710px">
@@ -164,7 +179,6 @@ description: shop site layout
     </div>
     <span class="slide_left product_slide_left">Back</span> <span class="slide_right product_slide_right">More</span> </div>
   <? //p($post); ?>
-   
   <? endif; ?>
 </div>
 <? endif; ?>

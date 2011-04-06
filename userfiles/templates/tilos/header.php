@@ -40,17 +40,51 @@
                     <a href="<? print site_url(); ?>">Tilos</a>
                   </div>
                   <div id="top_nav">
-                    <editable rel="global"  field="top_links">
-                    <ul>
-                      <li><a href="#">Create an account</a>|</li>
                      
-                      <li><a href="#">Login</a>|</li>
-                      <li><a href="#">View cart</a></li>
+                    <ul>
+                      
+                     
+                    <?  if(user_id()  != false):  ?>
+                    
+                     <? 
+				   $shop_page = array();
+				   $shop_page['content_layout_name'] = 'shop';
+				  
+				  $shop_page=get_pages($shop_page);
+				  $shop_page = $shop_page[0];
+		 //  var_dump($shop_page);
+				  ?>
+                     <li><a href="<? print page_link_to_layout('members'); ?>">Profile</a>|</li>
+                     
+                      <li><a href="#"  onclick="mw.users.LogOut()">Log Out</a>|</li>
+                      <li><a href="<? print page_link($shop_page['id']); ?>">View cart</a></li>
+                      
+                      
+                      <? else: ?>
+ 
+  <? 
+				   $members = array();
+				   $members['content_layout_name'] = 'members';
+				  
+				  $members=get_pages($members);
+				  $members = $members[0];
+				//  var_dump($shop_page);
+				  ?>
+                  
+                    <li><a href="<? print page_link($members['id']); ?>">Log in</a></li>
+ 
+  <? endif; ?>
+  
+  
+                      
+                    
+                      
+                      
                     </ul>
-                    </editable>
-                    <editable rel="global"  field="welcome_text">
+                   
+                    
                    <p>Welcome to Tilos Inc</p>  
-                     </editable>
+                    
                     
                     
                     
@@ -73,8 +107,9 @@
 				  ?>
                   <? if(!empty($shop_page)): ?>
                   <div id="nav_cart">
+                   <a href="<? print page_link($shop_page['id']); ?>/view:cart">
                      <span class="items cart_items_qty"><? print get_items_qty() ; ?></span>
-                     <strong>Items</strong>
+                     <strong>Items</strong></a>
                      <img src="<? print TEMPLATE_URL ?>img/cart.png" alt="" />
                      <a href="<? print page_link($shop_page['id']); ?>/view:cart">View cart </a>
                   </div>

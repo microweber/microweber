@@ -523,7 +523,7 @@ address{
    padding: 0 10px;
    text-align: center;
    position: absolute;
-   bottom: 10px;
+   bottom: 8px;
    left: 0;
    width:196px
  }
@@ -615,6 +615,7 @@ background: none;
     font-size: 12px;
     font-weight: bold;
     background: url(../img/side_title.jpg) no-repeat;
+    text-transform: capitalize;
 
     }
   .sidebox h2 a{
@@ -631,9 +632,17 @@ background: none;
   .sidebox li a{
     font-size:11px;
     display: block;
-    padding: 3px 0 3px 15px;
+    padding: 3px 0 3px 10px;
     white-space: nowrap;
   }
+  .sidebox li li a{
+    padding-left: 20px;
+  }
+  .sidebox li li li a{
+    padding-left: 30px;
+  }
+
+
   .sidebox li a:hover{
     background: #FFFFFe;/* msie */
     text-decoration: underline;
@@ -800,6 +809,15 @@ background: none;
   }
   .field input{
     width: 295px;
+    padding: 5px;
+    border: none;
+    background: none;
+    float: left;
+    margin: 5px;
+  }
+
+   .field select{
+    width: 300px !important;
     padding: 5px;
     border: none;
     background: none;
@@ -1128,6 +1146,14 @@ padding: 9px 0 6px 55px;
 }
 .paging li a.active, .paging li a:hover{
   background: url(../img/nav_hover.jpg) repeat-x left bottom;
+}
+.xhidden{
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+.richtext ol, .richtext ul{
+  padding-left: 14px;
 }
 
 
