@@ -1,7 +1,7 @@
 ﻿<data>
   <debug>0</debug>
   <settings>
-    <folder_images>http://192.168.0.197/tilos/flash/images/</folder_images>
+    <folder_images>http://pecata/microweber/userfiles/templates/tilos/img</folder_images>
 
    <!--	<background>
       <color transparent="true">0xffffff</color>
@@ -241,7 +241,7 @@
       <link target="_blank"/>
       <description>
         <heading>Wanna play?</heading>
-		<link target="_self">http://getcu3er.com/signup</link>
+		<link target="_self"></link>
       </description>
     </slide>
 

@@ -165,20 +165,21 @@ class Template_model extends Model {
 		$try = $layout_path . $filename;
 		$try = str_ireplace ( '.php', '_config.php', $try );
 		if (is_file ( $try )) {
-			include($try);
+			include ($try);
 			//$file = $this->load->file ( $try, true );
 		} else {
 			$try = $layout_path . $filename;
 			$try = dirname ( $try );
 			$try = $try . DIRECTORY_SEPARATOR . 'config.php';
 			if (is_file ( $try )) {
-				include($try);
+				include ($try);
 				//$file = $this->load->file ( $try, true );
 			}
 		}
 		//p ( $try );
 		
-		return $config ;
+
+		return $config;
 	}
 	
 	/**
@@ -1243,6 +1244,8 @@ p($modules );
 								$try_config_file = MODULES_DIR . '' . $attr ['module'] . '_config.php';
 							}
 							
+							
+						//	p($try_file1);
 							if (is_file ( $try_file1 ) == true) {
 								$arrts = array ();
 								foreach ( $attr as $att => $at ) {
@@ -1270,7 +1273,7 @@ p($modules );
 									$try_config_file = rtrim ( $try_config_file, '\\' );
 									
 									$cache_this = true;
-									
+									$force_cache_this = false;
 									if (is_file ( $try_config_file )) {
 										$config = false;
 										include ($try_config_file);
@@ -1286,6 +1289,12 @@ p($modules );
 											if ($config ['no_cache'] == true) {
 												$cache_this = false;
 												$do_not_cache_whole_block = true;
+												$cache_for_session = true;
+											}
+											
+											if ($config ['cache'] == true) {
+												$force_cache_this = true;
+												
 												$cache_for_session = true;
 											}
 											//p($config);
@@ -1309,15 +1318,11 @@ p($modules );
 									if ($options ['no_cache'] == true) {
 										$cache_this = false;
 									}
-									
-									if (strstr ( $attr ['module'], 'admin/' ) == true) {
-										$cache_this = false;
+									if ($force_cache_this == false) {
+										if (strstr ( $attr ['module'], 'admin/' ) == true) {
+											$cache_this = false;
+										}
 									}
-									
-									
-								 
-									
-									
 									if (($attr ['module_id']) == true) {
 										$mod_id = $attr ['module_id'];
 									} else {
@@ -1328,19 +1333,29 @@ p($modules );
 										$cache_this = false;
 									}
 									$params_encoded = false;
+									
+									if($force_cache_this == true){
+										$cache_this = true;
+									}
+									//var_dump($force_cache_this);
+									
 									if ($cache_this == true) {
 										$cache_id = md5 ( $try_file1 ) . md5 ( serialize ( $arrts ) );
-										if($cache_for_session == true){
-											$cache_id = md5 ( $try_file1 ). sess_id() . md5 ( serialize ( $arrts ) );
+										
+										if ($cache_for_session == true) {
+											$cache_id = md5 ( $try_file1 ) . sess_id () . md5 ( serialize ( $arrts ) );
 										}
 										
+										if ($_POST) {
+											$cache_id = $cache_id . md5 ( serialize ( $_POST ) );
+										}
 										
 										$cache_group = 'global/blocks/';
 										
 										$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
 										
 										if (($cache_content) != false) {
-											
+											//var_dump($cache_content);
 											$module_file = $cache_content;
 										
 										} else {

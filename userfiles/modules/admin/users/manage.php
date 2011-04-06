@@ -33,9 +33,17 @@ Example:
  */
 
 ?>
+<div class="box radius">
+<div class="box_header radius_t">
+    <h2>Manage users</h2>
+</div>
+<div class="box_content">
+
+
+
 <? if($wrap_element == false){
-	
-$wrap_element = 'ul';	
+
+$wrap_element = 'ul';
 }?>
 <? if($wrap_element_items == false){
 	
@@ -43,11 +51,11 @@ $wrap_element_items = 'li';
 }?>
 <? if($wrap_element_class == false){
 	
-$wrap_element_class = 'users_list';	
+$wrap_element_class = 'users_list';
 }?>
 <? if($wrap_element_items_class == false){
-	
-$wrap_element_items_class = '';	
+
+$wrap_element_items_class = '';
 }?>
 <? $user_id = user_id_from_url(); ?>
 <? if($user_id == false){ $user_id = user_id(); } ?>
@@ -125,7 +133,7 @@ $paging = CI::model('content')->pagingPrepareUrls(url(), $pagenum, 'users-page')
 <? endif; ?>
 <<?php  print $wrap_element; ?>class="<?php  print $wrap_element_class; ?>">
 <? foreach($users as $item): ?>
-<? $user = ($item); 
+<? $user = ($item);
 
   
   ?>
@@ -150,5 +158,5 @@ $paging = CI::model('content')->pagingPrepareUrls(url(), $pagenum, 'users-page')
 <? else: ?>
 Nothing found.
 <? endif; ?>
-<br class="c" />
-<br />
+</div>
+</div>

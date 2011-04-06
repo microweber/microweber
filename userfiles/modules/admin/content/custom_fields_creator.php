@@ -168,7 +168,9 @@ if($base64_val_for_insert != false){
 
 
 
+<? /*
 <input name="reload module" type="button"  />
+*/ ?>
 
 
 <? foreach($data as $item): ?>

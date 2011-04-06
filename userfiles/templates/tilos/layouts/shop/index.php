@@ -41,9 +41,18 @@ description: shop site layout
   <div class="product_item"> <a class="product" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print thumbnail($post['id'], 250);  ?>')">&nbsp;</span> <strong>
     <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
     </strong> <span class="best_seller">&nbsp;</span> </a> <a href="<? print post_link($post['id']) ?>" class="ai">
-    <editable  post="<? print $post['id'] ?>" field="custom_field_price">enter price</editable>
+      See product
     </a> </div>
   <? endforeach; ?>
+  
+  
+  
+  
+<mw module="content/paging" />
+  
+  
+  
+  
   <? else :?>
   <editable  page="<? print $page['id'] ?>" field="no_posts">No products found.</editable>
   <? endif; ?>

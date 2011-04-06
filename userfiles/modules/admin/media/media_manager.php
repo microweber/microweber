@@ -13,6 +13,8 @@
   $id = $params['for_id'];
   $for = $params['for'];
   
+  $queue_id = $params['queue_id'];
+  
   
    
   $media_type = $params['type'];
@@ -20,7 +22,7 @@
 //p($params); 
   
   ?>
-<?  $media1 = get_media($id, $for, $media_type);
+<?  $media1 = get_media($id, $for, $media_type,  $queue_id);
 //  p($media1);
 	 $media1 = $media1['pictures'];
 

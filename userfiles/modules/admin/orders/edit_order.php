@@ -137,7 +137,14 @@ $data = array ();
 
             </td>
             <td>
-                <img src="http://maps.google.com/maps/api/staticmap?center=Sofia&zoom=15&size=185x137&sensor=false&markers=color:red%7CSofia" alt="" />
+
+                <a class="admin_map_link" target="_blank"
+                    href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Sofia&amp;ie=UTF8&amp;t=k&amp;hq=&amp;hnear=Sofia&amp;z=14&amp;output=embed">
+
+                    <img src="http://maps.google.com/maps/api/staticmap?center=Sofia&zoom=15&size=185x137&sensor=false&markers=color:red%7CSofia" alt="" />
+                    <span>See Location on map</span>
+                </a>
+
             </td>
         </tr>
        </table>

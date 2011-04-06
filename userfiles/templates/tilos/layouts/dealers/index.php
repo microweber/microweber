@@ -24,9 +24,18 @@ description: Dealers site layout
 <? include TEMPLATE_DIR. "header.php"; ?>
 <? include "sidebar.php"; ?>
 <div id="main">
+
+
+<? if($posts and empty($post)) :?>
+
   <h2 class="title">Dealers</h2>
   <br />
   <br />
+  
+  
+  <? if(url_param('categories') == false): ?>
+  
+  
   <div id="d_map"> Find nearest dealer to your place!  If you want to be our dealer, just <a href="#">contact us</a> for more information!
     <div class="dbox" style="left: 0px; top: 117px;">
       <h2>Dealer in USA</h2>
@@ -58,36 +67,49 @@ description: Dealers site layout
   <br />
   <br />
   <h3 class="title">Dealers lists</h3>
+  <? endif ; ?>
+  
+  
+  
+  
+  
   <br />
-  
   <?  foreach($posts as $post):  ?>
-  
-  <div class="search_result"> <a href="#" class="img" style="background-image: url('<? print thumbnail($post['id'], 200);  ?>')"></a>
+  <? $cf = get_custom_fields_for_content( $post['id']);
+		
+		//p($cf);
+		?>
+  <div class="search_result"> <a href="<? print post_link($post['id']); ?>" class="img" style="background-image: url('<? print thumbnail($post['id'], 200);  ?>')"></a>
     <div class="search_result_content">
       <ul>
         <li><strong><? print $post['content_title'] ?></strong></li>
-        <li><strong>Phone:</strong> +1 (310) 878 9051</li>
-        <li><strong>Address:</strong> MASS MEDIA GROUP BULGARIA St. Pimen Zografski 14, Floor 1</li>
-        <li><strong>E-mail:</strong> Info@ooyes.net</li>
-        <li><strong>Website:</strong> <a href="www.ooyes.net">www.ooyes.net</a></li>
+        <? foreach( $cf as $c) :?>
+        <li><strong><? print $c['config']['name']; ?>:</strong> <? print $c['custom_field_value']; ?></li>
+        <? endforeach; ?>
       </ul>
     </div>
   </div>
   <? endforeach;  ?>
+  <mw module="content/paging" />
+  <? else :?>
   
-  <div class="search_result"> <a href="#" class="img" style="background-image: url(img/search_result.jpg)"></a>
-    <div class="search_result_content">
-      <ul>
-        <li><strong>Dealer name:</strong> MASS MEDIA GROUP LTD</li>
-        <li><strong>Phone:</strong> +1 (310) 878 9051</li>
-        <li><strong>Address:</strong> MASS MEDIA GROUP BULGARIA St. Pimen Zografski 14, Floor 1</li>
-        <li><strong>E-mail:</strong> Info@ooyes.net</li>
-        <li><strong>Website:</strong> <a href="www.ooyes.net">www.ooyes.net</a></li>
+  <h2 class="title"><? print $post['content_title'] ?></h2>
+  <br />
+  <br />
+  <? $cf = get_custom_fields_for_content( $post['id']);
+		
+		//p($cf);
+		?>
+  <ul>
+        <li><strong><? print $post['content_title'] ?></strong></li>
+        <? foreach( $cf as $c) :?>
+        <li><strong><? print $c['config']['name']; ?>:</strong> <? print $c['custom_field_value']; ?></li>
+        <? endforeach; ?>
       </ul>
-    </div>
-  </div>
+      <br />
+<? print $post['the_content_body'] ?>
   
   
-  
+  <? endif; ?>
 </div>
 <? include   TEMPLATE_DIR.  "footer.php"; ?>

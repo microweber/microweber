@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Category tree module";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
+//$config['no_cache'] = true;
 $config['ui'] = true;
 
 

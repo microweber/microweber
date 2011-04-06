@@ -1,8 +1,14 @@
-<?  // p($params); 
+<?  //  p($params); 
 
 if($params['value']){
 $value = decode_var($params['value']);	
 }
+
+
+if($params['values']){
+$values = ($params['values']);	
+}
+
 
 if($value == false){
 $value = ($params['value']);	
@@ -23,10 +29,10 @@ $value = '';
 <?php break; ?>
 <?php case ('dropdown'): ?>
 <select name="<? print $params['name'];?>" class="<? print $params['class'];?>">
-  <?php $v2 = explode(',',$value); ?>
+  <?php $v2 = explode(',',$values); ?>
   <? if(!empty($v2)): ?>
   <? foreach($v2 as $v): ?>
-  <option value="<? print $value ?>" ><? print $value ?></option>
+  <option value="<? print $v ?>" <?  if($v == $value):  ?> selected="selected"  <? endif; ?>  ><? print $v ?></option>
   <?  endforeach; ?>
   <?  endif; ?>
 </select>

@@ -240,6 +240,7 @@ class content_model extends Model {
 		
 		}
 		
+		
 		if ($data_to_save ['content_body_filename'] != false) {
 			
 			if (trim ( $data_to_save ['content_body_filename'] ) != '') {

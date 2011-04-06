@@ -102,8 +102,8 @@ class Media extends Controller {
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error!' );
 		}
-		$id = is_admin ();
-		if ($id == false) {
+		$user_id = is_admin ();
+		if ($user_id == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
 		
@@ -122,7 +122,12 @@ class Media extends Controller {
 			
 			}
 			
-			$status = CI::model ( 'core' )->upload ( $for, $id );
+			if (url_param ( 'queue_id' )) {
+				$queue_id = url_param ( 'queue_id' );
+			
+			}
+			
+			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id );
 			//p ( $status );
 			print json_encode ( $status );
 			exit ();

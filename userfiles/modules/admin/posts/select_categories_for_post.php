@@ -142,7 +142,7 @@ function set_categories(){
 			  	$.ajax({
   type: 'POST',
   url: '<? print site_url('api/module'); ?>',
-  data: ({module : 'admin/content/custom_fields_editor',page_id : content_parent , post_id : post_id}),
+  data: ({module : 'admin/content/custom_fields_editor',page_id : content_parent , post_id : post_id, no_form : true}),
   success: function(resp3) {
 	 // alert(resp2);
 	 /*var div1 = document.createElement('div');

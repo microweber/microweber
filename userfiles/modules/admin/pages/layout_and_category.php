@@ -164,32 +164,89 @@ function ajax_content_subtype_change_set_form_value(val){
 
 </script>
 
-<h1>Advanced</h1>
+
 <div id="layout_config_module_placeholder"></div>
+
+<h3>Choose Layout</h3>
+
 <? $layouts = CI::model('template')->layoutsList();  ?>
 <? if(!empty($layouts)): ?>
+<select name="layoutsList">
 <? foreach($layouts as $layout): ?>
 <? if($layout['screenshot']): ?>
 <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->
 <? endif; ?>
-<input type="radio"  value="<? print $layout['filename'] ?>" name="layoutsList" onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')"  />
+
+<option onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" value="<? print $layout['filename'] ?>"><? print $layout['layout_name'] ?></option>
+
+
+
 <? print $layout['name'] ?> <? print $layout['description'] ?>
 <? endforeach; ?>
+
+</select>
 <? endif; ?>
 <label>Filename</label>
 <input name="content_filename" type="text" value="<? print $form_values['content_filename'] ?>" />
 <!--<legend>Content sub type</legend>-->
 <label class="lbl">Content Subtype: </label>
-<select   name="content_subtype" id="content_subtype" onchange="ajax_content_subtype_change()">
+<select style="width: 300px;"   name="content_subtype" id="content_subtype" onchange="ajax_content_subtype_change()">
   <option <?php if($form_values['content_subtype'] == '' ): ?> selected="selected" <?php endif; ?>  value="">None</option>
   <option <?php if($form_values['content_subtype'] == 'blog_section' ): ?> selected="selected" <?php endif; ?>  value="blog_section">Blog section</option>
   <option <?php if($form_values['content_subtype'] == 'module' ): ?> selected="selected" <?php endif; ?>  value="module">Module</option>
 </select>
+<div class="c" style="padding-bottom: 15px;">&nbsp;</div>
+<div class="formitem" style="display: none">
 <label class="lbl">Content Subtype Value:</label>
 <input   name="content_subtype_value" id="content_subtype_value" type="text" value="<?php print $form_values['content_subtype_value']; ?>" >
-new category
-<input   name="content_subtype_value_new" id="content_subtype_value_new" type="text"  >
-auto_create_categories
-<input   name="auto_create_categories" id="auto_create_categories" type="text"  >
+</div>
+
+<input style="display: none"   name="auto_create_categories" id="auto_create_categories" type="text"  >
+
+
+
 <div id="content_subtype_changer"></div>
-<mw module="admin/content/category_selector"  active_categories="<?php print $form_values['content_subtype_value']; ?>" update_field="#content_subtype_value"  />
+
+<div class="drop drop_white left" style="width: 300px;margin-right: 15px;">
+<span class="drop_arr"></span>
+   <span class="val">Choose Category</span>
+
+    <div class="drop_list" style="height: 227px;">
+        <mw module="admin/content/category_selector"  active_categories="<?php print $form_values['content_subtype_value']; ?>" update_field="#content_subtype_value"  />
+    </div>
+
+</div>
+
+<div class="formitem left" style="width:300px;margin-top: -22px;">
+    <label>New category</label>
+<div class="formfield">
+<input style="width: 300px;"  name="content_subtype_value_new" id="content_subtype_value_new" type="text"  >
+</div>
+</div>
+<div class="c">&nbsp;</div>
+
+
+
+ <div class="formitem">
+    <label>Page File</label>
+    <div class="formfield">
+      <input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" />
+    </div>
+  </div>
+  <div class="formitem" style="display: none">
+    <label>Layout</label>
+    <span class="formfield">
+    <input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" />
+    </span> </div>
+
+
+
+
+
+
+
+
+
+
+
+

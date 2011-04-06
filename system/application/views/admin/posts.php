@@ -1,6 +1,3 @@
-
-
-
 <script type="text/javascript">
 function content_list($kw, $category_id){
    
@@ -106,35 +103,17 @@ movement_selector = function(elem, id){
 
 </script>
 
-
-
-
 <div id="posts_nav">
-
-<h2>Posts</h2>
-
-
+  <h2>Posts</h2>
   <ul class="posts_nav_list">
-    <li><a href="#" class="view_posts_btn">View posts</a></li>
-    <li><a href="#" class="add_post_btn">Add posts</a></li>
-    <li><a href="#" class="categories_btn">Categories</a></li>
-    <li><a href="#" class="affiliate_system_btn">Affiliate system</a></li>
+    <li><a href="<? print site_url('admin/action:posts') ?>" class="view_posts_btn">View posts</a></li>
+    <li><a href="<? print site_url('admin/action:post_edit/id:0') ?>" class="add_post_btn">Add posts</a></li>
+    <li><a href="<? print site_url('admin/action:categories') ?>" class="categories_btn">Categories</a></li>
   </ul>
-
-
 </div>
-
-
-
-
-
-
-
 <div id="cat_lis_holder" style="display: none">
-
-
-<div id="cat_lis">
-<?
+  <div id="cat_lis">
+    <?
 
  $params = array();
 
@@ -142,29 +121,15 @@ movement_selector = function(elem, id){
 
 
 category_tree( $params ) ; ?>
-
-
-
-
+  </div>
+  <div  style="text-align: center;padding: 15px 0 0 0;">&nbsp; <a href="#" class="btn2" id="cat_lis_apply" style="margin-right: 10px;">Apply</a> <a href="#" class="btn2" onclick="mw.modal.close('categories_popup');">Cancel</a> </div>
 </div>
-<div  style="text-align: center;padding: 15px 0 0 0;">&nbsp;
-
-<a href="#" class="btn2" id="cat_lis_apply" style="margin-right: 10px;">Apply</a>
-<a href="#" class="btn2" onclick="mw.modal.close('categories_popup');">Cancel</a>
-
-</div>
-
-</div>
-
-
 <div id="d_bar" class="radius">
-    <div class="left">
-       <h2>Products</h2>
-       <div class="drop drop_white">
-           <span class="drop_arr"></span>
-           <span class="val">All categories</span>
-           <div class="drop_list">
-           <?
+  <div class="left">
+    <h2>Products</h2>
+    <div class="drop drop_white"> <span class="drop_arr"></span> <span class="val">All categories</span>
+      <div class="drop_list">
+        <?
 
  $params = array();
 
@@ -172,52 +137,28 @@ category_tree( $params ) ; ?>
 
 
 category_tree( $params ) ; ?>
-
-</div>
-
-       </div>
+      </div>
     </div>
-
-    <div class="right">
-      <a href="#" class="btn3 hovered">Go search</a>
-      <input type="text" default="Search a product"  class="content_search"  />
-
-    </div>
-
+  </div>
+  <div class="right"> <a href="#" class="btn3 hovered">Go search</a>
+    <input type="text" default="Search a product"  class="content_search"  />
+  </div>
 </div>
-
-
-
-
-
 <div class="select_all">
-    <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
-    <strong><span>Select all</span> products</strong>
-</div>
-
+  <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
+  <strong><span>Select all</span> products</strong> </div>
 <div id="posts_cats_controller">
   <table cellpadding="0" cellspacing="0" width="100%">
-      <tr>
-          <td valign="top">
-            <div id="selected_posts"></div>
-          </td>
-          <td width="33px;">&nbsp;</td>
-          <td width="48%">
-            <div id="selected_posts_cats">
-                 <div id="list_of_selected_categories">
-
-                 </div>
-                 <div class="c" style="padding-bottom: 9px;"></div>
-                 <a href="#" class="btn2 choose_cats">Select category</a>
-                 <a href="#" class="btn2">Move item to this category</a>
-            </div>
-          </td>
-      </tr>
+    <tr>
+      <td valign="top"><div id="selected_posts"></div></td>
+      <td width="33px;">&nbsp;</td>
+      <td width="48%"><div id="selected_posts_cats">
+          <div id="list_of_selected_categories"> </div>
+          <div class="c" style="padding-bottom: 9px;"></div>
+          <a href="#" class="btn2 choose_cats">Select category</a> <a href="#" class="btn2">Move item to this category</a> </div></td>
+    </tr>
   </table>
 </div>
-
-
-
 <div id="content_list">
   <mw module="admin/posts/list"  />
 </div>

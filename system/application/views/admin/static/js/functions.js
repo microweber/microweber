@@ -15,10 +15,10 @@ $(document).ready(function(){
 
   $(this).find(".mw_boxctrl").toggleClass("mw_boxctrl_open");
 
-if($(this).find(".mw_boxctrl").html()=='Open'){
+if($(this).find(".mw_boxctrl").html().indexOf('Open')!=-1){
   $(this).find(".mw_boxctrl").html( 'Close');
 }
-else if($(this).find(".mw_boxctrl").html()=='Close'){
+else if($(this).find(".mw_boxctrl").html().indexOf('Close')!=-1){
   $(this).find(".mw_boxctrl").html('Open');
 }
 

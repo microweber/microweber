@@ -176,6 +176,10 @@ class Core_model extends Model {
 			$screenshot_url = $data ['screenshot_url'];
 		}
 		
+		if ($data ['queue_id'] != false) {
+			$queue_id = $data ['queue_id'];
+		}
+		
 		if ($data ['url'] == false) {
 			$url = url ();
 			$data ['url'] = $url;
@@ -424,8 +428,13 @@ class Core_model extends Model {
 		}
 		
 		//upload media
+		if ($table_assoc_name != 'table_media') {
+			if ($queue_id) {
+				$this->mediaAfterUploadAssociatetheMediaQueueWithTheId ( $table_assoc_name, $id_to_return, $queue_id );
+			
+			}
+		}
 		
-
 		if ($table_assoc_name != 'table_media') {
 			
 			if (strval ( $original_data ['media_queue_pictures'] ) != '') {

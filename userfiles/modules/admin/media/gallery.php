@@ -1,3 +1,4 @@
+
 <?
 
 $rand = rand();
@@ -29,8 +30,9 @@ if($id == false){
 	
 	$id = $params['for_id'];
 }
+ 
 ?>
-
+<input type="hidden" name="queue_id" value="<? print $rand ?>" />
 
 <div id="media_manager<? print $rand ?>"></div>
 
@@ -49,6 +51,7 @@ var call_media_manager<? print $rand ?> = function(){
    data1.module = 'admin/media/media_manager';
     data1.for = '<? print $for ?>';
 	data1.for_id = '<? print $id ?>';
+	data1.queue_id = '<? print $rand ?>';
 	data1.type = 'picture';
  
    $.ajax({
@@ -90,7 +93,7 @@ $(document).ready(function(){
  	$(".drag_files<? print $rand ?>").pluploadQueue({
 		// General settings
 		runtimes: 'html5,flash,gears,browserplus',
-		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id); ?>",
+		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id.'/queue_id:'.$rand); ?>",
 		max_file_size: '100mb',
 		chunk_size: '1000mb',
 		unique_names: true,

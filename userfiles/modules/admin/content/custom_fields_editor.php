@@ -1,7 +1,7 @@
 <?
 
  
-p($params);
+//p($params);
 
 
 
@@ -322,19 +322,31 @@ function cf_add($tr_id){
 <div id="cf_adresp"></div>
 <? foreach($layout['custom_fields'][$for] as $item): ?>
 <?   if(($item['disable_edit']) == false):  ?>
+
+
+<? if($params['no_form'] == false): ?>
 <form id="cf_edit_<? print $item['param'] ?>">
+<? endif; ?>
   <table width="100%" border="0">
     <tr id="cf_<? print $item['param'] ?>">
     
       <td>
       <? // p($item); ?>
+      
+      
+      <? if($params['no_form'] == false): ?>
+      
        <input type="hidden"    name="field_id" value="<? print $item['id'] ?>" />
       <input type="hidden"    name="for" value="<? print $for; ?>" />
         <input type="hidden"    name="content_id" value="<? print $the_content_id; ?>" />
+        
+        
+        
+         <? endif; ?>
         <? if( $item['not_in_config']) :?>
         <? $item['name'] = str_replace('_', ' ', $item['name']);  ?>
         <input type="hidden" class="newcf"  name="new_cf_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" />
-        <a href="#" onclick="cf_add('<? print encode_var($item)  ?>')">add</a>
+      <!--  <a href="#" onclick="cf_add('<? print encode_var($item)  ?>')">add</a>-->
         <h4><? print $item['name'] ?></h4>
         <? else: ?>
         <h4><? print $item['name'] ?></h4>
@@ -344,8 +356,10 @@ function cf_add($tr_id){
         <? endif; ?>
          
         <small style="color:#999"><? print( $item['param_group']) ?></small></td>
-      <td><mw module="forms/field" name="custom_field_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" type="<? print $item['type']?>" quick_edit="true" /></td>
-      <td><? // p($item) ?>
+      <td><mw module="forms/field" name="custom_field_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" values="<? print $item['values']?>" type="<? print $item['type']?>"  /></td>
+      <td>
+	    <? if($params['no_form'] == false): ?>
+	  <? // p($item) ?>
         <input name="save" type="button" onclick="cf_save('cf_edit_<? print $item['param'] ?>')" value="save" />
         <? if( $item['not_in_config']) :?>
         
@@ -355,16 +369,18 @@ function cf_add($tr_id){
         <? else: ?>
         <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="clear" />
          <? endif; ?>
-        
+      <? endif; ?>  
         </td>
     </tr>
     <? endif; ?>
   </table>
+  <? if($params['no_form'] == false): ?>
 </form>
-<? endforeach; ?>
-<? endif; ?>
 <? endif; ?>
 <? endforeach; ?>
 <? endif; ?>
 <? endif; ?>
-<a href="#" onclick="cf_add()">edit custom fields</a> 
+<? endforeach; ?>
+<? endif; ?>
+<? endif; ?>
+<a href="#" onclick="cf_add()">edit custom fields settings</a> 

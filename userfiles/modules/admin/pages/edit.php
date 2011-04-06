@@ -53,97 +53,61 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
 }
 </script>
 
-<form action="" method="post" id="save_page_form">
-  <input class="btn" name="save" type="submit" value="save" />
-  <input name="id" id="id" type="hidden" value="<? print $form_values['id'] ?>" />
-    <input name="page_id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
-  <input name="content_type" type="hidden" value="page" />
- 
- 
- 
- 
- 
- 
- 
-   <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
- 
- 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <hr />
-  <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
-  <div class="formitem">
-    <label>Page File</label>
-    <div class="formfield">
-      <input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" />
-    </div>
+<div class="box radius">
+  <div class="box_header radius_t">
+    <input type="submit" value="Save changes" onclick="$('#save_page_form').submit()" class="sbm right" name="save">
+    <h2>Edit Page</h2>
   </div>
-  <div class="formitem">
-    <label>Layout</label>
-    <span class="formfield">
-    <input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" />
-    </span> </div>
-  <br />
-  <hr />
-  <h2> parent page </h2>
-  <?php
-
- CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input type='radio' name='content_parent'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );  ?>
- 
- 
- 
- 
- 
- 
- 
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-
- 
- 
- 
- 
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Advanced options</h3>
-    </div>
-    <div class="mw_box_content">
-      <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" for="page"  />
-    </div>
+  <div class="box_content">
+    <form action="" method="post" id="save_page_form">
+      <input name="id" id="id" type="hidden" value="<? print $form_values['id'] ?>" />
+      <input name="page_id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
+      <input name="content_type" type="hidden" value="page" />
+      <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
+      <br />
+      <br />
+      <br />
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Layout and category</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
+          
+        </div>
+      </div>
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Advanced options</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" for="page"  />
+        </div>
+      </div>
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Custom Fields</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
+        </div>
+      </div>
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Meta tags</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
+        </div>
+      </div>
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Menus</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="mw_box mw_box_open">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Custom Fields</h3>
-    </div>
-    <div class="mw_box_content">
-      <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
-    </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Meta tags</h3>
-    </div>
-    <div class="mw_box_content">
-      <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
-    </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Menus</h3>
-    </div>
-    <div class="mw_box_content">
-      <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
-    </div>
-  </div>
-</form>
+</div>

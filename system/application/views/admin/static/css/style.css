@@ -605,8 +605,12 @@ background: url(../img/mw_close.jpg) no-repeat;
 
 
 .drop_white{
-  padding:4px 5px 4px 8px;
-  border: 1px solid #D1DBDF;
+  padding:6px 5px 6px 8px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+   border-radius: 5px;
+    border: 1px solid #D5D5D5;
   width:62%;
   background: white;
   color: #113751;
@@ -784,7 +788,7 @@ background: url(../img/mw_close.jpg) no-repeat;
 
 
 .cat_list li span:hover, .cat_list li span.active, .cat_lis li span:hover{
-
+    background: #F0F0F0
 }
 .catmove{
   display: none;
@@ -1722,8 +1726,18 @@ right: 5px;
     color: #FF6C00;
 }
 .orange a{
-    color: #FF6C00; 
+    color: #FF6C00;
 }
+.admin_map_link span{
+  display: block;
+  text-align: center;
+  padding:3px;
+  color: #004073;
+  font-size: 11px;
+}
+
+
+
 
 
 

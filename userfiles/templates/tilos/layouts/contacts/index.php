@@ -28,9 +28,8 @@ description: contacts site layout
   <h2 class="title">
     <editable  rel="page" field="content_title">Contacts </editable>
   </h2>
-<br />
-
-  <block id="contact_us_block1" rel="page" />
+  <br />
+  <microweber module="forms/mail_form"  />
 </div>
 <div class="more_contacts">
   <editable  rel="page" field="custom_field_content_title2">

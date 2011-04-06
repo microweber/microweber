@@ -25,9 +25,7 @@ $(document).ready(function () {
 
 </script>
 
-<form action="" method="post" id="save_post_form">
-<input name="id" id="page_id" type="hidden" value="<? print $form_values['id'] ?>" />
-<input name="content_type" type="hidden" value="post" />
+ 
 <?
 $id = $params['id'];
 

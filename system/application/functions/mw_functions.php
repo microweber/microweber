@@ -1016,6 +1016,7 @@ function post_pictures($post_id, $size = 128) {
     
  */
 function category_tree($params) {
+	
 	global $CI;
 	
 	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : $params ['content_subtype_value'];
@@ -1383,17 +1384,25 @@ function breadcrumbs($seperator) {
  * 
  * @todo for users too
  */
-function get_media($id, $for = 'post', $media_type = false) {
+function get_media($id, $for = 'post', $media_type = false, $queue_id = false) {
 	$content_id = intval ( $id );
-	if ($content_id == 0) {
+	if ($content_id == 0 and $queue_id == false) {
 		return false;
+	}
+	
+	if ($content_id == 0 and $queue_id != false) {
+		$content_id = false;
+	}
+	
+	if ($content_id != 0 and $queue_id != false) {
+		$queue_id = false;
 	}
 	
 	global $CI;
 	
 	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
 	//var_dump($to_table, $content_id);
-	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id = false, $no_cache = false, $id = false );
+	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false );
 	return $media;
 	// p($media);
 
