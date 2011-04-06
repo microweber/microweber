@@ -172,6 +172,7 @@ function ajax_content_subtype_change_set_form_value(val){
 <? $layouts = CI::model('template')->layoutsList();  ?>
 <? if(!empty($layouts)): ?>
 <select name="layoutsList">
+<option>Inherit</option>
 <? foreach($layouts as $layout): ?>
 <? if($layout['screenshot']): ?>
 <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->

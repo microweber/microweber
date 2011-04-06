@@ -7693,7 +7693,7 @@ $my_limit_q
 		
 		}
 		
-		$sql = "SELECT * from $table where content_parent=$content_parent and content_type='page'  ";
+		$sql = "SELECT * from $table where  content_parent=$content_parent and content_type='page'  ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
@@ -7939,11 +7939,11 @@ $my_limit_q
 			
 			if ($include_first == true) {
 				
-				$sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q order by {$orderby [0]}  {$orderby [1]}  ";
+				$sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q group by id order by {$orderby [0]}  {$orderby [1]}  ";
 			
 			} else {
 				
-				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category'   $remove_ids_q $add_ids_q order by {$orderby [0]}  {$orderby [1]}   ";
+				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category'   $remove_ids_q $add_ids_q group by id order by {$orderby [0]}  {$orderby [1]}   ";
 			
 			}
 		
@@ -7951,11 +7951,11 @@ $my_limit_q
 			
 			if ($include_first == true) {
 				
-				$sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q order by {$orderby [0]}  {$orderby [1]}  ";
+				$sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   group by id order by {$orderby [0]}  {$orderby [1]}  ";
 			
 			} else {
 				
-				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q order by {$orderby [0]}  {$orderby [1]}   ";
+				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q group by id order by {$orderby [0]}  {$orderby [1]}   ";
 			
 			}
 		
@@ -7979,7 +7979,7 @@ $my_limit_q
 		
 		$children_of_the_main_parent = CI::model ( 'taxonomy' )->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
 		// 
-		$q = CI::model ( 'core' )->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/global' );
+		$q = CI::model ( 'core' )->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/'.intval($content_parent) );
 		
 		$result = $q;
 		
@@ -8474,6 +8474,10 @@ $my_limit_q
 								}
 							
 							}
+							
+							
+							
+							
 							
 							if (strval ( $to_print ) == '') {
 								
