@@ -23,8 +23,8 @@ description: Users layout
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 <? $view = url_param('view'); ?>
- 
-<? include TEMPLATE_DIR. "sidebar.php"; ?>       
+
+<? include TEMPLATE_DIR. "sidebar.php"; ?>
 <div id="main">
   <?  if(user_id()  != false):  ?>
   <table width="100%" border="0" cellspacing="1" cellpadding="1">

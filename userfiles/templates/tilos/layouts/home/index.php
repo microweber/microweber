@@ -27,7 +27,7 @@ description: Home site layout
       <script type="text/javascript" src="<? print TEMPLATE_URL ?>flash/js/CU3ER.js"></script>
       <script type="text/javascript">
   // add your FlashVars
-  var vars = { xml_location : '<? print TEMPLATE_URL ?>flash/CU3ER-config.xml' };
+  var vars = { xml_location : '<? print TEMPLATE_URL ?>flash/CU3ER-config.php?site=<? print base64_encode(site_url()); ?>' };
   // add Flash embedding parameters, etc. wmode, bgcolor...
   var params = { scale:'exactfit' };
   // Flash object attributes id and name

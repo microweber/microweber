@@ -1,9 +1,11 @@
 
 
  <?  if($user_id == false){
-	
+
 	$user_id = user_id();
 }
+
+
 
 
 ?>
@@ -14,6 +16,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" style="background:none">
 
 <head>
+<style type="text/css">
+
+body {
+    color: #131313;
+    font: 12px Verdana,Arial,sans-serif;
+}
+a{
+  color:#131313
+}
+
+
+</style>
 <script type="text/javascript">
             eventlistener='';
             imgurl="<?php print TEMPLATE_URL; ?>static/img/";
@@ -34,9 +48,9 @@
   <title></title>
 </head>
 
-<body style="background:#F0F9FD ">
+<body>
 <? //print $user_id; ?>
-<form action="<? print site_url('api/user/save') ?>" method="post" enctype="multipart/form-data" style="background:#F0F9FD">
+<form action="<? print site_url('api/user/save') ?>" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="<? print $user_id; ?>" />
 <input type="hidden" name="redirect_to" value="<? print url() ?>" />
 
@@ -57,7 +71,7 @@
               <?php endif; ?>
 
               <a href="#" class="submit btn left" style="margin-top: 10px;">Upload picture</a>
-              <input name="upload picture" class="xhidden" type="submit" value="upload picture" />
+              <input name="upload picture" class="xhidden" style="position: absolute;left: -9999px;top:-9999px;" type="submit" value="upload picture" />
               <div class="c" style="padding-bottom: 5px;"></div>
                <?php if($thumb != ''): ?>
               <a id='user_image_href' href="javascript:userPictureDelete('<?php echo $user_id ?>')">Delete photo</a>

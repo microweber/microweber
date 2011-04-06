@@ -641,6 +641,16 @@ function post_link($id) {
 	return get_post_link ( $id );
 }
 
+function page_link_to_layout($laout_name) {
+	
+	$page = array ();
+	$page ['content_layout_name'] = trim ( $laout_name );
+	
+	$page = get_pages ( $page );
+	$page = $page [0];
+	return page_link ( $page ['id'] );
+
+}
 function page_link($id) {
 	
 	global $CI;

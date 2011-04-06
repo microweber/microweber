@@ -1,6 +1,6 @@
 <div id="wall">
   <?  if($user_id == false){
-	
+
 	$user_id = user_id();
 }
 
@@ -194,20 +194,20 @@ function jcrop_init(){
 
 
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	function change_pass_show(){
-	
+
 	$('#change_pass_holder input').val("");
 	$('#change_pass_holder').fadeIn();
 
 	}
-	
+
 	function save_user(){
-	 
+
 
 //var data = $('#profileForm').dataCollect();
 var data =  $('#profileForm').serialize(); // serialize the form's data
@@ -217,9 +217,9 @@ var resp_msg = '';
 
 if(isobj(resp.error) != false){
 jQuery.each(resp.error, function(i, val) {
-    
+
 	  resp_msg = resp_msg + '<br />' + val;
-    });	
+    });
 
 mw.box.alert(resp_msg);
 	}
@@ -232,12 +232,12 @@ if(isobj(resp.success) != false){
    $("#profileForm").fadeOut();
 
 <?  if($hide_selector_on_save != false) : ?>
-	
+
 	 setTimeout(function(){
-					 
-					 
+
+
 					 $("<? print $hide_selector_on_save ?>").fadeOut();
-					 
+
 					 }, 1500);
 
 
@@ -245,12 +245,12 @@ if(isobj(resp.success) != false){
 <? endif; ?>
 
 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
 }
 
 
@@ -260,16 +260,16 @@ if(isobj(resp.success) != false){
 }, "json");
 
 
-	
-	
-	
+
+
+
 	}
-	
+
 
 
     </script>
   <?php $more = CI::model('core')->getCustomFields('table_users', $form_values['id']);
- 
+
 $form_values['custom_fields'] = $more;
 ?>
   <div>
@@ -331,16 +331,16 @@ $form_values['custom_fields'] = $more;
             <ul class="stabs-nav">
               <!--  <li><a href="#">Change password</a></li>-->
             </ul>
-            <? 
+            <?
 		   $iframe_module_params = array();
 		   $iframe_module_params['module'] = 'users/profile_picture_edit';
 		     $iframe_module_params['user_id'] = $user_id;
 		   $iframe_module_params = base64_encode(serialize($iframe_module_params));
 
-		   
-		   
+
+
 		   ?>
-            <iframe height="200" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
+            <iframe height="100" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
             <div class="stab">
               <div class="item">
                 <label>Username: *</label>
@@ -381,35 +381,35 @@ $form_values['custom_fields'] = $more;
                 <span class="field">
                 <input  name="custom_field_city" type="text" value="<?php print $form_values['custom_fields']['city'];  ?>" />
                 </span> </div>
-                
+
                            <div class="item">
                 <label>Address:</label>
                 <span class="field">
                 <input  name="custom_field_address" type="text" value="<?php print $form_values['custom_fields']['address'];  ?>" />
                 </span> </div>
-                
-                
-                
-                
+
+
+
+
                            <div class="item">
                 <label>Zip:</label>
                 <span class="field">
                 <input  name="custom_field_zip" type="text" value="<?php print $form_values['custom_fields']['zip'];  ?>" />
                 </span> </div>
-                
+
                                <div class="item">
                 <label>Phone:</label>
                 <span class="field">
                 <input  name="custom_field_phone" type="text" value="<?php print $form_values['custom_fields']['phone'];  ?>" />
                 </span> </div>
-                
-                
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
+
+
               <div class="c">&nbsp;</div>
               <div class="item">
                 <label>Birth day:</label>
@@ -447,12 +447,12 @@ $form_values['custom_fields'] = $more;
               <div class="c">&nbsp;</div>
               <div class="item" style="">
                 <label>About info:</label>
-                <span class="field">
+                <span class="area">
                 <textarea style="width: 420px;"  name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
                 </span> </div>
               <div class='c'>&nbsp;</div>
               <? // p($form_values); ?>
-               
+
               <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
               <h4>Your account will expire on <? print $form_values['expires_on'] ?></h4>
               <div class="c">&nbsp;</div>
@@ -462,15 +462,15 @@ $form_values['custom_fields'] = $more;
 */ ?>
               <div class='c'>&nbsp;</div>
               <br />
-              <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="mw_blue_link">click here</a>
+              <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="mw_blue_link btn<u></u>">click here</a>
                 <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
                 <div id="change_pass_holder" style="display:none">
                   <label>Enter new password</label>
-                  <span>
-                  <input class="required-equal" equalto="pass" type="password" name="password"   value="<?php print $form_values['password'];  ?>" />
+                  <span class="field">
+                    <input class="required-equal" equalto="pass" type="password" name="password"   value="<?php print $form_values['password'];  ?>" />
                   </span>
                   <label>Repeat new password</label>
-                  <span>
+                  <span class="field">
                   <input class="required-equal" equalto="pass" type="password" value="<?php print $form_values['password'];  ?>"  />
                   </span> </div>
               </div>
@@ -483,7 +483,7 @@ $form_values['custom_fields'] = $more;
         </div>
       </div>
       <br />
-      <div align="center"> <a href="javascript:if($('#profileForm').isValid()){save_user()};" class="mw_btn_x"><span>Save changes</span></a> </div>
+      <div align="center"> <a href="javascript:if($('#profileForm').isValid()){save_user()};" class="btn2 submit">Save</a> </div>
       <br />
       <br />
       <!--<a href="javascript:;" class="btn submit">SAVE</a>-->

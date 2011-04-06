@@ -1,7 +1,10 @@
-﻿<data>
+﻿<?  $domain = $_GET['site'];
+      $domain = base64_decode($domain);
+
+  ?><data>
   <debug>0</debug>
   <settings>
-    <folder_images>http://pecata/microweber/userfiles/templates/tilos/img</folder_images>
+    <folder_images><? print $domain ?>userfiles/templates/tilos/img/</folder_images>
 
    <!--	<background>
       <color transparent="true">0xffffff</color>
@@ -177,11 +180,9 @@
 
   <slides width="952" height="420" align_pos="TC" x="0" y="0">
     <slide>
-      <url>0.jpg</url>
+      <url>h_1.jpg</url>
       <link target="_self"/>
-      <description>
-        <heading>Unique.</heading>
-      </description>
+
 
       <image x="0" y="0" scaleX="1" scaleY="1" align_pos="MC"/>
     </slide>
@@ -189,63 +190,36 @@
     <transition flipDepth="300" flipAngle="180" flipDirection="right,left" rows="1" flipOrder="0" flipOrderFromCenter="false" flipDelay="0.15"/>
 
 	<slide>
-      <url>1.jpg</url>
+      <url>h_2.jpg</url>
       <link target="_blank"/>
-      <description>
-        <heading>Awesome.</heading>
 
-      </description>
       <image x="0" y="0" scaleX="1" scaleY="1" align_pos="MC"/>
     </slide>
 
 	<transition flipDepth="600" flipDelay="0.5" flipDuration="0.8" rows="1" columns="5" flipAngle="180" flipDirection="down" flipOrder="0" flipOrderFromCenter="true" type="3D"/>
 
 	<slide color="0xebe7a8">
-      <url>2.jpg</url>
+      <url>h_3.jpg</url>
       <link target="_blank"/>
-      <description>
 
-        <heading>Cool.</heading>
-      </description>
-      <image x="3" y="50" scaleX="1" scaleY="1" align_pos="MC"/>
+      <image x="0" y="0" scaleX="1" scaleY="1" align_pos="MC"/>
     </slide>
 
     <transition flipBoxDepth="7" flipAngle="180" type="3D" flipOrder="0" flipOrderFromCenter="true" flipDirection="up,down"/>
 
     <slide>
-      <url>3.jpg</url>
+      <url>h_4.jpg</url>
       <link target="_blank"/>
 
-      <description>
-        <heading>Customizable.</heading>
-      </description>
+
       <image x="0" y="0" scaleX="1" scaleY="1" align_pos="MC"/>
     </slide>
 
 	<transition columns="1" rows="6" flipDepth="400"/>
 
-    <slide>
-		<url>4.jpg</url>
 
-      <link target="_blank"/>
-      <description>
-        <heading>Easy.</heading>
-      </description>
-    </slide>
 
-    <transition/>
 
-	<slide color="0x7e6501">
-      <url>5.jpg</url>
-
-      <link target="_blank"/>
-      <description>
-        <heading>Wanna play?</heading>
-		<link target="_self"></link>
-      </description>
-    </slide>
-
-	<transition/>
 
   </slides>
 

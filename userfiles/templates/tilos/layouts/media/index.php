@@ -76,6 +76,11 @@ description: Media site layout
       <div class="photoslider" id="pic_gal">
         <div class="photoslider_holder">
           <div class="slide_engine">
+          
+          <? foreach($posts as $post): ?>
+          <? p($post); ?>
+          
+          <? endforeach;  ?>
             <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
             <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
             <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>

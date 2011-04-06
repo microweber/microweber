@@ -1156,6 +1156,15 @@ padding: 9px 0 6px 55px;
   padding-left: 14px;
 }
 
+.stabs .item{
+  float: left;
+  margin-right: 15px;
+}
+.stabs .item label{
+  display: block;
+  padding: 5px 0 5px;
+}
+
 
 
 

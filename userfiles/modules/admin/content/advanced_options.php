@@ -10,7 +10,18 @@ $form_values = get_page($id);
   <? if($params['for'] == "page"): ?>
   
   <label>Is Home</label>
-  <span class="formfield"><input name="is_home" type="text" value="<? print $form_values['is_home'] ?>" /> </span>
+  
+  
+  
+  <span class="formfield">
+  <select name='is_home'>
+  <option value="n">no</option>
+   <option value="y" <? if($form_values['is_home'] == 'y') : ?> selected="selected" <? endif; ?> >yes</option>
+    </select>
+  
+  
+  
+  </span>
   
   
   
@@ -37,7 +48,15 @@ $form_values = get_page($id);
   
   <div class="formitem">
     <label>Require login?</label>
-    <span class="formfield"><input name="require_login" type="text" value="<? print $form_values['require_login'] ?>" /> </span>
+    
+     <span class="formfield">
+     <select name='require_login'>
+  <option>no</option>
+   <option value="y" <? if($form_values['require_login'] == 'y'): ?> selected="selected" <? endif; ?> >yes</option>
+    </select>
+    
+    
+     </span>
   </div>
   <div class="formitem">
   <label> Original link</label>

@@ -1,7 +1,7 @@
 <?
  
 $posts_pages_links = $this->template ['posts_pages_links'];
- 
+$posts_pages_curent_page = url_param('curent_page'); 
 ?>
 
 <?php if(!empty($posts_pages_links)): ?>

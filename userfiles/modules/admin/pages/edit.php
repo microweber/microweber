@@ -73,7 +73,6 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
         </div>
         <div class="mw_box_content">
           <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
-          
         </div>
       </div>
       <div class="mw_box mw_box_closed">
@@ -84,14 +83,18 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
           <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" for="page"  />
         </div>
       </div>
+      
       <div class="mw_box mw_box_closed">
         <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Custom Fields</h3>
+          <h3>Media</h3>
         </div>
         <div class="mw_box_content">
-          <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
+          <mw module="admin/media/gallery" page_id="<? print $form_values['id'] ?>" for="page"  />
         </div>
       </div>
+      
+      
+      
       <div class="mw_box mw_box_closed">
         <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
           <h3>Meta tags</h3>
@@ -106,6 +109,16 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
         </div>
         <div class="mw_box_content">
           <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+        </div>
+      </div>
+      
+      
+      <div class="mw_box mw_box_closed">
+        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
+          <h3>Custom Fields</h3>
+        </div>
+        <div class="mw_box_content">
+          <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
         </div>
       </div>
     </form>

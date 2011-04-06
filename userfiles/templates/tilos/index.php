@@ -5,7 +5,7 @@
 <script type="text/javascript" src="flash/js/CU3ER.js"></script>
 <script type="text/javascript">
   // add your FlashVars
-  var vars = { xml_location : 'flash/CU3ER-config.xml' };
+  var vars = { xml_location : 'flash/CU3ER-config.php?site=<? print base64_encode(site_url()); ?>' };
   // add Flash embedding parameters, etc. wmode, bgcolor...
   var params = { scale:'exactfit' };
   // Flash object attributes id and name
