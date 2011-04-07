@@ -1,3 +1,12 @@
+
+<div class="box radius">
+    <div class="box_header radius_t">
+    <h2>Edit profile for <? print user_name($form_values['id']) ?></h2>
+    </div>
+    <div class="box_content">
+
+
+
 <?  if($user_id == false){
 	
 	$user_id = user_id();
@@ -272,6 +281,7 @@ if(isobj(resp.success) != false){
 $form_values['custom_fields'] = $more;
 ?>
 
+
 <div>
   <?php $compete_profile = CI::model('core')->getParamFromURL ( 'compete_profile' ); ?>
   <?php if($user_edit_done == true) : ?>
@@ -324,7 +334,7 @@ $form_values['custom_fields'] = $more;
     <br />
     <div class="bluebox">
       <div class="blueboxcontent">
-        <h2 style="padding-bottom: 5px">Edit profile for <? print user_name($form_values['id']) ?> </h2>
+
         <div class="hr"></div>
         <div class="ghr"></div>
         <div class="stabs" style="padding-top: 15px;">
@@ -338,53 +348,53 @@ $form_values['custom_fields'] = $more;
 		   $iframe_module_params = base64_encode(serialize($iframe_module_params));
 
 		   
-		   
+
 		   ?>
-          <iframe height="200" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
+          <iframe height="100" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
           <div class="stab">
-            <div class="item">
+            <div class="formitem">
               <label>Username: *</label>
-              <span class="field">
+              <span class="formfield">
               <input disabled="disabled" style="color: #999;" name="username" id="profile-username" class="required"  type="text" value="<?php print $form_values['username'];  ?>" />
               </span> </div>
-            <div class="item">
+            <div class="formitem">
               <label>Email: *</label>
-              <span class="field">
+              <span class="formfield">
               <input name="email" id="profile-email"  type="text" value="<?php print $form_values['email'];  ?>" />
               </span> </div>
             <div class="c">&nbsp;</div>
-            <div class="item">
+            <div class="formitem">
               <label>First name: *</label>
-              <span class="field">
+              <span class="formfield">
               <input name="first_name" id="profile-firstname" type="text"  value="<?php print $form_values['first_name'];  ?>" />
               </span> </div>
-            <div class="item">
+            <div class="formitem">
               <label>Last name: *</label>
-              <span class="field">
+              <span class="formfield">
               <input name="last_name" id="profile-lastname" type="text" value="<?php print $form_values['last_name'];  ?>" />
               </span> </div>
             <div class="c">&nbsp;</div>
             <? /*
-          <div class="item">
+          <div class="formitem">
           <label>Your paypal address:</label>
           <span class="linput">
           <input  name="custom_field_paypal" type="text" value="<?php print $form_values['custom_fields']['paypal'];  ?>" />
           </span> </div>
           */ ?>
-            <div class="item">
+            <div class="formitem">
               <label>Country:</label>
-              <span class="field">
+              <span class="formfield">
               <input  name="custom_field_country" type="text" value="<?php print $form_values['custom_fields']['country'];  ?>" />
               </span> </div>
-            <div class="item">
+            <div class="formitem">
               <label>City:</label>
-              <span class="field">
+              <span class="formfield">
               <input  name="custom_field_city" type="text" value="<?php print $form_values['custom_fields']['city'];  ?>" />
               </span> </div>
             <div class="c">&nbsp;</div>
-            <div class="item">
+            <div class="formitem">
               <label>Birth day:</label>
-              <span class="field">
+              <span class="formfield">
               <? /*
 <input  name="custom_field_bday" type="text" value="<?php print $form_values['custom_fields']['bday'];  ?>" />
 */ ?>
@@ -395,9 +405,9 @@ $form_values['custom_fields'] = $more;
                 <? endfor; ?>
               </select>
               </span> </div>
-            <div class="item">
+            <div class="formitem">
               <label>Birth month:</label>
-              <span class="field">
+              <span class="formfield">
               <select style="width: 225px;"  name="custom_field_bmonth" value="<?php print $form_values['custom_fields']['bmonth'];  ?>" >
                 <option value="">Month&nbsp;</option>
                 <? for ($i = 1; $i <= 12; $i++) :?>
@@ -405,9 +415,9 @@ $form_values['custom_fields'] = $more;
                 <? endfor; ?>
               </select>
               </span> </div>
-            <div class="item">
+            <div class="formitem">
               <label>Birth year:</label>
-              <span class="field">
+              <span class="formfield">
               <select style="width: 225px;" name="custom_field_byear" value="<?php print $form_values['custom_fields']['byear'];  ?>" >
                 <option value="">Year&nbsp;</option>
                 <? for ($i = date("Y"); $i >= 1950; $i--) :?>
@@ -416,14 +426,14 @@ $form_values['custom_fields'] = $more;
               </select>
               </span> </div>
             <div class="c">&nbsp;</div>
-            <div class="item" style="">
+            <div class="formitem" style="">
               <label>About me:</label>
-              <span class="field">
+              <span class="formfield">
               <textarea style="width: 420px;"  name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
               </span> </div>
             <div class='c'>&nbsp;</div>
             <? // p($form_values); ?>
-             
+
             <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
             <h4>Your account will expire on <? print $form_values['expires_on'] ?></h4>
             <div class="c">&nbsp;</div>
@@ -433,7 +443,7 @@ $form_values['custom_fields'] = $more;
 */ ?>
             <div class='c'>&nbsp;</div>
             <br />
-            <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="mw_blue_link">click here</a>
+            <div class="formitem"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="btn_small">click here</a>
               <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
               <div id="change_pass_holder" style="display:none">
                 <label>Enter new password</label>
@@ -454,7 +464,7 @@ $form_values['custom_fields'] = $more;
       </div>
     </div>
     <br />
-    <div align="center"> <a href="javascript:save_user()" class="mw_btn_x"><span>Save changes</span></a> </div>
+    <div align="left"> <a href="javascript:save_user()" class="btn"><span>Save changes</span></a> </div>
     <br />
     <br />
     <!--<a href="javascript:;" class="btn submit">SAVE</a>-->
@@ -465,3 +475,5 @@ $form_values['custom_fields'] = $more;
   <?php //require (ACTIVE_TEMPLATE_DIR.'users/right_sidebar.php') ?>
 </div>
 <?php dbg(__FILE__, 1); ?>
+    </div>
+</div>

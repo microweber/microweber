@@ -1617,7 +1617,7 @@ class Core_model extends Model {
 	
 	}
 	
-	function getById($table, $id = 0) {
+	function getById($table, $id = 0, $is_this_field = false) {
 		
 		$id = intval ( $id );
 		
@@ -1627,9 +1627,13 @@ class Core_model extends Model {
 		
 		}
 		
+		if ($is_this_field == false) {
+			$is_this_field = "id";
+		}
+		
 		$table = $this->dbGetRealDbTableNameByAssocName ( $table );
 		
-		$q = "SELECT * from $table where id=$id limit 1";
+		$q = "SELECT * from $table where {$is_this_field}=$id limit 1";
 		
 		$q = $this->dbQuery ( $q );
 		

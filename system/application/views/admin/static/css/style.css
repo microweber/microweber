@@ -155,40 +155,7 @@ a{
 }
 
 
-.field{
-  padding:5px;
-  border: 1px solid #C2C2C2;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -khtml-border-radius:10px;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  zoom:1;
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background: white;
-}
-.field2, .field3{
-  padding:5px;
-  border: 1px solid #C2C2C2;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -khtml-border-radius:10px;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  zoom:1;
-  position: relative;
-  background: white;
 
-}
-.field2{
-   text-align: center;
-   margin-top: 10px;
-  margin-bottom: 10px;
-}
 
 
 .field:after, .field2:after{
@@ -206,36 +173,49 @@ a{
 }
 
 
-.field:hover, .field.active{
-  border: 3px solid #0A98CC;
-  padding: 3px;
+#module_info{
+  position: fixed;
+  top:20px;
+  left: 20px;
+  width: 200px;
+  padding: 10px;
+  background: #434343;
+  opacity:.8;
+  filter:alpha(opacity=80);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -khtml-border-radius:6px;
+  border-radius: 6px;
+  color:white;
+}
+#module_info ol{
+  padding: 5px 0 0 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+#module_info h3{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+.active_m_find{
+  outline: 5px solid #CC0033 !important;
+}
+.active_m_find_li{
+  outline: 2px solid #CC0033 !important;
 }
 
-.field input[type='text'], .field input[type='password']{
-    width: 80%;
-    font-size: 18px;
-    font-weight: bold;
-    color: #BEBDBD;
-    padding: 11px 0 11px 25px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    float: left;
+
+#profileForm .formitem{
+  float: left;
+  width: 300px;
 }
-.field2 input[type='text'], .field2 input[type='password']{
-    width: 95%;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 5px 0;
-    background: none;
-    border: none;
+#profileForm .formitem input{
+  width: 270px;
 }
-.field:hover input[type='text'], .field.active input[type='text'], .field:hover textarea, .field.active textarea{
-  color:#1B9FD0;
+#profileForm .formitem select{
+  width: 287px !important;
 }
-.field.active input[type='text'], .field.active textarea{
-  cursor: text;
-}
+
 
 
 .onoff{

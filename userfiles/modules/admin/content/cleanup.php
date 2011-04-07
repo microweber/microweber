@@ -82,8 +82,9 @@ if ($_POST) {
 		}
 		
 		$table_custom_fields = $cms_db_tables ['table_taxonomy_items'];
+		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
 		
-		$q = "select id, to_table, to_table_id from $table_custom_fields ";
+		$q = "select id, to_table, to_table_id, parent_id from $table_custom_fields ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 		
@@ -96,6 +97,16 @@ if ($_POST) {
 					//print "table_taxonomy_items found {$q1 ['to_table']} - {$q1 ['to_table_id']} \n\r <br>";
 				} else {
 					print "table_taxonomy_items NOT FOUND! {$q1 ['to_table']} - {$q1 ['to_table_id']} \n\r <br>";
+					
+					$clean = CI::model ( 'core' )->deleteDataById ( $table_custom_fields, $q1 ['id'] );
+				
+				}
+				
+				$q_check = CI::model ( 'core' )->getById ( $table_taxonomy, $id = $q1 ['parent_id'] );
+				if (! empty ( $q_check )) {
+					//print "table_taxonomy_items found {$q1 ['to_table']} - {$q1 ['to_table_id']} \n\r <br>";
+				} else {
+					print "table_taxonomy NOT FOUND! $table_taxonomy id:  $id  \n\r <br>";
 					
 					$clean = CI::model ( 'core' )->deleteDataById ( $table_custom_fields, $q1 ['id'] );
 				

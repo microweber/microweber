@@ -5,6 +5,83 @@ $(document).ready(function(){
 
 
 
+
+
+
+    /* Module Info */
+
+var m_info = document.createElement('div');
+m_info.id = 'module_info';
+m_info.innerHTML = '<h3>Modules Loaded:</h3><ol></ol>';
+document.body.appendChild(m_info);
+$(".module").each(function(){
+   var module = $(this).attr("mw_params_module");
+   $("#module_info ol").append("<li>" + module + "</li>")
+});
+$("#module_info li").click(function(){
+
+  var html = $(this).html();
+  $(".module").removeClass("active_m_find");
+  $(".module").each(function(){
+     var module = $(this).attr("mw_params_module");
+     if(module==html){
+       $(this).addClass("active_m_find");
+     }
+  });
+});
+
+$(".module").hover(function(){
+    var module = $(this).attr("mw_params_module");
+    $("#module_info li").removeClass("active_m_find_li")
+    $("#module_info li").each(function(){
+     var html = $(this).html();
+     if(module==html){
+       $(this).addClass("active_m_find_li");
+     }
+  });
+}, function(){
+     $("#module_info li").removeClass("active_m_find_li")
+});
+
+$("body").ajaxStop(function(){
+  $("#module_info ol").empty();
+$(".module").each(function(){
+   var module = $(this).attr("mw_params_module");
+   $("#module_info ol").append("<li>" + module + "</li>")
+});
+$("#module_info li").click(function(){
+
+  var html = $(this).html();
+  $(".module").removeClass("active_m_find");
+  $(".module").each(function(){
+     var module = $(this).attr("mw_params_module");
+     if(module==html){
+       $(this).addClass("active_m_find");
+     }
+  });
+});
+
+$(".module").hover(function(){
+    var module = $(this).attr("mw_params_module");
+    $("#module_info li").removeClass("active_m_find_li")
+    $("#module_info li").each(function(){
+     var html = $(this).html();
+     if(module==html){
+       $(this).addClass("active_m_find_li");
+     }
+  });
+}, function(){
+     $("#module_info li").removeClass("active_m_find_li")
+});
+})
+
+     /* End Module Info */
+
+
+
+
+
+
  $("a[href='#']").attr("javascript:void(0)");
 
   $(".mw_box_header").click(function(){
@@ -30,57 +107,13 @@ else if($(this).find(".mw_boxctrl").html().indexOf('Close')!=-1){
 
   $(".createpages .field").append("<span class='FieldHandle radius'></span>");
 
-  $(".field").hover(function(){
-    $(this).find(".FieldHandle").visible();
-    if(!$(this).hasClass("active")){
-      $(this).find("label").show();
-    }
-
-  }, function(){
-    $(this).find(".FieldHandle").hidden();
-    $(this).find("label").hide();
-  });
-  $(".field").click(function(){
-    $(this).find("input[type='text'], textarea").focus();
-  });
 
 
-  $(".onoff").each(function(){
-    var val = $(this).find(":checked").val();
-    if(val!=undefined){
-      if(val.indexOf('on')!=-1){
-          $(this).find(".on").addClass("active");
-      }
-      else if(val.indexOf('off')!=-1){
-          $(this).find(".off").addClass("active");
-      }
-    }
 
-  });
 
-  $(".onoff span").click(function(){
-      var parent = $(this).parent();
-      if($(this).hasClass("on")){
-          parent.find("input[value*='on']").check();
-          parent.find("span").removeClass("active");
-          $(this).addClass("active");
-      }
-      else if($(this).hasClass("off")){
-          parent.parent().find("input[value*='off']").check();
-          parent.find("span").removeClass("active");
-          $(this).addClass("active");
-      }
-  });
 
-  $(".field input, .field textarea").focus(function(){
-    $(".field").removeClass("active")
-    $(this).parent().addClass("active");
-    $(this).parent().find("label").hide();
-  });
-  $(".field input, .field textarea").blur(function(){
-    $(this).parent().find("label").hide();
-    $(this).parent().removeClass("active");
-  });
+
+
 
 
 

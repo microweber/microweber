@@ -1232,6 +1232,7 @@ p($modules );
 									if (is_dir ( $dir ) == false) {
 										mkdir_recursive ( $dir );
 									}
+									exit ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
 									//var_dump( $try_file, $try_file1);
 								//exit ( "Modile file not found in $try_file1. Please create it!" );
 								//if (! copy ( $try_file, $try_file1 )) {

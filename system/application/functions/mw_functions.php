@@ -1000,6 +1000,11 @@ function post_pictures($post_id, $size = 128) {
 
 }
 
+function page_title($page_id){
+	$p = get_page($page_id);
+	return $p['content_title'];
+}
+
 /**
  * category_tree 
  *

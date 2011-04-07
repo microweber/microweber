@@ -19,7 +19,10 @@
 <script type="text/javascript">
 	tinyMCE.init({
 		// General options
-		mode : "textareas",
+		//mode : "textareas",
+		   mode : "specific_textareas",
+        editor_selector : "richtext", 
+		
 		theme : "advanced",
 		plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
 
