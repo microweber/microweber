@@ -5133,7 +5133,7 @@ $w
 							
 							if ((is_file ( $file_path ) == true) and trim ( $item ['filename'] ) != '') {
 								
-								if ($size_width == 'original') {
+								if ($size == 'original') {
 									
 									$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
 									
@@ -5269,9 +5269,15 @@ $w
 							
 							$media_get_vid_thumbnail = $this->getDbData ( $table, $media_get_vid_thumbnail, false, false, $media_get_vid_thumbnail_orderby, $cache_group = false, $debug = false );
 							
-							//p($media_get_vid_thumbnail);
-							$file_path = MEDIAFILES . 'pictures/original/' . $media_get_vid_thumbnail [0] ['filename'];
+							if (! empty ( $media_get_vid_thumbnail )) {
+								$file_path = MEDIAFILES . 'pictures/original/' . $media_get_vid_thumbnail [0] ['filename'];
+							} else {
+								$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
+								$media_get_vid_thumbnail [0] ['filename'] =  $item ['filename'];
 							
+							}
+							//	p($file_path);
+							$file_path = normalize_path ( $file_path, false );
 							if (is_file ( $file_path ) == true) {
 								
 								//
@@ -6052,6 +6058,9 @@ $w
 						$data = array ();
 						
 						$data = $item;
+						foreach ( $item as $item_k => $item_v ) {
+							$data [$item_k] = $item_v;
+						}
 						
 						$item ['filename'] = rawurlencode ( $item ['filename'] );
 						
@@ -6082,7 +6091,7 @@ $w
 				case 'vids' :
 				case 'vid' :
 					
-					$file_path = MEDIAFILES . 'videos/' . $item ['filename'];
+					$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
 					
 					if (is_file ( $file_path ) == true) {
 						
@@ -6090,9 +6099,13 @@ $w
 						
 						$data = $item;
 						
+						foreach ( $item as $item_k => $item_v ) {
+							$data [$item_k] = $item_v;
+						}
+						
 						$item ['filename'] = rawurlencode ( $item ['filename'] );
 						
-						$data ['url'] = $this->mediaGetUrlDir () . 'videos/' . $item ['filename'];
+						$data ['url'] = $this->mediaGetUrlDir () . 'pictures/original/' . $item ['filename'];
 						
 						$data ['id'] = $item ['id'];
 						
@@ -6121,6 +6134,9 @@ $w
 					$data = array ();
 					
 					$data = $item;
+					foreach ( $item as $item_k => $item_v ) {
+						$data [$item_k] = $item_v;
+					}
 					
 					$item ['filename'] = $item ['filename'];
 					
@@ -6510,14 +6526,16 @@ $w
 		if ($to_table != false) {
 			$to_table = $this->guessDbTable ( $to_table );
 		}
+		
 		$target_path = MEDIAFILES;
 		
 		$uploaded = array ();
 		
 		if (empty ( $_FILES )) {
 			
-			return false;
+		//return false;
 		
+
 		}
 		
 		if (! empty ( $_FILES )) {
@@ -6663,9 +6681,52 @@ $w
 			
 			}
 		}
+		
 		if ($to_table == false) {
+			
 			return $status;
 		}
+		
+		if (trim ( $_POST ['embed_code'] ) != '') {
+			$embed_item = array ();
+			
+			$embed_item ['embed_code'] = $_POST ['embed_code'];
+			
+			if ($_POST ['screenshot_url']) {
+				$target_path_pictures_folder = MEDIAFILES . 'pictures/original/';
+				$newfilename1 = date ( 'YMDHis' ) . basename ( $_POST ['screenshot_url'] );
+				$newfilename = $target_path_pictures_folder . $newfilename1;
+				
+				$this->url_getPageToFile ( $_POST ['screenshot_url'], $newfilename );
+				$embed_item ['filename'] = $newfilename1;
+			}
+			
+			if ($_POST ['original_link']) {
+				
+				$embed_item ['original_link'] = $_POST ['original_link'];
+			}
+			
+			if ($_POST ['type']) {
+				
+				$embed_item ['type'] = $_POST ['type'];
+			}
+			if ($_POST ['media_type']) {
+				
+				$embed_item ['type'] = $_POST ['media_type'];
+			}
+			
+			if ($_POST ['media_name']) {
+				
+				$embed_item ['media_name'] = $_POST ['media_name'];
+			}
+			if ($_POST ['media_description']) {
+				
+				$embed_item ['media_description'] = $_POST ['media_description'];
+			}
+			
+			$uploaded [] = $embed_item;
+		}
+		
 		if (! empty ( $uploaded )) {
 			global $cms_db_tables;
 			
@@ -6675,9 +6736,13 @@ $w
 			
 			foreach ( $uploaded as $item ) {
 				
-				if (strval ( $item ) != '') {
+				if (! empty ( $item )) {
 					
 					$media_save = array ();
+					
+					foreach ( $item as $item_k => $item_v ) {
+						$media_save [$item_k] = $item_v;
+					}
 					
 					$media_save ['media_type'] = $item ['type'];
 					

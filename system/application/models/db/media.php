@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "media";
-$query = CI::db()->query ( "show tables like '$table_name'" );
+$query = CI::db ()->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -11,11 +11,11 @@ if ($query [0] != $table_name) {
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);";
-	CI::db()->query ( $sql );
+	CI::db ()->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = CI::db()->query ( $sql );
+$query = CI::db ()->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
@@ -37,6 +37,10 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('media_type', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('media_order', 'int(11) default 99999' );
 	$fields_to_add [] = array ('filename', 'varchar(1500) default NULL' );
+	
+	$fields_to_add [] = array ('embed_code', 'varchar(1500) default NULL' );
+	$fields_to_add [] = array ('original_link', 'varchar(1500) default NULL' );
+	
 	$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('created_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('media_name', 'TEXT default NULL' );
@@ -47,7 +51,7 @@ if ($query [0] == $table_name) {
 	
 	$fields_to_add [] = array ('created_by', 'int(11) default NULL' );
 	$fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
-
+	
 	/*
 	foreach ( $fields_to_add as $the_field ) {
 		$sql = false;
@@ -61,7 +65,7 @@ if ($query [0] == $table_name) {
 		}
 	}
 	*/
-	$this->set_db_tables($table_name, $fields_to_add );
+	$this->set_db_tables ( $table_name, $fields_to_add );
 }
 
 ?>

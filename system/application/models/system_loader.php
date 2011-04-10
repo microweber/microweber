@@ -214,38 +214,32 @@ function array_values_deep($array) {
 	}
 	return $temp;
 }
-function array_rpush(&$arr, $item)
-{
-  $arr = array_pad($arr, -(count($arr) + 1), $item);
+function array_rpush(&$arr, $item) {
+	$arr = array_pad ( $arr, - (count ( $arr ) + 1), $item );
 }
 /**********************************************
  *
- *   PURPOSE: Flatten a deep multidimensional array into a list of its
- *   scalar values
+ * PURPOSE: Flatten a deep multidimensional array into a list of its
+ * scalar values
  *
- *   array array_values_recursive (array array)
+ * array array_values_recursive (array array)
  *
- *   WARNING: Array keys will be lost
+ * WARNING: Array keys will be lost
  *
  *********************************************/
 
-function array_values_recursive($array)
-{
-    $arrayValues = array();
-
-    foreach ($array as $value)
-    {
-        if (is_scalar($value) OR is_resource($value))
-        {
-             $arrayValues[] = $value;
-        }
-        elseif (is_array($value))
-        {
-             $arrayValues = array_merge($arrayValues, array_values_recursive($value));
-        }
-    }
-
-    return $arrayValues;
+function array_values_recursive($array) {
+	$arrayValues = array ();
+	
+	foreach ( $array as $value ) {
+		if (is_scalar ( $value ) or is_resource ( $value )) {
+			$arrayValues [] = $value;
+		} elseif (is_array ( $value )) {
+			$arrayValues = array_merge ( $arrayValues, array_values_recursive ( $value ) );
+		}
+	}
+	
+	return $arrayValues;
 }
 if (! function_exists ( 'microtime_float' )) {
 	/**
@@ -2309,6 +2303,73 @@ function extract_tags($html, $tag, $selfclosing = null, $return_the_entire_tag =
 	}
 	
 	return $tags;
+}
+
+
+//$an_array = array('value1','value2'); 
+//print wrap_implode("<a href=\"#\">","</a>"," > ", $an_array);
+function wrap_implode($before, $after, $glue, $array){ 
+    $nbItem = count($array); 
+    $i = 1; 
+    foreach($array as $item){ 
+        if($i < $nbItem){ 
+            $output .= "$before$item$after$glue"; 
+        }else $output .= "$before$item$after"; 
+        $i++; 
+    } 
+    return $output; 
+} 
+
+
+
+
+//A function to convert the glob pattern in a case insensitive version:
+//SHORT: make glob() case insensitiv.
+//sample call:
+//$filelist =  glob( '/path/*/'.globistr('*.PHP') ); //all *.php files in subfolders
+
+//sample call:
+//$filelist =  glob( dirname(__FILE__).'/'.globistr('*.JPG') );
+//$filelist =  array_merge($filelist,glob( dirname(__FILE__).'/'.globistr('*.JPEG') ));
+//$filelist =  array_merge($filelist,glob( dirname(__FILE__).'/'.globistr('*.gif') ));
+
+//multibyte sample:
+//$test = "asdasd";
+//$pattern = globistr($test,'UTF-8');
+//RESULT: pattern:[mM]...
+function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
+	//returns a case insensitive Version of the searchPattern for glob();
+	// e.g.: globistr('./*.jpg') => './*.[jJ][pP][gG]'
+	// e.g.: glob(dirname(__FILE__).'/'.globistr('*.jpg')) => '/.../*.[jJ][pP][gG]'
+	
+
+	// known problems: globistr('./[abc].jpg') => FALSE:'./[[aA][bB][cC]].[jJ][pP][gG]' 
+	//(Problem: existing Pattern[abc] will be overwritten)
+	// known solution: './[abc].'.globistr('jpg') => RIGHT: './[abc].[jJ][pP][gG]' 
+	//(Solution: globistr() only caseSensitive Part, not everything)
+	$return = "";
+	if ($mbEncoding !== '') { //multiByte Version
+		$string = mb_convert_case ( $string, MB_CASE_LOWER, $mbEncoding );
+	} else { //standard Version (not multiByte,default)
+		$string = strtolower ( $string );
+	}
+	$mystrlen = strlen ( $string );
+	for($i = 0; $i < $mystrlen; $i ++) {
+		if ($mbEncoding !== '') { //multiByte Version
+			$myChar = mb_substr ( $string, $i, 1, $mbEncoding );
+			//$myUpperChar = mb_strtoupper($myChar,$mbEncoding);
+			$myUpperChar = mb_convert_case ( $myChar, MB_CASE_UPPER, $mbEncoding );
+		} else {
+			$myChar = substr ( $string, $i, 1 );
+			$myUpperChar = strtoupper ( $myChar );
+		}
+		if ($myUpperChar !== $myChar) { //there is a lower- and upperChar, / Char is case sentitive
+			$return .= '[' . $myChar . $myUpperChar . ']'; //adding both Versions : [xX]
+		} else { //only one case Version / Char is case insentitive
+			$return .= $myChar; //adding '1','.','*',...
+		}
+	}
+	return $return;
 }
 
 ?>

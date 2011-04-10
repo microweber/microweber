@@ -1,5 +1,5 @@
 <form method="post"><input type="hidden" name="step1" value="1" /> <input
-    type="submit" value="cleanup custom fields"></form>
+    type="submit" value="cleanup"></form>
 
 <?php
 
@@ -114,7 +114,42 @@ if ($_POST) {
 				//p ( $q_check );
 			}
 		}
+		
+		$file_path = MEDIAFILES . 'pictures/original/';
+		$it = new RecursiveDirectoryIterator ( $file_path );
+		$display = Array ('jpeg', 'jpg' );
+		$existing_files_on_hard_drive = array ();
+		$existing_files_on_hard_drive_full = array ();
+		$existing_files_do_be_deleted = array ();
+		$table_media = $cms_db_tables ['table_media'];
+		foreach ( new RecursiveIteratorIterator ( $it ) as $file ) {
+			if (In_Array ( SubStr ( $file, StrrPos ( $file, '.' ) + 1 ), $display ) == true)
+				//echo $file . "<br/> \n";
+				$bname = basename ( $file );
+			$existing_files_on_hard_drive_full [] = ($file);
+			$existing_files_on_hard_drive [] = $bname;
+			
+			$q = "select count(id) as qty from $table_media where filename='{$bname}'   ";
+			//p ( $q );
+			$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'media' );
+			if ($q [0] ['qty'] == 0) {
+				//print 'delete: ' . $file;
+				$existing_files_do_be_deleted [] = normalize_path ( $file, false );
+			} else {
+				//print 'found';
+			}
+		
+		}
+		foreach ( $existing_files_do_be_deleted as $f ) {
+			print 'delete: ' . $f;
+			unlink ( $f );
+		}
+		//p ( $existing_files_on_hard_drive );
+	// p ( $existing_files_do_be_deleted );
+	//$mask = "*.jpg"
+	//array_map( "unlink", glob( $mask ) );
 	
+
 	}
 	
 	print '</pre>';

@@ -19,13 +19,27 @@
    
   $media_type = $params['type'];
  
-//p($params); 
+ 
   
   ?>
 <?  $media1 = get_media($id, $for, $media_type,  $queue_id);
-//  p($media1);
-	 $media1 = $media1['pictures'];
+ 
+ 
+ 
 
+   
+   
+   
+	
+	 if($media_type  == 'video'){
+		  $media_videos = $media1['videos'];
+		   $media1 =$media_videos;
+	 } else {
+		   
+		  $media1 = $media1['pictures'];
+	 }
+	 
+ //p($media_videos);
 
 ?>
 <script type="text/javascript">
@@ -237,7 +251,7 @@ $('#pic_edit_form_'+$id).show();
 </script>
 <?php if(empty($media1)  ): ?>
 
-Please upload some pictures in the gallery.
+Please upload some media in the gallery.
 <?php else : ?>
 <script type="text/javascript"> 
 // When the document is ready set up our sortable with it's inherant function(s) 
@@ -300,13 +314,68 @@ $(document).ready(function() {
                     </td>
                 </tr>-->
         <tr>
-          <td><strong>Title:</strong></td>
+          <td>
+           
+          
+          <strong>Title:</strong></td>
           <td><input name="media_name" type="text" style="width: 200px;" value="<?php print $pic['media_name'] ?>" /></td>
         </tr>
         <tr>
           <td><b>Description:</b></td>
           <td><textarea name="media_description" cols="" style="width: 200px;" rows="2"><?php print $pic['media_description'] ?></textarea></td>
         </tr>
+        
+        
+        
+        
+        <tr>
+                <td><b>Type:</b></td>
+                  <td>
+                   <select name="media_type">
+  <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
+ <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
+ </select>
+</td>
+                </tr>
+                <? if($pic['media_type'] == 'video') :  ?>   
+                  <tr>
+                <td><b>Embed code:</b></td>
+                  <td>
+         <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>           
+</td>
+                </tr>
+                
+                  <tr>
+                <td><b>Original link:</b></td>
+                  <td>
+         <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>           
+</td>
+                </tr>
+                <? endif; ?>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
       </table>
       <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
       <input name="save" style="float: left;margin-left:249px; " type="button" onclick="save_media_item('picsAjaxSaveForm<?php print $pic['id'] ?>')" value="save" />

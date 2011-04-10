@@ -697,12 +697,21 @@ function get_content($id) {
 function get_page($id) {
 	
 	global $CI;
-	$page = CI::model ( 'content' )->contentGetById ( $id );
-	
-	if (empty ( $page )) {
-		$page = CI::model ( 'content' )->getContentByURL ( $id );
+	if (intval ( $id ) != 0) {
+		$page = CI::model ( 'content' )->contentGetById ( $id );
+		
+		if (empty ( $page )) {
+			$page = CI::model ( 'content' )->getContentByURL ( $id );
+		}
+	} else {
+		if (empty ( $page )) {
+			$page = array ();
+			$page ['content_layout_name'] = trim ( $id );
+			
+			$page = get_pages ( $page );
+			$page = $page [0];
+		}
 	}
-	
 	if (! empty ( $page )) {
 		$more = false;
 		$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $page ['id'] );
@@ -1000,9 +1009,9 @@ function post_pictures($post_id, $size = 128) {
 
 }
 
-function page_title($page_id){
-	$p = get_page($page_id);
-	return $p['content_title'];
+function page_title($page_id) {
+	$p = get_page ( $page_id );
+	return $p ['content_title'];
 }
 
 /**

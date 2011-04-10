@@ -49,7 +49,9 @@ function media_pics_showResponse(responseText, statusText)  {
 
 
 
-<?php //p($media1);
+<?php 
+
+//p($media1);
 //p($media2);
 ?>
 
@@ -61,6 +63,13 @@ function media_pics_showResponse(responseText, statusText)  {
 Please upload some pictures in the gallery.
 
 <?php else : ?>
+
+<?php if(!empty($media2)): ?> 
+<? $media1 = array_merge($media1, $media2);?>
+<?php endif; ?>
+
+
+
 <style type="text/css">
 
 .mw_modal {
@@ -93,12 +102,9 @@ z-index:999;
                
               
               <table cellspacing="1" cellpadding="1" width="100%" class="pic_details_table" id="media_edit_table_<?php print $pic['id'] ?>" >
-                <!-- <tr>
-                  <td><h4>Filename: <?php print character_limiter( $vid['filename'], 10) ?></h4>
-                    </td>
-                </tr>-->
+             
                 <tr>
-                <td><strong></strong></td>
+                <td><strong>Name</strong></td>
                   <td>
                     <input name="media_name" type="text" style="width: 200px;" value="<?php print $pic['media_name'] ?>" /></td>
                 </tr>
@@ -107,6 +113,28 @@ z-index:999;
                   <td>
                     <textarea name="media_description" cols="" style="width: 200px;" rows="2"><?php print $pic['media_description'] ?></textarea></td>
                 </tr>
+                
+                <tr>
+                <td><b>Type:</b></td>
+                  <td>
+                   <select name="media_type">
+  <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
+ <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
+ </select>
+</td>
+                </tr>
+                <? if($pic['media_description'] == 'video') :  ?>   
+                  <tr>
+                <td><b>Embed code:</b></td>
+                  <td>
+         <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>           
+</td>
+                </tr>
+                <? endif; ?>
+                
+                
+                
+                
 
                 
                  <?php /*
@@ -161,7 +189,7 @@ z-index:999;
 ?>
 
 
-
+ 
   <li id="gallery_module_sortable_pics_positions_<?php print $pic['id'] ?>" onmouseover="$(this).find('.pic_link_holder').css('visibility', 'visible')" onmouseout="$(this).find('.pic_link_holder').css('visibility', 'hidden')">
 
     <div class="pic_bg"></div>
@@ -211,97 +239,3 @@ z-index:999;
 
 <?php endif; ?>
 
-<?php if(!empty($media2)): ?>
-
-  <?php foreach($media2 as $pic):   ?>
-  
-  
-  <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
-               
-               
-               
-                <form action=""   class="picsAjaxSaveForm" method="post" enctype="multipart/form-data">
-              <input name="id" type="hidden" value="<?php print $pic['id'] ?>" />
-              
-               
-              
-              <table cellspacing="1" cellpadding="1" width="100%" class="pic_details_table" id="media_edit_table_<?php print $pic['id'] ?>" >
-                <!-- <tr>
-                  <td><h4>Filename: <?php print character_limiter( $vid['filename'], 10) ?></h4>
-                    </td>
-                </tr>-->
-                <tr>
-                <td><b>Title:</b></td>
-                  <td>
-                    <input name="media_name" type="text" style="width: 200px;" value="<?php print $pic['media_name'] ?>" /></td>
-                </tr>
-                <tr>
-                <td><b>Description:</b></td>
-                  <td>
-                    <textarea name="media_description" style="width: 200px;" cols="20" rows="2"><?php print $pic['media_description'] ?></textarea></td>
-                </tr>
-                
-                
-
-
-
-                
-
-                
-              </table>
-              <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
-              <div style="height: 12px;">&nbsp;</div>
-              <input name="save" style="float: left;margin-left:249px; " type="submit" value="save" />
-            </form>
-               
-               
-               </div>
-  
-  <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
-//var_dump($thumb);
-?>
-
-  <li id="gallery_module_sortable_pics_positions_<?php print $pic['id'] ?>" onmouseover="$(this).find('.pic_link_holder').css('visibility', 'visible')" onmouseout="$(this).find('.pic_link_holder').css('visibility', 'hidden')">
-
-    <div class="pic_bg"></div>
-
-    <div class="pic_obj_content" style="background-image:url('<?php print $thumb;  ?>'); background-repeat:no-repeat; background-position:center center;" id="pictire_id_<?php print $pic['id'] ?>">
-
-       
-
-          <div class="pic_link_holder">
-
-            <div class="pic_link_holder_bg"></div>
-
-            <div class="pic_link_holder_content">
-
-    <a href="javascript:;" onClick="contentMediaDeletePicture('<?php print $pic['id'] ?>')">delete</a>
-
-    <a href="javascript:;" onClick="contentMediaEditPicture('<?php print $pic['id'] ?>')">edit</a>
-    
-    
-    
-    
-    
-
-                 </div>
-
-        </div>
-
-        <!--<span class="pic_obj_New"></span>-->
-
-        </div>
-
-     </li>
-
-  <?php $i++; endforeach; ?>
-
-
-
-<?php endif; ?>
-
-
-
-</ul>
-
-<?php endif; ?>

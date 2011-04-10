@@ -4,7 +4,7 @@ $config = array();
 $config['name'] = "Gallery module";
 $config['author'] = "Microweber";
 $config['description'] = "A simple gallery";
-$config['no_cache'] = false;
+$config['no_cache'] = true;
 $config['ui'] = true;
 
 

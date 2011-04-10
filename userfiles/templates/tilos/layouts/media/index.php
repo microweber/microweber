@@ -46,17 +46,8 @@ description: Media site layout
     <div class="gbox_content">
       <div class="photoslider" id="photoslider">
         <div class="photoslider_holder">
-          <ul class="slide_engine">
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide1.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide2.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide3.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide1.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide2.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide3.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide1.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide2.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-            <li> <a href="#"> <span style="background-image: url(img/_demo_slide3.jpg)"></span> <strong>Name of this video here</strong> </a> </li>
-          </ul>
+         <mw module="media/videos" content_id="<? print $page['id']?>">
+          
         </div>
         <span class="slide_left photo_slide_left"></span> <span class="slide_right photo_slide_right"></span> </div>
     </div>
@@ -73,36 +64,18 @@ description: Media site layout
       <div class="gbox_top">&nbsp;</div>
     </div>
     <div class="gbox_content">
+    
+    
       <div class="photoslider" id="pic_gal">
         <div class="photoslider_holder">
-          <div class="slide_engine">
           
-          <? foreach($posts as $post): ?>
-          <? p($post); ?>
+          <mw module="media/gallery" content_id="<? print $page['id']?>">
           
-          <? endforeach;  ?>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide1.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide2.jpg)"> </a> </li>
-            <li> <a href="#" style="background-image: url(img/_demo_slide3.jpg)"> </a> </li>
-          </div>
+ 
+          
+          
+          
+          
         </div>
         <span class="slide_left photo_slide_left"></span> <span class="slide_right photo_slide_right"></span> </div>
     </div>
