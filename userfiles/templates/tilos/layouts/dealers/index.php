@@ -44,7 +44,22 @@ description: Dealers site layout
         by state
         <div class="c" style="padding-bottom: 7px;">&nbsp;</div>
         <a href="#" class="btn right">SEARCH</a>
-        <? include TEMPLATE_DIR."inc.states.php"; ?>
+
+        <div class="drop drop_white">
+            <span class="drop_arr"></span>
+            <span class="val">All categories</span>
+            <div class="drop_list">
+                <ul>
+                    <li><span>Test1</span></li>
+                    <li><span>Test2</span></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <? //include TEMPLATE_DIR."inc.states.php"; ?>
+
+
       </div>
     </div>
     <div class="dbox" style="left: 433px; top: 117px;">
@@ -54,7 +69,20 @@ description: Dealers site layout
         by coutries
         <div class="c" style="padding-bottom: 7px;">&nbsp;</div>
         <a href="#" class="btn right">SEARCH</a>
-        <? include TEMPLATE_DIR."inc.countries.php"; ?>
+
+
+        <div class="drop drop_white">
+            <span class="drop_arr"></span>
+            <span class="val">All categories</span>
+            <div class="drop_list">
+                <ul>
+                    <li><span>Test1</span></li>
+                    <li><span>Test2</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <? //include TEMPLATE_DIR."inc.countries.php"; ?>
       </div>
     </div>
   </div>

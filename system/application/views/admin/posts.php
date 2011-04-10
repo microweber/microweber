@@ -103,14 +103,17 @@ movement_selector = function(elem, id){
 
 </script>
 
-<div id="posts_nav">
-  <h2>Posts</h2>
-  <ul class="posts_nav_list">
+<div class="box radius">
+ <div class="shop_nav_main">
+  <h2 class="box_title">Posts</h2>
+  <ul class="shop_nav">
     <li><a href="<? print site_url('admin/action:posts') ?>" class="view_posts_btn">View posts</a></li>
     <li><a href="<? print site_url('admin/action:post_edit/id:0') ?>" class="add_post_btn">Add posts</a></li>
     <li><a href="<? print site_url('admin/action:categories') ?>" class="categories_btn">Categories</a></li>
   </ul>
-</div>
+     </div>
+<div class="c">&nbsp;</div>
+
 <div id="cat_lis_holder" style="display: none">
   <div id="cat_lis">
     <?
@@ -124,7 +127,7 @@ category_tree( $params ) ; ?>
   </div>
   <div  style="text-align: center;padding: 15px 0 0 0;">&nbsp; <a href="#" class="btn2" id="cat_lis_apply" style="margin-right: 10px;">Apply</a> <a href="#" class="btn2" onclick="mw.modal.close('categories_popup');">Cancel</a> </div>
 </div>
-<div id="d_bar" class="radius">
+<div id="d_bar" class="">
   <div class="left">
     <h2>Products</h2>
     <div class="drop drop_white"> <span class="drop_arr"></span> <span class="val">All categories</span>
@@ -161,4 +164,5 @@ category_tree( $params ) ; ?>
 </div>
 <div id="content_list">
   <mw module="admin/posts/list"  />
+</div>
 </div>

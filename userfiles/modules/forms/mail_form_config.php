@@ -1,10 +1,10 @@
-<? 
+<?
 
 $config = array();
 $config['name'] = "Mailform module";
 $config['author'] = "Microweber";
 $config['description'] = "A simple contact form";
-$config['no_cache'] = false;
+$config['no_cache'] = true;
 $config['ui'] = true;
 
 

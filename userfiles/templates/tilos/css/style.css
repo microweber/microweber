@@ -515,6 +515,8 @@ address{
    margin: 2px;
    background-position: center center;
    background-repeat: no-repeat;
+   position: relative;
+   top: 2px;
  }
  .product strong{
    text-transform: uppercase;
@@ -620,11 +622,17 @@ background: none;
     }
   .sidebox h2 a{
     color: white;
+     font-size: 12px;
+    font-weight: bold;
   }
 
   .sidebox ul{
     list-style: none;
     padding-top: 10px;
+  }
+  .sidebox ul ul{
+    list-style: none;
+    padding-top: 0;
   }
   .sidebox li{
     list-style: none;
@@ -634,6 +642,7 @@ background: none;
     display: block;
     padding: 3px 0 3px 10px;
     white-space: nowrap;
+    text-transform: capitalize;
   }
   .sidebox li li a{
     padding-left: 20px;
@@ -1061,7 +1070,7 @@ padding: 9px 0 6px 55px;
      width: 278px;
      height: 143px;
      background: url(../img/dbox.png) no-repeat;
-     overflow: hidden;
+
    }
 
 .dbox h2{
@@ -1074,8 +1083,9 @@ padding: 9px 0 6px 55px;
   font-size: 11px;
 }
 .dbox_content .btn{
-  margin-top:-4px;
-  *margin-top:-1px;
+  margin-top:-1px;
+  *margin-top:0px;
+
 }
 .download{
   width:666px;
@@ -1164,6 +1174,120 @@ padding: 9px 0 6px 55px;
   display: block;
   padding: 5px 0 5px;
 }
+
+#module_info{
+  position: fixed;
+  bottom:20px;
+  left: 20px;
+  width: 150px;
+  padding: 10px;
+  background: #434343;
+  opacity:.8;
+  filter:alpha(opacity=80);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -khtml-border-radius:6px;
+  border-radius: 6px;
+  color:white;
+  font-size: 10px;
+}
+#module_info ol{
+  padding: 5px 0 0 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+#module_info h3{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    color: white;
+}
+.active_m_find{
+  outline: 5px solid #CC0033 !important;
+}
+.active_m_find_li{
+  outline: 2px solid #CC0033 !important;
+  padding-bottom: 5px;
+}
+.checkout_form label{
+  display: block;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+
+.drop_list{
+  display: none;
+  background: white;
+  cursor: pointer;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  height: 200px;
+  overflow-x:hidden;
+  overflow-y:auto;
+border: 1px solid #D5D5D5;
+border-top:none;
+
+}
+.drop_list li{
+    list-style: none
+}
+
+
+.drop_white{
+  padding:1px 5px 2px 8px;
+  *padding:1px 5px 0px 8px;
+
+    border: 1px solid #D5D5D5;
+  width:62%;
+  background: white;
+
+  cursor: pointer;
+}
+#d_bar .drop{
+  float: left;
+}
+.drop{
+  position: relative;
+  z-index: 10;
+}
+.drop a{
+  display: block;
+  padding: 5px 10px;
+}
+
+.drop a:hover{
+  color: white;
+  background:#0078F0;
+}
+.drop .val{
+  display: block;
+  padding: 5px 0 0 0;
+  padding: 2px 0 3px;
+}
+
+
+.drop_arr{
+  display: block;
+  float: right;
+  margin: 9px 6px;;
+  width:7px;
+  height: 4px;
+  background: url(../img/drop.gif) no-repeat;
+}
+.drop.active .drop_arr{
+  background-position: 0 -40px;
+}
+.drop_white li span{
+  display: block;
+  cursor: pointer;
+  padding: 3px 7px;
+}
+.drop_white li span:hover{
+  background: #AAAAAA;
+  color: white;
+}
+
 
 
 

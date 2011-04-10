@@ -175,9 +175,9 @@ a{
 
 #module_info{
   position: fixed;
-  top:20px;
+  bottom:20px;
   left: 20px;
-  width: 200px;
+  width: 150px;
   padding: 10px;
   background: #434343;
   opacity:.8;
@@ -187,6 +187,7 @@ a{
   -khtml-border-radius:6px;
   border-radius: 6px;
   color:white;
+  font-size: 10px;
 }
 #module_info ol{
   padding: 5px 0 0 20px;
@@ -519,9 +520,8 @@ background: url(../img/mw_close.jpg) no-repeat;
   margin: 0px 5px 0 0;
 }
 #d_bar{
-  background: #1B9FCF;
+  background: #ECECEC;
   height: 35px;
-  margin: 10px -22px;
   padding: 10px 42px;
 }
 #d_bar .left{

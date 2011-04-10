@@ -4,7 +4,7 @@
  
 $posts = get_posts($params);
  
-?>
+?>   
 <? if(!empty($posts)): ?>
 <? $posts_list =$posts['posts'];  ?>
 <? foreach($posts_list as $the_post):  ?>

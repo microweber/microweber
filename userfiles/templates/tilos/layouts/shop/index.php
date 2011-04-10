@@ -22,6 +22,9 @@ description: shop site layout
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
+
+<? include TEMPLATE_DIR."sidebar.php"; ?>
+
 <? $view = url_param('view'); ?>
 <?  if($view == 'cart'):  ?>
 
@@ -29,11 +32,14 @@ description: shop site layout
   <? include  "cart.php"; ?>
 </div>
 <?  elseif($view == 'checkout'):  ?>
-<div id="main">
+
   <? include  "checkout.php"; ?>
-</div>
+
 <? else: ?>
-<? include TEMPLATE_DIR."sidebar.php"; ?>
+
+
+
+
 <div id="main">
   <? if(empty($post)): ?>
   <? if($posts): ?>

@@ -62,4 +62,5 @@ description: contacts site layout
     </tr>
   </table>
 </div>
+</div>
 <? include   TEMPLATE_DIR.  "footer.php"; ?>

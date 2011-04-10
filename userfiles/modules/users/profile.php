@@ -462,7 +462,7 @@ $form_values['custom_fields'] = $more;
 */ ?>
               <div class='c'>&nbsp;</div>
               <br />
-              <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="mw_blue_link btn<u></u>">click here</a>
+              <div class="item"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="btn relative" style="top: -5px;">click here</a>
                 <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
                 <div id="change_pass_holder" style="display:none">
                   <label>Enter new password</label>
