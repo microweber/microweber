@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Row.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Row.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -310,6 +310,7 @@ class Piwik_DataTable_Row
 	{
 		if(isset($this->c[self::COLUMNS][$name]))
 		{
+			debug_print_backtrace();
 			throw new Exception("Column $name already in the array!");
 		}
 		$this->c[self::COLUMNS][$name] = $value;
@@ -317,7 +318,8 @@ class Piwik_DataTable_Row
 	
 	/**
 	 * Add columns to the row
-	 * @param $columns array( name => value , ...)
+	 *
+	 * @param array $columns Name/Value pairs, e.g., array( name => value , ...)
 	 * @return void
 	 */
 	public function addColumns($columns)

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Nonce.php 3468 2010-12-19 17:55:50Z vipsoft $
+ * @version $Id: Nonce.php 4366 2011-04-07 22:07:03Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -86,6 +86,17 @@ class Piwik_Nonce
 		}
 
 		return true;
+	}
+
+	/**
+	 * Discard nonce ("now" as opposed to waiting for garbage collection)
+	 *
+	 * @param string $id Unique id
+	 */
+	static public function discardNonce($id)
+	{
+		$ns = new Piwik_Session_Namespace($id);
+		$ns->unsetAll();
 	}
 
 	/**

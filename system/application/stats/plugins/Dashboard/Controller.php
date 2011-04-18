@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4364 2011-04-07 20:34:31Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
@@ -18,6 +18,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 {
 	protected function getDashboardView($template)
 	{
+//		echo '';exit; //DEBUG do not load dashboard
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
@@ -180,8 +181,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$defaultLayout = '[
     		[
     			{"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
+    			{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
     			{"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}},
-    			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
     			{"uniqueId":"widgetExampleFeedburnerfeedburner","parameters":{"module":"ExampleFeedburner","action":"feedburner"}}
     		],
     		[
@@ -190,7 +191,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     		],
     		[
     			{"uniqueId":"widgetUserCountryMapworldMap","parameters":{"module":"UserCountryMap","action":"worldMap"}},
-    			{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
+    			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
     			{"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
     			{"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
     			{"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}

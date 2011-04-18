@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Unzip.php 3620 2011-01-04 21:22:36Z vipsoft $
+ * @version $Id: Unzip.php 3657 2011-01-07 05:55:30Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -18,16 +18,23 @@
 class Piwik_Unzip
 {
 	/**
-	 * Returns an unarchiver
+	 * Factory method to create an unarchiver
 	 *
+	 * @param string $name Name of unarchiver
 	 * @param string $filename Name of .zip archive
 	 * @return Piwik_Unzip
 	 */
-	static public function getDefaultUnzip($filename)
+	static public function factory($name, $filename)
 	{
-		if(class_exists('ZipArchive', false))
-			return new Piwik_Unzip_ZipArchive($filename);
+		switch($name)
+		{
+			case 'ZipArchive':
+				if(class_exists('ZipArchive', false))
+					return new Piwik_Unzip_ZipArchive($filename);
 
-		return new Piwik_Unzip_PclZip($filename);
+			case 'PclZip':
+			default:
+				return new Piwik_Unzip_PclZip($filename);
+		}
 	}
 }

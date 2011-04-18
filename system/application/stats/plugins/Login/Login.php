@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Login.php 3529 2010-12-25 04:13:36Z vipsoft $
+ * @version $Id: Login.php 4406 2011-04-11 16:17:23Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -118,20 +118,24 @@ class Piwik_Login extends Piwik_Plugin
 		$auth->setLogin($login);
 		$auth->setTokenAuth($tokenAuth);
 		$authResult = $auth->authenticate();
-		if(!$authResult->isValid())
-		{
-			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
-		}
 
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = $rememberMe ? time() + Zend_Registry::get('config')->General->login_cookie_expire : 0;
 		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
 		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+		if(!$authResult->isValid())
+
+		{
+			$cookie->delete();
+			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
+		}
+
 		$cookie->set('login', $login);
 		$cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
 		$cookie->setSecure(Piwik::isHttps());
+		$cookie->setHttpOnly(true);
 		$cookie->save();
 
-		Piwik_Session::regenerateId();
+		@Piwik_Session::regenerateId();
 	}
 }

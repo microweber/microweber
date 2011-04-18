@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ResponseBuilder.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: ResponseBuilder.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -133,7 +133,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
 	 *
-	 * @param $defaultSerializeValue Default value in case the user hasn't specified a value
+	 * @param mixed $defaultSerializeValue Default value in case the user hasn't specified a value
 	 * @return bool
 	 */	
 	protected function caseRendererPHPSerialize($defaultSerializeValue = 1)
@@ -256,8 +256,8 @@ class Piwik_API_ResponseBuilder
 		// if the flag disable_generic_filters is defined we skip the generic filters
 		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request))
 		{
-			$genericFilter = new Piwik_API_DataTableGenericFilter($datatable, $this->request);
-			$genericFilter->filter();
+			$genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
+			$genericFilter->filter($datatable);
 		}
 		
 		// we automatically safe decode all datatable labels (against xss) 

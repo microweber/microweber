@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ViewDataTable.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: ViewDataTable.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -89,6 +89,13 @@ abstract class Piwik_ViewDataTable
 	 * @var array
 	 */
 	protected $queuedFilters = array();
+	
+	/**
+	 * List of filter to apply just before the 'Generic' filters 
+	 * These filters should delete rows from the table
+	 * @var array
+	 */
+	protected $queuedFiltersPriority = array();
 	
 	/**
 	 * @see init()
@@ -356,7 +363,7 @@ abstract class Piwik_ViewDataTable
 	 * The requested Piwik_DataTable object is stored in $this->dataTable.
 	 */
 	protected function loadDataTableFromAPI()
-	{		
+	{
 		// we build the request string (URL) to call the API
 		$requestString = $this->getRequestString();
 		
@@ -388,7 +395,28 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function postDataTableLoadedFromAPI()
 	{
-		// Apply datatable filters that were queued by the controllers
+		if(empty($this->dataTable))
+		{
+			return false;
+		}
+		// First, filters that delete rows 
+		foreach($this->queuedFiltersPriority as $filter)
+		{
+			$filterName = $filter[0];
+			$filterParameters = $filter[1];
+			$this->dataTable->filter($filterName, $filterParameters);
+		}
+		
+		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string'))
+		{
+			// Second, generic filters (Sort, Limit, Replace Column Names, etc.)
+			$requestString = $this->getRequestString();
+			$request = Piwik_API_Request::getRequestArrayFromString($requestString);
+			$genericFilter = new Piwik_API_DataTableGenericFilter($request);
+			$genericFilter->filter($this->dataTable);
+		}
+		
+		// Finally, apply datatable filters that were queued (should be 'presentation' filters that do not affect the number of rows)
 		foreach($this->queuedFilters as $filter)
 		{
 			$filterName = $filter[0];
@@ -408,6 +436,7 @@ abstract class Piwik_ViewDataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
 		$requestString  = 'method='.$this->apiMethodToRequestDataTable;
 		$requestString .= '&format=original';
+		$requestString .= '&disable_generic_filters=1';
 		
 		$toSetEventually = array(
 			'filter_limit',
@@ -417,8 +446,7 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop_value',
 			'filter_column', 
 			'filter_pattern',
-			'disable_generic_filters',
-			'disable_queued_filters'
+			'disable_queued_filters',
 		);
 
 		foreach($toSetEventually as $varToSet)
@@ -830,7 +858,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Will display a message in the DataTable footer. 
 	 * 
-	 * @param $message String
+	 * @param string $message Message
 	 */
 	public function setFooterMessage( $message )
 	{
@@ -885,7 +913,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if( isset($this->columnsTranslations[$columnName]) )
 		{
-			return html_entity_decode($this->columnsTranslations[$columnName], ENT_COMPAT, 'UTF-8');
+			return $this->columnsTranslations[$columnName];
 		}
 		return $columnName;
 	}
@@ -898,7 +926,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if( !empty($this->columnsDescriptions[$columnName]) )
 		{
-			return html_entity_decode($this->columnsDescriptions[$columnName], ENT_COMPAT, 'UTF-8');
+			return $this->columnsDescriptions[$columnName];
 		}
 		return false;
 	}
@@ -971,12 +999,21 @@ abstract class Piwik_ViewDataTable
 	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't 
 	 * necessarily make sense directly in the API. 
 	 * 
-	 * @param $filterName
-	 * @param $parameters
+	 * @param string $filterName
+	 * @param mixed $parameters
+	 * @param bool $runBeforeGenericFilters Set to true if the filter will delete rows from the table, 
+	 * 									and should therefore be ran before Sort, Limit, etc.
 	 * @return void
 	 */
-	public function queueFilter($filterName, $parameters)
+	public function queueFilter($filterName, $parameters, $runBeforeGenericFilters = false)
 	{
-		$this->queuedFilters[] = array($filterName, $parameters);
+		if($runBeforeGenericFilters)
+		{
+			$this->queuedFiltersPriority[] = array($filterName, $parameters);
+		}
+		else
+		{
+			$this->queuedFilters[] = array($filterName, $parameters);
+		}
 	}
 }

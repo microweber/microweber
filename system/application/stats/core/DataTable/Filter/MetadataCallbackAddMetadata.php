@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: MetadataCallbackAddMetadata.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: MetadataCallbackAddMetadata.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -33,12 +33,11 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
 		$this->functionToApply = $functionToApply;
 		$this->metadataToRead = $metadataToRead;
 		$this->metadataToAdd = $metadataToAdd;
-		$this->filter();
 	}
 	
-	protected function filter()
+	public function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$oldValue = $row->getMetadata($this->metadataToRead);
 			$newValue = call_user_func( $this->functionToApply, $oldValue);

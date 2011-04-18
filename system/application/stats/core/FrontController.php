@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FrontController.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: FrontController.php 4471 2011-04-15 06:13:16Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  * This is the class hit in the first place.
  * It dispatches the request to the right controller.
  * 
- * For a detailed explanation, see the documentation on http://dev.piwik.org/trac/wiki/MainSequenceDiagram
+ * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
  * 
  * @package Piwik
  * @subpackage Piwik_FrontController
@@ -72,6 +72,7 @@ class Piwik_FrontController
 			return;
 		}
 
+		
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
@@ -117,6 +118,7 @@ class Piwik_FrontController
 			$action = $controller->getDefaultAction();
 		}
 		
+//		Piwik::log("Dispatching $module / $action, parameters: ".var_export($parameters, $return = true));
 		if( !is_callable(array($controller, $action)))
 		{
 			throw new Exception("Action $action not found in the controller $controllerClassName.");				
@@ -126,7 +128,7 @@ class Piwik_FrontController
 		} catch(Piwik_Access_NoAccessException $e) {
 			Piwik_PostEvent('FrontController.NoAccessException', $e);					
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage(), false, true);
+			Piwik_ExitWithMessage($e->getMessage(), false /* DEBUG ONLY $e->getTraceAsString() */, true);
 		}
 	}
 	
@@ -161,13 +163,7 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
-/*		
-			if(Piwik::getModule() !== 'API')
-			{
-				Piwik::printMemoryUsage();
-				Piwik::printTimer();
-			}
- */
+			Piwik::printTimer();
 		} catch(Exception $e) {}
 	}
 	
@@ -181,6 +177,13 @@ class Piwik_FrontController
 	 */
 	function init()
 	{
+		static $initialized = false;
+		if($initialized)
+		{
+			return;
+		}
+		$initialized = true;
+
 		try {
 			Zend_Registry::set('timer', new Piwik_Timer);
 			
@@ -192,7 +195,7 @@ class Piwik_FrontController
 			);
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
-			self::assignCliParametersToRequest();
+			Piwik_Common::assignCliParametersToRequest();
 
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
 
@@ -201,10 +204,15 @@ class Piwik_FrontController
 			try {
 				Piwik::createConfigObject();
 			} catch(Exception $e) {
-				Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
+				Piwik_PostEvent('FrontController.NoConfigurationFile', $e, $info = array(), $pending = true);
 				$exceptionToThrow = $e;
 			}
 
+			if(Zend_Registry::get('config')->General->maintenance_mode == 1)
+			{
+				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
+			}
+			
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
@@ -213,11 +221,10 @@ class Piwik_FrontController
 				throw $exceptionToThrow;
 			}
 
-
 			try {
 				Piwik::createDatabaseObject();
 			} catch(Exception $e) {
-				Piwik_PostEvent('FrontController.badConfigurationFile', $e);
+				Piwik_PostEvent('FrontController.badConfigurationFile', $e, $info = array(), $pending = true);
 				throw $e;
 			}
 
@@ -246,30 +253,13 @@ class Piwik_FrontController
 
 			Piwik::raiseMemoryLimitIfNecessary();
 			$pluginsManager->postLoadPlugins();
-
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
-	}
-	
-	/**
-	 * Assign CLI parameters as if they were REQUEST or GET parameters.
-	 * You can trigger Piwik from the command line by
-	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
-	 */
-	static protected function assignCliParametersToRequest()
-	{
-		if(isset($_SERVER['argc'])
-			&& $_SERVER['argc'] > 0)
-		{
-			for ($i=1; $i < $_SERVER['argc']; $i++)
-			{
-				parse_str($_SERVER['argv'][$i],$tmp);
-				$_GET = array_merge($_GET, $tmp);
-			}
-		}				
+		
+		Piwik::log('End FrontController->init() - Request: '. var_export($_REQUEST, true));
 	}
 }
 

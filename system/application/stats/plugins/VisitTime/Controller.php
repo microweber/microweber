@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Controller.php 4480 2011-04-16 06:24:33Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -28,7 +28,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
-		
+		$view->setCustomParameter('hideFutureHoursWhenToday', 1);
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 'label', 'asc' );		
 		$view->setColumnTranslation('label', Piwik_Translate('VisitTime_ColumnServerTime'));

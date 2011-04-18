@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Error.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Error.php 4147 2011-03-20 04:05:32Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -87,7 +87,7 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	    // is there any other case where the errno is zero at this point?
 	    if($errno == 0) return '';
 	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
-	    <strong>There is an error. Please report the message and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a>.<br /><br/>
+	    <strong>There is an error. Please report the message and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
 	    ";
 	    switch($errno)
 	    {

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CoreHome.php 3299 2010-11-07 00:53:48Z vipsoft $
+ * @version $Id: CoreHome.php 3780 2011-01-19 04:24:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
@@ -38,8 +38,8 @@ class Piwik_CoreHome extends Piwik_Plugin
 	{		
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
+		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "plugins/CoreHome/templates/styles.css";
 		$cssFiles[] = "plugins/CoreHome/templates/menu.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
@@ -70,6 +70,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/calendar.js";
 		$jsFiles[] = "plugins/CoreHome/templates/date.js";
 		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 	
 }

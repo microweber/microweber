@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mail.php 3564 2011-01-03 05:46:28Z matt $
+ * @version $Id: Mail.php 3936 2011-02-17 12:56:14Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -31,11 +31,8 @@ class Piwik_Mail extends Zend_Mail
 	
 	public function setFrom($email, $name = null)
 	{
-		$piwikHost = Piwik_Url::getCurrentHost();
-		if(strlen($piwikHost) == 0)
-		{
-			$piwikHost = 'piwik.org';
-		}
+		$hostname = Zend_Registry::get('config')->mail->defaultHostnameIfEmpty;
+		$piwikHost = Piwik_Url::getCurrentHost($hostname);
 		$email = str_replace('{DOMAIN}', $piwikHost, $email);
 		parent::setFrom($email, $name);
 	}

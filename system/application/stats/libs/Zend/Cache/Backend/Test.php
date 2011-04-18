@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Test.php 22504 2010-06-30 17:05:07Z mabe $
+ * @version    $Id: Test.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 
@@ -34,7 +34,7 @@
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
@@ -109,7 +109,8 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
           || $id == 'e83249ea22178277d5befc2c5e2e9ace'
           || $id == '40f649b94977c0a6e76902e2a0b43587'
           || $id == '88161989b73a4cbfd0b701c446115a99'
-          || $id == '205fc79cba24f0f0018eb92c7c8b3ba4')
+          || $id == '205fc79cba24f0f0018eb92c7c8b3ba4'
+          || $id == '170720e35f38150b811f68a937fb042d')
         {
             return false;
         }
@@ -163,7 +164,7 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function save($data, $id, $tags = array(), $specificLifetime = false)
     {
         $this->_addLog('save', array($data, $id, $tags));
-        if ($id=='false') {
+        if (substr($id,-5)=='false') {
             return false;
         }
         return true;
@@ -181,7 +182,7 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function remove($id)
     {
         $this->_addLog('remove', array($id));
-        if ($id=='false') {
+        if (substr($id,-5)=='false') {
             return false;
         }
         return true;

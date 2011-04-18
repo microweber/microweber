@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: RankChecker.php 3309 2010-11-09 14:19:35Z vipsoft $
+ * @version $Id: RankChecker.php 4025 2011-03-04 16:28:41Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SEO
@@ -32,7 +32,7 @@ class Piwik_SEO_RankChecker
 	private function getPage($url)
 	{
 		try {
-			return Piwik_Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+			return str_replace('&nbsp;', ' ', Piwik_Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
 		} catch(Exception $e) {
 			return '';
 		}
@@ -99,7 +99,7 @@ class Piwik_SEO_RankChecker
 	public function getBacklinksYahoo()
 	{
 		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
+		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
 		$data = $this->getPage($url);
 		preg_match('/Inlinks \(([0-9\,]+)\)/si', $data, $p);
 		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
@@ -109,9 +109,9 @@ class Piwik_SEO_RankChecker
 	public function getAge()
 	{
 		$url = preg_replace('/^www\./', '', $this->url);
-		$url = "http://www.who.is/whois-com/ip-address/$url";
+		$url = 'http://www.who.is/whois/'.urlencode($url);
 		$data = $this->getPage($url);
-		preg_match('#Creation Date: ([a-z0-9-]+)#si', $data, $p);
+		preg_match('#(?:Creation Date|Created On):\s*([a-z0-9/-]+)#si', $data, $p);
 		if(!isset($p[1]))
 		{
 			return null;
@@ -124,7 +124,7 @@ class Piwik_SEO_RankChecker
 	public function getIndexedYahoo()
 	{
 		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
+		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
 		$data = $this->getPage($url);
 		preg_match('/Pages \(([0-9,]{1,})\)/im', $data, $p);
 		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;

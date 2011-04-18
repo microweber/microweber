@@ -1,0 +1,238 @@
+<?php      
+
+/* $Id$ */      
+
+/* No hardoced URL's in examples. Just copy the folder to server. */  
+$folder = str_replace(basename($_SERVER['PHP_SELF']), '', $_SERVER['PHP_SELF']);
+$url    = sprintf('http://%s%s%s/', $_SERVER['SERVER_NAME'], $folder, 'php');
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Jeditable Custom Input Types Demo</title>
+<meta name="generator" content="Mephisto" />
+<link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/datePicker.css" media="screen" />
+<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+<script src="/mint/?js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="jquery.jeditable.js" type="text/javascript"></script>
+<script src="jquery.jeditable.autogrow.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.ajaxupload.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.masked.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.time.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.timepicker.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.datepicker.js" type="text/javascript" ></script>
+<script src="jquery.jeditable.charcounter.js" type="text/javascript" ></script>
+
+<script type="text/javascript" src="js/jquery.maskedinput.js"></script>
+<script type="text/javascript" src="js/jquery.timepicker.js"></script>
+<script type="text/javascript" src="js/jquery.autogrow.js"></script>
+<script type="text/javascript" src="js/jquery.charcounter.js"></script>
+
+<script type="text/javascript" src="js/date.js"></script>
+<!--
+<script type="text/javascript" src="js/jquery.bgigframe.js"></script>
+-->
+<script type="text/javascript" src="js/jquery.dimensions.js"></script>
+<script type="text/javascript" src="js/jquery.datePicker.js"></script>
+
+<script type="text/javascript" src="js/jquery.ajaxfileupload.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+// <![CDATA[
+$(document).ready(function() {
+  $(".charcounter").editable("<?php print $url ?>save.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      type      : "charcounter",
+      submit    : 'OK',
+      tooltip   : "Click to edit...",
+      onblur    : "ignore",
+      charcounter : {
+         characters : 60
+      }
+  });
+    $(".autogrow").editable("<?php print $url ?>save.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : "autogrow",
+        submit    : 'OK',
+        cancel    : 'cancel',
+        tooltip   : "Click to edit...",
+        onblur    : "ignore",
+        autogrow : {
+           lineHeight : 16,
+           minHeight  : 32
+        }
+    });
+    $(".masked").editable("<?php print $url ?>save.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : "masked",
+        mask      : "99/99/9999",
+        submit    : 'OK',
+        tooltip   : "Click to edit..."
+    });
+    $(".datepicker").editable("<?php print $url ?>save.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : 'datepicker',
+        tooltip   : "Click to edit..."
+    });
+    $(".timepicker").editable("<?php print $url ?>save.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : 'timepicker',
+        submit    : 'OK',
+        tooltip   : "Click to edit..."
+    });
+    $(".time").editable("<?php print $url ?>save.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : 'time',
+        submit    : 'OK',
+        tooltip   : "Click to edit..."
+    });
+    $(".ajaxupload").editable("<?php print $url ?>upload.php", { 
+        indicator : "<img src='img/indicator.gif'>",
+        type      : 'ajaxupload',
+        submit    : 'Upload',
+        cancel    : 'Cancel',
+        tooltip   : "Click to upload..."
+    });
+});
+// ]]>
+</script>  
+<style type="text/css">
+
+textarea {
+	line-height: 16px;
+}
+
+#sidebar {
+  width: 0px;
+}
+
+#content {
+  width: 770px;
+}
+
+div.entry {
+  width: 385px;
+  float: left;
+}
+
+</style>
+
+</head>
+
+<body>
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Jeditable</h1><br />
+        <small>Edit in place plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+          <!--
+          <li><a href="/cv" class="last">cv</a></li>
+        -->
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+    <p>You might also want to check <a href="default.html">default inputs demo</a>.
+
+    <div class="entry">
+
+
+      <h2>Autogrow textarea</h2>
+      <p class="autogrow" style="width: 300px">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+      <p>Depends on 
+        <a href="http://plugins.jquery.com/project/autogrow">Autogrow</a> 
+        by Chrys Bader.</p>
+
+      </div>
+      
+      <div class="entry">
+        <h2>Ajax File Upload</h2>
+        <p class="ajaxupload" id="custom_6"><?php print file_get_contents($url . 'load.php?id=custom_6') ?></p>
+        <p>
+          Fileupload which uses <a href="http://www.phpletter.com/Our-Projects/AjaxFileUpload/">Ajax File Upload</a> plugin.  
+          For security reasons after uploading this demo only display file size and name.
+          <br/>
+          <br/>
+          <br/>
+        </p>
+      </div>      
+      
+
+      <div class="entry">
+
+      <h2>Masked Input</h2>
+      <p class="masked" id="custom_1"><?php print file_get_contents($url . 'load.php?id=custom_1') ?></p>
+      <p>Depends on
+        <a href="http://digitalbush.com/projects/masked-input-plugin">Masked Input</a> by Josh Bush.
+      </p>
+
+    </div>
+    <div class="entry">
+    
+      <h2>Time Picker</h2>
+      <p class="timepicker" id="custom_4"><?php print file_get_contents($url . 'load.php?id=custom_4') ?></p>
+      <p>
+        Depends on <a href="http://jquery.com/plugins/project/timepicker">Timepicker</a> 
+        by Jason Huck.
+      </p>
+      
+    </div>
+    <div class="entry">
+
+      <h2>Time Picker 2</h2>
+      <p class="time" id="custom_5"><?php print file_get_contents($url . 'load.php?id=custom_5') ?></p>
+      <p>
+        Similar as previous but without dependenices. See <a href="http://www.appelsiini.net/2008/2/creating-inline-timepicker-with-javascript">how to create inputs tutorial</a>.
+      </p>
+      
+    </div>
+    
+    <div class="entry">
+
+      <h2>Character counter</h2>
+      <p class="charcounter" id="custom_5"><?php print file_get_contents($url . 'load.php?id=custom_6') ?></p>
+      <p>
+        Using character counter.
+      </p>
+      
+    </div>
+    
+    <!--
+    <div class="entry">
+
+      <h2>Date Picker</h2>
+      <p class="datepicker" id="custom_4"><?php print file_get_contents($url . 'load.php?id=custom_4') ?></p>
+      <p>
+        Custom input which uses <a href="http://kelvinluck.com/assets/jquery/datePicker/v2/demo/">Datepicker 
+        Plugin</a> by Kelvin Luck. This input still has some bugs.
+      </p>
+      
+    </div>
+  -->
+
+    
+    <div id="sidebar">
+    </div>
+  
+  <div id="footer">
+  </div>
+
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    _uacct = "UA-190966-1";
+    urchinTracker();
+  </script>
+
+</body>
+</html>

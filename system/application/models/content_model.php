@@ -240,7 +240,6 @@ class content_model extends Model {
 		
 		}
 		
-		
 		if ($data_to_save ['content_body_filename'] != false) {
 			
 			if (trim ( $data_to_save ['content_body_filename'] ) != '') {
@@ -5123,7 +5122,7 @@ $my_limit_q
 	
 	}
 	
-	function pagingPrepareUrls($base_url = false, $pages_count, $paging_param = 'curent_page') {
+	function pagingPrepareUrls($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword') {
 		
 		//getCurentURL()
 		
@@ -7979,7 +7978,7 @@ $my_limit_q
 		
 		$children_of_the_main_parent = CI::model ( 'taxonomy' )->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
 		// 
-		$q = CI::model ( 'core' )->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/'.intval($content_parent) );
+		$q = CI::model ( 'core' )->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/' . intval ( $content_parent ) );
 		
 		$result = $q;
 		
@@ -8298,7 +8297,7 @@ $my_limit_q
 				
 				if ($ul_class_name == false) {
 					
-					$print1 = "<ul>";
+					$print1 = "<ul  class='category_tree'>";
 				
 				} else {
 					
@@ -8392,11 +8391,11 @@ $my_limit_q
 						
 						if ($li_class_name == false) {
 							
-							print "<li>";
+							print "<li class='category_element' id='category_item_{$item['id']}'>";
 						
 						} else {
 							
-							print "<li class='$li_class_name'>";
+							print "<li class='$li_class_name' id='category_item_{$item['id']}' >";
 						
 						}
 					
@@ -8474,10 +8473,6 @@ $my_limit_q
 								}
 							
 							}
-							
-							
-							
-							
 							
 							if (strval ( $to_print ) == '') {
 								

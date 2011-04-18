@@ -125,12 +125,17 @@ $.fn.spy = function(settings) {
 		spy.ajaxTimer = window.setInterval(function() {
 			if (spyRunning && (!spy.parsing)) {
 			    var customParameterValue = o.customParameterValueCallback.call();
+			    if(!customParameterValue)
+			    {
+			    	spyRunning = 0; 
+			    	return;
+			    }
 				parameters[o.customParameterName] = customParameterValue;
 				spyRunning = 0; 
-				$.get(o.ajax, parameters, function(r) {
+				piwikHelper.queueAjaxRequest( $.get(o.ajax, parameters, function(r) {
 					spy.parse(e, r);
 					spyRunning = 1; 
-				});
+				}));
 			}
 		}, o.timeout);
 	});

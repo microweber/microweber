@@ -1,12 +1,16 @@
-menus
+<div class="box radius">
+<div class="box_header radius_t">
+     <h2>Menus</h2>
+</div>
 
-<table width="100%" border="0">
-  <tr>
-    <td>
-    
-    
+<div id="menus">
+
+
+
+
+
  <?php  $menus = CI::model('content')->content_model->getMenus(array('item_type' => 'menu'));
-		
+
 		 
 		?>
     
@@ -14,13 +18,12 @@ menus
       <mw module="admin/content/menu" id="<?php print $item['id'] ?>" />
          
         <?php endforeach; ?>
-        
-   
-    
-    </td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
+
+
+</div>
+
+
+</div>
 
 
 

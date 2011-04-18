@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3474 2010-12-20 19:20:01Z matt $
+ * @version $Id: Controller.php 3748 2011-01-15 22:21:15Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -33,7 +33,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	public function getPageUrls($fetch = false)
 	{
 		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
-		$this->configureViewPageUrls($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
@@ -41,12 +41,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	public function getPageUrlsSubDataTable($fetch = false)
 	{
 		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
-		$this->configureViewPageUrls($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
 
-	protected function configureViewPageUrls($view)
+	protected function configureViewPages($view)
 	{
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate') );
 	}
@@ -74,7 +74,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('entry_bounce_count', Piwik_Translate('General_ColumnBounces'), Piwik_Translate('General_BouncesDefinition'));
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'), Piwik_Translate('General_EntrancesDefinition'));
 		// remove pages that are not entry pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'), $priorityFilter = true);
 	}
 
 	public function getExitPageUrls($fetch = false)
@@ -99,7 +99,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate') );
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'), Piwik_Translate('General_ExitsDefinition'));
 		// remove pages that are not exit pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'), $priorityFilter = true);
 	}
 	
 	public function getPageTitles($fetch = false)
@@ -110,7 +110,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getPageTitles',
 						'getPageTitlesSubDataTable' );
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageName'));
-		$this->configureViewPageTitles($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
@@ -122,15 +122,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						__FUNCTION__,
 						'Actions.getPageTitles',
 						'getPageTitlesSubDataTable'  );
-		$this->configureViewPageTitles($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
 
-	protected function configureViewPageTitles($view)
-	{
-		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits') );
-	}
 	
 	public function getDownloads($fetch = false)
 	{

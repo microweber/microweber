@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AnonymizeIP.php 3188 2010-09-27 17:16:04Z vipsoft $
+ * @version $Id: AnonymizeIP.php 4312 2011-04-04 19:19:46Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
@@ -44,8 +44,8 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	/**
 	 * Internal function to mask portions of the visitor IP address
 	 *
-	 * @param $ip Unsigned long representation of IP address
-	 * @param $maskLength Number of octets to reset
+	 * @param string $ip Unsigned long representation of IP address
+	 * @param int $maskLength Number of octets to reset
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{

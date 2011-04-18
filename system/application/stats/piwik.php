@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: piwik.php 3545 2010-12-29 21:23:50Z vipsoft $
+ * @version $Id: piwik.php 4325 2011-04-05 07:43:11Z matt $
  *
  * @package Piwik
  */
@@ -41,7 +41,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Common.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
-require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Cookie.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/GoalManager.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Action.php';
@@ -49,7 +49,6 @@ require_once PIWIK_INCLUDE_PATH .'/core/CacheFile.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Cookie.php';
 
 session_cache_limiter('nocache');
-ob_start();
 @date_default_timezone_set('UTC');
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
@@ -59,7 +58,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	$timer = new Piwik_Timer();
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
-	printDebug($_GET);
+	printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
 	Piwik_Tracker_Db::enableProfiling();
 	// Config might have been created by proxy-piwik.php
 	try {
@@ -72,6 +71,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 
 if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 {
+	ob_start();
 	$process = new Piwik_Tracker();
 	$process->main();
 	ob_end_flush();
@@ -81,3 +81,4 @@ if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 		printDebug($timer);
 	}
 }
+

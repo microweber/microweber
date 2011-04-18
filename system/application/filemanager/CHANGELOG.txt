@@ -1,0 +1,273 @@
+****************************
+Changelog for eXtplorer
+Version $Id: CHANGELOG.txt 186 2011-01-18 12:42:58Z soeren $
+****************************
+
+--- version 2.1.0 RC3 released ---
+
+- fixed filesize for files > 2GB
+- works and installs on Joomla! 1.6 now
+
+--- version 2.1.0 RC2 released ---
+
+- updated to ExtJS 3.3.1
+- fixed Flash Upload
+- updated to SWFUPload 2.5 beta
+- fixed deprecated warnings because of ereg functions
+- fixed some FTP file operations (upload, copy, move, delete)
+- fixed visibility of user form fields (form appeared empty)
+- fixed editable file types detection (+ added .ini)
+
+--- version 2.1.0 RC1 released ---
+- finally added the File Diff Feature
+- added RAR extraction feature
+- updated to ExtJS 3.2.1
+- only editable files are shown in source view now, viewing all other files will lead to a redirected to "download"
+- PDF files now open inline in an iframe
+
+--- version 2.1.0 beta6 released ---
+- updated to ExtJS 3.0.3
+
+--- version 2.1.0 beta5 released ---
+
+- added nice slide-in message box for success messages
+- removed deprecated ZIP library
+
+--- version 2.1.0 beta4 released ---
+
+- changed Save/Reopen/Cancel buttons in Edit View to appear in the top toolbar
+- changed directory drop-down lists to a vista-like location bar
+- new: Flash Upload! Using SWFUploadPanel
+- added pluggable authentication system
+
+--- version 2.1.0 beta3 released ---
+
+- changed default state of "Show Directories" to enabled
+- changed Edit Window to appear in a new Tab per File
+- assigned Keyboard Events to the Grid (Delete, Ctrl-A, Ctrl-C, Ctrl-X)
+- updated to ExtJS3 RC2
+- updated EditArea to version 0.8.1.1 (loads faster and is more stable)
+
+--- version 2.1.0 beta released ---
+
+- allowing Download by users with "view" permission
+- updated Services-JSON class to version 0.9.0
+- updated GeSHi to version 1.0.8.3
+- moved from ExtJS 1.1 to ExtJS 2.2
+
+-- version 2.0.1 released (2009-01-15) ----
+
+- added script for WebDAV access (disabled by default, requires 2 database tables and DB login credentials)
+- fixed a security issue within script initialization
+
+-- version 2.0.0 stable released (2008-08-05) ----
+
+- added .csv to the editable file types
+- when copying/moving multiple directories, only the first directory was processed
+- fixed failing extraction of larger archives ("Failed to connect to the server")
+- updated Editarea to 0.7.1.3
+- fixed browsing & working on external FTP servers
+- fixed dirselectors not working in FTP mode
+- fixed file-mode switch link
+
+-- version 2.0.0 RC4 released (2008-05-31) ----
+
+- fixed installation package for Joomla! 1.5
+- added Danish Language Files (thanks to Ronny Buelund!)
+
+-- version 2.0.0 RC3 released (2008-05-31) ----
+
+- [ 1944163 ] In germanf.php fehlt ein Eintrag
+- fixed compatibility problem with JomComment+MyBlog (Services_JSON was redeclared)
+- switched from "Codepress" to "EditArea" (http://www.cdolivet.net/index.php?page=editArea), which gives a lot of advantages:
+	* faster loading of large files
+	* built-in toggle feature
+	* built-in Find, Search+Replace and Jump-To-Line Features
+	
+-- version 2.0.0 RC3 released (2008-05-26) ----
+
+- fixed Cross-Site Scripting & File Disclosure Vulnerability
+- fixed MimeType detection for search results
+
+-- version 2.0.0 RC2 released (2008-02-10) ----
+
+- fixed Standalone scripts.zip extraction error
+- re-added System Info (moved to "About" Window)
+- implemented basic UTF-8 support for file mode
+- changed [ 1800028 ] Need to enlarge file edit box, or allow for full screen
+- fixed [ 1791706 ] incorrect error reporting
+- fixed [ 1790536 ] Browsing directory incorrect
+- fixed [ 1782937 ] when unzipping a zip containing a zip: zip not present!
+
+-- version 2.0.0 RC1 released ----
+
+- fixed [ 1755938 ] status bar messages truncated when path is too long
+- fixed [ 1759450 ] No textfield and browse button in upload file on IE7
+- fixed [ 1762000 ] copy a file from a subfolder to "root" folder doesn't work
+- fixed [ 1766233 ] Chmod error in FTP mode
+- fixed [ 1761083 ] IE7 closing button & seach action (file search - subdirectories weren't included)
+
+--- version 2.0.0 beta5 released ----
+
+- added Swedish and Slovenian Language Files
+- set "zip" as default archive type
+- added message box that prevents eXtplorer usage on Joomla! 1.0.x versions >= 1.0.13 and explains why.
+- added Joomla! version check
+- implemented some changes for compatibility on Windows Systems with IIS running
+
+--- version 2.0.0 beta4 released ----
+
+- fixed header-only problems on Mambo/Joomla! < 1.0.10
+- added Server-to-Server transfer capabilities (using fopen, cURL or fsockopen)
+- fixed [#6092] Some strings remained hardcoded
+- fixed [ 1754755 ] Save button when uploading file not translated
+- fixed the Frontend Browsing part (when being used as a Joomla! component)
+- updated finnish and french language file
+- updated ExtJS to 1.1 RC1, included Konqueror Patch
+- fixed [ 1752904 ] error on admin dialog opening
+- fixed [ 1752901 ] Combo on Login page doesn't work in IE6 and 7
+- fixed [ 1752534 ] Non-static method ext_Lang::msg()
+- removed dialog_status from onHide function for the dialog
+- fixed bugs in the language files  with undefined properties of non-existant var $_VERSION
+- fixed bug with undefined var $acl
+
+--- version 2.0.0 beta4 released ----
+
+- fixed a bug which caused that a maximum of 50 directories in the same level were listed in the tree, not all
+- fixed a bug with CodePress - didn't allow to edit files (when used in Joomla!)
+- added a check to the standalone version to extract the contents of the file "scripts.zip" online and throw a warning if it doesn't succeed.
+- removed the status bar from the Dialogs, moved the status bat into the Paging Toolbar
+- added CSS styles to make the dropdown lists smaller
+
+--- version 2.0.0 beta3 released ----
+
+- re-activated User Management for the stand-alone version
+- fixed a critical error which caused deletion of directories although "Cancel" was clicked
+- fixed an error which prevented correct listing of numeric directories/files
+
+--- version 2.0.0 beta2 released ----
+- added double-click action which opens the Context Menu in the grid (Opera and Konqueror don't allow custom right-click menus)
+- applied patches to ExtJS to allow usage with Konqueror
+- added new ext_Lang class to be able to escape quotes and line endings for using it in JavaScript Strings
+- fixed node context menu displaying outside of view
+- added the fetchscript.php file to bundle and compress javascript and stylesheet files
+  (Sending compressed js and css files significantly reduces the download size for ExtJS)
+
+--- version 2.0.0 beta1 released ----
+
+- fixed the "symlink points to target which can't be accessed" problem
+- fixed "out of memory" problems
+- directory names changed (no directories starting with a '.' anymore now)
+- completely changed layout: directory tree, file grid with renaming, context menu, drag&drop
+- added the ExtJS 1.0.1a library
+
+
+--- version 1.6.0 released ----
+
+- archives do not contain the whole file path anymore now, but only the relative one
+- added possibility to specify a directory where an archive file is saved to (allows to create archives even when the currenty directory is not writable)
+- added the great CodePress Sytnax Highlighting Editor (http://codepress.fermads.net/)
+- removed the extra spaces in the directory path
+- fixed the "Strict Standards" error (non-static method called statically)
+
+--- version 1.5.1 released ----
+
+- added ftp logout function to allow different ftp logins during one admin session
+- added possibility to specify an FTP host name and port (other than localhost:21)
+- bookmark functionality fixes (thanks to pokemon!)
+- fixed a critical error where wrong permissions would be applied to an uploaded file in FTP mode
+	(leading to a 403 error on some servers)
+	
+--- version 1.5.0 released ---
+
+- changed the way errors are displayed (+nice styling).
+- added support for *symbolic links*. You can create and delete links, but not change the target. You will have to create a new link to do so.
+
+- joomlaXplorer is an FTP client now! - added PEAR'S Net_FTP package to allow local FTP access/transactions
+
+- changed Archiving Section to ajax-based step-by-step system to prevent time-outs
+- added PEAR Package File_Archive to allow better archive handling
+- changed file links in the directory list to "Edit" or "Download"
+- added a simple file-based bookmark system
+- changed the download function to allow larger downloads (100MB+)
+- replaced hardcoded english strings with new variables (thanks to Paulino Michelazzo!)
+
+--- version 1.4.0 released ---
+
+- added a new "View File" feature to dispay a file's source code with GeSHi syntax highlighting
+
+- checking now, if a remembered directory exists (it might have been deleted meanwhile)
+- added line number / column monitoring on the "Edit file" form
+	it also allows to jump to a certain line number
+- added feature to allow overwriting existing files on upload
+- fixed directory chmod issues 
+	Details: when running a *chmod* command on files and directories 
+	with permissions that do not include "execute", directories would become inaccessible (e.g. d--------- (root). Tip by John, thanks!)
+- added basic frontend directory browsing and file download feature (not comparable to Docman or ReMOSitory, 
+	it's just a directory browser, no descriptions, no download counter!)
+	!DISABLED BY DEFAULT!
+	Enable by editing the file
+	/components/com_extplorer/configuration.jx.php
+
+--- version 1.3.3 released ---
+
+- fixed a wrong image source (menu_divider.gif => png)
+- fixed a fatal error when using joomlaXplorer on installations with the SafeMode hack
+- added Bulgarian language (thanks to Ivo Apostolov)
+- fixed download problems under Mambo 4.5.2.3 with gzip compression = On
+
+
+--- version 1.3.2 released ---
+
+- fixed various problems (create file/directory, archiving, download) with $mosConfig_absolute_path
+
+
+--- version 1.3.1 released ---
+
+- last visited directory is stored in the session for quick go-back
+- updated finnish language
+- added Icelandic language
+- fixed an error which caused icons not to display
+  in directories outside of the Joomla/Mambo root directory
+
+--- version 1.3.0 released ---
+
+- the home directory is now ONE LEVEL ABOVE the joomla/mambo directory.
+	If you have joomla inside 
+	/public_html/
+	You will be able to browse to the root directory
+	/
+	! Check if you want this behaviour. When not, see /config/conf.php line 41....
+- created archives don't contain the full path anymore, but the relative path from the mosConfig_absolute_path
+- converted transparent .png to .gif
+- removed the IE transparency fix, which caused IE to slow down (really long load times!)
+- updated the language files
+- "Chmod", "Edit" and "Delete" links are not active now, when the file is not chmodable, writable or deletable
+- delete alert box will display the name of the file that is to be deleted
+- added a checkbox to chmod form, so the user can decide wether to chmod rescursively or not
+- added a rename feature
+- current user ID and group ID (on a *nix OS) are displayed correctly now
+- component name changed to "joomlaXplorer"
+
+--- version 1.2.1 released ---
+
+- bug fix: File Upload Icon is grey although file uploads are allowed
+- bug fix: [#4944] mamboXplorer strips \r\n to just rn
+- added Unzip / Unarchive Feature (Feature Request #6171)
+  to unpack archive types: zip, gz, bz2
+  directly on your webspace.
+- fix for the PNG Fix.
+
+--- version 1.2a released ---
+
+- new language variables + more languages
+- nice X - Icon for components Menu. thanks to Michael!
+- added PNG transparency fix for IE
+- added Owner / Group information to File List
+- bug fix: "$ok @cmod" changed to "$ok = @chmod"
+
+--- version 1.2 released ---
+- removed full path from Archive ( tar.gz /bzip2 Archive Creation)
+- added ability to change permissions recursiveley through all subdirectories
+
+--- version 1.1 released ---

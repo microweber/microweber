@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Controller.php 4465 2011-04-15 04:17:43Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_API
@@ -42,5 +42,75 @@ class Piwik_API_Controller extends Piwik_Controller
 		$view->countLoadedAPI = Piwik_API_Proxy::getInstance()->getCountRegisteredClasses();
 		$view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
 		echo $view->render();
+	}
+	
+	public function listSegments()
+	{
+		$segments = Piwik_API_API::getInstance()->getSegmentsMetadata($this->idSite);
+		
+		$tableDimensions = $tableMetrics = '';
+		$customVariables=0;
+		$lastCategory=array();
+		foreach($segments as $segment)
+		{
+			$customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2'));
+			// Don't display more than 4 custom variables name/value rows
+			if($segment['category'] == 'Custom Variables'
+				&& !$customVariableWillBeDisplayed)
+			{ 
+				continue;
+			}
+			
+			$thisCategory = $segment['category'];
+			$output = '';
+			if(empty($lastCategory[$segment['type']]) 
+				|| $lastCategory[$segment['type']] != $thisCategory)
+			{
+				$output .= '<tr><td class="segmentCategory" colspan="2"><b>'.$thisCategory.'</b></td></tr>';
+			}
+			
+			$lastCategory[$segment['type']] = $thisCategory;
+			
+			$exampleValues = isset($segment['acceptedValues']) 
+								? 'Example values: <code>'.$segment['acceptedValues'].'</code>' 
+								: '';
+			$restrictedToAdmin = isset($segment['permission']) ? '<br/>Note: This segment can only be used by an Admin user' : '';
+			$output .= '<tr>
+							<td class="segmentString">'.$segment['segment'].'</td>
+							<td class="segmentName">'.$segment['name'] .$restrictedToAdmin.'<br/>'.$exampleValues.' </td>
+						</tr>';
+			
+			// Show only 2 custom variables and display message for rest
+			if($customVariableWillBeDisplayed)
+			{
+				$customVariables++;
+    			if($customVariables == 4)
+    			{
+    				$output .= '<tr><td colspan="2"> There are 5 custom variables available, so you can segment across any segment name and value range.
+    						<br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
+    						<br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
+    						</td></tr>';
+    			}
+			}
+			
+			
+			if($segment['type'] == 'dimension') {
+				$tableDimensions .= $output;
+			} else {
+				$tableMetrics .= $output;
+			}
+		}
+		
+		echo "
+		<b>Dimensions</b>
+		<table>
+		$tableDimensions
+		</table>
+		<br/>
+		<b>Metrics</b>
+		<table>
+		$tableMetrics
+		</table>
+		";
 	}
 }

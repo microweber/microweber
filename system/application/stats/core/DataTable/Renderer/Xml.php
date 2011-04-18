@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Xml.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Xml.php 3963 2011-02-23 08:42:48Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -99,7 +99,15 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			}
 			else
 			{
-				$out = "<result>".self::formatValueXml($out)."</result>";
+				$value = self::formatValueXml($out);
+				if($value === '') 
+				{
+					$out = "<result />";
+				} 
+				else 
+				{
+					$out = "<result>".$value."</result>";
+				}
 			}
 			return $out;
 		}

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4366 2011-04-07 22:07:03Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -24,7 +24,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'databaseSetup'         => 'Installation_DatabaseSetup',
 			'databaseCheck'         => 'Installation_DatabaseCheck',
 			'tablesCreation'        => 'Installation_Tables',
-			'generalSetup'          => 'Installation_GeneralSetup',
+			'generalSetup'          => 'Installation_SuperUser',
 			'firstWebsiteSetup'     => 'Installation_SetupWebsite',
 			'displayJavascriptCode' => 'Installation_JsTag',
 			'finished'              => 'Installation_Congratulations',
@@ -73,8 +73,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	function welcome($message = false)
 	{
 		// Delete merged js/css files to force regenerations based on updated activated plugin list
-		Piwik_AssetManager::removeMergedAssets();
-		Piwik_View::clearCompiledTemplates();
+		Piwik::deleteAllCacheOnUpdate();
 		
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl',
@@ -123,6 +122,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'eval'            => 'Installation_SystemCheckEvalHelp',
 			'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
 			'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
+			'pack'            => 'Installation_SystemCheckPackHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -193,7 +193,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			try{
 				try {
-					Piwik::createDatabaseObject($dbInfos);
+					@Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
 					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
@@ -203,8 +203,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					{
 						$dbInfosConnectOnly = $dbInfos;
 						$dbInfosConnectOnly['dbname'] = null;
-						Piwik::createDatabaseObject($dbInfosConnectOnly);
-						Piwik::createDatabase($dbInfos['dbname']);
+						@Piwik::createDatabaseObject($dbInfosConnectOnly);
+						@Piwik::createDatabase($dbInfos['dbname']);
 						$this->session->databaseCreated = true;
 					}
 					else
@@ -328,7 +328,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->tablesInstalled = implode(', ', $tablesInstalled);
 			$view->someTablesInstalled = true;
 
-			$minimumCountPiwikTables = 12;
+			$minimumCountPiwikTables = 18;
 			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
 			Piwik::createAccessObject();
@@ -528,6 +528,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
+
+		$this->session->unsetAll();
 	}
 
 	/**
@@ -676,7 +678,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	public static function getSystemInformation()
 	{
-		$minimumPhpVersion = Zend_Registry::get('config')->General->minimum_php_version;
+		global $piwik_minimumPHPVersion;
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 
 		$infos = array();
@@ -685,20 +687,19 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
 		$infos['can_auto_update'] = Piwik::canAutoUpdate();
 		
-		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
-		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
+		if(Piwik_Common::isIIS())
 		{
 			Piwik::createWebConfigFiles();
 		}
-		else if(!strncmp($serverSoftware, 'Apache', 6))
+		else
 		{
 			Piwik::createHtAccessFiles();
 		}
 		Piwik::createWebRootFiles();
 
-		$infos['phpVersion_minimum'] = $minimumPhpVersion;
+		$infos['phpVersion_minimum'] = $piwik_minimumPHPVersion;
 		$infos['phpVersion'] = PHP_VERSION;
-		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
+		$infos['phpVersion_ok'] = version_compare( $piwik_minimumPHPVersion, $infos['phpVersion']) === -1;
 
 		// critical errors
 		$extensions = @get_loaded_extensions();
@@ -732,6 +733,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'eval',
 			'gzcompress',
 			'gzuncompress',
+			'pack',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
@@ -810,6 +812,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['isIpv4'] = false;
 		}
 
+		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 		$infos['serverVersion'] = addslashes($serverSoftware);
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
@@ -849,7 +852,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
 		if(Piwik_Url::getCurrentScheme() == 'http' && $infos['protocol'] !== null)
 		{
-			$infos['general_infos']['reverse_proxy'] = '1';
+			$infos['general_infos']['secure_protocol'] = '1';
 		}
 		if(count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0)
 		{

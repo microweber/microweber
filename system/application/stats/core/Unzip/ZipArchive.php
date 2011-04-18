@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ZipArchive.php 3312 2010-11-13 04:26:27Z vipsoft $
+ * @version $Id: ZipArchive.php 4297 2011-04-03 19:31:58Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -14,8 +14,9 @@
  * Unzip wrapper around ZipArchive
  *
  * @package Piwik
+ * @subpackage Piwik_Unzip
  */
-class Piwik_Unzip_ZipArchive  implements Piwik_iUnzip
+class Piwik_Unzip_ZipArchive  implements Piwik_Unzip_Interface
 {
 	private $ziparchive;
 	public $filename;

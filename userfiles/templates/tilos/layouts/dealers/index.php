@@ -97,7 +97,7 @@ description: Dealers site layout
   <h3 class="title">Dealers lists</h3>
   <? endif ; ?>
   
-  
+
   
   
   
@@ -125,10 +125,10 @@ description: Dealers site layout
   <br />
   <br />
   <? $cf = get_custom_fields_for_content( $post['id']);
-		
+
 		//p($cf);
 		?>
-  <ul>
+  <ul style="padding-left: 20px">
         <li><strong><? print $post['content_title'] ?></strong></li>
         <? foreach( $cf as $c) :?>
         <li><strong><? print $c['config']['name']; ?>:</strong> <? print $c['custom_field_value']; ?></li>

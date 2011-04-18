@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CoreUpdater.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: CoreUpdater.php 4361 2011-04-07 19:08:13Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -52,7 +52,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
 		return $componentsWithUpdateFile;
 	}
-
+	
 	function dispatch()
 	{
 		$module = Piwik_Common::getRequestVar('module', '', 'string');
@@ -61,10 +61,12 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		$updates = $updater->getComponentsWithNewVersion();
 		if(!empty($updates))
 		{
-			Piwik_AssetManager::removeMergedAssets();
-			Piwik_View::clearCompiledTemplates();
+			Piwik::deleteAllCacheOnUpdate();
 		}
-		if(self::getComponentUpdates($updater) !== null && $module != 'CoreUpdater')
+		if(self::getComponentUpdates($updater) !== null 
+			&& $module != 'CoreUpdater'
+			// Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
+			&& $module != 'Proxy')
 		{
 			Piwik::redirectToModule('CoreUpdater');
 		}

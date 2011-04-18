@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: index.php 3304 2010-11-08 05:00:36Z vipsoft $
+ * @version $Id: index.php 4151 2011-03-20 11:51:09Z vipsoft $
  */
 
 /**
@@ -24,6 +24,7 @@ define('PIWIK_INCLUDE_PATH', '..');
 define('PIWIK_DOCUMENT_ROOT', '..');
 define('PIWIK_USER_PATH', '..');
 
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
 $file = '../piwik.js';

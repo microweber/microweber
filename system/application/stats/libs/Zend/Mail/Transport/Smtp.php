@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Smtp.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Smtp.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 
@@ -45,7 +45,7 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
@@ -111,7 +111,7 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
      * @param  string $host OPTIONAL (Default: 127.0.0.1)
      * @param  array|null $config OPTIONAL (Default: null)
      * @return void
-     * 
+     *
      * @todo Someone please make this compatible
      *       with the SendMail transport class.
      */
@@ -204,7 +204,7 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
         }
 
         // Set sender email address
-        $this->_connection->mail($this->_mail->getFrom());
+        $this->_connection->mail($this->_mail->getReturnPath());
 
         // Set recipient forward paths
         foreach ($this->_mail->getRecipients() as $recipient) {

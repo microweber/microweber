@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FormResetPassword.php 3529 2010-12-25 04:13:36Z vipsoft $
+ * @version $Id: FormResetPassword.php 3761 2011-01-16 22:01:31Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -35,6 +35,8 @@ class Piwik_Login_FormResetPassword extends Piwik_QuickForm2
 
 		$this->addElement('text', 'form_token')
 		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordResetToken')));
+
+		$this->addElement('hidden', 'form_nonce');
 
 		$this->addElement('submit', 'submit');
 

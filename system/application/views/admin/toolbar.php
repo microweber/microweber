@@ -154,8 +154,8 @@ $(document).ready(function(){
 
 
 
-    uploader.init();
-
+  //  uploader.init();
+//
 
     return uploader;
 }
@@ -205,7 +205,7 @@ $(document).ready(function(){
       // domEle == this
       $editblock_id = $(domEle).attr("id");
       $(domEle).find(".mw_save").remove();
-      $(domEle).append('<a class="mw_save" href="javascript:save_editblock(\''+$editblock_id+'\');">save</a>');
+     // $(domEle).append('<a class="mw_save" href="javascript:save_editblock(\''+$editblock_id+'\');">save</a>');
    /*   if ($(this).is("#stop")) {
         $("span").text("Stopped at div index #" + index);
         return false;
@@ -284,6 +284,7 @@ $.each(obj.attributes, function(i, val) {
       alert(i+" = "+val)
     });
 */
+$(".js_generated").remove();
 
 
 	$.ajax({
@@ -432,7 +433,7 @@ myNicEditor.setPanel('mw_editbar');
 //}//end onload
 
 </script>
-    <? include "toolbar_uploader.php" ?>
+    <? // include "toolbar_uploader.php" ?>
     <? /*
        	<div style="width: 250px;" >
 			<div id="dropzone" style="background-color: aqua; width: 100%; height: 200px;" ></div>
@@ -498,8 +499,8 @@ myNicEditor.setPanel('mw_editbar');
            
  
  
- <? p(CATEGORY_ID); ?>
-  <? p(CATEGORY_IDS); ?>
+ <? // p(CATEGORY_ID); ?>
+  <?   //p(CATEGORY_IDS); ?>
  
 
 </div>

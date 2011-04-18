@@ -49,6 +49,20 @@ if($params['multiselect']){
 
 ?>
 
+<?
+ $sortable = false;
+if($params['sortable']){
+	 $sortable = true;
+	 }
+
+?>
+<? if($sortable == true):?>
+
+ 
+<? endif; ?>   
+
+
+
 <div class="cat_list <? print $multiselect; ?>" id="<? print $rand_id ?>">
   <?
 //p($params);
@@ -82,9 +96,14 @@ if($params['multiselect']){
 	 	 if($params['active_categories']){
 	 $params['actve_ids'] =($params['active_categories']);
 	 }
+	 
+	 	 if($params['active_categories']){
+	 $params['actve_ids'] =($params['active_categories']);
+	 }
 
 
  $params ['include_first'] = true;
+ $params ['ul_class_name'] = 'category_tree';
 
 /*$actve_ids = ($params ['actve_ids']) ? $params ['actve_ids'] : false;
 	$active_code = ($params ['active_code']) ? $params ['active_code'] : false;

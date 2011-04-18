@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: GenerateGraphData.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: GenerateGraphData.php 4252 2011-03-30 22:00:14Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -98,7 +98,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
 		$this->disableQueuedFilters();
-
+		
 		// throws exception if no view access
 		$this->loadDataTableFromAPI();
 		$this->checkStandardDataTable();
@@ -118,7 +118,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		if(!$this->isDataAvailable)
 		{
-			$this->view->setTitle(html_entity_decode(Piwik_Translate('General_NoDataForGraph'), ENT_COMPAT, 'UTF-8'), '{font-size: 25px;}');
+			$this->view->setTitle(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
 		}
 		else
 		{

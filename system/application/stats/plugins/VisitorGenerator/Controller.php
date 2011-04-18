@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3192 2010-09-28 15:11:02Z vipsoft $
+ * @version $Id: Controller.php 4451 2011-04-14 19:00:39Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
@@ -14,7 +14,8 @@
  *
  * @package Piwik_VisitorGenerator
  */
-class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
+class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
+{
 
 	public function index() {
 		Piwik::checkUserIsSuperUser();
@@ -33,7 +34,6 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 	public function generate() {
 		// Only admin is allowed to do this!
 		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
 
 		$GET = $_GET;
 		$POST = $_POST;
@@ -46,6 +46,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		{
 			Piwik::redirectToModule('VisitorGenerator', 'index');
 		}
+		Piwik_Nonce::discardNonce('Piwik_VisitorGenerator.generate');
 
 		$minVisitors = Piwik_Common::getRequestVar('minVisitors', 20, 'int');
 		$maxVisitors = Piwik_Common::getRequestVar('maxVisitors', 100, 'int');
@@ -82,6 +83,19 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$timer = new Piwik_Timer;
 
 		$startTime = time() - ($daysToCompute-1)*86400;
+		
+		
+		// Update site.ts_created if we generate visits on days before the website was created
+		$site = new Piwik_Site($idSite);
+		$minGeneratedDate = Piwik_Date::factory($startTime);
+		if($minGeneratedDate->isEarlier($site->getCreationDate()))
+		{
+			// direct access to the website table (bad practise but this is a debug / dev plugin)
+    		Zend_Registry::get('db')->update(Piwik_Common::prefixTable("site"), 
+    							array('ts_created' =>  $minGeneratedDate->getDatetime()),
+    							"idsite = $idSite");
+			
+		}
 		$dates = array();
 		while($startTime <= time()) {
 			$visitors = rand($minVisitors, $maxVisitors);
@@ -115,8 +129,8 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		
 		// Init view
 		$view = Piwik_View::factory('generate');
-		$view->menu = Piwik_GetAdminMenu();
 		$this->setBasicVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
 		$view->assign('dates', $dates);
 		$view->assign('timer', $timer);
 		$view->assign('nbActionsTotal', $nbActionsTotal);

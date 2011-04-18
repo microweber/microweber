@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Main.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: Main.php 4335 2011-04-06 01:43:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik_Menu
@@ -60,7 +60,8 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 	public function get()
 	{
 		// We trigger the Event only once!
-		if(!$this->menu) {
+		if(!$this->menu)
+		{
 			Piwik_PostEvent('Menu.add');
 		}
 		return parent::get();

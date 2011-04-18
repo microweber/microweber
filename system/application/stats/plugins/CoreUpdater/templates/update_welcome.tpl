@@ -27,9 +27,10 @@
 			<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
 		{/if}
 
-		<p><strong>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</strong></p>
+		<h4>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</h4>
 		<ul>
 		<li>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</li>
+		<li>It is also recommended for high traffic Piwik servers to <a target='_blank' href='?module=Proxy&action=redirect&url={"http://piwik.org/faq/how-to/#faq_111"|escape:"url"}'>momentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.</li>
 		<li>{'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate}<br />
 			<a href='#' id='showSql' style='margin-left:20px'>› {'CoreUpdater_ClickHereToViewSqlQueries'|translate}</a>
 		<div id='sqlQueries' style='display:none'>
@@ -40,8 +41,10 @@
 			{/foreach}
 			</code>
 		</div>
+		</li>
+		</ul>
 		<br /><br />
-		<p><strong>{'CoreUpdater_ReadyToGo'|translate}</strong></p>
+		<h4>{'CoreUpdater_ReadyToGo'|translate}</h4>
 		<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 	{/if}
 
@@ -55,7 +58,7 @@
 
 	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
 		<br />
-		<form action="index.php">
+		<form action="index.php" id="upgradeCorePluginsForm">
 		<input type="hidden" name="updateCorePlugins" value="1" />
 		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
 		</form>
@@ -74,7 +77,8 @@
 {include file="Installation/templates/integrityDetails.tpl"}
 
 {literal}
-<style>
+<style type="text/css">
+submit 
 code {
 	background-color:#F0F7FF;
 	border-color:#00008B;
@@ -86,11 +90,18 @@ code {
 	padding:4px;
 	text-align:left;
 }
+li {
+	margin-top:10px; 
+	margin-left:30px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
  	$('#showSql').click( function () {
  		$('#sqlQueries').toggle(); 
+ 	});
+ 	$('#upgradeCorePluginsForm').submit(function(){
+ 	    $('input[type=submit]', this).attr('disabled', 'disabled');
  	});
 });
 </script>

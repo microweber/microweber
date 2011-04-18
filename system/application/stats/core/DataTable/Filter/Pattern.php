@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Pattern.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Pattern.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -32,7 +32,6 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		$this->patternToSearchQuoted = self::getPatternQuoted($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
         $this->invertedMatch = $invertedMatch;
-		$this->filter();
 	}
 	
 	static public function getPatternQuoted( $pattern )
@@ -48,9 +47,9 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $invertedMatch;
 	}
 	
-	protected function filter()
+	public function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			//instead search must handle
 			// - negative search with -piwik
@@ -58,7 +57,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
 			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $this->invertedMatch))
 			{
-				$this->table->deleteRow($key);
+				$table->deleteRow($key);
 			}
 		}
 	}

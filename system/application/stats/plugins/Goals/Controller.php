@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4304 2011-04-04 05:04:56Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -55,7 +55,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView();
 		$view->displayFullReport = true;
-        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
+        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	
@@ -77,9 +77,10 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$view->idGoal = $idGoal;
 		$view->goalName = $goalDefinition['name'];
+		$view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
 		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'.$idGoal;
-		$view->topSegments = $this->getTopSegments($idGoal);
+		$view->topDimensions = $this->getTopDimensions($idGoal);
 		
 		// conversion rate for new and returning visitors
 		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
@@ -93,7 +94,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getOverviewView();
 		$view->goalsJSON = json_encode($this->goals);
-        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
+        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->displayFullReport = true;
 		echo $view->render();
@@ -123,6 +124,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('nb_conversions');
+		$view->nb_visits_converted = $dataRow->getColumn('nb_visits_converted');
 		$view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
 		$view->revenue = $dataRow->getColumn('revenue');
 		
@@ -131,6 +133,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$goalMetrics[$idGoal] = $this->getMetricsForGoal($idGoal);
 			$goalMetrics[$idGoal]['name'] = $goal['name'];
+			$goalMetrics[$idGoal]['goalAllowMultipleConversionsPerVisit'] = $goal['allow_multiple'];
 		}
 		
 		$view->goalMetrics = $goalMetrics;
@@ -207,19 +210,19 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	}
 	
 	
-	protected function getTopSegments($idGoal)
+	protected function getTopDimensions($idGoal)
 	{ 
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
-		$topSegmentsToLoad = array(
+		$topDimensionsToLoad = array(
 			'country' => 'UserCountry.getCountry',
 			'keyword' => 'Referers.getKeywords',
 			'website' => 'Referers.getWebsites',
 		);
 		
-		$topSegments = array();
-		foreach($topSegmentsToLoad as $segmentName => $apiMethod)
+		$topDimensions = array();
+		foreach($topDimensionsToLoad as $dimensionName => $apiMethod)
 		{
 			$request = new Piwik_API_Request("method=$apiMethod
 												&format=original
@@ -229,13 +232,13 @@ class Piwik_Goals_Controller extends Piwik_Controller
 												&filter_sort_column=$columnNbConversions
 												&filter_limit=3");
 			$datatable = $request->process();
-			$topSegment = array();
+			$topDimension = array();
 			foreach($datatable->getRows() as $row)
 			{
 				$conversions = $row->getColumn($columnNbConversions);
 				if($conversions > 0)
 				{
-    				$topSegment[] = array (
+    				$topDimension[] = array (
     					'name' => $row->getColumn('label'),
     					'nb_conversions' => $conversions,
 					'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
@@ -243,9 +246,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
     				);
 				}
 			}
-			$topSegments[$segmentName] = $topSegment;
+			$topDimensions[$dimensionName] = $topDimension;
 		}
-		return $topSegments;
+		return $topDimensions;
 	}
 	
 	protected function getMetricsForGoal($idGoal)
@@ -253,9 +256,17 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
+		$nbConversions = $dataRow->getColumn('nb_conversions');
+		$nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
+		// Backward compatibilty before 1.3, this value was not processed
+		if(empty($nbVisitsConverted)) 
+		{
+			$nbVisitsConverted = $nbConversions;
+		}
 		return array (
 				'id'				=> $idGoal,
-				'nb_conversions' 	=> $dataRow->getColumn('nb_conversions'),
+				'nb_conversions' 	=> $nbConversions,
+				'nb_visits_converted' => $nbVisitsConverted,
 				'conversion_rate'	=> $this->formatConversionRate($dataRow->getColumn('conversion_rate')),
 				'revenue'			=> $dataRow->getColumn('revenue'),
 				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
@@ -275,7 +286,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		// visits converted for returning = nb conversion for this goal
 		else
 		{
-			$nbVisitsConvertedReturningVisitors = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $idGoal);
+			$nbVisitsConvertedReturningVisitors = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false,$idGoal);
 		}
 		// all returning visits
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
@@ -300,7 +311,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		// new visits converted for a given goal = nb conversion for this goal for new visits
 		else
 		{
-			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $idGoal);
+			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false, $idGoal);
 		}
 		// all new visits = all visits - all returning visits 
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");

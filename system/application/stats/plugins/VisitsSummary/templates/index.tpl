@@ -1,10 +1,13 @@
 
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>
-<h2>{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}</h2>
+
+<h2>{if $period=='range'}{'Referers_Evolution'|translate}
+	{else}{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}{/if}
+</h2>
 {$graphEvolutionVisitsSummary}
 
 <h2>{'General_Report'|translate}</h2>
-{include file=VisitsSummary/templates/sparklines.tpl}
+{include file="VisitsSummary/templates/sparklines.tpl"}
 {*
 Time page generation
 	<p style='color:lightgrey; size:0.8em;'>

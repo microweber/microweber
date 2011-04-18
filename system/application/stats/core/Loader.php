@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Loader.php 3296 2010-11-06 19:24:43Z vipsoft $
+ * @version $Id: Loader.php 3958 2011-02-21 22:49:59Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -106,7 +106,7 @@ class Piwik_Loader
 	public static function autoload($class)
 	{
 		try {
-			@self::loadClass($class);
+			self::loadClass($class);
 		} catch (Exception $e) {
 		}
 	}

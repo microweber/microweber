@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Goals.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Goals.php 4188 2011-03-26 06:45:47Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -137,7 +137,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	
 	protected function postDataTableLoadedFromAPI()
 	{
-		parent::postDataTableLoadedFromAPI();
+		$valid = parent::postDataTableLoadedFromAPI();
+		if($valid === false) return false;
+		
 		foreach($this->getColumnsToDisplay() as $columnName)
 		{
 			if(strpos($columnName, 'conversion_rate'))

@@ -4,37 +4,40 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_ExampleAPI
  */
 
 /**
- * This is an example of a basic API file. Each plugin can have one public API.
- * Each public function in this class will be available to be called via the API.
- * Protected and private members will not be callable.
+ * The ExampleAPI is useful to developers building a custom Piwik plugin. 
  * 
- * Functions can be called internally using the PHP objects directly, or via the 
- * Piwik Web APIs, using HTTP requests. For more information, check out:
- * http://dev.piwik.org/trac/wiki/API/CallingTechniques
- * 
- * Parameters are passed automatically from the GET request to the API functions.
- * 
- * Common API uses include: 
- * - requesting stats for a given date and period, for one or several websites
- * - creating, editing, deleting entities (Goals, Websites, Users)
- * - any logic that could be useful to a larger scope than the Controller (make a setting editable for example)
- * 
- * It is highly recommended that all the plugin logic is done inside API implementations, and the 
- * Controller and other objects would all call the API internally using, eg.
- *  Piwik_ExampleAPI_API::getInstance()->getSum(1, 2);
- * 
- * 
+ * Please see the <a href='http://dev.piwik.org/trac/browser/trunk/plugins/ExampleAPI/API.php#L1' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
  * @package Piwik_ExampleAPI
  */
 class Piwik_ExampleAPI_API
 {
+	/**
+	 *  * This is an example of a basic API file. Each plugin can have one public API.
+	 * Each public function in this class will be available to be called via the API.
+	 * Protected and private members will not be callable.
+	 * Functions can be called internally using the PHP objects directly, or via the 
+	 * Piwik Web APIs, using HTTP requests. For more information, check out:
+	 * http://piwik.org/docs/analytics-api/calling-techniques
+	 * 
+	 * Parameters are passed automatically from the GET request to the API functions.
+	 * 
+	 * Common API uses include: 
+	 * - requesting stats for a given date and period, for one or several websites
+	 * - creating, editing, deleting entities (Goals, Websites, Users)
+	 * - any logic that could be useful to a larger scope than the Controller (make a setting editable for example)
+	 * 
+	 * It is highly recommended that all the plugin logic is done inside API implementations, and the 
+	 * Controller and other objects would all call the API internally using, eg.
+	 *  Piwik_ExampleAPI_API::getInstance()->getSum(1, 2);
+	 * 
+	 */
 	static private $instance = null;
 
 	/**
@@ -88,8 +91,8 @@ class Piwik_ExampleAPI_API
 	 * when the API function is called. You can also use default values
 	 * as shown in this example.
 	 * 
-	 * @param $a
-	 * @param $b
+	 * @param float $a
+	 * @param float $b
 	 * @return float
 	 */
 	public function getSum($a = 0, $b = 0)

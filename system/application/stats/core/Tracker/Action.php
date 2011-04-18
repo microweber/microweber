@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Action.php 3383 2010-11-29 03:47:22Z matt $
+ * @version $Id: Action.php 4389 2011-04-10 23:36:30Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -29,26 +29,15 @@ interface Piwik_Tracker_Action_Interface {
 	public function getActionUrl();
 	public function getActionName();
 	public function getActionType();
-	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+	public function record( $idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction );
 	public function getIdActionUrl();
 	public function getIdActionName();
 	public function getIdLinkVisitAction();
 }
 
 /**
- * Handles an action by the visitor.
- * A request to the piwik.php script is associated with one Action.
- * This class is used to build the Action Name (which can be built from the URL, 
- * or can be directly specified in the JS code, etc.).
- * It also saves the Action when necessary in the DB. 
- *  
- * About the Action concept:
- * - An action is defined by a name.
- * - The name can be specified in the JS Code in the variable 'action_name'
- *    For example you can decide to use the javascript value document.title as an action_name
- * - Handling UTF8 in the action name
- * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the reports (currently actions do not link to the url of the pages)
- * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
+ * Handles an action (page view, download or outlink) by the visitor.
+ * Parses the action name and URL from the request array, then records the action in the log table.
  * 
  * @package Piwik
  * @subpackage Piwik_Tracker
@@ -57,6 +46,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
 	private $request;
 	private $idSite;
+	private $timestamp;
 	private $idLinkVisitAction;
 	private $idActionName = null;
 	private $idActionUrl = null;
@@ -119,7 +109,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionName($name)
 	{
-		$name = $this->truncate($name);
+		$name = $this->cleanupString($name);
 		$this->actionName = $name;
 	}
 	
@@ -131,7 +121,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	protected function setActionUrl($url)
 	{
 		$url = self::excludeQueryParametersFromUrl($url, $this->idSite);
-		$url = $this->truncate($url);
 		$this->actionUrl = $url;
 	}
 	
@@ -139,14 +128,18 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	{
 		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
 		$originalUrl = Piwik_Common::unsanitizeInputValue($originalUrl);
+		$originalUrl = self::cleanupString($originalUrl);
 		$parsedUrl = @parse_url($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
 			return $originalUrl;
 		}
-		$campaignTrackingParameters = array(
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name']);
+		$campaignTrackingParameters = Piwik_Common::getCampaignParameters();
+		
+		$campaignTrackingParameters = array_merge(
+				$campaignTrackingParameters[0], // campaign name parameters
+				$campaignTrackingParameters[1] // campaign keyword parameters
+		);	
 				
 		$excludedParameters = isset($website['excluded_parameters']) 
 									? $website['excluded_parameters'] 
@@ -169,8 +162,19 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 				{
 					foreach ($value as $param)
 					{
-						$validQuery .= $name.'[]='.$param.$separator;
+						if($param === false)
+						{
+							$validQuery .= $name.'[]'.$separator;
+						}
+						else
+						{
+							$validQuery .= $name.'[]='.$param.$separator;
+						}
 					}
+				}
+				else if($value === false)
+				{
+					$validQuery .= $name.$separator;
 				}
 				else
 				{
@@ -180,9 +184,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
-		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL.
-					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
-					 After is <br/><code>"'.$url.'"</code>');
+		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL');
+		printDebug(' Before was "'.$originalUrl.'"');
+		printDebug(' After is "'.$url.'"');
 		return $url;
 	}
 	
@@ -194,12 +198,14 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->setActionUrl($info['url']);
 	}
 	
-	protected function truncate( $label )
+	static public function getSqlSelectActionId()
 	{
-		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
-		return substr($label, 0, $limit);
+		$sql = "SELECT idaction, type 
+							FROM ".Piwik_Common::prefixTable('log_action')
+						."  WHERE "
+						."		( hash = CRC32(?) AND name = ? AND type = ? ) ";
+		return $sql;
 	}
-	
 	/**
 	 * Loads the idaction of the current action name and the current action url.
 	 * These idactions are used in the visitor logging table to link the visit information
@@ -216,11 +222,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			return;
 		}
-		$idAction = Piwik_Tracker::getDatabase()->fetchAll("/* SHARDING_ID_SITE = ".$this->idSite." */
-							SELECT idaction, type 
-							FROM ".Piwik_Common::prefixTable('log_action')
-						."  WHERE "
-						."		( hash = CRC32(?) AND name = ? AND type = ? ) "
+		$idAction = Piwik_Tracker::getDatabase()->fetchAll(
+						$this->getSqlSelectActionId()
 						."	OR "
 						."		( hash = CRC32(?) AND name = ? AND type = ? ) ",
 						array($this->getActionName(), $this->getActionName(), $this->getActionNameType(),
@@ -242,9 +245,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			}
 		}
 
-		$sql = "/* SHARDING_ID_SITE = ".$this->idSite." */ 
-							INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
-							"( name, hash, type ) VALUES (?,CRC32(?),?)";
+		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
+				"( name, hash, type ) VALUES (?,CRC32(?),?)";
 
 		if( is_null($this->idActionName) 
 		    && !is_null($this->getActionNameType()) )
@@ -252,6 +254,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			Piwik_Tracker::getDatabase()->query($sql,
 				array($this->getActionName(), $this->getActionName(), $this->getActionNameType()));
 			$this->idActionName = Piwik_Tracker::getDatabase()->lastInsertId();
+			printDebug("Recording a new page name in the lookup table: ". $this->idActionName);
 		}
 
 		if( is_null($this->idActionUrl) )
@@ -259,6 +262,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			Piwik_Tracker::getDatabase()->query($sql,
 				array($this->getActionUrl(), $this->getActionUrl(), $this->getActionType()));
 			$this->idActionUrl = Piwik_Tracker::getDatabase()->lastInsertId();
+			printDebug("Recording a new page URL in the lookup table: ". $this->idActionUrl);
 		}
 	}
 	
@@ -270,16 +274,21 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->idSite = $idSite;
 	}
 	
+	function setTimestamp($timestamp)
+	{
+		$this->timestamp = $timestamp;
+	}
+	
 	
 	/**
 	 * Records in the DB the association between the visit and this action.
 	 * 
 	 * @param int idVisit is the ID of the current visit in the DB table log_visit
-	 * @param int idRefererAction is the ID of the last action done by the current visit. 
+	 * @param int idRefererActionUrl is the ID of the last action done by the current visit. 
 	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
-	 * 				It is directly related to idRefererAction.
+	 * 				It is directly related to idRefererActionUrl.
 	 */
-	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
+	 public function record( $idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
 	 {
 		$this->loadIdActionNameAndUrl();
 		$idActionName = $this->getIdActionName();
@@ -287,12 +296,20 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			$idActionName = 0;
 		}
-		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ 
-						INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idaction_url, idaction_name, idaction_url_ref, time_spent_ref_action) 
-							VALUES (?,?,?,?,?)",
-					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererAction, $timeSpentRefererAction)
-					);
+		Piwik_Tracker::getDatabase()->query( 
+						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
+						." (idvisit, idsite, idvisitor, server_time, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
+							VALUES (?,?,?,?,?,?,?,?,?)",
+					array(	$idVisit, 
+							$this->idSite, 
+							$visitorIdCookie,
+							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
+							$this->getIdActionUrl(), 
+							$idActionName , 
+							$idRefererActionUrl, 
+							$idRefererActionName, 
+							$timeSpentRefererAction
+		));
 		
 		$this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId(); 
 		
@@ -300,7 +317,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			'idSite' => $this->idSite, 
 			'idLinkVisitAction' => $this->idLinkVisitAction, 
 			'idVisit' => $idVisit, 
-			'idRefererAction' => $idRefererAction, 
+			'idRefererActionUrl' => $idRefererActionUrl, 
+			'idRefererActionName' => $idRefererActionName, 
 			'timeSpentRefererAction' => $timeSpentRefererAction, 
 		); 
 		printDebug($info);
@@ -350,6 +368,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			}
 		}
 
+		// handle encoding
 		$actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string', $this->request);
 
 		// defaults to page view 
@@ -375,17 +394,21 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			// rebuild the name from the array of cleaned categories
 			$actionName = implode($actionCategoryDelimiter, $split);
 		}
-		
-		$url = trim($url);
-		$url = str_replace(array("\n", "\r"), "", $url);
-
-		$actionName = trim($actionName);
-		$actionName = str_replace(array("\n", "\r"), "", $actionName);
+		$url = self::cleanupString($url);
+		$actionName = self::cleanupString($actionName);
 
 		return array(
 			'name' => empty($actionName) ? '' : $actionName,
 			'type' => $actionType,
 			'url'  => $url,
 		);
+	}
+	
+	protected static function cleanupString($string)
+	{
+		$string = trim($string);
+		$string = str_replace(array("\n", "\r"), "", $string);
+		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
+		return substr($string, 0, $limit);
 	}
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CoreAdminHome.php 3556 2011-01-02 09:20:55Z matt $
+ * @version $Id: CoreAdminHome.php 3663 2011-01-07 11:28:33Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -49,9 +49,9 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
+		$cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";	
 		$cssFiles[] = "plugins/CoreAdminHome/templates/menu.css";	
 		$cssFiles[] = "themes/default/common.css";
-		$cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";	
 		$cssFiles[] = "plugins/CoreAdminHome/templates/styles.css";
 	}
 	

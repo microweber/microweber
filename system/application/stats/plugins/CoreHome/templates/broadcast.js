@@ -72,6 +72,10 @@ broadcast.pageload = function( hash ) {
 broadcast.propagateAjax = function (ajaxUrl)
 {
 	broadcast.init();
+	
+	// abort all existing ajax requests
+	piwikHelper.abortQueueAjax();
+	
     // available in global scope
     var currentHashStr = window.location.hash;
 
@@ -181,6 +185,7 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
  */
 broadcast.loadAjaxContent = function(urlAjax)
 {
+	piwikHelper.hideAjaxError('loadingError');
     urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
 
 	piwikHelper.showAjaxLoading();
@@ -217,7 +222,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 	    success: sectionLoaded, // Callback when the request succeeds
 	    data: new Object
     };
-    $.ajax(ajaxRequest);
+    piwikHelper.queueAjaxRequest( $.ajax(ajaxRequest) );
     return false;
 };
 
@@ -297,10 +302,7 @@ broadcast.getValueFromUrl = function (param, url)
 };
 
 /*
- * help to get value from hash parameter for any given url string with provided param name
- * if no url is provided, it will get param from current address.
- * return:
- *   Empty String if param is not found.
+ * NOTE: you should probably be using broadcast.getValueFromUrl instead!
  */
 broadcast.getValueFromHash = function(param, url)
 {

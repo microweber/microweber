@@ -8,15 +8,15 @@ $(document).ready(function() {
 function initSpy()
 {
 	if($('#_spyTmp').size() == 0) {
-		$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
+		//$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
 		$('#visitsLive').spy({
 			limit: 10,
-			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
+			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart',
 			fadeLast: 2,
 			isDupe: check_for_dupe,
-			timeout: 8000,
-			customParameterName: 'minIdVisit',
-			customParameterValueCallback: lastIdVisit,
+			timeout: {/literal}{$liveRefreshAfterMs}{literal},
+			customParameterName: 'minTimestamp',
+			customParameterValueCallback: lastMaxTimestamp,
 			fadeInSpeed: 600,
 			appendTo: 'div#content'
 		});
@@ -26,12 +26,7 @@ function initSpy()
 //updates the numbers of total visits in startbox
 function updateTotalVisits()
 {
-	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
-}
-//updates the visit table, to refresh the already presented visitors pages
-function updateVisitBox()
-{
-	$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
+	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=ajaxTotalVisitors");
 }
 </script>
 {/literal}
@@ -43,7 +38,9 @@ function updateVisitBox()
 </div>
 
 <div class="visitsLiveFooter">
-	<a href="javascript:void(0);" onclick="onClickPause();"><img id="pauseImage" border="0" src="plugins/Live/templates/images/pause_disabled.gif" /></a>
-	<a href="javascript:void(0);" onclick="onClickPlay();"><img id="playImage" border="0" src="plugins/Live/templates/images/play.gif" /></a>
-	&nbsp; <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog')">{'Live_LinkVisitorLog'|translate}</a>
+	<a title="Pause Live!" href="javascript:void(0);" onclick="onClickPause();"><img id="pauseImage" border="0" src="plugins/Live/templates/images/pause_disabled.gif" /></a>
+	<a title="Start Live!" href="javascript:void(0);" onclick="onClickPlay();"><img id="playImage" border="0" src="plugins/Live/templates/images/play.gif" /></a>
+	{if !$disableLink}
+		&nbsp; <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog')">{'Live_LinkVisitorLog'|translate}</a>
+	{/if}
 </div>

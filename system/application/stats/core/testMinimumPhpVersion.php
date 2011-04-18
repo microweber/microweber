@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: testMinimumPhpVersion.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: testMinimumPhpVersion.php 4444 2011-04-14 02:24:19Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -18,14 +18,16 @@
 
 $piwik_errorMessage = '';
 
-$piwik_minimumPHPVersion = '5.1.3';
+// Minimum requirement: ->newInstanceArgs in 5.1.3
+$piwik_minimumPHPVersion = '5.1.3RC';
 $piwik_currentPHPVersion = PHP_VERSION;
 if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 {
 	$piwik_errorMessage .= "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</b></p> 
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts 
-				support PHP $piwik_minimumPHPVersion.</p>";
+				support PHP $piwik_minimumPHPVersion.</p>
+				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 }					
 
 $piwik_zend_compatibility_mode = ini_get("zend.ze1_compatibility_mode");
@@ -36,7 +38,7 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-if(!class_exists('ArrayObject', false))
+if(!class_exists('ArrayObject'))
 {
 	$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</p> 
 				<p>It appears your PHP was compiled with --disable-spl.
@@ -67,7 +69,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	if($optionalLinks)
 	{
 		$optionalLinks = '<ul>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org">Piwik homepage</a></li>
+						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org">Piwik.org homepage</a></li>
 						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
 						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/">Piwik Documentation</a></li>
 						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://forum.piwik.org/">Piwik Forums</a></li>
@@ -76,32 +78,21 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	}
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
+	
+	try {
+		// This can fail
+		$loginName = Piwik::getLoginPluginName();
+	} catch(Exception $e) {
+		$loginName = 'Login';
+	}
 	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-	$content = '<p>'.$message.'</p>'. $optionalTrace .' '. $optionalLinks;
+	$content = '<p>'.$message.'</p>
+				<p><a href="index.php">Go to Piwik</a><br/>
+				<a href="index.php?module='.$loginName.'">Login</a></p>
+				'.  $optionalTrace .' '. $optionalLinks;
 	
 	echo $headerPage . $content . $footerPage;
 	exit;
-}
-
-if (!function_exists('file_get_contents'))
-{
-	/**
-	 * Reads entire file into a string.
-	 * This function is not 100% compatible with the native function.
-	 *
-	 * @see http://php.net/file_get_contents
-	 * @since PHP 4.3.0
-	 *
-	 * @param string $filename Name of the file to read.
-	 * @return string The read data or false on failure.
-	 */
-	function file_get_contents($filename)
-	{
-		$fhandle = fopen($filename, "r");
-		$fcontents = fread($fhandle, filesize($filename));
-		fclose($fhandle);
-		return $fcontents;
-	}
 }
 
 if(!empty($piwik_errorMessage))
@@ -110,10 +101,9 @@ if(!empty($piwik_errorMessage))
 }
 
 /**
- * We now include the upgradephp package to define some functions used in Piwik
- * that may not be defined in the current PHP version.
- *
- * @see libs/upgradephp/upgrade.php
- * @link http://upgradephp.berlios.de/
+ * Usually used in Tracker code, but sometimes triggered from Core
  */
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
+if(!function_exists('printDebug')) 
+{ 
+	function printDebug($i) {} 
+}

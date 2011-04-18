@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3628 2011-01-05 03:34:16Z matt $
+ * @version $Id: API.php 4463 2011-04-15 03:32:29Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -16,6 +16,24 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
 /**
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>, 
+ * you will be able to requests visits filtered by any criteria. 
+ * 
+ * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId, 
+ * visitorType (new or returning), number of pages, list of all pages (and events, file downloaded and outlinks clicked), 
+ * custom variables names and values set to this visit, number of goal conversions (and list of all Goal conversions for this visit, 
+ * with time of conversion, revenue, URL, etc.), but also other attributes such as: days since last visit, days since first visit, 
+ * country, continent, visitor IP,
+ * provider, referrer used (referrer name, keyword if it was a search engine, full URL), campaign name and keyword, operating system, 
+ * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
+ * it easier for API users... and more!
+ * 
+ * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>'&segment='</a> you can filter the
+ * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
+ * 
+ * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
+ * 
+ * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
  * @package Piwik_Live
  */
 class Piwik_Live_API
@@ -33,105 +51,97 @@ class Piwik_Live_API
 		return self::$instance;
 	}
 
-	const TYPE_FETCH_VISITS = 1;
-	const TYPE_FETCH_PAGEVIEWS = 2;
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * This will return simple counters, for a given website ID, for visits over the last N minutes
+	 * 
+	 * @param int Id Site
+	 * @param int Number of minutes to look back at
+	 * 
+	 * @return array( visits => N, actions => M, visitsConverted => P )
 	 */
-	public function getLastVisitForVisitor( $visitorId, $idSite )
+	public function getCounters($idSite, $lastMinutes, $segment = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = 1;
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit = false, $visitorId);
+		$lastMinutes = (int)$lastMinutes;
+		
+		$segment = new Piwik_Segment($segment, $idSite);
+		$segmentSql = $segment->getSql();
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		
+		$sql = "SELECT 
+				count(*) as visits,
+				SUM(visit_total_actions) as actions,
+				SUM(visit_goal_converted) as visitsConverted
+		FROM ". Piwik_Common::prefixTable('log_visit') ." 
+		WHERE idsite = ?
+			AND visit_last_action_time >= ?
+			$sqlSegment
+		";
+		$whereBind = array(
+			$idSite,
+			Piwik_Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
+		);
+		$whereBind = array_merge ( $whereBind, $segmentSql['bind'] );
+		
+		$data = Piwik_FetchAll($sql, $whereBind);
+		
+		// These could be unset for some reasons, ensure they are set to 0
+		empty($data[0]['actions']) ? $data[0]['actions'] = 0 : '';
+		empty($data[0]['visitsConverted']) ? $data[0]['visitsConverted'] = 0 : '';
+		return $data;
+	}
+	
+	/**
+	 * The same functionnality can be obtained using segment=visitorId==$visitorId with getLastVisitsDetails
+	 * 
+	 * @deprecated
+	 * @ignore
+	 */
+	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
+	{
+		Piwik::checkUserHasViewAccess($idSite);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit, $maxIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
 
-	/*
+	/**
+	 * Returns the last visits tracked in the specified website
+	 * You can define any number of filters: none, one, many or all parameters can be defined
+	 * 
+	 * @param int Site ID
+	 * @param string (optional) Period to restrict to when looking at the logs
+	 * @param string (optional) Date to restrict to
+	 * @param int (optional) Number of visits rows to return
+	 * @param int (optional) Maximum idvisit to restrict the query to (useful when paginating)
+	 * @param int (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
+	 * 
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsForVisitor( $visitorId, $idSite, $limit = 10 )
+	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
 	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = 0, $minIdVisit = false, $visitorId);
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
-		return $table;
-	}
-
-	/*
-	 * @return Piwik_DataTable
-	 */
-	public function getLastVisits( $idSite, $limit = 10, $minIdVisit = false )
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = 0, $minIdVisit, $visitorId = false);
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
-		return $table;
-	}
-
-	/*
-	 * @return Piwik_DataTable
-	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = false, $offset = false, $minIdVisit = false )
-	{
-		if(empty($limit)) 
+		if(empty($filter_limit)) 
 		{
-			$limit = Piwik_Common::getRequestVar('filter_limit', 100, 'int');
-		}
-		if(empty($offset))
-		{
-			$offset = Piwik_Common::getRequestVar('filter_offset', 0, 'int');
+			$filter_limit = 10;
 		}
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $limit, $offset, $minIdVisit); 
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $filter_limit, $maxIdVisit, $visitorId = false, $minTimestamp); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $dataTable;
 	}
 
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * @deprecated
 	 */
-	public function getUsersInLastXMin( $idSite, $minutes = 30 )
+	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, $days = 0, self::TYPE_FETCH_VISITS);
-		return $visitorData;
+		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
 	}
 
-	/*
-	 * @return Piwik_DataTable
-	 */
-	public function getUsersInLastXDays( $idSite, $days = 10 )
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days, self::TYPE_FETCH_VISITS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return array
-	 */
-	public function getPageImpressionsInLastXDays($idSite, $days = 10)
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days, self::TYPE_FETCH_PAGEVIEWS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return array
-	 */
-	public function getPageImpressionsInLastXMin($idSite, $minutes = 30)
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, $days = 0, self::TYPE_FETCH_PAGEVIEWS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * For an array of visits, query the list of pages for this visit 
+	 * as well as make the data human readable
 	 */
 	private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
 	{
@@ -139,7 +149,6 @@ class Piwik_Live_API
 
 		$site = new Piwik_Site($idSite);
 		$timezone = $site->getTimezone();
-
 		foreach($visitorDetails as $visitorDetail)
 		{
 			$this->cleanVisitorDetails($visitorDetail, $idSite);
@@ -147,194 +156,214 @@ class Piwik_Live_API
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
-
+			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
-			if(!empty($visitorDetailsArray['goalTimePretty']))
-			{
-				$dateTimeConversion = Piwik_Date::factory($visitorDetailsArray['goalTimePretty'], $timezone);
-				$visitorDetailsArray['goalTimePretty'] = $dateTimeConversion->getLocalized('%shortDay% %day% %shortMonth% %time%');
-			}
+			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
+			
+			$dateTimeVisitFirstAction = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
+			$visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
+			$visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 			
 			$idvisit = $visitorDetailsArray['idVisit'];
 
+			// The second join is a LEFT join to allow returning records that don't have a matching page title
+			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
 				SELECT
-				" .Piwik_Common::prefixTable('log_action').".name AS pageUrl,
-				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
-				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
-					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_url = " .Piwik_Common::prefixTable('log_action').".idaction
-				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
+					log_action.type as type,
+					log_action.name AS url,
+					log_action_title.name AS pageTitle,
+					log_action.idaction AS pageIdAction,
+					log_link_visit_action.idlink_va AS pageId,
+					log_link_visit_action.server_time as serverTimePretty
+				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
+					ON  log_link_visit_action.idaction_url = log_action.idaction
+					LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
+					ON  log_link_visit_action.idaction_name = log_action_title.idaction
+				WHERE log_link_visit_action.idvisit = ?
 				 ";
-
-			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
-
+			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
+			
+			// If the visitor converted a goal, we shall select all Goals
 			$sql = "
-				SELECT
-				" .Piwik_Common::prefixTable('log_action').".name AS pageTitle,
-				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
-				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
-					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_name = " .Piwik_Common::prefixTable('log_action').".idaction
-				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
-				 ";
+				SELECT 
+						'goal' as type,
+						goal.name as goalName,
+						goal.revenue as revenue,
+						log_conversion.idlink_va as goalPageId,
+						log_conversion.server_time as serverTimePretty,
+						log_conversion.url as url
+				FROM ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+				LEFT JOIN ".Piwik_Common::prefixTable('goal')." AS goal 
+					ON (goal.idsite = log_conversion.idsite
+						AND  
+						goal.idgoal = log_conversion.idgoal)
+					AND goal.deleted = 0
+				WHERE log_conversion.idvisit = ?
+			";
+			$goalDetails = Piwik_FetchAll($sql, array($idvisit));
 
-			$visitorDetailsArray['actionDetailsTitle'] = Piwik_FetchAll($sql);
+			$actions = array_merge($actionDetails, $goalDetails);
+			
+			usort($actions, array($this, 'sortByServerTime'));
+			
+			$visitorDetailsArray['actionDetails'] = $actions;   
+			// Convert datetimes to the site timezone
+			foreach($visitorDetailsArray['actionDetails'] as &$details)
+			{
+				switch($details['type'])
+				{
+					case 'goal':
+					break;
+					case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
+						$details['type'] = 'download';
+					break;
+					case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
+						$details['type'] = 'outlink';
+					break;
+					default:
+						$details['type'] = 'action';
+					break;
+				}
+				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
+				$details['serverTimePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth% %time%'); 
+			}
+			$visitorDetailsArray['goalConversions'] = count($goalDetails);
 			
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
-
 		return $table;
 	}
 
-	/*
-	 * @return array
-	 */
-	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit = false, $offset = false, $minIdVisit = false, $visitorId = false)
+	private function sortByServerTime($a, $b)
 	{
-//		var_dump($period); var_dump($date); var_dump($limit); var_dump($offset); var_dump($minIdVisit); var_dump($visitorId);
+		$ta = strtotime($a['serverTimePretty']);
+		$tb = strtotime($b['serverTimePretty']);
+		return $ta < $tb 
+					? -1 
+					: ($ta == $tb 
+						? 0 
+						: 1 ); 
+	}
+	
+	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $visitorId = false, $minTimestamp = false)
+	{
+//		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($maxIdVisit); var_dump($visitorId);
+//var_dump($minTimestamp);
+		if(empty($filter_limit))
+		{
+			$filter_limit = 100;
+		}
 		$where = $whereBind = array();
-
-		$where[] = Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
+		$where[] = "log_visit.idsite = ? ";
 		$whereBind[] = $idSite;
 		
 		if(!empty($visitorId))
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".visitor_idcookie = ? ";
-			$whereBind[] = $visitorId;
+			$where[] = "log_visit.idvisitor = ? ";
+			$whereBind[] = Piwik_Common::hex2bin($visitorId);
 		}
 
-		if(!empty($minIdVisit))
+		if(!empty($maxIdVisit))
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisit > ? ";
-			$whereBind[] = $minIdVisit;
+			$where[] = "log_visit.idvisit < ? ";
+			$whereBind[] = $maxIdVisit;
+		}
+		
+		if(!empty($minTimestamp))
+		{
+			$where[] = "log_visit.visit_last_action_time > ? ";
+			$whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
+		}
+		
+		// If no other filter, only look at the last 24 hours of stats
+		if(empty($visitorId)
+			&& empty($maxIdVisit)
+			&& empty($period) 
+			&& empty($date))
+		{
+			$period = 'day';
+			$date = 'yesterdaySameTime';
 		}
 
 		// SQL Filter with provided period
 		if (!empty($period) && !empty($date))
 		{
-
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
-
-			$processedDate = Piwik_Date::factory($date)->setTimezone($currentTimezone);
-			$processedPeriod = Piwik_Period::factory($period, $processedDate);
-
-			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
-			array_push(     $whereBind,
-				$processedPeriod->getDateStart()->toString('Y-m-d H:i:s'),
-				$processedPeriod->getDateEnd()->addDay(1)->toString('Y-m-d H:i:s')
-			);
+		
+			$dateString = $date;
+			if($period == 'range') 
+			{ 
+				$processedPeriod = new Piwik_Period_Range('range', $date);
+				if($parsedDate = Piwik_Period_Range::parseDateRange($date))
+				{
+					$dateString = $parsedDate[2];
+				}
+			}
+			else
+			{
+				$processedDate = Piwik_Date::factory($date);
+				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
+			}
+			$dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
+			$where[] = "log_visit.visit_last_action_time >= ?";
+			$whereBind[] = $dateStart->toString('Y-m-d H:i:s');
+			
+			if(!in_array($date, array('now', 'today', 'yesterdaySameTime'))
+				&& strpos($date, 'last') === false
+				&& strpos($date, 'previous') === false
+				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != date('Y-m-d'))
+			{
+				$dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
+				$where[] = " log_visit.visit_last_action_time <= ?";
+				$dateEndString = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
+				$whereBind[] = $dateEndString;
+			}
 		}
 
 		$sqlWhere = "";
 		if(count($where) > 0)
 		{
-			$sqlWhere = " WHERE " . join(' AND ', $where);
+			$sqlWhere = "
+			WHERE " . join(" 
+				AND ", $where);
 		}
 
-		// Group by idvisit so that a visitor converting 2 goals only appears twice
-		$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".* ,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute as goal_match_attribute,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".name as goal_name,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".revenue as goal_revenue,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idaction_url as goal_idaction_url,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time,
-						count(*) as count_goal_conversions
-				FROM " . Piwik_Common::prefixTable('log_visit') . "
-					LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')."
-					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_conversion') . ".idvisit
-					LEFT JOIN ".Piwik_Common::prefixTable('goal')."
-					ON (" . Piwik_Common::prefixTable('goal') . ".idsite = " . Piwik_Common::prefixTable('log_visit') . ".idsite
-						AND  " . Piwik_Common::prefixTable('goal') . ".idgoal = " . Piwik_Common::prefixTable('log_conversion') . ".idgoal)
-					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
-					$sqlWhere
-				GROUP BY idvisit
-				ORDER BY visit_last_action_time DESC";
-
-		if(!empty($limit))
-		{
-			$offsetSql = '';
-			if(!empty($offset))
-			{
-				$offsetSql = (int)$offset . ", ";
-			}
-			$sql .= " LIMIT $offsetSql ".(int)$limit;
-
-		}
-		$data = Piwik_FetchAll($sql, $whereBind);
+		$segment = new Piwik_Segment($segment, $idSite);
+		$segmentSql = $segment->getSql();
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		$whereBind = array_merge ( $whereBind, $segmentSql['bind'] );
 		
-//		var_dump($whereBind); echo($sql);var_dump($data);
+		// Subquery to use the indexes for ORDER BY
+		// Group by idvisit so that a visitor converting 2 goals only appears twice
+		$sql = "
+				SELECT sub.* 
+				FROM ( 
+					SELECT 	*
+					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
+					$sqlWhere
+					$sqlSegment
+					ORDER BY idsite, visit_last_action_time DESC
+					LIMIT ".(int)$filter_limit."
+				) AS sub
+				GROUP BY sub.idvisit
+				ORDER BY sub.visit_last_action_time DESC
+			"; 
+		try {
+			$data = Piwik_FetchAll($sql, $whereBind);
+		} catch(Exception $e) {
+			echo $e->getMessage();exit;
+		}
+		
+//var_dump($whereBind);	echo($sql);
+//var_dump($data);
 		return $data;
 	}
-
-	/**
-	 * Load last Visitors PAGES or DETAILS in MINUTES or DAYS from database
-	 *
-	 * @param int $idSite
-	 * @param int $minutes
-	 * @param int $days
-	 * @param int $type self::TYPE_FETCH_VISITS or self::TYPE_FETCH_PAGEVIEWS
-	 *
-	 * @return mixed
-	 */
-	private function loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days = 0, $type = false )
-	{
-		$where = $whereBind = array();
-
-		$where[] = " " . Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
-		$whereBind[] = $idSite;
-
-		if($minutes != 0)
-		{
-			$timeLimit = mktime(date('H'), date('i') - $minutes, 0, date('m'),  date('d'), date('Y'));
-			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
-		}
-
-		if($days != 0)
-		{
-			$timeLimit = mktime(date('H'), date('i'), 0, date('m'), date('d') - $days, date('Y'));
-			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
-		}
-
-		$sqlWhere = "";
-		if(count($where) > 0)
-		{
-			$sqlWhere = " WHERE " . join(' AND ', $where);
-		}
-
-		// Details
-		if($type == self::TYPE_FETCH_VISITS)
-		{
-			$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".idvisit
-				FROM " . Piwik_Common::prefixTable('log_visit') . "
-				$sqlWhere
-				ORDER BY idvisit DESC";
-		}
-		// Pages
-		elseif($type == self::TYPE_FETCH_PAGEVIEWS)
-		{
-			$sql = "SELECT " . Piwik_Common::prefixTable('log_link_visit_action') . ".idaction_url
-					FROM " . Piwik_Common::prefixTable('log_link_visit_action') . "
-    					INNER JOIN " . Piwik_Common::prefixTable('log_visit') . "
-    					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_link_visit_action') . ".idvisit
-    					$sqlWhere";
-		}
-		else
-		{
-			// no $type is set --> ERROR
-			throw new Exception("type parameter is not properly set.");
-		}
-
-		// return $sql by fetching
-		return Piwik_FetchAll($sql, $whereBind);
-	}
-
+	
 
 	/**
 	 * Removes fields that are not meant to be displayed (md5 config hash)
@@ -344,10 +373,10 @@ class Piwik_Live_API
 	 */
 	private function cleanVisitorDetails( &$visitorDetails, $idSite )
 	{
-		$toUnset = array('config_md5config');
+		$toUnset = array('config_id');
 		if(Piwik::isUserIsAnonymous())
 		{
-			$toUnset[] = 'visitor_idcookie';
+			$toUnset[] = 'idvisitor';
 			$toUnset[] = 'location_ip';
 		}
 		foreach($toUnset as $keyName)

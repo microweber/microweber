@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Feed.php 20326 2010-01-16 00:20:43Z padraic $
+ * @version    $Id: Feed.php 23775 2011-03-01 17:25:24Z ralph $
  */
- 
+
 /**
  * @see Zend_Feed_Writer_Extension_RendererAbstract
  */
 // require_once 'Zend/Feed/Writer/Extension/RendererAbstract.php';
- 
+
 /**
  * @category   Zend
  * @package    Zend_Feed_Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Writer_Extension_Atom_Renderer_Feed
@@ -42,10 +42,10 @@ class Zend_Feed_Writer_Extension_Atom_Renderer_Feed
      * @var bool
      */
     protected $_called = false;
-    
+
     /**
      * Render feed
-     * 
+     *
      * @return void
      */
     public function render()
@@ -63,23 +63,23 @@ class Zend_Feed_Writer_Extension_Atom_Renderer_Feed
             $this->_appendNamespaces();
         }
     }
-    
+
     /**
      * Append namespaces to root element of feed
-     * 
+     *
      * @return void
      */
     protected function _appendNamespaces()
     {
         $this->getRootElement()->setAttribute('xmlns:atom',
-            'http://www.w3.org/2005/Atom');  
+            'http://www.w3.org/2005/Atom');
     }
 
     /**
      * Set feed link elements
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setFeedLinks(DOMDocument $dom, DOMElement $root)
@@ -98,12 +98,12 @@ class Zend_Feed_Writer_Extension_Atom_Renderer_Feed
         }
         $this->_called = true;
     }
-    
+
     /**
      * Set PuSH hubs
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setHubs(DOMDocument $dom, DOMElement $root)

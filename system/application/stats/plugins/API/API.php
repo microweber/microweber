@@ -5,14 +5,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3578 2011-01-03 12:59:24Z matt $
+ * @version $Id: API.php 4465 2011-04-15 04:17:43Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_API
  */
 
 /**
- * 
  * @package Piwik_API
  */
 class Piwik_API extends Piwik_Plugin {
@@ -46,6 +45,19 @@ class Piwik_API extends Piwik_Plugin {
 
 
 /**
+ * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * human readable and more complete outputs than normal API methods. 
+ * 
+ * Some of the information that is returned by the Metadata API: 
+ * <ul>
+ * <li>the dynamically generated list of all API methods via "getReportMetadata"</li> 
+ * <li>the list of metrics that will be returned by each method, along with their human readable name, via "getDefaultMetrics" and "getDefaultProcessedMetrics"</li>
+ * <li>the list of segments metadata supported by all functions that have a 'segment' parameter</li>
+ * <li>the (truly magic) method "getProcessedReport" will return a human readable version of any other report, and include the processed metrics such as 
+ * conversion rate, time on site, etc. which are not directly available in other methods.  
+ * </ul>
+ * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
+ * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
  * 
  * @package Piwik_API
  */
@@ -95,11 +107,116 @@ class Piwik_API_API
 		return array_map('Piwik_Translate', $translations);
 	}
 	
-    /*
+	public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
+	{
+		$segments = array();
+		Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
+		
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitorIP',
+		        'segment' => 'visitIp',
+				'acceptedValues' => '13.54.122.1, etc.',
+		        'sqlSegment' => 'location_ip',
+		        'sqlFilter' => array('Piwik_Common', 'getIp'),
+		        'permission' => Piwik::isUserHasAdminAccess($idSites),
+	    );
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitorID',
+		        'segment' => 'visitorId',
+				'acceptedValues' => '34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()',
+		        'sqlSegment' => 'idvisitor',
+		        'sqlFilter' => array('Piwik_Common', 'convertVisitorIdToBin'),
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_NbActions',
+		        'segment' => 'actions',
+		        'sqlSegment' => 'visit_total_actions',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_ColumnVisitDuration',
+		        'segment' => 'visitDuration',
+		        'sqlSegment' => 'visit_total_time',
+	    );
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitType',
+		        'segment' => 'visitorType',
+		        'acceptedValues' => 'new, returning',
+		        'sqlSegment' => 'visitor_returning',
+		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : 1;'),
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_DaysSinceLastVisit',
+		        'segment' => 'daysSinceLastVisit',
+		        'sqlSegment' => 'visitor_days_since_last',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_DaysSinceFirstVisit',
+		        'segment' => 'daysSinceFirstVisit',
+		        'sqlSegment' => 'visitor_days_since_first',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_NumberOfVisits',
+		        'segment' => 'visitCount',
+		        'sqlSegment' => 'visitor_count_visits',
+	    );
+	    
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitConvertedGoal',
+		        'segment' => 'visitConverted',
+				'acceptedValues' => '0, 1',
+		        'sqlSegment' => 'visit_goal_converted',
+	    );
+		foreach ($segments as &$segment) 
+		{
+		    $segment['name'] = Piwik_Translate($segment['name']);
+		    $segment['category'] = Piwik_Translate($segment['category']);
+		    
+		    if($_hideImplementationData)
+		    {
+		    	unset($segment['sqlFilter']);
+		    	unset($segment['sqlSegment']);
+		    }
+		}
+		
+		usort($segments, array($this, 'sortSegments'));
+		return $segments;
+	}
+	
+	private function sortSegments($row1, $row2)
+	{
+		$columns = array('type', 'category', 'name', 'segment');
+		foreach($columns as $column)
+		{
+			$compare = -1 * strcmp($row1[$column], $row2[$column]);
+			if($compare != 0){
+				return $compare;
+			}
+		}
+		return $compare;
+	}
+    /**
      * Loads reports metadata, then return the requested one, 
      * matching optional API parameters.
      */
-	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false)
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
     	static $reportsMetadata = array();
@@ -111,6 +228,13 @@ class Piwik_API_API
     	
     	foreach($reportsMetadata[$cacheKey] as $report)
     	{
+    		// See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
+	    	if($period != 'day'
+	    		&& !($apiModule == 'VisitsSummary' 
+	    			&& $apiAction == 'get'))
+	    	{
+	    		unset($report['metrics']['nb_uniq_visitors']);
+	    	}
     		if($report['module'] == $apiModule
     			&& $report['action'] == $apiAction)
 			{
@@ -139,13 +263,8 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = array()) 
+	public function getReportMetadata($idSites = '') 
 	{
-		if (!is_array($idSites)) 
-		{ 
-            $idSites = array($idSites); 
-		}
-		 
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		
 		$availableReports = array();
@@ -162,6 +281,9 @@ class Piwik_API_API
 		// Some plugins need to add custom metrics after all plugins hooked in
 		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $idSites);
 		
+		// Sort results to ensure consistent order
+		usort($availableReports, array($this, 'sort'));
+
 		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
 		foreach($availableReports as &$availableReport)
 		{
@@ -202,20 +324,23 @@ class Piwik_API_API
 				}
 			}
 			$availableReport['uniqueId'] = $uniqueId;
+			
+			// Order is used to order reports internally, but not meant to be used outside
+			unset($availableReport['order']);
 		}
-		// Sort results to ensure consistent order
-		usort($availableReports, array($this, 'sort'));
+		
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $date, $period, $apiModule, $apiAction, $apiParameters = false, $language = false)
+	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $language = false, $showTimer = true)
     {
+    	$timer = new Piwik_Timer();
     	if($apiParameters === false)
     	{
     		$apiParameters = array();
     	}
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language);
+        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period);
         if(empty($reportMetadata))
         {
         	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
@@ -232,6 +357,8 @@ class Piwik_API_API
 			'serialize' => '0',
 			'language' => $language,
 		));
+		if(!empty($segment)) $parameters['segment'] = $segment;
+		
 		$url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);
         try {
@@ -256,14 +383,30 @@ class Piwik_API_API
     		$name = ucfirst($name);
     	}
     	$website = new Piwik_Site($idSite);
-    	return array(
+//    	$segment = new Piwik_Segment($segment, $idSite);
+    	if($period == 'range')
+    	{
+	    	$period = new Piwik_Period_Range($period, $date);
+    	}
+    	else
+    	{
+	    	$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+    	}
+    	
+    	$return = array(
 				'website' => $website->getName(),
-				'prettyDate' => Piwik_Period::factory($period, Piwik_Date::factory($date))->getLocalizedLongString(),
+				'prettyDate' => $period->getLocalizedLongString(),
+//    			'prettySegment' => $segment->getPrettyString(),
 				'metadata' => $reportMetadata, 
 				'columns' => $columns, 
 				'reportData' =>	$newReport, 
 				'reportMetadata' => $rowsMetadata,
 		);
+		if($showTimer)
+		{
+			$return['timerMillis'] = $timer->getTimeMs(0);
+		}
+		return $return;
     }
     
     private function handleTableSimple($idSite, $period, $dataTable, $reportMetadata)
@@ -308,13 +451,6 @@ class Piwik_API_API
     		array('label' => $reportMetadata['dimension'] ),
     		$reportMetadata['metrics']
     	);
-    	
-		// See ArchiveProcessing/Period.php - unique visitors are not processed for year period
-    	if($period == 'year')
-    	{
-    		unset($columns['nb_uniq_visitors']);
-    		unset($reportMetadata['metrics']['nb_uniq_visitors']);
-    	}
     	
         if(isset($reportMetadata['processedMetrics']))
         {
@@ -399,15 +535,25 @@ class Piwik_API_API
     }
 
 	/**
-	 * API metadata are sorted by category/name
-	 * @param $a
-	 * @param $b
+	 * API metadata are sorted by category/name, 
+	 * with a little tweak to replicate the standard Piwik category ordering
+	 * 
+	 * @param string $a
+	 * @param string $b
 	 * @return int
 	 */
 	private function sort($a, $b)
 	{
-		return ($category = strcmp($a['category'], $b['category'])) != 0 	
-				? $category
-				: strcmp($a['action'], $b['action']);
+		$order = array(
+			Piwik_Translate('VisitsSummary_VisitsSummary'),
+			Piwik_Translate('Actions_Actions'),
+			Piwik_Translate('Referers_Referers'),
+			Piwik_Translate('Goals_Goals'),
+			Piwik_Translate('General_Visitors'),
+			Piwik_Translate('UserSettings_VisitorSettings'),
+		);
+		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0 	
+				?  (@$a['order'] < @$b['order'] ? -1 : 1)
+				: $category;
 	}
 }

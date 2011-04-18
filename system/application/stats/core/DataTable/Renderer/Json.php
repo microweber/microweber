@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Json.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Json.php 3857 2011-02-05 21:30:23Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -63,7 +63,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	{		
 		if(($jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false)) !== false)
 		{
-			if(preg_match('/^[0-9a-zA-Z]*$/', $jsonCallback) > 0)
+			if(preg_match('/^[0-9a-zA-Z_]*$/', $jsonCallback) > 0)
 			{
 				$str = $jsonCallback . "(" . $str . ")";
 			}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Period.php 3329 2010-11-24 07:44:27Z matt $
+ * @version $Id: Period.php 4255 2011-03-30 22:40:16Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -31,19 +31,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS 
 	);
 	
-	public function __construct()
-	{
-		parent::__construct();
-		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_period;
-	}
-	
 	/**
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
 	 * @param string|array 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric
-	 * 
 	 */
 	public function archiveNumericValuesSum( $aNames )
 	{
@@ -55,8 +47,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
 	 * @param string|array 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric
-	 * 
 	 */
 	public function archiveNumericValuesMax( $aNames )
 	{
@@ -71,11 +61,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * 
 	 * @param array|string $aNames Array of strings or string containg the field names to select
 	 * @param string $operationToApply Available operations = sum, max, min 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric Returns the record if $aNames is a string, 
-	 *  an array of Piwik_ArchiveProcessing_Record_Numeric indexed by their field names if aNames is an array of strings
 	 */
 	private function archiveNumericValuesGeneral($aNames, $operationToApply)
 	{
+		$this->loadSubPeriods();
 		if(!is_array($aNames))
 		{
 			$aNames = array($aNames);
@@ -83,7 +72,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		// fetch the numeric values and apply the operation on them
 		$results = array();
-		foreach($this->archives as $archive)
+		foreach($this->archives as $id => $archive)
 		{
 			foreach($aNames as $name)
 			{
@@ -91,6 +80,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 				{
 					$results[$name] = 0;
 				}
+				if($name == 'nb_uniq_visitors') continue;
+				
 				$valueToSum = $archive->getNumeric($name);
 				
 				if($valueToSum !== false)
@@ -113,36 +104,29 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			}
 		}
 		
-		// build the Record Numeric objects
-		$records = array();
+		if(!Piwik::isUniqueVisitorsEnabled($this->period->getLabel()))
+		{
+			unset($results['nb_uniq_visitors']);
+		}
+		
 		foreach($results as $name => $value)
 		{
 			if($name == 'nb_uniq_visitors')
 			{
-				// we do not process Unique Visitors for year
-				if($this->periodId == Piwik::$idPeriods['year'])
-				{
-					continue;
-				}
 			    $value = (float) $this->computeNbUniqVisitors();
 			}
-			$records[$name] = new Piwik_ArchiveProcessing_Record_Numeric(
-													$name, 
-													$value
-												);
-			$this->insertRecord($records[$name]);
+			$this->insertRecord($name, $value);
 		}
 		
 		// if asked for only one field to sum
-		if(count($records) == 1)
+		if(count($results) == 1)
 		{
-			return $records[$name];
+			return $results[$name];
 		}
 		
 		// returns the array of records once summed
-		return $records;
+		return $results;
 	}
-	
 	
 	/**
 	 * This method will compute the sum of DataTables over the period for the given fields $aRecordName.
@@ -150,8 +134,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
 	 * 
 	 * For example if $aRecordName = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
-	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_RecordArray so that
-	 * the resulting dataTable is AUTOMATICALLY recorded in the database.
+	 * (eg. the 31 dataTable of the last month), sum them, then record it in the DB
 	 * 
 	 * 
 	 * This method works on recursive dataTable. For example for the 'Actions' it will select all subtables of all dataTable of all the sub periods
@@ -177,6 +160,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 										$maximumRowsInSubDataTable = null,
 										$columnToSortByBeforeTruncation = null )
 	{
+		$this->loadSubPeriods();
 		if(!is_array($aRecordName))
 		{
 			$aRecordName = array($aRecordName);
@@ -234,7 +218,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	protected function initCompute()
 	{
 		parent::initCompute();
-		$this->archives = $this->loadSubperiodsArchive();
 	}
 
 	/**
@@ -252,7 +235,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$archivePeriod = new Piwik_Archive_Single();
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
-			$archivePeriod->prepareArchive();
+			$archivePeriod->setSegment( $this->getSegment() );
+			$archivePeriod->setRequestedReport($this->getRequestedReport());
 			
 			$periods[] = $archivePeriod;
 		}
@@ -267,40 +251,91 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * See some of the plugins for an example.
 	 */
 	protected function compute()
-	{		
-		$this->archiveNumericValuesMax( 'max_actions' ); 
-		$toSum = array(
-			'nb_uniq_visitors', 
-			'nb_visits',
-			'nb_actions', 
-			'sum_visit_length',
-			'bounce_count',
-			'nb_visits_converted',
-		);
-		$record = $this->archiveNumericValuesSum($toSum);
-		
-		$nbVisits = $record['nb_visits']->value;
-		$nbVisitsConverted = $record['nb_visits_converted']->value;
-		$this->isThereSomeVisits = ( $nbVisits > 0);
-		if($this->isThereSomeVisits === false)
+	{
+		if(!$this->isThereSomeVisits())
 		{
 			return;
 		}
-		$this->setNumberOfVisits($nbVisits);
-		$this->setNumberOfVisitsConverted($nbVisitsConverted);
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 
+	protected function loadSubPeriods()
+	{
+		if(empty($this->archives))
+		{
+			$this->archives = $this->loadSubperiodsArchive();
+		}
+	}
+	
+	// Similar logic to Piwik_ArchiveProcessing_Day::isThereSomeVisits()
+	public function isThereSomeVisits()
+	{
+		if(!is_null($this->isThereSomeVisits))
+		{
+			return $this->isThereSomeVisits;
+		}
+		
+		$this->loadSubPeriods();
+		if(self::getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary'
+			|| $this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
+		)
+		{
+			$toSum = self::getCoreMetrics();
+			$record = $this->archiveNumericValuesSum($toSum);
+			$this->archiveNumericValuesMax( 'max_actions' ); 
+	
+			$nbVisitsConverted = $record['nb_visits_converted'];
+			$nbVisits = $record['nb_visits'];
+		}
+		else
+		{
+			$archive = new Piwik_Archive_Single();
+			$archive->setSite( $this->site );
+			$archive->setPeriod( $this->period );
+			$archive->setSegment( $this->getSegment() );
+			
+			$nbVisits = $archive->getNumeric('nb_visits');
+			$nbVisitsConverted = 0;
+			if($nbVisits > 0)
+			{
+				$nbVisitsConverted = $archive->getNumeric('nb_visits_converted');
+			}
+		}
+		
+		$this->setNumberOfVisits($nbVisits);
+		$this->setNumberOfVisitsConverted($nbVisitsConverted);
+		$this->isThereSomeVisits = ($nbVisits > 0);
+		return $this->isThereSomeVisits;
+	}
+	
+	/**
+	 * Processes number of unique visitors for the given period
+	 * 
+	 * This is the only metric we process from the logs directly, 
+	 * since unique visitors cannot be summed like other metrics.
+	 * 
+	 * @return int
+	 */
 	protected function computeNbUniqVisitors()
 	{
+		// Handling Custom Segment
+		$segmentSql = $this->getSegment()->getSql();
+		$sqlSegmentBind = $segmentSql['bind'];
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		
 		$query = "
-			SELECT count(distinct visitor_idcookie) as nb_uniq_visitors 
-			FROM ".$this->logTable."
+			SELECT count(distinct idvisitor) as nb_uniq_visitors 
+			FROM ".Piwik_Common::prefixTable('log_visit')."
 			WHERE visit_last_action_time >= ?
     				AND visit_last_action_time <= ? 
-    				AND idsite = ?";
+    				AND idsite = ?
+    				$sqlSegment
+    				";
 
-		return Zend_Registry::get('db')->fetchOne($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
+    	$bind = array_merge(array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ),
+    						$sqlSegmentBind);
+		return Zend_Registry::get('db')->fetchOne($query, $bind);
 	}
 	
 	/**
@@ -310,12 +345,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	protected function postCompute()
 	{
 		parent::postCompute();
-		
-		foreach($this->archives as $archive)
-		{
-			destroy($archive);
-		}
-		$this->archives = array();
 		
 		$blobTable = $this->tableArchiveBlob->getTableName();
 		$numericTable = $this->tableArchiveNumeric->getTableName();
@@ -333,7 +362,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$result = Piwik_FetchAll("
 							SELECT idarchive
 							FROM $numericTable
-							WHERE name='done'
+							WHERE name LIKE 'done%'
 								AND value = ". Piwik_ArchiveProcessing::DONE_OK_TEMPORARY ."
 								AND ts_archived < ?", array($yesterday));
 			
@@ -343,8 +372,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
     			foreach($result as $row) {
     				$idArchivesToDelete[] = $row['idarchive'];
     			}
-    			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	
-    						DELETE 
+    			$query = "DELETE 
     						FROM %s
     						WHERE idarchive IN (".implode(',',$idArchivesToDelete).")
     						";
@@ -353,11 +381,33 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
     			Piwik_Query(sprintf($query, $numericTable));
 			}
 			Piwik::log("Purging temporary archives: done [ purged archives older than $yesterday from $blobTable and $numericTable ] [Deleted IDs: ". implode(',',$idArchivesToDelete)."]");
+			
+			// Deleting "Custom Date Range" reports after 1 day, since they can be re-processed 
+			// and would take up unecessary space
+    		$query = "DELETE 
+    					FROM %s
+    					WHERE period = ?
+    						AND ts_archived < ?";
+			$bind = array(Piwik::$idPeriods['range'], $yesterday);
+			
+    		Piwik_Query(sprintf($query, $blobTable), $bind);
+    		Piwik_Query(sprintf($query, $numericTable), $bind);
 		}
 		else
 		{
 			Piwik::log("Purging temporary archives: skipped.");
 		}
+		
+		
+		if(!isset($this->archives))
+		{
+			return;
+		}
+		foreach($this->archives as $archive)
+		{
+			destroy($archive);
+		}
+		$this->archives = array();
 		
 	}	
 }

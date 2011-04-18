@@ -4,13 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
 
 /**
+ * ExampleUI API is also an example API useful if you are developing a Piwik plugin.
+ * 
+ * The functions listed in this API are returning the data used in the Controller to draw graphs and 
+ * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
+ * 
  * @package Piwik_ExampleUI
  */
 class Piwik_ExampleUI_API 

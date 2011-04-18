@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ReplaceColumnNames.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: ReplaceColumnNames.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -36,39 +36,24 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	 * 						OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
 	 * 					)
 	 */
-	public function __construct( $table, $recursive = false, $mappingToApply = null )
+	public function __construct( $table, $mappingToApply = null )
 	{
 		parent::__construct($table);
 		$this->mappingToApply = Piwik_Archive::$mappingFromIdToName;
-		$this->applyFilterRecursively = $recursive;
 		if(!is_null($mappingToApply))
 		{
 			$this->mappingToApply = $mappingToApply;
 		}
-		$this->filter();
 	}
 	
-	protected function filter()
-	{
-		$this->filterTable($this->table);
-	}
-	
-	protected function filterTable($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{
 			$oldColumns = $row->getColumns();
 			$newColumns = $this->getRenamedColumns($oldColumns);
 			$row->setColumns( $newColumns );
-			if($this->applyFilterRecursively)
-			{
-				try {
-					$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
-					$this->filterTable($subTable);
-				} catch(Exception $e){
-					// case idSubTable == null, or if the table is not loaded in memory
-				}
-			}
+			$this->filterSubTable($row);
 		}
 	}
 	
@@ -93,6 +78,15 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 						}
 					}
 					$columnValue = $newSubColumns;
+				}
+				// If we happen to rename a column to a name that already exists, 
+				// sum both values in the column. This should really not happen, but 
+				// we introduced in 1.1 a new dataTable indexing scheme for Actions table, and 
+				// could end up with both strings and their int indexes counterpart in a monthly/yearly dataTable 
+				// built from DataTable with both formats
+				if(isset($newColumns[$columnName]))
+				{
+					$columnValue += $newColumns[$columnName];
 				}
 			}
 			$newColumns[$columnName] = $columnValue;

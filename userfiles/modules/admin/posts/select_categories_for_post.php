@@ -1,4 +1,4 @@
- <?
+<?
 $id = $params['id'];
 
 
@@ -7,7 +7,6 @@ $form_values = get_page($id);
 //p($form_values);
 
 ?>
-
 <script type="text/javascript">
 
 
@@ -174,41 +173,17 @@ function set_categories(){
 		
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<br /><br />
-<div class="mw_box mw_box_closed">
- <div class="mw_box_header">
- <span class="mw_boxctrl"> Open </span>
- <h3>Add Post to Category</h3>
- </div>
-<div class="mw_box_content">
-
- <div style='display:none'>
-  <?php
+<br />
+<br />
+<div>
+  <h3>Add Post to Category</h3>
+  <div style='display:none'>
+    <?php
 
  CI::model('content')->content_helpers_getPagesAsUlTree(0, "<input onchange='javascript:set_categories()' type='radio' name='content_parent' category_id='{content_subtype_value}'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );
 
- ?>    </div>
-
+ ?>
+  </div>
   <? 
 /*$pages_params = array();
 $pages_params['content_subtype'] = 'blog_section';
@@ -234,29 +209,10 @@ $get_categories = get_categories($get_categories_params) ;
   <? $category_ids = CI::model('core')->dbExtractIdsFromArray($get_categories); ?>
   <? else : ?>
   <? endif; ?>
-
   <input name="taxonomy_categories" id="taxonomy_categories" type="text"   value="<? print implode(',',$category_ids); ?>" />
-  
-
-  
-   
-
-
-
-
   <div id="category_module_holder"></div>
-   <div id="cat_sel_right">
-
-   <em>Select Create new category Button to create new category <br />for your posts</em>
-
-   <h3>Create New Category</h3>
-
-   <a href="javascript:void(0)" class="btn add_cat_btn" onclick=''><span class="btn_plus">&nbsp;</span>Add new Category</a>
-
-   </div>
-
-
-
-
-  </div>
-  </div>
+  <div id="cat_sel_right"> <em>Select Create new category Button to create new category <br />
+    for your posts</em>
+    <h3>Create New Category</h3>
+    <a href="javascript:void(0)" class="btn add_cat_btn" onclick=''><span class="btn_plus">&nbsp;</span>Add new Category</a> </div>
+</div>

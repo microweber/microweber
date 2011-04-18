@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: VisitsSummary.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: VisitsSummary.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
@@ -34,7 +34,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'API.getReportMetadata' => 'getReportMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
@@ -62,14 +61,9 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 //								'nb_visits_converted',
 			),
 			'processedMetrics' => false,
+			'order' => 1
 		);
 	}
-	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}	
 	
 	function addWidgets()
 	{

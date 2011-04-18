@@ -1,0 +1,162 @@
+<?php      
+
+/* No hardoced URL's in examples. Just copy the folder to server. */  
+$folder = str_replace(basename($_SERVER['PHP_SELF']), '', $_SERVER['PHP_SELF']);
+$url    = sprintf('http://%s%sphp/', $_SERVER['SERVER_NAME'], $folder);
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" debug="true">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Jeditable Edit In Place Demo</title>
+<meta name="generator" content="Mephisto" />
+<link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+<script src="/mint/?js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+
+$(function() {
+        
+  $(".editable_select").editable("<?php print $url ?>save.php", { 
+    indicator : '<img src="img/indicator.gif">',
+    data   : "{'Lorem ipsum':'Lorem ipsum','Ipsum dolor':'Ipsum dolor','Dolor sit':'Dolor sit'}",
+    type   : "select",
+    submit : "OK",
+    style  : "inherit",
+    submitdata : function() {
+      return {id : 2};
+    }
+  });
+  $(".editable_select_json").editable("<?php print $url ?>save.php", { 
+    indicator : '<img src="img/indicator.gif">',
+    loadurl : "<?php print $url ?>json.php",
+    type   : "select",
+    submit : "OK",
+    style  : "inherit"
+  });
+  $(".editable_textarea").editable("<?php print $url ?>save.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      type   : 'textarea',
+      submitdata: { _method: "put" },
+      select : true,
+      submit : 'OK',
+      cancel : 'cancel',
+      cssclass : "editable"
+  });
+  $(".editable_textile").editable("<?php print $url ?>save.php?renderer=textile", { 
+      indicator : "<img src='img/indicator.gif'>",
+      loadurl   : "<?php print $url ?>load.php",
+      type      : "textarea",
+      submit    : "OK",
+      cancel    : "Cancel",
+      tooltip   : "Click to edit..."
+  });
+  
+  $(".click").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Click to edit...",
+      style  : "inherit"
+  });
+  $(".dblclick").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Doubleclick to edit...",
+      event     : "dblclick",
+      style  : "inherit"
+  });
+  $(".mouseover").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Move mouseover to edit...",
+      event     : "mouseover",
+      style  : "inherit"
+  });
+  
+  /* Should not cause error. */
+  $("#nosuch").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      type   : 'textarea',
+      submit : 'OK'
+  });
+
+});
+</script>
+
+<style type="text/css">
+#sidebar {
+  width: 0px;
+}
+
+#content {
+  width: 770px;
+}
+
+.editable input[type=submit] {
+  color: #F00;
+  font-weight: bold;
+}
+.editable input[type=button] {
+  color: #0F0;
+  font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Jeditable</h1><br />
+        <small>Edit in place plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+          <!--
+          <li><a href="/cv" class="last">cv</a></li>
+        -->
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+    <div class="entry">
+            
+    <p>You might also want to check <a href="custom.html">custom inputs demo</a>.
+
+    <h2>Normal textarea</h2>
+    
+    <p class="editable_textarea" id="paragraph_1"><?php print file_get_contents($url . 'load.php?id=paragraph_1') ?></p>
+
+    <h2>Inlined select</h2>
+    <p><b class="editable_select" id="select_1" style="display: inline"> <?php print file_get_contents($url . 'load.php?id=select_1') ?></b> dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh <b class="editable_select_json" id="select_2" style="display: inline"> <?php print file_get_contents($url . 'load.php?id=select_2') ?></b> euismod tincidunt ut laoreet dolore magna aliquam erat volutp</p>    
+
+    <h2>Textile renderer</h2>
+    <div class="editable_textile" id="paragraph_2"><?php print file_get_contents($url . 'load.php?id=paragraph_2&renderer=textile') ?></div>
+
+    <h2>Different events</h2>
+    <p>
+      <b class="click" style="display: inline">Click me if you dare!</b></> or maybe you should 
+      <b class="dblclick" style="display: inline">doubleclick</b> instead? Really lazy people can just
+      <b class="mouseover" style="display: inline">mouseover me</b>...
+    </p>
+    
+    </div>
+    <div id="sidebar">
+
+  </div>
+  
+  <div id="footer">
+  </div>
+
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    _uacct = "UA-190966-1";
+    urchinTracker();
+  </script>
+
+</body>
+</html>

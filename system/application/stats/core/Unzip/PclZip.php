@@ -4,10 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: PclZip.php 3408 2010-12-05 15:00:42Z vipsoft $
+ * @version $Id: PclZip.php 4297 2011-04-03 19:31:58Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
+ */
+
+/**
+ * @see libs/PclZip
  */
 require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 
@@ -15,8 +19,9 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
  * Unzip wrapper around PclZip
  *
  * @package Piwik
+ * @subpackage Piwik_Unzip
  */
-class Piwik_Unzip_PclZip implements Piwik_iUnzip
+class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 {
 	private $pclzip;
 	public $filename;

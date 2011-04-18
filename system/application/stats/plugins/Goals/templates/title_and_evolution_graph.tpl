@@ -7,7 +7,11 @@
 
 <div id='leftcolumn'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversions}
-	{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
+	{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}
+		 {if isset($goalAllowMultipleConversionsPerVisit) && $goalAllowMultipleConversionsPerVisit}
+		 	({'VisitsSummary_NbVisits'|translate:"<strong>$nb_visits_converted</strong>"})
+		 {/if}
+	</div>
 	{if $revenue != 0 }
 		<div class="sparkline">{sparkline src=$urlSparklineRevenue}
 		{assign var=revenue value=$revenue|money:$idSite}
@@ -20,5 +24,5 @@
 </div>
 
 
-{include file=CoreHome/templates/sparkline_footer.tpl}
+{include file="CoreHome/templates/sparkline_footer.tpl"}
 

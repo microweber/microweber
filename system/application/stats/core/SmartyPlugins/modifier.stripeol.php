@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: modifier.stripeol.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: modifier.stripeol.php 4299 2011-04-03 20:32:34Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -18,8 +18,7 @@
  * Purpose:  Replace all end-of-line characters with platform specific string.<br>
  * Example:  {$var|stripeol}
  * Date:     March 10th, 2010
- * @author   anthon (at) piwik.org
- * @version  1.0
+ *
  * @param string
  * @param string
  * @return string

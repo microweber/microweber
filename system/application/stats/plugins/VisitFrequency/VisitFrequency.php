@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: VisitFrequency.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: VisitFrequency.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -30,7 +30,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
@@ -62,6 +61,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 //    			'bounce_count_returning',
 			),
 			'processedMetrics' => false,
+			'order' => 40
 		);
 	}
 
@@ -71,12 +71,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
 	}
 	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}	
-	
 	function addMenu()
 	{
 		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
@@ -85,6 +79,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$numericToSum = array( 
 				'nb_visits_returning',
@@ -102,14 +98,16 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors_returning,
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
+		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors_returning,
 							count(*) as nb_visits_returning, 
 							sum(visit_total_actions) as nb_actions_returning,
 							max(visit_total_actions) as max_actions_returning, 
 							sum(visit_total_time) as sum_visit_length_returning,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
-				 	FROM ".$archiveProcessing->logTable."
+				 	FROM ".Piwik_Common::prefixTable('log_visit')."
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?

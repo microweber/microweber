@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: outputfilter.cachebuster.php 3529 2010-12-25 04:13:36Z vipsoft $
+ * @version $Id: outputfilter.cachebuster.php 4299 2011-04-03 20:32:34Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -24,8 +24,7 @@
  *           <code>$smarty->assign('tag', 'some_unique_tag');</code>
  *           <code>$smarty->load_filter('output','cachebuster');</code>
  *           from application.
- * @author   Anthon Pang <apang at softwaredevelopment dot ca>
- * @version  1.1
+ *
  * @param string
  * @param Smarty
  */
@@ -34,7 +33,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 	static $cachebuster = null;
 	if(is_null($cachebuster))
 	{
-		$cachebuster = md5(Piwik_Common::getSalt() . PHP_VERSION . $smarty->get_template_vars('piwik_version'));
+		$cachebuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
 	}
 	$tag = 'cb=' . $cachebuster;
 

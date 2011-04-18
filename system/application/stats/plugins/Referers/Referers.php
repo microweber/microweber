@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Referers.php 3517 2010-12-22 20:51:20Z matt $
+ * @version $Id: Referers.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+
+/**
+ * @see plugins/Referers/functions.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
  * @package Piwik_Referers
@@ -35,13 +40,13 @@ class Piwik_Referers extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
 			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}	
@@ -55,7 +60,8 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_Type'),
         			'module' => 'Referers',
         			'action' => 'getRefererType',
-        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
+        			'dimension' => Piwik_Translate('Referers_ColumnRefererType'),
+        			'order' => 1,
         		),
         		array(
         			'category' => Piwik_Translate('Referers_Referers'),
@@ -63,6 +69,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
+        			'order' => 3,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -70,6 +77,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getWebsites',
         			'dimension' => Piwik_Translate('Referers_ColumnWebsite'),
+        			'order' => 5,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -77,6 +85,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getSearchEngines',
         			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        			'order' => 7,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -84,10 +93,48 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
+        			'order' => 9,
         		),
     	));
 	}
 	
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+	    $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Referers_Referers',
+		        'name' => 'Referers_ColumnRefererType',
+		        'segment' => 'referrerType',
+		        'acceptedValues' => 'direct, search, website, campaign',
+		        'sqlSegment' => 'referer_type',
+	            'sqlFilter' => 'Piwik_getRefererTypeFromShortName',
+	    );
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Referers_Referers',
+		        'name' => 'Referers_ColumnKeyword',
+		        'segment' => 'referrerKeyword',
+		        'acceptedValues' => 'Encoded%20Keyword, keyword',
+		        'sqlSegment' => 'referer_keyword',
+	    );
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Referers_Referers',
+		        'name' => 'Referers_RefererName',
+		        'segment' => 'referrerName',
+		        'acceptedValues' => 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName',
+		        'sqlSegment' => 'referer_name',
+	    );
+	    $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Referers_Referers',
+		        'name' => 'Live_Referrer_URL',
+	    		'acceptedValues' => 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm',
+		        'segment' => 'referrerUrl',
+		        'sqlSegment' => 'referer_url',
+	    );
+	}
 	
 	/**
 	 * Adds Referer widgets
@@ -99,6 +146,10 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
+		if(Piwik_Archive::isSegmentationEnabled())
+		{
+    		Piwik_AddWidget( 'Referers_Referers', 'Top Keywords for Page URL', 'Referers', 'getKeywordsForPage');
+		}
 	}
 	
 	/**
@@ -114,15 +165,15 @@ class Piwik_Referers extends Piwik_Plugin
 	}
 	
 	/**
-	 * Adds Goal segments, so that the segments are displayed in the UI Goal Overview page
+	 * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function getReportsWithGoalMetrics( $notification )
 	{
-		$segments =& $notification->getNotificationObject();
-		$segments = array_merge($segments, array(
+		$dimensions =& $notification->getNotificationObject();
+		$dimensions = array_merge($dimensions, array(
         		array(	'category'  => Piwik_Translate('Referers_Referers'),
             			'name'   => Piwik_Translate('Referers_Keywords'),
             			'module' => 'Referers',
@@ -151,12 +202,6 @@ class Piwik_Referers extends Piwik_Plugin
     	));
 	}
 	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}
-
 	function __construct()
 	{
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
@@ -168,12 +213,14 @@ class Piwik_Referers extends Piwik_Plugin
 	 * Period archiving: sums up daily stats and sums report tables, 
 	 * making sure that tables are still truncated.
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$dataTableToSum = array( 
 			'Referers_type',
@@ -229,7 +276,7 @@ class Piwik_Referers extends Piwik_Plugin
 	/**
 	 * Hooks on daily archive to trigger various log processing
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	public function archiveDay( $notification )
@@ -238,6 +285,8 @@ class Piwik_Referers extends Piwik_Plugin
 		 * @var Piwik_ArchiveProcessing_Day 
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
+		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$this->archiveDayAggregateVisits($this->archiveProcessing);
 		$this->archiveDayAggregateGoals($this->archiveProcessing);
 		Piwik_PostEvent('Referers.archiveDay', $this);
@@ -263,29 +312,13 @@ class Piwik_Referers extends Piwik_Plugin
 	 * Daily archive: processes all Referers reports, eg. Visits by Keyword, 
 	 * Visits by websites, etc.
 	 * 
-	 * @param $archiveProcessing
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
 	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
 	{
-		$query = "SELECT 	referer_type, 
-							referer_name, 
-							referer_keyword,
-							referer_url,
-							count(distinct visitor_idcookie) as nb_uniq_visitors,
-							count(*) as nb_visits,
-							sum(visit_total_actions) as nb_actions,
-							max(visit_total_actions) as max_actions, 
-							sum(visit_total_time) as sum_visit_length,							
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
-				 	FROM ".$archiveProcessing->logTable."
-				 	WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-				 		AND idsite = ?
-				 	GROUP BY referer_type, referer_name, referer_url, referer_keyword
-				 	ORDER BY nb_visits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+	    $dimension = array("referer_type", "referer_name", "referer_keyword", "referer_url");
+	    $query = $archiveProcessing->queryVisitsByDimension($dimension);
 
 		$this->interestBySearchEngine =
 			$this->interestByKeyword =
@@ -363,12 +396,15 @@ class Piwik_Referers extends Piwik_Plugin
 	 * Daily Goal archiving:  processes reports of Goal conversions by Keyword,
 	 * Goal conversions by Referer Websites, etc.
 	 * 
-	 * @param $archiveProcessing
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsBySegment("referer_type,referer_name,referer_keyword");
+		$query = $archiveProcessing->queryConversionsByDimension(array("referer_type","referer_name","referer_keyword"));
+		
+		if($query === false) return;
+		
 		while($row = $query->fetch() )
 		{
 			if(empty($row['referer_type']))
@@ -423,7 +459,7 @@ class Piwik_Referers extends Piwik_Plugin
 	/**
 	 * Records the daily stats (numeric or datatable blob) into the archive tables.
 	 *  
-	 * @param $archiveProcessing
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
 	protected function archiveDayRecordInDatabase($archiveProcessing)

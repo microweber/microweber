@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: SitesManager.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: SitesManager.php 4312 2011-04-04 19:19:46Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -44,14 +44,24 @@ class Piwik_SitesManager extends Piwik_Plugin
 							Piwik::isUserHasSomeAdminAccess(),
 							$order = 5);		
 	}
-	
+
+	/**
+	 * Get CSS files
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "themes/default/styles.css";
 	}	
-	
+
+	/**
+	 * Get JavaScript files
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
@@ -63,7 +73,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	 * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
 	 * Will record in the tracker config file all data needed for this website in Tracker. 
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function recordWebsiteDataInCache($notification)
@@ -78,7 +88,8 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	/**
 	 * Returns the array of excluded IPs to save in the config file
-	 * @param $idSite
+	 *
+	 * @param int $idSite
 	 * @return array
 	 */
 	private function getTrackerExcludedIps($idSite)
@@ -117,7 +128,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	/**
 	 * Returns the array of URL query parameters to exclude from URLs
-	 * @param $idSite
+	 * @param int $idSite
 	 * @return array
 	 */
 	private function getTrackerExcludedQueryParameters($idSite)
@@ -135,7 +146,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	/**
 	 * Returns the hosts alias URLs
-	 * @param $idSite
+	 * @param int $idSite
 	 * @return array
 	 */
 	private function getTrackerHosts($idSite)

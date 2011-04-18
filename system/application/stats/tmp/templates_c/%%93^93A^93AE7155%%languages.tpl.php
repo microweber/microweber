@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-02-09 23:49:52
+<?php /* Smarty version 2.6.26, created on 2011-04-18 13:09:14
          compiled from LanguagesManager/templates/languages.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'LanguagesManager/templates/languages.tpl', 6, false),)), $this); ?>
@@ -25,7 +25,10 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate',
 		</form>
 	</span>
 	
-	<?php echo '<script type="text/javascript">
+	<script type="text/javascript">
+	piwik.languageName = "<?php echo $this->_tpl_vars['currentLanguageName']; ?>
+";
+	<?php echo '
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
 		$("#languageSelection").show();

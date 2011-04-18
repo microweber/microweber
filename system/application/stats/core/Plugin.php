@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Plugin.php 3294 2010-11-06 03:26:44Z vipsoft $
+ * @version $Id: Plugin.php 3862 2011-02-07 16:59:31Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -81,13 +81,26 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the plugin's base name without the "Piwik_" prefix,
+	 * Returns the plugin's base class name without the "Piwik_" prefix,
 	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
+	 *
+	 * @return string
+	 */
+	final public function getPluginName()
+	{
+		return Piwik::unprefixClass(get_class($this));
+	}
+
+	/**
+	 * Returns the plugin's base class name without the "Piwik_" prefix,
+	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
+	 *
+	 * @deprecated since 1.2 - for backward compatibility
 	 *
 	 * @return string
 	 */
 	final public function getClassName()
 	{
-		return Piwik::unprefixClass(get_class($this));
+		return $this->getPluginName();
 	}
 }

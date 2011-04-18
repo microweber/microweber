@@ -10,8 +10,9 @@ $modules = CI::model('template')->getModules($modules_options );
 //
 
 ?>
-<?// p($params) ?>
+<? // p($params) ?>
  <script type="text/javascript">
+	 
 	/*$(function() {
 		var icons = {
 			header: "ui-icon-circle-arrow-e",
@@ -24,7 +25,11 @@ $modules = CI::model('template')->getModules($modules_options );
 	 
 	}); */
 	
-		 $("#module_accordion div").draggable({
+		
+	
+	
+	function init_bar() {
+  $("#module_accordion div").draggable({
 			connectToSortable: ".editblock",
 		    helper: 'clone',
 			revert: "invalid"
@@ -43,6 +48,13 @@ $modules = CI::model('template')->getModules($modules_options );
 		});
 		 
 		 
+ }
+ window.onload = init_bar;
+ 
+ 
+ 
+ 
+ 
 </script>
 
 
@@ -92,7 +104,7 @@ $modules = CI::model('template')->getModules($modules_options );
         <? if($module_group2 == $module_group)  : ?>
         <div>
           <? if($module2['icon']): ?>
-          <img src="<? print $module2['icon'] ?>" height="32" style="float:left" />
+          <img src="<? print $module2['icon'] ?>" height="12" style="float:left" />
           <? endif; ?>
           <? print $module2['name'] ?> <? print $module2['description'] ?>
           <textarea style="display: none">
@@ -101,7 +113,7 @@ $modules = CI::model('template')->getModules($modules_options );
           
 </textarea>
         </div>
-        <br />        <br />
+       
         <hr />
         <? endif; ?>
         <? endforeach; ?>

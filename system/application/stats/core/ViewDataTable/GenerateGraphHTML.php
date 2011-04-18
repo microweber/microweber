@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: GenerateGraphHTML.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: GenerateGraphHTML.php 4188 2011-03-26 06:45:47Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -109,8 +109,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		if(!Piwik::isUserHasViewAccess($idSite))
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
-
 		}
+		
 		if($this->includeData)
 		{
 			$this->chartData = $this->getFlashData();

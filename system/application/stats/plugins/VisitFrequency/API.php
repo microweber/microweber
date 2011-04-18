@@ -4,14 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
 
 /**
- *
+ * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
  * @package Piwik_VisitFrequency
  */
 class Piwik_VisitFrequency_API 

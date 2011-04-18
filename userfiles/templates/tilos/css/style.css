@@ -107,7 +107,7 @@ address{
   width:190px;
   text-align: right;
   margin-right:20px;
-  margin-top: 10px;
+  margin-top: -4px;
   font-weight: bold;
 }
 #nav_cart a{
@@ -641,22 +641,30 @@ background: none;
     font-size:11px;
     display: block;
     padding: 3px 0 3px 10px;
-    white-space: nowrap;
     text-transform: capitalize;
+    background:
+
   }
   .sidebox li li a{
     padding-left: 20px;
+    font-size: 10px;
   }
   .sidebox li li li a{
     padding-left: 30px;
+    font-size: 10px;
   }
 
 
-  .sidebox li a:hover{
+  .sidebox li a:hover, .sidebox li a.active, .sidebox li.active a{
     background: #FFFFFe;/* msie */
     text-decoration: underline;
     font-weight: normal;
   }
+  .sidebox li.active{
+    background: white;
+  }
+
+
   #main{
     float: left;
     width:710px;
@@ -722,7 +730,7 @@ background: none;
     list-style: none;
     float: left;
     width: 185px;
-    height: 145px;
+    height: 158px;
     margin: 0 7px;
   }
   #photoslider li a span{
@@ -736,11 +744,11 @@ background: none;
   }
   #photoslider li a strong{
     display: block;
-    white-space: nowrap;
     color: #3B3B3B;
     font-weight: normal;
     padding-top: 2px;
     padding-left: 4px;
+    text-align: center;
   }
   #photoslider li a:hover strong{
     text-decoration: underline;
@@ -963,10 +971,18 @@ background: none;
    .select_qty{
      width: 50px;
    }
+   .module_edit_bar_delete{
+  display: none;
+}
    #product_image{
      float: left;
      width: 216px;
    }
+   #product_image input{
+     display: none;
+   }
+
+
    #products_slide ul{
      float: left;
      list-style: none;
@@ -1286,6 +1302,10 @@ border-top:none;
 .drop_white li span:hover{
   background: #AAAAAA;
   color: white;
+}
+
+#become_aff_content{
+  height: 100px;
 }
 
 

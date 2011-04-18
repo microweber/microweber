@@ -15,14 +15,14 @@
         <p>{'API_GenerateVisits'|translate:'VisitorGenerator':'VisitorGenerator'}</p>
     {/if}
     
-    <p><b>{'API_MoreInformation'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/wiki/API'>":"</a>":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/wiki/API/Reference'>":"</a>"}</b></p>
+    <p><b>{'API_MoreInformation'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>":"</a>":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>":"</a>"}</b></p>
     
     <h2>{'API_UserAuthentication'|translate}</h2>
     <p>
-    {'API_UsingTokenAuth'|translate:'<b>':'</b>':"<u><code>&amp;token_auth=$token_auth</code></u>"}<br />
-    <span id='token_auth'>token_auth = <b>{$token_auth}</b></span><br />
+    {'API_UsingTokenAuth'|translate:'<b>':'</b>':""}<br />
+    <span id='token_auth'>&amp;token_auth=<b>{$token_auth}</b></span><br />
     {'API_KeepTokenSecret'|translate:'<b>':'</b>'}
-    <p><i>{'API_LoadedAPIs'|translate:$countLoadedAPI}</i></p>
+    <!-- {'API_LoadedAPIs'|translate:$countLoadedAPI} -->
     {$list_api_methods_with_links}
     <br />
 </div>

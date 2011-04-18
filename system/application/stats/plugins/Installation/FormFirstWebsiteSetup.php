@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: FormFirstWebsiteSetup.php 3678 2011-01-09 04:03:18Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -48,7 +48,7 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
 
-		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo'), 'class' => 'submit'));
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('General_Next').' »', 'class' => 'submit'));
 
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

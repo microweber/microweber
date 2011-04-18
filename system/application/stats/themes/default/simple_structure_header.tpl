@@ -1,3 +1,5 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<title>{$HTML_TITLE}</title>
@@ -7,5 +9,4 @@
 </head>
 <body>
 <div id="content">
-	<div id="title"><span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span></div>
-	
+	<div id="title"><img title='Piwik' src='themes/default/images/logo-header.png' style='margin-left:10px'><span id="subh1"> # <a href='http://piwik.org/'>web analytics</a></span></div>

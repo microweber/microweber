@@ -447,6 +447,9 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		
 		}
 		
+		$stats_js = CI::model ( 'stats' )->get_js_code();
+		;
+		
 		$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
 		
 		//$layout = CI::model('template')->parseMicrwoberTags($layout);
@@ -460,15 +463,19 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 				$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
 				$layout_toolbar = CI::view ( 'admin/toolbar', true, true );
 				if ($layout_toolbar != '') {
-					$layout = str_ireplace ( '</body>', $layout_toolbar . '</body>', $layout );
-					$layout = str_ireplace ( '</ body>', $layout_toolbar . '</ body>', $layout ); //some developers put spaces
-					$layout = str_ireplace ( '</  body>', $layout_toolbar . '</  body>', $layout ); //some developers put moooore spaces
+					$layout = str_replace ( '</body>', $layout_toolbar . '</body>', $layout );
+					$layout = str_replace ( '</ body>', $layout_toolbar . '</ body>', $layout ); //some developers put spaces
+					$layout = str_replace ( '</  body>', $layout_toolbar . '</  body>', $layout ); //some developers put moooore spaces
 				
 
 				}
 			
 			}
 		
+		}
+		
+		if ($stats_js != false) {
+			$layout = str_replace ( '</body>', $stats_js . '</body>', $layout );
 		}
 		
 		//<script type="text/javascript" src="http://google.com/jsapi"></script>

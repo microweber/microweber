@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4383 2011-04-09 02:15:01Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
@@ -37,8 +37,9 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		{
 			$module = Piwik::getLoginPluginName();
 		}
+		$idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
 		
-		parent::redirectToIndex($module, $action);
+		parent::redirectToIndex($module, $action, !empty($idSite) ? $idSite : null );
 	}
 	
 	public function showInContext()
@@ -67,7 +68,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 			return;
 		} 
 		$websiteId = Piwik_Common::getRequestVar('idSite', false, 'int');
-		if ($websiteId) {
+		if ($websiteId) 
+		{
 			$website = new Piwik_Site($websiteId);
 			$datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
 			$creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');

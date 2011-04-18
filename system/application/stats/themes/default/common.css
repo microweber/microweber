@@ -206,7 +206,7 @@ a {
 	color:#444444; 
 }
 
-#header{ padding:20px 0 0 0; min-height:60px; }
+#header{ padding:5px 0 0 0; min-height:60px; }
 
 #logo {
 	display: block;
@@ -220,7 +220,7 @@ a {
 .sites_selection{ 
 	z-index:30;
 	position:absolute; 
-	top:71px; 
+	top:65px; 
 	right:0;
 	font-size:12px;
 }
@@ -281,7 +281,7 @@ a {
 /*sites_autocomplete*/
 .sites_autocomplete{ 
 	position:absolute; 
-	top:71px; 
+	top:65px; 
 	right:0;
 	font-size:12px;
 }
@@ -496,6 +496,10 @@ a {
 	font-size:8pt;
 	line-height:140%;
 }
+div.ui-state-highlight {
+	border-color:#545903;
+	background-color:#FFFFD6;
+}
 
 .ui-datepicker{ 
 	border: 1px solid #fff!important;
@@ -545,7 +549,7 @@ a {
 	padding:0 !important;
 }
 
-.ui-datepicker td .ui-state-default{ 
+.ui-state-default{ 
 	border:1px solid #f2f6f9!important;
 	border-right:0!important;
 	background:#fff!important;
@@ -628,7 +632,10 @@ select {
 .admin .submit {
 	margin-left:50px;
 	float:none;
-	
+}
+
+.admin .entityContainer .submit {
+	margin:0;
 }
 .entityContainer .link_but {
 	white-space:nowrap;
@@ -652,7 +659,7 @@ select {
 }
 
 /* Add / Edit / List entities */
-.entityContainer{  
+.entityContainer {
 	width:800px;
 	font-size:14px;
 }
@@ -686,7 +693,9 @@ select {
 table.entityTable tr td a {
 	text-decoration:underline;
 }
-
+.entityTable tr.highlight td {
+	background-color: #ECF9DD;
+}
 
 /* cancel button below Forms */
 .entityCancel {
@@ -708,11 +717,11 @@ table.entityTable tr td a {
 	padding:0 0 0 21px;
 	line-height:22px;
 }
-.entityList ul li .segment{
+.entityList ul li .dimension{
 	cursor:pointer;
 	border-bottom:1px solid #d0d0d0;
 }
-.entityList ul li.activeSegment .segment {
+.entityList ul li.activeDimension .dimension {
 	font-weight: bold;
 	border:0;
 }

@@ -8,6 +8,8 @@ $(document).ready(function(){
 
 
 
+
+
     /* Module Info */
 
 var m_info = document.createElement('div');
@@ -143,6 +145,8 @@ $("input").live("mousedown", function(){
 
 $("#preloader").ajaxStart(function(){
   $(this).show();
+
+
 })
 $("#preloader").ajaxStop(function(){
   $(this).hide();

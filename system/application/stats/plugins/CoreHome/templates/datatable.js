@@ -163,7 +163,7 @@ dataTable.prototype =
 			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
-		$.ajax(self.buildAjaxRequest(callbackSuccess));
+		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(callbackSuccess)));
 	},
 			
 	
@@ -191,8 +191,8 @@ dataTable.prototype =
 		{
 			dataTableSel.find('object').remove();
 			dataTableSel.html( $(content) );
-			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
+		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 	},	
 		
 			
@@ -395,7 +395,8 @@ dataTable.prototype =
 					$(this).unbind('click');
 					var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
 					if(offset < 0) { offset = 0; }
-					self.param.filter_offset = offset; 
+					self.param.filter_offset = offset;
+					self.param.previous = 1;
 					self.reloadAjaxDataTable();
 				}
 			);
@@ -729,6 +730,8 @@ dataTable.prototype =
 					
 					// reset all the filters from the Parent table
 					var filtersToRestore = self.resetAllFilters();
+					// do not ignore the exclude low population click
+					self.param.enable_filter_excludelowpop = filtersToRestore.enable_filter_excludelowpop;
 					
 					self.param.idSubtable = idSubTable;
 					self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
@@ -787,6 +790,8 @@ actionDataTable.prototype =
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
 	setActiveIcon: dataTable.prototype.setActiveIcon,
+	resetAllFilters: dataTable.prototype.resetAllFilters,
+	restoreAllFilters: dataTable.prototype.restoreAllFilters,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -923,16 +928,22 @@ actionDataTable.prototype =
 			</tr>\
 			');
 			var savedActionVariable = self.param.action;
-		
-			// reset search for subcategories
-			delete self.param.filter_column;
-			delete self.param.filter_pattern;
+
+			// reset all the filters from the Parent table
+			var filtersToRestore = self.resetAllFilters();
+			
+			// Do not reset the sorting filters that must be applied to sub tables 
+			this.param['filter_sort_column'] = filtersToRestore['filter_sort_column'];
+			this.param['filter_sort_order'] = filtersToRestore['filter_sort_order'];
 			
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 			
 			self.reloadAjaxDataTable(false, function(resp){self.actionsSubDataTableLoaded(resp)});
 			self.param.action = savedActionVariable;
+
+			self.restoreAllFilters(filtersToRestore);
+			
 			delete self.param.idSubtable;		
 		}
 		// else we toggle all these rows
@@ -1019,8 +1030,7 @@ actionDataTable.prototype =
 		}
 		
 		// we execute the bindDataTableEvent function for the new DIV
-		self.init(self.workingDivId, $('#'+self.workingDivId));
-//		self.init(self.workingDivId, $('#'+idToReplace));
+		self.init(self.workingDivId, $('#'+idToReplace));
 		
 		//bind back the click event (disabled to avoid double-click problem)
 		self.disabledRowDom.click(

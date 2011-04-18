@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: functions.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: functions.php 4181 2011-03-25 20:02:40Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -29,7 +29,7 @@ function Piwik_getOSLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $osId;
 }
@@ -43,7 +43,7 @@ function Piwik_getOSShortLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $osId;
 }
@@ -56,7 +56,7 @@ function Piwik_getBrowserTypeLabel($oldLabel)
 	}
 	if($oldLabel == 'unknown')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }
@@ -75,7 +75,7 @@ function Piwik_getConfigurationLabel($str)
 	$browser = UserAgentParser::getBrowserNameFromId($name);
 	if($browser === false)
 	{
-		$browser = html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		$browser = Piwik_Translate('General_Unknown');
 	}
 	$resolution = $values[2];
 	return $os . " / " . $browser . " / " . $resolution;
@@ -92,7 +92,7 @@ function Piwik_getBrowserLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }
@@ -108,7 +108,7 @@ function Piwik_getBrowserShortLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }
@@ -159,7 +159,11 @@ function Piwik_getScreenTypeFromResolution($resolution)
 	$height= intval(substr($resolution, strpos($resolution, 'x') + 1));
 	$ratio = Piwik::secureDiv($width, $height);
 	
-	if($ratio < 1.4)
+	if($width < 640)
+	{
+		$name = 'mobile';
+	}
+	elseif($ratio < 1.4)
 	{
 		$name = 'normal';
 	}

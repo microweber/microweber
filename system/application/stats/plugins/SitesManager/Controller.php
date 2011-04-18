@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4451 2011-04-14 19:00:39Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -14,7 +14,7 @@
  *
  * @package Piwik_SitesManager
  */
-class Piwik_SitesManager_Controller extends Piwik_Controller
+class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 {
 	/*
 	 * Main view showing listing of websites and settings
@@ -23,6 +23,11 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('SitesManager');
 		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+		foreach($sites as $site)
+		{
+			$sitesIndexedById[$site['idsite']] = $site;
+		}
+		Piwik_Site::setSites($sitesIndexedById);
 		foreach($sites as &$site)
 		{
 			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
@@ -30,6 +35,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 			$site['excluded_parameters'] = str_replace(',','<br/>', $site['excluded_parameters']);
 		}
 		$view->adminSites = $sites;
+		$view->adminSitesCount = count($sites);
 
 		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
 		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
@@ -129,7 +135,11 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		}
 		else
 		{
-			$pattern = str_replace('/', '\\/', $pattern);
+			if(strpos($pattern, '/') !== false 
+				&& strpos($pattern, '\\/') === false)
+			{
+				$pattern = str_replace('/', '\\/', $pattern);
+			}
 			foreach($sites as $s)
 			{
 				$hl_name = $s['name'];

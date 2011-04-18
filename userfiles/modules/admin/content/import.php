@@ -1,5 +1,7 @@
 <form method="post"><input type="hidden" name="step1" value="1" /> <input
     type="submit" value="step1 - categories"></form>
+<form method="post"><input type="hidden" name="step1_1" value="1" /> <input
+    type="submit" value="step1_1 - categories"></form>
 <form method="post"><input type="hidden" name="step2" value="1" /> <input
     type="submit" value="step2 - posts"></form>
 <form method="post"><input type="hidden" name="step3" value="1" /> <input
@@ -9,7 +11,7 @@
 print "<hr>";
 ?>
 <?php
-
+global $cms_db_tables;
 if ($_POST) {
 	
 	$dir = dirname ( __FILE__ ) . '/import/';
@@ -64,7 +66,7 @@ if ($_POST) {
 			$catnames = $category [9];
 			$cats_from_name = explode ( ':', $catnames );
 			//p ( $cats_from_name );
-			
+		//	p($category);
 
 			$item_save = array ();
 			$item_save ['taxonomy_value'] = $category [9];
@@ -79,14 +81,15 @@ if ($_POST) {
 			}
 			
 			$get_categories_params = array ();
-			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [11];
-			//	p($get_categories_params);
+			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [9];
+		//		p($get_categories_params);
 			$is_cat = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
-			//p ( $is_cat );
+		//	p ( $is_cat );
 			$is_cat = $is_cat [0];
 			
 			//$is_cat = get_category ( $item_save ['taxonomy_value'] );
 			
+
 			if (empty ( $is_cat )) {
 				$item_save ['id'] = false;
 			} else {
@@ -110,8 +113,9 @@ if ($_POST) {
 			} else {
 				print "parrr...";
 				
-				p ( $is_parrent );
+				//	p ( $is_parrent );
 				
+
 				if ($is_parrent ['id'] != $item_save ['id']) {
 					$item_save ['parent_id'] = $is_parrent ['id'];
 				} else {
@@ -129,8 +133,56 @@ if ($_POST) {
 			?></pre>
 
 
+
+
+
 <?php
 		}
+	}
+	
+	if ($_POST ['step1_1']) {
+		$get_categories_params = array ();
+		//$get_categories_params ['custom_fields_criteria'] ['original_id'] = "IS NOT NULL";
+		//p ( $category [11] );
+		//	p ( $get_categories_params );
+		$get_categories_params = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+		//p ( $get_categories_params );
+		foreach ( $get_categories_params as $c ) {
+			$c_cf = CI::model ( 'core' )->getCustomFields ( 'table_taxonomy', $id = $c ['id'], $return_full = false );
+			p($c);
+			if ($c_cf ['original_parent_id'] != false) {
+				
+				$get_parent = array ();
+				$get_parent ['taxonomy_value'] = $c_cf ['original_parent_id'];
+				//$get_parent ['debug'] = $c_cf ['original_parent_id'];
+				
+
+				$p1=   explode ( '/' ,$c_cf ['original_parent_id']);
+				$table_taxonomy = $cms_db_tables ['table_taxonomy'];
+				p($p1);
+				$get_parent = get_category ( $p1[0] );
+				if (! empty ( $get_parent )) {
+					$item_save = array ();
+					$item_save ['id'] = $c ['id'];
+					$item_save ['parent_id'] = $get_parent ['id'];
+					$q = "update $table_taxonomy set parent_id='{$item_save ['parent_id']}' where id ='{$item_save ['id']}' ";
+					//p($q);
+					$q = CI::model ( 'core' )->dbQ ( $q );
+					
+					
+					//$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
+					
+				//var_dump ( $s, $item_save );
+				}
+				
+			//	p ( $get_parent );
+			//p($c_cf);
+			//	p($c);
+			}
+		}
+		//p($get_categories_params);
+	
+
 	}
 	
 	if ($_POST ['step2']) {
@@ -255,12 +307,12 @@ if ($_POST) {
 */
 			
 			$cats_from_name = explode ( ':', $post [1] );
-			
+			p($cats_from_name);
 			$cat_from_name = $cats_from_name [0];
 			
 			$item_save = array ();
 			$item_save ['content_title'] = $post [26];
-			$item_save ['content_url'] = url_string ($post [26]);
+			$item_save ['content_url'] = url_string ( $post [26] );
 			$item_save ['custom_field_original_id_from_old_website'] = $post [30];
 			$item_save ['custom_field_original_category_from_old_website'] = $post [1];
 			$item_save ['custom_field_model'] = $post [25];
@@ -313,8 +365,8 @@ if ($_POST) {
 					$item_save ['id'] = $check ['posts'] [0] ['id'];
 					$item_save ['screenshot_url'] = false;
 				}
-				//p ( $item_save );
-				$saved = post_save ( $item_save );
+				p ( $item_save );
+				//$saved = post_save ( $item_save );
 			
 			}
 			//p ( $check );

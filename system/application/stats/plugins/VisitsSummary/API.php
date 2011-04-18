@@ -4,14 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
 
 /**
- *
+ * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors, 
+ * count of actions (page views & downloads & clicks on outlinks), time on site, bounces and converted visits.
+ * 
  * @package Piwik_VisitsSummary
  */
 class Piwik_VisitsSummary_API 
@@ -26,10 +28,10 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = false)
+	public function get( $idSite, $period, $date, $segment = false, $columns = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 	
 		// array values are comma separated
 		$columns = Piwik::getArrayFromApiParameter($columns);
@@ -63,6 +65,12 @@ class Piwik_VisitsSummary_API
 								'sum_visit_length',
 								'max_actions',
 							);
+			if(!Piwik::isUniqueVisitorsEnabled($period))
+			{
+				unset($columns[array_search('nb_uniq_visitors', $columns)]);
+			}
+			// Force reindex from 0 to N otherwise the SQL bind will fail
+			$columns = array_values($columns);
 		}
 
 		$dataTable = $archive->getDataTableFromNumeric($columns);
@@ -92,54 +100,54 @@ class Piwik_VisitsSummary_API
 		return $dataTable;
 	}
 	
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getNumeric($toFetch);
 		return $dataTable;		
 	}
 
-	public function getVisits( $idSite, $period, $date )
+	public function getVisits( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_visits');
 	}
 	
-	public function getUniqueVisitors( $idSite, $period, $date )
+	public function getUniqueVisitors( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_uniq_visitors');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_uniq_visitors');
 	}
 	
-	public function getActions( $idSite, $period, $date )
+	public function getActions( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_actions');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_actions');
 	}
 	
-	public function getMaxActions( $idSite, $period, $date )
+	public function getMaxActions( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'max_actions');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'max_actions');
 	}
 	
-	public function getBounceCount( $idSite, $period, $date )
+	public function getBounceCount( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'bounce_count');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'bounce_count');
 	}
 	
-	public function getVisitsConverted( $idSite, $period, $date )
+	public function getVisitsConverted( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_visits_converted');
 	}
 	
-	public function getSumVisitsLength( $idSite, $period, $date )
+	public function getSumVisitsLength( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'sum_visit_length');
 	}
 	
-	public function getSumVisitsLengthPretty( $idSite, $period, $date )
+	public function getSumVisitsLengthPretty( $idSite, $period, $date, $segment = false )
 	{
-		$table = $this->getSumVisitsLength( $idSite, $period, $date );
+		$table = $this->getSumVisitsLength( $idSite, $period, $date, $segment );
 		if($table instanceof Piwik_DataTable_Array) {
-			$table->filter('ColumnCallbackReplace', array(0, 'Piwik::getPrettyTimeFromSeconds'));
+			$table->filter('ColumnCallbackReplace', array(0, array('Piwik', 'getPrettyTimeFromSeconds')));
 		} else {
 			$table = Piwik::getPrettyTimeFromSeconds($table);
 		}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Message.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Message.php 4471 2011-04-15 06:13:16Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -18,7 +18,7 @@
  */
 class Piwik_Log_Message extends Piwik_Log
 {
-	const ID = 'logger_message';
+	const ID = 'logger_message.htm';
 	function __construct()
 	{
 		$logToFileFilename = self::ID;
@@ -69,6 +69,7 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	}
     	$message .= "<br/>\n";
     	
+    	$message = '['. $event['timestamp'] . '] ['.$event['requestKey'].'] ['.Piwik::getMemoryUsage(). '] ' .$message;
     	return parent::format($message);
     }
 }

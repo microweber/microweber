@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Controller.php 4451 2011-04-14 19:00:39Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SecurityInfo
@@ -13,7 +13,7 @@
 /**
  * @package Piwik_SecurityInfo
  */
-class Piwik_SecurityInfo_Controller extends Piwik_Controller
+class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
 {
 	function index()
 	{

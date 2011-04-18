@@ -33,7 +33,19 @@ piwikHelper.windowModal = function( domSelector, onValidate )
 	
 	$.unblockUI
 }
-
+var globalAjaxQueue = [];
+piwikHelper.queueAjaxRequest = function( request )
+{
+	globalAjaxQueue.push(request);
+}
+piwikHelper.abortQueueAjax = function()
+{
+	for(var request in globalAjaxQueue) {
+		globalAjaxQueue[request].abort();
+	}
+	globalAjaxQueue = [];
+	return true;
+}
 piwikHelper.getCurrentQueryStringWithParametersModified = function(newparams)
 {
 	var parameters = String(window.location.search);
@@ -129,7 +141,17 @@ piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID, params)
 	return ajaxRequest;
 }
 
-piwikHelper.redirectToUrl = function(url) {
+piwikHelper.refreshAfter = function(timeoutPeriod) 
+{
+	if(timeoutPeriod == 0) {
+		location.reload(true);
+	} else {
+		setTimeout("location.reload(true);",timeoutPeriod);
+	}
+}
+
+piwikHelper.redirectToUrl = function(url) 
+{
 	window.location = url;
 }
 

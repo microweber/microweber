@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: PatternRecursive.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: PatternRecursive.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -34,15 +34,10 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		$this->patternToSearchQuoted = Piwik_DataTable_Filter_Pattern::getPatternQuoted($patternToSearch);
 		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
-		$this->filter();
 	}
 	
-	protected function filter( $table = null )
+	public function filter( $table )
 	{
-		if(is_null($table))
-		{
-			$table = $this->table;
-		}
 		$rows = $table->getRows();
 		
 		foreach($rows as $key => $row)

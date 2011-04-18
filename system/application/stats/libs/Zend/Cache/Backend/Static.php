@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BlackHole.php 17867 2009-08-28 09:42:11Z yoshida@zend.co.jp $
+ * @version    $Id: Static.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -33,7 +33,7 @@
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend_Static
@@ -123,7 +123,7 @@ class Zend_Cache_Backend_Static
      */
     public function load($id, $doNotTestCacheValidity = false)
     {
-        if (empty($id)) {
+        if (($id = (string)$id) === '') {
             $id = $this->_detectId();
         } else {
             $id = $this->_decodeId($id);
@@ -136,7 +136,7 @@ class Zend_Cache_Backend_Static
         }
 
         $fileName = basename($id);
-        if (empty($fileName)) {
+        if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
         $pathName = $this->_options['public_dir'] . dirname($id);
@@ -163,10 +163,10 @@ class Zend_Cache_Backend_Static
         }
 
         $fileName = basename($id);
-        if (empty($fileName)) {
+        if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
         } elseif (!$this->_tagged) {
             return false;
@@ -211,21 +211,21 @@ class Zend_Cache_Backend_Static
         }
 
         clearstatcache();
-        if (is_null($id) || strlen($id) == 0) {
+        if (($id = (string)$id) === '') {
             $id = $this->_detectId();
         } else {
             $id = $this->_decodeId($id);
         }
 
         $fileName = basename($id);
-        if (empty($fileName)) {
+        if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
 
         $pathName = realpath($this->_options['public_dir']) . dirname($id);
         $this->_createDirectoriesFor($pathName);
 
-        if (is_null($id) || strlen($id) == 0) {
+        if ($id === null || strlen($id) == 0) {
             $dataUnserialized = unserialize($data);
             $data = $dataUnserialized['data'];
         }
@@ -239,9 +239,9 @@ class Zend_Cache_Backend_Static
         }
         @chmod($file, $this->_octdec($this->_options['cache_file_umask']));
 
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
-        } elseif (is_null($this->_tagged)) {
+        } elseif ($this->_tagged === null) {
             $this->_tagged = array();
         }
         if (!isset($this->_tagged[$id])) {
@@ -261,22 +261,15 @@ class Zend_Cache_Backend_Static
      */
     protected function _createDirectoriesFor($path)
     {
-        if ( !is_dir($path)
-          && !@mkdir($path, $this->_options['cache_directory_umask'], true)) {
-            $lastErr = error_get_last();
-            Zend_Cache::throwException("Can't create directory: {$lastErr['message']}");
-        }
-
-        /*
-        $parts = explode('/', $path);
-        $directory = '';
-        foreach ($parts as $part) {
-            $directory = rtrim($directory, '/') . '/' . $part;
-            if (!is_dir($directory)) {
-                mkdir($directory, $this->_octdec($this->_options['cache_directory_umask']));
+        if (!is_dir($path)) {
+            $oldUmask = umask(0);
+            if ( !@mkdir($path, $this->_octdec($this->_options['cache_directory_umask']), true)) {
+                $lastErr = error_get_last();
+                umask($oldUmask);
+                Zend_Cache::throwException("Can't create directory: {$lastErr['message']}");
             }
+            umask($oldUmask);
         }
-        */
     }
 
     /**
@@ -305,7 +298,7 @@ class Zend_Cache_Backend_Static
             Zend_Cache::throwException('Invalid cache id: does not match expected public_dir path');
         }
         $fileName = basename($id);
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
         } elseif (!$this->_tagged) {
             return false;
@@ -315,7 +308,7 @@ class Zend_Cache_Backend_Static
         } else {
             $extension = $this->_options['file_extension'];
         }
-        if (empty($fileName)) {
+        if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
         $pathName = $this->_options['public_dir'] . dirname($id);
@@ -340,7 +333,7 @@ class Zend_Cache_Backend_Static
             Zend_Cache::throwException('Invalid cache id: does not match expected public_dir path');
         }
         $fileName = basename($id);
-        if (empty($fileName)) {
+        if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
         $pathName  = $this->_options['public_dir'] . dirname($id);
@@ -350,14 +343,16 @@ class Zend_Cache_Backend_Static
             if (!is_writable($directory)) {
                 return false;
             }
-            foreach (new DirectoryIterator($directory) as $file) {
-                if (true === $file->isFile()) {
-                    if (false === unlink($file->getPathName())) {
-                        return false;
+            if (is_dir($directory)) {
+                foreach (new DirectoryIterator($directory) as $file) {
+                    if (true === $file->isFile()) {
+                        if (false === unlink($file->getPathName())) {
+                            return false;
+                        }
                     }
                 }
             }
-            rmdir(dirname($path));
+            rmdir($directory);
         }
         if (file_exists($file)) {
             if (!is_writable($file)) {
@@ -394,7 +389,7 @@ class Zend_Cache_Backend_Static
                 if (empty($tags)) {
                     throw new Zend_Exception('Cannot use tag matching modes as no tags were defined');
                 }
-                if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+                if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
                     $this->_tagged = $tagged;
                 } elseif (!$this->_tagged) {
                     return true;
@@ -412,11 +407,11 @@ class Zend_Cache_Backend_Static
                 $result = true;
                 break;
             case Zend_Cache::CLEANING_MODE_ALL:
-                if (is_null($this->_tagged)) {
+                if ($this->_tagged === null) {
                     $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME);
                     $this->_tagged = $tagged;
                 }
-                if (is_null($this->_tagged) || empty($this->_tagged)) {
+                if ($this->_tagged === null || empty($this->_tagged)) {
                     return true;
                 }
                 $urls = array_keys($this->_tagged);
@@ -434,11 +429,11 @@ class Zend_Cache_Backend_Static
                 if (empty($tags)) {
                     throw new Zend_Exception('Cannot use tag matching modes as no tags were defined');
                 }
-                if (is_null($this->_tagged)) {
+                if ($this->_tagged === null) {
                     $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME);
                     $this->_tagged = $tagged;
                 }
-                if (is_null($this->_tagged) || empty($this->_tagged)) {
+                if ($this->_tagged === null || empty($this->_tagged)) {
                     return true;
                 }
                 $urls = array_keys($this->_tagged);
@@ -481,7 +476,7 @@ class Zend_Cache_Backend_Static
      */
     public function getInnerCache()
     {
-        if (is_null($this->_tagCache)) {
+        if ($this->_tagCache === null) {
             Zend_Cache::throwException('An Inner Cache has not been set; use setInnerCache()');
         }
         return $this->_tagCache;
@@ -545,12 +540,12 @@ class Zend_Cache_Backend_Static
      * Detect an octal string and return its octal value for file permission ops
      * otherwise return the non-string (assumed octal or decimal int already)
      *
-     * @param $val The potential octal in need of conversion
+     * @param string $val The potential octal in need of conversion
      * @return int
      */
     protected function _octdec($val)
     {
-        if (decoct(octdec($val)) == $val && is_string($val)) {
+        if (is_string($val) && decoct(octdec($val)) == $val) {
             return octdec($val);
         }
         return $val;
@@ -558,9 +553,12 @@ class Zend_Cache_Backend_Static
 
     /**
      * Decode a request URI from the provided ID
+     *
+     * @param string $id
+     * @return string
      */
     protected function _decodeId($id)
     {
-        return pack('H*', $id);;
+        return pack('H*', $id);
     }
 }

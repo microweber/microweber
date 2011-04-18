@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Updates.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Updates.php 3696 2011-01-11 04:56:34Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -22,7 +22,11 @@ abstract class Piwik_Updates
 	 * Return SQL to be executed in this update
 	 *
 	 * @param string Schema name
-	 * @return array
+	 * @return array( 
+	 * 		'INSERT .... ' => true,// if an error occurs during the query, it will be ignored 
+	 * 		'ALTER .... ' => false // if an error occurs, the update will stop and fail 
+	 *                             // and user will have to manually runthe query 
+	 * )
 	 */
 	static function getSql($schema = 'Myisam')
 	{

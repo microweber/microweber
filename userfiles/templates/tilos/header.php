@@ -7,20 +7,35 @@
 		<title></title>
          <script type="text/javascript">
             imgurl="<? print TEMPLATE_URL ?>img/";
+            siteurl="<? print site_url() ?>";
          </script>
 		<link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/font.php" type="text/css" media="screen"  />
 		<link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/style.css" type="text/css" media="screen"  />
         <? echo '<!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->'; ?>
         <script type="text/javascript" src="<?  print site_url('api/js'); ?>"></script>
- 
+
         <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/libs.js"></script>
         <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/functions.js"></script>
         
          <script type="text/javascript">
          function add_to_cart_callback(){
-			 
-			//alert(1); 
-			
+
+            var html1 = ""
+            + "<h2 style='padding:20px 20px 35px 20px;text-align:center'>Item Successfully Added</h2>"
+
+            +"<div style='text-align:center'>"
+            +'<a class="btn js_generated" href="' + siteurl + 'products/view:checkout"><span class="b_left">&nbsp;</span><span class="b_mid"><span class="">Checkout</span></span><span class="b_right">&nbsp;</span></a>'
+            +"<div class='c' style='padding-bottom:8px;'>&nbsp;</div>"
+            +"<a href='javascript:void(0)' onclick='Modal.close()' style='color: #D89E07;font-weight: normal;'>Continue Shopping</a>"
+            +"</div>";
+
+
+			Modal.box(html1, 400, 150);
+            Modal.overlay();
+
+
+
+
 			 
 		 }
          

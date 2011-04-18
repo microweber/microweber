@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Myisam.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Myisam.php 4369 2011-04-08 04:44:20Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -85,6 +85,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
   						  currency CHAR( 3 ) NOT NULL,
   						  excluded_ips TEXT NOT NULL,
   						  excluded_parameters VARCHAR ( 255 ) NOT NULL,
+  						  `group` VARCHAR(250) NOT NULL, 
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8
 			",
@@ -104,6 +105,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  `pattern` varchar(255) NOT NULL,
 							  `pattern_type` varchar(10) NOT NULL,
 							  `case_sensitive` tinyint(4) NOT NULL,
+							  `allow_multiple` tinyint(4) NOT NULL,
 							  `revenue` float NOT NULL,
 							  `deleted` tinyint(4) NOT NULL default '0',
 							  PRIMARY KEY  (`idsite`,`idgoal`)
@@ -169,22 +171,26 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
 							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
+							  idvisitor BINARY(8) NOT NULL,
 							  visitor_localtime TIME NOT NULL,
-							  visitor_idcookie CHAR(32) NOT NULL,
 							  visitor_returning TINYINT(1) NOT NULL,
+							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
+							  visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
-							  visit_server_date DATE NOT NULL,
-							  visit_exit_idaction_url INTEGER(11) NOT NULL,
-							  visit_entry_idaction_url INTEGER(11) NOT NULL,
+							  visit_exit_idaction_url INTEGER(11) UNSIGNED NOT NULL,
+							  visit_exit_idaction_name INTEGER(11) UNSIGNED NOT NULL,
+							  visit_entry_idaction_url INTEGER(11) UNSIGNED NOT NULL,
+							  visit_entry_idaction_name INTEGER(11) UNSIGNED NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
-							  referer_type INTEGER UNSIGNED NULL,
+							  referer_type TINYINT(1) UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
 							  referer_keyword VARCHAR(255) NULL,
-							  config_md5config CHAR(32) NOT NULL,
+							  config_id BINARY(8) NOT NULL,
 							  config_os CHAR(3) NOT NULL,
 							  config_browser_name VARCHAR(10) NOT NULL,
 							  config_browser_version VARCHAR(20) NOT NULL,
@@ -203,45 +209,72 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
+							  custom_var_k1 VARCHAR(50) DEFAULT NULL,
+							  custom_var_v1 VARCHAR(50) DEFAULT NULL,
+							  custom_var_k2 VARCHAR(50) DEFAULT NULL,
+							  custom_var_v2 VARCHAR(50) DEFAULT NULL,
+							  custom_var_k3 VARCHAR(50) DEFAULT NULL,
+							  custom_var_v3 VARCHAR(50) DEFAULT NULL,
+							  custom_var_k4 VARCHAR(50) DEFAULT NULL,
+							  custom_var_v4 VARCHAR(50) DEFAULT NULL,
+							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
+							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
 							  PRIMARY KEY(idvisit),
-							  INDEX index_idsite_idvisit (idsite, idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)),
-							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
+							  INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
+							  INDEX index_idsite_datetime (idsite, visit_last_action_time),
+							  INDEX index_idsite_idvisitor (idsite, idvisitor)
 							)  DEFAULT CHARSET=utf8
 			",
 
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
 									  idvisit int(10) unsigned NOT NULL,
 									  idsite int(10) unsigned NOT NULL,
-									  visitor_idcookie char(32) NOT NULL,
+									  idvisitor BINARY(8) NOT NULL,
 									  server_time datetime NOT NULL,
 									  idaction_url int(11) default NULL,
 									  idlink_va int(11) default NULL,
-									  referer_idvisit int(10) unsigned default NULL,
 									  referer_visit_server_date date default NULL,
 									  referer_type int(10) unsigned default NULL,
 									  referer_name varchar(70) default NULL,
 									  referer_keyword varchar(255) default NULL,
 									  visitor_returning tinyint(1) NOT NULL,
+        							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
+        							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 									  location_country char(3) NOT NULL,
 									  location_continent char(3) NOT NULL,
 									  url text NOT NULL,
 									  idgoal int(10) unsigned NOT NULL,
 									  revenue float default NULL,
-									  PRIMARY KEY  (idvisit, idgoal),
+									  buster int unsigned NOT NULL,
+        							  custom_var_k1 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_v1 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_k2 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_v2 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_k3 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_v3 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_k4 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_v4 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
+        							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
+									  PRIMARY KEY (idvisit, idgoal, buster),
 									  INDEX index_idsite_datetime ( idsite, server_time )
 									) DEFAULT CHARSET=utf8
 			",
 
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
+									          idsite int(10) UNSIGNED NOT NULL,
+									  		  idvisitor BINARY(8) NOT NULL,
+									          server_time DATETIME NOT NULL,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_name INTEGER(10) UNSIGNED,
+											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
-											  INDEX index_idvisit(idvisit)
+											  INDEX index_idvisit(idvisit),
+									          INDEX index_idsite_servertime ( idsite, server_time )
 											)  DEFAULT CHARSET=utf8
 			",
 
@@ -257,7 +290,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 								option_name VARCHAR( 255 ) NOT NULL,
 								option_value LONGTEXT NOT NULL,
 								autoload TINYINT NOT NULL DEFAULT '1',
-								PRIMARY KEY ( option_name )
+								PRIMARY KEY ( option_name ),
+								INDEX autoload( autoload )
 								)  DEFAULT CHARSET=utf8
 			",
 
@@ -339,7 +373,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 * @param string $idSite
 	 * @return array Tables installed
 	 */
-	public function getTablesInstalled($forceReload = true,  $idSite = null)
+	public function getTablesInstalled($forceReload = true)
 	{
 		if(is_null($this->tablesInstalled)
 			|| $forceReload === true)
@@ -361,15 +395,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 
 			// at this point we have only the piwik tables which is good
 			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-			$idSiteInSql = "no";
-			if(!is_null($idSite))
-			{
-				$idSiteInSql = $idSite;
-			}
-			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
-												SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
-												SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
+			$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
+			$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
 
 			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
 
@@ -399,7 +426,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName." DEFAULT CHARACTER SET utf8");
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Currencies.php 3264 2010-10-26 23:38:58Z vipsoft $
+ * @version $Id: Currencies.php 3662 2011-01-07 09:23:16Z matt $
  *
  * @category Piwik
  * @package DataFiles
@@ -46,7 +46,7 @@ if(!isset($GLOBALS['Piwik_CurrencyList']))
 			'BMD' => array('$', 'Bermudian dollar'),
 			'BTN' => array('Nu.', 'Bhutanese ngultrum'),
 			'BOB' => array('Bs.', 'Bolivian boliviano'),
-			'BAM' => array('KM', 'Bosnia and Herzegovina convertible mark'),
+			'BAM' => array('KM', 'Bosnia Herzegovina mark'),
 			'BWP' => array('P', 'Botswana pula'),
 			'BRL' => array('R$', 'Brazilian real'),
 //			'GBP' => array('£', 'British pound'),

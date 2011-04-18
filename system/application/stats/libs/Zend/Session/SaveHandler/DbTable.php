@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: DbTable.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -46,7 +46,7 @@
  * @category   Zend
  * @package    Zend_Session
  * @subpackage SaveHandler
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Session_SaveHandler_DbTable
@@ -386,8 +386,8 @@ class Zend_Session_SaveHandler_DbTable
      */
     public function gc($maxlifetime)
     {
-        $this->delete($this->getAdapter()->quoteIdentifier($this->_modifiedColumn) . ' + '
-                    . $this->getAdapter()->quoteIdentifier($this->_lifetimeColumn) . ' < '
+        $this->delete($this->getAdapter()->quoteIdentifier($this->_modifiedColumn, true) . ' + '
+                    . $this->getAdapter()->quoteIdentifier($this->_lifetimeColumn, true) . ' < '
                     . $this->getAdapter()->quote(time()));
 
         return true;
@@ -548,7 +548,7 @@ class Zend_Session_SaveHandler_DbTable
                     $primaryArray[$primary] = $value;
                     break;
                 case self::PRIMARY_TYPE_WHERECLAUSE:
-                    $primaryArray[] = $this->getAdapter()->quoteIdentifier($primary) . ' = '
+                    $primaryArray[] = $this->getAdapter()->quoteIdentifier($primary, true) . ' = '
                                     . $this->getAdapter()->quote($value);
                     break;
                 case self::PRIMARY_TYPE_NUM:

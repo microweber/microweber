@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Config.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Config.php 4063 2011-03-11 18:05:28Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -154,7 +154,7 @@ class Piwik_Config
 					{
 						foreach($value as $currentValue)
 						{
-							$configFile .= $name."[] = $currentValue\n";
+							$configFile .= $name."[] = \"$currentValue\"\n";
 						}
 					}
 					else
@@ -184,15 +184,18 @@ class Piwik_Config
 	public function setTestEnvironment()
 	{
 		$this->isTestEnvironment = true;
-		$this->database = $this->database_tests->toArray();
-		// for unit tests, we set that no plugin is installed. This will force
-		// the test initialization to create the plugins tables, execute ALTER queries, etc.
-		$this->PluginsInstalled = array();
-		
+
 		foreach(Piwik_Tracker_Config::$toRestoreFromGlobalConfig as $section)
 		{
 			$this->$section = $this->defaultConfig->$section->toArray();
 		}
+
+		$this->database = $this->database_tests->toArray();
+
+		// for unit tests, we set that no plugin is installed. This will force
+		// the test initialization to create the plugins tables, execute ALTER queries, etc.
+		$this->PluginsInstalled = array();
+
 		$this->disableSavingConfigurationFileUpdates();
 	}
 

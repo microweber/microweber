@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Single.php 3577 2011-01-03 12:38:53Z matt $
+ * @version $Id: Single.php 4272 2011-04-01 00:33:56Z vipsoft $
  * 
  * 
  * @category Piwik
@@ -31,7 +31,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	/**
 	 * @var bool Set to true if the archive has at least 1 visit
 	 */
-	public $isThereSomeVisits = false;
+	public $isThereSomeVisits = null;
 
 	/**
 	 * Period of this Archive
@@ -74,15 +74,20 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 *
 	 * @var bool
 	 */
-	protected $alreadyChecked = false;
+	protected $alreadyChecked = array();
 
-	public function __destruct()
+	protected function clearCache()
 	{
 		foreach($this->blobCached as $name => $blob)
 		{
 			$this->freeBlob($name);
 		}
 		$this->blobCached = array();
+	}
+	
+	public function __destruct()
+	{
+		$this->clearCache();
 	}
 	
 	/**
@@ -151,11 +156,22 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function prepareArchive()
 	{
 		$archiveJustProcessed = false;
-		if(!$this->alreadyChecked)
+
+		
+		$periodString = $this->period->getLabel();
+		$plugin = Piwik_ArchiveProcessing::getPluginBeingProcessed($this->getRequestedReport());
+		
+		$cacheKey = 'all';
+		if($periodString == 'range')
+		{
+			$cacheKey = $plugin;
+		}
+		if(!isset($this->alreadyChecked[$cacheKey]))
 		{
 			$this->isThereSomeVisits = false;
-			$this->alreadyChecked = true;
-			$logMessage = "Preparing archive: " . $this->period->getLabel() . "(" . $this->period->getPrettyString() . ")";
+			$this->alreadyChecked[$cacheKey] = true;
+			$dayString = $this->period->getPrettyString();
+			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . "), plugin $plugin ";
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
@@ -174,31 +190,44 @@ class Piwik_Archive_Single extends Piwik_Archive
 			
 			// we make sure the archive is available for the given date
 			$periodLabel = $this->period->getLabel();
-			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
-			$archiveProcessing->setSite($this->site);
-			$archiveProcessing->setPeriod($this->period);
-			$idArchive = $archiveProcessing->loadArchive();
+			$this->archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
+			$this->archiveProcessing->setSite($this->site);
+			$this->archiveProcessing->setPeriod($this->period);
+			$this->archiveProcessing->setSegment($this->segment);
+
+			$this->archiveProcessing->init();
+
+			$this->archiveProcessing->setRequestedReport( $this->getRequestedReport() );
+		
+			$archivingDisabledArchiveNotProcessed = false;
+			$idArchive = $this->archiveProcessing->loadArchive();
 			if(empty($idArchive))
 			{
-				if($archiveProcessing->isArchivingDisabled())
+				if($this->archiveProcessing->isArchivingDisabled())
 				{
-					$archiveProcessing->isThereSomeVisits = false;
+					$archivingDisabledArchiveNotProcessed = true;
+					$logMessage = "* ARCHIVING DISABLED, for $logMessage";
 				}
 				else
 				{
-    				Piwik::log("$logMessage not archived yet, starting processing...");
-    				$archiveJustProcessed = true;
-    				$archiveProcessing->launchArchiving();
-    				$idArchive = $archiveProcessing->getIdArchive();
+					Piwik::log("* PROCESSING $logMessage, not archived yet...");
+					$archiveJustProcessed = true;
+
+					// Process the reports
+					$this->archiveProcessing->launchArchiving();
+
+					$idArchive = $this->archiveProcessing->getIdArchive();
+					$logMessage = "PROCESSED: idArchive = ".$idArchive.", for $logMessage";
 				}
 			}
 			else
 			{
-				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
+				$logMessage = "* ALREADY PROCESSED, Fetching [idArchive = $idArchive], for $logMessage";
 			}
-			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
+			Piwik::log("$logMessage, Visits = ". $this->archiveProcessing->getNumberOfVisits());
+			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
+										&& $this->archiveProcessing->isThereSomeVisits();
 			$this->idArchive = $idArchive;
-			$this->archiveProcessing = $archiveProcessing;
 		}
 		return $archiveJustProcessed;
 	}
@@ -213,6 +242,9 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	protected function get( $name, $typeValue = 'numeric' )
 	{
+	   	$this->setRequestedReport($name);
+	   	$this->prepareArchive();
+
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
 			&& $this->cacheEnabledForNumeric
@@ -254,7 +286,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 
 		$db = Zend_Registry::get('db');
-		$value = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->site->getId()." */  SELECT value 
+		$value = $db->fetchOne("SELECT value 
 								FROM $table
 								WHERE idarchive = ?
 									AND name = ?",	
@@ -274,7 +306,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		// uncompress when selecting from the BLOB table
 		if($typeValue == 'blob' && $db->hasBlobDataType())
 		{
-			$value = @gzuncompress($value);
+			$value = $this->uncompress($value);
 		}
 		
 		if($typeValue == 'numeric' 
@@ -333,6 +365,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 		unset($this->blobCached[$name]);
 	}
 	
+	protected function uncompress($data)
+	{
+		return @gzuncompress($data);
+	}
+	
 	/**
 	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
 	 * 
@@ -340,10 +377,9 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function preFetchBlob( $name )
 	{
-		if(!$this->isThereSomeVisits)
-		{
-			return false;
-		}
+		$this->setRequestedReport($name);
+		$this->prepareArchive();
+		if(!$this->isThereSomeVisits) { return; } 
 
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
@@ -363,7 +399,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 
 			if($hasBlobs)
 			{
-				$this->blobCached[$name] = @gzuncompress($value);
+				$this->blobCached[$name] = $this->uncompress($value);
+				if($this->blobCached[$name] === false)
+				{
+					//throw new Exception("Error gzuncompress $name ");
+				}
 			}
 			else
 			{
@@ -447,22 +487,54 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$name .= "_$idSubTable";
 		}
 		
+		$this->setRequestedReport($name);
+		
 		$data = $this->get($name, 'blob');
 		
 		$table = new Piwik_DataTable();
-		
+	
 		if($data !== false)
 		{
 			$table->addRowsFromSerializedArray($data);
 		}
-		
 		if($data === false 
 			&& $idSubTable !== null)
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionSubtableNotFoundInArchive'));
+			// This is not expected, but somehow happens in some unknown cases and very rarely.
+			// Do not throw error in this case
+			// throw new Exception("not expected");
+			return new Piwik_DataTable();
 		}
 	
 		return $table;
+	}
+	
+	public function setRequestedReport($requestedReport )
+	{
+		$this->requestedReport = $requestedReport;
+	}
+	
+	protected function getRequestedReport()
+	{
+		// Core metrics are always processed in Core, for the requested date/period/segment
+		if(in_array($this->requestedReport, Piwik_ArchiveProcessing::getCoreMetrics())
+			|| $this->requestedReport == 'max_actions')
+		{
+			return 'VisitsSummary_CoreMetrics';
+		}
+		// VisitFrequency metrics don't follow the same naming convention (HACK) 
+		if(strpos($this->requestedReport, '_returning') > 0
+			// ignore Goal_visitor_returning_1_1_nb_conversions 
+			&& strpos($this->requestedReport, 'Goal_') === false)
+		{
+			return 'VisitFrequency_Metrics';
+		}
+		// Goal_* metrics are processed by the Goals plugin (HACK)
+		if(strpos($this->requestedReport, 'Goal_') === 0)
+		{
+			return 'Goals_Metrics';
+		}
+   		return $this->requestedReport;
 	}
 	
 	/**
@@ -486,6 +558,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->preFetchBlob($name);
 		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
 		$this->loadSubDataTables($name, $dataTableToLoad, $addMetadataSubtableId = true);
+		$dataTableToLoad->enableRecursiveFilters();
 		$this->freeBlob($name);
 		return $dataTableToLoad;		
 	}

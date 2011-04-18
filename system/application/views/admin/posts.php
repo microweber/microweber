@@ -6,9 +6,11 @@ function content_list($kw, $category_id){
    data1 = {}
    data1.module = 'admin/posts/list';
    if(($kw == false) || ($kw == '') || ($kw == undefined)){
-	$kw = null;   
+	$kw = null;  
+	
    } else {
 	data1.keyword = $kw;
+	data1.curent_page = 1;
 	data1.items_per_page = 1000;
 	
    }
@@ -30,7 +32,7 @@ function content_list($kw, $category_id){
    type: "POST",
       data: data1,
 
-      async:false,
+      async:true,
 
   success: function(resp) {
  
@@ -51,6 +53,10 @@ $(document).ready(function() {
   $(".content_search").onStopWriting(function(){
        content_list(this.value);
   });
+   $(".content_search_btn").click(function(){
+       content_list($("#content_search").val());
+  });
+  
   $(".choose_cats").click(function(){
         mw.modal.init({
           html:$("#cat_lis_holder"),
@@ -129,7 +135,7 @@ category_tree( $params ) ; ?>
 </div>
 <div id="d_bar" class="">
   <div class="left">
-    <h2>Products</h2>
+    <h2>Content</h2>
     <div class="drop drop_white"> <span class="drop_arr"></span> <span class="val">All categories</span>
       <div class="drop_list">
         <?
@@ -143,13 +149,13 @@ category_tree( $params ) ; ?>
       </div>
     </div>
   </div>
-  <div class="right"> <a href="#" class="btn3 hovered">Go search</a>
-    <input type="text" default="Search a product"  class="content_search"  />
+  <div class="right"> <a href="#" id="content_search_btn" class="btn3 hovered">Search</a>
+    <input type="text" default="Search content"  class="content_search" id="content_search"  />
   </div>
 </div>
 <div class="select_all">
   <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
-  <strong><span>Select all</span> products</strong> </div>
+  <strong><span>Select all</span> content</strong> </div>
 <div id="posts_cats_controller">
   <table cellpadding="0" cellspacing="0" width="100%">
     <tr>

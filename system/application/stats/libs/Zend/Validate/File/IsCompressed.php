@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: IsCompressed.php 22697 2010-07-26 21:14:47Z alexander $
+ * @version   $Id: IsCompressed.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -29,7 +29,7 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_IsCompressed extends Zend_Validate_File_MimeType
@@ -46,8 +46,8 @@ class Zend_Validate_File_IsCompressed extends Zend_Validate_File_MimeType
      */
     protected $_messageTemplates = array(
         self::FALSE_TYPE   => "File '%value%' is not compressed, '%type%' detected",
-        self::NOT_DETECTED => "The mimetype of file '%value%' could not been detected",
-        self::NOT_READABLE => "File '%value%' can not be read",
+        self::NOT_DETECTED => "The mimetype of file '%value%' could not be detected",
+        self::NOT_READABLE => "File '%value%' is not readable or does not exist",
     );
 
     /**

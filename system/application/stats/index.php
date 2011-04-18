@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: index.php 3485 2010-12-21 06:09:39Z matt $
+ * @version $Id: index.php 4444 2011-04-14 02:24:19Z vipsoft $
  *
  * @package Piwik
  */
@@ -15,10 +15,7 @@ if(file_exists('bootstrap.php'))
 }
 
 error_reporting(E_ALL|E_NOTICE);
-if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
-{
-	@ini_set('display_errors', 1);
-}
+@ini_set('display_errors', (!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS) ? 1 : 0);
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
@@ -32,6 +29,7 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // NOTE: the code above this comment must be PHP4 compatible

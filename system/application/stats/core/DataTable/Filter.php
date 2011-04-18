@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Filter.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Filter.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -26,19 +26,34 @@
  */
 abstract class Piwik_DataTable_Filter
 {
-	/*
-	 * @var Piwik_DataTable
-	 */
-	protected $table;
-	
 	public function __construct($table)
 	{
 		if(!($table instanceof Piwik_DataTable))
 		{
 			throw new Exception("The filter accepts only a Piwik_DataTable object.");
 		}
-		$this->table = $table;
 	}
 	
-	abstract protected function filter();
+	abstract public function filter($table);
+	
+	protected $enableRecursive = false;
+	
+	public function enableRecursive($bool)
+	{
+		$this->enableRecursive = (bool)$bool;
+	}
+	
+	public function filterSubTable(Piwik_DataTable_Row $row)
+	{
+		if(!$this->enableRecursive)
+		{
+			return;
+		}
+		try {
+			$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
+			$this->filter($subTable);
+		} catch(Exception $e) {
+			// case idSubTable == null, or if the table is not loaded in memory
+		}
+	}
 }

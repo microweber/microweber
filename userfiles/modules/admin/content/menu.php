@@ -141,9 +141,19 @@ var edit_menu_item = function($id){
 
   success: function(resp) {
 
-   $('#edit_menu_item').html(resp);
+   //$('#edit_menu_item').html(resp);
 
- 
+   mw.modal.init({
+     title:"Edit Menu",
+     html:resp,
+
+     height:'auto',
+     width:500,
+     customPosition:{
+       top:$(window).scrollTop()+50,
+       left:'center'
+     }
+   })
 
   }
     });
@@ -160,20 +170,20 @@ var edit_menu_item = function($id){
 	</script>
 <table width="100%" border="0">
   <tr>
-    <th><? print $menu_data['menu_title'] ;?></th>
+    <td><h2 style="padding: 10px;"><? print $menu_data['menu_title'] ;?></h2> </td>
   </tr>
   <tr>
-    <td><h2>Pages</h2>
-      <ul>
+    <td><h3 style="padding: 10px;">Pages</h3>
+      <ul class="menus_list">
         <? foreach($pages['posts'] as $page): ?>
         <li>
-          <div>Page <? print $page['content_title'] ?> <a onclick="add_to_menu('<? print $page['id'] ?>', '<? print addslashes($page['content_title']) ?>')">add</a></div>
+          <div>Page <? print $page['content_title'] ?> <a class="btn" onclick="add_to_menu('<? print $page['id'] ?>', '<? print addslashes($page['content_title']) ?>')">add</a></div>
         </li>
         <? endforeach; ?>
       </ul>
-      <hr />
-      <h2>menu items</h2>
-      <div class="cat_list" >
+
+      <h3 style="padding: 20px 10px 0;">Menu items</h3>
+      <div class="" id="edit_memu_items">
         <? $menu_items = CI::model('content')->menuTree($params['id']) ;
 
 print $menu_items ; ?>
@@ -192,7 +202,7 @@ print $menu_items ; ?>
 			forcePlaceholderSize: true,
 			connectWith: "ul.menu", 
 			accept: 'menu_element',
-			handle: 'a',
+			//handle: 'a',
 			items: 'li',
 			opacity: .6,
 			placeholder: 'placehulder',

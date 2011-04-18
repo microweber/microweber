@@ -48,7 +48,9 @@ $('#<? print $form_id ?>').ajaxForm(<? print $form_id ?>options);
       <h2 class="title">
     Login
   </h2>
-  <form method="post" id="<? print $form_id ?>"  style="padding-top:40px;">
+
+  <div class="c" style="padding-bottom: 45px;">&nbsp;</div>
+  <form style="float: left;width:340px;" method="post" id="<? print $form_id ?>"  style="padding-top:40px;">
     <?php if(!empty($user_login_errors)) : ?>
     <script>
             $(document).ready(function(){
@@ -97,4 +99,13 @@ $('#<? print $form_id ?>').ajaxForm(<? print $form_id ?>options);
       */ ?>
     </div>
   </form>
+  <div id="become_aff">
+    <div id="become_aff_content">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry's tandard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        It has survived not only five centuries, but also the leap into electronic typesetting.
+    </div>
+    <a href="<? print site_url('dealers') ?>" class="btn right">Become a dealer</a>
+  </div>
+
 </div>

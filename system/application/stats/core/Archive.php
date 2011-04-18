@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Archive.php 3246 2010-10-14 06:22:46Z vipsoft $
+ * @version $Id: Archive.php 4441 2011-04-14 01:04:49Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -53,8 +53,25 @@ abstract class Piwik_Archive
 	const INDEX_GOALS = 10;
 	const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
 	
+	// Specific to the Actions reports
+	const INDEX_PAGE_NB_HITS = 12;
+	const INDEX_PAGE_SUM_TIME_SPENT = 13;
+	
+	const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
+	const INDEX_PAGE_EXIT_NB_VISITS = 15;
+	const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
+	
+	const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
+	const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
+	const INDEX_PAGE_ENTRY_NB_VISITS = 19;
+	const INDEX_PAGE_ENTRY_NB_ACTIONS = 20;
+	const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
+	const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
+	
+	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
+	const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
 
 	public static $mappingFromIdToName = array(
 				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 		=> 'nb_uniq_visitors',
@@ -68,10 +85,26 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_REVENUE				=> 'revenue',
 				Piwik_Archive::INDEX_GOALS					=> 'goals',
 				Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_nb_uniq_visitors',
+				
+				// Actions metrics
+				Piwik_Archive::INDEX_PAGE_NB_HITS => 'nb_hits',
+				Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 'sum_time_spent',
+				
+				Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 'exit_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS => 'exit_nb_visits',
+				Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_exit_nb_uniq_visitors',
+				
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => 'entry_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_entry_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS => 'entry_nb_visits',
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS => 'entry_nb_actions',
+				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH => 'entry_sum_visit_length',
+				Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT => 'entry_bounce_count',
 			);
 
 	public static $mappingFromIdToNameGoal = array(
 				Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 'nb_conversions',
+				Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED 	=> 'nb_visits_converted',
 				Piwik_Archive::INDEX_GOAL_REVENUE 			=> 'revenue',
 	);
 
@@ -100,12 +133,10 @@ abstract class Piwik_Archive
 	protected $site = null;
 	
 	/**
-	 * Stores the already built archives.
-	 * Act as a big caching array
-	 *
-	 * @var array of Piwik_Archive
+	 * Segment applied to the visits set
+	 * @var Piwik_Segment
 	 */
-	static protected $alreadyBuilt = array();
+	protected $segment = false;
 	
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
@@ -113,10 +144,11 @@ abstract class Piwik_Archive
 	 * @param string|int idSite integer, or comma separated list of integer
 	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
 	 * @param string $period 'week' 'day' etc.
+	 * @param string Segment definition - defaults to false for Backward Compatibility
 	 * 
 	 * @return Piwik_Archive
 	 */
-	static public function build($idSite, $period, $strDate )
+	static public function build($idSite, $period, $strDate, $segment = false )
 	{
 		if($idSite === 'all')
 		{
@@ -127,65 +159,61 @@ abstract class Piwik_Archive
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
 		
+		$segment = new Piwik_Segment($segment, $idSite);
+		
 		// idSite=1,3 or idSite=all
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
+			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		elseif(is_string($strDate) 
 			&& (
 				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
-				|| preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $strDate, $regs)
+				|| Piwik_Period_Range::parseDateRange($strDate)
 				)
+			&& $period != 'range'
 			)
 		{
 			$oSite = new Piwik_Site($idSite);
-			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
+			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate, $segment);
 		}
 		// case we request a single archive
 		else
 		{
 			$oSite = new Piwik_Site($idSite);
 
-			if(is_string($strDate))
+			if($period == 'range')
 			{
-				if($strDate == 'now' || $strDate == 'today')
-				{
-					$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->getTimestamp());
-				}
-				elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
-				{
-					$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->subDay(1)->getTimestamp());
-				}
-				$oDate = Piwik_Date::factory($strDate);
+				$oPeriod = new Piwik_Period_Range('range', $strDate, $oSite->getTimezone(), Piwik_Date::factory('today', $oSite->getTimezone()));
 			}
 			else
 			{
-				$oDate = $strDate;
+				if(is_string($strDate))
+				{
+					if($strDate == 'now' || $strDate == 'today')
+					{
+						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->getTimestamp());
+					}
+					elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
+					{
+						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->subDay(1)->getTimestamp());
+					}
+					$oDate = Piwik_Date::factory($strDate);
+				}
+				else
+				{
+					$oDate = $strDate;
+				}
+				$date = $oDate->toString();
+				$oPeriod = Piwik_Period::factory($period, $oDate);
 			}
-			$date = $oDate->toString();
-			
-			if(isset(self::$alreadyBuilt[$idSite][$date][$period]))
-			{
-				return self::$alreadyBuilt[$idSite][$date][$period];
-			}
-			
-			$oPeriod = Piwik_Period::factory($period, $oDate);
-			
 			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite($oSite);
-			$archiveJustProcessed = $archive->prepareArchive();
-			
-			//we don't cache the archives just processed, the datatable were freed from memory 
-			if(!$archiveJustProcessed)
-			{
-				self::$alreadyBuilt[$idSite][$date][$period] = $archive;
-			}
+			$archive->setSegment($segment);
 		}
-		
 		return $archive;
 	}
 	
@@ -242,6 +270,45 @@ abstract class Piwik_Archive
 	 */
 	abstract public function getDataTableExpanded($name, $idSubTable = null);
 
+
+	/**
+	 * Helper - Loads a DataTable from the Archive.
+	 * Optionally loads the table recursively,
+	 * or optionally fetches a given subtable with $idSubtable
+	 */
+	static public function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null )
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
+		if($idSubtable === false)
+		{
+			$idSubtable = null;
+		}
+		
+		if($expanded)
+		{
+			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
+		}
+		else
+		{
+			$dataTable = $archive->getDataTable($name, $idSubtable);
+		}
+		
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
+		
+		return $dataTable;
+	}
+	
+	protected function getSegment()
+	{
+	    return $this->segment;
+	}
+	
+	public function setSegment(Piwik_Segment $segment)
+	{
+	    $this->segment = $segment;
+	}
+	
 	/**
 	 * Sets the site
 	 *
@@ -270,5 +337,19 @@ abstract class Piwik_Archive
 	public function getIdSite()
 	{
 		return $this->site->getId();
-	}	
+	}
+	
+	/**
+	 * Returns true if Segmentation is allowed for this user
+	 * 
+	 * @return bool
+	 */
+	static public function isSegmentationEnabled()
+	{
+		return !Piwik::isUserIsAnonymous()
+				|| Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
+				;
+	}
+	
+	
 }

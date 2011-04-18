@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Date.php 3616 2011-01-04 18:25:08Z vipsoft $
+ * @version $Id: Date.php 4494 2011-04-17 18:29:58Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -65,7 +65,13 @@ class Piwik_Date
 			$date = self::yesterdaySameTime();
 		}
 		elseif (!is_int($dateString)
-			&& ($dateString = strtotime($dateString)) === false)
+			&& (
+				// strtotime returns the timestamp for April 1st for a date like 2011-04-01,today 
+				// but we don't want this, as this is a date range and supposed to throw the exception
+				strpos($dateString, ',') !== false
+				|| 
+				($dateString = strtotime($dateString)) === false
+				))
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
 		}
@@ -73,7 +79,7 @@ class Piwik_Date
 		{
 			$date = new Piwik_Date($dateString);
 		}
-		if(is_null($timezone))
+		if(empty($timezone))
 		{
 			return $date;
 		}
@@ -148,6 +154,7 @@ class Piwik_Date
 	 * Doesn't modify $this
 	 *
 	 * @param string $timezone 'UTC', 'Europe/London', ...
+	 * @return Piwik_Date
 	 */
 	public function setTimezone($timezone)
 	{
@@ -158,7 +165,7 @@ class Piwik_Date
 	 * Helper function that returns the offset in the timezone string 'UTC+14'
 	 * Returns false if the timezone is not UTC+X or UTC-X
 	 *
-	 * @param $timezone
+	 * @param string $timezone
 	 * @return int or false
 	 */
 	static protected function extractUtcOffset($timezone)
@@ -198,6 +205,10 @@ class Piwik_Date
 	 */
 	public function getTimestamp()
 	{
+		if(empty($this->timezone))
+		{
+			$this->timezone = 'UTC';
+		}
 		$utcOffset = self::extractUtcOffset($this->timezone);
 		if($utcOffset !== false) {
 			return (int)($this->timestamp - $utcOffset * 3600);
@@ -388,7 +399,7 @@ class Piwik_Date
 						date('i', $ts),
 						date('s', $ts),
 						date('n', $ts),
-						1,
+						$day,
 						date('Y', $ts)
 					);
 		return new Piwik_Date( $result, $this->timezone );
@@ -462,7 +473,7 @@ class Piwik_Date
 	 * Returns a localized date string, given a template.
 	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
 	 *
-	 * @param $template string eg. %shortMonth% %longYear%
+	 * @param string $template string eg. %shortMonth% %longYear%
 	 * @return string eg. "Aug 2009"
 	 */
 	public function getLocalized($template)

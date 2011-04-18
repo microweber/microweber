@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Controller.php 3886 2011-02-13 12:41:18Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
@@ -15,10 +15,6 @@
  */
 class Piwik_ExampleUI_Controller extends Piwik_Controller
 {
-	protected function getCustomData()
-	{
-	}
-	
 	function dataTables()
 	{
 		$view = Piwik_ViewDataTable::factory('table');

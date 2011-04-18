@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mysqli.php 3316 2010-11-15 08:40:19Z vipsoft $
+ * @version $Id: Mysqli.php 4155 2011-03-20 21:21:51Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -120,6 +120,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$rows = array();
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
+			if(is_bool($rs))
+			{
+				throw new Piwik_Tracker_Db_Exception('fetchAll() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
+			}
+
 			while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
 			{
 				$rows[] = $row;
@@ -155,10 +160,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
-			if($rs === false)
+			if(is_bool($rs))
 			{
-				return false;
+				throw new Piwik_Tracker_Db_Exception('fetch() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
 			}
+
 			$row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
 			mysqli_free_result($rs);
 

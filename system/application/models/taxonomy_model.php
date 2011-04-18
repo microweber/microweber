@@ -415,8 +415,8 @@ class taxonomy_model extends Model {
 			$no_position_fix = true;
 		
 		}
-		
-		//p($data,1);
+		 
+		//p($data);
 		$save = CI::model ( 'core' )->saveData ( $table, $data );
 		
 		if (intval ( $save ) == 0) {
@@ -787,7 +787,7 @@ class taxonomy_model extends Model {
 			}
 			
 			$parent_ids = $this->getParentsIds ( $data ['id'] );
-			array_rpush(&$parent_ids,  $data ['id'] );
+			$parent_ids = array_rpush($parent_ids,  $data ['id'] );
 			foreach ( $parent_ids as $item ) {
 				
 				$content = array ();

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3581 2011-01-03 13:28:21Z matt $
+ * @version $Id: Controller.php 4451 2011-04-14 19:00:39Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -57,33 +57,41 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrReferer');
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
 			}
 		}
 
 		$view = Piwik_View::factory('login');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->addForm( $form );
 		$this->configureView($view);
 		echo $view->render();
 	}
 
+	/**
+	 * Configure common view properties
+	 *
+	 * @param Piwik_View $view
+	 */
 	private function configureView($view)
 	{
-		$enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins;
-		$view->enableFramedLogins = $enableFramedLogins;
-		if(!$enableFramedLogins)
+		$view->linkTitle = Piwik::getRandomTitle();
+
+		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_logins;
+		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
 		}
+
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
-		$view->linkTitle = Piwik::getRandomTitle();
+
+		// crsf token: don't trust the submitted value; generate/fetch it from session data
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 	}
 	
 	/**
 	 * Form-less login
-	 *
+	 * @see how to use it on http://piwik.org/faq/how-to/#faq_30
 	 * @param none
 	 * @return void
 	 */
@@ -104,6 +112,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$currentUrl = 'index.php';
+		
+		if(($idSite = Piwik_Common::getRequestVar('idSite', false, 'int')) !== false)
+		{			
+			$currentUrl .= '?idSite='.$idSite;
+		}
+		
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
 
@@ -125,6 +139,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 						'md5Password' => $md5Password,
 						'rememberMe' => $rememberMe,
 		);
+		Piwik_Nonce::discardNonce('Piwik_Login.login');
 		Piwik_PostEvent('Login.initSession', $info);
 		Piwik_Url::redirectToUrl($urlToRedirect);
 	}
@@ -144,8 +159,16 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$form = new Piwik_Login_FormPassword();
 		if($form->validate())
 		{
-			$loginMail = $form->getSubmitValue('form_login');
-			$messageNoAccess = $this->lostPasswordFormValidated($loginMail);
+			$nonce = $form->getSubmitValue('form_nonce');
+			if(Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce))
+			{
+				$loginMail = $form->getSubmitValue('form_login');
+				$messageNoAccess = $this->lostPasswordFormValidated($loginMail);
+			}
+			else
+			{
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
+			}
 		}
 
 		$view = Piwik_View::factory('lostPassword');
@@ -155,6 +178,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	protected function getMessageExceptionNoAccess()
+	{
+		return Piwik_Translate('Login_InvalidNonceOrHeadersOrReferer', array('<a href="?module=Proxy&action=redirect&url='.urlencode('http://piwik.org/faq/how-to-install/#faq_98').'" target="_blank">', '</a>'));
+	}
+	
 	/**
 	 * Validate user (by username or email address).
 	 *
@@ -205,7 +233,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 		$this->configureView($view);
 		echo $view->render();
-
 		exit;
 	}
 
@@ -224,10 +251,18 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$form = new Piwik_Login_FormResetPassword();
 		if($form->validate())
 		{
-			$loginMail = $form->getSubmitValue('form_login');
-			$token = $form->getSubmitValue('form_token');
-			$password = $form->getSubmitValue('form_password');
-			$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password);
+			$nonce = $form->getSubmitValue('form_nonce');
+			if(Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce))
+			{
+				$loginMail = $form->getSubmitValue('form_login');
+				$token = $form->getSubmitValue('form_token');
+				$password = $form->getSubmitValue('form_password');
+				$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password);
+			}
+			else
+			{
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
+			}
 		}
 
 		$view = Piwik_View::factory('resetPassword');
@@ -282,9 +317,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$this->configureView($view);
-		
 		echo $view->render();
-
 		exit;
 	}
 
@@ -381,7 +414,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$cookie->delete();
 
 		Piwik_Session::expireSessionCookie();
-		Piwik_Session::regenerateId();
 	}
 
 	/**
@@ -407,8 +439,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		if($forceSslLogin)
 		{
-			$reverseProxy = Zend_Registry::get('config')->General->reverse_proxy;
-			if(!(Piwik_Url::getCurrentScheme() == 'https' || $reverseProxy))
+			if(!Piwik::isHttps())
 			{
 				$url = 'https://'
 					. Piwik_Url::getCurrentHost()

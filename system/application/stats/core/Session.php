@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Session.php 3552 2011-01-01 20:14:36Z vipsoft $
+ * @version $Id: Session.php 4297 2011-04-03 19:31:58Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -14,6 +14,7 @@
  * Session initialization.
  * 
  * @package Piwik
+ * @subpackage Piwik_Session
  */
 class Piwik_Session extends Zend_Session
 {
@@ -29,6 +30,15 @@ class Piwik_Session extends Zend_Session
 
 		// prevent attacks involving session ids passed in URLs
 		@ini_set('session.use_only_cookies', '1');
+
+		// advise browser that session cookie should only be sent over secure connection
+		if(Piwik_Url::getCurrentScheme() === 'https')
+		{
+			@ini_set('session.cookie_secure', '1');
+		}
+
+		// advise browser that session cookie should only be accessible through the HTTP protocol (i.e., not JavaScript)
+		@ini_set('session.cookie_httponly', '1');
 
 		// don't use the default: PHPSESSID
 		$sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
@@ -61,7 +71,7 @@ class Piwik_Session extends Zend_Session
 
 				if(!is_dir($sessionPath))
 				{
-					@mkdir($sessionPath, 0755, true);
+					Piwik_Common::mkdir($sessionPath);
 					if(!is_dir($sessionPath))
 					{
 						// Unable to mkdir $sessionPath

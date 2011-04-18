@@ -11,8 +11,7 @@
 		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.unique}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.uniqueSummaryValue|replace:",":"."}');
 	{/foreach}
 	params['period'] = '{$period}';
-	params['date'] = '{$date}';
-	params['dateToStr'] = '{$dateToStr}';
+	params['date'] = '{$dateRequest}';
 	params['evolutionBy'] = '{$evolutionBy}';
 	params['mOrderBy'] = '{$orderBy}';
 	params['order'] = '{$order}';
@@ -22,6 +21,7 @@
 	params['prev'] = "{'General_Previous'|translate|escape:"javascript"}";
 	params['next'] = "{'General_Next'|translate|escape:"javascript"}";
 	params['row'] = '{$row|escape:"javascript"}';
+	params['dateSparkline'] = '{$dateSparkline}';
 </script>
 
 {postEvent name="template_headerMultiSites"}
@@ -33,7 +33,7 @@
 
 <div class="centerLargeDiv">
 
-<h2>{'General_AllWebsitesDashboard'|translate}</h2>
+<h2>{'General_AllWebsitesDashboard'|translate} <span class='smallTitle'>({'VisitsSummary_NbVisits'|translate:"<strong>$totalVisits</strong>"}, {'VisitsSummary_NbActions'|translate:"<strong>$totalActions</strong>"})</span></h2>
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
@@ -49,17 +49,19 @@
 			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow"></span>
 		</th>
+		{if $displayUniqueVisitors}
 		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
 			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
 		</th>
+		{/if}
 		<th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
 				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
-				<option value="unique"{if $evolutionBy eq 'unique'} selected {/if}>{'General_ColumnNbUniqVisitors'|translate}</option>
+		{if $displayUniqueVisitors}<option value="unique"{if $evolutionBy eq 'unique'} selected {/if}>{'General_ColumnNbUniqVisitors'|translate}</option> {/if}
 			</select>
 		</th>
 	</thead>
@@ -85,12 +87,7 @@
 prepareRows(allSites, params, '{$orderBy}');
 
 {if $autoRefreshTodayReport}
-{literal}
-function refreshAfter(timeoutPeriod) {
-	setTimeout("location.reload(true);",timeoutPeriod);
-}
-refreshAfter(5*60*1000);
-{/literal}
+piwikHelper.refreshAfter(5*60*1000);
 {/if}
 </script>
 </div>

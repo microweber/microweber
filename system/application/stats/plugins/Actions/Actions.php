@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Actions.php 3185 2010-09-27 13:50:11Z vipsoft $
+ * @version $Id: Actions.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -48,40 +48,102 @@ class Piwik_Actions extends Piwik_Plugin
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}
+	    
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+		$sqlFilter = array($this, 'getIdActionFromString');
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnEntryPageURL',
+	        'segment' => 'entryPageUrl',
+	        'sqlSegment' => 'visit_entry_idaction_url',
+        	'sqlFilter' => $sqlFilter,
+        );
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnEntryPageTitle',
+	        'segment' => 'entryPageTitle',
+	        'sqlSegment' => 'visit_entry_idaction_name',
+        	'sqlFilter' => $sqlFilter,
+        );
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnExitPageURL',
+	        'segment' => 'exitPageUrl',
+	        'sqlSegment' => 'visit_exit_idaction_url',
+        	'sqlFilter' => $sqlFilter,
+        );
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnExitPageTitle',
+	        'segment' => 'exitPageTitle',
+	        'sqlSegment' => 'visit_exit_idaction_name',
+        	'sqlFilter' => $sqlFilter,
+        );
+	}
 
+	function getIdActionFromString($string, $sqlField)
+	{
+		// Field is visit_*_idaction_url or visit_*_idaction_name
+		$actionType = strpos($sqlField, '_name') === false 
+							? Piwik_Tracker_Action::TYPE_ACTION_URL 
+							: Piwik_Tracker_Action::TYPE_ACTION_NAME;
+							 
+		$sql = Piwik_Tracker_Action::getSqlSelectActionId();
+		$bind = array($string, $string, $actionType);
+		
+		$idAction = Zend_Registry::get('db')->fetchOne($sql, $bind);
+		return $idAction;
+	}
+	
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
+        
+		$metrics = array(
+            'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+            'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+            'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
+            'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
+            'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
+            'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
+            'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
+			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
+    	);
 
-		$limitedMetrics = array(
-			
-		);
-		$metrics = 
-		
-		// Page views URLs, Downloads and Outlinks have the full set of metrics
+		// Page views URLs and Page titles have the full set of metrics
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPages'),
 			'module' => 'Actions',
 			'action' => 'getPageUrls',
     		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
-			'metrics' => array(
-                    'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
-                    'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
-                    'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
-                    'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
-                    'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
-                    'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
-                    'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
-        			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
-    		),
+			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 1,
 		);
 
-		// Page titles, downloads and outlinks only report basic metrics
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
+			'module' => 'Actions',
+			'action' => 'getPageTitles',
+			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
+			'metrics' => $metrics,
+			'processedMetrics' => false,
+			'order' => 3,
+		);
+		
+		// Outlinks and downloads only report basic metrics
 		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
             				'nb_visits',
     	);
@@ -93,6 +155,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 5,
 		);
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
@@ -102,21 +165,8 @@ class Piwik_Actions extends Piwik_Plugin
 			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 7,
 		);
-		// Downloads and outlinks don't have nb_uniq_visitors metrics
-		// But Page title report does
-		$metrics[] = 'nb_uniq_visitors';
-	
-		$reports[] = array(
-			'category' => Piwik_Translate('Actions_Actions'),
-			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
-			'module' => 'Actions',
-			'action' => 'getPageTitles',
-			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
-			'metrics' => $metrics,
-			'processedMetrics' => false,
-		);
-		
 	}
 	
 	function addWidgets()
@@ -141,15 +191,15 @@ class Piwik_Actions extends Piwik_Plugin
 	}
 	
 	static protected $invalidSummedColumnNameToRenamedNameForPeriodArchive = array(
-		'nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors', 
-		'entry_nb_uniq_visitors' => 'sum_daily_entry_nb_uniq_visitors', 
-		'exit_nb_uniq_visitors' => 'sum_daily_exit_nb_uniq_visitors',
+		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS, 
+		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS, 
+		Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
 	);
 	
 	protected static $invalidSummedColumnNameToDeleteFromDayArchive = array(
-		'nb_uniq_visitors',
-		'entry_nb_uniq_visitors', 
-		'exit_nb_uniq_visitors',
+		Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS, 
+		Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
 	);
 	
 	public function __construct()
@@ -169,7 +219,7 @@ class Piwik_Actions extends Piwik_Plugin
 		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
 		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
 		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
-		$this->columnToSortByBeforeTruncation = 'nb_visits';
+		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
 	}
@@ -177,6 +227,9 @@ class Piwik_Actions extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$dataTableToSum = array(
 				'Actions_actions',
 				'Actions_downloads',
@@ -196,9 +249,10 @@ class Piwik_Actions extends Piwik_Plugin
 	 */
 	public function archiveDay( $notification )
 	{
-		//TODO Actions should use integer based keys like other archive in piwik
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$this->actionsTablesByType = array(
 			Piwik_Tracker_Action::TYPE_ACTION_URL => array(),
@@ -212,106 +266,114 @@ class Piwik_Actions extends Piwik_Plugin
 		// so we add this fake row information to make sure there is a nb_hits, etc. column for every action
 		$this->defaultRow = new Piwik_DataTable_Row(array( 
 							Piwik_DataTable_Row::COLUMNS => array( 
-											'nb_visits' => 1,
-											'nb_uniq_visitors' => 1,
-											'nb_hits' => 1,	
+											Piwik_Archive::INDEX_NB_VISITS => 1,
+											Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 1,
+											Piwik_Archive::INDEX_PAGE_NB_HITS => 1,	
 										)));
+										
+		/*
+		 * Handling a custom segment when processing Page reports
+		 */
+		$segment = $archiveProcessing->getSegment();
+		$segmentSql = $segment->getSql();
+		$sqlJoinVisitTable = $sqlSegmentWhere = '';
+		if(!$segment->isEmpty())
+		{
+			$sqlJoinVisitTable = "LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." as log_visit ON (log_visit.idvisit = log_link_visit_action.idvisit)"; 
+			$sqlSegmentWhere = ' AND '.$segmentSql['sql'];
+		}
+		$sqlBind = $segmentSql['bind']; 
 
 		/*
-		 * Actions urls global information
+		 * Page URLs and Page names, general stats
 		 */
-		$query = "SELECT 	name,
+		$queryString = "SELECT name,
 							type,
-							count(distinct t1.idvisit) as nb_visits, 
-							count(distinct visitor_idcookie) as nb_uniq_visitors,
-							count(*) as nb_hits							
-					FROM (".$archiveProcessing->logTable." as t1
-						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
-							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_url = t3.idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-					GROUP BY t3.idaction, name, type
-					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
-		$modified = $this->updateActionsTableWithRowQuery($query);
+							idaction,
+							count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
+							count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
+							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`							
+					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
+							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action ON (log_link_visit_action.%s = idaction)
+							$sqlJoinVisitTable
+					WHERE server_time >= ?
+						AND server_time <= ?
+						AND log_link_visit_action.idsite = ?
+				 		AND %s > 0
+				 		$sqlSegmentWhere
+					GROUP BY idaction
+					ORDER BY `". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC";
+		$this->archiveDayQueryProcess($queryString, "idaction_url", $sqlBind, $archiveProcessing);
+		$this->archiveDayQueryProcess($queryString, "idaction_name", $sqlBind, $archiveProcessing);
 
-		/*
-		 * Actions names global information
-		 */
-		$query = "SELECT 	name,
-							type,
-							count(distinct t1.idvisit) as nb_visits,
-							count(distinct visitor_idcookie) as nb_uniq_visitors,
-							count(*) as nb_hits
-					FROM (".$archiveProcessing->logTable." as t1
-						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
-							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_name = t3.idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-					GROUP BY t3.idaction, name, type
-					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
-		$modified = $this->updateActionsTableWithRowQuery($query);
-
-		/*
-		 * Entry actions
-		 */
-		$query = "SELECT 	name,
-							type,
-							count(distinct visitor_idcookie) as entry_nb_uniq_visitors, 
-							count(*) as entry_nb_visits,
-							sum(visit_total_actions) as entry_nb_actions,
-							sum(visit_total_time) as entry_sum_visit_length,							
-							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
-					FROM ".$archiveProcessing->logTable." 
-						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction_url = idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-					GROUP BY visit_entry_idaction_url, name, type
-					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
-		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-
+		/*
+		 * Entry actions for Page URLs and Page names
+		 */
+		$queryString = "SELECT %s as idaction,
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`, 
+							count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
+							sum(visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
+							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,							
+							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`
+					FROM ".Piwik_Common::prefixTable('log_visit')." 
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
+						AND idsite = ?
+				 		AND %s > 0
+				 		$sqlSegmentWhere
+					GROUP BY %s, idaction";
+		$this->archiveDayQueryProcess($queryString, "visit_entry_idaction_url", $sqlBind, $archiveProcessing);
+		$this->archiveDayQueryProcess($queryString, "visit_entry_idaction_name", $sqlBind, $archiveProcessing);
+		
 		/*
 		 * Exit actions
 		 */
-		$query = "SELECT 	name,
-							type,
-							count(distinct visitor_idcookie) as exit_nb_uniq_visitors,
-							count(*) as exit_nb_visits
-				 	FROM ".$archiveProcessing->logTable." 
-						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction_url = idaction)
+		$queryString = "SELECT %s as idaction,
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
+							count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`
+				 	FROM ".Piwik_Common::prefixTable('log_visit')." 
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?
-				 	GROUP BY visit_exit_idaction_url, name, type
-					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
-		$modified = $this->updateActionsTableWithRowQuery($query);
+				 		AND %s > 0
+				 		$sqlSegmentWhere
+				 	GROUP BY %s, idaction";
+		$this->archiveDayQueryProcess($queryString, "visit_exit_idaction_url", $sqlBind, $archiveProcessing);
+		$this->archiveDayQueryProcess($queryString, "visit_exit_idaction_name", $sqlBind, $archiveProcessing);
 		
 		/*
 		 * Time per action
 		 */
-		$query = "SELECT 	name,
-							type,
-							sum(time_spent_ref_action) as sum_time_spent
-					FROM (".$archiveProcessing->logTable." log_visit 
-						JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
-							JOIN ".$archiveProcessing->logActionTable."  log_action ON (log_action.idaction = log_link_visit_action.idaction_url_ref)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-				 		AND idsite = ?
-				 	GROUP BY idaction_url_ref, name, type
-				";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
-		$modified = $this->updateActionsTableWithRowQuery($query);
+		$queryString = "SELECT %s as idaction,
+							sum(time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`
+					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+							$sqlJoinVisitTable
+					WHERE server_time >= ?
+						AND server_time <= ?
+				 		AND log_link_visit_action.idsite = ?
+				 		AND time_spent_ref_action > 0
+				 		AND %s > 0
+				 		$sqlSegmentWhere
+				 	GROUP BY %s, idaction";
+		$this->archiveDayQueryProcess($queryString, "idaction_url_ref", $sqlBind, $archiveProcessing);
+		$this->archiveDayQueryProcess($queryString, "idaction_name_ref", $sqlBind, $archiveProcessing);
+
+		// Empty static cache
+		self::$cacheParsedAction = array();
+		
+		// Record the final datasets
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
 
+	protected function archiveDayQueryProcess($queryString, $sprintfParameter, $bind, $archiveProcessing)
+	{
+		$queryString = str_replace("%s", $sprintfParameter, $queryString);
+		$bind = array_merge(array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ), $bind);
+		$resultSet = $archiveProcessing->db->query($queryString, $bind);
+		$modified = $this->updateActionsTableWithRowQuery($resultSet);
+		return $modified;
+	}
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL]);
@@ -338,7 +400,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
 		destroy($dataTable);
 
-		unset($this->actionsTablesByType);
+		destroy($this->actionsTablesByType);
 	}
 	
 	protected function deleteInvalidSummedColumnsFromDataTable($dataTable)
@@ -424,11 +486,14 @@ class Piwik_Actions extends Piwik_Plugin
 		}
 
 		$split = explode($categoryDelimiter, $name, self::$limitLevelSubCategory);
-
+		
 		// trim every category and remove empty categories
 		$split = array_map('trim', $split);
 		$split = array_filter($split, 'strlen');
 
+		// forces array key to start at 0
+		$split = array_values($split);
+		
 		if( empty($split) )
 		{
 		    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
@@ -439,102 +504,91 @@ class Piwik_Actions extends Piwik_Plugin
 			return array( trim($defaultName) );
 		}
 
+		$lastPageName = end($split);
+		// we are careful to prefix the page URL / name with some value
+		// so that if a page has the same name as a category 
+		// we don't merge both entries 
+		if($type != Piwik_Tracker_Action::TYPE_ACTION_NAME )
+		{
+			$lastPageName = '/' . $lastPageName;
+		}
+		else 
+		{
+			$lastPageName = ' ' . $lastPageName;
+		}
+		$split[count($split)-1] = $lastPageName;
 		return array_values( $split );
 	}
+	
+	const CACHE_PARSED_INDEX_NAME = 0;
+	const CACHE_PARSED_INDEX_TYPE = 1;
+	static $cacheParsedAction = array();
 	
 	protected function updateActionsTableWithRowQuery($query)
 	{
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
-			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
-			if(empty($row['type'])) {
-				continue;
-			}
-			
-			$actionExplodedNames = $this->getActionExplodedNames($row['name'], $row['type']);
-
-			// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
-			$currentTable =& $this->actionsTablesByType[$row['type']];
-
-			// go to the level of the subcategory
-			$end = count($actionExplodedNames)-1;
-			for($level = 0 ; $level < $end; $level++)
+			// Only the first query will contain the name and type of actions, for performance reasons
+			if(isset($row['name']) 
+				&& isset($row['type']))
 			{
-				$actionCategory = $actionExplodedNames[$level];
-				$currentTable =& $currentTable[$actionCategory];
+				$actionName = $row['name'];
+				$actionType = $row['type'];
+    			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
+    			if(empty($actionType)) 
+    			{
+    				self::$cacheParsedAction[$row['idaction']] = false;
+    				continue;
+    			}
+    
+    			$currentTable = $this->parseActionNameCategoriesInDataTable($actionName, $actionType);
+    			
+				self::$cacheParsedAction[$row['idaction']] = $currentTable;
 			}
-			$actionName = $actionExplodedNames[$end];
-
-			// we are careful to prefix the page URL / name with some value
-			// so that if a page has the same name as a category 
-			// we don't merge both entries 
-			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION_URL )
+			else
 			{
-				$actionName = '/' . $actionName;
-			}
-			else 
-			{
-				$actionName = ' ' . $actionName;
-			}
-
-			// currentTable is now the array element corresponding the the action
-			// at this point we may be for example at the 4th level of depth in the hierarchy
-			$currentTable =& $currentTable[$actionName];
-			
-			// add the row to the matching sub category subtable
-			if(!($currentTable instanceof Piwik_DataTable_Row))
-			{
-				if( $row['type'] == Piwik_Tracker_Action::TYPE_ACTION_NAME )
+				if(!isset(self::$cacheParsedAction[$row['idaction']]))
 				{
-					$currentTable = new Piwik_DataTable_Row(array(
-							Piwik_DataTable_Row::COLUMNS => array('label' => (string)$actionName),
-						));	
+					// This can happen when
+					// - We select an entry page ID that was only seen yesterday, so wasn't selected in the first query
+					// - We count time spent on a page, when this page was only seen yesterday
+					continue;
+					var_dump($row);
+					debug_print_backtrace();
+					throw new Exception("id action ". $row['idaction'] . " was not cached, but we expected it. Pleas report this issue in Piwik forums.");
+				}
+				$currentTable = self::$cacheParsedAction[$row['idaction']];
+				// Action processed as "to skip" for some reasons
+				if($currentTable === false)
+				{
+					continue;
+				}
+			}
+			
+			unset($row['name']);
+			unset($row['type']);
+			unset($row['idaction']);
+			foreach($row as $name => $value)
+			{
+				// in some edge cases, we have twice the same action name with 2 different idaction
+				// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page, 
+				// and in between the two the other visitor comes. 
+				// here we handle the case where there is already a row for this action name, if this is the case we add the value
+				if(($alreadyValue = $currentTable->getColumn($name)) !== false)
+				{
+					$currentTable->setColumn($name, $alreadyValue+$value);
 				}
 				else
 				{
-					$currentTable = new Piwik_DataTable_Row(array(
-							Piwik_DataTable_Row::COLUMNS => array('label' => (string)$actionName),
-							Piwik_DataTable_Row::METADATA => array('url' => (string)$row['name']),
-						));
-				}
-			}
-			
-			// For pages that bounce, we don't know the time on page.
-			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION_URL
-				&& isset($row['nb_visits'])
-				&& !isset($row['sum_time_spent']))
-			{
-				$row['sum_time_spent'] = Zend_Registry::get('config')->Tracker->default_time_one_page_visit * $row['nb_visits'];
-			}
-			
-			foreach($row as $name => $value)
-			{
-				// we don't add this information as itnot pertinent
-				// name is already set as the label // and it has been cleaned from the categories and extracted from the initial string
-				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
-				if($name != 'name' 
-					&& $name != 'type')
-				{
-					// in some edge cases, we have twice the same action name with 2 different idaction
-					// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page, 
-					// and in between the two the other visitor comes. 
-					// here we handle the case where there is already a row for this action name, if this is the case we add the value
-					if(($alreadyValue = $currentTable->getColumn($name)) !== false)
-					{
-						$currentTable->setColumn($name, $alreadyValue+$value);
-					}
-					else
-					{
-						$currentTable->addColumn($name, $value);
-					}
+					$currentTable->addColumn($name, $value);
 				}
 			}
 			
 			// if the exit_action was not recorded properly in the log_link_visit_action
 			// there would be an error message when getting the nb_hits column
 			// we must fake the record and add the columns
-			if($currentTable->getColumn('nb_hits') === false)
+			if($currentTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) === false)
 			{
 				// to test this code: delete the entries in log_link_action_visit for
 				//  a given exit_idaction_url
@@ -550,6 +604,59 @@ class Piwik_Actions extends Piwik_Plugin
 		$currentTable =& $this->actionsTablesByType;
 		return $rowsProcessed;
 	}
+	
+	/**
+	 * Given a page name and type, builds a recursive datatable where
+	 * each level of the tree is a category, based on the page name split by a delimiter (slash / by default)
+	 *  
+	 * @param string $actionName
+	 * @param int $actionType
+	 * @return Piwik_DataTable
+	 */
+	protected function parseActionNameCategoriesInDataTable($actionName, $actionType)
+	{
+		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
+		$currentTable =& $this->actionsTablesByType[$actionType];
 
+		// go to the level of the subcategory
+		$actionExplodedNames = $this->getActionExplodedNames($actionName, $actionType);
+		$end = count($actionExplodedNames)-1;
+		for($level = 0 ; $level < $end; $level++)
+		{
+			$actionCategory = $actionExplodedNames[$level];
+			$currentTable =& $currentTable[$actionCategory];
+		}
+		$actionShortName = $actionExplodedNames[$end];
+
+		// currentTable is now the array element corresponding the the action
+		// at this point we may be for example at the 4th level of depth in the hierarchy
+		$currentTable =& $currentTable[$actionShortName];
+		
+		// add the row to the matching sub category subtable
+		if(!($currentTable instanceof Piwik_DataTable_Row))
+		{
+			$defaultColumnsNewRow = array(
+    									'label' => (string)$actionShortName,
+    									Piwik_Archive::INDEX_NB_VISITS => 0,
+    									Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
+    									Piwik_Archive::INDEX_PAGE_NB_HITS => 0,
+    									Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 0,
+        	);
+			if( $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME )
+			{
+				$currentTable = new Piwik_DataTable_Row(array(
+						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
+					));	
+			}
+			else
+			{
+				$currentTable = new Piwik_DataTable_Row(array(
+						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
+						Piwik_DataTable_Row::METADATA => array('url' => (string)$actionName),
+					));
+			}
+		}
+		return $currentTable;
+	}
 }
 

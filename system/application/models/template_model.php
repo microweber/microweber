@@ -1186,6 +1186,9 @@ p($modules );
 						if ($attr ['module'] != '') {
 							
 							$attr ['module'] = trim ( $attr ['module'] );
+							$attr ['module'] = str_replace ( '\\', '/', $attr ['module'] );
+							$attr ['module'] = reduce_double_slashes ( $attr ['module'] );
+							
 							$try_file1 = MODULES_DIR . '' . $attr ['module'] . '.php';
 							
 							$try_file = MODULES_DIR . 'modules/' . $attr ['module'] . '.php';
@@ -1240,13 +1243,15 @@ p($modules );
 								//}
 								
 
+								} else {
+									exit ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
+								
 								}
 							} else {
 								$try_config_file = MODULES_DIR . '' . $attr ['module'] . '_config.php';
 							}
 							
-							
-						//	p($try_file1);
+							//	p($try_file1);
 							if (is_file ( $try_file1 ) == true) {
 								$arrts = array ();
 								foreach ( $attr as $att => $at ) {
@@ -1335,11 +1340,12 @@ p($modules );
 									}
 									$params_encoded = false;
 									
-									if($force_cache_this == true){
+									if ($force_cache_this == true) {
 										$cache_this = true;
 									}
 									//var_dump($force_cache_this);
 									
+
 									if ($cache_this == true) {
 										$cache_id = md5 ( $try_file1 ) . md5 ( serialize ( $arrts ) );
 										
@@ -1562,6 +1568,11 @@ p($modules );
 							$layout = str_replace_count ( $m ['full_tag'], "<div class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
 						} else {
 							$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+						}
+						
+						$layout = str_replace ( '<mw', '<microweber', $layout );
+						if (strstr ( $layout, '<microweber' ) == true) {
+							$layout = self::parseMicrwoberTags ( $layout, $options );
 						}
 					
 					}

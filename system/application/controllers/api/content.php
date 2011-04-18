@@ -60,6 +60,64 @@ class Content extends Controller {
 		}
 	}
 	
+	function save_taxonomy_items_order() {
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		
+		if ($_POST) {
+			global $cms_db_tables;
+			$table_taxonomy = $cms_db_tables ['table_taxonomy'];
+			//p ( $_POST );
+			parse_str ( $_POST ['items'], $itmes );
+			//$itmes = unserialize($itmes);
+			//p($itmes);
+			foreach ( $itmes as $k => $i ) {
+				
+				//p($i);
+				if (! empty ( $i )) {
+					foreach ( $i as $ik => $iv ) {
+						$updated_on = date ( "Y-m-d H:i:s" );
+						
+						$data_to_save = array ();
+						$data_to_save ['id'] = $ik;
+						if (($iv == 'root') or intval ( $iv ) == 0) {
+							$iv = 0;
+						}
+						$iv = intval ( $iv );
+						
+						$item_save = array ();
+						$item_save ['id'] = $ik;
+						$item_save ['parent_id'] = $iv;
+						
+						$q = "update $table_taxonomy set parent_id='{$item_save ['parent_id']}'
+,  updated_on='{$updated_on}'
+						where id ='{$item_save ['id']}' ";
+						//p($q);
+						$q = CI::model ( 'core' )->dbQ ( $q );
+						
+					//p ( $data_to_save );
+					}
+				}
+				
+			//saveMenuItem
+			
+
+			// 
+			
+
+			//print $k.' - '.$i;
+			
+
+			}
+			CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' );
+			//	CI::model ( 'content' )->fixMenusPositions ( $_POST ['menu_id'] );
+		
+
+		}
+	}
+	
 	function get_layout_config() {
 		if ($_POST ['filename']) {
 			$file = CI::model ( 'template' )->layoutGetConfig ( $_POST ['filename'] );
@@ -686,9 +744,77 @@ class Content extends Controller {
 							$field = trim ( $the_field_data ['attributes'] ['field'] );
 							
 							$html_to_save = $the_field_data ['html'];
+							$content = $html_to_save;
+							if (strstr ( $content, '<div' ) == true) {
+								
+								$relations = array ();
+								$tags = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+								//	p($tags);
+								$matches = $tags;
+								if (! empty ( $matches )) {
+									//
+									foreach ( $matches as $m ) {
+										
+										//
+										
+
+										if ($m ['tag_name'] == 'div') {
+											$replaced = false;
+											$attr = $m ['attributes'];
+											
+											if ($attr ['class'] == 'module') {
+												if ($attr ['base64_array'] != '') {
+													
+													$base64_array = base64_decode ( $attr ['base64_array'] );
+													$base64_array = unserialize ( $base64_array );
+													if (! empty ( $base64_array )) {
+														$tag1 = "<microweber ";
+														
+														foreach ( $base64_array as $k => $v ) {
+															if ((strtolower ( trim ( $k ) ) != 'save') and (strtolower ( trim ( $k ) ) != 'submit')) {
+																$tag1 = $tag1 . "{$k}=\"{$v}\" ";
+															}
+														}
+														$tag1 .= " />";
+														$to_save [] = $tag1;
+														
+														$content = str_ireplace ( $m ['full_tag'], $tag1, $content );
+														$replaced = true;
+														//p($base64_array);
+													}
+												}
+												if ($replaced == false) {
+													if ($attr ['edit'] != '') {
+														$tag = ($attr ['edit']);
+														$tag = base64_decode ( $tag );
+														//p ( $tag );
+														
+
+														if (strstr ( $tag, 'module_id=' ) == false) {
+															
+															$tag = str_replace ( '/>', ' module_id="module_' . date ( 'Ymdhis' ) . rand () . '" />', $tag );
+														
+														}
+														
+														$to_save [] = $tag;
+														if ($tag != false) {
+															$content = str_ireplace ( $m ['full_tag'], $tag, $content );
+														}
+													}
+												}
+											}
+										
+										}
+									
+									}
+									$html_to_save = $content;
+								}
+							
+							}
 							//$html_to_save =utfString( $html_to_save );
 							//$html_to_save = htmlspecialchars ( $html_to_save, ENT_QUOTES );
 							//$html_to_save = html_entity_decode ( $html_to_save );
+							//p($html_to_save);
 							$html_to_save = clean_word ( $html_to_save );
 							
 							if ($save_global == false) {

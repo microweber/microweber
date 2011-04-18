@@ -3,6 +3,14 @@
 
  
 
+$site_stats=md5(site_url());
+$stats_setup = CACHEDIR_ROOT . '/db_tmp/stats_'.$site_stats.'.php';
+if(is_file($stats_setup) == false){
+	CI::model ( 'stats' )->site_id();
+	touch($stats_setup);
+}
+
+
 /*
 $agent = $_SERVER ['HTTP_USER_AGENT'];
 $the_user = CI::library('session')->userdata ( 'the_user' );

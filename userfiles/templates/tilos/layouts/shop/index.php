@@ -47,7 +47,7 @@ description: shop site layout
 	
 //	p($cf);
 	?>
-  <div class="product_item"> <a class="product" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print thumbnail($post['id'], 250);  ?>')">&nbsp;</span> <strong>
+  <div class="product_item"> <a class="product" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print thumbnail($post['id'], 120);  ?>')">&nbsp;</span> <strong>
     <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
     </strong> 
     
@@ -77,7 +77,14 @@ description: shop site layout
     <? if(!empty($pics['pictures'])): ?>
     <?  $main_pic = $pics['pictures'][0];  ?>
     <? endif; ?>
-    <a class="product product_active" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print get_media_thumbnail($main_pic['id'], 250);  ?>')">&nbsp;</span> <strong> <? print addslashes($main_pic['media_name']);?> </strong> 
+
+
+    <a class="product product_active" href="<? print get_media_thumbnail($main_pic['id'], 450);  ?>">
+
+    <span class="img" style="background-image: url('<? print get_media_thumbnail($main_pic['id'], 120);  ?>')">&nbsp;</span>
+
+
+    <strong> <? print addslashes($main_pic['media_name']);?> </strong>
     
     
     
@@ -132,7 +139,8 @@ description: shop site layout
 		?>
           <?  $small_pic = get_media_thumbnail($pic['id'], 80);  ?>
           <?  $big_pic = get_media_thumbnail($pic['id'], 250);  ?>
-          <li> <a href="<?  print $big_pic ?>" rel="<?  print $big_pic ?>" style="background-image: url('<?  print $small_pic ?>')" title="<? print addslashes($pic['media_name']);?>"> </a> </li>
+          <?  $big_pic2 = get_media_thumbnail($pic['id'], 450);  ?>
+          <li> <a href="<?  print $big_pic ?>" rel="<?  print $big_pic2 ?>" style="background-image: url('<?  print $small_pic ?>')" title="<? print addslashes($pic['media_name']);?>"> </a> </li>
           <? endforeach; ?>
           <? endif; ?>
         </div>

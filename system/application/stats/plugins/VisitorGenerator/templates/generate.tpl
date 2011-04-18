@@ -4,7 +4,7 @@
 
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
 
-<table class="adminTable adminTableNoBorder" style="width: 600px;">
+<table class="entityTable dataTable" style="width: 600px;">
 <thead>
     <tr>
         <th>{'General_Visitors'|translate}</th>
@@ -23,7 +23,7 @@
 </tbody>
 </table>
 
-<p>{'VisitorGenerator_NbActions'|translate}: {$nbActionsTotal}<br />
+<p>{'General_NbActions'|translate}: {$nbActionsTotal}<br />
 {'VisitorGenerator_NbRequestsPerSec'|translate}: {$nbRequestsPerSec}<br />
 {$timer}</p>
 

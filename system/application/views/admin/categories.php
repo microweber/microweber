@@ -40,6 +40,7 @@ function update_category_list(){
 	 data1 = {}
    data1.module = 'admin/content/category_selector';
    data1.update_field = "#cat_list_select" ;
+   data1.sortable = 'yes' ;
    data1.link_base64 = "<? print $cat_edit_link2  ?>" ;
     
 	
@@ -67,6 +68,48 @@ function update_category_list(){
     $(".cat_Inline_Bar samp").click(function(event){
       mw.prevent(event);
     })
+	
+	$('ul.category_tree').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			connectWith: "ul.category_tree", 
+			accept: 'category_element',
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placehulder',
+			tabSize: 25,
+			tulerance: 'pointer',
+			update: function(serialized) {    
+			serialized = $('ul.category_tree').nestedSortable('serialize');
+			
+			//alert(serialized);
+                     // alert(arraied);   
+					 
+ 	 $.post("<? print site_url('api/content/save_taxonomy_items_order') ?>", { items: serialized },
+   function(data){
+    //alert("Data Loaded: " + data);
+	//add_menus_controlls();
+   });
+					 
+					 
+                } 
+		}); 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
 	
 	//$('#results_holder_title').html("Search results for: "+ $kw);
 
@@ -225,9 +268,18 @@ function content_list($kw, $category_id){
 
 
 </script>
+<div class="box radius">
+<div class="box_header radius_t">
+     <h2>Categories</h2>
+</div>
+
+
+
+
+
 
 <div id="posts_nav">
-  <h2>Categories</h2>
+
   <ul class="posts_nav_list">
     <li><a href="#" class="view_posts_btn">All categories</a></li>
     <li><a href="javascript:edit_category_dialog(0);" class="add_post_btn">Add category</a></li>
@@ -254,4 +306,7 @@ function content_list($kw, $category_id){
 
 
 //category_tree( $params ) ; ?>
+
+
+</div>
 

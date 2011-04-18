@@ -298,6 +298,9 @@ class Init_model extends Model {
 
 	}
 
+	
+	
+	
 	/**
 	 * Set table's engine
 	 *

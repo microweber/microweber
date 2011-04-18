@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: outputfilter.ajaxcdn.php 3056 2010-09-05 01:34:14Z vipsoft $
+ * @version $Id: outputfilter.ajaxcdn.php 4299 2011-04-03 20:32:34Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -21,8 +21,7 @@
  * Install:  Drop into the plugin directory, call
  *           <code>$smarty->load_filter('output','ajaxcdn');</code>
  *           from application.
- * @author   Anthon Pang <apang at softwaredevelopment dot ca>
- * @version  1.0
+ *
  * @param string
  * @param Smarty
  */

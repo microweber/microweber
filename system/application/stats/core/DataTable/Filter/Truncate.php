@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Truncate.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Truncate.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -20,12 +20,11 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
 	{
 		parent::__construct($table);
 		$this->truncateAfter = $truncateAfter;
-		$this->filter();
 	}	
 	
-	protected function filter()
+	public function filter($table)
 	{
-		$this->table->filter('AddSummaryRow', array($this->truncateAfter));
-		$this->table->filter('ReplaceSummaryRowLabel');
+		$table->filter('AddSummaryRow', array($this->truncateAfter));
+		$table->filter('ReplaceSummaryRowLabel');
 	}
 }

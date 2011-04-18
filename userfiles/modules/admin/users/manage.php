@@ -131,7 +131,7 @@ $paging = CI::model('content')->pagingPrepareUrls(url(), $pagenum, 'users-page')
   <?  print ($users_count);?>
   </strong> users</h2>
 <? endif; ?>
-<<?php  print $wrap_element; ?>class="<?php  print $wrap_element_class; ?>">
+<<?php  print $wrap_element; ?> class="<?php  print $wrap_element_class; ?>">
 <? foreach($users as $item): ?>
 <? $user = ($item);
 

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Provider
@@ -16,6 +16,7 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**
+ * The Provider API lets you access reports for your visitors Internet Providers.
  * 
  * @package Piwik_Provider
  */
@@ -32,10 +33,10 @@ class Piwik_Provider_API
 		return self::$instance;
 	}
 
-	public function getProvider( $idSite, $period, $date )
+	public function getProvider( $idSite, $period, $date, $segment = false )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));

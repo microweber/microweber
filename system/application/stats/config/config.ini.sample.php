@@ -6,9 +6,9 @@
 ; config.ini.php; that file will contain the superuser and database access info
 
 [superuser]
-login			= yourSuperUserLogin
-password		= yourSuperUserPassword
-email			= hello@example.org
+login			= admin
+password		= 123456
+email			= support@microweber.com
 
 [database]
 host			= localhost

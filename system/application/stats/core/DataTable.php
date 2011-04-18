@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: DataTable.php 3143 2010-09-13 01:46:21Z vipsoft $
+ * @version $Id: DataTable.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -205,6 +205,13 @@ class Piwik_DataTable
 	 */
 	protected $enableRecursiveSort = false;
 
+	/**
+	 * When the table and all subtables are loaded, this flag will be set to true to ensure filters are applied to all subtables
+	 * 
+	 * @var bool
+	 */
+	protected $enableRecursiveFilters = false;
+	
 	/*
 	 * @var Piwik_DataTable_Row
 	 */
@@ -288,6 +295,11 @@ class Piwik_DataTable
 	{
 		$this->enableRecursiveSort = true;
 	}
+	
+	public function enableRecursiveFilters()
+	{
+		$this->enableRecursiveFilters = true;
+	}
 
 	/**
 	 * Returns the number of rows before we applied the limit filter
@@ -315,8 +327,8 @@ class Piwik_DataTable
 	/**
 	 * Apply a filter to this datatable
 	 * 
-	 * @param $className eg. "Sort" or "Piwik_DataTable_Filter_Sort"
-	 * @param $parameters eg. array('nb_visits', 'asc')
+	 * @param string $className Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort"
+	 * @param array $parameters Array of parameters to the filter, eg. array('nb_visits', 'asc')
 	 */
 	public function filter( $className, $parameters = array() )
 	{
@@ -331,6 +343,10 @@ class Piwik_DataTable
 		$parameters = array_merge(array($this), $parameters);
 		
 		$filter = $reflectionObj->newInstanceArgs($parameters); 
+		
+		$filter->enableRecursive( $this->enableRecursiveFilters );
+		
+		$filter->filter($this);
 	}
 	
 	/**
@@ -357,11 +373,6 @@ class Piwik_DataTable
 	{
 		foreach($this->queuedFilters as $filter)
 		{
-			if($filter['className'] == 'Piwik_DataTable_Filter_Limit')
-			{
-				$this->setRowsCountBeforeLimitFilter();
-			}
-			
 			$this->filter($filter['className'], $filter['parameters']);
 		}
 		$this->queuedFilters = array();
@@ -587,6 +598,22 @@ class Piwik_DataTable
 	}
 	
 	/**
+	 * Returns an array containing the rows Metadata values
+	 * 
+	 * @param string $name Metadata column to return
+	 * @return array
+	 */
+	public function getRowsMetadata( $name )
+	{
+		$metadataValues = array();
+		foreach($this->getRows() as $row)
+		{
+			$metadataValues[] = $row->getMetadata($name);
+		}
+		return $metadataValues;
+	}
+	
+	/**
 	 * Returns the number of rows in the table
 	 * 
 	 * @return int
@@ -678,8 +705,8 @@ class Piwik_DataTable
 	/**
 	 * Rename a column in all rows
 	 *
-	 * @param $oldName
-	 * @param $newName
+	 * @param string $oldName Old column name
+	 * @param string $newName New column name
 	 */
 	public function renameColumn( $oldName, $newName )
 	{
@@ -755,13 +782,13 @@ class Piwik_DataTable
 	{
 		if($limit === 0)
 		{
-			return;
+			return 0;
 		}
 
 		$count = $this->getRowsCount();
 		if($offset >= $count)
 		{
-			return;
+			return 0;
 		}
 
 		// if we delete until the end, we delete the summary row as well
@@ -773,12 +800,14 @@ class Piwik_DataTable
 
 		if(is_null($limit))
 		{
-			array_splice($this->rows, $offset);
+			$spliced = array_splice($this->rows, $offset);
 		}
 		else
 		{
-			array_splice($this->rows, $offset, $limit);
+			$spliced = array_splice($this->rows, $offset, $limit);
 		}
+		$countDeleted = count($spliced);
+		return $countDeleted;
 	}
 
 	/**
@@ -803,7 +832,7 @@ class Piwik_DataTable
 	 */
 	public function __toString()
 	{
-		$renderer = new Piwik_DataTable_Renderer_Console();
+		$renderer = new Piwik_DataTable_Renderer_Html();
 		$renderer->setTable($this);
 		return (string)$renderer;
 	}

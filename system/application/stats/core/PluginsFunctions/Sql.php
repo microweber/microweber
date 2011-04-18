@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Sql.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Sql.php 4348 2011-04-07 02:20:06Z matt $
  * 
  * @category Piwik
  * @package PluginsFunctions
@@ -33,7 +33,11 @@ class Piwik_Sql
 
 	static public function exec($sql)
 	{
-		return self::getDb()->exec($sql);
+		$profiler = Zend_Registry::get('db')->getProfiler();
+		$q = $profiler->queryStart($sql, Zend_Db_Profiler::INSERT);
+		$return = self::getDb()->exec($sql);
+		$profiler->queryEnd($q);
+		return $return;
 	}
 
 	static public function query($sql, $parameters = array())

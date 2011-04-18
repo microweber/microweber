@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ChartEvolution.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: ChartEvolution.php 4306 2011-04-04 06:31:31Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -60,7 +60,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	public function getUniqueIdViewDataTable()
 	{
 		$id = parent::getUniqueIdViewDataTable();
-		if(isset($this->parametersToModify['idGoal']))
+		if(!empty($this->parametersToModify['idGoal']))
 		{
 			$id .= $this->parametersToModify['idGoal'];
 		}

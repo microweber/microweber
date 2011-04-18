@@ -127,7 +127,7 @@ $(document).ready(function() {
 			   $url = '<? print site_url("api/module") ?>/admin:true/no_config:true/rel:'+rel+'/?module_name:'+v1;
 			//  alert(v1+$url); 
 			   // callIframe
-			   $(this).append("<input type='button' value='aaa' name='aaa'  onclick='javascript:call_edit_module_iframe(\""+$url+"\") ;' />");
+		//	   $(this).append("<input type='button' value='aaa' name='aaa'  onclick='javascript:call_edit_module_iframe(\""+$url+"\") ;' />");
 
 			   
  
@@ -292,7 +292,7 @@ $(window).load(function(){
               html:"Are you sure you want to delete this module?",
               yes:function(){
                 parent.remove();
-                mw.modal.alert("Module deleted");
+             //   mw.modal.alert("Module deleted");
               }
             })
         });
@@ -510,7 +510,7 @@ function save_editblock($id) {
 		  data: { id: $id, html:$test , rel:$rel ,page_id: $page_json.page.id},
           async:false,
 		  success: function(data) {
-			  // alert(data);
+			 // alert(data);
 			  load_editblock($id);
 
 		  }

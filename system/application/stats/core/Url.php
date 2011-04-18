@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Url.php 3615 2011-01-04 16:02:45Z vipsoft $
+ * @version $Id: Url.php 4311 2011-04-04 18:49:55Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -120,7 +120,18 @@ class Piwik_Url
 		 */
 		if(empty($url))
 		{
-			$url = $_SERVER['SCRIPT_NAME'];
+			if(isset($_SERVER['SCRIPT_NAME']))
+			{
+				$url = $_SERVER['SCRIPT_NAME'];
+			}
+			elseif(isset($_SERVER['SCRIPT_FILENAME']))
+			{
+				$url = $_SERVER['SCRIPT_FILENAME'];
+			}
+			elseif(isset($_SERVER['argv']))
+			{
+				$url = $_SERVER['argv'][0];
+			}
 		}
 
 		if(!isset($url[0]) || $url[0] !== '/')
@@ -171,12 +182,13 @@ class Piwik_Url
 		}
 
 		$default = Piwik_Common::sanitizeInputValue($default);
-		if(isset($_SERVER['HTTP_HOST']))
+		if(isset($_SERVER['HTTP_HOST'])
+			&& !empty($_SERVER['HTTP_HOST']))
 		{
 			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 		}
 
-		// @todo temporary workaround for #1331
+		// temporary workaround for #1331
 		if(!method_exists('Piwik_Common', 'getProxyFromHeader'))
 		{
 			return $default;
@@ -245,7 +257,7 @@ class Piwik_Url
 	 * Given an array of parameters name->value, returns the query string.
 	 * Also works with array values using the php array syntax for GET parameters.
 	 *
-	 * @param $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
+	 * @param array $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
 	 * @return string eg. "param1=10&param2[]=1&param2[]=2"
 	 */
 	static public function getQueryStringFromParameters($parameters)
@@ -275,15 +287,15 @@ class Piwik_Url
 	}
 
 	/**
-	 * Redirects the user to the Referer if found. 
-	 * If the user doesn't have a referer set, it redirects to the current URL without query string.
+	 * Redirects the user to the referrer if found. 
+	 * If the user doesn't have a referrer set, it redirects to the current URL without query string.
 	 */
 	static public function redirectToReferer()
 	{
-		$referer = self::getReferer();
-		if($referer !== false)
+		$referrer = self::getReferer();
+		if($referrer !== false)
 		{	
-			self::redirectToUrl($referer);
+			self::redirectToUrl($referrer);
 		}
 		self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
 	}
@@ -340,16 +352,16 @@ class Piwik_Url
 	}
 
 	/**
-	 * Get local referer, i.e., on the same host and in the same script path.
+	 * Get local referrer, i.e., on the same host and in the same script path.
 	 *
 	 * @return string|false
 	 */
 	static public function getLocalReferer()
 	{
-		// verify that the referer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
-		$referer = self::getReferer();
-		if($referer !== false && self::isLocalUrl($referer)) {
-			return $referer;
+		// verify that the referrer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
+		$referrer = self::getReferer();
+		if($referrer !== false && self::isLocalUrl($referrer)) {
+			return $referrer;
 		}
 
 		return false;

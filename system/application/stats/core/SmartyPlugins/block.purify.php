@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: block.purify.php 3562 2011-01-02 19:58:22Z vipsoft $
+ * @version $Id: block.purify.php 4299 2011-04-03 20:32:34Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -21,8 +21,7 @@
  * Install:  Drop into the plugin directory, call
  *           <code>{purify}HTML fragment{/purify}</code>
  *           from template.
- * @author   Anthon Pang <apang at softwaredevelopment dot ca>
- * @version  1.0
+ *
  * @param array $params
  * <pre>
  * Params:   assign: string (null)

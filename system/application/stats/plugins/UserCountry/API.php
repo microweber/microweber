@@ -4,21 +4,19 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
 
 /**
- * @see core/DataFiles/Countries.php
  * @see plugins/UserCountry/functions.php
  */
-require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * 
+ * The UserCountry API lets you access reports about your visitors' Countries and Continents.
  * @package Piwik_UserCountry
  */
 class Piwik_UserCountry_API 
@@ -33,9 +31,9 @@ class Piwik_UserCountry_API
 		return self::$instance;
 	}
 	
-	public function getCountry( $idSite, $period, $date )
+	public function getCountry( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date, $segment);
 		// apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
@@ -45,28 +43,28 @@ class Piwik_UserCountry_API
 		return $dataTable;
 	}
 	
-	public function getContinent( $idSite, $period, $date )
+	public function getContinent( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date, $segment);
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		return $dataTable;
 	}
 	
-	protected function getDataTable($name, $idSite, $period, $date)
+	protected function getDataTable($name, $idSite, $period, $date, $segment)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	
-	public function getNumberOfDistinctCountries($idSite, $period, $date)
+	public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
 	}
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Goals.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Goals.php 4467 2011-04-15 05:10:22Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -50,7 +50,7 @@ class Piwik_Goals extends Piwik_Plugin
 	 * The API returns general Goal metrics: conv, conv rate and revenue globally 
 	 * and for each goal.
 	 * 
-	 * Also, this will update metadata of all other reports that have Goal segmentatation.
+	 * Also, this will update metadata of all other reports that have Goal segmentation
 	 */
 	public function getReportMetadata($notification) 
 	{
@@ -78,6 +78,7 @@ class Piwik_Goals extends Piwik_Plugin
 			'action' => 'get',
 			'metrics' => $goalMetrics,
 			'processedMetrics' => array(),
+        	'order' => 1 
 		);
 		
 		/* 
@@ -119,6 +120,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $goalMetrics,
 					'processedMetrics' => false,
+        			'order' => 10 + $goal['idgoal']
 				);
 			}
 		}
@@ -126,23 +128,22 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	static public function getReportsWithGoalMetrics()
 	{
-		$segments = array();
-		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $segments);
-		$segmentsByGroup = array();
-		foreach($segments as $segment)
+		$dimensions = array();
+		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $dimensions);
+		$dimensionsByGroup = array();
+		foreach($dimensions as $dimension)
 		{
-			$group = $segment['category'];
-			unset($segment['category']);
-			$segmentsByGroup[$group][] = $segment;
+			$group = $dimension['category'];
+			unset($dimension['category']);
+			$dimensionsByGroup[$group][] = $dimension;
 		}
-		return $segmentsByGroup;
+		return $dimensionsByGroup;
 	}
 	
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
 		$jsFiles[] = "plugins/Goals/templates/GoalForm.js";
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 
 	function getCssFiles( $notification )
@@ -168,7 +169,7 @@ class Piwik_Goals extends Piwik_Plugin
 		{
 			foreach($goals as $goal) 
 			{
-        		Piwik_AddWidget('Goals_Goals', $goal['name'], 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+        		Piwik_AddWidget('Goals_Goals', Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
 			}
 		}
 	}
@@ -187,7 +188,7 @@ class Piwik_Goals extends Piwik_Plugin
 			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
 			foreach($goals as $goal) 
 			{
-				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 			}
 		}
 	}
@@ -209,6 +210,7 @@ class Piwik_Goals extends Piwik_Plugin
 		{
 			$returningStr = 'visitor_returning_' . $visitorReturning . '_';
 		}
+		
 		return 'Goal_' . $returningStr . $idGoalStr . $recordName;
 	}
 	
@@ -216,13 +218,14 @@ class Piwik_Goals extends Piwik_Plugin
 	 * Hooks on Period archiving. 
 	 * Sums up Goal conversions stats, and processes overall conversion rate
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archivePeriod($notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		$metricsToSum = array( 'nb_conversions', 'revenue');
 		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
 		
@@ -242,13 +245,13 @@ class Piwik_Goals extends Piwik_Plugin
 		// also recording conversion_rate for each goal
 		foreach($goalIdsToSum as $goalId)
 		{
-			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)]->value;
+			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)];
 			$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
 			$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 		}
 		
 		// global conversion rate
-		$nb_conversions = $records[self::getRecordName('nb_conversions')]->value;
+		$nb_conversions = $records[self::getRecordName('nb_conversions')];
 		$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
 		$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate'), $conversion_rate);
 	}
@@ -257,7 +260,8 @@ class Piwik_Goals extends Piwik_Plugin
 	 * Hooks on the Daily archiving.
 	 * Will process Goal stats overall and for each Goal. 
 	 * Also processes the New VS Returning visitors conversion stats.
-	 * @param $notification
+	 *
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archiveDay( $notification )
@@ -267,20 +271,25 @@ class Piwik_Goals extends Piwik_Plugin
 		 */
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		// by processing visitor_returning segment, we can also simply sum and get stats for all goals.
-		$query = $archiveProcessing->queryConversionsBySegment('visitor_returning');
-
-		$nb_conversions = $revenue = 0;
+		$query = $archiveProcessing->queryConversionsByDimension('visitor_returning');
+		
+		if($query === false) return;
+		
+		$nb_conversions = $revenue = $nb_visits_converted = 0;
 		$goals = $goalsByVisitorReturning = array();
 		while($row = $query->fetch() )
 		{
-			$goalsByVisitorReturning[$row['idgoal']][$row['visitor_returning']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			$goalsByVisitorReturning[$row['idgoal']][$row['label']] = $archiveProcessing->getGoalRowFromQueryRow($row);
 			
 			if(!isset($goals[$row['idgoal']])) $goals[$row['idgoal']] = $archiveProcessing->getNewGoalRow();
 			$archiveProcessing->updateGoalStats($row, $goals[$row['idgoal']]);
 
-			$revenue += $row['revenue'];
-			$nb_conversions += $row['nb_conversions'];
+			$revenue += $row[Piwik_Archive::INDEX_GOAL_REVENUE];
+			$nb_conversions += $row[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+			$nb_visits_converted += $row[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
 		}
 		
 		// Stats by goal, for all visitors
@@ -316,6 +325,7 @@ class Piwik_Goals extends Piwik_Plugin
 		$totalAllGoals = array(
 			self::getRecordName('conversion_rate')	=> $this->getConversionRate($archiveProcessing->getNumberOfVisitsConverted(), $archiveProcessing),
 			self::getRecordName('nb_conversions')	=> $nb_conversions,
+			self::getRecordName('nb_visits_converted')	=> $nb_visits_converted,
 			self::getRecordName('revenue') 			=> $revenue,
 		);
 		foreach($totalAllGoals as $recordName => $value)
@@ -326,7 +336,8 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function getConversionRate($count, $archiveProcessing)
 	{
-		return round(100 * $count / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION);
+		$visits = $archiveProcessing->getNumberOfVisits();
+		return round(100 * $count / $visits, self::ROUNDING_PRECISION);
 	}
 
 }

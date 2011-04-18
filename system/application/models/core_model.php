@@ -144,7 +144,7 @@ class Core_model extends Model {
 		if ($is_quick == false) {
 			if ($data ['updated_on'] == false) {
 				
-				$data ['updated_on'] = date ( "Y-m-d h:i:s" );
+				$data ['updated_on'] = date ( "Y-m-d H:i:s" );
 			
 			}
 		}
@@ -197,7 +197,7 @@ class Core_model extends Model {
 			
 			if ($data ['created_on'] == false) {
 				
-				$data ['created_on'] = date ( "Y-m-d h:i:s" );
+				$data ['created_on'] = date ( "Y-m-d H:i:s" );
 			
 			}
 			
@@ -1781,6 +1781,10 @@ class Core_model extends Model {
 					$v = addslashes ( $v );
 				
 				}
+				$is_not_null = false;
+				if($v == 'IS NOT NULL'){
+					$is_not_null = true;
+				}
 				
 				$k = addslashes ( $k );
 				
@@ -1805,14 +1809,20 @@ class Core_model extends Model {
 					$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 				
 				}
-				
+				if($is_not_null  == true){
+					$cfvq = "custom_field_value IS NOT NULL  ";
+				} else {
+					$cfvq = "custom_field_value = '$v'  ";
+				}
 				$q = "SELECT  to_table_id from $table_custom_fields where
 
             to_table = '$aTable_assoc' and
 
             custom_field_name = '$k' and
 
-            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
+            $cfvq
+            
+             $ids_q   $only_custom_fieldd_ids_q 
 
             
              $my_limit_q
@@ -1820,7 +1830,7 @@ class Core_model extends Model {
                     ";
 				
 				$q2 = $q;
-				// p($q);
+				 // p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 				//	
 				//	p($q);

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Http.php 3418 2010-12-05 23:28:36Z vipsoft $
+ * @version $Id: Http.php 3812 2011-01-26 15:53:24Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -296,6 +296,14 @@ class Piwik_Http
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 			);
 			@curl_setopt_array($ch, $curl_options);
+
+			/*
+			 * use local list of Certificate Authorities, if available
+			 */
+			if(file_exists(PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem'))
+			{
+				@curl_setopt($ch, CURLOPT_CAINFO, PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem');
+			}
 
 			/*
 			 * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if

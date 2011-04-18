@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Array.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Array.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -104,8 +104,9 @@ class Piwik_DataTable_Array
 	
 	/**
 	 * Apply a filter to all tables in the array
-	 * @param $className
-	 * @param $parameters
+	 *
+	 * @param string $className Name of filter class
+	 * @param array $parameters Filter parameters
 	 */
 	public function filter($className, $parameters = array())
 	{

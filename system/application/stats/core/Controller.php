@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3614 2011-01-04 15:44:37Z vipsoft $
+ * @version $Id: Controller.php 4459 2011-04-15 00:47:11Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -38,6 +38,10 @@ abstract class Piwik_Controller
 	 */
 	protected $date;
 	protected $idSite;
+	
+	/**
+	 * @var Piwik_Site
+	 */
 	protected $site = null;
 	
 	/**
@@ -63,11 +67,12 @@ abstract class Piwik_Controller
 			$this->date = null;
 		}
 	}
+	
 	/**
 	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
 	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
-	 * @param $date today, yesterday, YYYY-MM-DD
-	 * @param $defaultTimezone
+	 * @param string $date today, yesterday, YYYY-MM-DD
+	 * @param string $defaultTimezone
 	 * @return Piwik_Date
 	 */
 	protected function getDateParameterInTimezone($date, $defaultTimezone )
@@ -96,13 +101,14 @@ abstract class Piwik_Controller
 	/**
 	 * Sets the date to be used by all other methods in the controller.
 	 * If the date has to be modified, it should be called just after the controller construct
-	 * @param $date
+	 * @param Piwik_Date $date
 	 * @return void
 	 */
 	protected function setDate(Piwik_Date $date)
 	{
 		$this->date = $date;
-		$this->strDate = $this->date->toString();
+		$strDate = $this->date->toString();
+		$this->strDate = $strDate;
 	}
 	
 	/**
@@ -187,6 +193,18 @@ abstract class Piwik_Controller
 	 */
 	protected function getGraphParamsModified($paramsToSet = array())
 	{
+		if(!isset($paramsToSet['period']))
+		{
+			$period = Piwik_Common::getRequestVar('period');
+		}
+		else
+		{
+			$period = $paramsToSet['period'];
+		}
+		if($period == 'range')
+		{
+			return $paramsToSet;
+		}
 		if(!isset($paramsToSet['range']))
 		{
 			$range = 'last30';
@@ -205,14 +223,6 @@ abstract class Piwik_Controller
 			$endDate = $paramsToSet['date'];
 		}
 		
-		if(!isset($paramsToSet['period']))
-		{
-			$period = Piwik_Common::getRequestVar('period');
-		}
-		else
-		{
-			$period = $paramsToSet['period'];
-		}
 		if(is_null($this->site))
 		{
 			throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
@@ -231,7 +241,7 @@ abstract class Piwik_Controller
 	 * Returns a numeric value from the API.
 	 * Works only for API methods that originally returns numeric values (there is no cast here)
 	 *
-	 * @param string $methodToCall, eg. Referers.getNumberOfDistinctSearchEngines
+	 * @param string $methodToCall Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
 	 * @return int|float
 	 */
 	protected function getNumericValue( $methodToCall )
@@ -247,9 +257,9 @@ abstract class Piwik_Controller
 	 * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
 	 * It will also computes automatically the 'date' for the 'last30' days/weeks/etc. 
 	 *
-	 * @param string $action, eg. method name of the controller to call in the img src
-	 * @param array array of name => value of parameters to set in the generated GET url 
-	 * @return string the generated URL
+	 * @param string $action Method name of the controller to call in the img src
+	 * @param array Array of name => value of parameters to set in the generated GET url 
+	 * @return string The generated URL
 	 */
 	protected function getUrlSparkline( $action, $customParameters = array() )
 	{
@@ -273,8 +283,8 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets the first date available in the calendar
-	 * @param $minDate
-	 * @param $view
+	 * @param Piwik_Date $minDate
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setMinDateView(Piwik_Date $minDate, $view)
@@ -286,8 +296,8 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
-	 * @param $maxDate
-	 * @param $view
+	 * @param Piwik_Date $maxDate
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setMaxDateView(Piwik_Date $maxDate, $view)
@@ -300,7 +310,7 @@ abstract class Piwik_Controller
 	/**
 	 * Sets general variables to the view that are used by various templates and Javascript.
 	 * If any error happens, displays the login screen
-	 * @param $view
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setGeneralVariablesView($view)
@@ -308,15 +318,26 @@ abstract class Piwik_Controller
 		$view->date = $this->strDate;
 		
 		try {
+			$view->idSite = $this->idSite;
+			if(empty($this->site) || empty($this->idSite))
+			{
+				throw new Exception("The requested website idSite is not found in the request, or is invalid");
+			}
 			$this->setPeriodVariablesView($view);
 			
-			$date = Piwik_Date::factory($this->strDate); 
-			$view->prettyDate = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), $date)->getPrettyString();
-			$view->idSite = $this->idSite;
-			if(is_null($this->site))
+			$rawDate = Piwik_Common::getRequestVar('date');
+			$periodStr = Piwik_Common::getRequestVar('period');
+			if($periodStr != 'range')
 			{
-				throw new Exception("invalid website");
+				$date = Piwik_Date::factory($this->strDate);
+				$period = Piwik_Period::factory($periodStr, $date);
 			}
+			else
+			{
+				$period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
+			}
+			$view->rawDate = $rawDate;
+			$view->prettyDate = $period->getPrettyString();
 			$view->siteName = $this->site->getName();
 			$view->siteMainUrl = $this->site->getMainUrl();
 			
@@ -326,30 +347,37 @@ abstract class Piwik_Controller
 
 			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
 			$this->setMaxDateView($maxDate, $view);
+			
+			// Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected 
+			$dateStart = $period->getDateStart();
+			if($dateStart->isEarlier($minDate)) { $dateStart = $minDate; } 
+			$dateEnd = $period->getDateEnd();
+			if($dateEnd->isLater($maxDate)) { $dateEnd = $maxDate; }
+			
+			$view->startDate = $dateStart;
+			$view->endDate = $dateEnd;
+			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
-			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
+			Piwik_ExitWithMessage($e->getMessage());
 		}
 	}
 	
 	/**
-	 * Will only set the minimal variables in the view object
-	 * Used by Admin screens
+	 * Set the minimal variables in the view object
 	 * 
-	 * @param $view
+	 * @param Piwik_View $view
 	 */
-	public function setBasicVariablesView($view)
+	protected function setBasicVariablesView($view)
 	{
 		$view->topMenu = Piwik_GetTopMenu();
-		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 	}
 	
 	/**
 	 * Sets general period variables (available periods, current period, period labels) used by templates 
-	 * @param $view
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	public static function setPeriodVariablesView($view)
@@ -358,8 +386,10 @@ abstract class Piwik_Controller
 		{
 			return;
 		}
+		
 		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$availablePeriods = array('day', 'week', 'month', 'year');
+		$view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($currentPeriod);
+		$availablePeriods = array('day', 'week', 'month', 'year', 'range');
 		if(!in_array($currentPeriod,$availablePeriods))
 		{
 			throw new Exception("Period must be one of: ".implode(",",$availablePeriods));
@@ -369,6 +399,8 @@ abstract class Piwik_Controller
 			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
+			// Note: plural is not used for date range
+			'range' => array('singular' => Piwik_Translate('General_DateRangeInPeriodList'), 'plural' => Piwik_Translate('General_DateRangeInPeriodList') ),
 		);
 		
 		$found = array_search($currentPeriod,$availablePeriods);
@@ -385,12 +417,11 @@ abstract class Piwik_Controller
 	 * Helper method used to redirect the current http request to another module/action
 	 * If specified, will also redirect to a given website, period and /or date
 	 * 
-	 * @param $moduleToRedirect eg. "MultiSites"
-	 * @param $actionToRedirect eg. "index"
-	 * @param $websiteId eg. 1
-	 * @param $defaultPeriod eg. "day"
-	 * @param $defaultDate eg. "today"
-	 * @return issues a http header redirect and exits
+	 * @param string $moduleToRedirect Module, eg. "MultiSites"
+	 * @param string $actionToRedirect Action, eg. "index"
+	 * @param string $websiteId Website ID, eg. 1
+	 * @param string $defaultPeriod Default period, eg. "day"
+	 * @param string $defaultDate Default date, eg. "today"
 	 */
 	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
 	{
@@ -472,12 +503,19 @@ abstract class Piwik_Controller
 	 */
 	protected function getDefaultDate()
 	{
+		// NOTE: a change in this function might mean a change in plugins/UsersManager/templates/userSettings.js as well
 		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
 		if($userSettingsDate === false)
 		{
 			return Zend_Registry::get('config')->General->default_day;
 		}
 		if($userSettingsDate == 'yesterday')
+		{
+			return $userSettingsDate;
+		}
+		// if last7, last30, etc.
+		if(strpos($userSettingsDate, 'last') === 0
+			|| strpos($userSettingsDate, 'previous') === 0)
 		{
 			return $userSettingsDate;
 		}
@@ -499,12 +537,20 @@ abstract class Piwik_Controller
 		{
 			return 'day';
 		}
+		if(strpos($userSettingsDate, 'last') === 0
+			|| strpos($userSettingsDate, 'previous') === 0)
+		{
+			return 'range';
+		}
 		return $userSettingsDate;
 	}
 	
 	/**
-	 * Checks that the specified token matches the current logged in user token
-	 * Protection against CSRF
+	 * Checks that the specified token matches the current logged in user token.
+	 * Note: this protection against CSRF should be limited to controller
+	 * actions that are either invoked via AJAX or redirect to a page
+	 * within the site.  The token should never appear in the browser's
+	 * address bar.
 	 * 
 	 * @return throws exception if token doesn't match
 	 */
@@ -512,6 +558,32 @@ abstract class Piwik_Controller
 	{
 		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
 			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+		}
+	}
+}
+
+/**
+ * Parent class of all plugins Controllers with admin functions
+ * 
+ * @package Piwik
+ */
+abstract class Piwik_Controller_Admin extends Piwik_Controller
+{
+	/**
+	 * Used by Admin screens
+	 * 
+	 * @param Piwik_View $view
+	 */
+	protected function setBasicVariablesView($view)
+	{
+		parent::setBasicVariablesView($view);
+
+		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
+
+		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_settings;
+		if(!$view->enableFrames)
+		{
+			$view->setXFrameOptions('sameorigin');
 		}
 	}
 }

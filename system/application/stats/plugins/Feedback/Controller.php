@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4366 2011-04-07 22:07:03Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Feedback
@@ -54,6 +54,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			{
 				throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
 			}
+			Piwik_Nonce::discardNonce('Piwik_Feedback.sendFeedback');
 
 			$mail = new Piwik_Mail();
 			$mail->setFrom(Piwik_Common::unsanitizeInputValue($email));

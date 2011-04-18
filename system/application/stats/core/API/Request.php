@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Request.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Request.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -17,7 +17,7 @@
  * You can use this object from anywhere in piwik (inside plugins for example).
  * You can even call it outside of piwik  using the REST API over http
  * or in a php script on the same server as piwik, by including piwik/index.php
- * (see examples in the documentation http://dev.piwik.org/trac/wiki/API)
+ * (see examples in the documentation http://piwik.org/docs/analytics-api)
  * 
  * Example: 
  * $request = new Piwik_API_Request('
@@ -32,7 +32,7 @@
  *	$result = $request->process();
  *  echo $result;
  * 
- * @see http://dev.piwik.org/trac/wiki/API
+ * @see http://piwik.org/docs/analytics-api
  * @package Piwik
  * @subpackage Piwik_API
  */
@@ -40,15 +40,7 @@ class Piwik_API_Request
 {	
 	protected $request = null;
 	
-	/**
-	 * Constructs the request to the API, given the request url
-	 * 
-	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
-	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
-	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
-	 * 	the values directly from the HTTP GET query.
-	 */
-	function __construct($request = null)
+	static public function getRequestArrayFromString($request)
 	{
 		$defaultRequest = $_GET + $_POST;
 		$requestArray = $defaultRequest;
@@ -79,8 +71,20 @@ class Piwik_API_Request
 				$element = trim($element);
 			}
 		}
-		
-		$this->request = $requestArray;
+		return $requestArray;
+	}
+	
+	/**
+	 * Constructs the request to the API, given the request url
+	 * 
+	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
+	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
+	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
+	 * 	the values directly from the HTTP GET query.
+	 */
+	function __construct($request = null)
+	{
+		$this->request = self::getRequestArrayFromString($request);
 	}
 	
 	/**
@@ -128,7 +132,7 @@ class Piwik_API_Request
 	 * the current session will be authenticated using this token_auth.
 	 * It will overwrite the previous Auth object.
 	 * 
-	 * @param $request If null, uses the default request ($_GET)
+	 * @param array $request If null, uses the default request ($_GET)
 	 * @return void
 	 */
 	static public function reloadAuthUsingTokenAuth($request = null)

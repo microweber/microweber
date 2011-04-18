@@ -1,16 +1,19 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: PDFReports.php 3617 2011-01-04 18:38:37Z vipsoft $
+ * @version $Id: PDFReports.php 4457 2011-04-14 23:59:19Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
 
+/**
+ *
+ * @package Piwik_PDFReports
+ */
 class Piwik_PDFReports extends Piwik_Plugin
 {
 	public function getInformation()
@@ -29,9 +32,29 @@ class Piwik_PDFReports extends Piwik_Plugin
 				'TopMenu.add' => 'addTopMenu',
 				'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 				'AssetManager.getJsFiles' => 'getJsFiles',
+				'UsersManager.deleteUser' => 'deleteUserReport',
+				'SitesManager.deleteSite' => 'deleteSiteReport',
 		);
 	}
 
+	/**
+	 * Delete reports for the website
+	 *
+	 * @param Event_Notification $notification
+	 */
+	function deleteSiteReport( $notification )
+	{
+		$idSite = &$notification->getNotificationObject();
+
+		$idReports = Piwik_PDFReports_API::getInstance()->getReports($idSite);
+		
+		foreach($idReports as $report)
+		{
+			$idReport = $report['idreport'];
+			Piwik_PDFReports_API::getInstance()->deleteReport($idReport);
+		}
+	}
+	
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
@@ -42,11 +65,11 @@ class Piwik_PDFReports extends Piwik_Plugin
 	{
 		// Reports have to be sent when the period ends for all websites
 		$maxHourOffset = 0;
-		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+		$uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
 		$baseDate = Piwik_Date::factory("1971-01-01");
-		foreach($sites as &$site)
+		foreach($uniqueTimezones as &$timezone)
 		{
-			$offsetDate = Piwik_Date::factory($baseDate->toString(),  $site['timezone']);
+			$offsetDate = Piwik_Date::factory($baseDate->toString(), $timezone);
 
 			// Earlier means a negative timezone
 			if ( $offsetDate->isEarlier($baseDate) )
@@ -109,6 +132,12 @@ class Piwik_PDFReports extends Piwik_Plugin
     	Piwik_AddTopMenu( 'PDFReports_EmailReports', array('module' => 'PDFReports', 'action' => 'index'), true, 13);
     }
 	
+    function deleteUserReport($notification)
+	{
+		$userLogin = $notification->getNotificationObject();
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('pdf') . ' WHERE login = ?', $userLogin);
+    }
+    
     function install()
 	{
 		$queries[] = "

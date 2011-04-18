@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ColumnCallbackAddColumnQuotient.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: ColumnCallbackAddColumnQuotient.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -48,12 +48,11 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			$this->columnNameUsedAsDivisor = $divisorValueOrDivisorColumnName;
 		}
 		$this->quotientPrecision = $quotientPrecision;
-		$this->filter();
 	}
 	
-	protected function filter()
+	public function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$value = $row->getColumn($this->columnValueToRead);
 			if(!is_null($this->totalValueUsedAsDivisor))
@@ -66,6 +65,8 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			}
 			$formattedValue = $this->formatValue($value, $divisor); 
 			$row->addColumn($this->columnNameToAdd, $formattedValue);
+		
+			$this->filterSubTable($row);
 		}
 	}
 	

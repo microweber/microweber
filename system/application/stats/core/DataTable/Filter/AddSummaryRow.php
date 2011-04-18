@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AddSummaryRow.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: AddSummaryRow.php 4169 2011-03-23 01:59:57Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -37,27 +37,26 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		$this->startRowToSummarize = $startRowToSummarize;
 		$this->labelSummaryRow = $labelSummaryRow;
 		$this->columnToSortByBeforeTruncating = $columnToSortByBeforeTruncating;
-
-		if($table->getRowsCount() > $startRowToSummarize + 1)
-		{
-			$this->filter();
-		}
 	}
 
-	protected function filter()
+	public function filter($table)
 	{
-		$this->table->filter('Sort', 
+		if($table->getRowsCount() <= $this->startRowToSummarize + 1)
+		{
+			return;
+		}
+		$table->filter('Sort', 
 							array( $this->columnToSortByBeforeTruncating, 'desc'));
 		
-		$rows = $this->table->getRows();
-		$count = $this->table->getRowsCount();
+		$rows = $table->getRows();
+		$count = $table->getRowsCount();
 		$newRow = new Piwik_DataTable_Row();
 		for($i = $this->startRowToSummarize; $i < $count; $i++)
 		{
 			if(!isset($rows[$i]))
 			{
 				// case when the last row is a summary row, it is not indexed by $cout but by Piwik_DataTable::ID_SUMMARY_ROW
-				$summaryRow = $this->table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+				$summaryRow = $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
 				$newRow->sumRow($summaryRow);
 			}
 			else
@@ -67,8 +66,8 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		}
 		
 		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
-		$this->table->filter('Limit', array(0, $this->startRowToSummarize));
-		$this->table->addSummaryRow($newRow);
+		$table->filter('Limit', array(0, $this->startRowToSummarize));
+		$table->addSummaryRow($newRow);
 		unset($rows);
 	}
 }

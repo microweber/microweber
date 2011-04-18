@@ -4,14 +4,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
 
 /**
- *
  * @package Piwik_CoreAdminHome
  */
 class Piwik_CoreAdminHome_API 
@@ -34,5 +33,12 @@ class Piwik_CoreAdminHome_API
 	{
 		Piwik::checkUserIsSuperUser();
 		return Piwik_TaskScheduler::runTasks();
+	}
+	
+	public function getKnownSegmentsToArchive()
+	{
+		Piwik::checkUserIsSuperUser();
+		$segments = Zend_Registry::get('config')->Segments->toArray();
+		return isset($segments['Segments']) ? $segments['Segments'] : '';
 	}
 }

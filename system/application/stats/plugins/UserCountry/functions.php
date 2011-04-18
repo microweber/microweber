@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: functions.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: functions.php 4181 2011-03-25 20:02:40Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
@@ -36,11 +36,11 @@ function Piwik_getFlagFromCode($code)
  */
 function Piwik_ContinentTranslate($label)
 {
-	if($label == 'unk')
+	if($label == 'unk' || $label == '')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
-	return html_entity_decode(Piwik_Translate('UserCountry_continent_'. $label), ENT_COMPAT, 'UTF-8');
+	return Piwik_Translate('UserCountry_continent_'. $label);
 }
 
 /**
@@ -51,9 +51,9 @@ function Piwik_ContinentTranslate($label)
  */
 function Piwik_CountryTranslate($label)
 {
-	if($label == 'xx')
+	if($label == 'xx' || $label == '')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
-	return html_entity_decode(Piwik_Translate('UserCountry_country_'. $label), ENT_COMPAT, 'UTF-8');
+	return Piwik_Translate('UserCountry_country_'. $label);
 }

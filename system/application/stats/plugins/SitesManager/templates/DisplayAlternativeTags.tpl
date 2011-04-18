@@ -1,13 +1,13 @@
-<h3>Image Tracker tag</h3>
+<h3>Image Tracker code</h3>
 
-The Simple Image Tracker tag can be used when Javascript is disallowed. 
-<br/><div class='toggleHelp' id='imageTracker' style='display:none'><a name='image'>› Display Image Tracker tag </a></div>
+The Simple Image Tracker code can be used when Javascript is disallowed. 
+<br/><div class='toggleHelp' id='imageTracker' style='display:none'><a name='image'>› Display Image Tracker code </a></div>
 
 <div class='imageTracker'>
 <p>Some websites like MySpace or eBay will not allow users to add Javascript to their profile but accept HTML. In this case, you can still track visits with Piwik using the simple Image Tracker.
 <br/>
 <b>Note</b>: the code doesn't use Javascript so <b>Piwik will not be able to track some user information</b>
- such as search keywords, referer websites, screen resolutions, plugin support and page titles.
+ such as search keywords, referrer websites, screen resolutions, plugin support and page titles.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>
@@ -17,6 +17,8 @@ The Simple Image Tracker tag can be used when Javascript is disallowed.
 <br/>
 The following parameters can also be passed to the image URL:
 <ul> 
+	<li><i>rec</i> - (required) The parameter &rec=1 is required to force the request to be recorded</li>
+	<li><i>idsite</i> - (required) Defines the Website ID being tracked</li>
 	<li><i>action_name</i> - Defines the custom Page Title for this page view</li>
 	<li><i>idgoal</i> - The request will trigger the given Goal</li>
 	<li><i>revenue</i> - Used with idgoal, defines the custom revenue for this conversion</li>
@@ -50,8 +52,8 @@ PiwikTracker::$URL = '{$piwikUrl}';<br/>
 <ul>
 <li><b>Method 1: Advanced Image Tracker</b>
 <br/>
-<p>The client is used to generate the tracking URL that is wrapped inside a HTML &lt;img src=''&gt; tag. 
-<br/>Paste this code before the &lt;/body&gt; tag in your pages.
+<p>The client is used to generate the tracking URL that is wrapped inside a HTML &lt;img src=''&gt; code. 
+<br/>Paste this code before the &lt;/body&gt; code in your pages.
 <code>
 &lt;?php <br/>
 // Example 1: Tracks a pageview for Website id = {$idSite}<br/>
@@ -62,7 +64,7 @@ echo '&lt;img src="'. Piwik_getUrlTrackGoal( $idSite = {$idSite}, $idGoal = 2, $
  ?&gt;
 </code>
 <br/>
-The Advanced Image Tracker method is similar to using the standard Javascript Tracking Tag. However, some user settings are not detected (resolution, local time, plugins and cookie support).
+The Advanced Image Tracker method is similar to using the standard Javascript Tracking code. However, some user settings are not detected (resolution, local time, plugins and cookie support).
 </p>
  
  </li>

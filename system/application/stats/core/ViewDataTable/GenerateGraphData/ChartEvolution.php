@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ChartEvolution.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: ChartEvolution.php 4438 2011-04-13 23:24:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -27,6 +27,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			throw new Exception("Unexpected data type to render.");
 		}
 	}
+	
 	protected function getViewDataTableId()
 	{
 		return 'generateDataChartEvolution';
@@ -56,6 +57,24 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		return false;
 	}
 	
+	protected function loadDataTableFromAPI()
+	{
+		$period = Piwik_Common::getRequestVar('period');
+		// period will be overriden when 'range' is requested in the UI
+		// but the graph will display for each day of the range. 
+		// Default 'range' behavior is to return the 'sum' for the range
+		if($period == 'range')
+		{
+			$_GET['period'] = 'day';
+		}
+		// throws exception if no view access
+		parent::loadDataTableFromAPI();
+		if($period == 'range')
+		{
+			$_GET['period'] = $period;
+		}
+	}
+	
 	protected function initChartObjectData()
 	{
 		// if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
@@ -76,7 +95,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
 		{
 			//eg. "Aug 2009"
-			$xLabels[] = html_entity_decode($metadataDataTable['period']->getLocalizedShortString(), ENT_COMPAT, 'UTF-8');
+			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
 			// we keep track of all unique data table that we need to set a Y value for
 			$uniqueIdsDataTable[] = $idDataTable;
 		}
@@ -141,6 +160,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view->setAxisYLabels($yAxisLabels);
 		$this->view->setAxisYUnit($unit);
 		
+		$countGraphElements = $this->dataTable->getRowsCount();
 		$firstDatatable = reset($this->dataTable->metadata);
 		$period = $firstDatatable['period'];
 		switch($period->getLabel()) {
@@ -150,6 +170,12 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			case 'year': $steps = 2; break;
 			default: $steps = 10; break;
 		}
+		// For Custom Date Range, when the number of elements plotted can be small, make sure the X legend is useful
+		if($countGraphElements <= 20 ) 
+		{
+			$steps = 2;
+		}
+		
 		$this->view->setXSteps($steps);
 		
 		if($this->isLinkEnabled())
@@ -170,8 +196,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				{
 					$hash = '#' . Piwik_Url::getQueryStringFromParameters( $queryStringAsHash + $parameters);
 				}
-				$link = Piwik_Url::getCurrentUrlWithoutQueryString() . 
-						'?' .
+				$link = 'index.php?' .
 						Piwik_Url::getQueryStringFromParameters( array(
 							'module' => 'CoreHome',
 							'action' => 'index',
@@ -218,7 +243,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		static $linkEnabled;
 		if(!isset($linkEnabled)) 
 		{
-			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int');
+			// 1) Custom Date Range always have link disabled, otherwise 
+			// the graph data set is way to big and fails to display
+			// 2) disableLink parameter is set in the Widgetize "embed" code
+			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int')
+							&& Piwik_Common::getRequestVar('period', 'day') != 'range';
 		}
 		return $linkEnabled;
 	}

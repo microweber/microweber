@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-02-09 23:50:06
+<?php /* Smarty version 2.6.26, created on 2011-04-18 13:09:24
          compiled from Live/templates/totalVisits.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'Live/templates/totalVisits.tpl', 6, false),)), $this); ?>

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Chart.php 3279 2010-11-01 19:44:23Z vipsoft $
+ * @version $Id: Chart.php 4252 2011-03-30 22:00:14Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -160,7 +160,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 			}
 		}
 		$this->x_labels->set_labels($xLabelsStepped);
-		$this->x_labels->set_steps(2);
+		$this->x_labels->set_steps(1);
 		$this->x->set_labels($this->x_labels);
 		
 		// Y Axis

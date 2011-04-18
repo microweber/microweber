@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ExampleUI.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: ExampleUI.php 3865 2011-02-11 20:17:47Z JulienM $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
@@ -17,7 +17,7 @@
 - test datatable with low population disabled
 - without footer
 - without all columns icon
-+ update http://dev.piwik.org/trac/wiki/HowToTestUI
++ update http://piwik.org/participate/user-interface
 */
 
 /**

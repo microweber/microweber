@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 # Description
 # This cron script will automatically run Piwik archiving every hour.
@@ -28,7 +28,6 @@
 # [General]
 # time_before_archive_considered_outdated = 3600
 # enable_browser_archiving_triggering = false
-#
 #===========================================================================
 
 for TEST_PHP_BIN in php5 php php-cli php-cgi; do
@@ -38,7 +37,7 @@ for TEST_PHP_BIN in php5 php php-cli php-cgi; do
   fi
 done
 if test -z $PHP_BIN; then
-  echo "php binary not found. Make sure php5 or php exists in PATH."
+  echo "php binary not found. Make sure php5 or php exists in PATH." >&2
   exit 1
 fi
 
@@ -62,6 +61,10 @@ TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
 CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`
+
+CMD_GET_SEGMENTS_TO_ARCHIVE="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.getKnownSegmentsToArchive&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
+SEGMENTS_TO_ARCHIVE=`$CMD_GET_SEGMENTS_TO_ARCHIVE`
+
 echo "Starting Piwik reports archiving..."
 echo ""
 for idsite in $ID_SITES; do
@@ -72,6 +75,15 @@ for idsite in $ID_SITES; do
       echo "Archiving period = $period for idsite = $idsite..."
       CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH"
       $CMD
+      
+      for segment in $SEGMENTS_TO_ARCHIVE; do
+	    if test $segment != "value"; then
+      	  echo ""
+      	  echo " - Archiving for visitor segment $segment ..." 
+      	  CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
+      	  $CMD_ARCHIVE_SEGMENT
+      	fi
+      done
     done
 
     echo ""
@@ -80,10 +92,11 @@ for idsite in $ID_SITES; do
 done
 
 echo "Reports archiving finished."
-
+echo "---------------------------"
 echo "Starting Scheduled tasks..."
 echo ""
 CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
 $CMD
+echo ""
 echo "Finished Scheduled tasks."
 echo ""

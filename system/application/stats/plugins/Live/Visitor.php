@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Visitor.php 3318 2010-11-16 00:36:05Z matt $
+ * @version $Id: Visitor.php 4467 2011-04-15 05:10:22Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -38,53 +38,90 @@ class Piwik_Live_Visitor
 	function getAllVisitorDetails()
 	{
 		return array(
-			'ip' => $this->getIp(),
+			'idSite' => $this->getIdSite(),
 			'idVisit' => $this->getIdVisit(),
-			'countActions' => $this->getNumberOfActions(),
-			'isVisitorReturning' => $this->isVisitorReturning(),
+			'visitIp' => $this->getIp(),
+			'visitorId' => $this->getVisitorId(),
+			'visitorType' => $this->isVisitorReturning() ? 'returning' : 'new',
+			'visitConverted' => $this->isVisitorGoalConverted(),
+		
+			'actions' => $this->getNumberOfActions(),
+			// => false are placeholders to be filled in API later
+			'actionDetails' => false,
+			'customVariables' => $this->getCustomVariables(),
+			'goalConversions' => false,
+			'siteCurrency' => false,
+
+			// all time entries
+			'serverDate' => $this->getServerDate(),
+			'visitLocalTime' => $this->getVisitLocalTime(),
+			'firstActionTimestamp' => $this->getTimestampFirstAction(),
+			'lastActionTimestamp' => $this->getTimestampLastAction(),
+			'lastActionDateTime' => $this->getDateTimeLastAction(),
+		
+			// standard attributes
+			'visitDuration' => $this->getVisitLength(),
+			'visitDurationPretty' => $this->getVisitLengthPretty(),
+			'visitCount' => $this->getVisitCount(),
+			'daysSinceLastVisit' => $this->getDaysSinceLastVisit(),
+			'daysSinceFirstVisit' => $this->getDaysSinceFirstVisit(),
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
 			'continent' => $this->getContinent(),
 			'provider' => $this->getProvider(),
 			'providerUrl' => $this->getProviderUrl(),
-			'idSite' => $this->getIdSite(),
-			'serverDate' => $this->getServerDate(),
-			'visitLength' => $this->getVisitLength(),
-			'visitLengthPretty' => $this->getVisitLengthPretty(),
-			'firstActionTimestamp' => $this->getTimestampFirstAction(),
-			'lastActionTimestamp' => $this->getTimestampLastAction(),
-
-			'refererType' => $this->getRefererType(),
-			'refererName' => $this->getRefererTypeName(),
-			'keywords' => $this->getKeywords(),
-			'refererUrl' => $this->getRefererUrl(),
-			'refererName' => $this->getRefererName(),
-			'searchEngineUrl' => $this->getSearchEngineUrl(),
-			'searchEngineIcon' => $this->getSearchEngineIcon(),
-
+			'referrerType' => $this->getRefererType(),
+			'referrerTypeName' => $this->getRefererTypeName(),
+			'referrerName' => $this->getRefererName(),
+			'referrerKeyword' => $this->getKeyword(),
+			'referrerKeywordPosition' => $this->getKeywordPosition(),
+			'referrerUrl' => $this->getRefererUrl(),
+			'referrerSearchEngineUrl' => $this->getSearchEngineUrl(),
+			'referrerSearchEngineIcon' => $this->getSearchEngineIcon(),
 			'operatingSystem' => $this->getOperatingSystem(),
 			'operatingSystemShortName' => $this->getOperatingSystemShortName(),
 			'operatingSystemIcon' => $this->getOperatingSystemIcon(),
 			'browserFamily' => $this->getBrowserFamily(),
 			'browserFamilyDescription' => $this->getBrowserFamilyDescription(),
-	 		'browser' => $this->getBrowser(),
+	 		'browserName' => $this->getBrowser(),
 			'browserIcon' => $this->getBrowserIcon(),
-			'screen' => $this->getScreenType(),
+			'screenType' => $this->getScreenType(),
 			'resolution' => $this->getResolution(),
-			'screenIcon' => $this->getScreenTypeIcon(),
+			'screenTypeIcon' => $this->getScreenTypeIcon(),
 			'plugins' => $this->getPlugins(),
-			'pluginIcons' => $this->getPluginIcons(),
-			'lastActionDateTime' => $this->getDateTimeLastAction(),
-			'isVisitorGoalConverted' => $this->isVisitorGoalConverted(),
-			'goalIcon' => $this->getGoalIcon(),
-   			'goalType' => $this->getGoalType(),
-			'goalName' => $this->getGoalName(),
-   			'goalRevenue' => $this->getGoalRevenue(),
-			'goalUrl' => $this->getGoalUrl(),
-   			'goalTimePretty' => $this->getGoalTimePretty()
+			'pluginsIcons' => $this->getPluginIcons(),
 		);
 	}
 
+	function getVisitorId()
+	{
+		if(isset($this->details['idvisitor']))
+		{
+			return bin2hex($this->details['idvisitor']);
+		}
+		return false;
+	}
+	
+	function getVisitLocalTime()
+	{
+		return $this->details['visitor_localtime'];
+	}
+	
+	function getVisitCount()
+	{
+		return $this->details['visitor_count_visits'];
+	}
+	
+	function getDaysSinceLastVisit()
+	{
+		return $this->details['visitor_days_since_last'];
+	}
+	
+	function getDaysSinceFirstVisit()
+	{
+		return $this->details['visitor_days_since_first'];
+	}
+	
 	function getServerDate()
 	{
 		return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
@@ -94,7 +131,7 @@ class Piwik_Live_Visitor
 	{
 		if(isset($this->details['location_ip']))
 		{
-			return long2ip($this->details['location_ip']);
+			return Piwik_Common::long2ip($this->details['location_ip']);
 		}
 		return false;
 	}
@@ -154,19 +191,26 @@ class Piwik_Live_Visitor
 		return Piwik_ContinentTranslate($this->details['location_continent']);
 	}
 
+	function getCustomVariables()
+	{
+		$customVariables = array();
+		for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+		{
+			if(!empty($this->details['custom_var_k'.$i])
+				&& !empty($this->details['custom_var_v'.$i]))
+			{
+				$customVariables[$i] = array(
+					'customVariableName'.$i => $this->details['custom_var_k'.$i],
+					'customVariableValue'.$i => $this->details['custom_var_v'.$i],
+				);
+			}
+		}
+		return $customVariables;
+	}
+	
 	function getRefererType()
 	{
-		$map = array(
-		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'searchEngine',
-		Piwik_Common::REFERER_TYPE_WEBSITE => 'website',
-		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'directEntry',
-		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'campaign',
-		);
-		if(isset($map[$this->details['referer_type']]))
-		{
-			return $map[$this->details['referer_type']];
-		}
-		return $map[Piwik_Common::REFERER_TYPE_DIRECT_ENTRY];
+	    return Piwik_getRefererTypeFromShortName($this->details['referer_type']);
 	}
 
 	function getRefererTypeName()
@@ -174,25 +218,45 @@ class Piwik_Live_Visitor
 		return Piwik_getRefererTypeLabel($this->details['referer_type']);
 	}
 
-	function getKeywords()
+	function getKeyword()
 	{
-		return $this->details['referer_keyword'];
+		return urldecode($this->details['referer_keyword']);
 	}
 
 	function getRefererUrl()
 	{
 		return $this->details['referer_url'];
 	}
+	
+	function getKeywordPosition()
+	{
+		if($this->getRefererType() == 'search'
+			&& strpos($this->getRefererName(), 'Google') !== false)
+		{
+			$url = $this->getRefererUrl();
+			$url = @parse_url($url);
+			if(empty($url['query']))
+			{
+				return null;
+			}
+			$position = Piwik_Common::getParameterFromQueryString($url['query'], 'cd');
+			if(!empty($position))
+			{
+				return $position;
+			}
+		}
+		return null;
+	}
 
 	function getRefererName()
 	{
-		return $this->details['referer_name'];
+		return urldecode($this->details['referer_name']);
 	}
 
 	function getSearchEngineUrl()
 	{
-		if($this->getRefererType() == 'searchEngine'
-		&& !empty($this->details['referer_name']))
+		if($this->getRefererType() == 'search'
+		    && !empty($this->details['referer_name']))
 		{
 			return Piwik_getSearchEngineUrlFromName($this->details['referer_name']);
 		}
@@ -318,67 +382,5 @@ class Piwik_Live_Visitor
 	function isVisitorGoalConverted()
 	{
 		return $this->details['visit_goal_converted'];
-	}
-
-	function getGoalType()
-	{
-		if(isset($this->details['goal_match_attribute'])){
-			return ucfirst($this->details['goal_match_attribute']);
-		}
-		return false;
-	}
-
-	function getGoalIcon()
-	{
-		if(isset($this->details['goal_match_attribute'])){
-			$goalicon = '';
-			switch ($this->details['goal_match_attribute']) {
-				case "file":
-					$goalicon = 'plugins/Live/templates/images/download.png';
-					break;
-				case 'external_website':
-					$goalicon = 'plugins/Live/templates/images/outboundlink.png';
-					break;
-				case 'url':
-				case 'manually':
-				default:
-					$goalicon = 'themes/default/images/goal.png';
-					break;
-			}
-			return $goalicon;
-		}
-		return false;
-	}
-	
-	function getGoalName()
-	{
-		if(isset($this->details['goal_name'])){
-			return $this->details['goal_name'];
-		}
-		return false;
-	}
-	
-	function getGoalRevenue()
-	{
-		if(isset($this->details['goal_revenue'])){
-			return $this->details['goal_revenue'];
-		}
-		return false;
-	}
-
-	function getGoalUrl()
-	{
-		if(isset($this->details['goal_idaction_url'])){
-			return $this->details['goal_idaction_url'];
-		}
-		return false;
-	}
-
-	function getGoalTimePretty()
-	{
-		if(isset($this->details['goal_server_time'])){
-			return $this->details['goal_server_time'];
-		}
-		return false;
 	}
 }

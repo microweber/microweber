@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.26, created on 2011-02-09 23:49:52
+<?php /* Smarty version 2.6.26, created on 2011-04-18 13:09:14
          compiled from CoreHome/templates/menu.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'urlRewriteWithParameters', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'urlRewriteBasicView', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'translate', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'htmlspecialchars_decode', 'CoreHome/templates/menu.tpl', 8, false),array('modifier', 'escape', 'CoreHome/templates/menu.tpl', 8, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'urlRewriteWithParameters', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'urlRewriteBasicView', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'translate', 'CoreHome/templates/menu.tpl', 4, false),array('modifier', 'escape', 'CoreHome/templates/menu.tpl', 8, false),)), $this); ?>
 <ul class="nav">
 <?php $_from = $this->_tpl_vars['menu']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['menu'] = array('total' => count($_from), 'iteration' => 0);
 if ($this->_foreach['menu']['total'] > 0):
@@ -22,7 +22,7 @@ if ($this->_foreach['level2']['total'] > 0):
 		<?php if (strpos ( $this->_tpl_vars['name'] , '_' ) !== 0): ?>
 		<li><a name='<?php echo smarty_modifier_urlRewriteWithParameters($this->_tpl_vars['urlParameters']['_url']); ?>
 ' href='index.php<?php echo smarty_modifier_urlRewriteBasicView($this->_tpl_vars['urlParameters']['_url']); ?>
-'><?php echo ((is_array($_tmp=((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['name'])) ? $this->_run_mod_handler('translate', true, $_tmp) : smarty_modifier_translate($_tmp)))) ? $this->_run_mod_handler('htmlspecialchars_decode', true, $_tmp) : htmlspecialchars_decode($_tmp)))) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
+'><?php echo ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['name'])) ? $this->_run_mod_handler('translate', true, $_tmp) : smarty_modifier_translate($_tmp)))) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
 </a></li>
 		<?php endif; ?>
  	<?php endforeach; endif; unset($_from); ?>

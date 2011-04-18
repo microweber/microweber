@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3516 2010-12-22 20:29:56Z vipsoft $
+ * @version $Id: Controller.php 4488 2011-04-17 00:18:14Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
@@ -21,11 +21,16 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	protected $evolutionBy = 'visits';
 	protected $mySites = array();
 	protected $page = 1;
-	protected $limit = 20;
+	protected $limit = 0;
 	protected $period;
 	protected $date;
-	protected $dateToStr;
 
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->limit = Zend_Registry::get('config')->General->all_websites_website_per_page;
+	}
 
 	function index()
 	{
@@ -36,78 +41,96 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	public function getSitesInfo()
 	{
 		Piwik::checkUserHasSomeViewAccess();
+		
+		
 		// overwrites the default Date set in the parent controller 
 		// Instead of the default current website's local date, 
 		// we set "today" or "yesterday" based on the default Piwik timezone
 		$piwikDefaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
-		$date = Piwik_Common::getRequestVar('date', 'today');
-		$date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
-		$this->setDate($date);
+		$dateRequest = Piwik_Common::getRequestVar('date', 'today');
+		$period = Piwik_Common::getRequestVar('period', 'day');	
+		$date = $dateRequest;
+		if($period != 'range')
+		{
+			$date = $this->getDateParameterInTimezone($dateRequest, $piwikDefaultTimezone);
+			$date = $date->toString();
+		}
 		
 		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
-		$params = $this->getGraphParamsModified();
-		$this->dateToStr = $params['date'];
-
+		
 		$ids = 'all';
-		$this->period = Piwik_Common::getRequestVar('period', 'day');		
 
-		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->strDate)));
-
-		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->strDate);
-		$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $lastDate);
-
-		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $this->strDate);
-		$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $lastDate);
-
-		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $this->strDate);
-		$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $lastDate);
-
-		$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
-		$actionsSummary = $this->getSummary($lastActions, $actions, $mySites, "actions");
-		$uniqueSummary = $this->getSummary($lastUniqueUsers, $uniqueUsers, $mySites, "unique");
+		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $date);
+		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $date);
+		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $period, $date);
+		
+		if($period != 'range')
+		{
+			$lastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1 );
+			
+			$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $lastDate);
+			$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $lastDate);
+			$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $period, $lastDate);
+			$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
+			$actionsSummary = $this->getSummary($lastActions, $actions, $mySites, "actions");
+			$uniqueSummary = $this->getSummary($lastUniqueUsers, $uniqueUsers, $mySites, "unique");
+			$lastVisitsArray = $lastVisits->getArray();
+			$lastActionsArray = $lastActions->getArray();
+			$lastUniqueUsersArray = $lastUniqueUsers->getArray();
+		}
 
 		$visitsArray = $visits->getArray();
 		$actionsArray = $actions->getArray();
 		$uniqueUsersArray = $uniqueUsers->getArray();
-		$lastVisitsArray = $lastVisits->getArray();
-		$lastActionsArray = $lastActions->getArray();
-		$lastUniqueUsersArray = $lastUniqueUsers->getArray();
+		
+		$totalVisits = $totalActions = 0;
 		foreach($mySites as &$site)
 		{
 			$idSite = $site['idsite'];
 			$tmp = $visitsArray[$idSite]->getColumn(0);
 			$site['visits'] = $tmp[0];
+			$totalVisits += $tmp[0];
 			$tmp = $actionsArray[$idSite]->getColumn(0);
 			$site['actions'] = $tmp[0];
+			$totalActions += $tmp[0];
 			$tmp = $uniqueUsersArray[$idSite]->getColumn(0);
 			$site['unique'] = $tmp[0];
-			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
-			$site['lastVisits'] = $tmp[0];
-			$tmp = $lastActionsArray[$idSite]->getColumn(0);
-			$site['lastActions'] = $tmp[0];
-			$tmp = $lastUniqueUsersArray[$idSite]->getColumn(0);
-			$site['lastUnique'] = $tmp[0];
-			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
-			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
-			$site['uniqueSummaryValue'] = $uniqueSummary[$idSite];
-		
+			
+			
+			if($period != 'range')
+			{
+				$tmp = $lastVisitsArray[$idSite]->getColumn(0);
+				$site['lastVisits'] = $tmp[0];
+				$tmp = $lastActionsArray[$idSite]->getColumn(0);
+				$site['lastActions'] = $tmp[0];
+				$tmp = $lastUniqueUsersArray[$idSite]->getColumn(0);
+				$site['lastUnique'] = $tmp[0];
+			}
+			$site['visitsSummaryValue'] = isset($visitsSummary[$idSite]) ? $visitsSummary[$idSite] : 0;
+			$site['actionsSummaryValue'] = isset($actionsSummary[$idSite]) ? $actionsSummary[$idSite] : 0;
+			$site['uniqueSummaryValue'] = isset($uniqueSummary[$idSite]) ? $uniqueSummary[$idSite] : 0;
+			
 		}
 		
 		$view = new Piwik_View("MultiSites/templates/index.tpl");
 		$view->mySites = $mySites;
 		$view->evolutionBy = $this->evolutionBy;
-		$view->period = $this->period;
-		$view->date = $this->strDate;
+		$view->period = $period;
+		$view->dateRequest = $dateRequest;
 		$view->page = $this->page;
 		$view->limit = $this->limit;
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
-		$view->dateToStr = $this->dateToStr;
+		$view->totalVisits = $totalVisits;
+		$view->totalActions = $totalActions;
 	
+		$params = $this->getGraphParamsModified();
+		$view->dateSparkline = $period == 'range' ? $dateRequest : $params['date'];
+		
 		$view->autoRefreshTodayReport = false;
 		// if the current date is today, or yesterday, 
 		// in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
-		if(in_array($this->strDate, array(	'today', date('Y-m-d'), 
+		if(in_array($date, array(	'today', date('Y-m-d'), 
 											'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'),
 											Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d'))))
 		{
@@ -123,8 +146,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	/**
 	 * The Multisites reports displays the first calendar date as the earliest day available for all websites.
 	 * Also, today is the later "today" available across all timezones.
-	 * @param $mySites
-	 * @param $view
+	 * @param array $mySites
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	private function setMinMaxDateAcrossWebsites($mySites, $view)
@@ -166,12 +189,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$current = $tmp[0];
 			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
 			$last = $tmp[0];
-			$summaryArray[$idSite] = $this->fillSummary($current, $last, $this->evolutionBy);
+			$summaryArray[$idSite] = $this->fillSummary($current, $last);
 		}
 		return $summaryArray;
 	}
 
-	private function fillSummary($current, $last, $type)
+	private function fillSummary($current, $last)
 	{
 		if($current == 0 && $last == 0)
 		{

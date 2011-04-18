@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_SEO
@@ -16,6 +16,9 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
+ * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Yahoo back links, Yahoo Indexed pages,
+ * Alexa Rank, and the age of the Domain name.
+ * 
  * @package Piwik_SEO
  */
 class Piwik_SEO_API 
@@ -34,7 +37,9 @@ class Piwik_SEO_API
 	}
 	
 	/**
-	 * @param $url URL to request Ranks for
+	 * Get rank
+	 *
+	 * @param string $url URL to request Ranks for
 	 * @return Piwik_DataTable
 	 */
 	public function getRank( $url )

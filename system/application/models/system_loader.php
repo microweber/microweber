@@ -48,6 +48,19 @@ $cms_db_tables ['table_cart_orders_shipping_cost'] = TABLE_PREFIX . 'cart_orders
 $cms_db_tables ['table_cart_currency'] = TABLE_PREFIX . 'cart_currency';
 $cms_db_tables ['table_reports'] = TABLE_PREFIX . 'reports';
 
+
+
+//stats 
+$cms_db_tables ['table_stats_site'] = 'piwik_site';
+$cms_db_tables ['table_stats_access'] = 'piwik_access';
+
+
+
+
+
+
+
+
 //use this array to exlude certain table interactions from the users log table
 $users_log_exclude = array (); //not used if $users_log_include is not empty
 $users_log_exclude [] = 'table_users_notifications';
@@ -71,6 +84,15 @@ $users_log_include [] = 'table_users_statuses';
 $users_log_include [] = 'table_content';
 $users_log_include [] = 'table_votes';
 $users_log_include [] = 'table_followers';
+
+
+
+
+
+
+
+
+
 
 $_GLOBALS ['cms_db_tables'] = $cms_db_tables;
 
@@ -181,7 +203,7 @@ if (! function_exists ( 'array_extend' )) {
 	}
 }
 
-function array_push_array(&$arr) {
+function array_push_array($arr) {
 	$args = func_get_args ();
 	array_shift ( $args );
 	
@@ -193,7 +215,7 @@ function array_push_array(&$arr) {
 	foreach ( $args as $v ) {
 		if (is_array ( $v )) {
 			if (count ( $v ) > 0) {
-				array_unshift ( $v, &$arr );
+				array_unshift ( $v, $arr );
 				call_user_func_array ( 'array_push', $v );
 			}
 		} else {
@@ -214,8 +236,9 @@ function array_values_deep($array) {
 	}
 	return $temp;
 }
-function array_rpush(&$arr, $item) {
+function array_rpush($arr, $item) {
 	$arr = array_pad ( $arr, - (count ( $arr ) + 1), $item );
+	return $arr;
 }
 /**********************************************
  *

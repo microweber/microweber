@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Top.php 3270 2010-10-28 18:21:55Z vipsoft $
+ * @version $Id: Top.php 4335 2011-04-06 01:43:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik_Menu
@@ -36,9 +36,12 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
 	 * @param boolean $displayedForCurrentUser
 	 * @param int $order
 	 */
-	public function addHtml($menuName, $data, $displayedForCurrentUser, $order) {
-		if($displayedForCurrentUser) {
-			if(!isset($this->menu[$menuName])) {
+	public function addHtml($menuName, $data, $displayedForCurrentUser, $order)
+	{
+		if($displayedForCurrentUser)
+		{
+			if(!isset($this->menu[$menuName]))
+			{
 				$this->menu[$menuName]['_html'] = $data;
 				$this->menu[$menuName]['_order'] = $order;
 				$this->menu[$menuName]['_hasSubmenu'] = false;
@@ -53,7 +56,8 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
 	 */
 	public function get()
 	{
-		if(!$this->menu) {
+		if(!$this->menu)
+		{
 			Piwik_PostEvent('TopMenu.add');
 		}
 		return parent::get();

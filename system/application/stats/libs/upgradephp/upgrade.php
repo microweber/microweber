@@ -557,11 +557,17 @@ if(function_exists('parse_ini_file')) {
 			}
 		}
 
-		for($j = 0; $j < $i; $j++) {
-			if ($process_sections === true) {
-				$result[$sections[$j]] = $values[$j];
+		for ($j = 0; $j < $i; $j++) {
+			if (isset($values[$j])) {
+				if ($process_sections === true) {
+					$result[$sections[$j]] = $values[$j];
+				} else {
+					$result[] = $values[$j];
+				}
 			} else {
-				$result[] = $values[$j];
+				if ($process_sections === true) {
+					$result[$sections[$j]] = array();
+				}
 			}
 		}
 
@@ -635,6 +641,27 @@ if(function_exists('glob')) {
 } else {
 	function _glob($pattern, $flags = 0) {
 		return false;
+	}
+}
+
+/**
+ * Reads entire file into a string.
+ * This function is not 100% compatible with the native function.
+ *
+ * @see http://php.net/file_get_contents
+ * @since PHP 4.3.0
+ *
+ * @param string $filename Name of the file to read.
+ * @return string The read data or false on failure.
+ */
+if (!function_exists('file_get_contents'))
+{
+	function file_get_contents($filename)
+	{
+		$fhandle = fopen($filename, "r");
+		$fcontents = fread($fhandle, filesize($filename));
+		fclose($fhandle);
+		return $fcontents;
 	}
 }
 
@@ -937,4 +964,75 @@ function safe_unserialize( $str )
 		mb_internal_encoding($mbIntEnc);
 	}
 	return $out;
+}
+
+/**
+ * readfile() replacement.
+ * Behaves similar to readfile($filename);
+ *
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
+ * @param string $filename
+ * @param bool $useIncludePath
+ * @param resource $context
+ * @return int the number of bytes read from the file, or false if an error occurs
+ */
+function _readfile($filename, $useIncludePath = false, $context = null)
+{
+	$count = @filesize($filename);
+
+	// built-in function has a 2 MB limit when using mmap
+	if (function_exists('readfile') && $count <= (2 * 1024 * 1024)) {
+		return @readfile($filename, $useIncludePath, $context);
+	}
+
+	// when in doubt (or when readfile() function is disabled)
+	$handle = @fopen($filename, Piwik_Common::isWindows() ? "rb" : "r");
+	if ($handle) {
+		while(!feof($handle)) {
+			echo fread($handle, 8192);
+			ob_flush();
+			flush();
+		}
+
+		fclose($handle);
+		return $count;
+	}
+	return false;
+}
+
+/**
+ * utf8_encode replacement
+ *
+ * @param string $data
+ * @return string
+ */
+if (!function_exists('utf8_encode')) {
+	function utf8_encode($data) {
+		if (function_exists('iconv')) {
+			return @iconv('ISO-8859-1', 'UTF-8', $data);
+		}
+		return $data;
+	}
+}
+
+/**
+ * utf8_decode replacement
+ *
+ * @param string $data
+ * @return string
+ */
+if (!function_exists('utf8_decode')) {
+	function utf8_decode($data) {
+		if (function_exists('iconv')) {
+			return @iconv('UTF-8', 'ISO-8859-1', $data);
+		}
+		return $data;
+	}
+}
+
+if(!function_exists('mb_strtolower')) {
+	function mb_strtolower($input, $charset) {
+		return strtolower($input);
+	}
 }

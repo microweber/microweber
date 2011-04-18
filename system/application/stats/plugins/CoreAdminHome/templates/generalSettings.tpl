@@ -9,7 +9,7 @@
 {ajaxErrorDiv id=ajaxError}
 {ajaxLoadingDiv id=ajaxLoading}
 
-<table class="adminTable adminTableNoBorder" style='width:900px;'>
+<table class="adminTable" style='width:900px;'>
 <tr>
 	<td style='width:400px'>{'General_AllowPiwikArchivingToTriggerBrowser'|translate}</td>
 	<td style='width:220px'>
@@ -33,7 +33,7 @@
 	</td>
 </tr>
 <tr>
-	<td><label for="todayArchiveTimeToLive">{'General_ReportsForTodayWillBeProcessedAtMostEvery'|translate}</label></td>
+	<td><label for="todayArchiveTimeToLive">{'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate}</label></td>
 	<td>
 		{'General_NSeconds'|translate:"<input size='3' value='$todayArchiveTimeToLive' id='todayArchiveTimeToLive' />"} 
 	</td>
@@ -56,7 +56,7 @@
 
 <h2>{'CoreAdminHome_EmailServerSettings'|translate}</h2>
 <div id='emailSettings'>
-<table class="adminTable adminTableNoBorder" style='width:600px;'>
+<table class="adminTable" style='width:600px;'>
 	<tr>
 		<td>{'General_UseSMTPServerForEmail'|translate}</label><br>
 			<span class="form-description">{'General_SelectYesIfYouWantToSendEmailsViaServer'|translate}</span>
@@ -70,7 +70,7 @@
 </div>
 
 <div id='smtpSettings'>
-	<table class="adminTable adminTableNoBorder" style='width:550px;'>	
+	<table class="adminTable" style='width:550px;'>	
 		<tr>
 			<td><label for="mailHost">{'General_SmtpServerAddress'|translate}</label></td>
 			<td style='width:200px'><input type="text" id="mailHost" value="{$mail.host}"></td>
@@ -130,7 +130,7 @@
 <h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
 
 <p>{'CoreAdminHome_OptOutExplanation'|translate}
-{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut{/capture}
+{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut&language={$language}{/capture}
 {assign var=optOutUrl value=$smarty.capture.optOutUrl}
 {capture name=iframeOptOut}<iframe frameborder="no" width="600px" height="200px" src="{$smarty.capture.optOutUrl}"></iframe>{/capture}
 <code>{$smarty.capture.iframeOptOut|escape:'html'}</code>

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Sort.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Sort.php 4169 2011-03-23 01:59:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,10 +25,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false )
 	{
 		parent::__construct($table);
-		if(empty($columnToSort))
-		{
-			return;
-		}
 		if($recursiveSort)
 		{
 			$table->enableRecursiveSort();
@@ -36,7 +32,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
-		$this->filter();
 	}
 	
 	function setOrder($order)
@@ -149,13 +144,17 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		return $this->columnToSort;
 	}
 	
-	protected function filter()
+	public function filter($table)
 	{
-		if($this->table instanceof Piwik_DataTable_Simple)
+		if($table instanceof Piwik_DataTable_Simple)
 		{
 			return;
 		}
-		$rows = $this->table->getRows();
+		if(empty($this->columnToSort))
+		{
+			return;
+		}
+		$rows = $table->getRows();
 		if(count($rows) == 0)
 		{
 			return;
@@ -183,6 +182,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 				$methodToUse = "sortString";
 			}
 		}
-		$this->table->sort( array($this,$methodToUse), $this->columnToSort );
+		$table->sort( array($this,$methodToUse), $this->columnToSort );
 	}
 }

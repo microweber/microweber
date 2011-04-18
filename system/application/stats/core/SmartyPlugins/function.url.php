@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: function.url.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: function.url.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -21,7 +21,9 @@
  * </pre>
  * 
  * @see Piwik_Url::getCurrentQueryStringWithParametersModified()
- * @param $name=$value of the parameters to modify in the generated URL
+ *
+ * @param array $params $name=>$value pairs of the parameters to modify in the generated URL
+ * @param Smarty &smarty Smarty object
  * @return	string Something like index.php?module=X&action=Y 
  */
 function smarty_function_url($params, &$smarty)

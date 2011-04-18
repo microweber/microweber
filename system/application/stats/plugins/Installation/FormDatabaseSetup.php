@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FormDatabaseSetup.php 3335 2010-11-24 10:03:03Z matt $
+ * @version $Id: FormDatabaseSetup.php 3678 2011-01-09 04:03:18Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -53,7 +53,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 		     ->loadOptions($adapters)
 		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupAdapter')));
 
-		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo'), 'class' => 'submit'));
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('General_Next') .' »', 'class' => 'submit'));
 
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

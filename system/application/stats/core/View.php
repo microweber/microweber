@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: View.php 3572 2011-01-03 10:11:31Z vipsoft $
+ * @version $Id: View.php 4311 2011-04-04 18:49:55Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -12,7 +12,6 @@
 
 /**
  * Transition for pre-Piwik 0.4.4
- * @todo Remove this post-1.0
  */
 if(!defined('PIWIK_USER_PATH'))
 {
@@ -135,6 +134,7 @@ class Piwik_View implements Piwik_iView
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
+			$this->disableLink = Piwik_Common::getRequestVar('disableLink', 0, 'int');
 			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
 			{
 				$this->show_autocompleter = true;
@@ -251,7 +251,7 @@ class Piwik_View implements Piwik_iView
 	 */
 	static public function clearCompiledTemplates()
 	{
-		$view = Piwik_View::factory();
+		$view = new Piwik_View(null);
 		$view->smarty->clear_compiled_tpl();
 	}
 
@@ -303,7 +303,7 @@ class Piwik_View implements Piwik_iView
 		$expression = str_replace(' ', '', strtr($expression, $consts));
 
 		// bitwise operators in order of precedence (highest to lowest)
-		// @todo: boolean ! (NOT) and parentheses aren't handled
+		// note: boolean ! (NOT) and parentheses aren't handled
 		$expression = preg_replace_callback('/~(-?[0-9]+)/', @create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
@@ -315,8 +315,8 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * View factory method
 	 *
-	 * @param $templateName Template name (e.g., 'index')
-	 * @param $viewType     View type (e.g., Piwik_View::CLI)
+	 * @param string $templateName Template name (e.g., 'index')
+	 * @param int $viewType     View type (e.g., Piwik_View::CLI)
 	 */
 	static public function factory( $templateName = null, $viewType = null)
 	{

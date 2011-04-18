@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Updater.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Updater.php 4303 2011-04-04 00:50:42Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -122,7 +122,7 @@ class Piwik_Updater
 				}
 			}
 			// unfortunately had to extract this query from the Piwik_Option class
-    		$queries[] = 'UPDATE '.Piwik_Common::prefixTable('option').' 
+    		$queries[] = 'UPDATE `'.Piwik_Common::prefixTable('option').'`
     				SET option_value = "' .$fileVersion.'" 
     				WHERE option_name = "'. $this->getNameInOptionTable($componentName).'";';
 		}

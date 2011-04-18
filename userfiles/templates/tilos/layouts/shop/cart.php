@@ -22,7 +22,7 @@ $(document).ready(function(){
 				  $shop_page = $shop_page[0];
 				//  var_dump($shop_page);
 				  ?>
-    <div id="finish"> <a href="<? print page_link($shop_page['id']); ?>"><img src="<? print TEMPLATE_URL ?>img/cshopping.jpg" align="left" /></a> <a href="<? print page_link($shop_page['id']); ?>/view:checkout"><img src="<? print TEMPLATE_URL ?>img/pvia.jpg" align="right" style="margin:16px -110px 0 0; " /></a> <strong>OR</strong> </div>
+    <div id="finish"> <a href="<? print page_link($shop_page['id']); ?>"><img src="<? print TEMPLATE_URL ?>img/cshopping.jpg" align="left" /></a> <a href="<? print page_link($shop_page['id']); ?>/view:checkout"><img src="<? print TEMPLATE_URL ?>img/pvia.jpg" align="right" style="margin:16px 0 0 0; " /></a> <strong>OR</strong> </div>
   </div>
   <!-- /#cart -->
   <? else : ?>

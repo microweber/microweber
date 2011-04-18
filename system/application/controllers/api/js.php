@@ -19,11 +19,26 @@ class js extends Controller {
 		$cache_id = "js_api_" . md5 ( $url );
 		$cache_group = 'global/blocks';
 		
+		$edit = ($this->template ['edit']);
+		if (! $edit) {
+			$edit = url_param ( 'edit' );
+			if ($edit) {
+				$this->template ['edit'] = true;
+			}
+		}
+		
+		$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
+		if ($editmode == true) {
+			$edit = true;
+		}
+		if ($edit == true) {
+			$cache_group = 'global/blocks/edit';
+		}
+		
 		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
- 
 			CI::library ( 'output' )->set_output ( $cache_content );
 		
 		} else {
@@ -33,19 +48,8 @@ class js extends Controller {
 			$files = readDirIntoArray ( APPPATH . 'controllers/api/js/', 'files' );
 			
 			//$layout = $layout . "\n\n\n // File: _php.default.min.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_php.default.min.js', true );
-			$edit = ($this->template ['edit']);
-			if (! $edit) {
-				$edit = url_param ( 'edit' );
-				if ($edit) {
-					$this->template ['edit'] = true;
-				}
-			}
 			
-			$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
-			if ($editmode == true) {
-				$edit = true;
-			}
-			
+
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.min.js', true );
 			
 			if ((isset ( $_SERVER ['HTTP_REFERER'] )) and ($_SERVER ['HTTP_REFERER'] != '')) {

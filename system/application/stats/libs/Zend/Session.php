@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 22588 2010-07-16 20:22:07Z ralph $
+ * @version    $Id: Session.php 23775 2011-03-01 17:25:24Z ralph $
  * @since      Preview Release 0.2
  */
 
@@ -43,7 +43,7 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Session extends Zend_Session_Abstract
@@ -335,7 +335,7 @@ class Zend_Session extends Zend_Session_Abstract
      * seconds is specified, then this defaults to self::$_rememberMeSeconds.  Due to clock errors on end users' systems,
      * large values are recommended to avoid undesirable expiration of session cookies.
      *
-     * @param $seconds integer - OPTIONAL specifies TTL for cookie in seconds from present time
+     * @param int $seconds OPTIONAL specifies TTL for cookie in seconds from present time
      * @return void
      */
     public static function rememberMe($seconds = null)
@@ -572,7 +572,7 @@ class Zend_Session extends Zend_Session_Abstract
                         }
                     }
                     if (empty($_SESSION['__ZF'][$namespace]['ENVGH'])) {
-                        unset($_SESSION['__ZF'][$namespace]['ENVGH']);    
+                        unset($_SESSION['__ZF'][$namespace]['ENVGH']);
                     }
                 }
             }

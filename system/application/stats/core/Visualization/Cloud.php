@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Cloud.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Cloud.php 4312 2011-04-04 19:19:46Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -92,7 +92,7 @@ class Piwik_Visualization_Cloud
 	/*
 	 * Get the class range using a percentage
 	 *
-	 * @returns int $class
+	 * @return int $class
 	 */	 
 	protected function getClassFromPercent($percent)
 	{

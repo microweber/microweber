@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: WordCount.php 22697 2010-07-26 21:14:47Z alexander $
+ * @version   $Id: WordCount.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -29,7 +29,7 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_WordCount extends Zend_Validate_File_Count
@@ -48,7 +48,7 @@ class Zend_Validate_File_WordCount extends Zend_Validate_File_Count
     protected $_messageTemplates = array(
         self::TOO_MUCH => "Too much words, maximum '%max%' are allowed but '%count%' were counted",
         self::TOO_LESS => "Too less words, minimum '%min%' are expected but '%count%' were counted",
-        self::NOT_FOUND => "File '%value%' could not be found",
+        self::NOT_FOUND => "File '%value%' is not readable or does not exist",
     );
 
     /**

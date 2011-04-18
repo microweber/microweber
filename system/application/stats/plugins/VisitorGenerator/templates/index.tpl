@@ -6,7 +6,7 @@
 <p>{'VisitorGenerator_PluginDescription'|translate}</p>
 
 <form method="POST" action="{url module=VisitorGenerator action=generate}">
-<table class="adminTable adminTableNoBorder" style="width: 600px;">
+<table class="adminTable" style="width: 600px;">
 <tr>
     <td><label for="idSite">{'General_ChooseWebsite'|translate}</label></td>
     <td><select name="idSite">
@@ -24,7 +24,7 @@
     <td><input type="text" value="100" name="maxVisitors" /></td>
 </tr>
 <tr>
-    <td><label for="nbActions">{'VisitorGenerator_NbActions'|translate}</label></td>
+    <td><label for="nbActions">{'General_NbActions'|translate}</label></td>
     <td><input type="text" value="10" name="nbActions" /></td>
 </tr>
 <tr>

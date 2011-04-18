@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: VisitorInterest.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: VisitorInterest.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
@@ -51,6 +51,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'dimension' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
 			'metrics' => array( 'nb_visits' ),
 			'processedMetrics' => false,
+			'order' => 15
 		);
 		
 		$reports[] = array(
@@ -61,6 +62,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'dimension' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
 			'metrics' => array( 'nb_visits' ),
 			'processedMetrics' => false,
+			'order' => 20
 		);
 	}
 
@@ -110,6 +112,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$dataTableToSum = array( 
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
@@ -121,13 +125,17 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	{
 		$this->archiveProcessing = $notification->getNotificationObject();
 
+		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$recordName = 'VisitorInterest_timeGap';
 		$tableTimegap = $this->getTableTimeGap();
 		$this->archiveProcessing->insertBlobRecord($recordName, $tableTimegap->getSerialized());
+		destroy($tableTimegap);
 		
 		$recordName = 'VisitorInterest_pageGap';
 		$tablePagegap = $this->getTablePageGap();
 		$this->archiveProcessing->insertBlobRecord($recordName, $tablePagegap->getSerialized());
+		destroy($tablePagegap);
 	}
 
 	protected function getTablePageGap()

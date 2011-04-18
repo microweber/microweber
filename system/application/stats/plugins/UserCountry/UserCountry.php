@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: UserCountry.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: UserCountry.php 4392 2011-04-11 00:55:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
@@ -30,43 +30,17 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
 			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}	
 
-	public function getReportMetadata($notification) 
-	{
-		$reports = &$notification->getNotificationObject();
-		$reports[] = array(
-			'category' => Piwik_Translate('General_Visitors'),
-			'name' => Piwik_Translate('UserCountry_Country'),
-			'module' => 'UserCountry',
-			'action' => 'getCountry',
-			'dimension' => Piwik_Translate('UserCountry_Country'),
-		);
-		
-		$reports[] = array(
-			'category' => Piwik_Translate('General_Visitors'),
-			'name' => Piwik_Translate('UserCountry_Continent'),
-			'module' => 'UserCountry',
-			'action' => 'getContinent',
-        	'dimension' => Piwik_Translate('UserCountry_Continent'),
-		);
-	}
-	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}
-	
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'General_Visitors', 'UserCountry_WidgetContinents', 'UserCountry', 'getContinent');
@@ -78,16 +52,60 @@ class Piwik_UserCountry extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
 	}
 	
-	function getReportsWithGoalMetrics( $notification )
+
+	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments = array_merge($segments, array(
-        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('UserCountry_Country'),
+		        'segment' => 'country',
+		        'sqlSegment' => 'location_country',
+				'acceptedValues' => 'de, us, fr, in, es, etc.'
+       );
+       $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('UserCountry_Continent'),
+		        'segment' => 'continent',
+		        'sqlSegment' => 'location_continent',
+				'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce'
+		);
+	}
+	
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('UserCountry_Country'),
+			'module' => 'UserCountry',
+			'action' => 'getCountry',
+			'dimension' => Piwik_Translate('UserCountry_Country'),
+        	'order' => 5,
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('UserCountry_Continent'),
+			'module' => 'UserCountry',
+			'action' => 'getContinent',
+        	'dimension' => Piwik_Translate('UserCountry_Continent'),
+        	'order' => 6,
+		);
+	}
+	
+	function getReportsWithGoalMetrics( $notification )
+	{
+		$dimensions =& $notification->getNotificationObject();
+		$dimensions = array_merge($dimensions, array(
+        		array(	'category'  => Piwik_Translate('General_Visit'),
             			'name'   => Piwik_Translate('UserCountry_Country'),
             			'module' => 'UserCountry',
             			'action' => 'getCountry',
         		),
-        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+        		array(	'category'  => Piwik_Translate('General_Visit'),
             			'name'   => Piwik_Translate('UserCountry_Continent'),
             			'module' => 'UserCountry',
             			'action' => 'getContinent',
@@ -98,6 +116,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$dataTableToSum = array( 
 				'UserCountry_country',
@@ -112,6 +132,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function archiveDay($notification)
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$this->archiveDayAggregateVisits($archiveProcessing);
 		$this->archiveDayAggregateGoals($archiveProcessing);
 		$this->archiveDayRecordInDatabase($archiveProcessing);
@@ -128,7 +151,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsBySegment("location_continent,location_country");
+		$query = $archiveProcessing->queryConversionsByDimension(array("location_continent","location_country"));
+
+		if($query === false) return;
+		
 		while($row = $query->fetch() )
 		{
 			if(!isset($this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();

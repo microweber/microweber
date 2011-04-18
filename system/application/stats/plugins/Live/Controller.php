@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: Controller.php 4489 2011-04-17 00:33:52Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -15,131 +15,99 @@
  */
 class Piwik_Live_Controller extends Piwik_Controller
 {
-	function __construct()
+	function index($fetch = false)
 	{
-		parent::__construct();
-		$this->minIdVisit = Piwik_Common::getRequestVar('minIdVisit', 0, 'int');
-	}
-
-	function index()
-	{
-		$this->widget(true);
+		return $this->widget($fetch);
 	}
 
 	public function widget($fetch = false)
 	{
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
-		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
-		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
-		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
-		$view->pisToday = $this->getPageImpressionsInLastXDays(1);
-		$view->visitors = $this->getLastVisitsStart($fetch = true);
-
-		echo $view->render();
+		$view = $this->setCounters($view);
+		$view->liveRefreshAfterMs = (int)Zend_Registry::get('config')->General->live_widget_refresh_after_seconds * 1000;
+		$view->visitors = $this->getLastVisitsStart($fetchPlease = true);
+		$view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
+		return $this->render($view, $fetch);
 	}
 
+	public function ajaxTotalVisitors($fetch = false)
+	{
+		$view = Piwik_View::factory('totalVisits');
+		$view = $this->setCounters($view);
+		$view->idSite = $this->idSite;
+		return $this->render($view, $fetch);
+	}
+	
+	private function render($view, $fetch)
+	{
+		$rendered = $view->render();
+		if($fetch) {
+			return $rendered;
+		}
+		echo $rendered;
+	}
+	
 	public function getVisitorLog($fetch = false)
 	{
-		$limit = 20;
-		$_GET['limit'] = $limit;
+		// If previous=1 is set, user clicked previous
+		// we can't deal with previous so we force display of the first page
+		if(Piwik_Common::getRequestVar('previous', 0, 'int') == 1) {
+			$_GET['maxIdVisit'] = '';
+		}
+		
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,
 							__FUNCTION__,
 						'Live.getLastVisitsDetails'
 						);
 
-		// All colomns in DB which could be shown
-		//'ip', 'idVisit', 'countActions', 'isVisitorReturning', 'country', 'countryFlag', 'continent', 'provider', 'providerUrl', 'idSite',
-		//'serverDate', 'visitLength', 'visitLengthPretty', 'firstActionTimestamp', 'lastActionTimestamp', 'refererType', 'refererName',
-		//'keywords', 'refererUrl', 'searchEngineUrl', 'searchEngineIcon', 'operatingSystem', 'operatingSystemShortName', 'operatingSystemIcon',
-		//'browserFamily', 'browserFamilyDescription', 'browser', 'browserIcon', 'screen', 'resolution', 'screenIcon', 'plugins', 'lastActionDateTime',
-		//'serverDatePretty', 'serverTimePretty', 'actionDetails'
 		$view->disableGenericFilters();
 		$view->disableSort();
-		$view->setLimit($limit);
 		$view->setTemplate("Live/templates/visitorLog.tpl");
 		$view->setSortedColumn('idVisit', 'ASC');
 		$view->disableSearchBox();
+		$view->setLimit(20);
 		$view->disableOffsetInformation();
-		// "Include low population" link won't be displayed under this table
 		$view->disableExcludeLowPopulation();
+		
 		// disable the tag cloud,  pie charts, bar chart icons
 		$view->disableShowAllViewsIcons();
 		// disable the button "show more datas"
 		$view->disableShowAllColumns();
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
+		
+		$view->setCustomParameter('pageUrlNotDefined', Zend_Registry::get('config')->General->action_default_url_when_not_defined);
 		return $this->renderView($view, $fetch);
 	}
 
 	public function getLastVisitsStart($fetch = false)
 	{
+		// hack, ensure we load today's visits by default
+		$_GET['date'] = 'today';
+		$_GET['period'] = 'day';
 		$view = Piwik_View::factory('lastVisits');
 		$view->idSite = $this->idSite;
 
-		$view->visitors = $this->getLastVisits(10);
-
-		$rendered = $view->render($fetch);
-
-		if($fetch)
-		{
-			return $rendered;
-		}
-		echo $rendered;
-	}
-
-	public function getLastVisits($limit = 10)
-	{
-		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite=$this->idSite&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
 		$visitors = $api->process();
+		$view->visitors = $visitors;
 
-		return $visitors;
+		return $this->render($view, $fetch);
 	}
-
-	public function getUsersInLastXMin($minutes = 30) {
-		$api = new Piwik_API_Request("method=Live.getUsersInLastXMin&idSite=".$this->idSite."&minutes=".$minutes."&format=php&serialize=0&disable_generic_filters=1");
-		$visitors_halfhour = $api->process();
-
-		return count($visitors_halfhour);
-	}
-
-	public function getUsersInLastXDays($days = 1) {
-		$api = new Piwik_API_Request("method=Live.getUsersInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
-		$visitors_today = $api->process();
-
-		return count($visitors_today);
-	}
-
-	public function getPageImpressionsInLastXMin($minutes = 30) {
-		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXMin&idSite=$this->idSite&minutes=$minutes&format=php&serialize=0&disable_generic_filters=1");
-		$pis_halfhour = $api->process();
-
-		return count($pis_halfhour);
-	}
-
-	public function getPageImpressionsInLastXDays($days = 1) {
-		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
-		$pis_today = $api->process();
-
-		return count($pis_today);
-	}
-
-	public function ajaxTotalVisitors($fetch = false)
+	
+	private function setCounters($view)
 	{
-		$view = Piwik_View::factory('totalVisits');
-		$view->idSite = $this->idSite;
-		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
-		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
-		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
-		$view->pisToday = $this->getPageImpressionsInLastXDays(1);
-
-		$rendered = $view->render($fetch);
-
-		if($fetch)
-		{
-			return $rendered;
-		}
-		echo $rendered;
+		$last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30);
+		$last30min = $last30min[0];
+		$today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24*60);
+		$today = $today[0];
+		$view->visitorsCountHalfHour = $last30min['visits'];
+		$view->visitorsCountToday = $today['visits'];
+		$view->pisHalfhour = $last30min['actions'];
+		$view->pisToday = $today['actions'];
+		return $view;
 	}
+
 }

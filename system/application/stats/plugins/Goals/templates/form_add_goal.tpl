@@ -22,6 +22,9 @@
 				<input type="radio" id="match_attribute_url" value="url" name="match_attribute" />
                 <label for="match_attribute_url">{'Goals_VisitUrl'|translate}</label>
 				<br />
+				<input type="radio" id="match_attribute_title" value="title" name="match_attribute" />
+                <label for="match_attribute_title">{'Goals_VisitPageTitle'|translate}</label>
+				<br />
 				<input type="radio" id="match_attribute_file" value="file" name="match_attribute" />
 				<label for="match_attribute_file">{'Goals_Download'|translate}</label>
 				<br />
@@ -53,8 +56,28 @@
 	</tbody>
 	<tbody id="manual_trigger_section" style="display:none">
 		<tr><td colspan="2" class="first">
-				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/'>":"</a>"}
+				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/%23toc-manually-trigger-a-conversion-for-a-goal'>":"</a>"}
 		</td></tr>
+	</tbody>
+	<tbody>
+		<tr>
+            <td class="first"> {'Goals_AllowMultipleConversionsPerVisit'|translate} </td>
+			<td>
+				<input type="radio" id="allow_multiple_0" value="0" name="allow_multiple" />
+                <label for="allow_multiple_0">{'Goals_DefaultGoalConvertedOncePerVisit'|translate}</label>
+            	<div class="entityInlineHelp">  
+            		{'Goals_HelpOneConversionPerVisit'|translate}
+            	</div>
+                <br/>
+                
+                <input type="radio" id="allow_multiple_1" value="1" name="allow_multiple" />
+                <label for="allow_multiple_1">{'Goals_AllowGoalConvertedMoreThanOncePerVisit'|translate}</label>
+				<br />
+	            <div class="entityInlineHelp">  
+					{'Goals_HelpMultipleConversionsPerVisit'|translate}
+				</td>
+		</tr>
+		<tr>
 	</tbody>
 	<tbody>
 		<tr>

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: VisitorGenerator.php 3300 2010-11-07 01:33:12Z vipsoft $
+ * @version $Id: VisitorGenerator.php 4271 2011-04-01 00:21:31Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
@@ -17,13 +17,12 @@
 class Piwik_VisitorGenerator extends Piwik_Plugin {
 
 	public function getInformation() {
-		$info = array(
+		return array(
 				'description' => Piwik_Translate('VisitorGenerator_PluginDescription'),
 				'author' => 'Piwik',
 				'author_homepage' => 'http://piwik.org/',
 				'version' => Piwik_Version::VERSION,
 		);
-		return $info;
 	}
 
 	public function getListHooksRegistered() {

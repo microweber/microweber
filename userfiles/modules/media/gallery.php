@@ -1,5 +1,7 @@
-<script> 
-   
+<script>
+     $(document).ready(function(){
+       $("#image_gal a").modal("single")
+     });
     
     </script>
 <?
@@ -34,7 +36,7 @@
 Gallery is empty
 <?php else : ?>
 <div class="slide_engine">
-  <ul class="media_module_content">
+  <ul class="media_module_content" id="image_gal">
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>
     <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);

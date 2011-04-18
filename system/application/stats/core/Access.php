@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Access.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Access.php 4311 2011-04-04 18:49:55Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -157,7 +157,7 @@ class Piwik_Access
 	/**
 	 * Returns the SQL query joining sites and access table for a given login
 	 * 
-	 * @param $select eg. "MIN(ts_created)"
+	 * @param string $select Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
 	 * @return string SQL query
 	 */
 	static public function getSqlAccessSite($select)

@@ -1,0 +1,1 @@
+<embed height="500" width="704" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" quality="high" src="http://i.mightymagoo.com/wordpress/wp-content/uploads/2010/10/MotoPsycho.swf">

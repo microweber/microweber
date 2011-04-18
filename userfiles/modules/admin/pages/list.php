@@ -11,12 +11,39 @@
 
 
     <script type="text/javascript">
+
+
+$(document).ready(function(){
+
+        $('.Pages ul:first').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'h2',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placehulder',
+			tabSize: 25,
+			tulerance: 'pointer',
+			update: function(serialized) {
+    			/*serialized = $('ul.category_tree').nestedSortable('serialize');
+     	        $.post("http://pecata/microweber/api/content/save_taxonomy_items_order", { items: serialized },
+                function(data){
+
+                }); */
+            }
+		});
+});
+
+
+
+
+
 var del_page_confirm = function(id){
 	
 	
 	var answer = confirm("Are you sude you want to delete this page?")
 	if (answer){
-		$.post("<? print site_url('api/content/delete') ?>",  { id:id} ,	function(data1){ 
+		$.post("<? print site_url('api/content/delete') ?>",  { id:id} ,	function(data1){
 																		
 																//$('#del_pa').html(data1)	;	
 																	//	alert(data1);
@@ -30,7 +57,7 @@ var del_page_confirm = function(id){
 		 
 	}
 	
-	
+
  
 	
 }
@@ -76,4 +103,4 @@ var del_page_confirm = function(id){
 
   </div>
   <!-- /.createpages -->
-  <a href="<? print ADMIN_URL ?>/action:page_edit/id:0" class="btn">Add New Page</a>
+

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3360 2010-11-25 21:14:22Z matt $
+ * @version $Id: Controller.php 4232 2011-03-29 18:29:13Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Proxy
@@ -53,7 +53,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		if(function_exists('imagecreatefromstring'))
 		{
 			// validate image data
-			$imgResource = imagecreatefromstring($data);
+			$imgResource = @imagecreatefromstring($data);
 			if($imgResource !== false)
 			{
 				// output image and clean-up
@@ -109,20 +109,21 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 
 	/**
 	 * Output redirection page instead of linking directly to avoid
-	 * exposing the referer on the Piwik demo.
+	 * exposing the referrer on the Piwik demo.
 	 *
 	 * @param string $url (via $_GET)
 	 */
 	public function redirect()
 	{
-		// validate referer
-		$referer = Piwik_Url::getReferer();
-		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
+		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
+
+		// validate referrer
+		$referrer = Piwik_Url::getReferer();
+		if(!empty($referrer) && (Piwik_Url::getLocalReferer() === false))
 		{
+			die('Invalid Referer detected - check that your browser sends the Referer header. <br/>The link you would have been redirected to is: '.$url);
 			exit;
 		}
-
-		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
 
 		// mask visits to *.piwik.org
 		if(self::isPiwikUrl($url))

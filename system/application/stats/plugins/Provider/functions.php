@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: functions.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: functions.php 4181 2011-03-25 20:02:40Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Provider
@@ -20,7 +20,7 @@ function Piwik_getHostnameName($in)
 {
 	if(empty($in))
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	if(strtolower($in) === 'ip')
 	{

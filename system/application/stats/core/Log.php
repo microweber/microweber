@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Log.php 3607 2011-01-04 09:21:46Z matt $
+ * @version $Id: Log.php 4478 2011-04-15 21:36:32Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -24,6 +24,7 @@ abstract class Piwik_Log extends Zend_Log
 	protected $logToFileFilename = null;
 	protected $fileFormatter = null;
 	protected $screenFormatter = null;
+	protected $currentRequestKey;
 	
 	function __construct( 	$logToFileFilename, 
 							$fileFormatter,
@@ -32,6 +33,8 @@ abstract class Piwik_Log extends Zend_Log
 							$logToDatabaseColumnMapping )
 	{
 		parent::__construct();
+		
+		$this->currentRequestKey = substr( Piwik_Common::generateUniqId(), 0, 8);
 
 		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
 		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
@@ -46,16 +49,11 @@ abstract class Piwik_Log extends Zend_Log
 		$this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
 	}
 	
-	static public function dump($var)
-	{
-		Zend_Registry::get('logger_message')->logEvent(var_export($var, true));
-	}
-	
 	function addWriteToFile()
 	{
 		Piwik_Common::mkdir(dirname($this->logToFileFilename));
 		$writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
-		$writerFile->setFormatter( $this->fileFormatter );
+		$writerFile->setFormatter( $this->screenFormatter );
 		$this->addWriter($writerFile);
 	}
 	
@@ -96,11 +94,17 @@ abstract class Piwik_Log extends Zend_Log
 			throw new Zend_Log_Exception('No writers were added');
 		}
 
-		$event['timestamp'] = date('c');
-
+		$event['timestamp'] = date('Y-m-d H:i:s');
+		$event['requestKey'] = $this->currentRequestKey;
 		// pack into event required by filters and writers
 		$event = array_merge( $event, $this->_extras);
 
+		// one message must stay on one line
+		if(isset($event['message']))
+		{
+			$event['message'] = str_replace(array(PHP_EOL, "\n"), " ", $event['message']);
+		}
+		
 		// Truncate the backtrace which can be too long to display in the browser
 		if(!empty($event['backtrace']))
 		{
@@ -183,22 +187,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 	
 	static public function getFormattedString($string)
 	{
-		if(Piwik_Common::isPhpCliMode())
-		{
-			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
-			if(is_array($string))
-			{
-				for($i=0, $count = count($string); $i < $count; $i++)
-				{
-					$string[$i] = strip_tags($string[$i]);
-				}
-			}
-			else
-			{
-				$string = strip_tags($string);
-			}
-		}
-		else
+		if(!Piwik_Common::isPhpCliMode())
 		{
 			@header('Content-Type: text/html; charset=utf-8');
 		}

@@ -24,8 +24,6 @@ $(document).ready(function () {
  
 
 </script>
-
- 
 <?
 $id = $params['id'];
 
@@ -74,69 +72,65 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
 
 
 </script>
+
 <form action="" method="post" id="save_post_form">
   <input name="id" id="post_id" type="hidden" value="<? print $form_values['id'] ?>" />
   <input name="content_type" type="hidden" value="post" />
- 
- 
- 
- 
   <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
- 
- 
- 
+  <br />
+  <br />
+  <br />
+  <script>
+  $(document).ready(function() {
+    //$("#tabs").tabs();
+  });
+  </script>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Media</h3>
+
+  <div id="orders_tabs" class="mw_box">
+  <div class="mw_box_tab_content">
+  <div class="shop_nav_main">
+      <h2 class="box_title">Options</h2>
+      <ul class="shop_nav">
+      <li><a href="#tab=fragment-1"><span>Categories</span></a></li>
+      <li><a href="#tab=fragment-2"><span>Media</span></a></li>
+      <li><a href="#tab=fragment-4"><span>Custom Fields</span></a></li>
+      <li><a href="#tab=fragment-3"><span>Advanced options</span></a></li>
+      <li><a href="#tab=fragment-5"><span>Meta tags</span></a></li>
+      <li><a href="#tab=fragment-6"><span>Menus</span></a></li>
+      </ul>
     </div>
-    <div class="mw_box_content">
+
+
+
+
+
+  <div id="tabs">
+
+
+
+
+
+
+    <div id="fragment-1" class="tab">
+      <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
+    </div>
+    <div id="fragment-2" class="tab">
       <mw module="admin/media/gallery" for="post" post_id="<? print $form_values['id'] ?>" />
     </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Advanced options</h3>
-    </div>
-    <div class="mw_box_content">
+    <div id="fragment-3" class="tab">
       <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
     </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Custom Fields</h3>
-    </div>
-    <div class="mw_box_content">
+    <div id="fragment-4" class="tab">
       <div id="post_custom_fields"></div>
     </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Meta tags</h3>
-    </div>
-    <div class="mw_box_content">
+    <div id="fragment-5" class="tab">
       <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
     </div>
-  </div>
-  <div class="mw_box mw_box_closed">
-    <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-      <h3>Menus</h3>
-    </div>
-    <div class="mw_box_content">
+    <div id="fragment-6" class="tab">
       <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
     </div>
+  </div>
+  </div>
   </div>
 </form>

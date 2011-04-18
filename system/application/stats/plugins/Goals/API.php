@@ -4,14 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id: API.php 4454 2011-04-14 20:41:16Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
 
 /**
- *
+ * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal", 
+ * or list existing Goals for one or several websites via "getGoals" 
+ * 
+ * It also lets you request overall Goal metrics via the method "get" and the additional helpers "getConversions", "getRevenue", etc.
+ * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>Tracking Goals</a> in Piwik.
  * @package Piwik_Goals
  */
 class Piwik_Goals_API 
@@ -30,22 +34,25 @@ class Piwik_Goals_API
 	}
 	
 	/**
-	 * Returns all Goals for a given website
+	 * Returns all Goals for a given website, or list of websites
 	 * 
-	 * @param $idSite
-	 * @return Array of Goal attributes
+	 * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
+	 * @return array Array of Goal attributes
 	 */
 	public function getGoals( $idSite )
 	{
+		if(!is_array($idSite))
+		{
+			$idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+		}
 		Piwik::checkUserHasViewAccess($idSite);
 		$goals = Piwik_FetchAll("SELECT * 
 								FROM ".Piwik_Common::prefixTable('goal')." 
-								WHERE idsite = ?
-									AND deleted = 0", $idSite);
+								WHERE idsite IN (".implode(", ", $idSite).")
+									AND deleted = 0");
 		$cleanedGoals = array();
 		foreach($goals as &$goal)
 		{
-			unset($goal['idsite']);
 			if($goal['match_attribute'] == 'manually') {
 			    unset($goal['pattern']);
 			    unset($goal['pattern_type']);
@@ -59,16 +66,18 @@ class Piwik_Goals_API
 	/**
 	 * Creates a Goal for a given website.
 	 * 
-	 * @param $idSite
-	 * @param $name
-	 * @param $matchAttribute 'url', 'file', 'external_website' or 'manually'
-	 * @param $pattern eg. purchase-confirmation.htm
-	 * @param $patternType 'regex', 'contains', 'exact' 
-	 * @param $caseSensitive bool
-	 * @param $revenue If set, default revenue to assign to conversions
+	 * @param int $idSite
+	 * @param string $name
+	 * @param string $matchAttribute 'url', 'title', 'file', 'external_website' or 'manually'
+	 * @param string $pattern eg. purchase-confirmation.htm
+	 * @param string $patternType 'regex', 'contains', 'exact' 
+	 * @param bool $caseSensitive
+	 * @param float|string $revenue If set, default revenue to assign to conversions
+	 * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
+	 * 						If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
 	 * @return int ID of the new goal
 	 */
-	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		$this->checkPatternIsValid($patternType, $pattern);
@@ -93,6 +102,7 @@ class Piwik_Goals_API
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
 						'case_sensitive' => (int)$caseSensitive,
+						'allow_multiple' => (int)$allowMultipleConversionsPerVisit,
 						'revenue' => (float)$revenue,
 						'deleted' => 0,
 					));
@@ -101,12 +111,13 @@ class Piwik_Goals_API
 	}
 	
 	/**
-	 * Updates a Goal
+	 * Updates a Goal description.
+	 * Will not update or re-process the conversions already recorded  
 	 * 
 	 * @see addGoal() for parameters description
 	 * @return void
 	 */
-	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		$name = $this->checkName($name);
@@ -118,8 +129,9 @@ class Piwik_Goals_API
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
-						'case_sensitive' => $caseSensitive,
-						'revenue' => $revenue,
+						'case_sensitive' => (int)$caseSensitive,
+						'allow_multiple' => (int)$allowMultipleConversionsPerVisit,
+						'revenue' => (float)$revenue,
 						),
 					"idsite = '$idSite' AND idgoal = '$idGoal'"
 			);	
@@ -149,8 +161,8 @@ class Piwik_Goals_API
 	 * Soft deletes a given Goal.
 	 * Stats data in the archives will still be recorded, but not displayed.
 	 * 
-	 * @param $idSite
-	 * @param $idGoal
+	 * @param int $idSite
+	 * @param int $idGoal
 	 * @return void
 	 */
 	public function deleteGoal( $idSite, $idGoal )
@@ -168,23 +180,24 @@ class Piwik_Goals_API
 	/**
 	 * Returns Goals data
 	 * 
-	 * @param $idSite
-	 * @param $period
-	 * @param $date
-	 * @param $idGoal
-	 * @param $columns Comma separated list of metrics to fetch: nb_conversions, conversion_rate, revenue
+	 * @param int $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param int $idGoal
+	 * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
 	 * @return Piwik_DataTable
 	 */
-	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
+	public function get( $idSite, $period, $date, $segment = false, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$columns = Piwik::getArrayFromApiParameter($columns);
 		
 		if(empty($columns))
 		{
 			$columns = array(
 						'nb_conversions',
+						'nb_visits_converted',
 						'conversion_rate', 
 						'revenue',
 			);
@@ -204,26 +217,31 @@ class Piwik_Goals_API
 		return $dataTable;
 	}
 	
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getNumeric($toFetch);
 		return $dataTable;		
 	}
 
-	public function getConversions( $idSite, $period, $date, $idGoal = false )
+	public function getConversions( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
 	}
 	
-	public function getConversionRate( $idSite, $period, $date, $idGoal = false )
+	public function getNbVisitsConverted( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_visits_converted', $idGoal));
 	}
 	
-	public function getRevenue( $idSite, $period, $date, $idGoal = false )
+	public function getConversionRate( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+	}
+	
+	public function getRevenue( $idSite, $period, $date, $segment = false, $idGoal = false )
+	{
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('revenue', $idGoal));
 	}
 }
