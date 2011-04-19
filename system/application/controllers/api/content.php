@@ -649,7 +649,11 @@ class Content extends Controller {
 		//print "<h2>For content $content_id</h2>";
 		//p ( $to_save );
 		$saved = CI::model ( 'content' )->saveContent ( $to_save );
-		print ($saved) ;
+		
+		$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
+		
+		print ($html_to_save) ;
+		exit ();
 	
 	}
 	
@@ -851,7 +855,9 @@ class Content extends Controller {
 									//print "<h2>For content $content_id</h2>";
 									//p ( $to_save );
 									$saved = CI::model ( 'content' )->saveContent ( $to_save );
-									print ($saved) ;
+									$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
+									
+									print ($html_to_save) ;
 								
 								} else if ($category_id) {
 									print (__FILE__ . __LINE__ . ' category is not implemented not rady yet') ;
@@ -877,9 +883,12 @@ class Content extends Controller {
 								$history_to_save ['field'] = $field;
 								
 								CI::model ( 'core' )->saveHistory ( $history_to_save );
+								$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 								
-								print ($to_save) ;
-								
+								print ($html_to_save) ;
+								//	print ($to_save) ;
+							
+
 							//p ( $field_content );
 							
 

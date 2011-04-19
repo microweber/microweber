@@ -312,7 +312,7 @@ $(".js_generated").remove();
    $(".mw_edited").each(function(j){
 
 
- //$(this).addClass("mw_edited");
+ $(this).addClass("mw_edited");
 
 var nic_obj = {};
 
@@ -346,25 +346,41 @@ master[objX] = obj;
 
 
    });
+		
+		
+		
+		
+		
+		if (master.toSource() === "({})"){
+		 
+			
+		} else {
+		
 
    	$.ajax({
 		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
-          async:true,
+          async:false,
 		  success: function(data) {
 			  mw.modal.alert("Content Saved");
   if(typeof window.parent.mw_edit_init == 'function'){
      window.parent.mw_edit_init(window.location.href);
   }
-  
+   $(".mw_edited").html(data);
+  //$(this).html(data);
   callback.call(this)
-  
+ 
   $(".mw_edited").removeClass('mw_edited');
   
 
 		  }
 		})
+	
+		}
+	
+	
+	
 
  }
 

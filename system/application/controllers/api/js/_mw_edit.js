@@ -16,6 +16,14 @@ $.dataFind = function(data, findwhat){
 
 function init_edits(){
 	
+var cssApplier;
+
+    
+    rangy.init();
+    cssApplier = rangy.createCssClassApplier("to_here", true); // true turns on normalization
+    $(".module").attr('contentEditable', false);
+    
+    
 	$(".editblock").live("click", function() {
 
 
@@ -61,11 +69,21 @@ if (load_editblock_history !=undefined ) {
 	 $id123 =$page_json.page.id  ;
   }
 
-  load_editblock_history(id, rel,id123 ,$tag, field) ;
+  // load_editblock_history(id, rel,id123 ,$tag, field) ;
   }
 });
+	
+	
+	
 $(".edit").live("click", function() {
  $(this).addClass("mw_edited");
+ 
+ $(".edit *").removeClass("to_here");
+ $(this).addClass("to_here");
+ 
+ 
+	   
+ 
 
    	 var id = $(this).attr("id");
 		 var rel = $(this).attr("rel");
@@ -104,15 +122,227 @@ if (load_editblock_history !=undefined ) {
 	 $id123 =$page_json.page.id  ;
   }
 
-  load_editblock_history(id, rel, $id123,$tag, field) ;
+  //load_editblock_history(id, rel, $id123,$tag, field) ;
   }
+
+
+
+
+
 });
+
+
+
+
+
+
+
+
+
+var editblock_ids = "";
+
+var editblocklength = $(".editblock").length-1;
+$(".editblock").each(function(i){
+   var id = $(this).attr("id");
+
+     if(editblock_ids==""){
+     editblock_ids = "#" +id;
+       }
+
+
+
+   if(editblock_ids!=""){
+    editblock_ids = editblock_ids + ", #" +id;
+   }
+
+
+});
+
+
+
+
+$(".module").each(function(){
+   if($(this).find(".module_handle").length==0){
+     var bar = ''
+     +'<div class="module_edit_bar">'
+     +'<span class="module_edit_bar_handle">&nbsp;</span>'
+     +'<span class="module_edit_bar_delete">Delete</span>'
+     +"</div>";
+
+     $(this).append(bar)
+   }
+});
+
+
+$(".module_edit_bar_delete").click(function(event){
+    mw.prevent(event);
+    var parent = $(this).parents(".module:first");
+    mw.modal.confirm({
+      html:"Are you sure you want to delete this module?",
+      yes:function(){
+        parent.remove();
+     //   mw.modal.alert("Module deleted");
+      }
+    })
+});
+
+
+
+
+$(".editblock").each(function(){
+  $(this).sortable({
+     connectWith:editblock_ids,
+     items:".module",
+     cancel: ".module .module",
+     handle:".module_edit_bar_handle",
+     receive:function(event, ui){
+
+       var mw1 = ui.item.find("textarea").val();
+       mw1 = "<microweber module='"+mw1+"' />";
+       
+     //  alert(mw1);
+       
+       
+       $(".bar_module").not("#module_bar .bar_module").replaceWith(mw1);
+
+          $(".editblock").each(function(){
+              var id =  $(this).attr("id");
+           //   save_editblock(id);
+          })
+          
+          
+          
+          
+          mw.saveALL();
+          
+          
+          
+      }
+      // handle:".mwedit"
+  })
+  //$(this).disableSelection();
+
+});
+$(".edit").droppable({
+   drop: function(event, ui) {
+	
+	$(".module_edit_bar").remove();
+	 
+	
+      var mw1 = ui.draggable.find("textarea").val();
+      
+      mw1 = "<microweber module='"+mw1+"' />";
+      
+   //   alert(mw1);
+      ui.draggable.parents(".edit").addClass("mw_edited");
+      
+      $(".to_here").append(mw1);
+      $(".editblock").each(function(){
+              var id =  $(this).attr("id");
+             // save_editblock(id);
+           //   mw.saveALL();
+          })
+          mw.saveALL();
+   }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+$(".edit *").live("hover", function(event) {
+
+	cssApplier.toggleSelection();
+	
+	
+	
+	  mw.prevent(event)
+	  $(".edit *").removeClass("to_here");
+	  $(this).addClass("to_here");
+	//  $(this).parents(".edit:first").addClass("mw_edited");
+	}, function(){
+
+	} 
+	
+)
+
+$(".edit *").live("click", function(event) {
+
+	cssApplier.toggleSelection();
+	  mw.prevent(event)
+	  
+	  $(this).parents(".edit:first").addClass("mw_edited");
+	  $(".edit *").removeClass("to_here");
+	  $(this).addClass("to_here");
+
+	
+	}, function(){
+
+	} 
+	
+)
+
 }
+
+
 
 
 $(document).ready(function() {
 	
-	
+	 
+
  
 	if(typeof window.parent.mw_edit_init == 'function'){
 	window.parent.mw_edit_init(window.location.href);
@@ -247,99 +477,13 @@ $(document).ready(function() {
 		});
 
 
-
+function init_editables(){
+	
+	
+}
 
 $(window).load(function(){
-        var editblock_ids = "";
-
-        var editblocklength = $(".editblock").length-1;
-        $(".editblock").each(function(i){
-           var id = $(this).attr("id");
-
-             if(editblock_ids==""){
-             editblock_ids = "#" +id;
-               }
-
-
-
-           if(editblock_ids!=""){
-            editblock_ids = editblock_ids + ", #" +id;
-           }
-
-
-        });
-
-        
- 
-
-        $(".module").each(function(){
-           if($(this).find(".module_handle").length==0){
-             var bar = ''
-             +'<div class="module_edit_bar">'
-             +'<span class="module_edit_bar_handle">&nbsp;</span>'
-             +'<span class="module_edit_bar_delete">Delete</span>'
-             +"</div>";
-
-             $(this).append(bar)
-           }
-        });
-
-
-        $(".module_edit_bar_delete").click(function(event){
-            mw.prevent(event);
-            var parent = $(this).parents(".module:first");
-            mw.modal.confirm({
-              html:"Are you sure you want to delete this module?",
-              yes:function(){
-                parent.remove();
-             //   mw.modal.alert("Module deleted");
-              }
-            })
-        });
-
-
-
-
-        $(".editblock").each(function(){
-          $(this).sortable({
-             connectWith:editblock_ids,
-             items:".module",
-             cancel: ".module .module",
-             handle:".module_edit_bar_handle",
-             receive:function(event, ui){
-
-               var mw1 = ui.item.find("textarea").val();
-               $(".bar_module").not("#module_bar .bar_module").replaceWith(mw1);
-
-                  $(".editblock").each(function(){
-                      var id =  $(this).attr("id");
-                      save_editblock(id);
-                  })
-              }
-              // handle:".mwedit"
-          })
-          //$(this).disableSelection();
-
-        });
-        $(".edit").droppable({
-           drop: function(event, ui) {
-              var mw1 = ui.draggable.find("textarea").val();
-              $(".to_here").after(mw1);
-              $(".editblock").each(function(){
-                      var id =  $(this).attr("id");
-                      save_editblock(id);
-                      //mw.saveALL();
-                  })
-           }
-        });
-        $(".edit *").hover(function(event){
-          mw.prevent(event)
-          $(".edit *").removeClass("to_here");
-          $(this).addClass("to_here");
-        }, function(){
-
-        })
-
+	 init_edits()
 
 
 });
@@ -542,7 +686,7 @@ function update_module_element($new_value) {
 }
 
 mw.saveALL = function(){
-	
+ 
 	nic_save_all(function(){
 		
 		$(".editblock").each(function(){
@@ -550,10 +694,19 @@ mw.saveALL = function(){
 	        save_editblock(id);
 	    });
 		
-	//	init_edits();
+	//	
+		init_edits();
+		
+		  try {
+			   $(".module").removeAttr('contentEditable');
+			 } catch (e) {
+				 $(".module").attr('contentEditable', false);
+			 }
+		
+		
 	});
 	
-	
+
     
 
 

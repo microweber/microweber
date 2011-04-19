@@ -460,6 +460,8 @@ var nicEditorInstance = bkClass.extend({
         this.elm.setAttribute('contentEditable','true');
 		if(this.getContent() == "") {
 			this.setContent('<br />');
+			//pecata
+			//this.setContent('<p></p>');
 		}
 		this.instanceDoc = document.defaultView;
 		this.elm.addEvent('mousedown',this.selected.closureListener(this)).addEvent('keypress',this.keyDown.closureListener(this)).addEvent('focus',this.selected.closure(this)).addEvent('blur',this.blur.closure(this)).addEvent('keyup',this.selected.closure(this));
@@ -596,6 +598,7 @@ var nicEditorIFrameInstance = nicEditorInstance.extend({
 		var c = this.elm.innerHTML.replace(/^\s+|\s+$/g, '');
 		this.elm.innerHTML = '';
 		(!c) ? c = "<br />" : c;
+		//(!c) ? c = "<p> </p>" : c;
 		this.initialContent = c;
 		
 		this.elmFrame = new bkElement('iframe').setAttributes({'src' : 'javascript:;', 'frameBorder' : 0, 'allowTransparency' : 'true', 'scrolling' : 'no'}).setStyle({height: '100px', width: '100%'}).addClass('frame').appendTo(this.elm);

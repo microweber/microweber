@@ -41,6 +41,10 @@ description: shop site layout
 
 
 <div id="main">
+
+
+
+
   <? if(empty($post)): ?>
   <? if($posts): ?>
   <? foreach($posts as $post): ?> <? $cf = get_custom_fields($post['id']); 
@@ -48,7 +52,7 @@ description: shop site layout
 //	p($cf);
 	?>
   <div class="product_item"> <a class="product" href="<? print post_link($post['id']) ?>"> <span class="img" style="background-image: url('<? print thumbnail($post['id'], 120);  ?>')">&nbsp;</span> <strong>
-    <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
+   <? print $post['content_title'] ?>
     </strong> 
     
    
