@@ -53,8 +53,8 @@ $cms_db_tables ['table_reports'] = TABLE_PREFIX . 'reports';
 //stats 
 $cms_db_tables ['table_stats_site'] = 'piwik_site';
 $cms_db_tables ['table_stats_access'] = 'piwik_access';
-
-
+$cms_db_tables ['table_log_action'] = 'piwik_log_action';
+$cms_db_tables ['table_log_link_visit_action'] = 'piwik_log_link_visit_action';
 
 
 

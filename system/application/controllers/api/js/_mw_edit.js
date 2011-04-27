@@ -14,287 +14,278 @@ $.dataFind = function(data, findwhat){
 
 
 
+//here
+
 function init_edits(){
-	
-var cssApplier;
 
-    
-    rangy.init();
-    cssApplier = rangy.createCssClassApplier("to_here", true); // true turns on normalization
+    var cssApplier;
+
+   // rangy.init();
+  //  cssApplier = rangy.createCssClassApplier("to_here", true); // true turns on normalization
     $(".module").attr('contentEditable', false);
+
+    $(".edit").live("mousedown",function(){
+        $(this).attr('contentEditable',true);
+        $("#mw_toolbar:hidden").slideDown();
+    //    $(this).addClass('mw_edited');
+ });
     
-    
-	$(".editblock").live("click", function() {
-
-
-
- $(this).addClass("mw_edited");
-
-
-
-   	 var id = $(this).attr("id");
-		 var rel = $(this).attr("rel");
-		 
-		 
-		 var is_post = $(this).attr("post");
-
-		 var field = $(this).attr("field");
-		 if(field == undefined){
-			 field = '';
-		 }
-
-
-
-		if( $(this).hasClass('editblock')){
-			$tag = 'editblock'
-		}
-
-
-
-		if( $(this).hasClass('edit')){
-			$tag = 'edit'
-		}
-
-
-		 if($tag == undefined){
-			 $tag = '';
-		 }
-
-if (load_editblock_history !=undefined ) {
-  $page_json = get_page_json();
-  if(is_post != undefined){
-	  $id123 = is_post;
-	  rel = 'post';
-  } else {
-	 $id123 =$page_json.page.id  ;
-  }
-
-  // load_editblock_history(id, rel,id123 ,$tag, field) ;
-  }
-});
-	
-	
-	
-$(".edit").live("click", function() {
- $(this).addClass("mw_edited");
  
- $(".edit *").removeClass("to_here");
- $(this).addClass("to_here");
- 
- 
-	   
- 
-
-   	 var id = $(this).attr("id");
-		 var rel = $(this).attr("rel");
-		  var is_post = $(this).attr("post");
-
-		 var field = $(this).attr("field");
-		 if(field == undefined){
-			 field = '';
-		 }
-
-
-
-		if( $(this).hasClass('editblock')){
-			$tag = 'editblock'
-		}
-
-
-
-		if( $(this).hasClass('edit')){
-			$tag = 'edit'
-		}
-
-
-		 if($tag == undefined){
-			 $tag = '';
-		 }
-
-if (load_editblock_history !=undefined ) {
-  $page_json = get_page_json();
-  
-   $page_json = get_page_json();
-  if(is_post != undefined){
-	  $id123 = is_post;
-	  rel = 'post';
-  } else {
-	 $id123 =$page_json.page.id  ;
-  }
-
-  //load_editblock_history(id, rel, $id123,$tag, field) ;
-  }
-
-
-
-
-
-});
-
-
-
-
-
-
-
-
-
-var editblock_ids = "";
-
-var editblocklength = $(".editblock").length-1;
-$(".editblock").each(function(i){
-   var id = $(this).attr("id");
-
-     if(editblock_ids==""){
-     editblock_ids = "#" +id;
-       }
-
-
-
-   if(editblock_ids!=""){
-    editblock_ids = editblock_ids + ", #" +id;
-   }
-
-
-});
-
-
-
-
-$(".module").each(function(){
-   if($(this).find(".module_handle").length==0){
-     var bar = ''
-     +'<div class="module_edit_bar">'
-     +'<span class="module_edit_bar_handle">&nbsp;</span>'
-     +'<span class="module_edit_bar_delete">Delete</span>'
-     +"</div>";
-
-     $(this).append(bar)
-   }
-});
-
-
-$(".module_edit_bar_delete").click(function(event){
-    mw.prevent(event);
-    var parent = $(this).parents(".module:first");
-    mw.modal.confirm({
-      html:"Are you sure you want to delete this module?",
-      yes:function(){
-        parent.remove();
-     //   mw.modal.alert("Module deleted");
-      }
+    $(".edit").live("blur",function(){
+    	mw.saveALL();
+  //  	 $(".to_here").removeClass("to_here");
+    //	 $(".mw_edited").removeClass('mw_edited');
+    	
     })
-});
+
+/*$(".edit").live("blur",function(){
+//  $(this).attr('contentEditable',false);
+//   $("#mw_toolbar:visible").slideUp();
+})*/
+
+  //  $("body").append('init_edits');
+    
+    
+
+
+ 	
+
+
+				
+ 
+ 	 
+ 	 
+ 	 
+    
+    $(".edit").bind("click", function () {
+
+        $(this).addClass("mw_edited");
+
+
+        var id = $(this).attr("id");
+        var rel = $(this).attr("rel");
+
+
+        var is_post = $(this).attr("post");
+
+        var field = $(this).attr("field");
+        if (field == undefined) {
+            field = '';
+        }
+
+
+        if ($(this).hasClass('editblock')) {
+            $tag = 'editblock'
+        }
+
+        if ($(this).hasClass('edit')) {
+            $tag = 'edit'
+        }
+
+        if ($tag == undefined) {
+            $tag = '';
+        }
+
+        if (load_editblock_history != undefined) {
+            $page_json = get_page_json();
+            if (is_post != undefined) {
+                $id123 = is_post;
+                rel = 'post';
+            } else {
+                $id123 = $page_json.page.id;
+            }
+
+            // load_editblock_history(id, rel,id123 ,$tag, field) ;
+        }
+    });
+
+
+    $(".edit").bind("click", function () {
+        $(this).addClass("mw_edited");
+
+        $(".edit *").removeClass("to_here");
+
+        var id = $(this).attr("id");
+        var rel = $(this).attr("rel");
+        var is_post = $(this).attr("post");
+
+        var field = $(this).attr("field");
+        if (field == undefined) {
+            field = '';
+        }
+
+        if ($(this).hasClass('editblock')) {
+            $tag = 'editblock'
+        }
+
+        if ($(this).hasClass('edit')) {
+            $tag = 'edit'
+        }
+
+
+        if ($tag == undefined) {
+            $tag = '';
+        }
+
+        if (load_editblock_history != undefined) {
+            $page_json = get_page_json();
+
+            $page_json = get_page_json();
+            if (is_post != undefined) {
+                $id123 = is_post;
+                rel = 'post';
+            } else {
+                $id123 = $page_json.page.id;
+            }
+
+            //load_editblock_history(id, rel, $id123,$tag, field) ;
+        }
+
+
+    });
+
+    var editblock_ids = "";
+
+    var editblocklength = $(".editblock").length - 1;
+    $(".editblock").each(function (i) {
+        var id = $(this).attr("id");
+
+        if (editblock_ids == "") {
+            editblock_ids = "#" + id;
+        }
 
 
 
-
-$(".editblock").each(function(){
-  $(this).sortable({
-     connectWith:editblock_ids,
-     items:".module",
-     cancel: ".module .module",
-     handle:".module_edit_bar_handle",
-     receive:function(event, ui){
-
-       var mw1 = ui.item.find("textarea").val();
-       mw1 = "<microweber module='"+mw1+"' />";
-       
-     //  alert(mw1);
-       
-       
-       $(".bar_module").not("#module_bar .bar_module").replaceWith(mw1);
-
-          $(".editblock").each(function(){
-              var id =  $(this).attr("id");
-           //   save_editblock(id);
-          })
-          
-          
-          
-          
-          mw.saveALL();
-          
-          
-          
-      }
-      // handle:".mwedit"
-  })
-  //$(this).disableSelection();
-
-});
-$(".edit").droppable({
-   drop: function(event, ui) {
-	
-	$(".module_edit_bar").remove();
-	 
-	
-      var mw1 = ui.draggable.find("textarea").val();
-      
-      mw1 = "<microweber module='"+mw1+"' />";
-      
-   //   alert(mw1);
-      ui.draggable.parents(".edit").addClass("mw_edited");
-      
-      $(".to_here").append(mw1);
-      $(".editblock").each(function(){
-              var id =  $(this).attr("id");
-             // save_editblock(id);
-           //   mw.saveALL();
-          })
-          mw.saveALL();
-   }
-});
+        if (editblock_ids != "") {
+            editblock_ids = editblock_ids + ", #" + id;
+        }
 
 
+    });
 
 
+    $(".module").each(function () {
+        if ($(this).find(".module_handle").length == 0) {
+            var bar = '' + '<div class="module_edit_bar">' + '<span class="module_edit_bar_handle">&nbsp;</span>' + '<span class="module_edit_bar_delete">Delete</span>' + "</div>";
+
+           // $(this).append(bar)
+        }
+    });
 
 
+    $(".module_edit_bar_delete").click(function (event) {
+        mw.prevent(event);
+        var parent = $(this).parents(".module:first");
+        mw.modal.confirm({
+            html: "Are you sure you want to delete this module?",
+            yes: function () {
+                parent.remove();
+                //   mw.modal.alert("Module deleted");
+            }
+        })
+    });
 
 
+    $(".editblock").each(function () {
+        $(this).sortable({
+            connectWith: editblock_ids,
+            items: ".module",
+            cancel: ".module .module",
+            handle: ".module_edit_bar_handle",
+            receive: function (event, ui) {
 
+                var mw1 = ui.item.find("textarea").val();
+                mw1 = "<microweber module='" + mw1 + "' />";
 
+                //  alert(mw1);
 
+                $(".bar_module").not("#module_bar .bar_module").replaceWith(mw1);
 
+                $(".editblock").each(function () {
+                    var id = $(this).attr("id");
+                    //   save_editblock(id);
+                })
 
+                mw.saveALL();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+            // handle:".mwedit"
+        })
+        //$(this).disableSelection();
+    });
+    
  
 
+ 
+ 
+    
+    
+    $(".edit, .edit *").droppable({
+    	greedy: true,
+		activeClass: "to_here",
+		hoverClass: "to_here",
+        drop: function (event, ui) {
+    	   $(".mw_edited").removeClass("mw_edited");
+    	 $(this).parents(".edit:first").addClass("mw_edited");
+    	
+            $(".module_edit_bar").remove();
+            //cssApplier.toggleSelection();
+
+            var mw1 = ui.draggable.find("textarea").val();
+
+            mw1 = "<div><microweber module='" + mw1 + "' /></div>";
+
+            //   alert(mw1);
+            ui.draggable.parents(".edit:first").addClass("mw_edited");
+            $(this).addClass("to_here");
+            $(this).addClass("mw_edited");
+            $(".to_here:first").append(mw1);
+            $(".to_here").removeClass("to_here");
+            $(".editblock").each(function () {
+                var id = $(this).attr("id");
+                // save_editblock(id);
+                //   mw.saveALL();
+            })
+            mw.saveALL();
+        }
+    });
+
+
+    $(".edit, .edit *").live("hover", function (event) {
+    	$(".to_here").removeClass("to_here");
+    
+    //	cssApplier.toggleSelection();
+        $(this).addClass("to_here");
+        //$(this).attr('contentEditable', true);
+    //    mw.prevent(event)
+      
+
+        //  $(this).parents(".edit:first").addClass("mw_edited");
+    }, function () {
+    	 mw.saveALL();
+    }
+
+    )
+
+    $(".edit *").live("click", function (event) {
+
+    //    cssApplier.toggleSelection();
+        $(".to_here").removeClass("to_here");
+      //  $(this).attr('contentEditable', true);
+        mw.prevent(event)
+
+        $(this).parents(".edit:first").addClass("mw_edited");
+        $(this).addClass("mw_edited");
+        
+        $(this).addClass("to_here");
+
+
+    }, function () {
+
+    }
+
+    )
+ }
 
 
 
@@ -302,39 +293,6 @@ $(".edit").droppable({
 
 
 
-$(".edit *").live("hover", function(event) {
-
-	cssApplier.toggleSelection();
-	
-	
-	
-	  mw.prevent(event)
-	  $(".edit *").removeClass("to_here");
-	  $(this).addClass("to_here");
-	//  $(this).parents(".edit:first").addClass("mw_edited");
-	}, function(){
-
-	} 
-	
-)
-
-$(".edit *").live("click", function(event) {
-
-	cssApplier.toggleSelection();
-	  mw.prevent(event)
-	  
-	  $(this).parents(".edit:first").addClass("mw_edited");
-	  $(".edit *").removeClass("to_here");
-	  $(this).addClass("to_here");
-
-	
-	}, function(){
-
-	} 
-	
-)
-
-}
 
 
 
@@ -413,7 +371,7 @@ $(document).ready(function() {
     })
 
 
-	$(".module").live("click", function(event) {
+	$(".module").bind("click", function(event) {
 		   
 		 var edit = $(this).attr("edit");
 		 var rel = $(this).attr("rel");
@@ -691,7 +649,7 @@ mw.saveALL = function(){
 		
 		$(".editblock").each(function(){
 	        var id = $(this).attr("id");
-	        save_editblock(id);
+	       // save_editblock(id);
 	    });
 		
 	//	

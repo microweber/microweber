@@ -4,8 +4,44 @@
 $(document).ready(function(){
 
 
+$(window).load(function(){
 
 
+
+ $(".cat_tree li").each(function(){
+   if($(this).find("li").length>0){
+      $(this).addClass("parent_li");
+      $(this).find("a:first").addClass("parent_a");
+   }
+   else{
+     $(this).addClass("child_li");
+      $(this).find("a:first").addClass("child_a");
+   }
+ });
+
+
+   $(".cat_tree li .parent_a").prepend("<span class='tree_folder'>&nbsp;</span>");
+   $(".cat_tree li .child_a").prepend("<span class='tree_file'>&nbsp;</span>");
+
+   $(".cat_tree li .parent_a").prepend("<span class='tree_ctrl'>&nbsp;+&nbsp;</span>");
+
+   $(".child_li").each(function(){
+      if($(this).parents("li").length==0){
+        $(this).addClass("no_parents")
+      }
+      else{
+        $(this).addClass("has_parents")
+      }
+   });
+
+
+   $(".tree_ctrl").click(function(event){
+      $(this).parents("li:first").find("ul:first").toggle();
+      $(this).toggleClass("tree_ctrl_plus")
+      mw.prevent(event);
+   });
+
+});
 
 
 

@@ -90,7 +90,63 @@ class Stats_model extends Model {
 		}
 	
 	}
+	function get_visits_by_url($url, $start_time = false) {
+		global $cms_db_tables;
+		$idsite = $this->site_id ();
+		$table = $cms_db_tables ['table_log_action'];
+		$cache_group = 'global/stats';
+		$q = "SELECT * FROM $table WHERE name = '$url' ";
+		
+		$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group, '- 5 minutes' );
+		
+		if (! empty ( $q )) {
+			$q = $q [0];
+			
+			$idaction = $q ['idaction'];
+			
+			$table2 = $cms_db_tables ['table_log_link_visit_action'];
+			if ($start_time == false) {
+				$start_time = strtotime ( "4 weeks ago" );
+				$start_time = date ( "Y-m-d H:i:s", $start_time );
+			} else {
+				$start_time = strtotime ( $start_time );
+				$start_time = date ( "Y-m-d H:i:s", $start_time );
+			}
+			
+			$q = " SELECT    idaction_name as id,  
+              COUNT(idlink_va) as views,  
+              COUNT(DISTINCT idvisitor) as visits,  
+              COUNT(IF(idaction_url_ref=0, 1, null)) as entry,  
+              log_action.name as page  
+              FROM {$table2}, {$table}  
+              WHERE {$table2}.idsite={$idsite}  
+              
+              and idaction_url = {$idaction} 
+              
+              AND {$table2}.idaction_name = {$table}.idaction  
+              AND server_time >='{$start_time}'
+              
+              ";
+			$q = " SELECT    idaction_name as id,  
+              COUNT(idlink_va) as views 
+              
+              FROM {$table2}  
+              WHERE 
+              
+              idaction_url = {$idaction} 
+              
+            
+              AND server_time >='{$start_time}'
+              
+              ";
+			
+			$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group,  '- 5 minutes' );
+			return intval ( $q [0] ["views"] );
+		} else {
+			return 0;
+		}
 	
+	}
 	function get_js_code() {
 		$id = $this->site_id ();
 		if ($id == 0) {

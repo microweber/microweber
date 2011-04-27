@@ -459,9 +459,9 @@ var nicEditorInstance = bkClass.extend({
 	init : function() {
         this.elm.setAttribute('contentEditable','true');
 		if(this.getContent() == "") {
-			this.setContent('<br />');
+			//this.setContent('<br />');
 			//pecata
-			//this.setContent('<p></p>');
+			this.setContent('<p> </p>');
 		}
 		this.instanceDoc = document.defaultView;
 		this.elm.addEvent('mousedown',this.selected.closureListener(this)).addEvent('keypress',this.keyDown.closureListener(this)).addEvent('focus',this.selected.closure(this)).addEvent('blur',this.blur.closure(this)).addEvent('keyup',this.selected.closure(this));
@@ -489,9 +489,22 @@ var nicEditorInstance = bkClass.extend({
 	},
 	
 	getRng : function() {
-		var s = this.getSel();
+		 var s = this.getSel();
 		if(!s) { return null; }
-		return (s.rangeCount > 0) ? s.getRangeAt(0) : s.createRange();
+		return (s.rangeCount > 0) ? s.getRangeAt(0) : s.createRange(); 
+		//pecata
+		/*var s = this.getSel();
+    var rng;        
+
+    if(!s) { return null; } 
+    if (s.rangeCount > 0) {
+        s.getRangeAt(0);
+    } else if ( typeof s.createRange === 'undefined' ) {
+        rng = document.createRange();
+    } else {
+        rng = s.createRange(); 
+    }       
+    return rng;*/
 	},
 	
 	selRng : function(rng,s) {
@@ -538,6 +551,13 @@ var nicEditorInstance = bkClass.extend({
 		if(e.ctrlKey) {
 			this.ne.fireEvent('key',this,e);
 		}
+		
+		
+		
+		
+	 
+		
+		
 	},
 	
 	selected : function(e,t) {
@@ -597,8 +617,8 @@ var nicEditorIFrameInstance = nicEditorInstance.extend({
 	init : function() {	
 		var c = this.elm.innerHTML.replace(/^\s+|\s+$/g, '');
 		this.elm.innerHTML = '';
-		(!c) ? c = "<br />" : c;
-		//(!c) ? c = "<p> </p>" : c;
+		//(!c) ? c = "<br />" : c;
+		(!c) ? c = "<p> </p>" : c;
 		this.initialContent = c;
 		
 		this.elmFrame = new bkElement('iframe').setAttributes({'src' : 'javascript:;', 'frameBorder' : 0, 'allowTransparency' : 'true', 'scrolling' : 'no'}).setStyle({height: '100px', width: '100%'}).addClass('frame').appendTo(this.elm);

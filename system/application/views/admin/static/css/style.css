@@ -57,7 +57,6 @@ a{
 }
 #header{
   width: 950px;
-  padding-top: 30px;
   zoom:1;
   margin-bottom: 5px;
 }
@@ -78,18 +77,18 @@ a{
   float: left;
   display: block;
   text-indent: -9999px;
-  width:187px;
-  height: 24px;
+  width:189px;
+  height: 25px;
   overflow: hidden;
-  background: url(../img/logo.jpg) no-repeat;
+  background: url(../img/mw.png) no-repeat;
+  margin: 12px 70px 0 0;
 }
 #main{
   width: 820px;
   margin: 0 auto;
 }
 #nav{
-  clear: both;
-  padding:3px 0 10px;
+  padding:0px 0 10px;
 }
 
 #nav a{
@@ -128,13 +127,15 @@ a{
 .box{
   background: white;
   min-height: 100px;
+  zoom:1;
 
 }
+
 .box_content{
   margin:0 80px;
   zoom:1;
 }
-.box_content:after{
+.box_content:after, .box:after{
   content: ".";
   display: block;
   clear: both;
@@ -1906,6 +1907,97 @@ right: 5px;
 #post_custom_fields .formtable td:first-child{
   width: 350px;
 }
+
+#posts_sidebar{
+  float: left;
+  width:25%;
+}
+
+#content_list{
+  float: left;
+  width: 75%
+}
+
+.cat_tree{
+  padding: 5px;
+}
+.cat_tree ul ul{
+   background: url(../img/tree_ul.gif) repeat-y 6px 0;
+   margin-left: 20px;
+}
+
+
+.cat_tree li{
+  list-style: none;
+  margin-left: 6px;
+  clear: both;
+  overflow: hidden;
+  padding: 2px 0;
+  zoom:1;
+}
+.cat_tree .child_li{
+   background: url(../img/tree_li.gif) no-repeat left center;
+}
+
+.cat_tree .no_parents{
+  background: none
+}
+
+
+.cat_tree li li{
+  padding-left: 10px;
+}
+
+.cat_tree li li li{
+  padding-left: 20px;
+}
+
+.cat_tree li li li li{
+  padding-left: 30px;
+}
+
+.cat_tree a{
+  font-size: 11px;
+  clear: both;
+  display: block;
+
+}
+
+
+.tree_ctrl{
+  display: block;
+  float: left;
+  width:14px;
+  height: 14px;
+  background: url(../img/tree_ctrl.png) no-repeat;
+  text-indent: -9999px;
+  margin: 0px 4px 0 0;
+}
+.tree_ctrl_plus{
+  background-position: 0 -14px;
+}
+
+.tree_file{
+  display: block;
+  width: 14px;
+  height: 16px;
+  background:url(../img/tree_file.png) no-repeat;
+  float: left;
+  margin: -1px 4px 0 0;
+}
+.tree_folder{
+  display: block;
+  width: 19px;
+  height: 15px;
+  background:url(../img/tree_folder.png) no-repeat;
+  float: left;
+  margin: -1px 4px 0 0;
+}
+.parent_a{
+  padding-bottom: 2px;
+}
+
+
 
 
 

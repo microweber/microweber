@@ -1235,24 +1235,29 @@ p($modules );
 									if (is_dir ( $dir ) == false) {
 										mkdir_recursive ( $dir );
 									}
-									exit ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
+									//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
 									//var_dump( $try_file, $try_file1);
-								//exit ( "Modile file not found in $try_file1. Please create it!" );
-								//if (! copy ( $try_file, $try_file1 )) {
-								//echo "failed to copy $file...\n";
-								//}
-								
+									//exit ( "Modile file not found in $try_file1. Please create it!" );
+									//if (! copy ( $try_file, $try_file1 )) {
+									//echo "failed to copy $file...\n";
+									//}
+									
 
+									$error = true;
 								} else {
-									exit ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
-								
+									//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
+									$error = true;
 								}
 							} else {
 								$try_config_file = MODULES_DIR . '' . $attr ['module'] . '_config.php';
-							}
 							
+							}
+							if ($error == true) {
+								$try_file1 = MODULES_DIR . 'non_existing.php';
+								$error = false;
+							}
 							//	p($try_file1);
-							if (is_file ( $try_file1 ) == true) {
+							if (is_file ( $try_file1 ) == true and $error == false) {
 								$arrts = array ();
 								foreach ( $attr as $att => $at ) {
 									$this->template [$att] = ($at);
@@ -1435,7 +1440,7 @@ p($modules );
 								
 
 								$module_file = str_replace ( '<mw', '<microweber', $module_file );
-								if (strstr ( $module_file, '<microweber' ) == true) {
+								if (strstr ( $module_file, '<microweber' ) == true and $error == false) {
 									$module_file = self::parseMicrwoberTags ( $module_file, $options );
 								}
 								
@@ -1463,7 +1468,7 @@ p($modules );
 		
 		}
 		
-		if (strstr ( $layout, '<editable' ) == true) {
+		if (strstr ( $layout, '<editable' ) == true and $error == false) {
 			
 			$editmode = CI::model ( 'core' )->is_editmode ();
 			//p($editmode);
@@ -1571,7 +1576,7 @@ p($modules );
 						}
 						
 						$layout = str_replace ( '<mw', '<microweber', $layout );
-						if (strstr ( $layout, '<microweber' ) == true) {
+						if (strstr ( $layout, '<microweber' ) == true and $error == false) {
 							$layout = self::parseMicrwoberTags ( $layout, $options );
 						}
 					
@@ -1654,7 +1659,7 @@ p($modules );
 		
 		}
 		
-		if ((strstr ( $layout, '<editable' ) == true) or (strstr ( $layout, '<mw' ) == true) or (strstr ( $layout, '<microweber' ) == true) or (strstr ( $layout, '<block' ) == true)) {
+		if ((strstr ( $layout, '<editable' ) == true) or (strstr ( $layout, '<mw' ) == true) or (strstr ( $layout, '<microweber' ) == true) or (strstr ( $layout, '<block' ) == true) and $error == false) {
 			$layout = self::parseMicrwoberTags ( $layout, $options );
 		}
 		

@@ -136,9 +136,26 @@ category_tree( $params ) ; ?>
 <div id="d_bar" class="">
   <div class="left">
     <h2>Content</h2>
-    <div class="drop drop_white"> <span class="drop_arr"></span> <span class="val">All categories</span>
-      <div class="drop_list">
-        <?
+
+  </div>
+  <div class="right"> <a href="#" id="content_search_btn" class="btn3 hovered">Search</a>
+    <input type="text" default="Search content"  class="content_search" id="content_search"  />
+  </div>
+</div>
+
+
+<div class="select_all">
+  <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
+  <strong><span>Select all</span> content</strong> </div>
+
+
+
+<div id="posts_sidebar">
+
+    <div class="cat_tree">
+
+
+           <?
 
  $params = array();
 
@@ -146,16 +163,12 @@ category_tree( $params ) ; ?>
 
 
 category_tree( $params ) ; ?>
-      </div>
-    </div>
+
   </div>
-  <div class="right"> <a href="#" id="content_search_btn" class="btn3 hovered">Search</a>
-    <input type="text" default="Search content"  class="content_search" id="content_search"  />
-  </div>
+
 </div>
-<div class="select_all">
-  <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
-  <strong><span>Select all</span> content</strong> </div>
+
+
 <div id="posts_cats_controller">
   <table cellpadding="0" cellspacing="0" width="100%">
     <tr>

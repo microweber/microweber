@@ -385,9 +385,9 @@ if (isset ( $_SERVER ["HTTPS"] )) {
 
 }
 if ($mw_config ['site_url']) {
-	define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
+  define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
 } else {
-	define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
+   define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 }
 //define ( 'SITEURL', $pageURL . '://' . 'skidekids.com' . '/' . $subdir . '/' );
 $cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;

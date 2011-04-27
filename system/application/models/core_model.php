@@ -1337,13 +1337,13 @@ class Core_model extends Model {
 	
 	}
 	
-	function dbQuery($q, $cache_id = false, $cache_group = 'global') {
+	function dbQuery($q, $cache_id = false, $cache_group = 'global', $time = false) {
 		if (trim ( $q ) == '') {
 			return false;
 		}
 		
 		if ($cache_id != false) {
-			$results = $this->cacheGetContentAndDecode ( $cache_id, $cache_group );
+			$results = $this->cacheGetContentAndDecode ( $cache_id, $cache_group, $time );
 			if ($results != false) {
 				if ($results == '---empty---') {
 					return false;
@@ -1782,7 +1782,7 @@ class Core_model extends Model {
 				
 				}
 				$is_not_null = false;
-				if($v == 'IS NOT NULL'){
+				if ($v == 'IS NOT NULL') {
 					$is_not_null = true;
 				}
 				
@@ -1809,7 +1809,7 @@ class Core_model extends Model {
 					$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 				
 				}
-				if($is_not_null  == true){
+				if ($is_not_null == true) {
 					$cfvq = "custom_field_value IS NOT NULL  ";
 				} else {
 					$cfvq = "custom_field_value = '$v'  ";
@@ -1830,7 +1830,7 @@ class Core_model extends Model {
                     ";
 				
 				$q2 = $q;
-				 // p($q);
+				// p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 				//	
 				//	p($q);
@@ -4246,6 +4246,18 @@ class Core_model extends Model {
 		
 		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
 		
+		if ($time != false) {
+			if (is_file ( $cache_file )) {
+				$time_limit = strtotime ( $time );
+				
+				$last_modified = filemtime ( $cache_file );
+				if (time () - $last_modified > $time_limit) {
+					unlink ( $cache_file );
+				}
+				return false;
+			}
+		}
+		
 		if (! in_array ( $cache_file, $this->path_list )) {
 			$this->path_list [] = $cache_file;
 			try {
@@ -5283,7 +5295,7 @@ $w
 								$file_path = MEDIAFILES . 'pictures/original/' . $media_get_vid_thumbnail [0] ['filename'];
 							} else {
 								$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
-								$media_get_vid_thumbnail [0] ['filename'] =  $item ['filename'];
+								$media_get_vid_thumbnail [0] ['filename'] = $item ['filename'];
 							
 							}
 							//	p($file_path);

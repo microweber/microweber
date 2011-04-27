@@ -197,6 +197,12 @@ description: shop site layout
     </div>
     <span class="slide_left product_slide_left">Back</span> <span class="slide_right product_slide_right">More</span> </div>
   <? //p($post); ?>
+  
+  
+  
+  <editable  page="<? print $page['id'] ?>" field="products_bottom">
+ <p>drag here</p>
+  </editable>
   <? endif; ?>
 </div>
 <? endif; ?>

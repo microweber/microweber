@@ -29,7 +29,7 @@ $modules = CI::model('template')->getModules($modules_options );
 	
 	
 	function init_bar() {
-  $(".module_accordion li").draggable({
+/*  $(".module_accordion li").draggable({
 			connectToSortable: ".editblock",
 		    helper: 'clone',
 			revert: "invalid"
@@ -56,14 +56,7 @@ $modules = CI::model('template')->getModules($modules_options );
 		});
 			 
 			 
-			  	 $(".module_bar_modules_holder li").draggable({
-			connectToSortable: ".edit",
-		    helper: 'clone',
-			revert: "invalid"
-			
-			//,            cursorAt: { left: -15, top:0 }
-		});
-				 
+	 */
 				 
 				 		   
 							 
@@ -101,16 +94,12 @@ $modules = CI::model('template')->getModules($modules_options );
     <ul>
       <? foreach($modules as $module2): ?>
       <?
- $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
- $module_group2 = $module_group2[0];
-
-?>
+		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
+		 $module_group2 = $module_group2[0];
+		?>
       <? if($module_group2 == $module_group)  : ?>
-      <li>
-        <? if($module2['icon']): ?>
-        <img src="<? print $module2['icon'] ?>" height="12" style="float:left" />
-        <? endif; ?>
-        <? print $module2['name'] ?> <? print $module2['description'] ?>
+      <li class="module_draggable">
+        <? if($module2['icon']): ?><img src="<? print $module2['icon'] ?>" height="12" style="float:left" /><? endif; ?><? print $module2['name'] ?><? print $module2['description'] ?>
         <textarea style="display: none"><? print $module2['module'] ?></textarea>
       </li>
       <? endif; ?>

@@ -6,6 +6,7 @@
 $(document).ready(function(){
 			 data1 = {}
    data1.module = 'admin/content/module_bar';
+   data1.do_not_wrap = '1';
    
    data1.page_id = '<? print intval(PAGE_ID) ?>';
    data1.post_id = '<? print intval(POST_ID) ?>';
@@ -29,7 +30,14 @@ $(document).ready(function(){
 
    $('#module_bar_resp').html(resp);
 
- 
+  $(".module_draggable").draggable({
+			connectToSortable: ".edit",
+		    helper: 'clone',
+			revert: "invalid"
+			//create: function(event, ui) {alert(':))')}
+			
+			//,            cursorAt: { left: -15, top:0 }
+		});
 
   }
     });
@@ -103,12 +111,12 @@ $(document).ready(function(){
 
 
 
-    $("#module_bar_modules_holder div").draggable({
-			connectToSortable: ".editblock",
+/*    $(".module_accordion li").draggable({
+			connectToSortable: ".edit",
 		    helper: 'clone',
 			revert: "invalid",
             cursorAt: { left: -15, top:0 }
-		});
+		});*/
 	
 	
 
@@ -312,7 +320,7 @@ $(".js_generated").remove();
    $(".mw_edited").each(function(j){
 
 
- $(this).addClass("mw_edited");
+ //$(this).addClass("mw_edited");
 
 var nic_obj = {};
 
@@ -348,10 +356,10 @@ master[objX] = obj;
    });
 		
 		
+			//  mw.modal.overlay();
 		
-		
-		
-		if (master.toSource() === "({})"){
+	$emp = isEmpty(master);
+		if ($emp == true){
 		 
 			
 		} else {
@@ -363,7 +371,7 @@ master[objX] = obj;
 		  data: master,
           async:false,
 		  success: function(data) {
-			  mw.modal.alert("Content Saved");
+			//  mw.modal.alert("Content Saved");
   if(typeof window.parent.mw_edit_init == 'function'){
      window.parent.mw_edit_init(window.location.href);
   }
@@ -372,6 +380,7 @@ master[objX] = obj;
   callback.call(this)
  
   $(".mw_edited").removeClass('mw_edited');
+  // mw.modal.close();
   
 
 		  }
@@ -392,16 +401,10 @@ $(document).ready(function(){
 
 
 
-$(".edit").live("mousedown",function(){
-               $(this).attr('contentEditable',true);
-               $("#mw_toolbar:hidden").slideDown();
-        });
 
-$(".edit").live("blur",function(){
-         $(this).attr('contentEditable',false);
-         $("#mw_toolbar:visible").slideUp();
-})
 
+ 
+ 
 
 
 

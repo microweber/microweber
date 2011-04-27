@@ -748,6 +748,9 @@ class Content extends Controller {
 							$field = trim ( $the_field_data ['attributes'] ['field'] );
 							
 							$html_to_save = $the_field_data ['html'];
+							$html_to_save = str_replace ('MICROWEBER', 'microweber', $html_to_save );
+							
+							
 							$content = $html_to_save;
 							if (strstr ( $content, '<div' ) == true) {
 								
@@ -898,8 +901,9 @@ class Content extends Controller {
 						}
 					
 					} else {
-						print ('Error: plase specify a "field" attribute') ;
-					
+						
+					//	print ('Error: plase specify a "field" attribute') ;
+				//	p($the_field_data);
 					}
 				}
 			}

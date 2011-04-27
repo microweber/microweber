@@ -14,17 +14,8 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 <div id="container" align="center">
   <div id="liquid" align="left">
     <div id="header"> <a href="<?php print site_url('admin')  ?>" target="_blank" id="logo" title="MicroWeber">MicroWeber</a>
-      <div id="user_info">
-        <div id="support_nav_block">
-          <div class="item"> <span>Site:</span> <a class="blue" href="<?php print site_url(); ?>" target="_blank"><?php print site_url(); ?></a> </div>
-          <div class="item"> Logged in as: <strong class="blue"><?php print  user_name(); ?></strong> | <a href="javascript:mw.clear_cache()" class="blue" id="clear_cache_admin_link">Clear cache</a>| <a href="javascript:;" class="blue" onclick="$('#mw_console').toggle()"><em>Console</em></a> </div>
-        </div>
-        <ul id="support_nav">
-          <li><a href="#" title="Support">Support</a>&nbsp;|&nbsp;</li>
-          <li><a title="Log out" href="<?php print $exit_url ?>">Log out</a></li>
-        </ul>
-      </div>
-      <div id="nav"> <a href="<? print ADMIN_URL ?>/action:pages" <? if((url_param('action') == 'pages') or (url_param('action') == 'page_edit')): ?> class="active" <? endif; ?>>Pages</a> <a href="<? print ADMIN_URL ?>/action:posts" <? if((url_param('action') == 'posts') or (url_param('action') == 'post_edit')): ?> class="active" <? endif; ?>>Posts</a> <a href="<? print ADMIN_URL ?>/action:shop" <? if((url_param('action') == 'shop') or (url_param('action') == 'orders')): ?> class="active" <? endif; ?>>Online Shop</a> <a href="<? print ADMIN_URL ?>/action:categories" <? if((url_param('action') == 'categories') or (url_param('action') == 'category_edit')): ?> class="active" <? endif; ?>>Categories</a> <a href="<? print ADMIN_URL ?>/action:menus" <? if((url_param('action') == 'menus') or (url_param('action') == 'menu_edit')): ?> class="active" <? endif; ?>>Menus</a> <a href="<? print ADMIN_URL ?>/action:options"  <? if((url_param('action') == 'options') or (url_param('action') == 'option_edit')): ?> class="active" <? endif; ?>>Options</a> 
+
+      <div id="nav"> <a href="<? print ADMIN_URL ?>/action:pages" <? if((url_param('action') == 'pages') or (url_param('action') == 'page_edit')): ?> class="active" <? endif; ?>>Pages</a> <a href="<? print ADMIN_URL ?>/action:posts" <? if((url_param('action') == 'posts') or (url_param('action') == 'post_edit')): ?> class="active" <? endif; ?>>Posts</a> <a href="<? print ADMIN_URL ?>/action:shop" <? if((url_param('action') == 'shop') or (url_param('action') == 'orders')): ?> class="active" <? endif; ?>>Online Shop</a> <a href="<? print ADMIN_URL ?>/action:categories" <? if((url_param('action') == 'categories') or (url_param('action') == 'category_edit')): ?> class="active" <? endif; ?>>Categories</a> <a href="<? print ADMIN_URL ?>/action:menus" <? if((url_param('action') == 'menus') or (url_param('action') == 'menu_edit')): ?> class="active" <? endif; ?>>Menus</a> <a href="<? print ADMIN_URL ?>/action:options"  <? if((url_param('action') == 'options') or (url_param('action') == 'option_edit')): ?> class="active" <? endif; ?>>Options</a>
       
       <a href="<? print ADMIN_URL ?>/action:users"  <? if((url_param('action') == 'users') or (url_param('edit_user'))): ?> class="active" <? endif; ?>>Users</a>
       
@@ -52,5 +43,16 @@ pageTracker._setAllowLinker(true);
 pageTracker._trackPageview();
 } catch(err) {}
 </script>
+
+<div id="user_info">
+        <div id="support_nav_block">
+          <div class="item"> <span>Site:</span> <a class="blue" href="<?php print site_url(); ?>" target="_blank"><?php print site_url(); ?></a> </div>
+          <div class="item"> Logged in as: <strong class="blue"><?php print  user_name(); ?></strong> | <a href="javascript:mw.clear_cache()" class="blue" id="clear_cache_admin_link">Clear cache</a>| <a href="javascript:;" class="blue" onclick="$('#mw_console').toggle()"><em>Console</em></a> </div>
+        </div>
+        <ul id="support_nav">
+          <li><a href="#" title="Support">Support</a>&nbsp;|&nbsp;</li>
+          <li><a title="Log out" href="<?php print $exit_url ?>">Log out</a></li>
+        </ul>
+      </div>
 </body>
 </html>
