@@ -30,14 +30,32 @@ $(document).ready(function(){
 
    $('#module_bar_resp').html(resp);
 
+
+   var module_bar = ''
+   + '<div class="module_bar">'
+     + '<span title="Drag" class="module_bar_drag"></span>'
+     + '<span title="Edit" class="module_bar_edit"></span>'
+     + '<span title="Delete" class="module_bar_delete"></span>'
+   + '</div>'
+
+   $(".module_draggable").append(module_bar);
+
   $(".module_draggable").draggable({
 			connectToSortable: ".edit",
 		    helper: 'clone',
-			revert: "invalid"
-			//create: function(event, ui) {alert(':))')}
-			
-			//,            cursorAt: { left: -15, top:0 }
+			revert: "invalid",
+            handle:".module_bar_edit"
+
 		});
+
+
+        $(".module_draggable").each(function(){
+
+        });
+
+
+
+
 
   }
     });
@@ -55,7 +73,7 @@ $(document).ready(function(){
 
    
  
-   
+
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
   <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css" />
   <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
@@ -479,7 +497,15 @@ myNicEditor.setPanel('mw_editbar');
 <a href="#" onclick='mw.saveALL()' id="ContentSave">Save</a>
 
 
-<div style="width: 300px;height: 400px;position: fixed;right:10px;bottom: 10px;background: #EFECEC">
+<div style="width: 300px;height: 450px;position: fixed;right:10px;bottom: 10px;background: #EFECEC; font-size:10px;">
+
+ <div id="mw_edit_module_iframe_holder">
+ <iframe id="mw_edit_module_iframe" src="#" height="200" width="300" frameborder="0"></iframe>
+ 
+ 
+ </div>
+
+
     <div id="mw_block_history"></div>
     Outline Editable Regions;
     <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.edit', '#DCCC01'):mw.outline.remove('.edit')" />
@@ -487,7 +513,7 @@ myNicEditor.setPanel('mw_editbar');
     Outline Draggable Regions;
     <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
     <p><strong>Toggle Browse</strong> </p>
-    <input type="checkbox" checked="checked" id="enable_browse" />
+    <input type="checkbox"   id="enable_browse" />
 
     <div class="modules_list"> </div>
 

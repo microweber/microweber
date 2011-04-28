@@ -108,7 +108,7 @@
                 </div>
                 <div id="nav">
                
-                    <block id="header_block" global="true" />
+                 <microweber module="content/menu"  name="main_menu"  />
   
                   
                   

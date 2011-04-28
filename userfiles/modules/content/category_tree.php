@@ -1,7 +1,8 @@
 
 
-
+ 
 <h2>
+
 <? if($params['title'] != false): ?>
 <? print $params['title']; ?>
 <? else : ?>
@@ -9,6 +10,9 @@
 <? endif; ?>
 </h2>
    
+   
+   
+ 
    <? //p($params); ?>
    
  

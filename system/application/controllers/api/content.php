@@ -743,6 +743,32 @@ class Content extends Controller {
 					}
 				}
 				
+				if (($the_field_data ['attributes'] ['rel']) == 'PAGE_ID') {
+					//	p ( $_SERVER );
+					
+
+					if ($ref_page != '') {
+						$save_global = false;
+						$ref_page = $the_ref_page = get_ref_page ();
+						$page_id = $ref_page ['id'];
+						
+						$content_id = $page_id;
+					}
+				}
+				
+				if (($the_field_data ['attributes'] ['rel']) == 'POST_ID') {
+					//	p ( $_SERVER );
+					
+
+					if ($ref_page != '') {
+						$save_global = false;
+						$ref_page = $the_ref_page = get_ref_page ();
+						$page_id = $ref_page ['id'];
+						
+						$content_id = $page_id;
+					}
+				}
+				
 				if ($category_id == false and $page_id == false and $post_id == false and $save_global == false) {
 					print ('Error: plase specify integer value for at least one of those attributes - page, post or category') ;
 				} else {
@@ -935,9 +961,9 @@ class Content extends Controller {
 			}
 		}
 		*/
-		header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
+		header ( 'Cache-Control: no-cache, must-revalidate' );
+		header ( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header ( 'Content-type: application/json' );
 		$json_print = json_encode ( $json_print );
 		print $json_print;
 		

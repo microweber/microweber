@@ -20,8 +20,14 @@
 
  
  <div class="contact_form">
+ 
+ 
+ 
              <h3 class="title nopadding">Send us a message</h3>
              <br /><br />
+              <editable  rel="global" field="module_config_contact_form_text_<? print $params['module_id']; ?>">Text</editable>
+             <br />
+
             <form method="post" action="">
             <input  type="hidden"   name="to_emails" value="<? print base64_encode($params['email']); ?>"  />
              

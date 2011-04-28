@@ -168,7 +168,7 @@ function init_edits(){
         if ($(this).find(".module_handle").length == 0) {
             var bar = '' + '<div class="module_edit_bar">' + '<span class="module_edit_bar_handle">&nbsp;</span>' + '<span class="module_edit_bar_delete">Delete</span>' + "</div>";
 
-           // $(this).append(bar)
+     //      $(this).append(bar)
         }
     });
 
@@ -230,10 +230,11 @@ function init_edits(){
     	
             $(".module_edit_bar").remove();
             //cssApplier.toggleSelection();
+            $mod_id = "module_"+Math.floor(Math.random()*9999)+Math.floor(Math.random()*9999);
 
             var mw1 = ui.draggable.find("textarea").val();
 
-            mw1 = "<div><microweber module='" + mw1 + "' /></div>";
+            mw1 = "<div><microweber module_id='" + $mod_id + "'  module='" + mw1 + "' /></div>";
 
             //   alert(mw1);
             ui.draggable.parents(".edit:first").addClass("mw_edited");
@@ -250,7 +251,8 @@ function init_edits(){
         }
     });
 
-
+    //$( ".module" ).droppable( "option", "disabled", true );
+    $( ".module" ).attr('contentEditable',false);
     $(".edit, .edit *").live("hover", function (event) {
     	$(".to_here").removeClass("to_here");
     
@@ -625,9 +627,13 @@ function call_edit_module_iframe(url, id) {
 	url = url + 'element_id:'+id;
 	$curent_edit_element_id=id;
  }
+  //alert(url);
+  $("#mw_edit_module_iframe").attr('src', url);
+// $("#mw_edit_module_iframe").attr("src") =url;
+ //$("#mw_edit_module_iframe").load();
  
  
-		var call_iframe = mw.modal.iframe({src:url, width:700, overlay:true, height:500, id:"module_edit_iframe"});
+		//var call_iframe = mw.modal.iframe({src:url, width:700, overlay:true, height:500, id:"module_edit_iframe"});
 
 }
 
