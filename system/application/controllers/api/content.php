@@ -680,7 +680,7 @@ class Content extends Controller {
 			$page_id = $ref_page ['id'];
 		
 		}
-		
+		$json_print = array ();
 		foreach ( $the_field_data_all as $the_field_data ) {
 			
 			if (! empty ( $the_field_data )) {
@@ -705,6 +705,10 @@ class Content extends Controller {
 				
 				if (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {
 					$category_id = intval ( $the_field_data ['attributes'] ['category'] );
+				}
+				$page_element_id = false;
+				if (strval ( $the_field_data ['attributes'] ['id'] ) != '') {
+					$page_element_id = ($the_field_data ['attributes'] ['id']);
 				}
 				
 				if (($the_field_data ['attributes'] ['global']) != false) {
@@ -748,8 +752,7 @@ class Content extends Controller {
 							$field = trim ( $the_field_data ['attributes'] ['field'] );
 							
 							$html_to_save = $the_field_data ['html'];
-							$html_to_save = str_replace ('MICROWEBER', 'microweber', $html_to_save );
-							
+							$html_to_save = str_replace ( 'MICROWEBER', 'microweber', $html_to_save );
 							
 							$content = $html_to_save;
 							if (strstr ( $content, '<div' ) == true) {
@@ -854,14 +857,19 @@ class Content extends Controller {
 									$to_save = array ();
 									$to_save ['id'] = $content_id;
 									$to_save ['quick_save'] = true;
+									
+									$to_save ['page_element_id'] = $page_element_id;
+									$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 									$to_save [$field] = ($html_to_save);
 									//print "<h2>For content $content_id</h2>";
 									//p ( $to_save );
+									$json_print [] = $to_save;
 									$saved = CI::model ( 'content' )->saveContent ( $to_save );
 									$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 									
-									print ($html_to_save) ;
+								//	print ($html_to_save) ;
 								
+
 								} else if ($category_id) {
 									print (__FILE__ . __LINE__ . ' category is not implemented not rady yet') ;
 								
@@ -874,11 +882,12 @@ class Content extends Controller {
 								$to_save ['option_key'] = $the_field_data ['attributes'] ['field'];
 								$to_save ['option_value'] = $html_to_save;
 								$to_save ['option_key2'] = 'editable_region';
-								
+								$to_save ['page_element_id'] = $page_element_id;
+								$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 								//print "<h2>Global</h2>";
 								//p ( $to_save );
 								$to_save = CI::model ( 'core' )->optionsSave ( $to_save );
-								
+								$json_print [] = $to_save;
 								$history_to_save = array ();
 								$history_to_save ['table'] = 'global';
 								//	$history_to_save ['id'] = 'global';
@@ -887,9 +896,11 @@ class Content extends Controller {
 								
 								CI::model ( 'core' )->saveHistory ( $history_to_save );
 								$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
-								
-								print ($html_to_save) ;
-								//	print ($to_save) ;
+								//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );
+							
+
+							//	print ($html_to_save) ;
+							//	print ($to_save) ;
 							
 
 							//p ( $field_content );
@@ -903,13 +914,35 @@ class Content extends Controller {
 					} else {
 						
 					//	print ('Error: plase specify a "field" attribute') ;
-				//	p($the_field_data);
+					//	p($the_field_data);
 					}
 				}
 			}
 		
 		}
+		//	p($_POST);
+		/*	if (! empty ( $_POST )) {
+			foreach ( $_POST as $k => $v ) {
+				
+				//
+				$v2 = array ();
+				foreach ( $v as $v1_k => $v1_v ) {
+					$html = CI::model ( 'template' )->parseMicrwoberTags ( $v1_v, $options = false );
+					$v2 [$v1_k] =  ( $html );
+				}
+				
+				$json_print [$k] = $v2;
+			}
+		}
+		*/
+		header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Content-type: application/json');
+		$json_print = json_encode ( $json_print );
+		print $json_print;
+		
 		CI::model ( 'core' )->cleanCacheGroup ( 'global/blocks' );
+		exit ();
 	}
 	
 	function load_history_file() {

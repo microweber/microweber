@@ -1,1 +1,0 @@
-<p>privacy-policy﻿</p>

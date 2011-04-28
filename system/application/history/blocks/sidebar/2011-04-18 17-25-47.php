@@ -1,1 +1,0 @@
-<microweber module="content/category_tree" title="Products" for_page="shop"   module_id="module_2011041805254732518" />

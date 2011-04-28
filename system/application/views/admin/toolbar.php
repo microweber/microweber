@@ -369,15 +369,24 @@ master[objX] = obj;
 		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
+		  datatype: "json",
           async:false,
 		  success: function(data) {
 			//  mw.modal.alert("Content Saved");
   if(typeof window.parent.mw_edit_init == 'function'){
      window.parent.mw_edit_init(window.location.href);
   }
-   $(".mw_edited").html(data);
+   $("#"+data[0].page_element_id).html(data[0].page_element_content);
   //$(this).html(data);
-  callback.call(this)
+  
+  $.each(data, function(i, item) {
+				//		alert(item.page_element_id+item.page_element_content);
+	//$("#"+data[i].page_element_id).html(data[i].page_element_content);
+     
+});
+  
+  callback.call(this);
+  
  
   $(".mw_edited").removeClass('mw_edited');
   // mw.modal.close();
