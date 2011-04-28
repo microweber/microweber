@@ -296,8 +296,8 @@ $config ['encryption_key'] = "microweber_" . md5 ( ROOTPATH ) . md5 ( DBPASSWORD
 |
 */
 $config ['sess_cookie_name'] = 'microweber_session_' . md5 ( ROOTPATH );
-$config ['sess_expiration'] = 0;
-$config ['sess_encrypt_cookie'] = false;
+$config ['sess_expiration'] = 60*24*7;
+$config ['sess_encrypt_cookie'] = TRUE;
 $config ['sess_use_database'] = TRUE;
 $config ['sess_table_name'] = TABLE_PREFIX . 'sessions';
 $config ['sess_match_ip'] = false;

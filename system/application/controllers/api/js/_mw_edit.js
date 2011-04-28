@@ -20,19 +20,27 @@ function init_edits(){
 
     var cssApplier;
 
-   // rangy.init();
-  //  cssApplier = rangy.createCssClassApplier("to_here", true); // true turns on normalization
+  // rangy.init();
+ //  cssApplier = rangy.createCssClassApplier("ui-draggable", true); // true turns on normalization
+  // $("body").attr('contentEditable', true);
     $(".module").attr('contentEditable', false);
+//    $("body *:not(.edit)")
 
+ //   $("*").not(".edit").attr('contentEditable', false);
+    
+  ///  $('body > *:not(.edit)').attr('contentEditable', false);
+    
+    
     $(".edit").live("mousedown",function(){
-        $(this).attr('contentEditable',true);
+      $(this).attr('contentEditable',true);
+       // $(".edit * ").attr('contentEditable','inherit');
         $("#mw_toolbar:hidden").slideDown();
     //    $(this).addClass('mw_edited');
  });
     
  
     $(".edit").live("blur",function(){
-    	mw.saveALL();
+    	//mw.saveALL();
   //  	 $(".to_here").removeClass("to_here");
     //	 $(".mw_edited").removeClass('mw_edited');
     	
@@ -44,8 +52,41 @@ function init_edits(){
 })*/
 
   //  $("body").append('init_edits');
+
+
+
+
+
+
+
+   var module_bar = ''
+   + '<div class="module_bar">'
+     + '<span title="Drag" class="module_bar_drag">Drag</span>'
+     + '<span title="Edit" class="module_bar_edit">Edit</span>'
+     + '<span title="Delete" class="module_bar_delete">Delete</span>'
+   + '</div>';
+
+
+/*     $(".edit .module").sortable({
+       items:".module",
+       connectWith:".edit",
+       receive: function(event, ui) {
+         $(".module_bar").remove();
+       //  $(".ui-sortable-placeholder").remove();
+       //  $('.edit *').removeClass('ui-sortable-placeholder')
+         setTimeout(function(){
+          mw.saveALL()
+         }, 150)
+
+
+       }
+     })*/
+
+
+
+
     
-    
+
 
 
  	
@@ -164,26 +205,7 @@ function init_edits(){
     });
 
 
-    $(".module").each(function () {
-        if ($(this).find(".module_handle").length == 0) {
-            var bar = '' + '<div class="module_edit_bar">' + '<span class="module_edit_bar_handle">&nbsp;</span>' + '<span class="module_edit_bar_delete">Delete</span>' + "</div>";
 
-     //      $(this).append(bar)
-        }
-    });
-
-
-    $(".module_edit_bar_delete").click(function (event) {
-        mw.prevent(event);
-        var parent = $(this).parents(".module:first");
-        mw.modal.confirm({
-            html: "Are you sure you want to delete this module?",
-            yes: function () {
-                parent.remove();
-                //   mw.modal.alert("Module deleted");
-            }
-        })
-    });
 
 
     $(".editblock").each(function () {
@@ -193,6 +215,7 @@ function init_edits(){
             cancel: ".module .module",
             handle: ".module_edit_bar_handle",
             receive: function (event, ui) {
+
 
                 var mw1 = ui.item.find("textarea").val();
                 mw1 = "<microweber module='" + mw1 + "' />";
@@ -219,6 +242,7 @@ function init_edits(){
  
  
     
+ 
     
     $(".edit, .edit *").droppable({
     	greedy: true,
@@ -227,26 +251,44 @@ function init_edits(){
         drop: function (event, ui) {
     	   $(".mw_edited").removeClass("mw_edited");
     	 $(this).parents(".edit:first").addClass("mw_edited");
-    	
+    	 	
             $(".module_edit_bar").remove();
+           // $( ".ui-droppable" ).removeClass( "ui-droppable");
+         //   $( ".ui-draggable" ).removeClass( "ui-draggable");
+            
             //cssApplier.toggleSelection();
             $mod_id = "module_"+Math.floor(Math.random()*9999)+Math.floor(Math.random()*9999);
 
-            var mw1 = ui.draggable.find("textarea").val();
+            mw1 = ui.draggable.find("textarea").val();
+ 
+if(mw1 == undefined){
+ 
+} else {
+	mw1 = "<div><microweber module_id='" + $mod_id + "'  module='" + mw1 + "' /></div>";       
+}
 
-            mw1 = "<div><microweber module_id='" + $mod_id + "'  module='" + mw1 + "' /></div>";
-
-            //   alert(mw1);
+             
             ui.draggable.parents(".edit:first").addClass("mw_edited");
             $(this).addClass("to_here");
             $(this).addClass("mw_edited");
-            $(".to_here:first").append(mw1);
+           
+            if(mw1 == undefined){
+            	mw1 = ui.draggable.html();
+            } else {
+            	
+            }
+          
+            
+            if(mw1 != undefined){
+            $(".to_here:first").append(mw1); 
+            }
             $(".to_here").removeClass("to_here");
             $(".editblock").each(function () {
                 var id = $(this).attr("id");
                 // save_editblock(id);
                 //   mw.saveALL();
             })
+           // event.stopPropagation()
             mw.saveALL();
         }
     });
@@ -373,7 +415,7 @@ $(document).ready(function() {
     })
 
 
-	$(".module").bind("click", function(event) {
+	$(".module").live("click", function(event) {
 		   
 		 var edit = $(this).attr("edit");
 		 var rel = $(this).attr("rel");
@@ -424,7 +466,7 @@ $(document).ready(function() {
 
 			 if(no_admin == undefined){
 		   $url = '<? print site_url("api/module") ?>/admin:true/base64:'+edit;
-		   // alert($url);
+		    //alert($url);
 		   // callIframe
 
 		   call_edit_module_iframe($url, id) ;
@@ -628,11 +670,11 @@ function call_edit_module_iframe(url, id) {
 	$curent_edit_element_id=id;
  }
   //alert(url);
-  $("#mw_edit_module_iframe").attr('src', url);
-// $("#mw_edit_module_iframe").attr("src") =url;
- //$("#mw_edit_module_iframe").load();
+/*  $("#mw_edit_module_iframe").attr('src', url);
+  $("#mw_edit_module_iframe").attr("src") =url;
+ $("#mw_edit_module_iframe").load();*/
  
- 
+ window.frames['mw_edit_module_iframe'].location = url;
 		//var call_iframe = mw.modal.iframe({src:url, width:700, overlay:true, height:500, id:"module_edit_iframe"});
 
 }

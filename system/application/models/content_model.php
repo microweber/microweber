@@ -5737,7 +5737,7 @@ $my_limit_q
 		
 		$quick_nav = $this->getBreadcrumbsByURLAsArray ( $the_url, $include_home );
 		
-		?>        <?php
+		 
 		if (! empty ( $quick_nav )) {
 			
 			?>

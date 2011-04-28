@@ -286,7 +286,7 @@ if (is_dir ( PLUGINS_DIRNAME )) {
 
 if (ROOTPATH != $_COOKIE ['root_path']) {
 	
-	setcookie ( "root_path", ROOTPATH, time () + 60 * 60 * 24 * 90, '/' ); // 90 days
+//	setcookie ( "root_path", ROOTPATH, time () + 60 * 60 * 24 * 90, '/' ); // 90 days
 }
 
 /*

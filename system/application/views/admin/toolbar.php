@@ -4,7 +4,7 @@
 <script>
 
 $(document).ready(function(){
-			 data1 = {}
+			data1 = {}
    data1.module = 'admin/content/module_bar';
    data1.do_not_wrap = '1';
    
@@ -20,7 +20,7 @@ $(document).ready(function(){
  
  
    $.ajax({
-  url: '<? print site_url('api/module') ?>',
+  url: "<? print site_url('api/module') ?>",
    type: "POST",
       data: data1,
 
@@ -31,34 +31,24 @@ $(document).ready(function(){
    $('#module_bar_resp').html(resp);
 
 
-   var module_bar = ''
-   + '<div class="module_bar">'
-     + '<span title="Drag" class="module_bar_drag"></span>'
-     + '<span title="Edit" class="module_bar_edit"></span>'
-     + '<span title="Delete" class="module_bar_delete"></span>'
-   + '</div>'
 
-   $(".module_draggable").append(module_bar);
 
   $(".module_draggable").draggable({
 			connectToSortable: ".edit",
 		    helper: 'clone',
-			revert: "invalid",
-            handle:".module_bar_edit"
+			revert: "invalid"
 
 		});
 
 
-        $(".module_draggable").each(function(){
 
-        });
 
 
 
 
 
   }
-    });
+    }); 
  
 	});
  
@@ -72,7 +62,7 @@ $(document).ready(function(){
    
 
    
- 
+
 
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
   <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css" />
@@ -500,7 +490,7 @@ myNicEditor.setPanel('mw_editbar');
 <div style="width: 300px;height: 450px;position: fixed;right:10px;bottom: 10px;background: #EFECEC; font-size:10px;">
 
  <div id="mw_edit_module_iframe_holder">
- <iframe id="mw_edit_module_iframe" src="#" height="200" width="300" frameborder="0"></iframe>
+ <iframe id="mw_edit_module_iframe" name="mw_edit_module_iframe" src="#" height="200" width="300" frameborder="0"></iframe>
  
  
  </div>

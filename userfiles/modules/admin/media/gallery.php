@@ -1,19 +1,27 @@
-
 <?
     $call_media_manager =  $rand;
 ?>
 
+
+
+
 <div class="formitem">
 
-<label>Select Media Type</label>
-<div class="formfield">
-<select style="width:200px;" name="media_type" id="media_type" onchange="call_media_manager<? print $call_media_manager ?>()">
-  <option value="picture">picture</option>
-  <option value="video">video</option>
-</select>
-</div>
-</div>
+<a href="javascript:set_media_type_dropdown('picture')" class="btn">picture</a>
+<a href="javascript:set_media_type_dropdown('video')" class="btn">video</a>
 
+
+ 
+  <div style="display:none">
+    <select name="media_type" id="media_type" onchange="call_media_manager<? print $call_media_manager ?>()">
+      <option value="picture">picture</option>
+      <option value="video">video</option>
+    </select>
+  </div>
+  
+  
+  
+</div>
 <?
 
 $rand = rand();
@@ -47,16 +55,7 @@ if($id == false){
 }
  
 ?>
-
 <input type="hidden" name="queue_id" value="<? print $rand ?>" />
-
-
- 
-
-
-
-
-
 <script>
 
 
@@ -108,7 +107,16 @@ var call_media_manager<? print $call_media_manager; ?> = function(){
 	
 }
 
-
+function set_media_type_dropdown($newval){
+	
+ 
+	
+	
+	
+$("#media_type").val($newval);
+ 
+call_media_manager<? print $call_media_manager ?>()
+}
 
 // ******************************** UPLOADER *******************************
 
@@ -212,67 +220,36 @@ $(document).ready(function(){
 </script>
 
 
-
-
 <div id="image_embed_media">
-
-<div id="media_manager<? print $rand ?>"></div>
-
-<div id="admin_pl" class="drag_files<? print $rand ?> drag_files_here">drag files here</div>
-
+  <div id="media_manager<? print $rand ?>"></div>
+  <div id="admin_pl" class="drag_files<? print $rand ?> drag_files_here">drag files here</div>
 </div>
-
 <div class="embed_media" id="video_embed_media" style="display: none">
-
-<h4>Add media by url or embed code: </h4>
-
-
+  <h4>Add media by url or embed code: </h4>
   <div class="c" style="">&nbsp;</div>
- 
-   <table class="formtable">
-   <tr>
-
-
-
-
-   <td> <label>Paste link</label> </td>
-
-   <td> <input type="text" style=""  onchange="parse_embeds();" id="original_link" name="original_link" /> </td>
-
-</tr>
-<tr>
-   <td> <label>Paste the video embed code</label> </td>
-
-   <td>  <textarea style="height: 53px;padding: 2px"  onchange="parse_embeds();" name="embed_code" id="embed_code"><? print $the_post['custom_fields']['embed_code']; ?></textarea>  </td>
-
-</tr>
-
-
-
-
-
- <tr>
-    <td> <label>Screenshot URL</label> </td>
- <td>  <input  name="screenshot_url" id="screenshot_url"   type="text" value=""  />  </td>
-</tr>
-
-<tr>
-    <td>
- <label>Name</label></td>
-
- <td> <input name="media_name" id="media_name"   type="text" value=""  />  </td>
-</tr>
-
-
-<tr>
-<td>  <label>Description</label> </td>
-
-<td>  <input name="media_description" id="media_description"   type="text" value=""  /> </td>
-
-</tr>
+  <table class="formtable">
+    <tr>
+      <td><label>Paste link</label></td>
+      <td><input type="text" style=""  onchange="parse_embeds();" id="original_link" name="original_link" /></td>
+    </tr>
+    <tr>
+      <td><label>Paste the video embed code</label></td>
+      <td><textarea style="height: 53px;padding: 2px"  onchange="parse_embeds();" name="embed_code" id="embed_code"><? print $the_post['custom_fields']['embed_code']; ?></textarea></td>
+    </tr>
+    <tr>
+      <td><label>Screenshot URL</label></td>
+      <td><input  name="screenshot_url" id="screenshot_url"   type="text" value=""  /></td>
+    </tr>
+    <tr>
+      <td><label>Name</label></td>
+      <td><input name="media_name" id="media_name"   type="text" value=""  /></td>
+    </tr>
+    <tr>
+      <td><label>Description</label></td>
+      <td><input name="media_description" id="media_description"   type="text" value=""  /></td>
+    </tr>
   </table>
-  
-   <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
+  <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
   <input class="btn" type="button" name="save" value="save" onclick="upload_by_embed()" />
   <input class="btn" type="button" name="refresh" value="refresh" onclick="call_media_manager<? print $call_media_manager ?>();" />
   <script type="text/javascript">
@@ -326,9 +303,4 @@ $(document).ready(function(){
 }
 </script>
   <div class="video_preview"> </div>
-
-
-
-
- 
 </div>

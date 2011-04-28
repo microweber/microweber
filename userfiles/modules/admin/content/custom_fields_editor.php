@@ -300,7 +300,8 @@ function cf_add($tr_id){
 
   success: function(resp) {
 
-   $('#cf_adresp').html(resp);
+  // $('#cf_adresp').html(resp);
+  mw.modal.init({html:resp});
 
  
  
@@ -329,7 +330,7 @@ function cf_add($tr_id){
 <? endif; ?>
 
     <div id="cf_<? print $item['param'] ?>">
-     <table class="formtable">
+     <table class="formtable" width="100%">
 
 
 
@@ -348,7 +349,7 @@ function cf_add($tr_id){
          <? endif; ?>
 
          <tr>
-         <td>
+         <td width="400">
         <? if( $item['not_in_config']) :?>
         <? $item['name'] = str_replace('_', ' ', $item['name']);  ?>
 
@@ -361,6 +362,8 @@ function cf_add($tr_id){
         <? else: ?>
         <label><? print $item['name'] ?></label>
         <? endif ?>
+        <br />
+
         <?   if(($item['help'])):  ?>
         <small><? print $item['help'] ?></small>
         <? endif; ?>

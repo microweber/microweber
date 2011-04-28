@@ -18,31 +18,15 @@ $no_config=	url_param('no_config');
 }
 
 ?>
- <script>
-  $(document).ready(function() {
-    $("#tabs").tabs();
-  });
- </script>
 </head>
 <body>
-<div id="content">
-  <div class="radius">
-    <div id="tabs">
-      <ul>
-         <li><a href="#fragment-2"><span>Content</span></a></li>
-        <? if($no_config == false) : ?>
-       
-        <li><a href="#fragment-1"><span>Configuration</span></a></li>
-        <? endif; ?>
-      </ul>
-      <div id="fragment-1">
-       {content}
-      </div>
-      <div id="fragment-2">
-       
-        <? if($no_config == false) : ?>
-         <h3><? print($config['name']) ?> configuration</h3>
-       <script>
+ 
+   
+   {content}  
+ 
+    <? if($no_config == false) : ?>
+    <h3><? print($config['name']) ?> configuration</h3>
+    <script>
  
   
 
@@ -87,53 +71,45 @@ function module_edit_showResponse(responseText, statusText, xhr, $form)  {
   parent.update_module_element(responseText);
 } 
   </script>
-       
-       
-       
-        <br />
-        <?   if(!empty($config['params'])):  ?>
-        <form id="module_edit_form">
-          <input name="save" type="submit" value="save" />
-          <? foreach($params as $k => $v): ?>
-          <?   if(empty($config['params'][$k])):  ?>
-          <input name="<? print $k ?>" type="hidden" value="<? print $v ?>"  />
-          <? endif; ?>
-          <? endforeach; ?>
-          <table width="100%" border="0">
-            <? foreach($config['params'] as $item): ?>
-            <tr>
-              <td><h4><? print $item['name'] ?></h4>
-                <?   if(($item['help'])):  ?>
-                <small><? print $item['help'] ?></small>
-                <? endif; ?></td>
-              <td><? // print $item['type'] ?>
-                <?php switch($item['type']): 
+    <br />
+    <?   if(!empty($config['params'])):  ?>
+    <form id="module_edit_form">
+      <input name="save" type="submit" value="save" />
+      <? foreach($params as $k => $v): ?>
+      <?   if(empty($config['params'][$k])):  ?>
+      <input name="<? print $k ?>" type="hidden" value="<? print $v ?>"  />
+      <? endif; ?>
+      <? endforeach; ?>
+      <table width="100%" border="0">
+        <? foreach($config['params'] as $item): ?>
+        <tr>
+          <td><h4><? print $item['name'] ?></h4>
+            <?   if(($item['help'])):  ?>
+            <small><? print $item['help'] ?></small>
+            <? endif; ?></td>
+          <td><? // print $item['type'] ?>
+            <?php switch($item['type']): 
 case 'category_selector': ?>
-                <mw module="admin/content/category_selector"  active_category="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>" update_field="#category_<? print $item['param'] ?>" />
-                <input name="<? print $item['param'] ?>" id="category_<? print $item['param'] ?>" type="hidden" value="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>"  />
-                <?php break;?>
-                <?php case 'number': ?>
-                <?php case 'text': ?>
-                <div class="field2">
-                  <input name="<? print $item['param'] ?>" type="text" value="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>"  />
-                </div>
-                <?php break;?>
-                <?php endswitch;?></td>
-              <td><? // p($item) ?></td>
-            </tr>
-            <? endforeach; ?>
-          </table>
-        </form>
-        <? else: ?>
-        This module doesn't have configuration.
-        <? endif; ?>
-        
-        
-        <? endif; ?>
-        </div>
-    </div>
-  </div>
-</div>
+            <mw module="admin/content/category_selector"  active_category="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>" update_field="#category_<? print $item['param'] ?>" />
+            <input name="<? print $item['param'] ?>" id="category_<? print $item['param'] ?>" type="hidden" value="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>"  />
+            <?php break;?>
+            <?php case 'number': ?>
+            <?php case 'text': ?>
+            <div class="field2">
+              <input name="<? print $item['param'] ?>" type="text" value="<? print  $params[$item['param']]? $params[$item['param']] : $item['default'] ; ?>"  />
+            </div>
+            <?php break;?>
+            <?php endswitch;?></td>
+          <td><? // p($item) ?></td>
+        </tr>
+        <? endforeach; ?>
+      </table>
+    </form>
+    <? else: ?>
+    This module doesn't have configuration.
+    <? endif; ?>
+    <? endif; ?>
+ 
  
 <?  include('footer.php'); ?>
 </body>

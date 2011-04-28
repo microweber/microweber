@@ -880,6 +880,13 @@ class Content extends Controller {
 									
 									}
 									
+									
+									
+									
+									
+									
+									
+									
 									$to_save = array ();
 									$to_save ['id'] = $content_id;
 									$to_save ['quick_save'] = true;
@@ -890,6 +897,10 @@ class Content extends Controller {
 									//print "<h2>For content $content_id</h2>";
 									//p ( $to_save );
 									$json_print [] = $to_save;
+									
+									
+									
+									
 									$saved = CI::model ( 'content' )->saveContent ( $to_save );
 									$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 									

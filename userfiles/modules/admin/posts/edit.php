@@ -73,6 +73,9 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
 
 </script>
 
+<? $url_to_module = dirToURL(dirname(__FILE__));
+$url_to_module_static = $url_to_module. '/static/icons/' ; ?>
+
 <form action="" method="post" id="save_post_form">
   <input name="id" id="post_id" type="hidden" value="<? print $form_values['id'] ?>" />
   <input name="content_type" type="hidden" value="post" />
@@ -92,12 +95,13 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
   <div class="shop_nav_main">
       <h2 class="box_title">Options</h2>
       <ul class="shop_nav">
-      <li><a href="#tab=fragment-1"><span>Categories</span></a></li>
-      <li><a href="#tab=fragment-2"><span>Media</span></a></li>
-      <li><a href="#tab=fragment-4"><span>Custom Fields</span></a></li>
-      <li><a href="#tab=fragment-3"><span>Advanced options</span></a></li>
-      <li><a href="#tab=fragment-5"><span>Meta tags</span></a></li>
-      <li><a href="#tab=fragment-6"><span>Menus</span></a></li>
+      <li><a href="#tab=fragment-1"><img src="<? print $url_to_module_static ; ?>page_white_stack.png"  height="16" align="bottom" /><span>Categories</span></a></li>
+      <li><a href="#tab=fragment-2"><img src="<? print $url_to_module_static ; ?>images.png"  height="16" align="bottom" /><span>Media</span></a></li>
+      <li><a href="#tab=fragment-4"><img src="<? print $url_to_module_static ; ?>pencil.png"  height="16" align="bottom" /><span>Custom Fields</span></a></li>
+
+      <li><a href="#tab=fragment-5"><img src="<? print $url_to_module_static ; ?>world.png"  height="16" align="bottom" /><span>Meta tags</span></a></li>
+      <li><a href="#tab=fragment-6"><img src="<? print $url_to_module_static ; ?>link.png"  height="16" align="bottom" /><span>Menus</span></a></li>
+            <li><a href="#tab=fragment-3"><img src="<? print $url_to_module_static ; ?>cog.png"  height="16" align="bottom" /><span>Advanced options</span></a></li>
       </ul>
     </div>
 

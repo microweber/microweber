@@ -47,7 +47,7 @@ a{
 #liquid, .liquid{
   margin: 0 50px;
   min-width: 900px;
-  max-width: 1500px;
+  max-width: 1100px;
 }
 
 
@@ -1309,10 +1309,14 @@ div.error input[type="text"], div.error input[type="password"], div.error textar
 #gallery_module_sortable_pics li{
   list-style: none;
   float: left;
+  height:150px;
+  width:120px;
+  display:block;
 }
 #gallery_module_sortable_pics{
   overflow: hidden;
   zoom:1;
+  
 }
 
 /*

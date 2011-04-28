@@ -79,7 +79,7 @@ class js extends Controller {
 			}
 			
 			if (($editmode == true) or $load_extra_libs == true or $and_ui == true) {
-				$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery-ui-1.8.7.custom.min.js', true );
+				$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery-ui-1.8.12.custom.min.js', true );
 				//$apicss = '<link rel="stylesheet" href="' . ADMIN_STATIC_FILES_URL . 'css/api.css" type="text/css" media="screen"  />';
 			}
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.form.js', true );

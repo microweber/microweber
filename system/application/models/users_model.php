@@ -242,6 +242,7 @@ class Users_model extends Model {
 		
 
 		$data ['search_by_keyword_in_fields'] = array ('first_name', 'last_name', 'username', 'email' );
+		//$data ['debug'] = 1;
 		
 		if (intval ( $data ['id'] ) != 0) {
 			$cache_group = 'users/' . $data ['id'];

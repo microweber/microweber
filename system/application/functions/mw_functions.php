@@ -78,6 +78,14 @@ function clean_word($html_to_save) {
 	}
 	$html_to_save = str_replace ( 'class="exec"', '', $html_to_save );
 	$html_to_save = str_replace ( 'style=""', '', $html_to_save );
+	$html_to_save = str_replace ( ' class=""', '', $html_to_save );
+	$html_to_save = str_replace ( 'ui-draggable', '', $html_to_save );
+	$html_to_save = str_replace ( 'ui-droppable', '', $html_to_save );
+	$html_to_save = str_replace ( 'mw_edited', '', $html_to_save );
+	$html_to_save = str_replace ( '_moz_dirty=""', '', $html_to_save );
+
+	
+	
 	$html_to_save = preg_replace ( '/<!--(.*)-->/Uis', '', $html_to_save );
 	
 	return $html_to_save;
