@@ -78,16 +78,24 @@ function clean_word($html_to_save) {
 	}
 	$html_to_save = str_replace ( 'class="exec"', '', $html_to_save );
 	$html_to_save = str_replace ( 'style=""', '', $html_to_save );
-	$html_to_save = str_replace ( ' class=""', '', $html_to_save );
+	
 	$html_to_save = str_replace ( 'ui-draggable', '', $html_to_save );
+	$html_to_save = str_replace ( 'class="ui-droppable"', '', $html_to_save );
 	$html_to_save = str_replace ( 'ui-droppable', '', $html_to_save );
 	$html_to_save = str_replace ( 'mw_edited', '', $html_to_save );
 	$html_to_save = str_replace ( '_moz_dirty=""', '', $html_to_save );
-
-	
-	
+	$html_to_save = str_replace ( 'ui-droppable', '', $html_to_save );
+	$html_to_save = str_replace ( '<br >', '<br />', $html_to_save );
+	$html_to_save = str_replace ( '<br>', '<br />', $html_to_save );
+	$html_to_save = str_replace ( ' class=""', '', $html_to_save );
+	$html_to_save = str_replace ( ' class=" "', '', $html_to_save );
+	//$html_to_save = str_replace ( '<br><br>', '<div><br><br></div>', $html_to_save );
+	//$html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>', $html_to_save );
 	$html_to_save = preg_replace ( '/<!--(.*)-->/Uis', '', $html_to_save );
+	//$html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br /><br />", "</p><p>", $html_to_save)) . '</p>';
+	//$html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>", "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p", "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>", "<h1>", "<div",  "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p", "<table"), $html_to_save);
 	
+	//p($html_to_save);
 	return $html_to_save;
 }
 
@@ -268,6 +276,13 @@ function get_custom_fields_for_content($content_id) {
 	$more = false;
 	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id, true );
 	
+	return $more;
+
+}
+
+function option_get($key, $group = false) {
+	$more = CI::model ( 'core' )->optionsGetByKey($key, $return_full = false, $orderby = false, $option_group = $group);
+
 	return $more;
 
 }
@@ -1416,7 +1431,7 @@ function breadcrumbs($seperator) {
  * 
  * @todo for users too
  */
-function get_media($id, $for = 'post', $media_type = false, $queue_id = false) {
+function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $collection = false) {
 	$content_id = intval ( $id );
 	if ($content_id == 0 and $queue_id == false) {
 		return false;
@@ -1434,7 +1449,7 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false) {
 	
 	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
 	//var_dump($to_table, $content_id);
-	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false );
+	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;
 	// p($media);
 

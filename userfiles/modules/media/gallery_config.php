@@ -10,11 +10,11 @@ $config['ui'] = true;
 
 
 
-$config['params']['post_id']['name'] = "Gallery for post";
-$config['params']['post_id']['help'] = "Choose the post to attach the media";
-$config['params']['post_id']['type'] = "content_id";
-$config['params']['post_id']['default'] = "";
-$config['params']['post_id']['param'] = "post_id";
+$config['params']['skin']['name'] = "skin for post";
+$config['params']['skin']['help'] = "skin";
+$config['params']['skin']['type'] = "text";
+$config['params']['skin']['default'] = "none";
+$config['params']['skin']['param'] = "skin";
 
  
 $config['params']['rel']['type'] = "hidden";

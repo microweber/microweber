@@ -1,0 +1,77 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>curvyCorners Demo</title>
+<script type="text/JavaScript" src="../jquery-1.4.2.min.js"></script>
+<script type="text/JavaScript" src="../jquery.curvycorners.source.js"></script>
+<style>
+
+.myBox
+{
+    margin: 0 auto;
+    border: 0px solid #ffffff;
+    color: #ffffff;
+    width: 60%;
+    padding: 20px;
+    text-align: left;
+    background-color: #3333FF;
+    border: 3px solid #ffffff;
+
+    background-image: url(backrepeat.jpg);
+    background-repeat: repeat-x;
+
+
+    /* Do rounding (native in Firefox and Safari, CC in IE) 
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    CCborderRadius: 20px;*/
+}
+
+html,body{
+    height: 100%;
+    text-align: center;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    margin: 0px;
+    background-image: url(pattern.gif);
+}
+
+</style>
+<script type="text/JavaScript">
+
+  $(function(){ 
+  
+  settings = {
+          tl: { radius: 20 },
+          tr: { radius: 20 },
+          bl: { radius: 20 },
+          br: { radius: 20 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+
+  $('.myBox').corner(settings);
+  
+  });;
+
+</script>
+</head>
+
+<body>
+
+    <br><br><br><br>
+
+    <div class="myBox">
+
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur mi est, cursus sit amet, pellentesque et, ultricies a, ipsum. Nulla facilisi. Sed quis lacus. Aenean ut risus et lectus blandit gravida. Nam sed nunc. Aliquam non felis non diam aliquam gravida. Phasellus quis sem. Curabitur at velit. Vivamus libero velit, condimentum sit amet, tempus ut, aliquam sit amet, velit. Nunc hendrerit ante. Quisque egestas feugiat erat. Morbi tellus.
+    <br /><br />
+    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac ante sit amet metus hendrerit euismod. Aenean vestibulum, lectus in eleifend tempor, quam libero iaculis dolor, pellentesque pellentesque lorem nibh ut urna. Nulla rhoncus, ante sit amet tristique interdum, eros nulla nonummy justo, eu dapibus risus quam sit amet metus. Maecenas tristique augue vel enim. Duis blandit euismod pede. Pellentesque facilisis. Fusce dapibus sapien tristique massa. Nunc accumsan. Integer pretium risus et odio. Phasellus tincidunt rhoncus velit. Donec eu neque at massa mollis iaculis. Aliquam pellentesque auctor mi. Cras ante justo, ultricies quis, iaculis eu, tincidunt ac, velit. Etiam nunc erat, tincidunt sit amet, luctus quis, interdum a, nunc. Suspendisse elit.
+    <br /><br />
+    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac ante sit amet metus hendrerit euismod. Aenean vestibulum, lectus in eleifend tempor, quam libero iaculis dolor, pellentesque pellentesque lorem nibh ut urna. Nulla rhoncus, ante sit amet tristique interdum, eros nulla nonummy justo, eu dapibus risus quam sit amet metus. Maecenas tristique augue vel enim. Duis blandit euismod pede. Pellentesque facilisis. Fusce dapibus sapien tristique massa. Nunc accumsan. Integer pretium risus et odio. Phasellus tincidunt rhoncus velit. Donec eu neque at massa mollis iaculis. Aliquam pellentesque auctor mi. Cras ante justo, ultricies quis, iaculis eu, tincidunt ac, velit. Etiam nunc erat, tincidunt sit amet, luctus quis, interdum a, nunc. Suspendisse elit.
+
+    </div>
+
+
+</body>
+</html>

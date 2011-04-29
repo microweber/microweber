@@ -449,9 +449,16 @@ mw.image.edit = {
 }
 
 mw.outline ={
-  init:function(elem, color){
+  init:function(elem, color, $size){
     $(elem).each(function(){
       var width = $(this).outerWidth();
+	  
+	  if($size != undefined){
+		//   var width = $size+'px'; 
+	  } else {
+		$size = 2;  
+	  }
+	  
       var height = $(this).outerHeight();
       var left = $(this).offset().left;
       var top = $(this).offset().top;
@@ -475,12 +482,12 @@ mw.outline ={
       });
       $(line_right).addClass("mw_outline_right").css({
         top:top,
-        left:left+width-4,
+        left:left+width-$size,
         height:height,
         backgroundColor:color==undefined?"#0000CC":color
       });
       $(line_bottom).addClass("mw_outline_bottom").css({
-        top:top+height-4,
+        top:top+height-$size,
         left:left,
         width:width,
         backgroundColor:color==undefined?"#0000CC":color

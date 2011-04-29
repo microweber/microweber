@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PHP Simple HTML DOM Parser: API Reference</title>
+<link href="css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1><a name="top"></a>PHP Simple HTML DOM Parser Manual</h1>
+<div id="content">
+  <h2>Index</h2>
+  <ul>
+    <li><a href="manual.htm">Back</a></li>
+    <li><a href="#api">API Reference</a></li>
+    <li><a href="#camel">Camel naming conventions</a></li>
+  </ul>
+  <a name="api"></a>
+  <h2>API Reference</h2>
+  <a class="top" href="#top">Top</a>
+  <div class="code"> <strong>Helper</strong> functions
+    <table width="100%" cellpadding="1" cellspacing="1">
+      <tr>
+        <th width="320">Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="returns">object</span> str_get_html ( <span class="var">string $content</span> )</td>
+        <td class="description">Creates a DOM object from a string.</td>
+      </tr>
+      <tr>
+        <td><span class="returns">object</span> file_get_html ( <span class="var">string $filename</span> )</td>
+        <td class="description">Creates a DOM object from a file or a URL.</td>
+      </tr>
+    </table>
+    <br>
+    <strong>DOM</strong> methods &amp; properties <br>
+    <table width="100%" cellpadding="1" cellspacing="1">
+      <tr>
+        <th width="320"> Name</th>
+        <th> Description</th>
+      </tr>
+      <tr>
+          <td>
+              <div class="returns">void</div>
+              __construct ( <span class="var">[string $filename]</span> )</td>
+          <td class="description">Constructor, set the filename parameter will automatically load the contents, either text or file/url.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          plaintext</td>
+        <td class="description">Returns the contents extracted from HTML.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">void</div>
+          clear ()</td>
+        <td class="description">Clean up memory.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">void</div>
+          load ( <span class="var">string $content </span>)</td>
+        <td class="description"> Load contents from a <strong>string</strong>. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          save ( <span class="var">[string $filename]</span> )</td>
+        <td class="description">Dumps the internal DOM tree back into a <strong>string</strong>. If the $filename is set, result string will save to file. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">void</div>
+          load_file (<span class="var"> string $filename</span> )</td>
+        <td class="description"> Load contents from a from a file or a URL.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">void</div>
+          set_callback ( <span class="var">string $function_name </span>)</td>
+        <td class="description">Set a callback function. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">mixed</div>
+          find (<span class="var"> string $selector [, int $index] </span>)</td>
+        <td class="description">Find elements by the CSS selector. Returns the Nth element <strong>object</strong> if <strong>index</strong> is set, otherwise return an <strong>array</strong> of object. </td>
+      </tr>
+    </table>
+    <br>
+    <strong>Element</strong> methods &amp; properties <br>
+    <table width="100%" cellpadding="1" cellspacing="1">
+      <tr>
+        <th width="320">Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          <span class="var">[attribute]</span></td>
+        <td class="description">Read or write element's attribure value. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          tag</td>
+        <td class="description">Read or write the tag name of element.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          outertext</td>
+        <td class="description">Read or write the outer HTML text of element.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          innertext</td>
+        <td class="description">Read or write the inner HTML text of element.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">string</div>
+          plaintext</td>
+        <td class="description">Read or write the plain text of element.</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">mixed</div>
+          find (<span class="var"> string $selector [, int $index] </span>)</td>
+        <td class="description">Find children by the CSS selector. Returns the Nth element <strong>object</strong> if <strong>index</strong> is set, otherwise, return an <strong>array</strong> of object. </td>
+      </tr>
+    </table>
+    <strong><br>
+    DOM</strong> traversing<br>
+    <table width="100%" cellpadding="1" cellspacing="1">
+      <tr>
+        <th width="320">Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;children ( <span class="var">[int $index]</span> ) </td>
+        <td class="description">Returns the Nth child <strong>object</strong> if <strong>index</strong> is set, otherwise return an <strong>array</strong> of children. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;parent () </td>
+        <td class="description">Returns the parent of element. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;first_child () </td>
+        <td class="description">Returns the first child of element, or <strong>null</strong> if not found. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;last_child () </td>
+        <td class="description">Returns the last child of element, or <strong>null</strong> if not found. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;next_sibling () </td>
+        <td class="description">Returns the next sibling of element, or<strong> null</strong> if not found. </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;prev_sibling () </td>
+        <td class="description">Returns the previous sibling of element, or <strong>null</strong> if not found. </td>
+      </tr>
+    </table>
+  </div>
+  <a name="camel"></a>
+  <h2>Camel naming convertions</h2>
+  <a class="top" href="#top">Top</a>
+  <div class="code">You can also call methods with W3C STANDARD camel naming convertions.<br>
+    <br>
+    <table width="100%" cellpadding="1" cellspacing="1">
+      <tr>
+        <th width="50%">Method</th>
+        <th>Mapping</th>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+          <td>
+              <div class="returns">array</div>
+              $e-&gt;getAllAttributes () </td>
+          <td>
+              <div class="returns">array</div>
+              $e-&gt;<span class="var">attr</span></td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">string</div>
+          $e-&gt;getAttribute ( <span class="var">$name</span> ) </td>
+        <td>
+          <div class="returns">string</div>
+          $e-&gt;<span class="var">attribute</span></td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">void</div>
+          $e-&gt;setAttribute ( <span class="var">$name, $value</span> ) </td>
+        <td>
+          <div class="returns">void</div>
+          $value = $e-&gt;<span class="var">attribute</span></td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">bool</div>
+          $e-&gt;hasAttribute ( <span class="var">$name</span> ) </td>
+        <td>
+          <div class="returns">bool</div>
+          isset($e-&gt;<span class="var">attribute</span>)</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">void</div>
+          $e-&gt;removeAttribute ( <span class="var">$name</span> ) </td>
+        <td>
+          <div class="returns">void</div>
+          $e-&gt;<span class="var">attribute</span> = null</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;getElementById ( <span class="var">$id</span> ) </td>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;find (<span class="var"> &quot;#$id&quot;, 0 </span>)</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;getElementsById ( <span class="var">$id [,$index] </span> ) </td>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;find (<span class="var"> &quot;#$id&quot; [, int $index] </span>)</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;getElementByTagName (<span class="var">$name</span> ) </td>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;find (<span class="var"> $name, 0 </span>)</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;getElementsByTagName ( <span class="var">$name [, $index]</span> ) </td>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;find (<span class="var"> $name [, int $index] </span>)</td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;parentNode () </td>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;parent () </td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;childNodes ( <span class="var">[$index]</span> ) </td>
+        <td>
+          <div class="returns">mixed</div>
+          $e-&gt;children ( <span class="var">[int $index]</span> ) </td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;firstChild () </td>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;first_child () </td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;lastChild () </td>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;last_child () </td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;nextSibling () </td>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;next_sibling () </td>
+      </tr>
+      <tr bgcolor="#EEEEEE">
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;previousSibling () </td>
+        <td>
+          <div class="returns">element</div>
+          $e-&gt;prev_sibling () </td>
+      </tr>
+    </table>
+  </div>
+  <div><br>
+    Author: S.C. Chen (me578022@gmail.com)<br>
+Original idea is from Jose Solorzano's <a href="http://php-html.sourceforge.net/">HTML Parser for PHP 4</a>. <br>
+Contributions by: Contributions by: Yousuke Kumakura, Vadim Voituk, Antcs<br>
+  </div>
+</div>
+</body>
+</html>
+<!--$Rev: 165 $-->

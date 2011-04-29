@@ -431,7 +431,7 @@ if (is_dir ( $application_folder )) {
 	define ( 'APPPATH', BASEPATH . $application_folder . '/' );
 
 }
-
+define ( 'LIBSPATH', APPPATH . 'libraries' . '/' );
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
 define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );

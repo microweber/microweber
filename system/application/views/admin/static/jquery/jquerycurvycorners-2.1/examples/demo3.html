@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>curvyCorners Demo</title>
+<script type="text/JavaScript" src="../jquery-1.4.2.min.js"></script>
+<script type="text/JavaScript" src="../jquery.curvycorners.source.js"></script>
+<style>
+
+.myBox
+{
+    margin: 0 auto;
+    color: #ffffff;
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    text-align: left;
+    background-image: url(crosshatch.jpg);
+    background-repeat: no-repeat;
+    border:5px solid #000;
+}
+
+html,body{
+    text-align: center;
+  	 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    margin: 0px;
+}
+
+</style>
+<script type="text/JavaScript">
+
+  $(function(){ 
+  
+  settings = {
+          tl: { radius: 15 },
+          tr: { radius: 15 },
+          bl: { radius: 15 },
+          br: { radius: 15 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+
+  $('.myBox').corner(settings);
+  
+  });;
+
+</script>
+</head>
+
+<body>
+
+    <br><br><br><br>
+
+    <div class="myBox">
+
+    </div>
+
+</body>
+</html>

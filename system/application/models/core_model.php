@@ -4435,6 +4435,8 @@ class Core_model extends Model {
 	
 	function cacheDeleteFile($cache_id, $cache_group = 'global') {
 		
+		return cache_get_file ( $cache_id, $cache_group );
+		
 		global $cms_db_tables;
 		
 		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
@@ -4458,8 +4460,8 @@ class Core_model extends Model {
 	}
 	
 	function _getCacheDir($cache_group = 'global', $deleted_cache_dir = false) {
-		
-		if (strval ( $cache_group ) != '') {
+		return cache_get_dir ( $cache_group, $deleted_cache_dir );
+		/*if (strval ( $cache_group ) != '') {
 			$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
 			
 			//we will seperate the dirs by 1000s
@@ -4494,10 +4496,13 @@ class Core_model extends Model {
 			return $cacheDir;
 		} else {
 			return $cache_group;
-		}
+		}*/
 	}
 	
 	public function cleanCacheGroup($cache_group = 'global') {
+		
+		return cache_clean_group ( $cache_group );
+		
 		//$startTime = slog_time ();
 		/*$cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' . CACHE_FILES_EXTENSION;
 		
@@ -4528,8 +4533,8 @@ class Core_model extends Model {
 		$dir_del = $this->_getCacheDir ( 'global', true );
 		//var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-			//recursive_remove_directory ( $dir );
+			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			recursive_remove_directory ( $dir );
 		
 
 		}
@@ -4538,8 +4543,8 @@ class Core_model extends Model {
 		$dir_del = $this->_getCacheDir ( $cache_group, true );
 		//var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-			//recursive_remove_directory ( $dir );
+			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			recursive_remove_directory ( $dir );
 		}
 		
 	/*foreach ( glob ( $cleanPattern ) as $file ) {
@@ -4590,6 +4595,173 @@ class Core_model extends Model {
 		return $save;
 	}
 	 */
+	
+	function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
+		$function_cache_id = false;
+		
+		$test_for_long = strlen ( $sVeryLongText );
+		if ($test_for_long > 50000) {
+			
+			$args = func_get_args ();
+			$i = 0;
+			foreach ( $args as $k => $v ) {
+				if ($i != 2) {
+					$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+				} else {
+				
+				}
+				$i ++;
+			}
+			
+			$function_cache_id = __FUNCTION__ . md5 ( $sVeryLongText ) . md5 ( $function_cache_id );
+			
+			$cache_group = 'extract_tags';
+			
+			$cache_content = $this->cacheGetContent ( $function_cache_id, $cache_group );
+			
+			if (($cache_content) != false) {
+				
+				return $cache_content;
+			
+			}
+		}
+		
+		if ($normal_replace == false) {
+			$iSet = 0; // Count how many times we increase the limit
+			while ( $iSet < 10 ) { // If the default limit is 100'000 characters the highest new limit will be 250'000 characters
+				$sNewText = preg_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText ); // Try to use PREG
+				
+
+				if (preg_last_error () == PREG_BACKTRACK_LIMIT_ERROR) { // Only check on backtrack limit failure
+					ini_set ( 'pcre.backtrack_limit', ( int ) ini_get ( 'pcre.backtrack_limit' ) + 15000 ); // Get current limit and increase
+					$iSet ++; // Do not overkill the server
+				} else { // No fail
+					$sVeryLongText = $sNewText; // On failure $sNewText would be NULL
+					break; // Exit loop
+				}
+			}
+		
+		} else {
+			$sNewText = str_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText );
+		
+		}
+		if ($test_for_long > 50000) {
+			CI::model ( 'core' )->cacheWrite ( $sNewText, $function_cache_id, $cache_group );
+		}
+		return $sNewText;
+	
+	}
+	
+	function extractTags($html, $tag, $selfclosing = null, $return_the_entire_tag = false, $charset = 'ISO-8859-1') {
+		
+		$function_cache_id = false;
+		
+		$args = func_get_args ();
+		$i = 0;
+		foreach ( $args as $k => $v ) {
+			if ($i > 0) {
+				$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+			} else {
+			
+			}
+			$i ++;
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $html ) . md5 ( $function_cache_id );
+		
+		$cache_group = 'extract_tags';
+		
+		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		
+		if (($cache_content) != false) {
+			
+			return $cache_content;
+		
+		}
+		
+		if (is_array ( $tag )) {
+			$tag = implode ( '|', $tag );
+		}
+		
+		//If the user didn't specify if $tag is a self-closing tag we try to auto-detect it
+		//by checking against a list of known self-closing tags.
+		$selfclosing_tags = array ('area', 'base', 'basefont', 'br', 'hr', 'input', 'img', 'link', 'meta', 'col', 'param' );
+		if (is_null ( $selfclosing )) {
+			$selfclosing = in_array ( $tag, $selfclosing_tags );
+		}
+		
+		//The regexp is different for normal and self-closing tags because I can't figure out 
+		//how to make a sufficiently robust unified one.
+		if ($selfclosing) {
+			$tag_pattern = '@<(?P<tag>' . $tag . ')			# <tag
+			(?P<attributes>\s[^>]+)?		# attributes, if any
+			\s*/?>					# /> or just >, being lenient here 
+			@xsi';
+		} else {
+			$tag_pattern = '@<(?P<tag>' . $tag . ')			# <tag
+			(?P<attributes>\s[^>]+)?		# attributes, if any
+			\s*>					# >
+			(?P<contents>.*?)			# tag contents
+			</(?P=tag)>				# the closing </tag>
+			@xsi';
+		}
+		
+		$attribute_pattern = '@
+		(?P<name>\w+)							# attribute name
+		\s*=\s*
+		(
+			(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)	# a quoted value
+			|							# or
+			(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)			# an unquoted value (terminated by whitespace or EOF) 
+		)
+		@xsi';
+		
+		//Find all tags 
+		if (! preg_match_all ( $tag_pattern, $html, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE )) {
+			//Return an empty array if we didn't find anything
+			return array ();
+		}
+		
+		$tags = array ();
+		foreach ( $matches as $match ) {
+			
+			//Parse tag attributes, if any
+			$attributes = array ();
+			if (! empty ( $match ['attributes'] [0] )) {
+				
+				if (preg_match_all ( $attribute_pattern, $match ['attributes'] [0], $attribute_data, PREG_SET_ORDER )) {
+					//Turn the attribute data into a name->value array
+					foreach ( $attribute_data as $attr ) {
+						if (! empty ( $attr ['value_quoted'] )) {
+							$value = $attr ['value_quoted'];
+						} else if (! empty ( $attr ['value_unquoted'] )) {
+							$value = $attr ['value_unquoted'];
+						} else {
+							$value = '';
+						}
+						
+						//Passing the value through html_entity_decode is handy when you want
+						//to extract link URLs or something like that. You might want to remove
+						//or modify this call if it doesn't fit your situation.
+						$value = html_entity_decode ( $value, ENT_QUOTES, $charset );
+						
+						$attributes [$attr ['name']] = $value;
+					}
+				}
+			
+			}
+			
+			$tag = array ('tag_name' => $match ['tag'] [0], 'match' => $match, 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', //empty for self-closing tags
+'attributes' => $attributes );
+			if ($return_the_entire_tag) {
+				$tag ['full_tag'] = $match [0] [0];
+			}
+			
+			$tags [] = $tag;
+		}
+		CI::model ( 'core' )->cacheWriteAndEncode ( $tags, $function_cache_id, $cache_group );
+		return $tags;
+	}
 	
 	/**
 	 * @desc
@@ -5901,15 +6073,16 @@ $w
 	
 	}
 	
-	function mediaGet($to_table, $to_table_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false) {
-		
-		if (trim ( $to_table ) == '') {
-			return false;
-		}
-		
-		if ($queue_id == false) {
-			if (intval ( $to_table_id ) == 0) {
+	function mediaGet($to_table, $to_table_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = false) {
+		if ($collection == false) {
+			if (trim ( $to_table ) == '') {
 				return false;
+			}
+			
+			if ($queue_id == false) {
+				if (intval ( $to_table_id ) == 0) {
+					return false;
+				}
 			}
 		}
 		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
@@ -5986,6 +6159,11 @@ $w
 				$media_get ['media_type'] = $media_type;
 				
 				$media_type_q = "  and media_type='$media_type'  ";
+			
+			}
+			if ($collection != false) {
+				
+				$media_get ['collection'] = $collection;
 			
 			}
 		
@@ -6539,7 +6717,7 @@ $w
 	
 	}
 	
-	function upload($to_table, $to_table_id = false, $queue_id = false) {
+	function upload($to_table, $to_table_id = false, $queue_id = false, $collection = false) {
 		
 		$user_id = user_id ();
 		if (intval ( $user_id ) == 0) {
@@ -6771,7 +6949,10 @@ $w
 					$media_save ['filename'] = $item ['filename'];
 					
 					$media_save ['to_table'] = $to_table;
-					
+					if ($collection != false) {
+						
+						$media_save ['collection'] = $collection;
+					}
 					if (intval ( $to_table_id ) != 0) {
 						
 						$media_save ['to_table_id'] = $to_table_id;
@@ -8012,7 +8193,8 @@ $w
 				}
 			
 			}
-			
+			$this->cleanCacheGroup ( 'media/global' );
+			//$this->cleanCacheGroup ( 'media/global');
 			$this->mediaFixOrder ( $to_table, $to_table_id, $media_type );
 		
 		}
@@ -8899,16 +9081,18 @@ $w
 	
 	}
 	
-	function optionsDeleteByKey($key) {
+	function optionsDeleteByKey($key, $option_group = false) {
 		
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_options'];
 		
 		$this->cleanCacheGroup ( 'options' );
-		
+		if ($option_group != false) {
+			$option_group_q1 = "and option_group='{$option_group}'";
+		}
 		//$save = $this->saveData ( $table, $data );
-		$q = "delete from $table where option_key='$key' ";
+		$q = "delete from $table where option_key='$key' $option_group_q1 ";
 		
 		$this->dbQ ( $q );
 		
@@ -8962,7 +9146,7 @@ $w
 	
 	}
 	
-	function optionsGetByKey($key, $return_full = false, $orderby = false) {
+	function optionsGetByKey($key, $return_full = false, $orderby = false, $option_group = false) {
 		
 		$function_cache_id = false;
 		
@@ -9002,6 +9186,11 @@ $w
 			} else {
 				$data ['option_key'] = $key;
 			}
+			
+			if ($option_group != false) {
+				$data ['option_group'] = $option_group;
+			}
+			
 			$get = $this->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
 			
 			if (! empty ( $get )) {

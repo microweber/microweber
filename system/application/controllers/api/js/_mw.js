@@ -76,6 +76,12 @@ mw.reload_module =  function($module_name) {
 
 $("div.module").each(function(){
 	var mw_params_module = $(this).attr("mw_params_module");
+	if(mw_params_module!=$module_name){
+	//	var mw_params_module = $(this).attr("id");
+	//	alert(mw_params_module);
+	}
+	
+	
 	if(mw_params_module==$module_name){
 		var mw_params_encoded = $(this).attr("mw_params_encoded");
 		var elem = $(this)
@@ -84,13 +90,13 @@ $("div.module").each(function(){
 			  url: '{SITE_URL}api/module/index/decode_vars:'+mw_params_encoded,
 			   type: "POST",
 			  
-			      async:true,
+			      async:false,
 				  
 			  success: function(resp) {
 			 //$(this).empty();
 			 
-			 
-			 elem.html(resp);
+			// elem.empty();
+			// elem.html(resp);
 
 			  
 			   
@@ -103,6 +109,11 @@ $("div.module").each(function(){
 	}
 });
  
+
+
+
+
+
 }
 
 mw.clear_cache =  function() {
@@ -119,8 +130,7 @@ mw.clear_cache =  function() {
 
 
 
-
-
+ 
 
 
 

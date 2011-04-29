@@ -127,6 +127,11 @@ class Media extends Controller {
 			
 			}
 			
+			if (url_param ( 'module_id' )) {
+				$module_id = url_param ( 'module_id' );
+			
+			}
+			
 			if ($_POST ['for']) {
 				$for = $_POST ['for'];
 			}
@@ -137,7 +142,7 @@ class Media extends Controller {
 				$queue_id = $_POST ['queue_id'];
 			}
 			
-			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id );
+			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id, $collection = $module_id );
 			//p ( $status );
 			print json_encode ( $status );
 			exit ();

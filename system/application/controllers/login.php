@@ -50,7 +50,31 @@ class Login extends Controller {
 				CI::library ( 'session' )->set_userdata ( 'user_session', $user_session );
 				
 				if ($data ["is_admin"] == 'y') {
+					
+					
+					if ($_POST['where_to'] == 'live_edit') {
+						
+						$p = get_page();
+						if(!empty($p)){
+							$link = page_link($p['id']);
+							$link = $link .'/editmode:y';
+							safe_redirect ($link );
+							//p($link,1);
+							
+							
+						} else {
+							safe_redirect ( 'admin' );
+						}
+						//p($p,1);
+						
+					} else {
 						safe_redirect ( 'admin' );
+					}
+					
+						
+						
+						
+						
 				} else {
 					$go = site_url ();
 						safe_redirect ( "$go" );

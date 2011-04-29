@@ -221,8 +221,22 @@ class Content extends Controller {
 		}
 		
 		if ($_POST) {
-			CI::model ( 'core' )->optionsSave ( $_POST );
+			
+			if ($_POST ['option_key'] and $_POST ['option_group']) {
+				
+				CI::model ( 'core' )->optionsDeleteByKey ( $_POST ['option_key'], $_POST ['option_group'] );
+			}
+			if (strval ( $_POST ['option_key'] ) != '') {
+				CI::model ( 'core' )->optionsSave ( $_POST );
+			}
 		
+		}
+	}
+	
+	function clean_word() {
+		if ($_POST ['html']) {
+			$html_to_save = clean_word ( $_POST ['html'] );
+			exit ( $html_to_save );
 		}
 	}
 	
@@ -669,6 +683,10 @@ class Content extends Controller {
 			exit ( 'Error: no POST?' );
 		}
 		
+		$is_no_save = url_param ( 'peview', true );
+		//p($is_no_save);
+		
+
 		$ref_page = $_SERVER ['HTTP_REFERER'];
 		
 		if ($ref_page != '') {
@@ -772,21 +790,25 @@ class Content extends Controller {
 				if ($category_id == false and $page_id == false and $post_id == false and $save_global == false) {
 					print ('Error: plase specify integer value for at least one of those attributes - page, post or category') ;
 				} else {
-					
+					$some_mods = array ();
 					if (($the_field_data ['attributes'] ['field']) != '') {
 						if (($the_field_data ['html']) != '') {
 							$field = trim ( $the_field_data ['attributes'] ['field'] );
 							
 							$html_to_save = $the_field_data ['html'];
 							$html_to_save = str_replace ( 'MICROWEBER', 'microweber', $html_to_save );
+							//$html_to_save = str_replace ( '<div><br></div>', '<br>', $html_to_save );
+							//$html_to_save = str_replace ( '<div><br /></div>', '<br />', $html_to_save );
+							//$html_to_save = str_replace ( '<div></div>', '<br />', $html_to_save );
 							
+
 							$content = $html_to_save;
-							if (strstr ( $content, '<div' ) == true) {
+							$html_to_save = $content;
+							if (strstr ( $content, 'mw_params_encoded' ) == true) {
 								
-								$relations = array ();
-								$tags = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+								$tags1 = extract_tags ( $content, 'div', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 								//	p($tags);
-								$matches = $tags;
+								$matches = $tags1;
 								if (! empty ( $matches )) {
 									//
 									foreach ( $matches as $m ) {
@@ -795,10 +817,170 @@ class Content extends Controller {
 										
 
 										if ($m ['tag_name'] == 'div') {
+											
+											$attr = $m ['attributes'];
+											if (strval ( $attr ['module_id'] ) == '') {
+												$attr ['module_id'] = 'module_' . rand () . rand () . rand () . rand ();
+											}
+											
+											if ($attr ['module_id'] != '') {
+												$mw_params_encoded = $attr;
+												$mod_id = $attr ['module_id'];
+												$tag1 = "<microweber ";
+												
+												foreach ( $mw_params_encoded as $k => $v ) {
+													$skip_key = false;
+													if ($k == 'edit') {
+														$v = 'edit_tag';
+													}
+													if ($k == 'onmouseup') {
+														$v = '';
+														$skip_key = true;
+													}
+													if ($k == 'class') {
+														$v = '';
+														$skip_key = true;
+													}
+													if ($skip_key == false) {
+														if ((strtolower ( trim ( $k ) ) != 'save') and (strtolower ( trim ( $k ) ) != 'submit')) {
+															$tag1 = $tag1 . "{$k}=\"{$v}\" ";
+														}
+													}
+													$tag1 = $tag1 . "module=\"{$attr ['mw_params_module']}\" ";
+												
+												}
+												$tag1 .= " />";
+												$some_mods [$mod_id] = $tag1;
+											}
+										}
+									}
+								}
+								
+							/*$doc = new DOMDocument ();
+								$doc->preserveWhiteSpace = true;
+								$doc->loadHTML ( $content );
+								$xpath = new DOMXpath ( $doc );
+								foreach ( $xpath->query ( '//div[@mw_params_encoded]' ) as $a ) {
+									//	$clunker_vars = get_object_vars($a->nodeValue); // we pass the object, not th
+									//echo "Found {$a->previousSibling->previousSibling->nodeValue}," . " by {$a->previousSibling->nodeValue}\n";
+									
+
+									$mw_params_encoded = $a->getAttribute ( 'mw_params_encoded' );
+									$mod_id = $a->getAttribute ( 'module_id' );
+									
+									$mw_params_encoded = base64_decode ( $mw_params_encoded );
+									$mw_params_encoded = unserialize ( $mw_params_encoded );
+									
+									//$c1 = $a->nodeValue;
+									$c1 = domNodeContent ( $a, 1 );
+									
+									if (! empty ( $mw_params_encoded )) {
+										$tag1 = "<microweber ";
+										
+										foreach ( $mw_params_encoded as $k => $v ) {
+											if ($k == 'edit') {
+												$v = 'edit_tag';
+											}
+											if ((strtolower ( trim ( $k ) ) != 'save') and (strtolower ( trim ( $k ) ) != 'submit')) {
+												$tag1 = $tag1 . "{$k}=\"{$v}\" ";
+											}
+										
+										}
+										$tag1 .= " />";
+										$some_mods [$mod_id] = $tag1;
+										//p ( $tag1 );
+									//	p ( $c1 );
+									//$c1 = trim ( $c1 );
+									//$content = trim ( $content );
+									//$content123 = explode ( $c1, $content );
+									//$content = str_ireplace ( $c1, $tag1, $content );
+									// p($content123);
+									}
+								}*/
+							//
+							//$parsed = get_string_between ( $content, "mw_params_encoded=\"", '"' );
+							//
+							
+
+							}
+							//p($some_mods,1);
+							$html_to_save = $content;
+							
+							foreach ( $some_mods as $some_mod_k => $some_mod_v ) {
+								
+								//$t1 = extact_tag_by_attr ( 'module_id', $some_mod_k, $content, 'div' );
+								//p ( $t1 );
+								
+
+								$content = preg_replace ( "#<div[^>]*id=\"{$some_mod_k}\".*?</div>#si", $some_mod_v, $content );
+							
+							}
+							
+							if ($is_no_save != true) {
+								$pattern = "/mw_last_hover=\"[0-9]*\"/";
+								$pattern = "/mw_last_hover=\"[0-9]*\"/i";
+								
+								$content = preg_replace ( $pattern, "", $content );
+								
+								$pattern = "/mw_last_hover=\"\"/";
+								$content = preg_replace ( $pattern, "", $content );
+								
+								$pattern = "/mw_tag_edit=\"[0-9]*\"/i";
+								
+								$content = preg_replace ( $pattern, "", $content );
+								
+								$pattern = "/mw_tag_edit=\"\"/";
+								$content = preg_replace ( $pattern, "", $content );
+							}
+							//$content = preg_replace ( "#<div[^>]*id=\"{$some_mod_k}\".*?</div>#si", $some_mod_v, $content );
+							
+
+							$html_to_save = $content;
+							//	p ( $content,1 );
+							if (strstr ( $content, '<div' ) == true) {
+								
+								$relations = array ();
+								$tags = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+								
+								$matches = $tags;
+								if (! empty ( $matches )) {
+									//
+									foreach ( $matches as $m ) {
+										
+										//
+										
+
+										//	p ( ($m) );
+										if ($m ['tag_name'] == 'div') {
 											$replaced = false;
 											$attr = $m ['attributes'];
 											
+											if ($attr ['mw_params_encoded']) {
+												$decode_params = $attr ['mw_params_encoded'];
+												//$decode_params = base64_decode ( $decode_params );
+												$decode_params = 'edit_tag';
+												//p ( $decode_params );
+											
+
+											//p ( $attr, 1 );
+											//print 1111111111111111111111111111111111111111111111111111111;
+											}
+											foreach ( $some_mods as $some_mod_k => $some_mod_v ) {
+												//p(($m));
+												//	p($some_mod_v);
+												
+
+												if (stristr ( $content, $some_mod_k )) {
+													//p ( $content );
+												//$content = str_ireplace ( $m ['full_tag'], $some_mod_v, $content );
+												//p ( $content, 1 );
+												}
+											}
+											//p ( $content, 1 );
+											
+
 											if ($attr ['class'] == 'module') {
+												//	p($attr);
 												if ($attr ['base64_array'] != '') {
 													
 													$base64_array = base64_decode ( $attr ['base64_array'] );
@@ -822,7 +1004,8 @@ class Content extends Controller {
 												if ($replaced == false) {
 													if ($attr ['edit'] != '') {
 														$tag = ($attr ['edit']);
-														$tag = base64_decode ( $tag );
+														$tag = 'edit_tag';
+														//$tag = base64_decode ( $tag );
 														//p ( $tag );
 														
 
@@ -847,13 +1030,20 @@ class Content extends Controller {
 								}
 							
 							}
+							$html_to_save = str_ireplace ( 'class="ui-droppable"', '', $html_to_save );
+							$html_to_save = str_ireplace ( '<div><div></div><div><div></div>', '<br />', $html_to_save );
+							//$html_to_save = str_ireplace ( 'class="ui-droppable"', '', $html_to_save );
+							
+
 							//$html_to_save =utfString( $html_to_save );
 							//$html_to_save = htmlspecialchars ( $html_to_save, ENT_QUOTES );
 							//$html_to_save = html_entity_decode ( $html_to_save );
 							//p($html_to_save);
+							//	p($content,1);
 							$html_to_save = clean_word ( $html_to_save );
 							
 							if ($save_global == false) {
+								
 								if ($content_id) {
 									
 									if ($page_id) {
@@ -876,16 +1066,11 @@ class Content extends Controller {
 										$history_to_save ['value'] = $old;
 										$history_to_save ['field'] = $field;
 										//p ( $history_to_save );
-										CI::model ( 'core' )->saveHistory ( $history_to_save );
+										if ($is_no_save != true) {
+											CI::model ( 'core' )->saveHistory ( $history_to_save );
+										}
 									
 									}
-									
-									
-									
-									
-									
-									
-									
 									
 									$to_save = array ();
 									$to_save ['id'] = $content_id;
@@ -896,17 +1081,16 @@ class Content extends Controller {
 									$to_save [$field] = ($html_to_save);
 									//print "<h2>For content $content_id</h2>";
 									//p ( $to_save );
+									//p ( $html_to_save, 1 );
 									$json_print [] = $to_save;
+									if ($is_no_save != true) {
+										$saved = CI::model ( 'content' )->saveContent ( $to_save );
+									}
+									//print ($html_to_save) ;
 									
-									
-									
-									
-									$saved = CI::model ( 'content' )->saveContent ( $to_save );
-									$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
-									
-								//	print ($html_to_save) ;
-								
 
+									$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
+								
 								} else if ($category_id) {
 									print (__FILE__ . __LINE__ . ' category is not implemented not rady yet') ;
 								
@@ -923,15 +1107,18 @@ class Content extends Controller {
 								$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 								//print "<h2>Global</h2>";
 								//p ( $to_save );
-								$to_save = CI::model ( 'core' )->optionsSave ( $to_save );
+								if ($is_no_save != true) {
+									$to_save = CI::model ( 'core' )->optionsSave ( $to_save );
+								}
 								$json_print [] = $to_save;
 								$history_to_save = array ();
 								$history_to_save ['table'] = 'global';
 								//	$history_to_save ['id'] = 'global';
 								$history_to_save ['value'] = $field_content ['option_value'];
 								$history_to_save ['field'] = $field;
-								
-								CI::model ( 'core' )->saveHistory ( $history_to_save );
+								if ($is_no_save != true) {
+									CI::model ( 'core' )->saveHistory ( $history_to_save );
+								}
 								$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 								//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );
 							

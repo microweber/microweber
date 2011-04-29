@@ -24,16 +24,19 @@ class Module extends Controller {
 		
 		$decode_vars = url_param ( 'decode_vars', true );
 		
-		
+		$mod_to_edit = url_param ( 'module_to_edit', true );
+		$element_id = url_param ( 'element_id', true );
 		
 		if ($mod1 != false) {
 			$mod1 = urldecode ( $mod1 );
 		}
-		
-		
-		
-		
-		if ($base64 == false ) {
+		$mod_iframe = false;
+		if ($mod_to_edit != false) {
+			$mod_to_edit = str_ireplace ( '_mw_slash_replace_', '/', $mod_to_edit );
+		$mod_iframe = true;
+		}
+		//p($mod_to_edit);
+		if ($base64 == false) {
 			if ($is_iframe) {
 				$data = $is_iframe;
 				$data = base64_decode ( $data );
@@ -44,12 +47,11 @@ class Module extends Controller {
 				$data = $_POST;
 			}
 			
-			
-		if($decode_vars){
-			$decode_vars = decode_var($decode_vars);
-			$data = $decode_vars;
-			//p($data);
-		}
+			if ($decode_vars) {
+				$decode_vars = decode_var ( $decode_vars );
+				$data = $decode_vars;
+				//p($data);
+			}
 			
 			if ($mod1 != '') {
 				$data ['module'] = $mod1;
@@ -115,9 +117,13 @@ class Module extends Controller {
 			
 			$tags = "<microweber {$tags}></microweber>";
 		} else {
-			$base64 = base64_decode ( $base64 );
+			if ($base64 == 'undefined') {
+				exit ();
+			}
+			
+			//$base64 = base64_decode ( $base64 );
 			if (is_string ( $base64 ) == false) {
-				$base64 = false;
+			//	$base64 = false;
 			}
 			//$base64 = unserialize($base64);
 		//p ( $base64 );
@@ -125,6 +131,12 @@ class Module extends Controller {
 		}
 		if ($base64 != false) {
 			$tags = $base64;
+			
+			if($mod_iframe == true){
+				$mod_iframe = 'quick_edit="true"';
+			}
+			
+			$tags = "<microweber module='{$mod_to_edit}' module_id='{$element_id}' {$mod_iframe} ></microweber>";
 		}
 		//p ( $tags );
 		//exit; 

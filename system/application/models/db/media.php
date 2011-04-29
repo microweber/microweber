@@ -40,6 +40,7 @@ if ($query [0] == $table_name) {
 	
 	$fields_to_add [] = array ('embed_code', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('original_link', 'varchar(1500) default NULL' );
+	$fields_to_add [] = array ('collection', 'varchar(1500) default NULL' );
 	
 	$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('created_on', 'datetime default NULL' );

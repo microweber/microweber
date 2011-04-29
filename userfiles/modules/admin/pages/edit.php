@@ -1,9 +1,10 @@
 <?
-$id = $params['id'];
+$id = intval( $params['id']);
 
 
 
 $form_values = get_page($id);
+//p($form_values);
 
 if(intval($id) == 0){
 	$try_parent = $params['content_parent'];

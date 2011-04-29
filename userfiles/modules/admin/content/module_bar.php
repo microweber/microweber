@@ -13,22 +13,50 @@ $modules = CI::model('template')->getModules($modules_options );
 <? // p($params) ?>
 <script type="text/javascript">
 	 
-	/*$(function() {
-		var icons = {
-			header: "ui-icon-circle-arrow-e",
-			headerSelected: "ui-icon-circle-arrow-s"
-		};
-		$( "#module_accordion" ).accordion({
-										   
-			icons: icons
-		});
-	 
-	}); */
+	$(function() {
+	
+	 init_edits() 
+	}); 
 	
 		
 	
 	
 	function init_bar() {
+		//var item = $('table.mw_sidebar_module_group_table');
+// do something
+//item.find('.module_draggable').html('aaa');
+
+
+
+		//$('.mw_sidebar_module_group_table').find('div.module_draggable').css('background-color', 'red'); 
+		
+		
+		
+		// $(".mw_sidebar_module_group_table").each(function (index) {
+       
+	   
+	  // $(this).find('.module_draggable').last().css('background-color', 'red');
+	   
+	 //   var val = $(this).find('.module_draggable:last-child').addClass('module_draggable_last');
+   // alert('i selected: ' + val);
+
+
+
+	   
+	   
+ 
+	   
+	   
+	   
+     
+		 
+		 
+	 
+		
+	//	$(".mw_sidebar_module_group_table .module_draggable:last").addClass("module_draggable_last");
+		
+		
+ 
 /*  $(".module_accordion li").draggable({
 			connectToSortable: ".editblock",
 		    helper: 'clone',
@@ -66,7 +94,7 @@ $modules = CI::model('template')->getModules($modules_options );
 							 
 							 
 							 
-	$(".module_bar").disableSelection();
+	//$(".module_bar").disableSelection();
 	//$( ".edit" ).draggable({ cancel: '.module'});
 		 init_edits() 
  }
@@ -79,7 +107,7 @@ $modules = CI::model('template')->getModules($modules_options );
 </script>
 <? $showed_module_groups = array(); ?>
 
-<div class="module_bar" style="background-color:#FFF">
+<div class="module_bar">
   <? if(intval($params['page_id']) != 0): ?>
   <? endif ?>
   <div class="module_accordion">
@@ -90,29 +118,39 @@ $modules = CI::model('template')->getModules($modules_options );
 
 ?>
     <? if(!in_array($module_group, $showed_module_groups))  : ?>
-    <h3><a href="#"><? print ($module_group); ?></a></h3>
-    <ul>
-      <? foreach($modules as $module2): ?>
-      <?
+    <span class="mw_sidebar_module_group_title"><a href="#" class="mw_sidebar_module_group_title"><? print ($module_group); ?></a></span>
+    <div class="mw_sidebar_module_group_div">
+      <div class="mw_sidebar_module_group_div_roundtop"></div>
+      <table  border="0" cellspacing="0" cellpadding="0" class="mw_sidebar_module_group_table">
+        <? foreach($modules as $module2): ?>
+        <?
 		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
 		 $module_group2 = $module_group2[0];
 		?>
-      <? if($module_group2 == $module_group)  : ?>
-      <li class="module_draggable">
-        <? if($module2['icon']): ?><img src="<? print $module2['icon'] ?>" height="12" style="float:left" /><? endif; ?><? print $module2['name'] ?><? print $module2['description'] ?>
-        <textarea style="display: none"><? print $module2['module'] ?></textarea>
-      </li>
-      <? endif; ?>
-      <? endforeach; ?>
-    </ul>
+        <? if($module_group2 == $module_group)  : ?>
+        <tr valign="middle">
+          <td><? if($module_group2 == $module_group)  : ?>
+            <div class="module_draggable mw_no_module_mask"  title="<? print addslashes($module2['description']); ?>" ondblclick="mw_insert_module_at_cursor('<? print urlencode($module2['module']) ?>')">
+              <? if($module2['icon']): ?>
+              <div class="mw_sidebar_module_icon"> <img src="<? print $module2['icon'] ?>" height="24" style="float:left" /> </div>
+              <? endif; ?>
+              
+        <!--      <a onclick="mw_insert_module_at_cursor('<? print urlencode($module2['module']) ?>')" href="#">insert</a>;-->
+              
+              <? print $module2['name'] ?>
+              <textarea id="md5_module_<? print md5($module2['module']) ?>" style="display: none"><? print $module2['module'] ?></textarea>
+            </div>
+            <? endif; ?></td>
+        </tr>
+        <? endif; ?>
+        <? endforeach; ?>
+      </table>
+      <div class="mw_sidebar_module_group_div_roundbottom"></div>
+    </div>
+    <br />
+    <br />
     <? endif; ?>
     <?  $showed_module_groups[] = $module_group; ?>
     <? endforeach; ?>
-  </div>
-  <div class="module_bar_modules_holder">
-    <div class="bar_module">
-      <textarea style="display: none" id="qwewqreeq"><nomw><microweber module="content/content" /></nomw>
-</textarea>
-    </div>
   </div>
 </div>

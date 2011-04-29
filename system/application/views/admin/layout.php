@@ -2,7 +2,9 @@
 <html  class="<?php echo css_browser_selector() ?>"  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:v='urn:schemas-microsoft-com:vml'>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
 <title></title>
 <?  include('header_scripts.php'); ?>
 <script type="text/javascript">
@@ -15,11 +17,32 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
   <div id="liquid" align="left">
     <div id="header"> <a href="<?php print site_url('admin')  ?>" target="_blank" id="logo" title="MicroWeber">MicroWeber</a>
 
-      <div id="nav"> <a href="<? print ADMIN_URL ?>/action:pages" <? if((url_param('action') == 'pages') or (url_param('action') == 'page_edit')): ?> class="active" <? endif; ?>>Pages</a> <a href="<? print ADMIN_URL ?>/action:posts" <? if((url_param('action') == 'posts') or (url_param('action') == 'post_edit')): ?> class="active" <? endif; ?>>Posts</a> <a href="<? print ADMIN_URL ?>/action:shop" <? if((url_param('action') == 'shop') or (url_param('action') == 'orders')): ?> class="active" <? endif; ?>>Online Shop</a> <a href="<? print ADMIN_URL ?>/action:categories" <? if((url_param('action') == 'categories') or (url_param('action') == 'category_edit')): ?> class="active" <? endif; ?>>Categories</a> <a href="<? print ADMIN_URL ?>/action:menus" <? if((url_param('action') == 'menus') or (url_param('action') == 'menu_edit')): ?> class="active" <? endif; ?>>Menus</a> <a href="<? print ADMIN_URL ?>/action:options"  <? if((url_param('action') == 'options') or (url_param('action') == 'option_edit')): ?> class="active" <? endif; ?>>Options</a>
-      
-      <a href="<? print ADMIN_URL ?>/action:users"  <? if((url_param('action') == 'users') or (url_param('edit_user'))): ?> class="active" <? endif; ?>>Users</a>
-      
-      <a href="<? print ADMIN_URL ?>/action:comments" <? if((url_param('action') == 'comments') or (url_param('action') == 'comment_edit')): ?> class="active" <? endif; ?>>Comments</a> </div>
+      <div id="nav">
+        <a href="<? print ADMIN_URL ?>/action:pages" <? if((url_param('action') == 'pages') or (url_param('action') == 'page_edit')): ?> class="active" <? endif; ?>>Pages</a>
+        <a href="<? print ADMIN_URL ?>/action:posts" <? if((url_param('action') == 'posts') or (url_param('action') == 'post_edit')): ?> class="active" <? endif; ?>>Posts</a>
+        <a href="<? print ADMIN_URL ?>/action:shop" <? if((url_param('action') == 'shop') or (url_param('action') == 'orders')): ?> class="active" <? endif; ?>>Online Shop</a>
+
+        <? /*
+        <a href="<? print ADMIN_URL ?>/action:categories" <? if((url_param('action') == 'categories') or (url_param('action') == 'category_edit')): ?> class="active" <? endif; ?>>Categories</a>
+        */ ?>
+
+        <? /*
+        <a href="<? print ADMIN_URL ?>/action:menus" <? if((url_param('action') == 'menus') or (url_param('action') == 'menu_edit')): ?> class="active" <? endif; ?>>Menus</a>
+        */ ?>
+        <a href="<? print ADMIN_URL ?>/action:options"  <? if((url_param('action') == 'options') or (url_param('action') == 'option_edit')): ?> class="active" <? endif; ?>>Options</a>
+
+        <a href="<? print ADMIN_URL ?>/action:users"  <? if((url_param('action') == 'users') or (url_param('edit_user'))): ?> class="active" <? endif; ?>>Users</a>
+
+
+
+      </div>
+      <a class="go_live_edit" href="#!"><span>Go Live Edit</span></a>
+      <a href="<? print ADMIN_URL ?>/action:comments" class="comments_url <? if((url_param('action') == 'comments') or (url_param('action') == 'comment_edit')): ?>active<? endif; ?>">
+        12
+        <span class="comments_arr">&nbsp;</span>
+      </a>
+
+
     </div>
     <!-- /#header -->
     <div id="content">
@@ -37,10 +60,10 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 <?  include('footer.php'); ?>
 <script type="text/javascript">
 try {
-var pageTracker = _gat._getTracker("UA-1065179-34");
-pageTracker._setDomainName('<?php  print $_SERVER['HTTP_HOST'];   ?>');
-pageTracker._setAllowLinker(true);
-pageTracker._trackPageview();
+  var pageTracker = _gat._getTracker("UA-1065179-34");
+  pageTracker._setDomainName('<?php  print $_SERVER['HTTP_HOST'];   ?>');
+  pageTracker._setAllowLinker(true);
+  pageTracker._trackPageview();
 } catch(err) {}
 </script>
 
@@ -54,5 +77,16 @@ pageTracker._trackPageview();
           <li><a title="Log out" href="<?php print $exit_url ?>">Log out</a></li>
         </ul>
       </div>
+
+
+
+
+ <div class="helper" for="content" position="top">
+    <div class="helper_content">
+       This is help
+    </div>
+ </div>
+
+
 </body>
 </html>

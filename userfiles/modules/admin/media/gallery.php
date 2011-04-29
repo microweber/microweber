@@ -23,7 +23,7 @@
   
 </div>
 <?
-
+ print(PAGE_ID);
 $rand = rand();
 //p($params);
 
@@ -54,6 +54,20 @@ if($id == false){
 	$id = $params['for_id'];
 }
  
+if($for == false){
+	
+	$for =  'content';
+}
+
+if($id == false){
+	
+	$id = url_param('page_id');
+} 
+ 
+ if($module_id == false){
+	
+	$module_id = $params['module_id'];
+}
 ?>
 <input type="hidden" name="queue_id" value="<? print $rand ?>" />
 <script>
@@ -69,6 +83,7 @@ var call_media_manager<? print $call_media_manager; ?> = function(){
 	 data1 = {}
    data1.module = 'admin/media/media_manager';
     data1.for = '<? print $for ?>';
+	data1.module_id = '<? print $module_id ?>';
 	data1.for_id = '<? print $id ?>';
 	data1.queue_id = '<? print $rand ?>';
 	//data1.type = 'picture';
@@ -94,7 +109,7 @@ var call_media_manager<? print $call_media_manager; ?> = function(){
       $("#image_embed_media").show();
    }
 
- 
+ parent.mw.reload_module('media/gallery');
 
   }
     });
@@ -141,6 +156,7 @@ function upload_by_embed(){
    function(data) {
      //alert("Data Loaded: " + data);
 	  call_media_manager<? print $call_media_manager ?>();
+	  
    });
 	
 	
@@ -159,7 +175,7 @@ $(document).ready(function(){
  	$(".drag_files<? print $rand ?>").pluploadQueue({
 		// General settings
 		runtimes: 'html5,flash,gears,browserplus',
-		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id.'/queue_id:'.$rand); ?>",
+		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id.'/queue_id:'.$rand.'/module_id:'.$module_id); ?>",
 		max_file_size: '100mb',
 		chunk_size: '1000mb',
 		unique_names: true,
@@ -194,7 +210,12 @@ $(document).ready(function(){
             })  */
          },
          FileUploaded: function(up, file, info) {
-			 call_media_manager<? print $call_media_manager ?>();
+			 
+			   
+   call_media_manager<? print $call_media_manager ?>();
+   
+			 
+			 
        //   var obj = eval("(" + info.response + ")");
             //$(document.body).append(obj.url);
         /*    var image = new Image();

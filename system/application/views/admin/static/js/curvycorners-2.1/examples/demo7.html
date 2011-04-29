@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Script-Type" content="text/javascript"/>
+<title>Demo curvycorners background image patch</title>
+<script type="text/javascript" src="../curvycorners.src.js">
+</script>
+<script type="text/javascript">//<![CDATA[
+function message() {
+  var DetectBrowser = new browserdetect;
+	var divTag = document.createElement("div");
+	if (DetectBrowser.supportsCorners) {
+    divTag.innerHTML = 'This demo is for web developers to test curvycorners in <strong>Internet Explorer</strong> and <strong>Opera &lt; 10.5</strong>. You are currrently using a browser with native rounded borders support. <strong>Bypassing the curvyCorners test.</strong>';
+    divTag.style.color = "red";
+  }
+	else if (DetectBrowser.isOp) {
+    divTag.innerHTML = "You are using an outdated version of Opera, which doesn't support rounded borders natively. <strong>Testing curvyCorners.</strong>";
+  }
+  else if (DetectBrowser.isIE) {
+    divTag.innerHTML = "You are using Internet Explorer, an obsolete browser that doesn't support rounded borders natively. <strong>Testing curvyCorners.</strong>";
+  }
+  else {
+    divTag.innerHTML = 'This demo is for web developers to test curvycorners in <strong>Internet Explorer</strong>. Your browser is unrecognized, and is thus being treated as not supporting rounded corners natively. <strong>Testing curvyCorners.</strong>';
+    divTag.style.color = "red";
+  }
+  document.getElementById('msg').appendChild(divTag);
+}
+//]]>
+</script>
+<style type="text/css">/*<![CDATA[*/
+  h1, p {
+      text-align: center;
+  }
+
+  .demoContainer {
+      float: left;
+      height: 375px;
+      margin: 0.5em 0.2em;
+  }
+
+  .demo {
+      width: 150px;
+      height: 150px;
+      background-color: blue;
+      background-image: url('background.png');
+      background-position: 10px 10px;
+  }
+
+  .radius1 {
+      border-radius: 40px 70px 20px 50px;
+      -moz-border-radius: 40px 70px 20px 50px;
+      -webkit-border-top-left-radius:40px;
+      -webkit-border-top-right-radius:70px;
+      -webkit-border-bottom-right-radius: 20px;
+      -webkit-border-bottom-left-radius: 50px;
+  }
+
+  .radius2 {
+      border-radius: 70px 40px 50px 20px;
+      -moz-border-radius: 70px 40px 50px 20px;
+      -webkit-border-top-left-radius: 70px;
+      -webkit-border-top-right-radius:40px;
+      -webkit-border-bottom-right-radius:50px;
+      -webkit-border-bottom-left-radius:20px;
+  }
+
+  .radius3 {
+      border-radius: 70px 0 20px 0;
+      -moz-border-radius: 70px 0 20px 0;
+      -webkit-border-top-left-radius:70px;
+      -webkit-border-bottom-right-radius:20px;
+  }
+
+  .radius4 {
+      border-radius: 0 20px 0 70px;
+      -moz-border-radius: 0 20px 0 70px;
+      -webkit-border-top-right-radius:20px;
+      -webkit-border-bottom-left-radius:70px;
+  }
+
+  .border1 {
+      border: 5px solid yellow;
+  }
+
+  .border2 {
+      border: 10px solid green;
+  }
+
+  .repeat1 {
+      background-repeat: repeat;
+  }
+
+  .repeat2 {
+      background-repeat: repeat-x;
+  }
+
+  .repeat3 {
+      background-repeat: repeat-y;
+  }
+
+  .repeat4 {
+      background-repeat: no-repeat;
+  }
+/*]]>*/
+</style>
+</head>
+
+<body onload="message();">
+  <h1>CurvyCorners Demo 7</h1>
+  <p>by <a href="http://sim6.heliohost.org">sim6</a>.</p>
+	<p id="msg"></p>
+  <div class="demoContainer">
+    <p>demo1</p>
+    <div class="demo repeat1">
+    </div>
+    <div class="demo repeat1 radius1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo2
+    </p>
+    <div class="demo repeat2 border1">
+    </div>
+    <div class="demo repeat2 radius1 border1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo3
+    </p>
+    <div class="demo repeat3 border2">
+    </div>
+    <div class="demo repeat3 radius1 border2">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo4
+    </p>
+    <div class="demo repeat4">
+    </div>
+    <div class="demo repeat4 radius1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo5
+    </p>
+    <div class="demo repeat1 border1">
+    </div>
+    <div class="demo repeat1 radius2 border1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo6
+    </p>
+    <div class="demo repeat2 border2">
+    </div>
+    <div class="demo repeat2 radius2 border2">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo7
+    </p>
+    <div class="demo repeat3">
+    </div>
+    <div class="demo repeat3 radius2">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo8
+    </p>
+    <div class="demo repeat4 border1">
+    </div>
+    <div class="demo repeat4 radius2 border1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo9
+    </p>
+    <div class="demo repeat1 border2">
+    </div>
+    <div class="demo repeat1 radius3 border2">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo10
+    </p>
+    <div class="demo repeat2 border1">
+    </div>
+    <div class="demo repeat2 radius4 border1">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo11
+    </p>
+    <div class="demo repeat3 border2">
+    </div>
+    <div class="demo repeat3 radius3 border2">
+    </div>
+  </div>
+  <div class="demoContainer">
+    <p>
+        demo12
+    </p>
+    <div class="demo repeat4 border1">
+    </div>
+    <div class="demo repeat4 radius4 border1">
+    </div>
+  </div>
+</body>
+</html>

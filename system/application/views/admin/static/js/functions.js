@@ -1,8 +1,31 @@
 
 
 
+
+
+
+
+
 $(document).ready(function(){
 
+$(".field_ctrl_plus").each(function(){
+    if($(this).parents("li:first").find("ul").length==0){
+        $(this).hide();
+        $(this).parent().css({paddingLeft:"21px"})
+    }
+})
+
+$(".field_ctrl_plus").click(function(){
+   $(this).parents("li:first").find("ul:first").toggle();
+   $(this).toggleClass("field_ctrl_minus");
+});
+
+
+$(".cms_help").click(function(){
+
+    $(".helper").toggle();
+    return false;
+})
 
 $(window).load(function(){
 

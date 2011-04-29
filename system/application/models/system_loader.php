@@ -48,18 +48,11 @@ $cms_db_tables ['table_cart_orders_shipping_cost'] = TABLE_PREFIX . 'cart_orders
 $cms_db_tables ['table_cart_currency'] = TABLE_PREFIX . 'cart_currency';
 $cms_db_tables ['table_reports'] = TABLE_PREFIX . 'reports';
 
-
-
 //stats 
 $cms_db_tables ['table_stats_site'] = 'piwik_site';
 $cms_db_tables ['table_stats_access'] = 'piwik_access';
 $cms_db_tables ['table_log_action'] = 'piwik_log_action';
 $cms_db_tables ['table_log_link_visit_action'] = 'piwik_log_link_visit_action';
-
-
-
-
-
 
 //use this array to exlude certain table interactions from the users log table
 $users_log_exclude = array (); //not used if $users_log_include is not empty
@@ -84,15 +77,6 @@ $users_log_include [] = 'table_users_statuses';
 $users_log_include [] = 'table_content';
 $users_log_include [] = 'table_votes';
 $users_log_include [] = 'table_followers';
-
-
-
-
-
-
-
-
-
 
 $_GLOBALS ['cms_db_tables'] = $cms_db_tables;
 
@@ -223,6 +207,17 @@ function array_push_array($arr) {
 		}
 	}
 	return count ( $arr );
+}
+
+function domNodeContent($n, $outer = false) {
+	$d = new DOMDocument ( '1.0' );
+	$b = $d->importNode ( $n->cloneNode ( true ), true );
+	$d->appendChild ( $b );
+	$h = $d->saveHTML ();
+	// remove outter tags
+	if (! $outer)
+		$h = substr ( $h, strpos ( $h, '>' ) + 1, - (strlen ( $n->nodeName ) + 4) );
+	return $h;
 }
 
 function array_values_deep($array) {
@@ -2217,6 +2212,115 @@ function cache_file_memory_storage($path) {
 	$mem [$path_md] = $cont;
 	return $cont;
 }
+
+/*$fullstring = "this is my [tag]dog[/tag]";
+$parsed = get_string_between ( $fullstring, "[tag]", "[/tag]" );
+
+echo $parsed; // (result = dog)*/
+function get_string_between($string, $start, $end) {
+	$string = " " . $string;
+	$ini = strpos ( $string, $start );
+	if ($ini == 0)
+		return "";
+	$ini += strlen ( $start );
+	$len = strpos ( $string, $end, $ini ) - $ini;
+	return substr ( $string, $ini, $len );
+}
+
+function cache_get_file($cache_id, $cache_group = 'global') {
+	
+	$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
+	return cache_get_dir ( $cache_group ) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
+
+}
+
+function cache_clean_group($cache_group = 'global') {
+	//$startTime = slog_time ();
+	/*$cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' . CACHE_FILES_EXTENSION;
+		
+		$cache_group = $cache_group . DIRECTORY_SEPARATOR;
+		
+		$cache_group = reduce_double_slashes ( $cache_group );
+		
+		if (substr ( $cache_group, - 1 ) == DIRECTORY_SEPARATOR) {
+			
+			$cache_group_noslash = substr ( $cache_group, 0, - 1 );
+		
+		} else {
+			
+			$cache_group_noslash = ($cache_group);
+		
+		}
+		
+		$recycle_bin = CACHEDIR . 'deleted'. DIRECTORY_SEPARATOR;
+		
+		if (is_dir ( $recycle_bin ) == false) {
+			
+			mkdir ( $recycle_bin );
+		
+		}*/
+	
+	//print 'delete cache:'  .$cache_group;
+	$dir = cache_get_dir ( 'global' );
+	//$dir_del = cache_get_dir ( 'global', true );
+	//var_dump(CACHEDIR . $cache_group);
+	if (is_dir ( $dir )) {
+		//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+		recursive_remove_directory ( $dir );
+	
+
+	}
+	
+	$dir = cache_get_dir ( $cache_group );
+	//$dir_del = cache_get_dir ( $cache_group, true );
+	//var_dump(CACHEDIR . $cache_group);
+	if (is_dir ( $dir )) {
+		//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+		recursive_remove_directory ( $dir );
+	}
+}
+
+function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
+	if (strval ( $cache_group ) != '') {
+		$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
+		
+		//we will seperate the dirs by 1000s
+		$cache_group_explode = explode ( DIRECTORY_SEPARATOR, $cache_group );
+		$cache_group_new = array ();
+		foreach ( $cache_group_explode as $item ) {
+			if (intval ( $item ) != 0) {
+				$item_temp = intval ( $item ) / 1000;
+				$item_temp = ceil ( $item_temp );
+				$item_temp = $item_temp . '000';
+				$cache_group_new [] = $item_temp;
+				$cache_group_new [] = $item;
+			
+			} else {
+				
+				$cache_group_new [] = $item;
+			}
+		
+		}
+		$cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
+		if ($deleted_cache_dir == false) {
+			$cacheDir = CACHEDIR . $cache_group;
+		} else {
+			//$cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
+			$cacheDir = CACHEDIR . $cache_group;
+			
+		}
+		if (! is_dir ( $cacheDir )) {
+			
+			mkdir_recursive ( $cacheDir );
+		
+		}
+		
+		return $cacheDir;
+	} else {
+		return $cache_group;
+	}
+}
+
 /**
  * extract_tags()
  * Extract specific HTML tags and their attributes from a string.
@@ -2316,7 +2420,7 @@ function extract_tags($html, $tag, $selfclosing = null, $return_the_entire_tag =
 		
 		}
 		
-		$tag = array ('tag_name' => $match ['tag'] [0], 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', //empty for self-closing tags
+		$tag = array ('tag_name' => $match ['tag'] [0], 'match' => $match, 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', //empty for self-closing tags
 'attributes' => $attributes );
 		if ($return_the_entire_tag) {
 			$tag ['full_tag'] = $match [0] [0];
@@ -2327,34 +2431,48 @@ function extract_tags($html, $tag, $selfclosing = null, $return_the_entire_tag =
 	
 	return $tags;
 }
-
+function extact_tag_by_attr($attr, $value, $xml, $tag = null) {
+	if (is_null ( $tag ))
+		$tag = '\w+';
+	else
+		$tag = preg_quote ( $tag );
+	
+	$attr = preg_quote ( $attr );
+	$value = preg_quote ( $value );
+	
+	$tag_regex = "/<(" . $tag . ")[^>]*$attr\s*=\s*" . "(['\"])$value\\2[^>]*>(.*?)<\/\\1>/";
+	
+	preg_match_all ( $tag_regex, $xml, $matches, PREG_PATTERN_ORDER );
+	
+	return $matches [3];
+}
 
 //$an_array = array('value1','value2'); 
 //print wrap_implode("<a href=\"#\">","</a>"," > ", $an_array);
-function wrap_implode($before, $after, $glue, $array){ 
-    $nbItem = count($array); 
-    $i = 1; 
-    foreach($array as $item){ 
-        if($i < $nbItem){ 
-            $output .= "$before$item$after$glue"; 
-        }else $output .= "$before$item$after"; 
-        $i++; 
-    } 
-    return $output; 
-} 
-
-
-
+function wrap_implode($before, $after, $glue, $array) {
+	$nbItem = count ( $array );
+	$i = 1;
+	foreach ( $array as $item ) {
+		if ($i < $nbItem) {
+			$output .= "$before$item$after$glue";
+		} else
+			$output .= "$before$item$after";
+		$i ++;
+	}
+	return $output;
+}
 
 //A function to convert the glob pattern in a case insensitive version:
 //SHORT: make glob() case insensitiv.
 //sample call:
 //$filelist =  glob( '/path/*/'.globistr('*.PHP') ); //all *.php files in subfolders
 
+
 //sample call:
 //$filelist =  glob( dirname(__FILE__).'/'.globistr('*.JPG') );
 //$filelist =  array_merge($filelist,glob( dirname(__FILE__).'/'.globistr('*.JPEG') ));
 //$filelist =  array_merge($filelist,glob( dirname(__FILE__).'/'.globistr('*.gif') ));
+
 
 //multibyte sample:
 //$test = "asdasd";

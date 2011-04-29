@@ -40,7 +40,7 @@ if ($query [0] == $table_name) {
 	//$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
 	//$fields_to_add [] = array ('created_on', 'datetime default NULL' );
 	$fields_to_add [] = array ('custom_field_name', 'TEXT default NULL' );
-	$fields_to_add [] = array ('custom_field_value', 'TEXT default NULL' );
+	$fields_to_add [] = array ('custom_field_value', 'LONGTEXT default NULL' );
 	/*
 	 
 	$fields_to_add [] = array ('custom_field_for', 'varchar(150) default NULL' );

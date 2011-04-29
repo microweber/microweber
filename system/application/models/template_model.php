@@ -33,7 +33,7 @@ class Template_model extends Model {
 		if (strstr ( $layout, '<object' ) == true) {
 			
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'object', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'object', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			// p($tags);
 			$matches = $tags;
 			if (! empty ( $matches )) {
@@ -58,7 +58,7 @@ class Template_model extends Model {
 		if (strstr ( $layout, '<embed' ) == true) {
 			
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'embed', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'embed', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			
 			$matches = $tags;
 			if (! empty ( $matches )) {
@@ -78,7 +78,7 @@ class Template_model extends Model {
 				}
 			}
 			
-			$tags = extract_tags ( $layout, 'embed', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'embed', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			
 			$matches = $tags;
 			if (! empty ( $matches )) {
@@ -730,7 +730,7 @@ class Template_model extends Model {
 			if (strstr ( $content, '<microweber' ) == true) {
 				
 				$relations = array ();
-				$tags = extract_tags ( $content, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+				$tags = CI::model ( 'core' )->extractTags ( $content, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 				//	p($tags);
 				$matches = $tags;
 				if (! empty ( $matches )) {
@@ -760,7 +760,7 @@ class Template_model extends Model {
 			if (strstr ( $content, '<div' ) == true) {
 				
 				$relations = array ();
-				$tags = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+				$tags = CI::model ( 'core' )->extractTags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
 				//	p($tags);
 				$matches = $tags;
 				if (! empty ( $matches )) {
@@ -798,7 +798,9 @@ class Template_model extends Model {
 								if ($replaced == false) {
 									if ($attr ['edit'] != '') {
 										$tag = ($attr ['edit']);
-										$tag = base64_decode ( $tag );
+										//$tag = base64_decode ( $tag );
+										$tag = 'edit_tag';
+										
 										//p ( $tag );
 										
 
@@ -959,17 +961,44 @@ p($modules );
 	 * @since Version 1.0
 	 */
 	function parseMicrwoberTags($layout, $options = false) {
-		//echo memory_get_usage() . "\n"; // 36640
-		/*$cache_id = intval(PAGE_ID).'/' . md5 ( $layout ) . md5 ( serialize ( $options ) );
-		$cache_group = 'global/blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
 		
-		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
+/*		$function_cache_id = false;
+		
+		//$args = func_get_args ();
+		if (! empty ( $options )) {
+			foreach ( $options as $k => $v ) {
+				
+				$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+			
+			}
+		}
+		
+		$function_cache_id = __FUNCTION__ . md5 ( $layout ) . md5 ( $function_cache_id );
+		
+		$cache_group = 'extract_tags';
+		
+		//$cache_content = CI::model ( 'core' )->cacheGetContent ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
 			//return $cache_content;
 		
-		} */
+		}*/
+		
+		//echo memory_get_usage() . "\n"; // 36640
+		/*$cache_id =  md5 ( $layout ) . md5 ( serialize ( $options ) );
+		$cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
+		
+		
+		
+		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );*/
+		
+		if (($cache_content) != false) {
+			
+		//return $cache_content;
+		
+
+		}
 		
 		static $mem = array ();
 		static $mem2 = array ();
@@ -980,11 +1009,12 @@ p($modules );
 			return $mem [$check];
 		}
 		//var_dump( $this->$parse_memory);
-		$layout = str_ireplace ( '<mw', '<microweber', $layout );
+		//$layout = str_ireplace ( '<mw', '<microweber', $layout );
+		$layout = CI::model ( 'core' )->replace_in_long_text ( '<mw', '<microweber', $layout, $use_normal_replace = true );
 		
 		$v = $layout;
 		
-		//	$tags1 = extract_tags ( $v, '*', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+		//	$tags1 = CI::model ( 'core' )->extractTags ( $v, '*', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 		
 
 		if (strstr ( $layout, '<microweber' ) == true) {
@@ -1000,7 +1030,7 @@ p($modules );
 		
 		if (strstr ( $layout, '<nomw' ) == true) {
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			//	p($tags);
 			$matches = $tags;
 			$txt_to_replace_back = array ();
@@ -1026,7 +1056,7 @@ p($modules );
 			
 
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'block', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'block', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			//	p($tags);
 			$matches = $tags;
 			if (! empty ( $matches )) {
@@ -1154,19 +1184,20 @@ p($modules );
 			}
 		
 		}
-		
+		//
 		if (strstr ( $layout, '<microweber' ) == true) {
 			
 			$editmode = CI::model ( 'core' )->is_editmode ();
 			
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			//	p($tags);
 			$matches = $tags;
 			if (! empty ( $matches )) {
 				
 				//
 				foreach ( $matches as $m ) {
+					
 					if ($m ['tag_name'] == 'microweber') {
 						
 						$attr = $m ['attributes'];
@@ -1180,9 +1211,17 @@ p($modules );
 								touch ( MODULES_DIR . '_system/' );
 							}
 							if (is_file ( $check_if_uninstalled ) == true) {
-								$attr ['module'] = false;
+								//	$attr ['module'] = false;
 							}
 						}
+						
+						if (strval ( $attr ['module'] ) == '') {
+							$attr ['module'] = 'non_existing';
+						}
+						
+						//p($attr ['module']);
+						
+
 						if ($attr ['module'] != '') {
 							
 							$attr ['module'] = trim ( $attr ['module'] );
@@ -1287,9 +1326,18 @@ p($modules );
 									$force_cache_this = false;
 									if (is_file ( $try_config_file )) {
 										$config = false;
+										
+										
 										include ($try_config_file);
 										
 										if (! empty ( $config )) {
+												$check_icon = MODULES_DIR . '' . $attr ['module'].'.png';
+											 $icon = pathToURL($check_icon);
+											//p($config);
+											
+										 $config ['icon'] = $icon; 
+											 
+										 
 											$this->template ['config'] = $config;
 											
 											if (! empty ( $config ['options'] )) {
@@ -1308,7 +1356,8 @@ p($modules );
 												
 												$cache_for_session = true;
 											}
-											//p($config);
+											
+											
 											if ($config ['no_edit'] == true) {
 												$no_edit = true;
 											
@@ -1332,6 +1381,8 @@ p($modules );
 									if ($force_cache_this == false) {
 										if (strstr ( $attr ['module'], 'admin/' ) == true) {
 											$cache_this = false;
+											
+																		
 										}
 									}
 									if (($attr ['module_id']) == true) {
@@ -1386,11 +1437,19 @@ p($modules );
 										//$module_file = $this->load->file ( $try_file1, true );
 										$module_file = CI::file ( $try_file1, true );
 									}
-									$params_encoded = encode_var ( $arrts );
+									//$params_encoded = encode_var ( $arrts );
+									
+
+									$params_encoded = 'edit_tag';
 									$params_module = codeClean ( $arrts ['module'] );
 								
 								}
 								//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
+								
+
+								//
+								
+
 								if ($editmode == true) {
 									//	p($m);
 									//p( $arrts);
@@ -1408,7 +1467,8 @@ p($modules );
 										$mod_id_tag = '';
 									}
 									
-									$edtid_hash = base64_encode ( $m ['full_tag'] );
+									//$edtid_hash = base64_encode ( $m ['full_tag'] );
+									$edtid_hash = 'edit_tag';
 									
 									if (strval ( $module_file ) != '') {
 										
@@ -1418,9 +1478,13 @@ p($modules );
 										} else {
 											
 											if ($no_edit == false) {
-												$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												
+											//$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+											
+
 											} else {
-												$module_file = '<div mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
+												$module_file = '<div  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
 											
 											}
 										}
@@ -1475,7 +1539,7 @@ p($modules );
 			
 
 			$relations = array ();
-			$tags = extract_tags ( $layout, 'editable', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+			$tags = CI::model ( 'core' )->extractTags ( $layout, 'editable', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
 			$matches = $tags;
 			if (! empty ( $matches )) {
 				foreach ( $matches as $m ) {
@@ -1591,21 +1655,30 @@ p($modules );
 		//{SITE_URL}
 		$site_url = site_url ();
 		
-		$layout = str_ireplace ( '{SITE_URL}', $site_url, $layout );
-		$layout = str_ireplace ( '{SITEURL}', $site_url, $layout );
+		//$layout = str_replace ( '{SITE_URL}', $site_url, $layout );
+		
+
+		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITE_URL}', $site_url, $layout , true);
+		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITEURL}', $site_url, $layout , true);
+		//$layout = str_replace ( '{SITEURL}', $site_url, $layout );
 		//$layout = $this->badWordsRemove ( $layout );
 		
 
 		if (defined ( 'POST_ID' ) == true) {
-			$layout = str_ireplace ( '{POST_ID}', POST_ID, $layout );
+			//$layout = str_replace ( '{POST_ID}', POST_ID, $layout );
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{POST_ID}', POST_ID, $layout , true);
+		
 		}
 		
 		if (defined ( 'PAGE_ID' ) == true) {
-			$layout = str_ireplace ( '{PAGE_ID}', PAGE_ID, $layout );
+			//$layout = str_replace ( '{PAGE_ID}', PAGE_ID, $layout );
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{PAGE_ID}', PAGE_ID, $layout , true);
 		}
 		
 		if (defined ( 'CATEGORY_ID' ) == true) {
-			$layout = str_ireplace ( '{CATEGORY_ID}', CATEGORY_ID, $layout );
+			//$layout = str_replace ( '{CATEGORY_ID}', CATEGORY_ID, $layout );
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{CATEGORY_ID}', CATEGORY_ID, $layout , true);
+		
 		}
 		
 		//	$this->load->vars ( $this->template );
@@ -1678,14 +1751,16 @@ p($modules );
 			$layout = str_ireplace ( '</head>', $prepend_to_head . '</head>', $layout );
 			//$layout= '<div class="mw_module">'.$layout.'</div>';
 			$mem [$check] = $layout;
-			if ($do_not_cache_whole_block == false) {
-				//	CI::model ( 'core' )->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
-			}
+			//if ($do_not_cache_whole_block == false) {
+			//CI::model ( 'core' )->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
+			//}
+			//CI::model ( 'core' )->cacheWrite ( $layout, $function_cache_id, $cache_group );
 			return $layout;
 		} else {
-			if ($do_not_cache_whole_block == false) {
-				//	CI::model ( 'core' )->cacheWriteAndEncode ( $v, $cache_id, $cache_group );
-			}
+			//if ($do_not_cache_whole_block == false) {
+			//CI::model ( 'core' )->cacheWriteAndEncode ( $v, $cache_id, $cache_group );
+			//}
+			//CI::model ( 'core' )->cacheWrite ( $v, $function_cache_id, $cache_group );
 			$mem [$check] = $v;
 			return $v;
 		}

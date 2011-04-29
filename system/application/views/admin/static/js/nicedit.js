@@ -20,11 +20,9 @@ bkClass.extend = function(def) {
   var proto = new this(bkClass);
   bkExtend(proto,def);
   classDef.prototype = proto;
-  classDef.extend = this.extend;
+  classDef.extend = this.extend;      
   return classDef;
 };
-
-
 
 var bkElement = bkClass.extend({
 	construct : function(elm,d) {
@@ -52,10 +50,6 @@ var bkElement = bkClass.extend({
 	
 	setContent : function(c) {
 		this.innerHTML = c;
-		return this;
-	},
-    setTitle : function(c) {
-		this.title = c;
 		return this;
 	},
 	
@@ -150,7 +144,7 @@ var bkLib = {
 	isMSIE : (navigator.appVersion.indexOf("MSIE") != -1),
 	
 	addEvent : function(obj, type, fn) {
-		(obj.addEventListener) ? obj.addEventListener( type, fn, false ) : obj.attachEvent("on"+type, fn);
+		(obj.addEventListener) ? obj.addEventListener( type, fn, false ) : obj.attachEvent("on"+type, fn);	
 	},
 	
 	toArray : function(iterable) {
@@ -190,15 +184,12 @@ var bkLib = {
 	},
 	domLoad : [],
 	domLoaded : function() {
-
 		if (arguments.callee.done) return;
 		arguments.callee.done = true;
 		for (i = 0;i < bkLib.domLoad.length;i++) bkLib.domLoad[i]();
-
 	},
 	onDomLoaded : function(fireThis) {
 		this.domLoad.push(fireThis);
-
 		if (document.addEventListener) {
 			document.addEventListener("DOMContentLoaded", bkLib.domLoaded, null);
 		} else if(bkLib.isMSIE) {
@@ -210,7 +201,6 @@ var bkLib = {
 	    window.onload = bkLib.domLoaded;
 	}
 };
-
 
 function $BK(elm) {
 	if(typeof(elm) == "string") {
@@ -301,7 +291,7 @@ var nicEditors = {
 		}
 		return nicEditors.editors;
 	},
-
+	
 	findEditor : function(e) {
 		var editors = nicEditors.editors;
 		for(var i=0;i<editors.length;i++) {
@@ -400,7 +390,7 @@ var nicEditor = bkClass.extend({
 		var file = (options.iconFiles) ? options.iconFiles[iconName] : '';
 		return {backgroundImage : "url('"+((icon) ? this.options.iconsPath : file)+"')", backgroundPosition : ((icon) ? ((icon-1)*-18) : 0)+'px 0px'};	
 	},
-
+		
 	selectCheck : function(e,t) {
 		var found = false;
 		do{
@@ -457,11 +447,9 @@ var nicEditorInstance = bkClass.extend({
 	},
 	
 	init : function() {
-        this.elm.setAttribute('contentEditable','true');
+		this.elm.setAttribute('contentEditable','true');	
 		if(this.getContent() == "") {
-			//this.setContent('<br />');
-			//pecata
-			this.setContent('<p> </p>');
+			this.setContent('<div>Type here</div>');
 		}
 		this.instanceDoc = document.defaultView;
 		this.elm.addEvent('mousedown',this.selected.closureListener(this)).addEvent('keypress',this.keyDown.closureListener(this)).addEvent('focus',this.selected.closure(this)).addEvent('blur',this.blur.closure(this)).addEvent('keyup',this.selected.closure(this));
@@ -477,7 +465,6 @@ var nicEditorInstance = bkClass.extend({
 		}
 		this.disable();
 		this.ne.fireEvent('remove',this);
-
 	},
 	
 	disable : function() {
@@ -489,22 +476,9 @@ var nicEditorInstance = bkClass.extend({
 	},
 	
 	getRng : function() {
-		 var s = this.getSel();
+		var s = this.getSel();
 		if(!s) { return null; }
-		return (s.rangeCount > 0) ? s.getRangeAt(0) : s.createRange(); 
-		//pecata
-		/*var s = this.getSel();
-    var rng;        
-
-    if(!s) { return null; } 
-    if (s.rangeCount > 0) {
-        s.getRangeAt(0);
-    } else if ( typeof s.createRange === 'undefined' ) {
-        rng = document.createRange();
-    } else {
-        rng = s.createRange(); 
-    }       
-    return rng;*/
+		return (s.rangeCount > 0) ? s.getRangeAt(0) : s.createRange();
 	},
 	
 	selRng : function(rng,s) {
@@ -551,13 +525,6 @@ var nicEditorInstance = bkClass.extend({
 		if(e.ctrlKey) {
 			this.ne.fireEvent('key',this,e);
 		}
-		
-		
-		
-		
-	 
-		
-		
 	},
 	
 	selected : function(e,t) {
@@ -617,8 +584,7 @@ var nicEditorIFrameInstance = nicEditorInstance.extend({
 	init : function() {	
 		var c = this.elm.innerHTML.replace(/^\s+|\s+$/g, '');
 		this.elm.innerHTML = '';
-		//(!c) ? c = "<br />" : c;
-		(!c) ? c = "<p> </p>" : c;
+		(!c) ? c = "<br />" : c;
 		this.initialContent = c;
 		
 		this.elmFrame = new bkElement('iframe').setAttributes({'src' : 'javascript:;', 'frameBorder' : 0, 'allowTransparency' : 'true', 'scrolling' : 'no'}).setStyle({height: '100px', width: '100%'}).addClass('frame').appendTo(this.elm);
@@ -658,7 +624,7 @@ var nicEditorIFrameInstance = nicEditorInstance.extend({
 	getElm : function() {
 		return this.frameContent;
 	},
-
+	
 	setContent : function(c) {
 		this.content = c;
 		this.ne.fireEvent('set',this);
@@ -733,7 +699,6 @@ var nicEditorPanel = bkClass.extend({
 	
 	remove : function() {
 		this.elm.remove();
-
 	}
 });
 var nicEditorButton = bkClass.extend({
@@ -744,7 +709,7 @@ var nicEditorButton = bkClass.extend({
 		this.ne = nicEditor;
 		this.elm = e;
 
-		this.margin = new bkElement('DIV').setStyle({'float' : 'left', marginTop : '2px'}).appendTo(e).setTitle(this.options.name);
+		this.margin = new bkElement('DIV').setStyle({'float' : 'left', marginTop : '2px'}).appendTo(e);
 		this.contain = new bkElement('DIV').setStyle({width : '20px', height : '20px'}).addClass('buttonContain').appendTo(this.margin);
 		this.border = new bkElement('DIV').setStyle({backgroundColor : '#efefef', border : '1px solid #efefef'}).appendTo(this.contain);
 		this.button = new bkElement('DIV').setStyle({width : '18px', height : '18px', overflow : 'hidden', zoom : 1, cursor : 'pointer'}).addClass('button').setStyle(this.ne.getIcon(buttonName,options)).appendTo(this.border);
@@ -782,7 +747,7 @@ var nicEditorButton = bkClass.extend({
 				var stateStyle = {border : '1px solid #666', backgroundColor : '#ccc'};
 				break;
 			default:
-				var stateStyle = {border : '1px solid #efefef', backgroundColor : '#efefef'};
+				var stateStyle = {border : '1px solid #efefef', backgroundColor : '#efefef'};	
 		}
 		this.border.setStyle(stateStyle).addClass('button-'+state);
 	},
@@ -911,28 +876,22 @@ var nicEditorPane = bkClass.extend({
 		this.ne = nicEditor;
 		this.elm = elm;
 		this.pos = elm.pos();
-
-		this.contain = new bkElement('div').addClass("X mw_modal").setStyle({zIndex : '99999', overflow : 'hidden', position : 'absolute', left : this.pos[0]+'px', top : $(window).scrollTop() + this.pos[1]+'px'})
-		this.pane = new bkElement('div').setStyle({fontSize : '12px', 'overflow': 'hidden', padding : '4px', textAlign: 'left', backgroundColor : '#ffffc9'}).addClass('pane').setStyle(options).appendTo(this.contain);
-        $(this.contain).prepend('<div class="drag_area">&nbsp;</div>');
-        $(this.contain).draggable({handle:".drag_area"});
-        $(this.contain).resizable({
-
-
-        });
+		
+		this.contain = new bkElement('div').setStyle({zIndex : '99999', overflow : 'hidden', position : 'absolute', left : this.pos[0]+'px', top : this.pos[1]+'px'})
+		this.pane = new bkElement('div').setStyle({fontSize : '12px', border : '1px solid #ccc', 'overflow': 'hidden', padding : '4px', textAlign: 'left', backgroundColor : '#ffffc9'}).addClass('pane').setStyle(options).appendTo(this.contain);
+		
 		if(openButton && !openButton.options.noClose) {
-			//this.close = new bkElement('div').setStyle({'float' : 'right', height: '16px', width : '16px', cursor : 'pointer'}).setStyle(this.ne.getIcon('close',nicPaneOptions)).addEvent('mousedown',openButton.removePane.closure(this)).appendTo(this.pane);
-			this.close = new bkElement('div').setStyle({display:'none'}).addEvent('mousedown',openButton.removePane.closure(this)).appendTo(this.pane);
+			this.close = new bkElement('div').setStyle({'float' : 'right', height: '16px', width : '16px', cursor : 'pointer'}).setStyle(this.ne.getIcon('close',nicPaneOptions)).addEvent('mousedown',openButton.removePane.closure(this)).appendTo(this.pane);
 		}
 		
 		this.contain.noSelect().appendTo(document.body);
-
+		
 		this.position();
-		this.init();
+		this.init();	
 	},
 	
 	init : function() { },
-
+	
 	position : function() {
 		if(this.ne.nicPanel) {
 			var panelElm = this.ne.nicPanel.elm;	
@@ -943,7 +902,7 @@ var nicEditorPane = bkClass.extend({
 			}
 		}
 	},
-
+	
 	toggle : function() {
 		this.isVisible = !this.isVisible;
 		this.contain.setStyle({display : ((this.isVisible) ? 'block' : 'none')});
@@ -953,9 +912,7 @@ var nicEditorPane = bkClass.extend({
 		if(this.contain) {
 			this.contain.remove();
 			this.contain = null;
-             $(".nicEdit-X").remove();
 		}
-
 	},
 	
 	append : function(c) {
@@ -973,7 +930,7 @@ var nicEditorPane = bkClass.extend({
 var nicEditorAdvancedButton = nicEditorButton.extend({
 	
 	init : function() {
-		this.ne.addEvent('selected',this.removePane.closure(this)).addEvent('blur',this.removePane.closure(this));
+		this.ne.addEvent('selected',this.removePane.closure(this)).addEvent('blur',this.removePane.closure(this));	
 	},
 	
 	mouseClick : function() {
@@ -1046,8 +1003,6 @@ var nicEditorAdvancedButton = nicEditorButton.extend({
 	removePane : function() {
 		if(this.pane) {
 			this.pane.remove();
-            $(this).remove();
-            $(this.pane).remove();
 			this.pane = null;
 			this.ne.selectedInstance.restoreRng();
 		}	
@@ -1057,30 +1012,30 @@ var nicEditorAdvancedButton = nicEditorButton.extend({
 
 var nicButtonTips = bkClass.extend({
 	construct : function(nicEditor) {
-		/*this.ne = nicEditor;
+		this.ne = nicEditor;
 		nicEditor.addEvent('buttonOver',this.show.closure(this)).addEvent('buttonOut',this.hide.closure(this));
-*/
+
 	},
 	
 	show : function(button) {
-		/*this.timer = setTimeout(this.create.closure(this,button),400); */
+		this.timer = setTimeout(this.create.closure(this,button),400);
 	},
-
+	
 	create : function(button) {
-	 /*	this.timer = null;
+		this.timer = null;
 		if(!this.pane) {
 			this.pane = new nicEditorPane(button.button,this.ne,{fontSize : '12px', marginTop : '5px'});
 			this.pane.setContent(button.options.name);
-		}*/
+		}		
 	},
 	
 	hide : function(button) {
-	  /* (this.timer) {
+		if(this.timer) {
 			clearTimeout(this.timer);
 		}
 		if(this.pane) {
 			this.pane = this.pane.remove();
-		}*/
+		}
 	}
 });
 nicEditors.registerPlugin(nicButtonTips);
@@ -1167,7 +1122,7 @@ var nicEditorSelect = bkClass.extend({
 	},
 	
 	over : function(opt) {
-		opt.setStyle({backgroundColor : '#ccc'});
+		opt.setStyle({backgroundColor : '#ccc'});			
 	},
 	
 	out : function(opt) {
@@ -1181,7 +1136,7 @@ var nicEditorSelect = bkClass.extend({
 	
 	update : function(elm) {
 		this.ne.nicCommand(this.options.command,elm);
-		this.close();
+		this.close();	
 	}
 });
 
@@ -1231,7 +1186,7 @@ var nicLinkOptions = {
 };
 /* END CONFIG */
 
-var nicLinkButton = nicEditorAdvancedButton.extend({
+var nicLinkButton = nicEditorAdvancedButton.extend({	
 	addPane : function() {
 		this.ln = this.ne.selectedInstance.selElm().parentTag('A');
 		this.addForm({
@@ -1282,7 +1237,7 @@ var nicEditorColorButton = nicEditorAdvancedButton.extend({
 	addPane : function() {
 			var colorList = {0 : '00',1 : '33',2 : '66',3 :'99',4 : 'CC',5 : 'FF'};
 			var colorItems = new bkElement('DIV').setStyle({width: '270px'});
-
+			
 			for(var r in colorList) {
 				for(var b in colorList) {
 					for(var g in colorList) {
@@ -1332,11 +1287,11 @@ var nicImageOptions = {
 	buttons : {
 		'image' : {name : 'Add Image', type : 'nicImageButton', tags : ['IMG']}
 	}
-
+	
 };
 /* END CONFIG */
 
-var nicImageButton = nicEditorAdvancedButton.extend({
+var nicImageButton = nicEditorAdvancedButton.extend({	
 	addPane : function() {
 		this.im = this.ne.selectedInstance.selElm().parentTag('IMG');
 		this.addForm({
@@ -1346,7 +1301,7 @@ var nicImageButton = nicEditorAdvancedButton.extend({
 			'align' : {type : 'select', txt : 'Align', options : {none : 'Default','left' : 'Left', 'right' : 'Right'}}
 		},this.im);
 	},
-
+	
 	submit : function(e) {
 		var src = this.inputs['src'].value;
 		if(src == "" || src == "http://") {
@@ -1371,96 +1326,6 @@ var nicImageButton = nicEditorAdvancedButton.extend({
 });
 
 nicEditors.registerPlugin(nicPlugin,nicImageOptions);
-
-
-
-
-
-
-
-
-
-
-
-
-/* START CONFIG */
-var mw_nic_upload_set = {
-	buttons : {
-		'image' : {name : 'Upload Files', type : 'mw_nic_upload', tags : ['IMG']}
-	}
-
-};
-/* END CONFIG */
-
-var mw_nic_upload = nicEditorAdvancedButton.extend({
-	addPane : function() {
-		this.im = this.ne.selectedInstance.selElm().parentTag('IMG');
-        var dis = this.pane.pane;
-
-
-
-var html = ''
-    +"<p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p>";
-
-var div = document.createElement('div');
-div.id = 'mw_nic_uploader';
-div.innerHTML = html;
-
-div.style.width='550px';
-div.style.height='330px';
-
-$(dis).css({
-  width:550,
-  height:330
-})
-
-
-
-
-$(dis).append(div);
-$('#mw_nic_uploader').pluploadQueue({
-		runtimes : 'flash,silverlight,html4',
-		url : 'upload.php',
-		max_file_size : '10mb',
-		chunk_size : '1mb',
-		unique_names : true,
-		resize : {width : 480, height : 380, quality : 90},
-		filters : [
-			{title : "Image files", extensions : "jpg,gif,png"},
-			{title : "Zip files", extensions : "zip"}
-		],
-		flash_swf_url : static_url + 'js/plupload/js/plupload.flash.swf',
-		silverlight_xap_url : static_url + 'js/plupload/js/plupload.silverlight.xap'
-});
-
-
-
-
-
-
-
-
-
-
-	}});
-
-nicEditors.registerPlugin(nicPlugin,mw_nic_upload_set);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1499,13 +1364,13 @@ var nicUploadOptions = {
 };
 /* END CONFIG */
 
-var nicUploadButton = nicEditorAdvancedButton.extend({
+var nicUploadButton = nicEditorAdvancedButton.extend({	
 	nicURI : 'http://files.nicedit.com/',
 
 	addPane : function() {
 		this.im = this.ne.selectedInstance.selElm().parentTag('IMG');
 		this.myID = Math.round(Math.random()*Math.pow(10,15));
-		this.requestInterval = 3000;
+		this.requestInterval = 1000;
 		this.uri = this.ne.options.uploadURI || this.nicURI;
 		nicUploadButton.lastPlugin = this;
 					
@@ -1516,9 +1381,7 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
 		setTimeout(this.addForm.closure(this),50);
 	},
 
-
 	addForm : function() {
-
 		var myDoc = this.myDoc = this.myFrame.contentWindow.document;
 		myDoc.open();
 		myDoc.write("<html><body>");
@@ -1614,6 +1477,243 @@ nicEditors.registerPlugin(nicPlugin,nicUploadOptions);
 
 
 
+var nicXHTML = bkClass.extend({
+	stripAttributes : ['_moz_dirty','_moz_resizing','_extended'],
+	noShort : ['style','title','script','textarea','a'],
+	cssReplace : {'font-weight:bold;' : 'strong', 'font-style:italic;' : 'em'},
+	sizes : {1 : 'xx-small', 2 : 'x-small', 3 : 'small', 4 : 'medium', 5 : 'large', 6 : 'x-large'},
+	
+	construct : function(nicEditor) {
+		this.ne = nicEditor;
+		if(this.ne.options.xhtml) {
+			nicEditor.addEvent('get',this.cleanup.closure(this));
+		}
+	},
+	
+	cleanup : function(ni) {
+		var node = ni.getElm();
+		var xhtml = this.toXHTML(node);
+		ni.content = xhtml;
+	},
+	
+	toXHTML : function(n,r,d) {
+		var txt = '';
+		var attrTxt = '';
+		var cssTxt = '';
+		var nType = n.nodeType;
+		var nName = n.nodeName.toLowerCase();
+		var nChild = n.hasChildNodes && n.hasChildNodes();
+		var extraNodes = new Array();
+		
+		switch(nType) {
+			case 1:
+				var nAttributes = n.attributes;
+				
+				switch(nName) {
+					case 'b':
+						nName = 'strong';
+						break;
+					case 'i':
+						nName = 'em';
+						break;
+					case 'font':
+						nName = 'span';
+						break;
+				}
+				
+				if(r) {
+					for(var i=0;i<nAttributes.length;i++) {
+						var attr = nAttributes[i];
+						
+						var attributeName = attr.nodeName.toLowerCase();
+						var attributeValue = attr.nodeValue;
+						
+						if(!attr.specified || !attributeValue || bkLib.inArray(this.stripAttributes,attributeName) || typeof(attributeValue) == "function") {
+							continue;
+						}
+						
+						switch(attributeName) {
+							case 'style':
+								var css = attributeValue.replace(/ /g,"");
+								for(itm in this.cssReplace) {
+									if(css.indexOf(itm) != -1) {
+										extraNodes.push(this.cssReplace[itm]);
+										css = css.replace(itm,'');
+									}
+								}
+								cssTxt += css;
+								attributeValue = "";
+							break;
+							case 'class':
+								attributeValue = attributeValue.replace("Apple-style-span","");
+							break;
+							case 'size':
+								cssTxt += "font-size:"+this.sizes[attributeValue]+';';
+
+								attributeValue = "";
+							break;
+						}
+						
+						if(attributeValue) {
+							attrTxt += ' '+attributeName+'="'+attributeValue+'"';
+						}
+					}
+
+					if(cssTxt) {
+						attrTxt += ' style="'+cssTxt+'"';
+					}
+
+					for(var i=0;i<extraNodes.length;i++) {
+						txt += '<'+extraNodes[i]+'>';
+					}
+				
+					if(attrTxt == "" && nName == "span") {
+						r = false;
+					}
+					if(r) {
+						txt += '<'+nName;
+						if(nName != 'br') {
+							txt += attrTxt;
+						}
+					}
+				}
+				
+
+				
+				if(!nChild && !bkLib.inArray(this.noShort,attributeName)) {
+					if(r) {
+						txt += ' />';
+					}
+				} else {
+					if(r) {
+						txt += '>';
+					}
+					
+					for(var i=0;i<n.childNodes.length;i++) {
+						var results = this.toXHTML(n.childNodes[i],true,true);
+						if(results) {
+							txt += results;
+						}
+					}
+				}
+					
+				if(r && nChild) {
+					txt += '</'+nName+'>';
+				}
+				
+				for(var i=0;i<extraNodes.length;i++) {
+					txt += '</'+extraNodes[i]+'>';
+				}
+
+				break;
+			case 3:
+				//if(n.nodeValue != '\n') {
+					txt += n.nodeValue;
+				//}
+				break;
+		}
+		
+		return txt;
+	}
+});
+nicEditors.registerPlugin(nicXHTML);
+
+
+
+var nicBBCode = bkClass.extend({
+	construct : function(nicEditor) {
+		this.ne = nicEditor;
+		if(this.ne.options.bbCode) {
+			nicEditor.addEvent('get',this.bbGet.closure(this));
+			nicEditor.addEvent('set',this.bbSet.closure(this));
+			
+			var loadedPlugins = this.ne.loadedPlugins;
+			for(itm in loadedPlugins) {
+				if(loadedPlugins[itm].toXHTML) {
+					this.xhtml = loadedPlugins[itm];
+				}
+			}
+		}
+	},
+	
+	bbGet : function(ni) {
+		var xhtml = this.xhtml.toXHTML(ni.getElm());
+		ni.content = this.toBBCode(xhtml);
+	},
+	
+	bbSet : function(ni) {
+		ni.content = this.fromBBCode(ni.content);
+	},
+	
+	toBBCode : function(xhtml) {
+		function rp(r,m) {
+			xhtml = xhtml.replace(r,m);
+		}
+		
+		rp(/\n/gi,"");
+		rp(/<strong>(.*?)<\/strong>/gi,"[b]$1[/b]");
+		rp(/<em>(.*?)<\/em>/gi,"[i]$1[/i]");
+		rp(/<span.*?style="text-decoration:underline;">(.*?)<\/span>/gi,"[u]$1[/u]");
+		rp(/<ul>(.*?)<\/ul>/gi,"[list]$1[/list]");
+		rp(/<li>(.*?)<\/li>/gi,"[*]$1[/*]");
+		rp(/<ol>(.*?)<\/ol>/gi,"[list=1]$1[/list]");
+		rp(/<img.*?src="(.*?)".*?>/gi,"[img]$1[/img]");
+		rp(/<a.*?href="(.*?)".*?>(.*?)<\/a>/gi,"[url=$1]$2[/url]");
+		rp(/<br.*?>/gi,"\n");
+		rp(/<.*?>.*?<\/.*?>/gi,"");
+		
+		return xhtml;
+	},
+	
+	fromBBCode : function(bbCode) {
+		function rp(r,m) {
+			bbCode = bbCode.replace(r,m);
+		}		
+		
+		rp(/\[b\](.*?)\[\/b\]/gi,"<strong>$1</strong>");
+		rp(/\[i\](.*?)\[\/i\]/gi,"<em>$1</em>");
+		rp(/\[u\](.*?)\[\/u\]/gi,"<span style=\"text-decoration:underline;\">$1</span>");
+		rp(/\[list\](.*?)\[\/list\]/gi,"<ul>$1</ul>");
+		rp(/\[list=1\](.*?)\[\/list\]/gi,"<ol>$1</ol>");
+		rp(/\[\*\](.*?)\[\/\*\]/gi,"<li>$1</li>");
+		rp(/\[img\](.*?)\[\/img\]/gi,"<img src=\"$1\" />");
+		rp(/\[url=(.*?)\](.*?)\[\/url\]/gi,"<a href=\"$1\">$2</a>");
+		rp(/\n/gi,"<br />");
+		//rp(/\[.*?\](.*?)\[\/.*?\]/gi,"$1");
+		
+		return bbCode;
+	}
+
+	
+});
+nicEditors.registerPlugin(nicBBCode);
+
+
+
+nicEditor = nicEditor.extend({
+        floatingPanel : function() {
+                this.floating = new bkElement('DIV').setStyle({position: 'absolute', top : '-1000px'}).appendTo(document.body);
+                this.addEvent('focus', this.reposition.closure(this)).addEvent('blur', this.hide.closure(this));
+                this.setPanel(this.floating);
+        },
+        
+        reposition : function() {
+                var e = this.selectedInstance.e;
+                this.floating.setStyle({ width : (parseInt(e.getStyle('width')) || e.clientWidth)+'px' });
+                var top = e.offsetTop-this.floating.offsetHeight;
+                if(top < 0) {
+                        top = e.offsetTop+e.offsetHeight;
+                }
+                
+                this.floating.setStyle({ top : top+'px', left : e.offsetLeft+'px', display : 'block' });
+        },
+        
+        hide : function() {
+                this.floating.setStyle({ top : '-1000px'});
+        }
+});
+
+
 
 /* START CONFIG */
 var nicCodeOptions = {
@@ -1625,15 +1725,15 @@ var nicCodeOptions = {
 /* END CONFIG */
 
 var nicCodeButton = nicEditorAdvancedButton.extend({
-	width : '98%',
-
+	width : '350px',
+		
 	addPane : function() {
 		this.addForm({
 			'' : {type : 'title', txt : 'Edit HTML'},
-			'code' : {type : 'content', 'value' : this.ne.selectedInstance.getContent(), style : {width: '100%', height : '200px'}}
+			'code' : {type : 'content', 'value' : this.ne.selectedInstance.getContent(), style : {width: '340px', height : '200px'}}
 		});
 	},
-
+	
 	submit : function(e) {
 		var code = this.inputs['code'].value;
 		this.ne.selectedInstance.setContent(code);
@@ -1644,355 +1744,3 @@ var nicCodeButton = nicEditorAdvancedButton.extend({
 nicEditors.registerPlugin(nicPlugin,nicCodeOptions);
 
 
-
-
-
-
-
-/* **************************** TABLE ************************************ */
-
-
-function SystemColor() {
-  return colorList = {
-    0:'ffcccc',   1:'ff98b5',   3:'ff6c93',   4:'ff4f7f',   5:'ff1352',
-    6:'f00240',   7:'d20035',   8:'b3002d',   9:'990026',   10:'840021',  11:'65001a',
-    24:'fedda3',  25:'f9d69e',  27:'e4c086',  28:'d7b377',  29:'caa567',
-    30:'bb9756',  31:'ac8744',  32:'9e7935',  33:'916c26',  34:'835d17',  35:'624209',
-    60:'fff2d8',  61:'ffedc7',  62:'ffe8b7',  63:'ffe2a1',  64:'ffdb87',
-    65:'ffd36c',  66:'ffcc52',  67:'ffc53a',  68:'ffbe23',  69:'ffb810',  70:'ffb400',
-    36:'fffed1',  37:'fefec4',  38:'fefeb4',  39:'fefe9b',  40:'fefe83',
-    41:'fefe68',  42:'fdfe50',  43:'fdff35',  44:'fcff22',  45:'fdfe0e',  46:'fcff00',
-    144:'e1ffc9', 145:'daffbc', 146:'d0ffab', 147:'c4ff96', 148:'b8ff7e',
-    149:'aaff65', 150:'9cff4d', 151:'90ff37', 152:'84ff21', 153:'7aff0f', 154:'72ff00',
-    48:'e1ffc2',  49:'b1ff9a',  51:'71ff62',  52:'30ff2a',  53:'16ff13',
-    54:'02ff01',  55:'00d200',  56:'00be00',  57:'009000',  58:'008100',  59:'005e00',
-    72:'ceffe6',  73:'b7f0d2',  75:'98dcb8',  76:'7ac79e',  77:'6bbf93',
-    78:'63b98b',  79:'529d74',  80:'4a916b',  81:'397655',  82:'326c4d',  83:'24513a',
-    96:'dbf4ff',  97:'c7daff',  99:'b1bdff',  100:'989aff', 101:'8d8dff',
-    102:'8583ff', 103:'6d76d7', 104:'5f6ebe', 105:'4a6499', 106:'405e87', 107:'2f4a65',
-    108:'bff3ff', 109:'b5e8ff', 110:'a5d2ff', 111:'91baff', 112:'7c9dff',
-    113:'627cff', 114:'4d62ff', 115:'3a49ff', 116:'2029ff', 117:'1015ff', 118:'0000ff',
-    120:'f6d5ff', 121:'eda9ff', 123:'df6cff', 124:'d22eff', 125:'cc13ff',
-    126:'c800ff', 127:'a400d2', 128:'9200ba', 129:'72008f', 130:'63007c', 131:'49005c',
-    132:'ffffff', 133:'ececec', 135:'cfcfcf', 136:'bdbdbd', 137:'ababab',
-    138:'989898', 139:'828283', 140:'6f6f6f', 141:'5a5a59', 142:'373737', 143:'000000'
-  }
-}
-
-/* START CONFIG */
-var tableOptions = {
-   buttons : {
-      'table' : {name : 'Add Table', type : 'nicEditorTableButton', tags : ['table']}
-   }/* NICEDIT_REMOVE_START */,iconFiles : {'table' : '../table.gif'}/* NICEDIT_REMOVE_END */
-};
-/* END CONFIG */
-
-var nicEditorTableButton = nicEditorAdvancedButton.extend({
-
-    width: '220px',
-    addPane :
-                 function() {
-
-                    var colorList = SystemColor();
-
-                    var tblTitle = new bkElement('DIV')
-                      .setStyle({
-                        width     : '90%',
-                        height    : '20px',
-                        fontSize  : '14px',
-                        fontWeight: 'bold'
-                      })
-                    .appendTo(this.pane.pane)
-                    .setContent('Table Options');
-
-                    var style="border: 1px solid #ccc; margin: 3px 0 3px 2px; float: left; width: 8em";
-                    var label = 'width: 4.5em; float: left; line-height: 1.55em; display: block; clear: both;';
-
-                    var Ex = new bkElement('DIV')
-                      .appendTo(this.pane.pane)
-                      .setAttributes({id:'select'})
-                      .setContent(
-                        '<div style="'+label+'">Rows:</div>'
-                        +'<input id="rows" type="text" value="1" style="width: 2em;  margin: 1px" />'
-                        +'<label> <br /> Columns:</label><input id="cols" type="text" value="1" '
-                                            +'style="width: 2em;  margin: 1px" /><br />'
-
-                        +'<div style="'+label+'">Border:</div>'
-                        +'<input id="brd" type="text" value="1" style="width: 2em; margin: 1px" /> '
-                        +'<input id="clps" type="checkbox" />'
-                        +'<label> collapse</label><br />'
-
-                        +'<label style="'+label+'"> Colour: </label>'
-                        +'<input id="clr" type="text" value="#000000" style="width: 5.5em; margin: 1px" /> '
-                        +'<label id="selClr" style="padding-top: .3em; background: #000; color: #000; '
-                        +'cursor: pointer; cursor: hand;">###</label>'
-                        +'<input id="clre" style="margin: 0 0 .15em 1em" type="checkbox" /><br />'
-
-                        +'<label id="BfLb" style="'+label+'">Padding: </label>'
-                        +'<input id="pad" type="text" value="2" style="width: 2em; margin: 1px" /><br />'
-
-                        +'<label style="'+label+'"> Width: </label>'
-                        +'<input id="wth" type="text" value="100" style="width: 2em; margin: 1px" /> '
-                        +'<input id="wthp" type="radio" checked name="per" /> % '
-                        +'<input type="radio" name="per" /> px <br />'
-                      )
-                      .addEvent('mouseover',this.on.closure(this,x,y));
-
-                    $BK('selClr').addEvent('click',this.clrOpen.closure(this,x,y));
-
-                    var clItems = new bkElement('DIV')
-                      .setAttributes({id:'color'})
-                      .setStyle({
-                        width     : '220px',
-                        display   : 'none'
-                      });
-
-                    for(var c in colorList) {
-
-                        var colorCode = '#'+colorList[c];
-
-                        var clSquare = new bkElement('DIV')
-                          .setStyle({
-                            cursor : 'pointer',
-                            height : '16px',
-                            width  : '16px',
-                            border : '1px solid #111',
-                            float  : 'left',
-                            margin : '1px'
-                          })
-                          .appendTo(clItems);
-
-                        var clInner = new bkElement('DIV')
-                          .setStyle({
-                            overflow : 'hidden',
-                            margin   : 'auto',
-                            background:colorCode,
-                            height   : '16px'
-                          })
-                          .addEvent('click',this.clrClose.closure(this))
-                          .addEvent('mouseover',this.clSelect.closure(this,colorCode))
-                          .appendTo(clSquare);
-
-                    }
-                    clItems.noSelect().appendBefore($BK('BfLb'));
-
-                    new bkElement('input')
-                      .setAttributes({id:'ok', type:'button', value: "OK"})
-                      .setStyle({
-                        border: '1px solid #ccc',
-                        margin: '3px 0 3px 2px',
-                        width : '8em'
-                      })
-                      .addEvent('click',this.tdSelect.closure(this))
-                      .appendTo(Ex);
-
-                    new bkElement('input')
-                      .setAttributes({id:'mode', type:'button', value: "Show Grid"})
-                      .setStyle({
-                        border: '1px solid #ccc',
-                        margin: '3px 0 3px 2px',
-                        width : '8em'
-                      })
-                      .addEvent('click',this.mode.closure(this))
-                      .appendTo(Ex);
-
-                    //---------------------------------
-
-                    var tdItems = new bkElement('DIV')
-                      .setAttributes({id:'table'})
-                      .setStyle({
-                        width     : '220px',
-                        display   : 'none'
-                      });
-
-                    for(var y=0;y<10;y++) {
-                     for(var x=0;x<10;x++) {
-
-                        var tdSquare = new bkElement('DIV')
-                          .setAttributes({id:'x'+x+'y'+y})
-                          .setStyle({
-                            cursor : 'pointer',
-                            height : '16px',
-                            width  : '16px',
-                            border : '1px solid #111',
-                            float  : 'left',
-                            margin : '2px'
-                          })
-                          .appendTo(tdItems);
-
-                        var tdInner = new bkElement('DIV')
-                          .setStyle({
-                            overflow : 'hidden',
-                            margin   : 'auto',
-                            height   : '16px'
-                          })
-                          //.addEvent('click',this.tdSelect.closure(this))
-
-                          .addEvent('mouseover',this.on.closure(this,x,y))
-                          .addEvent('mouseout',this.off.closure(this,x,y))
-                          .appendTo(tdSquare);
-                          $(tdInner).click(function(){
-                            $("#table").hide();
-                            $("#mode").val("Show Grid");
-                          })
-
-                     }
-                    }
-                    this.pane.append(tdItems.noSelect());
-
-                 },
-
-    tdSelect :
-                 function() {
-
-                    var tdpad =  ($BK('pad').value==2)?"":" style='"+"padding:"+$BK('pad').value+"px; '";
-                    var collapse = $BK('clps').checked?'collapse':'separate'
-                    var percent = $BK('wthp').checked?'%':'px'
-
-                    var cTable = "\n";
-                    for (var y=0;y<$BK('rows').value;y++) {
-                      cTable=cTable+"\n<tr>\n";
-                      for (var x=0;x<$BK('cols').value;x++) {
-
-                        cTable=cTable+"\t<td"+tdpad+">&nbsp;</td>\n";
-                      }
-                      cTable=cTable+"</tr>";
-                    }
-                    cTable=cTable+"\n";
-
-                    if (bkLib.isMSIE) {
-                      tdpad = $BK('clre').checked?' bordercolor="'+$BK('clr').value+'"':'';
-                      var t = new bkElement('').setContent(
-                        '<table border='+$BK('brd').value+tdpad
-                                +' style="border-collapse: '+collapse+'; width: '+$BK('wth').value+percent+';">'
-                        +cTable+
-                        '</table>'
-                      );
-                      t.appendTo(this.ne.selectedInstance.getElm());
-                    } else {
-                      var t = new bkElement('table')
-                        .setAttributes({
-                            border          : 0,//$BK('brd').value,
-                            id              : 'brd-color'
-                        })
-                        .setStyle({
-                            width           : $BK('wth').value+percent,
-                            borderCollapse  : collapse,
-                            border:'1px solid black'
-                        })
-                        .setContent(cTable);
-
-
-                        $(t).find("td").mouseup(function(event){
-                          if(event.button == 2){
-                              var cur = mw.id();
-                              $(this).attr("id", "cur_"+cur);
-
-                              var td_context = ''
-                              +'<br /><ul class="context td_context">'
-                                +'<li>Edit Table</li>'
-                                +'<li>Edit Cell</li>'
-                              +'</ul>'
-                              mw.modal.close('edit_table');
-                              mw.modal.context({
-                                html:td_context,
-                                event:event,
-                                elem:this,
-                                id:'edit_table'
-                              });
-                          }
-                        });
-                        /*  BOF sj */
-                        var $tlbk=$BK('clre').checked
-						var $tlbkval=$BK('clr').value
-						tlv=this.ne.selectedInstance.getElm()
-						tlv.focus();
-                        /* EOF sj */
-                        this.ne.selectedInstance.getRng().insertNode(t);
-
-                        this.ne.selectedInstance.getElm().innerHTML =
-                            this.ne.selectedInstance.getElm().innerHTML
-                                .replace('id="brd-color"',$BK('clre').checked?'bordercolor="'+$BK('clr').value+'"':'');
-                    }
-
-                    this.removePane();
-                 },
-
-    clSelect :
-                 function(colorCode) {
-                    $BK('clr').value = colorCode;
-                    $BK('selClr').style.backgroundColor = colorCode;
-                    $BK('selClr').style.color = colorCode;
-                 },
-
-    clrOpen :
-                 function() {
-                   if ($BK('color').style.display == 'none') {
-                      $BK('color').style.display = 'block';
-                   } else {
-                      $BK('color').style.display = 'none'
-                   }
-                      $BK('clre').checked = true;
-                      $BK('table').style.display = 'none';
-                      $BK('mode').value = "Hide Grid";
-                 },
-
-    clrClose :
-                 function() {
-                   $BK('color').style.display = 'none'
-                 },
-
-    on :
-                 function(xx,yy) {
-                    for(var y=0;y<10;y++) {
-                        for(var x=0;x<10;x++) {
-                            if (x<=xx && y<=yy) {
-                                if ($BK('x'+x+'y'+y).style.borderColor!='#f80') {
-                                    $BK('x'+x+'y'+y).style.borderColor = '#f80';
-                                }
-                                /* BOF swap 'rows' and 'cols' */
-                                $BK('cols').value = x+1;
-                                $BK('rows').value = y+1;
-                                /* EOF swap 'rows' and 'cols' */
-                            } else {
-                                if ($BK('x'+x+'y'+y).style.borderColor!='#111') {
-                                    $BK('x'+x+'y'+y).style.borderColor = '#111';
-                                }
-                            }
-                        }
-                    }
-                 },
-
-    off :
-                 function(x,y) {
-                    $BK('x'+x+'y'+y).style.borderColor = '#f80';
-                 },
-
-    mode :
-                 function() {
-                    if ($BK('table').style.display=='none') {
-                      $BK('table').style.display = 'block';
-                      $BK('mode').value = "Hide Grid";
-                      $BK('color').style.display = 'none';
-                    } else {
-                      $BK('table').style.display = 'none';
-                      $BK('mode').value = "Show Grid";
-                    }
-                 },
-
-    exit :
-                 function() {
-                    for(var y=0;y<10;y++) {
-                        for(var x=0;x<10;x++) {
-                                $BK('x'+x+'y'+y).style.borderColor = '#111';
-                        }
-                    }
-                 }
-
-});
-
-nicEditors.registerPlugin(nicPlugin,tableOptions);
-
-cellEdit = function(elem){
-  //alert(elem.innerHTML)
-}

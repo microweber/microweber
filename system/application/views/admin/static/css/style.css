@@ -45,8 +45,8 @@ a{
 }
 
 #liquid, .liquid{
-  margin: 0 50px;
-  min-width: 900px;
+  margin: 0 20px;
+  min-width: 950px;
   max-width: 1100px;
 }
 
@@ -89,6 +89,8 @@ a{
 }
 #nav{
   padding:0px 0 10px;
+   display: inline;
+    float: left;
 }
 
 #nav a{
@@ -461,20 +463,18 @@ background: url(../img/mw_close.jpg) no-repeat;
 
 }
 .post{
-  background:#FAFAFA;
-  margin-bottom:8px;
-  border-top: 1px solid #F6F6F6;
-  border-bottom: 1px solid #F6F6F6;
+
+  border-bottom: 1px solid #e2e2e2;
   clear: both;
   padding: 10px;
+  position: relative;
 }
 .post .img{
   display: block;
   float: left;
-  width: 124px;
-  height: 124px;
+  width: 75px;
+  height: 75px;
   text-align: center;
-  border: 1px solid #ccc;
   margin-right: 12px;
   overflow: hidden;
 }
@@ -839,6 +839,11 @@ background: url(../img/mw_close.jpg) no-repeat;
   margin: 200px auto 0;
   padding: 20px;
 }
+#login input{
+  width: 400px;
+   
+}
+
 #login .field{
   width: 98%;
 }
@@ -850,16 +855,18 @@ background: url(../img/mw_close.jpg) no-repeat;
 
 .paging a{
   display: inline-block;
-  padding: 6px 10px;
-    -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -khtml-border-radius:8px;
-  border-radius: 8px;
+  padding: 4px 8px;
+
 
 }
 .paging a:hover, .paging a.active{
-  color: white;
-  background:#42454A;
+  background:white;
+   -moz-box-shadow:inset 1px 1px 2px #A9A9AB;
+    -webkit-box-shadow:inset 1px 1px 2px #A9A9AB;
+    box-shadow:inset 1px 1px 2px #A9A9AB;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
 }
 #posts_nav{
   height: 55px;
@@ -1051,47 +1058,32 @@ background: url(../img/mw_close.jpg) no-repeat;
 .field_ctrl{
   float: right;
   display: none;
-  width:510px;
-  margin-top: 8px;
+  width:710px;
+  margin-top: 6px;
   position: relative;
   z-index: 1;
   margin-left: 20px;
 }
 .field_ctrl a{
   display: inline-block;
-  padding: 3px 0 8px 37px;
-  background: url(../img/page_list.png) no-repeat;
+  padding: 5px 15px;
+  color: #35699F;
   margin: 0 9px;
 }
 
-
+.field_ctrl a:hover{
+  background:white;
+   -moz-box-shadow:inset 1px 1px 2px #A9A9AB;
+    -webkit-box-shadow:inset 1px 1px 2px #A9A9AB;
+    box-shadow:inset 1px 1px 2px #A9A9AB;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+}
 .field:hover .field_ctrl{
   display: block;
 }
-.field_ctrl a.fiedl_edit{
-  background-position:0 -354px;
-}
-.field_ctrl a.fiedl_edit:hover{
-  background-position:0 2px;
-}
-.field_ctrl a.fiedl_visit_page{
-  background-position:0 -447px;
-}
-.field_ctrl a.fiedl_visit_page:hover{
-  background-position:0 -87px;
-}
-.field_ctrl a.fiedl_add_sub_page{
-  background-position:4px -535px;
-}
-.field_ctrl a.fiedl_add_sub_page:hover{
-  background-position:4px -190px;
-}
-.field_ctrl a.fiedl_delete_page{
-  background-position:3px -621px;
-}
-.field_ctrl a.fiedl_delete_page:hover{
-  background-position:3px -269px;
-}
+
 
 
 
@@ -1129,14 +1121,16 @@ background: url(../img/mw_close.jpg) no-repeat;
   display: block;
   width: 15px;
   height: 15px;
-  background: url(../img/page_list_plus.jpg) no-repeat;
+  background: url(../img/page_list_plus.png) no-repeat;
   margin-right: 7px;
   margin-top: 4px;
   cursor: pointer;
 }
-.field:hover .field_ctrl_plus{
-  background-position: 0 -16px;
+.field_ctrl_minus{
+  background-position: 0 -15px;
 }
+
+
 /*
 #save_page_form label{
   display: block;
@@ -1756,6 +1750,11 @@ right: 5px;
   background: url(../img/shop_nav_active.jpg) no-repeat;
 }
 
+.shop_nav li a img{
+  float: left;
+  margin: 0px 5px 0 0;
+}
+
 
 .box_title{
   float: left;
@@ -1918,8 +1917,10 @@ right: 5px;
 }
 
 #content_list{
-  float: left;
-  width: 75%
+  float: right;
+  width: 74%;
+  border: 1px solid #E2E2E2;
+  border-right: none;
 }
 
 .cat_tree{
@@ -2000,6 +2001,157 @@ right: 5px;
 .parent_a{
   padding-bottom: 2px;
 }
+
+a.comments_url{
+  display: inline-block;
+  background: #8B8B8B;
+  padding:1px 4px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -khtml-border-radius:3px;
+  border-radius: 3px;
+  color: white;
+  -moz-box-shadow: 1px 1px 2px #fff;
+  -webkit-box-shadow: 1px 1px 2px #fff;
+  box-shadow: 1px 1px 2px #fff;
+  position: relative;
+  font-size: 10px;
+  float: right;
+    margin-top: 16px;
+}
+.comments_arr{
+  position: absolute;
+  left: 4px;
+  bottom:-8px;
+  display: block;
+  width:7px;
+  height: 8px;
+  background: url(../img/comments_arr.png) no-repeat;
+
+}
+a.comments_url:hover{
+  opacity:.7;
+}
+
+.go_live_edit{
+  display: block;
+  float: right;
+  width:156px;
+  height: 33px;
+  background: url(../img/live_edit_btn.png) no-repeat;
+  color: #434343;
+  margin-left:15px;
+  margin-top: 8px;
+}
+.go_live_edit span{
+  position: relative;
+  top: 10px;
+  left: 57px;
+}
+.go_live_edit:hover span{
+  text-decoration: underline;
+}
+
+.cms_help{
+  display: block;
+  float: right;
+  width:25px;
+  height: 24px;
+  background: url(../img/cmshelp.png) no-repeat;
+  text-indent: -9999px;
+  margin: 0 0 0 17px;
+}
+
+.helper{
+  position: absolute;
+  z-index: 999;
+  background: #F8F8D6;
+}
+
+.helper_content{
+  padding:10px;
+  zoom:1;
+}
+.helper_content:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.helper{
+  display: none;
+}
+
+.url_box{
+  clear: both;
+  padding: 0px 20px 12px;
+  zoom:1;
+  overflow: hidden;
+  border-bottom: 1px solid #e2e2e2;
+  margin-bottom: 1px;
+}
+
+
+.main_url span{
+  display: block;
+  float: left;
+  width: 50px;
+  height: 50px;
+  background: url(../img/h_pages.jpg) no-repeat;
+  margin-right: 7px;
+}
+.main_url em{
+  display: inline-block;
+  width:8px;
+  height: 15px;
+  background: url(../img/h_page_arr.jpg) no-repeat;
+  position: relative;
+  top: 18px;
+  left: 7px;
+
+
+}
+.main_url strong{
+  font-weight: normal;
+  font-style: italic;
+  font-size: 14px;
+  position: relative;
+  top: 16px;
+}
+.main_url:hover strong{
+  text-decoration: underline;
+}
+
+.post_btns_holder{
+  display: none;
+  position: absolute;
+  bottom: 8px;
+  left:102px;
+  left:119px;
+}
+.post:hover .post_btns_holder{
+  display: block;
+}
+
+
+.xbtn{
+   color: #35699F;
+    display: inline-block;
+    padding: 5px 15px;
+}
+.xbtn:hover{
+  background:white;
+   -moz-box-shadow:inset 1px 1px 2px #A9A9AB;
+    -webkit-box-shadow:inset 1px 1px 2px #A9A9AB;
+    box-shadow:inset 1px 1px 2px #A9A9AB;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+}
+
+
 
 
 

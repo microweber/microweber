@@ -1,0 +1,83 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>curvyCorners Demo</title>
+<script type="text/JavaScript" src="../jquery-1.4.2.min.js"></script>
+<script type="text/JavaScript" src="../jquery.curvycorners.source.js"></script>
+<style>
+
+.myBox
+{
+    margin: 0 auto;
+    border: 0px solid #ffffff;
+    color: #ffffff;
+    width: 300px;
+    padding: 20px;
+    text-align: left;
+    background-color: #ff0000;
+    border: 3px solid #ffffff;
+    margin-bottom: 10px;
+
+    /* Do rounding (native in Firefox and Safari, CC in IE) 
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    CCborderRadius: 20px;*/
+}
+
+.box2{
+    background-color: #00ff00;
+}
+
+.box3{
+    background-color: #0000ff;
+}
+
+html,body{
+    height: 100%;
+    text-align: center;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    margin: 0px;
+    background-image: url(pattern.gif);
+}
+
+</style>
+<script type="text/JavaScript">
+
+  $(function(){ 
+  
+  settings = {
+          tl: { radius: 20 },
+          tr: { radius: 20 },
+          bl: { radius: 20 },
+          br: { radius: 20 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+
+  $('.myBox').corner(settings);
+  
+  });;
+
+</script>
+</head>
+
+<body>
+
+    <br><br><br><br>
+
+    <div class="myBox">
+      Box 1
+    </div>
+
+    <div class="myBox box2">
+      Box 2
+    </div>
+
+    <div class="myBox box3">
+      Box 3
+    </div>
+
+</body>
+</html>

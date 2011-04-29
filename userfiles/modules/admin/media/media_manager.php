@@ -19,10 +19,17 @@
    
   $media_type = $params['type'];
  
+ if($params['module_id']){
+	 $collection = $params['module_id'];
+	 
+ }
  
+ 
+ 
+ //p($params);
   
   ?>
-<?  $media1 = get_media($id, $for, $media_type,  $queue_id);
+<?  $media1 = get_media($id, $for, $media_type,  $queue_id, $collection);
  
  
  
@@ -81,7 +88,7 @@ var answer = confirm("Are you sure?")
 	  //$("#gallery_module_sortable_pics_positions_"+$id).fadeOut();
 
 	  $("#picture_id_"+$id).remove();
-
+ parent.mw.reload_module('media/gallery');
 	// contentMediaPicturesRefreshList();
 
    //alert("Data Loaded: " + data);
@@ -118,7 +125,7 @@ $.post("<?php print site_url('admin/media/contentMediaPicturesList') ?>/to_table
 
   $("#media_pictures_placeholder").html(data);
 
-
+ parent.mw.reload_module('media/gallery');
 
 if ( $("#gallery_module_sortable_pics").exists() ){
 
@@ -213,6 +220,7 @@ function media_pics_showResponse(responseText, statusText)  {
 
 	// Modal.close();
 	$('.mw_modal').hide();
+	 parent.mw.reload_module('media/gallery');
 	// call_media_manager();
 	
 	 
@@ -274,7 +282,7 @@ $(document).ready(function() {
   success: function(resp) {
 
   // $('#media_manager').html(resp);
-
+ parent.mw.reload_module('media/gallery');
  
 
   }
