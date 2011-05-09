@@ -3,7 +3,8 @@
 $config = array();
 $config['name'] = "Mailform module";
 $config['author'] = "Microweber";
-$config['description'] = "A simple contact form";
+$config['description'] = "A simple contact form. Use it you you want to receive emails from your site.";
+$config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['ui'] = true;
 

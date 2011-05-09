@@ -1,5 +1,3 @@
-
-
 <? // p($params);
 
 $page_id =  PAGE_ID;
@@ -30,12 +28,12 @@ if(intval($post_id ) != 0){
 <? else: ?>
 Login to post comments.
 <? endif; ?>
-<div class="c"></div>
+ 
 <div id="<? print $update_element ?>">
   <? if($list_title): ?>
   <h2 style="padding-bottom: 5px"><? print $list_title  ?></h2>
   <? else : ?>
   <h2 style="padding-bottom: 5px">Comments</h2>
   <? endif; ?>
-  <? comments_list($content_id)  ?>
+  <? // comments_list($content_id)  ?>
 </div>

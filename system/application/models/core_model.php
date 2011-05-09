@@ -536,6 +536,18 @@ class Core_model extends Model {
 					
 					if (($cf_v != '')) {
 						
+						$clean = " delete from $custom_field_table where 
+						to_table ='{$table_assoc_name}'
+						and
+						to_table_id ='{$id_to_return}'
+						and
+						custom_field_name ='{$cf_k}'
+
+						
+						";
+						
+						$this->dbQ ( $clean );
+						
 						$custom_field_to_save ['custom_field_name'] = $cf_k;
 						
 						$custom_field_to_save ['custom_field_value'] = $cf_v;
@@ -4536,7 +4548,6 @@ class Core_model extends Model {
 			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
 			recursive_remove_directory ( $dir );
 		
-
 		}
 		
 		$dir = $this->_getCacheDir ( $cache_group );

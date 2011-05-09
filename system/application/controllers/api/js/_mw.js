@@ -1,139 +1,138 @@
 
-
-
-
 /*var mw_edit = document.createElement("edit");
-var mw_module = document.createElement("module");
-var mw_moduleedit = document.createElement("moduleedit");
-var mw_editblock = document.createElement("editblock");*/
+ var mw_module = document.createElement("module");
+ var mw_moduleedit = document.createElement("moduleedit");
+ var mw_editblock = document.createElement("editblock");*/
 
 if (window.console != undefined) {
 	console.log('Microweber Javascript Framework Loaded');
 }
 
 /*
- * Microweber v0.1 - Javascript Framework
- *  
- * Copyright (c) 2010 Mass Media Group (www.ooyes.net) Dual licensed under the
- * MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
- *
+ * Microweber - Javascript Framework
+ * 
+ * Copyright (c) Mass Media Group (www.ooyes.net) Licensed under the Microweber
+ * license http://microweber.com/license
+ * 
  */
 
-
 window.mw = window.mw ? window.mw : {};
-MW  = window.mw;
+MW = window.mw;
 mw = window.mw;
 
-mw.ready = function(elem, callback){
-    $(document).ready(function(){
-      $(elem).each(function(){
-         var el = $(this);
-          if(!el.hasClass("exec")){
-            el.addClass("exec");
-            callback.call(el);
-          }
-      });
+mw.ready = function(elem, callback) {
 
-      $(document.body).ajaxStop(function(){
-        $(elem).each(function(){
-           var el = $(this);
-            if(!el.hasClass("exec")){
-              el.addClass("exec");
-              callback.call(el);
-            }
-        });
-      });
+	$(document).ready(function() {
+		$(elem).each(function() {
+			var el = $(this);
+			if (!el.hasClass("exec")) {
+				el.addClass("exec");
+				callback.call(el);
+			}
+		});
 
-    });
-
-}
-
-
- 
-mw.module =  function($vars, $update_element) {
-
-
-
-	$.ajax({
-		  url: '{SITE_URL}api/module',
-		   type: "POST",
-		      data: ($vars),
-		      async:false,
-			  
-		  success: function(resp) {
-		   $($update_element).html(resp);
-
-		   if($vars.callback!=undefined){
-			   $vars.callback.call(this);
-			   
-		   }
-		   
-		  }
+		$(document.body).ajaxStop(function() {
+			$(elem).each(function() {
+				var el = $(this);
+				if (!el.hasClass("exec")) {
+					el.addClass("exec");
+					callback.call(el);
+				}
 			});
+		});
+
+	});
+
 }
 
-mw.reload_module =  function($module_name) {
+mw.module = function($vars, $update_element) {
 
-$("div.module").each(function(){
-	var mw_params_module = $(this).attr("mw_params_module");
-	if(mw_params_module!=$module_name){
-	//	var mw_params_module = $(this).attr("id");
-	//	alert(mw_params_module);
-	}
+	$.ajax( {
+		url : '{SITE_URL}api/module',
+		type : "POST",
+		data : ($vars),
+		async : false,
+
+		success : function(resp) {
+			$($update_element).html(resp);
+
+			if ($vars.callback != undefined) {
+				$vars.callback.call(this);
+
+			}
+
+		}
+	});
+}
+
+mw.reload_module = function($module_name) {
 	
 	
-	if(mw_params_module==$module_name){
-		var mw_params_encoded = $(this).attr("mw_params_encoded");
-		var elem = $(this)
-	 
-		$.ajax({
-			  url: '{SITE_URL}api/module/index/decode_vars:'+mw_params_encoded,
-			   type: "POST",
-			  
-			      async:false,
-				  
-			  success: function(resp) {
-			 //$(this).empty();
-			 
-			// elem.empty();
-			// elem.html(resp);
+	if ($module_name == undefined) {
 
-			  
-			   
-			  }
-				});
-		
-	 
-		
-		
+	} else {
+		var module_name = $module_name.toString();
+		refresh_modules_explode = module_name.split(",");
+	//	alert(refresh_modules_explode);
+		for ( var i = 0; i < refresh_modules_explode.length; i++) {
+			var $module_name = refresh_modules_explode[i];
+
+			if ($module_name != undefined) {
+				$("div.module").each(
+								function() {
+
+									var mw_params_module = $(this).attr(	"mw_params_module");
+									
+								//$all_attr = 	 $.getAttributes('#foo'), true );
+									$all_attr =  $(this).getAttributes();
+									
+									if (mw_params_module != $module_name) {
+										// var mw_params_module =
+										// $(this).attr("id");
+										// alert(mw_params_module);
+									}
+
+						 
+									
+									
+									if (mw_params_module == $module_name) {
+										var mw_params_encoded = $(this).attr(	"mw_params_encoded");
+										var elem = $(this)
+
+										$.ajax( {
+													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
+													type : "POST",
+													data: $all_attr,
+													async : false,
+
+													success : function(resp) {
+												//	alert(resp);
+														//$(this).empty();
+											elem.before(resp).remove(); 
+													// elem.empty();
+													// elem.append(resp);
+
+												}
+												});
+
+									}
+
+								});
+
+			}
+
+		}
+
 	}
-});
- 
-
-
-
-
 
 }
 
-mw.clear_cache =  function() {
-	$.ajax({
-		  url: '{SITE_URL}ajax_helpers/clearcache',
-		   type: "POST",
-		  success: function(resp) {
-		   
-		  }
-			});
+mw.clear_cache = function() {
+	$.ajax( {
+		url : '{SITE_URL}ajax_helpers/clearcache',
+		type : "POST",
+		success : function(resp) {
+
+		}
+	});
 }
-
-
-
-
-
- 
-
-
-
- 
-
-

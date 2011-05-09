@@ -87,7 +87,7 @@ function mw_html_tag_editor_show_styles_for_tag(){
     for (var i = 0; i < len; i++) {
        
 	   $old_val = $element_obj.css(attr[i]);
-	   if($old_val != ''){
+	   if($old_val != '' && ($old_val != undefined)){
 	  //  $old_val_split =  $old_val.split(" ");
 	  $dim = false;
 	  $check_px = $old_val.indexOf("px") ;

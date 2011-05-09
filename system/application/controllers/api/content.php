@@ -1042,6 +1042,7 @@ class Content extends Controller {
 							//	p($content,1);
 							$html_to_save = clean_word ( $html_to_save );
 							
+							
 							if ($save_global == false) {
 								
 								if ($content_id) {
@@ -1072,6 +1073,7 @@ class Content extends Controller {
 									
 									}
 									
+									
 									$to_save = array ();
 									$to_save ['id'] = $content_id;
 									$to_save ['quick_save'] = true;
@@ -1085,6 +1087,10 @@ class Content extends Controller {
 									$json_print [] = $to_save;
 									if ($is_no_save != true) {
 										$saved = CI::model ( 'content' )->saveContent ( $to_save );
+									//	p($to_save);
+									//p($content_id);
+											//p($page_id);
+						//	p ( $html_to_save ,1);
 									}
 									//print ($html_to_save) ;
 									
@@ -1105,8 +1111,8 @@ class Content extends Controller {
 								$to_save ['option_key2'] = 'editable_region';
 								$to_save ['page_element_id'] = $page_element_id;
 								$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
-								//print "<h2>Global</h2>";
-								//p ( $to_save );
+								//print "<h2>Global</h2>"; 
+								
 								if ($is_no_save != true) {
 									$to_save = CI::model ( 'core' )->optionsSave ( $to_save );
 								}

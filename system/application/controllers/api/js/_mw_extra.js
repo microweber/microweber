@@ -1,4 +1,4 @@
-// used on editmode and in admin
+
 
 var css = document.createElement("link");
 css.rel = "stylesheet";
@@ -6,6 +6,103 @@ css.type = "text/css";
 css.href = "<? print ADMIN_STATIC_FILES_URL ?>css/api.css";
 
 document.getElementsByTagName("head")[0].appendChild(css);
+
+
+
+window.mw_forms = window.mw_forms ? window.mw_forms : {};
+mw_forms = window.mw_forms;
+
+
+mw_forms.make_fields = function(){
+	
+	$(".mw_option_field").not('.mw_option_field_parsed').each(function(){
+		$(this).addClass('mw_option_field_parsed');
+		 
+		$(this).change(function() {
+			 //alert('Handler for .change() called.');
+			//<? print site_url('api/content/save_option') ?>
+			//var refresh_modules11 =  $(this).attr('name');
+		//	alert(refresh_modules11);
+			
+			
+			
+			
+			
+			 var refresh_modules11 =  this.getAttribute("refresh_modules");
+			
+			// alert(refresh_modules11);
+			
+			
+			
+			
+			$.ajax({
+				  
+				  type: "POST",
+				   url: "<? print site_url('api/content/save_option') ?>",
+				   data: ({
+					   
+					   option_key : $(this).attr('name'),
+					   option_group : $(this).attr('option_group'),
+					   option_value : $(this).val()
+					   
+				   
+				   }),
+
+
+				  success: function(){
+				
+				if(refresh_modules11 != undefined && refresh_modules11 != ''){
+					refresh_modules11 = refresh_modules11.toString()
+					
+//alert(refresh_modules11);
+					if(window.mw.reload_module != undefined){
+						window.mw.reload_module(refresh_modules11);
+					}
+					
+					if(parent.mw.reload_module != undefined){
+						parent.mw.reload_module(refresh_modules11);
+					}
+
+				/*		*/
+					
+					
+					
+					
+				}
+				
+				  //  $(this).addClass("done");
+				  }
+				});
+			
+			
+			
+			});
+		
+		
+	 		/*$(this).css({
+	 			 'backgroud-color': 'pink',
+        	    'width': 20,
+        	    'height': 20   
+
+        	    
+        	});*/
+		 
+	});
+	
+	
+}
+
+$(document).ready(function(){
+	mw_forms.make_fields();
+    });
+
+mw.ready(".mw_option_field", mw_forms.make_fields);
+
+
+
+// used on editmode and in admin
+
+
 
 function isEmpty(obj) {
     for(var prop in obj) {

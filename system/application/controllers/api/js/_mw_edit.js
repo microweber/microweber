@@ -1,3 +1,12 @@
+/*
+ * Microweber Edit - Javascript Framework
+ *  
+ * Copyright (c) Mass Media Group (www.ooyes.net) 
+ * Licensed under the Microweber license http://microweber.com/license 
+ *
+ */
+
+
 if (window.console != undefined) {
 	console.log('Microweber Javascript Edit Page Framework Loaded');
 }
@@ -117,6 +126,20 @@ function mw_remove_editables(){
 	$('.edit').attr('contentEditable', false);
 }
 
+
+function mw_resize_admin_sidebar(){
+	 var h1 = $(window).height();
+	 var h2 = $('#mw_toolbar').height();
+	 $('#admin_sidebar').height(h1-h2-20);	
+	//
+}
+
+$(function(){
+    $(window).resize(function(){
+    	mw_resize_admin_sidebar()
+    });
+});
+
 function mw_make_draggables(){
 	
  
@@ -124,19 +147,35 @@ function mw_make_draggables(){
 	
 	
 	
-	$('#module_temp_holder').unbind('click', function() {
+	$('#module_temp_holder').unbind('mousedown', function() {
 		 
 		});
 	
-	  $("#module_temp_holder").bind("click", function () {
+	  $("#module_temp_holder").bind("mousedown", function () {
 		    
 		   
 		 $is_dragged = window.mw_dragging;
     	 if($is_dragged == undefined || $is_dragged == false  ){
      
+    		 
+    		 
+    		 
+    		 
     		var $module_by_name  =$('#module_temp_holder_id').val();   
+    		
+   /* 		
+    		$("#module_temp_holder").css({
+    	     
+    	        	    //'width': 200,
+    	        	    'height': 200   
+    
+    	        	    
+    	        	});*/
+    		
     		//alert($module_by_name);
+    		if($module_by_name != undefined  && $module_by_name != ''  ){
     		load_edit_module_by_module_id($module_by_name)
+    		}
     
     		
     		
@@ -252,12 +291,14 @@ function mw_make_draggables(){
 	
 	
 	  
-	  $(".edit").undelegate("div.module", "mouseover");
+	//  $(".edit").undelegate("div.module", "mouseover");
 	    
-	  $('.edit').delegate('div.module', 'mouseover', function() { 
+	 // $('.edit').delegate('div.module', 'mouseover', function() { 
 	  
 	//$('.edit').delegate('.module', 'hover', function() { 
 	 // $(".module").live("hover",function(){
+	  $(".module").die("hover");
+		  $(".module").live("hover",function(){ 
 		  if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_off')) {
 			  $('#module_temp_holder').hide();
 			  return true;
@@ -294,10 +335,26 @@ function mw_make_draggables(){
     	 
     	 var target = $(this);
          var dialog = $('#module_temp_holder');
-         $('#module_temp_holder').show();
+     
        //  var half_width = ($(this).css('width').slice(0, -2))/2;
          //var half_height = ($(this).css('height').slice(0, -2))*0.3;
-          var dialog_width = $(this).width();
+       //   var dialog_width = $(this).width();
+        // var dialog_height = $(this).height();
+         //$pr =  $(this).prev().width();
+        // var dialog_width = $(this).innerWidth() ;
+         
+      //   var dialog_width =   $(this).find("div:first") .width();
+         if(dialog_width == 0 || dialog_width == undefined || dialog_width == ''){
+        //	 var dialog_width =   $(this).find("img:first") .width();
+        }
+         
+         if(dialog_width == 0 || dialog_width == undefined || dialog_width == ''){
+       // 	 var dialog_width =   $(this).find("p:first") .width();
+        }
+         
+         if(dialog_width == 0 || dialog_width == undefined || dialog_width == ''){
+        	  var dialog_width = $(this).width();
+         }
          var dialog_height = $(this).height();
    
        //  dialog.positionOn(target, 'center');
@@ -343,7 +400,7 @@ function mw_make_draggables(){
         	    
         	});
          
-         
+         $('#module_temp_holder').show();
          
          
          
@@ -753,9 +810,10 @@ $('div.edit').each(function (index, domEle) {
 		// activeClass: "to_here_drop",
 		 hoverClass: "to_here_drop",
     	// accept: ".module",
-		 
+		 //forcePlaceholderSize: true,
 		 addClasses: false,
 	   tolerance: 'pointer', 
+		// tolerance: 'intersect', 
 	   over: function(ev, ui) {
     	 start =  window.mw_last_hover;
 		  if(start == undefined){
@@ -884,7 +942,7 @@ $('div.edit').each(function (index, domEle) {
 			            	
 			            	 $theLast_hovered = 0;
 				            	
-			            	 $('*[mw_last_hover!=""]').each(function(index) {
+			            	 $('*[mw_last_hover!=""]').each(function() {
 			            		
 			            		$is_last = $(this).attr('mw_last_hover');
 			            		$is_last = parseInt($is_last);
@@ -1132,8 +1190,9 @@ $('div.edit').each(function (index, domEle) {
   	    $(this).disableSelection();
   	   //   } 
   	      
-  	      
-  	    load_edit_module_by_module_id(mod_id112);
+  		if(mod_id112 != undefined  && mod_id112 != ''  ){
+  	//    load_edit_module_by_module_id(mod_id112);
+  		}
   	  
   	});
     
@@ -1158,7 +1217,7 @@ $('div.edit').each(function (index, domEle) {
 $(document).ready(function() {
 	
 	 
-
+	mw_resize_admin_sidebar();
  
 	if(typeof window.parent.mw_edit_init == 'function'){
 	window.parent.mw_edit_init(window.location.href);
@@ -1229,11 +1288,14 @@ function mw_delete_module_by_id($id){
        $module_by_id  =$("div[module_id='"+$module_by_id+"']"); 
       $module_by_id.remove();
 }
+window.mw_modules_info_cache = new Array();
 
 function load_edit_module_by_module_id($the_module_id) {
 	// mw_remove_editables();
 	// mw_make_draggables();
-	
+	if($the_module_id == undefined){
+		
+	} else {
 	var $module_by_id  =$("div[module_id='"+$the_module_id+"']"); 
 	
 	
@@ -1284,9 +1346,21 @@ function load_edit_module_by_module_id($the_module_id) {
 	   var no_admin = $module_by_id.attr("no_admin");
 	   var module_name = ($module_by_id.attr("mw_params_module"));
 	   if(module_name != undefined){
+		   module_name_original = module_name;
 	   module_name =   module_name.replace("/", "_mw_slash_replace_")
 	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	//   $m_info = $('#module_focus_holder_id')
+	   
  
+		 // alert(window.mw_modules_info_cache[id] );
+
+	   
 		 
 		 if (edit ==undefined ) {
 		 var edit = $module_by_id.parents(".module:first").attr("edit");
@@ -1309,25 +1383,25 @@ function load_edit_module_by_module_id($the_module_id) {
 	   if(id != undefined){
 	// alert(id);
 		   
-		   $(".mw_outline").remove();
+		//   $(".mw_outline").remove();
 		   
 		   
 	 
-			mw.outline.init("div[module_id='"+$the_module_id+"']", '#DCCC01');
+		//	mw.outline.init("div[module_id='"+$the_module_id+"']", '#DCCC01');
 		 
 
 			  
 		// $("div[module_id='"+$the_module_id+"']").disableSelection();
 		   
 		   $('#mw_edit_module_iframe_'+id).show();
-		   call_edit_module_iframe($url, id);
+		   call_edit_module_iframe($url, id, module_name_original);
 	   }  
 	  
 
 
 			 }
 	   }
-	
+	}
 }
 
 
@@ -1489,7 +1563,10 @@ function save_editblock($id) {
 // init_edits();
 }
 
-function call_edit_module_iframe(url, id) {
+
+
+
+function call_edit_module_iframe(url, id, module_name_original) {
  if(id != undefined){
 	url = url + 'element_id:'+id;
 	$curent_edit_element_id=id;
@@ -1511,17 +1588,69 @@ function call_edit_module_iframe(url, id) {
  mw_sidebar_nav('#mw_sidebar_module_edit_holder');
  $(".mw_edit_module_iframe").hide();
  if ( $el == undefined){
+	 
+	// module_name_original
+	 $('<div>', {
+		 className: 'mw_edit_module_iframe',
+		    id:   'mw_edit_module_settings_'+id 
+		     
+		   
+		}).appendTo('#mw_sidebar_module_edit_holder');
+	 
+	 
+
+	 
+	 
+	 $('<div>', {
+		  
+		  className: 'mw_edit_module_settings_header',
+		    id:   'mw_edit_module_info_'+id
+		   
+		   
+		}).appendTo('#mw_edit_module_settings_'+id);
+	 
+	 
 	 $('<iframe />', {
 		    name:  'mw_edit_module_iframe_'+id,
 		 // className: 'mw_edit_module_iframe',
+		    className: 'mw_edit_module_settings_iframe',
 		    id:   'mw_edit_module_iframe_'+id,
+		    borderWidth :0,
 		    src:  url
 		   
-		}).appendTo('#mw_sidebar_module_edit_holder');
-	 $('#mw_edit_module_iframe_'+id).addClass('mw_edit_module_iframe');
+		}).appendTo('#mw_edit_module_settings_'+id);
+	 document.getElementById('mw_edit_module_iframe_'+id).style.borderWidth = 0;
+	 document.getElementById('mw_edit_module_iframe_'+id).setAttribute('frameborder', 0);
+	 
+	 
+	 data1 = {}
+	   data1.module = 'admin/mics/module_info';
+	    data1.module_info = module_name_original;
+	   $.ajax({
+	  url: '<? print site_url('api/module') ?>',
+	   type: "POST",
+	      data: data1,
+
+	      async:true,
+
+	  success: function(resp) {
+
+	   $('#mw_edit_module_settings_'+id).prepend(resp);
+
+	 
+
+	  }
+	    });
+	 
+	 
+	   $('#mw_edit_module_settings_'+id ).show();
+	 
+	 $('#mw_edit_module_settings_'+id).addClass('mw_edit_module_iframe');
 	} else {
 		// $('#mw_edit_module_iframe_'+id).attr("src") =url;
-		 $('#mw_edit_module_iframe_'+id).show();
+		 //$('#mw_edit_module_iframe_'+id).show();
+		$('#mw_edit_module_settings_'+id ).show();
+		
 	}
 
  
@@ -1532,7 +1661,7 @@ function call_edit_module_iframe(url, id) {
  * document.getElementById('mw_edit_module_iframe_'+id).style.height=parseInt(height-document.getElementById('admin_sidebar').offsetTop-8)+"px";
  */
  
- $('#mw_edit_module_iframe_'+id).height($("#admin_sidebar").height());
+ //$('#mw_edit_module_iframe_'+id).height($("#admin_sidebar").height());
 	
  $('#mw_edit_module_iframe_'+id).show();
  

@@ -9,7 +9,7 @@ $config['ui'] = true;
 
 
 
-
+/*
 $config['params']['skin']['name'] = "skin for post";
 $config['params']['skin']['help'] = "skin";
 $config['params']['skin']['type'] = "text";
@@ -20,3 +20,4 @@ $config['params']['skin']['param'] = "skin";
 $config['params']['rel']['type'] = "hidden";
 $config['params']['rel']['default'] = "post";
 $config['params']['rel']['param'] = "rel";
+*/

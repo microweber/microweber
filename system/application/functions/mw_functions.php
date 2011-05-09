@@ -1417,6 +1417,12 @@ function breadcrumbs($seperator) {
 
 }
 
+function get_mediaby_id($id) {
+	$media = CI::model ( 'core' )->mediaGetById($id);
+	return $media;
+}
+
+
 /**
  * get_media 
  *

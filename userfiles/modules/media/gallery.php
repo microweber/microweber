@@ -22,7 +22,7 @@
 
   ?>
   
-
+<?php print option_get('media_name', $params['module_id']) ?>
 <?
 //p($config);
   $skin = option_get('skin', $params['module_id']);  

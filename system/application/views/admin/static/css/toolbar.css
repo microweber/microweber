@@ -447,11 +447,12 @@ li.plupload_droptext {
 	position: fixed;
 	top: 80px;
 	width: 290px;
-	;
+ 
+	  z-index:50000;
 	right:0px;
-	height:100%;
+	height:10px;
 	background-color:#e1e4e9;
-	overflow:scroll;
+	overflow:auto;
 }
 #admin_sidebar .search_container {
 	height:55px;

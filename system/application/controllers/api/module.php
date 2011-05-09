@@ -14,6 +14,28 @@ class Module extends Controller {
 	
 	function index() {
 		
+		
+		
+		$module_info = url_param ( 'module_info', true );
+		
+		if($module_info){
+			if($_POST['module']){
+				$_POST['module'] = str_replace('..', '', $_POST['module']);
+				$try_config_file = MODULES_DIR . '' . $_POST['module'] . '_config.php';
+				if(is_file($try_config_file)){
+					include($try_config_file);
+					if($config['icon'] == false){
+					$config['icon'] = MODULES_DIR . '' . $_POST['module'] .'.png';;
+					$config['icon'] = pathToURL($config['icon']);
+					}
+					print json_encode($config);
+					exit;
+				}
+				
+			}
+		
+		}
+		
 		$is_iframe = url_param ( 'iframe' );
 		
 		$base64 = url_param ( 'base64', true );
@@ -23,6 +45,10 @@ class Module extends Controller {
 		$mod1 = url_param ( 'module_name', true );
 		
 		$decode_vars = url_param ( 'decode_vars', true );
+		$reload_module = url_param ( 'reload_module', true );
+		
+		
+		
 		
 		$mod_to_edit = url_param ( 'module_to_edit', true );
 		$element_id = url_param ( 'element_id', true );
@@ -47,9 +73,9 @@ class Module extends Controller {
 				$data = $_POST;
 			}
 			
-			if ($decode_vars) {
-				$decode_vars = decode_var ( $decode_vars );
-				$data = $decode_vars;
+			if ($reload_module =='edit_tag') {
+				$reload_module =  ( $_POST );
+				$data = $reload_module;
 				//p($data);
 			}
 			
@@ -109,7 +135,13 @@ class Module extends Controller {
 			}
 			
 			$tags = false;
-			
+			if($data['mw_params_module'] != false){
+				if(trim($data['mw_params_module']) != ''){
+			 $data['module'] =$data['mw_params_module'] ;
+				}
+			}
+			 //p($data);
+			 
 			foreach ( $data as $k => $v ) {
 				$tags .= "{$k}=\"$v\" ";
 			
