@@ -93,6 +93,8 @@ module {
 	min-height:30px;
 	min-width:100px;
 	border:dashed #CCC 1px;
+	 
+	margin-left:3px;
 /*	clear: both;*/
 }
 
@@ -152,6 +154,12 @@ padding:0px;
  margin-bottom:15px;
 }
 
+.mw_module_box_place {
+height:100px;
+width:100px;
+background-color:#09C;
+	display:block;
+}
 
 .mw_iframe_header_title{
 	font-size:12px;

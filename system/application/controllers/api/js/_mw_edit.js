@@ -409,6 +409,10 @@ function mw_make_draggables(){
     	 
     	 
     	 
+    	 } else {
+    		 
+    	//	 $(this).fadeOut();   
+    	 
     	 }
 	
 		  }
@@ -704,7 +708,6 @@ $(".module").bind( "focusoutside", function(event){
 			  
   
 			  window.mw_last_hover++;
-			  
 			  }
 			  
 			  
@@ -822,8 +825,14 @@ $('div.edit').each(function (index, domEle) {
 		  }
 		  
 		  
+		  //$('.edit *').find('.module').droppable( "option", "disabled", true );
+		  //$('.edit *').find('.module').hide(); 
+		  var len =  $(this).parents(".module").length;
 		  
+		  
+		  if(len == 0){
 		   $(this).attr( 'mw_last_hover' , start);
+		  }
 		   window.mw_last_hover++;
 		 },
 		 
@@ -1021,7 +1030,7 @@ $('div.edit').each(function (index, domEle) {
 			            //	 $(this).parents().removeClass("to_here");	   
 			            //$(".to_here").removeClass("to_here");
 			            $(".to_here_drop").removeClass("to_here_drop");
-			           
+			            $('.edit *').find('.module').droppable( "option", "disabled", false );
 			        	$('#module_temp_holder').hide();
 			            $(".editblock").each(function () {
 			                var id = $(this).attr("id");
@@ -1173,7 +1182,7 @@ $('div.edit').each(function (index, domEle) {
      
      
      
-     $(".module").die("mouseup");
+   /*  $(".module").die("mouseup");
     $('.module').live('mouseup', function(event) {
     // mw.outline.remove('.module');
     if(window.saving ==false){
@@ -1194,7 +1203,7 @@ $('div.edit').each(function (index, domEle) {
   	//    load_edit_module_by_module_id(mod_id112);
   		}
   	  
-  	});
+  	});*/
     
     
     

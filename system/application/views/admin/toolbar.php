@@ -68,7 +68,7 @@ scroll: true,
 		    helper: 'clone',
 		 cursor: 'move', 
 		 zIndex: 20000,
-		//  cancel: '.module *',
+		   cancel: $('.edit *').find('.module'),
  
 			//containment: 'document',
 			revert: "invalid",
@@ -79,13 +79,26 @@ start: function(e,ui){
 		//alert('Saving.. please wait');
 	//return false;	
 	}
+	  $('.edit *').find('.module').droppable( "option", "disabled", true );
+// $(".module").append("aaaaaaaaaaaaaa");
+	//$('.edit').find('.module').css('background-color', 'red');
 	
- 
+	//
+	// $('.edit *').find('.module').append('<div class="mw_module_box_place js_remove">Module</div>');
+	//$('.edit *').find('.module').hide(); 
+	 //$("#module_temp_holder").addClass("mw_module_box_place");
 	
-	
-	
-	
-	
+	/*
+	    $("#module_temp_holder").css({
+        	 
+        	    'width': 100,
+        	    'height': 100  
+        	    //'position': 'absolute',
+        	    
+        	    
+        	});
+         */
+        
 	
 	
 	window.mw_dragging = true;
@@ -95,18 +108,18 @@ start: function(e,ui){
 	
 	
 	
-	 /*        var dialog = $('#module_temp_holder');
+	        var dialog = $('#module_temp_holder');
 
          
          
          dialog.css({
         
-        	    'width': 200,
-        	    'height': 200  
+        	    'width': 20,
+        	    'height': 20  
         	    //'position': 'absolute',
         	    
         	    
-        	});*/
+        	});
 	
 	
 	//dialog.show();
@@ -145,6 +158,18 @@ start: function(e,ui){
   },
   stop: function(e,ui){
 	  window.mw_dragging = false;
+	  
+	    $('.edit *').find('.module').droppable( "option", "disabled", false );
+	//  $('.edit').find('.module').show();
+	
+	
+//	$(".js_remove").remove();
+	//   $('.mw_module_box_place').removeClass('mw_module_box_place');
+	  
+	  
+	  //$(".edit .module").show();
+	  
+	  
 	//  var dialog = $('#module_temp_holder').hide();
 
    //$(this).removeClass('fade');
@@ -510,6 +535,7 @@ master[objX] = obj;
 		  datatype: "jsonp",
           async:true,
 		  beforeSend :  function() {
+			     $('.edit *').find('.module').droppable( "option", "disabled", true );
 			  $( ".module_draggable" ).draggable( "option", "disabled", true );
 			  window.saving =true;
 			  $( "#ContentSave" ).fadeOut();
@@ -534,6 +560,7 @@ master[objX] = obj;
 			  
 		  },
 		  success: function(data2) {
+			     $('.edit *').find('.module').droppable( "option", "disabled", false );
 			  window.saving =false;
   $( "#ContentSave" ).fadeIn();
     $( ".module_draggable" ).draggable( "option", "disabled", false );
