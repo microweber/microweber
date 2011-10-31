@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demos | CSS Decorative Gallery (jQuery)</title>
+
+<!-- jQuery -->
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+						   
+	//prepend span tag
+	$(".photo a").prepend("<span></span>");
+								  
+});
+</script>
+
+<style type="text/css">
+body {
+	margin: 0 auto;
+	padding: 0;
+	width: 800px;
+	color: #000000;
+	font: normal 80%/120% Georgia, "Times New Roman", Times, serif;
+}
+a {
+	color: #000000;
+}
+h1 {
+	font: normal 320%/100% Georgia, "Times New Roman", Times, serif;
+	margin: 20px 0 5px 0;
+	letter-spacing: -2px;
+}
+.credits {
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 5px;
+	margin: 0 0 30px 0;
+	font: 120% Garamond, Georgia, serif;
+}
+.credits em {
+	color: #999;
+}
+.credits a {
+	color: #666;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.credits a:hover {
+	color: #000;
+}
+
+img {
+	border: none;
+}
+
+.footer {
+	clear: both;
+	margin-bottom: 30px;
+	border-top: solid 1px #ccc;
+	padding-top: 5px;
+	text-align: center;
+}
+.footer a {
+	color: #999;
+}
+.footer a:hover {
+	color: #000;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.photo {
+	margin: 30px;
+	position: relative;
+	width: 180px;
+	height: 130px;
+	float: left;
+}
+.photo img {
+	background: #fff;
+	border: solid 1px #ccc;
+	padding: 4px;
+}
+.photo span {
+	width: 20px;
+	height: 18px;
+	display: block;
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	background: url(images/digg-style.gif) no-repeat;
+}
+.photo a {
+	text-decoration: none;
+}
+
+.sample1 span {
+	width: 28px;
+	height: 21px;
+	display: block;
+	position: absolute;
+	top: -12px;
+	left: 90px;
+	background: url(images/pin.png) no-repeat;
+}
+
+.sample2 span {
+	width: 77px;
+	height: 27px;
+	display: block;
+	position: absolute;
+	top: -12px;
+	left: 50px;
+	background: url(images/tape.png) no-repeat;
+}
+
+.sample3 span {
+	width: 30px;
+	height: 60px;
+	display: block;
+	position: absolute;
+	top: -5px;
+	left: -2px;
+	background: url(images/paper-clip.png) no-repeat;
+}
+
+.sample4 span {
+	width: 115px;
+	height: 32px;
+	display: block;
+	position: absolute;
+	top: -13px;
+	left: 30px;
+	background: url(images/tape2.png) no-repeat;
+}
+
+.sample5 span {
+	width: 216px;
+	height: 166px;
+	display: block;
+	position: absolute;
+	top: -17px;
+	left: -18px;
+	background: url(images/gold-frame.png) no-repeat;
+}
+
+.sample6 span {
+	width: 189px;
+	height: 137px;
+	display: block;
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	background: url(images/cut-corner.png) no-repeat;
+}
+
+.sample7 span {
+	width: 170px;
+	height: 120px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(images/round-corner.png) no-repeat;
+}
+.sample7 img {
+	border: none;
+	padding: 0;
+}
+
+.sample8 span {
+	width: 170px;
+	height: 120px;
+	display: block;
+	position: absolute;
+	top: 5px;
+	left: 6px;
+	background: url(images/round-corner.png) no-repeat;
+}
+.sample8 img {
+	border: none;
+	padding: 5px 6px 6px;
+	background: url(images/round-bg.gif) no-repeat;
+}
+
+.sample9 span {
+	width: 170px;
+	height: 120px;
+	display: block;
+	position: absolute;
+	top: 6px;
+	left: 7px;
+	background: url(images/stamp-pattern.png) no-repeat;
+}
+.sample9 img {
+	border: none;
+	padding: 6px 7px 7px;
+	background: url(images/stamp-bg.gif) no-repeat;
+}
+
+.sample10 span {
+	width: 181px;
+	height: 134px;
+	display: block;
+	position: absolute;
+	top: -6px;
+	left: -6px;
+	background: url(images/brush-border.png) no-repeat;
+}
+.sample10 img {
+	border: none;
+	padding: 0;
+}
+
+.sample11 span {
+	width: 122px;
+	height: 72px;
+	display: block;
+	position: absolute;
+	top: -22px;
+	left: -15px;
+	background: url(images/floral-corner.png) no-repeat;
+}
+
+.sample12 span {
+	width: 186px;
+	height: 137px;
+	display: block;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	background: url(images/watercolor-top.png) no-repeat;
+}
+.sample12 img {
+	border: none;
+	padding: 9px 12px 12px 11px;
+	background: url(images/watercolor-bg.png) no-repeat;
+}
+
+.sample13 span {
+	width: 170px;
+	height: 120px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(images/mask.png) no-repeat;
+}
+.sample13 img {
+	border: none;
+	padding: 0;
+}
+
+.sample14 span {
+	width: 170px;
+	height: 84px;
+	display: block;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background: url(images/glossy-gradient.png);
+}
+
+</style>
+
+
+<!--[if lt IE 7]>
+<style type="text/css">
+
+.photo span { behavior: url(iepngfix.htc); cursor: pointer; }
+
+.sample12 img {
+	background: url(images/watercolor-bg.gif) no-repeat;
+}
+
+</style>
+<![endif]-->
+
+
+</head>
+
+<body>
+<h1>CSS Decorative Gallery / Demos</h1>
+<p class="credits"><em>by:</em> <a href="http://www.webdesignerwall.com">Web Designer Wall</a></p>
+
+<div class="photo">
+	<a href="#"><img src="images/11.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample1">
+	<a href="#"><img src="images/9.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample2">
+	<a href="#"><img src="images/13.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample3">
+	<a href="#"><img src="images/2.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample4">
+	<a href="#"><img src="images/9.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample5">
+	<a href="#"><img src="images/6.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample6">
+	<a href="#"><img src="images/10.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample7">
+	<a href="#"><img src="images/12.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample8">
+	<a href="#"><img src="images/14.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample9">
+	<a href="#"><img src="images/5.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample10">
+	<a href="#"><img src="images/4.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample11">
+	<a href="#"><img src="images/8.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample12">
+	<a href="#"><img src="images/9.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample13">
+	<a href="#"><img src="images/13.jpg" alt="image" /></a>
+</div>
+
+<div class="photo sample14">
+	<a href="#"><img src="images/5.jpg" alt="image" /></a>
+</div>
+
+<p class="footer"><a href="http://www.webdesignerwall.com/tutorials/css-decorative-gallery/">www.webdesignerwall.com/tutorials/css-decorative-gallery/</a></p>
+
+</body>
+</html>

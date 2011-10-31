@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  
+<!-- Mirrored from denk-groot.nl/admincp/typography by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 28 Aug 2011 11:12:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8" />
+
+    <title>Admin Control Panel</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/visualize.css" />
+    <link rel="stylesheet" href="css/datatables.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
+    <link rel="stylesheet" href="css/checkboxes.css" />
+    <link rel="stylesheet" href="css/inputtags.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="/admincp/css/ie.css" />
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11172759-12']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+
+  <body>
+    <div id="gradient">
+      <div id="stars">
+        <div id="container">
+        
+          <header>
+          
+            <!-- Logo -->
+            <h1 id="logo">Admin Control Panel</h1>
+          
+            <!-- User info -->
+            <div id="userinfo">
+              <img src="img/avatar.png" alt="Bram Jetten" />
+              <div class="intro">
+                Welcome Bram<br />
+                You have <a href="#">3 new messages</a>
+              </div>
+            </div>
+          
+          </header>
+        
+          <!-- The application "window" -->
+          <div id="application">
+          
+            <!-- Primary navigation -->
+            <nav id="primary">
+              <ul>
+                <li >
+                  <a href="index.html">
+                    <span class="icon dashboard"></span>
+                    Dashboard
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="forms.html">
+                    <span class="icon pencil"></span>
+                    Forms
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="tables.html">
+                    <span class="icon tables"></span>
+                    DataTables
+                  </a>
+                </li>
+
+                <li >
+                  <a href="charts.html">
+                    <span class="icon chart"></span>
+                    <span class="badge">4</span>
+                    Charts
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="notifications.html">
+                    <span class="icon modal"></span>
+                    Notifcations
+                  </a>
+                </li>
+
+				<li class="current">
+                  <a href="typography.html">
+                    <span class="icon newspaper"></span>
+                    Typography
+                  </a>
+                </li>
+
+                <li >
+                  <a href="buttons.html">
+                    <span class="icon anchor"></span>
+                    Icons/buttons
+                  </a>
+                </li>               
+              </ul>
+            
+              <input type="text" id="search" placeholder="Realtime search..." />
+            </nav>
+          
+            <!-- Secondary navigation -->
+            <nav id="secondary">
+              <ul>
+                <li class="current"><a href="#maintab">Main tab</a></li>
+                <li><a href="#secondtab">Explanation tabs</a></li>
+                <li><a href="#thirdtab">Optional third tab</a></li>
+              </ul>
+            </nav>
+          
+            <!-- The content -->
+            <section id="content">
+              
+              <div class="tab" id="maintab">
+                <h2>Blockquote</h2>
+<blockquote>
+  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a.
+</blockquote>
+
+<h2>Pre-element<h2>
+<pre>
+$('document').ready(function() {
+  $("#search").liveSearch({url: 'search.php?q='});
+});
+</pre>
+
+<h2>Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Text</th>
+      <th>Some ID</th>
+      <th>Author</th>
+      <th>Date of birth</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr>
+      <td>Content of column 1</td>
+      <td>2319839</td>
+      <td>Author of this information</td>
+      <td>28-08-1990</td>
+    </tr>
+    <tr>
+      <td>Content of column 1</td>
+      <td>2319839</td>
+      <td>Author of this information</td>
+      <td>28-08-1990</td>
+    </tr>
+    <tr>
+      <td>Content of column 1</td>
+      <td>2319839</td>
+      <td>Author of this information</td>
+      <td>28-08-1990</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+
+<h2>Paragraph text</h2>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled <strong>it to make a</strong> type specimen book. <em>It has survived not only five centuries, but also the leap into electronic typesetting, remaining</em> essentially unchanged. It w.</p>
+
+<div class="clear"></div>
+
+<h2>Lists</h2>
+<ul>
+  <li>Test</li>
+  <li>Unordered</li>
+  <li>Sublist
+    <ul>
+      <li>Sublist</li>
+      <li>Oh</li>
+      <li>Wow</li>
+    </ul>
+  </li>
+  <li>List</li>
+</ul>
+  
+<ol>
+  <li>Test</li>
+  <li>Of</li>
+  <li>Ordered</li>
+  <li>List
+    <ol>
+      <li>Another</li>
+      <li>Sublist</li>
+    </ol>
+  </li>
+</ol>
+
+<div class="column left">
+  <h2>class="column left"</h2>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a.</p>
+</div>
+
+<div class="column right">
+  <h2>class="column right"</h2>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a.</p>
+</div>
+
+<div class="clear"></div>
+
+<div class="column left third">
+  <h2>class="column left third"</h2>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a.</p>
+</div>
+
+<div class="column right twothird">
+  <h2>class="column right twothird"</h2>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a.</p>
+</div>
+
+<div class="clear"></div>
+              </div>
+              
+              <div class="tab" id="secondtab">
+                <h2>Explanation tabs</h2>
+                <p>Your secondary menu should look something like this:</p>
+<pre>
+&lt;nav id="secondary"&gt;
+  &lt;ul&gt;
+    &lt;li class="current"&gt;&lt;a href="#maintab"&gt;Main tab&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#secondtab"&gt;Explanation tabs&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#thirdtab"&gt;Optional third tab&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</pre>
+                <p>If you use class="current" on a &lt;li&gt;-tag, that tab will be the default.</p>
+                <p>In your content area, you must use the following structure:</p>
+<pre>
+&lt;div class="tab" id="maintab"&gt;
+&lt;/div&gt;
+
+&lt;div class="tab" id="secondtab"&gt;
+&lt;/div&gt;
+
+&lt;div class="tab" id="thirdtab"&gt;
+&lt;/div&gt;
+</pre>
+              </div>
+              
+              <div class="tab" id="thirdtab">
+                <h2>Third tab</h2>
+              </div>
+
+            </section>
+          </div>
+        
+          <footer id="copyright">Theme design &amp; development by Bram Jetten in 2011</footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/excanvas.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.livesearch.js"></script>
+    <script src="js/jquery.visualize.js"></script>
+    <script src="js/jquery.datatables.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/jquery.selectskin.js"></script>
+    <script src="js/jquery.checkboxes.js"></script>
+    <script src="js/jquery.wymeditor.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery.inputtags.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/application.js"></script>
+  </body>
+
+<!-- Mirrored from denk-groot.nl/admincp/typography by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 28 Aug 2011 11:12:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

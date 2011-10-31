@@ -1,0 +1,110 @@
+/*
+PDW File Browser
+Skin: Cupertino
+Date: May 9, 2010
+Url: http://www.neele.name
+
+Copyright (c) 2010 Guido Neele
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+body, label, input, td, select {font-family: 'Lucida Grande', 'Segoe UI', 'MS Sans Serif', sans-serif;}
+
+div.ab {background-image:url(skins/cupertino/images/top-back.png);}
+div.ab ol {background-image:url(skins/cupertino/images/addressbar.png); background-position:right 1px;}
+div.ab ol li.root {background-image:url(skins/cupertino/images/addressbar.png); background-position:left 1px; width:10px;}
+div.ab ol li.root {width:20px;}
+div.ab ol li a {color: #6D6D6D;}
+
+div#searchbar {background-image:url(skins/cupertino/images/addressbar.png); background-position:right 1px;}
+div#searchbar .cap {background-image:url(skins/cupertino/images/addressbar.png); background-position:left 1px; width:10px;}
+div#searchbar input {margin-top:3px; margin-left:10px;}
+div#searchbar div.button {background-image:url(skins/cupertino/images/search.png); background-position:0 0; right:7px;}
+
+div.nb {background:url(skins/cupertino/images/top-back.png) bottom left;}
+div.nb ul li a {color:#333; background: url(skins/cupertino/images/navbar.png) right 0 no-repeat; height:23px; line-height: 23px;}
+div.nb ul li a span {background: url(skins/cupertino/images/navbar.png) left -23px no-repeat; height:23px;}
+div.nb ul li a.selected,
+div.nb ul li a:hover {background: url(skins/cupertino/images/navbar.png) right -92px no-repeat;}
+div.nb ul li a.selected span,
+div.nb ul li a:hover span {background: url(skins/cupertino/images/navbar.png) left -69px no-repeat; color:#000;}
+div.nb ul li a span.options {background: transparent url(skins/cupertino/images/navbar.png) left -46px no-repeat;}
+div.nb ul li a.selected span.options,
+div.nb ul li a:hover span.options {background: transparent url(skins/cupertino/images/navbar.png) -20px -46px no-repeat;}
+
+div.nb ul ul { background-image: none; background-color:#FFF; border-color: #DDD; top:30px;}
+div.nb ul ul li a {background-image:none;}
+div.nb ul ul li a:hover, .context-menu-theme-mb .context-menu-item-hover .context-menu-item-inner { background-color:#4B95E5; border-color:#4B95E5; color:#fff;}
+
+div.nb ul.right a.settings span img,
+div.nb ul.right a.help span img{ margin-top:3px;}
+
+div#tree {background-color: #D9DEE7;}
+
+ul.treeview li a:hover.link {background-image:none;}
+ul.treeview li a:hover.link span.endcap {background-image:none;}
+ul.treeview li.selected {background: url(skins/cupertino/images/selected.gif) left top repeat-x;}
+ul.treeview li.selected > .link {background-image: none; color:#fff; font-weight: bold; text-shadow:0px 1px 0px #000;}
+ul.treeview li.selected > .link .endcap {background-image: none;}
+ul.treeview li a.link.root span.icon {background-image:url(skins/cupertino/images/root.png);}
+ul.treeview li a.link span.icon {background-image:url(skins/cupertino/images/folder.png);}
+ul.treeview li a.handler {}
+ul.treeview li a.children {background-image: url(skins/cupertino/images/handler.png);}
+ul.treeview li a.children:hover {}
+ul.treeview li a.open {background-image: url(skins/cupertino/images/handler.png);}
+ul.treeview li a.open:hover {}
+ul.treeview li.selected > a.children {background-position: -84px 0;}
+ul.treeview li.selected > a.children:hover {background-position: -105px 0;}
+ul.treeview li.selected > a.open {background-position: -126px 0;}
+ul.treeview li.selected > a.open:hover {background-position: -147px 0;}
+
+div#vertical-resize-handler {background:none; background-color:#8B8B8B; width:1px;}
+
+div#main {background: none; background-image:url(skins/cupertino/images/metal.jpg); background-position:left top; background-repeat:no-repeat;}
+div#main hr {background-color:transparent;}
+div#main h2 {color:#333; text-shadow:0px 1px 0px #ccc;}
+
+div#files {background-color:#fff;}
+
+div#files table#details thead th, 
+div#files table#details thead th.end {background: #fff url(skins/cupertino/images/details-header.png) left top repeat-x; border-right:1px solid #8C8C8C; color:#000; height:17px; line-height:17px; padding:0 5px;}
+div#files table#details {width:100%;}
+div#files table#details tbody tr.odd {background-color:#F3F7FB;}
+div#files table#details tbody tr:hover td {background:none; background-color:transparent; color:#000;}
+div#files table#details tbody tr.selected td {background:none; background-color:#4B95E5; color:#fff;}
+div#files table#details tbody td.begin{padding-left:3px;}
+div#files table#details tbody td{white-space: nowrap; color:#000;}
+div#files table#details tbody td.end {width:100%;}
+
+div#files ul#list li a span.icon.folder{ background-image: url(skins/cupertino/images/16/folder.png);}
+div#files ul#tiles li a span.icon.folder{ background-image: url(skins/cupertino/images/48/folder.png);}
+div#files ul#small_images li a span.icon.folder{ background-image: url(skins/cupertino/images/48/folder.png);}
+div#files ul#large_images li a span.icon.folder{ background-image: url(skins/cupertino/images/96/folder.png);}
+div#files ul#content li a span.icon.folder{ background-image: url(skins/cupertino/images/32/folder.png);}
+div#files table#details td.icon span.folder{ background-image: url(skins/cupertino/images/16/folder.png);}
+
+div#file-specs {background-image:url(skins/cupertino/images/file-spec-back.png);}
+div#file-specs form#fileform input { border-color:#999;}
+div#file-specs #info div {color:#000;}
+div#file-specs #info div span {color: #555;}
+div#file-specs #info div.icon.folder{ background-image: url(phpthumb/phpThumb.php?h=140&w=140&src=../skins/cupertino/images/256/folder.png&far=1&bg=0000FF);}
+div#file-specs #info div.filename input {border-color:transparent; color: #555;}
+div#file-specs #info div.filename input:hover {border-color:#ccc;}
+div#file-specs #info div.filetype {color: #555;}

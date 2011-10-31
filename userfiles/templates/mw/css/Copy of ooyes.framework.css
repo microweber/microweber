@@ -1,0 +1,283 @@
+*{
+   margin: 0;
+   padding: 0;
+}
+img, html{
+  border: none;
+}
+a, a *{
+  cursor: pointer;
+}
+a, input, textarea{
+  outline: none
+}
+
+
+/*
+    RESET - Reseting browsers' default styles
+*/
+.reset, .reset *{
+	margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+	font-weight:
+    inherit;font-style: inherit;
+    font-family: inherit;
+	vertical-align: baseline;
+}
+.reset :focus, .reset * :focus {
+    outline: 0;
+}
+.reset ol, .reset ul, .reset li {
+    list-style: none;
+}
+.reset table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.reset caption, .reset th, .reset td {
+    text-align: left;
+    font-weight: normal;
+}
+.reset blockquote:before, .reset blockquote:after,
+.reset q:before, .reset q:after {content: "";}
+.reset blockquote, .reset q {quotes: "" "";}
+
+/* ------  /RESET ------ */
+
+/* ------  MSIE6 filcker bug ------ */
+* html {
+    filter: expression(document.execCommand("BackgroundImageCache", false, true));
+}
+.hide{display: none;}
+
+.clear{clear: both;}
+
+.c{
+    display: block;
+	height: 0px !important;
+	float: none;
+	overflow: hidden;
+	clear: both !important;
+	zoom:1;
+}
+
+.right{
+    float: right;
+}
+.left, .col{
+  float: left;
+}
+.center{
+  float: none;
+  margin: 0 auto;
+  clear: none;
+}
+.invisible {
+	visibility: hidden;
+}
+.hide, .hidden{
+  display: none;
+}
+
+.block{
+  display: block;
+}
+.inline{
+  display: inline;
+}
+.inline-block{
+  display: inline-block;
+}
+.relative{
+  position: relative;
+}
+.nopadding{
+  padding: 0 !important;
+}
+.nomargin{
+  margin: 0 !important;
+}
+
+
+.wrap:after, .col:after, .clearfix:after{
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+.wrap, .col, .clearfix{display: inline-block;}
+
+html[xmlns] .wrap, html[xmlns] .col, html[xmlns] .clearfix{display: block;}
+
+* html .wrap, * html .col, * html .clearfix{zoom: 1;}
+
+/* ----- pre tag ----- */
+pre {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+/* ----- /pre tag ----- */
+
+/*
+  Rich Text CSS - CSS for content comming from WYSIWYG (Rich Text) editors.
+*/
+
+/* You can choose default font-family */
+
+.richtext {
+	font:12px Verdana, Arial, sans-serif
+}
+.richtext pre, .richtext menu, .richtext hr, .richtext dir, .richtext center, .richtext ul, .richtext p,
+.richtext ol, .richtext noframes, .richtext h6, .richtext h5, .richtext h4, .richtext h3, .richtext h2,
+.richtext h1, .richtext frameset, .richtext frame, .richtext form, .richtext fieldset, .richtext dt,
+.richtext dl, .richtext div, .richtext dd, .richtext blockquote, .richtext address {
+	display:block
+}
+.richtext li {
+	display:list-item
+}
+.richtext head {
+	display:none
+}
+.richtext table {
+	display:table;
+	border-spacing:2px
+}
+.richtext tr {
+	display:table-row
+}
+.richtext thead {
+	display:table-header-group
+}
+.richtext tbody {
+	display:table-row-group
+}
+.richtext tfoot {
+	display:table-footer-group
+}
+.richtext col {
+	display:table-column
+}
+.richtext colgroup {
+	display:table-column-group
+}
+.richtext th, .richtext td {
+	display:table-cell;
+	vertical-align:inherit
+}
+.richtext caption {
+	display:table-caption
+}
+.richtext th, .richtext strong, .richtext b, .richtext h6, .richtext h5, .richtext h4, .richtext h3, .richtext h2, .richtext h1 {
+	font-weight:bolder
+}
+.richtext th, .richtext caption, .richtext center {
+	text-align:center
+}
+.richtext body {
+	margin:8px
+}
+.richtext h1 {
+	font-size:2em;
+	margin:.67em 0;
+	font-size:24px
+}
+.richtext h2 {
+	font-size:1.5em;
+	margin:.75em 0;
+	font-size:22px
+}
+.richtext h3, .richtext big {
+	font-size:1.17em
+}
+.richtext h3 {
+	margin:.83em 0;
+	font-size:20px
+}
+.richtext menu, .richtext dir, .richtext dl, .richtext ol, .richtext form, .richtext fieldset, .richtext ul, .richtext blockquote, .richtext p, .richtext h4 {
+	margin:1.12em 0
+}
+.richtext h5, .richtext sup, .richtext sub, .richtext small {
+	font-size:.83em
+}
+.richtext h5 {
+	margin:1.5em 0;
+	font-size:16px
+}
+.richtext h6 {
+	font-size:.75em;
+	margin:1.67em 0
+}
+.richtext blockquote, .richtext dd, .richtext menu, .richtext dir, .richtext ul, .richtext ol {
+	margin-left:40px
+}
+.richtext blockquote {
+	margin-right:40px
+}
+.richtext address, .richtext var, .richtext em, .richtext cite, .richtext i {
+	font-style:italic
+}
+.richtext samp, .richtext kbd, .richtext code, .richtext tt, .richtext pre {
+	font-family:monospace
+}
+.richtext pre {
+	white-space:pre
+}
+.richtext select, .richtext input, .richtext textarea, .richtext button {
+	display:inline-block
+}
+.richtext sub {
+	vertical-align:sub
+}
+.richtext sup {
+	vertical-align:super
+}
+.richtext foot, .richtext tbody, .richtext thead {
+	vertical-align:middle
+}
+.richtext del, .richtext strike, .richtext s {
+	text-decoration:line-through
+}
+.richtext hr {
+	border:1px inset
+}
+.richtext ol {
+	list-style-type:decimal
+}
+.richtext ol ol, .richtext ul ul, .richtext ul ol, .richtext ol ul {
+	margin-top:0;
+	margin-bottom:0
+}
+.richtext ins, .richtext u, .richtext:visited, .richtext:link {
+	text-decoration:underline
+}
+.richtext br:before {
+	content:"\A"
+}
+.richtext:after, .richtext:before {
+	white-space:pre-line
+}
+.richtext:focus {
+	outline:thin dotted invert
+}
+.richtext BDO[DIR="ltr"], .richtext *[DIR="ltr"] {
+	direction:ltr
+}
+.richtext BDO[DIR="ltr"], .richtext BDO[DIR="rtl"] {
+	unicode-bidi:bidi-override
+}
+.richtext BDO[DIR="rtl"], .richtext *[DIR="rtl"] {
+	direction:rtl
+}
+.richtext *[DIR="ltr"], .richtext *[DIR="rtl"] {
+	unicode-bidi:embed
+}
+
+

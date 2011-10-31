@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  
+<!-- Mirrored from denk-groot.nl/admincp/buttons by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 28 Aug 2011 11:12:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8" />
+
+    <title>Admin Control Panel</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/visualize.css" />
+    <link rel="stylesheet" href="css/datatables.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
+    <link rel="stylesheet" href="css/checkboxes.css" />
+    <link rel="stylesheet" href="css/inputtags.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="/admincp/css/ie.css" />
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11172759-12']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+
+  <body>
+    <div id="gradient">
+      <div id="stars">
+        <div id="container">
+        
+          <header>
+          
+            <!-- Logo -->
+            <h1 id="logo">Admin Control Panel</h1>
+          
+            <!-- User info -->
+            <div id="userinfo">
+              <img src="img/avatar.png" alt="Bram Jetten" />
+              <div class="intro">
+                Welcome Bram<br />
+                You have <a href="#">3 new messages</a>
+              </div>
+            </div>
+          
+          </header>
+        
+          <!-- The application "window" -->
+          <div id="application">
+          
+            <!-- Primary navigation -->
+            <nav id="primary">
+              <ul>
+                <li >
+                  <a href="index.html">
+                    <span class="icon dashboard"></span>
+                    Dashboard
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="forms.html">
+                    <span class="icon pencil"></span>
+                    Forms
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="tables.html">
+                    <span class="icon tables"></span>
+                    DataTables
+                  </a>
+                </li>
+
+                <li >
+                  <a href="charts.html">
+                    <span class="icon chart"></span>
+                    <span class="badge">4</span>
+                    Charts
+                  </a>
+                </li>
+                
+                <li >
+                  <a href="notifications.html">
+                    <span class="icon modal"></span>
+                    Notifcations
+                  </a>
+                </li>
+
+				<li >
+                  <a href="typography.html">
+                    <span class="icon newspaper"></span>
+                    Typography
+                  </a>
+                </li>
+
+                <li class="current">
+                  <a href="buttons.html">
+                    <span class="icon anchor"></span>
+                    Icons/buttons
+                  </a>
+                </li>               
+              </ul>
+            
+              <input type="text" id="search" placeholder="Realtime search..." />
+            </nav>
+          
+            <!-- Secondary navigation -->
+            <nav id="secondary">
+              <ul>
+                <li class="current"><a href="#maintab">Main tab</a></li>
+                <li><a href="#secondtab">Explanation tabs</a></li>
+                <li><a href="#thirdtab">Optional third tab</a></li>
+              </ul>
+            </nav>
+          
+            <!-- The content -->
+            <section id="content">
+              
+              <div class="tab" id="maintab">
+                <h2>Classic buttons</h2>
+<p>
+  <a href="#" class="button">Button</a>
+  <a href="#" class="button pill">Pill button</a>
+  <a href="#" class="button primary">Primary button</a>
+</p>
+<pre>
+&lt;a href="#" class="button"&gt;Button&lt;/a&gt;
+&lt;a href="#" class="button pill"&gt;Pill button&lt;/a&gt;
+&lt;a href="#" class="button primary"&gt;Primary button&lt;/a&gt;
+</pre>
+
+<h2>Special buttons</h2>
+<p>
+  <a href="#" class="button danger">Danger button</a>
+  <a href="#" class="button big">Big button</a>
+</p>
+<pre>
+&lt;a href="#" class="button danger"&gt;Danger button&lt;/a&gt;
+&lt;a href="#" class="button big"&gt;Big button&lt;/a&gt;
+</pre>
+
+<h2>Grouped buttons</h2>
+<div class="actions button-container">
+    <a href="#" class="button primary">Compose new</a>
+    
+    <div class="button-group">
+        <a href="#" class="button primary">Archive</a>
+        <a href="#" class="button">Report spam</a>
+        <a href="#" class="button danger">Delete</a>
+    </div>
+                        
+    <div class="button-group minor-group">
+        <a href="#" class="button">Move to</a>
+        <a href="#" class="button">Labels</a>
+    </div>
+</div>
+<br />
+<pre>
+&lt;div class="actions button-container"&gt;
+    &lt;a href="#" class="button primary"&gt;Compose new&lt;/a&gt;
+
+    &lt;div class="button-group"&gt;
+        &lt;a href="#" class="button primary"&gt;Archive&lt;/a&gt;
+        &lt;a href="#" class="button"&gt;Report spam&lt;/a&gt;
+        &lt;a href="#" class="button danger"&gt;Delete&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div class="button-group minor-group"&gt;
+        &lt;a href="#" class="button"&gt;Move to&lt;/a&gt;
+        &lt;a href="#" class="button"&gt;Labels&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<h2>Buttons with icons</h2>
+<pre>
+&lt;a href="#" class="button icon arrowup"&gt;Arrowup&lt;/a&gt;
+</pre>
+<p>
+  <a href="#" class="button icon arrowup">Arrowup</a>
+  <a href="#" class="button icon arrowdown">Arrowdown</a>
+  <a href="#" class="button icon arrowleft">Arrowleft</a>
+  <a href="#" class="button icon arrowright">Arrowright</a>
+  <a href="#" class="button icon approve">Approve</a><br /><br />
+  <a href="#" class="button icon add">Add</a>
+  <a href="#" class="button icon danger remove">Remove</a>
+  <a href="#" class="button icon log">Log</a>
+  <a href="#" class="button icon calendar">Calendar</a>
+  <a href="#" class="button icon chat">Chat</a><br /><br />
+  <a href="#" class="button icon clock">Clock</a>
+  <a href="#" class="button icon settings">Settings</a>
+  <a href="#" class="button icon comment">Comment</a>
+  <a href="#" class="button icon fork">Fork</a>
+  <a href="#" class="button icon like">Like</a><br /><br />
+  <a href="#" class="button icon favorite">Favorite</a>
+  <a href="#" class="button icon home">Home</a>
+  <a href="#" class="button icon key">Key</a>
+  <a href="#" class="button icon lock">Lock</a>
+  <a href="#" class="button icon unlock">Unlock</a><br /><br />
+  <a href="#" class="button icon loop">Loop</a>
+  <a href="#" class="button icon search">Search</a>
+  <a href="#" class="button icon mail">Mail</a>
+  <a href="#" class="button icon move">Move</a>
+  <a href="#" class="button icon edit">Edit</a><br /><br />
+  <a href="#" class="button icon pin">Pin</a>
+  <a href="#" class="button icon reload">Reload</a>
+  <a href="#" class="button icon rss">RSS</a>
+  <a href="#" class="button icon tag">Tag</a>
+  <a href="#" class="button icon trash">Trash</a>
+  <a href="#" class="button icon user">User</a>
+</p>
+              </div>
+              
+              <div class="tab" id="secondtab">
+                <h2>Explanation tabs</h2>
+                <p>Your secondary menu should look something like this:</p>
+<pre>
+&lt;nav id="secondary"&gt;
+  &lt;ul&gt;
+    &lt;li class="current"&gt;&lt;a href="#maintab"&gt;Main tab&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#secondtab"&gt;Explanation tabs&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#thirdtab"&gt;Optional third tab&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</pre>
+                <p>If you use class="current" on a &lt;li&gt;-tag, that tab will be the default.</p>
+                <p>In your content area, you must use the following structure:</p>
+<pre>
+&lt;div class="tab" id="maintab"&gt;
+&lt;/div&gt;
+
+&lt;div class="tab" id="secondtab"&gt;
+&lt;/div&gt;
+
+&lt;div class="tab" id="thirdtab"&gt;
+&lt;/div&gt;
+</pre>
+              </div>
+              
+              <div class="tab" id="thirdtab">
+                <h2>Third tab</h2>
+              </div>
+
+            </section>
+          </div>
+        
+          <footer id="copyright">Theme design &amp; development by Bram Jetten in 2011</footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/excanvas.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.livesearch.js"></script>
+    <script src="js/jquery.visualize.js"></script>
+    <script src="js/jquery.datatables.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/jquery.selectskin.js"></script>
+    <script src="js/jquery.checkboxes.js"></script>
+    <script src="js/jquery.wymeditor.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery.inputtags.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/application.js"></script>
+  </body>
+
+<!-- Mirrored from denk-groot.nl/admincp/buttons by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 28 Aug 2011 11:12:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

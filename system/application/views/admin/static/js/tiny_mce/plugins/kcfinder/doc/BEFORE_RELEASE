@@ -1,0 +1,16 @@
+!!! THINGS TO DO BEFORE ZIPPING NEW PACKAGES !!!
+
+* Delete .git directory
+
+* Change version numbers in all source files, doc/README and core/uploader.php
+  VERSION class constant
+
+* Edit doc/Changelog file (also in dev version)
+
+* config.php changes:
+    'disabled' => true,
+    'uploadURL' => "upload",
+
+* Change version numbers in dev (Git) version
+
+* Delete this file

@@ -1,0 +1,153 @@
+= Filters =
+
+\contents 2
+
+== Introduction ==
+
+A filter is a simple piece of code which applies minor detail highlighting that's difficult or long winded to do during scanning, and should be usable by all scanners.
+
+== Rationale ==
+
+The highlighting engine Luminous provides is relatively difficult to generalise because it expects each scanner to be different. This leads to the situation where it can be cumbersome to apply similar minor highlighting details consistently across languages. An example of this is documentation comment annotations: in many languages and doc-comment systems they look something like this:
+
+{{{lang=java
+/**
+ * @brief some method, which does something
+ * @param arg1 An argument
+ * @returns something
+ * @throws Exception, if you call it.
+ * 
+ * Here's a method which does something.
+ */
+  public int f(int arg1) {
+    throw new Exception();
+    return 1;
+  }
+}}}
+
+As you can hopefully see, the doc-comment tags are highlighted. But as you can imagine, since each scanner is separate, it's not practical to implement this level of detail by hand across all languages.
+
+The answer to this is called a filtering system (a name I think I poached from the Python syntax highlighter Pygments, but I'm not sure if our filters are exactly the same as theirs). A filter defines some common code for highlighting small details. As well as doc-comments, they are used to highlight escape sequences in strings, special characters in regular expressions. A less obvious use for filters is to map identifier names to different token types, for example, most scanners just define an identifier as `[a-zA-Z_]\w*`; a filter is then responsible for mapping each generic identifier token to a more specific token (like 'KEYWORD', or 'TYPE', or 'FUNCTION').
+
+Other possible uses for filters might be to enforce consistent casing in case insensitive languages, or to add hyperlinks to function names.
+
+
+== Definition ==
+
+We have two distinct forms of filter: individual filters (usually just referred to as 'filters') and stream filters.
+
+ * An individual filter is a function which takes and returns a token object. This filter will only be called on the tokens which it is registered for.
+ * A stream filter is a function which takes and returns an ordered array of token objects.
+
+A token object is actually an array (tuple) and is composed with its indices as so:
+  * 0: TOKEN_NAME (string or null),
+  * 1: TOKEN_TEXT (string),
+  * 2: ESCAPED? (bool)
+
+
+Escaped refers to XML-escaping: because the end result of the token stream is a piece of XML, we need to keep track of whether or not the actual text is escaped.
+
+The way that a filter actually works to manipulate text and add in extra highlighting is to embed XML directly into the string.
+
+
+== Examples ==
+
+=== Changing the type of a token based on its content ===
+
+A filter to map UPPER CASE IDENTIFIERS to 'constant' tokens:
+
+{{{lang=php_snippet
+function upper_to_constant($token) {
+  // check for this because it may have been mapped to a function or something already
+  if ($token[0] === 'IDENT' && preg_match('/^[A-Z_][A-Z_0-9]{3,}$/', $token[1]))
+    $token[0] = 'CONSTANT';
+  return $token;
+}
+}}}
+
+=== Changing the content of a token ===
+
+A simple filter to highlight escape sequences in strings (i.e. a backslash followed by any character):
+
+{{{lang=php_snippet
+function string_filter($token) {
+  $token = LuminousUtils::escape_token($token);
+  $token[1] = preg_replace('/ \\\\. /x',
+    '<ESC>$0</ESC>', $token[1]);
+  return $token;
+}
+}}}
+
+*Note*: since we change the content of the string, we make sure the token is escaped first. LuminousUtils::escape_token() does this for us.
+
+=== Stream filters ===
+
+For the purpose of creating a simple example, let's say you wanted to use a stream filter to do your string filtering. Assume the string_filter function (above) is defined:
+
+{{{lang=php_snippet
+function string_stream_filter($tokens) {
+  foreach($tokens as &$t) {
+    $t = string_filter($t);
+  }
+  return $tokens;
+}
+}}}
+
+== Adding your filter to your scanner ==
+
+To use the above filters, in your scanner's constructor or init method, insert the following code:
+
+{{{lang=php_snippet
+$this->add_filter('constant', // name of the filter
+                  'CONSTANT', // token the filter applies to
+                  'upper_to_constant' // reference to the filter
+);
+$this->add_stream_filter(
+  'strings', // name of the filter
+  'string_stream_filter' // reference to the filter
+);
+}}}
+
+
+
+== Important stuff you should know ==
+
+The filters are invoked in the last stage of highlighting by a scanner, i.e. directly before the final XML string is produced.
+
+Stream filters are handled before individual filters.
+
+Individual filters stack, you can have many bound to a single token type.
+
+If you change the type of a token in an individual token, any remaining filters for the original type will still be applied. So if you have a 'KEYWORD' token and a filter to change it to a 'COMMENT' token, it won't automatically inherit the COMMENT token's filters. But you can call them manually from your filter.
+
+If you insert XML into a token, make sure the token is escaped first (use LuminousUtils::escape_token to escape it)
+
+Be careful of escaped tokens, try to avoid letting your regular expressions match XML tags.
+
+Be very careful of multi-line XML strings. If you need to use this, you should split the XML tag to close at the end of each line and re-open after the line break, because otherwise it is difficult to apply line numbering in the HTML formatter. See LuminousUtils::tag_block() if there's any danger of this.
+
+=== Predefined Filters ===
+
+Luminous defines a number of filters and many of these are already bound to LuminousScanner (which you will subclass). some of these might not apply to your language, in which case you can disable them with LuminousScanner::remove_filter($name) or LuminousScanner::remove_stream_filter($name);
+
+
+You should consult the source code to the constructor of LuminousScanner, but a possibly incomplete list is:
+
+<table style='width:100%;text-align:center;'>
+  <tr class='header'>
+    <td>Token Name</td>
+    <td>Rule Name</td>
+    <td style='max-width:100px'>Description</td>
+  </tr>
+  <tr><td> N/A (stream) </td><td> *rule-map*   </td><td> Renames token based on the LuminousScanner::$rule_tag_map map </td></tr>
+  <tr><td> N/A (stream)  </td><td> *oo-syntax* </td><td> Adds OO (object.property) highlighting using '.', '::' or '->'</td></tr>
+  <tr><td> IDENT </td><td> *map-ident* </td><td> Renames identifiers based on the LuminousScanner::$ident_map map </td></tr>
+  <tr><td> COMMENT </td><td> *comment-note* </td><td> Highlights 'NOTE', 'TODO', 'FIXME', etc in comments </td></tr>
+  <tr><td> COMMENT </td><td> *comment-to-doc* </td><td> Tries to convert COMMENT to DOCCOMMENT and apply Javadoc-like tag highlighting </td></tr>
+  <tr><td> STRING </td><td> *string-escape* </td><td> Highlights generic escape sequences in strings </td></tr>
+  <tr><td> CHARACTER </td><td> *char-escape* </td><td> Highlights generic escape sequences in 'char' types </td></tr>
+  <tr><td> REGEX </td><td> *pcre* </td><td> Highlight special characters in regular expression literals </td></tr>
+  <tr><td> IDENT </td><td> *user-defs* </td><td> Tries to apply highlighting to identifier strings which have been marked as special during scanning (user defined classes, functions) </td></tr>
+  <tr><td> IDENT </td><td> *constant* </td><td> Tries to convert upper case identifiers to 'CONSTANT' types </td></tr>
+  <tr><td> IDENT </td><td> *clean-ident* </td><td> Remaps any remaining 'IDENT' type to the null type </td></tr>
+</table>

@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  
+<!-- Mirrored from anchor.no/x3/fullwidth.html by HTTrack Website Copier/3.x [XR&CO'2010], Wed, 22 Jun 2011 09:05:38 GMT -->
+<head>
+   
+    <!-- Title, description and keywords -->
+    <title>
+      Appy HTML template
+    </title>
+    <meta name="description" content="Appy HTML template" />
+    <meta name="keywords" content=
+    "Appy, HTML, CSS, 960, Template, Professional, High end, Clean, Themeforest" />
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" media="all" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/960.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/css.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/effects.css" />
+    
+    <!--[if IE 7]>
+<link rel="stylesheet" type="text/css" media="all" href="css/ie7.css"/>
+<![endif]-->
+
+    <!-- Javascripts -->
+
+    <script src="js/jquery-1.4.4.min.js" type="text/javascript">
+</script>
+    <script type="text/javascript" src="js/superfish.js">
+</script><!-- Superfish menu -->
+
+    <script type="text/javascript">
+
+    // Superfish Options
+    $(document).ready(function(){ 
+        $("ul.sf-menu").superfish(); 
+    }); 
+
+
+    </script><!-- end:Superfish menu -->
+
+    <script src="js/slides.min.jquery.js" type="text/javascript">
+</script>
+
+<!-- Sliders -->
+
+    <script type="text/javascript">
+
+    // Feature slider Options
+
+                $(function(){
+                        // Set starting slide to 1
+                        var startSlide = 1;
+                        // Get slide number if it exists
+                        if (window.location.hash) {
+                                startSlide = window.location.hash.replace('#','');
+                        }
+                        // Initialize Slides
+                        $('#slides').slides({
+                                preload: true,
+                                preloadImage: 'images/loading.gif',
+                                generatePagination: true,
+                                play: 5000,
+                                pause: 2500,
+                                hoverPause: true,
+                                // Get the starting slide
+                                start: startSlide,
+                                animationComplete: function(current){
+                                        // Set the slide number as a hash
+                                }
+                        });
+                        // Set starting slide to 1
+                        var startSlide = 1;
+                        // Get slide number if it exists
+                        if (window.location.hash) {
+                                startSlide = window.location.hash.replace('#','');
+                        }
+                        
+                
+                        
+                        // Quote Slider Options
+                        $('#slides2').slides({
+                                preload: true,
+                                preloadImage: 'images/loading.gif',
+                                paginationClass: 'pagination2',
+                                effect: 'fade',
+                                play: 5000,
+                                pause: 2500,
+                                container: 'slides_container2',
+                                hoverPause: true,
+                                // Get the starting slide
+                                start: startSlide,
+                                animationComplete: function(current){
+                                        // Set the slide number as a hash
+                                }
+                        });
+                        });
+
+    
+    </script><!-- End:Sliders -->
+    
+    
+    <style type="text/css">
+	
+	
+    #boxes p {
+	border: 1px solid #e5e4e4;
+	overflow: hidden;
+	padding: 10px 0;
+	text-align: center;
+}
+</style>
+
+  </head>
+  
+  
+  <body class="sub">
+  <div id="wrapper">
+
+<div class="container_12" id="content" style="width:100%;">
+    <div class="wrapper">
+      <!-- Header -->
+      <div id="header">
+        <div class="container_12">
+          <div class="grid_12">
+            <!-- Logo -->
+            <div class="grid_3 alpha" id="logo">
+              <a href="index-2.html"><img src="images/logo.png" alt="" /></a>
+            </div><!-- end:Logo -->
+            <!-- Navigation -->
+            <div class="grid_6">
+              <ul id="nav">
+                <li>
+                  <a href='index-2.html'><span>Home</span></a>
+                </li>
+                  <li class='active'>
+                  <a href='fullwidth.html'><span>Services</span></a>
+                  <ul>
+                    <li>
+                      <a href='index-2.html'><span>Home</span></a>
+                    </li>
+                    <li>
+                      <a href='subpage.html'><span>About</span></a>
+                    </li>
+                    <li>
+                      <a href='fullwidth.html'><span>Services</span></a>
+                    </li>
+                    <li>
+                      <a href='contact.html'><span>Contact</span></a>
+                    </li>
+                  </ul>
+                </li>
+            
+                  <li>
+                  <a href='portfolio.html'><span>Portfolio</span></a>
+                </li>
+                 <li>
+                  <a href='contact.html'><span>Contact</span></a>
+                </li>
+      
+              </ul>
+            </div><!-- end:Navigation -->
+            <!-- Search top -->
+            <div class="grid_3 omega">
+              <div id="searchbox">
+                <form action="http://anchor.no/" method="get">
+                  <fieldset>
+                    <input type="hidden" value="search" /> <input type="submit" class=
+                    "search-btn" value="Submit" /> <input type="text" class="searchbox"
+                    value="Search" onclick="this.value=''" onchange="toggle(this)" />
+                  </fieldset>
+                </form>
+              </div><!-- end:Search -->
+            </div>
+          </div>
+        </div>
+      </div><!-- end:Header -->
+      <!-- Content -->
+      <div class="container_12" id="mainContent">
+        <div class="grid_12">
+          <div class="clear" style="height:30px;"></div><!-- Text boxes -->
+          <div id="boxes">
+            <div class="grid_8 alpha">
+              <h1>
+                Services</h1>
+              </div>
+                          <div class="grid_4 omega cta">
+              <a href="#" class="button" style="float:right;"><span>Buy this
+              now</span></a><br />
+            </div>
+
+              <div class="clear"></div>
+              	<div class="grid_12 alpha omega">
+<p>
+                    Grid_12 - 940px
+                  </p>
+	</div>
+	<!-- end .grid_11 -->
+	<div class="grid_1 alpha">
+		        <p>
+                Grid_1 - 60px 
+          </p>
+	</div>
+	<!-- end .grid_1 -->
+	<div class="grid_11 omega">
+		        <p>Grid_11 - 860px </p>
+	</div>
+	<!-- end .grid_11 -->
+	<div class="clear"></div>
+	<div class="grid_2 alpha">
+		        <p>Grid_2 - 140px </p>
+	</div>
+	<!-- end .grid_2 -->
+	<div class="grid_10 omega">
+		        <p>Grid_10 - 780px </p>
+	</div>
+	<!-- end .grid_10 -->
+	<div class="clear"></div>
+	<div class="grid_3 alpha">
+		        <p>Grid_3 - 220px </p>
+	</div>
+	<!-- end .grid_3 -->
+	<div class="grid_9 omega">
+		<p>Grid_9 - 700px </p>
+	</div>
+	<!-- end .grid_9 -->
+	<div class="clear"></div>
+	<div class="grid_4 alpha">
+		<p>Grid_4 - 300px </p>
+	</div>
+	<!-- end .grid_4 -->
+	<div class="grid_8 omega">
+		<p>Grid_8 - 620px </p>
+	</div>
+	<!-- end .grid_8 -->
+	<div class="clear"></div>
+	<div class="grid_5 alpha">
+		<p>Grid_5 - 380px </p>
+	</div>
+	<!-- end .grid_5 -->
+	<div class="grid_7 omega">
+		<p>Grid_7 - 540px </p>
+	</div>
+	<!-- end .grid_7 -->
+	<div class="clear"></div>
+	<div class="grid_6 alpha">
+		<p>Grid_6 - 460	px </p>
+	</div>
+	<!-- end .grid_6 -->
+	<div class="grid_6 omega">
+		<p>Grid_6 - 460px </p>
+	</div>
+	<!-- end .grid_6 -->
+	
+	
+<div class="clear" style="height:60px;"></div>
+                    
+ 
+            
+            
+          </div><!-- end:Text boxes -->
+        </div>
+      </div><!-- end:Content -->
+     </div>
+    </div><!-- end:Wrapper -->
+    <div class="clear" style="height:60px;"></div><!-- Footer -->
+    <div class="footer" id="footer">
+      <div class="container_12">
+        <div class="grid_12">
+          <div class="search">
+            <div class="grid_2 alpha">
+              &nbsp;
+            </div><!-- Footer search -->
+            <div class="grid_5">
+              <h3>
+                Looking for something? Try searching
+              </h3>
+            </div>
+            <div class="grid_3 omega">
+              <div id="searchbox2">
+                <form action="http://anchor.no/" method="get">
+                  <fieldset>
+                    <input type="hidden" value="search" /> <input type="submit" class=
+                    "search-btn" value="Submit" /> <input type="text" class="searchbox2"
+                    value="Search" onclick="this.value=''" onchange="toggle(this)" />
+                  </fieldset>
+                </form>
+              </div>
+            </div><!-- end:Footer search -->
+          </div>
+          <div class="clear" style="height:0px;"></div><!-- Footer columns -->
+          <div class="cols">
+            <div class="grid_2 alpha">
+              <h3>
+                Navigation
+              </h3>
+              <ul>
+                <li>Home
+                </li>
+                <li>About
+                </li>
+                <li>Services
+                </li>
+                <li>Contact
+                </li>
+              </ul>
+            </div>
+            <div class="grid_2">
+              <h3>
+                Categories
+              </h3>
+              <ul>
+                <li>Home
+                </li>
+                <li>About
+                </li>
+                <li>Services
+                </li>
+                <li>Contact
+                </li>
+              </ul>
+            </div>
+            <div class="grid_2">
+              <h3>
+                Useful stuff
+              </h3>
+              <ul>
+                <li>Home
+                </li>
+                <li>About
+                </li>
+                <li>Services
+                </li>
+                <li>Contact
+                </li>
+              </ul>
+            </div>
+            <div class="grid_3">
+              <h3>
+                Social media
+              </h3>
+              <p>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blan.</p>
+                
+                <div class="clear" style="height:5px;"></div>
+                
+                
+<a style="float:left;" href="index-2.html"><img src="images/icon-facebook.png" alt="" style="padding-right:9px;"/></a>
+<a style="float:left;" href="index-2.html"><img src="images/icon-twitter.png" alt="" style="padding-right:9px;"/></a>
+<a style="float:left;" href="index-2.html"><img src="images/icon-flickr.png" alt="" style="padding-right:9px;"/></a>
+<a style="float:left;" href="index-2.html"><img src="images/icon-youtube.png" alt="" style="padding-right:9px;"/></a>
+<a style="float:left;" href="index-2.html"><img src="images/icon-vimeo.png" alt="" style="padding-right:9px;"/></a>
+
+              
+            </div>
+            <!-- Newsletter -->
+            <div class="grid_3 omega">
+              <h3>
+                Newsletter
+              </h3>
+              <p>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blan.
+              </p>
+              <div id="newsletter">
+                <form action="http://anchor.no/" method="get">
+                  <fieldset>
+                    <input type="hidden" value="" /> <input type="submit" class=
+                    "newsletter-btn" value="Submit" /> <input type="text" class=
+                    "newsletterbox" value="Your email" onclick="this.value=''" onchange=
+                    "toggle(this)" />
+                  </fieldset>
+                </form>
+              </div>
+            </div><!-- end:Newsletter -->
+          </div><!-- end: Footer columns -->
+          <div class="clear" style="height:0px;"></div>
+          
+          <!-- Copyright -->
+          <div class="copyright">
+            © 2011 Appy
+          </div><!-- end:Copyright -->
+        </div>
+      </div>
+    </div><!-- end:Footer -->
+  </body>
+
+<!-- Mirrored from anchor.no/x3/fullwidth.html by HTTrack Website Copier/3.x [XR&CO'2010], Wed, 22 Jun 2011 09:05:38 GMT -->
+</html>

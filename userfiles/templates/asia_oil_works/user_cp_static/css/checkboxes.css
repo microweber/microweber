@@ -1,0 +1,6 @@
+label.checkbox span.holder{height:61px;background:url(../img/checkboxes/checkbox.png) 0 -1px no-repeat}label.radio span.holder{height:61px;background:url(../img/checkboxes/radio.png) 0 -1px no-repeat}label.checkbox:hover span.holder,label.radio:hover span.holder{top:-21px !important}label.checked span.holder,label.checked span.holder,label.checked:hover span.holder,label.checked:hover span.holder{top:-42px !important}label.list{display: block;margin:0 0 5px 0}label.inline{float:left;margin:0 10px 0 0}input.hiddenCheckbox{position:absolute;left:-10000px}label.prettyCheckbox span.holderWrap{display:block;float:left;position:relative;margin-right:5px;overflow:hidden}label.prettyCheckbox span.holder{display:block;position:absolute;top:0;left:0}
+.prettyCheckbox {
+  cursor: pointer;
+}
+
+label .holderWrap { padding-top: 0px }

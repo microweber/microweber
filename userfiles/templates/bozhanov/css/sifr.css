@@ -1,0 +1,79 @@
+/*****************************************************************************
+scalable Inman Flash Replacement (sIFR) version 3.
+
+Copyright 2006 – 2008 Mark Wubben, <http://novemberborn.net/>
+
+Older versions:
+* IFR by Shaun Inman
+* sIFR 1.0 by Mike Davidson, Shaun Inman and Tomas Jogin
+* sIFR 2.0 by Mike Davidson, Shaun Inman, Tomas Jogin and Mark Wubben
+
+See also <http://novemberborn.net/sifr3> and <http://wiki.novemberborn.net/sifr3>.
+
+This software is licensed and provided under the CC-GNU LGPL.
+See <http://creativecommons.org/licenses/LGPL/2.1/>
+*****************************************************************************/
+
+@media screen {
+  .sIFR-flash {
+    visibility: visible !important;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sIFR-replaced, .sIFR-ignore {
+    visibility: visible !important;
+  }
+  
+  .sIFR-alternate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    display: block;
+    overflow: hidden;
+  }
+  
+  .sIFR-replaced div.sIFR-fixfocus {
+    margin: 0pt; 
+    padding: 0pt; 
+    overflow: auto; 
+    letter-spacing: 0px; 
+    float: none;
+  }
+}
+
+@media print {
+  .sIFR-flash {
+    display    : none !important;
+    height     : 0;
+    width      : 0;
+    position   : absolute;
+    overflow   : hidden;
+  }
+  
+  .sIFR-alternate {
+    visibility : visible !important;
+    display    : block   !important;
+    position   : static  !important;
+    left       : auto    !important;
+    top        : auto    !important;
+    width      : auto    !important;
+    height     : auto    !important;
+  }
+}
+
+/*
+Place CSS rules for to-be-replaced elements here. Prefix by .sIFR-active
+so they only apply if sIFR is active. Make sure to limit the CSS to the screen
+media type, in order not to have the printed text come out weird.
+*/
+@media screen {
+  /* Example:
+  .sIFR-active h1 {
+    font-family: Verdana;
+    visibility: hidden;
+  }
+  */
+}

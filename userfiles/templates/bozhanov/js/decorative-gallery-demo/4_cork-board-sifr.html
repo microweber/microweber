@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demo | Cork Board Gallery (jQuery + sIFR)</title>
+
+<!-- jQuery -->
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+						   
+	//prepend span tag
+	$(".gallery a").prepend("<span></span>");
+								  
+});
+</script>
+
+<!-- sIFR -->
+<link rel="stylesheet" href="sifr/sIFR-screen.css" type="text/css" media="screen">
+<link rel="stylesheet" href="sifr/sIFR-print.css" type="text/css" media="print">
+
+<script src="sifr/sifr.js" type="text/javascript"></script>
+<script src="sifr/sifr-debug.js" type="text/javascript"></script>
+<script type="text/javascript">
+  //<[CDATA[
+
+  var scriptfont = {
+    src: 'sifr/hand-of-sean.swf'
+    ,ratios: [7,1.32,11,1.31,13,1.24,14,1.25,19,1.23,27,1.2,34,1.19,42,1.18,47,1.17,48,1.18,69,1.17,74,1.16,75,1.17,1.16]
+  };
+
+  // sIFR.domains = ['novemberborn.net'] // Don't check for domains in this demo
+  sIFR.useStyleCheck = true;
+  sIFR.activate(scriptfont);
+
+  sIFR.replace(scriptfont, {
+    selector: '.gallery em'
+    ,css: [
+      '.sIFR-root { text-align: center; font-size: 10px; }'
+    ]
+	,wmode: 'transparent'
+  });
+  
+  //]]>
+</script>
+
+<style type="text/css">
+body {
+	margin: 20px auto;
+	padding: 0;
+	width: 700px;
+	font: 70%/140% Arial, Helvetica, sans-serif;
+	background: url(images/cork-bg.png);
+}
+h1 {
+	font: bold 480%/100% "Courier New", Courier, monospace;
+	letter-spacing: -3px;
+	margin: 0;
+	padding: 0 0 4px 15px;
+	background: #d4e093;
+	border-bottom: solid 1px #a36e36;
+	color: #543a1b;
+	width: 83%;
+}
+.credits {
+	margin: -5px 0 3.5em;
+	padding-left: 15px;
+	font: 130%/110% "Courier New", Courier, monospace;
+}
+.credits a {
+	color: #000;
+	background: #c3e4e2;
+	border-bottom: solid 1px #a36e36;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 0 .5em;
+	font-size: 110%;
+}
+.credits em {
+	color: #fff;
+	background: #000;
+	border-bottom: solid 1px #a36e36;
+	padding: 0 .3em;
+}
+img {
+	border: none;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.gallery {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.gallery li {
+	margin: 20px 10px 5px;
+	padding: 8px;
+	background: url(images/polaroid.png) no-repeat;
+	float: left;
+	position: relative;
+	width: 186px;
+}
+.gallery span {
+	background: url(images/tape.png) no-repeat;
+	width: 77px;
+	height: 27px;
+	display: block;
+	position: absolute;
+	left: 54px;
+	top: -12px;
+}
+.gallery em {
+	display: block;
+	text-align: center;
+	font: italic 100% Georgia, "Times New Roman", Times, serif;
+	color: #333;
+}
+
+</style>
+</head>
+
+<body>
+<h1>Cork Board Gallery (sIFR)</h1>
+<p class="credits"><em>by:</em> <a href="http://www.webdesignerwall.com">Web Designer Wall</a></p>
+
+<ul class="gallery">
+	<li><a href="#"><img src="images/1.jpg" alt="image" /></a><em>Abstract</em></li>
+	<li><a href="#"><img src="images/2.jpg" alt="image" /></a><em>Party</em></li>
+	<li><a href="#"><img src="images/3.jpg" alt="image" /></a><em>Virus</em></li>
+	<li><a href="#"><img src="images/5.jpg" alt="image" /></a><em>Butterfly</em></li>
+	<li><a href="#"><img src="images/9.jpg" alt="image" /></a><em>Flow</em></li>
+	<li><a href="#"><img src="images/14.jpg" alt="image" /></a><em>Nature</em></li>
+	<li><a href="#"><img src="images/6.jpg" alt="image" /></a><em>Cassie</em></li>
+	<li><a href="#"><img src="images/7.jpg" alt="image" /></a><em>DJ</em></li>
+	<li><a href="#"><img src="images/10.jpg" alt="image" /></a><em>Car</em></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demo | Cork Board With Masking Tape (IE6)</title>
+<style type="text/css">
+body {
+	margin: 20px auto;
+	padding: 0;
+	width: 700px;
+	font: 70%/140% Arial, Helvetica, sans-serif;
+	background: url(images/cork-bg.png);
+}
+h1 {
+	font: bold 480%/100% "Courier New", Courier, monospace;
+	letter-spacing: -3px;
+	margin: 0;
+	padding: 0 0 4px 15px;
+	background: #d4e093;
+	border-bottom: solid 1px #a36e36;
+	color: #543a1b;
+	width: 83%;
+}
+.credits {
+	margin: -5px 0 3.5em;
+	padding-left: 15px;
+	font: 130%/110% "Courier New", Courier, monospace;
+}
+.credits a {
+	color: #000;
+	background: #c3e4e2;
+	border-bottom: solid 1px #a36e36;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 0 .5em;
+	font-size: 110%;
+}
+.credits em {
+	color: #fff;
+	background: #000;
+	border-bottom: solid 1px #a36e36;
+	padding: 0 .3em;
+}
+img {
+	border: none;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.gallery {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.gallery li {
+	margin: 20px 10px 5px;
+	float: left;
+	position: relative;
+	width: 186px;
+	height: 142px;
+}
+.gallery .bg {
+	background: url(images/polaroid-short.png) no-repeat;
+	width: 186px;
+	height: 142px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.gallery em {
+	width: 110px;
+	display: block;
+	padding: 10px;
+	text-align: center;
+	font: italic 100% Georgia, "Times New Roman", Times, serif;
+	color: #333;
+	background: url(images/tape2.png) no-repeat;
+	position: absolute;
+	top: -17px;
+	left: 30px;
+	z-index: 3;
+}
+
+.gallery a {
+	text-decoration: none;
+	color: #666;
+}
+.gallery a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+.gallery img {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	z-index: 2;
+}
+
+</style>
+
+<!--[if lt IE 7]>
+<style type="text/css">
+	.gallery em, .gallery .bg { behavior: url(iepngfix.htc); cursor: pointer; }
+</style>
+<![endif]-->
+
+</head>
+
+<body>
+<h1>Masking Tape (IE6)</h1>
+<p class="credits"><em>by:</em> <a href="http://www.webdesignerwall.com">Web Designer Wall</a></p>
+
+<ul class="gallery">
+	<li><a href="#"><em>Dance</em><img src="images/11.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Flow</em><img src="images/9.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Brown City</em><img src="images/4.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>DJ</em><img src="images/7.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Butterfly</em><img src="images/5.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Cassie</em><img src="images/6.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Virus</em><img src="images/3.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Life</em><img src="images/1.jpg" alt="image" /></a><div class="bg"></div></li>
+	<li><a href="#"><em>Party</em><img src="images/2.jpg" alt="image" /></a><div class="bg"></div></li>
+</ul>
+</body>
+</html>

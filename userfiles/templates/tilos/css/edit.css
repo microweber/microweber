@@ -1,0 +1,283 @@
+*{
+   margin: 0;
+   padding: 0;
+}
+img, html{
+  border: none;
+}
+a, a *{
+  cursor: pointer;
+}
+a, input, textarea{
+  outline: none
+}
+
+
+/*
+    RESET - Reseting browsers' default styles
+*/
+.reset, .reset *{
+	margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+	font-weight:
+    inherit;font-style: inherit;
+    font-family: inherit;
+	vertical-align: baseline;
+}
+.reset :focus, .reset * :focus {
+    outline: 0;
+}
+.reset ol, .reset ul, .reset li {
+    list-style: none;
+}
+.reset table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.reset caption, .reset th, .reset td {
+    text-align: left;
+    font-weight: normal;
+}
+.reset blockquote:before, .reset blockquote:after,
+.reset q:before, .reset q:after {content: "";}
+.reset blockquote, .reset q {quotes: "" "";}
+
+/* ------  /RESET ------ */
+
+/* ------  MSIE6 filcker bug ------ */
+* html {
+    filter: expression(document.execCommand("BackgroundImageCache", false, true));
+}
+.hide{display: none;}
+
+.clear{clear: both;}
+
+.c{
+    display: block;
+	height: 0px !important;
+	float: none;
+	overflow: hidden;
+	clear: both !important;
+	zoom:1;
+}
+
+.right{
+    float: right;
+}
+.left, .col{
+  float: left;
+}
+.center{
+  float: none;
+  margin: 0 auto;
+  clear: none;
+}
+.invisible {
+	visibility: hidden;
+}
+.hide, .hidden{
+  display: none;
+}
+
+.block{
+  display: block;
+}
+.inline{
+  display: inline;
+}
+.inline-block{
+  display: inline-block;
+}
+.relative{
+  position: relative;
+}
+.nopadding{
+  padding: 0 !important;
+}
+.nomargin{
+  margin: 0 !important;
+}
+
+
+.wrap:after, .col:after, .clearfix:after{
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+.wrap, .col, .clearfix{display: inline-block;}
+
+html[xmlns] .wrap, html[xmlns] .col, html[xmlns] .clearfix{display: block;}
+
+* html .wrap, * html .col, * html .clearfix{zoom: 1;}
+
+/* ----- pre tag ----- */
+pre {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+/* ----- /pre tag ----- */
+
+/*
+  Rich Text CSS - CSS for content comming from WYSIWYG (Rich Text) editors.
+*/
+
+/* You can choose default font-family */
+
+.edit {
+	font:12px Verdana, Arial, sans-serif
+}
+.edit pre, .edit menu, .edit hr, .edit dir, .edit center, .edit ul, .edit p,
+.edit ol, .edit noframes, .edit h6, .edit h5, .edit h4, .edit h3, .edit h2,
+.edit h1, .edit frameset, .edit frame, .edit form, .edit fieldset, .edit dt,
+.edit dl, .edit div, .edit dd, .edit blockquote, .edit address {
+	display:block
+}
+.edit li {
+	display:list-item
+}
+.edit head {
+	display:none
+}
+.edit table {
+	display:table;
+	border-spacing:2px
+}
+.edit tr {
+	display:table-row
+}
+.edit thead {
+	display:table-header-group
+}
+.edit tbody {
+	display:table-row-group
+}
+.edit tfoot {
+	display:table-footer-group
+}
+.edit col {
+	display:table-column
+}
+.edit colgroup {
+	display:table-column-group
+}
+.edit th, .edit td {
+	display:table-cell;
+	vertical-align:inherit
+}
+.edit caption {
+	display:table-caption
+}
+.edit th, .edit strong, .edit b, .edit h6, .edit h5, .edit h4, .edit h3, .edit h2, .edit h1 {
+	font-weight:bolder
+}
+.edit th, .edit caption, .edit center {
+	text-align:center
+}
+.edit body {
+	margin:8px
+}
+.edit h1 {
+	font-size:2em;
+	margin:.67em 0;
+	font-size:24px
+}
+.edit h2 {
+	font-size:1.5em;
+	margin:.75em 0;
+	font-size:22px
+}
+.edit h3, .edit big {
+	font-size:1.17em
+}
+.edit h3 {
+	margin:.83em 0;
+	font-size:20px
+}
+.edit menu, .edit dir, .edit dl, .edit ol, .edit form, .edit fieldset, .edit ul, .edit blockquote, .edit p, .edit h4 {
+	margin:1.12em 0
+}
+.edit h5, .edit sup, .edit sub, .edit small {
+	font-size:.83em
+}
+.edit h5 {
+	margin:1.5em 0;
+	font-size:16px
+}
+.edit h6 {
+	font-size:.75em;
+	margin:1.67em 0
+}
+.edit blockquote, .edit dd, .edit menu, .edit dir, .edit ul, .edit ol {
+	/*margin-left:40px*/
+}
+.edit blockquote {
+	margin-right:40px
+}
+.edit address, .edit var, .edit em, .edit cite, .edit i {
+	font-style:italic
+}
+.edit samp, .edit kbd, .edit code, .edit tt, .edit pre {
+	font-family:monospace
+}
+.edit pre {
+	white-space:pre
+}
+.edit select, .edit input, .edit textarea, .edit button {
+	display:inline-block
+}
+.edit sub {
+	vertical-align:sub
+}
+.edit sup {
+	vertical-align:super
+}
+.edit foot, .edit tbody, .edit thead {
+	vertical-align:middle
+}
+.edit del, .edit strike, .edit s {
+	text-decoration:line-through
+}
+.edit hr {
+	border:1px inset
+}
+.edit ol {
+	list-style-type:decimal
+}
+.edit ol ol, .edit ul ul, .edit ul ol, .edit ol ul {
+	margin-top:0;
+	margin-bottom:0
+}
+.edit ins, .edit u, .edit:visited, .edit:link {
+	text-decoration:underline
+}
+.edit br:before {
+	content:"\A"
+}
+.edit:after, .edit:before {
+	white-space:pre-line
+}
+.edit:focus {
+	outline:thin dotted invert
+}
+.edit BDO[DIR="ltr"], .edit *[DIR="ltr"] {
+	direction:ltr
+}
+.edit BDO[DIR="ltr"], .edit BDO[DIR="rtl"] {
+	unicode-bidi:bidi-override
+}
+.edit BDO[DIR="rtl"], .edit *[DIR="rtl"] {
+	direction:rtl
+}
+.edit *[DIR="ltr"], .edit *[DIR="rtl"] {
+	unicode-bidi:embed
+}
+
+

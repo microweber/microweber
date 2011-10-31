@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* ---------- gallery styles start here ----------------------- */
+.gallery {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.gallery li {
+	margin: 15px 10px;
+	padding: 0 12px;
+	float: left;
+	position: relative;
+	width: 180px;
+	height: 130px;
+	background: url(images/drop-shadow.png) no-repeat center bottom;
+}
+.gallery img {
+	background: #fff;
+	border: solid 1px #ccc;
+	border-bottom: none;
+}
+.gallery a:hover img {
+	border-color: #000;
+}
+
+.gallery span {
+	width: 172px;
+	height: 84px;
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 12px;
+	background: url(images/glossy-gradient.png) no-repeat;
+}
+.gallery a {
+	text-decoration: none;
+}

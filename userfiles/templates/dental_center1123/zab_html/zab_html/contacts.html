@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Дентален Център "3М" - Здрава и красива усмивка всеки ден</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script type="text/javascript" src="js/libs.js"></script>
+  <script type="text/javascript" src="js/functions.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+     $("#the_contact_form").validate({
+       valid:function(){
+
+        var contact = {
+            name:$('#name').val(),
+            email:$('#email').val(),
+            phone:$('#cphone').val(),
+            message:$('#message').val()
+        }
+
+       $.post("someurl.php", contact, function(){
+
+       });
+
+        return false;
+       },
+       preventSubmit:true
+     });
+  });
+
+  </script>
+</head>
+<body>
+    <div id="container">
+        <div id="wrapper">
+            <div id="header">
+                <div id="phone">
+                    <address class="xhidden">Телефон на клиента - 02 / 962 60 26</address>
+                    <a href="http://facebook.com" target="_blank" id="facebook_top">Стани ни приятел</a>
+                </div>
+                <div class="c" style="padding-bottom: 10px">&nbsp;</div>
+                <a href="#" id="logo" title="Дентален Център 3М - Здрава и красива усмивка всеки ден">Дентален Център "3М" - Здрава и красива усмивка всеки ден</a>
+                <ul id="nav">
+                  <li class="active"><a href="#">Начало</a></li>
+                  <li><a href="#">Услуги</a></li>
+                  <li><a href="#">Екип</a></li>
+                  <li><a href="#">Съвети</a></li>
+                  <li><a href="#">Галерия</a></li>
+                  <li><a href="#">За контакти</a></li>
+                </ul>
+            </div><!-- /#header -->
+            <div id="content">
+                <div class="shadow">
+                  <div class="shadow-content box inner_top">
+                      <img src="img/mapi.jpg" />
+                  </div>
+                </div><!-- /#shadow -->
+
+                <div id="main">
+
+
+
+                  <div id="contact_form">
+                      <span class="a"><strong style="width:360px;">Напишете ни е-мейл</strong></span>
+
+                      <p>
+                        Напишете ни е-мейл и ние ще се свържем с вас!<br />
+                        Всеки работен ден от 08:00 до 20:00 h
+                      </p>
+
+                      <form method="post" action="#" id="the_contact_form">
+                        <div class="field">
+                            <input type="text" class="required" id="name" default="Вашето име" />
+                            <span class="err">Моля въведете вашето име</span>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="required" default="Вашият E-mail" id="email" />
+                            <span class="err">Моля въведете E-mail</span>
+                        </div>
+                        <div class="field">
+                            <input type="text" default="Телефон" id="cphone" />
+                        </div>
+                        <div class="area">
+                            <textarea default="Съобщение" class="required" id="message"></textarea>
+                            <span class="err">Моля въведете съобщение</span>
+                        </div>
+
+                        <input type="submit" class="xhidden" />
+
+                             <a href="#" class="a action-submit text-centered right"><strong style="width:160px;">Изпрати</strong></a>
+
+                      </form>
+                  </div><!-- /#contact_form -->
+
+                  <div id="contacts_info">
+                        <div class="col" style="width: 246px;">
+                          <h5 class="h5">къде се намираме?</h5>
+                          <p>София, България<br />
+                          ул. "Св. Пимен Зографски" 14</p>
+
+
+                          <p>Благоевград, България </p>
+                          <br />
+                          <h5 class="h5">E-mail</h5>
+
+                          <p>Info (at) Dentalencentur.bg</p>
+                           <br />
+                          <a href="#"><img src="img/contacts_fb.jpg" alt="" /></a>
+                        </div>
+                        <div class="col" style="width:150px; ">
+                            <h5 class="h5">Телефони</h5>
+                            <p>+359 887 443 456,<br />
+                            +359 2 962 60 26</p>
+
+
+                           <p> +359 887 443 456,<br />
+                            +359 2 962 60 26</p>
+                        </div>
+                        <div class="col" style="width: 140px">
+                            <h5 class="h5">Намете ни на карта</h5>
+                            <p><a href="#"><img src="img/sf.jpg" alt="" /></a></p>
+                            <p><a href="#"><img src="img/bl.jpg" alt="" /></a></p>
+                        </div>
+
+                      </div>
+
+                </div>
+
+            </div><!-- /#content -->
+            <div id="footer">
+                <div id="footerbox">
+                    <div id="f_time">
+                        <h5>Работно време</h5>
+                        Понеделник - Събота<br />
+                        8:00 - 20:00<br />
+                        Неделя - почивен ден
+                    </div>
+                    <address>
+                    <h5>къде се намираме?</h5>
+                    София<br />
+                    ул. "Св. Пимен Зографски" 14
+                    </address>
+                    <a href="#" id="reserve">запази си час сега</a>
+                </div>
+                <div class="c" style="padding-bottom: 10px;">&nbsp;</div>
+                <address id="copy">&copy; 1999-2011 "Дентален Център 3М" ООД Всички права запазени.</address>
+                <div id="wd">Уеб дизайн и разработка: <a href="http://ooyes.net" target="_blank" title="Web Design">ooYes.net</a></div>
+            </div>
+        </div><!-- /#wrapper -->
+    </div><!-- /#container -->
+</body>
+</html>

@@ -1,0 +1,55 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+body
+{
+    font: 12px/1.3em Arial, Helvetica, sans-serif;
+    color: #000;
+    background-color: #fff;
+}
+h1, h2, h3, h4, h5
+{
+    margin: 0 0 1em;
+    color: #F2683E;
+}
+h1
+{
+    font-size: 18px;
+    font-weight: normal;
+}
+p{margin: 0 0 1em;}
+a,
+a:link,
+a:visited{color: #F2683E;}
+a:hover,
+a:active{}
+a img{border: none;}
+form{margin: 0;}
+fieldset{padding: 0;}
+hr
+{
+    height: 1px;
+    border: none;
+    color: #999;
+    background-color: #999;
+}
+
+/* ~~~ === POSITIONG SELECTORS ======================================= ~~~ */
+#wrapper
+{
+    position: relative;
+    width: 773px;
+    height: 474px;
+}
+
+#content
+{
+    float: left;
+    display: inline;
+    width: 541px;
+    height: 341px;
+    margin: 30px 0 0 8px;
+    padding: 22px;
+}

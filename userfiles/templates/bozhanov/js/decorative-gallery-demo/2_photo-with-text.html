@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demo | Photo With Text</title>
+<style type="text/css">
+body {
+	margin: 0 auto;
+	padding: 0;
+	width: 607px;
+	font: 70%/140% Arial, Helvetica, sans-serif;
+}
+h1 {
+	background: #fdcd07;
+	margin: 20px 0 10px;
+	padding: 4px;
+	text-align: center;
+	color: #801d03;
+	font: 310%/100% Garamond, Georgia, serif;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+h1 em {
+	border: dashed 1px #e3792c;
+	display: block;
+	padding: 10px 0;
+	font-style: normal;
+}
+.credits {
+	width: 280px;
+	margin: 0 auto 20px;
+	text-align: center;
+	border-bottom: solid 1px #ccc;
+	padding: 0 0 8px 0;
+	font: 130%/110% Garamond, Georgia, serif;
+}
+.credits em {
+	color: #999;
+}
+.credits a {
+	color: #333;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+.credits a:hover {
+	text-decoration: underline;
+}
+img {
+	border: none;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.gallery {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.gallery li {
+	padding: 10px;
+	margin: 0;
+	float: left;
+	position: relative;
+	width: 180px;
+	height: 130px;
+}
+.gallery li:hover img {
+	border-color: #000;
+}
+.gallery img {
+	background: #fff;
+	border: solid 1px #888;
+	padding: 5px;
+}
+.gallery em {
+	background: #fff url(images/grey-gradient.gif) repeat-y;
+	color: #000;
+	font-style: normal;
+	padding: 2px 10px;
+	display: block;
+	position: absolute;
+	top: 110px;
+	left: 9px;
+	border: 1px solid #999;
+	border-left-color: #888;
+}
+.gallery a {
+	text-decoration: none;
+}
+.gallery a:hover em {
+	background: #ffdb01 url(images/orange-gradient.gif) repeat-y;
+	border-color: #c25b08;
+}
+</style>
+</head>
+
+<body>
+<h1><em>Photo With Text</em></h1>
+<p class="credits"><em>by:</em> <a href="http://www.webdesignerwall.com">Web Designer Wall</a></p>
+
+<ul class="gallery">
+	<li><a href="#"><em>Abstract</em><img src="images/1.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Life</em><img src="images/2.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Virus</em><img src="images/3.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Butterfly</em><img src="images/5.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Flow</em><img src="images/9.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Nature</em><img src="images/14.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Cassie</em><img src="images/6.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>DJ</em><img src="images/7.jpg" alt="image" /></a></li>
+	<li><a href="#"><em>Car</em><img src="images/10.jpg" alt="image" /></a></li>
+</ul>
+</body>
+</html>

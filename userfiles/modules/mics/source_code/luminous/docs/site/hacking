@@ -1,0 +1,117 @@
+= Hacking =
+
+\contents 2
+
+== Intro ==
+
+If you're interested in modifying Luminous to work a bit differently or do something new (or if you want to fix a bug), you're in the right place.
+
+Firstly you'll need a local copy of Luminous to work on. You'll want to get the most recent development version from the [https://github.com/markwatkinson/luminous Git repository]:
+
+  `git clone git://github.com/markwatkinson/luminous.git`
+
+*note*: if you're planning to contribute your changes to Luminous, you'll probably want to fork the project on GitHub. You can do this by [https://github.com/markwatkinson/luminous visiting the repository page] and pressing 'fork' (you will need to be logged in first).
+
+The rest of this page should provide you with guidelines on how various features work, and an overview of the general process.
+
+
+== Specific details on common additions ==
+  * Adding highlighting support for a new language: [[Writing-a-language-scanner]]
+  * Add a new output format: [[Writing-a-formatter]]
+
+
+== How stuff works ==
+
+Highlighting a string of source code is a fairly long winded process which goes something like this:
+
+  # User API receives some source code and a language name (or possibly a scanner instance)
+  # User API looks up a relevant scanner from the language name (if it wasn't provided one)
+  # User API looks at the settings, scanner, and source code to generate a unique cache ID, and asks the cache module to have a look at it
+  # If it is cached, the cache returns it and we return the fully formatted, highlighted source code (break)
+  # If it's not cached, we pass the source code into the scanner and tell it to work its magic
+  # The scanner returns an XML string which we then pass into the relevant formatter
+  # The formatter returns a string of fully formatted, highlighted code, which we return.
+
+From this we can see the main separate elements of Luminous are:
+  # The user API 
+  # The cache
+  # The scanners (there is one of these for each language highlighting language support), and
+  # The formatters
+
+The language scanners are stored under languages/, while the rest of the source is under src/. The scanning infrastructure is under src/core/ and formatters are under src/formatters/.
+
+
+== Testing ==
+
+Luminous probably isn't as test-oriented as it should be, but it still has a fairly extensive test database that you should make use of if you change anything. The testing directory is 'tests/' in the git repository (this is not present in packaged versions).
+
+There is a useful paste-interface (tests/interface.php) which can be accessed through a browser if you have a locally running PHP server, which you can use to quickly paste some code and see how it gets highlighted.
+
+Most other testing scripts are command line PHP scripts, so you will at least need a command line PHP environment (on Ubuntu this is as simple as apt-get install php5-cli).
+
+The important tests are most easily invoked from the runtests.py Python script:
+
+{{{lang=plain
+$ python runtests.py --help
+ Usage: runtests.py [OPTIONS]
+Valid options:
+  --<test>       where test may be: fuzz, regression, unit
+
+  --quiet        Only print failures and warnings
+}}}
+
+=== Unit tests ===
+
+Unit tests perform basic low level testing of various modules' APIs. If you plan to change a particular function/method, you should ensure it is covered by the unit test (if not, create one).
+
+=== Regression tests ===
+
+The regressions test comprises a large amount of real and contrived source code for most languages. Each source is paired with a file containing XML highlighting information for that file. The regression test consists of checking the highlighting of each file matches what's stored in the expected file. The expected result is not necessarily 'correct', it just represents a snapshot of what Luminous was doing when the file was generated, the point is to make it difficult for changes in highlighting to go undetected.
+
+This should be run after making any changes to a scanner to see whether or not your change has had any unexpected results. If anything does change, a diff file between the expected and real output is generated.
+
+See test/regression/README for more information.
+
+=== Fuzz tests ===
+
+The idea of a fuzz test is to throw random(ish) data at a system to ascertain how resilient it is. Fuzz tests are important to Luminous because we don't want it to do something strange when it gets some invalid source code.
+
+The fuzz tests checks two things:
+  # That Luminous actually halts (i.e. does not go into an infinite loop) in a given amount of time
+  # That when stripped of the highlighting data, the output source string is equal to the input source string, i.e. that Luminous does not add or remove any extra data.
+
+There are two fuzz tests. One is fully random, and one distorts real source code from the regression database. Generally speaking, they should both be used but the latter is much faster and has so far been a lot more effective at identifying errors.
+
+
+== Contributing your additions ==
+
+If you plan to write some extra stuff for Luminous and want to see it included, the easiest way to go about this is follow the process on GitHub.
+
+Luminous is stored in a git repository on GitHub. If you've never used GitHub, it allows you to 'fork' a repository (which means to create an independent copy of it, which you can work on), and then request that I 'pull' your repository and merge your changes into the Luminous repository.
+
+GitHub has plenty of excellent [http://help.github.com/fork-a-repo/ documentation on how to do this].
+
+
+
+
+=== Guidelines for inclusion ===
+
+  * *Tests*:
+    * Your code should pass existing tests unless they are wrong (it's okay to regenerate regression tests if you've improved them).
+    * If you add functionality, add a unit test for your new function(s).
+    * If you fix a problem in a language scanner, add in a test case in the regression database.
+    * If you fix something outside of a language scanner, add a unit test.
+  * *Scanners*:
+    * New scanners should be high quality before they're included: they should highlight correctly as many cases as practically possible. This aim starts to become unrealistic in some modern dynamic languages (like Ruby) which require actual execution to fully evaluate their lexical structure, but as a general guideline you should correctly detect/highlight things like:
+      * String escape sequences
+      * Nested comments
+      * Nested string interpolation 
+      * Heredocs and other dynamically delimited types
+    * Try to avoid reliance on easily breakable regular expressions:
+      * Using recursive regular expressions is pretty much banned because they're too fragile, see LuminousScanner::nestable_token() to help you.
+      * Try to write your patterns using possessive modifiers where possible to avoid backtracking issues.
+  * *General*:
+    * Your code should be compatible with PHP 5.2, which means no closures or namespaces or gotos.
+    * Try not to clutter the global namespace. OO is good, and for procedural stuff we mostly use static class functions, so the class acts as a kind of namespace.
+    * Functions/variables which are exposed publicly to other modules should be documented with Doxygen (specify their aim, their parameters and their return value, and any special cases)
+    * Follow the general naming and syntactic conventions, e.g. $a_variable not $aVariable.

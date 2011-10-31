@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demo | Cork Board Gallery (IE6)</title>
+
+<style type="text/css">
+body {
+	margin: 20px auto;
+	padding: 10px 0;
+	width: 700px;
+	font: 70%/140% Arial, Helvetica, sans-serif;
+	background: url(images/cork-bg.png);
+}
+h1 {
+	font: bold 480%/100% "Courier New", Courier, monospace;
+	letter-spacing: -3px;
+	margin: 0;
+	padding: 0 0 4px 15px;
+	background: #d4e093;
+	border-bottom: solid 1px #a36e36;
+	color: #543a1b;
+	width: 83%;
+}
+.credits {
+	margin: -5px 0 3.5em;
+	padding-left: 15px;
+	font: 130%/110% "Courier New", Courier, monospace;
+}
+.credits a {
+	color: #000;
+	background: #c3e4e2;
+	border-bottom: solid 1px #a36e36;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 0 .5em;
+	font-size: 110%;
+}
+.credits em {
+	color: #fff;
+	background: #000;
+	border-bottom: solid 1px #a36e36;
+	padding: 0 .3em;
+}
+img {
+	border: none;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.gallery {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.gallery li {
+	width: 186px;
+	height: 153px;
+	margin: 20px 10px 5px;
+	float: left;
+	position: relative;
+}
+.gallery .bg {
+	background: url(images/polaroid.png) no-repeat;
+	width: 186px;
+	height: 153px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+.gallery span {
+	background: url(images/tape.png) no-repeat;
+	width: 77px;
+	height: 27px;
+	display: block;
+	position: absolute;
+	left: 54px;
+	top: -12px;
+	z-index: 4;
+}
+.gallery img {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	z-index: 2;
+}
+.gallery em {
+	display: block;
+	padding: 4px 0 0;
+	text-align: center;
+	font: italic 100% Georgia, "Times New Roman", Times, serif;
+	color: #333;
+	width: 186px;
+	position: absolute;
+	bottom: 8px;
+	right: 0;
+	z-index: 3;
+}
+</style>
+
+<!--[if lt IE 7]>
+<style type="text/css">
+	.gallery span, .gallery .bg { behavior: url(iepngfix.htc) }
+</style>
+<![endif]-->
+
+</head>
+
+<body>
+<h1>Cork Board Gallery (IE6)</h1>
+<p class="credits"><em>by:</em> <a href="http://www.webdesignerwall.com">Web Designer Wall</a></p>
+
+<ul class="gallery">
+	<li><a href="#"><span></span><img src="images/1.jpg" alt="image" /></a><em>Abstract</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/2.jpg" alt="image" /></a><em>Party</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/3.jpg" alt="image" /></a><em>Virus</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/5.jpg" alt="image" /></a><em>Butterfly</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/9.jpg" alt="image" /></a><em>Flow</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/14.jpg" alt="image" /></a><em>Nature</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/6.jpg" alt="image" /></a><em>Cassie</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/7.jpg" alt="image" /></a><em>DJ</em> <div class="bg"></div></li>
+	<li><a href="#"><span></span><img src="images/10.jpg" alt="image" /></a><em>Car</em> <div class="bg"></div></li>
+</ul>
+</body>
+</html>

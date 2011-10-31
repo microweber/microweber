@@ -1,0 +1,61 @@
+/*::::: PIROBOX RULES::::::::*/
+.piro_overlay { position: fixed; _position: absolute; top: 0; left: 0; width: 100%; height: 100%; background:#fff; display: none; z-index:99997; }
+
+.loading span{position:absolute;top:50%;left:50%;margin-top:-15px;margin-left:-15px;width:30px;height:30px;display:block;z-index:100008; background:none }
+.loading span span{position:absolute; display:block; width:30px;height:30px; z-index:100009;background: url(ajax-loader.gif) center center no-repeat!important;background: url(ajax-loader.gif) center center no-repeat;}
+
+.caption{position:absolute;bottom:0;left:0;margin:0;display:block; padding:0px; cursor:text; background:#222;}
+.piro_nav{position:absolute;bottom:0;left:50%;margin:0;display:block; padding:0; background:none;}
+.caption p{ display:block; margin:0;padding:4px 28px 4px 38px; text-align:center; font-weight:normal; background:black; color:white; font-size:12px;}
+
+a.piro_close{position:absolute;top:20px;right:20px;height:35px;width:35px;background:url(close_btn.png) no-repeat;cursor:pointer;z-index:100006;}
+a:hover.piro_close{background:url(close_btn_h.png) no-repeat;}
+
+a.piro_next{position:absolute;top:50%;width:35px; height:35px;right:20px;text-indent:-999em;outline:none; display:block; margin:-18px 0 0 0;background:url(next.png) center right no-repeat; border:none; cursor:pointer;z-index:1000000001}
+a:hover.piro_next{background:url(next_h.png) center right no-repeat;}
+
+a.piro_prev{position:absolute;top:50%;width:35px; height:35px;left:20px; text-indent:-999em; outline:none;display:block;margin:-18px 0 0 0;background: url(prev.png) center left no-repeat;border:none; cursor:pointer; z-index:1000000000}
+a:hover.piro_prev{background:url(prev_h.png) center left no-repeat;}
+
+
+
+.pirobox_content {position:absolute; top:50%; left: 50%; padding:0; width: 800px; height: 600px; margin:-300px 0 0 -400px; display:block; z-index:99998;font-family:Trebuchet MS,Arial;}
+.pirobox_content table,tbody,tr,th,td{margin:0;padding:0;border:none;}
+.pirobox_content img{ margin:0; padding:0; border:none;}
+
+.t_l{background:url(t_l.png) no-repeat; width:20px; height:20px;}
+.t_r{background: url(t_r.png) no-repeat; width:20px; height:20px;}
+.t_c{height:20px; background:url(t_c.png) repeat-x;}
+
+.c_l{width:20px; background: url(c_l.png) repeat-y;}
+.c_c{background:white; margin:0; padding:0;}
+.c_c div{width:760px; height:560px; margin:0; padding:0 0 0px 0;}
+.c_r{width:20px; background: url(c_r.png) repeat-y;}
+
+.b_c{height:20px; background:url(b_c.png) repeat-x;}
+.b_l{background:url(b_l.png) no-repeat; width:20px; height:20px;}
+.b_r{background:url(b_r.png) no-repeat; width:20px; height:20px;}
+
+/*.t_l{background:#000; width:10px; height:10px;}
+.t_r{background:#000; width:10px; height:10px;}
+.t_c{height:10px; background:#000;}
+
+.c_l{width:10px; background:#000;}
+.c_c{background:#000; margin:0; padding:0;}
+.c_c div{width:380px; height:180px; margin:0; padding:0;}
+.c_r{width:10px; background: #000;}
+
+.b_c{height:10px; background:#000;}
+.b_l{background:#000; width:10px; height:10px;}
+.b_r{background:#000; width:10px; height:10px;}
+*/
+.box_img{ position:absolute; z-index:99995; background: url(img_bg.png);width: 100%; top:30px; left:30px; height: 100%; padding:0;}
+.err_mess{ position:absolute;bottom:20px; color:white; padding:0; margin:0 0 0 20px; display:block;}
+.err_mess a{color:red; font-weight:700;}
+.number{position:absolute;margin-left:3px;height:18px;width:30px; padding:3px;left:0;color:#666;bottom:1px; font-size:11px;}
+a.link_to {position:absolute;margin-right:6px;height:20px;width:20px;right:0;color:#999;bottom:3px; background:url(link_out.png) no-repeat; text-indent:-999em;}
+a:hover.link_to { background:url(link_out_h.png) no-repeat;}
+a.play{position:absolute;top:20px!important;top:20px;left:20px!important;left:20px;width:40px; height:40px; margin:0; outline:none; display:block;background:url(play.png) no-repeat; text-indent:-999em; border:none;cursor:pointer;}
+a:hover.play{background:url(play_h.png) no-repeat;}
+a.stop{position:absolute;top:20px!important;top:20px;left:20px!important;left:20px;;width:40px; height:40px; margin:0; outline:none; display:block;background:url(pause.png) no-repeat;text-indent:-999em; border:none;cursor:pointer;}
+a:hover.stop{background:url(pause_h.png) no-repeat;}

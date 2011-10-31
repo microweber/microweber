@@ -1,0 +1,2073 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext.CycleButton-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext.CycleButton-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext.CycleButton-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                            <a class="inner-link" href="#Ext.CycleButton-configs"><img src="../resources/images/default/s.gif" class="item-icon icon-config">Config Options</a>
+                        <a class="bookmark" href="../docs/?class=Ext.CycleButton"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <div class="inheritance res-block">
+<pre class="res-block-inner"><a ext:cls="Ext.util.Observable" ext:member="" href="output/Ext.util.Observable.html">Observable</a>
+  <img src="resources/elbow-end.gif"/><a ext:cls="Ext.Component" ext:member="" href="output/Ext.Component.html">Component</a>
+    <img src="resources/elbow-end.gif"/><a ext:cls="Ext.Button" ext:member="" href="output/Ext.Button.html">Button</a>
+      <img src="resources/elbow-end.gif"/><a ext:cls="Ext.SplitButton" ext:member="" href="output/Ext.SplitButton.html">SplitButton</a>
+        <img src="resources/elbow-end.gif"/>CycleButton</pre></div>
+                <h1>Class Ext.CycleButton</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">CycleButton.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">CycleButton</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.SplitButton" ext:member="" href="output/Ext.SplitButton.html">SplitButton</a></td></tr>
+                    </table>
+        <div class="description">
+            A specialized SplitButton that contains a menu of <a ext:cls="Ext.menu.CheckItem" href="output/Ext.menu.CheckItem.html">Ext.menu.CheckItem</a> elements.  The button automatically
+cycles through each menu item on click, raising the button's <a ext:cls="Ext.CycleButton" ext:member="change" href="output/Ext.CycleButton.html#change">change</a> event (or calling the button's
+<a ext:cls="Ext.CycleButton" ext:member="changeHandler" href="output/Ext.CycleButton.html#changeHandler">changeHandler</a> function, if supplied) for the active menu item. Clicking on the arrow section of the
+button displays the dropdown menu just like a normal SplitButton.  Example usage:
+<pre><code>var btn = <b>new</b> Ext.CycleButton({
+    showText: true,
+    prependText: <em>'View as '</em>,
+    items: [{
+        text:<em>'text only'</em>,
+        iconCls:<em>'view-text'</em>,
+        checked:true
+    },{
+        text:<em>'HTML'</em>,
+        iconCls:<em>'view-html'</em>
+    }],
+    changeHandler:<b>function</b>(btn, item){
+        Ext.Msg.alert(<em>'Change View'</em>, item.text);
+    }
+});</code></pre>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext.CycleButton-configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-allowDepress"></a>
+            <b>allowDepress</b> : Boolean            <div class="mdesc">
+                            False to not allow a pressed Button to be depressed (defaults to undefined). Only valid when <a ext:cls="Ext.Button" ext:member="enableToggle" href="output/Ext.Button.html#enableToggle">enableToggle</a> is true.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#allowDepress" href="output/Ext.Button.html#allowDepress">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-allowDomMove"></a>
+            <b>allowDomMove</b> : Boolean            <div class="mdesc">
+                            Whether the component can move the Dom node when rendering (defaults to true).                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#allowDomMove" href="output/Ext.Component.html#allowDomMove">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-applyTo"></a>
+            <b>applyTo</b> : Mixed            <div class="mdesc">
+                        <div class="short">The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document ...</div>
+            <div class="long">
+                The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document that specifies some structural markup for this component. When applyTo is used, constituent parts of the component can also be specified by id or CSS class name within the main element, and the component being created may attempt to create its subcomponents from that markup if applicable. Using this config, a call to render() is not required. If applyTo is specified, any value passed for <a ext:cls="Ext.Component" ext:member="renderTo" href="output/Ext.Component.html#renderTo">renderTo</a> will be ignored and the target element's parent node will automatically be used as the component's container.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyTo" href="output/Ext.Component.html#applyTo">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-arrowHandler"></a>
+            <b>arrowHandler</b> : Function            <div class="mdesc">
+                            A function called when the arrow button is clicked (can be used instead of click event)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.SplitButton" ext:member="#arrowHandler" href="output/Ext.SplitButton.html#arrowHandler">SplitButton</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-arrowTooltip"></a>
+            <b>arrowTooltip</b> : String            <div class="mdesc">
+                            The title attribute of the arrow                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.SplitButton" ext:member="#arrowTooltip" href="output/Ext.SplitButton.html#arrowTooltip">SplitButton</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-autoShow"></a>
+            <b>autoShow</b> : Boolean            <div class="mdesc">
+                        <div class="short">True if the component should check for hidden classes (e.g. 'x-hidden' or 'x-hide-display') and remove them on render...</div>
+            <div class="long">
+                True if the component should check for hidden classes (e.g. 'x-hidden' or 'x-hide-display') and remove them on render (defaults to false).            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#autoShow" href="output/Ext.Component.html#autoShow">Component</a></td>
+    </tr>
+        <tr class="config-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-changeHandler"></a>
+            <b>changeHandler</b> : Function            <div class="mdesc">
+                        <div class="short">A callback function that will be invoked each time the active menu item in the button's menu has changed. If this cal...</div>
+            <div class="long">
+                A callback function that will be invoked each time the active menu item in the button's menu has changed. If this callback is not supplied, the SplitButton will instead fire the <a ext:cls="Ext.CycleButton" ext:member="change" href="output/Ext.CycleButton.html#change">change</a> event on active item change. The changeHandler function will be called with the following argument list: (SplitButton this, Ext.menu.CheckItem item)            </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-clickEvent"></a>
+            <b>clickEvent</b> : String            <div class="mdesc">
+                            The type of event to map to the button's event handler (defaults to 'click')                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#clickEvent" href="output/Ext.Button.html#clickEvent">Button</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-cls"></a>
+            <b>cls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element (defaults to ''). This can be useful for a...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element (defaults to ''). This can be useful for adding customized styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#cls" href="output/Ext.Component.html#cls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-ctCls"></a>
+            <b>ctCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's container (defaults to ''). This can be useful for...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's container (defaults to ''). This can be useful for adding customized styles to the container or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#ctCls" href="output/Ext.Component.html#ctCls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-disabled"></a>
+            <b>disabled</b> : Boolean            <div class="mdesc">
+                            Render this component disabled (default is false).                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabled" href="output/Ext.Component.html#disabled">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-disabledClass"></a>
+            <b>disabledClass</b> : String            <div class="mdesc">
+                            CSS class added to the component when it is disabled (defaults to "x-item-disabled").                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabledClass" href="output/Ext.Component.html#disabledClass">Component</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-enableToggle"></a>
+            <b>enableToggle</b> : Boolean            <div class="mdesc">
+                            True to enable pressed/not pressed toggling (defaults to false)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#enableToggle" href="output/Ext.Button.html#enableToggle">Button</a></td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-forceIcon"></a>
+            <b>forceIcon</b> : String            <div class="mdesc">
+                        <div class="short">A css class which sets an image to be used as the static icon for this button. This icon will always be displayed reg...</div>
+            <div class="long">
+                A css class which sets an image to be used as the static icon for this button. This icon will always be displayed regardless of which item is selected in the dropdown list. This overrides the default behavior of changing the button's icon to match the selected item's icon on change.            </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-handleMouseEvents"></a>
+            <b>handleMouseEvents</b> : Boolean            <div class="mdesc">
+                            False to disable visual cues on mouseover, mouseout and mousedown (defaults to true)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#handleMouseEvents" href="output/Ext.Button.html#handleMouseEvents">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-handler"></a>
+            <b>handler</b> : Function            <div class="mdesc">
+                            A function called when the button is clicked (can be used instead of click event)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#handler" href="output/Ext.Button.html#handler">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hidden"></a>
+            <b>hidden</b> : Boolean            <div class="mdesc">
+                            Render this component hidden (default is false).                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#hidden" href="output/Ext.Component.html#hidden">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hideMode"></a>
+            <b>hideMode</b> : String            <div class="mdesc">
+                        <div class="short">How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset posi...</div>
+            <div class="long">
+                How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset position) and "display" (css display) - defaults to "display".            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideMode" href="output/Ext.Component.html#hideMode">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hideParent"></a>
+            <b>hideParent</b> : Boolean            <div class="mdesc">
+                        <div class="short">True to hide and show the component's container when hide/show is called on the component, false to hide and show the...</div>
+            <div class="long">
+                True to hide and show the component's container when hide/show is called on the component, false to hide and show the component itself (defaults to false). For example, this can be used as a shortcut for a hide button on a window by setting hide:true on the button when adding it to its parent container.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideParent" href="output/Ext.Component.html#hideParent">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-icon"></a>
+            <b>icon</b> : String            <div class="mdesc">
+                        <div class="short">The path to an image to display in the button (the image will be set as the background-image CSS property of the butt...</div>
+            <div class="long">
+                The path to an image to display in the button (the image will be set as the background-image CSS property of the button by default, so if you want a mixed icon/text button, set cls:"x-btn-text-icon")            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#icon" href="output/Ext.Button.html#icon">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-iconCls"></a>
+            <b>iconCls</b> : String            <div class="mdesc">
+                            A css class which sets a background image to be used as the icon for this button                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#iconCls" href="output/Ext.Button.html#iconCls">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-id"></a>
+            <b>id</b> : String            <div class="mdesc">
+                            The unique id of this component (defaults to an auto-assigned id).                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#id" href="output/Ext.Component.html#id">Component</a></td>
+    </tr>
+        <tr class="config-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-items"></a>
+            <b>items</b> : Array            <div class="mdesc">
+                        <div class="short">An array of Ext.menu.CheckItem config objects to be used when creating the button's menu items (e.g., {text:'Foo', ic...</div>
+            <div class="long">
+                An array of <a ext:cls="Ext.menu.CheckItem" href="output/Ext.menu.CheckItem.html">Ext.menu.CheckItem</a> <b>config</b> objects to be used when creating the button's menu items (e.g., {text:'Foo', iconCls:'foo-icon'})            </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-listeners"></a>
+            <b>listeners</b> : Object            <div class="mdesc">
+                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+            <div class="long">
+                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menu"></a>
+            <b>menu</b> : Mixed            <div class="mdesc">
+                        <div class="short">Standard menu attribute consisting of a reference to a menu object, a menu id or a menu config blob (defaults to unde...</div>
+            <div class="long">
+                Standard menu attribute consisting of a reference to a menu object, a menu id or a menu config blob (defaults to undefined).            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#menu" href="output/Ext.Button.html#menu">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menuAlign"></a>
+            <b>menuAlign</b> : String            <div class="mdesc">
+                            The position to align the menu to (see <a ext:cls="Ext.Element" ext:member="alignTo" href="output/Ext.Element.html#alignTo">Ext.Element.alignTo</a> for more details, defaults to 'tl-bl?').                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#menuAlign" href="output/Ext.Button.html#menuAlign">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-minWidth"></a>
+            <b>minWidth</b> : Number            <div class="mdesc">
+                            The minimum width for this button (used to give a set of buttons a common width)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#minWidth" href="output/Ext.Button.html#minWidth">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-overCls"></a>
+            <b>overCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and removed when the mouse moves out. (defaults to ''). This can be useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#overCls" href="output/Ext.Component.html#overCls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-plugins"></a>
+            <b>plugins</b> : Object/Array            <div class="mdesc">
+                        <div class="short">An object or array of objects that will provide custom functionality for this component. The only requirement for a v...</div>
+            <div class="long">
+                An object or array of objects that will provide custom functionality for this component. The only requirement for a valid plugin is that it contain an init method that accepts a reference of type Ext.Component. When a component is created, if any plugins are available, the component will call the init method on each plugin, passing a reference to itself. Each plugin can then call methods or respond to events on the component as needed to provide its functionality.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#plugins" href="output/Ext.Component.html#plugins">Component</a></td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-prependText"></a>
+            <b>prependText</b> : String            <div class="mdesc">
+                        <div class="short">A static string to prepend before the active item's text when displayed as the button's text (only applies when showT...</div>
+            <div class="long">
+                A static string to prepend before the active item's text when displayed as the button's text (only applies when showText = true, defaults to '')            </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-pressed"></a>
+            <b>pressed</b> : Boolean            <div class="mdesc">
+                            True to start pressed (only if enableToggle = true)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#pressed" href="output/Ext.Button.html#pressed">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-renderTo"></a>
+            <b>renderTo</b> : Mixed            <div class="mdesc">
+                        <div class="short">The id of the node, a DOM node or an existing Element that will be the container to render this component into. Using...</div>
+            <div class="long">
+                The id of the node, a DOM node or an existing Element that will be the container to render this component into. Using this config, a call to render() is not required.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#renderTo" href="output/Ext.Component.html#renderTo">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-repeat"></a>
+            <b>repeat</b> : Boolean/Object            <div class="mdesc">
+                        <div class="short">True to repeat fire the click event while the mouse is down. This can also be an Ext.util.ClickRepeater config object...</div>
+            <div class="long">
+                True to repeat fire the click event while the mouse is down. This can also be an <a ext:cls="Ext.util.ClickRepeater" href="output/Ext.util.ClickRepeater.html">Ext.util.ClickRepeater</a> config object (defaults to false).            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#repeat" href="output/Ext.Button.html#repeat">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-scope"></a>
+            <b>scope</b> : Object            <div class="mdesc">
+                            The scope of the handler                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#scope" href="output/Ext.Button.html#scope">Button</a></td>
+    </tr>
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-showText"></a>
+            <b>showText</b> : Boolean            <div class="mdesc">
+                            True to display the active item's text as the button text (defaults to false)                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-stateEvents"></a>
+            <b>stateEvents</b> : Array            <div class="mdesc">
+                        <div class="short">An array of events that, when fired, should trigger this component to save its state (defaults to none). These can be...</div>
+            <div class="long">
+                An array of events that, when fired, should trigger this component to save its state (defaults to none). These can be any types of events supported by this component, including browser or custom events (e.g., ['click', 'customerchange']). <p>See <a ext:cls="Ext.Component" ext:member="stateful" href="output/Ext.Component.html#stateful">stateful</a> for an explanation of saving and restoring Component state.</p>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateEvents" href="output/Ext.Component.html#stateEvents">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-stateId"></a>
+            <b>stateId</b> : String            <div class="mdesc">
+                        <div class="short">The unique id for this component to use for state management purposes (defaults to the component id). See stateful fo...</div>
+            <div class="long">
+                The unique id for this component to use for state management purposes (defaults to the component id). <p>See <a ext:cls="Ext.Component" ext:member="stateful" href="output/Ext.Component.html#stateful">stateful</a> for an explanation of saving and restoring Component state.</p>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateId" href="output/Ext.Component.html#stateId">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-stateful"></a>
+            <b>stateful</b> : Boolean            <div class="mdesc">
+                        <div class="short">A flag which causes the Component to attempt to restore the state of internal properties from a saved state on startu...</div>
+            <div class="long">
+                A flag which causes the Component to attempt to restore the state of internal properties from a saved state on startup.<p> For state saving to work, the state manager's provider must have been set to an implementation of <a ext:cls="Ext.state.Provider" href="output/Ext.state.Provider.html">Ext.state.Provider</a> which overrides the <a ext:cls="Ext.state.Provider" ext:member="set" href="output/Ext.state.Provider.html#set">set</a> and <a ext:cls="Ext.state.Provider" ext:member="get" href="output/Ext.state.Provider.html#get">get</a> methods to save and recall name/value pairs. A built-in implementation, <a ext:cls="Ext.state.CookieProvider" href="output/Ext.state.CookieProvider.html">Ext.state.CookieProvider</a> is available.</p> <p>To set the state provider for the current page:</p> <pre><code>Ext.state.Manager.setProvider(<b>new</b> Ext.state.CookieProvider());</code></pre> <p>Components attempt to save state when one of the events listed in the <a ext:cls="Ext.Component" ext:member="stateEvents" href="output/Ext.Component.html#stateEvents">stateEvents</a> configuration fires.</p> <p>You can perform extra processing on state save and restore by attaching handlers to the <a ext:cls="Ext.Component" ext:member="beforestaterestore" href="output/Ext.Component.html#beforestaterestore">beforestaterestore</a>, <a ext:cls="staterestore" href="output/staterestore.html">staterestore</a>, <a ext:cls="beforestatesave" href="output/beforestatesave.html">beforestatesave</a> and <a ext:cls="statesave" href="output/statesave.html">statesave</a> events</p>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateful" href="output/Ext.Component.html#stateful">Component</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-style"></a>
+            <b>style</b> : String            <div class="mdesc">
+                        <div class="short">A custom style specification to be applied to this component's Element. Should be a valid argument to Ext.Element.app...</div>
+            <div class="long">
+                A custom style specification to be applied to this component's Element. Should be a valid argument to <a ext:cls="Ext.Element" ext:member="applyStyles" href="output/Ext.Element.html#applyStyles">Ext.Element.applyStyles</a>.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#style" href="output/Ext.Component.html#style">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-tabIndex"></a>
+            <b>tabIndex</b> : Number            <div class="mdesc">
+                            Set a DOM tabIndex for this button (defaults to undefined)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#tabIndex" href="output/Ext.Button.html#tabIndex">Button</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-template"></a>
+            <b>template</b> : Ext.Template            <div class="mdesc">
+                        <div class="short">(Optional) An Ext.Template with which to create the Button's main element. This Template must contain numeric substit...</div>
+            <div class="long">
+                (Optional) An <a ext:cls="Ext.Template" href="output/Ext.Template.html">Ext.Template</a> with which to create the Button's main element. This Template must contain numeric substitution parameter 0 if it is to display the text property. Changing the template could require code modifications if required elements (e.g. a button) aren't present.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#template" href="output/Ext.Button.html#template">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-text"></a>
+            <b>text</b> : String            <div class="mdesc">
+                            The button text                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#text" href="output/Ext.Button.html#text">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-toggleGroup"></a>
+            <b>toggleGroup</b> : String            <div class="mdesc">
+                            The group this toggle button is a member of (only 1 per group can be pressed, only applies if enableToggle = true)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#toggleGroup" href="output/Ext.Button.html#toggleGroup">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-toggleHandler"></a>
+            <b>toggleHandler</b> : Function            <div class="mdesc">
+                        <div class="short">Function called when a Button with enableToggle set to true is clicked. Two arguments are passed: button : Ext.Button...</div>
+            <div class="long">
+                Function called when a Button with <a ext:cls="Ext.Button" ext:member="enableToggle" href="output/Ext.Button.html#enableToggle">enableToggle</a> set to true is clicked. Two arguments are passed:<ul class="mdetail-params"> <li><b>button</b> : Ext.Button<div class="sub-desc">this Button object</div></li> <li><b>state</b> : Boolean<div class="sub-desc">The next state if the Button, true means pressed.</div></li> </ul>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#toggleHandler" href="output/Ext.Button.html#toggleHandler">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-tooltip"></a>
+            <b>tooltip</b> : String/Object            <div class="mdesc">
+                            The tooltip for the button - can be a string or QuickTips config object                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#tooltip" href="output/Ext.Button.html#tooltip">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-tooltipType"></a>
+            <b>tooltipType</b> : String            <div class="mdesc">
+                            The type of tooltip to use. Either "qtip" (default) for QuickTips or "title" for title attribute.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#tooltipType" href="output/Ext.Button.html#tooltipType">Button</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-type"></a>
+            <b>type</b> : String            <div class="mdesc">
+                            submit, reset or button - defaults to 'button'                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#type" href="output/Ext.Button.html#type">Button</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-xtype"></a>
+            <b>xtype</b> : String            <div class="mdesc">
+                        <div class="short">The registered xtype to create. This config option is not used when passing a config object into a constructor. This ...</div>
+            <div class="long">
+                The registered xtype to create. This config option is not used when passing a config object into a constructor. This config option is used only when lazy instantiation is being used, and a child item of a Container is being specified not as a fully instantiated Component, but as a <i>Component config object</i>. The xtype will be looked up at render time up to determine what type of child Component to create.<br><br> The predefined xtypes are listed <a ext:cls="Ext.Component" href="output/Ext.Component.html">here</a>. <br><br> If you subclass Components to create your own Components, you may register them using <a ext:cls="Ext.ComponentMgr" ext:member="registerType" href="output/Ext.ComponentMgr.html#registerType">Ext.ComponentMgr.registerType</a> in order to be able to take advantage of lazy instantiation and rendering.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#xtype" href="output/Ext.Component.html#xtype">Component</a></td>
+    </tr>
+            </table>
+                <a id="Ext.CycleButton-props"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="property-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-disabled"></a>
+            <b>disabled</b> : Boolean            <div class="mdesc">
+                            True if this component is disabled. Read-only.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabled" href="output/Ext.Component.html#disabled">Component</a></td>
+    </tr>
+        <tr class="property-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hidden"></a>
+            <b>hidden</b> : Boolean            <div class="mdesc">
+                            
+True if this component is hidden. Read-only.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#hidden" href="output/Ext.Component.html#hidden">Component</a></td>
+    </tr>
+        <tr class="property-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-initialConfig"></a>
+            <b>initialConfig</b> : Object            <div class="mdesc">
+                            This Component's initial configuration specification. Read-only.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#initialConfig" href="output/Ext.Component.html#initialConfig">Component</a></td>
+    </tr>
+        <tr class="property-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-ownerCt"></a>
+            <b>ownerCt</b> : Ext.Container            <div class="mdesc">
+                        <div class="short">The component's owner Ext.Container (defaults to undefined, and is set automatically when
+the component is added to a...</div>
+            <div class="long">
+                The component's owner <a ext:cls="Ext.Container" href="output/Ext.Container.html">Ext.Container</a> (defaults to undefined, and is set automatically when
+the component is added to a container).  Read-only.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#ownerCt" href="output/Ext.Component.html#ownerCt">Component</a></td>
+    </tr>
+        <tr class="property-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-pressed"></a>
+            <b>pressed</b> : Boolean            <div class="mdesc">
+                            Read-only. True if this button is pressed (only if enableToggle = true)                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#pressed" href="output/Ext.Button.html#pressed">Button</a></td>
+    </tr>
+        <tr class="property-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-rendered"></a>
+            <b>rendered</b> : Boolean            <div class="mdesc">
+                            True if this component has been rendered. Read-only.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#rendered" href="output/Ext.Component.html#rendered">Component</a></td>
+    </tr>
+            </table>
+                <a id="Ext.CycleButton-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-CycleButton"></a>
+            <b>CycleButton</b>(&nbsp;<code>Object config</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Create a new split button</div>
+            <div class="long">
+                Create a new split button    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>config</code> : Object<div class="sub-desc">The config object</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code></code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-addClass"></a>
+            <b>addClass</b>(&nbsp;<code>string cls</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Adds a CSS class to the component's underlying element.</div>
+            <div class="long">
+                Adds a CSS class to the component's underlying element.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>cls</code> : string<div class="sub-desc">The CSS class name to add</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#addClass" href="output/Ext.Component.html#addClass">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-addEvents"></a>
+            <b>addEvents</b>(&nbsp;<code>Object object</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Used to define events on this Observable</div>
+            <div class="long">
+                Used to define events on this Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="output/Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-addListener"></a>
+            <b>addListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Appends an event handler to this component</div>
+            <div class="long">
+                Appends an event handler to this component    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
+<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
+<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+    single: true,
+    delay: 100,
+    forumId: 4
+});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<p>
+<pre><code>foo.on({
+    <em>'click'</em> : {
+        fn: <b>this</b>.onClick,
+        scope: <b>this</b>,
+        delay: 100
+    },
+    <em>'mouseover'</em> : {
+        fn: <b>this</b>.onMouseOver,
+        scope: <b>this</b>
+    },
+    <em>'mouseout'</em> : {
+        fn: <b>this</b>.onMouseOut,
+        scope: <b>this</b>
+    }
+});</code></pre>
+<p>
+Or a shorthand syntax:<br>
+<pre><code>foo.on({
+    <em>'click'</em> : <b>this</b>.onClick,
+    <em>'mouseover'</em> : <b>this</b>.onMouseOver,
+    <em>'mouseout'</em> : <b>this</b>.onMouseOut,
+     scope: <b>this</b>
+});</code></pre></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="output/Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-applyToMarkup"></a>
+            <b>applyToMarkup</b>(&nbsp;<code>String/HTMLElement el</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Apply this component to existing markup that is valid. With this function, no call to render() is required.</div>
+            <div class="long">
+                Apply this component to existing markup that is valid. With this function, no call to render() is required.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyToMarkup" href="output/Ext.Component.html#applyToMarkup">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-cloneConfig"></a>
+            <b>cloneConfig</b>(&nbsp;<code>Object overrides</code>&nbsp;) : Ext.Component            <div class="mdesc">
+                        <div class="short">Clone the current component using the original config values passed into this instance by default.</div>
+            <div class="long">
+                Clone the current component using the original config values passed into this instance by default.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>overrides</code> : Object<div class="sub-desc">A new config containing any properties to override in the cloned version.
+An id property can be passed on this object, otherwise one will be generated to avoid duplicates.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">clone The cloned copy of this component</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#cloneConfig" href="output/Ext.Component.html#cloneConfig">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-destroy"></a>
+            <b>destroy</b>() : void            <div class="mdesc">
+                        <div class="short">Destroys this component by purging any event listeners, removing the component's element from the DOM,
+removing the c...</div>
+            <div class="long">
+                Destroys this component by purging any event listeners, removing the component's element from the DOM,
+removing the component from its <a ext:cls="Ext.Container" href="output/Ext.Container.html">Ext.Container</a> (if applicable) and unregistering it from
+<a ext:cls="Ext.ComponentMgr" href="output/Ext.ComponentMgr.html">Ext.ComponentMgr</a>.  Destruction is generally handled automatically by the framework and this method
+should usually not need to be called directly.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#destroy" href="output/Ext.Component.html#destroy">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-disable"></a>
+            <b>disable</b>() : Ext.Component            <div class="mdesc">
+                        <div class="short">Disable this component.</div>
+            <div class="long">
+                Disable this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disable" href="output/Ext.Component.html#disable">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-enable"></a>
+            <b>enable</b>() : Ext.Component            <div class="mdesc">
+                        <div class="short">Enable this component.</div>
+            <div class="long">
+                Enable this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#enable" href="output/Ext.Component.html#enable">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-findParentBy"></a>
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
+true, the con...</div>
+            <div class="long">
+                Find a container above this component at any level by a custom function. If the passed function returns
+true, the container will be returned. The passed function is called with the arguments (container, this component).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentBy" href="output/Ext.Component.html#findParentBy">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-findParentByType"></a>
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by xtype or class</div>
+            <div class="long">
+                Find a container above this component at any level by xtype or class    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Container</code><div class="sub-desc">The found container</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentByType" href="output/Ext.Component.html#findParentByType">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-fireEvent"></a>
+            <b>fireEvent</b>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Fires the specified event with the passed parameters (minus the event name).</div>
+            <div class="long">
+                Fires the specified event with the passed parameters (minus the event name).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="output/Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-focus"></a>
+            <b>focus</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean selectText</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number delay</code>]</span>&nbsp;) : Ext.Component            <div class="mdesc">
+                        <div class="short">Try to focus this component.</div>
+            <div class="long">
+                Try to focus this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>selectText</code> : Boolean<div class="sub-desc">(optional) If applicable, true to also select the text in this component</div></li><li><code>delay</code> : Boolean/Number<div class="sub-desc">(optional) Delay the focus this number of milliseconds (true for 10 milliseconds)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#focus" href="output/Ext.Component.html#focus">Component</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getActiveItem"></a>
+            <b>getActiveItem</b>() : Ext.menu.CheckItem            <div class="mdesc">
+                        <div class="short">Gets the currently active menu item.</div>
+            <div class="long">
+                Gets the currently active menu item.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.menu.CheckItem</code><div class="sub-desc">The active item</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getEl"></a>
+            <b>getEl</b>() : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns the underlying <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.</div>
+            <div class="long">
+                Returns the underlying <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code><div class="sub-desc">The element</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#getEl" href="output/Ext.Component.html#getEl">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getId"></a>
+            <b>getId</b>() : String            <div class="mdesc">
+                        <div class="short">Returns the id of this component.</div>
+            <div class="long">
+                Returns the id of this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#getId" href="output/Ext.Component.html#getId">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getItemId"></a>
+            <b>getItemId</b>() : String            <div class="mdesc">
+                        <div class="short">Returns the item id of this component.</div>
+            <div class="long">
+                Returns the item id of this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#getItemId" href="output/Ext.Component.html#getItemId">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getText"></a>
+            <b>getText</b>() : String            <div class="mdesc">
+                        <div class="short">Gets the text for this button</div>
+            <div class="long">
+                Gets the text for this button    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code><div class="sub-desc">The button text</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#getText" href="output/Ext.Button.html#getText">Button</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getXType"></a>
+            <b>getXType</b>() : String            <div class="mdesc">
+                        <div class="short">Gets the xtype for this component as registered with Ext.ComponentMgr. For a list of all
+available xtypes, see the Ex...</div>
+            <div class="long">
+                Gets the xtype for this component as registered with <a ext:cls="Ext.ComponentMgr" href="output/Ext.ComponentMgr.html">Ext.ComponentMgr</a>. For a list of all
+available xtypes, see the <a ext:cls="Ext.Component" href="output/Ext.Component.html">Ext.Component</a> header. Example usage:
+<pre><code>var t = <b>new</b> Ext.form.TextField();
+alert(t.getXType());  // alerts <em>'textfield'</em></code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code><div class="sub-desc">The xtype</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXType" href="output/Ext.Component.html#getXType">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-getXTypes"></a>
+            <b>getXTypes</b>() : String            <div class="mdesc">
+                        <div class="short">Returns this Component's xtype hierarchy as a slash-delimited string. For a list of all
+available xtypes, see the Ext...</div>
+            <div class="long">
+                <p>Returns this Component's xtype hierarchy as a slash-delimited string. For a list of all
+available xtypes, see the <a ext:cls="Ext.Component" href="output/Ext.Component.html">Ext.Component</a> header.</p>
+<p><b>If using your own subclasses, be aware that a Component must register its own xtype
+to participate in determination of inherited xtypes.</b></p>
+<p>Example usage:</p>
+<pre><code>
+var t = new Ext.form.TextField();
+alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code><div class="sub-desc">The xtype hierarchy string</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXTypes" href="output/Ext.Component.html#getXTypes">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hasListener"></a>
+            <b>hasListener</b>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Checks to see if this object has any listeners for a specified event</div>
+            <div class="long">
+                Checks to see if this object has any listeners for a specified event    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="output/Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hasVisibleMenu"></a>
+            <b>hasVisibleMenu</b>() : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the button has a menu and it is visible</div>
+            <div class="long">
+                Returns true if the button has a menu and it is visible    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#hasVisibleMenu" href="output/Ext.Button.html#hasVisibleMenu">Button</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hide"></a>
+            <b>hide</b>() : Ext.Component            <div class="mdesc">
+                        <div class="short">Hide this component.</div>
+            <div class="long">
+                Hide this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#hide" href="output/Ext.Component.html#hide">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hideMenu"></a>
+            <b>hideMenu</b>() : void            <div class="mdesc">
+                        <div class="short">Hide this button's menu (if it has one)</div>
+            <div class="long">
+                Hide this button's menu (if it has one)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#hideMenu" href="output/Ext.Button.html#hideMenu">Button</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-initComponent"></a>
+            <b>initComponent</b>() : void            <div class="mdesc">
+                        <div class="short"></div>
+            <div class="long">
+                    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#initComponent" href="output/Ext.Button.html#initComponent">Button</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-isVisible"></a>
+            <b>isVisible</b>() : void            <div class="mdesc">
+                        <div class="short">Returns true if this component is visible.</div>
+            <div class="long">
+                Returns true if this component is visible.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#isVisible" href="output/Ext.Component.html#isVisible">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-isXType"></a>
+            <b>isXType</b>(&nbsp;<code>String xtype</code>, <span class="optional" title="Optional">[<code>Boolean shallow</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Tests whether or not this Component is of a specific xtype. This can test whether this Component is descended
+from th...</div>
+            <div class="long">
+                <p>Tests whether or not this Component is of a specific xtype. This can test whether this Component is descended
+from the xtype (default) or whether it is directly of the xtype specified (shallow = true).</p>
+<p><b>If using your own subclasses, be aware that a Component must register its own xtype
+to participate in determination of inherited xtypes.</b></p>
+<p>For a list of all available xtypes, see the <a ext:cls="Ext.Component" href="output/Ext.Component.html">Ext.Component</a> header.</p>
+<p>Example usage:</p>
+<pre><code>var t = <b>new</b> Ext.form.TextField();
+<b>var</b> isText = t.isXType(<em>'textfield'</em>);        <i>// true</i>
+<b>var</b> isBoxSubclass = t.isXType(<em>'box'</em>);       <i>// true, descended from BoxComponent</i>
+<b>var</b> isBoxInstance = t.isXType(<em>'box'</em>, true); // false, not a direct BoxComponent instance</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String<div class="sub-desc">The xtype to check for this Component</div></li><li><code>shallow</code> : Boolean<div class="sub-desc">(optional) False to check whether this Component is descended from the xtype (this is
+the default), or true to check whether this Component is directly of the specified xtype.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#isXType" href="output/Ext.Component.html#isXType">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-on"></a>
+            <b>on</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Appends an event handler to this element (shorthand for addListener)</div>
+            <div class="long">
+                Appends an event handler to this element (shorthand for addListener)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#on" href="output/Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-purgeListeners"></a>
+            <b>purgeListeners</b>() : void            <div class="mdesc">
+                        <div class="short">Removes all listeners for this object</div>
+            <div class="long">
+                Removes all listeners for this object    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from the specified Observable as if the events were fired by <tt><b>this</b></tt>.</div>
+            <div class="long">
+                Relays selected events from the specified Observable as if the events were fired by <tt><b>this</b></tt>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable whose events this object is to relay.</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-removeClass"></a>
+            <b>removeClass</b>(&nbsp;<code>string cls</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a CSS class from the component's underlying element.</div>
+            <div class="long">
+                Removes a CSS class from the component's underlying element.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>cls</code> : string<div class="sub-desc">The CSS class name to remove</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#removeClass" href="output/Ext.Component.html#removeClass">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-removeListener"></a>
+            <b>removeListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a listener</div>
+            <div class="long">
+                Removes a listener    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-render"></a>
+            <b>render</b>(&nbsp;<span class="optional" title="Optional">[<code>Element/HTMLElement/String container</code>]</span>, <span class="optional" title="Optional">[<code>String/Number position</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Render this Components into the passed HTML element.
+If you are using a Container object to house this Component, the...</div>
+            <div class="long">
+                <p>Render this Components into the passed HTML element.</p>
+<p><b>If you are using a <a ext:cls="Ext.Container" href="output/Ext.Container.html">Container</a> object to house this Component, then
+do not use the render method.</b></p>
+<p>A Container's child Components are rendered by that Container's
+<a ext:cls="Ext.Container" ext:member="layout" href="output/Ext.Container.html#layout">layout</a> manager when the Container is first rendered.</p>
+<p>Certain layout managers allow dynamic addition of child components. Those that do
+include <a ext:cls="Ext.layout.CardLayout" href="output/Ext.layout.CardLayout.html">Ext.layout.CardLayout</a>, <a ext:cls="Ext.layout.AnchorLayout" href="output/Ext.layout.AnchorLayout.html">Ext.layout.AnchorLayout</a>,
+<a ext:cls="Ext.layout.FormLayout" href="output/Ext.layout.FormLayout.html">Ext.layout.FormLayout</a>, <a ext:cls="Ext.layout.TableLayout" href="output/Ext.layout.TableLayout.html">Ext.layout.TableLayout</a>.</p>
+<p>If the Container is already rendered when a new child Component is added, you may need to call
+the Container's <a ext:cls="Ext.Container" ext:member="doLayout" href="output/Ext.Container.html#doLayout">doLayout</a> to refresh the view which causes any
+unrendered child Components to be rendered. This is required so that you can add multiple
+child components if needed while only refreshing the layout once.</p>
+<p>When creating complex UIs, it is important to remember that sizing and positioning
+of child items is the responsibility of the Container's <a ext:cls="Ext.Container" ext:member="layout" href="output/Ext.Container.html#layout">layout</a> manager.
+If you expect child items to be sized in response to user interactions, you must
+configure the Container with a layout manager which creates and manages the type of layout you
+have in mind.</p>
+<p><b>Omitting the Container's <a ext:cls="Ext.Container" ext:member="layout" href="output/Ext.Container.html#layout">layout</a> config means that a basic
+layout manager is used which does nothnig but render child components sequentially into the
+Container. No sizing or positioning will be performed in this situation.</b></p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>container</code> : Element/HTMLElement/String<div class="sub-desc">(optional) The element this Component should be
+rendered into. If it is being created from existing markup, this should be omitted.</div></li><li><code>position</code> : String/Number<div class="sub-desc">(optional) The element ID or DOM node index within the container <b>before</b>
+which this component will be inserted (defaults to appending to the end of the container)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#render" href="output/Ext.Component.html#render">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-resumeEvents"></a>
+            <b>resumeEvents</b>() : void            <div class="mdesc">
+                        <div class="short">Resume firing events. (see <a ext:cls="Ext.util.Observable" ext:member="suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">suspendEvents</a>)</div>
+            <div class="long">
+                Resume firing events. (see <a ext:cls="Ext.util.Observable" ext:member="suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">suspendEvents</a>)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setActiveItem"></a>
+            <b>setActiveItem</b>(&nbsp;<code>Ext.menu.CheckItem item</code>, <code>Boolean suppressEvent</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the button's active menu item.</div>
+            <div class="long">
+                Sets the button's active menu item.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>item</code> : Ext.menu.CheckItem<div class="sub-desc">The item to activate</div></li><li><code>suppressEvent</code> : Boolean<div class="sub-desc">True to prevent the button's change event from firing (defaults to false)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setArrowHandler"></a>
+            <b>setArrowHandler</b>(&nbsp;<code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets this button's arrow click handler.</div>
+            <div class="long">
+                Sets this button's arrow click handler.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>handler</code> : Function<div class="sub-desc">The function to call when the arrow is clicked</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) Scope for the function passed above</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.SplitButton" ext:member="#setArrowHandler" href="output/Ext.SplitButton.html#setArrowHandler">SplitButton</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setDisabled"></a>
+            <b>setDisabled</b>(&nbsp;<code>Boolean disabled</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Convenience function for setting disabled/enabled by boolean.</div>
+            <div class="long">
+                Convenience function for setting disabled/enabled by boolean.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>disabled</code> : Boolean<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#setDisabled" href="output/Ext.Component.html#setDisabled">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setHandler"></a>
+            <b>setHandler</b>(&nbsp;<code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Assigns this button's click handler</div>
+            <div class="long">
+                Assigns this button's click handler    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>handler</code> : Function<div class="sub-desc">The function to call when the button is clicked</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) Scope for the function passed in</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#setHandler" href="output/Ext.Button.html#setHandler">Button</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setIconClass"></a>
+            <b>setIconClass</b>(&nbsp;<code>String cls</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the CSS class that provides a background image to use as the button's icon.  This method also changes
+the value ...</div>
+            <div class="long">
+                Sets the CSS class that provides a background image to use as the button's icon.  This method also changes
+the value of the <a ext:cls="iconCls" href="output/iconCls.html">iconCls</a> config internally.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>cls</code> : String<div class="sub-desc">The CSS class providing the icon image</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#setIconClass" href="output/Ext.Button.html#setIconClass">Button</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setText"></a>
+            <b>setText</b>(&nbsp;<code>String text</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets this button's text</div>
+            <div class="long">
+                Sets this button's text    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>text</code> : String<div class="sub-desc">The button text</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#setText" href="output/Ext.Button.html#setText">Button</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-setVisible"></a>
+            <b>setVisible</b>(&nbsp;<code>Boolean visible</code>&nbsp;) : Ext.Component            <div class="mdesc">
+                        <div class="short">Convenience function to hide or show this component by boolean.</div>
+            <div class="long">
+                Convenience function to hide or show this component by boolean.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>visible</code> : Boolean<div class="sub-desc">True to show, false to hide</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#setVisible" href="output/Ext.Component.html#setVisible">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-show"></a>
+            <b>show</b>() : Ext.Component            <div class="mdesc">
+                        <div class="short">Show this component.</div>
+            <div class="long">
+                Show this component.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#show" href="output/Ext.Component.html#show">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-showMenu"></a>
+            <b>showMenu</b>() : void            <div class="mdesc">
+                        <div class="short">Show this button's menu (if it has one)</div>
+            <div class="long">
+                Show this button's menu (if it has one)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#showMenu" href="output/Ext.Button.html#showMenu">Button</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-suspendEvents"></a>
+            <b>suspendEvents</b>() : void            <div class="mdesc">
+                        <div class="short">Suspend the firing of all events. (see <a ext:cls="Ext.util.Observable" ext:member="resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">resumeEvents</a>)</div>
+            <div class="long">
+                Suspend the firing of all events. (see <a ext:cls="Ext.util.Observable" ext:member="resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">resumeEvents</a>)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-toggle"></a>
+            <b>toggle</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean state</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">If a state it passed, it becomes the pressed state otherwise the current state is toggled.</div>
+            <div class="long">
+                If a state it passed, it becomes the pressed state otherwise the current state is toggled.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>state</code> : Boolean<div class="sub-desc">(optional) Force a particular state</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#toggle" href="output/Ext.Button.html#toggle">Button</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-toggleSelected"></a>
+            <b>toggleSelected</b>() : void            <div class="mdesc">
+                        <div class="short">This is normally called internally on button click, but can be called externally to advance the button's
+active item ...</div>
+            <div class="long">
+                This is normally called internally on button click, but can be called externally to advance the button's
+active item programmatically to the next one in the menu.  If the current item is the last one in the menu
+the active item will be set to the first item in the menu.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-un"></a>
+            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a listener (shorthand for removeListener)</div>
+            <div class="long">
+                Removes a listener (shorthand for removeListener)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#un" href="output/Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+            </table>
+                <a id="Ext.CycleButton-events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-arrowclick"></a>
+            <b>arrowclick</b> : (&nbsp;<code>MenuButton this</code>, <code>EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when this button's arrow is clicked</div>
+            <div class="long">
+                Fires when this button's arrow is clicked    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : MenuButton<div class="sub-desc"></div></li><li><code>e</code> : EventObject<div class="sub-desc">The click event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.SplitButton" ext:member="#event-arrowclick" href="output/Ext.SplitButton.html#event-arrowclick">SplitButton</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforedestroy"></a>
+            <b>beforedestroy</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the component is destroyed. Return false to stop the destroy.</div>
+            <div class="long">
+                Fires before the component is destroyed. Return false to stop the destroy.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforedestroy" href="output/Ext.Component.html#event-beforedestroy">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforehide"></a>
+            <b>beforehide</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the component is hidden. Return false to stop the hide.</div>
+            <div class="long">
+                Fires before the component is hidden. Return false to stop the hide.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforehide" href="output/Ext.Component.html#event-beforehide">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforerender"></a>
+            <b>beforerender</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the component is rendered. Return false to stop the render.</div>
+            <div class="long">
+                Fires before the component is rendered. Return false to stop the render.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforerender" href="output/Ext.Component.html#event-beforerender">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforeshow"></a>
+            <b>beforeshow</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the component is shown. Return false to stop the show.</div>
+            <div class="long">
+                Fires before the component is shown. Return false to stop the show.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforeshow" href="output/Ext.Component.html#event-beforeshow">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforestaterestore"></a>
+            <b>beforestaterestore</b> : (&nbsp;<code>Ext.Component this</code>, <code>Object state</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the state of the component is restored. Return false to stop the restore.</div>
+            <div class="long">
+                Fires before the state of the component is restored. Return false to stop the restore.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>state</code> : Object<div class="sub-desc">The hash of state values</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforestaterestore" href="output/Ext.Component.html#event-beforestaterestore">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-beforestatesave"></a>
+            <b>beforestatesave</b> : (&nbsp;<code>Ext.Component this</code>, <code>Object state</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before the state of the component is saved to the configured state provider. Return false to stop the save.</div>
+            <div class="long">
+                Fires before the state of the component is saved to the configured state provider. Return false to stop the save.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>state</code> : Object<div class="sub-desc">The hash of state values</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-beforestatesave" href="output/Ext.Component.html#event-beforestatesave">Component</a></td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-change"></a>
+            <b>change</b> : (&nbsp;<code>Ext.CycleButton this</code>, <code>Ext.menu.CheckItem item</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the button's active menu item has changed.  Note that if a changeHandler function
+is set on this CycleBut...</div>
+            <div class="long">
+                Fires after the button's active menu item has changed.  Note that if a <a ext:cls="Ext.CycleButton" ext:member="changeHandler" href="output/Ext.CycleButton.html#changeHandler">changeHandler</a> function
+is set on this CycleButton, it will be called instead on active item change and this change event will
+not be fired.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.CycleButton<div class="sub-desc"></div></li><li><code>item</code> : Ext.menu.CheckItem<div class="sub-desc">The menu item that was selected</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CycleButton</td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-click"></a>
+            <b>click</b> : (&nbsp;<code>Button this</code>, <code>EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when this button is clicked</div>
+            <div class="long">
+                Fires when this button is clicked    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>e</code> : EventObject<div class="sub-desc">The click event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-click" href="output/Ext.Button.html#event-click">Button</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-destroy"></a>
+            <b>destroy</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is destroyed.</div>
+            <div class="long">
+                Fires after the component is destroyed.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-destroy" href="output/Ext.Component.html#event-destroy">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-disable"></a>
+            <b>disable</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is disabled.</div>
+            <div class="long">
+                Fires after the component is disabled.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-disable" href="output/Ext.Component.html#event-disable">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-enable"></a>
+            <b>enable</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is enabled.</div>
+            <div class="long">
+                Fires after the component is enabled.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-enable" href="output/Ext.Component.html#event-enable">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-hide"></a>
+            <b>hide</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is hidden.</div>
+            <div class="long">
+                Fires after the component is hidden.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-hide" href="output/Ext.Component.html#event-hide">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menuhide"></a>
+            <b>menuhide</b> : (&nbsp;<code>Button this</code>, <code>Menu menu</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">If this button has a menu, this event fires when it is hidden</div>
+            <div class="long">
+                If this button has a menu, this event fires when it is hidden    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>menu</code> : Menu<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-menuhide" href="output/Ext.Button.html#event-menuhide">Button</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menushow"></a>
+            <b>menushow</b> : (&nbsp;<code>Button this</code>, <code>Menu menu</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">If this button has a menu, this event fires when it is shown</div>
+            <div class="long">
+                If this button has a menu, this event fires when it is shown    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>menu</code> : Menu<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-menushow" href="output/Ext.Button.html#event-menushow">Button</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menutriggerout"></a>
+            <b>menutriggerout</b> : (&nbsp;<code>Button this</code>, <code>Menu menu</code>, <code>EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">If this button has a menu, this event fires when the mouse leaves the menu triggering element</div>
+            <div class="long">
+                If this button has a menu, this event fires when the mouse leaves the menu triggering element    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>menu</code> : Menu<div class="sub-desc"></div></li><li><code>e</code> : EventObject<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-menutriggerout" href="output/Ext.Button.html#event-menutriggerout">Button</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-menutriggerover"></a>
+            <b>menutriggerover</b> : (&nbsp;<code>Button this</code>, <code>Menu menu</code>, <code>EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">If this button has a menu, this event fires when the mouse enters the menu triggering element</div>
+            <div class="long">
+                If this button has a menu, this event fires when the mouse enters the menu triggering element    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>menu</code> : Menu<div class="sub-desc"></div></li><li><code>e</code> : EventObject<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-menutriggerover" href="output/Ext.Button.html#event-menutriggerover">Button</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-mouseout"></a>
+            <b>mouseout</b> : (&nbsp;<code>Button this</code>, <code>Event e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the mouse exits the button</div>
+            <div class="long">
+                Fires when the mouse exits the button    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>e</code> : Event<div class="sub-desc">The event object</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-mouseout" href="output/Ext.Button.html#event-mouseout">Button</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-mouseover"></a>
+            <b>mouseover</b> : (&nbsp;<code>Button this</code>, <code>Event e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the mouse hovers over the button</div>
+            <div class="long">
+                Fires when the mouse hovers over the button    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>e</code> : Event<div class="sub-desc">The event object</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-mouseover" href="output/Ext.Button.html#event-mouseover">Button</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-render"></a>
+            <b>render</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is rendered.</div>
+            <div class="long">
+                Fires after the component is rendered.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-render" href="output/Ext.Component.html#event-render">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-show"></a>
+            <b>show</b> : (&nbsp;<code>Ext.Component this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the component is shown.</div>
+            <div class="long">
+                Fires after the component is shown.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-show" href="output/Ext.Component.html#event-show">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-staterestore"></a>
+            <b>staterestore</b> : (&nbsp;<code>Ext.Component this</code>, <code>Object state</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the state of the component is restored.</div>
+            <div class="long">
+                Fires after the state of the component is restored.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>state</code> : Object<div class="sub-desc">The hash of state values</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-staterestore" href="output/Ext.Component.html#event-staterestore">Component</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-statesave"></a>
+            <b>statesave</b> : (&nbsp;<code>Ext.Component this</code>, <code>Object state</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after the state of the component is saved to the configured state provider.</div>
+            <div class="long">
+                Fires after the state of the component is saved to the configured state provider.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>state</code> : Object<div class="sub-desc">The hash of state values</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#event-statesave" href="output/Ext.Component.html#event-statesave">Component</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CycleButton-toggle"></a>
+            <b>toggle</b> : (&nbsp;<code>Button this</code>, <code>Boolean pressed</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the "pressed" state of this button changes (only if enableToggle = true)</div>
+            <div class="long">
+                Fires when the "pressed" state of this button changes (only if enableToggle = true)    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Button<div class="sub-desc"></div></li><li><code>pressed</code> : Boolean<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Button" ext:member="#event-toggle" href="output/Ext.Button.html#event-toggle">Button</a></td>
+    </tr>
+            </table>
+        
+        </div>

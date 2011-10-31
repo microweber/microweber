@@ -1,0 +1,43 @@
+#parent:index
+= Troubleshooting =
+
+\contents 2
+
+== Examples ==
+
+If you have problems, point your browser at examples/example.php and see if it works. It should display a few different PHP highlights. This particular example allows you to toggle caching and will spew errors at you if there is a permissions problem with your cache.
+
+== Plain/non-highlighted output ==
+
+If the output you are seeing is semi-reasonable, but it doesn't seem to actually be highlighted, the stylesheets have probably not been included.
+
+`luminous::head_html()` tries to guess the public URL to the style directory and may get it wrong in some circumstances (specifically those involving symbolic links, due to PHP limitations). You can verify that this is the problem by looking at your page's HTML source from your browser: there should be two &lt;link&gt; elements whose href attributes point to your style/ directory. If the path detection has failed, their href attribute will be ugly.
+
+If the href URL is indeed wrong, then you can either include the CSS files by hand in your PHP/HTML file and omit the call to head_html(), or you can override the 'relative-root' setting: `luminous::set('relative-root', 'real/url/to/luminous/')` (before you call head_html()).
+
+== Directory Structure ==
+
+Some people seem to want to deploy their setup strangely, which might make things unnecessarily complicated and more likely to break. *Pages which need highlighting do not need to reside in the luminous directory*. Luminous is a library, not a framework, and should be left in a subdirectory somewhere and forgotten about.
+
+The only modification of Luminous's directory you should perform is to create the cache.
+
+Let's say you want to highlight some code from your index.php, an example directory structure would be this:
+
+{{{lang=plain
+htdocs/
+  index.php
+  luminous/    -- don't edit the contents of this
+    cache/     -- except to create this
+    ...
+}}}
+
+and index.php should include the line:
+{{{lang=php_snippet
+include(dirname(__FILE__) . '/luminous/luminous.php');
+}}}
+
+
+
+== Still doesn't work... ==
+
+Please file a bug report on [!https://github.com/markwatkinson/luminous/issues/new the issue tracker] if you're on GitHub or send an email to mark (at) asgaard co uk.

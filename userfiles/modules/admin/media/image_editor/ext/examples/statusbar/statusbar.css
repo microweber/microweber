@@ -1,0 +1,61 @@
+/*
+ * Ext JS Library 2.2
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+
+/* StatusBar word processor example styles */
+
+#word-status .x-status-text {
+    color: #777;
+}
+#word-status .x-status-text-panel .spacer {
+    width: 60px;
+    font-size:0;
+    line-height:0;
+}
+#word-status .x-status-busy {
+    padding-left: 25px;
+    background: transparent url(images/saving.gif) no-repeat 3px 3px;
+}
+#word-status .x-status-saved {
+    padding-left: 25px;
+    background: transparent url(images/saved.png) no-repeat 3px 3px;
+}
+
+/* StatusBar form validation example styles */
+
+.x-statusbar .x-status-error {
+    color: #C33;
+    cursor: pointer;
+    padding-left: 25px;
+    background: transparent url(../../resources/images/default/form/exclamation.gif) no-repeat 3px 3px;
+}
+.x-statusbar .x-status-valid {
+    padding-left: 25px;
+    background: transparent url(images/accept.png) no-repeat 3px 3px;
+}
+.x-status-error-list {
+    font: 11px tahoma,arial,verdana,sans-serif;
+    position: absolute;
+    z-index: 9999;
+    border: 1px solid #C33;
+    background: #ffa;
+    padding: 5px 10px;
+    color: #999;
+}
+.x-status-error-list li {
+    cursor: pointer;
+    list-style: disc;
+    margin-left: 10px;
+}
+.x-status-error-list li a {
+    color: #15428B;
+    text-decoration: none;
+}
+.x-status-error-list li a:hover {
+    text-decoration: underline;
+}

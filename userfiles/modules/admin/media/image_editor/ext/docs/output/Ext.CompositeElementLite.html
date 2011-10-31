@@ -1,0 +1,311 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext.CompositeElementLite-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext.CompositeElementLite-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext.CompositeElementLite-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                        <a class="bookmark" href="../docs/?class=Ext.CompositeElementLite"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <div class="inheritance res-block">
+<pre class="res-block-inner"><a ext:cls="Ext.CompositeElement" ext:member="" href="output/Ext.CompositeElement.html">CompositeElement</a>
+  <img src="resources/elbow-end.gif"/>CompositeElementLite</pre></div>
+                <h1>Class Ext.CompositeElementLite</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">CompositeElement.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">CompositeElementLite</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.CompositeElement" ext:member="" href="output/Ext.CompositeElement.html">CompositeElement</a></td></tr>
+                    </table>
+        <div class="description">
+            Flyweight composite class. Reuses the same Ext.Element for element operations.
+ <pre><code>var els = Ext.select(<em>"#some-el div.some-class"</em>);
+ <i>// or select directly from an existing element</i>
+ <b>var</b> el = Ext.get(<em>'some-el'</em>);
+ el.select(<em>'div.some-class'</em>);
+
+ els.setWidth(100); <i>// all elements become 100 width</i>
+ els.hide(true); <i>// all elements fade out and hide</i>
+ <i>// or</i>
+ els.setWidth(100).hide(true);</code></pre><br><br>
+<b>NOTE: Although they are not listed, this class supports all of the set/update methods of Ext.Element. All Ext.Element
+actions will be performed on all the elements in this collection.</b>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext.CompositeElementLite-props"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a id="Ext.CompositeElementLite-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-add"></a>
+            <b>add</b>(&nbsp;<code>String/Array els</code>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Adds elements to this composite.</div>
+            <div class="long">
+                Adds elements to this composite.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>els</code> : String/Array<div class="sub-desc">A string CSS selector, an array of elements or an element</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#add" href="output/Ext.CompositeElement.html#add">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-clear"></a>
+            <b>clear</b>() : void            <div class="mdesc">
+                        <div class="short">Removes all elements.</div>
+            <div class="long">
+                Removes all elements.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#clear" href="output/Ext.CompositeElement.html#clear">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-contains"></a>
+            <b>contains</b>(&nbsp;<code>el {Mixed}</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if this composite contains the passed element</div>
+            <div class="long">
+                Returns true if this composite contains the passed element    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>{Mixed}</code> : el<div class="sub-desc">The id of an element, or an Ext.Element, or an HtmlElement to find within the composite collection.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#contains" href="output/Ext.CompositeElement.html#contains">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-each"></a>
+            <b>each</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Calls the passed function passing (el, this, index) for each element in this composite. The element
+passed is the fly...</div>
+            <div class="long">
+                Calls the passed function passing (el, this, index) for each element in this composite. <b>The element
+passed is the flyweight (shared) Ext.Element instance, so if you require a
+a reference to the dom node, use el.dom.</b>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The <i>this</i> object (defaults to the element)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CompositeElementLite</td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-fill"></a>
+            <b>fill</b>(&nbsp;<code>String/Array els</code>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Clears this composite and adds the elements returned by the passed selector.</div>
+            <div class="long">
+                Clears this composite and adds the elements returned by the passed selector.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>els</code> : String/Array<div class="sub-desc">A string CSS selector, an array of elements or an element</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#fill" href="output/Ext.CompositeElement.html#fill">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-filter"></a>
+            <b>filter</b>(&nbsp;<code>String selector</code>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Filters this composite to only elements that match the passed selector.</div>
+            <div class="long">
+                Filters this composite to only elements that match the passed selector.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>selector</code> : String<div class="sub-desc">A string CSS selector</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#filter" href="output/Ext.CompositeElement.html#filter">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-first"></a>
+            <b>first</b>() : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns the first Element</div>
+            <div class="long">
+                Returns the first Element    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#first" href="output/Ext.CompositeElement.html#first">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-getCount"></a>
+            <b>getCount</b>() : Number            <div class="mdesc">
+                        <div class="short">Returns the number of elements in this composite</div>
+            <div class="long">
+                Returns the number of elements in this composite    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#getCount" href="output/Ext.CompositeElement.html#getCount">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-indexOf"></a>
+            <b>indexOf</b>(&nbsp;<code>el {Mixed}</code>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Find the index of the passed element within the composite collection.</div>
+            <div class="long">
+                Find the index of the passed element within the composite collection.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>{Mixed}</code> : el<div class="sub-desc">The id of an element, or an Ext.Element, or an HtmlElement to find within the composite collection.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The index of the passed Ext.Element in the composite collection, or -1 if not found.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#indexOf" href="output/Ext.CompositeElement.html#indexOf">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-item"></a>
+            <b>item</b>(&nbsp;<code>Number index</code>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns a flyweight Element of the dom element object at the specified index</div>
+            <div class="long">
+                Returns a flyweight Element of the dom element object at the specified index    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>index</code> : Number<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">CompositeElementLite</td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-last"></a>
+            <b>last</b>() : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns the last Element</div>
+            <div class="long">
+                Returns the last Element    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#last" href="output/Ext.CompositeElement.html#last">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-removeElement"></a>
+            <b>removeElement</b>(&nbsp;<code>Mixed el</code>, <span class="optional" title="Optional">[<code>Boolean removeDom</code>]</span>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Removes the specified element(s).</div>
+            <div class="long">
+                Removes the specified element(s).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id of an element, the Element itself, the index of the element in this composite
+or an array of any of those.</div></li><li><code>removeDom</code> : Boolean<div class="sub-desc">(optional) True to also remove the element from the document</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#removeElement" href="output/Ext.CompositeElement.html#removeElement">CompositeElement</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.CompositeElementLite-replaceElement"></a>
+            <b>replaceElement</b>(&nbsp;<code>Mixed el</code>, <code>Mixed replacement</code>, <span class="optional" title="Optional">[<code>Boolean domReplace</code>]</span>&nbsp;) : CompositeElement            <div class="mdesc">
+                        <div class="short">Replaces the specified element with the passed element.</div>
+            <div class="long">
+                Replaces the specified element with the passed element.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id of an element, the Element itself, the index of the element in this composite
+to replace.</div></li><li><code>replacement</code> : Mixed<div class="sub-desc">The id of an element or the Element itself.</div></li><li><code>domReplace</code> : Boolean<div class="sub-desc">(Optional) True to remove and replace the element in the document too.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElement</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.CompositeElement" ext:member="#replaceElement" href="output/Ext.CompositeElement.html#replaceElement">CompositeElement</a></td>
+    </tr>
+            </table>
+                <a id="Ext.CompositeElementLite-events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>
+        </div>

@@ -1,0 +1,39 @@
+/*
+ * Ext JS Library 0.20
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+html, body {
+	font:normal 12px arial, tahoma, helvetica, sans-serif;
+}
+body td {
+	font:normal 12px arial, tahoma, helvetica, sans-serif;
+}
+#icon-col {
+	width: 24px;
+	padding-top:8px;
+	vertical-align:top;
+	text-align:center;
+}
+
+#task-title {
+	font-weight:bold;
+	padding-top:8px;
+}
+
+#snooze-ct {
+	padding-top:8px;
+	text-align:left;
+}
+
+#btns {
+	padding-top:8px;
+}
+
+#btns .x-btn {
+	float:right;
+	margin-right:8px;
+}
