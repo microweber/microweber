@@ -209,6 +209,29 @@ function array_push_array($arr) {
 	return count ( $arr );
 }
 
+function pathinfo_utf($path) {
+	if (strpos ( $path, '/' ) !== false)
+		$basename = end ( explode ( '/', $path ) );
+	elseif (strpos ( $path, '\\' ) !== false)
+		$basename = end ( explode ( '\\', $path ) );
+	else
+		return false;
+	if (empty ( $basename ))
+		return false;
+	
+	$dirname = substr ( $path, 0, strlen ( $path ) - strlen ( $basename ) - 1 );
+	
+	if (strpos ( $basename, '.' ) !== false) {
+		$extension = end ( explode ( '.', $path ) );
+		$filename = substr ( $basename, 0, strlen ( $basename ) - strlen ( $extension ) - 1 );
+	} else {
+		$extension = '';
+		$filename = $basename;
+	}
+	
+	return array ('dirname' => $dirname, 'basename' => $basename, 'extension' => $extension, 'filename' => $filename );
+}
+
 function domNodeContent($n, $outer = false) {
 	$d = new DOMDocument ( '1.0' );
 	$b = $d->importNode ( $n->cloneNode ( true ), true );
@@ -434,7 +457,7 @@ function css_browser_selector($ua = null) {
 
 }
 function normalize_path($path, $slash_it = true) {
-	
+	//var_dump($path);
 	// DIRECTORY_SEPARATOR is a system variable
 	// which contains the right slash for the current 
 	// system (windows = \ or linux = /)
@@ -451,10 +474,25 @@ function normalize_path($path, $slash_it = true) {
 	}
 	if ($slash_it == false) {
 		$path = rtrim ( $path, DIRECTORY_SEPARATOR );
+	} else {
+		$path .=  DIRECTORY_SEPARATOR ;
+		$path = rtrim ( $path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR );
+	
 	}
-	if (strval ( $path ) == '') {
+	
+	if (strval ( trim ( $path ) ) == '' or strval ( trim ( $path ) ) == '/') {
 		$path = $path_original;
 	}
+	
+if ($slash_it == false) {
+		 
+	} else {
+		 $path = $path.  DIRECTORY_SEPARATOR ;
+		 $path = reduce_double_slashes($path);
+		//$path = rtrim ( $path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR );
+	
+	}
+	
 	return $path;
 }
 function base64_to_file($data, $target) {
@@ -2268,7 +2306,6 @@ function cache_clean_group($cache_group = 'global') {
 		//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
 		recursive_remove_directory ( $dir );
 	
-
 	}
 	
 	$dir = cache_get_dir ( $cache_group );
@@ -2307,7 +2344,7 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
 		} else {
 			//$cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
 			$cacheDir = CACHEDIR . $cache_group;
-			
+		
 		}
 		if (! is_dir ( $cacheDir )) {
 			

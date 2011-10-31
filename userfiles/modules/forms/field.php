@@ -17,7 +17,7 @@ $value = ($params['value']);
 if($value == false){
 $value = '';	
 }
-//p($value);
+// p($params);
 ?>
 <? if($params['quick_edit'] == true):   ?>
 
@@ -25,7 +25,8 @@ $value = '';
 <? else:  ?>
 <?php switch ($params['type']){ 
          case ('text'): ?>
-<textarea name="<? print $params['name'];?>" class="<? print $params['class'];?>"><? print $value ?></textarea>
+<input name="<? print $params['name'];?>" type="hidden" class="<? print $params['class'];?>" value="<? print $value ?>">
+<? print $value ?>
 <?php break; ?>
 <?php case ('dropdown'): ?>
 <select name="<? print $params['name'];?>" class="<? print $params['class'];?>">
@@ -36,6 +37,15 @@ $value = '';
   <?  endforeach; ?>
   <?  endif; ?>
 </select>
+<?php break; ?>
+<?php case ('radio'): ?>
+<?php $v2 = explode(',',$values); ?>
+<? if(!empty($v2)): ?>
+<? foreach($v2 as $v): ?>
+<input type="radio"  class="<? print $params['class'];?>" name="<? print $params['name'];?>"  value="<? print $v ?>" <?  if($v == $value):  ?>  checked="checked"<? endif; ?>  />
+<? print $v ?> <br />
+<?  endforeach; ?>
+<?  endif; ?>
 <?php break; ?>
 <?php case ('image'): ?>
 <? $rand = rand();  ?>

@@ -1,9 +1,10 @@
  <?
 $id = $params['id'];
-
+if(intval($id) != 0){
 
 
 $form_values = get_page($id);
+}
 //p($form_values);
 
 ?>

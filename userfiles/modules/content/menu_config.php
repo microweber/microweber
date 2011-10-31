@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Menu module";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
+$config['cache'] = true;
 $config['ui'] = true;
 
 

@@ -1,10 +1,34 @@
- 
-  
-
- RewriteEngine On
- 
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?/$1  [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-    
- 
+ 
+  
+
+ RewriteEngine On
+ 
+ 
+  
+ 
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?/$1  [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+    
+# Turn on Expires and set default expires to 3 days
+ExpiresActive On
+ExpiresDefault A259200
+ 
+# Set up caching on media files for 1 month
+<FilesMatch "\.(ico|gif|jpg|jpeg|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
+  ExpiresDefault A2419200
+  Header append Cache-Control "public"
+</FilesMatch>
+ 
+# Set up 2 Hour caching on commonly updated files
+<FilesMatch "\.(xml|txt|html|js|css)$">
+  ExpiresDefault A7200 
+  Header append Cache-Control "private, must-revalidate"
+</FilesMatch>
+ 
+# Force no caching for dynamic files
+<FilesMatch "\.(php|cgi|pl|htm)$">
+  ExpiresDefault A0 
+  Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+  Header set Pragma "no-cache"
+</FilesMatch>

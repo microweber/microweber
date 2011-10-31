@@ -5,10 +5,8 @@
 	 * @link www.phpletter.com
 	 * @since 22/May/2007
 	 *
-	 */
-
+	 */	
 	sleep(3);
-	
 	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "config.php");
 	echo "{";
 	$error = "";

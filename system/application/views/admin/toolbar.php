@@ -2,12 +2,16 @@
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/font.php" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
-<link href='http://fonts.googleapis.com/css?family=Molengo' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/jquery-ui-1.8.13.custom.css" />
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css?<? print rand();?>" />
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>-->
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>-->
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/aloha.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Format/plugin.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>-->
+<? include('headers_shared.php')  ?>
 <script type="text/javascript">
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
@@ -18,7 +22,7 @@
 $(document).ready(function(){
 						 
 						   
-						    
+		mw_load_history_module();				    
 			data1 = {}
    data1.module = 'admin/content/module_bar';
    data1.do_not_wrap = '1';
@@ -37,160 +41,38 @@ $("#admin_sidebar").live("hover",function(){
  });
    
   
+ 	  $('#module_bar_resp').load('<? print site_url('api/module') ?>',data1, function() {
+  //alert('Load was performed.');
+  mw_sidebar_make_sortables()
+});
+	   
  
  
- 
-   $.ajax({
-  url: "<? print site_url('api/module') ?>",
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-
-   $('#module_bar_resp').html(resp);
-  // $('.mw_sidebar_module_group_table').corner();
-
- //$('.mw_sidebar_module_group_table').corner();
- 
- 
-  
-		//  $dragable_opts2.helper = 'original';
-
-  $(".module_draggable").draggable({
-								   
-			connectToSortable: ".edit, .edit *",
-						appendTo: 'body',
-containment: 'window',
-
-scroll: true,
-		    helper: 'clone',
-		 cursor: 'move', 
-		 zIndex: 20000,
-		   cancel: $('.edit *').find('.module'),
- 
-			//containment: 'document',
-			revert: "invalid",
-			
-start: function(e,ui){
-	
-	if(window.saving ===true){
-		//alert('Saving.. please wait');
-	//return false;	
-	}
-	  $('.edit *').find('.module').droppable( "option", "disabled", true );
-// $(".module").append("aaaaaaaaaaaaaa");
-	//$('.edit').find('.module').css('background-color', 'red');
-	
-	//
-	// $('.edit *').find('.module').append('<div class="mw_module_box_place js_remove">Module</div>');
-	//$('.edit *').find('.module').hide(); 
-	 //$("#module_temp_holder").addClass("mw_module_box_place");
-	
-	/*
-	    $("#module_temp_holder").css({
-        	 
-        	    'width': 100,
-        	    'height': 100  
-        	    //'position': 'absolute',
-        	    
-        	    
-        	});
-         */
-        
-	
-	
-	window.mw_dragging = true;
-	//$(".to_here").removeClass("to_here");
-	
-	
-	
-	
-	
-	        var dialog = $('#module_temp_holder');
-
-         
-         
-         dialog.css({
-        
-        	    'width': 20,
-        	    'height': 20  
-        	    //'position': 'absolute',
-        	    
-        	    
-        	});
-	
-	
-	//dialog.show();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-   //$(this).addClass('fade');
-  // ui.helper.find('.caption').text("I'm being dragged!");
-  },
-  stop: function(e,ui){
-	  window.mw_dragging = false;
-	  
-	    $('.edit *').find('.module').droppable( "option", "disabled", false );
-	//  $('.edit').find('.module').show();
-	
-	
-//	$(".js_remove").remove();
-	//   $('.mw_module_box_place').removeClass('mw_module_box_place');
-	  
-	  
-	  //$(".edit .module").show();
-	  
-	  
-	//  var dialog = $('#module_temp_holder').hide();
-
-   //$(this).removeClass('fade');
-   //ui.helper.find('.caption').text("Drag me to my target");
-  }
- 
-  
-
-		});
-//$("#module_temp_holder").draggable($dragable_opts2);
-$("#module_temp_holder").draggable( "option" , 'helper' , 'original' );
-
-
-
-			
-
-
-
-
-  }
-    }); 
+//   $.ajax({
+//  url: "<? print site_url('api/module') ?>",
+//   type: "POST",
+//      data: data1,
+//
+//      async:true,
+//
+//  success: function(resp) {
+//
+//   $('#module_bar_resp').html(resp);
+//  // $('.mw_sidebar_module_group_table').corner();
+//
+// //$('.mw_sidebar_module_group_table').corner();
+// 
+// mw_sidebar_make_sortables()
+//  
+//		//  $dragable_opts2.helper = 'original';
+// 
+//			
+//
+//
+//
+//
+//  }
+//    }); 
  
 	});
  
@@ -233,6 +115,9 @@ $(document).ready(function(){
 
  
 });
+
+
+ 
 </script>
 <script>
 
@@ -302,7 +187,7 @@ $(document).ready(function(){
 }
 
 
-
+/*
 
 $.ctrl = function(key, callback, args) {
     $(document).keydown(function(event) {
@@ -323,7 +208,7 @@ $.ctrl = function(key, callback, args) {
 
     });
 };
-
+*/
 
 
 
@@ -337,7 +222,7 @@ $(document).ready(function(){
 
 
   $(".modules_list").sortable({
-    connectWith:'editblock'
+   // connectWith:'editblock'
   });
 
 
@@ -354,16 +239,7 @@ $(document).ready(function(){
   });
 
 
-$.ctrl('S', function() {
-
-    var content = $(".nicEdit-selected").html();
-    var id = $(".nicEdit-selected").attr("id");
-
-    nic_save(content, id);
-
-
-
-});
+ 
 
 
 
@@ -381,7 +257,10 @@ $.ctrl('S', function() {
 
 nic_save = function(content, id, instance){
 
-
+$(".js_generated").remove();
+$(".mw_mod_drag_handle").remove();
+$(".col_handle").remove();
+$(".container_handle").remove();
 
  
 
@@ -427,10 +306,9 @@ $.each(obj.attributes, function(i, val) {
       alert(i+" = "+val)
     });
 */
-$(".js_generated").remove();
 
 
-
+$(".mw_non_sortable").removeClass('mw_non_sortable');
 
 // window.saving =true;
 
@@ -446,17 +324,15 @@ $(".js_generated").remove();
 		  },
 		  beforeSend :  function() {
 			  window.saving =true;
-			   $('*[mw_last_hover!=""]').each(function(index) {
-			            		
-			            		$(this).attr('mw_last_hover', '');
-								// $(this).removeAttr("mw_last_hover")
-								
-										 });
+		 
 		  },
 		  success: function(data) {
 			   window.saving =false;
 			   
 			   
+if (window.console != undefined) {
+	console.log('Saving ');
+}
 			   
 			   
 			  mw.modal.alert("Content Saved");
@@ -473,7 +349,8 @@ $(".js_generated").remove();
  }
  
 
- nic_save_all = function(callback){
+ nic_save_all = function(callback, only_preview){
+$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 
  var master = {}
   // $(".mw_edited").each(function(j){
@@ -483,12 +360,20 @@ $(".js_generated").remove();
  //$(this).addClass("mw_edited");
 
 var nic_obj = {};
+if(window.no_async == true){
+$async_save = false;	
+	window.no_async = false;
+} else {
+	$async_save = true;	
+}
 
 
 
 
 
-var attrs = $(this)[0].attributes;
+ 
+
+var attrs = $(this).get(0).attributes;
 for(var i=0;i<attrs.length;i++) {
     temp1 = attrs[i].nodeName;
     temp2 = attrs[i].nodeValue;
@@ -501,19 +386,24 @@ for(var i=0;i<attrs.length;i++) {
     }
 
 }
-var content = $(this).html();
+content = $(this).html();
 
 var obj = {
     attributes:nic_obj,
     html : content
 }
 var objX = "field_data_"+j;
+if(master[objX] == undefined){
 master[objX] = obj;
+}
 
-
+		
+ 
 
 
    });
+
+		
 		
 		
 			//  mw.modal.overlay();
@@ -526,48 +416,157 @@ master[objX] = obj;
 		
 
 
-
+master_prev = master;
+master_prev['mw_preview_only'] = 1;
 
    	$.ajax({
 		  type: 'POST',
-		  url: "<?php print site_url('api/content/save_field/peview:true');  ?>",
-		  data: master,
-		  datatype: "jsonp",
-          async:true,
-		  beforeSend :  function() {
-			     $('.edit *').find('.module').droppable( "option", "disabled", true );
-			  $( ".module_draggable" ).draggable( "option", "disabled", true );
-			  window.saving =true;
-			  $( "#ContentSave" ).fadeOut();
-			  $('*[mw_last_hover!=""]').attr('mw_last_hover', '');
-			  $('*[mw_last_hover!=""]').each(function(index) {
-			            		
-			            		$(this).attr('mw_last_hover', '');
-								// $(this).removeAttr("mw_last_hover")
-								
-										 });
-		  },
-		  success: function(data) {
-			  			  
-			  
-			  	$.ajax({
-		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
-		  datatype: "jsonp",
-          async:true,
+		  datatype: "json",
+          async:$async_save,
 		  beforeSend :  function() {
-			  
+			
+			  window.saving =true;
+			 // $( "#ContentSave" ).fadeOut();
+		 
 		  },
-		  success: function(data2) {
-			     $('.edit *').find('.module').droppable( "option", "disabled", false );
+		  success: function(data) {
+			  
+			  
+			  			   
+if (window.console != undefined) {
+	var myJSONText = JSON.stringify(master, '|||||');
+	//console.log('Saving ' + myJSONText);
+}
+	
+			  
+			  
 			  window.saving =false;
-  $( "#ContentSave" ).fadeIn();
-    $( ".module_draggable" ).draggable( "option", "disabled", false );
-  
-
-		  }
-		})
+				  $( "#ContentSave" ).fadeIn();
+				 //   $( ".module_draggable" ).draggable( "option", "disabled", false );
+				   window.mw_sortables_created = false;
+					  window.mw_drag_started = false;
+					  mw_make_editables()
+				 
+						remove_sortables()
+				 
+				  init_edits()
+				  mw_load_history_module()
+				  
+				  
+				  if(window.parent.mw != undefined){
+					  
+					  window.parent.mw.reload_module('admin/posts/edit');
+					window.parent.mw.reload_module('admin/pages/edit');
+				  }
+				  
+					 
+							  
+				//						  
+//							  if(only_preview  == undefined){
+//								$.ajax({
+//						  type: 'POST',
+//						  url: "<?php print site_url('api/content/save_field');  ?>",
+//						  data: master,
+//						  datatype: "json",
+//						  async:$async_save,
+//						  beforeSend :  function() {
+//								  window.mw_sortables_created = false;
+//				 
+//						  },
+//						  success: function(data2) {
+//							  
+//							  
+//					
+//					
+//					
+//						  
+//						   
+//				
+//						  }
+//						})
+//							  
+//							  
+//							  
+//							  
+//							 } 
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							//  mw.modal.alert("Content Saved");
+					//		$(".to_here_drop").removeClass("to_here_drop");
+				//  if(typeof window.parent.mw_edit_init == 'function'){
+				//     window.parent.mw_edit_init(window.location.href);
+				//  }
+				 //  $("#"+data[0].page_element_id).html(data[0].page_element_content);
+				  //$(this).html(data);
+				   //$('#module_temp_holder').hide();
+				 
+				 
+				 if(only_preview  == undefined || only_preview  == false){
+				 $.each(data, function(i, item) {
+										$("#"+data[i].page_element_id).html(data[i].page_element_content);
+								//		alert(item.page_element_id+item.page_element_content);
+					//$("#"+data[i].page_element_id).html(data[i].page_element_content);
+					 
+				});
+				  
+				  
+				  //mw_make_draggables();
+				 init_edits()
+				 
+				 }
+				 
+				 callback.call(this);
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				//  $(".mw_edited").removeClass('mw_edited');
+				 // $( ".module_draggable" ).draggable( "option", "disabled", false );
+				 
+				  
+				  // mw.modal.close();
+				  
+				
+						  
 			  
 			  
 			  
@@ -586,52 +585,7 @@ master[objX] = obj;
 			  
 			  
 			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			//  mw.modal.alert("Content Saved");
-			$(".to_here_drop").removeClass("to_here_drop");
-  if(typeof window.parent.mw_edit_init == 'function'){
-     window.parent.mw_edit_init(window.location.href);
-  }
- //  $("#"+data[0].page_element_id).html(data[0].page_element_content);
-  //$(this).html(data);
-   //$('#module_temp_holder').hide();
-  $.each(data, function(i, item) {
-						$("#"+data[i].page_element_id).html(data[i].page_element_content);
-				//		alert(item.page_element_id+item.page_element_content);
-	//$("#"+data[i].page_element_id).html(data[i].page_element_content);
-     
-});
-  
-  callback.call(this);
-  //mw_make_draggables();
- init_edits()
-  $(".mw_edited").removeClass('mw_edited');
-  $( ".module_draggable" ).draggable( "option", "disabled", false );
- 
-  
-  // mw.modal.close();
-  
-
-		  }
+			  }
 		})
 	
 		}
@@ -645,9 +599,9 @@ master[objX] = obj;
 
 $(document).ready(function(){
 
-
-
-
+window.mw_sortables_created = false;
+init_edits()
+ 
 
 
 
@@ -661,37 +615,37 @@ $(document).ready(function(){
 
 // here2
 
+//
+//myNicEditor = new nicEditor({
+//
+//          fullPanel : true,
+//          iconsPath : "<?php print( ADMIN_STATIC_FILES_URL);  ?>js/nicEditorIcons.gif",
+//		  uploadURI : "<? print site_url('api/media/nic_upload') ?>",
+//          onSave:function(content, id, instance){
+//
+//nic_save(content, id, instance);
+//
+//
+//          }
+//
+//});
+//
+//
+//
+//
+//myNicEditor.setPanel('mw_editbar');
+//
+//   $(".edit").each(function(){
+//   //  var id = mw.id();
+//      var id = $(this).attr("id");
+//
+//      myNicEditor.addInstance(id);
+//
+//
+//  });
 
-myNicEditor = new nicEditor({
 
-          fullPanel : true,
-          iconsPath : "<?php print( ADMIN_STATIC_FILES_URL);  ?>js/nicEditorIcons.gif",
-		  uploadURI : "<? print site_url('api/media/nic_upload') ?>",
-          onSave:function(content, id, instance){
-
-nic_save(content, id, instance);
-
-
-          }
-
-});
-
-
-
-
-myNicEditor.setPanel('mw_editbar');
-
-  $(".edit").each(function(){
-     var id = mw.id();
-     $(this).attr("id", "edit_" + id);
-
-    /*here1*/     myNicEditor.addInstance("edit_" + id);
-
-
-  });
-
-
-          $(".edit").attr('contentEditable','false');
+        //  $(".edit").attr('contentEditable','false');
 
 
 
@@ -701,40 +655,67 @@ myNicEditor.setPanel('mw_editbar');
 
 //}//end onload
 
-
+function mw_load_history_module(){
+	
+	
+	data1 = {}
+   data1.module = 'admin/mics/edit_block_history';
+   
+   
+   data1.page_id = '<? print intval(PAGE_ID) ?>';
+   data1.post_id = '<? print intval(POST_ID) ?>';
+   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+   data1.for_url = document.location.href;
+   
+   
+    $('#history_module_resp').load('<? print site_url('api/module') ?>',data1);
+//   $.ajax({
+//  url: "<? print site_url('api/module') ?>",
+//   type: "POST",
+//      data: data1,
+//
+//      async:true,
+//
+//  success: function(resp) {
+//
+//   $('#history_module_resp').html(resp);
+// 
+//
+//
+//
+//  }
+//    }); 
+	
+	
+}
 
 
 
 
 </script>
 <div class="toobar_container">
-  <div class="toobar_container_left"> 
-  
-  <div style="display:none">Outline Editable Regions;
-    <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.edit', '#DCCC01'):mw.outline.remove('.edit')" />
-    <br />
-    Outline Draggable Regions;
-    <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
-    Toggle Browse
-    <input type="checkbox"   id="enable_browse" /></div>
-    
-    <input type="hidden" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
-  <input type="hidden" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
-  <input type="hidden" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
-      <input type="hidden"  id="mw_module_param_to_copy" value="" />
-      <input type="hidden"  id="module_temp_holder_id" value="" />
-    <input type="hidden"  id="module_focus_holder_id" value="" />
-    
-    
-    
-    <div class="module_draggable"  id="module_temp_holder">
-                      <textarea rows="1"  style="display: none;" id="module_temp_holder_value">test</textarea>
-                      
-                      
-            </div>
-            
-            
-    
+  <div class="toobar_container_left">
+    <div style="display:none">Outline Editable Regions;
+      <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.edit', '#DCCC01'):mw.outline.remove('.edit')" />
+      <br />
+      Outline Draggable Regions;
+      <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
+      Toggle Browse
+      <input type="checkbox"   id="enable_browse" />
+      <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
+      <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
+      <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
+      <input type="text"  id="mw_module_param_to_copy" value="" />
+      <input type="text"  id="module_temp_holder_id" value="" />
+      <input type="text"  id="module_focus_holder_id" value="" />
+      <div id="buttons"> </div>
+      <div id="sortable-delete" style="display:none;" class="edit">del <br />
+        <br />
+      </div>
+      <div class="module_draggable"  id="module_temp_holder">
+        <textarea rows="1"  style="display: none;" id="module_temp_holder_value">test</textarea>
+      </div>
+    </div>
     <script>
     
     reloadIframes = function()
@@ -746,9 +727,26 @@ myNicEditor.setPanel('mw_editbar');
         f.contentDocument.location = f.src;
     }
 }
+
+
+
+
+
+
+ 
     </script>
-    <input name="mw_make_draggables()" type="button" onClick="mw_make_draggables()" value="mw_make_draggables()" />
-    <input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />
+    <!--  <input name="mw_load_history_module()" type="button" onClick="mw_load_history_module()" value="mw_load_history_module()" />-->
+    <!--<input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />-->
+    <img  id="mw_toolbar_logo"  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>logo2.png"   />
+    <!--<table border="0" id="mw_toolbar_text_edit">
+      <tr>
+        <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-weight', 'bold', 'normal')" css_name="font-weight">Bold</a></td>
+        <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-style', 'italic', 'normal')">Italic</a></td>
+        <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-weight', 'bold', 'normal')">Underline</a></td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>-->
   </div>
   <div class="toobar_container_right">
     <div id="mw_toolbar_pre_nav"> <span id="mw_toolbar_pre_nav_title">Live edit</span> <a href="#">
@@ -775,15 +773,15 @@ $(document).ready(function(){
          attr: 'title' // Use the ALT attribute of the area map for the content
       }, 
 	   position: {
-         my: 'top left',
+         my: 'left middle',
          target: 'mouse',
          viewport: $(window), // Keep it on-screen at all times if possible
          adjust: {
-            x: 5,  y: 5
-         }
+            x: 10,  y:10
+         } 
       },
       hide: {
-         fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
+         //fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
       },
       style: {
          classes: 'ui-tooltip-tipsy ui-tooltip-shadow'
@@ -799,7 +797,7 @@ $(document).ready(function(){
 				$('.mw_live_edit_on_off').removeClass('mw_live_edit_on_off_state_off');
 				$('.mw_live_edit_on_off').attr({src:"<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_on.png"});
 				//mw_live_edit_on_off_switch(true);
-				 $('#admin_sidebar').show('slide', { direction: 'right' }, 300)
+				 //$('#admin_sidebar').show('slide', { direction: 'right' }, 300)
 
 			   }
 			   
@@ -808,7 +806,7 @@ $(document).ready(function(){
 				$('.mw_live_edit_on_off').addClass('mw_live_edit_on_off_state_off');
 				$('.mw_live_edit_on_off').attr({src:"<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_off.png"});
 				//mw_live_edit_on_off_switch(true);
-				 $('#admin_sidebar').hide('slide', { direction: 'right' }, 300)
+				 //$('#admin_sidebar').hide('slide', { direction: 'right' }, 300)
 				   }
 			//   alert(mw_live_edit_state);
 			   
@@ -865,8 +863,20 @@ function mw_live_edit_on_off_switch($no_cookie){
 
 function mw_sidebar_nav($selector){
 	
+	if($selector == '#mw_sidebar_modules_holder'){
+	window.mw_sortables_created = false;
+	init_edits()
+	}
+	
+	if($selector == '#mw_sidebar_design_holder'){
+	window.mw_sortables_created = false;
+	init_edits()
+	}
 	
 	
+
+	
+	$('.mw_toolbar_nav_links').removeClass('active');
 	
 	$('#mw_sidebar_modules_holder').hide();
 	$('#mw_sidebar_module_edit_holder').hide();
@@ -874,33 +884,71 @@ function mw_sidebar_nav($selector){
 	$('#mw_sidebar_add_holder').hide();
 	
 	$('#mw_sidebar_css_editor_holder').hide();
+	 
 	
 	
-	
-	
+	$('#admin_sidebar').show();
+	//$('#admin_sidebar').show('slide', { direction: 'right' }, 200)
 	$($selector).show();
+	$($selector+'_link').addClass('active');
 	
 	
 	
 	
 }
-
+function iframe_code_editor(){
+	
+	//'<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/demo/preview.html'
+		 var call_iframe = mw.modal.iframe({src: '<? print site_url('admin/edit') ?>', width:800, height:600, overlay:true,
+					 height:500, id:"module_edit_iframe"});	
+}
 
 
 </script>
     </div>
     <div id="mw_toolbar_nav"> 
+    <a class="mw_toolbar_nav_icons mw_toolbar_nav_links"  title="Add modules" rel="modules" id="mw_sidebar_modules_holder_link"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a> 
+    <a   class="mw_toolbar_nav_icons mw_toolbar_nav_links" title="Add layout" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')" id="mw_sidebar_design_holder_link"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a>
+     <a  class="mw_toolbar_nav_icons mw_toolbar_nav_links"  title="Style content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_css_editor_holder')" id="mw_sidebar_css_editor_holder_link"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> 
+     </div>
+    <!--    <a href="adasd" class="mw_toolbar_nav_go_to_admin"> <span> Style element    </span> 
     
-    <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a>
-    
-    <a   class="mw_toolbar_nav_icons" title="Design" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a>
-    
-    <a  class="mw_toolbar_nav_icons"  title="Add new content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_add_holder')"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> 
+
     
     
+    </a> 
+    -->
+     <?
+	 
+	 $sw_to_admin_link = site_url('admin');
+	 	  if(intval(PAGE_ID) > 0){
+		  $sw_to_admin_link =  site_url('admin/action:page_edit/id:').PAGE_ID;
+		 
+	 }
+	 
+	 if(intval(POST_ID) > 0){
+		  $sw_to_admin_link =  site_url('admin/action:post_edit/id:').POST_ID;
+		 
+	 }
+	 
+
+	 
+	 
+ 
+	 
+	 ?>
     
-    </div>
-    <a href="<? print site_url('admin'); ?>" id="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a> </div>
+    
+    
+ 
+
+    
+    
+    
+ <!--    <button onclick="iframe_code_editor()"> iframe_code_editor()</button>-->
+    <a href="<? print  $sw_to_admin_link ?>" class="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a>
+    <div id="mw_sidebar_styler"> </div>
+  </div>
 </div>
 <div id="mw_toolbar">
   <div id="drag_mw_toolbar"></div>
@@ -918,41 +966,45 @@ function mw_sidebar_nav($selector){
 <div id="edit_table" style="display: none">
   <input type="text" onkeyup="alert(cellID)" />
 </div>
-<a href="#" onclick='mw.saveALL()' id="ContentSave">Save</a>
-<div id="admin_sidebar">
-   
-  <div id="mw_sidebar_module_edit_holder">
+<div class="mw_bottom_nav"> <a href="#" class="mw_bottom_btn" onclick='mw.saveALL()' id="ContentSave">Save</a>
+  <div id="history_module_resp"></div>
+    <div id="mw_sidebar_html_element_holder">
+    
+    <input  id="style_mw_id" disabled="disabled"  value=""   type="hidden"  />
+    <input  id="style_mw_tag" onclick="mw_html_tag_editor()"  type="hidden"  value=""  />
+  </div>
+</div>
+
+<div class="mw_bottom_nav_dom_path"> 
+ <div id="mw_dom_element_path"></div>
+</div>
+<div id="admin_sidebar" style="display:none">
+<div>
+ 
+  <div id="mw_sidebar_module_edit_holder"> </div>
  
   </div>
   
-   
-   <div id="mw_sidebar_modules_holder">
-  
-  
-  <div class="search_container">
-    <table width="250" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td><form class="mw_sidebar_searchform">
-            <div class="mw_sidebar_searchform_input_holder">
-              <input class="mw_sidebar_searchform_searchfield" type="text" value="Search..." onfocus="if (this.value == 'Search modules...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search modules...';}" />
-            </div>
-          </form></td>
-        <td align="right"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></td>
-      </tr>
-    </table>
-  </div>
-  <div class="mw_admin_sidebar_text" > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/drag.png" hspace="5" style="float:left" /> Drag and drop the modules in your website <a target="_blank" href="http://microweber.com">(see how)</a> </div>
-  <br />
-  
-  
-  
-  
-  <div id="mw_block_history"></div>
-  <div class="modules_list"> </div>
-  <div id="module_bar_resp"></div>
-  
-  
-  <? 
+  <div id="mw_sidebar_modules_holder">
+    <div class="search_container">
+      <table width="250" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><form class="mw_sidebar_searchform">
+              <div class="mw_sidebar_searchform_input_holder">
+                <input class="mw_sidebar_searchform_searchfield" type="text" value="Search..." onfocus="if (this.value == 'Search modules...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search modules...';}" />
+              </div>
+            </form></td>
+          <td align="right"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></td>
+        </tr>
+      </table>
+    </div>
+    <div class="mw_admin_sidebar_text" > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/drag.png" hspace="5" style="float:left" /> Drag and drop the modules in your website <a target="_blank" href="http://microweber.com">(see how)</a> </div>
+    
+    <br />
+    <div id="mw_block_history"></div>
+    <div class="modules_list"> </div>
+    <div id="module_bar_resp"></div>
+    <? 
            $iframe_module_params = array();
            $iframe_module_params['module'] = 'admin/pages/edit';
            $iframe_module_params['id'] = PAGE_ID;
@@ -972,30 +1024,20 @@ function mw_sidebar_nav($selector){
            
            
            ?>
-  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
+    <!--  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
   <br />
-  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_post) ?>/admin:y', 'aa')">Edit post</a>
+  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_post) ?>/admin:y', 'aa')">Edit post</a>-->
   
-  <?   //p(CATEGORY_IDS); ?>
-  <br />
-  <br />
-  <br />
+
   
-  
+    <?   //p(CATEGORY_IDS); ?>
   </div>
-   <div id="mw_sidebar_css_editor_holder">
-  
-   <?  include "toolbar_tag_editor.php" ?>
+  <div id="mw_sidebar_css_editor_holder">
+    <?  include "toolbar_tag_editor.php" ?>
   </div>
   <div id="mw_sidebar_design_holder">
-  
-  mw_sidebar_design_holder
+    <?  include "toolbar_design_editor.php" ?>
   </div>
-  
-  
-   <div id="mw_sidebar_add_holder">
-  
-  mw_sidebar_add_holder
-  </div>
-  
+  <div id="mw_sidebar_add_holder"> mw_sidebar_add_holder </div>
+<textarea id="mw_edit_code_holder" name="mw_edit_code_holder" rows="50" cols="300" style="display:none"></textarea>
 </div>

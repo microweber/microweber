@@ -299,7 +299,7 @@ class Index extends Controller {
 				
 				$this->load->vars ( $this->template );
 				
-				if ($page ['content_subtype'] == 'blog_section') {
+				if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 'dynamic') {
 					
 					/* POSTS: lets get some posts*/
 					
@@ -647,7 +647,7 @@ class Index extends Controller {
 				
 				$active_categories_temp = array ();
 				
-				if ($page ['content_subtype'] == 'blog_section') {
+				if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 'dynamic') {
 					
 					if ($page ['content_subtype_value'] != '') {
 						

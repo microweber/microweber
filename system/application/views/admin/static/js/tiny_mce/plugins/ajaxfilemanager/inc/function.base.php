@@ -475,21 +475,23 @@ function myRealPath($path) {
 		$output = '';
 		$wwwroot = removeTrailingSlash(backslashToSlash(getRootPath()));
 
+	
 		$urlprefix = "";
 		$urlsuffix = "";
 
-	$value = backslashToSlash(getRealPath($value));
-		
+		$value = backslashToSlash(getRealPath($value));
+
 
 		$pos = stripos($value, $wwwroot);
-		if ($pos !== false && $pos == 0)
+		if ($pos !== false )
 		{
-			$output  = $urlprefix . substr($value, strlen($wwwroot)) . $urlsuffix;
+			$output  = $urlprefix . substr($value, $pos + strlen($wwwroot)) . $urlsuffix;
 		}else 
 		{
 			$output = $value;
 		}
-		return "http://" .  addTrailingSlash(backslashToSlash($_SERVER['HTTP_HOST'])) . removeBeginingSlash(backslashToSlash($output));
+		$protocol = (isset($_SERVER["HTTPS"]) &&  $_SERVER["HTTPS"] == 'on' ? 'https' : 'http');
+		return $protocol . "://" .  addTrailingSlash(backslashToSlash($_SERVER['HTTP_HOST'])) . removeBeginingSlash(backslashToSlash($output));
 	}
 	
 /**
@@ -538,18 +540,23 @@ function transformFileSize($size) {
  */
 function getRootPath() {
 		$output = "";
+
 		if (defined('CONFIG_WEBSITE_DOCUMENT_ROOT') && CONFIG_WEBSITE_DOCUMENT_ROOT)
 		{
+
 			return slashToBackslash(CONFIG_WEBSITE_DOCUMENT_ROOT);
 		}
 		if(isset($_SERVER['DOCUMENT_ROOT']) && ($output = relToAbs($_SERVER['DOCUMENT_ROOT'])) != '' )
 		{
+
 			return $output;
 		}elseif(isset($_SERVER["SCRIPT_NAME"]) && isset($_SERVER["SCRIPT_FILENAME"]) && ($output = str_replace(backslashToSlash($_SERVER["SCRIPT_NAME"]), "", backslashToSlash($_SERVER["SCRIPT_FILENAME"]))) && is_dir($output))
 		{
+
 			return slashToBackslash($output);
 		}elseif(isset($_SERVER["SCRIPT_NAME"]) && isset($_SERVER["PATH_TRANSLATED"]) && ($output = str_replace(backslashToSlash($_SERVER["SCRIPT_NAME"]), "", str_replace("//", "/", backslashToSlash($_SERVER["PATH_TRANSLATED"])))) && is_dir($output))
 		{
+
 			return $output;
 		}else 
 		{

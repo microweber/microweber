@@ -433,9 +433,9 @@ $.fn.dataCollect = function() {
        $("#" + hash).show();
      }
      if(window.location.hash==""){
-      $(".shop_nav a:first").addClass("active");
-      $("#orders_tabs .tab").hide();
-      $("#orders_tabs .tab:first").show()
+      //$(".shop_nav a:first").addClass("active");
+     // $("#orders_tabs .tab").hide();
+     // $("#orders_tabs .tab:first").show()
      }
   });
 

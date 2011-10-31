@@ -117,6 +117,11 @@ $ipto = $_SERVER ["REMOTE_ADDR"];
 if (empty ( $post )) {
 	$active_categories = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
 	if (! empty ( $active_categories )) {
+		
+		
+	//	p($active_categories);
+		
+		
 		$this->template ['active_categories'] = $active_categories;
 		$this->template ['active_category'] = end ( $active_categories );
 		if (defined ( 'CATEGORY_ID' ) == false) {
@@ -179,7 +184,9 @@ $this->template ['active_tags'] = $selected_tags;
 
 $this->load->vars ( $this->template );
 
-if ($page ['content_subtype'] == 'blog_section') {
+ 
+
+if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dynamic') {
 	
 	$active_categories2 = CI::model ( 'content' )->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 	//var_dump($active_categories2);
@@ -642,23 +649,12 @@ if (empty ( $active_categories )) {
 
 }
 
-if (empty ( $active_categories2 )) {
-	
-	$active_categories2 = array ();
 
-} else {
-	if (defined ( 'CATEGORY_ID' ) == false) {
-		define ( 'CATEGORY_ID', end ( $active_categories2 ) );
-	}
-	if (defined ( 'CATEGORY_IDS' ) == false) {
-		define ( 'CATEGORY_IDS', implode ( ',', $active_categories2 ) );
-	}
-}
 
 //p($page)
 $active_categories_temp = array ();
 
-if ($page ['content_subtype'] == 'blog_section') {
+if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dynamic') {
 	
 	if ($page ['content_subtype_value'] != '') {
 		
@@ -695,6 +691,21 @@ if (is_array ( $active_categories2 ) == false) {
 $active_categories_temp = array_merge ( $active_categories_temp, $active_categories, $active_categories2 );
 
 $active_categories_temp = array_unique ( $active_categories_temp );
+
+if (empty ( $active_categories_temp )) {
+	
+	$active_categories2 = array ();
+
+} else {
+	if (defined ( 'CATEGORY_ID' ) == false) {
+		define ( 'CATEGORY_ID', current ( $active_categories_temp ) );
+	}
+	if (defined ( 'CATEGORY_IDS' ) == false) {
+		define ( 'CATEGORY_IDS', implode ( ',', $active_categories_temp ) );
+	}
+}
+ 
+
 
 $taxonomy_tree_reverse = ($taxonomy_tree);
 

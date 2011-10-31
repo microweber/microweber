@@ -44,15 +44,15 @@
 <meta name="author" content="Logan Cai" />
 <meta name="website" content="http://www.phpletter.com" />
 <script type="text/javascript" src="jscripts/ajaximageeditor_c.js"></script>
-<!--
-<script type="text/javascript" src="jscripts/jquery.js"></script>
+
+<!--<script type="text/javascript" src="jscripts/jquery.js"></script>
 <script type="text/javascript" src="jscripts/form.js"></script>
 <script type="text/javascript" src="jscripts/select.js"></script>
 <script type="text/javascript" src="jscripts/jqModal.js"></script>
 <script type="text/javascript" src="jscripts/rotate.js"></script>
-<script type="text/javascript" src="jscripts/interface.js"></script>
+<script type="text/javascript" src="jscripts/interface.js"></script>-->
 
--->
+
 <script type="text/javascript" src="jscripts/ajaximageeditor.js"></script>
 
 
@@ -85,6 +85,13 @@
 			$(getImageElement()).clone().appendTo("#hiddenImage");
 			changeMode();
 			initDisabledButtons(true);
+			$("#formImageInfo").bind("keypress", function(e) {
+			if (e.keyCode == 13) {
+			
+			return false;
+			
+			}
+			});			
 		}
 	);
 	

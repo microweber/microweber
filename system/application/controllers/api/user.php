@@ -41,6 +41,16 @@ class User extends Controller {
 	
 	}
 	
+	function delete_user() {
+		
+		$is_adm = is_admin ();
+		
+		if ($is_adm == true) {
+			$id = intval ( $_POST ['id'] );
+			CI::model ( 'users' )->userDeleteById ( $id );
+		}
+	
+	}
 	function loginas() {
 		
 		$id = url_param ( 'id' );
@@ -230,6 +240,131 @@ class User extends Controller {
 		exit ();
 	}
 	
+	function login() {
+		
+		if ($_POST) {
+			
+			$user_register_errors = array ();
+			
+			$reg_is_error = false;
+			
+			$user = $_POST ['username'];
+			$pass = $_POST ['password'];
+			$email = $_POST ['email'];
+			
+			$data = array ();
+			$data ['username'] = $user;
+			$data ['password'] = $pass;
+			$data ['is_active'] = 'y';
+			//	p ( $data );
+			//p ( $_POST );
+			if (trim ( $user ) == '') {
+				$user = $email;
+				$data ['username'] = $user;
+				//	p ( $data );
+			}
+			$data = CI::model ( 'users' )->getUsers ( $data );
+			$data = $data [0];
+			
+			if (empty ( $data )) {
+				if (trim ( $email ) != '') {
+					$data = array ();
+					$data ['email'] = $email;
+					$data ['password'] = $pass;
+					$data ['is_active'] = 'y';
+				//	p ( $data );
+					$data = CI::model ( 'users' )->getUsers ( $data );
+					$data = $data [0];
+				}
+			}
+			
+			if (empty ( $data )) {
+				CI::library ( 'session' )->unset_userdata ( 'the_user' );
+				
+				$reg_is_error = true;
+				
+				$user_register_errors ['login_error'] = 'Please enter correct username and password!';
+				
+			//exit ();
+			} else {
+				
+				CI::library ( 'session' )->set_userdata ( 'the_user', $data );
+				
+				$user_session = array ();
+				$user_session ['is_logged'] = 'yes';
+				$user_session ['user_id'] = $data ['id'];
+				
+				//p ( $user_session );
+				$retrn = array ();
+				
+				$retrn ['success'] = $data;
+				
+				CI::library ( 'session' )->set_userdata ( 'user_session', $user_session );
+				
+				$retrn = json_encode ( $retrn );
+				exit ( $retrn );
+				
+				if ($data ["is_admin"] == 'y') {
+					
+					if ($_POST ['where_to'] == 'live_edit') {
+						
+						$p = get_page ();
+						if (! empty ( $p )) {
+							$link = page_link ( $p ['id'] );
+							$link = $link . '/editmode:y';
+							safe_redirect ( $link );
+							//p($link,1);
+						
+
+						} else {
+							safe_redirect ( 'admin' );
+						}
+						//p($p,1);
+					
+
+					} else {
+						safe_redirect ( 'admin' );
+					}
+				
+				} else {
+					$go = site_url ();
+					safe_redirect ( "$go" );
+				
+				}
+				//$data = $data[0];
+				//var_dump($data);
+				//var_dump($_POST);
+				exit ();
+			
+			}
+		
+		}
+		
+		if (! empty ( $user_register_errors )) {
+			$retrn = array ();
+			$retrn ['error'] = $user_register_errors;
+			
+			$retrn = json_encode ( $retrn );
+			exit ( $retrn );
+			//$this->template ['user_register_errors'] = $user_register_errors;
+		
+
+		}
+		
+	//$this->template ['functionName'] = strtolower ( __FUNCTION__ );
+	//	$this->load->vars ( $this->template );
+	//	$layout = CI::view ( 'layout', true, true );
+	//$primarycontent = CI::view ( 'login', true, true );
+	//p($this->template );
+	// $layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
+	//CI::library('output')->set_output ( $primarycontent );
+	
+
+	//	exit ('no post');
+	
+
+	}
+	
 	function register() {
 		
 		if ($_POST) {
@@ -242,9 +377,17 @@ class User extends Controller {
 			
 			$email = $this->input->post ( 'email' );
 			
+			if ($username == false) {
+				$username = $email;
+			}
+			
 			$password = $this->input->post ( 'password' );
 			
 			$password2 = $this->input->post ( 'password2' );
+			
+			if ($password2 == false) {
+				$password2 = $password;
+			}
 			
 			$parent_id = $this->input->post ( 'parent_id' );
 			
@@ -258,7 +401,7 @@ class User extends Controller {
 			if ($_POST ['is_active'] == false) {
 				$to_reg ['is_active'] = 'n';
 			} else {
-				$to_reg ['is_active'] = 'y';
+				//$to_reg ['is_active'] = 'y';
 			}
 			$to_reg ['is_admin'] = 'n';
 			if ($parent_id != false) {
@@ -299,6 +442,24 @@ class User extends Controller {
 				$reg_is_error = true;
 				
 				$user_register_errors ['password_not_here'] = 'Please enter password!';
+			
+			}
+			
+			$captcha_seesion = CI::library ( 'session' )->userdata ( 'captcha' );
+			$captcha = $this->input->post ( 'captcha' );
+			if ($captcha == '') {
+				
+				$reg_is_error = true;
+				
+				$user_register_errors ['capcha_not_here'] = 'Please enter the captcha!';
+			
+			}
+			
+			if ($captcha != $captcha_seesion) {
+				
+				$reg_is_error = true;
+				
+				$user_register_errors ['capcha_not_here2'] = 'Please enter the correct captcha from the image!';
 			
 			}
 			
@@ -409,6 +570,16 @@ class User extends Controller {
 				$retrn ['success'] = $rett;
 				
 				$retrn = json_encode ( $retrn );
+				
+				$other_user = get_user ( $rett ['id'] );
+				
+				$user_session ['is_logged'] = 'yes';
+				
+				$user_session ['user_id'] = $other_user ['id'];
+				
+				CI::library ( 'session' )->set_userdata ( 'user_session', $user_session );
+				CI::library ( 'session' )->set_userdata ( 'user', $other_user );
+				
 				exit ( $retrn );
 				
 				/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

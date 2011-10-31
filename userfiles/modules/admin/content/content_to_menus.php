@@ -1,14 +1,14 @@
  <?
 $id = $params['id'];
 
-
+if(intval($id) != 0){
 
 $form_values = get_content($id);
  
-
+}
 ?>
       <fieldset>
-        <legend>Add this post to menus</legend>
+        <legend>Add this content to menus</legend>
         <?php  $menus = CI::model('content')->content_model->getMenus(array('item_type' => 'menu'));
 		
 		//p($menus);
@@ -23,9 +23,11 @@ $form_values = get_content($id);
 		
 		
 		?>
+        <? if($item['item_title'] != ''): ?>
         <label class="lbl"> <?php print $item['item_title'] ?>&nbsp;
           <input name="menus[]" type="checkbox" <?php if($is_checked  == true): ?> checked="checked"  <?php endif; ?> value="<?php print $item['id'] ?>" />
         </label>
+        <? endif; ?>
         <?php endforeach; ?>
         <?php //  var_dump( $menus);  ?>
       </fieldset>

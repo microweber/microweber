@@ -8,9 +8,9 @@ salt = "b8dd8fd74d7614d4cbe1dd5fc509c992"
 
 [database]
 host = "127.0.0.1"
-username = "root"
-password = 123456
-dbname = "cms2"
+username = "microweber"
+password = otivamnabali123456
+dbname = "microweber_com_site"
 tables_prefix = "piwik_"
 adapter = "PDO_MYSQL"
 port = 3306

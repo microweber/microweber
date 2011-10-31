@@ -142,6 +142,9 @@ class Media extends Controller {
 				$queue_id = $_POST ['queue_id'];
 			}
 			
+			
+			//var_dump($for, $id, $queue_id, $collection);
+			
 			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id, $collection = $module_id );
 			//p ( $status );
 			print json_encode ( $status );
@@ -155,13 +158,13 @@ class Media extends Controller {
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error!' );
 		}
-		$id = is_admin ();
+		//$id = is_admin ();
 		if ($id == false) {
-			exit ( 'Error: not logged in as admin.' );
+			//exit ( 'Error: not logged in as admin.' );
 		}
-		
-		//var_dump ( $_POST );
-		//var_dump ( $_FILES );
+		///
+		// var_dump ( $_POST );
+		// var_dump ( $_FILES );
 		if ($_POST) {
 			//p ( $_POST );
 			//p ( $_FILES );

@@ -7,6 +7,16 @@
 	 * @since 22/April/2007
 	 *
 	 */
+	 
+	 
+	  define("INTERNAL_API_CALL", 1);
+  define("NO_MICROWEBER", 1);
+ 
+ 
+ //include('../../../../../../../../../index.php');
+ 
+ 
+ 
 	
 	//FILESYSTEM CONFIG	<br>
 	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "class.auth.php");	

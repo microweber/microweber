@@ -11,7 +11,7 @@ if (! defined ( 'BASEPATH' ))
 
  * An open source CMS and application development framework for PHP 5.1 or newer
 
- *
+ *menuTree
 
  * @package     Microweber
 
@@ -305,7 +305,7 @@ class content_model extends Model {
 			}
 		
 		}
-		if (strval ( $data_to_save ['content_subtype_value'] ) == '') {
+		if (strval ( $data_to_save ['content_subtype_value_new'] ) != '') {
 			$adm = is_admin ();
 			
 			if ($data_to_save ['content_subtype_value_new'] != '') {
@@ -320,7 +320,7 @@ class content_model extends Model {
 					$new_category = CI::model ( 'taxonomy' )->taxonomySave ( $new_category );
 					
 					$data_to_save ['content_subtype_value'] = $new_category;
-					$data_to_save ['content_subtype'] = 'blog_section';
+					$data_to_save ['content_subtype'] = 'dynamic';
 				
 				}
 			}
@@ -1326,6 +1326,29 @@ class content_model extends Model {
 	
 	}
 	
+	function contentGetPagesWithCategories() {
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_content'];
+		$q = " select *  from $table where 
+		content_subtype_value IS NOT NULL 
+		and 
+		content_subtype_value <> '' 
+		and 
+		content_type='page'
+		and 
+		content_subtype='dynamic'
+		";
+		
+		//$taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content' );
+		
+
+		$pages = CI::model ( 'core' )->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content/global' );
+		
+		return $pages;
+	
+	}
+	
 	function contentGetPages($is_active = false) {
 		
 		$data = array ();
@@ -1486,67 +1509,83 @@ class content_model extends Model {
 		
 		$content = $this->contentGetByIdAndCache ( $id );
 		//p($content);
+		$the_url = false;
 		
-
-		$cats = CI::model ( 'taxonomy' )->getCategoriesForContent ( $id );
-		//p ( $cats );
-		//	
-		
-
-		if (! empty ( $cats )) {
+		if (intval ( $content ['content_parent'] ) != 0) {
 			
-			$url = false;
-			
-			$master = CI::model ( 'taxonomy' )->getMasterCategories ();
-			
-			foreach ( $cats as $c ) {
+			$the_url = $this->getContentURLById ( $content ['content_parent'] );
+			if (trim ( $the_url ) != '') {
 				
-				if ($url == false) {
+				$the_url = $the_url . '/' . $content ['content_url'];
+				
+				$the_url = reduce_double_slashes ( $the_url );
+			} else {
+				$the_url = false;
+			}
+		
+		}
+		
+		if ($the_url == false) {
+			
+			$cats = CI::model ( 'taxonomy' )->getCategoriesForContent ( $id );
+			//p ( $cats );
+			//	
+			
+
+			if (! empty ( $cats )) {
+				
+				$url = false;
+				
+				$master = CI::model ( 'taxonomy' )->getMasterCategories ();
+				
+				foreach ( $cats as $c ) {
 					
-					foreach ( $master as $m ) {
+					if ($url == false) {
 						
-						if ($m ['id'] == $c ['id']) {
+						foreach ( $master as $m ) {
 							
-							$url = CI::model ( 'taxonomy' )->getUrlForIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];
+							if ($m ['id'] == $c ['id']) {
+								
+								$url = CI::model ( 'taxonomy' )->getUrlForIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];
+								
+
+								$url1 = $url . '/' . $content ['content_url'];
+								//p($url1);
 							
 
-							$url1 = $url . '/' . $content ['content_url'];
-							//p($url1);
+							}
 						
-
 						}
 					
 					}
 				
 				}
-			
-			}
-			
-			$the_url = $url1;
-		
-		} else {
-			
-			if (intval ( $content ['content_parent'] ) == 0) {
 				
-				//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];
-				
-
-				$the_url = $the_url . '/' . $content ['content_url'];
-				
-				$the_url = reduce_double_slashes ( site_url ( $the_url ) );
+				$the_url = $url1;
 			
 			} else {
 				
-				$the_url = $this->getContentURLById ( $content ['content_parent'] );
+				if (intval ( $content ['content_parent'] ) == 0) {
+					
+					//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];
+					
+
+					$the_url = $the_url . '/' . $content ['content_url'];
+					
+					$the_url = reduce_double_slashes ( site_url ( $the_url ) );
 				
-				$the_url = $the_url . '/' . $content ['content_url'];
+				} else {
+					
+					$the_url = $this->getContentURLById ( $content ['content_parent'] );
+					
+					$the_url = $the_url . '/' . $content ['content_url'];
+					
+					$the_url = reduce_double_slashes ( $the_url );
 				
-				$the_url = reduce_double_slashes ( $the_url );
+				}
 			
 			}
-		
-		}
-		
+			
 		//var_dump($cats);
 		
 
@@ -1569,8 +1608,8 @@ class content_model extends Model {
         */
 		
 		//cache
+		}
 		
-
 		$cache = CI::model ( 'core' )->cacheWriteAndEncode ( $the_url, $function_cache_id, $cache_group );
 		
 		return $the_url;
@@ -1616,7 +1655,7 @@ class content_model extends Model {
 		
 		$data ['content_type'] = 'page';
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_subtype_value'] = $category_id;
 		
@@ -1641,7 +1680,7 @@ class content_model extends Model {
 				
 				$data1 ['content_type'] = 'page';
 				
-				$data1 ['content_subtype'] = 'blog_section';
+				$data1 ['content_subtype'] = 'dynamic';
 				
 				$data1 ['content_subtype_value'] = $item;
 				
@@ -1686,7 +1725,7 @@ class content_model extends Model {
 		
 		$data ['content_type'] = 'page';
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_subtype_value'] = $category_id;
 		
@@ -1717,7 +1756,7 @@ class content_model extends Model {
 					
 					$data1 ['content_type'] = 'page';
 					
-					$data1 ['content_subtype'] = 'blog_section';
+					$data1 ['content_subtype'] = 'dynamic';
 					
 					$data1 ['content_subtype_value'] = $item ['id'];
 					
@@ -1758,7 +1797,7 @@ class content_model extends Model {
 					
 					$data1 ['content_type'] = 'page';
 					
-					$data1 ['content_subtype'] = 'blog_section';
+					$data1 ['content_subtype'] = 'dynamic';
 					
 					$data1 ['content_subtype_value'] = $item;
 					
@@ -2658,7 +2697,7 @@ class content_model extends Model {
 		
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
 		
-		if ($content ['content_subtype'] == 'blog_section') {
+		if ($content ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content ['content_subtype_value'];
 			
@@ -2942,7 +2981,7 @@ class content_model extends Model {
 		
 		$content = $content [0];
 		
-		if ($content ['content_subtype'] == 'blog_section') {
+		if ($content ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content ['content_subtype_value'];
 			
@@ -5128,9 +5167,13 @@ $my_limit_q
 		
 
 		if ($base_url == false) {
-			
-			$base_url = getCurentURL ();
-		
+			if (PAGE_ID != false) {
+				$base_url = page_link ( PAGE_ID );
+				
+			// p($base_url);
+			} else {
+				$base_url = getCurentURL ();
+			}
 		}
 		
 		//  print $base_url;
@@ -5202,7 +5245,7 @@ $my_limit_q
 		
 		$data = array ();
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_type'] = 'page';
 		
@@ -5444,14 +5487,14 @@ $my_limit_q
 			
 			$content = array ();
 			
-			$content ['content_subtype'] = 'blog_section';
+			$content ['content_subtype'] = 'dynamic';
 			
 			$content ['content_subtype_value'] = $id;
 			
 			//$orderby = array ('id', 'desc' );
 			
 
-			//$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$id} limit 0,1";
+			//$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
 			
 
 			//$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
@@ -5492,13 +5535,13 @@ $my_limit_q
 				
 				$content = array ();
 				
-				$content ['content_subtype'] = 'blog_section';
+				$content ['content_subtype'] = 'dynamic';
 				
 				$content ['content_subtype_value'] = $item;
 				
 				$orderby = array ('id', 'desc' );
 				
-				$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
+				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				
 				//$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 				$content = $this->getContentAndCache ( $content, $orderby );
@@ -5629,14 +5672,18 @@ $my_limit_q
 
 				$sql = "SELECT max(position) as maxpos from $table where item_parent='{$data ['item_parent']}'  ";
 				
-				$q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
-				
-				$result = $q [0];
-				
-				$maxpos = intval ( $result ['maxpos'] ) + 1;
-				
-				$data ['position'] = $maxpos;
+			//	$q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
 			
+
+			//$result = $q [0];
+			
+
+			//	$maxpos = intval ( $result ['maxpos'] ) + 1;
+			
+
+			//?	$data ['position'] = $maxpos;
+			
+
 			}
 		
 		}
@@ -5737,7 +5784,6 @@ $my_limit_q
 		
 		$quick_nav = $this->getBreadcrumbsByURLAsArray ( $the_url, $include_home );
 		
-		 
 		if (! empty ( $quick_nav )) {
 			
 			?>
@@ -5750,7 +5796,7 @@ $my_limit_q
 				?>
 
                         <li><a
-        href="<?php
+		href="<?php
 				print $item ['url'];
 				?>"><?php
 				print ucwords ( $item ['title'] );
@@ -6001,7 +6047,7 @@ $my_limit_q
 						//if (intval ( $page ['content_subtype_value'] ) != 0) {
 						
 
-						if ($page ['content_subtype'] == 'blog_section') {
+						if ($page ['content_subtype'] == 'dynamic') {
 							
 							$active_categories = $this->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $the_url, true );
 							
@@ -6456,15 +6502,18 @@ $my_limit_q
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
+		$function_cache_id = $function_cache_id . PAGE_ID . POST_ID;
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+		//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
 		
+
 		if (($cache_content) != false) {
 			//p($cache_content);
-			return $cache_content;
+		//return $cache_content;
 		
+
 		}
 		
 		//$data = $this->getMenuItems ( $menu_id );
@@ -6483,7 +6532,10 @@ $my_limit_q
 		
 		$table_menus = $cms_db_tables ['table_menus'];
 		
-		$sql = "SELECT id from $table_menus where item_parent=$menu_id  and $table_menus.item_parent<>$table_menus.id  order by position ASC ";
+		$sql = "SELECT id from $table_menus 
+		where item_parent=$menu_id  
+		and $table_menus.item_parent<>$table_menus.id  
+		order by position ASC ";
 		//p ( $sql );
 		$q = CI::model ( 'core' )->dbQuery ( $sql, __FUNCTION__ . md5 ( $sql ), 'menus' );
 		
@@ -6497,14 +6549,22 @@ $my_limit_q
 		foreach ( $data as $item ) {
 			$full_item = $this->getMenuItems ( false, $item ['id'] );
 			$full_item = $full_item [0];
-			//p($full_item);
+			//	p($full_item);
 			
 
+			$active_class = '';
+			if ($full_item ['content_id'] == PAGE_ID) {
+				$active_class = ' active';
+			}
+			if ($full_item ['content_id'] == POST_ID) {
+				$active_class = ' active';
+			}
+			
 			if ($full_item ['item_title'] == '') {
 				$full_item ['item_title'] = $full_item ['id'];
 			}
 			
-			$to_print .= '<li class="menu_element" id="menu_item_' . $item ['id'] . '"><a href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
+			$to_print .= '<li class="menu_element ' . $active_class . '" id="menu_item_' . $item ['id'] . '"><a href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
 			
 			if (in_array ( $item ['id'], $passed_ids ) == false) {
 				
@@ -6533,7 +6593,7 @@ $my_limit_q
 		
 		//print "[[ $time ]]seconds\n";
 		$to_print .= '</ul>';
-		CI::model ( 'core' )->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
+		//CI::model ( 'core' )->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
 		return $to_print;
 	}
 	function getMenuItemById($id) {
@@ -6726,6 +6786,10 @@ $my_limit_q
 	
 	function getMenuItemsByMenuName($name) {
 		
+		//var_dump ( ACTIVE_PAGE_ID );
+		//var_dump ( PAGE_ID );
+		
+
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
@@ -6734,7 +6798,7 @@ $my_limit_q
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id ) . ACTIVE_PAGE_ID;
 		
 		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id );
 		
@@ -6759,6 +6823,25 @@ $my_limit_q
 		$data = $this->getMenus ( $data, $orderby );
 		
 		$the_menu = $data [0];
+		
+		if (empty ( $the_menu )) {
+			$data = false;
+			
+			$data ['menu_unique_id'] = $name;
+			
+			$data ['item_type'] = 'menu';
+			
+			$orderby = array ();
+			
+			$orderby [0] = 'position';
+			
+			$orderby [1] = 'asc';
+			
+			$data = $this->getMenus ( $data, $orderby );
+			if (! empty ( $data )) {
+				$the_menu = $data [0];
+			}
+		}
 		
 		$the_menu = $this->getMenuItems ( $the_menu ['id'] );
 		
@@ -6857,7 +6940,13 @@ $my_limit_q
 
 			}
 			
-			if (intval ( $GLOBALS ['ACTIVE_PAGE_ID'] ) == intval ( $content_item ['id'] )) {
+			if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
+				
+				$is_active = true;
+			
+			}
+			
+			if (intval ( ACTIVE_PAGE_ID ) == intval ( $item ['content_id'] )) {
 				
 				$is_active = true;
 			
@@ -7099,7 +7188,7 @@ $my_limit_q
 		$menus_array = implode ( ',', $menus_array );
 		
 		$q = "DELETE FROM $table where content_id=$content_id and item_parent NOT IN ($menus_array)  ";
-		
+		//	p($q);
 		$sql_q = CI::db ()->query ( $q );
 		
 		CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
@@ -7299,7 +7388,7 @@ $my_limit_q
 				
 				if ($meta ['content_meta_keywords'] == '') {
 					
-					if ($content ['content_subtype'] == 'blog_section') {
+					if ($content ['content_subtype'] == 'dynamic') {
 						
 						$temp = CI::model ( 'taxonomy' )->getChildrensRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
 						
@@ -7680,7 +7769,7 @@ $my_limit_q
 
 	}
 	
-	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false) {
+	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 		
 		global $cms_db_tables;
 		
@@ -7688,11 +7777,19 @@ $my_limit_q
 		
 		if ($content_parent == false) {
 			
-			$content_parent = intval ( 0 );
+			$content_parent = (0);
 		
 		}
+		if ($include_first == true) {
+			$sql = "SELECT * from $table where  id=$content_parent    and content_type='page'  order by updated_on desc ";
 		
-		$sql = "SELECT * from $table where  content_parent=$content_parent and content_type='page'  ";
+		} else {
+			
+			$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
+		
+		}
+		//p($sql);
+		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
@@ -7703,7 +7800,11 @@ $my_limit_q
 			//$output = "<ul>";
 			
 
-			print "<ul>";
+			if ($ul_class_name == false) {
+				print "<ul>";
+			} else {
+				print "<ul class='{$ul_class_name}'>";
+			}
 			
 			foreach ( $result as $item ) {
 				
@@ -7715,7 +7816,7 @@ $my_limit_q
 					
 					switch ($item ['content_subtype']) {
 						
-						case 'blog_section' :
+						case 'dynamic' :
 							
 							$content_type_li_class = 'is_category';
 							
@@ -7741,7 +7842,7 @@ $my_limit_q
 				
 				}
 				
-				print "<li class='$content_type_li_class'>";
+				print "<li class='$content_type_li_class' id='page_list_holder_{$item['id']}' >";
 				
 				if ($link != false) {
 					
@@ -7753,6 +7854,9 @@ $my_limit_q
 					
 					$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
 					
+					if (strstr ( $to_print, '{tn}' )) {
+						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'], 'original' ), $to_print );
+					}
 					foreach ( $item as $item_k => $item_v ) {
 						$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );
 					
@@ -7816,7 +7920,7 @@ $my_limit_q
 				
 				}
 				
-				$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code );
+				$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name );
 				
 				print "</li>";
 			
@@ -8435,8 +8539,9 @@ $my_limit_q
 							
 
 							if (is_array ( $actve_ids ) == true) {
-								
-								if (in_array ( $item ['id'], $actve_ids )) {
+								//p($active_code);
+								//	p($item ['id']);
+								if (in_array ( intval ( $item ['id'] ), $actve_ids )) {
 									
 									$to_print = str_ireplace ( '{active_code}', $active_code, $to_print );
 								

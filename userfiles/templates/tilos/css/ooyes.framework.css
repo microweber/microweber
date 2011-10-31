@@ -216,7 +216,7 @@ pre {
 	margin:1.67em 0
 }
 .richtext blockquote, .richtext dd, .richtext menu, .richtext dir, .richtext ul, .richtext ol {
-	margin-left:40px
+	/*margin-left:40px*/
 }
 .richtext blockquote {
 	margin-right:40px

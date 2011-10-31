@@ -125,7 +125,14 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		
 		if (empty ( $post )) {
 			$content = $page;
+		} else {
+					$post['content_body'] = html_entity_decode($post['content_body']);
+			
 		}
+		
+		$page['content_body'] = html_entity_decode($page['content_body']);
+		
+		
 		if (user_id () != false) {
 			//$full_page = get_page ( $page ['id'] );
 			$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $page ['id'] );
@@ -225,7 +232,9 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		}
 		
 		//if ( empty ( $subdomain_user )) {
-		
+		if (strtolower($content ['content_layout_file']) == 'inherit') {
+			$content ['content_layout_file'] = '';
+		}
 
 		if ($content ['content_layout_file'] != '') {
 			
@@ -328,6 +337,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			$layout = TEMPLATES_DIR . 'layouts/' . $content ['content_layout_name'] . '/index.php';
 			
 			$layout = $this->load->file ( $layout, true );
+			$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
 			
 		//
 		}
@@ -447,8 +457,8 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		
 		}
 		
-		$stats_js = CI::model ( 'stats' )->get_js_code();
-		;
+		$stats_js = CI::model ( 'stats' )->get_js_code ();
+	 
 		
 		$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
 		
@@ -460,7 +470,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		if ($editmode == true) {
 			$is_admin = is_admin ();
 			if ($is_admin == true) {
-				$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
+				//$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
 				$layout_toolbar = CI::view ( 'admin/toolbar', true, true );
 				if ($layout_toolbar != '') {
 					$layout = str_replace ( '</body>', $layout_toolbar . '</body>', $layout );
@@ -472,6 +482,20 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			
 			}
 		
+		}
+		$r = (RESOURCES_DIR . 'load.php');
+		$r = normalize_path ( $r, false );
+		//$res =$this->load->file ( , true );
+		if (is_file ( $r )) {
+			$res = $this->load->file ( $r, true );
+			if ($res != false) {
+ 
+					$layout = str_replace ( '</ head>', '</head>', $layout ); //some developers put spaces
+				 
+					
+					
+				$layout = str_replace ( '</head>', $res . '</head>', $layout );
+			}
 		}
 		
 		if ($stats_js != false) {

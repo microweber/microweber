@@ -51,11 +51,7 @@ Example:
 
  */
 
-?> 
-
- 
-
-
+?>
 <?php
  
  
@@ -120,7 +116,14 @@ Example:
 		}
 	}
 	
-	
+	if($params['tn_size'] != false){
+		$tn_s = $params['tn_size'];
+		
+		
+	} else {
+		
+		 $tn_s = 150;
+	}
 	//$this->appvar->set('items_per_page', $post_params['items_per_page']); 
 	//$this->appvar->set('curent_page', $post_params['curent_page']); 
  
@@ -129,35 +132,46 @@ Example:
 
 	?>
     
+ 
+    
 <? if(empty($posts )): ?>
 <? if(($no_results_text )): ?>
 <? print $no_results_text ; ?>
 <? endif; ?>
 <?  else : ?>
-
 <? if($file): ?>
-<? foreach($posts['posts'] as $post): ?>
+<? //foreach($posts['posts'] as $post): ?>
 <?
-	$try_file1 = TEMPLATE_DIR . $file.'.php';
-$this->template ['the_post'] = $post;
-				$this->load->vars ( $this->template );
-				
-				$content_filename = $this->load->file ( $try_file1, true );
-				print $content_filename;
+if(stristr($file, '.php') == false){
+	
+	$file = $file.'.php';
+}
+	$try_file1 = TEMPLATE_DIR . $file;
+	include($try_file1);
+//$this->template ['posts'] = $posts['posts'];
+//$this->template ['data'] = $posts;
+//				$this->load->vars ( $this->template );
+//				
+//				$content_filename = $this->load->file ( $try_file1, true );
+//				print $content_filename;
 ?>
-
-<? endforeach; ?>
+<? //endforeach; ?>
 <?  else : ?>
-
-
 <? if(!$display and !$file): ?>
 
 <ul class="posts-list">
   <? foreach($posts['posts'] as $post): ?>
- 
-  <li> <a href="<? print post_link($post['id']); ?>" class="img" style="background-image: url('<? print thumbnail($post['id'], 150) ?>')"><span></span></a> <strong><a href="<? print post_link($post['id']); ?>"><? print $post['content_title'] ?></a></strong>
-    <p><? print $post['content_description'];  ?></p>
-  </li>
+  <li itemscope itemtype="http://schema.org/Article" class="single-post"> <strong ><a  class="post-title"  href="<? print post_link($post['id']); ?>"  itemprop="name"><? print $post['content_title'] ?></a></strong>
+    <div class="single-post-info"> <span class="single-post-author">by <span itemprop="author"><? print user_name($post['created_by']); ?></span></span> | <span class="single-post-date">published on <span itemprop="datePublished"><? print ($post['created_on']); ?></span></span> </div>
+    
+    
+    
+    <? if( $tn_s  != 'none'): ?>
+    <a itemprop="url" href="<? print post_link($post['id']); ?>" class="img" style="background-image: url('<? print thumbnail($post['id'], $tn_s) ?>')"><span></span></a>
+    <? endif; ?>
+    
+    <p class="single-post-description" itemprop="description"><? print $post['content_description'];  ?></p>
+    <a itemprop="url" href="<? print post_link($post['id']); ?>" class="single-post-more-link">Read more</a> </li>
   <? endforeach; ?>
 </ul>
 <? endif; ?>

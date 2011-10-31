@@ -58,7 +58,7 @@ var answer = confirm("Are you sure?")
   function(data){
 
 	  //$("#gallery_module_sortable_pics_positions_"+$id).fadeOut();
-
+save_media_close<? print $rand ;?>()
 	  $("#gallery_module_sortable_pics_positions_"+$id).remove();
 
 	// contentMediaPicturesRefreshList();

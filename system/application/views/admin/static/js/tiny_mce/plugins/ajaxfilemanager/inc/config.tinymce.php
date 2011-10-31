@@ -7,49 +7,8 @@
 	 *
 	 */
 	
-	$some_dir = $_COOKIE['root_path'];
-	
-	
-	//var_dump($some_dir);
-	
-	define ( 'INTERNAL_API_CALL',true );
-	define ( 'INTERNAL_API_CALL_EXEC', 'dadasd' );
-	include($some_dir.'/index.php');
-	$CI =  get_instance();
- 	$the_user = $CI->session->userdata ( 'the_user' );
-	$user = ( $the_user["is_admin"]); 
-	//
-	
-	if(strval($user)!= "y"){
-	//	
-	  exit();
-		
-	} else {
-		//var_dump($user);
-	//
-	}
-	
-	
-	
-	
-	$filesurl = base64_decode($_COOKIE['fckEditor_filesurl']);	
 
-
-$fckEditor_filespath = base64_decode($_COOKIE['fckEditor_filespath']);
-if(is_dir($fckEditor_filespath) == false){
-exit('Invalid directory');	
-}
-
-if(stristr($fckEditor_filespath, 'userfiles/media') == false ){
-exit('Invalid directory');	
-}
-
-$filespath = $fckEditor_filespath;	
-
-
- 
-
-error_reporting(E_ALL);	 
+error_reporting(E_ALL);	
 //error_reporting(E_ALL ^ E_NOTICE);	
 	
 	
@@ -60,11 +19,6 @@ error_reporting(E_ALL);
 	 * by session => true
 	 */
 	define('CONFIG_ACCESS_CONTROL_MODE', false); 	
-	
-	
-	
-	
-	
 	define("CONFIG_LOGIN_USERNAME", 'ajax');
 	define('CONFIG_LOGIN_PASSWORD', '123456');
 	define('CONFIG_LOGIN_PAGE', 'ajax_login.php'); //the url to the login page
@@ -97,8 +51,7 @@ error_reporting(E_ALL);
 	define('CONFIG_SYS_DEFAULT_PATH', '../uploaded/'); //accept relative path only
 	define('CONFIG_SYS_ROOT_PATH', '../uploaded/');	//accept relative path only
 	define('CONFIG_SYS_FOLDER_SHOWN_ON_TOP', true); //show your folders on the top of list if true or order by name 
-	define("CONFIG_SYS_DIR_SESSION_PATH", $filespath. '/session/');
-	@mkdir(CONFIG_SYS_DIR_SESSION_PATH);
+	define("CONFIG_SYS_DIR_SESSION_PATH", 'session/');
 	define("CONFIG_SYS_PATTERN_FORMAT", 'list'); //three options: reg ,csv, list, this option define the parttern format for the following patterns
 		/**
 		 * reg => regulare expression
@@ -114,7 +67,7 @@ error_reporting(E_ALL);
 	define('CONFIG_SYS_DELETE_RECURSIVE', 1); //delete all contents within a specific folder if set to be 1
 	
 	//UPLOAD OPTIONS CONFIG
-	define('CONFIG_UPLOAD_MAXSIZE', 5000 * 1024*100 ); //by bytes
+	define('CONFIG_UPLOAD_MAXSIZE', 50 * 1024 ); //by bytes
 	//define('CONFIG_UPLOAD_MAXSIZE', 2048); //by bytes
 	//define('CONFIG_UPLOAD_VALID_EXTS', 'txt');//
 
@@ -122,8 +75,8 @@ error_reporting(E_ALL);
 	
 	define('CONFIG_OVERWRITTEN', false); //overwirte when processing paste
 	define('CONFIG_UPLOAD_VALID_EXTS', 'gif,jpg,png,txt'); // 
-	//define('CONFIG_UPLOAD_VALID_EXTS', 'gif,jpg,png,bmp,tif,zip,sit,rar,gz,tar,htm,html,mov,mpg,avi,asf,mpeg,wmv,aif,aiff,wav,mp3,swf,ppt,rtf,doc,pdf,xls,txt,xml,xsl,dtd');//
-	define("CONFIG_VIEWABLE_VALID_EXTS", 'gif,bmp,txt,jpg,png,tif,html,htm,js,css,xml,xsl,dtd,mp3,wav,wmv,wma,rm,rmvb,mov,swf');
+	define('CONFIG_UPLOAD_VALID_EXTS', 'gif,jpg,png,bmp,tif,zip,sit,rar,gz,tar,htm,html,mov,mpg,avi,asf,mpeg,wmv,aif,aiff,wav,mp3,swf,ppt,rtf,doc,pdf,xls,txt,xml,xsl,dtd');//
+	//define("CONFIG_VIEWABLE_VALID_EXTS", 'gif,bmp,txt,jpg,png,tif,html,htm,js,css,xml,xsl,dtd,mp3,wav,wmv,wma,rm,rmvb,mov,swf');
 	//define('CONFIG_UPLOAD_VALID_EXTS', 'gif,jpg,png,txt'); // 
 	define('CONFIG_UPLOAD_INVALID_EXTS', '');
 
@@ -168,7 +121,7 @@ error_reporting(E_ALL);
 	define('CONFIG_EDITOR_NAME', (CONFIG_QUERY_STRING_ENABLE && !empty($_GET['editor'])?secureFileName($_GET['editor']):'stand_alone')); 
 	define('CONFIG_THEME_NAME', (CONFIG_QUERY_STRING_ENABLE && !empty($_GET['theme'])?secureFileName($_GET['theme']):'default'));  //change the theme to your custom theme rather than default
 	define('CONFIG_DEFAULT_VIEW', (CONFIG_SYS_THUMBNAIL_VIEW_ENABLE?'detail':'detail')); //thumnail or detail
-	define('CONFIG_DEFAULT_PAGINATION_LIMIT', 10);
+	define('CONFIG_DEFAULT_PAGINATION_LIMIT', 100);
 	define('CONFIG_LOAD_DOC_LATTER', false); //all documents will be loaded up after the template has been loaded to the client 
 	
 	//General Option Declarations

@@ -78,42 +78,48 @@ class Shop extends Controller {
 						$user_from_order = explode ( ':', $_POST ['item_number'] );
 						$user_from_order = $user_from_order [1];
 						
-						$usr = CI::model('users')->getUserById ( $user_from_order );
+						$usr = CI::model ( 'users' )->getUserById ( $user_from_order );
 						if ($usr ['expires_on'] == false) {
 							$usr ['expires_on'] = date ( "Y-m-d H:i:s" );
 						}
 						$extend_with = $_POST ['period3'];
-						  
-						$extend_with = str_ireplace('M', '', $extend_with);
-	 
-						$extend_with = intval ( $extend_with );
-						 
-						//$newdate = add_date ( $usr ['expires_on'], 0, $extend_with, 0 );
-						$newdate = strtotime ( "+{$extend_with} months", strtotime ( $usr ['expires_on'] ) ) ;
-						$newdate = date ( "Y-m-d H:i:s",$newdate  );
-		 
 						
+						$extend_with = str_ireplace ( 'M', '', $extend_with );
+						
+						$extend_with = intval ( $extend_with );
+						
+						//$newdate = add_date ( $usr ['expires_on'], 0, $extend_with, 0 );
+						$newdate = strtotime ( "+{$extend_with} months", strtotime ( $usr ['expires_on'] ) );
+						$newdate = date ( "Y-m-d H:i:s", $newdate );
 						
 						$to_save = array ();
 						$to_save ['id'] = $user_from_order;
 						$to_save ['expires_on'] = $newdate;
-						$emailtext .= 'Old date:' .$usr ['expires_on']. "\n\n";
-	 
-						$emailtext .= 'New date:' .$newdate. "\n\n";
-						$emailtext .= serialize($to_save) . "\n\n";
-						CI::model('users')->saveUser ( $to_save );
+						$emailtext .= 'Old date:' . $usr ['expires_on'] . "\n\n";
+						
+						$emailtext .= 'New date:' . $newdate . "\n\n";
+						$emailtext .= serialize ( $to_save ) . "\n\n";
+						CI::model ( 'users' )->saveUser ( $to_save );
 					
 					}
-					
-					$email = 'boksiora@gmail.com';
+					$get_option = array ();
+					$get_option ['option_key'] = 'mailform_to';
+					//$get_option ['option_group'] = 'orders';
+					$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+					$email = $get_option1 ['option_value'];
+					//$email = 'boksiora@gmail.com';
 					mail ( $email, "Live-VERIFIED IPN", $emailtext . "\n\n" . $req );
 				} else if (strcmp ( $res, "INVALID" ) == 0) {
 					// If 'INVALID', send an email. TODO: Log for manual investigation. 
 					foreach ( $_POST as $key => $value ) {
 						$emailtext .= $key . " = " . $value . "\n\n";
 					}
-					$email = 'boksiora@gmail.com';
-					mail ( $email, "Live-INVALID IPN", $emailtext . "\n\n" . $req );
+					$get_option = array ();
+					$get_option ['option_key'] = 'mailform_to';
+					//$get_option ['option_group'] = 'orders';
+					$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+					$email = $get_option1 ['option_value'];
+					mail ( $email, "Error: Live-INVALID IPN", $emailtext . "\n\n" . $req );
 				}
 			}
 			fclose ( $fp );
@@ -124,14 +130,39 @@ class Shop extends Controller {
 	function place_order() {
 		
 		$data = $_POST;
-		$to_table = CI::model('core')->guessDbTable ();
-		$to_table_id = CI::model('core')->guessId ();
+		$to_table = CI::model ( 'core' )->guessDbTable ();
+		$to_table_id = CI::model ( 'core' )->guessId ();
 		$data ['to_table'] = $to_table;
 		$data ['to_table_id'] = $to_table_id;
-		$cart = $this->cart_model->orderPlace ( $data );
+		$cart = CI::model ( 'cart' )->orderPlace ( $data );
 		$cart = json_encode ( $cart );
 		exit ();
 	
+	}
+	
+	function promo_code_edit() {
+		
+		$adm = is_admin ();
+		if ($adm == true) {
+			
+			//$this->template ['functionName'] = strtolower ( __FUNCTION__ );
+			CI::model ( 'cart' )->promoCodeSave ( $_POST );
+			CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
+			exit ();
+		}
+	}
+	
+	function promo_code_delete() {
+		
+		$adm = is_admin ();
+		if ($adm == true) {
+			$id = intval ( $_POST ['id'] );
+			
+			CI::model ( 'cart' )->promoCodeDeleteById ( $id );
+			
+			CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
+			exit ();
+		}
 	}
 
 }

@@ -26,7 +26,7 @@
      <?php if($item['content_subtype'] == 'module') : ?>
     <img src="<?php print_the_static_files_url() ; ?>icons/puzzle.png"  border="0" alt="<?php print addslashes($item['content_subtype_value']); ?>" />
     <?php endif;  ?>
-     <?php if($item['content_subtype'] == 'blog_section') : ?>
+     <?php if($item['content_subtype'] == 'dynamic') : ?>
     <img src="<?php print_the_static_files_url() ; ?>icons/blog.png"  border="0" alt="<?php print addslashes($item['content_subtype_value']); ?>" />
     <?php endif;  ?>
     

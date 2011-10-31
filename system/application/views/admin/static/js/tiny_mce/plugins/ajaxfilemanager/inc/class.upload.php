@@ -300,9 +300,9 @@ class Upload
 		}
 		// 0 means keep original size
 		if ($this->img_x > $this->img_y)
-		$new_y = intval($new_y/$this->img_x*$this->img_y);
+		$new_y = intval($new_x/$this->img_x*$this->img_y);
 		else if ($this->img_y > $this->img_x)
-		$new_x = intval($new_x/$this->img_y*$this->img_x);
+		$new_x = intval($new_y/$this->img_y*$this->img_x);
 		// Now do the library specific resizing.
 		return $this->_resize($filePath,$new_x, $new_y);
 	} // End resize

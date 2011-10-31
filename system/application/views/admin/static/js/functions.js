@@ -204,6 +204,9 @@ $("input").live("mousedown", function(){
 
 $("#preloader").ajaxStart(function(){
   $(this).show();
+  
+  
+  setTimeout('$("#preloader").fadeOut()',3000)
 
 
 })
@@ -271,11 +274,11 @@ $(".drop li span").live("click", function(){
 
 
 $(document.body).ajaxStop(function(){
-   $(".checkselector").uncheck();
+   //$(".checkselector").uncheck();
    //mw.ready2('refresh');
 });
-$(".checkselector").uncheck();
-    $(".select_all_posts").uncheck();
+//$(".checkselector").uncheck();
+   // $(".select_all_posts").uncheck();
 
 
 
@@ -287,7 +290,7 @@ $(".checkselector").uncheck();
 
 deselect_post = function(id){
    $("#selected_posts #select_" + id).remove();
-   $("#post_" + id + " .checkselector").uncheck();
+  // $("#post_" + id + " .checkselector").uncheck();
    if($(".selected_cat_item").length==0){
             $("#posts_cats_controller").hide();
         }
@@ -306,7 +309,7 @@ posts_categorize = function(elem){
               $("#posts_cats_controller").show();
      }
      else{
-       $(elem).uncheck();
+       //$(elem).uncheck();
           var id =  $(elem).parent().find(".post_id").text();
           $("#selected_posts #select_" + id).remove();
           if($(".selected_cat_item").length==0){
@@ -319,7 +322,7 @@ posts_categorize = function(elem){
 posts_categorize_all = function(elem){
     if(elem.checked==false){
       $("#selected_posts").empty();
-      $(".checkselector").uncheck();
+      //$(".checkselector").uncheck();
       $("#posts_cats_controller").hide();
       $(elem).parent().find("span").html('Select none');
     }

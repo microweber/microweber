@@ -10,7 +10,9 @@ if ($query [0] != $table_name) {
 	$sql = "CREATE TABLE " . $table_name . " (
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
-		);";
+		);
+		ENGINE=MyISAM   DEFAULT CHARSET=utf8
+		";
 	CI::db()->query ( $sql );
 }
 
@@ -43,6 +45,7 @@ if ($query [0] == $table_name) {
 	
 	$fields_to_add [] = array ('valid_from', 'datetime default NULL' );
 	$fields_to_add [] = array ('valid_to', 'datetime default NULL' );
+	$fields_to_add [] = array ('auto_apply_to_all', 'char(1) default "n"' );
 	
 	/*
 	foreach ( $fields_to_add as $the_field ) {

@@ -28,6 +28,14 @@ class Index extends Controller {
 		require (APPPATH . 'controllers/advanced/userbase/_controller.php');
 
 	}
+	
+	function captcha() {
+ 
+		require (APPPATH . 'controllers/captcha.php');
+
+	}
+	
+	
 
 	function users() {
 		require (APPPATH . 'controllers/advanced/users/_controller.php');

@@ -1,14 +1,17 @@
  <?
 $id = $params['id'];
 
-
-
-$form_values = get_page($id);
-//p($form_values);
+if(intval($id) != 0){
+	$form_values = get_page($id);
+	
+	
+	//p($form_values);
 $try_parent = url_param('content_parent');
 if($try_parent != false){
 	$form_values['content_parent'] = $try_parent;
 }
+}
+
    
    
    
@@ -31,19 +34,7 @@ if($try_parent != false){
   </span>
   
   
-  
-  <div class="formitem">
-            <label>Parent Page</label>
-            <span class="formfield">
-            <select name='content_parent' style="width: 300px;">
-            <option value="">none</option>
-              <?php
-
- CI::model('content')->content_helpers_getPagesAsUlTree(0, "<option   {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );
-
- ?>
-            </select>
-            </span> </div>
+ 
   
   <? endif ; ?>
 

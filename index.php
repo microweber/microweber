@@ -4,7 +4,7 @@
 
 
 include_once 'mw.config.php';
-
+if(!defined('mw_curent_url')){
 function mw_curent_url() {
 	
 	$pageURL = 'http';
@@ -34,7 +34,7 @@ function mw_curent_url() {
 	return $pageURL;
 
 }
-
+}
 $the_curent_link123 = mw_curent_url ();
 
 $the_curent_link123 = strtolower ( $the_curent_link123 );
@@ -348,6 +348,11 @@ define ( 'TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . '/' );
 
 define ( 'MEDIAFILES', USERFILES . 'media' . '/' );
 
+
+define ( 'ELEMENTS_DIR', USERFILES . 'elements' . '/' );
+
+
+
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );
 
 define ( 'DBHOSTNAME', $mw_config ['db_hostname'] );
@@ -385,12 +390,13 @@ if (isset ( $_SERVER ["HTTPS"] )) {
 
 }
 if ($mw_config ['site_url']) {
-  define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
+ // define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
 } else {
-   define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
+  // define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 }
-//define ( 'SITEURL', $pageURL . '://' . 'skidekids.com' . '/' . $subdir . '/' );
-$cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
+define ( 'SITEURL', $mw_config ['site_url'] );
+$md5_conf = md5(serialize($mw_config));
+$cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR.$md5_conf. DIRECTORY_SEPARATOR;
 
 if (is_dir ( $cache_main_dir ) == false) {
 	
@@ -407,6 +413,10 @@ if (is_dir ( $cache_main_dir ) == false) {
 }
 
 define ( 'CACHEDIR', $cache_main_dir );
+define ( 'SITE_URL', SITEURL ); 
+
+
+define ( 'HISTORY_DIR', CACHEDIR . 'history' . '/' );
 
 define ( 'CACHE_FILES_EXTENSION', '.php' );
 
@@ -417,7 +427,7 @@ define ( 'CACHEDIR_ROOT', dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache'
 define ( 'DATETIME_FORMAT', 'F j g:m a' );
 
 if (is_dir ( $application_folder )) {
-	
+	 
 	define ( 'APPPATH', $application_folder . '/' );
 
 } else {
@@ -443,9 +453,24 @@ $media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
 
 define ( 'MEDIA_URL', $media_url );
 
+$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/elements/';
+
+define ( 'ELEMENTS_URL', $media_url ); 
+
+$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/resources/';
+ 
+define ( 'RESOURCES_URL', $media_url );
+
+
+$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/modules/';
+ 
+define ( 'MODULES_URL', $media_url );
+
+
+define ( 'RESOURCES_DIR', USERFILES . 'resources' . '/' );
 ////var_dump( ADMIN_STATIC_FILES_URL);  
 
-
+    
 /*
 
 

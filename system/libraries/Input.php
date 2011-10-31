@@ -214,9 +214,11 @@ class CI_Input {
 	*/
 	function _clean_input_keys($str)
 	{
-		if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
-		{
-			exit('Disallowed Key Characters.');
+		//if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
+		if ( ! preg_match("/^[a-zа-я ]{3,255}$/i", $str))
+ 		{
+			$str = urlencode( $str);
+		//	exit('Disallowed Key Characters.');
 		}
 
 		return $str;

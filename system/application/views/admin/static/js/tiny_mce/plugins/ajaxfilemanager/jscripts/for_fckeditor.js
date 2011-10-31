@@ -1,19 +1,16 @@
 //function below added by logan (cailongqun [at] yahoo [dot] com [dot] cn) from www.phpletter.com
-function selectFile()
+function selectFile(url)
 {
-	var selectedFileRowNum = $('#selectedFileRowNum').val();
-  if(selectedFileRowNum != '' && $('#row' + selectedFileRowNum))
-  {
-
-	  // insert information now
-	  var url = $('#fileUrl'+selectedFileRowNum).val();  	
-		window.opener.SetUrl( url ) ;
-		window.close() ;
-		
+  if(url != '' )
+  {     
+      window.opener.SetUrl( url ) ;
+      window.close() ;
+      
   }else
   {
-  	alert(noFileSelected);
+     alert(noFileSelected);
   }
+  return false;
   
 
 }
@@ -24,4 +21,5 @@ function cancelSelectFile()
 {
   // close popup window
   window.close() ;
+  return false;
 }

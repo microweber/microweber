@@ -693,7 +693,7 @@ class Content extends Controller {
 		
 
 		// $this->firecms = get_instance();
-		//if($_POST['content_subtype'] == 'blog_section'){
+		//if($_POST['content_subtype'] == 'dynamic'){
 		$this->template ['form_values'] = $_POST;
 		$this->load->vars ( $this->template );
 		$layout = CI::view ( 'admin/content/pages_edit_ajax_content_subtype', true, true );

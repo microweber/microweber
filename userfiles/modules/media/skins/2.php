@@ -98,7 +98,7 @@ function gallery<? print $params['module_id'] ?>() {
 }
 </style>
  
-<h1>JQuery Photo Slider with Semi Transparent Caption Tutorial</h1>
+<h1>JQuery Photo Slider / Semi Transparent</h1>
 <div id="gallery<? print $params['module_id'] ?>"> 
 
 
@@ -113,7 +113,7 @@ function gallery<? print $params['module_id'] ?>() {
 	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
 //p($thumb);
 ?>
-<a href="#"   <? if($i == 1) : ?>  class="show" <?php endif; ?>> <img src="<? print  $orig; ?>" alt="<?php print addslashes($pic['media_name']); ?>" width="580" height="360" title=""   rel="<?php print addslashes($pic['media_description']); ?>"/> </a>
+<a href="#"   <? if($i == 1) : ?>  class="show" <?php endif; ?>><center><img src="<? print  $orig; ?>" alt="<?php print addslashes($pic['media_name']); ?>"  height="360" title=""   rel="<?php print addslashes($pic['media_description']); ?>"/></center></a>
 
 
  

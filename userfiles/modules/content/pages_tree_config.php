@@ -1,10 +1,10 @@
 <?
 
 $config = array();
-$config['name'] = "page tree module";
+$config['name'] = "Pages tree";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
-//$config['ui'] = true;
+$config['cache'] = true;
+$config['ui'] = true;
 
 
  

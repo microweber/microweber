@@ -1,6 +1,6 @@
 
 
-<?php if(($form_values['content_subtype'] == 'blog_section')) :   ?>
+<?php if(($form_values['content_subtype'] == 'dynamic')) :   ?>
 
 <script type="text/javascript">
 $("input[name='subtype_change_set_form_value']").change(

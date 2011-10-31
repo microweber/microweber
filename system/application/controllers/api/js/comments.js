@@ -172,6 +172,38 @@ $(document).ready(function() {
 
 
 
+mw.comments.post = function($form_selector, $callback) {
+	$data = ($($form_selector).serialize());
+
+	$.ajax( {
+		type : "POST",
+		url : "{SITE_URL}api/comments/comments_post",
+		data : $data,
+		dataType: 'json',
+		success : function(msg) {
+			//alert("Data: " + msg);
+		 // $('.cart_items_qty').html(msg);
+ 
+		if (typeof  $callback == 'function') {
+			$callback.call(this, msg);
+		} else {
+			$($callback).fadeOut();
+		}
+		 
+		
+		
+		
+			
+		}
+	});
+
+}
+
+
+
+
+
+
 mw.comments.del = function(id, hide_element_or_callback) {
 	var answer = confirm("Are you sure you want to delete this comment?");
 

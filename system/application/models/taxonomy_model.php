@@ -415,16 +415,19 @@ class taxonomy_model extends Model {
 			$no_position_fix = true;
 		
 		}
-		 
+		
 		//p($data);
 		$save = CI::model ( 'core' )->saveData ( $table, $data );
 		
+		CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
+		CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $data ['id'] ) );
+		CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $data ['parent_id'] ) );
 		if (intval ( $save ) == 0) {
 			
 			return false;
 		
 		}
-		CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
+		
 		if (! empty ( $content_ids )) {
 			
 			$content_ids = array_unique ( $content_ids );
@@ -745,17 +748,16 @@ class taxonomy_model extends Model {
 			}
 			$content = array ();
 			
-			$content ['content_subtype'] = 'blog_section';
+			$content ['content_subtype'] = 'dynamic';
 			
 			$content ['content_subtype_value'] = $id;
 			
 			//$orderby = array ('id', 'desc' );
 			
 
-			$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$id} limit 0,1";
+			$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
 			//p($q,1);
 			$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-		 
 			
 			//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
 			
@@ -787,21 +789,21 @@ class taxonomy_model extends Model {
 			}
 			
 			$parent_ids = $this->getParentsIds ( $data ['id'] );
-			$parent_ids = array_rpush($parent_ids,  $data ['id'] );
+			$parent_ids = array_rpush ( $parent_ids, $data ['id'] );
 			foreach ( $parent_ids as $item ) {
 				
 				$content = array ();
 				
-				$content ['content_subtype'] = 'blog_section';
+				$content ['content_subtype'] = 'dynamic';
 				
 				$content ['content_subtype_value'] = $item;
 				
 				$orderby = array ('id', 'desc' );
 				
-				 $q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
+				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				//p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-				 
+				
 				//$content = CI::model('content')->getContentAndCache ( $content, $orderby );
 				
 
@@ -809,6 +811,7 @@ class taxonomy_model extends Model {
 				
 				//$content = $content [0];
 				
+
 				$url = false;
 				
 				if (! empty ( $content )) {

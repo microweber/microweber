@@ -154,6 +154,10 @@ description: shop site layout
   <div id="product_main">
     <form id="add_to_cart_product_<? print $post['id'] ?>">
       <input type="hidden" value="<? print $post['id'] ?>"   name="post_id" />
+      
+      
+ 
+      
       <h3 class="title nopadding">
         <editable  post="<? print $post['id'] ?>" field="content_title"><? print $post['content_title'] ?></editable>
       </h3>

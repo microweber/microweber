@@ -39,31 +39,31 @@ if(($params['page_id'] == false) and ($params['post_id'] != false)){
 
 if(($params['page_id'])) :  ?>
 <script type="text/javascript">
-function save_cf($form){
-	
-$f = '#'+$form;
-	 data1 = ($($f).serialize());
+function save_cf($form_id){
+	  data1 = ($('.'+$form_id).serialize());
+	  $.ajax({
+	  type: 'POST',
+	  url: '<? print site_url('api/content/save_cf') ?>',
+	  data: data1,
 	 
-	 data1=data1+'&module=admin/content/custom_fields_creator';
-	  data1=data1+'&page_id=<? print $params['page_id'] ?>';
-	   data1=data1+'&save=<? print $params['page_id'] ?>';
-	 
-	//alert(data1);
+	  dataType: 'html'
+	});
+	  
+
 	
-	 $.ajax({
-  url: '<? print site_url('api/module'); ?>',
-   type: "POST",
-      data: (data1),
-      dataType: "html",
-      async:true,
-	  success: function(resp) {
-		  $("#cf_save_resp").html(resp);
-		  mw.reload_module('admin/content/custom_fields_editor');
-		
-	  }
-    });
+//	 $.ajax({
+//  url: '<? print site_url('api/content/save_cf'); ?>',
+//   type: "POST",
+//      data: (data1),
+//      
+//      async:true,
+//	  success: function(resp) {
+//		  $("#cf_save_resp").html(resp);
+//		  mw.reload_module('admin/content/custom_fields_editor');
+//		
+//	  }
+//    });
 	
- 
 
 }
 
@@ -73,14 +73,31 @@ function delete_cf($form){
 $f = '#'+$form;
 	 data1 = ($($f).serialize());
 	 
-	 data1=data1+'&module=admin/content/custom_fields_creator';
-	  data1=data1+'&page_id=<? print $params['page_id'] ?>';
-	   data1=data1+'&delete=true';
+//	 data1=data1+'&module=admin/content/custom_fields_creator';
+//	  data1=data1+'&page_id=<? print $params['page_id'] ?>';
+//	   data1=data1+'&delete=true';
+//	 
+//	//alert(data1);
+//	
+//	 $.ajax({
+//  url: '<? print site_url('api/module'); ?>',
+//   type: "POST",
+//      data: (data1),
+//      dataType: "html",
+//      async:true,
+//	  success: function(resp) {
+//		  $("#cf_save_resp").html(resp);
+//		    $($f).fadeOut();
+//	  }
+//    });
+//	
+
+	 
 	 
 	//alert(data1);
 	
 	 $.ajax({
-  url: '<? print site_url('api/module'); ?>',
+  url: '<? print site_url('api/content/delete_cf'); ?>',
    type: "POST",
       data: (data1),
       dataType: "html",
@@ -90,6 +107,8 @@ $f = '#'+$form;
 		    $($f).fadeOut();
 	  }
     });
+	
+	
 	
   
 
@@ -117,21 +136,9 @@ if(is_file($cf_file) == false){
 
 //p($params);
 
-if($params['save']){
-	$src = CI::model('core')->saveCustomFieldConfig($params);
-	
-	print('Saved id, please reload the page:' . $src);
-	return;
-}
+ 
 
-if($params['delete']){
-	
-	
-	$src = CI::model('core')->deleteDataById('table_custom_fields_config', $params['id'], $delete_cache_group = false) ;
-	
-	print('Deleted id:' . $params['id']);
-	return;
-}
+ 
 
 
 
@@ -144,7 +151,7 @@ if($params['delete']){
 $cf_cfg = array ();
  if($page_data != false){
 		
-								$cf_cfg ['page_id'] = $page_data['id'];
+$cf_cfg ['page_id'] = $page_data['id'];
 								 
 		} 
 
@@ -152,7 +159,7 @@ $cf_cfg = array ();
 
 
 $data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
-//p($data);
+ //p($data);
 if($base64_val_for_insert != false){
 	$data[] = $base64_val_for_insert;
 } else {
@@ -164,39 +171,64 @@ if($base64_val_for_insert != false){
 
 ?>
 
+
+
+<table width="100%" border="0" class="custom_fields_table">
+ 
+<? foreach($data as $cf): ?>
+<tr>
+    <td><strong><? print $cf['name'] ?></strong>
+ 
+<? print $cf['help'] ?>
+    </td>
+    <td>
+	
+	
+	 <? print $cf['type'] ?>
+    
+    
+    </td>
+    <td><? print $cf['values'] ?></td>
+    <td><? print $cf['param_group'] ?></td>
+    <td><? print $cf['content_type'] ?></td>
+    <td>edit</td>
+    <td>delete</td>
+</tr>
+<? endforeach; ?>
+</table>
+
+
+
+
+
+
 <div id="cf_save_resp"></div>
-
-
-
 <? /*
 <input name="reload module" type="button"  />
 */ ?>
-
-
 <? foreach($data as $item): ?>
- 
 <form class="cf_form" action="" method="post" id="cf_form_<? print $item['id'] ?>">
-  <input name="id" type="hidden" value="<? print $item['id'] ?>" />
-  <input name="page_id" type="hidden" value="<? print $params['page_id'] ?>" />
+  <input name="id" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['id'] ?>" />
+  <input name="page_id" type="hidden" class="cf_form_<? print $item['id'] ?>"  value="<? print $params['page_id'] ?>" />
   <div class="formitem">
     <label>Name:</label>
     <span class="formfield">
-    <input name="name" type="text" value="<? print $item['name'] ?>"  />
+    <input name="name" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['name'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Group:</label>
     <span class="formfield">
-    <input name="param_group" type="text" value="<? print $item['param_group'] ?>"  />
+    <input name="param_group" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param_group'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Help:</label>
     <span class="formfield">
-    <input name="help" type="text" value="<? print $item['help'] ?>"  />
+    <input name="help" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['help'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Content Type:</label>
     <span class="formfield">
-    <select name="content_type">
+    <select name="content_type" class="cf_form_<? print $item['id'] ?>">
       <option <? if(($item['content_type']) == 'page') :  ?>  selected="selected" <? endif; ?> value="page">page</option>
       <option  <? if(($item['content_type']) == 'post') :  ?>  selected="selected" <? endif; ?> value="post">post</option>
       <option  <? if(($item['content_type']) == 'category') :  ?>  selected="selected" <? endif; ?> value="category">category</option>
@@ -206,11 +238,11 @@ if($base64_val_for_insert != false){
   <div class="formitem">
     <label>Type: </label>
     <span class="formfield">
-    <input name="type" type="text" value="<? print $item['type'] ?>"  />
+    <input name="type" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['type'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Type:</label>
-    <select name="type">
+    <select name="type" class="cf_form_<? print $item['id'] ?>">
       <option <? if(($item['type']) == 'text') :  ?>  selected="selected" <? endif; ?> value="text">text</option>
       <option <? if(($item['type']) == 'textarea') :  ?>  selected="selected" <? endif; ?> value="textarea">textarea</option>
       <option  <? if(($item['type']) == 'richtext') :  ?>  selected="selected" <? endif; ?> value="richtext">richtext</option>
@@ -225,19 +257,19 @@ if($base64_val_for_insert != false){
   <div class="formitem">
     <label>Param:</label>
     <span class="formfield">
-    <input name="param" type="text" value="<? print $item['param'] ?>"  />
+    <input name="param" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Param values:</label>
     <span class="formfield">
-    <input name="param_values" type="text" value="<? print $item['param_values'] ?>"  />
+    <input name="param_values" class="cf_form_<? print $item['id'] ?>" type="text" value="<? print $item['param_values'] ?>"  />
     </span> </div>
   <div class="formitem">
     <label>Param default: </label>
     <span class="formfield">
-    <input name="param_default" type="text" value="<? print $item['param_default'] ?>"  />
+    <input name="param_default" class="cf_form_<? print $item['id'] ?>" type="text" value="<? print $item['param_default'] ?>"  />
     </span> </div>
-  <input class="btn" name="save" value="save <? print $item['id'] ?>" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" />
+  <input class="btn" name="save"  value="save <? print $item['id'] ?>" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" />
   <? if(($item['id']) != false) :  ?>
   <input class="btn" name="delete" value="delete <? print $item['id'] ?>" type="button" onClick="delete_cf('cf_form_<? print $item['id'] ?>')" />
   <? endif; ?>

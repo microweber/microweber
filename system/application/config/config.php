@@ -18,11 +18,13 @@ ini_set ( 'max_execution_time', '3600' );
 ini_set ( 'post_max_size', '200M' );
 ini_set ( 'upload_max_filesize', '200M' );
 ini_set ( 'memory_limit', '160M' );
-  
- //error_reporting(E_ALL); 
- //ini_set("display_errors", 1); 
- //ini_set("log_errors", 1);
- 
+if(!defined('IS_AJAX')){
+define ( 'IS_AJAX', isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) && strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
+}
+//error_reporting(E_ALL); 
+//ini_set("display_errors", 1); 
+//ini_set("log_errors", 1);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -186,8 +188,9 @@ $config ['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config ['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
-//$config['permitted_uri_chars'] = '';
+//$config ['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+//$config['permitted_uri_chars'] = '*'; 
+$config['permitted_uri_chars'] = ''; 
 
 
 /*
@@ -296,7 +299,7 @@ $config ['encryption_key'] = "microweber_" . md5 ( ROOTPATH ) . md5 ( DBPASSWORD
 |
 */
 $config ['sess_cookie_name'] = 'microweber_session_' . md5 ( ROOTPATH );
-$config ['sess_expiration'] = 60*24*7;
+$config ['sess_expiration'] = 60 * 24 * 7;
 $config ['sess_encrypt_cookie'] = TRUE;
 $config ['sess_use_database'] = TRUE;
 $config ['sess_table_name'] = TABLE_PREFIX . 'sessions';

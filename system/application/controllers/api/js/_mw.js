@@ -77,11 +77,19 @@ mw.reload_module = function($module_name) {
 		for ( var i = 0; i < refresh_modules_explode.length; i++) {
 			var $module_name = refresh_modules_explode[i];
 
-			if ($module_name != undefined) {
+			
+			
+			
+			if ($module_name != undefined) { 
+			//	$("div.module").each(
+				//$("div.module[mw_params_module='"+$module_name+"']").each(
 				$("div.module").each(
-								function() {
+ 								function() {
 
 									var mw_params_module = $(this).attr(	"mw_params_module");
+									var mw_params_module_id = $(this).attr(	"module_id");
+									
+									mw_params_module = mw_params_module.replace(/\\/g,"/"); 
 									
 								//$all_attr = 	 $.getAttributes('#foo'), true );
 									$all_attr =  $(this).getAttributes();
@@ -93,27 +101,42 @@ mw.reload_module = function($module_name) {
 									}
 
 						 
+									if (window.console != undefined) {
+							 		//	console.log('Reload module   ' + mw_params_module  +mw_params_module_id + '  ' + $module_name);	
+							 		}
 									
-									
-									if (mw_params_module == $module_name) {
+									if (mw_params_module == $module_name || mw_params_module_id == $module_name) {
 										var mw_params_encoded = $(this).attr(	"mw_params_encoded");
 										var elem = $(this)
+										
+		
+								 
+										 url1= '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded;
+										 elem.load(url1,$all_attr,function() {
+											 window.mw_sortables_created = false;
+										 }); 
+										 
+										 
+										 
+										
+										 
+											
 
-										$.ajax( {
-													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
-													type : "POST",
-													data: $all_attr,
-													async : false,
-
-													success : function(resp) {
-												//	alert(resp);
-														//$(this).empty();
-											elem.before(resp).remove(); 
-													// elem.empty();
-													// elem.append(resp);
-
-												}
-												});
+//										$.ajax( {
+//													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
+//													type : "POST",
+//													data: $all_attr,
+//													async : false,
+//
+//													success : function(resp) {
+//												//	alert(resp);
+//														//$(this).empty();
+//											elem.before(resp).remove(); 
+//													// elem.empty();
+//													// elem.append(resp);
+//
+//												}
+//												});
 
 									}
 
@@ -122,6 +145,12 @@ mw.reload_module = function($module_name) {
 			}
 
 		}
+		 if(typeof init_edits == 'function') { 
+		//	 window.mw_sortables_created = false;
+			// init_edits(); 
+			 }
+		 
+	//	 $('.mw').trigger('mw_module_reloaded', [$module_name]);
 
 	}
 
@@ -136,3 +165,6 @@ mw.clear_cache = function() {
 		}
 	});
 }
+
+
+

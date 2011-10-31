@@ -108,7 +108,7 @@ function module_edit_showRequest(formData, jqForm, options) {
 // post-submit callback 
 function module_edit_showResponse(responseText, statusText, xhr, $form)  { 
 
- parent.mw.reload_module('<? print $params['module'] ?>');
+ mw.reload_module('<? print $params['module'] ?>');
 //  parent.update_module_element(responseText);
  
 } 

@@ -11,15 +11,37 @@ if( $vals != false){
 }
 ?>
 
-<label class="custom_field_label custom_field_label_<?  print $data['param'];  ?>"> <span>
-  <?  print $data['name'];  ?>
-  </span>
+    
+            
+          
+          
  
     <? if(!empty($vals)) :?>
+    <ul>
     <? foreach($vals as $val): ?>
-    <input type="checkbox" class="custom_field_radio custom_field_<?  print $data['param'];  ?>" value="<? print $val  ?>"  name="custom_field_<?  print $data['param'];  ?>"      <?  if( $data['param_default'] == $val) : ?> checked="checked"   <? endif; ?>  <?  if( $data['help']) : ?> title="<?  print addslashes($data['help']);  ?>"   <? endif; ?>     ><? print $val  ?> 
+    <div>
+    
+    <li><label for=""><input type="checkbox" class="custom_field_radio custom_field_<?  print $data['param'];  ?>" value="<? print $val  ?>"  name="custom_field_<?  print $data['param'];  ?>"      <?  if( $data['param_default'] == $val) : ?> checked="checked"   <? endif; ?>  <?  if( $data['help']) : ?> title="<?  print addslashes($data['help']);  ?>"   <? endif; ?>     >
+              <? print $val  ?></label></li>
+            
+            
+    
+ 
+</div>
     <? endforeach; ?>
+    </ul>
     <? endif; ?>
   
-</label>
+ 
 <?  endif; ?>
+
+
+
+
+
+
+
+
+
+
+ 

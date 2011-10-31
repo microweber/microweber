@@ -120,6 +120,7 @@
         $ext  = strtolower($this->_getExtension($filename));
         $func = 'imagecreatefrom' . ($ext == 'jpg' ? 'jpeg' : $ext);
         if (!$this->_isSupported($filename, $ext, $func, false)) {
+
             return false;
         }
         if($ext == "gif")
@@ -423,9 +424,9 @@
         @imagealphablending($this->_imgFinal, false);
 				if(function_exists('ImageCopyResampled'))
 				{
-					@ImageCopyResampled($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
+					@imagecopyresampled($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
 				} else {
-					@ImageCopyResized($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
+					@imagecopyresized($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
 				} 
         @imagesavealpha($this->_imgFinal, true);
 
@@ -433,9 +434,9 @@
     {//for the rest image
 			if(function_exists('ImageCopyResampled'))
 			{
-				@ImageCopyResampled($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
+				@imagecopyresampled($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
 			} else {
-				@ImageCopyResized($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
+				@imagecopyresized($this->_imgFinal, $this->_imgOrig, 0, 0, 0, 0, $new_x, $new_y, $this->_imgInfoOrig['width'], $this->_imgInfoOrig['height']);
 			}    	
     }
 
@@ -488,6 +489,13 @@
        $giftype = ($write) ? ' Create Support' : ' Read Support';
         $support = strtoupper($extension) . ($extension == 'gif' ? $giftype : ' Support');
 
+        if (isset($this->gdInfo['JPG Support']) && ($extension=='jpg' || $extension=='jpeg')) 
+        {
+        	$extension='jpg';
+        }else if (isset($this->gdInfo['JPEG Support']) && ($extension=='jpg' || $extension=='jpeg')) 
+        {
+        	$extension='jpeg';
+        }
         if (!isset($this->gdInfo[$support]) || $this->gdInfo[$support] == false) {
             $request = ($write) ? 'saving' : 'reading';
             $this->_debug("Support for $request the file type '$extension' cannot be found.");
@@ -533,9 +541,9 @@
 				$src_h = 0 - $this->_imgInfoOrig['height'];				
 			}			
 				if(function_exists('ImageCopyResampled')){
-					ImageCopyResampled($this->_imgFinal, $this->_imgOrig, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+					imagecopyresampled($this->_imgFinal, $this->_imgOrig, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 				} else {
-					ImageCopyResized($this->_imgFinal, $this->_imgOrig, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+					imagecopyresized($this->_imgFinal, $this->_imgOrig, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 				}
 				$this->_imgInfoFinal['width'] = $dst_w;
 				$this->_imgInfoFinal['height'] = $dst_h;
@@ -585,6 +593,18 @@
         if (function_exists('gd_info')) 
         {
             $outputs = gd_info();
+            if(isset($outputs['JPEG Support']))
+            {
+            	$outputs['JPG Support'] = $outputs['JPEG Support'];
+            }else 
+            {
+	            if(isset($outputs['JPG Support']))
+	            {
+	            	$outputs['JPEG Support'] = $outputs['JPG Support'];
+	            }
+            }
+            
+            
         } else 
         {
             $gd = array(
@@ -592,6 +612,7 @@
                     'GIF Read Support'   => false,
                     'GIF Create Support' => false,
                     'JPG Support'        => false,
+                    'JPEG Suppor'        => false,
                     'PNG Support'        => false,
                     'FreeType Support'   => false,
                     'FreeType Linkage'   => '',
@@ -637,7 +658,7 @@
                 $outputs['Version'] = array('major' => isset($foo[0])?$foo[0]:'', 'minor' => isset($foo[1])?$foo[1]:'', 'patch' => isset($foo[2])?$foo:"");
             }
         }
-
+		//print_r($outputs);
         return ($versionOnly) ? $outputs['Version'] : $outputs;
     }    
     
@@ -674,7 +695,7 @@
 	function _getImageInfo($imagePath)
 	{
 		$outputs = array();
-		$imageInfo = @GetImageSize($imagePath);
+		$imageInfo = @getimagesize($imagePath);
 		if ($imageInfo && is_array($imageInfo))
 		{
 			switch($imageInfo[2]){
@@ -719,7 +740,7 @@
     		}
  
 		
-         if($this->_imgFinal = imagerotate($this->_imgOrig, $angle))
+         if($this->_imgFinal = imagerotate($this->_imgOrig, $angle, 0))
          {
          	return true;
          }else 
@@ -772,9 +793,9 @@
     {
 		 		if(function_exists('ImageCreateTrueColor'))
 		 		{
-					$this->_imgFinal = @ImageCreateTrueColor($dst_w,$dst_h);
+					$this->_imgFinal = @imagecreatetruecolor($dst_w,$dst_h);
 				} else {
-					$this->_imgFinal = @ImageCreate($dst_w,$dst_h);
+					$this->_imgFinal = @imagecreate($dst_w,$dst_h);
 				}   
         if (!is_null($this->transparentColorRed) && !is_null($this->transparentColorGreen) && !is_null($this->transparentColorBlue)) {
         

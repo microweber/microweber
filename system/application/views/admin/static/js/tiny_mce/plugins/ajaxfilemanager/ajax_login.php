@@ -7,21 +7,13 @@
 	 *
 	 */
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "config.php");
-//Code added to adjust for local admin rights.
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
-	
-	if(isset($_POST['username']))
+if(isset($_POST['username']))
+{
+	if($auth->login())
 	{
-		if($auth->login())
-		{
-			header('Location: ' . appendQueryString(CONFIG_URL_HOME, makeQueryString()));
-			exit;
-		}
+		header('Location: ' . appendQueryString(CONFIG_URL_HOME, makeQueryString()));
+		exit;		
 	}
-}else{
-	$_SESSION['ajax_user'] = true;
-	header('Location: ' . appendQueryString(CONFIG_URL_HOME, makeQueryString()));
-	exit;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

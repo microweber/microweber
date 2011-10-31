@@ -2,7 +2,7 @@
             imgurl="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/";
             jsurl="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/";
          </script>
-<link rel="stylesheet" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/style.css" type="text/css" media="screen"  />
+<link rel="stylesheet" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/style.css?<?  print rand();?>" type="text/css" media="screen"  />
 <!--[if IE]><? print '<?import namespace="v" implementation="#default#VML" ?>' ?><![endif]-->
 
 <script type="text/javascript" src="<?php print site_url('api/js/index/ui:true/no_mw_edit:true')  ?>"></script>
@@ -10,70 +10,187 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/libs.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/functions.js"></script>
 <!--<script id="mw_ready_js" type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/mw.ready.js"></script>-->
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
-<!--<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/jquery.ui.plupload.css" rel="stylesheet" type="text/css"/>-->
-<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/plupload.queue.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js" />
+<!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />-->
 
  
-
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
-
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-	tinyMCE.init({
-		// General options
-		//mode : "textareas",
-		   mode : "specific_textareas",
-        editor_selector : "richtext", 
-		
-		theme : "advanced",
-		plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
-
-		// Theme options
-		theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
-		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-		theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-		theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",
-		theme_advanced_toolbar_location : "top",
-		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "bottom",
-		theme_advanced_resizing : true,
-
-		// Example content CSS (should be your site CSS)
-		content_css : "css/content.css",
-
-		// Drop lists for link/image/media/template dialogs
-		template_external_list_url : "lists/template_list.js",
-		external_link_list_url : "lists/link_list.js",
-		external_image_list_url : "lists/image_list.js",
-		media_external_list_url : "lists/media_list.js",
-
-		// Style formats
-		style_formats : [
-			{title : 'Bold text', inline : 'b'},
-			{title : 'Red text', inline : 'span', styles : {color : '#ff0000'}},
-			{title : 'Red header', block : 'h1', styles : {color : '#ff0000'}},
-			{title : 'Example 1', inline : 'span', classes : 'example1'},
-			{title : 'Example 2', inline : 'span', classes : 'example2'},
-			{title : 'Table styles'},
-			{title : 'Table row 1', selector : 'tr', classes : 'tablerow1'}
-		],
-
-		// Replace values for the template plugin
-		template_replace_values : {
-			username : "Some User",
-			staffid : "991234"
-		}
-	});
-</script>
-
+<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/jquery-ui-1.8.13.custom.css"/>
+<!--<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/jquery.ui.plupload.css" rel="stylesheet" type="text/css"/>-->
+ 
 
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery.ui.nestedSortable.js"></script>
 
 
 
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript">
+        $(function() {
+                $('textarea.richtext').tinymce({
+                        // Location of TinyMCE script
+                        script_url : '<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/tiny_mce.js',
+
+                        // General options
+                        theme : "advanced",
+                        plugins : "openKCFinder,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+                        // Theme options
+                        theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+                        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+                        theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+                        theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
+                        theme_advanced_toolbar_location : "top",
+                        theme_advanced_toolbar_align : "left",
+                        theme_advanced_statusbar_location : "bottom",
+                        theme_advanced_resizing : true,
+						
+						file_browser_callback: "openKCFinder",
+
+						
+
+                        // Example content CSS (should be your site CSS)
+                        content_css : "css/content.css",
+
+                        // Drop lists for link/image/media/template dialogs
+                        template_external_list_url : "lists/template_list.js",
+                        external_link_list_url : "lists/link_list.js",
+                        external_image_list_url : "lists/image_list.js",
+                        media_external_list_url : "lists/media_list.js",
+relative_urls : false,
+                        // Replace values for the template plugin
+                        template_replace_values : {
+                                username : "Some User",
+                                staffid : "991234"
+                        }
+                });
+        });
+		
+		
+		
+		
+		
+
+ 
+function ajaxfilemanager(field_name, url, type, win) {
+			var ajaxfilemanagerurl = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/ajaxfilemanager/ajaxfilemanager.php";
+			var view = 'detail';
+			switch (type) {
+				case "image":
+				view = 'thumbnail';
+					break;
+				case "media":
+					break;
+				case "flash": 
+					break;
+				case "file":
+					break;
+				default:
+					return false;
+			}
+            tinyMCE.activeEditor.windowManager.open({
+                url: "<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/ajaxfilemanager/ajaxfilemanager.php?view=" + view,
+                width: 782,
+                height: 440,
+                inline : "yes",
+                close_previous : "no"
+            },{
+                window : win,
+                input : field_name
+            });
+            
+/*            return false;			
+			var fileBrowserWindow = new Array();
+			fileBrowserWindow["file"] = ajaxfilemanagerurl;
+			fileBrowserWindow["title"] = "Ajax File Manager";
+			fileBrowserWindow["width"] = "782";
+			fileBrowserWindow["height"] = "440";
+			fileBrowserWindow["close_previous"] = "no";
+			tinyMCE.openWindow(fileBrowserWindow, {
+			  window : win,
+			  input : field_name,
+			  resizable : "yes",
+			  inline : "yes",
+			  editor_id : tinyMCE.getWindowArg("editor_id")
+			});
+			
+			return false;*/
+		}
+
+
+
+
+
+</script>
+
+ <script type="text/javascript">
+ 
+ 
+ 
+
+ function openKCFinder(field_name, url, type, win) {
+	 
+	 
+	/* window.KCFinder = {};
+    window.KCFinder.callBack = function(url) {
+        window.KCFinder = null;
+		$('#href').value = url;
+		 field_name.value = url;
+		 alert(url);
+		  alert(field_name);
+        // Actions with url parameter here
+    };*/
+	 
+    tinyMCE.activeEditor.windowManager.open({
+        file: '<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/kcfinder/browse.php?opener=tinymce&type=' + type + '&dir=' + type + '/public',
+        title: 'File browser',
+        width: 700,
+        height: 500,
+        resizable: "yes",
+        inline: true,
+        close_previous: "no",
+        popup_css: false
+    }, {
+        window: win,
+        input: field_name
+    });
+    return false;
+}
+ 
+ 
+ 
+</script>
+
+ 
+<script type="text/javascript">
+ 
+	
+ 
+
+</script>
+ 
+
+
+
+<!--
+
+<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/cle/jquery.cleditor.css" />
+
+
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/cle/jquery.cleditor.js"></script>
+
+
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/cle/jquery.cleditor.xhtml.js"></script>
+
+
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/cle/jquery.cleditor.icon.js"></script>
+
+
+<script type="text/javascript">
+      $(document).ready(function() {
+        $(".richtext").cleditor({width:        950});
+      });
+    </script>
+    -->
+    
+    
 <?
 /*
 
@@ -123,5 +240,74 @@ $(window).load(function(){
 
 
 </script>
+
+
+<script type="text/javascript">
+
+
+function quick_live_save(){
+	//window.frames[0].mw_saveALL(true);
+
+	// window.frames['quick_live_edit_frame'].mw_saveALL(true);
+
+
+ 
+
+//window.frames['quick_live_edit_frame'].
+ 
+ 	mw.reload_module('admin/posts/edit');
+ 	mw.reload_module('admin/pages/edit');
+	
+	 
+
+}
+
+function quick_live_edit($content_id){
+	
+	post_id = $content_id;
+	 $.get('<? print site_url('api/content/get_url');?>/id:'+post_id , function(data) {
+		  data123 = data + '/editmode:y';
+		  
+		  
+		  
+		  
+		  frobj = {};
+   frobj.src = data123;
+    frobj.title = 'Quick live edit';
+   frobj.width = $(window).width()-200;
+   frobj.height = $(window).height()-160; 
+    frobj.id = 'quick_live_edit_frame'; 
+   frobj.onclose = function(){
+      //     alert(1);
+	  
+	  
+	 // window.frames['quick_live_edit_frame'].window.location.reload(); 
+	  
+          }; 
+		  
+		   // frobj.buttons = '<a href="javascript:quick_live_save()" class="xbtn"><b>Save</b></a>'
+		  
+		  
+		  
+   
+  
+    
+ 
+  mw.modal.iframe(frobj);	
+		 
+		 
+				});
+	 
+	 
+	 
+	 
+	
+
+	
+}
+</script>
+ 
+
+
 
 

@@ -9,7 +9,9 @@
             imgurl="<? print TEMPLATE_URL ?>img/";
             siteurl="<? print site_url() ?>";
          </script>
+         <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/edit.css" type="text/css"   />
 		<link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/font.php" type="text/css" media="screen"  />
+        
 		<link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/style.css" type="text/css" media="screen"  />
         <? echo '<!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->'; ?>
         <script type="text/javascript" src="<?  print site_url('api/js'); ?>"></script>
@@ -48,7 +50,7 @@
 	</head>
 	<body>
         <div id="container">
-          <div id="wrapper">
+          <div id="wrapper" class="mw">
             <div id="header">
                 <div id="header_top">
                   <div id="logo">

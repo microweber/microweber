@@ -6,12 +6,33 @@
 		$plugin_db_tables = array ();
 		$plugin_db_tables ['rss_grabber_plugin_feeds'] = TABLE_PREFIX . "rss_grabber_plugin_feeds";
 		$this->db_tables = $plugin_db_tables;
+		
+		$this->load->model ( 'Core_model', 'core_model' );
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+$this->load->model ( 'Content_model', 'content_model' );
+$this->load->model ( 'Comments_model', 'comments_model' );
+$this->load->model ( 'Reports_model', 'reports_model' );
+
+$this->load->model ( 'Users_model', 'users_model' );
+$this->load->model ( 'Statuses_model', 'statuses_model' );
+$this->load->model ( 'Messages_model', 'messages_model' );
+$this->load->model ( 'Notifications_model', 'notifications_model' );
+
+$this->load->model ( 'Votes_model', 'votes_model' );
+
+$this->load->model ( 'Cart_model', 'cart_model' );
+$this->load->model ( 'Template_model', 'template_model' );
+$this->load->model ( 'Mw_model', 'mw' );
 	}
 	
 	function test() {
 		//print 1;
 	//$posts = $this->content_model->contentGetLatestPosts ( array (0, 4 ), $categories = false, $featured = true );
 	//	var_dump ( $posts );
+	
+		
+		
+		
 	//return $posts;
 	}
 	
@@ -135,7 +156,14 @@
 		$feed ['id'] = $id;
 		$feed = $this->getFeeds ( $feed );
 		$feed = $feed [0];
-		//var_dump($feed);
+	// var_dump($feed);
+		
+		
+		
+		
+		
+		
+		
 		
 
 		if (stristr ( $feed ['feed_url'], 'http' ) == true) {
@@ -147,20 +175,11 @@
 			$feed_parser->set_feed_url ( $feed ['feed_url'] );
 			$feed_parser->enable_order_by_date ( true );
 			$feed_parser->set_cache_location ( CACHEDIR );
-			$feed_parser->init ();
+		 	$feed_parser->init ();
 			$feed_parser->handle_content_type ();
 			$channel = $feed_parser->get_items ();
-			/*<?php  ?>
-			<?php  foreach ($items as $item): ?>
-			<strong><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?>
-
-
-
-			</a></strong> - <?php echo $item->get_date('j M Y'); ?>
-
-			<p><?php echo $item->get_description(); ?></p>
-			<?php endforeach; ?>
-			*/
+ 			
+p($channel); 
 			
 			print "Processing {$feed['feed_name']}\n";
 			//	$channel = new Zend_Feed_Rss ( $feed ['feed_url'] );
@@ -180,12 +199,7 @@
 			}
 			
 			$taxonomy_categories = array ($feed ['feed_content_category'] );
-			$taxonomy = $this->taxonomy_model->getParents ( $feed ['feed_content_category'] );
-			if (! empty ( $taxonomy )) {
-				foreach ( $taxonomy as $i ) {
-					$taxonomy_categories [] = $i;
-				}
-			}
+			 
 			//var_dump($taxonomy);
 			//exit;
 			$to_save ['taxonomy_categories'] = $taxonomy_categories;
@@ -193,7 +207,7 @@
 			
 
 			$parent_page = $this->content_model->contentsGetTheFirstBlogSectionForCategory ( $feed ['feed_content_category'] );
-			
+		//	p($parent_page);
 			if (! empty ( $parent_page )) {
 				$to_save ['content_parent'] = $parent_page ['id'];
 				foreach ( $channel as $item ) {
@@ -206,6 +220,7 @@
 					$check_url = array ();
 					$check_url ['content_url'] = $to_save ['content_url'];
 					$check_url = $this->content_model->getContent ( $check_url, $orderby = false, $limit = false, $count_only = false, true );
+					 
 					if (empty ( $check_url )) {
 						//$to_save ['content_url'] = $to_save ['content_url'] . '-' . date ( 'YmdHis' );
 						$to_save ['content_unique_id'] = md5 ( strtolower ( ($item->get_permalink ()) ) );
@@ -320,7 +335,7 @@
 										
 										if (stristr ( $to_save ['content_body'], '&acirc;asdasdada' ) == false) {
 											if ($last_skip_check == false) {
-												//var_dump($to_save);
+												 var_dump($to_save);
 												$id = $this->content_model->saveContent ( $to_save, false );
 												//print 'Sleep a while ';
 												//sleep ( 2 );

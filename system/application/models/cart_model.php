@@ -550,6 +550,14 @@ class Cart_model extends Model {
 
 		$to_return = $to_return + $total_no_promo;
 		
+		$shipp = option_get ( 'shipping' );
+		if ($shipp != false) {
+			$to_return = $to_return + floatval ( $shipp );
+		
+		}
+		
+		$to_return = number_format ( $to_return, 2, '.', '' );
+		
 		if ($convert_to_currency == "EUR") {
 			return $to_return;
 		} else {
@@ -1130,13 +1138,25 @@ class Cart_model extends Model {
 		
 		$get_option = array ();
 		$get_option ['option_key'] = 'order_complete_email';
-		$get_option ['option_group'] = 'orders';
+		//$get_option ['option_group'] = 'orders';
 		$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
 		$subj = $get_option1 ['option_value'];
 		
+		if (trim ( $subj ) == '') {
+			
+			CI::model ( 'core' )->optionsSetDefault ( 'order_complete_email' );
+			
+			$get_option = array ();
+			$get_option ['option_key'] = 'order_complete_email';
+			//$get_option ['option_group'] = 'orders';
+			$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+			$subj = $get_option1 ['option_value'];
+		
+		}
+		
 		$get_option = array ();
 		$get_option ['option_key'] = 'order_complete_email_body';
-		$get_option ['option_group'] = 'orders';
+		//$get_option ['option_group'] = 'orders';
 		$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
 		$body = $get_option1 ['option_value'];
 		
@@ -1150,9 +1170,8 @@ class Cart_model extends Model {
 			// To send HTML mail, the Content-type header must be set
 			$headers .= 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-	
-			$headers .= 'Cc: ' .$from. "\r\n";
-		
+			
+			$headers .= 'Cc: ' . $from . "\r\n";
 			
 			mail ( $data ['email'], $subj, $body, $additional_headers = $headers, $additional_parameters = null );
 		
@@ -1373,7 +1392,7 @@ class Cart_model extends Model {
 		$codes = $this->promoCodesGet ( $get_promo );
 		
 		$code = $codes [0];
-		
+		//p($code);
 		if (! empty ( $code )) {
 			
 			if ($code ['amount_modifier'] != 0) {
@@ -1415,6 +1434,37 @@ class Cart_model extends Model {
 			}
 		}
 		return $to_return;
+	}
+	
+	function promoCodeGetCurent() {
+		
+		$code = CI::library ( 'session' )->userdata ( 'promo_code' );
+		$code = trim ( $code );
+		if ($code != '') {
+			
+			return $code;
+		}
+		
+		$promo_item = array ();
+		$promo_item ['auto_apply_to_all'] = 'y';
+		
+		$promo_item = CI::model ( 'cart' )->promoCodesGet ( $promo_item );
+		
+		if (! empty ( $promo_item )) {
+			$promo_item = $promo_item [0];
+			CI::library ( 'session' )->set_userdata ( 'promo_code', $promo_item ['promo_code'] );
+			CI::library ( 'session' )->set_userdata ( 'cart_promo_code', $promo_item ['promo_code'] );
+			$promo_code = $promo_item ['promo_code'];
+			
+			$codes = $promo_item;
+			
+			return $codes ['promo_code'];
+		
+		} else {
+			
+			return '';
+		}
+	
 	}
 	
 	/**
@@ -1476,6 +1526,13 @@ class Cart_model extends Model {
 		$table_cart = $cms_db_tables ['table_cart'];
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
+		
+		if ($data ['auto_apply_to_all'] == 'y') {
+			$q = " update  $table_cart_orders set auto_apply_to_all='n' where auto_apply_to_all='y'";
+			//p($q);
+			CI::model ( 'core' )->dbQ ( $q );
+		
+		}
 		
 		$id = CI::model ( 'core' )->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
