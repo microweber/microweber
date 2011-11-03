@@ -1,0 +1,36 @@
+img.floated {
+	float: left;
+	position: relative; /* fixes many nasty IE bugs */
+	padding: 0.5em;
+	}
+	
+.clearfloat {
+clear:both; height:0px;
+line-height:0px; visibility: hidden;
+}
+
+#mycustomscroll {
+	/* Typical fixed height and fixed width example */
+	width: 160px;
+	height: 250px;
+	overflow: auto;
+	/* IE overflow fix, position must be relative or absolute*/
+	position: relative;
+	background-color: #E7EADE;
+	margin: 0.3em auto;
+	padding: 15px;
+}
+
+
+
+
+
+
+.copyrightnotice {
+	font-size: 70%;
+	font-weight: bold;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	text-indent: 0;
+}
+

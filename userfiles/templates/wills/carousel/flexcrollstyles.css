@@ -1,0 +1,77 @@
+/* Scroll Bar Master Styling Starts Here */
+/* All comments can be freely removed from the css */
+.scrollwrapper{width:290px}
+.scrollgeneric {line-height: 1px;font-size: 1px;position: absolute;bottom: 0px; left: 0;}
+.vscrollerbase {width: 15px;background-color: white;}
+.vscrollerbar {width: 10px;background-color: black;}
+.hscrollerbase {}
+.hscrollerbar {height: 15px;background-color: black;}
+.hscrollerbar {background: #99CBCB url(horizontalbarbody_cornerjog.png) 0px -30px repeat-x;}
+.vscrollerbar {background: #002e5e; z-index:1 !important}
+.vscrollerbar, .hscrollerbar {padding: 10px;z-index: 2; bottom:15px !important}
+.vscrollerbarbeg {}
+.vscrollerbarend {}
+.hscrollerbarbeg {background: url(basebarcaps_verticalbarbody.png) -60px -15px no-repeat;height: 15px;width: 15px !important;}
+.hscrollerbarend {background: url(basebarcaps_verticalbarbody.png) -30px -15px no-repeat;height: 15px;width: 15px;}
+.scrollerjogbox {width: 15px;height: 15px;top: auto; left: auto;bottom: 0px; right: 0px;background: #4E727C url(horizontalbarbody_cornerjog.png) 0px 0px;}
+.vscrollerbase {background: #ffffff;
+position:relative;
+	width:10px;
+	height:156px !important; padding-bottom:10px !important;
+		border:1px solid #002e5e;}
+.vscrollerbasebeg {
+position:absolute;
+top:0px;
+height:11px !important;
+z-index:20 !important;
+
+	width:10px !important;
+	border-bottom:1px solid #002e5e  !important;
+	
+
+	background: url('../images/layout/scrollArrowUp.jpg') no-repeat 0 0; 	background-position:top center;}
+.vscrollerbaseend {	height:10px;
+	width:10px !important;
+	top:154px !important;
+	border-top:1px solid #002e5e  !important;
+	background:   #fff url('../images/layout/scrollArrowDown.jpg') no-repeat 0 0;
+	z-index:20 !important;
+	background-position: bottom center;}
+.hscrollerbase {background: #D7EBDF url(horizontalbarbody_cornerjog.png) 0px -15px repeat-x;}
+.hscrollerbasebeg {background: url(basebarcaps_verticalbarbody.png) -60px 0px no-repeat;height: 15px;width: 15px !important;}
+.hscrollerbaseend {height: 15px;width: 15px;background: url(basebarcaps_verticalbarbody.png) -30px 0px no-repeat;}
+
+
+
+
+.back{
+    display: none;
+	height:168px !important;
+	width:287px; 
+	padding:20px 15px 35px 15px;
+	background: url('../images/layout/bckgrScroll.png') no-repeat 0 0;
+	
+}
+
+#mycustomscroll {
+	/* Typical fixed height and fixed width example */
+	
+		width:285px !important; 
+		height:168px !important;
+	overflow: auto;
+	/* IE overflow fix, position must be relative or absolute*/
+	position: relative;
+	background-color: #ffffff !important;
+	margin:0px !important;
+	padding: 0px !important;
+	
+}
+
+.copyrightnotice {
+	font-size: 70%;
+	font-weight: bold;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	text-indent: 0;
+}
+

@@ -123,6 +123,20 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			}
 		}
 		
+	if (defined ( 'MAIN_PAGE_ID' ) == false) {
+			$par =  CI::model('content')->getParentPagesIdsForPageIdAndCache($page ['id']);
+//p($par );
+			$last =  end($par); // last
+			if($last == 0){
+				$last = $page ['id'];
+			}
+//p($last );
+define ( 'MAIN_PAGE_ID', $last );
+			}
+		
+			
+		
+		
 		if (empty ( $post )) {
 			$content = $page;
 		} else {
@@ -467,6 +481,15 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		
 
 		$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
+		
+		
+		
+		
+		// DISABLING EDITMODE till its finished
+	//	$editmode = false;
+		
+		
+		
 		if ($editmode == true) {
 			$is_admin = is_admin ();
 			if ($is_admin == true) {

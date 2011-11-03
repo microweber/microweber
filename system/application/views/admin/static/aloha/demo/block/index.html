@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Aloha Block Plugin Testcase</title>
+	<script language="javascript">
+		Aloha = window.Aloha || {};
+
+		Aloha.settings = {
+			logLevels: {'error': true, 'warn': true, 'info': false, 'debug': false},
+			errorhandling : true,
+
+			plugins: {
+				block: {
+					// all elements with no specific configuration get this configuration
+					defaults : {
+						'.product-teaser': {
+							'block-type': 'ProductTeaserBlock'
+						},
+						'.company': {
+							'block-type': 'CompanyBlock'
+						},
+						'.editable-product-teaser': {
+							'block-type': 'EditableProductTeaserBlock'
+						},
+						'.vcard': {
+							'block-type': 'VCardBlock'
+						},
+						'.customhandles': {
+							'block-type': 'CustomHandleBlock'
+						},
+
+						'.two-columns': {
+							'block-type': 'TwoColumnBlock'
+						}
+					}
+				}
+			},
+			bundles: {
+				// Path for custom bundle relative from require.js path
+				user: '../demo/block'
+			}
+		};
+	</script>
+
+	<script src="../../lib/aloha.js" data-aloha-plugins="common/format,common/block,user/blockdemo,common/paste"></script>
+
+	<link rel="stylesheet" href="index.css" type="text/css">
+
+	<style>
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div id="tree-div"></div>
+		<h1 id="title">Aloha, Blocks!</h1>
+		<div id="bodyContent">
+			<h2>Inline Blocks inside editable</h2>
+			<div id="teaser" class="shorttext">
+				<p><b>This is the Product Teaser Example:</b> Try our new <span class="product-teaser" data-sku="2423423" data-title="Big can of fresh Aloha soup" data-price="27">Big can of fresh Aloha soup <span class="price">(27 €)</span></span>, it tastes delicious!</p>
+				<p>Some other content here...</p>
+				<p><b>Stock Quote example:</b> When you hover over the name of the <span class="company" data-symbol="MSFT">Microsoft</span> company, the stock quotes are shown.</p>
+				<p>Some more content...</p>
+				<p>Here follows the <b>editable product teaser example</b>: Try our new <span class="editable-product-teaser" data-sku="2423423" data-title="Big can of fresh Aloha soup" data-price="27">Big can of fresh Aloha soup (27 €)</span> - which enables some great stuff.
+			</div>
+
+			<h2>"Block"-Element Blocks inside editable</h2>
+			<div id="content" class="article">
+				<p>
+					 Blocks can be embedded right inside an editable. "Block" element blocks are not very
+					 differen from inline element blocks. A simple example is the DefaultRenderer block type, which
+					 renders and stores the initial markup. Try copy and pasting or dragging it around!
+				</p>
+				<h3>DefaultRenderer</h3>
+				<div class="aloha-block">
+					<p>This is a default aloha block without special type, which uses the <strong>DefaultRenderer</strong>. It
+					is not editable and embedded as a "block" element.</p>
+				</div>
+
+				<h3>VCard block</h3>
+				<p>This block is rendered with a template.</p>
+				<div class="vcard" data-firstname="John" data-lastname="Doe" data-url="http://example.com" data-email="john.doe@example.com" data-org="Example Inc.">
+					<a class="url fn n" href="http://example.com">
+						<span class="given-name">John</span>
+						<span class="family-name">Doe</span>
+					</a>
+					<div class="org">Example Inc.</div>
+					<a class="email" href="mailto:john.doe@example.com">john.doe@example.com</a>
+					<div class="adr">
+						<div class="street-address">123 Example street</div>
+						<span class="locality">San Francisco</span>, <span class="region">CA </span> <span class="postal-code">12345</span>
+						<span class="country-name">United States</span>
+					</div>
+					<div class="tel">555-555-5555</div>
+				</div>
+
+				<h3>Block rendered with custom handles</h3>
+				<div class="customhandles">
+					Some stuff with custom handles. Hover over it to see the magic :-).
+				</div>
+			</div>
+
+			<h2>Inline blocks outside editable</h2>
+			<div>
+				<p><b>This is the Product Teaser Example:</b> Try our new <span class="product-teaser" data-sku="2423423" data-title="Big can of fresh Aloha soup" data-price="27">Big can of fresh Aloha soup <span class="price">(27 €)</span></span>, it tastes delicious!</p>
+				<p>Some other content here...</p>
+				<p><b>Stock Quote example:</b> When you hover over the name of the <span class="company" data-symbol="MSFT">Microsoft</span> company, the stock quotes are shown.</p>
+				<p>Some more content...</p>
+				<p>Here follows the <b>editable product teaser example</b>: Try our new <span class="editable-product-teaser" data-sku="2423423" data-title="Big can of fresh Aloha soup" data-price="27">Big can of fresh Aloha soup (27 €)</span> - which enables some great stuff.
+			</div>
+
+			<h2>"Block"-Element Blocks outside editable</h2>
+			<div class="two-columns">
+				<div class="column-left">
+					<div class="vcard" data-firstname="John" data-lastname="Doe" data-url="http://example.com" data-email="john.doe@example.com" data-org="Example Inc.">
+						<a class="url fn n" href="http://example.com">
+							<span class="given-name">John</span>
+							<span class="family-name">Doe</span>
+						</a>
+						<div class="org">Example Inc.</div>
+						<a class="email" href="mailto:john.doe@example.com">john.doe@example.com</a>
+						<div class="adr">
+							<div class="street-address">123 Example street</div>
+							<span class="locality">San Francisco</span>, <span class="region">CA </span> <span class="postal-code">12345</span>
+							<span class="country-name">United States</span>
+						</div>
+						<div class="tel">555-555-5555</div>
+					</div>
+					<div class="vcard" data-firstname="John" data-lastname="Doe" data-url="http://example.com" data-email="john.doe@example.com" data-org="Example Inc.">
+						<a class="url fn n" href="http://example.com">
+							<span class="given-name">John</span>
+							<span class="family-name">Doe</span>
+						</a>
+						<div class="org">Example Inc.</div>
+						<a class="email" href="mailto:john.doe@example.com">john.doe@example.com</a>
+						<div class="adr">
+							<div class="street-address">123 Example street</div>
+							<span class="locality">San Francisco</span>, <span class="region">CA </span> <span class="postal-code">12345</span>
+							<span class="country-name">United States</span>
+						</div>
+						<div class="tel">555-555-5555</div>
+					</div>
+				</div>
+				<div class="column-right">
+					<div class="customhandles">
+						<p>Some content</p>
+						<p>Some more content</p>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	Aloha.ready( function() {
+		Aloha.jQuery('#title').aloha();
+		Aloha.jQuery('#teaser').aloha();
+		Aloha.jQuery('#content').aloha();
+		Aloha.jQuery('.textcontent').aloha();
+	});
+	</script>
+</body>
+</html>

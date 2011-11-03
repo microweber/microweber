@@ -784,7 +784,31 @@ class content_model extends Model {
 		
 		$del = CI::model ( 'core' )->deleteData ( $table, $data );
 		
+		
+		
+		
+		
+		
+		$table = $cms_db_tables ['table_menus'];
+		
+		$data = array ();
+		
+		 
+		
+		$data ['content_id'] = $id;
+		//p($data);
+		$data ['item_type'] = 'menu_item';
+		
+		$del = CI::model ( 'core' )->deleteData ( $table, $data,  'menus' );
+		
+		
+		
+		
+		
+		
 		$table = $cms_db_tables ['table_custom_fields'];
+		
+		
 		
 		$data = array ();
 		

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aloha Editor Apply Markup Test Suite</title>
+	
+	<!-- include qunit -->
+	<link rel="stylesheet" href="../vendor/qunit.css" type="text/css"/>
+	<script type="text/javascript" src="../vendor/qunit.js"></script>
+	<script	src="../../lib/vendor/jquery-1.6.1.js" ></script>
+
+	<!-- include aloha -->
+	<script>
+		var Aloha = { jQuery: $ };
+	</script>
+	<script src="../../lib/aloha.js" data-aloha-plugins=""></script>
+	
+	<!-- include testswarm inject script -->
+	<script>
+		var url = window.location.search;
+		url = decodeURIComponent( url.slice( url.indexOf("swarmURL=") + 9 ) );
+		if ( url && url.indexOf("http") === 0 ) {
+			require(["http://testswarm.aloha-editor.org/js/inject.js?" + (new Date).getTime()], function() {});
+		}
+	</script>
+
+</head>
+<body>
+	<!-- include the tests -->
+	<script>
+		require( ['apply-markup'] );
+	</script>
+	<h1 id="qunit-header">Aloha Editor Apply Markup Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">
+		<!-- References for plaintext tests -->
+		<div id="ref-plaintext">This is plain text</div>
+		<div id="ref-plaintext-start-bold"><b>This</b> is plain text</div>
+		<div id="ref-plaintext-middle-bold">This <b>is plain</b> text</div>
+		<div id="ref-plaintext-end-bold">This is plain <b>text</b></div>
+		
+		<!-- Reference for cross markup tests -->
+		<div id="ref-crossmarkup">This is <i>markup</i> text</div>
+		<div id="ref-crossmarkup-start-bold"><b>This is </b><i><b>mark</b>up</i> text</div>
+		<div id="ref-crossmarkup-inner-bold">This is <i>m<b>arku</b>p</i> text</div>
+		<div id="ref-crossmarkup-outer-bold">This <b>is <i>markup</i> te</b>xt</div>
+		<div id="ref-crossmarkup-end-bold">This is <i>mark<b>up</b></i><b> te</b>xt</div>
+		<div id="ref-crossmarkup-start-italic"><i>This is markup</i> text</div>
+		<div id="ref-crossmarkup-start-italic-nesting"><i>This is <i>mark</i>up</i> text</div>
+		<div id="ref-crossmarkup-inner-italic">This is <i>m</i>arku<i>p</i> text</div>
+		<div id="ref-crossmarkup-inner-italic-nesting">This is <i>m</i>arku<i>p</i> text</div>
+		<div id="ref-crossmarkup-outer-italic">This <i>is markup te</i>xt</div>
+		<div id="ref-crossmarkup-outer-italic-nesting">This <i>is <i>markup</i> te</i>xt</div>
+		<div id="ref-crossmarkup-end-italic">This is <i>mark</i>up text</div>
+		<div id="ref-crossmarkup-end-italic-nesting">This is <i>mark</i>up text</div>
+		
+		<!-- Reference for Header tests -->
+		<div id="ref-header"><h1>Header</h1><p>This is the first paragraph</p><p>This is the second paragraph</p></div>
+		<div id="ref-header-first-p"><p>Header</p><p>This is the first paragraph</p><p>This is the second paragraph</p></div>
+		<div id="ref-header-first-h2"><h2>Header</h2><p>This is the first paragraph</p><p>This is the second paragraph</p></div>
+		<div id="ref-header-second-h1"><h1>Header</h1><h1>This is the first paragraph</h1><p>This is the second paragraph</p></div>
+		<div id="ref-header-last-h1"><h1>Header</h1><p>This is the first paragraph</p><h1>This is the second paragraph</h1></div>
+	</div>
+<div id="edit" style="margin:20px; border:1px solid #000000;"></div>
+</body>
+</html>

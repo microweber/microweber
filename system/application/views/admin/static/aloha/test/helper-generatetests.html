@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aloha Editor: generate testswarm config from tests.js</title>
+
+	<!-- include jquery -->
+	<script	src="vendor/jquery-1.6.1.js" ></script>
+
+	<script>
+		var forwarddelete = [
+			// some tests from https://github.com/ayg/editing/blob/master/tests.js
+			'foo[<ol><li>]bar</ol>',
+			'<ol><li>foo[<li>]bar</ol>',
+			'foo[<dl><dt>]bar<dd>baz</dl>',
+			'foo[<dl><dd>]bar</dl>',
+			'<dl><dt>foo[<dd>]bar</dl>',
+			'<dl><dt>foo[<dt>]bar<dd>baz</dl>',
+			'<dl><dt>foo<dd>bar[<dd>]baz</dl>',
+		];
+
+		$(document).ready(function() {
+			var output = '';
+			// generate testswarm test values
+			$(forwarddelete).each( function ( index, test ) {
+				output += "\t\t{\tstart: '" + test + "',\n\t\t\texecResult: ''\n\t\t},\n";
+			});
+
+			$('#output').val(output);
+			//console.log(output);
+		});
+	</script>
+</head>
+<body>
+	<textarea style="width:100%; height:500px" id="output"></textarea>
+</body>
+</html>

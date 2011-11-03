@@ -1,0 +1,14 @@
+<a class="url fn n" href="<%= url %>">
+	<span class="given-name"><%= firstname %></span>
+	<span class="family-name"><%= lastname %></span>
+</a>
+<a class="email" href="mailto:<%= email %>"><%= email %></a>
+<% if (org) { %>
+	<div class="org"><%= org %></div>
+<% } %>
+<div class="adr">
+	<div class="street-address">123 Example street</div>
+	<span class="locality">San Francisco</span>, <span class="region">CA </span> <span class="postal-code">12345</span>
+	<span class="country-name">United States</span>
+</div>
+<div class="tel">555-555-5555</div>
