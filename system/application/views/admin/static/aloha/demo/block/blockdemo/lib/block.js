@@ -11,7 +11,7 @@ define([
 	'block/blockmanager',
 	'blockdemo/vendor/underscore'
 ], function(jQuery, block, BlockManager, vcardTemplate) {
-	
+	"use strict";
 
 	var CompanyBlock = block.AbstractBlock.extend({
 		title: 'Company',

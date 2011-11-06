@@ -7,7 +7,7 @@
 define(
 [ 'testutils' ],
 function( TestUtils ) {
-    
+    "use strict";
 
     // http://dev.w3.org/html5/markup/spec.html#common-models
     var 

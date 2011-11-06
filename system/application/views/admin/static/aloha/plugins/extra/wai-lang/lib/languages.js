@@ -15,7 +15,7 @@ define(
  'i18n!aloha/nls/i18n'
 ],
 function(jQuery, Repository, i18nCore) {
-	
+	"use strict";
 	
 	var $ = jQuery,
 		GENTICS = window.GENTICS,

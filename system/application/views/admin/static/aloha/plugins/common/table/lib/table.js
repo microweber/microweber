@@ -1,8 +1,15 @@
-define(
-['aloha', 'aloha/jquery', 'aloha/floatingmenu', 'i18n!table/nls/i18n', 'table/table-cell', 'table/table-selection', 'table/table-plugin-utils'],
-function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
-	var
-		GENTICS = window.GENTICS;
+define( [
+
+	'aloha',
+	'aloha/jquery',
+	'aloha/floatingmenu',
+	'i18n!table/nls/i18n',
+	'table/table-cell',
+	'table/table-selection',
+	'table/table-plugin-utils'
+
+], function ( Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils ) {
+	var GENTICS = window.GENTICS;
 
 	/**
 	 * Constructor of the table object
@@ -11,16 +18,18 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 	 *            the dom-representation of the held table
 	 * @return void
 	 */
-	var Table = function(table, tablePlugin) {
+	var Table = function( table, tablePlugin ) {
 		// set the table attribut "obj" as a jquery represenation of the dom-table
-		this.obj = jQuery(table);
-
-		if ( !this.obj.attr('id') ) {
-			this.obj.attr('id', GENTICS.Utils.guid());
+		this.obj = jQuery( table );
+		
+		correctTableStructure( this );
+		
+		if ( !this.obj.attr( 'id' ) ) {
+			this.obj.attr( 'id', GENTICS.Utils.guid() );
 		}
-
+		
 		this.tablePlugin = tablePlugin;
-		this.selection = new TableSelection(this);
+		this.selection = new TableSelection( this );
 		this.refresh();
 	};
 
@@ -152,7 +161,74 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 	Table.prototype.set = function(key, value) {
 		this.tablePlugin.set(key, value);
 	};
-
+	
+	/**
+	 * Given an unbalanced table structure, pad it with the necessary cells to
+	 * make it perfectly rectangular
+	 *
+	 * @param {Aloha.Table} tableObj
+	 */
+	function correctTableStructure ( tableObj ) {
+		var table = tableObj.obj,
+			
+			i,
+		    row,
+		    rows = tableObj.getRows(),
+		    rowsNum = rows.length,
+			
+			cols,
+			colsNum,
+			
+		    colsCount,
+		    maxColsCount = 0,
+		    cachedColsCounts = [],
+		    colsCountDiff,
+		    colSpan;
+		
+		for ( i = 0; i < rowsNum; i++ ) {
+			row = jQuery( rows[ i ] );
+			cols = row.find( '>td' );
+			colsNum = cols.length;
+			colsCount = Utils.cellIndexToGridColumn( rows, i, colsNum - 1 ) + 1;
+			
+			// Check if the last cell in this row has a col span, to account
+			// for it in the total number of colums in this row
+			
+			colSpan = parseInt( cols.last().attr( 'colspan' ), 10 );
+			
+			if ( colSpan == 0 ) {
+				// TODO: support colspan=0
+				// http://dev.w3.org/html5/markup/td.html#td.attrs.colspan
+				// http://www.w3.org/TR/html401/struct/tables.html#adef-colspan
+				// The value zero ("0") means that the cell spans all columns from the current column to the last column of the column group (COLGROUP) in which the cel
+			} else if ( !isNaN( colSpan ) ) {
+				// The default value of this attribute is one ("1"), so where this
+				// is the case, we will remove such superfluous colspan attributes
+				if ( colSpan == 1 ) {
+					cols.last().removeAttr( 'colspan' );
+				}
+				
+				colsCount += ( colSpan - 1 );
+			}
+			
+			cachedColsCounts.push( colsCount );
+			
+			if ( colsCount > maxColsCount ) {
+				maxColsCount = colsCount;
+			}
+		}
+		
+		for ( i = 0; i < rowsNum; i++ ) {
+			colsCountDiff = maxColsCount - cachedColsCounts[ i ];
+			if ( colsCountDiff > 0 ) {
+				// Create as many td's as we need to complete the row
+				jQuery( rows[ i ] ).append(
+					( new Array( colsCountDiff + 1 ) ).join( '<td></td>' )
+				);
+			}
+		}
+	};
+	
 	/**
 	 * Transforms the existing dom-table into an editable aloha-table. In fact it
 	 * replaces the td-elements with equivalent TableCell-elements
@@ -166,13 +242,14 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 		if (this.isActive) {
 			return;
 		}
+
 		var that = this,
-			htmlTableWrapper, tableWrapper;
+		    htmlTableWrapper,
+		    tableWrapper;
 
 		// alter the table attributes
 		this.obj.addClass(this.get('className'));
 		this.obj.contentEditable(false);
-
 
 		// set an id to the table if not already set
 		if (this.obj.attr('id') == '') {
@@ -242,7 +319,7 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 		htmlTableWrapper.get(0).onmovestart = function(e) { return false; };
 		htmlTableWrapper.get(0).onselectstart = function(e) { return false; };
 
-		this.tableWrapper     = this.obj.parents('.' + this.get('classTableWrapper')).get(0);
+		this.tableWrapper = this.obj.parents('.' + this.get('classTableWrapper')).get(0);
 
 		jQuery(this.cells).each(function () {
 			this.activate();
@@ -481,19 +558,20 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 		var emptyCell = jQuery('<td>');
 		emptyCell.html('\u00a0');
 		
-		// get the number of columns in the table
+		// get the number of columns in the table (first row)
 		// iterate through all rows and find the maximum number of columns to add
 		var numColumns = 0;
-		for(var i = 0; i < this.obj.context.rows.length; i++){
+		for( var i = 0; i < this.obj.context.rows.length; i++ ){
 			var curNumColumns = 0;
 			
-			for(var j = 0; j < this.obj.context.rows[i].cells.length; j++){
+			for( var j = 0; j < this.obj.context.rows[i].cells.length; j++ ){
 				var colspan = Utils.colspan( this.obj.context.rows[i].cells[j] );
 				curNumColumns += colspan;
 			}
 			
-			if(numColumns < curNumColumns)
+			if( numColumns < curNumColumns ) {
 				numColumns = curNumColumns;
+			}
 		}
 		
 		var selectionRow = jQuery('<tr>');
@@ -524,6 +602,13 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 					FloatingMenu.userActivatedTab = i18n.t('floatingmenu.tab.table');
 					FloatingMenu.doLayout();
 					
+					// As side-effect of the following call the focus
+					// will be set on the first selected cell. 
+					// This will be overwritten with the summary
+					// attribute-field, if the setting summaryinsidebar
+					// is false.
+					that._removeCursorSelection();
+
 					// jump in Summary field
 					// attempting to focus on summary input field will occasionally result in the
 					// following exception:
@@ -535,7 +620,8 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 						that.tablePlugin.summary.focus();
 						e.stopPropagation();
 						e.preventDefault();
-					} catch (e) {}
+					} catch (e) {
+					}
 
 					return false;
 				};
@@ -1141,17 +1227,58 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 	};
 
 	/**
-	 * Undoes the cursor-selection after cells have been selected.
+	 * Undoes the cursor-selection after cells have been selected.  This
+	 * is done to be more consistent in the UI - there should either be
+	 * a cursor-selection or a cell-selection, but not both.
 	 */
-	function removeCursorSelection() {
-		// On IE, whenever a row/column is already selected, and another
-		// row/column is selected, the browser window scrolls to the top
-		// of the page (browser bug). IE removes the cursor-selection by
-		// itself and shows a frame around the table, with resize
-		// handles (the frame seems useless).
-		if ( ! jQuery.browser.msie ) {
-			Aloha.getSelection().removeAllRanges();
+	Table.prototype._removeCursorSelection = function() {
+		// We can't remove the selection on IE because whenever a
+		// row/column is selected, and then another row/column is
+		// selected, the browser windows scrolls to the top of the page
+		// (som kind of browser bug).
+
+		// This is no problem for IE because IE removes the
+		// cursor-selection by itself and shows a frame around the
+		// table, with resize handles (the frame seems useless).
+
+		// On other browsers, we can't remove the selection because the
+		// floating menu will disappear when one selects a rows/column
+		// and types a key (that's the same effect as when one clicks
+		// outside the editable).
+
+		//TODO: currently, removing the cursor selection can't be
+		//     reliably implemented.
+		//if ( ! jQuery.browser.msie ) {
+		//    Aloha.getSelection().removeAllRanges();
+		//}
+
+		// The following is a workaround for the above because we can't
+		// leave the cursor-selection outside of the table, since
+		// otherwise the floating menu scope will be incorrect when one
+		// CTRL-clicks on the rows or columns.
+		var selection = Aloha.getSelection();
+		if ( null == selection || null == selection.getRangeAt( 0 ) ) {
+			return;
 		}
+
+		var range = selection.getRangeAt( 0 );
+		if ( null == range.startContainer ) {
+			return;
+		}
+
+		// if the selection is  already in the table, do nothing
+		if ( 0 !== jQuery( range.startContainer ).closest('table').length ) {
+			return;
+		}
+		
+		// if no cells are selected, do nothing
+		if ( 0 === this.selection.selectedCells.length ) {
+			return;
+		}
+
+		// set the foces to the first selected cell
+		var container = TableCell.getContainer( this.selection.selectedCells[ 0 ] );
+		jQuery( container ).focus();
 	}
 
 	/**
@@ -1198,7 +1325,7 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 		this.selection.selectColumns( columnsToSelect );
 
 		this.selection.notifyCellsSelected();
-		removeCursorSelection();
+		this._removeCursorSelection();
 	};
 
 	/**
@@ -1280,7 +1407,7 @@ function (Aloha, jQuery, FloatingMenu, i18n, TableCell, TableSelection, Utils) {
 		this.obj.find('div.aloha-ui-table-cell-editable').blur();
 
 		this.selection.notifyCellsSelected();
-		removeCursorSelection();
+		this._removeCursorSelection();
 	};
 
 	/**

@@ -14,7 +14,7 @@
 define(
 [ 'testutils', 'htmlbeautifier' ],
 function( TestUtils ) {
-	
+	'use strict';
 	
 	/**
 	 * Helper function to create an array of "selected" td's, which are marked

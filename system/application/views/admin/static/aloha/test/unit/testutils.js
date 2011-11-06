@@ -7,7 +7,7 @@
 window.TestUtils = window.TestUtils || {};
 
 define(	[ '../../lib/aloha/ecma5shims' ], function($_) {
-	
+	"use strict";
 	
 	var	
 		jQuery = Aloha.jQuery,

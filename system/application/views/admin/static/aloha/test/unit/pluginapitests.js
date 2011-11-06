@@ -7,7 +7,7 @@
 define(
 [],
 function() {
-	
+	"use strict";
 	
 	Aloha.ready( function() {
 	

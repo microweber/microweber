@@ -23,9 +23,9 @@ GENTICS = window.GENTICS || {};
 GENTICS.Utils = GENTICS.Utils || {};
 
 define(
-['aloha/jquery', 'util/class'],
-function(jQuery, Class) {
-	
+['aloha/jquery', 'util/class', 'aloha/ecma5shims'],
+function(jQuery, Class, $_) {
+	"use strict";
 	
 	var
 		GENTICS = window.GENTICS,
@@ -1576,8 +1576,89 @@ var Dom = Class.extend({
 	inSameEditingHost: function (node1, node2) {
 		return this.getEditingHostOf(node1)
 			&& this.getEditingHostOf(node1) == this.getEditingHostOf(node2);
+	},
+
+	// "A block node is either an Element whose "display" property does not have
+	// resolved value "inline" or "inline-block" or "inline-table" or "none", or a
+	// Document, or a DocumentFragment."
+	isBlockNode: function (node) {
+		return node
+			&& ((node.nodeType == $_.Node.ELEMENT_NODE && $_( ["inline", "inline-block", "inline-table", "none"] ).indexOf($_.getComputedStyle(node).display) == -1)
+			|| node.nodeType == $_.Node.DOCUMENT_NODE
+			|| node.nodeType == $_.Node.DOCUMENT_FRAGMENT_NODE);
+	},
+
+	/**
+	 * Get the first visible child of the given node.
+	 * @param node node
+	 * @param includeNode when set to true, the node itself may be returned, otherwise only children are allowed
+	 * @return first visible child or null if none found
+	 */
+	getFirstVisibleChild: function (node, includeNode) {
+		// no node -> no child
+		if (!node) {
+			return null;
+		}
+
+		// check whether the node itself is visible
+		if ((node.nodeType == $_.Node.TEXT_NODE && this.isEmpty(node))
+			|| (node.nodeType == $_.Node.ELEMENT_NODE && node.offsetHeight == 0 && jQuery.inArray(node.nodeName.toLowerCase(), this.nonEmptyTags) === -1)) {
+			return null;
+		}
+
+		// if the node is a text node, or does not have children, or is not editable, it is the first visible child
+		if (node.nodeType == $_.Node.TEXT_NODE
+				|| (node.nodeType == $_.Node.ELEMENT_NODE && node.childNodes.length == 0)
+				|| !jQuery(node).contentEditable()) {
+			return includeNode ? node : null;
+		}
+
+		// otherwise traverse through the children
+		for (var i = 0; i < node.childNodes.length; ++i) {
+			var visibleChild = this.getFirstVisibleChild(node.childNodes[i], true);
+			if (visibleChild != null) {
+				return visibleChild;
+			}
+		}
+
+		return null;
+	},
+
+	/**
+	 * Get the last visible child of the given node.
+	 * @param node node
+	 * @param includeNode when set to true, the node itself may be returned, otherwise only children are allowed
+	 * @return last visible child or null if none found
+	 */
+	getLastVisibleChild: function (node, includeNode) {
+		// no node -> no child
+		if (!node) {
+			return null;
+		}
+
+		// check whether the node itself is visible
+		if ((node.nodeType == $_.Node.TEXT_NODE && this.isEmpty(node))
+			|| (node.nodeType == $_.Node.ELEMENT_NODE && node.offsetHeight == 0 && jQuery.inArray(node.nodeName.toLowerCase(), this.nonEmptyTags) === -1)) {
+			return null;
+		}
+
+		// if the node is a text node, or does not have children, or is not editable, it is the first visible child
+		if (node.nodeType == $_.Node.TEXT_NODE
+				|| (node.nodeType == $_.Node.ELEMENT_NODE && node.childNodes.length == 0)
+				|| !jQuery(node).contentEditable()) {
+			return includeNode ? node : null;
+		}
+
+		// otherwise traverse through the children
+		for (var i = node.childNodes.length - 1; i >= 0; --i) {
+			var visibleChild = this.getLastVisibleChild(node.childNodes[i], true);
+			if (visibleChild != null) {
+				return visibleChild;
+			}
+		}
+
+		return null;
 	}
-	
 });
 
 

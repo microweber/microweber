@@ -26,7 +26,7 @@ define( [
 			 GenericContentHandler, 
 			 OembedContentHandler,
 			 SanitizeContentHandler ) {
-	
+	'use strict';
 
 	/**
 	 * Register the plugin with unique name

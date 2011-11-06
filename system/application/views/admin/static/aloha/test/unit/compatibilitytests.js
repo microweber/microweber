@@ -5,7 +5,7 @@
  */
 
 define( [], function() {
-	
+	"use strict";
 
 	// Start the tests, when Aloha is ready
 	Aloha.bind('aloha-ready', function() {

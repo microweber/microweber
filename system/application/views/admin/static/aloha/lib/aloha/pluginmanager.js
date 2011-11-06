@@ -22,7 +22,7 @@
 define(
 [ 'aloha/jquery', 'util/class' ],
 function( jQuery, Class ) {
-	
+	"use strict";
 	
 	/**
 	 * The Plugin Manager controls the lifecycle of all Aloha Plugins.

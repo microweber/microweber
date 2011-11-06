@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'util/class', 'aloha/jquery'],
 function(Aloha, Class, jQuery ) {
-	
+	"use strict";
 	
 	var
 //		$ = jQuery,
@@ -134,7 +134,11 @@ var alohaConsole = Class.extend({
 				// problematic because we get not stack.
 				// We ought to consider doing the following:
 				// throw component + ': ' + message;
-				console.error(component + ': ' + message);
+				if(!component && !message) {
+					console.error(component + ': ' + message);
+				} else {
+					console.error("Error occured without message and component");
+				}
 			}
 			break;
 		case 'warn':

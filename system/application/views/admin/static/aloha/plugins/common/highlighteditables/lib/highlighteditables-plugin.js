@@ -8,7 +8,7 @@
 define(
 ['aloha', 'aloha/jquery', 'aloha/plugin', 'css!highlighteditables/css/highlighteditables.css'],
 function(Aloha, jQuery, Plugin) {
-	
+	"use strict";
 
 	var
 		GENTICS = window.GENTICS;
@@ -41,15 +41,7 @@ function(Aloha, jQuery, Plugin) {
 			Aloha.bind(
 					"aloha-editable-activated",
 					function (jEvent, aEvent) {
-						aEvent.editable.obj.addClass('aloha-editable-active');
 						that.fade();
-					}
-			);
-
-			// remove active Editable ccs class
-			Aloha.bind("aloha-editable-deactivated",
-					function (jEvent, aEvent) {
-						aEvent.editable.obj.removeClass('aloha-editable-active');
 					}
 			);
 

@@ -11,7 +11,7 @@
  */
 define(['aloha', 'aloha/jquery', 'block/blockmanager', 'aloha/observable', 'aloha/floatingmenu'],
 function(Aloha, jQuery, BlockManager, Observable, FloatingMenu) {
-	
+	"use strict";
 
 	/**
 	 * @name block.block.AbstractBlock

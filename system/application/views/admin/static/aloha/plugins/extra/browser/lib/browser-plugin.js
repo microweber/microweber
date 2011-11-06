@@ -6,7 +6,7 @@
 define([ 'aloha', 'aloha/jquery', 'aloha/plugin', 'browser/browser' ],
 function ( Aloha, jQuery, Plugin, Browser ) {
 	
-	
+	'use strict';
 	
 	return Browser;
 	

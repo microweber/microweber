@@ -1,6 +1,6 @@
 require( [ '../unit/testutils' ], function ( TestUtils ) {
 
-
+'use strict';
 
 Aloha.ready( function() {
 

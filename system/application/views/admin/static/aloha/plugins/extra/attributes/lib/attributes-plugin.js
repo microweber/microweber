@@ -7,7 +7,7 @@
 define(
 ['aloha','aloha/plugin', 'aloha/floatingmenu', 'i18n!attributes/nls/i18n', 'i18n!aloha/nls/i18n', 'css!attributes/css/attributes.css'],
 function(Aloha, Plugin, FloatingMenu, i18n, i18nCore) {
-	
+	"use strict";
 
 	var
 		jQuery = Aloha.jQuery,

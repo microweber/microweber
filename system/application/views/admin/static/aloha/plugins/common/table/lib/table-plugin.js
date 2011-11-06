@@ -122,15 +122,15 @@ define( [
 		this.rowConfig = this.checkConfig(this.rowConfig||this.settings.rowConfig);
 		
 		// add reference to the create layer object
-		this.createLayer = new CreateLayer(this);
+		this.createLayer = new CreateLayer( this );
 
 		var that = this;
 
 		// subscribe for the 'editableActivated' event to activate all tables in the editable
-		Aloha.bind('aloha-editable-created', function( event, editable ) {
+		Aloha.bind( 'aloha-editable-created', function ( event, editable ) {
 
 			// add a mousedown event to all created editables to check if focus leaves a table
-			editable.obj.bind( 'mousedown', function( jqEvent ) {
+			editable.obj.bind( 'mousedown', function ( jqEvent ) {
 				TablePlugin.setFocusedTable( undefined );
 			} );
 
@@ -152,8 +152,8 @@ define( [
 		this.initTableButtons();
 
 		Aloha.bind( 'aloha-table-selection-changed', function () {
-			if (   null != TablePlugin.activeTable
-				&& 0 !== TablePlugin.activeTable.selection.selectedCells.length ) {
+			if ( null != TablePlugin.activeTable &&
+					0 !== TablePlugin.activeTable.selection.selectedCells.length ) {
 				TablePlugin.updateFloatingMenuScope();
 			}
 		});
@@ -244,7 +244,7 @@ define( [
 		Aloha.bind( 'aloha-smart-content-changed', function ( event ) {
 			if ( Aloha.activeEditable ) {
 				Aloha.activeEditable.obj.find( 'table' ).each( function () {
-					if ( !TablePlugin.isTableElementInRegistry( this ) &&
+					if ( TablePlugin.indexOfTableInRegistry( this ) > -1 &&
 							!TablePlugin.isWithinTable( this ) ) {
 						var el = jQuery( this );
 						el.id = GENTICS.Utils.guid();
@@ -288,13 +288,13 @@ define( [
 		pl.sidebar = sidebar;
 		sidebar.addPanel({
             
-            id         : nsClass('sidebar-panel'),
-            title     : i18n.t('table.sidebar.title'),
-            content     : '',
+            id       : nsClass('sidebar-panel'),
+            title    : i18n.t('table.sidebar.title'),
+            content  : '',
             expanded : true,
             activeOn : 'table',
             
-            onInit     : function () {
+            onInit   : function () {
             	var that = this,
 	            content = this.setContent(
 	                '<label class="' + nsClass('label') + '" for="' + nsClass('textarea') + '" >' + i18n.t('table.label.target') + '</label>' +
@@ -339,21 +339,31 @@ define( [
 	};
 	
 	/**
-	 * Checks if a table element in the TableRegistry array
-	 *
 	 * @param {jQuery} elem
-	 * @return {Boolean} true if table elem is in registry
+	 * @return {Number}
 	 */
-	TablePlugin.isTableElementInRegistry = function ( elem ) {
-		var registry = TablePlugin.TableRegistry;
+	TablePlugin.indexOfTableInRegistry = function ( elem ) {
+		var registry = this.TableRegistry;
 		
 		for ( var i = 0; i < registry.length; i++ ) {
-			if ( registry[ i ].obj.is( elem ) ) {
-				return true;
+			if ( registry[ i ].obj.id == elem.id ) {
+				return i;
 			}
 		}
 		
-		return false;
+		return -1;
+	};
+	
+	/**
+	 * @param {jQuery} elem
+	 * @return {Table}
+	 */
+	TablePlugin.getTableFromRegistry = function ( elem ) {
+		var i = this.indexOfTableInRegistry( elem );
+		if ( i > -1 ) {
+			return this.TableRegistry[ i ];
+		}
+		return null;
 	};
 	
 	/**
@@ -426,6 +436,7 @@ define( [
 		FloatingMenu.addButton(
 			this.name + '.row',
 			new Aloha.ui.Button({
+				'name' : 'addrowbefore',
 				'iconClass' : 'aloha-button aloha-button-addRowBefore',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.addrowbefore.tooltip'),
@@ -459,6 +470,7 @@ define( [
 		FloatingMenu.addButton(
 			this.name + '.row',
 			new Aloha.ui.Button({
+				'name' : 'addrowafter',
 				'iconClass' : 'aloha-button aloha-button-addRowAfter',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.addrowafter.tooltip'),
@@ -476,6 +488,7 @@ define( [
 		FloatingMenu.addButton(
 			this.name + '.row',
 			new Aloha.ui.Button({
+				'name' : 'deleterow',
 				'iconClass' : 'aloha-button aloha-button-deleteRows',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.delrows.tooltip'),
@@ -500,6 +513,7 @@ define( [
 		);
 
       this.rowHeader = new Aloha.ui.Button({
+    	  name : 'rowheader',
 		  iconClass : 'aloha-button aloha-button-row-header',
 		  size	  :  'small',
 		  tooltip	  :  i18n.t('button.rowheader.tooltip'),
@@ -565,6 +579,7 @@ define( [
       FloatingMenu.addButton(
 		  this.name + '.row',
 		  new Aloha.ui.Button({
+			  'name' : 'rowmergecells',
 			  'iconClass' : 'aloha-button aloha-button-merge-cells',
 			  'size' : 'small',
 			  'tooltip' : i18n.t('button.mergecells.tooltip'),
@@ -582,6 +597,7 @@ define( [
       FloatingMenu.addButton(
 		  this.name + '.row',
 		  new Aloha.ui.Button({
+			  'name' : 'rowsplitcells',
 			  'iconClass' : 'aloha-button aloha-button-split-cells',
 			  'size' : 'small',
 			  'tooltip' : i18n.t('button.splitcells.tooltip'),
@@ -677,6 +693,7 @@ define( [
     FloatingMenu.addButton(
 			this.name + '.column',
 			new Aloha.ui.Button({
+				'name' : 'addcolumnleft',
 				'iconClass' : 'aloha-button aloha-button-addColumnLeft',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.addcolleft.tooltip'),
@@ -694,6 +711,7 @@ define( [
 		FloatingMenu.addButton(
 			this.name + '.column',
 			new Aloha.ui.Button({
+				'name' : 'addcolumnright',
 				'iconClass' : 'aloha-button aloha-button-addColumnRight',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.addcolright.tooltip'),
@@ -711,6 +729,7 @@ define( [
     FloatingMenu.addButton(
 			this.name + '.column',
 			new Aloha.ui.Button({
+				'name' : 'deletecolumns',
 				'iconClass' : 'aloha-button aloha-button-deleteColumns',
 				'size' : 'small',
 				'tooltip' : i18n.t('button.delcols.tooltip'),
@@ -735,6 +754,7 @@ define( [
 		);
 
     this.columnHeader = new Aloha.ui.Button({
+    	name : 'columnheader',
         iconClass : 'aloha-button aloha-button-col-header',
         size	  : 'small',
         tooltip	  : i18n.t('button.columnheader.tooltip'),
@@ -784,6 +804,7 @@ define( [
     FloatingMenu.addButton(
       this.name + '.column',
       new Aloha.ui.Button({
+    	  	'name' : 'tablemergecells',
 			'iconClass' : 'aloha-button aloha-button-merge-cells',
 			'size' : 'small',
 			'tooltip' : i18n.t('button.mergecells.tooltip'),
@@ -801,6 +822,7 @@ define( [
     FloatingMenu.addButton(
       this.name + '.column',
       new Aloha.ui.Button({
+    	  	'name' : 'tablesplitcells',
 			'iconClass' : 'aloha-button aloha-button-split-cells',
 			'size' : 'small',
 			'tooltip' : i18n.t('button.splitcells.tooltip'),
@@ -901,13 +923,12 @@ define( [
 
 		// the 'create table' button
 		this.createTableButton = new Aloha.ui.Button({
-			iconClass : 'aloha-button aloha-button-table',
-			size      : 'small',
-			tooltips  : i18n.t('button.createtable.tooltip'),
-			onclick   : function ( element, event ) {
-				if ( !that.preventNestedTables() ) {
-					TablePlugin.createDialog( element.btnEl.dom );
-				}
+			'name' : 'table',
+			'iconClass' : 'aloha-button aloha-button-table',
+			'size' : 'small',
+			'tooltip' : i18n.t('button.createtable.tooltip'),
+			'onclick' : function (element, event) {
+				TablePlugin.createDialog(element.btnEl.dom);
 			}
 		});
 
@@ -992,6 +1013,7 @@ define( [
     FloatingMenu.addButton(
       this.name + '.cell',
       new Aloha.ui.Button({
+    	  	'name' : 'mergecells',
 			'iconClass' : 'aloha-button aloha-button-merge-cells',
 			'size' : 'small',
 			'tooltip' : i18n.t('button.mergecells.tooltip'),
@@ -1009,6 +1031,7 @@ define( [
     FloatingMenu.addButton(
       this.name + '.cell',
       new Aloha.ui.Button({
+    	  	'name' : 'splitcells',
 			'iconClass' : 'aloha-button aloha-button-split-cells',
 			'size' : 'small',
 			'tooltip' : i18n.t('button.splitcells.tooltip'),
@@ -1025,6 +1048,7 @@ define( [
 
 	// Add caption button
     this.captionButton = new Aloha.ui.Button({
+    		'name' : 'tablecaption',
 			'iconClass' : 'aloha-button aloha-button-table-caption',
 			'size' : 'small',
 			'tooltip' : i18n.t('button.caption.tooltip'),
@@ -1355,13 +1379,15 @@ define( [
 	 * @return void
 	 */
 	TablePlugin.makeClean = function ( obj ) {
+		var that = this;
 		obj.find( 'table' ).each( function() {
-			if ( !TablePlugin.isWithinTable( this ) ) {
-				( new Table( this, TablePlugin ) ).deactivate();
+			var table = that.getTableFromRegistry( this );
+			if ( table ) {
+				table.deactivate();
 			}
 		} );
 	};
-
+	
 	/**
 	 * String representation of the Table-object
 	 *

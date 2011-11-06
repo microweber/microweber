@@ -18,7 +18,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+"use strict";
 define(
 [ 'aloha/core', 'aloha/jquery', 'aloha/floatingmenu', 'util/class', 'util/range', 'aloha/rangy-core' ],
 function(Aloha, jQuery, FloatingMenu, Class, Range) {
@@ -240,7 +240,14 @@ function(Aloha, jQuery, FloatingMenu, Class, Range) {
 			}
 
 			this.rangeObject = range || new Aloha.Selection.SelectionRange(true);
-			
+
+			// workaround for a nasty IE bug that allows the user to select text nodes inside areas with contenteditable "false"
+			if ((this.rangeObject.startContainer.nodeType === 3 && !jQuery(this.rangeObject.startContainer.parentNode).contentEditable())
+					|| (this.rangeObject.endContainer.nodeType === 3 && !jQuery(this.rangeObject.endContainer.parentNode).contentEditable())) {
+				Aloha.getSelection().removeAllRanges();
+				return true;
+			}
+
 			// find the CAC (Common Ancestor Container) and update the selection Tree
 			this.rangeObject.update();
 

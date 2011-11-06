@@ -8,7 +8,7 @@
 define(
 ['aloha', 'aloha/plugin', 'aloha/floatingmenu', 'i18n!align/nls/i18n', 'i18n!aloha/nls/i18n', 'aloha/jquery', 'css!align/css/align.css'],
 function(Aloha, Plugin, FloatingMenu, i18n, i18nCore, jQuery) {
-	
+	"use strict";
 
 	var
 		GENTICS = window.GENTICS;

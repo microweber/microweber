@@ -7,7 +7,7 @@
 define(
 ['aloha', 'aloha/jquery', 'aloha/contenthandlermanager'],
 function(Aloha, jQuery, ContentHandlerManager) {
-	
+	"use strict";
 
 	var
 		GENTICS = window.GENTICS;
@@ -26,7 +26,7 @@ function(Aloha, jQuery, ContentHandlerManager) {
 			} else if ( content instanceof jQuery ) {
 				content = jQuery( '<div>' ).append(content);
 			}
-			
+
 			// If we find an aloha-block inside the pasted content,
 			// we do not modify the pasted stuff, as it most probably
 			// comes from Aloha and not from other sources, and does
@@ -164,22 +164,23 @@ function(Aloha, jQuery, ContentHandlerManager) {
 		 * @param content
 		 */
 		unwrapTags: function( content ) {
-			// safari and chrome cleanup for plain text paste with working linebreaks
-			content.find('div').filter(function(index) {
-				// Only find divs that are contenteditable. keep all other divs untouched.
-				return jQuery(this).contentEditable();
-			}).each(function() {
-				if (this.innerHTML == '<br>') {
-					jQuery(this).contents().unwrap();
-				} else {
-					jQuery( Aloha.Markup.transformDomObject(jQuery(this), 'p').append('<br>') ).contents().unwrap();
-				}
-			});
+			var that = this;
 
-			// unwrap contents of span,font and div tags
-			//content.find('span,font,div').each(function() {
-			content.find('span,font').each(function() {
-				jQuery(this).contents().unwrap();
+			content.children('span,font,div').filter(function() {
+				return this.contentEditable != 'false';
+			}).each(function() {
+				if (this.nodeName == 'DIV') {
+					// safari and chrome cleanup for plain text paste with working linebreaks
+					if (this.innerHTML == '<br>') {
+						jQuery(this).contents().unwrap();
+					} else {
+						jQuery( Aloha.Markup.transformDomObject(jQuery(this), 'p').append('<br>') ).contents().unwrap();
+					}
+				} else {
+					jQuery(this).contents().unwrap();
+				}
+
+				that.unwrapTags(jQuery(this));
 			});
 		},
 
@@ -188,12 +189,19 @@ function(Aloha, jQuery, ContentHandlerManager) {
 		 * @param content
 		 */
 		removeStyles: function( content ) {
+			var that = this;
+
 			// completely remove style tags
-			content.find('style').remove();
+			content.children('style').filter(function() {
+				return this.contentEditable != 'false';
+			}).remove();
 
 			// remove style attributes and classes
-			content.find('*').each(function() {
+			content.children().filter(function() {
+				return this.contentEditable != 'false';
+			}).each(function() {
 				jQuery(this).removeAttr('style').removeClass();
+				that.removeStyles(jQuery(this));
 			});
 		},
 

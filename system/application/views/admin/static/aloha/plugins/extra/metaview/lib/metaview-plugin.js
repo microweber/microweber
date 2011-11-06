@@ -7,7 +7,7 @@
 define(
 ['aloha/plugin', 'aloha/floatingmenu', 'i18n!metaview/nls/i18n', 'i18n!aloha/nls/i18n', 'aloha/jquery', 'css!metaview/css/metaview.css'],
 function(Plugin, FloatingMenu, i18n, i18nCore, jQuery) {
-	
+	"use strict";
 
 	var
 		$ = jQuery,
@@ -64,6 +64,7 @@ function(Plugin, FloatingMenu, i18n, i18nCore, jQuery) {
 			var that = this;
 	
 			that.button = new Aloha.ui.Button({
+				'name' : 'meta',
 				'iconClass' : 'aloha-button aloha-button-metaview',
 				'size' : 'small',
 				'onclick' : function () { that.buttonClick(); },

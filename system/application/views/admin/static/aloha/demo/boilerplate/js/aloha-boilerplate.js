@@ -68,6 +68,14 @@ Aloha.ready(function() {
 		};
 		$('.stage-area').alohaStage();
 		
+		/**
+		 * Aloha Source Viewer
+		 * Provides a development tool that shows the source around the
+		 * selection inside an editable
+		 *
+		 * @todo support for pretty print
+		 */
+		
 		require( [ '../../test/unit/testutils' ], function ( TestUtils ) {
 			
 			Aloha.Sidebar.right.addPanel( {
@@ -137,8 +145,8 @@ Aloha.ready(function() {
 						'line-height' : '1.5em',
 						'font-size'   : '12px',
 						'font-family' : 'monospace',
-						overflow      : 'scroll',
-						'white-space' : 'pre'
+						overflow      : 'scroll'
+						// 'white-space' : 'pre'
 					} );
 					
 					// false to deactivate source viewer
@@ -149,74 +157,111 @@ Aloha.ready(function() {
 								var sNode = range.startContainer;
 								var eNode = range.endContainer;
 								
-								// FIXME
-								if ( !( sNode && eNode ) ) {
-									return;
-								}
-								
 								var id = +( new Date );
 								var sClass = 'aloha-selection-start-' + id;
 								var eClass = 'aloha-selection-end-' + id;
 								
-								jQuery( sNode.parentNode ).addClass( sClass );
-								jQuery( eNode.parentNode ).addClass( eClass );
+								// Add marker classes onto the container nodes,
+								// or their parentNodes if the containers are
+								// textNodes
+								jQuery( sNode.nodeType == 3
+											? sNode.parentNode : sNode )
+												.addClass( sClass );
 								
-								var clonedContainer = jQuery( jQuery( range.commonAncestorContainer ).clone() );
+								jQuery( eNode.nodeType == 3
+											? eNode.parentNode : eNode )
+												.addClass( eClass );
 								
-								var clonedStartContainer = clonedContainer.is( '.' + sClass )
-									? clonedContainer
-									: clonedContainer.find( '.' + sClass );
-								
-								var clonedEndContainer = clonedContainer.is( '.' + eClass )
-									? clonedContainer
-									: clonedContainer.find( '.' + eClass );
-								
-								if ( clonedStartContainer.length == 0 ||
-										clonedEndContainer.length == 0 ||
-											!clonedStartContainer[0].childNodes ||
-												!clonedEndContainer[0].childNodes ||
-													clonedStartContainer[0].childNodes.length == 0||
-														clonedEndContainer[0].childNodes.length == 0 ) {
-									clonedStartContainer = clonedEndContainer = clonedContainer;
-									//viewArea.html( '[eh!]' );
-									//return;
+								// We determine which element's source to
+								// show. If either the startContainer or the
+								// endContainer is a text node, we will want
+								// to show more of the source around our
+								// selection so we will use the parent node of
+								// the commonAncestorContainer
+								var common;
+								if ( ( sNode.nodeType == 3 ||
+											eNode.nodeType == 3 ) &&
+												!jQuery( range.commonAncestorContainer )
+													.is( '.aloha-editable' ) ) {
+									common = range.commonAncestorContainer.parentNode;
+								} else {
+									common = range.commonAncestorContainer;
 								}
 								
-								var fakeRange;
+								var clonedContainer = jQuery( jQuery( common ).clone() );
 								
-								if ( clonedStartContainer &&
-										clonedStartContainer.length &&
-											clonedStartContainer[ 0 ] &&
-												clonedStartContainer[ 0 ].childNodes ) {								
-									fakeRange = {
-										startContainer : clonedStartContainer[ 0 ].childNodes[ getNodeIndex( sNode ) ],
-										endContainer   : clonedEndContainer[ 0 ].childNodes[ getNodeIndex( eNode ) ],
-										startOffset    : range.startOffset,
-										endOffset      : range.endOffset
-									};
-									
-									// FIXME: index out of bounds
-									try {
-										TestUtils.addBrackets( fakeRange );
-									} catch ( ex ) {
-										viewArea.html( '[eh!]' + ex );
-										return;
-									}
-									
-									jQuery( sNode.parentNode ).removeClass( sClass );
-									jQuery( eNode.parentNode ).removeClass( eClass );
-									clonedStartContainer.removeClass( sClass );
-									clonedEndContainer.removeClass( eClass );
-									
-									var source =
-										Aloha.jQuery('<div>')
-											 .text( clonedContainer.html() )
-											 .html()
-											 .replace( /\t/g, '  ' )
-											 .replace( /([\[\]\{\}])/g,
-												'<b style="color:#333">$1</b>' );
-									
-									viewArea.html( source );
+								var clonedStartContainer = clonedContainer.is( '.' + sClass )
+										? clonedContainer
+										: clonedContainer.find( '.' + sClass );
+								
+								var clonedEndContainer = clonedContainer.is( '.' + eClass )
+										? clonedContainer
+										: clonedContainer.find( '.' + eClass );
+								
+								// Now that we have identified all our
+								// containers, we can remove markers anywhere
+								// we have placed them
+								jQuery( '.' + sClass ).removeClass( sClass );
+								jQuery( '.' + eClass ).removeClass( eClass );
+								clonedStartContainer.removeClass( sClass );
+								clonedEndContainer.removeClass( eClass );
+								
+								var startNode;
+								if ( sNode.nodeType == 3 &&
+										clonedStartContainer[ 0 ].childNodes.length  ) {
+									startNode = clonedStartContainer[ 0 ]
+													.childNodes[ getNodeIndex( sNode ) ];
+								} else {
+									startNode = clonedStartContainer[ 0 ];
+								}
+								
+								var endNode;
+								if ( eNode.nodeType == 3 &&
+										clonedEndContainer[ 0 ].childNodes.length ) {
+									endNode = clonedEndContainer[ 0 ]
+													.childNodes[ getNodeIndex( eNode ) ];
+								} else {
+									endNode = clonedEndContainer[ 0 ];
+								}
+								
+								var fakeRange = {
+									startContainer : startNode,
+									endContainer   : endNode,
+									startOffset    : range.startOffset,
+									endOffset      : range.endOffset
+								};
+								
+								try {
+									TestUtils.addBrackets( fakeRange );
+								} catch ( ex ) {
+									viewArea.html( '[' + ex + ']' );
+									return;
+								}
+								
+								var source =
+									Aloha.jQuery('<div>')
+										 .text( clonedContainer.html() )
+										 .html()
+										 .replace( /\t/g, '  ' )
+										 .replace( /([\[\{])/,
+											'<span class="aloha-devtool-source-viewer-marker" style="background:#70a5e2; color:#fff">$1' )
+										 .replace( /([\]\}])/, '$1</span>' )
+										 .replace( /([\[\]\{\}])/g,
+											'<b style="background:#0c53a4; color:#fff;">$1</b>' );
+								
+								viewArea.html( source );
+								
+								window.viewArea = viewArea;
+								
+								var marker = viewArea.find( '.aloha-devtool-source-viewer-marker' );
+								
+								if ( marker.length ) {
+									viewArea
+										.scrollTop( 0 )
+										.scrollTop( Math.max(
+											0, ( marker.offset().top -
+											viewArea.offset().top ) - 30
+										) );
 								}
 							}
 						);

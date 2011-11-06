@@ -7,7 +7,7 @@
 
 // Start Closure
 (function(window, undefined) {
-	
+	"use strict";
 	var
 		jQuery = window.alohaQuery, $ = jQuery,
 		GENTICS = window.GENTICS,

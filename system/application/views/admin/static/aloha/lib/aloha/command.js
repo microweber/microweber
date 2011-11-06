@@ -17,7 +17,7 @@
 * You should have received a copy of the GNU Affero General Public License
 * along with CommandManager program. If not, see <http://www.gnu.org/licenses/>.
 */
-
+"use strict";
 define( [ 'aloha/core', 'aloha/registry', 'aloha/engine', 'util/dom', 'aloha/contenthandlermanager' ],
 function( Aloha, Registry, Engine, Dom, ContentHandlerManager ) {
 

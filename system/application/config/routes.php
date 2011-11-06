@@ -91,6 +91,9 @@ $route ['cron'] = "cron/index";
 
 $route ['admin'] = "admin/index";
 $route ['admin/toolbar'] = "admin/index/toolbar";
+$route ['admin/mercury'] = "admin/index/mercury";
+$route ['admin/mercury/(:any)'] = "admin/index/mercury/$1";
+
 $route ['admin/edit'] = "admin/index/edit";
 $route ['admin/edit/(:any)'] = "admin/index/edit/$1";
 

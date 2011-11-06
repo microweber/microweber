@@ -25,7 +25,7 @@ define([
 	'i18n!image/nls/i18n',
 	'jquery-plugin!image/vendor/ui/jquery-ui-1.8.10.custom.min',
 	'jquery-plugin!image/vendor/jcrop/jquery.jcrop.min',
-	'jquery-plugin!image/vendor/mousewheel/mousewheel',
+	//'jquery-plugin!image/vendor/mousewheel/mousewheel',
 	// css
 	'css!image/css/image.css',
 	'css!image/vendor/ui/ui-lightness/jquery-ui-1.8.10.cropnresize.css',
@@ -33,7 +33,7 @@ define([
 ],
 function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 	
-	
+	'use strict';
 	
 	var jQuery = aQuery;
 	var $ = aQuery;
@@ -95,13 +95,16 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 
 		languages: ['en', 'fr', 'de', 'ru', 'cz'],
 
-		defaults: {
+		defaultSettings: {
 			'maxWidth': 800,
 			'minWidth': 10,
 			'maxHeight': 800,
 			'minHeight': 10,
-			'autoCorrectManualInput': true,	 // This setting will correct manually values that are out of bounds
-			'fixedAspectRatio' : false, // This setting will define a fixed aspect ratio for all resize actions 
+			// This setting will correct manually values that are out of bounds
+			'autoCorrectManualInput': true,	 
+			// This setting will define a fixed aspect ratio for all resize actions
+			'fixedAspectRatio' : false, 
+			
 			//Image manipulation options - ONLY in default config section
 			ui: {
 				oneTab		: false, //Place all ui components within one tab
@@ -265,11 +268,9 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 			var imagePluginUrl = Aloha.getPluginUrl('image');
 
 			// Extend the default settings with the custom ones (done by default)
-			//this.settings = jQuery.extend(true,this.defaultSettings,this.settings);
-
 			this.startAspectRatio = this.settings.fixedAspectRatio; 
-			this.config = this.defaults;
-			this.settings = jQuery.extend(true, this.settings, this.defaults);
+			this.config = this.defaultSettings;
+			this.settings = jQuery.extend(true, this.defaultSettings, this.settings);
 			
 			that.initializeButtons();
 			that.bindInteractions();
@@ -304,6 +305,12 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 				var tabId = this.settings.ui.reset ? tabImage : tabImage;
 				that._addUIResetButton(tabId);
 			}
+			
+			if (this.settings.ui.upload) {
+				var tabId = this.settings.ui.upload ? tabImage : tabImage;
+				that._addUIUploadButton(tabId);
+			}
+			
 			
 			if (this.settings.ui.align) {
 				var tabId = this.settings.ui.oneTab ? tabImage : tabFormatting;
@@ -392,6 +399,30 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 				2
 			);
 		},
+		
+			/**
+		 * Adds the reset button to the floating menu for the given tab 
+		 */
+		_addUIUploadButton: function(tabId) {
+			var that = this;
+			// Reset button
+			var uploadButton = new Aloha.ui.Button({
+				'size' : 'small',
+				'tooltip' : i18n.t('Upload'),
+				'toggle' : false,
+				'iconClass' : 'cnr-reset',
+				'onclick' : function (btn, event) {
+					that.reset();
+				}
+			});
+
+			FloatingMenu.addButton(
+				that.name,
+				this.uploadButton,
+				tabId,
+				1
+			);
+		},
 
 		/**
 		 * Adds the insert button to the floating menu
@@ -399,6 +430,7 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 		_addUIInsertButton: function(tabId) {
 			var that = this;
 			this.insertImgButton = new Aloha.ui.Button({
+				'name' : 'insertimage',
 				'iconClass': 'aloha-button aloha-image-insert',
 				'size' : 'small',
 				'onclick' : function () { that.insertImg(); },
@@ -456,6 +488,7 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 				'size': 'small',
 				'onclick' : function() {
 					var el = jQuery(that.findImgMarkup());
+					//alert(el.html());
 					el.add(el.parent()).css('float', 'left');
 				},
 				'tooltip': i18n.t('button.img.align.left.tooltip')
@@ -1127,11 +1160,13 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 			if ( typeof range === 'undefined' ) {
 				range = Aloha.Selection.getRangeObject();
 			}
-
+//alert(range);
 			targetObj = jQuery(range.startContainer);
 
 			try {
-				if ( Aloha.activeEditable ) {
+				if ( Aloha.activeEditable ) {}
+				
+				
 					if ((  typeof range.startContainer !== 'undefined'
 						&& typeof range.startContainer.childNodes !== 'undefined'
 						&& typeof range.startOffset !== 'undefined'
@@ -1141,6 +1176,11 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 						(targetObj.hasClass('Aloha_Image_Resize')))
 					{
 						result = targetObj.find('img')[0];
+						
+						
+						
+						
+						
 						if (! result.css) {
 							result.css = '';
 						}
@@ -1157,8 +1197,9 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 					else {
 						return null;
 					}
-				}
+				
 			} catch (e) {
+				
 				Aloha.Log.debug(e, "Error finding img markup.");
 			}
 			return null;
@@ -1177,8 +1218,8 @@ function AlohaImagePlugin ( aQuery, Plugin, FloatingMenu, i18nCore, i18n ) {
 			if ( range.isCollapsed() ) {
 				// TODO I would suggest to call the srcChange method. So all image src
 				// changes are on one single point.
-				imagestyle = "max-width: " + config.maxWidth + "; max-height: " + config.maxHeight;
-				imagetag = '<img style="'+ imagestyle + '" src="' + imagePluginUrl + '/img/blank.jpg" title="" />';
+				//imagestyle = "max-width: " + config.maxWidth + "; max-height: " + config.maxHeight;
+				imagetag = '<img style="'+ imagestyle + '" src="http://lorempixel.com/400/200/" title="" />';
 				newImg = jQuery(imagetag);
 				// add the click selection handler
 				//newImg.click( Aloha.Image.clickImage ); - Using delegate now

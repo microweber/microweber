@@ -6,7 +6,7 @@
 define(
 [ 'aloha/core', 'util/class'],
 function( Aloha, Class ) {
-	
+	"use strict";
 	
 	var
 //		Aloha = window.Aloha,

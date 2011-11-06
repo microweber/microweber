@@ -8,7 +8,7 @@
 define(
 ['aloha/registry'],
 function(Registry) {
-	
+	"use strict";
 
 	/**
 	 * @name block.editormanager

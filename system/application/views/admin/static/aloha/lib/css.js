@@ -5,7 +5,7 @@
 /*jslint browser:true, on:true, sub:true */
 
 (function (doc) {
-
+"use strict";
 
 /*
  * RequireJS css! plugin

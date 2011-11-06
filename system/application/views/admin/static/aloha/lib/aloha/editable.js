@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'util/class', 'aloha/jquery', 'aloha/pluginmanager', 'aloha/floatingmenu', 'aloha/selection', 'aloha/markup', 'aloha/contenthandlermanager'],
 function(Aloha, Class, jQuery, PluginManager, FloatingMenu, Selection, Markup, ContentHandlerManager) {
-	
+	"use strict";
 	
 	var
 //		Aloha = window.Aloha,

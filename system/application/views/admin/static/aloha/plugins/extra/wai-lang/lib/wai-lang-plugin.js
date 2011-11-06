@@ -16,7 +16,7 @@ define(
  'css!wai-lang/css/wai-lang.css'
 ],
 function(jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
-	
+	"use strict";
 	
 	var $ = jQuery,
 		GENTICS = window.GENTICS,
@@ -100,6 +100,7 @@ function(jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
 			
 			// Button for adding a language markup to the current selection
 			this.addMarkupToSelectionButton = new Aloha.ui.Button({
+				'name' : 'wailang',
 				'iconClass' : 'aloha-button aloha-button-wai-lang',
 				'size' : 'small',
 				'onclick' : function () { that.addRemoveMarkupToSelection( ); },
@@ -117,6 +118,7 @@ function(jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
 			FloatingMenu.createScope('wai-lang', 'Aloha.continuoustext'); //'Aloha.continuoustext');
 	
 			this.langField = new Aloha.ui.AttributeField({
+				'name' : 'wailangfield',
 				'width':320,
 				'valueField': 'id',
 				'minChars':1
@@ -133,6 +135,7 @@ function(jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
 			);
 			
 			this.removeButton = new Aloha.ui.Button({
+				'name' : 'removewailang',
 				'iconClass' : 'aloha-button aloha-button-wai-lang-remove',
 				'size' : 'small',
 				'onclick' : function () { that.removeLangMarkup(); },
@@ -317,7 +320,7 @@ function(jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
 				GENTICS.Utils.Dom.extendToWord(range);
 			}
 			if ( !range.isCollapsed() ) {
-				newSpan = jQuery('<span></span>');
+				newSpan = jQuery('<span class="wai-lang"></span>');
 				GENTICS.Utils.Dom.addMarkup(range, newSpan, false);
 			}
 			range.select();

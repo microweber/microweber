@@ -9,7 +9,7 @@ GENTICS = window.GENTICS || {};
 GENTICS.Utils = GENTICS.Utils || {};
 define(['aloha/jquery'],
 function(jQuery) {
-	
+	"use strict";
 	
 	var
 		$ = jQuery,

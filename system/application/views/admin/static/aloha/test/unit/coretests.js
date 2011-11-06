@@ -5,7 +5,7 @@
  */
 
 define( [], function() {
-	
+	"use strict";
 	
 	// Test whether Aloha is properly initialized
 	asyncTest('Aloha trigger event "aloha-ready".', function() {

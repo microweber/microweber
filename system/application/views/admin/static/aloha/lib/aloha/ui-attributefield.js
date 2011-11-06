@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'aloha/jquery', 'aloha/ext', 'i18n!aloha/nls/i18n', 'aloha/ui', 'aloha/repositorymanager', 'aloha/selection', 'aloha/ext-alohaproxy', 'aloha/ext-alohareader'],
 function(Aloha, jQuery, Ext, i18n, Ui, RepositoryManager, Selection) { // TODO add parameter for UI class after refactoring UI to requirejs
-	
+	"use strict";
 
 var extTemplate = function(tpl) {
 	if (tpl) {

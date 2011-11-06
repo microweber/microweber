@@ -7,7 +7,7 @@
 
 define([ 'aloha/jquery', 'block/blockmanager', 'aloha/sidebar', 'block/editormanager'],
 	function (jQuery, BlockManager, Sidebar, EditorManager) {
-	
+	"use strict";
 
 	/**
 	 * @name block.sidebarattributeeditor

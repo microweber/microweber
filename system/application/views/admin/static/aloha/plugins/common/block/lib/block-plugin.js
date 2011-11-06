@@ -22,7 +22,7 @@ define([
 	'block/editor',
 	'css!block/css/block.css'
 ], function(Aloha, Plugin, jQuery, ContentHandlerManager, BlockManager, SidebarAttributeEditor, block, EditorManager, BlockContentHandler, editor) {
-	
+	"use strict";
 
 	/**
 	 * Register the plugin with unique name

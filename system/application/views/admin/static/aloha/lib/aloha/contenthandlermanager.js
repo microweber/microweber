@@ -7,7 +7,7 @@
 define(
 ['aloha/jquery', 'aloha/registry'],
 function( jQuery, Registry ) {
-	
+	"use strict";
 
 	/**
 	 * Create an contentHandler from the given definition. Acts as a factory method

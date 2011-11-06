@@ -33,7 +33,7 @@ define([
 
 ], function (Aloha, $, Selection, Plugin) {
 	
-	
+	'use strict';
 	
 //	var Aloha = window.Aloha;
 	var undefined = void 0;

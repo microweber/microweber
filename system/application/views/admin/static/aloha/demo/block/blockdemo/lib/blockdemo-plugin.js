@@ -11,7 +11,7 @@ define([
 	'blockdemo/block',
 	'css!blockdemo/css/block.css'
 ], function(Plugin, BlockManager, block) {
-	
+	"use strict";
 	return Plugin.create('blockdemo', {
 		init: function() {
 			BlockManager.registerBlockType('ProductTeaserBlock', block.ProductTeaserBlock);

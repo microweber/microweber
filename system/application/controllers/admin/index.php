@@ -34,6 +34,20 @@ class Index extends Controller {
 		CI::library ( 'output' )->set_output ( $layout );
 	}
 	
+	
+		function mercury() {
+		$is_admin = is_admin ();
+		if ($is_admin == false) {
+			$go = site_url ( 'login' );
+			safe_redirect ( $go );
+		}
+		
+		$layout = CI::view ( 'admin/mercury', true, true );
+		
+		//$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+		CI::library ( 'output' )->set_output ( $layout );
+	}
+	
 	function toolbar() {
 		$is_admin = is_admin ();
 		if ($is_admin == false) {

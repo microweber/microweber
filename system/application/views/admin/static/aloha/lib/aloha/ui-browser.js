@@ -21,7 +21,7 @@
 define(
 ['aloha/ext', 'aloha/ui'],
 function(Ext, ui) {
-	
+	"use strict";
 
 	var
 //		$ = jQuery,

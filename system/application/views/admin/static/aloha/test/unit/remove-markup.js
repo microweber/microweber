@@ -7,7 +7,7 @@
 define(
 ['testutils'],
 function( TestUtils, undefined) {
-	
+	"use strict";
 
 
 /**

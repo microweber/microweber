@@ -5,7 +5,7 @@
  */
 
 define( ['testutils'], function( TestUtils ) {
-	
+	"use strict";
 	
 	/**
 	 * Do an enter test

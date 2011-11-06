@@ -2,9 +2,12 @@
 var tests = { 
 			defaultCommand: 'delete',
 	tests: [		
-		{  	start: 'foo{<p>bar</p>}baz',
-			execResult: 'foo[]baz'
+		{	start: 'foo\n\t\t\t[]bar',
+			execResult: 'foo[]bar'
 		},
+		{	start: 'foo     []bar',
+			execResult: 'foo[]bar'
+		}
   	] 
   }
   */
@@ -1355,7 +1358,12 @@ var tests = {
 		{  	include: 'msie',
 			start: '<quasit style="display:block">fo[o</quasit><quasit style="display:block">b]ar</quasit>',
 			execResult: 'fo[]ar</quasit>'
+		},
+		{	start: 'foo\n\t\t\t[]bar',
+			execResult: 'foo[]bar'
+		},
+		{	start: 'foo     []bar',
+			execResult: 'foo[]bar'
 		}
 	]
 }
-

@@ -5,11 +5,21 @@
 * Licensed unter the terms of http://www.aloha-editor.com/license.html
 */
 
-define(['aloha', 'aloha/plugin', 'aloha/jquery', 'aloha/floatingmenu', 'i18n!link/nls/i18n', 'i18n!aloha/nls/i18n', 'aloha/console',
-        'css!link/css/link.css'],
-function(Aloha, Plugin, jQuery, FloatingMenu, i18n, i18nCore, console) {
-	
+define( [
 
+	'aloha',
+	'aloha/plugin',
+	'aloha/jquery',
+	'aloha/floatingmenu',
+	'i18n!link/nls/i18n',
+	'i18n!aloha/nls/i18n',
+	'aloha/console',
+	'link/../extra/linklist',
+	'css!link/css/link.css'
+
+], function( Aloha, Plugin, jQuery, FloatingMenu, i18n, i18nCore, console ) {
+	"use strict";
+	
 	var
 		GENTICS = window.GENTICS;
 	//namespace prefix for this plugin
@@ -281,7 +291,7 @@ function(Aloha, Plugin, jQuery, FloatingMenu, i18n, i18nCore, console) {
 				i18nCore.t('floatingmenu.tab.insert'),
 				1
 			);
-
+			
 			// add the new scope for links
 			FloatingMenu.createScope('link', 'Aloha.continuoustext');
 

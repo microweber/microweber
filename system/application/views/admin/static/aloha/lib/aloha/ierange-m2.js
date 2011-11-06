@@ -4,7 +4,7 @@
  * Licensed unter the terms of http://www.aloha-editor.com/license.html
  */
 (function(window, undefined) {
-	
+	"use strict";
 	var
 		jQuery = window.alohaQuery || window.jQuery, $ = jQuery,
 //		GENTICS = window.GENTICS,

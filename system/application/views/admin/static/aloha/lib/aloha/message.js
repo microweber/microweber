@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'util/class', 'aloha/jquery'],
 function( Aloha, Class, jQuery ) {
-	
+	"use strict";
 	
 	var
 //		Aloha = window.Aloha,

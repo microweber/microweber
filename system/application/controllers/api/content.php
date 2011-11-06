@@ -1748,7 +1748,7 @@ class Content extends Controller {
 
 		$json_print = json_encode ( $json_print );
 		
-		if ($is_no_save == true) {
+	//	if ($is_no_save == true) {
 			
 			///	$for_history = serialize ( $json_print );
 			//$for_history = base64_encode ( $for_history );
@@ -1760,7 +1760,7 @@ class Content extends Controller {
 			$history_to_save ['value'] = $json_print;
 			$history_to_save ['field'] = 'html_content';
 			CI::model ( 'core' )->saveHistory ( $history_to_save );
-		}
+		//}
 		
 		print $json_print;
 		

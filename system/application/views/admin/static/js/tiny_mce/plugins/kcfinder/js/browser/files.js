@@ -174,6 +174,9 @@ browser.returnFile = function(file) {
         window.close() ;
 
     } else if (this.opener.TinyMCE) {
+		
+		
+		
         var win = tinyMCEPopup.getWindowArg('window');
         win.document.getElementById(tinyMCEPopup.getWindowArg('input')).value = fileURL;
         if (win.getImageData) win.getImageData();
@@ -186,7 +189,7 @@ browser.returnFile = function(file) {
         tinyMCEPopup.close();
 
     } else if (this.opener.callBack) {
-
+alert(fileURL);
         if (window.opener && window.opener.KCFinder) {
             this.opener.callBack(fileURL);
             window.close();

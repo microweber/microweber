@@ -23,7 +23,7 @@ define([
 	
 ], function (jQuery, Class) {
 
-
+'use strict';
 
 var
 	uid = +(new Date),

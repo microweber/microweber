@@ -7,7 +7,7 @@
 define(
 [],
 function() {
-	
+	'use strict';
 	
 	var repositoryId1 = 'testRepo1',
 		repositoryId2 = 'testRepo2',

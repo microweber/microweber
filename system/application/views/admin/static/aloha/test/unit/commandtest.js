@@ -7,7 +7,7 @@
 define(
 ['testutils'],
 function( TestUtils ) {
-	
+	"use strict";
 	
 	var aQuery = Aloha.jQuery;
 

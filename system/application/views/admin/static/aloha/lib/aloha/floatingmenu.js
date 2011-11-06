@@ -20,7 +20,7 @@
 define(
 ['aloha/core', 'aloha/jquery', 'aloha/ext', 'util/class', 'aloha/console', 'vendor/jquery.store'],
 function(Aloha, jQuery, Ext, Class, console) {
-	
+	"use strict";
 	var GENTICS = window.GENTICS;
 
 	/**

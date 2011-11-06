@@ -7,7 +7,7 @@
 
 define(['aloha', 'aloha/jquery', 'aloha/floatingmenu', 'aloha/observable', 'aloha/registry'],
 function(Aloha, jQuery, FloatingMenu, Observable, Registry) {
-	
+	"use strict";
 
 	var
 		GENTICS = window.GENTICS;

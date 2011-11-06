@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-06-14 12:50:25
+<?php /* Smarty version 2.6.26, created on 2011-11-04 10:34:20
          compiled from CoreHome/templates/js_global_variables.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'CoreHome/templates/js_global_variables.tpl', 5, false),)), $this); ?>
@@ -38,4 +38,4 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'C
 ", 10);<?php endif; ?>
 	<?php if (isset ( $this->_tpl_vars['maxDateDay'] )): ?>piwik.maxDateDay = parseInt("<?php echo $this->_tpl_vars['maxDateDay']; ?>
 ", 10);<?php endif; ?>
-</script>
+</script>

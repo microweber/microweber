@@ -166,7 +166,7 @@ if (!JSON) {
 }
 
 (function () {
-    
+    "use strict";
 
     function f(n) {
         // Format integers to have at least two digits.

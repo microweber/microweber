@@ -13,7 +13,7 @@ define([
 	'aloha/plugin',
 	'aloha/floatingmenu',
 ], function CiteClosure (Aloha, Plugin, FloatingMenu ) {
-	
+	'use strict';
 
 	var jQuery = Aloha.jQuery;
 	

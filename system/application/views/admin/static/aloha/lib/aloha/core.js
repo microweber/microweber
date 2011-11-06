@@ -26,7 +26,7 @@ define(
 ],
 
 function ( jQuery, PluginManager ) {
-	
+	"use strict";
 
 
 	//----------------------------------------

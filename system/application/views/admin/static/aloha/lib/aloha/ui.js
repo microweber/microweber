@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'util/class', 'aloha/jquery', 'aloha/floatingmenu', 'aloha/ext', 'aloha/console', 'i18n!aloha/nls/i18n'],
 function(Aloha, Class, jQuery, FloatingMenu, Ext, console, i18n) {
-	
+	"use strict";
 	
 	var
 //		$ = jQuery,

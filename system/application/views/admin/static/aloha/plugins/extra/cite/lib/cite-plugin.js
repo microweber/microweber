@@ -15,7 +15,7 @@ define([
 	'i18n!cite/nls/i18n',
 	'i18n!aloha/nls/i18n'
 ], function CiteClosure (Aloha, jQuery, Plugin, FloatingMenu, Format, domUtils, i18n, i18nCore) {
-	
+	'use strict';
 	
 	Aloha.require( ['css!cite/css/cite.css'] );
 	

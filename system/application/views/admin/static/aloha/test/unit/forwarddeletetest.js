@@ -3,7 +3,6 @@ var specifictests = {
 		defaultValue: '',
 		defaultCommand: 'forwarddelete',
 		tests: [
-		
 
 			   ]
 }
@@ -126,17 +125,25 @@ var alltests = {
 			start: 'foo[]<blockquote>bar<ol><li>baz</ol>quz</blockquote><p>extra',
 			execResult: 'foo[]bar<blockquote><ol><li>baz</li></ol>quz</blockquote><p>extra</p>'
 		},
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: 'foo{}<p><br>',
 			execResult: 'foo[]'
+		},
+		{	include: 'mozilla',
+			start: 'foo{}<p><br>',
+			execResult: 'foo{}'
 		},
 		{	include: 'msie',
 			start: 'foo{}<p><br></p>',
 			execResult: 'foo <p>{}</p>'
 		},
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: 'foo{}<p><span><br></span>',
 			execResult: 'foo[]'
+		},
+		{	include: ['mozilla'],
+			start: 'foo{}<p><span><br></span>',
+			execResult: 'foo{}'
 		},
 		{	include: 'msie',
 			start: 'foo{}<p><span><br></span>',
@@ -203,9 +210,13 @@ var alltests = {
 			start: 'foo[]<br><p>bar</p>',
 			execResult: 'foo[]bar'
 	  	},
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: 'foo{}<p>',
 			execResult: 'foo[]'
+		},
+		{	include: 'mozilla',
+			start: 'foo{}<p>',
+			execResult: 'foo{}'
 		},
 		{	include: 'msie',
 			start: 'foo{}<p>',
@@ -949,7 +960,7 @@ var alltests = {
 			start: '<p>foo<br>{</p>]bar',
 			execResult: '<p>foo[]bar</p>'
 		},
-		{	exclude: 'msie',		// this is an impossible selection in IE
+		{	exclude: ['msie', 'mozilla'],		// this is an impossible selection in IE
 			start: '<p>foo<br><br>{</p>]bar',
 			execResult: '<p>foo[]bar</p>'
 		},
@@ -962,17 +973,25 @@ var alltests = {
 	 		execResult: 'foo[]bar' 
 		},
 		// This selection is not possible in ie
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: 'foo<br><br>{<p>]bar</p>',
 			execResult: 'foo[]bar'
+		},
+		{	include: ['mozilla'], // correct?!
+			start: 'foo<br><br>{<p>]bar</p>',
+			execResult: 'foo<br>bar{}'
 		},
 		{	start: '<p>foo<br>{</p><p>}bar</p>',
 			execResult: '<p>foo[]bar</p>'
 		},
 		// This selection is not possible in ie
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: '<p>foo<br><br>{</p><p>}bar</p>',
 			execResult: '<p>foo[]bar</p>'
+		},
+		{	include: 'mozilla', // correct?!
+			start: '<p>foo<br><br>{</p><p>}bar</p>',
+			execResult: '<p>foo<br>[]bar</p>'
 		},
 		{	exclude: 'msie',
 			start: '<p>foo[bar<blockquote><p>baz]quz<p>qoz</blockquote', // interesting... is this broken by intention?
@@ -994,7 +1013,11 @@ var alltests = {
 			start: '<div><p>foo</p><p>[bar</p><p>baz]</p></div>',
 			execResult: '<div><p>foo</p><p>[]</p></div>'
 		},
-		{	exclude: 'msie',
+		{	include: 'mozilla',
+			start: '<div><p>foo</p><p>[bar</p><p>baz]</p></div>',
+			execResult: '<div><p>foo</p><p>{}</p></div>'
+		},
+		{	exclude: ['msie','mozilla'],
 			start: '<div><p>foo</p><p>[bar</p><p>baz]</p></div>',
 			execResult: '<div><p>foo[]</p><p></p></div>'
 		},
@@ -1003,13 +1026,17 @@ var alltests = {
 			start: 'foo[<p>]bar<br>baz</p>',
 			execResult: 'foo[]bar<p>baz</p>'
 		},
-		{	exclude: 'msie',
+		{	exclude: ['msie', 'mozilla'],
 			start: 'foo<b>[bar]</b>baz',
 			execResult: 'foo[]<b></b>baz'
 		},
 		{	include: 'msie',
 			start: 'foo<b>[bar]</b>baz',
 			execResult: 'foo<b></b>[]baz'
+		},
+		{	include: 'mozilla',
+			start: 'foo<b>[bar]</b>baz',
+			execResult: 'foo<b>[]</b>baz'
 		},
 		{	exclude: 'msie',
 			start: '<p>foo</p><p>[bar]</p><p>baz</p>',
@@ -1024,7 +1051,7 @@ var alltests = {
 			start: '<p>foo</p><p>{bar}</p><p>baz</p>',
 			execResult: '<p>foo[]</p><p>baz</p>'
 		},
-		{	exclude: 'msie',
+		{	exclude: ['msie','mozilla'],
 			start: '<p>foo</p><p>{bar</p>}<p>baz</p>',
 			execResult: '<p>foo[]</p><p>baz</p>'
 		},
@@ -1032,15 +1059,27 @@ var alltests = {
 			start: '<p>foo</p><p>{bar</p>}<p>baz</p>',
 			execResult: '<p>foo</p><p>[]</p><p>baz</p>'
 		},
+		{	include: 'mozilla',
+			start: '<p>foo</p><p>{bar</p>}<p>baz</p>',
+			execResult: '<p>foo</p><p>{}</p><p>baz</p>'
+		},
 		// Selection not supported by ie
-		{	exclude: 'msie', 
+		{	exclude: ['msie','mozilla'], 
 			start: '<p>foo</p>{<p>bar}</p><p>baz</p>',
 			execResult: '<p>foo[]</p><p>baz</p>'
 		},
+		{	include: 'mozilla',
+			start: '<p>foo</p>{<p>bar}</p><p>baz</p>',
+			execResult: '<p>foo</p>{}<p>baz</p>'
+		},
 		// Selection not supported by ie
-		{	exclude: 'msie', 
+		{	exclude: ['msie','mozilla'], 
 			start: '<p>foo</p>{<p>bar</p>}<p>baz</p>',
 			execResult: '<p>foo[]</p><p>baz</p>'
+		},
+		{	include: 'mozilla', 
+			start: '<p>foo</p>{<p>bar</p>}<p>baz</p>',
+			execResult: '<p>foo</p>{}<p>baz</p>'
 		},
        	{	exclude: 'msie',
        		start: '<span>foo[]<span></span></span>bar',
@@ -1071,8 +1110,13 @@ var alltests = {
 		{	start: '<div style=white-space:nowrap>[]&nbsp;feo</div>',
 			execResult: '<div style=white-space:nowrap>[]feo</div>'
 		},
-		{	start: '<ol><li>foo[]</li><br></ol><p>bar</p>',
+		{	exclude: 'mozilla',
+			start: '<ol><li>foo[]</li><br></ol><p>bar</p>',
 			execResult: '<ol><li>foo[]</li></ol><p>bar</p>'
+		},
+		{	include: 'mozilla',
+			start: '<ol><li>foo[]</li><br></ol><p>bar</p>',
+			execResult: '<ol><li>foo{}</li></ol><p>bar</p>'
 		},
 		{	start: '<ol><li>{}</li><br></ol><p>bar',
 			execResult: '<ol><li>{}</li></ol><p>bar</p>'
@@ -1092,8 +1136,13 @@ var alltests = {
 		{	start: '<ol><li>foo</li><li>{}<br></li></ol><p>bar',
 			execResult: '<ol><li>foo</li><li>{}</li></ol><p>bar'
 		},
-		{	start: '<ol><li>foo[]</li></ol><br>',
+		{	exclude: 'mozilla',
+			start: '<ol><li>foo[]</li></ol><br>',
 			execResult: '<ol><li>foo[]</li></ol>'
+		},
+		{	include: 'mozilla',
+			start: '<ol><li>foo[]</li></ol><br>',
+			execResult: '<ol><li>foo{}</li></ol>'
 		},
 		{	start: '<ol><li>foo[]<br></li></ol><br>',
 			execResult: '<ol><li>foo[]</li></ol><br>'
@@ -1203,8 +1252,13 @@ var alltests = {
 			start: 'foo<p>{bar</p>}baz',
 			execResult: 'foo <p>[]</p>baz'
 		},
-		{	start: 'foo{<p>bar}</p>baz',
+		{	exclude: 'mozilla',
+			start: 'foo{<p>bar}</p>baz',
 			execResult: 'foo[]<br>baz'
+		},
+		{	include: 'mozilla',
+			start: 'foo{<p>bar}</p>baz',
+			execResult: 'foo{}<br>baz'
 		},
 		{	start: '<p>foo[</p>]bar',
 			execResult: '<p>foo[]bar</p>'
@@ -1238,6 +1292,12 @@ var alltests = {
 		{	include: 'msie',	
 			start: 'foo[]<span></span>bar',
 			execResult: 'foo<span></span>[]ar'
+		},
+		{	start: 'foo[]\n\t\t\tbar',
+			execResult: 'foo[]bar'
+		},
+		{	start: 'foo[]     bar',
+			execResult: 'foo[]bar'
 		}
 	
 

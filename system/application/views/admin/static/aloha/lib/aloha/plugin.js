@@ -21,7 +21,7 @@
 define(
 ['aloha/core', 'aloha/jquery', 'util/class', 'aloha/pluginmanager', 'aloha/console'],
 function(Aloha, jQuery, Class, PluginManager, console ) {
-	
+	"use strict";
 	
 	/**
 	 * Abstract Plugin Object

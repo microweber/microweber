@@ -21,7 +21,7 @@
 define(
 [ 'aloha/core', 'aloha/selection', 'aloha/jquery', 'aloha/console' ],
 function( Aloha, Selection, jQuery, console ) {
-	
+	"use strict";
 	
 	var
 //		$ = jQuery,

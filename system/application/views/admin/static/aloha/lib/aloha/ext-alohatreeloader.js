@@ -21,7 +21,7 @@
 define(
 ['aloha/ext', 'aloha/repositorymanager'],
 function(Ext, RepositoryManager) {
-	
+	"use strict";
 
 Ext.tree.AlohaTreeLoader = function(config) {
 	Ext.apply(this, config);

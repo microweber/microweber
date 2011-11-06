@@ -31,6 +31,10 @@ class browser extends uploader {
             if ($dir === false) unset($this->get['dir']);
             $this->get['dir'] = $dir;
         }
+		
+		 if (isset($this->get['custom'])) {
+            $this->config['custom'] = $this->get['custom'];
+        }
 
         $thumbsDir = $this->config['uploadDir'] . "/" . $this->config['thumbsDir'];
         if ((

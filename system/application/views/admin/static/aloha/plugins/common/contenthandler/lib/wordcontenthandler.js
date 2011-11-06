@@ -7,7 +7,7 @@
 define(
 ['aloha', 'aloha/jquery', 'aloha/contenthandlermanager'],
 function( Aloha, jQuery, ContentHandlerManager ) {
-	
+	"use strict";
 
 	var WordContentHandler = ContentHandlerManager.createHandler({
 		/**
@@ -169,7 +169,7 @@ function( Aloha, jQuery, ContentHandlerManager ) {
 					// get the first span in the element
 					firstSpan = jQuery(jqElem.find('span.' + bulletClass));
 					if (firstSpan.length === 0) {
-						firstSpan = jQuery(jqElem.children('span:first'));
+						firstSpan = jqElem.find('span').eq(0);
 					}
 					// use the span to detect whether the list shall be ordered or unordered
 					ordered = that.isOrderedList(firstSpan);
@@ -204,7 +204,7 @@ function( Aloha, jQuery, ContentHandlerManager ) {
 						// get the first span
 						firstSpan = jQuery(jqElem.find('span.' + bulletClass));
 						if (firstSpan.length === 0) {
-							firstSpan = jQuery(jqElem.children('span:first'));
+							firstSpan = jqElem.find('span').eq(0);
 						}
 						// ... and use it to detect ordered/unordered list elements (this
 						// information will only be used at the start of a new list anyway)

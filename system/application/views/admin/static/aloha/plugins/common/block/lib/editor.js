@@ -11,7 +11,7 @@
  */
 define(['aloha/jquery', 'aloha/observable'],
 function(jQuery, Observable) {
-	
+	"use strict";
 
 	/**
 	 * @name block.editor.AbstractEditor

@@ -9,7 +9,7 @@
 define(
 ['aloha/command', './inserthtml'],
 function( command, commands ) {
-	
+	"use strict";
 
 		
 });

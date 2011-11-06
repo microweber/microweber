@@ -7,7 +7,7 @@
 
 define(['aloha/jquery', 'aloha/repository', 'i18n!aloha/nls/i18n'],
 function(jQuery, repository, i18nCore) {
-	
+	"use strict";
 	
 	var 
 		GENTICS = window.GENTICS;
@@ -32,8 +32,10 @@ function(jQuery, repository, i18nCore) {
 		 * @cfg
 		 */
 		urlset: [
-			{ name: 'Aloha Editor - The HTML5 Editor', url:'http://aloha-editor.com', type:'website' },
-			{ name: 'Aloha Logo', url:'http://www.aloha-editor.com/images/aloha-editor-logo.png', type:'image'  }
+			{ name: 'Aloha Editor - The HTML5 Editor', url: 'http://aloha-editor.com', type: 'website' },
+			{ name: 'Aloha Editor - Wiki', url: 'http://www.aloha-editor.org/wiki/Main_Page', type: 'website' },
+			{ name: 'Aloha Editor - GitHub', url: 'http://github.com/alohaeditor/Aloha-Editor', type: 'website' },
+			{ name: 'Aloha Logo', url: 'http://www.aloha-editor.com/images/aloha-editor-logo.png', type: 'image'  }
 		],
 		
 		/**
@@ -102,36 +104,37 @@ function(jQuery, repository, i18nCore) {
 		 * Searches a repository for object items matching query if objectTypeFilter.
 		 * If none found it returns null.
 		 */
-		query: function( p, callback) {
+		query: function( p, callback ) {
 			// Not supported; filter, orderBy, maxItems, skipcount, renditionFilter
-			//
-			var d = this.urlset.filter(function(e, i, a) {
-				var r = new RegExp(p.queryString, 'i');
-					
+			var r = new RegExp( p.queryString, 'i' );
+			var d = this.urlset.filter( function( e, i, a ) {
 				return (
-					( !p.queryString || e.name.match(r) || e.url.match(r) ) &&
-					( !p.objectTypeFilter || ( !p.objectTypeFilter.length ) || jQuery.inArray(e.type, p.objectTypeFilter) > -1) &&
-					( !p.inFolderId || p.inFolderId == e.parentId )
+					( !p.queryString || e.name.match( r ) || e.url.match( r ) ) &&
+					( !p.objectTypeFilter || ( !p.objectTypeFilter.length ) || jQuery.inArray( e.type, p.objectTypeFilter ) > -1 ) &&
+					true //( !p.inFolderId || p.inFolderId == e.parentId )
 				);
-			});
-			callback.call( this, d);
+			} );
+			callback.call( this, d );
 		},
 		
 		/**
 		 * returns the folder structure as parsed at init.
 		 */
-		getChildren: function( p, callback) {
-			var d = [];
+		getChildren: function ( p, callback ) {
+			var d = [],
+			    e;
+			
 			for ( e in this.folder ) {
-				var l = this.folder[e].parentId;
-				if ( typeof this.folder[e] != 'function' && ( // extjs prevention
-					this.folder[e].parentId == p.inFolderId || // all subfolders
-					(!this.folder[e].parentId && p.inFolderId == this.repositoryId) // the hostname
-				)) {
-					d.push(this.folder[e]);
+				var l = this.folder[ e ].parentId;
+				if ( typeof this.folder[ e ] != 'function' && ( // extjs prevention
+					this.folder[ e ].parentId == p.inFolderId || // all subfolders
+					( !this.folder[ e ].parentId && p.inFolderId == this.repositoryId ) // the hostname
+				) ) {
+					d.push( this.folder[ e ] );
 				}
 			}
-			callback.call( this, d);
+
+			callback.call( this, d );
 		},
 		
 		//parseUri 1.2.2

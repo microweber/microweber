@@ -7,7 +7,7 @@
 define(
 ['aloha', 'aloha/jquery', 'aloha/plugin', 'aloha/floatingmenu', 'i18n!characterpicker/nls/i18n', 'i18n!aloha/nls/i18n', 'css!characterpicker/css/characterpicker.css'],
 function(Aloha, jQuery, Plugin, FloatingMenu, i18n, i18nCore) {
-	
+	"use strict";
 
 	var
 		GENTICS = window.GENTICS;

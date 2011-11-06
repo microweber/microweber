@@ -8,7 +8,7 @@
 define(
 ['aloha/core', 'aloha/plugin', 'aloha/jquery', 'aloha/command', 'aloha/console'],
 function(Aloha, Plugin, jQuery, Commands, console) {
-	
+	"use strict";
 
 	// Private Vars and Methods
 	var	GENTICS = window.GENTICS,
@@ -47,9 +47,9 @@ function(Aloha, Plugin, jQuery, Commands, console) {
 		// Reposition paste container to avoid scrolling
 		jQuery('#pasteContainer').css('top',scrollTop);
 		jQuery('#pasteContainer').css('left',scrollLeft-200);
-		
+
 		// empty the pasteDiv
-		$pasteDiv.text('');
+		$pasteDiv.contents().remove();
 
 		// blur the active editable
 		if (pasteEditable) {
@@ -71,8 +71,6 @@ function(Aloha, Plugin, jQuery, Commands, console) {
 	 */
 	function getPastedContent() {
 		var that = this,
-			i = 0,
-			heightDiff = 0, 
 			pasteDivContents;
 
 		// insert the content into the editable at the current range
@@ -84,6 +82,10 @@ function(Aloha, Plugin, jQuery, Commands, console) {
 			jQuery(pasteEditable.obj).click();
 
 			pasteDivContents = $pasteDiv.html();
+			if (jQuery.browser.msie && /^&nbsp;/.test(pasteDivContents)) {
+				pasteDivContents = pasteDivContents.substring(6);
+			}
+			pasteDivContents = jQuery.trim(pasteDivContents);
 
 			if ( Aloha.queryCommandSupported('insertHTML') ) {
 				Aloha.execCommand('insertHTML', false, pasteDivContents, pasteRange);
@@ -101,7 +103,7 @@ function(Aloha, Plugin, jQuery, Commands, console) {
 		height = 0;
 
 		// empty the pasteDiv
-		$pasteDiv.text('');
+		$pasteDiv.contents().remove();
 	};
 
 
@@ -139,6 +141,7 @@ function(Aloha, Plugin, jQuery, Commands, console) {
 							redirectPaste();
 							var range = document.selection.createRange();
 							range.execCommand( 'paste' );
+
 							getPastedContent();
 							// This feels rather hackish. We manually unset
 							// the metaKey property because the

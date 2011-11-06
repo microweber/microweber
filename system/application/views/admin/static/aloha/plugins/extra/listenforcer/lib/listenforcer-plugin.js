@@ -7,7 +7,7 @@
 define(
 ['aloha/plugin', 'aloha/floatingmenu'],
 function(Plugin, FloatingMenu, i18n, i18nCore) {
-	
+	"use strict";
 
 	var
 		jQuery = window.alohaQuery || window.jQuery, $ = jQuery,
