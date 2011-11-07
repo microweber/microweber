@@ -100,7 +100,7 @@ window.MercurySetup = {
         insertMedia:           ['Media', 'Insert Media (images and videos)', {  preload: true, modal: admin_panel+ '/mercury/view:media', regions: ['editable', 'markupable'] }],
         insertTable:           ['Table', 'Insert Table', { modal: '/mercury/modals/table.html', regions: ['editable', 'markupable'] }],
         insertCharacter:       ['Character', 'Special Characters', { modal: '/mercury/modals/character.html', regions: ['editable', 'markupable'] }],
-        snippetPanel:          ['Snippet', 'Snippet Panel', { panel: '/mercury/panels/snippets.html' }],
+        snippetPanel:          ['Snippet', 'Snippet Panel', { panel: admin_panel+ '/mercury/view:snippets'  }],
         sep2:                  ' ',
         historyPanel:          ['History', 'Page Version History', { panel: admin_panel+ '/mercury/view:history', preload: false }],
         sep3:                  ' ',
@@ -278,8 +278,8 @@ window.MercurySetup = {
     // Name will be replaced with the snippet name (eg. example)
     snippets: {
       method: 'POST',
-      optionsUrl: '/mercury/snippets/:name/options.html',
-      previewUrl: '/mercury/snippets/:name/preview.html'
+      optionsUrl: admin_panel+ '/mercury/view:snippets/name::name/options' ,
+      previewUrl: admin_panel+ '/mercury/view:snippets/name::name/preview'  
       },
 
 

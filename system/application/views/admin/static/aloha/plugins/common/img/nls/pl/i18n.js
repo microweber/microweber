@@ -1,0 +1,1 @@
+define({"button.addimg.tooltip":"Dodaj img","button.removeimg.tooltip":"Usu\u0144 img","newimg.defaulttext":"Nowy img","floatingmenu.tab.img":"img"});

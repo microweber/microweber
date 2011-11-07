@@ -364,8 +364,8 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 		}
 		
 		</style>
-        <div id="ContentSave">    <button  onclick="mw_load_history_module()">mw_load_history_module()</button>
- <button  onclick="mw_save_all()">Save all</button>
+        <div id="ContentSave">    <!--<button  onclick="mw_load_history_module()">mw_load_history_module()</button>
+ <button  onclick="mw_save_all()">Save all</button>-->
  <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a>
  
 </div>
