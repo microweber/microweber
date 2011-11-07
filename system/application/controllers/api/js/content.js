@@ -38,6 +38,34 @@ mw.content.del = function(post_id, hide_element_or_callback) {
 
 }
 
+mw.content.save = function($form_selector, $callback) {
+	$data = ($($form_selector).serialize());
+
+	$.ajax( {
+		type : "POST",
+		url : "{SITE_URL}api/content/save_post",
+		data : $data,
+		dataType: 'json',
+		success : function(msg) {
+			//alert("Data: " + msg);
+		 // $('.cart_items_qty').html(msg);
+ 
+		if (typeof  $callback == 'function') {
+			$callback.call(this, msg);
+		} else {
+			$($callback).fadeOut();
+		}
+		
+		
+		
+		
+			
+		}
+	});
+
+}
+
+
 mw.content.Vote = function(toTable, toTableId, updateElementSelector) {
 
 	$.post('{SITEURL}api/content/vote', {

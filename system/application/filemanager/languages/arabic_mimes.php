@@ -60,4 +60,3 @@ $GLOBALS["mimes"]=array(
 	"pdf"	=> "ملف PDF"
 ); ?>
 
-

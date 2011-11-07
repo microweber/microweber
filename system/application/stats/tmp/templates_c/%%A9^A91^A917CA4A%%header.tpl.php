@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-04-18 13:14:55
+<?php /* Smarty version 2.6.26, created on 2011-09-25 10:16:57
          compiled from Login/templates/header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'Login/templates/header.tpl', 5, false),array('modifier', 'escape', 'Login/templates/header.tpl', 9, false),)), $this); ?>
@@ -76,4 +76,4 @@ unset($_smarty_tpl_vars);
 		<div class="description"># <?php echo $this->_tpl_vars['linkTitle']; ?>
 </div>
 	</a>
-	</div>
+	</div>

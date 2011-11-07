@@ -11,6 +11,17 @@ if($params['name'] != false){
 }
 
 ?>
+  <?
+	  
+	  if($params['module_id']){
+		  if(intval($params['id']) == 0){
+		$params['id'] = CI::model('content')->getMenuByMenuUnuqueId($params['module_id']);
+		  }
+	  }
+	  
+	  
+	  //p($params);
+	  ?>
 <? 
 $rand = rand();
 
@@ -29,26 +40,35 @@ save
 
 
 ?>
+
+<? if(intval($params['id']) == 0):  ?> 
+
+no such menu
+
+<? endif; ?>
+
+
 <?php  $menu_data = CI::model('content')->getMenus(array('id' => $params['id']));
 		if(!empty($menu_data)){
 		$menu_data = $menu_data[0];	
 		}
 		//p($menu_data);
 		?>
-        
 <? 
  
+ //p($params);
 
 $pages = get_pages_old() ;
 //p($pages);
 ?>
+<div class="menu_module_admin" id="menu_module_admin_<? print $params['module_id'];  ?>">
 <script type="text/javascript">
 var add_menus_controlls = function(){
-	$('.remove_me').remove();
+	$('#menu_module_admin_<? print $params['module_id'];  ?> .remove_me').remove();
 	//$('.menu_element').append('<div class="remove_me"><input name="edit" onclick="edit_menu_item($(this).parent(\'li.menu_element\').attr(\'id\'))" type="button" value="edit" /></div>');
 	
 	// Loop over each hottie.
-$( "li.menu_element" ).each(
+$( "#menu_module_admin_<? print $params['module_id'];  ?> li.menu_element" ).each(
  
 	// For each hottie, run this code. The "indIndex" is the
 	// loop iteration index on the current element.
@@ -77,7 +97,7 @@ $( "li.menu_element" ).each(
 var add_to_menu = function($id, $title){
 	$.post("<? print site_url('api/content/save_menu_items') ?>", { id: "0", content_id: $id, menu_id: "<? print $params['id'] ?>", item_title: $title },
 	function(data){
-	$('ul.menu').append('<li class="menu_element" onclick="edit_menu_item('+data+');" id=menu_item_"'+data+' ><div>'+$title+'</div></li>');
+	$('#menu_module_admin_<? print $params['module_id'];  ?> ul.menu').append('<li class="menu_element" onclick="edit_menu_item('+data+');" id=menu_item_"'+data+' ><div>'+$title+'</div></li>');
 	add_menus_controlls();
 	});
 }
@@ -168,9 +188,12 @@ var edit_menu_item = function($id){
 	 
 	
 	</script>
+    
+ 
+    
 <table width="100%" border="0">
   <tr>
-    <td><h2 style="padding: 10px;"><? print $menu_data['menu_title'] ;?></h2> </td>
+    <td><h2 style="padding: 10px;"><? print $menu_data['menu_title'] ;?></h2></td>
   </tr>
   <tr>
     <td><h3 style="padding: 10px;">Pages</h3>
@@ -181,9 +204,12 @@ var edit_menu_item = function($id){
         </li>
         <? endforeach; ?>
       </ul>
-
       <h3 style="padding: 20px 10px 0;">Menu items</h3>
-      <div class="" id="edit_memu_items">
+      
+      
+    
+      
+      <div class="" id="edit_memu_items<? print $params['module_id'];  ?>">
         <? $menu_items = CI::model('content')->menuTree($params['id']) ;
 
 print $menu_items ; ?>
@@ -195,9 +221,38 @@ print $menu_items ; ?>
   
 	$(document).ready(function(){
 		add_menus_controlls();
+		
+		
+		
+		$('#edit_memu_items<? print $params['module_id'];  ?> ul.menu').sortable({
+					opacity: '0.5',
+					containment: 'parent',
+					items: 'ul, li' ,
+					//forcePlaceholderSize: true,
+					//forceHelperSize: true ,
+					 
+					update: function(e, ui){
+						serial = $(this).sortable("serialize");
+						$.ajax({
+							url: "<?php print site_url('api/content/save_menu_items_order')  ?>",
+							type: "POST",
+							data: serial,
+							// complete: function(){},
+							success: function(feedback){
+								add_menus_controlls();
+								 mw.reload_module('content/menu');
+								 							 
+								 
+							//alert(feedback);
+								//$('#data').html(feedback);
+							}
+							// error: function(){}
+						});
+					}
+				});
 							   
  
-		$('ul.menu').nestedSortable({
+/*		$('#menu_module_admin_<? print $params['module_id'];  ?> ul.menu').nestedSortable({
 			disableNesting: 'no-nest',
 			forcePlaceholderSize: true,
 			connectWith: "ul.menu", 
@@ -207,7 +262,7 @@ print $menu_items ; ?>
 			opacity: .6,
 			placeholder: 'placehulder',
 			tabSize: 25,
-			tulerance: 'pointer',
+			//tulerance: 'pointer',
 			update: function(serialized) {    
 			serialized = $('ul.menu').nestedSortable('serialize');
 			
@@ -221,8 +276,8 @@ print $menu_items ; ?>
    });
 					 
 					 
-                } 
-		});
+               } 
+		}); */
  
 		 
  
@@ -254,3 +309,4 @@ print $menu_items ; ?>
 	}
     
     </script>
+</div>

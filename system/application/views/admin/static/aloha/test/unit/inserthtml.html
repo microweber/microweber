@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aloha Editor command inserthtml tests</title>
+	<!-- include qunit -->
+	<link rel="stylesheet" href="../vendor/qunit.css" type="text/css"/>
+
+	<script type="text/javascript" src="../vendor/qunit.js"></script>
+
+	<!-- include jquery -->
+	<script	src="../vendor/jquery-1.6.1.js" ></script>
+	<script type="text/javascript" src="../vendor/jquery.simulate.js"></script>
+	<script>
+		window.alohaQuery = jQuery.noConflict();
+	</script>
+
+	<!-- include aloha -->
+	<script src="../../lib/aloha.js" ></script>
+
+	<!-- inject into testswarm -->
+	<script type="text/javascript" src="../vendor/swarminject.js"></script>
+	<script>
+		// load command test suite
+		require( ['commandtest'] );
+	</script>
+	<style type="text/css">
+		.aloha-editable ol li { list-style-type: decimal; margin: 1.5em; }
+		.aloha-editable ol li ol li{ list-style-type: decimal; margin: 2em; }
+	</style>
+</head>
+<body>
+	<!-- include the tests -->
+	<script>
+	var tests = {
+			defaultValue: 'bam',
+			defaultCommand: 'inserthtml',
+			defaultAttributes: [],
+			tests: [
+					{  	start: '[]foo',
+				       	execResult: 'bam[]foo' 
+				    },
+			        {  	start: '[f]oo',
+				       	execResult: 'bam[]oo' 
+				    },
+			        {  	exclude: ['mozilla'],
+						start: 'foo[]',
+			        	execResult: 'foobam[]'
+			        },
+			        {  	include: ['mozilla'],
+						start: 'foo[]',
+			        	execResult: 'foobam{}'
+			        },
+			        {  	exclude: ['mozilla'],
+						start: 'fo[o]',
+				       	execResult: 'fobam[]' 
+				    },
+			        {  	start: '{}',
+				       	expected: 'bam[]' 
+				    },
+			        {  	include: ['mozilla'],
+						start: 'fo[o]',
+				       	execResult: 'fobam{}' 
+				    },
+			        {  	exclude: ['mozilla'],
+						start: '{}<br>',
+				       	execResult: 'bam[]<br>' 
+				    },
+			        {  	include: ['mozilla'],
+						start: '{}<br>',
+				       	execResult: 'bam{}<br>' 
+				    },
+			        {  	exclude: ['mozilla'],
+						start: '[foo]',
+				       	execResult: 'bam[]' 
+				    },
+			        {  	include: ['mozilla'],
+						start: '[foo]',
+				       	execResult: 'bam{}' 
+				    },
+					{  	start: 'f[o]o',
+				       	execResult: 'fbam[]o' 
+				    },
+			        {  	start: 'f[]oo',
+				       	execResult: 'fbam[]oo' 
+				    },
+				    {  	exclude: ['mozilla'],
+						start: 'foo<span>[bar]</span>baz',
+				       	execResult: 'foo<span>bam[]</span>baz' 
+				    },
+				    {  	include: ['mozilla'],
+						start: 'foo<span>[bar]</span>baz',
+				       	execResult: 'foo<span>bam{}</span>baz' 
+				    },
+				    {  	exclude: ['mozilla'],
+						start: 'foo<span>[bar]</span>baz',
+				       	execResult: 'foo<span>bam[]</span>baz' 
+				    },
+					{  	start: 'foo[<span>bar</span>]baz',
+				       	execResult: 'foobam[]baz' 
+				    },
+					{  	start: '[foo<span>bar]</span>baz',
+				       	execResult: 'bam[]baz' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: '[foo<span>]bar</span>baz',
+				       	execResult: 'bam[]<span>bar</span>baz' 
+				    },
+					{  	include: ['mozilla'],
+						start: '[foo<span>]bar</span>baz',
+				       	execResult: 'bam{}<span>bar</span>baz' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: '[foo<span>b]ar</span>baz',
+				       	execResult: 'bam[]<span>ar</span>baz' 
+				    },
+					{  	include: ['mozilla'],
+						start: '[foo<span>b]ar</span>baz',
+				       	execResult: 'bam{}<span>ar</span>baz' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: 'foo<span>[bar</span>baz]',
+				       	execResult: 'foo<span>bam[]</span>' 
+				    },
+					{  	include: ['mozilla'],
+						start: 'foo<span>[bar</span>baz]',
+				       	execResult: 'foo<span>bam{}</span>' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: 'foo<span>bar[</span>baz]',
+				       	execResult: 'foo<span>bar</span>bam[]' 
+				    },
+					{  	include: ['mozilla'], // correct?
+						start: 'foo<span>bar[</span>baz]',
+				       	execResult: 'foo<span>barbam{}</span>' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: 'foo<span>ba[r</span>baz]',
+				       	execResult: 'foo<span>babam[]</span>' 
+				    },
+					{  	include: ['mozilla'],
+						start: 'foo<span>ba[r</span>baz]',
+				       	execResult: 'foo<span>babam{}</span>' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: 'foo<span>[bar</span><span>baz]</span>baz',
+				       	execResult: 'foo<span>bam[]</span>baz' 
+				    },				    
+					{  	include: ['mozilla'],
+						start: 'foo<span>[bar</span><span>baz]</span>baz',
+				       	execResult: 'foo<span>bam{}</span>baz' 
+				    },				    
+				    {  	exclude: ['mozilla'],
+						start: 'foo<p>[bar]</p>baz',
+				       	execResult: 'foo<p>bam[]</p>baz' 
+				    },
+				    {  	include: ['mozilla'],
+						start: 'foo<p>[bar]</p>baz',
+				       	execResult: 'foo<p>bam{}</p>baz' 
+				    },
+					{  	start: 'foo[<p>bar</p>]baz',
+				       	execResult: 'foobam[]baz' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: '[foo<p>bar]</p>baz',
+				       	execResult: 'bam[]<br>baz' 
+				    },
+					{  	include: ['mozilla'],
+						start: '[foo<p>bar]</p>baz',
+				       	execResult: 'bam{}<br>baz' 
+				    },
+					{  	exclude: ['mozilla'],
+						start: '[]foo',
+				       	execResult: '<span>bam[]</span>foo',
+				       	value: '<span>bam</span>'
+				    },
+					{  	include: ['mozilla'], // correct?
+						start: '[]foo',
+				       	execResult: '<span>bam</span>{}foo',
+				       	value: '<span>bam</span>'
+				    },
+			        {  	start: '[f]oo',
+				       	execResult: '<span>bam[]</span>oo',
+				       	value: '<span>bam</span>' 
+				    },
+			        {  	start: 'foo[]',
+			        	execResult: 'foo<span>bam[]</span>',
+				       	value: '<span>bam</span>'
+			        },
+			        {  	start: 'fo[o]',
+				       	execResult: 'fo<span>bam[]</span>',
+				       	value: '<span>bam</span>' 
+				    },
+			        {  	start: '{}<br>',
+				       	execResult: '<span>bam[]</span><br>',
+				       	value: '<span>bam</span>' 
+				    },
+			        {  	start: '[foo]',
+				       	execResult: '<span>bam[]</span>',
+				       	value: '<span>bam</span>' 
+				    },
+			        {  	start: 'f[o]o',
+				       	execResult: 'f<span>bam[]</span>o',
+				       	value: '<span>bam</span>' 
+				    },
+			        {  	start: 'f[]oo',
+				       	execResult: 'f<span>bam[]</span>oo',
+				       	value: '<span>bam</span>' 
+				    },
+				    {  	start: 'foo<span>[bar]</span>baz',
+				       	execResult: 'foo<span><span>bam[]</span></span>baz',
+				       	value: '<span>bam</span>' 
+				    },
+					{  	start: 'foo[<span>bam</span>]baz',
+				       	execResult: 'foo<span><span>bam[]</span></span>baz',
+				       	value: '<span>bam</span>' 
+				    },
+					{  	start: '[foo<span>bar]</span>baz',
+				       	execResult: '<span>bam[]</span>baz',
+				       	value: '<span>bam</span>' 
+				    },
+				    {  	start: 'foo<p>[bar]</p>baz',
+				       	execResult: 'foo<p><span>bam[]</span></p>baz',
+				       	value: '<span>bam</span>' 
+				    },
+					{  	start: 'foo[<p>bar</p>]baz',
+				       	execResult: 'foo<span>bam[]</span>baz',
+				       	value: '<span>bam</span>' 
+				    },
+					{  	start: '[foo<p>bar]</p>baz',
+				       	execResult: '<span>bam[]</span><br>baz',
+				       	value: '<span>bam</span>' 
+				    },
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo[]baz',
+				       	value: '' 
+					},
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo&ouml;[]baz',
+				       	value: '&ouml;',
+				       	name: '"&amp;ouml;" -> foo[bar]baz -> foo&amp;ouml;[]baz //special char &ouml;'
+					},
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo&#x308;[]baz',
+				       	value: '&#x308;',
+				       	name: '"&amp;#x308;" -> foo[bar]baz -> foo&amp;#x308;[]baz //special char  &nbsp;&#x308;'
+					},
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo\0[]baz',
+				       	value: '\0',
+				       	name: '"&amp;#00;" -> foo[bar]baz -> foo&amp;#00;[]baz //null'
+					},
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo\x07[]baz',
+				       	value: '\x07',
+				       	name: '"&amp;#07;" -> foo[bar]baz -> foo&amp;#07;[]baz //bell ;)'
+					},
+				    {  	start: 'foo[bar]baz',
+				       	execResult: 'foo\ud000[]baz',
+				       	value: '\ud000', 
+				       	name: '"U+D000" -> foo[bar]baz -> fooU+D000[]baz //spechial char o\ud000'
+					},
+					{  	start: 'foo[bar]baz',
+				       	execResult: 'foo\ud800[]baz',
+				       	value: '\ud800',
+				       	name: '"U+D800" -> foo[bar]baz -> fooU+D800[]baz //High surrogate area http://unicode.org/charts/PDF/UD800.pdf'
+					},
+					{  	start: 'foo[bar]baz',
+				       	execResult: 'foo[]baz',
+				       	value: '<b>' 
+					},
+					{  	start: 'foo[bar]baz',
+				       	execResult: 'foo<b>bam[]</b>baz',
+				       	value: '<b>bam</b>' 
+					},
+					{  	start: '<b>foo[bar]baz</b>',
+				       	execResult: '<b>foo<b>bam[]</b>baz</b>',
+				       	value: '<b>bam</b>' 
+					},
+					{  	start: 'foo[bar]baz',
+				       	execResult: 'foo[]baz',
+				       	value: '<p>' 
+					},
+					{  	exclude: 'mozilla',
+						start: 'foo[bar]baz',
+				       	execResult: 'foo<p>bam</p>[]baz',
+				       	value: '<p>bam</p>' 
+					},
+					{  	include: 'mozilla',
+						start: 'foo[bar]baz',
+				       	execResult: 'foo<p>bam</p>{}baz',
+				       	value: '<p>bam</p>' 
+					},
+					{  	start: '<p>foo[bar]baz</p>',
+				       	execResult: '<p>foo</p><p>bam</p><p>[]baz</p>',
+				       	value: '<p>bam</p>' 
+					},
+					{  	start: '<p>foo[bar]baz</p>',
+				       	execResult: '<p>foo</p><p>bam</p><p>[]baz</p>',
+				       	value: '<p>bam</p>' 
+					},
+					{  	start: '<p>foo[bar]baz</p>',
+				       	execResult: '<p>foo</p><ol><li>bam</li></ol><p>[]baz</p>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	start: '<p>foo[bar]baz</p>',
+				       	execResult: '<p>foo</p><ol><li>bam</li></ol><p>[]baz</p>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	start: '<ol><li>[bar]</li></ol>',
+					  	execResult: '<ol><li><ol><li>bam[]</li></ol></li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	start: '<ol data-start=0 data-end=1><li>bar</li></ol>',
+					  	execResult: '<ol><li><ol><li>bam[]</li></ol></li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	start: '<ol data-start=1 data-end=2><li>foo</li><li >bar</li><li>baz</li></ol>',
+					  	execResult: '<ol><li>foo</li><li><ol><li>bam</li></ol>[]baz</li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	start: '<ol><li>foo[bar]</li></ol>',
+					  	execResult: '<ol><li>foo<ol><li>bam[]</li></ol></li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	exclude: 'mozilla',
+						start: '<ol><li>foo[bar]baz</li></ol>',
+					  	execResult: '<ol><li>foo<ol><li>bam</li></ol>[]baz</li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					{  	include: 'mozilla',
+						start: '<ol><li>foo[bar]baz</li></ol>',
+					  	execResult: '<ol><li>foo<ol><li>bam</li></ol>{}baz</li></ol>',
+				       	value: '<ol><li>bam</li></ol>' 
+					},
+					// TODO: Flow elements are allowed in li elements.
+					// Is this useable with contenteditable?
+					// How should the UI look for this?
+					{  	start: '<ol><li>[bar]</li></ol>',
+					  	execResult: '<ol><li><p>bam[]</p></li></ol>',
+				       	value: '<p>bam</p>' 
+					},
+					{  	start: '<ol data-start=1 data-end=2><li>foo</li><li>bar</li><li>baz</li></ol>',
+					  	execResult: '<ol><li>foo</li><li><p>bam</p>[]baz</li></ol>',
+				       	value: '<p>bam</p>' 
+					},
+					{  	exclude: 'mozilla',
+						start: '<ol><li>foo[bar]baz</li></ol>',
+					  	execResult: '<ol><li>foo<p>bam</p>[]baz</li></ol>',
+				       	value: '<p>bam</p>' 
+					},				
+					{  	include: 'mozilla',
+						start: '<ol><li>foo[bar]baz</li></ol>',
+					  	execResult: '<ol><li>foo<p>bam</p>{}baz</li></ol>',
+				       	value: '<p>bam</p>' 
+					},				
+					{  	start: '<ol><li>foo[bar]</li></ol>',
+					  	execResult: '<ol><li>foo<p>bam[]</p></li></ol>',
+				       	value: '<p>bam</p>' 
+					},
+					{  	start: '<a>foo[bar]baz</a>',
+					  	execResult: '<a>foo</a><a>bam[]</a><a>baz</a>',
+				       	value: '<a>bam</a>',
+				       	attributes: ['href']
+					},
+					{  	start: '<a href="yay">foo[bar]baz</a>',
+					  	execResult: '<a href="yay">foo</a><a href="/">bam[]</a><a href="yay">baz</a>',
+				       	value: '<a href=/>bam</a>', 
+					    attributes: ['href']
+					},
+					// TODO fix doCleanup to remove empty nodes
+					{  	start: '<a>[foo]</a>bar',
+					  	execResult: '<a href="/">bam[]</a>bar',
+				       	value: '<a href=/>bam</a>', 
+						attributes: ['href']
+					},
+					{  	start: '<a>[foo</a>]bar',
+					  	execResult: '<a href="/">bam[]</a>bar',
+				       	value: '<a href=/>bam</a>', 
+						attributes: ['href'] 
+					},
+					{  	start: '<span>foo[bar]baz</span>',
+				       	execResult: '<span>foo</span><hr><span>[]baz</span>',
+				       	value: '<hr>' 
+					},
+					{  	start: '<p>foo[bar]baz</p>',
+				       	execResult: '<p>foo</p><hr><p>[]baz</p>',
+				       	value: '<hr>' 
+					},
+					{  	start: '<h1>foo[bar]baz</h1>',
+					  	execResult: '<h1>foo</h1><h2>bam</h2><h1>[]baz</h1>',
+				       	value: '<h2>bam</h2>' 
+					},
+					{  	start: '<table><tr><td>foo[bar]baz</table>',
+					  	execResult: '<table><tr><td>foobam[]baz</table>',
+				       	value: '<td>bam</td>' 
+					},
+/**/
+			    
+			]
+	}
+	</script>
+	<h1 id="qunit-header">Aloha Editor InsertHTML Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture"></div>
+	<div id="edit" style="margin:20px; border:1px solid #000000;"></div>
+	<div id="logBody"></div>
+	</div>
+</body>
+</html>

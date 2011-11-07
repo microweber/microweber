@@ -263,6 +263,8 @@ class CI_Image_lib {
 		$this->full_src_path = $this->source_folder.$this->source_image;
 		$this->full_dst_path = $this->dest_folder.$filename.$this->thumb_marker.$file_ext;
 
+//var_dump($this->full_dst_path);
+
 		/*
 		 * Should we maintain image proportions?
 		 *

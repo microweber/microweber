@@ -83,8 +83,14 @@ function get_new_users($period = '7 days', $limit = 20) {
  * @param  $id = the id of the user;
  * @return array
  */
-function get_user($id) {
+function get_user($id = false) {
 	global $CI;
+	
+	
+	if($id == false){
+		$id = user_id();
+	}
+	
 	$res = CI::model ( 'users' )->getUserById ( $id );
 	
 	if (! empty ( $res )) {
@@ -92,6 +98,7 @@ function get_user($id) {
 		
 		$res ['custom_fields'] = $more;
 	}
+	//p($res);
 	return $res;
 }
 
@@ -111,9 +118,15 @@ function user_id() {
 
 if (! function_exists ( 'is_admin' )) {
 	function is_admin() {
-		if (defined ( 'USER_IS_ADMIN' )) {
-			//print USER_ID;
-			return USER_IS_ADMIN;
+		
+		
+		 static $is = 0;
+  
+		
+		
+		if ($is != 0 or defined ( 'USER_IS_ADMIN' )) {
+			 // var_dump( $is);
+			return $is;
 		} else {
 			$usr = user_id ();
 			$usr = get_user ( $usr );
@@ -123,7 +136,10 @@ if (! function_exists ( 'is_admin' )) {
 			} else {
 				define ( "USER_IS_ADMIN", false );
 			}
-			
+			$is = USER_IS_ADMIN;
+			// var_dump( $is);
+			 // var_dump( $is);
+			 //var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
 			return USER_IS_ADMIN;
 		
 		}
@@ -196,6 +212,13 @@ function profile_link($user_id) {
 	
 	return site_url ( 'userbase/action:profile/username:' . user_name ( $user_id, 'username' ) );
 
+}
+
+function get_custom_fields_for_user($user_id) {
+	//p($content_id);
+	$more = false;
+	$more = CI::model ( 'core' )->getCustomFields ( 'table_users', $user_id, true );
+	return $more;
 }
 
 function friends_count($user_id = false) {

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aloha Editor Plugin API Test Suite</title>
+	
+	<!-- include qunit -->
+	<link rel="stylesheet" href="../vendor/qunit.css" type="text/css"/>
+	<script type="text/javascript" src="../vendor/jquery-1.6.1.js"></script>
+	<script type="text/javascript" src="../vendor/qunit.js"></script>
+	<script>
+
+	
+		var Aloha = {};
+		Aloha.settings = {
+			jQuery: $,
+			bundles: {
+				// Path for custom bundle relative from require.js path
+				'custom1': '../test/unit',
+				'custom2': location.href.replace(/\/?pluginapi.html$/,'')
+			},
+			plugintest1: {
+				value1: -1,
+				value3: {
+					valueA: 'Z'
+				}
+			},
+			locale: 'de'
+		};
+		
+		// include testswarm inject script
+		var url = window.location.search;
+		url = decodeURIComponent( url.slice( url.indexOf("swarmURL=") + 9 ) );
+		if ( url && url.indexOf("http") === 0 ) {
+			require(["http://testswarm.aloha-editor.org/js/inject.js?" + (new Date).getTime()], function() {});
+		}
+		
+	</script>
+	
+	<!-- include aloha -->
+	<script src="../../lib/aloha.js" data-aloha-plugins="custom1/plugintest1, custom2/plugintest2"></script>
+
+</head>
+<body>
+
+	<script>
+		// define realtive baseUrl path to requireJS
+		// and paths back to aloha path
+		require( [ 'pluginapitests' ] );
+	</script>
+
+	<h1 id="qunit-header">Aloha Editor Plugin API Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture"></div>
+	<div id="edit" style="margin:20px; border:1px solid #000000;"></div>
+	<div id="edit2" style="margin:20px; border:1px solid #000000;"></div>
+	<div id="edit3" style="margin:20px; border:1px solid #000000;"></div>
+</body>
+</html>

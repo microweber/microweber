@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aloha Editor insert list tests</title>
+	<!-- include qunit -->
+	<link rel="stylesheet" href="../vendor/qunit.css" type="text/css"/>
+
+	<script type="text/javascript" src="../vendor/qunit.js"></script>
+
+	<!-- include jquery -->
+	<script	src="../vendor/jquery-1.6.1.js" ></script>
+	<script type="text/javascript" src="../vendor/jquery.simulate.js"></script>
+	<script>
+		window.alohaQuery = jQuery.noConflict();
+	</script>
+
+	<!-- include aloha -->
+	<script src="../../lib/aloha.js" ></script>
+
+	<!-- inject into testswarm -->
+	<script type="text/javascript" src="../vendor/swarminject.js"></script>
+	<script>
+		// load command test suite
+		require( ['commandtest'] );
+	</script>
+	<style type="text/css">
+		.aloha-editable ol li { list-style-type: decimal; margin: 1.5em; }
+		.aloha-editable ol li ol li{ list-style-type: decimal; margin: 2em; }
+	</style>
+</head>
+<body>
+	<!-- include the tests -->
+	<script>
+	var tests = {
+			defaultValue: '<ul><li></li></ul>',
+			defaultCommand: '',
+			defaultAttributes: [ ],
+			tests: [
+					{  	start: '{}',
+						value: '<ul><li></li></ul>',
+				       	execResult: '<ul><li>[]</li></ul>' 
+				    },
+					{  	start: '<p>foo[]bar</p>',
+						value: '<ul><li></li></ul>',
+				       	execResult: '<ul><li>foobar[]</li></ul>' 
+				    }
+
+/*
+					{	start: 'foo<ol><li>[]bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: 'foo<br><ol><li>[]bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: 'foo<br><br><ol><li>[]bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><li>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><br><li>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>[]bar<br>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br>bar<li>[]baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li><p>foo</p>{}bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li><p>foo<li>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li><p>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li><p>foo<li><p>[]bar</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ul><li>[]bar</ul></ol>',
+						execResult: ''
+					},
+					{	start: 'foo<ol><ol><li>[]bar</ol></ol>',
+						execResult: ''
+					},
+					{	start: 'foo<div><ol><li>[]bar</ol></div>',
+						execResult: ''
+					},
+					{	start: 'foo<dl><dt>[]bar<dd>baz</dl>',
+						execResult: ''
+					},
+					{	start: 'foo<dl><dd>[]bar</dl>',
+						execResult: ''
+					},
+					{	start: '<dl><dt>foo<dd>[]bar</dl>',
+						execResult: ''
+					},
+					{	start: '<dl><dt>foo<dt>[]bar<dd>baz</dl>',
+						execResult: ''
+					},
+					{	start: '<dl><dt>foo<dd>bar<dd>[]baz</dl>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</ol>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br></ol>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><br></ol>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li><br></ol>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li><br></ol>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</ol><p>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br></ol><p>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><br></ol><p>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li><br></ol><p>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li><br></ol><p>[]bar',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</ol>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br></ol>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><br></ol>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li><br></ol>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li><br></ol>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</ol><p>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br></ol><p>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br><br></ol><p>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li><br></ol><p>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li><br></ol><p>{}<br>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>[bar]<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol data-start=1 data-end=2><li>foo<li>bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</ol>[bar]',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo]<br>bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<br>[bar]<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li><div>[foo]</div>bar<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>[bar]<li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>bar<li>[baz]</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol><li>[bar]<li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol data-start=0 data-end=1><li>bar<li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol><li>bar<li>[baz]</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol data-start=1 data-end=2><li>bar<li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>b[a]r</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol><li>b[a]r</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo{<ol><li>bar</ol>}<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li>{<ol><li>bar</ol>}<li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo]<ol><li>bar</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo]</li><ol><li>bar</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>[bar]<ol><li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>[bar]</li><ol><li>baz</ol><li>quz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>bar<li>baz</ol><li>[quz]</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol><li>bar<li>baz</ol><li>[quz]</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><ol id=u1><li id=i1>foo</ol><li id=i2>[bar]</li><ol id=u3><li id=i3>baz</ol></ol>',
+						execResult: ''
+					},
+					{	start: '<ol><ol><li id=i1>foo</ol><li id=i2>[bar]</li><ol id=u3><li id=i3>baz</ol></ol>',
+						execResult: ''
+					},
+					{	start: '<ol><ol id=u1><li id=i1>foo</ol><li id=i2>[bar]</li><ol><li id=i3>baz</ol></ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li id=i2>[bar]</li><ol id=u3><li id=i3>baz</ol></ol>',
+						execResult: ''
+					},
+					{	start: '<ol><ol id=u1><li id=i1>foo</ol><li id=i2>[bar]</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<li>b[ar<li>baz]</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo<ol><li>bar]</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo</li><ol><li>bar]</ol><li>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>b[ar</ol><li>b]az</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo</li><ol><li>b[ar</ol><li>b]az</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo<ol><li>bar</ol><li>baz]</ol><p>extra',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo</li><ol><li>bar</ol><li>baz]</ol><p>extra',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo]<ol><li>bar</ol>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>[bar]</ol>baz</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>foo<ol><li>bar</ol>[baz]</ol>',
+						execResult: ''
+					},
+					{	start: '<ol><li>[foo<ol><li>bar]</ol>baz</ol>',
+						execResult: ''
+					},
+					*/
+			]
+	}
+	</script>
+	<h1 id="qunit-header">Aloha Editor command bold tests</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture"></div>
+	<div id="edit" style="margin:20px; border:1px solid #000000;"></div>
+	<div id="logBody"></div>
+	</div>
+</body>
+</html>

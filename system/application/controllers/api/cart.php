@@ -23,7 +23,6 @@ class Cart extends Controller {
 	
 	function add() {
 		
-		
 		if ($_POST) {
 			$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 			$check ['sid'] = $session_id;
@@ -36,6 +35,7 @@ class Cart extends Controller {
 	}
 	
 	function order_info() {
+		
 		$session_id = CI::library ( 'session' )->userdata ( 'session_id' );
 		$check ['sid'] = $session_id;
 		$check ['order_completed'] = 'n';
@@ -43,6 +43,7 @@ class Cart extends Controller {
 		$info = array ();
 		$items = get_cart_items ( $check );
 		$info ['items'] = $items;
+		
 		$total = get_cart_total ();
 		
 		$info ['total'] = $total;
@@ -121,7 +122,17 @@ class Cart extends Controller {
 			$total = get_cart_total ();
 			$data ['amount'] = $total;
 			
-			p ( $data );
+			if (intval ( $data ['shipping'] ) == 0) {
+				$data ['shipping'] = option_get ( 'shipping' );
+			
+			}
+			
+			if (strval ( $data ['promo_code'] ) == '') {
+				$data ['promo_code'] = CI::model ( 'cart' )->promoCodeGetCurent ();
+			
+			}
+			
+			//p ( $data );
 			$cart = CI::model ( 'cart' )->orderPlace ( $data );
 			$cart = json_encode ( $cart );
 			exit ();
@@ -162,6 +173,55 @@ class Cart extends Controller {
 		//billing_borica_getBOResp
 	//header("Location: ".site_url('shop'));
 	//exit;
+	}
+	
+	function get_promo_code() {
+		
+		$code = $_POST ['code'];
+		$code = trim ( $code );
+		if ($code != '') {
+			
+			$get_promo = array ();
+			$get_promo ['promo_code'] = $code;
+			
+			$codes = $cart = CI::model ( 'cart' )->promoCodesGet ( $get_promo );
+		}
+		//print json_encode ( $codes );
+		
+
+		if (! empty ( $codes )) {
+			$codes = $codes [0];
+			
+			if (! empty ( $codes )) {
+				//	$promo_code = CI::library ( 'session' )->userdata ( 'promo_code' );
+				CI::library ( 'session' )->set_userdata ( 'promo_code', $codes ['promo_code'] );
+				CI::library ( 'session' )->set_userdata ( 'cart_promo_code', $codes ['promo_code'] );
+			
+			}
+			
+			print json_encode ( $codes );
+			exit ();
+		} else {
+			
+			$promo_item = array ();
+			$promo_item ['auto_apply_to_all'] = 'y';
+			
+			$promo_item = CI::model ( 'cart' )->promoCodesGet ( $promo_item );
+			//	p($promo_item);
+			if (! empty ( $promo_item )) {
+				$promo_item = $promo_item [0];
+				CI::library ( 'session' )->set_userdata ( 'promo_code', $promo_item ['promo_code'] );
+				CI::library ( 'session' )->set_userdata ( 'cart_promo_code', $promo_item ['promo_code'] );
+				$promo_code = $promo_item ['promo_code'];
+				
+				print json_encode ( $promo_item );
+			
+			} else {
+				
+				exit ( '0' );
+			}
+		}
+	
 	}
 
 }

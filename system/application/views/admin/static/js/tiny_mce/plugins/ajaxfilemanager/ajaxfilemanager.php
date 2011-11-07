@@ -59,8 +59,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Ajax File Manager</title>
-<script type="text/javascript" src="jscripts/ajaxfilemanager_c.js"></script>
-<!--<script type="text/javascript" src="jscripts/jquery.js"></script>
+<!--<script type="text/javascript" src="jscripts/ajaxfilemanager_c.js"></script>-->
+<script type="text/javascript" src="jscripts/jquery.js"></script>
 <script type="text/javascript" src="jscripts/form.js"></script>
 <script type="text/javascript" src="jscripts/select.js"></script>
 <script type="text/javascript" src="jscripts/thickbox.js"></script>
@@ -68,7 +68,7 @@
 <script type="text/javascript" src="jscripts/contextmenu.js"></script>
 <script type="text/javascript" src="jscripts/media.js"></script>
 <script type="text/javascript" src="jscripts/ajaxfileupload.js"></script>
-<script type="text/javascript" src="jscripts/ajaxfilemanager.js"></script>-->
+<script type="text/javascript" src="jscripts/ajaxfilemanager.js"></script>
 <script type="text/javascript">
 	var globalSettings = {'upload_init':false};
 	var queryString = '<?php echo makeQueryString(array('path')); ?>';
@@ -166,7 +166,7 @@ $(document).ready(
 		popUpCal.dayNames = new Array('<?php echo CALENDAR_SUN; ?>','<?php echo CALENDAR_MON; ?>','<?php echo CALENDAR_TUE; ?>','<?php echo CALENDAR_WED; ?>','<?php echo CALENDAR_THU; ?>','<?php echo CALENDAR_FRI; ?>','<?php echo CALENDAR_SAT; ?>');
 		popUpCal.monthNames = new Array('<?php echo CALENDAR_JAN; ?>','<?php echo CALENDAR_FEB; ?>','<?php echo CALENDAR_MAR; ?>','<?php echo CALENDAR_APR; ?>','<?php echo CALENDAR_MAY; ?>','<?php echo CALENDAR_JUN; ?>','<?php echo CALENDAR_JUL; ?>','<?php echo CALENDAR_AUG; ?>','<?php echo CALENDAR_SEP; ?>','<?php echo CALENDAR_OCT; ?>','<?php echo CALENDAR_NOV; ?>','<?php echo CALENDAR_DEC; ?>');
 		popUpCal.dateFormat = 'YMD-';
-		$('.inputMtime').calendar({autoPopUp:'both', buttonImage:'theme/<?php echo CONFIG_THEME_NAME; ?>/images/standard/date_picker.png'});
+		$('.inputMtime').calendar({autoPopUp:'both', buttonImage:'theme/<?php echo CONFIG_THEME_NAME; ?>/images/date_picker.png'});
 		
 		
 		initAfterListingLoaded();
@@ -184,14 +184,15 @@ $(document).ready(
 	<?php
 	}
 ?>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/template.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/ajaxfilemanager.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/<?php echo CONFIG_EDITOR_NAME; ?>.css" />
 <link rel="stylesheet" type="text/css" href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/jquery-calendar.css" />
 <link rel="stylesheet" href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/thickbox.css" type="text/css" media="screen" />
 <!--[if IE 6]>
 <link href="theme/<?php echo CONFIG_THEME_NAME; ?>/css/ie6.css" type="text/css" rel="Stylesheet" media="screen">
 <![endif]-->
 </head>
-<body style="background-color:#E8E8E8;">
+<body>
 	<div id="wrapper">
   	<div id="header">
   		<dl id="currentFolderInfo">
@@ -206,7 +207,7 @@ $(document).ready(
 						foreach($views as $k=>$v)
 						{
 							?>
-							<input type="radio" name="view"  class="radio" onclick="changeView(this);" value="<?php echo $k; ?>" <?php echo ($k==$view?'checked':''); ?>> <?php echo $v; ?> &nbsp;&nbsp;
+							<input type="radio" name="view"  class="radio" onclick="return changeView(this);" value="<?php echo $k; ?>" <?php echo ($k==$view?'checked':''); ?>> <?php echo $v; ?> &nbsp;&nbsp;
 							
 							<?php
 						}
@@ -268,8 +269,8 @@ $(document).ready(
 					
 					
 		
-					
-<!--					<li><a href="#" id="actionClose" onclick="closeWindow('<?php echo IMG_WARING_WIN_CLOSE; ?>');"><?php echo IMG_BTN_CLOSE; ?></a></li>-->
+
+					<li><a href="#" id="actionClose" onclick="return cancelSelectFile();"><?php echo IMG_BTN_CLOSE; ?></a></li>
 					<li><a href="#" class="thickbox" id="actionInfo" onclick="return infoWin(this);"><span>Info</span></a></li>
 					<!-- thest functions will be added in the near future
  					<li ><a href="#" id="actionZip"><span>Zip</span></a><li>
@@ -317,96 +318,10 @@ $(document).ready(
       
       <div id="leftCol">
       
-
-
-				<fieldset id="folderFieldSet" >
-					
-				<legend><?php echo LBL_FOLDER_INFO; ?></legend>
-				<table cellpadding="0" cellspacing="0" class="tableSummary" id="folderInfo">
-					<tbody>
-						<tr>
-							<th><?php echo LBL_FOLDER_PATH; ?></th>
-							<td colspan="3" id="folderPath"><?php echo transformFilePath($folderInfo['path']); ?></td>
-						</tr>
-						<tr>
-							<th><?php echo LBL_FOLDER_CREATED; ?></th>
-							<td colspan="3" id="folderCtime"><?php echo (!empty($folderInfo['ctime'])?date(DATE_TIME_FORMAT,$folderInfo['ctime']):'&nbsp;') ; ?></td>
-
-						</tr>
-						<tr>
-							<th><?php echo LBL_FOLDER_MODIFIED; ?></th>
-							<td colspan="3" id="folderMtime"><?php echo (!empty($folderInfo['mtime'])?date(DATE_TIME_FORMAT,$folderInfo['mtime']):'&nbsp;'); ?></td>
-						</tr>
-						<tr>
-							<th><?php echo LBL_FOLDER_SUDDIR; ?></th>
-							<td  colspan="3" id="folderSubdir"><?php echo (isset($folderInfo['subdir'])?$folderInfo['subdir']:"&nbsp;"); ?></td>
-
-						</tr>
-						<tr>
-							<th><?php echo LBL_FOLDER_FIELS; ?></th>
-							<td  colspan="3" id="folderFile"><?php echo (isset($folderInfo['file'])?$folderInfo['file']:'&nbsp;'); ?></td>						
-						</tr>
-						
-						<tr>
-							<th><?php echo LBL_FOLDER_WRITABLE; ?></th>
-							<td id="folderWritable"><span class="<?php echo (isset($folderInfo['is_readable'])?($folderInfo['is_readable']?'flagYes':'flagNo'):'&nbsp;'); ?>">&nbsp;</span></td>
-							<th><?php echo LBL_FOLDER_READABLE; ?></th>
-							<td  id="folderReadable"><span class="<?php echo (isset($folderInfo['is_writable'])?($folderInfo['is_writable']?'flagYes':'flagNo'):'&nbsp;'); ?>">&nbsp;</span></td>						
-						
-						</tr>
-
-
-
-					</tbody>
-				</table>
-				</fieldset>
-			<fieldset id="fileFieldSet" style="display:none" >
-				<legend><?php echo LBL_FILE_INFO; ?></legend>
-				<table cellpadding="0" cellspacing="0" class="tableSummary" id="fileInfo">
-					<tbody>
-						<tr>
-							<th><?php echo LBL_FILE_NAME; ?></th>
-							<td colspan="3" id="fileName"></td>
-						</tr>
-						<tr>
-							<th><?php echo LBL_FILE_CREATED; ?></th>
-							<td colspan="3" id="fileCtime"></td>
-
-						</tr>
-						<tr>
-							<th><?php echo LBL_FILE_MODIFIED; ?></th>
-							<td colspan="3" id="fileMtime"></td>
-						</tr>
-						<tr>
-							<th><?php echo LBL_FILE_SIZE; ?></th>
-							<td  colspan="3" id="fileSize"></td>
-
-						</tr>
-						<tr>
-							<th><?php echo LBL_FILE_TYPE; ?></th>
-							<td  colspan="3" id="fileType"></td>						
-						</tr>
-						<tr>
-							<th><?php echo LBL_FILE_WRITABLE; ?></th>
-							<td id="fileWritable"><span class="flagYes">&nbsp;</span></td>
-							<th><?php echo LBL_FILE_READABLE; ?></th>
-							<td id="fileReadable"><span class="flagNo">&nbsp;</span></td>		
-						</tr>
-
-					</tbody>
-				</table>
-		
-        <p class="searchButtons" id="returnCurrentUrl">
-  
-        	<span class="right" id="linkSelect">
-        		<input type="button" value="<?php echo MENU_SELECT; ?>"  id="selectCurrentUrl" class="button">
-        	</span>
-        	
-        </p>				
-			</fieldset>
-			
-     
-      
+      	<?php
+      		if(CONFIG_OPTIONS_SEARCH)
+      		{
+      	?>
       	<fieldset class="boxSearch">
       		<legend><?php echo LBL_SEARCH; ?></legend>
 
@@ -478,18 +393,128 @@ $(document).ready(
 
 
 
+
        	
         <p class="searchButtons">
-        	<span class="left" id="linkClose" style="display:none">
-        		<input  type="button" value="<?php echo LBL_ACTION_CLOSE; ?>" onclick="return cancelSelectFile();"  class="button">
-        	</span>
-        	<span class="right" id="linkSearch">
-        		<input type="button" value="<?php echo BTN_SEARCH; ?>" onclick="return search();" class="button">
-        	</span>
+
+        	
+        		<table border="0" cellpadding="0" cellspacing="0" >
+        			<tr>
+    					<td width="99%">&nbsp;</td>
+        				<td width="1%" nowrap style="padding-right:16px;">
+        					<a href="#" onclick="return searchDocuments();" class="buttonLink"><span><?php echo BTN_SEARCH; ?></span></a>
+        					
+        				</td>
+        			</tr>
+        		</table>
+
+        	<div class="clear"></div>
         	
         </p>
+        <div class="clear"></div>
         </fieldset>
-  
+	<?php
+      		}
+	?>  
+
+				<fieldset id="folderFieldSet" >
+					
+				<legend><?php echo LBL_FOLDER_INFO; ?></legend>
+				<table cellpadding="0" cellspacing="0" class="tableSummary" id="folderInfo">
+					<tbody>
+						<tr>
+							<th><?php echo LBL_FOLDER_PATH; ?></th>
+							<td colspan="3" id="folderPath"><?php echo transformFilePath($folderInfo['path']); ?></td>
+						</tr>
+						<tr>
+							<th><?php echo LBL_FOLDER_CREATED; ?></th>
+							<td colspan="3" id="folderCtime"><?php echo (!empty($folderInfo['ctime'])?date(DATE_TIME_FORMAT,$folderInfo['ctime']):'&nbsp;') ; ?></td>
+
+						</tr>
+						<tr>
+							<th><?php echo LBL_FOLDER_MODIFIED; ?></th>
+							<td colspan="3" id="folderMtime"><?php echo (!empty($folderInfo['mtime'])?date(DATE_TIME_FORMAT,$folderInfo['mtime']):'&nbsp;'); ?></td>
+						</tr>
+						<tr>
+							<th><?php echo LBL_FOLDER_SUDDIR; ?></th>
+							<td  colspan="3" id="folderSubdir"><?php echo (isset($folderInfo['subdir'])?$folderInfo['subdir']:"&nbsp;"); ?></td>
+
+						</tr>
+						<tr>
+							<th><?php echo LBL_FOLDER_FIELS; ?></th>
+							<td  colspan="3" id="folderFile"><?php echo (isset($folderInfo['file'])?$folderInfo['file']:'&nbsp;'); ?></td>						
+						</tr>
+						
+						<tr>
+							<th><?php echo LBL_FOLDER_WRITABLE; ?></th>
+							<td id="folderWritable"><span class="<?php echo (isset($folderInfo['is_readable'])?($folderInfo['is_readable']?'flagYes':'flagNo'):'&nbsp;'); ?>">&nbsp;</span></td>
+							<th><?php echo LBL_FOLDER_READABLE; ?></th>
+							<td  id="folderReadable"><span class="<?php echo (isset($folderInfo['is_writable'])?($folderInfo['is_writable']?'flagYes':'flagNo'):'&nbsp;'); ?>">&nbsp;</span></td>						
+						
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			
+				</fieldset>
+			<fieldset id="fileFieldSet" style="display:none" >
+				<legend><?php echo LBL_FILE_INFO; ?></legend>
+				<table cellpadding="0" cellspacing="0" class="tableSummary" id="fileInfo">
+					<tbody>
+						<tr>
+							<th><?php echo LBL_FILE_NAME; ?></th>
+							<td colspan="3" id="fileName"></td>
+						</tr>
+						<tr>
+							<th><?php echo LBL_FILE_CREATED; ?></th>
+							<td colspan="3" id="fileCtime"></td>
+
+						</tr>
+						<tr>
+							<th><?php echo LBL_FILE_MODIFIED; ?></th>
+							<td colspan="3" id="fileMtime"></td>
+						</tr>
+						<tr>
+							<th><?php echo LBL_FILE_SIZE; ?></th>
+							<td  colspan="3" id="fileSize"></td>
+
+						</tr>
+						<tr>
+							<th><?php echo LBL_FILE_TYPE; ?></th>
+							<td  colspan="3" id="fileType"></td>						
+						</tr>
+						<tr>
+							<th><?php echo LBL_FILE_WRITABLE; ?></th>
+							<td id="fileWritable"><span class="flagYes">&nbsp;</span></td>
+							<th><?php echo LBL_FILE_READABLE; ?></th>
+							<td id="fileReadable"><span class="flagNo">&nbsp;</span></td>		
+						</tr>
+
+					</tbody>
+				</table>
+		
+        <p class="searchButtons" id="returnCurrentUrl">
+         		<table border="0" cellpadding="0" cellspacing="0" >
+        			<tr>
+    					<td width="99%">&nbsp;</td>
+        				<td width="1%" nowrap style="padding-right:16px;">
+        					<a href="#" id="selectCurrentUrl"  class="buttonLink"><span><?php echo MENU_SELECT; ?></span></a>
+        					
+        				</td>
+        			</tr>
+        		</table>
+
+        	<div class="clear"></div> 
+
+        	
+        </p>	
+        			
+			</fieldset>
+			
+     
+
       </div>
       
       <div class="clear"></div>
@@ -512,19 +537,24 @@ $(document).ready(
 		  	<table class="tableForm" cellpadding="0" cellspacing="0">
 		  		<thead>
 		  			<tr>
-		  				<th colspan="2"><?php echo FILE_FORM_TITLE; ?><a class="action" href="#" title="<?php echo FILE_LBL_MORE;  ?>" onclick="return addMoreFile();"><span class="addMore">&nbsp;</span></a></th>
+		  				<th colspan="4"><?php echo FILE_FORM_TITLE; ?><a class="action" href="#" title="<?php echo FILE_LBL_MORE;  ?>" onclick="return addMoreFile();"><span class="addMore">&nbsp;</span></a></th>
 		  			</tr>
 		  		</thead>
 		  		<tbody id="fileUploadBody">
 		  			<tr style="display:none">
 		  				<th><label><?php echo FILE_LABEL_SELECT; ?></label></th>
-		  				<td><input type="file" class="input" name="file"  /> <input type="button" class="button" value="<?php echo FILE_LBL_UPLOAD; ?>" /> <a href="#" class="action" title="Cancel" style="display:none" ><span class="cancel">&nbsp;</span></a>  <span class="uploadProcessing" style="display:none">&nbsp;<span></td>
+		  				<td><input type="file" style="font-size:12px" name="file"  /> </td>
+		  				
+		  				<td>
+			        		<a href="#" class="buttonLink"><span><?php echo FILE_LBL_UPLOAD; ?></span></a>		  				
+		  				</td>
+		  				<td> <a href="#" class="action" title="Cancel" style="display:none" ><span class="cancel">&nbsp;</span></a>  <span class="uploadProcessing" style="display:none">&nbsp;<span></td>
 		  			</tr>		
 		  		</tbody>
 		  		<tfoot>
 		  			<tr>
 		  				<th>&nbsp;</th>
-		  				<td></td>
+		  				<td colspan="3"></td>
 		  			</tr>
 		  		</tfoot>
 		  	</table>
@@ -536,7 +566,7 @@ $(document).ready(
   <div id="winNewFolder" style="display:none">
   	<div class="jqmContainer">
   		<div class="jqmHeader">
-  			<a href="#" onclick="tb_remove();"><?php echo LBL_ACTION_CLOSE; ?></a>
+  			<a href="#" onclick="return tb_remove();"><?php echo LBL_ACTION_CLOSE; ?></a>
   		</div>
   		<div class="jqmBody">
 	    	<form id="formNewFolder" name="formNewFolder" method="POST" action="">
@@ -544,21 +574,31 @@ $(document).ready(
 	  	<table class="tableForm" cellpadding="0" cellspacing="0">
 	  		<thead>
 	  			<tr>
-	  				<th colspan="2"><?php echo FOLDER_FORM_TITLE; ?></th>
+	  				<th colspan="2" ><?php echo FOLDER_FORM_TITLE; ?></th>
 	  			</tr>
 	  		</thead>
 	  		<tbody>
 	  			<tr>
-	  				<th><label><?php echo FOLDER_LBL_TITLE; ?></label></th>
-	  				<td><input type="text" name="new_folder" id="new_folder" value="" class="input"></td>
+	  				<th nowrap><label><?php echo FOLDER_LBL_TITLE; ?></label></th>
+	  				<td ><input type="text" name="new_folder" style="font-size:12px" id="new_folder"  value="" class="input"></td>
 	  			</tr>    		
 	
 				
 	  		</tbody>
 	  		<tfoot>
 	  			<tr>
-	  				<th>&nbsp;</th>
-	  				<td><input type="button" value="<?php echo FOLDER_LBL_CREATE; ?>" class="button" onclick="return doCreateFolder();"  /></td>
+	  				<th >&nbsp;</th>
+	
+		  				<td nowrap>
+		  					<table cellpadding="0" cellspacing="0" border="0">
+		  						<tr>
+		  							<td width="99%">&nbsp;</td>
+		  							<td nowrap width="1%"><a href="#" class="buttonLink" onclick="return doCreateFolder();" ><span><?php echo FOLDER_LBL_CREATE; ?></span></a>		</td>
+		  						</tr>
+		  					</table>
+		  				
+		  				</td>	  				
+
 	  			</tr>
 	  		</tfoot>
 	  	</table>	
@@ -572,7 +612,7 @@ $(document).ready(
   <div id="winPlay" style="display:none">
   	<div class="jqmContainer">
   		<div class="jqmHeader">
-  			<a href="#" onclick="closeWinPlay();"><?php echo LBL_ACTION_CLOSE; ?></a>
+  			<a href="#" onclick="return closeWinPlay();"><?php echo LBL_ACTION_CLOSE; ?></a>
   		</div>
   		<div class="jqmBody">
   			<div id="playGround"></div>
@@ -582,7 +622,7 @@ $(document).ready(
   <div id="winRename" style="display:none">
   	<div class="jqmContainer">
   		<div class="jqmHeader">
-  			<a href="#" onclick="tb_remove();"><?php echo LBL_ACTION_CLOSE; ?></a>
+  			<a href="#" onclick="return tb_remove();"><?php echo LBL_ACTION_CLOSE; ?></a>
   		</div>
   		<div class="jqmBody">
 		  	<form id="formRename" name="formRename" method="POST" action="">
@@ -596,15 +636,24 @@ $(document).ready(
 		  		</thead>
 		  		<tbody>
 		  			<tr>
-		  				<th><label><?php echo RENAME_NEW_NAME; ?></label></th>
-		  				<td><input type="name" id="renameName" class="input" name="name" style="width:250px" /> 
+		  				<th nowrap><label><?php echo RENAME_NEW_NAME; ?></label></th>
+		  				<td ><input type="name" id="renameName" style="font-size:12px"  class="input" name="name" style="width:250px" /> 
 		          </td>
 		  			</tr>
 		  		</tbody>
 		  		<tfoot>
 		  			<tr>
-		  				<th>&nbsp;</th>
-		  				<td><input type="button" value="<?php echo RENAME_LBL_RENAME; ?>" class="button" onclick="return doRename();"  /></td>
+		  				<th >&nbsp;</th>
+		  				<td nowrap>
+		  					<table cellpadding="0" cellspacing="0" border="0">
+		  						<tr>
+		  							<td width="99%">&nbsp;</td>
+		  							<td nowrap width="1%"><a href="#" class="buttonLink" onclick="return doRename();" ><span><?php echo RENAME_LBL_RENAME; ?></span></a>	</td>
+		  						</tr>
+		  					</table>
+		  				
+		  				</td>
+
 		  			</tr>
 		  		</tfoot>
 		  	</table>
@@ -651,15 +700,15 @@ $(document).ready(
   					<label>Support Forum:</label>
   				</th>
   				<td>
-  					<a href="http://www.phpletter.com/forum/">http://www.phpletter.com/forum/</a>
+  					<a href="http://forum.phpletter.com/">http://forum.phpletter.com/</a>
   				</td>
   			</tr>
   			<tr>
-  				<th nowrap>
+  				<th nowrap valign="top">
   					<label>&copy;Copyright:</label>
   				</th>
   				<td>
-  					All copyright declarations in the source must remain unchange. Please contact us if you need to make changes to it, in order to avoid any Legal Issues.  
+  					All copyright declarations in the source must remain unchange. Please contact us if you need to make changes to it, in order to avoid any Legal Issues.  We also offer website development service, please contact us at <a href="&#109;a&#105;l&#116;&#111;:&#99;&#97;&#105;&#108;&#111;&#110;&#103;&#113;&#117;&#110;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;&#46;&#99;&#110;">&#99;&#97;&#105;&#108;&#111;&#110;&#103;&#113;&#117;&#110;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;&#46;&#99;&#110;</a>
   				</td>
   			</tr>
   		</tbody>

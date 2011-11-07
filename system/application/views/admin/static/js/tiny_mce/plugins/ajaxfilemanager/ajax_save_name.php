@@ -59,11 +59,13 @@
 			include_once(CLASS_FILE);
 			$file = new file($path);
 			$fileInfo = $file->getFileInfo();
+			$fileInfo['mtime'] = date(DATE_TIME_FORMAT,$fileInfo['mtime']);
 		}else
 		{
 			include_once(CLASS_MANAGER);
 			$manager = new manager($path, false);
 			$fileInfo = $manager->getFolderInfo();
+			$fileInfo['mtime'] = date(DATE_TIME_FORMAT,$fileInfo['mtime']);
 		}
 	}
 	

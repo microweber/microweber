@@ -1,7 +1,7 @@
 <? 
 
 $config = array();
-$config['name'] = "Checkout items module";
+$config['name'] = "Checkout items";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
 $config['ui'] = false;

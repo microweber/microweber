@@ -1,3 +1,6 @@
+<mw module="admin/settings/modules" />
+
+
 <?php $option_groups = $this->core_model->optionsGetGroups();  ?>
 
 <?php // var_dump($option_groups); ?>

@@ -1,10 +1,5 @@
 <?php
 
-
-
-
-
-
 $table_name = false;
 $table_name = TABLE_PREFIX . "content_custom_fields_config";
 $query = CI::db ()->query ( "show tables like '$table_name'" );
@@ -13,10 +8,10 @@ $query = (array_values ( $query ));
 
 if ($query [0] != $table_name) {
 	$sql = "CREATE TABLE " . $table_name . " (
-		id int(11) NOT NULL auto_increment,
+		id int(150) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);
-		ENGINE=MyISAM   DEFAULT CHARSET=utf8
+		ENGINE=MyISAM AUTO_INCREMENT=9999999   DEFAULT CHARSET=utf8
 		";
 	CI::db ()->query ( $sql );
 }
@@ -40,7 +35,11 @@ if ($query [0] == $table_name) {
 	*/
 	
 	$fields_to_add = array ();
-	$fields_to_add [] = array ('page_id', 'int(11) default NULL' );
+	$fields_to_add [] = array ('page_id', 'varchar(1500) default NULL' );
+	
+	$fields_to_add [] = array ('post_id', 'varchar(1500) default NULL' );
+	$fields_to_add [] = array ('module_id', 'varchar(1500) default NULL' );
+	
 	$fields_to_add [] = array ('name', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('param_group', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('help', 'TEXT default NULL' );
@@ -50,11 +49,11 @@ if ($query [0] == $table_name) {
 	
 	$fields_to_add [] = array ('content_type', 'varchar(1500) default NULL' );
 	
-	
 	$fields_to_add [] = array ('type', 'TEXT default NULL' );
 	$fields_to_add [] = array ('param', 'TEXT default NULL' );
 	$fields_to_add [] = array ('param_values', 'TEXT default NULL' );
 	$fields_to_add [] = array ('param_default', 'TEXT default NULL' );
+	$fields_to_add [] = array ('field_order', 'int(11) default 999' );
 	/*
 	 
 	$fields_to_add [] = array ('custom_field_for', 'varchar(150) default NULL' );

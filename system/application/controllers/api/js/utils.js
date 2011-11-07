@@ -507,6 +507,16 @@ mw.outline ={
 
     });
   },
+  
+  
+  
+  
+   removeAll:function(){
+	   
+	     $(".mw_outline").remove();
+	  },
+  
+  
   remove:function(elem){
     var cls = elem.replace("#", "");
       var cls = cls.replace(".", "");

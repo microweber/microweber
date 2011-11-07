@@ -1,6 +1,24 @@
 <? 
  
 
+
+
+		if($params['for_url']){
+			
+			
+			$history_to_get = array ();
+		$history_to_get ['table'] = 'edit';
+		$history_to_get ['id'] = ( parse_url(strtolower($params['for_url']), PHP_URL_PATH) );
+		$history_to_get ['value'] = $json_print;
+		$history_to_get ['field'] = 'html_content';
+		
+ 
+			
+			
+			$history_files = CI::model('core')->getHistoryFiles($history_to_get);
+		
+		} else {
+		
  
 $the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
  $id = $params['id'];
@@ -82,52 +100,58 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
  
 		}
 			//p($history_dir);
+			
+			
+}			
 			?>
+    
             
-<script type="text/javascript"> 
+ 
+ <script type="text/javascript"> 
  
 
  
 
 
-var replace_content_from_history = function($history_file_base64_encoded){
-	
-	<? if($params['tag'] != 'edit') : ?>
-   load_editblock('<? print $id ?>', $history_file_base64_encoded) ;
-   
-   <? else: ?>
-   
-   load_field_from_history_file('<? print $id ?>', $history_file_base64_encoded) ;
-   <? endif; ?>
-   
-   
-}
+ 
+ 
 
 
-</script>
+</script>           
             
             
             
+  <!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
+<a class="mw_history_next " href="javascript:mw_click_on_history_next()">></a>    
+            -->
             
             
+            <? print count($history_files);?> history files
+            <br />
+
+            <? // p($history_files); ?>
             
-            
-            
-            
-            
-            
-            
-            
-            
-	<ul style="display:block; height:40px; width:250px; overflow:scroll">
+	<ul id="mw_history_files">
 	<? 		foreach ($history_files as $filename) : ?>
     
     
-    <li>
+    <li rel="<? print base64_encode($filename) ?>">
+    <? //$mtime= filemtime($filename ); ?>
     
-    <? //$content_of_file = file_get_contents($filename);	?>
+    <?
+	if (file_exists($filename)) {
+   $mtime=  date ("F d Y H:i:s.", filemtime($filename));
+}
+	
+	 
+	//$content_of_file = file_get_contents($filename);	?>
     
-  <a href="javascript: replace_content_from_history('<? print base64_encode($filename) ?>')"> <? print basename($filename ); ?> </a>
+  <a href="javascript: replace_content_from_history('<? print base64_encode($filename) ?>')"> 
+  <? $fn1= rtrim(basename($filename ), '.php'); ?>
+  
+  <?  print $fn1  ?>
+  (<? print ago($mtime, $granularity = 1); ?>)
+   </a> 
 
    
     </li>

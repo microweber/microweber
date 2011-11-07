@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-04-18 13:22:46
+<?php /* Smarty version 2.6.26, created on 2011-11-04 10:34:20
          compiled from VisitsSummary/templates/sparklines.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'sparkline', 'VisitsSummary/templates/sparklines.tpl', 2, false),array('modifier', 'translate', 'VisitsSummary/templates/sparklines.tpl', 2, false),array('modifier', 'sumtime', 'VisitsSummary/templates/sparklines.tpl', 10, false),)), $this); ?>
@@ -36,3 +36,4 @@ $this->_smarty_include(array('smarty_include_tpl_file' => "CoreHome/templates/sp
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
+

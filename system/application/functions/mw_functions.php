@@ -66,15 +66,16 @@ function clean_word($html_to_save) {
 			$html_to_save = str_replace ( 'class="MsoNormal"', '', $html_to_save );
 		}
 		
-		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
-		
-		$matches = $tags;
-		if (! empty ( $matches )) {
-			foreach ( $matches as $m ) {
-				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-			}
-		}
+	//		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+	//		
+	//		$matches = $tags;
+	//		if (! empty ( $matches )) {
+	//			foreach ( $matches as $m ) {
+	//				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+	//			}
+	//		}
 	
+
 	}
 	$html_to_save = str_replace ( 'class="exec"', '', $html_to_save );
 	$html_to_save = str_replace ( 'style=""', '', $html_to_save );
@@ -95,6 +96,7 @@ function clean_word($html_to_save) {
 	//$html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br /><br />", "</p><p>", $html_to_save)) . '</p>';
 	//$html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>", "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p", "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>", "<h1>", "<div",  "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p", "<table"), $html_to_save);
 	
+
 	//p($html_to_save);
 	return $html_to_save;
 }
@@ -271,18 +273,144 @@ function get_custom_fields($content_id) {
 	return get_custom_fields_for_content ( $content_id );
 }
 
-function get_custom_fields_for_content($content_id) {
+function get_custom_fields_config_for_content($content_id, $page_id) {
+	$cf_cfg = array ();
+	if (intval ( $content_id ) == 0) {
+		return false;
+	}
 	
+	$cf_from_id ['to_table_id'] = $content_id;
+	
+	$cf_cfg1 = get_custom_fields_for_content ( $content_id );
+	//p($cf_cfg1);
+	$to_return = array ();
+	if (! empty ( $cf_cfg1 )) {
+		
+		//$cf_cfg = ($cf_cfg1);
+		//$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		foreach ( $cf_cfg1 as $value ) {
+			//	$to_return [] = $value;
+		}
+	
+	}
+	
+	//if (! empty ( $cf_cfg1 )) {
+	$cf_cfg1 = array ();
+	$cf_cfg1 ['post_id'] = $content_id;
+	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
+	//    p( $cf_cfg1);
+	
+
+	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	//p($cf_cfg1);
+	//p($cf_cfg1);
+	//$to_return = array ();
+	if (! empty ( $cf_cfg1 )) {
+		
+		//$cf_cfg = ($cf_cfg1);
+		//$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		foreach ( $cf_cfg1 as $value ) {
+			$to_return [] = $value;
+		}
+	
+	} else {
+	
+	}
+	
+	//}
+	
+
+	$cf_cfg1 = array ();
+	
+	if ($page_id == false) {
+		$page_for_post = get_page_for_post ( $content_id );
+		
+		$cf_cfg1 ['page_id'] = $page_for_post ['id'];
+	} else {
+		$cf_cfg1 ['page_id'] = $page_id;
+	
+	}
+	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
+	//    p( $cf_cfg1);
+	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	
+	//	p ( $to_return );
+	// p ( $cf_cfg1 );
+	
+
+	if (! empty ( $cf_cfg1 )) {
+		
+		$cf_cfg = ($cf_cfg1);
+		//	$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		//	$to_return [] = $cf_cfg1;
+		foreach ( $cf_cfg1 as $value ) {
+			
+			//	p($value );
+			
+
+			$f = false;
+			foreach ( $to_return as $d ) {
+				if ($d ["name"] != '') {
+					if ($d ["name"] == $value ["name"]) {
+						$f = true;
+					
+					}
+				}
+				
+				if ($d ["custom_field_name"] != '') {
+					if ($d ["custom_field_name"] == $value ["param"]) {
+						$f = true;
+					
+					}
+				}
+				if ($d ["param"] == $value ["param"]) {
+					$f = true;
+				
+				}
+				if ($d ["custom_field_name"] != '') {
+					if ($d ["custom_field_name"] == $value ["custom_field_name"]) {
+						$f = true;
+					
+					}
+				}
+				
+				if ($d ["custom_field_name"] == $value ["param"]) {
+					$f = true;
+				
+				}
+				
+				if ($d ["id"] == $value ["id"]) {
+					//$f = true;
+				
+
+				}
+			
+			}
+			if ($f == false) {
+				$to_return [] = $value;
+			
+			}
+		
+		}
+	
+	}
+	
+	return $to_return;
+}
+
+//p($cf_cfg);
+
+
+function get_custom_fields_for_content($content_id) {
+	//p($content_id);
 	$more = false;
 	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id, true );
-	
 	return $more;
-
 }
 
 function option_get($key, $group = false) {
-	$more = CI::model ( 'core' )->optionsGetByKey($key, $return_full = false, $orderby = false, $option_group = $group);
-
+	$more = CI::model ( 'core' )->optionsGetByKey ( $key, $return_full = false, $orderby = false, $option_group = $group );
+	
 	return $more;
 
 }
@@ -387,6 +515,26 @@ function get_pages_old($params = array()) {
 	return $to_return;*/
 }
 
+function get_comments($params) {
+	$params2 = array ();
+	
+	if (is_string ( $params )) {
+		$params = parse_str ( $params, $params2 );
+		$params = $params2;
+	
+	}
+	//	p($params2);
+	//p($params);
+	
+
+	if (! is_array ( $params )) {
+	
+	}
+	$try = CI::model ( 'comments' )->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
+	
+	return $try;
+}
+
 /**
  * get_posts 
  *
@@ -406,14 +554,28 @@ function get_pages_old($params = array()) {
   	$params['items_per_page'] = 5; //limits the results by paging
 	$params['curent_page'] = 1; //curent result page
 	$params['without_custom_fields'] = true; //if true it will get only basic posts info. Use this parameter for large queries
-    
+    $params['created_by'] = 1; the user id who created the post
     
  * 
  * 
   
  */
 
-function get_posts($params = array()) {
+function get_posts($params = false) {
+	$params2 = array ();
+	
+	if (is_string ( $params )) {
+		$params = parse_str ( $params, $params2 );
+		$params = $params2;
+	
+	}
+	//	p($params2);
+	//p($params);
+	
+
+	if (! is_array ( $params )) {
+	
+	}
 	
 	global $CI;
 	if ($params ['display']) {
@@ -623,7 +785,11 @@ function paging($display = 'default', $data = false) {
 		case 'default' :
 			$CI->template ['posts_pages_links'] = $posts_pages_links;
 			$CI->load->vars ( $CI->template );
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/default.php', true );
+			
+			//p(RESOURCES_DIR . 'blocks/nav/default.php');
+			
+
+			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_default.php', true );
 			print ($content_filename) ;
 			break;
 		
@@ -631,7 +797,7 @@ function paging($display = 'default', $data = false) {
 			$CI->template ['posts_pages_links'] = $posts_pages_links;
 			$CI->load->vars ( $CI->template );
 			
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/divs.php', true );
+			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_divs.php', true );
 			
 			print ($content_filename) ;
 			break;
@@ -824,6 +990,11 @@ function post_save($data) {
 			$data ['taxonomy_categories'] = explode ( ',', $data ['taxonomy_categories'] );
 			$categories = $data ['taxonomy_categories'];
 			$categories = array_unique ( $categories );
+		}
+		
+		if (is_array ( $data ['categories'] )) {
+			
+			$categories = array_unique ( $data ['categories'] );
 		}
 		
 		//var_Dump($categories);
@@ -1063,7 +1234,17 @@ function page_title($page_id) {
     
  */
 function category_tree($params) {
+	$p2 = array ();
+	//p($params);
+	if (! is_array ( $params )) {
+		if (is_string ( $params )) {
+			parse_str ( $params, $p2 );
+			$params = $p2;
+		}
+	}
+	//p($p2);
 	
+
 	global $CI;
 	
 	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : $params ['content_subtype_value'];
@@ -1077,7 +1258,16 @@ function category_tree($params) {
 	$active_code = ($params ['active_code']) ? $params ['active_code'] : false;
 	$remove_ids = ($params ['remove_ids']) ? $params ['remove_ids'] : false;
 	$removed_ids_code = ($params ['removed_ids_code']) ? $params ['removed_ids_code'] : false;
-	$ul_class_name = ($params ['ul_class_name']) ? $params ['ul_class_name'] : false;
+	if ($params ['class']) {
+		$ul_class_name = $params ['class'];
+	} else {
+		$ul_class_name = ($params ['ul_class_name']) ? $params ['ul_class_name'] : $params ['ul_class_name'];
+	}
+	
+	if ($params ['ul_class']) {
+		$ul_class_name = $params ['ul_class'];
+	}
+	
 	$include_first = ($params ['include_first']) ? $params ['include_first'] : false;
 	$content_type = ($params ['content_type']) ? $params ['content_type'] : false;
 	$add_ids = ($params ['add_ids']) ? $params ['add_ids'] : false;
@@ -1094,9 +1284,27 @@ function category_tree($params) {
 		$content_parent = $params ['content_subtype_value'];
 	}
 	
+	if ($params ['not_for_page'] != false) {
+		//	p($params);
+		$page = get_page ( $params ['not_for_page'] );
+		//p($page);
+		$remove_ids = array ($page ['content_subtype_value'] );
+		//$categories = CI::model ( 'taxonomy' )->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+	}
+	
 	//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false
 	CI::model ( 'content' )->content_helpers_getCaregoriesUlTreeAndCache ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
 
+}
+
+function get_categories_for_post($content_id, $only_ids = true) {
+	//var_dump($content_id);
+	//print '-------------------';
+	//exit(1);
+	$cat_ids = CI::model ( 'taxonomy' )->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
+	
+	//$c = CI::model ( 'taxonomy' )->getCategoriesForContent( $content_id, $only_ids );
+	return $cat_ids;
 }
 
 /**
@@ -1418,9 +1626,45 @@ function breadcrumbs($seperator) {
 }
 
 function get_mediaby_id($id) {
-	$media = CI::model ( 'core' )->mediaGetById($id);
+	$media = CI::model ( 'core' )->mediaGetById ( $id );
 	return $media;
 }
+
+
+
+
+/**
+ * get_pictures 
+ *
+ * @desc get_pictures  
+ * @access      public
+ * @category    media
+ * @author      Microweber 
+ * @link        http://microweber.com
+ * @param $id - the id of the element - page,post or category 
+ * @param $for - use this patameter when you want to get pics for something else than media for posts. possible values are page,post,category 
+ * 
+ * @todo for users too
+ */
+function get_pictures($content_id, $for = 'post') {
+	$content_id = intval ( $content_id );
+	if ($content_id == 0 and $queue_id == false and $collection == false) {
+		return false;
+	}
+	
+	 
+	//	p($to_table);
+	// var_dump($id, $for, $media_type, $queue_id, $collection);
+	$media = get_media($content_id,$for, $media_type = 'pictures', $queue_id = false, $collection = false);
+	return $media['pictures'];
+	// p($media);
+
+
+//p($content_id);
+
+
+}
+
 
 
 /**
@@ -1439,7 +1683,7 @@ function get_mediaby_id($id) {
  */
 function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $collection = false) {
 	$content_id = intval ( $id );
-	if ($content_id == 0 and $queue_id == false) {
+	if ($content_id == 0 and $queue_id == false and $collection == false) {
 		return false;
 	}
 	
@@ -1452,9 +1696,12 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 	}
 	
 	global $CI;
-	
-	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
-	//var_dump($to_table, $content_id);
+	if ($collection == false) {
+		$to_table = CI::model ( 'core' )->guessDbTable ( $for );
+		//
+	}
+	//	p($to_table);
+	// var_dump($id, $for, $media_type, $queue_id, $collection);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;
 	// p($media);

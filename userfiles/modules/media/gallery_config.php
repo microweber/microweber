@@ -3,7 +3,8 @@
 $config = array();
 $config['name'] = "Gallery module";
 $config['author'] = "Microweber";
-$config['description'] = "A simple gallery";
+$config['description'] = "You can easily add the pictures from your computer in the gallery.";
+$config['help_link'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['ui'] = true;
 

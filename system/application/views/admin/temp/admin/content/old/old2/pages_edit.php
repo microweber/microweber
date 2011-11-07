@@ -97,7 +97,7 @@ function ajax_content_subtype_change_set_form_value(val){
     <label>content_subtype:
       <select name="content_subtype" id="content_subtype" onchange="ajax_content_subtype_change()">
         <option <?php if($form_values['content_subtype'] == '' ): ?> selected="selected" <?php endif; ?>  value="">None</option>
-        <option <?php if($form_values['content_subtype'] == 'blog_section' ): ?> selected="selected" <?php endif; ?>  value="blog_section">Blog section</option>
+        <option <?php if($form_values['content_subtype'] == 'dynamic' ): ?> selected="selected" <?php endif; ?>  value="dynamic">Blog section</option>
         <option <?php if($form_values['content_subtype'] == 'module' ): ?> selected="selected" <?php endif; ?>  value="module">Module</option>
       </select>
     </label>

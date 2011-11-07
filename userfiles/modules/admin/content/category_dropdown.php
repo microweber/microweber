@@ -95,6 +95,9 @@ if($params['multiselect']){
 	$content_type = ($params ['content_type']) ? $params ['content_type'] : false;
 	$add_ids = ($params ['add_ids']) ? $params ['add_ids'] : false;
 	$orderby = ($params ['orderby']) ? $params ['orderby'] : false;*/
+	
+	
+//	p($params );
 
 category_tree( $params ) ; ?>
   <? if($params['update_field']):  ?>

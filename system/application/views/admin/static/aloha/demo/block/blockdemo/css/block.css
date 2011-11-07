@@ -1,0 +1,54 @@
+.aloha-block-CompanyBlock .aloha-block-inner {
+	border-bottom:1px dotted #CCC;
+	position:relative;
+}
+
+.stock-quote-overlay {
+	position:absolute;
+	top:20px;
+	left:0;
+	width:229px;
+	height:158px;
+	box-shadow:0 0 5px #333;
+	z-index:1000;
+	background-repeat:no-repeat;
+	background-color: #FFF;
+}
+.stock-quote-overlay.company-MSFT {
+	background-image:url('../img/stock-quote-msft.gif');
+}
+.stock-quote-overlay.company-AAPL {
+	background-image:url('../img/stock-quote-aapl.gif');
+}
+
+.aloha-block:hover > .block-draghandle-topleft,
+.aloha-block-active > .block-draghandle-topleft {
+	display:block;
+}
+
+.block-draghandle-topleft {
+	position:absolute;
+	left:-1px;
+	top:-13px;
+	width:44px;
+	height:12px;
+	overflow:hidden;
+	display:none;
+	background:url(../img/toolbar-draghandle.gif);
+	border-top:1px solid #CCC;
+	border-left:1px solid #CCC;
+	border-right:1px solid #CCC;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.block-draghandle-topleft a {
+	padding: 0 2px;
+	font-size: 11px;
+	text-decoration: none;
+	color: #777;
+	display: block;
+}
+.block-draghandle-topleft a span {
+	color: #710909;
+	font-weight: bold;
+}

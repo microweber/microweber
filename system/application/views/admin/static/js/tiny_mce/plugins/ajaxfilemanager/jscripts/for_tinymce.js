@@ -238,6 +238,7 @@ function selectFile(url)
         catch (e) { void(e); }
         tinyMCEPopup.close();   		
 	}
+	return false;
     
 }
 
@@ -245,4 +246,5 @@ function cancelSelectFile()
 {
     // close popup window
     tinyMCEPopup.close();
+    return false;
 }

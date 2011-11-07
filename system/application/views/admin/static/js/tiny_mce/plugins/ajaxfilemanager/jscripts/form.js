@@ -7,7 +7,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Revision: $Id: form.js,v 1.3 2008/10/13 07:24:50 cvs Exp $
+ * Revision: $Id$
  * Version: 1.0.3
  */
  (function($) {

@@ -160,3 +160,60 @@ mw.cart.delete_order = function($id, $selector_to_hide) {
 		});
 	}
 }
+
+
+
+
+
+
+
+mw.cart.check_promo_code = function($code) {
+	
+	
+	if($code == undefined){
+		var code_check = $('#the_promo_code_input').val();
+		
+	} else {
+		var code_check = $code
+			
+	}
+	
+	
+	$.ajax({
+		   type: "POST",
+		   url: "<?php print site_url('api/cart/get_promo_code'); ?>",
+		   data: "code=" + code_check,
+		   dataType: 'json',
+		   success: function(msg){
+		  if(msg.promo_code != undefined){
+		 $('#the_promo_code_input').val(msg.promo_code);
+			  $('#the_promo_code_status').show();
+			  $('#the_promo_code_status').html(msg.description);
+			  mw.cart.update_info();
+		  }
+		     
+		     
+		   }
+		 });
+
+ 
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

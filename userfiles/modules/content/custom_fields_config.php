@@ -1,7 +1,7 @@
 <? 
 
 $config = array();
-$config['name'] = "custom fields module";
+$config['name'] = "Custom fields";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
  

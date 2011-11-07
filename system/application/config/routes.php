@@ -84,12 +84,16 @@ closedir ( $handle );*/
 $route ['cron/(:any)'] = "cron/index/$1";
 $route ['cron'] = "cron/index";
 
+
 //$route ['sql/(:any)'] = "sql/$1";
-#$route ['admin/plugins/(:any)'] = "admin/plugins/index/$1";
+ $route ['admin/plugins/(:any)'] = "admin/plugins/$1";
 
 
 $route ['admin'] = "admin/index";
 $route ['admin/toolbar'] = "admin/index/toolbar";
+$route ['admin/mercury'] = "admin/index/mercury";
+$route ['admin/mercury/(:any)'] = "admin/index/mercury/$1";
+
 $route ['admin/edit'] = "admin/index/edit";
 $route ['admin/edit/(:any)'] = "admin/index/edit/$1";
 
@@ -126,7 +130,8 @@ $route ['main/(:any)'] = "main/$1";
 $route ['ajax_helpers'] = "ajax_helpers/index";
 $route ['ajax_helpers/(:any)'] = "ajax_helpers/$1";
 
-
+$route ['captcha'] = "captcha";
+$route ['captcha/(:any)'] = "captcha/index";
 
 
 

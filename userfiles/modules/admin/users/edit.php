@@ -1,22 +1,28 @@
 
 <div class="box radius">
-    <div class="box_header radius_t">
-    <h2>Edit profile for <? print user_name($form_values['id']) ?></h2>
-    </div>
-    <div class="box_content">
-
-
-
-<?  if($user_id == false){
+  <div class="box_header radius_t">
+    <h2>Edit user profile</h2>
+  </div>
+  <div class="box_content">
+    <?  
+$user_id = $params['user_id'];
+$user_id =  intval($user_id );
+if($user_id == false){
 	
-	$user_id = user_id();
+	//$user_id = user_id();
 }
 
 
 ?>
-<? $form_values = get_user($user_id); ?>
-<?php dbg(__FILE__); ?>
-<script type="text/javascript">/*<![CDATA[*/
+    <? 
+
+if($user_id != 0){
+$form_values = get_user($user_id); 
+}
+
+?>
+    <?php dbg(__FILE__); ?>
+    <script type="text/javascript">/*<![CDATA[*/
 	$(document).ready(function(){
 
 
@@ -276,29 +282,27 @@ if(isobj(resp.success) != false){
 
 
     </script>
-<?php $more = CI::model('core')->getCustomFields('table_users', $form_values['id']);
+    <?php $more = CI::model('core')->getCustomFields('table_users', $form_values['id']);
  
 $form_values['custom_fields'] = $more;
 ?>
-
-
-<div>
-  <?php $compete_profile = CI::model('core')->getParamFromURL ( 'compete_profile' ); ?>
-  <?php if($user_edit_done == true) : ?>
-  <? /*
+    <div>
+      <?php $compete_profile = CI::model('core')->getParamFromURL ( 'compete_profile' ); ?>
+      <?php if($user_edit_done == true) : ?>
+      <? /*
   <h1 class="saved">Changes are saved</h1>
  */ ?>
-  <?php endif;  ?>
-  <?php if($compete_profile == 'yes') : ?>
-  <h1 id="profile-please-complete">Please complete your profile</h1>
-  <?php endif;  ?>
-  <?php if(!empty($user_edit_errors)) : ?>
-  <!--<ul class="error">
+      <?php endif;  ?>
+      <?php if($compete_profile == 'yes') : ?>
+      <h1 id="profile-please-complete">Please complete your profile</h1>
+      <?php endif;  ?>
+      <?php if(!empty($user_edit_errors)) : ?>
+      <!--<ul class="error">
       <?php foreach($user_edit_errors as $k => $v) :  ?>
       <li><?php print $v ?></li>
       <?php endforeach; ?>
     </ul>-->
-  <script type="text/javascript">
+      <script type="text/javascript">
         var errors = '<ul class="error"><?php foreach($user_edit_errors as $k => $v) :  ?><li><?php print $v ?></li><?php endforeach; ?></ul>';
 
         $(document).ready(function(){
@@ -308,9 +312,9 @@ $form_values['custom_fields'] = $more;
         });
 
     </script>
-  <?php endif ?>
-  <?php if($user_edit_done == true) : ?>
-  <script type="text/javascript">
+      <?php endif ?>
+      <?php if($user_edit_done == true) : ?>
+      <script type="text/javascript">
         var errors = ' <h2>Profile updated!</h2>';
 
         $(document).ready(function(){
@@ -326,154 +330,152 @@ $form_values['custom_fields'] = $more;
 
 
     </script>
-  <?php endif ?>
-  <!-- <form action="<?php print site_url('users/user_action:profile'); ?>" method="post" enctype="multipart/form-data" id="profileForm" class="form validate">-->
-  <form action="#" method="post" enctype="multipart/form-data" id="profileForm" class="form validate edit_profile_form">
-    <input type="hidden" name="id" value="<? print $form_values['id']; ?>" />
-    <!-- <span id="first-fields-error">You must fill out your: username, first name, last name and email.</span>-->
-    <br />
-    <div class="bluebox">
-      <div class="blueboxcontent">
-
-        <div class="hr"></div>
-        <div class="ghr"></div>
-        <div class="stabs" style="padding-top: 15px;">
-          <ul class="stabs-nav">
-            <!--  <li><a href="#">Change password</a></li>-->
-          </ul>
-          <? 
-		   $iframe_module_params = array();
-		   $iframe_module_params['module'] = 'users/profile_picture_edit';
-		     $iframe_module_params['user_id'] = $user_id;
-		   $iframe_module_params = base64_encode(serialize($iframe_module_params));
+      <?php endif ?>
+      <!-- <form action="<?php print site_url('users/user_action:profile'); ?>" method="post" enctype="multipart/form-data" id="profileForm" class="form validate">-->
+      <form action="#" method="post" enctype="multipart/form-data" id="profileForm" class="form validate edit_profile_form">
+        <input type="hidden" name="id" value="<? print $form_values['id']; ?>" />
+        <!-- <span id="first-fields-error">You must fill out your: username, first name, last name and email.</span>-->
+        <br />
+        <div class="bluebox">
+          <div class="blueboxcontent">
+            <div class="hr"></div>
+            <div class="ghr"></div>
+            <div class="stabs" style="padding-top: 15px;">
+              <ul class="stabs-nav">
+                <!--  <li><a href="#">Change password</a></li>-->
+              </ul>
+              <? 
+		//   $iframe_module_params = array();
+//		   $iframe_module_params['module'] = 'users/profile_picture_edit';
+//		     $iframe_module_params['user_id'] = $user_id;
+//		   $iframe_module_params = base64_encode(serialize($iframe_module_params));
 
 		   
 
 		   ?>
-          <iframe height="100" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
-          <div class="stab">
-            <div class="formitem">
-              <label>Username: *</label>
-              <span class="formfield">
-              <input disabled="disabled" style="color: #999;" name="username" id="profile-username" class="required"  type="text" value="<?php print $form_values['username'];  ?>" />
-              </span> </div>
-            <div class="formitem">
-              <label>Email: *</label>
-              <span class="formfield">
-              <input name="email" id="profile-email"  type="text" value="<?php print $form_values['email'];  ?>" />
-              </span> </div>
-            <div class="c">&nbsp;</div>
-            <div class="formitem">
-              <label>First name: *</label>
-              <span class="formfield">
-              <input name="first_name" id="profile-firstname" type="text"  value="<?php print $form_values['first_name'];  ?>" />
-              </span> </div>
-            <div class="formitem">
-              <label>Last name: *</label>
-              <span class="formfield">
-              <input name="last_name" id="profile-lastname" type="text" value="<?php print $form_values['last_name'];  ?>" />
-              </span> </div>
-            <div class="c">&nbsp;</div>
-            <? /*
+            <!--  <iframe height="100" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>-->
+              <div class="stab">
+                <div class="formitem">
+                  <label>Username: *</label>
+                  <span class="formfield">
+                  <input style="color: #999;" name="username" id="profile-username" class="required"  type="text" value="<?php print $form_values['username'];  ?>" />
+                  </span> </div>
+                <div class="formitem">
+                  <label>Email: *</label>
+                  <span class="formfield">
+                  <input name="email" id="profile-email"  type="text" value="<?php print $form_values['email'];  ?>" />
+                  </span> </div>
+                <div class="c">&nbsp;</div>
+                <div class="formitem">
+                  <label>First name: *</label>
+                  <span class="formfield">
+                  <input name="first_name" id="profile-firstname" type="text"  value="<?php print $form_values['first_name'];  ?>" />
+                  </span> </div>
+                <div class="formitem">
+                  <label>Last name: *</label>
+                  <span class="formfield">
+                  <input name="last_name" id="profile-lastname" type="text" value="<?php print $form_values['last_name'];  ?>" />
+                  </span> </div>
+                <div class="c">&nbsp;</div>
+                <? /*
           <div class="formitem">
           <label>Your paypal address:</label>
           <span class="linput">
           <input  name="custom_field_paypal" type="text" value="<?php print $form_values['custom_fields']['paypal'];  ?>" />
           </span> </div>
           */ ?>
-            <div class="formitem">
-              <label>Country:</label>
-              <span class="formfield">
-              <input  name="custom_field_country" type="text" value="<?php print $form_values['custom_fields']['country'];  ?>" />
-              </span> </div>
-            <div class="formitem">
-              <label>City:</label>
-              <span class="formfield">
-              <input  name="custom_field_city" type="text" value="<?php print $form_values['custom_fields']['city'];  ?>" />
-              </span> </div>
-            <div class="c">&nbsp;</div>
-            <div class="formitem">
-              <label>Birth day:</label>
-              <span class="formfield">
-              <? /*
+                <div class="formitem">
+                  <label>Country:</label>
+                  <span class="formfield">
+                  <input  name="custom_field_country" type="text" value="<?php print $form_values['custom_fields']['country'];  ?>" />
+                  </span> </div>
+                <div class="formitem">
+                  <label>City:</label>
+                  <span class="formfield">
+                  <input  name="custom_field_city" type="text" value="<?php print $form_values['custom_fields']['city'];  ?>" />
+                  </span> </div>
+                <div class="c">&nbsp;</div>
+                <div class="formitem">
+                  <label>Birth day:</label>
+                  <span class="formfield">
+                  <? /*
 <input  name="custom_field_bday" type="text" value="<?php print $form_values['custom_fields']['bday'];  ?>" />
 */ ?>
-              <select style="width: 225px;" name="custom_field_bday" value="<?php print $form_values['custom_fields']['bday'];  ?>" >
-                <option value="">Day&nbsp;</option>
-                <? for ($i = 1; $i <= 31; $i++) :?>
-                <option <? if($form_values['custom_fields']['bday'] == $i): ?> selected="selected" <? endif; ?> value="<? print $i ?>"><? print $i ?>&nbsp;</option>
-                <? endfor; ?>
-              </select>
-              </span> </div>
-            <div class="formitem">
-              <label>Birth month:</label>
-              <span class="formfield">
-              <select style="width: 225px;"  name="custom_field_bmonth" value="<?php print $form_values['custom_fields']['bmonth'];  ?>" >
-                <option value="">Month&nbsp;</option>
-                <? for ($i = 1; $i <= 12; $i++) :?>
-                <option  <? if($form_values['custom_fields']['bmonth'] == $i): ?> selected="selected" <? endif; ?>   value="<? print $i ?>"><? print  date("F", mktime(0, 0, 0, $i, 1, 2000)); ?>&nbsp;</option>
-                <? endfor; ?>
-              </select>
-              </span> </div>
-            <div class="formitem">
-              <label>Birth year:</label>
-              <span class="formfield">
-              <select style="width: 225px;" name="custom_field_byear" value="<?php print $form_values['custom_fields']['byear'];  ?>" >
-                <option value="">Year&nbsp;</option>
-                <? for ($i = date("Y"); $i >= 1950; $i--) :?>
-                <option <? if($form_values['custom_fields']['byear'] == $i): ?> selected="selected" <? endif; ?> value="<? print $i ?>"><? print $i ?>&nbsp;</option>
-                <? endfor; ?>
-              </select>
-              </span> </div>
-            <div class="c">&nbsp;</div>
-            <div class="formitem" style="">
-              <label>About me:</label>
-              <span class="formfield">
-              <textarea style="width: 420px;"  name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
-              </span> </div>
-            <div class='c'>&nbsp;</div>
-            <? // p($form_values); ?>
-
-            <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
-            <h4>Your account will expire on <? print $form_values['expires_on'] ?></h4>
-            <div class="c">&nbsp;</div>
-            <?php /*
+                  <select style="width: 225px;" name="custom_field_bday" value="<?php print $form_values['custom_fields']['bday'];  ?>" >
+                    <option value="">Day&nbsp;</option>
+                    <? for ($i = 1; $i <= 31; $i++) :?>
+                    <option <? if($form_values['custom_fields']['bday'] == $i): ?> selected="selected" <? endif; ?> value="<? print $i ?>"><? print $i ?>&nbsp;</option>
+                    <? endfor; ?>
+                  </select>
+                  </span> </div>
+                <div class="formitem">
+                  <label>Birth month:</label>
+                  <span class="formfield">
+                  <select style="width: 225px;"  name="custom_field_bmonth" value="<?php print $form_values['custom_fields']['bmonth'];  ?>" >
+                    <option value="">Month&nbsp;</option>
+                    <? for ($i = 1; $i <= 12; $i++) :?>
+                    <option  <? if($form_values['custom_fields']['bmonth'] == $i): ?> selected="selected" <? endif; ?>   value="<? print $i ?>"><? print  date("F", mktime(0, 0, 0, $i, 1, 2000)); ?>&nbsp;</option>
+                    <? endfor; ?>
+                  </select>
+                  </span> </div>
+                <div class="formitem">
+                  <label>Birth year:</label>
+                  <span class="formfield">
+                  <select style="width: 225px;" name="custom_field_byear" value="<?php print $form_values['custom_fields']['byear'];  ?>" >
+                    <option value="">Year&nbsp;</option>
+                    <? for ($i = date("Y"); $i >= 1950; $i--) :?>
+                    <option <? if($form_values['custom_fields']['byear'] == $i): ?> selected="selected" <? endif; ?> value="<? print $i ?>"><? print $i ?>&nbsp;</option>
+                    <? endfor; ?>
+                  </select>
+                  </span> </div>
+                <div class="c">&nbsp;</div>
+                <div class="formitem" style="">
+                  <label>About me:</label>
+                  <span class="formfield">
+                  <textarea style="width: 420px;"  name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
+                  </span> </div>
+                <div class='c'>&nbsp;</div>
+                <? // p($form_values); ?>
+                <div class="c" style="padding-bottom: 15px;">&nbsp;</div>
+                <h4>Your account will expire on <? print $form_values['expires_on'] ?></h4>
+                <div class="c">&nbsp;</div>
+                <?php /*
         <input name="test" type="button" onClick="refresh_user_picture_info()" value="test" />
         <input name="test2" type="button" onClick="open_crop_user_picture_info()" value="test2" />
 */ ?>
-            <div class='c'>&nbsp;</div>
-            <br />
-            <div class="formitem"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="btn_small">click here</a>
-              <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
-              <div id="change_pass_holder" style="display:none">
-                <label>Enter new password</label>
-                <span>
-                <input class="required-equal" equalto="pass" type="password" name="password"  value="<?php print $form_values['password'];  ?>" />
-                </span>
-                <label>Repeat new password</label>
-                <span>
-                <input class="required-equal" equalto="pass" type="password" value="<?php print $form_values['password'];  ?>"  />
-                </span> </div>
+                <div class='c'>&nbsp;</div>
+                <br />
+                <div class="formitem"> <span>Change password: </span> <a href='javascript:change_pass_show();' class="btn_small">click here</a>
+                  <div class='c' style="padding-bottom: 10px;">&nbsp;</div>
+                  <div id="change_pass_holder" style="display:none">
+                    <label>Enter new password</label>
+                    <span>
+                    <input class="required-equal" equalto="pass" type="password" name="password"  value="<?php print $form_values['password'];  ?>" />
+                    </span>
+                    <label>Repeat new password</label>
+                    <span>
+                    <input class="required-equal" equalto="pass" type="password" value="<?php print $form_values['password'];  ?>"  />
+                    </span> </div>
+                </div>
+                <div class='c'>&nbsp;</div>
+                <br />
+                <br />
+                <div class='c'>&nbsp;</div>
+              </div>
             </div>
-            <div class='c'>&nbsp;</div>
-            <br />
-            <br />
-            <div class='c'>&nbsp;</div>
           </div>
         </div>
+        <br />
+        <div align="left"> <a href="javascript:save_user()" class="btn"><span>Save changes</span></a> </div>
+        <br />
+        <br />
+        <!--<a href="javascript:;" class="btn submit">SAVE</a>-->
+      </form>
+      <div id="user_save_success" style="display:none;">
+        <h2>Profile saved.</h2>
       </div>
+      <?php //require (ACTIVE_TEMPLATE_DIR.'users/right_sidebar.php') ?>
     </div>
-    <br />
-    <div align="left"> <a href="javascript:save_user()" class="btn"><span>Save changes</span></a> </div>
-    <br />
-    <br />
-    <!--<a href="javascript:;" class="btn submit">SAVE</a>-->
-  </form>
-  <div id="user_save_success" style="display:none;">
-    <h2>Profile saved.</h2>
+    <?php dbg(__FILE__, 1); ?>
   </div>
-  <?php //require (ACTIVE_TEMPLATE_DIR.'users/right_sidebar.php') ?>
-</div>
-<?php dbg(__FILE__, 1); ?>
-    </div>
 </div>

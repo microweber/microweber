@@ -28,16 +28,11 @@ $config['options']['order_complete_email_body']['name'] = "Complete orders email
 $config['options']['order_complete_email_body']['help'] = "Complete orders email";
 $config['options']['order_complete_email_body']['type'] = "text";
 $config['options']['order_complete_email_body']['default'] = "
-Dear {username},
-Rumor has it you just placed an order with our store at {SITE_URL}.
-Here's what you got:
-[my order]
-Here's where it's going:
-[my address]
-Here's who's paying for it:
-[my contact info]
-You placed the order on [date]
-Your order number is: [xxx]
+We have successfully  accepted your order from the website {SITE_URL}  
+
+Thank you! 
+
+We will contact you with more information soon.
 
 A detailed invoice can be viewed at:
 {SITE_URL}

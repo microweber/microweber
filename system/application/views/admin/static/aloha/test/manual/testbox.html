@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	
+	<title>Aloha Editor "Aghamanoukjan"-Style Selection Tests</title>
+	
+	<link rel="stylesheet" type="text/css" href="../style.css" />
+	<script>var Aloha = {};</script>
+	<script src="../vendor/jquery-1.5.1.js"></script>
+	<script src="../../lib/aloha.js" data-aloha-plugins="common/commands,common/list"></script>
+	<script src="testbox.js"></script>
+	
+	<style>
+		body {
+			background: #fff;
+			margin: 0;
+			padding: 0 30px;
+			font-family: Georgia, Serif;
+			color: #333;
+		}
+		.aloha-area {
+			width: 100%;
+			margin: 0px;
+			padding: 0px;
+			background: #fff;
+			border: 0px;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+		}
+		.aloha-logo {
+			float: right;
+		}
+		.aloha-left,
+		.aloha-right {
+			width: 49%;
+			background: #ddd;
+			border: 1px solid #ccc;
+		}
+		.aloha-left {
+			float: left;
+		}
+		.aloha-right {
+			float: right;
+		}
+		#aloha-fill,
+		#aloha-test,
+		#aloha-command,
+		#aloha-source {
+			height: 200px;
+		}
+		#aloha-command > p,
+		#aloha-command > div {
+			padding: 5px;
+		}
+		#testbox-fill {
+			margin-bottom: 15px;
+		}
+		.header {
+			display: block;
+			margin: 5px;
+			height: 20px;
+		}
+		.header b {
+			display: block;
+			float: left;
+		}
+		.header a {
+			display: block;
+			float: right;
+		}
+		.aloha-result {
+			width: 100%;
+		},
+		.aloha-result  b{
+			width: 200px;
+		},
+		.aloha-result > div {
+			float: left;
+		},
+		.aloha-usage {
+			float: left;
+		}
+		.aloha-example {
+			background: #fff;
+			font-family: monospace;
+		}
+	</style>
+</head>
+
+<body>
+	<img class="aloha-logo" src="http://aloha-editor.org/logo/Aloha%20Editor%20HTML5%20sticker%20transparent%20128.png" >
+	<h1>Aloha Editor developers testbox</h1>
+	<div>
+		<div id="usage">
+			Add the markup you want to test and press the Fill Testbox button. Selection markers are not allowed as text.
+			If you want to test a certain selection use following syntax to mark selection begin and end.<br> 
+			<span class="aloha-example">[{ data-start</span> only one occurrence allowed. Defines <b>begin</b> of the selection.<br>
+			<span class="aloha-example">]} data-end</span> only one occurrence allowed. Defines <b>end</b> of the selection.<br>
+			<br>
+		</div>
+		<div class="aloha-left">
+			<div class="header">
+				<b>Testmarkup</b>
+				<a><button id="testbox-fill">Fill Testbox</button></a>
+			</div>
+			<textarea id="aloha-fill" class="aloha-area"><h1>Try me</h1><p>Select text.</p><ol><li>This is <b>[bold</b></li><li><i>italic</i> <u>underline</u><ol><li>Either <sup>super}</sup></li><li>or <sub>duper</sub></li></ol></li></ol></textarea>
+			<div class="header">
+				<b>Source view</b>
+			</div>
+			<textarea id="aloha-source" class="aloha-area"></textarea>
+		</div>
+		<div class="aloha-right">
+			<div class="header">
+				<b>Command</b>
+				<a><input type="radio" name="engine" value="aloha" checked>Aloha Editor <input type="radio" name="engine" value="native">Native</a>
+			</div>
+			<div id="aloha-command" class="aloha-area">
+				<p>
+				<select id="command">
+					<option value="">Choose a command</option>
+				</select>
+				<textarea id="command-value"></textarea>
+				<button id="command-execute">Execute</button>
+				</p>
+				<div id="aloha-query">
+					<div id="aloha-indeterm" class="aloha-result"><b>Indeterminancy:</b><div id="aloha-indeterm-result">&nbsp;</div></div>
+					<div id="aloha-state" class="aloha-result"><b>State:</b><div id="aloha-state-result">&nbsp;</div></div>
+					<div id="aloha-value" class="aloha-result"><b>Value:</b><div id="aloha-value-result">&nbsp;</div></div>
+				</div>
+			</div>
+			<div class="header">
+				<b>Testbox</b>
+			</div>
+			<div id="aloha-test" class="aloha-area"></div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<html>
+<head>
+	<title>jQuery UI Spinner Example</title>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/ui-lightness/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../ui.spinner.css" />
+	<style type="text/css">
+		#example {background-color: white; padding: 10px}
+		#example input {width: 100px}
+		
+		#example table.grid {
+			border-collapse: separate;
+			border-spacing: 0px;
+		}
+		#example table.grid td {background-color: #ccc; padding: 3px 5px; text-align: left}
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../ui.spinner.js"></script>
+	<script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+	<script type="text/javascript">
+		jQuery().ready(function($) {
+			$('#spinner').spinner({ min: -100, max: 100 });
+			$('#spinnerfast').spinner({ min: -1000, max: 1000, increment: 'fast' });
+			$('#spinnerhide').spinner({ min: 0, max: 100, showOn: 'both' });
+			$('#spinnernull').spinner({ min: -100, max: 100, allowNull: true });
+			$('#spinnerdisable').spinner({ min: -100, max: 100 });
+			$('#spinnermaxlen').spinner();
+			$('#spinner5').spinner();
+			$('#spinnercurrency').spinner({prefix: '$', group: ',', step: 0.01, largeStep: 1, min: -1000000, max: 1000000});
+			
+			$('#spinnerconfig').spinner({min: -1000, max: 1000, step: 1, increment: 'fast'});
+			$('#spinnermax').spinner().change(function() {$('#spinnerconfig').spinner('option', 'max', parseInt($(this).val()));});
+			$('#spinnermin').spinner().change(function() {$('#spinnerconfig').spinner('option', 'min', parseInt($(this).val()));});
+			$('#spinnerstep').spinner().change(function() {$('#spinnerconfig').spinner('option', 'step', parseInt($(this).val()));});
+			$('#spinnerspeed').change(function() {$('#spinnerconfig').spinner('option', 'increment', $(this).val());});
+			$('#spinnermousewheel').change(function() {$('#spinnerconfig').spinner('option', 'mouseWheel', $(this).is(':checked'));});
+
+			$('#enable').click(function() { $('#spinnerdisable').spinner('enable'); });
+			$('#disable').click(function() { $('#spinnerdisable').spinner('disable'); });
+			$('#GetValue').click(function() { alert($('#spinner').spinner('value')); });
+			$('#destroy').click(function() { $('#spinner').spinner('destroy'); });
+			
+			$("#switcher").themeswitcher();
+		});
+	</script>
+</head>
+<body>
+<div id="example">
+	<p>This is a simple example/test page for my jQuery UI 1.7 Spinner Widget v1.10.  You can find the current release version online at <a href="http://github.com/btburnett3/jquery.ui.spinner">GitHub</a>.</p>
+	
+	<div id="switcher"></div>
+	
+	<p>Here is an example of a spinner based editor: <input type="text" id="spinner" value="0" /> <input type="button" id="GetValue" value="Get Value" /> <input type="button" id="destroy" value="Destroy" /></p>
+	
+	<p>Here is a fast spinner: <input type="text" id="spinnerfast" value="0" /></p>
+	
+	<p>Here is an example of one that hides: <input type="text" id="spinnerhide" value="0" /> with some text after it</p>
+	
+	<p>Here is an example of one that allows nulls: <input type="text" id="spinnernull" /></p>
+	
+	<p>Here is a disabled example: <input type="text" id="spinnerdisable" value="0" disabled="disabled" /><br /><button id="enable">Enable</button><button id="disable">Disable</button></p>
+
+	<p>Here is an example with maxlength: <input type="number" id="spinnermaxlen" value="0" maxlength="3" /></p>
+
+	<p>Here is an example with HTML5 attributes: <input type="number" id="spinner5" maxlength="2" value="0" min="0" max="100" step="5" /></p>
+	
+	<p>Here is a currency spinner: <input type="number" id="spinnercurrency" /></p>
+
+	<table class="grid">
+		<tr><td>Configurable spinner:</td>
+			<td><input type="text" id="spinnerconfig" value="0" /></td></tr>
+		<tr><td>Maximum:</td>
+			<td><input type="text" id="spinnermax" value="1000" /></td></tr>
+		<tr><td>Minimum:</td>
+			<td><input type="text" id="spinnermin" value="-1000" /></td></tr>
+		<tr><td>Step:</td>
+			<td><input type="text" id="spinnerstep" value="1" /></td></tr>
+		<tr><td>Speed:</td>
+			<td><select id="spinnerspeed">
+					<option value="slow">Slow</option>
+					<option selected="selected" value="fast">Fast</option>
+				</select></td></tr>
+		<tr><td>Mouse Wheel:</td>
+			<td><input type="checkbox" id="spinnermousewheel" checked="checked" /></td></tr>
+	</table>
+</div>
+</body>
+</html>

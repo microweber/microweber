@@ -1,0 +1,69 @@
+-----------------------------------------
+Version 1.3 beta
+-----------------------------------------
++ Added Italian language (by Paolo Battistella http://www.paolobattistella.it)
++ Added Serbian language (by krsman http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=81381#p81381)
++ Added Czech language (by Piotr @ SourceForge Project http://sourceforge.net/projects/pdwfilebrowser/)
++ Image preview (A modified version of SlimBox 2 (Christophe Beyls http://www.digitalia.be))
++ Standalone File Browser (Please see http://www.neele.name/filebrowser/standalone.php)
++ Returning links as absolute or relative
++ New skin "Mountain View Dark"
+* Rename cookie view to pdw-view because Joomla is using the same cookie
+
+-----------------------------------------
+Version 1.2 beta
+-----------------------------------------
++ Added Danish language (by Mattias)
++ New Skin "Mountain View"
++ Settings panel to select language and theme/skin
++ Custom filters in addition to Images, Flash and Media
++ Compatible with CKEditor v3 (FCKEditor v2 not tested yet!)
++ Double click to insert files in to the editor
+* Upload settings (extensions whitelist, max. upload size) in config.php in stead of upload.php
+* PHP 5 compatible (serious issues with PHP 5 have been solved)
+* Added phpThumb fix for PHP 5.3.x and higher
+* Modified actions.php (Error messages are now more clear when creating a folder fails)
+* Improved settings for allowing or disallowing actions (including uploading, settings panel and creating folders)
+* Added translation function to fall back to English when translation isn't found
+* bug fix for creating new folders when open_basedir is active
+* First folder in the breadcrumbs at the top is now always upload folder.
+
+-----------------------------------------
+Version 1.1.1 beta
+-----------------------------------------
++ Added Spanish language (by thedavis http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=79827#p79827)
+* Removed var from line 615 in jquery.mediabrowser.js
+* Removed var from line 671 in jquery.mediabrowser.js
+
+-----------------------------------------
+Version 1.1 beta
+-----------------------------------------
++ Added Catalan language (by quisoc http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=79285#p79285)
++ Added French (by tasiot http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=77045#p77045)
++ Added Swedish language (by Swensson http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=75969#p75969)
++ The line "All files (*.*)" in the filter is now also translated
+* Solved javascript errors with Internet Explorer (Rename, Cut & Paste, Copy & Paste, Delete are now working)
+* Solved various PHP Notice and Strict Standards errors.
+
+-----------------------------------------
+Version 1.0 beta
+-----------------------------------------
++ Multiple views
++ Flash file uploads
++ Multiple file selections via shift click and ctrl click
++ 30+ file icons
++ Search by filename
++ Filtering
++ Image caching
++ Copy, cut, paste and delete
++ Create new folders
++ Multiple languages support
+      + Dutch
+      + English
+      + German (by redeye86 http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=75021#p75021)
+      + Russian (by BonySoft http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=79722#p79722)
++ File information pane
++ Renaming folders and files
++ Skins
+      + Redmond (standard)
+      + Cupertino

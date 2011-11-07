@@ -9,118 +9,193 @@ $url  = base64_decode($url );
 $url = $url.'/editmode:y';
 ?>
 <?  include('header_scripts.php'); ?>
+<meta charset=utf-8>
+<!--<script src=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/lib/codemirror.js></script>
+<script src=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/mode/xml/xml.js></script>
+<script src=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/mode/javascript/javascript.js></script>
+<script src=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/mode/css/css.js></script>
+<script src=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/mode/htmlmixed/htmlmixed.js></script>
+<link rel=stylesheet href=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/lib/codemirror.css>
+<link rel=stylesheet href=<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/theme/default.css>-->
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/js/codemirror.js" type="text/javascript"></script>
+<style type=text/css>
+#code {
+	float: left;
+	width: 50%;
+	height:430px;
+	border: 1px solid black;
+	background-color:#ececec;
+}
+.tb_ed {
+	width: 100%;
+	background-color:#999;
+	height:45px;
+	position:fixed;
+	top:0px;
+	left:0px;
+	background: url("<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/mw_images/grad1.png") repeat-x scroll 50% 50% #E6E6E6;
+	border: 1px solid #BBBBBB;
+	color: #212121;
+	font-weight: normal;
+}
+.tb_ed2 {
+	width: 100%;
+	height:430px;
+	position:fixed;
+	top:30px;
+	left:0px;
+}
+.CodeMirror-scroll {
+	height:450px;
+	overflow: scroll;
+	position: relative;
+	display:block;
+	width: 390px;	
+	word-wrap:break-word;
+}
 
+iframe {
+	width: 100%;
+	float: left;
+	height: 430px;
+	border: 1px solid black;
+	border-left: 0px;
+}
+</style>
+<script>
+ 
 
-<script type="text/javascript">
-function content_json($location) {
-	 
+$(document).ready(function(){
+						   
+ 
+  
+	get_code()				   
+						   
+
+ 
+});
+
+function update_parent_code(){
+	updatePreview()
+	parent.mw_apply_code_from_editor()
 	
-}	
+}
+ 
+ 
+var delay;
+
+setInterval ( "mw_check_if_updated_code()", 1000 );
+
+function mw_check_if_updated_code ( )
+{
+ if(parent.window.html_editor_code_updated == true){
+	parent.window.html_editor_code_updated = false; 
+	//alert(1);
+	 get_code()
 	
-	
-function mw_edit_init($location){
-	
-	
-	//$loc = $("#edit_frame").attr('src');
-	//alert($location);
-	//$data = content_json($location);
-	$.ajax({
-  		  type: 'POST',
-  		  url: $location,
-  		  data: { format: 'json'},
-           async:true,
-           dataType: "json", 
-  		  success: function(r) {
-    		//content_json.page = data;
-			//alert(r);
-			
-			
-			$.ajax({
-  url: '<? print site_url('api/module'); ?>',
-   type: "POST",
-      data: ({module : 'admin/pages/edit' ,id : r.page.id }),
-     // dataType: "html",
-      async:true,
-      
-  success: function(resp) {
-   	 
-	// $("#page_module_holder").html(resp);
-	 
-	 
-	 
-  }
-    });
-			
-			
-			
-  		  }
-  		})
-	
-	
-	
-	
-	
-	
-	//alert($data);
-	//alert($data.page.id);
-	
+ }
 }
 
 
+
+
+
+function get_code(){
+
+$v = parent.document.getElementById('mw_css_editor_element_id').value;
+ 
+  $("#html_ed_el_id").html($v );
+$all_attr = {};
+					$all_attr.file=$v+'.php';
+				 
+					 url1= '{SITE_URL}api/content/html_editor_get_cache_file';
+					 $.post(url1,$all_attr,function(data) {
+					 
+					  $("#html_ed_code").empty();
+ 
+
+ 
+ $("#html_ed_code").val(data);
+ 
+ 
+ 
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+    /*  var editor = CodeMirror.fromTextArea(document.getElementById('html_ed_code'), {
+        mode: 'text/html',
+		value:$v,
+        textWrapping: true,
+		tabMode: 'indent',
+        onChange: function() {
+          clearTimeout(delay);
+          delay = setTimeout(updatePreview, 300);
+        }
+      });*/
+	  
+	  
+	   var textarea = document.getElementById('html_ed_code');
+  editor = new CodeMirror.fromTextArea((textarea), {
+    height: "450px",
+    width: "100%",
+    content: data,
+    parserfile: [ "parsexml.js", "parsecss.js",  "tokenizejavascript.js","parsejavascript.js",  "parsehtmlmixed.js" ],
+    stylesheet: "<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/css/xmlcolors.css",
+    path: "<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/js/",
+    autoMatchParens: true,
+	   onChange: function() {
+          clearTimeout(delay);
+          delay = setTimeout(updatePreview, 300);
+        },
+    initCallback: function(editor){ }
+  });
+  
+  
+  
+ 
+ 
+
+ window.editor = editor;
+		 updatePreview();			 
+					 
+					 }); 
+					 
+					 
+					 
+					 
+
+ 
+ 
+ 
+}
 </script>
-
-<script>
-	$(function() {
-		$( "#tabs" ).tabs({
-			collapsible: true
-		});
-	});
-	</script>
-
-</head>
 <body>
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">Page</a></li>
-		<li><a href="#tabs-2">Settings</a></li>
-		<li><a href="#tabs-3">Aenean lacinia</a></li>
-	</ul>
-	<div id="tabs-1">
-    <table width="100%" border="0">
-  <tr>
-    <td><iframe name="edit_frame" scrolling="auto" src="<? print $url; ?>" height="1000" frameborder="0" width="1000" id="edit_frame" ></iframe></td>
-    <td valign="top">
-    <mw module="admin/content/modules" />
-
-
-
-    
-    </td>
+<div class="tb_ed">
+  <input class="sbm left" type="button" value="Apply changes" onclick="update_parent_code()" >
+   <small class="grey" id="html_ed_el_id"></small>
+</div>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" class="tb_ed2">
+  <tr valign="top">
+    <td width="50%">
+    <div>
+    <textarea id="html_ed_code" name="html_ed_code" wrap="virtual">
+ 
+</textarea></div></td>
+    <td  width="50%"><iframe id="preview"></iframe></td>
   </tr>
 </table>
-
-		
-	</div>
-	<div id="tabs-2">
-		<div id="page_module_holder"></div>
-	</div>
-	<div id="tabs-3">
-		<p><strong>Click this tab again to close the content pane.</strong></p>
-		<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-	</div>
-</div>
-
-
-
- 
-
-
-
 <script>
-$(document).ready(function() {
- 
-
-});
-</script>
+     
+      
+      function updatePreview() {
+        var preview = document.getElementById('preview').contentDocument;
+        preview.open();
+     //   preview.write(window.editor.getCode());
+		
+		//parent.document.getElementById('mw_edit_code_holder').value = (window.editor.getCode());
+		
+		
+        preview.close();
+      }
+      setTimeout(updatePreview, 300);
+    </script>getCode
 </body>
 </html>

@@ -30,6 +30,8 @@
 	{
 		
 			var mode = getModeValue();
+			$('.labelMode').removeClass('labelModeActive');
+			$('#label_' + mode).addClass('labelModeActive');
 			var imageMode = $('#image_mode');
 			if(mode != $(imageMode).val() || (typeof(restore) == "boolean"))
 			{
@@ -160,6 +162,7 @@
 	*/
 	function enableCrop()
 	{
+		
 		var widthField = $('#width');
         var heightField = $('#height');
         var topField = $('#y');
@@ -792,6 +795,7 @@ function processImage(formId)
 
 function saveAsImagePre()
 {
+	$('#new_name').val('');
 	$('#windowSaveAs').jqm({modal: true}).jqmShow();
 	var saveTo = $('#save_to');
 	$(saveTo).removeOption(/./);

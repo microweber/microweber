@@ -13,6 +13,6 @@ $mw_config ['db_username'] = 'root';
 $mw_config ['db_password'] = '123456';
 
 
-$mw_config ['db_database'] = 'cms2';
+$mw_config ['db_database'] = 'cms_wills';
 
 ?>

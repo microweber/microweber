@@ -33,7 +33,8 @@ Example:
 
  */
 
-?><?
+?>
+<?
 
 
 $orig_params = $params;
@@ -48,30 +49,25 @@ if($params['multiselect']){
 	 }
 
 ?>
-
 <?
  $sortable = false;
 if($params['sortable']){
 	 $sortable = true;
 	 }
 
-?>
-<? if($sortable == true):?>
-
- 
-<? endif; ?>   
 
 
 
-<div class="cat_list <? print $multiselect; ?>" id="<? print $rand_id ?>">
-  <?
-//p($params);
-
-    // $params = array();
-    // $params['content_parent'] = 0; //parent id
 
 
-//	p($params);
+
+
+
+
+
+
+
+
 
 	 if($params['link'] == false){
 	 $params['link'] = '<span {active_code} category_id="{id}">{taxonomy_value}</span>';
@@ -103,7 +99,40 @@ if($params['sortable']){
 
 
  $params ['include_first'] = true;
- $params ['ul_class_name'] = 'category_tree';
+
+
+
+ if($params['ul_class_name']){
+	 $params['ul_class_name'] =($params['ul_class_name']);
+	 } else {
+		 
+		 $params ['ul_class_name'] = 'category_tree'; 
+	 }
+	 
+	 
+	 
+	  if($params['holder_class_name']){
+	 $params['holder_class_name'] =($params['holder_class_name']);
+	 } else {
+		 
+		 $params ['holder_class_name'] = 'cat_list'; 
+	 }
+
+
+?>
+<? if($sortable == true):?>
+<? endif; ?>
+
+<div class="<? print $params ['holder_class_name'] ?> <? print $multiselect; ?> <? print $params ['ul_class_name'] ?>" id="<? print $rand_id ?>">
+  <?
+ 
+    // $params = array();
+    // $params['content_parent'] = 0; //parent id
+
+
+ //	p($params);
+
+
 
 /*$actve_ids = ($params ['actve_ids']) ? $params ['actve_ids'] : false;
 	$active_code = ($params ['active_code']) ? $params ['active_code'] : false;
@@ -115,7 +144,18 @@ if($params['sortable']){
 	$add_ids = ($params ['add_ids']) ? $params ['add_ids'] : false;
 	$orderby = ($params ['orderby']) ? $params ['orderby'] : false;*/
 
-category_tree( $params ) ; ?>
+category_tree( $params ) ;
+ 
+ 
+ if( $params['for_page'] ){
+	 $params['not_for_page'] = $params['for_page'];
+	  $params['for_page'] = false;
+	 category_tree( $params ) ;
+ }
+
+
+
+?>
   <? if($params['update_field']):  ?>
   <script type="text/javascript">
  $(document).ready(function () {

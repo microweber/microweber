@@ -98,14 +98,14 @@
                 <?php if($item['content_subtype'] == 'module') : ?>
                 <img src="<?php print_the_static_files_url() ; ?>icons/puzzle.png"  border="0" alt="<?php print addslashes($item['content_subtype_value']); ?>" />
                 <?php endif;  ?>
-                <?php if($item['content_subtype'] == 'blog_section') : ?>
+                <?php if($item['content_subtype'] == 'dynamic') : ?>
                 <img src="<?php print_the_static_files_url() ; ?>icons/blog.png"  border="0" alt="<?php print addslashes($item['content_subtype_value']); ?>" />
                 <?php endif;  ?></td>
               <td><a href="<?php print site_url($item['content_url']) ; ?>" target="_blank"><?php print($item['content_url']) ; ?></a></td>
               <td><?php print($item['content_filename']) ; ?></td>
              <!-- <td><?php print($item['is_active']) ; ?></td>-->
               <td><?php print($item['updated_on']) ; ?></td>
-              <td><?php if($item['content_subtype'] == 'blog_section') : ?>
+              <td><?php if($item['content_subtype'] == 'dynamic') : ?>
           
                     <a class="btn" href="<?php print site_url('admin/content/posts_manage/categories:'.$item['content_subtype_value'])  ?>">Go to category</a>
                 <?php endif;  ?> </td>

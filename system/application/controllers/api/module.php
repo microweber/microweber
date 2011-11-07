@@ -14,24 +14,54 @@ class Module extends Controller {
 	
 	function index() {
 		
+		if ($_SERVER ["HTTP_REFERER"]) {
+			$url = $_SERVER ["HTTP_REFERER"];
+			if (trim ( $url ) == '') {
+				//	
+				$page = CI::model ( 'content' )->getContentHomepage ();
+				//	var_dump($page);
+			} else {
+				
+				if ($page ['is_home'] != 'y') {
+					$post_maybe = CI::model ( 'content' )->getContentByURLAndCache ( $url );
+				}
+				if (intval ( $post_maybe ['id'] ) != 0) {
+					$post_maybe = CI::model ( 'content' )->contentGetByIdAndCache ( $post_maybe ['id'] );
+				}
+				
+				$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
+			}
+			
+			if ($post_maybe ['content_type'] == 'post') {
+				$post = $post_maybe;
+				if (defined ( 'POST_ID' ) == false) {
+					define ( 'POST_ID', $post ['id'] );
+				}
+				
+				if (defined ( 'PAGE_ID' ) == false) {
+					define ( 'PAGE_ID', $page ['id'] );
+				}
+			}
 		
+		}
 		
 		$module_info = url_param ( 'module_info', true );
 		
-		if($module_info){
-			if($_POST['module']){
-				$_POST['module'] = str_replace('..', '', $_POST['module']);
-				$try_config_file = MODULES_DIR . '' . $_POST['module'] . '_config.php';
-				if(is_file($try_config_file)){
-					include($try_config_file);
-					if($config['icon'] == false){
-					$config['icon'] = MODULES_DIR . '' . $_POST['module'] .'.png';;
-					$config['icon'] = pathToURL($config['icon']);
+		if ($module_info) {
+			if ($_POST ['module']) {
+				$_POST ['module'] = str_replace ( '..', '', $_POST ['module'] );
+				$try_config_file = MODULES_DIR . '' . $_POST ['module'] . '_config.php';
+				if (is_file ( $try_config_file )) {
+					include ($try_config_file);
+					if ($config ['icon'] == false) {
+						$config ['icon'] = MODULES_DIR . '' . $_POST ['module'] . '.png';
+						;
+						$config ['icon'] = pathToURL ( $config ['icon'] );
 					}
-					print json_encode($config);
-					exit;
+					print json_encode ( $config );
+					exit ();
 				}
-				
+			
 			}
 		
 		}
@@ -47,9 +77,6 @@ class Module extends Controller {
 		$decode_vars = url_param ( 'decode_vars', true );
 		$reload_module = url_param ( 'reload_module', true );
 		
-		
-		
-		
 		$mod_to_edit = url_param ( 'module_to_edit', true );
 		$element_id = url_param ( 'element_id', true );
 		
@@ -59,7 +86,7 @@ class Module extends Controller {
 		$mod_iframe = false;
 		if ($mod_to_edit != false) {
 			$mod_to_edit = str_ireplace ( '_mw_slash_replace_', '/', $mod_to_edit );
-		$mod_iframe = true;
+			$mod_iframe = true;
 		}
 		//p($mod_to_edit);
 		if ($base64 == false) {
@@ -73,8 +100,8 @@ class Module extends Controller {
 				$data = $_POST;
 			}
 			
-			if ($reload_module =='edit_tag') {
-				$reload_module =  ( $_POST );
+			if ($reload_module == 'edit_tag') {
+				$reload_module = ($_POST);
 				$data = $reload_module;
 				//p($data);
 			}
@@ -135,13 +162,14 @@ class Module extends Controller {
 			}
 			
 			$tags = false;
-			if($data['mw_params_module'] != false){
-				if(trim($data['mw_params_module']) != ''){
-			 $data['module'] =$data['mw_params_module'] ;
+			if ($data ['mw_params_module'] != false) {
+				if (trim ( $data ['mw_params_module'] ) != '') {
+					$data ['module'] = $data ['mw_params_module'];
 				}
 			}
-			 //p($data);
-			 
+			//p($data);
+			
+
 			foreach ( $data as $k => $v ) {
 				$tags .= "{$k}=\"$v\" ";
 			
@@ -155,7 +183,7 @@ class Module extends Controller {
 			
 			//$base64 = base64_decode ( $base64 );
 			if (is_string ( $base64 ) == false) {
-			//	$base64 = false;
+				//	$base64 = false;
 			}
 			//$base64 = unserialize($base64);
 		//p ( $base64 );
@@ -164,7 +192,7 @@ class Module extends Controller {
 		if ($base64 != false) {
 			$tags = $base64;
 			
-			if($mod_iframe == true){
+			if ($mod_iframe == true) {
 				$mod_iframe = 'quick_edit="true"';
 			}
 			

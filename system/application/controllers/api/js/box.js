@@ -12,6 +12,9 @@ mw.modal={
         modal_tag_id = 'x_' + mw.id();
         var content_obj = $(content).clone(true).css({display:"block",visibility:"visible"});
         modal_old = $(content);
+		//alert(modal_old);
+		
+		
         $(content).after('<mwmodal class="' + modal_tag_id + '" />');
         $(content).destroy();
       }
@@ -22,30 +25,33 @@ mw.modal={
     else{
       //var modal_content = content;
       var modal_content = '';
-      var content_obj = document.createElement('div').innerHTML = content;
+      var content_obj = content;
     }
     var modal_source = ''
     +'<div class="mw_modal_box">'
        + '<div class="mw_modal_main" style="height:' + height + 'px">'
         + '<div class="mw_modal_header radius_t">'
             + '<h2><!-- Title Comes Here --></h2>'
+			 + '<span class="mw_modal_buttons"></span>'
             + '<span class="mw_modalclose" title="Close">Close</span>'
         + '</div>'
         + '<div class="mw_modal_content_box">'
             + modal_content
-        + '</div>'
+        + '</div>' 
        + '</div>'
     +'</div>';
     var modaler = document.createElement('div');
     if(modal_tag_id!=false){
        modaler.id = modal_tag_id;
     }
+	// alert(content_obj);
     modaler.innerHTML = modal_source;
     modaler.className = 'modal_data';
-    $(modaler).find(".mw_modal_content_box").append(content_obj);
+    $(modaler).find(".mw_modal_content_box").html(content_obj);
 
     return modaler;
   },
+  
   overlay:function(color){
     if($("#mw_overlay").length==0){
           var overlay = document.createElement('div');
@@ -63,6 +69,7 @@ mw.modal={
   },
   init:function(obj){
     var id = isobj(obj.id)?obj.id:mw.id();
+	$(".mw_modal").show();
     if($("#mw_modal_" + id).length==0){
 
       if(typeof obj == 'object' ){
@@ -77,6 +84,7 @@ mw.modal={
           obj.width = !isobj(obj.width)?400:obj.width;
           obj.height = !isobj(obj.height)?250:obj.height;
           obj.title = !isobj(obj.title)?'':obj.title;
+		  obj.buttons = !isobj(obj.buttons)?'':obj.buttons;
 
 
 
@@ -100,15 +108,31 @@ mw.modal={
             modal.style.top = obj.customPosition.top + 'px';
             modal.style.left = obj.customPosition.left != 'center'?obj.customPosition.left + 'px':$(window).width()/2 - obj.width/2 + 'px';
           }
-          $(modal).find(".mw_modal_header h2").html(obj.title);
+          $(modal).find(".mw_modal_buttons").html(obj.buttons);
+		  
+		            $(modal).find("h2").html(obj.title);
+
+		  
+		  
           $(modal).find(".mw_modalclose").click(function(){
-            
+               if(isobj(obj.onclose) && typeof obj.onclose=='function'){
+             obj.onclose.call(modal);
+          }
+		  
             mw.modal.close(id);
           });
           document.body.appendChild(modal);
           if(isobj(obj.oninit) && typeof obj.oninit=='function'){
              obj.oninit.call(modal);
           }
+		  
+		//   if(isobj(obj.onclose) && typeof obj.onclose=='function'){
+//             obj.onclose.call(modal);
+//          }
+		  
+		  
+		  
+		  
           if(obj.overlay==true){
             mw.modal.overlay();
           }
@@ -131,21 +155,36 @@ mw.modal={
       return mw_zindex+1;
   },
   close:function(id){
-    if(isobj(id)){
-        if($("#mw_modal_"+id).find(".modal_data").attr("id") !="undefined" && $("#mw_modal_"+id).find(".modal_data").attr("id") != ""){
-          var el = $("#mw_modal_"+id);
-          el.find(".mw_modalclose").remove();
-          var clone = el.find(".mw_modal_main :first").clone(true);
-          clone.hide();
-          var dataid = el.find(".modal_data").attr("id");
-          $("." + dataid).replaceWith(clone);
-        }
-        $("#mw_modal_"+id).remove();
+	  
+ if(isobj(id)){
+        
+     $("#mw_modal_"+id).remove();  // 
     }
     else{
-      $(".mw_modal").remove();
+  //    $(".mw_modal").hide();
     }
+	$(".mw_modal").remove();
     $("#mw_overlay").remove()
+	
+	
+	
+	
+	   
+    //if(isobj(id)){
+//        if($("#mw_modal_"+id).find(".modal_data").attr("id") !="undefined" && $("#mw_modal_"+id).find(".modal_data").attr("id") != ""){
+//          var el = $("#mw_modal_"+id);
+//          el.find(".mw_modalclose").remove();
+//          var clone = el.find(".mw_modal_main :first").clone(true);
+//          clone.hide();
+//          var dataid = el.find(".modal_data").attr("id");
+//          $("." + dataid).replaceWith(clone);
+//        }
+//        $("#mw_modal_"+id).remove();
+//    }
+//    else{
+//      $(".mw_modal").remove();
+//    }
+//    $("#mw_overlay").remove()
   },
   confirm:function(obj){
     var confirm = mw.modal.init({
@@ -196,16 +235,30 @@ mw.modal={
     var frame = document.createElement('iframe');
     frame.src = obj.src;
     frame.frameBorder = 0;
+	frame.name = isobj(obj.id)?obj.id:mw.id();
+	frame.id = isobj(obj.id)?obj.id:mw.id();
     frame.scrolling='auto';
     var width = isobj(obj.width)?(obj.width-20):380;
     var height = isobj(obj.height)?(obj.height-20):230;
     frame.style.width = width + 'px';
     frame.style.height = height + 'px';
+	
+	
+	
+	
+	
     mw.modal.init({
         html:frame,
         width:isobj(obj.width)?obj.width:400,
         height:isobj(obj.height)?obj.height:250,
+		 title:isobj(obj.title)?obj.title:'',
+		 onclose:isobj(obj.onclose)?obj.onclose:'',
+		 
+		  buttons:isobj(obj.buttons)?obj.buttons:'',
+		 
+		 
         id:isobj(obj.id)?obj.id:mw.id()
+		
     })
   },
   context:function(obj){
