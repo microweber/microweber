@@ -104,29 +104,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 			
 }			
 			?>
-            
-<script type="text/javascript"> 
- 
-
- 
-
-
-var replace_content_from_history = function($history_file_base64_encoded){
-	
-	<? if($params['tag'] != 'edit') : ?>
-  // load_editblock('<? print $id ?>', $history_file_base64_encoded) ;
-    load_field_from_history_file('<? print $id ?>', $history_file_base64_encoded) ;
-   <? else: ?>
-   
-   load_field_from_history_file('<? print $id ?>', $history_file_base64_encoded) ;
-   <? endif; ?>
-   
-   
-}
-
-
-</script>
-            
+    
             
  
  <script type="text/javascript"> 
@@ -143,24 +121,37 @@ var replace_content_from_history = function($history_file_base64_encoded){
             
             
             
-        <a class="mw_history_prev mw_bottom_btn" href="javascript:mw_click_on_history_prev()"><</a>
-<a class="mw_history_next mw_bottom_btn" href="javascript:mw_click_on_history_next()">></a>    
+  <!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
+<a class="mw_history_next " href="javascript:mw_click_on_history_next()">></a>    
+            -->
             
             
-            
-            <? print count($history_files);?>
-            
+            <? print count($history_files);?> history files
+            <br />
+
             <? // p($history_files); ?>
             
-	<ul id="mw_history_files" style="display:none;">
+	<ul id="mw_history_files">
 	<? 		foreach ($history_files as $filename) : ?>
     
     
     <li rel="<? print base64_encode($filename) ?>">
+    <? //$mtime= filemtime($filename ); ?>
     
-    <? //$content_of_file = file_get_contents($filename);	?>
+    <?
+	if (file_exists($filename)) {
+   $mtime=  date ("F d Y H:i:s.", filemtime($filename));
+}
+	
+	 
+	//$content_of_file = file_get_contents($filename);	?>
     
-  <a href="javascript: replace_content_from_history('<? print base64_encode($filename) ?>')"> <? print basename($filename ); ?> </a>
+  <a href="javascript: replace_content_from_history('<? print base64_encode($filename) ?>')"> 
+  <? $fn1= rtrim(basename($filename ), '.php'); ?>
+  
+  <?  print $fn1  ?>
+  (<? print ago($mtime, $granularity = 1); ?>)
+   </a> 
 
    
     </li>

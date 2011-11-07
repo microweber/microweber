@@ -17,6 +17,11 @@
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/jScrollPane.css" type="text/css" media="screen" />
 <!--[if IE 7]><link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/ie.css" type="text/css" media="screen" /><![endif]-->
 <!--[if IE 8]><link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/ie8.css" type="text/css" media="screen" /><![endif]-->
+
+
+ 
+
+
 <style>
 body {
 	height:100%;
@@ -56,6 +61,18 @@ body {
 $(document).ready(function() {
 	$(".panel0").addClass("selected");
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	<? if($page['content_layout_name'] != 'will_manager'):  ?>
+	
+	
+	
 	$('a.panel').click(function () {
 		$(".contantMain").click();
 	
@@ -81,6 +98,106 @@ $(document).ready(function() {
 	});
 	
 	//$("#form .item2").validate();	
+	
+	
+	<? else: ?>
+	
+	<? //p($page); ?>
+	
+	
+	
+ 
+	
+	$('a.panel').click(function () {
+		$(".contantMain").click();
+	
+			
+		current = $(this);
+		var currentItem = ($(".menuTree .selected").attr("href"));
+		var sel=$(this).attr('href');		
+		var hasErrors = 0;
+	
+		$(currentItem+" .required").each(function(){
+			if($(this).val() == ""){
+				$(this).parent().parent().addClass("error");
+				hasErrors = 1;
+				$(this).parents("div.floatForm").addClass("errorForm");
+				$(this).parents("div.floatForm1").addClass("errorForm");
+				$(this).parents("div.form").addClass("errorForm");
+			}
+			else{
+				hasErrors = 0; 	
+				$(this).parents("div.floatForm").removeClass("errorForm");
+				$(this).parents("div.floatForm1").removeClass("errorForm");
+				$(this).parents("div.form").removeClass("errorForm");
+			}
+			
+			$(this).click(function(){
+				$(this).parent().parent().removeClass("error");
+				//$(this).val("")
+			});
+			$(this).blur(function(){
+				if($(this).val() == ""){
+					$(this).parent().parent().addClass("error");
+					//$(this).val("");
+				}
+			});
+
+		});
+		
+		$(currentItem+" .error").each(function(){
+				hasErrors = 1;
+		});
+		
+		//alert(hasErrors);
+		if(hasErrors == 1){
+			/*var height  = $(sel).height();
+			$('#wrapper').css("height",height);
+			$('.contentMain').css("height",height+100);
+			$('#wrapper').scrollTo($(this).attr('href'), 1000);	
+*/			
+		}
+		else{
+			//remove class="selected" from all of the menu items
+			$.each($(".menuTree a"),function(){
+				$(".menuTree a").removeClass("selected")
+			});
+
+			//$(this).addClass('selected');
+			$(".menuTree a[href='"+sel+"']").addClass("selected");
+			var height  = $(sel).height();
+			$('#wrapper').css("height",height);
+			$('.contentMain').css("height",height+100);
+			$('#wrapper').scrollTo($(this).attr('href'), 1000);		
+		}	
+			
+	
+		return false;
+	});
+	
+	//$("#form .item2").validate();	
+	
+	
+	<? endif; ?>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 });
 	 (function($){

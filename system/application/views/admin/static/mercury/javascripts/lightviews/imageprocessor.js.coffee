@@ -1,0 +1,2 @@
+@Mercury.lightviewHandlers.imageProcessor = ->
+  ''

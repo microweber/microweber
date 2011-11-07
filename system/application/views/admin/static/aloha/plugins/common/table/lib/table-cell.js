@@ -321,9 +321,9 @@ function (jQuery, Utils) {
 		// Not IE
 		if (!jQuery.browser.msie) {
 			var s = window.getSelection();
-			// Safari
-			if (s.setBaseAndExtent /*&& e> 0 */) {
-				s.setBaseAndExtent(e, 0, e, e.innerText.length - 1);
+			// WebKit
+			if ( s.setBaseAndExtent /*&& e> 0 */ ) {
+				s.setBaseAndExtent( e, 0, e, Math.max( 0, e.innerText.length - 1 ) );
 			}
 			// Firefox and Opera
 			else {

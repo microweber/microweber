@@ -1504,7 +1504,7 @@ class Core_model extends Model {
 			$filez = array_reverse ( $filez );
 			foreach ( $filez as $filename ) {
 				
-				if ($file_counter < 1000) {
+				if ($file_counter < 200) {
 					
 					$size = filesize ( $filename );
 					//p($size);
