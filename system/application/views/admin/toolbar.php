@@ -11,11 +11,13 @@
     <!--   <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>mercury/javascripts/mercury.js" type="text/javascript"></script>
               <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>mercury/javascripts/mercury_dialogs.js" type="text/javascript"></script>
 -->
-       
+<!--                     <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jwerty/jwerty.js" type="text/javascript"></script>
+-->
   
   <script type="text/javascript">
-   
-      
+ 
+ 
+
     </script>
 <script type="text/javascript">
 
@@ -39,6 +41,11 @@ function openKCFinder(field) {
         'resizable=1, scrollbars=0, width=800, height=600'
     );
 }
+
+
+
+
+ 
 
 
 function mw_load_history_module(){
@@ -91,16 +98,26 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 <div id="kcfinder_div"></div>
     
 <script type="text/javascript">
+
+
+$(window).keypress(function(event) {
+  if ((event.which == 115 && event.ctrlKey)){
+     // alert("Ctrl+S pressed");
+	  nic_save_all();
+      event.preventDefault();
+  }
+});
+
+ 
  
 $(document).ready(function() {
 	//	$('.edit').aloha();
 		$('.edit').addClass('mercury-region');
 		$('.edit').attr("data-type",'editable');
 		 
-		
-		
- 		
-		
+
+      
+	
 		
 		
  

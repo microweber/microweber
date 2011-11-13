@@ -50,6 +50,19 @@
                 <option value="absbottom">Absolute Bottom</option>
               </select>
             </li>
+            
+            
+             <li  class="string input optional stringish">
+              <label class="label" for="media_image_height">Height</label>
+              <input id="media_image_height" name="media[media_image_height]" type="text" />
+            </li>
+            
+            <li  class="string input optional stringish">
+              <label class="label" for="media_image_width">Width</label>
+              <input id="media_image_width" name="media[media_image_width]" type="text" />
+            </li>
+            
+            
           </div>
           <div id="youtube_url" class="media-options" style="display:none">
             <li id="media_youtube_width_input" class="string input optional stringish">
