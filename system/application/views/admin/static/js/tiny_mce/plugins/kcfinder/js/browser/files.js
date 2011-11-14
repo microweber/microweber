@@ -189,7 +189,7 @@ browser.returnFile = function(file) {
         tinyMCEPopup.close();
 
     } else if (this.opener.callBack) {
-alert(fileURL);
+//alert(fileURL);
         if (window.opener && window.opener.KCFinder) {
             this.opener.callBack(fileURL);
             window.close();

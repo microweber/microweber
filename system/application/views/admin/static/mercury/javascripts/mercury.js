@@ -17531,6 +17531,26 @@ Showdown.converter = function() {
       if (selection.is && (image = selection.is('img'))) {
         this.element.find('#media_image_url').val(image.attr('src'));
         this.element.find('#media_image_alignment').val(image.attr('align'));
+		
+		
+		
+		element = jQuery(image);
+	 	
+		$h = element.height();
+		$w = element.width();
+		if ($h == 0) {
+			$h = '';
+		}
+		
+		if ($w == 0) {
+			$w = '';
+		}
+		
+		 this.element.find('#media_image_height').val($h);
+		 this.element.find('#media_image_width').val($w);
+		
+		
+		
       }
       if (selection.is && (iframe = selection.is('iframe'))) {
         src = iframe.attr('src');
@@ -17558,6 +17578,12 @@ Showdown.converter = function() {
           };
           if (alignment = this.element.find('#media_image_alignment').val()) {
             attrs['align'] = alignment;
+          }
+		  if (alignment = this.element.find('#media_image_height').val()) {
+            attrs['height'] = alignment;
+          }
+		    if (alignment = this.element.find('#media_image_width').val()) {
+            attrs['width'] = alignment;
           }
           Mercury.trigger('action', {
             action: 'insertImage',

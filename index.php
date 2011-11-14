@@ -374,7 +374,7 @@ $subdir = ltrim ( $subdir, '/' );
 $subdir = rtrim ( $subdir, '/' );
 
 $get_url_dir = $_SERVER ["SERVER_NAME"] . (trim ( $_SERVER ["REQUEST_URI"] ));
-
+//var_Dump( $_SERVER);
 //define ( 'SITEURL', 'http://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 
 
@@ -391,10 +391,11 @@ if (isset ( $_SERVER ["HTTPS"] )) {
 }
 if ($mw_config ['site_url']) {
  // define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
+ define ( 'SITEURL', $mw_config ['site_url'] );
 } else {
-  // define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
+  define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 }
-define ( 'SITEURL', $mw_config ['site_url'] );
+
 $md5_conf = md5(serialize($mw_config));
 $cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR.$md5_conf. DIRECTORY_SEPARATOR;
 
