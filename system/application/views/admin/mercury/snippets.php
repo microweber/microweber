@@ -68,7 +68,7 @@ $modules = CI::model('template')->getModules($modules_options );
                   <tag_to_remove_add_module_string module="<? print $module2['module'] ?>" mw_params_module="<? print $module2['module'] ?>" class="mw_put_module_ids" />
 
                 <textarea id="md5_module_<? print md5($module2['module']) ?>" style="display: none"><? print $module2['module'] ?></textarea>
-      <div class="description">A one to two line long description of what this snippet does.</div>
+      <div class="description"><? print $module2['description'] ?></div>
     </li>
           
           
@@ -83,11 +83,7 @@ $modules = CI::model('template')->getModules($modules_options );
     <?  $showed_module_groups[] = $module_group; ?>
     <? endforeach; ?>
     
-    
-    <li data-filter="editable, snippet, favorite, beer"> <img alt="Snippet Name" data-snippet="editable" src="http://www.bytemycode.com/img/icon_snippet.gif"/>
-      <h4>Snippet Name</h4>
-      <div class="description">A one to two line long description of what this snippet does.</div>
-    </li>
+ 
   </ul>
 </div>
  

@@ -92,6 +92,74 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
     
 <script type="text/javascript">
  
+$(document).ready(function(){
+$(".mw_option_field").live("change", function(){
+
+ 
+	 //alert('Handler for .change() called.');
+	//<? print site_url('api/content/save_option') ?>
+	//var refresh_modules11 =  $(this).attr('name');
+//	alert(refresh_modules11);
+	
+	
+	
+	
+	
+	 var refresh_modules11 =  this.getAttribute("refresh_modules");
+	
+	// alert(refresh_modules11);
+	
+	
+	
+	
+	$.ajax({
+		  
+		  type: "POST",
+		   url: "<? print site_url('api/content/save_option') ?>",
+		   data: ({
+			   
+			   option_key : $(this).attr('name'),
+			   option_group : $(this).attr('option_group'),
+			   option_value : $(this).val()
+			   
+		   
+		   }),
+
+
+		  success: function(){
+		
+		mw.reload_module($(this).attr('option_group'));
+		
+
+		
+		
+		if(refresh_modules11 != undefined && refresh_modules11 != ''){
+			refresh_modules11 = refresh_modules11.toString()
+			
+//alert(refresh_modules11);
+			if(window.mw.reload_module != undefined){
+				window.mw.reload_module(refresh_modules11);
+			}
+			
+			if(parent.mw.reload_module != undefined){
+				parent.mw.reload_module(refresh_modules11);
+			}
+
+		/*		*/
+			
+			
+			
+			
+		}
+		
+		  //  $(this).addClass("done");
+		  }
+		});
+	
+	
+	
+	});
+});
 $(document).ready(function() {
 	//	$('.edit').aloha();
 		$('.edit').addClass('mercury-region');

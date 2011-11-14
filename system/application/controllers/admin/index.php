@@ -44,7 +44,7 @@ class Index extends Controller {
 		
 		$layout = CI::view ( 'admin/mercury', true, true );
 		
-		//$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+		$layout = CI::model('template')->parseMicrwoberTags ( $layout );
 		CI::library ( 'output' )->set_output ( $layout );
 	}
 	
