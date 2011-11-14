@@ -1,0 +1,148 @@
+# parent: index
+=Scanning API=
+
+\contents 2
+
+== Introduction ==
+This page is of interest if you are trying to write your own language scanner. It should form a general overview, and does not replace the Doxygen API documentation for the Scanner classes.
+
+The abstract class `LumiousScanner` is a kind of abstract state machine. The general idea is that the caller uses its methods to say "does this match here?" ... "okay, how about this?" ... etc. As matches are found, the string is consumed. It is of course regular expression based, so at some level, it's a sort of super regular expression machine. It's fairly simple and low-level, but somewhat intimidating if you aren't familiar with the concept. Higher level automation functions are also provided.
+
+
+LuminousScanner exposes several interesting public methods:
+
+  `string($string)`
+  `init()`
+  `main()`
+  `tagged()`
+
+string() sets the string (it's a getter and setter - if you omit the argument it is a getter)
+
+init() is where any setup should be performed. A scanner may have a slightly variable rule-set depending on its environment. construction is too early to read in any public settings the scanner exposes (because the caller won't have had time to set them), so init exists. This happens in languages like CSS and JavaScript: they expose public variables for whether or not they're embedded in HTML (and need to observe terminator tags) and set their rules accordingly. main() performs scanning. You may have to override this.
+
+tagged() returns an XML string which represents the tokenized source code. This is then passed to a formatter. You shouldn't override this unless you know what you're doing.
+
+Shorthand for all of these is:
+
+    `highlight($string)`
+
+
+==Primitive String Scanning Methods==
+
+*Warning*: A lot of these functions return either `null` or their match. You should be very careful of this when using boolean testing: `if (null)` is false, but so is `if ('')`, but they are both very different situations. Worse, for reasons known only to the php designers, `if('0')` also evaluates to false! This can lead to you losing data if you're not careful, because the scanner consumes it, but the caller may not realise. You should always test for matches with `if ($return_value === null)`.
+
+
+=== Scanning ===
+
+  
+    `peek(chars=1)`
+    `get(chars=1)`
+
+peek returns the given number of characters from the current position onwards. get is identical but also consumes them. Neither logs their matches.
+
+    `scan($pattern)`
+
+If the pattern matches at the current position, it is consumed and logged. Returns the match or null.
+
+    `scan_until($pattern)`
+
+If the pattern matches somewhere beyond the current position, the substring up to the *start* of the match is consumed and logged. Returns the substring or null.
+
+    `check($pattern)`
+
+Performs a lookahead at the current position. Identical to scan() but does not consume the string. Returns null if it fails.
+
+    `index($pattern)`
+
+Returns the next index of a pattern, does not log or consume it.
+
+    `unscan()`
+
+Reverts the last match, moving the scan pointer back to where it was before the match. *Warning* calling this more than once before executing another scan/check is currently undefined behaviour.
+
+===Accessing matches===
+
+    `match()`
+    `match_groups()`
+    `match_group($group=0)`
+    `match_pos()`
+
+match() returns the most recent match (i.e. group 0). match_groups returns an array of match groups, indexed by group name/number (corresponding to the regex grouping). match_group() returns a particular group, and match_pos() returns the position of the most recent match (the start), as an offset into the string.
+
+=== Automation ===
+
+    `get_next($patterns)`
+
+Iterates over the given patterns (array) and determines the closest match beyond the current scan pointer. The patterns are not consumed or logged, it is up to the caller to decide what to do with them.  The return is an array: array(0=>index, 1=>matches)
+
+index will be -1 if none of the given patterns is found.
+
+*?*: This is intended for nesting-situations, e.g. comment nesting in MATLAB/Haskell, one can keep calling this and increment or decrement a 'stack' depending on the text of the next match, and finally exit the comment state when the stack is 0/empty.
+
+Similar to this is:
+
+    `add_pattern($name, $pattern)`
+    `next_match($consume_and_log=true)`
+
+next_match determines the next match for the patterns added with add_pattern. It returns: array(0=>$name, 1=>$index), and by default will consume and log the string so it is accessible by match*().
+
+*Warning*:
+  # this is mostly an internal function used to automate LuminousSimpleScanner
+  # It will unset patterns if they are not found.
+
+=== Manually moving the pointer ===
+
+    `pos($pos=null)`
+    `pos_shift($offset)`
+
+pos is a getter and setter for the current string position (scan pointer). pos_shift moves the pointer by the given offset. It is not currently recommended to move backwards, some internal caching may not currently account for this.
+
+
+=== misc === 
+
+    `rest()`
+
+Returns the rest of the string, from the scan pointer onwards.
+
+    `bol()`
+    `eol()`
+
+Beginning/end of line. Returns true if the scan pointer is at the beginning or
+end of line, false otherwise.
+
+    `eos()`
+
+Returns true if the scanner has reached the end of the string, else false.
+
+    `reset()`
+    `terminate()`
+
+Reset basically restarts the scanning process whereas terminate ends it, prematurely or otherwise. The scan pointer will be moved to the beginning or end of the string.
+
+== Other important methods and properties ==
+
+=== Consuming and tokenizing the string ===
+
+    `record($string, $token_name, $pre_escaped=false)`
+
+Writes into the token array the given string segment with the given token name. The token name may be null. If the string is already an XML-tag, because you either wrote it yourself for some reason, or you got it from the tagged() method of a sub-scanner, set pre_escaped to true.
+
+
+
+=== Filters === 
+
+    `add_filter([$name], $TOKEN_NAME, function);`
+    `remove_filter($name);`
+
+    `add_stream_filter([$name], $function);`
+    `remove_stream_filter($name);`
+
+Filters are/will be explained elsewhere.
+
+    `$rule_tag_map`
+
+a mapping of rule/token-names to tag-names. e.g. you might have a CSS_VALUE rule name you want mapped to 'VALUE' (so it can be highlighted by the VALUE css rule), you'd defined `$rule_tag_map['CSS_VALUE'] = 'VALUE'`. You can also null certain tokens that you logged as part of the scanning process but don't need highlighting.  This is read by the 'rule-map' stream filter.
+
+    `add_identifier_mapping($target_token_name, $values)`
+
+Tokens with name 'IDENT' are mapped by the 'map-ident' filter. You can use this to change 'function', 'if' and 'else' from an 'IDENT' into a 'KEYWORD', .e.g add_identifier_mapping('KEYWORD', array('function', 'if', 'else));

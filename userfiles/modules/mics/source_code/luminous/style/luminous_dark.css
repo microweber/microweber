@@ -1,0 +1,146 @@
+/*
+ * Copyright 2010 Mark Watkinson
+ * 
+ * This file is part of Luminous.
+ * 
+ * Luminous is free software: you can redistribute it and/or
+ * modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Luminous is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Luminous.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+/** NOTE: Don't override the monospace font -- some fonts' height will gain an 
+ * extra pixel or two when italicised. This skews the line numbering and makes
+ * it come out of sync.
+ */
+
+.luminous .character{color:#FF69B4 !important;}
+
+.luminous .comment{color:gray !important; font-style:italic !important;}
+
+/* NOTE: TODO: etc. */
+.luminous .comment_note{background-color:#E0FE37 !important; 
+color:black !important; 
+font-style:normal !important;}
+.luminous .constant{color:#0073AD !important; font-weight:bold !important;}
+.luminous .delimiter{ font-weight:bold !important;} 
+.luminous .esc{color:#478CA3 !important;}
+.luminous .function{color:#99D1FF !important;}
+.luminous .heredoc{color:#FF6767 !important;}
+.luminous .htmltag{font-weight:bold !important; color:#66FFCC !important;}  
+.luminous .keyword{font-weight:bold !important; color:#00FF00 !important;}
+.luminous .numeric {color:#B1B1FF !important;}
+.luminous .operator{color:#68FF68 !important;}
+.luminous .obj{color: #DCDCDC !important;}
+.luminous .oo{color:#C0FFFF !important;}
+.luminous .preprocessor{color:#DA1FDA !important;}
+.luminous .shebang{font-weight:bold !important; font-style:normal !important; color:#C0FFC0 !important;}
+.luminous .string{color:#FF6767 !important;}
+.luminous .type{color:#5CA0E4 !important;}
+/* not used*/
+.luminous .user_function{color: #0083E1 !important; font-weight:bold !important;}
+.luminous .value{color:green !important;}
+.luminous .variable{color:#8989A9 !important;}
+
+.luminous .doccomment{color:#008100 !important;}
+.luminous .doctag {color:#CA60CA !important;}
+.luminous .docstr {color:#FF6767 !important;}
+.luminous .docproperty{color:#0095FF !important; font-weight:bold !important;}
+
+.luminous .diff_header_new{color:green !important;}
+.luminous .diff_header_old{color:red !important;}
+.luminous .diff_range{color:#B1B1FF !important;}
+.luminous .diff_old{color:#AF0000 !important;}
+.luminous .diff_new{color:#00AF00 !important;}
+
+.luminous .lang_latex{color:#B1B1FF !important;}
+.luminous .latex_function{color:#FF6767 !important; font-weight:normal !important;}
+.luminous .latex_operator{color:#676CFF !important;}
+
+.luminous .make_target{color:magenta !important;}
+.luminous .make_dep{color: #B1B1FF !important;}
+
+.luminous .regex{color:#BE7CFF !important;}
+.luminous .regex_subpattern{font-weight:bold !important; color:#FF6767 !important;}
+.luminous .regex_class_marker{color:#0083E1 !important; font-weight:bold !important;}
+.luminous .regex_subpattern_marker{color:green !important; font-weight:bold !important;}
+.luminous .regex_repeat_marker {color:#B1B1FF !important;}
+.luminous .regex_operator{color:green !important;}
+
+/* Specific to the whitespace language */
+.luminous .whitespace_space{background-color:#FF5151 !important;}
+.luminous .whitespace_tab{background-color:#A1B6FF !important;}
+
+.luminous .link, .luminous .link:visited
+{
+  color:#00AAAA !important;
+}
+.luminous .link:hover
+{
+  color:#00AA00 !important;
+}
+
+.luminous .line_number_bar
+{
+  background-color:#1E1E1E !important;
+  border-right:1px solid #5F5F5F !important;
+}
+.luminous .line_number
+{
+  color:#BCFFBC !important;
+}
+
+
+.luminous .code
+{
+  background-color:#1E1E1E !important;
+  color:#FFFDCC !important;
+}
+
+.luminous .metabar_buttons_floating
+{
+  background-color:#CACACA !important;  
+  background-color:rgba(214, 207, 255, 0.50) !important;    
+}
+
+
+
+.luminous .line_alt
+{
+  background-color: #232323;
+}
+
+.luminous .highlighted_line
+{
+  background-color:#404040;
+}
+
+
+
+/* this stuff has to come after the other rules because it will probably
+ * override some of them
+ */
+.luminous .diff_old{
+  background-color:#7C4543 !important;
+  background-color: rgba(232, 87, 82, 0.35) !important;
+  color: white !important;
+}
+.luminous .diff_new{
+  background-color:#3F612C !important;
+  background-color: rgba(0, 191, 0, 0.35) !important;
+  color: white !important;
+}
+.luminous .diff_unchanged, .luminous .diff_unchanged * {
+  color: #888A85 !important;
+  background-color: transparent !important;
+}
