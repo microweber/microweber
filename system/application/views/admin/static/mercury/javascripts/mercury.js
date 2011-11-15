@@ -104,7 +104,7 @@ window.MercurySetup = {
         sep2:                  ' ',
         historyPanel:          ['History', 'Page Version History', { panel: admin_panel+ '/mercury/view:history', preload: false }],
         sep3:                  ' ',
-        notesPanel:            ['Notes', 'Page Notes', { panel: '/mercury/panels/notes.html' }]
+        notesPanel:            ['Admin', 'Admin Panel', {  modal: admin_panel+ '/mercury/view:admin' }]
         },
 
       editable: {

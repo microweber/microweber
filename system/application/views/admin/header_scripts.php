@@ -4,7 +4,8 @@
          </script>
 <link rel="stylesheet" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/style.css?<?  print rand();?>" type="text/css" media="screen"  />
 <!--[if IE]><? print '<?import namespace="v" implementation="#default#VML" ?>' ?><![endif]-->
-
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
 <script type="text/javascript" src="<?php print site_url('api/js/index/ui:true/no_mw_edit:true')  ?>"></script>
  
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/libs.js"></script>
