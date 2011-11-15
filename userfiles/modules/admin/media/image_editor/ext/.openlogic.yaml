@@ -1,0 +1,18 @@
+--- 
+name: Ext JS 2.2 Source
+platform_id: all
+platform_version: all
+distribution_file_uuid_string: openlogic-extjs-2.2-all-src-1
+platform_vendor: all
+version_visibility: public
+description: Ext JS 2.2 Source
+platform_arch: all
+distribution_file_uuid: 59c8b5ffb419ffccfbfbde009b8f1bce3e5e72d2a7330ffd722a089820871a10
+distribution_version: 1
+distribution_flavor: ""
+distribution_raw_file: ext-2.2.zip
+package_version: "2.2"
+package_id: extjs
+release_date: "2009-01-23"
+distribution_notes: ""
+distribution_type: src

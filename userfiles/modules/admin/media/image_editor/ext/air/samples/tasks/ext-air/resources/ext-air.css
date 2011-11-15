@@ -1,0 +1,101 @@
+/*
+ * Ext JS Library 0.20
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+body.x-air-window {
+    background:transparent !important;
+	height:100%;
+}
+
+.x-air.x-window-tc {
+	background: transparent url(images/top-bottom.png) repeat-x 0 0;
+	padding-top:11px;
+}
+.x-air.x-window-bc .x-air.x-window-footer {
+    background: transparent url(images/top-bottom.png) repeat-x 0 bottom;
+    padding-bottom:15px;
+}
+.x-panel-nofooter .x-air.x-window-bc {
+	background: transparent url(images/top-bottom.png) repeat-x 0 bottom;
+    height:15px;
+}
+.x-air.x-window-tr {
+	background: transparent url(images/right-corners.png) no-repeat right 0;
+	padding-right:15px;
+}
+.x-air.x-window-br {
+	background: transparent url(images/right-corners.png) no-repeat right bottom;
+	padding-right:15px;
+}
+
+.x-air.x-window-tl {
+	background: transparent url(images/left-corners.png) no-repeat 0 0;
+	padding-left:15px;
+}
+.x-air.x-window-bl {
+	background: transparent url(images/left-corners.png) no-repeat 0 bottom;
+	padding-left:15px;
+}
+
+.x-air.x-window-mr {
+	background: transparent url(images/left-right.png) repeat-y right 0;
+	padding-right:15px;
+}
+
+.x-air.x-window-ml {
+	background: transparent url(images/left-right.png) repeat-y 0 0;
+	padding-left:15px;
+}
+.x-air.x-resizable-handle{
+	margin:7px;
+}
+
+.x-air.x-window-mc {
+    background: #CAD9EC;
+    border-right:1px solid #DFE8F6;
+    border-bottom:1px solid #DFE8F6;
+    border-top:1px solid #a3bae9;
+    border-left:1px solid #a3bae9;
+}
+
+.x-air.x-window-body {
+    border-left:1px solid #DFE8F6;
+    border-top:1px solid #DFE8F6;
+    border-bottom:1px solid #a3bae9;
+    border-right:1px solid #a3bae9;
+    background:transparent !important;
+}
+
+
+.ext-safari .x-small-editor .x-form-field {
+    /* safari text field will not size so needs bigger font */
+    font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-menu-sep {
+	overflow:hidden;
+	height:1px;
+	margin: 1px 3px;
+}
+
+.x-layout-split, .x-splitbar-h, .x-splitbar-v, .x-layout-split-north, .x-layout-split-east, .x-layout-split-west, .x-layout-split-south {
+    cursor:move !important;
+}
+
+.x-grid3:not(input) {
+    -khtml-user-select: none;
+}
+.x-tree:not(input) {
+    -khtml-user-select: none;
+}
+.x-panel:not(input) {
+    -khtml-user-select: none;
+}
+.x-panel .x-panel-body textarea {
+    -khtml-user-select: normal;
+}
+

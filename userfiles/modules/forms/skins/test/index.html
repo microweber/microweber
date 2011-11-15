@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QUnit Test Suite</title>
+  <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" type="text/css" media="screen">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+  <script type="text/javascript" src="../js/uni-form-validation.jquery.js"></script>
+  <script type="text/javascript" src="validation.js"></script>
+  <script type="text/javascript" src="form.js"></script>
+  <script type="text/javascript" src="issues.js"></script>
+</head>
+<body>
+  <h1 id="qunit-header">QUnit Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+    <form id="qunit-form" action="#" class="uniForm">
+      
+      <div class="header">
+        <h2>Validation Testing</h2>
+        <p></p>
+      </div>
+      
+            
+      <fieldset>
+        <h3>Client side form demonstration</h3>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Your name</label>
+          <input name="name" id="name" data-default-value="Your name" size="35" maxlength="50" type="text" class="textInput required"/>
+          <p class="formHint">Required element</p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Your email</label>
+          <input name="email" id="email" data-default-value="Your email address" size="35" maxlength="50" type="text" class="textInput required validateEmail"/>
+          <p class="formHint">A valid email address</p>
+        </div>
+      
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Email confirm</label>
+          <input name="email_confirm" id="email_confirm" data-default-value="Type your email again" size="35" maxlength="50" type="text" class="textInput required validateSameAs email"/>
+          <p class="formHint"></p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> A number from 10 - 50</label>
+          <input name="a_number" id="a_number" data-default-value="" size="35" maxlength="50" type="text" class="textInput required validateInteger validateMin val-10 validateMax val-50"/>
+          <p class="formHint">A random number that you like</p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <p class="label"><em>*</em> Your preferred color</p>
+          <ul class="blockLabels">
+            <li><label for=""><input type="radio" name="color" class="required"> Red</label></li>
+            <li><label for=""><input type="radio" name="color" class="required"> Green</label></li>
+            <li><label for=""><input type="radio" name="color" class="required"> Blue</label></li>
+          </ul>
+          <p class="formHint">Select a color</p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <p class="label">Privacy agreement</p>
+          <ul class="blockLabels">
+            <li><label for=""><input type="checkbox" name="agreement" class="required"> I have read the agreement</label></li>
+          </ul>
+          <p class="formHint">This is a form hint.</p>
+        </div>
+
+      </fieldset>
+      
+
+      <div class="buttonHolder">
+        <button type="submit" class="primaryAction">Submit</button>
+      </div>
+
+    </form>
+  
+  </div>
+</body>
+</html>

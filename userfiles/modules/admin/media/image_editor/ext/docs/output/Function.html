@@ -1,0 +1,221 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Function-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Function-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Function-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                        <a class="bookmark" href="../docs/?class=Function"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <h1>Class Function</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Global</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">Ext.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">Function</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
+                    </table>
+        <div class="description">
+            These functions are available on every Function object (any JavaScript function).        </div>
+        
+        <div class="hr"></div>
+                <a id="Function-props"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a id="Function-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Function-createCallback"></a>
+            <b>createCallback</b>() : Function            <div class="mdesc">
+                        <div class="short">Creates a callback that passes arguments[0], arguments[1], arguments[2], ...
+Call directly on any function. Example: ...</div>
+            <div class="long">
+                Creates a callback that passes arguments[0], arguments[1], arguments[2], ...
+Call directly on any function. Example: <code>myFunction.createCallback(arg1, arg2)</code>
+Will create a function that is bound to those 2 args. <b>If a specific scope is required in the
+callback, use <a ext:cls="Function" ext:member="createDelegate" href="output/Function.html#createDelegate">createDelegate</a> instead.</b> The function returned by createCallback always
+executes in the window scope.
+<p>This method is required when you want to pass arguments to a callback function.  If no arguments
+are needed, you can simply pass a reference to the function as a callback (e.g., callback: myFn).
+However, if you tried to pass a function with arguments (e.g., callback: myFn(arg1, arg2)) the function
+would simply execute immediately when the code is parsed. Example usage:
+<pre><code>var sayHi = <b>function</b>(name){
+    alert(<em>'Hi, '</em> + name);
+}
+
+<i>// clicking the button alerts <em>"Hi, Fred"</em></i>
+<b>new</b> Ext.Button({
+    text: <em>'Say Hi'</em>,
+    renderTo: Ext.getBody(),
+    handler: sayHi.createCallback(<em>'Fred'</em>)
+});</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Function</code><div class="sub-desc">The new function</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Function</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Function-createDelegate"></a>
+            <b>createDelegate</b>(&nbsp;<span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;) : Function            <div class="mdesc">
+                        <div class="short">Creates a delegate (callback) that sets the scope to obj.
+Call directly on any function. Example: this.myFunction.cre...</div>
+            <div class="long">
+                Creates a delegate (callback) that sets the scope to obj.
+Call directly on any function. Example: <code>this.myFunction.createDelegate(this, [arg1, arg2])</code>
+Will create a function that is automatically scoped to obj so that the <tt>this</tt> variable inside the
+callback points to obj. Example usage:
+<pre><code>var sayHi = <b>function</b>(name){
+    <i>// Note <b>this</b> use of <em>"<b>this</b>.text"</em> here.  This <b>function</b> expects to</i>
+    <i>// execute within a scope that contains a text property.  In <b>this</b></i>
+    <i>// example, the <em>"<b>this</b>"</em> variable is pointing to the btn object that</i>
+    <i>// was passed <b>in</b> createDelegate below.</i>
+    alert(<em>'Hi, '</em> + name + <em>'. You clicked the "'</em> + <b>this</b>.text + <em>'" button.'</em>);
+}
+
+<b>var</b> btn = <b>new</b> Ext.Button({
+    text: <em>'Say Hi'</em>,
+    renderTo: Ext.getBody()
+});
+
+<i>// This callback will execute <b>in</b> the scope of the</i>
+<i>// button instance. Clicking the button alerts</i>
+<i>// <em>"Hi, Fred. You clicked the "</em>Say Hi<em>" button."</em></i>
+btn.on(<em>'click'</em>, sayHi.createDelegate(btn, [<em>'Fred'</em>]));</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>obj</code> : Object<div class="sub-desc">(optional) The object for which the scope is set</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) Overrides arguments for the call. (Defaults to the arguments passed by the caller)</div></li><li><code>appendArgs</code> : Boolean/Number<div class="sub-desc">(optional) if True args are appended to call args instead of overriding,
+if a number the args are inserted at the specified position</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Function</code><div class="sub-desc">The new function</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Function</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Function-createInterceptor"></a>
+            <b>createInterceptor</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Function            <div class="mdesc">
+                        <div class="short">Creates an interceptor function. The passed fcn is called before the original one. If it returns false,
+the original ...</div>
+            <div class="long">
+                Creates an interceptor function. The passed fcn is called before the original one. If it returns false,
+the original one is not called. The resulting function returns the results of the original function.
+The passed fcn is called with the parameters of the original function. Example usage:
+<pre><code>var sayHi = <b>function</b>(name){
+    alert(<em>'Hi, '</em> + name);
+}
+
+sayHi(<em>'Fred'</em>); <i>// alerts <em>"Hi, Fred"</em></i>
+
+<i>// create a <b>new</b> function that validates input without</i>
+<i>// directly modifying the original <b>function</b>:</i>
+<b>var</b> sayHiToFriend = sayHi.createInterceptor(<b>function</b>(name){
+    <b>return</b> name == <em>'Brian'</em>;
+});
+
+sayHiToFriend(<em>'Fred'</em>);  <i>// no alert</i>
+sayHiToFriend(<em>'Brian'</em>); // alerts <em>"Hi, Brian"</em></code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc">The function to call before the original</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the passed fcn (Defaults to scope of original function or window)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Function</code><div class="sub-desc">The new function</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Function</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Function-createSequence"></a>
+            <b>createSequence</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Function            <div class="mdesc">
+                        <div class="short">Create a combined function call sequence of the original function + the passed function.
+The resulting function retur...</div>
+            <div class="long">
+                Create a combined function call sequence of the original function + the passed function.
+The resulting function returns the results of the original function.
+The passed fcn is called with the parameters of the original function. Example usage:
+<pre><code>var sayHi = <b>function</b>(name){
+    alert(<em>'Hi, '</em> + name);
+}
+
+sayHi(<em>'Fred'</em>); <i>// alerts <em>"Hi, Fred"</em></i>
+
+<b>var</b> sayGoodbye = sayHi.createSequence(<b>function</b>(name){
+    alert(<em>'Bye, '</em> + name);
+});
+
+sayGoodbye(<em>'Fred'</em>); // both alerts show</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc">The function to sequence</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the passed fcn (Defaults to scope of original function or window)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Function</code><div class="sub-desc">The new function</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Function</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Function-defer"></a>
+            <b>defer</b>(&nbsp;<code>Number millis</code>, <span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Calls this function after the number of millseconds specified, optionally in a specific scope. Example usage:
+var say...</div>
+            <div class="long">
+                Calls this function after the number of millseconds specified, optionally in a specific scope. Example usage:
+<pre><code>var sayHi = <b>function</b>(name){
+    alert(<em>'Hi, '</em> + name);
+}
+
+<i>// executes immediately:</i>
+sayHi(<em>'Fred'</em>);
+
+<i>// executes after 2 seconds:</i>
+sayHi.defer(2000, <b>this</b>, [<em>'Fred'</em>]);
+
+<i>// <b>this</b> syntax is sometimes useful <b>for</b> deferring</i>
+<i>// execution of an anonymous <b>function</b>:</i>
+(<b>function</b>(){
+    alert(<em>'Anonymous'</em>);
+}).defer(100);</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>millis</code> : Number<div class="sub-desc">The number of milliseconds for the setTimeout call (if 0 the function is executed immediately)</div></li><li><code>obj</code> : Object<div class="sub-desc">(optional) The object for which the scope is set</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) Overrides arguments for the call. (Defaults to the arguments passed by the caller)</div></li><li><code>appendArgs</code> : Boolean/Number<div class="sub-desc">(optional) if True args are appended to call args instead of overriding,
+if a number the args are inserted at the specified position</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The timeout id that can be used with clearTimeout</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Function</td>
+    </tr>
+            </table>
+                <a id="Function-events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>
+        </div>
