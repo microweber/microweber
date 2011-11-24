@@ -123,7 +123,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			}
 			// End Resizing
 			
-			TB_WIDTH = (imageWidth + 50 > 250?imageWidth + 60 :250);
+			TB_WIDTH = (imageWidth + 30 > 250?imageWidth + 30 :250);
 			TB_HEIGHT = imageHeight + 60;			
 			$("#TB_window").append("<a href='' id='TB_ImageOff' title='Close'><img id='TB_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='TB_caption'>"+caption+"<div id='TB_secondLine'>" + TB_imageCount + TB_PrevHTML + TB_NextHTML + "</div></div><div id='TB_closeWindow'><a href='#' id='TB_closeWindowButton' title='Close'>" + thickbox.close +"</a></div>"); 		
 			
@@ -184,7 +184,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			var queryString = url.replace(/^[^\?]+\??/,'');
 			var params = tb_parseQuery( queryString );
 
-			TB_WIDTH = (params['width']*1) + 60 || 680; //defaults to 630 if no paramaters were added to URL
+			TB_WIDTH = (params['width']*1) + 30 || 630; //defaults to 630 if no paramaters were added to URL
 			TB_HEIGHT = (params['height']*1) + 40 || 440; //defaults to 440 if no paramaters were added to URL
 			ajaxContentW = TB_WIDTH - 30;
 			ajaxContentH = TB_HEIGHT - 45;

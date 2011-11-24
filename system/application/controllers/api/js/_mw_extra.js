@@ -197,9 +197,9 @@ mw_forms.make_fields = function(){
 
 
 				  success: function(){
-				
+				if(mw != undefined && mw.reload_module != undefined){
 				mw.reload_module($(this).attr('option_group'));
-				
+				}
  
 				
 				

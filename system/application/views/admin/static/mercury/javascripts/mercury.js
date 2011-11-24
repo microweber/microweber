@@ -15092,18 +15092,51 @@ Showdown.converter = function() {
       var identity, instance;
       identity = "snippet_" + this.all.length;
       instance = new Mercury.Snippet(name, identity, options);
+	   if (console){ 
+	  console.log("Snippet.create   " + identity)
+	  
+	  }
       this.all.push(instance);
       return instance;
     };
     Snippet.find = function(identity) {
       var snippet, _i, _len, _ref;
       _ref = this.all;
+	  content = this.content;
+	  
+	   if (console){ 
+	 console.log("Snippet.find   " + identity)
+	  
+	  }
+	  
+	  	   
+	        instance = new Mercury.Snippet(identity, identity, identity);
+this.all.push(instance);
+	  return instance;
+ 
+	 // jQuery("#mercury_iframe").contents().find("[data-snippet]").html("111");
+	  
+    //    instance = new Mercury.Snippet(identity, identity, identity);
+     //   _ref.push(this.all.push(instance));
+	//  
+	 
+	  
+	 // $s =  jQuery(content).html();
+	   // console.log( content );
+      
+	  
+	  
+	 // $s =  jQuery(_ref).find("[data-snippet]");;
+	  //console.log(_ref);
+	  
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         snippet = _ref[_i];
-        if (snippet.identity === identity) {
+        if (snippet.identity == identity) {
           return snippet;
         }
       }
+	  
+
       return null;
     };
     Snippet.load = function(snippets) {
@@ -15113,7 +15146,15 @@ Showdown.converter = function() {
         if (!__hasProp.call(snippets, identity)) continue;
         details = snippets[identity];
         instance = new Mercury.Snippet(details.name, identity, details.options);
+		
+		 if (console){ 
+	  console.log("Snippet.load   " + identity  + details)
+	  
+	  }
+		
+		
         _results.push(this.all.push(instance));
+		this.all.push(instance);
       }
       return _results;
     };
@@ -15169,6 +15210,14 @@ Showdown.converter = function() {
     };
     Snippet.prototype.displayOptions = function() {
       Mercury.snippet = this;
+	  
+	  if (console){ 
+	  console.log("Snippet.prototype.displayOptions "+ this.options)
+	  
+	  }
+	  
+	  
+	  
       return Mercury.modal(Mercury.config.snippets.optionsUrl.replace(':name', this.name), {
         title: 'Snippet Options',
         handler: 'insertSnippet',
@@ -15406,15 +15455,43 @@ Showdown.converter = function() {
       } else {
         container = jQuery('<div>').appendTo(this.document.createDocumentFragment());
         container.html(this.element.html().replace(/^\s+|\s+$/g, ''));
+		this.container = container;
         if (filterSnippets) {
           _ref = container.find('.mercury-snippet');
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             snippet = _ref[_i];
+			 this.all.push(snippet);
             snippet = jQuery(snippet);
+			 
+			  if (console){ 
+	  console.log("Snippet.find on load   " + snippet)
+	  
+	  }
+	  
+	  
+			
+				//$mo = snippet.find('.module:first').attr('module_id');
+		 //jQuery(element).attr('data-snippet', $mo);
+		//snippet.identity = $mo;
+			
+			
+				$mo = _ref.find('.module:first').attr('module_id');
+		$mo2 = _ref.find('.module:first').attr('module');
+		$mo2 =($mo2.replace(/\//i, "__"));
+		$mo3 = $mo2+'|'+$mo;
+			
             snippet.attr({
-              contenteditable: null,
+              contenteditable: false,
+			   'data-snippet': $mo3,
               'data-version': null
             });
+			
+			
+			//  instance1 = new Mercury.Snippet.create($mo3, snippet.attr);
+    //  this.all.push(instance1);
+	  
+	  
+	  
             snippet.html("[" + (snippet.data('snippet')) + "]");
           }
         }
@@ -15458,7 +15535,16 @@ Showdown.converter = function() {
         element = _ref[_i];
         snippet = Mercury.Snippet.find(jQuery(element).data('snippet'));
         snippet.setVersion(jQuery(element).data('version'));
-        snippets[snippet.identity] = snippet.serialize();
+		
+		
+		
+		
+			$mo = jQuery(element).find('.module:first').attr('module_id');
+		$mo2 =jQuery(element).find('.module:first').attr('module');
+		$mo2 =($mo2.replace(/\//i, "__"));
+		$mo3 = $mo2+'|'+$mo;
+		
+        snippets[snippet.identity] = $mo3;
       }
       return snippets;
     };
@@ -15800,6 +15886,17 @@ Showdown.converter = function() {
         element = _ref[_i];
         element.contentEditable = false;
         jQuery(element).attr('data-version', '1');
+		
+		
+		$mo = this.element.find('.module:first').attr('module_id');
+		$mo2 = this.element.find('.module:first').attr('module');
+		$mo2 =($mo2.replace(/\//i, "__"));
+		$mo3 = $mo2+'|'+$mo;
+		
+		 jQuery(element).attr('data-snippet', $mo3);
+		//snippet.identity = $mo;
+		
+		
       }
       if (!this.document.mercuryEditing) {
         this.document.mercuryEditing = true;
@@ -16346,9 +16443,30 @@ Showdown.converter = function() {
       insertSnippet: function(selection, options) {
         var existing, snippet;
         snippet = options.value;
-        if ((existing = this.element.find("[data-snippet=" + snippet.identity + "]")).length) {
+		
+		//$mo = this.element.find('.module:first').attr('module_id');
+		
+			$mo = this.element.find('.module:first').attr('module_id');
+		$mo2 = this.element.find('.module:first').attr('module');
+		$mo2 =($mo2.replace(/\//i, "__"));
+		$mo3 = $mo2+'|'+$mo;
+		
+		
+		snippet.identity = $mo3;
+		//console.log($mo);
+		
+		
+		
+		
+		this.element.find("[data-snippet='" + snippet.identity + "']").remove();
+		
+        if ((existing = this.element.find("[data-snippet='" + snippet.identity + "']")).length) {
           selection.selectNode(existing.get(0));
         }
+		
+		
+		
+		
         return selection.insertNode(snippet.getHTML(this.document));
       },
       editSnippet: function() {
@@ -16356,7 +16474,8 @@ Showdown.converter = function() {
         if (!this.snippet) {
           return;
         }
-        snippet = Mercury.Snippet.find(this.snippet.data('snippet'));
+		$s = (this.snippet.data('snippet'));
+       snippet = Mercury.Snippet.find($s);
         return snippet.displayOptions();
       },
       removeSnippet: function() {
@@ -17252,6 +17371,11 @@ Showdown.converter = function() {
       insertSnippet: function(options) {
         var existing, snippet;
         snippet = options.value;
+		 
+		
+		
+		
+		
         if ((existing = this.element.find("[data-snippet=" + snippet.identity + "]")).length) {
           return existing.replaceWith(snippet.getHTML(this.document, __bind(function() {
             return this.pushHistory();

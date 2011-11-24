@@ -61,25 +61,7 @@ $from = 	$page['id'];
           </ul>
         </div>
         <!--end TreeMenu-->
-        <div class="paragraph">If you have any problems with the filing the form plase contact us in our Live chat agent online.</div>
-        <div class="leftForm">
-          <form action="?">
-            <div class="title">Type your details for FREE consultation</div>
-            <label>Please write us an e-mail on the form below.  Thank you!</label>
-            <span class="inputHolder">
-            <input type="text" value = "Your Name" onclick="value=''" onblur="this.value=!this.value?'Your Name':this.value;" name="" />
-            </span> <span class="inputHolder">
-            <input type="text" value = "Your E-mail" onclick="value=''" onblur="this.value=!this.value?'Your E-mail':this.value;" name="" />
-            </span> <span class="inputHolder">
-            <input type="text" value = "Phone Number" onclick="value=''" onblur="this.value=!this.value?'Phone Number':this.value;" name="" />
-            </span> <span class="textarea">
-            <textarea></textarea>
-            </span> <span class="note">* Your personal information is strictly confidential</span>
-            <div class="clear"></div>
-            <a href="#" title="" class="bttnHolder"> <span class="bttn">Read More</span> </a>
-            <div class="clear"></div>
-          </form>
-        </div>
+        <? include   TEMPLATE_DIR.  "sidebar_form.php"; ?>
       </div>
       <!--end left box 1-->
     </div>

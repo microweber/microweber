@@ -134,6 +134,17 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 define ( 'MAIN_PAGE_ID', $last );
 			}
 		
+		if (defined ( 'HOME_PAGE_ID' ) == false) {
+			$pageh = CI::model ( 'content' )->getContentHomepage ();
+//p($par );
+			 
+				$last = $pageh ['id'];
+			 
+//p($last );
+define ( 'HOME_PAGE_ID', $last );
+			}
+			
+			
 			
 		
 		
@@ -253,13 +264,13 @@ define ( 'MAIN_PAGE_ID', $last );
 		if ($content ['content_layout_file'] != '') {
 			
 			//$this->template ['title'] = 'adasdsad';
-			if (is_readable ( $the_active_site_template_dir . 'layouts/' . $content ['content_layout_file'] ) == true) {
+			if (is_file ( $the_active_site_template_dir . 'layouts/' . $content ['content_layout_file'] ) == true) {
 				
 				$this->load->vars ( $this->template );
 				
 				$layout = $this->load->file ( $the_active_site_template_dir . 'layouts/' . $content ['content_layout_file'], true );
 			
-			} elseif (is_readable ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
+			} elseif (is_file ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
 				
 				$this->load->vars ( $this->template );
 				
@@ -267,11 +278,46 @@ define ( 'MAIN_PAGE_ID', $last );
 			
 			} else {
 				
+				
+				if (is_file( $the_active_site_template_dir . 'layouts/default/index.php') == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir .  'layouts/default/index.php', true );
+			
+			} 
+			
+			 elseif (is_file ( $the_active_site_template_dir . '' . 'default_layout.php' ) == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir . '' . 'default_layout.php', true );
+			
+			}
+			
+			 elseif (is_file ( $the_active_site_template_dir . '' . 'layout.php' ) == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir . '' . 'layout.php', true );
+			
+			}
+			
+			
+			
+			else {
+			
+			
+			
+			
+				
 				header ( "HTTP/1.1 500 Internal Server Error" );
 				
 				show_error ( "Layout file {$content ['content_layout_file']} is not readable or doesn't exist in the templates directory!" );
 				
 				exit ();
+				
+			}
 			
 			}
 		
@@ -307,7 +353,7 @@ define ( 'MAIN_PAGE_ID', $last );
 					
 					if ($skip_layout_load1 == false) {
 						
-						if (is_readable ( $the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout ) == true) {
+						if (is_file ( $the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout ) == true) {
 							
 							$this->load->vars ( $this->template );
 							
@@ -315,7 +361,7 @@ define ( 'MAIN_PAGE_ID', $last );
 						
 						}
 						if (strval ( $layout == '' )) {
-							if (is_readable ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
+							if (is_file ( $the_active_site_template_dir . 'layouts/' . 'default_layout.php' ) == true) {
 								
 								$this->load->vars ( $this->template );
 								
@@ -323,12 +369,55 @@ define ( 'MAIN_PAGE_ID', $last );
 							
 							} else {
 								
+								
+								
+								
+								if (is_file( $the_active_site_template_dir . 'layouts/default/index.php') == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir .  'layouts/default/index.php', true );
+			
+			} 
+			
+			 elseif (is_file ( $the_active_site_template_dir . '' . 'default_layout.php' ) == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir . '' . 'default_layout.php', true );
+			
+			}
+			
+			 elseif (is_file ( $the_active_site_template_dir . '' . 'layout.php' ) == true) {
+				
+				$this->load->vars ( $this->template );
+				
+				$layout = $this->load->file ( $the_active_site_template_dir . '' . 'layout.php', true );
+			
+			} else {
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
 								header ( "HTTP/1.1 500 Internal Server Error" );
 								
 								show_error ( "Layout file {$content ['content_layout_file']} is not readable or doesn't exist in the templates directory!" );
 								
 								exit ();
-							
+			}
 							}
 						
 						}

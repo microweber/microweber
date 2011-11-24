@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-04-18 13:09:14
+<?php /* Smarty version 2.6.26, created on 2011-11-22 17:56:26
          compiled from CoreHome/templates/piwik_tag.tpl */ ?>
 <?php if ($this->_tpl_vars['piwikUrl'] == 'http://demo.piwik.org/' || $this->_tpl_vars['debugTrackVisitsInsidePiwikUI']): ?>
 
@@ -29,4 +29,4 @@ try {
 <!-- End Piwik Code -->
 '; ?>
 
-<?php endif; ?>
+<?php endif; ?>

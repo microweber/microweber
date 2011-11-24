@@ -189,6 +189,7 @@ class Users_model extends Model {
 		}
 		
 		CI::model('core')->cleanCacheGroup ( 'users/global' );
+		CI::model('core')->cleanCacheGroup ( 'custom_fields' );
 		
 		return $save;
 	}

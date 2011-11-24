@@ -60,7 +60,7 @@ $modules = CI::model('template')->getModules($modules_options );
           
            <li data-filter="editable, snippet, <? print $module2['name'] ?>"> 
            <? if($module2['icon']): ?>
-                            <img alt="<? print $module2['name'] ?>" data-snippet="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="24" />
+                            <img alt="<? print $module2['name'] ?>" identity="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" data-snippet="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="24" />
 
                 <? endif; ?>
       <h4><? print $module2['name'] ?></h4>

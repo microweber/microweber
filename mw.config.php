@@ -8,11 +8,12 @@ $mw_config ['application_folder'] = 'application';
 
 $mw_config ['db_hostname'] = 'localhost';
 
-$mw_config ['db_username'] = 'root';
+$mw_config ['db_username'] = 'ooyes';
 
-$mw_config ['db_password'] = '123456';
+$mw_config ['db_password'] = 'otivamnabali123456';
 
-$mw_config ['site_url'] = "http://localhost/Microweber2/";
-$mw_config ['db_database'] = 'cms_wills';
+ $mw_config ['site_url'] = "http://dev.ooyes.net/global_wills/";
 
-?>
+$mw_config ['db_database'] = 'ooyes_wills';
+
+ 

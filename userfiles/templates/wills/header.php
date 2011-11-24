@@ -5,7 +5,9 @@
 <title>{content_meta_title}</title>
 <meta NAME="Description" CONTENT="{content_meta_description}">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-1.4.2.min.js"></script>
+<!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-1.4.2.min.js"></script>
+-->
+<script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>vertical_files/jquxery-1.js"></script>
 <script type="text/javascript" src="<? print site_url('api/js') ?>"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/validations.js"></script>
@@ -16,6 +18,7 @@
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/general.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/jScrollPane.css" type="text/css" media="screen" />
+<script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
 <!--[if IE 7]><link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/ie.css" type="text/css" media="screen" /><![endif]-->
 <!--[if IE 8]><link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/ie8.css" type="text/css" media="screen" /><![endif]-->
 <style>
@@ -57,8 +60,46 @@ body {
 }
 </style>
 <script type="text/javascript">
-			
+								   
+		function send_m($sel){
+		// alert($sel);
+		
+		 $s = $($sel).serialize();
+		
+		 
+			 $.ajax({
+  type: 'POST',
+  url: '<? print TEMPLATE_URL ?>mailsender.php',
+  data: $s,
+  success:  function(data) {
+	 // $('.result').html(data);
+	 
+	 alert("Your message have been sent.");
+	 
+	 
+	//  alert(data);
+		}
+});
+ 
+ 
+		}
+		
+		
 $(document).ready(function() {
+						   
+						   
+	 
+						   
+						   
+						   
+						   
+						   
+						   
+						   
+						   
+						   
+						   
+						   
 	$(".panel0").addClass("selected");
 	
 	
@@ -200,6 +241,10 @@ $(document).ready(function() {
 	
 
 });
+
+
+
+
 	 (function($){
 			$.fn.extend({
 			customStyle : function(options) {
@@ -257,7 +302,7 @@ jQuery(document).ready(function(){
 										width: 970, // default width of the slideshow
 height: 178, // default height of the slideshow
 speed: 'slow', // default animation transition speed
-interval: 3000, // default interval between image change
+interval: 5000, // default interval between image change
 PlayPauseElement: 'fssPlayPause', // default css id for the play / pause element
 PlayText: 'Play', // default play text
 PauseText: 'Pause', // default pause text
@@ -269,7 +314,7 @@ ListElement: 'fssList', // default id for image / content controll list
 ListLi: 'fssLi', // default class for li's in the image / content controll
 ListLiActive: 'fssActive', // default class for active state in the controll list
 addListToId: false, // add the controll list to special id in your code - default false
-allowKeyboardCtrl: true, // allow keyboard controlls left / right / space
+allowKeyboardCtrl: false, // allow keyboard controlls left / right / space
 autoplay: true // autoplay the slideshow
 										
 										}
@@ -298,9 +343,9 @@ autoplay: true // autoplay the slideshow
     <div class="Header"> <a class="Logo" href="<? print site_url(); ?>" title=""><img src="<? print TEMPLATE_URL ?>images/Logo.png" alt=""/></a>
       <div class="RightColumn">
         <div class="callIcon">Call now for FREE consultation
-          <div class="phone">0044 857 896 541</div>
+          <div class="phone">+44 203 287 2037</div>
         </div>
-        <a href="#" class="liveChatIcon">Click here to start Live Chat</a> </div>
+        <a href="skype:GlobalWills?chat"  class="liveChatIcon">Click here to start Live Chat</a> </div>
       <div class="clear"></div>
     </div>
     <div class="wrapNavigation">
@@ -311,7 +356,7 @@ autoplay: true // autoplay the slideshow
 		// p( $header_menu,1);
 		?>
           <ul>
-            <? $i=0; foreach($header_menu as $item): ?>
+            <? $i=1; foreach($header_menu as $item): ?>
             <li><a class="itemLink<? if($item['is_active'] == true and $i > 0): ?> active<? endif; ?><? if($item['is_active'] == true and $i == 0): ?> itemFirstActive<? endif; ?><? if($i == 0): ?> itemFirst<? endif; ?>" href="<? print  $item['the_url']; ?>" title="<? print  $item['title']; ?>">
               <? if($i > 0): ?>
               <? print  $item['title']; ?>
@@ -345,13 +390,20 @@ autoplay: true // autoplay the slideshow
 	   }
 	   
 	   if(empty($pics)){
-		 	   $pics = get_pictures(HOME_PAGE_ID, $for = 'post', $media_type = false, $queue_id = false, $collection = false);		   
+		 	   $pics = get_pictures(1, $for = 'post', $media_type = false, $queue_id = false, $collection = false);		   
 	   }
-	  // if() ?>
+	   
+	  // if() 
+	 // p(HOME_PAGE_ID);
+	 //   p(MAIN_PAGE_ID);
+	  
+	  ?>
        
         <div class="images">
         <? if(!empty($pics)): ?>
-        <? foreach($pics as $pic): ?>
+        <?
+		shuffle($pics);
+		foreach($pics as $pic): ?>
         
           <div style="background-image:url('<? print $pic['urls']['original']; ?>')" class="image">
             <div class="image_text">
@@ -376,15 +428,15 @@ autoplay: true // autoplay the slideshow
         <div class="centerHolder">
           <table width="100%" border="0">
             <tr valign="middle">
-              <td><editable  rel="page" field="custom_field_subscribe_teaser" page_id="<? print HOME_PAGE_ID ?>"> <a href="#">HOW CAN WE HELP YOU TO MANAGE YOUR WEALTH?</a> </editable></td>
-              <td><div class="subscribeBoxHolder">
+              <td ><div style="width:600px; display:block; position: relative; top: -5px;"> <a href="#">GET OUR FREE INFORMATION PACK, ENTER YOUR EMAIL</a> </div></td>
+              <td > 
                   <form class="subscribeForm" action="?">
-                    <span>SUBSCRIBE FOR NEWSLETTER</span>
+                    <!--<span>SUBSCRIBE FOR NEWSLETTER</span>-->
                     <input type="text" value = "Type your e-mail here" onclick="value=''" onblur="this.value=!this.value?'Type your e-mail here':this.value;" />
                     <input type="submit" class="Submit" value = "SUBSCRIBE"/>
                     <div class="clear"></div>
                   </form>
-                </div></td>
+                 </td>
             </tr>
           </table>
           <div class="clear"></div>

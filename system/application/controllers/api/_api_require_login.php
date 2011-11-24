@@ -5,7 +5,11 @@ if (CI::model ( 'users' )->is_logged_in () == false) {
 		print json_encode ( $try_to_login );
 		exit ();
 	} else {
-		exit ( 'login required' );
+		
+		$try_to_login = array('fail'=>'fail');
+		print json_encode ( $try_to_login );
+		exit ();
+		//exit ( 'login required' );
 	}
 } else {
 	$loggeduser['ok'] ='ok';

@@ -29,19 +29,16 @@ $geshi = new GeSHi($source_code, $source_code_language);
 $geshi->set_source($source_code);
  
 $geshi->enable_classes(true);
-echo $geshi->parse_code();
-
+echo ($geshi->parse_code());
+//echo ($geshi->parse_code());
 
 
  
 //$result = geshi_highlight($source_code, $source_code_language);
  
 ?>
- <style type="text/css"><!--';
+ <style type="text/css"> 
  <? print  $geshi->get_stylesheet(); ?>
  
-// Echo out the stylesheet for this code blockecho
- // And continue echoing the page
- echo '-->
 </style>
  

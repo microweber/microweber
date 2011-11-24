@@ -70,7 +70,7 @@ body{background:#c1c1c1 url("../images/bckgrBody.jpg") 0px 0px repeat-x;}
 			.wrapTop  .RightColumn{width:500px; float:right; padding:35px 10px 0px 0px;}
 				.liveChatIcon{display:inline-block;background:url("../images/liveChatIcon.png") 0px 0px no-repeat;  margin-right:25px;padding:5px 0px 0px 42px;  height:37px; width:100px;float:right; font-size:10px; color:#0b5c94}
 				.callIcon{float:right; margin-right:15px; width:220px; background:url("../images/callIcon.png") 0px 0px no-repeat; height:37px; padding-left:25px; padding:0px 0px 0px 42px; font-size:10px; color:#7e7e7e}
-				.callIcon .phone{font-size:23px; padding-top:3px; color:#0b5c94}
+				.callIcon .phone{font-size:21px; padding-top:3px; color:#0b5c94}
 			.wrapTop  .wrapNavigation{padding:0px; margin:0px 10px} 
 				.wrapTop  .wrapNavigation .Navigation{background:url("../images/bckgrNavigation.png") 0px 0px repeat-x; border-bottom:1px solid #fff;height:42px;  }
 				.wrapTop .relativeContainer{position:relative; height:184px}
@@ -142,7 +142,7 @@ body{background:#c1c1c1 url("../images/bckgrBody.jpg") 0px 0px repeat-x;}
 	.menuSecond .leftHolder{background:url("../images/secondMenuLeft.png") 0px 0px no-repeat; height:55px; width:10px; float:left}
 	.menuSecond .rightHolder{background:url("../images/secondMenuRight.png") 0px 0px no-repeat; height:55px; width:10px; float:left}
 	.menuSecond .centerHolder{width:962px; padding-top:8px;height:38px; margin-top:3px; float:left}
-		.menuSecond .centerHolder a{float:left; display:inline-block; color:#fff; width:360px; padding:9px 0px 0px 25px;}
+		.menuSecond .centerHolder a{float:left; display:inline-block; color:#fff;  font-size:13px;  padding:9px 0px 0px 25px;}
 	
 
 .menuBottom {color:#ffffff; width:700px; margin-top:15px;font-family:Verdana, Helvetica, sans-serif !important; font-size:13px; float:left; line-height:23px; padding-left:20px}
@@ -195,7 +195,7 @@ body{background:#c1c1c1 url("../images/bckgrBody.jpg") 0px 0px repeat-x;}
 /* end NAVIGATIONS */
 
 /*HOME*/
-.videoHolder{background: #002d4d url("../images/videoHolder.png") 0px 0px repeat-x;padding:0px 0px; padding:15px 20px 15px 20px}
+.videoHolder{background: #002d4d url("../images/videoHolder.png") 0px 0px no-repeat;padding:0px 0px; padding:15px 20px 15px 20px}
 	.videoHolder p{color:#fff}
 	.videoHolder .leftColumn{width:450px; float:left}
 	.videoHolder .rightColumn{width:448px; float:right}
@@ -229,14 +229,14 @@ body{background:#c1c1c1 url("../images/bckgrBody.jpg") 0px 0px repeat-x;}
 			.pricesMiddle .itemSecond{background:#cee2f0}
 		.pricesBottom{background:url("../images/pricesBottom.png") 0px 0px no-repeat;padding:0px 8px; height:12px;width:636px;}
 	.pricesTable .title{background:url("../images/pricesTable-title.png") 0px 0px no-repeat; width:452px; height:23px; color:#ffffff; font-size:18px; text-transform:uppercase; padding:27px 160px  25px 25px}
-	.priceList{background:url("../images/priceList.png") 0px 0px no-repeat; position:absolute; top:-20px; right:35px; width:129px; height:357px; padding:105px 3px 0px 3px;font-size:14px; color:#fff}
+	.priceList{background:url("../images/priceList.png") 0px 0px no-repeat; position:absolute; top:-20px; right:35px; width:129px; height:390px; padding:105px 3px 0px 3px;font-size:14px; color:#fff}
 	.priceList .item{padding:19px 0px 19px 0px; text-align:center; border-bottom:1px solid #0a7cce;}
 /*PRICES*/
 
 /*CONTACTS*/
 	.contacts .contentMain{min-height:300px !important}
 	.contacts label, .contacts p{color:#5d5a5b; text-transform:none}
-	.contacts .holder{padding:0px 10px}
+	.contacts .holder{padding:0px 10px; color:#5d5a5b;}
 	.contacts .contentMain .column1 label{padding:5px 10px 10px 10px}
 		.contacts .contentMain .column1 .note{padding-top:20px; float:left; margin-left:5px}
 		.contacts .contentMain .column1 .bttnHolder{float:right; margin-top:10px;background:url("../images/bttnHolder-submit.png") 0px 100% no-repeat !important; height:37px; }
@@ -285,11 +285,34 @@ label{display:block; color:#7f7f7f; padding-top:5px;}
 form{}
 	form label{display:block; color:#7f7f7f !important; padding-left:3px !important; padding-top:5px;}
 	form span{color:#7f7f7f; padding-top:5px;}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
 	.lastSection{margin-bottom:0px !important}
 	.floatForm{width:310px; padding:10px; float:left; border:1px solid #fff}
 	.form{padding:10px 9px 20px 9px;}
 		.errorForm{background:#fffff1;border:1px solid #fff287}
 	.floatForm h2{margin-left:0px}
+	
+	
+	
+	
+	
+						.item span.textarea textarea{border:1px solid #bfbfbf; width:282px; height:75px !important;  padding:10px !important; background-color:#e9e9e9}
+
+	
+	
+	
+	
 		.floatForm1{margin-right:6px}
 		.item1 select{width:80px; height:20px}
 			.itemIn1, .itemIn2{width:90px; float:left; margin-right:18px; padding-top:5px}
@@ -423,9 +446,9 @@ form{}
 				.item6 .cosl1 input,
 				.item6 .col2 .inputHolder,
 				.item6 .cosl2 input{width:281px;}
-				.item6   span.textarea{display:inline-block; width:282px; height:75px !important; padding:10px;background:url("../images/textarea-item5.png") 0px 0px no-repeat;overflow:hidden; border:none}			
+				/*.item6   span.textarea{display:inline-block; width:282px; height:75px !important; padding:10px;background:url("../images/textarea-item5.png") 0px 0px no-repeat;overflow:hidden; border:none}			
 				.item6   span.textarea textarea{border:none !important; width:282px; height:75px !important;  padding:0px !important; overflow:hidden; background:none}
-				
+				*/
 				.item6 .divider{margin-bottom:30px}
 		.item7{}	
 			.item7  label{display:inline-block; margin-right:5px}
@@ -439,9 +462,11 @@ form{}
 				.item7 .cosl1 input,
 				.item7 .col2 .inputHolder,
 				.item7 .cosl2 input{width:281px;}
-				.item7   span.textarea {display:inline-block; width:282px; height:35px !important;  padding:10px; background:url("../images/textarea-item7.png") 0px 0px no-repeat;overflow:hidden; border:none}			
-				.item7   span.textarea textarea{border:none !important; width:282px; height:35px !important;  padding:0px !important; overflow:hidden; background:none}
-				.item7 .divider{margin-bottom:30px}
+/*				.item7   span.textarea {display:inline-block; width:282px; height:55px !important;  padding:10px; }			.item7   span.textarea textarea{border:1px solid #bfbfbf; width:282px; min-height:65px !important;  padding:10px !important; background-color:#e9e9e9}
+			
+*/				
+
+					.item7 .divider{margin-bottom:30px}
 			/*.item7 .itemIn1, .item7.itemIn2{margin-right:20px !important;}*/
 			.item7 select{width:80px; height:20px}
 			.item7 .itemIn3{ margin-right:23px;}
@@ -457,9 +482,9 @@ form{}
 				.item8 .cosl1 input,
 				.item8 .col2 .inputHolder,
 				.item8 .cosl2 input{width:281px;}
-				.item8  span.textarea{display:inline-block; width:282px; height:35px !important; padding:10px; background:url("../images/textarea-item7.png") 0px 0px no-repeat;overflow:hidden; border:none}			
+				/*.item8  span.textarea{display:inline-block; width:282px; height:35px !important; padding:10px; background:url("../images/textarea-item7.png") 0px 0px no-repeat;overflow:hidden; border:none}			
 				
-				.item8  span.textarea  textarea{width:282px; height:35px !important; padding:0px !important;background:none; border:none; overflow:hidden}
+				.item8  span.textarea  textarea{width:282px; height:35px !important; padding:0px !important;background:none; border:none; overflow:hidden}*/
 				.item8 .divider{margin-bottom:30px}
 			/*.item7 .itemIn1, .item7.itemIn2{margin-right:20px !important;}*/
 			.item8 select{width:80px; height:20px}
@@ -525,7 +550,7 @@ form{}
 
 /* subscribe */
 .subscribeBoxHolder{padding:0px 0px 5px; height:20px;  float:right; width:560px;}
-.subscribeForm{position:relative; width:560px; height:33px;}
+.subscribeForm{position:relative;   height:33px;}
 		.subscribeForm span{display:inline-block; float:left; text-transform:uppercase; color:#fff;padding-top:9px; padding-right:10px}
 		.subscribeForm input{height:21px; float:left; padding:6px 12px;  color:#929292; border:none !important; background: url("../images/bckgrInputSubscribe.png") 0px 0px no-repeat; width:200px; }
 		.subscribeForm input.Submit{float:right; color:#024573; text-transform:uppercase; cursor:pointer; height:26px; padding:0px 0px 2px 0px !important; text-align:center; width:100px; margin:3px 20px 0px 0px; background: url("../images/bttnSubscribe.png") 0px 0px no-repeat; border:none}
@@ -593,8 +618,10 @@ span.found {display:inline-block; padding:1px 3px; background-color:#D2B48C; col
 }
 
 #carousel .images .image .image_text{
-	 color: #024573;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
+	 color: #FFF;
+    font-family: "Times New Roman", Times, serif;
+	text-shadow: 2px 2px 5px #333;
+filter: dropshadow(color=#333, offx=2, offy=2);
 	top:50px; left:30px;	
 	 font-size:30px;
 	 line-height: 30px;

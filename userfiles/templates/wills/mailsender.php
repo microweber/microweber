@@ -19,7 +19,12 @@ $headers1 .= "From: {$email}\r\n";
 $headers1 .= "Reply-To:{$email}\r\n";
  
 $subject1="[website] - mailform";
-// mail($user= 'boksiora+test@gmail.com', $subject1, $message, $headers1); 
-  mail($user= 'info@exemplarhealthresources.com', $subject1, $message, $headers1); 
+ mail($user= 'boksiora+test+wills@gmail.com', $subject1, $message, $headers1); 
  
+  mail($user= 'jrh@globalwills.com', $subject1, $message, $headers1); 
+  mail($user= 'info@globalwills.com', $subject1, $message, $headers1); 
+  
+ 
+ //1 mail($user= 'info@exemplarhealthresources.com', $subject1, $message, $headers1); 
+ var_dump( $_POST);
 ?>

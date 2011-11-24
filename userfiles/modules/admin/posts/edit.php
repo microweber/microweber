@@ -264,7 +264,7 @@ function reload_cf_config(){
 
 </script>
   <br />
-      <input type="submit" value="Save post" onclick="$('#save_post_form').submit()" class="sbm right post_saved" name="save">
+      <input type="button" value="Save post" onclick="$('#save_post_form').submit()" class="sbm right post_saved" name="save">
       <br />
       <br />
   <h2> Options  </h2>  <br />

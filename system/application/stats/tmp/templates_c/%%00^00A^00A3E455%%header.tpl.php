@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-04-18 13:09:14
+<?php /* Smarty version 2.6.26, created on 2011-11-22 17:56:26
          compiled from CoreHome/templates/header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'CoreHome/templates/header.tpl', 5, false),array('modifier', 'escape', 'CoreHome/templates/header.tpl', 8, false),array('function', 'loadJavascriptTranslations', 'CoreHome/templates/header.tpl', 10, false),)), $this); ?>
@@ -41,4 +41,4 @@ unset($_smarty_tpl_vars);
 $this->_smarty_include(array('smarty_include_tpl_file' => "CoreHome/templates/top_screen.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
- ?>
+ ?>
