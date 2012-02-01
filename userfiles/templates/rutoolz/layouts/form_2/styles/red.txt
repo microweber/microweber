@@ -1,2 +1,0 @@
-name: Red Stlyle
-description: Black and Red

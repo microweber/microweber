@@ -1,1 +1,0 @@
-define({"button.addimg.tooltip":"Ins\u00e9rer un lien","button.removeimg.tooltip":"Supprimer le lien","newimg.defaulttext":"Nouveau lien","floatingmenu.tab.img":"Lien"});

@@ -1,2 +1,0 @@
-name: Red Stlyle
-description: Main colors: green, white, black

@@ -1,1 +1,0 @@
-define({"button.createulist.tooltip":"Unsortierte Liste einf\u00fcgen","button.createolist.tooltip":"Sortierte Liste einf\u00fcgen"});

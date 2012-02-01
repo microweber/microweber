@@ -1,8 +1,0 @@
-[22-Sep-2010 15:48:05] PHP Fatal error:  Call to undefined function mb_trim() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 23
-[22-Sep-2010 15:50:39] PHP Fatal error:  Call to undefined function mb_trim() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 23
-[22-Sep-2010 15:51:36] PHP Fatal error:  Call to undefined function mb_trim() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 23
-[22-Sep-2010 15:59:29] PHP Fatal error:  Call to undefined function mb_trim() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 23
-[22-Sep-2010 16:00:06] PHP Fatal error:  Call to undefined function mb_trim() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 23
-[22-Sep-2010 16:00:58] PHP Parse error:  syntax error, unexpected T_PUBLIC in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 15
-[22-Sep-2010 16:08:27] PHP Fatal error:  Call to undefined function mb_str_ireplace() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 36
-[22-Sep-2010 16:08:29] PHP Fatal error:  Call to undefined function mb_str_ireplace() in /home/yomexbgc/public_html/userfiles/templates/yomex/mail_sender.php on line 36

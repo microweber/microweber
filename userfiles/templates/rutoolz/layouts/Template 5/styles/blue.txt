@@ -1,2 +1,0 @@
-name: BlueStlyle
-description: Main colors: Blue, black, silver, white

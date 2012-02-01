@@ -1,3 +1,0 @@
-type: form
-name: Default form
-description: default form layout

@@ -1,3 +1,0 @@
-type: layout
-name: Default layout
-description: default page layout

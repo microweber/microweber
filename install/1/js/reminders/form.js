@@ -1,3 +1,0 @@
-calendar.init({
-	'input':'day'	
-});
