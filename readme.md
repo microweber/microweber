@@ -4,7 +4,7 @@ Early developer preview
 
 Hello to all,
 
-this is very early developers preview of Microweber. 
+this is first and very early developers preview of Microweber. 
 
 Here you can see the curent progress and test the system yourself. 
 No documentation is yet available, we have started with some notes at http://docs.microweber.com/ 
@@ -23,9 +23,9 @@ How to install
 -------------
 
 - Download the source from here
-- Import the mw.install.sql file
-- Open the mw.config.php file and edit the settings
-- All done, do you your site's url
+- Import the __mw.install.sql__ file
+- Open the __mw.config.php__ file and edit the settings
+- All done, go to your site's url
 
 - admin link [your site's url]/admin  Username: admin  Pass: admin
 
