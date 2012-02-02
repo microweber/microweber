@@ -1,0 +1,115 @@
+<p style="font-size:12px;">
+This sample demonstrates the new rendering engine of jqGrid.<br>
+In the versions before 3.5 beta jqGrid renders a big data sets slow. This is changed in 3.5 beta.<br>
+By default jqGrid renders a data 3-5 time faster compared with previous releses, but there is a more.<br>
+When we use the option griedview set to true it is possibe to speed the reading process from 5-10 times.<br>
+This is achieved by reading the data at once. This mode has some limitations - it is not possible to use <br>
+treeGrid, subGrid and afterInsertRow (event). Enjoy the speed!
+<br />
+<table id="speed" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="speedp" class="scroll" style="text-align:center;"></div>
+<script src="speed.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="speed" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="speedp" class="scroll" style="text-align:center;"></div>
+<script src="speed.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+jQuery("#speed").jqGrid({        
+   	url:'bigset.php',
+	datatype: "json",
+	height: 255,
+	width: 600,
+   	colNames:['Index','Name', 'Code'],
+   	colModel:[
+   		{name:'item_id',index:'item_id', width:65},
+   		{name:'item',index:'item', width:150},
+   		{name:'item_cd',index:'item_cd', width:100}
+   	],
+   	rowNum:200,
+   	rowList:[100,200,300],
+   	mtype: "POST",
+	rownumbers: true,
+	rownumWidth: 40,
+	gridview: true,
+   	pager: '#speedp',
+   	sortname: 'item_id',
+    viewrecords: true,
+    sortorder: "asc",
+	caption: "Using gridview mode"
+});
+</XMP>
+<b>PHP with MySQL (bigset.php)</b>
+<XMP>
+<?php
+ini_set('max_execution_time', 600);
+include("dbconfig.php");
+// coment the above lines if php 5
+include("JSON.php");
+$json = new Services_JSON();
+// end comment
+$examp = $_GET["q"]; //query number
+
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+
+
+if(isset($_GET["nm_mask"]))
+	$nm_mask = $_GET['nm_mask'];
+else
+	$nm_mask = "";
+if(isset($_GET["cd_mask"]))
+	$cd_mask = $_GET['cd_mask'];
+else
+	$cd_mask = "";
+//construct where clause
+$where = "WHERE 1=1";
+if($nm_mask!='')
+	$where.= " AND item LIKE '$nm_mask%'";
+if($cd_mask!='')
+	$where.= " AND item_cd LIKE '$cd_mask%'";
+
+// connect to the database
+$db = mysql_pconnect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+
+$result = mysql_query("SELECT COUNT(*) AS count FROM items ".$where);
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+if ($limit<0) $limit = 0;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+if ($start<0) $start = 0;
+$SQL = "SELECT item_id, item, item_cd FROM items ".$where." ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldnt execute query.".mysql_error());
+$responce->page = $page;
+$responce->total = $total_pages;
+$responce->records = $count;
+$i=0;
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	$responce->rows[$i]['id']=$row[item_id];
+    $responce->rows[$i]['cell']=array($row[item_id],$row[item],$row[item_cd]);
+    $i++;
+} 
+echo $json->encode($responce); // coment if php 5
+//echo json_encode($responce);
+mysql_close($db);
+?>
+</XMP>
+</div>

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jqGrid Demos</title>
+<style>
+html, body {
+	margin: 0;			/* Remove body margin/padding */
+	padding: 0;
+	overflow: hidden;	/* Remove scroll bars on browser window */	
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+}
+/*Splitter style */
+
+#Splitter {
+/*	min-width: 600px;*/ /* Splitter can't be too thin ... */
+	min-height: 300px; /* ... or too flat */
+	margin: .1em .1em .1em .1em;
+	border: 4px solid #83B4D8; /* No padding allowed */
+}
+
+#LeftPane {
+	width: 200px; /* optional, initial splitbar position */
+	min-width: 50px; /* optional */
+	max-width: 350px;
+	background: #F8F8FF;
+	padding: 2px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+/*
+ * Right-side element of the splitter.
+ */
+
+#RightPane {
+	background: #F8F8FF;
+	padding: 2px;
+	overflow: auto;
+	width:700px;
+	min-width: 500px;
+}
+/* 
+ * Splitter bar style; the .active class is added when the
+ * mouse is over the splitter or the splitter is focused
+ * via the keyboard taborder or an accessKey. 
+ */
+#Splitter .vsplitbar {
+	width: 4px;
+	background: #83B4D8 url(images/vgrabber.gif) no-repeat center;
+}
+#Splitter .vsplitbar.active, #Splitter .vsplitbar:hover {
+	background: #c66 url(images/vgrabber.gif) no-repeat center;
+}
+
+
+</style>
+<link rel="stylesheet" type="text/css" media="screen" href="themes/tree.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/tabs.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/grid.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/modal.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/searchdb.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.datepicker.css" />
+
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery.dimensions.js" type="text/javascript"></script>
+<script src="js/jquery.splitter.js" type="text/javascript"></script>
+<script src="js/jquery.jqTree.js" type="text/javascript"></script>
+<script src="js/jquery.jqDynTabs.js" type="text/javascript"></script>
+<script src="js/ui.datepicker.js" type="text/javascript"></script>
+<script src="js/grid.js" type="text/javascript"></script>
+<script src="js/grid.editing.js" type="text/javascript"></script>
+<script src="js/grid.subgrid.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// searchdb translation
+jQuery(document).ready(function(){
+	jQuery("#Splitter").splitter({
+		type: 'v',
+    	initA: 200, 
+		maxA: 350,
+		minA:30, 
+		accessKey: '|'
+	});	
+	// Firefox doesn't fire resize on page elements
+
+	jQuery(window).bind("resize", function(){
+		var $ms = $("#Splitter");
+		var top = $ms.offset().top;		// from dimensions.js
+		var wh = $(window).height();
+		// Account for margin or border on the splitter container
+		var mrg = parseInt($ms.css("marginBottom")) || 0;
+		var brd = parseInt($ms.css("borderBottomWidth")) || 0;
+		$ms.css("height", (wh-top-mrg-brd-3)+"px");
+		// IE fires resize for splitter; others don't so do it here
+		if ( !jQuery.browser.msie )
+			$ms.trigger("resize");
+	}).trigger("resize");
+
+    $("#LeftPane").jqTree('tree.xml',
+                      {saveNodesStateInCookies : false,
+                      imgpath:'images/',
+                      onSelectNode: function( id, title, isLeaf ) {
+                            if( isLeaf ) {
+                        		if (!maintab.tabExists(title) ) {
+                        			if( maintab.getTabIndex() >= 5) // maximum 5 tabs open 
+                        				maintab.TabCloseEl(0);
+                                	maintab.CreateTab(title,true,id)
+                                }
+                            }
+                        }                        
+    });
+    var maintab = $("#RightPane").jqDynTabs({tabcontrol:$("#mainTabArea"), tabcontent :$("#mainPanelArea"), position:"top"});
+});
+</script>
+</head>
+<body>
+
+<div id="Splitter">
+  	<div id="LeftPane">
+  	</div> <!-- #LeftPane -->
+	<div id="RightPane">
+        <table class="tabHolder" cellspacing="0" cellpadding="0"  onselectstart="return false;">
+            <tr id="mainTabArea">
+                <td style="font-size:1px;border-bottom:3px solid #83B4D8; width:100% "  align="right"> &nbsp;</td>
+            </tr>
+        </table> <!-- Tabs pane -->
+        <div id="mainPanelArea" class="tabPanel" ></div>
+	</div> <!-- #RightPane -->
+</div> <!-- #Splitter -->
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roots>
+    <grid>
+<url>server.php?q=1</url>
+<height>150</height>
+<rowNum>10</rowNum>
+<pager>#xmlpager1</pager>
+ <colModel>  <name>id</name>  <index>id</index>  <width>55</width>  <resizable>true</resizable></colModel>
+ <colModel>  <name>invdate</name>  <index>invdate</index>  <width>90</width>  <resizable>true</resizable></colModel>
+ <colModel>  <name>name</name>  <index>name</index>  <width>100</width>  <resizable>true</resizable></colModel>
+ <colModel>  <name>amount</name>  <index>amount</index>  <width>80</width>  <align>right</align>  <resizable>true</resizable></colModel>
+ <colModel>  <name>tax</name>  <index>tax</index>  <width>80</width>  <align>right</align>  <resizable>true</resizable></colModel>
+ <colModel>  <name>total</name>  <index>total</index>  <width>80</width>  <align>right</align>  <resizable>true</resizable></colModel>
+ <colModel>  <name>note</name>  <index>note</index>  <width>150</width>  <sortable>false</sortable>  <resizable>true</resizable></colModel>
+ <colNames>Inv No</colNames>
+ <colNames>Date</colNames>
+ <colNames>Client</colNames>
+ <colNames>Amount</colNames>
+ <colNames>Tax</colNames>
+ <colNames>Total</colNames>
+ <colNames>Notes</colNames>
+<datatype>xml</datatype>
+<mtype>GET</mtype>
+<imgpath>themes/steel/images/</imgpath>
+<altRows>true</altRows>
+<selarrrow>__EMPTY_ARRAY_</selarrrow>
+<savedRow>__EMPTY_ARRAY_</savedRow>
+<shrinkToFit>true</shrinkToFit>
+<xmlReader>
+    <root>rows</root>
+    <row>row</row>
+    <page>rows>page</page>
+    <total>rows>total</total>
+    <records>rows>records</records>
+    <repeatitems>true</repeatitems>
+    <cell>cell</cell>
+    <id>[id]</id>
+    <userdata>userdata</userdata>
+    <subgrid>
+        <root>rows</root>
+        <row>row</row>
+        <repeatitems>true</repeatitems>
+        <cell>cell</cell>
+    </subgrid>
+</xmlReader>
+<loadui>enable</loadui>
+ <toolbar>false</toolbar>
+ <toolbar>__EMPTY_STRING_</toolbar>
+<scroll>false</scroll>
+<recordtext>Row(s)</recordtext>
+<loadtext>Loading...</loadtext>
+</grid>
+<rows>
+    <page>1</page><total>2</total><records>13</records><userdata name='tamount'>5054.00</userdata>
+    <userdata name='ttax'>462.00</userdata><userdata name='ttotal'>5284.00</userdata>
+    <row id='13'><cell>13</cell><cell>2007-10-06</cell><cell><![CDATA[Client 3]]></cell><cell>1234.00</cell><cell>0.00</cell><cell>1000.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='12'><cell>12</cell><cell>2007-10-06</cell><cell><![CDATA[Client 2 &amp; test]]></cell><cell>1700.00</cell><cell>140.00</cell><cell>1840.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='11'><cell>11</cell><cell>2007-10-06</cell><cell><![CDATA[Client 1 & this should work]]></cell><cell>600.00</cell><cell>120.00</cell><cell>720.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='10'><cell>10</cell><cell>2007-10-06</cell><cell><![CDATA[Client 2 &amp; test]]></cell><cell>100.00</cell><cell>20.00</cell><cell>120.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='9'><cell>9</cell><cell>2007-10-06</cell><cell><![CDATA[Client 1 & this should work]]></cell><cell>200.00</cell><cell>40.00</cell><cell>240.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='8'><cell>8</cell><cell>2007-10-06</cell><cell><![CDATA[Client 3]]></cell><cell>200.00</cell><cell>0.00</cell><cell>200.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='7'><cell>7</cell><cell>2007-10-05</cell><cell><![CDATA[Client 2 &amp; test]]></cell><cell>120.00</cell><cell>12.00</cell><cell>134.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='6'><cell>6</cell><cell>2007-10-05</cell><cell><![CDATA[Client 1 & this should work]]></cell><cell>50.00</cell><cell>10.00</cell><cell>60.00</cell><cell><![CDATA[]]></cell></row>
+    <row id='5'><cell>5</cell><cell>2007-10-05</cell><cell><![CDATA[Client 3]]></cell><cell>100.00</cell><cell>0.00</cell><cell>100.00</cell><cell><![CDATA[no tax gdsafjhgsadf]]></cell></row>
+    <row id='4'><cell>4</cell><cell>2007-10-04</cell><cell><![CDATA[Client 3]]></cell><cell>150.00</cell><cell>0.00</cell><cell>150.00</cell><cell><![CDATA[no tax ggfgdsfgsfdg]]></cell></row>
+</rows>
+</roots>

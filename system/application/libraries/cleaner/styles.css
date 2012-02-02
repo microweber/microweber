@@ -1,0 +1,155 @@
+/*
+sections taken from wordpress admin style sheet
+*/
+body {
+	border: none;
+}
+a {
+	border-bottom: 1px solid #69c;
+	color: #00019b;
+	text-decoration: none;
+}
+
+a.delete:hover {
+	background: #c00;
+	color: #fff;
+}
+
+thead, .thead {
+	background:#0099CC;
+}
+
+
+a.edit, a.delete, a.edit:hover, a.delete:hover {
+	border-bottom: none;
+	display: block;
+	padding: 5px 0;
+	text-align: center;
+}
+
+a.edit:hover {
+	background: #ccc;
+	color: #036;
+}
+
+a:visited {
+	color: #006;
+}
+
+a:hover {
+	color: #069;
+}
+
+body	{
+	background: #f9fcfe;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+body, td {
+	font: 11px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+}
+
+form, label input {
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	border-bottom: .5em solid #e5f3ff;
+	color: #333;
+	font: normal 32px/5px serif;
+	margin: 5px 10px;
+}
+
+input:focus, textarea:focus, label:focus {
+	background: #fff;
+	border: 1px solid #686868;
+}
+
+label {
+	cursor: pointer;
+}
+
+li, dd {
+	margin-bottom: 6px;
+}
+
+p, li, dl, dd, dt {
+	line-height: 140%;
+}
+
+textarea, input, select {
+	background: #f4f4f4;
+	border: 1px solid #b2b2b2;
+	color: #000;
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
+	margin: 1px;
+	padding: 3px;
+}
+
+
+.submit input, .submit input:focus, .button, .button:focus {
+	border: 3px double #999;
+	border-left-color: #ccc;
+	border-top-color: #ccc;
+	color: #333;
+	padding: 0.25em;
+}
+
+.submit input:active, .button:active {
+	background: #f4f4f4;
+	border: 3px double #ccc;
+	border-left-color: #999;
+	border-top-color: #999;
+}
+
+.button, .button:focus {
+	padding: 0.15em;
+}
+
+* html .button {
+	padding: 0;
+}
+
+.submit, .editform th, #postcustomsubmit {
+	text-align: right;
+}
+
+textarea.all-options, input.all-options {
+	width: 250px;
+}
+
+input.disabled, textarea.disabled {
+	background: #ccc;
+}
+
+
+input.delete:hover {
+	background: #ce0000;
+	color: #fff;
+}
+
+.head {
+	background: #14568a;
+	
+	color: #c3def1;
+}
+
+.head a {
+	color: #fff;
+}
+
+.head h1 {
+	font-size: 2.5em;
+	font-weight: normal;
+	letter-spacing: -.05em;
+	margin: 0;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.head h1 span {
+	font-size: .4em;
+	letter-spacing: 0;
+}

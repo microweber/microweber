@@ -1,0 +1,112 @@
+<div style="font-size:12px;">
+We can have a full control on what is done at server side when we save the data. <br>
+It is well known that the post can be successful, but the same saving to the database can be not.<br>
+To control that we can use a callback function when data is saving to the server.<br>
+The function accept one parameter - data returned from the server. Depending on this data<br>
+the function should return true or false. When true this means the saving is done and false othewise.<br>
+In our case the save is missing, since the server return nothing.
+</div>
+<br />
+<table id="rowed4" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="prowed4" class="scroll" style="text-align:center;"></div>
+<br />
+<input type="BUTTON" id="ed4" value="Edit row 13" />
+<input type="BUTTON" id="sved4" disabled='true' value="Save row 13" />
+
+<script src="rowedex4.js" type="text/javascript"> </script>
+<br />
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<table id="rowed4" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="prowed4" class="scroll" style="text-align:center;"></div>
+<br />
+<input type="BUTTON" id="ed4" value="Edit row 13" />
+<input type="BUTTON" id="sved4" disabled='true' value="Save row 13" />
+
+<script src="rowedex4.js" type="text/javascript"> </script>
+
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+...
+jQuery("#rowed4").jqGrid({
+   	url:'server.php?q=2',
+	datatype: "json",
+   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+   	colModel:[
+   		{name:'id',index:'id', width:55},
+   		{name:'invdate',index:'invdate', width:90, editable:true},
+   		{name:'name',index:'name', width:100,editable:true},
+   		{name:'amount',index:'amount', width:80, align:"right",editable:true},
+   		{name:'tax',index:'tax', width:80, align:"right",editable:true},		
+   		{name:'total',index:'total', width:80,align:"right",editable:true},		
+   		{name:'note',index:'note', width:150, sortable:false,editable:true}		
+   	],
+   	rowNum:10,
+   	rowList:[10,20,30],
+   	imgpath: gridimgpath,
+   	pager: jQuery('#prowed4'),
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+	editurl: "server.php",
+	caption: "Full control"
+});
+jQuery("#ed4").click( function() {
+	jQuery("#rowed4").editRow("13");
+	this.disabled = 'true';
+	jQuery("#sved4").attr("disabled",false);
+});
+jQuery("#sved4").click( function() {
+	jQuery("#rowed4").saveRow("13", checksave);
+	jQuery("#sved4").attr("disabled",true);
+	jQuery("#ed4").attr("disabled",false);
+});
+function checksave(result) {
+	if (result=="") {alert("Update is missing!"); return false;}
+	return true;
+}
+</XMP>
+<b>PHP with MySQL</b>
+<XMP>
+...
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+// connect to the database
+$db = mysql_connect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+$result = mysql_query("SELECT COUNT(*) AS count FROM invheader a, clients b WHERE a.client_id=b.client_id");
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+$SQL = "SELECT a.id, a.invdate, b.name, a.amount,a.tax,a.total,a.note FROM invheader a, clients b WHERE a.client_id=b.client_id ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldn t execute query.".mysql_error());
+
+$responce->page = $page;
+$responce->total = $total_pages;
+$responce->records = $count;
+$i=0;
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+    $responce->rows[$i]['id']=$row[id];
+    $responce->rows[$i]['cell']=array($row[id],$row[invdate],$row[name],$row[amount],$row[tax],$row[total],$row[note]);
+    $i++;
+}        
+echo json_encode($responce);
+...
+</XMP>
+</div>

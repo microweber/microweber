@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Embedly - Embed - Example</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>  
+<script type="text/javascript" src="../jquery.embedly.js"></script>
+<style>
+BODY {background-color:#333333;}
+#content{background-color:#FFFFFF;margin:0 auto;width:800px;}
+#embedform {width:600px;margin: 20px auto;}
+#embedform .url{border:1px solid #AAAAAA;font-size:1.5em;margin:10px 0;padding:5px;width:75%;}
+#embedform .submit{float:right;font-size:1.7em;margin-top:10px;}
+#embed {margin:auto;text-align:center;width:600px;}
+#header{margin:0 auto;width:800px; height:75px;}
+a img {border:none;}
+li {list-style:none; margin:20px; }
+</style>
+</head>
+<body>
+<div id="header"><a href="http://api.embed.ly"><img src="http://static.embed.ly/images/logo.png"/></a></div>
+<div id="content" class="main">
+
+<ul>
+<li><a href="http://www.hulu.com/watch/33457/family-guy-6000-chicken-fajitas">Video</a></li>
+<li><a href="http://www.youtube.com/watch?v=LfamTmY5REw">Video</a></li>
+<li><a href="http://revision3.com/thegameshow/ff13">Video</a></li>
+<li><a href="http://www.viddler.com/explore/engadget/videos/1174/11.772">Video</a></li>
+<li><a href="http://www.dailymotion.com/video/xa7bxy_usa-09_travel">Video</a></li>
+<li><a href="http://qik.com/video/5774345">Video</a></li>
+<li><a href="http://video.google.com/videoplay?docid=-6583704503096933955&ei=7AyzS-7THqjQrAOt8o2jBg&q=embed#">Video</a></li>
+<li><a href="http://screenr.com/sWM">Video</a></li>
+</ul>
+
+</div>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('ul a').bind('oembed', function(e){
+	  $(this).after('<h2>'+$(this).data('oembed').title+'</h2>');
+  });
+  $("ul a").embedly({maxWidth: 400, wrapElement: 'div', method : "after" }).css({color:"#ff0033",fontWeight:"bold",display:"block",padding:"2em"}).animate({left: '+=50', opacity:0.25}, 2000, function(){ $(this).css({color:"#4444ee"}).animate({opacity:0.8},1000, function(){ }); });
+  
+});
+</script>
+
+</body>
+</html>

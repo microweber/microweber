@@ -1,0 +1,36 @@
+<table id="kfm_table">
+	<tr class="topRow">
+		<td width="200" height="50"><a href="http://www.bb.companytools.nl/?kfm_session={$settings.kfm_session_id}" style="color:white;">Bestandenbox.nl</a></td>
+		<td style="padding:3px;">
+			<table>
+				<tr>
+					<td><span id="cwd_display"></span><span id="folder_info"></span></td>
+					<td style="text-align:right;">{$settings.username}
+						<a href="admin/" class="button">Settings</a>
+						<a href="http://www.bb.companytools.nl/?kfm_session={$settings.kfm_session_id}&logout=1" class="button">Log out</a>
+					</td>
+				</tr>
+				<tr>
+					<td id="viewmode" style="padding:3px;"><a href="javascript:kfm.switchFilesMode(1);" class="button">List</a><a href="javascript:kfm.switchFilesMode(0);" class="button">Icons</a></td>
+					<td id="kfm_search_wrapper" style="padding:3px;"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td id="directories_canvas">
+			<span id="documents_loader"></span><strong>Maps</strong>
+			<div style="clear:both;height:1px;"></div>
+			<div id="kfm_directories"></div>
+		</td>
+		<td><div id="documents_body" style="height:100%;"></div></td>
+	</tr>
+	<tr class="bottomRow">
+		<td height="50"></td>
+		<td id="kfm_upload_wrapper">&nbsp;</td>
+	</tr>
+	<tr>
+		<td height="50"></td>
+		<td style="text-align:center;"><a href="admin/index.php#Manage_space" style="font-size:36px;font-weight:bold;color:white;">Get more space!!!</a></td>
+	</tr>
+</table>

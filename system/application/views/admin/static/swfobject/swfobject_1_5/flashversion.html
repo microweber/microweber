@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SWFObject embed by Geoff Stearns (show player version) @ deconcept</title>
+<!-- SWFObject embed by Geoff Stearns geoff@deconcept.com http://blog.deconcept.com/swfobject/ -->
+<script type="text/javascript" src="swfobject.js"></script>
+<style type="text/css">
+	
+	body {
+		background-color: #eeeeee;
+		font: .8em/1em verdana,arial,helvetica,sans-serif;
+	}
+
+	#info {
+		width: 600px;
+		overflow: auto;
+	}
+
+</style>
+</head>
+<body>
+
+	<div id="flashversion">
+		You do not have the Flash plugin installed, or your browser does not support Javascript (you should enable it, perhaps?)
+	</div>
+	<script type="text/javascript">
+		// <![CDATA[
+
+			var version = deconcept.SWFObjectUtil.getPlayerVersion();
+			if (document.getElementById && version["major"] > 0) {
+				document.getElementById('flashversion').innerHTML = "You have Flash player "+ version['major'] +"."+ version['minor'] +"."+ version['rev'] +" installed.";
+			}
+
+		// ]]>
+	</script>
+
+
+	<div id="info">
+		<p>
+		This page displays your current Flash player version using Javascript.
+		</p>
+	</div>	
+</body>
+</html>

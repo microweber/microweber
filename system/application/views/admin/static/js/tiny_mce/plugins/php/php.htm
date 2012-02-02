@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_php_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/php.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<link href="css/php.css" rel="stylesheet" type="text/css" />
+	<base target="_self" />
+</head>
+<body onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+    <form onsubmit="insertPHP();return false;" action="#">
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span>{$lang_php_general}</span></li>
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+					<legend>{$lang_php_general}</legend>
+
+					<table border="0" cellpadding="0" cellspacing="2">
+							<tr>
+								<td nowrap="nowrap" colspan="2">
+									<table border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<td width="80"><label for="description">{$lang_php_asset_desc}</label></td>
+											<td id="description" title="Description"><input id="desc" name="desc" type="text" value="" onfocus="this.select();" /></td>
+										</tr>
+										<tr>
+											<td><label for="file">{$lang_php_file}</label></td>
+											<td id="codecontainer" name="codecontainer">
+												&nbsp;
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr id="linklistrow">
+								<td><label for="linklist">{$lang_php_list}</label></td>
+								<td id="linklistcontainer">&nbsp;</td>
+							</tr>
+					</table>
+				</fieldset>
+			</div>
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertPHP();" />
+			</div>
+
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+
+			<div style="text-align: center">
+				<input type="reset" id="reset" name="reset" value="{$lang_php_reset}" />
+			</div>
+		</div>
+	</form>
+</body>
+</html>
