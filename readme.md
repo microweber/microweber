@@ -1,4 +1,5 @@
-h2. Early developer preview
+Early developer preview
+-------------
 
 
 Hello to all,
@@ -9,7 +10,8 @@ Here you can see the curent progress and test the system yourself.
 No documentation is yet available, we have started with some notes at http://docs.microweber.com/ 
 
 
-h2. Demo link
+Demo link
+-------------
 -  The demo site is http://demo.microweber.com/2012_02/home
 -  You can login into the admin from http://demo.microweber.com/2012_02/admin
 -  Username: admin
@@ -17,7 +19,8 @@ h2. Demo link
 
 
 
-h2. How to install
+How to install
+-------------
 
 - Download the source from here
 - Import the mw.install.sql file
