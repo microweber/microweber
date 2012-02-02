@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Unbenanntes Dokument</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+<!--
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+.farbfeldcl {
+	border-width: 1px;
+	border-style: solid;
+	border-top-color: #7A7A7A;
+	border-right-color: #D2D2D2;
+	border-bottom-color: #D2D2D2;
+	border-left-color: #7A7A7A;
+	border-color: #000000;
+}
+.drtable td{
+	margin:4px;
+	padding:4px;
+}
+//-->
+</style>
+</head>
+<script src="formdragger.js" type="text/javascript"></script>
+<script language="javascript1.2" type="text/javascript">
+function gebid(was){
+	return document.getElementById(was);
+}
+
+var hexChars = "0123456789ABCDEF";
+
+function dec2hex (dec) { 
+	var a = dec % 16; 
+	var b = (dec - a)/16; 
+	hex = "" + hexChars.charAt(b) + hexChars.charAt(a); 
+	return hex; 
+}
+
+function formdraggerAfterChange(fid, fvalue){
+	//diese Funktion wird aufgerufen wenn ein Formdragger losgelassen wird
+	
+	return true;
+}
+function formdraggerOnChange(fid, fvalue){
+	//diese Funktion wird aufgerufen wenn der Formdragger bewegt wird
+	var hexwert=dec2hex(gebid("rotwert").value)+dec2hex(gebid("gruenwert").value)+dec2hex(gebid("blauwert").value);
+	gebid("hexwert").value="#"+hexwert;
+	gebid("farbfeld").style.backgroundColor="#"+hexwert;
+	return true;
+}
+</script>
+<body  style="background-color:buttonface;" onload="makedragger();">
+<table width="100%" height="100%"  border="0" cellpadding="0" cellspacing="0" class="drtable">
+      <tr>
+        <td>Rot:</td>
+        <td><input type="text" name="rotdragger" id="rotdragger" istdragger="true" minwert="0" maxwert="255" outputspanid="rotwert" value="255" picsname="prozentbalken" style="width: 200px;"></td>
+        <td><input name="rotwert" type="text" class="inputfeld" id="rotwert" value="255" size="3" maxlength="3" onChange="setzefarbe(this,this.value)" /></td><td rowspan="2" align="right"><div class="farbfeldcl" id="farbfeld" style="background-color:#FFFFFF; height:50px; width:80px;">&nbsp;</div></td>
+      </tr>
+      <tr>
+        <td>Gr&uuml;n:</td>
+        <td><input type="text" name="gruendragger" id="gruendragger" istdragger="true" minwert="0" maxwert="255" outputspanid="gruenwert" value="255" picsname="prozentbalken" style="width: 200px;"></td>
+        <td><input name="gruenwert" type="text" class="inputfeld" id="gruenwert" value="255" size="3" maxlength="3" onChange="setzefarbe(this,this.value)" /></td>
+      </tr>
+      <tr>
+        <td>Blau:</td>
+        <td><input type="text" name="blaudragger" id="blaudragger" istdragger="true" minwert="0" maxwert="255" outputspanid="blauwert" value="255" picsname="prozentbalken" style="width: 200px;"></td>
+        <td><input name="blauwert" type="text" class="inputfeld" id="blauwert" value="255" size="3" maxlength="3" onChange="setzefarbe(this,this.value)" /></td><td align="right"><input name="hexwert" id="hexwert" type="text" value="#FFFFFF" size="6" maxlength="7" style="width:80px;"/></td>
+      </tr>
+	  <tr align="right"><td colspan="4"><input type="reset" name="Submit" value="Abbrechen" onClick="if (self.parent){ self.parent.setzefarbe(''); }else{ window.opener.setzefarbe(''); }" />
+  <input type="submit" name="Submit2" value="Ok" onClick="if (self.parent){ self.parent.setzefarbe('#'+dec2hex(gebid('rotwert').value)+dec2hex(gebid('gruenwert').value)+dec2hex(gebid('blauwert').value)); }else{ window.opener.setzefarbe('#'+dec2hex(gebid('rotwert').value)+dec2hex(gebid('gruenwert').value)+dec2hex(gebid('blauwert').value)); }" /></td>
+	  </tr>
+</table>
+
+</body>
+</html>

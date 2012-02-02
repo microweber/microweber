@@ -1,0 +1,20 @@
+.panel_wrapper div.current {
+	height: 100px;
+}
+
+#width, #height {
+	width: 50px;
+}
+
+#desc {
+	width: 421px;
+}
+
+#reset {
+   font-weight: bold;
+   width: 90px;
+   height: 21px;
+   border: 0;
+   background-image: url('../../../themes/advanced/images/cancel_button_bg.gif');
+   cursor: pointer;
+}

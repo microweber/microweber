@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Books>
+<Items>
+    <Request>
+        <IsValid>True</IsValid>
+       	<ItemSearchRequest>
+	        <SearchIndex>Books</SearchIndex>
+		</ItemSearchRequest>
+    </Request>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>John Grisham</Author>
+			<Title>A Time to Kill</Title>
+			<Price>12.99</Price>
+			<DatePub>1998-05-01</DatePub>
+			<ASIN>0446351230</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Stephen King</Author>
+			<Title>Blood and Smoke</Title>
+			<Price>24.00</Price>
+			<DatePub>2000-01-01</DatePub>
+			<ASIN>0446355453</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>John Grisham</Author>
+			<Title>The Rainmaker</Title>
+			<Price>7.99</Price>
+			<DatePub>2001-12-01</DatePub>
+			<ASIN>0443622434</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Stephen King</Author>
+			<Title>The Green Mile</Title>
+			<Price>24.00</Price>
+			<DatePub>1992-01-01</DatePub>
+			<ASIN>0443622987</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Stephen King</Author>
+			<Title>Misery</Title>
+			<Price>7.70</Price>
+			<DatePub>2003-01-01</DatePub>
+			<ASIN>0443623452</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Stephen King</Author>
+			<Title>The Dark Half</Title>
+			<Price>48.00</Price>
+			<DatePub>1999-10-30</DatePub>
+			<ASIN>0443623482</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>John Grisham</Author>
+			<Title>The Partner</Title>
+			<Price>12.99</Price>
+			<DatePub>2005-01-01</DatePub>
+			<ASIN>0443744434</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Stephen King</Author>
+			<Title>It</Title>
+			<Price>9.70</Price>
+			<DatePub>2001-10-15</DatePub>
+			<ASIN>0443698452</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Honore de Balzac</Author>
+			<Title>Cousin Bette</Title>
+			<Price>19.70</Price>
+			<DatePub>1991-12-01</DatePub>
+			<ASIN>0443691234</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Alexandr Pushkin</Author>
+			<Title>Boris Godunov</Title>
+			<Price>7.15</Price>
+			<DatePub>1999-01-01</DatePub>
+			<ASIN>0447791234</ASIN>
+		</ItemAttributes>
+	</Item>
+	<Item>
+        <DetailPageURL></DetailPageURL>
+        <ItemAttributes>
+			<Author>Alice in Wonderland</Author>
+			<Title>Lewis Carroll</Title>
+			<Price>4.15</Price>
+			<DatePub>1999-01-01</DatePub>
+			<ASIN>0447791294</ASIN>
+		</ItemAttributes>
+	</Item>
+</Items>
+</Books>

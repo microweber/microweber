@@ -1,0 +1,98 @@
+= The Cache =
+
+\contents 2
+
+== Introduction ==
+
+Highlighting source code is fairly expensive from a computational point of view. Luminous is probably one of the slower highlighters around, for two main reasons:
+
+  # It's doing a lot of work to try to get highlighting as correct as possible
+  # Apart from the regular expression library, most of the logic is self-implemented in PHP, which seems to be a fairly slow language for this kind of thing.
+
+For this reason Luminous includes a caching system so that highlighting need only be calculated once, and it should be largely invisible to you after you've set it up.
+
+Since Luminous 0.6.3 this can either be stored on the filesystem or in a MySQL table (support for other RDBMSs will hopefully come later).
+
+== Enabling/Disabling Caching==
+
+Caching is enabled and disabled at a per-highlight level, and is done in the call to `highlight` by the third argument:
+
+{{{lang=php_snippet
+$use_cache = FALSE;
+luminous::highlight('c', 'printf("hi\n");', $use_cache);
+}}}
+
+The default value is TRUE.
+
+With either SQL or the filesystem, if the cache is unusable (i.e. there's a permissions problem or the database queries fail), Luminous will throw a PHP warning (not an exception), and the highlight will be calculated as normal.
+
+== Filesystem vs SQL ==
+
+For most use cases the file-system is the most obvious choice: it's simpler and it's faster.
+
+The main reasons to use the SQL cache are:
+  # It's neater to have everything hidden in an SQL table instead of lying around the filesystem.
+  # It may be more secure on your setup, as the cache directory may require 777 permissions.
+  # You are handling vast numbers of highlights and have file-system constraints on the number of small files you can have. e.g. ext3 formatted with -T largefile4 expects an average file size on the partition of 4MB, if there are a lot of smaller files, you risk running out of inodes.
+  # Simply that you're storing a lot of highlights: there's a 24-hourly purge which removes filesystem files based on their most recent cache hit (internally we use mtime), this involves iterating over every file in the directory and looking at its mtime. If you're storing thousands+ of highlights this could cause a brief IO bottleneck. The SQL database instead purges on every write, but we can probably expect the database to handle this a lot better when there are a lot of cached items.
+
+In summary: if you don't see the benefit of the SQL cache then don't use it, but if you do, don't be put off by the fact it's a bit slower.
+
+== Enabling the File System cache ==
+
+The filesystem is used by default, but Luminous might not be able to create it.
+
+Luminous uses the directory luminous/cache, which you might have to create and assign writable permissions to (probably chmod 777, but your server might accept other values).
+
+== Enabling the SQL cache ==
+
+Using the SQL cache is a little more complex and some of the responsibility falls on the programmer. To enable the SQL cache a configuration setting 'sql_function' must be set, which must be a function that performs SQL queries. The reason that this is left to the programmer is that Luminous doesn't want to tie itself to one family of SQL functions (e.g. MySQL vs PostgreSQL), and doesn't want to have to worry about your passwords, database names and so on.
+
+The function should take a string (the SQL query) and return:
+  # *false* if the query had some kind of error
+  # *true* if the query was successful but didn't return anything
+  # An array of results if the query was a SELECT (or similar). The results should a numerically indexed set of rows, and each row should be an associative array keyed by field name
+
+An example implementation is:
+
+{{{lang=php_snippet
+function query($sql) {
+  $connection = mysql_connect('server', 'user', 'password');
+  $db = mysql_select_db('your_database');
+  $r = mysql_query($sql);
+  if (is_bool($r)) return $r;
+  $results = array();
+  while ($row = mysql_fetch_assoc($r)) {
+    $results[] = $row;
+  }
+  return $results;
+}
+
+luminous::set('sql_function', 'query');
+}}}
+
+If you are using a framework, you should be able to plug this into your framework's database library without too much effort. Here's an example for CodeIgniter, implemented as a [http://codeigniter.com/user_guide/general/helpers.html helper] for simplicity but you could also plug it into a model or controller:
+
+{{{lang=php_snippet
+function luminous_sql($sql) {
+  $CI =& get_instance();
+  $CI->load->database();
+  $q = $CI->db->query($sql);
+  if (is_bool($q)) return $q;
+  $ret = array();
+  if ($q->num_rows()) {
+    foreach($q->result_array() as $row)
+      $ret[] = $row;
+  }
+  return $ret;
+}
+
+luminous::set('sql_function', 'luminous_sql');
+}}}
+
+Note in CI that the database library will throw a fatal error if debug mode is enabled and the query fails (application/config/database.php, change the line `$db['default']['db_debug']`)
+
+
+=== Security ===
+
+You might be concerned that Luminous doesn't want an SQL-escaping function specific to your RBDMS. This isn't actually a problem: Luminous has strict control over the data being used in queries and doesn't need to escape it: string data is encoded as either b16 or b64 (which have only 'clean' characters). This is double-checked when building each query and if somehow the data has been polluted the query is silently aborted.

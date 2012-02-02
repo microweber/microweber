@@ -1,0 +1,39 @@
+
+	--------------------------------------------------------
+	ChiliStats the new statistics counters
+	based on the statistics counters of pawlita.de
+	--------------------------------------------------------
+	The script is protected by copyright law. All rights and
+	copyrights are held by the author:
+	Adam Pawlita, http://www.chiliscripts.com
+	This script may be freely used and redistributed so long
+	the stated copyright notices in all parts of the script before-
+	hands remain. For correct operation, or damage caused by
+	the operation of this script is made only if the author has no
+	Warranty. Commissioning is carried out in each case
+	at their own risk of the operator.
+	-------------------------------------------------------
+
+
+Installation
+------------
+
+1. Unpack the "chilistats.zip" archive.
+
+2. Open the file "chilistats/config.php" with a text editor and set the settings.
+   !! The database settings MUST be set !!	
+
+3. Upload the complete "chilistats" folder via FTP to your web server..
+
+4. Call the "install.php" in your web browser. e.g. www.yourpage.com/chilistats/install.php
+    All points must be positive (green).
+
+5. The following code must be included on each page:
+
+<script type="text/javascript">
+	document.write('<a href="chilistats/stats.php"><img src="chilistats/counter.php?ref=' + escape(document.referrer) + '" border="0"></a>')
+</script>
+<noscript><a href="chilistats/stats.php"><img src="chilistats/counter.php" border="0"></a></noscript>
+
+6. Finished.
+

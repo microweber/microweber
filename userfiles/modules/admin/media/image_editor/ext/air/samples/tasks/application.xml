@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/1.0">
+  	<name>Simple Tasks</name>
+ 	<id>extTasks2</id>
+  	<version>2.0</version>
+  	<filename>Simple Tasks</filename>
+  	<description>Simple Tasks sample application by Ext JS</description>
+  	<copyright>(c) 2008 - Ext JS, LLC</copyright>
+	<initialWindow>
+	   <title>Simple Tasks</title>
+	    <content>main.html</content>
+	    <systemChrome>standard</systemChrome>
+	    <transparent>false</transparent>
+	    <visible>false</visible>
+	</initialWindow>
+	<installFolder>Ext JS/Simple Tasks</installFolder>
+	<programMenuFolder>Ext JS/Simple Tasks</programMenuFolder>
+	<icon>
+	  	<image16x16>ext-air/resources/icons/extlogo16.png</image16x16>
+		<image32x32>ext-air/resources/icons/extlogo32.png</image32x32>
+		<image48x48>ext-air/resources/icons/extlogo48.png</image48x48>
+		<image128x128>ext-air/resources/icons/extlogo128.png</image128x128>
+	</icon>
+	<fileTypes></fileTypes>
+</application>

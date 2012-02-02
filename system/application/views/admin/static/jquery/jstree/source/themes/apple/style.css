@@ -1,0 +1,57 @@
+.tree .tree-apple { 
+	margin-left:0;
+	min-width:100%;
+	_width:100%;
+	float:left;
+}
+/*
+.tree .tree-apple {
+	font-family:"Lucida Grande";
+	font-size:14px;
+}
+*/
+.tree .tree-apple,
+.tree .tree-apple ul,
+.tree .tree-apple li.leaf {
+	background-image:none;
+}
+.tree .tree-apple {
+	background:url("bg.jpg") left top repeat;
+}
+.tree .tree-apple li.open {
+	background-image:url("minus.gif");
+}
+.tree .tree-apple li.closed,
+.tree .tree-apple #dragged li.open {
+	background-image:url("plus.gif");
+}
+
+.tree .tree-apple li a {
+	background-image:url("folder.png");
+}
+
+.rtl .tree-apple li.closed {
+	background-image:url("plus_rtl.gif");
+}
+.rtl .tree-apple #dragged li.open {
+	background-image:url("plus_rtl.gif");
+}
+/*
+.tree .tree-apple li a, 
+.tree .tree-apple li span {
+	border-radius:0px;
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+}
+*/
+.tree .tree-apple li a:hover {
+	background-color:silver;
+	border-color:silver;
+	color:white;
+}
+.tree .tree-apple li a.clicked,
+.tree .tree-apple li span.clicked {
+	background-color:#2E72DF;
+	border-color:#2E72DF;
+	color:white;
+}

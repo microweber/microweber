@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mColorPicker</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script charset="UTF-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="javascripts/mColorPicker.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+      $(document).ready(function () {
+
+        $('form#colorPicker').bind('submit', function () {
+
+          alert($(this).serialize());
+          return false;
+        });
+        $('#color1').bind('change', function () {
+
+          $('p').css('background-color', $(this).val());
+        });
+        $('#color2').bind('colorpicked', function () {
+
+          alert($(this).val());
+        });
+        $('#green').bind('click', function () {
+
+          $.fn.mColorPicker.addToSwatch('#315F15');
+        });
+        $('#disable').bind('click', function () {
+
+          if ($(this).attr('id') == 'disable') {
+
+            $('.color').attr('disabled', 'disabled');
+            $(this).attr('id', 'enable').val('Enable color inputs.');
+          } else {
+
+            $('.color').attr('disabled', '');
+            $(this).attr('id', 'disable').val('Disable color inputs.');
+          }
+        });
+      });
+    </script>
+	</head>
+	<body>
+    <form id="colorPicker">
+      <input id="color1" type="color" name="color1" value="#ff0667" class="color">
+      <br />
+      <br />
+      <input id="color2" type="color" name="color2" value="#ff0" data-hex="true" class="color"> This color picker will show an alert when the color is chosen Uses the event 'colorpicked' which fires when a color is chosen in the color picker.
+      <br />
+      <br />
+      <input id="color3" type="color" name="color3" data-text="hidden" style="height:20px;width:20px;" value="#f7941d" class="color">
+      <input type="color" name="color4" data-text="hidden" style="height:20px;width:20px;" value="#a36209" class="color">
+      <br />
+      <br />
+      <input id="disable" type="button" value="Disable color inputs." /> This is still buggy in IE. I will find a fix.
+      <br />
+      <br />
+      <input id="green" type="button" value="Add Green to swatch." />
+      <br />
+      <br />
+      <input type="submit" value="submit" />
+    </form>
+    <p>This paragraphs background should change with the first colorpicker.</p>
+	</body>
+</html>

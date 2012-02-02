@@ -1,0 +1,168 @@
+/*
+PDW File Browser
+Skin: Mountain View Dark
+Date: October 23, 2010
+Url: http://www.neele.name
+
+Copyright (c) 2010 Guido Neele
+*/
+
+body, label, input, td, select {font-family: arial, sans-serif;}
+
+div.loading {background-image: url(skins/mountainview_dark/images/ajaxLoader.gif);}
+
+div.ab {background-image:none; background-color:#000000;}
+div.ab ol {background-image:none; background-position:right 1px; background-color:#4F4F4F; border:1px solid #1E454D;}
+div.ab ol li.root {background-image:none; background-position:left 1px; width:10px;}
+div.ab ol li.root span {background:url(skins/mountainview_dark/images/root.png) left -2px; }
+div.ab ol li.root {width:20px;}
+div.ab ol li a {color: #AFAFAF;}
+div.ab ol li a span {background: url("skins/mountainview_dark/images/addressbar.png") no-repeat scroll right top transparent;}
+div.ab ol li a:hover { color:#000; background: #909090 none; border-left:0; border-right:0; padding: 1px 4px; border-radius:3px; -moz-border-radius:3px;}
+
+div#searchbar {background-image:none; background-position:right 1px; background-color:#4F4F4F; border:1px solid #1E454D; margin-top:-26px;}
+div#searchbar .cap {background-image:none; background-position:left 1px; width:2px;}
+div#searchbar input {margin-top:3px; margin-left:3px; color:#AFAFAF;}
+div#searchbar div.button {background-image:url(skins/mountainview_dark/images/search.png); background-position:0 0; right:7px;}
+
+div.nb {background-image:none; background-color:#000000; border-bottom:1px solid #1E454D;}
+div.nb ul li a {color:#AFAFAF; background: url(skins/mountainview_dark/images/navbar.png) right 0 no-repeat; height:21px; line-height: 21px;}
+div.nb ul li a span {background: url(skins/mountainview_dark/images/navbar.png) left -21px no-repeat; height:21px;}
+div.nb ul li a.selected,
+div.nb ul li a:hover {background: url(skins/mountainview_dark/images/navbar.png) right -84px no-repeat;}
+div.nb ul li a.selected span,
+div.nb ul li a:hover span {background: url(skins/mountainview_dark/images/navbar.png) left -63px no-repeat; color:#AFAFAF;}
+div.nb ul li a span.options {background: transparent url(skins/mountainview_dark/images/navbar.png) left -42px no-repeat;}
+div.nb ul li a.selected span.options,
+div.nb ul li a:hover span.options {background: transparent url(skins/mountainview_dark/images/navbar.png) -20px -42px no-repeat;}
+
+div.nb ul ul { background-image: none; background-color:#FFF; border-color: #DDD; top:28px;}
+div.nb ul ul li a {background-image:none;}
+
+div.nb ul ul, .context-menu-theme-mb { background: #999 none; border:1px solid #000000;}
+div.nb ul ul li a {color:#000;}
+.context-menu-theme-mb .context-menu-separator { border-bottom: 1px solid #AAA; border-top: 1px solid #666;}
+div.nb ul ul li a:hover, .context-menu-theme-mb .context-menu-item-hover .context-menu-item-inner { background-color:#CCC; border-color:#CCC; color:#000;}
+
+div.nb ul.right a.settings span img,
+div.nb ul.right a.help span img{ margin-top:3px;}
+
+div#tree {background-color: #6F6F6F;}
+
+ul.treeview li a:hover.link {background-image:none;}
+ul.treeview li a:hover.link span.endcap {background-image:none;}
+ul.treeview li.selected {}
+ul.treeview li.selected > .link {background-image: none; background-color: #CBCBCB; border-radius:3px; -moz-border-radius:3px; color:#333;}
+ul.treeview li.selected > .link .endcap {background-image: none;}
+ul.treeview li a.link:hover { background-color: #909090; border-radius:3px; -moz-border-radius:3px; color:#000;}
+ul.treeview li.selected > a.link:hover { }
+ul.treeview li a.link {padding-left: 22px;}
+ul.treeview li a.link.root span.icon {background-image:url(skins/mountainview_dark/images/root.png);}
+ul.treeview li a.link span.icon {background-image:url(skins/mountainview_dark/images/folder.png);}
+ul.treeview li a.handler {}
+ul.treeview li a.children {background-image: url(skins/mountainview_dark/images/handler.gif);}
+ul.treeview li a.children:hover {}
+ul.treeview li a.open {background-image: url(skins/mountainview_dark/images/handler.gif);}
+ul.treeview li a.open:hover {}
+
+div#vertical-resize-handler {background:none; background-color:#000000;}
+
+div.fieldset {border-color: #333;}
+div.fieldset span.legend {background-color:#4F4F4F; color: #429EA4;}
+input.path.border {border-color: #333; background-color: #bbb;}
+
+div#main {color:#AAA; background-color:#4F4F4F; background-image: url(skins/mountainview_dark/images/main-header.gif); background-repeat:repeat-x;}
+div#main hr {background-color:transparent;}
+div#main h2 {color:#929392; font-family: arial, sans-serif; line-height:29px;}
+
+div#settings div.window hr { background-color:#333;}
+
+div#files ul#content li {margin-top:3px;}
+div#files ul#content li a {border-bottom-color: #585858;}
+div#files ul#content li a span.label {color: #777;}
+
+div#files ul#list li a:hover,
+div#files ul#small_images li a:hover,
+div#files ul#large_images li a:hover,
+div#files ul#content li a:hover,
+div#files ul#tiles li a:hover { background-image:none; background-color:#909090; border-radius:3px; -moz-border-radius:3px;}
+
+div#files ul#list li a span,
+div#files ul#small_images li a span,
+div#files ul#large_images li a span,
+div#files ul#content li a span,
+div#files ul#tiles li a span { color:#999;}
+
+div#files ul#list li a span.filename,
+div#files ul#small_images li a span.filename,
+div#files ul#large_images li a span.filename,
+div#files ul#content li a span.filename,
+div#files ul#tiles li a span.filename { color:#CCC;}
+
+div#files ul#list li a:hover span,
+div#files ul#small_images li a:hover span,
+div#files ul#large_images li a:hover span,
+div#files ul#content li a:hover span,
+div#files ul#tiles li a:hover span { color:#000;}
+
+div#files ul#list li a:hover span.begin,
+div#files ul#small_images li a:hover span.begin,
+div#files ul#large_images li a:hover span.begin,
+div#files ul#content li a:hover span.begin,
+div#files ul#tiles li a:hover span.begin { background-image:none;}
+
+div#files ul#list li.selected a,
+div#files ul#small_images li.selected a,
+div#files ul#large_images li.selected a,
+div#files ul#content li.selected a,
+div#files ul#tiles li.selected a { background-image:none; background-color:#CBCBCB; border-radius:3px; -moz-border-radius:3px;}
+
+div#files ul#list li.selected a span,
+div#files ul#small_images li.selected a span,
+div#files ul#large_images li.selected a span,
+div#files ul#content li.selected a span,
+div#files ul#tiles li.selected a span {color: #000;}
+
+div#files ul#list li.selected a span.begin,
+div#files ul#small_images li.selected a span.begin,
+div#files ul#large_images li.selected a span.begin,
+div#files ul#content li.selected a span.begin,
+div#files ul#tiles li.selected a span.begin { background-image:none;}
+
+div#files table#details thead th, 
+div#files table#details thead th.end {background: #000 url(skins/mountainview_dark/images/details-header.png) left top repeat-x; border:1px solid #333; border-left:0; color:#CCC; font-size:11px; height:22px; line-height:22px; padding:0 5px;}
+div#files table#details thead th:last-child {border-right:0;}
+div#files table#details {width:100%;}
+div#files table#details tbody tr {border-bottom: 1px solid #585858; height:22px;}
+div#files table#details tbody tr td {color: #999; line-height:22px;}
+div#files table#details tbody tr:hover td {background:none; background-color:#909090; color:#000;}
+div#files table#details tbody tr.selected td {background:none; background-color:#CBCBCB; color:#000;}
+div#files table#details tbody td.begin{padding-left:3px;}
+div#files table#details tbody td.filename {color:#CCC;}
+div#files table#details tbody td {white-space: nowrap; color:#000;}
+div#files table#details tbody td.end {width:100%;}
+
+
+div#files ul#list li a span.icon.folder{ background-image: url(skins/mountainview_dark/images/16/folder.png);}
+div#files ul#tiles li a span.icon.folder{ background-image: url(skins/mountainview_dark/images/48/folder.png);}
+div#files ul#small_images li a span.icon.folder{ background-image: url(skins/mountainview_dark/images/48/folder.png);}
+div#files ul#large_images li a span.icon.folder{ background-image: url(skins/mountainview_dark/images/96/folder.png);}
+div#files ul#content li a span.icon.folder{ background-image: url(skins/mountainview_dark/images/32/folder.png);}
+div#files table#details td.icon span.folder{ background-image: url(skins/mountainview_dark/images/16/folder.png);}
+
+div#file-specs {background:#000000 none; border-top: 1px solid #1E454D;}
+div#file-specs form#fileform input { border-color:#333; background-color:#929392;}
+div#file-specs form#fileform label { color:#AFAFAF;}
+div#file-specs #info div {color:#AFAFAF;}
+div#file-specs #info div a {color: #429EA4;}
+div#file-specs #info div a:hover {text-decoration: underline;}
+div#file-specs #info div span {color: #666;}
+div#file-specs #info div.icon.folder{ background-image: url(phpthumb/phpThumb.php?h=140&w=140&src=../skins/mountainview_dark/images/256/folder.png&far=1&bg=0000FF);}
+div#file-specs #info div.filetype {color: #666;}
+
+#lbOverlay { background-color:#000;}
+#lbCenter { background-color: #4F4F4F;}
+.lbLoading { background-color: #4F4F4F; background-image: url(skins/mountainview_dark/images/ajaxLoader.gif);}
+#lbImage { border-color: #4F4F4F;}
+#lbBottom { color: #666; border-color: #333;}
+#lbCloseLink { background-image:url(skins/mountainview_dark/images/closelabel.gif);}

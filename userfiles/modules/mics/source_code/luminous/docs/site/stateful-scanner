@@ -1,0 +1,40 @@
+# parent: Writing-a-language-scanner
+=Stateful Scanners (with LuminousStatefulScaner)=
+
+Stateful scanners use a transition table. The LuminousStatefulScanner is an extension of LuminousSimpleScanner, so the approach is very similar and overrides are available.
+
+Inside the scanner's init() method, we define a set of patterns. The patterns represent syntax rules. The patterns can be either complete, or a pair of delimiters. In the latter case, the pattern is split into its start and end delimiters, and it becomes 'stretchy' (transitions can occur within the state and they can 'stretch' the token).
+
+The pattern names represent state names, which are referenced in the transition table. The initial state is a special state called 'initial'. If you omit the 'initial' key from the transition table, every state is a legal transition from initial.
+
+== Simple Example ==
+
+For the sake of simplicity, we'll consider the case of standard string escaping as a language.
+
+In BNF(ish), our language looks like this:
+
+{{{lang=bnf
+escape := "\\" <anything>
+string := '"' (<anything except '\\' or '"'> | escape)* '"'
+}}}
+
+This maps fairly directly to a stateful scanner as so:
+
+{{{lang=php_snippet
+class MyScanner extends LuminousStatefulScanner {
+
+  public function init() {
+    $this->add_pattern('STRING', '/"/', '/"/');
+    $this->add_pattern('ESCAPE', '/\\\\./');
+    
+    $this->transitions = array(
+      'initial' => array('STRING'),
+      'STRING' => array('ESCAPE'),
+    );
+  }
+}
+}}}
+
+In more 'real' usage, the transitions can nest as deeply as you like, so if you had a scanner which needed to handle balanced bracket/parathetical groupings, the stateful scanner would be ideal.
+
+*Real examples*: see the LaTeX scanner (languages/latex.php) which observes a transition table for LaTeX's math mode.

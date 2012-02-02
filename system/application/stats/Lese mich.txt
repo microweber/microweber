@@ -1,0 +1,39 @@
+
+	--------------------------------------------------------
+	ChiliStats der neue Statistik Counter 
+	basierend auf dem Statistik Counter von pawlita.de
+	-------------------------------------------------------
+	Das Skript unterliegt dem Urheberschutz Gesetz. Alle Rechte und
+	copyrights liegen bei dem Autor:
+	Adam Pawlita, http://www.chiliscripts.com
+	Dies Skript darf frei verwendet und weitergegeben werden, solange
+	die angegebenen Copyrightvermerke in allen Teilen des Scripts vor-
+	handen bleiben. Für den fehlerfreien Betrieb, oder Schäden die durch
+	den Betrieb dieses Skriptes entstehen, übernimmt der Autor keinerlei
+	Gewährleistung. Die Inbetriebnahme erfolgt in jedem Falle 
+	auf eigenes Risiko des Betreibers.
+	-------------------------------------------------------
+
+
+Installation
+------------
+
+1. Das "chilistats.zip" Archiv entpacken.
+
+2. Die Datei "chilistats/config.php" mit einem Texteditor bearbeiten. 
+   !! Hier MÜSSEN die Datenbank Einstellungen vorgenommen werden !!	
+
+3. Danach den gesamten "chilistats" Ordner per FTP auf den eigenen Webserver aufspielen.
+
+4. "install.php" aus dem Ordner im Webbrowser aufrufen. z.B.: www.yourpage.com/chilistats/install.php
+   Alle Punkte müssen Positiv (Grün) bestätigt werden.
+
+5. Der  Counter muss auf jeder Siete die gezählt werden soll eingebaut werden:
+
+<script type="text/javascript">
+	document.write('<a href="chilistats/stats.php"><img src="chilistats/counter.php?ref=' + escape(document.referrer) + '" border="0"></a>')
+</script>
+<noscript><a href="chilistats/stats.php"><img src="chilistats/counter.php" border="0"></a></noscript>
+
+6. Fertig.
+

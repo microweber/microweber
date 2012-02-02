@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SWFUpload Example - Multiple Uploaders</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="../vendor/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="../src/jquery.swfupload.js"></script>
+<script type="text/javascript">
+
+jQuery.fn.bindAll = function(options) {
+	var $this = this;
+	jQuery.each(options, function(key, val){
+		$this.bind(key, val);
+	});
+	return this;
+}
+
+$(function(){
+	
+	var listeners = {
+		swfuploadLoaded: function(event){
+			$('.log', this).append('<li>Loaded</li>');
+		},
+		fileQueued: function(event, file){
+			$('.log', this).append('<li>File queued - '+file.name+'</li>');
+			// start the upload once it is queued
+			// but only if this queue is not disabled
+			if (!$('input[name=disabled]:checked', this).length) {
+				$(this).swfupload('startUpload');
+			}
+		},
+		fileQueueError: function(event, file, errorCode, message){
+			$('.log', this).append('<li>File queue error - '+message+'</li>');
+		},
+		fileDialogStart: function(event){
+			$('.log', this).append('<li>File dialog start</li>');
+		},
+		fileDialogComplete: function(event, numFilesSelected, numFilesQueued){
+			$('.log', this).append('<li>File dialog complete</li>');
+		},
+		uploadStart: function(event, file){
+			$('.log', this).append('<li>Upload start - '+file.name+'</li>');
+			// don't start the upload if this queue is disabled
+			if ($('input[name=disabled]:checked', this).length) {
+				event.preventDefault();
+			}
+		},
+		uploadProgress: function(event, file, bytesLoaded){
+			$('.log', this).append('<li>Upload progress - '+bytesLoaded+'</li>');
+		},
+		uploadSuccess: function(event, file, serverData){
+			$('.log', this).append('<li>Upload success - '+file.name+'</li>');
+		},
+		uploadComplete: function(event, file){
+			$('.log', this).append('<li>Upload complete - '+file.name+'</li>');
+			// upload has completed, lets try the next one in the queue
+			// but only if this queue is not disabled
+			if (!$('input[name=disabled]:checked', this).length) {
+				$(this).swfupload('startUpload');
+			}
+		},
+		uploadError: function(event, file, errorCode, message){
+			$('.log', this).append('<li>Upload error - '+message+'</li>');
+		}
+	};
+
+	$('.swfupload-control').bindAll(listeners);
+	
+	
+	// start the queue if the queue is already disabled
+	$('.swfupload-control input[name=disabled]').click(function(){
+		if (!this.checked) {
+			$(this).parents('.swfupload-control').swfupload('startUpload');
+		}
+	});
+	
+});
+		
+$(function(){
+	$('.swfupload-control').each(function(){
+		$(this).swfupload({
+			upload_url: "upload.php",
+			file_size_limit : "10240",
+			file_types : "*.*",
+			file_types_description : "All Files",
+			file_upload_limit : "0",
+			flash_url : "../vendor/swfupload/swfupload.swf",
+			button_image_url : '../vendor/swfupload/XPButtonUploadText_61x22.png',
+			button_width : 61,
+			button_height : 22,
+			button_placeholder : $('.button', this)[0],
+			debug: true
+		});
+	});
+});	
+
+</script>
+</head>
+<body>
+
+<div style="width:48%;float:left;">
+
+	<div class="swfupload-control">
+		<label><input type="checkbox" name="disabled" /> Disabled</label>
+		<ol class="log"></ol>
+		<input type="button" class="button" />
+	</div>
+
+</div>
+
+<div style="width:48%;float:right;">
+
+	<div class="swfupload-control">
+		<label><input type="checkbox" name="disabled" /> Disabled</label>
+		<ol class="log"></ol>
+		<input type="button" class="button" />
+	</div>
+
+</div>
+
+</body>
+</html>

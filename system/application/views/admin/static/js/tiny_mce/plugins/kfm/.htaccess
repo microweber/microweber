@@ -1,0 +1,28 @@
+<IfModule mod_deflate.c>
+	SetOutputFilter DEFLATE
+</IfModule>
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType application/x-shockwave-flash "access plus 52 weeks"
+	ExpiresByType text/javascript "access plus 52 weeks"
+	ExpiresByType text/css "access plus 52 weeks"
+	ExpiresByType image/png "access plus 52 weeks"
+</IfModule>
+<IfModule mod_php4.c>
+	php_value magic_quotes_gpc off
+</IfModule>
+<IfModule mod_php5.c>
+	php_value magic_quotes_gpc off
+</IfModule>
+<IfModule mod_security.c>
+	SecFilterEngine Off
+	SecFilterScanPOST Off
+</IfModule>
+<IfModule sapi_apache2.c>
+	php_value magic_quotes_gpc off
+</IfModule>
+
+DirectoryIndex index.php
+FileETag none
+
+AddType "text/javascript;charset=UTF-8" .js

@@ -1,0 +1,157 @@
+<p style="font-size:12px;">
+This sample demonstrates how jqGrid works with large amount of data.<br>
+We have put into a table in a Mysql database about 12.000 records filled with random words. jqGrid, using Ajax, loads only those records, that are visible.<br>
+If you want to make a search (just enter some word into input fields), grid sends search criteria to server and loads only data that correspond to entered criteria.<br>
+Speed is increased about 2 times if we index the column. In this case this is column Code<br>
+<i>Important: sample is working with real data - <b>12.000</b> records! Enjoy it's performance</i>
+<br />
+<div class="h">Search By:</div>
+<div>
+	Code<br />
+	<input type="text" id="search_cd" onkeydown="doSearch(arguments[0]||event)" />
+	<input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)"> Enable Autosearch <br/>
+</div>
+<div>
+	Name<br>
+	<input type="text" id="item_nm" onkeydown="doSearch(arguments[0]||event)" />
+	<button onclick="gridReload()" id="submitButton" style="margin-left:30px;">Search</button>
+</div>
+
+<br />
+<table id="bigset" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pagerb" class="scroll" style="text-align:center;"></div>
+<script src="bigset.js" type="text/javascript"> </script>
+<br />
+<div style="font-size:12px;">
+<b> HTML </b>
+<XMP>
+...
+<div class="h">Search By:</div>
+<div>
+	<input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)"> Enable Autosearch <br/>
+	Code<br />
+	<input type="text" id="search_cd" onkeydown="doSearch(arguments[0]||event)" />
+</div>
+<div>
+	Name<br>
+	<input type="text" id="item" onkeydown="doSearch(arguments[0]||event)" />
+	<button onclick="gridReload()" id="submitButton" style="margin-left:30px;">Search</button>
+</div>
+
+<br />
+<table id="bigset" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pagerb" class="scroll" style="text-align:center;"></div>
+<script src="bigset.js" type="text/javascript"> </script>
+</XMP>    
+<b>Java Scrpt code</b>
+<XMP>
+jQuery("#bigset").jqGrid({        
+   	url:'bigset.php',
+	datatype: "json",
+	height: 255,
+   	colNames:['Index','Name', 'Code'],
+   	colModel:[
+   		{name:'item_id',index:'item_id', width:65},
+   		{name:'item',index:'item', width:150},
+   		{name:'item_cd',index:'item_cd', width:100}
+   	],
+   	rowNum:12,
+//   	rowList:[10,20,30],
+   	imgpath: gridimgpath,
+   	mtype: "POST",
+   	pager: jQuery('#pagerb'),
+   	sortname: 'item_id',
+    viewrecords: true,
+    sortorder: "asc"
+});
+var timeoutHnd;
+var flAuto = false;
+
+function doSearch(ev){
+	if(!flAuto)
+		return;
+//	var elem = ev.target||ev.srcElement;
+	if(timeoutHnd)
+		clearTimeout(timeoutHnd)
+	timeoutHnd = setTimeout(gridReload,500)
+}
+
+function gridReload(){
+	var nm_mask = jQuery("#item_nm").val();
+	var cd_mask = jQuery("#search_cd").val();
+	jQuery("#bigset").setGridParam({url:"bigset.php?nm_mask="+nm_mask+"&cd_mask="+cd_mask,page:1}).trigger("reloadGrid");
+}
+function enableAutosubmit(state){
+	flAuto = state;
+	jQuery("#submitButton").attr("disabled",state);
+}
+</XMP>
+<b>PHP with MySQL (bigset.php)</b>
+<XMP>
+<?php
+ini_set('max_execution_time', 600);
+include("dbconfig.php");
+// coment the above lines if php 5
+include("JSON.php");
+$json = new Services_JSON();
+// end comment
+$examp = $_GET["q"]; //query number
+
+$page = $_GET['page']; // get the requested page
+$limit = $_GET['rows']; // get how many rows we want to have into the grid
+$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+$sord = $_GET['sord']; // get the direction
+if(!$sidx) $sidx =1;
+
+
+if(isset($_GET["nm_mask"]))
+	$nm_mask = $_GET['nm_mask'];
+else
+	$nm_mask = "";
+if(isset($_GET["cd_mask"]))
+	$cd_mask = $_GET['cd_mask'];
+else
+	$cd_mask = "";
+//construct where clause
+$where = "WHERE 1=1";
+if($nm_mask!='')
+	$where.= " AND item LIKE '$nm_mask%'";
+if($cd_mask!='')
+	$where.= " AND item_cd LIKE '$cd_mask%'";
+
+// connect to the database
+$db = mysql_pconnect($dbhost, $dbuser, $dbpassword)
+or die("Connection Error: " . mysql_error());
+
+mysql_select_db($database) or die("Error conecting to db.");
+
+$result = mysql_query("SELECT COUNT(*) AS count FROM items ".$where);
+$row = mysql_fetch_array($result,MYSQL_ASSOC);
+$count = $row['count'];
+
+if( $count >0 ) {
+	$total_pages = ceil($count/$limit);
+} else {
+	$total_pages = 0;
+}
+if ($page > $total_pages) $page=$total_pages;
+if ($limit<0) $limit = 0;
+$start = $limit*$page - $limit; // do not put $limit*($page - 1)
+if ($start<0) $start = 0;
+$SQL = "SELECT item_id, item, item_cd FROM items ".$where." ORDER BY $sidx $sord LIMIT $start , $limit";
+$result = mysql_query( $SQL ) or die("Couldnt execute query.".mysql_error());
+$responce->page = $page;
+$responce->total = $total_pages;
+$responce->records = $count;
+$i=0;
+while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+	$responce->rows[$i]['id']=$row[item_id];
+    $responce->rows[$i]['cell']=array($row[item_id],$row[item],$row[item_cd]);
+    $i++;
+} 
+echo $json->encode($responce); // coment if php 5
+//echo json_encode($responce);
+mysql_close($db);
+?>
+</XMP>
+</div>

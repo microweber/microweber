@@ -1,0 +1,143 @@
+<!--
+/*
+
+ChiliStats by ChiliScripts.com
+
+*/
+
+*{
+font-family:Arial, Helvetica, sans-serif;
+}
+
+a {
+	text-decoration:none; 
+	color:#81BEF7;
+}
+
+#logo {
+	margin:10px;
+	width:940px;
+	z-index:1;
+}
+#logo h1{
+	border-bottom: 1px #DF0101 solid;
+	font-size:2em;
+	color:#DF0101;
+}
+
+#menu {
+	margin:10px;
+	width:940px;
+	z-index:1;
+	text-align:right;
+}
+#menu li {
+  display: inline;
+  padding: 0px 10px; 
+  text-align:right;
+}
+#menu a {
+  padding: 2px 8px 5px;
+  text-decoration:none;
+  color:#333333;
+  font-size:1em;
+}
+#menu a:hover {
+  color:#DF0101;
+}
+
+#container {
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+	color:#333333;
+
+}
+#container h3 {
+	background-color:#555555;
+	color:#FFFFFF;
+	padding:5px;
+	margin:0px;
+	margin-bottom:10px;
+	font-size:1em;
+}
+
+#container h3 span{
+	position:absolute;
+	right:10px;
+}
+#container h3 span a{
+	text-decoration:none;
+	color:#FFFFFF;
+	font-size:1.2em;
+}
+.small {
+	position:relative;
+	margin:10px;
+	width:300px;
+	float:left;
+	z-index:1;
+	background-color:#FFFFFF;
+}
+.middle {
+	position:relative;
+	margin:10px;
+	width:460px;
+	float:left;
+	z-index:1;
+	background-color:#FFFFFF;
+}
+.big {
+	position:relative;
+	margin:10px;
+	width:620px;
+	float:left;
+	z-index:1;
+	background-color:#FFFFFF;
+}
+.full {
+	position:relative;
+	margin:10px;
+	width:940px;
+	z-index:1;
+	background-color:#FFFFFF;
+}
+
+.bar {
+	margin-right:1px;
+	margin-left:1px;
+	z-index:1;
+	background-color:#81BEF7;
+	font-size:0.8em;
+	overflow:hidden;
+}
+.vbar {
+	height:20px;
+	background-color:#81BEF7;
+
+}
+.bar:hover {
+	margin-right:1px;
+	z-index:1;
+	background-color:#2E9AFE;
+
+}
+
+.timeline {
+	border-left:1px #DDDDDD solid;
+	font-size:0.8em;
+	color:#333333;
+}
+
+#footer {
+	margin:10px;
+	width:940px;
+	z-index:1;
+	text-align:right;
+}
+#footer a {
+	text-decoration:none;
+	color:#DF0101;
+}
+-->

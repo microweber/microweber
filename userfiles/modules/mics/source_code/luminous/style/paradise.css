@@ -1,0 +1,155 @@
+/*
+ * Copyright 2010 Mark Watkinson
+ * 
+ * This file is part of Luminous.
+ * 
+ * Luminous is free software: you can redistribute it and/or
+ * modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Luminous is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Luminous.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+
+/*
+ * Based on the 'Birds of Paradise' theme 
+ * http://joebergantine.com/werkstatt/birds-of-paradise 
+ */
+
+.luminous .character{color:#DCA3A3 !important;}
+.luminous .comment{color:#8F6843 !important; font-style:italic !important;}
+.luminous .comment_note{color:#D24421 !important; 
+font-style:normal !important; font-weight:bold !important;}
+.luminous .constant{color:#EFAC32; font-weight:bold !important;}
+.luminous .delimiter{ font-weight:bold !important;} 
+.luminous .esc{color:#FFFF00  !important;}
+.luminous .function{color:#EFAC32 !important;}
+.luminous .heredoc{color:#D9D762 !important;}
+.luminous .htmltag{font-weight:bold !important; color:#EFCB43 !important;}
+.luminous .keyword{font-weight:bold !important; color:#EF5D32 !important; }
+.luminous .numeric {color:#6C99BB !important;}
+.luminous .operator{color:#F68895 !important;}
+.luminous .obj{color:#8E83BD !important;}
+.luminous .oo{}
+.luminous .preprocessor{color:#FF9D5B !important;}
+.luminous .shebang{font-weight:bold !important; font-style:normal !important; 
+color:#FFFFFF !important;}
+.luminous .string{color:#D9D762;}
+.luminous .type{color:#EFAC32 !important; }
+.luminous .user_function{color: #FFE432 !important; font-weight:bold !important;}
+.luminous .value{color:#FF9074 !important;}
+.luminous .variable{color:#7DAF9C !important;}
+
+/* italicised because otherwise it seems to blend into the rest of the
+ * source too much */
+.luminous .doccomment{color:#D2D2D2 !important; font-style:italic;}
+.luminous .doctag {color:#C6D25A !important;}
+.luminous .docstr {color:#FF9B9B !important;}
+.luminous .docproperty{color:#D2B777 !important; font-weight:bold !important;}
+
+.luminous .diff_header_new{background-color:#2F33AB !important;}
+.luminous .diff_header_old{background-color:#2F33AB !important;}
+.luminous .diff_range{background-color:#2F33AB !important;}
+
+
+
+/* .luminous .lang_latex{color:#b1b1ff;} */
+.luminous .latex_function{color:#FFDCA8 !important;}
+.luminous .latex_operator{color:#888888 !important;}
+
+.luminous .code {}
+
+.luminous .long_delim{font-weight:bold !important;}
+
+
+.luminous .generics{color:#adff5a !important;}
+
+
+
+.luminous .regex{color:#A19BE9 !important;}
+.luminous .regex_subpattern{font-weight:bold !important; 
+color:#B383ED !important;}
+.luminous .regex_class_marker{color:#7CB7E1; font-weight:bold;}
+.luminous .regex_subpattern_marker{color:#D684EE !important; 
+font-weight:bold !important;}
+.luminous .regex_repeat_marker{color:#b1b1ff !important;}
+.luminous .regex_operator{color:#8FC08F !important;}
+
+.luminous .make_target{color:#FFD5FF !important;}
+.luminous .make_dep{color: #b1b1ff !important;}
+
+.luminous .whitespace_space{background-color:#C877A5 !important;}
+.luminous .whitespace_tab{background-color:#7D85D1 !important;}
+
+.luminous .link, .luminous .link:visited
+{
+  color:#FFC0FF !important;
+}
+.luminous .link:hover
+{
+  color:#FFC0FF !important;
+}
+
+.luminous .line_number_bar
+
+{
+  background-color:#3E2C29 !important;
+  border-right:1px solid #F5AEA3 !important;
+}
+.luminous .line_number
+{
+  color: #CA7A2A !important;
+}
+
+
+.luminous .code
+{
+  background-color:#322323 !important;
+  color:#E6E1C4 !important;
+}
+
+.luminous .metabar_buttons_floating
+{
+  background-color:#808080 !important;  
+  background-color:rgba(255, 220, 168, 0.50) !important;    
+}
+
+
+
+.luminous .line_alt
+{
+  background-color: #3E2C29 !important;
+}
+
+.luminous .highlighted_line
+{
+  background-color:#1F1611 !important;
+}
+
+  
+/* this stuff has to come after the other rules because it will probably
+ * override some of them
+ */
+.luminous .diff_old{
+  background-color:#660000 !important;
+  background-color: rgba(232, 87, 82, 0.35) !important;
+  color: #E6E1DC !important;
+}
+.luminous .diff_new{
+  background-color:#144212 !important;
+  background-color: rgba(0, 191, 0, 0.35) !important;
+  color: #E6E1DC !important;
+}
+.luminous .diff_unchanged, .luminous .diff_unchanged * {
+  color: #888A85 !important;
+  background-color: transparent !important;
+}

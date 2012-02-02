@@ -1,0 +1,440 @@
+1.3.0 (2010-10-14)
+	* Added: childExists method to Sabre_DAV_ICollection. This is an api
+	  break, so if you implement Sabre_DAV_ICollection directly, add the method.
+	* Changed: Almost all HTTP method implementations now take a uri argument,
+	  including events. This allows for internal rerouting of certain calls.
+	  If you have custom plugins, make sure they use this argument. If they
+	  don't, they will likely still work, but it might get in the way of
+	  future changes.
+	* Changed: All getETag methods MUST now surround the etag with
+	  double-quotes. This was a mistake made in all previous SabreDAV
+	  versions. If you don't do this, any If-Match, If-None-Match and If:
+	  headers using Etags will work incorrectly. (Issue 85). 
+	* Added: Sabre_DAV_Auth_Backend_AbstractBasic class, which can be used to
+	  easily implement basic authentication.
+	* Removed: Sabre_DAV_PermissionDenied class. Use Sabre_DAV_Forbidden
+	  instead.
+	* Removed: Sabre_DAV_IDirectory interface, use Sabre_DAV_ICollection
+	  instead. 
+	* Added: Browser plugin now uses {DAV:}displayname if this property is
+	  available.
+	* Added: Cache layer in the ObjectTree.
+	* Added: Tree classes now have a delete and getChildren method.
+	* Fixed: If-Modified-Since and If-Unmodified-Since would be incorrect if
+	  the date is an exact match.
+	* Fixed: Support for multiple ETags in If-Match and If-None-Match headers.
+	* Fixed: Improved baseUrl handling.
+	* Fixed: Issue 67: Non-seekable stream support in ::put()/::get().
+	* Fixed: Issue 65: Invalid dates are now ignored.
+	* Updated: Refactoring in Sabre_CalDAV to make everything a bit more
+	  ledgable.
+	* Fixed: Issue 88, Issue 89: Fixed compatibility for running SabreDAV on 
+	   Windows.
+	* Fixed: Issue 86: Fixed Content-Range top-boundary from 'file size' to
+	  'file size'-1. 
+
+1.2.4 (2010-07-13)
+	* Fixed: Issue 62: Guessing baseUrl fails when url contains a
+	  query-string.
+	* Added: Apache configuration sample for CGI/FastCGI setups.
+	* Fixed: Issue 64: Only returning calendar-data when it was actually
+	  requested.
+
+1.2.3 (2010-06-26)
+	* Fixed: Issue 57: Supporting quotes around etags in If-Match and
+	  If-None-Match
+
+1.2.2 (2010-06-21)
+	* Updated: SabreDAV now attempts to guess the BaseURI if it's not set.
+	* Updated: Better compatibility with BitKinex
+	* Fixed: Issue 56: Incorrect behaviour for If-None-Match headers and GET
+	  requests.
+	* Fixed: Issue with certain encoded paths in Browser Plugin.
+
+1.2.1 (2010-06-07)
+	* Fixed: Issue 50, patch by Mattijs Hoitink.
+	* Fixed: Issue 51, Adding windows 7 lockfiles to TemporaryFileFilter.
+	* Fixed: Issue 38, Allowing custom filters to be added to
+	  TemporaryFileFilter.
+	* Fixed: Issue 53, ETags in the If: header were always failing. This
+	  behaviour is now corrected.
+	* Added: Apache Authentication backend, in case authentication through
+	  .htaccess is desired.
+	* Updated: Small improvements to example files.
+
+1.2.0 (2010-05-24)
+	* Fixed: Browser plugin now displays international characters.
+	* Changed: More properties in CalDAV classes are now protected instead of
+	  private.
+
+1.2.0beta3 (2010-05-14)
+	* Fixed: Custom properties were not propertly sent back for allprops
+	  requests.
+	* Fixed: Issue 49, incorrect parsing of PROPPATCH, affecting Office 2007.
+	* Changed: Removed CalDAV items from includes.php, and added a few missing
+	  ones.
+
+1.2.0beta2 (2010-05-04)
+	* Fixed: Issue 46: Fatal error for some non-existant nodes.
+	* Updated: some example sql to include email address.
+	* Added: 208 and 508 statuscodes from RFC5842.
+	* Added: Apache2 configuration examples
+
+1.2.0beta1 (2010-04-28)
+	* Fixed: redundant namespace declaration in resourcetypes.
+	* Fixed: 2 locking bugs triggered by litmus when no Sabre_DAV_ILockable
+	  interface is used.
+	* Changed: using http://sabredav.org/ns for all custom xml properties.
+	* Added: email address property to principals.
+	* Updated: CalendarObject validation.
+
+1.2.0alpha4 (2010-04-24)
+	* Added: Support for If-Range, If-Match, If-None-Match, If-Modified-Since,
+	  If-Unmodified-Since.
+	* Changed: Brand new build system. Functionality is split up between
+	  Sabre, Sabre_HTTP, Sabre_DAV and Sabre_CalDAV packages. In addition to
+	  that a new non-pear package will be created with all this functionality
+	  combined.
+	* Changed: Autoloader moved to Sabre/autoload.php.
+	* Changed: The Allow: header is now more accurate, with appropriate HTTP
+	  methods per uri. 
+	* Changed: Now throwing back Sabre_DAV_Exception_MethodNotAllowed on a few
+	  places where Sabre_DAV_Exception_NotImplemented was used.
+
+1.2.0alpha3 (2010-04-20)
+	* Update: Complete rewrite of property updating. Now easier to use and 
+	  atomic.
+	* Fixed: Issue 16, automatically adding trailing / to baseUri.
+	* Added: text/plain is used for .txt files in GuessContentType plugin.
+	* Added: support for principal-property-search and
+	  principal-search-property-set reports.
+	* Added: Issue 31: Hiding exception information by default. Can be turned
+	  on with the Sabre_DAV_Server::$debugExceptions property.
+
+1.2.0alpha2 (2010-04-08)
+	* Added: Calendars are now private and can only be read by the owner.
+	* Fixed: double namespace declaration in multistatus responses.
+	* Added: MySQL database dumps. MySQL is now also supported next to SQLite. 
+	* Added: expand-properties REPORT from RFC 3253.
+	* Added: Sabre_DAV_Property_IHref interface for properties exposing urls.
+	* Added: Issue 25: Throwing error on broken Finder behaviour.
+	* Changed: Authentication backend is now aware of current user.
+
+1.2.0alpha1 (2010-03-31)
+	* Fixed: Issue 26: Workaround for broken GVFS behaviour with encoded
+	  special characters.
+	* Fixed: Issue 34: Incorrect Lock-Token response header for LOCK. Fixes
+	  Office 2010 compatibility.
+	* Added: Issue 35: SabreDAV version to header to OPTIONS response to ease
+	  debugging.
+	* Fixed: Issue 36: Incorrect variable name, throwing error in some
+	  requests.
+	* Fixed: Issue 37: Incorrect smultron regex in temporary filefilter.
+	* Fixed: Issue 33: Converting ISO-8859-1 characters to UTF-8.
+	* Fixed: Issue 39 & Issue 40: Basename fails on non-utf-8 locales. 
+	* Added: More unittests.
+	* Added: SabreDAV version to all error responses.
+	* Added: URLUtil class for decoding urls.
+	* Changed: Now using pear.sabredav.org pear channel.
+	* Changed: Sabre_DAV_Server::getCopyAndMoveInfo is now a public method.
+
+1.1.2-alpha (2010-03-18)
+	* Added: RFC5397 - current-user-principal support.
+	* Fixed: Issue 27: encoding entities in property responses.
+	* Added: naturalselection script now allows the user to specify a 'minimum
+	  number of bytes' for deletion. This should reduce load due to less
+	  crawling
+	* Added: Full support for the calendar-query report.
+	* Added: More unittests.
+	* Added: Support for complex property deserialization through the static 
+	  ::unserialize() method.
+	* Added: Support for modifying calendar-component-set
+	* Fixed: Issue 29: Added TIMEOUT_INFINITE constant
+
+1.1.1-alpha (2010-03-11)
+	* Added: RFC5689 - Extended MKCOL support.
+	* Fixed: Evolution support for CalDAV.
+	* Fixed: PDO-locks backend was pretty much completely broken. This is 
+	  100% unittested now.
+	* Added: support for ctags.
+	* Fixed: Comma's between HTTP methods in 'Allow' method.
+	* Changed: default argument for Sabre_DAV_Locks_Backend_FS. This means a
+	  datadirectory must always be specified from now on.
+	* Changed: Moved Sabre_DAV_Server::parseProps to
+	  Sabre_DAV_XMLUtil::parseProperties.
+	* Changed: Sabre_DAV_IDirectory is now Sabre_DAV_ICollection.
+	* Changed: Sabre_DAV_Exception_PermissionDenied is now
+	  Sabre_DAV_Exception_Forbidden.
+	* Changed: Sabre_CalDAV_ICalendarCollection is removed.
+	* Added: Sabre_DAV_IExtendedCollection.
+	* Added: Many more unittests.
+	* Added: support for calendar-timezone property.
+
+1.1.0-alpha (2010-03-01)
+	* Added: CalDAV - RFC 4791
+	* Removed: Sabre_PHP_Exception. PHP has a built-in ErrorException for
+	  this.
+	* Added: PDO authentication backend.
+	* Added: Example sql for auth, caldav, locks for sqlite.
+	* Added: Sabre_DAV_Browser_GuessContentType plugin
+	* Changed: Authentication plugin refactored, making it possible to
+	  implement non-digest authentication.
+	* Fixed: Better error display in browser plugin.
+	* Added: Support for {DAV:}supported-report-set 
+	* Added: XML utility class with helper functions for the WebDAV protocol.
+	* Added: Tons of unittests
+	* Added: PrincipalCollection and Principal classes
+	* Added: Sabre_DAV_Server::getProperties for easy property retrieval
+	* Changed: {DAV:}resourceType defaults to 0
+	* Changed: Any non-null resourceType now gets a / appended to the href
+	  value. Before this was just for {DAV:}collection's, but this is now also
+	  the case for for example {DAV:}principal.
+	* Changed: The Href property class can now optionally create non-relative
+	  uri's.
+	* Changed: Sabre_HTTP_Response now returns false if headers are already
+	  sent and header-methods are called.
+	* Fixed: Issue 19: HEAD requests on Collections
+	* Fixed: Issue 21: Typo in Sabre_DAV_Property_Response
+	* Fixed: Issue 18: Doesn't work with Evolution Contacts
+
+1.0.5-stable (2010-01-22)
+	* Fixed: Fatal error when a malformed url was used for unlocking, in
+	  conjuction with Sabre.autoload.php due to a incorrect filename.
+	* Fixed: Improved unittests and build system 
+
+1.0.4-stable (2010-01-11)
+	* Fixed: needed 2 different releases. One for googlecode and one for
+	  pearfarm. This is to retain the old method to install SabreDAV until
+	  pearfarm becomes the standard installation method.
+
+1.0.3-stable (2010-01-11)
+	* Added: RFC4709 support (davmount)
+	* Added: 6 unittests
+	* Added: naturalselection. A tool to keep cache directories below a
+	  specified theshold.
+	* Changed: Now using pearfarm.org channel server.
+
+1.0.1-stable (2009-12-22)
+	* Fixed: Issue 15: typos in examples
+	* Fixed: Minor pear installation issues
+
+1.0.0-stable (2009-11-02)
+	* Added: SimpleDirectory class. This class allows creating static
+	  directory structures with ease.
+	* Changed: Custom complex properties and exceptions now get an instance of
+	  Sabre_DAV_Server as their first argument in serialize()
+	* Changed: Href complex property now prepends server's baseUri
+	* Changed: delete before an overwriting copy/move is now handles by server
+	  class instead of tree classes
+	* Changed: events must now explicitly return false to stop execution.
+	  Before, execution would be stopped by anything loosely evaluating to
+	  false.
+	* Changed: the getPropertiesForPath method now takes a different set of
+	  arguments, and returns a different response. This allows plugin
+	  developers to return statuses for properties other than 200 and 404. The
+	  hrefs are now also always calculated relative to the baseUri, and not
+	  the uri of the request.
+	* Changed: generatePropFindResponse is renamed to generateMultiStatus, and
+	  now takes a list of properties similar to the response of
+	  getPropertiesForPath. This was also needed to improve flexibility for
+	  plugin development.
+	* Changed: Auth plugins are no longer included. They were not yet stable
+	  quality, so they will probably be reintroduced in a later version.
+	* Changed: PROPPATCH also used generateMultiStatus now.
+	* Removed: unknownProperties event. This is replaced by the
+	  afterGetProperties event, which should provide more flexibility. 
+	* Fixed: Only calling getSize() on IFile instances in httpHead()
+	* Added: beforeBind event. This is invoked upon file or directory creation
+	* Added: beforeWriteContent event, this is invoked by PUT and LOCK on an
+	  existing resource.
+	* Added: beforeUnbind event. This is invoked right before deletion of any
+	  resource.
+	* Added: afterGetProperties event. This event can be used to make
+	  modifications to property responses.
+	* Added: beforeLock and beforeUnlock events.
+	* Added: afterBind event.
+	* Fixed: Copy and Move could fail in the root directory. This is now
+	  fixed.
+	* Added: Plugins can now be retrieved by their classname. This is useful
+	  for inter-plugin communication.
+	* Added: The Auth backend can now return usernames and user-id's.
+	* Added: The Auth backend got a getUsers method
+	* Added: Sabre_DAV_FSExt_Directory now returns quota info
+
+0.12.1-beta (2009-09-11)
+	* Fixed: UNLOCK bug. Unlock didn't work at all
+
+0.12-beta (2009-09-10)
+	* Updated: Browser plugin now shows multiple {DAV:}resourcetype values
+	  if available.
+	* Added: Experimental PDO backend for Locks Manager
+	* Fixed: Sending Content-Length: 0 for every empty response. This
+	  improves NGinx compatibility.
+	* Fixed: Last modification time is reported in UTC timezone. This improves
+	  Finder compatibility.
+
+0.11-beta (2009-08-11)
+	* Updated: Now in Beta
+	* Updated: Pear package no longer includes docs/ directory. These just
+	  contained rfc's, which are publically available. This reduces the
+	  package from ~800k to ~60k
+	* Added: generatePropfindResponse now takes a baseUri argument
+	* Added: ResourceType property can now contain multiple resourcetypes.
+	* Fixed: Issue 13. 
+
+0.10-alpha (2009-08-03)
+	* Added: Plugin to automatically map GET requests to non-files to
+	  PROPFIND (Sabre_DAV_Browser_MapGetToPropFind). This should allow 
+	  easier debugging of complicated WebDAV setups.
+	* Added: Sabre_DAV_Property_Href class. For future use.
+	* Added: Ability to choose to use auth-int, auth or both for HTTP Digest
+	  authentication. (Issue 11)
+	* Changed: Made more methods in Sabre_DAV_Server public.
+	* Fixed: TemporaryFileFilter plugin now intercepts HTTP LOCK requests
+	  to non-existant files. (Issue 12)
+	* Added: Central list of defined xml namespace prefixes. This can reduce
+	  Bandwidth and legibility for xml bodies with user-defined namespaces.
+	* Added: now a PEAR-compatible package again, thanks to Michael Gauthier
+	* Changed: moved default copy and move logic from ObjectTree to Tree class
+
+0.9-alpha (2009-07-21)
+	* Changed: Major refactoring, removed most of the logic from the Tree
+	  objects. The Server class now directly works with the INode, IFile
+	  and IDirectory objects. If you created your own Tree objects,
+	  this will most likely break in this release.
+	* Changed: Moved all the Locking logic from the Tree and Server classes
+	  into a separate plugin.
+	* Changed: TemporaryFileFilter is now a plugin.
+	* Added: Comes with an autoloader script. This can be used instead of
+	  the includer script, and is preferered by some people.
+	* Added: AWS Authentication class.
+	* Added: simpleserversetup.py script. This will quickly get a fileserver
+	  up and running.
+	* Added: When subscribing to events, it is now possible to supply a
+	  priority. This is for example needed to ensure that the Authentication
+	  Plugin is used before any other Plugin.
+	* Added: 22 new tests.
+	* Added: Users-manager plugin for .htdigest files. Experimental and
+	  subject to change.
+	* Added: RFC 2324 HTTP 418 status code
+	* Fixed: Exclusive locks could in some cases be picked up as shared locks
+	* Fixed: Digest auth for non-apache servers had a bug (still not actually
+	  tested this well).
+
+0.8-alpha (2009-05-30)
+	* Changed: Renamed all exceptions! This is a compatibility break. Every
+	  Exception now follows Sabre_DAV_Exception_FileNotFound convention
+	  instead of Sabre_DAV_FileNotFoundException.
+	* Added: Browser plugin now allows uploading and creating directories
+	  straight from the browser.
+	* Added: 12 more unittests
+	* Fixed: Locking bug, which became prevalent on Windows Vista.
+	* Fixed: Netdrive support
+	* Fixed: TemporaryFileFilter filtered out too many files. Fixed some
+	  of the regexes.
+	* Fixed: Added README and ChangeLog to package
+
+0.7-alpha (2009-03-29)
+	* Added: System to return complex properties from PROPFIND.
+	* Added: support for {DAV:}supportedlock.
+	* Added: support for {DAV:}lockdiscovery.
+	* Added: 6 new tests.
+	* Added: New plugin system.
+	* Added: Simple HTML directory plugin, for browser access.
+	* Added: Server class now sends back standard pre-condition error xml
+	bodies. This was new since RFC4918.
+	* Added: Sabre_DAV_Tree_Aggregrate, which can 'host' multiple Tree objects
+	into one.
+	* Added: simple basis for HTTP REPORT method. This method is not used yet,
+	but can be used by plugins to add reports.
+	* Changed: ->getSize is only called for files, no longer for collections.
+	r303
+	* Changed: Sabre_DAV_FilterTree is now Sabre_DAV_Tree_Filter
+	* Changed: Sabre_DAV_TemporaryFileFilter is now called
+	Sabre_DAV_Tree_TemporaryFileFilter.
+	* Changed: removed functions (get(/set)HTTPRequest(/Response)) from Server
+	class, and using a public property instead.
+	* Fixed: bug related to parsing proppatch and propfind requests. Didn't
+	show up in most clients, but it needed fixing regardless. (r255)
+	* Fixed: auth-int is now properly supported within HTTP Digest.
+	* Fixed: Using application/xml for a mimetype vs. text/xml as per RFC4918
+	sec 8.2.
+	* Fixed: TemporaryFileFilter now lets through GET's if they actually
+	exist on the backend. (r274)
+	* FIxed: Some methods didn't get passed through in the FilterTree (r283).
+	* Fixed: LockManager is now slightly more complex, Tree classes slightly
+	less. (r287)
+
+0.6-alpha (2009-02-16)
+	* Added: Now uses streams for files, instead of strings.
+	  This means it won't require to hold entire files in memory, which can be
+	  an issue if you're dealing with big files. Note that this breaks 
+	  compatibility for put() and createFile methods.
+	* Added: HTTP Digest Authentication helper class.
+	* Added: Support for HTTP Range header
+	* Added: Support for ETags within If: headers
+	* Added: The API can now return ETags and override the default Content-Type
+	* Added: starting with basic framework for unittesting, using PHPUnit.
+	* Added: 49 unittests.
+	* Added: Abstraction for the HTTP request.
+	* Updated: Using Clark Notation for tags in properties. This means tags
+	are serialized as {namespace}tagName instead of namespace#tagName
+	* Fixed: HTTP_BasicAuth class now works as expected.
+	* Fixed: DAV_Server uses / for a default baseUrl.
+	* Fixed: Last modification date is no longer ignored in PROPFIND.
+	* Fixed: PROPFIND now sends back information about the requestUri even
+	  when "Depth: 1" is specified.
+
+0.5-alpha (2009-01-14)
+	* Added: Added a very simple example for implementing a mapping to PHP
+	  file streams. This should allow easy implementation of for example a
+	  WebDAV to FTP proxy.
+	* Added: HTTP Basic Authentication helper class.
+	* Added: Sabre_HTTP_Reponse class. This centralizes HTTP operations and
+	  will be a start towards the creating of a testing framework.
+	* Updated: Backwards compatibility break: all require_once() statements
+	  are removed
+	  from all the files. It is now recommended to use autoloading of 
+	  classes, or just including lib/Sabre.includes.php. This fix was made
+	  to allow easier integration into applications not using this standard
+	  inclusion model.
+	* Updated: Better in-file documentation.
+	* Updated: Sabre_DAV_Tree can now work with Sabre_DAV_LockManager.
+	* Updated: Fixes a shared-lock bug.
+	* Updated: Removed ?> from the bottom of each php file.
+	* Updated: Split up some operations from Sabre_DAV_Server to
+	  Sabre_HTTP_Response.
+	* Fixed: examples are now actually included in the pear package.
+
+0.4-alpha (2008-11-05)
+	* Passes all litmus tests!
+	* Added: more examples
+	* Added: Custom property support
+	* Added: Shared lock support
+	* Added: Depth support to locks
+	* Added: Locking on unmapped urls (non-existant nodes)
+	* Fixed: Advertising as WebDAV class 3 support
+
+0.3-alpha (2008-06-29) 
+	* Fully working in MS Windows clients.
+	* Added: temporary file filter: support for smultron files.
+	* Added: Phing build scripts 
+	* Added: PEAR package 
+	* Fixed: MOVE bug identied using finder.
+	* Fixed: Using gzuncompress instead of gzdecode in the temporary file
+	  filter. This seems more common.
+
+0.2-alpha (2008-05-27) 
+	* Somewhat working in Windows clients 
+	* Added: Working PROPPATCH method (doesn't support custom properties yet)
+	* Added: Temporary filename handling system 
+	* Added: Sabre_DAV_IQuota to return quota information
+	* Added: PROPFIND now reads the request body and only supplies the
+	  requested properties
+
+0.1-alpha (2008-04-04)
+	* First release!
+	* Passes litmus: basic, http and copymove test.
+	* Fully working in Finder and DavFSv2
+
+Project started: 2007-12-13

@@ -1,0 +1,87 @@
+# parent: index
+=Writing a language file (scanner)=
+
+\contents 2
+
+== Introduction==
+
+Highlighting a language involves writing some logic to recognise syntax rules and identify different parts of a string of source code as matching different parts of the language's syntax. This is a process known generally as 'tokenization'. The machine we use to tokenize a string is called a 'scanner', which can be entirely automated or completely explicit depending on what's necessary for the language to be highlighted.
+
+Generally, we need to consider a few classes of language:
+  # Simple, flat languages like C# and Java, where we just want to provide a set of tokens and tell Luminous to figure it out.
+  # Languages where context matters sometimes. For example, in JavaScript and related languages, a slash '/' sometimes means 'divide' and sometimes means 'regular expression delimiter'. This needs to be disambiguated somehow.
+  # Languages heavily dependent on context, like CSS, LaTeX and JSON, where different symbols have different meanings depending on what they're nested inside.
+  # Complex languages full of ambiguous constructs where it's best to just write an explicit scanner from scratch. An example is Ruby.
+
+== Class Structure ==
+
+Luminous implements a model for scanners via OO and class hierarchies. Each language to be highlighted will implement a class which extends one of Luminous's core scanning classes. The idea is to make it fairly easy to add support for new languages, while allowing each scanner to be as powerful as it needs to be.
+
+The class hierarchy looks something like this (please excuse ASCII art):
+
+{{{lang=plain
+.        Scanner
+            |
+    LuminousScanner
+            |
+  LuminousSimpleScanner
+            |
+ LuminousStatefulScanner
+}}}
+
+You will extend LuminousScanner or any of its subclasses.
+
+In relation to the four classes of language mentioned above, the base scanners we would extend are as follows:
+
+  # LuminousSimpleScanner - a generic string traversal algorithm with no concept of state.
+  # LuminousSimpleScanner again - with some *overrides*, which temporarily grant explicit, fine-grained programmatic control to *you*, the implementer for some tokens
+  # LuminousStatefulScanner - A transition table driven implementation of LuminousSimpleScanner (with overrides available)
+  # LuminousScanner - Gives you some helper methods but you write the actual highlighting (tokenization) logic yourself
+
+The base classes define the methods init() and main(). init is where any kind of setup information should go, and main is where the lexing happens. If using the simple or stateful scanners, you won't have to override main.
+
+If you need to use an override or an explicit scanner, you should at least look at the [[Scanning-API]] page to see what methods are available.
+
+
+== Examples ==
+For neatness, each scanner has its own page:
+  # [simple-scanner Simple Scanner]
+  # [stateful-scanner Stateful Scanner]
+  # [complex-scanner Complex Scanner]
+
+== Filters ==
+
+Filters are an additional technique you can use for highlighting minor details. See the [[filters]] page.
+
+
+== Using your scanner ==
+
+Once you have written your scanner, you can use it by either simply passing it as the 'language' parameter of the highlight function, e.g.
+
+{{{lang=php
+<?php
+$scanner = new MyScanner();
+$out = luminous::highlight($scanner, 'some code');
+}}}
+
+
+or, if you have several you can use Luminous's internal scanner table. Let's say you've written a new Python scanner:
+{{{lang=php
+<?php
+
+luminous::register_scanner(
+  array('py', 'python'), // codes - if you only have one, this can be a string
+  'PythonScanner' // the class name of your scanner (as string, yes)
+  'Python', // human readable language name
+  '/path/to/your/scanner/class/file.php'
+);
+
+// this will use your new scanner
+$out = luminous::highlight('py', 'def something(): return 1');
+}}}
+
+Using register_scanner() means you don't have to include or instantiate scanner classes and files yourself, luminous performs lazy file inclusion when it needs to.
+
+There is an optional final argument which is a list of dependencies or null. If you write several scanners which rely on each other, list their codes in the dependencies array. If you end up with circular include requirements*, write a dummy include file which includes everything needed, insert that first with classname=null, and list that insertion's code as a dependency in your real insertion.
+
+* this can happen: you may have a 'compile time' dependency like a superclass's definition, and a 'runtime' dependency like a sub-scanner which needs to be instantiated (at runtime). These are conceptually different but handled in the same way, hence minor problems can occur.

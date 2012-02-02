@@ -1,0 +1,51 @@
+
+Some query examples for copy & paste ;-)
+
+
+SELECT * FROM h1
+^ select all <h1> tags
+
+
+SELECT * FROM a
+^ select all links
+
+
+SELECT * FROM td
+^ select all <td>'s
+
+
+SELECT href as url, text FROM a
+^ return href as url and text as text from all links
+
+
+SELECT * FROM a WHERE preg_match("/^http:\/\//", $href)
+^ find all external links
+
+
+SELECT * FROM a WHERE preg_match("/^\/snippets/i", $href) and preg_match("/^array_/i", $text)
+^ find all links starting with /snippets and with a link text starting with "array_"
+
+
+SELECT * FROM *
+^ select all attributes of all tags ;-)
+
+
+SELECT id, name, password FROM user WHERE $status == "active"
+^ select all <user> tags where status="active" (for XML files)
+
+
+SELECT * FROM * WHERE $id == "header"
+^ return all tags with the $id = header
+
+
+SELECT * FROM a WHERE substr($href,0,1) != "/"
+^ select links with URLs that start with / (mainly internal links)
+
+
+SELECT * FROM * WHERE $class == "nav_item"
+^ select all tags with the class = nav_item
+
+
+SELECT * FROM a WHERE ($href == "foo.htm" and $title == "foo") or ($title == "bar")
+^ complex query
+

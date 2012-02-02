@@ -1,0 +1,589 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head> 
+ <title>jQuery FCKEditor Plugin v1.30 (2009-03-17)</title>
+ <!--// documentation resources //-->
+	<script src="jquery.js" type="text/javascript"></script>
+	<script src="documentation.js" type="text/javascript"></script>
+ <link href="documentation.css" type="text/css" rel="stylesheet"/>
+ <!--// code-highlighting //-->
+	<script type="text/javaScript" src="/jquery/project/chili/jquery.chili-2.0.js"></script> 
+	<script type="text/javaScript" src="/jquery/project/chili-toolbar/jquery.chili-toolbar.pack.js"></script> 
+ <script type="text/javascript">try{ChiliBook.recipeFolder="/jquery/project/chili/"}catch(e){}</script>
+ <!--// plugin-specific resources //-->
+	<script src="jquery.MetaData.js" type="text/javascript" language="javascript"></script>
+	<script src="jquery.form.js" type="text/javascript" language="javascript"></script>
+ <script src="jquery.FCKEditor.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+<div id="wrap">
+ <div id="roof">
+  <a href="http://www.fyneworks.com/jquery/"><strong>jQuery Plugins</strong></a>:
+  <a href="http://www.fyneworks.com/jquery/multiple-file-upload/">Multiple File Upload</a>,
+  <a href="http://www.fyneworks.com/jquery/star-rating/">Star Rating</a>,
+  <a href="http://www.fyneworks.com/jquery/FCKEditor/">FCKEditor</a>,
+  <a href="http://www.fyneworks.com/jquery/Codepress/">Codepress</a>,
+  <strong>NEW:</strong> <a href="http://www.fyneworks.com/jquery/xml-to-json/">XML to JSON</a>
+  <span style="position:absolute; right:0;">
+			<script type="text/javascript">digg_title='jQuery FCKEditor Plugin';</script>
+			<script type="text/javascript">digg_url='http://www.fyneworks.com/jquery/FCKEditor/';</script>
+   <script type="text/javascript">digg_bgcolor='#e7e7e7';digg_skin='compact';digg_window='new';</script>
+   <script src="http://digg.com/tools/diggthis.js" type="text/javascript"></script>
+  </span>
+ </div>
+ <div id="head">
+  <table width="100%" cellspacing="5">
+   <tr>
+    <td valign="middle">
+     <h1>jQuery FCKEditor Plugin</h1>
+     <span style="cursor:help; background:#C00; padding:2px; color:#FFF;" title="Current Version">
+      v<strong>1.30</strong>
+     </span>
+    </td>
+    <td valign="middle" width="450" align="right">
+     <div id="search">
+      <form action="http://www.google.com/cse" id="cse-search-box" target="_blank">
+        <label for="q">Find another jQuery plugin:</label>
+        <input type="hidden" name="cx" value="partner-pub-9465008056978568:j3ebzr-v1o0" />
+        <input type="hidden" name="ie" value="ISO-8859-1" />
+        <input type="text" name="q" id="q" size="20" />
+        <input type="submit" name="sa" value="Search" />
+      </form>
+      <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+     </div>
+     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="Donate!" style="padding:0;margin:0;">
+      <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+      <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+      ">
+     </form>
+    </td>
+   </tr>
+  </table>
+ </div>
+ <div id="body">
+  
+  <div id="ad">
+   <!--//
+   <div id='vu_ytplayer_vjVQa1PpcFNzWL_xJNUOpZhjtZP7PE8aGHuLQqHHrFI='><a href='http://www.youtube.com/browse'>Watch the latest videos on YouTube.com</a></div>
+   <script type='text/javascript' src='http://www.youtube.com/watch_custom_player?id=vjVQa1PpcFNzWL_xJNUOpZhjtZP7PE8aGHuLQqHHrFI='></script>
+   //-->
+			<script type="text/javascript"><!--
+   google_ad_client = "pub-9465008056978568";
+   google_ad_width = 160;
+   google_ad_height = 600;
+   google_ad_format = "160x600_as";
+   google_ad_type = "text_image";
+   //2007-07-12: Fyneworks, jQuery, Banner
+   google_ad_channel = "0644126694+6785406728+8192505316";
+   //-->
+   </script>
+   <script type="text/javascript"
+     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+   </script>
+  </div>
+  
+  <div id="documentation" class="tabs">
+   <ul class="Clear">
+    <li><a href="#tab-Overview" id="btn-Overview">Intro</a></li>
+    <li><a href="#tab-Usage" id="btn-Usage">Usage</a></li>
+    <li><a href="#tab-Multiple" id="btn-Multiple">Multiple Editors</a></li>
+    <li><a href="#tab-Download" id="btn-Download">Download</a></li>
+    <li><a href="#tab-Support" id="btn-Support">Support</a></li>
+    <li><a href="#tab-License" id="btn-License">License</a></li>
+   </ul><!--// tabs //-->
+   <!--//
+   ####################################
+   #
+   #        * START CONTENT *
+   #
+   ####################################
+   //-->
+   
+   
+   
+   
+   
+   <div id="tab-Overview">
+<h2>What does it do?</h2>
+<ul>
+ <li>
+  This plugin makes it easy to install <a href="http://www.fckeditor.net/">FCKEditor</a>s
+  on your page <em>the jQuery way</em>.
+ </li>
+ <li>
+  It integrates <a href="http://www.fckeditor.net/">FCKEditors</a> with the
+  <a href="http://www.malsup.com/jquery/form/">jQuery Form Plugin</a> and
+  <strong>enables the contents of FCKEditor to be submitted via ajax</strong>.
+ </li>
+	<li>
+	 It also works with the
+  <a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation/">Validation Plugin</a>
+	</li>
+</ul>
+
+<h2>Try it yourself</h2>
+<form name="test" id="test" action="test.asp" target="conv" method="post">
+ <textarea name="html" class="fck" cols="50" rows="6" style="width:100%;">
+ Hello world, <strong>I'm bold...</strong> <span style="color:red;">...and I'm red!</span>
+ </textarea>
+ <table width="100%" cellspacing="0">
+  <tr>
+   <td valign="top">
+    <div class="Clear">
+     <input id="btn-conv" type="button" value="Test &raquo;" style="float:right"/>
+     <h3>Conventional Submission (iFRAME)</h3>
+    </div>
+    <div class="Clear">
+     This type of submission always works without the plugin.
+    </div>
+    <iframe name="conv" id="conv" src="about:blank" style="border:#777 solid 1px; height:100px; width:100%; overflow:scroll;"></iframe>
+   </td>
+   <td valign="top" width="20">&nbsp;</td>
+   <td valign="top" width="">
+    <div class="Clear">
+     <input id="btn-ajax" type="button" value="Test &raquo;" style="float:right"/>
+     <h3>Ajax Submission (DIV) with the <a href="http://www.malsup.com/jquery/form/">jQuery Form Plugin</a></h3>
+    </div>
+    <div class="Clear">
+     This type of submission <span class="No">would not work without this plugin</span>.
+    </div>
+    <div id="ajax" style="border:#777 solid 1px; height:100px; width:100%; overflow:scroll;"></div>
+   </td>
+  </tr>
+ </table>
+</form>
+ <script language="javascript">
+//# PLUGIN INTEGRATION
+$(function(){
+ // default settings
+ $.fck.config = {
+		//toolbar: 'Basic',
+  path: '/fwx/inc/fck/',
+  height: 140
+ };
+ // initialize
+ $('textarea.fck').fck();
+});
+ </script>
+ <script language="javascript">
+//# "TRY IT YOURSELF" FUNCTIONALITY
+$(function(){
+
+ // Ajax Submission
+ $('#btn-ajax').click(function(){
+  $('form#test').ajaxSubmit({
+   complete: function(r){
+    $('#ajax').html(r.responseText);
+   }
+  });
+ });
+ 
+ // Conventional Submission
+ $('#btn-conv').click(function(){
+  $('form#test').submit();
+ });
+ 
+});
+ </script>
+
+<h2 class="No">Important pointers...</h2>
+<ul type="1">
+ <li>
+  <s>This is a working idea that hasn't yet been fully tested</s>.
+  <br/>
+  <span class="Yes">Tested and works on Firefox 2, Opera, Safari (Win), IE7 and IE6</span> (all in WinXP SP2).
+ </li>
+ <li>
+  The same principle can be applied to TinyMCE, <a href="../Codepress/">Codepress</a> and any other rich-text editors.
+  <br/>
+  Any input regarding other rich-text editors is welcome.
+ </li>
+ <li>
+  The plugin will intercept known methods and install itself against related plugins
+  (currently only the <a href="http://www.malsup.com/jquery/form/">jQuery Form Plugin</a>).
+  <br/>
+  Any input regarding integrating this plugin with other jQuery plugins is welcome.
+ </li>
+</ul>
+   </div><!--// tab-Overview //-->
+   
+   <div id="tab-Usage">
+<h2>Usage</h2>
+
+<h3>Method 1</h3>
+<p>Replacing ALL textareas in a page with THE SAME settings</p>
+<pre class="code"><code class="html">
+&lt;textarea name="fck1" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="fck2" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="fck3" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;script&gt; $(function(){ $('textarea').fck({path: '/path/to/fck/directory/'}); }); &lt;/script&gt;
+</code></pre>
+
+<h3>Method 2</h3>
+<p>replacing SOME textareas in a page with THE SAME settings
+<br/>
+In this example, only textarea fck3 will not be converted into a FCKEditor.
+</p>
+<pre class="code"><code class="html">
+&lt;textarea name="fck1" class="<strong>fck</strong>" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="fck2" class="<strong>fck</strong>" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="fck3" cols="50" rows="6"&gt;&lt;/textarea&gt;
+</code></pre>
+<pre class="code"><code class="js">
+&lt;script&gt; $(function(){ $('textarea.fck').fck({path: '/path/to/fck/directory/'}); }); &lt;/script&gt;
+</code></pre>
+
+<h3>Method 3</h3>
+<p>
+replacing SOME textareas in a page with DIFFERENT SETTINGS
+</p>
+
+<pre class="code"><code class="html">
+&lt;textarea name="<strong>fck1</strong>" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="<strong>fck2</strong>" cols="50" rows="6"&gt;&lt;/textarea&gt;
+&lt;textarea name="<strong>fck3</strong>" cols="50" rows="6"&gt;&lt;/textarea&gt;
+</code></pre>
+<pre class="code"><code class="js">
+&lt;script&gt;
+ $(function(){
+  $.fck.config = {path: '/path/to/fck/directory/', height:300 };
+  $('textarea<strong>#fck1</strong>').fck(/* default settings */);
+  $('textarea<strong>#fck2</strong>').fck({ toolbar:'MyCustomerToolbar' });
+  $('textarea<strong>#fck3</strong>').fck({ toolbar:'MyCustomerToolbar', height:200 });
+ });
+&lt;/script&gt;
+</code></pre>
+   </div><!--// tab-Usage //-->
+   
+   <div id="tab-Multiple">
+
+<h2>Multiple Editors</h2>
+<p>This example below illustrates how to install multiple FCKEditors (with different settings) on one page.</p>
+
+<strong>textarea1</strong><br/>
+<textarea name="fck1" id="textarea1">textarea name : fck1<br />textarea id : textarea1</textarea>
+<hr/>
+
+<strong>textarea2</strong><br/>
+<textarea name="fck2" id="textarea2">textarea name : fck2<br />textarea id : textarea2</textarea>
+<hr/>
+
+<script language="javascript">
+//# SAMPLE CODE FOR MULTIPLE EDITORS
+$(function(){
+ $.fck.path = '/fwx/inc/fck/';
+	$('#textarea1').fck({toolbar: 'Default', height: 200 });
+	$('#textarea2').fck({toolbar: 'Basic', height: 100, width:300 });
+});
+</script>
+
+<h3>Sample HTML</h3>
+<pre class="code"><code class="html">
+&lt;strong&gt;textarea1&lt;/strong&gt;&lt;br/&gt;
+&lt;textarea name=&quot;fck1&quot; id=&quot;textarea1&quot;&gt;textarea name : fck1&lt;br /&gt;textarea id : textarea1&lt;/textarea&gt;
+&lt;hr/&gt;
+&lt;strong&gt;textarea2&lt;/strong&gt;&lt;br/&gt;
+&lt;textarea name=&quot;fck2&quot; id=&quot;textarea2&quot;&gt;textarea name : fck2&lt;br /&gt;textarea id : textarea2&lt;/textarea&gt;
+</code></pre>
+
+<h3>Sample Javascript</h3>
+<pre class="code"><code class="js">
+//# TEST PAGE FUNCTIONALITY
+$(function(){
+ $.fck.path = '/fwx/inc/fck/';
+ $('#textarea1').fck({toolbar: 'Default', height: 200 });
+ $('#textarea2').fck({toolbar: 'Basic', height: 100, width:300 });
+});
+</code></pre>
+   </div><!--// tab-Multiple //-->
+   
+   <div id="tab-Download">
+    <h2>Download</h2>
+    <p>
+     This project (and all related files) can also be accessed via its
+     <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/">Google Code Project Page</a>.
+    </p>
+    <table cellspacing="5">
+     <tr>
+      <td valign="top" align="right">Full Package:</td>
+      <td valign="top">
+       <big>
+        <img src="/@/download.gif" style="margin:0 5px 5px 0; float:left;">
+        v<strong>1.30</strong>
+        <a href="http://jquery-fckeditor-plugin.googlecode.com/svn/trunk/FCKEditor.zip"><strong>FCKEditor.zip</strong></a>
+       </big>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right"></td>
+      <td valign="top">
+       <div class="Clear" style="margin:0 0 10px 0;" onClick="$('a:eq(0)',this).click()">
+        <strong class="Yes" style="background:#090; color:#fff; padding:3px;">Stay up-to-date!</strong>
+        <span style="padding:3px;">
+         Major updates will be announced on
+         <a target="_blank" href="http://twitter.com/fyneworks" class="external">Twitter</a>
+         (<a target="_blank" href="http://twitter.com/fyneworks" class="external">http://twitter.com/fyneworks</a>)
+        </span>
+       </div>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right">Core Files:</td>
+      <td valign="top">
+       These are the individual required files (<span class="Warning">already included in the zip package above</span>)
+       <ul>
+        <li><a href="http://jquery-fckeditor-plugin.googlecode.com/svn/trunk/jquery.FCKEditor.js"><strong>jquery.FCKEditor.js</strong></a>
+        (packed version: <a href="http://jquery-fckeditor-plugin.googlecode.com/svn/trunk/jquery.FCKEditor.pack.js">jquery.FCKEditor.pack.js</a>)</li>
+       </ul>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right">jQuery:</td>
+      <td valign="top">
+       <a target="_blank" href="http://jquery.com/src/jquery-latest.js">jquery-latest.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
+      </td>
+     </tr>
+    </table>
+    
+    <h2>Related Downloads</h2>
+    <table cellspacing="5">
+     <tr>
+      <td valign="top" align="right">Related:</td>
+      <td valign="top">
+       <a target="_blank" href="http://plugins.jquery.com/project/metadata/">Metadata plugin</a> - Used to retrieve inline configuration from class variable
+       <br/>
+       <a target="_blank" href="http://www.malsup.com/jquery/form/">Form plugin</a> - Used to submit forms via ajax
+      </td>
+     </tr>
+    </table>
+    
+    <h2>SVN Repository</h2>
+    <p>
+     If you're a major geek or if you really really want to stay up-to-date with
+     with future updates of this plugin, go ahead and plug yourself to the
+     <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/">SVN Repository</a>
+     on the official
+     <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/">Google Code Project Page</a>.
+    </p>
+    <table cellspacing="5">
+     <tr>
+      <td valign="top" align="right">SVN Checkout:</td>
+      <td valign="top">
+       <img src="/@/files/js.gif" style="margin:0 5px 5px 0; float:left;">
+       <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/source/checkout/"><strong>SVN Checkout Instructions</strong></a>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right">Browse Online:</td>
+      <td valign="top">
+       <img src="/@/folder.gif" style="margin:0 5px 5px 0; float:left;">
+       <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/source/browse/"><strong>Browse Source</strong></a>
+      </td>
+     </tr>
+    </table>
+    
+    <h2>Alternative Download - From this website</h2>
+    <p>
+     Just in case it's the end of the world and the Google Code site becomes unavailable,
+     the project files can also be downloaded form this site.
+     <br/>
+     However, please note that this site is updated periodically whereas the Google Code
+     project is kept up-to-date almost instantaneously. If you'd like the very latest
+     version of this plugin
+     <strong>you are advised to use the links above and download the files from Google Code</strong>
+      - this will ensure the files you download have the very latest features and bug fixes.
+    </p>
+    <table cellspacing="5">
+     <tr>
+      <td valign="top" align="right">Full Package:</td>
+      <td valign="top">
+       <img src="/@/download.gif" style="margin:0 5px 5px 0; float:left;">
+       v<strong>1.30</strong>
+       <a href="FCKEditor.zip"><strong>FCKEditor.zip</strong></a>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right"></td>
+      <td valign="top">
+       <div class="Clear" style="margin:0 0 10px 0;" onClick="$('a:eq(0)',this).click()">
+        <strong class="Yes" style="background:#090; color:#fff; padding:3px;">Stay up-to-date!</strong>
+        <span style="padding:3px;">
+         Major updates will be announced on
+         <a target="_blank" href="http://twitter.com/fyneworks" class="external">Twitter</a>
+         (<a target="_blank" href="http://twitter.com/fyneworks" class="external">http://twitter.com/fyneworks</a>)
+        </span>
+       </div>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right">Core Files:</td>
+      <td valign="top">
+       These are the individual required files (<span class="Warning">already included in the zip package above</span>)
+       <ul>
+        <li><a target="_blank" href="jquery.FCKEditor.js"><strong>jquery.FCKEditor.js</strong></a> (packed version: <a href="jquery.FCKEditor.pack.js">jquery.FCKEditor.pack.js</a>)</li>
+       </ul>
+      </td>
+     </tr>
+     <tr>
+      <td valign="top" align="right">jQuery:</td>
+      <td valign="top">
+       <a target="_blank" href="http://jquery.com/src/jquery-latest.js">jquery-latest.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
+      </td>
+     </tr>
+    </table>
+    
+   </div><!--// tab-Download //-->
+   
+   <div id="tab-Support">
+    <h2>Support</h2>
+    <p>
+     Quick Support Links: <a href="http://groups.google.com/group/jquery-en" class="B Yes">Help me!</a>
+     | <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/issues/entry">Report a bug</a>
+     | <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/issues/entry">Suggest new feature</a>
+<!--//
+     OLD: Forget Trac - Let's use Google Code!
+     | <a target="_blank" href="http://plugins.jquery.com/node/add/project_issue/MultiFile/bug">Report a bug</a>
+     | <a target="_blank" href="http://plugins.jquery.com/node/add/project_issue/MultiFile/feature">Suggest new feature</a>
+//-->
+    </p>
+    <p>
+     Support for this plugin is available through the <a target="_blank" href="http://jquery.com/discuss/" class="external">jQuery Mailing List</a>.
+     This is a very active list to which many jQuery developers and users subscribe.
+     <br/>
+     Access to the jQuery Mailing List is also available through
+     <a target="_blank" href="http://www.nabble.com/JQuery-f15494.html" class="external">Nabble Forums</a>
+     and the
+     <a target="_blank" href="http://groups.google.com/group/jquery-en" class="external">jQuery Google Group</a>.
+    </p>
+    <p>
+     <strong class="Warning">WARNING:</strong>
+     Support will not be provided via the <a href="http://plugins.jquery.com/">jQuery Plugins</a>
+     website.
+     If you need help, please direct your questions to the
+     <a target="_blank" href="http://groups.google.com/group/jquery-en" class="external">jQuery Mailing List</a>
+     or 
+     <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/issues/entry">report an issue</a>
+     on the official
+     <a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/">Google Code Project Page</a>.
+    </p>
+    
+    <h2>Official Links</h2>
+    <ul>
+     <li><a target="_blank" href="http://plugins.jquery.com/project/MultipleFriendlyStarRating/" class="external">jQuery Plugin Project Page</a></li>
+     <li><a target="_blank" href="http://code.google.com/p/jquery-fckeditor-plugin/">Google Code Project Page</a></li>
+    </ul>
+    
+    <h2>Credit</h2>
+    <ul>
+     <li>Diego A. - Author, <a href="http://www.fyneworks.com/">London SEO Consultant</a></li>
+     <li><a target="_blank" href="http://keith-wood.name/">Keith Wood</a> - The brain behind v2.1</li>
+     <li>Dean Edwards - Author of <a target="_blank" href="http://dean.edwards.name/packer/">JS Packer</a> used to compress the plugin</li>
+     <li>Will Stuckey, Ritesh Agrawal and everyone else who worked in the previous versions of the plugin - I'm not so good with research...</li>
+    </ul>
+   </div><!--// tab-Download //-->
+   
+   
+   
+   
+   
+   
+   <!--//
+   ####################################
+   #
+   #         * END CONTENT *
+   #
+   ####################################
+   //-->
+   <div id="tab-License">
+    <h2>Attribute this work</h2>
+    <div class="license-info">
+     <table cellspacing="5" width="100%">
+      <tr>
+       <td width="90" align="right">Attribution link:</td>
+       <td valign="top">&copy; <a href="http://www.fyneworks.com/">Fyneworks.com</a></td>
+      </tr>
+      <tr>
+       <td width="90" align="right">HTML Code:</td>
+       <td valign="top">
+        <input type="text" onFocus="this.select();" onClick="this.select()" style="width:100%;"
+         value="&amp;copy; &lt;a href=&quot;http://www.fyneworks.com/&quot;&gt;Fyneworks.com&lt;/a&gt;"
+        />
+       </td>
+      </tr>
+     </table>
+    </div>
+    <h2>License Info</h2>
+    <div class="license-info">
+     <table cellspacing="5" width="100%">
+      <tr>
+       <td valign="middle">
+        <strong>FCKEditor Plugin</strong>
+        by <a href="http://www.fyneworks.com/">Fyneworks.com</a>
+        is licensed under the
+        <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a> and the
+        <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License</a>.
+       </td>
+       <td width="100"><a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="Creative Commons License" style="border-width:0" src="http://creativecommons.org/images/public/somerights20.png"/></a></td>
+      </tr>
+      <tr>
+       <td colspan="2">
+ <pre class="copyright">Copyright &copy; 2008 <a href="http://www.fyneworks.com/">Fyneworks.com</a>
+ 
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+ 
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.</pre>
+       </td>
+      </tr>
+     </table>
+    </div><!--// License Info //-->
+   </div><!--// tab-License //-->
+  </div><!--// documentation //-->
+ 
+ </div><!--// body //-->
+ <div id="push"></div>
+</div>
+<div id="foot">
+ <!--//<div class="Clear">//-->
+  <table width="100%" cellspacing="5">
+   <tr>
+    <td valign="top">
+     <strong>FCKEditor Plugin</strong>
+     by <a href="http://www.fyneworks.com/">Fyneworks.com</a>
+     <br/>
+     is licensed under the
+     <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a> and the
+     <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License</a>.
+    </td>
+    <td valign="top" width="50%" align="right">
+     [<a href="#top">back to top</a>]
+     <a target="_blank" href="http://jquery.com/"><img src="/jquery/project/jq.png" alt="Powered by jQuery" style="vertical-align:text-bottom"/></a>
+    </td>
+   </tr>
+  </table>
+ <!--//</div>//-->
+</div>
+	
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><noscript>Google Analytics Script</noscript>
+ <script type="text/javascript">try{_uacct = "UA-1942730-1";urchinTracker(); }catch(e){}</script><noscript>Google Analytics</noscript>
+</body>
+</html>

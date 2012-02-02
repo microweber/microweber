@@ -1,0 +1,16 @@
+/* `Exlude this css to have it validate
+----------------------------------------------------------------------------------------------------*/
+
+
+#feature a.button { text-shadow:#2673a0 0 -1px 0;}
+.container_12 a.button1 { text-shadow:#fff 0 1px 0;}
+p,h1,h2,h3,h4,h5,h6 { text-shadow:#fff 0 1px 0;}
+
+#nav a:link,#nav a:visited {
+
+	text-shadow:#111129 0 -1px 0;
+}
+
+
+
+

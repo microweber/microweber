@@ -1,0 +1,102 @@
+# parent : Writing-a-language-scanner
+= Writing a simple scanner (with LuminousSimpleScanner) =
+
+A simple scanner should be used when there are no state-transitions or awkward requirements to worry about.
+
+For a simple scanner, the basic workflow is this:
+  # override `init()`
+  # Add tokens using add_pattern
+  # If necessary, add overrides for individual tokens using `$this->overrides['TOKEN_NAME'] = function`
+
+== Completely Automated ==
+
+Here's a VERY simple and completely automated scanner for a small Python-style language:
+
+{{{lang=php_snippet
+class MyScanner extends LuminousSimpleScanner {
+  function init() {
+    $this->add_pattern('COMMENT', '/#.*/');
+    $this->add_pattern('STRING', '/"([^\\\\"]+|\\\\.)*("|$)/');
+    $this->add_pattern('SHELL_CMD', '/`([^\\\\`]+|\\\\.)*(`|$)/');
+    $this->add_pattern('IDENT', '/[a-z_]\w*/');
+
+    $this->add_identifier_mapping('KEYWORD', array('def', 'else', 'elif',
+                                                    'for', 'return', 'while'));
+    $this->rule_tag_map = array(
+      'SHELL_CMD' => 'FUNCTION'
+    );
+  }
+}
+}}}
+
+When main() is called, the given tokens will be observed. Simples!
+
+Notes:
+  # Patterns are checked in order. That means the first-defined pattern has precedence if two patterns match (instead of the max-munch-rule).
+  # If your given patterns don't fully describe the source code then segments will simply be recorded as a 'null' token.
+  # The identifier mappings are a 'filter', which looks at anything recorded as an 'IDENT', and converts them into another token. If you don't specify an 'IDENT' pattern, this has no effect.
+  # SHELL_CMD is a made-up token which isn't defined as a CSS class. We use this because it's more readable than calling it some unrelated token name, but we map it to 'FUNCTION' later.
+
+*Examples*: Java and C# (java.php and csharp.php in languages/)
+
+
+== With Overrides==
+
+Let's say you've got a type that can't be matched by a simple regular expression. For the sake of example we'll use the obvious idea of a '/' as a regex delimiter and a division operator.
+
+Insert this into your init:
+
+{{{lang=php_snippet
+class MyScanner extends LuminousSimpleScanner {
+
+  function init() {
+    $this->add_pattern('OPERATOR', '@[!%^&*\\\\-=+;:\\|,\\./?]+@');
+    $this->add_pattern('SLASH', '%/%'); // special case
+    // tokenizing these helps us figure out the slash
+    $this->add_pattern('OPENER', '/[\\(\\[\\{]+/');
+    $this->add_pattern('CLOSER', '/[\\)\\]\\}]+/');
+    //... but they aren't real tokens, as far as highlighting is concerned.
+    $this->rule_tag_map['OPENER'] = null;
+    $this->rule_tag_map['CLOSER'] = null;
+
+    $this->overrides['SLASH'] = array($this, 'slash_override');
+  }
+
+}
+}}}
+
+Now, when LuminousSimpleScanner finds it's at the 'SLASH' token, it will stop and call `$this->slash_override`. It expects that function to record and consume some string and will throw an exception if it doesn't (because it would be an infinite loop).
+
+An override to disambiguate '/' might look something like this:
+
+{{{lang=php_snippet
+class MyScanner extends LuminousSimpleScanner {
+
+  function slash_override($matches) {
+    // to disambiguate it we go backwards over the token array and see what
+    // was preceding it.
+    $is_regex = false;
+    for($i = count($this->tokens)-1; $i >= 0; $i--) {
+      // A token is a tuple:
+      list($name, $content, $escaped) = $this->tokens[$i];
+
+      if ($t[0] === 'COMMENT' || $t[0] === null)
+        continue;     // unimportant, ignore
+      elseif($t[0] === 'OPERATOR' || $t[0] === 'OPENER')
+        $is_regex = true;
+      break;
+    }
+    if ($is_regex) {
+      // get and consume the regex pattern
+      $str = $this->scan('% / (?> [^\\\\\\\\/]+ | \\\\\\\\.)* ($|/[iogmx]*)%x');
+      assert($str !== null); // this must have matched, else our regex is skewy
+      $this->record($str, 'REGEX');
+    } else {
+      $this->record($this->get(), 'OPERATOR');
+    }
+  }
+}
+}}}
+
+
+*Examples*: languages/perl.php is a language which uses several overrides, to handle 'quote-like delimiters', heredoc, and regex/slash disambiguation.
