@@ -1,32 +1,28 @@
-Early developer preview
--------------
+Microweber License Agreement
 
+Copyright (c), Microweber LLC
+All rights reserved.
 
-Hello to all,
+This license is a legal agreement between you and Microweber LLC for the use of Microweber Software (the "Software"). By obtaining the Software you agree to comply with the terms and conditions of this license.
 
-this is first and very early developers preview of Microweber. 
+Permitted Use
 
-Here you can see the curent progress and test the system yourself. 
-No documentation is yet available, we have started with some notes at http://docs.microweber.com/ 
+You are permitted to use, copy, modify, and distribute the Software and its documentation, with or without modification, for any purpose, provided that the following conditions are met:
 
+A copy of this license agreement must be included with the distribution.
+Redistributions of source code must retain the above copyright notice in all source code files.
+Redistributions in binary form must reproduce the above copyright notice in the documentation and/or other materials provided with the distribution.
+Any files that have been modified must carry notices stating the nature of the change and the names of those who changed them.
+Products derived from the Software must include an acknowledgment that they are derived from Microweber in their documentation and/or other materials provided with the distribution.
+Products derived from the Software may not be called "Microweber", nor may "Microweber" appear in their name, without prior written permission from Microweber LLC
+Indemnity
 
-Demo link
--------------
--  The demo site is http://demo.microweber.com/2012_02/home
--  You can login into the admin from http://demo.microweber.com/2012_02/admin
--  Username: admin
--  Pass: admin
+You agree to indemnify and hold harmless the authors of the Software and any contributors for any direct, indirect, incidental, or consequential third-party claims, actions or suits, as well as any related expenses, liabilities, damages, settlements or fees arising from your use or misuse of the Software, or a violation of any terms of this license.
 
+Disclaimer of Warranty
 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF QUALITY, PERFORMANCE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
 
-How to install
--------------
+Limitations of Liability
 
-- Download the source from here
-- Import the __mw.install.sql__ file
-- Open the __mw.config.php__ file and edit the settings
-- All done, go to your site's url
-
-- admin link [your site's url]/admin  Username: admin  Pass: admin
-
- 
+YOU ASSUME ALL RISK ASSOCIATED WITH THE INSTALLATION AND USE OF THE SOFTWARE. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS OF THE SOFTWARE BE LIABLE FOR CLAIMS, DAMAGES OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE. LICENSE HOLDERS ARE SOLELY RESPONSIBLE FOR DETERMINING THE APPROPRIATENESS OF USE AND ASSUME ALL RISKS ASSOCIATED WITH ITS USE, INCLUDING BUT NOT LIMITED TO THE RISKS OF PROGRAM ERRORS, DAMAGE TO EQUIPMENT, LOSS OF DATA OR SOFTWARE PROGRAMS, OR UNAVAILABILITY OR INTERRUPTION OF OPERATIONS.
