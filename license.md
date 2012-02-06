@@ -1,9 +1,9 @@
 Microweber License Agreement
 
-Copyright (c), Microweber LLC
+Copyright (c), Microweber ltd.
 All rights reserved.
 
-This license is a legal agreement between you and Microweber LLC for the use of Microweber Software (the "Software"). By obtaining the Software you agree to comply with the terms and conditions of this license.
+This license is a legal agreement between you and Microweber ltd. for the use of Microweber Software (the "Software"). By obtaining the Software you agree to comply with the terms and conditions of this license.
 
 Permitted Use
 
@@ -14,7 +14,7 @@ Redistributions of source code must retain the above copyright notice in all sou
 Redistributions in binary form must reproduce the above copyright notice in the documentation and/or other materials provided with the distribution.
 Any files that have been modified must carry notices stating the nature of the change and the names of those who changed them.
 Products derived from the Software must include an acknowledgment that they are derived from Microweber in their documentation and/or other materials provided with the distribution.
-Products derived from the Software may not be called "Microweber", nor may "Microweber" appear in their name, without prior written permission from Microweber LLC
+Products derived from the Software may not be called "Microweber", nor may "Microweber" appear in their name, without prior written permission from Microweber ltd.
 Indemnity
 
 You agree to indemnify and hold harmless the authors of the Software and any contributors for any direct, indirect, incidental, or consequential third-party claims, actions or suits, as well as any related expenses, liabilities, damages, settlements or fees arising from your use or misuse of the Software, or a violation of any terms of this license.
