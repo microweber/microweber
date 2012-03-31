@@ -1,2 +1,0 @@
-
-if(!window.kfm_callerType)window.kfm_callerType='standalone';var loadedScripts=[],function_urls=[],kfm_cwd_name='',kfm_cwd_id=0,kfm_cwd_subdirs=[],contextmenu=null,selectedFiles=[];var kfm_tags=[],kfm_lastClicked,kfm_unique_classes=[],kfm_directory_over=0,kfm_kaejax_timeouts=[];var kfm_directories=[0,{name:kfm_vars.root_folder_name,pathname:'/'}],kfm_kaejax_is_loaded=0;var llStubs=[];

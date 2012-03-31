@@ -1,9 +1,0 @@
-/*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
-
-Ext.History=(function(){var E,C;var J=false;var D;function F(){var K=top.location.href,L=K.indexOf("#");return L>=0?K.substr(L+1):null}function A(){C.value=D}function G(K){D=K;Ext.History.fireEvent("change",K)}function H(L){var K=["<html><body><div id=\"state\">",L,"</div></body></html>"].join("");try{var N=E.contentWindow.document;N.open();N.write(K);N.close();return true}catch(M){return false}}function B(){if(!E.contentWindow||!E.contentWindow.document){setTimeout(B,10);return }var N=E.contentWindow.document;var L=N.getElementById("state");var K=L?L.innerText:null;var M=F();setInterval(function(){N=E.contentWindow.document;L=N.getElementById("state");var P=L?L.innerText:null;var O=F();if(P!==K){K=P;G(K);top.location.hash=K;M=K;A()}else{if(O!==M){M=O;H(O)}}},50);J=true;Ext.History.fireEvent("ready",Ext.History)}function I(){D=C.value;if(Ext.isIE){B()}else{var K=F();setInterval(function(){var L=F();if(L!==K){K=L;G(K);A()}},50);J=true;Ext.History.fireEvent("ready",Ext.History)}}return{fieldId:"x-history-field",iframeId:"x-history-frame",events:{},init:function(L,K){if(J){Ext.callback(L,K,[this]);return }if(!Ext.isReady){Ext.onReady(function(){Ext.History.init(L,K)});return }C=Ext.getDom(Ext.History.fieldId);if(Ext.isIE){E=Ext.getDom(Ext.History.iframeId)}this.addEvents("ready","change");if(L){this.on("ready",L,K,{single:true})}I()},add:function(K,L){if(L!==false){if(this.getToken()==K){return true}}if(Ext.isIE){return H(K)}else{top.location.hash=K;return true}},back:function(){history.go(-1)},forward:function(){history.go(1)},getToken:function(){return J?D:F()}}})();Ext.apply(Ext.History,new Ext.util.Observable());

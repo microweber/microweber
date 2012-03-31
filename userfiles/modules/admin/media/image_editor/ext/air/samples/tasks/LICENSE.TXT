@@ -1,6 +1,0 @@
-Simple Tasks v2
-Copyright 2008 - Ext JS, LLC
-
-Distributed under the terms of the GNU GPL v3.
-http://www.gnu.org/licenses/gpl-3.0.html
-
