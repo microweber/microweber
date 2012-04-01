@@ -1,0 +1,35 @@
+<div id="template_header">
+		<div id="bestandenbox_link">
+			<a href="http://www.bb.companytools.nl/?kfm_session={$settings.kfm_session_id}" style="color:white;">Bestandenbox.nl</a>
+		</div>
+		<div id="right_top">
+			{$settings.username}
+			<a href="admin/" class="button">Settings</a>
+			<a href="http://www.bb.companytools.nl/?kfm_session={$settings.kfm_session_id}&logout=1" class="button">Log out</a><br/>
+			<div id="kfm_search_wrapper" style="padding:3px;"></div>
+		</div>
+		<div id="folder_info_wrapper">
+			<div>
+				<span id="cwd_display"></span><span id="folder_info"></span>
+			</div>
+			<div id="viewmode" style="padding:3px;">
+				<a href="javascript:kfm.switchFilesMode(1);" class="button">List</a>
+				<a href="javascript:kfm.switchFilesMode(0);" class="button">Icons</a>
+			</div>
+		</div>
+</div>
+<div id="template_body_wrapper">
+<div id="template_body">
+	<div id="directories_canvas">
+			<div><span id="documents_loader"></span><strong>Maps</strong></div>
+			<div id="kfm_directories"></div>
+	</div>
+	<div id="documents_body"></div>
+</div>
+</div>
+<div id="template_footer">
+	<div id="kfm_upload_wrapper">&nbsp;</div>
+	<div id="page_banner">
+		<a href="admin/index.php#Manage_space" style="font-size:36px;font-weight:bold;color:white;">Get more space!!!</a>
+	</div>
+</div>

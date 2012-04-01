@@ -1,0 +1,31 @@
+boxy - General purpose copycat Facebook dialog/overlay
+	(c) 2008 Jason Frame (jason@onehackoranother.com)
+	Released under The MIT License.
+
+== DESCRIPTION:
+
+boxy continues my tradition of derivative jQuery plugins ending in the letter 'y'
+(Actually, I was going to call it Facebox but another rascal beat me to it).
+
+It's a general purpose dialog box with support for multiple visible instances,
+drag'n'drop, size tweening, AJAX loading and automatic generation of
+confirmation/question boxes. Designed with "applications" in mind, so there's
+a pretty decent API for manipulating instances. No support as yet for Lightbox
+style galleries but patches for this behaviour are most certainly welcome.
+
+== HOMEPAGE & DOCUMENTATION:
+
+This is where all of the examples are, I'd advise checking it out:
+
+  http://onehackoranother.com/projects/jquery/boxy
+
+== SOURCE:
+
+Hosted at GitHub; browse at:
+
+  http://github.com/jaz303/boxy/tree/master
+
+Or clone from:
+
+  git@github.com:jaz303/boxy.git
+

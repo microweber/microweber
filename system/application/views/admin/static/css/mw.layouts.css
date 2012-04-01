@@ -1,0 +1,346 @@
+
+/* LAYOUTS */
+/* LAYOUTS */
+/* LAYOUTS */
+/* LAYOUTS */
+
+
+
+
+
+.yui-b {
+	position:relative;
+}
+.yui-b {
+	_position:static;
+}
+.yui-main .yui-b {
+	position:static;
+}
+.yui-main {
+	width:100%;
+}
+.yui-t1 .yui-main, .yui-t2 .yui-main, .yui-t3 .yui-main {
+	float:right;
+	margin-left:-25em;
+}
+.yui-t4 .yui-main, .yui-t5 .yui-main, .yui-t6 .yui-main {
+	float:left;
+	margin-right:-25em;
+}
+.yui-t1 .yui-b {
+	float:left;
+	width:12.30769em;
+*width:12.00em;
+}
+.yui-t1 .yui-main .yui-b {
+	margin-left:13.30769em;
+*margin-left:13.05em;
+}
+.yui-t2 .yui-b {
+	float:left;
+	width:13.8461em;
+*width:13.50em;
+}
+.yui-t2 .yui-main .yui-b {
+	margin-left:14.8461em;
+*margin-left:14.55em;
+}
+.yui-t3 .yui-b {
+	float:left;
+	width:23.0769em;
+*width:22.50em;
+}
+.yui-t3 .yui-main .yui-b {
+	margin-left:24.0769em;
+*margin-left:23.62em;
+}
+.yui-t4 .yui-b {
+	float:right;
+	width:13.8456em;
+*width:13.50em;
+}
+.yui-t4 .yui-main .yui-b {
+	margin-right:14.8456em;
+*margin-right:14.55em;
+}
+.yui-t5 .yui-b {
+	float:right;
+	width:18.4615em;
+*width:18.00em;
+}
+.yui-t5 .yui-main .yui-b {
+	margin-right:19.4615em;
+*margin-right:19.125em;
+}
+.yui-t6 .yui-b {
+	float:right;
+	width:23.0769em;
+*width:22.50em;
+}
+.yui-t6 .yui-main .yui-b {
+	margin-right:24.0769em;
+*margin-right:23.62em;
+}
+.yui-t7 .yui-main .yui-b {
+	display:block;
+	margin:0 0 1em 0;
+}
+.yui-main .yui-b {
+	float:none;
+	width:auto;
+}
+.yui-gb .yui-u, .yui-g .yui-gb .yui-u, .yui-gb .yui-g, .yui-gb .yui-gb, .yui-gb .yui-gc, .yui-gb .yui-gd, .yui-gb .yui-ge, .yui-gb .yui-gf, .yui-gc .yui-u, .yui-gc .yui-g, .yui-gd .yui-u {
+	float:left;
+}
+.yui-g .yui-u, .yui-g .yui-g, .yui-g .yui-gb, .yui-g .yui-gc, .yui-g .yui-gd, .yui-g .yui-ge, .yui-g .yui-gf, .yui-gc .yui-u, .yui-gd .yui-g, .yui-g .yui-gc .yui-u, .yui-ge .yui-u, .yui-ge .yui-g, .yui-gf .yui-g, .yui-gf .yui-u {
+	float:right;
+}
+.yui-g div.first, .yui-gb div.first, .yui-gc div.first, .yui-gd div.first, .yui-ge div.first, .yui-gf div.first, .yui-g .yui-gc div.first, .yui-g .yui-ge div.first, .yui-gc div.first div.first {
+	float:left;
+}
+.yui-g .yui-u, .yui-g .yui-g, .yui-g .yui-gb, .yui-g .yui-gc, .yui-g .yui-gd, .yui-g .yui-ge, .yui-g .yui-gf {
+	width:49.1%;
+}
+.yui-gb .yui-u, .yui-g .yui-gb .yui-u, .yui-gb .yui-g, .yui-gb .yui-gb, .yui-gb .yui-gc, .yui-gb .yui-gd, .yui-gb .yui-ge, .yui-gb .yui-gf, .yui-gc .yui-u, .yui-gc .yui-g, .yui-gd .yui-u {
+	width:32%;
+	margin-left:1.99%;
+}
+.yui-gb .yui-u {
+*margin-left:1.9%;
+*width:31.9%;
+}
+.yui-gc div.first, .yui-gd .yui-u {
+	width:66%;
+}
+.yui-gd div.first {
+	width:32%;
+}
+.yui-ge div.first, .yui-gf .yui-u {
+	width:74.2%;
+}
+.yui-ge .yui-u, .yui-gf div.first {
+	width:24%;
+}
+.yui-g .yui-gb div.first, .yui-gb div.first, .yui-gc div.first, .yui-gd div.first {
+	margin-left:0;
+}
+.yui-g .yui-g .yui-u, .yui-gb .yui-g .yui-u, .yui-gc .yui-g .yui-u, .yui-gd .yui-g .yui-u, .yui-ge .yui-g .yui-u, .yui-gf .yui-g .yui-u {
+	width:49%;
+*width:48.1%;
+*margin-left:0;
+}
+.yui-g .yui-gb div.first, .yui-gb .yui-gb div.first {
+*margin-right:0;
+*width:32%;
+	_width:31.7%;
+}
+.yui-g .yui-gc div.first, .yui-gd .yui-g {
+	width:66%;
+}
+.yui-gb .yui-g div.first {
+*margin-right:4%;
+	_margin-right:1.3%;
+}
+.yui-gb .yui-gc div.first, .yui-gb .yui-gd div.first {
+*margin-right:0;
+}
+.yui-gb .yui-gb .yui-u, .yui-gb .yui-gc .yui-u {
+*margin-left:1.8%;
+	_margin-left:4%;
+}
+.yui-g .yui-gb .yui-u {
+	_margin-left:1.0%;
+}
+.yui-gb .yui-gd .yui-u {
+*width:66%;
+	_width:61.2%;
+}
+.yui-gb .yui-gd div.first {
+*width:31%;
+	_width:29.5%;
+}
+.yui-g .yui-gc .yui-u, .yui-gb .yui-gc .yui-u {
+	width:32%;
+	_float:right;
+	margin-right:0;
+	_margin-left:0;
+}
+.yui-gb .yui-gc div.first {
+	width:66%;
+*float:left;
+*margin-left:0;
+}
+.yui-gb .yui-ge .yui-u, .yui-gb .yui-gf .yui-u {
+	margin:0;
+}
+.yui-gb .yui-gb .yui-u {
+	_margin-left:.7%;
+}
+.yui-gb .yui-g div.first, .yui-gb .yui-gb div.first {
+*margin-left:0;
+}
+.yui-gc .yui-g .yui-u, .yui-gd .yui-g .yui-u {
+*width:48.1%;
+*margin-left:0;
+}
+s .yui-gb .yui-gd div.first {
+	width:32%;
+}
+.yui-g .yui-gd div.first {
+	_width:29.9%;
+}
+.yui-ge .yui-g {
+	width:24%;
+}
+.yui-gf .yui-g {
+	width:74.2%;
+}
+.yui-gb .yui-ge div.yui-u, .yui-gb .yui-gf div.yui-u {
+	float:right;
+}
+.yui-gb .yui-ge div.first, .yui-gb .yui-gf div.first {
+	float:left;
+}
+.yui-gb .yui-ge .yui-u, .yui-gb .yui-gf div.first {
+*width:24%;
+	_width:20%;
+}
+.yui-gb .yui-ge div.first, .yui-gb .yui-gf .yui-u {
+*width:73.5%;
+	_width:65.5%;
+}
+.yui-ge div.first .yui-gd .yui-u {
+	width:65%;
+}
+.yui-ge div.first .yui-gd div.first {
+	width:32%;
+}
+.bd:after, .yui-g:after, .yui-gb:after, .yui-gc:after, .yui-gd:after, .yui-ge:after, .yui-gf:after {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.bd, .yui-g, .yui-gb, .yui-gc, .yui-gd, .yui-ge, .yui-gf {
+	zoom:1;
+}
+
+
+/* LAYOUTS */
+/* LAYOUTS */
+/* LAYOUTS */
+/* LAYOUTS */
+
+
+/*	Layout 1	*/				
+.Layout1_1{ width:33.3%; background-color:Red;  height:400px; float:left;}						
+.Layout1_2{ width:33.3%; background-color:Blue; float:left; height:400px; }						
+.Layout1_3{ width:33.3%; background-color:Green; float:left; height:400px; }						
+.Layout1_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 2	*/				
+						
+.Layout2_1{ width:30%; background-color:Red;  height:400px; float:left;}						
+.Layout2_2{ width:70%; background-color:Blue; float:left; height:400px; }						
+.Layout2_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 3	*/				
+						
+.Layout3_1{ width:70%; background-color:Red;  height:400px; float:left;}						
+.Layout3_2{ width:30%; background-color:Blue; float:left; height:400px; }						
+.Layout3_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 4	*/				
+.Layout4_1{ width:60%; background-color:Red;  height:400px; float:left;}						
+.Layout4_2{ width:20%; background-color:Blue; float:left; height:400px; }						
+.Layout4_3{ width:20%; background-color:Green; float:left; height:400px; }						
+.Layout4_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 5	*/				
+.Layout5_1{ width:20%; background-color:Red;  height:400px; float:left;}						
+.Layout5_2{ width:20%; background-color:Blue; float:left; height:400px; }						
+.Layout5_3{ width:60%; background-color:Green; float:left; height:400px; }						
+.Layout5_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 6	*/				
+.Layout6_1{ width:25%; background-color:Red;  height:400px; float:left;}						
+.Layout6_2{ width:25%; background-color:Blue; float:left; height:400px; }						
+.Layout6_3{ width:25%; background-color:Green; float:left; height:400px; }						
+.Layout6_4{ width:25%; background-color:purple; float:left; height:400px; }						
+.Layout6_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 7	*/				
+.Layout7_1{ width:20%; background-color:Red;  height:400px; float:left;}						
+.Layout7_2{ width:60%; background-color:Blue; float:left; height:400px; }						
+.Layout7_3{ width:20%; background-color:Green; float:left; height:400px; }						
+.Layout7_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 8	*/				
+.Layout8_1{ width:100%; background-color:Red;  height:400px; float:left;}						
+.Layout8_2{ width:100%; background-color:Blue; float:left; height:100px; }						
+.Layout8_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 9	*/				
+.Layout9_1{ width:20%; background-color:Red;  height:800px; float:left;}						
+.Layout9_2{ width:60%; background-color:Blue; float:left; height:800px; }						
+.Layout9_3{ width:20%; background-color:Green; float:left; height:800px; }						
+.Layout9_header{ background-color:Yellow; width:0%; height:0px;}						
+/*	Layout 10	*/				
+.Layout10_1{ width:50%; background-color:Red;  height:400px; float:left;}						
+.Layout10_2{ width:50%; background-color:Blue; float:left; height:400px; }						
+.Layout10_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 11	*/				
+.Layout11_1{ width:50%; background-color:Red;  height:400px; float:left;}						
+.Layout11_2{ width:50%; background-color:Blue; float:left; height:400px; }						
+.Layout11_3{ width:50%; background-color:Green; float:left; height:400px; }						
+.Layout11_4{ width:50%; background-color:Orange; float:left; height:400px; }						
+.Layout11_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 12	*/				
+.Layout12_1{ width:25%; background-color:Red;  height:800px; float:left;}						
+.Layout12_2{ width:25%; background-color:Blue; float:left; height:800px; }						
+.Layout12_3{ width:50%; background-color:Green; float:left; height:400px; }						
+.Layout12_4{ width:50%; background-color:Orange; float:left; height:400px; }						
+.Layout12_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 13	*/				
+.Layout13_1{ width:60%; background-color:Red;  height:600px; float:left;}						
+.Layout13_header{ background-color:Yellow; width:60%; height:100px;}						
+/*	Layout 14	*/				
+.Layout14_1{ width:100%; background-color:Red;  height:200px; float:left;}						
+.Layout14_2{ width:100%; background-color:Blue; float:left; height:600px; }						
+.Layout14_3{ width:100%; background-color:Green; float:left; height:100px; }						
+.Layout14_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 15	*/				
+.Layout15_1{ width:50%; background-color:Red;  height:800px; float:left;}						
+.Layout15_2{ width:50%; background-color:Blue; float:left; height:400px; }						
+.Layout15_3{ width:50%; background-color:Green; float:left; height:400px; }						
+.Layout15_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 16	*/				
+.Layout16_1{ width:100%; background-color:Red;  height:200px; float:left;}						
+.Layout16_2{ width:33.3%; background-color:Blue; float:left; height:600px; }						
+.Layout16_3{ width:33.3%; background-color:Green; float:left; height:600px; }						
+.Layout16_4{ width:33.3%; background-color:purple; float:left; height:600px; }						
+.Layout16_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 17	*/				
+.Layout17_1{ width:33.3%; background-color:Red;  height:200px; float:left;}						
+.Layout17_2{ width:33.3%; background-color:Blue; float:left; height:200px; }						
+.Layout17_3{ width:33.3%; background-color:Green; float:left; height:200px; }						
+.Layout17_4{ width:100%; background-color:purple; float:left; height:400px; }						
+.Layout17_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 18	*/				
+.Layout18_1{ width:30%; background-color:Red;  height:200px; float:left;}						
+.Layout18_2{ width:70%; background-color:Blue; float:left; height:200px; }						
+.Layout18_3{ width:100%; background-color:purple; float:left; height:400px; }						
+.Layout18_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 19	*/				
+.Layout19_1{ width:100%; background-color:Red;  height:200px; float:left;}						
+.Layout19_2{ width:50%; background-color:Blue; float:left; height:600px; }						
+.Layout19_3{ width:50%; background-color:purple; float:left; height:600px; }						
+.Layout19_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 20	*/				
+						
+.Layout20_1{ width:33.3%; background-color:Red;  height:200px; float:left;}						
+.Layout20_2{ width:33.3%; background-color:Blue; float:left; height:200px; }						
+.Layout20_3{ width:33.3%; background-color:Green; float:left; height:200px; }						
+.Layout20_4{ width:50%; background-color:purple; float:left; height:400px; }						
+.Layout20_5{ width:50%; background-color:Orange; float:left; height:400px; }						
+.Layout20_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 21	*/				
+.Layout21_1{ width:100%; background-color:Red;  height:300px; float:left; margin-top:100px;}						
+.Layout21_header{ background-color:Yellow; width:100%; height:100px;}						
+/*	Layout 22	*/				
+.Layout22_1{ width:100%; background-color:Red;  height:800px; float:left;}						
+.Layout22_header{ background-color:Yellow; width:0%; height:0px;}

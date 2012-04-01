@@ -1,0 +1,242 @@
+<html>
+<head>
+<title>Spell Check Tester</title>
+
+<style type="text/css">
+body {
+	font-family:verdana, helvetica, arial, sans-serif;
+	font-size:small;
+	color:black;
+	background:white;
+	margin-top:0;
+	margin-left:0;
+	margin-right:0;
+}
+table {
+	color:#000000;
+	background:#FFFFFF;
+}
+td, p {
+	font-family:verdana, helvetica, arial, sans-serif;
+	font-size:small;
+}
+h1 {
+	font-family: sans-serif;
+	font-size: 150%;
+	font-weight: bold;
+	margin-top:.8em;
+	letter-spacing:2;
+}
+h2 {
+	font-family: sans-serif;
+	font-size: 125%;
+	font-weight: bold;
+	letter-spacing:2;
+}
+h3 {
+	font-family: sans-serif;
+	font-size: 100%;
+	font-weight: bold;
+	letter-spacing:2;
+}
+img {
+	vertical-align: middle;
+}
+a {
+	text-decoration: none;
+}
+a:hover {
+	color: blue;
+	background-color: #EBEBEB;
+}
+a.headerlink {
+	color: #EBEBEB;
+	/*text-decoration: none;*/
+	background-color: #999999;
+}
+a.headerlink:hover {
+	color: #FFFFFF;
+	background-color: transparent;
+	text-decoration: underline;
+}
+a.imghref:hover {
+	background-color: transparent;
+}
+.smaller {
+	font-size: 75%;
+}
+</style>
+
+<script src="spellChecker.js"></script>
+
+<script>
+// 
+// openSpellChecker()
+//
+// this function is an example that illustrates the various ways you can invoke
+// the the Speller Pages spell-checking process
+//
+function openSpellChecker() {
+	
+	// example 1. 
+	// Pass in the text inputs or textarea inputs that you 
+	// want to spell-check to the object's constructor,
+	// then call the openChecker() method.
+	var text1 = document.form1.text1;
+	var textarea1 = document.form1.textarea1;
+	var speller = new spellChecker( text1, textarea1 );
+	speller.openChecker();
+
+	// example 2.
+	// Rather than passing in the form elements to the object's
+	// constructor, populate the object's textInputs property,
+	// then call the openChecker() method.
+	/*
+	var speller = new spellChecker();
+	var spellerInputs = new Array();
+	for( var i = 0 ; i < document.form1.elements.length; i++ ) {
+		if( document.form1.elements[i].type.match( /^text/ )) {
+			spellerInputs[spellerInputs.length] = document.form1.elements[i];
+		}
+	}
+	speller.textInputs = spellerInputs;
+	speller.openChecker();
+	*/
+
+	// example 3.
+	// use the spellCheckAll() method to check every text input
+	// and textarea input in every form in the HTML document.
+	// You can also use the checkTextBoxes() method or checkTextAreas()
+	// method instead of spellCheckAll() to check only text inputs
+	// or textarea inputs, respectively
+	/*
+	var speller = new spellChecker();
+	speller.spellCheckAll();
+	*/
+}
+
+</script>
+</head>
+
+<body>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr valign="top">
+<td width="100">
+
+<!-- begin left nav table-->
+<table border="0">
+<tr bgcolor="E6EEB5">
+	<td>&nbsp;</td>
+</tr>
+<tr bgcolor="D2E17B">
+	<td>&nbsp;</td>
+</tr>
+<tr bgcolor="B5CC2F">
+	<td align="right">&nbsp;
+	<span style="font-size:8pt; font-family:arial; font-weight:bold;
+	color:FFFFFF">Speller Pages</span>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="http://spellerpages.sourceforge.net/index.html"><span
+	style="font-size:8pt; font-family:arial;
+	font-weight:bold; color:999999">home</span></a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="http://spellerpages.sourceforge.net/about.html"><span
+	style="font-size:8pt; font-family:arial;
+	font-weight:bold; color:999999">about</span></a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<span style="font-size:8pt; font-family:arial; font-weight:bold;
+	color:000000">online demo</span>
+	</td>
+</tr>
+<tr bgcolor="999999">
+	<td align="right">
+	<span style="font-size:8pt; font-family:arial; font-weight:bold;
+	color:FFFFFF">sf.net links</span>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="http://sourceforge.net/projects/spellerpages/"><span
+	style="font-size:8pt; font-family:arial; font-weight:bold;
+	color:999999">project page</span></a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=86602"><span
+	style="font-size:8pt; font-family:arial; font-weight:bold;
+	color:999999">download</span></a>
+	</td>
+</tr>
+
+<tr bgcolor="FFFFFF">
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">
+	<p><a href="http://sourceforge.net/projects/spellerpages/"><img
+	src="http://sourceforge.net/sflogo.php?group_id=86602&type=1" width="88"
+	height="31" border="0" alt="SourceForge.net Logo" /></a><br/></p>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+	<p><a href="http://www.netjs.com/"><img src="images/netjs-devel.gif"
+	width="88" height="31" border="0" alt="netJS logo" /></a><br/></p>
+	</td>
+</tr>
+</table>
+<!--End left nav table-->
+
+</td>
+
+<td width="5%">&nbsp;&nbsp;&nbsp;</td>
+
+<td width="650">
+
+<h1>Speller Pages</h1>
+<form name="form1">
+<input type="text" name="text1" size="30">
+<br />
+<textarea name="textarea1" rows="10" cols="60">
+</textarea>
+<br />
+<input type="button" value="Check Spelling" onClick="openSpellChecker();"/>
+</form>
+
+<hr noshade/>
+<p class="smaller">
+<a href="http://spellerpages.sourceforge.net">home</a>
+&middot;
+<a href="http://spellerpages.sourceforge.net/about.html">about</a>
+&middot;
+online demo
+</p>
+<p class="smaller">
+sf.net -
+<a href="http://sourceforge.net/projects/spellerpages/">project page</a>
+&middot;
+<a href="http://sourceforge.net/project/showfiles.php?group_id=86602">download</a>
+</p>
+
+</td>
+
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+
+</tr>
+</table>
+
+
+</body>
+</html>

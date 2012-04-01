@@ -1,0 +1,93 @@
+<?php
+include "orders.php";
+class OrderInfo extends Orders 
+{
+	
+	function __construct() 
+	{
+		parent::Orders ();
+	
+	}
+	
+	function index() 
+	{
+		$this->load->view ( 'admin/popup' );
+	}
+	
+	function id($id) 
+	{
+		global $cms_db_tables;
+		$data = array ();
+		//parent::ajax_json_get_items_for_order_id();
+		if ($id) {
+			
+			$q = "
+				SELECT 
+					* 
+				FROM 
+					{$cms_db_tables['table_cart_orders']} 
+				WHERE 
+					id = {$id}
+			";
+			$q = $this->core_model->dbQuery($q);
+			$orderInfo = $q [0];
+			$displayInfo = array ();
+			
+			$columnsNames = array(
+				'id' => 'Order unique identifier',
+				'updated_on' => 'Updated on',
+				'created_on' => 'Created on',
+				'sid' => 'Session identifier',
+				'country' => 'Country',
+				'amount' => 'Amount',
+				'clientid' => 'Client identifier',
+				'customercode' => 'Customer code',
+				'order_id' => 'Order code',
+				'cardholdernumber' => 'Cardholder number',
+				'expiresmonth' => 'Expires month',
+				'expiresyear' => 'Expires year',
+				'bname' => 'Billing name',
+				'bemailaddress' => 'Billing email address',
+				'baddress1' => 'Billing address',
+				'bcity' => 'Billing city',
+				'bstate' => 'Billing state',
+				'bzipcode' => 'Billing zip code',
+				'bphone' => 'Billing phone',
+				'sname' => 'Shipping name',
+				'scompany' => 'Shipping company',
+				'saddress1' => 'Shipping addres 1',
+				'saddress2' => 'Shipping addres 2',
+				'scity' => 'Shipping city',
+				'sstate' => 'Shipping state',
+				'szipcode' => 'Shipping zip code',
+				'scountry' => 'Shipping country',
+				'sphone' => 'Shipping phone',
+				'transactionid' => 'Transaction identifier',
+				'promo_code' => 'Promo code',
+//				'UPS Order responce' => '',
+				'shipping_service' => 'Shipping service',
+				'semailaddress' => 'Shipping email address',
+				'shipping_total_charges' => 'Shipping total charges',
+			);
+			
+			foreach ($orderInfo as $key => $val) {
+				if ($key != 'cvv2') {
+					if ($key == 'cardholdernumber') {
+						$val = substr_replace ( $val, "######", 0, strlen ( $val ) - 4 );
+					}
+					
+					if (isset($columnsNames[$key])) {
+						$key = $columnsNames[$key];
+					}
+					 
+					$displayInfo[$key] = $val;
+				}
+			}
+			
+			$data ['order_info'] = $displayInfo;
+		}
+		
+		$primarycontent = $this->load->view ( 'admin/popup', $data );
+	}
+}
+?>

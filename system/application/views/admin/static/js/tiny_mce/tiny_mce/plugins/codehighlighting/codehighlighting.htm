@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#codehighlighting.codehighlighting_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<script language="javascript" type="text/javascript" src="js/codehighlighting.js">
+</script>
+	<link rel="stylesheet" type="text/css" href="css/codehighlighting.css" />
+	<base target="_self" />
+</head>
+<body onload="" style="display: none; margin: 4px;">
+<form onsubmit="return false;" action="#">
+	<div class="Container">
+        {#codehighlighting.codehighlighting_langaugepicker}:
+        <select id="ProgrammingLangauges" style="width: 113px">
+            <option selected="selected" value="c-sharp">C#</option>
+            <option value="c++">C++</option>
+            <option value="css ">CSS</option>
+            <option value="java">Java</option>
+            <option value="javascript">Java Script</option>
+            <option value="php">PHP</option>
+            <option value="ruby">Ruby</option>
+            <option value="vb.net">VB</option>
+            <option value="xhtml">XML/HTML</option>
+            <option value="sql">Sql</option>
+            <option value="delphi">Delphi</option>
+            <option value="python">Python</option>
+        </select>
+        <br />
+        {#codehighlighting.codehighlighting_pagecode}:<br />
+        <textarea id="CodeArea" class="CodeArea"></textarea><br />
+        <div class="Options">
+         <input id="nogutter" type="checkbox"  />
+         <label id="nogutter_lable" >{#codehighlighting.codehighlighting_nogutter}</label>
+         <input id="collapse" type="checkbox"  />
+         <label id="collapse_label" >{#codehighlighting.codehighlighting_collapse}</label> <br />
+         <input id="nocontrols" type="checkbox"  />
+         <label id="nocontrols_label" >{#codehighlighting.codehighlighting_nocontrols}</label>
+         <input id="showcolumns" type="checkbox"  />
+         <label id="showcolumns_label" >{#codehighlighting.codehighlighting_showcolumns}</label>
+        </div>
+        <div class="Actions">
+        <input id="cancel" type="button" value="{#cancel}" language="javascript" onclick="return Cancel_Button_onclick()" />
+        <input id="insert" type="button" value="{#insert}" language="javascript" onclick="return Save_Button_onclick()" /></div>
+        </div>
+</form>
+</body>
+</html>

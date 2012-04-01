@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<title>JW Player for Flash</title>
+
+	<style type="text/css">
+		body { background-color: #fff; padding: 0 20px; color:#000; font: 13px/18px Arial, sans-serif; }
+		a { color: #360; }
+		h3 { padding-top: 20px; }
+		ol { margin:5px 0 15px 16px; padding:0; list-style-type:square; }
+	</style>
+
+</head>
+<body>
+
+	<h3>Example</h3>
+	<p>Thanks for downloading! Below you see a simple embedded example of the <a href="http://www.jeroenwijering.com/?item=JW_FLV_Player">JW Player</a>. Copy-paste the source code and put the SWF, JS and FLV file on your site to get started.</p>
+
+
+
+
+	<div id="container"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</div>
+	<script type="text/javascript" src="swfobject.js"></script>
+	<script type="text/javascript">
+		var s1 = new SWFObject("player-viral.swf","ply","500","400","9","#FFFFFF");
+		s1.addParam("allowfullscreen","true");
+		s1.addParam("allownetworking","all");
+		s1.addParam("allowscriptaccess","always");
+		s1.addParam("flashvars","file=video.flv&image=preview.jpg");
+		s1.write("container");
+	</script>
+
+
+
+
+	<h3>Licensing</h3>
+	<p>The player is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons License</a>. It allows you to use, modify and redistribute the script, but only for <b>noncommercial</b> purposes. For corporate use, <a href="http://www.jeroenwijering.com/?page=order" title="Order commercial licenses">please apply for a commercial license</a>.</p>
+
+	<h3>Quickstart</h3>
+	<p>The easiest way to get to know the player is by using <a href="http://www.jeroenwijering.com/?page=wizard">the setup wizard</a>. Select an example, set the file or playlist you want to play and copy-paste the embed code to your site. If you want to play Youtube content in the player, you also have to copy the <b>yt.swf</b> file along with the player-viral.swf.</p>
+
+	<h3>Wiki and source code</h3>
+	<p>The <a href="http://code.jeroenwijering.com/trac">JW Player Wiki</a> contains a wealth of information about the player, including:</p>
+	<ol>
+		<li>The <a href="http://code.jeroenwijering.com/trac/roadmap/">roadmap with full changelogs</a> for each version.</li>
+		<li>All <a href="http://code.jeroenwijering.com/trac/wiki/FlashFormats">supported file formats</a> (and playlists).</li>
+		<li>All <a href="http://code.jeroenwijering.com/trac/wiki/FlashVars">supported flashvars</a> (for customizing the player).</li>
+		<li>All <a href="http://code.jeroenwijering.com/trac/wiki/FlashAPI">supported API calls</a> (for actionscript /  javascript interaction).</li>
+		<li>All <a href="http://code.longtailvideo.com/trac/wiki/FlashSkinning">supported skinning elements</a> (for creating your own graphics).</li>
+	</ol>
+	<p>The source code of all different versions of the player can <a href="http://code.jeroenwijering.com/trac/browser/tags">be found here</a>. You can click a version and download the ZIP files (the small links at the bottom!).</p>
+
+	<h3>Next steps</h3>
+	<p>If you're ready to get professional about online video, check out these two services that take your site to the next level:</p>
+	<ol>
+		<li><a href="http://www.longtailvideo.com">LongTail Video</a> is a no-nonsense video advertisement network that will increase your traffic and monetize your streams. <a href="http://www.longtailvideo.com.com/signup.asp">Sign up</a>.</li>
+		<li><a href="http://www.bitsontherun.com">Bits on the Run</a> is a hassle-free video management system that handles the encoding, streaming and tracking of your videos. <a href="http://www.bitsontherun.com.com/signup">Sign up</a>.</li>
+	</ol>
+
+</body>
+</html>

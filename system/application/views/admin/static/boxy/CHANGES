@@ -1,0 +1,44 @@
+0.1.4
+=====
+
+* Fixed issue with multiple visible modals
+* Moved modal opacity value from CSS to code to appease IE (not ideal)
+* Moved default options to Boxy.DEFAULTS for application-wide configurability
+* Added custom callback for attaching behaviours to dialog content
+* Added Boxy.alert() for displaying simple messages 
+* Added Boxy.confirm() helper
+* Added support for unloading/removing boxy instances:
+  boxy.unload(), boxy.hideAndUnload(after), constructor option 'unloadOnHide'
+* Boxys created with Boxy.ask() or its derivatives now unload themselves on dismissal
+* Fixed centering issue in IE6 (non-standards compliant mode)
+* Added afterShow callback, fired whenever boxy becomes visible
+* Added Boxy.load() for manually loading boxy content via AJAX
+* Moved WRAPPER to from Boxy.prototype to Boxy to improve app-wide configurability
+* Complete rewrite of $.fn.boxy; see elsewhere for explanation
+* Removed 'single' plugin option
+* Added option to link each boxy instance to the DOM element which triggered it; this is automatically severed when boxy is unloaded
+* Added option to filter AJAX content using jQuery selector
+* Fixed positioning bug with Opera
+* Added beforeUnload callback
+* Added Boxy.isModalVisible() for testing if a modal dialog is currently visible
+* Added afterHide callback
+* Added afterDrop callback
+* Modal shading now resizes with browser window
+* Added clickToFront option, bringing a dialog to front when clicking anywhere within it
+* Added Boxy.linkedTo() to get boxy instance linked to a given element via 'actuator' option
+* Added boxy.toggle() to toggle between visible/hidden
+
+0.1.3
+=====
+
+* Fixed CSS class name in middle-bottom cell of wrapper markup
+* Pressing escape now closes modal dialogs (as long as dialog is closeable)
+* Added getter and setter for dialog title
+* Title text is now wrapped in <h2></h2>
+* Title parameter now works when passed to plugin
+* Close text is now configurable via closeText constructor parameter
+* Titlebar text is "unselectable" while dragging
+* Close event is rebound correctly if boxy has been cloned (RW)
+* Fixed bug where border would compress when dragged offscreen (RW)
+* Dialog can now be centered on a single dimension (RW)
+* Numerous code cleanups

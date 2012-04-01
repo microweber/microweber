@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>LocationBar demo</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+ 	<script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../ext-all.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="LocationBar.css" />
+    <script type="text/javascript" src="Ext.ux.LocationBar.js"></script>
+<script type="text/javascript">
+Ext.onReady(function(){
+
+    Ext.BLANK_IMAGE_URL = 'http://www.extjs.com/s.gif';
+    
+    // shorthand
+    var Tree = Ext.tree;
+    
+    var tree = new Tree.TreePanel({
+        el:'tree-div',
+        useArrows:true,
+        autoScroll:true,
+        animate:true,
+        enableDD:true,
+        containerScroll: true, 
+        loader: new Tree.TreeLoader({
+            urL: ''
+        })
+    });
+
+    // set the root node
+    var root = new Tree.TreeNode({
+        text: 'Ext JS',
+        draggable:false,
+        id:'source'
+    });
+    // generate some child nodes
+    var node1 = root.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 1',
+        draggable:false,
+        id:'node1'
+    }));
+    var node2 = root.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 2',
+        draggable:false,
+        id:'node2'
+    }));
+    node2.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 2-1',
+        draggable:false,
+        id:'node2-1'
+    }));
+    node2.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 2-2',
+        draggable:false,
+        id:'node2-2'
+    }));
+    node2.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 2-3',
+        draggable:false,
+        id:'node2-3'
+    }));
+    root.appendChild(new Ext.tree.TreeNode({
+        text: 'Node 3',
+        draggable:false,
+        id:'node3'
+    }));
+
+    tree.setRootNode(root);
+
+    var locationbar = new Ext.ux.LocationBar({
+         renderTo: 'locationbar-div',
+         height: 28,
+         tree: tree
+    });
+    locationbar.render();
+    
+    // render the tree
+    tree.render();
+    root.expand();
+    node2.select();
+    
+});
+</script>
+
+</head>
+<body>
+
+<h1>TreePanel with a Locationbar</h1>
+<p>Click on a node inside the tree.</p>
+
+<div id="locationbar-div" style="overflow:auto; height:28;width:450px;border:1px solid #c3daf9;"></div>
+<div id="tree-div" style="overflow:auto; height:300px;width:450px;border:1px solid #c3daf9;"></div>
+
+</body>
+</html>
