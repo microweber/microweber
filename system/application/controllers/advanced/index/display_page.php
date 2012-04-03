@@ -229,8 +229,7 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 			
 			// $togo = $togo . '/keyword:' . stripslashes ( $_POST
 			// ['search_by_keyword'] );
-			//p($POST,1);
-			
+			// p($POST,1);
 		
 		}
 		foreach ( $_POST as $k => $v ) {
@@ -239,18 +238,18 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 				case 'x' :
 				case 'y' :
 				case 'search_by_keyword' :
-					;
+					 
 					break;
 				
 				case 'search' :
-					$togo = $togo . '/' . trim ( $k );  
+					$togo = $togo . '/' . trim ( $k );
 					break;
 				
 				default :
 					
 					// );
 					if ($v != '') {
-						$togo = $togo . '/' . trim ( $k );  
+						$togo = $togo . '/' . trim ( $k );
 						$togo = $togo . ':' . stripslashes ( $v );
 					} else {
 					
@@ -329,7 +328,8 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		}
 		
 		$temp1 = CI::model ( 'core' )->getParamFromURL ( 'view' );
-		
+		//p($togo,1); 
+		//exit();
 		if (trim ( $temp1 ) != '') {
 			
 			// header ( 'Location: ' . $togo . '/view:' . $temp1 . $search_cats
