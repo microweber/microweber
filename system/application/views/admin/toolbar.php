@@ -28,20 +28,7 @@ body {
 }
 
 
-.ui-selecting {
-    background: #aad284;
-    border:1px solid #666666;
-}
-.ui-selected, .ui-multidraggable {
-    background: #e2ecf5;
-    border:1px solid #666666;
-}
- 
-.ui-resizable-helper { border: 2px dotted #00F; } 
-.ui-draggable-dragging{
-    background-color:#91B168;
-               
-}
+
 
   </style>
   <style type="text/css">
@@ -121,11 +108,9 @@ body {
    //alert(admin_panel);
    
    
- </script> 
+ </script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css"    href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/base/jquery-ui.css"/>
  <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/shortcut.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.js" type="text/javascript"></script>
@@ -146,13 +131,8 @@ body {
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
  
-<!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>
--->
-<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>multidraggable/js/ui.multidraggable.js"></script>
- -->
-    
-    
-    
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>
+
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/javascripts/jquery.boxy.js" type="text/javascript"></script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css" rel="stylesheet" type="text/css" />
  
@@ -381,9 +361,6 @@ function mw_make_editables(){
 			 if(window.mw_editables_created == false){
 				$(".edit [draggable='true']").unbind();
 				$(".edit [draggable='true']").removeAttr('draggable');
-				$(".edit").find('*').draggable('destroy');
-				$(".edit").find('*').resizable('destroy');
-				
 	$(".edit").freshereditor("edit", true);
 			  window.mw_editables_created = true
 			  $("#mw-layout-edit-site-top-bar-r").html("Text edit");
@@ -420,48 +397,28 @@ function init_sortables(){
 			  
 			// $(".edit *").attr('draggable', true);
 			 
-			// $('.edit').sortable().bind('sortupdate', function() {});
-			
-			
-			$(".edit").find('div,.module,img,ul,ol,a,table,pre,p,span,h1,h2,h3,h4,h5,h6,h7,h8,blockquote').draggable({
-			
-			 appendTo: 'body',
-			 stack: "div",
-			 //snapMode: 'outer',
-			  containment: 'document',
-			start: function(event, ui) {
-            ui.helper.bind("click.prevent",
-                function(event) { event.preventDefault(); });
-        },
-        stop: function(event, ui) {
-            setTimeout(function(){ui.helper.unbind("click.prevent");}, 300);
-        },
-    drag: function(ui, event) {
-		
-	/*	 i = $(this);
- o = $(this).parent();;
-		
-        if (i.position().top > o.height() - i.height()) {
-            o.height(o.height() + 10);
-        }
-        if (i.position().left > o.width() - i.width()) {
-           // o.width(o.width() + 10);
-        }*/
-    }
+			 $('.edit').sortable().bind('sortupdate', function() {
+    //Triggered when the user stopped sorting and the DOM position has changed.
+	//alert(1);
 });
-			
-			$(".edit").find('.module *').disableSelection(); 
-			$(".edit").find('.module *').draggable('destroy');
-			$(".edit").find('div,.module,img,ul,ol,table,pre').resizable({			helper: "ui-resizable-helper"		});
-			
-			
-		//	$(".edit").find('*:not(.module *),img:not(.module *)').resizable({			helper: "ui-resizable-helper"		});
-			
-			
-		
-			
 			   $("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
 			  window.mw_sortables_created = true
+			 
+			/* $('.edit').sortable('destroy');
+			 $('.edit').sortable({ 
+			//  appendTo: '.row' ,											   
+			 items: '.module' ,
+			   
+			 handle: '.col, a, .box, .col > *, .module, .module > *' ,
+			 //  containment: '.row',
+			//   containment: 'parent',
+			 //cancel: '.module > *' ,
+			  forceHelperSize: true,
+			  iframeFix: true,
+			  connectWith: ".edit, .edit div, .edit p, .edit br, .edit ul, .edit h1, .edit h2, .edit h3",
+			 forcePlaceholderSize: true
+			
+			 }).disableSelection();*/
 			  window.mw_sortables_created = true
 			 
 			  }

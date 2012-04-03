@@ -303,9 +303,9 @@ function cf_val($content_id, $field_name, $use_vals_array = true) {
 	if (empty ( $fields )) {
 		return false;
 	}
-	
+	//p($fields);
 	foreach ( $fields as $field ) {
-		if ((($field_name)) == ($field ['custom_field_name'])) {
+		if ((strtolower($field_name)) == strtolower($field ['custom_field_name'])) {
 			
 			if (! empty ( $field ['custom_field_values'] ) and $use_vals_array == true) {
 				return $field ['custom_field_values'];

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en-us" dir="ltr">
+  <head>
+  <meta charset="utf-8">
+<!-- 
+
+   Copyright (c) 2010, Dragan Babic
+   
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation
+   files (the "Software"), to deal in the Software without
+   restriction, including without limitation the rights to use,
+   copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following
+   conditions:
+   
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+   
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+   OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+   OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+    <title>Uni&ndash;Form</title>
+    
+    <link href="../css/uni-form.css" media="screen" rel="stylesheet"/>
+    <link href="../css/default.uni-form.css" title="Default Style" media="screen" rel="stylesheet"/>
+    <link href="./css/demo.css" media="screen" rel="stylesheet"/>
+    
+    <!--[if lte ie 7]>
+      <style type="text/css" media="screen">
+        /* Move these to your IE6/7 specific stylesheet if possible */
+        .uniForm, .uniForm fieldset, .uniForm .ctrlHolder, .uniForm .formHint, .uniForm .buttonHolder, .uniForm .ctrlHolder ul{ zoom:1; }
+      </style>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <h1><a href="http://sprawsm.com/uni-form/" title="visit Uni–Form online"><img src="../img/uni-form-logo.png" alt=""/></a></h1>
+    
+    <form action="#" class="uniForm">
+            
+      <fieldset>
+        <h3>Client side form demonstration</h3>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Your name</label>
+          <input name="name" id="name" data-default-value="Placeholder text" size="35" maxlength="50" type="text" class="textInput required"/>
+          <p class="formHint">Required element</p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Your email</label>
+          <input name="email" id="email" data-default-value="Placeholder text" size="35" maxlength="50" type="text" class="textInput required validateEmail"/>
+          <p class="formHint">A valid email address</p>
+        </div>
+      
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> Email confirm</label>
+          <input name="email_confirm" id="email_confirm" data-default-value="Placeholder text" size="35" maxlength="50" type="text" class="textInput required validateSameAs email"/>
+          <p class="formHint"></p>
+        </div>
+        
+        <div class="ctrlHolder">
+          <label for=""><em>*</em> A number from 10 - 50</label>
+          <input name="a_number" id="a_number" data-default-value="Placeholder text" size="35" maxlength="50" type="text" class="textInput required validateInteger validateMin val-10 validateMax val-50"/>
+          <p class="formHint">A random number that you like</p>
+        </div>
+
+        <div class="ctrlHolder">
+          <p class="label"><em>*</em> Your preferred color</p>
+          <ul class="blockLabels">
+            <li><label for=""><input type="radio" name="color" class="required"> Red</label></li>
+            <li><label for=""><input type="radio" name="color" class="required"> Green</label></li>
+            <li><label for=""><input type="radio" name="color" class="required"> Blue</label></li>
+          </ul>
+          <p class="formHint">Select a color</p>
+        </div>
+
+        <div class="ctrlHolder">
+          <p class="label">Privacy agreement</p>
+          <ul class="blockLabels">
+            <li><label for=""><input type="checkbox" name="agreement" class="required"> I have read the agreement</label></li>
+          </ul>
+        </div>
+
+      </fieldset>
+      
+      <div class="buttonHolder">
+        <button type="submit" class="secondaryAction">← Cancel and go back</button>
+        <button type="submit" class="primaryAction">Submit</button>
+      </div>
+
+    </form>
+
+    <div id="footer">
+      <p>Uni-Form is created by <a href="http://sprawsm.com/" title="Dragan is the founder of Superawesome">Dragan Babić</a> and is licensed under the MIT license.</p>
+    </div>
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/uni-form-validation.jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../localization/es.js" charset="utf-8"></script>
+    <script>
+      $(function(){
+        $('form.uniForm').uniform({
+          prevent_submit : true
+        });
+      });
+    </script>
+  </body>
+</html>

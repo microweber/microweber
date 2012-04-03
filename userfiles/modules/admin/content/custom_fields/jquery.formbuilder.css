@@ -1,0 +1,123 @@
+			/* jquery.formbuilder css */
+
+.frmb-control { }
+
+.frmb-submit { }
+
+ul.frmb, .custom-fields-form-wrap {
+	padding-left: 0px;
+	list-style-type: none;
+	list-style:none;
+}
+
+.frmb li, .custom-fields-form-wrap li {
+	margin-bottom: 5px;
+	padding: 5px;
+	border: 1px solid #EEE;
+		list-style-type: none;
+	list-style:none;
+}
+
+.frmb li:hover {
+	border: 1px solid #F7CA75;
+	background: #FFFEEB;
+}
+
+.frmb .legend {
+	cursor: move;
+}
+
+.frmb .legend .toggle-form {
+	float: right;
+}
+
+.frm-elements {
+	padding: 5px 0;
+}
+
+.frm-elements label {
+	width: 20%;
+	float: left;
+	margin-left: 5px;
+	line-height: 24px;
+}
+
+.frm-elements .false-label {
+	width: 20%;
+	float: left;
+	margin-left: 5px;
+	line-height: 24px;
+}
+
+.frm-elements input[type=text] {
+	float: left;
+	width: 70%;
+}
+
+.frm-elements .fields {
+	width: 70%;
+	float: left;
+}
+
+.frm-elements .fields input[type=checkbox],
+.frm-elements .fields input[type=radio] {
+	float: left;
+	margin-right: 10px;
+}
+
+.frm-elements .false-label,
+.frm-elements .fields { margin-top: 10px }
+
+.frm-elements .fields div {
+	clear: both;
+	float: left;
+	width: 99%;
+}
+
+.frm-elements .fields input[type=text] {
+	width: 75%;
+}
+
+.frm-elements .fields label.auto {
+	width: auto;
+	margin: 0 0 5px 0;
+}
+
+.frm-elements .fields .remove {
+	margin-left: 10px;
+	line-height: 24px;
+}
+
+.frm-elements .fields .add-area {
+	position: relative;
+	left: -30px;
+	line-height: 0;
+	margin-top: -13px;
+}
+
+.frm-elements .fields .add-area .add {
+	clear: both;
+}
+
+.frm-elements:after,
+.frm-fld:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.frm-elements,
+.frm-fld { display: inline-block }
+
+.frm-elements,
+.frm-fld { display: block }
+
+.del-button {
+	float: right;
+	margin-right: 10px;
+}
+
+/* html display helpers */
+.frmb textarea, .multi-row span { display: block; }

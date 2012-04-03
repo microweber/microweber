@@ -1,0 +1,1350 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext.data.JsonStore-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext.data.JsonStore-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext.data.JsonStore-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                            <a class="inner-link" href="#Ext.data.JsonStore-configs"><img src="../resources/images/default/s.gif" class="item-icon icon-config">Config Options</a>
+                        <a class="bookmark" href="../docs/?class=Ext.data.JsonStore"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <div class="inheritance res-block">
+<pre class="res-block-inner"><a ext:cls="Ext.util.Observable" ext:member="" href="output/Ext.util.Observable.html">Observable</a>
+  <img src="resources/elbow-end.gif"/><a ext:cls="Ext.data.Store" ext:member="" href="output/Ext.data.Store.html">Store</a>
+    <img src="resources/elbow-end.gif"/>JsonStore</pre></div>
+                <h1>Class Ext.data.JsonStore</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Ext.data</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">JsonStore.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">JsonStore</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.data.Store" ext:member="" href="output/Ext.data.Store.html">Store</a></td></tr>
+                    </table>
+        <div class="description">
+            Small helper class to make creating Stores for remotely-loaded JSON data easier. JsonStore is pre-configured
+with a built-in <a ext:cls="Ext.data.HttpProxy" href="output/Ext.data.HttpProxy.html">Ext.data.HttpProxy</a> and <a ext:cls="Ext.data.JsonReader" href="output/Ext.data.JsonReader.html">Ext.data.JsonReader</a>.  If you require some other proxy/reader
+combination then you'll have to create a basic <a ext:cls="Ext.data.Store" href="output/Ext.data.Store.html">Ext.data.Store</a> configured as needed.<br/>
+<pre><code>var store = <b>new</b> Ext.data.JsonStore({
+    url: <em>'get-images.php'</em>,
+    root: <em>'images'</em>,
+    fields: [<em>'name'</em>, <em>'url'</em>, {name:<em>'size'</em>, type: <em>'float'</em>}, {name:<em>'lastmod'</em>, type:<em>'date'</em>}]
+});</code></pre>
+This would consume a returned object of the form:
+<pre><code>{
+    images: [
+        {name: <em>'Image one'</em>, url:<em>'/GetImage.php?id=1'</em>, size:46.5, lastmod: <b>new</b> Date(2007, 10, 29)},
+        {name: <em>'Image Two'</em>, url:<em>'/GetImage.php?id=2'</em>, size:43.2, lastmod: <b>new</b> Date(2007, 10, 30)}
+    ]
+}</code></pre>
+An object literal of this form could also be used as the <a ext:cls="Ext.data.JsonStore" ext:member="data" href="output/Ext.data.JsonStore.html#data">data</a> config option.
+<b>Note: Although they are not listed, this class inherits all of the config options of Store,
+JsonReader.</b>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext.data.JsonStore-configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-autoLoad"></a>
+            <b>autoLoad</b> : Boolean/Object            <div class="mdesc">
+                            If passed, this store's load method is automatically called after creation with the autoLoad object                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#autoLoad" href="output/Ext.data.Store.html#autoLoad">Store</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-baseParams"></a>
+            <b>baseParams</b> : Object            <div class="mdesc">
+                            An object containing properties which are to be sent as parameters on any HTTP request                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#baseParams" href="output/Ext.data.Store.html#baseParams">Store</a></td>
+    </tr>
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-data"></a>
+            <b>data</b> : Object            <div class="mdesc">
+                            A data object readable by this object's JsonReader. Either this option, or the <a ext:cls="Ext.data.JsonStore" ext:member="url" href="output/Ext.data.JsonStore.html#url">url</a> option must be specified.                        </div>
+        </td>
+        <td class="msource">JsonStore</td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-fields"></a>
+            <b>fields</b> : Array            <div class="mdesc">
+                        <div class="short">Either an Array of field definition objects as passed to Ext.data.Record.create, or a Record constructor created usin...</div>
+            <div class="long">
+                Either an Array of field definition objects as passed to <a ext:cls="Ext.data.Record" ext:member="create" href="output/Ext.data.Record.html#create">Ext.data.Record.create</a>, or a <a ext:cls="Ext.data.Record" href="output/Ext.data.Record.html">Record</a> constructor created using <a ext:cls="Ext.data.Record" ext:member="create" href="output/Ext.data.Record.html#create">Ext.data.Record.create</a>.            </div>
+                        </div>
+        </td>
+        <td class="msource">JsonStore</td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-listeners"></a>
+            <b>listeners</b> : Object            <div class="mdesc">
+                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+            <div class="long">
+                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-pruneModifiedRecords"></a>
+            <b>pruneModifiedRecords</b> : boolean            <div class="mdesc">
+                        <div class="short">True to clear all modified record information each time the store is loaded or when a record is removed. (defaults to...</div>
+            <div class="long">
+                True to clear all modified record information each time the store is loaded or when a record is removed. (defaults to false).            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#pruneModifiedRecords" href="output/Ext.data.Store.html#pruneModifiedRecords">Store</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-remoteSort"></a>
+            <b>remoteSort</b> : boolean            <div class="mdesc">
+                        <div class="short">True if sorting is to be handled by requesting the Proxy to provide a refreshed version of the data object in sorted ...</div>
+            <div class="long">
+                True if sorting is to be handled by requesting the Proxy to provide a refreshed version of the data object in sorted order, as opposed to sorting the Record cache in place (defaults to false). <p>If remote sorting is specified, then clicking on a column header causes the current page to be requested from the server with the addition of the following two parameters: <div class="mdetail-params"><ul> <li><b>sort</b> : String<p class="sub-desc">The name (as specified in the Record's Field definition) of the field to sort on.</p></li> <li><b>dir</b> : String<p class="sub-desc">The direction of the sort, "ASC" or "DESC" (case-sensitive).</p></li> </ul></div></p>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#remoteSort" href="output/Ext.data.Store.html#remoteSort">Store</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-sortInfo"></a>
+            <b>sortInfo</b> : Object            <div class="mdesc">
+                            A config object in the format: {field: "fieldName", direction: "ASC|DESC"}. The direction property is case-sensitive.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sortInfo" href="output/Ext.data.Store.html#sortInfo">Store</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-storeId"></a>
+            <b>storeId</b> : String            <div class="mdesc">
+                            If passed, the id to use to register with the StoreMgr                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#storeId" href="output/Ext.data.Store.html#storeId">Store</a></td>
+    </tr>
+        <tr class="config-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-url"></a>
+            <b>url</b> : String            <div class="mdesc">
+                            The URL from which to load data through an HttpProxy. Either this option, or the <a ext:cls="Ext.data.JsonStore" ext:member="data" href="output/Ext.data.JsonStore.html#data">data</a> option must be specified.                        </div>
+        </td>
+        <td class="msource">JsonStore</td>
+    </tr>
+            </table>
+                <a id="Ext.data.JsonStore-props"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="property-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-baseParams"></a>
+            <b>baseParams</b> : Object            <div class="mdesc">
+                        <div class="short">An object containing properties which are used as parameters on any HTTP request.
+This property can be changed after ...</div>
+            <div class="long">
+                An object containing properties which are used as parameters on any HTTP request.
+This property can be changed after creating the Store to send different parameters.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#baseParams" href="output/Ext.data.Store.html#baseParams">Store</a></td>
+    </tr>
+        <tr class="property-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-lastOptions"></a>
+            <b>lastOptions</b> : Object            <div class="mdesc">
+                        <div class="short">Contains the last options object used as the parameter to the load method. See load
+for the details of what this may ...</div>
+            <div class="long">
+                Contains the last options object used as the parameter to the load method. See <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a>
+for the details of what this may contain. This may be useful for accessing any params which
+were used to load the current Record cache.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#lastOptions" href="output/Ext.data.Store.html#lastOptions">Store</a></td>
+    </tr>
+            </table>
+                <a id="Ext.data.JsonStore-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-JsonStore"></a>
+            <b>JsonStore</b>(&nbsp;<code>Object config</code>&nbsp;)            <div class="mdesc">
+                        <div class="short"></div>
+            <div class="long">
+                    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>config</code> : Object<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code></code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">JsonStore</td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-add"></a>
+            <b>add</b>(&nbsp;<code>Ext.data.Record[] records</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Add Records to the Store and fires the <a ext:cls="Ext.data.Store" ext:member="add" href="output/Ext.data.Store.html#add">add</a> event.</div>
+            <div class="long">
+                Add Records to the Store and fires the <a ext:cls="Ext.data.Store" ext:member="add" href="output/Ext.data.Store.html#add">add</a> event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">An Array of Ext.data.Record objects to add to the cache.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#add" href="output/Ext.data.Store.html#add">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-addEvents"></a>
+            <b>addEvents</b>(&nbsp;<code>Object object</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Used to define events on this Observable</div>
+            <div class="long">
+                Used to define events on this Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="output/Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-addListener"></a>
+            <b>addListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Appends an event handler to this component</div>
+            <div class="long">
+                Appends an event handler to this component    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
+<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
+<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+    single: true,
+    delay: 100,
+    forumId: 4
+});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<p>
+<pre><code>foo.on({
+    <em>'click'</em> : {
+        fn: <b>this</b>.onClick,
+        scope: <b>this</b>,
+        delay: 100
+    },
+    <em>'mouseover'</em> : {
+        fn: <b>this</b>.onMouseOver,
+        scope: <b>this</b>
+    },
+    <em>'mouseout'</em> : {
+        fn: <b>this</b>.onMouseOut,
+        scope: <b>this</b>
+    }
+});</code></pre>
+<p>
+Or a shorthand syntax:<br>
+<pre><code>foo.on({
+    <em>'click'</em> : <b>this</b>.onClick,
+    <em>'mouseover'</em> : <b>this</b>.onMouseOver,
+    <em>'mouseout'</em> : <b>this</b>.onMouseOut,
+     scope: <b>this</b>
+});</code></pre></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="output/Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-addSorted"></a>
+            <b>addSorted</b>(&nbsp;<code>Ext.data.Record record</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">(Local sort only) Inserts the passed Record into the Store at the index where it
+should go based on the current sort ...</div>
+            <div class="long">
+                (Local sort only) Inserts the passed Record into the Store at the index where it
+should go based on the current sort information.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#addSorted" href="output/Ext.data.Store.html#addSorted">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-clearFilter"></a>
+            <b>clearFilter</b>(&nbsp;<code>Boolean suppressEvent</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Revert to a view of the Record cache with no filtering applied.</div>
+            <div class="long">
+                Revert to a view of the Record cache with no filtering applied.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>suppressEvent</code> : Boolean<div class="sub-desc">If true the filter is cleared silently without notifying listeners</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#clearFilter" href="output/Ext.data.Store.html#clearFilter">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-collect"></a>
+            <b>collect</b>(&nbsp;<code>String dataIndex</code>, <span class="optional" title="Optional">[<code>Boolean allowNull</code>]</span>, <span class="optional" title="Optional">[<code>Boolean bypassFilter</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Collects unique values for a particular dataIndex from this store.</div>
+            <div class="long">
+                Collects unique values for a particular dataIndex from this store.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>dataIndex</code> : String<div class="sub-desc">The property to collect</div></li><li><code>allowNull</code> : Boolean<div class="sub-desc">(optional) Pass true to allow null, undefined or empty string values</div></li><li><code>bypassFilter</code> : Boolean<div class="sub-desc">(optional) Pass true to collect from all records, even ones which are filtered</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">An array of the unique values</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#collect" href="output/Ext.data.Store.html#collect">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-commitChanges"></a>
+            <b>commitChanges</b>() : void            <div class="mdesc">
+                        <div class="short">Commit all Records with outstanding changes. To handle updates for changes, subscribe to the
+Store's "update" event, ...</div>
+            <div class="long">
+                Commit all Records with outstanding changes. To handle updates for changes, subscribe to the
+Store's "update" event, and perform updating when the third parameter is Ext.data.Record.COMMIT.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#commitChanges" href="output/Ext.data.Store.html#commitChanges">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-each"></a>
+            <b>each</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Calls the specified function for each of the Records in the cache.</div>
+            <div class="long">
+                Calls the specified function for each of the Records in the cache.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call. The Record is passed as the first parameter.
+Returning <tt>false</tt> aborts and exits the iteration.</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to call the function (defaults to the Record).</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#each" href="output/Ext.data.Store.html#each">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-filter"></a>
+            <b>filter</b>(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <span class="optional" title="Optional">[<code>Boolean anyMatch</code>]</span>, <span class="optional" title="Optional">[<code>Boolean caseSensitive</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Filter the records by a specified property.</div>
+            <div class="long">
+                Filter the records by a specified property.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>field</code> : String<div class="sub-desc">A field on your records</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either a string that the field
+should begin with, or a RegExp to test against the field.</div></li><li><code>anyMatch</code> : Boolean<div class="sub-desc">(optional) True to match any part not just the beginning</div></li><li><code>caseSensitive</code> : Boolean<div class="sub-desc">(optional) True for case sensitive comparison</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#filter" href="output/Ext.data.Store.html#filter">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-filterBy"></a>
+            <b>filterBy</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Filter by a function. The specified function will be called for each
+Record in this Store. If the function returns tr...</div>
+            <div class="long">
+                Filter by a function. The specified function will be called for each
+Record in this Store. If the function returns <tt>true</tt> the Record is included,
+otherwise it is filtered out.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to be called. It will be passed the following parameters:<ul>
+<li><b>record</b> : Ext.data.Record<p class="sub-desc">The <a ext:cls="Ext.data.Record" href="output/Ext.data.Record.html">record</a>
+to test for filtering. Access field values using <a ext:cls="Ext.data.Record" ext:member="get" href="output/Ext.data.Record.html#get">Ext.data.Record.get</a>.</p></li>
+<li><b>id</b> : Object<p class="sub-desc">The ID of the Record passed.</p></li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#filterBy" href="output/Ext.data.Store.html#filterBy">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-find"></a>
+            <b>find</b>(&nbsp;<code>String property</code>, <code>String/RegExp value</code>, <span class="optional" title="Optional">[<code>Number startIndex</code>]</span>, <span class="optional" title="Optional">[<code>Boolean anyMatch</code>]</span>, <span class="optional" title="Optional">[<code>Boolean caseSensitive</code>]</span>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Finds the index of the first matching record in this store by a specific property/value.</div>
+            <div class="long">
+                Finds the index of the first matching record in this store by a specific property/value.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>property</code> : String<div class="sub-desc">A property on your objects</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either a string that the property value
+should begin with, or a RegExp to test against the property.</div></li><li><code>startIndex</code> : Number<div class="sub-desc">(optional) The index to start searching at</div></li><li><code>anyMatch</code> : Boolean<div class="sub-desc">(optional) True to match any part of the string, not just the beginning</div></li><li><code>caseSensitive</code> : Boolean<div class="sub-desc">(optional) True for case sensitive comparison</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The matched index or -1</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#find" href="output/Ext.data.Store.html#find">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-findBy"></a>
+            <b>findBy</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Number startIndex</code>]</span>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Find the index of the first matching Record in this Store by a function.
+If the function returns true it is considere...</div>
+            <div class="long">
+                Find the index of the first matching Record in this Store by a function.
+If the function returns <tt>true</tt> it is considered a match.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to be called. It will be passed the following parameters:<ul>
+<li><b>record</b> : Ext.data.Record<p class="sub-desc">The <a ext:cls="Ext.data.Record" href="output/Ext.data.Record.html">record</a>
+to test for filtering. Access field values using <a ext:cls="Ext.data.Record" ext:member="get" href="output/Ext.data.Record.html#get">Ext.data.Record.get</a>.</p></li>
+<li><b>id</b> : Object<p class="sub-desc">The ID of the Record passed.</p></li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this)</div></li><li><code>startIndex</code> : Number<div class="sub-desc">(optional) The index to start searching at</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The matched index or -1</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#findBy" href="output/Ext.data.Store.html#findBy">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-fireEvent"></a>
+            <b>fireEvent</b>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Fires the specified event with the passed parameters (minus the event name).</div>
+            <div class="long">
+                Fires the specified event with the passed parameters (minus the event name).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="output/Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getAt"></a>
+            <b>getAt</b>(&nbsp;<code>Number index</code>&nbsp;) : Ext.data.Record            <div class="mdesc">
+                        <div class="short">Get the Record at the specified index.</div>
+            <div class="long">
+                Get the Record at the specified index.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>index</code> : Number<div class="sub-desc">The index of the Record to find.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.data.Record</code><div class="sub-desc">The Record at the passed index. Returns undefined if not found.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getAt" href="output/Ext.data.Store.html#getAt">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getById"></a>
+            <b>getById</b>(&nbsp;<code>String id</code>&nbsp;) : Ext.data.Record            <div class="mdesc">
+                        <div class="short">Get the Record with the specified id.</div>
+            <div class="long">
+                Get the Record with the specified id.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>id</code> : String<div class="sub-desc">The id of the Record to find.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.data.Record</code><div class="sub-desc">The Record with the passed id. Returns undefined if not found.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getById" href="output/Ext.data.Store.html#getById">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getCount"></a>
+            <b>getCount</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the number of cached records.
+If using paging, this may not be the total size of the dataset. If the data object...</div>
+            <div class="long">
+                Gets the number of cached records.
+<p>If using paging, this may not be the total size of the dataset. If the data object
+used by the Reader contains the dataset size, then the <a ext:cls="Ext.data.Store" ext:member="getTotalCount" href="output/Ext.data.Store.html#getTotalCount">getTotalCount</a> function returns
+the dataset size.</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The number of Records in the Store's cache.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getCount" href="output/Ext.data.Store.html#getCount">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getModifiedRecords"></a>
+            <b>getModifiedRecords</b>() : Ext.data.Record[]            <div class="mdesc">
+                        <div class="short">Gets all records modified since the last commit.  Modified records are persisted across load operations
+(e.g., during...</div>
+            <div class="long">
+                Gets all records modified since the last commit.  Modified records are persisted across load operations
+(e.g., during paging).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.data.Record[]</code><div class="sub-desc">An array of Records containing outstanding modifications.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getModifiedRecords" href="output/Ext.data.Store.html#getModifiedRecords">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getRange"></a>
+            <b>getRange</b>(&nbsp;<span class="optional" title="Optional">[<code>Number startIndex</code>]</span>, <span class="optional" title="Optional">[<code>Number endIndex</code>]</span>&nbsp;) : Ext.data.Record[]            <div class="mdesc">
+                        <div class="short">Returns a range of Records between specified indices.</div>
+            <div class="long">
+                Returns a range of Records between specified indices.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>startIndex</code> : Number<div class="sub-desc">(optional) The starting index (defaults to 0)</div></li><li><code>endIndex</code> : Number<div class="sub-desc">(optional) The ending index (defaults to the last Record in the Store)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.data.Record[]</code><div class="sub-desc">An array of Records</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getRange" href="output/Ext.data.Store.html#getRange">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getSortState"></a>
+            <b>getSortState</b>() : Object            <div class="mdesc">
+                        <div class="short">Returns an object describing the current sort state of this Store.</div>
+            <div class="long">
+                Returns an object describing the current sort state of this Store.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">The sort state of the Store. An object with two properties:<ul> <li><b>field : String<p class="sub-desc">The name of the field by which the Records are sorted.</p></li> <li><b>direction : String<p class="sub-desc">The sort order, "ASC" or "DESC" (case-sensitive).</p></li> </ul></div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getSortState" href="output/Ext.data.Store.html#getSortState">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-getTotalCount"></a>
+            <b>getTotalCount</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the total number of records in the dataset as returned by the server.
+If using paging, for this to be accurate, ...</div>
+            <div class="long">
+                Gets the total number of records in the dataset as returned by the server.
+<p>If using paging, for this to be accurate, the data object used by the Reader must contain
+the dataset size. For remote data sources, this is provided by a query on the server.</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The number of Records as specified in the data object passed to the Reader by the Proxy <p><b>This value is not updated when changing the contents of the Store locally.</b></p></div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#getTotalCount" href="output/Ext.data.Store.html#getTotalCount">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-hasListener"></a>
+            <b>hasListener</b>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Checks to see if this object has any listeners for a specified event</div>
+            <div class="long">
+                Checks to see if this object has any listeners for a specified event    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="output/Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-indexOf"></a>
+            <b>indexOf</b>(&nbsp;<code>Ext.data.Record record</code>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Get the index within the cache of the passed Record.</div>
+            <div class="long">
+                Get the index within the cache of the passed Record.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Ext.data.Record object to find.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The index of the passed Record. Returns -1 if not found.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#indexOf" href="output/Ext.data.Store.html#indexOf">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-indexOfId"></a>
+            <b>indexOfId</b>(&nbsp;<code>String id</code>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Get the index within the cache of the Record with the passed id.</div>
+            <div class="long">
+                Get the index within the cache of the Record with the passed id.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>id</code> : String<div class="sub-desc">The id of the Record to find.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The index of the Record. Returns -1 if not found.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#indexOfId" href="output/Ext.data.Store.html#indexOfId">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-insert"></a>
+            <b>insert</b>(&nbsp;<code>Number index</code>, <code>Ext.data.Record[] records</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Inserts Records into the Store at the given index and fires the <a ext:cls="Ext.data.Store" ext:member="add" href="output/Ext.data.Store.html#add">add</a> event.</div>
+            <div class="long">
+                Inserts Records into the Store at the given index and fires the <a ext:cls="Ext.data.Store" ext:member="add" href="output/Ext.data.Store.html#add">add</a> event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>index</code> : Number<div class="sub-desc">The start index at which to insert the passed Records.</div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">An Array of Ext.data.Record objects to add to the cache.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#insert" href="output/Ext.data.Store.html#insert">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-isFiltered"></a>
+            <b>isFiltered</b>() : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if this store is currently filtered</div>
+            <div class="long">
+                Returns true if this store is currently filtered    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#isFiltered" href="output/Ext.data.Store.html#isFiltered">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-load"></a>
+            <b>load</b>(&nbsp;<code>Object options</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Loads the Record cache from the configured Proxy using the configured Reader.
+If using remote paging, then the first ...</div>
+            <div class="long">
+                Loads the Record cache from the configured Proxy using the configured Reader.
+<p>If using remote paging, then the first load call must specify the <tt>start</tt>
+and <tt>limit</tt> properties in the options.params property to establish the initial
+position within the dataset, and the number of Records to cache on each read from the Proxy.</p>
+<p><b>It is important to note that for remote data sources, loading is asynchronous,
+and this call will return before the new data has been loaded. Perform any post-processing
+in a callback function, or in a "load" event handler.</b></p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>options</code> : Object<div class="sub-desc">An object containing properties which control loading options:<ul>
+<li><b>params</b> :Object<p class="sub-desc">An object containing properties to pass as HTTP parameters to a remote data source.</p></li>
+<li><b>callback</b> : Function<p class="sub-desc">A function to be called after the Records have been loaded. The callback is
+passed the following arguments:<ul>
+<li>r : Ext.data.Record[]</li>
+<li>options: Options object from the load call</li>
+<li>success: Boolean success indicator</li></ul></p></li>
+<li><b>scope</b> : Object<p class="sub-desc">Scope with which to call the callback (defaults to the Store object)</p></li>
+<li><b>add</b> : Boolean<p class="sub-desc">Indicator to append loaded records rather than replace the current cache.</p></li>
+</ul></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code><div class="sub-desc">Whether the load fired (if beforeload failed).</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#load" href="output/Ext.data.Store.html#load">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-loadData"></a>
+            <b>loadData</b>(&nbsp;<code>Object data</code>, <span class="optional" title="Optional">[<code>Boolean append</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Loads data from a passed data block and fires the load event. A Reader which understands the format of the data
+must ...</div>
+            <div class="long">
+                Loads data from a passed data block and fires the <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> event. A Reader which understands the format of the data
+must have been configured in the constructor.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>data</code> : Object<div class="sub-desc">The data block from which to read the Records. The format of the data expected
+is dependent on the type of Reader that is configured and should correspond to that Reader's readRecords parameter.</div></li><li><code>append</code> : Boolean<div class="sub-desc">(Optional) True to append the new Records rather than replace the existing cache.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#loadData" href="output/Ext.data.Store.html#loadData">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-on"></a>
+            <b>on</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Appends an event handler to this element (shorthand for addListener)</div>
+            <div class="long">
+                Appends an event handler to this element (shorthand for addListener)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#on" href="output/Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-purgeListeners"></a>
+            <b>purgeListeners</b>() : void            <div class="mdesc">
+                        <div class="short">Removes all listeners for this object</div>
+            <div class="long">
+                Removes all listeners for this object    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-query"></a>
+            <b>query</b>(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <span class="optional" title="Optional">[<code>Boolean anyMatch</code>]</span>, <span class="optional" title="Optional">[<code>Boolean caseSensitive</code>]</span>&nbsp;) : MixedCollection            <div class="mdesc">
+                        <div class="short">Query the records by a specified property.</div>
+            <div class="long">
+                Query the records by a specified property.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>field</code> : String<div class="sub-desc">A field on your records</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either a string that the field
+should begin with, or a RegExp to test against the field.</div></li><li><code>anyMatch</code> : Boolean<div class="sub-desc">(optional) True to match any part not just the beginning</div></li><li><code>caseSensitive</code> : Boolean<div class="sub-desc">(optional) True for case sensitive comparison</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>MixedCollection</code><div class="sub-desc">Returns an Ext.util.MixedCollection of the matched records</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#query" href="output/Ext.data.Store.html#query">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-queryBy"></a>
+            <b>queryBy</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : MixedCollection            <div class="mdesc">
+                        <div class="short">Query the cached records in this Store using a filtering function. The specified function
+will be called with each re...</div>
+            <div class="long">
+                Query the cached records in this Store using a filtering function. The specified function
+will be called with each record in this Store. If the function returns <tt>true</tt> the record is
+included in the results.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to be called. It will be passed the following parameters:<ul>
+<li><b>record</b> : Ext.data.Record<p class="sub-desc">The <a ext:cls="Ext.data.Record" href="output/Ext.data.Record.html">record</a>
+to test for filtering. Access field values using <a ext:cls="Ext.data.Record" ext:member="get" href="output/Ext.data.Record.html#get">Ext.data.Record.get</a>.</p></li>
+<li><b>id</b> : Object<p class="sub-desc">The ID of the Record passed.</p></li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>MixedCollection</code><div class="sub-desc">Returns an Ext.util.MixedCollection of the matched records</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#queryBy" href="output/Ext.data.Store.html#queryBy">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-rejectChanges"></a>
+            <b>rejectChanges</b>() : void            <div class="mdesc">
+                        <div class="short">Cancel outstanding changes on all changed records.</div>
+            <div class="long">
+                Cancel outstanding changes on all changed records.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#rejectChanges" href="output/Ext.data.Store.html#rejectChanges">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from the specified Observable as if the events were fired by <tt><b>this</b></tt>.</div>
+            <div class="long">
+                Relays selected events from the specified Observable as if the events were fired by <tt><b>this</b></tt>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable whose events this object is to relay.</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-reload"></a>
+            <b>reload</b>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Reloads the Record cache from the configured Proxy using the configured Reader and
+the options from the last load ope...</div>
+            <div class="long">
+                Reloads the Record cache from the configured Proxy using the configured Reader and
+the options from the last load operation performed.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing properties which may override the options
+used in the last load operation. See <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> for details (defaults to null, in which case
+the most recently used options are reused).</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#reload" href="output/Ext.data.Store.html#reload">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-remove"></a>
+            <b>remove</b>(&nbsp;<code>Ext.data.Record record</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Remove a Record from the Store and fires the <a ext:cls="Ext.data.Store" ext:member="remove" href="output/Ext.data.Store.html#remove">remove</a> event.</div>
+            <div class="long">
+                Remove a Record from the Store and fires the <a ext:cls="Ext.data.Store" ext:member="remove" href="output/Ext.data.Store.html#remove">remove</a> event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">Th Ext.data.Record object to remove from the cache.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#remove" href="output/Ext.data.Store.html#remove">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-removeAll"></a>
+            <b>removeAll</b>() : void            <div class="mdesc">
+                        <div class="short">Remove all Records from the Store and fires the <a ext:cls="Ext.data.Store" ext:member="clear" href="output/Ext.data.Store.html#clear">clear</a> event.</div>
+            <div class="long">
+                Remove all Records from the Store and fires the <a ext:cls="Ext.data.Store" ext:member="clear" href="output/Ext.data.Store.html#clear">clear</a> event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#removeAll" href="output/Ext.data.Store.html#removeAll">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-removeListener"></a>
+            <b>removeListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a listener</div>
+            <div class="long">
+                Removes a listener    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-resumeEvents"></a>
+            <b>resumeEvents</b>() : void            <div class="mdesc">
+                        <div class="short">Resume firing events. (see <a ext:cls="Ext.util.Observable" ext:member="suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">suspendEvents</a>)</div>
+            <div class="long">
+                Resume firing events. (see <a ext:cls="Ext.util.Observable" ext:member="suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">suspendEvents</a>)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-setDefaultSort"></a>
+            <b>setDefaultSort</b>(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the default sort column and order to be used by the next load operation.</div>
+            <div class="long">
+                Sets the default sort column and order to be used by the next load operation.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fieldName</code> : String<div class="sub-desc">The name of the field to sort by.</div></li><li><code>dir</code> : String<div class="sub-desc">(optional) The sort order, "ASC" or "DESC" (case-sensitive, defaults to "ASC")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#setDefaultSort" href="output/Ext.data.Store.html#setDefaultSort">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-sort"></a>
+            <b>sort</b>(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sort the Records.
+If remote sorting is used, the sort is performed on the server, and the cache is
+reloaded. If local...</div>
+            <div class="long">
+                Sort the Records.
+If remote sorting is used, the sort is performed on the server, and the cache is
+reloaded. If local sorting is used, the cache is sorted internally.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fieldName</code> : String<div class="sub-desc">The name of the field to sort by.</div></li><li><code>dir</code> : String<div class="sub-desc">(optional) The sort order, "ASC" or "DESC" (case-sensitive, defaults to "ASC")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sort" href="output/Ext.data.Store.html#sort">Store</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-sum"></a>
+            <b>sum</b>(&nbsp;<code>String property</code>, <code>Number start</code>, <code>Number end</code>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Sums the value of <i>property</i> for each record between start and end and returns the result.</div>
+            <div class="long">
+                Sums the value of <i>property</i> for each record between start and end and returns the result.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>property</code> : String<div class="sub-desc">A field on your records</div></li><li><code>start</code> : Number<div class="sub-desc">The record index to start at (defaults to 0)</div></li><li><code>end</code> : Number<div class="sub-desc">The last record index to include (defaults to length - 1)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The sum</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sum" href="output/Ext.data.Store.html#sum">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-suspendEvents"></a>
+            <b>suspendEvents</b>() : void            <div class="mdesc">
+                        <div class="short">Suspend the firing of all events. (see <a ext:cls="Ext.util.Observable" ext:member="resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">resumeEvents</a>)</div>
+            <div class="long">
+                Suspend the firing of all events. (see <a ext:cls="Ext.util.Observable" ext:member="resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">resumeEvents</a>)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-un"></a>
+            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a listener (shorthand for removeListener)</div>
+            <div class="long">
+                Removes a listener (shorthand for removeListener)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#un" href="output/Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+            </table>
+                <a id="Ext.data.JsonStore-events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-add"></a>
+            <b>add</b> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record[] records</code>, <code>Number index</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when Records have been added to the Store</div>
+            <div class="long">
+                Fires when Records have been added to the Store    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">The array of Records added</div></li><li><code>index</code> : Number<div class="sub-desc">The index at which the record(s) were added</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-add" href="output/Ext.data.Store.html#event-add">Store</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-beforeload"></a>
+            <b>beforeload</b> : (&nbsp;<code>Store this</code>, <code>Object options</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires before a request is made for a new data object.  If the beforeload handler returns false
+the load action will b...</div>
+            <div class="long">
+                Fires before a request is made for a new data object.  If the beforeload handler returns false
+the load action will be canceled.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>options</code> : Object<div class="sub-desc">The loading options that were specified (see <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> for details)</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-beforeload" href="output/Ext.data.Store.html#event-beforeload">Store</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-clear"></a>
+            <b>clear</b> : (&nbsp;<code>Store this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the data cache has been cleared.</div>
+            <div class="long">
+                Fires when the data cache has been cleared.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-clear" href="output/Ext.data.Store.html#event-clear">Store</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-datachanged"></a>
+            <b>datachanged</b> : (&nbsp;<code>Store this</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the data cache has changed, and a widget which is using this Store
+as a Record cache should refresh its view.</div>
+            <div class="long">
+                Fires when the data cache has changed, and a widget which is using this Store
+as a Record cache should refresh its view.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-datachanged" href="output/Ext.data.Store.html#event-datachanged">Store</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-load"></a>
+            <b>load</b> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record[] records</code>, <code>Object options</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires after a new set of Records has been loaded.</div>
+            <div class="long">
+                Fires after a new set of Records has been loaded.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">The Records that were loaded</div></li><li><code>options</code> : Object<div class="sub-desc">The loading options that were specified (see <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> for details)</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-load" href="output/Ext.data.Store.html#event-load">Store</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-loadexception"></a>
+            <b>loadexception</b> : ()            <div class="mdesc">
+                        <div class="short">Fires if an exception occurs in the Proxy during loading.
+Called with the signature of the Proxy's "loadexception" ev...</div>
+            <div class="long">
+                Fires if an exception occurs in the Proxy during loading.
+Called with the signature of the Proxy's "loadexception" event.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li>None.</li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-loadexception" href="output/Ext.data.Store.html#event-loadexception">Store</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-metachange"></a>
+            <b>metachange</b> : (&nbsp;<code>Store this</code>, <code>Object meta</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when this store's reader provides new metadata (fields). This is currently only supported for JsonReaders.</div>
+            <div class="long">
+                Fires when this store's reader provides new metadata (fields). This is currently only supported for JsonReaders.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>meta</code> : Object<div class="sub-desc">The JSON metadata</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-metachange" href="output/Ext.data.Store.html#event-metachange">Store</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-remove"></a>
+            <b>remove</b> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record record</code>, <code>Number index</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a Record has been removed from the Store</div>
+            <div class="long">
+                Fires when a Record has been removed from the Store    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Record that was removed</div></li><li><code>index</code> : Number<div class="sub-desc">The index at which the record was removed</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-remove" href="output/Ext.data.Store.html#event-remove">Store</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.JsonStore-update"></a>
+            <b>update</b> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record record</code>, <code>String operation</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a Record has been updated</div>
+            <div class="long">
+                Fires when a Record has been updated    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Record that was updated</div></li><li><code>operation</code> : String<div class="sub-desc">The update operation being performed. Value may be one of:
+<pre><code>Ext.data.Record.EDIT
+ Ext.data.Record.REJECT
+ Ext.data.Record.COMMIT</code></pre></div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#event-update" href="output/Ext.data.Store.html#event-update">Store</a></td>
+    </tr>
+            </table>
+        
+        </div>

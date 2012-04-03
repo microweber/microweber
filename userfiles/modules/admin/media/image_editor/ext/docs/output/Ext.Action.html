@@ -1,0 +1,454 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext.Action-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext.Action-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext.Action-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                            <a class="inner-link" href="#Ext.Action-configs"><img src="../resources/images/default/s.gif" class="item-icon icon-config">Config Options</a>
+                        <a class="bookmark" href="../docs/?class=Ext.Action"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <h1>Class Ext.Action</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">Action.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">Action</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
+                    </table>
+        <div class="description">
+            <p>An Action is a piece of reusable functionality that can be abstracted out of any particular component so that it
+can be usefully shared among multiple components.  Actions let you share handlers, configuration options and UI
+updates across any components that support the Action interface (primarily <a ext:cls="Ext.Toolbar" href="output/Ext.Toolbar.html">Ext.Toolbar</a>, <a ext:cls="Ext.Button" href="output/Ext.Button.html">Ext.Button</a>
+and <a ext:cls="Ext.menu.Menu" href="output/Ext.menu.Menu.html">Ext.menu.Menu</a> components).</p>
+<p>Aside from supporting the config object interface, any component that needs to use Actions must also support
+the following method list, as these will be called as needed by the Action class: setText(string), setIconCls(string),
+setDisabled(boolean), setVisible(boolean) and setHandler(function).</p>
+Example usage:<br>
+<pre><code><i>// Define the shared action.  Each component below will have the same</i>
+<i>// display text and icon, and will display the same message on click.</i>
+<b>var</b> action = <b>new</b> Ext.Action({
+    text: <em>'Do something'</em>,
+    handler: <b>function</b>(){
+        Ext.Msg.alert(<em>'Click'</em>, <em>'You did something.'</em>);
+    },
+    iconCls: <em>'<b>do</b>-something'</em>
+});
+
+<b>var</b> panel = <b>new</b> Ext.Panel({
+    title: <em>'Actions'</em>,
+    width:500,
+    height:300,
+    tbar: [
+        <i>// Add the action directly to a toolbar as a menu button</i>
+        action, {
+            text: <em>'Action Menu'</em>,
+            <i>// Add the action to a menu as a text item</i>
+            menu: [action]
+        }
+    ],
+    items: [
+        <i>// Add the action to the panel body as a standard button</i>
+        <b>new</b> Ext.Button(action)
+    ],
+    renderTo: Ext.getBody()
+});
+
+<i>// Change the text <b>for</b> all components using the action</i>
+action.setText(<em>'Something <b>else</b>'</em>);</code></pre>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext.Action-configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-disabled"></a>
+            <b>disabled</b> : Boolean            <div class="mdesc">
+                            True to disable all components using this action, false to enable them (defaults to false).                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-handler"></a>
+            <b>handler</b> : Function            <div class="mdesc">
+                        <div class="short">The function that will be invoked by each component tied to this action when the component's primary event is trigger...</div>
+            <div class="long">
+                The function that will be invoked by each component tied to this action when the component's primary event is triggered (defaults to undefined).            </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-hidden"></a>
+            <b>hidden</b> : Boolean            <div class="mdesc">
+                            True to hide all components using this action, false to show them (defaults to false).                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-iconCls"></a>
+            <b>iconCls</b> : String            <div class="mdesc">
+                        <div class="short">The icon CSS class for all components using this action (defaults to ''). The class should supply a background image ...</div>
+            <div class="long">
+                The icon CSS class for all components using this action (defaults to ''). The class should supply a background image that will be used as the icon image.            </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-scope"></a>
+            <b>scope</b> : Object            <div class="mdesc">
+                            The scope in which the <a ext:cls="Ext.Action" ext:member="handler" href="output/Ext.Action.html#handler">handler</a> function will execute.                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="config-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-text"></a>
+            <b>text</b> : String            <div class="mdesc">
+                            The text to set for all components using this action (defaults to '').                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+            </table>
+                <a id="Ext.Action-props"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-isDisabled"></a>
+            <b>isDisabled</b> : Object            <div class="mdesc">
+                            Returns true if the components using this action are currently disabled, else returns false.  Read-only.                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-isHidden"></a>
+            <b>isHidden</b> : Object            <div class="mdesc">
+                            Returns true if the components using this action are currently hidden, else returns false.  Read-only.                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+            </table>
+                <a id="Ext.Action-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-Action"></a>
+            <b>Action</b>(&nbsp;<code>Object config</code>&nbsp;)            <div class="mdesc">
+                        <div class="short"></div>
+            <div class="long">
+                    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>config</code> : Object<div class="sub-desc">The configuration options</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code></code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-disable"></a>
+            <b>disable</b>() : void            <div class="mdesc">
+                        <div class="short">Disables all components using this action.</div>
+            <div class="long">
+                Disables all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-each"></a>
+            <b>each</b>(&nbsp;<code>Function fn</code>, <code>Object scope</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Executes the specified function once for each component currently tied to this action.  The function passed
+in should...</div>
+            <div class="long">
+                Executes the specified function once for each component currently tied to this action.  The function passed
+in should accept a single argument that will be an object that supports the basic Action config/method interface.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function to execute for each component</div></li><li><code>scope</code> : Object<div class="sub-desc">The scope in which the function will execute</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-enable"></a>
+            <b>enable</b>() : void            <div class="mdesc">
+                        <div class="short">Enables all components using this action.</div>
+            <div class="long">
+                Enables all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-execute"></a>
+            <b>execute</b>(&nbsp;<span class="optional" title="Optional">[<code>Mixed arg1</code>]</span>, <span class="optional" title="Optional">[<code>Mixed arg2</code>]</span>, <span class="optional" title="Optional">[<code>Mixed etc...</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Executes this action manually using the default handler specified in the original config object.  Any arguments
+passe...</div>
+            <div class="long">
+                Executes this action manually using the default handler specified in the original config object.  Any arguments
+passed to this function will be passed on to the handler function.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>arg1</code> : Mixed<div class="sub-desc">(optional) Variable number of arguments passed to the handler function</div></li><li><code>arg2</code> : Mixed<div class="sub-desc">(optional)</div></li><li><code>etc...</code> : Mixed<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-getIconClass"></a>
+            <b>getIconClass</b>() : void            <div class="mdesc">
+                        <div class="short">Gets the icon CSS class currently used by all components using this action.</div>
+            <div class="long">
+                Gets the icon CSS class currently used by all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-getText"></a>
+            <b>getText</b>() : void            <div class="mdesc">
+                        <div class="short">Gets the text currently displayed by all components using this action.</div>
+            <div class="long">
+                Gets the text currently displayed by all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-hide"></a>
+            <b>hide</b>() : void            <div class="mdesc">
+                        <div class="short">Hides all components using this action.</div>
+            <div class="long">
+                Hides all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-setDisabled"></a>
+            <b>setDisabled</b>(&nbsp;<code>Boolean disabled</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the disabled state of all components using this action.  Shortcut method
+for <a ext:cls="Ext.Action" ext:member="enable" href="output/Ext.Action.html#enable">enable</a> and <a ext:cls="Ext.Action" ext:member="disable" href="output/Ext.Action.html#disable">disable</a>.</div>
+            <div class="long">
+                Sets the disabled state of all components using this action.  Shortcut method
+for <a ext:cls="Ext.Action" ext:member="enable" href="output/Ext.Action.html#enable">enable</a> and <a ext:cls="Ext.Action" ext:member="disable" href="output/Ext.Action.html#disable">disable</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>disabled</code> : Boolean<div class="sub-desc">True to disable the component, false to enable it</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-setHandler"></a>
+            <b>setHandler</b>(&nbsp;<code>Function fn</code>, <code>Object scope</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the function that will be called by each component using this action when its primary event is triggered.</div>
+            <div class="long">
+                Sets the function that will be called by each component using this action when its primary event is triggered.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The function that will be invoked by the action's components. The function
+will be called with no arguments.</div></li><li><code>scope</code> : Object<div class="sub-desc">The scope in which the function will execute</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-setHidden"></a>
+            <b>setHidden</b>(&nbsp;<code>Boolean hidden</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the hidden state of all components using this action.  Shortcut method
+for <a ext:cls="Ext.Action" ext:member="hide" href="output/Ext.Action.html#hide">hide</a> and <a ext:cls="Ext.Action" ext:member="show" href="output/Ext.Action.html#show">show</a>.</div>
+            <div class="long">
+                Sets the hidden state of all components using this action.  Shortcut method
+for <a ext:cls="Ext.Action" ext:member="hide" href="output/Ext.Action.html#hide">hide</a> and <a ext:cls="Ext.Action" ext:member="show" href="output/Ext.Action.html#show">show</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>hidden</code> : Boolean<div class="sub-desc">True to hide the component, false to show it</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-setIconClass"></a>
+            <b>setIconClass</b>(&nbsp;<code>String cls</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the icon CSS class for all components using this action.  The class should supply
+a background image that will b...</div>
+            <div class="long">
+                Sets the icon CSS class for all components using this action.  The class should supply
+a background image that will be used as the icon image.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>cls</code> : String<div class="sub-desc">The CSS class supplying the icon image</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-setText"></a>
+            <b>setText</b>(&nbsp;<code>String text</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets the text to be displayed by all components using this action.</div>
+            <div class="long">
+                Sets the text to be displayed by all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>text</code> : String<div class="sub-desc">The text to display</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Action-show"></a>
+            <b>show</b>() : void            <div class="mdesc">
+                        <div class="short">Shows all components using this action.</div>
+            <div class="long">
+                Shows all components using this action.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Action</td>
+    </tr>
+            </table>
+                <a id="Ext.Action-events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>
+        </div>

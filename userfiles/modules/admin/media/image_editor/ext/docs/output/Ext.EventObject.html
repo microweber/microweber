@@ -1,0 +1,1173 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext.EventObject-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext.EventObject-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext.EventObject-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                        <a class="bookmark" href="../docs/?class=Ext.EventObject"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <h1>Class Ext.EventObject</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">EventManager.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">EventObject</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
+                    </table>
+        <div class="description">
+            EventObject exposes the Yahoo! UI Event functionality directly on the object
+passed to your event handler. It exists mostly for convenience. It also fixes the annoying null checks automatically to cleanup your code
+Example:
+<pre><code>function handleClick(e){ <i>// e is not a standard event object, it is a Ext.EventObject</i>
+    e.preventDefault();
+    <b>var</b> target = e.getTarget();
+    ...
+ }
+ <b>var</b> myDiv = Ext.get(<em>"myDiv"</em>);
+ myDiv.on(<em>"click"</em>, handleClick);
+ <i>//or</i>
+ Ext.EventManager.on(<em>"myDiv"</em>, <em>'click'</em>, handleClick);
+ Ext.EventManager.addListener(<em>"myDiv"</em>, <em>'click'</em>, handleClick);</code></pre><br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext.EventObject-props"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-A"></a>
+            <b>A</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ALT"></a>
+            <b>ALT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-B"></a>
+            <b>B</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-BACKSPACE"></a>
+            <b>BACKSPACE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-C"></a>
+            <b>C</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-CAPS_LOCK"></a>
+            <b>CAPS_LOCK</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-CONTEXT_MENU"></a>
+            <b>CONTEXT_MENU</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-CTRL"></a>
+            <b>CTRL</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-D"></a>
+            <b>D</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-DELETE"></a>
+            <b>DELETE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-DOWN"></a>
+            <b>DOWN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-E"></a>
+            <b>E</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-EIGHT"></a>
+            <b>EIGHT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-END"></a>
+            <b>END</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ENTER"></a>
+            <b>ENTER</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ESC"></a>
+            <b>ESC</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F"></a>
+            <b>F</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F1"></a>
+            <b>F1</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F10"></a>
+            <b>F10</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F11"></a>
+            <b>F11</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F12"></a>
+            <b>F12</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F2"></a>
+            <b>F2</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F3"></a>
+            <b>F3</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F4"></a>
+            <b>F4</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F5"></a>
+            <b>F5</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F6"></a>
+            <b>F6</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F7"></a>
+            <b>F7</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F8"></a>
+            <b>F8</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-F9"></a>
+            <b>F9</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-FIVE"></a>
+            <b>FIVE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-FOUR"></a>
+            <b>FOUR</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-G"></a>
+            <b>G</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-H"></a>
+            <b>H</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-HOME"></a>
+            <b>HOME</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-I"></a>
+            <b>I</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-INSERT"></a>
+            <b>INSERT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-J"></a>
+            <b>J</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-K"></a>
+            <b>K</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-L"></a>
+            <b>L</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-LEFT"></a>
+            <b>LEFT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-M"></a>
+            <b>M</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-N"></a>
+            <b>N</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NINE"></a>
+            <b>NINE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_CENTER"></a>
+            <b>NUM_CENTER</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_DIVISION"></a>
+            <b>NUM_DIVISION</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_EIGHT"></a>
+            <b>NUM_EIGHT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_FIVE"></a>
+            <b>NUM_FIVE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_FOUR"></a>
+            <b>NUM_FOUR</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_MINUS"></a>
+            <b>NUM_MINUS</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_MULTIPLY"></a>
+            <b>NUM_MULTIPLY</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_NINE"></a>
+            <b>NUM_NINE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_ONE"></a>
+            <b>NUM_ONE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_PERIOD"></a>
+            <b>NUM_PERIOD</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_PLUS"></a>
+            <b>NUM_PLUS</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_SEVEN"></a>
+            <b>NUM_SEVEN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_SIX"></a>
+            <b>NUM_SIX</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_THREE"></a>
+            <b>NUM_THREE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_TWO"></a>
+            <b>NUM_TWO</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-NUM_ZERO"></a>
+            <b>NUM_ZERO</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-O"></a>
+            <b>O</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ONE"></a>
+            <b>ONE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-P"></a>
+            <b>P</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-PAGE_DOWN"></a>
+            <b>PAGE_DOWN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-PAGE_UP"></a>
+            <b>PAGE_UP</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-PAUSE"></a>
+            <b>PAUSE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-PRINT_SCREEN"></a>
+            <b>PRINT_SCREEN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-Q"></a>
+            <b>Q</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-R"></a>
+            <b>R</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-RETURN"></a>
+            <b>RETURN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-RIGHT"></a>
+            <b>RIGHT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-S"></a>
+            <b>S</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-SEVEN"></a>
+            <b>SEVEN</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-SHIFT"></a>
+            <b>SHIFT</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-SIX"></a>
+            <b>SIX</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-SPACE"></a>
+            <b>SPACE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-T"></a>
+            <b>T</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-TAB"></a>
+            <b>TAB</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-THREE"></a>
+            <b>THREE</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-TWO"></a>
+            <b>TWO</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-U"></a>
+            <b>U</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-UP"></a>
+            <b>UP</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-V"></a>
+            <b>V</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-W"></a>
+            <b>W</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-X"></a>
+            <b>X</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-Y"></a>
+            <b>Y</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-Z"></a>
+            <b>Z</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ZERO"></a>
+            <b>ZERO</b> : Number            <div class="mdesc">
+                            Key constant                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-altKey"></a>
+            <b>altKey</b> : Object            <div class="mdesc">
+                            True if the alt key was down during the event                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-browserEvent"></a>
+            <b>browserEvent</b> : Object            <div class="mdesc">
+                            The normal browser event                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-button"></a>
+            <b>button</b> : Object            <div class="mdesc">
+                            The button pressed in a mouse event                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-ctrlKey"></a>
+            <b>ctrlKey</b> : Object            <div class="mdesc">
+                            True if the control key was down during the event                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-shiftKey"></a>
+            <b>shiftKey</b> : Object            <div class="mdesc">
+                            True if the shift key was down during the event                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+            </table>
+                <a id="Ext.EventObject-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getCharCode"></a>
+            <b>getCharCode</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the character code for the event.</div>
+            <div class="long">
+                Gets the character code for the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getKey"></a>
+            <b>getKey</b>() : Number            <div class="mdesc">
+                        <div class="short">Returns a normalized keyCode for the event.</div>
+            <div class="long">
+                Returns a normalized keyCode for the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The key code</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getPageX"></a>
+            <b>getPageX</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the x coordinate of the event.</div>
+            <div class="long">
+                Gets the x coordinate of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getPageY"></a>
+            <b>getPageY</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the y coordinate of the event.</div>
+            <div class="long">
+                Gets the y coordinate of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getRelatedTarget"></a>
+            <b>getRelatedTarget</b>() : HTMLElement            <div class="mdesc">
+                        <div class="short">Gets the related target.</div>
+            <div class="long">
+                Gets the related target.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>HTMLElement</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getTarget"></a>
+            <b>getTarget</b>(&nbsp;<span class="optional" title="Optional">[<code>String selector</code>]</span>, <span class="optional" title="Optional">[<code>Number/Mixed maxDepth</code>]</span>, <span class="optional" title="Optional">[<code>Boolean returnEl</code>]</span>&nbsp;) : HTMLelement            <div class="mdesc">
+                        <div class="short">Gets the target for the event.</div>
+            <div class="long">
+                Gets the target for the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>selector</code> : String<div class="sub-desc">(optional) A simple selector to filter the target or look for an ancestor of the target</div></li><li><code>maxDepth</code> : Number/Mixed<div class="sub-desc">(optional) The max depth to
+ search as a number or element (defaults to 10 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>HTMLelement</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getTime"></a>
+            <b>getTime</b>() : Number            <div class="mdesc">
+                        <div class="short">Gets the time of the event.</div>
+            <div class="long">
+                Gets the time of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getWheelDelta"></a>
+            <b>getWheelDelta</b>() : Number            <div class="mdesc">
+                        <div class="short">Normalizes mouse wheel delta across browsers</div>
+            <div class="long">
+                Normalizes mouse wheel delta across browsers    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">The delta</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-getXY"></a>
+            <b>getXY</b>() : Array            <div class="mdesc">
+                        <div class="short">Gets the page coordinates of the event.</div>
+            <div class="long">
+                Gets the page coordinates of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">The xy values like [x, y]</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-hasModifier"></a>
+            <b>hasModifier</b>() : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the control, meta, shift or alt key was pressed during this event.</div>
+            <div class="long">
+                Returns true if the control, meta, shift or alt key was pressed during this event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-preventDefault"></a>
+            <b>preventDefault</b>() : void            <div class="mdesc">
+                        <div class="short">Prevents the browsers default handling of the event.</div>
+            <div class="long">
+                Prevents the browsers default handling of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-stopEvent"></a>
+            <b>stopEvent</b>() : void            <div class="mdesc">
+                        <div class="short">Stop the event (preventDefault and stopPropagation)</div>
+            <div class="long">
+                Stop the event (preventDefault and stopPropagation)    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-stopPropagation"></a>
+            <b>stopPropagation</b>() : void            <div class="mdesc">
+                        <div class="short">Cancels bubbling of the event.</div>
+            <div class="long">
+                Cancels bubbling of the event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.EventObject-within"></a>
+            <b>within</b>(&nbsp;<code>Mixed el</code>, <span class="optional" title="Optional">[<code>Boolean related</code>]</span>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the target of this event is a child of el.  If the target is el, it returns false.
+Example usage:// H...</div>
+            <div class="long">
+                Returns true if the target of this event is a child of el.  If the target is el, it returns false.
+Example usage:<pre><code><i>// Handle click on any child of an element</i>
+Ext.getBody().on(<em>'click'</em>, <b>function</b>(e){
+    <b>if</b>(e.within(<em>'some-el'</em>)){
+        alert(<em>'Clicked on a child of some-el!'</em>);
+    }
+});
+
+<i>// Handle click directly on an element, ignoring clicks on child nodes</i>
+Ext.getBody().on(<em>'click'</em>, <b>function</b>(e,t){
+    <b>if</b>((t.id == <em>'some-el'</em>) && !e.within(t, true)){
+        alert(<em>'Clicked directly on some-el!'</em>);
+    }
+});</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id, DOM element or Ext.Element to check</div></li><li><code>related</code> : Boolean<div class="sub-desc">(optional) true to test if the related target is within el instead of the target</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">EventObject</td>
+    </tr>
+            </table>
+                <a id="Ext.EventObject-events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>
+        </div>

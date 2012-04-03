@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Imagepreview</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+<!--
+.borderrechts {
+	border-right: 1px solid #000;
+	background-color: #fff;
+}
+
+.borderunten {
+	border-bottom: 1px solid #000;
+	background-color: #fff;
+}
+
+.kleineschrifth {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8px;
+	text-align: center;
+	border-bottom: 1px solid #000;
+	background-color: #fff;
+}
+
+.kleineschriftv {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8px;
+	text-align: center;
+	border-right: 1px solid #000;
+	background-color: #fff;
+}
+
+body {
+	margin: 0;
+}
+.borderrechtsunten {
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+	background-color: #fff;
+}
+.auswahlrechteck {
+	border: 1px dashed #666;
+}
+.auswahlrechteckdragger {
+	background-color: #666;
+	height: 5px;
+	width: 5px;
+}
+-->
+</style>
+
+<script language="javascript1.2" type="text/javascript">
+var isDOM = (document.getElementById ? true : false); 
+var isIE4 = ((document.all && !isDOM) ? true : false);
+var isIE  = (document.all ? true : false); 
+var isNS4 = (document.layers ? true : false);
+var isDyn = (isDOM || isIE4 || isNS4);
+
+var bildpixelx = 523;
+var bildpixely = 373;
+var zoomproz = 100;
+
+function gebid( was ) {
+	return document.getElementById( was );
+}
+
+function getabsolutepos( wer ) {
+	var xpos = wer.offsetLeft;
+	var ypos = wer.offsetTop;
+	var Eltern = wer.offsetParent;
+	while ( Eltern ) {
+		xpos = xpos + Eltern.offsetLeft;
+		ypos = ypos + Eltern.offsetTop;
+		Eltern = Eltern.offsetParent;
+	} 
+	return {"x":xpos,"y":ypos};
+}
+
+var Mouse = {x:0, y:0};
+document.onmousemove = function ( evt ) {
+	var e = window.event || evt;
+	Mouse.x = e.x || e.pageX || 0;
+	Mouse.y = e.y || e.pageY || 0;
+	if ( !isIE ) {
+		Mouse.y = Mouse.y - self.pageYOffset;	
+		Mouse.x = Mouse.x - self.pageXOffset;	
+	}
+}
+
+function disabletext( e ) {
+	return false
+}
+
+function reEnable() {
+	return true
+}
+
+var scrtop = 0;
+var scrleft = 0;
+function beimscrollen() {
+	if ( document.documentElement ) {
+		scrtop = document.documentElement.scrollTop;
+		scrleft = document.documentElement.scrollLeft;
+	} else if ( document.body ) {
+		scrtop = document.body.scrollTop;
+		scrleft = document.body.scrollLeft;
+	} else {
+		var derhtml = document.body.parentNode;
+		scrtop = derhtml.scrollTop;
+		scrleft = derhtml.scrollLeft;
+	}
+	if ( isIE ) {
+		gebid( "lineallayerh" ).style.position = "absolute";
+		gebid( "lineallayerv" ).style.position = "absolute";
+		gebid( "lineallayerecke" ).style.position = "absolute";
+		if ( document.documentElement ) {
+			gebid( "lineallayerh" ).style.setExpression( "top", "parseInt( document.documentElement.scrollTop )" );
+			gebid( "lineallayerv" ).style.setExpression( "left", "parseInt( document.documentElement.scrollLeft )" );
+			gebid( "lineallayerecke" ).style.setExpression( "top", "parseInt( document.documentElement.scrollTop )" );
+			gebid( "lineallayerecke" ).style.setExpression( "left", "parseInt( document.documentElement.scrollLeft )" );
+		} else if ( document.body ) {
+			gebid( "lineallayerh" ).style.setExpression( "top", "parseInt( document.body.scrollTop )" );
+			gebid( "lineallayerv" ).style.setExpression( "left", "parseInt( document.body.scrollLeft )" );
+			gebid( "lineallayerecke" ).style.setExpression( "top", "parseInt( document.body.scrollTop )" );
+			gebid( "lineallayerecke" ).style.setExpression( "left", "parseInt( document.body.scrollLeft )" );
+		}
+		//	alert(gebid("lineallayerh").style.left);
+	} else {
+		gebid( "lineallayerh" ).style.left = ( 20 - scrleft ) + "px";
+		gebid( "lineallayerv" ).style.top = ( 20 - scrtop ) + "px";
+	}
+}
+
+var pixarray = Array( 5, 10, 25, 50, 100, 250, 500, 1000 );
+var werkzeug;
+function setzewerkzeug( was ) {
+	if ( was == "crop" ) {
+	}
+	werkzeug = was;
+}
+
+function generierelinealh() {
+	var anzeigepixelx = bildpixelx * zoomproz / 100; //müsste immer so gross sein wie die anzeigegrösse des bildes;
+	var mintdgroesse = 25; //mindestgrösse einer td im lineal;
+	for ( i = 0; i < pixarray.length; i++ ) {
+		var abstand = pixarray[i] * zoomproz / 100;
+		if ( abstand >= mintdgroesse ) {
+			pixscala = pixarray[i];
+			break;
+		}
+	}
+	var groessetd = pixscala * zoomproz / 100; // Math.floor((anzeigepixelx/wievieletds)/10)*10;
+	var wievieletds = Math.floor( anzeigepixelx / groessetd )
+	var table = document.createElement( "table" );
+	table.setAttribute( "width", anzeigepixelx );
+	table.setAttribute( "border", "0" );
+	table.setAttribute( "cellPadding", "0" );
+	table.setAttribute( "cellSpacing", "0" );
+	table.setAttribute( "class", "kleineschrifth" );
+	table.className = "kleineschrifth";
+	var tbody = document.createElement( "tbody" );
+	table.appendChild( tbody );
+	var troben = document.createElement( "tr" );
+	tbody.appendChild( troben );
+	var tdsoben = Array();
+	for ( i = 0; i < wievieletds / 2; i++ ) {
+		tdsoben[i] = document.createElement( "td" );
+		if ( i == 0 ) {
+			tdsoben[i].setAttribute( "width", groessetd );
+			tdsoben[i].innerHTML = "&nbsp;";
+		} else {
+			tdsoben[i].setAttribute( "colSpan", 2 );
+			tdsoben[i].setAttribute( "width", groessetd * 2 );
+			tdsoben[i].innerHTML = ( i * 2 * pixscala );//(i*anzgroessetd*2);
+		}
+		troben.appendChild( tdsoben[i] );
+	}
+	//das letzte td:
+	tdsoben[i+1] = document.createElement( "td" );
+	tdsoben[i+1].innerHTML = "&nbsp;";
+	//tdsoben[i+1].setAttribute( "width", anzeigepixelx - groessetd * ( wievieletds - 1 ) );
+	if ( ( wievieletds - 1 ) * groessetd < anzeigepixelx ) {
+		tdsoben[i+1].setAttribute( "colSpan", 2 );
+	}
+	troben.appendChild( tdsoben[i + 1] );
+	var trunten = document.createElement( "tr" );
+	tbody.appendChild( trunten );
+	var tdsunten = Array();
+	for ( i = 0; i < wievieletds; i++ ) {
+		tdsunten[i] = document.createElement( "td" );
+		tdsunten[i].setAttribute( "width", groessetd );
+		tdsunten[i].setAttribute( "class", "borderrechts" );
+		tdsunten[i].className = "borderrechts";
+		tdsunten[i].innerHTML = "&nbsp;";
+		trunten.appendChild( tdsunten[i] );
+	}
+	if ( ( wievieletds - 1 ) * groessetd < anzeigepixelx ) {
+		tdsunten[wievieletds] = document.createElement( "td" );
+		tdsunten[wievieletds].innerHTML = "&nbsp;";
+		trunten.appendChild( tdsunten[i] );
+	}
+	gebid( "lineallayerh" ).innerHTML = "";
+	gebid( "lineallayerh" ).appendChild( table );
+	//alert( gebid( "lineallayerh" ).innerHTML );
+}
+
+function generierelinealv() {
+	var anzeigepixely = bildpixely * zoomproz / 100; //müsste immer so gross sein wie die anzeigegrösse des bildes;
+	var mintdgroesse = 25; //mindestgrösse einer td im lineal;
+	for ( i = 0; i < pixarray.length; i++ ) {
+		var abstand = pixarray[i] * zoomproz / 100;
+		if ( abstand >= mintdgroesse ) {
+			pixscala = pixarray[i];
+			break;
+		}
+	}
+	var groessetd = pixscala * zoomproz / 100; // Math.floor((anzeigepixelx/wievieletds)/10)*10;
+	var wievieletds = Math.floor( anzeigepixely / groessetd )
+	var table = document.createElement( "table" );
+	table.setAttribute( "height", anzeigepixely );
+	table.setAttribute( "border", "0" );
+	table.setAttribute( "cellPadding", "0" );
+	table.setAttribute( "cellSpacing", "0" );
+	table.setAttribute( "class", "kleineschriftv" );
+	table.className = "kleineschriftv";
+	var tbody = document.createElement( "tbody" );
+	table.appendChild( tbody );
+	var troben = document.createElement( "tr" );
+	tbody.appendChild( troben );
+	var trs = Array();
+	for ( i = 0; i < wievieletds; i++ ) {
+		trs[i] = document.createElement( "tr" );
+		if ( i == 0 ) {
+			tdlinks = document.createElement( "td" );
+			tdlinks.setAttribute( "width", "10" );
+			tdlinks.innerHTML = "&nbsp;";
+			tdrechts = document.createElement( "td" );
+			tdrechts.setAttribute( "width", "10" );
+			tdrechts.setAttribute( "height", groessetd );
+			tdrechts.innerHTML = "&nbsp;";
+			tdrechts.setAttribute( "class", "borderunten" );
+			tdrechts.className = "borderunten";
+			trs[i].appendChild( tdlinks );
+			trs[i].appendChild( tdrechts );
+		} else if ( Math.floor( i / 2 ) != i / 2 ) {
+			tdlinks = document.createElement( "td" );
+			if ( i != wievieletds - 1 ) {
+				tdlinks.setAttribute( "rowSpan", 2 );
+				tdtext = "" + ( ( i + 1 ) * pixscala ); //((i+1)*Math.floor(bildpixely/wievieletds));
+				tdtextbr = "";
+				for ( var ti = 0; ti < tdtext.length; ti++ ) {
+					if ( ti > 0 ) tdtextbr+= "<br />";
+					tdtextbr+= tdtext.substr( ti, 1 );
+				}
+			} else {
+				tdtextbr = "&nbsp;";
+			}
+			tdlinks.innerHTML = tdtextbr;
+			tdrechts = document.createElement( "td" );
+			tdrechts.setAttribute( "height", groessetd );
+			tdrechts.innerHTML = "&nbsp;";
+			tdrechts.setAttribute( "class", "borderunten" );
+			tdrechts.className = "borderunten";
+			trs[i].appendChild( tdlinks );
+			trs[i].appendChild( tdrechts );
+		} else {
+			tdrechts = document.createElement( "td" );
+			tdrechts.setAttribute( "height", groessetd );
+			tdrechts.innerHTML = "&nbsp;";
+			tdrechts.setAttribute( "class", "borderunten" );
+			tdrechts.className = "borderunten";
+			trs[i].appendChild( tdrechts );
+		}
+		tbody.appendChild( trs[i] )
+	}
+	gebid( "lineallayerv" ).innerHTML = "";
+	gebid( "lineallayerv" ).appendChild( table );
+	//alert( gebid( "lineallayerv" ).innerHTML );
+}
+
+bildistgeladen = false;
+function start() {
+  zoomfaktor = 100;
+	gebid( "bildlayer" ).replaceChild( ladebild, gebid( "dasbild" ) );
+	ladebild.setAttribute( "id", "dasbild" );
+	gebid( "dasbild" ).onmousedown = bodymousedown;
+	bildpixelx = ladebild.width;
+	bildpixely = ladebild.height;
+	gebid( "bildlayer" ).style.clip = 'rect( 0px, ' + gebid( "dasbild" ).width + 'px, ' + gebid( "dasbild" ).height + 'px, 0px )';
+	gebid( "bildlayer" ).style.width = gebid( "dasbild" ).width + "px";
+	gebid( "bildlayer" ).style.height = gebid( "dasbild" ).height + "px";
+	if (welchefunktion!="watermark"){
+    oh1 = 0;
+  	ov1 = 0;
+  	oh2 = bildpixelx;
+  	ov2 = bildpixely;
+	}
+	generierelinealh();
+	generierelinealv();
+	if ( window.captureEvents ) window.captureEvents( Event.SCROLL );
+	window.onscroll = beimscrollen;
+	bildistgeladen = true;
+	parent.istgeladen();
+	zoomfaktor=zoomproz;
+	setzezoom( zoomproz );
+	
+	hideauswahlrechteck();
+}
+
+var oh1;
+var oh2;
+var ov1;
+var ov2;
+var schriftbildpixelx = null;
+var schriftbildpixely = null;
+var schriftbildposx = false;
+var schriftbildposy = false;
+function setzezoom( zoomfaktor ) {
+	var dbpos = getabsolutepos( gebid( "dasbild" ) );
+	//zoomfaktor setzen:
+	zoomproz = zoomfaktor;
+	gebid( "dasbild" ).width = ( bildpixelx * zoomproz ) / 100;
+	gebid( "dasbild" ).height = ( bildpixely * zoomproz ) / 100;
+	if ( schriftbildpixelx != null ) {
+		/*var spos = getabsolutepos( gebid( "schriftlayer" ) );
+		smittex = spos["x"] - gebid( "schriftbild" ).width / 2;
+		smittey = spos["y"] - gebid( "schriftbild" ).height / 2;
+		*/
+		gebid( "schriftlayer" ).style.left = ( ( ( schriftbildposx - schriftbildpixelx / 2 ) / 100 ) * zoomproz ) + "px";
+		gebid( "schriftlayer" ).style.top = ( ( ( schriftbildposy - schriftbildpixely / 2 ) / 100 ) * zoomproz ) + "px";
+		gebid( "schriftbild" ).width = ( ( schriftbildpixelx / 100 ) * zoomproz );
+		gebid( "schriftbild" ).height = ( ( schriftbildpixely / 100 ) * zoomproz );
+		
+		//alert( "schriftbild " + gebid( "schriftbild" ).offsetWidth );
+	}
+	
+	//auwahlrechteck grösse setzen:
+
+	gebid( "auswahlrechteck" ).style.left = ( ( ( oh1 * zoomproz ) / 100 ) + dbpos["x"] ) + "px";
+	gebid( "auswahlrechteck" ).style.top = ( ( ( ov1 * zoomproz ) / 100 ) + dbpos["y"] ) + "px";
+	gebid( "auswahlrechteck" ).style.width = ( ( ( ( oh2 - oh1 ) * zoomproz ) / 100 ) ) + "px";
+	gebid( "auswahlrechteck" ).style.height = ( ( ( ( ov2 - ov1 ) * zoomproz ) / 100 ) ) + "px";
+  gebid("watermarkbild").width = ( ( ( ( oh2 - oh1 ) * zoomproz ) / 100 ) );
+	gebid("watermarkbild").height = ( ( ( ( ov2 - ov1 ) * zoomproz ) / 100 ) );
+	gebid( "bildlayer" ).style.clip = 'rect( 0px,' + gebid( "dasbild" ).width + 'px, ' + gebid( "dasbild" ).height +  'px, 0px )';
+	gebid( "bildlayer" ).style.width = gebid( "dasbild" ).width + "px";
+	gebid( "bildlayer" ).style.height = gebid( "dasbild" ).height + "px";
+	
+	setzeauswahlrechteckpunkte();
+	//lineal zeichnen:
+	generierelinealh();
+	generierelinealv();
+}
+
+function verschiebe() {
+}
+
+var welchefunktion = "verschieben";
+var deltax;
+var deltay;
+function hideauswahlrechteck() {
+	gebid( "auswahlrechteck" ).style.visibility = "hidden";
+	/*gebid( "auswahlrechteck" ).style.left = ( -20 ) + "px";
+	gebid( "auswahlrechteck" ).style.top = ( -20 ) + "px";
+	gebid( "auswahlrechteck" ).style.width = ( 0 ) + "px";
+	gebid( "auswahlrechteck" ).style.height = ( 0 ) + "px";*/
+	gebid( "watermarkbild" ).style.visibility = "hidden";
+}
+function hideschriftlayer() {
+  gebid( "schriftlayer" ).style.visibility = "hidden";
+}
+function bodymousedown() {
+	//if the browser is IE4+
+	document.onselectstart = new Function ( "return false" );
+	//if the browser is NS6
+	if ( window.sidebar ) {
+		document.onmousedown = disabletext
+		document.onclick = reEnable
+	}
+	if ( welchefunktion == "crop" ) {
+		gebid( "auswahlrechteck" ).style.visibility = "visible";
+		gebid( "auswahlrechteck" ).style.left = ( Mouse.x + scrleft ) + "px";
+		gebid( "auswahlrechteck" ).style.top = ( Mouse.y + scrtop ) + "px";
+		gebid( "auswahlrechteck" ).style.width = ( 0 ) + "px";
+		gebid( "auswahlrechteck" ).style.height = ( 0 ) + "px";
+		setzeauswahlrechteckpunkte();
+		startauswahlrechteckziehen( "ru" );
+	}
+}
+
+function bodymouseup() {
+	if ( welchefunktion == "verschieben" ) {
+	}
+	if (typeof schriftziehento != 'undefined') stopschriftziehen(); 
+	if (typeof watermarkziehento != 'undefined') stopwatermarkziehen(); 
+	if ( auswahlrechteckziehento ) stopauswahlrechteckziehen();
+	//alert( "up" );
+}
+
+//if the browser is IE4+
+document.onselectstart = new Function ( "return false" );
+
+//if the browser is NS6
+if ( window.sidebar ) {
+	document.onmousedown = disabletext
+	document.onclick = reEnable
+}
+
+function setzeauswahlrechteckpunkte() {
+  dasrechteck=gebid( "auswahlrechteck" );
+	var rpos = getabsolutepos( dasrechteck );
+	var h1 = rpos["x"];
+	var h2 = rpos["x"] + parseInt( dasrechteck.style.width );
+	var v1 = rpos["y"];
+	var v2 = rpos["y"] + parseInt( dasrechteck.style.height );
+	gebid( "auswahlrechteckdraggerlo" ).style.left = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggerlo" ).style.top = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggerro" ).style.left = ( h2 - h1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerro" ).style.top = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggerlu" ).style.left = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggerlu" ).style.top = ( v2 - v1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerru" ).style.left = ( h2 - h1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerru" ).style.top = ( v2 - v1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggermo" ).style.left = ( ( h2 - h1 ) / 2 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggermo" ).style.top = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggermu" ).style.left = ( ( h2 - h1 ) / 2 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggermu" ).style.top = ( v2 - v1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerlm" ).style.left = ( -3 ) + "px";
+	gebid( "auswahlrechteckdraggerlm" ).style.top = ( ( v2 - v1 ) / 2 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerrm" ).style.left = ( h2 - h1 - 3 ) + "px";
+	gebid( "auswahlrechteckdraggerrm" ).style.top = ( ( v2 - v1 ) / 2 - 3 ) + "px";
+	bildxy = getabsolutepos( gebid( "dasbild" ) );
+	var clipLeft = ( bildxy["x"] - rpos["x"] );
+	var clipTop = bildxy["y"] - rpos["y"];
+	var clipRight = ( bildxy["x"] - rpos["x"] ) + gebid( "dasbild" ).offsetWidth;
+	var clipBottom = ( bildxy["y"] - rpos["y"] ) + gebid( "dasbild" ).offsetHeight;
+	dasrechteck.style.clip = 'rect( ' + clipTop + 'px, ' + clipRight + 'px, ' + clipBottom + 'px, ' + clipLeft + 'px )';
+}
+
+var welchesauswahlrechteck = "x";
+var fixx;
+var fixy;
+var deltah;
+var deltav;
+var auswahlrechteckziehento;
+function auswahlrechteckziehen() {
+	//evtl. scrollen:
+	if ( Mouse.x < 20 ) {
+		scrleft = scrleft - 10;
+	}
+	if ( Mouse.y < 20 ) {
+		scrtop = scrtop - 10;
+	}	
+	if ( Mouse.x > iframewidth - 20 ) {
+		scrleft = scrleft + 10;
+	}
+	if ( Mouse.y > iframeheight - 20 ) {
+		scrtop = scrtop + 10;
+	}	
+	if ( document.documentElement ) {
+		document.documentElement.scrollTop = scrtop;
+		document.documentElement.scrollLeft = scrleft;
+	} else if ( document.body ) {
+		document.body.scrollTop = scrtop;
+		document.body.scrollLeft = scrleft;
+	} else {
+		var derhtml = document.body.parentNode;
+		derhtml.scrollTop = scrtop;
+		derhtml.scrollLeft = scrleft;
+	}
+	if ( welchesauswahlrechteck == 'mm' ) {
+		var bdb = gebid( "dasbild" );
+		if ( document.documentElement ) {
+			scrtop = document.documentElement.scrollTop;
+			scrleft = document.documentElement.scrollLeft;
+		} else if ( document.body ) {
+			scrtop = document.body.scrollTop;
+			scrleft = document.body.scrollLeft;
+		} else {
+			var derhtml = document.body.parentNode;
+			scrtop = derhtml.scrollTop;
+			scrleft = derhtml.scrollLeft;
+		}
+		var px = Mouse.x - deltah;
+		var py = Mouse.y - deltav;
+		if ( px < 20 ) px = 20;
+		if ( py < 20 ) py = 20;
+		if ( px + scrleft + gebid( "auswahlrechteck" ).offsetWidth > bdb.width + 20 ) px = bdb.width - gebid( "auswahlrechteck" ).offsetWidth - scrleft + 20;
+		if ( py + scrtop + gebid( "auswahlrechteck" ).offsetHeight > bdb.height + 20 ) py = bdb.height - gebid( "auswahlrechteck" ).offsetHeight - scrtop + 20;
+		gebid( "auswahlrechteck" ).style.left = ( px + scrleft ) + "px";
+		gebid( "auswahlrechteck" ).style.top = ( py + scrtop ) + "px";
+		setzeauswahlrechteckpunkte();
+	} else {
+		if ( fixx < Mouse.x + scrleft ) {
+			var h1 = fixx;
+			var h2 = Mouse.x + scrleft;
+		} else {
+			var h1 = Mouse.x + scrleft;
+			var h2 = fixx;
+		}
+		if ( fixy < Mouse.y + scrtop ) {
+			var v1 = fixy;
+			var v2 = Mouse.y + scrtop;
+		} else {
+			var v1 = Mouse.y + scrtop;
+			var v2 = fixy;
+		}
+		bildxy = getabsolutepos( gebid( "dasbild" ) );
+		if ( h1 < bildxy["x"] ) h1 = bildxy["x"];
+		if ( h2 > bildxy["x"] + gebid( "dasbild" ).offsetWidth - 2 ) h2 = bildxy["x"] + gebid( "dasbild" ).offsetWidth - 2;
+		if ( v1 < bildxy["y"] ) v1 = bildxy["y"];
+		if ( v2 > bildxy["y"] + gebid( "dasbild" ).offsetHeight - 2 ) v2 = bildxy["y"] + gebid( "dasbild" ).offsetHeight - 2;
+		if ( fixx != "x" ) gebid("auswahlrechteck").style.left = ( h1 ) + "px";
+		if ( fixy != "x" ) gebid("auswahlrechteck").style.top = ( v1 ) + "px";
+		if ( fixx != "x" ) gebid("auswahlrechteck").style.width = Math.round( h2 - h1 ) + "px";
+		if ( fixy != "x" ) gebid("auswahlrechteck").style.height = Math.round( v2 - v1 ) + "px";
+		if (welchefunktion=='watermark'){
+		  if ( fixx != "x" ) gebid("watermarkbild").width = Math.round( h2 - h1 );
+		  if ( fixy != "x" ) gebid("watermarkbild").height = Math.round( v2 - v1 );
+		}
+		//falert( Math.round( h2 - h1 ) + ", " + ( v2 - v1 ) );
+		setzeauswahlrechteckpunkte();
+	}
+	auswahlrechteckziehento = window.setTimeout( "auswahlrechteckziehen();", 50 );
+}
+
+function startauswahlrechteckziehen( wer ) {
+
+  iframewidth=parent.document.getElementById("bildframe").offsetWidth;
+  iframeheight=parent.document.getElementById("bildframe").offsetHeight;
+
+	//if the browser is IE4+
+	document.onselectstart = new Function( "return false" );
+	document.ondragstart = new Function( "return false" );
+	//if the browser is NS6
+	/*
+	if ( window.sidebar ) {
+		document.onmousedown = disabletext
+		document.onclick = reEnable
+	}
+	if ( window.addEventListener ) { // Mozilla, Netscape, Firefox
+		document.body.parentNode.addEventListener( 'mouseup', stopauswahlrechteckziehen, false );
+	} else { // IE
+		document.body.parentNode.attachEvent( 'onmouseup', stopauswahlrechteckziehen );
+		//document.body.parentNode.onmouseup = vorschauziehenstop;
+	}
+	*/
+	//window.onscroll = beimscrollen;
+	if ( welchesauswahlrechteck == "x" ) {
+		beimscrollen();
+		welchesauswahlrechteck = wer;
+		var rpos = getabsolutepos( gebid( "auswahlrechteck" ) );
+		var h1 = rpos["x"];
+		var h2 = rpos["x"] + parseInt( gebid( "auswahlrechteck" ).style.width );
+		var v1 = rpos["y"];
+		var v2 = rpos["y"] + parseInt( gebid( "auswahlrechteck" ).style.height );
+		if ( wer == 'mm' ) {
+			deltah = Mouse.x - ( h1 - scrleft );
+			deltav = Mouse.y - ( v1 - scrtop );
+		}
+		if ( wer == 'lo' ) {
+			fixx = h2;
+			fixy = v2;
+		}
+		if ( wer == 'ro' ) {
+			fixx = h1;
+			fixy = v2;
+		}
+		if ( wer == 'lu' ) {
+			fixx = h2;
+			fixy = v1;
+		}
+		if ( wer == 'ru' ) {
+			fixx = h1;
+			fixy = v1;
+		}
+		if ( wer == 'lm' ) {
+			fixx = h2;
+			fixy = "x";
+		}
+		if ( wer == 'rm' ) {
+			fixx = h1;
+			fixy = "x";
+		}
+		if ( wer == 'mo' ) {
+			fixx = "x";
+			fixy = v2;
+		}
+		if ( wer == 'mu' ) {
+			fixx = "x";
+			fixy = v1;
+		}
+		auswahlrechteckziehento = window.setTimeout( "auswahlrechteckziehen();", 50 );
+	}
+}
+
+function stopauswahlrechteckziehen() {
+	//grössen für auswahlrechteck ermitteln:
+	var rpos = getabsolutepos( gebid( "auswahlrechteck" ) );
+	var dbpos = getabsolutepos( gebid( "dasbild" ) );
+	var h1 = rpos["x"] - dbpos["x"];
+	var h2 = rpos["x"] + parseInt( gebid( "auswahlrechteck" ).style.width ) - dbpos["x"];
+	var v1 = rpos["y"] - dbpos["y"];
+	var v2 = rpos["y"] + parseInt( gebid( "auswahlrechteck" ).style.height ) - dbpos["y"];
+	oh1 = ( h1 * 100.000000 ) / zoomproz;
+	oh2 = ( h2 * 100.000000 ) / zoomproz;
+	ov1 = ( v1 * 100.000000 ) / zoomproz;
+	ov2 = ( v2 * 100.000000 ) / zoomproz;
+	welchesauswahlrechteck = "x";
+	parent.setzecropcoords( oh1, ov1, oh2, ov2 );
+	window.clearTimeout( auswahlrechteckziehento );
+}
+
+function setzecropgroesse( breite, hoehe ) {
+	breite = parseInt( breite );
+	hoehe = parseInt( hoehe );
+	if ( breite > bildpixelx ) breite = bildpixelx;
+	if ( hoehe > bildpixely ) hoehe = bildpixely;
+	if ( breite < 1 ) breite = 1;
+	if ( hoehe < 1 ) hoehe = 1;
+	var omh = ( oh2 - oh1 ) / 2 + oh1;
+	var omv = ( ov2 - ov1 ) / 2 + ov1;
+	nh1 = omh - breite / 2;
+	nv1 = omv - hoehe / 2;
+	if ( nh1 < 0 ) nh1 = 0;
+	if ( nv1 < 0 ) nv1 = 0;
+	if ( nh1 + breite > bildpixelx ) nh1 = bildpixelx - breite;
+	if ( nv1 + hoehe > bildpixely ) nv1 = bildpixely - hoehe;
+	oh1 = nh1;
+	oh2 = nh1 + ( breite );
+	ov1 = nv1;
+	ov2 = nv1 + ( hoehe );
+	gebid( "auswahlrechteck" ).style.left = ( oh1 * zoomproz / 100 ) + "px";
+	gebid( "auswahlrechteck" ).style.top = ( ov1 * zoomproz / 100 ) + "px";
+	gebid( "auswahlrechteck" ).style.width = ( ( oh2 - oh1 ) * zoomproz / 100 ) + "px";
+	gebid( "auswahlrechteck" ).style.height = ( ( ov2 - ov1 ) * zoomproz / 100 ) + "px";
+	gebid( "auswahlrechteck" ).style.visibility = "visible";
+	setzeauswahlrechteckpunkte();
+	parent.setzecropcoords( oh1, ov1, oh2, ov2 );
+}
+
+function falert( was ) {
+	gebid( "falertspan" ).innerHTML = was;
+}
+
+var timerid;
+var bildname;
+var ladebild;
+document.ladebildfunc = function( was ) {
+  bildname = was;
+  ladebild=null;
+  var jetzt = new Date();
+  ladebild = new Image();   
+	var newsrc="bildserver.php?img=" + was+"&"+jetzt.getTime();
+  ladebild.onload = start;
+  ladebild.src=newsrc;	
+}
+document.ladehistorybild = function( historypos ) {
+  
+  ladebild = new Image();
+  ladebild.onload = start;
+  var jetzt = new Date();
+	ladebild.src = "bildserver.php?img=" + bildname+"&historypos="+historypos+"&"+jetzt.getTime();
+}
+
+function dofunction( historypos, was, params ) {
+	if ( was == "resize" ) {
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + params );
+		ladebild.onload = start;
+		zoomfaktor = 100;
+	}
+	if ( was == "crop" ) {
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + oh1 + ", " + ov1 + ", " + oh2 + ", " + ov2 );
+		ladebild.onload = start;
+		zoomfaktor = 100;
+	}
+	if ( was == "rotate" ) {
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + params + "&rand=" + Math.random() );
+		//alert( ladebild.src );
+		ladebild.onload = start;
+		zoomfaktor = 100;
+	}
+	if ( was == "filter" ) {
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + params );
+		ladebild.onload = start;
+	}
+	if ( was == "schrift" ) {
+		//var parameter=font+", " + fontfarbe + ", " + gebid( "schriftgroesse" ).value + ", " + gebid( "dertext" ).value;
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + ( schriftbildposx - schriftbildpixelx / 2 ) + "," + ( schriftbildposy - schriftbildpixely / 2 ) + "," + bildname + "_font.png" );
+		//alert( ladebild.src );
+		ladebild.onload = start;
+		gebid( "schriftlayer" ).style.visibility = "hidden";
+
+	}
+	if ( was == "watermark" ) {
+		//var parameter=font+", " + fontfarbe + ", " + gebid( "schriftgroesse" ).value + ", " + gebid( "dertext" ).value;
+		ladebild = document.createElement( "img" );
+		ladebild.setAttribute( "src", "bildserver.php?img=" + bildname + "&func=" + was + "&historypos="+historypos+"&params=" + ( watermarkalpha ) + "," +  watermarkdatei+ ","+ oh1 + "," + ov1 + "," + oh2 + "," + ov2  );
+		//alert( ladebild.src );
+		ladebild.onload = start;
+		gebid( "auswahlrechteck" ).style.visibility = "hidden";
+		hideauswahlrechteck();
+		
+	}
+}
+
+function fontbildstart() {
+	smittex = scrleft+(ladefontbild.width/ zoomproz ) * 100; //+ 320;
+	smittey = scrtop+(ladefontbild.height/ zoomproz ) * 100;// + 240;
+	if (schriftbildposx==false) schriftbildposx = ( ( smittex ) / zoomproz ) * 100;
+	if (schriftbildposy==false) schriftbildposy = ( ( smittey ) / zoomproz ) * 100;
+	schriftbildpixelx = ladefontbild.width;
+	schriftbildpixely = ladefontbild.height;
+	//gebid( "schriftlayer" ).replaceChild( ladefontbild, gebid( "schriftbild" ) );
+	//ladefontbild.setAttribute( "id", "schriftbild" );
+	gebid( "schriftlayer" ).style.left = ( ( ( schriftbildposx - schriftbildpixelx / 2 ) / 100 ) * zoomproz ) + "px";
+	gebid( "schriftlayer" ).style.top = ( ( ( schriftbildposy - schriftbildpixely / 2 ) / 100 ) * zoomproz ) + "px";
+	//gebid( "schriftlayer" ).style.left = ( smittex - ( ( schriftbildpixelx / 100 ) * zoomproz ) / 2 ) + "px";
+	//gebid( "schriftlayer" ).style.top = ( smittey - ( ( schriftbildpixely / 100 ) * zoomproz ) / 2 ) + "px";
+	gebid( "schriftbild" ).width = ( ( schriftbildpixelx / 100 ) * zoomproz );
+	gebid( "schriftbild" ).height = ( ( schriftbildpixely / 100 ) * zoomproz );
+	gebid( "schriftlayer" ).style.visibility = "visible";
+	gebid( "schriftlayer" ).style.cursor = "move";
+	//alert("fontbildstart");
+}
+
+function zeigeschrift( dertext, schriftart, schriftfarbe, schriftgroesse ) {
+	gebid( "schriftlayer" ).style.visibility = "hidden";
+	if ( schriftfarbe.substr( 0, 1 ) == "#" ) schriftfarbe = schriftfarbe.substring( 1 );
+	/*gebid( "schriftlayer" ).innerHTML = '<img id="fontimg" src="fontrenderer.php?fontstring=' + dertext + '&font=' + schriftart + '&fontsize=' + schriftgroesse + '&color=' + schriftfarbe + '" />';
+	alert( gebid( "schriftlayer" ).innerHTML );*/
+	ladefontbild = document.createElement( "img" );
+	var jetzt = new Date();
+  ladefontbild.onload = fontbildstart;
+	ladefontbild.setAttribute( "src", 'fontrenderer.php?fontstring=' + dertext + '&font=' + schriftart + '&fontsize=' + schriftgroesse + '&color=' + schriftfarbe + '&file=' + bildname + '_font.png&' + jetzt.getTime() );
+	gebid( "schriftlayer" ).replaceChild( ladefontbild, gebid( "schriftbild" ) );
+	ladefontbild.setAttribute( "id", "schriftbild" );
+}
+
+function stopschriftziehen() {
+	var gabsp=getabsolutepos( gebid( "schriftlayer" ) );
+	var bildp=getabsolutepos( gebid( "bildlayer" ) );
+	schriftbildposx = ( ( gabsp["x"] - bildp["x"] ) / zoomproz ) * 100 + schriftbildpixelx / 2;
+	schriftbildposy = ( ( gabsp["y"] - bildp["y"] ) / zoomproz ) * 100 + schriftbildpixely / 2;
+	window.clearTimeout( schriftziehento );
+}
+
+function schriftziehen() {
+	gebid( "schriftlayer" ).style.left = ( -deltah + Mouse.x + scrleft ) + "px";
+	gebid( "schriftlayer" ).style.top = ( -deltav + Mouse.y + scrtop ) + "px";
+	//alert( gebid( "schriftlayer" ).style.clip );
+	schriftziehento = window.setTimeout( "schriftziehen();", 50 );
+}
+
+var deltah = 0;
+var deltav = 0;
+function startschriftziehen() {
+	//if the browser is IE4+
+	document.onselectstart = new Function( "return false" );
+	document.ondragstart = new Function( "return false" );
+
+	var rpos = getabsolutepos( gebid( "schriftlayer" ) );
+	var bildp = getabsolutepos( gebid( "bildlayer" ) );
+	deltah = Mouse.x - ( rpos["x"] - bildp["x"] - scrleft );
+	deltav = Mouse.y - ( rpos["y"] - bildp["y"] - scrtop );
+
+	schriftziehento = window.setTimeout( "schriftziehen();", 50 );
+}
+
+
+
+//watermarkzuig:
+
+var watermarkbildposx=false;
+var watermarkbildposy=false;
+
+var watermarkbildpixelx = null;
+var watermarkbildpixely = null;
+function watermarkbildstart() {
+  if (typeof owatermarkdatei=='undefined' || watermarkdatei!=owatermarkdatei) {
+    watermarkbildpixelx = ladewatermarkbild.width;
+  	watermarkbildpixely = ladewatermarkbild.height;
+    smittex = scrleft+(watermarkbildpixelx/ 100 ) * zoomproz; //+ 320;
+	  smittey = scrtop+(watermarkbildpixely/ 100 ) * zoomproz;// + 240;
+    if (watermarkbildposx==false) watermarkbildposx = (( ( smittex ) / zoomproz ) * 100)+40;
+	  if (watermarkbildposy==false) watermarkbildposy = (( ( smittey ) / zoomproz ) * 100)+40;
+	
+  	gebid( "auswahlrechteck" ).style.left = ( ( ( watermarkbildposx - watermarkbildpixelx / 2 ) / 100 ) * zoomproz ) + "px";
+  	gebid( "auswahlrechteck" ).style.top = ( ( ( watermarkbildposy - watermarkbildpixely / 2 ) / 100 ) * zoomproz ) + "px";
+    gebid( "auswahlrechteck" ).style.width = ((watermarkbildpixelx/100)*zoomproz) + "px";
+	  gebid( "auswahlrechteck" ).style.height = ((watermarkbildpixely/100)*zoomproz) + "px";
+	  oh1=watermarkbildposx;
+	  oh2=watermarkbildposx+watermarkbildpixelx;
+	  ov1=watermarkbildposy;
+	  ov2=watermarkbildposy+watermarkbildpixely;
+  }
+  
+	gebid( "auswahlrechteck" ).style.visibility = "visible";
+  //ladewatermarkbild.setAttribute( "style", 'opacity:'+(pwatermarkalpha/100)+';filter:alpha(opacity='+pwatermarkalpha+')' );
+	if (typeof owatermarkdatei=='undefined' || watermarkdatei!=owatermarkdatei) {
+    gebid( "auswahlrechteck" ).replaceChild( ladewatermarkbild, gebid( "watermarkbild" ) );
+	  ladewatermarkbild.setAttribute( "id", "watermarkbild" );
+    gebid( "watermarkbild" ).width = ((watermarkbildpixelx/100)*zoomproz);
+	  gebid( "watermarkbild" ).height = ((watermarkbildpixely/100)*zoomproz);
+	}
+	
+	setzeauswahlrechteckpunkte()
+
+}
+
+function zeigewatermark( pwatermarkdatei, pwatermarkalpha ) {
+  if (typeof watermarkdatei!='undefined'){
+    owatermarkdatei=watermarkdatei;
+  }else{
+    if (typeof owatermarkdatei!='undefined') delete owatermarkdatei;
+  }
+  watermarkdatei=pwatermarkdatei;
+  watermarkalpha=pwatermarkalpha;
+  if (typeof owatermarkdatei=='undefined' || watermarkdatei!=owatermarkdatei){
+  	gebid( "auswahlrechteck" ).style.visibility = "hidden";
+  	ladewatermarkbild = document.createElement( "img" );
+  	var jetzt = new Date();
+    ladewatermarkbild.onload = watermarkbildstart;
+    ladewatermarkbild.setAttribute( "style", 'opacity:'+(pwatermarkalpha/100)+';filter:alpha(opacity='+pwatermarkalpha+')' );
+  	ladewatermarkbild.setAttribute( "src", '../images/'+watermarkdatei );
+	}else{
+	 gebid( "watermarkbild" ).setAttribute( "style", 'opacity:'+(pwatermarkalpha/100)+';filter:alpha(opacity='+pwatermarkalpha+')' );
+	 watermarkbildstart();
+  }
+	welchefunktion = "watermark";
+	
+}
+
+</script>
+</head>
+<body onmouseup="bodymouseup();" onload="parent.iframeistgeladen=true;">
+<div id="bildlayer" style="position:absolute;left:20px;top:20px;z-index:1;overflow:hidden;"><img src="" id="dasbild" onmousedown="bodymousedown();" alt="" />
+<div id="schriftlayer" style="position:absolute;left:120px;top:120px;width:10px;height:10px;z-index:1;visibility:hidden;" onmousedown="startschriftziehen();" onmouseup="stopschriftziehen();"><img id="schriftbild" alt="" src="img/blank.png" /></div>
+</div>
+<div id="auswahlrechteck" onmousedown="startauswahlrechteckziehen( 'mm' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:-20px;top:-20px;width:0px;height:0px;z-index:2;cursor:move;visibility:hidden;background-image:url(img/blank.png);" class="auswahlrechteck">
+<img id="watermarkbild" alt="" src="img/blank.png" />
+<div id="auswahlrechteckdraggerlo" onmousedown="startauswahlrechteckziehen( 'lo' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:-3px;top:-3px;width:6px;height:6px;z-index:2;cursor:nw-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggerro" onmousedown="startauswahlrechteckziehen( 'ro' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:277px;top:-3px;width:6px;height:6px;z-index:2;cursor:ne-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggerlu" onmousedown="startauswahlrechteckziehen( 'lu' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:-3px;top:219px;width:6px;height:6px;z-index:2;cursor:ne-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggerru" onmousedown="startauswahlrechteckziehen( 'ru' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:277px;top:219px;width:6px;height:6px;z-index:2;cursor:nw-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggermo" onmousedown="startauswahlrechteckziehen( 'mo' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:137px;top:-3px;width:6px;height:6px;z-index:2;cursor:s-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggermu" onmousedown="startauswahlrechteckziehen( 'mu' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:137px;top:219px;width:6px;height:6px;z-index:2;cursor:s-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggerlm" onmousedown="startauswahlrechteckziehen( 'lm' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:-3px;top:108px;width:6px;height:6px;z-index:2;cursor:e-resize;" class="auswahlrechteckdragger"></div>
+<div id="auswahlrechteckdraggerrm" onmousedown="startauswahlrechteckziehen( 'rm' )" onmouseup="stopauswahlrechteckziehen();" style="position:absolute;left:277px;top:108px;width:6px;height:6px;z-index:2;cursor:e-resize;" class="auswahlrechteckdragger"></div>
+</div>
+<div id="lineallayerh" style="position:fixed;left:20px;top:0px;width:50px;height:20px;z-index:90;"></div>
+<div id="lineallayerv" style="position:fixed;left:0px;top:20px;width:20px;height:50px;z-index:91;"></div>
+<div id="lineallayerecke" style="position:fixed;left:0px;top:0px;width:20px;height:20px;z-index:92;">
+<table cellspacing="0" cellpadding="0" class="borderrechtsunten" style="width:20px;height:20px;">
+	<tr>
+		<td width="20">&nbsp;</td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

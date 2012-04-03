@@ -1,0 +1,963 @@
+        <div class="body-wrap">
+        <div class="top-tools">
+            <a class="inner-link" href="#Ext-props"><img src="../resources/images/default/s.gif" class="item-icon icon-prop">Properties</a>
+            <a class="inner-link" href="#Ext-methods"><img src="../resources/images/default/s.gif" class="item-icon icon-method">Methods</a>
+            <a class="inner-link" href="#Ext-events"><img src="../resources/images/default/s.gif" class="item-icon icon-event">Events</a>
+                        <a class="bookmark" href="../docs/?class=Ext"><img src="../resources/images/default/s.gif" class="item-icon icon-fav">Direct Link</a>
+        </div>
+                <h1>Class Ext</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td class="hd-info">Global</td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">Ext.js</td></tr>
+            <tr><td class="label">Class:</td><td class="hd-info">Ext</td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
+                    </table>
+        <div class="description">
+            Ext core utilities and functions.<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        
+        <div class="hr"></div>
+                <a id="Ext-props"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="property-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-BLANK_IMAGE_URL"></a>
+            <b>BLANK_IMAGE_URL</b> : String            <div class="mdesc">
+                        <div class="short">URL to a 1x1 transparent gif image used by Ext to create inline icons with CSS background images. (Defaults to
+"http:...</div>
+            <div class="long">
+                URL to a 1x1 transparent gif image used by Ext to create inline icons with CSS background images. (Defaults to
+"http://extjs.com/s.gif" and you should change this to a URL on your server).            </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-SSL_SECURE_URL"></a>
+            <b>SSL_SECURE_URL</b> : String            <div class="mdesc">
+                        <div class="short">URL to a blank file used by Ext when in secure mode for iframe src and onReady src to prevent
+the IE insecure content...</div>
+            <div class="long">
+                URL to a blank file used by Ext when in secure mode for iframe src and onReady src to prevent
+the IE insecure content warning (defaults to javascript:false).            </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-emptyFn"></a>
+            <b>emptyFn</b> : Function            <div class="mdesc">
+                            A reusable empty function                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-enableGarbageCollector"></a>
+            <b>enableGarbageCollector</b> : Boolean            <div class="mdesc">
+                            True to automatically uncache orphaned Ext.Elements periodically (defaults to true)                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-enableListenerCollection"></a>
+            <b>enableListenerCollection</b> : Boolean            <div class="mdesc">
+                        <div class="short">True to automatically purge event listeners after uncaching an element (defaults to false).
+Note: this only happens i...</div>
+            <div class="long">
+                True to automatically purge event listeners after uncaching an element (defaults to false).
+Note: this only happens if enableGarbageCollector is true.            </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isAir"></a>
+            <b>isAir</b> : Boolean            <div class="mdesc">
+                            True if the detected platform is Adobe Air.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isBorderBox"></a>
+            <b>isBorderBox</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Internet Explorer running in non-strict mode.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isGecko"></a>
+            <b>isGecko</b> : Boolean            <div class="mdesc">
+                            True if the detected browser uses the Gecko layout engine (e.g. Mozilla, Firefox).                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isGecko2"></a>
+            <b>isGecko2</b> : Boolean            <div class="mdesc">
+                            True if the detected browser uses a pre-Gecko 1.9 layout engine (e.g. Firefox 2.x).                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isGecko3"></a>
+            <b>isGecko3</b> : Boolean            <div class="mdesc">
+                            True if the detected browser uses a Gecko 1.9+ layout engine (e.g. Firefox 3.x).                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isIE"></a>
+            <b>isIE</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Internet Explorer.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isIE6"></a>
+            <b>isIE6</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Internet Explorer 6.x.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isIE7"></a>
+            <b>isIE7</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Internet Explorer 7.x.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isLinux"></a>
+            <b>isLinux</b> : Boolean            <div class="mdesc">
+                            True if the detected platform is Linux.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isMac"></a>
+            <b>isMac</b> : Boolean            <div class="mdesc">
+                            True if the detected platform is Mac OS.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isOpera"></a>
+            <b>isOpera</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Opera.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isReady"></a>
+            <b>isReady</b> : Boolean            <div class="mdesc">
+                            True when the document is fully initialized and ready for action                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isSafari"></a>
+            <b>isSafari</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Safari.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isSafari2"></a>
+            <b>isSafari2</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Safari 2.x.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isSafari3"></a>
+            <b>isSafari3</b> : Boolean            <div class="mdesc">
+                            True if the detected browser is Safari 3.x.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isSecure"></a>
+            <b>isSecure</b> : Boolean            <div class="mdesc">
+                            True if the page is running over SSL                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isStrict"></a>
+            <b>isStrict</b> : Boolean            <div class="mdesc">
+                            True if the browser is in strict (standards-compliant) mode, as opposed to quirks mode                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isWindows"></a>
+            <b>isWindows</b> : Boolean            <div class="mdesc">
+                            True if the detected platform is Windows.                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="property-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-useShims"></a>
+            <b>useShims</b> : Boolean            <div class="mdesc">
+                        <div class="short">By default, Ext intelligently decides whether floating elements should be shimmed. If you are using flash,
+you may wa...</div>
+            <div class="long">
+                By default, Ext intelligently decides whether floating elements should be shimmed. If you are using flash,
+you may want to set this to true.            </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+            </table>
+                <a id="Ext-methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-addBehaviors"></a>
+            <b>addBehaviors</b>(&nbsp;<code>Object obj</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Applies event listeners to elements by selectors when the document is ready.
+The event name is specified with an @ su...</div>
+            <div class="long">
+                Applies event listeners to elements by selectors when the document is ready.
+The event name is specified with an @ suffix.
+<pre><code>Ext.addBehaviors({
+   <i>// add a listener <b>for</b> click on all anchors <b>in</b> element <b>with</b> id foo</i>
+   <em>'#foo a@click'</em> : <b>function</b>(e, t){
+       <i>// <b>do</b> something</i>
+   },
+
+   <i>// add the same listener to multiple selectors (separated by comma BEFORE the @)</i>
+   <em>'#foo a, #bar span.some-class@mouseover'</em> : <b>function</b>(){
+       <i>// <b>do</b> something</i>
+   }
+});</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>obj</code> : Object<div class="sub-desc">The list of behaviors to apply</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-apply"></a>
+            <b>apply</b>(&nbsp;<code>Object obj</code>, <code>Object config</code>, <code>Object defaults</code>&nbsp;) : Object            <div class="mdesc">
+                        <div class="short">
+Copies all the properties of config to obj.</div>
+            <div class="long">
+                
+Copies all the properties of config to obj.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>obj</code> : Object<div class="sub-desc">The receiver of the properties</div></li><li><code>config</code> : Object<div class="sub-desc">The source of the properties</div></li><li><code>defaults</code> : Object<div class="sub-desc">A different object that will also be applied for default values</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">returns obj</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-applyIf"></a>
+            <b>applyIf</b>(&nbsp;<code>Object obj</code>, <code>Object config</code>&nbsp;) : Object            <div class="mdesc">
+                        <div class="short">Copies all the properties of config to obj if they don't already exist.</div>
+            <div class="long">
+                Copies all the properties of config to obj if they don't already exist.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>obj</code> : Object<div class="sub-desc">The receiver of the properties</div></li><li><code>config</code> : Object<div class="sub-desc">The source of the properties</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">returns obj</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-decode"></a>
+            <b>decode</b>(&nbsp;<code>String json</code>&nbsp;) : Object            <div class="mdesc">
+                        <div class="short">Shorthand for <a ext:cls="Ext.util.JSON" ext:member="decode" href="output/Ext.util.JSON.html#decode">Ext.util.JSON.decode</a></div>
+            <div class="long">
+                Shorthand for <a ext:cls="Ext.util.JSON" ext:member="decode" href="output/Ext.util.JSON.html#decode">Ext.util.JSON.decode</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>json</code> : String<div class="sub-desc">The JSON string</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">The resulting object</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-destroy"></a>
+            <b>destroy</b>(&nbsp;<code>Mixed arg1</code>, <span class="optional" title="Optional">[<code>Mixed arg2</code>]</span>, <span class="optional" title="Optional">[<code>Mixed etc...</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Attempts to destroy any objects passed to it by removing all event listeners, removing them from the
+DOM (if applicab...</div>
+            <div class="long">
+                Attempts to destroy any objects passed to it by removing all event listeners, removing them from the
+DOM (if applicable) and calling their destroy functions (if available).  This method is primarily
+intended for arguments of type <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a> and <a ext:cls="Ext.Component" href="output/Ext.Component.html">Ext.Component</a>, but any subclass of
+<a ext:cls="Ext.util.Observable" href="output/Ext.util.Observable.html">Ext.util.Observable</a> can be passed in.  Any number of elements and/or components can be
+passed into this function in a single call as separate arguments.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>arg1</code> : Mixed<div class="sub-desc">An <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a> or <a ext:cls="Ext.Component" href="output/Ext.Component.html">Ext.Component</a> to destroy</div></li><li><code>arg2</code> : Mixed<div class="sub-desc">(optional)</div></li><li><code>etc...</code> : Mixed<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-each"></a>
+            <b>each</b>(&nbsp;<code>Array/NodeList/Mixed array</code>, <code>Function fn</code>, <code>Object scope</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Iterates an array calling the passed function with each item, stopping if your function returns false. If the
+passed ...</div>
+            <div class="long">
+                Iterates an array calling the passed function with each item, stopping if your function returns false. If the
+passed array is not really an array, your function is called once with it.
+The supplied function is called with (Object item, Number index, Array allItems).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>array</code> : Array/NodeList/Mixed<div class="sub-desc"></div></li><li><code>fn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-encode"></a>
+            <b>encode</b>(&nbsp;<code>Mixed o</code>&nbsp;) : String            <div class="mdesc">
+                        <div class="short">Shorthand for <a ext:cls="Ext.util.JSON" ext:member="encode" href="output/Ext.util.JSON.html#encode">Ext.util.JSON.encode</a></div>
+            <div class="long">
+                Shorthand for <a ext:cls="Ext.util.JSON" ext:member="encode" href="output/Ext.util.JSON.html#encode">Ext.util.JSON.encode</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Mixed<div class="sub-desc">The variable to encode</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code><div class="sub-desc">The JSON string</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-escapeRe"></a>
+            <b>escapeRe</b>(&nbsp;<code>String str</code>&nbsp;) : String            <div class="mdesc">
+                        <div class="short">Escapes the passed string for use in a regular expression</div>
+            <div class="long">
+                Escapes the passed string for use in a regular expression    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>str</code> : String<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-extend"></a>
+            <b>extend</b>(&nbsp;<code>Function subclass</code>, <code>Function superclass</code>, <span class="optional" title="Optional">[<code>Object overrides</code>]</span>&nbsp;) : Function            <div class="mdesc">
+                        <div class="short">Extends one class with another class and optionally overrides members with the passed literal. This class
+also adds t...</div>
+            <div class="long">
+                Extends one class with another class and optionally overrides members with the passed literal. This class
+also adds the function "override()" to the class that can be used to override
+members on an instance.
+<p>
+This function also supports a 2-argument call in which the subclass's constructor is
+not passed as an argument. In this form, the parameters are as follows:</p><p>
+<div class="mdetail-params"><ul>
+<li><code>superclass</code>
+<div class="sub-desc">The class being extended</div></li>
+<li><code>overrides</code>
+<div class="sub-desc">A literal with members which are copied into the subclass's
+prototype, and are therefore shared among all instances of the new class.<p>
+This may contain a special member named <tt><b>constructor</b></tt>. This is used
+to define the constructor of the new class, and is returned. If this property is
+<i>not</i> specified, a constructor is generated and returned which just calls the
+superclass's constructor passing on its parameters.</p></div></li>
+</ul></div></p><p>
+For example, to create a subclass of the Ext GridPanel:
+<pre><code>MyGridPanel = Ext.extend(Ext.grid.GridPanel, {
+        constructor: <b>function</b>(config) {
+            <i>// Your preprocessing here</i>
+        	MyGridPanel.superclass.constructor.apply(<b>this</b>, arguments);
+            <i>// Your postprocessing here</i>
+        },
+
+        yourMethod: <b>function</b>() {
+            <i>// etc.</i>
+        }
+    });</code></pre>
+</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>subclass</code> : Function<div class="sub-desc">The class inheriting the functionality</div></li><li><code>superclass</code> : Function<div class="sub-desc">The class being extended</div></li><li><code>overrides</code> : Object<div class="sub-desc">(optional) A literal with members which are copied into the subclass's
+prototype, and are therefore shared between all instances of the new class.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Function</code><div class="sub-desc">The subclass constructor.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-fly"></a>
+            <b>fly</b>(&nbsp;<code>String/HTMLElement el</code>, <span class="optional" title="Optional">[<code>String named</code>]</span>&nbsp;) : Element            <div class="mdesc">
+                        <div class="short">&lt;static&gt; Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a...</div>
+            <div class="long">
+                &lt;static&gt; Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to this element -
+the dom node can be overwritten by other code.
+Shorthand of <a ext:cls="Ext.Element" ext:member="fly" href="output/Ext.Element.html#fly">Ext.Element.fly</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">The dom node or id</div></li><li><code>named</code> : String<div class="sub-desc">(optional) Allows for creation of named reusable flyweights to
+prevent conflicts (e.g. internally Ext uses "_internal")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Element</code><div class="sub-desc">The shared Element object</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-get"></a>
+            <b>get</b>(&nbsp;<code>Mixed el</code>&nbsp;) : Element            <div class="mdesc">
+                        <div class="short">Static method to retrieve Element objects. Uses simple caching to consistently return the same object.
+Automatically ...</div>
+            <div class="long">
+                Static method to retrieve Element objects. Uses simple caching to consistently return the same object.
+Automatically fixes if an object was recreated with the same id via AJAX or DOM.
+Shorthand of <a ext:cls="Ext.Element" ext:member="get" href="output/Ext.Element.html#get">Ext.Element.get</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id of the node, a DOM Node or an existing Element.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Element</code><div class="sub-desc">The Element object</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-getBody"></a>
+            <b>getBody</b>() : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns the current document body as an <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.</div>
+            <div class="long">
+                Returns the current document body as an <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code><div class="sub-desc">The document body</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-getCmp"></a>
+            <b>getCmp</b>(&nbsp;<code>String id</code>&nbsp;) : Ext.Component            <div class="mdesc">
+                        <div class="short">Shorthand for <a ext:cls="Ext.ComponentMgr" ext:member="get" href="output/Ext.ComponentMgr.html#get">Ext.ComponentMgr.get</a></div>
+            <div class="long">
+                Shorthand for <a ext:cls="Ext.ComponentMgr" ext:member="get" href="output/Ext.ComponentMgr.html#get">Ext.ComponentMgr.get</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>id</code> : String<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Component</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-getDoc"></a>
+            <b>getDoc</b>() : Ext.Element            <div class="mdesc">
+                        <div class="short">Returns the current HTML document object as an <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.</div>
+            <div class="long">
+                Returns the current HTML document object as an <a ext:cls="Ext.Element" href="output/Ext.Element.html">Ext.Element</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Ext.Element</code><div class="sub-desc">The document</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-getDom"></a>
+            <b>getDom</b>(&nbsp;<code>Mixed el</code>&nbsp;) : HTMLElement            <div class="mdesc">
+                        <div class="short">Return the dom node for the passed string (id), dom node, or Ext.Element</div>
+            <div class="long">
+                Return the dom node for the passed string (id), dom node, or Ext.Element    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>HTMLElement</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-id"></a>
+            <b>id</b>(&nbsp;<span class="optional" title="Optional">[<code>Mixed el</code>]</span>, <span class="optional" title="Optional">[<code>String prefix</code>]</span>&nbsp;) : String            <div class="mdesc">
+                        <div class="short">Generates unique ids. If the element already has an id, it is unchanged</div>
+            <div class="long">
+                Generates unique ids. If the element already has an id, it is unchanged    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">(optional) The element to generate an id for</div></li><li><code>prefix</code> : String<div class="sub-desc">(optional) Id prefix (defaults "ext-gen")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code><div class="sub-desc">The generated Id.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isArray"></a>
+            <b>isArray</b>(&nbsp;<code>Object The</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the passed object is a JavaScript array, otherwise false.</div>
+            <div class="long">
+                Returns true if the passed object is a JavaScript array, otherwise false.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>The</code> : Object<div class="sub-desc">object to test</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isDate"></a>
+            <b>isDate</b>(&nbsp;<code>Object The</code>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the passed object is a JavaScript date object, otherwise false.</div>
+            <div class="long">
+                Returns true if the passed object is a JavaScript date object, otherwise false.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>The</code> : Object<div class="sub-desc">object to test</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-isEmpty"></a>
+            <b>isEmpty</b>(&nbsp;<code>Mixed value</code>, <span class="optional" title="Optional">[<code>Boolean allowBlank</code>]</span>&nbsp;) : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the passed value is null, undefined or an empty string (optional).</div>
+            <div class="long">
+                Returns true if the passed value is null, undefined or an empty string (optional).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>value</code> : Mixed<div class="sub-desc">The value to test</div></li><li><code>allowBlank</code> : Boolean<div class="sub-desc">(optional) Pass true if an empty string is not considered empty</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Boolean</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-namespace"></a>
+            <b>namespace</b>(&nbsp;<code>String namespace1</code>, <code>String namespace2</code>, <code>String etc</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Creates namespaces to be used for scoping variables and classes so that they are not global.  Usage:
+Ext.namespace('C...</div>
+            <div class="long">
+                Creates namespaces to be used for scoping variables and classes so that they are not global.  Usage:
+<pre><code>Ext.namespace(<em>'Company'</em>, <em>'Company.data'</em>);
+Company.Widget = <b>function</b>() { ... }
+Company.data.CustomStore = <b>function</b>(config) { ... }</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>namespace1</code> : String<div class="sub-desc"></div></li><li><code>namespace2</code> : String<div class="sub-desc"></div></li><li><code>etc</code> : String<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-num"></a>
+            <b>num</b>(&nbsp;<code>Mixed value</code>, <code>Number defaultValue</code>&nbsp;) : Number            <div class="mdesc">
+                        <div class="short">Utility method for validating that a value is numeric, returning the specified default value if it is not.</div>
+            <div class="long">
+                Utility method for validating that a value is numeric, returning the specified default value if it is not.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>value</code> : Mixed<div class="sub-desc">Should be a number, but any type will be handled appropriately</div></li><li><code>defaultValue</code> : Number<div class="sub-desc">The value to return if the original value is non-numeric</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Number</code><div class="sub-desc">Value, if numeric, else defaultValue</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-onReady"></a>
+            <b>onReady</b>(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean override</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Fires when the document is ready (before onload and before images are loaded).  Shorthand of Ext.EventManager.onDocum...</div>
+            <div class="long">
+                Fires when the document is ready (before onload and before images are loaded).  Shorthand of <a ext:cls="Ext.EventManager" ext:member="onDocumentReady" href="output/Ext.EventManager.html#onDocumentReady">Ext.EventManager.onDocumentReady</a>.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">An object that becomes the scope of the handler</div></li><li><code>override</code> : boolean<div class="sub-desc">If true, the obj passed in becomes
+the execution scope of the listener</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-override"></a>
+            <b>override</b>(&nbsp;<code>Object origclass</code>, <code>Object overrides</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Adds a list of functions to the prototype of an existing class, overwriting any existing methods with the same name.
+...</div>
+            <div class="long">
+                Adds a list of functions to the prototype of an existing class, overwriting any existing methods with the same name.
+Usage:<pre><code>Ext.override(MyClass, {
+    newMethod1: <b>function</b>(){
+        <i>// etc.</i>
+    },
+    newMethod2: <b>function</b>(foo){
+        <i>// etc.</i>
+    }
+});</code></pre>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>origclass</code> : Object<div class="sub-desc">The class to override</div></li><li><code>overrides</code> : Object<div class="sub-desc">The list of functions to add to origClass. This should be specified as an object literal
+containing one or more methods.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-query"></a>
+            <b>query</b>(&nbsp;<code>String path</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Selects an array of DOM nodes by CSS/XPath selector. Shorthand of <a ext:cls="Ext.DomQuery" ext:member="select" href="output/Ext.DomQuery.html#select">Ext.DomQuery.select</a></div>
+            <div class="long">
+                Selects an array of DOM nodes by CSS/XPath selector. Shorthand of <a ext:cls="Ext.DomQuery" ext:member="select" href="output/Ext.DomQuery.html#select">Ext.DomQuery.select</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>path</code> : String<div class="sub-desc">The selector/xpath query</div></li><li><code>root</code> : Node<div class="sub-desc">(optional) The start of the query (defaults to document).</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-reg"></a>
+            <b>reg</b>(&nbsp;<code>String xtype</code>, <code>Constructor cls</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Shorthand for <a ext:cls="Ext.ComponentMgr" ext:member="registerType" href="output/Ext.ComponentMgr.html#registerType">Ext.ComponentMgr.registerType</a></div>
+            <div class="long">
+                Shorthand for <a ext:cls="Ext.ComponentMgr" ext:member="registerType" href="output/Ext.ComponentMgr.html#registerType">Ext.ComponentMgr.registerType</a>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String<div class="sub-desc">The mnemonic string by which the Component class
+may be looked up.</div></li><li><code>cls</code> : Constructor<div class="sub-desc">The new Component class.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-removeNode"></a>
+            <b>removeNode</b>(&nbsp;<code>HTMLElement node</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Removes a DOM node from the document.  The body node will be ignored if passed in.</div>
+            <div class="long">
+                Removes a DOM node from the document.  The body node will be ignored if passed in.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>node</code> : HTMLElement<div class="sub-desc">The node to remove</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-select"></a>
+            <b>select</b>(&nbsp;<code>String/Array selector</code>, <span class="optional" title="Optional">[<code>Boolean unique</code>]</span>, <span class="optional" title="Optional">[<code>HTMLElement/String root</code>]</span>&nbsp;) : CompositeElementLite/CompositeElement            <div class="mdesc">
+                        <div class="short">Selects elements based on the passed CSS selector to enable working on them as 1.</div>
+            <div class="long">
+                Selects elements based on the passed CSS selector to enable working on them as 1.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>selector</code> : String/Array<div class="sub-desc">The CSS selector or an array of elements</div></li><li><code>unique</code> : Boolean<div class="sub-desc">(optional) true to create a unique Ext.Element for each element (defaults to a shared flyweight object)</div></li><li><code>root</code> : HTMLElement/String<div class="sub-desc">(optional) The root element of the query or id of the root</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>CompositeElementLite/CompositeElement</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-type"></a>
+            <b>type</b>(&nbsp;<code>Mixed object</code>&nbsp;) : String            <div class="mdesc">
+                        <div class="short">Returns the type of object that is passed in. If the object passed in is null or undefined it
+return false otherwise ...</div>
+            <div class="long">
+                Returns the type of object that is passed in. If the object passed in is null or undefined it
+return false otherwise it returns one of the following values:<ul>
+<li><b>string</b>: If the object passed is a string</li>
+<li><b>number</b>: If the object passed is a number</li>
+<li><b>boolean</b>: If the object passed is a boolean value</li>
+<li><b>function</b>: If the object passed is a function reference</li>
+<li><b>object</b>: If the object passed is an object</li>
+<li><b>array</b>: If the object passed is an array</li>
+<li><b>regexp</b>: If the object passed is a regular expression</li>
+<li><b>element</b>: If the object passed is a DOM Element</li>
+<li><b>nodelist</b>: If the object passed is a DOM NodeList</li>
+<li><b>textnode</b>: If the object passed is a DOM text node and contains something other than whitespace</li>
+<li><b>whitespace</b>: If the object passed is a DOM text node and contains only whitespace</li>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>object</code> : Mixed<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-urlDecode"></a>
+            <b>urlDecode</b>(&nbsp;<code>String string</code>, <span class="optional" title="Optional">[<code>Boolean overwrite</code>]</span>&nbsp;) : Object            <div class="mdesc">
+                        <div class="short">Takes an encoded URL and and converts it to an object. e.g. Ext.urlDecode("foo=1&bar=2"); would return {foo: 1, bar: ...</div>
+            <div class="long">
+                Takes an encoded URL and and converts it to an object. e.g. Ext.urlDecode("foo=1&bar=2"); would return {foo: 1, bar: 2} or Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", true); would return {foo: 1, bar: [2, 3, 4]}.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>string</code> : String<div class="sub-desc"></div></li><li><code>overwrite</code> : Boolean<div class="sub-desc">(optional) Items of the same name will overwrite previous values instead of creating an an array (Defaults to false).</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">A literal with members</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext-urlEncode"></a>
+            <b>urlEncode</b>(&nbsp;<code>Object o</code>&nbsp;) : String            <div class="mdesc">
+                        <div class="short">Takes an object and converts it to an encoded URL. e.g. Ext.urlEncode({foo: 1, bar: 2}); would return "foo=1&bar=2". ...</div>
+            <div class="long">
+                Takes an object and converts it to an encoded URL. e.g. Ext.urlEncode({foo: 1, bar: 2}); would return "foo=1&bar=2".  Optionally, property values can be arrays, instead of keys and the resulting string that's returned will contain a name/value pair for each array value.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>String</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Ext</td>
+    </tr>
+            </table>
+                <a id="Ext-events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>
+        </div>
