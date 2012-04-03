@@ -10,13 +10,13 @@
          <input type="hidden"   name="search" value="1" />
        
             <input type="text" class="jobsearch_textbox1"  name="keyword"   />
-            <select class="jobsearch_drop" name="specialty">
+            <select class="jobsearch_drop" name="specialty*">
               <option value="">Select Specialty</option>
             </select>
             <div class="jobsearch_drop_close"></div>
           </div></td>
         <td><div class="jobsearch_form_fileds">
-      <input type="text" class="jobsearch_textbox1" name="location|state|zip"  />
+      <input type="text" class="jobsearch_textbox1" name="location*|state*|zip*"  />
       <select class="jobsearch_drop">
         <option>Posted - in last 7 days</option>
       </select>

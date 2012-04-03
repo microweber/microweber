@@ -3,7 +3,7 @@ if (! defined ( 'BASEPATH' ))
 	
 	exit ( 'No direct script access allowed' );
 
-	/**
+/**
  *
  *
  *
@@ -20,22 +20,23 @@ if (! defined ( 'BASEPATH' ))
  * menuTree
  *
  * @package Microweber
- *         
+ * 
  * @author Peter Ivanov
- *        
+ * 
  * @copyright Copyright (c), Mass Media Group, LTD.
- *           
+ * 
  * @license http://ooyes.net
- *         
+ * 
  * @link http://ooyes.net
- *      
+ * 
  * @since Version 1.0
- *       
- *       
- *       
+ * 
+ * 
+ * 
  */
-	
+
 // ------------------------------------------------------------------------
+
 
 /**
  *
@@ -53,15 +54,15 @@ if (! defined ( 'BASEPATH' ))
  * table from the DB
  *
  * @access public
- *        
+ * 
  * @category Content API
- *          
+ * 
  * @subpackage Core
- *            
+ * 
  * @author Peter Ivanov
- *        
+ * 
  * @link http://ooyes.net
- *      
+ * 
  */
 
 class content_model extends Model {
@@ -92,19 +93,19 @@ class content_model extends Model {
 	 * Function to save content into the content_table
 	 *
 	 * @param
-	 *       	 array
-	 *       	
+	 * array
+	 * 
 	 * @param
-	 *       	 boolean
-	 *       	
+	 * boolean
+	 * 
 	 * @return string | the id saved
-	 *        
+	 * 
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function saveContent($data, $delete_the_cache = true) {
@@ -150,6 +151,7 @@ class content_model extends Model {
 				
 				// print 'asd2';
 				
+
 				$data ['content_url'] = $thecontent_url;
 			
 			} else {
@@ -160,6 +162,7 @@ class content_model extends Model {
 				
 				// print 'asd1';
 				
+
 				$data ['content_url'] = $thecontent_url;
 			
 			}
@@ -168,6 +171,7 @@ class content_model extends Model {
 				
 				// print 'asd';
 				
+
 				$data ['content_url'] = CI::model ( 'core' )->url_title ( $thecontent_title );
 			
 			}
@@ -185,9 +189,10 @@ class content_model extends Model {
 		if ($data ['content_url'] != false) {
 			// if (intval ( $data ['id'] ) == 0) {
 			$data_to_save ['content_url'] = $data ['content_url'];
-			
-			// }
 		
+		// }
+		
+
 		}
 		
 		if ($data ['content_url'] != false) {
@@ -232,18 +237,19 @@ class content_model extends Model {
 			if (strval ( $data_to_save ['content_url'] ) == '' and ($data_to_save ['quick_save'] == false)) {
 				$data_to_save ['content_url'] = strtolower ( reduce_double_slashes ( $data ['content_url'] ) );
 			}
-			
-			// $data_to_save ['content_url_md5'] = md5 ( $data_to_save
-			// ['content_url'] );
 		
+		// $data_to_save ['content_url_md5'] = md5 ( $data_to_save
+		// ['content_url'] );
+		
+
 		}
 		
 		$data_to_save_options = array ();
 		
 		if ($delete_the_cache == true) {
 			// CI::model('core')->cleanCacheGroup ( 'content' );
-			// CI::model('core')->cleanCacheGroup ( 'media' );
-			// CI::model('core')->cleanCacheGroup ( 'global' );
+		// CI::model('core')->cleanCacheGroup ( 'media' );
+		// CI::model('core')->cleanCacheGroup ( 'global' );
 		}
 		
 		if ($data_to_save ['is_home'] == 'y') {
@@ -253,6 +259,7 @@ class content_model extends Model {
 		
 		// parse images
 		
+
 		if ($data ['content_body'] != false) {
 			$data_to_save ['content_body'] = $this->parseContentBodyItems ( $data_to_save ['content_body'], $data_to_save ['content_title'] );
 		}
@@ -395,10 +402,12 @@ class content_model extends Model {
 		
 		// if ($data_to_save ['content_type'] == 'page') {
 		
+
 		if (! empty ( $data_to_save ['menus'] )) {
 			
 			// housekeep
 			
+
 			$this->removeContentFromUnusedMenus ( $save, $data_to_save ['menus'] );
 			
 			foreach ( $data_to_save ['menus'] as $menu_item ) {
@@ -423,8 +432,10 @@ class content_model extends Model {
 		
 		// }
 		
+
 		// CI::model('core')->cacheDeleteAll ();
 		
+
 		if ($data_to_save ['preserve_cache'] == false) {
 			if (intval ( $data_to_save ['content_parent'] ) != 0) {
 				CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . intval ( $data_to_save ['content_parent'] ) );
@@ -471,6 +482,7 @@ class content_model extends Model {
 		
 		// $original_content = html_entity_decode($original_content);
 		
+
 		$site_url = site_url ();
 		
 		$original_content = str_ireplace ( $site_url, '{SITEURL}', $original_content );
@@ -533,8 +545,10 @@ class content_model extends Model {
 				
 				// $match[2] = link address
 				
+
 				// $match[3] = link text
 				
+
 				$images [] = $match [2];
 			
 			}
@@ -553,6 +567,7 @@ class content_model extends Model {
 		
 		// mkdir
 		
+
 		$media_url = MEDIA_URL;
 		
 		if (! empty ( $images )) {
@@ -593,6 +608,7 @@ class content_model extends Model {
 									
 									// print 'file: ' . $image;
 									
+
 									$parts = explode ( '/', $image );
 									
 									$currentFile = $parts [count ( $parts ) - 1];
@@ -603,8 +619,10 @@ class content_model extends Model {
 									
 									// $to_save =
 									
+
 									// exit($ext);
 									
+
 									$orig_file_clean = strip_punctuation ( $orig_file );
 									
 									$orig_file_clean = str_replace ( '.', '_', $orig_file_clean );
@@ -679,6 +697,7 @@ class content_model extends Model {
 									
 									// get
 									
+
 									/*
 									 * var_dump ( $image ); print "<hr>";
 									 * var_dump ( $dir . $currentFile ); print
@@ -688,6 +707,7 @@ class content_model extends Model {
 									// CI::model('core')->url_getPageToFile (
 									// $image, $dir . $currentFile );
 									
+
 									CurlTool::downloadFile ( $image, $dir . $currentFile, false );
 									
 									$the_new_image = '{MEDIAURL}' . 'downloaded/' . $currentFile;
@@ -695,6 +715,7 @@ class content_model extends Model {
 									// $content_item = str_ireplace ( $image,
 									// $the_new_image, $content_item );
 									
+
 									$content_item = str_ireplace ( $orig_image, $the_new_image, $content_item );
 									
 									$content_item = str_ireplace ( $media_url, '{MEDIAURL}', $content_item );
@@ -702,9 +723,10 @@ class content_model extends Model {
 								}
 							
 							} else {
-								
-								// print 'no file: ' . $image;
 							
+		// print 'no file: ' . $image;
+							
+
 							}
 						
 						}
@@ -719,8 +741,10 @@ class content_model extends Model {
 		
 		// var_dump ( $content_item );
 		
+
 		// exit ();
 		
+
 		return $content_item;
 	
 	}
@@ -839,32 +863,44 @@ class content_model extends Model {
 		CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
 		CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . '0' );
 		CI::model ( 'core' )->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . 'global' );
-		
-		// $table = $table_menus;
-		
-		// $data = array ( );
-		
-		// $data ['content_id'] = $id;
-		
-		// $del = CI::model('core')->deleteData ( $table, $data, 'menus' );
-		
-		// $this->fixMenusPositions ();
-		
-		// $data = array ( );
-		
-		// $data ['to_table'] = 'table_content';
-		
-		// $data ['to_table_id'] = $id;
-		
-		// $del = CI::model('core')->deleteData ( $table_taxonomy, $data,
-		// 'taxonomy' );
-		
-		// CI::model('core')->cleanCacheGroup ( 'content' );
-		
-		// CI::model('core')->cleanCacheGroup ( 'core' );
-		
-		// CI::model('core')->cleanCacheGroup ( 'global' );
 	
+		// $table = $table_menus;
+	
+
+	// $data = array ( );
+	
+
+	// $data ['content_id'] = $id;
+	
+
+	// $del = CI::model('core')->deleteData ( $table, $data, 'menus' );
+	
+
+	// $this->fixMenusPositions ();
+	
+
+	// $data = array ( );
+	
+
+	// $data ['to_table'] = 'table_content';
+	
+
+	// $data ['to_table_id'] = $id;
+	
+
+	// $del = CI::model('core')->deleteData ( $table_taxonomy, $data,
+	// 'taxonomy' );
+	
+
+	// CI::model('core')->cleanCacheGroup ( 'content' );
+	
+
+	// CI::model('core')->cleanCacheGroup ( 'core' );
+	
+
+	// CI::model('core')->cleanCacheGroup ( 'global' );
+	
+
 	}
 	
 	function getPostByURLAndCache($content_id, $url, $no_recursive = false) {
@@ -904,6 +940,7 @@ class content_model extends Model {
 		
 		// header("Content-type: text/plain; charset=UTF-8");
 		
+
 		$function_cache_id = false;
 		
 		$args = func_get_args ();
@@ -953,6 +990,7 @@ class content_model extends Model {
 		
 		// $content_url_md5 = md5 ( $url );
 		
+
 		$sql = "SELECT id, content_url from $table where content_url='$url' and content_type='post'   order by updated_on desc limit 0,1 ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
@@ -1070,10 +1108,12 @@ class content_model extends Model {
 		
 		// return false;
 		
+
 		if (strval ( $url ) == '') {
 			
 			// return false;
 			
+
 			$url = getCurentURL ();
 		
 		}
@@ -1088,8 +1128,10 @@ class content_model extends Model {
 		
 		// print $sql;
 		
+
 		// exit ();
 		
+
 		$q = CI::model ( 'core' )->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
 		
 		$result = $q;
@@ -1136,6 +1178,7 @@ class content_model extends Model {
 				
 				// /var_dump ( $url );
 				
+
 				$segs = explode ( '/', $url );
 				
 				$segs_qty = count ( $segs );
@@ -1150,6 +1193,7 @@ class content_model extends Model {
 					
 					// var_dump ( $url );
 					
+
 					if (! empty ( $url )) {
 						
 						return $url;
@@ -1182,6 +1226,7 @@ class content_model extends Model {
 			
 			// return false;
 			
+
 			$url = getCurentURL ();
 		
 		}
@@ -1213,6 +1258,7 @@ class content_model extends Model {
 				
 				// /var_dump ( $url );
 				
+
 				$segs = explode ( '/', $url );
 				
 				$segs_qty = count ( $segs );
@@ -1298,14 +1344,16 @@ class content_model extends Model {
 			
 			// $url = site_url ( $content ['content_url'] );
 			
+
 			return $url;
 		
 		}
 		
 		return false;
-		
+	
 		// var_dump ( $content );
 	
+
 	}
 	
 	function getContentHomepage() {
@@ -1328,6 +1376,7 @@ class content_model extends Model {
 	
 	// double function but why? next time watch more :)
 	
+
 	function contentDelete($id) {
 		
 		$this->deleteContent ( $id );
@@ -1351,6 +1400,7 @@ class content_model extends Model {
 		// $taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q
 		// ), $cache_group = 'content' );
 		
+
 		$pages = CI::model ( 'core' )->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content/global' );
 		
 		return $pages;
@@ -1430,6 +1480,7 @@ class content_model extends Model {
 		// $taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q
 		// ), $cache_group = 'content' );
 		
+
 		$taxonomies = CI::model ( 'core' )->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content/' . $id );
 		
 		if (! empty ( $taxonomies )) {
@@ -1442,6 +1493,7 @@ class content_model extends Model {
 					
 					// } else {
 					
+
 					$next = false;
 					
 					if (intval ( $item ['content_parent'] ) != 0) {
@@ -1538,6 +1590,7 @@ class content_model extends Model {
 			// p ( $cats );
 			//
 			
+
 			if (! empty ( $cats )) {
 				
 				$url = false;
@@ -1553,15 +1606,17 @@ class content_model extends Model {
 							if ($m ['id'] == $c ['id']) {
 								
 								$url = CI::model ( 'taxonomy' )->getUrlForIdAndCache ( $m ['id'] ); // .
-								                                                                    // '/'
-								                                                                    // .
-								                                                                    // $content
-								                                                                    // ['content_url'];
+								// '/'
+								// .
+								// $content
+								// ['content_url'];
 								
+
 								$url1 = $url . '/' . $content ['content_url'];
-								
-								// p($url1);
 							
+		// p($url1);
+							
+
 							}
 						
 						}
@@ -1579,6 +1634,7 @@ class content_model extends Model {
 					// $the_url = site_url ( 'admin/content/posts_edit/id:' ) .
 					// $content ['id'];
 					
+
 					$the_url = $the_url . '/' . $content ['content_url'];
 					
 					$the_url = reduce_double_slashes ( site_url ( $the_url ) );
@@ -1594,10 +1650,11 @@ class content_model extends Model {
 				}
 			
 			}
-			
-			// var_dump($cats);
-			
-			/*
+		
+		// var_dump($cats);
+		
+
+		/*
 			 * $cache = base64_encode ( $the_url ); $table_cache =
 			 * $cms_db_tables ['table_cache']; $q = "delete from $table_cache
 			 * where cache_id='$cache_id' "; CI::model('core')->dbQ ( $q );
@@ -1606,8 +1663,8 @@ class content_model extends Model {
 			 * "INSERT INTO $table_cache set cache_id='$cache_id',
 			 * cache_group='content' "; CI::model('core')->dbQ ( $q );
 			 */
-			
-			// cache
+		
+		// cache
 		}
 		
 		$cache = CI::model ( 'core' )->cacheWriteAndEncode ( $the_url, $function_cache_id, $cache_group );
@@ -1630,6 +1687,7 @@ class content_model extends Model {
 		
 		// var_dump($q);
 		
+
 		if (intval ( $q ) > 0) {
 			
 			return true;
@@ -1693,6 +1751,7 @@ class content_model extends Model {
 				// $count_only = false, $short_data = false, $only_fields =
 				// false) {
 				
+
 				$data1 = $this->getContentAndCache ( $data1, false, $limit, $count_only = false, $short_data = true );
 				
 				$data1 = $data1 [0];
@@ -1740,12 +1799,14 @@ class content_model extends Model {
 		$data = $data [0];
 		// $data = $this->contentGetById($id);
 		
+
 		if (empty ( $data )) {
 			
 			$taxonomy = CI::model ( 'taxonomy' )->getChildrensRecursiveAndCache ( $category_id, $type = 'category' );
 			
 			// var_dump ( $taxonomy );
 			
+
 			if (! empty ( $taxonomy )) {
 				
 				foreach ( $taxonomy as $item ) {
@@ -1786,6 +1847,7 @@ class content_model extends Model {
 			
 			// var_dump ( $taxonomy );
 			
+
 			if (! empty ( $taxonomy )) {
 				
 				foreach ( $taxonomy as $item ) {
@@ -1843,6 +1905,7 @@ class content_model extends Model {
 		// .' function:'. __FUNCTION__ .' class:'. __CLASS__ .' method:'.
 		// __METHOD__ .' namespace:'. __NAMESPACE__;
 		
+
 		$cache_group = 'media/table_content/' . $id;
 		$function_cache_id = serialize ( $id ) . serialize ( $size ) . serialize ( $size_h );
 		
@@ -1889,6 +1952,7 @@ class content_model extends Model {
 		// $imgages = $this->mediaGetForContentId ( $id, $media_type = 'picture'
 		// );
 		
+
 		$images = array ();
 		
 		$content = $this->contentGetByIdAndCache ( $id );
@@ -1981,6 +2045,7 @@ class content_model extends Model {
 					// p($path_parts);
 					// p($images [0],1);
 					
+
 					$newfilename_path = MEDIAFILES . $newfilename;
 					
 					$download = CI::model ( 'core' )->url_getPageToFile ( $images [0], $newfilename_path );
@@ -1994,26 +2059,32 @@ class content_model extends Model {
 						// $update_body_src_escaped = $this->db->escape (
 						// $update_body_src );
 						
+
 						$new_body = str_replace ( $images [0], $update_body_src, $content ['content_body'] );
 						
 						// p($new_body,1);
 						
+
 						$q = "UPDATE $table_content set content_body= '$new_body' where id ='{$content ['id']}'  ";
 						
 						$q = CI::model ( 'core' )->dbQ ( $q );
 						
 						// var_dump($q);
 						
+
 						$images [0] = $media_url . $newfilename;
 					
 					}
-					
-					// p($path_parts);
-					
-					// var_dump ( $images [0] );
-					
-					// var_Dump ( $media_url, MEDIAFILES );
 				
+		// p($path_parts);
+				
+
+				// var_dump ( $images [0] );
+				
+
+				// var_Dump ( $media_url, MEDIAFILES );
+				
+
 				}
 			
 			}
@@ -2024,6 +2095,7 @@ class content_model extends Model {
 				
 				// $test1
 				
+
 				$the_original_dir = MEDIAFILES . $test1;
 				
 				$the_original_dir = dirname ( $the_original_dir );
@@ -2038,12 +2110,15 @@ class content_model extends Model {
 				
 				// $new_filename = str_ireplace (' ', '-',$new_filename );
 				
+
 				// $new_filename = str_ireplace (' ', '-',$new_filename );
 				
+
 				mkdir_recursive ( $the_original_dir . $size . '_' . $size_h . '/' );
 				
 				// var_dump($new_filename);
 				
+
 				$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 				
 				$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
@@ -2098,6 +2173,7 @@ class content_model extends Model {
 					
 					// $test1
 					
+
 					$the_original_dir = MEDIAFILES . $test1;
 					
 					$the_original_dir = dirname ( $the_original_dir );
@@ -2114,6 +2190,7 @@ class content_model extends Model {
 					
 					// var_dump($new_filename);
 					
+
 					$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 					
 					$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
@@ -2162,6 +2239,7 @@ class content_model extends Model {
 				
 				// $test1
 				
+
 				$the_original_dir = MEDIAFILES . $test1;
 				
 				$the_original_dir = dirname ( $the_original_dir );
@@ -2178,6 +2256,7 @@ class content_model extends Model {
 				
 				// var_dump($new_filename);
 				
+
 				$new_filename_url = $the_original_dir . $size . '_' . $size_h . '/' . $origina_filename;
 				
 				$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
@@ -2216,6 +2295,7 @@ class content_model extends Model {
 		
 		// }
 		
+
 		$src = str_ireplace ( ' ', '%20', $src );
 		
 		if ($src != '') {
@@ -2287,16 +2367,16 @@ class content_model extends Model {
 	 * Cache function for contentGetByIdAndCache
 	 *
 	 * @param
-	 *       	 int
-	 *       	
+	 * int
+	 * 
 	 * @return array
 	 *
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function contentGetByIdAndCache($id) {
@@ -2319,6 +2399,7 @@ class content_model extends Model {
 		
 		// $cache_content = false;
 		
+
 		if (($cache_content) != false) {
 			
 			return $cache_content;
@@ -2348,16 +2429,16 @@ class content_model extends Model {
 	 * Function to get single content item by id from the content_table
 	 *
 	 * @param
-	 *       	 int
-	 *       	
+	 * int
+	 * 
 	 * @return array
 	 *
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function contentGetById($id) {
@@ -2433,19 +2514,19 @@ class content_model extends Model {
 	 * Generate unique content URL for post by specifying the id and the titile
 	 *
 	 * @param
-	 *       	 the_id
-	 *       	
+	 * the_id
+	 * 
 	 * @param
-	 *       	 the_content_title
-	 *       	
+	 * the_content_title
+	 * 
 	 * @return string
 	 *
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function contentGenerateUniqueUrlTitleFromContentTitle($the_id, $the_content_title, $the_content_url_overide = false) {
@@ -2468,6 +2549,7 @@ class content_model extends Model {
 		
 		// var_dump($the_content_title);
 		
+
 		if (function_exists ( 'string_cyr2lat' )) {
 			
 			$the_content_title = string_cyr2lat ( $the_content_title );
@@ -2556,12 +2638,15 @@ class content_model extends Model {
 		
 		// $taxonomy ['content_type'] = 'post';
 		
+
 		$cats = CI::model ( 'taxonomy' )->taxonomyGet ( $taxonomy, $orderby = false, $no_limits = true );
 		
 		// taxonomyGet($data = false, $orderby = false, $no_limits = false)
 		
+
 		// var_dump($cats);
 		
+
 		if (empty ( $cats )) {
 			
 			return false;
@@ -2603,9 +2688,10 @@ class content_model extends Model {
 						if (in_array ( $parent, $available_cats )) {
 							
 							$return_cats [] = $item ['parent_id'];
-							
-							// $parent = $item ['parent_id'];
 						
+		// $parent = $item ['parent_id'];
+						
+
 						}
 					
 					}
@@ -2694,8 +2780,10 @@ class content_model extends Model {
 			
 			// print $pge_url;
 			
+
 			// exit();
 			
+
 			if ($pge_url == $url) {
 				
 				if ($no_base == false) {
@@ -2710,14 +2798,17 @@ class content_model extends Model {
 				
 				// $cat_urls = str_ireplace ( $pge_url, '', $url_full );
 				
+
 				$cat_urls = $url_full;
 				
 				// var_dump($cat_urls);
 				
+
 				$urls = explode ( '/', $cat_urls );
 				
 				// $categories_to_return = array ();
 				
+
 				foreacH ( $urls as $item ) {
 					
 					if ($item != '') {
@@ -2736,6 +2827,7 @@ class content_model extends Model {
 								// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
 								// ( $base_category, true, false, 'category' );
 								
+
 								$possible_ids = array ($base_category );
 								$possible_ids_more = CI::model ( 'taxonomy' )->getChildrensRecursive ( $base_category, 'category' );
 								if (! empty ( $possible_ids_more )) {
@@ -2745,8 +2837,10 @@ class content_model extends Model {
 								
 								// var_dump ( $possible_ids );
 								
+
 								// exit ();
 								
+
 								$data = array ();
 								
 								$data ['taxonomy_value'] = $taxonomy_value;
@@ -2775,6 +2869,7 @@ class content_model extends Model {
 								
 								// p($results,1);
 								
+
 								if (! empty ( $results )) {
 									
 									foreach ( $results as $res ) {
@@ -2793,24 +2888,31 @@ class content_model extends Model {
 							
 							// p($categories_to_return,1);
 							
+
 							//
 							
+
 							$categories_get_from_url = CI::model ( 'core' )->getParamFromURL ( 'categories' );
 							
 							if ($categories_get_from_url != false) {
 								
 								// $taxonomy_value = $item [1];
 								
+
 								$taxonomy_values = explode ( ',', $categories_get_from_url );
 								
 								// $categories_to_return = array ();
 								
+
 								// var_dump ( $possible_ids );
 								
+
 								// exit ();
 								
+
 								// var_dump ( $taxonomy_values );
 								
+
 								if (! empty ( $taxonomy_values )) {
 									
 									foreach ( $taxonomy_values as $taxonomy_value ) {
@@ -2845,10 +2947,12 @@ class content_model extends Model {
 										
 										// p($q);
 										
+
 										$results = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 										
 										// var_dump ( $results );
 										
+
 										if (! empty ( $results )) {
 											
 											foreach ( $results as $res ) {
@@ -2856,6 +2960,7 @@ class content_model extends Model {
 												// if (in_array ( $res ["id"],
 												// $possible_ids ) == true) {
 												
+
 												if (intval ( $res ["id"] ) != 0) {
 													
 													$pars1 = CI::model ( 'taxonomy' )->getParentsIdsAndCache ( $res ["id"], true );
@@ -2871,17 +2976,20 @@ class content_model extends Model {
 														}
 													}
 													$categories_to_return [] = $res ["id"];
-													
-													// $possible_ids1 =
-													// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
-													// ( $res ["id"], true );
-													
-													// p($possible_ids1);
 												
+		// $possible_ids1 =
+												// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
+												// ( $res ["id"], true );
+												
+
+												// p($possible_ids1);
+												
+
 												}
-												
-												// }
 											
+		// }
+											
+
 											}
 										
 										}
@@ -2889,9 +2997,10 @@ class content_model extends Model {
 									}
 								
 								}
-								
-								// }
 							
+		// }
+							
+
 							}
 						
 						}
@@ -2904,11 +3013,12 @@ class content_model extends Model {
 			
 			// exit ( 'asdas' );
 			
+
 			$categories_to_return = array_unique ( $categories_to_return );
 			
 			return $categories_to_return;
 			
-			/*
+		/*
 			 * if (! empty ( $categories_to_return )) {
 			 * CI::model('core')->cacheWriteAndEncode ( $categories_to_return,
 			 * $function_cache_id ); return $categories_to_return; } else {
@@ -2921,6 +3031,7 @@ class content_model extends Model {
 			// CI::model('core')->cacheWriteAndEncode ( 'false',
 			// $function_cache_id );
 			
+
 			return false;
 		
 		}
@@ -2928,12 +3039,14 @@ class content_model extends Model {
 	}
 	
 	function contentGetVotesCountForContentId($id, $since_days) {
-		
-		// $qty = $this->votesGetCount ( 'table_content', $id, $since_days =
-		// $since_days );
-		
-		// return $qty;
 	
+		// $qty = $this->votesGetCount ( 'table_content', $id, $since_days =
+	// $since_days );
+	
+
+	// return $qty;
+	
+
 	}
 	
 	function contentActiveCategoriesForPageId($page_id, $url, $no_base = false) {
@@ -2960,6 +3073,7 @@ class content_model extends Model {
 			
 			// print $pge_url;
 			
+
 			if ($pge_url == $url) {
 				
 				if ($no_base == false) {
@@ -2976,6 +3090,7 @@ class content_model extends Model {
 				
 				// var_dump($cat_urls);
 				
+
 				$urls = explode ( '/', $cat_urls );
 				
 				foreacH ( $urls as $item ) {
@@ -2994,6 +3109,7 @@ class content_model extends Model {
 								// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
 								// ( $base_category, true, false, 'category' );
 								
+
 								$possible_ids = array ($base_category );
 								$possible_ids_more = CI::model ( 'taxonomy' )->getChildrensRecursive ( $base_category, 'category' );
 								if (! empty ( $possible_ids_more )) {
@@ -3007,10 +3123,12 @@ class content_model extends Model {
 								
 								// var_dump($possible_ids);
 								
+
 								$results = CI::model ( 'taxonomy' )->taxonomyGetAndCache ( $data );
 								
 								// var_dump ( $results );
 								
+
 								if (! empty ( $results )) {
 									
 									$categories_to_return = array ();
@@ -3082,6 +3200,7 @@ class content_model extends Model {
 		
 		// p($selected_categories);
 		
+
 		if (empty ( $posts_data ['selected_categories'] )) {
 			
 			$categoris_from_url = CI::model ( 'core' )->getParamFromURL ( 'selected_categories' );
@@ -3155,8 +3274,8 @@ class content_model extends Model {
 		// p($is_search,1);
 		if ($is_search != false) {
 			$segs = url ();
-			$segs = explode('/',$segs);
-		 
+			$segs = explode ( '/', $segs );
+			
 			$search_cf_filter = array ();
 			$search_filter_start = false;
 			foreach ( $segs as $segment ) {
@@ -3171,23 +3290,19 @@ class content_model extends Model {
 					$p1 = explode ( ':', $segment );
 					
 					$vp = false;
-					if($p1 [1] != false){
-					$vp =   $p1 [1]  ;
-				//	$vp = htmlspecialchars_decode ( $vp );
+					if ($p1 [1] != false) {
+						$vp = $p1 [1];
+						//	$vp = htmlspecialchars_decode ( $vp );
+						
 
-				$z1= html_entity_decode ( $p1 [0] );
-				$z1= urldecode ( $z1 );
-				
-				$p112 = explode ( '|', $z1 );
-				
-				
-				
-
-
-
-foreach($p112 as $p1123){
-					$search_cf_filter [$p1123] = $vp ;
-					}
+						$z1 = html_entity_decode ( $p1 [0] );
+						$z1 = urldecode ( $z1 );
+						
+						//$p112 = explode ( '|', $z1 );
+						$search_cf_filter [$z1] = $vp;
+						/*foreach ( $p112 as $p1123 ) {
+							$search_cf_filter [$p1123] = $vp;
+						}*/
 					}
 				
 				}
@@ -3195,16 +3310,18 @@ foreach($p112 as $p1123){
 			}
 			// p($search_cf_filter,1);
 			
-			if(!empty($posts_data ['custom_fields_criteria'])){
-				$posts_data ['custom_fields_criteria'] = array_merge($posts_data ['custom_fields_criteria'], $search_cf_filter);
+
+			if (! empty ( $posts_data ['custom_fields_criteria'] )) {
+				$posts_data ['custom_fields_criteria'] = array_merge ( $posts_data ['custom_fields_criteria'], $search_cf_filter );
 			} else {
-				$posts_data ['custom_fields_criteria'] = ( $search_cf_filter);
-				
-			}
+				$posts_data ['custom_fields_criteria'] = ($search_cf_filter);
 			
-			// p($posts_data ['custom_fields_criteria']);
-			//exit('aaaa'); 
+			}
 		
+		// p($posts_data ['custom_fields_criteria']);
+		//exit('aaaa'); 
+		
+
 		}
 		
 		if ($params ['search_for'] == false) {
@@ -3256,9 +3373,10 @@ foreach($p112 as $p1123){
 				$posts_data ['content_subtype'] = $type;
 			
 			} else {
-				
-				// $posts_data ['content_subtype'] = 'none';
 			
+		// $posts_data ['content_subtype'] = 'none';
+			
+
 			}
 			
 			if (trim ( $type ) == 'all') {
@@ -3284,9 +3402,10 @@ foreach($p112 as $p1123){
 			$posts_data ['content_subtype_value'] = $typev;
 		
 		} else {
-			
-			// $posts_data ['content_subtype_value'] = 'none';
 		
+		// $posts_data ['content_subtype_value'] = 'none';
+		
+
 		}
 		
 		if (trim ( $params ['content_type'] ) != '') {
@@ -3339,15 +3458,17 @@ foreach($p112 as $p1123){
 		}
 		
 		if (($timestamp = strtotime ( $commented )) === false) {
-			
-			// $this->template ['selected_voted'] = false;
 		
+		// $this->template ['selected_voted'] = false;
+		
+
 		} else {
 			
 			$posts_data ['commented'] = $commented;
-			
-			// $this->template ['selected_voted'] = true;
 		
+		// $this->template ['selected_voted'] = true;
+		
+
 		}
 		
 		if ($voted == false) {
@@ -3372,14 +3493,16 @@ foreach($p112 as $p1123){
 		
 		// var_dump($tags);
 		
+
 		if (strval ( $created_by ) != '') {
 			
 			$posts_data ['created_by'] = $created_by;
 		
 		} else {
-			
-			// $this->template ['created_by'] = false;
 		
+		// $this->template ['created_by'] = false;
+		
+
 		}
 		
 		if (strval ( $content_layout_name ) != '') {
@@ -3387,9 +3510,10 @@ foreach($p112 as $p1123){
 			$posts_data ['content_layout_name'] = $content_layout_name;
 		
 		} else {
-			
-			// $this->template ['created_by'] = false;
 		
+		// $this->template ['created_by'] = false;
+		
+
 		}
 		
 		$url = uri_string ();
@@ -3456,6 +3580,7 @@ foreach($p112 as $p1123){
 		}
 		// p($posts_data);
 		
+
 		$to_return = array ();
 		
 		$page_start = ($curent_page - 1) * $items_per_page;
@@ -3472,6 +3597,7 @@ foreach($p112 as $p1123){
 			
 			// @todo add getContentAndCache, isted of getContent
 			
+
 			$posts_data ['use_fetch_db_data'] = true;
 			
 			$data = $this->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ), true );
@@ -3484,12 +3610,14 @@ foreach($p112 as $p1123){
 			
 			// var_dump($results_count);
 			
+
 			$results_count = intval ( $results_count );
 			
 			$content_pages_count = ceil ( $results_count / $items_per_page );
 			
 			// var_dump ( $results_count, $items_per_page );
 			
+
 			if (! empty ( $data )) {
 				$to_return ['count'] = $results_count;
 				$to_return ['posts_pages_count'] = $content_pages_count;
@@ -3498,6 +3626,7 @@ foreach($p112 as $p1123){
 			}
 			// get paging urls
 			
+
 			$content_pages = $this->pagingPrepareUrls ( false, $content_pages_count );
 			
 			// var_dump($content_pages);
@@ -3524,6 +3653,7 @@ foreach($p112 as $p1123){
 		
 		// return;
 		
+
 		return;
 		
 		$params = array ();
@@ -3532,12 +3662,14 @@ foreach($p112 as $p1123){
 		
 		// $params[] =array ('taxonomy_value', 'NULL', '<>', 'and' );
 		
+
 		$params [] = array ('taxonomy_silo_keywords', '', '<>', 'and' );
 		
 		$params [] = array ('taxonomy_silo_keywords', 'IS NOT NULL' );
 		
 		// $params[] =array ('taxonomy_value', 'IS NOT NULL' );
 		
+
 		$opts = array ();
 		
 		$opts ['only_fields'] = array ('id', 'taxonomy_silo_keywords', 'taxonomy_type', 'taxonomy_value' );
@@ -3558,8 +3690,10 @@ foreach($p112 as $p1123){
 		
 		// p($categories,1);
 		
+
 		// return;
 		
+
 		CI::helper ( 'mw_string' );
 		
 		$siloLinks = array ();
@@ -3598,6 +3732,7 @@ foreach($p112 as $p1123){
 		
 		// p ( $siloLinks, 1 );
 		
+
 		$linksPerCategory = 1;
 		
 		$already_replaced = array ();
@@ -3618,7 +3753,7 @@ foreach($p112 as $p1123){
 			
 			}
 			
-			/*
+		/*
 			 * $categoryLink = "' <a
 			 * href=\"{$siloLink['url']}\">'.trim($0).'</a> '"; $content =
 			 * preg_replace ( $siloLink ['keywords'], $categoryLink, $content,
@@ -3642,22 +3777,22 @@ foreach($p112 as $p1123){
 	 * Get latest content from categories that you define + more flexibility
 	 *
 	 * @param
-	 *       	 array
-	 *       	
+	 * array
+	 * 
 	 * @param
-	 *       	 array
-	 *       	
+	 * array
+	 * 
 	 * @param
-	 *       	 boolean
-	 *       	
+	 * boolean
+	 * 
 	 * @return array
 	 *
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function getContentAndCache($data, $orderby = false, $limit = false, $count_only = false, $short_data = true, $only_fields = false) {
@@ -3676,6 +3811,7 @@ foreach($p112 as $p1123){
 		
 		// $cache_content = false;
 		
+
 		if (($cache_content) != false) {
 			
 			if (trim ( strval ( $cache_content ) ) == 'false') {
@@ -3693,6 +3829,7 @@ foreach($p112 as $p1123){
 		$selected_posts_results = $this->getContent ( $data, $orderby, $limit, $count_only, $short_data, $only_fields );
 		// p($selected_posts_results);
 		
+
 		if (! empty ( $selected_posts_results )) {
 			
 			CI::model ( 'core' )->cacheWriteAndEncode ( $selected_posts_results, $function_cache_id, 'content/global' );
@@ -3728,17 +3865,20 @@ foreach($p112 as $p1123){
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
-			
-			// $function_cache_id = $function_cache_id . serialize ( $k ) .
-			// serialize ( $v );
 		
+		// $function_cache_id = $function_cache_id . serialize ( $k ) .
+		// serialize ( $v );
+		
+
 		}
 		
 		// $function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
+
 		// $cache_content = CI::model('core')->cacheGetContentAndDecode (
 		// $function_cache_id );
 		
+
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
 		$table_taxonomy_items = $cms_db_tables ['table_taxonomy_items'];
 		
@@ -3783,13 +3923,15 @@ foreach($p112 as $p1123){
 		} else {
 			
 			$my_limit_q = false;
-			
-			// print "NO LIMMITS@!!!";
 		
+		// print "NO LIMMITS@!!!";
+		
+
 		}
 		
 		// exit($my_limit_q);
 		
+
 		if (($data ['strict_category_selection']) == true) {
 			
 			$strict_category_selection = true;
@@ -3964,6 +4106,7 @@ foreach($p112 as $p1123){
 		}
 		// search_by_keyword
 		
+
 		if (trim ( strval ( $data ['search_by_keyword'] ) ) != '') {
 			
 			$kw = $data ['search_by_keyword'];
@@ -3974,6 +4117,7 @@ foreach($p112 as $p1123){
 			$seach_in_cats = CI::model ( 'taxonomy' )->getIdsByNames ( $categories );
 			//
 			
+
 			$seach_in_cats = CI::model ( 'taxonomy' )->getToTableIds ( $seach_in_cats, false );
 			// p($seach_in_cats);
 			if (! empty ( $seach_in_cats )) {
@@ -3989,6 +4133,7 @@ foreach($p112 as $p1123){
 			// $keyword_results = CI::model('core')->dbRegexpSearch ( $table,
 			// $kw, $kw_ids );
 			
+
 			$kw = html_entity_decode ( $kw );
 			
 			$kw = urldecode ( $kw );
@@ -4109,6 +4254,7 @@ $my_limit_q
 		
 		//
 		
+
 		if (($data ['search_by_is_from_rss'] == 'y') or ($data ['search_by_is_from_rss'] == 'n') or (intval ( $data ['search_by_is_from_rss'] ) != 0)) {
 			
 			$rss = $data ['search_by_is_from_rss'];
@@ -4134,9 +4280,10 @@ $my_limit_q
 						$data ['rss_feed_id'] = $rss;
 					
 					} else {
-						
-						// $data ['rss_feed_id'] = fas;
 					
+		// $data ['rss_feed_id'] = fas;
+					
+
 					}
 					
 					break;
@@ -4147,6 +4294,7 @@ $my_limit_q
 		
 		//
 		
+
 		if (($data ['is_featured'] == 'y') or ($data ['is_featured'] == 'n')) {
 		
 		} else {
@@ -4157,6 +4305,7 @@ $my_limit_q
 		
 		// search by with_comments
 		
+
 		if (($data ['with_comments'] == 'y') or ($data ['with_comments'] == 'n')) {
 			
 			$with_comments = $data ['with_comments'];
@@ -4167,15 +4316,18 @@ $my_limit_q
 				
 				// $the_ids [] = '0';
 				
+
 				$some_ids = implode ( ',', $the_ids );
 				
 				$some_ids_not = implode ( ',', $the_ids ); // not used!
 				
+
 				$some_ids = "  and to_table_id in ($some_ids)  ";
 				
 				$some_ids_not = "  and to_table_id NOT in ($some_ids_not)  "; // not
-					                                                              // used!
+			// used!
 			
+
 			}
 			
 			switch ($with_comments) {
@@ -4200,9 +4352,11 @@ $my_limit_q
 							
 							// @delete
 							
+
 							// $check = $this->contentsCheckIfContentExistsById
 							// ( $itm ['to_table_id'] );
 							
+
 							if ($check == true) {
 								
 								$only_comments_ids [] = $itm ['to_table_id'];
@@ -4261,6 +4415,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 					
 					//
 					
+
 					$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'comments' );
 					
 					if (! empty ( $q )) {
@@ -4318,6 +4473,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		// the voted functionality is built in into
 		// CI::model('core')->fetchDbData thats why we romove it from here
 		
+
 		if (($timestamp = strtotime ( $data ['voted'] )) !== false) {
 			
 			$voted = strtotime ( $data ['voted'] . ' ago' );
@@ -4329,6 +4485,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 			// $pastday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ),
 			// date ( "d" ) - $voted, date ( "Y" ) ) );
 			
+
 			$category_ids_implode_q = false;
 			if (! empty ( $category_ids )) {
 				$category_ids_implode = implode ( ',', $category_ids );
@@ -4407,6 +4564,7 @@ $my_limit_q
 			$voted_by = strval ( $data ["voted_by"] );
 			// $voted_by1 = end($data["voted_by"]) ;
 			
+
 			$table_votes = $cms_db_tables ['table_votes'];
 			
 			$table_content = $cms_db_tables ['table_content'];
@@ -4414,6 +4572,7 @@ $my_limit_q
 			// $pastday = date ( 'Y-m-d H:i:s', mktime ( 0, 0, 0, date ( "m" ),
 			// date ( "d" ) - $voted, date ( "Y" ) ) );
 			
+
 			$category_ids_implode_q = false;
 			if (! empty ( $category_ids )) {
 				$category_ids_implode = implode ( ',', $category_ids );
@@ -4438,6 +4597,7 @@ $my_limit_q
 			// p ( $q );
 			// $only_voted_ids = array ();
 			
+
 			if (! empty ( $q )) {
 				
 				foreach ( $q as $itm ) {
@@ -4505,7 +4665,7 @@ $my_limit_q
 				
 				$ids_q = " and to_table_id in ($ids_i) ";
 				
-				/*
+			/*
 				 * foreach ( $ids as $id ) { if (in_array (
 				 * $category_content_ids, $id )) { } }
 				 */
@@ -4513,16 +4673,14 @@ $my_limit_q
 			}
 			
 			$only_custom_fieldd_ids = array ();
-	 
+			
 			foreach ( $data ['custom_fields_criteria'] as $k => $v ) {
 				
 				if (is_array ( $v ) == false) {
-					$v = html_entity_decode($v );
+					$v = html_entity_decode ( $v );
 					$v = addslashes ( $v );
 				
 				}
-				
-				$k = addslashes ( $k );
 				
 				if (! empty ( $category_content_ids )) {
 					
@@ -4545,19 +4703,53 @@ $my_limit_q
 					$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 				
 				}
-				 
-				 
-				 
-				 
-				 
-				 
+				
+				$p112 = explode ( '|', $k );
+				$seach_q_sel = array ();
+				foreach ( $p112 as $p1123 ) {
+					
+					$func = function_exists ( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+					$k1 = $func ( $p1123 );
+					
+					$func = function_exists ( 'mb_trim' ) ? 'mb_trim' : 'trim';
+					$k1 = $func ( $k1 );
+					
+					$func = function_exists ( 'mb_substr' ) ? 'mb_substr' : 'substr';
+					$last = $func ( $k1, - 1 );
+					//	p($last); 
+					
+
+					$func = function_exists ( 'mb_rtrim' ) ? 'mb_rtrim' : 'rtrim';
+					$k1 = $func ( $k1, '\*' );
+					
+					if ($last == '*') {
+						//	$func = function_exists ( 'mb_substr' ) ? 'mb_substr' : 'substr';
+					//	$k1 = $func ( $k1, 0, - 1 );
+					}
+					
+					$k1 = addslashes ( $k1 );
+					
+					if ($last == '*') {
+						$sql_sel = 'REGEXP';
+					} else {
+						$sql_sel = '=';
+					}
+					
+					$seach_q_sel [] = "  ( custom_field_name = '$k1' and  custom_field_value {$sql_sel} '$v' ) ";
+				
+				}
+				$seach_q_sel1 = false;
+				if (! empty ( $seach_q_sel )) {
+					$seach_q_sel1 = implode ( ' OR ', $seach_q_sel );
+				
+		//	p($seach_q_sel1);
+				}
+				
 				$q = "SELECT  to_table_id from $table_custom_fields where
 
-            to_table = 'table_content' and
+            to_table = 'table_content'  and
 
-            custom_field_name = '$k' and
-
-            custom_field_value = '$v'   
+           $seach_q_sel1
 			
 			$ids_q   
 			
@@ -4567,13 +4759,11 @@ $my_limit_q
             $my_limit_q
 
                     ";
-					
-					
-					
+				
 				//	 
-				 
+				//p ( $q, 1 );
 				$q2 = $q;
-				  
+				
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 				
 				if (! empty ( $q )) {
@@ -4589,18 +4779,22 @@ $my_limit_q
 						// if(in_array($itm ['to_table_id'],$category_ids)==
 						// false){
 						
+
 						$ids [] = $itm ['to_table_id'];
-						
-						// }
-						
-						//
 					
+		// }
+					
+
+					//
+					
+
 					}
 				
 				} else {
 					
 					// $ids = array();
 					
+
 					$remove_all_ids = true;
 					
 					$ids = false;
@@ -4616,11 +4810,13 @@ $my_limit_q
 		}
 		
 		if ($remove_all_ids == true) {
-			
-			// $ids = false;
-			
-			// $ids [] = '0';
 		
+		// $ids = false;
+		
+
+		// $ids [] = '0';
+		
+
 		}
 		
 		if (! empty ( $ids )) {
@@ -4633,6 +4829,7 @@ $my_limit_q
 		
 		// save is get!!! ?
 		
+
 		if (! empty ( $data ['exclude_ids'] )) {
 			
 			$exclude_ids = $data ['exclude_ids'];
@@ -4644,9 +4841,10 @@ $my_limit_q
 		}
 		// print 'b4slice'; p($ids);
 		if (! empty ( $limit )) {
-			
-			// $ids = array_slice ( $ids, $limit [0], $limit [1] );
 		
+		// $ids = array_slice ( $ids, $limit [0], $limit [1] );
+		
+
 		}
 		
 		if ($use_fetch_db_data == false) {
@@ -4680,8 +4878,8 @@ $my_limit_q
 						}
 					}
 					$ids = $new_ids;
-					
-					// array_merge($ids,$only_voted_ids);
+				
+		// array_merge($ids,$only_voted_ids);
 				}
 			
 			}
@@ -4699,6 +4897,7 @@ $my_limit_q
 			
 			// p($criteria);
 			
+
 			$save = CI::model ( 'core' )->fetchDbData ( $table, $criteria, $db_opt );
 		
 		}
@@ -4708,6 +4907,7 @@ $my_limit_q
 			// CI::model('core')->cacheWriteAndEncode ( $save,
 			// $function_cache_id, $cache_group = 'content' );
 			
+
 			return $save;
 		
 		}
@@ -4757,6 +4957,7 @@ $my_limit_q
 					// print TEMPLATE_DIR . 'layouts/' . $content_layout .
 					// '/styles/' . $content_style;
 					
+
 					$content_style_file = false;
 					
 					$content_style_file = TEMPLATE_DIR . 'layouts/' . $content_layout . '/styles/' . $content_style;
@@ -4785,6 +4986,7 @@ $my_limit_q
 							
 							// $item [$k] = $desc;
 							
+
 							if ($content_layout_url_replace != false) {
 								
 								$desc = str_ireplace ( '{LAYOUTURL}', $content_layout_url_replace, $desc );
@@ -4809,6 +5011,7 @@ $my_limit_q
 							
 							// exit($v);
 							
+
 							$item ['dynamic_content_relations'] = array ('asd' );
 							
 							preg_match_all ( '|<microweber.*?</microweber>|ms', $v, $matches );
@@ -4819,6 +5022,7 @@ $my_limit_q
 									
 									// p ( $m );
 									
+
 									if (! empty ( $m )) {
 										
 										foreach ( $m as $n ) {
@@ -4827,6 +5031,7 @@ $my_limit_q
 												
 												//
 												
+
 												$n = str_replace ( '<microweber>', '', $n );
 												
 												$n = str_replace ( '</microweber>', '', $n );
@@ -4837,14 +5042,16 @@ $my_limit_q
 												
 												// $m = json_decode ( $m );
 												
+
 												foreach ( $relations as $re => $rel ) {
 													
 													if ($rel == $n) {
 														
 														$exist = true;
-														
-														// var_dump ( $n );
 													
+		// var_dump ( $n );
+													
+
 													}
 												
 												}
@@ -4854,9 +5061,10 @@ $my_limit_q
 													$relations [] = $n;
 												
 												}
-												
-												//
 											
+		//
+											
+
 											}
 										
 										}
@@ -4927,12 +5135,15 @@ $my_limit_q
 												// . $item
 												// ['content_body_filename'] );
 												
+
 												// $v = html_entity_decode ( $v
 												// );
 												
+
 												// $v = htmlspecialchars_decode
 												// ( $v );
 												
+
 												$this->load->vars ( $this->template );
 												
 												$content_filename1 = $this->load->file ( $the_active_site_template_dir . $item ['content_body_filename'], true );
@@ -4967,16 +5178,19 @@ $my_limit_q
 									
 									// Silo linking
 									
+
 									// This field is used only for content
 									// visualization and it's not used by admin
 									// panel
 									
+
 									if (CI::model ( 'core' )->optionsGetByKey ( 'enable_silo_linking' )) {
-										
-										// $item ['the_content_body'] =
-										// $this->contentsAddSiloLinks ( $item
-										// ['the_content_body'] );
 									
+		// $item ['the_content_body'] =
+									// $this->contentsAddSiloLinks ( $item
+									// ['the_content_body'] );
+									
+
 									}
 									
 									$desc = htmlspecialchars_decode ( $v, ENT_QUOTES );
@@ -5019,6 +5233,7 @@ $my_limit_q
 						
 						// put links
 						
+
 						if (is_array ( $v ) == false) {
 							
 							if (trim ( strval ( $v ) ) != '') {
@@ -5085,6 +5300,7 @@ $my_limit_q
 										
 										// var_dump ( $cfv );
 										
+
 										$v2 [$cfk] = $cfv;
 									
 									}
@@ -5131,11 +5347,12 @@ $my_limit_q
 		
 		// getCurentURL()
 		
+
 		if ($base_url == false) {
 			if (PAGE_ID != false and CATEGORY_ID == false) {
 				$base_url = page_link ( PAGE_ID );
-				
-				// p($base_url);
+			
+		// p($base_url);
 			} elseif (PAGE_ID != false and CATEGORY_ID != false) {
 				$base_url = category_link ( CATEGORY_ID );
 			} 
@@ -5147,6 +5364,7 @@ $my_limit_q
 		
 		// print $base_url;
 		
+
 		$page_links = array ();
 		
 		$the_url = parse_url ( $base_url, PHP_URL_QUERY );
@@ -5157,6 +5375,7 @@ $my_limit_q
 		
 		// var_dump ( $the_url );
 		
+
 		for($x = 1; $x <= $pages_count; $x ++) {
 			
 			$new_url = array ();
@@ -5181,6 +5400,7 @@ $my_limit_q
 			
 			// var_dump ( $new_url);
 			
+
 			$page_links [$x] = $new_url;
 		
 		}
@@ -5235,8 +5455,10 @@ $my_limit_q
 		}
 		// return false;
 		
+
 		// $is_post = $this->template['post'];
 		
+
 		if (strstr ( $content, 'content_meta_title' )) {
 			$is_content = $this->template ['post'];
 			
@@ -5273,6 +5495,7 @@ $my_limit_q
 		// $global_replaceables ["content_meta_other_code"] =
 		// $content_meta_other_code;
 		
+
 		$global_replaceables ["content_meta_other_code"] = ($global_replaceables ["content_meta_other_code"]);
 		
 		if (trim ( $content ["content_meta_other_code"] ) != '') {
@@ -5285,6 +5508,7 @@ $my_limit_q
 			
 			// if (array_key_exists ( $k, $replaceables ) == true) {
 			
+
 			$v = $replaceables [$k];
 			
 			if (strval ( $v ) == '') {
@@ -5294,12 +5518,14 @@ $my_limit_q
 			}
 			
 			$content = str_replace ( '{' . $k . '}', $v, $content );
-			
-			// $content = sprintf('{' . $k . '}', $v,$content);
-			// $CI = get_instance ();
-			
-			// }
 		
+		// $content = sprintf('{' . $k . '}', $v,$content);
+		// $CI = get_instance ();
+		
+
+		// }
+		
+
 		}
 		
 		$media_url = MEDIA_URL;
@@ -5322,20 +5548,24 @@ $my_limit_q
 	// this funtion is used in the backend (admin) its diferent from the one in
 	// templates model
 	
+
 	function getLayoutFiles() {
 		
 		CI::helper ( 'directory' );
 		
 		// $path = BASEPATH . 'content/templates/';
 		
+
 		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 		
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/';
 		
 		// print $path;
 		
+
 		// exit;
 		
+
 		$map = directory_map ( $path, TRUE );
 		
 		$to_return = array ();
@@ -5398,6 +5628,7 @@ $my_limit_q
 		
 		// return false ;
 		
+
 		if (intval ( $id ) == 0) {
 			
 			return false;
@@ -5441,6 +5672,7 @@ $my_limit_q
 			global $cms_db_tables;
 			// global $CI;
 			
+
 			$table = $cms_db_tables ['table_taxonomy'];
 			$table_content = $cms_db_tables ['table_content'];
 			
@@ -5452,12 +5684,15 @@ $my_limit_q
 			
 			// $orderby = array ('id', 'desc' );
 			
+
 			// $q = " select * from $table_content where content_subtype
 			// ='dynamic' and content_subtype_value={$id} limit 0,1";
 			
+
 			// $q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
 			// $cache_group );
 			
+
 			$content = $this->getContentAndCache ( $content, $orderby );
 			
 			// $content = $q [0];
@@ -5507,8 +5742,10 @@ $my_limit_q
 				// $content = CI::model('content')->getContentAndCache (
 				// $content, $orderby );
 				
+
 				// $content = $q [0];
 				
+
 				$content = $content [0];
 				
 				$url = false;
@@ -5540,9 +5777,10 @@ $my_limit_q
 			
 			return false;
 		}
-		
+	
 		// var_dump ( $parent_ids );
 	
+
 	}
 	
 	function deleteMenuItem($id) {
@@ -5628,16 +5866,21 @@ $my_limit_q
 				
 				// find position
 				
+
 				$sql = "SELECT max(position) as maxpos from $table where item_parent='{$data ['item_parent']}'  ";
-				
-				// $q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
-				
-				// $result = $q [0];
-				
-				// $maxpos = intval ( $result ['maxpos'] ) + 1;
-				
-				// ? $data ['position'] = $maxpos;
 			
+		// $q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
+			
+
+			// $result = $q [0];
+			
+
+			// $maxpos = intval ( $result ['maxpos'] ) + 1;
+			
+
+			// ? $data ['position'] = $maxpos;
+			
+
 			}
 		
 		}
@@ -5677,8 +5920,10 @@ $my_limit_q
 		
 		// var_dump ( $data_to_save );
 		
+
 		// exit ();
 		
+
 		return $save;
 	
 	}
@@ -5722,10 +5967,12 @@ $my_limit_q
 		
 		// return false;
 		
+
 		if ($the_url != false) {
-			
-			// $the_url = $the_url;
 		
+		// $the_url = $the_url;
+		
+
 		} else {
 			
 			$the_url = getCurentURL ();
@@ -5764,9 +6011,10 @@ $my_limit_q
 	function getBreadcrumbsByURLAsArray($the_url = false, $include_home = true, $options = array()) {
 		
 		if ($the_url != false) {
-			
-			// $the_url = $the_url;
 		
+		// $the_url = $the_url;
+		
+
 		} else {
 			
 			$the_url = getCurentURL ();
@@ -5788,9 +6036,10 @@ $my_limit_q
 		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id );
 		
 		if (($cache_content) != false) {
-			
-			// return $cache_content;
 		
+		// return $cache_content;
+		
+
 		}
 		
 		if (is_array ( $the_url )) {
@@ -5810,6 +6059,7 @@ $my_limit_q
 		// $active_categories = CI::model('taxonomy')->getCategoriesForContent (
 		// $post ['id'], $return_only_ids = true );
 		
+
 		$the_page_full = $the_page;
 		
 		$the_pages_nav [] = $the_page ['id'];
@@ -5819,11 +6069,12 @@ $my_limit_q
 		if (intval ( $the_page ) != 0) {
 			
 			if ($the_page_full ['content_type'] == 'post') {
-				
-				// $parent_ids = $this->getParentPagesIdsForPageIdAndCache (
-				// $the_page_full['content_parent'] );
-				// p($parent_ids);
 			
+		// $parent_ids = $this->getParentPagesIdsForPageIdAndCache (
+			// $the_page_full['content_parent'] );
+			// p($parent_ids);
+			
+
 			} else {
 				
 				$parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page );
@@ -5916,6 +6167,7 @@ $my_limit_q
 						
 						// if is post we will get the categories
 						
+
 						if ($page ['content_type'] == 'post') {
 							
 							if ($options ['start_from_category'] != false) {
@@ -5952,6 +6204,7 @@ $my_limit_q
 									
 									// check for dupes
 									
+
 									$skip = false;
 									
 									if (! empty ( $the_nav )) {
@@ -5985,6 +6238,7 @@ $my_limit_q
 						// if (intval ( $page ['content_subtype_value'] ) != 0)
 						// {
 						
+
 						if ($page ['content_subtype'] == 'dynamic') {
 							
 							$active_categories = $this->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $the_url, true );
@@ -6021,6 +6275,7 @@ $my_limit_q
 									
 									// check for dupes
 									
+
 									$skip = false;
 									
 									if (! empty ( $the_nav )) {
@@ -6053,16 +6308,18 @@ $my_limit_q
 							
 							}
 							
-							/*
+						/*
 							 * $item = $page ['content_subtype_value'];
 							 */
 						
 						}
-						
-						// }
-						
-						// var_dump ( $page );
 					
+		// }
+					
+
+					// var_dump ( $page );
+					
+
 					}
 				
 				}
@@ -6114,17 +6371,19 @@ $my_limit_q
 					$the_nav2 [] = $item;
 				}
 			}
-			
-			// var_dump($item);
 		
+		// var_dump($item);
+		
+
 		}
 		$the_nav = $the_nav2;
 		CI::model ( 'core' )->cacheWriteAndEncode ( $the_nav, $function_cache_id, $cache_group = 'global' );
 		
 		return $the_nav;
-		
+	
 		// var_dump ( $content_id, $the_url );
 	
+
 	}
 	
 	function getMenuByMenuUnuqueId($uid) {
@@ -6230,6 +6489,7 @@ $my_limit_q
 		
 		// is slash
 		
+
 		$slash = substr ( "$the_curent_url", 0, 1 );
 		
 		if ($slash == '/') {
@@ -6240,8 +6500,10 @@ $my_limit_q
 		
 		// print $the_curent_url;
 		
+
 		// print ACTIVE_CONTENT_ID;
 		
+
 		$menu_data = array ();
 		
 		foreach ( $itmes as $item ) {
@@ -6304,24 +6566,31 @@ $my_limit_q
 			
 			// print $url;
 			
+
 			// print site_url ( $the_curent_url );
 			
+
 			// print "<hr>";
 			
+
 			if ($url == site_url ( $the_curent_url )) {
-				
-				// $is_active = true;
 			
+		// $is_active = true;
+			
+
 			}
 			
 			if ($content_item ['is_home'] == 'y') {
-				
-				// if($the_curent_url = ''){
-				
-				// $is_active = true;
-				
-				// }
 			
+		// if($the_curent_url = ''){
+			
+
+			// $is_active = true;
+			
+
+			// }
+			
+
 			}
 			
 			if (intval ( $GLOBALS ['ACTIVE_PAGE_ID'] ) == intval ( $content_item ['id'] )) {
@@ -6366,6 +6635,7 @@ $my_limit_q
 			
 			// check we are on subpage and if the parent is active is active?
 			
+
 			$data_to_append ['is_active'] = $is_active;
 			
 			$menu_data [] = $data_to_append;
@@ -6441,6 +6711,7 @@ $my_limit_q
 		
 		// Sleep for a while
 		
+
 		$time_end = microtime_float ();
 		$time = $time_end - $time_start;
 		
@@ -6469,6 +6740,7 @@ $my_limit_q
 			$full_item = $full_item [0];
 			//
 			
+
 			$active_class = '';
 			if ($full_item ['content_id'] == PAGE_ID) {
 				$active_class = ' active';
@@ -6493,6 +6765,7 @@ $my_limit_q
 			
 			// p ( $full_item );
 			
+
 			$to_print .= '<li class="menu_element ' . $active_class_titl . ' ' . $active_class . '" id="menu_item_' . $item ['id'] . '"><a class="menu_element_link ' . $active_class_titl . ' ' . $active_class . '" href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
 			
 			if (in_array ( $item ['id'], $passed_ids ) == false) {
@@ -6583,6 +6856,7 @@ $my_limit_q
 			
 			// $menu_item = $item;
 			
+
 			if ($item ['content_id'] != 0) {
 				
 				$check_if_this_is_page_or_post = array ();
@@ -6593,6 +6867,7 @@ $my_limit_q
 				
 				// //
 				
+
 				$check_if_this_is_page_or_post = $this->getContentAndCache ( $check_if_this_is_page_or_post, $orderby = false, $limit = false, $count_only = false, $short_data = true );
 				
 				$check_if_this_is_page_or_post = $check_if_this_is_page_or_post [0] ['content_type'];
@@ -6621,16 +6896,19 @@ $my_limit_q
 						
 						// print $fix_title;
 						
+
 						$item ['item_title'] = $fix_title;
 						
 						$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
 						
 						CI::model ( 'core' )->dbQ ( $q );
-						
-						// var_Dump ( $q );
-						
-						// exit ();
 					
+		// var_Dump ( $q );
+					
+
+					// exit ();
+					
+
 					}
 				
 				}
@@ -6650,15 +6928,18 @@ $my_limit_q
 					$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
 					
 					CI::model ( 'core' )->dbQ ( $q );
-					
-					// var_Dump ( $q );
-					
-					// exit ();
 				
+		// var_Dump ( $q );
+				
+
+				// exit ();
+				
+
 				}
 				
 				//
 				
+
 				$url = CI::model ( 'taxonomy' )->getUrlForId ( $item ['taxonomy_id'] );
 			
 			} else {
@@ -6671,9 +6952,11 @@ $my_limit_q
 			
 			// $sub_items = CI::model ( 'content' )->getMenuItems($item ['id']);
 			
+
 			if (! empty ( $sub_items )) {
 				// $item ['submenu'] = $sub_items;
 			
+
 			}
 			
 			$return [] = $item;
@@ -6690,10 +6973,13 @@ $my_limit_q
 		
 		// $data ['id'] = $id;
 		
+
 		// $data = CI::model('taxonomy')->taxonomyGet ( $data );
 		
+
 		// var_dump ( $data );
 		
+
 		$data = CI::model ( 'core' )->mediaGetThumbnailForItem ( $to_table = 'table_menus', $to_table_id = $id, $size, $direction );
 		
 		return $data;
@@ -6705,6 +6991,7 @@ $my_limit_q
 		// var_dump ( ACTIVE_PAGE_ID );
 		// var_dump ( PAGE_ID );
 		
+
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
@@ -6764,6 +7051,7 @@ $my_limit_q
 		
 		// is slash
 		
+
 		$slash = substr ( "$the_curent_url", 0, 1 );
 		
 		if ($slash == '/') {
@@ -6774,8 +7062,10 @@ $my_limit_q
 		
 		// print $the_curent_url;
 		
+
 		// print ACTIVE_CONTENT_ID;
 		
+
 		$menu_data = array ();
 		
 		foreach ( $the_menu as $item ) {
@@ -6788,6 +7078,7 @@ $my_limit_q
 			
 			//
 			
+
 			$content_item = $this->getContent ( $data, $orderby = false, $limit = false, $count_only = false, $short_data = true );
 			
 			$content_item = $content_item [0];
@@ -6824,24 +7115,31 @@ $my_limit_q
 			
 			// print $url;
 			
+
 			// print site_url ( $the_curent_url );
 			
+
 			// print "<hr>";
 			
+
 			if ($url == site_url ( $the_curent_url )) {
-				
-				// $is_active = true;
 			
+		// $is_active = true;
+			
+
 			}
 			
 			if ($content_item ['is_home'] == 'y') {
-				
-				// if($the_curent_url = ''){
-				
-				// $is_active = true;
-				
-				// }
 			
+		// if($the_curent_url = ''){
+			
+
+			// $is_active = true;
+			
+
+			// }
+			
+
 			}
 			
 			if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
@@ -6876,8 +7174,10 @@ $my_limit_q
 		
 		// $
 		
+
 		// var_dump ( $menu_data );
 		
+
 		CI::model ( 'core' )->cacheWriteAndEncode ( $menu_data, $function_cache_id );
 		
 		return $menu_data;
@@ -6892,6 +7192,7 @@ $my_limit_q
 			
 			// $this->fixMenusPositions ();
 			
+
 			return false;
 		
 		}
@@ -6920,6 +7221,7 @@ $my_limit_q
 		
 		// get next
 		
+
 		$data = false;
 		
 		CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
@@ -6936,6 +7238,7 @@ $my_limit_q
 		
 		// get prev
 		
+
 		CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
 		
 		$data = false;
@@ -6962,6 +7265,7 @@ $my_limit_q
 				
 				// update curent
 				
+
 				$table = TABLE_PREFIX . 'menus';
 				
 				$q = "UPDATE $table set position={$prev_item['position']} where id={$curent_item ['id']}   ";
@@ -7025,9 +7329,9 @@ $my_limit_q
 	 * fix Menus Positions
 	 *
 	 * @author Peter Ivanov
-	 *        
-	 *        
-	 *        
+	 * 
+	 * 
+	 * 
 	 */
 	
 	function fixMenusPositions($menu_id = false) {
@@ -7040,8 +7344,10 @@ $my_limit_q
 		
 		// $table = TABLE_PREFIX . 'menus';
 		
+
 		// get all menus
 		
+
 		if ($menu_id == false) {
 			$sql = "SELECT * from $table where item_type='menu'  ";
 		} else {
@@ -7132,8 +7438,10 @@ $my_limit_q
 			// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString (
 			// $data, 3 );
 			
+
 			// $meta ['content_meta_keywords'] = $data;
 			
+
 			foreach ( $selected_taxonomy as $the_taxonomy ) {
 				
 				$the_taxonomy_full = CI::model ( 'taxonomy' )->getSingleItem ( $the_taxonomy );
@@ -7153,6 +7461,7 @@ $my_limit_q
 			// $keyrods = CI::model('taxonomy')->taxonomyGenerateTagsFromString
 			// ( implode ( ', ', $selected_taxonomy_descs ), 3 );
 			
+
 			$meta ["content_meta_keywords"] = $keyrods;
 			
 			CI::model ( 'core' )->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
@@ -7166,6 +7475,7 @@ $my_limit_q
 		// ($data, $orderby = false, $limit = false, $count_only = false,
 		// $short_data = false, $only_fields = false)
 		
+
 		$only_fields = array ();
 		
 		$only_fields [] = 'content_meta_title';
@@ -7285,6 +7595,7 @@ $my_limit_q
 				// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString
 				// ( $data, 3 );
 				
+
 				$meta ['content_meta_keywords'] = $data;
 				
 				if ($meta ['content_meta_keywords'] == '') {
@@ -7335,12 +7646,15 @@ $my_limit_q
 								// )->taxonomyGenerateTagsFromString (
 								// $keyword_calculate );
 								
+
 								// $keyword_calculate = word_limiter (
 								// $keyword_calculate, 40, ' ' );
 								
+
 								// $meta ['content_meta_keywords'] =
 								// $keyword_calculate;
 								
+
 								if ($meta ['content_meta_description'] == '') {
 									
 									$meta ['content_meta_description'] = $meta ['content_meta_keywords'];
@@ -7396,6 +7710,7 @@ $my_limit_q
 			
 			// var_dump ( $post ["content_title"] );
 			
+
 			$post ["content_title"] = str_ireplace ( '(', '', $post ["content_title"] );
 			
 			$post ["content_title"] = str_ireplace ( ')', '', $post ["content_title"] );
@@ -7430,6 +7745,7 @@ $my_limit_q
 				
 				// echo $i;
 				
+
 				$fruit = array_pop ( $keywords_array );
 				
 				$search_string = implode ( ' ', $keywords_array );
@@ -7613,9 +7929,10 @@ $my_limit_q
 				}
 			
 			}
-			
-			// }
 		
+		// }
+		
+
 		}
 		
 		$the_results_to_return_revalency = array ();
@@ -7665,9 +7982,10 @@ $my_limit_q
 		}
 		
 		return $posts;
-		
+	
 		// var_dump ( $the_results_to_return_revalency );
 	
+
 	}
 	
 	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
@@ -7700,6 +8018,7 @@ $my_limit_q
 			
 			// $output = "<ul>";
 			
+
 			if ($ul_class_name == false) {
 				print "<ul>";
 			} else {
@@ -7710,9 +8029,11 @@ $my_limit_q
 				// $item ['content_title'] = htmlspecialchars_decode ( $item
 				// ['content_title'], ENT_QUOTES );
 				
+
 				// $item ['content_title'] = strip_tags ( $item
 				// ['content_title'] );
 				
+
 				$output = $output . $item ['content_title'];
 				
 				$content_type_li_class = false;
@@ -7753,6 +8074,7 @@ $my_limit_q
 					
 					// $to_print = false;
 					
+
 					$to_print = str_ireplace ( '{id}', $item ['id'], $link );
 					
 					$to_print = str_ireplace ( '{content_title}', $item ['content_title'], $to_print );
@@ -7887,17 +8209,17 @@ $my_limit_q
 	 * options for more flexibility
 	 *
 	 * @param
-	 *       	 array
-	 *       	
+	 * array
+	 * 
 	 * @param
-	 *       	 boolean
-	 *       	
+	 * boolean
+	 * 
 	 * @author Peter Ivanov
-	 *        
+	 * 
 	 * @version 1.0
-	 *         
+	 * 
 	 * @since Version 1.0
-	 *       
+	 * 
 	 */
 	
 	function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
@@ -8006,10 +8328,12 @@ $my_limit_q
 		// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
 		// 'taxonomy/' . intval ( $content_parent ) );
 		
+
 		$result = $q;
 		
 		//
 		
+
 		$only_with_content2 = $only_with_content;
 		
 		$do_not_show_next = false;
@@ -8020,6 +8344,7 @@ $my_limit_q
 			
 			// $output = "<ul>";
 			
+
 			$i = 0;
 			
 			foreach ( $result as $item ) {
@@ -8053,9 +8378,10 @@ $my_limit_q
 							}
 							
 							if (count ( $chosen_categories_array ) > 1) {
-								
-								// array_shift ( $chosen_categories_array );
 							
+		// array_shift ( $chosen_categories_array );
+							
+
 							}
 							
 							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
@@ -8077,6 +8403,7 @@ $my_limit_q
 							
 							// p ( $q );
 							
+
 							// $q = CI::model ( 'core' )->dbQuery ( $q,
 							// __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
 							$total_count_array = array ();
@@ -8097,6 +8424,7 @@ $my_limit_q
 							
 							// $q = intval ( $q [0] ['qty'] );
 							
+
 							$results_count = count ( $total_count_array );
 							
 							/*
@@ -8128,6 +8456,7 @@ $my_limit_q
 							
 							// print $q ;
 							
+
 							/*
 							 * $q = " select to_table_id, count(parent_id) as
 							 * parent_id123 from $table_taxonomy where to_table=
@@ -8146,6 +8475,7 @@ $my_limit_q
 							
 							// print "<hr>";
 							
+
 							/*
 							 * if ($q == count ( $categories )) { $strict_ids []
 							 * = $id; } else { $strict_ids [] = 'No such id'; }
@@ -8154,6 +8484,7 @@ $my_limit_q
 							// $posts_data = $this->contentGetByParams (
 							// $posts_data );
 							
+
 							/*
 							 * if (! empty ( $posts_data ['posts'] )) {
 							 * $results_count = count ( $posts_data ['posts'] );
@@ -8165,7 +8496,7 @@ $my_limit_q
 							
 							$item ['content_count'] = $results_count;
 							
-							/*
+						/*
 							 * $only_with_content3 [] = $item ['id'];
 							 * $only_with_content3 = array_unique (
 							 * $only_with_content3 ); $only_with_content3_i =
@@ -8242,16 +8573,19 @@ $my_limit_q
 						// $item ['id'], $type = 'category_item',
 						// $visible_on_frontend, $limit );
 						
+
 						// $childern_content2 = " SELECT "
 						
+
 						$do_not_show = false;
 						// print($type);
 						
+
 						if (! empty ( $childern_content )) {
 							
 							$do_not_show = false;
 							
-							/*
+						/*
 							 * if (! empty ( $chosen_categories_array )) {
 							 * $posts_data = array (); $posts_data
 							 * ['selected_categories'] =
@@ -8330,6 +8664,7 @@ $my_limit_q
 							
 							// print $item ['content_count'];
 							
+
 							if (is_array ( $actve_ids ) == true) {
 								
 								if (in_array ( $item ['id'], $actve_ids )) {
@@ -8392,24 +8727,27 @@ $my_limit_q
 						// $include_first = false, $content_type = false,
 						// $li_class_name = false) {
 						
+
 						// $li_class_name = false, $add_ids = false, $orderby =
 						// false, $only_with_content = false
 						
+
 						$children_of_the_main_parent1 = CI::model ( 'taxonomy' )->getChildrensRecursive ( $item ['id'], $type = 'category', $visible_on_frontend = false );
 						// p($children_of_the_main_parent1 );
 						$remove_ids [] = $item ['id'];
 						if (! empty ( $children_of_the_main_parent1 )) {
 							foreach ( $children_of_the_main_parent1 as $children_of_the_main_par ) {
-								
-								// $remove_ids[] = $children_of_the_main_par;
-								// $children = CI::model ( 'content'
-								// )->content_helpers_getCaregoriesUlTree (
-								// $children_of_the_main_par, $link, $actve_ids,
-								// $active_code, $remove_ids, $removed_ids_code,
-								// $ul_class_name, false, $content_type,
-								// $li_class_name, $add_ids, $orderby,
-								// $only_with_content, $visible_on_frontend );
 							
+		// $remove_ids[] = $children_of_the_main_par;
+							// $children = CI::model ( 'content'
+							// )->content_helpers_getCaregoriesUlTree (
+							// $children_of_the_main_par, $link, $actve_ids,
+							// $active_code, $remove_ids, $removed_ids_code,
+							// $ul_class_name, false, $content_type,
+							// $li_class_name, $add_ids, $orderby,
+							// $only_with_content, $visible_on_frontend );
+							
+
 							}
 						}
 						
@@ -8437,6 +8775,7 @@ $my_limit_q
 		
 		// $table = $cms_db_tables ['table_content'];
 		
+
 		if (intval ( $content_id ) == 0) {
 			
 			return false;
@@ -8445,6 +8784,7 @@ $my_limit_q
 		
 		// var_dump ( $content_id, $menu_id );
 		
+
 		$table = TABLE_PREFIX . 'menus';
 		
 		$orderby [0] = 'updated_on';
@@ -8495,6 +8835,7 @@ $my_limit_q
 			
 			// print "Nothing to ping! \n\n ";
 			
+
 			return false;
 		
 		}
@@ -8513,6 +8854,7 @@ $my_limit_q
 					
 					// print "Nothing to ping2! \n\n ";
 					
+
 					return false;
 				
 				}
@@ -8535,32 +8877,40 @@ $my_limit_q
 					
 					// print "Pinging $line \n\r";
 					
+
 					// $this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
 					
+
 					@$this->xmlrpc->server ( $line, 80 );
 					
 					@$this->xmlrpc->method ( 'weblogUpdates.ping' );
 					
 					// $this->xmlrpc->set_debug(TRUE);
 					
+
 					// $this->xmlrpc->display_response ();
 					
+
 					// print "With: \n\r";
 					
+
 					// print_r ( $pages );
 					
+
 					$request = $pages;
 					
 					$this->xmlrpc->request ( $request );
 					
 					if (! $this->xmlrpc->send_request ()) {
-						
-						// echo $this->xmlrpc->display_error ();
 					
+		// echo $this->xmlrpc->display_error ();
+					
+
 					}
-					
-					// print "\n Done pinging $line \n\r\n\r\n\r\n\r";
 				
+		// print "\n Done pinging $line \n\r\n\r\n\r\n\r";
+				
+
 				}
 			
 			}
@@ -8615,6 +8965,7 @@ $my_limit_q
 		
 		// ($q);
 		
+
 		$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		$ids = CI::model ( 'core' )->dbExtractIdsFromArray ( $q );
@@ -8629,10 +8980,12 @@ $my_limit_q
 			// 'table_content', $content_id, $media_type = false, $order =
 			// "ASC", $queue_id = false, $no_cache = false );
 			
+
 			return $media;
-			
-			// $this->template ['videos'] = $media2 ['videos'];
 		
+		// $this->template ['videos'] = $media2 ['videos'];
+		
+
 		} else {
 			
 			CI::model ( 'core' )->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
@@ -8689,6 +9042,7 @@ $my_limit_q
 		
 		// ($q);
 		
+
 		$q = CI::model ( 'core' )->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 		
 		$ids = CI::model ( 'core' )->dbExtractIdsFromArray ( $q );
