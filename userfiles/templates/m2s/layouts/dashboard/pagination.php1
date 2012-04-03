@@ -1,0 +1,16 @@
+<?php if ($pagination['pages_count'] > 1) { ?>
+<ul class="paging right" style="margin: 0">
+	<li><span class="paging-label">Browse pages:</span></li>
+	<?php for ($i = 1; $i <= $pagination['pages_count']; $i++) { ?>
+		<li>
+			<a 
+				class="<?php echo ($i == $pagination['current_page']) ? 'active' : ''; ?>" 
+				href="<?php echo $pagination['link_pattern'].$i;?>"
+			>
+				<?php echo $i; ?>
+			</a>
+		</li>
+	<?php } ?>
+</ul>
+  
+<?php } ?>

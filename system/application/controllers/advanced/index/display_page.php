@@ -193,7 +193,7 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 	
 	$posts_data ['selected_categories'] = ($active_categories2);
 	
-	if (($_POST ['search_by_keyword'] != '') or ($_POST ['begin_search'] != '') or ($_POST ['search'] != '')) {
+	if ($_POST ['search_by_keyword'] != '' or ($_POST ['begin_search']) or ($_POST ['search'])) {
 		
 		if (empty ( $active_categories2 )) {
 			
@@ -204,7 +204,7 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 			$togo = CI::model ( 'taxonomy' )->getUrlForId ( $active_categories2 [0] );
 		
 		}
-		
+		 
 		if ($_POST ['selected_categories'] != '') {
 			
 			$search_cats = str_replace ( ' ', '', $_POST ['selected_categories'] );
@@ -229,25 +229,27 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 			
 			// $togo = $togo . '/keyword:' . stripslashes ( $_POST
 			// ['search_by_keyword'] );
-			// p($POST,1);
+			// 
+			 
 		
 		}
+		 
 		foreach ( $_POST as $k => $v ) {
 			
 			switch (strtolower ( $k )) {
 				case 'x' :
 				case 'y' :
 				case 'search_by_keyword' :
-					 
+					
 					break;
 				
 				case 'search' :
 					$togo = $togo . '/' . trim ( $k );
 					break;
-				
+				 
 				default :
 					
-					// );
+				 
 					if ($v != '') {
 						$togo = $togo . '/' . trim ( $k );
 						$togo = $togo . ':' . stripslashes ( $v );
@@ -258,7 +260,8 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 			}
 		
 		}
-		
+	//	var_dump($_POST );
+	//	exit;
 		if ($_POST ['custom_fields'] != false) {
 			
 			$custom_fields_criteria = array ();
@@ -328,8 +331,8 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		}
 		
 		$temp1 = CI::model ( 'core' )->getParamFromURL ( 'view' );
-		//p($togo,1); 
-		//exit();
+		// p($togo,1);
+		// exit();
 		if (trim ( $temp1 ) != '') {
 			
 			// header ( 'Location: ' . $togo . '/view:' . $temp1 . $search_cats

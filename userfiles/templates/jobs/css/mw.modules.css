@@ -1,0 +1,94 @@
+/* CSS Document */
+
+
+
+
+.mw-button, a.mw-button {
+
+    background: #23486e;
+   background: -webkit-gradient(linear, left top, left bottom, from(#23486e), to(#23486e));
+   background: -webkit-linear-gradient(top, #23486e, #23486e);
+   background: -moz-linear-gradient(top, #23486e, #23486e);
+   background: -ms-linear-gradient(top, #23486e, #23486e);
+   background: -o-linear-gradient(top, #23486e, #23486e);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;	
+	
+}
+
+.mw-input {
+	width: 295px;
+	height: 39px;
+	line-height: 39px;
+	padding-left: 10px;
+	padding-right: 10px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	margin:5px;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #333;
+	text-decoration: none;
+	border: 1px solid #CCCCCC;
+}
+
+select.mw-input {
+	height: 34px;
+	line-height: 24px;
+	font-size:16px;
+	
+}
+
+
+
+
+
+
+
+
+
+
+.module-login label{
+
+ width: 135px;
+height: 39px;
+float: left;
+ 
+border: none;
+background-color: transparent;
+margin-top: 10px;
+font-weight:bold;
+}
+	
+ 
+
+.module-login .login-btn{
+
+width: 93px;
+height: 34px;
+float: right;
+background-image: url("modules/loginpage_but.jpg");
+background-repeat:no-repeat;
+background-color: transparent;
+margin-top: 10px;
+border:none;
+text-indent:-999px;
+}
+
+
+
+.module-forgot-pass {
+	
+	
+}

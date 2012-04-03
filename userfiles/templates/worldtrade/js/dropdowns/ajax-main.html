@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Image Dropdown</title>
+<link rel="stylesheet" type="text/css" href="msdropdown/dd.css" />
+<script type="text/javascript" src="msdropdown/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="msdropdown/js/uncompressed.jquery.dd.js"></script>
+<style type="text/css">
+.toplinks{	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	background-color: #777777;
+	color:#fff;
+	border-bottom:2px solid #c3c3c3;
+	margin-bottom:10px;
+	padding-bottom:10px;
+}
+.toplinks a, .toplinks a :visited{color:#FFF;}
+.small{font-size:10px; line-height:12px; color:#006; font-weight:normal; font-family:Arial, Helvetica, sans-serif; position:relative; top:-10px}
+
+</style>
+<script type="text/javascript">
+var oHandler, oHandler2; //will be used below
+var counter = 0;
+function loadAjaxFile(val) {
+	//console.debug(val);
+	var url = val;
+	if(parseInt(url)==0 || parseInt(url)>4) {
+		return false;
+	};
+	if(url=='4') {
+		url = 'ajax-json.html';
+	}
+	$("#contenP").html("loading...");
+	$.ajax({
+		url:url,
+		type:'get',
+		success: function(res) {
+			$("#contenP").html(res);
+			if(val=='4') {
+				//this adds new options
+				var json_data = eval(res);
+				counter++;
+				for(var i=0;i<json_data.length;i++) {
+					json_data[i].text = json_data[i].text +" " + (counter);
+					oHandler2.add(json_data[i]);//adding
+				}
+				//remove first item
+				if(counter==1) {
+					oHandler2.remove(0);
+				}				
+				$("#contenP").append("<p>New menu has been added in dropdown. Scroll down to see.</p>");
+				//alert(json_data)
+			}
+		}
+	})
+}
+</script>
+</head>
+<body>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="5" class="toplinks">
+  <tr>
+    <td width="11%"><strong><a href="normal.html">Simple</a></strong></td>
+    <td width="16%"><a href="cssSprite.html"><strong>CSS Sprite</strong></a></td>
+    <td width="18%"><a href="multipleSkin.html"><strong>Multiple skin</strong></a></td>
+    <td width="17%"><a href="objectOriented.html"><strong>Object Oriented Approch</strong></a></td>
+    <td width="18%"><a href="ajax-main.html"><strong>Ajax Call</strong></a></td>
+    <td width="20%"><a href="mouse-events.html"><strong>Mouse Events</strong></a></td>
+  </tr>
+</table>
+<form name="myform" id="myform"  action="getvalue.php" enctype="multipart/form-data" method="post">
+  <h1>Javascript image dropdown <span id="ver"></span> <a class="small" href="http://www.marghoobsuleman.com/jquery-image-dropdown" title="Download">Download</a> </h1>
+  <table width="100%" border="0" cellspacing="0" cellpadding="2">
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>&nbsp;
+    Data will added in this dropdown: (choose <strong>Add dynamic json </strong>from the left dropdown)</td>
+    </tr>
+    <tr>
+      <td><select class="mydds" name="ajaxdd" id="ajaxdd" onchange="loadAjaxFile(this.value)">
+        <option value="0" selected="selected">Choose One</option>
+        <option value="ajax-date.html" title="icons/icon_calendar.gif">Load date file</option>
+        <option value="ajax-shoppingcart.html" title="icons/icon_cart.gif">Load shopping cart</option>
+        <option value="ajax-cd.html" title="icons/icon_cd.gif">Load CD file</option>
+        <option value="4" title="icons/enabled.gif">Add dynamic json data</option>
+      </select></td>
+      <td><select class="mydds" name="dynamic" id="dynamic">
+        <option value="0" selected="selected">Will be added later</option>
+      </select></td>
+    </tr>
+  </table>
+  <p>&nbsp;  </p>
+  <p>&nbsp;</p>
+  <div id="contenP">
+  	
+  </div>
+  <p>
+    <input type="submit" value="Submit Value" />
+  </p>
+</form>
+<script language="javascript" type="text/javascript">
+
+function showvalue(arg) {
+	alert(arg);
+	//arg.visible(false);
+}
+$(document).ready(function() {
+
+try {
+		oHandler = $("#ajaxdd").msDropDown().data("dd");
+		oHandler2 = $("#dynamic").msDropDown().data("dd");		
+		//oHandler.visible(true);
+		//alert($.msDropDown.version);
+		//$.msDropDown.create("body select");
+		$("#ver").html($.msDropDown.version);
+		} catch(e) {
+			alert("Error: "+e.message);
+		}
+})
+		
+</script>
+               <div class="node-links" style="padding:10px; border:1px solid #c3c3c3;background:#222222; margin-top:40px">
+              <div class="adsense">
+                <script type="text/javascript"><!--
+            google_ad_client = "pub-7681689922712917";
+            /* 468x15 */
+            google_ad_slot = "4604426671";
+            google_ad_width = 468;
+            google_ad_height = 15;
+            //-->
+            </script>
+                <!--script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script-->
+              </div>
+            </div>
+
+</body>
+</html>

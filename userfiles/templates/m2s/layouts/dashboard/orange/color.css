@@ -1,0 +1,18 @@
+ 
+input[type=button], input[type=submit], input[type=reset], #sidebar ul.box-content li.active {
+	background: #f57f26;
+	border: 1px solid #df7424;
+}
+	input[type=button]:hover, input[type=submit]:hover {
+		background: #faa41c;
+	}
+#mainnav .active { 
+	background: #f57f26;
+	border: 1px solid #faa41c;
+}
+#sidebar .calendar table th {
+	background: #f57f26;
+}
+#sidebar .action-links a, #sidebar ul.box-content a:hover {
+	color: #df7424;	
+}

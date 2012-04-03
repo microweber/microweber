@@ -1,0 +1,221 @@
+@import url("ooyes.framework.css");
+
+html, body{
+  overflow: hidden;
+}
+
+html, body{
+  height: 100%;
+  /* fullscreen za flash pod ie */
+}
+
+
+#container{
+  overflow: hidden;
+}
+
+#introImages{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  width: expression(document.body.offsetWidth + 'px');
+  height: expression(document.body.offsetHeight + 'px');
+  z-index: 0;
+}
+#introImages img{
+    position: absolute;
+    width: expression(document.body.offsetWidth + 'px');
+    left: 0px;
+    bottom: 0px;
+}
+#treeanimation{
+  position: relative;
+  overflow: hidden;
+}
+
+
+#header{
+  position: relative;
+  z-index: 1;
+  height: 99px;
+}
+#headerContent{
+  position: relative;
+  z-index: 1;
+  height: 99px;
+}
+
+#headerbg{
+  position: absolute;
+  z-index: 0;
+  top: 0px;
+  left: 0px;
+  height: 99px;
+  overflow: hidden;
+  width: 100%;
+  width: expression(document.body.offsetWidth + 'px');
+  background: url(img/intro/introheaderbg.png) repeat-x;
+  -background: none;
+  -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/intro/introheaderbg.png', sizingMethod='scale');
+}
+
+.logo{
+  display: block;
+  background: url(img/intro/logo.png) no-repeat;
+  width: 203px;
+  height: 67px;
+  overflow: hidden;
+  cursor: pointer;
+  -background: none;
+  -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/intro/logo.png');
+  text-indent: -9999px;
+  z-index: 2;
+  float: left;
+  margin: 10px;
+}
+
+#nav{
+  float: left;
+  list-style: none;
+  margin-left: 40px;
+  margin-top:57px;
+  position: relative;
+  zoom:1;
+}
+#nav li{
+  float: left;
+  margin-right: 20px;
+  position: relative;
+  overflow: visible;
+  height: 30px;
+  zoom:1;
+}
+#nav a{
+  font:bold 13px Arial;
+  color: #312D2E;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+#nav a:hover{
+    text-decoration: underline;
+}
+
+#nav .sub{
+  position: absolute;
+  left: 0px;
+  top: 17px;
+  overflow: hidden;
+  display: none;
+  width: 282px;
+  padding: 5px 0;
+  margin-top: 17px;
+}
+
+
+
+
+#nav .sub ul{
+  position: relative;
+  list-style: none;
+  z-index: 2;
+}
+
+
+#nav .sub li{
+  float: left;
+  clear: both;
+  white-space: nowrap;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  margin-right: 0px;
+  position: static;
+  white-space: nowrap;
+  display: list-item;
+  height: auto;
+}
+#nav .sub a{
+  font: 12px Arial;
+  color: #312D2E;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: block;
+  padding: 1px 0 1px 10px;
+  text-transform: uppercase;
+}
+#nav .sub a:hover{
+  text-decoration: underline;
+}
+.subbg{
+  position: absolute;
+  left: 0px;
+  bottom:0px;
+  width: 282px;
+  height: 250px;
+  overflow: hidden;
+  background: url(img/intro/dropdown.png) no-repeat;
+    -background: none;
+  -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/intro/dropdown.png', sizingMethod='crop');
+  z-index: 0;
+  z-index: -1;
+}
+
+
+#skip{
+  position: absolute;
+  z-index: 3;
+  width: 116px;
+  height:30px;
+  background: url(img/intro/skip.png) no-repeat;
+  -background: none;
+  -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/intro/skip.png', sizingMethod='scale');
+  display: block;
+  top: 50px;
+  right: 40px;
+  font: bold 16px Arial;
+  color: #121E23;
+  text-decoration: none;
+  padding: 5px 0 0 8px;
+  cursor: pointer;
+}
+#skip:hover{
+  background: url(img/intro/skiph.png) no-repeat;
+  -background: none;
+  -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/intro/skiph.png', sizingMethod='scale');
+}
+
+#flashoverlay{
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  width:expression(this.parentNode.offsetWidth + 'px');
+  height:expression(this.parentNode.offsetHeight + 'px');
+  top: 0px;
+  left: 0px;
+  -background: #fff;
+  -filter:alpha(opacity=0);
+}
+
+#flashIntro{
+  height: expression(document.body.offsetHeight + 'px');
+  outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

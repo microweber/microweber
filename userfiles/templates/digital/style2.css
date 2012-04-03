@@ -1,0 +1,52 @@
+.no_contract {
+	text-align: center;
+	 
+	font-weight: bold;
+	color: #F00;
+	text-decoration: none;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	margin-top:5px;
+	margin-bottom:5px;
+	line-height:24px !important;
+}
+
+.no_contract img {
+ margin-right:3px;
+ float:left;
+} 
+
+
+.manitext table {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: double;
+	border-color: red;
+	border-collapse: collapse;
+	background-color: white;
+}
+.manitext table th {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: ;
+}
+.manitext table td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: ;
+}
+
+.manitext p.red {
+	 color:#F00; 
+}
+
+
+#offer_name {
+	 display:none;
+} 

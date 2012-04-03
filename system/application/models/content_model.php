@@ -7,6 +7,10 @@ if (! defined ( 'BASEPATH' ))
  *
  *
  *
+ *
+ *
+ *
+ *
  * Microweber
  *
  *
@@ -34,6 +38,10 @@ if (! defined ( 'BASEPATH' ))
 // ------------------------------------------------------------------------
 
 /**
+ *
+ *
+ *
+ *
  *
  *
  *
@@ -74,6 +82,10 @@ class content_model extends Model {
 	}
 	
 	/**
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *
@@ -2268,6 +2280,10 @@ class content_model extends Model {
 	 *
 	 *
 	 *
+	 *
+	 *
+	 *
+	 *
 	 * Cache function for contentGetByIdAndCache
 	 *
 	 * @param
@@ -2322,6 +2338,10 @@ class content_model extends Model {
 	}
 	
 	/**
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *
@@ -2403,6 +2423,10 @@ class content_model extends Model {
 	}
 	
 	/**
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *
@@ -3109,6 +3133,8 @@ class content_model extends Model {
 		
 		}
 		
+		$cf = CI::model ( 'core' )->getParamFromURL ( 'custom_fields_criteria' );
+		
 		if ($custom_fields_criteria == false) {
 			
 			$cf = CI::model ( 'core' )->getParamFromURL ( 'custom_fields_criteria' );
@@ -3122,6 +3148,62 @@ class content_model extends Model {
 		} else {
 			
 			$posts_data ['custom_fields_criteria'] = $custom_fields_criteria;
+		
+		}
+		
+		$is_search = CI::model ( 'core' )->getParamFromURL ( 'search' );
+		// p($is_search,1);
+		if ($is_search != false) {
+			$segs = url ();
+			$segs = explode('/',$segs);
+		 
+			$search_cf_filter = array ();
+			$search_filter_start = false;
+			foreach ( $segs as $segment ) {
+				
+				if (strtolower ( $segment ) == 'search') {
+					
+					$search_filter_start = true;
+				
+				}
+				
+				if ($search_filter_start == true) {
+					$p1 = explode ( ':', $segment );
+					
+					$vp = false;
+					if($p1 [1] != false){
+					$vp =   $p1 [1]  ;
+				//	$vp = htmlspecialchars_decode ( $vp );
+
+				$z1= html_entity_decode ( $p1 [0] );
+				$z1= urldecode ( $z1 );
+				
+				$p112 = explode ( '|', $z1 );
+				
+				
+				
+
+
+
+foreach($p112 as $p1123){
+					$search_cf_filter [$p1123] = $vp ;
+					}
+					}
+				
+				}
+			
+			}
+			// p($search_cf_filter,1);
+			
+			if(!empty($posts_data ['custom_fields_criteria'])){
+				$posts_data ['custom_fields_criteria'] = array_merge($posts_data ['custom_fields_criteria'], $search_cf_filter);
+			} else {
+				$posts_data ['custom_fields_criteria'] = ( $search_cf_filter);
+				
+			}
+			
+			// p($posts_data ['custom_fields_criteria']);
+			//exit('aaaa'); 
 		
 		}
 		
@@ -3550,6 +3632,10 @@ class content_model extends Model {
 	}
 	
 	/**
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *
@@ -4427,11 +4513,11 @@ $my_limit_q
 			}
 			
 			$only_custom_fieldd_ids = array ();
-			// p($data ['custom_fields_criteria'],1);
+	 
 			foreach ( $data ['custom_fields_criteria'] as $k => $v ) {
 				
 				if (is_array ( $v ) == false) {
-					
+					$v = html_entity_decode($v );
 					$v = addslashes ( $v );
 				
 				}
@@ -4459,24 +4545,37 @@ $my_limit_q
 					$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 				
 				}
-				
+				 
+				 
+				 
+				 
+				 
+				 
 				$q = "SELECT  to_table_id from $table_custom_fields where
 
             to_table = 'table_content' and
 
             custom_field_name = '$k' and
 
-            custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
-
+            custom_field_value = '$v'   
+			
+			$ids_q   
+			
+			
+			$only_custom_fieldd_ids_q 
             
-             $my_limit_q
+            $my_limit_q
 
                     ";
-				
+					
+					
+					
+				//	 
+				 
 				$q2 = $q;
-				// p($q);
+				  
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-				// p($q,1);
+				
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;
@@ -6916,6 +7015,10 @@ $my_limit_q
 	}
 	
 	/**
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *

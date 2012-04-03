@@ -1,0 +1,60 @@
+BEAR
+Dover
+Middletown
+Newark
+Wilmington
+Alexandria
+Annandale
+Arlington
+Ashburn
+Bailey's Crossroads
+Blacksburg
+Burke
+Cave Spring
+Centreville
+Chantilly
+Charlottesville
+Chesapeake
+Chester
+Christiansburg
+Dale City
+Danville
+Fairfax
+Fair Oaks
+Fredericksburg
+Hampton
+Harrisonburg
+Herndon
+Hopewell
+Lake Ridge
+Leesburg
+Lincolnia
+Linton Hall
+Lynchburg
+Manassas
+Marumsco
+McLean
+Mechanicsville
+Newport News
+Norfolk
+Oakton
+Petersburg
+Portsmouth
+Reston
+Richmond
+Roanoke
+Rose Hill
+Salem
+Short Pump
+South Riding
+Springfield
+Staunton
+Sterling
+Suffolk
+Tuckahoe
+Tysons Corner
+Virginia Beach
+Waynesboro
+West Springfield
+Winchester
+Woodlawn

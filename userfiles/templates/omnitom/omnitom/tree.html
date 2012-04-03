@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title></title>
+  <style type="text/css">
+       #tg, #t{
+         position: absolute;
+         width: 806px;
+         height: 656px;
+         left: 50%;
+         bottom: 0px;
+         margin-left: -403px;
+         overflow: hidden;
+       }
+       #t{
+         background: url(img/intro/t.jpg) no-repeat left bottom;
+         z-index: 1;
+
+       }
+       #tg{
+         background: url(img/intro/tg.jpg) no-repeat left bottom;
+         z-index: 0;
+       }
+
+
+  </style>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="http://google.com/jsapi"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(window).load(function(){
+
+                $("#t").hide("explode", { pieces: 30  }, 2000);
+
+        })
+
+    })
+
+  </script>
+</head>
+
+<body>
+    <!--<div id="tg"></div>-->
+    <div id="t"></div>
+</body>
+</html>
