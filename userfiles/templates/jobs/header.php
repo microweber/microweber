@@ -27,6 +27,101 @@ var $ = jQuery.noConflict();
 -->
 <script type="text/javascript" src="<? print site_url('api/js'); ?>"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>css/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript"> 
+ 
+
+$(document).ready(function(){
+	 refresh_user_picture_info();
+	 //jcrop_init();
+});
+
+ 
+
+    function refresh_user_picture_info(callback){
+
+
+		$.ajax({
+		  url: '<?php print site_url('api/media/user_get_picture_info') ?>/rand:'+Math.random(),
+		  dataType: 'json',
+		 // data: myData,
+		  success: function(data) {
+    cropimg = new Image();
+    cropimg.className = 'abshidden';
+    cropimg.onload = function(){  //pod ie dava greshni razmeri
+  			$('#the-user-pic-for-crop').attr('src',  data.urls.original+'?rand'+Math.random());
+
+  			$('.user-image-triger').attr('src',  data.urls.original+'?rand'+Math.random());
+
+  			$('#user_picture_media_id').val(data.id);
+
+  			$('#user_image').attr('src', data.urls.original+'?rand'+Math.random() );
+            if(typeof callback =='function'){
+                   callback.call(this);
+            }
+
+    }
+    cropimg.src = data.urls.original;
+ 		  }
+		});
+
+
+
+
+	}
+
+
+
+
+
+	function change_pass_show(){
+
+	$('#change_pass_holder input').val("");
+	$('#change_pass_holder').fadeIn();
+
+
+$('.change_pass_holder input').val("");
+	$('.change_pass_holder').fadeIn();
+	}
+
+	function save_user(){
+
+
+//var data = $('#edit-profile-form').dataCollect();
+var data =  $('#edit-profile-form').serialize(); // serialize the form's data
+$.post("<? print site_url('api/user/save') ?>", data, function(resp){
+
+var resp_msg = '';
+
+if(isobj(resp.error) != false){
+jQuery.each(resp.error, function(i, val) {
+
+	  resp_msg = resp_msg + '<br />' + val;
+    });
+
+mw.box.alert(resp_msg);
+	}
+
+
+
+if(isobj(resp.success) != false){
+
+  $("#user_save_success").fadeIn();
+   $("#edit-profile-form").fadeOut();
+ 
+}
+ 
+
+}, "json");
+
+
+
+
+
+	}
+
+
+
+    </script>
 <link href="<? print TEMPLATE_URL ?>css/mw.modules.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -50,25 +145,18 @@ var $ = jQuery.noConflict();
 	}?>
   <div class="header_inner_right">
     <div class="job_company_logo">
-      <div class="top_jobseeker_name">Josh Mayfid</div>
-      <div class="top_jobseeker_icon"><img src="<? print TEMPLATE_URL ?>images/top_jobseeker_icon.jpg" alt="jon seeker" />
-        <table border="0" cellpadding="0" cellspacing="0" width="180">
+      <div class="top_jobseeker_name"><? print user_name() ?></div>
+      <div class="top_jobseeker_icon"><a href="<? print site_url('dashboard'); ?>"><img src="<? print $u_pic ?>" alt="<? print addslashes(user_name() ); ?>" /></a>
+        <table border="0" cellpadding="0" cellspacing="0"  >
           <tr valign="middle">
-            <td><a  style="float:left; margin-right:5px;" href="<? print site_url('dashboard'); ?>"> <img src="<? print $u_pic;  ?>" height="25" /></a></td>
-            <td><a class=""  href="<? print site_url('dashboard'); ?>">Dashboard</a> |</td>
-            <td><? $new_msgs = get_unread_messages(); ?>
-              <? 
-	  $msg_class = 'msg-ico-no-new';
-	  if($new_msgs > 0): ?>
-              <?  $msg_class = 'msg-ico-new'; ?>
-              <? endif; ?>
-              <a class="<? print $msg_class; ?>" href="<? print site_url('dashboard/view:my-messages'); ?>" title="<? print $new_msgs; ?> messages"></a> |</td>
-            <td><a class=""  href="#" onclick="mw.users.LogOut()">Exit</a></td>
+           <td><a class=""  href="<? print site_url('dashboard'); ?>">Dashboard</a> |</td>
+           
+            <td><a class=""  href="<? print site_url('dashboard/view:my-profile'); ?>">Profile</a></td>
           </tr>
         </table>
       </div>
-    </div>
-    <div class="logout_but"><img src="<? print TEMPLATE_URL ?>images/logoout_but.jpg" alt="logout" /></div>
+    </div> 
+    <div class="logout_but"><a href="javascript:mw.users.LogOut()"><img src="<? print TEMPLATE_URL ?>images/logoout_but.jpg" alt="logout" /></a></div>
   </div>
   <? else:  ?>
   <div class="jobsonline">570 JOBS ONLINE</div>

@@ -1,8 +1,14 @@
+ 
+
+
 <div class="body_part_inner">
   <form class="search_part" method="post" action="<? print page_link() ?>">
     <input type="hidden" name="search" value="1"  />
-    <div class="sort_people">State:</div>
-    <select class="comapnies_search">
+    <div class="sort_people">Role:</div>
+    <select class="comapnies_search" name="role">
+    <option  value="job_seeker">Job seeker</option>
+        <option  value="company">company</option>
+
     </select>
     <div class="company_search_hover"></div>
     <div class="by_keyword">By Keyword</div>
@@ -28,6 +34,18 @@
   } else {
 	 $param['curent_page'] = 1;  
   }
+  
+    $role = url_param('role');
+  if( $role != false){
+	 $param['role'] = $role; 
+  } else {
+	  
+  }
+  
+  
+  
+  
+  
   $param['items_per_page'] = 30; 
   
   $param2 = $param;
