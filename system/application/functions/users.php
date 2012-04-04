@@ -51,28 +51,35 @@ function online_users_count() {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
+ * array();
  * @return array  array of users;
  */
 function get_users($params = array()) {
 	
 	global $CI;
-	
-	$data = array ();
-	if($limit != false ){
-	$limit = array ('0', $limit );
-	}
-	 
+	//	p($params);
 	//  $data['no_cache']= true;
 	$data = CI::model ( 'users' )->getUsers ( $params );
 	
-	 
-	 if(!is_array($data)){
-	 	return $data; 
-	 }
-	 
+	if (! is_array ( $data )) {
+		return $data;
+	}
+	
+	if ($params ['curent_page'] == false) {
+		$params ['curent_page'] = isset ( $params ['curent_page'] ) ? $params ['curent_page'] : url_param ( 'curent_page' );
+	}
+	if (intval ( $params ['curent_page'] ) == 0) {
+		$params ['curent_page'] = 1;
+	}
+	
+	if ($params ['items_per_page'] == false) {
+		
+		$params ['items_per_page'] = CI::model ( 'core' )->optionsGetByKey ( 'default_items_per_page' );
+	
+	}
+	
 	$res = array ();
-	if (! empty ( $data )) { 
+	if (! empty ( $data )) {
 		foreach ( $data as $item ) {
 			$res [] = $item;
 		}
@@ -90,7 +97,7 @@ function get_users($params = array()) {
  * @author Microweber
  * @link http://microweber.com
  * @param $period =
- *       	 7 days;
+ * 7 days;
  * @return array $ids - array of user ids;
  */
 function get_new_users($period = '7 days', $limit = 20) {
@@ -123,7 +130,7 @@ function get_new_users($period = '7 days', $limit = 20) {
  * @author Microweber
  * @link http://microweber.com
  * @param $id =
- *       	 the id of the user;
+ * the id of the user;
  * @return array
  */
 function get_user($id = false) {
@@ -135,11 +142,10 @@ function get_user($id = false) {
 	
 	$res = CI::model ( 'users' )->getUserById ( $id );
 	
-	if(empty($res)){
+	if (empty ( $res )) {
 		
 		$res = CI::model ( 'users' )->getUserByUsername ( $id );
 	}
-	
 	
 	if (! empty ( $res )) {
 		$more = CI::model ( 'core' )->getCustomFields ( 'table_users', $res ['id'] );
@@ -221,7 +227,7 @@ function user_id_from_url() {
    $params['id'] = 15; //the user id
    $params['size'] = 200; //the thumbnail size
    @return 		string - The thumbnail link. 
-   @example 	Use <?/**
+   @example 	Use <? **
  * user_thumbnail
  *
  * get the user_thumbnail of the user
@@ -231,15 +237,15 @@ function user_id_from_url() {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
- *       	 $params['id'] = 15; //the user id
- *       	 $params['size'] = 200; //the thumbnail size
+ * array();
+ * $params['id'] = 15; //the user id
+ * $params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
  * @example Use <? print post_thumbnail($post['id']); ?>
  */
 
 function user_picture($params) {
-	return user_thumbnail($params);
+	return user_thumbnail ( $params );
 }
 function user_thumbnail($params) {
 	
@@ -260,10 +266,12 @@ function user_thumbnail($params) {
 	
 	// $pic = get_picture($params ['id'], $for = 'user');
 	
+
 	// $media = CI::model ( 'core' )->mediaGetThumbnailForMediaId ( $pic['id'],
 	// $params ['size'], $size_height );
 	// p($media);
 	
+
 	$thumb = CI::model ( 'core' )->mediaGetThumbnailForItem ( $to_table = 'table_users', $to_table_id = $params ['id'], $params ['size'], 'DESC' );
 	
 	return $thumb;
@@ -308,9 +316,10 @@ function cf_get_user($user_id, $field_name) {
 				}
 			
 			}
-			
-			// p ( $field );
 		
+		// p ( $field );
+		
+
 		}
 	}
 
@@ -394,11 +403,11 @@ function get_message_by_id($id) {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
- *       	 $params['user_id'] = false; //the user id
- *       	 $params['show'] = false; // params: read, unread, 'all'
+ * array();
+ * $params['user_id'] = false; //the user id
+ * $params['show'] = false; // params: read, unread, 'all'
  * @return array - The messages.
- *        
+ * 
  */
 
 function get_messages($params) {
@@ -438,25 +447,28 @@ function get_messages($params) {
 	$opts ['get_count'] = false;
 	$opts ['items_per_page'] = $some_items_per_page;
 	$opts ['only_fields'] = array ('id', 'parent_id', 'max(id) as id_1' ); // array
-	                                                                       // of
-	                                                                       // fields
+	// of
+	// fields
 	$opts ['group_by'] = 'parent_id , id'; // if set the results will be grouped
-	                                       // by the filed name
+	// by the filed name
 	$opts ['order'] = array ('created_on', 'desc' );
 	// $opts ['debug'] = 1;
 	
+
 	$msg_params = array ();
 	$msg_params [] = array ('to_user', $currentUserId, '=', 'OR' );
 	$msg_params [] = array ('from_user', $currentUserId );
 	$msg_params [] = array ('parent_id', 0 );
 	// $msg_params [] = array ('from_user', $currentUserId, '=', 'OR' );
 	
+
 	// $params [] = array ('is_read', 'y' );
 	$msg_params [] = array ('deleted_from_receiver', 'n' );
 	$msg_params [] = array ('deleted_from_sender', 'n' );
 	// $params [] = array ('from_user', $currentUserId);
 	// $msg_params [] = array ('from_user', $currentUserId, '<>', 'and' );
 	
+
 	foreacH ( $params as $pk => $pv ) {
 		$msg_params [] = array ($pk, $pv );
 	}
@@ -474,7 +486,8 @@ function get_messages($params) {
 		foreach ( $messages as $message ) {
 			// if(intval($message ['parent_id']) == 0){
 			$res [] = $message ['id'];
-			// }
+		
+		// }
 		}
 	}
 	return $res;
@@ -491,6 +504,7 @@ function get_messages($params) {
 	
 	// }
 	
+
 	if ($show == 'sent') {
 		
 		$params = array ();

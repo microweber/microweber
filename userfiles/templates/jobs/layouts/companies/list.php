@@ -16,16 +16,22 @@
   $param = array();
   // $param['role'] = 'company';
   $kw = url_param('keyword');
+    // $param['debug'] = true;  
+	// $param['no_cache'] = true; 
   if( $kw != false){
-	  
-	  
 	 $param['keyword'] = $kw; 
-	 
-	 
-	// p($param);
   }
   
+    $curent_page = url_param('curent_page');
+  if( $curent_page != false){
+	 $param['curent_page'] = $curent_page; 
+  } else {
+	 $param['curent_page'] = 1;  
+  }
+  $param['items_per_page'] = 30; 
+  
   $param2 = $param;
+  $param2['debug'] = false; 
   $param2['limit'] = false;
   $param2['get_count'] = true;
     
@@ -33,7 +39,11 @@
     $uc = get_users($param2);
  
    $u = get_users($param);
-  //p($u);
+  // p($param); 
+  
+  $pages = paging_prepare($uc,30);
+ // paging('uls', $pages);
+//  p($pa); 
    ?>
    
    <h2><? print $uc ?> users found</h2>
@@ -114,7 +124,15 @@
     <div class="company_name"><strong>Company Name:</strong>Ratownictwo Medyczne<br />
     </div>
   </div>-->
-  <div class="pagination"> <a href="#" id="prev">Prev</a>
-    <div class="page_number"> <a href="#" class="current">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a><a href="#" id="next">Next</a> </div>
+  <div class="pagination"> 
+  
+  <?  paging('uls', $pages); ?>
+  
+  <a href="#" id="prev">Prev</a>
+    <div class="page_number">
+  
+    
+    
+     <a href="#" class="current">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a><a href="#" id="next">Next</a> </div>
   </div>
 </div>

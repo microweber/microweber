@@ -1974,7 +1974,9 @@ class Core_model extends Model {
 					unset ( $criteria ['debug'] );
 				}
 			}
-			
+			if ($criteria ['cache_group'] == true) {
+			$cache_group = $criteria ['cache_group'];
+			}
 			if ($criteria ['no_cache'] == true) {
 				$cache_group = false;
 				if (is_string ( $criteria ['no_cache'] )) {
@@ -1990,8 +1992,18 @@ class Core_model extends Model {
 				unset ( $criteria ['count_only'] );
 			
 			}
-			if ($criteria ['get_count'] == true) {
-				$count_only = $criteria ['get_count'];
+			
+			
+			if ($criteria ['count'] == true) {
+				$count_only = $criteria ['count'];
+				
+				unset ( $criteria ['count'] );
+			
+			}
+			
+			
+			if ($criteria ['get_count'] == true ) {
+				$count_only = true;
 				
 				unset ( $criteria ['get_count'] );
 			
@@ -2011,6 +2023,90 @@ class Core_model extends Model {
 			if ($criteria ['limit'] == true and $count_only == false) {
 				$limit = $criteria ['limit'];
 			}
+			if ($criteria ['limit']) {
+				$limit = $criteria ['limit'];
+			}
+			
+			if ($criteria ['items_per_page'] and $criteria ['curent_page'] == false) {
+		 //	$limit = array (0, $criteria ['items_per_page'] );
+			}
+			
+				$curent_page = isset ( $criteria ['curent_page'] ) ? $criteria ['curent_page'] : null;
+		if ($curent_page == false) {
+			$curent_page = isset ( $criteria ['page'] ) ? $criteria ['page'] : null;
+		}
+
+		 
+			$offset = isset ( $criteria ['offset'] ) ? $criteria ['offset'] : false;
+			
+			if ($limit == false) {
+				$limit = isset ( $criteria ['limit'] ) ? $criteria ['limit'] : false;
+			}
+			if ($offset == false) {
+				$offset = isset ( $criteria ['offset'] ) ? $criteria ['offset'] : false;
+			}
+		 
+			
+			if ($count_only == false) {
+			
+			
+			
+		 if ($limit == false) {
+				
+			 	 $qLimit = "";
+					
+					if ($items_per_page == false) {
+						
+						$items_per_page = CI::model ( 'core' )->optionsGetByKey ( 'default_items_per_page' );
+					
+					}
+					
+					$items_per_page = intval ( $items_per_page );
+					
+				 
+					
+					if (intval ( $curent_page ) < 1) {
+						
+						$curent_page = 1;
+					
+					}
+					 
+					$page_start = ($curent_page - 1) * $items_per_page;
+					
+					$page_end = ($page_start) + $items_per_page;
+					
+					$temp = $page_end - $page_start;
+					
+					if (intval ( $temp ) == 0) {
+						
+						$temp = 1;
+					
+					}
+					
+					$qLimit .= "LIMIT {$temp} ";
+					
+					if (($offset) == false) {
+						
+						$qLimit .= "OFFSET {$page_start} ";
+					
+					}
+					
+					
+		 
+			
+			}
+			$limit_from_paging_q = $qLimit;
+	
+		 }
+			
+			
+					if($debug){ 
+  //p($limit_from_paging_q);
+ //   p($limit);
+	}	
+			
+			
+			
 			
 			if ($criteria ['fields'] == true) {
 				$only_those_fields = $criteria ['fields'];
@@ -2310,18 +2406,20 @@ class Core_model extends Model {
 		
 		}
 		 
-		if (! empty ( $limit ) and $count_only == false) {
+			if ($qLimit == '' and !empty ( $limit ) and $count_only == false) {
+				
+				$offset = $limit [1] - $limit [0];
+				
+				$limit = " limit  {$limit[0]} , $offset  ";
 			
-			$offset = $limit [1] - $limit [0];
+			} else {
+				
+				$limit = false;
 			
-			$limit = " limit  {$limit[0]} , $offset  ";
+			}
+		 
 		
-		} else {
-			
-			$limit = false;
-		
-		}
-		
+		 
 		$criteria = $this->mapArrayToDatabaseTable ( $table, $criteria );
 		
 		if (! empty ( $criteria )) {
@@ -2546,14 +2644,19 @@ class Core_model extends Model {
 			$q = $q . $includeIds_idds;
 		}
 		if ($count_only != true) {
-		$q .= " group by ID  ";
+			$q .= " group by ID  ";
 		}
 		if ($order_by != false) {
 			
 			$q = $q . $order_by;
 		
 		}
+		 
+		if(trim($limit_from_paging_q ) != ""){
+		$limit = $limit_from_paging_q;
+		} else  {
 		
+		}
 		if ($limit != false) {
 			
 			$q = $q . $limit;
@@ -2561,29 +2664,28 @@ class Core_model extends Model {
 		}
 		
 		if ($debug == true) {
+			
+			var_dump ( $table, $q );
 		
-		 var_dump ( $table, $q );
-		
-
 		}
 		//var_dump ( $table, $q );
 		//print $q;
 		//exit;
 		//$select = $this->db->select()->from("$table"),array('product_id', 'product_name'))  ->limit(10, 20);
 		//$select = $this->db->select ()->from ( "$table" ) . eval($where);
-		 
+		
 
 		//$stmt = CI::db()->query ( $q );
 		//$result = $stmt->fetchAll ();
 		
-		
+
 		$result = $this->dbQuery ( $q );
 		if ($count_only == true) {
 		
 		//var_dump ( $result );
 		//exit ();
 		}
-		 
+		
 		if ($result [0] ['qty'] == true) {
 			
 			// p($result);
@@ -3117,41 +3219,91 @@ class Core_model extends Model {
 		$countColumn = '_total_';
 		
 		$cacheGroup = isset ( $aOptions ['cache_group'] ) ? $aOptions ['cache_group'] : null;
+		if ($cacheGroup == null) {
+			$cacheGroup = isset ( $aFilter ['cache_group'] ) ? $aFilter ['cache_group'] : null;
+		}
 		
 		$debugQuery = isset ( $aOptions ['debug'] ) ? $aOptions ['debug'] : null;
+		if ($debugQuery == null) {
+			$debugQuery = isset ( $aFilter ['debug'] ) ? $aFilter ['debug'] : null;
+		}
 		
 		$enableCache = isset ( $aOptions ['cache'] ) ? $aOptions ['cache'] : null;
+		if ($enableCache == null) {
+			$enableCache = isset ( $aFilter ['cache'] ) ? $aFilter ['cache'] : null;
+		}
 		
 		$getCount = isset ( $aOptions ['get_count'] ) ? $aOptions ['get_count'] : null;
 		
-		if ($getCount == false) {
-			
-			$getCount = isset ( $aOptions ['count_only'] ) ? $aOptions ['count_only'] : null;
-		
+		if ($getCount == null) {
+			$getCount = isset ( $aFilter ['count_only'] ) ? $aFilter ['count_only'] : null;
 		}
 		
 		$onlyFields = isset ( $aOptions ['only_fields'] ) ? $aOptions ['only_fields'] : null;
+		if ($onlyFields == null) {
+			$onlyFields = isset ( $aFilter ['only_fields'] ) ? $aFilter ['only_fields'] : null;
+		}
 		
 		$includeIds = isset ( $aOptions ['include_ids'] ) ? $aOptions ['include_ids'] : null;
+		if ($includeIds == null) {
+			$includeIds = isset ( $aFilter ['include_ids'] ) ? $aFilter ['include_ids'] : null;
+		}
+		
+		if ($includeIds == null) {
+			$includeIds = isset ( $aFilter ['ids'] ) ? $aFilter ['ids'] : null;
+		}
 		
 		$includeIdsField = isset ( $aOptions ['include_ids_field'] ) ? $aOptions ['include_ids_field'] : null;
+		if ($includeIdsField == null) {
+			$includeIdsField = isset ( $aFilter ['include_ids_field'] ) ? $aFilter ['include_ids_field'] : null;
+		}
 		
 		$excludeIds = isset ( $aOptions ['exclude_ids'] ) ? $aOptions ['exclude_ids'] : null;
+		if ($excludeIds == null) {
+			$excludeIds = isset ( $aFilter ['exclude_ids'] ) ? $aFilter ['exclude_ids'] : null;
+		}
 		
 		$execQuery = isset ( $aOptions ['query'] ) ? $aOptions ['query'] : null;
+		if ($execQuery == null) {
+			$execQuery = isset ( $aFilter ['query'] ) ? $aFilter ['query'] : null;
+		}
 		
 		$excludeIdsField = isset ( $aOptions ['exclude_ids_field'] ) ? $aOptions ['exclude_ids_field'] : null;
 		
+		if ($excludeIdsField == null) {
+			$excludeIdsField = isset ( $aFilter ['exclude_ids_field'] ) ? $aFilter ['exclude_ids_field'] : null;
+		}
+		
 		$items_per_page = isset ( $aOptions ['items_per_page'] ) ? $aOptions ['items_per_page'] : null;
+		
+		if ($items_per_page == null) {
+			$items_per_page = isset ( $aFilter ['items_per_page'] ) ? $aFilter ['items_per_page'] : null;
+		}
 		
 		$return_only_ids = ($aOptions ['return_only_ids']) ? $return_only_ids = true : $return_only_ids = false;
 		
+		if ($return_only_ids == null) {
+			$return_only_ids = isset ( $aFilter ['return_only_ids'] ) ? $aFilter ['return_only_ids'] : null;
+		}
+		
 		$get_params_from_url = ($aOptions ['get_params_from_url']) ? $get_params_from_url = true : $get_params_from_url = false;
+		
+		if ($get_params_from_url == null) {
+			$get_params_from_url = isset ( $aFilter ['get_params_from_url'] ) ? $aFilter ['get_params_from_url'] : null;
+		}
 		
 		//search
 		$searchKeyword = isset ( $aOptions ['search_keyword'] ) ? $aOptions ['search_keyword'] : null;
 		
+		if ($searchKeyword == null) {
+			$searchKeyword = isset ( $aFilter ['search_keyword'] ) ? $aFilter ['search_keyword'] : null;
+		}
+		
 		$searchKeyword_in_those_fields = isset ( $aOptions ['search_keyword_only_in_those_fields'] ) ? $aOptions ['search_keyword_only_in_those_fields'] : null;
+		
+		if ($searchKeyword_in_those_fields == null) {
+			$searchKeyword_in_those_fields = isset ( $aFilter ['search_keyword_only_in_those_fields'] ) ? $aFilter ['search_keyword_only_in_those_fields'] : null;
+		}
 		
 		$orderBy = isset ( $aOptions ['order'] ) ? $aOptions ['order'] : null;
 		
@@ -3314,7 +3466,9 @@ class Core_model extends Model {
 			}
 			
 			/*~~~~~~~~~~~~~ Build limit part ~~~~~~~~~~~~~*/
-			
+			if (empty ( $limit )) {
+				//$limit = array(0,2);
+			}
 			if (! empty ( $limit )) {
 				
 				if (count ( $limit ) == 1) {
@@ -4723,12 +4877,10 @@ class Core_model extends Model {
 				$cache = file_put_contents ( $cache_file, $content );
 			} catch ( Exception $e ) {
 				$this->cache_storage [$cache_id] = $content;
-				$cache = false; 
+				$cache = false;
 			}
 		
 		}
-		
-		
 		
 		return $content;
 	
@@ -4767,20 +4919,21 @@ class Core_model extends Model {
 		
 		$this->cache_storage [$cache_id] = false;
 		
-		try
-        {
-          unlink ( $cache_file );
-        } catch (MyException $e) {
-           // throw new Exception('Problem in foobar',0,$e);
-        }
-		
+		try {
+			unlink ( $cache_file );
+		} catch ( MyException $e ) {
+			// throw new Exception('Problem in foobar',0,$e);
+		}
 		
 		//if (is_file ( $cache_file ) == true) {
-			
+		
+
 		//	@unlink ( $cache_file );
 		
+
 		//}
 		
+
 		return true;
 	
 	}
@@ -8930,6 +9083,7 @@ $w
 		
 		//$this->cacheDeleteFile ( $cache_id, $cache_group );
 		
+
 		$this->cacheWriteContent ( $cache_id, $data_to_cache, $cache_group );
 		
 		return $data_to_cache;

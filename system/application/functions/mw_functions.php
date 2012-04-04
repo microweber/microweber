@@ -305,7 +305,7 @@ function cf_val($content_id, $field_name, $use_vals_array = true) {
 	}
 	//p($fields);
 	foreach ( $fields as $field ) {
-		if ((strtolower($field_name)) == strtolower($field ['custom_field_name'])) {
+		if ((strtolower ( $field_name )) == strtolower ( $field ['custom_field_name'] )) {
 			
 			if (! empty ( $field ['custom_field_values'] ) and $use_vals_array == true) {
 				return $field ['custom_field_values'];
@@ -574,11 +574,10 @@ function get_pages($params = array()) {
 function get_page_id_for_category_id($category_id) {
 	global $CI;
 	
- 
-	$res = CI::model ( 'taxonomy' )->get_page_for_category($category_id);
-
-	if(!empty($res )){
-		return $res['id'];
+	$res = CI::model ( 'taxonomy' )->get_page_for_category ( $category_id );
+	
+	if (! empty ( $res )) {
+		return $res ['id'];
 	}
 
 }
@@ -586,16 +585,12 @@ function get_page_id_for_category_id($category_id) {
 function get_page_for_category_id($category_id) {
 	global $CI;
 	
- 
-	$res = CI::model ( 'taxonomy' )->get_page_for_category($category_id);
-	if(!empty($res)){
+	$res = CI::model ( 'taxonomy' )->get_page_for_category ( $category_id );
+	if (! empty ( $res )) {
 		return $res;
 	}
 
 }
-
-
-
 
 function get_pages_old($params = array()) {
 	global $CI;
@@ -1289,7 +1284,7 @@ function post_save($data) {
 				$to_save ['is_home'] = 'n';
 				$to_save ['content_type'] = 'post';
 				
-			// p ( $to_save );
+				// p ( $to_save );
 				
 
 				$saved = CI::model ( 'content' )->saveContent ( $to_save );
@@ -1483,13 +1478,13 @@ function get_categories_for_post($content_id, $only_ids = true) {
  * @author      Microweber
  * @link        http://microweber.info/documentation/get_categories
  * @param
-* $get_categories_params = array();
-* $get_categories_params['parent'] = false; //begin from this parent category
-* $get_categories_params['get_only_ids'] = false; //if true will return only the category ids
-* $get_categories_params['inclide_main_category'] = false; //if true will include the main category too
-* $get_categories_params['for_content'] = false; //if integer - will get the categories for given content it (post)
-*
-*
+ * $get_categories_params = array();
+ * $get_categories_params['parent'] = false; //begin from this parent category
+ * $get_categories_params['get_only_ids'] = false; //if true will return only the category ids
+ * $get_categories_params['inclide_main_category'] = false; //if true will include the main category too
+ * $get_categories_params['for_content'] = false; //if integer - will get the categories for given content it (post)
+ *
+ *
  */
 function get_categories($get_categories_params = array()) {
 	$params = $get_categories_params;
@@ -2130,6 +2125,14 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 
 }
 
+function paging_prepare($total_results = false, $results_per_page = false) {
+	
+	$pages_count = ceil ( intval ( $total_results ) / intval ( $results_per_page ) );
+	
+	$param = CI::model ( 'content' )->pagingPrepareUrls ( url (), $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword' );
+	// p($param); 
+	return $param;
+}
 function url_param($param, $skip_ajax = false) {
 	global $CI;
 	

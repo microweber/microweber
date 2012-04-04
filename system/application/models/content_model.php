@@ -4721,7 +4721,7 @@ $my_limit_q
 
 					$func = function_exists ( 'mb_rtrim' ) ? 'mb_rtrim' : 'rtrim';
 					$k1 = $func ( $k1, '\*' );
-					
+					 
 					if ($last == '*') {
 						//	$func = function_exists ( 'mb_substr' ) ? 'mb_substr' : 'substr';
 					//	$k1 = $func ( $k1, 0, - 1 );
