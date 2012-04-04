@@ -2057,7 +2057,7 @@ class Core_model extends Model {
 					
 					if ($items_per_page == false) {
 						
-						$items_per_page = CI::model ( 'core' )->optionsGetByKey ( 'default_items_per_page' );
+						$items_per_page = 30;
 					
 					}
 					
@@ -9830,7 +9830,7 @@ $w
 			if ($option_group != false) {
 				$data ['option_group'] = $option_group;
 			}
-			
+			 
 			$get = $this->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
 			
 			if (! empty ( $get )) {
