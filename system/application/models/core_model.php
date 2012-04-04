@@ -2571,7 +2571,7 @@ class Core_model extends Model {
 		//exit;
 		//$select = $this->db->select()->from("$table"),array('product_id', 'product_name'))  ->limit(10, 20);
 		//$select = $this->db->select ()->from ( "$table" ) . eval($where);
-		
+		 
 
 		//$stmt = CI::db()->query ( $q );
 		//$result = $stmt->fetchAll ();
@@ -10384,5 +10384,4 @@ $w
 	}
 
 }
-
-?>
+ 
