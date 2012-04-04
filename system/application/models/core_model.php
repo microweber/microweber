@@ -2008,7 +2008,7 @@ class Core_model extends Model {
 				$with_pics = true;
 			}
 			
-			if ($criteria ['limit'] == true) {
+			if ($criteria ['limit'] == true and $count_only == false) {
 				$limit = $criteria ['limit'];
 			}
 			
@@ -2309,8 +2309,8 @@ class Core_model extends Model {
 			$order_by = false;
 		
 		}
-		
-		if (! empty ( $limit )) {
+		 
+		if (! empty ( $limit ) and $count_only == false) {
 			
 			$offset = $limit [1] - $limit [0];
 			
@@ -2545,7 +2545,9 @@ class Core_model extends Model {
 		if ($includeIds_idds != false) {
 			$q = $q . $includeIds_idds;
 		}
+		if ($count_only != true) {
 		$q .= " group by ID  ";
+		}
 		if ($order_by != false) {
 			
 			$q = $q . $order_by;
@@ -2560,7 +2562,7 @@ class Core_model extends Model {
 		
 		if ($debug == true) {
 		
-		//var_dump ( $table, $q );
+		 var_dump ( $table, $q );
 		
 
 		}
@@ -2573,16 +2575,18 @@ class Core_model extends Model {
 
 		//$stmt = CI::db()->query ( $q );
 		//$result = $stmt->fetchAll ();
-		if ($count_only == true) {
 		
-		//var_dump ( $q );
-		//exit ();
-		}
 		
 		$result = $this->dbQuery ( $q );
-		
 		if ($count_only == true) {
-			//p($result);
+		
+		//var_dump ( $result );
+		//exit ();
+		}
+		 
+		if ($result [0] ['qty'] == true) {
+			
+			// p($result);
 			$ret = $result [0] ['qty'];
 			
 			return $ret;
@@ -4718,12 +4722,13 @@ class Core_model extends Model {
 			try {
 				$cache = file_put_contents ( $cache_file, $content );
 			} catch ( Exception $e ) {
-				$cache = false;
+				$this->cache_storage [$cache_id] = $content;
+				$cache = false; 
 			}
 		
 		}
 		
-		$this->cache_storage [$cache_id] = $content;
+		
 		
 		return $content;
 	
@@ -4762,11 +4767,19 @@ class Core_model extends Model {
 		
 		$this->cache_storage [$cache_id] = false;
 		
-		if (is_file ( $cache_file ) == true) {
-			
-			@unlink ( $cache_file );
+		try
+        {
+          unlink ( $cache_file );
+        } catch (MyException $e) {
+           // throw new Exception('Problem in foobar',0,$e);
+        }
 		
-		}
+		
+		//if (is_file ( $cache_file ) == true) {
+			
+		//	@unlink ( $cache_file );
+		
+		//}
 		
 		return true;
 	
@@ -8915,7 +8928,7 @@ $w
 		
 		}
 		
-		$this->cacheDeleteFile ( $cache_id, $cache_group );
+		//$this->cacheDeleteFile ( $cache_id, $cache_group );
 		
 		$this->cacheWriteContent ( $cache_id, $data_to_cache, $cache_group );
 		

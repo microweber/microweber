@@ -148,7 +148,13 @@ a.blue {
 	background-position: right top;	
 }
 */
+.zebra1 {
+ background-color:#F0F0F0;	
+}
 
+.zebra2 {
+ background-color:#FFFFFF;	
+}
 .banner {
 	width:956px;
 	height:285px;
@@ -866,11 +872,13 @@ a#subscribe:hover {
 	border-bottom-style: dotted;
 	border-bottom-color: #C2C2C2;
 }
-.company_logo {
+.company_logo, a.company_logo {
 	width:310px;
 	height:135px;
 	float:left;
 	margin-top:15px;
+	background-repeat:no-repeat;
+	background-position: center center;
 }
 .company_name {
 	width:290px;
@@ -1401,13 +1409,22 @@ a#subscribe:hover {
 }
 /***********************************/
 
-.jobseaker_pic {
-	width:131px;
-	height:113px;
+.zerbra1 {
+ background-color:#F0F0F0;	
+}
+
+.zerbra2 { 
+ background-color:#FFFFF;	
+}
+.jobseaker_pic, a.jobseaker_pic{
+	width:181px;
+	height:153px;
 	float:left;
 	margin-top:29px;
-	margin-left:34px;
-	float:left
+	margin-left:20px;
+	float:left;
+	background-repeat:no-repeat;
+	background-position:center center;
 }
 .jobseaker_desc {
 	width:700px;
@@ -2426,7 +2443,7 @@ text-transform: capitalize !important;;
 border-radius: 15px;
 }
 
-
+ 
 a.add_new_post {
 width:130px;
 	height:32px;
