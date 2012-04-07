@@ -335,7 +335,7 @@ if (! function_exists ( 'safe_redirect' )) {
 			return false;
 		}
 		
-		//$url = str_ireplace ( 'Location:', '', $url );
+		$url = str_ireplace ( 'Location:', '', $url );
 		$url = trim ( $url );
 		
 		if (headers_sent ()) {

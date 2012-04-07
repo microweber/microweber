@@ -157,7 +157,7 @@ if ($editmode != false) {
 	
 	$site = site_url ( $segs_clean );
 	
-	safe_redirect ( 'Location: ' . $site );
+	safe_redirect (  $site );
 	
 	exit ();
 
