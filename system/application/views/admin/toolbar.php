@@ -1,21 +1,101 @@
 <style>
 body {
  margin-top:30px;	
+ margin-bottom:30px;	
 }
-
-  .sortable-placeholder, .sortable-dragging {
-		  border: 1px dashed #CCC;
+ 
+ 
+  .sortable-placeholder,.ui-sortable-placeholder,.ui-state-highlight, .sortable-dragging {
+		 
 		  /* padding-top:15px;
 		    padding-bottom:15px;
 		 margin-top:10px;
 		 margin-bottom:10px;*/
+		 
 		  background-color:#FFC !important;
 		   
+		   
 	  }
+	   .ui-state-highlight-row, {
+		 
+		 
+		  background-color:#0CF !important;
+		   
+	  }
+	  
+	  
+	    .ui-sortable:not(.edit):hover, .col:hover {
+		 
+		 
+		  outline: 1px dotted #0CF; 
+		   
+	  }
+	  
+	a.mw-make-cols {
+	  font-weight:bold;
+	  font-size:11px;
+	  color:#FFFFFF;
+	  background-color:#333;
+	  padding-left:3px;	
+	   padding-right:3px;	
+	   text-decoration:none;
+	}
+	
+	a.mw-make-cols.active {
+		background-color:#FFFFFF;
+		color:#333;
+	}
+	  .column {
+ 
+	  }
+	  
+	  .column-min-height{
+		min-height:100px;  
+	  }
+	  
+	   .col {
+		 
+		
+		 	  }
+	  
+	  .mw-sorthandle-col {
+		background-color:#0F0;  
+		 
+	  }
+	  
+	    .mw-sorthandle-row {
+		background-color:#FF0;  
+		 
+	  }
+	  
+	  
+	    .mw-sorthandle {
+	 height:10px;
+		  width:100%;
+		 position:static;
+		 top:0px;
+	  }
+	  
+	  .empty {
+		 width:100%;
+		 height:50px;
+		  display:inline-block;
+		  float:left;
+	  }
+	   .mw-sorthandle span{
+    width:100%;
+	
+	 
+	
+    
+ 
+}
+
+
   
   .ui-resizable-helper { border: 2px dotted #00F; }
-  [contenteditable=true], .outline, .mw_dragover {
-    outline: 1px dotted #cccccc;
+  [contenteditable=true], .outline, .mw_dragover, .ui-resizable:hover {
+    outline: 1px dotted #999;
 	
 }
 [contenteditable=true]:hover {
@@ -24,7 +104,7 @@ body {
 
 
 .edit .module, .edit img {
- resize: both;  
+ /*resize: both;  */
 }
 
 
@@ -33,18 +113,15 @@ body {
   </style>
   <style type="text/css">
 	    #mw-layout-edit-footer-bar{
-                clear: both;
-                background-color: #000000;
-                color: #FFFFFF;
-                font-family: sans-serif;
-                font-size: 20px;
-                font-weight: bold;
-                height: 25px;
-                z-index: 10000000;
-		position:fixed;
-		width:100%;
-		bottom:0px;
-                padding: 20px 20px 20px 10%;
+               	background-color: #F0F0F0 ;
+			border-top: 1px solid #CCCCCC ;
+			bottom: 0px ;
+			font-family: verdana, arial ;
+			font-size: 11px ;
+			height: 15px ;
+			position: fixed ;
+			width: 100% ;
+			z-index: 1000 ;
             }
         </style>
 <style>
@@ -72,16 +149,23 @@ body {
 			z-index: 1000 ;
 			}
 			
-				#mw-layout-edit-site-top-bar-l {
+				#mw-layout-edit-site-top-bar-l, .mw-layout-edit-site-bar-l {
 		
-			width: 80% ;
+			width: 65% ;
 			float:left;
 			}
 			
-				#mw-layout-edit-site-top-bar-r {
+				#mw-layout-edit-site-top-bar-r, .mw-layout-edit-site-bar-r {
 		
-			width: 19% ;
+			width: 34% ;
 			float:right;
+			}
+			.mw-layout-edit-curent-row-element {
+	color:#6C6C00;
+			}
+			
+			.mw-layout-edit-curent-element {
+	color:#005E00;
 			}
   
 		/* To make up for scroll-bar. */
@@ -110,7 +194,13 @@ body {
    
  </script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
+ <!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/columnizer/src/jquery.columnizer.js" type="text/javascript"></script>
+-->
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/jQuery.equalHeights.js" type="text/javascript"></script>
 
+<!-- <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/dragsort-0.5.1/jquery.dragsort-0.5.1.js" type="text/javascript"></script>
+--> 
  <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/shortcut.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.js" type="text/javascript"></script>
@@ -130,14 +220,27 @@ body {
 	</script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
- 
-<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>
-
+ <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/edit.js" type="text/javascript"></script>
+<!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5sortable/jquery.sortable.js" type="text/javascript"></script>
+--><!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>-->
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/javascripts/jquery.boxy.js" type="text/javascript"></script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css" rel="stylesheet" type="text/css" />
- 
+ <script type="text/javascript">
+ /* Plugin to make variable height divs equal heights */
+$.fn.sameHeights = function() {
 
- 
+$(this).each(function(){
+var tallest = 0;
+
+$(this).children().each(function(i){
+if (tallest < $(this).height()) { tallest = $(this).height(); }
+});
+$(this).children().css({'height': tallest});
+});
+return this;
+};
+
+ </script>
 <script type="text/javascript">
 
  Boxy.DEFAULTS.title = 'Title';
@@ -281,14 +384,7 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
     
    $(document).ready(function() {
     
-	 
- 
- 
-  
-	
-	
-	
-	
+	 	
  
 	   
 	   $("#link_external_url").live("keyup", function(){
@@ -347,143 +443,6 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 	});
  
  
- 
- 
-window.mw_editables_created = false;
-function mw_make_editables(){
-				 
-				
-	
- 
-	
-				 if(window.mw_drag_started == false && window.mw_handle_hover != true ){
-				window.mw_sortables_created = false;
-			 if(window.mw_editables_created == false){
-				$(".edit [draggable='true']").unbind();
-				$(".edit [draggable='true']").removeAttr('draggable');
-	$(".edit").freshereditor("edit", true);
-			  window.mw_editables_created = true
-			  $("#mw-layout-edit-site-top-bar-r").html("Text edit");
-			  
-			 }
-
-	 }
-				 
-				 
-}
-
-
-
-
- window.mw_sortables_created = false;
- window.mw_drag_started = false;
-function mw_remove_editables(){
- 
-	 window.mw_editing_started  = false;
-	window.mw_editables_created = false;
-	 $(".edit").freshereditor("edit", false);
- 
-}
-
-
-function init_sortables(){
-	       // $('#mercury_iframe').contents().find('.edit').html('Hey, i`ve changed content of  body>! Yay!!!');
-		   
-			
-		
-			mw_remove_editables()
-			
-			  if(window.mw_sortables_created == false){
-			  
-			// $(".edit *").attr('draggable', true);
-			 
-			 $('.edit').sortable().bind('sortupdate', function() {
-    //Triggered when the user stopped sorting and the DOM position has changed.
-	//alert(1);
-});
-			   $("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
-			  window.mw_sortables_created = true
-			 
-			/* $('.edit').sortable('destroy');
-			 $('.edit').sortable({ 
-			//  appendTo: '.row' ,											   
-			 items: '.module' ,
-			   
-			 handle: '.col, a, .box, .col > *, .module, .module > *' ,
-			 //  containment: '.row',
-			//   containment: 'parent',
-			 //cancel: '.module > *' ,
-			  forceHelperSize: true,
-			  iframeFix: true,
-			  connectWith: ".edit, .edit div, .edit p, .edit br, .edit ul, .edit h1, .edit h2, .edit h3",
-			 forcePlaceholderSize: true
-			
-			 }).disableSelection();*/
-			  window.mw_sortables_created = true
-			 
-			  }
-			 
-		 
-
-
-}
-	
-	
-	
-		       $('.module', '.edit').live('blur', function () {
-
- });
-	
-	 $('.module' , '.edit').live('mousenter',function(e) {
-					$(this).children('[draggable]').removeAttr('draggable')							  
-		});										  
-												  
-	
- $('.module' , '.edit').live('click',function(e) {
-	 
-		 
-		
-		 
-		  init_sortables()
-		 
-		 
-		
-		  window.mw_making_sortables = false;
-		  
-		$clicked_on_module = 	$(this).attr('module_id');
-		  if($clicked_on_module == undefined || $clicked_on_module == ''){
-			  $clicked_on_module = 	$(this).attr('module_id', 'default');
-			  
-		  }
-		
-		 if (window.console != undefined) {
-				console.log('click on module 1 ' + $clicked_on_module );	
-			}
-		
-		
-		  if($clicked_on_module == undefined || $clicked_on_module == ''){
-				$clicked_on_module = 	$(this).parents('.module').attr('module_id');
-		  }
-		  
-		  if($clicked_on_module == undefined || $clicked_on_module == ''){
-			  $clicked_on_module = 	$(this).parents('.module').attr('module_id', 'default');
-			  
-		  }
-		  
-		  $('.mw_non_sortable').removeClass('mw_non_sortable');
-		 
-		 
-		  
-		// alert($clicked_on_module);
-		 
-		 
-		 
-    e.preventDefault();
-			//event.preventDefault(); // this prevents the original href of the link from being opened
-			e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-			return false;
-	 
-});
   </script>
 
 <script type="text/javascript">
@@ -876,10 +835,10 @@ function replace_content_from_history($history_file_base64_encoded){
 function load_field_from_history_file($id, $base64fle){
 
 if($id != undefined && $base64fle != undefined){
- 
+  
 	$.ajax({
 		  type: 'POST',
-		  url: '<? print site_url("api/content/load_history_file") ?>',
+		  url: '<? print site_url("api/content/load_history_file") ?>', 
 		  data: { history_file: $base64fle },
 		  dataType: "json",
 		  success: function(data) {
@@ -889,12 +848,12 @@ if($id != undefined && $base64fle != undefined){
 $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_element_content);
 			   // 	$("#"+this.page_element_id).html(this.page_element_content);
 
-			    });
+			    }); 
 
  
 
 
-
+ 
 
 		  }
 		})
@@ -905,7 +864,15 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 
 </script>
 
-<div id="mw-layout-edit-site-top-bar" class="fixed-position"><div id="mw-layout-edit-site-top-bar-l"></div><div id="mw-layout-edit-site-top-bar-r">right</div></div>
+<div id="mw-layout-edit-site-top-bar" class="fixed-position"><div id="mw-layout-edit-site-top-bar-l"></div><div class="mw-layout-edit-site-top-bar-r">right</div></div>
+<div id="mw-layout-edit-footer-bar"><div class="mw-layout-edit-site-bar-l"></div><div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span>
+Make cols:
+<a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a>
+<a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a>
+<a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a>
+<a  href="javascript:mw_make_cols(4)" class="mw-make-cols mw-make-cols-4" >4</a>
+<a  href="javascript:mw_make_cols(5)" class="mw-make-cols mw-make-cols-5" >5</a>
+<span class="mw-layout-edit-curent-element"></span><a  onclick="mw_delete_element()" >x</a></div></div>
 <div id="mw-temp"> </div>
 <div id="ContentSave">
   <!--<button  onclick="mw_load_history_module()">mw_load_history_module()</button>

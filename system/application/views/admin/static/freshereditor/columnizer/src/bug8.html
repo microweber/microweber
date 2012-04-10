@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Columnize Hang Example</title>
+        <link rel="stylesheet" href="bug8.css"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            var sizes = [4,1,7]
+            var container = $('<div></div>').hide()
+
+            var tabpanel = $('<div></div>')
+                .addClass('tabpanel')
+                .appendTo(container)
+
+            for (var i = 0; i < 3; i++) {
+                var div = $('<div></div>')
+                    .appendTo(tabpanel)
+                    .attr('id', 'd' + i)
+
+                if (i > 0) {
+                    div.addClass('dontsplit')
+                    $('<h2>Lorem Ipsum</h2>')
+                        .appendTo(div)
+                }
+
+                var ul = $('<ul></ul>')
+                    .appendTo(div)
+
+                var count = Math.round(Math.random() * 5) % sizes.length;
+                for (var j = 0; j < sizes[i]; j++) {
+                    $('<li>Lorem ispum dolor sit amet consectetur adipiscing elit</li>')
+                        .appendTo(ul)
+                }
+            }
+
+            $('#container').replaceWith(container)
+            container.fadeIn( function() { 
+            })
+            $('.tabpanel').columnize({ columns: 2, buildOnce: true, lastNeverTallest: true });
+        });
+        </script>
+        <div id="container"></div>
+    </body>
+</html>

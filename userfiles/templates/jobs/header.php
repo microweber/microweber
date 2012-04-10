@@ -30,10 +30,7 @@ var $ = jQuery.noConflict();
 <script type="text/javascript"> 
  
 
-$(document).ready(function(){
-	 refresh_user_picture_info();
-	 //jcrop_init();
-});
+ 
 
  
 

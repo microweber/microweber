@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Columns in jquery</title>
+
+<style type="text/css">
+.colz {
+border:1px solid green;
+margin:  5px; 
+padding: 5px;
+}
+.enclosure {border:1px dashed black}	  
+</style>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function(){
+			$('.colz').addClass("dontsplit");
+			$('.enclosure').columnize({
+				width : 300
+			});
+		});
+	</script>
+
+<body>
+I'm outside the enclosing div
+<div class="enclosure" style="border:1px dashed black;">
+I'm inside the enclosing div
+<div class="colz">I am DIV #<b>0</b><p>Nulla justo sapien, viverra nec, sagittis nec, tincidunt in, leo. Nunc semper elit. Sed sed nibh. Maecenas pharetra suscipit neque. Fusce tristique urna et nibh. In nec massa. Suspendisse ut augue. Fusce in sem. Aliquam erat volutpat. Morbi pede felis, pulvinar vitae, elementum vitae, facilisis consectetur, nulla. Sed vitae dui. Ut ut quam vitae nisi cursus aliquet. Proin tempus. Suspendisse interdum, tellus non varius cursus, sem felis vestibulum nulla, vitae congue velit lacus sed elit. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>1</b><p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>2</b> Lorem ipsum dolor sit amet,</div> 
+<div class="colz">I am DIV #<b>3</b><p>Cras ut enim. Morbi nibh ligula, elementum non, commodo a, auctor ut, enim. Aliquam erat volutpat. Donec fermentum rutrum justo. Vestibulum condimentum accumsan augue. Fusce vestibulum mi a lorem. Integer quis turpis nec dui lobortis cursus. Vestibulum egestas, dui at varius egestas, elit orci adipiscing libero, ut pretium odio mi et erat. Sed tincidunt. Vivamus varius, dui eu volutpat elementum, quam nunc eleifend diam, ut ullamcorper pede eros eu dolor. Vivamus blandit sapien sed risus. Duis cursus venenatis metus. Suspendisse dignissim vehicula ligula. Vestibulum odio. Vestibulum facilisis. Suspendisse ligula augue, porta non, ullamcorper ac, tincidunt vitae, sapien. 
+</p>
+<p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>4</b> Lorem ipsum</div> 
+<div class="colz">I am DIV #<b>5</b><p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>6</b><p>Nulla justo sapien, viverra nec, sagittis nec, tincidunt in, leo. Nunc semper elit. Sed sed nibh. Maecenas pharetra suscipit neque. Fusce tristique urna et nibh. In nec massa. Suspendisse ut augue. Fusce in sem. Aliquam erat volutpat. Morbi pede felis, pulvinar vitae, elementum vitae, facilisis consectetur, nulla. Sed vitae dui. Ut ut quam vitae nisi cursus aliquet. Proin tempus. Suspendisse interdum, tellus non varius cursus, sem felis vestibulum nulla, vitae congue velit lacus sed elit. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>7</b><p>Nulla justo sapien, viverra nec, sagittis nec, tincidunt in, leo. Nunc semper elit. Sed sed nibh. Maecenas pharetra suscipit neque. Fusce tristique urna et nibh. In nec massa. Suspendisse ut augue. Fusce in sem. Aliquam erat volutpat. Morbi pede felis, pulvinar vitae, elementum vitae, facilisis consectetur, nulla. Sed vitae dui. Ut ut quam vitae nisi cursus aliquet. Proin tempus. Suspendisse interdum, tellus non varius cursus, sem felis vestibulum nulla, vitae congue velit lacus sed elit. 
+</p>
+<p>Sed consequat tristique nunc. Praesent mattis tellus sed urna. In leo. Proin pretium, urna a auctor dignissim, quam metus accumsan nunc, et tincidunt felis ipsum quis lacus. Nam non mi. Praesent in elit eu dolor sagittis lacinia. Etiam risus. Vivamus ultricies. In luctus venenatis nulla. Ut urna justo, volutpat in, porta in, egestas quis, ipsum. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>8</b><p>Nam fermentum tellus pulvinar quam. Ut consequat nisi eu pede facilisis hendrerit. Phasellus nulla lectus, euismod quis, commodo a, mollis nec, quam. Morbi dignissim molestie orci. Morbi risus ipsum, scelerisque mattis, interdum eu, adipiscing quis, quam. Proin consectetur tempor felis. Nullam enim. Mauris condimentum eleifend eros. Pellentesque egestas nunc. Ut lacinia, nunc a condimentum rutrum, pede mauris bibendum neque, quis pretium sem libero at velit. Donec tristique turpis quis dolor lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus consectetur. Nullam ipsum. Vivamus volutpat diam commodo risus euismod dictum.
+</p>
+</div> 
+<div class="colz">I am DIV #<b>9</b><p>Nam fermentum tellus pulvinar quam. Ut consequat nisi eu pede facilisis hendrerit. Phasellus nulla lectus, euismod quis, commodo a, mollis nec, quam. Morbi dignissim molestie orci. Morbi risus ipsum, scelerisque mattis, interdum eu, adipiscing quis, quam. Proin consectetur tempor felis. Nullam enim. Mauris condimentum eleifend eros. Pellentesque egestas nunc. Ut lacinia, nunc a condimentum rutrum, pede mauris bibendum neque, quis pretium sem libero at velit. Donec tristique turpis quis dolor lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus consectetur. Nullam ipsum. Vivamus volutpat diam commodo risus euismod dictum.
+</p>
+<p>Mauris ligula diam, feugiat non, molestie eu, feugiat quis, ante. Vestibulum sodales lectus. Sed scelerisque. Ut ligula arcu, imperdiet elementum, pulvinar a, dapibus ut, erat. Cras felis diam, consequat sed, aliquet ac, tincidunt quis, erat. Aenean a nunc. Nam massa. Suspendisse sollicitudin porta pede. Praesent rhoncus ante ac nulla. Cras egestas tristique eros. Praesent venenatis eros non sapien. Fusce non tortor vitae lacus consectetur malesuada. Ut vehicula ipsum ut erat. In vehicula, eros in venenatis pellentesque, massa lacus semper mi, ut viverra sem nunc commodo tellus. Nam semper urna ut turpis. Maecenas non nunc. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>10</b> Lorem ipsum dolor sit amet, consectetur adipiscing</div> 
+<div class="colz">I am DIV #<b>11</b><p>Cras ut enim. Morbi nibh ligula, elementum non, commodo a, auctor ut, enim. Aliquam erat volutpat. Donec fermentum rutrum justo. Vestibulum condimentum accumsan augue. Fusce vestibulum mi a lorem. Integer quis turpis nec dui lobortis cursus. Vestibulum egestas, dui at varius egestas, elit orci adipiscing libero, ut pretium odio mi et erat. Sed tincidunt. Vivamus varius, dui eu volutpat elementum, quam nunc eleifend diam, ut ullamcorper pede eros eu dolor. Vivamus blandit sapien sed risus. Duis cursus venenatis metus. Suspendisse dignissim vehicula ligula. Vestibulum odio. Vestibulum facilisis. Suspendisse ligula augue, porta non, ullamcorper ac, tincidunt vitae, sapien. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>12</b> Lorem ipsum dolor sit amet, consectetur adipiscing</div> 
+<div class="colz">I am DIV #<b>13</b> Lorem ipsum</div> 
+<div class="colz">I am DIV #<b>14</b><p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+<p>Nam fermentum tellus pulvinar quam. Ut consequat nisi eu pede facilisis hendrerit. Phasellus nulla lectus, euismod quis, commodo a, mollis nec, quam. Morbi dignissim molestie orci. Morbi risus ipsum, scelerisque mattis, interdum eu, adipiscing quis, quam. Proin consectetur tempor felis. Nullam enim. Mauris condimentum eleifend eros. Pellentesque egestas nunc. Ut lacinia, nunc a condimentum rutrum, pede mauris bibendum neque, quis pretium sem libero at velit. Donec tristique turpis quis dolor lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus consectetur. Nullam ipsum. Vivamus volutpat diam commodo risus euismod dictum.
+</p>
+</div> 
+<div class="colz">I am DIV #<b>15</b><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ornare justo non lorem. Nunc blandit ultrices erat. Sed venenatis, urna quis elementum euismod, nunc urna feugiat velit, quis imperdiet ligula mauris ut est. Maecenas tempus porttitor tellus. Integer odio velit, iaculis sit amet, venenatis vitae, sodales eget, elit. Integer vel nulla a enim consequat adipiscing. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam auctor dui ut ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam vel metus. Proin elit ligula, tristique eu, venenatis in, mattis vitae, lorem. Donec interdum, felis vitae euismod tempor, tellus lacus molestie justo, vitae aliquet augue orci ac erat. Aenean eu arcu quis eros sollicitudin laoreet. Nulla auctor velit vel enim. Praesent tempor. Integer non velit. Fusce ut lectus ut leo ullamcorper tincidunt. Integer placerat. Praesent hendrerit, nibh ac consequat ornare, eros diam feugiat erat, ac tempus tellus nulla ut velit. Aenean mollis condimentum ligula. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>16</b><p>Mauris ligula diam, feugiat non, molestie eu, feugiat quis, ante. Vestibulum sodales lectus. Sed scelerisque. Ut ligula arcu, imperdiet elementum, pulvinar a, dapibus ut, erat. Cras felis diam, consequat sed, aliquet ac, tincidunt quis, erat. Aenean a nunc. Nam massa. Suspendisse sollicitudin porta pede. Praesent rhoncus ante ac nulla. Cras egestas tristique eros. Praesent venenatis eros non sapien. Fusce non tortor vitae lacus consectetur malesuada. Ut vehicula ipsum ut erat. In vehicula, eros in venenatis pellentesque, massa lacus semper mi, ut viverra sem nunc commodo tellus. Nam semper urna ut turpis. Maecenas non nunc. 
+</p>
+<p>Mauris ligula diam, feugiat non, molestie eu, feugiat quis, ante. Vestibulum sodales lectus. Sed scelerisque. Ut ligula arcu, imperdiet elementum, pulvinar a, dapibus ut, erat. Cras felis diam, consequat sed, aliquet ac, tincidunt quis, erat. Aenean a nunc. Nam massa. Suspendisse sollicitudin porta pede. Praesent rhoncus ante ac nulla. Cras egestas tristique eros. Praesent venenatis eros non sapien. Fusce non tortor vitae lacus consectetur malesuada. Ut vehicula ipsum ut erat. In vehicula, eros in venenatis pellentesque, massa lacus semper mi, ut viverra sem nunc commodo tellus. Nam semper urna ut turpis. Maecenas non nunc. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>17</b><p>Nam fermentum tellus pulvinar quam. Ut consequat nisi eu pede facilisis hendrerit. Phasellus nulla lectus, euismod quis, commodo a, mollis nec, quam. Morbi dignissim molestie orci. Morbi risus ipsum, scelerisque mattis, interdum eu, adipiscing quis, quam. Proin consectetur tempor felis. Nullam enim. Mauris condimentum eleifend eros. Pellentesque egestas nunc. Ut lacinia, nunc a condimentum rutrum, pede mauris bibendum neque, quis pretium sem libero at velit. Donec tristique turpis quis dolor lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus consectetur. Nullam ipsum. Vivamus volutpat diam commodo risus euismod dictum.
+</p>
+<p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>18</b> Lorem ipsum</div> 
+<div class="colz">I am DIV #<b>19</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras</div> 
+<div class="colz">I am DIV #<b>20</b> Lorem ipsum dolor sit</div> 
+<div class="colz">I am DIV #<b>21</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras</div> 
+<div class="colz">I am DIV #<b>22</b><p>Aenean eu felis. Donec et libero. Suspendisse vulputate, dui vitae rutrum varius, mi massa viverra mauris, et condimentum enim tortor eget diam. Integer metus nibh, hendrerit id, tristique at, pharetra in, augue. Praesent dictum nibh at nibh. Pellentesque turpis. Nam felis neque, euismod quis, tempor in, lobortis vitae, diam. Sed venenatis mi at augue. In hac habitasse platea dictumst. Etiam vel metus nec sem dignissim rhoncus. Duis eget mi et metus viverra congue. Etiam id metus. Mauris quis quam. Etiam sollicitudin, orci elementum vestibulum ullamcorper, enim arcu vehicula libero, eget tincidunt turpis arcu vitae arcu. Aenean massa orci, tempus eget, scelerisque sed, pharetra eu, sapien. Suspendisse mi dolor, iaculis quis, tincidunt a, luctus et, sem. Etiam pretium, erat a lacinia tempor, mauris diam luctus enim, vel varius ante lectus vitae leo. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>23</b><p>Maecenas scelerisque imperdiet nulla. Praesent eu magna. Donec ut leo in tellus volutpat scelerisque. Nam dapibus. Suspendisse aliquet. Vivamus metus orci, adipiscing pharetra, tempus rutrum, tempus nec, diam. Nullam eleifend ultricies sapien. Nullam commodo lorem eget tellus. Maecenas mollis, tortor sit amet auctor consequat, ligula nisi fermentum nunc, a viverra risus lacus ut arcu. Vestibulum porttitor, ipsum sed luctus tincidunt, velit ante tincidunt elit, eu posuere lectus elit nec ante. Vivamus porta, arcu quis commodo placerat, eros tortor tristique metus, nec euismod ipsum purus vitae tortor. Vestibulum nulla augue, sodales nec, rutrum eget, pretium vel, libero. Suspendisse eu ante. 
+</p>
+<p>Aenean eu felis. Donec et libero. Suspendisse vulputate, dui vitae rutrum varius, mi massa viverra mauris, et condimentum enim tortor eget diam. Integer metus nibh, hendrerit id, tristique at, pharetra in, augue. Praesent dictum nibh at nibh. Pellentesque turpis. Nam felis neque, euismod quis, tempor in, lobortis vitae, diam. Sed venenatis mi at augue. In hac habitasse platea dictumst. Etiam vel metus nec sem dignissim rhoncus. Duis eget mi et metus viverra congue. Etiam id metus. Mauris quis quam. Etiam sollicitudin, orci elementum vestibulum ullamcorper, enim arcu vehicula libero, eget tincidunt turpis arcu vitae arcu. Aenean massa orci, tempus eget, scelerisque sed, pharetra eu, sapien. Suspendisse mi dolor, iaculis quis, tincidunt a, luctus et, sem. Etiam pretium, erat a lacinia tempor, mauris diam luctus enim, vel varius ante lectus vitae leo. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>24</b><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ornare justo non lorem. Nunc blandit ultrices erat. Sed venenatis, urna quis elementum euismod, nunc urna feugiat velit, quis imperdiet ligula mauris ut est. Maecenas tempus porttitor tellus. Integer odio velit, iaculis sit amet, venenatis vitae, sodales eget, elit. Integer vel nulla a enim consequat adipiscing. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam auctor dui ut ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam vel metus. Proin elit ligula, tristique eu, venenatis in, mattis vitae, lorem. Donec interdum, felis vitae euismod tempor, tellus lacus molestie justo, vitae aliquet augue orci ac erat. Aenean eu arcu quis eros sollicitudin laoreet. Nulla auctor velit vel enim. Praesent tempor. Integer non velit. Fusce ut lectus ut leo ullamcorper tincidunt. Integer placerat. Praesent hendrerit, nibh ac consequat ornare, eros diam feugiat erat, ac tempus tellus nulla ut velit. Aenean mollis condimentum ligula. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>25</b><p>Mauris ligula diam, feugiat non, molestie eu, feugiat quis, ante. Vestibulum sodales lectus. Sed scelerisque. Ut ligula arcu, imperdiet elementum, pulvinar a, dapibus ut, erat. Cras felis diam, consequat sed, aliquet ac, tincidunt quis, erat. Aenean a nunc. Nam massa. Suspendisse sollicitudin porta pede. Praesent rhoncus ante ac nulla. Cras egestas tristique eros. Praesent venenatis eros non sapien. Fusce non tortor vitae lacus consectetur malesuada. Ut vehicula ipsum ut erat. In vehicula, eros in venenatis pellentesque, massa lacus semper mi, ut viverra sem nunc commodo tellus. Nam semper urna ut turpis. Maecenas non nunc. 
+</p>
+<p>Cras ut enim. Morbi nibh ligula, elementum non, commodo a, auctor ut, enim. Aliquam erat volutpat. Donec fermentum rutrum justo. Vestibulum condimentum accumsan augue. Fusce vestibulum mi a lorem. Integer quis turpis nec dui lobortis cursus. Vestibulum egestas, dui at varius egestas, elit orci adipiscing libero, ut pretium odio mi et erat. Sed tincidunt. Vivamus varius, dui eu volutpat elementum, quam nunc eleifend diam, ut ullamcorper pede eros eu dolor. Vivamus blandit sapien sed risus. Duis cursus venenatis metus. Suspendisse dignissim vehicula ligula. Vestibulum odio. Vestibulum facilisis. Suspendisse ligula augue, porta non, ullamcorper ac, tincidunt vitae, sapien. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>26</b><p>Nulla facilisi. Donec mi velit, consectetur nec, malesuada eu, congue in, enim. Morbi consectetur nisi id sem. Donec auctor nisl. Cras vel urna commodo sapien luctus lacinia. Proin lectus felis, egestas in, volutpat eget, posuere a, nulla. Duis suscipit ultrices risus. Donec vehicula. Morbi felis. Vivamus feugiat ante. Fusce lobortis ante eget libero. Sed at augue. In ipsum ipsum, feugiat ac, pulvinar quis, elementum sit amet, libero. Praesent aliquam condimentum quam. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>27</b><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ornare justo non lorem. Nunc blandit ultrices erat. Sed venenatis, urna quis elementum euismod, nunc urna feugiat velit, quis imperdiet ligula mauris ut est. Maecenas tempus porttitor tellus. Integer odio velit, iaculis sit amet, venenatis vitae, sodales eget, elit. Integer vel nulla a enim consequat adipiscing. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam auctor dui ut ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam vel metus. Proin elit ligula, tristique eu, venenatis in, mattis vitae, lorem. Donec interdum, felis vitae euismod tempor, tellus lacus molestie justo, vitae aliquet augue orci ac erat. Aenean eu arcu quis eros sollicitudin laoreet. Nulla auctor velit vel enim. Praesent tempor. Integer non velit. Fusce ut lectus ut leo ullamcorper tincidunt. Integer placerat. Praesent hendrerit, nibh ac consequat ornare, eros diam feugiat erat, ac tempus tellus nulla ut velit. Aenean mollis condimentum ligula. 
+</p>
+<p>Mauris ligula diam, feugiat non, molestie eu, feugiat quis, ante. Vestibulum sodales lectus. Sed scelerisque. Ut ligula arcu, imperdiet elementum, pulvinar a, dapibus ut, erat. Cras felis diam, consequat sed, aliquet ac, tincidunt quis, erat. Aenean a nunc. Nam massa. Suspendisse sollicitudin porta pede. Praesent rhoncus ante ac nulla. Cras egestas tristique eros. Praesent venenatis eros non sapien. Fusce non tortor vitae lacus consectetur malesuada. Ut vehicula ipsum ut erat. In vehicula, eros in venenatis pellentesque, massa lacus semper mi, ut viverra sem nunc commodo tellus. Nam semper urna ut turpis. Maecenas non nunc. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>28</b><p>Aenean eu felis. Donec et libero. Suspendisse vulputate, dui vitae rutrum varius, mi massa viverra mauris, et condimentum enim tortor eget diam. Integer metus nibh, hendrerit id, tristique at, pharetra in, augue. Praesent dictum nibh at nibh. Pellentesque turpis. Nam felis neque, euismod quis, tempor in, lobortis vitae, diam. Sed venenatis mi at augue. In hac habitasse platea dictumst. Etiam vel metus nec sem dignissim rhoncus. Duis eget mi et metus viverra congue. Etiam id metus. Mauris quis quam. Etiam sollicitudin, orci elementum vestibulum ullamcorper, enim arcu vehicula libero, eget tincidunt turpis arcu vitae arcu. Aenean massa orci, tempus eget, scelerisque sed, pharetra eu, sapien. Suspendisse mi dolor, iaculis quis, tincidunt a, luctus et, sem. Etiam pretium, erat a lacinia tempor, mauris diam luctus enim, vel varius ante lectus vitae leo. 
+</p>
+<p>Nulla justo sapien, viverra nec, sagittis nec, tincidunt in, leo. Nunc semper elit. Sed sed nibh. Maecenas pharetra suscipit neque. Fusce tristique urna et nibh. In nec massa. Suspendisse ut augue. Fusce in sem. Aliquam erat volutpat. Morbi pede felis, pulvinar vitae, elementum vitae, facilisis consectetur, nulla. Sed vitae dui. Ut ut quam vitae nisi cursus aliquet. Proin tempus. Suspendisse interdum, tellus non varius cursus, sem felis vestibulum nulla, vitae congue velit lacus sed elit. 
+</p>
+</div> 
+<div class="colz">I am DIV #<b>29</b><p>Nulla facilisi. Donec mi velit, consectetur nec, malesuada eu, congue in, enim. Morbi consectetur nisi id sem. Donec auctor nisl. Cras vel urna commodo sapien luctus lacinia. Proin lectus felis, egestas in, volutpat eget, posuere a, nulla. Duis suscipit ultrices risus. Donec vehicula. Morbi felis. Vivamus feugiat ante. Fusce lobortis ante eget libero. Sed at augue. In ipsum ipsum, feugiat ac, pulvinar quis, elementum sit amet, libero. Praesent aliquam condimentum quam. 
+</p>
+</div> 
+</div>
+I'm after the enclosing div
+</body>
+</html>

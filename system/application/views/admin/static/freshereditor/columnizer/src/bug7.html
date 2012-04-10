@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Columnizer JQuery Plugin sample page</title>
+	<meta name="author" content="Adam Wulf, Matt Wilson">
+	<!-- Date: 2008-07-12 -->
+	<style>
+		body { font-size: 9pt; }
+		#wrapper { margin: 0px 100px; }
+		.wide, .thin { clear:both; }
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function(){
+			$('#wrapper').columnize({
+				width: "100px",
+				accuracy : 1,
+				buildOnce : true
+			})
+		});
+	</script>
+</head>
+<body>
+<div id="wrapper">
+
+Para1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus varius lorem non pellentesque. Donec velit sapien, mollis sit amet auctor ac, pellentesque eu elit. Fusce posuere pretium sapien, a lacinia diam sagittis eget. Aliquam interdum auctor augue nec sodales. Fusce nec ligula nibh. Curabitur at velit a risus tristique porta in sit amet tortor. Nulla convallis dapibus enim, eget posuere sapien vulputate et. Nullam ac massa elit. Integer porta adipiscing orci, eu fringilla lorem egestas eget. Duis sagittis tristique ante ac varius. Ut fringilla fermentum facilisis. Aenean at pretium arcu. Etiam eu nibh eros, id pellentesque orci. Pellentesque congue mattis auctor. Maecenas fringilla aliquam libero. Etiam at augue velit.
+
+Para2: Proin ac risus pellentesque orci <a href='javascript:;' class='dontsplit'>tristique blandit id at orci. Nunc lacinia</a> nisi vitae orci consequat quis commodo lacus euismod. Cras hendrerit pretium aliquam. Praesent tincidunt eros sed turpis tempor vitae facilisis lectus iaculis. Cras pulvinar ipsum elit. Fusce et quam a tellus vestibulum elementum vitae nec sapien. Etiam iaculis tellus interdum urna vestibulum ut facilisis dolor hendrerit. Phasellus et mauris at sapien adipiscing suscipit id a nulla. Sed at elit ante.
+
+Para3: Aliquam mattis, <a href='javascript:;' class='dontsplit'>est in commodo interdum, dolor dui</a> volutpat lectus, sit amet hendrerit ante odio eu nulla. Maecenas sed pretium leo. Sed id velit vitae magna facilisis elementum. Mauris a quam nibh. Nunc commodo, felis vitae volutpat dictum, libero nulla condimentum urna, eget volutpat ligula risus quis orci. Phasellus in leo quam. Donec suscipit nisi vitae nulla interdum nec tristique velit feugiat. Curabitur rutrum, sapien ac congue iaculis, nisl ligula fringilla leo, a laoreet lacus leo eu elit. Proin elementum tortor nec nisi tincidunt ac aliquam velit rutrum. In ut gravida sapien. Cras eget sollicitudin erat. Nullam nec metus at nisi lacinia porta. Aenean et risus nunc.
+
+Para4: Ut tincidunt lacus id ligula sollicitudin non pulvinar risus pharetra. Ut velit est, gravida eget condimentum sed, viverra a nulla. Etiam auctor purus euismod erat pellentesque euismod viverra lorem accumsan. Maecenas gravida, eros in semper bibendum, nulla risus faucibus lectus, a laoreet lectus ligula porta mi. Curabitur odio ligula, pretium non sodales quis, lobortis laoreet neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non mi et elit accumsan euismod at eget erat. Pellentesque et elit velit, quis aliquet libero. Aenean lacus leo, fringilla et vestibulum non, ullamcorper sit amet nisl. In at fringilla magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis arcu ligula, scelerisque non sodales id, egestas et magna. In hac habitasse platea dictumst. Sed blandit, nisl congue lacinia luctus, dui ante posuere neque, a vehicula lacus risus et velit. Nam non ante sit amet purus auctor bibendum quis eu elit. Vivamus sed enim nec lorem semper placerat.
+
+Para5: Fusce vitae ante cursus tellus faucibus rutrum ut a felis. Donec in ligula purus. Nulla et metus dapibus dolor bibendum dapibus quis lacinia orci. Sed vel elementum sapien. Sed pharetra ipsum vitae augue volutpat vitae imperdiet nunc venenatis. Aliquam lobortis sagittis odio, in luctus enim commodo vel. In dapibus sagittis placerat. Aliquam laoreet gravida turpis, a tempus felis accumsan nec. Donec tempus scelerisque risus, ac tincidunt ipsum fringilla nec. Pellentesque pulvinar ornare arcu ac dictum. Proin facilisis magna a sem tempus gravida. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc eleifend suscipit risus, vitae porta sem interdum nec. In semper arcu sed erat pulvinar consectetur. Aenean lobortis massa sit amet quam pretium non tempus sem pellentesque.
+	
+</div>
+</body>
+</html>
