@@ -65,24 +65,5 @@
   
   ?>
   <? include (TEMPLATE_DIR. "layouts".DS."companies".DS."profile_box.php"); ?>
-  <div class="jobseaker_tit" style="margin-top:0px; border:none;">Send your CV to apply for this Job</div>
-  <div style="height:71px; float:left; width:100%"></div>
-  <div class="send_cv_but"><img src="<? print TEMPLATE_URL ?>images/send_cv_but_16.jpg" /></div>
-  <div class="sendcv_arr"><img src="<? print TEMPLATE_URL ?>images/sendcv_arr.jpg" /></div>
-  <div class="sendcv_box">
-    <div class="sendcv_box_top"></div>
-    <div class="sendcv_box_mid">
-      <div class="sendcv_browse">
-        <input type="file" style="" />
-      </div>
-      <textarea name="" cols="" rows="" class="sendcv_msg"></textarea>
-      <div class="sendcv_send_but">
-        <input type="image" src="<? print TEMPLATE_URL ?>images/sendcv_send_but.jpg" />
-      </div>
-    </div>
-    <div class="sendcv_box_bot"></div>
-  </div>
-  <div class="sendcv_dn_arr"></div>
-  <div class="sendcv_error">Error Message: Please fill all fields</div>
-  <div class="sendcv_success">Your CV was sent successfuly to Employer</div>
+  <? include (TEMPLATE_DIR. "layouts".DS."companies".DS."send_cv_box.php"); ?>
 </div>

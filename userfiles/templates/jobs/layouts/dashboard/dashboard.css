@@ -4,11 +4,10 @@
 
 .user_activity {
 	list-style: none;
-	width:600px;
 	border-top: 2px solid #B4C157;
 }
 .user_activity li {
-	width: 584px;
+
 	border-bottom: 2px solid #B4C157;
 	zoom:1;
 	padding: 20px 8px;
@@ -38,7 +37,9 @@
 }
 .user_activity_bar {
 	clear: both;
-	padding: 15px 0 10px 0;
+	padding: 10px;
+    background: #efecec;
+    border-radius:6px;
 	zoom:1;
 	display: block;
 }
@@ -979,8 +980,8 @@ width:100%;
   border: none;
   background: none;
   font-size: 24px;
-  margin:21px 0 0 70px;
-  width: 323px;
+  margin:14px 0 0 70px;
+  width: 510px;
 }
 #update-status .xsubmit{
   display: block;
@@ -1149,10 +1150,7 @@ width:100%;
  
 .edit-profile-form .item{
   
- clear: both;
-    display: block;
-    height: 64px;
-    width: 100%;
+
 }
 
  
@@ -1160,12 +1158,11 @@ width:100%;
  float: left;
     font-size: 13px;
     font-weight: bold;
-    height: 25px;
-    padding-right: 10px;
-    padding-top: 10px;
-    text-align: right;
-    width: 100px;
-	 margin: 10px;
+    display: block;
+    width: 120px;
+    text-align: left;
+    padding-top: 5px;
+
 }
 
 .edit-profile-form .item .field{
@@ -1184,25 +1181,11 @@ width:100%;
 
 
 .edit-profile-form .field input,.edit-profile-form .field textarea,.edit-profile-form .field select,.edit-profile-form .field input,.edit-profile-form .field textarea,.edit-profile-form .field select, .edit-profile-form textarea {
-	border:none;
-	background: white;
-	border:1px solid #DFDFDF;
-	border-right:1px solid #DFDFDF;
-	padding: 0px;;
-	width:450px;
+
 }
  
 .edit-profile-form .field input, .edit-profile-form .field select{
-background-color: transparent;
-    background-image: url("../../images/pwdbg.jpg");
-	background-repeat:no-repeat;
-    border: medium none;
-    float: left;
-    height: 36px;
-    margin: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 295px;
+
 
 }
 
@@ -1223,16 +1206,12 @@ background-color: transparent;
 	
 
 .edit-profile-form .field select{
-    padding-right: 0px;
-    width: 157px;
-	line-height: 35px;
-	float:left !important;
-	padding-top:10px;
+
 }
 
 
 .edit-profile-form .change_pass_holder{
-    
+
     height: 200px;
 	 
 }
@@ -1250,11 +1229,7 @@ background-color: transparent;
   width: 250px;
 }
 .edit-profile-form .stab{
-  float: left;
-    height: auto;
-    margin-left: 20px;
-    margin-top: 37px;
-    width: 523px;
+
 }
 .edit-profile-form #user_image{
     padding-bottom: 10px;

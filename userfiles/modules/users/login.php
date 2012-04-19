@@ -40,8 +40,8 @@
 		}
 		
 		if(resp.success != undefined){
-			window.location.href = '<? print site_url('dashboard') ?>'
-		//window.location.reload();
+			//window.location.href = '<? print site_url('dashboard') ?>'
+		 window.location.reload();
 		}
 
     }

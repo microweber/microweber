@@ -441,6 +441,16 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 				 }				
 								
 	});
+	
+	
+	 $(".mw-sorthandle").dblclick( function () { 
+	 if(window.mw_editables_created == true){			
+		 		mw_remove_editables()
+				 }	
+			 init_sortables()
+				 	
+								
+	});
  
  
   </script>

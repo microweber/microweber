@@ -9,12 +9,10 @@
       <td class="<? print($c++%2==1) ? 'zebra1' : 'zebra2' ?>" >User</td>
       <td class="lt_line"><? print ucwords(user_name($user['id'])) ?></td>
     </tr>
-    
     <tr>
       <td  class="<? print($c++%2==1) ? 'zebra1' : 'zebra2' ?>" >E-mail Contacts </td>
       <td class="lt_line"><a href="mailto:<? print $user['email'];  ?>"><? print $user['email'];  ?></a></td>
     </tr>
-    
     <tr>
       <td class="left_space">&nbsp;</td>
       <td class="lt_line">&nbsp;</td>
@@ -80,7 +78,6 @@
       <td  valign="top" class="lt_line"><a href="<? print prep_url($user['custom_fields']['website']); ?>" target="_blank"><? print ($user['custom_fields']['website']); ?></a></td>
     </tr>
     <? endif; ?>
-    
     <tr>
       <td >&nbsp;</td>
       <td class="lt_line">&nbsp;</td>

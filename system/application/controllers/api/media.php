@@ -12,6 +12,7 @@ class Media extends Controller {
 		
 		if (CI::model ( 'users' )->is_logged_in () == false) {
 			//    exit ( 'Login required' );
+			
 		}
 	
 	}
@@ -156,7 +157,7 @@ class Media extends Controller {
 	function upload() {
 		$user_id = CI::model ( 'core' )->userId ();
 		if (intval ( $user_id ) == 0) {
-			exit ( 'Error!' );
+			exit ( 'Error!, Must be logged in!' );
 		}
 		//$id = is_admin ();
 		if ($id == false) {

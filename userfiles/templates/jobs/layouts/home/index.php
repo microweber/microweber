@@ -8,149 +8,100 @@ name: Home layout
 
 description: Home site layout
 
-
-
-
-
-
-
-
-
 */
-
-
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 
-
- 
-<div class="body_part">
-  <div class="body_laaaaeft">
-  <editable rel="page" field="custom_field_bosdfsdf234zzz23sddy22fff3asdas">
-  <div class="row">
-     <div class="column">
-      <div class="col">
-        <h1>MEDICAL CAREERS IN USA </h1>
-        <h2>POST YOUR OPPORTUNITY OR CV</h2>
-      
-        
-      </div>
-    </div>
+<div class="banner" id="banner123">
+  <div class="banner_content">
+    <div class="banner_tit">MEDICAL CAREERS IN USA </div>
+    <div class="banner_caption">POST YOUR OPPORTUNITY OR CV</div>
+    <div class="joinfree_but"><a href="<? print page_link_to_layout('register'); ?>"><img src="<? print TEMPLATE_URL ?>images/joinfree_but.jpg" alt="join free" /></a></div>
+    <div class="login_but"><a href="<? print page_link_to_layout('register'); ?>/view:login"><img src="<? print TEMPLATE_URL ?>images/login_but.jpg" alt="login" /></a></div>
+    <div class="login_links"> <a href="<? print page_link_to_layout('register'); ?>"> Free registration in 15 seconds</a><br />
+      <a href="<? print page_link_to_layout('register'); ?>/view:forgot-pass">Forgot my passwrod</a> </div>
   </div>
-</editable>
+</div>
+<div class="body_part">
+  <div class="body_left">
+  <div class="body_left_tit">Recent Job Listings</div>
+  <div class="body_left_content">
+    <? 
+	$posts =  get_posts('items_per_page=5&page=3484');  
+	
+ 
+    $param2['page'] = 3481; 
+  $param2['debug'] = false;
+  $param2['limit'] = false;
+  $param2['get_count'] = true;
+	
+	$posts_temp =  get_posts($param2);  
+				 if(!empty($posts)){
+					$posts =$posts["posts"];  
+				 }
+				// echo count($posts);
+				 
+				?>
+    <? include TEMPLATE_DIR. "layouts/jobs/jobs_block_home.php";
+	?>
+	<div class="pagination">
+	<a href="#" id="prev">Prev</a>	
+	<? 
+	$tot_pages =count($posts_temp)/5;
+	$tot_pages=$tot_pages+1;
+	
+	
+	   $pages = paging_prepare($tot_pages,$posts_temp,1);
+	 	paging('uls',$pages); ?>
+		
+		<a href="#" id="next">Next</a>
+		
 
+	
+    <div class="page_number">
+      
+	 </div>
+	 </div>
+<div class="social_blk">
+					<div class="icon_f"><a href="#"><img src="<? print TEMPLATE_URL ?>images/icon_f.png" alt="facebook" border="0" /></a></div>
+					<a href="#" id="icon_f_text">become a fan on facebook </a>
+					<div class="icon_f"><a href="#"><img src="<? print TEMPLATE_URL ?>images/icon_t.png" alt="facebook" width="36" height="36" border="0" /></a></div>
+					<a  href="#" id="icon_t_text">Followus on twitter </a>
+					<div class="icon_ln"><a href="#"><img src="<? print TEMPLATE_URL ?>images/icon_ln.png" alt="ln" border="0" /></a></div>
+				</div>
+	
+	
+  </div>
+  </div>
+  <div class="body_rt">
+    <div class="searchbg">
+      <div class="search_tit">Search for Jobs</div>
+      <input type="text" class="textbox" value="Keyword" />
+      <select class="xdropbox" style="">
+        <option>Select speciality</option>
+		<? category_tree('for_page=jobs'); ?>
+      </select>
 
-    <editable rel="page" field="custom_field_body22dsdfsdfzczsasdaaazxzda3aasdassasdas">
-      <div class="row"> 
-       <div class="column">
-      <div class="col">
-        <h1>MEDdasdasICAL CAREERS IN USA </h1>
-        <h2>POasdasdasdST YOUR OPPORTUNITY OR CV</h2>
+      <div class="c">&nbsp;</div>
+
+      <!--SPECIALITY MUST BE WITH UL -->
       
-        
-      
-    </div> 
-      <div class="col">
-        <h1>MEDICAL CAREERS IN USasdasdasA </h1>
-        <h2>POaaaaST YOUR OPPORTUNITY OR CV</h2>
-      
-        
-     
+
+      <input type="text" class="textbox" value="Location" />
+      <select class="xdropbox" style="">
+        <option>Pasted in last 7 days</option>
+      </select>
+      <div class="c">&nbsp;</div>
+      <input type="image" src="<? print TEMPLATE_URL ?>images/search_but.png" class="search_but" />
+      <a href="#" id="subscribe">Subscribe</a>
+      <div class="seealljobs"><a href="#"><img src="<? print TEMPLATE_URL ?>images/seealljobs_but.png" alt="see all jobs" border="0" /></a></div>
     </div>
-        </div>
-       </div>
-    </editable>
-    <editable rel="page" field="custom_field_body22asdasdfsdczxczxfdsfsdsdfsd3">
-      <div class="row">
-      
-        <div class="col">4</div>
-        <div class="col">
-          <form action="#" method="post">
-            <div>
-              <label for="name">Text Input:</label>
-              <input type="text" name="name" id="name" value="" tabindex="1" />
-            </div>
-            <div>
-              <h4>Radio Button Choice</h4>
-              <label for="radio-choice-1">Choice 1</label>
-              <input type="radio" name="radio-choice-1" id="radio-choice-1" tabindex="2" value="choice-1" />
-              <label for="radio-choice-2">Choice 2</label>
-              <input type="radio" name="radio-choice-2" id="radio-choice-2" tabindex="3" value="choice-2" />
-            </div>
-            <div>
-              <label for="select-choice">Select Dropdown Choice:</label>
-              <select name="select-choice" id="select-choice">
-                <option value="Choice 1">Choice 1</option>
-                <option value="Choice 2">Choice 2</option>
-                <option value="Choice 3">Choice 3</option>
-              </select>
-            </div>
-            <div>
-              <label for="textarea">Textarea:</label>
-              <textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
-            </div>
-            <div>
-              <label for="checkbox">Checkbox:</label>
-              <input type="checkbox" name="checkbox" id="checkbox" />
-            </div>
-            <div>
-              <input type="submit" value="Submit" />
-            </div>
-          </form>
-        
-        </div>
-         
-        <div class="col">
-          <ol>
-            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            <li>Aliquam tincidunt mauris eu risus.</li>
-            <li>Vestibulum auctor dapibus neque.</li>
-          </ol>
-         
-        </div>
-      </div>
-      <div class="row">
-     
-        <div class="col">1</div>
-        <div class="col">
-          <dl>
-            <dt>Definition list</dt>
-            <dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat.</dd>
-            <dt>Lorem ipsum dolor sit amet</dt>
-            <dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat.</dd>
-          </dl>
-        </div>
-        <div class="col">
-          <h1>HTML Ipsum Presents</h1>
-          <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-          <h2>Header Level 2</h2>
-          <ol>
-            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            <li>Aliquam tincidunt mauris eu risus.</li>
-          </ol>
-          <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p>
-          </blockquote>
-          <h3>Header Level 3</h3>
-          <ul>
-            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            <li>Aliquam tincidunt mauris eu risus.</li>
-          </ul>
-          <pre><code>
-#header h1 a { 
-	display: block; 
-	width: 300px; 
-	height: 80px; 
-}
-</code></pre>
-      
-      </div></div>
-    </editable>
+    <div class="features_comapnies_tit">Features Companies</div>
+    <div class="left_logo"><img src="<? print TEMPLATE_URL ?>images/exemplar_logo.png" alt="exemplar logo" width="300" /></div>
+    <div class="logo_box"><img src="<? print TEMPLATE_URL ?>images/medicaljobsite_logo.jpg" alt="medicl job site" width="297" height="75" /></div>
+    <div class="logo_box"><img src="<? print TEMPLATE_URL ?>images/paragona_logo.jpg" alt="medicl job site" width="297" height="40" /></div>
+    <div class="logo_box"><img src="<? print TEMPLATE_URL ?>images/id_medical_logo.jpg" alt="medicl job site" width="297" height="75" /></div>
   </div>
 </div>
 <? include   TEMPLATE_DIR.  "footer.php"; ?>

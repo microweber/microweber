@@ -27,7 +27,6 @@ description: site layout
 if( $post){
   $view = 'inner';	
 }
-
 ?>
 <? if(is_file(TEMPLATE_DIR. "layouts/companies/".$view.'.php')) : ?>
 <? include TEMPLATE_DIR. "layouts/companies/".$view.'.php'; ?>

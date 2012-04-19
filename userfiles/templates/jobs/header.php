@@ -10,12 +10,26 @@
 <link href="<? print TEMPLATE_URL ?>css/ooyes.framework.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<? print TEMPLATE_URL ?>/layouts/dashboard/dashboard.css" />
 <!--  button scroller files -->
+
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/l10n.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_003.js"></script>
-<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_002.js"></script>-->
+<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_003.js"></script>
+<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_002.js"></script>
 <!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-1.7.1.min"></script>
 -->
+
+
+
+
+
+
+<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/plupload/js/plupload.full.js"></script>
+ 
+
+
+
+
+
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/css/custom-theme/jquery-ui-1.8.18.custom.css" type="text/css" media="all" />
 <!--  button scroller files -->
@@ -27,10 +41,15 @@ var $ = jQuery.noConflict();
 -->
 <script type="text/javascript" src="<? print site_url('api/js'); ?>"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>css/bootstrap/js/bootstrap.js"></script>
+
+
 <script type="text/javascript"> 
  
 
- 
+$(document).ready(function(){
+	 refresh_user_picture_info();
+	 //jcrop_init();
+});
 
  
 
@@ -133,7 +152,7 @@ if(isobj(resp.success) != false){
 	?>
   <? if($u_pic == false){
 	$u_pic = TEMPLATE_URL . "images/mystery-man.jpg";
-	
+
 	} else {
 		
 	$u_pic = get_media_thumbnail($u_pic ['id'], $size_width = 32, $size_height = false);	
@@ -141,22 +160,27 @@ if(isobj(resp.success) != false){
 	//p($u_pic_1);
 	}?>
   <div class="header_inner_right">
-    <div class="job_company_logo">
+    <div class="">
+    <div class="x_user_info">
+        <div class="top_jobseeker_icon"><a href="<? print site_url('dashboard'); ?>"><img src="<? print $u_pic ?>" alt="<? print addslashes(user_name() ); ?>" height="32" /></a> </div>
       <div class="top_jobseeker_name"><? print user_name() ?></div>
-      <div class="top_jobseeker_icon"><a href="<? print site_url('dashboard'); ?>"><img src="<? print $u_pic ?>" alt="<? print addslashes(user_name() ); ?>" /></a>
-        <table border="0" cellpadding="0" cellspacing="0"  >
-          <tr valign="middle">
-           <td><a class=""  href="<? print site_url('dashboard'); ?>">Dashboard</a> |</td>
-           
-            <td><a class=""  href="<? print site_url('dashboard/view:my-profile'); ?>">Profile</a></td>
-          </tr>
-        </table>
+      <div id="header_user_profile">
+        <a class=""  href="<? print site_url('dashboard'); ?>">Dashboard</a><span>|</span><a class=""  href="<? print site_url('dashboard/view:my-profile'); ?>">Profile</a>
       </div>
-    </div> 
-    <div class="logout_but"><a href="javascript:mw.users.LogOut()"><img src="<? print TEMPLATE_URL ?>images/logoout_but.jpg" alt="logout" /></a></div>
+      <div class="logout_but"><a href="javascript:mw.users.LogOut()"><img src="<? print TEMPLATE_URL ?>images/logoout_but.jpg" alt="logout" /></a></div>
+    </div>
+    </div>
+
+
   </div>
   <? else:  ?>
-  <div class="jobsonline">570 JOBS ONLINE</div>
+  <div class="jobsonline"><?
+  $count = array();
+ 
+  $count['content_type'] = 'post'; 
+  $count =   CI::model ( 'content' )->getContent($count, $orderby = false, $limit = false, $count_only = true);
+  
+     ?><? print $count; ?> JOBS ONLINE</div>
   <div class="caption"><span class="blue"><? print users_count() ?> members</span> of our community <small style="float:right"> <a class="blue" href="<? print page_link_to_layout('register'); ?>">Register</a> or <a class="blue" href="<? print page_link_to_layout('register'); ?>/view:login">Login</a></small> </div>
   <? endif;  ?>
 </div>

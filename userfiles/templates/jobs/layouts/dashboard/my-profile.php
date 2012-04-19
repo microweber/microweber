@@ -111,7 +111,7 @@ $form_values['custom_fields'] = $more;
             <h3>Account info</h3>
             <div class="item">
               <label>Picture:</label>
-              <div class="field">
+              <div class="field user_imae_field">
                 <iframe height="100" width="450"  frameborder="0" scrolling="no" src="<? print site_url('api/module/iframe:'. $iframe_module_params) ?>"></iframe>
               </div>
             </div>
@@ -216,7 +216,7 @@ $form_values['custom_fields'] = $more;
                 <? endfor; ?>
               </select>
               </span> </div>
-            <div class="item" style="height:350px;">
+            <div class="item">
               <label>About me text:</label>
               <span class="area">
               <textarea   name="custom_field_about" type="text" ><?php print $form_values['custom_fields']['about'];  ?></textarea>
@@ -229,9 +229,10 @@ $form_values['custom_fields'] = $more;
 */ ?>
           </div>
         </div>
-        <div class="item" style="margin:15px;">
-          <label></label>
-          <span class="field"> <a href="javascript:if($('#edit-profile-form')){save_user()};" ><img src="<? print TEMPLATE_URL ?>images/pwd_change_save_but_45.jpg" /></a> </span> </div>
+        <div class="item">
+
+         <a href="javascript:if($('#edit-profile-form')){save_user()};" ><img src="<? print TEMPLATE_URL ?>images/pwd_change_save_but_45.jpg" /></a>  </div>
+         <div class="c" style="padding-bottom: 12px;">&nbsp;</div>
       </div>
     </div>
     <div class="item">

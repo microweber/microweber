@@ -1,6 +1,6 @@
 <? $form_id = md5($comment_to_table.$comment_to_id); ?>
 
-<div  id="<? print $form_id; ?>">
+<div class="xcom_s"  id="<? print $form_id; ?>">
   <div >
     <form method="post" action="#" class="ajax_comment_form commentForm comment_form form" >
       <input type="hidden" name="to_table" value="<? print CI::model('core')->securityEncryptString($comment_to_table); ?>">
@@ -13,7 +13,11 @@
       <input type="hidden" name="show_element" value="#<? print $form_id; ?>_success">
       <span class="mw_area">
       <textarea name="comment_body" default="Write a comment..." class="required"></textarea>
-      </span> <a class="submit mw_btn_x" href="javascript:void(0);"><span>Post comment</span></a>
+      </span>
+
+      <div class="c">&nbsp;</div>
+
+      <a class="submit mw_btn_x" href="javascript:void(0);"><span>Post comment</span></a>
     </form>
   </div>
 </div>
