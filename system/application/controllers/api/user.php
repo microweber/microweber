@@ -696,7 +696,14 @@ class User extends Controller {
 				$data ['receiver'] = $data ['to_user'];
 			}
 			
+			
+			
+			
 			$data ['to_user'] = intval ( $data ['receiver'] );
+			
+			
+			
+			
 			unset ( $data ['receiver'] );
 			
 			// parent id
@@ -717,6 +724,15 @@ class User extends Controller {
 				}
 			
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			$data ['is_read'] = 'n';
 			
 			$sent = CI::model ( 'messages' )->messageSave ( $data );

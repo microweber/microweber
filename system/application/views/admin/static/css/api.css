@@ -620,8 +620,8 @@ input.css_property {
 	visibility: hidden;
 	cursor:move;
 }
-.btn, .btn2, .btn3 {
-	background-color: #EAEAEA; /* fallback color */
+.mw_admin .btn, .mw_admin .btn2, .mw_admin .btn3 {
+	background-color: #EAEAEA;  
 	background-image: -moz-linear-gradient(100% 100% 90deg, #F1F1F1, #D2D2D2);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F1F1F1), to(#D2D2D2));
 	border:1px solid #BABABB;
@@ -636,12 +636,12 @@ input.css_property {
 	-webkit-box-shadow:inset 1px 1px 2px #818183;
 	box-shadow:inset 1px 1px 2px #818183;
 }
-.btn:hover, .btn2:hover, .btn3:hover {
-	background-color: #DADADA; /* fallback color */
+.mw_admin .btn:hover,.mw_admin .btn2:hover,.mw_admin .btn3:hover {
+	background-color: #DADADA;  
 	background-image: -moz-linear-gradient(100% 100% 90deg, #F1F1F1, #BBBBBB);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F1F1F1), to(#BBBBBB));
 }
-.btn_big {
+.mw_admin .btn_big {
 	background: #fbfbfb; /* Old browsers */
 	background: -moz-linear-gradient(top, #fbfbfb 0%, #f2f2f2 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #f2f2f2)); /* Chrome,Safari4+ */
@@ -667,15 +667,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 	min-width:150px;
 	width:150px;
 }
-.btn_big img {
+.mw_admin .btn_big img {
 	margin-left:5px;
 	margin-right:5px;
 }
-.btn_big:hover, .btn_big.active {
+.mw_admin .btn_big:hover, .btn_big.active {
 	border:1px solid #b0b0b1;
 	font-weight: bold;
 }
-.sbm {
+.mw_admin .sbm {
 	background-color: #42B006; /* fallback color */
 	font-weight: bold;
 	border: none;
@@ -690,7 +690,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 	box-shadow:inset 1px 1px 2px #818183;
 	color:white;
 }
-.sbm:hover {
+.mw_admin .sbm:hover {
 	background-color: #369205;
 }
 .btn_light {
@@ -738,7 +738,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 	-webkit-box-shadow:inset 1px 1px 2px #818183;
 	box-shadow:inset 1px 1px 2px #818183;
 }
-.btn:hover, .btn2:hover, .btn3:hover {
+.mw_admin .btn:hover,.mw_admin .btn2:hover, .mw_admin .btn3:hover {
 	background-color: #DADADA; /* fallback color */
 	background-image: -moz-linear-gradient(100% 100% 90deg, #F1F1F1, #BBBBBB);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F1F1F1), to(#BBBBBB));

@@ -4,32 +4,42 @@ if (! defined ( 'BASEPATH' ))
 	
 	exit ( 'No direct script access allowed' );
 
-/**
+	/**
  * Microweber
  *
  * An open source CMS and application development framework for PHP 5.1 or newer
  *
- * @package		Microweber
- * @author		Peter Ivanov
- * @copyright	Copyright (c), Mass Media Group, LTD.
- * @license		http://ooyes.net
- * @link		http://ooyes.net
- * @since		Version 1.0
+ * @package Microweber
+ * @author Peter Ivanov
+ * @copyright Copyright (c), Mass Media Group, LTD.
+ * @license http://ooyes.net
+ * @link http://ooyes.net
+ * @since Version 1.0
  * @filesource
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
-
+	
 // ------------------------------------------------------------------------
-
 
 /**
  * Core Class
  *
- * @desc core class
- * @access		public
- * @category	Core API
- * @subpackage		Core
- * @author		Peter Ivanov
- * @link		http://ooyes.net
+ * core class
+ *
+ * @access public
+ * @category Core API
+ * @subpackage Core
+ * @author Peter Ivanov
+ * @link http://ooyes.net
  */
 
 class Core_model extends Model {
@@ -63,11 +73,15 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc returns array that contains only keys that has the same names as the table fields from the database
-	 * @param string
-	 * @param array
+	 * returns array that contains only keys that has the same names as the
+	 * table fields from the database
+	 *
+	 * @param
+	 *       	 string
+	 * @param
+	 *       	 array
 	 * @return array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -90,7 +104,7 @@ class Core_model extends Model {
 				
 				if ($array [$field] != false) {
 					
-					//print '   ' . $field. '   <br>';
+					// print ' ' . $field. ' <br>';
 					$array_to_return [$field] = $array [$field];
 				
 				}
@@ -110,12 +124,16 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc Generic save data function, it saves data to the database
-	 * @param string
-	 * @param array
-	 * @param array
+	 * Generic save data function, it saves data to the database
+	 *
+	 * @param
+	 *       	 string
+	 * @param
+	 *       	 array
+	 * @param
+	 *       	 array
 	 * @return string
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -132,9 +150,8 @@ class Core_model extends Model {
 		
 		}
 		
-		//p($data);
+		// p($data);
 		
-
 		$data ['session_id'] = CI::library ( 'session' )->userdata ( 'session_id' );
 		
 		$original_data = $data;
@@ -206,7 +223,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//	var_dump($data);
+		// var_dump($data);
 		if (intval ( $data ['id'] ) == 0) {
 			
 			if ($data ['created_on'] == false) {
@@ -221,7 +238,7 @@ class Core_model extends Model {
 		
 		} else {
 			
-			//$data ['created_on'] = false;
+			// $data ['created_on'] = false;
 			$data ['edited_by'] = $the_user_id;
 		
 		}
@@ -230,7 +247,7 @@ class Core_model extends Model {
 		
 		$criteria = $this->mapArrayToDatabaseTable ( $table, $data );
 		
-		//		p($original_data);p($criteria);die;
+		// p($original_data);p($criteria);die;
 		if ($data_to_save_options ['do_not_replace_urls'] == false) {
 			
 			$criteria = $this->encodeLinksAndReplaceSiteUrl ( $criteria );
@@ -245,25 +262,27 @@ class Core_model extends Model {
 		
 		$criteria = $this->addSlashesToArrayAndEncodeHtmlChars ( $criteria );
 		
-		//		p($criteria, 1);
-		//	$criteria = $this->addSlashesToArray ( $criteria );
+		// p($criteria, 1);
+		// $criteria = $this->addSlashesToArray ( $criteria );
 		if (intval ( $criteria ['id'] ) == 0) {
 			
-			//insert
+			// insert
 			$data = $criteria;
 			
-			//$this->db->insert ( $table, $data );
+			// $this->db->insert ( $table, $data );
 			$q = " INSERT INTO  $table set ";
 			
 			foreach ( $data as $k => $v ) {
 				
-				//$v
+				// $v
 				if (strtolower ( $k ) != $data_to_save_options ['use_this_field_for_id']) {
 					
 					if (strtolower ( $k ) != 'id') {
 						
-						//$v = CI::model('content')->applyGlobalTemplateReplaceables ( $v );
-						//$v = htmlspecialchars ( $v, ENT_QUOTES );
+						// $v =
+						// CI::model('content')->applyGlobalTemplateReplaceables
+						// ( $v );
+						// $v = htmlspecialchars ( $v, ENT_QUOTES );
 						$q .= "$k = '$v' , ";
 					
 					}
@@ -288,9 +307,9 @@ class Core_model extends Model {
 			
 			}
 			
-			//exit ();
-			//$this->dbQ ( $q );
-			//p($q);
+			// exit ();
+			// $this->dbQ ( $q );
+			// p($q);
 			CI::db ()->query ( $q );
 			
 			$id_to_return = $this->dbLastId ( $table );
@@ -301,16 +320,16 @@ class Core_model extends Model {
 			
 			}
 			
-			//update
+			// update
 			$data = $criteria;
 			
-			//$n = $this->db->update ( $table, $data, "id = {$data ['id']}" );
+			// $n = $this->db->update ( $table, $data, "id = {$data ['id']}" );
 			$q = " UPDATE  $table set ";
 			
 			foreach ( $data as $k => $v ) {
 				
-				//$v = addslashes ( $v );
-				//$v = htmlspecialchars ( $v, ENT_QUOTES );
+				// $v = addslashes ( $v );
+				// $v = htmlspecialchars ( $v, ENT_QUOTES );
 				$q .= "$k = '$v' , ";
 			
 			}
@@ -326,19 +345,18 @@ class Core_model extends Model {
 			p ( $q );
 		}
 		
-		//find table assoc name
-		//var_dump($cms_db_tables, $table);
-		//	var_dump($id_to_return);
-		//	exit;
-		//print $id_to_return;
+		// find table assoc name
+		// var_dump($cms_db_tables, $table);
+		// var_dump($id_to_return);
+		// exit;
+		// print $id_to_return;
 		
-
-		//var_dump ( $cms_db_tables );
+		// var_dump ( $cms_db_tables );
 		if (! empty ( $cms_db_tables )) {
 			
 			foreach ( $cms_db_tables as $k => $v ) {
 				
-				//var_dump($k, $v);
+				// var_dump($k, $v);
 				if (strtolower ( $table ) == strtolower ( $v )) {
 					
 					$table_assoc_name = $k;
@@ -355,20 +373,17 @@ class Core_model extends Model {
 		
 		}
 		
-		//p($original_data);
-		/*if (!empty ( $original_data ['taxonomy_categories_str'] )) {
-			p($original_data ['taxonomy_categories_str'] ,1);
-			foreach ( $original_data ['taxonomy_categories_str'] as $taxonomy_item ) {
-				$test_if_exist_cat = get_category ( $taxonomy_item );
-				
-			
-			}
-		
-		}*/
+		// p($original_data);
+		/*
+		 * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
+		 * p($original_data ['taxonomy_categories_str'] ,1); foreach (
+		 * $original_data ['taxonomy_categories_str'] as $taxonomy_item ) {
+		 * $test_if_exist_cat = get_category ( $taxonomy_item ); } }
+		 */
 		
 		$taxonomy_table = $cms_db_tables ['table_taxonomy'];
 		$taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-		//p ( $original_data );
+		// p ( $original_data );
 		if (is_array ( $original_data ['taxonomy_categories'] )) {
 			
 			$taxonomy_save = array ();
@@ -385,9 +400,10 @@ class Core_model extends Model {
 			
 			}
 			
-			//	$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
+			// $this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy'
+			// );
 			$q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return' and  content_type='{$original_data ['content_type']}' and  taxonomy_type= 'category_item'     ";
-			//	p ( $q );
+			// p ( $q );
 			$this->dbQ ( $q );
 			
 			foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
@@ -396,72 +412,50 @@ class Core_model extends Model {
 				$parent_cat = get_category ( $taxonomy_item );
 				
 				$parent_cat_id = intval ( $parent_cat ['id'] );
-				//var_dump($parent_cat);
-				//$taxonomy_item = explode($taxonomy_item);
+				// var_dump($parent_cat);
+				// $taxonomy_item = explode($taxonomy_item);
 				
-
-				//check if parent category exists
-				//$taxonomy_item
-				//$q = " SELECT *  FROM  $taxonomy_table where id='$taxonomy_item' and taxonomy_value LIKE '$taxonomy_item'   and  taxonomy_type= 'category'     ";
+				// check if parent category exists
+				// $taxonomy_item
+				// $q = " SELECT * FROM $taxonomy_table where
+				// id='$taxonomy_item' and taxonomy_value LIKE '$taxonomy_item'
+				// and taxonomy_type= 'category' ";
 				
-
-				//$catcheck = $this->dbQuery ( $q );
+				// $catcheck = $this->dbQuery ( $q );
 				
-
 				$q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
-				//	p ( $q );
+				// p ( $q );
 				$this->dbQ ( $q );
 				$this->cleanCacheGroup ( 'taxonomy/' . $parent_cat_id );
 			
 			}
 			$this->cleanCacheGroup ( 'taxonomy/global' );
-		
-		//exit ();
+			
+			// exit ();
 		}
 		
 		if (($original_data ['taxonomy_tags_csv']) != '') {
 			
-		/*$taxonomy_save = array ();
-			
-			$taxonomy_save ['to_table'] = $table_assoc_name;
-			
-			$taxonomy_save ['to_table_id'] = $id_to_return;
-			
-			$taxonomy_save ['taxonomy_type'] = 'tag';
-			
-			if (trim ( $original_data ['content_type'] ) != '') {
-				
-				$taxonomy_save ['content_type'] = $original_data ['content_type'];
-			
-			}
-			
-			$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
-			
-			$tags = explode ( ',', $original_data ['taxonomy_tags_csv'] );
-			
-			$tags = trimArray ( $tags );
-			
-			$tags = array_unique_FULL ( $tags );
-			
-			asort ( $tags );
-			
-			foreach ( $tags as $taxonomy_item ) {
-				
-				$taxonomy_item = trim ( $taxonomy_item );
-				
-				if ($taxonomy_item != '') {
-					
-					$q = " INSERT INTO  $taxonomy_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'tag' , taxonomy_value='$taxonomy_item'   ";
-					
-					$this->dbQ ( $q );
-				
-				}
-			
-			}*/
+			/*
+			 * $taxonomy_save = array (); $taxonomy_save ['to_table'] =
+			 * $table_assoc_name; $taxonomy_save ['to_table_id'] =
+			 * $id_to_return; $taxonomy_save ['taxonomy_type'] = 'tag'; if (trim
+			 * ( $original_data ['content_type'] ) != '') { $taxonomy_save
+			 * ['content_type'] = $original_data ['content_type']; }
+			 * $this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy'
+			 * ); $tags = explode ( ',', $original_data ['taxonomy_tags_csv'] );
+			 * $tags = trimArray ( $tags ); $tags = array_unique_FULL ( $tags );
+			 * asort ( $tags ); foreach ( $tags as $taxonomy_item ) {
+			 * $taxonomy_item = trim ( $taxonomy_item ); if ($taxonomy_item !=
+			 * '') { $q = " INSERT INTO $taxonomy_table set
+			 * to_table='$table_assoc_name', to_table_id='$id_to_return' ,
+			 * content_type='{$original_data ['content_type']}' , taxonomy_type=
+			 * 'tag' , taxonomy_value='$taxonomy_item' "; $this->dbQ ( $q ); } }
+			 */
 		
 		}
 		
-		//upload media
+		// upload media
 		if ($table_assoc_name != 'table_media') {
 			if ($queue_id) {
 				$this->mediaAfterUploadAssociatetheMediaQueueWithTheId ( $table_assoc_name, $id_to_return, $queue_id );
@@ -491,24 +485,20 @@ class Core_model extends Model {
 			
 			//
 			
-
 			$this->mediaUpload ( $table_assoc_name, $id_to_return );
 			
 			$this->mediaUploadVideos ( $table_assoc_name, $id_to_return );
 			
 			$this->mediaUploadFiles ( $table_assoc_name, $id_to_return );
-		
-		//$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
-		
-
-		//$this->mediaFixOrder ( $to_table, $to_table_id, 'video' );
-		
-
-		//$this->mediaFixOrder ( $to_table, $to_table_id, 'file' );
-		
-
-		//var_dump ( $id_to_return );
-		//exit ();
+			
+			// $this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
+			
+			// $this->mediaFixOrder ( $to_table, $to_table_id, 'video' );
+			
+			// $this->mediaFixOrder ( $to_table, $to_table_id, 'file' );
+			
+			// var_dump ( $id_to_return );
+			// exit ();
 		} else {
 			
 			$this->mediaUpload ( $table_assoc_name, $id_to_return );
@@ -519,9 +509,8 @@ class Core_model extends Model {
 			$this->mediaUploadByUrl ( $screenshot_url, $table_assoc_name, $id_to_return );
 		}
 		
-		//adding custom fields
+		// adding custom fields
 		
-
 		if (($original_data ['skip_custom_field_save'] == false) and $table_assoc_name != 'table_custom_fields') {
 			
 			$custom_field_to_save = array ();
@@ -530,7 +519,7 @@ class Core_model extends Model {
 				
 				if (stristr ( $k, 'custom_field_' ) == true) {
 					
-					//if (strval ( $v ) != '') {
+					// if (strval ( $v ) != '') {
 					$k1 = str_ireplace ( 'custom_field_', '', $k );
 					
 					if (trim ( $k ) != '') {
@@ -538,14 +527,13 @@ class Core_model extends Model {
 						$custom_field_to_save [$k1] = $v;
 					
 					}
-				
-		//}
+					
+					// }
 				}
 			
 			}
-			//p($custom_field_to_save);
+			// p($custom_field_to_save);
 			
-
 			if ($cf_temp) {
 				$custom_field_table = $cms_db_tables ['table_custom_fields'];
 				
@@ -569,26 +557,24 @@ class Core_model extends Model {
 			}
 			
 			if (! empty ( $custom_field_to_save )) {
-				//p($is_quick);
+				// p($is_quick);
 				$custom_field_table = $cms_db_tables ['table_custom_fields'];
 				if ($is_quick == false) {
 					
-					//clean
+					// clean
 					
-
 					$custom_field_to_delete ['to_table'] = $table_assoc_name;
 					
 					$custom_field_to_delete ['to_table_id'] = $id_to_return;
+					
+					// $this->deleteData ( $custom_field_table,
+					// $custom_field_to_delete, 'custom_fields' );
+					
+					// $clean = " delete from $custom_field_table where to_table
+					// is null or to_table_id is null ";
+					
+					// $this->dbQ ( $clean );
 				
-		//	$this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
-				
-
-				//$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
-				
-
-				//	$this->dbQ ( $clean );
-				
-
 				}
 				
 				foreach ( $custom_field_to_save as $cf_k => $cf_v ) {
@@ -620,8 +606,8 @@ class Core_model extends Model {
 						$custom_field_to_save ['to_table_id'] = $id_to_return;
 						
 						$custom_field_to_save ['delete_cache_groups'] = array ('custom_fields' );
-						//p($custom_field_table);
-						//p($custom_field_to_save);
+						// p($custom_field_table);
+						// p($custom_field_to_save);
 						$save = $this->saveData ( $custom_field_table, $custom_field_to_save );
 					
 					}
@@ -640,9 +626,9 @@ class Core_model extends Model {
 		
 		}
 		
-		//p($aUserId,1);
-		//	var_dump ( $table_assoc_name );
-		//p ( $data ['edited_by'], 1 );
+		// p($aUserId,1);
+		// var_dump ( $table_assoc_name );
+		// p ( $data ['edited_by'], 1 );
 		if (strval ( $table_assoc_name ) != '') {
 			
 			if (intval ( $data ['edited_by'] ) != 0) {
@@ -655,10 +641,10 @@ class Core_model extends Model {
 				
 				if (empty ( $users_log_include )) {
 					
-					//..p($users_log_exclude,1);
+					// ..p($users_log_exclude,1);
 					if (empty ( $users_log_exclude )) {
 						
-						$to_execute_query = true; //be careful
+						$to_execute_query = true; // be careful
 					} else {
 						
 						if (in_array ( $table_assoc_name, $users_log_exclude ) == true) {
@@ -713,9 +699,10 @@ class Core_model extends Model {
 				
 				if ($to_execute_query == true) {
 					
-					//@todo later: funtionality and documentation   to move the log in seperate database cause of possible load issues on social networks created witm microweber
+					// @todo later: funtionality and documentation to move the
+					// log in seperate database cause of possible load issues on
+					// social networks created witm microweber
 					
-
 					if ($table_assoc_name == 'table_votes') {
 					
 					}
@@ -762,15 +749,14 @@ class Core_model extends Model {
 					
 					$q .= "  user_ip='{$_SERVER['REMOTE_ADDR']}'";
 					
-					//p( $q);
+					// p( $q);
 					$this->dbQ ( $q );
 					
 					$dir = $this->_getCacheDir ( 'log/global/' );
 					@touch ( $dir . 'skip_cache.php' );
+					
+					// p($dir);
 				
-		//p($dir);
-				
-
 				}
 			
 			}
@@ -837,9 +823,9 @@ class Core_model extends Model {
 				} else {
 					
 					$v = str_ireplace ( $site, '{SITE_URL}', $v );
-				
-		//$v = addslashes ( $v );
-				//$v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
+					
+					// $v = addslashes ( $v );
+					// $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
 				}
 				
 				$ret [$k] = ($v);
@@ -856,7 +842,7 @@ class Core_model extends Model {
 		
 		$site = site_url ();
 		
-		//exit($site);
+		// exit($site);
 		if (! empty ( $arr )) {
 			
 			$ret = array ();
@@ -869,13 +855,13 @@ class Core_model extends Model {
 				
 				} else {
 					
-					//var_dump( $v);
+					// var_dump( $v);
 					$v = str_ireplace ( '{SITE_URL}', $site, $v );
-				
-		//var_dump( $v);
-				//exit;
-				//$v = addslashes ( $v );
-				//$v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
+					
+					// var_dump( $v);
+					// exit;
+					// $v = addslashes ( $v );
+					// $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
 				}
 				
 				$ret [$k] = ($v);
@@ -905,13 +891,13 @@ class Core_model extends Model {
 					$v = $this->addSlashesToArrayAndEncodeHtmlChars ( $v );
 				
 				} else {
-					//$v =utfString( $v );
-					//$v = preg_replace("/[^[:alnum:][:space:][:alpha:][:punct:]]/","",$v); 
+					// $v =utfString( $v );
+					// $v =
+					// preg_replace("/[^[:alnum:][:space:][:alpha:][:punct:]]/","",$v);
 					
-
 					$v = addslashes ( $v );
-					//	$v = htmlentities ( $v, ENT_NOQUOTES, 'UTF-8' );
-					//	$v = htmlspecialchars ( $v );
+					// $v = htmlentities ( $v, ENT_NOQUOTES, 'UTF-8' );
+					// $v = htmlspecialchars ( $v );
 					$v = htmlspecialchars ( $v );
 				
 				}
@@ -941,9 +927,9 @@ class Core_model extends Model {
 				} else {
 					
 					$v = htmlspecialchars_decode ( $v );
-					//$v = htmlspecialchars_decode ( $v );
-					//$v = html_entity_decode ( $v, ENT_NOQUOTES );
-					//$v = html_entity_decode( $v );
+					// $v = htmlspecialchars_decode ( $v );
+					// $v = html_entity_decode ( $v, ENT_NOQUOTES );
+					// $v = html_entity_decode( $v );
 					$v = stripslashes ( $v );
 				
 				}
@@ -959,7 +945,8 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc sql
+	 * sql
+	 *
 	 * @author Peter Ivanov
 	 */
 	
@@ -972,7 +959,8 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc save data
+	 * save data
+	 *
 	 * @author Peter Ivanov
 	 */
 	
@@ -984,7 +972,7 @@ class Core_model extends Model {
 		
 		$result = $q->row_array ();
 		
-		//var_dump($result);
+		// var_dump($result);
 		return intval ( $result ['the_id'] );
 	
 	}
@@ -1019,10 +1007,10 @@ class Core_model extends Model {
 			
 			foreach ( $cms_db_tables as $k => $v ) {
 				
-				//var_dump($k, $v);
+				// var_dump($k, $v);
 				if (strtolower ( $assoc_name ) == strtolower ( $k )) {
 					
-					//$table_assoc_name = $k;
+					// $table_assoc_name = $k;
 					return $v;
 				
 				}
@@ -1043,10 +1031,10 @@ class Core_model extends Model {
 			
 			foreach ( $cms_db_tables as $k => $v ) {
 				
-				//var_dump($k, $v);
+				// var_dump($k, $v);
 				if (strtolower ( $assoc_name ) == strtolower ( $v )) {
 					
-					//$table_assoc_name = $k;
+					// $table_assoc_name = $k;
 					return $k;
 				
 				}
@@ -1060,11 +1048,14 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc Gets all field names from a DB table
-	 * @param $table string - table name
-	 * @param $exclude_fields array - fields to exclude
+	 * Gets all field names from a DB table
+	 *
+	 * @param $table string
+	 *       	 - table name
+	 * @param $exclude_fields array
+	 *       	 - fields to exclude
 	 * @return array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -1101,7 +1092,7 @@ class Core_model extends Model {
 		
 		$sql = "show columns from $table";
 		
-		//var_dump($sql );
+		// var_dump($sql );
 		$query = CI::db ()->query ( $sql );
 		
 		$fields = $query->result_array ();
@@ -1116,7 +1107,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//var_dump ( $exisiting_fields );
+		// var_dump ( $exisiting_fields );
 		$fields = array ();
 		
 		foreach ( $exisiting_fields as $k => $v ) {
@@ -1139,7 +1130,7 @@ class Core_model extends Model {
 		
 		CI::model ( 'core' )->cacheWriteAndEncode ( $fields, $function_cache_id, $cache_group = 'db' );
 		
-		//$fields = (array_change_key_case ( $fields, CASE_LOWER ));
+		// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 		return $fields;
 	
 	}
@@ -1154,7 +1145,7 @@ class Core_model extends Model {
 		
 		$sql = "show tables like '$table'";
 		
-		//var_dump($sql );
+		// var_dump($sql );
 		$query = CI::db ()->query ( $sql );
 		
 		$res = $query->result_array ();
@@ -1189,12 +1180,11 @@ class Core_model extends Model {
 		
 		}
 		
-		//var_dump ( $fields );
-		//exit ();
+		// var_dump ( $fields );
+		// exit ();
 		
-
-		//var_dump($string, $string1, $string2, $stringg );
-		//exit;
+		// var_dump($string, $string1, $string2, $stringg );
+		// exit;
 		$q = "SELECT id FROM $table ";
 		
 		$where = false;
@@ -1317,10 +1307,9 @@ class Core_model extends Model {
 		
 		$q = $q . " group by id limit 0,100  ";
 		
-		//print $q;
-		//exit;
+		// print $q;
+		// exit;
 		
-
 		$result = $this->dbQuery ( $q );
 		
 		if (empty ( $result )) {
@@ -1379,8 +1368,8 @@ class Core_model extends Model {
 			return false;
 		}
 		
-		//CI::db()->query ( 'SET NAMES utf8' );
-		//CI::db()->query ( $q );
+		// CI::db()->query ( 'SET NAMES utf8' );
+		// CI::db()->query ( $q );
 		CI::db ()->query ( $q );
 		
 		return true;
@@ -1459,7 +1448,7 @@ class Core_model extends Model {
 		$field = $data ['field'];
 		$full_path = $data ['full_path'];
 		
-		//copy for hiustory
+		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 		
 		if ($full_path == false) {
@@ -1486,14 +1475,13 @@ class Core_model extends Model {
 		$dc = opendir ( $dir );
 		while ( $fn = readdir ( $dc ) ) {
 			
-			//if ($file_counter < 1000) {
+			// if ($file_counter < 1000) {
 			
-
-			# Eliminate current directory, parent directory
+			// Eliminate current directory, parent directory
 			if (ereg ( '^\.{1,2}$', $fn ))
 				continue;
-			
-		# Eliminate other pages not in pattern
+				
+				// Eliminate other pages not in pattern
 			if (! ereg ( $pattern, $fn ))
 				continue;
 			$timedat = filemtime ( "$dir/$fn" );
@@ -1501,14 +1489,13 @@ class Core_model extends Model {
 				$newstamp = $timedat;
 				$newname = $fn;
 			}
-		
-		//}
+			
+			// }
 		}
-		# $timedat is the time for the latest file
-		# $newname is the name of the latest file
-		//p($newname);
+		// $timedat is the time for the latest file
+		// $newname is the name of the latest file
+		// p($newname);
 		
-
 		$newest = file_get_contents ( "$dir/$newname" );
 		if (trim ( $value ) != '') {
 			if ($newest != $value) {
@@ -1516,15 +1503,15 @@ class Core_model extends Model {
 				touch ( HISTORY_DIR . 'index.php' );
 				
 				$hf = $history_dir . $today . '.php';
-				//p($hf);
+				// p($hf);
 				$value = html_entity_decode ( $value );
 				
 				$data = mb_convert_encoding ( $value, 'UTF-8', 'OLD-ENCODING' );
 				file_put_contents ( $hf, $data );
-			
-		//file_put_contents ( $hf, $value );
+				
+				// file_put_contents ( $hf, $value );
 			} else {
-				//print 'skip';
+				// print 'skip';
 			}
 		}
 	
@@ -1539,7 +1526,7 @@ class Core_model extends Model {
 		if ($table == false) {
 			$table = 'global';
 		}
-		//copy for hiustory
+		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 		$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 		$history_dir = normalize_path ( $history_dir );
@@ -1548,7 +1535,7 @@ class Core_model extends Model {
 			mkdir_recursive ( $history_dir );
 		}
 		
-		//p($history_dir);
+		// p($history_dir);
 		$his = array ();
 		$file_counter = 0;
 		
@@ -1560,7 +1547,7 @@ class Core_model extends Model {
 				if ($file_counter < 200) {
 					
 					$size = filesize ( $filename );
-					//p($size);
+					// p($size);
 					if (intval ( $size ) != 0) {
 						$his [] = $filename;
 					} else {
@@ -1576,7 +1563,7 @@ class Core_model extends Model {
 			}
 		}
 		if (! empty ( $his )) {
-			//	$his = array_reverse($his);
+			// $his = array_reverse($his);
 		}
 		return $his;
 	}
@@ -1591,9 +1578,8 @@ class Core_model extends Model {
 			$data_to_save ['to_table'] = $this->guessDbTable ( $data_to_save ['for'] );
 		}
 		
-		//p($data_to_save);
+		// p($data_to_save);
 		
-
 		if (intval ( $data_to_save ['post_id'] ) != 0) {
 			if (($data_to_save ['param'])) {
 				
@@ -1601,13 +1587,11 @@ class Core_model extends Model {
 								 post_id = '{$data_to_save ['post_id']}'
 								 and param='{$data_to_save ['param']}'
 								   ";
+				
+				// p($q);
+				
+				// $q = $this->dbQ ( $q );
 			
-		//		p($q);
-			
-
-			//$q = $this->dbQ ( $q );
-			
-
 			}
 		}
 		
@@ -1617,18 +1601,16 @@ class Core_model extends Model {
 				$q = " select * from  $table_custom_field where
 								 id = '{$data_to_save ['id']}'	   ";
 				
-				//p($q);
+				// p($q);
 				
-
 				$q = $this->dbQuery ( $q );
 				if (empty ( $q [0] )) {
 					
 					$q = " INSERT INTO  $table_custom_field set
 								 id = '{$data_to_save ['id']}'	   ";
 					
-					//p($q);
+					// p($q);
 					
-
 					$q = $this->dbQ ( $q );
 				}
 			
@@ -1701,8 +1683,9 @@ class Core_model extends Model {
 	}
 	/**
 	 * Converts an object into an array
-	 * @param type $object
-	 * @return type 
+	 *
+	 * @param $object type       	
+	 * @return type
 	 */
 	protected function objectToArray($object) {
 		if (is_object ( $object )) {
@@ -1761,41 +1744,46 @@ class Core_model extends Model {
 				$cache_id = __FUNCTION__ . '_' . md5 ( $q );
 				
 				$cache_id = md5 ( $cache_id );
-				//p($q);
+				// p($q);
 				$q = $this->dbQuery ( $q, $cache_id, 'custom_fields' );
-				//$q = $this->dbQuery ( $q );
-				//	p($q);
+				// $q = $this->dbQuery ( $q );
+				// p($q);
 				if (! empty ( $q )) {
 					
 					if ($return_full == true) {
 						$to_ret = array ();
 						foreach ( $q as $it ) {
 							
-							//$it ['value'] = $it ['custom_field_value'];
+							// $it ['value'] = $it ['custom_field_value'];
 							$it ['value'] = $it ['custom_field_value'];
 							$it ['values'] = $it ['custom_field_value'];
 							if (strtolower ( trim ( $it ['custom_field_value'] ) ) == "array" or trim ( $it ['custom_field_values'] ) != '') {
 								if ($it ['custom_field_values']) {
-									//$it ['custom_field_values'] = str_replace ( '&quot;', '"', $it ['custom_field_values'] );
-									//	$it ['custom_field_values'] = html_entity_decode($it ['custom_field_values']);
+									// $it ['custom_field_values'] = str_replace
+									// ( '&quot;', '"', $it
+									// ['custom_field_values'] );
+									// $it ['custom_field_values'] =
+									// html_entity_decode($it
+									// ['custom_field_values']);
 									
-
 									$a1 = (base64_decode ( $it ['custom_field_values'] ));
-									//	p ( $a1 );
+									// p ( $a1 );
 									$a1 = stripslashes ( $a1 );
-									//		p ( $a1 );
+									// p ( $a1 );
 									$a1 = json_decode ( $a1 );
 									$a1 = $this->objectToArray ( $a1 );
-									//	p ( $a1 );
-									//p($it ['custom_field_values']);
-									//$a =   unserialize( base64_decode ( $it ['custom_field_values'] ) );
+									// p ( $a1 );
+									// p($it ['custom_field_values']);
+									// $a = unserialize( base64_decode ( $it
+									// ['custom_field_values'] ) );
 									$a = $a1;
-									//	p ( $a );
+									// p ( $a );
 									$it ['values'] = $a;
 									$it ['value'] = $a;
 									$it ['custom_field_values'] = $a;
-								
-		//$it ['value'] = $it ['custom_field_values'];
+									
+									// $it ['value'] = $it
+									// ['custom_field_values'];
 								}
 							}
 							$it ['cssClass'] = $it ['custom_field_type'];
@@ -1893,9 +1881,8 @@ class Core_model extends Model {
 		
 		$q = $q [0];
 		
-		///$q = intval ( $q );
+		// /$q = intval ( $q );
 		
-
 		if (count ( $q ) > 0) {
 			
 			return $q;
@@ -1909,8 +1896,9 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc get data from the database
-	 * @author		Peter Ivanov
+	 * get data from the database
+	 *
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -1930,8 +1918,11 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc get data from the database this is the MOST important function in the Microweber CMS. Everything relies on it.
-	 * @author		Peter Ivanov
+	 * get data from the database this is the MOST important function in the
+	 * Microweber CMS.
+	 * Everything relies on it.
+	 *
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -1942,7 +1933,7 @@ class Core_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//CI::db()->query ( 'SET NAMES utf8' );
+		// CI::db()->query ( 'SET NAMES utf8' );
 		if ($table == false) {
 			
 			return false;
@@ -1952,7 +1943,7 @@ class Core_model extends Model {
 			
 			foreach ( $cms_db_tables as $k => $v ) {
 				
-				//var_dump($k, $v);
+				// var_dump($k, $v);
 				if (strtolower ( $table ) == strtolower ( $v )) {
 					
 					$table_assoc_name = $k;
@@ -1975,7 +1966,7 @@ class Core_model extends Model {
 				}
 			}
 			if ($criteria ['cache_group'] == true) {
-			$cache_group = $criteria ['cache_group'];
+				$cache_group = $criteria ['cache_group'];
 			}
 			if ($criteria ['no_cache'] == true) {
 				$cache_group = false;
@@ -1993,7 +1984,6 @@ class Core_model extends Model {
 			
 			}
 			
-			
 			if ($criteria ['count'] == true) {
 				$count_only = $criteria ['count'];
 				
@@ -2001,8 +1991,7 @@ class Core_model extends Model {
 			
 			}
 			
-			
-			if ($criteria ['get_count'] == true ) {
+			if ($criteria ['get_count'] == true) {
 				$count_only = true;
 				
 				unset ( $criteria ['get_count'] );
@@ -2028,15 +2017,14 @@ class Core_model extends Model {
 			}
 			
 			if ($criteria ['items_per_page'] and $criteria ['curent_page'] == false) {
-		 //	$limit = array (0, $criteria ['items_per_page'] );
+				// $limit = array (0, $criteria ['items_per_page'] );
 			}
 			
-				$curent_page = isset ( $criteria ['curent_page'] ) ? $criteria ['curent_page'] : null;
-		if ($curent_page == false) {
-			$curent_page = isset ( $criteria ['page'] ) ? $criteria ['page'] : null;
-		}
-
-		 
+			$curent_page = isset ( $criteria ['curent_page'] ) ? $criteria ['curent_page'] : null;
+			if ($curent_page == false) {
+				$curent_page = isset ( $criteria ['page'] ) ? $criteria ['page'] : null;
+			}
+			
 			$offset = isset ( $criteria ['offset'] ) ? $criteria ['offset'] : false;
 			
 			if ($limit == false) {
@@ -2045,15 +2033,12 @@ class Core_model extends Model {
 			if ($offset == false) {
 				$offset = isset ( $criteria ['offset'] ) ? $criteria ['offset'] : false;
 			}
-		 
 			
 			if ($count_only == false) {
-			
-			
-			
-		 if ($limit == false) {
 				
-			 	 $qLimit = "";
+				if ($limit == false) {
+					
+					$qLimit = "";
 					
 					if ($items_per_page == false) {
 						
@@ -2063,14 +2048,12 @@ class Core_model extends Model {
 					
 					$items_per_page = intval ( $items_per_page );
 					
-				 
-					
 					if (intval ( $curent_page ) < 1) {
 						
 						$curent_page = 1;
 					
 					}
-					 
+					
 					$page_start = ($curent_page - 1) * $items_per_page;
 					
 					$page_end = ($page_start) + $items_per_page;
@@ -2090,23 +2073,16 @@ class Core_model extends Model {
 						$qLimit .= "OFFSET {$page_start} ";
 					
 					}
-					
-					
-		 
+				
+				}
+				$limit_from_paging_q = $qLimit;
 			
 			}
-			$limit_from_paging_q = $qLimit;
-	
-		 }
 			
-			
-					if($debug){ 
-  //p($limit_from_paging_q);
- //   p($limit);
-	}	
-			
-			
-			
+			if ($debug) {
+				// p($limit_from_paging_q);
+				// p($limit);
+			}
 			
 			if ($criteria ['fields'] == true) {
 				$only_those_fields = $criteria ['fields'];
@@ -2147,9 +2123,9 @@ class Core_model extends Model {
 			}
 			
 			$only_custom_fieldd_ids = array ();
-			//	p($data ['custom_fields_criteria'],1);
+			// p($data ['custom_fields_criteria'],1);
 			foreach ( $criteria ['custom_fields_criteria'] as $k => $v ) {
-				//	var_dump($v);
+				// var_dump($v);
 				if (is_array ( $v ) == false) {
 					
 					$v = addslashes ( $v );
@@ -2208,8 +2184,8 @@ class Core_model extends Model {
 				$q2 = $q;
 				// p($q);
 				$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-				//	
-				//	p($q);
+				//
+				// p($q);
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;
@@ -2220,24 +2196,21 @@ class Core_model extends Model {
 						
 						$only_custom_fieldd_ids [] = $itm ['to_table_id'];
 						
-						//  if(in_array($itm ['to_table_id'],$category_ids)== false){
+						// if(in_array($itm ['to_table_id'],$category_ids)==
+						// false){
 						
-
 						$includeIds [] = $itm ['to_table_id'];
+						
+						// }
+						
+						//
 					
-		//  }
-					
-
-					//
-					
-
 					}
 				
 				} else {
 					
-					//  $ids = array();
+					// $ids = array();
 					
-
 					$remove_all_ids = true;
 					
 					$includeIds = false;
@@ -2257,9 +2230,9 @@ class Core_model extends Model {
 		if (! empty ( $criteria ['only_those_fields'] )) {
 			
 			$only_those_fields = $criteria ['only_those_fields'];
-		
-		//unset($criteria['only_those_fields']);
-		//no unset xcause f cache
+			
+			// unset($criteria['only_those_fields']);
+			// no unset xcause f cache
 		}
 		
 		if (! empty ( $criteria ['include_taxonomy'] )) {
@@ -2275,9 +2248,9 @@ class Core_model extends Model {
 		if (! empty ( $criteria ['exclude_ids'] )) {
 			
 			$exclude_ids = $criteria ['exclude_ids'];
-		
-		//unset($criteria['only_those_fields']);
-		//no unset xcause f cache
+			
+			// unset($criteria['only_those_fields']);
+			// no unset xcause f cache
 		}
 		
 		if (! empty ( $criteria ['ids'] )) {
@@ -2317,8 +2290,8 @@ class Core_model extends Model {
 		if (strval ( trim ( $criteria ['search_by_keyword'] ) ) != '') {
 			
 			$to_search = trim ( $criteria ['search_by_keyword'] );
-		
-		//p($to_search,1);
+			
+			// p($to_search,1);
 		}
 		
 		if (is_array ( ($criteria ['search_by_keyword_in_fields']) )) {
@@ -2331,8 +2304,8 @@ class Core_model extends Model {
 		
 		}
 		
-		//if ($count_only == false) {
-		//var_dump ( $cache_group );
+		// if ($count_only == false) {
+		// var_dump ( $cache_group );
 		if ($cache_group != false) {
 			
 			$cache_group = trim ( $cache_group );
@@ -2368,8 +2341,8 @@ class Core_model extends Model {
 			$cache_content = $this->cacheGetContentAndDecode ( $original_cache_id, $original_cache_group );
 			
 			if ($cache_group == 'taxonomy') {
-			
-		//var_dump($cache_content);
+				
+				// var_dump($cache_content);
 			}
 			
 			if (($cache_content) != false) {
@@ -2405,29 +2378,28 @@ class Core_model extends Model {
 			$order_by = false;
 		
 		}
-		 
-			if ($qLimit == '' and !empty ( $limit ) and $count_only == false) {
-				
-				$offset = $limit [1] - $limit [0];
-				
-				$limit = " limit  {$limit[0]} , $offset  ";
-			
-			} else {
-				
-				$limit = false;
-			
-			}
-		 
 		
-		 
+		if ($qLimit == '' and ! empty ( $limit ) and $count_only == false) {
+			
+			$offset = $limit [1] - $limit [0];
+			
+			$limit = " limit  {$limit[0]} , $offset  ";
+		
+		} else {
+			
+			$limit = false;
+		
+		}
+		
 		$criteria = $this->mapArrayToDatabaseTable ( $table, $criteria );
 		
 		if (! empty ( $criteria )) {
-		
-		//$query = $this->db->get_where ( $table, $criteria, $limit, $offset );
+			
+			// $query = $this->db->get_where ( $table, $criteria, $limit,
+			// $offset );
 		} else {
-		
-		//$query = $this->db->get ( $table, $limit, $offset );
+			
+			// $query = $this->db->get ( $table, $limit, $offset );
 		}
 		
 		if ($only_those_fields == false) {
@@ -2496,17 +2468,15 @@ class Core_model extends Model {
 					
 					if ($v != 'id' && $v != 'password') {
 						
-						//$where .= " $v like '%$to_search%' " . $where_post;
+						// $where .= " $v like '%$to_search%' " . $where_post;
 						
-
 						$where .= " $v REGEXP '$to_search' " . $where_post;
+						
+						// 'new\\*.\\*line';
+						
+						// $where .= " MATCH($v) AGAINST ('*$to_search* in
+						// boolean mode') " . $where_post;
 					
-		// 'new\\*.\\*line';
-					
-
-					//$where .= " MATCH($v) AGAINST ('*$to_search* in boolean mode')  " . $where_post;
-					
-
 					}
 				
 				}
@@ -2536,9 +2506,9 @@ class Core_model extends Model {
 						
 						$v = str_replace ( '[mt]', '', $v );
 					}
-					/*var_dump ( $k );
-					var_dump ( $v );
-					print '<hr>';*/
+					/*
+					 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
+					 */
 					if (($k == 'updated_on') or ($k == 'created_on')) {
 						
 						$v = strtotime ( $v );
@@ -2615,14 +2585,12 @@ class Core_model extends Model {
 		
 		if (! empty ( $includeIds )) {
 			
-			//	$first = array_shift ( $includeIds );
+			// $first = array_shift ( $includeIds );
 			
-
 			$includeIds_idds = false;
-			//	p ( $includeIds );
-			//p($includeIds);
+			// p ( $includeIds );
+			// p($includeIds);
 			
-
 			$includeIds_i = implode ( ',', $includeIds );
 			
 			$includeIds_idds .= "   AND id IN ($includeIds_i)   ";
@@ -2651,10 +2619,10 @@ class Core_model extends Model {
 			$q = $q . $order_by;
 		
 		}
-		 
-		if(trim($limit_from_paging_q ) != ""){
-		$limit = $limit_from_paging_q;
-		} else  {
+		
+		if (trim ( $limit_from_paging_q ) != "") {
+			$limit = $limit_from_paging_q;
+		} else {
 		
 		}
 		if ($limit != false) {
@@ -2668,22 +2636,21 @@ class Core_model extends Model {
 			var_dump ( $table, $q );
 		
 		}
-		//var_dump ( $table, $q );
-		//print $q;
-		//exit;
-		//$select = $this->db->select()->from("$table"),array('product_id', 'product_name'))  ->limit(10, 20);
-		//$select = $this->db->select ()->from ( "$table" ) . eval($where);
+		// var_dump ( $table, $q );
+		// print $q;
+		// exit;
+		// $select = $this->db->select()->from("$table"),array('product_id',
+		// 'product_name')) ->limit(10, 20);
+		// $select = $this->db->select ()->from ( "$table" ) . eval($where);
 		
-
-		//$stmt = CI::db()->query ( $q );
-		//$result = $stmt->fetchAll ();
+		// $stmt = CI::db()->query ( $q );
+		// $result = $stmt->fetchAll ();
 		
-
 		$result = $this->dbQuery ( $q );
 		if ($count_only == true) {
-		
-		//var_dump ( $result );
-		//exit ();
+			
+			// var_dump ( $result );
+			// exit ();
 		}
 		
 		if ($result [0] ['qty'] == true) {
@@ -2715,7 +2682,7 @@ class Core_model extends Model {
 									
 									$this_cache_content = $this->cacheGetContentAndDecode ( $this_cache_id );
 									
-									//$this_cache_content = false;
+									// $this_cache_content = false;
 									if (($this_cache_content) != false) {
 										
 										$result = $this_cache_content;
@@ -2738,7 +2705,7 @@ class Core_model extends Model {
 								 order by field_order asc
 								   ";
 													
-													//	print $q;
+													// print $q;
 													$cache_id = __FUNCTION__ . 'custom_fields_stuff' . md5 ( $q );
 													
 													$cache_id = md5 ( $cache_id );
@@ -2783,7 +2750,8 @@ class Core_model extends Model {
 														
 														}
 														
-														//	var_dump ( $append_this );
+														// var_dump (
+														// $append_this );
 														$item ['custom_fields'] = $append_this;
 													
 													}
@@ -2798,7 +2766,7 @@ class Core_model extends Model {
 										
 										$result = $the_data_with_custom_field__stuff;
 										
-										//var_dump($result);
+										// var_dump($result);
 										$this->cacheWriteAndEncode ( $result, $this_cache_id, $cache_group = 'global' );
 									
 									}
@@ -2821,14 +2789,13 @@ class Core_model extends Model {
 		
 		if ($table_assoc_name != 'table_options') {
 			
-			//todo
+			// todo
 			
-
 			if ($get_only_whats_requested_without_additional_stuff == false) {
 				
 				if ($only_those_fields == false) {
 					
-					//print $table_assoc_name;
+					// print $table_assoc_name;
 					if (strval ( $table_assoc_name ) != '') {
 						
 						if ($table_assoc_name != 'table_media') {
@@ -2841,7 +2808,7 @@ class Core_model extends Model {
 									
 									foreach ( $result as $item ) {
 										
-										//get media
+										// get media
 										if (intval ( $item ['id'] ) != 0) {
 											
 											$media = $this->mediaGetAndCache ( $table_assoc_name, $item ['id'] );
@@ -2869,217 +2836,124 @@ class Core_model extends Model {
 					}
 					
 					if ($table_assoc_name != 'table_taxonomy') {
-					
-		//todo
-					}
-				
-				}
-				
-				/*if ($get_only_whats_requested_without_additional_stuff == false) {
-				if (count ( $result ) == 1) {
-					if (strval ( $table_assoc_name ) != '') {
-						if ($table_assoc_name != 'table_geodata') {
-
-							$result_with_geodata = array ();
-							if (! empty ( $result )) {
-								foreach ( $result as $item ) {
-
-									if (intval ( $item ['id'] ) != 0) {
-										//get geodata
-										//$media = $this->mediaGet ( $table_assoc_name, $item ['id'] );
-										$geodata = array ();
-										$table_geodata = $cms_db_tables ['table_geodata'];
-										$geodata ['to_table'] = $table_assoc_name;
-										$geodata ['to_table_id'] = $item ['id'];
-										$geodata_results = $this->getDbData ( $table_geodata, $geodata );
-										if (! empty ( $geodata_results [0] )) {
-											$item ['geodata'] = $geodata_results [0];
-										}
-
-									}
-
-									$result_with_geodata [] = $item;
-								}
-								$result = $result_with_geodata;
-							}
-						}
-					}
-				}
-			}*/
-				
-				//removed due performance issues on large sites >3000 articles
-				//if ($include_taxonomy == true) {
-				
-
-				/*	if ($table_assoc_name == 'table_content') {
-					
-					if ($get_only_whats_requested_without_additional_stuff == false) {
 						
-						if (! empty ( $result )) {
-							
-							if (count ( $result ) < 2) {
-								
-								$this_cache_id = __FUNCTION__ . 'taxonomy_stuff' . md5 ( serialize ( $result ) );
-								
-								$this_cache_content = $this->cacheGetContentAndDecode ( $this_cache_id );
-								
-								if (($this_cache_content) != false) {
-									
-									$result = $this_cache_content;
-								
-								} else {
-									
-									$the_data_with_taxonomy_stuff = array ();
-									
-									foreach ( $result as $item ) {
-										
-										if ($table_assoc_name == 'table_content') {
-											
-											$table_taxonomy = $cms_db_tables ['table_taxonomy'];
-											
-											if (strval ( $table_assoc_name ) != '') {
-												
-												if (intval ( $item ['id'] ) != 0) {
-													
-													$q = " SELECT
-								 taxonomy_type from  $table_taxonomy where
-								 to_table = '$table_assoc_name'
-								 and to_table_id={$item['id']}
-								  group by taxonomy_type  ";
-													
-													//	print $q;
-													$cache_id = __FUNCTION__ . md5 ( $q );
-													
-													$cache_id = md5 ( $cache_id );
-													
-													$q = $this->dbQuery ( $q, $cache_id, $cache_group = 'taxonomy' );
-													
-													$taxnomy_types = $q;
-													
-													$item ['taxonomy_data'] = array ();
-													
-													if (! empty ( $taxnomy_types )) {
-														
-														foreach ( $taxnomy_types as $taxnomy_type ) {
-															
-															if (strval ( $taxnomy_type ['taxonomy_type'] ) != '') {
-																
-																if (intval ( $item ['id'] ) != 0) {
-																	
-																																	
-																	$q = " SELECT * from  $table_taxonomy where
-												to_table = '$table_assoc_name'
-												and to_table_id={$item['id']}
-												and taxonomy_type='{$taxnomy_type ['taxonomy_type']}'
-												  ";
-																	
-																	
-																	$taxonomy_query = $this->dbQuery ( $q );
-																	$item ['taxonomy_data'] [$taxnomy_type ['taxonomy_type']] = array ();
-																	
-																	if (! empty ( $taxonomy_query )) {
-																		foreach ( $taxonomy_query as $temp1234 ) {
-																			$item ['taxonomy_data'] [$taxnomy_type ['taxonomy_type']] [] = $temp1234;
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-											
-											$the_data_with_taxonomy_stuff [] = $item;
-										
-										}
-									}
-									$result = $the_data_with_taxonomy_stuff;
-									$this->cacheWriteAndEncode ( $result, $this_cache_id, $cache_group = 'taxonomy' );
-								}
-							}
-						
-						}
-					
-
+						// todo
 					}
 				
-				} else {
-					
-					$the_data_with_taxonomy_stuff = $result;
-				
 				}
-				*/
-				//lets get custom fields
 				
-
+				/*
+				 * if ($get_only_whats_requested_without_additional_stuff ==
+				 * false) { if (count ( $result ) == 1) { if (strval (
+				 * $table_assoc_name ) != '') { if ($table_assoc_name !=
+				 * 'table_geodata') { $result_with_geodata = array (); if (!
+				 * empty ( $result )) { foreach ( $result as $item ) { if
+				 * (intval ( $item ['id'] ) != 0) { //get geodata //$media =
+				 * $this->mediaGet ( $table_assoc_name, $item ['id'] ); $geodata
+				 * = array (); $table_geodata = $cms_db_tables
+				 * ['table_geodata']; $geodata ['to_table'] = $table_assoc_name;
+				 * $geodata ['to_table_id'] = $item ['id']; $geodata_results =
+				 * $this->getDbData ( $table_geodata, $geodata ); if (! empty (
+				 * $geodata_results [0] )) { $item ['geodata'] =
+				 * $geodata_results [0]; } } $result_with_geodata [] = $item; }
+				 * $result = $result_with_geodata; } } } } }
+				 */
+				
+				// removed due performance issues on large sites >3000 articles
+				// if ($include_taxonomy == true) {
+				
+				/*
+				 * if ($table_assoc_name == 'table_content') { if
+				 * ($get_only_whats_requested_without_additional_stuff == false)
+				 * { if (! empty ( $result )) { if (count ( $result ) < 2) {
+				 * $this_cache_id = __FUNCTION__ . 'taxonomy_stuff' . md5 (
+				 * serialize ( $result ) ); $this_cache_content =
+				 * $this->cacheGetContentAndDecode ( $this_cache_id ); if
+				 * (($this_cache_content) != false) { $result =
+				 * $this_cache_content; } else { $the_data_with_taxonomy_stuff =
+				 * array (); foreach ( $result as $item ) { if
+				 * ($table_assoc_name == 'table_content') { $table_taxonomy =
+				 * $cms_db_tables ['table_taxonomy']; if (strval (
+				 * $table_assoc_name ) != '') { if (intval ( $item ['id'] ) !=
+				 * 0) { $q = " SELECT taxonomy_type from $table_taxonomy where
+				 * to_table = '$table_assoc_name' and to_table_id={$item['id']}
+				 * group by taxonomy_type "; //	print $q; $cache_id =
+				 * __FUNCTION__ . md5 ( $q ); $cache_id = md5 ( $cache_id ); $q
+				 * = $this->dbQuery ( $q, $cache_id, $cache_group = 'taxonomy'
+				 * ); $taxnomy_types = $q; $item ['taxonomy_data'] = array ();
+				 * if (! empty ( $taxnomy_types )) { foreach ( $taxnomy_types as
+				 * $taxnomy_type ) { if (strval ( $taxnomy_type
+				 * ['taxonomy_type'] ) != '') { if (intval ( $item ['id'] ) !=
+				 * 0) { $q = " SELECT * from $table_taxonomy where to_table =
+				 * '$table_assoc_name' and to_table_id={$item['id']} and
+				 * taxonomy_type='{$taxnomy_type ['taxonomy_type']}' ";
+				 * $taxonomy_query = $this->dbQuery ( $q ); $item
+				 * ['taxonomy_data'] [$taxnomy_type ['taxonomy_type']] = array
+				 * (); if (! empty ( $taxonomy_query )) { foreach (
+				 * $taxonomy_query as $temp1234 ) { $item ['taxonomy_data']
+				 * [$taxnomy_type ['taxonomy_type']] [] = $temp1234; } } } } } }
+				 * } } $the_data_with_taxonomy_stuff [] = $item; } } $result =
+				 * $the_data_with_taxonomy_stuff; $this->cacheWriteAndEncode (
+				 * $result, $this_cache_id, $cache_group = 'taxonomy' ); } } } }
+				 * } else { $the_data_with_taxonomy_stuff = $result; }
+				 */
+				// lets get custom fields
+				
 				if ($table_assoc_name != 'table_comments') {
 					
-				/*	$result_with_geodata = array ( );
-				foreach ( $result as $item ) {
-				$comments = array ( );
-				$comments ['to_table'] = 'table_content';
-				$comments ['to_table_id'] = $item ['id'];
-				$comments = CI::model('comments')->commentsGet ( $comments );
-				if (! empty ( $comments )) {
-				$item ['comments'] = $comments;
-				}
-				$result_with_geodata [] = $item;
-				}
-				$result = $result_with_geodata;*/
+					/*
+					 * $result_with_geodata = array ( ); foreach ( $result as
+					 * $item ) { $comments = array ( ); $comments ['to_table'] =
+					 * 'table_content'; $comments ['to_table_id'] = $item
+					 * ['id']; $comments = CI::model('comments')->commentsGet (
+					 * $comments ); if (! empty ( $comments )) { $item
+					 * ['comments'] = $comments; } $result_with_geodata [] =
+					 * $item; } $result = $result_with_geodata;
+					 */
 				
 				}
 				
 				if ($table_assoc_name != 'table_comments') {
 					
-				/*	$result_with_geodata = array ( );
-				foreach ( $result as $item ) {
-				$comments = array ( );
-				$comments ['to_table'] = 'table_content';
-				$comments ['to_table_id'] = $item ['id'];
-				$comments ['is_moderated'] = 'y';
-
-				$comments = CI::model('comments')->commentsGet ( $comments );
-				if (! empty ( $comments )) {
-				$item ['comments_approved'] = $comments;
-				}
-				$result_with_geodata [] = $item;
-				}
-				$result = $result_with_geodata;*/
+					/*
+					 * $result_with_geodata = array ( ); foreach ( $result as
+					 * $item ) { $comments = array ( ); $comments ['to_table'] =
+					 * 'table_content'; $comments ['to_table_id'] = $item
+					 * ['id']; $comments ['is_moderated'] = 'y'; $comments =
+					 * CI::model('comments')->commentsGet ( $comments ); if (!
+					 * empty ( $comments )) { $item ['comments_approved'] =
+					 * $comments; } $result_with_geodata [] = $item; } $result =
+					 * $result_with_geodata;
+					 */
 				
 				}
 				
-			/*if ($table_assoc_name != 'table_comments') {
-			$result_with_geodata = array ( );
-			foreach ( $result as $item ) {
-			$comments = array ( );
-			$comments ['to_table'] = 'table_content';
-			$comments ['to_table_id'] = $item ['id'];
-			$comments ['is_moderated'] = 'n';
-
-			$comments = CI::model('comments')->commentsGet ( $comments );
-			if (! empty ( $comments )) {
-			$item ['comments_not_approved'] = $comments;
-			}
-			$result_with_geodata [] = $item;
-			}
-			$result = $result_with_geodata;
-			}*/
+				/*
+				 * if ($table_assoc_name != 'table_comments') {
+				 * $result_with_geodata = array ( ); foreach ( $result as $item
+				 * ) { $comments = array ( ); $comments ['to_table'] =
+				 * 'table_content'; $comments ['to_table_id'] = $item ['id'];
+				 * $comments ['is_moderated'] = 'n'; $comments =
+				 * CI::model('comments')->commentsGet ( $comments ); if (! empty
+				 * ( $comments )) { $item ['comments_not_approved'] = $comments;
+				 * } $result_with_geodata [] = $item; } $result =
+				 * $result_with_geodata; }
+				 */
 			
 			}
 		
 		}
 		
-		//var_dump ( $result );
-		//if ($count_only == false) {
-		//warning!!!
+		// var_dump ( $result );
+		// if ($count_only == false) {
+		// warning!!!
 		
-
 		if ($cache_group != false) {
 			
 			if (! empty ( $result )) {
 				
-				//p($original_cache_group);
-				//	p($cache_id);
+				// p($original_cache_group);
+				// p($cache_id);
 				$this->cacheWriteAndEncode ( $result, $original_cache_id, $original_cache_group );
 			
 			} else {
@@ -3090,17 +2964,14 @@ class Core_model extends Model {
 		
 		}
 		
-		//}
-		/*if (! empty ( $cms_db_tables )) {
-		foreach ( $cms_db_tables as $k => $v ) {
-		//var_dump($k, $v);
-		if (strtolower ( $table ) == strtolower ( $v )) {
-		$table_assoc_name = $k;
-		}
-		}
-		}*/
+		// }
+		/*
+		 * if (! empty ( $cms_db_tables )) { foreach ( $cms_db_tables as $k =>
+		 * $v ) { //var_dump($k, $v); if (strtolower ( $table ) == strtolower (
+		 * $v )) { $table_assoc_name = $k; } } }
+		 */
 		
-		//var_dump($result);
+		// var_dump($result);
 		if ($count_only == true) {
 			
 			$ret = $result [0] ['qty'];
@@ -3123,91 +2994,103 @@ class Core_model extends Model {
 		
 		}
 		
-		//var_dump ( $return );
+		// var_dump ( $return );
 		return $return;
 	
 	}
 	
-	/*****************************************************
-	 * Get data from a given database table using filter array and formatting result according to specified options
+	/**
+	 * ***************************************************
+	 * Get data from a given database table using filter array and formatting
+	 * result according to specified options
 	 *
-	 * @param string $aTable
-	 * @param array|string $aFilter Criteria using for filtering data
-	 * @param array $aOptions Assocative array. Allowed options are:
-	 * string cache_group,
-	 * bool debug,
-	 * bool cache,
-	 * bool get_count,
-	 * array only_fields,
-	 * array only_fields,
-	 * array include_ids,
-	 * array exclude_ids,
-	 * string search_keyword,
-	 * arra order - the array could be one or multi dimensional. It also have format ('col1' => 'ASC'|'DESC'),
-	 * int limit,
-	 * int offset,
+	 * @param $aTable string       	
+	 * @param $aFilter array|string
+	 *       	 Criteria using for filtering data
+	 * @param $aOptions array
+	 *       	 Assocative array. Allowed options are:
+	 *       	 string cache_group,
+	 *       	 bool debug,
+	 *       	 bool cache,
+	 *       	 bool get_count,
+	 *       	 array only_fields,
+	 *       	 array only_fields,
+	 *       	 array include_ids,
+	 *       	 array exclude_ids,
+	 *       	 string search_keyword,
+	 *       	 arra order - the array could be one or multi dimensional. It
+	 *       	 also have format ('col1' => 'ASC'|'DESC'),
+	 *       	 int limit,
+	 *       	 int offset,
 	 * @return array
 	 *
 	 * @example Get all active users and use with id 1000.
-	 * Database query string will be printed.
-	 * Result will be cached in group 'users'.
-	 * Users will be orderd descending by id and ascending by email
-	 *
-	 * CI::model('core')->fetchDbData(
-	 * 'firecms_users',
-	 * array(
-	 * array('is_active', 'y'),
-	 * array('id', 10000, '=', 'OR')
-	 * ),
-	 * array(
-	 * 'debug' => true,
-	 * 'cache_group' => 'users',
-	 * 'order' => array(array('id', 'DESC'), array('email', 'ASC')),
-	 * )
-	 *
+	 *          Database query string will be printed.
+	 *          Result will be cached in group 'users'.
+	 *          Users will be orderd descending by id and ascending by email
+	 *         
+	 *          CI::model('core')->fetchDbData(
+	 *          'firecms_users',
+	 *          array(
+	 *          array('is_active', 'y'),
+	 *          array('id', 10000, '=', 'OR')
+	 *          ),
+	 *          array(
+	 *          'debug' => true,
+	 *          'cache_group' => 'users',
+	 *          'order' => array(array('id', 'DESC'), array('email', 'ASC')),
+	 *          )
+	 *         
 	 * @example Get all site users.
-	 * Result will not be cached.
-	 * Users will be orderd ascending by email.
-	 * Users with id 1, 2 and 3 will be appended to result set.
-	 * Users with id 4, 5 and 6 will not be included in result set.
-	 * CI::model('core')->fetchDbData(
-	 * 'firecms_users',
-	 * array(
-	 * array('is_admin', 'n'),
-	 * ),
-	 * array(
-	 * 'include_ids' => array(1, 2, 3),
-	 * 'exclude_ids' => array(5, 6),
-	 * 'cache' => false,
-	 * 'order' => array('email', 'ASC'),
-	 * )
-
-
-	Options:
-
-	$aOptions = array();
-	//general
-	$aOptions['only_fields'] = array('id', 'content_title'); // array of fields
-	$aOptions['get_params_from_url'] = true; // if true tries to get params from the url
-	$aOptions['items_per_page'] = 50; // return items per page
-	$aOptions['debug'] = false; // if true it will print debug info
-	$aOptions['cache'] = true; // if true it will use cache! Important: you must define the cache group
-	$aOptions['cache_group'] = 'global'; // if set it will save the cache output in subfolder
-	$aOptions['get_count'] = true; // if true will return only count of results
-	$aOptions['group_by'] = 'field name'; // if set the results will be grouped by the filed name
-
-	//search options
-	$aOptions ['search_keyword'] = 'test' //search in the db
-	$aOptions ['search_keyword_only_in_those_fields'] = array('id', 'content_body');  //search in the db only in those fields
-
-
-
-	//@todo document more options here!
-
-	 *
-	 *
-	 *
-	 *
+	 *          Result will not be cached.
+	 *          Users will be orderd ascending by email.
+	 *          Users with id 1, 2 and 3 will be appended to result set.
+	 *          Users with id 4, 5 and 6 will not be included in result set.
+	 *          CI::model('core')->fetchDbData(
+	 *          'firecms_users',
+	 *          array(
+	 *          array('is_admin', 'n'),
+	 *          ),
+	 *          array(
+	 *          'include_ids' => array(1, 2, 3),
+	 *          'exclude_ids' => array(5, 6),
+	 *          'cache' => false,
+	 *          'order' => array('email', 'ASC'),
+	 *          )
+	 *         
+	 *         
+	 *          Options:
+	 *         
+	 *          $aOptions = array();
+	 *          //general
+	 *          $aOptions['only_fields'] = array('id', 'content_title'); //
+	 *          array of fields
+	 *          $aOptions['get_params_from_url'] = true; // if true tries to get
+	 *          params from the url
+	 *          $aOptions['items_per_page'] = 50; // return items per page
+	 *          $aOptions['debug'] = false; // if true it will print debug info
+	 *          $aOptions['cache'] = true; // if true it will use cache!
+	 *          Important: you must define the cache group
+	 *          $aOptions['cache_group'] = 'global'; // if set it will save the
+	 *          cache output in subfolder
+	 *          $aOptions['get_count'] = true; // if true will return only count
+	 *          of results
+	 *          $aOptions['group_by'] = 'field name'; // if set the results will
+	 *          be grouped by the filed name
+	 *         
+	 *          //search options
+	 *          $aOptions ['search_keyword'] = 'test' //search in the db
+	 *          $aOptions ['search_keyword_only_in_those_fields'] = array('id',
+	 *          'content_body'); //search in the db only in those fields
+	 *         
+	 *         
+	 *         
+	 *          //@todo document more options here!
+	 *         
+	 *         
+	 *         
+	 *         
+	 *         
 	 */
 	
 	function fetchDbData($aTable, $aFilter = null, $aOptions = null) {
@@ -3292,7 +3175,7 @@ class Core_model extends Model {
 			$get_params_from_url = isset ( $aFilter ['get_params_from_url'] ) ? $aFilter ['get_params_from_url'] : null;
 		}
 		
-		//search
+		// search
 		$searchKeyword = isset ( $aOptions ['search_keyword'] ) ? $aOptions ['search_keyword'] : null;
 		
 		if ($searchKeyword == null) {
@@ -3329,10 +3212,9 @@ class Core_model extends Model {
 				$offset = isset ( $aFilter ['offset'] ) ? $aFilter ['offset'] : null;
 			}
 		}
-		//	
+		//
 		//
 		
-
 		if ($enableCache == true) {
 			
 			$function_cache_id = false;
@@ -3359,7 +3241,7 @@ class Core_model extends Model {
 			
 			if (strval ( $cache_content ) != '') {
 				
-				//$cache = base64_decode ( $cache_content );
+				// $cache = base64_decode ( $cache_content );
 				$cache = unserialize ( $cache_content );
 				
 				$return = array ();
@@ -3459,15 +3341,17 @@ class Core_model extends Model {
 						$qLimit .= "OFFSET {$page_start} ";
 					
 					}
-				
-		//$qLimit .= "LIMIT {$page_start}, {$page_end}";
+					
+					// $qLimit .= "LIMIT {$page_start}, {$page_end}";
 				}
 			
 			}
 			
-			/*~~~~~~~~~~~~~ Build limit part ~~~~~~~~~~~~~*/
+			/*
+			 * ~~~~~~~~~~~~~ Build limit part ~~~~~~~~~~~~~
+			 */
 			if (empty ( $limit )) {
-				//$limit = array(0,2);
+				// $limit = array(0,2);
 			}
 			if (! empty ( $limit )) {
 				
@@ -3477,7 +3361,7 @@ class Core_model extends Model {
 				
 				} else {
 					
-					//$qLimit .= "LIMIT {$limit[0]}  {$limit[1]}";
+					// $qLimit .= "LIMIT {$limit[0]} {$limit[1]}";
 					$page_end = intval ( $limit [1] );
 					
 					$page_start = intval ( $limit [0] );
@@ -3502,7 +3386,9 @@ class Core_model extends Model {
 			
 			}
 			
-			/*~~~~~~~~~~~~~ Build offset part ~~~~~~~~~~~~~*/
+			/*
+			 * ~~~~~~~~~~~~~ Build offset part ~~~~~~~~~~~~~
+			 */
 			
 			$qOffset = "";
 			
@@ -3516,11 +3402,14 @@ class Core_model extends Model {
 		
 		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $aTable );
 		
-		//		$aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable, $aOptions);
+		// $aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable,
+		// $aOptions);
 		
-
-		//$aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable, $aOptions);
-		/*~~~~~~~~~~~~~ Build select part ~~~~~~~~~~~~~*/
+		// $aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable,
+		// $aOptions);
+		/*
+		 * ~~~~~~~~~~~~~ Build select part ~~~~~~~~~~~~~
+		 */
 		
 		$qSelect = "SELECT\n\t";
 		
@@ -3552,7 +3441,9 @@ class Core_model extends Model {
 		
 		}
 		
-		/*~~~~~~~~~~~~~ Build where part ~~~~~~~~~~~~~*/
+		/*
+		 * ~~~~~~~~~~~~~ Build where part ~~~~~~~~~~~~~
+		 */
 		
 		$wheres = array ();
 		
@@ -3560,15 +3451,12 @@ class Core_model extends Model {
 		
 		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $aTable );
 		
-		/*if ($searchKeyword) {
-
-			$fields = array_diff ( $this->dbGetTableFields ( $aTable ), array ('id', 'password' ) );
-
-			foreach ( $fields as $field ) {
-				$wheres [] = array ("{$field} LIKE '%$searchKeyword%'", "OR" );
-			}
-
-		} */
+		/*
+		 * if ($searchKeyword) { $fields = array_diff ( $this->dbGetTableFields
+		 * ( $aTable ), array ('id', 'password' ) ); foreach ( $fields as $field
+		 * ) { $wheres [] = array ("{$field} LIKE '%$searchKeyword%'", "OR" ); }
+		 * }
+		 */
 		
 		if ($get_params_from_url == true) {
 			
@@ -3584,7 +3472,8 @@ class Core_model extends Model {
 			
 			$kwq_wheres = array ();
 			
-			//$fields = array_diff ( $this->dbGetTableFields ( $aTable ), array ('id', 'password' ) );
+			// $fields = array_diff ( $this->dbGetTableFields ( $aTable ), array
+			// ('id', 'password' ) );
 			if (! empty ( $searchKeyword_in_those_fields )) {
 				$arr = $searchKeyword_in_those_fields;
 			} else {
@@ -3604,30 +3493,32 @@ class Core_model extends Model {
 			
 			$fields = $all_table_fields;
 			
-			//	exit;
-			//$fields = array_diff ($arr2,  array('content_title', "content_body", "content_url") );
+			// exit;
+			// $fields = array_diff ($arr2, array('content_title',
+			// "content_body", "content_url") );
 			$kwq = " and ID in ";
 			
 			$searchKeyword = $this->input->xss_clean ( $searchKeyword );
 			
-			//$searchKeyword = $this->db->escape ( $searchKeyword );
+			// $searchKeyword = $this->db->escape ( $searchKeyword );
 			
-
-			//p($fields);
+			// p($fields);
 			foreach ( $fields as $field ) {
 				
 				if (! empty ( $searchKeyword_in_those_fields )) {
 					
 					if (in_array ( $field, $searchKeyword_in_those_fields )) {
-						//	$kwq_wheres [] = " {$field} LIKE '%$searchKeyword%' OR";
-						//	$kwq_wheres [] = "MATCH (`{$field}`) AGAINST ('*$searchKeyword*' in boolean mode) OR ";
+						// $kwq_wheres [] = " {$field} LIKE '%$searchKeyword%'
+						// OR";
+						// $kwq_wheres [] = "MATCH (`{$field}`) AGAINST
+						// ('*$searchKeyword*' in boolean mode) OR ";
 						$kwq_wheres [] = " {$field} REGEXP '$searchKeyword' OR";
 					}
 				} else {
-					//$kwq_wheres [] = " {$field} LIKE '%$searchKeyword%' OR";
+					// $kwq_wheres [] = " {$field} LIKE '%$searchKeyword%' OR";
 					
-
-					//$kwq_wheres [] = "MATCH (`{$field}`) AGAINST ('*$searchKeyword*' in boolean mode) OR ";
+					// $kwq_wheres [] = "MATCH (`{$field}`) AGAINST
+					// ('*$searchKeyword*' in boolean mode) OR ";
 					$kwq_wheres [] = " {$field} REGEXP '$searchKeyword' OR";
 				
 				}
@@ -3646,7 +3537,7 @@ class Core_model extends Model {
 			
 			$q = " SELECT id from $aTable where $kwq_wheres  group by id   ";
 			
-			//var_dump ( $q );
+			// var_dump ( $q );
 			$q = $this->dbQuery ( $q );
 			
 			if (! empty ( $q )) {
@@ -3658,10 +3549,9 @@ class Core_model extends Model {
 				}
 			
 			}
+			
+			// $wheres [] = "\n {$q} ";
 		
-		//		$wheres [] = "\n {$q} ";
-		
-
 		}
 		$sql_relations_array = array ('=', '<>', '!=', '<', '>', '<=', '>=', 'in', 'not in' );
 		$sql_connections_array = array ('or', 'and', 'in' );
@@ -3707,7 +3597,7 @@ class Core_model extends Model {
 					}
 					
 					$only_custom_fieldd_ids = array ();
-					//	p($data ['custom_fields_criteria'],1);
+					// p($data ['custom_fields_criteria'],1);
 					foreach ( $aFilter ['custom_fields_criteria'] as $k => $v ) {
 						
 						if (is_array ( $v ) == false) {
@@ -3755,9 +3645,9 @@ class Core_model extends Model {
                     ";
 						
 						$q2 = $q;
-						//	p($q);
+						// p($q);
 						$q = CI::model ( 'core' )->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
-						//	p($q,1);
+						// p($q,1);
 						if (! empty ( $q )) {
 							
 							$ids_old = $ids;
@@ -3768,24 +3658,21 @@ class Core_model extends Model {
 								
 								$only_custom_fieldd_ids [] = $itm ['to_table_id'];
 								
-								//  if(in_array($itm ['to_table_id'],$category_ids)== false){
+								// if(in_array($itm
+								// ['to_table_id'],$category_ids)== false){
 								
-
 								$includeIds [] = $itm ['to_table_id'];
+								
+								// }
+								
+								//
 							
-		//  }
-							
-
-							//
-							
-
 							}
 						
 						} else {
 							
-							//  $ids = array();
+							// $ids = array();
 							
-
 							$remove_all_ids = true;
 							
 							$includeIds = false;
@@ -3804,20 +3691,17 @@ class Core_model extends Model {
 					
 					list ( $field, $value, $relation, $connection, $no_escape ) = $filter;
 					
-					/*	$filtertemp = $filter;
-
-
-					if ($field == false) {
-						//$field = $filter[0];
-					}*/
+					/*
+					 * $filtertemp = $filter; if ($field == false) { //$field =
+					 * $filter[0]; }
+					 */
 					
-					//while ( list ( $field, $value, $relation, $connection ) = each ( $filter ) ) {
+					// while ( list ( $field, $value, $relation, $connection ) =
+					// each ( $filter ) ) {
 					
-
 					switch ($field) {
 						//
 						
-
 						case 'voted' :
 							
 							if (($timestamp = strtotime ( $value )) !== false) {
@@ -3903,8 +3787,8 @@ class Core_model extends Model {
 									$qSelect .= "\n\t{$q}";
 									
 									$qHaving_a [] = ' commented > 0  ';
-								
-		//
+									
+									//
 								} else {
 									
 									$q = " and id IN (SELECT (to_table_id) from $table_comments where
@@ -3925,10 +3809,9 @@ class Core_model extends Model {
 						
 						default :
 							
-							//	p($all_table_fields);
-							//p($field);
+							// p($all_table_fields);
+							// p($field);
 							
-
 							if (in_array ( $field, $all_table_fields ) == true) 
 
 							{
@@ -3976,10 +3859,9 @@ class Core_model extends Model {
 							break;
 					
 					}
+					
+					// }
 				
-		//}
-				
-
 				}
 			
 			} elseif (is_string ( $aFilter )) {
@@ -3994,7 +3876,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//p ( $wheres );
+		// p ( $wheres );
 		if ($get_params_from_url == true) {
 			
 			foreach ( $all_table_fields as $f ) {
@@ -4065,21 +3947,19 @@ class Core_model extends Model {
 			
 			// remove last connection
 			$wheres_last = count ( $wheres );
-			//p($wheres_last);
-			//$wheres [$wheres_last] [1] = "";
+			// p($wheres_last);
+			// $wheres [$wheres_last] [1] = "";
 			
-
 			foreach ( $wheres as $where ) {
 				
 				if (is_array ( $where )) {
-					//p ( $where );
+					// p ( $where );
 					list ( $statement, $connection ) = $where;
 					
 					$qWhere .= "\n\t{$where[0]} {$where[1]}";
+					
+					// p ( $qWhere );
 				
-		//p ( $qWhere );
-				
-
 				}
 				
 				if (is_string ( $where )) {
@@ -4099,16 +3979,16 @@ class Core_model extends Model {
 				$qWhere = rtrim ( $qWhere, " {$item}" );
 			
 			}
+			
+			// p($qWhere);
+			
+			// $qWhere .= "\n\t id is not null ";
 		
-		//p($qWhere);
-		
-
-		//$qWhere .= "\n\t id is not null  ";
-		
-
 		}
 		
-		/*~~~~~~~~~~~~~ Build order part ~~~~~~~~~~~~~*/
+		/*
+		 * ~~~~~~~~~~~~~ Build order part ~~~~~~~~~~~~~
+		 */
 		
 		$qOrder = "";
 		
@@ -4158,8 +4038,8 @@ class Core_model extends Model {
 			$qOrder = rtrim ( $qOrder, ',' );
 			
 			if (! $getCount) {
-			
-		//$qOrder .= "\n\t{$orderby1 [0]} {$orderby1 [1]}";
+				
+				// $qOrder .= "\n\t{$orderby1 [0]} {$orderby1 [1]}";
 			} else {
 				
 				switch ($orderby1 [0]) {
@@ -4252,18 +4132,21 @@ class Core_model extends Model {
 		
 		}
 		
-		/*~~~~~~~~~~~~~ Build the whole query ~~~~~~~~~~~~~*/
+		/*
+		 * ~~~~~~~~~~~~~ Build the whole query ~~~~~~~~~~~~~
+		 */
 		
 		$qSelect .= "\nFROM\n\t{$aTable}";
 		
 		$query = $qSelect . "\n" . $qWhere . "\n" . $qHaving . "\n" . $qGroupBy . "\n" . $qOrder . "\n" . $qLimit . "\n" . $qOffset . "\n";
 		
-		/*~~~~~~~~~~~~~ Print query if debug mode is enabled ~~~~~~~~~~~~~*/
-		//	var_dump($includeIds);
-		//	var_dump($query);
-		//	exit();
+		/*
+		 * ~~~~~~~~~~~~~ Print query if debug mode is enabled ~~~~~~~~~~~~~
+		 */
+		// var_dump($includeIds);
+		// var_dump($query);
+		// exit();
 		
-
 		if ($debugQuery == true) {
 			
 			p ( '------------------------------------' );
@@ -4300,98 +4183,40 @@ class Core_model extends Model {
 		
 		}
 		
-		//		p($result);
+		// p($result);
 		
-
 		/*
-		// If result is small and all columns are fetched via query
-		if (! $onlyFields && ! $getCount && ! empty ( $result ) && (count ( $result ) < 0)) {
-
-			$masterTable = null;
-			if (! empty ( $cms_db_tables )) {
-				foreach ( $cms_db_tables as $k => $v ) {
-					if (strtolower ( $aTable ) == strtolower ( $v )) {
-						$masterTable = $k;
-					}
-				}
-			}
-
-			$table_custom_field = $cms_db_tables ['table_custom_fields'];
-			if (strval ( $masterTable ) != 'table_custom_fields') {
-
-				if (strval ( trim ( $masterTable ) ) != '') {
-
-					//~~~~~ Implementation for table content ~~~~~
-
-					if (strval ( $masterTable ) == 'table_content') {
-
-						$this_cache_id = __FUNCTION__ . 'custom_fields_stuff' . md5 ( serialize ( $result ) );
-						$this_cache_content = $this->cacheGetContentAndDecode ( $this_cache_id );
-						//						$this_cache_content = false;
-						if ($enableCache && ($this_cache_content) != false) {
-							$result = $this_cache_content;
-						} else {
-							$the_data_with_custom_field__stuff = array ();
-							foreach ( $result as $item ) {
-								if (strval ( $masterTable ) != '') {
-									if (intval ( $item ['id'] ) != 0) {
-										$q = "
-											SELECT *
-											FROM  {$table_custom_field}
-											WHERE
-					 							to_table = '$masterTable'
-					 						AND
-					 							to_table_id={$item['id']}
-					   					";
-										//										p($q);
-										$cache_id = __FUNCTION__ . 'custom_fields_stuff' . md5 ( $q );
-										$cache_id = md5 ( $cache_id );
-										$q = $this->dbQuery ( $q );
-										//										p($q);
-										if (! empty ( $q )) {
-											$append_this = array ();
-											foreach ( $q as $q2 ) {
-												$i = 0;
-												$the_name = false;
-												$the_val = false;
-												foreach ( $q2 as $cfk => $cfv ) {
-
-													if ($cfk == 'custom_field_name') {
-														$the_name = $cfv;
-													}
-													if ($cfk == 'custom_field_value') {
-														$the_val = $cfv;
-													}
-
-													$i ++;
-												}
-												if ($the_name != false and $the_val != false) {
-													$append_this [$the_name] = $the_val;
-
-												}
-											}
-											//											p($append_this);
-											$item ['custom_fields'] = $append_this;
-										}
-									}
-								}
-
-								$the_data_with_custom_field__stuff [] = $item;
-							}
-
-							$result = $the_data_with_custom_field__stuff;
-							//var_dump($result);
-							$this->cacheWriteAndEncode ( $result, $this_cache_id );
-						}
-
-					}
-				}
-			}
-
-		}
-
-		//		p($result);
-		*/
+		 * // If result is small and all columns are fetched via query if (!
+		 * $onlyFields && ! $getCount && ! empty ( $result ) && (count ( $result
+		 * ) < 0)) { $masterTable = null; if (! empty ( $cms_db_tables )) {
+		 * foreach ( $cms_db_tables as $k => $v ) { if (strtolower ( $aTable )
+		 * == strtolower ( $v )) { $masterTable = $k; } } } $table_custom_field
+		 * = $cms_db_tables ['table_custom_fields']; if (strval ( $masterTable )
+		 * != 'table_custom_fields') { if (strval ( trim ( $masterTable ) ) !=
+		 * '') { //~~~~~ Implementation for table content ~~~~~ if (strval (
+		 * $masterTable ) == 'table_content') { $this_cache_id = __FUNCTION__ .
+		 * 'custom_fields_stuff' . md5 ( serialize ( $result ) );
+		 * $this_cache_content = $this->cacheGetContentAndDecode (
+		 * $this_cache_id ); //						$this_cache_content = false; if
+		 * ($enableCache && ($this_cache_content) != false) { $result =
+		 * $this_cache_content; } else { $the_data_with_custom_field__stuff =
+		 * array (); foreach ( $result as $item ) { if (strval ( $masterTable )
+		 * != '') { if (intval ( $item ['id'] ) != 0) { $q = " SELECT * FROM
+		 * {$table_custom_field} WHERE to_table = '$masterTable' AND
+		 * to_table_id={$item['id']} "; //										p($q); $cache_id =
+		 * __FUNCTION__ . 'custom_fields_stuff' . md5 ( $q ); $cache_id = md5 (
+		 * $cache_id ); $q = $this->dbQuery ( $q ); //										p($q); if (!
+		 * empty ( $q )) { $append_this = array (); foreach ( $q as $q2 ) { $i =
+		 * 0; $the_name = false; $the_val = false; foreach ( $q2 as $cfk => $cfv
+		 * ) { if ($cfk == 'custom_field_name') { $the_name = $cfv; } if ($cfk
+		 * == 'custom_field_value') { $the_val = $cfv; } $i ++; } if ($the_name
+		 * != false and $the_val != false) { $append_this [$the_name] =
+		 * $the_val; } } //											p($append_this); $item ['custom_fields'] =
+		 * $append_this; } } } $the_data_with_custom_field__stuff [] = $item; }
+		 * $result = $the_data_with_custom_field__stuff; //var_dump($result);
+		 * $this->cacheWriteAndEncode ( $result, $this_cache_id ); } } } } }
+		 * //		p($result);
+		 */
 		
 		$result = $this->decodeLinksAndReplaceSiteUrl ( $result );
 		
@@ -4404,7 +4229,6 @@ class Core_model extends Model {
 		
 		// Some processment before return result
 		
-
 		$return = array ();
 		
 		if ($getCount) {
@@ -4435,7 +4259,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//		p($return, 1);
+		// p($return, 1);
 		return $return;
 	
 	}
@@ -4460,7 +4284,7 @@ class Core_model extends Model {
 			
 			if ($cacheData) {
 				
-				//var_dump($cacheData);
+				// var_dump($cacheData);
 				$cache = serialize ( $cacheData );
 				
 				$this->cacheDeleteFile ( $aCacheId, $aCacheGrpup );
@@ -4474,7 +4298,8 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc save data
+	 * save data
+	 *
 	 * @author Peter Ivanov
 	 */
 	
@@ -4495,9 +4320,10 @@ class Core_model extends Model {
 		}
 		
 		//
-		//	print $table;
-		//$criteria = CI::model('core')->mapArrayToDatabaseTable($table, $criteria);
-		//$this->db->start_cache();
+		// print $table;
+		// $criteria = CI::model('core')->mapArrayToDatabaseTable($table,
+		// $criteria);
+		// $this->db->start_cache();
 		if (! empty ( $criteria )) {
 			
 			$query = $this->db->get_where ( $table, $criteria, $limit, $offset );
@@ -4508,7 +4334,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//$this->db->stop_cache();
+		// $this->db->stop_cache();
 		$result = $query->result_array ();
 		
 		$query->free_result ();
@@ -4531,7 +4357,7 @@ class Core_model extends Model {
 				
 				$group_id_data = $group_id_data [0];
 				
-				//var_dump($group_id_data);
+				// var_dump($group_id_data);
 				if (! empty ( $group_id_data )) {
 					
 					$item ['group_id_data'] = $group_id_data;
@@ -4575,7 +4401,8 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc delete  data
+	 * delete data
+	 *
 	 * @author Peter Ivanov
 	 */
 	
@@ -4587,10 +4414,9 @@ class Core_model extends Model {
 		
 		global $cms_db_tables;
 		
-		//var_dump($data, $table);
-		//exit;
+		// var_dump($data, $table);
+		// exit;
 		
-
 		$criteria = $this->mapArrayToDatabaseTable ( $table, $data );
 		
 		$q = "DELETE FROM $table ";
@@ -4611,7 +4437,7 @@ class Core_model extends Model {
 		
 		}
 		
-		//var_dump($table,$data );
+		// var_dump($table,$data );
 		if ($where != false) {
 			
 			$q = $q . $where;
@@ -4622,10 +4448,9 @@ class Core_model extends Model {
 		
 		}
 		
-		//print $q;
-		//exit;
+		// print $q;
+		// exit;
 		
-
 		$stmt = CI::db ()->query ( $q );
 		
 		if ($delete_cache_group != false) {
@@ -4639,7 +4464,8 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc delete  data
+	 * delete data
+	 *
 	 * @author Peter Ivanov
 	 */
 	
@@ -4662,7 +4488,7 @@ class Core_model extends Model {
 			$table = $this->dbGetRealDbTableNameByAssocName ( $table );
 		}
 		
-		//var_dump( "DELETE FROM $table where id='$id' ");
+		// var_dump( "DELETE FROM $table where id='$id' ");
 		CI::db ()->query ( "DELETE FROM $table where id='$id' " );
 		
 		if ($delete_cache_group != false) {
@@ -4695,26 +4521,24 @@ class Core_model extends Model {
 		
 		$cache_id = trim ( $cache_id );
 		
-		//$_ENV['cache_storage'][$cache_id];
+		// $_ENV['cache_storage'][$cache_id];
 		
-
-		//$memory = $this->cache_storage [$cache_id];
-		//	p($mw_cache_storage);
+		// $memory = $this->cache_storage [$cache_id];
+		// p($mw_cache_storage);
 		
-
 		$memory = $mw_cache_storage ["$cache_id"];
 		
-		//var_dump ( $memory );
+		// var_dump ( $memory );
 		if ((($memory)) != false) {
 			
 			$this->cache_storage_hits [$cache_id] ++;
 			
-			//	print 'mem';
+			// print 'mem';
 			return ($memory);
 		
 		} else {
-		
-		//print 'nomem';
+			
+			// print 'nomem';
 		}
 		
 		$cache_group = $cache_group . '/';
@@ -4765,9 +4589,9 @@ class Core_model extends Model {
 			$this->cache_storage_hits [$cache_id] ++;
 		
 		} else {
-			//$this->cache_storage_not_found [$cache_file] ;
-			//print 'no cache file'.$cache_file;
-			//$this->cache_storage [$cache_id] = false;
+			// $this->cache_storage_not_found [$cache_file] ;
+			// print 'no cache file'.$cache_file;
+			// $this->cache_storage [$cache_id] = false;
 			$mw_cache_storage ["$cache_id"] = false;
 			
 			return false;
@@ -4776,22 +4600,20 @@ class Core_model extends Model {
 		
 		if (($cache) != '') {
 			
-			//print 'put in mem';
-			//	$this->cache_storage [$cache_id] = $cache;
+			// print 'put in mem';
+			// $this->cache_storage [$cache_id] = $cache;
 			$mw_cache_storage ["$cache_id"] = $cache;
 			
 			return $cache;
 		
 		} else {
 			
-			//clean
+			// clean
 			
-
 			$mw_cache_storage ["$cache_id"] = false;
 			
-			//$this->cache_storage [$cache_id] = false;
+			// $this->cache_storage [$cache_id] = false;
 			
-
 			return false;
 		
 		}
@@ -4818,9 +4640,8 @@ class Core_model extends Model {
 		
 		} else {
 			
-			//$cache = base64_decode ( $cache );
+			// $cache = base64_decode ( $cache );
 			
-
 			$cache = unserialize ( $cache );
 			
 			$this->cache_storage_decoded [$cache_id] = $cache;
@@ -4896,11 +4717,10 @@ class Core_model extends Model {
 			
 			$data_to_cache = serialize ( $data_to_cache );
 			
-			//var_dump($data_to_cache);
-			//$data_to_cache = base64_encode ( $data_to_cache );
-			//.$data_to_cache = ($data_to_cache);
+			// var_dump($data_to_cache);
+			// $data_to_cache = base64_encode ( $data_to_cache );
+			// .$data_to_cache = ($data_to_cache);
 			
-
 			$this->cacheWrite ( $data_to_cache, $cache_id, $cache_group );
 			
 			return true;
@@ -4925,15 +4745,12 @@ class Core_model extends Model {
 			// throw new Exception('Problem in foobar',0,$e);
 		}
 		
-		//if (is_file ( $cache_file ) == true) {
+		// if (is_file ( $cache_file ) == true) {
 		
-
-		//	@unlink ( $cache_file );
+		// @unlink ( $cache_file );
 		
-
-		//}
+		// }
 		
-
 		return true;
 	
 	}
@@ -4946,138 +4763,105 @@ class Core_model extends Model {
 	
 	function _getCacheDir($cache_group = 'global', $deleted_cache_dir = false) {
 		return cache_get_dir ( $cache_group, $deleted_cache_dir );
-		/*if (strval ( $cache_group ) != '') {
-			$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
-			
-			//we will seperate the dirs by 1000s
-			$cache_group_explode = explode ( DIRECTORY_SEPARATOR, $cache_group );
-			$cache_group_new = array ();
-			foreach ( $cache_group_explode as $item ) {
-				if (intval ( $item ) != 0) {
-					$item_temp = intval ( $item ) / 1000;
-					$item_temp = ceil ( $item_temp );
-					$item_temp = $item_temp . '000';
-					$cache_group_new [] = $item_temp;
-					$cache_group_new [] = $item;
-				
-				} else {
-					
-					$cache_group_new [] = $item;
-				}
-			
-			}
-			$cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
-			if ($deleted_cache_dir == false) {
-				$cacheDir = CACHEDIR . $cache_group;
-			} else {
-				$cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
-			}
-			if (! is_dir ( $cacheDir )) {
-				
-				mkdir_recursive ( $cacheDir );
-			
-			}
-			
-			return $cacheDir;
-		} else {
-			return $cache_group;
-		}*/
+		/*
+		 * if (strval ( $cache_group ) != '') { $cache_group = str_replace (
+		 * '/', DIRECTORY_SEPARATOR, $cache_group ); //we will seperate the dirs
+		 * by 1000s $cache_group_explode = explode ( DIRECTORY_SEPARATOR,
+		 * $cache_group ); $cache_group_new = array (); foreach (
+		 * $cache_group_explode as $item ) { if (intval ( $item ) != 0) {
+		 * $item_temp = intval ( $item ) / 1000; $item_temp = ceil ( $item_temp
+		 * ); $item_temp = $item_temp . '000'; $cache_group_new [] = $item_temp;
+		 * $cache_group_new [] = $item; } else { $cache_group_new [] = $item; }
+		 * } $cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
+		 * if ($deleted_cache_dir == false) { $cacheDir = CACHEDIR .
+		 * $cache_group; } else { $cacheDir = CACHEDIR . 'deleted' .
+		 * DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR .
+		 * $cache_group; } if (! is_dir ( $cacheDir )) { mkdir_recursive (
+		 * $cacheDir ); } return $cacheDir; } else { return $cache_group; }
+		 */
 	}
 	
 	public function cleanCacheGroup($cache_group = 'global') {
 		
 		return cache_clean_group ( $cache_group );
 		
-		//$startTime = slog_time ();
-		/*$cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' . CACHE_FILES_EXTENSION;
+		// $startTime = slog_time ();
+		/*
+		 * $cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' .
+		 * CACHE_FILES_EXTENSION; $cache_group = $cache_group .
+		 * DIRECTORY_SEPARATOR; $cache_group = reduce_double_slashes (
+		 * $cache_group ); if (substr ( $cache_group, - 1 ) ==
+		 * DIRECTORY_SEPARATOR) { $cache_group_noslash = substr ( $cache_group,
+		 * 0, - 1 ); } else { $cache_group_noslash = ($cache_group); }
+		 * $recycle_bin = CACHEDIR . 'deleted'. DIRECTORY_SEPARATOR; if (is_dir
+		 * ( $recycle_bin ) == false) { mkdir ( $recycle_bin ); }
+		 */
 		
-		$cache_group = $cache_group . DIRECTORY_SEPARATOR;
-		
-		$cache_group = reduce_double_slashes ( $cache_group );
-		
-		if (substr ( $cache_group, - 1 ) == DIRECTORY_SEPARATOR) {
-			
-			$cache_group_noslash = substr ( $cache_group, 0, - 1 );
-		
-		} else {
-			
-			$cache_group_noslash = ($cache_group);
-		
-		} 
-		
-		$recycle_bin = CACHEDIR . 'deleted'. DIRECTORY_SEPARATOR;
-		
-		if (is_dir ( $recycle_bin ) == false) {
-			
-			mkdir ( $recycle_bin );
-		
-		}*/
-		
-		//print 'delete cache:'  .$cache_group;
+		// print 'delete cache:' .$cache_group;
 		$dir = $this->_getCacheDir ( 'global' );
 		$dir_del = $this->_getCacheDir ( 'global', true );
-		//var_dump(CACHEDIR . $cache_group);
+		// var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			// dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
 			recursive_remove_directory ( $dir );
 		
 		}
 		
 		$dir = $this->_getCacheDir ( $cache_group );
 		$dir_del = $this->_getCacheDir ( $cache_group, true );
-		//var_dump(CACHEDIR . $cache_group);
+		// var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
-			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			// dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
 			recursive_remove_directory ( $dir );
 		}
 		
-	/*foreach ( glob ( $cleanPattern ) as $file ) {
-			@unlink ( $file );
-		}*/
-	//print elog_time ( $startTime );
-	//		recursive_remove_directory(CACHEDIR. $cache_group);
+		/*
+		 * foreach ( glob ( $cleanPattern ) as $file ) { @unlink ( $file ); }
+		 */
+		// print elog_time ( $startTime );
+		// recursive_remove_directory(CACHEDIR. $cache_group);
 	}
 	
 	/**
-	 * @desc delete  data
+	 * delete data
+	 *
 	 * @author Peter Ivanov
 	 */
 	
-	/*function deleteData($table, $data, $delete_cache_group = false) {
-	$criteria = CI::model('core')->mapArrayToDatabaseTable ( $table, $data );
-	$this->db->delete ( $table, ($criteria) );
-	$this->db->flush_cache ();
-
-	if ($delete_cache_group != false) {
-	$this->cacheDelete ( 'cache_group', $delete_cache_group );
-	}
-
-	return true;
-	}*/
-	
-	/**
-	 * @desc
-	 * @author Peter Ivanov
-
-	function groupsGet($data) {
-		$table = $table = TABLE_PREFIX . 'groups';
-		$criteria = CI::model('core')->mapArrayToDatabaseTable ( $table, $data );
-		$data = $this->getData ( $table, $criteria, $limit = false, $offset = false, $return_type = false, $orderby = false );
-		return $data;
-	}
+	/*
+	 * function deleteData($table, $data, $delete_cache_group = false) {
+	 * $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table, $data );
+	 * $this->db->delete ( $table, ($criteria) ); $this->db->flush_cache (); if
+	 * ($delete_cache_group != false) { $this->cacheDelete ( 'cache_group',
+	 * $delete_cache_group ); } return true; }
 	 */
 	
 	/**
-	 * @desc
+	 *
 	 * @author Peter Ivanov
-
-	function groupsSave($data) {
-		$table = $table = TABLE_PREFIX . 'groups';
-		$criteria = $this->input->xss_clean ( $data );
-		$criteria = CI::model('core')->mapArrayToDatabaseTable ( $table, $data );
-		$save = CI::model('core')->saveData ( $table, $criteria );
-		return $save;
-	}
+	 *        
+	 *         function groupsGet($data) {
+	 *         $table = $table = TABLE_PREFIX . 'groups';
+	 *         $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table,
+	 *         $data );
+	 *         $data = $this->getData ( $table, $criteria, $limit = false,
+	 *         $offset = false, $return_type = false, $orderby = false );
+	 *         return $data;
+	 *         }
+	 */
+	
+	/**
+	 *
+	 * @author Peter Ivanov
+	 *        
+	 *         function groupsSave($data) {
+	 *         $table = $table = TABLE_PREFIX . 'groups';
+	 *         $criteria = $this->input->xss_clean ( $data );
+	 *         $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table,
+	 *         $data );
+	 *         $save = CI::model('core')->saveData ( $table, $criteria );
+	 *         return $save;
+	 *         }
 	 */
 	
 	function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
@@ -5112,12 +4896,24 @@ class Core_model extends Model {
 		
 		if ($normal_replace == false) {
 			$iSet = 0; // Count how many times we increase the limit
-			while ( $iSet < 10 ) { // If the default limit is 100'000 characters the highest new limit will be 250'000 characters
-				$sNewText = preg_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText ); // Try to use PREG
+			while ( $iSet < 10 ) { // If the default limit is 100'000 characters
+			                       // the highest new limit will be 250'000
+			                       // characters
+				$sNewText = preg_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText ); // Try
+				                                                                                   // to
+				                                                                                   // use
+				                                                                                   // PREG
 				
-
-				if (preg_last_error () == PREG_BACKTRACK_LIMIT_ERROR) { // Only check on backtrack limit failure
-					ini_set ( 'pcre.backtrack_limit', ( int ) ini_get ( 'pcre.backtrack_limit' ) + 15000 ); // Get current limit and increase
+				if (preg_last_error () == PREG_BACKTRACK_LIMIT_ERROR) { // Only
+				                                                        // check on
+				                                                        // backtrack
+				                                                        // limit
+				                                                        // failure
+					ini_set ( 'pcre.backtrack_limit', ( int ) ini_get ( 'pcre.backtrack_limit' ) + 15000 ); // Get
+					                                                                                        // current
+					                                                                                        // limit
+					                                                                                        // and
+					                                                                                        // increase
 					$iSet ++; // Do not overkill the server
 				} else { // No fail
 					$sVeryLongText = $sNewText; // On failure $sNewText would be NULL
@@ -5127,10 +4923,10 @@ class Core_model extends Model {
 		
 		} else {
 			$sNewText = str_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText );
+			
+			// $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
+			// $sVeryLongText);
 		
-		//$sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement, $sVeryLongText);
-		
-
 		}
 		if ($test_for_long > 1000) {
 			
@@ -5171,15 +4967,17 @@ class Core_model extends Model {
 			$tag = implode ( '|', $tag );
 		}
 		
-		//If the user didn't specify if $tag is a self-closing tag we try to auto-detect it
-		//by checking against a list of known self-closing tags.
+		// If the user didn't specify if $tag is a self-closing tag we try to
+		// auto-detect it
+		// by checking against a list of known self-closing tags.
 		$selfclosing_tags = array ('area', 'base', 'basefont', 'br', 'hr', 'input', 'img', 'link', 'meta', 'col', 'param' );
 		if (is_null ( $selfclosing )) {
 			$selfclosing = in_array ( $tag, $selfclosing_tags );
 		}
 		
-		//The regexp is different for normal and self-closing tags because I can't figure out 
-		//how to make a sufficiently robust unified one.
+		// The regexp is different for normal and self-closing tags because I
+		// can't figure out
+		// how to make a sufficiently robust unified one.
 		if ($selfclosing) {
 			$tag_pattern = '@<(?P<tag>' . $tag . ')			# <tag
 			(?P<attributes>\s[^>]+)?		# attributes, if any
@@ -5204,21 +5002,21 @@ class Core_model extends Model {
 		)
 		@xsi';
 		
-		//Find all tags 
+		// Find all tags
 		if (! preg_match_all ( $tag_pattern, $html, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE )) {
-			//Return an empty array if we didn't find anything
+			// Return an empty array if we didn't find anything
 			return array ();
 		}
 		
 		$tags = array ();
 		foreach ( $matches as $match ) {
 			
-			//Parse tag attributes, if any
+			// Parse tag attributes, if any
 			$attributes = array ();
 			if (! empty ( $match ['attributes'] [0] )) {
 				
 				if (preg_match_all ( $attribute_pattern, $match ['attributes'] [0], $attribute_data, PREG_SET_ORDER )) {
-					//Turn the attribute data into a name->value array
+					// Turn the attribute data into a name->value array
 					foreach ( $attribute_data as $attr ) {
 						if (! empty ( $attr ['value_quoted'] )) {
 							$value = $attr ['value_quoted'];
@@ -5228,9 +5026,11 @@ class Core_model extends Model {
 							$value = '';
 						}
 						
-						//Passing the value through html_entity_decode is handy when you want
-						//to extract link URLs or something like that. You might want to remove
-						//or modify this call if it doesn't fit your situation.
+						// Passing the value through html_entity_decode is handy
+						// when you want
+						// to extract link URLs or something like that. You
+						// might want to remove
+						// or modify this call if it doesn't fit your situation.
 						$value = html_entity_decode ( $value, ENT_QUOTES, $charset );
 						
 						$attributes [$attr ['name']] = $value;
@@ -5239,8 +5039,11 @@ class Core_model extends Model {
 			
 			}
 			
-			$tag = array ('tag_name' => $match ['tag'] [0], 'match' => $match, 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', //empty for self-closing tags
-'attributes' => $attributes );
+			$tag = array ('tag_name' => $match ['tag'] [0], 'match' => $match, 'offset' => $match [0] [1], 'contents' => ! empty ( $match ['contents'] ) ? $match ['contents'] [0] : '', 			// empty
+			                                                                                                                                                                             // for
+			                                                                                                                                                                             // self-closing
+			                                                                                                                                                                             // tags
+			'attributes' => $attributes );
 			if ($return_the_entire_tag) {
 				$tag ['full_tag'] = $match [0] [0];
 			}
@@ -5252,33 +5055,23 @@ class Core_model extends Model {
 	}
 	
 	/**
-	 * @desc
+	 *
 	 * @author Peter Ivanov
 	 */
 	
-	/*function groupsCleanup($group_to_table) {
-	if (strval ( $group_to_table ) == '') {
-	return false;
-	}
-	$table = $table = TABLE_PREFIX . 'groups';
-	$group_to_table = $this->input->xss_clean ( $group_to_table );
-
-	$table2 = $table = TABLE_PREFIX . $group_to_table;
-	$q = "select group_id from $table2 where group_id is not null group by group_id";
-	$query = CI::db()->query ( $q );
-	$query = $query->result_array ();
-
-	$clean_q = false;
-	if (! empty ( $query )) {
-	foreach ( $query as $item ) {
-	$clean_q = $clean_q . " AND id!={$item['group_id']}  ";
-	}
-
-	$table = $table = TABLE_PREFIX . 'groups';
-	$q = "delete from $table where group_to_table='$group_to_table'  $clean_q";
-	$query = CI::db()->query ( $q );
-	}
-	}*/
+	/*
+	 * function groupsCleanup($group_to_table) { if (strval ( $group_to_table )
+	 * == '') { return false; } $table = $table = TABLE_PREFIX . 'groups';
+	 * $group_to_table = $this->input->xss_clean ( $group_to_table ); $table2 =
+	 * $table = TABLE_PREFIX . $group_to_table; $q = "select group_id from
+	 * $table2 where group_id is not null group by group_id"; $query =
+	 * CI::db()->query ( $q ); $query = $query->result_array (); $clean_q =
+	 * false; if (! empty ( $query )) { foreach ( $query as $item ) { $clean_q =
+	 * $clean_q . " AND id!={$item['group_id']} "; } $table = $table =
+	 * TABLE_PREFIX . 'groups'; $q = "delete from $table where
+	 * group_to_table='$group_to_table' $clean_q"; $query = CI::db()->query ( $q
+	 * ); } }
+	 */
 	
 	function cronjobRegister($params) {
 		
@@ -5338,23 +5131,11 @@ class Core_model extends Model {
 		
 		$table = $table = TABLE_PREFIX . 'cronjobs';
 		
-		/*		$q = "
-		SELECT *
-		FROM $table as t1
-		WHERE ( UNIX_TIMESTAMP(now() - INTERVAL t1.interval_minutes MINUTE)
-
-		>= UNIX_TIMESTAMP(last_run)
-
-
-		OR
-		last_run is null) $cg_q
-
-		ORDER BY RAND()
-		limit 1
-		;
-
-
-		";*/
+		/*
+		 * $q = " SELECT * FROM $table as t1 WHERE ( UNIX_TIMESTAMP(now() -
+		 * INTERVAL t1.interval_minutes MINUTE) >= UNIX_TIMESTAMP(last_run) OR
+		 * last_run is null) $cg_q ORDER BY RAND() limit 1 ; ";
+		 */
 		
 		if ($force == false) {
 			
@@ -5390,14 +5171,14 @@ $w
 
 		";
 		
-		//print $q;
+		// print $q;
 		$query = CI::db ()->query ( $q );
 		
 		$query = $query->result_array ();
 		
 		$job = $query [0];
 		
-		//lets find the date on the mysql server
+		// lets find the date on the mysql server
 		$q_date = " select now() as the_time  ";
 		
 		$q_date = CI::db ()->query ( $q_date );
@@ -5419,7 +5200,7 @@ $w
 			return $job;
 		
 		}
-	
+		
 		//
 	}
 	
@@ -5532,8 +5313,8 @@ $w
 			
 			if (mb_strtolower ( $segment ) == mb_strtolower ( $param . ':' )) {
 				
-				//if (stristr ( $segment, $param_name . ':' ) == true) {
-				//print $segment;
+				// if (stristr ( $segment, $param_name . ':' ) == true) {
+				// print $segment;
 				$params_list = explode ( ',', $segment );
 				
 				$params_list [$position - 1] = $param_value;
@@ -5566,19 +5347,17 @@ $w
 		
 		foreach ( $segs as $segment ) {
 			
-			//if ( ( $segment ) ==  ( $param . ':' )) {
-			//	if (stristr ( $segment, $param . ':' ) == true) {
+			// if ( ( $segment ) == ( $param . ':' )) {
+			// if (stristr ( $segment, $param . ':' ) == true) {
 			
-
 			$seg1 = explode ( ':', $segment );
 			
-			//	var_dump($seg1);
+			// var_dump($seg1);
 			
-
 			if (($seg1 [0]) == ($param)) {
 				
-				//$the_param = str_ireplace ( $param . ':', '', $segment );
-				//$params_list = explode ( ',', $the_param );
+				// $the_param = str_ireplace ( $param . ':', '', $segment );
+				// $params_list = explode ( ',', $the_param );
 				$params_list = explode ( ',', $segment );
 				
 				if (! empty ( $params_list )) {
@@ -5607,7 +5386,7 @@ $w
 	
 	function getParamFromURL($param, $param_sub_position = false, $skip_ajax = false) {
 		
-		//$segs = $this->uri->segment_array ();
+		// $segs = $this->uri->segment_array ();
 		if ($_POST) {
 			
 			if ($_POST ['search_by_keyword']) {
@@ -5637,19 +5416,18 @@ $w
 			
 			$seg1 = explode ( ':', $segment );
 			
-			//	var_dump($seg1);
+			// var_dump($seg1);
 			if (($seg1 [0]) == ($param)) {
 				
-				//if (stristr ( $segment, $param . ':' ) == true) {
+				// if (stristr ( $segment, $param . ':' ) == true) {
 				if ($param_sub_position == false) {
 					
 					$the_param = str_ireplace ( $param . ':', '', $segment );
 					
 					if ($param == 'custom_fields_criteria') {
 						
-						//$the_param1 = base64_decode ( $the_param );
+						// $the_param1 = base64_decode ( $the_param );
 						
-
 						$the_param1 = decode_var ( $the_param );
 						
 						return $the_param1;
@@ -5674,8 +5452,8 @@ $w
 					
 					}
 					
-					//$param_value = $params_list [$param_sub_position - 1];
-					//$param_value = $the_param;
+					// $param_value = $params_list [$param_sub_position - 1];
+					// $param_value = $the_param;
 					return $the_param;
 				
 				}
@@ -5694,15 +5472,16 @@ $w
 		
 		$media_url = reduce_double_slashes ( $media_url );
 		
-		//print $media_url;
+		// print $media_url;
 		return $media_url;
 	
 	}
 	
 	/**
-	 * @desc  Functiuon to get thumbnail for media ID
+	 * Functiuon to get thumbnail for media ID
+	 *
 	 * @return string
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 * @todo add thumbs support for videos
@@ -5721,7 +5500,7 @@ $w
 		
 		}
 		$args = func_get_args ();
-		//p($id);
+		// p($id);
 		foreach ( $args as $k => $v ) {
 			
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
@@ -5754,19 +5533,17 @@ $w
 		
 		}
 		
-		//	$this->load->library ( 'image_lib' );
+		// $this->load->library ( 'image_lib' );
 		
-
-		//	require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
+		// require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
 		require_once (LIBSPATH . "resize-class.php");
 		
 		global $cms_db_tables;
 		
 		$table = $cms_db_tables ['table_media'];
 		
-		//	p ( $id );
+		// p ( $id );
 		
-
 		if ($id != 'no_picture') {
 			
 			if (intval ( $id ) == 0) {
@@ -5778,7 +5555,7 @@ $w
 		}
 		$id_orig = $id;
 		if (is_array ( $id )) {
-			//p($id);
+			// p($id);
 			if (isset ( $id_orig ['no_picture'] )) {
 				
 				$id = 'no_picture';
@@ -5799,24 +5576,25 @@ $w
 			
 			$media_get = array ();
 			
-			//$media_get = $this->mediaGet ( $to_table = false, $to_table_id = false, $media_type = false, $order_direction = 'DESC', $no_cache = false, $id );
-			//	$media_get = $media_get ["pictures"];
+			// $media_get = $this->mediaGet ( $to_table = false, $to_table_id =
+			// false, $media_type = false, $order_direction = 'DESC', $no_cache
+			// = false, $id );
+			// $media_get = $media_get ["pictures"];
 			$media_get ['id'] = $id;
 			
-			//$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false );
+			// $media_get = $this->getDbData ( $table, $media_get, false, false,
+			// $orderby, $cache_group, $debug = false );
 			
-
 			//
 			$media_get1 = $this->mediaGetById ( $id );
 			$media_get [0] = $media_get1;
-			//var_dump ( $media_get );
+			// var_dump ( $media_get );
 			if (! empty ( $media_get )) {
 				
 				foreach ( $media_get as $item ) {
 					
-					//	p($item);
+					// p($item);
 					
-
 					switch ($item ['media_type']) {
 						
 						case 'picture' :
@@ -5906,21 +5684,20 @@ $w
 								$file_path = str_replace ( '\_\\', '', $file_path );
 								$file_path = normalize_path ( $file_path, false );
 								
-								//	p ( $new_filename );
-								//	p ( $file_path );
+								// p ( $new_filename );
+								// p ( $file_path );
 								$new_filename_url = pathToURL ( $new_filename );
 								$new_filename = normalize_path ( $new_filename, false );
 								
-								//	unlink($new_filename);
+								// unlink($new_filename);
 								if (is_file ( $new_filename ) == TRUE) {
 									
 									$src = $new_filename_url;
 								
 								} else {
 									
-									//touch($new_filename);
+									// touch($new_filename);
 									
-
 									$config = array ();
 									$config ['image_library'] = 'gd2';
 									
@@ -5941,56 +5718,53 @@ $w
 									
 									$src = $new_filename_url;
 									
-									//$this->image_lib->initialize ( $config );
+									// $this->image_lib->initialize ( $config );
 									
-
-									//	@mkdir_recursive ( $new_filename_dir );
+									// @mkdir_recursive ( $new_filename_dir );
 									
-
-									//CI::library ( 'image_lib' )->initialize ( $config );
-									//$this->load->library ( 'image_lib', $config );
-									//CI::library ( 'image_lib' )->resize ();
+									// CI::library ( 'image_lib' )->initialize (
+									// $config );
+									// $this->load->library ( 'image_lib',
+									// $config );
+									// CI::library ( 'image_lib' )->resize ();
 									
-
 									// *** 1) Initialise / load image
 									$resizeObj = new resize ( $file_path );
 									
-									// *** 2) Resize image (options: exact, portrait, landscape, auto, crop)
+									// *** 2) Resize image (options: exact,
+									// portrait, landscape, auto, crop)
 									$resizeObj->resizeImage ( $size, $size_height, auto );
 									
 									// *** 3) Save image
 									$resizeObj->saveImage ( $new_filename, 100 );
 									
-									//$this->image_lib->resize ();
+									// $this->image_lib->resize ();
 									
-
 									try {
-										//$thumb = PhpThumbFactory::create ( $file_path );
-									//var_dump($size, $size_height);
-									//$thumb->resize ( $size, $size_height );
-									//	p($new_filename);
-									//$thumb->save ( $new_filename );
+										// $thumb = PhpThumbFactory::create (
+										// $file_path );
+										// var_dump($size, $size_height);
+										// $thumb->resize ( $size, $size_height
+										// );
+										// p($new_filename);
+										// $thumb->save ( $new_filename );
 									
-
 									} catch ( Exception $e ) {
 										// handle error here however you'd like
-									//	var_dump($e);
-									//print 'cant open image file' . $file_path;
+										// var_dump($e);
+										// print 'cant open image file' .
+										// $file_path;
 									}
-								
-		// do your manipulations
-								
-
-								//if (! $this->image_lib->resize ()) {
-								
-
-								//	echo $this->image_lib->display_errors ();
-								
-
-								//}
-								
-
-								//	$this->image_lib->resize ();
+									
+									// do your manipulations
+									
+									// if (! $this->image_lib->resize ()) {
+									
+									// echo $this->image_lib->display_errors ();
+									
+									// }
+									
+									// $this->image_lib->resize ();
 								}
 							
 							} else {
@@ -6007,8 +5781,11 @@ $w
 							
 							$media_get_vid_thumbnail = array ();
 							
-							//$media_get = $this->mediaGet ( $to_table = false, $to_table_id = false, $media_type = false, $order_direction = 'DESC', $no_cache = false, $id );
-							//	$media_get = $media_get ["pictures"];
+							// $media_get = $this->mediaGet ( $to_table = false,
+							// $to_table_id = false, $media_type = false,
+							// $order_direction = 'DESC', $no_cache = false, $id
+							// );
+							// $media_get = $media_get ["pictures"];
 							$media_get_vid_thumbnail ['to_table_id'] = $item ['id'];
 							
 							$media_get_vid_thumbnail ['to_table'] = 'table_media';
@@ -6030,16 +5807,17 @@ $w
 								$media_get_vid_thumbnail [0] ['filename'] = $item ['filename'];
 							
 							}
-							//	p($file_path);
+							// p($file_path);
 							$file_path = normalize_path ( $file_path, false );
 							if (is_file ( $file_path ) == true) {
 								
 								//
-								//$test1 = str_ireplace ( $media_url, '', $file_path );
-								//	print 'test1 is'. $test1;
+								// $test1 = str_ireplace ( $media_url, '',
+								// $file_path );
+								// print 'test1 is'. $test1;
 								$origina_filename = $media_get_vid_thumbnail [0] ['filename'];
 								
-								//$test1
+								// $test1
 								$the_original_dir = MEDIAFILES . $test1;
 								
 								$the_original_dir = dirname ( $file_path );
@@ -6090,7 +5868,7 @@ $w
 								
 								$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
 								
-								//p($new_filename_url);
+								// p($new_filename_url);
 								$new_filename_url = pathToURL ( $new_filename );
 								
 								if (is_file ( $new_filename ) == TRUE) {
@@ -6136,20 +5914,20 @@ $w
 								$src = str_ireplace ( '%', '-', $src );
 								
 								$src = str_ireplace ( '%', '-', $src );
-							
-		//	$data = array ();
-							//	$data ['url'] = $this->mediaGetUrlDir () . 'pictures/original/' . $item ['filename'];
-							////	$data ['id'] = $item ['id'];
-							//	$data ['filename'] = $item ['filename'];
-							//	$media_get_to_return [] = $data;
+								
+								// $data = array ();
+								// $data ['url'] = $this->mediaGetUrlDir () .
+								// 'pictures/original/' . $item ['filename'];
+								// // $data ['id'] = $item ['id'];
+								// $data ['filename'] = $item ['filename'];
+								// $media_get_to_return [] = $data;
 							} else {
 								
-								//$ids_to_delete [] = $item ['id'];
+								// $ids_to_delete [] = $item ['id'];
 								
-
 								$src = ($media_url) . 'pictures/no_video.png';
 								
-								//return $src;
+								// return $src;
 								$test1 = str_ireplace ( $media_url, '', $src );
 							
 							}
@@ -6161,8 +5939,8 @@ $w
 							break;
 					
 					}
-				
-		//$media_get_to_return[] = $item;
+					
+					// $media_get_to_return[] = $item;
 				}
 			
 			} else {
@@ -6211,13 +5989,12 @@ $w
 				$the_original_dir = $the_original_dir . '/';
 				$the_original_dir = normalize_path ( $the_original_dir, true );
 				$the_original_dir = reduce_double_slashes ( $the_original_dir );
-				//p($the_original_dir);
+				// p($the_original_dir);
 				
-
 				$origina_filenamez = normalize_path ( MEDIAFILES . $test1, false );
 				
 				$origina_filename = str_ireplace ( $the_original_dir, '', $origina_filenamez );
-				//p($origina_filename);
+				// p($origina_filename);
 				$new_filename = $the_original_dir . $size . '_' . $size_height . '/' . $origina_filename;
 				
 				$new_filename = str_ireplace ( ' ', '-', $new_filename );
@@ -6279,20 +6056,19 @@ $w
 					
 					$src = $new_filename_url;
 					
-					//$this->image_lib->initialize ( $config );
+					// $this->image_lib->initialize ( $config );
 					
-
 					$resizeObj = new resize ( $config ['source_image'] );
 					
-					// *** 2) Resize image (options: exact, portrait, landscape, auto, crop)
+					// *** 2) Resize image (options: exact, portrait, landscape,
+					// auto, crop)
 					$resizeObj->resizeImage ( $config ['width'], $config ['height'], auto );
 					
 					// *** 3) Save image
 					$resizeObj->saveImage ( $new_filename, 100 );
+					
+					// $this->image_lib->resize ();
 				
-		// $this->image_lib->resize ();
-				
-
 				}
 			
 			}
@@ -6301,8 +6077,9 @@ $w
 		
 		if ($src != '') {
 			
-			//	
-			//$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group = 'global' );
+			//
+			// $this->cacheWriteAndEncode ( $src, $function_cache_id,
+			// $cache_group = 'global' );
 			$this->cacheWriteAndEncode ( $src, $function_cache_id, $cache_group );
 			
 			return $src;
@@ -6325,7 +6102,7 @@ $w
 		
 		}
 		
-		//	return false;
+		// return false;
 		$args = func_get_args ();
 		
 		foreach ( $args as $k => $v ) {
@@ -6467,10 +6244,9 @@ $w
 		
 		$media_table = $to_table;
 		
-		//	p ( $media_get );
-		//var_dump($media_get);
+		// p ( $media_get );
+		// var_dump($media_get);
 		
-
 		if ($orderby == false) {
 			
 			$orderby [0] = 'media_order';
@@ -6481,7 +6257,7 @@ $w
 		
 		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group = false, $debug = false, $ids = $ids, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		
-		//var_dump($media_get);
+		// var_dump($media_get);
 		$target_path = MEDIAFILES;
 		
 		$media_get_to_return = array ();
@@ -6591,13 +6367,12 @@ $w
 					break;
 			
 			}
-		
-		//$media_get_to_return[] = $item;
+			
+			// $media_get_to_return[] = $item;
 		}
 		
 		//
 		
-
 		if (! empty ( $ids_to_delete )) {
 			
 			foreach ( $ids_to_delete as $del ) {
@@ -6632,9 +6407,8 @@ $w
 		
 		if (! empty ( $media_get_to_return )) {
 			
-			//var_dump($media_get_to_return);
+			// var_dump($media_get_to_return);
 			
-
 			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group = 'global' );
 			
 			return $media_get_to_return;
@@ -6650,6 +6424,10 @@ $w
 	}
 	
 	function mediaGet($to_table, $to_table_id, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = false) {
+		if ($to_table != false) {
+			$to_table = $this->guessDbTable ( $to_table );
+		}
+		
 		if ($collection == false) {
 			if (trim ( $to_table ) == '') {
 				return false;
@@ -6667,7 +6445,7 @@ $w
 			$cache_group = 'media/global';
 		
 		}
-		//p($cache_group);
+		// p($cache_group);
 		if ($no_cache == true) {
 			
 			$cache_group = false;
@@ -6750,21 +6528,19 @@ $w
 			if ($to_table_id != false) {
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id='$to_table_id' $media_type_q  ";
-				//var_dump($q);
-				//$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+				// var_dump($q);
+				// $q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
+				// $cache_group );
 				
-
-				//$q = $q [0] ['qty'];
+				// $q = $q [0] ['qty'];
 				
-
 				if (intval ( $q ) == 0) {
+					
+					// $this->cacheWriteAndEncode ( 'false', $function_cache_id,
+					// $cache_group );
+					
+					// return false;
 				
-		//	$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
-				
-
-				//	return false;
-				
-
 				}
 			
 			}
@@ -6773,13 +6549,13 @@ $w
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and queue_id='$queue_id' $media_type_q  ";
 				
-				//$q = $this->dbQuery ( $q );
-				//$q = $q [0] ['qty'];
+				// $q = $this->dbQuery ( $q );
+				// $q = $q [0] ['qty'];
 				if (intval ( $q ) == 0) {
-					//	$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
-				//	return false;
+					// $this->cacheWriteAndEncode ( 'false', $function_cache_id,
+					// $cache_group );
+					// return false;
 				
-
 				}
 			
 			}
@@ -6800,18 +6576,17 @@ $w
 		
 		}
 		
-		//	var_dump ( $media_get );
+		// var_dump ( $media_get );
 		if ($no_cache == false) {
+			
+			// $cache_group = 'media/global';
 		
-		//$cache_group = 'media/global';
-		
-
 		} else {
 			
 			$cache_group = false;
 		
 		}
-		// $media_get['debug'] = 1; 
+		// $media_get['debug'] = 1;
 		//
 		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		$target_path = MEDIAFILES;
@@ -6835,7 +6610,7 @@ $w
 					
 					$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
 					$file_path = normalize_path ( $file_path, false );
-					//p ( $file_path );
+					// p ( $file_path );
 					if (is_file ( $file_path ) == true) {
 						
 						$data = array ();
@@ -6909,12 +6684,10 @@ $w
 					
 					$file_path = MEDIAFILES . 'files/' . $item ['filename'];
 					$file_path = normalize_path ( $file_path, false );
-					//var_dump($file_path);
+					// var_dump($file_path);
 					
-
-					//if (is_file ( $file_path ) == true) {
+					// if (is_file ( $file_path ) == true) {
 					
-
 					$data = array ();
 					
 					$data = $item;
@@ -6932,15 +6705,12 @@ $w
 					
 					$media_get_to_return_files [] = $data;
 					
-					//} else {
+					// } else {
 					
-
-					//	$ids_to_delete [] = $item ['id'];
+					// $ids_to_delete [] = $item ['id'];
 					
-
-					//} 
+					// }
 					
-
 					break;
 				
 				default :
@@ -6948,21 +6718,21 @@ $w
 					break;
 			
 			}
-		
-		//$media_get_to_return[] = $item;
+			
+			// $media_get_to_return[] = $item;
 		}
 		
 		//
 		
-
 		if (! empty ( $ids_to_delete )) {
 			
 			foreach ( $ids_to_delete as $del ) {
 				
-			/*$qd = " delete from  $table where id='$del'  ";
-				
-				$qd = $this->dbQ ( $qd );
-				$this->cleanCacheGroup ( 'media/' . $del );*/
+				/*
+				 * $qd = " delete from $table where id='$del' "; $qd =
+				 * $this->dbQ ( $qd ); $this->cleanCacheGroup ( 'media/' . $del
+				 * );
+				 */
 			
 			}
 			
@@ -6987,10 +6757,9 @@ $w
 			$media_get_to_return ['files'] = $media_get_to_return_files;
 		
 		}
-		//	 var_dump($media_get); 
-		//	var_dump ( $media_get_to_return );
+		// var_dump($media_get);
+		// var_dump ( $media_get_to_return );
 		
-
 		if (! empty ( $media_get_to_return )) {
 			
 			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group );
@@ -7030,13 +6799,17 @@ $w
 	}
 	
 	/**
-	 * @desc get and resize images from the Media tablee
-	 * @param $to_table the table assoc name
-	 * @param $to_table_id the desired table ID
-	 * @param $size   128 default (in pixels)
-	 * @param $order   ASC
+	 * get and resize images from the Media tablee
+	 *
+	 * @param $to_table the
+	 *       	 table assoc name
+	 * @param $to_table_id the
+	 *       	 desired table ID
+	 * @param $size 128
+	 *       	 default (in pixels)
+	 * @param $order ASC       	
 	 * @return array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -7124,7 +6897,9 @@ $w
 						
 						foreach ( $pictures_sizes as $pic_size ) {
 							
-							//	$data ['urls'] ["$pic_size"] = ($this->mediaGetUrlDir () . 'pictures/' . $pic_size . '/' . $item ['filename']);
+							// $data ['urls'] ["$pic_size"] =
+							// ($this->mediaGetUrlDir () . 'pictures/' .
+							// $pic_size . '/' . $item ['filename']);
 							$data ['urls'] ["$pic_size"] = $thumb = CI::model ( 'core' )->mediaGetThumbnailForMediaId ( $item ['id'] );
 						
 						}
@@ -7148,8 +6923,8 @@ $w
 					break;
 			
 			}
-		
-		//$media_get_to_return[] = $item;
+			
+			// $media_get_to_return[] = $item;
 		}
 		
 		if (! empty ( $ids_to_delete )) {
@@ -7196,8 +6971,9 @@ $w
 	}
 	
 	/**
-	 * @desc After upload quque accociation (used by the flash upload)
-	 * @author		Peter Ivanov
+	 * After upload quque accociation (used by the flash upload)
+	 *
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -7216,16 +6992,16 @@ $w
 		
 		$q = " UPDATE $table set to_table='$to_table', to_table_id= '$to_table_id', queue_id=NULL where queue_id='$queue_id'";
 		
-		//var_dump(	$q);
+		// var_dump( $q);
 		$this->dbQ ( $q );
 		
-		//$this->cacheDelete ( 'cache_group', 'media/global' );
+		// $this->cacheDelete ( 'cache_group', 'media/global' );
 		return true;
 	
 	}
 	
 	function upload_base64($base64, $filename) {
-		//p($base64);
+		// p($base64);
 		$target_path = MEDIAFILES;
 		
 		if (strval ( $filename ) != '') {
@@ -7273,11 +7049,11 @@ $w
 					$status ['height'] = $height;
 					$status ['url'] = dirToURL ( $the_target_path );
 					
-					//$status = json_encode ( $status );
+					// $status = json_encode ( $status );
 					return $status;
 					
-					//exit ();
-					//$uploaded [$k] = $fn1;
+					// exit ();
+					// $uploaded [$k] = $fn1;
 					$extension = substr ( strrchr ( $fn1, '.' ), 1 );
 					$extension_lower = strtolower ( $extension );
 					switch ($extension_lower) {
@@ -7310,6 +7086,17 @@ $w
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Only logged users can upload!' );
 		}
+		
+		if ($to_table == false) {
+			$to_table = 'users';
+			
+			if ($to_table_id == false) {
+				$to_table_id = $user_id;
+			
+			}
+		
+		}
+		
 		if ($to_table != false) {
 			$to_table = $this->guessDbTable ( $to_table );
 		}
@@ -7319,17 +7106,17 @@ $w
 		$uploaded = array ();
 		
 		if (empty ( $_FILES )) {
+			
+			// return false;
 		
-		//return false;
-		
-
 		}
 		
 		if (! empty ( $_FILES )) {
 			
 			foreach ( $_FILES as $k => $item ) {
 				
-				$target_path = MEDIAFILES . '/pictures/';
+				// $target_path = MEDIAFILES . '/pictures/';
+				$target_path = MEDIAFILES;
 				
 				$filename = basename ( $_FILES [$k] ['name'] );
 				
@@ -7342,159 +7129,193 @@ $w
 					if (is_dir ( $path ) == false) {
 						
 						@mkdir ( $path );
-					
-		//@chmod ( $path, '0777' );
+						
+						// @chmod ( $path, '0777' );
 					}
 					$original_path = normalize_path ( $original_path, false );
-					$the_target_path = $target_path . '/original/';
-					
+					// $the_target_path = $target_path . '/original/';
+					$the_target_path = $target_path;
 					$original_path = $the_target_path;
 					$original_path = normalize_path ( $original_path, true );
 					if (is_dir ( $the_target_path ) == false) {
 						
 						mkdir_recursive ( $the_target_path );
-					
-		//@chmod ( $the_target_path, '0777' );
+						
+						// @chmod ( $the_target_path, '0777' );
 					}
 					$the_target_path1 = $the_target_path;
 					$the_target_path = $the_target_path . $filename;
-					//					if (is_file ( $the_target_path ) == true) {
-					//						
-					//						$filename = date ( "ymdHis" ) . '_' . rand () . '_' . basename ( $_FILES [$k] ['name'] );
-					//						$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
-					//						$the_target_path = $original_path . $filename;
-					//					
-					//					} else {
-					//						$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
-					//						
-					//						$the_target_path = $the_target_path1 . $filename;
-					//					}
+					// if (is_file ( $the_target_path ) == true) {
+					//
+					// $filename = date ( "ymdHis" ) . '_' . rand () . '_' .
+					// basename ( $_FILES [$k] ['name'] );
+					// $filename = $this->url_title ( $filename, $separator =
+					// 'dash', $no_slashes = false, $leave_dots = true );
+					// $the_target_path = $original_path . $filename;
+					//
+					// } else {
+					// $filename = $this->url_title ( $filename, $separator =
+					// 'dash', $no_slashes = false, $leave_dots = true );
+					//
+					// $the_target_path = $the_target_path1 . $filename;
+					// }
 					$filename = date ( "ymdHis" ) . '_' . rand () . '_' . basename ( $_FILES [$k] ['name'] );
 					$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
 					$the_target_path = $original_path . $filename;
-					if (stristr ( $the_target_path, '.exe' ) or stristr ( $the_target_path, '.php' ) or stristr ( $the_target_path, '.htm' ) or stristr ( $the_target_path, '.js' ) or stristr ( $the_target_path, '.rb' ) or stristr ( $the_target_path, '.pl' ) or stristr ( $the_target_path, '.cgi' )) {
+					if (stristr ( $the_target_path, '.exe' ) or stristr ( $the_target_path, '.php' ) or stristr ( $the_target_path, '.htm' ) or stristr ( $the_target_path, '.js' ) or stristr ( $the_target_path, '.rb' ) or stristr ( $the_target_path, '.pl' ) or stristr ( $the_target_path, '.cgi' ) or stristr ( $the_target_path, '.vbs' ) or stristr ( $the_target_path, '.php3' )) {
 						exit ( 'This file type is not permited due security measures!' );
 					}
-					//p($_FILES);
+					// p($_FILES);
 					$the_target_path = normalize_path ( $the_target_path, false );
-					//touch($the_target_path);
-					//if (! move_uploaded_file ( $_FILES[$k] ['tmp_name'], $the_target_path  )) {
-					//echo "CANNOT MOVE {$_FILES["userfile"]["name"]}";
-					//}
-					if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $the_target_path )) {
+					
+					// touch($the_target_path);
+					// if (! move_uploaded_file ( $_FILES[$k] ['tmp_name'],
+					// $the_target_path )) {
+					// echo "CANNOT MOVE {$_FILES["userfile"]["name"]}";
+					// }
+					
+					$upl = array ();
+					
+					$fn1 = $filename;
+					// exit ();
+					$target_path_pictures_file = $fn1;
+					$upl ['filename'] = $fn1;
+					
+					$extension = substr ( strrchr ( $fn1, '.' ), 1 );
+					$extension_lower = strtolower ( $extension );
+					
+					// p ( $filename );
+					
+					// p ( $the_target_path );
+					
+					switch ($extension_lower) {
 						
-						if ($the_target_path == true) {
-							$upl = array ();
-							if (is_readable ( $the_target_path ) == true) {
+						case 'jpg' :
+						case 'jpeg' :
+						case 'gif' :
+						case 'png' :
+						case 'bmp' :
+							
+							{
 								
-								$fn1 = $filename;
-								//exit ();
-								$target_path_pictures_file = $fn1;
-								$upl ['filename'] = $fn1;
+								$target_path_pictures_folder = MEDIAFILES . 'pictures/original/';
+								$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder, true );
+								$target_path_pictures_folder = $target_path_pictures_folder . DIRECTORY_SEPARATOR;
+								if (is_dir ( $target_path_pictures_folder ) == false) {
+									mkdir_recursive ( $target_path_pictures_folder );
+								}
 								
-								$extension = substr ( strrchr ( $fn1, '.' ), 1 );
-								$extension_lower = strtolower ( $extension );
-								
-								//	p ( $filename );
-								
-
-								//p ( $the_target_path );
-								
-
-								switch ($extension_lower) {
-									
-									case 'jpg' :
-									case 'jpeg' :
-									case 'gif' :
-									case 'png' :
-									case 'bmp' :
-										
-										{
-											
-											$target_path_pictures_folder = MEDIAFILES . 'pictures/original/';
-											$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder, true );
-											$target_path_pictures_folder = $target_path_pictures_folder . DIRECTORY_SEPARATOR;
-											if (is_dir ( $target_path_pictures_folder ) == false) {
-												mkdir_recursive ( $target_path_pictures_folder );
-											}
-											
-											$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
-											if (is_file ( $target_path_pictures_new )) {
-												//$target_path_pictures_file = date ( "YMDHis" ) . '_' . $target_path_pictures_file;
-											//$upl ['filename'] = $target_path_pictures_file;
-											//$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
-											
-
-											}
-											//p($target_path_pictures_new);
-											
-
-											//	rename ( $the_target_path, $target_path_pictures_new );
-											
-
-											list ( $width, $height, $type, $attr ) = getimagesize ( $target_path_pictures_new );
-											
-											$status = array ();
-											$status ['done'] = 1;
-											$status ['width'] = $width;
-											$status ['height'] = $height;
-											$status ['url'] = dirToURL ( $target_path_pictures_new );
-											$statuses [] = $status;
-											//$status = json_encode ( $status );
-											if ($to_table == false) {
-												return $status;
-											}
-											$upl ['status'] = $status;
-											$upl ['type'] = 'picture';
-											break;
-										
-										}
-									
-									case 'flv' :
-									case 'avi' :
-									case 'mov' :
-									case 'f4v' :
-									case 'afs' :
-										
-										{
-											
-											$target_path_pictures_folder = MEDIAFILES . 'videos/';
-											$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
-											$target_path_pictures_file = basename ( $the_target_path );
-											$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
-											//p($target_path_pictures_new);
-											
-
-											//	rename ( $the_target_path, $target_path_pictures_new );
-											
-
-											$upl ['type'] = 'video';
-											break;
-										
-										}
-									default :
-										
-										$target_path_pictures_folder = MEDIAFILES . 'files/';
-										$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
-										$target_path_pictures_file = basename ( $the_target_path );
-										$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
-										//p($target_path_pictures_new);
-										
-
-										//	rename ( $the_target_path, $target_path_pictures_new );
-										
-
-										$upl ['type'] = 'file';
-										break;
+								$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
+								if (is_file ( $target_path_pictures_new )) {
 								
 								}
-								$uploaded [$k] = $upl;
+								
+								if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $target_path_pictures_new )) {
+									// p($target_path_pictures_new);
+									
+									// rename ( $the_target_path,
+									// $target_path_pictures_new );
+									
+									list ( $width, $height, $type, $attr ) = getimagesize ( $target_path_pictures_new );
+									
+									$status = array ();
+									$status ['done'] = 1;
+									$status ['width'] = $width;
+									$status ['height'] = $height;
+									$status ['filename'] = ($target_path_pictures_file);
+									
+									$status ['url'] = dirToURL ( $target_path_pictures_new );
+									$statuses [] = $status;
+									// $status = json_encode ( $status
+									// );
+									if ($to_table == false) {
+										return $status;
+									}
+									$upl ['status'] = $status;
+									$upl ['type'] = 'picture';
+								}
+								break;
 							
 							}
 						
-						}
+						case 'flv' :
+						case 'avi' :
+						case 'mov' :
+						case 'f4v' :
+						case 'afs' :
+							
+							{
+								
+								$target_path_pictures_folder = MEDIAFILES . 'videos/';
+								$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
+								
+								if (is_dir ( $target_path_pictures_folder ) == false) {
+									mkdir_recursive ( $target_path_pictures_folder );
+								}
+								
+								$target_path_pictures_file = basename ( $the_target_path );
+								$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
+								// p($target_path_pictures_new);
+								if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $target_path_pictures_new )) {
+									
+									// rename ( $the_target_path,
+									// $target_path_pictures_new );
+									$status = array ();
+									$status ['done'] = 1;
+									
+									$status ['filename'] = ($target_path_pictures_file);
+									
+									$status ['url'] = dirToURL ( $target_path_pictures_new );
+									$statuses [] = $status;
+									// $status = json_encode ( $status
+									// );
+									if ($to_table == false) {
+										return $status;
+									}
+									$upl ['status'] = $status;
+									
+									$upl ['type'] = 'video';
+								}
+								break;
+							
+							}
+						case 'doc' :
+						case 'docx' :
+						default :
+							
+							$target_path_pictures_folder = MEDIAFILES . 'files/';
+							$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
+							
+							if (is_dir ( $target_path_pictures_folder ) == false) {
+								mkdir ( $target_path_pictures_folder );
+							}
+							 
+							$target_path_pictures_file = basename ( $the_target_path );
+							$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
+							// p($target_path_pictures_new);
+							if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $target_path_pictures_new )) {
+								
+								// rename ( $the_target_path,
+								// $target_path_pictures_new );
+								$status = array ();
+								$status ['done'] = 1;
+								
+								$status ['filename'] = ($target_path_pictures_file);
+								
+								$status ['url'] = dirToURL ( $target_path_pictures_new );
+								$statuses [] = $status;
+								// $status = json_encode ( $status
+								// );
+								if ($to_table == false) {
+									return $status;
+								}
+								$upl ['status'] = $status;
+								$upl ['type'] = 'file';
+							}
+							break;
 					
 					}
+					$uploaded [$k] = $upl;
 				
 				}
 			
@@ -7506,9 +7327,15 @@ $w
 			return $status;
 		}
 		
-		//p ( $upl );
+		// p ( $upl );
 		
-
+		
+		if (trim ( $collection ) == '') {
+			$collection = $_POST ['collection'];
+			
+		}
+		
+		
 		if (trim ( $_POST ['embed_code'] ) != '') {
 			$embed_item = array ();
 			
@@ -7588,7 +7415,7 @@ $w
 						}
 					
 					}
-					//p ( $media_save );
+					// p ( $media_save );
 					$this->saveData ( $table, $media_save );
 				
 				}
@@ -7597,7 +7424,6 @@ $w
 			
 			//
 			
-
 			if (intval ( $to_table_id ) != 0) {
 				
 				$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
@@ -7622,11 +7448,15 @@ $w
 	}
 	
 	/**
-	 * @desc Generic functuion to upload Pictures from the $_FILES array, also saves the data into the DB
-	 * @param $to_table
-	 * @param $to_table_id
+	 * Generic functuion to upload Pictures from the $_FILES array, also saves
+	 * the data into the DB
+	 *
+	 * @param
+	 *       	 $to_table
+	 * @param
+	 *       	 $to_table_id
 	 * @return $uploaded files array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -7643,9 +7473,8 @@ $w
 		
 		}
 		
-		//$this->cleanCacheGroup ( 'media/global' );
+		// $this->cleanCacheGroup ( 'media/global' );
 		
-
 		if (! empty ( $_FILES )) {
 			
 			foreach ( $_FILES as $k => $item ) {
@@ -7663,8 +7492,8 @@ $w
 					if (is_dir ( $path ) == false) {
 						
 						@mkdir ( $path );
-					
-		//@chmod ( $path, '0777' );
+						
+						// @chmod ( $path, '0777' );
 					}
 					
 					$the_target_path = $target_path . 'pictures/original/';
@@ -7674,8 +7503,8 @@ $w
 					if (is_dir ( $the_target_path ) == false) {
 						
 						@mkdir ( $the_target_path );
-					
-		//@chmod ( $the_target_path, '0777' );
+						
+						// @chmod ( $the_target_path, '0777' );
 					}
 					
 					$the_target_path = $the_target_path . $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
@@ -7712,23 +7541,15 @@ $w
 					
 					$sizes = array ();
 					
-					//$sizes = $this->optionsGetByKeyAsArray ( 'media_image_sizes' );
-					/*$sizes [] = 16;
-					$sizes [] = 24;
-					$sizes [] = 32;
-					$sizes [] = 48;
-					$sizes [] = 64;
-					$sizes [] = 96;
-					$sizes [] = 128;
-					$sizes [] = 152;
-					$sizes [] = 198;
-					$sizes [] = 256;
-					$sizes [] = 320;
-					$sizes [] = 480;
-					$sizes [] = 640;
-					$sizes [] = 800;
-					$sizes [] = 1024;
-					$sizes [] = 1280;*/
+					// $sizes = $this->optionsGetByKeyAsArray (
+					// 'media_image_sizes' );
+					/*
+					 * $sizes [] = 16; $sizes [] = 24; $sizes [] = 32; $sizes []
+					 * = 48; $sizes [] = 64; $sizes [] = 96; $sizes [] = 128;
+					 * $sizes [] = 152; $sizes [] = 198; $sizes [] = 256; $sizes
+					 * [] = 320; $sizes [] = 480; $sizes [] = 640; $sizes [] =
+					 * 800; $sizes [] = 1024; $sizes [] = 1280;
+					 */
 					
 					foreach ( $uploaded as $item ) {
 						
@@ -7918,7 +7739,6 @@ $w
 			
 			//
 			
-
 			if (intval ( $to_table_id ) != 0) {
 				
 				$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
@@ -7930,24 +7750,28 @@ $w
 			}
 			$this->cleanCacheGroup ( 'media/global' );
 			return $uploaded;
-		
-		//exit ();
+			
+			// exit ();
 		} else {
 			
-			//exit ();
+			// exit ();
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+		// exit ();
 	}
 	
 	/**
-	 * @desc Generic functuion to upload Files from the $_FILES array, also saves the data into the DB
-	 * @param $to_table
-	 * @param $to_table_id
+	 * Generic functuion to upload Files from the $_FILES array, also saves the
+	 * data into the DB
+	 *
+	 * @param
+	 *       	 $to_table
+	 * @param
+	 *       	 $to_table_id
 	 * @return $uploaded files array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -7976,9 +7800,8 @@ $w
 					
 					$filetype = ($_FILES [$k] ['type']);
 					
-					//	p ( $_FILES );
+					// p ( $_FILES );
 					
-
 					if (stristr ( $filename, '.php' ) == false) {
 						
 						if (strval ( $filename ) != '') {
@@ -7990,8 +7813,8 @@ $w
 							if (is_dir ( $path ) == false) {
 								
 								@mkdir ( $path );
-							
-		//@chmod ( $path, '0777' );
+								
+								// @chmod ( $path, '0777' );
 							}
 							
 							$the_target_path = $target_path . 'files/';
@@ -8001,8 +7824,8 @@ $w
 							if (is_dir ( $the_target_path ) == false) {
 								
 								@mkdir ( $the_target_path );
-							
-		//@chmod ( $the_target_path, '0777' );
+								
+								// @chmod ( $the_target_path, '0777' );
 							}
 							
 							$filename = str_ireplace ( "&", 'and', $filename );
@@ -8040,10 +7863,11 @@ $w
 						}
 					
 					} else {
+						
+						// error_log ( 'Skipping file: ' . $filename . ',
+						// because its invalid file type: ' . $filetype . "\n\n"
+						// );
 					
-		//	error_log ( 'Skipping file: ' . $filename . ', because its invalid file type: ' . $filetype . "\n\n" );
-					
-
 					}
 				
 				}
@@ -8090,7 +7914,7 @@ $w
 					
 					}
 					
-					//var_dump($media_save);
+					// var_dump($media_save);
 					$this->saveData ( $table, $media_save );
 				
 				}
@@ -8107,24 +7931,28 @@ $w
 			}
 			
 			return $uploaded;
-		
-		//exit ();
+			
+			// exit ();
 		} else {
 			
-			//exit ();
+			// exit ();
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+		// exit ();
 	}
 	
 	/**
-	 * @desc Generic functuion to upload Videos from the $_FILES array, also saves the data into the DB
-	 * @param $to_table
-	 * @param $to_table_id
+	 * Generic functuion to upload Videos from the $_FILES array, also saves the
+	 * data into the DB
+	 *
+	 * @param
+	 *       	 $to_table
+	 * @param
+	 *       	 $to_table_id
 	 * @return $uploaded files array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -8153,9 +7981,8 @@ $w
 					
 					$filetype = ($_FILES [$k] ['type']);
 					
-					//p ( $_FILES );
+					// p ( $_FILES );
 					
-
 					if (($filetype == 'video/x-flv') or ($filetype == 'video/x-f4v') or ($filetype == 'video/mp4')) {
 						
 						if (strval ( $filename ) != '') {
@@ -8167,8 +7994,8 @@ $w
 							if (is_dir ( $path ) == false) {
 								
 								@mkdir ( $path );
-							
-		//@chmod ( $path, '0777' );
+								
+								// @chmod ( $path, '0777' );
 							}
 							
 							$the_target_path = $target_path . 'videos/';
@@ -8178,8 +8005,8 @@ $w
 							if (is_dir ( $the_target_path ) == false) {
 								
 								@mkdir ( $the_target_path );
-							
-		//@chmod ( $the_target_path, '0777' );
+								
+								// @chmod ( $the_target_path, '0777' );
 							}
 							
 							$the_target_path = $the_target_path . $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
@@ -8258,7 +8085,7 @@ $w
 					
 					}
 					
-					//var_dump($media_save);
+					// var_dump($media_save);
 					$this->saveData ( $table, $media_save );
 				
 				}
@@ -8275,16 +8102,16 @@ $w
 			}
 			
 			return $uploaded;
-		
-		//exit ();
+			
+			// exit ();
 		} else {
 			
-			//exit ();
+			// exit ();
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+		// exit ();
 	}
 	
 	function mediaUploadByUrl($url, $to_table, $to_table_id, $queue_id = false, $resize_options = false) {
@@ -8372,11 +8199,15 @@ $w
 	}
 	
 	/**
-	 * @desc Generic functuion to upload media from the $_FILES array, also saves the data into the DB
-	 * @param $to_table
-	 * @param $to_table_id
+	 * Generic functuion to upload media from the $_FILES array, also saves the
+	 * data into the DB
+	 *
+	 * @param
+	 *       	 $to_table
+	 * @param
+	 *       	 $to_table_id
 	 * @return $uploaded files array
-	 * @author		Peter Ivanov
+	 * @author Peter Ivanov
 	 * @version 1.0
 	 * @since Version 1.0
 	 */
@@ -8398,7 +8229,8 @@ $w
 			
 			$params ['session_id'] = $this->input->post ( "PHPSESSID" );
 			
-			//load the session library the new way, by passing it the session id
+			// load the session library the new way, by passing it the session
+			// id
 			//
 			$this->load->library ( 'session', $params );
 			
@@ -8423,8 +8255,8 @@ $w
 						if (is_dir ( $path ) == false) {
 							
 							@mkdir ( $path );
-						
-		//@chmod ( $path, '0777' );
+							
+							// @chmod ( $path, '0777' );
 						}
 						
 						$the_target_path = $target_path . 'pictures/original/';
@@ -8434,8 +8266,8 @@ $w
 						if (is_dir ( $the_target_path ) == false) {
 							
 							@mkdir ( $the_target_path );
-						
-		//@chmod ( $the_target_path, '0777' );
+							
+							// @chmod ( $the_target_path, '0777' );
 						}
 						
 						$the_target_path = $the_target_path . $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
@@ -8467,9 +8299,8 @@ $w
 											
 											$sizex = $img_info ['sizex'];
 											
-											//var_dump($sizex);
+											// var_dump($sizex);
 											
-
 											if ((intval ( $resize_options ['width'] ) < intval ( $sizex )) and (intval ( $resize_options ['width'] ) > 1)) {
 												
 												$objImage->resize ( intval ( $resize_options ['width'] ) );
@@ -8698,16 +8529,15 @@ $w
 			return false;
 		
 		}
-	
-		//	exit ();
+		
+		// exit ();
 	}
 	
-	/*function cacheDelete($what, $value) {
-	$table = TABLE_PREFIX . 'cache';
-	$q = " delete from $table where $what='$value'  ";
-	$q = CI::db()->query ( $q );
-
-	}*/
+	/*
+	 * function cacheDelete($what, $value) { $table = TABLE_PREFIX . 'cache'; $q
+	 * = " delete from $table where $what='$value' "; $q = CI::db()->query ( $q
+	 * ); }
+	 */
 	
 	function mediaFixOrder($to_table, $to_table_id, $media_type = 'picture') {
 		
@@ -8815,7 +8645,7 @@ $w
 			
 			}
 			$this->cleanCacheGroup ( 'media/global' );
-			//$this->cleanCacheGroup ( 'media/global');
+			// $this->cleanCacheGroup ( 'media/global');
 			$this->mediaFixOrder ( $to_table, $to_table_id, $media_type );
 		
 		}
@@ -8830,7 +8660,7 @@ $w
 		
 		$table = $cms_db_tables ['table_media'];
 		
-		//$this->cacheDelete ( 'cache_group', 'media/global' );
+		// $this->cacheDelete ( 'cache_group', 'media/global' );
 		$save = $this->saveData ( $table, $data );
 		
 		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
@@ -8959,7 +8789,7 @@ $w
 			
 			$filename = $q ['filename'];
 			
-			//deltete
+			// deltete
 			$this->deleteDataById ( $table, $id );
 			$this->cleanCacheGroup ( 'media/' . $id );
 			$this->cleanCacheGroup ( 'media/global' );
@@ -9029,7 +8859,7 @@ $w
 		
 		$table = $cms_db_tables ['table_cache'];
 		
-		//$table = TABLE_PREFIX . 'cache';
+		// $table = TABLE_PREFIX . 'cache';
 		$q = " select count(*) as qty from $table  ";
 		
 		$q = CI::db ()->query ( $q );
@@ -9050,7 +8880,7 @@ $w
 		
 		}
 		
-		//print CACHEDIR;
+		// print CACHEDIR;
 		$s = $this->filesystem_getDirectorySize ( CACHEDIR );
 		
 		$s = $this->filesystem_sizeFormat ( $s ['size'] );
@@ -9081,9 +8911,8 @@ $w
 		
 		}
 		
-		//$this->cacheDeleteFile ( $cache_id, $cache_group );
+		// $this->cacheDeleteFile ( $cache_id, $cache_group );
 		
-
 		$this->cacheWriteContent ( $cache_id, $data_to_cache, $cache_group );
 		
 		return $data_to_cache;
@@ -9092,7 +8921,6 @@ $w
 	
 	// Data_length
 	
-
 	function helpers_treeRead($tree, $BUFFER = array()) {
 		
 		foreach ( $tree as $k => $v ) {
@@ -9123,14 +8951,14 @@ $w
 	
 	function urlConstruct($base_url = false, $params = array()) {
 		
-		//getCurentURL()
+		// getCurentURL()
 		if ($base_url == false) {
 			
 			$base_url = getCurentURL ();
 		
 		}
 		
-		//	print $base_url;
+		// print $base_url;
 		if (empty ( $params )) {
 			
 			return $base_url;
@@ -9143,9 +8971,8 @@ $w
 		
 		$the_url = explode ( '/', $the_url );
 		
-		//var_dump ( $the_url );
+		// var_dump ( $the_url );
 		
-
 		if ($params ['curent_page'] == false) {
 			
 			$params ['curent_page'] = 'inherit';
@@ -9237,11 +9064,15 @@ $w
 		
 		}
 		
-		/*** get the url parts ***/
+		/**
+		 * * get the url parts **
+		 */
 		
 		$parts = parse_url ( $url );
 		
-		/*** return the host domain ***/
+		/**
+		 * * return the host domain **
+		 */
 		
 		return $parts ['scheme'] . '://' . $parts ['host'];
 	
@@ -9266,7 +9097,7 @@ $w
 	
 	function is_admin() {
 		if (defined ( 'USER_IS_ADMIN' )) {
-			//print USER_ID;
+			// print USER_ID;
 			return USER_IS_ADMIN;
 		} else {
 			$usr = $this->userId ();
@@ -9322,16 +9153,14 @@ $w
 		
 		foreach ( $trans as $key => $val ) {
 			
-			//print $str . '______________________';
+			// print $str . '______________________';
 			
-
 			$str = preg_replace ( "#" . $key . "#i", $val, $str );
 		
 		}
 		
-		//exit;
+		// exit;
 		
-
 		$str = str_ireplace ( ',', '-', $str );
 		
 		$str = str_ireplace ( ':', '-', $str );
@@ -9445,7 +9274,6 @@ $w
 		
 		$header [] = "Pragma: "; // browsers keep this blank.
 		
-
 		$userAgents = array ('FireFox3' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.9) Gecko/2008052906 Firefox/3.0', 'GoogleBot' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)', 'IE7' => 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)', 'Netscape' => 'Mozilla/4.8 [en] (Windows NT 6.0; U)', 'Opera' => 'Opera/9.25 (Windows NT 6.0; U; en)' );
 		
 		shuffle ( $userAgents );
@@ -9458,16 +9286,17 @@ $w
 			
 			curl_setopt ( $curl, CURLOPT_URL, $requestUrl );
 			
-			//curl_setopt ( $curl, CURLOPT_USERAGENT, 'Googlebot/2.1 (+http://www.google.com/bot.html)' );
+			// curl_setopt ( $curl, CURLOPT_USERAGENT, 'Googlebot/2.1
+			// (+http://www.google.com/bot.html)' );
 			curl_setopt ( $curl, CURLOPT_USERAGENT, $userAgents );
 			
 			curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
 			
 			curl_setopt ( $curl, CURLOPT_COOKIE, session_name () . '=' . session_id () );
 			
-			//curl_setopt ( $curl, CURLOPT_REFERER, 'http://www.google.com' );
-			//curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
-			//curl_setopt ( $curl, CURLOPT_AUTOREFERER, true );
+			// curl_setopt ( $curl, CURLOPT_REFERER, 'http://www.google.com' );
+			// curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
+			// curl_setopt ( $curl, CURLOPT_AUTOREFERER, true );
 			curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
 			curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
@@ -9475,7 +9304,7 @@ $w
 			curl_setopt ( $curl, CURLOPT_TIMEOUT, $timeout );
 			
 			$pageContent = trim ( curl_exec ( $curl ) );
-			//p($pageContent);
+			// p($pageContent);
 			curl_close ( $curl );
 			
 			if ($cache == true) {
@@ -9495,9 +9324,8 @@ $w
 	
 	function url_getPageToFile($url, $newfilename) {
 		
-		//@unlink ( $newfilename );
+		// @unlink ( $newfilename );
 		
-
 		if ($newfilename == '') {
 			
 			return false;
@@ -9520,9 +9348,9 @@ $w
 		if (is_dir ( $filename ) == false) {
 			
 			if (! $handle = @fopen ( $filename, 'w+b' )) {
-			
-		//echo "Cannot open file ($filename)";
-			//exit ();
+				
+				// echo "Cannot open file ($filename)";
+				// exit ();
 			}
 		
 		} else {
@@ -9530,7 +9358,7 @@ $w
 			return false;
 		
 		}
-		//p($url);
+		// p($url);
 		$somecontent = $this->url_getPage ( $url );
 		
 		if ($somecontent == false) {
@@ -9548,13 +9376,13 @@ $w
 		// Write $somecontent to our opened file.
 		if (fwrite ( $handle, $somecontent ) === FALSE) {
 			
-			//echo "Cannot write to file ($filename)";
+			// echo "Cannot write to file ($filename)";
 			return false;
-		
-		//exit;
+			
+			// exit;
 		} else {
-		
-		//print "saved: $newfilename";
+			
+			// print "saved: $newfilename";
 		}
 		
 		fclose ( $handle );
@@ -9569,20 +9397,20 @@ $w
 		
 		if (! $file) {
 			
-			//echo "<p>Unable to open remote file.\n";
-			//exit ();
+			// echo "<p>Unable to open remote file.\n";
+			// exit ();
 			return FALSE;
 		
 		}
 		
-		//while ( ! feof ( $file ) ) {
-		//	$line = fgets ( $file, 1024 );
-		//	/* This only works if the title and its tags are on one line */
-		//	if (eregi ( "<title>(.*)</title>", $line, $out )) {
-		//		$title = $out [1];
-		//		break;
-		//	}
-		//}
+		// while ( ! feof ( $file ) ) {
+		// $line = fgets ( $file, 1024 );
+		// /* This only works if the title and its tags are on one line */
+		// if (eregi ( "<title>(.*)</title>", $line, $out )) {
+		// $title = $out [1];
+		// break;
+		// }
+		// }
 		fclose ( $file );
 		
 		return true;
@@ -9681,7 +9509,7 @@ $w
 		if (is_file ( APPPATH . 'options' . '/' . trim ( $key ) . '.php' )) {
 			include (APPPATH . 'options' . '/' . trim ( $key ) . '.php');
 			if (! empty ( $option )) {
-				//$this->optionsSave ( $option );
+				// $this->optionsSave ( $option );
 			}
 		}
 	
@@ -9694,7 +9522,7 @@ $w
 		$table = $cms_db_tables ['table_options'];
 		
 		$this->cleanCacheGroup ( 'options' );
-		//$data ['debug'] = 1;
+		// $data ['debug'] = 1;
 		$save = $this->saveData ( $table, $data );
 		
 		return true;
@@ -9709,7 +9537,7 @@ $w
 		
 		$this->cleanCacheGroup ( 'options' );
 		
-		//$save = $this->saveData ( $table, $data );
+		// $save = $this->saveData ( $table, $data );
 		$q = "delete from $table where id='$id' ";
 		
 		$this->cleanCacheGroup ( 'options' );
@@ -9730,7 +9558,7 @@ $w
 		if ($option_group != false) {
 			$option_group_q1 = "and option_group='{$option_group}'";
 		}
-		//$save = $this->saveData ( $table, $data );
+		// $save = $this->saveData ( $table, $data );
 		$q = "delete from $table where option_key='$key' $option_group_q1 ";
 		
 		$this->dbQ ( $q );
@@ -9830,7 +9658,7 @@ $w
 			if ($option_group != false) {
 				$data ['option_group'] = $option_group;
 			}
-			 
+			
 			$get = $this->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
 			
 			if (! empty ( $get )) {
@@ -10153,12 +9981,12 @@ $w
 			$options_array_from_config [] = $options_array_from_config_new_option;
 			
 			foreach ( $options_array_from_config as $option ) {
-				//p ( $option );
+				// p ( $option );
 				$get_option = array ();
 				$get_option ['option_key'] = $option ['param'];
 				
 				$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $option ['param'], true );
-				//	p($get_option1);
+				// p($get_option1);
 				if (empty ( $get_option1 )) {
 					$get_option ['name'] = $option ['name'];
 					$get_option ['group'] = $option ['group'];
@@ -10171,10 +9999,9 @@ $w
 					$get_option ['option_value2'] = $option ['values'];
 					
 					$save = CI::model ( 'core' )->optionsSave ( $get_option );
+					
+					// p ( $save );
 				
-		//p ( $save );
-				
-
 				}
 			
 			}
@@ -10206,16 +10033,17 @@ $w
 	
 	function plugins_getPluginConfig($dirname) {
 		
-		//print PLUGINS_DIRNAME . $dirname . '/info.php';
+		// print PLUGINS_DIRNAME . $dirname . '/info.php';
 		if (is_dir ( PLUGINS_DIRNAME . $dirname )) {
 			
 			if (is_file ( PLUGINS_DIRNAME . $dirname . '/' . $dirname . '_model.php' )) {
 				
-				//include (PLUGINS_DIRNAME . $dirname . '/info.php');
+				// include (PLUGINS_DIRNAME . $dirname . '/info.php');
 				if (is_file ( PLUGINS_DIRNAME . $dirname . '/info.php' )) {
 					
-					//print PLUGINS_DIRNAME . $dirname . '/info.php';
-					//$configuration = $this->load->file ( PLUGINS_DIRNAME . $dirname . '/info.php', true );
+					// print PLUGINS_DIRNAME . $dirname . '/info.php';
+					// $configuration = $this->load->file ( PLUGINS_DIRNAME .
+					// $dirname . '/info.php', true );
 					include (PLUGINS_DIRNAME . $dirname . '/info.php');
 					
 					return $configuration;
@@ -10272,6 +10100,7 @@ $w
 	
 	/**
 	 * Get user id
+	 *
 	 * @return id
 	 *
 	 */
@@ -10301,10 +10130,9 @@ $w
 				return false;
 			
 			}
+			
+			// return false;
 		
-		//return false;
-		
-
 		}
 		
 		$this->user_id = $id;
@@ -10355,28 +10183,20 @@ $w
 		
 		return $plaintext;
 		
-		/*$the_pass = $this->optionsGetByKey ( 'ecnryption_hash', true );
-
-		$do_the_pass_needs_change = strtotime ( $the_pass ['updated_on'] );
-		$yesterday = strtotime ( date ( "Y-m-d H:i:s", time () - 86400 ) );
-
-		$the_pass = $the_pass ['option_value'];
-
-		if ($yesterday > $do_the_pass_needs_change) {
-			$the_pass = false;
-			$this->optionsDeleteByKey ( 'ecnryption_hash' );
-		}
-
-		if (($the_pass) == false) {
-			$the_pass = rand () . rand ();
-			$new_key = array ();
-			$new_key ['option_key'] = 'ecnryption_hash';
-			$new_key ['option_value'] = $the_pass;
-			$new_key ['option_group'] = 'security';
-			$this->optionsSave ( $new_key );
-		}*/
+		/*
+		 * $the_pass = $this->optionsGetByKey ( 'ecnryption_hash', true );
+		 * $do_the_pass_needs_change = strtotime ( $the_pass ['updated_on'] );
+		 * $yesterday = strtotime ( date ( "Y-m-d H:i:s", time () - 86400 ) );
+		 * $the_pass = $the_pass ['option_value']; if ($yesterday >
+		 * $do_the_pass_needs_change) { $the_pass = false;
+		 * $this->optionsDeleteByKey ( 'ecnryption_hash' ); } if (($the_pass) ==
+		 * false) { $the_pass = rand () . rand (); $new_key = array (); $new_key
+		 * ['option_key'] = 'ecnryption_hash'; $new_key ['option_value'] =
+		 * $the_pass; $new_key ['option_group'] = 'security'; $this->optionsSave
+		 * ( $new_key ); }
+		 */
 		
-		//$the_pass = intval ( $the_pass );
+		// $the_pass = intval ( $the_pass );
 		$string = $plaintext;
 		
 		require_once 'crypt/class.hash_crypt.php';
@@ -10401,12 +10221,12 @@ $w
 		
 		$the_pass = $this->optionsGetByKey ( 'ecnryption_hash' );
 		
-		//$the_pass = intval ( $the_pass );
+		// $the_pass = intval ( $the_pass );
 		require_once 'crypt/class.hash_crypt.php';
 		
 		$the_pass = CI::library ( 'session' )->userdata ( 'session_id' );
 		
-		//$the_pass = $this->optionsGetByKey ( 'ecnryption_hash' );
+		// $the_pass = $this->optionsGetByKey ( 'ecnryption_hash' );
 		$crypt = new hash_encryption ( $the_pass );
 		
 		$encrypted = $crypt->decrypt ( $plaintext );
@@ -10441,9 +10261,9 @@ $w
 		
 		$q = "select * from $table $where group by name";
 		
-		//	 var_dump($q);
+		// var_dump($q);
 		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'geo' );
-		//var_dump($q);
+		// var_dump($q);
 		return $q;
 	
 	}
@@ -10513,8 +10333,11 @@ $w
 	}
 	
 	/**
-	 * Tnis method is not fully tested as it is developed only for activation email
-	 * @param $sendOptions
+	 * Tnis method is not fully tested as it is developed only for activation
+	 * email
+	 *
+	 * @param
+	 *       	 $sendOptions
 	 */
 	
 	function sendMail2($sendOptions) {
