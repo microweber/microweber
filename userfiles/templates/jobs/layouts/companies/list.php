@@ -67,11 +67,9 @@
     <div class="company_name"><strong>Company Name:</strong> <? print user_name($usr['id']); ?></div>
   </div>
   <? endforeach; ?>
- <?php echo "Current Page". url_param('curent_page');?>
- 
- <div class="pagination">
-	<a href="#" id="prev">Prev</a>	
-	<? 
+  <?php echo "Current Page". url_param('curent_page');?>
+  <div class="pagination"> <a href="#" id="prev">Prev</a>
+    <? 
 	
 	$tot_pages =$uc/30;
 	$tot_pages=$tot_pages+1;
@@ -79,23 +77,7 @@
 	
 	   $pages = paging_prepare($tot_pages,$u,1);
 	 	paging('uls',$pages); ?>
-		
-		<a href="#" id="next">Next</a>
-		
-
-	
-    <div class="page_number">
-      
-	 </div>
-	 </div>
- 
-  <div class="pagination" style="display:none">
-    <?  //paging('uls', $pages); ?>
-	
-	
-	
-	
-    <a href="#" id="prev">Prev</a>
-    <div class="page_number"> <a href="#" class="current">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a><a href="#" id="next">Next</a> </div>
+    <a href="#" id="next">Next</a>
+    <div class="page_number"> </div>
   </div>
 </div>

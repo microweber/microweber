@@ -7,8 +7,8 @@ class User extends Controller {
 		parent::Controller ();
 		
 		require_once (APPPATH . 'controllers/default_constructor.php');
-		//p($user_session);
-		//require_once (APPPATH . 'controllers/api/default_constructor.php');
+		// p($user_session);
+		// require_once (APPPATH . 'controllers/api/default_constructor.php');
 	
 	}
 	
@@ -18,24 +18,22 @@ class User extends Controller {
 		
 		$code = url_param ( 'code' );
 		
-		//$q = " select count(*) as qty from $table where ('last_activity')>('$strtotime2')  ";
+		// $q = " select count(*) as qty from $table where
+		// ('last_activity')>('$strtotime2') ";
 		$q = " select * from $table where MD5(id)='{$code}'  ";
 		
-		//	print $q;
+		// print $q;
 		
-
 		$q = CI::db ()->query ( $q );
 		$q = $q->row_array ();
-		//p ( $q );
+		// p ( $q );
 		
-
 		if (! empty ( $q )) {
 			$to_save = array ();
 			$to_save ['id'] = $q ['id'];
 			$to_save ['is_active'] = 'y';
 			//
 			
-
 			$userId = CI::model ( 'users' )->saveUser ( $to_save );
 		
 		}
@@ -57,7 +55,7 @@ class User extends Controller {
 	
 	function index() {
 		require_once (APPPATH . 'controllers/api/_api_require_login.php');
-		//var_dump ( $_COOKIE );
+		// var_dump ( $_COOKIE );
 		exit ();
 	}
 	
@@ -70,7 +68,7 @@ class User extends Controller {
 		}
 		
 		$log_item = CI::model ( 'notifications' )->logGetById ( $id );
-		//p($log_item);
+		// p($log_item);
 		if (empty ( $log_item )) {
 			exit ( "This item has been deleted." );
 		} else {
@@ -111,7 +109,7 @@ class User extends Controller {
 		if ($cur_user == $other_user) {
 			redirect ( 'dashboard' );
 		}
-		//var_dump($other_user);
+		// var_dump($other_user);
 		if (intval ( $other_user ['parent_id'] ) == $cur_user) {
 		
 		} else {
@@ -157,8 +155,8 @@ class User extends Controller {
 	}
 	
 	function test1() {
-		//  var_dump($_POST);
-		//print mt_rand(1, 65654);
+		// var_dump($_POST);
+		// print mt_rand(1, 65654);
 		exit ();
 	}
 	
@@ -169,7 +167,7 @@ class User extends Controller {
 		}
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
-		//$name = $this->db->escape ( $name );
+		// $name = $this->db->escape ( $name );
 		$aOptions = array ();
 		$aOptions ['search_keyword'] = $name;
 		$aOptions ['only_fields'] = array ('id, first_name, username, last_name' );
@@ -178,11 +176,11 @@ class User extends Controller {
 		$data = json_encode ( $data );
 		print $data;
 		exit ();
-		//p ( $data );
+		// p ( $data );
 		if (! empty ( $data )) {
 		
 		}
-		//print mt_rand(1, 65654);
+		// print mt_rand(1, 65654);
 		exit ();
 	}
 	
@@ -190,9 +188,8 @@ class User extends Controller {
 		require_once (APPPATH . 'controllers/api/_api_require_login.php');
 		if ($_POST) {
 			
-			//$this->_requireLogin ();
+			// $this->_requireLogin ();
 			
-
 			$currentUser_id = CI::model ( 'core' )->userId ();
 			if ($currentUser_id != 0) {
 				$status = array ('user_id' => $currentUser_id, 'status' => $_POST ['status'] );
@@ -210,7 +207,7 @@ class User extends Controller {
 		if ($_POST) {
 			$is_adm = is_admin ();
 			//
-			//p($_POST);
+			// p($_POST);
 			if ($_POST ['id'] == false) {
 				$_POST ['id'] = user_id ();
 			}
@@ -226,7 +223,7 @@ class User extends Controller {
 					} else {
 						
 						$other_user = get_user ( $_POST ['id'] );
-						//var_dump($other_user);
+						// var_dump($other_user);
 						if (intval ( $other_user ['parent_id'] ) == $curent_user) {
 						
 						} else {
@@ -247,16 +244,16 @@ class User extends Controller {
 					
 					$retrn = json_encode ( $retrn );
 					exit ( $retrn );
+					
+					// $this->template ['user_register_errors'] =
+					// $user_register_errors;
 				
-		//$this->template ['user_register_errors'] = $user_register_errors;
-				
-
 				}
 				
 				$to_save = $_POST;
 				if ($is_adm == false) {
 					if ($to_save ['is_admin']) {
-						//oppsie
+						// oppsie
 						unset ( $to_save ['is_admin'] );
 					}
 				}
@@ -264,12 +261,11 @@ class User extends Controller {
 				$to_save ['edited_by'] = $_POST ['id'];
 				//
 				
-
 				$userId = CI::model ( 'users' )->saveUser ( $to_save );
 				
 				$retrn = array ();
 				$retrn ['success'] = $_POST;
-				//p($_POST);
+				// p($_POST);
 				if ($_POST ['redirect_to']) {
 					$to = prep_url ( $_POST ['redirect_to'] );
 					header ( 'Location: ' . $to );
@@ -304,13 +300,13 @@ class User extends Controller {
 			$data ['username'] = $user;
 			$data ['password'] = $pass;
 			$data ['is_active'] = 'y';
-			//	p ( $data );
-			//p ( $_POST );
+			// p ( $data );
+			// p ( $_POST );
 			if (trim ( $user ) == '') {
 				$user = $email;
 				$data ['username'] = $user;
-			
-		//	p ( $data );
+				
+				// p ( $data );
 			}
 			$data = CI::model ( 'users' )->getUsers ( $data );
 			$data = $data [0];
@@ -321,7 +317,7 @@ class User extends Controller {
 					$data ['email'] = $email;
 					$data ['password'] = $pass;
 					$data ['is_active'] = 'y';
-					//	p ( $data );
+					// p ( $data );
 					$data = CI::model ( 'users' )->getUsers ( $data );
 					$data = $data [0];
 				}
@@ -333,8 +329,8 @@ class User extends Controller {
 				$reg_is_error = true;
 				
 				$user_register_errors ['login_error'] = 'Please enter correct username and password!';
-			
-		//exit ();
+				
+				// exit ();
 			} else {
 				
 				CI::library ( 'session' )->set_userdata ( 'the_user', $data );
@@ -343,7 +339,7 @@ class User extends Controller {
 				$user_session ['is_logged'] = 'yes';
 				$user_session ['user_id'] = $data ['id'];
 				
-				//p ( $user_session );
+				// p ( $user_session );
 				$retrn = array ();
 				
 				$retrn ['success'] = $data;
@@ -362,17 +358,15 @@ class User extends Controller {
 							$link = page_link ( $p ['id'] );
 							$link = $link . '/editmode:y';
 							safe_redirect ( $link );
+							
+							// p($link,1);
 						
-		//p($link,1);
-						
-
 						} else {
 							safe_redirect ( 'admin' );
 						}
+						
+						// p($p,1);
 					
-		//p($p,1);
-					
-
 					} else {
 						safe_redirect ( 'admin' );
 					}
@@ -382,9 +376,9 @@ class User extends Controller {
 					safe_redirect ( "$go" );
 				
 				}
-				//$data = $data[0];
-				//var_dump($data);
-				//var_dump($_POST);
+				// $data = $data[0];
+				// var_dump($data);
+				// var_dump($_POST);
 				exit ();
 			
 			}
@@ -397,24 +391,22 @@ class User extends Controller {
 			
 			$retrn = json_encode ( $retrn );
 			exit ( $retrn );
+			
+			// $this->template ['user_register_errors'] = $user_register_errors;
 		
-		//$this->template ['user_register_errors'] = $user_register_errors;
-		
-
 		}
+		
+		// $this->template ['functionName'] = strtolower ( __FUNCTION__ );
+		// $this->load->vars ( $this->template );
+		// $layout = CI::view ( 'layout', true, true );
+		// $primarycontent = CI::view ( 'login', true, true );
+		// p($this->template );
+		// $layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout
+		// );
+		// CI::library('output')->set_output ( $primarycontent );
+		
+		// exit ('no post');
 	
-		//$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-	//	$this->load->vars ( $this->template );
-	//	$layout = CI::view ( 'layout', true, true );
-	//$primarycontent = CI::view ( 'login', true, true );
-	//p($this->template );
-	// $layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
-	//CI::library('output')->set_output ( $primarycontent );
-	
-
-	//	exit ('no post');
-	
-
 	}
 	
 	function register() {
@@ -453,7 +445,7 @@ class User extends Controller {
 			if ($_POST ['is_active'] == false) {
 				$to_reg ['is_active'] = 'n';
 			} else {
-				//$to_reg ['is_active'] = 'y';
+				// $to_reg ['is_active'] = 'y';
 			}
 			$to_reg ['is_admin'] = 'n';
 			if ($parent_id != false) {
@@ -462,9 +454,8 @@ class User extends Controller {
 					$to_reg ['is_active'] = 'y';
 				}
 			}
-			//parrent  aff
+			// parrent aff
 			
-
 			if (isset ( $_COOKIE ["microweber_referrer_user_id"] )) {
 				$aff = intval ( $_COOKIE ["microweber_referrer_user_id"] );
 				if ($aff != 0) {
@@ -516,13 +507,12 @@ class User extends Controller {
 			}
 			
 			if ($email == '') {
+				
+				// $reg_is_error = true;
+				
+				// $user_register_errors ['email_not_here'] = 'Please enter
+				// email!';
 			
-		//$reg_is_error = true;
-			
-
-			//$user_register_errors ['email_not_here'] = 'Please enter email!';
-			
-
 			}
 			
 			if ($username != '') {
@@ -561,19 +551,17 @@ class User extends Controller {
 			
 			}
 			
-			/*	include_once (APPPATH . 'libraries/recaptcha.php');
-			//$this->load->library('recaptcha');
-    $this->load->library('form_validation');
-    CI::helper('form');
-    $this->lang->load('recaptcha');
-			
-			$capcha = new Recaptcha ();
-			
-			if ($capcha->check_answer ( $this->input->ip_address (), $this->input->post ( 'recaptcha_challenge_field' ), $this->input->post ( 'recaptcha_response_field' ) )) {
-			
-			} else {
-				$user_register_errors ['recaptcha_challenge_field'] = 'Incorrect captcha!';
-			}*/
+			/*
+			 * include_once (APPPATH . 'libraries/recaptcha.php');
+			 * //$this->load->library('recaptcha');
+			 * $this->load->library('form_validation'); CI::helper('form');
+			 * $this->lang->load('recaptcha'); $capcha = new Recaptcha (); if
+			 * ($capcha->check_answer ( $this->input->ip_address (),
+			 * $this->input->post ( 'recaptcha_challenge_field' ),
+			 * $this->input->post ( 'recaptcha_response_field' ) )) { } else {
+			 * $user_register_errors ['recaptcha_challenge_field'] = 'Incorrect
+			 * captcha!'; }
+			 */
 			
 			if (! empty ( $user_register_errors )) {
 				$retrn = array ();
@@ -581,32 +569,34 @@ class User extends Controller {
 				
 				$retrn = json_encode ( $retrn );
 				exit ( $retrn );
+				
+				// $this->template ['user_register_errors'] =
+				// $user_register_errors;
 			
-		//$this->template ['user_register_errors'] = $user_register_errors;
-			
-
 			} else {
 				
-				//Send mail
-				//						$userdata = array ();
-				//						$userdata ['id'] = $to_reg ['parent_affil'];
-				//						$parent = CI::model('users')->getUsers ( $userdata );
-				//						//$this->dbQuery("select * from firecms_users where id={$to_reg ['parent_affil']}");
-				//						$to_reg ['parent'] = $parent [0] ['username'];
+				// Send mail
+				// $userdata = array ();
+				// $userdata ['id'] = $to_reg ['parent_affil'];
+				// $parent = CI::model('users')->getUsers ( $userdata );
+				// //$this->dbQuery("select * from firecms_users where
+				// id={$to_reg ['parent_affil']}");
+				// $to_reg ['parent'] = $parent [0] ['username'];
 				//
-				//						$to_reg ['option_key'] = 'mail_new_user_reg';
-				//						CI::model('core')->sendMail ( $to_reg, true );
+				// $to_reg ['option_key'] = 'mail_new_user_reg';
+				// CI::model('core')->sendMail ( $to_reg, true );
 				
-
-				//$primarycontent = CI::view ( 'me/register_done', true, true );
+				// $primarycontent = CI::view ( 'me/register_done', true, true
+				// );
 				
-
 				$rett = $_POST;
 				$this->template ['user_registration_done'] = true;
 				$userId = CI::model ( 'users' )->saveUser ( $to_reg );
 				$rett ['id'] = $userId;
 				
-				/*~~~~~~~~~~~~~~~ Send activation email ~~~~~~~~~~~~~~~~~~~*/
+				/*
+				 * ~~~~~~~~~~~~~~~ Send activation email ~~~~~~~~~~~~~~~~~~~
+				 */
 				/*if ($email != '') {
 					$emailTemplate = CI::model ( 'core' )->optionsGetByKey ( 'registration_email', true );
 					$from = CI::model ( 'core' )->optionsGetByKey ( 'reg_email_from', true );
@@ -638,7 +628,9 @@ class User extends Controller {
 				
 				exit ( $retrn );
 				
-				/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+				/*
+				 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				 */
 				
 				// redirect user to back_url
 				$back_to = CI::library ( 'session' )->userdata ( 'back_to' );
@@ -656,10 +648,9 @@ class User extends Controller {
 				}
 			
 			}
+			
+			// $this->load->vars ( $this->template );
 		
-		//$this->load->vars ( $this->template );
-		
-
 		}
 	}
 	
@@ -671,11 +662,10 @@ class User extends Controller {
 			
 			$messageKey = $_POST ['mk'];
 			unset ( $_POST ['mk'] );
-			//$messageKey =  ( $messageKey );
+			// $messageKey = ( $messageKey );
 			$messageKey = CI::model ( 'core' )->securityDecryptString ( $messageKey );
-			//var_dump( CI::model('core')->userId (), $messageKey);
+			// var_dump( CI::model('core')->userId (), $messageKey);
 			
-
 			if (CI::model ( 'core' )->userId () != $messageKey) {
 				exit ( 'Error in $messageKey' );
 			}
@@ -696,13 +686,7 @@ class User extends Controller {
 				$data ['receiver'] = $data ['to_user'];
 			}
 			
-			
-			
-			
 			$data ['to_user'] = intval ( $data ['receiver'] );
-			
-			
-			
 			
 			unset ( $data ['receiver'] );
 			
@@ -720,19 +704,47 @@ class User extends Controller {
 				$parentMessage = $parentMessage [0];
 				
 				if (! in_array ( $data ['to_user'], array ($parentMessage ['from_user'], $parentMessage ['to_user'] ) )) {
-					//throw new Exception ( 'Cheating detected.' );
+					// throw new Exception ( 'Cheating detected.' );
 				}
 			
 			}
+			if ($data ['send_email']) {
+				
+				$from_user_data = get_user ( $data ['from_user'] );
+				$to_user_data = get_user ( $data ['to_user'] );
+				
+				$form_mail = $data;
+				unset ( $form_mail ['to_user'] );
+				unset ( $form_mail ['from_user'] );
+				unset ( $form_mail ['send_email'] );
+				$message = '';
+				
+				$email = $from_user_data ['email'];
+				$to = $to_user_data ['email'];
+				$sj = $data ['subject'];
+				foreach ( $form_mail as $k => $v ) {
+					$k = str_replace ( '_', ' ', $k );
+					$k = ucwords ( $k );
+					$message .= $k . ': ' . $v . "\r\n";
+				}
+				$message .= 'URL ' . $_SERVER ["HTTP_REFERER"] . "\r\n";
+				
+				$headers1 = "MIME-Version: 1.0\r\n";
+				$headers1 .= "Content-type: text/plain; charset=UTF-8\r\n";
+				$headers1 .= "Content-Transfer_Encoding: 7bit\r\n";
+				
+				$headers1 .= "From: {$email}\r\n";
+				$headers1 .= "Reply-To:{$email}\r\n";
+				
+				$subject1 = $sj;
+				if ($subject1 != false) {
+					// var_dump ( $to, $subject1, $message, $headers1 );   
+					mail ( $to, $subject1, $message, $headers1 );
+				}
+				// p($from_user_data);
+				// p($to_user_data);
 			
-			
-			
-			
-			
-			
-			
-			
-			
+			}
 			$data ['is_read'] = 'n';
 			
 			$sent = CI::model ( 'messages' )->messageSave ( $data );
@@ -745,7 +757,7 @@ class User extends Controller {
 				CI::model ( 'core' )->cleanCacheGroup ( $cache_group );
 			}
 			
-			//echo $sent;
+			// echo $sent;
 			echo 'Message sent';
 			$cache_group = 'users/messages/global/';
 			CI::model ( 'core' )->cleanCacheGroup ( $cache_group );
@@ -770,8 +782,8 @@ class User extends Controller {
 			$message = CI::model ( 'core' )->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 			
 			$message = $message [0];
-			//	p ( $currentUser );
-			//	p ( $message );
+			// p ( $currentUser );
+			// p ( $message );
 			if (($user_id != $message ['to_user'])) {
 				
 				throw new Exception ( 'You have no rights to read this message.' );
@@ -793,9 +805,9 @@ class User extends Controller {
 			$cache_group = 'users/notifications';
 			CI::model ( 'core' )->cleanCacheGroup ( $cache_group );
 			
-			//$read = CI::model('core')->saveData ( $table, array ('id' => $messageId, 'is_read' => 'y' ) );
+			// $read = CI::model('core')->saveData ( $table, array ('id' =>
+			// $messageId, 'is_read' => 'y' ) );
 			
-
 			echo $messageId;
 		
 		}
@@ -818,8 +830,8 @@ class User extends Controller {
 			$message = CI::model ( 'core' )->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 			
 			$message = $message [0];
-			//	p ( $currentUser );
-			//	p ( $message );
+			// p ( $currentUser );
+			// p ( $message );
 			if (($user_id != $message ['to_user'])) {
 				
 				throw new Exception ( 'You have no rights to delete this.' );
@@ -856,8 +868,8 @@ and to_table_id='{$message['to_table_id']}'
 			$message = CI::model ( 'core' )->fetchDbData ( $table, array (array ('id', $messageId ) ) );
 			
 			$message = $message [0];
-			//	p ( $currentUser );
-			//p ( $message );
+			// p ( $currentUser );
+			// p ( $message );
 			if (($user_id != $message ['to_user'])) {
 				if (($user_id == $message ['created_by'])) {
 					
@@ -868,7 +880,7 @@ and to_table_id='{$message['to_table_id']}'
 			
 			$read = CI::model ( 'core' )->saveData ( $table, array ('id' => $message ['id'], 'is_read' => 'y' ) );
 			$q = "update $table set is_read='y' where id in ({$message ['id']}) and created_by<>$user_id ";
-			//p ( $q );
+			// p ( $q );
 			CI::model ( 'core' )->dbQ ( $q );
 			
 			$cache_group1 = 'users/messages/' . $message ['id'];
@@ -883,7 +895,7 @@ and to_table_id='{$message['to_table_id']}'
 				if (! empty ( $thread_ids )) {
 					$thread_ids_i = implode ( ',', $thread_ids );
 					$q = "update $table set is_read='y' where id in ($thread_ids_i) and created_by<>$user_id ";
-					//p($q);
+					// p($q);
 					CI::model ( 'core' )->dbQ ( $q );
 					
 					foreach ( $thread_ids as $thread_i ) {
@@ -891,12 +903,11 @@ and to_table_id='{$message['to_table_id']}'
 						CI::model ( 'core' )->cleanCacheGroup ( $cache_group1 );
 					}
 				}
-			
-		//p($thread_ids);
+				
+				// p($thread_ids);
 			}
-			//p($thread); 
+			// p($thread);
 			
-
 			echo $read;
 			
 			$cache_group = 'users/messages';
@@ -947,7 +958,7 @@ and to_table_id='{$message['to_table_id']}'
 			$message = CI::model ( 'core' )->fetchDbData ( TABLE_PREFIX . 'messages', array (array ('id', $messageId ) ) );
 			
 			$message = $message [0];
-			//p($message);
+			// p($message);
 			if ($message ['from_user'] == CI::model ( 'core' )->userId ()) {
 				$deletedFrom = 'sender';
 			} elseif ($message ['to_user'] == CI::model ( 'core' )->userId ()) {
@@ -963,7 +974,7 @@ and to_table_id='{$message['to_table_id']}'
 				if (! empty ( $thread_ids )) {
 					$thread_ids_i = implode ( ',', $thread_ids );
 					$q = "update $table set is_read='y' where id in ($thread_ids_i) ";
-					//	p($q);
+					// p($q);
 					CI::model ( 'core' )->dbQ ( $q );
 					
 					foreach ( $thread_ids as $thread_i ) {
@@ -971,8 +982,8 @@ and to_table_id='{$message['to_table_id']}'
 						CI::model ( 'core' )->cleanCacheGroup ( $cache_group1 );
 					}
 				}
-			
-		//p($thread_ids);
+				
+				// p($thread_ids);
 			}
 			
 			if (intval ( $message ['parent_id'] ) == 0) {
@@ -1005,14 +1016,14 @@ and to_table_id='{$message['to_table_id']}'
 			$followerId = intval ( $_POST ['follower_id'] );
 			$follow = ( bool ) $_POST ['follow']; // if 0 unlollow, if 1 follow
 			$special = ( bool ) $_POST ['special']; // if 1 will add special flag
-			$cancel = ( bool ) $_POST ['cancel']; // if 1 will cancel the whole relatiomship
+			$cancel = ( bool ) $_POST ['cancel']; // if 1 will cancel the whole
+			                                      // relatiomship
 			
-
 			if ($followerId == 0) {
 				exit ( 'Error: no follower defined? Are you sure you clicked on actual person?' );
 			} else {
 				$follower = CI::model ( 'users' )->getUserById ( $followerId );
-				//p($follower);
+				// p($follower);
 				if (empty ( $follower )) {
 					exit ( 'Error: invalid user id ' . $followerId );
 				}
@@ -1026,9 +1037,8 @@ and to_table_id='{$message['to_table_id']}'
 			
 			$followed = CI::model ( 'users' )->saveFollower ( array ('user' => CI::model ( 'core' )->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special, 'cancel' => $cancel ) );
 			
-			//echo $followed;
+			// echo $followed;
 			
-
 			$follower ['first_name'] ? $name = $follower ['first_name'] : $name = $follower ['username'];
 			
 			if ((intval ( $_POST ['follow'] ) == 0)) {
@@ -1040,13 +1050,13 @@ and to_table_id='{$message['to_table_id']}'
 			}
 			
 			if ((intval ( $_POST ['follow'] ) == 1) and intval ( $_POST ['special'] ) == 1) {
-				//$msg = "You have added {$name} to your circle.";
+				// $msg = "You have added {$name} to your circle.";
 				$msg = "You are now friend with {$name}.";
 			}
 			
 			if (isset ( $_POST ['special'] )) {
 				if (intval ( ($_POST ['follow']) == 1 ) and intval ( $_POST ['special'] ) == 0) {
-					//$msg = "You have removed {$name} from your circle.";
+					// $msg = "You have removed {$name} from your circle.";
 					$msg = "You are now friend with {$name}.";
 				}
 			}
