@@ -152,15 +152,11 @@ if((resp.success) != undefined){
         <div class="top_jobseeker_icon"><a href="<? print site_url('dashboard'); ?>"><img src="<? print $u_pic ?>" alt="<? print addslashes(user_name() ); ?>" height="32" /></a> </div>
         <div class="top_jobseeker_name"><? print user_name() ?></div>
         <div id="header_user_profile">
-        
-        
-        <? $user_data = get_user(); ?>      
-         <? if($user_data['role'] == 'company'): ?>  
-         <a class=""  href="<? print site_url('dashboard'); ?>/view:my-posts">My job ads</a><span>|
-        <? endif ?>
-        
-        
-        </span><a class=""  href="<? print site_url('dashboard/view:my-profile'); ?>">Profile</a> </div>
+              <? $user_data = get_user(); ?>
+              <? if($user_data['role'] == 'company'): ?>
+              <a class=""  href="<? print site_url('dashboard'); ?>/view:my-posts">My job ads</a><span>|
+          <? endif ?>
+          </span><a class=""  href="<? print site_url('dashboard/view:my-profile'); ?>">Profile</a> </div>
         <div class="logout_but"><a href="javascript:mw.users.LogOut()"><img src="<? print TEMPLATE_URL ?>images/logoout_but.jpg" alt="logout" /></a></div>
       </div>
         </div>
@@ -180,13 +176,5 @@ if((resp.success) != undefined){
     </div>
 <div class="nav">
       <microweber module="content/menu"  name="main_menu"  />
-      <!--<ul>
-				<li ><a href="index.html" class="current">Home</a></li>
-				<li ><a href="search_jobs.html" >Search Jobs</a></li>
-				<li ><a href="companies.html" >Companies</a></li>
-				<li ><a href="job_seakers.html" >Job Seekers</a></li>
-				<li ><a href="news.html" >News</a></li>
-				<li ><a href="about.html" >About</a></li>
-				<li ><a href="contact.html" >Contact</a></li>
-			</ul>--> 
+ 
     </div>

@@ -291,7 +291,7 @@ category_tree( $params ) ;
  
   $(document).ready(function($) {
  //jQuery(document).find("<? print $params['update_field'] ?>").hide();
- $(".category_element", window.parent.frames[0].document).remove();
+// $(".category_element", window.parent.frames[0].document).remove();
  
   
 	
@@ -300,7 +300,10 @@ category_tree( $params ) ;
 </script>
   
   
-  <script   type="application/javascript">
+  
+  <? endif; ?>
+</div>
+  <script type="text/javascript">
   
 
 						 
@@ -309,7 +312,7 @@ category_tree( $params ) ;
   
  $(document).ready(function () {
 							 
-							 
+				  
 bind_cat_sel_fields()
  
 
@@ -321,7 +324,7 @@ bind_cat_sel_fields()
 function bind_cat_sel_fields(){
 	
 	
-	
+
 	 
 	
 	
@@ -342,19 +345,19 @@ function bind_cat_sel_fields(){
 
 	$("<? print $params['update_field'] ?>").val(Catval)
 */
-$("#<? print $rand_id ?> span").addClass("red");
+
 
 /*var val = $("<? print $rand_id ?> span.active").attr("category_id");
 
  $("<? print $params['update_field'] ?>").val(val);*/
 
 
-//$("#<? print $rand_id ?> span").die("click");
+ $("#<? print $rand_id ?> span").die("click");
 
 $("#<? print $rand_id ?> span").live("click", function(){ 
-
-var val = $(this).attr("category_id");
  
+var val = $(this).attr("category_id");
+ //alert(val);
   $(this).toggleClass("active");
 
   if($(this).parents("#<? print $rand_id ?>").hasClass("cat_list_multiselect")){
@@ -378,5 +381,3 @@ var val = $(this).attr("category_id");
 })	
 }
 </script>
-  <? endif; ?>
-</div>

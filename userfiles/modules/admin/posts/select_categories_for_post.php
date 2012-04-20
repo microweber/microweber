@@ -102,16 +102,18 @@ function set_categories(){
 	var post_id = $("#post_id").val();
 	
 	
-
-	 $.ajax({
-  url: "<? print site_url('api/module'); ?>",
-   type: "POST",
-      data: ({module : 'admin/content/category_selector' ,active_category : active_category, update_field: '#taxonomy_categories', multiselect:true, for_page:content_parent }),
-     // dataType: "html",
-      async:true,
-
-  success: function(resp) {
-      $("#category_module_holder").html(resp);
+	
+	
+	 var data = ({module : 'admin/content/category_selector' ,active_category : active_category, update_field: '#taxonomy_categories', multiselect:true, for_page:content_parent })
+ 
+ 
+		
+						  $('#category_module_holder').load('<? print site_url('api/module') ?>',data, function(){
+							  
+							  
+				resp = 			$('#category_module_holder').html();  
+							  
+    //  $("#category_module_holder").html(resp);
 
       $("#category_module_holder span:odd").addClass("even");
       $("#category_module_holder span").append('<a href="#" class="btn_small">Edit</a>');
@@ -202,8 +204,29 @@ function set_categories(){
 	  
 	  
 	  
-  }
-    });
+  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+ 
+});
+						  
+						  
+						  
+						  
+	
+	
+	
+
+	 
 	
 	
 	

@@ -44,10 +44,10 @@ $user_data = get_user();
  }
 
 
-
+ 
 ?>
 
-<div class="page_tit"><span class="welcome">Welcome</span> Josh Mayfid </div>
+<div class="page_tit"><span class="welcome">Welcome</span> <? print user_name(); ?> </div> 
 <div class="body_part_inner">
   <div class="profile_tit">Manage your profile</div>
   <div class="profile_nav">
@@ -55,8 +55,9 @@ $user_data = get_user();
       <? if($user_data['role'] == 'company'): ?>
       <li <? if($vv == 'my-posts'): ?> class="current" <? endif; ?> > <a <? if($vv == 'my-posts'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:my-posts"  >My job ads</a></li>
       <? endif ?>
-            <li <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?> > <a <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:jobseeker"  >jobseeker</a></li>
-
+       <? if($user_data['role'] == 'job_seeker'): ?>
+            <li <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?> > <a <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:jobseeker"  >Education</a></li>
+ <? endif ?>
       <li <? if($vv == 'my-profile'): ?> class="current" <? endif; ?> > <a <? if($vv == 'my-profile'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:my-profile"  >Account settings</a></li>
       <li  <? if($vv == ''): ?> class="current" <? endif ?> > <a  <? if($vv == ''): ?> class="current" <? endif ?>  href="<? print page_url() ?>">Dashboard</a></li>
     </ul>
