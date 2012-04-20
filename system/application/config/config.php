@@ -18,6 +18,7 @@ ini_set ( 'max_execution_time', '3600' );
 ini_set ( 'post_max_size', '200M' );
 ini_set ( 'upload_max_filesize', '200M' );
 ini_set ( 'memory_limit', '160M' );
+ini_set('display_errors', '1');
 if(!defined('IS_AJAX')){
 define ( 'IS_AJAX', isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) && strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
 }

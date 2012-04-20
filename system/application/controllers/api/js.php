@@ -16,7 +16,7 @@ class js extends Controller {
 	function index() {
 		header ( "Content-type: text/javascript" );
 		$url = url ();
-		$cache_id = "js_api_" . md5 ( $url );
+		$cache_id = "js_api";
 		$cache_group = 'global/blocks';
 		
 		$edit = ($this->template ['edit']);
@@ -35,12 +35,20 @@ class js extends Controller {
 		$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
 		if ($editmode == true) {
 			$edit = true;
+			$cache_id = "js_api_edit";
 		}
 		if ($edit == true) {
 			$cache_group = 'global/blocks/edit';
+				$cache_id = "js_api_edit";
 		}
+		
+		
+		
+		
+		
+		
 	//	$editmode =$edit= false;
-		//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
+		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
 		
 
 		if (($cache_content) != false) {

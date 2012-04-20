@@ -1327,7 +1327,7 @@ function post_save($data) {
    $params['size'] = 200; //the thumbnail size
    @return 		string - The thumbnail link. 
    @example 	Use <? print post_thumbnail($post['id']);
-?>
+
  */
 
 function thumbnail($params) {
