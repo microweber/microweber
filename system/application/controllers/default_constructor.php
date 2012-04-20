@@ -605,4 +605,4 @@ $this->template ['layouts_dir'] = $layouts_dir;
 
 $this->template ['layouts_url'] = $layouts_url;
 
-?>
+ 

@@ -227,7 +227,7 @@ function user_id_from_url() {
    $params['id'] = 15; //the user id
    $params['size'] = 200; //the thumbnail size
    @return 		string - The thumbnail link. 
-   @example 	Use <? **
+   @example 	Use 
  * user_thumbnail
  *
  * get the user_thumbnail of the user
@@ -241,7 +241,7 @@ function user_id_from_url() {
  * $params['id'] = 15; //the user id
  * $params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
- * @example Use <? print post_thumbnail($post['id']); ?>
+ * @example Use   print post_thumbnail($post['id']);  
  */
 
 function user_picture($params) {

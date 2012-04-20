@@ -283,4 +283,4 @@ class upsRate {
 		return $params ['RATINGSERVICESELECTIONRESPONSE'] ['RATEDSHIPMENT'] ['TOTALCHARGES'] ['MONETARYVALUE'];
 	}
 }
-?>
+ 

@@ -166,12 +166,7 @@ mw_forms.make_fields = function(){
 		
 		 
 		$(this).change(function() {
-			 //alert('Handler for .change() called.');
-			//<? print site_url('api/content/save_option') ?>
-			//var refresh_modules11 =  $(this).attr('name');
-		//	alert(refresh_modules11);
-			
-			
+		 
 			
 			
 			

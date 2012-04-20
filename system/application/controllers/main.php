@@ -140,34 +140,7 @@ class Main extends Controller {
 
 		CI::library('output')->set_output ( $layout );
 
-	/*
-		* $newline = "\n";
-		* echo '<?xml version="1.0" encoding="UTF-8" ?>
-' . $newline . '
-<rss version="2.0">' . $newline;
-  echo '
-  <channel>' . $newline;
-
-    foreach ( $posts as $item ) {
-    echo '<item>' . $newline;
-    echo '
-    <title>' . $item ['content_title'] . '</title>
-    ' . $newline;
-    echo '
-    <link>
-    ' . CI::model('content')->contentGetHrefForPostId ( $item ['id'] ) . '
-    </link>
-    ' . $newline;
-    echo '
-    <description>' . $item ['content_meta_description'] . '</description>
-    ' . $newline;
-    echo '</item>' . $newline;
-    }
-    echo '</channel>
-  ' . $newline;
-  echo '</rss>
-' . $newline;
-		*/
+	 
 
 	}
 
@@ -219,34 +192,7 @@ class Main extends Controller {
 
 		CI::library('output')->set_output ( $layout );
 
-	/*
-		* $newline = "\n";
-		* echo '<?xml version="1.0" encoding="UTF-8" ?>
-' . $newline . '
-<rss version="2.0">' . $newline;
-  echo '
-  <channel>' . $newline;
-
-    foreach ( $posts as $item ) {
-    echo '<item>' . $newline;
-    echo '
-    <title>' . $item ['content_title'] . '</title>
-    ' . $newline;
-    echo '
-    <link>
-    ' . CI::model('content')->contentGetHrefForPostId ( $item ['id'] ) . '
-    </link>
-    ' . $newline;
-    echo '
-    <description>' . $item ['content_meta_description'] . '</description>
-    ' . $newline;
-    echo '</item>' . $newline;
-    }
-    echo '</channel>
-  ' . $newline;
-  echo '</rss>
-' . $newline;
-		*/
+	 
 
 	}
 

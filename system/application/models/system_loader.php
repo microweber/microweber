@@ -2647,7 +2647,7 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
  * // Text is translated and is being held in $string variable
  *
  * echo $transl->string; // Prints transliterated text
- * ?>
+ *  
  * </code>
  *
  * 2. Using other methods for transliterating text
