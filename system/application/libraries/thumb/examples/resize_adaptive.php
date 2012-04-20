@@ -29,4 +29,4 @@ $thumb = PhpThumbFactory::create('test.jpg');
 $thumb->adaptiveResize(175, 175);
 $thumb->show();
 
-?>
+\?>

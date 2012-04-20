@@ -112,22 +112,15 @@ form#sp_form input.text {
 	</form>
 
 	<div id="sp_results">
-		<?php if ($feed->data): ?>
-			<?php $items = $feed->get_items(); ?>
-			<p align="center"><span style="background-color:#ffc;">Displaying <?php echo $feed->get_item_quantity(); ?> most recent entries.</span></p>
-			<?php foreach($items as $item): ?>
-				<div class="chunk" style="padding:0 5px;">
+		<?php if ($feed->data): \?>			<?php $items = $feed->get_items(); \?>			<p align="center"><span style="background-color:#ffc;">Displaying <?php echo $feed->get_item_quantity(); ?> most recent entries.</span></p>
+			<?php foreach($items as $item): \?>				<div class="chunk" style="padding:0 5px;">
 					<h4><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a> <?php echo $item->get_date('j M Y'); ?></h4>
-					<?php echo $item->get_content(); ?>
-					<?php
+					<?php echo $item->get_content(); \?>					<?php
 					if ($enclosure = $item->get_enclosure(0))
 						echo '<p><a href="' . $enclosure->get_link() . '" class="download"><img src="./for_the_demo/mini_podcast.png" alt="Podcast" title="Download the Podcast" border="0" /></a></p>';
-					?>
-				</div>
-			<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
-	</div>
+					\?>				</div>
+			<?php endforeach; \?>			</div>
+		<?php endif; \?>	</div>
 
 	<div id="footer">
 		Powered by <?php echo SIMPLEPIE_LINKBACK; ?>, a product of <a href="http://www.skyzyx.com">Skyzyx Technologies</a>.<br />

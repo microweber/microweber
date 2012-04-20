@@ -30,4 +30,4 @@ $thumb->rotateImageNDegrees(180);
 
 $thumb->show();
 
-?>
+\?>

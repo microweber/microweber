@@ -59,14 +59,12 @@ class upsRate {
 		// =============== DON'T CHANGE BELOW THIS LINE ===============
 		
 
-		$data = "<?xml version=\"1.0\"?>
-    	<AccessRequest xml:lang=\"en-US\">
+		$data = "<?xml version=\"1.0\"\?>    	<AccessRequest xml:lang=\"en-US\">
     		<AccessLicenseNumber>$AccessLicenseNumber</AccessLicenseNumber>
     		<UserId>$UserId</UserId>
     		<Password>$Password</Password>
     	</AccessRequest>
-    	<?xml version=\"1.0\"?>
-    	<RatingServiceSelectionRequest xml:lang=\"en-US\">
+    	<?xml version=\"1.0\"\?>    	<RatingServiceSelectionRequest xml:lang=\"en-US\">
     		<Request>
     			<TransactionReference>
     				<CustomerContext>Bare Bones Rate Request</CustomerContext>

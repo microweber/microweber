@@ -33,4 +33,4 @@ $thumb->rotateImage('CW');
 
 $thumb->show();
 
-?>
+\?>

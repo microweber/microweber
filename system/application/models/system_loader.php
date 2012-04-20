@@ -106,26 +106,25 @@ if (is_dir ( MEDIAFILES ) == false) {
 
 }
 
-function csv2array($input,$delimiter=',',$enclosure='',$escape='\\'){ 
-    $fields=explode($enclosure.$delimiter.$enclosure,substr($input,1,-1)); 
-    foreach ($fields as $key=>$value) {
-		$value = trim($value); 
-        $fields[$key]=trim(str_replace($escape.$enclosure,$enclosure,$value)); 
-		
-		}
-		
-		$fields = trimArray($fields);
-		
-    return($fields); 
-} 
+function csv2array($input, $delimiter = ',', $enclosure = '', $escape = '\\') {
+	$fields = explode ( $enclosure . $delimiter . $enclosure, substr ( $input, 1, - 1 ) );
+	foreach ( $fields as $key => $value ) {
+		$value = trim ( $value );
+		$fields [$key] = trim ( str_replace ( $escape . $enclosure, $enclosure, $value ) );
+	
+	}
+	
+	$fields = trimArray ( $fields );
+	
+	return ($fields);
+}
 
-function array2csv($input,$delimiter=',',$enclosure='"',$escape='\\'){ 
-    foreach ($input as $key=>$value) 
-	$value = trim($value);
-        $input[$key]=trim(str_replace($enclosure,$escape.$enclosure,$value)); 
-    return $enclosure.implode($enclosure.$delimiter.$enclosure,$input).$enclosure; 
-} 
-
+function array2csv($input, $delimiter = ',', $enclosure = '"', $escape = '\\') {
+	foreach ( $input as $key => $value )
+		$value = trim ( $value );
+	$input [$key] = trim ( str_replace ( $enclosure, $escape . $enclosure, $value ) );
+	return $enclosure . implode ( $enclosure . $delimiter . $enclosure, $input ) . $enclosure;
+}
 
 function word_cleanup($str) {
 	$pattern = "/<(\w+)>(\s|&nbsp;)*<\/\1>/";
@@ -2345,23 +2344,27 @@ function cache_clean_group($cache_group = 'global') {
 			mkdir ( $recycle_bin );
 		
 		}*/
-	
-	//print 'delete cache:'  .$cache_group;
-	$dir = cache_get_dir ( 'global' );
-	//$dir_del = cache_get_dir ( 'global', true );
-	//var_dump(CACHEDIR . $cache_group);
-	if (is_dir ( $dir )) {
-		//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-		recursive_remove_directory ( $dir );
-	
-	}
-	
-	$dir = cache_get_dir ( $cache_group );
-	//$dir_del = cache_get_dir ( $cache_group, true );
-	//var_dump(CACHEDIR . $cache_group);
-	if (is_dir ( $dir )) {
-		//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-		recursive_remove_directory ( $dir );
+	try {
+		
+		//print 'delete cache:'  .$cache_group;
+		$dir = cache_get_dir ( 'global' );
+		//$dir_del = cache_get_dir ( 'global', true );
+		//var_dump(CACHEDIR . $cache_group);
+		if (is_dir ( $dir )) {
+			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			recursive_remove_directory ( $dir );
+		
+		}
+		
+		$dir = cache_get_dir ( $cache_group );
+		//$dir_del = cache_get_dir ( $cache_group, true );
+		//var_dump(CACHEDIR . $cache_group);
+		if (is_dir ( $dir )) {
+			//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
+			recursive_remove_directory ( $dir );
+		}
+	} catch ( Exception $e ) {
+		//$cache = false;
 	}
 }
 
@@ -2598,39 +2601,6 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
 	return $return;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Class for transliterating Cyrillic to Latinic
  *
@@ -2647,7 +2617,7 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
  * // Text is translated and is being held in $string variable
  *
  * echo $transl->string; // Prints transliterated text
- *  
+ * 
  * </code>
  *
  * 2. Using other methods for transliterating text
@@ -2690,110 +2660,96 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
  * Class body
  * @package transliterate
  */
-class transliterate
+class transliterate {
+	/**
+	 * Class constructor. Can be called with, or without arguments.
+	 *
+	 * Examples:
+	 * 
+	 * <code>
+	 * <?php
+	 * $tl = new transliterate; // Creating instance without argument
+	 * $tl = new transliterate("Cyrillic text goes here"); // Creating instance with argument
+	 *  
+	 * </code>
+	 * @param integer $str This is the text we want to transliterate
+	 * @see string, transliterate
+	 * 
+	 */
+	function transliterate() // Constructor
 {
-    /**
-     * Class constructor. Can be called with, or without arguments.
-     *
-     * Examples:
-     * 
-     * <code>
-     * <?php
-     * $tl = new transliterate; // Creating instance without argument
-     * $tl = new transliterate("Cyrillic text goes here"); // Creating instance with argument
-     * ?>
-     * </code>
-     * @param integer $str This is the text we want to transliterate
-     * @see string, transliterate
-     * 
-     */
-    function transliterate() // Constructor
-    {
-        if (func_num_args() == 1)
-        {
-            $args = func_get_args();
-            $str = $args[0];
-            $this->string = preg_replace($this->niddle, $this->replace, $str);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    /**
-     * This function returns translated text to be stored in variable or echoed :-)
-     *
-     * Example 1:
-     * <code>
-     * $text = "This is some text written using Cyrillic character set";
-     *
-     * $tl = new transliterate;
-     *
-     * $translitereated_text = $tl->transliterate_return($text);
-     *
-     * echo $translitereated_text; // Prints transliterated text
-     * </code>
-     * Example 2:
-     * <code>
-     * $text = "This is some text written using Cyrillic character set";
-     *
-     * $tl = new transliterate;
-     *
-     * echo $tl->transliterate_return($text); // Prints transliterated text
-     * </code>
-     * 
-     * @param string $str Text to be translated
-     * @return string
-     */
-    public function transliterate_return($str)
-    {
-        $this->string = preg_replace($this->niddle, $this->replace, $str);
-        return $this->string;
-    }
-
-    /**
-     * This function uses "pass by reference" method to directlty transliterate text
-     * Better said, if you want to transliterate text stored in $text variable,
-     * you should do something similar to this:
-     * <code>
-     * $text = "This is some text written using Cyrillic character set";
-     *
-     * $tl = new transliterate;
-     *
-     * $tl->transliterate_ref($text);
-     *
-     * echo $text; // Prints transliterated text
-     * </code>
-     * @param string &$str
-     */
-    public function transliterate_ref(&$str)
-    {
-        $this->string = preg_replace($this->niddle, $this->replace, $str);
-        $str = $this->string;
-    }
-
-   
-    private $niddle = array("/Ð°/", "/Ð±/", "/Ð²/", "/Ð³/", "/Ð´/", "/Ñ’/", "/Ðµ/", "/Ð¶/", "/Ð·/", "/Ð¸/", "/Ñ˜/", "/Ðº/", "/Ð»/", "/Ñ™/", "/Ð¼/", "/Ð½/",
-    "/Ñš/", "/Ð¾/", "/Ð¿/", "/Ñ€/", "/Ñ/", "/Ñ‚/", "/Ñ›/", "/Ñƒ/", "/Ñ„/", "/Ñ…/", "/Ñ†/", "/Ñ‡/", "/ÑŸ/", "/Ñˆ/",
-    "/Ð/", "/Ð‘/", "/Ð’/", "/Ð“/", "/Ð”/", "/Ð‚/", "/Ð•/", "/Ð–/", "/Ð—/", "/Ð˜/", "/Ðˆ/", "/Ðš/", "/Ð›/", "/Ð‰/", "/Ðœ/", "/Ð/",
-    "/ÐŠ/", "/Ðž/", "/ÐŸ/", "/Ð /", "/Ð¡/", "/Ð¢/", "/Ð‹/", "/Ð£/", "/Ð¤/", "/Ð¥/", "/Ð¦/", "/Ð§/", "/Ð/", "/Ð¨/");
-
-    private $replace = array ("a", "b", "v", "g", "d", "d", "e", "z", "z", "i", "j", "k", "l", "lj", "m", "n", "nj", "o", "p",
-    "r", "s", "t", "c", "u", "f", "h", "c", "c", "dz", "s",
-    "A", "B", "B", "G", "D", "D", "E", "Z", "Z", "I", "J", "K", "L", "LJ", "M", "N", "NJ", "O", "P",
-    "R", "S", "T", "C", "U", "F", "H", "C", "C", "DZ", "S"
-    );
-    
-    /**
-     * Transliterated text is always saved in this variable, so you can use
-     * it numerous times ... :-)
-     * 
-     * @var string
-     * @access public
-     * 
-     */
-    public $string; 
+		if (func_num_args () == 1) {
+			$args = func_get_args ();
+			$str = $args [0];
+			$this->string = preg_replace ( $this->niddle, $this->replace, $str );
+		} else {
+			return;
+		}
+	}
+	
+	/**
+	 * This function returns translated text to be stored in variable or echoed :-)
+	 *
+	 * Example 1:
+	 * <code>
+	 * $text = "This is some text written using Cyrillic character set";
+	 *
+	 * $tl = new transliterate;
+	 *
+	 * $translitereated_text = $tl->transliterate_return($text);
+	 *
+	 * echo $translitereated_text; // Prints transliterated text
+	 * </code>
+	 * Example 2:
+	 * <code>
+	 * $text = "This is some text written using Cyrillic character set";
+	 *
+	 * $tl = new transliterate;
+	 *
+	 * echo $tl->transliterate_return($text); // Prints transliterated text
+	 * </code>
+	 * 
+	 * @param string $str Text to be translated
+	 * @return string
+	 */
+	public function transliterate_return($str) {
+		$this->string = preg_replace ( $this->niddle, $this->replace, $str );
+		return $this->string;
+	}
+	
+	/**
+	 * This function uses "pass by reference" method to directlty transliterate text
+	 * Better said, if you want to transliterate text stored in $text variable,
+	 * you should do something similar to this:
+	 * <code>
+	 * $text = "This is some text written using Cyrillic character set";
+	 *
+	 * $tl = new transliterate;
+	 *
+	 * $tl->transliterate_ref($text);
+	 *
+	 * echo $text; // Prints transliterated text
+	 * </code>
+	 * @param string &$str
+	 */
+	public function transliterate_ref(&$str) {
+		$this->string = preg_replace ( $this->niddle, $this->replace, $str );
+		$str = $this->string;
+	}
+	
+	private $niddle = array ("/Ð°/", "/Ð±/", "/Ð²/", "/Ð³/", "/Ð´/", "/Ñ’/", "/Ðµ/", "/Ð¶/", "/Ð·/", "/Ð¸/", "/Ñ˜/", "/Ðº/", "/Ð»/", "/Ñ™/", "/Ð¼/", "/Ð½/", "/Ñš/", "/Ð¾/", "/Ð¿/", "/Ñ€/", "/Ñ/", "/Ñ‚/", "/Ñ›/", "/Ñƒ/", "/Ñ„/", "/Ñ…/", "/Ñ†/", "/Ñ‡/", "/ÑŸ/", "/Ñˆ/", "/Ð/", "/Ð‘/", "/Ð’/", "/Ð“/", "/Ð”/", "/Ð‚/", "/Ð•/", "/Ð–/", "/Ð—/", "/Ð˜/", "/Ðˆ/", "/Ðš/", "/Ð›/", "/Ð‰/", "/Ðœ/", "/Ð/", "/ÐŠ/", "/Ðž/", "/ÐŸ/", "/Ð /", "/Ð¡/", "/Ð¢/", "/Ð‹/", "/Ð£/", "/Ð¤/", "/Ð¥/", "/Ð¦/", "/Ð§/", "/Ð/", "/Ð¨/" );
+	
+	private $replace = array ("a", "b", "v", "g", "d", "d", "e", "z", "z", "i", "j", "k", "l", "lj", "m", "n", "nj", "o", "p", "r", "s", "t", "c", "u", "f", "h", "c", "c", "dz", "s", "A", "B", "B", "G", "D", "D", "E", "Z", "Z", "I", "J", "K", "L", "LJ", "M", "N", "NJ", "O", "P", "R", "S", "T", "C", "U", "F", "H", "C", "C", "DZ", "S" );
+	
+	/**
+	 * Transliterated text is always saved in this variable, so you can use
+	 * it numerous times ... :-)
+	 * 
+	 * @var string
+	 * @access public
+	 * 
+	 */
+	public $string;
 }
 
 ?>

@@ -29,4 +29,4 @@ $thumb = PhpThumbFactory::create('test.jpg');
 $thumb->adaptiveResize(250, 250)->createReflection(40, 40, 80, true, '#a4a4a4');
 $thumb->show();
 
-?>
+\?>

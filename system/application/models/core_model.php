@@ -57,7 +57,8 @@ class Core_model extends Model {
 	public $cache_storage_decoded = array ();
 	
 	public $cache_storage_mem = array ();
-	
+	public $mw_cache_storage = array (); 
+	 
 	public $cache_storage_hits = array ();
 	
 	public $cache_storage_not_found = array ();
@@ -4526,9 +4527,9 @@ class Core_model extends Model {
 		// $memory = $this->cache_storage [$cache_id];
 		// p($mw_cache_storage);
 		
-		$memory = $mw_cache_storage ["$cache_id"];
+		$memory = $this->mw_cache_storage ["$cache_id"];
 		
-		// var_dump ( $memory );
+		 // var_dump ( $memory ,$cache_id );
 		if ((($memory)) != false) {
 			
 			$this->cache_storage_hits [$cache_id] ++;
@@ -4568,7 +4569,11 @@ class Core_model extends Model {
 			}
 		} else {
 			try {
-				$cache = file_get_contents ( $cache_file );
+				 $cache = file_get_contents ( $cache_file );
+				
+ 
+				
+				
 			} catch ( Exception $e ) {
 				$cache = false;
 			}
@@ -4584,7 +4589,7 @@ class Core_model extends Model {
 			
 			$cache = str_replace ( $search, $replace, $cache, $count );
 			
-			$mw_cache_storage ["$cache_id"] = $cache;
+			$this->mw_cache_storage ["$cache_id"] = $cache;
 			
 			$this->cache_storage_hits [$cache_id] ++;
 		
@@ -4592,7 +4597,7 @@ class Core_model extends Model {
 			// $this->cache_storage_not_found [$cache_file] ;
 			// print 'no cache file'.$cache_file;
 			// $this->cache_storage [$cache_id] = false;
-			$mw_cache_storage ["$cache_id"] = false;
+			$this->mw_cache_storage ["$cache_id"] = false;
 			
 			return false;
 		
@@ -9629,7 +9634,9 @@ $w
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'options' );
-		
+		if (($cache_content) == '--false--') {
+			return false;
+		}
 		if (($cache_content) != false) {
 			
 			return $cache_content;
@@ -9682,6 +9689,7 @@ $w
 				}
 			
 			} else {
+									CI::model ( 'core' )->cacheWriteAndEncode ( '--false--', $function_cache_id, $cache_group = 'options' );
 				
 				return FALSE;
 			

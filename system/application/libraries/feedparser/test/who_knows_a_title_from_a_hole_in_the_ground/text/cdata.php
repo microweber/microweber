@@ -5,8 +5,7 @@ class who_knows_a_title_from_a_hole_in_the_ground_text_cdata extends SimplePie_F
 	function data()
 	{
 		$this->data = 
-'<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+'<?xml version="1.0" encoding="utf-8"\?><feed xmlns="http://www.w3.org/2005/Atom">
 <id>http://atomtests.philringnalda.com/tests/item/title/text-cdata.atom</id>
 <title>Atom item title text in CDATA</title>
 <updated>2005-12-18T00:13:00Z</updated>
@@ -35,4 +34,4 @@ the less-than is escaped by being in a CDATA section.</summary>
 	}
 }
 
-?>
+\?>

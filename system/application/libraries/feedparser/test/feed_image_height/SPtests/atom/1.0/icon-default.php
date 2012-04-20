@@ -16,4 +16,4 @@ class SimplePie_Feed_Image_Height_Test_Atom_10_Icon_Default extends SimplePie_Fe
 	}
 }
 
-?>
+\?>

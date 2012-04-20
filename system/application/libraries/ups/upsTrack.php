@@ -24,14 +24,12 @@ class upsTrack {
 		die();
 	}
 	
-        $data ="<?xml version=\"1.0\"?>
-    	<AccessRequest xml:lang='en-US'>
+        $data ="<?xml version=\"1.0\"\?>    	<AccessRequest xml:lang='en-US'>
     	    <AccessLicenseNumber>$this->AccessLicenseNumber</AccessLicenseNumber>
     	    <UserId>$this->UserID</UserId>
     	    <Password>$this->Password</Password>
 	</AccessRequest>
-	<?xml version=\"1.0\"?>
-	<TrackRequest>
+	<?xml version=\"1.0\"\?>	<TrackRequest>
     	    <Request>
     		<TransactionReference>
     		    <CustomerContext>

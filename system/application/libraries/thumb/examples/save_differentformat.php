@@ -29,4 +29,4 @@ $thumb = PhpThumbFactory::create('test.jpg');
 $thumb->adaptiveResize(300, 300);
 $thumb->save('test.png', 'png');
 
-?>
+\?>

@@ -241,67 +241,40 @@ function fnLoadPngs() {
 		<div class="chunk">
 			<h3>What does this mean?</h3>
 			<ol>
-				<?php if ($php_ok && $xml_ok && $pcre_ok && $mbstring_ok && $iconv_ok && $curl_ok && $zlib_ok): ?>
-				<li><em>You have everything you need to run SimplePie properly!  Congratulations!</em></li>
-				<?php else: ?>
-					<?php if ($php_ok): ?>
-						<li><strong>PHP:</strong> You are running a supported version of PHP.  <em>No problems here.</em></li>
-						<?php if ($xml_ok): ?>
-							<li><strong>XML:</strong> You have XML support installed.  <em>No problems here.</em></li>
-							<?php if ($pcre_ok): ?>
-								<li><strong>PCRE:</strong> You have PCRE support installed. <em>No problems here.</em></li>
-								<?php if ($curl_ok): ?>
-									<li><strong>cURL:</strong> You have <code>cURL</code> support installed.  <em>No problems here.</em></li>
-								<?php else: ?>
-									<li><strong>cURL:</strong> The <code>cURL</code> extension is not available.  SimplePie will use <code>fsockopen()</code> instead.</li>
-								<?php endif; ?>
-	
-								<?php if ($zlib_ok): ?>
-									<li><strong>Zlib:</strong> You have <code>Zlib</code> enabled.  This allows SimplePie to support GZIP-encoded feeds.  <em>No problems here.</em></li>
-								<?php else: ?>
-									<li><strong>Zlib:</strong> The <code>Zlib</code> extension is not available.  SimplePie will ignore any GZIP-encoding, and instead handle feeds as uncompressed text.</li>
-								<?php endif; ?>
-	
-								<?php if ($mbstring_ok && $iconv_ok): ?>
-									<li><strong>mbstring and iconv:</strong> You have both <code>mbstring</code> and <code>iconv</code> installed!  This will allow SimplePie to handle the greatest number of languages.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
-								<?php elseif ($mbstring_ok): ?>
-									<li><strong>mbstring:</strong> <code>mbstring</code> is installed, but <code>iconv</code> is not.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
-								<?php elseif ($iconv_ok): ?>
-									<li><strong>iconv:</strong> <code>iconv</code> is installed, but <code>mbstring</code> is not.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
-								<?php else: ?>
-									<li><strong>mbstring and iconv:</strong> <em>You do not have either of the extensions installed.</em> This will significantly impair your ability to read non-English feeds, as well as even some English ones.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
-								<?php endif; ?>
-							<?php else: ?>
-								<li><strong>PCRE:</strong> Your PHP installation doesn't support Perl-Compatible Regular Expressions.  <em>SimplePie is a no-go at the moment.</em></li>
-							<?php endif; ?>
-						<?php else: ?>
-							<li><strong>XML:</strong> Your PHP installation doesn't support XML parsing.  <em>SimplePie is a no-go at the moment.</em></li>
-						<?php endif; ?>
-					<?php else: ?>
-						<li><strong>PHP:</strong> You are running an unsupported version of PHP.  <em>SimplePie is a no-go at the moment.</em></li>
-					<?php endif; ?>
-				<?php endif; ?>
-			</ol>
+				<?php if ($php_ok && $xml_ok && $pcre_ok && $mbstring_ok && $iconv_ok && $curl_ok && $zlib_ok): \?>				<li><em>You have everything you need to run SimplePie properly!  Congratulations!</em></li>
+				<?php else: \?>					<?php if ($php_ok): \?>						<li><strong>PHP:</strong> You are running a supported version of PHP.  <em>No problems here.</em></li>
+						<?php if ($xml_ok): \?>							<li><strong>XML:</strong> You have XML support installed.  <em>No problems here.</em></li>
+							<?php if ($pcre_ok): \?>								<li><strong>PCRE:</strong> You have PCRE support installed. <em>No problems here.</em></li>
+								<?php if ($curl_ok): \?>									<li><strong>cURL:</strong> You have <code>cURL</code> support installed.  <em>No problems here.</em></li>
+								<?php else: \?>									<li><strong>cURL:</strong> The <code>cURL</code> extension is not available.  SimplePie will use <code>fsockopen()</code> instead.</li>
+								<?php endif; \?>	
+								<?php if ($zlib_ok): \?>									<li><strong>Zlib:</strong> You have <code>Zlib</code> enabled.  This allows SimplePie to support GZIP-encoded feeds.  <em>No problems here.</em></li>
+								<?php else: \?>									<li><strong>Zlib:</strong> The <code>Zlib</code> extension is not available.  SimplePie will ignore any GZIP-encoding, and instead handle feeds as uncompressed text.</li>
+								<?php endif; \?>	
+								<?php if ($mbstring_ok && $iconv_ok): \?>									<li><strong>mbstring and iconv:</strong> You have both <code>mbstring</code> and <code>iconv</code> installed!  This will allow SimplePie to handle the greatest number of languages.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
+								<?php elseif ($mbstring_ok): \?>									<li><strong>mbstring:</strong> <code>mbstring</code> is installed, but <code>iconv</code> is not.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
+								<?php elseif ($iconv_ok): \?>									<li><strong>iconv:</strong> <code>iconv</code> is installed, but <code>mbstring</code> is not.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
+								<?php else: \?>									<li><strong>mbstring and iconv:</strong> <em>You do not have either of the extensions installed.</em> This will significantly impair your ability to read non-English feeds, as well as even some English ones.  Check the <a href="http://simplepie.org/wiki/faq/supported_character_encodings">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
+								<?php endif; \?>							<?php else: \?>								<li><strong>PCRE:</strong> Your PHP installation doesn't support Perl-Compatible Regular Expressions.  <em>SimplePie is a no-go at the moment.</em></li>
+							<?php endif; \?>						<?php else: \?>							<li><strong>XML:</strong> Your PHP installation doesn't support XML parsing.  <em>SimplePie is a no-go at the moment.</em></li>
+						<?php endif; \?>					<?php else: \?>						<li><strong>PHP:</strong> You are running an unsupported version of PHP.  <em>SimplePie is a no-go at the moment.</em></li>
+					<?php endif; \?>				<?php endif; \?>			</ol>
 		</div>
 
 		<div class="chunk">
-			<?php if ($php_ok && $xml_ok && $pcre_ok && $mbstring_ok && $iconv_ok) { ?>
-				<h3>Bottom Line: Yes, you can!</h3>
+			<?php if ($php_ok && $xml_ok && $pcre_ok && $mbstring_ok && $iconv_ok) { \?>				<h3>Bottom Line: Yes, you can!</h3>
 				<p><em>Your webhost has its act together!</em></p>
 				<p>You can download the latest version of SimplePie from <a href="http://simplepie.org/downloads/">SimplePie.org</a> and install it by <a href="http://simplepie.org/wiki/setup/start">following the instructions</a>.  You can find example uses with <a href="http://simplepie.org/ideas/">SimplePie Ideas</a>.</p>
 				<p>Take the time to read <a href="http://simplepie.org/wiki/setup/start">Requirements and Getting Started</a> to make sure you're prepared to use SimplePie. No seriously, read them.</p>
 				<p class="footnote"><em><strong>Note</strong></em>: Passing this test does not guarantee that SimplePie will run on your webhost &mdash; it only ensures that the basic requirements have been addressed.</p>
-			<?php } else if ($php_ok && $xml_ok && $pcre_ok) { ?>
-				<h3>Bottom Line: Yes, you can!</h3>
+			<?php } else if ($php_ok && $xml_ok && $pcre_ok) { \?>				<h3>Bottom Line: Yes, you can!</h3>
 				<p><em>For most feeds, it'll run with no problems.</em>  There are <a href="http://simplepie.org/wiki/faq/supported_character_encodings">certain languages</a> that you might have a hard time with though.</p>
 				<p>You can download the latest version of SimplePie from <a href="http://simplepie.org/downloads/">SimplePie.org</a> and install it by <a href="http://simplepie.org/wiki/setup/start">following the instructions</a>.  You can find example uses with <a href="http://simplepie.org/ideas/">SimplePie Ideas</a>.</p>
 				<p>Take the time to read <a href="http://simplepie.org/wiki/setup/start">Requirements and Getting Started</a> to make sure you're prepared to use SimplePie. No seriously, read them.</p>
 				<p class="footnote"><em><strong>Note</strong></em>: Passing this test does not guarantee that SimplePie will run on your webhost &mdash; it only ensures that the basic requirements have been addressed.</p>
-			<?php } else { ?>
-				<h3>Bottom Line: We're sorry…</h3>
+			<?php } else { \?>				<h3>Bottom Line: We're sorry…</h3>
 				<p><em>Your webhost does not support the minimum requirements for SimplePie.</em>  It may be a good idea to contact your webhost, and ask them to install a more recent version of PHP as well as the <code>xml</code>, <code>mbstring</code>, <code>iconv</code>, <code>curl</code>, and <code>zlib</code> extensions.</p>
-			<?php } ?>
-		</div>
+			<?php } \?>		</div>
 
 		<div class="chunk">
 			<p class="footnote">&sup1; &mdash; SimplePie 2 will not support PHP 4.x. The core PHP team has discontinued PHP 4.x patches and support. <a href="http://simplepie.org/blog/2007/07/13/simplepie-is-going-php5-only/">Read the announcement.</a></p>

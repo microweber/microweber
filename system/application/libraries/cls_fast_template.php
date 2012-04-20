@@ -2253,4 +2253,4 @@ if (! class_exists ( 'FastTemplate' )) {
 
 
 // End cls_fast_template.php
-?>
+\?>

@@ -65,10 +65,8 @@ $feed->handle_content_type();
 <body>
 <div id="site">
 
-	<?php if ($feed->error): ?>
-		<p><?php =$feed->error()?></p>
-	<?php endif ?>
-
+	<?php if ($feed->error): \?>		<p><?php =$feed->error()?></p>
+	<?php endif \?>
 	<div class="chunk">
 		<h1>Quick-n-Dirty Multifeeds Demo</a></h1>
 	</div>
@@ -79,28 +77,22 @@ $feed->handle_content_type();
 
 	// Let's give ourselves a reference to the parent $feed object for this particular item.
 	$feed = $item->get_feed();
-	?>
-
+	\?>
 		<div class="chunk">
 			<h4 style="background-image:url(<?php echo $feed->get_favicon(); ?>);"><a href="<?php echo $item->get_permalink(); ?>"><?php echo html_entity_decode($item->get_title(), ENT_QUOTES, 'UTF-8'); ?></a></h4>
 
 			<!-- get_content() prefers full content over summaries -->
-			<?php echo $item->get_content(); ?>
-
-			<?php if ($enclosure = $item->get_enclosure()): ?>
-				<div>
+			<?php echo $item->get_content(); \?>
+			<?php if ($enclosure = $item->get_enclosure()): \?>				<div>
 				<?php echo $enclosure->native_embed(array(
 					// New 'mediaplayer' attribute shows off Flash-based MP3 and FLV playback.
 					'mediaplayer' => '../demo/for_the_demo/mediaplayer.swf'
-				)); ?>
-				</div>
-			<?php endif; ?>
-
+				)); \?>				</div>
+			<?php endif; \?>
 			<p class="footnote">Source: <a href="<?php echo $feed->get_permalink(); ?>"><?php echo $feed->get_title(); ?></a> | <?php echo $item->get_date('j M Y | g:i a'); ?></p>
 		</div>
 
-	<?php endforeach ?>
-
+	<?php endforeach \?>
 	<p class="footnote">This is a test of the emergency broadcast system.  This is only a test&hellip; beeeeeeeeeeeeeeeeeeeeeeeeeep!</p>
 
 </div>

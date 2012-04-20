@@ -16,4 +16,4 @@ class SimplePie_Feed_Image_Width_Test_Atom_10_Logo_Default extends SimplePie_Fee
 	}
 }
 
-?>
+\?>

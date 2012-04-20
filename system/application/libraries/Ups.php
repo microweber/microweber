@@ -101,8 +101,7 @@ class CI_Ups {
 
 
 // construct the xml query document
-$xml_request = "<?xml version=\"1.0\"?>
-<AccessRequest xml:lang=\"en-US\">
+$xml_request = "<?xml version=\"1.0\"\?><AccessRequest xml:lang=\"en-US\">
 	<AccessLicenseNumber>
 		$access_license_number
 	</AccessLicenseNumber>
@@ -113,8 +112,7 @@ $xml_request = "<?xml version=\"1.0\"?>
 		$password
 	</Password>
 </AccessRequest>
-<?xml version=\"1.0\"?>
-<ShipmentConfirmRequest xml:lang=\"en-US\">
+<?xml version=\"1.0\"\?><ShipmentConfirmRequest xml:lang=\"en-US\">
    <Request>
       <TransactionReference>
          <CustomerContext>ShipConfirmUS</CustomerContext>
@@ -292,8 +290,7 @@ $xml_request = "<?xml version=\"1.0\"?>
 			$post_url	= "https://wwwcie.ups.com/ups.app/xml/ShipAccept";
 		}
 
-$xml_request = "<?xml version=\"1.0\"?>
-<AccessRequest xml:lang=\"en-US\">
+$xml_request = "<?xml version=\"1.0\"\?><AccessRequest xml:lang=\"en-US\">
 	<AccessLicenseNumber>
 		$access_license_number
 	</AccessLicenseNumber>
@@ -304,8 +301,7 @@ $xml_request = "<?xml version=\"1.0\"?>
 		$password
 	</Password>
 </AccessRequest>
-<?xml version=\"1.0\"?>
-<ShipmentAcceptRequest>
+<?xml version=\"1.0\"\?><ShipmentAcceptRequest>
    <Request>
       <TransactionReference>
          <CustomerContext>TR01</CustomerContext>
@@ -372,8 +368,7 @@ $xml_request = "<?xml version=\"1.0\"?>
 			$post_url	= "https://wwwcie.ups.com/ups.app/xml/Void";
 		}
 
-$xml_request = "<?xml version=\"1.0\"?>
-<AccessRequest xml:lang=\"en-US\">
+$xml_request = "<?xml version=\"1.0\"\?><AccessRequest xml:lang=\"en-US\">
 	<AccessLicenseNumber>
 		$access_license_number
 	</AccessLicenseNumber>
@@ -384,8 +379,7 @@ $xml_request = "<?xml version=\"1.0\"?>
 		$password
 	</Password>
 </AccessRequest>
-<?xml version=\"1.0\"?>
-<VoidShipmentRequest>
+<?xml version=\"1.0\"\?><VoidShipmentRequest>
    <Request>
 		<TransactionReference>
 			<CustomerContext>Void</CustomerContext>

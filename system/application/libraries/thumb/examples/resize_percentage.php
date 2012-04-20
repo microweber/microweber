@@ -29,4 +29,4 @@ $thumb = PhpThumbFactory::create('test.jpg');
 $thumb->resizePercent(50);
 $thumb->show();
 
-?>
+\?>

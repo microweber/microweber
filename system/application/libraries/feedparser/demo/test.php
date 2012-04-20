@@ -26,8 +26,7 @@ else
 
 $feed->handle_content_type();
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+\?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <title>SimplePie Test</title>
 <pre>
 <?php
@@ -58,5 +57,4 @@ ob_start('callable_htmlspecialchars');
 print_r($feed);
 ob_end_flush();
 
-?>
-</pre>
+\?></pre>

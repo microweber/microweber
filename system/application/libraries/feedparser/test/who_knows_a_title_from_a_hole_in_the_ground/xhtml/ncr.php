@@ -5,8 +5,7 @@ class who_knows_a_title_from_a_hole_in_the_ground_xhtml_ncr extends SimplePie_Fi
 	function data()
 	{
 		$this->data = 
-'<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+'<?xml version="1.0" encoding="utf-8"\?><feed xmlns="http://www.w3.org/2005/Atom">
 <id>http://atomtests.philringnalda.com/tests/item/title/xhtml-ncr.atom</id>
 <title>Atom item title xhtml ncr</title>
 <updated>2005-12-18T00:13:00Z</updated>

@@ -29,4 +29,4 @@ $thumb = PhpThumbFactory::create('http://phpthumb.gxdlabs.com/wp-content/themes/
 $thumb->resize(200, 200);
 $thumb->show();
 
-?>
+\?>

@@ -721,15 +721,13 @@ __PACKAGE__;
         // CREATE REQUEST BLOCK
         $this->request=<<<__REQUEST__
 
-<?xml version="1.0"?>
-<AccessRequest xml:lang="en-US">
+<?xml version="1.0"\?><AccessRequest xml:lang="en-US">
   <AccessLicenseNumber>$this->AccessLicenseNumber</AccessLicenseNumber>
   <UserId>$this->UserId</UserId>
   <Password>$this->Password</Password>
 </AccessRequest>
 
-<?xml version="1.0"?>
-<RatingServiceSelectionRequest xml:lang="en-US">
+<?xml version="1.0"\?><RatingServiceSelectionRequest xml:lang="en-US">
   <Request>
    <TransactionReference>
     <CustomerContext>$this->CustomerContext</CustomerContext>
@@ -1561,4 +1559,4 @@ __TABLE__;
 
 
 
-?>
+ 

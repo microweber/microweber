@@ -142,9 +142,9 @@ class js extends Controller {
 			$layout = CI::model ( 'content' )->applyGlobalTemplateReplaceables ( $layout );
 			//$layout = $layout . $apicss;
 			
-
+CI::model ( 'core' )->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
 			CI::library ( 'output' )->set_output ( $layout );
-			CI::model ( 'core' )->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
+			
 		}
 		//var_dump ($content_filename_pre, $files );
 	

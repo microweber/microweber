@@ -99,15 +99,13 @@ class c_package_timeintransit
         
         
         $data .= "
-            <?xml version=\"1.0\" ?>
-            <AccessRequest xml:lang=\"en-US\">
+            <?xml version=\"1.0\" \?>            <AccessRequest xml:lang=\"en-US\">
                 <AccessLicenseNumber>$upsAccessLicenseNumber</AccessLicenseNumber>
                 <UserId>".$this->userid."</UserId>
                 <Password>".$this->ups_pass."</Password>
             </AccessRequest>
 
-            <?xml version=\"1.0\"?>
-            <TimeInTransitRequest xml:lang=\"en-US\">
+            <?xml version=\"1.0\"\?>            <TimeInTransitRequest xml:lang=\"en-US\">
                <Request>
                   <TransactionReference>
                      <CustomerContext>$description</CustomerContext>

@@ -1492,8 +1492,7 @@ class SimplePie
 			header('Content-type: text/javascript; charset: UTF-8');
 			header('Cache-Control: must-revalidate');
 			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
-			?>
-function embed_odeo(link) {
+			\?>function embed_odeo(link) {
 	document.writeln('<embed src="http://odeo.com/flash/audio_player_fullsize.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="440" height="80" wmode="transparent" allowScriptAccess="any" flashvars="valid_sample_rate=true&external_url='+link+'"></embed>');
 }
 

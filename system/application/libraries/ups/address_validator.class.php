@@ -37,15 +37,13 @@ class c_address_validator
         $description = $this->trans_description;
 
         $data = "
-            <?xml version=\"1.0\" ?>
-            <AccessRequest xml:lang=\"en-US\">
+            <?xml version=\"1.0\" \?>            <AccessRequest xml:lang=\"en-US\">
                 <AccessLicenseNumber>".$this->xml_acc_key."</AccessLicenseNumber>
                 <UserId>".$this->userid."</UserId>
                 <Password>".$this->passw."</Password>
             </AccessRequest>
 
-            <?xml version=\"1.0\" ?>
-            <AddressValidationRequest xml:lang=\"en-US\">
+            <?xml version=\"1.0\" \?>            <AddressValidationRequest xml:lang=\"en-US\">
                 <Request>
                     <TransactionReference>
                         <CustomerContext>".$this->trans_description."</CustomerContext>

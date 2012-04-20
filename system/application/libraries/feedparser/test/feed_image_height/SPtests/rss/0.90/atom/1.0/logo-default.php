@@ -18,4 +18,4 @@ class SimplePie_Feed_Image_Height_Test_RSS_090_Atom_10_Logo_Default extends Simp
 	}
 }
 
-?>
+\?>

@@ -125,4 +125,4 @@ class THUMB
         } else $this->writeLine("Imagem não encontrada!");
     }
 }
-?>
+\?>

@@ -605,4 +605,4 @@ function unhtmlentities ($string) {
 
 
 }
-?>
+\?>

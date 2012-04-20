@@ -33,4 +33,4 @@ $thumb->cropFromCenter(200, 100);
 
 $thumb->show();
 
-?>
+\?>

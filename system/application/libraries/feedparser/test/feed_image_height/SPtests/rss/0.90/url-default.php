@@ -18,4 +18,4 @@ class SimplePie_Feed_Image_Height_Test_RSS_090_URL_Default extends SimplePie_Fee
 	}
 }
 
-?>
+\?>

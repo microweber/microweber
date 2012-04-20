@@ -130,8 +130,7 @@ $feed->handle_content_type();
 				// Close the <div> element we opened.
 				echo '</div>' . "\r\n";
 			}
-			?>
-
+			\?>
 			<!-- Here are some sample feeds. -->
 			<p class="sample_feeds"><strong>Or try one of the following:</strong> 
 			<a href="?feed=http://www.詹姆斯.com/atomtests/iri/everything.atom" title="Test: International Domain Name support">詹姆斯.com</a>, 
@@ -195,15 +194,13 @@ $feed->handle_content_type();
 		<div id="sp_results">
 
 			<!-- As long as the feed has data to work with... -->
-			<?php if ($success): ?>
-				<div class="chunk focus" align="center">
+			<?php if ($success): \?>				<div class="chunk focus" align="center">
 
 					<!-- If the feed has a link back to the site that publishes it (which 99% of them do), link the feed's title to it. -->
 					<h3 class="header"><?php if ($feed->get_link()) echo '<a href="' . $feed->get_link() . '">'; echo $feed->get_title(); if ($feed->get_link()) echo '</a>'; ?></h3>
 
 					<!-- If the feed has a description, display it. -->
-					<?php echo $feed->get_description(); ?>
-
+					<?php echo $feed->get_description(); \?>
 				</div>
 
 				<!-- Add subscribe links for several different aggregation services -->
@@ -211,8 +208,7 @@ $feed->handle_content_type();
 
 
 				<!-- Let's begin looping through each individual news item in the feed. -->
-				<?php foreach($feed->get_items() as $item): ?>
-					<div class="chunk">
+				<?php foreach($feed->get_items() as $item): \?>					<div class="chunk">
 
 						<?php
 						// Let's add a favicon for each item. If one doesn't exist, we'll use an alternate one.
@@ -220,14 +216,12 @@ $feed->handle_content_type();
 						{
 							$favicon = './for_the_demo/favicons/alternate.png';
 						}
-						?>
-
+						\?>
 						<!-- If the item has a permalink back to the original post (which 99% of them do), link the item's title to it. -->
 						<h4><img src="<?php echo $favicon; ?>" alt="Favicon" class="favicon" /><?php if ($item->get_permalink()) echo '<a href="' . $item->get_permalink() . '">'; echo $item->get_title(); if ($item->get_permalink()) echo '</a>'; ?>&nbsp;<span class="footnote"><?php echo $item->get_date('j M Y, g:i a'); ?></span></h4>
 
 						<!-- Display the item's primary content. -->
-						<?php echo $item->get_content(); ?>
-
+						<?php echo $item->get_content(); \?>
 						<?php
 						// Check for enclosures.  If an item has any, set the first one to the $enclosure variable.
 						if ($enclosure = $item->get_enclosure(0))
@@ -249,8 +243,7 @@ $feed->handle_content_type();
 							echo ')</p>';
 							echo '</div>';
 						}
-						?>
-
+						\?>
 						<!-- Add links to add this post to one of a handful of services. -->
 						<p class="footnote favicons" align="center">
 							<a href="<?php echo $item->add_to_blinklist(); ?>" title="Add post to Blinklist"><img src="./for_the_demo/favicons/blinklist.png" alt="Blinklist" /></a>
@@ -271,11 +264,9 @@ $feed->handle_content_type();
 					</div>
 
 				<!-- Stop looping through each item once we've gone through all of them. -->
-				<?php endforeach; ?>
-
+				<?php endforeach; \?>
 			<!-- From here on, we're no longer using data from the feed. -->
-			<?php endif; ?>
-
+			<?php endif; \?>
 		</div>
 
 		<div>

@@ -7,10 +7,7 @@
            
            
            
-           ?>
-         
-
-		   <? $cat_edit_link = '';
+           $cat_edit_link = '';
               $cat_edit_link .= '<div class="inline_cat" category_id="{id}"><strong>{taxonomy_value}</strong>';
               $cat_edit_link .= '<div class="cat_Inline_Bar"><samp class="inline_edit" onclick="edit_category_dialog({id})">Edit Category</samp>';
               $cat_edit_link .= '<samp class="inline_add_sub" onclick="edit_category_dialog(0,{id})">Add sub category</samp>';
