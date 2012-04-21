@@ -1,10 +1,10 @@
 <?
 
-class rss_grabber_model extends Model {
+class rss_grabber_model extends CI_Model {
 	public $db_tables;
 	
 	function __construct() {
-		parent::Model ();
+		parent::_construct();
 		$plugin_db_tables = array ();
 		$plugin_db_tables ['rss_grabber_plugin_feeds'] = TABLE_PREFIX . "rss_grabber_plugin_feeds";
 		$this->db_tables = $plugin_db_tables;

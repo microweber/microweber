@@ -10,7 +10,7 @@
 	
 	
 	//$pages = get_pages($params);
-	$pages = CI::model ( 'content' )->getContentAndCache ( $params );
+	$pages = $this->content_model->getContentAndCache ( $params );
 	// p($pages);
 	?>
     <? foreach($pages as $pag): ?>
@@ -27,7 +27,7 @@
 	
 	
 	//$pages = get_pages($params);
-	$pages = CI::model ( 'content' )->getContentAndCache ( $params );
+	$pages = $this->content_model->getContentAndCache ( $params );
 	// p($pages);
 	?>
     <? foreach($pages as $pag): ?>
@@ -44,7 +44,7 @@
 	
 	
 	//$pages = get_pages($params);
-	$pages = CI::model ( 'content' )->getContentAndCache ( $params );
+	$pages = $this->content_model->getContentAndCache ( $params );
 	// p($pages);
 	?>
     <? foreach($pages as $pag): ?>

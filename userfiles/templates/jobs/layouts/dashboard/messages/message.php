@@ -7,11 +7,11 @@ if($message['from_user'] != $current_user['id']): ?>
  <?php endif; ?>
 
 
-  <?php $thumb = CI::model ( 'users' )->getUserThumbnail($message['from_user'], 90); ?>
+  <?php $thumb = $this->users_model->getUserThumbnail($message['from_user'], 90); ?>
   <a href="#" class="img" style="background-image: url('<?php print $thumb; ?>');"> </a>
   <div class="notification-content">
     <div class="notification-name">
-      <?php $fromUser = CI::model ( 'users' )->getUserById($message['from_user']); ?>
+      <?php $fromUser = $this->users_model->getUserById($message['from_user']); ?>
       <h3><a href="<?php echo site_url('userbase/action:profile/username:'.$fromUser['username']); ?>"><?php echo $fromUser['first_name'] . ' ' . $fromUser['last_name']; ?></a></h3>
       <span class="date inline left"><?php echo date(DATETIME_FORMAT, strtotime($message['created_on']));?></span> </div>
     <div class="notification-message"> <a href="<?php echo site_url('dashboard/action:messages/conversation:'.($message['parent_id'] ? $message['parent_id'] : $message['id'])); ?>"> <strong><?php echo $message['subject'];?></strong> </a> 

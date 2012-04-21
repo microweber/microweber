@@ -244,7 +244,7 @@ function set_categories(){
 	//p($curent_cat);
 	$category_ids[] = $add_to_category;
 	//p($category_ids);
-	//$page_from_cat = CI::model ( 'content' )->contentsGetTheLastBlogSectionForCategory($add_to_category['id']);
+	//$page_from_cat = $this->content_model->contentsGetTheLastBlogSectionForCategory($add_to_category['id']);
 //	p($page_from_cat);
 	
 	}

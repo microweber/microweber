@@ -66,10 +66,10 @@ $id = $params['content_id'];
   $skin = option_get('skin', $params['module_id']);  
  
  if($params['content_id'] == false and $params['module_id'] != false){
-$media1 = CI::model ( 'core' )->mediaGet($to_table = false, $to_table_id = false, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = $params['module_id']);
+$media1 = $this->core_model->mediaGet($to_table = false, $to_table_id = false, $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = $params['module_id']);
  } else {
 	// $media1 =   get_media($params['content_id']); 
-	$media1 = CI::model ( 'core' )->mediaGet($to_table = 'table_content', $to_table_id = $params['content_id'], $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = false);
+	$media1 = $this->core_model->mediaGet($to_table = 'table_content', $to_table_id = $params['content_id'], $media_type = false, $order = "ASC", $queue_id = false, $no_cache = false, $id = false, $collection = false);
 
 	 
  }
@@ -95,8 +95,8 @@ $media = $media1;
             <? if(trim($skin) =='' or $skin == '1'): ?>
             <?php $i = 1; if(!empty($media1)): ?>
             <?php foreach($media1 as $pic): ?>
-            <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);
-                 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
+            <?php $thumb =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], $size);
+                 $orig =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 'original');
             //p($thumb);
             ?>
             <a href="<? print  $orig; ?>"  title="<?php print addslashes($pic['media_name']); ?>"  alt="<?php print addslashes($pic['media_description']); ?>" > <img src="<? print  $thumb; ?>" /></a>

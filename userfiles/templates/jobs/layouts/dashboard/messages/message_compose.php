@@ -5,8 +5,8 @@
 
 <form method="post" id="message-compose" class="form">
 
-<input name="mk" type="hidden" value="<?php print ( CI::model ( 'core' )->securityEncryptString ( CI::model ( 'users' )->userId () )) ?>" />
-<input name="from_user" type="hidden" value="<?php print intval( CI::model ( 'users' )->userId () ) ?>" />
+<input name="mk" type="hidden" value="<?php print ( $this->core_model->securityEncryptString ( $this->users_model->userId () )) ?>" />
+<input name="from_user" type="hidden" value="<?php print intval( $this->users_model->userId () ) ?>" />
 <input name="receiver" id="message-compose-receiver" type="hidden" value="<?php print intval( $message_to_user['id'] ) ?>" />
 
 <label class="block" style="padding: 8px 0 5px">Receiver:</label>

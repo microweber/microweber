@@ -5,7 +5,7 @@
  
 ?>
 <? if($dashboard_user != $user_id) : ?>
-  <? 	$is_friend = CI::model ( 'users' )->realtionsCheckIfUserIsConfirmedFriendWithUser($user_id, $dashboard_user, $is_special = false); ?>
+  <? 	$is_friend = $this->users_model->realtionsCheckIfUserIsConfirmedFriendWithUser($user_id, $dashboard_user, $is_special = false); ?>
   <? if($is_friend  == true): ?>
 
    <microweber module="users/profile_view" user_id="<? print $dashboard_user ?>"></microweber>

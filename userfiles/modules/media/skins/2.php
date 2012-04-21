@@ -109,8 +109,8 @@ function gallery<? print $params['module_id'] ?>() {
 
  <?php $i = 1; if(!empty($media)): ?>
     <?php foreach($media1 as $pic): ?>
-    <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);
-	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
+    <?php $thumb =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], $size);
+	 $orig =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 'original');
 //p($thumb);
 ?>
 <a href="#"   <? if($i == 1) : ?>  class="show" <?php endif; ?>><center><img src="<? print  $orig; ?>" alt="<?php print addslashes($pic['media_name']); ?>"  height="360" title=""   rel="<?php print addslashes($pic['media_description']); ?>"/></center></a>

@@ -343,7 +343,7 @@ if(!empty($p )){
 	?>
     
       
-      <? 	//$cf_post =  CI::model ( 'core' )->getCustomFields('table_content', $post['id'], $return_full = true); 
+      <? 	//$cf_post =  $this->core_model->getCustomFields('table_content', $post['id'], $return_full = true); 
 	
 	//p($cf_post);
 	?>

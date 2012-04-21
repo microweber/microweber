@@ -4,16 +4,16 @@
   <br />
   <div class="bluebox" >
     <div class="blueboxcontent">
-    <?php $your_id = CI::model ( 'users' )->userId ();
+    <?php $your_id = $this->users_model->userId ();
  
  if(intval($your_id ) == intval($messages[0]['from_user'])){
 	 $between1 = 'you';
 	 $contevsation_with = $messages[0]['to_user'];
-	  $between2 = CI::model ( 'users' )->getPrintableName(intval($messages[0]['to_user']), 'first'); 
+	  $between2 = $this->users_model->getPrintableName(intval($messages[0]['to_user']), 'first'); 
 	   } else {
 		    $contevsation_with = $messages[0]['from_user'];
 		   	 $between2 = 'you';
-	  $between1 = CI::model ( 'users' )->getPrintableName(intval($messages[0]['to_user']), 'first'); 
+	  $between1 = $this->users_model->getPrintableName(intval($messages[0]['to_user']), 'first'); 
 	 
  }
  

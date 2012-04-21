@@ -83,7 +83,7 @@ if ($_POST) {
 			$get_categories_params = array ();
 			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [9];
 		//		p($get_categories_params);
-			$is_cat = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+			$is_cat = $this->taxonomy_model->taxonomyGet ( $get_categories_params );
 		//	p ( $is_cat );
 			$is_cat = $is_cat [0];
 			
@@ -101,7 +101,7 @@ if ($_POST) {
 			$get_categories_params ['custom_fields_criteria'] ['original_id'] = $category [11];
 			//p ( $category [11] );
 			//	p ( $get_categories_params );
-			$get_categories_params = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+			$get_categories_params = $this->taxonomy_model->taxonomyGet ( $get_categories_params );
 			
 			$is_parrent = $get_categories_params [0];
 			//p ( $is_parrent );
@@ -126,7 +126,7 @@ if ($_POST) {
 			?><pre><?php
 			print "saving...";
 			//p ( $get_categories_params );
-			$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
+			$s = $this->taxonomy_model->taxonomySave ( $item_save, $preserve_cache = false );
 			
 			var_dump ( $s, $item_save );
 			print "<hr>";
@@ -145,10 +145,10 @@ if ($_POST) {
 		//$get_categories_params ['custom_fields_criteria'] ['original_id'] = "IS NOT NULL";
 		//p ( $category [11] );
 		//	p ( $get_categories_params );
-		$get_categories_params = CI::model ( 'taxonomy' )->taxonomyGet ( $get_categories_params );
+		$get_categories_params = $this->taxonomy_model->taxonomyGet ( $get_categories_params );
 		//p ( $get_categories_params );
 		foreach ( $get_categories_params as $c ) {
-			$c_cf = CI::model ( 'core' )->getCustomFields ( 'table_taxonomy', $id = $c ['id'], $return_full = false );
+			$c_cf = $this->core_model->getCustomFields ( 'table_taxonomy', $id = $c ['id'], $return_full = false );
 			p($c);
 			if ($c_cf ['original_parent_id'] != false) {
 				
@@ -167,10 +167,10 @@ if ($_POST) {
 					$item_save ['parent_id'] = $get_parent ['id'];
 					$q = "update $table_taxonomy set parent_id='{$item_save ['parent_id']}' where id ='{$item_save ['id']}' ";
 					//p($q);
-					$q = CI::model ( 'core' )->dbQ ( $q );
+					$q = $this->core_model->dbQ ( $q );
 					
 					
-					//$s = CI::model ( 'taxonomy' )->taxonomySave ( $item_save, $preserve_cache = false );
+					//$s = $this->taxonomy_model->taxonomySave ( $item_save, $preserve_cache = false );
 					
 				//var_dump ( $s, $item_save );
 				}

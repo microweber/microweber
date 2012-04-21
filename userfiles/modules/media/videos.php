@@ -53,8 +53,8 @@ $(document).ready(function(){
   <ul class="media_module_content" id="video_gal">
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>
-    <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);
-	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
+    <?php $thumb =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], $size);
+	 $orig =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 'original');
  if($pic['url']){
 	$url1 = $pic['url']; 
  }

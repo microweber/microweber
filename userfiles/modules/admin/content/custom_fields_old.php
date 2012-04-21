@@ -41,7 +41,7 @@ if(($params['post_id'] != false)){
 		$page_data = get_page_for_post($params['post_id']);
 		//$params['page_id'] = $page_data['id'];
 		
-			$cf_post =  CI::model ( 'core' )->getCustomFields('table_content', $params['post_id'], $return_full = false);
+			$cf_post =  $this->core_model->getCustomFields('table_content', $params['post_id'], $return_full = false);
 			
 			$cf_post_config = array();
 				$cf_post_config['post_id'] = $params['post_id'];

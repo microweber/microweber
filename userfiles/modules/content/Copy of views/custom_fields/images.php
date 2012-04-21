@@ -5,7 +5,7 @@ if($params['cf_id']){
 	
 	$arr = array();
 		$arr['id'] =$params['cf_id'];
-$cf_conf = CI::model ( 'core' )->getCustomFieldsConfig($arr) 	;
+$cf_conf = $this->core_model->getCustomFieldsConfig($arr) 	;
 $cf_conf = $cf_conf[0];
 //p($cf_conf);
 	
@@ -184,8 +184,8 @@ padding-left: 10px;*/
           <ul style="height: 160px;overflow-x: hidden;overflow-y: scroll; display:none; background-color:#FFF; ">
             <?  $i=0;  foreach($pics as $pic): ?>
             <?php 
-                 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
-				   $tn =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], '90');
+                 $orig =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 'original');
+				   $tn =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], '90');
             //p($thumb);
 			
 			

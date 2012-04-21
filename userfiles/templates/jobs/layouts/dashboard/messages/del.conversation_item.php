@@ -10,7 +10,7 @@ if($conversation['to_user'] != $current_user['id']): ?>
   <a href="#" class="img"> </a>
   <div class="notification-content">
     <div class="notification-name">
-      <?php $fromUser = CI::model ( 'users' )->getUserById($conversation['from_user']); ?>
+      <?php $fromUser = $this->users_model->getUserById($conversation['from_user']); ?>
       <h3><a href="<?php echo site_url('userbase/action:profile/username:'.$fromUser['username']); ?>"><?php echo $fromUser['first_name'] . ' ' . $fromUser['last_name']; ?></a></h3>
       <span class="date inline left"><?php echo $conversation['created_on']; ?></span> </div>
     <div class="notification-message"> <a href="<?php echo site_url('dashboard/action:messages/conversation:'.$conversation['id']); ?>"> <strong><?php echo $conversation['subject'];?></strong> </a> <?php echo $conversation['message'];?> </div>

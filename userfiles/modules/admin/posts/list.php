@@ -59,7 +59,7 @@ $posts = get_posts($params);
     <a href="<? print ADMIN_URL ?>/action:post_edit/id:<? print $the_post['id'] ?>" class="img" style="background-image:url('<? print thumbnail($the_post['id'], 110) ?>')"></a>
     <h2><? print $the_post['content_title'] ?> </h2>
     <div style="float:left; width:500px;">
-      <? $c = CI::model ( 'taxonomy' )->getTaxonomiesForContent($the_post['id'], $taxonomy_type = 'categories'); 
+      <? $c = $this->taxonomy_model->getTaxonomiesForContent($the_post['id'], $taxonomy_type = 'categories'); 
 
  
  ?>

@@ -8,8 +8,8 @@ $gal_data_json = array();
 
  <?php $i = 1; if(!empty($media)): ?>
   <?php foreach($media1 as $pic): ?>
-  <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 800);
-	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
+  <?php $thumb =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 800);
+	 $orig =  $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 'original');
  
  $gal_data_json1=array();
  $gal_data_json1['thumb'] = $thumb;

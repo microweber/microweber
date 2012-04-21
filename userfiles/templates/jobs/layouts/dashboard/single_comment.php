@@ -1,5 +1,5 @@
-<?php $thumb = CI::model ( 'users' )->getUserThumbnail( $comment['created_by'], 50); ?>
-<?php $author = CI::model ( 'users' )->getUserById($comment['created_by']); ?>
+<?php $thumb = $this->users_model->getUserThumbnail( $comment['created_by'], 50); ?>
+<?php $author = $this->users_model->getUserById($comment['created_by']); ?>
 
 <div class="status-comment">
 	<a href="#" class="img" style="background-image: url(<?php print $thumb; ?>)"></a>

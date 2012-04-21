@@ -3,9 +3,9 @@
 <div class="comment_area" id="<? print $form_id; ?>">
   <div class="comment_area_content">
     <form method="post" action="#" class="ajax_comment_form">
-      <input type="hidden" name="to_table" value="<? print  CI::model ( 'core' )->securityEncryptString($comment_to_table); ?>">
-      <input type="hidden" name="to_table_id" value="<? print  CI::model ( 'core' )->securityEncryptString($comment_to_id); ?>">
-      <input type="hidden" name="display" value="<? print  CI::model ( 'core' )->securityEncryptString(('dashboard/index_item_comments_list.php')); ?>">
+      <input type="hidden" name="to_table" value="<? print  $this->core_model->securityEncryptString($comment_to_table); ?>">
+      <input type="hidden" name="to_table_id" value="<? print  $this->core_model->securityEncryptString($comment_to_id); ?>">
+      <input type="hidden" name="display" value="<? print  $this->core_model->securityEncryptString(('dashboard/index_item_comments_list.php')); ?>">
       <input type="hidden" name="update_element" value="#<? print $comments_update_element; ?>">
       <input type="hidden" name="hide_element" value="#<? print $form_id; ?>">
       <input type="hidden" name="show_element" value="#<? print $form_id; ?>_success">

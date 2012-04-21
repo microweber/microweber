@@ -43,7 +43,7 @@ $(function() {
   <? include (TEMPLATE_DIR. "layouts".DS."companies".DS."profile_box.php"); ?>
   <div class="contactme_tit">Contact Me</div>
   <form id="send_msg" method="post" action="">
-    <input type="hidden" name="mk" value="<?php print CI::model ( 'core' )->securityEncryptString ( user_id() ); ?>" />
+    <input type="hidden" name="mk" value="<?php print $this->core_model->securityEncryptString ( user_id() ); ?>" />
     <input type="hidden" name="to_user" value="<?php print $u['id']; ?>" />
     <input type="hidden" name="subject" value="Message from: <?php print user_name(); ?>" />
     <input type="hidden" name="send_email" value="1" />

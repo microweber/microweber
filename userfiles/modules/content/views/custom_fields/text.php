@@ -6,7 +6,7 @@ if($params['cf_id']){
 	$arr = array();
 		$arr['id'] =$params['cf_id'];
 		//p($arr);
-$cf_conf = CI::model ( 'core' )->getCustomFieldsConfig($arr) 	;
+$cf_conf = $this->core_model->getCustomFieldsConfig($arr) 	;
 //p($cf_conf);
 $cf_conf = $cf_conf[0];
 

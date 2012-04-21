@@ -17,7 +17,7 @@ $form_values = get_content($id);
 	//p($curent_cat);
 	
 	
-	$page_from_cat = CI::model ( 'content' )->contentsGetTheLastBlogSectionForCategory($add_to_category['id']);
+	$page_from_cat = $this->content_model->contentsGetTheLastBlogSectionForCategory($add_to_category['id']);
 //	p($page_from_cat);
 	
 	}
@@ -31,7 +31,7 @@ $form_values = get_content($id);
   <input style="width: 100%" id="content_title" name="content_title" onchange="mw.buildURL(this.value, '#content_url')"  type="text" value="<? print $form_values['content_title'] ?>" />
   </span> </div>
 <? if($params['parent_page_select']) : ?>
-<? $p =   $pages_with_cats =  CI::model ( 'content' )->contentGetPagesWithCategories() ;  ?>
+<? $p =   $pages_with_cats =  $this->content_model->contentGetPagesWithCategories() ;  ?>
 <div class="parent_page_select_for_url"> <strong>Link: </strong>
   <select name="content_parent" id="content_parent">
     <? foreach($p as $p1):?>

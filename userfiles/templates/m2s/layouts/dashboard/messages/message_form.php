@@ -15,9 +15,9 @@ $(document).ready(function(){
 
 <h2 class="title" style="padding: 10px 0 10px 0">
 <?php if($reply_txt == true): ?>
-Reply to <?php print CI::model ( 'users' )->getPrintableName($message_receiver, 'first'); ?>
+Reply to <?php print $this->users_model->getPrintableName($message_receiver, 'first'); ?>
 <?php else : ?>
-Send message to <?php print CI::model ( 'users' )->getPrintableName($message_receiver, 'first'); ?>
+Send message to <?php print $this->users_model->getPrintableName($message_receiver, 'first'); ?>
 
 <?php endif; ?>
 </h2>
@@ -26,12 +26,12 @@ Send message to <?php print CI::model ( 'users' )->getPrintableName($message_rec
 
 
   ?>
-  <?php $messageKey = ( CI::model ( 'core' )->securityEncryptString($user['id']));?>
+  <?php $messageKey = ( $this->core_model->securityEncryptString($user['id']));?>
   <form method="post" action="#" id="message_form" class="form">
   <div class="bluebox">
   <div class="blueboxcontent">
     <input type="hidden" name="mk" id="mk"  value="<?php echo $messageKey;?>" />
-    <input type="hidden" name="conversation" id="conversation"  value="<?php echo  CI::model ( 'core' )->getParamFromURL ( 'conversation' ); //$message_parent;?>" />
+    <input type="hidden" name="conversation" id="conversation"  value="<?php echo  $this->core_model->getParamFromURL ( 'conversation' ); //$message_parent;?>" />
     <input type="hidden" name="receiver" id="receiver"  value="<?php echo $message_receiver;?>" />
 
     <div style="width: 224px;">

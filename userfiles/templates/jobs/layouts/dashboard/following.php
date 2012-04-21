@@ -1,7 +1,7 @@
 <?php dbg(__FILE__); ?>
 <!--Dashboard circle of influence page-->
 <?php require (ACTIVE_TEMPLATE_DIR.'dashboard/dashboard_sidebar.php') ?>
- <?php $the_action =  CI::model ( 'core' )->getParamFromURL ( 'action' ); ?>
+ <?php $the_action =  $this->core_model->getParamFromURL ( 'action' ); ?>
 <div id="profile-main">
  <?php require (ACTIVE_TEMPLATE_DIR.'dashboard/dashboard_top_nav.php') ?>
  <div class="c" style="padding-bottom: 20px">&nbsp;</div>
