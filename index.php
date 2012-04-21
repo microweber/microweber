@@ -446,8 +446,8 @@ define ( 'LIBSPATH', APPPATH . 'libraries' . '/' );
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
 define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );
-define ( 'ADMIN_STATIC_FILES_URL', SITEURL . 'system/' . $application_folder . '/views/admin/static/' );
-define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',  'system/' . $application_folder . '/views/admin/static/' );
+define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' .$system_folder .'/' . $application_folder . '/views/admin/static/' );
+define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',  $system_folder .'/' . $application_folder . '/views/admin/static/' );
 
 
 $media_url = SITEURL;
@@ -510,7 +510,7 @@ if (defined ( 'NO_MICROWEBER' ) == false) {
 	
 	//rm(($file));
 	require_once (APPPATH . 'models/system_loader.php');
-	require_once BASEPATH . 'codeigniter/CodeIgniter' . EXT;
+	require_once BASEPATH . 'core/CodeIgniter' . EXT;
 	
 	if (defined ( 'INTERNAL_API_CALL' ) == false) {
 		require_once (APPPATH . 'models/system_loaded.php');
@@ -524,7 +524,7 @@ if (defined ( 'NO_MICROWEBER' ) == false) {
 
 
 
-
+ 
 
 
 
