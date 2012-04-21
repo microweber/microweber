@@ -3,7 +3,7 @@
 $data = array ();
 	 $data['id'] = $params['id'];
 							 
-							$ord = CI::model ( 'cart' )->ordersGet ( $data, $limit = false );
+							$ord = $this->cart_model->ordersGet ( $data, $limit = false );
 							
 							
 							// p($ord);
@@ -14,7 +14,7 @@ $data = array ();
 							
  
 							
-							$items = CI::model ( 'cart' )->itemsGet($data);
+							$items = $this->cart_model->itemsGet($data);
 							//p($items);
 							$order = $ord[0];
 

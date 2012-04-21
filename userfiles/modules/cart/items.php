@@ -60,7 +60,7 @@ mw.cart.check_promo_code();
 <br />
 <br />
 Promo code:
-<input  type="text" id="the_promo_code_input" value="<? print  CI::model ( 'cart' )->promoCodeGetCurent(); ?>"  onchange="mw.cart.check_promo_code()"   onblur="mw.cart.check_promo_code()"  />
+<input  type="text" id="the_promo_code_input" value="<? print  $this->cart_model->promoCodeGetCurent(); ?>"  onchange="mw.cart.check_promo_code()"   onblur="mw.cart.check_promo_code()"  />
 <div id="the_promo_code_status"></div>
 <br />
 <br />

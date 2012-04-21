@@ -3,7 +3,7 @@
 $data = array ();
 							$data ['created_by'] = user_id();
 							$data ['is_paid'] = 'y';
-							$ord = CI::model ( 'cart' )->ordersGet ( $data, $limit = false );
+							$ord = $this->cart_model->ordersGet ( $data, $limit = false );
 							
 							
 							//p($ord);

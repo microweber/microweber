@@ -1,7 +1,7 @@
 <?
 
 $data = array ();
-$ord = CI::model ( 'cart' )->promoCodesGet ();
+$ord = $this->cart_model->promoCodesGet ();
 $ord[]  = array();
 						//	 p($ord);
 
