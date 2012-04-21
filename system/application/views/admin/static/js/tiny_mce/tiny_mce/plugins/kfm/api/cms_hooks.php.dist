@@ -1,9 +1,0 @@
-<?php
-# see ../license.txt for licensing
-#
-# copy this file to cms_hooks.php if you want to create your own functions
-
-function kfm_cmsHooks_allowedToDeleteFile($fid){
-	return true;
-}
-?>
