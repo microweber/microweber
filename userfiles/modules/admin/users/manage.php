@@ -137,7 +137,7 @@ $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page')
 
   
   ?>
- <? $edit_url = CI::model('core')->urlConstruct($base_url = false, $params = array('edit_user'=>$user['id']))  ?>
+ <? $edit_url = $CI->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>$user['id']))  ?>
 <<?php  print $wrap_element_items; ?> class="<?php  print $wrap_element_items_class; ?>" > <a href="<?php print site_url('userbase/action:profile/username:'.$user['username']) ?>" class="img" style="background-image: url(<? print user_thumbnail($user['id'], 70) ?>)" > </a>
 <p><a href="<?php print $edit_url ?>"><strong><? print user_name($item['id']); ?></strong></a> <a href="javascript:mw.users.UserMessage.compose(<?php echo $user['id']; ?>);" class="send_msg" style="margin:0" title="Send new message to <?php echo $user['first_name']; ?>"></a><br />
 </p>

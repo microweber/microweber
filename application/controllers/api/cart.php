@@ -26,8 +26,8 @@ class Cart extends CI_Controller {
 		if ($_POST) {
 			$session_id = $this->session->userdata ( 'session_id' );
 			$check ['sid'] = $session_id;
-			$cart = CI::model ( 'cart' )->itemAdd ( $_POST );
-			$cart = CI::model ( 'cart' )->itemsGetQty ();
+			$cart = $this->cart_model->itemAdd ( $_POST );
+			$cart = $this->cart_model->itemsGetQty ();
 			print $cart;
 		
 		}
@@ -66,7 +66,7 @@ class Cart extends CI_Controller {
 		
 		$check = get_cart_items ( $check );
 		if (! empty ( $check )) {
-			print CI::model ( 'cart' )->itemDeleteById ( $id );
+			print $this->cart_model->itemDeleteById ( $id );
 		}
 	
 	}
@@ -78,7 +78,7 @@ class Cart extends CI_Controller {
 			$id = $_POST ['id'];
 			$id = intval ( $id );
 			if ($id != 0) {
-				print CI::model ( 'cart' )->orderDeleteById ( $id );
+				print $this->cart_model->orderDeleteById ( $id );
 			}
 		
 		} else {
@@ -88,7 +88,7 @@ class Cart extends CI_Controller {
 	}
 	
 	function ups_shiping_cost() {
-		$cost = CI::model ( 'cart' )->ups_shiping_cost ();
+		$cost = $this->cart_model->ups_shiping_cost ();
 		exit ( $cost );
 	}
 	
@@ -112,7 +112,7 @@ class Cart extends CI_Controller {
 				$new = array ();
 				$new ['id'] = $id;
 				$new [$property] = $new_value;
-				//CI::model ( 'cart' )->itemSave ( $new );
+				//$this->cart_model->itemSave ( $new );
 				$id = $this->core_model->saveData ( $table, $new, $data_to_save_options );
 				
 				$this->core_model->cacheDelete ( 'cache_group', 'cart' );
@@ -144,12 +144,12 @@ class Cart extends CI_Controller {
 			}
 			
 			if (strval ( $data ['promo_code'] ) == '') {
-				$data ['promo_code'] = CI::model ( 'cart' )->promoCodeGetCurent ();
+				$data ['promo_code'] = $this->cart_model->promoCodeGetCurent ();
 			
 			}
 			
 			//p ( $data );
-			$cart = CI::model ( 'cart' )->orderPlace ( $data );
+			$cart = $this->cart_model->orderPlace ( $data );
 			$cart = json_encode ( $cart );
 			
 			$order_id = "ORD" . date ( "ymdHis" ) . rand ();
@@ -205,7 +205,7 @@ class Cart extends CI_Controller {
 			$get_promo = array ();
 			$get_promo ['promo_code'] = $code;
 			
-			$codes = $cart = CI::model ( 'cart' )->promoCodesGet ( $get_promo );
+			$codes = $cart = $this->cart_model->promoCodesGet ( $get_promo );
 		}
 		//print json_encode ( $codes );
 		
@@ -227,7 +227,7 @@ class Cart extends CI_Controller {
 			$promo_item = array ();
 			$promo_item ['auto_apply_to_all'] = 'y';
 			
-			$promo_item = CI::model ( 'cart' )->promoCodesGet ( $promo_item );
+			$promo_item = $this->cart_model->promoCodesGet ( $promo_item );
 			//	p($promo_item);
 			if (! empty ( $promo_item )) {
 				$promo_item = $promo_item [0];

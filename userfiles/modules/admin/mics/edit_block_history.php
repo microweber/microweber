@@ -15,7 +15,7 @@
  
 			
 			
-			$history_files = CI::model('core')->getHistoryFiles($history_to_get);
+			$history_files = $CI->core_model->getHistoryFiles($history_to_get);
 		
 		} else {
 		
@@ -95,7 +95,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 			
 			$hdata['field'] = $field;
 			
-			$history_files = CI::model('core')->getHistoryFiles($hdata);
+			$history_files = $CI->core_model->getHistoryFiles($hdata);
 			// p($params);
  
 		}

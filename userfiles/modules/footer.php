@@ -51,8 +51,8 @@
 </div>
 <!-- /#footer -->
 <?php
-//p(CI::model('core')->path_list);
-//p(CI::model('core')->cache_storage_hits);
+//p($CI->core_model->path_list);
+//p($CI->core_model->cache_storage_hits);
  
 include (ACTIVE_TEMPLATE_DIR.'footer_stats_scripts.php') ?>
 

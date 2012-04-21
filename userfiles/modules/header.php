@@ -33,8 +33,8 @@ if(window.location.hash=='#debug'){
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="<?php print site_url('main/rss'); ?>" />
 <link rel="sitemap" type="application/rss+xml" title="Sitemap" href="<?php print site_url('main/sitemaps'); ?>" />
-<meta name="reply-to" content="<?php print CI::model('core')->optionsGetByKey ( 'creator_email' ); ?>" />
-<link rev="made" href="mailto:<?php print CI::model('core')->optionsGetByKey ( 'creator_email' ); ?>" />
+<meta name="reply-to" content="<?php print $CI->core_model->optionsGetByKey ( 'creator_email' ); ?>" />
+<link rev="made" href="mailto:<?php print $CI->core_model->optionsGetByKey ( 'creator_email' ); ?>" />
 <meta name="author" content="http://ooyes.net | Mass Media Group Ltd" />
 <meta name="language" content="en" />
 <meta name="distribution" content="global" />
@@ -136,7 +136,7 @@ if (intval ( $user ) != 0) {
   <?php endif; ?>
   
     <?php 
-  $user_id = CI::model('core')->userId();
+  $user_id = $CI->core_model->userId();
   if($user_id == false): ?>
     <script type="text/javascript">
  function logIn(){

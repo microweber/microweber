@@ -34,7 +34,7 @@ $get_categories = get_categories($get_categories_params) ;
 //p($get_categories);
 ?>
         <? if(!empty($get_categories)): ?>
-        <? $category_ids = CI::model('core')->dbExtractIdsFromArray($get_categories); ?>
+        <? $category_ids = $CI->core_model->dbExtractIdsFromArray($get_categories); ?>
         <? else : ?>
         <? endif; ?>
         

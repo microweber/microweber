@@ -42,7 +42,7 @@ $cf_cfg ['id'] = ($params['id'] ) ;
 
 
 
-$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
+$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
 
 
 if(empty($data )){
@@ -50,7 +50,7 @@ if(empty($data )){
 		if(intval($cf_cfg['id']) > 0){
 			$cf_cfg2 = array ();
 			unset($cf_cfg['post_id']);
-			$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
+			$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
 			$new_for_post = true;
 		}		
 	} 

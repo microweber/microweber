@@ -116,7 +116,7 @@ $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page')
 
 
 ?>
-<? //$edit_url = CI::model('core')->urlConstruct($base_url = false, $params = array('edit_user'=>0)) 
+<? //$edit_url = $CI->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>0)) 
 
 //P($users);
 ?>

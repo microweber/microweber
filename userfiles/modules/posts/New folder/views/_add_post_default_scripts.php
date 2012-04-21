@@ -10,7 +10,7 @@ $the_post = get_post($post_id);
 
 if(!empty($the_post)){
 	$more = false;
-						$more = CI::model('core')->getCustomFields ( 'table_content', $the_post ['id'] );
+						$more = $CI->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
 						$the_post ['custom_fields'] = $more;
 	
 }

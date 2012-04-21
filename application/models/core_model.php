@@ -2095,7 +2095,7 @@ class Core_model extends CI_Model {
 			}
 		
 		}
-		
+		if (! empty ( $criteria )) {
 		foreach ( $criteria as $fk => $fv ) {
 			if (strstr ( $fk, 'custom_field_' ) == true) {
 				
@@ -2104,7 +2104,7 @@ class Core_model extends CI_Model {
 			
 			}
 		}
-		
+		}
 		if (! empty ( $criteria ['custom_fields_criteria'] )) {
 			
 			$table_custom_fields = $cms_db_tables ['table_custom_fields'];

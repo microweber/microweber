@@ -2,7 +2,7 @@
 
 function get_items_qty() {
 	
-	$data = CI::model ( 'cart' )->itemsGetQty ();
+	$data = $this->cart_model->itemsGetQty ();
 	return intval ( $data );
 }
 
@@ -15,7 +15,7 @@ function get_cart_items($params) {
 	}
 	$cart_item ['sid'] = $sid;
 	
-	$cart_items = CI::model ( 'cart' )->itemsGet ( $cart_item );
+	$cart_items = $this->cart_model->itemsGet ( $cart_item );
 	return $cart_items;
 }
 
@@ -27,7 +27,7 @@ function get_cart_total() {
 		$promo_item = array ();
 		$promo_item ['auto_apply_to_all'] = 'y';
 		
-		$promo_item = CI::model ( 'cart' )->itemsGet ( $promo_item );
+		$promo_item = $this->cart_model->itemsGet ( $promo_item );
 		if (! empty ( $promo_item )) {
 			$promo_item = $promo_item [0];
 			$CI->session->set_userdata ( 'promo_code', $promo_item ['promo_code'] );
@@ -37,6 +37,6 @@ function get_cart_total() {
 	
 	}
 	
-	$total = (CI::model ( 'cart' )->itemsGetTotal ( $promo_code ));
+	$total = ($this->cart_model->itemsGetTotal ( $promo_code ));
 	return $total;
 }

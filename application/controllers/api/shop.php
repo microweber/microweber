@@ -134,7 +134,7 @@ class Shop extends CI_Controller {
 		$to_table_id = $this->core_model->guessId ();
 		$data ['to_table'] = $to_table;
 		$data ['to_table_id'] = $to_table_id;
-		$cart = CI::model ( 'cart' )->orderPlace ( $data );
+		$cart = $this->cart_model->orderPlace ( $data );
 		$cart = json_encode ( $cart );
 		exit ();
 	
@@ -146,7 +146,7 @@ class Shop extends CI_Controller {
 		if ($adm == true) {
 			
 			//$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-			CI::model ( 'cart' )->promoCodeSave ( $_POST );
+			$this->cart_model->promoCodeSave ( $_POST );
 			$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 			exit ();
 		}
@@ -158,7 +158,7 @@ class Shop extends CI_Controller {
 		if ($adm == true) {
 			$id = intval ( $_POST ['id'] );
 			
-			CI::model ( 'cart' )->promoCodeDeleteById ( $id );
+			$this->cart_model->promoCodeDeleteById ( $id );
 			
 			$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 			exit ();

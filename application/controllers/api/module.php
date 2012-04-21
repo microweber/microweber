@@ -211,7 +211,8 @@ class Module extends CI_Controller {
 		if (($base64 != false) or $is_iframe != false) {
 			$opts ['do_not_wrap'] = true;
 		}
-		
+		$this->load->model ( 'Template_model', 'template_model' );
+
 		$res = $this->template_model->parseMicrwoberTags ( $tags, $opts );
 		if ($admin == true) {
 			$is_admin = is_admin ();

@@ -1469,7 +1469,7 @@ class Cart_model extends CI_Model {
 		$promo_item = array ();
 		$promo_item ['auto_apply_to_all'] = 'y';
 		
-		$promo_item = CI::model ( 'cart' )->promoCodesGet ( $promo_item );
+		$promo_item = $this->cart_model->promoCodesGet ( $promo_item );
 		
 		if (! empty ( $promo_item )) {
 			$promo_item = $promo_item [0];

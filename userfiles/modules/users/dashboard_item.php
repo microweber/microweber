@@ -1,7 +1,7 @@
 <?php   // p($data); ?>
 <?php $author = CI::model('users')->getUserById($data['user_id']); ?>
 <?php $thumb = CI::model('users')->getUserThumbnail( $data['user_id'], 70); ?>
-<?php //$data = CI::model('core')->getById($data['to_table'],$data['to_table_id']); ?>
+<?php //$data = $CI->core_model->getById($data['to_table'],$data['to_table_id']); ?>
 <?php
  $addtinal_style = '';
   if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_followers')){

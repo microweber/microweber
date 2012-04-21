@@ -1042,7 +1042,12 @@ function get_content($id) {
 	}
 	return $page;
 }
-function get_page($id) {
+function get_page($id = false) {
+	if ($id == false) {
+		return false;
+	}
+	
+	
 	
 	$CI = get_instance ();
 	if (intval ( $id ) != 0) {
@@ -1405,8 +1410,9 @@ function category_tree($params) {
 	//p($p2);
 	
 
+ 
 	$CI = get_instance ();
-	
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : $params ['content_subtype_value'];
 	$link = ($params ['link']) ? $params ['link'] : false;
 	
@@ -1463,6 +1469,8 @@ function get_categories_for_post($content_id, $only_ids = true) {
 	//var_dump($content_id);
 	//print '-------------------';
 	//exit(1);
+	$CI = get_instance ();
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$cat_ids = $CI->taxonomy_model->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
 	
 	//$c = $CI->taxonomy_model->getCategoriesForContent( $content_id, $only_ids );
@@ -1490,6 +1498,7 @@ function get_categories($get_categories_params = array()) {
 	$params = $get_categories_params;
 	//p($params);
 	$CI = get_instance ();
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	if ($params ['display']) {
 		$list_file = $params ['display'];
 		unset ( $params ['display'] );
@@ -1560,7 +1569,7 @@ function get_categories($get_categories_params = array()) {
 
 function get_category_id($category_name) {
 	$CI = get_instance ();
-	
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$category_id = $CI->taxonomy_model->getIdByName ( $category_name );
 	
 	return $category_id;
@@ -1569,7 +1578,7 @@ function get_category_id($category_name) {
 
 function category_name($category_id) {
 	$CI = get_instance ();
-	
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
 	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
 	
@@ -1581,7 +1590,7 @@ function category_name($category_id) {
 
 function get_category($category_id) {
 	$CI = get_instance ();
-	
+$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
 	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
 	if (! empty ( $c )) {
@@ -1606,6 +1615,7 @@ function get_category($category_id) {
 
 function get_category_items_count($category_id) {
 	$CI = get_instance ();
+	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$qty = $CI->taxonomy_model->getChildrensCount ( $category_id );
 	return $qty;
 

@@ -54,7 +54,7 @@ if($params['keyword'] != ''){
 //$options['debug']= 'keywords';
  $options2 =  $options;
 
-$all_options = CI::model('core')->optionsGet ( $options );
+$all_options = $CI->core_model->optionsGet ( $options );
 if($all_options == false){
 $all_options = array();	
 }

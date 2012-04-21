@@ -504,8 +504,8 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			
 			$_POST ['length'] = $_POST ['item_length'];
 			
-			$cart = CI::model ( 'cart' )->itemAdd ( $_POST );
-			$cart = CI::model ( 'cart' )->itemsGetQty ();
+			$cart = $this->cart_model->itemAdd ( $_POST );
+			$cart = $this->cart_model->itemsGetQty ();
 			print $cart;
 		}
 		exit ();
@@ -519,7 +519,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 	 */
 	function cart_itemsGetQty() {
 		@ob_clean ();
-		$cart = CI::model ( 'cart' )->itemsGetQty ();
+		$cart = $this->cart_model->itemsGetQty ();
 		print $cart;
 		exit ();
 	}
@@ -533,7 +533,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 	function cart_itemDeleteById() {
 		@ob_clean ();
 		$id = $_POST ['id'];
-		$cart = CI::model ( 'cart' )->itemDeleteById ( $id );
+		$cart = $this->cart_model->itemDeleteById ( $id );
 		//print $cart;.3
 		exit ();
 	}
@@ -546,7 +546,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 	 */
 	function cart_itemsEmptyCart() {
 		@ob_clean ();
-		$cart = CI::model ( 'cart' )->itemsEmptyCart ();
+		$cart = $this->cart_model->itemsEmptyCart ();
 		exit ();
 	}
 	
@@ -622,14 +622,14 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		
 		}
 		if ($is_valid == true) {
-			//$cart = CI::model ( 'cart' )->billingProcessCreditCard ( true );
+			//$cart = $this->cart_model->billingProcessCreditCard ( true );
 			
 
 			if (! empty ( $cart )) {
 				$cart = json_encode ( $cart );
 			}
 			
-			$cart = CI::model ( 'cart' )->orderPlace ( $_POST );
+			$cart = $this->cart_model->orderPlace ( $_POST );
 		}
 		exit ( $cart );
 	}
@@ -643,22 +643,22 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			$new = array ();
 			$new ['id'] = $id;
 			$new [$property] = $new_value;
-			CI::model ( 'cart' )->itemSave ( $new );
+			$this->cart_model->itemSave ( $new );
 		}
 	}
 	
 	function cart_itemsGetTotal() {
-		print (CI::model ( 'cart' )->itemsGetTotal ( false, $this->session->userdata ( 'shop_currency' ) )) ;
+		print ($this->cart_model->itemsGetTotal ( false, $this->session->userdata ( 'shop_currency' ) )) ;
 	}
 	
 	function cart_sumByField() {
 		$id = $_POST ['field'];
-		print CI::model ( 'cart' )->cartSumByFields ( $id );
+		print $this->cart_model->cartSumByFields ( $id );
 	}
 	
 	function cart_removeItemFromCart() {
 		$id = $_POST ['id'];
-		print CI::model ( 'cart' )->itemDeleteById ( $id );
+		print $this->cart_model->itemDeleteById ( $id );
 	}
 	
 	function cart_getPromoCode() {
@@ -670,7 +670,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		$get_promo = array ();
 		$get_promo ['promo_code'] = $code;
 		
-		$codes = CI::model ( 'cart' )->promoCodesGet ( $get_promo );
+		$codes = $this->cart_model->promoCodesGet ( $get_promo );
 		
 		//print json_encode ( $codes );
 		
@@ -688,13 +688,13 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			exit ( '0' );
 		}
 	
-		//print CI::model ( 'cart' )->itemDeleteById ( $id );
+		//print $this->cart_model->itemDeleteById ( $id );
 	}
 	
 	function cart_getTotal() {
 		$code = $this->session->userdata ( 'cart_promo_code' );
 		
-		print CI::model ( 'cart' )->itemsGetTotal ( $code, $this->session->userdata ( 'shop_currency' ) );
+		print $this->cart_model->itemsGetTotal ( $code, $this->session->userdata ( 'shop_currency' ) );
 	}
 	
 	function cart_shippingCalculateToCountryName() {
@@ -705,7 +705,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		} else {
 			$country = false;
 		}
-		print CI::model ( 'cart' )->shippingCalculateToCountryName ( $country, $this->session->userdata ( 'shop_currency' ) );
+		print $this->cart_model->shippingCalculateToCountryName ( $country, $this->session->userdata ( 'shop_currency' ) );
 	}
 	
 	function cart_shippingCalculateUPS() {
@@ -746,7 +746,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			exit ();
 		}
 		
-		$dimensions = CI::model ( 'cart' )->shippingGetOrderPackageSize ();
+		$dimensions = $this->cart_model->shippingGetOrderPackageSize ();
 		
 		$from_zip = $this->core_model->optionsGetByKey ( 'shop_orders_ship_from_zip' );
 		if ($from_zip == false) {
@@ -812,7 +812,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				
 				$data ['cost'] = $cost;
 				
-				$cost += (intval ( $item ['qty'] ) * CI::model ( 'cart' )->shippingUPSGetCost ( $data ));
+				$cost += (intval ( $item ['qty'] ) * $this->cart_model->shippingUPSGetCost ( $data ));
 				
 				for($i = 1; $i <= $item ['qty']; $i ++) {
 				
@@ -839,16 +839,16 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		} else {
 			$currency = false;
 		}
-		print CI::model ( 'cart' )->currencyChangeSessionData ( $currency );
+		print $this->cart_model->currencyChangeSessionData ( $currency );
 	
 	}
 	
 	function cart_check_cc_borica() {
 		
-		$check = CI::model ( 'cart' )->billing_borica_ProcessCreditCard ();
+		$check = $this->cart_model->billing_borica_ProcessCreditCard ();
 		
 		if ($check != '') {
-			//CI::model ( 'cart' )->orderPlace ();
+			//$this->cart_model->orderPlace ();
 			exit ( $check );
 		}
 	
@@ -862,7 +862,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		
 		}
 		
-		$check = CI::model ( 'cart' )->billingProcessCreditCard ();
+		$check = $this->cart_model->billingProcessCreditCard ();
 		
 		if ($check ['error'] == false) {
 			echo 'ok';
