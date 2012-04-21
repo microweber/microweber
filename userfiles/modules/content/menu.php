@@ -10,7 +10,7 @@
 if($params['name'] != false){
 	
 	
-	$id =  CI::model('content')->getMenuIdByName($params['name']) ;
+	$id =  $this->content_model->getMenuIdByName($params['name']) ;
 	
 	 if(intval($params['max_levels']) != 0){
 		 $max = intval($params['max_levels']);

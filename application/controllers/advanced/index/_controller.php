@@ -173,7 +173,7 @@ $is_debug = url_param ( '?editmode' );
 			if (trim ( $more ["logged_redirect"] ) != '') {
 				//redirect ( $more ["logged_redirect"] );
 				//ob_start();
-				CI::helper ( 'url' );
+				$this->load->helper ( 'url' );
 				$redir = site_url ( $more ["logged_redirect"] );
 				//p($redir);
 				//header ( "HTTP/1.1 301 Moved Permanently" );
@@ -464,7 +464,7 @@ $is_debug = url_param ( '?editmode' );
 			$layout = TEMPLATES_DIR . 'layouts/' . $content ['content_layout_name'] . '/index.php';
 			
 			$layout = $this->load->file ( $layout, true );
-			
+				$this->load->model ( 'Template_model', 'template_model' );
 			$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		
 	//
@@ -618,7 +618,7 @@ $is_debug = url_param ( '?editmode' );
 		
 		}
 		
-		$stats_js = CI::model ( 'stats' )->get_js_code ();
+	//	$stats_js = CI::model ( 'stats' )->get_js_code ();
 		
 		$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		

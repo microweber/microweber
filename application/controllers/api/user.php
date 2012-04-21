@@ -554,7 +554,7 @@ class User extends CI_Controller {
 			/*
 			 * include_once (APPPATH . 'libraries/recaptcha.php');
 			 * //$this->load->library('recaptcha');
-			 * $this->load->library('form_validation'); CI::helper('form');
+			 * $this->load->library('form_validation'); $this->load->helper('form');
 			 * $this->lang->load('recaptcha'); $capcha = new Recaptcha (); if
 			 * ($capcha->check_answer ( $this->input->ip_address (),
 			 * $this->input->post ( 'recaptcha_challenge_field' ),

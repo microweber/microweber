@@ -130,7 +130,7 @@ class Main extends CI_Controller {
 		}
 
 		//	var_dump($posts);
-		CI::helper ( 'url' );
+		$this->load->helper ( 'url' );
 
 		$this->template ['comments'] = $comments;
 
@@ -182,7 +182,7 @@ class Main extends CI_Controller {
 		$posts = CI::model('content')->getContent ( $data, $orderby, $limit, false, true );
 
 		//	var_dump($posts);
-		CI::helper ( 'url' );
+		$this->load->helper ( 'url' );
 
 		$this->template ['posts'] = $posts;
 
@@ -197,7 +197,7 @@ class Main extends CI_Controller {
 	}
 
 	function bb_sync() {
-		CI::helper ( 'url' );
+		$this->load->helper ( 'url' );
 		global $cms_db_tables;
 
 		$table = $cms_db_tables ['table_taxonomy'];

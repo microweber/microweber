@@ -64,7 +64,7 @@ if($params['file'] == ''){
 <? if(($params['file']) != '' or ($params['for']== 'global') or ($no_page_data_only_post== true) ) :  ?>
 <? 
 
-$layouts = CI::model('template')->layoutsList(); 
+$layouts = $this->template_model->layoutsList(); 
  
 ?>
 
@@ -72,7 +72,7 @@ $layouts = CI::model('template')->layoutsList();
 
 <? if(($params['for']) == 'global' or $no_page_data_only_post  == true) :  
 $layouts = array();
-$layouts1 = CI::model('template')->layoutsList(); 
+$layouts1 = $this->template_model->layoutsList(); 
 $layouts[] = $layouts1[0];
 ?>
 <? endif; ?>

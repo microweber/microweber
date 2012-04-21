@@ -120,7 +120,7 @@ $users = CI::model('users')->getUsers($user_data, $limits, $count_only = false);
 $users_count = CI::model('users')->getUsers($user_data, $limit = false, $count_only = true);
  
 $pagenum = ceil($users_count/$query_options['limit']);
-$paging = CI::model('content')->pagingPrepareUrls(url(), $pagenum, 'users-page');
+$paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page');
 
 
 ?>

@@ -274,7 +274,7 @@ if(intval($form_values['content_subtype_value']) > 0 ){
 }
 
 
- CI::model('content')->content_helpers_getPagesAsUlTree($start_cat, "<input onchange='javascript:set_categories()' type='radio' name='content_parent' category_id='{content_subtype_value}'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );
+ $this->content_model->content_helpers_getPagesAsUlTree($start_cat, "<input onchange='javascript:set_categories()' type='radio' name='content_parent' category_id='{content_subtype_value}'  {removed_ids_code}  {active_code}  value='{id}' />{content_title}", array($form_values['content_parent']), 'checked="checked"', array($form_values['id']) , 'disabled="disabled"' );
 
  ?>
         </div>

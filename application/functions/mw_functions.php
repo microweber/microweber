@@ -574,7 +574,7 @@ function get_pages($params = array()) {
 function get_page_id_for_category_id($category_id) {
 	$CI = get_instance ();
 	
-	$res = $this->taxonomy_model->get_page_for_category ( $category_id );
+	$res = $CI->taxonomy_model->get_page_for_category ( $category_id );
 	
 	if (! empty ( $res )) {
 		return $res ['id'];
@@ -585,7 +585,7 @@ function get_page_id_for_category_id($category_id) {
 function get_page_for_category_id($category_id) {
 	$CI = get_instance ();
 	
-	$res = $this->taxonomy_model->get_page_for_category ( $category_id );
+	$res = $CI->taxonomy_model->get_page_for_category ( $category_id );
 	if (! empty ( $res )) {
 		return $res;
 	}
@@ -647,7 +647,7 @@ function get_comments($params) {
 	if (! is_array ( $params )) {
 	
 	}
-	$try = CI::model ( 'comments' )->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
+	$try = $this->comments_model->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
 	
 	return $try;
 }
@@ -757,7 +757,7 @@ function get_posts($params = false) {
 					$try_post = $CI->template ['post'];
 					
 					if (! empty ( $try_post )) {
-						$try = $this->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
+						$try = $CI->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
 						
 						if (! empty ( $try )) {
 						
@@ -1132,14 +1132,14 @@ function post_save($data) {
 		$categories_ids_to_remove = array ();
 		$categories_ids_to_remove ['taxonomy_type'] = 'category';
 		$categories_ids_to_remove ['users_can_create_content'] = 'n';
-		$categories_ids_to_remove = $this->taxonomy_model->getIds ( $categories_ids_to_remove, $orderby = false );
+		$categories_ids_to_remove = $CI->taxonomy_model->getIds ( $categories_ids_to_remove, $orderby = false );
 		//$CI->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
 		
 
 		$categories_ids_to_add = array ();
 		$categories_ids_to_add ['taxonomy_type'] = 'category';
 		$categories_ids_to_add ['users_can_create_content'] = 'y';
-		$categories_ids_to_add = $this->taxonomy_model->getIds ( $categories_ids_to_add, $orderby = false );
+		$categories_ids_to_add = $CI->taxonomy_model->getIds ( $categories_ids_to_add, $orderby = false );
 		//$CI->template ['categories_ids_to_add'] = $categories_ids_to_add;
 		
 
@@ -1165,8 +1165,8 @@ function post_save($data) {
 			if (! empty ( $categories )) {
 				
 				foreach ( $categories as $cat ) {
-					$cat = $this->taxonomy_model->getIdByName ( $cat );
-					$parrent_cats = $this->taxonomy_model->getParents ( $cat );
+					$cat = $CI->taxonomy_model->getIdByName ( $cat );
+					$parrent_cats = $CI->taxonomy_model->getParents ( $cat );
 					
 					foreach ( $parrent_cats as $par_cat ) {
 						$categories [] = $par_cat;
@@ -1232,12 +1232,12 @@ function post_save($data) {
 			
 			$taxonomy_categories = array ($category );
 			
-			$taxonomy = $this->taxonomy_model->getParents ( $category );
+			$taxonomy = $CI->taxonomy_model->getParents ( $category );
 			
 			if (! empty ( $taxonomy )) {
 				
 				foreach ( $taxonomy as $i ) {
-					$i = $this->taxonomy_model->getIdByName ( $i );
+					$i = $CI->taxonomy_model->getIdByName ( $i );
 					if (intval ( $i ) != 0) {
 						$taxonomy_categories [] = $i;
 					}
@@ -1439,7 +1439,7 @@ function category_tree($params) {
 		//p($page);
 		$content_parent = $page ['content_subtype_value'];
 	
-		//$categories = $this->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	}
 	if ($params ['content_subtype_value'] != false) {
 		$content_parent = $params ['content_subtype_value'];
@@ -1451,7 +1451,7 @@ function category_tree($params) {
 		//p($page);
 		$remove_ids = array ($page ['content_subtype_value'] );
 	
-		//$categories = $this->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	}
 	
 	//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false
@@ -1463,9 +1463,9 @@ function get_categories_for_post($content_id, $only_ids = true) {
 	//var_dump($content_id);
 	//print '-------------------';
 	//exit(1);
-	$cat_ids = $this->taxonomy_model->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
+	$cat_ids = $CI->taxonomy_model->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
 	
-	//$c = $this->taxonomy_model->getCategoriesForContent( $content_id, $only_ids );
+	//$c = $CI->taxonomy_model->getCategoriesForContent( $content_id, $only_ids );
 	return $cat_ids;
 }
 
@@ -1508,29 +1508,29 @@ function get_categories($get_categories_params = array()) {
 	if ($params ['for_page'] != false) {
 		$page = get_page ( $params ['for_page'] );
 		//p($page);
-		$categories = $this->taxonomy_model->getChildrensRecursiveAndCache ( $page ['content_subtype_value'], $type = 'category', $visible_on_frontend = false );
+		$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $page ['content_subtype_value'], $type = 'category', $visible_on_frontend = false );
 	
-		//$categories = $this->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	} else {
 		
 		if ($params ['for_content'] != false) {
-			$categories = $this->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+			$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 		} else {
 			
 			if ($params ['parent'] == false) {
 				$page = $CI->template ['page'];
 				if (! empty ( $page )) {
 					$the_category = $page ['content_subtype_value'];
-					$categories = $this->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+					$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 				} else {
 					$the_category = 0;
-					$categories = $this->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+					$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 				
 				}
 			} else {
 				$the_category = $params ['parent'];
 				
-				$categories = $this->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+				$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 			
 			}
 		
@@ -1540,7 +1540,7 @@ function get_categories($get_categories_params = array()) {
 	foreach ( $categories as $category ) {
 		$category_id = $category;
 		if ($get_only_ids == false) {
-			$temp = $this->taxonomy_model->getSingleItem ( $category );
+			$temp = $CI->taxonomy_model->getSingleItem ( $category );
 		} else {
 			$temp = $category;
 		}
@@ -1561,7 +1561,7 @@ function get_categories($get_categories_params = array()) {
 function get_category_id($category_name) {
 	$CI = get_instance ();
 	
-	$category_id = $this->taxonomy_model->getIdByName ( $category_name );
+	$category_id = $CI->taxonomy_model->getIdByName ( $category_name );
 	
 	return $category_id;
 
@@ -1570,8 +1570,8 @@ function get_category_id($category_name) {
 function category_name($category_id) {
 	$CI = get_instance ();
 	
-	$category_id = $this->taxonomy_model->getIdByName ( $category_id );
-	$c = $this->taxonomy_model->getSingleItem ( $category_id );
+	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
+	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
 	
 	if (! empty ( $c )) {
 		return $c ['taxonomy_value'];
@@ -1582,8 +1582,8 @@ function category_name($category_id) {
 function get_category($category_id) {
 	$CI = get_instance ();
 	
-	$category_id = $this->taxonomy_model->getIdByName ( $category_id );
-	$c = $this->taxonomy_model->getSingleItem ( $category_id );
+	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
+	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
 	if (! empty ( $c )) {
 		$more = false;
 		$more = $CI->core_model->getCustomFields ( 'table_taxonomy', $category_id );
@@ -1606,7 +1606,7 @@ function get_category($category_id) {
 
 function get_category_items_count($category_id) {
 	$CI = get_instance ();
-	$qty = $this->taxonomy_model->getChildrensCount ( $category_id );
+	$qty = $CI->taxonomy_model->getChildrensCount ( $category_id );
 	return $qty;
 
 }
@@ -1663,7 +1663,7 @@ function is_active_category($category_id, $string = false) {
 		$try_post = $CI->template ['post'];
 		
 		if (! empty ( $try_post )) {
-			$try = $this->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
+			$try = $CI->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
 			//p($try);
 			if (! empty ( $try )) {
 			
@@ -1762,6 +1762,7 @@ function voting_link($content_id, $counter_selector = false, $for = 'post') {
 }
 
 function sess_id() {
+	$CI = get_instance ();
 	$session_id = $CI->session->userdata ( 'session_id' );
 	return $session_id;
 }
@@ -1931,7 +1932,7 @@ function comments_count($content_id, $is_moderated = false, $for = 'post') {
 	
 	$to_table = $CI->core_model->guessDbTable ( $for );
 	
-	$qty = CI::model ( 'comments' )->commentsGetCount ( $to_table, $content_id, $is_moderated );
+	$qty = $this->comments_model->commentsGetCount ( $to_table, $content_id, $is_moderated );
 	return $qty;
 
 }
@@ -2069,7 +2070,7 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 	$comments ['to_table'] = $to_table;
 	$comments ['to_table_id'] = $content_id;
 	//	p($comments);
-	$comments = CI::model ( 'comments' )->commentsGet ( $comments, $limit = false, $count_only = false, $orderby = array ('id', 'desc' ) );
+	$comments = $this->comments_model->commentsGet ( $comments, $limit = false, $count_only = false, $orderby = array ('id', 'desc' ) );
 	//p($comments);
 	
 
@@ -2081,7 +2082,7 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 			
 			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/comments/list_default.php', true );
 			
-			$content_filename = $this->template_model->parseMicrwoberTags ( $content_filename );
+			$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
 			
 			print ($content_filename) ;
 			break;
@@ -2100,7 +2101,7 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 			$list_file_load = normalize_path ( $list_file_load, false );
 			if (is_file ( $list_file_load )) {
 				$content_filename = $CI->load->file ( $list_file_load, true );
-				$content_filename = $this->template_model->parseMicrwoberTags ( $content_filename );
+				$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
 				print $content_filename;
 			} else {
 				
@@ -2115,7 +2116,7 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 					//echo "failed to copy $file...\n";
 				} else {
 					$content_filename = $CI->load->file ( TEMPLATE_DIR . $list_file, true );
-					$content_filename = $this->template_model->parseMicrwoberTags ( $content_filename );
+					$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
 					print $content_filename;
 				}
 			}

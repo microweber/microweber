@@ -329,7 +329,7 @@ class Content extends CI_Controller {
 	}
 
 	function posts_edit_done() {
-		CI::helper ( array ('form', 'url' ) );
+		$this->load->helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$id = CI::model('core')->getParamFromURL ( 'id' );
@@ -364,7 +364,7 @@ class Content extends CI_Controller {
 	}
 
 	function posts_edit() {
-		CI::helper ( array ('form', 'url' ) );
+		$this->load->helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 
@@ -452,7 +452,7 @@ class Content extends CI_Controller {
 	}
 
 	function pages_edit() {
-		CI::helper ( array ('form', 'url' ) );
+		$this->load->helper ( array ('form', 'url' ) );
 		$this->load->library ( 'form_validation' );
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$id = CI::model('core')->getParamFromURL ( 'id' );
@@ -628,7 +628,7 @@ class Content extends CI_Controller {
 
 	function menus() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-CI::helper(array('form', 'url'));
+$this->load->helper(array('form', 'url'));
 		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules ( 'menu_unique_id', 'Menu unique ID', 'trim|required' );
@@ -740,7 +740,7 @@ CI::helper(array('form', 'url'));
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->template ['load_google_map'] = true;
 		//print $delete_id;
-CI::helper(array('form', 'url'));
+$this->load->helper(array('form', 'url'));
 		
 		$this->load->library('form_validation');
 

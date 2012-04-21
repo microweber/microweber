@@ -1,6 +1,6 @@
 <?php
 
-function parse_memory_storage($id, $content) {
+function parse_memory_storage($id= false, $content = false) {
 	
 	static $parse_mem;
 	$path_md = ($id);
@@ -205,7 +205,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function templatesList($options = false) {
-		CI::helper ( 'directory' );
+		$this->load->helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
 		
 
@@ -279,7 +279,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function layoutsList($options = false) {
-		CI::helper ( 'directory' );
+		$this->load->helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
 		
 
@@ -470,7 +470,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function layoutGetHTMLByDirName($layout_name) {
-		CI::helper ( 'directory' );
+		$this->load->helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
 		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
@@ -530,7 +530,7 @@ class Template_model extends CI_Model {
 	 */
 	function stylesList($layout_name) {
 		
-		CI::helper ( 'directory' );
+		$this->load->helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
 		$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 		$path = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR;
@@ -1538,9 +1538,9 @@ class Template_model extends CI_Model {
 							$mmd5 = md5 ( $attr ['module'] );
 							$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
 							
-							if (is_dir ( MODULES_DIR . '_system/' ) == false) {
-								touch ( MODULES_DIR . '_system/' );
-							}
+							//if (is_dir ( MODULES_DIR . '_system/' ) == false) {
+							//	//touch ( MODULES_DIR . '_system/' );
+							//}
 							if (is_file ( $check_if_uninstalled ) == true) {
 								//	$attr ['module'] = false;
 							}
@@ -1564,7 +1564,7 @@ class Template_model extends CI_Model {
 							$try_file_db_file = normalize_path ( $try_file_db_file, false );
 							//p($try_file_db_file);
 							if (is_file ( $try_file_db_file ) == true) {
-								$this->init_model->db_setup_from_file ( $try_file_db_file );
+								//$this->init_model->db_setup_from_file ( $try_file_db_file );
 							}
 							
 							if ($options ['admin'] == true) {

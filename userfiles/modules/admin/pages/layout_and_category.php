@@ -201,7 +201,7 @@ $template_options['site_template'] = $template_dir;
 }
 
 ?>
-<? $layouts = CI::model('template')->layoutsList($template_options);  
+<? $layouts = $this->template_model->layoutsList($template_options);  
 
 //p( $layouts);
 

@@ -1092,7 +1092,7 @@ class Core_model extends CI_Model {
 		$table = $this->dbGetRealDbTableNameByAssocName ( $table );
 		
 		$sql = "show columns from $table";
-		
+		$this->load->database();
 		// var_dump($sql );
 		$query = $this->db->query ( $sql );
 		

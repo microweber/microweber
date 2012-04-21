@@ -174,7 +174,7 @@ if (intval ( $user ) != 0) {
     </ul>
     <div class="c">&nbsp;</div>
     <ul id="nav">
-      <?php $menu_items = CI::model('content')->getMenuItemsByMenuUnuqueId('header_menu');	?>
+      <?php $menu_items = $this->content_model->getMenuItemsByMenuUnuqueId('header_menu');	?>
       <?php foreach($menu_items as $item): ?>
       <li <?php if($item['is_active'] == true): ?>  class="active"  <?php endif; ?>  ><a title="<?php print addslashes( $item['item_title'] ) ?>" name="<?php print addslashes( $item['item_title'] ) ?>" href="<?php print $item['the_url'] ?>"><?php print ( $item['item_title'] ) ?></a></li>
       <?php endforeach ;  ?>

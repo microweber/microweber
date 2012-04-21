@@ -446,8 +446,8 @@ define ( 'LIBSPATH', APPPATH . 'libraries' . '/' );
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
 define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );
-define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' .$system_folder .'/' . $application_folder . '/views/admin/static/' );
-define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',  $system_folder .'/' . $application_folder . '/views/admin/static/' );
+define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' . $application_folder . '/views/admin/static/' );
+define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admin/static/' );
 
 
 $media_url = SITEURL;

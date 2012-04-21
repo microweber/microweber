@@ -182,7 +182,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				exit ( '2' );
 			}
 			
-			$save = CI::model ( 'comments' )->commentsSave ( $_POST );
+			$save = $this->comments_model->commentsSave ( $_POST );
 			
 			print $save;
 		
@@ -214,7 +214,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			$comments ['to_table_id'] = $toTableId;
 			$comments ['is_moderated'] = 'n';
 			
-			$comments = CI::model ( 'comments' )->commentsGet ( $comments );
+			$comments = $this->comments_model->commentsGet ( $comments );
 			
 			ob_start ();
 			foreach ( $comments as $comment ) {
@@ -1076,10 +1076,10 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 			/* comments and votes count */
 			
 			$contentVotes = CI::model ( 'votes' )->votesGetCounts ( 'table_content', $contentsIds );
-			$contentComments = CI::model ( 'comments' )->commentsGetCounts ( 'table_content', $contentsIds );
+			$contentComments = $this->comments_model->commentsGetCounts ( 'table_content', $contentsIds );
 			
 			$statusesVotes = CI::model ( 'votes' )->votesGetCounts ( 'table_users_statuses', $statusesIds );
-			$statusesComments = CI::model ( 'comments' )->commentsGetCounts ( 'table_users_statuses', $statusesIds );
+			$statusesComments = $this->comments_model->commentsGetCounts ( 'table_users_statuses', $statusesIds );
 			
 			$stats = array ('statuses' => array ('votes' => $statusesVotes, 'comments' => $statusesComments ), 'contents' => array ('votes' => $contentVotes, 'comments' => $contentComments ) );
 			

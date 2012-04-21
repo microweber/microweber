@@ -9,12 +9,12 @@ $form_values = get_content($id);
 ?>
       <fieldset>
         <legend>Add this content to menus</legend>
-        <?php  $menus = CI::model('content')->content_model->getMenus(array('item_type' => 'menu'));
+        <?php  $menus = $this->content_model->content_model->getMenus(array('item_type' => 'menu'));
 		
 		//p($menus);
 		?>
         <?php foreach($menus as $item): ?>
-        <?php $is_checked = false; $is_checked = CI::model('content')->content_helpers_IsContentInMenu($id,$item['id'] ); ?>
+        <?php $is_checked = false; $is_checked = $this->content_model->content_helpers_IsContentInMenu($id,$item['id'] ); ?>
         
         <? 
  

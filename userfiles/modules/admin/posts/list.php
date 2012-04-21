@@ -51,7 +51,7 @@ $posts = get_posts($params);
 
   });
   </script>
-
+<? $this->load->model ( 'Comments_model', 'comments_model' ); ?>
 <div class="the_posts_sortable">
   <? foreach($posts_list as $the_post):  ?>
   <div class="post item" id="post_<? print $the_post['id'] ?>">
@@ -79,7 +79,7 @@ $posts = get_posts($params);
 
     </div>
     <? //$stats = CI::model ( 'stats' )->get_visits_by_url(post_link($the_post['id'])); ?>
-    <? $comments = CI::model ( 'comments' )->commentsGetCountForContentId(($the_post['id'])); ?>
+    <? // $comments = $this->comments_model->commentsGetCountForContentId(($the_post['id'])); ?>
     <div class="post_btns_holder"> <a class="xbtn" href="<? print  post_link($the_post['id']);  ?>" target="_blank">Read</a> <a class="xbtn" href="<? print ADMIN_URL ?>/action:post_edit/id:<? print $the_post['id'] ?>">Edit</a> <a class="xbtn" href="#" onclick="mw.content.del('<? print $the_post['id'] ?>','#post_<? print $the_post['id'] ?>');">Delete</a> </div>
     <div class="post_info">
       <div class="post_comments post_info_inner"><? print $comments ?></div>

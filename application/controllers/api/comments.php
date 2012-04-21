@@ -27,9 +27,9 @@ class Comments extends CI_Controller {
 		}
 		$id1 = intval ( $_POST ['id'] );
 		
-		$id = CI::model ( 'comments' )->commentGetById ( $id1 );
+		$id = $this->comments_model->commentGetById ( $id1 );
 		if ($id ['created_by'] == user_id ()) {
-			$id = CI::model ( 'comments' )->commentsDeleteById ( $id1 );
+			$id = $this->comments_model->commentsDeleteById ( $id1 );
 			exit ( 'yes' );
 		} else {
 			exit ( 'no' );
@@ -57,7 +57,7 @@ class Comments extends CI_Controller {
 				exit ( 'to_table' );
 			}
 			
-			$save = CI::model ( 'comments' )->commentsSave ( $_POST );
+			$save = $this->comments_model->commentsSave ( $_POST );
 			
 			print $save;
 			

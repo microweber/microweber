@@ -109,7 +109,7 @@ var del_page_confirm = function(id){
 
 
 
-	 CI::model('content')->content_helpers_getPagesAsUlTree($content_parent = 0, $link = $url, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false);
+	 $this->content_model->content_helpers_getPagesAsUlTree($content_parent = 0, $link = $url, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false);
 	?>
 </div>
 <!-- /.createpages -->

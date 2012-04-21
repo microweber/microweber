@@ -62,8 +62,8 @@ function set_template_icon($screenshot){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td><img id="layout_screenshot" src="<? print $config["url_to_module"]; ?>no_image.gif" width="90"  style="border:#CCC solid thin" /></td>
-    <td><label>Template</label>
-      <? $layouts = CI::model('template')->templatesList();  ?>
+    <td><label>Template</label> 
+      <? $layouts = $this->template_model->templatesList();  ?>
       <? if(!empty($layouts)): ?>
       <select name="active_site_template" id="active_site_template">
         <option onclick="set_template()">Default</option>

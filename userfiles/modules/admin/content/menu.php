@@ -6,7 +6,7 @@
 if($params['name'] != false){
 	
 	
-	$id =  CI::model('content')->getMenuIdByName($params['name']) ;
+	$id =  $this->content_model->getMenuIdByName($params['name']) ;
 	 $params['id'] = $id;
 }
 
@@ -15,7 +15,7 @@ if($params['name'] != false){
 	  
 	  if($params['module_id']){
 		  if(intval($params['id']) == 0){
-		$params['id'] = CI::model('content')->getMenuByMenuUnuqueId($params['module_id']);
+		$params['id'] = $this->content_model->getMenuByMenuUnuqueId($params['module_id']);
 		  }
 	  }
 	  
@@ -48,7 +48,7 @@ no such menu
 <? endif; ?>
 
 
-<?php  $menu_data = CI::model('content')->getMenus(array('id' => $params['id']));
+<?php  $menu_data = $this->content_model->getMenus(array('id' => $params['id']));
 		if(!empty($menu_data)){
 		$menu_data = $menu_data[0];	
 		}
@@ -210,7 +210,7 @@ var edit_menu_item = function($id){
     
       
       <div class="" id="edit_memu_items<? print $params['module_id'];  ?>">
-        <? $menu_items = CI::model('content')->menuTree($params['id']) ;
+        <? $menu_items = $this->content_model->menuTree($params['id']) ;
 
 print $menu_items ; ?>
       </div></td>

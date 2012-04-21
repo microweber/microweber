@@ -17,7 +17,7 @@ if($params['file'] == ''){
 ?>
 
 <? if(($params['file']) != '') :  ?>
-<? $layouts = CI::model('template')->layoutsList(); 
+<? $layouts = $this->template_model->layoutsList(); 
 // p($layouts);
 
 

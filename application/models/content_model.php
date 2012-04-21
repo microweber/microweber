@@ -119,7 +119,7 @@ class content_model extends CI_Model {
 			return false;
 		
 		}
-		
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		$data_to_save = $data;
 		
 		$more_categories_to_delete = array ();
@@ -134,7 +134,7 @@ class content_model extends CI_Model {
 			$q = $q [0] ['content_url'];
 			
 			$thecontent_url = $q;
-			
+		
 			$more_categories_to_delete = $this->taxonomy_model->getTaxonomiesForContent ( $data ['id'], 'categories' );
 		
 		} else {
@@ -1585,7 +1585,7 @@ class content_model extends CI_Model {
 		}
 		
 		if ($the_url == false) {
-			
+				$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 			$cats = $this->taxonomy_model->getCategoriesForContent ( $id );
 			// p ( $cats );
 			//
@@ -1721,7 +1721,7 @@ class content_model extends CI_Model {
 		$limit [0] = '0';
 		
 		$limit [1] = '1';
-		
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		$data = $this->getContentAndCache ( $data, false, $limit );
 		
 		$data = $data [0];
@@ -2533,7 +2533,7 @@ class content_model extends CI_Model {
 		
 		global $cms_db_tables;
 		
-		CI::helper ( 'url' );
+		$this->load->helper ( 'url' );
 		
 		if ($the_content_url_overide != false) {
 			
@@ -2638,7 +2638,7 @@ class content_model extends CI_Model {
 		
 		// $taxonomy ['content_type'] = 'post';
 		
-
+	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		$cats = $this->taxonomy_model->taxonomyGet ( $taxonomy, $orderby = false, $no_limits = true );
 		
 		// taxonomyGet($data = false, $orderby = false, $no_limits = false)
@@ -2769,7 +2769,7 @@ class content_model extends CI_Model {
 		}
 		
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
-		
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		if ($content ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content ['content_subtype_value'];
@@ -3694,8 +3694,8 @@ class content_model extends CI_Model {
 		// return;
 		
 
-		CI::helper ( 'mw_string' );
-		
+		$this->load->helper ( 'mw_string' );
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		$siloLinks = array ();
 		
 		foreach ( $categories as $category ) {
@@ -3931,7 +3931,7 @@ class content_model extends CI_Model {
 		
 		// exit($my_limit_q);
 		
-
+	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		if (($data ['strict_category_selection']) == true) {
 			
 			$strict_category_selection = true;
@@ -3941,7 +3941,7 @@ class content_model extends CI_Model {
 			$strict_category_selection = false;
 		
 		}
-		
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		unset ( $data ['strict_category_selection'] );
 		
 		if (! empty ( $data ['selected_categories'] )) {
@@ -5555,7 +5555,7 @@ $my_limit_q
 
 	function getLayoutFiles() {
 		
-		CI::helper ( 'directory' );
+		$this->load->helper ( 'directory' );
 		
 		// $path = BASEPATH . 'content/templates/';
 		
@@ -6055,7 +6055,7 @@ $my_limit_q
 		// $active_categories = CI::model('taxonomy')->getCategoriesForContent (
 		// $post ['id'], $return_only_ids = true );
 		
-
+	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		$the_page_full = $the_page;
 		
 		$the_pages_nav [] = $the_page ['id'];
@@ -6914,7 +6914,7 @@ $my_limit_q
 			elseif ($item ['taxonomy_id'] != 0) {
 				
 				if (strval ( $item ['item_title'] ) == '') {
-					
+						$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 					$get_taxonomy = $this->taxonomy_model->getSingleItem ( $item ['taxonomy_id'] );
 					
 					$fix_title = $get_taxonomy ['taxonomy_value'];
@@ -8315,7 +8315,7 @@ $my_limit_q
 			$my_limit_q = false;
 		
 		}
-		
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 		// p( $sql );
 		$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
 		//

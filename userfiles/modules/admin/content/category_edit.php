@@ -56,7 +56,7 @@ if($params['save']){
 $cat = get_category(intval($params['id']));
 //p($cat)
 
- $the_page =  CI::model('content')->contentsGetTheFirstBlogSectionForCategory($cat['id']);
+ $the_page =  $this->content_model->contentsGetTheFirstBlogSectionForCategory($cat['id']);
 //p($the_page);
 
 if($force_parent != false){

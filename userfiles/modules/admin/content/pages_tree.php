@@ -17,7 +17,7 @@ $rand_id = md5(serialize($params)); ?>
               <option value="">none</option>
               <?php
 
- CI::model('content')->content_helpers_getPagesAsUlTree(0, "<option   {removed_ids_code}  {active_code}  value='{id}'>{content_title}</option>", array($fr), 'selected="selected"', array(0) , 'disabled="disabled"' );
+ $this->content_model->content_helpers_getPagesAsUlTree(0, "<option   {removed_ids_code}  {active_code}  value='{id}'>{content_title}</option>", array($fr), 'selected="selected"', array(0) , 'disabled="disabled"' );
 
  ?>
             </select></td>

@@ -4,7 +4,7 @@ $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
 
 
-$modules = CI::model('template')->getModules($modules_options );
+$modules = $this->template_model->getModules($modules_options );
 
 
 //

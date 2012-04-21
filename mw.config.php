@@ -4,7 +4,7 @@ $mw_config = array ();
  
  
 
-$mw_config ['site_url'] = 'http://p.microweber.info/digi/'; //use slash at the end
+$mw_config ['site_url'] = 'http://p.microweber.info/mw2/'; //use slash at the end
 
  $mw_config ['system_folder'] = 'ci';
 $mw_config ['application_folder'] = 'application';

@@ -145,7 +145,7 @@ function save_option<? print $item['id']; ?>($form_id){
   <? endforeach; ?>
 </div>
 <div class="paging">
-  <? //$paging =  CI::model('content')->pagingPrepareUrls($base_url = false, $all_options_c, $paging_param = 'curent_page_options', $keyword_param = 'keyword') ;
+  <? //$paging =  $this->content_model->pagingPrepareUrls($base_url = false, $all_options_c, $paging_param = 'curent_page_options', $keyword_param = 'keyword') ;
 //paging($display = 'divs', $paging);
 //p($paging);
 ?>

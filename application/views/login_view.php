@@ -41,7 +41,7 @@
 	 		}
 		</script>
 		<!-- END OF FB CODE -->
-		<?  CI::helper('form'); ?>
+		<?  $this->load->helper('form'); ?>
     	<form action="<?php echo site_url('login/validate_user/') . '/' . $uri_var;?>" method="post">
 		<p class="login-p">username:<br /><?= form_input('user_id', '') ?></p>
 		<p class="login-p">password:<br /><?= form_password('pwd', '') ?></p>

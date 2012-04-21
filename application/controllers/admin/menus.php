@@ -11,7 +11,7 @@ class Menus extends CI_Controller {
 
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		CI::helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url'));
 		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules ( 'menu_unique_id', 'Menu unique ID', 'trim|required' );

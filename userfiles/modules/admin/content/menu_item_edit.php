@@ -13,7 +13,7 @@ $params['id'] = intval($params['id'] );
 //p($params);
 
 
-$menu = CI::model('content')->getMenuItemById($params['id']) ;
+$menu = $this->content_model->getMenuItemById($params['id']) ;
 //p($menu);
 
 ?>
