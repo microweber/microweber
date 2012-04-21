@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * Sample page.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>FCKeditor - Sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex, nofollow" />
+	<link href="../sample.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../../fckeditor.js"></script>
+	<script type="text/javascript" src="assets/swfobject.js"></script>
+	<script type="text/javascript">
+function sendToFlash()
+{
+	var html = FCKeditorAPI.GetInstance( 'FCKeditor1' ).GetData() ;
+	var flash = document.getElementById( 'fckFlash' ) ;
+	flash.setData( html ) ;
+}
+
+function init()
+{
+	var so = new SWFObject("assets/sample16.swf", "fckFlash", "550", "400", "8", "#ffffff") ;
+	so.addParam("wmode", "transparent");
+	so.write("fckFlashContainer") ;
+}
+	</script>
+</head>
+<body onload="init();">
+	<h1>
+		FCKeditor - JavaScript - Sample 16
+	</h1>
+	<div>
+		This sample shows FCKeditor configured to produce HTML code that can be used with
+		<a href="http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_14808#TextArea_Component">
+			Flash</a>.
+	</div>
+	<hr />
+	<table width="100%" cellpadding="0" cellspacing="0">
+		<tr>
+			<td style="width: 100%">
+				<script type="text/javascript">
+<!--
+if ( document.location.protocol == 'file:' )
+	alert( 'Warning: This samples does not work when loaded from local filesystem due to security restrictions implemented in Flash.'
+     			+ '\n\nPlease load the sample from a web server instead.') ;
+// Automatically calculates the editor base path based on the _samples directory.
+// This is usefull only for these samples. A real application should use something like this:
+// oFCKeditor.BasePath = '/fckeditor/' ;	// '/fckeditor/' is the default value.
+var sBasePath = document.location.href.substring(0,document.location.href.lastIndexOf('_samples')) ;
+
+var oFCKeditor = new FCKeditor( 'FCKeditor1' ) ;
+oFCKeditor.BasePath	= sBasePath ;
+
+// Instruct the editor to load our configurations from a custom file, leaving the
+// original configuration file untouched.
+oFCKeditor.Config['CustomConfigurationsPath'] = sBasePath + '_samples/html/assets/sample16.config.js' ;
+oFCKeditor.Height = 400 ;
+oFCKeditor.Width = '100%' ;
+oFCKeditor.ToolbarSet = 'Flash' ;
+oFCKeditor.Value = '<p>This is some <b>sample text<\/b>. You are using <a href="http://www.fckeditor.net/">FCKeditor<\/a>.<\/p>' ;
+oFCKeditor.Create() ;
+//-->
+				</script>
+				<input type="button" value="Send to Flash" onclick="sendToFlash();" />
+			</td>
+			<td valign="top" style="padding-left: 15px" id="fckFlashContainer">
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

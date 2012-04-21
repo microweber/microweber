@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Columnizer JQuery Plugin sample page</title>
+	<meta name="author" content="Adam Wulf, Matt Wilson">
+	<!-- Date: 2008-07-12 -->
+	<style>
+		body { font-size: 9pt; }
+		#wrapper { margin: 0px 100px; }
+		.wide, .thin { clear:both; }
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function(){
+			$('.wide').columnize({
+				columns : 5,
+				buildOnce : true,
+				doneFunc : function(){
+					$('.wide .column').width("20%");
+				}
+			})
+		});
+	</script>
+</head>
+<body>
+<div id="wrapper">
+	<div class="wide">
+		<h1>A True Newspaper Layout</h1>
+		<p>All of the content in this layout is auto-overflowing from the top columns into the bottom columns. View the source to check it out!</p>
+		<p></p>
+		<p>Bonorum has. His ut cibo quas tantas, vis ut probo adhuc definiebas, has at meis debet vulputate. No sed velit essent suavitate, in pro decore ceteros temporibus, usu in odio offendit theophrastus. Mel labore indoctum cu, ad soleat admodum delicatissimi sed, mei viris tritani ullamcorper eu. Ut vim simul aperiam.</p>
+		<p>Eu eleifend repudiandae has. Mea eu ridens aliquam. Nisl aeque sit ut, posse dolor utinam cum in. Ad timeam sapientem eos, et eripuit inermis nam. Eos integre voluptaria ne, iriure concludaturque ut eum.</p>
+		<p>Vis erant intellegat in. Soleat legere no ius, usu ex laoreet molestie. Sit eu sint inermis. Ea zzril scribentur pro.</p>
+		<h1>Tempor essent appetere</h1>
+		<p>Ius mutat commune expetendis in. Nam et quas sensibus reprimique, vix no erat soluta suavitate. At mel eius dictas latine. Corrumpit inciderint reformidans sed no, no usu omnis utinam noluisse.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+		<p>Probo debet quaestio an eos, no mel assum iracundia delicatissimi, rebum facete utroque sed ex. Eu melius invidunt repudiandae vix, eu paulo reformidans deterruisset duo, solum voluptaria efficiantur ea mel. Qui summo zzril alienum et. Eu est ferri iuvaret, mazim epicurei sententiae ut cum, modo reque intellegat ex vix. Vim eu tibique accusamus, quot electram at qui.</p>
+		<p>Ex iisque eleifend periculis has. Sit aeterno virtute partiendo ei, eam nonumy bonorum adolescens ad. Ut nec suas vocent ornatus, cetero legendos constituam mea ea, pri cu delenit iracundia. Mundi decore nec te.</p>
+		<h1>Soleat civibus in pri</h1>
+		<p>In petentium erroribus percipitur per. Takimata accommodare ius ut, eam no postulant urbanitas. Qui ei tantas consectetuer, quis dictas euripidis duo ei. Quaeque democritum concludaturque has ne.</p>
+		<p>Blandit insolens constituto vix an. Has diam wisi in, eum unum repudiare no. Sit at virtute rationibus, qui vitae explicari cu. Vim ne singulis voluptatum, sed puto accusata salutandi ei. Ad mel civibus adversarium.</p>
+		<p>Per ne solum vivendo, fabulas dolorem vivendo in pro. Nec duis ignota cotidieque no, an per possit nostrum. Pro detraxit definitionem eu. Vivendo officiis no nam, eu has reque maiestatis percipitur, dolore reprimique accommodare cum ad. No utinam voluptua oportere pri, augue sonet dicant ei sea.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+		<h1>Lorem ipsum ne justo</h1>
+		<p>Bonorum has. His ut cibo quas tantas, vis ut probo adhuc definiebas, has at meis debet vulputate. No sed velit essent suavitate, in pro decore ceteros temporibus, usu in odio offendit theophrastus. Mel labore indoctum cu, ad soleat admodum delicatissimi sed, mei viris tritani ullamcorper eu. Ut vim simul aperiam.</p>
+		<p>Blandit insolens constituto vix an. Has diam wisi in, eum unum repudiare no. Sit at virtute rationibus, qui vitae explicari cu. Vim ne singulis voluptatum, sed puto accusata salutandi ei. Ad mel civibus adversarium.</p>
+		<p>Ius mutat commune expetendis in. Nam et quas sensibus reprimique, vix no erat soluta suavitate. At mel eius dictas latine. Corrumpit inciderint reformidans sed no, no usu omnis utinam noluisse.</p>
+		<p>Probo debet quaestio an eos, no mel assum iracundia delicatissimi, rebum facete utroque sed ex. Eu melius invidunt repudiandae vix, eu paulo reformidans deterruisset duo, solum voluptaria efficiantur ea mel. Qui summo zzril alienum et. Eu est ferri iuvaret, mazim epicurei sententiae ut cum, modo reque intellegat ex vix. Vim eu tibique accusamus, quot electram at qui.</p>
+		<p>Eu eleifend repudiandae has. Mea eu ridens aliquam. Nisl aeque sit ut, posse dolor utinam cum in. Ad timeam sapientem eos, et eripuit inermis nam. Eos integre voluptaria ne, iriure concludaturque ut eum.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+		<p>Vis erant intellegat in. Soleat legere no ius, usu ex laoreet molestie. Sit eu sint inermis. Ea zzril scribentur pro.</p>
+		<h1>Tempor essent appetere</h1>
+		<p>Ius mutat commune expetendis in. Nam et quas sensibus reprimique, vix no erat soluta suavitate. At mel eius dictas latine. Corrumpit inciderint reformidans sed no, no usu omnis utinam noluisse.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+		<p>Blandit insolens constituto vix an. Has diam wisi in, eum unum repudiare no. Sit at virtute rationibus, qui vitae explicari cu. Vim ne singulis voluptatum, sed puto accusata salutandi ei. Ad mel civibus adversarium.</p>
+		<p>Per ne solum vivendo, fabulas dolorem vivendo in pro. Nec duis ignota cotidieque no, an per possit nostrum. Pro detraxit definitionem eu. Vivendo officiis no nam, eu has reque maiestatis percipitur, dolore reprimique accommodare cum ad. No utinam voluptua oportere pri, augue sonet dicant ei sea.</p>
+		<p>Probo debet quaestio an eos, no mel assum iracundia delicatissimi, rebum facete utroque sed ex. Eu melius invidunt repudiandae vix, eu paulo reformidans deterruisset duo, solum voluptaria efficiantur ea mel. Qui summo zzril alienum et. Eu est ferri iuvaret, mazim epicurei sententiae ut cum, modo reque intellegat ex vix. Vim eu tibique accusamus, quot electram at qui.</p>
+		<p>Ex iisque eleifend periculis has. Sit aeterno virtute partiendo ei, eam nonumy bonorum adolescens ad. Ut nec suas vocent ornatus, cetero legendos constituam mea ea, pri cu delenit iracundia. Mundi decore nec te.</p>
+		<h1>Soleat civibus in pri</h1>
+		<p>In petentium erroribus percipitur per. Takimata accommodare ius ut, eam no postulant urbanitas. Qui ei tantas consectetuer, quis dictas euripidis duo ei. Quaeque democritum concludaturque has ne.</p>
+		<p>Blandit insolens constituto vix an. Has diam wisi in, eum unum repudiare no. Sit at virtute rationibus, qui vitae explicari cu. Vim ne singulis voluptatum, sed puto accusata salutandi ei. Ad mel civibus adversarium.</p>
+		<p>Ius mutat commune expetendis in. Nam et quas sensibus reprimique, vix no erat soluta suavitate. At mel eius dictas latine. Corrumpit inciderint reformidans sed no, no usu omnis utinam noluisse.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+		<p>Per ne solum vivendo, fabulas dolorem vivendo in pro. Nec duis ignota cotidieque no, an per possit nostrum. Pro detraxit definitionem eu. Vivendo officiis no nam, eu has reque maiestatis percipitur, dolore reprimique accommodare cum ad. No utinam voluptua oportere pri, augue sonet dicant ei sea.</p>
+		<p>Sit et, an ius nihil apeirian. Eu posse tempor iuvaret cum. No diam dolor sea, postea mnesarchum ne ius, vel no utinam ignota dolores. Malis suscipit accusamus his ne, utinam assentior prodesset ea eam, facer partem antiopam et cum.</p>
+	</div>
+	<div class="thin"></div>
+</div>
+</body>
+</html>

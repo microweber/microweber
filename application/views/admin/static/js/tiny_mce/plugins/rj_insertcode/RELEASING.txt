@@ -1,0 +1,6 @@
+To release a new version, do the following:
+
+1) Update the change logs in README.txt and rj_insertcode.xml
+2) Update the version number in editor_plugin.js and rj_insertcode.xml
+3) TAG the trunk directory as a new folder in the tags directory
+4) Create a zip file containing the rj_insertcode folder (after exporting it from SVN)

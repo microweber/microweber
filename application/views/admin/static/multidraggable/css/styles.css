@@ -1,0 +1,32 @@
+#demo_area {
+	border:1px solid #777;
+	width:500px;
+	height:500px;
+}
+
+.multidraggable {
+	width:120px;
+	height:120px;
+	border:1px solid #CCC;
+	padding:10px;
+	background:#FFF;
+}
+
+.ui-multidraggable {
+	background:#F8FBDC;
+}
+
+.handle {
+	border:1px solid #AEE6E8;
+}
+
+.cancel {
+	border:1px solid #CCC;
+}
+
+#target {
+	width:300px;
+	height:300px;
+	display:block;
+	background:#E9B13B;
+}

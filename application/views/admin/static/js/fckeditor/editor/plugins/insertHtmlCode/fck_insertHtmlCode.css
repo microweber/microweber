@@ -1,0 +1,51 @@
+/*
+ * File Name: fck_insertCode.css
+ * 	CSS styles for the Insert Code dialogue.
+ * 
+ * File Authors:
+ * 		Michel Staelens (michel.staelens@wanadoo.fr)
+ * 		Bernadette Cierzniak
+ * 		Abdul-Aziz Al-Oraij (top7up@hotmail.com)
+ */
+
+BODY, TEXTAREA, INPUT, TD, SELECT
+{
+	font-family: Tahoma,verdana,arial,sans-serif;
+}
+DIV
+{
+	position: absolute;
+}
+.simple
+{
+	font-size: 11pt;
+}
+.double
+{
+	font-size: 9pt;
+}
+.simpledia
+{
+	color: red;
+	font-size: 11pt;
+}
+.doubledia
+{
+	color: red;
+	font-size: 9pt;
+}
+.action
+{
+	color: white;
+	font-size: 7pt;
+}
+.clavier
+{
+	color: blue;
+	font-size: 7pt;
+}
+.sign
+{
+	color: gray;
+	font-size: 7pt;
+}

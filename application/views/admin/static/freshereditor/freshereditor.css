@@ -1,0 +1,220 @@
+﻿ 
+
+.fresheditable[contentEditable=true]
+{
+	border-left:10px solid #ccc;
+	padding-left:10px;
+}
+
+.fresheditable[contentEditable=true] img
+{
+	border:2px dashed #ccc;
+	min-width:32px;
+	min-height:32px;
+	padding:1em;
+}
+
+.fresheditable .edit-button > span
+{
+	background-image:url("images/edit_icon.png");
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+
+.clear
+{
+	clear:both;
+}
+
+/* fresheditor toolbar */
+.fresheditor-toolbar 
+{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif, Serif;
+	line-height:1.67em;
+	font-size:1em;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection
+{
+	float:left;
+	
+	border-right:1px solid #A6A6A6;
+	list-style-type:none;
+	list-style-position:inside;
+	margin:0;
+	padding:0;
+	margin-right:5px!important;
+	margin-bottom:0.62em;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li
+{
+	-moz-border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+	margin:0;
+	float:left;
+	
+	background:#d3d3d3;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FBFBFB), to(#D3D3D3));
+	background:-moz-linear-gradient(center top , #FBFBFB, #D3D3D3) repeat scroll 0 0 transparent;
+	
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a
+{
+	text-decoration:none;
+	-moz-border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+	
+	height:24px;
+	font-size:12px;
+	color:Black;
+	padding:0px;
+	display:block;
+	
+	border:1px solid #999;
+	text-shadow: 0 1px white;
+	padding:0;
+	width: 30px;
+	border-bottom:1px solid #666;
+	border-right:none;
+	text-align:center;
+
+	-moz-box-shadow:none;
+	/*background: -webkit-gradient(linear, left top, left bottom, from(#FBFBFB), to(#D3D3D3));
+	background:-moz-linear-gradient(center top , #FBFBFB, #D3D3D3) repeat scroll 0 0 transparent;*/
+	border-color:#939393 #A6A6A6 #BCBCBC;
+	margin:0!important;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a:hover {
+	border-color:Black;
+	border-right:1px solid;
+	margin-right:-1px;
+	padding-right:-1px;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_bold {
+	font-weight:bold;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_italic {
+	font-style:italic;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_underline {
+	text-decoration:underline!important;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_link {
+	font-weight:bold;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_forecolor {
+	font-weight:bold;
+	color:#dd0000;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_bgcolor div{
+	background: #0000ff;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_code {
+	font-weight:bold;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar-cmd div {
+	width:16px;
+	height:11px;
+	position:relative;
+	top:7px;
+	left:7px;
+	text-decoration:none;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_justifyleft div{
+	background: url("images/toolbar.png") 0 0 no-repeat;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_justifycenter div{
+	background: url("images/toolbar.png") -20px 0 no-repeat;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_justifyright div{
+	background: url("images/toolbar.png") -40px 0 no-repeat;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_justifyfull div{
+	background: url("images/toolbar.png") -62px 0 no-repeat;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_ol div {
+	background:url("images/toolbar.png") -20px -11px no-repeat;
+	height:14px;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_ul div {
+	background:url("images/toolbar.png") -40px -11px no-repeat;
+	height:14px;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_image div{
+	background:url("images/toolbar.png") 0px -11px no-repeat;
+	height:14px;
+}
+
+.fresheditor-toolbar .buttons ul.toolbarSection li a.toolbar_blockquote div{
+	background:url("images/toolbar.png") -62px -11px no-repeat;
+	height:14px;
+}
+
+a.contenteditable-icon
+{
+	text-decoration:none!important;
+	background:url("images/toolbar.png") -42px -24px no-repeat;
+	background-position:center center;
+	width:16px;
+	height:24px;
+	display:block;
+	margin-right:5px;
+}
+
+.hide
+{
+	display:none;
+}
+
+#colorpanel {
+	position:fixed;
+	text-align: center;
+	padding: 5px;
+	background: #333;
+	opacity: 0.95;
+}
+
+#fontsize-select {
+	width: 180px;
+	height: 150px;
+	overflow-y: scroll;
+	position: fixed;
+	border: 1px solid #ddd;
+}
+
+#fontname-select {
+	width: 150px;
+	height: 150px;
+	overflow-y:scroll;
+	position: fixed;
+	font-size: 13px;
+	border: 1px solid #ddd;
+}
+
+a.font-option {
+	text-decoration: none;
+	color: #333;
+	padding: 0 5px;
+	background-color: #fff;
+	display:block;
+}

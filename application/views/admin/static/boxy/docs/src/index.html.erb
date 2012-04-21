@@ -1,0 +1,536 @@
+
+<div class='flash'>
+  <a href='tests.html'>
+    Vist the test &amp; examples page - gives all of Boxy's major features a workout
+  </a>
+</div>
+        
+<h2 id='overview'>Overview</h2>
+
+<p>Boxy is a flexible, Facebook-style dialog box for jQuery with support for dragging
+  and size tweening. It differs from other
+  overlays I've seen by providing an object interface to control dialogs after
+  they've been created. And for simple usage scenarios, boxy also provides a
+  jQuery plugin for automatically
+  hooking up links and forms, as well as an <code>ask()</code> helper for presenting
+  multiple choices to the user.</p>
+
+<p>Here's an example, taken from the old feedback forms on my project pages:</p>
+
+<img src='example.png' alt='Example dialog box' style='display: block; margin: 1em auto' />
+
+<h2 id='downloading'>Downloading</h2>
+
+<h3>Package</h3>
+<p>
+  Package downloads are available from the
+  <a href='http://plugins.jquery.com/project/boxy'>jQuery project page</a>.
+  If you just want a zip file, here's a <a href='http://plugins.jquery.com/files/boxy-0.1.4.zip'>direct download link</a>.
+</p>
+
+<h3>github</h3>
+<pre class='shell'><span class='green'>jason@oreo</span> <span class='blue'>~ $</span> git clone git@github.com:jaz303/boxy.git</pre>
+
+<h2 id='setup'>Setup</h2>
+
+<p>Drop the assets in the <code>src</code> directory of the distribution into
+  your web root then include jquery.boxy.js and boxy.css in your page. If your
+  images directory's absolute path is anything other than <code>/images/</code>
+  you'll need to amend the CSS file accordingly.</p>
+  
+<p>We're good to go now.</p>
+
+<h2 id='jquery-plugin'>Using the jQuery Plugin</h2>
+
+<p>To use the jQuery plugin, put <code>$(selector).boxy();</code> in your
+  <code>document.ready</code>, substituting "selector" as appropriate, e.g.
+  <code>"a[rel=boxy],form.with-confirmation"</code>. This will attach behaviours
+  to matched elements as follows:</p>
+
+<ol>
+  <li>Anchors with an <code>href</code> attribute containing <code>#</code>
+    will take as their content the DOM element with the corresponding ID, adding
+  the class <code>boxy-content</code> and making it visible in the process.</li>
+  <li>Anchors with any other <code>href</code> will attempt to load their content
+    with AJAX. Ideally, we'd have a same origin check and delegate cross-domain
+  requests to an iframe. That one's on the to-do list.</li>
+  <li>Forms will display a modal confirmation message on submit.</li>
+  <li>All other elements are ignored.</li>
+</ol>
+
+<p>Try the following examples:</p>
+
+<form method='post' action='http://onehackoranother.com/projects/jquery/boxy/index.php#form' id='form' class='boxy' style='background-color: #efefef; border: 1px solid #505050; padding: 0.5em'>
+  <a href='index.html#foobar' class='boxy' title='Inline Content Demo'>Inline content (div#foobar)</a> |
+  <a href='partial.html' class='boxy' title='AJAX Content Demo'>Remote content (partial.html)</a> |
+  <a href='duck.jpg' class='boxy' title='Image Content Demo' />Image content</a> |
+  <input type='submit' value='Submit with confirm' />
+  <div id='foobar' style='display: none; background-color: green; color: white; font-size: 30px; color: white; padding: 15px'>This is inline content</div>
+</form>
+
+<script type='text/javascript'>
+$(function() {
+  $('.boxy').boxy();
+});
+</script>
+
+<div class='caption'>Basic plugin usage:</div>
+<pre>&lt;script type='text/javascript'&gt;
+$(function() {
+  $('.boxy').boxy();
+});
+&lt;/script&gt;</pre>
+
+<p>Note that boxy automatically works out the size of your inner content region
+  and positions itself appropriately; there's no need to explicitly set the
+  dimensions of the wrapper.</p>
+
+<p>The plugin method understands a single option; any other options
+  are passed onto boxy's constructor (see <a href='#constructor-options'>constructor
+  options</a>, below), or for AJAX operations, <code>Boxy.load</code>.</p>
+  
+<table>
+  <tr>
+    <th>Option</th>
+  <th>Description</th>
+  <th>Default</th>
+  </tr>
+  <tr>
+    <td><code>message</code></td>
+  <td>Message displayed for form confirmation hooks.</td>
+  <td><code>"Please confirm:"</code></td>
+  </tr>
+</table>
+ 
+<p>Additionally, the <code>title</code> attribute of each matched anchor will be used as the title
+  of its corresponding dialog.</p>
+
+<h2 id='manual-labour'>Creating Instances Manually</h2>
+
+<p>Using boxy in manual mode is easy - just create a new instance of <code>Boxy</code>,
+  passing the inner content and a hash of any additional options. By default, dialogs will
+  become visible immediately, centred in the viewport, with dragging enabled. All
+  of these settings can be overridden by additional options passed to the constructor
+  - see <a href='index.html#constructor-options'>constructor options</a>, below, for more details.</p>
+  
+<p>The content passed to the constructor can be any valid parameter to jQuery's
+  <code>$()</code> function - a DOM element, an HTML fragment or another jQuery
+  object. Whatever is provided will be set to <code>display: block</code> and
+  have the class
+  <code>boxy-content</code> added prior to its insertion within the dialog.</p>
+
+<p>Mandatory examples follow, booya:</p>
+  
+<h3>Creating new dialogs</h3>
+<ul>
+  <li><a href='#' onclick='return create();'>Create a new dialog - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {title: "Dialog"});</code></a></li>
+  <li><a href='#' onclick='return create({draggable: false});'>Create a new dialog, undraggable - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {title: "Dialog", draggable: false});</code></a></li>
+  <li><a href='#' onclick='return create({closeable: false});'>Create a new dialog, no default close button - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {title: "Dialog", closeable: false});</code></a></li>
+  <li><a href='#' onclick='return create({fixed: false});'>Create a new dialog, absolute positioning - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {title: "Dialog", fixed: false});</code></a></li>
+  <li><a href='#' onclick='return create({modal: true});'>Create a new dialog, modal - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {title: "Dialog", modal: true});</code></a></li>
+  <li><a href='#' onclick='return create({behaviours: function(r) { $(r).hover(function() { $(this).css("background-color", "red"); }, function() { $(this).css("background-color", "white"); }); }});'>Create a new dialog, custom behaviours - <code>new Boxy("&lt;p&gt;Content&lt;/p&gt;", {behaviours: function(r) { $(r).hover(function() { $(this).css("background-color", "red"); }, function() { $(this).css("background-color", "white"); }); }});</code></a></li>
+</ul>
+
+<h3>Modifying existing dialogs</h3>
+<ul>
+  <li><a href='#' onclick='tweenUp(); return false;'>Tween newest dialog up - <code>someDialog.tween(400, 400);</code></a></li>
+  <li><a href='#' onclick='tweenDown(); return false;'>Tween newest dialog down - <code>someDialog.tween(100, 100);</code></a></li>
+  <li><a href='#' onclick='getTitle(); return false;'>Get title of newest dialog - <code>someDialog.getTitle();</code></a></li>
+  <li><a href='#' onclick='setTitle(); return false;'>Set title of newest dialog - <code>someDialog.setTitle("new title");</code></a></li>
+</ul>
+
+<script type='text/javascript'>
+var allDialogs = [];
+var seq = 0;
+function create(options) {
+options = $.extend({title: "Dialog"}, options || {});
+var dialog = new Boxy("<div><p>This is dialog " + (++seq) + ". <a href='index.html#' onclick='Boxy.get(this).hide(); return false'>Close me!</a></p></div>", options);
+allDialogs.push(dialog);
+return false;
+}
+function recent() { return allDialogs[allDialogs.length-1]; }
+function tweenUp() { recent().tween(400,400); }
+function tweenDown() { recent().tween(100,100); }
+function getTitle() { alert(recent().getTitle()); }
+function setTitle() { recent().setTitle(prompt("Enter new title:")); }
+</script>
+
+
+<p>Note that the title bar (and hence the default close button and drag actuator)
+  will only appear if a title is specified. In the future this behaviour may change
+  so that a title bar is always present unless specifically disabled.</p>
+  
+<p>Once you've created an instance, you can assign it to a variable and thereafter
+  move, size, show and hide it at will via the provided API -
+  <a href='index.html#api'>documented below</a>.</p>
+
+<h3>Asking Questions</h3>
+
+<p>Using the <code>Boxy.ask()</code>, <code>Boxy.alert()</code> and
+  <code>Boxy.confirm()</code> helpers it is possible to prompt the user to
+  select from a varying number of choices and fire an optional callback on
+  completion. Click on one of the links below for a demo and refer to the API
+  documentation for more information.</p>
+  
+<ul>
+  <li>
+    <a href='#' id='ask-actuator'>Ask - <code>Boxy.ask()</code> -
+      user-defined options, selected option is passed to callback</a>
+  </li>
+  <li>
+    <a href='#' id='alert-actuator'>Alert - <code>Boxy.alert()</code> - 
+      callback always fired on dismissal</a>
+  </li>
+  <li>
+    <a href='#' id='confirm-actuator'>Confirmation - <code>Boxy.confirm()</code> -
+      callback only fired if user selects 'OK'</a>
+  </li>
+</ul>
+
+<pre>&lt;script type=&#x27;text/javascript&#x27;&gt;
+$(function() {
+  $(&#x27;#ask-actuator&#x27;).click(function() {
+    Boxy.ask(&quot;How are you feeling?&quot;, [&quot;Great&quot;, &quot;OK&quot;, &quot;Not so good&quot;], function(val) {
+      alert(&quot;You chose: &quot; + val);       
+    }, {title: &quot;This is a question...&quot;});
+    return false;
+  });
+  $(&#x27;#alert-actuator&#x27;).click(function() {
+    Boxy.alert(&quot;File not found&quot;, null, {title: &#x27;Message&#x27;});
+    return false;
+  });
+  $(&#x27;#confirm-actuator&#x27;).click(function() {
+    Boxy.confirm(&quot;Please confirm:&quot;, function() { alert(&#x27;Confirmed!&#x27;); }, {title: &#x27;Message&#x27;});
+    return false;
+  });
+});
+&lt;/script&gt;</pre>
+
+<script type='text/javascript'>
+$(function() {
+  $('#ask-actuator').click(function() {
+    Boxy.ask("How are you feeling?", ["Great", "OK", "Not so good"], function(val) {
+      alert("You chose: " + val);       
+    }, {title: "This is a question..."});
+    return false;
+  });
+  $('#alert-actuator').click(function() {
+    Boxy.alert("File not found", null, {title: 'Message'});
+    return false;
+  });
+  $('#confirm-actuator').click(function() {
+    Boxy.confirm("Please confirm:", function() { alert('Confirmed!'); }, {title: 'Message'});
+    return false;
+  });
+});
+</script>
+
+<h2 id='api'>API</h2>
+
+<dl class='docs'>
+  <dt>Boxy.load(url, options)</dt>
+  <dd>
+    Load content from a URL and display in a Boxy dialog. The following options are
+    supported:
+    <ul>
+      <li><code>type</code> - HTTP method, defaults to <code>GET</code>.</li>
+      <li><code>cache</code> - if <code>true</code>, cache content for successive calls. Equivalent to passing <code>cache</code> option to jQuery's <code>ajax</code> method. Default: <code>false</code>.</li>
+      <li><code>filter</code> - jQuery expression used to filter remote content.</li>
+      
+    </ul>
+    <p>(any additional options you specify will be passed to the Boxy constructor)</p>
+  </dd>
+  <dt>Boxy.get(element)</dt>
+  <dd>Returns the Boxy instance containing <code>element</code>, e.g.
+    <code>&lt;a href="#" onclick="Boxy.get(this).hide();"&gt;Close dialog&lt;/a&gt;</code>.</dd>
+  <dt>Boxy.ask(question, answers, callback, options)</dt>
+  <dd>
+    Displays a modal, non-closeable dialog allowing the user to select from a
+  set of options. <code>question</code> is the message to be displayed to the
+  user. <code>answers</code> is an array or hash of all possible responses.
+  <code>callback</code> will receive the selected response; this will be the value
+  or corresponding key depending on whether an array or hash of answers was provided.
+  <code>options</code> is an optional set of additional options to be passed
+  to the dialog's constructor.
+  </dd>
+  <dt>Boxy.alert(message, callback, options)</dt>
+  <dd>
+    Displays a modal, non-closeable dialog displaying a message to the user.<br/>
+    <strong>Note:</strong> this method is <strong>not</strong> intended to replace
+    the native <code>window.alert()</code> function provided by browsers as it does
+    not have the capability to block program execution while the dialog is visible.
+  </dd>
+  <dt>Boxy.confirm(message, callback, options)</dt>
+  <dd>
+    Displays a modal, non-closeable dialog displaying a message with OK and Cancel buttons.
+    Callback will only be fired if user selects OK.<br/>
+    <strong>Note:</strong> this method is <strong>not</strong> intended to replace
+    the native <code>window.confirm()</code> function provided by browsers as it does
+    not have the capability to block program execution while the dialog is visible.
+  </dd>
+  <dt>Boxy.linkedTo(ele)</dt>
+  <dd>
+    Returns the Boxy instance which has been linked to DOM element <code>ele</code> via the
+    <code>actuator</code> constructor option.
+  </dd>
+  <dt>Boxy.isModalVisible()</dt>
+  <dd>Returns <code>true</code> if any modal dialog is currently visible, <code>false</code> otherwise.</dd>
+  <dt>new Boxy(element, options)</dt>
+  <dd>
+    Constructor; create a new Boxy dialog. <code>element</code> is the dialog
+  content; any valid parameter to jQuery's <code>$()</code> function is also
+  valid here. <code>options</code> is a hash of configuration options, see
+  the detailed documentation below.
+  </dd>
+  <dt>estimateSize()</dt>
+  <dd>Estimate the size of the dialog box while invisible. Do not use this
+  method if dialog is currently visible; use <code>getSize()</code> instead.</dd>
+  <dt>getSize()</dt>
+  <dd>Returns the size of the dialog as an array of <code>[width, height]</code>.</dd>
+  <dt>getContentSize()</dt>
+  <dd>Returns the size of the dialog's content region - by default this is
+    everything within the dialog's frame, excluding title bar.</dd>
+  <dt>getPosition()</dt>
+  <dd>Returns the co-ords of the dialog's top-left as an array of <code>[x,y]</code>.</dd>
+  <dt>getCenter()</dt>
+  <dd>Returns the co-ords of the dialog's center as an array of <code>[x,y]</code>.</dd>
+  <dt>getInner()</dt>
+  <dd>Returns a jQuery object wrapping the dialog's inner region - everything inside
+    the frame, including the title bar. Chances are you want <code>getContent()</code>,
+  below, instead.</dd>
+  <dt>getContent()</dt>
+  <dd>Returns a jQuery object wrapping the dialog's content region - everything inside
+    the frame, excluding the title bar.</dd>
+  <dt>setContent(newContent)</dt>
+  <dd>Sets the dialog content; any valid parameter to <code>$()</code> is valid
+    for <code>newContent</code>. Chainable.</dd>
+  <dt>moveTo(x,y)</dt>
+  <dd>
+    Moves the dialog so that its top-left is at (x,y).
+    Make either value <code>null</code> to center on a single co-ordinate.
+    Chainable.</dd>
+  <dt>centerAt(x,y)</dt>
+  <dd>Moves the dialog so that its center is at (x,y). Chainable.</dd>
+  <dt>center(axis)</dt>
+  <dd>Moves the dialog so that it is centered in the viewport. Optional parameter
+    <code>axis</code> can be <code>'x'</code> or <code>'y'</code> to center on a
+    single axis only. Chainable.
+  </dd>
+  <dt>resize(w,h,after)</dt>
+  <dd>Resizes the dialog to [w,h], firing optional callback <code>after</code> on
+    completion. The callback will receive the Boxy instance as an argument. Chainable.</dd>
+  <dt>tween(w,h,after)</dt>
+  <dd>Tweens the dialog to [w,h], firing optional callback <code>after</code> on
+    completion. The callback will receive the Boxy instance as an argument. Chainable.</dd>
+  <dt>isVisible()</dt>
+  <dd>Returns <code>true</code> if this dialog is currently visible, <code>false</code> otherwise.</dd>
+  <dt>show()</dt>
+  <dd>Show the dialog. Chainable.</dd>
+  <dt>hide(after)</dt>
+  <dd>Hide the dialog, firing optional callback <code>after</code> on completion. Chainable.</dd>
+  <dt>toggle()</dt>
+  <dd>Toggle visibility of the dialog. Chainable.</dd>
+  <dt>hideAndUnload(after)</dt>
+  <dd>Hide the dialog and then immediately unload. <code>after</code> callback will be fired
+    before unloading. Chainable.</dd>
+  <dt>unload()</dt>
+  <dd>Remove this dialog from the DOM and sever its actuator link, if any.
+    Once a dialog has been unloaded any further operations on it are undefined.</dd>
+  <dt>toTop()</dt>
+  <dd>Move this dialog above all others. Chainable.</dd>
+  <dt>getTitle()</dt>
+  <dd>Returns the title for this dialog as HTML.</dd>
+  <dt>setTitle(t)</dt>
+  <dd>Sets the title HTML of this dialog to <code>t</code>. Chainable.</dd>
+</dl>
+
+<h2 id='constructor-options'>Complete list of constructor options</h2>
+
+<table>
+  <tr>
+    <th>Option</th>
+  <th>Description</th>
+  <th width='30%'>Default</th>
+  </tr>
+  <tr>
+    <td><code>title</code></td>
+  <td>
+    Title to display in auto-generated title bar.
+  </td>
+  <td><code>null</code></td>
+  </tr>
+  <tr>
+    <td><code>closeable</code></td>
+  <td>
+    Whether a close-dialog actuator should be added to the auto-generated
+    title bar. No effect if title is unspecified.
+  </td>
+  <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>closeText</code></td>
+    <td>Text to use for close link in title bar, if enabled.</td>
+    <td><code>"[close]"</code></td>
+  </tr>
+  <tr>
+    <td><code>draggable</code></td>
+  <td>
+    Whether this dialog should be draggable via the titlebar. No effect if
+    title is unspecified.
+  </td>
+  <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>clone</code></td>
+    <td>
+      Should the dialog's content element and event handlers be cloned before being
+      placed in the inner region?
+    </td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>actuator</code></td>
+    <td>
+      DOM element (not jQuery object) which triggered this dialog. A link between the
+      two will be set up allowing a reference to the dialog to be later retrieved from
+      the element by doing <code>Boxy.linkedTo(element)</code>. The link will
+      be automatically severed when the dialog is unloaded.
+    </td>
+    <td><code>null</code></td>
+  </tr>
+  <tr>
+    <td><code>center</code></td>
+  <td>
+    Should the dialog be centred on screen?
+  </td>
+  <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>fixed</code></td>
+    <td>Should we use fixed, rather than absolute, positioning? Dialogs with
+      fixed positions will on-screen irrespective of scrolling. IE6 does not
+      support fixed positioning and will always drop back to absolute.</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>show</code></td>
+  <td>
+    Should the dialog be shown immediately? If <code>false</code>, you'll need
+    to call <code>dialog.show()</code> manually.
+  </td>
+  <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>modal</code></td>
+  <td>
+    Should the dialog be modal? Modal dialogs "black out" the screen, preventing
+    other elements from receiving events.
+  </td>
+  <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>x</code></td>
+    <td>x (left) coordinate of dialog.
+      Passing this option overrides <code>center</code>.
+      Pass <code>null</code> to center on this coordinate only.</td>
+    <td><code>50</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code></td>
+    <td>y (top) coordinate of dialog.
+      Passing this option overrides <code>center</code>.
+      Pass <code>null</code> to center on this coordinate only.</td>
+    <td><code>50</code></td>
+  </tr>
+  <tr>
+    <td><code>unloadOnHide</code></td>
+    <td>
+      If true, this dialog will be unloaded (e.g. removed from the DOM) after it is hidden.
+    </td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>clickToFront</code></td>
+    <td>
+      If <code>true</code>, clicking anywhere on
+      this dialog (as opposed to the just the title bar) will cause it to come to the top.
+    </td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>behaviours</code></td>
+    <td>Function used to apply custom behaviours to dialog content. Invoked after each
+      call to <code>setContent()</code>, and executes in the context of the <code>Boxy</code>
+      object. Will receive a jQuery object wrapping the content region as a parameter.</td>
+    <td><code>function(r) {}</code></td>
+  </tr>
+  <tr>
+    <td><code>afterDrop</code></td>
+    <td>
+      Callback invoked after this dialog has been dropped; executes in the context of the
+      <code>Boxy</code> object.
+    </td>
+    <td><code>function() {}</code></td>
+  </tr>
+  <tr>
+    <td><code>afterShow</code></td>
+    <td>
+      Callback invoked after this dialog becomes visible; executes in the context of the
+      <code>Boxy</code> object. Can be used to focus on form inputs.
+    </td>
+    <td><code>function() {}</code></td>
+  </tr>
+  <tr>
+    <td><code>afterHide</code></td>
+    <td>
+      Callback invoked after this dialog is hidden; executes in the context of the
+      <code>Boxy</code> object.
+    </td>
+    <td><code>function() {}</code></td>
+  </tr>
+  <tr>
+    <td><code>beforeUnload</code></td>
+    <td>
+      Callback invoked before this dialog is unloaded; executes in the context of the
+      <code>Boxy</code> object.
+    </td>
+    <td><code>function() {}</code></td>
+  </tr>
+</table>
+
+<h2 id='css-selectors'>CSS Selectors</h2>
+  
+<p>Boxy's appearance can be fully customized via CSS; here's a list of the
+  selectors you're likely to be interested in.</p>
+
+<dl class='docs'>
+  <dt>.boxy-wrapper .title-bar</dt>
+  <dd><code>div</code> wrapping the auto-generated title bar.</dd>
+  <dt>.boxy-wrapper .title-bar h2</dt>
+  <dd>Contents of the title bar.</dd>
+  <dt>.boxy-wrapper .title-bar.dragging</dt>
+  <dd>Title bar while with drag in progress.</dd>
+  <dt>.boxy-wrapper .title-bar .close</dt>
+  <dd>Default close-dialog actuator</dd>
+  <dt>.boxy-inner</dt>
+  <dd>Internal region, including title bar.</dd>
+  <dt>.boxy-content</dt>
+  <dd>Internal region, excluding title bar. This class will be automatically added
+    to any element passed to Boxy's constructor.</dd>
+  <dt>.boxy-wrapper .question</dt>
+  <dd>Wraps question text for dialogs created via <code>Boxy.ask()</code>.</dd>
+  <dt>.boxy-wrapper .answers</dt>
+  <dd>Wraps response buttons for dialogs created via <code>Boxy.ask()</code>.</dd>
+  <dt>.close</dt>
+  <dd>Any elements with this class will be hooked up to close the dialog on click.</dd>
+</dl>
+
+<h2 id='todo'>TODO</h2>
+
+<ul>
+  <li>Ability to pass display options via URL like Thickbox and Facebox, e.g.
+    &lt;a href="#foobar?modal=true" rel="boxy"&gt;Open dialog&lt;/a&gt;</li>
+  <li>Fade between "pages" on a dialog, like in OS X preference panes. I've
+    written a tab plugin for this already, hopefully integration will be
+  easy.</li>
+</ul>

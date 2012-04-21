@@ -1,0 +1,81 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: small;
+	overflow:hidden;
+}
+
+fieldset {
+	border: 1px solid gray;
+	margin-bottom: .5em;
+}
+
+legend {
+	font-weight: bold;
+	background-color: #f9f9f9;
+	border: 1px solid #a0a0a0;
+	border-width: 1px 2px 2px 1px;
+}
+
+input, select, textarea {
+	border: 1px solid black;
+}
+
+#source {
+	width: 100%;
+	height:190px;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 90%;
+}
+
+#divOptions {
+	width:445px;
+	padding:5px;
+	margin-left:auto;
+	margin-right:auto;
+	/*border: 1px solid #a0a0a0;*/
+}
+
+#divOptions fieldset {
+	/*height:50px;*/
+	/*width:200px;*/
+}
+
+#lines {
+	/*float:left;*/
+}
+
+#tabwidth {
+	
+}
+
+#cssclasses {
+	/*float:left;*/
+	
+}
+
+#cssclasses input, #cssclasses label {
+	vertical-align:middle;
+}
+
+#codecontainer {
+	
+}
+
+#wait {
+	display:none;
+	position: absolute;
+  	height: 16px;
+	line-height: 16px;
+	top: 150px;
+	left: 200px;
+	background: url("../images/spinner.gif") no-repeat 0px 0px;
+}
+
+#wait span {
+	margin-left:20px;
+	text-align:center;
+}
+
+.hide {
+	display:none;
+}

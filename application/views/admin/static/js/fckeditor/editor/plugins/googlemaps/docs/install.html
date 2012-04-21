@@ -1,0 +1,160 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>GoogleMaps plugin</title>
+<link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Google Maps Plugin for FCKeditor</h1>
+<div id="languages"> Change your language 
+  <ul>
+    <li><a href="install_es.html" lang="es"><img src="es.png" alt="Español" width="23" height="15" border="0"></a></li>
+  </ul>
+</div>
+<h2>Introduction</h2>
+<p>This is a dialog-based plugin to handle insertion and modification of <a href="http://maps.google.com">Google
+  Maps</a> in <a href="http://www.fckeditor.net">FCKeditor</a></p>
+<h3 id="contact">Author:</h3>
+<p><a href="mailto:amla70@gmail.com">Alfonso Mart&iacute;nez de Lizarrondo</a></p>
+<h3>Sponsored by:</h3>
+<p><a href="http://dynamical.biz">Dynamical.biz</a></p>
+<p><a href="http://www.uritec.net">Uritec</a></p>
+<p><a href="http://www.incontrolsolutions.com">InControl Solutions</a></p>
+<h3>Version history: </h3>
+<ol>
+  <li>1.0: 25/08/2007. First version.</li>
+  <li>1.1: 28/08/2007. Ups, didn't test 2.4.3</li>
+  <li>1.2: 31/08/2007. New icon by Dynamical.biz. Use IMG instead of DIV as placeholder
+    for the moment.</li>
+  <li>1.3: 02/09/2007. Complete documentation in HTML for installation and users. </li>
+  <li>1.4: 21/09/2007. Use the onload event to generate the maps (to avoid IE issues), and include the call to GUnload call. Automatically remove the toolbar icon if there is no proper Google Key </li>
+  <li>1.5: 30/09/2007. Support for drawing polylines in the map.</li>
+  <li>1.6: 24/10/2007. Support for multiple markers.</li>
+  <li>1.7: 03/02/2008. Support for the new dialogs in FCKeditor 2.6.</li>
+  <li>1.8: 02/05/2008. Support for Terrain view and remembering the selected map type. The preview in the editor now uses the static maps.</li>
+  <li>1.9: 19/05/2008. It respects the values set for width and height (only assumes that they are pixel if they are numbers without any modifier)<br>
+											Optional configuration parameters: <a href="#WrapperClass">GoogleMaps_WrapperClass</a> and <a href="#PublicKey">GoogleMaps_PublicKey</a> (this code proposed by <a href="http://www.makerweb.it" target="_blank">Makerweb.it</a>) .</li>
+  <li>1.95: 12/09/2008. The preview reflects the real type of the map. It shows also the markers.<br>
+												Dutch translation added</li>
+  <li>1.96: 14/09/2008. Preserve any previous onload handler.<br>
+												French translation added</li>
+  <li>1.97: 20/09/2008. Simplified the onload handler according to the advice by Hector Virgen. </li>
+  <li>1.98:	15/02/2009.	Fixed some issues with the GoogleMaps_PublicKey setting<br>
+												Chinese translation added<br>
+												Norwegian translatioin added
+	</li>
+</ol>
+<p><a href="http://martinezdelizarrondo.com/googlemaps/">Get the latest version and/or updated info</a> </p>
+<h3>Known bugs:</h3>
+<p>The 'Preview' command in FCKeditor won't work properly if there's a GoogleMap
+  in the content. This seems related to the way the Google Maps API script loads
+ and inserts its content. </p>
+<p>These threads in the API group point to the same problem:<br>
+  <a href="http://groups.google.com/group/Google-Maps-API/browse_thread/thread/7849dfd612181b6c/1c3e5f7fb5fa3301">http://groups.google.com/group/Google-Maps-API/browse_thread/thread/7849dfd612181b6c/1c3e5f7fb5fa3301</a>  <br>
+<a href="http://groups.google.com/group/Google-Maps-API/browse_thread/thread/89ea5fa4e0a0ccb9/05c364940447891d">http://groups.google.com/group/Google-Maps-API/browse_thread/thread/89ea5fa4e0a0ccb9/05c364940447891d</a> </p>
+<p>A workaround for the problem could be to use the <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1496110&amp;group_id=75348&amp;atid=737639">Server
+preview plugin</a> </p>
+<h2>Installation</h2>
+<h3>1. Copying the files</h3>
+<p>Extract the contents of the zip in you plugins directory, so it ends up like
+    this<br>
+    <img src="installation.png" alt="Screenshot of installation" width="311" height="346" longdesc="#install"></p>
+<pre id="install">
+editor\
+	...
+	js\
+	lang\
+	plugins\
+		...
+		googlemaps\
+			fckplugin.js
+			readme.html
+			dialog\
+			docs\
+			images\
+			lang\
+		...
+	skins\
+</pre>
+<h3>2. Adding it to FCKeditor</h3>
+<p>Now add in your <em>fckconfig.js</em> or custom js configuration
+file the following line:
+<code>FCKConfig.Plugins.Add( 'googlemaps', 'de,en,es,fr,it,nl,no,zh') ;</code>
+</p>
+<h3>3. Adding it to the toolbarset</h3>
+<p>Add the button <strong>'googlemaps'</strong> (lowercase) to your toolbarset:
+<code>FCKConfig.ToolbarSets[&quot;Basic&quot;] = [<br>
+  ['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink',
+  '-'<strong>,'googlemaps'</strong>,'-','About']<br>
+] ;</code>
+</p>
+<h3 id="configure">4. Configure the plugin</h3>
+<p>The most important part is your GoogleMaps key. It must be set properly for
+  the 
+  plugin to work, or Google will refuse to serve the maps data. <br>
+  You must get one for each server where you want to use the plugin, just get
+  the key for free here after agreeing to the Terms of Use of the GoogleMaps
+  API: <a href="http://www.google.com/apis/maps/signup.html">http://www.google.com/apis/maps/signup.html</a><br>
+  (Please don't ask questions about where you can use GoogleMaps or how to get
+  key, 
+  those items aren't related to this plugin.)<br>
+  For example the key for &quot;localhost&quot; is<br>
+  <span class="key">ABQIAAAAlXu5Pw6DFAUgqM2wQn01gxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSy5hTGQdsosYD3dz6faZHVrO-02A</span></p>
+<p>Once you get the key, you must set it in the configuration file:
+<code>FCKConfig.GoogleMaps_Key = '<span class="key">ABQIAAAAlXu5Pw6DFAUgqM2wQn01gxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSy5hTGQdsosYD3dz6faZHVrO-02A</span>'
+  ;</code>
+</p>
+<p>(remember to replace the key in green with your own one) </p>
+<p>Note: if you leave an empty string then the toolbar icon won't be shown (so you can easily use the same toolbar configuration as the current
+setup in FCKeditor doesn't allow to add/remove plugins/ToolbarIcons in a really easy way)</p>
+<p>There are several options that you can set to change the default values for
+  a new map:</p>
+<ul>
+  <li>FCKConfig.<strong>GoogleMaps_Width</strong> : The width of the map area</li>
+  <li>FCKConfig.<strong>GoogleMaps_Height</strong> : The height of the map area</li>
+  <li>FCKConfig.<strong>GoogleMaps_CenterLat</strong> : The latitude of the center</li>
+  <li>FCKConfig.<strong>GoogleMaps_CenterLon</strong> :The longitude of the center</li>
+  <li>FCKConfig.<strong>GoogleMaps_Zoom</strong> : The zoom level</li>
+  <li>FCKConfig.<strong>GoogleMaps_MarkerText</strong> : The text for the marker</li>
+	<li id="WrapperClass">FCKConfig.<strong>GoogleMaps_WrapperClass</strong> : The Google Maps automatically fills the width and height of the generated div, 
+	so if you want to add a little spacing and a border, you need to use a div around it. If this entry contains a non-empty value then such a div
+	will be generated with this class.<br>
+	Important: in the preview inside the editor, the class will be applied to an image, not a div!</li>
+	<li id="PublicKey">FCKConfig.<strong>GoogleMaps_PublicKey</strong> : If you are using the editor in a different domain than the final
+	location of the web, the maps won't work correctly by default. In this situation you must use this setting. First, set the GoogleMaps_Key
+	to the key of the domain where FCKeditor will be run, and then you have two options:
+	<ul>
+		<li>Set an emtpy value for GoogleMaps_PublicKey (FCKConfig.GoogleMaps_PublicKey = '';) this means that when the user wants to 
+		create a map he must supply the key for the final domain. This is useful if you don't know beforehand all the domains where that 
+		installation will be used. Of course, you must explain to your users how to get an API Key</li>
+		<li>Set the value of the final domain in GoogleMaps_PublicKey. For the user this means no troubles at all, everything works automatically.</li>
+	</ul>
+</ul>
+
+<p>All these values can be set in the <em>fckconfig.js</em> file, a custom js configuration
+  file, or at the moment of the <a href="http://alfonsoml.blogspot.com/2008/02/adding-configuration-entries-when.html">creation of the FCKeditor instance using any
+  language</a>.</p>
+<h3>5. Use it</h3>
+<p align="right">Now empty the cache of your browser and reload the editor, the new button 
+  <img src="../images/mapIcon.gif" alt="Insert GoogleMap" width="16" height="16"> should
+  be <a href="users.html">ready to use</a>.</p>
+<h2>Final notes</h2>
+<p>If you find this plugin useful, consider making a donation so it can be further
+improved, any amount can help to keep the development running.</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+</form>
+<p>If you need some special feature for this plugin, or if you need any other kind of plugin 
+for FCKeditor then <a href="#contact">contact me</a> and we can discuss it</p>
+<h2>Disclaimers</h2>
+<p>FCKeditor is  &copy; FredCK.com</p>
+<p>Google, Google Maps and the Google Maps API are all properties of Google.</p>
+</body>
+</html>

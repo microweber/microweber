@@ -1,0 +1,65 @@
+.tabpanel
+{
+    position: relative;
+    border: 1px solid silver;
+    box-shadow: 3px 3px 3px silver;
+    background-color: rgba(255,255,255,0.5);
+    margin: 10px;
+
+    position: absolute;
+    left: 230px;
+    top: 10px;
+    right: 20px;
+}
+
+.tabpanel li,
+.tabpanel h2
+{
+    font-family: sans-serif;
+    line-height: 12px;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+
+.tabpanel ul
+{
+    margin: 0;
+    padding: 0;    
+    
+    list-style-type: none;
+    list-style-position: outside;
+    border-bottom: 1px solid #C2D9E7;
+    margin-bottom: 10px;
+    margin-right: 14px;
+    padding-top: 5px;
+}
+
+.tabpanel div:last-child ul
+{
+    border-bottom: 1px solid transparent;
+}
+
+.tabpanel li
+{
+    cursor: pointer;
+    position: relative;
+    margin: 10px;
+    padding-left: 22px;
+}
+
+.tabpanel h2
+{
+    font-weight: bold;
+
+    font-weight: normal;
+    padding-left: 10px;
+    text-transform: none;
+    color: #F7941F;
+    display: inline;
+}
+
+.tabpanel div div
+{
+    padding: 10px 0 0 10px;
+}
