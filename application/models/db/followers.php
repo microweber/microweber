@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "followers";
-$query = CI::db()->query ( "show tables like '$table_name'" );
+$query = $this->db->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -11,11 +11,11 @@ if ($query [0] != $table_name) {
 		id bigint(20) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);";
-	CI::db()->query ( $sql );
+	$this->db->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = CI::db()->query ( $sql );
+$query = $this->db->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
@@ -37,7 +37,7 @@ $fields_to_add [] = array ('is_approved', "ENUM('n', 'y') default 'n'" );
 
 $this->setEngine ( $table_name );
 
-CI::db()->query ( "ALTER TABLE {$table_name} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;" );
+$this->db->query ( "ALTER TABLE {$table_name} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;" );
 
 // foreign keys
 //$this->addForeignKey ( 'FK_firecms_followers_1', $table_name, array ('follower_id' ), TABLE_PREFIX . 'users', array ('id' ), array ('delete' => 'CASCADE' ) );

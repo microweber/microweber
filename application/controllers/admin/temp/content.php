@@ -863,7 +863,7 @@ $data ['include_taxonomy'] = 'y';
 
    ;";
 
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 
 		//exit();
@@ -872,7 +872,7 @@ $data ['include_taxonomy'] = 'y';
 		foreach ( $get_all as $item ) {
 
 			$q = " select id  from $table_content where the_old_id = '{$item['id']}'   ";
-			$q = CI::db()->query ( $q );
+			$q = $this->db->query ( $q );
 			$q = $q->result_array ();
 			$q = $q [0];
 			var_dump ( $item ['id'] );
@@ -903,7 +903,7 @@ SELECT * from firecms_content where tag1 = 'from_old_site' and tag2 is null limi
 		";
 		//print $q;
 		//$get_all = CI::model('core')->dbQuery ( $q );
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 
 		$row = 1;
@@ -981,7 +981,7 @@ SELECT * from firecms_content where tag1 = 'from_old_site' and tag2 is null limi
 
 
 
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 
 		//exit();
@@ -990,7 +990,7 @@ SELECT * from firecms_content where tag1 = 'from_old_site' and tag2 is null limi
 		foreach ( $get_all as $item ) {
 
 			$q = " select id  from $table_content where the_old_id = '{$item['id']}'   ";
-			$q = CI::db()->query ( $q );
+			$q = $this->db->query ( $q );
 			$q = $q->result_array ();
 			$q = $q [0];
 			var_dump ( $item ['id'] );
@@ -1035,7 +1035,7 @@ SELECT * from $table_content where tag1 = 'from_old_site' and tag2 is null limit
 		";
 		//print $q;
 		$get_all = CI::model('core')->dbQuery ( $q );
-		//$query = CI::db()->query ( $q );
+		//$query = $this->db->query ( $q );
 		//$get_all = $query->result_array ();
 
 		$row = 1;
@@ -1115,7 +1115,7 @@ SELECT * from $table_content where tag1 = 'from_old_site' and tag2 is null limit
 
 		$q = " SELECT * from firecms_content where content_body RLIKE '$regex' 	";
 		//var_dump($q );
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 
 		foreach ( $get_all as $item ) {
@@ -1124,7 +1124,7 @@ SELECT * from $table_content where tag1 = 'from_old_site' and tag2 is null limit
 			//var_dump($new);
 			$q = " UPDATE firecms_content set content_body = '$new' where id={$item['id']}   ";
 			var_dump ( $q );
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 
 		}
 
@@ -1139,7 +1139,7 @@ SELECT * from firecms_content where tag1 = 'from_old_site' and tag2 is null limi
 		";
 		//print $q;
 		//$get_all = CI::model('core')->dbQuery ( $q );
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 
 		$row = 1;
@@ -1205,7 +1205,7 @@ SELECT * from firecms_content where tag1 = 'from_old_site' and tag2 is null limi
 
 		$q = " SELECT * from $table_content where tag1 = 'from_old_site' ";
 		//$get_all = CI::model('core')->dbQuery ( $q );
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$get_all = $query->result_array ();
 		//var_dump ( $get_all );
 
@@ -1226,7 +1226,7 @@ parent_id = '{$taxnomy_save ['parent_id']}',
 content_type = '{$taxnomy_save ['content_type']}'
 
 			";
-			$qq = $query = CI::db()->query ( "  $q  " );
+			$qq = $query = $this->db->query ( "  $q  " );
 			//print $q;
 
 
@@ -1251,11 +1251,11 @@ content_type = '{$taxnomy_save ['content_type']}'
 		//	$get = CI::model('core')->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = false, false );
 		//var_dump($get);
 		$table = 'pages111';
-		$query = CI::db()->query ( " SET NAMES utf8  " );
+		$query = $this->db->query ( " SET NAMES utf8  " );
 
-		$query = CI::db()->query ( " DELETE FROM $table where id=26311 and id= 26307 " );
+		$query = $this->db->query ( " DELETE FROM $table where id=26311 and id= 26307 " );
 
-		/*$query = CI::db()->query ( " SELECT * FROM $table where
+		/*$query = $this->db->query ( " SELECT * FROM $table where
 		id!=26307
 		and
 		id!=26311
@@ -1268,7 +1268,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 
 		limit 0, 30000 " );*/
 
-		$query = CI::db()->query ( " SELECT * FROM pages111 where
+		$query = $this->db->query ( " SELECT * FROM pages111 where
 		id not in (SELECT the_old_id from firecms_content where tag1 = 'from_old_site' group by the_old_id)
 
 
@@ -1351,7 +1351,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 
 			";
 			var_Dump($q);
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 
 			$get = $query->result_array ();
 			var_dump($get);
@@ -1361,7 +1361,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 
 			//print $q;
 			//$queries [] = $q;
-			//$query = CI::db()->query ( " $q  " );
+			//$query = $this->db->query ( " $q  " );
 			/*$table_taxonomy = 'firecms_taxonomy';
 			$to_insert = array ( );
 			$to_insert ['taxonomy_type'] = 'category_item';
@@ -1380,7 +1380,7 @@ content_type = '{$taxnomy_save ['content_type']}'
 			//	var_dump($item);
 			print "<br /><br />" . $item;
 
-			$query = CI::db()->query ( " $item  " );
+			$query = $this->db->query ( " $item  " );
 		}
 
 		exit ( 'ok' );

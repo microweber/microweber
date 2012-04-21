@@ -92,7 +92,7 @@ switch ($user_action) {
 		$table = $cms_db_tables ['table_users'];
 		
 		$query = "UPDATE {$table} SET is_active = 'y' WHERE MD5(id) = '{$activationCode}'";
-		CI::db()->query ( $query );
+		$this->db->query ( $query );
 		
 		redirect ( 'users/user_action:login' );
 		

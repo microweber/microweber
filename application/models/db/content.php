@@ -96,7 +96,7 @@ if ($query [0] == $table_name) {
 	//add fulltext search
 	//ALTER TABLE articles ADD FULLTEXT(body, title);
 	//$sql = "alter table $table_name add FULLTEXT (content_url, content_title, content_body)  ";
-	//CI::db()->query ( $sql );
+	//$this->db->query ( $sql );
 	
 
 	$this->addIndex ( 'content_type', $table_name, array ('content_type' ) );

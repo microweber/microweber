@@ -57,7 +57,7 @@ class Masterdebate_model extends CI_Model {
 		$table = TABLE_PREFIX . 'masterdebate_videos';
 		$q = " SELECT * FROM $table order by id DESC ";
 		//print $q ;
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		return $query;
 	}

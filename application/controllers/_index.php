@@ -2195,7 +2195,7 @@ class Index extends CI_Controller {
 			
 			$q = "select username from " . $table . " where username='$username' ";
 			
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 			
 			$query = $query->row_array ();
 			
@@ -2221,7 +2221,7 @@ class Index extends CI_Controller {
 			
 			$q = "select * from " . $table . " where username='$username' and password='$password' and is_active=1";
 			
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 			
 			$query = $query->row_array ();
 			

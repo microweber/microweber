@@ -90,7 +90,7 @@ class Cacaomail_model extends CI_Model {
 			$now = date ( "Y-m-d H:i:s" );
 			$q = " SELECT count(*) as qty FROM $table2 where mailsent_date > '$past' and account_id = {$item['id']} ";
 			//print $q ;
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 			$row = $query->row_array ();
 			//var_dump($row);
 			//exit;
@@ -166,7 +166,7 @@ class Cacaomail_model extends CI_Model {
 		(  job_email IS NOT NULL and
        job_email != '0' )
 	";
-				$query = CI::db()->query ( $q );
+				$query = $this->db->query ( $q );
 				$query = $query->row_array ();
 				$query = $query ['qty'];
 				
@@ -176,7 +176,7 @@ class Cacaomail_model extends CI_Model {
 				select count(*) as qty from $table3
 				where feed_id={$item['id']}
 				";
-				$query = CI::db()->query ( $q );
+				$query = $this->db->query ( $q );
 				$query = $query->row_array ();
 				$query = $query ['qty'];
 				$item ['count_mails_sent'] = intval ( $query );
@@ -297,7 +297,7 @@ class Cacaomail_model extends CI_Model {
 
 		//print $q;
 		//exit;
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$links = $query->result_array ();
 		
 		foreach ( $links as $link ) {
@@ -324,7 +324,7 @@ class Cacaomail_model extends CI_Model {
 			if (md5 ( $link ["job_link"] ) != md5 ( $the_actual_url )) {
 				$the_actual_url = addslashes ( $the_actual_url );
 				$q = " UPDATE  $table set job_link='$the_actual_url' where id={$link['id']} ";
-				$query = CI::db()->query ( $q );
+				$query = $this->db->query ( $q );
 				$to_save ['job_link'] = $the_actual_url;
 			}
 			
@@ -397,20 +397,20 @@ class Cacaomail_model extends CI_Model {
 					$table = TABLE_PREFIX . 'cacaomail_mails_to_send';
 					$q = "update  $table set is_active=0,for_download=0    where job_email='{$to_save ['job_email']}' ";
 					//print $q;
-					$query = CI::db()->query ( $q );
+					$query = $this->db->query ( $q );
 					//$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send_log';
 					//$q = "update $table2 where mail_id={$to_save['id']} ";
-					//$query = CI::db()->query ( $q );
+					//$query = $this->db->query ( $q );
 					print "Valid email {$to_save ['job_email']}. Not saved! Cleaned up id: {$to_save['id']} \n\n";
 				}
 			} else {
 				$table = TABLE_PREFIX . 'cacaomail_mails_to_send';
 				$q = "update  $table set is_active=0,for_download=0   where id={$to_save['id']} ";
 				//print $q;
-				$query = CI::db()->query ( $q );
+				$query = $this->db->query ( $q );
 				//$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send_log';
 				//$q = "delete from $table2 where mail_id={$to_save['id']} ";
-				//$query = CI::db()->query ( $q );
+				//$query = $this->db->query ( $q );
 				print "Email not found at all ! Cleaned up id: {$to_save['id']} \n\n";
 			}
 			//echo $body;
@@ -450,7 +450,7 @@ class Cacaomail_model extends CI_Model {
 
 		/*	$table_test = TABLE_PREFIX . 'cacaomail_mails_to_send';
 		$q_test = " select * from $table_test where id=24 ";
-		$q_test = CI::db()->query ( $q_test );
+		$q_test = $this->db->query ( $q_test );
 		$q_test = $q_test->row_array ();
 		var_dump ( $q_test );
 		$email = CI::model('core')->extractEmailsFromString ( html_entity_decode ( $q_test ['job_description'] ) );
@@ -469,7 +469,7 @@ class Cacaomail_model extends CI_Model {
 		";
 		//print $q;
 		//exit;
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$feeds = $query->result_array ();
 		
 		foreach ( $feeds as $feed ) {
@@ -523,7 +523,7 @@ class Cacaomail_model extends CI_Model {
 						//$check = CI::model('core')->getData ( $table2, $criteria, $limit = 1, $offset = false, $return_type = 'row' );
 						// var_dump($check);
 						$q = " select * from  $table2 where job_hash='{$to_save ['job_hash']}'  ";
-						$query = CI::db()->query ( $q );
+						$query = $this->db->query ( $q );
 						$check = $query->row_array ();
 						
 						if (empty ( $check )) {
@@ -612,7 +612,7 @@ class Cacaomail_model extends CI_Model {
    ) 
    group by job_email
 			";
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 			$query = $query->row_array ();
 			if ((intval ( $query ['qty'] ) > 0)) {
 				print "Email found in the log \n";
@@ -649,7 +649,7 @@ class Cacaomail_model extends CI_Model {
 		
 		";
 		//print $q;
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->row_array ();
 		$query ['qty'] = intval ( $query ['qty'] );
 		//var_dump($query);
@@ -772,7 +772,7 @@ class Cacaomail_model extends CI_Model {
 				} else {
 					$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
 					$q = "  SELECT *   from  $table_upd where id={$recipient_info ['id']}";
-					$query = CI::db()->query ( $q );
+					$query = $this->db->query ( $q );
 					$query = $query->row_array ();
 					
 					$email = CI::model('core')->extractEmailsFromString ( html_entity_decode ( $query ['job_description'] ) );
@@ -780,7 +780,7 @@ class Cacaomail_model extends CI_Model {
 					if ($validator2->isValid ( $email [0] )) {
 						$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
 						$q = "Update $table_upd set job_email='{$email[0]}' where id={$recipient_info ['id']}";
-						$query = CI::db()->query ( $q );
+						$query = $this->db->query ( $q );
 						print "Email fixed {$email[0]} to {$recipient_info ['id']}";
 						return false;
 					} else {
@@ -789,13 +789,13 @@ class Cacaomail_model extends CI_Model {
 						if ($validator3->isValid ( $email [0] )) {
 							$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
 							$q = "Update $table_upd set job_email='{$email[0]}' where id={$recipient_info ['id']}";
-							$query = CI::db()->query ( $q );
+							$query = $this->db->query ( $q );
 							print "Email fixed 2 {$email[0]} to {$recipient_info ['id']}";
 							return false;
 						} else {
 							$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
 							$q = "Update $table_upd set is_active=0 where id={$recipient_info ['id']}";
-							$query = CI::db()->query ( $q );
+							$query = $this->db->query ( $q );
 							print 'Invalid mail address';
 							return false;
 						}
@@ -803,7 +803,7 @@ class Cacaomail_model extends CI_Model {
 					
 					$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
 					$q = "Update $table_upd set is_active=0 where id={$recipient_info ['id']}";
-					$query = CI::db()->query ( $q );
+					$query = $this->db->query ( $q );
 					print 'Invalid mail address';
 					return false;
 				}
@@ -814,7 +814,7 @@ class Cacaomail_model extends CI_Model {
 				//$q = "  SELECT count(*) as qty from  $table where mail_id={$write_to_log['mail_id']}  and campaign_id={$write_to_log['campaign_id']} ";
 				$q = "  SELECT count(*) as qty from  $table where (mail_id={$write_to_log['mail_id']} or job_email='{$write_to_log['job_email']}' ) ";
 				//print $q;
-				$query = CI::db()->query ( $q );
+				$query = $this->db->query ( $q );
 				$query = $query->row_array ();
 			$query ['qty']  =	intval ( $query ['qty'] );
 				//var_dump ( intval ( $query ['qty'] ) );
@@ -838,7 +838,7 @@ class Cacaomail_model extends CI_Model {
 					$now = date ( "Y-m-d H:i:s" );
 					$q = " SELECT count(*) as qty FROM $table2 where mailsent_date > '$past' and account_id = {$account_settings['id']} ";
 					//print $q ;
-					$query = CI::db()->query ( $q );
+					$query = $this->db->query ( $q );
 					$row = $query->row_array ();
 					//var_dump($row);
 					//exit;
@@ -938,7 +938,7 @@ class Cacaomail_model extends CI_Model {
 						$t = TABLE_PREFIX . 'cacaomail_mails_to_send';
 						$q = " update $t set is_active=0 where job_email LIKE '{$recipient_info ['job_email']}'  ";
 						print $q;
-						$query = CI::db()->query ( $q );
+						$query = $this->db->query ( $q );
 						
 						
 						//
@@ -1043,7 +1043,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 			$now = date ( "Y-m-d H:i:s" );
 			$q = " SELECT count(*) as qty FROM $table2 where mailsent_date > '$past' and account_id = {$account_settings['id']} ";
 			//print $q ;
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 			$row = $query->row_array ();
 			//var_dump($row);
 			//exit;
@@ -1080,25 +1080,25 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 	   	order by qty desc
 	   	limit 3";
 		//	print $q ; 
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		if (! empty ( $query )) {
 			foreach ( $query as $clean_item ) {
 				if (intval ( $clean_item ['qty'] ) > 1) {
 					$q = "select id, job_email from $table_clean where job_email='{$clean_item['job_email']}' order by id asc ";
-					$q_clean = CI::db()->query ( $q );
+					$q_clean = $this->db->query ( $q );
 					$q_clean = $q_clean->result_array ();
 					$fruit = array_pop ( $q_clean );
 					foreach ( $q_clean as $lets_clean ) {
 						//print 'clean up ' . $lets_clean ['job_email'] . "\n";
 						//$q = "delete from $table_clean  where id='{$lets_clean['id']}' ";
-						//$q = CI::db()->query ( $q );
+						//$q = $this->db->query ( $q );
 						print 'Set inactive ' . $lets_clean ['job_email'] . "\n";
 						$q = "update $table_clean  set is_active=0 where job_email='{$clean_item['job_email']}'  ";
 						//print $q;
-						$q = CI::db()->query ( $q );
+						$q = $this->db->query ( $q );
 						//$q = "delete from $table_clean2  where mail_id='{$lets_clean['id']}' ";
-					//$q = CI::db()->query ( $q );
+					//$q = $this->db->query ( $q );
 					}
 				
 				}
@@ -1109,7 +1109,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 		$q = " update $table_clean set is_active=0 where for_download=0 and (job_email='0' )    ";
 		//print $q;
 		//exit;
-		$q = CI::db()->query ( $q );
+		$q = $this->db->query ( $q );
 		
 		//more housekeeping 
 		$table = TABLE_PREFIX . 'cacaomail_mails_to_send_log';
@@ -1119,7 +1119,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 		
 	   	limit 300";
 		//	print $q ; 
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		//	var_dump($query);
 		if (! empty ( $query )) {
@@ -1128,13 +1128,13 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 					//print $clean_item ['mail_id'];
 					$q = "select id, job_email from $table2 where id='{$clean_item ['mail_id']}' limit 1 ";
 					//print $q;
-					$q_clean = CI::db()->query ( $q );
+					$q_clean = $this->db->query ( $q );
 					$q_clean = $q_clean->row_array ();
 					//	var_dump($q_clean);
 					if (! empty ( $q_clean )) {
 						$q = "update $table set job_email='{$q_clean['job_email']}' where mail_id='{$clean_item ['mail_id']}'";
 						//	print $q;
-						$q_clean = CI::db()->query ( $q );
+						$q_clean = $this->db->query ( $q );
 					}
 					//var_dump($q_clean);
 				
@@ -1193,7 +1193,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 		$past = date ( "Y-m-d H:i:s", $past );
 		$now = date ( "Y-m-d H:i:s" );
 		$q = " SELECT mail_id FROM $table where mailsent_date > '{$campaign_info['campaign_start_date']}' and mailsent_date < '{$campaign_info['campaign_end_date']}' and campaign_id={$campaign_info['id']} ";
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		$mail_ids_to_exclude = array ( );
 		$mails_to_exclude = array ( );
@@ -1203,7 +1203,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 					$mail_ids_to_exclude [] = intval ( $item ['mail_id'] );
 					$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send';
 					$q = " SELECT job_email FROM $table2 where id={$item ['mail_id']} limit 1  ";
-					$q = CI::db()->query ( $q );
+					$q = $this->db->query ( $q );
 					$q = $q->row_array ();
 					$mails_to_exclude [] = $q ['job_email'];
 				}
@@ -1274,7 +1274,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 		//exit ();
 		
 
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->row_array ();
 		if (empty ( $query )) {
 			return false;
@@ -1332,12 +1332,12 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
         $table2 where mail_id is not null
          group by mail_id)  ";
 		
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		var_dump ( $query );
 		foreach ( $query as $i ) {
 			$q = " delete from $table where id={$i['id']}";
-			$query = CI::db()->query ( $q );
+			$query = $this->db->query ( $q );
 		}
 		
 		return true;
@@ -1354,7 +1354,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
          and for_download = 0 and is_active = 1
          ";
 		
-		$query = CI::db()->query ( $q );
+		$query = $this->db->query ( $q );
 		$query = $query->result_array ();
 		var_dump ( $query );
 		foreach ( $query as $i ) {

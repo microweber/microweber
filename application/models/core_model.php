@@ -1369,8 +1369,8 @@ class Core_model extends CI_Model {
 			return false;
 		}
 		
-		// CI::db()->query ( 'SET NAMES utf8' );
-		// CI::db()->query ( $q );
+		// $this->db->query ( 'SET NAMES utf8' );
+		// $this->db->query ( $q );
 		$this->db->query ( $q );
 		
 		return true;
@@ -1934,7 +1934,7 @@ class Core_model extends CI_Model {
 		
 		global $cms_db_tables;
 		
-		// CI::db()->query ( 'SET NAMES utf8' );
+		// $this->db->query ( 'SET NAMES utf8' );
 		if ($table == false) {
 			
 			return false;
@@ -2644,7 +2644,7 @@ class Core_model extends CI_Model {
 		// 'product_name')) ->limit(10, 20);
 		// $select = $this->db->select ()->from ( "$table" ) . eval($where);
 		
-		// $stmt = CI::db()->query ( $q );
+		// $stmt = $this->db->query ( $q );
 		// $result = $stmt->fetchAll ();
 		
 		$result = $this->dbQuery ( $q );
@@ -4569,8 +4569,9 @@ class Core_model extends CI_Model {
 			}
 		} else {
 			try {
+				if(is_file($cache_file)){
 				 $cache = file_get_contents ( $cache_file );
-				
+				}
  
 				
 				
@@ -5070,11 +5071,11 @@ class Core_model extends CI_Model {
 	 * $group_to_table = $this->input->xss_clean ( $group_to_table ); $table2 =
 	 * $table = TABLE_PREFIX . $group_to_table; $q = "select group_id from
 	 * $table2 where group_id is not null group by group_id"; $query =
-	 * CI::db()->query ( $q ); $query = $query->result_array (); $clean_q =
+	 * $this->db->query ( $q ); $query = $query->result_array (); $clean_q =
 	 * false; if (! empty ( $query )) { foreach ( $query as $item ) { $clean_q =
 	 * $clean_q . " AND id!={$item['group_id']} "; } $table = $table =
 	 * TABLE_PREFIX . 'groups'; $q = "delete from $table where
-	 * group_to_table='$group_to_table' $clean_q"; $query = CI::db()->query ( $q
+	 * group_to_table='$group_to_table' $clean_q"; $query = $this->db->query ( $q
 	 * ); } }
 	 */
 	
@@ -8540,7 +8541,7 @@ $w
 	
 	/*
 	 * function cacheDelete($what, $value) { $table = TABLE_PREFIX . 'cache'; $q
-	 * = " delete from $table where $what='$value' "; $q = CI::db()->query ( $q
+	 * = " delete from $table where $what='$value' "; $q = $this->db->query ( $q
 	 * ); }
 	 */
 	

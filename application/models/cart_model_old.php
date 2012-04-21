@@ -2221,20 +2221,20 @@ return ($count);
 		//$result = $cms_db->fetchAll($q );
 		//	var_dump ( $result );
 		//$cms_db
-		//$query = CI::db()->query($q);
+		//$query = $this->db->query($q);
 		//$query = $query->row_array ();
 		
 
 		//$q = CI::model('core')->dbQuery ( $q );
 		//	$q  = $q [0];
 		//var_dump($query);
-		//$q = CI::db()->query ( $q );
+		//$q = $this->db->query ( $q );
 		//	$q = $q->row_array ();
 		//
 		//$q = $q [0] ['the_correct_results_that_php_is_bugging_about'];
 		
 
-		//	$query = CI::db()->query($q);
+		//	$query = $this->db->query($q);
 		
 
 		//if ($query->num_rows() > 0)

@@ -118,10 +118,10 @@ if ($query [0] == $table_name) {
 		$the_field [0] = strtolower ( $the_field [0] );
 		if ($exisiting_fields [$the_field [0]] != true) {
 			$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		} else {
 			$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		}
 	}
 	*/

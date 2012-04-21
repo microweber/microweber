@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "users_log";
-$query = CI::db()->query ( "show tables like '$table_name'" );
+$query = $this->db->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -12,18 +12,18 @@ if ($query [0] != $table_name) {
         UNIQUE KEY id (id)
 
         )  ENGINE=MyISAM DEFAULT CHARSET=utf8; ";
-	CI::db()->query ( $sql );
+	$this->db->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = CI::db()->query ( $sql );
+$query = $this->db->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
 	//$columns = $db->fetchAll("show columns from $table_name");
 	/*
     $sql = "show columns from $table_name";
-    $query = CI::db()->query ( $sql );
+    $query = $this->db->query ( $sql );
     $columns = $query->result_array ();
 
     $exisiting_fields = array ( );

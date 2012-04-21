@@ -2,7 +2,7 @@
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "countries";
-$query = CI::db()->query ( "show tables like '$table_name'" );
+$query = $this->db->query ( "show tables like '$table_name'" );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 
@@ -11,17 +11,17 @@ if ($query [0] != $table_name) {
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);";
-	CI::db()->query ( $sql );
+	$this->db->query ( $sql );
 }
 
 $sql = "show tables like '$table_name'";
-$query = CI::db()->query ( $sql );
+$query = $this->db->query ( $sql );
 $query = $query->row_array ();
 $query = (array_values ( $query ));
 if ($query [0] == $table_name) {
 	//$columns = $db->fetchAll("show columns from $table_name");
 	$sql = "show columns from $table_name";
-	$query = CI::db()->query ( $sql );
+	$query = $this->db->query ( $sql );
 	$columns = $query->result_array ();
 
 	$exisiting_fields = array ();
@@ -47,17 +47,17 @@ if ($query [0] == $table_name) {
 		$the_field [0] = strtolower ( $the_field [0] );
 		if ($exisiting_fields [$the_field [0]] != true) {
 			$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		} else {
 			$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		}
 
 	}
 	
 	/*
 	$sql = "delete from $table_name ";
-	CI::db()->query ( $sql );
+	$this->db->query ( $sql );
 	 
 	$q = "
 INSERT INTO `$table_name` (`id`, `code`, `name`, `continent`, `surfaceArea`, `population`, `localname`) VALUES 
@@ -301,7 +301,7 @@ INSERT INTO `$table_name` (`id`, `code`, `name`, `continent`, `surfaceArea`, `po
 (238, 'ATF', 'French Southern territories', 'Antarctica', 7780.00, 0, 'Terres australes françaises'),
 (239, 'UMI', 'United States Minor Outlying Islands', 'Oceania', 16.00, 0, 'United States Minor Outlying Islands');";
 
-	CI::db()->query ( $q);*/
+	$this->db->query ( $q);*/
 }
 
 ?>

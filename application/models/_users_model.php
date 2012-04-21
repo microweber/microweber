@@ -9,7 +9,7 @@
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		$q = " select count(*) as qty from $table where $field_criteria like '%$username%' ";
-		$q = CI::db()->query ( $q );
+		$q = $this->db->query ( $q );
 		$q = $q->row_array ();
 		$q = intval ( $q ['qty'] );
 		if ($q == 0) {
@@ -24,7 +24,7 @@
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		$q = " select count(*) as qty from $table where password like '%$pass%' and id='$id' ";
-		$q = CI::db()->query ( $q );
+		$q = $this->db->query ( $q );
 		$q = $q->row_array ();
 		$q = intval ( $q ['qty'] );
 		if ($q == 0) {

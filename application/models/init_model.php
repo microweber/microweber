@@ -260,7 +260,7 @@ class Init_model extends CI_Model {
 						$this->db->query ( $sql );
 					} else {
 						//$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-					//CI::db()->query ( $sql );
+					//$this->db->query ( $sql );
 					}
 				
 				}

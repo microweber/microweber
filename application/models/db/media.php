@@ -22,7 +22,7 @@ if ($query [0] == $table_name) {
 	//$columns = $db->fetchAll("show columns from $table_name");
 	/*
 	$sql = "show columns from $table_name";
-	$query = CI::db()->query ( $sql );
+	$query = $this->db->query ( $sql );
 	$columns = $query->result_array ();
 
 	$exisiting_fields = array ();
@@ -59,10 +59,10 @@ if ($query [0] == $table_name) {
 		$the_field [0] = strtolower ( $the_field [0] );
 		if ($exisiting_fields [$the_field [0]] != true) {
 			$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		} else {
 			$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-			CI::db()->query ( $sql );
+			$this->db->query ( $sql );
 		}
 	}
 	*/

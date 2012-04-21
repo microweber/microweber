@@ -32,7 +32,7 @@ if ($query [0] == $table_name) {
 	//$columns = $db->fetchAll("show columns from $table_name");
 	/*
 	$sql = "show columns from $table_name";
-	$query = CI::db()->query ( $sql );
+	$query = $this->db->query ( $sql );
 	$columns = $query->result_array ();
 
 	$exisiting_fields = array ();

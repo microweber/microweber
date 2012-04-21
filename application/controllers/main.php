@@ -237,7 +237,7 @@ $skip = false;
 
 			if ($skip == false) {
 
-				CI::db()->query ( "REPLACE
+				$this->db->query ( "REPLACE
                              INTO {$table2}
                               SET forum_id              = ?,
                                   forum_name      = ?,
