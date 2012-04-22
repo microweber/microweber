@@ -427,22 +427,8 @@ define ( 'CACHEDIR_ROOT', dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache'
 
 define ( 'DATETIME_FORMAT', 'F j g:m a' );
 
-if (is_dir ( $application_folder )) {
-	 
-	define ( 'APPPATH', $application_folder . '/' );
-
-} else {
-	
-	if ($application_folder == '') {
-		
-		$application_folder = 'application';
-	
-	}
-	
-	define ( 'APPPATH', BASEPATH . $application_folder . '/' );
-
-}
-define ( 'LIBSPATH', APPPATH . 'libraries' . '/' );
+define ( 'APPPATH', $application_folder . DIRECTORY_SEPARATOR );
+define ( 'LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR  );
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
 define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );

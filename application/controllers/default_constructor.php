@@ -81,7 +81,10 @@ $this->load->model ( 'Votes_model', 'votes_model' );
 $this->load->model ( 'Cart_model', 'cart_model' );
 $this->load->model ( 'Template_model', 'template_model' );
 $this->load->model ( 'Mw_model', 'mw' );*/
- $CI = get_instance ();
+
+
+
+$CI = get_instance ();
 
 
 require (APPPATH . 'functions' . '/mw_functions.php');
@@ -167,6 +170,13 @@ if ($editmode != false) {
 
 $debugmode = getParamFromURL ( 'debugmode' );
 if ($debugmode != false) {
+
+$debugmode = $this->session->userdata ( 'debugmode' );
+if ($debugmode == true) {
+	$this->output->enable_profiler ( true );
+}
+
+
 	if ($debugmode == 'y') {
 		$adm = $this->core_model->is_admin ();
 		if ($adm == true) {
@@ -215,12 +225,8 @@ if ($debugmode != false) {
 	exit ();
 
 }
-$this->load->library('session');
-$debugmode = $this->session->userdata ( 'debugmode' );
-if ($debugmode == true) {
-	$this->output->enable_profiler ( true );
-}
-$this->output->enable_profiler ( true );
+
+//$this->output->enable_profiler ( true );
 //exit(1);
 //$after = memory_get_usage();
 //$val = (($after - $before)/1024)/1024;
@@ -412,7 +418,7 @@ if ($ref != '') {
 	
 	} else {
 		
-		$subdomain_user_test = $this->session->userdata ( 'subdomain_user' );
+	/*	$subdomain_user_test = $this->session->userdata ( 'subdomain_user' );
 		
 		$subdomain_user_test = serialize ( $subdomain_user_test );
 		
@@ -428,7 +434,7 @@ if ($ref != '') {
 		
 		}
 		
-		$this->template ['meta_cannonical_url'] = false;
+		$this->template ['meta_cannonical_url'] = false;*/
 	
 	}
 	
@@ -459,12 +465,15 @@ $this->template ['__REQUEST'] = $_REQUEST;
 
 $this->load->vars ( $this->template );
 
-$user_session = $this->session->userdata ( 'user_session' );
+$uid = $this->core_model->userId ();
 
+
+if($uid > 0){
+	$user_session = $this->session->userdata ( 'user_session' );
+
+$this->template ['user_id'] = $uid;
 $this->template ['user_session'] = $user_session;
-
-$this->template ['user_id'] = $this->core_model->userId ();
-
+}
 $url = $this->uri->uri_string ();
 
 $url = str_ireplace ( '\\', '', $url );

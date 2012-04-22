@@ -53,6 +53,7 @@ if ($page ['require_login'] == 'y') {
 
 if (! empty ( $post )) {
 	$post ['custom_fields'] = $this->core_model->getCustomFields ( 'table_content', $post ['id'] );
+	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$active_categories = $this->taxonomy_model->getCategoriesForContent ( $post ['id'], true );
 	// p($active_categories);
 	if (! empty ( $active_categories )) {

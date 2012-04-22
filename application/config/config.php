@@ -396,23 +396,31 @@ $config['proxy_ips'] = '';
 */
 function __autoload($class)
 {
-    
-	 //var_dump(APPPATH . 'models/' . $class . EXT);
+   
+	
+ $class = str_ireplace('CI_', '', $class);
+	 
 	//if (strpos($class, 'CI_') !== 0)
    // {
-      
-	 
+   //  $file = BASEPATH . 'libraries/' . $class . EXT;
+	   // var_dump($file);
+	 // var_dump(BASEPATH . 'core/' . $class . EXT);
 	  
-	   if (file_exists($file = APPPATH . 'core/' . $class . EXT))
+	   if (file_exists($file = BASEPATH . 'core/' . $class . EXT))
         {
-            include $file;
-        }elseif (file_exists($file = APPPATH . 'models/' . $class . EXT))
+           
+		  
+		   include_once( $file);
+        }elseif (file_exists($file = APPPATH . 'models/' . strtolower($class) . EXT))
         {
-            include $file;
+          
+		   include_once( $file);
         }
-        elseif (file_exists($file = APPPATH . 'libraries/' . $class . EXT))
+        elseif (file_exists($file = BASEPATH . 'libraries/' . $class . EXT))
         {
-            include $file;
-        }
+            include_once( $file);
+        } else {
+			 
+		}
    // }
 }
