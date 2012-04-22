@@ -1,14 +1,12 @@
 <?
 $id = intval( $params['id']);
-
-
+ 
 if($id != 0){
 
 $form_values = get_page($id);
 } else {
 	$form_values = array();
 }
-//p($form_values);
 
 if(intval($id) == 0){
 	$try_parent = $params['content_parent'];
