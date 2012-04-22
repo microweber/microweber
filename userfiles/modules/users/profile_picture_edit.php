@@ -61,7 +61,9 @@ a{
 
 
  <div name="user_image" id="">
-              <?php $thumb = CI::model('users')->getUserThumbnail( $user_id, 100); ?>
+              <?php 
+			  $CI = get_instance ();
+			  $thumb = $CI->users_model->getUserThumbnail( $user_id, 100); ?>
               
          
               <?php if($thumb != ''): ?>

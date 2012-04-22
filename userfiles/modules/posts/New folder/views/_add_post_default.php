@@ -3,7 +3,9 @@
 <h2 class="coment-title"><? print $title ?></h2>
 <form class="add_content_form form" method="post" id="<? print $form_id ?>" action="#" enctype="multipart/form-data">
   <? if($the_post['id'] != false): ?>
-  <? $cats = CI::model('taxonomy')->getCategoriesForContent($the_post['id'], true); ?>
+  <?
+  $CI = get_instance ();
+  $cats = $CI->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
   <?
 
   
@@ -12,7 +14,7 @@
   
   
    $master_category = $category;
-  $master_cats = CI::model('taxonomy')->getParents($category);
+  $master_cats = $CI->taxonomy_model->getParents($category);
   if(!empty($master_cats)){
 	    
 	   $master_category = ($master_cats[0]);
@@ -22,9 +24,9 @@
 	   
 	   
   }
- $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
+ $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
  if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   ?>
 
@@ -45,7 +47,7 @@
   <? else: ?>
   <?
    if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   
   ?>
@@ -74,7 +76,7 @@
 $master_category = $category;	
 }?>
 
-  <? $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);  ?>
+  <? $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);  ?>
   <? if(!empty($subcats)): ?>
   <select id="cat_select">
   

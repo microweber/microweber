@@ -19,7 +19,7 @@ $(document).ready(function(){
   <?php
   
   
-   $messageKey = ( $this->core_model->securityEncryptString($user['id']));?>
+   $messageKey = ( CI::model ( 'core' )->securityEncryptString($user['id']));?>
   <form method="post" action="#" id="message_form" class="validate xform">
     <input type="hidden" name="mk" id="mk"  value="<?php echo $messageKey;?>" />
     <input type="hidden" name="conversation" id="conversation"  value="<?php echo $message_parent;?>" />

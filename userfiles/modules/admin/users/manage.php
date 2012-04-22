@@ -115,9 +115,9 @@ if(!empty($ids)){
 $limits = array();
 $limits[0] = (intval($paging_curent_page) - 1) * $query_options['limit'] ;
 $limits[1] =  (intval($paging_curent_page)) * $query_options['limit'] ;
- 
-$users = CI::model('users')->getUsers($user_data, $limits, $count_only = false);
-$users_count = CI::model('users')->getUsers($user_data, $limit = false, $count_only = true);
+ $CI = get_instance ();
+$users = $CI->users_model->getUsers($user_data, $limits, $count_only = false);
+$users_count = $CI->users_model->getUsers($user_data, $limit = false, $count_only = true);
  
 $pagenum = ceil($users_count/$query_options['limit']);
 $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page');

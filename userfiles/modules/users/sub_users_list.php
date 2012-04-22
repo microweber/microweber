@@ -5,7 +5,8 @@ $parent_id = user_id();
 <?
 $data = array();
 $data['parent_id'] = $parent_id;
-$subusers = CI::model('users')->getUsers($data, $limit = false, $count_only = false);
+$CI = get_instance ();
+$subusers = $CI->users_model->getUsers($data, $limit = false, $count_only = false);
  
 
  ?>

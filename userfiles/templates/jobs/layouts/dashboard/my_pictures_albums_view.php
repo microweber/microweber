@@ -70,7 +70,7 @@
 
 
 
-  <? $media =  $this->core_model->mediaGet('table_content', url_param('id'), $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = false, $id = false);
+  <? $media =  CI::model ( 'core' )->mediaGet('table_content', url_param('id'), $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = false, $id = false);
 	 
 	$media = $media['pictures'];
 	?>
@@ -81,7 +81,7 @@
 	?>
   <div class="video_list_item video_list_item_imggal img_id_<? print $item['id']; ?>">
   <a href="#gimage_<? if($media[$i+1] != false): ?><? print  $i+1; ?><? else: ?>0<? endif; ?>">
-  <span class="imgpreload"><? print  $this->core_model->mediaGetThumbnailForMediaId($item['id'], $size_width = 120, $size_height = false); ?></span> </a>
+  <span class="imgpreload"><? print  CI::model ( 'core' )->mediaGetThumbnailForMediaId($item['id'], $size_width = 120, $size_height = false); ?></span> </a>
 
   </div>
   <? $i++; endforeach; ?>
@@ -102,7 +102,7 @@
     <p>The image you have requested doesn't exists.</p>
   </div>
   <div align="right" style="padding: 10px" class="clear gall_nav"> <a href="#" class="gallery_prev">Previous</a>&nbsp;|&nbsp;<a href="#" class="gallery_next">Next</a> &nbsp;&nbsp;</div>
-  <? $media =  $this->core_model->mediaGet('table_content', url_param('id'), $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = false, $id = false);
+  <? $media =  CI::model ( 'core' )->mediaGet('table_content', url_param('id'), $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = false, $id = false);
 	 
 	$media = $media['pictures'];
 	?>
@@ -111,7 +111,7 @@
 	// var_dump($item);
 
 	?>
-  <div class="gallery_item img_id_<? print $item['id']; ?>" id="gimage_<? print  $i ?>"> <a href="#gimage_<? if($media[$i+1] != false): ?><? print  $i+1; ?><? else: ?>0<? endif; ?>"> <span class="imgpreload"><? print  $this->core_model->mediaGetThumbnailForMediaId($item['id'], $size_width = 500, $size_height = false); ?></span> </a>
+  <div class="gallery_item img_id_<? print $item['id']; ?>" id="gimage_<? print  $i ?>"> <a href="#gimage_<? if($media[$i+1] != false): ?><? print  $i+1; ?><? else: ?>0<? endif; ?>"> <span class="imgpreload"><? print  CI::model ( 'core' )->mediaGetThumbnailForMediaId($item['id'], $size_width = 500, $size_height = false); ?></span> </a>
     <div class="gallery_item_comments">
       <? $update_element = md5(serialize($item));
   $this->template ['comments_update_element'] = $update_element;

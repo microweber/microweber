@@ -1,6 +1,6 @@
 <?
 $id = $params['id'];
-
+$CI = get_instance ();
 
 if(intval($params['page_id']) > 0 ){
 	$id = $params['page_id'];

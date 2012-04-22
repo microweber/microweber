@@ -4527,20 +4527,7 @@ class Core_model extends CI_Model {
 		// $memory = $this->cache_storage [$cache_id];
 		// p($mw_cache_storage);
 		
-		$memory = $this->mw_cache_storage ["$cache_id"];
-		
-		 // var_dump ( $memory ,$cache_id );
-		if ((($memory)) != false) {
-			
-			$this->cache_storage_hits [$cache_id] ++;
-			
-			// print 'mem';
-			return ($memory);
-		
-		} else {
-			
-			// print 'nomem';
-		}
+		 
 		
 		$cache_group = $cache_group . '/';
 		
@@ -4553,23 +4540,23 @@ class Core_model extends CI_Model {
 				$time_limit = strtotime ( $time );
 				
 				$last_modified = filemtime ( $cache_file );
+				
 				if (time () - $last_modified > $time_limit) {
+				//p($time_limit);
+					//p($last_modified);
 					unlink ( $cache_file );
+					return false;
+				} else {
+					
+					$get_file = $cache_file;
 				}
-				return false;
+				
 			}
 		}
 		
-		if (! in_array ( $cache_file, $this->path_list )) {
-			$this->path_list [] = $cache_file;
+		 
 			try {
-				$cache = cache_file_memory_storage ( $cache_file );
-			} catch ( Exception $e ) {
-				$cache = false;
-			}
-		} else {
-			try {
-				if(is_file($cache_file)){
+				if($get_file == true OR is_file($cache_file)){
 				 $cache = file_get_contents ( $cache_file );
 				}
  
@@ -4578,7 +4565,7 @@ class Core_model extends CI_Model {
 			} catch ( Exception $e ) {
 				$cache = false;
 			}
-		}
+		 
 		
 		if (strval ( $cache ) != '') {
 			
@@ -4629,14 +4616,7 @@ class Core_model extends CI_Model {
 	}
 	
 	function cacheGetContentAndDecode($cache_id, $cache_group = 'global', $time = false) {
-		
-		$memory = $this->cache_storage_decoded [$cache_id];
-		
-		if ((($memory)) != false) {
-			
-			return ($memory);
-		
-		}
+		  
 		
 		$cache = $this->cacheGetContent ( $cache_id, $cache_group, $time );
 		
@@ -4665,7 +4645,7 @@ class Core_model extends CI_Model {
 			return false;
 		
 		}
-		
+		 
 		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
 		
 		if (strval ( trim ( $content ) ) == '') {
@@ -4699,7 +4679,7 @@ class Core_model extends CI_Model {
 			}
 			
 			$content = CACHE_CONTENT_PREPEND . $content;
-			
+			//var_dump ( $cache_file, $content );
 			try {
 				$cache = file_put_contents ( $cache_file, $content );
 			} catch ( Exception $e ) {
@@ -6604,6 +6584,9 @@ $w
 		$pictures_sizes = $this->optionsGetByKeyAsArray ( 'media_image_sizes' );
 		
 		$ids_to_delete = array ();
+		if ( empty ( $media_get )) {
+			return false;
+		}
 		
 		foreach ( $media_get as $item ) {
 			
@@ -10185,9 +10168,9 @@ $w
 	}
 	
 	function securityEncryptString($plaintext) {
-		
-		$plaintext = CI::library ( 'encrypt' )->encode ( $plaintext );
-		
+		$this->load->library('encrypt');
+	//	$plaintext = CI::library ( 'encrypt' )->encode ( $plaintext );
+		$plaintext = $this->encrypt->encode($plaintext);
 		$plaintext = base64_encode ( $plaintext );
 		
 		return $plaintext;

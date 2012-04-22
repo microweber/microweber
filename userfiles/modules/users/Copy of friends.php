@@ -86,7 +86,7 @@ $query_options['search_keyword'] = trim($orig_params['keyword']);
 }
 
  
-$users = CI::model('users')->realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options );
+$users = $CI->users_model->realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options );
 
  
 ?>
@@ -144,10 +144,10 @@ $users = CI::model('users')->realtionsGetFollowedIdsForUser($aUserId = $user_id,
  <? $to_user =$user['id']  ?>
   <a href="javascript:mw.users.UserMessage.compose(<?php echo $user['id']; ?>);" class="mw_btn_s right" style="margin-right:5px;"><span   title="Send new message to <?php echo $user['first_name']; ?>" >Send a message</span></a>
 
-  <?php if (CI::model('users')->realtionsCheckIfUserIsFollowedByUser(false,$user['id'] ) == false) : ?>
-  <a href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>);" class="mw_btn_s_orange right"><span    title="Add as friend <?php print CI::model('users')->getPrintableName($to_user, 'first'); ?>">Add as friend</span></a>
+  <?php if ($CI->users_model->realtionsCheckIfUserIsFollowedByUser(false,$user['id'] ) == false) : ?>
+  <a href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>);" class="mw_btn_s_orange right"><span    title="Add as friend <?php print $CI->users_model->getPrintableName($to_user, 'first'); ?>">Add as friend</span></a>
   <?php  else : ?>
-  <a id="unfollow_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.unfollow(<?php echo $to_user?>, '#unfollow_<?php echo $to_user?>');" class="mw_btn_s right"><span    title="Remove friend <?php print CI::model('users')->getPrintableName($to_user, 'first'); ?>">Remove friend</span></a>
+  <a id="unfollow_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.unfollow(<?php echo $to_user?>, '#unfollow_<?php echo $to_user?>');" class="mw_btn_s right"><span    title="Remove friend <?php print $CI->users_model->getPrintableName($to_user, 'first'); ?>">Remove friend</span></a>
   <? endif; ?>
 
 

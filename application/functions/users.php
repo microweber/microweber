@@ -165,7 +165,7 @@ function get_user($id = false) {
 }
 
 function user_id() {
-	$CI = get_instance ();
+ 
 	if (defined ( 'USER_ID' )) {
 		// print USER_ID;
 		return USER_ID;

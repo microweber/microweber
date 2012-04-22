@@ -1,20 +1,11 @@
 <?php
 
 
- /*
+ 
 
-$site_stats=md5(site_url());
-$stats_setup = CACHEDIR_ROOT . '/db_tmp/stats_'.$site_stats.'.php';
-if(is_file($stats_setup) == false){
-	CI::model ( 'stats' )->site_id();
-	touch($stats_setup);
-}*/
-
-
-/*
+ 
 $agent = $_SERVER ['HTTP_USER_AGENT'];
-$the_user = CI::library('session')->userdata ( 'the_user' );
-
+ 
 if ($_POST and $_POST ['username'] and $_POST ['password']) {
 
 	if (empty ( $the_user )) {
@@ -31,16 +22,16 @@ if ($_POST and $_POST ['username'] and $_POST ['password']) {
 				$data = $data [0];
 
 				if (empty ( $data )) {
-					CI::library('session')->unset_userdata ( 'the_user' );
+					$this->session->unset_userdata ( 'the_user' );
 
 				} else {
 
-					CI::library('session')->set_userdata ( 'the_user', $data );
+					$this->session->set_userdata ( 'the_user', $data );
 					$user_session = array ();
 					$user_session ['is_logged'] = 'yes';
 					$user_session ['user_id'] = $data ['id'];
-					CI::library('session')->set_userdata ( 'user_session', $user_session );
-					$the_user = CI::library('session')->userdata ( 'the_user' );
+					$this->session->set_userdata ( 'user_session', $user_session );
+					$the_user = $this->session->userdata ( 'the_user' );
 				}
 
 			}
@@ -50,7 +41,7 @@ if ($_POST and $_POST ['username'] and $_POST ['password']) {
 
 } else {
 
-	$the_user = CI::library('session')->userdata ( 'the_user' );
+	$the_user = $this->session->userdata ( 'the_user' );
 
 	if (empty ( $the_user )) {
 		$go = site_url ( 'login' );
@@ -64,4 +55,4 @@ if ($_POST and $_POST ['username'] and $_POST ['password']) {
 
 		}
 	}
-}*/
+} 

@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 	function index() {
 		
 		if ($_POST) {
-			
+			$this->load->model ( 'Users_model', 'users_model' );
 			$user = $_POST ['username'];
 			$pass = $_POST ['password'];
 			$email = $_POST ['email'];

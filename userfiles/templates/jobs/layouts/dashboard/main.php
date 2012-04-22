@@ -12,8 +12,8 @@ $dashboard_user = user_id();
 
   <? if($dashboard_user != $user_id) : ?>
 
-  <? 	$is_friend = $this->users_model->realtionsCheckIfUserIsConfirmedFriendWithUser($user_id, $dashboard_user, $is_special = false); 
-  $is_admin =  $this->core_model->is_admin();
+  <? 	$is_friend = CI::model ( 'users' )->realtionsCheckIfUserIsConfirmedFriendWithUser($user_id, $dashboard_user, $is_special = false); 
+  $is_admin =  CI::model ( 'core' )->is_admin();
   if( $is_admin  == true){
 	  
 	$is_friend = true;  
@@ -152,7 +152,7 @@ if($page == 0){
 
 
 
-<?php $has_fr_req = ($this->users_model->realtionsCheckIfUserHasFriendRequestToUser(user_id(),$dashboard_user )) ;
+<?php $has_fr_req = (CI::model ( 'users' )->realtionsCheckIfUserHasFriendRequestToUser(user_id(),$dashboard_user )) ;
 
 //p($has_fr_req );
 
@@ -192,13 +192,13 @@ if($page == 0){
 
 $to_user = $dashboard_user;
 
-$author  = $this->users_model->getUserById($to_user); ?>
+$author  = CI::model ( 'users' )->getUserById($to_user); ?>
 
   <a href="javascript:mw.users.UserMessage.compose(<?php echo $author['id']; ?>);" class="mw_btn_x"><span class="box-ico box-ico-msg title-tip" title="Send new message to <?php echo $author['first_name']; ?>" >Send a message</span></a>
 
-  <?php if ($this->users_model->realtionsCheckIfUserIsFollowedByUser(false,$to_user ) == false) : ?>
+  <?php if (CI::model ( 'users' )->realtionsCheckIfUserIsFollowedByUser(false,$to_user ) == false) : ?>
 
-  <a href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>);" class="mw_btn_x_orange"><span class="box-ico box-ico-follow title-tip"  title="Add as friend <?php print $this->users_model->getPrintableName($to_user, 'first'); ?>">Add as friend</span></a>
+  <a href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>);" class="mw_btn_x_orange"><span class="box-ico box-ico-follow title-tip"  title="Add as friend <?php print CI::model ( 'users' )->getPrintableName($to_user, 'first'); ?>">Add as friend</span></a>
 
   <?php  else : ?>
 
@@ -206,7 +206,7 @@ $author  = $this->users_model->getUserById($to_user); ?>
 
   
 
-  <a href="javascript:mw.users.FollowingSystem.unfollow(<?php echo $to_user?>);" class="mw_btn_x"><span class="box-ico box-ico-unfollow title-tip"  title="Remove friend <?php print $this->users_model->getPrintableName($to_user, 'first'); ?>"><? if($has_fr_req == false): ?>Remove friend<? else: ?>Cancel friend request<? endif; ?></span></a>
+  <a href="javascript:mw.users.FollowingSystem.unfollow(<?php echo $to_user?>);" class="mw_btn_x"><span class="box-ico box-ico-unfollow title-tip"  title="Remove friend <?php print CI::model ( 'users' )->getPrintableName($to_user, 'first'); ?>"><? if($has_fr_req == false): ?>Remove friend<? else: ?>Cancel friend request<? endif; ?></span></a>
 
   
 
@@ -232,9 +232,9 @@ $data = array();
 
 $data['parent_id'] = $dashboard_user;
 
-$subusers = $this->users_model->getUsers($data, $limit = false, $count_only = false);
+$subusers = CI::model ( 'users' )->getUsers($data, $limit = false, $count_only = false);
 
- $subusers_ids =  $this->core_model->dbExtractIdsFromArray($subusers); 
+ $subusers_ids =  CI::model ( 'core' )->dbExtractIdsFromArray($subusers); 
 
 
 

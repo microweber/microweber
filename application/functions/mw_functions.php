@@ -1,7 +1,7 @@
 <?php
 
 function url_string($string) {
-	
+	$CI = get_instance ();
 	$string = $CI->core_model->url_title ( $string );
 	return $string;
 
@@ -139,11 +139,12 @@ function url_param_unset($param, $url = false) {
 }
 
 function enc($var) {
-	
+	$CI = get_instance ();
 	$var = $CI->core_model->securityEncryptString ( $var );
 	return $var;
 }
 function dec($var) {
+	$CI = get_instance ();
 	$var = $CI->core_model->securityDecryptString ( $var );
 	return $var;
 
@@ -360,7 +361,7 @@ function get_custom_fields_config_for_content($content_id, $page_id) {
 	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
 	//    p( $cf_cfg1);
 	
-
+$CI = get_instance ();
 	$cf_cfg1 = $CI->core_model->getCustomFieldsConfig ( $cf_cfg1 );
 	//p($cf_cfg1);
 	//p($cf_cfg1);
@@ -463,12 +464,14 @@ function get_custom_fields_config_for_content($content_id, $page_id) {
 
 function get_custom_fields_for_content($content_id) {
 	//p($content_id);
+	$CI = get_instance ();
 	$more = false;
 	$more = $CI->core_model->getCustomFields ( 'table_content', $content_id, true );
 	return $more;
 }
 
 function option_get($key, $group = false) {
+		$CI = get_instance ();
 	$more = $CI->core_model->optionsGetByKey ( $key, $return_full = false, $orderby = false, $option_group = $group );
 	
 	return $more;
@@ -647,7 +650,8 @@ function get_comments($params) {
 	if (! is_array ( $params )) {
 	
 	}
-	$try = $this->comments_model->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
+	$CI = get_instance ();
+	$try = $CI->comments_model->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
 	
 	return $try;
 }
@@ -1012,7 +1016,7 @@ function page_link($id) {
 }
 
 function menu_tree($menu_id, $max_depth = false) {
-	
+	$CI = get_instance ();
 	$menu_items = $CI->content_model->menuTree ( $menu_id, $max_depth );
 	
 	print $menu_items;
@@ -1021,7 +1025,7 @@ function menu_tree($menu_id, $max_depth = false) {
 function get_page_for_post($post_id) {
 	
 	$url = post_link ( $post_id );
-	
+	$CI = get_instance ();
 	$page = $CI->content_model->getPageByURLAndCache ( $url );
 	//p($url_page);
 	return $page;
@@ -1459,7 +1463,7 @@ function category_tree($params) {
 	
 		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	}
-	
+	$CI = get_instance ();
 	//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false
 	$CI->content_model->content_helpers_getCaregoriesUlTreeAndCache ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
 
@@ -1842,6 +1846,7 @@ function get_pictures($content_id, $for = 'post') {
 	}
 	
 	if ($for != 'post') {
+		$CI = get_instance ();
 		$for = $CI->core_model->guessDbTable ( $for );
 	
 		//
@@ -1942,7 +1947,7 @@ function comments_count($content_id, $is_moderated = false, $for = 'post') {
 	
 	$to_table = $CI->core_model->guessDbTable ( $for );
 	
-	$qty = $this->comments_model->commentsGetCount ( $to_table, $content_id, $is_moderated );
+	$qty = $CI->comments_model->commentsGetCount ( $to_table, $content_id, $is_moderated );
 	return $qty;
 
 }
@@ -2204,6 +2209,7 @@ function get_ref_page() {
 function get_ref_post() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
 	//p($ref_page);
+	$CI = get_instance ();
 	if ($ref_page != '') {
 		$page = $CI->content_model->getContentByURL ( $ref_page );
 		return $page;
@@ -2215,7 +2221,9 @@ function get_ref_post() {
 function get_ref_category() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
 	//p($ref_page);
+	
 	if ($ref_page != '') {
+		$CI = get_instance ();
 		$page = $CI->content_model->getContentByURL ( $ref_page );
 		return $page;
 	}

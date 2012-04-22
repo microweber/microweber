@@ -2,14 +2,14 @@
 <? if($dashboard_user == false){ $dashboard_user = $user_id; } ?>
 
 <div id="user_sidebar">
-  <div id="user_image"><img src="<?php print $this->users_model->getUserThumbnail($dashboard_user, $size = 250); ?>" alt="<?php print addslashes($this->users_model->getPrintableName($dashboard_user)); ?>" />
+  <div id="user_image"><img src="<?php print CI::model ( 'users' )->getUserThumbnail($dashboard_user, $size = 250); ?>" alt="<?php print addslashes(CI::model ( 'users' )->getPrintableName($dashboard_user)); ?>" />
     <? if($dashboard_user != $user_id) : ?>
     <a href="<?php print site_url('userbase/action:profile/username:'.user_name($dashboard_user, 'username')) ?>">View profile</a>
     <?php  else : ?>
     <a href="<?php print (site_url('dashboard/action:profile')); ?>">Change profile Image</a>
     <? endif; ?>
   </div>
-  <h3 id="user_image_name"> <?php print $this->users_model->getPrintableName($dashboard_user); ?></h3>
+  <h3 id="user_image_name"> <?php print CI::model ( 'users' )->getPrintableName($dashboard_user); ?></h3>
   <ul class="user_side_nav">
     <? if($dashboard_user != $user_id) : ?>
     <li id="user_side_nav_pics"><a <? if(url_param('action') == 'my-pictures' ) : ?> class="active" <? endif; ?> href="<?php print site_url('dashboard/action:my-pictures'); ?>/user_id:<? print $dashboard_user ?>">See Pictures</a></li>
@@ -61,7 +61,7 @@
     <? endif; ?>
   </ul>
   <? if($dashboard_user == $user_id) : ?>
-  <?php $more =  $this->core_model->getCustomFields('table_users',$dashboard_user);
+  <?php $more =  CI::model ( 'core' )->getCustomFields('table_users',$dashboard_user);
 
 
 

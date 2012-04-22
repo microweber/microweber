@@ -63,6 +63,7 @@ Piwik_FrontController::getInstance()->init();
 
 $this->load->model ( 'Core_model', 'core_model' );
 $this->load->model ( 'Content_model', 'content_model' );
+	$this->load->library('session');
 //must be in this order!
 //$this->load->model ( 'Init_model', 'init_model' );
 /*
@@ -81,10 +82,7 @@ $this->load->model ( 'Votes_model', 'votes_model' );
 $this->load->model ( 'Cart_model', 'cart_model' );
 $this->load->model ( 'Template_model', 'template_model' );
 $this->load->model ( 'Mw_model', 'mw' );*/
-
-
-
-$CI = get_instance ();
+ $CI = get_instance ();
 
 
 require (APPPATH . 'functions' . '/mw_functions.php');

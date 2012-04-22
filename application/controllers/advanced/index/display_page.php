@@ -1,7 +1,7 @@
 <?php
 
 $content = $page;
-// exit();
+ 
 
 if ($content_display_mode != 'extended_api_with_no_template') {
 	
@@ -46,7 +46,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 }
 
 $this->template ['page'] = $page;
-
+$this->load->vars(array('page' => $page));
 if ($page ['require_login'] == 'y') {
 	include_once (APPPATH . 'controllers/advanced/requre_login_or_redirect.php');
 }
@@ -58,7 +58,9 @@ if (! empty ( $post )) {
 	// p($active_categories);
 	if (! empty ( $active_categories )) {
 		$this->template ['active_categories'] = $active_categories;
+		$this->load->vars(array('active_categories' => $active_categories));
 		$this->template ['active_category'] = ($active_categories [0]);
+		$this->load->vars(array('active_category' =>$active_categories [0]));
 		$this->load->vars ( $this->template );
 	}
 	
@@ -69,7 +71,7 @@ if (! empty ( $post )) {
 }
 
 $this->template ['post'] = $post;
-
+	$this->load->vars(array('post' =>$post));
 $this->load->vars ( $this->template );
 
 // var_dump($page);
@@ -201,7 +203,7 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 			$togo = $this->content_model->getContentURLByIdAndCache ( $page ['id'] );
 		
 		} else {
-			
+			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 			$togo = $this->taxonomy_model->getUrlForId ( $active_categories2 [0] );
 		
 		}
@@ -376,7 +378,7 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		$posts_data ['search_by_keyword'] = $search_for;
 		
 		$this->template ['search_for_keyword'] = $search_for;
-		
+			$this->load->vars(array('search_for_keyword' =>$search_for));
 		$this->load->vars ( $this->template );
 	
 	}
@@ -429,8 +431,8 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		
 		$active_categories2 = array ();
 	
-	}
-	
+	} else {
+	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	foreach ( $active_categories2 as $active_cat ) {
 		
 		if ($post == false) {
@@ -470,6 +472,9 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		}
 	
 	}
+	
+	}
+	
 	
 	$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 	
@@ -550,20 +555,20 @@ if ($page ['content_subtype'] == 'dynamic' or $page ['content_subtype'] == 'dyna
 		$data = $this->content_model->contentGetByParams ( $posts_data2 );
 		
 		$this->template ['posts'] = $data ['posts'];
-		
+		$this->load->vars(array('posts' => $data ['posts']));
 		$posts = $data;
 		
 		$content_pages_count = $data ["posts_pages_count"];
 		$this->template ['posts_pages_count'] = $data ["posts_pages_count"];
-		
+		$this->load->vars(array('posts_pages_count' => $data ['posts_pages_count']));
 		$this->template ['posts_pages_curent_page'] = $data ["posts_pages_curent_page"];
-		
+		$this->load->vars(array('posts_pages_curent_page' => $data ['posts_pages_curent_page']));
 		// get paging urls
 		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 		
 		// var_dump($content_pages);
 		$this->template ['posts_pages_links'] = $content_pages;
-	
+	$this->load->vars($this->template); 
 	}
 
 }

@@ -1,4 +1,4 @@
-
+ 
 <div class="box radius">
   <div class="box_header radius_t">
     <h2>Edit user profile</h2>
@@ -282,7 +282,10 @@ if(isobj(resp.success) != false){
 
 
     </script>
-    <?php $more = $CI->core_model->getCustomFields('table_users', $form_values['id']);
+    <?php
+	
+	$CI = get_instance ();
+	$more = $CI->core_model->getCustomFields('table_users', $form_values['id']);
  
 $form_values['custom_fields'] = $more;
 ?>

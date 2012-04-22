@@ -72,10 +72,7 @@ class Content extends CI_Controller {
 		require_once (APPPATH . 'controllers/default_constructor.php');
 		//p($user_session);
 		require_once (APPPATH . 'controllers/api/default_constructor.php');
-		
-		if ($this->users_model->is_logged_in () == false) {
-			//    exit ( 'Login required' );
-		}
+		 
 	
 	}
 	

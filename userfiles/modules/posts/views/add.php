@@ -76,7 +76,7 @@ if($params['category']){
 $category = 	($params['category']);
 }
 
-
+$CI = get_instance ();
 
 ?>
 
@@ -118,7 +118,7 @@ $category = 	($params['category']);
       <label for="select01" class="control-label">Select category</label>
       <div class="controls">
         <? if($the_post['id'] != false): ?>
-<? $cats = CI::model('taxonomy')->getCategoriesForContent($the_post['id'], true); ?>
+<? $cats = $CI->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
 <?
 
   
@@ -127,7 +127,7 @@ $category = 	($params['category']);
   
   
    $master_category = $category;
-  $master_cats = CI::model('taxonomy')->getParents($category);
+  $master_cats = $CI->taxonomy_model->getParents($category);
   if(!empty($master_cats)){
 	    
 	   $master_category = ($master_cats[0]);
@@ -137,9 +137,9 @@ $category = 	($params['category']);
 	   
 	   
   }
- $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
+ $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
  if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   ?>
 <? foreach($cats as $cat): ?>
@@ -153,7 +153,7 @@ $category = 	($params['category']);
 <? else: ?>
 <?
    if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   
   ?>
@@ -168,7 +168,7 @@ $category = 	($params['category']);
 	
 $master_category = $category;	
 }?>
-<? $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category');  
+<? $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category');  
    
   ?>
 <? $cat = get_category($master_category); 

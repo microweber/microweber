@@ -53,7 +53,7 @@ class js extends CI_Controller {
 
 		if (($cache_content) != false) {
 			
-		//$this->output->set_output ( $cache_content );
+		 $this->output->set_output ( $cache_content );
 		
 
 		} else {
@@ -70,7 +70,7 @@ class js extends CI_Controller {
 			if ((isset ( $_SERVER ['HTTP_REFERER'] )) and ($_SERVER ['HTTP_REFERER'] != '')) {
 				
 				$url = urldecode ( $_SERVER ['HTTP_REFERER'] );
-				if (eregi ( "admin", $url )) {
+				if (strstr ( "/admin", $url )) {
 					//preg_match ( "'(\?¦&)q=(.*?)(&¦$)'si", " $url ", $keywords );
 					$load_extra_libs = true;
 					$in_admin = true;

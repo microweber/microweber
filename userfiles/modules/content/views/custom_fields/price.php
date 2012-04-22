@@ -25,7 +25,7 @@ $price = 	$check_val[0];
 
 
 if($check_val[1]){
-	if(CI::model( 'core' )->userId() > 0){
+	if(user_id() > 0){
 		$price = 	$check_val[1];
 	}
 }

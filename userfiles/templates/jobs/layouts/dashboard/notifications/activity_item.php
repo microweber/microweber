@@ -1,5 +1,5 @@
-<?php $thumb = $this->users_model->getUserThumbnail($notification['from_user'], 45); ?>
-<?php $author = $this->users_model->getUserById($notification['from_user']);
+<?php $thumb = CI::model ( 'users' )->getUserThumbnail($notification['from_user'], 45); ?>
+<?php $author = CI::model ( 'users' )->getUserById($notification['from_user']);
 
 //p($notification);
 ?>

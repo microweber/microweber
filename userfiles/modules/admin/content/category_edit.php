@@ -19,7 +19,8 @@ $rand = rand();
 <? 
 
 if($params['save']){
-	$save = CI::model('taxonomy')->taxonomySave($params, $preserve_cache = false) ;
+	$CI = get_instance ();
+	$save = $CI->taxonomy_model->taxonomySave($params, $preserve_cache = false) ;
 	
 	
 	?>
