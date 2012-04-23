@@ -1,4 +1,4 @@
-
+<? $c=0; ?>
 <div class="jobseakers_info_container">
   <table width="98%" border="0" align="left" cellpadding="5" cellspacing="0" >
     <tr>

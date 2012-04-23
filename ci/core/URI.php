@@ -250,6 +250,7 @@ class CI_URI {
 	 */
 	function _filter_uri($str)
 	{
+		return $str;
 		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
 		{
 			// preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards

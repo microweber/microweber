@@ -167,7 +167,9 @@ if((resp.success) != undefined){
   $count = array();
  
   $count['content_type'] = 'post'; 
-  $count =   CI::model ( 'content' )->getContent($count, $orderby = false, $limit = false, $count_only = true);
+  
+  $CI = get_instance ();
+  $count =   $CI->content_model->getContent($count, $orderby = false, $limit = false, $count_only = true);
   
      ?>
     <? print $count; ?> JOBS ONLINE</div>

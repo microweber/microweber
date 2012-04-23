@@ -18,7 +18,7 @@ $mw_config ['db_password'] = '123456';
  
 $mw_config ['db_database'] = 'digi2';
 
-
+ini_set('display_errors', '1');
  
-
+error_reporting(E_ALL);
 ?>

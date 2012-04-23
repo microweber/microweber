@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+if (!defined('BASEPATH'))
+	exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -31,8 +33,7 @@ class CI_Model {
 	 *
 	 * @access public
 	 */
-	function __construct()
-	{
+	function __construct() {
 		log_message('debug', "Model Class Initialized");
 	}
 
@@ -45,12 +46,21 @@ class CI_Model {
 	 * @param	string
 	 * @access private
 	 */
-	function __get($key)
-	{
-		$CI =& get_instance();
-		return $CI->$key;
+	function __get($key) {
+		if (strstr($key, 'user_id') == false) {
+			try {
+				$CI = get_instance();
+				return $CI -> $key;
+			} catch (MyException $e) {
+				/* rethrow it */
+				//throw $e;
+			}
+
+		}
 	}
+
 }
+
 // END Model Class
 
 /* End of file Model.php */

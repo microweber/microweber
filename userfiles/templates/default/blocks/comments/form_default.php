@@ -3,8 +3,8 @@
 <div  id="<? print $form_id; ?>">
   <div >
     <form method="post" action="#" class="ajax_comment_form commentForm comment_form form" >
-      <input type="hidden" name="to_table" value="<? print CI::model('core')->securityEncryptString($comment_to_table); ?>">
-      <input type="hidden" name="to_table_id" value="<? print CI::model('core')->securityEncryptString($comment_to_id); ?>">
+      <input type="hidden" name="to_table" value="<? print $this->core_model->securityEncryptString($comment_to_table); ?>">
+      <input type="hidden" name="to_table_id" value="<? print $this->core_model->securityEncryptString($comment_to_id); ?>">
       <? if($display): ?>
       <input type="hidden" name="display" value="<?  print $display; ?>">
       <? endif; ?>

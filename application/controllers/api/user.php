@@ -7,6 +7,7 @@ class User extends CI_Controller {
 		parent :: __construct();
 		
 		require_once (APPPATH . 'controllers/default_constructor.php');
+		$this->load->model ( 'Users_model', 'users_model' );
 		// p($user_session);
 		// require_once (APPPATH . 'controllers/api/default_constructor.php');
 	
@@ -33,8 +34,8 @@ class User extends CI_Controller {
 			$to_save ['id'] = $q ['id'];
 			$to_save ['is_active'] = 'y';
 			//
-			
-			$userId = $this->users_model->saveUser ( $to_save );
+			$CI = get_instance ();
+			$userId = $CI->users_model->saveUser ( $to_save );
 		
 		}
 		
@@ -44,12 +45,14 @@ class User extends CI_Controller {
 	}
 	
 	function activate_link() {
-		$forgot_pass = $this->users_model->send_activation ( $_POST ['email'] );
+		$CI = get_instance ();
+		$forgot_pass = $CI->users_model->send_activation ( $_POST ['email'] );
 		exit ( "Your link has been sent" );
 	}
 	
 	function forgot_pass() {
-		$forgot_pass = $this->users_model->forgot_pass ( $_POST ['email'] );
+		$CI = get_instance ();
+		$forgot_pass = $CI->users_model->forgot_pass ( $_POST ['email'] );
 		exit ( "Your password has been sent" );
 	}
 	
@@ -88,7 +91,8 @@ class User extends CI_Controller {
 		
 		if ($is_adm == true) {
 			$id = intval ( $_POST ['id'] );
-			$this->users_model->userDeleteById ( $id );
+			$CI = get_instance ();
+			$CI->users_model->userDeleteById ( $id );
 		}
 	
 	}
@@ -148,8 +152,8 @@ class User extends CI_Controller {
 	function logOut() {
 		$this->session->set_userdata ( 'editmode', false );
 		$this->session->set_userdata ( 'editmode', false );
-		
-		$this->users_model->logOut ();
+		$CI = get_instance ();
+		$CI->users_model->logOut ();
 		$this->session->sess_destroy ();
 		exit ();
 	}
@@ -260,8 +264,8 @@ class User extends CI_Controller {
 				$to_save ['created_by'] = $_POST ['id'];
 				$to_save ['edited_by'] = $_POST ['id'];
 				//
-				
-				$userId = $this->users_model->saveUser ( $to_save );
+				$CI = get_instance ();
+				$userId = $CI->users_model->saveUser ( $to_save );
 				
 				$retrn = array ();
 				$retrn ['success'] = $_POST;
@@ -308,7 +312,8 @@ class User extends CI_Controller {
 				
 				// p ( $data );
 			}
-			$data = $this->users_model->getUsers ( $data );
+			$CI = get_instance ();
+			$data = $CI->users_model->getUsers ( $data );
 			$data = $data [0];
 			
 			if (empty ( $data )) {
@@ -318,7 +323,7 @@ class User extends CI_Controller {
 					$data ['password'] = $pass;
 					$data ['is_active'] = 'y';
 					// p ( $data );
-					$data = $this->users_model->getUsers ( $data );
+					$data = $CI->users_model->getUsers ( $data );
 					$data = $data [0];
 				}
 			}
@@ -467,10 +472,10 @@ class User extends CI_Controller {
 			}
 			
 			$reg_is_error = false;
+			$CI = get_instance ();
+			$check_if_exist = $CI->users_model->checkUser ( 'username', $to_reg ['username'] );
 			
-			$check_if_exist = $this->users_model->checkUser ( 'username', $to_reg ['username'] );
-			
-			$check_if_exist_email = $this->users_model->checkUser ( 'email', $to_reg ['email'] );
+			$check_if_exist_email = $CI->users_model->checkUser ( 'email', $to_reg ['email'] );
 			
 			if ($username == '') {
 				
@@ -591,7 +596,8 @@ class User extends CI_Controller {
 				
 				$rett = $_POST;
 				$this->template ['user_registration_done'] = true;
-				$userId = $this->users_model->saveUser ( $to_reg );
+				$CI = get_instance ();
+				$userId = $CI->users_model->saveUser ( $to_reg );
 				$rett ['id'] = $userId;
 				
 				/*
@@ -608,8 +614,8 @@ class User extends CI_Controller {
 					
 					$this->core_model->sendMail2 ( $sendOptions );
 				} */
-				
-				$send_activation = $this->users_model->send_activation ( $_POST ['email'] );
+				$CI = get_instance ();
+				$send_activation = $CI->users_model->send_activation ( $_POST ['email'] );
 				
 				$retrn = array ();
 				
@@ -1018,11 +1024,11 @@ and to_table_id='{$message['to_table_id']}'
 			$special = ( bool ) $_POST ['special']; // if 1 will add special flag
 			$cancel = ( bool ) $_POST ['cancel']; // if 1 will cancel the whole
 			                                      // relatiomship
-			
+			$CI = get_instance ();
 			if ($followerId == 0) {
 				exit ( 'Error: no follower defined? Are you sure you clicked on actual person?' );
 			} else {
-				$follower = $this->users_model->getUserById ( $followerId );
+				$follower = $CI->users_model->getUserById ( $followerId );
 				// p($follower);
 				if (empty ( $follower )) {
 					exit ( 'Error: invalid user id ' . $followerId );
@@ -1035,7 +1041,7 @@ and to_table_id='{$message['to_table_id']}'
 			
 			$currentUser = $this->session->userdata ( 'user' );
 			
-			$followed = $this->users_model->saveFollower ( array ('user' => $this->core_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special, 'cancel' => $cancel ) );
+			$followed = $CI->users_model->saveFollower ( array ('user' => $this->core_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special, 'cancel' => $cancel ) );
 			
 			// echo $followed;
 			

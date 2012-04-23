@@ -1135,9 +1135,10 @@ class content_model extends CI_Model {
 		$q = $this->core_model->dbQuery ( $sql, md5 ( $sql ), 'content/global' );
 		
 		$result = $q;
-		
+		$content = array();
+		if(!empty( $result)){
 		$content = $result [0];
-		
+		}
 		if ($try_to_return_post_by_url == true) {
 			
 			if (empty ( $content )) {
@@ -1188,9 +1189,9 @@ class content_model extends CI_Model {
 					$test = array_slice ( $segs, 0, $segs_qty - $counter );
 					
 					$test = array_reverse ( $test );
-					
+					if(isset( $test [0])){
 					$url = $this->getPageByURLAndCache ( $test [0], true );
-					
+					}
 					// var_dump ( $url );
 					
 
@@ -1205,7 +1206,7 @@ class content_model extends CI_Model {
 			}
 		
 		} else {
-			
+			if(!empty($content)){
 			$get_by_id = array ();
 			
 			$get_by_id ['id'] = $content ['id'];
@@ -1213,6 +1214,9 @@ class content_model extends CI_Model {
 			$get_by_id = $this->contentGetByIdAndCache ( $content ['id'] );
 			
 			return $get_by_id;
+			} else {
+				return false;
+			}
 		
 		}
 	
@@ -1441,7 +1445,7 @@ class content_model extends CI_Model {
 		$id = intval ( $id );
 		$cache_group = 'content/' . $id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_content );
+		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -3847,9 +3851,10 @@ class content_model extends CI_Model {
 	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 		
 		global $cms_db_tables;
-		
-		if ($data ['use_fetch_db_data'] == true) {
-			
+		$use_fetch_db_data = false;
+		 
+		if (!empty($data) and array_key_exists('use_fetch_db_data', $data)) {
+			 
 			$use_fetch_db_data = true;
 		
 		}
@@ -5990,9 +5995,8 @@ $my_limit_q
 			?><ul class="breadcrumb"><?php
 			foreach ( $quick_nav as $item ) {
 				
-				?><li><a href="<?php print $item ['url'];
-				?>"><?php
-				print ucwords ( $item ['title'] );
+				?><li><a href="<?php print $item['url'];?>"><?php
+				print ucwords($item['title']);
 				?></a></li>
 
 
@@ -6000,3063 +6004,2949 @@ $my_limit_q
 
 
 <?php
-			}
-			print '</ul>';
-		}
-	}
-	function getBreadcrumbsByURLAsArray($the_url = false, $include_home = true, $options = array()) {
-		
-		if ($the_url != false) {
-		
-		// $the_url = $the_url;
-		
+}
+print '</ul>';
+}
+}
+function getBreadcrumbsByURLAsArray($the_url = false, $include_home = true, $options = array()) {
 
-		} else {
-			
-			$the_url = getCurentURL ();
-		
-		}
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $the_url . $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
-		
-		if (($cache_content) != false) {
-		
-		// return $cache_content;
-		
+if ($the_url != false) {
 
-		}
-		
-		if (is_array ( $the_url )) {
-			
-			$the_page = $the_url;
-		
-		} else {
-			
-			$the_pages_nav = array ();
-			
-			$the_nav = array ();
-			
-			$the_page = $this->getContentByURL ( $the_url );
-		
-		}
-		
-		// $active_categories = CI::model('taxonomy')->getCategoriesForContent (
-		// $post ['id'], $return_only_ids = true );
-		
-	$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-		$the_page_full = $the_page;
-		
-		$the_pages_nav [] = $the_page ['id'];
-		
-		$the_page = $the_page ['id'];
-		
-		if (intval ( $the_page ) != 0) {
-			
-			if ($the_page_full ['content_type'] == 'post') {
-			
-		// $parent_ids = $this->getParentPagesIdsForPageIdAndCache (
-			// $the_page_full['content_parent'] );
-			// p($parent_ids);
-			
+// $the_url = $the_url;
 
-			} else {
-				
-				$parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page );
-				
-				if (! empty ( $parent_ids )) {
-					
-					foreach ( $parent_ids as $item ) {
-						
-						$the_pages_nav [] = $item;
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-		
-		/*
-		 * $parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page
-		 * ); if (! empty ( $parent_ids )) { foreach ( $parent_ids as $item ) {
-		 * $the_pages_nav [] = $item; } }
-		 */
-		
-		$home_page = $this->getContentHomepage ();
-		
-		$home_page_url = $this->getContentURLByIdAndCache ( $home_page ['id'] );
-		
-		if ($include_home == true) {
-			
-			$temp = array ();
-			
-			$temp ['content_id'] = $home_page ['id'];
-			
-			$temp ['title'] = $home_page ['content_title'];
-			
-			$temp ['url'] = $home_page_url;
-			
-			$the_nav [] = $temp;
-		
-		}
-		
-		$active_categories_for_nav = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $the_page, $the_url );
-		
-		if (! empty ( $the_pages_nav )) {
-			
-			$the_pages_nav = array_reverse ( $the_pages_nav );
-			
-			$categories_already_shown = array ();
-			
-			$titles_already_shown = array ();
-			
-			foreach ( $the_pages_nav as $item ) {
-				
-				$item = intval ( $item );
-				
-				$home_id = intval ( $home_page ['id'] );
-				
-				if ($item != $home_id) {
-					
-					if ($item != 0) {
-						
-						$page = array ();
-						
-						$page = $this->contentGetByIdAndCache ( $item );
-						
-						if ($page ['content_type'] == 'page') {
-							
-							$page_url = $this->getContentURLByIdAndCache ( $item );
-						
-						} else {
-							
-							$page_url = $this->contentGetHrefForPostId ( $item );
-						
-						}
-						
-						$temp = array ();
-						
-						$temp ['content_id'] = $item;
-						
-						$temp ['title'] = $page ['content_title'];
-						
-						$temp ['url'] = $page_url;
-						
-						if (intval ( $page ['content_subtype_value'] ) != 0) {
-							
-							$temp ['content_subtype_value'] = $page ['content_subtype_value'];
-						
-						}
-						
-						// if is post we will get the categories
-						
+} else {
 
-						if ($page ['content_type'] == 'post') {
-							
-							if ($options ['start_from_category'] != false) {
-								
-								$some_categories = $this->contentGetActiveCategoriesForPostIdAndCache ( $page ['id'], intval ( $options ['start_from_category'] ) );
-							
-							} else {
-								
-								$some_categories = $this->contentGetActiveCategoriesForPostIdAndCache ( $page ['id'] );
-							
-							}
-							
-							if (! empty ( $some_categories )) {
-								
-								$some_categories = array_reverse ( $some_categories );
-								
-								foreach ( $some_categories as $item ) {
-									
-									$cat_url = $this->taxonomy_model->getUrlForId ( $item );
-									
-									$cat_info = $this->taxonomy_model->getSingleItem ( $item );
-									
-									$cat_temp = array ();
-									
-									$cat_temp ['taxonomy_id'] = $item;
-									
-									$cat_temp ['title'] = $cat_info ['taxonomy_value'];
-									
-									$cat_temp ['url'] = $cat_url;
-									
-									$categories_already_shown [] = $item;
-									
-									$titles_already_shown [] = $cat_info ['taxonomy_value'];
-									
-									// check for dupes
-									
-
-									$skip = false;
-									
-									if (! empty ( $the_nav )) {
-										
-										foreach ( $the_nav as $nav_item ) {
-											
-											if ($nav_item ['content_subtype_value'] == $cat_temp ['taxonomy_id']) {
-												
-												$skip = true;
-											
-											}
-										
-										}
-									
-									}
-									
-									if ($skip == false) {
-										
-										$the_nav [] = $cat_temp;
-									
-									}
-								
-								}
-							
-							}
-						
-						}
-						
-						$the_nav [] = $temp;
-						
-						// if (intval ( $page ['content_subtype_value'] ) != 0)
-						// {
-						
-
-						if ($page ['content_subtype'] == 'dynamic') {
-							
-							$active_categories = $this->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $the_url, true );
-							
-							if (! empty ( $active_categories )) {
-								
-								$active_categories_children = $this->taxonomy_model->getParents ( $active_categories [0] );
-								
-								if (! empty ( $active_categories_children )) {
-									
-									$active_categories_children = array_reverse ( $active_categories_children );
-									
-									$active_categories = $active_categories_children;
-								
-								}
-								
-								foreach ( $active_categories as $item ) {
-									
-									$cat_url = $this->taxonomy_model->getUrlForId ( $item );
-									
-									$cat_info = $this->taxonomy_model->getSingleItem ( $item );
-									
-									$cat_temp = array ();
-									
-									$cat_temp ['taxonomy_id'] = $item;
-									
-									$categories_already_shown [] = $item;
-									
-									$titles_already_shown [] = $cat_info ['taxonomy_value'];
-									
-									$cat_temp ['title'] = $cat_info ['taxonomy_value'];
-									
-									$cat_temp ['url'] = $cat_url;
-									
-									// check for dupes
-									
-
-									$skip = false;
-									
-									if (! empty ( $the_nav )) {
-										
-										foreach ( $the_nav as $nav_item ) {
-											
-											if ($nav_item ['content_subtype_value'] == $cat_temp ['taxonomy_id']) {
-												
-												$skip = true;
-											
-											}
-										
-										}
-									
-									}
-									
-									if ($the_url == $cat_temp ['url']) {
-										
-										break;
-									
-									}
-									
-									if ($skip == false) {
-										
-										$the_nav [] = $cat_temp;
-									
-									}
-								
-								}
-							
-							}
-							
-						/*
-							 * $item = $page ['content_subtype_value'];
-							 */
-						
-						}
-					
-		// }
-					
-
-					// var_dump ( $page );
-					
-
-					}
-				
-				}
-			
-			}
-			
-			if (! empty ( $active_categories_for_nav )) {
-				
-				foreach ( $active_categories_for_nav as $item ) {
-					
-					if (! in_array ( $item, $categories_already_shown )) {
-						
-						$categories_already_shown [] = strtolower ( $item );
-						
-						$cat_url = $this->taxonomy_model->getUrlForId ( $item );
-						
-						$cat_info = $this->taxonomy_model->getSingleItem ( $item );
-						
-						$cat_temp = array ();
-						
-						$cat_temp ['taxonomy_id'] = $item;
-						
-						if (! in_array ( strtolower ( $cat_info ['taxonomy_value'] ), $titles_already_shown )) {
-							
-							$cat_temp ['title'] = $cat_info ['taxonomy_value'];
-							
-							$titles_already_shown [] = $cat_info ['taxonomy_value'];
-							
-							$cat_temp ['url'] = $cat_url;
-							
-							$the_nav [] = $cat_temp;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-		
-		$the_nav2 = array ();
-		$titles_already_shown = array ();
-		foreach ( $the_nav as $item ) {
-			if (strval ( $item ['title'] ) != '') {
-				if (! in_array ( strtolower ( $item ['title'] ), $titles_already_shown )) {
-					$titles_already_shown [] = strtolower ( $item ['title'] );
-					$the_nav2 [] = $item;
-				}
-			}
-		
-		// var_dump($item);
-		
-
-		}
-		$the_nav = $the_nav2;
-		$this->core_model->cacheWriteAndEncode ( $the_nav, $function_cache_id, $cache_group = 'global' );
-		
-		return $the_nav;
-	
-		// var_dump ( $content_id, $the_url );
-	
-
-	}
-	
-	function getMenuByMenuUnuqueId($uid) {
-		
-		$data = false;
-		
-		$data ['menu_unique_id'] = $uid;
-		
-		$data ['item_type'] = 'menu';
-		
-		$data = $this->getMenus ( $data, $orderby = false );
-		
-		$data = $data [0];
-		
-		return $data;
-	
-	}
-	function getMenuIdByName($name) {
-		$name = trim ( $name );
-		
-		if ($name == '') {
-			return false;
-		}
-		
-		$args = func_get_args ();
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		$data = false;
-		
-		$data ['menu_unique_id'] = $name;
-		
-		$data = $this->getMenus ( $data, $orderby = false );
-		
-		$data = $data [0];
-		
-		$id = $data ['id'];
-		$id = intval ( $id );
-		if ($id == 0) {
-			$sav = array ();
-			$sav ['menu_unique_id'] = $name;
-			$sav ['item_type'] = 'menu';
-			$id = $this->saveMenu ( $sav );
-		
-		}
-		$this->core_model->cacheWriteAndEncode ( $id, $function_cache_id, $cache_group = 'menus' );
-		
-		return $id;
-	
-	}
-	function getMenuItemsByMenuUnuqueId($uid, $set_active_to_all = true) {
-		
-		$check = getCurentURL ();
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $check . $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		$data = false;
-		
-		$data ['menu_unique_id'] = $uid;
-		
-		$data ['item_type'] = 'menu';
-		
-		$data = $this->getMenus ( $data, $orderby = false );
-		
-		$data = $data [0];
-		
-		$id = $data ['id'];
-		
-		$itmes = $this->getMenuItems ( $id );
-		
-		$the_curent_url = $this->uri->uri_string ();
-		
-		// is slash
-		
-
-		$slash = substr ( "$the_curent_url", 0, 1 );
-		
-		if ($slash == '/') {
-			
-			$the_curent_url = substr ( "$the_curent_url", 1, strlen ( $the_curent_url ) );
-		
-		}
-		
-		// print $the_curent_url;
-		
-
-		// print ACTIVE_CONTENT_ID;
-		
-
-		$menu_data = array ();
-		
-		foreach ( $itmes as $item ) {
-			
-			$data = array ();
-			
-			$data_to_append = $item;
-			
-			$data_to_append ['content_id'] = $item ['content_id'];
-			
-			$data ['id'] = $item ['content_id'];
-			
-			$content_item = $this->getContentAndCache ( $data, $orderby = false, $limit = array (0, 1 ), $count_only = false, $short_data = true );
-			
-			$content_item = $content_item [0];
-			
-			$url = false;
-			
-			if (! empty ( $content_item )) {
-				
-				$data_to_append ['title'] = $content_item ['content_title'];
-			
-			} else {
-				
-				$data_to_append ['title'] = $item ['item_title'];
-			
-			}
-			
-			if (trim ( $data_to_append ['content_title'] ) == '') {
-				
-				$data_to_append ['content_title'] = $content_item ['content_title'];
-			
-			}
-			
-			$data_to_append ['content_id'] = $content_item ['id'];
-			
-			if (trim ( $data_to_append ['item_title'] ) == '') {
-				
-				$data_to_append ['item_title'] = $data_to_append ['title'];
-			
-			}
-			
-			$url = site_url ( $content_item ['content_url'] );
-			
-			if ($content_item ['is_home'] == 'y') {
-				
-				$url = site_url ();
-			
-			}
-			
-			if (intval ( $item ['content_id'] ) == 0) {
-				
-				$url = ($item ['menu_url']);
-			
-			}
-			
-			$data_to_append ['url'] = $url;
-			
-			$is_active = false;
-			
-			// print $url;
-			
-
-			// print site_url ( $the_curent_url );
-			
-
-			// print "<hr>";
-			
-
-			if ($url == site_url ( $the_curent_url )) {
-			
-		// $is_active = true;
-			
-
-			}
-			
-			if ($content_item ['is_home'] == 'y') {
-			
-		// if($the_curent_url = ''){
-			
-
-			// $is_active = true;
-			
-
-			// }
-			
-
-			}
-			
-			if (intval ( $GLOBALS ['ACTIVE_PAGE_ID'] ) == intval ( $content_item ['id'] )) {
-				
-				$is_active = true;
-			
-			}
-			
-			if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
-				
-				$is_active = true;
-			
-			}
-			
-			$parents = $this->getParentPagesIdsForPageIdAndCache ( ACTIVE_PAGE_ID );
-			
-			if (! empty ( $parents )) {
-				
-				foreach ( $parents as $parent ) {
-					
-					if (intval ( $parent ) == intval ( $content_item ['id'] )) {
-						
-						$is_active = true;
-					
-					}
-				
-				}
-			
-			}
-			
-			if (intval ( $item ['content_id'] ) == 0) {
-				
-				$check = getCurentURL ();
-				
-				if ($check == $item ['the_url']) {
-					
-					$is_active = true;
-				
-				}
-			
-			}
-			
-			// check we are on subpage and if the parent is active is active?
-			
-
-			$data_to_append ['is_active'] = $is_active;
-			
-			$menu_data [] = $data_to_append;
-		
-		}
-		
-		if ($set_active_to_all == false) {
-			
-			$i = 0;
-			
-			$menu_data2 = array ();
-			
-			$menu_data_to_unset = array ();
-			
-			foreach ( $menu_data as $item ) {
-				
-				if ($item ['is_active'] == true) {
-					
-					$menu_data_to_unset [] = $i;
-				
-				}
-				
-				$i ++;
-			
-			}
-			
-			if (! empty ( $menu_data_to_unset )) {
-				
-				array_pop ( $menu_data_to_unset );
-				
-				if (! empty ( $menu_data_to_unset )) {
-					
-					foreach ( $menu_data_to_unset as $item ) {
-						
-						$menu_data [$item] ['is_active'] = false;
-					
-					}
-				
-				}
-			
-			}
-		
-		}
-		
-		$this->core_model->cacheWriteAndEncode ( $menu_data, $function_cache_id, $cache_group = 'menus' );
-		
-		return $menu_data;
-	
-	}
-	function menuTree($menu_id, $maxdepth = false) {
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		$function_cache_id = $function_cache_id . PAGE_ID . POST_ID . MAIN_PAGE_ID;
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
-		
-		if (($cache_content) != false) {
-			// p($cache_content);
-			return $cache_content;
-		
-		}
-		
-		// $data = $this->getMenuItems ( $menu_id );
-		// p($data);
-		$time_start = microtime_float ();
-		
-		// Sleep for a while
-		
-
-		$time_end = microtime_float ();
-		$time = $time_end - $time_start;
-		
-		$passed_ids = array ();
-		
-		global $cms_db_tables;
-		
-		$table_menus = $cms_db_tables ['table_menus'];
-		
-		$sql = "SELECT id from $table_menus 
-		where item_parent=$menu_id  
-		and $table_menus.item_parent<>$table_menus.id  
-		order by position ASC ";
-		// p ( $sql );
-		$q = $this->core_model->dbQuery ( $sql, __FUNCTION__ . md5 ( $sql ), 'menus' );
-		
-		$data = $q;
-		if (empty ( $data )) {
-			return false;
-		}
-		// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-		$to_print = '<ul class="menu menu_' . $menu_id . '">';
-		$cur_depth = 0;
-		foreach ( $data as $item ) {
-			$full_item = $this->getMenuItems ( false, $item ['id'] );
-			$full_item = $full_item [0];
-			//
-			
-
-			$active_class = '';
-			if ($full_item ['content_id'] == PAGE_ID) {
-				$active_class = ' active';
-			}
-			if ($full_item ['content_id'] == POST_ID) {
-				$active_class = ' active';
-			}
-			
-			if ($full_item ['content_id'] == MAIN_PAGE_ID) {
-				$active_class = ' active';
-			}
-			$thecontent_title = $this->contentGetById ( $full_item ['content_id'] );
-			$active_class_titl = $this->core_model->url_title ( strtolower ( $thecontent_title ['content_title'] ) );
-			
-			if ($full_item ['item_title'] == '') {
-				$full_item ['item_title'] = $full_item ['id'];
-			}
-			
-			if (trim ( strval ( $full_item ['the_url'] ) ) == '') {
-				$full_item ['the_url'] = $this->getContentURLByIdAndCache ( $full_item ['content_id'] );
-			}
-			
-			// p ( $full_item );
-			
-
-			$to_print .= '<li class="menu_element ' . $active_class_titl . ' ' . $active_class . '" id="menu_item_' . $item ['id'] . '"><a class="menu_element_link ' . $active_class_titl . ' ' . $active_class . '" href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
-			
-			if (in_array ( $item ['id'], $passed_ids ) == false) {
-				
-				if ($maxdepth == false) {
-					$test1 = $this->menuTree ( $item ['id'] );
-					if (strval ( $test1 ) != '') {
-						$to_print .= strval ( $test1 );
-					}
-				} else {
-					
-					if (($maxdepth != false) and ($cur_depth <= $maxdepth)) {
-						$test1 = $this->menuTree ( $item ['id'] );
-						if (strval ( $test1 ) != '') {
-							$to_print .= strval ( $test1 );
-						}
-					
-					}
-				}
-			}
-			
-			$passed_ids [] = $item ['id'];
-			// }
-			// }
-			$cur_depth ++;
-		}
-		
-		// print "[[ $time ]]seconds\n";
-		$to_print .= '</ul>';
-		$this->core_model->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
-		return $to_print;
-	}
-	function getMenuItemById($id) {
-		$id = $this->getMenuItems ( $menu_id = false, $id );
-		$id = $id [0];
-		return $id;
-	
-	}
-	function getMenuItems($menu_id = false, $id = false) {
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table_menus = $cms_db_tables ['table_menus'];
-		
-		$table_content = $cms_db_tables ['table_content'];
-		
-		$data = false;
-		if ($id == false) {
-			$data ['item_parent'] = $menu_id;
-			$data ['item_type'] = 'menu_item';
-		} else {
-			$data ['id'] = $id;
-		}
-		
-		$orderby = array ();
-		
-		$orderby [0] = 'position';
-		
-		$orderby [1] = 'asc';
-		
-		$data = $this->getMenus ( $data, $orderby );
-		
-		$return = array ();
-		
-		foreach ( $data as $item ) {
-			
-			if (intval ( $item ['content_id'] ) == 0) {
-			
-			}
-			
-			// $menu_item = $item;
-			
-
-			if ($item ['content_id'] != 0) {
-				
-				$check_if_this_is_page_or_post = array ();
-				
-				$check_if_this_is_page_or_post ['id'] = $item ['content_id'];
-				
-				$check_if_this_is_page_or_post ['only_those_fields'] = array ('content_type', 'id' );
-				
-				// //
-				
-
-				$check_if_this_is_page_or_post = $this->getContentAndCache ( $check_if_this_is_page_or_post, $orderby = false, $limit = false, $count_only = false, $short_data = true );
-				
-				$check_if_this_is_page_or_post = $check_if_this_is_page_or_post [0] ['content_type'];
-				
-				if ($check_if_this_is_page_or_post == 'post') {
-					
-					$url = $this->contentGetHrefForPostId ( $item ['content_id'] );
-				
-				}
-				
-				if ($check_if_this_is_page_or_post == 'page') {
-					
-					$url = $this->getContentURLByIdAndCache ( $item ['content_id'] );
-				
-				}
-				
-				if (intval ( $item ['content_id'] ) != 0) {
-					
-					if (strval ( $item ['item_title'] ) == '') {
-						
-						$q = " select content_title from $table_content where id={$item ['content_id']}  limit 0,1 ";
-						
-						$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'content/' . $item ['content_id'] );
-						
-						$fix_title = $q [0] ['content_title'];
-						
-						// print $fix_title;
-						
-
-						$item ['item_title'] = $fix_title;
-						
-						$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
-						
-						$this->core_model->dbQ ( $q );
-					
-		// var_Dump ( $q );
-					
-
-					// exit ();
-					
-
-					}
-				
-				}
-			
-			} 
-
-			elseif ($item ['taxonomy_id'] != 0) {
-				
-				if (strval ( $item ['item_title'] ) == '') {
-						$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-					$get_taxonomy = $this->taxonomy_model->getSingleItem ( $item ['taxonomy_id'] );
-					
-					$fix_title = $get_taxonomy ['taxonomy_value'];
-					
-					$item ['item_title'] = $fix_title;
-					
-					$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
-					
-					$this->core_model->dbQ ( $q );
-				
-		// var_Dump ( $q );
-				
-
-				// exit ();
-				
-
-				}
-				
-				//
-				
-
-				$url = $this->taxonomy_model->getUrlForId ( $item ['taxonomy_id'] );
-			
-			} else {
-				
-				$url = trim ( $item ['menu_url'] );
-			
-			}
-			
-			$item ['the_url'] = $url;
-			
-			// $sub_items = $this->content_model->getMenuItems($item ['id']);
-			
-
-			if (! empty ( $sub_items )) {
-				// $item ['submenu'] = $sub_items;
-			
-
-			}
-			
-			$return [] = $item;
-		
-		}
-		
-		$this->core_model->cacheWriteAndEncode ( $return, $function_cache_id, 'menus' );
-		
-		return $return;
-	
-	}
-	
-	function menusGetThumbnailImageById($id, $size = 128, $direction = "DESC") {
-		
-		// $data ['id'] = $id;
-		
-
-		// $data = CI::model('taxonomy')->taxonomyGet ( $data );
-		
-
-		// var_dump ( $data );
-		
-
-		$data = $this->core_model->mediaGetThumbnailForItem ( $to_table = 'table_menus', $to_table_id = $id, $size, $direction );
-		
-		return $data;
-	
-	}
-	
-	function getMenuItemsByMenuName($name) {
-		
-		// var_dump ( ACTIVE_PAGE_ID );
-		// var_dump ( PAGE_ID );
-		
-
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id ) . ACTIVE_PAGE_ID;
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		$data = false;
-		
-		$data ['item_title'] = $name;
-		
-		$data ['item_type'] = 'menu';
-		
-		$orderby = array ();
-		
-		$orderby [0] = 'position';
-		
-		$orderby [1] = 'asc';
-		
-		$data = $this->getMenus ( $data, $orderby );
-		
-		$the_menu = $data [0];
-		
-		if (empty ( $the_menu )) {
-			$data = false;
-			
-			$data ['menu_unique_id'] = $name;
-			
-			$data ['item_type'] = 'menu';
-			
-			$orderby = array ();
-			
-			$orderby [0] = 'position';
-			
-			$orderby [1] = 'asc';
-			
-			$data = $this->getMenus ( $data, $orderby );
-			if (! empty ( $data )) {
-				$the_menu = $data [0];
-			}
-		}
-		
-		$the_menu = $this->getMenuItems ( $the_menu ['id'] );
-		
-		$the_curent_url = $this->uri->uri_string ();
-		
-		// is slash
-		
-
-		$slash = substr ( "$the_curent_url", 0, 1 );
-		
-		if ($slash == '/') {
-			
-			$the_curent_url = substr ( "$the_curent_url", 1, strlen ( $the_curent_url ) );
-		
-		}
-		
-		// print $the_curent_url;
-		
-
-		// print ACTIVE_CONTENT_ID;
-		
-
-		$menu_data = array ();
-		
-		foreach ( $the_menu as $item ) {
-			
-			$data = array ();
-			
-			$data_to_append = array ();
-			
-			$data ['id'] = $item ['content_id'];
-			
-			//
-			
-
-			$content_item = $this->getContent ( $data, $orderby = false, $limit = false, $count_only = false, $short_data = true );
-			
-			$content_item = $content_item [0];
-			
-			$url = false;
-			
-			if (! empty ( $content_item )) {
-				
-				$data_to_append ['title'] = $content_item ['content_title'];
-			
-			} else {
-				
-				$data_to_append ['title'] = $item ['item_title'];
-			
-			}
-			
-			$url = site_url ( $content_item ['content_url'] );
-			
-			if ($content_item ['is_home'] == 'y') {
-				
-				$url = site_url ();
-			
-			}
-			
-			if (intval ( $item ['content_id'] ) == 0) {
-				
-				$url = ($item ['menu_url']);
-			
-			}
-			
-			$data_to_append ['url'] = $url;
-			
-			$is_active = false;
-			
-			// print $url;
-			
-
-			// print site_url ( $the_curent_url );
-			
-
-			// print "<hr>";
-			
-
-			if ($url == site_url ( $the_curent_url )) {
-			
-		// $is_active = true;
-			
-
-			}
-			
-			if ($content_item ['is_home'] == 'y') {
-			
-		// if($the_curent_url = ''){
-			
-
-			// $is_active = true;
-			
-
-			// }
-			
-
-			}
-			
-			if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
-				
-				$is_active = true;
-			
-			}
-			
-			if (intval ( ACTIVE_PAGE_ID ) == intval ( $item ['content_id'] )) {
-				
-				$is_active = true;
-			
-			}
-			
-			if (intval ( $item ['content_id'] ) == 0) {
-				
-				$check = getCurentURL ();
-				
-				if ($check == $item ['menu_url']) {
-					
-					$is_active = true;
-				
-				}
-			
-			}
-			
-			$data_to_append ['is_active'] = $is_active;
-			
-			$menu_data [] = $data_to_append;
-		
-		}
-		
-		// $
-		
-
-		// var_dump ( $menu_data );
-		
-
-		$this->core_model->cacheWriteAndEncode ( $menu_data, $function_cache_id );
-		
-		return $menu_data;
-	
-	}
-	
-	function reorderMenuItem($direction, $id) {
-		
-		$this->fixMenusPositions ();
-		
-		if (intval ( $id ) == 0) {
-			
-			// $this->fixMenusPositions ();
-			
-
-			return false;
-		
-		}
-		
-		$data = false;
-		
-		$this->core_model->cleanCacheGroup ( 'menus' );
-		
-		$data ['id'] = $id;
-		
-		$data = $this->getMenus ( $data );
-		
-		$data = $data [0];
-		
-		if (empty ( $data )) {
-			
-			$this->fixMenusPositions ();
-			
-			return false;
-		
-		} else {
-			
-			$curent_item = $data;
-		
-		}
-		
-		// get next
-		
-
-		$data = false;
-		
-		$this->core_model->cleanCacheGroup ( 'menus' );
-		
-		$data ['item_parent'] = $curent_item ['item_parent'];
-		
-		$data ['item_type'] = $curent_item ['item_type'];
-		
-		$data ['position'] = intval ( $curent_item ['position'] ) + 1;
-		
-		$data = $this->getMenus ( $data );
-		
-		$next_item = $data [0];
-		
-		// get prev
-		
-
-		$this->core_model->cleanCacheGroup ( 'menus' );
-		
-		$data = false;
-		
-		$data ['item_parent'] = $curent_item ['item_parent'];
-		
-		$data ['item_type'] = $curent_item ['item_type'];
-		
-		$data ['position'] = intval ( $curent_item ['position'] ) - 1;
-		
-		$data = $this->getMenus ( $data );
-		
-		$prev_item = $data [0];
-		
-		if ($direction == 'up') {
-			
-			if (empty ( $prev_item )) {
-				
-				$this->fixMenusPositions ();
-				
-				return false;
-			
-			} else {
-				
-				// update curent
-				
-
-				$table = TABLE_PREFIX . 'menus';
-				
-				$q = "UPDATE $table set position={$prev_item['position']} where id={$curent_item ['id']}   ";
-				
-				$sql_q = $this->core_model->dbQ ( $q );
-				
-				$q = "UPDATE $table set position={$curent_item['position']} where id={$prev_item['id']}   ";
-				
-				$sql_q = $this->core_model->dbQ ( $q );
-				
-				$this->core_model->cleanCacheGroup ( 'menus' );
-				
-				$this->fixMenusPositions ();
-				
-				return true;
-			
-			}
-		
-		}
-		
-		if ($direction == 'down') {
-			
-			if (empty ( $next_item )) {
-				
-				$this->fixMenusPositions ();
-				
-				return false;
-			
-			} else {
-				
-				$table = TABLE_PREFIX . 'menus';
-				
-				$q = "UPDATE $table set position={$next_item['position']} where id={$curent_item ['id']}   ";
-				
-				$sql_q = $this->core_model->dbQ ( $q );
-				
-				$q = "UPDATE $table set position={$curent_item['position']} where id={$next_item['id']}   ";
-				
-				$sql_q = $this->core_model->dbQ ( $q );
-				
-				$this->core_model->cleanCacheGroup ( 'menus' );
-				
-				$this->fixMenusPositions ();
-				
-				return true;
-			
-			}
-		
-		}
-	
-	}
-	
-	/**
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 * fix Menus Positions
-	 *
-	 * @author Peter Ivanov
-	 * 
-	 * 
-	 * 
-	 */
-	
-	function fixMenusPositions($menu_id = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_menus'];
-		
-		$table_content = $cms_db_tables ['table_content'];
-		
-		// $table = TABLE_PREFIX . 'menus';
-		
-
-		// get all menus
-		
-
-		if ($menu_id == false) {
-			$sql = "SELECT * from $table where item_type='menu'  ";
-		} else {
-			$sql = $sql = "SELECT id from $table where item_parent=$menu_id  and $table.item_parent<>$table.id  ";
-		}
-		$q = $this->core_model->sqlQuery ( $sql );
-		
-		$results = $q;
-		
-		foreach ( $results as $item ) {
-			
-			$sql = "SELECT * from $table where   item_parent='{$item['id']}' order by position ASC ";
-			
-			$q = $this->core_model->sqlQuery ( $sql );
-			
-			$i = 1;
-			
-			foreach ( $q as $menu_item ) {
-				
-				$query = " update $table set position=$i where id={$menu_item['id']} ";
-				
-				$query = $this->db->query ( $query );
-				
-				$i ++;
-			
-			}
-		
-		}
-		
-		$this->core_model->cleanCacheGroup ( 'menus' );
-		
-		return true;
-	
-	}
-	
-	function removeContentFromUnusedMenus($content_id, $menus_array) {
-		
-		if (empty ( $menus_array )) {
-			
-			return false;
-		
-		}
-		
-		$table = TABLE_PREFIX . 'menus';
-		
-		$menus_array = implode ( ',', $menus_array );
-		
-		$q = "DELETE FROM $table where content_id=$content_id and item_parent NOT IN ($menus_array)  ";
-		// p($q);
-		$sql_q = $this->db->query ( $q );
-		
-		$this->core_model->cleanCacheGroup ( 'menus' );
-		
-		return true;
-	
-	}
-	
-	function metaTagsGenerateByContentId($id, $posts_data = false, $selected_taxonomy = false) {
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		$content_id = intval ( $id );
-		$cache_group = 'content/' . $content_id;
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		if (! empty ( $selected_taxonomy )) {
-			
-			$selected_taxonomy_titles = array ();
-			
-			$selected_taxonomy_descs = array ();
-			
-			// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString (
-			// $data, 3 );
-			
-
-			// $meta ['content_meta_keywords'] = $data;
-			
-
-			foreach ( $selected_taxonomy as $the_taxonomy ) {
-				
-				$the_taxonomy_full = $this->taxonomy_model->getSingleItem ( $the_taxonomy );
-				
-				$selected_taxonomy_titles [] = $the_taxonomy_full ['taxonomy_value'];
-				
-				$selected_taxonomy_descs [] = $the_taxonomy_full ['taxonomy_description'];
-			
-			}
-			
-			$meta = array ();
-			
-			$meta ["content_meta_title"] = implode ( ', ', $selected_taxonomy_titles );
-			
-			$meta ["content_meta_description"] = implode ( ', ', $selected_taxonomy_descs );
-			
-			// $keyrods = CI::model('taxonomy')->taxonomyGenerateTagsFromString
-			// ( implode ( ', ', $selected_taxonomy_descs ), 3 );
-			
-
-			$meta ["content_meta_keywords"] = $keyrods;
-			
-			$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
-			
-			return $meta;
-		
-		}
-		
-		$data ['id'] = $id;
-		
-		// ($data, $orderby = false, $limit = false, $count_only = false,
-		// $short_data = false, $only_fields = false)
-		
-
-		$only_fields = array ();
-		
-		$only_fields [] = 'content_meta_title';
-		
-		$only_fields [] = 'content_meta_description';
-		
-		$only_fields [] = 'content_meta_keywords';
-		
-		$only_fields [] = 'content_meta_other_code';
-		
-		$only_fields [] = 'content_subtype';
-		
-		$only_fields [] = 'content_subtype_value';
-		
-		$only_fields [] = 'content_subtype';
-		
-		$only_fields [] = 'content_title';
-		
-		$only_fields [] = 'content_body';
-		
-		$data = $this->getContentAndCache ( $data, $orderby = false, $limit = array (0, 1 ), $count_only = false, $short_data = true, $only_fields = $only_fields );
-		
-		$data = $data [0];
-		
-		$content = $data;
-		
-		$meta = array ();
-		
-		if (empty ( $data )) {
-			
-			$meta = array ();
-			
-			$meta ["content_meta_title"] = $content ['content_title'];
-			
-			$meta ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->core_model->optionsGetByKey ( 'content_meta_title' );
-			
-			$meta ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->core_model->optionsGetByKey ( 'content_meta_description' );
-			
-			$meta ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
-			
-			$meta ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
-			
-			$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
-			
-			return $meta;
-		
-		} else {
-			
-			$meta = array ();
-			
-			if ($content ['content_meta_title'] != '') {
-				
-				$meta ['content_meta_title'] = $content ['content_meta_title'];
-			
-			} else {
-				
-				$data = trim ( $content ['content_title'] );
-				
-				$data = htmlspecialchars_decode ( $data );
-				
-				$data = strip_tags ( $data );
-				
-				$data = str_ireplace ( '&nbsp;', ' ', $data );
-				
-				$data = reduce_multiples ( $data );
-				
-				$data = strip_quotes ( $data );
-				
-				$data = addslashes ( $data );
-				
-				$data = mb_trim ( $data );
-				
-				$data = trim ( $data );
-				
-				$meta ['content_meta_title'] = $data;
-			
-			}
-			
-			if ($content ['content_meta_description'] != '') {
-				
-				$meta ['content_meta_description'] = $content ['content_meta_description'];
-			
-			} else {
-				
-				$data = trim ( $content ['content_body'] );
-				
-				$data = htmlspecialchars_decode ( $data );
-				
-				$data = strip_tags ( $data );
-				
-				$data = str_ireplace ( '&nbsp;', ' ', $data );
-				
-				$data = reduce_multiples ( $data );
-				
-				$data = strip_quotes ( $data );
-				
-				$data = addslashes ( $data );
-				
-				$data = mb_trim ( $data );
-				
-				$data = trim ( $data );
-				
-				$data = word_limiter ( $data, 20, '...' );
-				
-				$meta ['content_meta_description'] = $data;
-			
-			}
-			
-			if ($content ['content_meta_keywords'] != '') {
-				
-				$meta ['content_meta_keywords'] = $content ['content_meta_keywords'];
-			
-			} else {
-				
-				$data = trim ( $content ['content_body_nohtml'] );
-				
-				// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString
-				// ( $data, 3 );
-				
-
-				$meta ['content_meta_keywords'] = $data;
-				
-				if ($meta ['content_meta_keywords'] == '') {
-					
-					if ($content ['content_subtype'] == 'dynamic') {
-						
-						$temp = $this->taxonomy_model->getChildrensRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
-						
-						if (! empty ( $temp )) {
-							
-							$taxonomy_tree = array ();
-							
-							foreach ( $temp as $tax_id ) {
-								
-								$temp_data = $this->taxonomy_model->getSingleItem ( $tax_id );
-								
-								$taxonomy_tree [] = trim ( $temp_data ['taxonomy_value'] );
-							
-							}
-							
-							$taxonomy_tree = array_unique ( $taxonomy_tree );
-							
-							$taxonomy_tree = implode ( ', ', $taxonomy_tree );
-							
-							$meta ['content_meta_keywords'] = $taxonomy_tree;
-							
-							if ($meta ['content_meta_description'] == '') {
-								
-								$meta ['content_meta_description'] = $meta ['content_meta_keywords'];
-							
-							}
-							
-							if (! empty ( $posts_data )) {
-								
-								$temp_data = $this->taxonomy_model->getSingleItem ( $selected_taxonomy [0] );
-								
-								$meta ['content_meta_title'] = $temp_data ['taxonomy_value'];
-								
-								$categories = array ();
-								
-								foreach ( $posts_data as $thepost ) {
-									
-									$keyword_calculate = $keyword_calculate . ' ' . $thepost ['content_title'] . ' ' . $thepost ['content_body'];
-								
-								}
-								
-								// $keyword_calculate = CI::model ( 'taxonomy'
-								// )->taxonomyGenerateTagsFromString (
-								// $keyword_calculate );
-								
-
-								// $keyword_calculate = word_limiter (
-								// $keyword_calculate, 40, ' ' );
-								
-
-								// $meta ['content_meta_keywords'] =
-								// $keyword_calculate;
-								
-
-								if ($meta ['content_meta_description'] == '') {
-									
-									$meta ['content_meta_description'] = $meta ['content_meta_keywords'];
-								
-								}
-							
-							}
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-			
-			$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
-			
-			return $meta;
-		
-		}
-	
-	}
-	
-	function contentGetRecomendedPosts($post_id, $how_much = 5) {
-		
-		$function_cache_id = serialize ( $post_id ) . serialize ( $how_much );
-		
-		$function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
-		
-		$content_id = intval ( $post_id );
-		$cache_group = 'content/' . $content_id;
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_content'];
-		
-		$post = $this->contentGetByIdAndCache ( $post_id );
-		
-		if (empty ( $post )) {
-			
-			return false;
-		
-		} else {
-			
-			// var_dump ( $post ["content_title"] );
-			
-
-			$post ["content_title"] = str_ireplace ( '(', '', $post ["content_title"] );
-			
-			$post ["content_title"] = str_ireplace ( ')', '', $post ["content_title"] );
-			
-			$post ["content_title"] = str_ireplace ( '`', '', $post ["content_title"] );
-			
-			$post ["content_title"] = str_ireplace ( '"', '', $post ["content_title"] );
-			
-			$post ["content_title"] = str_ireplace ( '\'', '', $post ["content_title"] );
-			
-			$keywords_array = explode ( ' ', $post ["content_title"] );
-			
-			$keywords_array_new = array ();
-			
-			foreach ( $keywords_array as $kw ) {
-				
-				if (mb_strlen ( $kw ) > 4) {
-					
-					$keywords_array_new [] = $kw;
-				
-				}
-			
-			}
-			
-			$keywords_array = $keywords_array_new;
-			
-			$keywords_array_original = $keywords_array;
-			
-			$the_results_to_return = array ();
-			
-			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
-				
-				// echo $i;
-				
-
-				$fruit = array_pop ( $keywords_array );
-				
-				$search_string = implode ( ' ', $keywords_array );
-				
-				$search_string = str_ireplace ( '-', ' ', $search_string );
-				
-				$search_string = str_ireplace ( '  ', ' ', $search_string );
-				
-				$search_string = str_ireplace ( ' ', '+', $search_string );
-				
-				$only_in_those_table_fields = array ();
-				
-				$only_in_those_table_fields [] = 'content_title';
-				
-				if ($search_string != '') {
-					
-					$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
-					
-					if (! empty ( $search_in_content )) {
-						
-						foreach ( $search_in_content as $item ) {
-							
-							$the_results_to_return [] = $item;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-			
-			$keywords_array = $keywords_array_original;
-			
-			shuffle ( $keywords_array );
-			
-			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
-				
-				$fruit = array_pop ( $keywords_array );
-				
-				$search_string = implode ( ' ', $keywords_array );
-				
-				$search_string = str_ireplace ( '-', ' ', $search_string );
-				
-				$search_string = str_ireplace ( '  ', ' ', $search_string );
-				
-				$search_string = str_ireplace ( ' ', '+', $search_string );
-				
-				$only_in_those_table_fields = array ();
-				
-				$only_in_those_table_fields [] = 'content_title';
-				
-				if ($search_string != '') {
-					
-					$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
-					
-					if (! empty ( $search_in_content )) {
-						
-						foreach ( $search_in_content as $item ) {
-							
-							$the_results_to_return [] = $item;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-			
-			$keywords_array = $keywords_array_original;
-			
-			shuffle ( $keywords_array );
-			
-			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
-				
-				$fruit = array_pop ( $keywords_array );
-				
-				$search_string = implode ( ' ', $keywords_array );
-				
-				$search_string = str_ireplace ( '-', ' ', $search_string );
-				
-				$search_string = str_ireplace ( '  ', ' ', $search_string );
-				
-				$search_string = str_ireplace ( ' ', '+', $search_string );
-				
-				$only_in_those_table_fields = array ();
-				
-				$only_in_those_table_fields [] = 'content_title';
-				
-				if ($search_string != '') {
-					
-					$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
-					
-					if (! empty ( $search_in_content )) {
-						
-						foreach ( $search_in_content as $item ) {
-							
-							$the_results_to_return [] = $item;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-			
-			$keywords_array = $keywords_array_original;
-			
-			shuffle ( $keywords_array );
-			
-			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
-				
-				$fruit = array_pop ( $keywords_array );
-				
-				$search_string = implode ( ' ', $keywords_array );
-				
-				$search_string = str_ireplace ( '-', ' ', $search_string );
-				
-				$search_string = str_ireplace ( '  ', ' ', $search_string );
-				
-				$search_string = str_ireplace ( ' ', '+', $search_string );
-				
-				$only_in_those_table_fields = array ();
-				
-				$only_in_those_table_fields [] = 'content_title';
-				
-				if ($search_string != '') {
-					
-					$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
-					
-					if (! empty ( $search_in_content )) {
-						
-						foreach ( $search_in_content as $item ) {
-							
-							$the_results_to_return [] = $item;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-			
-			$keywords_array = $keywords_array_original;
-			
-			shuffle ( $keywords_array );
-			
-			for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
-				
-				$fruit = array_pop ( $keywords_array );
-				
-				$search_string = implode ( ' ', $keywords_array );
-				
-				$search_string = str_ireplace ( '-', ' ', $search_string );
-				
-				$search_string = str_ireplace ( '  ', ' ', $search_string );
-				
-				$search_string = str_ireplace ( ' ', '+', $search_string );
-				
-				$only_in_those_table_fields = array ();
-				
-				$only_in_those_table_fields [] = 'content_title';
-				
-				if ($search_string != '') {
-					
-					$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
-					
-					if (! empty ( $search_in_content )) {
-						
-						foreach ( $search_in_content as $item ) {
-							
-							$the_results_to_return [] = $item;
-						
-						}
-					
-					}
-				
-				}
-			
-			}
-		
-		// }
-		
-
-		}
-		
-		$the_results_to_return_revalency = array ();
-		
-		foreach ( $the_results_to_return as $item ) {
-			
-			if (intval ( $item ) != intval ( $post_id )) {
-				
-				$the_results_to_return_revalency [$item] = intval ( $the_results_to_return_revalency [$item] ) + 1;
-			
-			}
-		
-		}
-		
-		arsort ( $the_results_to_return_revalency );
-		
-		$posts = array ();
-		
-		$i = 1;
-		
-		foreach ( $the_results_to_return_revalency as $k => $v ) {
-			
-			if ($i > $how_much) {
-			
-			} else {
-				
-				$post = $this->contentGetByIdAndCache ( $k );
-				
-				$posts [] = $post;
-			
-			}
-			
-			$i ++;
-		
-		}
-		
-		if ($posts != '') {
-			
-			$this->core_model->cacheWriteAndEncode ( $posts, $function_cache_id, $cache_group );
-			
-			return $posts;
-		
-		} else {
-			
-			return false;
-		
-		}
-		
-		return $posts;
-	
-		// var_dump ( $the_results_to_return_revalency );
-	
-
-	}
-	
-	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_content'];
-		
-		if ($content_parent == false) {
-			
-			$content_parent = (0);
-		
-		}
-		if ($include_first == true) {
-			$sql = "SELECT * from $table where  id=$content_parent    and content_type='page'  order by updated_on desc ";
-		
-		} else {
-			
-			$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
-		
-		}
-		// p($sql);
-		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
-		
-		$q = $this->core_model->dbQuery ( $sql );
-		
-		$result = $q;
-		
-		if (! empty ( $result )) {
-			
-			// $output = "<ul>";
-			
-
-			if ($ul_class_name == false) {
-				print "<ul>";
-			} else {
-				print "<ul class='{$ul_class_name}'>";
-			}
-			
-			foreach ( $result as $item ) {
-				// $item ['content_title'] = htmlspecialchars_decode ( $item
-				// ['content_title'], ENT_QUOTES );
-				
-
-				// $item ['content_title'] = strip_tags ( $item
-				// ['content_title'] );
-				
-
-				$output = $output . $item ['content_title'];
-				
-				$content_type_li_class = false;
-				
-				if ($item ['is_home'] != 'y') {
-					
-					switch ($item ['content_subtype']) {
-						
-						case 'dynamic' :
-							
-							$content_type_li_class = 'is_category';
-							
-							break;
-						
-						case 'module' :
-							
-							$content_type_li_class = 'is_module';
-							
-							break;
-						
-						default :
-							
-							$content_type_li_class = 'is_page';
-							
-							break;
-					
-					}
-				
-				} else {
-					
-					$content_type_li_class = 'is_home';
-				
-				}
-				
-				$to_pr_2 = "<li class='$content_type_li_class {active_class}' id='page_list_holder_{$item['id']}' >";
-				
-				if ($link != false) {
-					
-					// $to_print = false;
-					
-
-					$to_print = str_ireplace ( '{id}', $item ['id'], $link );
-					
-					$to_print = str_ireplace ( '{content_title}', $item ['content_title'], $to_print );
-					
-					$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
-					
-					if (strstr ( $to_print, '{tn}' )) {
-						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'], 'original' ), $to_print );
-					}
-					foreach ( $item as $item_k => $item_v ) {
-						$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );
-					
-					}
-					
-					if (is_array ( $actve_ids ) == true) {
-						
-						$is_there_active_ids = false;
-						
-						foreach ( $actve_ids as $active_id ) {
-							
-							if (strval ( $item ['id'] ) == strval ( $active_id )) {
-								
-								$is_there_active_ids = true;
-								
-								$to_print = str_ireplace ( '{active_code}', $active_code, $to_print );
-								$to_print = str_ireplace ( '{active_class}', 'active', $to_print );
-								$to_pr_2 = str_ireplace ( '{active_class}', 'active', $to_pr_2 );
-							
-							}
-						
-						}
-						
-						if ($is_there_active_ids == false) {
-							
-							$to_print = str_ireplace ( '{active_code}', '', $to_print );
-							$to_print = str_ireplace ( '{active_class}', '', $to_print );
-							$to_pr_2 = str_ireplace ( '{active_class}', '', $to_pr_2 );
-						
-						}
-					
-					} else {
-						
-						$to_print = str_ireplace ( '{active_code}', '', $to_print );
-						$to_pr_2 = str_ireplace ( '{active_class}', '', $to_pr_2 );
-					
-					}
-					
-					if (is_array ( $remove_ids ) == true) {
-						
-						if (in_array ( $item ['id'], $remove_ids )) {
-							
-							if ($removed_ids_code == false) {
-								
-								$to_print = false;
-							
-							} else {
-								
-								$to_print = str_ireplace ( '{removed_ids_code}', $removed_ids_code, $to_print );
-							
-							}
-						
-						} else {
-							
-							$to_print = str_ireplace ( '{removed_ids_code}', '', $to_print );
-						
-						}
-					
-					}
-					print $to_pr_2;
-					$to_pr_2 = false;
-					print $to_print;
-				
-				} else {
-					print $to_pr_2;
-					$to_pr_2 = false;
-					print $item ['content_title'];
-				
-				}
-				
-				$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name );
-				
-				print "</li>";
-			
-			}
-			
-			print "</ul>";
-		
-		} else {
-		
-		}
-	
-	}
-	
-	function content_helpers_getCaregoriesUlTreeAndCache($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false) {
-		
-		$function_cache_id = false;
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_group = 'taxonomy/global';
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			return $cache_content;
-		
-		} else {
-			
-			$to_cache = $this->content_helpers_getCaregoriesUlTree ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
-			
-			$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
-			
-			return $to_cache;
-		
-		}
-	
-	}
-	
-	/**
-	 * `
-	 *
-	 * Prints the selected categories as an <UL> tree, you might pass several
-	 * options for more flexibility
-	 *
-	 * @param
-	 * array
-	 * 
-	 * @param
-	 * boolean
-	 * 
-	 * @author Peter Ivanov
-	 * 
-	 * @version 1.0
-	 * 
-	 * @since Version 1.0
-	 * 
-	 */
-	
-	function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
-		
-		global $cms_db_tables;
-		
-		$table = $table_taxonomy = $cms_db_tables ['table_taxonomy'];
-		
-		$table_content = $cms_db_tables ['table_content'];
-		
-		if ($content_parent == false) {
-			
-			$content_parent = intval ( 0 );
-			
-			$include_first = false;
-		
-		} else {
-			
-			$content_parent = intval ( $content_parent );
-		
-		}
-		
-		if (! is_array ( $orderby )) {
-			
-			$orderby [0] = 'position';
-			
-			$orderby [1] = 'ASC';
-		
-		}
-		
-		if (! empty ( $remove_ids )) {
-			
-			$remove_ids_q = implode ( ',', $remove_ids );
-			
-			$remove_ids_q = " and id not in ($remove_ids_q) ";
-		
-		} else {
-			
-			$remove_ids_q = false;
-		
-		}
-		
-		if (! empty ( $add_ids )) {
-			
-			$add_ids_q = implode ( ',', $add_ids );
-			
-			$add_ids_q = " and id in ($add_ids_q) ";
-		
-		} else {
-			
-			$add_ids_q = false;
-		
-		}
-		
-		$content_type = addslashes ( $content_type );
-		
-		$inf_loop_fix = "  and $table.id<>$table.parent_id  ";
-		
-		if ($content_type == false) {
-			
-			if ($include_first == true) {
-				
-				$sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
-			
-			} else {
-				
-				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
-			
-			}
-		
-		} else {
-			
-			if ($include_first == true) {
-				
-				$sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
-			
-			} else {
-				
-				$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
-			
-			}
-		
-		}
-		
-		if (empty ( $limit )) {
-			$limit = array (0, 10 );
-		}
-		
-		if (! empty ( $limit )) {
-			
-			$my_offset = $limit [1] - $limit [0];
-			
-			$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
-		
-		} else {
-			
-			$my_limit_q = false;
-		
-		}
-			$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-		// p( $sql );
-		$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
-		//
-		$q = $this->core_model->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/' . intval ( $content_parent ) );
-		// $q = $this->core_model->dbQuery ( $sql, $cache_id =
-		// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
-		// 'taxonomy/' . intval ( $content_parent ) );
-		
-
-		$result = $q;
-		
-		//
-		
-
-		$only_with_content2 = $only_with_content;
-		
-		$do_not_show_next = false;
-		
-		$chosen_categories_array = array ();
-		
-		if (! empty ( $result )) {
-			
-			// $output = "<ul>";
-			
-
-			$i = 0;
-			
-			foreach ( $result as $item ) {
-				
-				$do_not_show = false;
-				
-				if ($only_with_content == true) {
-					
-					$check_in_table_content = false;
-					
-					if (is_array ( $only_with_content ) and ! empty ( $only_with_content )) {
-						
-						$content_ids_of_the_1_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
-						
-						$content_ids_of_the_1_parent_o = $content_ids_of_the_1_parent;
-						
-						if (! empty ( $content_ids_of_the_1_parent )) {
-							
-							$only_with_content3 = array ();
-							
-							$chosen_categories_array = array ();
-							
-							foreach ( $only_with_content2 as $only_with_content2_i ) {
-								
-								$only_with_content2_i = str_ireplace ( '{id}', $item ['id'], $only_with_content2_i );
-								
-								$only_with_content2_i = intval ( $only_with_content2_i );
-								
-								$chosen_categories_array [] = $only_with_content2_i;
-							
-							}
-							
-							if (count ( $chosen_categories_array ) > 1) {
-							
-		// array_shift ( $chosen_categories_array );
-							
-
-							}
-							
-							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
-							
-							$children_of_the_next_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
-							
-							$children_of_the_next_parent_i = implode ( ',', $children_of_the_next_parent );
-							
-							$children_of_the_next_parent_qty = count ( $chosen_categories_array );
-							
-							$q = " 
-							select id , count(to_table_id) as qty from $table_taxonomy where
-                             to_table_id in($children_of_the_next_parent_i) 
-                             and parent_id  IN ($chosen_categories_array_i) 
-                             and taxonomy_type =  'category_item'
-                             group by to_table_id
-                             $my_limit_q
-                         ";
-							
-							// p ( $q );
-							
-
-							// $q = $this->core_model->dbQuery ( $q,
-							// __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
-							$total_count_array = array ();
-							
-							if (! empty ( $q )) {
-								
-								foreach ( $q as $q1 ) {
-									$qty = intval ( $q1 ['qty'] );
-									
-									if (($children_of_the_next_parent_qty) == $qty) {
-										$total_count_array [] = $q1;
-									
-									}
-								
-								}
-							
-							}
-							
-							// $q = intval ( $q [0] ['qty'] );
-							
-
-							$results_count = count ( $total_count_array );
-							
-							/*
-							 * $posts_data = array (); $posts_data
-							 * ['selected_categories'] =
-							 * $chosen_categories_array; $posts_data
-							 * ['strict_category_selection'] = true; if
-							 * ($visible_on_frontend == true) { $posts_data
-							 * ['visible_on_frontend'] = 'y'; } $results_count =
-							 * 1; $posts_data =
-							 * $this->getContentAndCache($posts_data, $orderby =
-							 * false, $limit = array(0,1), $count_only = false,
-							 * $short_data = true, $only_fields = false) ;
-							 */
-							
-							$content_ids_of_the_1_parent_i = implode ( ',', $children_of_the_main_parent );
-							
-							$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
-							
-							/*
-							 * $q = " select count(*) as qty from
-							 * $table_taxonomy where to_table= 'table_content'
-							 * and to_table_id
-							 * in($content_ids_of_the_1_parent_i) and
-							 * content_type = 'post' and parent_id IN
-							 * ($chosen_categories_array_i) and taxonomy_type =
-							 * 'category_item' ;";
-							 */
-							
-							// print $q ;
-							
-
-							/*
-							 * $q = " select to_table_id, count(parent_id) as
-							 * parent_id123 from $table_taxonomy where to_table=
-							 * 'table_content' and content_type = 'post' and
-							 * parent_id IN ($chosen_categories_array_i) and
-							 * taxonomy_type = 'category_item' group by
-							 * to_table_id ;"; //$q = CI::model('core')->dbQuery
-							 * ( $q, md5 ( $q ), 'taxonomy' ); $qty123 =
-							 * array(); if (! empty ( $q )) { //$q = intval ( $q
-							 * [0] ['qty'] ); // $results_count = $q; foreach($q
-							 * as $q1){ if(intval($q1['parent_id123']) ==
-							 * count($chosen_categories_array) ){
-							 * //$results_count = 1; //$qty123[] = $q1; } } }
-							 * else { $results_count = 0; }
-							 */
-							
-							// print "<hr>";
-							
-
-							/*
-							 * if ($q == count ( $categories )) { $strict_ids []
-							 * = $id; } else { $strict_ids [] = 'No such id'; }
-							 */
-							
-							// $posts_data = $this->contentGetByParams (
-							// $posts_data );
-							
-
-							/*
-							 * if (! empty ( $posts_data ['posts'] )) {
-							 * $results_count = count ( $posts_data ['posts'] );
-							 * //print $results_count; } else { $results_count =
-							 * 0; }
-							 */
-							
-							$result [$i] ['content_count'] = $results_count;
-							
-							$item ['content_count'] = $results_count;
-							
-						/*
-							 * $only_with_content3 [] = $item ['id'];
-							 * $only_with_content3 = array_unique (
-							 * $only_with_content3 ); $only_with_content3_i =
-							 * implode ( ',', $only_with_content3 );
-							 * $content_ids_of_the_main_parent_i = implode (
-							 * ',', $content_ids_of_the_1_parent ); if
-							 * ($visible_on_frontend == true) {
-							 * $visible_on_frontend_q = " and to_table_id in
-							 * (select id from $table_content where
-							 * visible_on_frontend='y') "; } $q_1 = "select
-							 * count(*) as qty from $table where content_type =
-							 * 'post' and parent_id in ({$item ['id']}) and
-							 * to_table_id in
-							 * ($content_ids_of_the_main_parent_i)
-							 * $visible_on_frontend_q and to_table_id is not
-							 * null group by to_table_id "; $q_1 =
-							 * CI::model('core')->dbQuery ( $q_1, $cache_id =
-							 * basename ( __FILE__, '.php' ) . __LINE__ . md5 (
-							 * $q_1 ), $cache_group = 'taxonomy' );
-							 * $results_count = intval ( $q_1 [0] ['qty'] );
-							 */
-						
-						} else {
-							
-							$results_count = 0;
-						
-						}
-						
-						$result [$i] ['content_count'] = $results_count;
-						
-						$item ['content_count'] = $results_count;
-					
-					} else {
-						
-						$do_not_show = false;
-					
-					}
-				
-				}
-				
-				$i ++;
-			
-			}
-			
-			if ($content_parent == 2163) {
-			
-			}
-			
-			if ($do_not_show == false) {
-				
-				$print1 = false;
-				
-				if ($ul_class_name == false) {
-					
-					$print1 = "<ul  class='category_tree'>";
-				
-				} else {
-					
-					$print1 = "<ul class='$ul_class_name'>";
-				
-				}
-				
-				print $print1;
-				// print($type);
-				foreach ( $result as $item ) {
-					
-					if ($only_with_content == true) {
-						
-						$do_not_show = false;
-						
-						$check_in_table_content = false;
-						$childern_content = array ();
-						// $childern_content = CI::model('taxonomy')->getItems (
-						// $item ['id'], $type = 'category_item',
-						// $visible_on_frontend, $limit );
-						
-
-						// $childern_content2 = " SELECT "
-						
-
-						$do_not_show = false;
-						// print($type);
-						
-
-						if (! empty ( $childern_content )) {
-							
-							$do_not_show = false;
-							
-						/*
-							 * if (! empty ( $chosen_categories_array )) {
-							 * $posts_data = array (); $posts_data
-							 * ['selected_categories'] =
-							 * $chosen_categories_array; $posts_data
-							 * ['strict_category_selection'] = true; if
-							 * ($visible_on_frontend == true) { $posts_data
-							 * ['visible_on_frontend'] = 'y'; } //$posts_data =
-							 * $this->contentGetByParams ( $posts_data );
-							 * //$posts_data =
-							 * $this->getContentAndCache($posts_data, $orderby =
-							 * false, $limit = array(0,1), $count_only = false,
-							 * $short_data = true, $only_fields = false) ;
-							 * $do_not_show = false; if (! empty ( $posts_data
-							 * ['posts'] )) { //$results_count = count (
-							 * $posts_data ['posts'] ); //$do_not_show = false;
-							 * } else { //$do_not_show = true; } }
-							 */
-						
-						} else {
-							
-							$do_not_show = true;
-						
-						}
-					
-					} else {
-						
-						$do_not_show = false;
-					
-					}
-					
-					if ($do_not_show == false) {
-						
-						$output = $output . $item ['taxonomy_value'];
-						
-						if ($li_class_name == false) {
-							
-							print "<li class='category_element' id='category_item_{$item['id']}'>";
-						
-						} else {
-							
-							print "<li class='$li_class_name' id='category_item_{$item['id']}' >";
-						
-						}
-					
-					}
-					
-					if ($do_not_show == false) {
-						
-						if ($link != false) {
-							
-							$to_print = false;
-							
-							$to_print = str_ireplace ( '{id}', $item ['id'], $link );
-							
-							$to_print = str_ireplace ( '{taxonomy_url}', $this->taxonomy_model->getUrlForIdAndCache ( $item ['id'] ), $to_print );
-							
-							$to_print = str_ireplace ( '{taxonomy_value}', $item ['taxonomy_value'], $to_print );
-							
-							$to_print = str_ireplace ( '{taxonomy_value2}', $item ['taxonomy_value2'], $to_print );
-							
-							$to_print = str_ireplace ( '{taxonomy_value3}', $item ['taxonomy_value3'], $to_print );
-							
-							$to_print = str_ireplace ( '{taxonomy_content_type}', trim ( $item ['taxonomy_content_type'] ), $to_print );
-							
-							$to_print = str_ireplace ( '{content_count}', $item ['content_count'], $to_print );
-							
-							if (intval ( $item ['content_count'] ) == 0) {
-								
-								$to_print = str_ireplace ( '{empty_or_full}', 'empty', $to_print );
-							
-							} else {
-								
-								$to_print = str_ireplace ( '{empty_or_full}', 'full', $to_print );
-							
-							}
-							
-							// print $item ['content_count'];
-							
-
-							if (is_array ( $actve_ids ) == true) {
-								
-								if (in_array ( $item ['id'], $actve_ids )) {
-									
-									$to_print = str_ireplace ( '{active_code}', $active_code, $to_print );
-								
-								} else {
-									
-									$to_print = str_ireplace ( '{active_code}', '', $to_print );
-								
-								}
-							
-							} else {
-								
-								$to_print = str_ireplace ( '{active_code}', '', $to_print );
-							
-							}
-							
-							if (is_array ( $remove_ids ) == true) {
-								
-								if (in_array ( $item ['id'], $remove_ids )) {
-									
-									if ($removed_ids_code == false) {
-										
-										$to_print = false;
-									
-									} else {
-										
-										$to_print = str_ireplace ( '{removed_ids_code}', $removed_ids_code, $to_print );
-									
-									}
-								
-								} else {
-									
-									$to_print = str_ireplace ( '{removed_ids_code}', '', $to_print );
-								
-								}
-							
-							}
-							
-							if (strval ( $to_print ) == '') {
-								
-								print $item ['taxonomy_value'];
-							
-							} else {
-								
-								print $to_print;
-							
-							}
-						
-						} else {
-							
-							print $item ['taxonomy_value'];
-						
-						}
-						
-						// $content_parent, $link = false, $actve_ids = false,
-						// $active_code = false, $remove_ids = false,
-						// $removed_ids_code = false, $ul_class_name = false,
-						// $include_first = false, $content_type = false,
-						// $li_class_name = false) {
-						
-
-						// $li_class_name = false, $add_ids = false, $orderby =
-						// false, $only_with_content = false
-						
-
-						$children_of_the_main_parent1 = $this->taxonomy_model->getChildrensRecursive ( $item ['id'], $type = 'category', $visible_on_frontend = false );
-						// p($children_of_the_main_parent1 );
-						$remove_ids [] = $item ['id'];
-						if (! empty ( $children_of_the_main_parent1 )) {
-							foreach ( $children_of_the_main_parent1 as $children_of_the_main_par ) {
-							
-		// $remove_ids[] = $children_of_the_main_par;
-							// $children = CI::model ( 'content'
-							// )->content_helpers_getCaregoriesUlTree (
-							// $children_of_the_main_par, $link, $actve_ids,
-							// $active_code, $remove_ids, $removed_ids_code,
-							// $ul_class_name, false, $content_type,
-							// $li_class_name, $add_ids, $orderby,
-							// $only_with_content, $visible_on_frontend );
-							
-
-							}
-						}
-						
-						$children = $this->content_model->content_helpers_getCaregoriesUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend );
-						
-						print "</li>";
-					
-					}
-				
-				}
-				
-				print "</ul>";
-			
-			}
-		
-		} else {
-		
-		}
-	
-	}
-	
-	function content_helpers_IsContentInMenu($content_id, $menu_id) {
-		
-		global $cms_db_tables;
-		
-		// $table = $cms_db_tables ['table_content'];
-		
-
-		if (intval ( $content_id ) == 0) {
-			
-			return false;
-		
-		}
-		
-		// var_dump ( $content_id, $menu_id );
-		
-
-		$table = TABLE_PREFIX . 'menus';
-		
-		$orderby [0] = 'updated_on';
-		
-		$orderby [1] = 'DESC';
-		
-		$data = array ();
-		
-		$data ['content_id'] = $content_id;
-		
-		$data ['item_parent'] = $menu_id;
-		
-		$get = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus', false );
-		
-		$get = $get [0];
-		
-		if (! empty ( $get )) {
-			
-			return true;
-		
-		} else {
-			
-			return false;
-		
-		}
-	
-	}
-	
-	function content_pingServersWithNewContent() {
-		
-		if ($_SERVER ["SERVER_NAME"] == 'localhost') {
-			return false;
-		}
-		
-		if ($_SERVER ["SERVER_NAME"] == '127.0.0.1') {
-			return false;
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_content'];
-		
-		$q = " SELECT id, content_title from  $table where is_pinged='n' or is_pinged IS NULL limit 0,1 ";
-		
-		$q = $this->core_model->dbQuery ( $q );
-		
-		if (empty ( $q ) == true) {
-			
-			// print "Nothing to ping! \n\n ";
-			
-
-			return false;
-		
-		}
-		
-		$server = array ('Google' => 'http://blogsearch.google.com/ping/RPC2', 'Feed Burner' => 'http://ping.feedburner.com/', 'Moreover' => 'http://api.moreover.com/RPC2', 'Syndic8' => 'http://ping.syndic8.com/xmlrpc.php', 'BlogRolling' => 'http://rpc.blogrolling.com/pinger/', 'Technorati' => 'http://rpc.technorati.com/rpc/ping', 'Ping-o-Matic!' => 'http://rpc.pingomatic.com/' );
-		
-		$this->load->library ( 'xmlrpc' );
-		
-		foreach ( $server as $line_num => $line ) {
-			
-			$line = trim ( $line );
-			
-			if ($line != '') {
-				
-				if (empty ( $q ) == true) {
-					
-					// print "Nothing to ping2! \n\n ";
-					
-
-					return false;
-				
-				}
-				
-				foreach ( $q as $the_post ) {
-					
-					$q2 = " UPDATE  $table set is_pinged='y' where id='{$the_post['id']}' ";
-					
-					$q2 = $this->core_model->dbQ ( $q2 );
-					
-					$url = $this->getContentURLByIdAndCache ( $the_post ['id'] );
-					
-					$pages = array ();
-					
-					$pages [] = $the_post ['content_title'];
-					
-					$pages [] = $url;
-					
-					$line = trim ( $line );
-					
-					// print "Pinging $line \n\r";
-					
-
-					// $this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
-					
-
-					@$this->xmlrpc->server ( $line, 80 );
-					
-					@$this->xmlrpc->method ( 'weblogUpdates.ping' );
-					
-					// $this->xmlrpc->set_debug(TRUE);
-					
-
-					// $this->xmlrpc->display_response ();
-					
-
-					// print "With: \n\r";
-					
-
-					// print_r ( $pages );
-					
-
-					$request = $pages;
-					
-					$this->xmlrpc->request ( $request );
-					
-					if (! $this->xmlrpc->send_request ()) {
-					
-		// echo $this->xmlrpc->display_error ();
-					
-
-					}
-				
-		// print "\n Done pinging $line \n\r\n\r\n\r\n\r";
-				
-
-				}
-			
-			}
-		
-		}
-	
-	}
-	
-	function mediaGetForContentId($content_id, $media_type = false) {
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		$content_id = intval ( $content_id );
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		$cache_group = 'media/table_content/' . $content_id;
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			if ($cache_content == 'false') {
-				
-				return false;
-			
-			} else {
-				
-				return $cache_content;
-			
-			}
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_media'];
-		
-		$q = "SELECT id FROM $table WHERE to_table = 'table_content'
-
-        AND to_table_id = '$content_id'
-
-        AND media_type = '$media_type'
-
-
-
-
-
-        AND ID is not null ORDER BY media_order ASC";
-		
-		// ($q);
-		
-
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-		
-		$ids = $this->core_model->dbExtractIdsFromArray ( $q );
-		
-		if (! empty ( $ids )) {
-			
-			$media = $this->core_model->mediaGet2 ( false, false, $ids );
-			
-			$this->core_model->cacheWriteAndEncode ( $media, $function_cache_id, $cache_group );
-			
-			// $media = CI::model('core')->mediaGet ( $to_table =
-			// 'table_content', $content_id, $media_type = false, $order =
-			// "ASC", $queue_id = false, $no_cache = false );
-			
-
-			return $media;
-		
-		// $this->template ['videos'] = $media2 ['videos'];
-		
-
-		} else {
-			
-			$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
-		
-		}
-	
-	}
-	
-	function mediaGetIdsForContentId($content_id, $media_type = false) {
-		
-		$args = func_get_args ();
-		
-		foreach ( $args as $k => $v ) {
-			
-			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-		
-		}
-		$content_id = intval ( $content_id );
-		$cache_group = 'media/table_content/' . $content_id;
-		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
-		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-		
-		if (($cache_content) != false) {
-			
-			if ($cache_content == 'false') {
-				
-				return false;
-			
-			} else {
-				
-				return $cache_content;
-			
-			}
-		
-		}
-		
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_media'];
-		
-		$q = "SELECT id FROM $table WHERE to_table = 'table_content'
-
-        AND to_table_id = '$content_id'
-
-        AND media_type = '$media_type'
-
-
-
-
-
-        AND ID is not null ORDER BY media_order ASC";
-		
-		// ($q);
-		
-
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
-		
-		$ids = $this->core_model->dbExtractIdsFromArray ( $q );
-		
-		if (! empty ( $ids )) {
-			
-			$this->core_model->cacheWriteAndEncode ( $ids, $function_cache_id, $cache_group );
-			
-			return $ids;
-		
-		} else {
-			
-			$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
-		
-		}
-	
-	}
+$the_url = getCurentURL ();
 
 }
 
+$function_cache_id = false;
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $the_url . $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+
+if (($cache_content) != false) {
+
+// return $cache_content;
+
+}
+
+if (is_array ( $the_url )) {
+
+$the_page = $the_url;
+
+} else {
+
+$the_pages_nav = array ();
+
+$the_nav = array ();
+
+$the_page = $this->getContentByURL ( $the_url );
+
+}
+
+// $active_categories = CI::model('taxonomy')->getCategoriesForContent (
+// $post ['id'], $return_only_ids = true );
+
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+$the_page_full = $the_page;
+
+$the_pages_nav [] = $the_page ['id'];
+
+$the_page = $the_page ['id'];
+
+if (intval ( $the_page ) != 0) {
+
+if ($the_page_full ['content_type'] == 'post') {
+
+// $parent_ids = $this->getParentPagesIdsForPageIdAndCache (
+// $the_page_full['content_parent'] );
+// p($parent_ids);
+
+} else {
+
+$parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page );
+
+if (! empty ( $parent_ids )) {
+
+foreach ( $parent_ids as $item ) {
+
+$the_pages_nav [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+/*
+* $parent_ids = $this->getParentPagesIdsForPageIdAndCache ( $the_page
+* ); if (! empty ( $parent_ids )) { foreach ( $parent_ids as $item ) {
+* $the_pages_nav [] = $item; } }
+*/
+
+$home_page = $this->getContentHomepage ();
+
+$home_page_url = $this->getContentURLByIdAndCache ( $home_page ['id'] );
+
+if ($include_home == true) {
+
+$temp = array ();
+
+$temp ['content_id'] = $home_page ['id'];
+
+$temp ['title'] = $home_page ['content_title'];
+
+$temp ['url'] = $home_page_url;
+
+$the_nav [] = $temp;
+
+}
+
+$active_categories_for_nav = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $the_page, $the_url );
+
+if (! empty ( $the_pages_nav )) {
+
+$the_pages_nav = array_reverse ( $the_pages_nav );
+
+$categories_already_shown = array ();
+
+$titles_already_shown = array ();
+
+foreach ( $the_pages_nav as $item ) {
+
+$item = intval ( $item );
+
+$home_id = intval ( $home_page ['id'] );
+
+if ($item != $home_id) {
+
+if ($item != 0) {
+
+$page = array ();
+
+$page = $this->contentGetByIdAndCache ( $item );
+
+if ($page ['content_type'] == 'page') {
+
+$page_url = $this->getContentURLByIdAndCache ( $item );
+
+} else {
+
+$page_url = $this->contentGetHrefForPostId ( $item );
+
+}
+
+$temp = array ();
+
+$temp ['content_id'] = $item;
+
+$temp ['title'] = $page ['content_title'];
+
+$temp ['url'] = $page_url;
+
+if (intval ( $page ['content_subtype_value'] ) != 0) {
+
+$temp ['content_subtype_value'] = $page ['content_subtype_value'];
+
+}
+
+// if is post we will get the categories
+
+if ($page ['content_type'] == 'post') {
+
+if ($options ['start_from_category'] != false) {
+
+$some_categories = $this->contentGetActiveCategoriesForPostIdAndCache ( $page ['id'], intval ( $options ['start_from_category'] ) );
+
+} else {
+
+$some_categories = $this->contentGetActiveCategoriesForPostIdAndCache ( $page ['id'] );
+
+}
+
+if (! empty ( $some_categories )) {
+
+$some_categories = array_reverse ( $some_categories );
+
+foreach ( $some_categories as $item ) {
+
+$cat_url = $this->taxonomy_model->getUrlForId ( $item );
+
+$cat_info = $this->taxonomy_model->getSingleItem ( $item );
+
+$cat_temp = array ();
+
+$cat_temp ['taxonomy_id'] = $item;
+
+$cat_temp ['title'] = $cat_info ['taxonomy_value'];
+
+$cat_temp ['url'] = $cat_url;
+
+$categories_already_shown [] = $item;
+
+$titles_already_shown [] = $cat_info ['taxonomy_value'];
+
+// check for dupes
+
+$skip = false;
+
+if (! empty ( $the_nav )) {
+
+foreach ( $the_nav as $nav_item ) {
+
+if ($nav_item ['content_subtype_value'] == $cat_temp ['taxonomy_id']) {
+
+$skip = true;
+
+}
+
+}
+
+}
+
+if ($skip == false) {
+
+$the_nav [] = $cat_temp;
+
+}
+
+}
+
+}
+
+}
+
+$the_nav [] = $temp;
+
+// if (intval ( $page ['content_subtype_value'] ) != 0)
+// {
+
+if ($page ['content_subtype'] == 'dynamic') {
+
+$active_categories = $this->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $the_url, true );
+
+if (! empty ( $active_categories )) {
+
+$active_categories_children = $this->taxonomy_model->getParents ( $active_categories [0] );
+
+if (! empty ( $active_categories_children )) {
+
+$active_categories_children = array_reverse ( $active_categories_children );
+
+$active_categories = $active_categories_children;
+
+}
+
+foreach ( $active_categories as $item ) {
+
+$cat_url = $this->taxonomy_model->getUrlForId ( $item );
+
+$cat_info = $this->taxonomy_model->getSingleItem ( $item );
+
+$cat_temp = array ();
+
+$cat_temp ['taxonomy_id'] = $item;
+
+$categories_already_shown [] = $item;
+
+$titles_already_shown [] = $cat_info ['taxonomy_value'];
+
+$cat_temp ['title'] = $cat_info ['taxonomy_value'];
+
+$cat_temp ['url'] = $cat_url;
+
+// check for dupes
+
+$skip = false;
+
+if (! empty ( $the_nav )) {
+
+foreach ( $the_nav as $nav_item ) {
+
+if ($nav_item ['content_subtype_value'] == $cat_temp ['taxonomy_id']) {
+
+$skip = true;
+
+}
+
+}
+
+}
+
+if ($the_url == $cat_temp ['url']) {
+
+break;
+
+}
+
+if ($skip == false) {
+
+$the_nav [] = $cat_temp;
+
+}
+
+}
+
+}
+
+/*
+* $item = $page ['content_subtype_value'];
+*/
+
+}
+
+// }
+
+// var_dump ( $page );
+
+}
+
+}
+
+}
+
+if (! empty ( $active_categories_for_nav )) {
+
+foreach ( $active_categories_for_nav as $item ) {
+
+if (! in_array ( $item, $categories_already_shown )) {
+
+$categories_already_shown [] = strtolower ( $item );
+
+$cat_url = $this->taxonomy_model->getUrlForId ( $item );
+
+$cat_info = $this->taxonomy_model->getSingleItem ( $item );
+
+$cat_temp = array ();
+
+$cat_temp ['taxonomy_id'] = $item;
+
+if (! in_array ( strtolower ( $cat_info ['taxonomy_value'] ), $titles_already_shown )) {
+
+$cat_temp ['title'] = $cat_info ['taxonomy_value'];
+
+$titles_already_shown [] = $cat_info ['taxonomy_value'];
+
+$cat_temp ['url'] = $cat_url;
+
+$the_nav [] = $cat_temp;
+
+}
+
+}
+
+}
+
+}
+
+}
+
+$the_nav2 = array ();
+$titles_already_shown = array ();
+foreach ( $the_nav as $item ) {
+if (strval ( $item ['title'] ) != '') {
+if (! in_array ( strtolower ( $item ['title'] ), $titles_already_shown )) {
+$titles_already_shown [] = strtolower ( $item ['title'] );
+$the_nav2 [] = $item;
+}
+}
+
+// var_dump($item);
+
+}
+$the_nav = $the_nav2;
+$this->core_model->cacheWriteAndEncode ( $the_nav, $function_cache_id, $cache_group = 'global' );
+
+return $the_nav;
+
+// var_dump ( $content_id, $the_url );
+
+}
+
+function getMenuByMenuUnuqueId($uid) {
+
+$data = false;
+
+$data ['menu_unique_id'] = $uid;
+
+$data ['item_type'] = 'menu';
+
+$data = $this->getMenus ( $data, $orderby = false );
+
+$data = $data [0];
+
+return $data;
+
+}
+function getMenuIdByName($name) {
+$name = trim ( $name );
+
+if ($name == '') {
+return false;
+}
+
+$args = func_get_args ();
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+$data = false;
+
+$data ['menu_unique_id'] = $name;
+
+$data = $this->getMenus ( $data, $orderby = false );
+
+$data = $data [0];
+
+$id = $data ['id'];
+$id = intval ( $id );
+if ($id == 0) {
+$sav = array ();
+$sav ['menu_unique_id'] = $name;
+$sav ['item_type'] = 'menu';
+$id = $this->saveMenu ( $sav );
+
+}
+$this->core_model->cacheWriteAndEncode ( $id, $function_cache_id, $cache_group = 'menus' );
+
+return $id;
+
+}
+function getMenuItemsByMenuUnuqueId($uid, $set_active_to_all = true) {
+
+$check = getCurentURL ();
+
+$function_cache_id = false;
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $check . $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+$data = false;
+
+$data ['menu_unique_id'] = $uid;
+
+$data ['item_type'] = 'menu';
+
+$data = $this->getMenus ( $data, $orderby = false );
+
+$data = $data [0];
+
+$id = $data ['id'];
+
+$itmes = $this->getMenuItems ( $id );
+
+$the_curent_url = $this->uri->uri_string ();
+
+// is slash
+
+$slash = substr ( "$the_curent_url", 0, 1 );
+
+if ($slash == '/') {
+
+$the_curent_url = substr ( "$the_curent_url", 1, strlen ( $the_curent_url ) );
+
+}
+
+// print $the_curent_url;
+
+// print ACTIVE_CONTENT_ID;
+
+$menu_data = array ();
+
+foreach ( $itmes as $item ) {
+
+$data = array ();
+
+$data_to_append = $item;
+
+$data_to_append ['content_id'] = $item ['content_id'];
+
+$data ['id'] = $item ['content_id'];
+
+$content_item = $this->getContentAndCache ( $data, $orderby = false, $limit = array (0, 1 ), $count_only = false, $short_data = true );
+
+$content_item = $content_item [0];
+
+$url = false;
+
+if (! empty ( $content_item )) {
+
+$data_to_append ['title'] = $content_item ['content_title'];
+
+} else {
+
+$data_to_append ['title'] = $item ['item_title'];
+
+}
+
+if (trim ( $data_to_append ['content_title'] ) == '') {
+
+$data_to_append ['content_title'] = $content_item ['content_title'];
+
+}
+
+$data_to_append ['content_id'] = $content_item ['id'];
+
+if (trim ( $data_to_append ['item_title'] ) == '') {
+
+$data_to_append ['item_title'] = $data_to_append ['title'];
+
+}
+
+$url = site_url ( $content_item ['content_url'] );
+
+if ($content_item ['is_home'] == 'y') {
+
+$url = site_url ();
+
+}
+
+if (intval ( $item ['content_id'] ) == 0) {
+
+$url = ($item ['menu_url']);
+
+}
+
+$data_to_append ['url'] = $url;
+
+$is_active = false;
+
+// print $url;
+
+// print site_url ( $the_curent_url );
+
+// print "<hr>";
+
+if ($url == site_url ( $the_curent_url )) {
+
+// $is_active = true;
+
+}
+
+if ($content_item ['is_home'] == 'y') {
+
+// if($the_curent_url = ''){
+
+// $is_active = true;
+
+// }
+
+}
+
+if (intval ( $GLOBALS ['ACTIVE_PAGE_ID'] ) == intval ( $content_item ['id'] )) {
+
+$is_active = true;
+
+}
+
+if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
+
+$is_active = true;
+
+}
+
+$parents = $this->getParentPagesIdsForPageIdAndCache ( ACTIVE_PAGE_ID );
+
+if (! empty ( $parents )) {
+
+foreach ( $parents as $parent ) {
+
+if (intval ( $parent ) == intval ( $content_item ['id'] )) {
+
+$is_active = true;
+
+}
+
+}
+
+}
+
+if (intval ( $item ['content_id'] ) == 0) {
+
+$check = getCurentURL ();
+
+if ($check == $item ['the_url']) {
+
+$is_active = true;
+
+}
+
+}
+
+// check we are on subpage and if the parent is active is active?
+
+$data_to_append ['is_active'] = $is_active;
+
+$menu_data [] = $data_to_append;
+
+}
+
+if ($set_active_to_all == false) {
+
+$i = 0;
+
+$menu_data2 = array ();
+
+$menu_data_to_unset = array ();
+
+foreach ( $menu_data as $item ) {
+
+if ($item ['is_active'] == true) {
+
+$menu_data_to_unset [] = $i;
+
+}
+
+$i ++;
+
+}
+
+if (! empty ( $menu_data_to_unset )) {
+
+array_pop ( $menu_data_to_unset );
+
+if (! empty ( $menu_data_to_unset )) {
+
+foreach ( $menu_data_to_unset as $item ) {
+
+$menu_data [$item] ['is_active'] = false;
+
+}
+
+}
+
+}
+
+}
+
+$this->core_model->cacheWriteAndEncode ( $menu_data, $function_cache_id, $cache_group = 'menus' );
+
+return $menu_data;
+
+}
+function menuTree($menu_id, $maxdepth = false) {
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+$function_cache_id = $function_cache_id . PAGE_ID . POST_ID . MAIN_PAGE_ID;
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+
+if (($cache_content) != false) {
+// p($cache_content);
+return $cache_content;
+
+}
+
+// $data = $this->getMenuItems ( $menu_id );
+// p($data);
+$time_start = microtime_float ();
+
+// Sleep for a while
+
+$time_end = microtime_float ();
+$time = $time_end - $time_start;
+
+$passed_ids = array ();
+
+global $cms_db_tables;
+
+$table_menus = $cms_db_tables ['table_menus'];
+
+$sql = "SELECT id from $table_menus
+where item_parent=$menu_id
+and $table_menus.item_parent<>$table_menus.id
+order by position ASC ";
+// p ( $sql );
+$q = $this->core_model->dbQuery ( $sql, __FUNCTION__ . md5 ( $sql ), 'menus' );
+
+$data = $q;
+if (empty ( $data )) {
+return false;
+}
+// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
+$to_print = '<ul class="menu menu_' . $menu_id . '">';
+$cur_depth = 0;
+foreach ( $data as $item ) {
+$full_item = $this->getMenuItems ( false, $item ['id'] );
+$full_item = $full_item [0];
+//
+
+$active_class = '';
+if ($full_item ['content_id'] == PAGE_ID) {
+$active_class = ' active';
+}
+if ($full_item ['content_id'] == POST_ID) {
+$active_class = ' active';
+}
+
+if ($full_item ['content_id'] == MAIN_PAGE_ID) {
+$active_class = ' active';
+}
+$thecontent_title = $this->contentGetById ( $full_item ['content_id'] );
+$active_class_titl = $this->core_model->url_title ( strtolower ( $thecontent_title ['content_title'] ) );
+
+if ($full_item ['item_title'] == '') {
+$full_item ['item_title'] = $full_item ['id'];
+}
+
+if (trim ( strval ( $full_item ['the_url'] ) ) == '') {
+$full_item ['the_url'] = $this->getContentURLByIdAndCache ( $full_item ['content_id'] );
+}
+
+// p ( $full_item );
+
+$to_print .= '<li class="menu_element ' . $active_class_titl . ' ' . $active_class . '" id="menu_item_' . $item ['id'] . '"><a class="menu_element_link ' . $active_class_titl . ' ' . $active_class . '" href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
+
+if (in_array ( $item ['id'], $passed_ids ) == false) {
+
+if ($maxdepth == false) {
+$test1 = $this->menuTree ( $item ['id'] );
+if (strval ( $test1 ) != '') {
+$to_print .= strval ( $test1 );
+}
+} else {
+
+if (($maxdepth != false) and ($cur_depth <= $maxdepth)) {
+$test1 = $this->menuTree ( $item ['id'] );
+if (strval ( $test1 ) != '') {
+$to_print .= strval ( $test1 );
+}
+
+}
+}
+}
+
+$passed_ids [] = $item ['id'];
+// }
+// }
+$cur_depth ++;
+}
+
+// print "[[ $time ]]seconds\n";
+$to_print .= '</ul>';
+$this->core_model->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
+return $to_print;
+}
+function getMenuItemById($id) {
+$id = $this->getMenuItems ( $menu_id = false, $id );
+$id = $id [0];
+return $id;
+
+}
+function getMenuItems($menu_id = false, $id = false) {
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+global $cms_db_tables;
+
+$table_menus = $cms_db_tables ['table_menus'];
+
+$table_content = $cms_db_tables ['table_content'];
+
+$data = false;
+if ($id == false) {
+$data ['item_parent'] = $menu_id;
+$data ['item_type'] = 'menu_item';
+} else {
+$data ['id'] = $id;
+}
+
+$orderby = array ();
+
+$orderby [0] = 'position';
+
+$orderby [1] = 'asc';
+
+$data = $this->getMenus ( $data, $orderby );
+
+$return = array ();
+
+foreach ( $data as $item ) {
+
+if (intval ( $item ['content_id'] ) == 0) {
+
+}
+
+// $menu_item = $item;
+
+if ($item ['content_id'] != 0) {
+
+$check_if_this_is_page_or_post = array ();
+
+$check_if_this_is_page_or_post ['id'] = $item ['content_id'];
+
+$check_if_this_is_page_or_post ['only_those_fields'] = array ('content_type', 'id' );
+
+// //
+
+$check_if_this_is_page_or_post = $this->getContentAndCache ( $check_if_this_is_page_or_post, $orderby = false, $limit = false, $count_only = false, $short_data = true );
+
+$check_if_this_is_page_or_post = $check_if_this_is_page_or_post [0] ['content_type'];
+
+if ($check_if_this_is_page_or_post == 'post') {
+
+$url = $this->contentGetHrefForPostId ( $item ['content_id'] );
+
+}
+
+if ($check_if_this_is_page_or_post == 'page') {
+
+$url = $this->getContentURLByIdAndCache ( $item ['content_id'] );
+
+}
+
+if (intval ( $item ['content_id'] ) != 0) {
+
+if (strval ( $item ['item_title'] ) == '') {
+
+$q = " select content_title from $table_content where id={$item ['content_id']}  limit 0,1 ";
+
+$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'content/' . $item ['content_id'] );
+
+$fix_title = $q [0] ['content_title'];
+
+// print $fix_title;
+
+$item ['item_title'] = $fix_title;
+
+$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
+
+$this->core_model->dbQ ( $q );
+
+// var_Dump ( $q );
+
+// exit ();
+
+}
+
+}
+
+}
+
+elseif ($item ['taxonomy_id'] != 0) {
+
+if (strval ( $item ['item_title'] ) == '') {
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+$get_taxonomy = $this->taxonomy_model->getSingleItem ( $item ['taxonomy_id'] );
+
+$fix_title = $get_taxonomy ['taxonomy_value'];
+
+$item ['item_title'] = $fix_title;
+
+$q = "update $table_menus set item_title='$fix_title' where id={$item['id']}";
+
+$this->core_model->dbQ ( $q );
+
+// var_Dump ( $q );
+
+// exit ();
+
+}
+
+//
+
+$url = $this->taxonomy_model->getUrlForId ( $item ['taxonomy_id'] );
+
+} else {
+
+$url = trim ( $item ['menu_url'] );
+
+}
+
+$item ['the_url'] = $url;
+
+// $sub_items = $this->content_model->getMenuItems($item ['id']);
+
+if (! empty ( $sub_items )) {
+// $item ['submenu'] = $sub_items;
+
+}
+
+$return [] = $item;
+
+}
+
+$this->core_model->cacheWriteAndEncode ( $return, $function_cache_id, 'menus' );
+
+return $return;
+
+}
+
+function menusGetThumbnailImageById($id, $size = 128, $direction = "DESC") {
+
+// $data ['id'] = $id;
+
+// $data = CI::model('taxonomy')->taxonomyGet ( $data );
+
+// var_dump ( $data );
+
+$data = $this->core_model->mediaGetThumbnailForItem ( $to_table = 'table_menus', $to_table_id = $id, $size, $direction );
+
+return $data;
+
+}
+
+function getMenuItemsByMenuName($name) {
+
+// var_dump ( ACTIVE_PAGE_ID );
+// var_dump ( PAGE_ID );
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id ) . ACTIVE_PAGE_ID;
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+$data = false;
+
+$data ['item_title'] = $name;
+
+$data ['item_type'] = 'menu';
+
+$orderby = array ();
+
+$orderby [0] = 'position';
+
+$orderby [1] = 'asc';
+
+$data = $this->getMenus ( $data, $orderby );
+
+$the_menu = $data [0];
+
+if (empty ( $the_menu )) {
+$data = false;
+
+$data ['menu_unique_id'] = $name;
+
+$data ['item_type'] = 'menu';
+
+$orderby = array ();
+
+$orderby [0] = 'position';
+
+$orderby [1] = 'asc';
+
+$data = $this->getMenus ( $data, $orderby );
+if (! empty ( $data )) {
+$the_menu = $data [0];
+}
+}
+
+$the_menu = $this->getMenuItems ( $the_menu ['id'] );
+
+$the_curent_url = $this->uri->uri_string ();
+
+// is slash
+
+$slash = substr ( "$the_curent_url", 0, 1 );
+
+if ($slash == '/') {
+
+$the_curent_url = substr ( "$the_curent_url", 1, strlen ( $the_curent_url ) );
+
+}
+
+// print $the_curent_url;
+
+// print ACTIVE_CONTENT_ID;
+
+$menu_data = array ();
+
+foreach ( $the_menu as $item ) {
+
+$data = array ();
+
+$data_to_append = array ();
+
+$data ['id'] = $item ['content_id'];
+
+//
+
+$content_item = $this->getContent ( $data, $orderby = false, $limit = false, $count_only = false, $short_data = true );
+
+$content_item = $content_item [0];
+
+$url = false;
+
+if (! empty ( $content_item )) {
+
+$data_to_append ['title'] = $content_item ['content_title'];
+
+} else {
+
+$data_to_append ['title'] = $item ['item_title'];
+
+}
+
+$url = site_url ( $content_item ['content_url'] );
+
+if ($content_item ['is_home'] == 'y') {
+
+$url = site_url ();
+
+}
+
+if (intval ( $item ['content_id'] ) == 0) {
+
+$url = ($item ['menu_url']);
+
+}
+
+$data_to_append ['url'] = $url;
+
+$is_active = false;
+
+// print $url;
+
+// print site_url ( $the_curent_url );
+
+// print "<hr>";
+
+if ($url == site_url ( $the_curent_url )) {
+
+// $is_active = true;
+
+}
+
+if ($content_item ['is_home'] == 'y') {
+
+// if($the_curent_url = ''){
+
+// $is_active = true;
+
+// }
+
+}
+
+if (intval ( ACTIVE_PAGE_ID ) == intval ( $content_item ['id'] )) {
+
+$is_active = true;
+
+}
+
+if (intval ( ACTIVE_PAGE_ID ) == intval ( $item ['content_id'] )) {
+
+$is_active = true;
+
+}
+
+if (intval ( $item ['content_id'] ) == 0) {
+
+$check = getCurentURL ();
+
+if ($check == $item ['menu_url']) {
+
+$is_active = true;
+
+}
+
+}
+
+$data_to_append ['is_active'] = $is_active;
+
+$menu_data [] = $data_to_append;
+
+}
+
+// $
+
+// var_dump ( $menu_data );
+
+$this->core_model->cacheWriteAndEncode ( $menu_data, $function_cache_id );
+
+return $menu_data;
+
+}
+
+function reorderMenuItem($direction, $id) {
+
+$this->fixMenusPositions ();
+
+if (intval ( $id ) == 0) {
+
+// $this->fixMenusPositions ();
+
+return false;
+
+}
+
+$data = false;
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+$data ['id'] = $id;
+
+$data = $this->getMenus ( $data );
+
+$data = $data [0];
+
+if (empty ( $data )) {
+
+$this->fixMenusPositions ();
+
+return false;
+
+} else {
+
+$curent_item = $data;
+
+}
+
+// get next
+
+$data = false;
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+$data ['item_parent'] = $curent_item ['item_parent'];
+
+$data ['item_type'] = $curent_item ['item_type'];
+
+$data ['position'] = intval ( $curent_item ['position'] ) + 1;
+
+$data = $this->getMenus ( $data );
+
+$next_item = $data [0];
+
+// get prev
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+$data = false;
+
+$data ['item_parent'] = $curent_item ['item_parent'];
+
+$data ['item_type'] = $curent_item ['item_type'];
+
+$data ['position'] = intval ( $curent_item ['position'] ) - 1;
+
+$data = $this->getMenus ( $data );
+
+$prev_item = $data [0];
+
+if ($direction == 'up') {
+
+if (empty ( $prev_item )) {
+
+$this->fixMenusPositions ();
+
+return false;
+
+} else {
+
+// update curent
+
+$table = TABLE_PREFIX . 'menus';
+
+$q = "UPDATE $table set position={$prev_item['position']} where id={$curent_item ['id']}   ";
+
+$sql_q = $this->core_model->dbQ ( $q );
+
+$q = "UPDATE $table set position={$curent_item['position']} where id={$prev_item['id']}   ";
+
+$sql_q = $this->core_model->dbQ ( $q );
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+$this->fixMenusPositions ();
+
+return true;
+
+}
+
+}
+
+if ($direction == 'down') {
+
+if (empty ( $next_item )) {
+
+$this->fixMenusPositions ();
+
+return false;
+
+} else {
+
+$table = TABLE_PREFIX . 'menus';
+
+$q = "UPDATE $table set position={$next_item['position']} where id={$curent_item ['id']}   ";
+
+$sql_q = $this->core_model->dbQ ( $q );
+
+$q = "UPDATE $table set position={$curent_item['position']} where id={$next_item['id']}   ";
+
+$sql_q = $this->core_model->dbQ ( $q );
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+$this->fixMenusPositions ();
+
+return true;
+
+}
+
+}
+
+}
+
+/**
+*
+*
+*
+*
+*
+*
+*
+* fix Menus Positions
+*
+* @author Peter Ivanov
+*
+*
+*
+*/
+
+function fixMenusPositions($menu_id = false) {
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_menus'];
+
+$table_content = $cms_db_tables ['table_content'];
+
+// $table = TABLE_PREFIX . 'menus';
+
+// get all menus
+
+if ($menu_id == false) {
+$sql = "SELECT * from $table where item_type='menu'  ";
+} else {
+$sql = $sql = "SELECT id from $table where item_parent=$menu_id  and $table.item_parent<>$table.id  ";
+}
+$q = $this->core_model->sqlQuery ( $sql );
+
+$results = $q;
+
+foreach ( $results as $item ) {
+
+$sql = "SELECT * from $table where   item_parent='{$item['id']}' order by position ASC ";
+
+$q = $this->core_model->sqlQuery ( $sql );
+
+$i = 1;
+
+foreach ( $q as $menu_item ) {
+
+$query = " update $table set position=$i where id={$menu_item['id']} ";
+
+$query = $this->db->query ( $query );
+
+$i ++;
+
+}
+
+}
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+return true;
+
+}
+
+function removeContentFromUnusedMenus($content_id, $menus_array) {
+
+if (empty ( $menus_array )) {
+
+return false;
+
+}
+
+$table = TABLE_PREFIX . 'menus';
+
+$menus_array = implode ( ',', $menus_array );
+
+$q = "DELETE FROM $table where content_id=$content_id and item_parent NOT IN ($menus_array)  ";
+// p($q);
+$sql_q = $this->db->query ( $q );
+
+$this->core_model->cleanCacheGroup ( 'menus' );
+
+return true;
+
+}
+
+function metaTagsGenerateByContentId($id, $posts_data = false, $selected_taxonomy = false) {
+
+$function_cache_id = false;
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$content_id = intval ( $id );
+$cache_group = 'content/' . $content_id;
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+if (! empty ( $selected_taxonomy )) {
+
+$selected_taxonomy_titles = array ();
+
+$selected_taxonomy_descs = array ();
+
+// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString (
+// $data, 3 );
+
+// $meta ['content_meta_keywords'] = $data;
+
+foreach ( $selected_taxonomy as $the_taxonomy ) {
+
+$the_taxonomy_full = $this->taxonomy_model->getSingleItem ( $the_taxonomy );
+
+$selected_taxonomy_titles [] = $the_taxonomy_full ['taxonomy_value'];
+
+$selected_taxonomy_descs [] = $the_taxonomy_full ['taxonomy_description'];
+
+}
+
+$meta = array ();
+
+$meta ["content_meta_title"] = implode ( ', ', $selected_taxonomy_titles );
+
+$meta ["content_meta_description"] = implode ( ', ', $selected_taxonomy_descs );
+
+// $keyrods = CI::model('taxonomy')->taxonomyGenerateTagsFromString
+// ( implode ( ', ', $selected_taxonomy_descs ), 3 );
+
+$meta ["content_meta_keywords"] = $keyrods;
+
+$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
+
+return $meta;
+
+}
+
+$data ['id'] = $id;
+
+// ($data, $orderby = false, $limit = false, $count_only = false,
+// $short_data = false, $only_fields = false)
+
+$only_fields = array ();
+
+$only_fields [] = 'content_meta_title';
+
+$only_fields [] = 'content_meta_description';
+
+$only_fields [] = 'content_meta_keywords';
+
+$only_fields [] = 'content_meta_other_code';
+
+$only_fields [] = 'content_subtype';
+
+$only_fields [] = 'content_subtype_value';
+
+$only_fields [] = 'content_subtype';
+
+$only_fields [] = 'content_title';
+
+$only_fields [] = 'content_body';
+
+$data = $this->getContentAndCache ( $data, $orderby = false, $limit = array (0, 1 ), $count_only = false, $short_data = true, $only_fields = $only_fields );
+
+$data = $data [0];
+
+$content = $data;
+
+$meta = array ();
+
+if (empty ( $data )) {
+
+$meta = array ();
+
+$meta ["content_meta_title"] = $content ['content_title'];
+
+$meta ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->core_model->optionsGetByKey ( 'content_meta_title' );
+
+$meta ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->core_model->optionsGetByKey ( 'content_meta_description' );
+
+$meta ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->core_model->optionsGetByKey ( 'content_meta_keywords' );
+
+$meta ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->core_model->optionsGetByKey ( 'content_meta_other_code' );
+
+$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
+
+return $meta;
+
+} else {
+
+$meta = array ();
+
+if ($content ['content_meta_title'] != '') {
+
+$meta ['content_meta_title'] = $content ['content_meta_title'];
+
+} else {
+
+$data = trim ( $content ['content_title'] );
+
+$data = htmlspecialchars_decode ( $data );
+
+$data = strip_tags ( $data );
+
+$data = str_ireplace ( '&nbsp;', ' ', $data );
+
+$data = reduce_multiples ( $data );
+
+$data = strip_quotes ( $data );
+
+$data = addslashes ( $data );
+
+$data = mb_trim ( $data );
+
+$data = trim ( $data );
+
+$meta ['content_meta_title'] = $data;
+
+}
+
+if ($content ['content_meta_description'] != '') {
+
+$meta ['content_meta_description'] = $content ['content_meta_description'];
+
+} else {
+
+$data = trim ( $content ['content_body'] );
+
+$data = htmlspecialchars_decode ( $data );
+
+$data = strip_tags ( $data );
+
+$data = str_ireplace ( '&nbsp;', ' ', $data );
+
+$data = reduce_multiples ( $data );
+
+$data = strip_quotes ( $data );
+
+$data = addslashes ( $data );
+
+$data = mb_trim ( $data );
+
+$data = trim ( $data );
+
+$data = word_limiter ( $data, 20, '...' );
+
+$meta ['content_meta_description'] = $data;
+
+}
+
+if ($content ['content_meta_keywords'] != '') {
+
+$meta ['content_meta_keywords'] = $content ['content_meta_keywords'];
+
+} else {
+
+$data = trim ( $content ['content_body_nohtml'] );
+
+// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString
+// ( $data, 3 );
+
+$meta ['content_meta_keywords'] = $data;
+
+if ($meta ['content_meta_keywords'] == '') {
+
+if ($content ['content_subtype'] == 'dynamic') {
+
+$temp = $this->taxonomy_model->getChildrensRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
+
+if (! empty ( $temp )) {
+
+$taxonomy_tree = array ();
+
+foreach ( $temp as $tax_id ) {
+
+$temp_data = $this->taxonomy_model->getSingleItem ( $tax_id );
+
+$taxonomy_tree [] = trim ( $temp_data ['taxonomy_value'] );
+
+}
+
+$taxonomy_tree = array_unique ( $taxonomy_tree );
+
+$taxonomy_tree = implode ( ', ', $taxonomy_tree );
+
+$meta ['content_meta_keywords'] = $taxonomy_tree;
+
+if ($meta ['content_meta_description'] == '') {
+
+$meta ['content_meta_description'] = $meta ['content_meta_keywords'];
+
+}
+
+if (! empty ( $posts_data )) {
+
+$temp_data = $this->taxonomy_model->getSingleItem ( $selected_taxonomy [0] );
+
+$meta ['content_meta_title'] = $temp_data ['taxonomy_value'];
+
+$categories = array ();
+
+foreach ( $posts_data as $thepost ) {
+
+$keyword_calculate = $keyword_calculate . ' ' . $thepost ['content_title'] . ' ' . $thepost ['content_body'];
+
+}
+
+// $keyword_calculate = CI::model ( 'taxonomy'
+// )->taxonomyGenerateTagsFromString (
+// $keyword_calculate );
+
+// $keyword_calculate = word_limiter (
+// $keyword_calculate, 40, ' ' );
+
+// $meta ['content_meta_keywords'] =
+// $keyword_calculate;
+
+if ($meta ['content_meta_description'] == '') {
+
+$meta ['content_meta_description'] = $meta ['content_meta_keywords'];
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+$this->core_model->cacheWriteAndEncode ( $meta, $function_cache_id, $cache_group );
+
+return $meta;
+
+}
+
+}
+
+function contentGetRecomendedPosts($post_id, $how_much = 5) {
+
+$function_cache_id = serialize ( $post_id ) . serialize ( $how_much );
+
+$function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
+
+$content_id = intval ( $post_id );
+$cache_group = 'content/' . $content_id;
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+}
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_content'];
+
+$post = $this->contentGetByIdAndCache ( $post_id );
+
+if (empty ( $post )) {
+
+return false;
+
+} else {
+
+// var_dump ( $post ["content_title"] );
+
+$post ["content_title"] = str_ireplace ( '(', '', $post ["content_title"] );
+
+$post ["content_title"] = str_ireplace ( ')', '', $post ["content_title"] );
+
+$post ["content_title"] = str_ireplace ( '`', '', $post ["content_title"] );
+
+$post ["content_title"] = str_ireplace ( '"', '', $post ["content_title"] );
+
+$post ["content_title"] = str_ireplace ( '\'', '', $post ["content_title"] );
+
+$keywords_array = explode ( ' ', $post ["content_title"] );
+
+$keywords_array_new = array ();
+
+foreach ( $keywords_array as $kw ) {
+
+if (mb_strlen ( $kw ) > 4) {
+
+$keywords_array_new [] = $kw;
+
+}
+
+}
+
+$keywords_array = $keywords_array_new;
+
+$keywords_array_original = $keywords_array;
+
+$the_results_to_return = array ();
+
+for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
+
+// echo $i;
+
+$fruit = array_pop ( $keywords_array );
+
+$search_string = implode ( ' ', $keywords_array );
+
+$search_string = str_ireplace ( '-', ' ', $search_string );
+
+$search_string = str_ireplace ( '  ', ' ', $search_string );
+
+$search_string = str_ireplace ( ' ', '+', $search_string );
+
+$only_in_those_table_fields = array ();
+
+$only_in_those_table_fields [] = 'content_title';
+
+if ($search_string != '') {
+
+$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
+
+if (! empty ( $search_in_content )) {
+
+foreach ( $search_in_content as $item ) {
+
+$the_results_to_return [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+$keywords_array = $keywords_array_original;
+
+shuffle ( $keywords_array );
+
+for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
+
+$fruit = array_pop ( $keywords_array );
+
+$search_string = implode ( ' ', $keywords_array );
+
+$search_string = str_ireplace ( '-', ' ', $search_string );
+
+$search_string = str_ireplace ( '  ', ' ', $search_string );
+
+$search_string = str_ireplace ( ' ', '+', $search_string );
+
+$only_in_those_table_fields = array ();
+
+$only_in_those_table_fields [] = 'content_title';
+
+if ($search_string != '') {
+
+$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
+
+if (! empty ( $search_in_content )) {
+
+foreach ( $search_in_content as $item ) {
+
+$the_results_to_return [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+$keywords_array = $keywords_array_original;
+
+shuffle ( $keywords_array );
+
+for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
+
+$fruit = array_pop ( $keywords_array );
+
+$search_string = implode ( ' ', $keywords_array );
+
+$search_string = str_ireplace ( '-', ' ', $search_string );
+
+$search_string = str_ireplace ( '  ', ' ', $search_string );
+
+$search_string = str_ireplace ( ' ', '+', $search_string );
+
+$only_in_those_table_fields = array ();
+
+$only_in_those_table_fields [] = 'content_title';
+
+if ($search_string != '') {
+
+$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
+
+if (! empty ( $search_in_content )) {
+
+foreach ( $search_in_content as $item ) {
+
+$the_results_to_return [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+$keywords_array = $keywords_array_original;
+
+shuffle ( $keywords_array );
+
+for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
+
+$fruit = array_pop ( $keywords_array );
+
+$search_string = implode ( ' ', $keywords_array );
+
+$search_string = str_ireplace ( '-', ' ', $search_string );
+
+$search_string = str_ireplace ( '  ', ' ', $search_string );
+
+$search_string = str_ireplace ( ' ', '+', $search_string );
+
+$only_in_those_table_fields = array ();
+
+$only_in_those_table_fields [] = 'content_title';
+
+if ($search_string != '') {
+
+$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
+
+if (! empty ( $search_in_content )) {
+
+foreach ( $search_in_content as $item ) {
+
+$the_results_to_return [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+$keywords_array = $keywords_array_original;
+
+shuffle ( $keywords_array );
+
+for($i = 0; $i <= count ( $keywords_array ) - 1; $i ++) {
+
+$fruit = array_pop ( $keywords_array );
+
+$search_string = implode ( ' ', $keywords_array );
+
+$search_string = str_ireplace ( '-', ' ', $search_string );
+
+$search_string = str_ireplace ( '  ', ' ', $search_string );
+
+$search_string = str_ireplace ( ' ', '+', $search_string );
+
+$only_in_those_table_fields = array ();
+
+$only_in_those_table_fields [] = 'content_title';
+
+if ($search_string != '') {
+
+$search_in_content = $this->core_model->dbRegexpSearch ( $table, $search_string, $only_in_ids = false, $only_in_those_table_fields = $only_in_those_table_fields );
+
+if (! empty ( $search_in_content )) {
+
+foreach ( $search_in_content as $item ) {
+
+$the_results_to_return [] = $item;
+
+}
+
+}
+
+}
+
+}
+
+// }
+
+}
+
+$the_results_to_return_revalency = array ();
+
+foreach ( $the_results_to_return as $item ) {
+
+if (intval ( $item ) != intval ( $post_id )) {
+
+$the_results_to_return_revalency [$item] = intval ( $the_results_to_return_revalency [$item] ) + 1;
+
+}
+
+}
+
+arsort ( $the_results_to_return_revalency );
+
+$posts = array ();
+
+$i = 1;
+
+foreach ( $the_results_to_return_revalency as $k => $v ) {
+
+if ($i > $how_much) {
+
+} else {
+
+$post = $this->contentGetByIdAndCache ( $k );
+
+$posts [] = $post;
+
+}
+
+$i ++;
+
+}
+
+if ($posts != '') {
+
+$this->core_model->cacheWriteAndEncode ( $posts, $function_cache_id, $cache_group );
+
+return $posts;
+
+} else {
+
+return false;
+
+}
+
+return $posts;
+
+// var_dump ( $the_results_to_return_revalency );
+
+}
+
+function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_content'];
+
+if ($content_parent == false) {
+
+$content_parent = (0);
+
+}
+if ($include_first == true) {
+$sql = "SELECT * from $table where  id=$content_parent    and content_type='page'  order by updated_on desc ";
+
+} else {
+
+$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
+
+}
+// p($sql);
+$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
+
+$q = $this->core_model->dbQuery ( $sql );
+
+$result = $q;
+
+if (! empty ( $result )) {
+
+// $output = "<ul>";
+
+if ($ul_class_name == false) {
+print "<ul>";
+} else {
+print "<ul class='{$ul_class_name}'>";
+}
+
+foreach ( $result as $item ) {
+// $item ['content_title'] = htmlspecialchars_decode ( $item
+// ['content_title'], ENT_QUOTES );
+
+// $item ['content_title'] = strip_tags ( $item
+// ['content_title'] );
+
+$output = $output . $item ['content_title'];
+
+$content_type_li_class = false;
+
+if ($item ['is_home'] != 'y') {
+
+switch ($item ['content_subtype']) {
+
+case 'dynamic' :
+
+$content_type_li_class = 'is_category';
+
+break;
+
+case 'module' :
+
+$content_type_li_class = 'is_module';
+
+break;
+
+default :
+
+$content_type_li_class = 'is_page';
+
+break;
+
+}
+
+} else {
+
+$content_type_li_class = 'is_home';
+
+}
+
+$to_pr_2 = "<li class='$content_type_li_class {active_class}' id='page_list_holder_{$item['id']}' >";
+
+if ($link != false) {
+
+// $to_print = false;
+
+$to_print = str_ireplace ( '{id}', $item ['id'], $link );
+
+$to_print = str_ireplace ( '{content_title}', $item ['content_title'], $to_print );
+
+$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
+
+if (strstr ( $to_print, '{tn}' )) {
+$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'], 'original' ), $to_print );
+}
+foreach ( $item as $item_k => $item_v ) {
+$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );
+
+}
+
+if (is_array ( $actve_ids ) == true) {
+
+$is_there_active_ids = false;
+
+foreach ( $actve_ids as $active_id ) {
+
+if (strval ( $item ['id'] ) == strval ( $active_id )) {
+
+$is_there_active_ids = true;
+
+$to_print = str_ireplace ( '{active_code}', $active_code, $to_print );
+$to_print = str_ireplace ( '{active_class}', 'active', $to_print );
+$to_pr_2 = str_ireplace ( '{active_class}', 'active', $to_pr_2 );
+
+}
+
+}
+
+if ($is_there_active_ids == false) {
+
+$to_print = str_ireplace ( '{active_code}', '', $to_print );
+$to_print = str_ireplace ( '{active_class}', '', $to_print );
+$to_pr_2 = str_ireplace ( '{active_class}', '', $to_pr_2 );
+
+}
+
+} else {
+
+$to_print = str_ireplace ( '{active_code}', '', $to_print );
+$to_pr_2 = str_ireplace ( '{active_class}', '', $to_pr_2 );
+
+}
+
+if (is_array ( $remove_ids ) == true) {
+
+if (in_array ( $item ['id'], $remove_ids )) {
+
+if ($removed_ids_code == false) {
+
+$to_print = false;
+
+} else {
+
+$to_print = str_ireplace ( '{removed_ids_code}', $removed_ids_code, $to_print );
+
+}
+
+} else {
+
+$to_print = str_ireplace ( '{removed_ids_code}', '', $to_print );
+
+}
+
+}
+print $to_pr_2;
+$to_pr_2 = false;
+print $to_print;
+
+} else {
+print $to_pr_2;
+$to_pr_2 = false;
+print $item ['content_title'];
+
+}
+
+$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name );
+
+print "</li>";
+
+}
+
+print "</ul>";
+
+} else {
+
+}
+
+}
+
+function content_helpers_getCaregoriesUlTreeAndCache($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false) {
+
+$function_cache_id = false;
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+$cache_group = 'taxonomy/global';
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+
+if (($cache_content) != false) {
+
+return $cache_content;
+
+} else {
+
+$to_cache = $this->content_helpers_getCaregoriesUlTree ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
+
+$this->core_model->cacheWriteAndEncode ( $to_cache, $function_cache_id, $cache_group );
+
+return $to_cache;
+
+}
+
+}
+
+/**
+* `
+*
+* Prints the selected categories as an <UL> tree, you might pass several
+* options for more flexibility
+*
+* @param
+* array
+*
+* @param
+* boolean
+*
+* @author Peter Ivanov
+*
+* @version 1.0
+*
+* @since Version 1.0
+*
+*/
+
+function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
+
+global $cms_db_tables;
+
+$table = $table_taxonomy = $cms_db_tables ['table_taxonomy'];
+
+$table_content = $cms_db_tables ['table_content'];
+
+if ($content_parent == false) {
+
+$content_parent = intval ( 0 );
+
+$include_first = false;
+
+} else {
+
+$content_parent = intval ( $content_parent );
+
+}
+
+if (! is_array ( $orderby )) {
+
+$orderby [0] = 'position';
+
+$orderby [1] = 'ASC';
+
+}
+
+if (! empty ( $remove_ids )) {
+
+$remove_ids_q = implode ( ',', $remove_ids );
+
+$remove_ids_q = " and id not in ($remove_ids_q) ";
+
+} else {
+
+$remove_ids_q = false;
+
+}
+
+if (! empty ( $add_ids )) {
+
+$add_ids_q = implode ( ',', $add_ids );
+
+$add_ids_q = " and id in ($add_ids_q) ";
+
+} else {
+
+$add_ids_q = false;
+
+}
+
+$content_type = addslashes ( $content_type );
+
+$inf_loop_fix = "  and $table.id<>$table.parent_id  ";
+
+if ($content_type == false) {
+
+if ($include_first == true) {
+
+$sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+
+} else {
+
+$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+
+}
+
+} else {
+
+if ($include_first == true) {
+
+$sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+
+} else {
+
+$sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+
+}
+
+}
+
+if (empty ( $limit )) {
+$limit = array (0, 10 );
+}
+
+if (! empty ( $limit )) {
+
+$my_offset = $limit [1] - $limit [0];
+
+$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
+
+} else {
+
+$my_limit_q = false;
+
+}
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+// p( $sql );
+$children_of_the_main_parent = $this->taxonomy_model->getItems ( $content_parent, $type = 'category_item', $visible_on_frontend, $limit );
+//
+$q = $this->core_model->dbQuery ( $sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ), 'taxonomy/' . intval ( $content_parent ) );
+// $q = $this->core_model->dbQuery ( $sql, $cache_id =
+// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
+// 'taxonomy/' . intval ( $content_parent ) );
+
+$result = $q;
+
+//
+
+$only_with_content2 = $only_with_content;
+
+$do_not_show_next = false;
+
+$chosen_categories_array = array ();
+
+if (! empty ( $result )) {
+
+// $output = "<ul>";
+
+$i = 0;
+
+foreach ( $result as $item ) {
+
+$do_not_show = false;
+
+if ($only_with_content == true) {
+
+$check_in_table_content = false;
+
+if (is_array ( $only_with_content ) and ! empty ( $only_with_content )) {
+
+$content_ids_of_the_1_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
+
+$content_ids_of_the_1_parent_o = $content_ids_of_the_1_parent;
+
+if (! empty ( $content_ids_of_the_1_parent )) {
+
+$only_with_content3 = array ();
+
+$chosen_categories_array = array ();
+
+foreach ( $only_with_content2 as $only_with_content2_i ) {
+
+$only_with_content2_i = str_ireplace ( '{id}', $item ['id'], $only_with_content2_i );
+
+$only_with_content2_i = intval ( $only_with_content2_i );
+
+$chosen_categories_array [] = $only_with_content2_i;
+
+}
+
+if (count ( $chosen_categories_array ) > 1) {
+
+// array_shift ( $chosen_categories_array );
+
+}
+
+$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
+
+$children_of_the_next_parent = $this->taxonomy_model->getToTableIds ( $only_with_content [0], $limit );
+
+$children_of_the_next_parent_i = implode ( ',', $children_of_the_next_parent );
+
+$children_of_the_next_parent_qty = count ( $chosen_categories_array );
+
+$q = "
+select id , count(to_table_id) as qty from $table_taxonomy where
+to_table_id in($children_of_the_next_parent_i)
+and parent_id  IN ($chosen_categories_array_i)
+and taxonomy_type =  'category_item'
+group by to_table_id
+$my_limit_q
+";
+
+// p ( $q );
+
+// $q = $this->core_model->dbQuery ( $q,
+// __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
+$total_count_array = array ();
+
+if (! empty ( $q )) {
+
+foreach ( $q as $q1 ) {
+$qty = intval ( $q1 ['qty'] );
+
+if (($children_of_the_next_parent_qty) == $qty) {
+$total_count_array [] = $q1;
+
+}
+
+}
+
+}
+
+// $q = intval ( $q [0] ['qty'] );
+
+$results_count = count ( $total_count_array );
+
+/*
+* $posts_data = array (); $posts_data
+* ['selected_categories'] =
+* $chosen_categories_array; $posts_data
+* ['strict_category_selection'] = true; if
+* ($visible_on_frontend == true) { $posts_data
+* ['visible_on_frontend'] = 'y'; } $results_count =
+* 1; $posts_data =
+* $this->getContentAndCache($posts_data, $orderby =
+* false, $limit = array(0,1), $count_only = false,
+* $short_data = true, $only_fields = false) ;
+*/
+
+$content_ids_of_the_1_parent_i = implode ( ',', $children_of_the_main_parent );
+
+$chosen_categories_array_i = implode ( ',', $chosen_categories_array );
+
+/*
+* $q = " select count(*) as qty from
+* $table_taxonomy where to_table= 'table_content'
+* and to_table_id
+* in($content_ids_of_the_1_parent_i) and
+* content_type = 'post' and parent_id IN
+* ($chosen_categories_array_i) and taxonomy_type =
+* 'category_item' ;";
+*/
+
+// print $q ;
+
+/*
+* $q = " select to_table_id, count(parent_id) as
+* parent_id123 from $table_taxonomy where to_table=
+* 'table_content' and content_type = 'post' and
+* parent_id IN ($chosen_categories_array_i) and
+* taxonomy_type = 'category_item' group by
+* to_table_id ;"; //$q = CI::model('core')->dbQuery
+* ( $q, md5 ( $q ), 'taxonomy' ); $qty123 =
+* array(); if (! empty ( $q )) { //$q = intval ( $q
+* [0] ['qty'] ); // $results_count = $q; foreach($q
+* as $q1){ if(intval($q1['parent_id123']) ==
+* count($chosen_categories_array) ){
+* //$results_count = 1; //$qty123[] = $q1; } } }
+* else { $results_count = 0; }
+*/
+
+// print "<hr>";
+
+/*
+* if ($q == count ( $categories )) { $strict_ids []
+* = $id; } else { $strict_ids [] = 'No such id'; }
+*/
+
+// $posts_data = $this->contentGetByParams (
+// $posts_data );
+
+/*
+* if (! empty ( $posts_data ['posts'] )) {
+* $results_count = count ( $posts_data ['posts'] );
+* //print $results_count; } else { $results_count =
+* 0; }
+*/
+
+$result [$i] ['content_count'] = $results_count;
+
+$item ['content_count'] = $results_count;
+
+/*
+* $only_with_content3 [] = $item ['id'];
+* $only_with_content3 = array_unique (
+* $only_with_content3 ); $only_with_content3_i =
+* implode ( ',', $only_with_content3 );
+* $content_ids_of_the_main_parent_i = implode (
+* ',', $content_ids_of_the_1_parent ); if
+* ($visible_on_frontend == true) {
+* $visible_on_frontend_q = " and to_table_id in
+* (select id from $table_content where
+* visible_on_frontend='y') "; } $q_1 = "select
+* count(*) as qty from $table where content_type =
+* 'post' and parent_id in ({$item ['id']}) and
+* to_table_id in
+* ($content_ids_of_the_main_parent_i)
+* $visible_on_frontend_q and to_table_id is not
+* null group by to_table_id "; $q_1 =
+* CI::model('core')->dbQuery ( $q_1, $cache_id =
+* basename ( __FILE__, '.php' ) . __LINE__ . md5 (
+* $q_1 ), $cache_group = 'taxonomy' );
+* $results_count = intval ( $q_1 [0] ['qty'] );
+*/
+
+} else {
+
+$results_count = 0;
+
+}
+
+$result [$i] ['content_count'] = $results_count;
+
+$item ['content_count'] = $results_count;
+
+} else {
+
+$do_not_show = false;
+
+}
+
+}
+
+$i ++;
+
+}
+
+if ($content_parent == 2163) {
+
+}
+
+if ($do_not_show == false) {
+
+$print1 = false;
+
+if ($ul_class_name == false) {
+
+$print1 = "<ul  class='category_tree'>";
+
+} else {
+
+$print1 = "<ul class='$ul_class_name'>";
+
+}
+
+print $print1;
+// print($type);
+foreach ( $result as $item ) {
+
+if ($only_with_content == true) {
+
+$do_not_show = false;
+
+$check_in_table_content = false;
+$childern_content = array ();
+// $childern_content = CI::model('taxonomy')->getItems (
+// $item ['id'], $type = 'category_item',
+// $visible_on_frontend, $limit );
+
+// $childern_content2 = " SELECT "
+
+$do_not_show = false;
+// print($type);
+
+if (! empty ( $childern_content )) {
+
+$do_not_show = false;
+
+/*
+* if (! empty ( $chosen_categories_array )) {
+* $posts_data = array (); $posts_data
+* ['selected_categories'] =
+* $chosen_categories_array; $posts_data
+* ['strict_category_selection'] = true; if
+* ($visible_on_frontend == true) { $posts_data
+* ['visible_on_frontend'] = 'y'; } //$posts_data =
+* $this->contentGetByParams ( $posts_data );
+* //$posts_data =
+* $this->getContentAndCache($posts_data, $orderby =
+* false, $limit = array(0,1), $count_only = false,
+* $short_data = true, $only_fields = false) ;
+* $do_not_show = false; if (! empty ( $posts_data
+* ['posts'] )) { //$results_count = count (
+* $posts_data ['posts'] ); //$do_not_show = false;
+* } else { //$do_not_show = true; } }
+*/
+
+} else {
+
+$do_not_show = true;
+
+}
+
+} else {
+
+$do_not_show = false;
+
+}
+
+if ($do_not_show == false) {
+
+$output = $output . $item ['taxonomy_value'];
+
+if ($li_class_name == false) {
+
+print "<li class='category_element' id='category_item_{$item['id']}'>";
+
+} else {
+
+print "<li class='$li_class_name' id='category_item_{$item['id']}' >";
+
+}
+
+}
+
+if ($do_not_show == false) {
+
+if ($link != false) {
+
+$to_print = false;
+
+$to_print = str_ireplace ( '{id}', $item ['id'], $link );
+
+$to_print = str_ireplace ( '{taxonomy_url}', $this->taxonomy_model->getUrlForIdAndCache ( $item ['id'] ), $to_print );
+
+$to_print = str_ireplace ( '{taxonomy_value}', $item ['taxonomy_value'], $to_print );
+
+$to_print = str_ireplace ( '{taxonomy_value2}', $item ['taxonomy_value2'], $to_print );
+
+$to_print = str_ireplace ( '{taxonomy_value3}', $item ['taxonomy_value3'], $to_print );
+
+$to_print = str_ireplace ( '{taxonomy_content_type}', trim ( $item ['taxonomy_content_type'] ), $to_print );
+
+$to_print = str_ireplace ( '{content_count}', $item ['content_count'], $to_print );
+
+if (intval ( $item ['content_count'] ) == 0) {
+
+$to_print = str_ireplace ( '{empty_or_full}', 'empty', $to_print );
+
+} else {
+
+$to_print = str_ireplace ( '{empty_or_full}', 'full', $to_print );
+
+}
+
+// print $item ['content_count'];
+
+if (is_array ( $actve_ids ) == true) {
+
+if (in_array ( $item ['id'], $actve_ids )) {
+
+$to_print = str_ireplace ( '{active_code}', $active_code, $to_print );
+
+} else {
+
+$to_print = str_ireplace ( '{active_code}', '', $to_print );
+
+}
+
+} else {
+
+$to_print = str_ireplace ( '{active_code}', '', $to_print );
+
+}
+
+if (is_array ( $remove_ids ) == true) {
+
+if (in_array ( $item ['id'], $remove_ids )) {
+
+if ($removed_ids_code == false) {
+
+$to_print = false;
+
+} else {
+
+$to_print = str_ireplace ( '{removed_ids_code}', $removed_ids_code, $to_print );
+
+}
+
+} else {
+
+$to_print = str_ireplace ( '{removed_ids_code}', '', $to_print );
+
+}
+
+}
+
+if (strval ( $to_print ) == '') {
+
+print $item ['taxonomy_value'];
+
+} else {
+
+print $to_print;
+
+}
+
+} else {
+
+print $item ['taxonomy_value'];
+
+}
+
+// $content_parent, $link = false, $actve_ids = false,
+// $active_code = false, $remove_ids = false,
+// $removed_ids_code = false, $ul_class_name = false,
+// $include_first = false, $content_type = false,
+// $li_class_name = false) {
+
+// $li_class_name = false, $add_ids = false, $orderby =
+// false, $only_with_content = false
+
+$children_of_the_main_parent1 = $this->taxonomy_model->getChildrensRecursive ( $item ['id'], $type = 'category', $visible_on_frontend = false );
+// p($children_of_the_main_parent1 );
+$remove_ids [] = $item ['id'];
+if (! empty ( $children_of_the_main_parent1 )) {
+foreach ( $children_of_the_main_parent1 as $children_of_the_main_par ) {
+
+// $remove_ids[] = $children_of_the_main_par;
+// $children = CI::model ( 'content'
+// )->content_helpers_getCaregoriesUlTree (
+// $children_of_the_main_par, $link, $actve_ids,
+// $active_code, $remove_ids, $removed_ids_code,
+// $ul_class_name, false, $content_type,
+// $li_class_name, $add_ids, $orderby,
+// $only_with_content, $visible_on_frontend );
+
+}
+}
+
+$children = $this->content_model->content_helpers_getCaregoriesUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend );
+
+print "</li>";
+
+}
+
+}
+
+print "</ul>";
+
+}
+
+} else {
+
+}
+
+}
+
+function content_helpers_IsContentInMenu($content_id, $menu_id) {
+
+global $cms_db_tables;
+
+// $table = $cms_db_tables ['table_content'];
+
+if (intval ( $content_id ) == 0) {
+
+return false;
+
+}
+
+// var_dump ( $content_id, $menu_id );
+
+$table = TABLE_PREFIX . 'menus';
+
+$orderby [0] = 'updated_on';
+
+$orderby [1] = 'DESC';
+
+$data = array ();
+
+$data ['content_id'] = $content_id;
+
+$data ['item_parent'] = $menu_id;
+
+$get = $this->core_model->getDbData ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'menus', false );
+
+$get = $get [0];
+
+if (! empty ( $get )) {
+
+return true;
+
+} else {
+
+return false;
+
+}
+
+}
+
+function content_pingServersWithNewContent() {
+
+if ($_SERVER ["SERVER_NAME"] == 'localhost') {
+return false;
+}
+
+if ($_SERVER ["SERVER_NAME"] == '127.0.0.1') {
+return false;
+}
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_content'];
+
+$q = " SELECT id, content_title from  $table where is_pinged='n' or is_pinged IS NULL limit 0,1 ";
+
+$q = $this->core_model->dbQuery ( $q );
+
+if (empty ( $q ) == true) {
+
+// print "Nothing to ping! \n\n ";
+
+return false;
+
+}
+
+$server = array ('Google' => 'http://blogsearch.google.com/ping/RPC2', 'Feed Burner' => 'http://ping.feedburner.com/', 'Moreover' => 'http://api.moreover.com/RPC2', 'Syndic8' => 'http://ping.syndic8.com/xmlrpc.php', 'BlogRolling' => 'http://rpc.blogrolling.com/pinger/'
+, 'Technorati' => 'http://rpc.technorati.com/rpc/ping', 'Ping-o-Matic!' => 'http://rpc.pingomatic.com/' );
+
+$this->load->library ( 'xmlrpc' );
+
+foreach ( $server as $line_num => $line ) {
+
+$line = trim ( $line );
+
+if ($line != '') {
+
+if (empty ( $q ) == true) {
+
+// print "Nothing to ping2! \n\n ";
+
+return false;
+
+}
+
+foreach ( $q as $the_post ) {
+
+$q2 = " UPDATE  $table set is_pinged='y' where id='{$the_post['id']}' ";
+
+$q2 = $this->core_model->dbQ ( $q2 );
+
+$url = $this->getContentURLByIdAndCache ( $the_post ['id'] );
+
+$pages = array ();
+
+$pages [] = $the_post ['content_title'];
+
+$pages [] = $url;
+
+$line = trim ( $line );
+
+// print "Pinging $line \n\r";
+
+// $this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
+
+@$this->xmlrpc->server ( $line, 80 );
+
+@$this->xmlrpc->method ( 'weblogUpdates.ping' );
+
+// $this->xmlrpc->set_debug(TRUE);
+
+// $this->xmlrpc->display_response ();
+
+// print "With: \n\r";
+
+// print_r ( $pages );
+
+$request = $pages;
+
+$this->xmlrpc->request ( $request );
+
+if (! $this->xmlrpc->send_request ()) {
+
+// echo $this->xmlrpc->display_error ();
+
+}
+
+// print "\n Done pinging $line \n\r\n\r\n\r\n\r";
+
+}
+
+}
+
+}
+
+}
+
+function mediaGetForContentId($content_id, $media_type = false) {
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+$content_id = intval ( $content_id );
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$cache_group = 'media/table_content/' . $content_id;
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+
+if (($cache_content) != false) {
+
+if ($cache_content == 'false') {
+
+return false;
+
+} else {
+
+return $cache_content;
+
+}
+
+}
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_media'];
+
+$q = "SELECT id FROM $table WHERE to_table = 'table_content'
+
+AND to_table_id = '$content_id'
+
+AND media_type = '$media_type'
+
+AND ID is not null ORDER BY media_order ASC";
+
+// ($q);
+
+$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+
+$ids = $this->core_model->dbExtractIdsFromArray ( $q );
+
+if (! empty ( $ids )) {
+
+$media = $this->core_model->mediaGet2 ( false, false, $ids );
+
+$this->core_model->cacheWriteAndEncode ( $media, $function_cache_id, $cache_group );
+
+// $media = CI::model('core')->mediaGet ( $to_table =
+// 'table_content', $content_id, $media_type = false, $order =
+// "ASC", $queue_id = false, $no_cache = false );
+
+return $media;
+
+// $this->template ['videos'] = $media2 ['videos'];
+
+} else {
+
+$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+
+}
+
+}
+
+function mediaGetIdsForContentId($content_id, $media_type = false) {
+
+$args = func_get_args ();
+
+foreach ( $args as $k => $v ) {
+
+$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+
+}
+$content_id = intval ( $content_id );
+$cache_group = 'media/table_content/' . $content_id;
+
+$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+
+$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+
+if (($cache_content) != false) {
+
+if ($cache_content == 'false') {
+
+return false;
+
+} else {
+
+return $cache_content;
+
+}
+
+}
+
+global $cms_db_tables;
+
+$table = $cms_db_tables ['table_media'];
+
+$q = "SELECT id FROM $table WHERE to_table = 'table_content'
+
+AND to_table_id = '$content_id'
+
+AND media_type = '$media_type'
+
+AND ID is not null ORDER BY media_order ASC";
+
+// ($q);
+
+$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+
+$ids = $this->core_model->dbExtractIdsFromArray ( $q );
+
+if (! empty ( $ids )) {
+
+$this->core_model->cacheWriteAndEncode ( $ids, $function_cache_id, $cache_group );
+
+return $ids;
+
+} else {
+
+$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+
+}
+
+}
+
+}
 ?>

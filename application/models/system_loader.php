@@ -180,13 +180,13 @@ if (! function_exists ( 'getCurentURL' )) {
 	function getCurentURL() {
 		
 		$pageURL = 'http';
-		
+		if (isset($_SERVER ["HTTPS"] )) {
 		if ($_SERVER ["HTTPS"] == "on") {
 			
 			$pageURL .= "s";
 		
 		}
-		
+		}
 		$pageURL .= "://";
 		
 		if ($_SERVER ["SERVER_PORT"] != "80") {
@@ -2755,4 +2755,4 @@ class transliterate {
 	 */
 	public $string;
 }
- 
+

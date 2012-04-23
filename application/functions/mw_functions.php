@@ -993,7 +993,7 @@ function page_link_to_layout($laout_name) {
 function page_url() {
 	return page_link ( $id );
 }
-function page_link($id) {
+function page_link($id = false) {
 	
 	if (is_string ( $id )) {
 		//	$link = page_link_to_layout ( $id );

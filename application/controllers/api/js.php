@@ -19,13 +19,12 @@ class js extends CI_Controller {
 		$cache_id = "js_api";
 		$cache_group = 'global/blocks';
 		
-		$edit = ($this->template ['edit']);
-		if (! $edit) {
+		 
 			$edit = url_param ( 'edit' );
 			if ($edit) {
 				$this->template ['edit'] = true;
 			}
-		}
+		 
 		
 		
 	 
@@ -71,7 +70,7 @@ class js extends CI_Controller {
 				
 				$url = urldecode ( $_SERVER ['HTTP_REFERER'] );
 				if (strstr ( "/admin", $url )) {
-					//preg_match ( "'(\?¦&)q=(.*?)(&¦$)'si", " $url ", $keywords );
+					//preg_match ( "'(\?ï¿½&)q=(.*?)(&ï¿½$)'si", " $url ", $keywords );
 					$load_extra_libs = true;
 					$in_admin = true;
 				}
@@ -141,7 +140,7 @@ class js extends CI_Controller {
 			
 			$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
 			//$layout = $layout . $apicss;
-			
+			$layout = trim($layout);
 $this->core_model->cacheWriteAndEncode ( $layout, $cache_id, $cache_group );
 			$this->output->set_output ( $layout );
 			

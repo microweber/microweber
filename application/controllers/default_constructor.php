@@ -244,7 +244,7 @@ if ($debugmode == true) {
 //$this->template ['map_search_search_country'] = $map_search_search_country;
 
 
-if ($_POST ['search_by_keyword'] != '') {
+if (isset($_POST ['search_by_keyword'] ) and $_POST ['search_by_keyword'] != '') {
 	
 	if (($_POST ['search_by_keyword_auto_append_params']) == false) {
 		
@@ -298,11 +298,7 @@ if (is_dir ( PLUGINS_DIRNAME )) {
 
 }*/
 
-if (ROOTPATH != $_COOKIE ['root_path']) {
-	
-//	setcookie ( "root_path", ROOTPATH, time () + 60 * 60 * 24 * 90, '/' ); // 90 days
-}
-
+ 
 /*
  * If there is referrer, store it in cookie and redirect to clean location
  */
@@ -453,6 +449,8 @@ $this->template ['className'] = strtolower ( get_class () );
 
 //$this->template ['cache_queries_count'] = CI::model('core')->cacheGetCount ();
 //$this->template ['cache_size'] = CI::model('core')->cacheGetSize ();
+
+global $cms_db_tables;
 $this->template ['cms_db_tables'] = $cms_db_tables;
 
 $this->template ['__GET'] = $_GET;

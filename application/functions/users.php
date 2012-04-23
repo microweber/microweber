@@ -259,12 +259,16 @@ function user_picture($params) {
 function user_thumbnail($params) {
 	
 	if (! is_array ( $params )) {
+		/*
 		$params = array ();
-		$numargs = func_num_args ();
+				$numargs = func_num_args ();
+				if((func_get_arg ( 0 ))){
+				$params ['id'] = func_get_arg ( 0 );
+			}
+				if((func_get_arg ( 1 ))){
+				$params ['size'] = func_get_arg ( 1 );
+				} */
 		
-		$params ['id'] = func_get_arg ( 0 );
-		$params ['size'] = func_get_arg ( 1 );
-	
 	}
 	//
 	$CI = get_instance ();
@@ -577,4 +581,4 @@ and to_user=$userid
 
 }
 
- 
+

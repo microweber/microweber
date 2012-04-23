@@ -44,11 +44,11 @@ if (! defined ( 'BASEPATH' ))
 
 class Core_model extends CI_Model {
 	
-	public $loaded_plugins;
+	public $loaded_plugins = array (); 
 	
-	public $running_plugins;
+	public $running_plugins = array (); 
 	
-	public $plugins_data;
+	public $plugins_data = array (); 
 	
 	public $path_list = array ();
 	
@@ -4556,18 +4556,20 @@ class Core_model extends CI_Model {
 		
 		 
 			try {
-				if($get_file == true OR is_file($cache_file)){
+				
+				if($cache_file != false){
+				if(isset($get_file )== true OR is_file($cache_file)){
 				 $cache = file_get_contents ( $cache_file );
 				}
  
-				
+			}
 				
 			} catch ( Exception $e ) {
 				$cache = false;
 			}
 		 
 		
-		if (strval ( $cache ) != '') {
+		if (isset($cache) and strval ( $cache ) != '') {
 			
 			$search = CACHE_CONTENT_PREPEND;
 			
@@ -4579,7 +4581,7 @@ class Core_model extends CI_Model {
 			
 			$this->mw_cache_storage ["$cache_id"] = $cache;
 			
-			$this->cache_storage_hits [$cache_id] ++;
+			//$this->cache_storage_hits ["$cache_id"] ++;
 		
 		} else {
 			// $this->cache_storage_not_found [$cache_file] ;
@@ -10353,4 +10355,4 @@ $w
 	}
 
 }
- 
+
