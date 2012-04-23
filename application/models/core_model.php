@@ -1958,7 +1958,7 @@ class Core_model extends CI_Model {
 		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $table );
 		
 		if (! empty ( $criteria )) {
-			if ($criteria ['debug'] == true) {
+			if (isset($criteria ['debug']) == true) {
 				$debug = true;
 				if (is_string ( $criteria ['debug'] )) {
 					$criteria ['debug'] = false;
@@ -1966,10 +1966,10 @@ class Core_model extends CI_Model {
 					unset ( $criteria ['debug'] );
 				}
 			}
-			if ($criteria ['cache_group'] == true) {
+			if (isset($criteria ['cache_group']) and $criteria ['cache_group'] == true) {
 				$cache_group = $criteria ['cache_group'];
 			}
-			if ($criteria ['no_cache'] == true) {
+			if (isset($criteria ['no_cache']) and $criteria ['no_cache'] == true) {
 				$cache_group = false;
 				if (is_string ( $criteria ['no_cache'] )) {
 					$criteria ['no_cache'] = false;
@@ -1978,49 +1978,46 @@ class Core_model extends CI_Model {
 				}
 			}
 			
-			if ($criteria ['count_only'] == true) {
+			if (isset($criteria ['count_only']) and $criteria ['count_only'] == true) {
 				$count_only = $criteria ['count_only'];
 				
 				unset ( $criteria ['count_only'] );
 			
 			}
 			
-			if ($criteria ['count'] == true) {
+			if (isset($criteria ['count']) and $criteria ['count'] == true) {
 				$count_only = $criteria ['count'];
 				
 				unset ( $criteria ['count'] );
 			
 			}
 			
-			if ($criteria ['get_count'] == true) {
+			if (isset($criteria ['get_count']) and  $criteria ['get_count'] == true) {
 				$count_only = true;
 				
 				unset ( $criteria ['get_count'] );
 			
 			}
 			
-			if ($criteria ['count'] == true) {
+			if (isset($criteria ['count']) and  $criteria ['count'] == true) {
 				$count_only = $criteria ['count'];
 				
 				unset ( $criteria ['count'] );
 			
 			}
 			
-			if ($criteria ['with_pictures'] == true) {
+			if (isset($criteria ['with_pictures']) and  $criteria ['with_pictures'] == true) {
 				$with_pics = true;
 			}
 			
-			if ($criteria ['limit'] == true and $count_only == false) {
+			if (isset($criteria ['limit']) and $criteria ['limit'] == true and $count_only == false) {
 				$limit = $criteria ['limit'];
 			}
-			if ($criteria ['limit']) {
+			if (isset($criteria ['limit'])) {
 				$limit = $criteria ['limit'];
 			}
 			
-			if ($criteria ['items_per_page'] and $criteria ['curent_page'] == false) {
-				// $limit = array (0, $criteria ['items_per_page'] );
-			}
-			
+		 
 			$curent_page = isset ( $criteria ['curent_page'] ) ? $criteria ['curent_page'] : null;
 			if ($curent_page == false) {
 				$curent_page = isset ( $criteria ['page'] ) ? $criteria ['page'] : null;
@@ -2040,8 +2037,8 @@ class Core_model extends CI_Model {
 				if ($limit == false) {
 					
 					$qLimit = "";
-					
-					if ($items_per_page == false) {
+					 
+					if (!isset($items_per_page) or $items_per_page == false) {
 						
 						$items_per_page = 30;
 					
@@ -2085,7 +2082,7 @@ class Core_model extends CI_Model {
 				// p($limit);
 			}
 			
-			if ($criteria ['fields'] == true) {
+			if (isset($criteria ['fields']) and $criteria ['fields'] == true) {
 				$only_those_fields = $criteria ['fields'];
 				if (is_string ( $criteria ['fields'] )) {
 					$criteria ['fields'] = false;
@@ -2264,13 +2261,13 @@ class Core_model extends CI_Model {
 		
 		$to_search = false;
 		
-		if ($criteria ['keyword']) {
+		if (isset($criteria ['keyword'])  ) {
 			if ($criteria ['search_by_keyword'] == false) {
 				$criteria ['search_by_keyword'] = $criteria ['keyword'];
 			}
 		}
 		
-		if ($criteria ['keywords']) {
+		if (isset($criteria ['keywords'])  ) {
 			if ($criteria ['search_by_keyword'] == false) {
 				$criteria ['search_by_keyword'] = $criteria ['keywords'];
 			}

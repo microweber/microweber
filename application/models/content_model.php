@@ -3195,13 +3195,15 @@ class content_model extends CI_Model {
 		}
 		
 		$posts_data ['selected_categories'] = $selected_categories;
+		if(isset($order)){
 		$posts_data ['orderby'] = $order;
-		if ($voted_by) {
+		}
+		if(isset($voted_by)){
 			$posts_data ['voted_by'] = $voted_by;
 		}
-		
+		if(isset($order)){
 		$orderby = $order;
-		
+		}
 		// p($selected_categories);
 		
 
@@ -3217,13 +3219,13 @@ class content_model extends CI_Model {
 			}
 		
 		}
-		
-		if ($keyword) {
+		if(isset($keyword)){
+		 
 			$search_by_keyword = trim ( $keyword );
 		}
 		
-		if (! $search_by_keyword) {
-			if ($_POST ['search_by_keyword'] != '') {
+		if (isset($search_by_keyword) == false) {
+			if (isset($_POST ['search_by_keyword'])  and $_POST ['search_by_keyword'] != '') {
 				
 				$search_for = $_POST ['search_by_keyword'];
 				
@@ -3234,15 +3236,15 @@ class content_model extends CI_Model {
 			$params ['search_for'] = $search_by_keyword;
 		}
 		
-		if ($id != false) {
-			
+		 
+		if (isset($id) != false) {	
 			$params ['id'] = intval ( $id );
 		
 		} else {
 		
 		}
 		
-		if ($count != false) {
+		if (isset($count) and $count != false) {
 			
 			$params ['count'] = true;
 		
@@ -3258,8 +3260,8 @@ class content_model extends CI_Model {
 		
 		$cf = $this->core_model->getParamFromURL ( 'custom_fields_criteria' );
 		
-		if ($custom_fields_criteria == false) {
-			
+		//if ($custom_fields_criteria == false) {
+		if (isset($custom_fields_criteria) == false) {	
 			$cf = $this->core_model->getParamFromURL ( 'custom_fields_criteria' );
 			// p($cf,1);
 			if ($cf != false) {
@@ -3328,7 +3330,7 @@ class content_model extends CI_Model {
 
 		}
 		
-		if ($params ['search_for'] == false) {
+		if (isset($params ['search_for'])   == false) {
 			
 			$search_for = $this->core_model->getParamFromURL ( 'keyword' );
 		
@@ -3348,8 +3350,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if ($params ['is_special'] == false) {
-			
+		 
+		if (isset($params ['is_special'])   == false) {	
 			$is_special = $this->core_model->getParamFromURL ( 'is_special' );
 			
 			if (($is_special == 'y') or ($is_special == 'n')) {
@@ -3395,8 +3397,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if ($typev == false) {
-			
+		 
+		if (isset($typev)   == false) {		
 			$typev = $this->core_model->getParamFromURL ( 'typev' );
 		
 		}
@@ -3423,13 +3425,14 @@ class content_model extends CI_Model {
 		}
 		
 		$posts_data ['content_type'] = $content_type;
-		
-		if ($items_per_page == false) {
+		if (isset($items_per_page)   == false) {	
+		 if (isset($limit)   != false) {
 			$items_per_page = $limit;
-		
+		 }
 		}
 		
-		if ($items_per_page == false) {
+				if (isset($items_per_page)   == false) {	
+
 			
 			$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 		
@@ -3442,8 +3445,8 @@ class content_model extends CI_Model {
 			$active_categories2 = array ();
 		
 		}
-		
-		if ($curent_page == false) {
+		if (isset($curent_page)   == false) {
+		 
 			
 			$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		
@@ -3455,8 +3458,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if ($commented == false) {
-			
+		 
+			if (isset($commented)   == false) {	
 			$commented = $this->core_model->getParamFromURL ( 'commented' );
 		
 		}
@@ -3475,8 +3478,8 @@ class content_model extends CI_Model {
 
 		}
 		
-		if ($voted == false) {
-			
+		 
+		if (isset($voted)   == false) {		
 			$voted = $this->core_model->getParamFromURL ( 'voted' );
 		
 		}
@@ -3489,8 +3492,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if ($created_by == false) {
-			
+		 
+		if (isset($created_by)   == false) {			
 			$created_by = $this->core_model->getParamFromURL ( 'author' );
 		
 		}
@@ -3509,7 +3512,8 @@ class content_model extends CI_Model {
 
 		}
 		
-		if (strval ( $content_layout_name ) != '') {
+		 
+		if (isset($content_layout_name)  and strval ( $content_layout_name ) != '') {
 			
 			$posts_data ['content_layout_name'] = $content_layout_name;
 		
@@ -3579,7 +3583,7 @@ class content_model extends CI_Model {
 			unset ( $posts_data ["selected_categories"] );
 		}
 		
-		if ($posts_data ["orderby"] == NULL or $posts_data ["orderby"] == false) {
+		if (isset($posts_data ["orderby"] )  ) {
 			unset ( $posts_data ["orderby"] );
 		}
 		// p($posts_data);
@@ -3802,7 +3806,7 @@ class content_model extends CI_Model {
 	function getContentAndCache($data, $orderby = false, $limit = false, $count_only = false, $short_data = true, $only_fields = false) {
 		
 		$args = func_get_args ();
-		
+		$function_cache_id = '';
 		foreach ( $args as $k => $v ) {
 			
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
@@ -3901,7 +3905,7 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if (($data ['count']) == true) {
+		if (isset($data ['count']) and ($data ['count']) == true) {
 			
 			$count_only = true;
 			unset ( $data ['count'] );
@@ -5702,7 +5706,7 @@ $my_limit_q
 			// $cache_group );
 			
 
-			$content = $this->getContentAndCache ( $content, $orderby );
+			$content = $this->getContentAndCache ( $content );
 			
 			// $content = $q [0];
 			$content = $content [0];

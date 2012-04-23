@@ -179,7 +179,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			$more = $this -> core_model -> getCustomFields('table_content', $page['id']);
 			$page['custom_fields'] = $more;
 			//p($page);
-			if (trim($more["logged_redirect"]) != '') {
+			if (isset($more["logged_redirect"]) and trim($more["logged_redirect"]) != '') {
 				//redirect ( $more ["logged_redirect"] );
 				//ob_start();
 				$this -> load -> helper('url');
@@ -195,7 +195,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		}
 
-		if ($_POST['format'] == 'json') {
+		if (isset($_POST['format'] ) and $_POST['format'] == 'json') {
 			$output_format = 'json';
 		}
 
