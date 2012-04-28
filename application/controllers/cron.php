@@ -34,7 +34,7 @@ class cron extends CI_Controller {
 		}
 
 		
-		$job = CI::model('core')->cronjobGetOne($cron_group, $force, $action);
+		$job = $this->core_model->cronjobGetOne($cron_group, $force, $action);
 
 		if(!empty($job)){
 			print  "\n\n" .  'Begin - ' . date("Y-m-d H:i:s"). ' - '.$job['cronjob_name'] . "\n";

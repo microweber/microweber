@@ -1,9 +1,9 @@
 <? include_once('_add_post_default_scripts.php'); ?>
-
+<? get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' ); ?>
 <h2 class="coment-title"><? print $title ?></h2>
 <form class="add_content_form form" method="post" id="<? print $form_id ?>" action="#" enctype="multipart/form-data">
   <? if($the_post['id'] != false): ?>
-  <? $cats = $CI->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
+  <? $cats = get_instance()->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
   <?
 
   
@@ -12,7 +12,7 @@
   
   
    $master_category = $category;
-  $master_cats = $CI->taxonomy_model->getParents($category);
+  $master_cats = get_instance()->taxonomy_model->getParents($category);
   if(!empty($master_cats)){
 	    
 	   $master_category = ($master_cats[0]);
@@ -22,9 +22,9 @@
 	   
 	   
   }
- $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
+ $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
  if(empty($subcats)){
-	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   ?>
 
@@ -45,7 +45,7 @@
   <? else: ?>
   <?
    if(empty($subcats)){
-	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   
   ?>
@@ -74,7 +74,7 @@
 $master_category = $category;	
 }?>
 
-  <? $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);  ?>
+  <? $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);  ?>
   <? if(!empty($subcats)): ?>
   <select id="cat_select">
   

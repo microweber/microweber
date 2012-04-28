@@ -115,9 +115,9 @@ if(!empty($ids)){
 $limits = array();
 $limits[0] = (intval($paging_curent_page) - 1) * $query_options['limit'] ;
 $limits[1] =  (intval($paging_curent_page)) * $query_options['limit'] ;
- $CI = get_instance ();
-$users = $CI->users_model->getUsers($user_data, $limits, $count_only = false);
-$users_count = $CI->users_model->getUsers($user_data, $limit = false, $count_only = true);
+  // $CI = get_instance ();
+$users = get_instance()->users_model->getUsers($user_data, $limits, $count_only = false);
+$users_count = get_instance()->users_model->getUsers($user_data, $limit = false, $count_only = true);
  
 $pagenum = ceil($users_count/$query_options['limit']);
 $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page');
@@ -137,7 +137,7 @@ $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page')
 
   
   ?>
- <? $edit_url = $CI->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>$user['id']))  ?>
+ <? $edit_url = get_instance()->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>$user['id']))  ?>
 <<?php  print $wrap_element_items; ?> class="<?php  print $wrap_element_items_class; ?>" > <a href="<?php print site_url('userbase/action:profile/username:'.$user['username']) ?>" class="img" style="background-image: url(<? print user_thumbnail($user['id'], 70) ?>)" > </a>
 <p><a href="<?php print $edit_url ?>"><strong><? print user_name($item['id']); ?></strong></a> <a href="javascript:mw.users.UserMessage.compose(<?php echo $user['id']; ?>);" class="send_msg" style="margin:0" title="Send new message to <?php echo $user['first_name']; ?>"></a><br />
 </p>

@@ -4,7 +4,7 @@ $this->template ['user_edit_done'] = FALSE;
 $this->template ['user_profile_edit'] = true;
 $reg_is_error = false;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 if ($_POST) {
 
@@ -12,7 +12,7 @@ if ($_POST) {
 	$email = $this->input->post ( 'email' );
 	$userdata_check = array ();
 	$userdata_check ['username'] = $username;
-	$userdata_check = CI::model('users')->getUsers ( $userdata_check );
+	$userdata_check = $this->users_model->getUsers ( $userdata_check );
 	$userdata_check = $userdata_check [0];
 	if ($username != '') {
 		if (! empty ( $userdata_check )) {
@@ -47,7 +47,7 @@ if ($_POST) {
 
 		$userdata_check ['email'] = $email;
 
-		$userdata_check = CI::model('users')->getUsers ( $userdata_check );
+		$userdata_check = $this->users_model->getUsers ( $userdata_check );
 
 		$userdata_check = $userdata_check [0];
 
@@ -76,8 +76,8 @@ if ($_POST) {
 
 		$to_save ['id'] = $user_session ['user_id'];
 
-		$saved_id = CI::model('users')->saveUser ( $to_save );
-		$new_data = CI::model('users')->getUserById ( $saved_id );
+		$saved_id = $this->users_model->saveUser ( $to_save );
+		$new_data = $this->users_model->getUserById ( $saved_id );
 
 		$old_user_session = CI::library('session')->userdata ( 'user_session' );
 		//p($old_user_session,1);
@@ -94,7 +94,7 @@ if ($_POST) {
 
 		$this->template ['user_edit_done'] = true;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 	}
 
@@ -104,13 +104,13 @@ $userdata = array ();
 
 $userdata ['id'] = $user_session ['user_id'];
 
-$userdata = CI::model('users')->getUsers ( $userdata );
+$userdata = $this->users_model->getUsers ( $userdata );
 
 $userdata = $userdata [0];
 
 $this->template ['form_values'] = $userdata;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $user_session ['user_action'] = $user_action;
 

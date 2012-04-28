@@ -582,7 +582,7 @@ if (! function_exists ( 'getCurentURL' )) {
 if (! function_exists ( 'getParamFromURL' )) {
 	
 	function getParamFromURL($param = false) {
-		$CI = get_instance ();
+		 $CI = get_instance ();
 		
 		$CI->load->helper('url');;
 		
@@ -1425,10 +1425,11 @@ function mkdir_recursive($pathname) {
 	if ($pathname == '') {
 		return false;
 	}
+ 
 	
 	is_dir ( dirname ( $pathname ) ) || mkdir_recursive ( dirname ( $pathname ) );
 	
-	return is_dir ( $pathname ) || mkdir ( $pathname );
+	return is_dir ( $pathname ) || @mkdir ( $pathname );
 
 }
 
@@ -2613,7 +2614,7 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
  * 1. Creating class instance with arguments (argument is the text we want to transliterate)
  * 
  * <code>
- * <?php
+ *  
  * $text = "This is some text written using Cyrillic character set";
  *
  * $tl = new transliterate($text);

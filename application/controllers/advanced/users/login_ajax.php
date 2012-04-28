@@ -2,7 +2,7 @@
 
 $no_layout = true;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $user_session ['user_action'] = $user_action;
 

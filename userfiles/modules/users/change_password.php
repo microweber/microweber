@@ -3,8 +3,8 @@
 <?
 if ($_POST) {
 	$errors = array ();
-	$CI = get_instance ();
-	$data = $CI->users_model->getUserById ( $curent_user_id );
+	 // $CI = get_instance ();
+	$data = get_instance()->users_model->getUserById ( $curent_user_id );
 	//p ( $data );
 
 	$old_password = $this->input->post ( 'old_password' );
@@ -27,7 +27,7 @@ if ($_POST) {
 		$to_save = array();
 		$to_save['id'] = $curent_user_id;
 		$to_save['password'] = $new_password;
-		$saved_id = $CI->users_model->saveUser ( $to_save );
+		$saved_id = get_instance()->users_model->saveUser ( $to_save );
 		//p($to_save);
 		print 'ok';
 	}

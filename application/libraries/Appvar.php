@@ -16,7 +16,7 @@ class Appvar {
 		//$this->load->library ( 'session' );
 		//global $CI;
 		$CI = & get_instance ();
-		$the_pass = $CI->session->userdata ( 'session_id' );
+		$the_pass = get_instance()->session->userdata ( 'session_id' );
 		$the_pass = md5 ( $the_pass );
 		//@touch ( CACHEDIR . 'index.html' );
 		

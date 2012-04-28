@@ -11,7 +11,7 @@ class Plugins extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -29,11 +29,11 @@ class Plugins extends CI_Controller {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->template ['pluginName'] = $plugin_name;
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
-		$plugindata = CI::model('core')->plugins_getPluginConfig ( $plugin_name );
+		$plugindata = $this->core_model->plugins_getPluginConfig ( $plugin_name );
 		//
 		//print  PLUGINS_DIRNAME . $dirname .$plugin_name.'/'.$plugindata['plugin_admin_dir']. '/controller.php' ;
 		if (is_file ( PLUGINS_DIRNAME . $dirname . $plugin_name . '/' . $plugindata ['plugin_admin_dir'] . '/controller.php' ) == true) {

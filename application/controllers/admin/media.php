@@ -15,7 +15,7 @@ class Media extends CI_Controller {
 	function reorderMedia() {
 		$positions = $_POST ['gallery_module_sortable_pics_positions'];
 		if (! empty ( $positions )) {
-			CI::model('core')->mediaReOrder ( $positions );
+			$this->core_model->mediaReOrder ( $positions );
 		}
 		exit ();
 	}
@@ -23,7 +23,7 @@ class Media extends CI_Controller {
 	function mediaDelete() {
 		$id = $_POST ['id'];
 		if (intval ( $id ) != 0) {
-			CI::model('core')->mediaDelete ( $id );
+			$this->core_model->mediaDelete ( $id );
 		}
 		exit ();
 	}
@@ -31,7 +31,7 @@ class Media extends CI_Controller {
 	function mediaSave() {
 		$id = $_POST ['id'];
 		if (intval ( $id ) != 0) {
-			CI::model('core')->mediaSave ( $_POST );
+			$this->core_model->mediaSave ( $_POST );
 		}
 		print intval ( $id );
 		exit ();
@@ -47,9 +47,9 @@ class Media extends CI_Controller {
 		
 		if (! empty ( $_FILES )) {
 			
-			$queue_id = CI::model('core')->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
-			$to_table = CI::model('core')->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
-			$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
+			$queue_id = $this->core_model->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
+			$to_table = $this->core_model->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
+			$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
 			if (strval ( $to_table ) == '') {
 				exit ( 'Error: please give me the $to_table var in the URL' );
 			}
@@ -57,8 +57,8 @@ class Media extends CI_Controller {
 				$queue_id = false;
 			}
 			
-			CI::model('core')->mediaUploadPictures ( $to_table, $to_table_id, $queue_id );
-			//CI::model('core')->cacheDeleteAll();
+			$this->core_model->mediaUploadPictures ( $to_table, $to_table_id, $queue_id );
+			//$this->core_model->cacheDeleteAll();
 			
 
 			sleep ( 1 );
@@ -71,9 +71,9 @@ class Media extends CI_Controller {
 	}
 	
 	function mediaUploadFilesIframe() {
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table' , $param_sub_position = false, $skip_ajax = true);
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id' , $param_sub_position = false, $skip_ajax = true);
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
+		$to_table = $this->core_model->getParamFromURL ( 'to_table' , $param_sub_position = false, $skip_ajax = true);
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id' , $param_sub_position = false, $skip_ajax = true);
 		
 		$this->template ['queue_id'] = $queue_id;
 		$this->template ['to_table'] = $to_table;
@@ -87,16 +87,16 @@ class Media extends CI_Controller {
 		//$this->template ['medias'] = $medias;
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/media/fileUploadIframe.php', true, true );
 		//CI::library('output')->set_output ( $layout );
 		exit ( $layout );
 	}
 	
 	function mediaUploadPicturesIframe() {
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id' , $param_sub_position = false, $skip_ajax = true);
+		$to_table = $this->core_model->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
 		//P($queue_id);
 		$this->template ['queue_id'] = $queue_id;
 		$this->template ['to_table'] = $to_table;
@@ -106,7 +106,7 @@ class Media extends CI_Controller {
 	 
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
  
 		$layout =$this->load->view ( 'admin/media/picUploadIframe.php', true, true );
 		//CI::library('output')->set_output ( $layout );
@@ -114,9 +114,9 @@ class Media extends CI_Controller {
 	}
 	
 	function mediaUploadVideosIframe() {
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
+		$to_table = $this->core_model->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
 		
 		$this->template ['queue_id'] = $queue_id;
 		$this->template ['to_table'] = $to_table;
@@ -130,7 +130,7 @@ class Media extends CI_Controller {
 		//$this->template ['medias'] = $medias;
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/media/videoUploadIframe.php', true, true );
 		//CI::library('output')->set_output ( $layout );
 		exit ( $layout );
@@ -150,9 +150,9 @@ class Media extends CI_Controller {
 				echo "Return Code: " . $_FILES ["file"] ["error"] . "<br />";
 			}
 			
-			$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
-			$to_table = CI::model('core')->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
-			$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
+			$queue_id = $this->core_model->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
+			$to_table = $this->core_model->getParamFromURL ( 'to_table', $param_sub_position = false, $skip_ajax = true );
+			$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
 			if (strval ( $to_table ) == '') {
 				exit ( 'Error: please give me the $to_table var in the URL' );
 			}
@@ -163,8 +163,8 @@ class Media extends CI_Controller {
 			//	var_dump( $to_table, $to_table_id, $queue_id);
 			
 
-			CI::model('core')->mediaUploadFiles ( $to_table, $to_table_id, $queue_id );
-			CI::model('core')->cacheDeleteAll ();
+			$this->core_model->mediaUploadFiles ( $to_table, $to_table_id, $queue_id );
+			$this->core_model->cacheDeleteAll ();
 			
 		//exit ( 1 );
 		} else {
@@ -189,9 +189,9 @@ class Media extends CI_Controller {
 				echo "Return Code: " . $_FILES ["file"] ["error"] . "<br />";
 			}
 			
-			$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
-			$to_table = CI::model('core')->getParamFromURL ( 'to_table' , $param_sub_position = false, $skip_ajax = true);
-			$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
+			$queue_id = $this->core_model->getParamFromURL ( 'queue_id', $param_sub_position = false, $skip_ajax = true );
+			$to_table = $this->core_model->getParamFromURL ( 'to_table' , $param_sub_position = false, $skip_ajax = true);
+			$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', $param_sub_position = false, $skip_ajax = true );
 			if (strval ( $to_table ) == '') {
 				exit ( 'Error: please give me the $to_table var in the URL' );
 			}
@@ -202,8 +202,8 @@ class Media extends CI_Controller {
 			//	var_dump( $to_table, $to_table_id, $queue_id);
 			
 
-			CI::model('core')->mediaUploadVideos ( $to_table, $to_table_id, $queue_id );
-			CI::model('core')->cacheDeleteAll ();
+			$this->core_model->mediaUploadVideos ( $to_table, $to_table_id, $queue_id );
+			$this->core_model->cacheDeleteAll ();
 			
 		//exit ( 1 );
 		} else {
@@ -217,13 +217,13 @@ class Media extends CI_Controller {
 	function contentMediaPicturesList() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', false, true );
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table', false, true );
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', false, true );
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id', false, true );
+		$to_table = $this->core_model->getParamFromURL ( 'to_table', false, true );
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', false, true );
 		//var_Dump($to_table_id);
 		//	var_dump($queue_id,$to_table,$to_table_id);
 		if ($queue_id != false) {
-			$media1 = CI::model('core')->mediaGet ( $to_table, false, $media_type = 'picture', $order = "ASC", $queue_id, $no_cache = true, false );
+			$media1 = $this->core_model->mediaGet ( $to_table, false, $media_type = 'picture', $order = "ASC", $queue_id, $no_cache = true, false );
 		 
 			$this->template ['media1'] = $media1 ['pictures'];
 		}
@@ -231,7 +231,7 @@ class Media extends CI_Controller {
 		// 	var_dump ( $media1 );
 		if ($to_table_id != false) {
 			
-			$media2 = CI::model('core')->mediaGet ( $to_table, $to_table_id, $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = true, false );
+			$media2 = $this->core_model->mediaGet ( $to_table, $to_table_id, $media_type = 'picture', $order = "ASC", $queue_id = false, $no_cache = true, false );
 			 
 			$this->template ['media2'] = $media2 ['pictures'];
 		}
@@ -239,7 +239,7 @@ class Media extends CI_Controller {
 	 	
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$try_view = TEMPLATE_DIR . 'admin/media/contentMediaPicturesList.php';
 		//var_dump($try_view);
 		if (is_file ( $try_view ) and is_readable ( $try_view )) {
@@ -269,9 +269,9 @@ class Media extends CI_Controller {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_media'];
 		
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', false, true );
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table' , false, true);
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', false, true );
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id', false, true );
+		$to_table = $this->core_model->getParamFromURL ( 'to_table' , false, true);
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', false, true );
 		//var_dump($queue_id,$to_table,$to_table_id);
 		
 
@@ -285,8 +285,8 @@ class Media extends CI_Controller {
 
 			AND  media_type = 'file' 
 			AND to_table_id IS NULL AND ID is not null ORDER BY media_order";
-			$q = CI::model('core')->dbQuery ( $q );
-			$ids = CI::model('core')->dbExtractIdsFromArray ( $q );
+			$q = $this->core_model->dbQuery ( $q );
+			$ids = $this->core_model->dbExtractIdsFromArray ( $q );
 			
 			if (! empty ( $ids )) {
 				
@@ -294,7 +294,7 @@ class Media extends CI_Controller {
 				$media_get ['queue_id'] = trim ( $queue_id );
 				$media_get ['to_table'] = $to_table;
 				//$media_get ['to_table_id'] = $to_table_id;
-				$media1 = CI::model('core')->mediaGet2 ( false, false, $ids );
+				$media1 = $this->core_model->mediaGet2 ( false, false, $ids );
 				//p($media1);
 				$this->template ['files'] = $media1 ['files'];
 			}
@@ -317,11 +317,11 @@ class Media extends CI_Controller {
 			//var_dump($q);
 			
 
-			$q = CI::model('core')->dbQuery ( $q );
-			$ids = CI::model('core')->dbExtractIdsFromArray ( $q );
+			$q = $this->core_model->dbQuery ( $q );
+			$ids = $this->core_model->dbExtractIdsFromArray ( $q );
 			if (! empty ( $ids )) {
 				
-				$media2 = CI::model('core')->mediaGet2 ( false, false, $ids );
+				$media2 = $this->core_model->mediaGet2 ( false, false, $ids );
 				
 				//p($media2);
 				
@@ -360,7 +360,7 @@ class Media extends CI_Controller {
 		//$this->template ['medias'] = $medias;
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/media/contentMediaFilesList', true, true );
 		//CI::library('output')->set_output ( $layout );
 		exit ( $layout );
@@ -372,9 +372,9 @@ class Media extends CI_Controller {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_media'];
 		
-		$queue_id = CI::model('core')->getParamFromURL ( 'queue_id', false, true );
-		$to_table = CI::model('core')->getParamFromURL ( 'to_table', false, true );
-		$to_table_id = CI::model('core')->getParamFromURL ( 'to_table_id', false, true );
+		$queue_id = $this->core_model->getParamFromURL ( 'queue_id', false, true );
+		$to_table = $this->core_model->getParamFromURL ( 'to_table', false, true );
+		$to_table_id = $this->core_model->getParamFromURL ( 'to_table_id', false, true );
 		//var_dump($queue_id,$to_table,$to_table_id);
 		
 
@@ -384,8 +384,8 @@ class Media extends CI_Controller {
 		if (strval ( trim ( $queue_id ) != '' )) {
 			
 			$q = "SELECT id FROM $table WHERE to_table = '$to_table' AND queue_id = '$queue_id'  AND to_table_id IS NULL AND ID is not null ORDER BY media_order";
-			$q = CI::model('core')->dbQuery ( $q );
-			$ids = CI::model('core')->dbExtractIdsFromArray ( $q );
+			$q = $this->core_model->dbQuery ( $q );
+			$ids = $this->core_model->dbExtractIdsFromArray ( $q );
 			
 			if (! empty ( $ids )) {
 				
@@ -393,7 +393,7 @@ class Media extends CI_Controller {
 				$media_get ['queue_id'] = trim ( $queue_id );
 				$media_get ['to_table'] = $to_table;
 				//$media_get ['to_table_id'] = $to_table_id;
-				$media1 = CI::model('core')->mediaGet2 ( false, false, $ids );
+				$media1 = $this->core_model->mediaGet2 ( false, false, $ids );
 				//p($media1);
 				$this->template ['videos'] = $media1 ['videos'];
 			}
@@ -409,11 +409,11 @@ class Media extends CI_Controller {
 			$media_get ['to_table_id'] = $to_table_id;
 			
 			$q = "SELECT id FROM $table WHERE to_table = '$to_table' AND to_table_id = '$to_table_id' AND ID is not null ORDER BY media_order";
-			$q = CI::model('core')->dbQuery ( $q );
-			$ids = CI::model('core')->dbExtractIdsFromArray ( $q );
+			$q = $this->core_model->dbQuery ( $q );
+			$ids = $this->core_model->dbExtractIdsFromArray ( $q );
 			if (! empty ( $ids )) {
 				
-				$media2 = CI::model('core')->mediaGet2 ( false, false, $ids );
+				$media2 = $this->core_model->mediaGet2 ( false, false, $ids );
 				
 				//p($media2);
 				
@@ -452,7 +452,7 @@ class Media extends CI_Controller {
 		//$this->template ['medias'] = $medias;
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/media/contentMediaVideosList', true, true );
 		//CI::library('output')->set_output ( $layout );
 		exit ( $layout );

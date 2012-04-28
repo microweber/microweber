@@ -24,7 +24,7 @@ class Index extends CI_Controller {
 		}
 		
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';

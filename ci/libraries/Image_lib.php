@@ -1490,21 +1490,21 @@ class CI_Image_lib {
 	function set_error($msg)
 	{
 		$CI =& get_instance();
-		$CI->lang->load('imglib');
+		get_instance()->lang->load('imglib');
 
 		if (is_array($msg))
 		{
 			foreach ($msg as $val)
 			{
 
-				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
+				$msg = (get_instance()->lang->line($val) == FALSE) ? $val : get_instance()->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
 		}
 		else
 		{
-			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = (get_instance()->lang->line($msg) == FALSE) ? $msg : get_instance()->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}

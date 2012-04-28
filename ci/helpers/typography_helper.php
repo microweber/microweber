@@ -40,9 +40,9 @@ if ( ! function_exists('nl2br_except_pre'))
 	{
 		$CI =& get_instance();
 
-		$CI->load->library('typography');
+		get_instance()->load->library('typography');
 
-		return $CI->typography->nl2br_except_pre($str);
+		return get_instance()->typography->nl2br_except_pre($str);
 	}
 }
 
@@ -63,8 +63,8 @@ if ( ! function_exists('auto_typography'))
 	function auto_typography($str, $strip_js_event_handlers = TRUE, $reduce_linebreaks = FALSE)
 	{
 		$CI =& get_instance();
-		$CI->load->library('typography');
-		return $CI->typography->auto_typography($str, $strip_js_event_handlers, $reduce_linebreaks);
+		get_instance()->load->library('typography');
+		return get_instance()->typography->auto_typography($str, $strip_js_event_handlers, $reduce_linebreaks);
 	}
 }
 

@@ -21,12 +21,13 @@ $modules = $this->template_model->getModules($modules_options );
 ?>
  
 
- 
-  <ul>
+ <div class="top-modules-list-holder">
+  <ul class="top-modules-list">
   <? foreach($modules as $module): ?>
     <?
  $module_group = explode(DIRECTORY_SEPARATOR ,$module['module']);
  $module_group = $module_group[0];
+ $showed_module_groups = array();
 
 ?>
     <? if(!in_array($module_group, $showed_module_groups))  : ?>
@@ -56,9 +57,9 @@ $modules = $this->template_model->getModules($modules_options );
           
           
           
-           <li data-filter="editable, snippet, <? print $module2['name'] ?>"> 
+           <li data-filter="<? print $module2['name'] ?>"> 
            <? if($module2['icon']): ?>
-                            <img alt="<? print $module2['name'] ?>" class="snippet_draggable"  data-snippet="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="24" />
+                            <img alt="<? print $module2['name'] ?>" class="module_draggable" data-module-name="<? print $module2['module'] ?>"  data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="32" />
 
                 <? endif; ?>
       <h4><? print $module2['name'] ?></h4>
@@ -80,5 +81,5 @@ $modules = $this->template_model->getModules($modules_options );
     
  
   </ul>
- 
+ </div>
 <?  }   ?>

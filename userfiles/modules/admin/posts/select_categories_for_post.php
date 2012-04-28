@@ -1,6 +1,6 @@
 <?
 $id = $params['id'];
-$CI = get_instance ();
+ // $CI = get_instance ();
 
 if(intval($params['page_id']) > 0 ){
 	$id = $params['page_id'];
@@ -34,7 +34,7 @@ $get_categories = get_categories($get_categories_params) ;
 //p($get_categories);
 ?>
         <? if(!empty($get_categories)): ?>
-        <? $category_ids = $CI->core_model->dbExtractIdsFromArray($get_categories); ?>
+        <? $category_ids = get_instance()->core_model->dbExtractIdsFromArray($get_categories); ?>
         <? else : ?>
         <? endif; ?>
         

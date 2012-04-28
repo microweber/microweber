@@ -59,7 +59,7 @@ class Template extends CI_Controller {
 		$view = TEMPLATES_DIR . 'layouts/layouts_list.php';
 		$this->template ['data'] = $data;
 		if (is_readable ( $view ) == true) {
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			$layout = $this->load->file ( $view, true );
 			$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 			$this->output->set_output ( $layout );
@@ -75,7 +75,7 @@ class Template extends CI_Controller {
 		$view = TEMPLATES_DIR . 'layouts/styles_list.php';
 		$this->template ['data'] = $data;
 		if (is_readable ( $view ) == true) {
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			$layout = $this->load->file ( $view, true );
 			$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 			$this->output->set_output ( $layout );

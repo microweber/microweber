@@ -1,34 +1,34 @@
 <?php   // p($data); ?>
 <?php
-$CI = get_instance ();
-$author = $CI->users_model->getUserById($data['user_id']); ?>
-<?php $thumb = $CI->users_model->getUserThumbnail( $data['user_id'], 70); ?>
-<?php //$data = $CI->core_model->getById($data['to_table'],$data['to_table_id']); ?>
+ // $CI = get_instance ();
+$author = get_instance()->users_model->getUserById($data['user_id']); ?>
+<?php $thumb = get_instance()->users_model->getUserThumbnail( $data['user_id'], 70); ?>
+<?php //$data = get_instance()->core_model->getById($data['to_table'],$data['to_table_id']); ?>
 <?php
  $addtinal_style = '';
   if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_followers')){
   $addtinal_style = "display:none;";
- //$CI->users_model->dataDeleteById($data['id']);
+ //get_instance()->users_model->dataDeleteById($data['id']);
   }
   
    if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_comments')){
   $addtinal_style = "display:none;";
- //$CI->users_model->dataDeleteById($data['id']);
+ //get_instance()->users_model->dataDeleteById($data['id']);
   }
   
    if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_users_statuses')){
   $addtinal_style = "display:none;";
-// $CI->users_model->dataDeleteById($data['id']);
+// get_instance()->users_model->dataDeleteById($data['id']);
   }
   
   if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_users')){
   $addtinal_style = "display:none;";
-// $CI->users_model->dataDeleteById($data['id']);
+// get_instance()->users_model->dataDeleteById($data['id']);
   }
   
    if(($data['to_table'] == 'table_votes') and ($data['to_table'] == 'table_votes')){
   $addtinal_style = "display:none;";
-// $CI->users_model->dataDeleteById($data['id']);
+// get_instance()->users_model->dataDeleteById($data['id']);
   }
   
   
@@ -37,12 +37,12 @@ $author = $CI->users_model->getUserById($data['user_id']); ?>
   
    if(($data['to_table'] == 'table_options')){
 	$addtinal_style = "display:none;";
- //$CI->users_model->dataDeleteById($data['id']);   
+ //get_instance()->users_model->dataDeleteById($data['id']);   
    }
    
     if(($data['to_table'] == 'table_users_statuses')){
 	//$addtinal_style = "display:none;";
-  //$CI->users_model->dataDeleteById($data['id']);   
+  //get_instance()->users_model->dataDeleteById($data['id']);   
    }
    
    

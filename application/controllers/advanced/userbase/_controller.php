@@ -1,6 +1,6 @@
 <?php
  require (APPPATH . 'controllers/advanced/requre_login_or_redirect.php');
-$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
+$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 
 if (intval ( $curent_page ) < 1) {
 	
@@ -8,7 +8,7 @@ if (intval ( $curent_page ) < 1) {
 
 }
 
-$items_per_page = CI::model('core')->optionsGetByKey ( 'default_items_per_page' );
+$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 
 $items_per_page = intval ( $items_per_page );
 
@@ -20,20 +20,20 @@ $content = array ();
 
 $content ['content_layout_file'] = 'default_layout.php';
 
-$action = CI::model('core')->getParamFromURL ( 'action' );
+$action = $this->core_model->getParamFromURL ( 'action' );
 
-$username = CI::model('core')->getParamFromURL ( 'username' );
-$action = CI::model('core')->getParamFromURL ( 'user_action' );
+$username = $this->core_model->getParamFromURL ( 'username' );
+$action = $this->core_model->getParamFromURL ( 'user_action' );
 if ($action == false) {
 	
-	$action = CI::model('core')->getParamFromURL ( 'action' );
+	$action = $this->core_model->getParamFromURL ( 'action' );
 }
 
 $this->template ['user_action'] = $action;
 
-$id = CI::model('core')->getParamFromURL ( $id );
+$id = $this->core_model->getParamFromURL ( $id );
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -43,7 +43,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -57,13 +57,13 @@ $user_session = array ();
 
 $user_session = CI::library('session')->userdata ( 'user_session' );
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $page_start = ($curent_page - 1) * $items_per_page;
 
 $page_end = ($page_start) + $items_per_page;
 
-//	$data = CI::model('content')->getContent ( $posts_data, false, array ($page_start, $page_end ), false );
+//	$data = $this->content_model->getContent ( $posts_data, false, array ($page_start, $page_end ), false );
 
 
 $file_maybe = (TEMPLATE_DIR . '/users/userbase/' . $action . '.php');
@@ -122,22 +122,22 @@ if (is_file ( $file_maybe )) {
 			/*
 				 * Get tags if such are requested
 				 */
-			$tags = CI::model('core')->getParamFromURL ( 'keyword' );
+			$tags = $this->core_model->getParamFromURL ( 'keyword' );
 			if ($tags) {
 				$this->template ['search_by_keyword'] = $tags;
 				$filter ['search_by_keyword'] = $tags;
 			}
 			
-			$type = CI::model('core')->getParamFromURL ( 'type' );
+			$type = $this->core_model->getParamFromURL ( 'type' );
 			if ($type) {
 				switch ($type) {
 					case 'top-contributors' :
-						$ids = CI::model('users')->rankingsTopContibutors ( $limit = 1000 );
+						$ids = $this->users_model->rankingsTopContibutors ( $limit = 1000 );
 						//p($ids);
 						$filter ['ids'] = $ids;
 						break;
 					case 'top-comentators' :
-						$ids = CI::model('users')->rankingsTopCommenters ( $limit = 1000 );
+						$ids = $this->users_model->rankingsTopCommenters ( $limit = 1000 );
 						//p($ids);
 						$filter ['ids'] = $ids;
 						break;
@@ -148,11 +148,11 @@ if (is_file ( $file_maybe )) {
 				}
 			}
 			
-			$users_list = CI::model('users')->getUsers ( $filter, array ($page_start, $page_end ) );
+			$users_list = $this->users_model->getUsers ( $filter, array ($page_start, $page_end ) );
 			
 			$this->template ['users_list'] = $users_list;
 			
-			$results_count = CI::model('users')->getUsers ( $filter, false, true );
+			$results_count = $this->users_model->getUsers ( $filter, false, true );
 			
 			$content_pages_count = ceil ( $results_count / $items_per_page );
 			
@@ -162,14 +162,14 @@ if (is_file ( $file_maybe )) {
 			$this->template ['content_pages_curent_page'] = $curent_page;
 			
 			//get paging urls
-			$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+			$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 			
 			//var_dump($content_pages);
 			$this->template ['content_pages_links'] = $content_pages;
 			
 			$user_session ['user_action'] = $action;
 			
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			
 			$content ['content_filename'] = 'users/userbase/list_users.php';
 			
@@ -191,11 +191,11 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename_pre = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 	
 	}
 
@@ -206,13 +206,13 @@ if ($content ['content_layout_file'] != '') {
 	//$this->template ['title'] = 'adasdsad';
 	if (is_readable ( $the_active_site_template_dir . $content ['content_layout_file'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout = $this->load->file ( $the_active_site_template_dir . $content ['content_layout_file'], true );
 	
 	} elseif (is_readable ( $the_active_site_template_dir . 'default_layout.php' ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout = $this->load->file ( $the_active_site_template_dir . 'default_layout.php', true );
 	
@@ -232,7 +232,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
@@ -245,7 +245,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 
 if (trim ( $content ['content_body'] ) != '') {
 	
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 	
 	$layout = str_ireplace ( '{content}', $content ['content_body'], $layout );
 
@@ -253,18 +253,18 @@ if (trim ( $content ['content_body'] ) != '') {
 
 if (trim ( $taxonomy_data ) != '') {
 	
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 	
 	$layout = str_ireplace ( '{content}', $taxonomy_data, $layout );
 
 }
 
-$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 
 //var_dump($layout);
 
 
-$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+$layout = $this->template_model->parseMicrwoberTags ( $layout );
 CI::library('output')->set_output ( $layout );
 
 ?>

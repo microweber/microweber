@@ -2,7 +2,7 @@
 <div class="page_tit"><? print $post['content_title']; ?></div>
 <?php $c = 0; ?>
 <div class="body_part_inner">
-  <div class="companies_inner_logo"><img src="<? print TEMPLATE_URL ?>images/bayler_logo.jpg" alt="bayler" /></div>
+  <div class="companies_inner_logo"><img src="<? print user_picture($post['created_by'], 200); ?>" alt="<? print addslashes($post['content_title']); ?>" /></div>
   <div class="applytothejob_but"><a href="#"><img src="<? print TEMPLATE_URL ?>images/applytothejob_but.jpg" alt="apply to this job" border="0" /></a></div>
   <div class="jobseaker_tit">Job Ad &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Information</div>
   <div class="jobseakers_info_container">

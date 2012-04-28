@@ -14,9 +14,9 @@ $content = array ();
 
 $content ['content_layout_file'] = 'default_layout.php';
 
-$user_action = CI::model('core')->getParamFromURL ( 'user_action' );
+$user_action = $this->core_model->getParamFromURL ( 'user_action' );
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -26,7 +26,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -62,7 +62,7 @@ if ($user_session ['is_logged'] != 'yes') {
 
 }
 $this->template ['user_action'] = $user_action;
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 //var_dump($user_action);
 switch ($user_action) {
@@ -86,7 +86,7 @@ switch ($user_action) {
 	case 'activate' :
 		
 		//				$activationCode = '8758d3a5cdbcbfe773ff3758db541b10';
-		$activationCode = CI::model('core')->getParamFromURL ( 'code' );
+		$activationCode = $this->core_model->getParamFromURL ( 'code' );
 		
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
@@ -138,7 +138,7 @@ switch ($user_action) {
 	
 	case 'exit' :
 		
-		CI::model('users')->logOut ();
+		$this->users_model->logOut ();
 		
 		redirect ( 'users' );
 		
@@ -149,7 +149,7 @@ switch ($user_action) {
 	
 	case 'comment_delete' :
 		
-		$content_id = CI::model('core')->getParamFromURL ( 'id' );
+		$content_id = $this->core_model->getParamFromURL ( 'id' );
 		
 		$check_is_permisiions_error = false;
 		
@@ -157,7 +157,7 @@ switch ($user_action) {
 			
 			$get_id = array ();
 			$get_id ['id'] = $content_id;
-			$get_id = CI::model('comments')->commentsGet ( $get_id );
+			$get_id = $this->comments_model->commentsGet ( $get_id );
 			$get_id = $get_id [0];
 			
 			$post_id = $get_id ['to_table_id'];
@@ -165,14 +165,14 @@ switch ($user_action) {
 			
 			$get_id ['id'] = $post_id;
 			
-			$get_id = CI::model('content')->getContent ( $get_id );
+			$get_id = $this->content_model->getContent ( $get_id );
 			
 			$get_id = $get_id [0];
 			
 			//var_dump($get_id);
 			if (! empty ( $get_id )) {
 				
-				if ($get_id ['created_by'] != CI::model('core')->userId ()) {
+				if ($get_id ['created_by'] != $this->core_model->userId ()) {
 					
 					//var_dump($get_id ['created_by'], $user_session ['user_id']);
 					//redirect ( 'users/posts' );
@@ -183,7 +183,7 @@ switch ($user_action) {
 					
 
 					//var_dump($content_id);
-					CI::model('comments')->commentsDeleteById ( $content_id );
+					$this->comments_model->commentsDeleteById ( $content_id );
 					exit ( 'ok' );
 					//redirect ( 'users/posts' );
 				
@@ -209,14 +209,14 @@ switch ($user_action) {
 		
 		$user_content ['created_by'] = $user_session ['user_id'];
 		
-		$user_content = CI::model('content')->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
+		$user_content = $this->content_model->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
 		
 		//	var_dump ( $user_content );
 		$this->template ['user_content'] = $user_content;
 		
 		$user_session ['user_action'] = $user_action;
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content ['content_filename'] = 'users/default.php';
 		
@@ -229,7 +229,7 @@ $user_session ['user_action'] = $user_action;
 
 $this->template ['user_action'] = $user_action;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 CI::library('session')->set_userdata ( 'user_session', $user_session );
 
@@ -256,11 +256,11 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename_pre = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 	
 	} else {
 		
@@ -280,13 +280,13 @@ if ($no_layout == false) {
 		//$this->template ['title'] = 'adasdsad';
 		if (is_readable ( $the_active_site_template_dir . $content ['content_layout_file'] ) == true) {
 			
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			
 			$layout = $this->load->file ( $the_active_site_template_dir . $content ['content_layout_file'], true );
 		
 		} elseif (is_readable ( $the_active_site_template_dir . 'default_layout.php' ) == true) {
 			
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			
 			$layout = $this->load->file ( $the_active_site_template_dir . 'default_layout.php', true );
 		
@@ -303,7 +303,7 @@ if ($no_layout == false) {
 	} else {
 		if (is_readable ( $the_active_site_template_dir . 'users/layout.php' ) == true) {
 			
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			
 			$layout = $this->load->file ( $the_active_site_template_dir . 'users/layout.php', true );
 		
@@ -317,7 +317,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
@@ -330,7 +330,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 
 if (trim ( $content ['content_body'] ) != '') {
 	
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 	
 	$layout = str_ireplace ( '{content}', $content ['content_body'], $layout );
 
@@ -338,13 +338,13 @@ if (trim ( $content ['content_body'] ) != '') {
 
 if (trim ( $taxonomy_data ) != '') {
 	
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 	
 	$layout = str_ireplace ( '{content}', $taxonomy_data, $layout );
 
 }
 
-$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 
 //var_dump($layout);
 
@@ -355,7 +355,7 @@ $opts ['no_remove_div'] = false;
 //$opts = array ();
 
 
-$layout = CI::model('template')->parseMicrwoberTags ( $layout, $opts );
+$layout = $this->template_model->parseMicrwoberTags ( $layout, $opts );
 
 CI::library('output')->set_output ( $layout );
 

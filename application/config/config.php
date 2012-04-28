@@ -395,17 +395,13 @@ $config['proxy_ips'] = '';
 |
 | Place this code at the bottom of your application/config/config.php file.
 */
-function __autoload($class)
-{
-   
-	
- $class = str_ireplace('CI_', '', $class);
+function multi_auto_require($class) {
+$class = str_ireplace('CI_', '', $class);
 	 
 	//if (strpos($class, 'CI_') !== 0)
    // {
-   //  $file = BASEPATH . 'libraries/' . $class . EXT;
-	   // var_dump($file);
-	 // var_dump(BASEPATH . 'core/' . $class . EXT);
+ 
+	  // var_dump(BASEPATH . 'core/' . $class . EXT);
 	  
 	   if (file_exists($file = BASEPATH . 'core/' . $class . EXT))
         {
@@ -422,6 +418,66 @@ function __autoload($class)
             include_once( $file);
         } else {
 			 
+		}
+}
+
+    spl_autoload_register('multi_auto_require');
+	
+	
+function __autoload($class)
+{
+   
+  
+
+
+
+
+	
+ $class = str_ireplace('CI_', '', $class);
+	 
+	//if (strpos($class, 'CI_') !== 0)
+   // {
+ 
+	 // var_dump(BASEPATH . 'core/' . $class . EXT);
+	   // Prepare class
+		$class = strtolower($class);
+
+		// Prepare path
+		$path = APPPATH . 'models';
+
+		// Prepare file
+		$file = $path . '/' . $class . EXT;
+
+		// Check if file exists, require_once if it does
+		if (file_exists($file))
+		{
+			require_once($file);
+		}
+		else
+		{
+			 
+		
+
+
+			
+			
+				   if (file_exists($file = BASEPATH . 'core/' . $class . EXT))
+					{
+					   
+					  
+					   include_once( $file);
+					}elseif (file_exists($file = APPPATH . 'models/' . strtolower($class) . EXT))
+					{
+					  
+					   include_once( $file);
+					}
+					elseif (file_exists($file = BASEPATH . 'libraries/' . $class . EXT))
+					{
+						include_once( $file);
+					} else {
+						 
+					}
+		
 		}
    // }
 }

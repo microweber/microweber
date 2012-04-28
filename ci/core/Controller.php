@@ -15,6 +15,7 @@
 
 // ------------------------------------------------------------------------
 
+
 /**
  * CodeIgniter Application Controller Class
  *
@@ -30,12 +31,15 @@
 class CI_Controller {
 
 	private static $instance;
+	private $is_loaded = false;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
+		
+		 if($this->is_loaded == false){
 		self::$instance =& $this;
 		
 		// Assign all the class objects that were instantiated by the
@@ -43,6 +47,7 @@ class CI_Controller {
 		// so that CI can run as one big super object.
 		foreach (is_loaded() as $var => $class)
 		{
+			
 			$this->$var =& load_class($class);
 		}
 
@@ -51,9 +56,13 @@ class CI_Controller {
 		$this->load->initialize();
 		
 		log_message('debug', "Controller Class Initialized");
+		//var_dump($this->is_loaded);
+		$this->is_loaded = true;
+		 }
+		
 	}
 
-	public static function &get_instance()
+	public static function get_instance()
 	{
 		return self::$instance;
 	}

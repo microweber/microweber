@@ -18,7 +18,7 @@ if ($_POST and $_POST ['username'] and $_POST ['password']) {
 				$data ['username'] = $user;
 				$data ['password'] = $pass;
 				$data ['is_active'] = 'y';
-				$data = CI::model('users')->getUsers ( $data );
+				$data = $this->users_model->getUsers ( $data );
 				$data = $data [0];
 
 				if (empty ( $data )) {

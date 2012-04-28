@@ -39,11 +39,11 @@
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
 		if($_FILES){
-			//CI::model('core')->cacheDelete ( 'cache_group', 'media' );
-			CI::model('core')->mediaUpload('table_users', $data ['id']);
+			//$this->core_model->cacheDelete ( 'cache_group', 'media' );
+			$this->core_model->mediaUpload('table_users', $data ['id']);
 		}
-		$save = CI::model('core')->saveData ( $table, $data );
-		if(CI::model('core')->dbCheckExistTable('affiliate_users') !== FALSE){
+		$save = $this->core_model->saveData ( $table, $data );
+		if($this->core_model->dbCheckExistTable('affiliate_users') !== FALSE){
 			$data2 = array();
 			//$data2_buf = array('parent_affil','password','email','ip','reg_ip','addr1','addr2');
 			$data2['password'] = $data['password'];
@@ -66,10 +66,10 @@
 			$data2['parent_affil'] = $_COOKIE['referrer_id'];
 			$data2['payout'] = 1;
 			$data2['usertype'] = 4;
-			$save = CI::model('core')->saveData ( 'affiliate_users', $data2 );
+			$save = $this->core_model->saveData ( 'affiliate_users', $data2 );
 		}
-		CI::model('core')->cacheDelete ( 'cache_group', 'media' );
-		CI::model('core')->cacheDelete ( 'cache_group', 'users' );
+		$this->core_model->cacheDelete ( 'cache_group', 'media' );
+		$this->core_model->cacheDelete ( 'cache_group', 'users' );
 		//if($_FILES){
 
 		//}
@@ -90,26 +90,26 @@
 	function getUsers($data = false,$limit = false, $count_only = false ) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
-		//$q = CI::model('core')->dbQuery ( $q, md5 ( $q ), 'comments' );
+		//$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 		$data = codeClean($data);
 		//var_dump($data);
-		$get = CI::model('core')->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array('updated_on', 'DESC'), $cache_group = false, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
+		$get = $this->core_model->getDbData ( $table, $criteria = $data, $limit, $offset = false, $orderby = array('updated_on', 'DESC'), $cache_group = false, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
 		return $get;
 	}
 	
 	function getUsersForGMaps($data = false,$limit = false,$count_only = false ) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
-		//$q = CI::model('core')->dbQuery ( $q, md5 ( $q ), 'comments' );
+		//$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 		$data = codeClean($data);
 		//var_dump($data);
-		$get = CI::model('core')->getDbData ( $table = $table, $criteria = $data, $limit = $limit, $offset = false, $orderby = array('zip,updated_on', 'DESC'), $cache_group = false, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
+		$get = $this->core_model->getDbData ( $table = $table, $criteria = $data, $limit = $limit, $offset = false, $orderby = array('zip,updated_on', 'DESC'), $cache_group = false, $debug = false, $ids = false, $count_only = $count_only, $only_those_fields = false );
 		return $get;
 	}
 
 	function getUserThumbnail($user_id, $size = 128) {
 
-		$image = CI::model('core')->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );
+		$image = $this->core_model->mediaGetThumbnailForItem ( 'table_users', $to_table_id = $user_id, $size = $size, $order_direction = "DESC" );
 		return $image;
 
 	}
@@ -119,8 +119,8 @@
 		$table = $cms_db_tables ['table_users'];
 		$data = array ( );
 		$data ['id'] = $id;
-		$del = CI::model('core')->deleteData ( $table, $data, 'users' );
-		CI::model('core')->cacheDelete ( 'cache_group', 'users' );
+		$del = $this->core_model->deleteData ( $table, $data, 'users' );
+		$this->core_model->cacheDelete ( 'cache_group', 'users' );
 		return true;
 	}
 	
@@ -129,7 +129,7 @@
 			return false;
 
 		$to = $opt ['email'];
-		$admin_options = CI::model('core')->optionsGetByKey ( 'admin_email', true );
+		$admin_options = $this->core_model->optionsGetByKey ( 'admin_email', true );
 		
 		$from = (empty ( $admin_options )) ? 'noreply@ooyes.net' : $admin_options ['option_value'];
 		

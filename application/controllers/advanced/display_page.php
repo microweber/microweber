@@ -16,7 +16,7 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 	} else {
 
-		$content = CI::model('content')->getContentHomepage ();
+		$content = $this->content_model->getContentHomepage ();
 
 		if (empty ( $content )) {
 
@@ -42,9 +42,9 @@ if ($content_display_mode != 'extended_api_with_no_template') {
 
 	if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
 
-		$gogo = CI::model('content')->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
+		$gogo = $this->content_model->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
 
-		if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
+		if ($this->core_model->validators_isUrl ( $gogo ) == true) {
 
 			header ( 'Location: ' . $gogo );
 
@@ -64,7 +64,7 @@ $this->template ['page'] = $page;
 //var_dump($post);
 $this->template ['post'] = $post;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 //var_dump($post);
 
@@ -77,7 +77,7 @@ if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -87,7 +87,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -103,20 +103,20 @@ if (defined ( 'USERFILES_URL' ) == false) {
 }
 $ipto = $_SERVER ["REMOTE_ADDR"];
 
-$active_categories = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
+$active_categories = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
 
 //
-//$active_categories = CI::model('content')->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
+//$active_categories = $this->content_model->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
 
 
 $this->template ['active_categories'] = $active_categories;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 //tags
 
 
-$tags = CI::model('core')->getParamFromURL ( 'tags' );
+$tags = $this->core_model->getParamFromURL ( 'tags' );
 
 //var_dump($tags);
 if ($tags != '') {
@@ -139,7 +139,7 @@ if ($tags != '') {
 
 }
 
-$created_by = CI::model('core')->getParamFromURL ( 'author' );
+$created_by = $this->core_model->getParamFromURL ( 'author' );
 
 //var_dump($tags);
 if ($created_by != '') {
@@ -155,7 +155,7 @@ $this->template ['selected_tags'] = $selected_tags;
 
 $this->template ['active_tags'] = $selected_tags;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 'dynamic') {
 
@@ -164,7 +164,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 	//articles list
 
 
-	$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 
 	$posts_data = false;
 
@@ -177,11 +177,11 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		//redirect($togo);
 		if (empty ( $active_categories2 )) {
 
-			$togo = CI::model('content')->getContentURLByIdAndCache ( $page ['id'] );
+			$togo = $this->content_model->getContentURLByIdAndCache ( $page ['id'] );
 
 		} else {
 
-			$togo = CI::model('content')->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
+			$togo = $this->content_model->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
 
 		}
 		if ($_POST ['selected_categories'] != '') {
@@ -191,7 +191,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		if ($_POST ['search_by_keyword'] != '') {
 		$togo = $togo . '/keyword:' . stripslashes ( $_POST ['search_by_keyword'] );
 		}
-		$temp1 = CI::model('core')->getParamFromURL ( 'view' );
+		$temp1 = $this->core_model->getParamFromURL ( 'view' );
 
 
 
@@ -205,7 +205,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 	}
 
-	$strict_category_selection = CI::model('core')->getParamFromURL ( 'strict_category_selection' );
+	$strict_category_selection = $this->core_model->getParamFromURL ( 'strict_category_selection' );
 
 	if ($strict_category_selection == 'y') {
 
@@ -217,7 +217,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 	}
 
-	$search_for = CI::model('core')->getParamFromURL ( 'keyword' );
+	$search_for = $this->core_model->getParamFromURL ( 'keyword' );
 
 	if ($search_for != '') {
 
@@ -231,11 +231,11 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 		$this->template ['search_for_keyword'] = $search_for;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 	}
 
-	$strict_category_selection = CI::model('core')->getParamFromURL ( 'strict-category' );
+	$strict_category_selection = $this->core_model->getParamFromURL ( 'strict-category' );
 
 	if ($strict_category_selection == 'y') {
 
@@ -246,7 +246,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 	//$posts_data ['strict_category_selection'] = false;
 	}
 
-	$type = CI::model('core')->getParamFromURL ( 'type' );
+	$type = $this->core_model->getParamFromURL ( 'type' );
 
 	if (trim ( $type ) != '' && trim ( $type ) != 'blog') {
 
@@ -257,7 +257,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		$posts_data ['content_subtype'] = 'none';
 	}
 
-	$typev = CI::model('core')->getParamFromURL ( 'typev' );
+	$typev = $this->core_model->getParamFromURL ( 'typev' );
 
 	if (trim ( $typev ) != '') {
 
@@ -272,7 +272,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 	$posts_data ['content_type'] = 'post';
 
-	$items_per_page = CI::model('core')->optionsGetByKey ( 'default_items_per_page' );
+	$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 
 	$items_per_page = intval ( $items_per_page );
 
@@ -291,7 +291,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 	foreach ( $active_categories2 as $active_cat ) {
 
-		if (CI::model('content')->taxonomyCheckIfParamExistForSingleItemId ( $active_cat, 'category_no_paging' ) == true) {
+		if ($this->content_model->taxonomyCheckIfParamExistForSingleItemId ( $active_cat, 'category_no_paging' ) == true) {
 
 			$items_per_page = intval ( 9999 );
 
@@ -304,13 +304,13 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 				//var_dump ( $post );
 
 
-				$the_taxonomy_item_fulll = CI::model('content')->taxonomyGetSingleItemById ( $active_cat );
+				$the_taxonomy_item_fulll = $this->content_model->taxonomyGetSingleItemById ( $active_cat );
 
 				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
 
 					$gogo = $the_taxonomy_item_fulll ['page_301_redirect_link'];
 
-					if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
+					if ($this->core_model->validators_isUrl ( $gogo ) == true) {
 
 						header ( 'Location: ' . $gogo );
 
@@ -328,10 +328,10 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 				if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] ) != '') {
 
-					$gogo = CI::model('content')->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
+					$gogo = $this->content_model->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
 
 					//exit($gogo);
-					if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
+					if ($this->core_model->validators_isUrl ( $gogo ) == true) {
 
 						header ( 'Location: ' . $gogo );
 
@@ -353,7 +353,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 	}
 
-	$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
+	$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 
 	if (intval ( $curent_page ) < 1) {
 
@@ -362,7 +362,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 	}
 
 	//voted?
-	$voted = CI::model('core')->getParamFromURL ( 'voted' );
+	$voted = $this->core_model->getParamFromURL ( 'voted' );
 
 	if (($timestamp = strtotime ( $voted )) === false) {
 		//echo "The string ($str) is bogus";
@@ -385,10 +385,10 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 					}
 					*/
 
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 	$orderby1 = array ();
-	$order_url = CI::model('core')->getParamFromURL ( 'ord' );
-	$order_direction_url = CI::model('core')->getParamFromURL ( 'ord-dir' );
+	$order_url = $this->core_model->getParamFromURL ( 'ord' );
+	$order_direction_url = $this->core_model->getParamFromURL ( 'ord-dir' );
 	if ($order_url != false) {
 
 		$orderby1 [0] = $order_url;
@@ -425,7 +425,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		//	var_dump( array ($page_start, $page_end ));
 
 
-		//$data = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), false, $only_fields = false );
+		//$data = $this->content_model->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), false, $only_fields = false );
 
 
 		if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_posts_get.php' )) {
@@ -439,8 +439,8 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		$posts_data2 = $posts_data;
 		$posts_data2 ['use_fetch_db_data'] = true;
 		$posts_data2 ['orderby'] = $orderby1;
-		//$data = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
-		$data = CI::model('content')->contentGetByParams ( $posts_data2 );
+		//$data = $this->content_model->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
+		$data = $this->content_model->contentGetByParams ( $posts_data2 );
 		//var_dump($data);
 		//						p($data, 1);
 
@@ -449,7 +449,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 
 		$posts = $data;
 
-		//	$results_count = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, false, true, $short_data = true, $only_fields = array ('id' ) );
+		//	$results_count = $this->content_model->getContentAndCache ( $posts_data, $orderby1, false, true, $short_data = true, $only_fields = array ('id' ) );
 
 
 		$content_pages_count = $data ["posts_pages_count"];
@@ -460,7 +460,7 @@ if ($page ['content_subtype'] == 'blog_section' or $page ['content_subtype'] == 
 		$this->template ['posts_pages_curent_page'] = $data ["posts_pages_curent_page"];
 
 		//get paging urls
-		$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 
 		//var_dump($content_pages);
 		$this->template ['posts_pages_links'] = $content_pages;
@@ -480,7 +480,7 @@ if ($page ['content_subtype'] == 'module') {
 
 		if (is_file ( PLUGINS_DIRNAME . $dirname . '/controller.php' )) {
 
-			CI::model('core')->plugins_setRunningPlugin ( $dirname );
+			$this->core_model->plugins_setRunningPlugin ( $dirname );
 
 			//$this->load->file ( PLUGINS_DIRNAME . $dirname . '/controller.php', true );
 			include_once PLUGINS_DIRNAME . $dirname . '/controller.php';
@@ -493,11 +493,11 @@ if ($page ['content_subtype'] == 'module') {
 
 if (! empty ( $post )) {
 
-	$cats = CI::model('content')->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
+	$cats = $this->content_model->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
 
 	$this->template ['active_categories'] = $cats;
 
-	$this->load->vars ( $this->template );
+	// $this->load->vars ( $this->template );
 
 //	var_dump($cats);
 }
@@ -517,41 +517,41 @@ if (! empty ( $post )) {
 
 if (! empty ( $posts )) {
 
-	$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 
-	$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 
 }
 
 if (! empty ( $post )) {
 
 	//	var_dump ( $post );
-	$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+	$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 
 //	var_dump ( $meta );
 } elseif (! empty ( $posts )) {
 
-	$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+	$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 
-	$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 
 }
 
 elseif (! empty ( $page )) {
 
-	$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'] );
+	$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'] );
 
 }
 
 if (! empty ( $post )) {
 
-	$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+	$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 
 }
 
 //if (! empty ( $post )) {
 //var_dump ( $post );
-//$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+//$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 //}
 $content ['content_meta_title'] = $meta ['content_meta_title'];
 
@@ -619,7 +619,7 @@ if (! empty ( $active_categories_temp )) {
 
 	foreach ( $active_categories_temp as $thecategory ) {
 
-		$temp = CI::model('content')->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
+		$temp = $this->content_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
 
 		$taxonomy_tree = @array_merge ( $taxonomy_tree, $temp );
 
@@ -647,7 +647,7 @@ if (! empty ( $taxonomy_tree_reverse )) {
 
 if (! empty ( $taxonomy_tree )) {
 
-	$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+	$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 	$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -659,7 +659,7 @@ if (! empty ( $taxonomy_tree )) {
 
 		$temp ['id'] = $something;
 
-		$temp = CI::model('content')->taxonomyGet ( $temp );
+		$temp = $this->content_model->taxonomyGet ( $temp );
 
 		$temp = $temp [0];
 
@@ -677,7 +677,7 @@ if (! empty ( $taxonomy_tree )) {
 
 					//print $the_file;
 					//include_once $the_file;
-					$this->load->vars ( $this->template );
+					// $this->load->vars ( $this->template );
 
 					$taxonomy_data = $taxonomy_data . $this->load->file ( $the_file, true );
 
@@ -704,7 +704,7 @@ if (! empty ( $taxonomy_tree )) {
 					if (is_readable ( $the_file )) {
 
 						//include_once $the_file;
-						$this->load->vars ( $this->template );
+						// $this->load->vars ( $this->template );
 
 						$taxonomy_data = $taxonomy_data . $this->load->file ( $the_file, true );
 

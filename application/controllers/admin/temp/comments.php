@@ -14,20 +14,20 @@ class Comments extends CI_Controller {
 		
 		$data = array ( );
 		$data ['is_moderated'] = 'n';
-		$form_values = CI::model('comments')->commentsGet ( $data );
+		$form_values = $this->comments_model->commentsGet ( $data );
 		$this->template ['new_comments'] = $form_values;
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$data = array ( );
 		$data ['is_moderated'] = 'y';
 		$limit [0] = 0;
 		$limit [1] = 100;
 		
-		$form_values = CI::model('comments')->commentsGet ( $data );
+		$form_values = $this->comments_model->commentsGet ( $data );
 		$this->template ['old_comments'] = $form_values;
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -46,7 +46,7 @@ class Comments extends CI_Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			CI::model('comments')->commentApprove ( $id );
+			$this->comments_model->commentApprove ( $id );
 		}
 	}
 	
@@ -55,7 +55,7 @@ class Comments extends CI_Controller {
 		if (intval ( $id ) == 0) {
 			exit ( 'id' );
 		} else {
-			CI::model('comments')->commentsDeleteById ( $id );
+			$this->comments_model->commentsDeleteById ( $id );
 		}
 	}
 

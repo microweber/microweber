@@ -271,7 +271,7 @@ class Comments_model extends CI_Model {
 
         ";
 		
-		//      CI::model('core')->cleanCacheGroup('comments');
+		//      $this->core_model->cleanCacheGroup('comments');
 		
 
 		$qty = $this->core_model->dbQuery ( $query, $function_cache_id . md5 ( $query ), 'comments/global' );

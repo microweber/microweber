@@ -16,7 +16,7 @@ class OrderInfo extends Orders {
         	//parent::ajax_json_get_items_for_order_id();
         	if($id){
         		$q = "SELECT * FROM {$cms_db_tables['table_cart_orders']} WHERE id=$id";
-        		$q = CI::model('core')->dbQuery ( $q );
+        		$q = $this->core_model->dbQuery ( $q );
         		$array_buf = $q[0];
         		$array_buf2 = array();
         		foreach($array_buf as $key => $val){

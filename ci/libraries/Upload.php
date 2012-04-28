@@ -876,7 +876,7 @@ class CI_Upload {
 		}
 
 		$CI =& get_instance();
-		return $CI->security->xss_clean($data, TRUE);
+		return get_instance()->security->xss_clean($data, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -890,20 +890,20 @@ class CI_Upload {
 	public function set_error($msg)
 	{
 		$CI =& get_instance();
-		$CI->lang->load('upload');
+		get_instance()->lang->load('upload');
 
 		if (is_array($msg))
 		{
 			foreach ($msg as $val)
 			{
-				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
+				$msg = (get_instance()->lang->line($val) == FALSE) ? $val : get_instance()->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
 		}
 		else
 		{
-			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = (get_instance()->lang->line($msg) == FALSE) ? $msg : get_instance()->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}

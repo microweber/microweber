@@ -3,11 +3,11 @@
 <div id="post_comments_list">
   <? foreach($comments as $item): ?>
   <div class="post_comment" id="comment-list-id-<? print $item['id'];?>">
-    <? $author = CI::model('users')->getUserById( $item['created_by']); 
+    <? $author = get_instance()->users_model->getUserById( $item['created_by']); 
 	
 
 	?>
-    <? $thumb = CI::model('users')->getUserThumbnail( $author['id'], 70); ?>
+    <? $thumb = get_instance()->users_model->getUserThumbnail( $author['id'], 70); ?>
     <a class="img" href="<? print profile_link($author['id']);?>"> <span style="background-image: url('<?  print $thumb; ?>');"></span> </a>
     <div class="post_comment_text">
     

@@ -232,7 +232,7 @@ if ( ! function_exists('random_string'))
 			case 'sha1'	:
 
 						$CI =& get_instance();
-						$CI->load->helper('security');
+						get_instance()->load->helper('security');
 
 						return do_hash(uniqid(mt_rand(), TRUE), 'sha1');
 				break;

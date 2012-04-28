@@ -38,7 +38,7 @@ $(document).ready(function(){
   <?php foreach ($msg as $ms)  : ?>
   <? $message = get_message_by_id($ms); ?>
   <? // p( $message); ?>
-  <? $thread = CI::model('messages')->messagesThread($message['id']);	?>
+  <? $thread = get_instance()->messages_model->messagesThread($message['id']);	?>
   <? if(!empty($thread)):
 		//$message = $thread[0];
 		?>

@@ -8,11 +8,11 @@ $query_options ['items_per_page'] = $some_items_per_page;
 $query_options ['debug'] = false;
 $query_options ['group_by'] = 'to_table, to_table_id';
 
-$user_action = CI::model('core')->getParamFromURL ( 'action' );
+$user_action = $this->core_model->getParamFromURL ( 'action' );
 
 $log_params = array ();
 if ($user_action != 'live') {
-	$followed = CI::model('users')->realtionsGetFollowedIdsForUser ( $aUserId = false, false, false );
+	$followed = $this->users_model->realtionsGetFollowedIdsForUser ( $aUserId = false, false, false );
 	if (empty ( $followed )) {
 		$log_params [] = array ("id", '0' );
 	} else {
@@ -33,7 +33,7 @@ $results_count = intval ( $log_count );
 $log_count = ceil ( $results_count / $some_items_per_page );
 
 $url = site_url ( 'dashboard' );
-$paging = CI::model('content')->pagingPrepareUrls ( $url, $log_count );
+$paging = $this->content_model->pagingPrepareUrls ( $url, $log_count );
 
 $this->template ['posts_pages_links'] = $paging;
 $this->template ['dashboard_log'] = $log;

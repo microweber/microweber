@@ -4,7 +4,7 @@ $mw_config = array ();
  
  
 
-$mw_config ['site_url'] = 'http://localhost/mw2/'; //use slash at the end
+$mw_config ['site_url'] = 'http://p.microweber.info/mw3/'; //use slash at the end
 
  $mw_config ['system_folder'] = 'ci';
 $mw_config ['application_folder'] = 'application';
@@ -20,5 +20,5 @@ $mw_config ['db_database'] = 'digi2';
 
 ini_set('display_errors', '1');
  
-error_reporting(E_ALL);
+error_reporting ( E_ALL & ~ E_NOTICE | E_STRICT );
 ?>

@@ -91,7 +91,7 @@ class Login extends CI_Controller {
 		}
 		
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		//	$layout =$this->load->view ( 'layout', true, true );
 		$primarycontent =$this->load->view ( 'login', true, true );
 		print $primarycontent;

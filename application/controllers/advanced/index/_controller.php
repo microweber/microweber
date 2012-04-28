@@ -2,12 +2,13 @@
 
 $content_display_mode = false;
 
-if (user_id() == 0) {
-	$cache_page = true;
-} else {
-	$cache_page = false;
+/*
+ if (user_id() == 0) {
+ $cache_page = true;
+ } else {
+ $cache_page = false;
 
-}
+ }*/
 
 if (defined('INTERNAL_API_CALL') == true) {
 	$microweber_api = $this;
@@ -20,7 +21,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 	$output_format = false;
 	$subdomain_user = $this -> session -> userdata('subdomain_user');
-	$this -> template['subdomain_user'] = $subdomain_user;
+	//$this-> template['subdomain_user'] = $subdomain_user;
 	$subdomain_user = false;
 	if ($content_display_mode != 'extended_api_with_no_template') {
 
@@ -78,11 +79,11 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 			//	var_dump($page);
 		} else {
-			if (!empty($page)) {
-				if ($page['is_home'] != 'y') {
-					$post_maybe = $this -> content_model -> getContentByURLAndCache($url);
-				}
+
+			if ($page['is_home'] != 'y') {
+				$post_maybe = $this -> content_model -> getContentByURLAndCache($url);
 			}
+
 			if (!empty($post_maybe)) {
 				if (intval($post_maybe['id']) != 0) {
 					$post_maybe = $this -> content_model -> contentGetByIdAndCache($post_maybe['id']);
@@ -131,18 +132,19 @@ if (defined('INTERNAL_API_CALL') == true) {
 		 }*/
 		//p($post);
 		//	p($page);
-		if (!empty($post_maybe)) {
-			if ($post_maybe['content_type'] == 'post') {
-				$post = $post_maybe;
-				if (defined('POST_ID') == false) {
-					define('POST_ID', $post['id']);
-				}
 
-				if (defined('PAGE_ID') == false) {
-					define('PAGE_ID', $page['id']);
-				}
+		if ($post_maybe['content_type'] == 'post') {
+			$post = $post_maybe;
+			//p($post);
+			if (defined('POST_ID') == false) {
+				define('POST_ID', $post['id']);
+			}
+
+			if (defined('PAGE_ID') == false) {
+				define('PAGE_ID', $page['id']);
 			}
 		}
+
 		if (defined('MAIN_PAGE_ID') == false) {
 			$par = $this -> content_model -> getParentPagesIdsForPageIdAndCache($page['id']);
 			//p($par );
@@ -168,34 +170,36 @@ if (defined('INTERNAL_API_CALL') == true) {
 		if (empty($post)) {
 			$content = $page;
 		} else {
-			$post['content_body'] = html_entity_decode($post['content_body']);
+		//	$post['content_body'] = html_entity_decode($post['content_body']);
 
 		}
 
-		$page['content_body'] = html_entity_decode($page['content_body']);
+	//	$page['content_body'] = html_entity_decode($page['content_body']);
 
+		/*
 		if (user_id() != false) {
-			//$full_page = get_page ( $page ['id'] );
-			$more = $this -> core_model -> getCustomFields('table_content', $page['id']);
-			$page['custom_fields'] = $more;
-			//p($page);
-			if (isset($more["logged_redirect"]) and trim($more["logged_redirect"]) != '') {
-				//redirect ( $more ["logged_redirect"] );
-				//ob_start();
-				$this -> load -> helper('url');
-				$redir = site_url($more["logged_redirect"]);
-				//p($redir);
-				//header ( "HTTP/1.1 301 Moved Permanently" );
-				//header ( "Location: " . $redir );
-				//redirect ( $redir, 'refresh' );
-				echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
-				//ob_end_flush(); //now the headers are sent
-				exit();
-			}
+					//$full_page = get_page ( $page ['id'] );
+					$more = $this -> core_model -> getCustomFields('table_content', $page['id']);
+					$page['custom_fields'] = $more;
+					//p($page);
+					if (trim($more["logged_redirect"]) != '') {
+						//redirect ( $more ["logged_redirect"] );
+						//ob_start();
+						$this -> load -> helper('url');
+						$redir = site_url($more["logged_redirect"]);
+						//p($redir);
+						//header ( "HTTP/1.1 301 Moved Permanently" );
+						//header ( "Location: " . $redir );
+						//redirect ( $redir, 'refresh' );
+						echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
+						//ob_end_flush(); //now the headers are sent
+						exit();
+					}
+		
+				}*/
+		
 
-		}
-
-		if (isset($_POST['format'] ) and $_POST['format'] == 'json') {
+		if ($_POST['format'] == 'json') {
 			$output_format = 'json';
 		}
 
@@ -209,8 +213,10 @@ if (defined('INTERNAL_API_CALL') == true) {
 			exit($json);
 		}
 
+		$this -> benchmark -> mark('getting_content_by_params_start');
+
 		if ($page['content_type'] == 'post') {
-			require (APPPATH . 'controllers/advanced/index/display_post_as_page.php');
+			//require (APPPATH . 'controllers/advanced/index/display_post_as_page.php');
 		}
 
 		if ($page['content_type'] == 'page') {
@@ -218,8 +224,11 @@ if (defined('INTERNAL_API_CALL') == true) {
 				define('PAGE_ID', $page['id']);
 			}
 
-			require (APPPATH . 'controllers/advanced/index/display_page.php');
+			
 		}
+		//require (APPPATH . 'controllers/advanced/index/display_page.php');
+		require (APPPATH . 'controllers/advanced/index/display.php');
+		$this -> benchmark -> mark('getting_content_by_params_end');
 
 		//print '</pre>';
 
@@ -245,13 +254,13 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		if (trim($content['content_filename']) != '') {
 
-			if (is_readable($the_active_site_template_dir . $content['content_filename']) == true) {
+			if (is_file($the_active_site_template_dir . $content['content_filename']) == true) {
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				$content_filename_pre = $this -> load -> file($the_active_site_template_dir . $content['content_filename'], true);
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 			}
 
@@ -261,11 +270,11 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 			if (is_readable($the_active_site_template_dir . $post['content_filename']) == true) {
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				$content_from_filename_post = $this -> load -> file($the_active_site_template_dir . $post['content_filename'], true);
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 			}
 
@@ -292,13 +301,13 @@ if (defined('INTERNAL_API_CALL') == true) {
 			//$this->template ['title'] = 'adasdsad';
 			if (is_file($the_active_site_template_dir . 'layouts/' . $content['content_layout_file']) == true) {
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/' . $content['content_layout_file'], true);
 
 			} elseif (is_file($the_active_site_template_dir . 'layouts/' . 'default_layout.php') == true) {
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/' . 'default_layout.php', true);
 
@@ -306,19 +315,19 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 				if (is_file($the_active_site_template_dir . 'layouts/default/index.php') == true) {
 
-					$this -> load -> vars($this -> template);
+					// $this-> load -> vars($this-> template);
 
 					$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/default/index.php', true);
 
 				} elseif (is_file($the_active_site_template_dir . '' . 'default_layout.php') == true) {
 
-					$this -> load -> vars($this -> template);
+					// $this-> load -> vars($this-> template);
 
 					$layout = $this -> load -> file($the_active_site_template_dir . '' . 'default_layout.php', true);
 
 				} elseif (is_file($the_active_site_template_dir . '' . 'layout.php') == true) {
 
-					$this -> load -> vars($this -> template);
+					// $this-> load -> vars($this-> template);
 
 					$layout = $this -> load -> file($the_active_site_template_dir . '' . 'layout.php', true);
 
@@ -399,7 +408,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 						if (is_file($the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout) == true) {
 
-							$this -> load -> vars($this -> template);
+							// $this-> load -> vars($this-> template);
 
 							$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/' . $use_the_parent_page_layout, true);
 
@@ -407,7 +416,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 						if (strval($layout == '')) {
 							if (is_file($the_active_site_template_dir . 'layouts/' . 'default_layout.php') == true) {
 
-								$this -> load -> vars($this -> template);
+								// $this-> load -> vars($this-> template);
 
 								$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/' . 'default_layout.php', true);
 
@@ -415,19 +424,19 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 								if (is_file($the_active_site_template_dir . 'layouts/default/index.php') == true) {
 
-									$this -> load -> vars($this -> template);
+									// $this-> load -> vars($this-> template);
 
 									$layout = $this -> load -> file($the_active_site_template_dir . 'layouts/default/index.php', true);
 
 								} elseif (is_file($the_active_site_template_dir . '' . 'default_layout.php') == true) {
 
-									$this -> load -> vars($this -> template);
+									// $this-> load -> vars($this-> template);
 
 									$layout = $this -> load -> file($the_active_site_template_dir . '' . 'default_layout.php', true);
 
 								} elseif (is_file($the_active_site_template_dir . '' . 'layout.php') == true) {
 
-									$this -> load -> vars($this -> template);
+									// $this-> load -> vars($this-> template);
 
 									$layout = $this -> load -> file($the_active_site_template_dir . '' . 'layout.php', true);
 
@@ -452,17 +461,20 @@ if (defined('INTERNAL_API_CALL') == true) {
 		}
 
 		if ($content['content_layout_name'] != '') {
-			$this -> template['content'] = $content;
+			//$this-> template['content'] = $content;
+			$this -> load -> vars(array('content' => $content));
 
 			$layout_dir = TEMPLATES_DIR . 'layouts/' . $content['content_layout_name'] . '/';
-			$this -> template['layout_dir'] = $layout_dir;
-			$this -> template['layout_url'] = reduce_double_slashes(dirToURL($layout_dir) . '/');
-			$this -> load -> vars($this -> template);
+
+			$this -> load -> vars(array('layout_dir' => $content));
+			$this -> load -> vars(array('layout_url' => reduce_double_slashes(dirToURL($layout_dir) . '/')));
+
+			//// $this-> load -> vars($this-> template);
 			$layout = TEMPLATES_DIR . 'layouts/' . $content['content_layout_name'] . '/index.php';
 
 			$layout = $this -> load -> file($layout, true);
-			$this -> load -> model('Template_model', 'template_model');
-			$layout = $this -> template_model -> parseMicrwoberTags($layout);
+			//	$this-> load -> model('Template_model', 'template_model');
+			//$layout = $this-> template_model -> parseMicrwoberTags($layout);
 
 			//
 		}
@@ -473,14 +485,14 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		//}
 		//} else {
-		//	$this->load->vars ( $this->template );
+		//	// $this->load->vars ( $this->template );
 
 		//	$layout = $this->load->file ( $the_active_site_template_dir . 'affiliate_site_1/default_layout.php', true );
 		//}
 
 		if (trim($content['content_filename']) != '') {
 			if (is_readable($the_active_site_template_dir . $content['content_filename']) == true) {
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				//$content_filename = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 				//$layout = str_ireplace ( '{content}', $content_filename, $layout );
@@ -493,7 +505,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 		if ($f_editable_layout != false) {
 			//	$layout = str_replace ( '{layout}', $is_saved_layout_from_editor, $layout );
 			if (is_file($f_editable_layout)) {
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				$f_editable_layout_load = $this -> load -> file($f_editable_layout, true);
 				//	p($f_editable_layout_load);
@@ -513,7 +525,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 				//$layout = str_replace ( $s1, $s2, $layout );
 
 				//p ( $layout,1);
-				$layout = $this -> template_model -> parseMicrwoberTags($layout);
+				//	$layout = $this-> template_model -> parseMicrwoberTags($layout);
 			}
 
 		} else {
@@ -528,7 +540,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 		//var_dump($post ['content_body_filename']);
 		if ($content['content_body_filename'] != false) {
 			if (trim($content['content_body_filename']) != '') {
-				//$the_active_site_template12 = CI::model('core')->optionsGetByKey ( 'curent_template' );
+				//$the_active_site_template12 = $this->core_model->optionsGetByKey ( 'curent_template' );
 				//$the_active_site_template_dir1 = TEMPLATEFILES . $the_active_site_template12 . '/content_files/';
 
 				$the_active_site_template_dir1 = TEMPLATE_DIR;
@@ -536,7 +548,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 				if (is_file($the_active_site_template_dir1 . $content['content_body_filename']) == true) { {
 						//$v1 = file_get_contents ( $the_active_site_template_dir . $content ['content_body_filename'] );
 						//$v1 = html_entity_decode ( $v1 );
-						$this -> load -> vars($this -> template);
+						// $this-> load -> vars($this-> template);
 						$content_filename1 = $this -> load -> file($the_active_site_template_dir1 . $content['content_body_filename'], true);
 
 						//print($content ['content_body']);
@@ -553,7 +565,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 			if (trim($content['content_body']) != '') {
 
-				$this -> load -> vars($this -> template);
+				// $this-> load -> vars($this-> template);
 
 				//print($content ['content_body']);
 				$layout = str_ireplace('{content}', $content['the_content_body'], $layout);
@@ -563,7 +575,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		if (trim($taxonomy_data) != '') {
 
-			$this -> load -> vars($this -> template);
+			// $this-> load -> vars($this-> template);
 
 			$layout = str_ireplace('{content}', $taxonomy_data, $layout);
 
@@ -572,26 +584,26 @@ if (defined('INTERNAL_API_CALL') == true) {
 		if (trim($content_from_filename_post) != '') {
 
 			//var_dump($content_from_filename_post);
-			$this -> load -> vars($this -> template);
+			// $this-> load -> vars($this-> template);
 
 			$layout = str_ireplace('{post_content}', $content_from_filename_post, $layout);
 
 		}
 
 		//just remove it if its still there
-		$this -> load -> vars($this -> template);
+		// $this-> load -> vars($this-> template);
 
 		$content = str_ireplace('{content}', '', $content);
 		//var_dump($global_template_replaceables);
 		//
 
-		//	p(array_size(CI::model('core')->cache_storage));
+		//	p(array_size($this->core_model->cache_storage));
 
 		$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout, $global_template_replaceables);
 
-		//$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
+		//$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
 		//	var_dump ( $taxonomy_tree );
-		$layout = $this -> template_model -> replaceTemplateTags($layout);
+		//$layout = $this-> template_model -> replaceTemplateTags($layout);
 		//var_dump ( $taxonomy_tree );
 		$opts = array();
 		$opts['no_microwber_tags'] = true;
@@ -606,11 +618,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 		}
 
 		//	$stats_js = CI::model ( 'stats' )->get_js_code ();
-
-		$layout = $this -> template_model -> parseMicrwoberTags($layout);
-
-		//$layout = CI::model('template')->parseMicrwoberTags($layout);
-		//	$layout = CI::model('template')->parseMicrwoberTags($layout);
 
 		$editmode = $this -> session -> userdata('editmode');
 
@@ -653,8 +660,11 @@ if (defined('INTERNAL_API_CALL') == true) {
 		}
 
 		//<script type="text/javascript" src="http://google.com/jsapi"></script>
-
-		//	$layout = CI::model('template')->parseMicrwoberTags ( $layout, $opts );
+		$this -> benchmark -> mark('parsing_template_tags_start');
+		//$this-> load -> model('Template_model', 'template_model');
+		// $layout = $this-> template_model -> parseMicrwoberTags($layout);
+		$layout = parse_micrwober_tags($layout);
+		$this -> benchmark -> mark('parsing_template_tags_end');
 		if ($content_display_mode == 'extended_api_with_no_template') {
 
 			$the_user = $this -> session -> userdata('the_user');
@@ -664,12 +674,13 @@ if (defined('INTERNAL_API_CALL') == true) {
 			return $CI;
 
 		} else {
+			$this -> benchmark -> mark('my_mark1_start');
 			if ($cache_page == true) {
 
 				$this -> core_model -> cacheWriteAndEncode($layout, $whole_site_cache_id, $cache_group = 'global');
 			}
-			//p(CI::model('core')->cache_storage_hits);
-			//p(CI::model('core')->cache_storage_decoded);
+			//p($this->core_model->cache_storage_hits);
+			//p($this->core_model->cache_storage_decoded);
 			if (is_file(ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php')) {
 
 				include ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php';
@@ -677,6 +688,8 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 
 			$this -> output -> set_output($layout);
+			$this -> benchmark -> mark('my_mark1_end');
+
 		}
 
 		//var_dump($_SERVER);

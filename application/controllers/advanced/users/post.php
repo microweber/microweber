@@ -1,16 +1,16 @@
 <?php
 
-$content_id = CI::model('core')->getParamFromURL ( 'id' );
+$content_id = $this->core_model->getParamFromURL ( 'id' );
 $categories_ids_to_remove = array ();
 $categories_ids_to_remove ['taxonomy_type'] = 'category';
 $categories_ids_to_remove ['users_can_create_content'] = 'n';
-$categories_ids_to_remove = CI::model('taxonomy')->getIds ( $data = $categories_ids_to_remove, $orderby = false );
+$categories_ids_to_remove = $this->taxonomy_model->getIds ( $data = $categories_ids_to_remove, $orderby = false );
 $this->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
 
 $categories_ids_to_add = array ();
 $categories_ids_to_add ['taxonomy_type'] = 'category';
 $categories_ids_to_add ['users_can_create_content'] = 'y';
-$categories_ids_to_add = CI::model('taxonomy')->getIds ( $data = $categories_ids_to_add, $orderby = false );
+$categories_ids_to_add = $this->taxonomy_model->getIds ( $data = $categories_ids_to_add, $orderby = false );
 $this->template ['categories_ids_to_add'] = $categories_ids_to_add;
 
 //	p($categories_ids_to_remove);
@@ -23,7 +23,7 @@ if (intval ( $content_id ) != 0) {
 	$get_id ['id'] = $content_id;
 	$get_id ['created_by'] = $user_session ['user_id'];
 	$get_id ['content_type'] = 'post';
-	$get_id = CI::model('content')->getContent ( $get_id );
+	$get_id = $this->content_model->getContent ( $get_id );
 
 	$get_id = $get_id [0];
 
@@ -57,7 +57,7 @@ if ($_POST) {
 	if (! empty ( $categories )) {
 
 		foreach ( $categories as $cat ) {
-			$parrent_cats = CI::model('taxonomy')->getParents ( $cat );
+			$parrent_cats = $this->taxonomy_model->getParents ( $cat );
 
 			foreach ( $parrent_cats as $par_cat ) {
 				$categories [] = $par_cat;
@@ -99,7 +99,7 @@ if ($_POST) {
 
 		$check_title ['content_type'] = 'post';
 
-		$check_title = CI::model('content')->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
+		$check_title = $this->content_model->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
 
 		$check_title_error = false;
 
@@ -138,7 +138,7 @@ if ($_POST) {
 
 			$taxonomy_categories = array ($category );
 
-			$taxonomy = CI::model('taxonomy')->getParents ( $category );
+			$taxonomy = $this->taxonomy_model->getParents ( $category );
 
 			if (! empty ( $taxonomy )) {
 
@@ -166,7 +166,7 @@ if ($_POST) {
 
 			foreach ( $categories as $cat ) {
 				if (empty ( $parent_page )) {
-					$parent_page = CI::model('content')->contentsGetTheLastBlogSectionForCategory ( $cat );
+					$parent_page = $this->content_model->contentsGetTheLastBlogSectionForCategory ( $cat );
 				}
 
 			}
@@ -186,24 +186,24 @@ if ($_POST) {
 				//p($to_save);
 
 
-				$saved = CI::model('content')->saveContent ( $to_save );
+				$saved = $this->content_model->saveContent ( $to_save );
 
 				// log to user activities
 				/*if (!$to_save['id']) {
 									$activity = array(
 										'user_id' => $user['id'],
 										'type' => 'new_post',
-										'message'=> CI::model('users')->buildActivityMessage(
+										'message'=> $this->users_model->buildActivityMessage(
 											'new_post',
 											array(
 												'username' => $user['username'],
-												'content_url' => CI::model('content')->getContentURLByIdAndCache($saved),
+												'content_url' => $this->content_model->getContentURLByIdAndCache($saved),
 												'content_title' => $to_save['content_title'],
 											)
 										)
 									);
 
-									CI::model('core')->saveData(TABLE_PREFIX.'users_activities', $activity);
+									$this->core_model->saveData(TABLE_PREFIX.'users_activities', $activity);
 								}*/
 
 				//p($to_save);
@@ -219,9 +219,9 @@ if ($_POST) {
 
 	}
 }
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 $user_session ['user_action'] = $user_action;
-$type = CI::model('core')->getParamFromURL ( 'type' );
+$type = $this->core_model->getParamFromURL ( 'type' );
 
 if ($type == 'form') {
 	$this->template ['forms_manager_active'] = true;

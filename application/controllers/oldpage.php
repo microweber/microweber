@@ -136,7 +136,7 @@ class Oldpage extends CI_Controller {
 					$data['the_old_id'] = $n;
 					$data = $this->
 content_model->getContent($data);
-					$url = CI::model('content')->getContentURLById($data[0]['id']);
+					$url = $this->content_model->getContentURLById($data[0]['id']);
 					$gogo =$url;
 					//var_dump($url);
 					

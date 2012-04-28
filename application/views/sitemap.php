@@ -14,7 +14,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <?php $i= 1;  foreach($updates as $item): ?>
    <url>
-      <loc><?php print CI::model('content')->getContentURLById($item['id']) ?></loc>
+      <loc><?php print get_instance()->content_model->getContentURLById($item['id']) ?></loc>
       <lastmod><?php print w3cDate(strtotime($item['updated_on'])); ?></lastmod>
       <priority>0.<?php print intval(999) - $i ?></priority>
    </url>

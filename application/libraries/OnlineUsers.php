@@ -31,14 +31,14 @@ class OnlineUsers{
 			$this->data[$this->ip]['uri'] = $_SERVER['REQUEST_URI'];
 			$CI =& get_instance();
 			//Loads the USER_AGENT class if it's not loaded yet
-			if(!isset($CI->agent)) { $CI->load->library('user_agent'); $class_loaded = true; }
-			if($CI->agent->is_robot())
-				$this->data[$this->ip]['bot'] = $CI->agent->robot();
+			if(!isset(get_instance()->agent)) { get_instance()->load->library('user_agent'); $class_loaded = true; }
+			if(get_instance()->agent->is_robot())
+				$this->data[$this->ip]['bot'] = get_instance()->agent->robot();
 			else
 				$this->data[$this->ip]['bot'] = false;
 			
 			//Destroys the USER_AGENT class so it can be loaded again on the controller
-			if($class_loaded) unset($class_loaded, $CI->agent);
+			if($class_loaded) unset($class_loaded, get_instance()->agent);
 		}
 		else
 		{

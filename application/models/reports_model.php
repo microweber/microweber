@@ -56,10 +56,10 @@ class reports_model extends CI_Model {
 		
 		$table = $cms_db_tables ['table_reports'];
 		
-		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
+		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
 		
 		if ($user_id == false) {
-			$created_by = CI::model('core')->userId ();
+			$created_by = $this->core_model->userId ();
 		} else {
 			$created_by = $user_id;
 		}
@@ -98,7 +98,7 @@ class reports_model extends CI_Model {
 		//var_dump ( $check_if_user_reported_for_today );
 		
 
-		$check_if_user_reported_for_today = CI::model('core')->dbQuery ( $check_if_user_reported_for_today, __FUNCTION__ . md5 ( $check_if_user_reported_for_today ), $cache_group );
+		$check_if_user_reported_for_today = $this->core_model->dbQuery ( $check_if_user_reported_for_today, __FUNCTION__ . md5 ( $check_if_user_reported_for_today ), $cache_group );
 		
 		$check_if_user_reported_for_today = intval ( $check_if_user_reported_for_today [0] ['qty'] );
 		
@@ -112,10 +112,10 @@ class reports_model extends CI_Model {
 			
 			$cast_vote ['user_ip'] = $ip;
 			
-			CI::model('core')->saveData ( $table, $cast_vote );
+			$this->core_model->saveData ( $table, $cast_vote );
 			
-			CI::model('core')->cleanCacheGroup ( $cache_group );
-			CI::model('core')->cleanCacheGroup ( 'reports/global' );
+			$this->core_model->cleanCacheGroup ( $cache_group );
+			$this->core_model->cleanCacheGroup ( 'reports/global' );
 			
 			return true;
 		
@@ -175,7 +175,7 @@ class reports_model extends CI_Model {
 		
 		}
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $options );
 		
 		return $data;
 	
@@ -212,7 +212,7 @@ class reports_model extends CI_Model {
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = CI::model('core')->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -232,9 +232,9 @@ class reports_model extends CI_Model {
 		
 		$table = $cms_db_tables ['table_reports'];
 		
-		$the_table = CI::model('core')->dbGetRealDbTableNameByAssocName ( $to_table );
+		$the_table = $this->core_model->dbGetRealDbTableNameByAssocName ( $to_table );
 		
-		$check = CI::model('core')->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
+		$check = $this->core_model->dbCheckIfIdExistsInTable ( $the_table, $to_table_id );
 		
 		if ($check == false) {
 			
@@ -271,7 +271,7 @@ class reports_model extends CI_Model {
 			//var_dump($qty);
 			
 
-			$qty = CI::model('core')->dbQuery ( $qty, $cache_id = __FUNCTION__ . md5 ( $qty ), $cache_group );
+			$qty = $this->core_model->dbQuery ( $qty, $cache_id = __FUNCTION__ . md5 ( $qty ), $cache_group );
 			
 			$qty = $qty [0] ['qty'];
 			
@@ -279,11 +279,11 @@ class reports_model extends CI_Model {
 			
 			if ($qty == 0) {
 				
-				CI::model('core')->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+				$this->core_model->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 			
 			} else {
 				
-				CI::model('core')->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
+				$this->core_model->cacheWriteAndEncode ( $qty, $function_cache_id, $cache_group );
 			
 			}
 			

@@ -90,7 +90,7 @@ $user_data = get_user($dash_user);
           <div class="dash-sidebar-nav"> <a href="javascript:mw.users.UserMessage.compose(<?php echo $user['id']; ?>);" class="send_msg"><span   title="Send new message to <?php echo $user['first_name']; ?>" >Send a Message</span></a> </div>
           
           
-          <div class="dash-sidebar-nav"> <a  id="follow_btn_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>, 0, '.inner_user_<?php echo $to_user?>');" class="add_request" title="Add as friend <?php print CI::model('users')->getPrintableName($to_user, 'first'); ?>"><span>Add as friend</span></a></div>
+          <div class="dash-sidebar-nav"> <a  id="follow_btn_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>, 0, '.inner_user_<?php echo $to_user?>');" class="add_request" title="Add as friend <?php print get_instance()->users_model->getPrintableName($to_user, 'first'); ?>"><span>Add as friend</span></a></div>
         </div>
       </div>
     </div>

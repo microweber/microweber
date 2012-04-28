@@ -388,7 +388,7 @@ class CI_Zip  {
 		}
 
 		$CI =& get_instance();
-		$CI->load->helper('download');
+		get_instance()->load->helper('download');
 
 		$get_zip = $this->get_zip();
 

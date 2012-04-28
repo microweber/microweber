@@ -133,7 +133,7 @@ $(document).ready(function(){
   <input name="taxonomy_categories[]" type="hidden" value="<?  print $params['category'] ?>" />
   <? endif; ?>
   <? if($the_post['id'] != false): ?>
-  <? $cats = CI::model('taxonomy')->getCategoriesForContent($the_post['id'], true); ?>
+  <? $cats = get_instance()->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
   <?
 
   
@@ -142,7 +142,7 @@ $(document).ready(function(){
   
   
    $master_category = $category;
-  $master_cats = CI::model('taxonomy')->getParents($category);
+  $master_cats = get_instance()->taxonomy_model->getParents($category);
   if(!empty($master_cats)){
 	    
 	   $master_category = ($master_cats[0]);
@@ -152,9 +152,9 @@ $(document).ready(function(){
 	   
 	   
   }
- $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
+ $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
  if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   ?>
   <? foreach($cats as $cat): ?>
@@ -167,7 +167,7 @@ $(document).ready(function(){
   <? else: ?>
   <?
    if(empty($subcats)){
-	 $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   
   ?>
@@ -200,7 +200,7 @@ $(document).ready(function(){
 	
 $master_category = $category;	
 }?>
-      <? $subcats = CI::model('taxonomy')->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false); 
+      <? $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false); 
 	 ?>
       <? if(!empty($subcats)): ?>
       <select id="cat_select">

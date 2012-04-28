@@ -1,8 +1,8 @@
 <?php
 
 function url_string($string) {
-	$CI = get_instance ();
-	$string = $CI->core_model->url_title ( $string );
+	 // $CI = get_instance ();
+	$string =  get_instance()->core_model->url_title ( $string );
 	return $string;
 
 }
@@ -139,13 +139,13 @@ function url_param_unset($param, $url = false) {
 }
 
 function enc($var) {
-	$CI = get_instance ();
-	$var = $CI->core_model->securityEncryptString ( $var );
+	 // $CI = get_instance ();
+	$var =  get_instance()->core_model->securityEncryptString ( $var );
 	return $var;
 }
 function dec($var) {
-	$CI = get_instance ();
-	$var = $CI->core_model->securityDecryptString ( $var );
+	 // $CI = get_instance ();
+	$var =  get_instance()->core_model->securityDecryptString ( $var );
 	return $var;
 
 }
@@ -171,7 +171,7 @@ function decode_var($var) {
 }
 
 function mw_var($var, $print = true) {
-	//$CI = get_instance ();
+	// // $CI = get_instance ();
 	
 
 	$var = json_encode ( $var );
@@ -184,7 +184,7 @@ function mw_var($var, $print = true) {
 }
 
 function mw_get_var($var) {
-	//$CI = get_instance ();
+	// // $CI = get_instance ();
 	$var = json_decode ( $var );
 	if ($var != false) {
 		
@@ -196,20 +196,20 @@ function mw_get_var($var) {
 }
 
 function template_var($var) {
-	$CI = get_instance ();
-	$var = $CI->template [$var];
-	return $var;
+	 // $CI = get_instance ();
+	//$var =  get_instance()->template [$var];
+	//return $var;
 }
 function app_var($k, $new_value) {
 	if ($k == false) {
 		return false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($k == true and ! isset ( $new_value )) {
-		//return $CI->appvar->get ( $k );
+		//return  get_instance()->appvar->get ( $k );
 	} else {
-		//$CI->appvar->set ( $k, $new_value );
+		// get_instance()->appvar->set ( $k, $new_value );
 	}
 
 }
@@ -218,7 +218,7 @@ function add_post_form($params) {
 	
 	$display = $params ['display'];
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	if (! $display) {
 		$display = 'add';
@@ -257,29 +257,23 @@ function add_post_form($params) {
 	}
 	
 	if (is_file ( $try_file1 )) {
-		
-		/*		$more = false;
-		$more = CI::model('core')->getCustomFields ( 'table_content', $the_post ['id'] );
-		$the_post ['custom_fields'] = $more;
-		
-		$CI->template ['the_post'] = $the_post;
-		$CI->template ['post'] = $the_post;
-		*/
-		foreach ( $params as $k => $v ) {
-			$CI->template ['$k'] = $v;
+		 
+		foreach ( $params as $k => $v ) {  
+			 	get_instance()-> load -> vars(array($k =>$v));
 		}
 		
 		if ($params ['id']) {
 			$the_post = get_post ( $params ['id'] );
 			if (($the_post ['created_by']) == user_id ()) {
-				$CI->template ['the_post'] = $the_post;
+				 
+				 	get_instance()-> load -> vars(array('the_post' =>$the_post));
 			}
 		}
 		
-		$CI->template ['params'] = $params;
-		$CI->load->vars ( $CI->template );
-		
-		$content_filename = $CI->load->file ( $try_file1, true );
+ 
+		 get_instance()-> load -> vars(array('params' =>$params));
+ 		
+		$content_filename =  get_instance()->load->file ( $try_file1, true );
 		print $content_filename;
 	
 	}
@@ -361,8 +355,8 @@ function get_custom_fields_config_for_content($content_id, $page_id) {
 	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
 	//    p( $cf_cfg1);
 	
-$CI = get_instance ();
-	$cf_cfg1 = $CI->core_model->getCustomFieldsConfig ( $cf_cfg1 );
+ // $CI = get_instance ();
+	$cf_cfg1 =  get_instance()->core_model->getCustomFieldsConfig ( $cf_cfg1 );
 	//p($cf_cfg1);
 	//p($cf_cfg1);
 	//$to_return = array ();
@@ -393,7 +387,7 @@ $CI = get_instance ();
 	}
 	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
 	//    p( $cf_cfg1);
-	$cf_cfg1 = $CI->core_model->getCustomFieldsConfig ( $cf_cfg1 );
+	$cf_cfg1 =  get_instance()->core_model->getCustomFieldsConfig ( $cf_cfg1 );
 	
 	//	p ( $to_return );
 	// p ( $cf_cfg1 );
@@ -464,15 +458,15 @@ $CI = get_instance ();
 
 function get_custom_fields_for_content($content_id) {
 	//p($content_id);
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	$more = false;
-	$more = $CI->core_model->getCustomFields ( 'table_content', $content_id, true );
+	$more =  get_instance()->core_model->getCustomFields ( 'table_content', $content_id, true );
 	return $more;
 }
 
 function option_get($key, $group = false) {
-		$CI = get_instance ();
-	$more = $CI->core_model->optionsGetByKey ( $key, $return_full = false, $orderby = false, $option_group = $group );
+		 // $CI = get_instance ();
+	$more =  get_instance()->core_model->optionsGetByKey ( $key, $return_full = false, $orderby = false, $option_group = $group );
 	
 	return $more;
 
@@ -482,11 +476,11 @@ function get_post($id, $display = false) {
 	if (intval ( $id ) == 0) {
 		return false;
 	}
-	$CI = get_instance ();
-	$post = $CI->content_model->contentGetByIdAndCache ( $id );
+	 // $CI = get_instance ();
+	$post =  get_instance()->content_model->contentGetByIdAndCache ( $id );
 	if ($display == false) {
 		$more = false;
-		$more = $CI->core_model->getCustomFields ( 'table_content', $post ['id'] );
+		$more =  get_instance()->core_model->getCustomFields ( 'table_content', $post ['id'] );
 		$post ['custom_fields'] = $more;
 		return $post;
 	} else {
@@ -527,57 +521,57 @@ function get_post($id, $display = false) {
 		if (is_file ( $try_file1 )) {
 			
 			$more = false;
-			$more = $CI->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
+			$more =  get_instance()->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
 			$the_post ['custom_fields'] = $more;
 			
-			$CI->template ['the_post'] = $the_post;
-			$CI->template ['post'] = $the_post;
-			$CI->template ['data'] = $the_post;
-			$CI->load->vars ( $CI->template );
-			
-			$content_filename = $CI->load->file ( $try_file1, true );
+			 
+			 
+			 get_instance()-> load -> vars(array('post' =>$the_post));
+			 
+			 
+			$content_filename =  get_instance()->load->file ( $try_file1, true );
 			print $content_filename;
 		
 		} else {
 			$more = false;
-			$more = $CI->core_model->getCustomFields ( 'table_content', $post ['id'] );
+			$more =  get_instance()->core_model->getCustomFields ( 'table_content', $post ['id'] );
 			$post ['custom_fields'] = $more;
 			return $post;
 		}
 	
 	}
 	$more = false;
-	$more = $CI->core_model->getCustomFields ( 'table_content', $post ['id'] );
+	$more =  get_instance()->core_model->getCustomFields ( 'table_content', $post ['id'] );
 	$post ['custom_fields'] = $more;
 	return $post;
 }
 
 function get_sub_pages($page_id = false) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($page_id == false) {
 		$page_id = PAGE_ID;
 	}
 	$params ['content_parent'] = $page_id;
-	$posts = $CI->content_model->contentGetByParams ( $params );
+	$posts =  get_instance()->content_model->contentGetByParams ( $params );
 	
 	return $posts ['posts'];
 
 }
 
 function get_pages($params = array()) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	$params ['content_type'] = 'page';
-	$posts = $CI->content_model->contentGetByParams ( $params );
+	$posts =  get_instance()->content_model->contentGetByParams ( $params );
 	
 	return $posts ['posts'];
 
 }
 
 function get_page_id_for_category_id($category_id) {
-	$CI = get_instance ();
-	
-	$res = $CI->taxonomy_model->get_page_for_category ( $category_id );
+	 // $CI = get_instance ();
+	get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$res =  get_instance()->taxonomy_model->get_page_for_category ( $category_id );
 	
 	if (! empty ( $res )) {
 		return $res ['id'];
@@ -586,9 +580,9 @@ function get_page_id_for_category_id($category_id) {
 }
 
 function get_page_for_category_id($category_id) {
-	$CI = get_instance ();
-	
-	$res = $CI->taxonomy_model->get_page_for_category ( $category_id );
+	 // $CI = get_instance ();
+	get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$res =  get_instance()->taxonomy_model->get_page_for_category ( $category_id );
 	if (! empty ( $res )) {
 		return $res;
 	}
@@ -596,16 +590,16 @@ function get_page_for_category_id($category_id) {
 }
 
 function get_pages_old($params = array()) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	$params ['content_type'] = 'page';
-	$posts = $CI->content_model->contentGetByParams ( $params );
+	$posts =  get_instance()->content_model->contentGetByParams ( $params );
 	$to_return = array ();
 	return $posts;
 	/*	foreach ( $posts as $the_post ) {
  
 		$more = false;
-		$more = CI::model('core')->getCustomFields ( 'table_content', $the_post ['id'] );
+		$more = get_instance()->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
 		$the_post ['custom_fields'] = $more;
 	//	$to_return [] = $the_post;
 
@@ -650,8 +644,8 @@ function get_comments($params) {
 	if (! is_array ( $params )) {
 	
 	}
-	$CI = get_instance ();
-	$try = $CI->comments_model->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
+	 // $CI = get_instance ();
+	$try =  get_instance()->comments_model->commentsGet ( $params, $limit = false, $count_only = false, $orderby = false );
 	
 	return $try;
 }
@@ -698,7 +692,7 @@ function get_posts($params = false) {
 	
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($params ['display']) {
 		$list_file = $params ['display'];
 		unset ( $params ['display'] );
@@ -739,7 +733,7 @@ function get_posts($params = false) {
 	
 	if ($params ['page_id']) {
 		
-		$content1 = $CI->content_model->contentGetById ( $params ['page_id'] );
+		$content1 =  get_instance()->content_model->contentGetById ( $params ['page_id'] );
 		if ($content1 ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content1 ['content_subtype_value'];
@@ -756,12 +750,12 @@ function get_posts($params = false) {
 				
 				unset ( $params ['selected_categories'] );
 			} else {
-				$params ['selected_categories'] = $CI->template ['active_categories'];
+				$params ['selected_categories'] =  get_instance()->template ['active_categories'];
 				if ($params ['selected_categories'] == false) {
-					$try_post = $CI->template ['post'];
+					$try_post =  get_instance()->template ['post'];
 					
 					if (! empty ( $try_post )) {
-						$try = $CI->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
+						$try =  get_instance()->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
 						
 						if (! empty ( $try )) {
 						
@@ -781,7 +775,7 @@ function get_posts($params = false) {
 	if ($data == false) {
 		if (! empty ( $params )) {
 			
-			$posts = $CI->content_model->contentGetByParams ( $params );
+			$posts =  get_instance()->content_model->contentGetByParams ( $params );
 			return $posts;
 			//p($posts);
 			if (! empty ( $posts )) {
@@ -803,7 +797,7 @@ function get_posts($params = false) {
 				$posts = $posts ['posts'];
 			}
 		} else {
-			$posts = $CI->template ['posts'];
+			$posts =  get_instance()->template ['posts'];
 		}
 	} else {
 		$posts = $data;
@@ -815,7 +809,7 @@ function get_posts($params = false) {
 		$posts_cf = array ();
 		foreach ( $posts as $post ) {
 			//$more = false;
-			//$more = $CI->core_model->getCustomFields ( 'table_content', $post ['id'] );
+			//$more =  get_instance()->core_model->getCustomFields ( 'table_content', $post ['id'] );
 			//$post ['custom_fields'] = $more;
 			$posts_cf [] = $post;
 		}
@@ -827,19 +821,19 @@ function get_posts($params = false) {
 		$try_file1 = TEMPLATE_DIR . 'modules/posts/views/' . $file . '.php';
 		
 		if (is_file ( $try_file1 )) {
-			$CI->template ['posts'] = $posts;
-			$CI->load->vars ( $CI->template );
+			 get_instance()->template ['posts'] = $posts;
+			 get_instance()->load->vars (  get_instance()->template );
 			
-			$content_filename = $CI->load->file ( $try_file1, true );
+			$content_filename =  get_instance()->load->file ( $try_file1, true );
 			print $content_filename;
 		} else {
 			$try_file1 = TEMPLATE_DIR . '' . $file . '.php';
 			
 			if (is_file ( $try_file1 )) {
-				$CI->template ['posts'] = $posts;
-				$CI->load->vars ( $CI->template );
+				 get_instance()->template ['posts'] = $posts;
+				 get_instance()->load->vars (  get_instance()->template );
 				
-				$content_filename = $CI->load->file ( $try_file1, true );
+				$content_filename =  get_instance()->load->file ( $try_file1, true );
 				print $content_filename;
 			}
 		}
@@ -881,13 +875,13 @@ function get_posts($params = false) {
 				foreach ( $posts as $the_post ) {
 					if ($without_custom_fields == false) {
 						$more = false;
-						$more = $CI->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
+						$more =  get_instance()->core_model->getCustomFields ( 'table_content', $the_post ['id'] );
 						$the_post ['custom_fields'] = $more;
 					}
-					$CI->template ['the_post'] = $the_post;
-					$CI->load->vars ( $CI->template );
+					 get_instance()->template ['the_post'] = $the_post;
+					 get_instance()->load->vars (  get_instance()->template );
 					
-					$content_filename = $CI->load->file ( $try_file1, true );
+					$content_filename =  get_instance()->load->file ( $try_file1, true );
 					print $content_filename;
 				
 				}
@@ -916,14 +910,14 @@ function get_posts($params = false) {
  */
 
 function paging($display = 'default', $data = false) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($display) {
 		$list_file = $display;
 		$display = strtolower ( $display );
 	
 	}
 	if ($data == false) {
-		$posts_pages_links = $CI->template ['posts_pages_links'];
+		$posts_pages_links =  get_instance()->template ['posts_pages_links'];
 	} else {
 		$posts_pages_links = $data;
 	}
@@ -932,21 +926,21 @@ function paging($display = 'default', $data = false) {
 		case 'default' :
 		case 'ul' :
 		case 'uls' :
-			$CI->template ['posts_pages_links'] = $posts_pages_links;
-			$CI->load->vars ( $CI->template );
+			 get_instance()->template ['posts_pages_links'] = $posts_pages_links;
+			 get_instance()->load->vars (  get_instance()->template );
 			
 			//p(RESOURCES_DIR . 'blocks/nav/default.php');
 			
 
-			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_default.php', true );
+			$content_filename =  get_instance()->load->file ( RESOURCES_DIR . 'blocks/nav/nav_default.php', true );
 			print ($content_filename) ;
 			break;
 		
 		case 'divs' :
-			$CI->template ['posts_pages_links'] = $posts_pages_links;
-			$CI->load->vars ( $CI->template );
+			 get_instance()->template ['posts_pages_links'] = $posts_pages_links;
+			 get_instance()->load->vars (  get_instance()->template );
 			
-			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_divs.php', true );
+			$content_filename =  get_instance()->load->file ( RESOURCES_DIR . 'blocks/nav/nav_divs.php', true );
 			
 			print ($content_filename) ;
 			break;
@@ -971,8 +965,8 @@ function paging($display = 'default', $data = false) {
  */
 
 function get_post_link($id) {
-	$CI = get_instance ();
-	$link = $CI->content_model->contentGetHrefForPostId ( $id );
+	 // $CI = get_instance ();
+	$link =  get_instance()->content_model->contentGetHrefForPostId ( $id );
 	return $link;
 }
 function post_link($id) {
@@ -1004,11 +998,11 @@ function page_link($id = false) {
 				$id = PAGE_ID;
 			}
 		}
-		$CI = get_instance ();
-		$link = $CI->content_model->getContentURLByIdAndCache ( $id );
+		 // $CI = get_instance ();
+		$link =  get_instance()->content_model->getContentURLByIdAndCache ( $id );
 		if (strval ( $link ) == '') {
-			$link = $CI->content_model->getContentByURL ( $id );
-			$link = $CI->content_model->getContentURLByIdAndCache ( $link ['id'] );
+			$link =  get_instance()->content_model->getContentByURL ( $id );
+			$link =  get_instance()->content_model->getContentURLByIdAndCache ( $link ['id'] );
 		}
 	}
 	return $link;
@@ -1016,8 +1010,8 @@ function page_link($id = false) {
 }
 
 function menu_tree($menu_id, $max_depth = false) {
-	$CI = get_instance ();
-	$menu_items = $CI->content_model->menuTree ( $menu_id, $max_depth );
+	 // $CI = get_instance ();
+	$menu_items =  get_instance()->content_model->menuTree ( $menu_id, $max_depth );
 	
 	print $menu_items;
 }
@@ -1025,23 +1019,23 @@ function menu_tree($menu_id, $max_depth = false) {
 function get_page_for_post($post_id) {
 	
 	$url = post_link ( $post_id );
-	$CI = get_instance ();
-	$page = $CI->content_model->getPageByURLAndCache ( $url );
+	 // $CI = get_instance ();
+	$page =  get_instance()->content_model->getPageByURLAndCache ( $url );
 	//p($url_page);
 	return $page;
 
 }
 function get_content($id) {
-	$CI = get_instance ();
-	$page = $CI->content_model->contentGetById ( $id );
+	 // $CI = get_instance ();
+	$page =  get_instance()->content_model->contentGetById ( $id );
 	
 	if (empty ( $page )) {
-		$page = $CI->content_model->getContentByURL ( $id );
+		$page =  get_instance()->content_model->getContentByURL ( $id );
 	}
 	
 	if (! empty ( $page )) {
 		$more = false;
-		$more = $CI->core_model->getCustomFields ( 'table_content', $page ['id'] );
+		$more =  get_instance()->core_model->getCustomFields ( 'table_content', $page ['id'] );
 		$page ['custom_fields'] = $more;
 	}
 	return $page;
@@ -1053,12 +1047,12 @@ function get_page($id = false) {
 	
 	
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if (intval ( $id ) != 0) {
-		$page = $CI->content_model->contentGetById ( $id );
+		$page =  get_instance()->content_model->contentGetById ( $id );
 		
 		if (empty ( $page )) {
-			$page = $CI->content_model->getContentByURL ( $id );
+			$page =  get_instance()->content_model->getContentByURL ( $id );
 		}
 	} else {
 		if (empty ( $page )) {
@@ -1071,19 +1065,19 @@ function get_page($id = false) {
 	}
 	if (! empty ( $page )) {
 		$more = false;
-		$more = $CI->core_model->getCustomFields ( 'table_content', $page ['id'] );
+		$more =  get_instance()->core_model->getCustomFields ( 'table_content', $page ['id'] );
 		$page ['custom_fields'] = $more;
 	}
 	
 	return $page;
 
-		//$link = CI::model('content')->getContentURLByIdAndCache ( $link['id'] );
+		//$link = get_instance()->content_model->getContentURLByIdAndCache ( $link['id'] );
 
 
 }
 
 function page_save($data) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	$errors = array ();
 	if ($data) {
 		if ($data ['id']) {
@@ -1105,7 +1099,7 @@ function page_save($data) {
 			if (strval ( $data ['content_url'] ) == '') {
 				$errors ['content_url'] = "You must enter page url!";
 			} else {
-				$data ['content_url'] = $CI->core_model->url_title ( $data ['content_url'] );
+				$data ['content_url'] =  get_instance()->core_model->url_title ( $data ['content_url'] );
 			}
 		}
 		if (empty ( $errors )) {
@@ -1114,7 +1108,7 @@ function page_save($data) {
 			$to_save ['content_type'] = 'page';
 			$to_save ['content_parent'] = intval ( $to_save ['content_parent'] );
 			
-			$saved = $CI->content_model->saveContent ( $to_save );
+			$saved =  get_instance()->content_model->saveContent ( $to_save );
 			
 			$return = array ();
 			$return ['form_values'] = $data;
@@ -1134,28 +1128,29 @@ function page_save($data) {
 }
 
 function post_save($data) {
-	$CI = get_instance ();
-	
+	 // $CI = get_instance ();
+	 
 	if ($data) {
-		
+		get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+		get_instance()->load->model ( 'Content_model', 'content_model' );
 		$categories_ids_to_remove = array ();
 		$categories_ids_to_remove ['taxonomy_type'] = 'category';
 		$categories_ids_to_remove ['users_can_create_content'] = 'n';
-		$categories_ids_to_remove = $CI->taxonomy_model->getIds ( $categories_ids_to_remove, $orderby = false );
-		//$CI->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
+		$categories_ids_to_remove =  get_instance()->taxonomy_model->getIds ( $categories_ids_to_remove, $orderby = false );
+		// get_instance()->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
 		
 
 		$categories_ids_to_add = array ();
 		$categories_ids_to_add ['taxonomy_type'] = 'category';
 		$categories_ids_to_add ['users_can_create_content'] = 'y';
-		$categories_ids_to_add = $CI->taxonomy_model->getIds ( $categories_ids_to_add, $orderby = false );
-		//$CI->template ['categories_ids_to_add'] = $categories_ids_to_add;
+		$categories_ids_to_add =  get_instance()->taxonomy_model->getIds ( $categories_ids_to_add, $orderby = false );
+		// get_instance()->template ['categories_ids_to_add'] = $categories_ids_to_add;
 		
 
 		$errors = array ();
 		$categories = $data ['taxonomy_categories'];
 		
-		if (strstr ( $categories, ',' )) {
+		if (!is_array ( $categories ) and strstr ( $categories, ',' )) {
 			$data ['taxonomy_categories'] = explode ( ',', $data ['taxonomy_categories'] );
 			$categories = $data ['taxonomy_categories'];
 			$categories = array_unique ( $categories );
@@ -1174,8 +1169,8 @@ function post_save($data) {
 			if (! empty ( $categories )) {
 				
 				foreach ( $categories as $cat ) {
-					$cat = $CI->taxonomy_model->getIdByName ( $cat );
-					$parrent_cats = $CI->taxonomy_model->getParents ( $cat );
+					$cat =  get_instance()->taxonomy_model->getIdByName ( $cat );
+					$parrent_cats =  get_instance()->taxonomy_model->getParents ( $cat );
 					
 					foreach ( $parrent_cats as $par_cat ) {
 						$categories [] = $par_cat;
@@ -1235,18 +1230,18 @@ function post_save($data) {
 			
 			$check_title ['content_type'] = 'post';
 			
-			$check_title = $CI->content_model->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
+			$check_title =  get_instance()->content_model->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
 			
 			$check_title_error = false;
 			
 			$taxonomy_categories = array ($category );
 			
-			$taxonomy = $CI->taxonomy_model->getParents ( $category );
+			$taxonomy =  get_instance()->taxonomy_model->getParents ( $category );
 			
 			if (! empty ( $taxonomy )) {
 				
 				foreach ( $taxonomy as $i ) {
-					$i = $CI->taxonomy_model->getIdByName ( $i );
+					$i =  get_instance()->taxonomy_model->getIdByName ( $i );
 					if (intval ( $i ) != 0) {
 						$taxonomy_categories [] = $i;
 					}
@@ -1270,7 +1265,7 @@ function post_save($data) {
 			
 			foreach ( $categories as $cat ) {
 				if (empty ( $parent_page )) {
-					$parent_page = $CI->content_model->contentsGetTheLastBlogSectionForCategory ( $cat );
+					$parent_page =  get_instance()->content_model->contentsGetTheLastBlogSectionForCategory ( $cat );
 				}
 			
 			}
@@ -1293,10 +1288,10 @@ function post_save($data) {
 				$to_save ['is_home'] = 'n';
 				$to_save ['content_type'] = 'post';
 				
-				// p ( $to_save );
+				 
 				
 
-				$saved = $CI->content_model->saveContent ( $to_save );
+				$saved =  get_instance()->content_model->saveContent ( $to_save );
 				$return = array ();
 				$return ['form_values'] = $data;
 				$return ['id'] = $saved;
@@ -1353,13 +1348,13 @@ function thumbnail($params) {
 		}
 	}
 	//var_Dump($params);
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	if (! isset ( $params ['size'] )) {
 		$params ['size'] = 200;
 	}
 	
-	$thumb = $CI->content_model->contentGetThumbnailForContentId ( $params ['id'], $params ['size'] );
+	$thumb =  get_instance()->content_model->contentGetThumbnailForContentId ( $params ['id'], $params ['size'] );
 	
 	return $thumb;
 }
@@ -1369,8 +1364,8 @@ function post_pictures($post_id, $size = 128) {
 		return false;
 	}
 	
-	$CI = get_instance ();
-	$thumb = $CI->core_model->mediaGetImages ( $to_table = 'table_content', $post_id, $size, $order = "ASC" );
+	 // $CI = get_instance ();
+	$thumb =  get_instance()->core_model->mediaGetImages ( $to_table = 'table_content', $post_id, $size, $order = "ASC" );
 	return $thumb;
 
 }
@@ -1415,8 +1410,8 @@ function category_tree($params) {
 	
 
  
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	$content_parent = ($params ['content_parent']) ? $params ['content_parent'] : $params ['content_subtype_value'];
 	$link = ($params ['link']) ? $params ['link'] : false;
 	
@@ -1449,7 +1444,7 @@ function category_tree($params) {
 		//p($page);
 		$content_parent = $page ['content_subtype_value'];
 	
-		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories =  get_instance()->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	}
 	if ($params ['content_subtype_value'] != false) {
 		$content_parent = $params ['content_subtype_value'];
@@ -1461,11 +1456,11 @@ function category_tree($params) {
 		//p($page);
 		$remove_ids = array ($page ['content_subtype_value'] );
 	
-		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories =  get_instance()->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	}
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false
-	$CI->content_model->content_helpers_getCaregoriesUlTreeAndCache ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
+	 get_instance()->content_model->content_helpers_getCaregoriesUlTreeAndCache ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
 
 }
 
@@ -1473,11 +1468,11 @@ function get_categories_for_post($content_id, $only_ids = true) {
 	//var_dump($content_id);
 	//print '-------------------';
 	//exit(1);
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-	$cat_ids = $CI->taxonomy_model->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$cat_ids =  get_instance()->taxonomy_model->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
 	
-	//$c = $CI->taxonomy_model->getCategoriesForContent( $content_id, $only_ids );
+	//$c =  get_instance()->taxonomy_model->getCategoriesForContent( $content_id, $only_ids );
 	return $cat_ids;
 }
 
@@ -1501,8 +1496,8 @@ function get_categories_for_post($content_id, $only_ids = true) {
 function get_categories($get_categories_params = array()) {
 	$params = $get_categories_params;
 	//p($params);
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 	if ($params ['display']) {
 		$list_file = $params ['display'];
 		unset ( $params ['display'] );
@@ -1521,29 +1516,29 @@ function get_categories($get_categories_params = array()) {
 	if ($params ['for_page'] != false) {
 		$page = get_page ( $params ['for_page'] );
 		//p($page);
-		$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $page ['content_subtype_value'], $type = 'category', $visible_on_frontend = false );
+		$categories =  get_instance()->taxonomy_model->getChildrensRecursiveAndCache ( $page ['content_subtype_value'], $type = 'category', $visible_on_frontend = false );
 	
-		//$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+		//$categories =  get_instance()->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 	} else {
 		
 		if ($params ['for_content'] != false) {
-			$categories = $CI->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+			$categories =  get_instance()->taxonomy_model->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
 		} else {
 			
 			if ($params ['parent'] == false) {
-				$page = $CI->template ['page'];
+				$page =  get_instance()->template ['page'];
 				if (! empty ( $page )) {
 					$the_category = $page ['content_subtype_value'];
-					$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+					$categories =  get_instance()->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 				} else {
 					$the_category = 0;
-					$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+					$categories =  get_instance()->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 				
 				}
 			} else {
 				$the_category = $params ['parent'];
 				
-				$categories = $CI->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
+				$categories =  get_instance()->taxonomy_model->getChildrensRecursiveAndCache ( $the_category, $type = 'category', $visible_on_frontend = false );
 			
 			}
 		
@@ -1553,7 +1548,7 @@ function get_categories($get_categories_params = array()) {
 	foreach ( $categories as $category ) {
 		$category_id = $category;
 		if ($get_only_ids == false) {
-			$temp = $CI->taxonomy_model->getSingleItem ( $category );
+			$temp =  get_instance()->taxonomy_model->getSingleItem ( $category );
 		} else {
 			$temp = $category;
 		}
@@ -1572,19 +1567,19 @@ function get_categories($get_categories_params = array()) {
 }
 
 function get_category_id($category_name) {
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-	$category_id = $CI->taxonomy_model->getIdByName ( $category_name );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$category_id =  get_instance()->taxonomy_model->getIdByName ( $category_name );
 	
 	return $category_id;
 
 }
 
 function category_name($category_id) {
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
-	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$category_id =  get_instance()->taxonomy_model->getIdByName ( $category_id );
+	$c =  get_instance()->taxonomy_model->getSingleItem ( $category_id );
 	
 	if (! empty ( $c )) {
 		return $c ['taxonomy_value'];
@@ -1593,13 +1588,13 @@ function category_name($category_id) {
 }
 
 function get_category($category_id) {
-	$CI = get_instance ();
-$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-	$category_id = $CI->taxonomy_model->getIdByName ( $category_id );
-	$c = $CI->taxonomy_model->getSingleItem ( $category_id );
+	 // $CI = get_instance ();
+ get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$category_id =  get_instance()->taxonomy_model->getIdByName ( $category_id );
+	$c =  get_instance()->taxonomy_model->getSingleItem ( $category_id );
 	if (! empty ( $c )) {
 		$more = false;
-		$more = $CI->core_model->getCustomFields ( 'table_taxonomy', $category_id );
+		$more =  get_instance()->core_model->getCustomFields ( 'table_taxonomy', $category_id );
 		$c ['custom_fields'] = $more;
 	}
 	return $c;
@@ -1618,9 +1613,9 @@ $CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
  */
 
 function get_category_items_count($category_id) {
-	$CI = get_instance ();
-	$CI->load->model ( 'Taxonomy_model', 'taxonomy_model' );
-	$qty = $CI->taxonomy_model->getChildrensCount ( $category_id );
+	 // $CI = get_instance ();
+	 get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+	$qty =  get_instance()->taxonomy_model->getChildrensCount ( $category_id );
 	return $qty;
 
 }
@@ -1638,8 +1633,9 @@ function get_category_items_count($category_id) {
  */
 
 function get_category_url($category_id) {
-	$CI = get_instance ();
-	$url = $CI->content_model->taxonomyGetUrlForId ( $category_id );
+	 // $CI = get_instance ();
+	 
+	$url =  get_instance()->content_model->taxonomyGetUrlForId ( $category_id );
 	return $url;
 
 }
@@ -1670,14 +1666,15 @@ function category_link($category_id) {
  */
 
 function is_active_category($category_id, $string = false) {
-	$CI = get_instance ();
-	$active_categories = $CI->template ['active_categories'];
+	 // $CI = get_instance ();
+	$active_categories =  get_instance()->template ['active_categories'];
 	
 	if ($active_categories == false) {
-		$try_post = $CI->template ['post'];
+		$try_post =  get_instance()->template ['post'];
 		
 		if (! empty ( $try_post )) {
-			$try = $CI->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
+			get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+			$try =  get_instance()->taxonomy_model->getCategoriesForContent ( $try_post ['id'], $return_only_ids = true );
 			//p($try);
 			if (! empty ( $try )) {
 			
@@ -1717,9 +1714,9 @@ function votes_count($content_id, $since = false, $for = 'post') {
 		return false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	//.p($to_table);
 	$qty = CI::model ( 'votes' )->votesGetCount ( $to_table, $content_id, $since );
 	$qty = intval ( $qty );
@@ -1733,9 +1730,9 @@ function voted_users($content_id, $since = false, $for = 'post') {
 		return false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	
 	$voted = CI::model ( 'votes' )->getVotedUsers ( $to_table, $content_id, $since );
 	
@@ -1762,12 +1759,12 @@ function voting_link($content_id, $counter_selector = false, $for = 'post') {
 		return false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	
-	$string1 = $CI->core_model->securityEncryptString ( $to_table );
-	$string2 = $CI->core_model->securityEncryptString ( $content_id );
+	$string1 =  get_instance()->core_model->securityEncryptString ( $to_table );
+	$string2 =  get_instance()->core_model->securityEncryptString ( $content_id );
 	
 	$return = "javascript:mw.content.Vote('$string1','$string2', '$counter_selector');";
 	
@@ -1776,8 +1773,8 @@ function voting_link($content_id, $counter_selector = false, $for = 'post') {
 }
 
 function sess_id() {
-	$CI = get_instance ();
-	$session_id = $CI->session->userdata ( 'session_id' );
+	 // $CI = get_instance ();
+	$session_id =  get_instance()->session->userdata ( 'session_id' );
 	return $session_id;
 }
 
@@ -1794,24 +1791,24 @@ function sess_id() {
 
 function breadcrumbs($seperator) {
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
-	$quick_nav = $CI->content_model->getBreadcrumbsByURLAsArray ( $the_url = false, $include_home = false, $options = array () );
+	$quick_nav =  get_instance()->content_model->getBreadcrumbsByURLAsArray ( $the_url = false, $include_home = false, $options = array () );
 	
-	$CI->template ['quick_nav'] = $quick_nav;
-	$CI->template ['seperator'] = $seperator;
-	$CI->load->vars ( $CI->template );
+	 get_instance()->template ['quick_nav'] = $quick_nav;
+	 get_instance()->template ['seperator'] = $seperator;
+	 get_instance()->load->vars (  get_instance()->template );
 	switch ($seperator) {
 		
 		case 'ul' :
 			
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/breadcrumbs_ul.php', true );
+			$content_filename =  get_instance()->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/breadcrumbs_ul.php', true );
 			print ($content_filename) ;
 			break;
 		
 		case false :
 		default :
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/breadcrumbs_default.php', true );
+			$content_filename =  get_instance()->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/breadcrumbs_default.php', true );
 			print ($content_filename) ;
 			break;
 			break;
@@ -1822,7 +1819,7 @@ function breadcrumbs($seperator) {
 }
 
 function get_mediaby_id($id) {
-	$media = $CI->core_model->mediaGetById ( $id );
+	$media =  get_instance()->core_model->mediaGetById ( $id );
 	return $media;
 }
 
@@ -1846,8 +1843,8 @@ function get_pictures($content_id, $for = 'post') {
 	}
 	
 	if ($for != 'post') {
-		$CI = get_instance ();
-		$for = $CI->core_model->guessDbTable ( $for );
+		 // $CI = get_instance ();
+		$for =  get_instance()->core_model->guessDbTable ( $for );
 	
 		//
 	}
@@ -1900,15 +1897,15 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 		$queue_id = false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($collection == false) {
-		$to_table = $CI->core_model->guessDbTable ( $for );
+		$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	
 		//
 	}
 	//	p($to_table);
 	//var_dump($id, $for, $media_type, $queue_id, $collection);
-	$media = $CI->core_model->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
+	$media =  get_instance()->core_model->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;
 
 		// p($media);
@@ -1920,7 +1917,7 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 }
 
 function get_media_thumbnail($id, $size_width = 128, $size_height = false) {
-	$media = $CI->core_model->mediaGetThumbnailForMediaId ( $id, $size_width, $size_height );
+	$media =  get_instance()->core_model->mediaGetThumbnailForMediaId ( $id, $size_width, $size_height );
 	return $media;
 }
 
@@ -1943,11 +1940,11 @@ function comments_count($content_id, $is_moderated = false, $for = 'post') {
 		return false;
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	
-	$qty = $CI->comments_model->commentsGetCount ( $to_table, $content_id, $is_moderated );
+	$qty =  get_instance()->comments_model->commentsGetCount ( $to_table, $content_id, $is_moderated );
 	return $qty;
 
 }
@@ -1967,7 +1964,7 @@ function comments_count($content_id, $is_moderated = false, $for = 'post') {
  */
 
 function comment_post_form($content_id = false, $display = 'default', $for = 'post', $display_params = array()) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($display) {
 		$list_file = $display;
 		$display = strtolower ( $display );
@@ -1975,23 +1972,23 @@ function comment_post_form($content_id = false, $display = 'default', $for = 'po
 	}
 	
 	if ($content_id == false) {
-		$post = $CI->template ['post'];
+		$post =  get_instance()->template ['post'];
 		if (! empty ( $post )) {
 			$content_id = $post ['id'];
 		}
 	}
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	
-	$CI->template ['comment_to_id'] = $content_id;
-	$CI->template ['comment_to_table'] = $to_table;
-	$CI->load->vars ( $CI->template );
+	 get_instance()->template ['comment_to_id'] = $content_id;
+	 get_instance()->template ['comment_to_table'] = $to_table;
+	 get_instance()->load->vars (  get_instance()->template );
 	switch ($display) {
 		
 		case 'default' :
 			$f = DEFAULT_TEMPLATE_DIR . 'blocks/comments/form_default.php';
 			$f = normalize_path ( $f, false );
-			$content_filename = $CI->load->file ( $f, true );
+			$content_filename =  get_instance()->load->file ( $f, true );
 			print ($content_filename) ;
 			break;
 		
@@ -2003,7 +2000,7 @@ function comment_post_form($content_id = false, $display = 'default', $for = 'po
 			$f = normalize_path ( $f, false );
 			
 			if (is_file ( $f )) {
-				$content_filename = $CI->load->file ( $f, true );
+				$content_filename =  get_instance()->load->file ( $f, true );
 				print $content_filename;
 			} else {
 				$file = DEFAULT_TEMPLATE_DIR . 'blocks/comments/form_default.php';
@@ -2013,7 +2010,7 @@ function comment_post_form($content_id = false, $display = 'default', $for = 'po
 				if (! copy ( $file, $newfile )) {
 					//echo "failed to copy $file...\n";
 				} else {
-					$content_filename = $CI->load->file ( TEMPLATE_DIR . $list_file, true );
+					$content_filename =  get_instance()->load->file ( TEMPLATE_DIR . $list_file, true );
 					print $content_filename;
 				}
 			}
@@ -2025,17 +2022,17 @@ function comment_post_form($content_id = false, $display = 'default', $for = 'po
 }
 
 function inc($fn) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	$fn1 = TEMPLATE_DIR . $fn;
 	if (is_file ( $fn1 )) {
 		$fn = TEMPLATE_DIR . $fn;
 	} else {
 	
 	}
-	$CI->load->vars ( $CI->template );
+	 get_instance()->load->vars (  get_instance()->template );
 	print '<!-- mw-file-start:{' . $fn . '} -->' . "\n";
-	$content_filename = $CI->load->file ( $fn, true );
-	//$content_filename = $CI->load->view($fn, '', true);
+	$content_filename =  get_instance()->load->file ( $fn, true );
+	//$content_filename =  get_instance()->load->view($fn, '', true);
 	print ($content_filename) ;
 	print '<!-- mw-file-end:{' . $fn . '} -->' . "\n";
 }
@@ -2055,7 +2052,7 @@ function inc($fn) {
  */
 
 function comments_list($content_id = false, $display = 'default', $for = 'post', $display_params = array()) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($display) {
 		$list_file = $display;
 		$display = strtolower ( $display );
@@ -2065,16 +2062,16 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 	}
 	
 	if ($content_id == false) {
-		$post = $CI->template ['post'];
+		$post =  get_instance()->template ['post'];
 		if (! empty ( $post )) {
 			$content_id = $post ['id'];
 		}
 	}
 	
-	$to_table = $CI->core_model->guessDbTable ( $for );
+	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	//	p($to_table);
-	$CI->template ['comment_to_id'] = $content_id;
-	$CI->template ['comment_to_table'] = $to_table;
+	 get_instance()->template ['comment_to_id'] = $content_id;
+	 get_instance()->template ['comment_to_table'] = $to_table;
 	
 	//	$comm = commentsGetForContentId($id, $is_moderated = false);
 	if ($to_table == false) {
@@ -2089,15 +2086,15 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 	//p($comments);
 	
 
-	$CI->template ['comments'] = $comments;
-	$CI->load->vars ( $CI->template );
+	 get_instance()->template ['comments'] = $comments;
+	 get_instance()->load->vars (  get_instance()->template );
 	switch ($display) {
 		
 		case 'default' :
 			
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/comments/list_default.php', true );
+			$content_filename =  get_instance()->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/comments/list_default.php', true );
 			
-			$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
+			$content_filename =  get_instance()->template_model->parseMicrwoberTags ( $content_filename );
 			
 			print ($content_filename) ;
 			break;
@@ -2115,8 +2112,8 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 			}
 			$list_file_load = normalize_path ( $list_file_load, false );
 			if (is_file ( $list_file_load )) {
-				$content_filename = $CI->load->file ( $list_file_load, true );
-				$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
+				$content_filename =  get_instance()->load->file ( $list_file_load, true );
+				$content_filename =  get_instance()->template_model->parseMicrwoberTags ( $content_filename );
 				print $content_filename;
 			} else {
 				
@@ -2130,8 +2127,8 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 				if (! copy ( $file, $newfile )) {
 					//echo "failed to copy $file...\n";
 				} else {
-					$content_filename = $CI->load->file ( TEMPLATE_DIR . $list_file, true );
-					$content_filename = $CI->template_model->parseMicrwoberTags ( $content_filename );
+					$content_filename =  get_instance()->load->file ( TEMPLATE_DIR . $list_file, true );
+					$content_filename =  get_instance()->template_model->parseMicrwoberTags ( $content_filename );
 					print $content_filename;
 				}
 			}
@@ -2141,25 +2138,25 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 
 }
 
-function paging_prepare($total_results = false, $results_per_page = false) {
-	$CI = get_instance ();
-	$pages_count = ceil ( intval ( $total_results ) / intval ( $results_per_page ) );
+function paging_prepare($total_results = 1, $results_per_page = 1) {
+	 // $CI = get_instance ();
+	$pages_count = @ceil ( intval ( $total_results ) / intval ( $results_per_page ) );
 	
-	$param = $CI->content_model->pagingPrepareUrls ( url (), $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword' );
+	$param =  get_instance()->content_model->pagingPrepareUrls ( url (), $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword' );
 	// p($param); 
 	return $param;
 }
 function url_param($param, $skip_ajax = false) {
 	 
-	 $CI = get_instance ();
+	  // $CI = get_instance ();
 
-	$param = $CI->core_model->getParamFromURL ( $param, $param_sub_position = false, $skip_ajax );
+	$param =  get_instance()->core_model->getParamFromURL ( $param, $param_sub_position = false, $skip_ajax );
 	return $param;
 
 }
 
 function loop($array_of_data, $file, $array_variable_name = 'data') {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	$list_file = $file;
 	
@@ -2172,9 +2169,9 @@ function loop($array_of_data, $file, $array_variable_name = 'data') {
 	if (is_file ( $list_file )) {
 		if (! empty ( $array_of_data )) {
 			foreach ( $array_of_data as $data ) {
-				$CI->template [$array_variable_name] = $data;
-				$CI->load->vars ( $CI->template );
-				$content_filename = $CI->load->file ( $list_file, true );
+				 get_instance()->template [$array_variable_name] = $data;
+				 get_instance()->load->vars (  get_instance()->template );
+				$content_filename =  get_instance()->load->file ( $list_file, true );
 				print $content_filename;
 			}
 		}
@@ -2199,7 +2196,7 @@ function get_ref_page() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
 	
 	if ($ref_page != '') {
-		$page = $CI->content_model->getPageByURLAndCache ( $ref_page );
+		$page =  get_instance()->content_model->getPageByURLAndCache ( $ref_page );
 		return $page;
 	}
 	return false;
@@ -2209,9 +2206,9 @@ function get_ref_page() {
 function get_ref_post() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
 	//p($ref_page);
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($ref_page != '') {
-		$page = $CI->content_model->getContentByURL ( $ref_page );
+		$page =  get_instance()->content_model->getContentByURL ( $ref_page );
 		return $page;
 	}
 	return false;
@@ -2223,8 +2220,8 @@ function get_ref_category() {
 	//p($ref_page);
 	
 	if ($ref_page != '') {
-		$CI = get_instance ();
-		$page = $CI->content_model->getContentByURL ( $ref_page );
+		 // $CI = get_instance ();
+		$page =  get_instance()->content_model->getContentByURL ( $ref_page );
 		return $page;
 	}
 	return false;
@@ -2268,4 +2265,4 @@ function _e($str) {
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
-
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');

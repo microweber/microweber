@@ -12,7 +12,7 @@ class Reports extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$data = array ();
-		$reports_for = CI::model('core')->getParamFromURL ( 't' );
+		$reports_for = $this->core_model->getParamFromURL ( 't' );
 		if ($reports_for != false) {
 			// $data['to_table'] = $reports_for;
 			$data [] = array ('to_table', $reports_for );
@@ -22,7 +22,7 @@ class Reports extends CI_Controller {
 
 		$this->template ['reports'] = $reports;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -45,8 +45,8 @@ class Reports extends CI_Controller {
 			global $cms_db_tables;
 			$table = $cms_db_tables ['table_reports'];
 			$q = "delete from {$table} where to_table='{$_POST['to_table']}' and to_table_id='{$_POST['to_table_id']}'  ";
-			$q = CI::model('core')->dbQ ( $q );
-			CI::model('core')->cleanCacheGroup( 'reports');
+			$q = $this->core_model->dbQ ( $q );
+			$this->core_model->cleanCacheGroup( 'reports');
 
 		}
 	}
@@ -63,28 +63,28 @@ class Reports extends CI_Controller {
 
 			$q = "delete from {$real_table} where id={$id}  ";
 
-			$q = CI::model('core')->dbQ ( $q );
+			$q = $this->core_model->dbQ ( $q );
 
 
 			$table = $cms_db_tables ['table_reports'];
 			$q = "delete from {$table} where to_table='{$_POST['to_table']}' and to_table_id='{$_POST['to_table_id']}'  ";
-			$q = CI::model('core')->dbQ ( $q );
-			CI::model('core')->cleanCacheGroup( 'reports');
+			$q = $this->core_model->dbQ ( $q );
+			$this->core_model->cleanCacheGroup( 'reports');
 
 		 switch ($_POST['to_table']) {
 		 	case 'table_content':
-		 	CI::model('core')->cleanCacheGroup( 'content');
+		 	$this->core_model->cleanCacheGroup( 'content');
 		 	break;
 
 		 	case 'table_comments':
-		 	CI::model('core')->cleanCacheGroup( 'comments');
+		 	$this->core_model->cleanCacheGroup( 'comments');
 		 	break;
 		 	default:
-		 		CI::model('core')->cacheDeleteAll();
+		 		$this->core_model->cacheDeleteAll();
 		 	break;
 		 }
 
-			//CI::model('comments')->commentsDeleteById ( $id );
+			//$this->comments_model->commentsDeleteById ( $id );
 		}
 	}
 

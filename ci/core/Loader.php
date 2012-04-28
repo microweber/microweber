@@ -267,7 +267,7 @@ class CI_Loader {
 		}
 
 		$CI =& get_instance();
-		if (isset($CI->$name))
+		if (isset(get_instance()->$name))
 		{
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
@@ -288,7 +288,7 @@ class CI_Loader {
 					$db_conn = '';
 				}
 
-				$CI->load->database($db_conn, FALSE, TRUE);
+				get_instance()->load->database($db_conn, FALSE, TRUE);
 			}
 
 			if ( ! class_exists('CI_Model'))
@@ -300,7 +300,7 @@ class CI_Loader {
 
 			$model = ucfirst($model);
 
-			$CI->$name = new $model();
+			get_instance()->$name = new $model();
 
 			$this->_ci_models[] = $name;
 			return;
@@ -326,7 +326,7 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == NULL AND isset($CI->db) AND is_object($CI->db))
+		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == NULL AND isset(get_instance()->db) AND is_object(get_instance()->db))
 		{
 			return FALSE;
 		}
@@ -340,10 +340,10 @@ class CI_Loader {
 
 		// Initialize the db variable.  Needed to prevent
 		// reference errors with some configurations
-		$CI->db = '';
+		get_instance()->db = '';
 
 		// Load the DB class
-		$CI->db =& DB($params, $active_record);
+		get_instance()->db =& DB($params, $active_record);
 	}
 
 	// --------------------------------------------------------------------
@@ -364,13 +364,13 @@ class CI_Loader {
 
 		// for backwards compatibility, load dbforge so we can extend dbutils off it
 		// this use is deprecated and strongly discouraged
-		$CI->load->dbforge();
+		get_instance()->load->dbforge();
 
 		require_once(BASEPATH.'database/DB_utility.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
+		require_once(BASEPATH.'database/drivers/'.get_instance()->db->dbdriver.'/'.get_instance()->db->dbdriver.'_utility.php');
+		$class = 'CI_DB_'.get_instance()->db->dbdriver.'_utility';
 
-		$CI->dbutil = new $class();
+		get_instance()->dbutil = new $class();
 	}
 
 	// --------------------------------------------------------------------
@@ -390,10 +390,10 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		require_once(BASEPATH.'database/DB_forge.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+		require_once(BASEPATH.'database/drivers/'.get_instance()->db->dbdriver.'/'.get_instance()->db->dbdriver.'_forge.php');
+		$class = 'CI_DB_'.get_instance()->db->dbdriver.'_forge';
 
-		$CI->dbforge = new $class();
+		get_instance()->dbforge = new $class();
 	}
 
 	// --------------------------------------------------------------------
@@ -576,7 +576,7 @@ class CI_Loader {
 
 		foreach ($file as $langfile)
 		{
-			$CI->lang->load($langfile, $lang);
+			get_instance()->lang->load($langfile, $lang);
 		}
 	}
 
@@ -593,7 +593,7 @@ class CI_Loader {
 	public function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$CI =& get_instance();
-		$CI->config->load($file, $use_sections, $fail_gracefully);
+		get_instance()->config->load($file, $use_sections, $fail_gracefully);
 	}
 
 	// --------------------------------------------------------------------
@@ -899,7 +899,7 @@ class CI_Loader {
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
 			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
-
+//var_dump($class);
 			// Is this a class extension request?
 			if (file_exists($subclass))
 			{
@@ -920,7 +920,7 @@ class CI_Loader {
 					if ( ! is_null($object_name))
 					{
 						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
+						if ( ! isset(get_instance()->$object_name))
 						{
 							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 						}
@@ -959,7 +959,7 @@ class CI_Loader {
 					if ( ! is_null($object_name))
 					{
 						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
+						if ( ! isset(get_instance()->$object_name))
 						{
 							return $this->_ci_init_class($class, '', $params, $object_name);
 						}
@@ -1092,11 +1092,11 @@ class CI_Loader {
 		$CI =& get_instance();
 		if ($config !== NULL)
 		{
-			$CI->$classvar = new $name($config);
+			get_instance()->$classvar = new $name($config);
 		}
 		else
 		{
-			$CI->$classvar = new $name;
+			get_instance()->$classvar = new $name;
 		}
 	}
 
@@ -1142,7 +1142,7 @@ class CI_Loader {
 			$CI =& get_instance();
 			foreach ($autoload['config'] as $key => $val)
 			{
-				$CI->config->load($val);
+				get_instance()->config->load($val);
 			}
 		}
 
@@ -1212,7 +1212,7 @@ class CI_Loader {
 	protected function &_ci_get_component($component)
 	{
 		$CI =& get_instance();
-		return $CI->$component;
+		return get_instance()->$component;
 	}
 
 	// --------------------------------------------------------------------

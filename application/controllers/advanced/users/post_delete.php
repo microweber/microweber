@@ -1,6 +1,6 @@
 <?php
 
-$content_id = CI::model('core')->getParamFromURL ( 'id' );
+$content_id = $this->core_model->getParamFromURL ( 'id' );
 
 $check_is_permisiions_error = false;
 
@@ -10,7 +10,7 @@ if (intval ( $content_id ) != 0) {
 	
 	$get_id ['id'] = $content_id;
 	
-	$get_id = CI::model('content')->getContent ( $get_id );
+	$get_id = $this->content_model->getContent ( $get_id );
 	
 	$get_id = $get_id [0];
 	
@@ -28,7 +28,7 @@ if (intval ( $content_id ) != 0) {
 			
 
 			//var_dump($content_id);
-			CI::model('content')->deleteContent ( $content_id );
+			$this->content_model->deleteContent ( $content_id );
 			exit ( 'ok' );
 			//redirect ( 'users/posts' );
 		

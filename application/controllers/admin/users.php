@@ -13,8 +13,8 @@ class Users extends CI_Controller {
 	
 	function delete() {
 		
-		$id = CI::model('core')->getParamFromURL ( 'id' );
-		CI::model('users')->userDeleteById ( $id );
+		$id = $this->core_model->getParamFromURL ( 'id' );
+		$this->users_model->userDeleteById ( $id );
 		redirect ( 'admin/users/index' );
 	
 	}
@@ -28,7 +28,7 @@ class Users extends CI_Controller {
 			exit ();
 		} else {
 			$togo_tags = false;
-			$tags = CI::model('core')->getParamFromURL ( 'keyword' );
+			$tags = $this->core_model->getParamFromURL ( 'keyword' );
 			$togo_tags = "/keyword:{$tags}";
 			$gogo = site_url ( 'admin/users/index' ) . $togo_tags;
 			$gogo = reduce_double_slashes ( $gogo );
@@ -51,10 +51,10 @@ class Users extends CI_Controller {
 		
 		if (array_key_exists ( 'savedata', $_POST )) {
 			
-			CI::model('users')->saveUser ( $_POST );
+			$this->users_model->saveUser ( $_POST );
 		
 		}
-		$tags = CI::model('core')->getParamFromURL ( 'keyword' );
+		$tags = $this->core_model->getParamFromURL ( 'keyword' );
 		
 		$criteria = array ();
 		$this->template ['search_by_keyword'] = '';
@@ -63,13 +63,13 @@ class Users extends CI_Controller {
 			$this->template ['search_by_keyword'] = $tags;
 		}
 		
-		$results_count = CI::model('users')->getUsers ( $criteria, false, true );
+		$results_count = $this->users_model->getUsers ( $criteria, false, true );
 		
-		$items_per_page = CI::model('core')->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 		
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 		
-		$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
+		$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		if (intval ( $curent_page ) < 1 || intval ( $curent_page ) > $content_pages_count) {
 			$curent_page = 1;
 		}
@@ -77,19 +77,19 @@ class Users extends CI_Controller {
 		$page_start = ($curent_page - 1) * $items_per_page;
 		$page_end = ($page_start) + $items_per_page;
 		
-		$users = CI::model('users')->getUsers ( $criteria, array ($page_start, $page_end ), false );
+		$users = $this->users_model->getUsers ( $criteria, array ($page_start, $page_end ), false );
 		
 		$this->template ['content_pages_count'] = $content_pages_count;
 		//var_dump($content_pages_count);
 		$this->template ['content_pages_curent_page'] = $curent_page;
 		
 		//get paging urls
-		$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 		$this->template ['content_pages_links'] = $content_pages;
 		
 		$this->template ['users'] = $users;
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		
@@ -115,7 +115,7 @@ class Users extends CI_Controller {
 	function email_users() {
 		$this->template ['form_values'] = $users;
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		
@@ -183,14 +183,14 @@ class Users extends CI_Controller {
 
 		if ($_POST) {
 			
-			CI::model('users')->saveUser ( $_POST );
+			$this->users_model->saveUser ( $_POST );
 			$gogo = site_url ( 'admin/users/index' );
 			$gogo = reduce_double_slashes ( $gogo );
 			header ( "Location: $gogo " );
 			exit ();
 		
 		}
-		$tags = CI::model('core')->getParamFromURL ( 'id' );
+		$tags = $this->core_model->getParamFromURL ( 'id' );
 		if (intval ( $tags ) != 0) {
 			$criteria = array ();
 			//$this->template ['search_by_keyword'] = '';
@@ -199,10 +199,10 @@ class Users extends CI_Controller {
 				//$this->template ['search_by_keyword'] = $tags;
 			}
 			
-			$users = CI::model('users')->getUsers ( $criteria, false, false );
+			$users = $this->users_model->getUsers ( $criteria, false, false );
 			$users = $users [0];
 		} else {
-			$userz = CI::model('core')->dbGetTableFields ( TABLE_PREFIX . 'users' );
+			$userz = $this->core_model->dbGetTableFields ( TABLE_PREFIX . 'users' );
 			foreach ( $userz as $item ) {
 				$users [$item] = '';
 			}
@@ -212,7 +212,7 @@ class Users extends CI_Controller {
 
 		$this->template ['form_values'] = $users;
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		

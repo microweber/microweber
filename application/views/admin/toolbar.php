@@ -1,184 +1,4 @@
-<style>
-body {
- margin-top:30px;	
- margin-bottom:30px;	
-}
- 
- 
-  .sortable-placeholder,.ui-sortable-placeholder,.ui-state-highlight, .sortable-dragging {
-		 
-		  /* padding-top:15px;
-		    padding-bottom:15px;
-		 margin-top:10px;
-		 margin-bottom:10px;*/
-		 
-		  background-color:#FFC !important;
-		   
-		   
-	  }
-	   .ui-state-highlight-row, {
-		 
-		 
-		  background-color:#0CF !important;
-		   
-	  }
-	  
-	  
-	    .ui-sortable:not(.edit):hover, .col:hover {
-		 
-		 
-		  outline: 1px dotted #0CF; 
-		   
-	  }
-	  
-	a.mw-make-cols {
-	  font-weight:bold;
-	  font-size:11px;
-	  color:#FFFFFF;
-	  background-color:#333;
-	  padding-left:3px;	
-	   padding-right:3px;	
-	   text-decoration:none;
-	}
-	
-	a.mw-make-cols.active {
-		background-color:#FFFFFF;
-		color:#333;
-	}
-	  .column {
- 
-	  }
-	  
-	  .column-min-height{
-		min-height:100px;  
-	  }
-	  
-	   .col {
-		 
-		
-		 	  }
-	  
-	  .mw-sorthandle-col {
-		background-color:#0F0;  
-		 
-	  }
-	  
-	    .mw-sorthandle-row {
-		background-color:#FF0;  
-		 
-	  }
-	  
-	  
-	    .mw-sorthandle {
-	 height:10px;
-		  width:100%;
-		 position:static;
-		 top:0px;
-	  }
-	  
-	  .empty {
-		 width:100%;
-		 height:50px;
-		  display:inline-block;
-		  float:left;
-	  }
-	   .mw-sorthandle span{
-    width:100%;
-	
-	 
-	
-    
- 
-}
-
-
-  
-  .ui-resizable-helper { border: 2px dotted #00F; }
-  [contenteditable=true], .outline, .mw_dragover, .ui-resizable:hover {
-    outline: 1px dotted #999;
-	
-}
-[contenteditable=true]:hover {
-    outline: 1px dotted #ff0000;
-}
-
-
-.edit .module, .edit img {
- /*resize: both;  */
-}
-
-
-
-
-  </style>
-  <style type="text/css">
-	    #mw-layout-edit-footer-bar{
-               	background-color: #F0F0F0 ;
-			border-top: 1px solid #CCCCCC ;
-			bottom: 0px ;
-			font-family: verdana, arial ;
-			font-size: 11px ;
-			height: 15px ;
-			position: fixed ;
-			width: 100% ;
-			z-index: 1000 ;
-            }
-        </style>
-<style>
-		#ContentSave
-		{
-		 position:fixed;
-		 bottom:40px;
-		 right:20px;
-		}
-		
-		</style>
-<style type="text/css">
- 
-		 
- 
-		#mw-layout-edit-site-top-bar {
-			background-color: #F0F0F0 ;
-			border-top: 1px solid #CCCCCC ;
-			top: 0px ;
-			font-family: verdana, arial ;
-			font-size: 11px ;
-			height: 30px ;
-			position: fixed ;
-			width: 100% ;
-			z-index: 1000 ;
-			}
-			
-				#mw-layout-edit-site-top-bar-l, .mw-layout-edit-site-bar-l {
-		
-			width: 65% ;
-			float:left;
-			}
-			
-				#mw-layout-edit-site-top-bar-r, .mw-layout-edit-site-bar-r {
-		
-			width: 34% ;
-			float:right;
-			}
-			.mw-layout-edit-curent-row-element {
-	color:#6C6C00;
-			}
-			
-			.mw-layout-edit-curent-element {
-	color:#005E00;
-			}
-  
-		/* To make up for scroll-bar. */
-		#mw-layout-edit-site-top-bar {
-			_top: -1px ;
-			_position: absolute ;
-			_right: 16px ;
-			}
- 
-	 
- 
-	</style>
-	<? 
+ <? 
  
  $exit_l_ed = url_param_unset('layout_editor',url());
  $enter_l_ed = $this->core_model->urlConstruct(url(), array('layout_editor' => 'yes'));
@@ -206,7 +26,7 @@ body {
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.edit').freshereditor({toolbar_selector: "#mw-layout-edit-site-top-bar-l"});
+		$('.edit').freshereditor({toolbar_selector: "#mw-layout-edit-site-text-editor"});
 	 $(".edit").freshereditor("edit", true);
 	 
 	   $(".edit").on('change', function() {
@@ -219,6 +39,7 @@ body {
 
 	</script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/toolbar.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
  <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/edit.js" type="text/javascript"></script>
 <!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5sortable/jquery.sortable.js" type="text/javascript"></script>
@@ -874,9 +695,14 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 
 </script>
 
-<div id="mw-layout-edit-site-top-bar" class="fixed-position"><div id="mw-layout-edit-site-top-bar-l"></div><div class="mw-layout-edit-site-top-bar-r">right</div></div>
+<div id="mw-layout-edit-site-top-bar" class="fixed-position"><div id="mw-layout-edit-site-top-bar-l">
+<div id="mw-layout-edit-toolbar-top-container"></div>
+<div id="mw-layout-edit-toolbar-top-container-items"><microweber module="admin/modules/list" />aaaa</div>
+<div id="mw-layout-edit-site-text-editor"></div>
+
+</div> </div>
 <div id="mw-layout-edit-footer-bar"><div class="mw-layout-edit-site-bar-l"></div><div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span>
-Make cols:
+Make cols: 
 <a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a>
 <a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a>
 <a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a>

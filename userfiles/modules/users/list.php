@@ -149,10 +149,10 @@ if(!empty($ids)){
 $limits = array();
 $limits[0] = (intval($paging_curent_page) - 1) * $query_options['limit'] ;
 $limits[1] =  (intval($paging_curent_page)) * $query_options['limit'] ;
-$CI = get_instance ();
+ // $CI = get_instance ();
  
-$users = $CI->users_model->getUsers($user_data, $limits, $count_only = false);
-//$users_count = $CI->users_model->getUsers($user_data, $limit = false, $count_only = true);
+$users = get_instance()->users_model->getUsers($user_data, $limits, $count_only = false);
+//$users_count = get_instance()->users_model->getUsers($user_data, $limit = false, $count_only = true);
  
  
 $pagenum = ceil($users_count/$query_options['limit']);
@@ -230,11 +230,11 @@ $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page')
    <a href="javascript:mw.users.UserMessage.compose(<?php echo $user['id']; ?>);" class="send_msg"><span   title="Send new message to <?php echo $user['first_name']; ?>" >Message</span></a>
    <? endif; ?>
  
-<?php if ($CI->users_model->realtionsCheckIfUserHasFriendRequestToUser(user_id(),$to_user ) == false) : ?>
+<?php if (get_instance()->users_model->realtionsCheckIfUserHasFriendRequestToUser(user_id(),$to_user ) == false) : ?>
 
 
-  <?php if ($CI->users_model->realtionsCheckIfUserIsFollowedByUser(false,$user['id'] ) == false) : ?>
-  <a  id="follow_btn_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>, 0, '.inner_user_<?php echo $to_user?>');" class="add_request" title="Add as friend <?php print $CI->users_model->getPrintableName($to_user, 'first'); ?>"><span>Add as friend</span></a>
+  <?php if (get_instance()->users_model->realtionsCheckIfUserIsFollowedByUser(false,$user['id'] ) == false) : ?>
+  <a  id="follow_btn_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>, 0, '.inner_user_<?php echo $to_user?>');" class="add_request" title="Add as friend <?php print get_instance()->users_model->getPrintableName($to_user, 'first'); ?>"><span>Add as friend</span></a>
   <?php  else : ?>
 
   <? endif; ?>
@@ -242,10 +242,10 @@ $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page')
   <? if($to_user != user_id()) : ?>
  <!-- <a title="Cancel request" id="unfollow_<?php echo $to_user?>" href="javascript:mw.users.FollowingSystem.unfollow(<?php echo $to_user?>, '.inner_user_<?php echo $to_user?>');" class="cancel_request">
 
-  <span title="Remove friend <?php print $CI->users_model->getPrintableName($to_user, 'first'); ?>">Cancel request</span></a>-->
+  <span title="Remove friend <?php print get_instance()->users_model->getPrintableName($to_user, 'first'); ?>">Cancel request</span></a>-->
   <? endif; ?>
   <? if($to_user == user_id()) : ?>
-  <a id="follow_btn_<?php echo $to_user?>" style="margin-top: 1px" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>,0,'.inner_user_<?php echo $to_user?>');" class="confirm_request" title="Add as friend <?php print $CI->users_model->getPrintableName($to_user, 'first'); ?>"><span>Confirm friend</span></a>
+  <a id="follow_btn_<?php echo $to_user?>" style="margin-top: 1px" href="javascript:mw.users.FollowingSystem.follow(<?php echo $to_user?>,0,'.inner_user_<?php echo $to_user?>');" class="confirm_request" title="Add as friend <?php print get_instance()->users_model->getPrintableName($to_user, 'first'); ?>"><span>Confirm friend</span></a>
 <? endif; ?>
 
 

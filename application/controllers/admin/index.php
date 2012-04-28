@@ -19,7 +19,7 @@ class Index extends CI_Controller {
 		$action = url_param ( 'action' );
 		
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		
 		if ($action == false) {
@@ -45,7 +45,7 @@ class Index extends CI_Controller {
 		
 		$layout =$this->load->view ( 'admin/mercury', true, true );
 		
-		$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+		$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		$this->output->set_output ( $layout );
 	}
 	
@@ -58,7 +58,7 @@ class Index extends CI_Controller {
 		
 		$layout =$this->load->view ( 'admin/toolbar', true, true );
 		
-		//$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+		//$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		$this->output->set_output ( $layout );
 	}
 	
@@ -72,7 +72,7 @@ class Index extends CI_Controller {
 		
 		$layout =$this->load->view ( 'admin/iframe', true, true );
 		$layout = $this->template_model->parseMicrwoberTags ( $layout );
-		//$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+		//$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		$this->output->set_output ( $layout );
 	}
 }

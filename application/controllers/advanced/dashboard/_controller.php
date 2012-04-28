@@ -15,13 +15,13 @@ $content = array ();
 
 $content ['content_layout_file'] = 'default_layout.php';
 
-$user_action = CI::model('core')->getParamFromURL ( 'user_action' );
+$user_action = $this->core_model->getParamFromURL ( 'user_action' );
 if ($user_action == false) {
 	
-	$user_action = CI::model('core')->getParamFromURL ( 'action' );
+	$user_action = $this->core_model->getParamFromURL ( 'action' );
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -31,7 +31,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -51,7 +51,7 @@ $user = CI::library('session')->userdata ( 'user' );
 //
 $the_userid = false;
 if (intval ( $the_user ['id'] ) != 0) {
-	$the_userid = CI::model('users')->userId ();
+	$the_userid = $this->users_model->userId ();
 } else {
 	$the_userid = $the_user ['id'];
 }
@@ -88,7 +88,7 @@ if (intval ( $currentUser ['id'] ) == 0) {
 
 $this->template ['current_user'] = $currentUser;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $user_action = codeClean ( $user_action );
 
@@ -177,7 +177,7 @@ $user_session ['user_action'] = $user_action;
 
 $this->template ['user_action'] = $user_action;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 CI::library('session')->set_userdata ( 'user_session', $user_session );
 
@@ -185,11 +185,11 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename_pre = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 	
 	} else {
 		
@@ -205,7 +205,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 if ($no_layout == false) {
 	if (is_readable ( $the_active_site_template_dir . 'dashboard/layout.php' ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout = $this->load->file ( $the_active_site_template_dir . 'dashboard/layout.php', true );
 	
@@ -218,7 +218,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 	
 	if (is_readable ( $the_active_site_template_dir . $content ['content_filename'] ) == true) {
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$content_filename = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
 		
@@ -229,12 +229,12 @@ if (trim ( $content ['content_filename'] ) != '') {
 
 }
 
-$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout );
+$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
 
 //		p($layout, 1);
 
 
-$layout = CI::model('template')->parseMicrwoberTags ( $layout );
+$layout = $this->template_model->parseMicrwoberTags ( $layout );
 if (is_file ( ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php' )) {
 	
 	include ACTIVE_TEMPLATE_DIR . 'controllers/pre_layout_display.php';

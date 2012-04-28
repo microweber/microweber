@@ -73,6 +73,12 @@ class Content extends CI_Controller {
 		//p($user_session);
 		require_once (APPPATH . 'controllers/api/default_constructor.php');
 		 
+	$this->load->model ( 'Users_model', 'users_model' );
+	$this->load->model ( 'Taxonomy_model' , 'taxonomy_model'  );
+	$this->load->model ( 'Template_model', 'template_model' );
+	
+	
+	
 	
 	}
 	
@@ -720,7 +726,7 @@ class Content extends CI_Controller {
 		if ($id == false) {
 			//	exit ( 'Error: not logged in as admin.' );
 		}
-		
+		 
 		if ($_POST) {
 			$save = post_save ( $_POST );
 			$j = array ();
@@ -729,6 +735,8 @@ class Content extends CI_Controller {
 			$save = json_encode ( $j );
 			print $save;
 			exit ();
+		} else {
+			exit ( 'Error: please provide parameters by $_POST' );
 		}
 	}
 	
@@ -1606,7 +1614,7 @@ class Content extends CI_Controller {
 									//	p ( $is_file );
 									if (is_file ( $is_file )) {
 										//file_get_contents($is_file); 
-										//$this->load->vars ( $this->template );
+										//// $this->load->vars ( $this->template );
 										$element_layout = $this->load->file ( $is_file, true );
 										$element_layout = $this->template_model->parseMicrwoberTags ( $element_layout, false );
 										$html_to_save = str_replace ( $m ['full_tag'], $element_layout, $html_to_save );
@@ -2181,7 +2189,7 @@ class Content extends CI_Controller {
 										//	p ( $is_file );
 										if (is_file ( $is_file )) {
 											//file_get_contents($is_file); 
-											//$this->load->vars ( $this->template );
+											//// $this->load->vars ( $this->template );
 											$element_layout = $this->load->file ( $is_file, true );
 											$element_layout = $this->template_model->parseMicrwoberTags ( $element_layout, false );
 											$html_to_save = str_replace ( $m ['full_tag'], $element_layout, $html_to_save );

@@ -149,13 +149,13 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		// Try to load memcached server info from the config file.
 		$CI =& get_instance();
-		if ($CI->config->load('memcached', TRUE, TRUE))
+		if (get_instance()->config->load('memcached', TRUE, TRUE))
 		{
-			if (is_array($CI->config->config['memcached']))
+			if (is_array(get_instance()->config->config['memcached']))
 			{
 				$this->_memcache_conf = NULL;
 
-				foreach ($CI->config->config['memcached'] as $name => $conf)
+				foreach (get_instance()->config->config['memcached'] as $name => $conf)
 				{
 					$this->_memcache_conf[$name] = $conf;
 				}				

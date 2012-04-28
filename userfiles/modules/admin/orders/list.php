@@ -1,9 +1,9 @@
 <?
-$CI = get_instance ();
-$CI->load->model( 'Cart_model', 'cart_model' );
+ // $CI = get_instance ();
+get_instance()->load->model( 'Cart_model', 'cart_model' );
  
 $data = array ();
-$ord = $CI->cart_model->ordersGet ( $params, $limit = false );
+$ord = get_instance()->cart_model->ordersGet ( $params, $limit = false );
 							//p($ord);
 
 ?>

@@ -23,8 +23,8 @@ class Notifications_model extends CI_Model {
 		$table = $cms_db_tables ['table_users_notifications'];
 		$data = array ();
 		$data ['id'] = $id;
-		$del = CI::model('core')->deleteData ( $table, $data, 'users/notifications' );
-		CI::model('core')->cleanCacheGroup ( 'users/notifications/' );
+		$del = $this->core_model->deleteData ( $table, $data, 'users/notifications' );
+		$this->core_model->cleanCacheGroup ( 'users/notifications/' );
 		return true;
 	}
 	
@@ -36,9 +36,9 @@ class Notifications_model extends CI_Model {
 	function notificationSave($data, $no_cache_clean = false) {
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users_notifications'];
-		$id = CI::model('core')->saveData ( $table, $data );
+		$id = $this->core_model->saveData ( $table, $data );
 		if ($no_cache_clean == false) {
-			CI::model('core')->cleanCacheGroup ( 'users/notifications/' );
+			$this->core_model->cleanCacheGroup ( 'users/notifications/' );
 		}
 		return $id;
 	}
@@ -55,7 +55,7 @@ class Notifications_model extends CI_Model {
 			
 
 			$params = array ();
-			$params [] = array ('to_user', CI::model('core')->userId () );
+			$params [] = array ('to_user', $this->core_model->userId () );
 			$params [] = array ("log_id", "0", '>', 'and', true );
 			$params [] = array ("is_read", "n" );
 		}
@@ -83,7 +83,7 @@ class Notifications_model extends CI_Model {
 		}
 		$options ['only_fields'] = array ('id' );
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $options );
 		if (! empty ( $data )) {
 			$data2 = array ();
 			foreach ( $data as $item ) {
@@ -123,7 +123,7 @@ class Notifications_model extends CI_Model {
 			}
 		}
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $options );
 		return $data;
 	}
 	
@@ -135,7 +135,7 @@ class Notifications_model extends CI_Model {
 	function notificationsGetUnreadCountForUser($user_id = false) {
 		if ($user_id == false) {
 			
-			$user_id = CI::model('core')->userId ();
+			$user_id = $this->core_model->userId ();
 		}
 		$params = array ();
 		$params [] = array ('to_user', $user_id );
@@ -180,7 +180,7 @@ class Notifications_model extends CI_Model {
 		global $cms_db_tables;
 		$table_notifications = $cms_db_tables ['table_users_notifications'];
 		
-		$user_id = CI::model('core')->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			return false;
 		}
@@ -214,19 +214,19 @@ class Notifications_model extends CI_Model {
 			$log = $this->logGetByParams ( $log_params, $query_options );
 			
 			if (! empty ( $log )) {
-				$ids = CI::model('core')->dbExtractIdsFromArray ( $log );
+				$ids = $this->core_model->dbExtractIdsFromArray ( $log );
 				$table_log = TABLE_PREFIX . 'users_log';
 				$ids_implode = implode ( ',', $ids );
 				$q = " UPDATE  $table_log set notifications_parsed='y' where id in($ids_implode) ";
 				//p ( $q );
-				$q = CI::model('core')->dbQ ( $q );
+				$q = $this->core_model->dbQ ( $q );
 				
 				foreach ( $log as $entry ) {
 					switch ($entry ['to_table']) {
 						case 'table_followers' :
 							$data = array ();
 							$data [] = array ('id', intval ( $entry ['to_table_id'] ) );
-							$data = CI::model('core')->fetchDbData ( $entry ['to_table'], $data );
+							$data = $this->core_model->fetchDbData ( $entry ['to_table'], $data );
 							if (empty ( $data [0] )) {
 								//$this->notificationDeleteById ( $entry ['id'] );
 								$this->logDeleteById ( $entry ['id'] );
@@ -256,7 +256,7 @@ class Notifications_model extends CI_Model {
 						case 'table_votes' :
 							$data = array ();
 							$data_params [] = array ('id', intval ( $entry ['to_table_id'] ) );
-							$data = CI::model('core')->fetchDbData ( $entry ['to_table'], $data_params );
+							$data = $this->core_model->fetchDbData ( $entry ['to_table'], $data_params );
 							
 							if (empty ( $data [0] )) {
 								//$this->notificationDeleteById ( $entry ['id'] );
@@ -271,7 +271,7 @@ class Notifications_model extends CI_Model {
 									$this->logDeleteById ( $entry ['id'] );
 								} else {
 									if ($data ['to_table'] == 'table_content') {
-										$content_data = CI::model('content')->contentGetByIdAndCache ( $data ['to_table_id'] );
+										$content_data = $this->content_model->contentGetByIdAndCache ( $data ['to_table_id'] );
 										$totable_id = $content_data ['id'];
 									}
 									if ($data ['to_table'] != 'table_content') {
@@ -326,7 +326,7 @@ class Notifications_model extends CI_Model {
 	
 	public function sendNotification($aNotification) {
 		//@todo clean users cache
-		if (CI::model('core')->optionsGetByKey ( 'enable_notifications' )) {
+		if ($this->core_model->optionsGetByKey ( 'enable_notifications' )) {
 			
 			if (! isset ( $aNotification ['message_params'] )) {
 				$aNotification ['message_params'] = array ();
@@ -336,12 +336,12 @@ class Notifications_model extends CI_Model {
 			
 			unset ( $aNotification ['message_params'] );
 			
-			CI::model('core')->saveData ( TABLE_PREFIX . 'users_notifications', $aNotification );
+			$this->core_model->saveData ( TABLE_PREFIX . 'users_notifications', $aNotification );
 		
 		} else {
 			// notifications disabled
 		}
-		CI::model('core')->cleanCacheGroup ( 'log/global' );
+		$this->core_model->cleanCacheGroup ( 'log/global' );
 	
 	}
 	
@@ -381,7 +381,7 @@ class Notifications_model extends CI_Model {
 		$query_options ['cache'] = true;
 		$query_options ['page'] = $params ['page'];
 		$query_options ['cache_group'] = 'log/global';
-		$dir = CI::model('core')->_getCacheDir ( 'log/global/' );
+		$dir = $this->core_model->_getCacheDir ( 'log/global/' );
 		$c_file = $dir . 'skip_cache.php';
 		if (is_file ( $c_file )) {
 			
@@ -411,7 +411,7 @@ class Notifications_model extends CI_Model {
 			}
 		}
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $query_options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $query_options );
 		return $data;
 		if (! empty ( $data )) {
 			$arr = array ();
@@ -435,7 +435,7 @@ class Notifications_model extends CI_Model {
 		
 		$q = "SELECT * from $table where id='{$id}'  limit 0,1 ";
 		// var_dump($q);
-		$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'log/' . $id );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'log/' . $id );
 		//var_dump ( $q );
 		$content = $q [0];
 		
@@ -458,8 +458,8 @@ class Notifications_model extends CI_Model {
 		$table = $cms_db_tables ['table_users_log'];
 		$data = array ();
 		$data ['id'] = $id;
-		$del = CI::model('core')->deleteData ( $table, $data );
-		CI::model('core')->cleanCacheGroup ( 'log/' . $id );
+		$del = $this->core_model->deleteData ( $table, $data );
+		$this->core_model->cleanCacheGroup ( 'log/' . $id );
 		return true;
 	}
 

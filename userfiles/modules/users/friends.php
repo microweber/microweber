@@ -85,8 +85,8 @@ $query_options['search_keyword'] = trim($orig_params['keyword']);
 
 }
 
- $CI = get_instance ();
-$users_ids = $CI->users_model->realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options );
+  // $CI = get_instance ();
+$users_ids = get_instance()->users_model->realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options );
  
  
 ?>

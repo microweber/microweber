@@ -34,8 +34,8 @@ class User extends CI_Controller {
 			$to_save ['id'] = $q ['id'];
 			$to_save ['is_active'] = 'y';
 			//
-			$CI = get_instance ();
-			$userId = $CI->users_model->saveUser ( $to_save );
+			 // $CI = get_instance ();
+			$userId = $this->users_model->saveUser ( $to_save );
 		
 		}
 		
@@ -45,14 +45,14 @@ class User extends CI_Controller {
 	}
 	
 	function activate_link() {
-		$CI = get_instance ();
-		$forgot_pass = $CI->users_model->send_activation ( $_POST ['email'] );
+		 // $CI = get_instance ();
+		$forgot_pass = $this->users_model->send_activation ( $_POST ['email'] );
 		exit ( "Your link has been sent" );
 	}
 	
 	function forgot_pass() {
-		$CI = get_instance ();
-		$forgot_pass = $CI->users_model->forgot_pass ( $_POST ['email'] );
+		 // $CI = get_instance ();
+		$forgot_pass = $this->users_model->forgot_pass ( $_POST ['email'] );
 		exit ( "Your password has been sent" );
 	}
 	
@@ -91,8 +91,8 @@ class User extends CI_Controller {
 		
 		if ($is_adm == true) {
 			$id = intval ( $_POST ['id'] );
-			$CI = get_instance ();
-			$CI->users_model->userDeleteById ( $id );
+			 // $CI = get_instance ();
+			$this->users_model->userDeleteById ( $id );
 		}
 	
 	}
@@ -152,8 +152,8 @@ class User extends CI_Controller {
 	function logOut() {
 		$this->session->set_userdata ( 'editmode', false );
 		$this->session->set_userdata ( 'editmode', false );
-		$CI = get_instance ();
-		$CI->users_model->logOut ();
+		 // $CI = get_instance ();
+		$this->users_model->logOut ();
 		$this->session->sess_destroy ();
 		exit ();
 	}
@@ -264,8 +264,8 @@ class User extends CI_Controller {
 				$to_save ['created_by'] = $_POST ['id'];
 				$to_save ['edited_by'] = $_POST ['id'];
 				//
-				$CI = get_instance ();
-				$userId = $CI->users_model->saveUser ( $to_save );
+				 // $CI = get_instance ();
+				$userId = $this->users_model->saveUser ( $to_save );
 				
 				$retrn = array ();
 				$retrn ['success'] = $_POST;
@@ -312,8 +312,8 @@ class User extends CI_Controller {
 				
 				// p ( $data );
 			}
-			$CI = get_instance ();
-			$data = $CI->users_model->getUsers ( $data );
+			 // $CI = get_instance ();
+			$data = $this->users_model->getUsers ( $data );
 			$data = $data [0];
 			
 			if (empty ( $data )) {
@@ -323,7 +323,7 @@ class User extends CI_Controller {
 					$data ['password'] = $pass;
 					$data ['is_active'] = 'y';
 					// p ( $data );
-					$data = $CI->users_model->getUsers ( $data );
+					$data = $this->users_model->getUsers ( $data );
 					$data = $data [0];
 				}
 			}
@@ -402,7 +402,7 @@ class User extends CI_Controller {
 		}
 		
 		// $this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		// $this->load->vars ( $this->template );
+		// // $this->load->vars ( $this->template );
 		// $layout =$this->load->view ( 'layout', true, true );
 		// $primarycontent =$this->load->view ( 'login', true, true );
 		// p($this->template );
@@ -472,10 +472,10 @@ class User extends CI_Controller {
 			}
 			
 			$reg_is_error = false;
-			$CI = get_instance ();
-			$check_if_exist = $CI->users_model->checkUser ( 'username', $to_reg ['username'] );
+			 // $CI = get_instance ();
+			$check_if_exist = $this->users_model->checkUser ( 'username', $to_reg ['username'] );
 			
-			$check_if_exist_email = $CI->users_model->checkUser ( 'email', $to_reg ['email'] );
+			$check_if_exist_email = $this->users_model->checkUser ( 'email', $to_reg ['email'] );
 			
 			if ($username == '') {
 				
@@ -583,21 +583,21 @@ class User extends CI_Controller {
 				// Send mail
 				// $userdata = array ();
 				// $userdata ['id'] = $to_reg ['parent_affil'];
-				// $parent = CI::model('users')->getUsers ( $userdata );
+				// $parent = $this->users_model->getUsers ( $userdata );
 				// //$this->dbQuery("select * from firecms_users where
 				// id={$to_reg ['parent_affil']}");
 				// $to_reg ['parent'] = $parent [0] ['username'];
 				//
 				// $to_reg ['option_key'] = 'mail_new_user_reg';
-				// CI::model('core')->sendMail ( $to_reg, true );
+				// $this->core_model->sendMail ( $to_reg, true );
 				
 				// $primarycontent =$this->load->view ( 'me/register_done', true, true
 				// );
 				
 				$rett = $_POST;
 				$this->template ['user_registration_done'] = true;
-				$CI = get_instance ();
-				$userId = $CI->users_model->saveUser ( $to_reg );
+				 // $CI = get_instance ();
+				$userId = $this->users_model->saveUser ( $to_reg );
 				$rett ['id'] = $userId;
 				
 				/*
@@ -614,8 +614,8 @@ class User extends CI_Controller {
 					
 					$this->core_model->sendMail2 ( $sendOptions );
 				} */
-				$CI = get_instance ();
-				$send_activation = $CI->users_model->send_activation ( $_POST ['email'] );
+				 // $CI = get_instance ();
+				$send_activation = $this->users_model->send_activation ( $_POST ['email'] );
 				
 				$retrn = array ();
 				
@@ -655,7 +655,7 @@ class User extends CI_Controller {
 			
 			}
 			
-			// $this->load->vars ( $this->template );
+			// // $this->load->vars ( $this->template );
 		
 		}
 	}
@@ -670,7 +670,7 @@ class User extends CI_Controller {
 			unset ( $_POST ['mk'] );
 			// $messageKey = ( $messageKey );
 			$messageKey = $this->core_model->securityDecryptString ( $messageKey );
-			// var_dump( CI::model('core')->userId (), $messageKey);
+			// var_dump( $this->core_model->userId (), $messageKey);
 			
 			if ($this->core_model->userId () != $messageKey) {
 				exit ( 'Error in $messageKey' );
@@ -746,7 +746,7 @@ class User extends CI_Controller {
 				if ($subject1 != false) {
 					// var_dump ( $to, $subject1, $message, $headers1 );   
 					mail ( $to, $subject1, $message, $headers1 );
-				}
+				} 
 				// p($from_user_data);
 				// p($to_user_data);
 			
@@ -811,7 +811,7 @@ class User extends CI_Controller {
 			$cache_group = 'users/notifications';
 			$this->core_model->cleanCacheGroup ( $cache_group );
 			
-			// $read = CI::model('core')->saveData ( $table, array ('id' =>
+			// $read = $this->core_model->saveData ( $table, array ('id' =>
 			// $messageId, 'is_read' => 'y' ) );
 			
 			echo $messageId;
@@ -1024,11 +1024,11 @@ and to_table_id='{$message['to_table_id']}'
 			$special = ( bool ) $_POST ['special']; // if 1 will add special flag
 			$cancel = ( bool ) $_POST ['cancel']; // if 1 will cancel the whole
 			                                      // relatiomship
-			$CI = get_instance ();
+			 // $CI = get_instance ();
 			if ($followerId == 0) {
 				exit ( 'Error: no follower defined? Are you sure you clicked on actual person?' );
 			} else {
-				$follower = $CI->users_model->getUserById ( $followerId );
+				$follower = $this->users_model->getUserById ( $followerId );
 				// p($follower);
 				if (empty ( $follower )) {
 					exit ( 'Error: invalid user id ' . $followerId );
@@ -1041,7 +1041,7 @@ and to_table_id='{$message['to_table_id']}'
 			
 			$currentUser = $this->session->userdata ( 'user' );
 			
-			$followed = $CI->users_model->saveFollower ( array ('user' => $this->core_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special, 'cancel' => $cancel ) );
+			$followed = $this->users_model->saveFollower ( array ('user' => $this->core_model->userId (), 'follower' => $followerId, 'follow' => $follow, 'special' => $special, 'cancel' => $cancel ) );
 			
 			// echo $followed;
 			

@@ -12,7 +12,7 @@ class Orders extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -32,14 +32,14 @@ class Orders extends CI_Controller {
 	function ajax_json_edit_orders() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->cart_model->orderSave ( $_POST );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		exit ();
 	}
 	
 	function ajax_json_edit_order_item() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->cart_model->itemAdd ( $_POST );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		exit ();
 	}
 	
@@ -70,7 +70,7 @@ class Orders extends CI_Controller {
 			$searchOn = Strip ( $_REQUEST ['_search'] );
 			$the_item_ids_from_search_array = array ();
 			if ($searchOn == 'true') {
-				$search_array = CI::model('core')->mapArrayToDatabaseTable ( $table, $_REQUEST );
+				$search_array = $this->core_model->mapArrayToDatabaseTable ( $table, $_REQUEST );
 				if (is_array ( $search_array )) {
 					$qwery = '';
 					$i = 0;
@@ -80,7 +80,7 @@ class Orders extends CI_Controller {
 					if (strval ( $qwery ) != '') {
 						$q = " select id from $table where id is not null  $qwery";
 						//var_Dump($q);
-						$q = CI::model('core')->dbQuery ( $q );
+						$q = $this->core_model->dbQuery ( $q );
 						if (! empty ( $q )) {
 							foreach ( $q as $sresult ) {
 								$some_id = $sresult ['id'];
@@ -210,7 +210,7 @@ class Orders extends CI_Controller {
 			if (strval ( $wh ) != '') {
 				$q = " select id from $table where id is not null  $wh";
 				//var_Dump($q);
-				$q = CI::model('core')->dbQuery ( $q );
+				$q = $this->core_model->dbQuery ( $q );
 				if (! empty ( $q )) {
 					foreach ( $q as $sresult ) {
 						$some_id = $sresult ['id'];
@@ -225,7 +225,7 @@ class Orders extends CI_Controller {
 		
 
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
-		$id = CI::model('core')->getParamFromURL ( 'id' );
+		$id = $this->core_model->getParamFromURL ( 'id' );
 		$items_conf = array ();
 		$items_conf ['id'] = intval ( $id );
 		//$items_conf ['order_completed'] = 'y';
@@ -374,7 +374,7 @@ class Orders extends CI_Controller {
 	function promo_codes() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -419,7 +419,7 @@ class Orders extends CI_Controller {
 			$searchOn = Strip ( $_REQUEST ['_search'] );
 			$the_item_ids_from_search_array = array ();
 			if ($searchOn == 'true') {
-				$search_array = CI::model('core')->mapArrayToDatabaseTable ( $table, $_REQUEST );
+				$search_array = $this->core_model->mapArrayToDatabaseTable ( $table, $_REQUEST );
 				if (is_array ( $search_array )) {
 					$qwery = '';
 					$i = 0;
@@ -429,7 +429,7 @@ class Orders extends CI_Controller {
 					if (strval ( $qwery ) != '') {
 						$q = " select id from $table where id is not null  $qwery";
 						//var_Dump($q);
-						$q = CI::model('core')->dbQuery ( $q );
+						$q = $this->core_model->dbQuery ( $q );
 						if (! empty ( $q )) {
 							foreach ( $q as $sresult ) {
 								$some_id = $sresult ['id'];
@@ -492,7 +492,7 @@ class Orders extends CI_Controller {
 	function ajax_json_edit_promo_code() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->cart_model->promoCodeSave ( $_POST );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		exit ();
 	}
 	function ajax_delete_promo_code() {
@@ -509,7 +509,7 @@ class Orders extends CI_Controller {
 	function shipping_cost() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -554,7 +554,7 @@ class Orders extends CI_Controller {
 			$searchOn = Strip ( $_REQUEST ['_search'] );
 			$the_item_ids_from_search_array = array ();
 			if ($searchOn == 'true') {
-				$search_array = CI::model('core')->mapArrayToDatabaseTable ( $table, $_REQUEST );
+				$search_array = $this->core_model->mapArrayToDatabaseTable ( $table, $_REQUEST );
 				if (is_array ( $search_array )) {
 					$qwery = '';
 					$i = 0;
@@ -564,7 +564,7 @@ class Orders extends CI_Controller {
 					if (strval ( $qwery ) != '') {
 						$q = " select id from $table where id is not null  $qwery";
 						//var_Dump($q);
-						$q = CI::model('core')->dbQuery ( $q );
+						$q = $this->core_model->dbQuery ( $q );
 						if (! empty ( $q )) {
 							foreach ( $q as $sresult ) {
 								$some_id = $sresult ['id'];
@@ -625,7 +625,7 @@ class Orders extends CI_Controller {
 	function ajax_json_edit_shipping_costs() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->cart_model->shippingCostsSave ( $_POST );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		exit ();
 	}
 	
@@ -643,7 +643,7 @@ class Orders extends CI_Controller {
 	function currencies() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -688,7 +688,7 @@ class Orders extends CI_Controller {
 			$searchOn = Strip ( $_REQUEST ['_search'] );
 			$the_item_ids_from_search_array = array ();
 			if ($searchOn == 'true') {
-				$search_array = CI::model('core')->mapArrayToDatabaseTable ( $table, $_REQUEST );
+				$search_array = $this->core_model->mapArrayToDatabaseTable ( $table, $_REQUEST );
 				if (is_array ( $search_array )) {
 					$qwery = '';
 					$i = 0;
@@ -698,7 +698,7 @@ class Orders extends CI_Controller {
 					if (strval ( $qwery ) != '') {
 						$q = " select id from $table where id is not null  $qwery";
 						//var_Dump($q);
-						$q = CI::model('core')->dbQuery ( $q );
+						$q = $this->core_model->dbQuery ( $q );
 						if (! empty ( $q )) {
 							foreach ( $q as $sresult ) {
 								$some_id = $sresult ['id'];
@@ -759,7 +759,7 @@ class Orders extends CI_Controller {
 	function ajax_json_edit_currency() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		$this->cart_model->currencySave ( $_POST );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		exit ();
 	}
 	

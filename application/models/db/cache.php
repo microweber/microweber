@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
+$this->load->database();
 
 $table_name = false;
 $table_name = TABLE_PREFIX . "cache";

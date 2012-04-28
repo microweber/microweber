@@ -247,9 +247,9 @@ class content_model extends CI_Model {
 		$data_to_save_options = array ();
 		
 		if ($delete_the_cache == true) {
-			// CI::model('core')->cleanCacheGroup ( 'content' );
-		// CI::model('core')->cleanCacheGroup ( 'media' );
-		// CI::model('core')->cleanCacheGroup ( 'global' );
+			// $this->core_model->cleanCacheGroup ( 'content' );
+		// $this->core_model->cleanCacheGroup ( 'media' );
+		// $this->core_model->cleanCacheGroup ( 'global' );
 		}
 		
 		if ($data_to_save ['is_home'] == 'y') {
@@ -433,7 +433,7 @@ class content_model extends CI_Model {
 		// }
 		
 
-		// CI::model('core')->cacheDeleteAll ();
+		// $this->core_model->cacheDeleteAll ();
 		
 
 		if ($data_to_save ['preserve_cache'] == false) {
@@ -704,7 +704,7 @@ class content_model extends CI_Model {
 									 * "<hr>"; print "<hr>";
 									 */
 									
-									// CI::model('core')->url_getPageToFile (
+									// $this->core_model->url_getPageToFile (
 									// $image, $dir . $currentFile );
 									
 
@@ -873,7 +873,7 @@ class content_model extends CI_Model {
 	// $data ['content_id'] = $id;
 	
 
-	// $del = CI::model('core')->deleteData ( $table, $data, 'menus' );
+	// $del = $this->core_model->deleteData ( $table, $data, 'menus' );
 	
 
 	// $this->fixMenusPositions ();
@@ -888,17 +888,17 @@ class content_model extends CI_Model {
 	// $data ['to_table_id'] = $id;
 	
 
-	// $del = CI::model('core')->deleteData ( $table_taxonomy, $data,
+	// $del = $this->core_model->deleteData ( $table_taxonomy, $data,
 	// 'taxonomy' );
 	
 
-	// CI::model('core')->cleanCacheGroup ( 'content' );
+	// $this->core_model->cleanCacheGroup ( 'content' );
 	
 
-	// CI::model('core')->cleanCacheGroup ( 'core' );
+	// $this->core_model->cleanCacheGroup ( 'core' );
 	
 
-	// CI::model('core')->cleanCacheGroup ( 'global' );
+	// $this->core_model->cleanCacheGroup ( 'global' );
 	
 
 	}
@@ -1401,7 +1401,7 @@ class content_model extends CI_Model {
 		content_subtype='dynamic'
 		";
 		
-		// $taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q
+		// $taxonomies = $this->core_model->dbQuery ( $q, $cache_id = md5 ( $q
 		// ), $cache_group = 'content' );
 		
 
@@ -1481,7 +1481,7 @@ class content_model extends CI_Model {
 		
 		$q = " select id, content_parent,  content_type  from $table where id = $id";
 		
-		// $taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q
+		// $taxonomies = $this->core_model->dbQuery ( $q, $cache_id = md5 ( $q
 		// ), $cache_group = 'content' );
 		
 
@@ -1661,11 +1661,11 @@ class content_model extends CI_Model {
 		/*
 			 * $cache = base64_encode ( $the_url ); $table_cache =
 			 * $cms_db_tables ['table_cache']; $q = "delete from $table_cache
-			 * where cache_id='$cache_id' "; CI::model('core')->dbQ ( $q );
-			 * CI::model('core')->cacheDeleteFile ( $cache_id );
-			 * CI::model('core')->cacheWriteContent ( $cache_id, $cache ); $q =
+			 * where cache_id='$cache_id' "; $this->core_model->dbQ ( $q );
+			 * $this->core_model->cacheDeleteFile ( $cache_id );
+			 * $this->core_model->cacheWriteContent ( $cache_id, $cache ); $q =
 			 * "INSERT INTO $table_cache set cache_id='$cache_id',
-			 * cache_group='content' "; CI::model('core')->dbQ ( $q );
+			 * cache_group='content' "; $this->core_model->dbQ ( $q );
 			 */
 		
 		// cache
@@ -2753,7 +2753,7 @@ class content_model extends CI_Model {
 		 * $function_cache_id = $function_cache_id . serialize ( $k ) .
 		 * serialize ( $v ); } $function_cache_id = __FUNCTION__ . md5 (
 		 * $function_cache_id ); $cache_content =
-		 * CI::model('core')->cacheGetContentAndDecode ( $function_cache_id );
+		 * $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
 		 * if (($cache_content) != false) { if ($cache_content == 'false') {
 		 * return false; } else { return $cache_content; } }
 		 */
@@ -2828,7 +2828,7 @@ class content_model extends CI_Model {
 								$taxonomy_value = $item [1];
 								
 								// $possible_ids =
-								// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
+								// $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
 								// ( $base_category, true, false, 'category' );
 								
 
@@ -2929,7 +2929,7 @@ class content_model extends CI_Model {
 										 * ['taxonomy_type'] = 'category'; //
 										 * $data ['to_table'] = 'tab';
 										 * //var_dump($possible_ids); $results =
-										 * CI::model('taxonomy')->taxonomyGet (
+										 * $this->taxonomy_model->taxonomyGet (
 										 * $data );
 										 */
 										
@@ -2982,7 +2982,7 @@ class content_model extends CI_Model {
 													$categories_to_return [] = $res ["id"];
 												
 		// $possible_ids1 =
-												// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
+												// $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
 												// ( $res ["id"], true );
 												
 
@@ -3024,15 +3024,15 @@ class content_model extends CI_Model {
 			
 		/*
 			 * if (! empty ( $categories_to_return )) {
-			 * CI::model('core')->cacheWriteAndEncode ( $categories_to_return,
+			 * $this->core_model->cacheWriteAndEncode ( $categories_to_return,
 			 * $function_cache_id ); return $categories_to_return; } else {
-			 * CI::model('core')->cacheWriteAndEncode ( 'false',
+			 * $this->core_model->cacheWriteAndEncode ( 'false',
 			 * $function_cache_id ); return false; }
 			 */
 		
 		} else {
 			
-			// CI::model('core')->cacheWriteAndEncode ( 'false',
+			// $this->core_model->cacheWriteAndEncode ( 'false',
 			// $function_cache_id );
 			
 
@@ -3110,7 +3110,7 @@ class content_model extends CI_Model {
 								$taxonomy_value = $item [1];
 								
 								// $possible_ids =
-								// CI::model('taxonomy')->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
+								// $this->taxonomy_model->taxonomyGetTaxonomyIdsForTaxonomyRootIdAndCache
 								// ( $base_category, true, false, 'category' );
 								
 
@@ -3195,15 +3195,13 @@ class content_model extends CI_Model {
 		}
 		
 		$posts_data ['selected_categories'] = $selected_categories;
-		if(isset($order)){
 		$posts_data ['orderby'] = $order;
-		}
-		if(isset($voted_by)){
+		if ($voted_by) {
 			$posts_data ['voted_by'] = $voted_by;
 		}
-		if(isset($order)){
+		
 		$orderby = $order;
-		}
+		
 		// p($selected_categories);
 		
 
@@ -3219,13 +3217,13 @@ class content_model extends CI_Model {
 			}
 		
 		}
-		if(isset($keyword)){
-		 
+		
+		if ($keyword) {
 			$search_by_keyword = trim ( $keyword );
 		}
 		
-		if (isset($search_by_keyword) == false) {
-			if (isset($_POST ['search_by_keyword'])  and $_POST ['search_by_keyword'] != '') {
+		if (! $search_by_keyword) {
+			if ($_POST ['search_by_keyword'] != '') {
 				
 				$search_for = $_POST ['search_by_keyword'];
 				
@@ -3236,15 +3234,15 @@ class content_model extends CI_Model {
 			$params ['search_for'] = $search_by_keyword;
 		}
 		
-		 
-		if (isset($id) != false) {	
+		if ($id != false) {
+			
 			$params ['id'] = intval ( $id );
 		
 		} else {
 		
 		}
 		
-		if (isset($count) and $count != false) {
+		if ($count != false) {
 			
 			$params ['count'] = true;
 		
@@ -3260,8 +3258,8 @@ class content_model extends CI_Model {
 		
 		$cf = $this->core_model->getParamFromURL ( 'custom_fields_criteria' );
 		
-		//if ($custom_fields_criteria == false) {
-		if (isset($custom_fields_criteria) == false) {	
+		if ($custom_fields_criteria == false) {
+			
 			$cf = $this->core_model->getParamFromURL ( 'custom_fields_criteria' );
 			// p($cf,1);
 			if ($cf != false) {
@@ -3330,7 +3328,7 @@ class content_model extends CI_Model {
 
 		}
 		
-		if (isset($params ['search_for'])   == false) {
+		if ($params ['search_for'] == false) {
 			
 			$search_for = $this->core_model->getParamFromURL ( 'keyword' );
 		
@@ -3350,8 +3348,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		 
-		if (isset($params ['is_special'])   == false) {	
+		if ($params ['is_special'] == false) {
+			
 			$is_special = $this->core_model->getParamFromURL ( 'is_special' );
 			
 			if (($is_special == 'y') or ($is_special == 'n')) {
@@ -3397,8 +3395,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		 
-		if (isset($typev)   == false) {		
+		if ($typev == false) {
+			
 			$typev = $this->core_model->getParamFromURL ( 'typev' );
 		
 		}
@@ -3425,14 +3423,13 @@ class content_model extends CI_Model {
 		}
 		
 		$posts_data ['content_type'] = $content_type;
-		if (isset($items_per_page)   == false) {	
-		 if (isset($limit)   != false) {
+		
+		if ($items_per_page == false) {
 			$items_per_page = $limit;
-		 }
+		
 		}
 		
-				if (isset($items_per_page)   == false) {	
-
+		if ($items_per_page == false) {
 			
 			$items_per_page = $this->core_model->optionsGetByKey ( 'default_items_per_page' );
 		
@@ -3445,8 +3442,8 @@ class content_model extends CI_Model {
 			$active_categories2 = array ();
 		
 		}
-		if (isset($curent_page)   == false) {
-		 
+		
+		if ($curent_page == false) {
 			
 			$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		
@@ -3458,8 +3455,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		 
-			if (isset($commented)   == false) {	
+		if ($commented == false) {
+			
 			$commented = $this->core_model->getParamFromURL ( 'commented' );
 		
 		}
@@ -3478,8 +3475,8 @@ class content_model extends CI_Model {
 
 		}
 		
-		 
-		if (isset($voted)   == false) {		
+		if ($voted == false) {
+			
 			$voted = $this->core_model->getParamFromURL ( 'voted' );
 		
 		}
@@ -3492,8 +3489,8 @@ class content_model extends CI_Model {
 		
 		}
 		
-		 
-		if (isset($created_by)   == false) {			
+		if ($created_by == false) {
+			
 			$created_by = $this->core_model->getParamFromURL ( 'author' );
 		
 		}
@@ -3512,8 +3509,7 @@ class content_model extends CI_Model {
 
 		}
 		
-		 
-		if (isset($content_layout_name)  and strval ( $content_layout_name ) != '') {
+		if (strval ( $content_layout_name ) != '') {
 			
 			$posts_data ['content_layout_name'] = $content_layout_name;
 		
@@ -3583,7 +3579,7 @@ class content_model extends CI_Model {
 			unset ( $posts_data ["selected_categories"] );
 		}
 		
-		if (isset($posts_data ["orderby"] )  ) {
+		if ($posts_data ["orderby"] == NULL or $posts_data ["orderby"] == false) {
 			unset ( $posts_data ["orderby"] );
 		}
 		// p($posts_data);
@@ -3613,7 +3609,7 @@ class content_model extends CI_Model {
 				$to_return ['posts'] = $data;
 			}
 			$posts = $data;
-			
+			 
 			$results_count = $this->getContentAndCache ( $posts_data, $orderby1, $limit = false, $count_only = true, $short_data = true, $only_fields = false );
 			
 			// var_dump($results_count);
@@ -3806,7 +3802,7 @@ class content_model extends CI_Model {
 	function getContentAndCache($data, $orderby = false, $limit = false, $count_only = false, $short_data = true, $only_fields = false) {
 		
 		$args = func_get_args ();
-		$function_cache_id = '';
+		
 		foreach ( $args as $k => $v ) {
 			
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
@@ -3884,7 +3880,7 @@ class content_model extends CI_Model {
 		// $function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
 
-		// $cache_content = CI::model('core')->cacheGetContentAndDecode (
+		// $cache_content = $this->core_model->cacheGetContentAndDecode (
 		// $function_cache_id );
 		
 
@@ -3905,7 +3901,7 @@ class content_model extends CI_Model {
 		
 		}
 		
-		if (isset($data ['count']) and ($data ['count']) == true) {
+		if (($data ['count']) == true) {
 			
 			$count_only = true;
 			unset ( $data ['count'] );
@@ -4143,7 +4139,7 @@ class content_model extends CI_Model {
 			
 			$only_in_those_table_fields = array ('content_title', 'content_url', 'content_body', 'content_description' );
 			
-			// $keyword_results = CI::model('core')->dbRegexpSearch ( $table,
+			// $keyword_results = $this->core_model->dbRegexpSearch ( $table,
 			// $kw, $kw_ids );
 			
 
@@ -4484,7 +4480,7 @@ select to_table_id from $table_comments where to_table = 'table_content' group b
 		}
 		
 		// the voted functionality is built in into
-		// CI::model('core')->fetchDbData thats why we romove it from here
+		// $this->core_model->fetchDbData thats why we romove it from here
 		
 
 		if (($timestamp = strtotime ( $data ['voted'] )) !== false) {
@@ -4917,7 +4913,7 @@ $my_limit_q
 		
 		if ($count_only == true) {
 			
-			// CI::model('core')->cacheWriteAndEncode ( $save,
+			// $this->core_model->cacheWriteAndEncode ( $save,
 			// $function_cache_id, $cache_group = 'content' );
 			
 
@@ -5117,7 +5113,7 @@ $my_limit_q
 								 * ['content_filename_sync_with_editor'] == 'y')
 								 * { if (trim ( $item ['content_filename'] ) !=
 								 * '') { $the_active_site_template =
-								 * CI::model('core')->optionsGetByKey (
+								 * $this->core_model->optionsGetByKey (
 								 * 'curent_template' );
 								 * $the_active_site_template_dir = TEMPLATEFILES
 								 * . $the_active_site_template . '/'; if
@@ -5157,7 +5153,9 @@ $my_limit_q
 												// ( $v );
 												
 
-												$this->load->vars ( $this->template );
+												//$this->load->vars ( $this->template );
+												//$this->template ['page'] = $page;
+
 												
 												$content_filename1 = $this->load->file ( $the_active_site_template_dir . $item ['content_body_filename'], true );
 												
@@ -5533,7 +5531,7 @@ $my_limit_q
 			$content = str_replace ( '{' . $k . '}', $v, $content );
 		
 		// $content = sprintf('{' . $k . '}', $v,$content);
-		// $CI = get_instance ();
+		//  // $CI = get_instance ();
 		
 
 		// }
@@ -5702,11 +5700,11 @@ $my_limit_q
 			// ='dynamic' and content_subtype_value={$id} limit 0,1";
 			
 
-			// $q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
+			// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
 			// $cache_group );
 			
 
-			$content = $this->getContentAndCache ( $content );
+			$content = $this->getContentAndCache ( $content, $orderby );
 			
 			// $content = $q [0];
 			$content = $content [0];
@@ -5749,10 +5747,10 @@ $my_limit_q
 				
 				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				
-				// $q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q
+				// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q
 				// ), $cache_group );
 				$content = $this->getContentAndCache ( $content, $orderby );
-				// $content = CI::model('content')->getContentAndCache (
+				// $content = $this->content_model->getContentAndCache (
 				// $content, $orderby );
 				
 
@@ -6058,7 +6056,7 @@ $the_page = $this->getContentByURL ( $the_url );
 
 }
 
-// $active_categories = CI::model('taxonomy')->getCategoriesForContent (
+// $active_categories = $this->taxonomy_model->getCategoriesForContent (
 // $post ['id'], $return_only_ids = true );
 
 $this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
@@ -6942,7 +6940,7 @@ function menusGetThumbnailImageById($id, $size = 128, $direction = "DESC") {
 
 // $data ['id'] = $id;
 
-// $data = CI::model('taxonomy')->taxonomyGet ( $data );
+// $data = $this->taxonomy_model->taxonomyGet ( $data );
 
 // var_dump ( $data );
 
@@ -7381,7 +7379,7 @@ $selected_taxonomy_titles = array ();
 
 $selected_taxonomy_descs = array ();
 
-// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString (
+// $data = $this->taxonomy_model->taxonomyGenerateTagsFromString (
 // $data, 3 );
 
 // $meta ['content_meta_keywords'] = $data;
@@ -7402,7 +7400,7 @@ $meta ["content_meta_title"] = implode ( ', ', $selected_taxonomy_titles );
 
 $meta ["content_meta_description"] = implode ( ', ', $selected_taxonomy_descs );
 
-// $keyrods = CI::model('taxonomy')->taxonomyGenerateTagsFromString
+// $keyrods = $this->taxonomy_model->taxonomyGenerateTagsFromString
 // ( implode ( ', ', $selected_taxonomy_descs ), 3 );
 
 $meta ["content_meta_keywords"] = $keyrods;
@@ -7534,7 +7532,7 @@ $meta ['content_meta_keywords'] = $content ['content_meta_keywords'];
 
 $data = trim ( $content ['content_body_nohtml'] );
 
-// $data = CI::model('taxonomy')->taxonomyGenerateTagsFromString
+// $data = $this->taxonomy_model->taxonomyGenerateTagsFromString
 // ( $data, 3 );
 
 $meta ['content_meta_keywords'] = $data;
@@ -8386,7 +8384,7 @@ $chosen_categories_array_i = implode ( ',', $chosen_categories_array );
 * 'table_content' and content_type = 'post' and
 * parent_id IN ($chosen_categories_array_i) and
 * taxonomy_type = 'category_item' group by
-* to_table_id ;"; //$q = CI::model('core')->dbQuery
+* to_table_id ;"; //$q = $this->core_model->dbQuery
 * ( $q, md5 ( $q ), 'taxonomy' ); $qty123 =
 * array(); if (! empty ( $q )) { //$q = intval ( $q
 * [0] ['qty'] ); // $results_count = $q; foreach($q
@@ -8434,7 +8432,7 @@ $item ['content_count'] = $results_count;
 * ($content_ids_of_the_main_parent_i)
 * $visible_on_frontend_q and to_table_id is not
 * null group by to_table_id "; $q_1 =
-* CI::model('core')->dbQuery ( $q_1, $cache_id =
+* $this->core_model->dbQuery ( $q_1, $cache_id =
 * basename ( __FILE__, '.php' ) . __LINE__ . md5 (
 * $q_1 ), $cache_group = 'taxonomy' );
 * $results_count = intval ( $q_1 [0] ['qty'] );
@@ -8490,7 +8488,7 @@ $do_not_show = false;
 
 $check_in_table_content = false;
 $childern_content = array ();
-// $childern_content = CI::model('taxonomy')->getItems (
+// $childern_content = $this->taxonomy_model->getItems (
 // $item ['id'], $type = 'category_item',
 // $visible_on_frontend, $limit );
 
@@ -8874,7 +8872,7 @@ $media = $this->core_model->mediaGet2 ( false, false, $ids );
 
 $this->core_model->cacheWriteAndEncode ( $media, $function_cache_id, $cache_group );
 
-// $media = CI::model('core')->mediaGet ( $to_table =
+// $media = $this->core_model->mediaGet ( $to_table =
 // 'table_content', $content_id, $media_type = false, $order =
 // "ASC", $queue_id = false, $no_cache = false );
 

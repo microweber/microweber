@@ -11,16 +11,16 @@
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 
 		if ($_POST) {
-			CI::model('core')->cacheDelete ( 'cache_group', 'options' );
-			CI::model('core')->optionsSave ( $_POST );
+			$this->core_model->cacheDelete ( 'cache_group', 'options' );
+			$this->core_model->optionsSave ( $_POST );
 
 			redirect ( 'admin/options/index' );
 		}
 
-		$all_options = CI::model('core')->optionsGet ( false );
+		$all_options = $this->core_model->optionsGet ( false );
 		$this->template ['all_options'] = $all_options;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -41,16 +41,16 @@ function add() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 
 		if ($_POST) {
-			CI::model('core')->cacheDelete ( 'cache_group', 'options' );
-			CI::model('core')->optionsSave ( $_POST );
+			$this->core_model->cacheDelete ( 'cache_group', 'options' );
+			$this->core_model->optionsSave ( $_POST );
 
 			redirect ( 'admin/options/index' );
 		}
 
-		$all_options = CI::model('core')->optionsGet ( false );
+		$all_options = $this->core_model->optionsGet ( false );
 		$this->template ['all_options'] = $all_options;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -73,7 +73,7 @@ function add() {
 			exit ( 0 );
 		} else {
 
-			CI::model('core')->optionsDeleteById ( $id );
+			$this->core_model->optionsDeleteById ( $id );
 			exit ( 1 );
 		}
 	}

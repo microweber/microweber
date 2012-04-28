@@ -9,6 +9,7 @@ class Media extends CI_Controller {
 		require_once (APPPATH . 'controllers/default_constructor.php');
 		//p($user_session);
 		require_once (APPPATH . 'controllers/api/default_constructor.php');
+		$this->load->model ( 'Users_model', 'users_model' );
 		
 		if ($this->users_model->is_logged_in () == false) {
 			//    exit ( 'Login required' );
@@ -155,6 +156,7 @@ class Media extends CI_Controller {
 	}
 	
 	function upload() {
+		 
 		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error!, Must be logged in!' );
@@ -164,12 +166,11 @@ class Media extends CI_Controller {
 			//exit ( 'Error: not logged in as admin.' );
 		}
 		///
-		// var_dump ( $_POST );
-		// var_dump ( $_FILES );
+		  
 		if ($_POST) {
 			//p ( $_POST );
 			//p ( $_FILES );
-			$status = $this->core_model->upload ();
+			$status = $this->core_model->upload($to_table = false, $to_table_id = false, $queue_id = false, $collection = $_POST['collection'], $type = $_POST['type']);
 			//p ( $status );
 			print json_encode ( $status );
 			exit ();
@@ -284,6 +285,35 @@ class Media extends CI_Controller {
 	
 
 	}
+	function delete() {
+		$id = user_id ();
+		if ($id == 0) {
+			exit ( 'Error: not logged in.' );
+		}
+		
+		$id = $_POST ['id'];
+		if ($id) {
+			$the_pic = $this->core_model->mediaGetById($id);
+			
+			$is_adm = is_admin ();
+			
+			if (($the_pic ['created_by'] == $id) or $is_adm == true) {
+				
+				 
+				
+
+				 $this->core_model->mediaDelete($id);
+				exit ( 'yes' );
+			} else {
+				exit ( 'Error: you cant delete this post, because its not yours.' );
+			}
+		} else {
+			exit ( 'Error: invalid post id' );
+		}
+	
+	}
+	
+	
 	
 	function user_get_picture_info() {
 		$user_id = $this->core_model->userId ();

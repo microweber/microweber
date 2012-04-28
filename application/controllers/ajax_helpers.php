@@ -375,7 +375,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		$test = $this->core_model->securityDecryptArray ( $tree_params );
 		$tree_params = $test;
 		$this->content_model->content_helpers_getPagesAsUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['active_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'] );
-		//CI::model('content')->content_helpers_getCaregoriesUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['actve_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'], $ul_class_name = $tree_params ['ul_class_name'], $include_first = $tree_params ['include_first'], $content_type = $tree_params ['content_type'], $li_class_name = $tree_params ['li_class_name'] );
+		//$this->content_model->content_helpers_getCaregoriesUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['actve_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'], $ul_class_name = $tree_params ['ul_class_name'], $include_first = $tree_params ['include_first'], $content_type = $tree_params ['content_type'], $li_class_name = $tree_params ['li_class_name'] );
 		exit ();
 	}
 	
@@ -932,7 +932,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		
 		$user = $this->session->userdata ( 'user_session' );
 		if ($user ['user_id']) {
-			//$user_info = CI::model('users')->getUserById($user ['user_id']);
+			//$user_info = $this->users_model->getUserById($user ['user_id']);
 			$media = array ();
 			$media ['to_table'] = 'table_users';
 			$media ['to_table_id'] = $user ['user_id'];
@@ -1044,7 +1044,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				
 				$notification = array ('from_user' => $currentUser ['id'], 'to_user' => $followerId, 'type' => 'add_to_circle' );
 			
-		//CI::model('users')->sendNotification($notification);
+		//$this->users_model->sendNotification($notification);
 			
 
 			} elseif ($follow) {
@@ -1054,7 +1054,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 				$notification = array ('from_user' => $currentUser ['id'], 'to_user' => $followerId, 'type' => 'add_to_followers', 'message_params' => array ('circle_url' => site_url ( 'userbase/action:profile/username:' . $follower ['username'] ) ) ); //TODO: put user's sircle url
 			
 
-			//	CI::model('users')->sendNotification($notification);
+			//	$this->users_model->sendNotification($notification);
 			
 
 			}

@@ -1970,9 +1970,9 @@ class CI_Email {
 	protected function _set_error_message($msg, $val = '')
 	{
 		$CI =& get_instance();
-		$CI->lang->load('email');
+		get_instance()->lang->load('email');
 
-		if (substr($msg, 0, 5) != 'lang:' || FALSE === ($line = $CI->lang->line(substr($msg, 5))))
+		if (substr($msg, 0, 5) != 'lang:' || FALSE === ($line = get_instance()->lang->line(substr($msg, 5))))
 		{
 			$this->_debug_msg[] = str_replace('%s', $val, $msg)."<br />";
 		}

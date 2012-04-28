@@ -32,7 +32,7 @@ $("#subtype_change_set_form_value").change(
           //$("input[name='content_subtype_value']").val(nv);
 );
 </script>
-<?php $modules  = $CI->core_model->plugins_getLoadedPlugins (); ?>
+<?php $modules  = get_instance()->core_model->plugins_getLoadedPlugins (); ?>
 <select name="subtype_change_set_form_value" id="subtype_change_set_form_value">
   <option value="">None</option>
   <?php foreach($modules as  $k => $v): ?>

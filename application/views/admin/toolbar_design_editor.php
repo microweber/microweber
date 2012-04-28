@@ -1,7 +1,7 @@
 <? 
-$elements2 = CI::model('template')->getDesignElementsDirs();
+$elements2 = get_instance()->template_model->getDesignElementsDirs();
 //p($elements2 );
-$elements = CI::model('template')->getDesignElements();
+$elements = get_instance()->template_model->getDesignElements();
 
 $showed_element_groups = array(); ?>
 
@@ -16,7 +16,7 @@ $showed_element_groups = array(); ?>
 	$o['dir_name'] = $element_dir;
 	
 	
-	$elements = CI::model('template')->getDesignElements($o);
+	$elements = get_instance()->template_model->getDesignElements($o);
 	 
  //$element_group = explode(DIRECTORY_SEPARATOR ,$element['module']);
  $element_group = $element_dir; ?>

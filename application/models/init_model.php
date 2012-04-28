@@ -151,7 +151,7 @@ class Init_model extends CI_Model {
 		touch ( $cache_file );
 		$file = $path_to;
 		//require_once ($dir . 'options.php');
-		
+		$this->load->database();
 
 		if (stristr ( $file, 'disabled' ) == false) {
 			if (stristr ( $file, 'php' ) == TRUE) {
@@ -213,7 +213,7 @@ class Init_model extends CI_Model {
 			@touch ( $dir2 . $function_cache_id );
 			//@file_put_contents($dir2 . $function_cache_id , serialize($fields_to_add) );
 			
-
+$this->load->database();
 			if ($table_name != 'firecms_sessions') { //Codeigniter System Table
 				if (empty ( $column_for_not_drop ))
 					$column_for_not_drop = array ('id' );

@@ -45,7 +45,7 @@ class CI_Parser {
 	public function parse($template, $data, $return = FALSE)
 	{
 		$CI =& get_instance();
-		$template = $CI->load->view($template, $data, TRUE);
+		$template = get_instance()->load->view($template, $data, TRUE);
 
 		return $this->_parse($template, $data, $return);
 	}
@@ -105,7 +105,7 @@ class CI_Parser {
 		if ($return == FALSE)
 		{
 			$CI =& get_instance();
-			$CI->output->append_output($template);
+			get_instance()->output->append_output($template);
 		}
 
 		return $template;

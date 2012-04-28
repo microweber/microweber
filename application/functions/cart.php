@@ -8,7 +8,7 @@ function get_items_qty() {
 
 function get_cart_items($params) {
 	
-	$sid = $CI->session->userdata ( 'session_id' );
+	$sid =  get_instance()->session->userdata ( 'session_id' );
 	$cart_item = $params;
 	if ($cart_item ['order_completed'] == false) {
 		$cart_item ['order_completed'] = 'n';
@@ -21,7 +21,7 @@ function get_cart_items($params) {
 
 function get_cart_total() {
 	
-	$promo_code = $CI->session->userdata ( 'promo_code' );
+	$promo_code =  get_instance()->session->userdata ( 'promo_code' );
 	if (strval ( $promo_code ) == '') {
 		
 		$promo_item = array ();
@@ -30,8 +30,8 @@ function get_cart_total() {
 		$promo_item = $this->cart_model->itemsGet ( $promo_item );
 		if (! empty ( $promo_item )) {
 			$promo_item = $promo_item [0];
-			$CI->session->set_userdata ( 'promo_code', $promo_item ['promo_code'] );
-			$CI->session->set_userdata ( 'cart_promo_code', $promo_item ['promo_code'] );
+			 get_instance()->session->set_userdata ( 'promo_code', $promo_item ['promo_code'] );
+			 get_instance()->session->set_userdata ( 'cart_promo_code', $promo_item ['promo_code'] );
 			$promo_code = $promo_item ['promo_code'];
 		}
 	

@@ -17,7 +17,7 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'processJobFeeds()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 1;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 		
 		$cron = array ( );
 		$cron ['cronjob_group'] = 'mailer_process';
@@ -26,7 +26,7 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'processJobFeedsGetPages()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 1;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 		
 		$cron = array ( );
 		$cron ['cronjob_group'] = 'mailer_work';
@@ -35,7 +35,7 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'doWork()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 1;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 		
 		$cron = array ( );
 		$cron ['cronjob_group'] = 'mailer_work';
@@ -44,7 +44,7 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'doWorkLoop()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 120;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 		
 		
 		
@@ -55,7 +55,7 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'houseKeepStats()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 1440;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 		
 		$cron = array ( );
 		$cron ['cronjob_group'] = 'mailer_fake';
@@ -64,20 +64,20 @@ class Cacaomail_model extends CI_Model {
 		$cron ['function_to_execute'] = 'fakeSend()';
 		$cron ['is_active'] = 1;
 		$cron ['interval_minutes'] = 144000000;
-		CI::model('core')->cronjobRegister ( $cron );
+		$this->core_model->cronjobRegister ( $cron );
 	
 	}
 	
 	function getMailAccounts($criteria = false, $limit = false, $offset = false) {
 		require_once ('Zend/Date.php');
 		$table = TABLE_PREFIX . 'cacaomail_mail_accounts';
-		$query = CI::model('core')->getData ( $table, $criteria, $limit, $offset );
+		$query = $this->core_model->getData ( $table, $criteria, $limit, $offset );
 		$the_return = array ( );
 		foreach ( $query as $item ) {
 			$group_id_data = array ( );
 			$group_id_data ['id'] = $item ['group_id'];
 			$group_id_data ['group_to_table'] = 'cacaomail_mail_accounts';
-			$group_id_data = CI::model('core')->groupsGet ( $group_id_data );
+			$group_id_data = $this->core_model->groupsGet ( $group_id_data );
 			$group_id_data = $group_id_data [0];
 			if (! empty ( $group_id_data )) {
 				$item ['group_id_data'] = $group_id_data;
@@ -104,7 +104,7 @@ class Cacaomail_model extends CI_Model {
 	function getMailAccountsGroups($criteria = false) {
 		$data = $criteria;
 		$data ['group_to_table'] = 'cacaomail_mail_accounts';
-		$data = CI::model('core')->groupsGet ( $data );
+		$data = $this->core_model->groupsGet ( $data );
 		return $data;
 	}
 	
@@ -116,9 +116,9 @@ class Cacaomail_model extends CI_Model {
 			$data ['group_name'] = strtolower ( $criteria ['account_group_new'] );
 			//if($data['is_active'])
 			$data = $this->input->xss_clean ( $data );
-			$results = CI::model('core')->groupsGet ( $data );
+			$results = $this->core_model->groupsGet ( $data );
 			if (empty ( $results )) {
-				$save = CI::model('core')->groupsSave ( $data );
+				$save = $this->core_model->groupsSave ( $data );
 				$criteria ['group_id'] = $save;
 			} else {
 				$results = $results [0];
@@ -138,20 +138,20 @@ class Cacaomail_model extends CI_Model {
 		
 		$table = TABLE_PREFIX . 'cacaomail_mail_accounts';
 		$criteria = $this->input->xss_clean ( $criteria );
-		$save = CI::model('core')->saveData ( $table, $criteria );
-		$cleanup_groups = CI::model('core')->groupsCleanup ( 'cacaomail_mail_accounts' );
+		$save = $this->core_model->saveData ( $table, $criteria );
+		$cleanup_groups = $this->core_model->groupsCleanup ( 'cacaomail_mail_accounts' );
 		return $save;
 	}
 	
 	function deleteMailAccounts($criteria) {
 		$table = TABLE_PREFIX . 'cacaomail_mail_accounts';
-		CI::model('core')->deleteData ( $table, $criteria );
-		$cleanup_groups = CI::model('core')->groupsCleanup ( 'cacaomail_mail_accounts' );
+		$this->core_model->deleteData ( $table, $criteria );
+		$cleanup_groups = $this->core_model->groupsCleanup ( 'cacaomail_mail_accounts' );
 	}
 	
 	function getJobfeeds($criteria = false, $limit = false, $offset = false) {
 		$table = TABLE_PREFIX . 'cacaomail_mailing_lists';
-		$query = CI::model('core')->getData ( $table, $criteria, $limit, $offset );
+		$query = $this->core_model->getData ( $table, $criteria, $limit, $offset );
 		$return_me = array ( );
 		$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send';
 		$table3 = TABLE_PREFIX . 'cacaomail_mails_to_send_log';
@@ -199,7 +199,7 @@ class Cacaomail_model extends CI_Model {
 		$table = TABLE_PREFIX . 'cacaomail_mailing_lists';
 		$data = $criteria;
 		$data ['group_to_table'] = 'cacaomail_mailing_lists';
-		$data = CI::model('core')->groupsGet ( $data );
+		$data = $this->core_model->groupsGet ( $data );
 		return $data;
 	}
 	
@@ -238,9 +238,9 @@ class Cacaomail_model extends CI_Model {
 			$data ['group_to_table'] = 'cacaomail_mailing_lists';
 			$data ['group_name'] = strtolower ( $criteria ['group_id_new'] );
 			$data = $this->input->xss_clean ( $data );
-			$results = CI::model('core')->groupsGet ( $data );
+			$results = $this->core_model->groupsGet ( $data );
 			if (empty ( $results )) {
-				$save = CI::model('core')->groupsSave ( $data );
+				$save = $this->core_model->groupsSave ( $data );
 				$criteria ['group_id'] = $save;
 			} else {
 				$results = $results [0];
@@ -257,15 +257,15 @@ class Cacaomail_model extends CI_Model {
 		
 		//var_dump($criteria);
 		//exit;
-		$save = CI::model('core')->saveData ( $table, $criteria );
-		$cleanup_groups = CI::model('core')->groupsCleanup ( 'cacaomail_mailing_lists' );
+		$save = $this->core_model->saveData ( $table, $criteria );
+		$cleanup_groups = $this->core_model->groupsCleanup ( 'cacaomail_mailing_lists' );
 		return $save;
 	}
 	
 	function deleteJobfeeds($criteria) {
 		$table = TABLE_PREFIX . 'cacaomail_mailing_lists';
-		CI::model('core')->deleteData ( $table, $criteria );
-		$cleanup_groups = CI::model('core')->groupsCleanup ( 'cacaomail_mailing_lists' );
+		$this->core_model->deleteData ( $table, $criteria );
+		$cleanup_groups = $this->core_model->groupsCleanup ( 'cacaomail_mailing_lists' );
 	}
 	
 	function cron() {
@@ -347,7 +347,7 @@ class Cacaomail_model extends CI_Model {
 			
 			
 			//if ($ctype == 'text/html' || $ctype == 'text/xml') {
-			$email = CI::model('core')->extractEmailsFromString ( $body );
+			$email = $this->core_model->extractEmailsFromString ( $body );
 			if ($email [0] == '') {
 				$body = html_entity_decode ( $body );
 				$body = str_ireplace ( '@recruitireland.com', ' ', $body );
@@ -355,7 +355,7 @@ class Cacaomail_model extends CI_Model {
 				$body = str_ireplace ( '@sempo.org', ' ', $body );
 				$body = str_ireplace ( '@import', ' ', $body );
 				$body = str_ireplace ( '<img title="@" alt="@" src="../img/at.gif"/>', '@', $body );
-				$email = CI::model('core')->extractEmailsFromString ( $body );
+				$email = $this->core_model->extractEmailsFromString ( $body );
 			}
 			$email_to_save = false;
 			if (! empty ( $email )) {
@@ -392,7 +392,7 @@ class Cacaomail_model extends CI_Model {
 					//var_dump($to_save);
 					//exit;
 					$table = TABLE_PREFIX . 'cacaomail_mails_to_send';
-					$save = CI::model('core')->saveData ( $table, $to_save );
+					$save = $this->core_model->saveData ( $table, $to_save );
 				} else {
 					$table = TABLE_PREFIX . 'cacaomail_mails_to_send';
 					$q = "update  $table set is_active=0,for_download=0    where job_email='{$to_save ['job_email']}' ";
@@ -445,7 +445,7 @@ class Cacaomail_model extends CI_Model {
 		//'name !=', $name
 		
 
-		//$feeds = CI::model('core')->getData($table,$criteria );
+		//$feeds = $this->core_model->getData($table,$criteria );
 		
 
 		/*	$table_test = TABLE_PREFIX . 'cacaomail_mails_to_send';
@@ -453,7 +453,7 @@ class Cacaomail_model extends CI_Model {
 		$q_test = $this->db->query ( $q_test );
 		$q_test = $q_test->row_array ();
 		var_dump ( $q_test );
-		$email = CI::model('core')->extractEmailsFromString ( html_entity_decode ( $q_test ['job_description'] ) );
+		$email = $this->core_model->extractEmailsFromString ( html_entity_decode ( $q_test ['job_description'] ) );
 		var_dump ( $email );
 		exit ();*/
 		
@@ -497,7 +497,7 @@ class Cacaomail_model extends CI_Model {
 					
 					//search for email
 					$src = html_entity_decode ( $item->description () );
-					$email = CI::model('core')->extractEmailsFromString ( $src );
+					$email = $this->core_model->extractEmailsFromString ( $src );
 					//	$email = parseTextForEmail ( $src );
 					
 
@@ -520,7 +520,7 @@ class Cacaomail_model extends CI_Model {
 						$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send';
 						$criteria = false;
 						$criteria ['job_hash'] = $to_save ['job_hash'];
-						//$check = CI::model('core')->getData ( $table2, $criteria, $limit = 1, $offset = false, $return_type = 'row' );
+						//$check = $this->core_model->getData ( $table2, $criteria, $limit = 1, $offset = false, $return_type = 'row' );
 						// var_dump($check);
 						$q = " select * from  $table2 where job_hash='{$to_save ['job_hash']}'  ";
 						$query = $this->db->query ( $q );
@@ -530,7 +530,7 @@ class Cacaomail_model extends CI_Model {
 							//var_dump ( $to_save );
 							print 'Saving link ' .addslashes($to_save ['job_link']). "\n";
 							$to_save ['job_priority'] = 0;
-							$save = CI::model('core')->saveData ( $table2, $to_save );
+							$save = $this->core_model->saveData ( $table2, $to_save );
 						} else {
 							print 'This link is downloaded!' . "\n";
 						}
@@ -547,14 +547,14 @@ class Cacaomail_model extends CI_Model {
 			$to_save = array ( );
 			$to_save ['id'] = $feed ['id'];
 			$to_save ['last_read_on'] = date ( "Y-m-d H:i:s" );
-			$save = CI::model('core')->saveData ( $table, $to_save );
+			$save = $this->core_model->saveData ( $table, $to_save );
 		}
 	
 	}
 	
 	function getMailCampaigns($criteria = false, $limit = false, $offset = false) {
 		$table = TABLE_PREFIX . 'cacaomail_mail_campaigns';
-		$query = CI::model('core')->getData ( $table, $criteria, $limit, $offset );
+		$query = $this->core_model->getData ( $table, $criteria, $limit, $offset );
 		//var_dump($query);
 		return $query;
 	}
@@ -578,14 +578,14 @@ class Cacaomail_model extends CI_Model {
 		//exit;
 		
 
-		$save = CI::model('core')->saveData ( $table, $criteria );
+		$save = $this->core_model->saveData ( $table, $criteria );
 		return $save;
 	}
 	
 	function deleteMailCampaigns($criteria) {
 		$table = TABLE_PREFIX . 'cacaomail_mail_campaigns';
-		CI::model('core')->deleteData ( $table, $criteria );
-		$cleanup_groups = CI::model('core')->groupsCleanup ( 'cacaomail_mail_campaigns' );
+		$this->core_model->deleteData ( $table, $criteria );
+		$cleanup_groups = $this->core_model->groupsCleanup ( 'cacaomail_mail_campaigns' );
 	}
 	
 	function checkIfEmailExits($email) {
@@ -593,7 +593,7 @@ class Cacaomail_model extends CI_Model {
 			return false;
 		}
 		//$email = 'naizchun@gmail.com';
-		$email = CI::model('core')->extractEmailsFromString ( $email );
+		$email = $this->core_model->extractEmailsFromString ( $email );
 		$email = $email [0];
 		//var_dump($email);
 		//exit;
@@ -703,7 +703,7 @@ class Cacaomail_model extends CI_Model {
 			$criteria ['campaign_end_date >'] = $now;
 			//'name !=', $name
 			//$limit = false, $offset = false, $return_type = false, $orderby = false
-			$campaigns = CI::model('core')->getData ( $table, $criteria, $limit = false, $offset = false, $return_type = false, $orderby = array ('campaign_priority', 'DESC' ) );
+			$campaigns = $this->core_model->getData ( $table, $criteria, $limit = false, $offset = false, $return_type = false, $orderby = array ('campaign_priority', 'DESC' ) );
 			
 			foreach ( $campaigns as $item ) {
 				//var_dump($item);
@@ -775,7 +775,7 @@ class Cacaomail_model extends CI_Model {
 					$query = $this->db->query ( $q );
 					$query = $query->row_array ();
 					
-					$email = CI::model('core')->extractEmailsFromString ( html_entity_decode ( $query ['job_description'] ) );
+					$email = $this->core_model->extractEmailsFromString ( html_entity_decode ( $query ['job_description'] ) );
 					$validator2 = new Zend_Validate_EmailAddress ( );
 					if ($validator2->isValid ( $email [0] )) {
 						$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
@@ -784,7 +784,7 @@ class Cacaomail_model extends CI_Model {
 						print "Email fixed {$email[0]} to {$recipient_info ['id']}";
 						return false;
 					} else {
-						$email = CI::model('core')->extractEmailsFromString ( html_entity_decode ( $query ['job_src'] ) );
+						$email = $this->core_model->extractEmailsFromString ( html_entity_decode ( $query ['job_src'] ) );
 						$validator3 = new Zend_Validate_EmailAddress ( );
 						if ($validator3->isValid ( $email [0] )) {
 							$table_upd = TABLE_PREFIX . 'cacaomail_mails_to_send';
@@ -933,7 +933,7 @@ class Cacaomail_model extends CI_Model {
 						//	exit ();
 						$table2 = TABLE_PREFIX . 'cacaomail_mails_to_send_log';
 						$write_to_log ['mailsent_date'] = date ( "Y-m-d H:i:s" );
-						CI::model('core')->saveData ( $table2, $write_to_log );
+						$this->core_model->saveData ( $table2, $write_to_log );
 						
 						$t = TABLE_PREFIX . 'cacaomail_mails_to_send';
 						$q = " update $t set is_active=0 where job_email LIKE '{$recipient_info ['job_email']}'  ";
@@ -992,7 +992,7 @@ new Swift_Address ( "{$account_settings['your_email']}", "{$account_settings['yo
 		$criteria ['campaign_end_date >'] = $now;
 		//'name !=', $name
 		//$limit = false, $offset = false, $return_type = false, $orderby = false
-		$campaigns = CI::model('core')->getData ( $table, $criteria, $limit = false, $offset = false, $return_type = false, $orderby = array ('campaign_priority', 'DESC' ) );
+		$campaigns = $this->core_model->getData ( $table, $criteria, $limit = false, $offset = false, $return_type = false, $orderby = array ('campaign_priority', 'DESC' ) );
 		$campaigns = $campaigns [0];
 		if (empty ( $campaigns )) {
 			return false;

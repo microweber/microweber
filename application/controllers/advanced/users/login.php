@@ -1,7 +1,7 @@
 <?php
 
 
-$mw_user = CI::model('core')->userId();
+$mw_user = $this->core_model->userId();
 if(intval($mw_user) != 0){
 	redirect ( 'dashboard' );
 }
@@ -26,7 +26,7 @@ if ($_POST) {
 
 	$check ['is_active'] = 'y';
 
-	$check = CI::model('users')->getUsers ( $check );
+	$check = $this->users_model->getUsers ( $check );
 
 	//	var_dump($check);
 	if (empty ( $check [0] )) {
@@ -39,7 +39,7 @@ if ($_POST) {
 
 		$check ['is_active'] = 'y';
 
-		$check = CI::model('users')->getUsers ( $check );
+		$check = $this->users_model->getUsers ( $check );
 
 	}
 
@@ -50,7 +50,7 @@ if ($_POST) {
 	} else {
 
         //sync with the forum userbase
-        CI::model('users')->forum_sync($check[0]);
+        $this->users_model->forum_sync($check[0]);
 
 		$user_session ['is_logged'] = 'yes';
 
@@ -58,7 +58,7 @@ if ($_POST) {
 
 		CI::library('session')->set_userdata ( 'user_session', $user_session );
 		CI::library('session')->set_userdata ( 'user', $check [0] );
-		$back_to = CI::model('core')->getParamFromURL ( 'back_to' );
+		$back_to = $this->core_model->getParamFromURL ( 'back_to' );
 
 		$first_name = $check [0] ['first_name'];
 		$last_name = $check [0] ['last_name'];
@@ -94,7 +94,7 @@ if ($_POST) {
 
 $this->template ['user_login_errors'] = $user_login_errors;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $user_session ['user_action'] = $user_action;
 

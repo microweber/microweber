@@ -76,8 +76,8 @@ If you are using a framework, you should be able to plug this into your framewor
 {{{lang=php_snippet
 function luminous_sql($sql) {
   $CI =& get_instance();
-  $CI->load->database();
-  $q = $CI->db->query($sql);
+  get_instance()->load->database();
+  $q = get_instance()->db->query($sql);
   if (is_bool($q)) return $q;
   $ret = array();
   if ($q->num_rows()) {

@@ -411,11 +411,11 @@ class CI_Output {
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler == TRUE)
 		{
-			$CI->load->library('profiler');
+			get_instance()->load->library('profiler');
 
 			if ( ! empty($this->_profiler_sections))
 			{
-				$CI->profiler->set_sections($this->_profiler_sections);
+				get_instance()->profiler->set_sections($this->_profiler_sections);
 			}
 
 			// If the output data contains closing </body> and </html> tags
@@ -423,12 +423,12 @@ class CI_Output {
 			if (preg_match("|</body>.*?</html>|is", $output))
 			{
 				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
-				$output .= $CI->profiler->run();
+				$output .= get_instance()->profiler->run();
 				$output .= '</body></html>';
 			}
 			else
 			{
-				$output .= $CI->profiler->run();
+				$output .= get_instance()->profiler->run();
 			}
 		}
 
@@ -438,7 +438,7 @@ class CI_Output {
 		// If so send the output there.  Otherwise, echo it.
 		if (method_exists($CI, '_output'))
 		{
-			$CI->_output($output);
+			get_instance()->_output($output);
 		}
 		else
 		{
@@ -461,7 +461,7 @@ class CI_Output {
 	function _write_cache($output)
 	{
 		$CI =& get_instance();
-		$path = $CI->config->item('cache_path');
+		$path = get_instance()->config->item('cache_path');
 
 		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
 
@@ -471,9 +471,9 @@ class CI_Output {
 			return;
 		}
 
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+		$uri =	get_instance()->config->item('base_url').
+				get_instance()->config->item('index_page').
+				get_instance()->uri->uri_string();
 
 		$cache_path .= md5($uri);
 

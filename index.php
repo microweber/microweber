@@ -86,7 +86,7 @@ if (! defined ( 'E_STRICT' )) {
 
 }
 
-//error_reporting ( E_ALL & ~ E_NOTICE | E_STRICT );
+//
 
 //error_reporting ( E_ALL & ~ E_STRICT );
 

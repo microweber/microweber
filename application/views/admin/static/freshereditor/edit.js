@@ -137,7 +137,33 @@ function mw_make_row_editor($el_id){
 	
 	// alert($exisintg_num);
 }
-
+function mw_load_new_dropped_modules(){
+	$need_re_init = false; 
+	$(".module_draggable", '.edit').each(function (c) {
+               
+			   $name =  $(this).attr("data-module-name");
+			   // $(this).css("margin", '10px');
+			    // $(this).after();
+				$el_id_new = 'mw-col-'+new Date().getTime();
+				$(this).after("<div class='col' id='"+$el_id_new+"'></div>");
+				
+			//  $(this).attr('id', $el_id_column);	
+				
+				
+				
+				mw.load_module($name, '#'+$el_id_new);
+				
+				$(this).fadeOut().remove();
+				$need_re_init = true; 
+				
+            })
+			
+			
+			
+			if($need_re_init == false){
+				init_sortables()
+			}
+}
 
 function mw_make_css_editor($el_id){
 	if($el_id == undefined || $el_id == 'undefined' ){
@@ -231,8 +257,8 @@ function init_sortables(){
 	 connectWith: '.edit'
 });
 			
-					$('.column:not(.disabled)').sortable({
-    items: '.col',
+					$('.column:not(.disabled), .top-modules-list').sortable({
+    items: '.col,.module_draggable',
 	dropOnEmpty:true,
 
    revert: true,
@@ -246,82 +272,67 @@ function init_sortables(){
 	  
 	   },
 	   over: function(event, ui){
-		   
-		  //  if (window.console != undefined) {
-			//	console.log('over ' + ui.placeholder );	
-			//}
-		   
 		  // if($.trim(ui.placeholder.html()) == '') ui.placeholder.html(place2);;
-		   
-		   
+
     
 	   }
 ,
 	    start: function( event, ui ) {
 			 $( '.mw-sorthandle', '.column' ).remove();
-			//$('.column', ui.placeholder).each(function(){
-   // if($.trim($(this).html()) == '') $(this).html(place2);;
-//}); 
-			
 			$(".column", '.row').each(function (c) {
                 if ($("div", this).size() == 0) {
                     $(this).html(place2);
                 }
             })
-			  $( this ).sortable( 'refreshPositions' )
-			
-			 //$( '.column:empty', '.row' ).html(place2);
-	 
-			
+			 // $( this ).sortable( 'refreshPositions' )
   
   },
 
       sort: function(e,ui){
-		 
     $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
   $(ui.placeholder).html(Number($(".col:visible").index(ui.placeholder)+1));
 ui.helper.width(ui.placeholder.width());
-
-                /* The trick is that jQuery hides the inline element while user drags an absolute positioned clone so we want to deal only with the visible elements. Index order + 1 = UI order.*/
-              // 
               },
 			  
 			  remove: function(event, ui) {
            
         },
 		 change: function(event, ui) {
-  $( this ).sortable( 'refreshPositions' )
-  
-  
-
-  
-  
-  
+//  $( this ).sortable( 'refreshPositions' )
+   
     },
-	
-	
-        receive: function(event, ui) {
+	  receive: function(event, ui) {
             $('.empty').remove();
 			
-			  
+			
+			
+			//mw_load_new_dropped_modules();
+			
+			
+			
+			
         },
 		  activate: function(en, ui) {
-			 
-			//  $(this).addClass('column-min-height');
-			
         $(this).css('min-height',  ui.item.height());
-     //   $(this).css('background-color', '#666');
     },
     deactivate: function(en, ui) {
          $(this).css('min-height', '10px');
-			
-  
-	  // $(this).removeClass('column-min-height');
-      // $(this).css('background-color', '#FFF');
     },
 		
 		stop: function(event, ui) {
             $('.empty').remove();
+			
+			
+			
+			mw_load_new_dropped_modules();
+			
+			
+			
+			
+			
+			
+			
+			
 		//	 $(this).equalHeights() ;
 		  
     $('.row').each(function(index) {
@@ -335,6 +346,11 @@ ui.helper.width(ui.placeholder.width());
 	 
 });
 					
+				
+				
+				
+				
+				
 					
 		 
 		  

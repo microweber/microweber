@@ -80,7 +80,7 @@ Send message to
 <form method="post" id="message-compose" class="form">
 
 
-  <input name="mk" type="hidden" value="<?php print ($CI->core_model->securityEncryptString ( user_id() )) ?>" />
+  <input name="mk" type="hidden" value="<?php print (get_instance()->core_model->securityEncryptString ( user_id() )) ?>" />
   <input name="from_user" type="hidden" value="<?php print intval( user_id() ) ?>" />
   
 <? if($conversation): ?>  

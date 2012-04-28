@@ -40,7 +40,7 @@ class Masterdebate_model extends CI_Model {
 			$data_to_save ['vid'] = $vid;
 			$data_to_save ['saved_to_local'] = '1';
 			$data_to_save ['is_active'] = '1';
-			$save = CI::model('core')->saveData ( $table, $data_to_save );
+			$save = $this->core_model->saveData ( $table, $data_to_save );
 			exec ( $command3 );
 			return true;
 			//print $command;

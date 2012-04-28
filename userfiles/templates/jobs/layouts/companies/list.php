@@ -1,11 +1,34 @@
 <div class="body_part_inner">
   <form class="search_part" method="post" action="<? print page_link() ?>">
     <input type="hidden" name="search" value="1"  />
-    <div class="sort_people">Role:</div>
-    <select class="comapnies_search" name="role" style="width:230px;">
+    <div class="sort_people">Speciality:</div>
+    <? 
+	 
+	  $speciality = url_param('speciality');
+	
+	 $roles = option_get('user_roles');
+   $roles = csv2array($roles);
+   //p($roles);
+   
+   if($speciality != false){
+	  $speciality =  strtolower (urldecode($speciality)); 
+	   
+   } 
+   
+   
+   
+     ?>
+    <select class="comapnies_search" name="speciality">
+      <option value="">Select speciality</option>
+      <? foreach($roles as $role) : ?>
+      <option <? if((trim(strtolower($role))) ==  (trim($speciality))): ?> selected="selected" <? endif; ?> value="<? print strtolower($role); ?>"><? print $role; ?></option>
+      <? endforeach ?>
+    </select>
+    
+    <!--    <select class="comapnies_search" name="role" style="width:230px;">
       <option  value="job_seeker">Job seeker</option>
       <option  value="company">company</option>
-    </select>
+    </select>-->
     <div class="company_search_hover" style="margin-left:-21px;"></div>
     <div class="by_keyword">By Keyword</div>
     <input type="text" class="companies_search_textbox" name="keyword" />
@@ -13,6 +36,10 @@
       <input type="image" src="<? print TEMPLATE_URL ?>images/comapnies_search_but.jpg" />
     </div>
   </form>
+  <?
+   //p($speciality);
+  
+   ?>
   <? 
   
   $param = array();
@@ -32,15 +59,27 @@
   }
   
     $role = url_param('role');
-  if( $role != false){
-	 $param['role'] = $role; 
+	
+	if(strstr(url(), 'job-seekers')){
+		  $role = 'job_seeker';
+	} else {
+		$role = 'company';
+	}
+	
+ $param['role'] = $role; 
+ 
+ 
+ 
+  
+     
+  if( $speciality != false){
+	 $param['custom_field_speciality'] = $speciality; 
   } else {
-	  
+	 
   }
   
-  
-  
-  
+  $param['debug'] = false;
+   $param['no_cache'] = true;
   
   $param['items_per_page'] = 30; 
   
@@ -49,12 +88,12 @@
   $param2['limit'] = true;
   $param2['get_count'] = true;
 
-    
+    //p($param2); 
   
     $uc = get_users($param2);
  
    $u = get_users($param);
-  // p($param); 
+  //
   
   $pages = paging_prepare($uc,30);
  // paging('uls', $pages);
@@ -63,7 +102,7 @@
   <? 
   $i_count=0;
   foreach($u as $usr): $i_count= $i_count+1; if($i_count==4) { $i_count=1;}  ?>
-  <div class="logo_box_<?php echo $i_count;?>"><a class="company_logo" href="<? print page_link(); ?>/view:profile/username:<? print $usr['username'] ?>" style="background-image:url('<? print user_picture($usr['id'], 200); ?>')"> </a>
+  <div class="logo_box_<?php echo $i_count;?>"><a class="company_logo" href="<? print page_link(); ?>/view:profile/username:<? print $usr['username'] ?>" style="background-image:url('<? print user_thumbnail('id='.$usr['id'].'&size='. 200); ?>')"> </a>
     <div class="company_name"><strong>Company Name:</strong> <? print user_name($usr['id']); ?></div>
   </div>
   <? endforeach; ?>

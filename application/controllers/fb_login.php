@@ -37,7 +37,7 @@ class Fb_login extends CI_Controller {
 				$userdata_check = array ();
 				$userdata_check ['fb_uid'] = $data ['user'] ["id"];
 				
-				$userdata_check = CI::model('users')->getUsers ( $userdata_check, $limit = false, $count_only = false );
+				$userdata_check = $this->users_model->getUsers ( $userdata_check, $limit = false, $count_only = false );
 				
 				if ($userdata_check == false) {
 					//p($data['user']);
@@ -51,7 +51,7 @@ class Fb_login extends CI_Controller {
 					$to_save ['is_admin'] = 'n';
 					$to_save ['fb_uid'] = $data ['user'] ["id"];
 					
-					$userdata_check = CI::model('users')->saveUser ( $to_save );
+					$userdata_check = $this->users_model->saveUser ( $to_save );
 					$userdata_check = $to_save;
 				} else {
 					$userdata_check = $userdata_check [0];
@@ -82,7 +82,7 @@ class Fb_login extends CI_Controller {
 		
 		} else {
 			/*$this->template ['data'] = $data;
-			$this->load->vars ( $this->template );
+			// $this->load->vars ( $this->template );
 			$content_filename = $this->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/users/fb_login.php', true );
 			print ($content_filename) ;
 			exit ();*/
@@ -126,7 +126,7 @@ class Fb_login extends CI_Controller {
 
 	function _facebook_validate($uid = 0) {
 		//this query basically sees if the users facebook user id is associated with a user.
-		$bQry = CI::model('users')->validate_user_facebook ( $uid );
+		$bQry = $this->users_model->validate_user_facebook ( $uid );
 		
 		if ($bQry) { // if the user's credentials validated...
 			$data = array ('user_id' => $uid, 'is_logged_in' => true, 'list_type' => 'hot' );
@@ -175,7 +175,7 @@ class Fb_login extends CI_Controller {
 			
 			if ($fb_uid != false) {
 				//3. If yes, see if the facebook id is associated with any existing account
-				$usr = CI::model('users')->get_user_by_fb_uid ( $fb_uid );
+				$usr = $this->users_model->get_user_by_fb_uid ( $fb_uid );
 				
 				if (is_array ( $usr ) && count ( $usr ) == 1) {
 					$usr = $usr [0]; //the model returns an object array, so get the first elemet of it which contains all of the data we need.
@@ -194,7 +194,7 @@ class Fb_login extends CI_Controller {
 					$db_values = array ('user_id' => "fb:" . $fb_uid, 'fb_uid' => "fb:" . $fb_uid, 'full_name' => $fullname, 'pwd' => "" );
 					
 					//data ready, try to create the new user 
-					if ($query = CI::model('users')->create_user ( $db_values )) {
+					if ($query = $this->users_model->create_user ( $db_values )) {
 						$data ['account_created'] = true;
 						//log user in
 						$this->_facebook_validate ( $db_values ["user_id"] );

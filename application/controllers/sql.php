@@ -24,24 +24,24 @@ class Sql extends CI_Controller {
 			global $cms_db_tables;
 			$table = $cms_db_tables ['table_taxonomy'];
 			$q = " select * from $table where taxonomy_type = 'category'     order by RAND() limit 0,5   ";
-			$q = CI::model('core')->dbQuery ( $q );
+			$q = $this->core_model->dbQuery ( $q );
 			
 			$to_save ['content_title'] = 'random post in ' . $q [0] ['taxonomy_value'] . ' on ' . date ( "Y-m-d H:i:s" );
 			
 			$table_users = $cms_db_tables ['table_users'];
 			$q_users = " select id from $table_users     order by RAND() limit 0,10   ";
-			$q_users = CI::model('core')->dbQuery ( $q_users );
+			$q_users = $this->core_model->dbQuery ( $q_users );
 			$to_save ['created_by'] = $q_users [0] ['id'];
 			$to_save ['edited_by'] = $q_users [0] ['id'];
 			
 			$errors = array ();
 			
-			$categories = (CI::model('core')->dbExtractIdsFromArray ( $q ));
+			$categories = ($this->core_model->dbExtractIdsFromArray ( $q ));
 			
 			if (! empty ( $categories )) {
 				
 				foreach ( $categories as $cat ) {
-					$parrent_cats = CI::model('taxonomy')->getParents ( $cat );
+					$parrent_cats = $this->taxonomy_model->getParents ( $cat );
 					
 					foreach ( $parrent_cats as $par_cat ) {
 						$categories [] = $par_cat;
@@ -62,7 +62,7 @@ class Sql extends CI_Controller {
 				
 				/*$check_title ['content_title'] = $to_save ['content_title'];
 				$check_title ['content_type'] = 'post';
-				$check_title = CI::model('content')->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
+				$check_title = $this->content_model->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
 				if (! empty ( $check_title )) {
 					$check_title_error = true;
 				}*/
@@ -73,7 +73,7 @@ class Sql extends CI_Controller {
 				} else {
 					
 					$taxonomy_categories = array ($category );
-					$taxonomy = CI::model('taxonomy')->getParents ( $category );
+					$taxonomy = $this->taxonomy_model->getParents ( $category );
 					if (! empty ( $taxonomy )) {
 						foreach ( $taxonomy as $i ) {
 							$taxonomy_categories [] = $i;
@@ -93,7 +93,7 @@ class Sql extends CI_Controller {
 					foreach ( $categories as $cat ) {
 						//vAR_dump($parent_page);
 						if ($parent_page == false) {
-							$parent_page = CI::model('content')->contentsGetTheFirstBlogSectionForCategory ( $cat );
+							$parent_page = $this->content_model->contentsGetTheFirstBlogSectionForCategory ( $cat );
 							//vAR_dump($parent_page);
 						}
 					}
@@ -111,7 +111,7 @@ class Sql extends CI_Controller {
 							//var_dump ( $to_save );
 							print $i . " - " . $to_save ['content_title'] . "\n";
 							
-							$saved = CI::model('content')->saveContent ( $to_save );
+							$saved = $this->content_model->saveContent ( $to_save );
 						}
 					
 					} else {
@@ -143,11 +143,11 @@ class Sql extends CI_Controller {
 			$table = $cms_db_tables ['table_taxonomy'];
 			$table_content = $cms_db_tables ['table_content'];
 			$q = " select id, content_title from $table_content where content_type = 'post'     order by RAND() limit 0,1   ";
-			$q = CI::model('core')->dbQuery ( $q );
+			$q = $this->core_model->dbQuery ( $q );
 			
 			$table_users = $cms_db_tables ['table_users'];
 			$q_users = " select id from $table_users     order by RAND() limit 0,1   ";
-			$q_users = CI::model('core')->dbQuery ( $q_users );
+			$q_users = $this->core_model->dbQuery ( $q_users );
 			
 			$to_save = array ();
 			$to_save ['created_by'] = $q_users [0] ['id'];
@@ -155,9 +155,9 @@ class Sql extends CI_Controller {
 			$to_save ['to_table'] = 'table_content';
 			$to_save ['to_table_id'] = $q [0] ['id'];
 			$to_save ['comment_body'] = 'Random comment for ' . $q [0] ['content_title'];
-			CI::model('comments')->commentsSave ( $to_save );
+			$this->comments_model->commentsSave ( $to_save );
 			
-			CI::model('votes')->votesCast ( 'table_content', $q [0] ['id'], $user_id = $q_users [0] ['id'] );
+			$this->votes_model->votesCast ( 'table_content', $q [0] ['id'], $user_id = $q_users [0] ['id'] );
 			
 			var_Dump ( $to_save );
 		
@@ -184,7 +184,7 @@ class Sql extends CI_Controller {
 			$to_save ['is_active'] = 'y';
 			$to_save ['is_admin'] = 'n';
 			$to_save ['is_verified'] = 'y';
-			CI::model('users')->saveUser ( $to_save );
+			$this->users_model->saveUser ( $to_save );
 			
 			var_Dump ( $to_save );
 		
@@ -196,7 +196,7 @@ class Sql extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		/*
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'layout', true, true );
 		$primarycontent =$this->load->view ( 'me/index', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
@@ -207,18 +207,18 @@ class Sql extends CI_Controller {
 	select u.id, u.username from firecms_users u
     	
 STR;
-		$users = CI::model('core')->dbQuery ( $sql );
+		$users = $this->core_model->dbQuery ( $sql );
 		
 		for($i = 0; $i < count ( $users ); $i ++) {
 			$sql_update = "UPDATE affiliate_users set parent_affil='{$users[$i]['username']}' WHERE parent_affil_id={$users[$i]['id']} ";
-			CI::model('core')->dbQ ( $sql_update );
+			$this->core_model->dbQ ( $sql_update );
 		}
 		
 		$sql = <<<STR
 	select u.id, u.parent_affil_id,u.parent_affil from affiliate_users u
     	
 STR;
-		$users = CI::model('core')->dbQuery ( $sql );
+		$users = $this->core_model->dbQuery ( $sql );
 		p ( $users );
 		
 		die ();
@@ -227,14 +227,14 @@ STR;
 	select c1.username, c1.tier from cosmic_affiliates c1
     	
 STR;
-		$tiers = CI::model('core')->dbQuery ( $sql );
+		$tiers = $this->core_model->dbQuery ( $sql );
 		$ids = array ();
 		for($i = 0; $i < count ( $tiers ); $i ++) {
 			$res = array ();
 			$uname = htmlentities ( $tiers [$i] ['tier'], ENT_QUOTES );
 			$sql_update = "select id from firecms_users WHERE username='$uname' ";
 			
-			$res = CI::model('core')->dbQuery ( $sql_update );
+			$res = $this->core_model->dbQuery ( $sql_update );
 			
 			if (! empty ( $res ))
 				$ids [$tiers [$i] ['username']] = $res [0] ['id'];
@@ -246,11 +246,11 @@ STR;
 			$uname = htmlentities ( $kol, ENT_QUOTES );
 			$sql_update = "UPDATE firecms_users set parent_affil='{$val}' WHERE username='$uname' ";
 			
-			CI::model('core')->dbQ ( $sql_update );
+			$this->core_model->dbQ ( $sql_update );
 		
 		}
 		$sql = 'select id,username, parent_affil from firecms_users';
-		$res = CI::model('core')->dbQuery ( $sql );
+		$res = $this->core_model->dbQuery ( $sql );
 		p ( $res );
 	}
 }

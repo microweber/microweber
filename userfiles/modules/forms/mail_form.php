@@ -100,7 +100,7 @@
         <?
 		$cf_post_config = array();
 				$cf_post_config['post_id'] = $params['module_id'];
-			  $cf_post_config =  $CI->core_model->getCustomFieldsConfig($cf_post_config);
+			  $cf_post_config =  get_instance()->core_model->getCustomFieldsConfig($cf_post_config);
 	//	p( $cf_post_config );
 		?>
         

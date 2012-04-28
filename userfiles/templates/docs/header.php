@@ -255,7 +255,7 @@ if($params['from'] != false){
 
 
 if(intval( $from) == 0){
-	$par =  CI::model('content')->getParentPagesIdsForPageIdAndCache($page['id']);
+	$par =  get_instance()->content_model->getParentPagesIdsForPageIdAndCache($page['id']);
 $last =  end($par); // last
 
 if($last == 0){
@@ -280,11 +280,11 @@ $from = 	0;
     <? endif; ?>
     <?
 	if($params['thumbnail']){
- CI::model('content')->content_helpers_getPagesAsUlTree($from , "<a href='{link}'   {removed_ids_code}  {active_code}  value='{id}' ><img src='{tn}' ><span>{content_title}</span></a>", array(PAGE_ID), 'class="active"', array($form_values['id']) , 'class="hidden"' , false, false, $params['ul_class'], 1 );
+ get_instance()->content_model->content_helpers_getPagesAsUlTree($from , "<a href='{link}'   {removed_ids_code}  {active_code}  value='{id}' ><img src='{tn}' ><span>{content_title}</span></a>", array(PAGE_ID), 'class="active"', array($form_values['id']) , 'class="hidden"' , false, false, $params['ul_class'], 1 );
  
 	} else {
 		
-		 CI::model('content')->content_helpers_getPagesAsUlTree($from , "<a href='{link}'   {removed_ids_code}  {active_code}  value='{id}' ><span>{content_title}</span></a>", array(PAGE_ID), 'class="active"', array($form_values['id']) , 'class="hidden"' , false, false, $params['ul_class'],1 );
+		 get_instance()->content_model->content_helpers_getPagesAsUlTree($from , "<a href='{link}'   {removed_ids_code}  {active_code}  value='{id}' ><span>{content_title}</span></a>", array(PAGE_ID), 'class="active"', array($form_values['id']) , 'class="hidden"' , false, false, $params['ul_class'],1 );
 	}
 
  ?>

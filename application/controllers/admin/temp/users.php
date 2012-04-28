@@ -20,8 +20,8 @@ class Users extends CI_Controller {
 	function delete() {
 
 
-		$id = CI::model('core')->getParamFromURL ( 'id' );
-		CI::model('users')->userDeleteById ( $id );
+		$id = $this->core_model->getParamFromURL ( 'id' );
+		$this->users_model->userDeleteById ( $id );
 		redirect ( 'admin/users/index' );
 
 
@@ -46,13 +46,13 @@ class Users extends CI_Controller {
 
 		if ($_POST) {
 
-			CI::model('users')->saveUser ( $_POST );
+			$this->users_model->saveUser ( $_POST );
 
 		}
 
 		
 
-		$users = CI::model('users')->getUsers ();
+		$users = $this->users_model->getUsers ();
 
 		
 
@@ -60,7 +60,7 @@ class Users extends CI_Controller {
 
 		
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 
 		
 

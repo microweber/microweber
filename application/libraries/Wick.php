@@ -144,7 +144,7 @@ class Wick
     {
         $ci = &get_instance();
         foreach (array_keys(get_object_vars($ci)) as $variable) {
-            $to->$variable = &$ci->$variable;
+            $to->$variable = &get_instance()->$variable;
         }
 
         $ci = $to;

@@ -29,5 +29,6 @@ if($params['title'] == false){
  
 
 ?>
+<? get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' ); ?>
 
 <? add_post_form($params) ?>

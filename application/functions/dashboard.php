@@ -27,9 +27,9 @@ function dashboard_items($params) {
 	
 	}
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	if ($params ['user_id'] == false) {
-		$user_id = CI::model('core')->userId ();
+		$user_id = get_instance()->core_model->userId ();
 	} else {
 		$user_id = $params ['user_id'];
 	}
@@ -52,7 +52,7 @@ function dashboard_items($params) {
 	$query_options ['debug'] = false;
 	$query_options ['group_by'] = 'to_table, to_table_id';
 	
-	//$user_action = CI::model('core')->getParamFromURL ( 'action' );
+	//$user_action = get_instance()->core_model->getParamFromURL ( 'action' );
 	
 
 	$log_params = array ();
@@ -64,7 +64,7 @@ function dashboard_items($params) {
 		if ($user_action != 'live') {
 			if ($user_id == user_id ()) {
 				
-				$followed = CI::model('users')->realtionsGetFollowedIdsForUser ( $aUserId = $user_id, false, false );
+				$followed = get_instance()->users_model->realtionsGetFollowedIdsForUser ( $aUserId = $user_id, false, false );
 				
 				if (empty ( $followed )) {
 					//	$log_params [] = array ("id", '0' );
@@ -72,7 +72,7 @@ function dashboard_items($params) {
 					//$log_params ["for_user_ids"] = $followed;
 					$log_params [] = array ("user_id", $user_id );
 				} else {
-					if ($user_id == CI::model('core')->userId ()) {
+					if ($user_id == get_instance()->core_model->userId ()) {
 						$followed [] = $user_id;
 						$log_params ["for_user_ids"] = $followed;
 					} else {
@@ -116,7 +116,7 @@ function dashboard_items($params) {
 	$results_count = intval ( $log_count );
 	$log_count = ceil ( $results_count / $some_items_per_page );
 	
-	$paging = CI::model('content')->pagingPrepareUrls ( $url, $log_count );
+	$paging = get_instance()->content_model->pagingPrepareUrls ( $url, $log_count );
 	
 	$to_return ['paging'] = $paging;
 	$to_return ['log'] = $log;
@@ -125,7 +125,7 @@ function dashboard_items($params) {
 }
 
 function get_log_item($log_id) {
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	$log = CI::model('notifications')->logGetById ( $log_id );
 	//var_dump($log);
@@ -141,7 +141,7 @@ function get_log_item($log_id) {
 
 function get_dashboard_action($log_id) {
 	
-	$CI = get_instance ();
+	 // $CI = get_instance ();
 	
 	$log = get_log_item ( $log_id );
 	
@@ -191,11 +191,11 @@ function get_dashboard_action($log_id) {
 			$to_return ['allow_comments'] = true;
 			$to_return ['allow_likes'] = true;
 			
-			$comm = CI::model('comments')->commentGetById ( $data ['to_table_id'] );
+			$comm = get_instance()->comments_model->commentGetById ( $data ['to_table_id'] );
 			//p($comm);
 			if ($comm ['to_table'] == 'table_content') {
-				$content_data = CI::model('content')->contentGetByIdAndCache ( $comm ['to_table_id'] );
-				$url = CI::model('content')->getContentURLByIdAndCache ( $comm ['to_table_id'] );
+				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $comm ['to_table_id'] );
+				$url = get_instance()->content_model->getContentURLByIdAndCache ( $comm ['to_table_id'] );
 				$comm_txt = $comm ['comment_body'];
 				$comm_txt = html_entity_decode ( $comm_txt );
 				$comm_txt = auto_link ( $comm_txt );
@@ -209,8 +209,8 @@ function get_dashboard_action($log_id) {
 			}
 			
 			if ($comm ['rel_table'] == 'table_content') {
-				$content_data = CI::model('content')->contentGetByIdAndCache ( $comm ['rel_table_id'] );
-				$url = CI::model('content')->getContentURLByIdAndCache ( $comm ['rel_table_id'] );
+				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $comm ['rel_table_id'] );
+				$url = get_instance()->content_model->getContentURLByIdAndCache ( $comm ['rel_table_id'] );
 				$comm_txt = $comm ['comment_body'];
 				$comm_txt = html_entity_decode ( $comm_txt );
 				$comm_txt = auto_link ( $comm_txt );
@@ -234,11 +234,11 @@ function get_dashboard_action($log_id) {
 			$to_return ['allow_comments'] = false;
 			$to_return ['allow_likes'] = false;
 			
-			$vote = CI::model('votes')->voteGetById ( $data ['to_table_id'] );
+			$vote = get_instance()->votes_model->voteGetById ( $data ['to_table_id'] );
 			if ($vote ['to_table'] == 'table_content') {
-				$more = CI::model('core')->getCustomFields ( 'table_content', $vote ['to_table_id'] );
-				$content_data = CI::model('content')->contentGetByIdAndCache ( $vote ['to_table_id'] );
-				$url = CI::model('content')->getContentURLByIdAndCache ( $vote ['to_table_id'] );
+				$more = get_instance()->core_model->getCustomFields ( 'table_content', $vote ['to_table_id'] );
+				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $vote ['to_table_id'] );
+				$url = get_instance()->content_model->getContentURLByIdAndCache ( $vote ['to_table_id'] );
 				
 				$to_return ['msg'] = "liked <a href='{$url}'>{$content_data['content_title']}</a>";
 				
@@ -264,11 +264,11 @@ function get_dashboard_action($log_id) {
 		
 		case 'table_content' :
 			
-			$content_data = CI::model('content')->contentGetById ( $data ['to_table_id'] );
+			$content_data = get_instance()->content_model->contentGetById ( $data ['to_table_id'] );
 			if (empty ( $content_data )) {
 				CI::model('notifications')->logDeleteById ( $data ['id'] );
 			} else {
-				$more = CI::model('core')->getCustomFields ( 'table_content', $content_data ['id'] );
+				$more = get_instance()->core_model->getCustomFields ( 'table_content', $content_data ['id'] );
 				
 				$url = post_link ( $data ['to_table_id'] );
 				$to_return ['allow_comments'] = true;
@@ -296,15 +296,15 @@ function get_dashboard_action($log_id) {
 		
 		case 'table_followers' :
 			
-			$data = CI::model('core')->getById ( $data ['to_table'], $data ['to_table_id'] );
+			$data = get_instance()->core_model->getById ( $data ['to_table'], $data ['to_table_id'] );
 			//p($data);  
 			if (! empty ( $data )) {
 				$to_return ['allow_comments'] = false;
 				$to_return ['allow_likes'] = false;
 				
-				$data2 = CI::model('users')->getUserById ( $data ['follower_id'] );
+				$data2 = get_instance()->users_model->getUserById ( $data ['follower_id'] );
 				$url = profile_link ( $data ['follower_id'] );
-				$name = CI::model('users')->getPrintableName ( $data ['follower_id'] );
+				$name = get_instance()->users_model->getPrintableName ( $data ['follower_id'] );
 				$thumb = user_thumbnail ( $data ['follower_id'], 70 );
 				
 				$to_return ['msg'] = "is friend with <a href='{$url}' class='user_photo' style='background-image:url({$thumb})'></a><a href='{$url}'>{$name}</a>";

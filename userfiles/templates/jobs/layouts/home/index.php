@@ -77,21 +77,26 @@ description: Home site layout
   <div class="body_rt">
     <div class="searchbg">
       <div class="search_tit">Search for Jobs</div>
-      <input type="text" class="textbox" value="Keyword" />
+<!--      <input type="text" class="textbox" value="Keyword" />
       <select class="xdropbox" style="">
         <option>Select speciality</option>
-		<? category_tree('for_page=jobs'); ?>
+		<? //category_tree('for_page=jobs'); ?>
       </select>
 
       <div class="c">&nbsp;</div>
-
-      <!--SPECIALITY MUST BE WITH UL -->
+ 
       
 
       <input type="text" class="textbox" value="Location" />
       <select class="xdropbox" style="">
         <option>Pasted in last 7 days</option>
-      </select>
+      </select>-->
+      
+      
+      
+          <? include TEMPLATE_DIR. "layouts/jobs/search_fields.php"; ?> 
+      
+      
       <div class="c">&nbsp;</div>
       <input type="image" src="<? print TEMPLATE_URL ?>images/search_but.png" class="search_but" />
       <a href="#" id="subscribe">Subscribe</a>

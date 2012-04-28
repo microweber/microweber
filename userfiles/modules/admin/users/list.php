@@ -102,21 +102,21 @@ if(!empty($ids)){
 
  }
 
-$CI = get_instance ();
+ // $CI = get_instance ();
  
 $limits = array();
 $limits[0] = (intval($paging_curent_page) - 1) * $query_options['limit'] ;
 $limits[1] =  (intval($paging_curent_page)) * $query_options['limit'] ;
  
-$users = $CI->users_model->getUsers($user_data, $limits, $count_only = false);
-$users_count = $CI->users_model->getUsers($user_data, $limit = false, $count_only = true);
+$users = get_instance()->users_model->getUsers($user_data, $limits, $count_only = false);
+$users_count = get_instance()->users_model->getUsers($user_data, $limit = false, $count_only = true);
  
 $pagenum = ceil($users_count/$query_options['limit']);
 $paging = $this->content_model->pagingPrepareUrls(url(), $pagenum, 'users-page');
 
 
 ?>
-<? //$edit_url = $CI->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>0)) 
+<? //$edit_url = get_instance()->core_model->urlConstruct($base_url = false, $params = array('edit_user'=>0)) 
 
 //P($users);
 ?>

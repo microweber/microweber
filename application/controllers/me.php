@@ -10,7 +10,7 @@ class Me extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'layout', true, true );
 		$primarycontent =$this->load->view ( 'me/index', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
@@ -20,7 +20,7 @@ class Me extends CI_Controller {
 	function login() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'layout', true, true );
 		$primarycontent =$this->load->view ( 'me/index', true, true );
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
@@ -57,12 +57,12 @@ class Me extends CI_Controller {
 			$register ['password'] = $this->input->post ( 'password' );
 			$register ['email'] = $this->input->post ( 'email' );
 			$register ['is_active'] = 1;
-			CI::model('users')->saveUser ( $register );
+			$this->users_model->saveUser ( $register );
 			
 			$primarycontent =$this->load->view ( 'me/register_done', true, true );
 		}
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout =$this->load->view ( 'layout', true, true );
 		
 		$layout = str_ireplace ( '{primarycontent}', $primarycontent, $layout );
@@ -70,7 +70,7 @@ class Me extends CI_Controller {
 	}
 	
 	function username_check($username) {
-		$check = CI::model('users')->doUserExist ( 'username', $username );
+		$check = $this->users_model->doUserExist ( 'username', $username );
 		if ($check == true) {
 			$this->validation->set_message ( 'username_check', "The username $username already exists!" );
 			return FALSE;
@@ -80,7 +80,7 @@ class Me extends CI_Controller {
 	}
 	
 	function useremail_check($username) {
-		$check = CI::model('users')->doUserExist ( 'email', $username );
+		$check = $this->users_model->doUserExist ( 'email', $username );
 		if ($check == true) {
 			$this->validation->set_message ( 'useremail_check', "The email $username is already assigned to another user! Please choose new one!" );
 			return FALSE;

@@ -66,7 +66,7 @@ class Comments extends CI_Controller {
 
 		}
 		
-		//CI::model('core')->cacheDeleteAll ();
+		//$this->core_model->cacheDeleteAll ();
 		exit ();
 	}
 	
@@ -102,16 +102,16 @@ class Comments extends CI_Controller {
 		}
 		comments_list ( $content_id = $comments ['to_table_id'], $display = $comments ['display'], $for = $comments ['to_table'], $display_params = array () );
 		
-	/*	$comments = CI::model('comments')->commentsGet ( $comments );
+	/*	$comments = $this->comments_model->commentsGet ( $comments );
 
 		$this->template ['comments'] = $comments;
 
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		$layout = $this->load->file ( APPPATH . 'controllers/api/views/' . __FUNCTION__ . '.php', true );
 
 
 
-		$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout );
+		$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
 
 		CI::library('output')->set_output ( $layout );*/
 	//var_dump ($content_filename_pre, $files );

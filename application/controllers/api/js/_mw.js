@@ -67,19 +67,32 @@ mw.module = function($vars, $update_element) {
 
 mw.load_module = function($module_name, $update_element) {
 
-	$.ajax( {
+	var attributes = {}; 
+	attributes.module = $module_name;
+	 
+	 url1= '{SITE_URL}api/module';
+	 $($update_element).load(url1,attributes,function() {
+	 window.mw_sortables_created = false;
+	 }); 
+
+/*
+	$.ajax({
 		url : '{SITE_URL}api/module',
 		type : "POST",
 		//data : ($vars),
-		 data: {module : $module_name},
+		data : {
+			module : $module_name
+		},
 		async : true,
 
 		success : function(resp) {
 			$($update_element).html(resp);
 
-			 
 		}
 	});
+*/
+
+
 }
 
 

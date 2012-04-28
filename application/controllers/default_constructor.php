@@ -82,7 +82,7 @@ $this->load->model ( 'Votes_model', 'votes_model' );
 $this->load->model ( 'Cart_model', 'cart_model' );
 $this->load->model ( 'Template_model', 'template_model' );
 $this->load->model ( 'Mw_model', 'mw' );*/
- $CI = get_instance ();
+  // $CI = get_instance ();
 
 
 require (APPPATH . 'functions' . '/mw_functions.php');
@@ -233,11 +233,11 @@ if ($debugmode == true) {
 //$this->load->model ( 'Webservices_model', 'webservices_model' );
 //$this->load->model('Cacaomail_model', 'cacaomail_model');
 //$table = 'ooyes_country';
-//$countries_list = CI::model('core')->getDbData ( $table, false, $limit = false, $offset = false, array ('printable_name', 'ASC' ), $cache_group = 'country' );
+//$countries_list = $this->core_model->getDbData ( $table, false, $limit = false, $offset = false, array ('printable_name', 'ASC' ), $cache_group = 'country' );
 //$this->template ['countries_list'] = $countries_list;
 
 
-//$map_search_search_country = CI::model('core')->getParamFromURL ( 'country' );
+//$map_search_search_country = $this->core_model->getParamFromURL ( 'country' );
 //if ($map_search_search_country == false) {
 //$map_search_search_country = 'Bulgaria';
 //}
@@ -284,7 +284,7 @@ if (is_dir ( PLUGINS_DIRNAME )) {
   
 						require_once PLUGINS_DIRNAME . $dirname . '/' . $dirname . '_model.php';
 						
-						CI::model('core')->plugins_setLoadedPlugin ( $dirname );
+						$this->core_model->plugins_setLoadedPlugin ( $dirname );
 		 
 					}
 				
@@ -375,7 +375,7 @@ if ($ref != '') {
 	$subdomain_user = array ();
 	
 	//$subdomain_user ['username'] = $test_if_user_subdomain;
-	//$subdomain_user = CI::model('users')->getUsers ( $subdomain_user , array(0,1));
+	//$subdomain_user = $this->users_model->getUsers ( $subdomain_user , array(0,1));
 	if (! empty ( $subdomain_user )) {
 		
 		$subdomain_user = $subdomain_user [0];
@@ -447,8 +447,8 @@ if ($ref != '') {
 
 $this->template ['className'] = strtolower ( get_class () );
 
-//$this->template ['cache_queries_count'] = CI::model('core')->cacheGetCount ();
-//$this->template ['cache_size'] = CI::model('core')->cacheGetSize ();
+//$this->template ['cache_queries_count'] = $this->core_model->cacheGetCount ();
+//$this->template ['cache_size'] = $this->core_model->cacheGetSize ();
 
 global $cms_db_tables;
 $this->template ['cms_db_tables'] = $cms_db_tables;
@@ -459,7 +459,7 @@ $this->template ['__POST'] = $_POST;
 
 $this->template ['__REQUEST'] = $_REQUEST;
 
-$this->load->vars ( $this->template );
+// $this->load->vars ( $this->template );
 
 $uid = $this->core_model->userId ();
 

@@ -281,7 +281,7 @@ class Core_model extends CI_Model {
 					if (strtolower ( $k ) != 'id') {
 						
 						// $v =
-						// CI::model('content')->applyGlobalTemplateReplaceables
+						// $this->content_model->applyGlobalTemplateReplaceables
 						// ( $v );
 						// $v = htmlspecialchars ( $v, ENT_QUOTES );
 						$q .= "$k = '$v' , ";
@@ -311,6 +311,8 @@ class Core_model extends CI_Model {
 			// exit ();
 			// $this->dbQ ( $q );
 			// p($q);
+						$this->load->database();
+			
 			$this->db->query ( $q );
 			
 			$id_to_return = $this->dbLastId ( $table );
@@ -336,7 +338,7 @@ class Core_model extends CI_Model {
 			}
 			
 			$q .= " id={$data ['id']} WHERE id={$data ['id']} ";
-			
+			$this->load->database();
 			$this->db->query ( $q );
 			
 			$id_to_return = $data ['id'];
@@ -1958,7 +1960,7 @@ class Core_model extends CI_Model {
 		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $table );
 		
 		if (! empty ( $criteria )) {
-			if (isset($criteria ['debug']) == true) {
+			if ($criteria ['debug'] == true) {
 				$debug = true;
 				if (is_string ( $criteria ['debug'] )) {
 					$criteria ['debug'] = false;
@@ -1966,10 +1968,10 @@ class Core_model extends CI_Model {
 					unset ( $criteria ['debug'] );
 				}
 			}
-			if (isset($criteria ['cache_group']) and $criteria ['cache_group'] == true) {
+			if ($criteria ['cache_group'] == true) {
 				$cache_group = $criteria ['cache_group'];
 			}
-			if (isset($criteria ['no_cache']) and $criteria ['no_cache'] == true) {
+			if ($criteria ['no_cache'] == true) {
 				$cache_group = false;
 				if (is_string ( $criteria ['no_cache'] )) {
 					$criteria ['no_cache'] = false;
@@ -1978,46 +1980,49 @@ class Core_model extends CI_Model {
 				}
 			}
 			
-			if (isset($criteria ['count_only']) and $criteria ['count_only'] == true) {
+			if ($criteria ['count_only'] == true) {
 				$count_only = $criteria ['count_only'];
 				
 				unset ( $criteria ['count_only'] );
 			
 			}
 			
-			if (isset($criteria ['count']) and $criteria ['count'] == true) {
+			if ($criteria ['count'] == true) {
 				$count_only = $criteria ['count'];
 				
 				unset ( $criteria ['count'] );
 			
 			}
 			
-			if (isset($criteria ['get_count']) and  $criteria ['get_count'] == true) {
+			if ($criteria ['get_count'] == true) {
 				$count_only = true;
 				
 				unset ( $criteria ['get_count'] );
 			
 			}
 			
-			if (isset($criteria ['count']) and  $criteria ['count'] == true) {
+			if ($criteria ['count'] == true) {
 				$count_only = $criteria ['count'];
 				
 				unset ( $criteria ['count'] );
 			
 			}
 			
-			if (isset($criteria ['with_pictures']) and  $criteria ['with_pictures'] == true) {
+			if ($criteria ['with_pictures'] == true) {
 				$with_pics = true;
 			}
 			
-			if (isset($criteria ['limit']) and $criteria ['limit'] == true and $count_only == false) {
+			if ($criteria ['limit'] == true and $count_only == false) {
 				$limit = $criteria ['limit'];
 			}
-			if (isset($criteria ['limit'])) {
+			if ($criteria ['limit']) {
 				$limit = $criteria ['limit'];
 			}
 			
-		 
+			if ($criteria ['items_per_page'] and $criteria ['curent_page'] == false) {
+				// $limit = array (0, $criteria ['items_per_page'] );
+			}
+			
 			$curent_page = isset ( $criteria ['curent_page'] ) ? $criteria ['curent_page'] : null;
 			if ($curent_page == false) {
 				$curent_page = isset ( $criteria ['page'] ) ? $criteria ['page'] : null;
@@ -2037,8 +2042,8 @@ class Core_model extends CI_Model {
 				if ($limit == false) {
 					
 					$qLimit = "";
-					 
-					if (!isset($items_per_page) or $items_per_page == false) {
+					
+					if ($items_per_page == false) {
 						
 						$items_per_page = 30;
 					
@@ -2082,7 +2087,7 @@ class Core_model extends CI_Model {
 				// p($limit);
 			}
 			
-			if (isset($criteria ['fields']) and $criteria ['fields'] == true) {
+			if ($criteria ['fields'] == true) {
 				$only_those_fields = $criteria ['fields'];
 				if (is_string ( $criteria ['fields'] )) {
 					$criteria ['fields'] = false;
@@ -2096,8 +2101,11 @@ class Core_model extends CI_Model {
 		foreach ( $criteria as $fk => $fv ) {
 			if (strstr ( $fk, 'custom_field_' ) == true) {
 				
-				$addcf = str_replace ( 'custom_field_', '', $fk );
-				$criteria ['custom_fields_criteria'] [] = array ($addcf => $fv );
+				$addcf = str_ireplace ( 'custom_field_', '', $fk );
+				
+				// $criteria ['custom_fields_criteria'] [] = array ($addcf => $fv );
+				
+				$criteria ['custom_fields_criteria'] [$addcf] =   $fv  ;
 			
 			}
 		}
@@ -2123,11 +2131,13 @@ class Core_model extends CI_Model {
 			$only_custom_fieldd_ids = array ();
 			// p($data ['custom_fields_criteria'],1);
 			foreach ( $criteria ['custom_fields_criteria'] as $k => $v ) {
-				// var_dump($v);
+			  
 				if (is_array ( $v ) == false) {
 					
 					$v = addslashes ( $v );
-				
+				$v = html_entity_decode(  $v );
+								$v = urldecode(  $v );
+
 				}
 				$is_not_null = false;
 				if ($v == 'IS NOT NULL') {
@@ -2160,7 +2170,7 @@ class Core_model extends CI_Model {
 				if ($is_not_null == true) {
 					$cfvq = "custom_field_value IS NOT NULL  ";
 				} else {
-					$cfvq = "custom_field_value = '$v'  ";
+					$cfvq = "custom_field_value LIKE '$v'  ";
 				}
 				$q = "SELECT  to_table_id from $table_custom_fields where
 
@@ -2180,10 +2190,11 @@ class Core_model extends CI_Model {
                     ";
 				
 				$q2 = $q;
-				// p($q);
+			// p($q);
 				$q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'custom_fields' );
 				//
-				// p($q);
+			
+					 
 				if (! empty ( $q )) {
 					
 					$ids_old = $ids;
@@ -2261,13 +2272,13 @@ class Core_model extends CI_Model {
 		
 		$to_search = false;
 		
-		if (isset($criteria ['keyword'])  ) {
+		if ($criteria ['keyword']) {
 			if ($criteria ['search_by_keyword'] == false) {
 				$criteria ['search_by_keyword'] = $criteria ['keyword'];
 			}
 		}
 		
-		if (isset($criteria ['keywords'])  ) {
+		if ($criteria ['keywords']) {
 			if ($criteria ['search_by_keyword'] == false) {
 				$criteria ['search_by_keyword'] = $criteria ['keywords'];
 			}
@@ -2303,7 +2314,7 @@ class Core_model extends CI_Model {
 		}
 		
 		// if ($count_only == false) {
-		// var_dump ( $cache_group );
+	 // var_dump ( $cache_group );
 		if ($cache_group != false) {
 			
 			$cache_group = trim ( $cache_group );
@@ -2340,7 +2351,7 @@ class Core_model extends CI_Model {
 			
 			if ($cache_group == 'taxonomy') {
 				
-				// var_dump($cache_content);
+				// 
 			}
 			
 			if (($cache_content) != false) {
@@ -2436,104 +2447,8 @@ class Core_model extends CI_Model {
 		
 		$where = false;
 		
-		if ($to_search != false) {
-			
-			$fieals = $this->dbGetTableFields ( $table );
-			
-			$where_post = ' OR ';
-			
-			if (! $where) {
-				
-				$where = " WHERE ";
-			
-			}
-			
-			foreach ( $fieals as $v ) {
-				
-				$add_to_seachq_q = true;
-				
-				if (! empty ( $to_search_in_those_fields )) {
-					
-					if (in_array ( $v, $to_search_in_those_fields ) == false) {
-						
-						$add_to_seachq_q = false;
-					
-					}
-				
-				}
-				
-				if ($add_to_seachq_q == true) {
-					
-					if ($v != 'id' && $v != 'password') {
-						
-						// $where .= " $v like '%$to_search%' " . $where_post;
-						
-						$where .= " $v REGEXP '$to_search' " . $where_post;
-						
-						// 'new\\*.\\*line';
-						
-						// $where .= " MATCH($v) AGAINST ('*$to_search* in
-						// boolean mode') " . $where_post;
-					
-					}
-				
-				}
-			
-			}
-			
-			$where = rtrim ( $where, ' OR ' );
 		
-		} else {
-			
-			if (! empty ( $criteria )) {
-				
-				if (! $where) {
-					
-					$where = " WHERE ";
-				}
-				foreach ( $criteria as $k => $v ) {
-					$compare_sign = '=';
-					if (stristr ( $v, '[lt]' )) {
-						$compare_sign = '<=';
-						$v = str_replace ( '[lt]', '', $v );
-					}
-					
-					if (stristr ( $v, '[mt]' )) {
-						
-						$compare_sign = '>=';
-						
-						$v = str_replace ( '[mt]', '', $v );
-					}
-					/*
-					 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
-					 */
-					if (($k == 'updated_on') or ($k == 'created_on')) {
-						
-						$v = strtotime ( $v );
-						$v = date ( "Y-m-d H:i:s", $v );
-					}
-					
-					$where .= "$k {$compare_sign} '$v' AND ";
-				
-				}
-				if ($table_assoc_name != 'table_comments') {
-					if ($with_pics == true) {
-						$table_media = $cms_db_tables ['table_media'];
-						$where .= " id in (select to_table_id from $table_media where to_table='$table_assoc_name'   )     AND ";
-					}
-				}
-				
-				$where .= " ID is not null ";
-			
-			} else {
-				
-				$where = " WHERE ";
-				
-				$where .= " ID is not null ";
-			
-			}
 		
-		}
 		
 		if (is_array ( $ids )) {
 			
@@ -2598,6 +2513,124 @@ class Core_model extends CI_Model {
 			$includeIds_idds = false;
 		
 		}
+		
+		
+		
+		
+		if ($to_search != false) {
+			
+			$fieals = $this->dbGetTableFields ( $table );
+			
+			$where_post = ' OR ';
+			
+			if (! $where) {
+				
+				$where = " WHERE ";
+			
+			}
+			$where_q = '';
+			
+			foreach ( $fieals as $v ) {
+				
+				$add_to_seachq_q = true;
+				
+				if (! empty ( $to_search_in_those_fields )) {
+					
+					if (in_array ( $v, $to_search_in_those_fields ) == false) {
+						
+						$add_to_seachq_q = false;
+					
+					}
+				
+				}
+				
+				if ($add_to_seachq_q == true) {
+					
+					if ($v != 'id' && $v != 'password') {
+						
+						// $where .= " $v like '%$to_search%' " . $where_post;
+						
+						$where_q .= " $v REGEXP '$to_search' " . $where_post;
+						
+						// 'new\\*.\\*line';
+						
+						// $where .= " MATCH($v) AGAINST ('*$to_search* in
+						// boolean mode') " . $where_post;
+					
+					}
+				
+				}
+			
+			}
+			
+			
+			$where_q = rtrim ( $where_q, ' OR ' );
+			
+			if($includeIds_idds != false){
+			$where = $where.'  (' .$where_q.')' .$includeIds_idds;
+			} else {
+				
+							$where = $where.$where_q;
+				
+			}
+			
+			
+			
+			
+			
+		} else {
+			
+			if (! empty ( $criteria )) {
+				
+				if (! $where) {
+					
+					$where = " WHERE ";
+				}
+				foreach ( $criteria as $k => $v ) {
+					$compare_sign = '=';
+					if (stristr ( $v, '[lt]' )) {
+						$compare_sign = '<=';
+						$v = str_replace ( '[lt]', '', $v );
+					}
+					
+					if (stristr ( $v, '[mt]' )) {
+						
+						$compare_sign = '>=';
+						
+						$v = str_replace ( '[mt]', '', $v );
+					}
+					/*
+					 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
+					 */
+					if (($k == 'updated_on') or ($k == 'created_on')) {
+						
+						$v = strtotime ( $v );
+						$v = date ( "Y-m-d H:i:s", $v );
+					}
+					
+					$where .= "$k {$compare_sign} '$v' AND ";
+				
+				}
+				if ($table_assoc_name != 'table_comments') {
+					if ($with_pics == true) {
+						$table_media = $cms_db_tables ['table_media'];
+						$where .= " id in (select to_table_id from $table_media where to_table='$table_assoc_name'   )     AND ";
+					}
+				}
+				
+				$where .= " ID is not null ";
+			
+			} else {
+				
+				$where = " WHERE ";
+				
+				$where .= " ID is not null ";
+			
+			}
+		
+		}
+		
+		
 		
 		if ($where != false) {
 			
@@ -2666,7 +2699,7 @@ class Core_model extends CI_Model {
 				
 				if (! empty ( $result )) {
 					
-					if (count ( $result ) < 10) {
+					if (count ( $result ) < 2) {
 						
 						$table_custom_field = $cms_db_tables ['table_custom_fields'];
 						
@@ -2839,113 +2872,12 @@ class Core_model extends CI_Model {
 					}
 				
 				}
-				
-				/*
-				 * if ($get_only_whats_requested_without_additional_stuff ==
-				 * false) { if (count ( $result ) == 1) { if (strval (
-				 * $table_assoc_name ) != '') { if ($table_assoc_name !=
-				 * 'table_geodata') { $result_with_geodata = array (); if (!
-				 * empty ( $result )) { foreach ( $result as $item ) { if
-				 * (intval ( $item ['id'] ) != 0) { //get geodata //$media =
-				 * $this->mediaGet ( $table_assoc_name, $item ['id'] ); $geodata
-				 * = array (); $table_geodata = $cms_db_tables
-				 * ['table_geodata']; $geodata ['to_table'] = $table_assoc_name;
-				 * $geodata ['to_table_id'] = $item ['id']; $geodata_results =
-				 * $this->getDbData ( $table_geodata, $geodata ); if (! empty (
-				 * $geodata_results [0] )) { $item ['geodata'] =
-				 * $geodata_results [0]; } } $result_with_geodata [] = $item; }
-				 * $result = $result_with_geodata; } } } } }
-				 */
-				
-				// removed due performance issues on large sites >3000 articles
-				// if ($include_taxonomy == true) {
-				
-				/*
-				 * if ($table_assoc_name == 'table_content') { if
-				 * ($get_only_whats_requested_without_additional_stuff == false)
-				 * { if (! empty ( $result )) { if (count ( $result ) < 2) {
-				 * $this_cache_id = __FUNCTION__ . 'taxonomy_stuff' . md5 (
-				 * serialize ( $result ) ); $this_cache_content =
-				 * $this->cacheGetContentAndDecode ( $this_cache_id ); if
-				 * (($this_cache_content) != false) { $result =
-				 * $this_cache_content; } else { $the_data_with_taxonomy_stuff =
-				 * array (); foreach ( $result as $item ) { if
-				 * ($table_assoc_name == 'table_content') { $table_taxonomy =
-				 * $cms_db_tables ['table_taxonomy']; if (strval (
-				 * $table_assoc_name ) != '') { if (intval ( $item ['id'] ) !=
-				 * 0) { $q = " SELECT taxonomy_type from $table_taxonomy where
-				 * to_table = '$table_assoc_name' and to_table_id={$item['id']}
-				 * group by taxonomy_type "; //	print $q; $cache_id =
-				 * __FUNCTION__ . md5 ( $q ); $cache_id = md5 ( $cache_id ); $q
-				 * = $this->dbQuery ( $q, $cache_id, $cache_group = 'taxonomy'
-				 * ); $taxnomy_types = $q; $item ['taxonomy_data'] = array ();
-				 * if (! empty ( $taxnomy_types )) { foreach ( $taxnomy_types as
-				 * $taxnomy_type ) { if (strval ( $taxnomy_type
-				 * ['taxonomy_type'] ) != '') { if (intval ( $item ['id'] ) !=
-				 * 0) { $q = " SELECT * from $table_taxonomy where to_table =
-				 * '$table_assoc_name' and to_table_id={$item['id']} and
-				 * taxonomy_type='{$taxnomy_type ['taxonomy_type']}' ";
-				 * $taxonomy_query = $this->dbQuery ( $q ); $item
-				 * ['taxonomy_data'] [$taxnomy_type ['taxonomy_type']] = array
-				 * (); if (! empty ( $taxonomy_query )) { foreach (
-				 * $taxonomy_query as $temp1234 ) { $item ['taxonomy_data']
-				 * [$taxnomy_type ['taxonomy_type']] [] = $temp1234; } } } } } }
-				 * } } $the_data_with_taxonomy_stuff [] = $item; } } $result =
-				 * $the_data_with_taxonomy_stuff; $this->cacheWriteAndEncode (
-				 * $result, $this_cache_id, $cache_group = 'taxonomy' ); } } } }
-				 * } else { $the_data_with_taxonomy_stuff = $result; }
-				 */
-				// lets get custom fields
-				
-				if ($table_assoc_name != 'table_comments') {
-					
-					/*
-					 * $result_with_geodata = array ( ); foreach ( $result as
-					 * $item ) { $comments = array ( ); $comments ['to_table'] =
-					 * 'table_content'; $comments ['to_table_id'] = $item
-					 * ['id']; $comments = CI::model('comments')->commentsGet (
-					 * $comments ); if (! empty ( $comments )) { $item
-					 * ['comments'] = $comments; } $result_with_geodata [] =
-					 * $item; } $result = $result_with_geodata;
-					 */
-				
-				}
-				
-				if ($table_assoc_name != 'table_comments') {
-					
-					/*
-					 * $result_with_geodata = array ( ); foreach ( $result as
-					 * $item ) { $comments = array ( ); $comments ['to_table'] =
-					 * 'table_content'; $comments ['to_table_id'] = $item
-					 * ['id']; $comments ['is_moderated'] = 'y'; $comments =
-					 * CI::model('comments')->commentsGet ( $comments ); if (!
-					 * empty ( $comments )) { $item ['comments_approved'] =
-					 * $comments; } $result_with_geodata [] = $item; } $result =
-					 * $result_with_geodata;
-					 */
-				
-				}
-				
-				/*
-				 * if ($table_assoc_name != 'table_comments') {
-				 * $result_with_geodata = array ( ); foreach ( $result as $item
-				 * ) { $comments = array ( ); $comments ['to_table'] =
-				 * 'table_content'; $comments ['to_table_id'] = $item ['id'];
-				 * $comments ['is_moderated'] = 'n'; $comments =
-				 * CI::model('comments')->commentsGet ( $comments ); if (! empty
-				 * ( $comments )) { $item ['comments_not_approved'] = $comments;
-				 * } $result_with_geodata [] = $item; } $result =
-				 * $result_with_geodata; }
-				 */
-			
+			 
 			}
 		
 		}
 		
-		// var_dump ( $result );
-		// if ($count_only == false) {
-		// warning!!!
-		
+		 
 		if ($cache_group != false) {
 			
 			if (! empty ( $result )) {
@@ -2962,12 +2894,7 @@ class Core_model extends CI_Model {
 		
 		}
 		
-		// }
-		/*
-		 * if (! empty ( $cms_db_tables )) { foreach ( $cms_db_tables as $k =>
-		 * $v ) { //var_dump($k, $v); if (strtolower ( $table ) == strtolower (
-		 * $v )) { $table_assoc_name = $k; } } }
-		 */
+	 
 		
 		// var_dump($result);
 		if ($count_only == true) {
@@ -3027,7 +2954,7 @@ class Core_model extends CI_Model {
 	 *          Result will be cached in group 'users'.
 	 *          Users will be orderd descending by id and ascending by email
 	 *         
-	 *          CI::model('core')->fetchDbData(
+	 *          $this->core_model->fetchDbData(
 	 *          'firecms_users',
 	 *          array(
 	 *          array('is_active', 'y'),
@@ -3044,7 +2971,7 @@ class Core_model extends CI_Model {
 	 *          Users will be orderd ascending by email.
 	 *          Users with id 1, 2 and 3 will be appended to result set.
 	 *          Users with id 4, 5 and 6 will not be included in result set.
-	 *          CI::model('core')->fetchDbData(
+	 *          $this->core_model->fetchDbData(
 	 *          'firecms_users',
 	 *          array(
 	 *          array('is_admin', 'n'),
@@ -3400,10 +3327,10 @@ class Core_model extends CI_Model {
 		
 		$aTable_assoc = $this->dbGetAssocDbTableNameByRealName ( $aTable );
 		
-		// $aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable,
+		// $aOptions = $this->core_model->mapArrayToDatabaseTable($aTable,
 		// $aOptions);
 		
-		// $aOptions = CI::model('core')->mapArrayToDatabaseTable($aTable,
+		// $aOptions = $this->core_model->mapArrayToDatabaseTable($aTable,
 		// $aOptions);
 		/*
 		 * ~~~~~~~~~~~~~ Build select part ~~~~~~~~~~~~~
@@ -4319,7 +4246,7 @@ class Core_model extends CI_Model {
 		
 		//
 		// print $table;
-		// $criteria = CI::model('core')->mapArrayToDatabaseTable($table,
+		// $criteria = $this->core_model->mapArrayToDatabaseTable($table,
 		// $criteria);
 		// $this->db->start_cache();
 		if (! empty ( $criteria )) {
@@ -4531,31 +4458,32 @@ class Core_model extends CI_Model {
 		$cache_group = reduce_double_slashes ( $cache_group );
 		
 		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
-		
-		if ($time != false) {
-			if (is_file ( $cache_file )) {
+		$get_file = $cache_file;
+		if ($tsdfsdfime != false) {
+			//if (is_file ( $cache_file )) {
 				$time_limit = strtotime ( $time );
 				
-				$last_modified = filemtime ( $cache_file );
+				$last_modified = @filemtime ( $cache_file );
 				
 				if (time () - $last_modified > $time_limit) {
 				//p($time_limit);
 					//p($last_modified);
-					unlink ( $cache_file );
-					return false;
+					
+					//unlink ( $cache_file );
+					//return false;
 				} else {
 					
 					$get_file = $cache_file;
 				}
 				
-			}
+			//}
 		}
 		
 		 
 			try {
 				
 				if($cache_file != false){
-				if(isset($get_file )== true OR is_file($cache_file)){
+				if(isset($get_file )== true and is_file($cache_file)){
 				 $cache = file_get_contents ( $cache_file );
 				}
  
@@ -4815,7 +4743,7 @@ class Core_model extends CI_Model {
 	
 	/*
 	 * function deleteData($table, $data, $delete_cache_group = false) {
-	 * $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table, $data );
+	 * $criteria = $this->core_model->mapArrayToDatabaseTable ( $table, $data );
 	 * $this->db->delete ( $table, ($criteria) ); $this->db->flush_cache (); if
 	 * ($delete_cache_group != false) { $this->cacheDelete ( 'cache_group',
 	 * $delete_cache_group ); } return true; }
@@ -4827,7 +4755,7 @@ class Core_model extends CI_Model {
 	 *        
 	 *         function groupsGet($data) {
 	 *         $table = $table = TABLE_PREFIX . 'groups';
-	 *         $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table,
+	 *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
 	 *         $data );
 	 *         $data = $this->getData ( $table, $criteria, $limit = false,
 	 *         $offset = false, $return_type = false, $orderby = false );
@@ -4842,9 +4770,9 @@ class Core_model extends CI_Model {
 	 *         function groupsSave($data) {
 	 *         $table = $table = TABLE_PREFIX . 'groups';
 	 *         $criteria = $this->input->xss_clean ( $data );
-	 *         $criteria = CI::model('core')->mapArrayToDatabaseTable ( $table,
+	 *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
 	 *         $data );
-	 *         $save = CI::model('core')->saveData ( $table, $criteria );
+	 *         $save = $this->core_model->saveData ( $table, $criteria );
 	 *         return $save;
 	 *         }
 	 */
@@ -6749,9 +6677,9 @@ $w
 		// var_dump ( $media_get_to_return );
 		
 		if (! empty ( $media_get_to_return )) {
-			
+			if ($no_cache == false) {
 			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group );
-			
+			}
 			return $media_get_to_return;
 		
 		} else {
@@ -7068,7 +6996,7 @@ $w
 	
 	}
 	
-	function upload($to_table, $to_table_id = false, $queue_id = false, $collection = false) {
+	function upload($to_table = false, $to_table_id = false, $queue_id = false, $collection = false, $type = false) {
 		
 		$user_id = user_id ();
 		if (intval ( $user_id ) == 0) {
@@ -7076,7 +7004,7 @@ $w
 		}
 		
 		if ($to_table == false) {
-			$to_table = 'users';
+			$to_table = 'table_users';
 			
 			if ($to_table_id == false) {
 				$to_table_id = $user_id;
@@ -7175,7 +7103,11 @@ $w
 					// p ( $filename );
 					
 					// p ( $the_target_path );
-					
+					if($type != false){
+						if($type == 'files'){
+							$extension_lower = 'doc';
+						}
+					}
 					switch ($extension_lower) {
 						
 						case 'jpg' :
@@ -10203,10 +10135,10 @@ $w
 	}
 	
 	function securityDecryptString($plaintext) {
-		
+		$this->load->library('encrypt');
 		$plaintext = base64_decode ( $plaintext );
 		
-		$plaintext = CI::library ( 'encrypt' )->decode ( $plaintext );
+		$plaintext = $this->encrypt->decode ( $plaintext );
 		
 		return $plaintext;
 		

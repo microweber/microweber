@@ -130,7 +130,7 @@ class js extends CI_Controller {
 			foreach ( $files as $file ) {
 				if (substr ( $file, - 2 ) == 'js') {
 					if (($file != '_mw.js') and ($file != 'utils.js') and ($file != '_mw_edit.js')) {
-						$this->load->vars ( $this->template );
+						// $this->load->vars ( $this->template );
 						$layout = $layout . "\n\n\n // File: $file \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . $file, true );
 					} 
 				

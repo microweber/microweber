@@ -4,46 +4,30 @@
 <div class="job_search_box">
   <div class="jobsearch_form_fileds" style="float:left">
     <form method="post">
-    <table width="100" border="0" cellspacing="0" cellpadding="0">
-      <tr valign="middle">
-        <td><div class="jobsearch_form_fileds">
-         <input type="hidden"   name="search" value="1" />
-       
-            <input type="text" class="jobsearch_textbox1"  name="keyword"   />
-            <div id="select_box_mask" style="float:left">
-			<div class="jobsearch_drop_close"></div>
-			<select class="jobsearch_drop" name="specialty*">
-              <option value="">Select Specialty</option>
-            </select>
-			
-			</div>
+      <table width="100" border="0" cellspacing="0" cellpadding="0">
+        <tr valign="middle">
+          <td>
+          
+           <? include TEMPLATE_DIR. "layouts/jobs/search_fields.php"; ?> 
+
+          
+          
             
-          </div></td>
-        <td><div class="jobsearch_form_fileds">
-      <input type="text" class="jobsearch_textbox1" name="location*|state*|zip*"  />
-     <div id="select_box_mask" style="float:left">
-	  <div class="jobsearch_drop_close"></div>
-	  <select class="jobsearch_drop">
-        <option>Posted - in last 7 days</option>
-      </select>
-     
-	  </div>
-    </div></td>
-     <td>&nbsp; </td>
-        <td> <div class="searchjob_but">
-    <input type="image" src="<? print TEMPLATE_URL ?>images/Search_Jobs_but.jpg" />
-  </div></td>
-      </tr>
-    </table>
-      
+            
+            </td>
+          <td>&nbsp;</td>
+          <td><div class="searchjob_but">
+              <input type="image" src="<? print TEMPLATE_URL ?>images/Search_Jobs_but.jpg" />
+            </div></td>
+        </tr>
+      </table>
     </form>
   </div>
- 
 </div>
 <div class="searchjob_page_tit">Recent Job Listings</div>
 <div class="body_part_inner">
   <div class="page_nav_sort">
-  <?php
+    <?php
    $param2['page'] = 3481; 
   //$param2['debug'] = false; 
   $param2['limit'] = false;
@@ -52,44 +36,30 @@
 	$posts_temp =  get_posts($param2);  
   
   ?>
-    <div class="pagination">
-	<a href="#" id="prev">Prev</a>	
-	<? 
+    <div class="pagination"> <a href="#" id="prev">Prev</a>
+      <? 
 	$tot_pages =count($posts_temp)/5;
 	$tot_pages=$tot_pages+1;
 	
 	
 	   $pages = paging_prepare($tot_pages,$posts_temp,1);
 	 	paging('uls',$pages); ?>
-		
-		<a href="#" id="next">Next</a>
-		
-
-	
-    <div class="page_number">
-      
-	 </div>
-	 </div>
+      <a href="#" id="next">Next</a>
+      <div class="page_number"> </div>
+    </div>
   </div>
- <? include TEMPLATE_DIR. "layouts/jobs/jobs_block.php"; ?>
-  <div class="pagination">
-	<a href="#" id="prev">Prev</a>	
-	<? 
+  <? include TEMPLATE_DIR. "layouts/jobs/jobs_block.php"; ?>
+  <div class="pagination"> <a href="#" id="prev">Prev</a>
+    <? 
 	$tot_pages =count($posts_temp)/5;
 	$tot_pages=$tot_pages+1;
 	
 	
 	   $pages = paging_prepare($tot_pages,$posts_temp,1);
 	 	paging('uls',$pages); ?>
-		
-		<a href="#" id="next">Next</a>
-		
-
-	
-    <div class="page_number">
-      
-	 </div>
-	 </div>
+    <a href="#" id="next">Next</a>
+    <div class="page_number"> </div>
+  </div>
   <div class="feat_companies_tit">Featured Companies</div>
   <div class="logo_scroller">
     <div class="scrollingbuts">

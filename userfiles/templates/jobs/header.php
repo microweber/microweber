@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{content_meta_title}</title>
     <meta NAME="Description" CONTENT="{content_meta_description}">
@@ -11,14 +10,25 @@
     <link rel="stylesheet" type="text/css" href="<? print TEMPLATE_URL ?>/layouts/dashboard/dashboard.css" />
     <!--  button scroller files -->
 
-    <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/l10n.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/l10n.js"></script>
+-->   
+ 
+ 
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_003.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_002.js"></script>
+        
+    
+    
+    
     <!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-1.7.1.min"></script>
 -->
 
-    <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/plupload/js/plupload.full.js"></script>
+  
+  
+  
+  
+  
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
     <link rel="stylesheet" href="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/css/custom-theme/jquery-ui-1.8.18.custom.css" type="text/css" media="all" />
     <!--  button scroller files -->
@@ -26,6 +36,10 @@
 var $ = jQuery.noConflict();
  
 </script>
+
+
+
+
     <!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/field_label/src/jquery.infieldlabel.js"></script>
 -->
     <script type="text/javascript" src="<? print site_url('api/js'); ?>"></script>
@@ -168,8 +182,8 @@ if((resp.success) != undefined){
  
   $count['content_type'] = 'post'; 
   
-  $CI = get_instance ();
-  $count =   $CI->content_model->getContent($count, $orderby = false, $limit = false, $count_only = true);
+   // $CI = get_instance ();
+  $count =   get_instance()->content_model->getContentAndCache($count, $orderby = false, $limit = false, $count_only = true);
   
      ?>
     <? print $count; ?> JOBS ONLINE</div>

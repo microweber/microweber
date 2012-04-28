@@ -284,13 +284,13 @@ if(isobj(resp.success) != false){
     </script>
     <?php
 	
-	$CI = get_instance ();
-	$more = $CI->core_model->getCustomFields('table_users', $form_values['id']);
+	 // $CI = get_instance ();
+	$more = get_instance()->core_model->getCustomFields('table_users', $form_values['id']);
  
 $form_values['custom_fields'] = $more;
 ?>
     <div>
-      <?php $compete_profile = $CI->core_model->getParamFromURL ( 'compete_profile' ); ?>
+      <?php $compete_profile = get_instance()->core_model->getParamFromURL ( 'compete_profile' ); ?>
       <?php if($user_edit_done == true) : ?>
       <? /*
   <h1 class="saved">Changes are saved</h1>

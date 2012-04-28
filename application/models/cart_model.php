@@ -152,7 +152,7 @@ class Cart_model extends CI_Model {
 	
 	function itemAdd($data) {
 		
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 
 		if (empty ( $data )) {
@@ -161,7 +161,7 @@ class Cart_model extends CI_Model {
 		
 		}
 		
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 
 		if ($data ['sid'] == false) {
@@ -339,11 +339,11 @@ class Cart_model extends CI_Model {
 
 		$data ['sid'] = $session_id;
 
-		$del = CI::model('core')->deleteData ( $table, $data, 'cart' );
+		$del = $this->core_model->deleteData ( $table, $data, 'cart' );
 
 
 
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 
 		return $id;
 
@@ -432,7 +432,7 @@ class Cart_model extends CI_Model {
 
 		return $q;
 	
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -561,7 +561,7 @@ class Cart_model extends CI_Model {
 		
 		}
 		
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 
 		//return $id;
@@ -618,7 +618,7 @@ class Cart_model extends CI_Model {
 		
 		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -2095,7 +2095,7 @@ class Cart_model extends CI_Model {
 
 			$url = "http://www.webservicex.com/CurrencyConvertor.asmx/ConversionRate?FromCurrency=$from&ToCurrency=$to";
 
-			$count = CI::model('core')->url_getPage ( $url, $timeout = 60 );
+			$count = $this->core_model->url_getPage ( $url, $timeout = 60 );
 			//$count = strval ( $count );
 			//	$xml = new SimpleXMLElement($count);
 			//	$count1 = substr ( $count, 0, 16 );
@@ -2277,7 +2277,7 @@ class Cart_model extends CI_Model {
 		//$query = $query->row_array ();
 		
 
-		//$q = CI::model('core')->dbQuery ( $q );
+		//$q = $this->core_model->dbQuery ( $q );
 		//	$q  = $q [0];
 		//var_dump($query);
 		//$q = $this->db->query ( $q );

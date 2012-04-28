@@ -46,10 +46,10 @@ if(($params['post_id'] != false)){
 			$cf_post_config = array();
 				$cf_post_config['post_id'] = $params['post_id'];
 				$cf_post_config_par = $cf_post_config;
-				//$cf_post_config =  $CI->core_model->getCustomFieldsConfig($cf_post_config);
+				//$cf_post_config =  get_instance()->core_model->getCustomFieldsConfig($cf_post_config);
 				$cf_post_config =get_custom_fields_config_for_content($params['post_id'], $params['page_id']);
 				if(empty($cf_post_config)){
-					$cf_post_config =  $CI->core_model->getCustomFieldsConfig($cf_post_config_par);
+					$cf_post_config =  get_instance()->core_model->getCustomFieldsConfig($cf_post_config_par);
 				}
 
 	// p($cf_post_config );
@@ -60,7 +60,7 @@ if(($params['post_id'] != false)){
 $cf_post_config = array();
 				$cf_post_config['post_id'] = $params['for_module_id'];
 			//	p($cf_post_config);
-			  $cf_post_config =  $CI->core_model->getCustomFieldsConfig($cf_post_config);
+			  $cf_post_config =  get_instance()->core_model->getCustomFieldsConfig($cf_post_config);
 			// $data_for_table['module'] = $cf_post_config;
 			 
 			// p($cf_post_config);
@@ -101,14 +101,14 @@ $cf_cfg ['page_id'] = $page_data['id'];
 
 
 
-$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
+$data =  get_instance()->core_model->getCustomFieldsConfig($cf_cfg);
 if(empty($data)){
 	
 	if(intval($page_data['content_parent']) > 0){
 	$cf_cfg = array ();
 	
 	$cf_cfg ['page_id'] = $page_data['content_parent'];
-	$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
+	$data =  get_instance()->core_model->getCustomFieldsConfig($cf_cfg);
 	
 	}
 	
@@ -120,7 +120,7 @@ if(empty($data)){
 		if(!empty($page_data_par)){
 		$cf_cfg = array ();
 		$cf_cfg ['page_id'] = $page_data_par['content_parent'];
-		$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
+		$data =  get_instance()->core_model->getCustomFieldsConfig($cf_cfg);
 		
 			
 		}

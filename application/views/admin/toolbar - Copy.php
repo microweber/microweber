@@ -961,7 +961,7 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
     <div id="mw-layout-edit-site-bottom-bar-content"> <a id="mw_layout_edit_menu-root" class="mw_layout_edit_menu-root" href="##">Toggle mw_layout_edit_menu</a>
       <div id="mw_layout_edit_menu" class="mw_layout_edit_menu">
         
-       <? $elements = CI::model('template')->getDesignElements();
+       <? $elements = get_instance()->template_model->getDesignElements();
 	   
 	  // p($elements );
 	   ?>

@@ -227,10 +227,19 @@
  */
 	// Load the base controller class
 	require BASEPATH.'core/Controller.php';
-
-	function &get_instance()
+$mw_cache_obj = false;
+	function get_instance()
 	{
-		return CI_Controller::get_instance();
+		global  $mw_cache_obj;
+		if($mw_cache_obj != false){
+			
+		}  else {
+		//	var_dump('get_instance');
+		$mw_cache_obj	= CI_Controller::get_instance();
+		}
+		return $mw_cache_obj;
+		//
+	//	return 
 	}
 
 
@@ -286,7 +295,7 @@
 		}
 		else
 		{
-			show_404("{$class}/{$method}");
+			show_404("NO CLASS - {$class}/{$method}");
 		}
 	}
 
@@ -322,7 +331,7 @@
 	// Is there a "remap" function? If so, we call it instead
 	if (method_exists($CI, '_remap'))
 	{
-		$CI->_remap($method, array_slice($URI->rsegments, 2));
+		get_instance()->_remap($method, array_slice($URI->rsegments, 2));
 	}
 	else
 	{
@@ -392,9 +401,9 @@
  *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
-	if (class_exists('CI_DB') AND isset($CI->db))
+	if (class_exists('CI_DB') AND isset(get_instance()->db))
 	{
-		$CI->db->close();
+		get_instance()->db->close();
 	}
 
 

@@ -9,7 +9,7 @@
 
 
 
- <?php  $menus = CI::model('content')->content_model->getMenus(array('item_type' => 'menu'));
+ <?php  $menus = get_instance()->content_model->content_model->getMenus(array('item_type' => 'menu'));
 
 		 
 		?>

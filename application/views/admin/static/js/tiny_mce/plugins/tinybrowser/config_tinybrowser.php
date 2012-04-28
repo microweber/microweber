@@ -9,7 +9,7 @@ $some_dir = $_COOKIE['root_path'];
 	define ( 'INTERNAL_API_CALL_EXEC', 'dadasd' );
 	include($some_dir.'/index.php');
 	$CI =  get_instance();
- 	$the_user = $CI->session->userdata ( 'the_user' );
+ 	$the_user = get_instance()->session->userdata ( 'the_user' );
 	$user = ( $the_user["is_admin"]); 
 	//
 	

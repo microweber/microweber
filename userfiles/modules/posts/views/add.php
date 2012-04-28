@@ -76,7 +76,7 @@ if($params['category']){
 $category = 	($params['category']);
 }
 
-$CI = get_instance ();
+ // $CI = get_instance ();
 
 ?>
 
@@ -118,7 +118,7 @@ $CI = get_instance ();
       <label for="select01" class="control-label">Select category</label>
       <div class="controls">
         <? if($the_post['id'] != false): ?>
-<? $cats = $CI->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
+<? $cats = get_instance()->taxonomy_model->getCategoriesForContent($the_post['id'], true); ?>
 <?
 
   
@@ -127,7 +127,7 @@ $CI = get_instance ();
   
   
    $master_category = $category;
-  $master_cats = $CI->taxonomy_model->getParents($category);
+  $master_cats = get_instance()->taxonomy_model->getParents($category);
   if(!empty($master_cats)){
 	    
 	   $master_category = ($master_cats[0]);
@@ -137,9 +137,9 @@ $CI = get_instance ();
 	   
 	   
   }
- $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
+ $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category', $visible_on_frontend = false);
  if(empty($subcats)){
-	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   ?>
 <? foreach($cats as $cat): ?>
@@ -153,7 +153,7 @@ $CI = get_instance ();
 <? else: ?>
 <?
    if(empty($subcats)){
-	 $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
+	 $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($category, $type = 'category', $visible_on_frontend = false);
  }
   
   ?>
@@ -168,7 +168,7 @@ $CI = get_instance ();
 	
 $master_category = $category;	
 }?>
-<? $subcats = $CI->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category');  
+<? $subcats = get_instance()->taxonomy_model->getChildrensRecursiveAndCache($master_category, $type = 'category');  
    
   ?>
 <? $cat = get_category($master_category); 

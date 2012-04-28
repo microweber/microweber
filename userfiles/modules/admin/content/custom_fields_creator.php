@@ -158,7 +158,7 @@ $cf_cfg ['page_id'] = $page_data['id'];
 
 
 
-$data =  $CI->core_model->getCustomFieldsConfig($cf_cfg);
+$data =  get_instance()->core_model->getCustomFieldsConfig($cf_cfg);
  //p($data);
 if($base64_val_for_insert != false){
 	$data[] = $base64_val_for_insert;

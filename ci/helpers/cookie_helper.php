@@ -48,7 +48,7 @@ if ( ! function_exists('set_cookie'))
 	{
 		// Set the config file options
 		$CI =& get_instance();
-		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
+		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 	}
 }
 
@@ -75,7 +75,7 @@ if ( ! function_exists('get_cookie'))
 			$prefix = config_item('cookie_prefix');
 		}
 
-		return $CI->input->cookie($prefix.$index, $xss_clean);
+		return get_instance()->input->cookie($prefix.$index, $xss_clean);
 	}
 }
 

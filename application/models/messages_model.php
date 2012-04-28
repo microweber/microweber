@@ -13,7 +13,7 @@ class Messages_model extends CI_Model {
 		global $cms_db_tables;
 		$table_notifications = $cms_db_tables ['table_users_notifications'];
 		
-		$user_id = CI::model('core')->userId ();
+		$user_id = $this->core_model->userId ();
 		if (intval ( $user_id ) == 0) {
 			return false;
 		}
@@ -35,7 +35,7 @@ WHERE
 	deleted_from_sender = 'y'
 	AND deleted_from_receiver = 'y'
 	 ";
-			$q = CI::model('core')->dbQ ( $q );
+			$q = $this->core_model->dbQ ( $q );
 		
 		}
 	
@@ -49,7 +49,7 @@ WHERE
 	function messagesGetUnreadCountForUser($user_id = false) {
 		if ($user_id == false) {
 			
-			$user_id = CI::model('core')->userId ();
+			$user_id = $this->core_model->userId ();
 		}
 		$table = TABLE_PREFIX . 'messages';
 		$params = array ();
@@ -71,7 +71,7 @@ WHERE
 	 ";
 		
 		//print $q;
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		$q = $q [0] ['qty'];
 		return intval ( $q );
 		
@@ -97,8 +97,8 @@ WHERE
 		
 		
 		
-		$id = CI::model('core')->saveData ( TABLE_PREFIX . 'messages', $data );
-		CI::model('core')->cleanCacheGroup ( 'users/messages/global' );
+		$id = $this->core_model->saveData ( TABLE_PREFIX . 'messages', $data );
+		$this->core_model->cleanCacheGroup ( 'users/messages/global' );
 		return $id;
 	}
 	/**
@@ -118,7 +118,7 @@ WHERE
 		$q = "SELECT * from $table where parent_id={$msg_id} and deleted_from_receiver='n' and deleted_from_sender='n' ";
 		$cache_group = 'users/messages/' . $msg_id;
 		$cache_group_id = __FUNCTION__ . md5 ( $q );
-		$resutlt = CI::model('core')->dbQuery ( $q, $cache_group_id, $cache_group );
+		$resutlt = $this->core_model->dbQuery ( $q, $cache_group_id, $cache_group );
 		$return = array ();
 		if (empty ( $resutlt )) {
 			return false;
@@ -150,7 +150,7 @@ WHERE
 		$q = "SELECT * from $table where id={$msg_id}  ";
 		$cache_group = 'users/messages/' . $msg_id;
 		$cache_group_id = __FUNCTION__ . md5 ( $q );
-		$resutlt = CI::model('core')->dbQuery ( $q, $cache_group_id, $cache_group );
+		$resutlt = $this->core_model->dbQuery ( $q, $cache_group_id, $cache_group );
 		
 		if (empty ( $resutlt )) {
 			return false;
@@ -178,7 +178,7 @@ WHERE
 		$table = TABLE_PREFIX . 'messages';
 		$q = "SELECT * from $table where id={$msg_id} and deleted_from_receiver='n' and deleted_from_sender='n' ";
 		
-		$resutlt = CI::model('core')->dbQuery ( $q, md5 ( $q ), 'users/messages/' . $msg_id );
+		$resutlt = $this->core_model->dbQuery ( $q, md5 ( $q ), 'users/messages/' . $msg_id );
 		//var_dump($resutlt);
 		if (empty ( $resutlt )) {
 			return false;
@@ -239,8 +239,8 @@ WHERE
 	 */
 	function messagesGetByDefaultParams($params = false, $db_options = false) {
 		if (empty ( $params )) {
-			$currentUserId = intval ( CI::model('core')->userId () );
-			if (CI::model('core')->userId () == 0) {
+			$currentUserId = intval ( $this->core_model->userId () );
+			if ($this->core_model->userId () == 0) {
 				exit ( "Error in " . __FILE__ . " on line " . __LINE__ );
 			}
 			$params = array ();
@@ -272,7 +272,7 @@ WHERE
 			}
 		}
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $options );
 		return $data;
 	}
 	
@@ -305,7 +305,7 @@ WHERE
 			}
 		}
 		
-		$data = CI::model('core')->fetchDbData ( $table, $params, $options );
+		$data = $this->core_model->fetchDbData ( $table, $params, $options );
 		return $data;
 	}
 

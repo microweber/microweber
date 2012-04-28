@@ -25,7 +25,7 @@ class Ups_order extends CI_Controller {
         	$opt = array();
         	
         	$query = "SELECT * from {$cms_db_tables['table_cart_orders']} WHERE id=$id";        	        
-        	$tracking_number = CI::model('core')->dbQuery($query);
+        	$tracking_number = $this->core_model->dbQuery($query);
         	
         	$opt['shipping_service'] = $tracking_number[0]['shipping_service'];
         	$opt['transactionid'] = $tracking_number[0]['transactionid'];
@@ -42,7 +42,7 @@ class Ups_order extends CI_Controller {
         	
         	
         	$query = "SELECT * from {$cms_db_tables['table_cart']} WHERE order_id='{$tracking_number[0]['order_id']}'";        	        
-        	$shipment = CI::model('core')->dbQuery($query);
+        	$shipment = $this->core_model->dbQuery($query);
         	
         	$opt['shipment_weight'] = $shipment[0]['weight'];
         	$opt['shipment_length'] = $shipment[0]['length'];
@@ -66,25 +66,25 @@ class Ups_order extends CI_Controller {
 	        		$data['output_xml'] = $tr;	        			        		        
 	        	}else{
 		        	$options = array();
-		        	$options = CI::model('core')->optionsGetByKey('shop_ups_xml_key', true);
+		        	$options = $this->core_model->optionsGetByKey('shop_ups_xml_key', true);
 		        	$opt['ups_xml_access_key'] = $options['option_value'];
 		        	
-		        	$options = CI::model('core')->optionsGetByKey('shop_ups_username', true);
+		        	$options = $this->core_model->optionsGetByKey('shop_ups_username', true);
 		        	$opt['ups_userid'] = $options['option_value'];
 		        	
-		        	$options = CI::model('core')->optionsGetByKey('shop_ups_password', true);
+		        	$options = $this->core_model->optionsGetByKey('shop_ups_password', true);
 		        	$opt['ups_password'] = $options['option_value'];
 		        	
-		        	$options = CI::model('core')->optionsGetByKey('shop_ups_shipper_number', true);
+		        	$options = $this->core_model->optionsGetByKey('shop_ups_shipper_number', true);
 		        	$opt['ups_shipper_number'] = $options['option_value'];
 		        	
-		        	$opt['shop_ups_shipper_company_name'] = CI::model('core')->optionsGetByKey("shop_ups_shipper_company_name",false);
-		        	$opt['shop_ups_shipper_person_name'] = CI::model('core')->optionsGetByKey("shop_ups_shipper_person_name",false);
-		        	$opt['phone_dial_plan_number'] = trim(substr(CI::model('core')->optionsGetByKey("shop_ups_shipper_company_phone",false),0,6));
-		        	$opt['phone_line_number'] = trim(substr(CI::model('core')->optionsGetByKey("shop_ups_shipper_company_phone",false),6));
-		        	$opt['shop_ups_shipper_company_address'] = CI::model('core')->optionsGetByKey("shop_ups_shipper_company_address",false);
-		        	$opt['shop_ups_shipper_company_city'] = CI::model('core')->optionsGetByKey("shop_ups_shipper_company_city",false);
-		        	$opt['shop_orders_ship_from_zip'] = CI::model('core')->optionsGetByKey("shop_orders_ship_from_zip",false);
+		        	$opt['shop_ups_shipper_company_name'] = $this->core_model->optionsGetByKey("shop_ups_shipper_company_name",false);
+		        	$opt['shop_ups_shipper_person_name'] = $this->core_model->optionsGetByKey("shop_ups_shipper_person_name",false);
+		        	$opt['phone_dial_plan_number'] = trim(substr($this->core_model->optionsGetByKey("shop_ups_shipper_company_phone",false),0,6));
+		        	$opt['phone_line_number'] = trim(substr($this->core_model->optionsGetByKey("shop_ups_shipper_company_phone",false),6));
+		        	$opt['shop_ups_shipper_company_address'] = $this->core_model->optionsGetByKey("shop_ups_shipper_company_address",false);
+		        	$opt['shop_ups_shipper_company_city'] = $this->core_model->optionsGetByKey("shop_ups_shipper_company_city",false);
+		        	$opt['shop_orders_ship_from_zip'] = $this->core_model->optionsGetByKey("shop_orders_ship_from_zip",false);
 		        		        	
 		        	$result = $this->getUPS($opt);
 				
@@ -96,7 +96,7 @@ class Ups_order extends CI_Controller {
 		        		$bufer = rtrim($bufer, '|');
 		        		$dat = base64_encode($bufer);
 		        		$query = "UPDATE {$cms_db_tables['table_cart_orders']} set tracking_number='{$dat}' WHERE id=$id";        	        
-	        			CI::model('core')->dbQ($query);
+	        			$this->core_model->dbQ($query);
 		        		$data['output_xml'] = $result;
 		        	}
 		        	

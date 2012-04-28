@@ -98,7 +98,7 @@ $layouts[] = $layouts1[0];
   $custom_fields_from_page_config['content_type'] =$for;
  }
  //var_dump($custom_fields_from_page_config); 
- $custom_fields_from_page_config =  $CI->core_model->getCustomFieldsConfig( $custom_fields_from_page_config);
+ $custom_fields_from_page_config =  get_instance()->core_model->getCustomFieldsConfig( $custom_fields_from_page_config);
  //
  if(!empty($custom_fields_from_page_config)){
 	foreach($custom_fields_from_page_config as $cfg){

@@ -81,7 +81,7 @@ class Cart_model extends CI_Model {
 	
 	function itemAdd($data) {
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		if (empty ( $data )) {
 			
@@ -89,7 +89,7 @@ class Cart_model extends CI_Model {
 		
 		}
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		if ($data ['sid'] == false) {
 			
@@ -101,7 +101,7 @@ class Cart_model extends CI_Model {
 		
 		}
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -117,9 +117,9 @@ class Cart_model extends CI_Model {
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
+		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return $id;
 	
@@ -151,7 +151,7 @@ class Cart_model extends CI_Model {
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -197,11 +197,11 @@ $data ['sku'] = $sku;
 
 $data ['sid'] = $session_id;
 
-$del = CI::model('core')->deleteData ( $table, $data, 'cart' );
+$del = $this->core_model->deleteData ( $table, $data, 'cart' );
 
 
 
-CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 
 return $id;
 
@@ -249,9 +249,9 @@ return $id;
 		
 		$q = "delete from $table where $only_uncompleted_orders_q  $sid_where and id=$id";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = $this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -279,7 +279,7 @@ return $id;
 		
 		$q = "select sum(qty) as qty_sum from $table where sid='$session_id'  and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -290,7 +290,7 @@ return $id;
 
 		return $q;
 		
-	//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+	//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -322,7 +322,7 @@ return $id;
 		
 		$q = "select qty, price from $table where sid='$session_id'  and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		
 		if (empty ( $q )) {
 			
@@ -410,7 +410,7 @@ return $id;
 		
 		}
 		
-		//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 
 		//return $id;
@@ -451,9 +451,9 @@ return $id;
 		//print $q;
 		
 
-		$q = CI::model('core')->dbQ ( $q );
+		$q = $this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		
  
@@ -462,7 +462,7 @@ CI::library('session')->set_userdata ( 'billing_expiresmonth', false );
 CI::library('session')->set_userdata ( 'billing_expiresyear', false );
 CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
-	//CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+	//$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 
 	//return $id;
@@ -492,7 +492,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = "select sum($fld) as qty_sum from $table where sid='$session_id' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		
 		$q = $q [0] ['qty_sum'];
 		
@@ -560,7 +560,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		}
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		global $cms_db_tables;
 		
@@ -576,9 +576,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = "Update $table set order_completed='y' $order_id_q where sid='$session_id' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = $this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -612,7 +612,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -620,9 +620,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -654,7 +654,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_orders'];
 		
@@ -662,11 +662,11 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
 		$this->orderConfirm ( $data ['sid'], $order_id = $data ['order_id'] );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -716,7 +716,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -744,7 +744,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = "delete from $table where created_on<'$the_old_times' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQ ( $q );
+		$q = $this->core_model->dbQ ( $q );
 		
 		return true;
 	
@@ -794,11 +794,11 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 			
 			$q = " delete from $table_cart where order_id = '$order_id' AND sid='{$order_data ['sid']}' ";
 			
-			CI::model('core')->dbQ ( $q );
+			$this->core_model->dbQ ( $q );
 			
 			$q = " delete from $table_orders where id = $id ";
 			
-			CI::model('core')->dbQ ( $q );
+			$this->core_model->dbQ ( $q );
 		
 		}
 		
@@ -808,7 +808,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		//order_id
 		
 
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -840,7 +840,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -862,7 +862,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table_cart_orders = $cms_db_tables ['table_cart_promo_codes'];
 		
@@ -870,9 +870,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table_cart_orders, $data, $data_to_save_options );
+		$id = $this->core_model->saveData ( $table_cart_orders, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -906,9 +906,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		$this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -928,7 +928,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 	
 	function shippingCalculateToCountryName($country_name = false, $convert_to_currency = 'EUR') {
 		
-		$countries = CI::model('core')->geoGetAllCountries ();
+		$countries = $this->core_model->geoGetAllCountries ();
 		
 		if ($country_name == false) {
 			
@@ -1066,25 +1066,25 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		 * 
 		 */
 		
-		$CFG->ups_userid = CI::model('core')->optionsGetByKey ( 'shop_ups_username', false );
+		$CFG->ups_userid = $this->core_model->optionsGetByKey ( 'shop_ups_username', false );
 		; // Enter your UPS User ID
-		$CFG->ups_password = CI::model('core')->optionsGetByKey ( 'shop_ups_password', false );
+		$CFG->ups_password = $this->core_model->optionsGetByKey ( 'shop_ups_password', false );
 		; // Enter your UPS Password
-		$CFG->ups_xml_access_key = CI::model('core')->optionsGetByKey ( 'shop_ups_xml_key', false );
+		$CFG->ups_xml_access_key = $this->core_model->optionsGetByKey ( 'shop_ups_xml_key', false );
 		; // Enter your UPS Access Key
-		$CFG->ups_shipper_number = CI::model('core')->optionsGetByKey ( 'shop_ups_shipper_number', false );
+		$CFG->ups_shipper_number = $this->core_model->optionsGetByKey ( 'shop_ups_shipper_number', false );
 		; // Enter your UPS Shipper Number
-		$CFG->ups_testmode = CI::model('core')->optionsGetByKey ( 'shop_ups_testmode', false ); // "TRUE" for test transactions "FALSE" for live transactions
+		$CFG->ups_testmode = $this->core_model->optionsGetByKey ( 'shop_ups_testmode', false ); // "TRUE" for test transactions "FALSE" for live transactions
 		
 
-		$CFG->companystate = CI::model('core')->optionsGetByKey ( 'shop_producer_state', false ); // Your State
+		$CFG->companystate = $this->core_model->optionsGetByKey ( 'shop_producer_state', false ); // Your State
 		$CFG->companyzipcode = $from_zip; // Your Zipcode
 		
 
-		$CFG->companyname = CI::model('core')->optionsGetByKey ( 'shop_producer_company', false ); // Your Company Name
-		$CFG->companystreetaddress1 = CI::model('core')->optionsGetByKey ( 'shop_producer_address', false ); // Your Street Addres
+		$CFG->companyname = $this->core_model->optionsGetByKey ( 'shop_producer_company', false ); // Your Company Name
+		$CFG->companystreetaddress1 = $this->core_model->optionsGetByKey ( 'shop_producer_address', false ); // Your Street Addres
 		$CFG->companystreetaddress2 = ""; // Your Street Address
-		$CFG->companycity = CI::model('core')->optionsGetByKey ( 'shop_producer_city', false ); // Your City
+		$CFG->companycity = $this->core_model->optionsGetByKey ( 'shop_producer_city', false ); // Your City
 		//		$CFG->companystate			= "NY";	
 		
 
@@ -1103,29 +1103,29 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		$ship_to ["city"] = $data ['shipping_to_city']; // Ship To City
 		$ship_to ["state_province_code"] = $data ['shipping_state']; // Ship To State
 		$ship_to ["postal_code"] = $to_zip; // Ship To Postal Code
-		$ship_to ["country_code"] = CI::model('core')->optionsGetByKey ( "shop_producer_country", false ); // Ship To Country Code
+		$ship_to ["country_code"] = $this->core_model->optionsGetByKey ( "shop_producer_country", false ); // Ship To Country Code
 		
 
 		$ship_from = array ();
-		$ship_from ["company_name"] = CI::model('core')->optionsGetByKey ( "shop_ups_shipper_company_name", false ); // Ship From Company
-		$ship_from ["attn_name"] = CI::model('core')->optionsGetByKey ( "shop_ups_shipper_person_name", false ); // Ship From Name
-		$ship_from ["phone_dial_plan_number"] = trim ( substr ( CI::model('core')->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 0, 6 ) ); // Ship From First 6 Of Phone Number
-		$ship_from ["phone_line_number"] = trim ( substr ( CI::model('core')->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 6 ) );
+		$ship_from ["company_name"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_name", false ); // Ship From Company
+		$ship_from ["attn_name"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_person_name", false ); // Ship From Name
+		$ship_from ["phone_dial_plan_number"] = trim ( substr ( $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 0, 6 ) ); // Ship From First 6 Of Phone Number
+		$ship_from ["phone_line_number"] = trim ( substr ( $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_phone", false ), 6 ) );
 		; // Ship From Last 4 Of Phone Number
 		$ship_from ["phone_extension"] = "1"; // Ship From Phone Extension
-		$ship_from ["address_1"] = CI::model('core')->optionsGetByKey ( "shop_ups_shipper_company_address", false ); // Ship From 1st Address Line
+		$ship_from ["address_1"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_address", false ); // Ship From 1st Address Line
 		$ship_from ["address_2"] = ""; // Ship From 2nd Address Line
 		$ship_from ["address_3"] = ""; // Ship From 3rd Address Line
-		$ship_from ["city"] = CI::model('core')->optionsGetByKey ( "shop_ups_shipper_company_city", false ); // Ship From City
-		$ship_from ["state_province_code"] = CI::model('core')->optionsGetByKey ( 'shop_producer_state', false );
+		$ship_from ["city"] = $this->core_model->optionsGetByKey ( "shop_ups_shipper_company_city", false ); // Ship From City
+		$ship_from ["state_province_code"] = $this->core_model->optionsGetByKey ( 'shop_producer_state', false );
 		; // Ship From State
 		$ship_from ["postal_code"] = $from_zip; // Ship From Postal Code
-		$ship_from ["country_code"] = CI::model('core')->optionsGetByKey ( "shop_producer_country", false ); // Ship From Country Code
+		$ship_from ["country_code"] = $this->core_model->optionsGetByKey ( "shop_producer_country", false ); // Ship From Country Code
 		
 
 		$shipment ["bill_shipper_account_number"] = $CFG->ups_shipper_number; // This will bill the shipper
 		$shipment ["service_code"] = $service;
-		$shipment ["packaging_type"] = CI::model('core')->optionsGetByKey ( 'shop_shipment_packaging_type', false ); // 02 For "Your Packaging"
+		$shipment ["packaging_type"] = $this->core_model->optionsGetByKey ( 'shop_shipment_packaging_type', false ); // 02 For "Your Packaging"
 		$shipment ["invoice_number"] = date ( 'ymdHis' ); // Invoice Number
 		$shipment ["weight"] = $weight; // Total Weight Of Package (Not Less Than 1lb.)
 		$shipment ["length"] = $length;
@@ -1516,7 +1516,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		$session_id = CI::library('session')->userdata ( 'session_id' );
 		$q = "select * from $table where sid='$session_id' and order_completed='n'";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		
 		$weight = false;
 		$height = false;
@@ -1570,7 +1570,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -1592,7 +1592,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		global $cms_db_tables;
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		$table = $cms_db_tables ['table_cart_orders_shipping_cost'];
 		
@@ -1600,7 +1600,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 			
 			$q = "delete from $table where ship_to_continent like '{$data['ship_to_continent']}' ";
 			
-			CI::model('core')->dbQ ( $q );
+			$this->core_model->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
@@ -1608,9 +1608,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
 		
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
+		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 	
 	}
 	
@@ -1644,9 +1644,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		$this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -1672,7 +1672,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = " select ship_to_continent from $table where is_active='y' ";
 		
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 		
 		$q1 = array ();
 		
@@ -1696,27 +1696,27 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 	function billingProcessCreditCard($make_transaction = false) {
 		global $cms_db_tables;
 		
-		$shop_transaction_method = CI::model('core')->optionsGetByKey ( 'shop_transaction_method' );
+		$shop_transaction_method = $this->core_model->optionsGetByKey ( 'shop_transaction_method' );
 		if ($shop_transaction_method == false) {
 			//	return false;
 		}
 		
-		$shop_transaction_method_user_id = CI::model('core')->optionsGetByKey ( 'shop_transaction_method_user_id' );
+		$shop_transaction_method_user_id = $this->core_model->optionsGetByKey ( 'shop_transaction_method_user_id' );
 		if ($shop_transaction_method_user_id == false) {
 			return false;
 		}
 		
-		$shop_transaction_method_username = CI::model('core')->optionsGetByKey ( 'shop_transaction_method_username' );
+		$shop_transaction_method_username = $this->core_model->optionsGetByKey ( 'shop_transaction_method_username' );
 		if ($shop_transaction_method_username == false) {
 			return false;
 		}
 		
-		$shop_transaction_method_password = CI::model('core')->optionsGetByKey ( 'shop_transaction_method_password' );
+		$shop_transaction_method_password = $this->core_model->optionsGetByKey ( 'shop_transaction_method_password' );
 		if ($shop_transaction_method_password == false) {
 			return false;
 		}
 		
-		$shop_transaction_method_merchantaccountid = CI::model('core')->optionsGetByKey ( 'shop_transaction_method_merchantaccountid' );
+		$shop_transaction_method_merchantaccountid = $this->core_model->optionsGetByKey ( 'shop_transaction_method_merchantaccountid' );
 		if ($shop_transaction_method_merchantaccountid == false) {
 			return false;
 		}
@@ -1858,7 +1858,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 					
 					/*
 						$userdata ['id'] = $formdata ['referrer_id'];
-						$parent = CI::model('users')->getUsers ( $userdata );
+						$parent = $this->users_model->getUsers ( $userdata );
 						
 						$opt = array ();
 						$opt ['email'] = $formdata ['bemailaddress'];
@@ -1983,7 +1983,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 							$formdata ['from_log'] = $_COOKIE ['from_log'];
 							
 							$sql = "SELECT * FROM {$cms_db_tables['table_cart']} WHERE sid='{CI::library('session')->userdata ( 'session_id' )}' AND order_id='{$formdata ['order_id']}' ";
-							$items = CI::model('core')->dbQuery ( $sql );
+							$items = $this->core_model->dbQuery ( $sql );
 							
 							for($i = 0; $i < count ( $items ); $i ++) {
 								
@@ -2033,7 +2033,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 
 							}
 							$userdata ['id'] = $formdata ['referrer_id'];
-							$parent = CI::model('users')->getUsers ( $userdata );
+							$parent = $this->users_model->getUsers ( $userdata );
 							
 							$opt = array ();
 							$opt ['email'] = $formdata ['bemailaddress'];
@@ -2135,13 +2135,13 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 	 * @return	array	Parsed HTTP Response body
 	 */
 	 function _payPalHttpPost($methodName_, $nvpStr_) {
-		$environment = CI::model('core')->optionsGetByKey ( 'paypal_environment' ); // 'sandbox', 'beta-sandbox' or 'live'
+		$environment = $this->core_model->optionsGetByKey ( 'paypal_environment' ); // 'sandbox', 'beta-sandbox' or 'live'
 		
 
 		// Set up your API credentials, PayPal end point, and API version.
-		$API_UserName = urlencode ( CI::model('core')->optionsGetByKey ( 'paypal_api_username' ) );
-		$API_Password = urlencode ( CI::model('core')->optionsGetByKey ( 'paypal_api_password' ) );
-		$API_Signature = urlencode ( CI::model('core')->optionsGetByKey ( 'paypal_api_signature' ) );
+		$API_UserName = urlencode ( $this->core_model->optionsGetByKey ( 'paypal_api_username' ) );
+		$API_Password = urlencode ( $this->core_model->optionsGetByKey ( 'paypal_api_password' ) );
+		$API_Signature = urlencode ( $this->core_model->optionsGetByKey ( 'paypal_api_signature' ) );
 		$API_Endpoint = "https://api-3t.paypal.com/nvp";
 		if ("sandbox" === $environment || "beta-sandbox" === $environment) {
 			$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
@@ -2278,7 +2278,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		}
 		
-		$get = CI::model('core')->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
+		$get = $this->core_model->getDbData ( $table, $data, $limit = $limit, $offset = $offset, $orderby = $orderby, $cache_group = $cache_group, $debug = $debug, $ids = $ids, $count_only = $count_only, $only_those_fields = $only_those_fields, $exclude_ids = $exclude_ids, $force_cache_id = $force_cache_id, $get_only_whats_requested_without_additional_stuff = $get_only_whats_requested_without_additional_stuff );
 		
 		return $get;
 	
@@ -2300,15 +2300,15 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 			$q = "delete from $table where currency_from like '{$data['currency_from']}' and currency_to like '{$data['currency_to']}' ";
 			
 			//var_dump($q );
-			CI::model('core')->dbQ ( $q );
+			$this->core_model->dbQ ( $q );
 			
 			$data ['id'] = 0;
 		
 		}
 		//var_dump($data);
 		$data_to_save_options ['delete_cache_groups'] = array ('cart' );
-		$id = CI::model('core')->saveData ( $table, $data, $data_to_save_options );
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$id = $this->core_model->saveData ( $table, $data, $data_to_save_options );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		return true;
 	}
 	
@@ -2342,9 +2342,9 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		
 		$q = " delete from $table where id = $id ";
 		
-		CI::model('core')->dbQ ( $q );
+		$this->core_model->dbQ ( $q );
 		
-		CI::model('core')->cacheDelete ( 'cache_group', 'cart' );
+		$this->core_model->cacheDelete ( 'cache_group', 'cart' );
 		
 		return true;
 	
@@ -2371,7 +2371,7 @@ CI::library('session')->set_userdata ( 'billing_cvv2', false );
 		} else {
 			
 			$q = "select  currency_rate from $table where currency_from like '$from' and currency_to like '$to' limit 0,1 ";
-			$q = CI::model('core')->dbQuery ( $q );
+			$q = $this->core_model->dbQuery ( $q );
 			if (empty ( $q )) {
 				$rate = 10;
 			} else {
@@ -2411,7 +2411,7 @@ if ($difference >= $api_time_seconds) {
 
 $url = "http://www.webservicex.com/CurrencyConvertor.asmx/ConversionRate?FromCurrency=$from&ToCurrency=$to";
 
-$count = CI::model('core')->url_getPage ( $url, $timeout = 60 );
+$count = $this->core_model->url_getPage ( $url, $timeout = 60 );
 //$count = strval ( $count );
 //	$xml = new SimpleXMLElement($count);
 //	$count1 = substr ( $count, 0, 16 );
@@ -2590,7 +2590,7 @@ return ($count);
 		//$query = $query->row_array ();
 		
 
-		//$q = CI::model('core')->dbQuery ( $q );
+		//$q = $this->core_model->dbQuery ( $q );
 		//	$q  = $q [0];
 		//var_dump($query);
 		//$q = $this->db->query ( $q );
@@ -2654,9 +2654,9 @@ return ($count);
 		}
 		
 		$to = $opt ['email'];
-		$bccEmail = CI::model('core')->optionsGetByKey ( 'admin_email', false );
+		$bccEmail = $this->core_model->optionsGetByKey ( 'admin_email', false );
 		
-		$admin_options = CI::model('core')->optionsGetByKey ( 'admin_email', true );
+		$admin_options = $this->core_model->optionsGetByKey ( 'admin_email', true );
 		
 		$from = (empty ( $admin_options )) ? 'noreply@ooyes.net' : $admin_options ['option_value'];
 		$site = site_url ();

@@ -15,7 +15,7 @@ class Core extends CI_Controller {
 			//redirect ( 'index' );
 		}
 		
-		$this->load->vars ( $this->template );
+		// $this->load->vars ( $this->template );
 		
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
@@ -31,7 +31,7 @@ class Core extends CI_Controller {
 	function reorderMedia() {
 		$positions = $_POST ['positions'];
 		if (! empty ( $positions )) {
-			CI::model('core')->mediaReOrder ( $positions );
+			$this->core_model->mediaReOrder ( $positions );
 		}
 		exit ();
 	}
@@ -39,7 +39,7 @@ class Core extends CI_Controller {
 	function mediaDelete() {
 		$id = $_POST ['id'];
 		if (intval ( $id ) != 0) {
-			CI::model('core')->mediaDelete ( $id );
+			$this->core_model->mediaDelete ( $id );
 		}
 		exit ();
 	}
