@@ -238,7 +238,7 @@ function init_sortables(){
 		// $(".row").dragsort({ dragSelector: "", dragEnd: saveOrder, placeHolderTemplate: "<div class='col'><div>DROP HERE</div></div>" });
  //$(".column").dragsort("destroy");
 		  		//$(".column").dragsort({ dragSelector: ".col", dragBetween: true, dragEnd: saveOrder, placeHolderTemplate: "<div class='col'><div>DROP HERE</div></div>" });
-	var place1 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');			
+	var place1 = $('<div class="empty ui-state-highlight" style="display:none;"><span>Please drag items here</span></div>');			
      var place2 = window.mw_empty_column_placeholder;
   $(".column", '.edit').each(function (c) {
                 if ($("div", this).size() == 0) {
@@ -270,20 +270,20 @@ function init_sortables(){
 			 $( '.mw-sorthandle', '.column' ).remove();
 			
 			   $('.row').each(function(index) {
-						$(this).equalHeights() ;
+						 $(this).equalHeights() ;
 				});
 				
 			
 				
 				$(".column").each(function (c) {
                 if ($("div", this).size() == 0) {
-                    $(this).html(window.mw_empty_column_placeholder);
+                   // $(this).html(window.mw_empty_column_placeholder);
 				//	 $(this).html('aaaaa');
                 } else {
 					//$(this).append(place2);
-					$('.empty').fadeIn('fast') 
+					//$('.empty').fadeIn('fast') 
 				}
-				
+				//$(this).find('.empty').fadeIn('fast')
 				
 					 
             })
@@ -291,19 +291,33 @@ function init_sortables(){
   
   },
       sort: function(e,ui){
-    $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
+    
+	 $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
+	 $(ui.placeholder).closest('.empty').fadeIn('fast')
+	//$(".ui-state-highlight").css({"width":"100%", "height" : "100%"});
+	//$(".ui-state-highlight").css({"width":"100%", "height" :ui.placeholder.parent('.column').height()});
+	
+	
+	
+	
   $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
 ui.helper.width(ui.placeholder.width());
               },
 			  
 	stop: function(event, ui) {
-           $('.empty').fadeOut('fast') //.remove();
+           $('.empty').fadeOut('fast').remove();
 			mw_load_new_dropped_modules();
 						$('.row').each(function(index) {
 							$(this).equalHeights() ;
 					});
 	       },
+	 over: function(event, ui) {
+		 $(this).find('.empty').fadeIn('fast')
+		  }	,
+		  
+		  	 out: function(event, ui) {
 		
+		  }	,
 		
 	activate: function(en, ui) {
 		$(".column").each(function (c) {
@@ -320,8 +334,8 @@ ui.helper.width(ui.placeholder.width());
 							$(this).equalHeights() ;
 					});
 					
-        $(this).css('min-height',  ui.item.height());
-		$(this).find('.empty').fadeIn('fast')
+      //  $(this).css('min-height',  ui.item.height());
+		//$(this).find('.empty').fadeIn('fast')
 		
     },
     deactivate: function(en, ui) {
