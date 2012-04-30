@@ -52,7 +52,7 @@ function mw_make_cols($numcols){
 			if($numcols > $exisintg_num){
 			
 						for (i=$exisintg_num;i<$numcols;i++){
-					 $('<div class="column"><div class="empty">column</div></div>').appendTo('#'+$el_id);
+					 $('<div class="column">'+window.mw_empty_column_placeholder+'</div>').appendTo('#'+$el_id);
 						}
 				
 			} else {
@@ -212,6 +212,7 @@ function mw_make_editables(){
  window.mw_sortables_created = false;
  window.mw_drag_started = false;
  window.mw_row_id = false;
+ window.mw_empty_column_placeholder ='<div class="empty ui-state-highlight"><span>Please drag items here</span></div>';
 function mw_remove_editables(){
  
 	 window.mw_editing_started  = false;
@@ -237,10 +238,11 @@ function init_sortables(){
 		// $(".row").dragsort({ dragSelector: "", dragEnd: saveOrder, placeHolderTemplate: "<div class='col'><div>DROP HERE</div></div>" });
  //$(".column").dragsort("destroy");
 		  		//$(".column").dragsort({ dragSelector: ".col", dragBetween: true, dragEnd: saveOrder, placeHolderTemplate: "<div class='col'><div>DROP HERE</div></div>" });
-     var place2 = $('<div class="empty ui-state-highlight">Please drag items here</div>');
-  $(".column", '.row').each(function (c) {
+	var place1 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');			
+     var place2 = window.mw_empty_column_placeholder;
+  $(".column", '.edit').each(function (c) {
                 if ($("div", this).size() == 0) {
-                    $(this).html(place2);
+               //     $(this).html(place2);
                 }
             })
   
@@ -248,25 +250,130 @@ function init_sortables(){
 			$('.col').sortable('destroy');
 			$('.column').sortable('destroy');
 			$('.row').sortable('destroy');
-			$('.edit').sortable({
-    items: '.row:not(.disabled,.col)',
-	 forcePlaceholderSize: true,
-	 tolerance: 'pointer',
-	  revert: true,
-	placeholder: "ui-state-highlight-row",
-	 connectWith: '.edit'
+			$('.top-modules-list').sortable('destroy');
+			$('.edit,.column').sortable({
+   // items: '.row:not(.disabled),.col',
+	 items: '.col,li.module-item',
+	 dropOnEmpty:true,
+	  //forcePlaceholderSize: true,
+	//  forceHelperSize : true,
+	    greedy: true,
+	  tolerance: 'pointer',
+	
+	 handle: '.mw-sorthandle-col',
+	   revert: true,
+	 //   helper: 'clone',
+	placeholder: "ui-state-highlight",
+	 connectWith: '.edit,.column,.row>.column',
+	start: function( event, ui ) {
+		//var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
+			 $( '.mw-sorthandle', '.column' ).remove();
+			
+			   $('.row').each(function(index) {
+						$(this).equalHeights() ;
+				});
+				
+			
+				
+				$(".column").each(function (c) {
+                if ($("div", this).size() == 0) {
+                    $(this).html(window.mw_empty_column_placeholder);
+				//	 $(this).html('aaaaa');
+                } else {
+					//$(this).append(place2);
+					$('.empty').fadeIn('fast') 
+				}
+				
+				
+					 
+            })
+			  $( this ).sortable( 'refreshPositions' )
+  
+  },
+      sort: function(e,ui){
+    $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
+  $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
+ui.helper.width(ui.placeholder.width());
+              },
+			  
+	stop: function(event, ui) {
+           $('.empty').fadeOut('fast') //.remove();
+			mw_load_new_dropped_modules();
+						$('.row').each(function(index) {
+							$(this).equalHeights() ;
+					});
+	       },
+		
+		
+	activate: function(en, ui) {
+		$(".column").each(function (c) {
+                if ($("div", this).size() == 0) {
+                    $(this).html(window.mw_empty_column_placeholder);
+				//	 $(this).html('aaaaa');
+                } else {
+					//$(this).append(place2);
+					//$('.empty').fadeIn('fast')
+				}
+				
+            })
+				$('.row').each(function(index) {
+							$(this).equalHeights() ;
+					});
+					
+        $(this).css('min-height',  ui.item.height());
+		$(this).find('.empty').fadeIn('fast')
+		
+    },
+    deactivate: function(en, ui) {
+        $(this).css('min-height', '10px');
+    }
+		
+		
+		
 });
 			
-					$('.column:not(.disabled), .top-modules-list').sortable({
-    items: '.col,.module_draggable',
+			
+			
+			
+			
+			
+			
+			
+			
+			$('.top-modules-list').sortable({
+    items: '.module_draggable',
+	stop: function(event, ui) {
+           $('.empty').fadeOut('fast') //.remove();
+			mw_load_new_dropped_modules();
+					 
+	       },
+			connectWith: '.edit,.column,.row>.column'
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+					$('.coxxZxZxlumn:not(.disabled), .top-modxzxules-list').sortable({
+    items: '.cosdfsdl,.module_draggable',
 	dropOnEmpty:true,
 
    revert: true,
-	// tolerance: 'pointer',
-	//    forceHelperSize: true,
+	 // tolerance: 'pointer',
+	      forceHelperSize: true,
 	  placeholder: "ui-state-highlight",
    //forcePlaceholderSize: true,
-	 connectWith: '.column' ,
+	 connectWith: '.column, .edit>' ,
 	   // helper: 'clone',
 	   change: function(event, ui) { 
 	  
@@ -284,6 +391,10 @@ function init_sortables(){
                     $(this).html(place2);
                 }
             })
+			   $('.row').each(function(index) {
+        $(this).equalHeights() ;
+});
+	
 			 // $( this ).sortable( 'refreshPositions' )
   
   },
@@ -353,8 +464,8 @@ ui.helper.width(ui.placeholder.width());
 				
 					
 		 
-		  
-			
+		 
+			 $(".module-item").disableSelection();
 			
 			 $(".row,.col", '.edit').disableSelection();
 			

@@ -11,9 +11,11 @@
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
-
-
-$modules = $this->template_model->getModules($modules_options );
+$CI = get_instance ();
+if(is_callable($CI->template_model) == false){
+ $CI->load->model ( 'Template_model', 'template_model' );
+}
+$modules = $CI->template_model->getModules($modules_options );
 
 
 //
@@ -57,7 +59,7 @@ $modules = $this->template_model->getModules($modules_options );
           
           
           
-           <li data-filter="<? print $module2['name'] ?>"> 
+           <li data-filter="<? print $module2['name'] ?>" class="module-item"> 
            <? if($module2['icon']): ?>
                             <img alt="<? print $module2['name'] ?>" class="module_draggable" data-module-name="<? print $module2['module'] ?>"  data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="32" />
 
