@@ -251,26 +251,29 @@ function init_sortables(){
 			$('.column').sortable('destroy');
 			$('.row').sortable('destroy');
 			$('.top-modules-list').sortable('destroy');
+			 
+			 
 			$('.edit,.column').sortable({
    // items: '.row:not(.disabled),.col',
 	 items: '.col,li.module-item',
 	 dropOnEmpty:true,
-	  //forcePlaceholderSize: true,
-	//  forceHelperSize : true,
+	//   forcePlaceholderSize: true,
+	//    forceHelperSize : true,
 	    greedy: true,
-	  tolerance: 'pointer',
+	   tolerance: 'pointer',
 	
 	 handle: '.mw-sorthandle-col',
 	   revert: true,
-	 //   helper: 'clone',
+	   //  helper: 'clone',
 	placeholder: "ui-state-highlight",
-	 connectWith: '.edit,.column,.row>.column',
+	// connectWith: '.edit,.row>.column',
+	 connectWith: '.row>.column',
 	start: function( event, ui ) {
 		//var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
 			 $( '.mw-sorthandle', '.column' ).remove();
 			
 			   $('.row').each(function(index) {
-						 $(this).equalHeights() ;
+			 	 $(this).equalHeights() ;
 				});
 				
 			
@@ -291,9 +294,15 @@ function init_sortables(){
   
   },
       sort: function(e,ui){
-    
-	 $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
-	 $(ui.placeholder).closest('.empty').fadeIn('fast')
+		//  $('.empty').hide()
+    $(ui.placeholder).closest('.empty:first').fadeIn('fast')
+	 // $(ui.placeholder).closest('.ui-state-highlight:first').css({"width":"100%", "height" : ui.item.height()});
+	  //$(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
+	 //  $(ui.placeholder).css({"height" : ui.item.height()});
+	   
+	
+	   
+	   
 	//$(".ui-state-highlight").css({"width":"100%", "height" : "100%"});
 	//$(".ui-state-highlight").css({"width":"100%", "height" :ui.placeholder.parent('.column').height()});
 	
@@ -302,10 +311,22 @@ function init_sortables(){
 	
   $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
 ui.helper.width(ui.placeholder.width());
+
+if(ui.helper.height() > 100){
+ui.helper.height(ui.placeholder.height());
+} else {
+ui.helper.height(ui.item.height());	
+}
+
+
+
+ // $(ui.placeholder).css({"height" : ui.helper.innerHeight()});
+    $(ui.placeholder).css({"height" : ui.item.height()});
               },
 			  
 	stop: function(event, ui) {
            $('.empty').fadeOut('fast').remove();
+		     $('.ui-state-highlight').remove();
 			mw_load_new_dropped_modules();
 						$('.row').each(function(index) {
 							$(this).equalHeights() ;
@@ -316,13 +337,15 @@ ui.helper.width(ui.placeholder.width());
 		  }	,
 		  
 		  	 out: function(event, ui) {
-		
+				 $(this).css('min-height', '10px');
+	 	//$(ui.sender).find('.empty').fadeOut('fast')
+		//$(ui.sender).find('.ui-state-highlight').fadeOut('fast')
 		  }	,
 		
 	activate: function(en, ui) {
 		$(".column").each(function (c) {
                 if ($("div", this).size() == 0) {
-                    $(this).html(window.mw_empty_column_placeholder);
+                     $(this).html(window.mw_empty_column_placeholder);
 				//	 $(this).html('aaaaa');
                 } else {
 					//$(this).append(place2);
@@ -333,7 +356,7 @@ ui.helper.width(ui.placeholder.width());
 				$('.row').each(function(index) {
 							$(this).equalHeights() ;
 					});
-					
+					 $( this ).sortable( 'refreshPositions' )
       //  $(this).css('min-height',  ui.item.height());
 		//$(this).find('.empty').fadeIn('fast')
 		
@@ -346,6 +369,7 @@ ui.helper.width(ui.placeholder.width());
 		
 });
 			
+			$(".col>*:not(.mw-sorthandle)").freshereditor("edit", true);
 			
 			
 			
@@ -364,10 +388,23 @@ ui.helper.width(ui.placeholder.width());
 			connectWith: '.edit,.column,.row>.column'
 			});
 			
+			 
+			$('.edit').sortable({
+    items: '.row',
+  handle: '.mw-sorthandle-row',
+			connectWith: '.edit'
+			});	
 			
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			/*
 			
 			
 			
@@ -400,6 +437,8 @@ ui.helper.width(ui.placeholder.width());
 ,
 	    start: function( event, ui ) {
 			 $( '.mw-sorthandle', '.column' ).remove();
+			 $(".ui-state-highlight").remove();
+			 $(".empty").remove();
 			$(".column", '.row').each(function (c) {
                 if ($("div", this).size() == 0) {
                     $(this).html(place2);
@@ -414,16 +453,19 @@ ui.helper.width(ui.placeholder.width());
   },
 
       sort: function(e,ui){
-    $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
-  $(ui.placeholder).html(Number($(".col:visible").index(ui.placeholder)+1));
+		   $('.empty').remove();
+   // $(".ui-state-highlight").css({"width":"100%", "height" : ui.item.height()});
+	$(ui.placeholder).css({"height" : ui.item.height()});
+ // $(ui.placeholder).html(Number($(".col:visible").index(ui.placeholder)+1));
 ui.helper.width(ui.placeholder.width());
+//ui.helper.height(ui.item.height());
               },
 			  
 			  remove: function(event, ui) {
-           
+            $('.empty').remove();
         },
 		 change: function(event, ui) {
-//  $( this ).sortable( 'refreshPositions' )
+   $( this ).sortable( 'refreshPositions' )
    
     },
 	  receive: function(event, ui) {
@@ -438,10 +480,11 @@ ui.helper.width(ui.placeholder.width());
 			
         },
 		  activate: function(en, ui) {
-        $(this).css('min-height',  ui.item.height());
+        $(ui.placeholder).css('min-height',  ui.item.height());
     },
     deactivate: function(en, ui) {
          $(this).css('min-height', '10px');
+		 $('.empty').remove();
     },
 		
 		stop: function(event, ui) {
@@ -470,7 +513,7 @@ ui.helper.width(ui.placeholder.width());
 
 	 
 });
-					
+				*/	
 				
 				
 				
@@ -481,7 +524,7 @@ ui.helper.width(ui.placeholder.width());
 		 
 			 $(".module-item").disableSelection();
 			
-			 $(".row,.col", '.edit').disableSelection();
+			 $(".mw-sorthandle", '.edit').disableSelection();
 			
 			
 			
@@ -567,7 +610,7 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 }).mouseleave(function(){
  
 
- $(this).children(".mw-sorthandle-row:first").hide();
+// $(this).children(".mw-sorthandle-row:first").hide();
 
 })  
 			 
@@ -956,6 +999,7 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 
 	//	private
 	function children($elem, o, after)
+
 	{
 		var $elements = $elem.children(),
 			isTruncated = false;
