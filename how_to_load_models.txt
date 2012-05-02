@@ -1,0 +1,29 @@
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+
+$this->load->model ( 'Users_model', 'users_model' );
+
+$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+$this->load->model ( 'Template_model', 'template_model' );
+
+ // $CI = get_instance ();
+	 // $CI = get_instance ();
+$page = get_instance()->load->model ( 'Taxonomy_model', 'taxonomy_model' );
+
+$page = get_instance()->content_model->getContentByURL ( $id );
+
+
+get_instance()->core_model->mediaGet
+
+
+
+
+get_instance()->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
+
+
+if (($cache_content) == false) {
+
+			//return $cache_content;
+
+			//	$cache_content =get_instance()->core_model->cacheGetContentAndDecode ( $cache_id, $cache_group );
+
+		}

@@ -12,16 +12,11 @@
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/edit.css" type="text/css"   />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/font.php" type="text/css" media="screen"  />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/style.css" type="text/css" media="screen"  />
+<link href="<? print TEMPLATE_URL ?>css/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <? echo '<!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->'; ?>
 <script type="text/javascript" src="<?  print site_url('api/js'); ?>"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/libs.js"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/functions.js"></script>
-
-
- 
-
-
-
 </head>
 <body>
 <div id="container" class="mw">

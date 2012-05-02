@@ -29,7 +29,9 @@ a.mw-make-cols.active {
 	background-color:#FFFFFF;
 	color:#333;
 }
-.column {
+.column:hover {
+	
+	 
 }
 .column-min-height {
 	min-height:100px;
@@ -39,12 +41,14 @@ a.mw-make-cols.active {
 .mw-sorthandle-col {
 	background-color:#0F0;
 	height:12px; 
+	 
 	background-image: url(images/mw_handle_bar_column.jpg);
 	
 }
 .mw-sorthandle-row {
 	background-color:#FF0;
 	height:24px;
+	 
 	background-image: url(images/mw_handle_bar.jpg);
 	 
 }

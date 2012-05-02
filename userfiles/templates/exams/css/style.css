@@ -354,3 +354,15 @@ a.form_submit_button {
 	float:right;
 	margin-right:20px;
 }
+.row {
+  margin-left: 0px;
+  *zoom: 1;
+}
+.row:before,
+.row:after {
+  display: table;
+  content: "";
+}
+.row:after {
+  clear: both;
+}

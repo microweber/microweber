@@ -501,7 +501,7 @@ function normalize_path($path, $slash_it = true) {
 	$path_original = $path;
 	$s = DIRECTORY_SEPARATOR;
 	$path = preg_replace ( '/[\/\\\]/', $s, $path );
-	$path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
+//	$path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
 	
 	$path = str_replace ( $s . $s, $s, $path );
 	if (strval ( $path ) == '') {
@@ -751,6 +751,7 @@ if (! function_exists ( 'getParamFromURL' )) {
 		return false;
 	}
 }
+
 
 if (! function_exists ( 'pathToURL' )) {
 	function pathToURL($path) {
@@ -2117,10 +2118,11 @@ function codeClean($var) {
 		$var = html_entity_decode ( $var );
 		$var = strip_tags ( trim ( $var ) );
 		if (function_exists ( "mysql_real_escape_string" )) {
-			$output = mysql_real_escape_string ( $var );
+			//$output = mysql_real_escape_string ( $var );
 		} else {
-			$output = stripslashes ( $var );
+		
 		}
+			$output = stripslashes ( $var );
 	}
 	if (! empty ( $output ))
 		return $output;
@@ -2580,6 +2582,7 @@ function globistr($string = '', $mbEncoding = ''/*optional e.g.'UTF-8'*/){
 	// known problems: globistr('./[abc].jpg') => FALSE:'./[[aA][bB][cC]].[jJ][pP][gG]' 
 	//(Problem: existing Pattern[abc] will be overwritten)
 	// known solution: './[abc].'.globistr('jpg') => RIGHT: './[abc].[jJ][pP][gG]' 
+
 	//(Solution: globistr() only caseSensitive Part, not everything)
 	$return = "";
 	if ($mbEncoding !== '') { //multiByte Version
