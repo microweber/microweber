@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_003.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_002.js"></script>
-        
+
     
     
     
@@ -139,6 +139,7 @@ if((resp.success) != undefined){
 
 
     </script>
+    <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/func.js"></script>
     <link href="<? print TEMPLATE_URL ?>css/mw.modules.css" rel="stylesheet" type="text/css" />
     </head>
     <body>

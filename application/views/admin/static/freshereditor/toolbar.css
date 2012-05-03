@@ -29,34 +29,45 @@ a.mw-make-cols.active {
 	background-color:#FFFFFF;
 	color:#333;
 }
-.column:hover {
-	
+.column {
+	outline-style:solid;
+outline-width:1px;
+outline-color: #039;
+outline-offset: 1px;
+position:relative;
 	 
 }
 .column-min-height {
 	min-height:100px;
 }
-.col {
+.col, .row {
+	position:relative;
+}
+.edit {
+	position:relative;
+
 }
 .mw-sorthandle-col {
 	background-color:#0F0;
 	height:12px; 
-	 
-	background-image: url(images/mw_handle_bar_column.jpg);
+	  top:0px;
+ z-index:1000;
 	
 }
 .mw-sorthandle-row {
 	background-color:#FF0;
 	height:24px;
-	 
+	 top:-12px;
 	background-image: url(images/mw_handle_bar.jpg);
+	 z-index:900;
 	 
 }
 .mw-sorthandle {
 	
 	width:100%;
-	position:relative;
-	top:0px;
+	position:absolute;
+	 
+	left 0px;
 	background-repeat: repeat-x;	
 	
 	 

@@ -9,6 +9,8 @@
             imgurl="<? print TEMPLATE_URL ?>img/";
             siteurl="<? print site_url() ?>";
 </script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/edit.css" type="text/css"   />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/font.php" type="text/css" media="screen"  />
 <link rel="stylesheet" href="<? print TEMPLATE_URL ?>css/style.css" type="text/css" media="screen"  />

@@ -59,7 +59,7 @@ if(!empty($media1)){
             
             <table  class="files_list_table">
  <?php foreach($media1 as $pic): ?>
-  <tr class="file_id_<?php print ($pic['id']); ?>">
+  <tr id="file_id_<?php print ($pic['id']); ?>">
     <td><input type="hidden" class="file_id_<?php print ($pic['id']); ?>" name="attached_file_<? print $i; ?>" value="<?php print ($pic['url']); ?>" />
             
             <a href="<?php print ($pic['url']); ?>"  title="<?php print addslashes($pic['media_name']); ?>"  alt="<?php print addslashes($pic['media_description']); ?>" ><?php print ($pic['filename']); ?></a></td>

@@ -43,8 +43,13 @@ description: Home site layout
 				// echo count($posts);
 				 
 				?>
+
+
     <? include TEMPLATE_DIR. "layouts/jobs/jobs_block_home.php";
+
+
 	?>
+
 	<div class="pagination">
 	<a href="#" id="prev">Prev</a>	
 	<? 
@@ -93,12 +98,14 @@ description: Home site layout
       </select>-->
       
       
-      
+          <form method="post" id="home_search_jobs" class="jobsform">
           <? include TEMPLATE_DIR. "layouts/jobs/search_fields.php"; ?> 
-      
+
       
       <div class="c">&nbsp;</div>
       <input type="image" src="<? print TEMPLATE_URL ?>images/search_but.png" class="search_but" />
+
+      </form>
       <a href="#" id="subscribe">Subscribe</a>
       <div class="seealljobs"><a href="#"><img src="<? print TEMPLATE_URL ?>images/seealljobs_but.png" alt="see all jobs" border="0" /></a></div>
     </div>

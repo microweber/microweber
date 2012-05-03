@@ -30,7 +30,7 @@ description: Home site layout
     
     
     
-     <editable rel="page" field="content_bodwerysdfdsfs">
+     <editable rel="page" field="content_boddfgdwerysdfdsfs">
   <div class="row">
      <div class="column">
       <div class="col">
@@ -44,7 +44,7 @@ description: Home site layout
 </editable>
 
 
-    <editable rel="page" field="custom_field_body22dsdfsdfwerzczsassdfsdfdaaazxzda3aasdassasdas">
+    <editable rel="page" field="custom_field_body22dsdfsdfwerzczsassdfsddffdaaazxzda3aasdassasdas">
       <div class="row"> 
        <div class="column">
       <div class="col">
@@ -78,7 +78,7 @@ description: Home site layout
     
     
     
-    <editable rel="page" field="custom_field_body22dsdfsdfwerzcasdasdzsassdfsdfdaaazxzda3aasdassasdas">
+    <editable rel="page" field="custom_field_body22dsdfsdfwerzcasdasdzsafssdfsdfdaaazxzda3aasdassasdas">
       <div class="row"> 
        <div class="column">
       <div class="col">

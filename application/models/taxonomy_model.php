@@ -2059,7 +2059,7 @@ class taxonomy_model extends CI_Model {
 		$cat_ids = $this->getTaxonomiesForContent ( $content_id, $taxonomy_type = 'categories' );
 		
 		$to_return = array ();
-		
+		if(is_array($cat_ids) and !empty($cat_ids)){
 		foreach ( $cat_ids as $item ) {
 			$cat = $this->getSingleItem ( $item );
 			
@@ -2068,9 +2068,10 @@ class taxonomy_model extends CI_Model {
 			} else {
 				if (intval ( $cat ['id'] ) != 0) {
 					$to_return [] = $cat ['id'];
-				}
+				} 
 			}
 		
+		}
 		}
 		//	var_dump($to_return);
 		

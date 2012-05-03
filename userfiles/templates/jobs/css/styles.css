@@ -5,6 +5,11 @@ body {
 	font-size:12px;
 	color:#20232B
 }
+
+input[type='text'], input[type='password'], textarea, select, .uneditable-input{
+  background: white;
+}
+
 .container {
 	height: auto;
 	width: 956px;
@@ -339,15 +344,18 @@ ul.paging li a {
 	color:#23496E;
 	text-decoration:none;
 	height:20px;
+    width: 9px;
 	float:left;
 	padding-top:5px;
 	text-align:center;
+-webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
 }
-ul.paging li a:hover, ul.paging li a.active {
+ul.paging li a:hover, ul.paging li a.active, ul.paging li a.active:hover {
 	color:#ffffff;
 	font-weight:bold;
-	background-image: url(../images/pagination_hover.jpg);
-	background-repeat:no-repeat
+  background:#25476D;
 }
 #next:hover {
 	color:#2676B4;
@@ -760,7 +768,7 @@ a#subscribe:hover {
 	padding-top:18px;
 }
 .sort_people {
-	width:149px;
+	width:75px;
 	height:22px;
 	float:left;
 	margin-top:10px;
@@ -770,19 +778,38 @@ a#subscribe:hover {
 }
 .comapnies_search {
 	width:223px;
-	height:36px;
+    margin-top:2px;
+    margin-right:12px;
+	/*height:36px;*/
 	float:left;
-	background-color: transparent;
+    /*	background-color: transparent;
 	background-image: url(../images/companies_searchbg.jpg);
 	border:none;
 	padding-left:10px;
 	background-repeat: no-repeat;
 	background-position: left;
 	padding-top:10px;
-	padding-left:10px;
+	padding-left:10px;     */
 }
+
+.module-login{
+  clear: both;
+  padding-top: 20px;
+  zoom:1;
+}
+
+.module-login:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
 .company_search_hover {
 	width:20px;
+    display: none;
 	height:36px;
 	float:left;
 	margin-left:-17px;
@@ -799,13 +826,12 @@ a#subscribe:hover {
 }
 .companies_search_textbox {
 	width:175px;
-	height:26px;
+    height: auto;
 	float:left;
-	background-color: transparent;
-	background-image: url(../images/companiessearch_tctbox_bg.jpg);
-	border:none;
-	padding-left:10px;
-	padding-right:10px;
+    background: white;
+    margin-top: 2px;
+    margin-left: 8px;
+    height: 18px;
 }
 .companies_search_but {
 	width:63px;
@@ -863,28 +889,30 @@ a#subscribe:hover {
 /****************** news  **********/
 	
 .news_blk {
-	width:657px;
+	width:628px;
 	height:auto;
 	float:left;
-	padding-bottom:15px;
+	padding-bottom:22px;
+    padding-top: 15px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #C2C2C2;
 }
 .news_thumb {
-	width:100px;
+	width:120px;
 	height:100px;
 	float:left;
 	margin-left:46px;
+    margin-left: 0;
 }
 .news_content {
-	width:495px;
+	width:465px;
 	height:auto;
 	float:left;
 	margin-left:15px;
 }
 .news_head {
-	width:495px;
+	width:465px;
 	height:auto;
 	text-align:left;
 	color:#146EB4;
@@ -893,7 +921,7 @@ a#subscribe:hover {
 	margin-bottom:7px;
 }
 .news_text {
-	width:495px;
+	width:465px;
 	height:auto;
 	padding-bottom:7px;
 	float:left;
@@ -903,7 +931,7 @@ a#subscribe:hover {
 	width:89px;
 	height:29px;
 	float:left;
-	margin-left:399px
+	margin-left:383px
 }
 .news_links {
 	width:610px;
@@ -1027,6 +1055,8 @@ a#subscribe:hover {
 }
 .jobsearch_form_fileds, .add_content_form {
 }
+
+/*
 .jobsearch_textbox1 {
 	width:293px;
 	float:left;
@@ -1061,7 +1091,9 @@ a#subscribe:hover {
 	margin-top:10px;
 	line-height:28px;
 	margin-left:24px;
-}
+}   */
+
+
 .jobsearch_drop_close {
 	width:30px;
 	height:40px;
@@ -1269,11 +1301,6 @@ a#subscribe:hover {
 	background-image: url(../images/contact_textboxbg.jpg);
 	color:#24496F;
 	margin-bottom:10px;
-	background-color: transparent;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
 }
 .contact_drop {
 	width:366px;
@@ -2133,7 +2160,8 @@ a#join_terms:hover {
 	width:455px;
 	height:auto;
 	float:left;
-	background-color:#F0F0F0
+	background-color:#F0F0F0;
+    margin-bottom: 22px;
 }
 .sendcv_box_bot {
 	width:455px;
@@ -2154,19 +2182,19 @@ a#join_terms:hover {
 	width:315px;
 	height:86px;
 	float:left;
-	background-image: url(../images/sendcv_msgbg.jpg);
-	margin-left:17px;
-	border:none;
-	background-color: transparent;
-	overflow:auto;
-	background-repeat:no-repeat
+	margin: 12px 0 0;
 }
+
+#send_cv a{
+  color: #2D2D2D;
+}
+
 .sendcv_send_but {
 	width:66px;
-	height:28px;
+	height:31px;
 	float:left;
 	margin-top:13px;
-	margin-left:266px;
+	margin-left:261px;
 }
 .sendcv_dn_arr {
 	width:18px;
@@ -2407,7 +2435,7 @@ a.add_new_post {
 	left: 37px;
 	color: #5D5A5B;
 	font-size: 10px;
-	width: 100px;
+	width: auto;
 }
 #header_user_profile span {
 	position: relative;
@@ -2542,3 +2570,122 @@ h1, h2, h3, h4, h5, legend, div {
 	clear: both;
 	float: none;
 }
+
+.footer .menu{
+  text-align: center;
+  margin-left: 0;
+}
+
+.footer .menu li {
+  display: inline;
+  list-style: none;
+  margin: 0 0px;
+}
+
+#i_agree{
+  float: left;
+  margin-right: 7px;
+}
+
+
+.module-forgot-pass{
+  clear: both;
+  padding-top: 12px;
+}
+
+.module-forgot-pass .mw-input{
+  margin-left: 0;
+}
+
+.companies_search_but input{
+  margin-top: 0;
+  margin-left: 8px;
+}
+
+.jobsearch_form_fileds input[type='text']{
+  height: 20px;
+}
+.jobsearch_form_fileds select{
+  width: 306px;
+}
+
+#inner_search_jobs .jobsearch_form_fileds{
+  float: left;
+  width:308px;
+  margin-top: 24px;
+  margin-bottom: 4px;
+  margin-left: 20px;
+}
+
+#inner_search_jobs .searchjob_but{
+  margin-top: 24px;
+}
+
+#inner_search_jobs .jobsearch_form_fileds input,
+#inner_search_jobs .jobsearch_form_fileds select{
+    margin-bottom: 20px;
+}
+
+#send_cv{
+  padding: 0 20px;
+  overflow: hidden;
+  zoom:1;
+  position: relative;
+}
+
+#sendcv_browse #filelist div{
+  display: none;
+}
+
+#uploadfiles{
+  display: none;
+}
+
+#pickfiles{
+  display: inline-block;
+  padding: 5px 10px;
+  background: #234A71;
+  font-weight: bold;
+  color: white !important;
+  text-decoration: none;
+  -webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+
+}
+
+.no-files-uploaded{
+  padding: 8px 0 3px;
+}
+
+.xbtn{
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  background: #234A71;
+  font-weight: bold;
+  color: white !important;
+  text-decoration: none;
+  -webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+}
+
+.files_list_table td{
+  padding-top: 4px;
+  padding-bottom: 3px;
+}
+
+.files_list_table{
+  margin-bottom: 20px;
+}
+
+
+.news_head a {
+  text-decoration: none;
+  color: #146EB4;
+  font-size: 24px;
+}
+
+

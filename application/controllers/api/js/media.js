@@ -13,6 +13,7 @@ mw.media.del = function(media_id, hide_element_or_callback) {
 					hide_element_or_callback.call(this);
 				} else {
 					$(hide_element_or_callback).fadeOut().remove();
+                    
 				}
 			} else {
 				alert(response);

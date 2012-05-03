@@ -2052,7 +2052,7 @@ function inc($fn) {
  */
 
 function comments_list($content_id = false, $display = 'default', $for = 'post', $display_params = array()) {
-	 // $CI = get_instance ();
+	  $CI = get_instance (); 
 	if ($display) {
 		$list_file = $display;
 		$display = strtolower ( $display );
@@ -2067,7 +2067,10 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 			$content_id = $post ['id'];
 		}
 	}
-	
+	$CI->load->model ( 'Comments_model', 'comments_model' );
+		$CI->load->model ( 'Template_model', 'template_model' );
+
+
 	$to_table =  get_instance()->core_model->guessDbTable ( $for );
 	//	p($to_table);
 	 get_instance()->template ['comment_to_id'] = $content_id;
@@ -2082,7 +2085,7 @@ function comments_list($content_id = false, $display = 'default', $for = 'post',
 	$comments ['to_table'] = $to_table;
 	$comments ['to_table_id'] = $content_id;
 	//	p($comments);
-	$comments = $this->comments_model->commentsGet ( $comments, $limit = false, $count_only = false, $orderby = array ('id', 'desc' ) );
+	$comments = $CI->comments_model->commentsGet ( $comments, $limit = false, $count_only = false, $orderby = array ('id', 'desc' ) );
 	//p($comments);
 	
 

@@ -66,8 +66,14 @@ description: Home site layout
           <br />
           <a href="mailto:Info@jobs.exemplarhealthresources.com">Info (at) jobs.exemplarhealthresources.com</a><br />
           <span class="contact_blue"><br />
-          FIND US ON THE MAP</span> </div>
-        <div class="contact_clickhere_but"><img src="<? print TEMPLATE_URL ?>images/contact_clickhere_but.jpg" alt="find us on the map" /></div>
+          FIND US ON THE MAP</span> </div> <?php /*
+        <div class="contact_clickhere_but"><img src="<? print TEMPLATE_URL ?>images/contact_clickhere_but.jpg" alt="find us on the map" /></div>    */ ?>
+
+        <iframe width="365" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=USA,+Dallas+Fort+Worth+metroplex&amp;sll=37.0625,-95.677068&amp;sspn=59.119059,135.263672&amp;ie=UTF8&amp;hq=&amp;hnear=Dallas-Fort+Worth+Metroplex&amp;ll=32.707875,-96.920914&amp;spn=0.996843,2.113495&amp;t=m&amp;z=10&amp;iwloc=A&amp;output=embed"></iframe><br />
+
+      <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
+
+
       </div>
     </div>
 

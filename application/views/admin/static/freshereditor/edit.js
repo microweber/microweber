@@ -270,12 +270,6 @@ function init_sortables(){
 	 connectWith: '.row>.column',
 	start: function( event, ui ) {
 		//var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
-			 window.mw_drag_started = true;
-			$(ui.placeholder).find(".col>*[contenteditable=true])").each(function(c) {
-                $(this).freshereditor("edit", false);
-            });
-			
-			
 			 $( '.mw-sorthandle', '.column' ).remove();
 			
 			   $('.row').each(function(index) {
@@ -300,7 +294,6 @@ function init_sortables(){
   
   },
       sort: function(e,ui){
-		   window.mw_drag_started = true;
 		//  $('.empty').hide()
     $(ui.placeholder).closest('.empty:first').fadeIn('fast')
 	 // $(ui.placeholder).closest('.ui-state-highlight:first').css({"width":"100%", "height" : ui.item.height()});
@@ -332,7 +325,6 @@ ui.helper.height(ui.item.height());
               },
 			  
 	stop: function(event, ui) {
-		 window.mw_drag_started = false;
            $('.empty').fadeOut('fast').remove();
 		     $('.ui-state-highlight').remove();
 			mw_load_new_dropped_modules();
@@ -370,13 +362,17 @@ ui.helper.height(ui.item.height());
 		
     },
     deactivate: function(en, ui) {
-		 window.mw_drag_started = false;
         $(this).css('min-height', '10px');
     }
 		
 		
 		
 });
+			
+			$(".col>*:not(.mw-sorthandle)").freshereditor("edit", true);
+			
+			
+			
 			
 			
 			
@@ -394,9 +390,9 @@ ui.helper.height(ui.item.height());
 			
 			 
 			$('.edit').sortable({
-    items: '.row',
+    items: '.row,.column>.row',
   handle: '.mw-sorthandle-row',
-			connectWith: '.edit'
+			connectWith: '.edit,.column,.row>.column'
 			});	
 			
 			
@@ -532,23 +528,6 @@ ui.helper.width(ui.placeholder.width());
 			
 			
 			
-			//$(".col>*:not(.mw-sorthandle)").freshereditor("edit", true);
-			
-			 $(".col>*:not(.mw-sorthandle)").die('click');
-			 $(".col>*:not(.mw-sorthandle)").die('blur');
-			
-			 $(".col>*:not(.mw-sorthandle,[contenteditable=false])").click(function() {
-                 $(this).freshereditor("edit", true);
-				 $(this).freshereditor("edit", true);
-				 $(this).focus()
-            });
-           $(".col>*:not(.mw-sorthandle,[contenteditable=false])").blur(function() {
-              //  $(this).freshereditor("edit", false);
-            });
-			
-			
-			
-			
 			$(".row,.col").die('mousedown');
 			$(".col").live(
         'mousedown',
@@ -628,51 +607,9 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 
  $(this).children(".mw-sorthandle-row:first").show();
 
-if( window.mw_drag_started == false){
- $(this).children(".column").resizable({
-	  handles: 'e' ,
-	    
-	   resize: function(event, ui) { 
-	   
-	   
-	    if (window.console != undefined) {
-				console.log('resizing ' + $(this).parent(".row").html() );	
-			}
-		 //$(this).parent(".row").height('auto') ;
-	  // $(this).parent(".row").equalHeights() ;
-	   
-	    },
-	   
-	   
-	  stop: function(event, ui) { 
-	   $(ui.element).height('auto');
-       $(this).parent(".row").equalHeights() ; 
-	   
-	   
- 
-	   }
-	  
-	 // alsoResizeReverse: $(this).closest(".column")
-                 //   alsoResize:$(this).find('img')
-                });  
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
 }).mouseleave(function(){
-if( window.mw_drag_started == false){
- $(this).children(".column").resizable('destroy');
-}
+ 
+
 // $(this).children(".mw-sorthandle-row:first").hide();
 
 })  
@@ -684,12 +621,6 @@ if( window.mw_drag_started == false){
    if($has == false){
 	$(this).prepend("<div class='mw-sorthandle mw-sorthandle-col'><span>&nbsp;</span>");
 }
-
-
-
-
-
-
 
 })
 			 
@@ -1341,73 +1272,4 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 
  
  
- $.ui.plugin.add("resizable", "alsoResizeReverse", {
-
-    start: function(event, ui) {
-
-        var self = $(this).data("resizable"), o = self.options;
-
-        var _store = function(exp) {
-            $(exp).each(function() {
-                $(this).data("resizable-alsoresize-reverse", {
-                    width: parseInt($(this).width(), 10), height: parseInt($(this).height(), 10),
-                    left: parseInt($(this).css('left'), 10), top: parseInt($(this).css('top'), 10)
-                });
-            });
-        };
-
-        if (typeof(o.alsoResizeReverse) == 'object' && !o.alsoResizeReverse.parentNode) {
-            if (o.alsoResizeReverse.length) { o.alsoResize = o.alsoResizeReverse[0];    _store(o.alsoResizeReverse); }
-            else { $.each(o.alsoResizeReverse, function(exp, c) { _store(exp); }); }
-        }else{
-            _store(o.alsoResizeReverse);
-        }
-    },
-
-    resize: function(event, ui){
-        var self = $(this).data("resizable"), o = self.options, os = self.originalSize, op = self.originalPosition;
-
-        var delta = {
-            height: (self.size.height - os.height) || 0, width: (self.size.width - os.width) || 0,
-            top: (self.position.top - op.top) || 0, left: (self.position.left - op.left) || 0
-        },
-
-        _alsoResizeReverse = function(exp, c) {
-            $(exp).each(function() {
-                var el = $(this), start = $(this).data("resizable-alsoresize-reverse"), style = {}, css = c && c.length ? c : ['width', 'height', 'top', 'left'];
-
-                $.each(css || ['width', 'height', 'top', 'left'], function(i, prop) {
-                    var sum = (start[prop]||0) - (delta[prop]||0); // subtracting instead of adding
-                    if (sum && sum >= 0)
-                        style[prop] = sum || null;
-                });
-
-                //Opera fixing relative position
-                if (/relative/.test(el.css('position')) && $.browser.opera) {
-                    self._revertToRelativePosition = true;
-                    el.css({ position: 'absolute', top: 'auto', left: 'auto' });
-                }
-
-                el.css(style);
-            });
-        };
-
-        if (typeof(o.alsoResizeReverse) == 'object' && !o.alsoResizeReverse.nodeType) {
-            $.each(o.alsoResizeReverse, function(exp, c) { _alsoResizeReverse(exp, c); });
-        }else{
-            _alsoResizeReverse(o.alsoResizeReverse);
-        }
-    },
-
-    stop: function(event, ui){
-        var self = $(this).data("resizable");
-
-        //Opera fixing relative position
-        if (self._revertToRelativePosition && $.browser.opera) {
-            self._revertToRelativePosition = false;
-            el.css({ position: 'relative' });
-        }
-
-        $(this).removeData("resizable-alsoresize-reverse");
-    }
-});
+ 

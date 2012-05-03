@@ -3,24 +3,19 @@
 <div class="searchjobs_tit">Search for jobs</div>
 <div class="job_search_box">
   <div class="jobsearch_form_fileds" style="float:left">
-    <form method="post">
-      <table width="100" border="0" cellspacing="0" cellpadding="0">
-        <tr valign="middle">
-          <td>
-          
-           <? include TEMPLATE_DIR. "layouts/jobs/search_fields.php"; ?> 
+    <form method="post" id="inner_search_jobs" class="jobsform">
+
+           <? include TEMPLATE_DIR. "layouts/jobs/search_fields.php"; ?>
+
 
           
-          
             
             
-            </td>
-          <td>&nbsp;</td>
-          <td><div class="searchjob_but">
+
+      <div class="searchjob_but">
               <input type="image" src="<? print TEMPLATE_URL ?>images/Search_Jobs_but.jpg" />
-            </div></td>
-        </tr>
-      </table>
+            </div>
+
     </form>
   </div>
 </div>

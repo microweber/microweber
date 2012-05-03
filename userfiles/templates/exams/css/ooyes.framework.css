@@ -66,7 +66,7 @@ a, input, textarea{
 .right{
     float: right;
 }
-.left, .col{
+.left, .not_col{
   float: left;
 }
 .center{
@@ -101,7 +101,7 @@ a, input, textarea{
 }
 
 
-.wrap:after, .col:after, .clearfix:after{
+.wrap:after, .not_col:after, .clearfix:after{
 	content: ".";
 	display: block;
 	clear: both;
@@ -109,11 +109,11 @@ a, input, textarea{
 	line-height: 0;
 	height: 0;
 }
-.wrap, .col, .clearfix{display: inline-block;}
+.wrap, .not_col, .clearfix{display: inline-block;}
 
-html[xmlns] .wrap, html[xmlns] .col, html[xmlns] .clearfix{display: block;}
+html[xmlns] .wrap, html[xmlns] .not_col, html[xmlns] .clearfix{display: block;}
 
-* html .wrap, * html .col, * html .clearfix{zoom: 1;}
+* html .wrap, * html .not_col, * html .clearfix{zoom: 1;}
 
 /* ----- pre tag ----- */
 pre {

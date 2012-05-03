@@ -208,7 +208,7 @@ h1 {
 }
 
 .home_center_colored {
-	height:384px;
+	height:auto;
 	width:100%;
 	background-color:#fbf8dd;
 	border-bottom-width: 1px;

@@ -451,7 +451,4 @@ $(function(){
        }
      });
 });
-$(document).ready(function(){
-    $(document).modal();
-    $("#overlay").click(function(){Modal.close()});
-});
+ 
