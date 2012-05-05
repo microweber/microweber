@@ -257,17 +257,17 @@ function init_sortables(){
 			 
 			$('.edit,.column').sortable({
    // items: '.row:not(.disabled),.col',
-	 items: '.col,li.module-item,.row>.column>.row,.row',
+	 items: '.col,li.module-item,.row>.column>.row, .row',
 	 dropOnEmpty:true,
-	    forcePlaceholderSize: true,
-	 //  forceHelperSize : true,
+	//   forcePlaceholderSize: true,
+	//    forceHelperSize : true,
 	    greedy: true,
-	  // tolerance: 'pointer',
+	   tolerance: 'pointer',
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
 	   revert: true,
-	  //   helper: 'clone',
+	   //  helper: 'clone',
 	placeholder: "ui-state-highlight",
 	 connectWith: '.edit,.row>.column',
 //	 connectWith: '.row>.column',
@@ -312,7 +312,7 @@ function init_sortables(){
 					 
             })
 			
-			// $('.column').find('.empty').css({"height" : ui.item.height()});
+			 $('.column').find('.empty').css({"height" : ui.item.height()});
 			  $( this ).sortable( 'refreshPositions' )
   
   },
@@ -411,21 +411,19 @@ ui.placeholder.height(ui.helper.height());
 					});
 	       },
 	 over: function(event, ui) {
-		   $('.empty').show();
+		//  $('.empty').hide();
 	 $(ui.placeholder).closest('.empty').show()
 	 	 $(ui.placeholder).closest('.column').find('.empty').show()			
-		// $(this).find('.empty').css({"height" : ui.item.height()});
-		 $(ui.placeholder).closest('.empty').css({"height" : ui.item.height()});
-		// ui.helper.width(ui.placeholder.width());
-		 // ui.helper.height(ui.placeholder.height());
-		  ui.placeholder.height(ui.item.height());
+		 
+		 
+		 
 		// $(this).find('.empty:first').show()
 		  }	,
 		  
 		  	 out: function(event, ui) {
 				// $('.empty').hide()
 				 $(this).css('min-height', '10px');
-				//   $(this).children('.empty').hide() 
+				   $(this).children('.empty').hide() 
 	 	// $(ui.sender).find('.empty').hide()
 		//$(ui.sender).find('.ui-state-highlight').fadeOut('fast')
 		  }	,

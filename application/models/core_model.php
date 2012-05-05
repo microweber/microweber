@@ -151,8 +151,6 @@ class Core_model extends CI_Model {
 		
 		}
 		
-		// p($data);
-		
 		$data ['session_id'] = $this->session->userdata ( 'session_id' );
 		
 		$original_data = $data;
@@ -173,7 +171,7 @@ class Core_model extends CI_Model {
 				
 				foreach ( $data_to_save_options ['delete_cache_groups'] as $item ) {
 					
-					$this->cleanCacheGroup ( $item );
+					cache_clean_group ( $item );
 				
 				}
 			
@@ -262,7 +260,7 @@ class Core_model extends CI_Model {
 		}
 		
 		$criteria = $this->addSlashesToArrayAndEncodeHtmlChars ( $criteria );
-		
+			$this->load->database();
 		// p($criteria, 1);
 		// $criteria = $this->addSlashesToArray ( $criteria );
 		if (intval ( $criteria ['id'] ) == 0) {
@@ -307,11 +305,11 @@ class Core_model extends CI_Model {
 				$q .= " id={$n_id} ";
 			
 			}
-			
+
+		
 			// exit ();
 			// $this->dbQ ( $q );
-			// p($q);
-						$this->load->database();
+			// p($q 
 			
 			$this->db->query ( $q );
 			
@@ -338,12 +336,16 @@ class Core_model extends CI_Model {
 			}
 			
 			$q .= " id={$data ['id']} WHERE id={$data ['id']} ";
-			$this->load->database();
+		
 			$this->db->query ( $q );
 			
 			$id_to_return = $data ['id'];
 		
 		}
+		
+		
+					
+		
 		if ($dbg != false) {
 			p ( $q );
 		}
@@ -429,10 +431,10 @@ class Core_model extends CI_Model {
 				$q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
 				// p ( $q );
 				$this->dbQ ( $q );
-				$this->cleanCacheGroup ( 'taxonomy/' . $parent_cat_id );
+				cache_clean_group ( 'taxonomy/' . $parent_cat_id );
 			
 			}
-			$this->cleanCacheGroup ( 'taxonomy/global' );
+			cache_clean_group ( 'taxonomy/global' );
 			
 			// exit ();
 		}
@@ -555,7 +557,7 @@ class Core_model extends CI_Model {
 				
 				$this->dbQ ( $up_cf );
 				
-				$this->cleanCacheGroup ( 'custom_fields' );
+				cache_clean_group ( 'custom_fields' );
 			
 			}
 			
@@ -579,7 +581,8 @@ class Core_model extends CI_Model {
 					// $this->dbQ ( $clean );
 				
 				}
-				
+			//	p($original_data);
+				if (($original_data ['skip_custom_field_save'] == false)){
 				foreach ( $custom_field_to_save as $cf_k => $cf_v ) {
 					
 					if (($cf_v != '')) {
@@ -594,7 +597,7 @@ class Core_model extends CI_Model {
 
 						
 						";
-							
+						//	p($clean);
 							$this->dbQ ( $clean );
 						}
 						
@@ -607,18 +610,36 @@ class Core_model extends CI_Model {
 						$custom_field_to_save ['to_table'] = $table_assoc_name;
 						
 						$custom_field_to_save ['to_table_id'] = $id_to_return;
-						
+						$custom_field_to_save ['skip_custom_field_save'] = true;
+					 
 						$custom_field_to_save ['delete_cache_groups'] = array ('custom_fields' );
 						// p($custom_field_table);
 						// p($custom_field_to_save);
-						$save = $this->saveData ( $custom_field_table, $custom_field_to_save );
+					//	 $save = $this->saveData ( $custom_field_table, $custom_field_to_save );
+						 
+						 
+						 $custom_field_to_save = $this->addSlashesToArrayAndEncodeHtmlChars ( $custom_field_to_save );
+						 $add = " insert into $custom_field_table set 
+						custom_field_name =\"{$cf_k}\",
+						custom_field_values =\"".$custom_field_to_save['custom_field_values']."\",
+						custom_field_value =\"".$custom_field_to_save['custom_field_value']."\",
+				 to_table =\"".$custom_field_to_save['to_table']."\",
+				 to_table_id =\"".$custom_field_to_save['to_table_id']."\"						
+						";
+							 
+						//   	print( $add );
+							$this->dbQ ( $add );
+							
+							
 					
 					}
 				
 				}
-				$this->cleanCacheGroup ( 'custom_fields' );
+			 	cache_clean_group ( 'custom_fields' );
+			//	cache_clean_group ( 'global' );
+				cache_clean_group ( 'extract_tags' );
 			}
-		
+		}
 		}
 		
 		if (intval ( $data ['edited_by'] ) == 0) {
@@ -753,10 +774,10 @@ class Core_model extends CI_Model {
 					$q .= "  user_ip='{$_SERVER['REMOTE_ADDR']}'";
 					
 					// p( $q);
-					$this->dbQ ( $q );
+					//$this->dbQ ( $q );
 					
-					$dir = $this->_getCacheDir ( 'log/global/' );
-					@touch ( $dir . 'skip_cache.php' );
+					//$dir = cache_get_dir ( 'log/global/' );
+					//@touch ( $dir . 'skip_cache.php' );
 					
 					// p($dir);
 				
@@ -766,7 +787,7 @@ class Core_model extends CI_Model {
 		
 		}
 		
-		$this->cleanCacheGroup ( 'global' );
+		cache_clean_group ( 'global' );
 		
 		return intval ( $id_to_return );
 	
@@ -1481,12 +1502,12 @@ class Core_model extends CI_Model {
 			// if ($file_counter < 1000) {
 			
 			// Eliminate current directory, parent directory
-			if (ereg ( '^\.{1,2}$', $fn ))
-				continue;
+		//	if (ereg ( '^\.{1,2}$', $fn ))
+			//	continue;
 				
 				// Eliminate other pages not in pattern
-			if (! ereg ( $pattern, $fn ))
-				continue;
+			//if (! ereg ( $pattern, $fn ))
+			//	continue;
 			$timedat = filemtime ( "$dir/$fn" );
 			if ($timedat > $newstamp) {
 				$newstamp = $timedat;
@@ -1499,7 +1520,7 @@ class Core_model extends CI_Model {
 		// $newname is the name of the latest file
 		// p($newname);
 		
-		$newest = file_get_contents ( "$dir/$newname" );
+		$newest = @file_get_contents ( "$dir/$newname" );
 		if (trim ( $value ) != '') {
 			if ($newest != $value) {
 				
@@ -1509,7 +1530,7 @@ class Core_model extends CI_Model {
 				// p($hf);
 				$value = html_entity_decode ( $value );
 				
-				$data = mb_convert_encoding ( $value, 'UTF-8', 'OLD-ENCODING' );
+				//$data = mb_convert_encoding ( $value, 'UTF-8', 'OLD-ENCODING' );
 				file_put_contents ( $hf, $data );
 				
 				// file_put_contents ( $hf, $value );
@@ -1622,7 +1643,7 @@ class Core_model extends CI_Model {
 		
 		$save = $this->saveData ( $table_custom_field, $data_to_save );
 		
-		$this->cleanCacheGroup ( 'custom_fields' );
+		cache_clean_group ( 'custom_fields' );
 		
 		return $save;
 	
@@ -4380,7 +4401,7 @@ class Core_model extends CI_Model {
 		
 		if ($delete_cache_group != false) {
 			
-			$this->cleanCacheGroup ( $delete_cache_group );
+			cache_clean_group ( $delete_cache_group );
 		
 		}
 		
@@ -4418,7 +4439,7 @@ class Core_model extends CI_Model {
 		
 		if ($delete_cache_group != false) {
 			
-			$this->cleanCacheGroup ( $delete_cache_group );
+			cache_clean_group ( $delete_cache_group );
 		
 		}
 		
@@ -4670,7 +4691,7 @@ class Core_model extends CI_Model {
 	
 	function _getCacheFile($cache_id, $cache_group = 'global') {
 		$cache_group = str_replace ( '/', DIRECTORY_SEPARATOR, $cache_group );
-		return $this->_getCacheDir ( $cache_group ) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
+		return cache_get_dir ( $cache_group ) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
 	
 	}
 	
@@ -4711,8 +4732,8 @@ class Core_model extends CI_Model {
 		 */
 		
 		// print 'delete cache:' .$cache_group;
-		$dir = $this->_getCacheDir ( 'global' );
-		$dir_del = $this->_getCacheDir ( 'global', true );
+		$dir = cache_get_dir ( 'global' );
+		$dir_del = cache_get_dir ( 'global', true );
 		// var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
 			// dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
@@ -4720,8 +4741,8 @@ class Core_model extends CI_Model {
 		
 		}
 		
-		$dir = $this->_getCacheDir ( $cache_group );
-		$dir_del = $this->_getCacheDir ( $cache_group, true );
+		$dir = cache_get_dir ( $cache_group );
+		$dir_del = cache_get_dir ( $cache_group, true );
 		// var_dump(CACHEDIR . $cache_group);
 		if (is_dir ( $dir )) {
 			// dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
@@ -6296,7 +6317,7 @@ $w
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 		
 		}
 		
@@ -6646,13 +6667,13 @@ $w
 				
 				/*
 				 * $qd = " delete from $table where id='$del' "; $qd =
-				 * $this->dbQ ( $qd ); $this->cleanCacheGroup ( 'media/' . $del
+				 * $this->dbQ ( $qd ); cache_clean_group ( 'media/' . $del
 				 * );
 				 */
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 		
 		}
 		
@@ -6850,11 +6871,11 @@ $w
 				$qd = " delete from  $table where id='$del'  ";
 				
 				$qd = $this->dbQ ( $qd );
-				$this->cleanCacheGroup ( 'media/' . $del );
+				cache_clean_group ( 'media/' . $del );
 			
 			}
 			
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 		
 		}
 		
@@ -7351,10 +7372,10 @@ $w
 			}
 			if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
 				$cache_group = "media/{$to_table}/{$to_table_id}";
-				$this->cleanCacheGroup ( $cache_group );
+				cache_clean_group ( $cache_group );
 			}
-			$this->cleanCacheGroup ( 'media/global' );
-			$this->cleanCacheGroup ( 'global' );
+			cache_clean_group ( 'media/global' );
+			cache_clean_group ( 'global' );
 			return $uploaded;
 		
 		} else 
@@ -7393,7 +7414,7 @@ $w
 		
 		}
 		
-		// $this->cleanCacheGroup ( 'media/global' );
+		// cache_clean_group ( 'media/global' );
 		
 		if (! empty ( $_FILES )) {
 			
@@ -7666,9 +7687,9 @@ $w
 			}
 			if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
 				$cache_group = "media/{$to_table}/{$to_table_id}";
-				$this->cleanCacheGroup ( $cache_group );
+				cache_clean_group ( $cache_group );
 			}
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 			return $uploaded;
 			
 			// exit ();
@@ -7842,7 +7863,7 @@ $w
 			}
 			
 			//
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 			
 			if (intval ( $to_table_id ) != 0) {
 				
@@ -8013,7 +8034,7 @@ $w
 			}
 			
 			//
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 			
 			if (intval ( $to_table_id ) != 0) {
 				
@@ -8105,12 +8126,12 @@ $w
 		//
 		if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
 			$cache_group = "media/{$to_table}/{$to_table_id}";
-			$this->cleanCacheGroup ( $cache_group );
+			cache_clean_group ( $cache_group );
 		}
 		
 		$res = $media_save;
 		
-		$this->cleanCacheGroup ( 'media/global' );
+		cache_clean_group ( 'media/global' );
 		
 		$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
 		
@@ -8154,7 +8175,7 @@ $w
 			//
 			$this->load->library ( 'session', $params );
 			
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 			
 			require_once (APPPATH . 'libraries/' . 'ImageManipulation.php');
 			
@@ -8433,12 +8454,12 @@ $w
 			//
 			if ((trim ( $to_table ) != '') and (trim ( $to_table_id ) != '')) {
 				$cache_group = "media/{$to_table}/{$to_table_id}";
-				$this->cleanCacheGroup ( $cache_group );
+				cache_clean_group ( $cache_group );
 			}
 			
 			$res = $media_save;
 			
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/global' );
 			
 			$this->mediaFixOrder ( $to_table, $to_table_id, 'picture' );
 			
@@ -8510,7 +8531,7 @@ $w
 		
 		}
 		
-		$this->cleanCacheGroup ( $cache_group );
+		cache_clean_group ( $cache_group );
 		
 		return true;
 	
@@ -8557,15 +8578,15 @@ $w
 					$q = " UPDATE $table set media_order = $i  where id=$item ";
 					
 					$q = $this->dbQ ( $q );
-					$this->cleanCacheGroup ( 'media/' . $item );
+					cache_clean_group ( 'media/' . $item );
 					
 					$i ++;
 				
 				}
 			
 			}
-			$this->cleanCacheGroup ( 'media/global' );
-			// $this->cleanCacheGroup ( 'media/global');
+			cache_clean_group ( 'media/global' );
+			// cache_clean_group ( 'media/global');
 			$this->mediaFixOrder ( $to_table, $to_table_id, $media_type );
 		
 		}
@@ -8585,33 +8606,33 @@ $w
 		
 		if ((trim ( $data ['to_table'] ) != '') and (trim ( $data ['to_table_id'] ) != '')) {
 			
-			$this->cleanCacheGroup ( "media/{$data['to_table']}/{$data['to_table_id']}" );
+			cache_clean_group ( "media/{$data['to_table']}/{$data['to_table_id']}" );
 			
 			$temp = $data ['to_table'];
 			$temp = str_replace ( 'table_', '', $temp );
 			
-			$this->cleanCacheGroup ( "media/{$temp}/{$data['to_table_id']}" );
+			cache_clean_group ( "media/{$temp}/{$data['to_table_id']}" );
 		
 		}
-		$this->cleanCacheGroup ( 'media/' . $save );
+		cache_clean_group ( 'media/' . $save );
 		
-		$this->cleanCacheGroup ( 'media/global' );
+		cache_clean_group ( 'media/global' );
 		
 		if (intval ( $save ) != 0) {
 			$get = $this->mediaGetById ( $save );
 			if ((trim ( $get ['to_table'] ) != '') and (trim ( $get ['to_table_id'] ) != '')) {
 				
-				$this->cleanCacheGroup ( "media/{$get['to_table']}/{$get['to_table_id']}" );
+				cache_clean_group ( "media/{$get['to_table']}/{$get['to_table_id']}" );
 				
 				$temp = $get ['to_table'];
 				$temp = str_replace ( 'table_', '', $temp );
 				
-				$this->cleanCacheGroup ( "media/{$temp}/{$get['to_table_id']}" );
+				cache_clean_group ( "media/{$temp}/{$get['to_table_id']}" );
 			
 			}
 		}
 		
-		$this->cleanCacheGroup ( 'global' );
+		cache_clean_group ( 'global' );
 		
 		return true;
 	
@@ -8687,7 +8708,7 @@ $w
 		
 		$one = $id;
 		
-		$this->cleanCacheGroup ( 'media/global' );
+		cache_clean_group ( 'media/global' );
 		
 		$q = " SELECT * from $table where id=$one ";
 		
@@ -8711,8 +8732,8 @@ $w
 			
 			// deltete
 			$this->deleteDataById ( $table, $id );
-			$this->cleanCacheGroup ( 'media/' . $id );
-			$this->cleanCacheGroup ( 'media/global' );
+			cache_clean_group ( 'media/' . $id );
+			cache_clean_group ( 'media/global' );
 			
 			$this->mediaFixOrder ( $to_table, $to_table_id, $media_type );
 			
@@ -8765,9 +8786,9 @@ $w
 	
 	function cacheDelete($what = 'cache_group', $value = 'global') {
 		
-		$this->cleanCacheGroup ( $value );
+		cache_clean_group ( $value );
 		
-		$this->cleanCacheGroup ( 'global' );
+		cache_clean_group ( 'global' );
 	
 	}
 	
@@ -9441,7 +9462,7 @@ $w
 		
 		$table = $cms_db_tables ['table_options'];
 		
-		$this->cleanCacheGroup ( 'options' );
+		cache_clean_group ( 'options' );
 		// $data ['debug'] = 1;
 		$save = $this->saveData ( $table, $data );
 		
@@ -9455,12 +9476,12 @@ $w
 		
 		$table = $cms_db_tables ['table_options'];
 		
-		$this->cleanCacheGroup ( 'options' );
+		cache_clean_group ( 'options' );
 		
 		// $save = $this->saveData ( $table, $data );
 		$q = "delete from $table where id='$id' ";
 		
-		$this->cleanCacheGroup ( 'options' );
+		cache_clean_group ( 'options' );
 		
 		$this->dbQ ( $q );
 		
@@ -9474,7 +9495,7 @@ $w
 		
 		$table = $cms_db_tables ['table_options'];
 		
-		$this->cleanCacheGroup ( 'options' );
+		cache_clean_group ( 'options' );
 		if ($option_group != false) {
 			$option_group_q1 = "and option_group='{$option_group}'";
 		}

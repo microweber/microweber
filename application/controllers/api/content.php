@@ -1372,8 +1372,16 @@ class Content extends CI_Controller {
 			exit ( 'Error: not logged in as admin.' );
 		}
 		//	
+	//	p($_REQUEST);
+		
+		
 		if ($_POST) {
-			
+			if ($_POST['json_obj']) {
+				
+				$obj = json_decode($_POST['json_obj'], true);
+				$_POST = $obj ;
+			}
+				//p($_POST);
 			if ($_POST ['mw_preview_only']) {
 				$is_no_save = true;
 			
@@ -1799,6 +1807,7 @@ class Content extends CI_Controller {
 								$to_save = array ();
 								$to_save ['id'] = $content_id;
 								$to_save ['quick_save'] = true;
+								//$to_save ['debug'] = true;
 								$to_save ['r'] = $some_mods;
 								
 								$to_save ['page_element_id'] = $page_element_id;
@@ -1806,7 +1815,7 @@ class Content extends CI_Controller {
 								$to_save [$field] = ($html_to_save);
 								//print "<h2>For content $content_id</h2>";
 								// p ( $_POST );
-								// p ( $to_save );
+								  
 								//p ( $html_to_save, 1 );
 								$json_print [] = $to_save;
 								if ($is_no_save != true) {

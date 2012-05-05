@@ -13,8 +13,23 @@ body {
  .ui-state-highlight-row, {
  background-color:#0CF !important;
 }
+
+.edit .ui-state-highlight {
+ z-index:9999	!important;
+}
+.column .ui-state-highlight {
+ z-index:999	!important;
+}
+
+
+.row>.column>.row>.column>.ui-state-highlight, .column .empty {
+ z-index:9990	!important;
+}
+
+
+
 .ui-sortable:not(.edit):hover, .col:hover {
-	outline: 1px dotted #0CF;
+	/*outline: 1px dotted #0CF;*/
 }
 a.mw-make-cols {
 	font-weight:bold;
@@ -30,11 +45,12 @@ a.mw-make-cols.active {
 	color:#333;
 }
 .column {
-	outline-style:solid;
+/*	outline-style:solid;
 outline-width:1px;
 outline-color: #039;
 outline-offset: 1px;
-position:relative;
+position:relative;*/
+ 
 	 
 }
 .column-min-height {
@@ -57,7 +73,7 @@ position:relative;
 .mw-sorthandle-row {
 	background-color:#FF0;
 	height:24px;
-	 top:-12px;
+	 top:-24px;
 	background-image: url(images/mw_handle_bar.jpg);
 	 z-index:900;
 	 
@@ -85,10 +101,10 @@ position:relative;
 	border: 2px dotted #00F;
 }
  [contenteditable=true], .outline, .mw_dragover, .ui-resizable:hover {
- outline: 1px dotted #999;
+  
 }
 [contenteditable=true]:hover {
-	outline: 1px dotted #ff0000;
+	 
 }
 .edit .module, .edit img {
 /*resize: both;  */

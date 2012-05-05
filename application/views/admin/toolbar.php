@@ -426,7 +426,7 @@ $(".mw-sorthandle", '.edit').remove();
 
 
 
- var master = {}
+ var master = {};
   // $(".mw_edited").each(function(j){
 								   
 								   
@@ -435,9 +435,12 @@ $(".mw-sorthandle", '.edit').remove();
 								   
   
 $('.edit').each(function(j){
+	j++;
+ content = $(this).get(0).innerHTML;	
  
-								   
-								 
+ 
+    
+							 
 								   
 								   
 								   
@@ -446,7 +449,7 @@ $('.edit').each(function(j){
 
  //$(this).addClass("mw_edited");
 
-var nic_obj = {};
+
 if(window.no_async == true){
 $async_save = false;	
 	window.no_async = false;
@@ -459,7 +462,7 @@ $async_save = false;
 
 
  
-
+var nic_obj = {};
 var attrs = $(this).get(0).attributes;
 for(var i=0;i<attrs.length;i++) {
     temp1 = attrs[i].nodeName;
@@ -473,16 +476,21 @@ for(var i=0;i<attrs.length;i++) {
     }
 
 }
-content = $(this).html();
+
 
 var obj = {
     attributes:nic_obj,
     html : content
 }
 var objX = "field_data_"+j;
-if(master[objX] == undefined){
-master[objX] = obj;
-}
+
+ 
+var arr1 = [{"attributes": nic_obj}, {"html": (content)}];
+
+//master.objX = arr1;
+//if(master[objX] == undefined){
+ master[objX] = obj;
+//}
 
 		
  
@@ -501,17 +509,25 @@ master[objX] = obj;
 			
 		} else {
 		
-
-
 master_prev = master;
+// var myJSONText = JSON.stringify(master);
+ //var dat1 = {};
+ //dat1.json_obj = myJSONText;
+
+if (window.console != undefined) {
+	
+	// console.log('Saving ' + myJSONText);
+}
 //master_prev['mw_preview_only'] = 1;
 
    	$.ajax({
 		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
+		//  data: dat1, 
 		  data: master,
-		  datatype: "json",
-          async:false,
+		    datatype: "json",
+		 // contentType:'application/json',
+          async:true,
 		  beforeSend :  function() {
 			
 			  window.saving =true;
@@ -523,7 +539,7 @@ master_prev = master;
 			  mw_load_history_module();
 			  			   
 if (window.console != undefined) {
-	var myJSONText = JSON.stringify(master, '|||||');
+	//var myJSONText = JSON.stringify(master, '|||||');
 	//console.log('Saving ' + myJSONText);
 }
 	
@@ -721,7 +737,8 @@ Make cols:
  -->
   <? if(url_param('layout_editor') != 'yes'): ?>
   <? else : ?>
-  <button  onclick="mw_save_all()">Save all</button>
   <a  href="<? print $enter_l_ed;?>">enter layout</a> <a  href="<? print url();?>/editmode:n">exit editmode</a> <a  href="<? print $exit_l_ed;?>">exit layout</a>
   <? endif; ?>
+    <button  onclick="mw_save_all()">Save all</button>
+
   <a  href="<? print   $exit_live_edit;?>">Exit live edit</a> <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a> </div>

@@ -294,7 +294,7 @@ a.blue {
 	margin-left:8px;
 	margin-top:14px;
 }
-/************* pagination *******************/ 
+/************* pagination *******************/
 .pagination {
 	width:553px;
 	height:23px;
@@ -314,7 +314,7 @@ a.blue {
 	color:#23496E;
 	text-align:left;
 	text-decoration:none;
-	margin-top:7px;
+	margin-top:3px;
 }
 #prev:hover {
 	color:#2676B4;
@@ -331,7 +331,7 @@ a.blue {
 	color:#23496E;
 	text-align:right;/*margin-top:5px;*/
 	text-decoration:none;
-	margin-top:7px;
+	margin-top:3px;
 }
 ul.paging {
 	list-style:none;
@@ -339,14 +339,16 @@ ul.paging {
 ul.paging li {
 	list-style:none;
 	float:left;
+    margin: 0 3px;
 }
-ul.paging li a {
+.pagination ul.paging li a {
 	color:#23496E;
 	text-decoration:none;
-	height:20px;
     width: 9px;
 	float:left;
-	padding-top:5px;
+    line-height: normal;
+    height: auto;
+	padding:3px 6px;
 	text-align:center;
 -webkit-border-radius: 20px;
 -moz-border-radius: 20px;
@@ -2420,7 +2422,7 @@ a.add_new_post {
 	margin-bottom:10px !important;
 }
 .bx-window img {
-	height:100px;
+	max-height:100px;
 }
 .xright {
 	float: right !important;
@@ -2686,6 +2688,28 @@ border-radius: 7px;
   text-decoration: none;
   color: #146EB4;
   font-size: 24px;
+}
+
+.companies_search_but input[type='image']{
+  height: 27px;
+  margin-top: 2px;
+}
+
+.header .caption{
+  float: right;
+  margin-right: 30px;
+  line-height: 15px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+
+.module-login .login-btn{
+  float: right;
+  margin-right: 57px;
+}
+
+.join_create_acc_but{
+  margin-right: 19px;
 }
 
 
