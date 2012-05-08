@@ -630,10 +630,10 @@ if (defined('INTERNAL_API_CALL') == true) {
 				//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
 				$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
 				if ($layout_toolbar != '') {
-					$layout = str_replace('</body>', $layout_toolbar . '</body>', $layout);
-					$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
+					$layout = str_replace('<body>', '<body>'.$layout_toolbar , $layout);
+					//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
 					//some developers put spaces
-					$layout = str_replace('</  body>', $layout_toolbar . '</  body>', $layout);
+					//$layout = str_replace('</  body>', $layout_toolbar . '</  body>', $layout);
 					//some developers put moooore spaces
 
 				}

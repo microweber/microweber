@@ -1510,6 +1510,9 @@ a#subscribe:hover {
 	background-repeat: no-repeat;
 	background-position: right;
 	text-align:left;
+    float: none;
+    clear: both;
+    margin-left: 0;
 }
 .jobseaker_formtext {
 	width:295px;
