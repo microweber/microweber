@@ -7,22 +7,26 @@ body {
 		    padding-bottom:15px;
 		 margin-top:10px;
 		 margin-bottom:10px;*/
-		 
-		  background-color:#FFC !important;
+		  width:100%;
+		  height:50px;
+		  background-color:#F00 !important;
 }
- .ui-state-highlight-row, {
- background-color:#0CF !important;
-}
+ 
 
 .edit .ui-state-highlight {
- z-index:9999	!important;
+ z-index:99	!important;
 }
-.column .ui-state-highlight {
- z-index:999	!important;
+ 
+
+.column .ui-state-highlight, .column .empty {
+ z-index:300	!important;
 }
 
+.column .column,.column .column .empty {
+ z-index:993	!important;
+}
 
-.row>.column>.row>.column>.ui-state-highlight, .column .empty {
+.row>.column>.row>.column>.ui-state-highlight, .column .empty, .row .column .row .column .ui-state-highlight, .row .empty {
  z-index:9990	!important;
 }
 

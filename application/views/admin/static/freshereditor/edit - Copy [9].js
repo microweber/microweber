@@ -257,18 +257,18 @@ function init_sortables(){
 			 
 			$('.edit,.column').sortable({
    // items: '.row:not(.disabled),.col',
-	 items: '.col,li.module-item,.row>.column>.row,.row, .empty, .ui-state-highlight',
+	 items: '.col,li.module-item,.row>.column>.row,.row',
 	 dropOnEmpty:true,
-	 //    forcePlaceholderSize: true,
-	     forceHelperSize : true,
+	     forcePlaceholderSize: true,
+	  //  forceHelperSize : true,
 	    greedy: true,
-	   tolerance: 'pointer',
+	  // tolerance: 'pointer',
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
 	   revert: true,
 	  //   helper: 'clone',
-	//placeholder: "ui-state-highlight",
+	placeholder: "ui-state-highlight",
 	 connectWith: '.edit,.row>.column',
 //	 connectWith: '.row>.column',
 	start: function( event, ui ) {
@@ -403,7 +403,7 @@ ui.placeholder.height(ui.helper.height());
               },
 			  
 	stop: function(event, ui) {
-           $('.empty').remove();
+           $('.empty').hide();
 		     $('.ui-state-highlight').remove();
 			mw_load_new_dropped_modules();
 						$('.row').each(function(index) {
@@ -411,51 +411,19 @@ ui.placeholder.height(ui.helper.height());
 					});
 	       },
 	 over: function(event, ui) {
-		 //  $('.empty').show();
-
-	 
-	 		$(ui.placeholder).closest(".column").each(function (c) {
-                if ($("div", this).size() == 0) {
-					 $(this).html(window.mw_empty_column_placeholder);
-					 
-					  $(this).children('.empty').show()
-            
-                } else {
-					  
-				 
-				}
-				
-			$(ui.item).css({"width" : ui.placeholder.width()});	
-			// $(ui.placeholder).css({"height" : ui.item.height()});
-			 
-			 
-			 
-			 		//  var tr = $(event.target).closest('.empty').show()
-
- 	 $(ui.placeholder).closest('.empty').show()
-			 
-			 
-			 
-
-				
-	 });
-	 
-	 
-	//  $(ui.placeholder).closest('.row').find('.empty').show()	
-	// 	 $(ui.placeholder).closest('.column').find('.empty').show()			
+		   $('.empty').show();
+	 $(ui.placeholder).closest('.empty').show()
+	 	 $(ui.placeholder).closest('.column').find('.empty').show()			
 		// $(this).find('.empty').css({"height" : ui.item.height()});
-	//	 $(ui.placeholder).closest('.empty').css({"height" : ui.item.height()});
+		 $(ui.placeholder).closest('.empty').css({"height" : ui.item.height()});
 		// ui.helper.width(ui.placeholder.width());
 		 // ui.helper.height(ui.placeholder.height());
-		//   ui.helper.width(ui.placeholder.width());
-		//  ui.placeholder.height(ui.helper.height());
-		
-		   //ui.placeholder.width(ui.item.width());
+		  ui.placeholder.height(ui.item.height());
 		// $(this).find('.empty:first').show()
 		  }	,
 		  
 		  	 out: function(event, ui) {
-			//	  $('.empty').hide()
+				// $('.empty').hide()
 				 $(this).css('min-height', '10px');
 				//   $(this).children('.empty').hide() 
 	 	// $(ui.sender).find('.empty').hide()
@@ -482,7 +450,6 @@ ui.placeholder.height(ui.helper.height());
 		
     },
     deactivate: function(en, ui) {
-			  $('.empty').hide()
         $(this).css('min-height', '10px');
     }
 		
@@ -1392,31 +1359,5 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 
 
  
-  function closestToOffset(offset) {
-    var el = null, elOffset, x = offset.left, y = offset.top, distance, dx, dy, minDistance;
-    this.each(function() {
-        elOffset = $(this).offset();
-
-        if (
-        (x >= elOffset.left)  && (x <= elOffset.right) &&
-        (y >= elOffset.top)   && (y <= elOffset.bottom)
-        ) {
-            el = $(this);
-            return false;
-        }
-
-        var offsets = [[elOffset.left, elOffset.top], [elOffset.right, elOffset.top], [elOffset.left, elOffset.bottom], [elOffset.right, elOffset.bottom]];
-        for (off in offsets) {
-            dx = offsets[off][0] - x;
-            dy = offsets[off][1] - y;
-            distance = Math.sqrt((dx*dx) + (dy*dy));
-            if (minDistance === undefined || distance < minDistance) {
-                minDistance = distance;
-                el = $(this);
-            }
-        }
-    });
-    return el;
-}
-
+ 
  
