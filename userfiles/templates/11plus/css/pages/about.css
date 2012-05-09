@@ -1,0 +1,39 @@
+
+/*------------------------------------------------------------------
+
+[About Page]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+
+-------------------------------------------------------------------*/
+
+
+
+
+.about-user { 
+	margin: 0 0 3.75em 0; 
+}
+
+.about-user .img { 
+	float: left;
+	width: 65px; 
+	margin: 0 1em .5em 0;
+}
+
+
+
+
+@media (max-width: 767px) {
+	.about-user {
+		width: 100%; 
+		display: inline-block;
+		margin: 0 0 1.75em; 
+	}
+	
+	.about-user .img {
+		width: 55px;
+	}
+}

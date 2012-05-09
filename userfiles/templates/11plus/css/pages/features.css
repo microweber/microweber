@@ -1,0 +1,62 @@
+
+/*------------------------------------------------------------------
+
+[Features Page]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+	
+
+-------------------------------------------------------------------*/
+
+.feature-block .thumbnail {
+	margin-bottom: 1.25em
+}
+
+.feature-block img,
+.feature-masthead img {
+	max-width: 100%;
+	
+}
+
+.feature-list h4 {
+	margin-bottom: .25em;
+	
+	font-size: 13px;
+}
+
+.feature-list ul {
+	padding: 0;
+	margin: 1em 0 2em;
+}
+
+.feature-list li {
+	display: table;
+	padding: 0;
+	margin-bottom: 1.5em;
+	
+	list-style: none;
+	
+}
+
+.feature-list .feature-icon {
+	display: table-cell;
+	vertical-align: top;
+	
+	font-size: 18px;
+	color: #81994D;
+}
+
+.feature-list .feature-text {
+	display: table-cell;
+	padding-left: 1em;
+	vertical-align: top;
+}
+
+
+.feature-block h3,
+.feature-list h3 {
+	font-weight: 600;
+}

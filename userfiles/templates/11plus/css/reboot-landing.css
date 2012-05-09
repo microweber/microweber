@@ -1,0 +1,545 @@
+
+/*------------------------------------------------------------------
+
+[Layout Stylesheet]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+
+
+[Table of contents]
+
+	1. Global
+	2. Navbar
+	3. Landing
+	4. Content
+	5. Screenshots
+	6. Extra
+	7. Footer
+	8. Subpage
+	9. Subheader
+	*. Bootstrap Overrides
+	
+
+-------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------------------------------
+[1. Global]
+*/
+
+html {
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	font: 13px/1.7em 'Open Sans';
+	
+	background-color: #FFF;
+}
+    
+p { 
+	margin-bottom: 1.7em;
+	
+	font: 13px/1.7em 'Open Sans';	
+}
+
+ul {
+	margin-bottom: 1.7em;
+}
+
+h1, h2, h3, 
+h4, h5, h6 {
+	margin-bottom: .85em;
+}
+
+h3, h4, h6 {
+	margin-bottom: 1.15em;
+}
+    
+input,
+button,
+select,
+textarea {
+	font-family: 'Open Sans';
+}
+
+
+
+/*------------------------------------------------------------------
+[2. Navbar / .navbar]
+*/
+
+.navbar {	
+	margin-bottom: 0;
+	
+	border: none;
+	border-bottom: 1px solid #666;
+}
+
+.navbar-fixed-top {
+	position: static;
+}
+
+.navbar-inner {
+	padding: 15px 0 12px;
+	
+	background: #292929 url(../img/header-bg.jpg) repeat 0 0;
+	filter: none;
+	
+	border-bottom: 1px solid #111;	
+	
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.navbar .container {
+	position: relative;
+}
+
+.navbar .brand {
+	display: block;
+	width: 180px;
+	height: 34px;
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 2px;
+	margin-left: 10px;
+	overflow: hidden;
+	
+	line-height: 600px;
+	color: #333;
+	background: url(../img/logo.png) no-repeat 0 0;
+}
+
+.navbar .brand {
+	position: relative;
+	top: 0;
+	
+	margin-left: 0;
+	
+	font-weight: 600;
+}
+
+.navbar .nav > li > a {
+	font-size: 14px;
+	font-weight: 600;
+	color: #FFF;
+	
+    text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+}
+
+.navbar .nav > li > a:hover {
+	color: #BBB;
+}
+
+.navbar .nav > li.active > a,
+.navbar .nav > li.active > a:hover {
+	background: transparent;
+	color: #81994D;
+}
+
+
+
+/*------------------------------------------------------------------
+[3. Landing / #landing]
+*/
+
+#landing {
+	height: auto;
+	
+	border: none;
+	
+	overflow: hidden;
+}
+
+#landing .inner {
+	color: #FFF;
+    	
+	background: #444;
+	
+	text-shadow: 1px 1px 2px rgba(0,0,0,.4);
+}
+
+#landing .container {
+	padding-top: 30px;
+}
+
+
+
+
+
+/*------------------------------------------------------------------
+[4. Content / #content]
+*/
+
+#content {	
+    border: none;
+}
+
+#content .inner {
+	min-height: 400px;
+	padding-top: 0;
+	padding-bottom: 2em;
+	
+	
+	background: #fff;
+}
+
+#content .container {
+	padding-top: 3em;
+	
+	border-top: 8px solid #81994D;
+}
+
+
+
+
+/*------------------------------------------------------------------
+[5. Screenshots / #screenshots]
+*/	
+
+#screenshots {
+	
+	background: #E8E8E8;
+	
+	border-top: 1px solid #CCC;
+}
+
+#screenshots .inner {
+	padding-top: 2.5em;
+	padding-bottom: 2.5em;
+	border-top: 1px solid #FFF;
+}
+
+
+
+
+
+/*------------------------------------------------------------------
+[6. Extra / #extra]
+*/
+
+#extra {	
+	border-top: 1px solid #000;
+}
+
+#extra .inner {
+	padding: 20px;
+	
+	color: #fff;
+	
+	background-color: #222;
+	
+	border-top: 1px solid #555;
+}
+
+#extra h3 {	
+	font-weight: 400;
+}
+
+
+
+
+
+/*------------------------------------------------------------------
+[7. Footer / #footer]
+*/
+
+#footer {
+	border-top: 1px solid #000;
+}
+
+#footer .inner {	
+	padding: 20px 0;
+	
+	background: #111;
+	
+	border-top: 1px solid #222;	
+}
+
+.footer-links {	
+	width: 49%;
+	display: inline-block;
+	margin: 0;
+
+	list-style: none;
+}
+
+.footer-links li {
+	margin-bottom: 1.25em;
+}
+
+.footer-links a {
+	color: #777;
+}
+
+
+
+
+
+/*------------------------------------------------------------------
+[8. Subpge / #subpage]
+*/
+
+#subpage {
+	margin-top: 3em;
+	
+	margin-bottom: 2.5em;
+}
+
+
+
+/*------------------------------------------------------------------
+[9. Subheader / #subheader]
+*/
+
+#subheader {	
+	color: #EEE;
+	
+	background: #444;
+	
+	border-bottom: 1px solid #222;
+}
+
+#subheader .inner {
+	padding: 20px 0;
+}
+
+#subheader h1
+, #subheader h2
+, #subheader h3
+, #subheader h4
+, #subheader h5
+, #subheader h6 {
+	margin-bottom: 0;
+	
+	font-size: 27px;
+	font-weight: 400;
+	
+	text-shadow: 1px 1px 2px rgba(0,0,0,.4);
+}
+
+
+
+/*------------------------------------------------------------------
+[9. Sidebar Container]
+*/
+
+.sidebar {
+	padding: 15px;
+	
+	background: #EEE;
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+
+/*------------------------------------------------------------------
+[2. Social Icons]
+*/
+
+.social-icons-container {
+	width: 100%;
+	display: table;
+	padding: 0;
+	margin: 2.5em 0 0;
+	
+	list-style: none;
+}
+
+.social-icons-container li {
+	width: 33%;
+	display: table-cell;	
+	
+	text-align: center;			
+}
+
+.social-icon {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	overflow: hidden;	
+	
+	line-height: 600px;
+	
+	background: url(../img/social/social-sprite.png) no-repeat 0 0;					
+}
+
+.social-icon-twitter {
+	background-position: 0 0;					
+}
+
+.social-icon-twitter:hover {
+	background-position: 0 -50px;					
+}
+
+.social-icon-googleplus {
+	background-position: -50px 0;
+}
+
+.social-icon-googleplus:hover {
+	background-position: -50px -50px;
+}
+
+.social-icon-facebook {
+	background-position: -100px 0;	
+}
+
+.social-icon-facebook:hover {
+	background-position: -100px -50px;	
+}
+
+
+
+/*------------------------------------------------------------------
+[6. Circle Icon]
+*/
+
+.circle-icon {	
+	position: relative;
+	
+	width: 50px;
+	height: 50px;
+	
+	background: #292929;
+	
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	border-radius: 100px;
+	
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.circle-icon div {
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	
+	width: 44px;
+	height: 44px;
+	
+	margin-top: -22px;
+	margin-left: -22px;
+	
+	font-size: 24px;	
+	text-align: center;
+	line-height: 40px;		
+	color: #FFF;	
+	
+	border: 2px solid #FFF;	
+	
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	border-radius: 100px;
+	
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+
+/*------------------------------------------------------------------
+[7. Round Image]
+*/		
+			
+.img {
+	display: inline-block;
+	overflow: hidden;
+	border-radius: 100px;
+}
+
+.img img {
+	max-width: 100%;
+}
+
+
+
+
+/*------------------------------------------------------------------
+[13. Miscellaneous]
+*/
+
+.big-intro {
+	font-size: 28px;
+	line-height: 1.7em;
+	color: #888;
+	
+	padding: 25px 0;
+	
+	border: 1px dotted #CCC;	
+	border-right: none;
+	border-left: none;
+}
+
+
+
+.slash {
+	padding-right: .25em;
+	color: #81994D;
+}
+
+
+
+
+
+
+
+/*------------------------------------------------------------------
+[*. Bootstrap Overrides]
+*/
+
+.nav-list {
+	margin-bottom: 1.5em;
+}
+
+.nav-list > li > a {
+	padding: 7px 15px;
+	
+	font-weight: 600;
+	color: #333;
+	
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.nav-list > li.active > a,
+.nav-list > li.active > a:hover {		
+	color: #FFF;
+	
+	background: #81994D;
+}
+
+
+
+
+
+	
+	
+	
+	
+	
+.btn {
+	border-radius: 0 \0/;
+}
+
+
+
+
+
+
+
+
+

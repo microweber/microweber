@@ -6712,7 +6712,7 @@ if (empty ( $data )) {
 return false;
 }
 // $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-$to_print = '<ul class="menu menu_' . $menu_id . '">';
+$to_print = '<ul class="menu nav menu_' . $menu_id . '">';
 $cur_depth = 0;
 foreach ( $data as $item ) {
 $full_item = $this->getMenuItems ( false, $item ['id'] );

@@ -1,0 +1,109 @@
+
+/*------------------------------------------------------------------
+
+[FAQ Page]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+	
+
+-------------------------------------------------------------------*/
+
+
+
+
+.faq-search {
+	margin-bottom: 2em;
+	
+	text-align: right;
+}
+
+.faq-search input {
+	width: 96%;
+	display: block;
+	padding: 2%;
+}
+
+
+
+.faq-empty {
+	display: none;
+}
+
+
+
+.faq-toc {
+	padding: 1.5em 0;
+	margin: 2em 0 0;
+	
+	border: 1px dotted #CCC;
+	border-right: none;
+	border-left: none;
+}
+
+.faq-toc ol {
+	padding: 0;
+	margin: 0;
+}
+
+.faq-toc li {
+	margin-bottom: .75em;
+	
+	list-style: none;
+}
+
+.faq-toc a {
+	margin-left: .5em;
+}
+
+
+
+.faq-list {
+	padding: 0;
+	margin: 3em 0 0;
+	
+	list-style: none;	
+}
+
+.faq-list li {
+	display: table;
+	margin-bottom: 2em;
+}
+
+.faq-icon {
+	display: table-cell;
+	padding-right: 1.25em;
+	vertical-align: top;
+}
+
+.faq-text {
+	display: table-cell;
+	vertical-align: top;
+	
+}
+						
+.faq-circle-icon {
+	width: 38px;
+	height: 38px;
+	
+	background: #999;
+}
+
+.faq-circle-icon div {
+	display: table-cell;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	margin-left: -16px;
+	
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 29px;
+	color: #FFF;	
+	
+	border-color: #FFF;
+	
+	text-shadow: 1px 1px 2px rgba(0,0,0,.35);	
+}

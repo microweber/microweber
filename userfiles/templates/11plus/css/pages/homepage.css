@@ -1,0 +1,226 @@
+/*------------------------------------------------------------------
+
+[Homepage]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+	
+
+-------------------------------------------------------------------*/
+
+
+
+.landing-text h1 {
+	margin-bottom: .65em;
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.5em;
+}
+.landing-text p {
+	font-size: 13px;
+	line-height: 2em;
+}
+.landing-screenshot {
+	position: relative;
+	text-align: left;
+}
+.landing-screenshot img {
+	max-width: 100%;
+}
+.landing-actions {
+	margin-top: 2em;
+}
+.landing-actions .btn {
+	padding: 12px 19px;
+	margin-right: .5em;
+	font-size: 18px;
+	font-weight: 600;
+}
+.landing-screenshot img {
+	position: relative;
+}
+#screenshots img {
+	max-width: 100%;
+}
+#screenshots h3 {
+	margin-bottom: .75em;
+}
+#screenshots .thumbnail {
+	border-color: #BBB;
+}
+.screenshot {
+	position: relative;
+	display: inline-block;
+}
+.screenshot-zoom {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -15px;
+	margin-left: -15px;
+	width: 30px;
+	height: 30px;
+	display: block;
+	background: url(../../img/magnifier.png);
+}
+.screenshot:hover .screenshot-zoom {
+	background-position: 0 -30px;
+}
+ul.features-list {
+	padding: 0;
+	margin: 0;
+}
+ul.features-list li {
+	list-style: none;
+}
+ul.features-list .feature {
+	float: left;
+	width: 48%;
+	display: table;
+	padding: 12px 12px 12px 0;
+	margin: 0 0 .25em;
+	vertical-align: top;
+	color: #333;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+ul.features-list .feature-thumbnail {
+	display: table-cell;
+	vertical-align: top;
+	width: 55px;
+}
+ul.features-list .thumbnail {
+	border-color: #CCC;
+}
+ul.features-list .feature-content {
+	display: table-cell;
+	vertical-align: top;
+	padding-left: 1em;
+}
+ul.features-list .feature-content h3 {
+	margin-bottom: 0;
+	font-size: 13px;
+	font-weight: 600;
+	color: #111;
+}
+ul.testimonials-list {
+	padding: 12px;
+	margin: 0;
+	background: #EEE;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+}
+ul.testimonials-list li {
+	display: table;
+	padding-top: 1.5em;
+	list-style: none;
+	border-bottom: 1px solid #D2D2D2;
+	border-top: 1px solid #FFF;
+}
+ul.testimonials-list li:first-child {
+	padding-top: .75em;
+	border-top: none;
+}
+ul.testimonials-list li:last-child {
+	padding-bottom: 0;
+}
+ul.testimonials-list li:last-child {
+	border-bottom: none;
+}
+ul.testimonials-list .testimonial-avatar {
+	display: table-cell;
+	vertical-align: top;
+}
+ul.testimonials-list .testimonial-text {
+	display: table-cell;
+	padding-left: 1em;
+	vertical-align: top;
+	color: #444;
+}
+ul.testimonials-list .testimonial-author {
+	display: block;
+	font-weight: bold;
+	color: #777;
+}
+#testimonials h3 {
+	color: #222;
+}
+ul.testimonials-list .img {
+	width: 55px;
+}
+ @media (min-width: 1200px) {
+.landing-text h1 {
+	margin-bottom: .65em;
+	font-size: 36px;
+	font-weight: 600;
+	line-height: 1.5em;
+}
+.landing-text p {
+	font-size: 18px;
+}
+}
+ @media (min-width: 767px) and (max-width: 979px) {
+.landing-text h1 {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.5em;
+}
+.landing-text p {
+	font-size: 11px;
+	line-height: 2em;
+}
+.landing-actions .btn {
+	padding: 9px 9px;
+	margin-right: .25em;
+	font-size: 13px;
+}
+.landing-actions {
+	margin-top: 1.5em;
+}
+}
+ @media (max-width: 979px) {
+ul.features-list .feature .feature-content {
+	padding-left: 0;
+}
+ul.features-list .feature img {
+	width: 28px;
+}
+ul.features-list .circle-icon {
+	width: 40px;
+	height: 40px;
+}
+ul.features-list .circle-icon div {
+	width: 34px;
+	height: 34px;
+	margin-top: -17px;
+	margin-left: -17px;
+	font-size: 16px;
+	line-height: 30px;
+}
+ul.testimonials-list .img {
+	width: 40px;
+}
+}
+ @media (max-width: 767px) {
+.landing-screenshot {
+	margin-top: 2em;
+}
+.landing-actions {
+	margin: 3.5em 0;
+	text-align: center;
+}
+.landing-actions .btn {
+	padding: 9px 13px;
+}
+ul.features-list .feature {
+	width: 100%;
+	margin-bottom: .25em;
+}
+ul.features-list .feature .feature-content {
+	padding-left: 0;
+}
+}

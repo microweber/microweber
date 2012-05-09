@@ -1,0 +1,223 @@
+
+/*------------------------------------------------------------------
+
+[Pricing Plans Stylesheet]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+	
+
+-------------------------------------------------------------------*/
+
+
+/*-- Plan Container --*/
+
+.plan-container {
+    position: relative;
+    float: left;    
+    
+    margin-bottom: 2em;
+}
+
+/*-- Plan --*/
+
+.plan {
+    margin-right: 6px;
+    
+    border-radius: 4px;
+}
+
+
+/*-- Plan Header --*/
+
+.plan-header {
+    text-align: center;
+    color: #FFF;
+    
+    background-color: #686868;
+    
+    -webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+    
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.plan-title {
+    padding: 10px 0;
+    
+	font-size: 16px;
+    color: #FFF;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    
+    border-radius: 4px 4px 0 0;
+}
+
+.plan-price {
+	padding: 20px 0 10px;
+	
+    font-size: 66px;
+    line-height: 0.8em;
+    
+	background-color: #797979;
+	
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.plan-price span.term {
+    display: block;
+    margin-bottom: 0;
+    
+    font-size: 13px;
+    line-height: 0;
+    padding: 2em 0 1em;
+}
+
+.plan-price span.note {
+	position: relative;
+	top: -40px;
+	
+	display: inline;
+	
+    font-size: 17px;
+    line-height: 0.8em;
+}
+
+
+
+/*-- Best Value Highlight --*/
+
+.plan-container.best-value .plan-header {
+	background-color: #677E30;
+}
+
+.plan-container.best-value .plan-price {
+	background-color: #81994D;
+}
+
+
+
+/*-- Plan Features --*/
+
+.plan-features {
+	border: 1px solid #DDD;	
+	border-bottom: none;
+}
+
+.plan-features {
+	padding-bottom: 1em;
+}
+
+.plan-features ul {
+	padding: 0;
+	margin: 0;
+	
+	list-style: none;
+}
+
+.plan-features li {	
+	padding: 1em 0;
+	margin: 0 2em;
+	
+	text-align: center;
+	
+	border-bottom: 1px dotted #CCC;
+}
+
+.plan-features li:last-child {
+	border-bottom: none;
+}
+
+
+/*-- Plan Actions --*/
+
+.plan-actions {
+	padding: 1.15em 0;
+	
+	background: #F2F2F2;
+	
+	background-color: whiteSmoke;
+	background-image: -moz-linear-gradient(top, #F8F8F8, #E6E6E6);
+	background-image: -ms-linear-gradient(top, #F8F8F8, #E6E6E6);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F8F8F8), to(#E6E6E6));
+	background-image: -webkit-linear-gradient(top, #F8F8F8, #E6E6E6);
+	background-image: -o-linear-gradient(top, #F8F8F8, #E6E6E6);
+	background-image: linear-gradient(top, #F8F8F8, #E6E6E6);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+	border-color: #E6E6E6 #E6E6E6 #BFBFBF;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+	
+	border: 1px solid #DDD;
+	
+	-webkit-border-bottom-right-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.plan-actions .btn {
+	padding: 1em 0;
+	margin: 0 2em;
+	
+	display: block;
+	
+	font-size: 16px;
+	font-weight: 600;
+}
+
+
+
+/*-- Columns --*/
+
+.pricing-plans.plans-1 .plan-container {
+    width: 100%;
+}
+.pricing-plans.plans-2 .plan-container {
+    width: 50%;
+}
+
+.pricing-plans.plans-3 .plan-container {
+    width: 33.33%;
+}
+
+.pricing-plans.plans-4 .plan-container {
+    width: 25%;
+}
+
+
+
+
+
+/*------------------------------------------------------------------
+[2. Min Width: 767px / Max Width: 979px]
+*/
+
+@media (min-width: 767px) and (max-width: 979px) {
+	
+	.pricing-plans .plan-container {
+	    width: 50% !important;
+	    margin-bottom: 2em;
+	}	
+	
+}
+
+
+
+@media (max-width: 767px) {
+	
+	.pricing-plans .plan-container {
+	    width: 100% !important;
+	    margin-bottom: 2em;
+	}
+
+}

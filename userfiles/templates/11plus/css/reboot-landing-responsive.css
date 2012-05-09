@@ -1,0 +1,222 @@
+
+/*------------------------------------------------------------------
+
+[Landing Page Responsive Stylesheet]
+
+	Project:		Bootstrap Landing Template
+	Version:		1.0
+	Last change:	04/26/2012
+	Assigned to:	Rod Howard (rh)
+
+
+[Table of contents]
+
+	1. Min Widget: 1200px
+	2. Min Width: 767px / Max Width: 979px
+	3. Max Width: 979px
+	4. Max Width: 767px
+	
+
+-------------------------------------------------------------------*/
+
+
+/*------------------------------------------------------------------
+[1. Min Width: 1200px]
+*/
+
+@media (min-width: 1200px) {
+	
+	
+
+}
+
+
+
+
+/*------------------------------------------------------------------
+[2. Min Width: 767px / Max Width: 979px]
+*/
+
+@media (min-width: 767px) and (max-width: 979px) {
+	
+
+}
+
+
+
+
+/*------------------------------------------------------------------
+[3. Max Width: 979px]
+*/
+
+@media (max-width: 979px) {
+
+	/*----------------------------
+	[Navbar / .navbar]
+	*/
+		
+	.navbar-fixed-top .navbar-inner {
+		padding: 10px;
+	}
+	
+	.navbar .brand {
+		top: 0;
+	}
+	
+	.navbar .btn-navbar {
+		margin-top: 3px;
+	}
+	
+	.navbar .nav > li > a:hover {
+		color: #FFF;
+	}
+	
+	.nav-collapse.in {		
+		margin-top: 4em;
+	}
+	
+	
+	/*----------------------------
+	[Subpage / #subpage-]
+	*/
+	
+	#subheader .container {
+		padding: 0;
+		
+		width: auto;
+	}
+	
+	#subheader .inner {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	
+}
+
+
+
+
+/*------------------------------------------------------------------
+[4. Max Width: 767px]
+*/
+
+@media (max-width: 767px) {
+	
+	/*----------------------------
+	[Landing / #landing]
+	*/
+	
+	#landing {
+		height: auto;
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	
+	#landing .inner {
+		padding: 0 20px;
+	}
+	
+	#landing .container {
+		padding-top: 15px;
+	}
+	
+	
+	/*----------------------------
+	[Content]
+	*/
+		
+	#content {
+		margin-left: -20px;
+		margin-right: -20px;
+		
+	}
+	
+	#content .inner {
+		padding: 0 20px 20px 20px;
+	}
+	
+	
+	/*----------------------------
+	[Subheader / #subheader]
+	*/
+	
+	#subheader {
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	
+	#subheader .inner {
+		padding-top: 8px;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-bottom: 8px;
+	}
+	
+	#subheader h1
+	, #subheader h2
+	, #subheader h3
+	, #subheader h4
+	, #subheader h5
+	, #subheader h6 {
+		font-size: 18px;
+	}
+		
+	
+	/*----------------------------
+	[Footer / #footer]
+	*/
+	
+	#footer {
+		margin-right: -20px;
+		margin-left: -20px;
+	}
+	
+	#footer .inner {
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+	
+	#footer-terms {
+		text-align: left;
+	}
+	
+	.footer-links {
+		width: 100%;
+	}
+	
+	
+	/*----------------------------
+	[Extra / #extra]
+	*/
+	
+	#extra {
+		margin-right: -20px;
+		margin-left: -20px;
+	}
+	
+	#extra [class*="span"] {
+		margin-bottom: 3em;
+	}
+		
+	
+	/*----------------------------
+	[Screenshots / #screenshots]
+	*/
+	
+	#screenshots {
+		margin-right: -20px;
+		margin-left: -20px;
+	}
+	
+	#screenshots .inner {
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+	
+	.screenshot {
+		margin-bottom: 1.5em;
+	}
+	
+
+}
