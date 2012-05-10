@@ -263,6 +263,7 @@ function init_sortables(){
 	  //   forceHelperSize : true,
 	    greedy: true,
 	   tolerance: 'pointer',
+	   cursorAt: { top: 0, left: 0 } ,
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -427,6 +428,8 @@ ui.placeholder.height(ui.helper.height());
 		 
 		 	 $(ui.item).css({"width" : ui.placeholder.width()});	
 			  $(ui.helper).css({"width" : ui.placeholder.width()});	
+			    $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
+ 
 			// $(ui.helper).css({"height" : ui.item.height()});	
 		//	 $(ui.placeholder).css({"height" : ui.item.height()});	
 		   },
@@ -483,7 +486,7 @@ ui.placeholder.height(ui.helper.height());
 		  }	,
 		  
 		  	 out: function(event, ui) {
-			 	  $('.edit>.empty').hide()
+			 	  //$('.edit>.empty').hide()
 				// $(this).css('min-height', '10px');
 			//	$( this ).sortable( 'refreshPositions' )
 				//   $(this).children('.empty').hide() 
