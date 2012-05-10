@@ -921,12 +921,28 @@ function paging($display = 'default', $data = false) {
 	} else {
 		$posts_pages_links = $data;
 	}
+	
+	
+	
+	if($posts_pages_curent_page == false){
+	
+$posts_pages_curent_page = url_param('curent_page');
+}
+
+if($posts_pages_curent_page == false){
+	
+$posts_pages_curent_page = 1;
+}
+
+
+
 	//
 	switch ($display) {
 		case 'default' :
 		case 'ul' :
 		case 'uls' :
 			 get_instance()->template ['posts_pages_links'] = $posts_pages_links;
+			  get_instance()->template ['posts_pages_curent_page'] = $posts_pages_curent_page;
 			 get_instance()->load->vars (  get_instance()->template );
 			
 			//p(RESOURCES_DIR . 'blocks/nav/default.php');
@@ -938,6 +954,7 @@ function paging($display = 'default', $data = false) {
 		
 		case 'divs' :
 			 get_instance()->template ['posts_pages_links'] = $posts_pages_links;
+			  get_instance()->template ['posts_pages_curent_page'] = $posts_pages_curent_page;
 			 get_instance()->load->vars (  get_instance()->template );
 			
 			$content_filename =  get_instance()->load->file ( RESOURCES_DIR . 'blocks/nav/nav_divs.php', true );

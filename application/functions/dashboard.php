@@ -12,7 +12,7 @@
  * @param  $items_per_page - items per page
  */
 function dashboard_items($params) {
-	
+	$CI = get_instance ();
 	if (! is_array ( $params )) {
 		$params = array ();
 		$numargs = func_num_args ();
@@ -29,7 +29,7 @@ function dashboard_items($params) {
 	
 	 // $CI = get_instance ();
 	if ($params ['user_id'] == false) {
-		$user_id = get_instance()->core_model->userId ();
+		$user_id = $CI->core_model->userId ();
 	} else {
 		$user_id = $params ['user_id'];
 	}
@@ -64,7 +64,7 @@ function dashboard_items($params) {
 		if ($user_action != 'live') {
 			if ($user_id == user_id ()) {
 				
-				$followed = get_instance()->users_model->realtionsGetFollowedIdsForUser ( $aUserId = $user_id, false, false );
+				$followed = $CI->users_model->realtionsGetFollowedIdsForUser ( $aUserId = $user_id, false, false );
 				
 				if (empty ( $followed )) {
 					//	$log_params [] = array ("id", '0' );
@@ -72,7 +72,7 @@ function dashboard_items($params) {
 					//$log_params ["for_user_ids"] = $followed;
 					$log_params [] = array ("user_id", $user_id );
 				} else {
-					if ($user_id == get_instance()->core_model->userId ()) {
+					if ($user_id == $CI->core_model->userId ()) {
 						$followed [] = $user_id;
 						$log_params ["for_user_ids"] = $followed;
 					} else {
@@ -103,15 +103,20 @@ function dashboard_items($params) {
 		$log_params ['page'] = $params ['page'];
 	}
 	//$log_params [] = array ("is_read", 'n' );
+	
+	
+	  $CI->load->model ( 'Notifications_model', 'notifications_model' );
+
+	
 	$to_return = array ();
 	
-	$log = CI::model('notifications')->logGetByParams ( $log_params, $query_options );
+	$log = $CI->notifications_model->logGetByParams ( $log_params, $query_options );
 	
 	$query_options ['group_by'] = false;
 	$query_options ['debug'] = false;
 	$query_options ['get_count'] = true;
 	$query_options ['items_per_page'] = false;
-	$log_count = CI::model('notifications')->logGetByParams ( $log_params, $query_options );
+	$log_count = $CI->notifications_model->logGetByParams ( $log_params, $query_options );
 	//p($log_count);
 	$results_count = intval ( $log_count );
 	$log_count = ceil ( $results_count / $some_items_per_page );
@@ -126,13 +131,14 @@ function dashboard_items($params) {
 
 function get_log_item($log_id) {
 	 // $CI = get_instance ();
-	
-	$log = CI::model('notifications')->logGetById ( $log_id );
+		$CI = get_instance ();
+
+	$log = $CI->notifications_model->logGetById ( $log_id );
 	//var_dump($log);
 	
 
 	if (($log ['to_table'] == 'table_comments') and ($log ['rel_table'] == 'table_users_statuses')) {
-		//$log_item = CI::model('notifications')->logDeleteById ( $log ['id'] );
+		//$log_item = $CI->notifications_model->logDeleteById ( $log ['id'] );
 		return false;
 	}
 	
@@ -266,7 +272,7 @@ function get_dashboard_action($log_id) {
 			
 			$content_data = get_instance()->content_model->contentGetById ( $data ['to_table_id'] );
 			if (empty ( $content_data )) {
-				CI::model('notifications')->logDeleteById ( $data ['id'] );
+				$CI->notifications_model->logDeleteById ( $data ['id'] );
 			} else {
 				$more = get_instance()->core_model->getCustomFields ( 'table_content', $content_data ['id'] );
 				

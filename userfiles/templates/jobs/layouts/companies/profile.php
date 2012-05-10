@@ -18,9 +18,9 @@ $(function() {
 	  $.post('<? print site_url('api/user/message_send') ?>',$(this).serialize(), function(data) {
 			 // $('.result').html(data);
 			 
-			 $('#send_msg').fadeOut();
+			 $('#send_msg').hide();
 			 
-			 $('.sendcv_dn_arr').fadeIn();
+			 $('.sendcv_dn_arr').hide();
 			  $('.sendcv_success').fadeIn();
 			 
 			});
@@ -50,11 +50,16 @@ $(function() {
     <div class="jobseaker_contact_box">
       <div class="jobseaker_contact_left">
         <div class="jobseaker_pic"><img src="<? print user_picture($u['id'], 200); ?>" alt="<? print addslashes(user_name($u['id'])); ?>" /></div>
-        <div class="jobseaker_name_arr"><? print user_name($u['id']); ?></div>
+
       </div>
       <div class="jobseaker_contact_rt">
+
+        <span class="jobseaker_name_arr"><? print user_name($u['id']); ?></span>
+        <label>Your Name</label>
         <input type="text" class="jobseaker_formtext" value="<?php print user_name(); ?>" />
+        <label>Your E-mail</label>
         <input type="text" class="jobseaker_formtext" value="<?php print $me['email']; ?>" />
+        <label>Message</label>
         <textarea   cols="20" rows="20" class="jobseaker_mesg" name="message"></textarea>
         <div class="jobseaker_sendbut">
           <input type="image" src="<? print TEMPLATE_URL ?>images/jobseaker_send_but.jpg" />
@@ -62,5 +67,5 @@ $(function() {
       </div>
     </div>
   </form>
-  <div class="sendcv_success hidden">Your message was sent successfuly to sent</div>
+  <div class="sendcv_success hidden" style="clear: both;float: left; margin: 20px 0 20px 162px;">Your message was sent successfuly to sent</div>
 </div>

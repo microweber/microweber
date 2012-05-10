@@ -38,7 +38,7 @@ $user_data = get_user();
  $v = url_param('view');
   $vv =  $v ;
  if(  $v == false){
-	 $v1 = "main.php";
+	 $v1 = "my-profile.php";
  } else {
 	  $v1 = $v .".php";
  }
@@ -59,8 +59,8 @@ $user_data = get_user();
             <li <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?> > <a <? if($vv == 'jobseeker'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:jobseeker"  >Education</a></li>
  <? endif ?>
       <li <? if($vv == 'my-profile'): ?> class="current" <? endif; ?> > <a <? if($vv == 'my-profile'): ?> class="current" <? endif; ?>  href="<? print page_url(); ?>/view:my-profile"  >Account settings</a></li>
-      <li  <? if($vv == ''): ?> class="current" <? endif ?> > <a  <? if($vv == ''): ?> class="current" <? endif ?>  href="<? print page_url() ?>">Dashboard</a></li>
-    </ul>
+<!--      <li  <? if($vv == ''): ?> class="current" <? endif ?> > <a  <? if($vv == ''): ?> class="current" <? endif ?>  href="<? print page_url() ?>">Dashboard</a></li>
+-->    </ul>
   </div>
   <div class="profile_nav_bot"></div>
   <div class="profile_blk container-fluid">

@@ -8,16 +8,32 @@ body {
 		 margin-top:10px;
 		 margin-bottom:10px;*/
 		  width:100%;
-		  height:50px;
-		  background-color:#F00 !important;
+	height:50px;
+	background-color:#DFDF00 !important;
+	 
+	
 }
+ .row {
+	 
+	min-height:20px; 
+ }
  
+ .empty {
+	width:100%;
+	height:80px;
+ 	 
+	background-color:#FFFF00;
+	
+}
 
 .edit .ui-state-highlight {
  z-index:99	!important;
 }
  
-
+.column-outline {
+	outline: 1px dotted #0CF;
+ 	
+}
 .column .ui-state-highlight, .column .empty {
  z-index:300	!important;
 }
@@ -92,12 +108,7 @@ position:relative;*/
 	
 	 
 }
-.empty {
-	width:100%;
-	height:100px;
-	display:inline-block;
-	float:left;
-}
+
 .mw-sorthandle span {
 	width:100%;
 }

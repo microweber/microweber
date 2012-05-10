@@ -24,24 +24,55 @@ description: Home site layout
 <? include TEMPLATE_DIR. "header.php"; ?>
 
 
+<script>
+
+window.onerror = function(err){alert(err)}
+
+
+ContactQuery = "<?php print TEMPLATE_URL  ?>contact_submit.php";
+
+$(document).ready(function(){
+
+
+    $("#contact_form").submit(function(){
+     var form = this;
+     if(isValid.form(form)){
+       var data = getData(form);
+       $.post(ContactQuery, data, function(data){
+
+       mw.box.alert('Your message has been sent.');
+            $("#contact_form")[0].reset();
+
+
+
+       });
+     }
+   return false;
+});
+
+
+});
+
+
+</script>
+
 
 <div class="body_part_inner">
       <div class="contatct_left">
+        <form method="post" action="#" id="contact_form">
         <div class="contact_exemp_logo"><img src="<? print TEMPLATE_URL ?>images/contactexemp_logo.jpg" alt="logo" width="365" height="114" /></div>
         <div class="mail_icon"></div>
         <div class="contact_writeus">Write us an e-mail</div>
-        <input type="text" class="contact_textbox" value="Your Name" />
-        <input type="text" class="contact_textbox" value="Your E-mail" />
-        <input type="text" class="contact_textbox" value="Your Phone" />
-        <select class="contact_drop">
-          <option>Select About?</option>
-        </select>
+
+        <span><input type="text" class="contact_textbox required" name="Name" value="Your Name" /></span>
+        <span><input type="text" class="contact_textbox required-email" name="Email" value="Your E-mail" /> </span>
+        <span><input type="text" class="contact_textbox required" name="Phone" value="Your Phone" /></span>
         <div class="contact_drop_close"></div>
-        <textarea name="" cols="" rows="" class="contact_message">Message
-</textarea>
+        <span><textarea name="" cols="" rows="" name="Message" class="contact_message required">Message</textarea></span>
         <div class="contact_send_but">
           <input type="image" src="<? print TEMPLATE_URL ?>images/contact_send_but.jpg" />
         </div>
+        </form>
       </div>
       <div class="contact_right">
         <div class="contact_moreinfo"> More information </div>

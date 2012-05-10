@@ -1,4 +1,8 @@
-<?php if(!empty($posts_pages_links)): ?>
+<?php
+
+
+
+ if(!empty($posts_pages_links)): ?>
 <?php print $page_link ;  ?>
 
 <ul class="paging">
