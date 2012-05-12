@@ -254,24 +254,29 @@ function init_sortables(){
 			$('.row').sortable('destroy');
 			$('.top-modules-list').sortable('destroy');
 			 
+			 $drop_areas = '.edit,.edit .column,.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit section,';
 			 
-			$('.edit,.column').sortable({
+			//test $($drop_areas).addClass('ui-state-highlight2');
+			 
+			$($drop_areas).sortable({
    // items: '.row:not(.disabled),.col',
-	 items: '.col,li.module-item,.row>.column>.row,.row, .empty, .ui-state-highlight',
+	 items: '.col:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit)',
 	 dropOnEmpty:true,
-	//  forcePlaceholderSize: true,
-	  //   forceHelperSize : true,
+ // forcePlaceholderSize: true,
+	  forceHelperSize : true,
 	    greedy: true,
 	   tolerance: 'pointer',
-	   cursorAt: { top: 0, left: 0 } ,
+	   cursorAt: { top: -1, left: -1 } ,
+   distance: 10,
+	   // delay: 250,
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
 	   revert: true,
 	  //   helper: 'clone',
-	//placeholder: "ui-state-highlight",
-	placeholder: "empty",
-	 connectWith: '.edit,.row>.column',
+	  placeholder: "ui-state-highlight",
+	//placeholder: "empty",
+	 connectWith: '.edit,.row>.column,'+$drop_areas,
 //	 connectWith: '.row>.column',
 	start: function( event, ui ) {
 		//var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
@@ -318,11 +323,13 @@ function init_sortables(){
 					 
             })
 			
-				$('.column-outline',this).removeClass('column-outline');
-			// $('.column').find('.empty').css({"height" : ui.item.height()});
-			  $( this ).sortable( 'refreshPositions' )
-			  // $(ui.helper).css({"height" : ui.item.height()});	
-			   $(this).append(window.mw_empty_column_placeholder);
+			 
+			  
+							   $(this).append(window.mw_empty_column_placeholder);
+
+                
+				
+				
 			 //  $(ui.helper).append(window.mw_empty_column_placeholder);
   
   },
@@ -425,13 +432,14 @@ ui.placeholder.height(ui.helper.height());
 		   
  
 	 sort: function(event, ui) {
-		 
 		 	 $(ui.item).css({"width" : ui.placeholder.width()});	
-			  $(ui.helper).css({"width" : ui.placeholder.width()});	
-			    $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
- 
+			//  $(ui.helper).css({"width" : ui.placeholder.width()});	
+			  //  $(ui.placeholder).find('.column').html(Number($(".col:visible").index(ui.placeholder)+1));
+ 		// $('.column').children('.empty').css({"height" : ui.item.height()});	
+
 			// $(ui.helper).css({"height" : ui.item.height()});	
-		//	 $(ui.placeholder).css({"height" : ui.item.height()});	
+// $(ui.placeholder).css({"height" : ui.item.height()});	
+ 
 		   },
 
 	
@@ -440,7 +448,11 @@ ui.placeholder.height(ui.helper.height());
 	 over: function(event, ui) {
 		 //  $('.empty').show();
 
-	    
+	  //  $("body").mouseover(function(e){
+ // var el = $(event.target);
+  //var offset = el.offset();
+ // window.box.render(el.outerWidth(), el.outerHeight(), offset.left, offset.top);
+//});
 						$(ui.placeholder).closest(".column").each(function (c) {
 							if ($("div", this).size() == 0) {
 								 $(this).html(window.mw_empty_column_placeholder);
@@ -486,6 +498,7 @@ ui.placeholder.height(ui.helper.height());
 		  }	,
 		  
 		  	 out: function(event, ui) {
+				 	 $( this ).sortable( 'refreshPositions' )
 			 	  //$('.edit>.empty').hide()
 				// $(this).css('min-height', '10px');
 			//	$( this ).sortable( 'refreshPositions' )
@@ -802,7 +815,7 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 					$(this).children('[draggable]').removeAttr('draggable')							  
 		});										  
 												  
- $('.colasdasdasdumn' , '.rasdasdasow').live('click',function(e) {
+ $('.column' , '.row').live('click',function(e) {
 	 
 	 
 	 	    $el_id_column = $(this).attr('id');
@@ -818,9 +831,12 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 				$prow = $(this).parent('.row').attr('id');
 				//alert($prow );
 				$(this ).resizable({
+					 grid: [1, 10000],
 								   handles: 'e',
 								// alsoResizeReverse: $(this ).siblings('.column'),
 							//	 aspectRatio: true,
+							alsoResizeReverse:$also ,
+							//.. alsoResizeReverse: $(this).closest(),
 								     // alsoResizeReverse: $(this).parent('.row').children(".column").not(this),
   //alsoResizeReverse: $also,
 								//  animate: true,
@@ -1451,4 +1467,8 @@ $el_id_column = 'mw-column-'+new Date().getTime();
     return el;
 }
 
+ 
+ 
+ 
+  
  

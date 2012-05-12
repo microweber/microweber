@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ 
 <html lang="en">
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,7 +24,9 @@
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+      <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
+
     <script type="text/javascript" src="<? print site_url('api/js'); ?>"></script>
     <script type="text/javascript"> 
  

@@ -31,7 +31,7 @@ Improvments by Quan Nguyen (github.com/mquan):
 - plugin automatically builds toolbar, lets user specify which buttons to exclude
 
 */
-(function ($) {
+;(function($) {
 	var bgcolorpicker = false;
 	var methods = {
 		edit: function (isEditing) {
