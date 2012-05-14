@@ -192,10 +192,10 @@ function mw_make_editables(){
 				
 				 $( '.mw-sorthandle' ).remove();
 				 	$('.edit').sortable('destroy');
-			$('.col').sortable('destroy');
+			$('.element').sortable('destroy');
 			$('.column').sortable('destroy');
 			$('.row').sortable('destroy');
-			 $(".row,.col", '.edit').enableSelection();
+			 $(".row,.element", '.edit').enableSelection();
 			  $(".mw-sorthandle", '.edit').disableSelection();
 				
 				
@@ -249,26 +249,36 @@ function init_sortables(){
             })
   
 		 	$('.edit').sortable('destroy');
-			$('.col').sortable('destroy');
+			$('.element').sortable('destroy');
 			$('.column').sortable('destroy');
 			$('.row').sortable('destroy');
 			$('.top-modules-list').sortable('destroy');
+			
+			
+						 $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,';
+
+			 			  $($spans).addClass('column');
+
+			 $drop_areas = '.edit,.edit .column,';
 			 
-			 $drop_areas = '.edit,.edit .column,.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit section,';
+			  
+			 
 			 
 			//test $($drop_areas).addClass('ui-state-highlight2');
 			 
 			$($drop_areas).sortable({
    // items: '.row:not(.disabled),.col',
-	 items: '.col:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit)',
+	 items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit)',
 	 dropOnEmpty:true,
  // forcePlaceholderSize: true,
 	  forceHelperSize : true,
 	    greedy: true,
 	   tolerance: 'pointer',
+	 //  cancel: 'div.edit',
 	   cursorAt: { top: -1, left: -1 } ,
-   distance: 10,
-	   // delay: 250,
+   distance:30,
+   scrollSensitivity: 40 ,
+	    delay: 150,
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -299,17 +309,18 @@ function init_sortables(){
 				
 				$(".column").each(function (c) {
 					
-					
-					$(this).addClass('column-outline');
+				//	
+				
 					
                 if ($("div", this).size() == 0) {
+				//		$(this).addClass('ui-state-highlight2');
 					 $(this).html(window.mw_empty_column_placeholder);
 					// $(this).append(window.mw_empty_column_placeholder);
 					  $(this).children('.empty').show()
                     // $(this).html(window.mw_empty_column_placeholder);
 				//	 $(this).html('aaaaa');
                 } else {
-					  $(this).children('.empty').show()
+					//  $(this).children('.empty').show()
 					// $('.empty').fadeIn('fast') 
 				}
 				//$(this).find('.empty').fadeIn('fast')
@@ -535,7 +546,7 @@ ui.placeholder.height(ui.helper.height());
 		
 });
 			
-			$(".col>*:not(.mw-sorthandle)").freshereditor("edit", true);
+			$(".element>*:not(.mw-sorthandle)").freshereditor("edit", true);
 			
 			
 			
@@ -694,8 +705,8 @@ ui.helper.width(ui.placeholder.width());
 			
 			
 			
-			$(".row,.col").die('mousedown');
-			$(".col").live(
+			$(".row,.element").die('mousedown');
+			$(".element").live(
         'mousedown',
         function (e) {
 
@@ -782,7 +793,7 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 			 
 			 
 			 
-			 		 $(".col", '.edit').mouseenter(function(){
+			 		 $(".element", '.edit').mouseenter(function(){
    $has = $(this).children(":first").hasClass("mw-sorthandle");
    if($has == false){
 	$(this).prepend("<div class='mw-sorthandle mw-sorthandle-col'><span>&nbsp;</span>");
@@ -813,7 +824,13 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 	
 	 $('.module' , '.edit').live('mousenter',function(e) {
 					$(this).children('[draggable]').removeAttr('draggable')							  
-		});										  
+		});					
+		
+		
+		
+		
+		
+							  
 												  
  $('.column' , '.row').live('click',function(e) {
 	 
@@ -833,15 +850,27 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 				$(this ).resizable({
 					 grid: [1, 10000],
 								   handles: 'e',
+								   containment: "parent" ,
+								   // handles: 'all',
+          
+		//	alsoResizeReverse: $(ui.originalPosition.left ),
+			
+			
 								// alsoResizeReverse: $(this ).siblings('.column'),
 							//	 aspectRatio: true,
-							alsoResizeReverse:$also ,
+						 	alsoResizeReverse:$also ,
 							//.. alsoResizeReverse: $(this).closest(),
 								     // alsoResizeReverse: $(this).parent('.row').children(".column").not(this),
   //alsoResizeReverse: $also,
 								//  animate: true,
+								
+								
+		 		
+								
 								   resize: function(event, ui) {
-										 
+									   
+										//   var self = $(this).data("resizable");
+       // self.size.width = self.width;
 
 										}
 								  });
@@ -1470,5 +1499,4 @@ $el_id_column = 'mw-column-'+new Date().getTime();
  
  
  
-  
- 
+   

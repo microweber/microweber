@@ -8,10 +8,9 @@ body {
 		 margin-top:10px;
 		 margin-bottom:10px;*/
 		  width:100%;
-	height:100px;
 	margin-top:8px;
-	background-image: url(images/drop.png);
 	margin-bottom:8px;
+	background-image: url(images/drop.png);
 	background-color:#efecec !important;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -25,9 +24,8 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	 
-      
-        
+	height:120px;
+         
 }
  
 	
@@ -46,10 +44,12 @@ body {
  
  .empty {
 	width:100%;
-	height:110px;
- 	margin-top:7px;
-	margin-bottom:7px;
+	height:130px;
+ 	margin-top:10px;
+	margin-bottom:10px;
 	background-color:#CCCCCC;
+	clear: right;
+	 
 	
 }
 
@@ -103,7 +103,7 @@ position:relative;*/
 .column-min-height {
 	min-height:100px;
 }
-.col, .row {
+.col, .row, .element {
 	position:relative;
 }
 .edit {
