@@ -833,7 +833,10 @@ $col_panels= [];
 			  
 												  
  $('.column' , '.row').live('click',function(e) {
-	 
+	 	
+		
+		  $('.also-resize').removeClass('also-resize');
+	$inner_column = 	$(this ).children(".column");	
 	 
 	 	    $el_id_column = $(this).attr('id');
 if($el_id_column == undefined || $el_id_column == 'undefined' ){
@@ -841,29 +844,44 @@ $el_id_column = 'mw-column-'+new Date().getTime();
   $(this).attr('id', $el_id_column);
 }
 	 $prow = $(this).parent('.row').attr('id');
-	$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
+	//$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
 	 
- 
+
+	 $also =  $(this ).next(".column").not("#"+$el_id_column);
+	 $also_check_exist = $also.size();
+	 if($also_check_exist == 0){
+		 	 $also =  $(this ).prev(".column").not("#"+$el_id_column);
+
+	 }
 	 
-	 
- 	// $(this ).resizable( "destroy" )
-	 
-				/*$prow = $(this).parent('.row').attr('id');
-				 
+	 	if ( window.console && window.console.log )
+				{
+					window.console.log( '  $also ' + $also.size()  );
+				}
+				
+	
+				
+	  $also.addClass('also-resize');
+ 	  $(this ).resizable( "destroy" )
+				  				 
 				$(this ).resizable({
 					 grid: [1, 10000],
-								   handles: 'e',
-								   containment: "parent" ,
+								//   handles: 'e',
+								 //  containment: "parent" ,
   							//	 aspectRatio: true,
-						 	alsoResizeReverse:$also ,
+						 	alsoResizeReverse:'.also-resize' ,
+							alsoResize:$inner_column ,
  								   resize: function(event, ui) {
  
 										}
 								  });
-				*/
+				 
 				
 				
-				
+	    e.preventDefault();
+			//event.preventDefault(); // this prevents the original href of the link from being opened
+			e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+		 		
 										  
 		});	
  $('.module' , '.edit').live('click',function(e) {

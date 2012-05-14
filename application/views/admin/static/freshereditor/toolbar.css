@@ -37,8 +37,8 @@ body {
 	 
 	min-height:20px; 
  } 
- .ui-state-highlight2 {
-	background-color: #C0C0C0 !important;;
+ .ui-state-highlight2, .also-resize {
+	background-color: #990099 !important;;
 	  
  }
  
