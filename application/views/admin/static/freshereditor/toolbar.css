@@ -8,8 +8,8 @@ body {
 		 margin-top:10px;
 		 margin-bottom:10px;*/
 		  width:100%;
-	margin-top:8px;
-	margin-bottom:8px;
+	margin-top:20px;
+	margin-bottom:20px;
 	background-image: url(images/drop.png);
 	background-color:#efecec !important;
 	background-repeat: no-repeat;
@@ -19,7 +19,7 @@ body {
 	font-size: 11px;
 	color: #333;
 	text-decoration: none;
-	font-style: normal;
+	font-style: normal; 
 	line-height: 11px;
 	font-weight: normal;
 	font-variant: normal;
@@ -265,3 +265,9 @@ position:relative;*/
 	text-align:center;
 	
 }
+
+
+ 
+
+
+ 

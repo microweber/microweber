@@ -240,7 +240,7 @@ function init_sortables(){
  
 		 
  
-	var place1 = $('<div class="empty ui-state-highlight" style="display:none;"><span>Please drag items here</span></div>');			
+	var place1 = $('<div class="empty ui-state-highlight ui-sortable-placeholder" style="display:none;"><span>Please drag items here</span></div>');			
      var place2 = window.mw_empty_column_placeholder;
   $(".column", '.edit').each(function (c) {
                 if ($("div", this).size() == 0) {
@@ -724,47 +724,43 @@ e.stopPropagation();
 				$(".row").live(
         'click',
         function (e) {
-
-$el_id = $(this).attr('id');
-if($el_id == undefined || $el_id == 'undefined' ){
-$el_id = 'mw-row-'+new Date().getTime();
-  $(this).attr('id', $el_id);
-}
-window.mw_row_id = $el_id;
-mw_make_row_editor($el_id)
-
-
-
-
-
-	 $exisintg_num = $('#'+$el_id).children(".column").size();
-
-
-
-if($exisintg_num > 0){
-
-
- $('#'+$el_id).children(".column").each(function() {
-       
-	   
-	    $el_id_column = $(this).attr('id');
-if($el_id_column == undefined || $el_id_column == 'undefined' ){
-$el_id_column = 'mw-column-'+new Date().getTime();
-  $(this).attr('id', $el_id_column);
-}
-	   
-   });
-
-		
-				
-
-}
+$col_panels= [];
+				$el_id = $(this).attr('id');
+				if($el_id == undefined || $el_id == 'undefined' ){
+				$el_id = 'mw-row-'+new Date().getTime();
+				  $(this).attr('id', $el_id);
+				}
+				window.mw_row_id = $el_id;
+				mw_make_row_editor($el_id)
 
 
 
 
 
+					 $exisintg_num = $('#'+$el_id).children(".column").size();
+				if($exisintg_num > 0){
+				a = 0;
+				 $('#'+$el_id).children(".column").each(function() {
+					 
+					 
+					 
+					$col_panels[a] = [{"size": $(this).width()}];   
+						$el_id_column = $(this).attr('id');
+				if($el_id_column == undefined || $el_id_column == 'undefined' ){
+				$el_id_column = 'mw-column-'+new Date().getTime();
+				  $(this).attr('id', $el_id_column);
+				}
+					   
+				 
+				 
+				 a++;
+				   });
+				}
 
+
+ 
+    
+ 
 
 
 
@@ -830,7 +826,11 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 		
 		
 		
-							  
+					
+
+	
+	
+			  
 												  
  $('.column' , '.row').live('click',function(e) {
 	 
@@ -843,38 +843,24 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 	 $prow = $(this).parent('.row').attr('id');
 	$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
 	 
- 	 $(this ).resizable( "destroy" )
+ 
 	 
-				$prow = $(this).parent('.row').attr('id');
-				//alert($prow );
+	 
+ 	// $(this ).resizable( "destroy" )
+	 
+				/*$prow = $(this).parent('.row').attr('id');
+				 
 				$(this ).resizable({
 					 grid: [1, 10000],
 								   handles: 'e',
 								   containment: "parent" ,
-								   // handles: 'all',
-          
-		//	alsoResizeReverse: $(ui.originalPosition.left ),
-			
-			
-								// alsoResizeReverse: $(this ).siblings('.column'),
-							//	 aspectRatio: true,
+  							//	 aspectRatio: true,
 						 	alsoResizeReverse:$also ,
-							//.. alsoResizeReverse: $(this).closest(),
-								     // alsoResizeReverse: $(this).parent('.row').children(".column").not(this),
-  //alsoResizeReverse: $also,
-								//  animate: true,
-								
-								
-		 		
-								
-								   resize: function(event, ui) {
-									   
-										//   var self = $(this).data("resizable");
-       // self.size.width = self.width;
-
+ 								   resize: function(event, ui) {
+ 
 										}
 								  });
-				
+				*/
 				
 				
 				
@@ -1499,4 +1485,6 @@ $el_id_column = 'mw-column-'+new Date().getTime();
  
  
  
-   
+  
+
+ 
