@@ -16,7 +16,8 @@ function mw_make_cols($numcols){
 	
 	
 	
-	
+	$('.column').resizable( "destroy" );
+			     $('.ui-resizable').resizable( "destroy" );
 	
 	
 	
@@ -276,9 +277,9 @@ function init_sortables(){
 	   tolerance: 'pointer',
 	 //  cancel: 'div.edit',
 	   cursorAt: { top: -1, left: -1 } ,
-   distance:30,
+   distance:20,
    scrollSensitivity: 40 ,
-	    delay: 150,
+	    delay: 50,
 	scroll: true,
    
 	 handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -291,8 +292,8 @@ function init_sortables(){
 	start: function( event, ui ) {
 		//var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
 			 $( '.mw-sorthandle', '.column' ).remove();
-			
-			   
+			 $('.column').resizable( "destroy" );
+			     $('.ui-resizable').resizable( "destroy" );
 				
 				$( '[contenteditable=true]' ).attr("contenteditable",false);
 				 $('.edit').each(function(index) {
@@ -432,12 +433,20 @@ ui.placeholder.height(ui.helper.height());
 			  
 	stop: function(event, ui) {
            $('.empty').remove();
+		 
 		   $('.column').removeClass('column-outline');
 		     $('.ui-state-highlight').remove();
 			mw_load_new_dropped_modules();
 						$('.row').each(function(index) {
 							$(this).equalHeights() ;
 					});
+					
+					
+					
+					
+			  $(".row").equalWidths() ;		
+					
+					
 	       },
 		   
 		   
@@ -559,6 +568,7 @@ ui.placeholder.height(ui.helper.height());
     items: '.module_draggable',
 	stop: function(event, ui) {
            $('.empty').fadeOut('fast') //.remove();
+		    $('.ui-resizable').resizable( "destroy" );
 			mw_load_new_dropped_modules();
 					 
 	       },
@@ -742,7 +752,8 @@ $col_panels= [];
 				a = 0;
 				 $('#'+$el_id).children(".column").each(function() {
 					 
-					 
+					 		 					 
+				 
 					 
 					$col_panels[a] = [{"size": $(this).width()}];   
 						$el_id_column = $(this).attr('id');
@@ -751,6 +762,8 @@ $col_panels= [];
 				  $(this).attr('id', $el_id_column);
 				}
 					   
+				 
+		
 				 
 				 
 				 a++;
@@ -779,6 +792,12 @@ $col_panels= [];
 }
 
  $(this).children(".mw-sorthandle-row:first").show();
+ 
+ 	
+		
+		
+		
+		
 
 }).mouseleave(function(){
  
@@ -831,57 +850,112 @@ $col_panels= [];
 	
 	
 			  
-												  
- $('.column' , '.row').live('click',function(e) {
+					 $('.column' , '.row').die('hover');
+									  
+ $('.column' , '.row').live('hover',function(e) {
 	 	
 		
-		  $('.also-resize').removeClass('also-resize');
-	$inner_column = 	$(this ).children(".column");	
+	
 	 
 	 	    $el_id_column = $(this).attr('id');
 if($el_id_column == undefined || $el_id_column == 'undefined' ){
 $el_id_column = 'mw-column-'+new Date().getTime();
   $(this).attr('id', $el_id_column);
+  $(this).addClass($el_id_column);
 }
-	 $prow = $(this).parent('.row').attr('id');
-	//$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
-	 
-
-	 $also =  $(this ).next(".column").not("#"+$el_id_column);
-	 $also_check_exist = $also.size();
-	 if($also_check_exist == 0){
-		 	 $also =  $(this ).prev(".column").not("#"+$el_id_column);
-
-	 }
-	 
-	 	if ( window.console && window.console.log )
-				{
-					window.console.log( '  $also ' + $also.size()  );
-				}
-				
 	
-				
-	  $also.addClass('also-resize');
- 	  $(this ).resizable( "destroy" )
-				  				 
-				$(this ).resizable({
-					 grid: [1, 10000],
-								//   handles: 'e',
-								 //  containment: "parent" ,
-  							//	 aspectRatio: true,
-						 	alsoResizeReverse:'.also-resize' ,
-							alsoResize:$inner_column ,
- 								   resize: function(event, ui) {
- 
-										}
-								  });
+	
+							
+	
+	$is_done = $(this).hasClass('ui-resizable')
+	
+	if($is_done == false){
+					  $('.also-resize').removeClass('also-resize');
+					  $('.also-resize-inner').removeClass('also-resize-inner');
+				$inner_column = 	$(this).children(".column:first");	
+				 $prow = $(this).parent('.row').attr('id');
+				//$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
 				 
+			
+				 $also =  $(this ).next(".column");
+				 $also_check_exist = $also.size();
+				 if($also_check_exist == 0){
+						 $also =  $(this ).prev(".column");
+			
+				 }
+				 
+				 	$also_el_id_column = $also.attr('id');
+				if($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '' ){
+				$also_el_id_column = 'mw-column-'+new Date().getTime();
+				  $also.attr('id', $also_el_id_column);
+				} 
+			
+							
+				$also_reverse_id = $also_el_id_column;
+				// $also.attr('data-also-resize-inner', $also_reverse_id);
+				//  $also.children('.column').attr('data-also-resize-inner', $also_reverse_id);
 				
+				
+				$also_inner_items = $inner_column.attr('id');
+							
+				 // $also.addClass('also-resize');
+				//   $inner_column.addClass('also-resize-inner');
+				   $(this ).resizable( "destroy" )
+						$(this ).attr( "data-also-rezise-item", $also_reverse_id )					 
+							$(this ).resizable({
+								 grid: [1, 10000],
+											//   handles: 'e',
+											 //  containment: "parent" ,
+										//	 aspectRatio: true,
+										//alsoResizeReverse:'.also-resize' ,
+									 	alsoResizeReverse:'#'+$also_reverse_id ,
+									//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
+									 	alsoResize:'#'+$also_inner_items ,
+
+										// alsoResize:'.also-resize-inner'  ,
+											   resize: function(event, ui) {
+												   $(this).css('height', 'auto');
+												 //  $(this ).parent(".row").equalHeights() ;
+												 
+												// $cols_to_eq =  $(this ).parent(".row").children(".column");
+			 //$(this ).parent(".row").addClass('also-resize-inner');
+													},
+													 create: function(event, ui) { 
+													  $(".row").equalWidths() ;
+													 
+													 
+													 },
+													 
+													 
+													 stop: function(event, ui) { 
+													  var parent = ui.element.parent('.row');
+        ui.element.css({
+            width: ui.element.width()/parent.width()*100+"%",
+      //      height: ui.element.height()/parent.height()*100+"%"
+        });
+
+
+												   $('.row').each(function(index) {
+			 	 $(this).equalHeights() ;
+				});
+						//	  $(this ).parent(".row").equalWidths() ;
+
+													}
+											  });
+						 
+				
+				
+				
+				
+	}
 				
 	    e.preventDefault();
 			//event.preventDefault(); // this prevents the original href of the link from being opened
 			e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-		 		
+		 	
+			
+			
+				
 										  
 		});	
  $('.module' , '.edit').live('click',function(e) {

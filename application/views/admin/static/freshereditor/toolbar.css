@@ -38,8 +38,13 @@ body {
 	min-height:20px; 
  } 
  .ui-state-highlight2, .also-resize {
-	background-color: #990099 !important;;
+	background-color: #990099 !important;
 	  
+ }
+ 
+ .also-resize-inner {
+	 	background-color: #990000 !important;
+
  }
  
  .empty {

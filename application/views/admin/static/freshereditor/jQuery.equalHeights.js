@@ -14,8 +14,11 @@
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
 			//Find the shortest height item
 			var shortestHeight = 10000;
+			 	var shortestW = 10000;
 			$this.find(o.itemsToEqualize).each(function(){
 				shortestHeight = $(this).height() < shortestHeight ? $(this).height() : shortestHeight;
+		 				shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
+
 			});
 			//Now loop through the each element and keep removing word by word untill its height reaches to the minimal
 			$this.find(o.itemsToEqualize).each(function(){
@@ -37,7 +40,98 @@
 
 
 
+/*!
+ * equalWidths jQuery Plugin
+ * Examples and documentation at: http://fordinteractive.com/tools/jquery/equalwidths/
+ * Copyright (c) 2010 Andy Ford
+ * Version: 0.1 (2010-04-13)
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ * Requires: jQuery v1.2.6+
+ */
+(function($){
+	$.fn.equalWidths = function(options) {
+		var w_parent,
+			w_child,
+			w_child_last,
+			opts = $.extend({
+				stripPadding: 'none' // options: 'child', 'grand-child', 'both'
+			},options);
+		return this.each(function(){
+			var child_count = $(this).children('.column').size();
+			var last_col = $(this).children('.column:last');
+			$('.also-resize').removeClass('also-resize');
+			last_col.addClass('also-resize');
+			if (child_count > 0) { // only proceed if we've found any children
+			 	w_parent1 = $(this).width();
+				w_parent = 100;
+				//  width: $(this).width()/parent.width()*100+"%",
+				
+				
+				w_ch = 0;
+				w_parent_diff = w_parent;
+				$(this).children('.column').each(function(index) {
+					
+					
+					  var parent = $(this).parent('.row');
+					   var parent_w = parent.width();
+					  $w1 = $(this).width()/parent_w*100;
+					  w_ch = w_ch+$w1;
+       $(this).css({
+            width:  $w1+"%",
+            //height: ui.element.height()/parent.height()*100+"%"
+        });
+					
+		//			if(w_ch < 100){
+//					
+//					$last_w = 100 - w_ch;
+//					$last_w_curr =  last_col.width.width()/parent_w*100;;
+//					
+//					
+//					 if (window.console != undefined) {
+//				console.log('last_w ' + $last_w + 'last_w_curr ' + $last_w_curr );	
+//			}
+//					
+//					
+//					//	last_col.width(w_parent_diff+'%');
+//					}
+//					
+					
+					
+			 //	w_ch = w_ch +  $(this).width() ;
+				//w_p = $(this).width()/w_parent1*100;
+				//w_parent_diff = w_parent_diff -  $(this).width() ;
+				//w_parent_diff = w_parent_diff - w1 ;
+				});
+				
+				
+								//	last_col.width(w_parent_diff+'%');
 
+				
+				 
+				
+				
+		/*		w_child = Math.floor(w_parent / child_count);
+				w_child_last = w_parent - ( w_child * (child_count -1) );
+				$(this).children('.column').css({ 'width' : w_child + 'px' });
+				$(this).children('.column:last-child').css({ 'width' : w_child_last + 'px' });
+				if((opts.stripPadding == 'child') || (opts.stripPadding == 'both')){
+					$(this).children('.column').css({
+						'padding-right': '0',
+						'padding-left': '0'
+					});
+				}
+				if((opts.stripPadding == 'grand-child') || (opts.stripPadding == 'both')){
+					$(this).children('.column').children('.column').css({
+						'padding-right': '0',
+						'padding-left': '0'
+					});
+				}*/
+			}
+		});
+	};
+})(jQuery);
 
 
 
