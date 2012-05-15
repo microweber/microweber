@@ -17,7 +17,7 @@
 			 	var shortestW = 10000;
 			$this.find(o.itemsToEqualize).each(function(){
 				shortestHeight = $(this).height() < shortestHeight ? $(this).height() : shortestHeight;
-		 				shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
+		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
 
 			});
 			//Now loop through the each element and keep removing word by word untill its height reaches to the minimal
@@ -61,73 +61,72 @@
 		return this.each(function(){
 			var child_count = $(this).children('.column').size();
 			var last_col = $(this).children('.column:last');
-			$('.also-resize').removeClass('also-resize');
-			last_col.addClass('also-resize');
-			if (child_count > 0) { // only proceed if we've found any children
-			 	w_parent1 = $(this).width();
-				w_parent = 100;
-				//  width: $(this).width()/parent.width()*100+"%",
-				
-				
-				w_ch = 0;
-				w_parent_diff = w_parent;
+			 //$('.also-resize').removeClass('also-resize');
+			//last_col.addClass('also-resize');
+			
+				if (child_count == 1) {
+					
+					
+					
 				$(this).children('.column').each(function(index) {
-					
-					
-					  var parent = $(this).parent('.row');
-					   var parent_w = parent.width();
-					  $w1 = $(this).width()/parent_w*100;
-					  w_ch = w_ch+$w1;
-       $(this).css({
-            width:  $w1+"%",
-            //height: ui.element.height()/parent.height()*100+"%"
-        });
-					
-		//			if(w_ch < 100){
-//					
-//					$last_w = 100 - w_ch;
-//					$last_w_curr =  last_col.width.width()/parent_w*100;;
-//					
-//					
-//					 if (window.console != undefined) {
-//				console.log('last_w ' + $last_w + 'last_w_curr ' + $last_w_curr );	
-//			}
-//					
-//					
-//					//	last_col.width(w_parent_diff+'%');
-//					}
-//					
-					
-					
-			 //	w_ch = w_ch +  $(this).width() ;
-				//w_p = $(this).width()/w_parent1*100;
-				//w_parent_diff = w_parent_diff -  $(this).width() ;
-				//w_parent_diff = w_parent_diff - w1 ;
+				   $(this).css({
+						width:  100+"%",
+					 });
+					// $(this).addClass('also-resize');
+					 });
+					 
+					 
+					 
+					 
+					 
+				} else if (child_count > 0) { // only proceed if we've found any children
+								w_parent1 = $(this).width();
+								w_parent = 100;
+								//  width: $(this).width()/parent.width()*100+"%",
+								
+								
+								w_ch = 0;
+								w_parent_diff = w_parent;
+								$(this).children('.column').each(function(index) {
+									
+									
+									if(window.mw_empty_column_placeholder != undefined){
+											var col_size = $(this).children().size();
+											
+											if(col_size == 0){
+												$(this).html(window.mw_empty_column_placeholder);
+												
+											}
+									}
+									  var parent = $(this).parent('.row');
+									   var parent_w = parent.width();
+									  $w1 = $(this).width()/parent_w*100;
+									  w_ch = w_ch+$w1;
+					   $(this).css({
+							width:  $w1+"%",
+							//height: ui.element.height()/parent.height()*100+"%"
+						});
+	 
 				});
 				
-				
-								//	last_col.width(w_parent_diff+'%');
-
-				
 				 
+			} else {
+				
+					
+						/*			if(window.mw_empty_column_placeholder != undefined){
+											 $(this).children('.column').each(function(index) {
+												$(this).html(window.mw_empty_column_placeholder);
+											});	
+											 
+									}*/
+						
+									
+				//if no cols add placeholder
 				
 				
-		/*		w_child = Math.floor(w_parent / child_count);
-				w_child_last = w_parent - ( w_child * (child_count -1) );
-				$(this).children('.column').css({ 'width' : w_child + 'px' });
-				$(this).children('.column:last-child').css({ 'width' : w_child_last + 'px' });
-				if((opts.stripPadding == 'child') || (opts.stripPadding == 'both')){
-					$(this).children('.column').css({
-						'padding-right': '0',
-						'padding-left': '0'
-					});
-				}
-				if((opts.stripPadding == 'grand-child') || (opts.stripPadding == 'both')){
-					$(this).children('.column').children('.column').css({
-						'padding-right': '0',
-						'padding-left': '0'
-					});
-				}*/
+				
+				
+				
 			}
 		});
 	};
