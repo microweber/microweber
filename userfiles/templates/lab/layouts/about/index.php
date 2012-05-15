@@ -18,7 +18,7 @@ description: Home site layout
 <!-- Typography
 ================================================== -->
 <section id="typography">
-  <editable rel="page" field="custom_field_a1">
+  <editable rel="page" field="custom_field_sdfa1">
     <div class="row">
       <div class="column">
         <div class="element">
@@ -28,7 +28,7 @@ description: Home site layout
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_z1">
+  <editable rel="page" field="custom_field_z111">
     <div class="row">
       <div class="column">
         <div class="element">
@@ -46,7 +46,7 @@ description: Home site layout
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_x1">
+  <editable rel="page" field="custom_field_x1asd">
     <div class="row">
       <div class="column">
         <div class="element">
@@ -62,7 +62,7 @@ description: Home site layout
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_c1">
+  <editable rel="page" field="custom_field_223c1">
     <div class="page-header">
       <h1>Typography</h1>
     </div>
@@ -71,18 +71,22 @@ description: Home site layout
     <div class="row">
       <div class="span4">
         <div class="well col">
+        <div class="element">
           <h1>h1. Heading 1</h1>
           <h2>h2. Heading 2</h2>
           <h3>h3. Heading 3</h3>
           <h4>h4. Heading 4</h4>
           <h5>h5. Heading 5</h5>
           <h6>h6. Heading 6</h6>
+          </div>
         </div>
       </div>
       <div class="span4">
+      <div class="element">
         <h3>Example body text</h3>
         <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
         <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec sed odio dui.</p>
+        </div>
       </div>
       <div class="span4">
         <div class="element">
@@ -106,9 +110,11 @@ description: Home site layout
 <!-- Buttons
 ================================================== -->
 <section id="buttons">
-  <editable rel="page" field="custom_field_qa2d1">
+  <editable rel="page" field="custom_field_qa2dasd1">
+   <div class="element">
     <div class="page-header">
       <h1>Buttons</h1>
+    </div>
     </div>
     <div class="element">
       <table class="table table-bordered table-striped">
@@ -258,7 +264,7 @@ description: Home site layout
 <!-- Miscellaneous
 ================================================== -->
 <section id="miscellaneous">
-  <editable rel="page" field="custom_field_qza1">
+  <editable rel="page" field="custom_field_qza1asd">
     <div class="page-header">
       <h1>Miscellaneous</h1>
     </div>

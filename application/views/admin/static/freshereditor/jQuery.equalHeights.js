@@ -60,9 +60,11 @@
 			},options);
 		return this.each(function(){
 			var child_count = $(this).children('.column').size();
-			var last_col = $(this).children('.column:last');
-			 //$('.also-resize').removeClass('also-resize');
-			//last_col.addClass('also-resize');
+			var last_col = $(this).children('.column:last-child');
+	        var parent_row = $(this);
+
+			  $('.also-resize').removeClass('also-resize');
+			 last_col.addClass('also-resize');
 			
 				if (child_count == 1) {
 					
@@ -70,7 +72,7 @@
 					
 				$(this).children('.column').each(function(index) {
 				   $(this).css({
-						width:  100+"%",
+						width:  (100 )+"%",
 					 });
 					// $(this).addClass('also-resize');
 					 });
@@ -87,6 +89,7 @@
 								
 								w_ch = 0;
 								w_parent_diff = w_parent;
+								$a = 1;
 								$(this).children('.column').each(function(index) {
 									
 									
@@ -98,16 +101,58 @@
 												
 											}
 									}
-									  var parent = $(this).parent('.row');
+									  var parent = parent_row;
+									//   var parent_column = parent.parent('.column');
+									//  if(parent_column != undefined ){
+									//	  parent = parent_column
+									//  }
+									  
 									   var parent_w = parent.width();
-									  $w1 = $(this).width()/parent_w*100;
+									
+									
+									
+									  $w1 = $(this).width()/w_parent1*100;
+									 
+									  if($a < child_count){
 									  w_ch = w_ch+$w1;
+									  }
+									  
+									  if($a == child_count){
+										 //$w1 = $w1 -1; 
+										  if(w_ch < 100){
+											  $t1 = 100 - w_ch - (child_count * 1) ;
+										 $w1 = Math.ceil($t1-1); // -1% padding
+									  }
+										 
+										 
+										 
+										   $('#ContentSave').html(w_ch+'   |   '+ $w1);
+										 
+									  }
+									  
+									  
+									  
+									  
+									  //$w1 = Math.ceil($w1); // -1% padding
 					   $(this).css({
 							width:  $w1+"%",
 							//height: ui.element.height()/parent.height()*100+"%"
 						});
 	 
-				});
+	 
+	 				$a++;
+					}); 
+				
+			//	last_col_w  =last_col.width()/w_parent1*100;
+				
+				//last_col_w1 = last_col_w - child_count;
+				// last_col.css({
+						 	//width:  last_col_w1+"%",
+							//height: ui.element.height()/parent.height()*100+"%"
+						//});
+				
+				//$('#ContentSave').html(last_col_w1);
+				
 				
 				 
 			} else {
