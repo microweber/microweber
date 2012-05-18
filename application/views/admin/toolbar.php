@@ -1,4 +1,4 @@
- <? 
+<? 
  
  $exit_l_ed = url_param_unset('layout_editor',url());
  $enter_l_ed = $this->core_model->urlConstruct(url(), array('layout_editor' => 'yes'));
@@ -13,30 +13,26 @@
    
    
  </script>
- <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js" type="text/javascript"></script>
-  <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
-   <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/css/smoothness/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
- 
-
- 
- 
-   <script type="text/javascript">
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
+<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/css/smoothness/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
  // $.noConflict();
   // Code that uses other library's $ can follow here.
 </script>
- <!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/columnizer/src/jquery.columnizer.js" type="text/javascript"></script>
+<!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/columnizer/src/jquery.columnizer.js" type="text/javascript"></script>
 -->
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/jQuery.equalHeights.js" type="text/javascript"></script>
 
 <!-- <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/dragsort-0.5.1/jquery.dragsort-0.5.1.js" type="text/javascript"></script>
---> 
- <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/shortcut.js" type="text/javascript"></script>
+-->
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/shortcut.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.edit').freshereditor({toolbar_selector: "#mw-layout-edit-site-text-editor"});
-	 $(".edit").freshereditor("edit", true);
+	// $(".edit").freshereditor("edit", true);
 	 
 	   $(".edit").on('change', function() {
              mw_save_all()
@@ -45,19 +41,52 @@
 	  
 	});
 	
+	
+	
+	(function() {
+    function async_load(){
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = '<? print site_url('api/js'); ?>';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+    }
+	
+	
+	
+	
+	
+	
+if (window.mw) { 
+				
+			
+					
+		
+	} else {
+			if (window.attachEvent)
+					window.attachEvent('onload', async_load);
+				else
+					window.addEventListener('load', async_load, false);
+		
+		
+	}
+		
+})();
+
+
+
 
 	</script>
- 
-
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/toolbar.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
- <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/edit.js" type="text/javascript"></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/edit.js" type="text/javascript"></script>
 <!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5sortable/jquery.sortable.js" type="text/javascript"></script>
 --><!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>-->
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/javascripts/jquery.boxy.js" type="text/javascript"></script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css" rel="stylesheet" type="text/css" />
- <script type="text/javascript">
+<script type="text/javascript">
  /* Plugin to make variable height divs equal heights */
 $.fn.sameHeights = function() {
 
@@ -285,8 +314,7 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 	});
  
  
-  </script>
-
+  </script> 
 <script type="text/javascript">
  
 $(document).ready(function(){
@@ -670,7 +698,7 @@ var  mw_click_on_history_prev  = function($direction){
 	}
 }
 
-</script>
+</script> 
 <script type="text/javascript"> 
  
 
@@ -721,29 +749,51 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 
 
 </script>
-
-<div id="mw-layout-edit-site-top-bar" class="fixed-position"><div id="mw-layout-edit-site-top-bar-l">
-<div id="mw-layout-edit-toolbar-top-container"></div>
-<div id="mw-layout-edit-toolbar-top-container-items"><microweber module="admin/modules/list" />aaaa</div>
-<div id="mw-layout-edit-site-text-editor"></div>
-
-</div> </div>
-<div id="mw-layout-edit-footer-bar"><div class="mw-layout-edit-site-bar-l"></div><div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span>
-Make cols: 
-<a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a>
-<a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a>
-<a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a>
-<a  href="javascript:mw_make_cols(4)" class="mw-make-cols mw-make-cols-4" >4</a>
-<a  href="javascript:mw_make_cols(5)" class="mw-make-cols mw-make-cols-5" >5</a>
-<span class="mw-layout-edit-curent-element"></span><a  onclick="mw_delete_element()" >x</a></div></div>
+<div id="mw-layout-edit-site-top-bar" class="fixed-position">
+  <div id="mw-layout-edit-site-top-bar-l">
+    <div id="mw-layout-edit-toolbar-top-container"> 
+      <script>
+	$(function() {
+		$( "#mw_toolbar_tabs" ).tabs();
+	});
+	</script>
+      <div id="mw_toolbar_tabs">
+        <ul>
+          <li><a href="#mw_toolbar_tabs-1">Elements</a></li>
+          <li><a href="#mw_toolbar_tabs-2">Modules</a></li>
+          <li><a href="#mw_toolbar_tabs-3">Layouts</a></li> 
+          <li><a href="#mw_toolbar_tabs-4">Pages</a></li>
+          <li><a href="#mw_toolbar_tabs-5">Templates</a></li>
+          <li><a href="#mw_toolbar_tabs-6">Settings</a></li>
+          <li><a href="#mw_toolbar_tabs-7">Help</a></li>
+        </ul>
+        <div id="mw_toolbar_tabs-1">Elements tab</div>
+        <div id="mw_toolbar_tabs-2">
+          <microweber module="admin/modules/list" />
+        </div>
+        <div id="mw_toolbar_tabs-3">Layouts</div>
+        <div id="mw_toolbar_tabs-4">Pages</div>
+        <div id="mw_toolbar_tabs-5">Templates</div>
+        <div id="mw_toolbar_tabs-6">Settings</div>
+        <div id="mw_toolbar_tabs-7">Help</div>
+      </div>
+    </div>
+    <!--<div id="mw-layout-edit-toolbar-top-container-items">Modules list placeholder</div>
+-->
+    <div id="mw-layout-edit-site-text-editor"></div>
+  </div>
+</div>
+<div id="mw-layout-edit-footer-bar">
+  <div class="mw-layout-edit-site-bar-l"></div>
+  <div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span> Make cols: <a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(5)" class="mw-make-cols mw-make-cols-5" >5</a> <span class="mw-layout-edit-curent-element"></span><a  onclick="mw_delete_element()" >x</a></div>
+</div>
 <div id="mw-temp"> </div>
-<div id="ContentSave">
+<div id="ContentSave"> 
   <!--<button  onclick="mw_load_history_module()">mw_load_history_module()</button>
  -->
   <? if(url_param('layout_editor') != 'yes'): ?>
   <? else : ?>
   <a  href="<? print $enter_l_ed;?>">enter layout</a> <a  href="<? print url();?>/editmode:n">exit editmode</a> <a  href="<? print $exit_l_ed;?>">exit layout</a>
   <? endif; ?>
-    <button  onclick="mw_save_all()">Save all</button>
-
+  <button  onclick="mw_save_all()">Save all</button>
   <a  href="<? print   $exit_live_edit;?>">Exit live edit</a> <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a> </div>

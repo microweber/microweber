@@ -1507,8 +1507,8 @@ function get_categories_for_post($content_id, $only_ids = true) {
  * $get_categories_params['get_only_ids'] = false; //if true will return only the category ids
  * $get_categories_params['inclide_main_category'] = false; //if true will include the main category too
  * $get_categories_params['for_content'] = false; //if integer - will get the categories for given content it (post)
- *
- *
+ * 
+ * 
  */
 function get_categories($get_categories_params = array()) {
 	$params = $get_categories_params;

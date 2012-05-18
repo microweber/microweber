@@ -558,7 +558,6 @@ ui.placeholder.height(ui.helper.height());
 		
 });
 			
-			$(".element>*:not(.mw-sorthandle)").freshereditor("edit", true);
 			
 			
 			
@@ -567,7 +566,7 @@ ui.placeholder.height(ui.helper.height());
 			
 			
 			
-			$('.top-modules-list').sortable({
+			$('.modules-list', '#mw_toolbar_tabs').sortable({
     items: '.module_draggable',
 	stop: function(event, ui) {
            $('.empty').fadeOut('fast') //.remove();
@@ -719,7 +718,7 @@ ui.helper.width(ui.placeholder.width());
 			
 			
 			$(".row,.element").die('mousedown');
-			$(".element").live(
+			$(".element", '.edit').live(
         'mousedown',
         function (e) {
 
@@ -730,11 +729,15 @@ $el_id = 'mw-element-'+new Date().getTime();
 }
 window.mw_element_id = $el_id;
 mw_make_css_editor($el_id)
+
+	$(this).freshereditor("edit", true);
 e.stopPropagation();
         });
 			
 			
-				$(".row").live(
+			$(".row", '.edit').die('click');
+
+				$(".row", '.edit').live(
         'click',
         function (e) {
 $col_panels= [];
@@ -787,30 +790,27 @@ $col_panels= [];
 			
 			
 		 
-			 
-			 $(".row", '.edit').mouseenter(function(){
-   $has = $(this).children(":first").hasClass("mw-sorthandle");
-   if($has == false){
-	$(this).prepend("<div class='mw-sorthandle mw-sorthandle-row'><span>&nbsp;</span>");
-}
+$(".row", '.edit').die('mouseenter');
+$(".row", '.edit').mouseenter(function(){
+			   $has = $(this).children(":first").hasClass("mw-sorthandle");
+			   if($has == false){
+				$(this).prepend("<div class='mw-sorthandle mw-sorthandle-row'><span>&nbsp;</span>");
+			}
+			
+			 $(this).children(".mw-sorthandle-row:first").show();
+					
 
- $(this).children(".mw-sorthandle-row:first").show();
- 
- 	
-		
-		
-		
-		
-
-}).mouseleave(function(){
- 
-
-// $(this).children(".mw-sorthandle-row:first").hide();
-
-})  
+}) 
 			 
 			 
 			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 			$(".element", '.edit').die('mouseenter');
 			 		 $(".element", '.edit').mouseenter(function(){
    $has = $(this).children(":first").hasClass("mw-sorthandle");
    if($has == false){
@@ -836,11 +836,10 @@ $col_panels= [];
 	
 	
 	
-		       $('.module', '.edit').live('blur', function () {
-
- });
-	
-	 $('.module' , '.edit').live('mousenter',function(e) {
+		     
+			 
+ 	$('.module' , '.edit').die('mouseenter');
+	$('.module' , '.edit').live('mousenter',function(e) {
 					$(this).children('[draggable]').removeAttr('draggable')							  
 		});					
 		
@@ -911,10 +910,11 @@ $el_id_column = 'mw-column-'+new Date().getTime();
 						$(this ).attr( "data-also-rezise-item", $also_reverse_id )					 
 							$(this ).resizable({
 								 grid: [1, 10000],
-											//   handles: 'e',
+											    handles: 'e',
 											   containment: "parent" ,
 										//	 aspectRatio: true,
-										 autoHide: true,
+										  autoHide: true,
+										 
 										//alsoResizeReverse:'.also-resize' ,
 									 	alsoResizeReverse:'#'+$also_reverse_id ,
 									//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,

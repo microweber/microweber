@@ -24,69 +24,42 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:150px;
-	
-	
-	
-	
-	
-	/*padding-right: 3%;
+	height:150px;/*padding-right: 3%;
 	padding-left: 3%;    */     
 }
- 
-	
-	
-	
-
-
- .row {
-	 margin-left: 0px !important;
-	min-height:40x; 
- } 
- 
-  .row:hover {
-	outline: 1px solid #d0d0d0; 
-	 
- } 
- 
- 
- .ui-state-highlight2, .also-resize {
+.row {
+	margin-left: 0px !important;
+	min-height:40x;
+}
+.row:hover {
+	outline: 1px solid #d0d0d0;
+}
+.ui-state-highlight2, .also-resize {
 	background-color: #990099 !important;
-	  
- }
- 
- .also-resize-inner {
-	 	background-color: #990000 !important;
-
- }
- 
- .empty {
+}
+.also-resize-inner {
+	background-color: #990000 !important;
+}
+.empty {
 	width:100%;
-	height:70px  !important;
- 	margin-top:10px;
-	padding-top:10px;
-	margin-bottom:25px;
-	padding-bottom:30px;
- background-image: none;
+	height:30px !important;
+	line-height:15px !important;
+	margin-top:40px;
+	margin-bottom:50px;
+	background-image: none;
 	background-color:#CCCCCC !important;
- 
-	clear: both;
-display:block;	 
-	
+	clear: both !important;
+	display:block !important;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	text-decoration: none;
 }
-
 .mw-outline {
- 	outline-style:solid;
-outline-width:2px;
-outline-color: #000;
-outline-offset: 2px;
- 
- 
-	 
+	outline-style:solid;
+	outline-width:2px;
+	outline-color: #000;
+	outline-offset: 2px;
 }
-
-
-
 /*.edit .ui-state-highlight {
  z-index:99	!important;
 }
@@ -110,7 +83,7 @@ outline-offset: 2px;
 
 */
 .ui-sortable:not(.edit):hover, .col:hover {
-	/*outline: 1px dotted #0CF;*/
+/*outline: 1px dotted #0CF;*/
 }
 a.mw-make-cols {
 	font-weight:bold;
@@ -142,14 +115,12 @@ position:relative;*/
 }
 .edit {
 	position:relative;
-
 }
 .mw-sorthandle-col {
 	background-color:#0F0;
-	height:12px; 
-	  top:0px;
- z-index:1000;
-	
+	height:12px;
+	top:0px;
+	z-index:1000;
 }
 .mw-sorthandle-row {
 	background-color:#CCC;
@@ -161,16 +132,11 @@ position:relative;*/
 	border: 1px solid #d0d0d0;
 }
 .mw-sorthandle {
-	
 	width:100%;
 	position:absolute;
-	 
-	left 0px;
-	background-repeat: repeat-x;	
-	
-	 
+ left 0px;
+	background-repeat: repeat-x;
 }
-
 .mw-sorthandle span {
 	width:100%;
 }
@@ -178,10 +144,8 @@ position:relative;*/
 	border: 2px dotted #00F;
 }
  [contenteditable=true], .outline, .mw_dragover, .ui-resizable:hover {
-  
 }
 [contenteditable=true]:hover {
-	 
 }
 .edit .module, .edit img {
 /*resize: both;  */
@@ -220,29 +184,26 @@ position:relative;*/
 	width: 100%;
 	z-index: 1000;
 }
-
-
 #mw-layout-edit-toolbar-top-container {
 	top: 0px;
-	height: 52px;
+	height: 130px;
 	position: relative;
 	width: 100%;
 	z-index: 1000;
 	background-image: url(images/mw_toolbar_top.jpg);
-	background-repeat: repeat-x;	
+	background-repeat: repeat-x;
 }
-
-
+#mw-layout-edit-toolbar-top-container .ui-tabs-panel {
+	height: 63px !important;
+}
 #mw-layout-edit-toolbar-top-container-items {
 	top: 0px;
 	height: 75px;
 	position: relative;
 	width: 100%;
 	z-index: 1000;
-	 background-color:#e9e9e9;
+	background-color:#e9e9e9;
 }
-
-
 #mw-layout-edit-site-top-bar-l, .mw-layout-edit-site-bar-l {
 	width: 100%;
 	float:left;
@@ -259,31 +220,25 @@ position:relative;*/
 	_position: absolute;
 	_right: 16px;
 }
-
-.top-modules-list-holder   {
+.modules-list-holder {
 	width:100%;
 	overflow: scroll;
 	height:75px;
 }
-.top-modules-list   {
+.modules-list {
 	list-style-position: inside;
 	list-style-image: none;
 	list-style-type: none;
-	width:3000px;;
-	
-	
+	width:3000px;
+	;
 }
-
-
-.top-modules-list img {
+.modules-list img {
 	border: 0 none;
-    height: 32px;;
-    vertical-align: middle;
+	height: 32px;
+	;
+	vertical-align: middle;
 }
- 
-
-
-.top-modules-list li {
+.modules-list li {
 	float:left;
 	display:inline;
 	font-family: Verdana, Geneva, sans-serif;
@@ -292,17 +247,11 @@ position:relative;*/
 	margin-right: 5px;
 	margin-left: 5px;
 }
-
-
-.top-modules-list h4 {
+.modules-list span {
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
 	text-align:center;
-	
 }
-
-
- 
 
 
  
