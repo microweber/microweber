@@ -321,7 +321,7 @@ function init_sortables() {
         $('.modules-list').sortable('destroy');
 
 
-        $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,div.column';
+        $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,';
 
         $($spans).addClass('column');
 
@@ -333,7 +333,7 @@ function init_sortables() {
         //test $($drop_areas).addClass('ui-state-highlight2');
         $($drop_areas).sortable({
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),div.empty-column',
+            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
             forceHelperSize: true,
@@ -341,12 +341,12 @@ function init_sortables() {
             tolerance: 'pointer',
             //  cancel: 'div.edit',
             cursorAt: {
-                top: -2,
-                left: -2
+                top: -1,
+                left: -1
             },
-              distance:15,
+            //  distance:5,
             scrollSensitivity: 40,
-               delay: 5,
+            //  delay: 5,
             scroll: true,
 
             handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -366,19 +366,14 @@ function init_sortables() {
 
  $(".column").putPlaceholdersInEmptyColumns()
  
-   $(this).sortable('refreshPositions')
+  
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
 
- //$(ui.placeholder).hide(300);
+
                 //  $(ui.helper).append(window.mw_empty_column_placeholder);
             },
- 
-    change: function (e,ui){
-		  $(ui.placeholder).show();
-      //  $(ui.placeholder).show(100);
-	   // $(ui.placeholder).slide(100);
-    },
+
 
             stop: function (event, ui) {
                 $('.empty').remove();
@@ -398,35 +393,28 @@ function init_sortables() {
                 $('.row').equalWidths();
                 $('.column').height('auto');
 
- $(this).sortable('refreshPositions')
+
             },
 
- sorasdasdt: function (event, ui) {
-	 window.mw_drag_started = true;
-	  $(ui.placeholder).closest('.column').height('auto');
- },
+
+
             sort: function (event, ui) {
-               
-			   
-			    window.mw_drag_started = true;
+                window.mw_drag_started = true;
 
                 // $('.empty', '.edit').remove();
                 $(ui.item).css({
                     "width": ui.placeholder.width()
-					 
                 });
                 $(ui.helper).css({
                     "width": ui.placeholder.width()
-					
                 });
                 $(ui.helper).css({
                     "height": ui.placeholder.height()
                 });
  //  $(ui.helper).closest(".empty").hide();
- 				//$(ui.placeholder).closest('.empty-column').remove();
-				 //  $(ui.placeholder).parent('.column').addClass('hl2');
-   $(ui.placeholder).parent('.column').height('auto');
-               // $(ui.placeholder).closest('.column').height('auto');
+ 				$(ui.placeholder).closest('.empty-column').remove();
+
+                $(ui.placeholder).closest('.column').height('auto');
 
                 //$(ui.placeholder).parent('.row').equalWidths();
                 //  $(ui.placeholder).parent('.row').children('.column').height('auto');
@@ -446,40 +434,9 @@ function init_sortables() {
 
 
             over: function (event, ui) {
-
-
-                // $('.empty', '.edit').remove();
-                $(ui.helper).css({
-                    "width": $(this).width()
-					 
-                });
-                $(ui.item).css({
-                    "width": $(this).width()
-					
-                });
-				
-				 
-				
-				
-				   $('.row').equalHeights()
-   $('.row').children(".column").addClass("mw-outline-column");
-           $('.row').children(".mw-sorthandle-row:first").show();
-  window.mw_drag_started = true;
-	
-				
-				 
-				  $('.empty-column').show();
- //  $(ui.helper).closest(".empty").hide();
- 				//$(ui.placeholder).closest('.empty-column').remove();
-
-                //$(this).closest('.column').height('auto');
-  
-  
-  
-// $(".empty-column", '.edit').die('mouseover');
  
-     //  $(this).children(".empty-column").remove();
-	 //    $(this).parent('.column').height('auto');
+
+      
 
                 // $(ui.item).css({"width" : ui.placeholder.width()});	
                 //  $(ui.helper).css({"width" : ui.placeholder.width()});	
@@ -511,8 +468,6 @@ function init_sortables() {
             },
 
             out: function (event, ui) {
-				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
-				$('.row').equalHeights()
                 $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
                 // $(this).css('min-height', '10px');
@@ -704,6 +659,9 @@ function init_sortables() {
 
 
 
+
+
+
         $(".element", '.edit').die('mouseenter');
         $(".element", '.edit').mouseenter(function () {
             $has = $(this).children(":first").hasClass("mw-sorthandle");
@@ -818,7 +776,6 @@ $('.column', '.row').live('hover', function (e) {
                 ui.element.next().children(".row").equalWidths();
                 ui.element.children(".row").equalWidths();
                 ui.element.parent(".row").equalWidths();
-				
                 //  $(this ).parent(".row").equalHeights() ;
 
                 // $cols_to_eq =  $(this ).parent(".row").children(".column");

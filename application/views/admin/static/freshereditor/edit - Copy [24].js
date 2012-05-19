@@ -98,7 +98,6 @@ function mw_make_cols($numcols) {
             $('#' + $el_id).children(".column").css('padding-right', $pad + '%');
 
             $('#' + $el_id).equalWidths().equalHeights();
-               $('#' + $el_id).children('.column').height('auto');
 
             init_sortables()
 
@@ -281,7 +280,6 @@ window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
 window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="empty-column"><span>Please drag items here</span></div>';
 
 function mw_remove_editables() {
 
@@ -306,7 +304,7 @@ function init_sortables() {
 
 
 
-        var place1 = window.mw_empty_column_placeholder;
+        var place1 = $('<div class="empty ui-state-highlight ui-sortable-placeholder" style="display:none;"><span>Please drag items here</span></div>');
         var place2 = window.mw_empty_column_placeholder;
         $(".column", '.edit').each(function (c) {
             if ($("div", this).size() == 0) {
@@ -321,7 +319,7 @@ function init_sortables() {
         $('.modules-list').sortable('destroy');
 
 
-        $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,div.column';
+        $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,';
 
         $($spans).addClass('column');
 
@@ -333,7 +331,7 @@ function init_sortables() {
         //test $($drop_areas).addClass('ui-state-highlight2');
         $($drop_areas).sortable({
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),div.empty-column',
+            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit)',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
             forceHelperSize: true,
@@ -341,12 +339,12 @@ function init_sortables() {
             tolerance: 'pointer',
             //  cancel: 'div.edit',
             cursorAt: {
-                top: -2,
-                left: -2
+                top: -1,
+                left: -1
             },
-              distance:15,
+            //  distance:5,
             scrollSensitivity: 40,
-               delay: 5,
+            //  delay: 5,
             scroll: true,
 
             handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -364,70 +362,79 @@ function init_sortables() {
 
                 $('[contenteditable=true]').attr("contenteditable", false);
 
- $(".column").putPlaceholdersInEmptyColumns()
- 
-   $(this).sortable('refreshPositions')
+
+                $(".column").each(function (c) {
+
+                    //	
+                    $(this).add(window.mw_empty_column_placeholder);
+                    $(this).children('.empty').show()
+                    if ($("div:visible", this).size() == 0) {
+                        //		$(this).addClass('ui-state-highlight2');
+
+
+                        //	. $(this).html(window.mw_empty_column_placeholder);
+
+                        // $(this).append(window.mw_empty_column_placeholder);
+
+                        // $(this).html(window.mw_empty_column_placeholder);
+                        //	 $(this).html('aaaaa');
+                    } else {
+                        //  $(this).children('.empty').show()
+                        // $('.empty').fadeIn('fast') 
+                    }
+                    //$(this).find('.empty').fadeIn('fast')
+
+                    /*	
+			
+			$('.row').each(function(index) {
+			 	 $(this).equalHeights().equalWidths() ;
+				});
+				
+				
+				*/
+
+
+
+                })
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
 
- //$(ui.placeholder).hide(300);
+
                 //  $(ui.helper).append(window.mw_empty_column_placeholder);
             },
- 
-    change: function (e,ui){
-		  $(ui.placeholder).show();
-      //  $(ui.placeholder).show(100);
-	   // $(ui.placeholder).slide(100);
-    },
+
 
             stop: function (event, ui) {
                 $('.empty').remove();
                 window.mw_drag_started = false;
                 $('.column').removeClass('column-outline');
                 $('.ui-state-highlight').remove();
-				$('.empty-column').remove();
-
-				
-				
- 				 $(".column").putPlaceholdersInEmptyColumns()
-
-				
                 //  $(".row").equalWidths() ;		
                 mw_load_new_dropped_modules();
 
                 $('.row').equalWidths();
                 $('.column').height('auto');
 
- $(this).sortable('refreshPositions')
+
             },
 
- sorasdasdt: function (event, ui) {
-	 window.mw_drag_started = true;
-	  $(ui.placeholder).closest('.column').height('auto');
- },
+
+
             sort: function (event, ui) {
-               
-			   
-			    window.mw_drag_started = true;
+                window.mw_drag_started = true;
 
                 // $('.empty', '.edit').remove();
                 $(ui.item).css({
                     "width": ui.placeholder.width()
-					 
                 });
                 $(ui.helper).css({
                     "width": ui.placeholder.width()
-					
                 });
                 $(ui.helper).css({
                     "height": ui.placeholder.height()
                 });
- //  $(ui.helper).closest(".empty").hide();
- 				//$(ui.placeholder).closest('.empty-column').remove();
-				 //  $(ui.placeholder).parent('.column').addClass('hl2');
-   $(ui.placeholder).parent('.column').height('auto');
-               // $(ui.placeholder).closest('.column').height('auto');
 
+                $(ui.placeholder).closest('.column').height('auto');
                 //$(ui.placeholder).parent('.row').equalWidths();
                 //  $(ui.placeholder).parent('.row').children('.column').height('auto');
 
@@ -447,39 +454,19 @@ function init_sortables() {
 
             over: function (event, ui) {
 
+                $(ui.placeholder).closest(".column").each(function (c) {
+                    if ($("div", this).size() == 0) {
+                        $(this).html(window.mw_empty_column_placeholder);
 
-                // $('.empty', '.edit').remove();
-                $(ui.helper).css({
-                    "width": $(this).width()
-					 
-                });
-                $(ui.item).css({
-                    "width": $(this).width()
-					
-                });
-				
-				 
-				
-				
-				   $('.row').equalHeights()
-   $('.row').children(".column").addClass("mw-outline-column");
-           $('.row').children(".mw-sorthandle-row:first").show();
-  window.mw_drag_started = true;
-	
-				
-				 
-				  $('.empty-column').show();
- //  $(ui.helper).closest(".empty").hide();
- 				//$(ui.placeholder).closest('.empty-column').remove();
+                        $(this).children('.empty').show()
 
-                //$(this).closest('.column').height('auto');
-  
-  
-  
-// $(".empty-column", '.edit').die('mouseover');
- 
-     //  $(this).children(".empty-column").remove();
-	 //    $(this).parent('.column').height('auto');
+                    } else {
+
+
+                    }
+                });
+
+
 
                 // $(ui.item).css({"width" : ui.placeholder.width()});	
                 //  $(ui.helper).css({"width" : ui.placeholder.width()});	
@@ -492,7 +479,7 @@ function init_sortables() {
 
 
                 //  var tr = $(event.target).closest('.empty').show()
-              //  $(ui.placeholder).closest('.empty').show()
+                $(ui.placeholder).closest('.empty').show()
 
 
                 $(this).sortable('refreshPositions')
@@ -511,8 +498,6 @@ function init_sortables() {
             },
 
             out: function (event, ui) {
-				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
-				$('.row').equalHeights()
                 $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
                 // $(this).css('min-height', '10px');
@@ -522,14 +507,21 @@ function init_sortables() {
                 //$(ui.sender).find('.ui-state-highlight').fadeOut('fast')
             },
 
-			create: function (en, ui) {
-               $(".column").putPlaceholdersInEmptyColumns()
-                $(this).sortable('refreshPositions')
-            },
-			
             activate: function (en, ui) {
-               $(".column").putPlaceholdersInEmptyColumns()
+                $(".column").each(function (c) {
+                    if ($("div:visible", this).size() == 0) {
+                        $(this).html(window.mw_empty_column_placeholder);
+                        //	 $(this).html('aaaaa');
+                    } else {
+                        //$(this).append(place2);
+                        //$('.empty').fadeIn('fast')
+                    }
+
+                })
+
                 $(this).sortable('refreshPositions')
+                //  $(this).css('min-height',  ui.item.height());
+                //$(this).find('.empty').fadeIn('fast')
             },
             deactivate: function (en, ui) {
                 window.mw_drag_started = false;
@@ -704,6 +696,9 @@ function init_sortables() {
 
 
 
+
+
+
         $(".element", '.edit').die('mouseenter');
         $(".element", '.edit').mouseenter(function () {
             $has = $(this).children(":first").hasClass("mw-sorthandle");
@@ -818,7 +813,6 @@ $('.column', '.row').live('hover', function (e) {
                 ui.element.next().children(".row").equalWidths();
                 ui.element.children(".row").equalWidths();
                 ui.element.parent(".row").equalWidths();
-				
                 //  $(this ).parent(".row").equalHeights() ;
 
                 // $cols_to_eq =  $(this ).parent(".row").children(".column");
