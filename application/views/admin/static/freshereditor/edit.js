@@ -232,6 +232,37 @@ function mw_make_handles() {
 
 }
 
+
+function mw_z_index_fix(){
+
+ var count = 100;
+        $('.mw-sorthandle-row').each(function () {
+            // If any label overlaps with the image (used overlaps plugin)
+           
+                // Increase count (the z-index)
+                count += 10;
+                $(this).css('z-index', count);
+           
+
+        });
+		
+		 var count = 20000;
+		 $('.-handasdle').each(function () {
+                 count -= 10;
+                $(this).css('z-index', count);
+        });
+		
+		 var count = 20000;
+		 $('.uiasd-resizable-handle').each(function () {
+                 count -= 10;
+                $(this).css('z-index', count);
+        });
+		
+		
+		
+	
+}
+
 function mw_make_css_editor($el_id) {
     if ($el_id == undefined || $el_id == 'undefined') {
         $el_id = window.mw_element_id;
@@ -361,6 +392,13 @@ function init_sortables() {
                 $('.mw-sorthandle', '.column').remove();
                 $('.column', '.edit').resizable("destroy");
                 $('.ui-resizable').resizable("destroy");
+				 $('.ui-resizable').resizable("destroy");
+				 $('.ui-resizable-e', '.column').remove();
+				  $('.-e', '.column').remove();
+				  $('.ui-resizable', '.column').removeClass('ui-resizable');
+				    $('.ui-resizable-autohide').removeClass('ui-resizable-autohide');
+					$('.-autohide').removeClass('-autohide');
+					$('.ui-resizable').removeClass('ui-resizable');
 
                 $('[contenteditable=true]').attr("contenteditable", false);
 
@@ -387,7 +425,7 @@ function init_sortables() {
                 $('.ui-state-highlight').remove();
 				$('.empty-column').remove();
 
-				
+				mw_z_index_fix();
 				
  				 $(".column").putPlaceholdersInEmptyColumns()
 
@@ -741,9 +779,13 @@ $('.module', '.edit').live('mousenter', function (e) {
 
 
 
+/*$('.column', '.row').die('mouseout');
+$('.column', '.row').live('mouseout', function (e) {
+   $(this).resizable("disable");  
+})*/;
 
 
-
+ 
 
 
 $('.column', '.row').die('hover');
@@ -798,14 +840,14 @@ $('.column', '.row').live('hover', function (e) {
 
         // $also.addClass('also-resize');
         //   $inner_column.addClass('also-resize-inner');
-        $(this).resizable("destroy")
+       // $(this).resizable("destroy")
         $(this).attr("data-also-rezise-item", $also_reverse_id)
         $(this).resizable({
             grid: [1, 10000],
             handles: 'e',
             containment: "parent",
             //	 aspectRatio: true,
-            autoHide: true,
+           autoHide: true,
 
             //alsoResizeReverse:'.also-resize' ,
             alsoResizeReverse: '#' + $also_reverse_id,
@@ -825,7 +867,7 @@ $('.column', '.row').live('hover', function (e) {
                 //$(this ).parent(".row").addClass('also-resize-inner');
             },
             create: function (event, ui) {
-                $(".row").equalHeights().equalWidths();
+                $(".row").equalWidths().equalHeights();
 
 
             },
@@ -840,7 +882,7 @@ $('.column', '.row').live('hover', function (e) {
 
 
                 $('.column').css('height', 'auto');
-
+mw_z_index_fix();
             }
         });
 
@@ -848,7 +890,9 @@ $('.column', '.row').live('hover', function (e) {
 
 
 
-    }
+    } else {
+	// $(this).resizable("enable");  	
+	}
 
     e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
@@ -857,7 +901,7 @@ $('.column', '.row').live('hover', function (e) {
 
 
 
-});
+}); 
 $('.module', '.edit').live('click', function (e) {
 
 
