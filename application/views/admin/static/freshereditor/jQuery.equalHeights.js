@@ -1,3 +1,51 @@
+
+
+;(function($) {
+	$.fn.putPlaceholdersInEmptyColumns = function(options) {
+		return this.each(function() {
+			// Extend the options if any provided
+			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
+			
+			
+			// $(this).add(window.mw_empty_column_placeholder);
+                  //  $(this).children('.empty').show()
+                    if ($("div.element", this).size() == 0) {
+						
+						 $(this).html(window.mw_empty_column_placeholder2);
+						
+						
+                        //		$(this).addClass('ui-state-highlight2');
+
+
+                        //	. $(this).html(window.mw_empty_column_placeholder);
+
+                        //  $(this).append(window.mw_empty_column_placeholder);
+
+                        // $(this).html(window.mw_empty_column_placeholder);
+                        //	 $(this).html('aaaaa');
+                    } else {
+						 $(this).children('.empty-column').remove()
+						
+                        //  $(this).children('.empty').show()
+                        // $('.empty').fadeIn('fast') 
+                    }
+			 
+		});
+	};//End of Plugin
+	
+	 
+})(jQuery);
+
+
+
+
+
+
+
+
+
+
+
 /**
  * jQuery.equalHeights - Making an equal height panels.
  * @copyright (c) 2010-2011 Aamir Afridi - http://www.aamirafridi.com/blog
@@ -13,22 +61,31 @@
 			// Extend the options if any provided
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
 			//Find the shortest height item
-			var shortestHeight = 10000;
-			 	var shortestW = 10000;
-			$this.find(o.itemsToEqualize).each(function(){
+			//  $('.hl1').removeClass('hl1');
+			 // $('.hl2').removeClass('hl2');
+			//$h = $(this).addClass('hl1');
+			//$h = $(this).outerHeight();
+			
+			//$this.children(o.itemsToEqualize).height($h)
+			
+			
+			//$this.children('.column' ).resizable('destroy');
+			//	$this.children('.column' ).addClass('hl2'); 
+			
+			 var shortestHeight = 10000;
+			 var biggestHeight = 0;
+			$this.children('.column' ).each(function(){
 				shortestHeight = $(this).height() < shortestHeight ? $(this).height() : shortestHeight;
+								biggestHeight = $(this).outerHeight() > biggestHeight ? $(this).outerHeight() : biggestHeight;
+
 		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
 
 			});
-			//Now loop through the each element and keep removing word by word untill its height reaches to the minimal
-			$this.find(o.itemsToEqualize).each(function(){
-				//If height is already equal to the minimum than return
-				if($(this).height()==shortestHeight) return;
-				//Now loop until the heights is equal to the minimum height by removing word by word
-				 
-				//Now check if the last char of the last word is not a full stop than remove the last word and put three dots with the last word
-				 
-			});
+			$this.children('.column' ).height(biggestHeight);
+			//$('#ContentSave').html(shortestHeight+'   |   ' + biggestHeight );
+ 			/*$this.children('.column' ).each(function(){
+ 				if($(this).height()==shortestHeight) return;
+ 			}); */
 		});
 	};//End of Plugin
 	
@@ -63,8 +120,8 @@
 			var last_col = $(this).children('.column:last-child');
 	        var parent_row = $(this);
 
-			  $('.also-resize').removeClass('also-resize');
-			 last_col.addClass('also-resize');
+			 // $('.also-resize').removeClass('also-resize');
+			// last_col.addClass('also-resize');
 			
 				if (child_count == 1) {
 					
@@ -126,7 +183,7 @@
 										 
 										 
 										 
-										   $('#ContentSave').html(w_ch+'   |   '+ $w1);
+										   
 										 
 									  }
 									  

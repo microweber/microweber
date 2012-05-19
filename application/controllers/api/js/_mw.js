@@ -74,28 +74,20 @@ mw.load_module = function($module_name, $update_element) {
 	 $($update_element).load(url1,attributes,function() {
 	 window.mw_sortables_created = false;
 	 }); 
-
-/*
-	$.ajax({
-		url : '{SITE_URL}api/module',
-		type : "POST",
-		//data : ($vars),
-		data : {
-			module : $module_name
-		},
-		async : true,
-
-		success : function(resp) {
-			$($update_element).html(resp);
-
-		}
-	});
-*/
-
-
+ 
+ 
 }
 
+mw.load_layout_element = function($layout_element_name, $update_element) {
 
+	var attributes = {}; 
+	attributes.element = $layout_element_name;
+	 
+	 url1= '{SITE_URL}api/content/load_layout_element';
+	 $($update_element).load(url1,attributes,function() {
+	 window.mw_sortables_created = false;
+	 }); 
+}
 
 mw.reload_module = function($module_name) {
 	

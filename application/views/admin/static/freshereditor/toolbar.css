@@ -24,7 +24,10 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:150px;/*padding-right: 3%;
+	height:150px;
+	
+	
+	/*padding-right: 3%;
 	padding-left: 3%;    */     
 }
 .row {
@@ -32,28 +35,69 @@ body {
 	min-height:40x;
 }
 .row:hover {
-	outline: 1px solid #d0d0d0;
+	outline: 2px solid #d0d0d0;
 }
+
+.element:hover {
+	outline: 2px solid #00FF00;
+}
+
 .ui-state-highlight2, .also-resize {
 	background-color: #990099 !important;
 }
 .also-resize-inner {
 	background-color: #990000 !important;
 }
+
+.hl1 {
+	background-color: #FFFF00 !important;
+}
+.hl2 {
+	background-color: #33CCFF !important;
+}
+
+.empty-column {
+	width:95%;
+	height:20px;
+	margin:1%;
+   margin:5px;
+   padding-bottom:-20px;
+   margin-bottom:35px;
+
+ 
+}
+.empty-column:hover {
+ 
+}
+.empty-column span {
+color: #AAAAAA;
+    font-size: 20px;
+  
+    text-align: center;
+ 	
+}
+
+
 .empty {
 	width:100%;
-	height:30px !important;
-	line-height:15px !important;
-	margin-top:40px;
-	margin-bottom:50px;
+ 	line-height:20px !important;
+	margin-top:20px;
+	margin-bottom:20px;
 	background-image: none;
 	background-color:#CCCCCC !important;
 	clear: both !important;
 	display:block !important;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	text-decoration: none;
+ 	text-decoration: none;
+ }
+
+.mw-outline-column {
+	outline-style:solid;
+	outline-width:1px;
+	outline-color: #d0d0d0;
+	outline-offset: 0px;
 }
+
 .mw-outline {
 	outline-style:solid;
 	outline-width:2px;
@@ -99,6 +143,7 @@ a.mw-make-cols.active {
 	color:#333;
 }
 .column {
+	float:left;
 /*	outline-style:solid;
 outline-width:1px;
 outline-color: #039;
@@ -129,12 +174,22 @@ position:relative;*/
 	background-image: url(images/mw_handle_bar.jpg);
 	z-index:900;
 	background-repeat: repeat-x;
-	border: 1px solid #d0d0d0;
+ }
+.row .column .mw-sorthandle-row {
+	z-index:999;
+  
 }
+
+
+.row .column .row .column .mw-sorthandle-row {
+	z-index:1000;
+ 
+}
+
 .mw-sorthandle {
 	width:100%;
 	position:absolute;
- left 0px;
+ left: 0px; 
 	background-repeat: repeat-x;
 }
 .mw-sorthandle span {
