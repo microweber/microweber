@@ -997,9 +997,9 @@ mw_z_index_fix();
 	// $(this).resizable("enable");  	
 	}
 
-    e.preventDefault();
+   // e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
-    e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+  //  e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 
 
 
@@ -1043,9 +1043,9 @@ $('.module', '.edit').live('click', function (e) {
     // alert($clicked_on_module);
 
 
-    e.preventDefault();
+ //   e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
-    e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+   // e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
     return false;
 
 });
