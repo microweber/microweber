@@ -30,6 +30,19 @@ body {
 	/*padding-right: 3%;
 	padding-left: 3%;    */     
 }
+
+.empty-column {
+	width:95%;
+	height:150px;
+	 
+   margin-bottom:-40px;
+   padding-bottom:-20px;
+   margin-top:1px; 
+  z-index:-1;
+   padding-top:10px;
+ }
+
+
 .row {
 	margin-left: 0px !important;
 	min-height:40x;
@@ -53,16 +66,7 @@ body {
 .hl2 {
 	background-color: #33CCFF !important;
 }
-.empty-column {
-	width:95%;
-	height:120px;
-	margin:1%;
-   margin:5px;
-   padding-bottom:-40px;
-   margin-top:1px; 
-   padding-top:10px;
-   
-}
+
 
 .empty-columasdn {
 	width:95%;
