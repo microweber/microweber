@@ -53,15 +53,26 @@ body {
 .hl2 {
 	background-color: #33CCFF !important;
 }
-
-
 .empty-column {
+	width:95%;
+	height:120px;
+	margin:1%;
+   margin:5px;
+   padding-bottom:-40px;
+   margin-top:1px; 
+   padding-top:10px;
+   
+}
+
+.empty-columasdn {
 	width:95%;
 	height:20px;
 	margin:1%;
    margin:5px;
    padding-bottom:-20px;
-   margin-bottom:35px; 
+   margin-top:-55px; 
+   padding-top:65px;
+    margin-bottom:60px; 
 }
 
 .empty-column-big {

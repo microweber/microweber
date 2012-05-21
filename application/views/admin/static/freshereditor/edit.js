@@ -6,8 +6,8 @@ window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
 window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="empty-column"><span>Please drag items here</span></div>';
-window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here</span></div>';
+window.mw_empty_column_placeholder2 = '<div class="empty-column"><span>Please drag items here 2</span></div>';
+window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
 
 
 
@@ -34,8 +34,11 @@ function mw_delete_element($el_id) {
 					$el_id = window.mw_element_id;
 				}
 				//	alert($el_id);
-				$($el_id).fadeOut().remove();
-				$('#' + $el_id).fadeOut().remove();
+				$($el_id).remove();
+				$('#' + $el_id).remove();
+				 $(".column").putPlaceholdersInEmptyColumns()
+				 mw_fix_grid_sizes()
+
 		  }
 }
 
@@ -158,7 +161,11 @@ if ($row_id != undefined && $row_id != false && $row_id != 'undefined') {
 
 
 }
+function mw_fix_grid_sizes() {
 
+$('.row').equalWidths();
+   $('.column').height('auto');
+}
 function mw_make_row_editor($el_id) {
 
     if ($el_id == undefined || $el_id == 'undefined') {
@@ -241,13 +248,13 @@ function mw_load_new_dropped_modules() {
  $('.column', '.edit').resizable("destroy");
         $('.ui-resizable').resizable("destroy");
 
+  
 
+       setTimeout("mw_make_handles()", 6000)
+	   setTimeout("init_sortables()", 900)
+ 
 
-       setTimeout("mw_make_handles()", 2000)
-	   setTimeout("init_sortables()", 2000)
-
-
-
+ setTimeout("mw_fix_grid_sizes()", 900)
        
     
 		//mw_make_handles()
@@ -443,7 +450,7 @@ function init_sortables() {
             // items: '.row:not(.disabled),.col',
             items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),div.empty-column',
             dropOnEmpty: true,
-            forcePlaceholderSize: true,
+           // forcePlaceholderSize: true,
             forceHelperSize: true,
             greedy: true,
             tolerance: 'pointer',
@@ -492,9 +499,16 @@ function init_sortables() {
     change: function (e,ui){
 		  $(ui.placeholder).show();
 		   
-			   $(ui.placeholder).parent('.row').equalWidths();
-			 $rh =  $(ui.placeholder).parent('.row').height();
-			   $(ui.placeholder).parent('.column').height($rh);
+			   $(ui.placeholder).parent('.row').equalHeights();
+			   $rh = $(ui.placeholder).parent('.row').height();
+			     $(ui.placeholder).parent('.column').height($rh);
+				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
+			
+			
+			
+			 //  $('.row').equalWidths();
+			//  $rh =  $(ui.placeholder).parent('.row').height();
+			   // $(ui.placeholder).parent('.column').height($rh);
        //  $(ui.placeholder).show(100);
 	   // $(ui.placeholder).slide(100);
     },
@@ -547,6 +561,15 @@ function init_sortables() {
                 $(ui.helper).css({
                     "height": ui.placeholder.height()
                 });
+				
+				$(ui.placeholder).css({
+                   // "height": '150px'
+					 
+                });
+				
+			 
+				
+				
  //  $(ui.helper).closest(".empty").hide();
  				//$(ui.placeholder).closest('.empty-column').remove();
 				 //  $(ui.placeholder).parent('.column').addClass('hl2');
@@ -583,15 +606,18 @@ function init_sortables() {
 					
                 });
 				
-				 
+			//	 $(ui.placeholder).parent('.row').equalHeights();
+				 //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
+				 $rh = $(ui.placeholder).parent('.row').height();
+			     $(ui.placeholder).parent('.column').height($rh);
 				
 				
 				//   $('.row').equalHeights()
 				   
 				 //    $rh1 =  $(ui.placeholder).height();
 				   
-				    $rh =  $(ui.placeholder).parent('.row').height();
-			   $(ui.placeholder).parent('.column').height($rh );
+				//    $rh =  $(ui.placeholder).parent('.row').height();
+			//   $(ui.placeholder).parent('.column').height($rh );
 				   
 				   
    $('.row').children(".column").addClass("mw-outline-column");
