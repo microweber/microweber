@@ -602,67 +602,18 @@ function init_sortables() {
 
 
 
-
-
-
-
-
-        $('.modules-list', '#mw_toolbar_tabs').sortable({
-            items: '.module_draggable',
-            forcePlaceholderSize: true,
-            forceHelperSize: true,
-            stop: function (event, ui) {
-                $('.empty').fadeOut('fast') //.remove();
-                $('.ui-resizable').resizable("destroy");
-                mw_load_new_dropped_modules();
-
-
-
-
-
-
-                $('.row').each(function (index) {
-
-
-
-                    $(this).equalWidths().equalHeights();
-                });
-
-
-
-
-
-
-            },
-            connectWith: '.edit,.column,.row>.column'
+$('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
+       
+       $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
+			connectToSortable: '.edit,.row>.column,' + $drop_areas,
+            helper: "clone",
+			// handle: '.module_draggable',
+            revert: "invalid"
         });
+        $('.modules-list', '#mw_toolbar_tabs .modules-list').disableSelection();
+		 
 
-
-        /*	$('.edit').sortable({
-    items: '.row,.column>.row',
-  handle: '.mw-sorthandle-row',
-			connectWith: '.edit,.column,.row>.column'
-			});	*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        $(".module-item").disableSelection();
+      //  $(".module-item").disableSelection();
 
         $(".mw-sorthandle", '.edit').disableSelection();
 

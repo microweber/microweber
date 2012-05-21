@@ -1,5 +1,14 @@
 
-<div class="col" style="width:95%">
-  <p> <img src="http://lorempixum.com/200/200/?<? print rand(); ?>"  style="float:left; padding:5px;"  /> <br />
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec mattis sapien. Nullam lectus ante, feugiat eu condimentum ac, ultricies vitae mi. Fusce facilisis lobortis sodales. Vivamus et tellus sed ligula vestibulum lacinia nec eu nisl. In a lorem justo, non cursus sapien. Ut rutrum leo sit amet orci accumsan iaculis. Ut ac gravida magna. Phasellus sed ipsum mauris, nec hendrerit ante. Maecenas fermentum risus sit amet est varius eget tempor tellus dignissim. Nam vel mi interdum neque cursus venenatis nec eget metus. </p>
+<div class="row">
+  <div class="column" style="width:99%" >
+    <div class="element" >
+    <img src="http://lorempixum.com/200/200/?<? print rand(); ?>" height="200"  width="100%"  />
+      <h1>HTML Ipsum Presents</h1>
+      <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+    </div>
+  </div>
 </div>
+
+
+
+ 
