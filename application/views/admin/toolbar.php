@@ -785,7 +785,16 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 </div>
 <div id="mw-layout-edit-footer-bar">
   <div class="mw-layout-edit-site-bar-l"></div>
-  <div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span> Make cols: <a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(5)" class="mw-make-cols mw-make-cols-5" >5</a> <span class="mw-layout-edit-curent-element"></span><a  onclick="mw_delete_element()" >x</a></div>
+  <div class="mw-layout-edit-site-bar-r"><span class="mw-layout-edit-curent-row-element"></span> 
+  
+  <div id="make_cols_template">
+  Make cols: <a  href="javascript:mw_make_cols(1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(5)" class="mw-make-cols mw-make-cols-5" >5</a> 
+  </div>
+  
+  
+  
+  
+  <span class="mw-layout-edit-curent-element"></span><a  onclick="mw_delete_element()" >x</a></div>
 </div>
 <div id="mw-temp"> </div>
 <div id="ContentSave"> 

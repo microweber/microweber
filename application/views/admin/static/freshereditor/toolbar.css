@@ -11,7 +11,7 @@ body {
 	margin-top:20px;
 	margin-bottom:35px;
 	background-image: url(images/drop.png);
-	background-color:#efecec !important;
+	background-color:#FFFF93 !important;
 	background-repeat: no-repeat;
 	background-position: center center;
 	outline: 1px dashed #a5b3ac;
@@ -38,9 +38,7 @@ body {
 	outline: 2px solid #d0d0d0;
 }
 
-.element:hover {
-	outline: 2px solid #00FF00;
-}
+
 
 .ui-state-highlight2, .also-resize {
 	background-color: #990099 !important;
@@ -56,10 +54,7 @@ body {
 	background-color: #33CCFF !important;
 }
 
-.element {
- word-wrap: break-word;
- 	
-}
+
 .empty-column {
 	width:95%;
 	height:20px;
@@ -139,11 +134,19 @@ color: #AAAAAA;
 .ui-sortable:not(.edit):hover, .col:hover {
 /*outline: 1px dotted #0CF;*/
 }
+
+.columns_set {
+	float:left;
+	font-size:10px;
+	color:#999999;
+}
+
+
 a.mw-make-cols {
-	font-weight:bold;
-	font-size:11px;
+	 
+	font-size:10px;
 	color:#FFFFFF;
-	background-color:#333;
+	background-color:#CCC;
 	padding-left:3px;
 	padding-right:3px;
 	text-decoration:none;
@@ -171,19 +174,58 @@ position:relative;*/
 .edit {
 	position:relative;
 }
+
+
+.mw-sorthandle {
+	width:100%;
+	position:absolute;
+ left: 0px; 
+	background-repeat: repeat-x;
+	cursor:move;
+}
+.mw-sorthandle span {
+	width:100%;
+}
+.columns_set {
+	float:left;
+}
+.mw_delete_element {
+ float:right;
+}
 .mw-sorthandle-col {
 	background-color:#0F0;
 	height:12px;
 	top:0px;
 	z-index:1000;
+	background-image: url(images/col-handle.png);
+ 
+	background-repeat: repeat-x;
+	background-position:center center;
+	display:none;
+	cursor:move;
 }
+
+.element {
+ word-wrap: break-word;
+ 	
+}
+.element:hover {
+	outline: 2px solid #e8e8e8;
+}
+
+
+
+
 .mw-sorthandle-row {
 	background-color:#CCC;
 	height:24px;
 	top:-24px;
-	background-image: url(images/mw_handle_bar.jpg);
+	background-image: url(images/row-handle.png);
 	z-index:900;
 	background-repeat: repeat-x;
+	background-position:center center;
+	display:none;
+	cursor:move;
  }
 .row .column .mw-sorthandle-row {
 	z-index:999;
@@ -196,15 +238,7 @@ position:relative;*/
  
 }
 
-.mw-sorthandle {
-	width:100%;
-	position:absolute;
- left: 0px; 
-	background-repeat: repeat-x;
-}
-.mw-sorthandle span {
-	width:100%;
-}
+
 .ui-resizable-helper {
 	border: 2px dotted #00F;
 }
