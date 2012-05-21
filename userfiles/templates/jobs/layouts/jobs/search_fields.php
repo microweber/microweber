@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="jobsearch_form_fileds">
-  <input type="text" class="jobsearch_textbox1" id="search_loc" name="location*|state*|zip*" value="<? print url_param('location*|state*|zip*')==""?"Location":url_param('location*|state*|zip*'); ?>"   />
+  <input type="text" class="jobsearch_textbox1" name="location*|state*|zip*" value="<? print url_param('location*|state*|zip*')==""?"Location":url_param('location*|state*|zip*'); ?>"   />
   <div id="select_box_mask" style="float:left">
     <div class="jobsearch_drop_close"></div>
     <select class="jobsearch_drop">

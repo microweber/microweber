@@ -344,7 +344,7 @@ ul.paging li {
 .pagination ul.paging li a {
 	color:#23496E;
 	text-decoration:none;
-    width: auto;
+    width: 9px;
 	float:left;
     line-height: normal;
     height: auto;
@@ -356,7 +356,7 @@ border-radius: 20px;
 }
 ul.paging li a:hover, ul.paging li a.active, ul.paging li a.active:hover {
 	color:#ffffff;
-	font-weight:normal;
+	font-weight:bold;
   background:#25476D;
 }
 #next:hover {
@@ -747,7 +747,7 @@ a#subscribe:hover {
 	padding-top:10px;
 	padding-left:10px;
 }
-.cat_nav ul li a:hover, .cat_nav ul li a.active {
+.cat_nav ul li a:hover {
 	color:#24496F;
 	text-decoration:none;
 	background-color:#E3E3E3;
@@ -1326,14 +1326,20 @@ a#subscribe:hover {
 	height:36px;
 	margin-left:-26px;
 	float:left;
-	background-color:#ffffff;
-    display: none;
+	background-color:#ffffff
 }
 .contact_message {
 	width:345px;
 	height:136px;
 	float:left;
+	background-image: url(../images/contact_messagebg.jpg);
 	padding:10px;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
 }
 .contact_send_but {
 	width:120px;
@@ -1482,7 +1488,7 @@ a#subscribe:hover {
 	padding-top:34px;
 }
 .jobseaker_contact_left {
-	width:255px;
+	width:363px;
 	height:auto;
 	float:left;
 }
@@ -1492,23 +1498,32 @@ a#subscribe:hover {
 	float:left
 }
 .jobseaker_name_arr {
+	width:114px;
+	height:18px;
 	float:left;
+	margin-top:60px;
+	margin-left:22px;
+	padding-left:28px;
 	font-weight:bold;
 	color:#232323;
 	background-image: url(../images/contactarr.jpg);
 	background-repeat: no-repeat;
-	background-position: 100% 2px;
+	background-position: right;
 	text-align:left;
+    float: none;
     clear: both;
-    display: inline-block;
-    margin-bottom: 14px;
     margin-left: 0;
-    padding: 3px 35px 3px 0;
 }
 .jobseaker_formtext {
 	width:295px;
 	height:26px;
 	float:left;
+	background-image: url(../images/jobseaker_frombg.jpg);
+	background-color: transparent;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
 	margin-bottom:10px;
 	color:#24496F;
 	padding-left:10px;
@@ -2191,7 +2206,7 @@ a#join_terms:hover {
 	height:28px;
 	float:left;
 	margin-top:12px;
-	margin-left:223px;
+	margin-left:543px;
 	background-image: url(../images/dn_arr.jpg);
 	margin-right:100%
 }
@@ -2217,12 +2232,8 @@ a#join_terms:hover {
 	font-size:24px;
 	text-align:center;
 	margin-top:16px;
-	margin-left:0;
+	margin-left:159px;
 	margin-bottom:92px;
-
-
-    margin-left: 29px;
-    margin-top: 0;
 }
 /**************** Job List****************/
 	
@@ -2702,34 +2713,6 @@ border-radius: 7px;
 
 .join_create_acc_but{
   margin-right: 19px;
-}
-
-.bx-window{
-  height: 100px;
-}
-.bx-window ul{
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#contact_form span.error input,
-#contact_form span.error textarea{
-  border-color:red;
-}
-
-.jobseaker_contact_rt label{
-  display: block;
-  clear: both;
-  padding: 4px 0 0px;
-  font-size: 12px;
-  font-weight: normal;
-}
-
-span.error input[type='text'],
-span.error input[type='password'],
-span.error textarea{
-  border-color:red
 }
 
 

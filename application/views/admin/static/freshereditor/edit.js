@@ -191,27 +191,29 @@ function mw_load_new_dropped_modules() {
     if ($need_re_init == true) {
 
 
-
-
-
-
-        setTimeout("mw_make_handles()", 2000)
-
-
-
-        $('.column', '.edit').resizable("destroy");
+ $('.column', '.edit').resizable("destroy");
         $('.ui-resizable').resizable("destroy");
-        init_sortables()
+
+
+
+       setTimeout("mw_make_handles()", 2000)
+	   setTimeout("init_sortables()", 2000)
+
+
+
+       
+    
+		//mw_make_handles()
     }
 }
 
 
 function mw_make_handles() {
 
-    $('.row').each(function (index) {
+    $('.row', '.edit').each(function (index) {
 
 
-        $has = $(this).children(":first").hasClass("mw-sorthandle-row");
+        $has = $(this).children("div:first").hasClass("mw-sorthandle-row");
         if ($has == false) {
             $(this).prepend("<div class='mw-sorthandle mw-sorthandle-row'><span>&nbsp;</span></div>");
         }
@@ -227,7 +229,7 @@ function mw_make_handles() {
             $(this).prepend("<div class='mw-sorthandle-col'><span>&nbsp;</span></div>");
         }
     })
-
+mw_z_index_fix();
 
 
 }
@@ -313,6 +315,8 @@ window.mw_drag_started = false;
 window.mw_row_id = false;
 window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
 window.mw_empty_column_placeholder2 = '<div class="empty-column"><span>Please drag items here</span></div>';
+window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here</span></div>';
+
 
 function mw_remove_editables() {
 
@@ -350,8 +354,11 @@ function init_sortables() {
         $('.column').sortable('destroy');
         $('.row').sortable('destroy');
         $('.modules-list').sortable('destroy');
-
-
+ $(".column").putPlaceholdersInEmptyColumns()
+ 
+   $('.row').equalHeights()
+ 
+ 
         $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,div.column';
 
         $($spans).addClass('column');
@@ -414,7 +421,11 @@ function init_sortables() {
  
     change: function (e,ui){
 		  $(ui.placeholder).show();
-      //  $(ui.placeholder).show(100);
+		   
+			 
+			 $rh =  $(ui.placeholder).parent('.row').height();
+			   $(ui.placeholder).parent('.column').height($rh);
+       //  $(ui.placeholder).show(100);
 	   // $(ui.placeholder).slide(100);
     },
 
@@ -463,8 +474,8 @@ function init_sortables() {
  //  $(ui.helper).closest(".empty").hide();
  				//$(ui.placeholder).closest('.empty-column').remove();
 				 //  $(ui.placeholder).parent('.column').addClass('hl2');
-   $(ui.placeholder).parent('.column').height('auto');
-               // $(ui.placeholder).closest('.column').height('auto');
+ //  $(ui.placeholder).parent('.column').height('auto');
+                // $(ui.placeholder).closest('.column').height('auto');
 
                 //$(ui.placeholder).parent('.row').equalWidths();
                 //  $(ui.placeholder).parent('.row').children('.column').height('auto');
@@ -499,13 +510,20 @@ function init_sortables() {
 				 
 				
 				
-				   $('.row').equalHeights()
+				//   $('.row').equalHeights()
+				   
+				 //    $rh1 =  $(ui.placeholder).height();
+				   
+				    $rh =  $(ui.placeholder).parent('.row').height();
+			   $(ui.placeholder).parent('.column').height($rh );
+				   
+				   
    $('.row').children(".column").addClass("mw-outline-column");
            $('.row').children(".mw-sorthandle-row:first").show();
   window.mw_drag_started = true;
 	
 				
-				 
+				//  $(ui.placeholder).parent('.column').height('auto');
 				  $('.empty-column').show();
  //  $(ui.helper).closest(".empty").hide();
  				//$(ui.placeholder).closest('.empty-column').remove();

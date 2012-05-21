@@ -56,16 +56,26 @@ body {
 	background-color: #33CCFF !important;
 }
 
+.element {
+ word-wrap: break-word;
+ 	
+}
 .empty-column {
 	width:95%;
 	height:20px;
 	margin:1%;
    margin:5px;
    padding-bottom:-20px;
-   margin-bottom:35px;
-
- 
+   margin-bottom:35px; 
 }
+
+.empty-column-big {
+ 	height:150px;
+	margin-top:10px; 
+    margin-bottom:45px; 
+}
+
+
 .empty-column:hover {
  
 }

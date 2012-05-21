@@ -111,44 +111,24 @@ $(document).ready(function() {
 		
  
 });
-
+        
 $(function() {
-
-
-var clone1 = $('.sendcv_error').clone(true);
-var clone2 = $('.sendcv_success').clone(true);
-
-$('.sendcv_error').remove();
-$('.sendcv_success').remove();
-
-$(".sendcv_box").after(clone1);
-$(".sendcv_box").after(clone2);
-
 	$('#send_cv').submit(function() {
 	  //alert($(this).serialize());
-	    var form = this;
-     if(isValid.form(form)){
+	  
 	  
 	  $.post('<? print site_url('api/user/message_send') ?>',$(this).serialize(), function(data) {
 			 // $('.result').html(data);
 			 
-			 $('#send_cv')[0].reset();
-
-
-
-
+			 $('#send_cv').fadeOut();
+			 
+			 $('.sendcv_dn_arr').fadeIn();
 			  $('.sendcv_success').fadeIn();
-
-
-              $(".sendcv_box").hide();
-
-
-
-
+			 
 			});
 	  
-
-	      }
+	  
+	  
 	  return false;
 	});
 });
@@ -162,7 +142,7 @@ $(".sendcv_box").after(clone2);
     <h3>Attach CV</h3>
     
  
-
+      
       <div id="sendcv_browse">
 	<div id="filelist"></div>
 	<br />
@@ -178,7 +158,8 @@ $(".sendcv_box").after(clone2);
     
     <microweber module="media/files" for_id="<? print user_id(); ?>" for="user"  collection="<?php print POST_ID ?>" />
     <label>Message or motivational letter (required*)
-      <span><textarea  cols="20" rows="20" class="sendcv_msg required" name="message"></textarea></span>
+      <textarea   cols="20" rows="20" class="sendcv_msg" name="message">
+      </textarea>
     </label>
     <div class="sendcv_send_but">
       <input type="image" src="<? print TEMPLATE_URL ?>images/sendcv_send_but.jpg" />
@@ -188,10 +169,6 @@ $(".sendcv_box").after(clone2);
 </div>
 <div class="result"></div>
 <div class="sendcv_dn_arr hidden"></div>
-</div>
-
-<?  endif; ?>
-
 <div class="sendcv_error hidden">Error Message: Please fill all fields</div>
-
 <div class="sendcv_success hidden">Your CV was sent successfuly sent</div>
+<?  endif; ?>

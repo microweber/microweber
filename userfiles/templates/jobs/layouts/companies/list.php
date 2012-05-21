@@ -106,7 +106,7 @@
     <div class="company_name"><strong>Company Name:</strong> <? print user_name($usr['id']); ?></div>
   </div>
   <? endforeach; ?>
-  <?php //echo "Current Page". url_param('curent_page');?>
+  <?php echo "Current Page". url_param('curent_page');?>
   <div class="pagination"> <a href="#" id="prev">Prev</a>
     <? 
 	
