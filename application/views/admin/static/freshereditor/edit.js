@@ -812,7 +812,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			
 			if(window.mw_drag_started == false){
 			
-			 $(".mw-sorthandle-row", '.edit').hide();
+			// $(".mw-sorthandle-row", '.edit').hide();
 			
 			
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
@@ -840,7 +840,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			
 				if(window.mw_drag_started == false){
 			
-		  $(".mw-sorthandle-row", '.edit').hide();
+		//  $(".mw-sorthandle-row", '.edit').hide();
 					  $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
 
 			
