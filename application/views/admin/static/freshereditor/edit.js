@@ -569,6 +569,7 @@ function init_sortables() {
 					 
                 });
 				
+				
 			 
 				// $rh = $(ui.placeholder).parent('.row').height();
 			  //   $(ui.placeholder).parent('.column').height($rh);
@@ -613,13 +614,15 @@ function init_sortables() {
 			//	 $(ui.placeholder).parent('.row').equalHeights();
 				 //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
 				  $('.empty-column').show();
+				   
+				   $col_s = $(ui.placeholder).parent('.column').children('.element').size();
+				   if($col_s  > 0){
+				   $(ui.placeholder).parent('.column').height('auto');
+				   }
+				//   $rh = $(ui.placeholder).parent('.row').height();
+			//    $(ui.placeholder).parent('.column').height($rh);
 				  
-				  
-		 
-				  
-				  
-				// $rh = $(ui.placeholder).parent('.row').height();
-			    // $(ui.placeholder).parent('.column').height($rh);
+			 
 				
 				
 				//   $('.row').equalHeights()
@@ -964,7 +967,7 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
                 ui.element.children(".row").equalWidths();
                 ui.element.parent(".row").equalWidths();
 				
-                //  $(this ).parent(".row").equalHeights() ;
+                 $(this ).parent(".row").equalHeights() ;
 
                 // $cols_to_eq =  $(this ).parent(".row").children(".column");
                 //$(this ).parent(".row").addClass('also-resize-inner');
@@ -997,9 +1000,9 @@ mw_z_index_fix();
 	// $(this).resizable("enable");  	
 	}
 
-   // e.preventDefault();
+    e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
-  //  e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+    e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 
 
 
@@ -1043,9 +1046,9 @@ $('.module', '.edit').live('click', function (e) {
     // alert($clicked_on_module);
 
 
- //   e.preventDefault();
+   e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
-   // e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+    e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
     return false;
 
 });
