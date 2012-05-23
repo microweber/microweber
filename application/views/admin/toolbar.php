@@ -806,3 +806,4 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
   <? endif; ?>
   <button  onclick="mw_save_all()">Save all</button>
   <a  href="<? print   $exit_live_edit;?>">Exit live edit</a> <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a> </div>
+<? include('toolbar_tag_editor.php') ; ?>
