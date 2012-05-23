@@ -1,4 +1,4 @@
-Early developer preview
+Development version (Not ready to use yet!)
 -------------
 
 
