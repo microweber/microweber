@@ -8,7 +8,7 @@ body {
 		 margin-top:10px;
 		 margin-bottom:10px;*/
 		  width:100%;
-	margin-top:20px;
+	margin-top:35px;
 	margin-bottom:35px;
 	background-image: url(images/drop.png);
 	background-color:#FFFF93 !important;
@@ -24,7 +24,7 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:150px;
+	height: 150px;
 	
 	
 	/*padding-right: 3%;
@@ -33,14 +33,23 @@ body {
 
 .empty-column {
 	width:95%;
-	height:150px;
-	 
-   margin-bottom:-40px;
+	height:30px;
+	   margin-bottom:30px;
+   madasdasdrgin-bottom:-40px;
    padding-bottom:-20px;
-   margin-top:1px; 
-  z-index:-1;
-   padding-top:10px;
- }
+   margin-top:30px; 
+  
+  }
+  
+.empty-element {
+	font-size:18px;
+	background-color:#D3D181 !important;
+	line-height: 28px;
+	margin-top:10px;
+	margin-bottom:30px;
+	text-transform: none;
+	text-decoration: none;
+}
 
 
 .row {

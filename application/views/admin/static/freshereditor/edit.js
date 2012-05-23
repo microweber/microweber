@@ -7,7 +7,7 @@ window.mw_drag_started = false;
 window.mw_row_id = false;
 window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
 window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="empty-column"><span>Please drag items here 2</span></div>';
+window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 2</span></div>';
 window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
 
 
@@ -442,7 +442,7 @@ function init_sortables() {
 
         $($spans).addClass('column');
 
-        $drop_areas = '.edit,.edit .column,';
+        $drop_areas = '.edit,.edit .column';
 
 
 
@@ -450,10 +450,10 @@ function init_sortables() {
         //test $($drop_areas).addClass('ui-state-highlight2');
         $($drop_areas).sortable({
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column',
+            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
-            //forceHelperSize: true,
+           // forceHelperSize: true,
             greedy: true,
             tolerance: 'pointer',
             //  cancel: 'div.edit',
@@ -489,7 +489,7 @@ function init_sortables() {
                 $('[contenteditable=true]').attr("contenteditable", false);
 
  $(".column").putPlaceholdersInEmptyColumns()
- 
+  $('.empty-column').show();
    $(this).sortable('refreshPositions')
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
@@ -505,8 +505,8 @@ function init_sortables() {
 			   $rh = $(ui.placeholder).parent('.row').height();
 			     $(ui.placeholder).parent('.column').height($rh);
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
-			
-			
+ 
+			 
 			
 			 //  $('.row').equalWidths();
 			//  $rh =  $(ui.placeholder).parent('.row').height();
@@ -516,11 +516,11 @@ function init_sortables() {
     },
 
             stop: function (event, ui) {
-                $('.empty').remove();
+            //    $('.empty').remove();
                 window.mw_drag_started = false;
                 $('.column').removeClass('column-outline');
                 $('.ui-state-highlight').remove();
-				$('.empty-column').remove();
+				$('.empty-element').hide();
 
 				mw_z_index_fix();
 				
@@ -537,9 +537,31 @@ function init_sortables() {
                 mw_load_new_dropped_modules();
 
                 $('.row').equalWidths();
-                $('.column').height('auto');
+               // $('.column').height('auto');
+				
+				$('.column' , '.row').each(function(){
+			 $col_s = $(this).children('.element').size();
+				   if($col_s  > 0){
+				   $(this).height('auto');
+				   } else {
+					   		    $rh =  $(this).parent('.row').height();
+			  $(this).height($rh );
+				   
+				   }
+		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
 
- $(this).sortable('refreshPositions')
+			});
+			
+			
+			
+				
+				  
+				
+				
+				
+				
+
+  $(this).sortable('refreshPositions')
             },
 
  sorasdasdt: function (event, ui) {
@@ -552,22 +574,25 @@ function init_sortables() {
 			    window.mw_drag_started = true;
 
                 // $('.empty', '.edit').remove();
-                $(ui.item).css({
-                    "width": ui.placeholder.width()
+             
+			 
+			 
+			 /*   $(ui.item).css({
+                  //  "width": ui.placeholder.width()
 					 
                 });
                 $(ui.helper).css({
-                    "width": ui.placeholder.width()
+                 //   "width": ui.placeholder.width()
 					
                 });
                 $(ui.helper).css({
-                    "height": ui.placeholder.height()
+                  //  "height": ui.placeholder.height()
                 });
 				
 				$(ui.placeholder).css({
                    // "height": '150px'
 					 
-                });
+                });*/
 				
 				
 			 
@@ -599,7 +624,7 @@ function init_sortables() {
 
 
             over: function (event, ui) {
-
+ $(this).children('.empty-element').show();
 
                 // $('.empty', '.edit').remove();
                 $(ui.helper).css({
@@ -611,13 +636,20 @@ function init_sortables() {
 					
                 });
 				
+				 
+				
+				
+				
 			//	 $(ui.placeholder).parent('.row').equalHeights();
 				 //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
-				  $('.empty-column').show();
+				 
 				   
 				   $col_s = $(ui.placeholder).parent('.column').children('.element').size();
 				   if($col_s  > 0){
 				   $(ui.placeholder).parent('.column').height('auto');
+				   } else {
+					    $rh = $(ui.placeholder).parent('.row').height();
+					$(ui.placeholder).height($rh);   
 				   }
 				//   $rh = $(ui.placeholder).parent('.row').height();
 			//    $(ui.placeholder).parent('.column').height($rh);
@@ -666,7 +698,7 @@ function init_sortables() {
               //  $(ui.placeholder).closest('.empty').show()
 
 
-                $(this).sortable('refreshPositions')
+       //         $(this).sortable('refreshPositions')
 
                 //  $(ui.placeholder).closest('.row').find('.empty').show()	
                 // 	 $(ui.placeholder).closest('.column').find('.empty').show()			
@@ -684,7 +716,7 @@ function init_sortables() {
             out: function (event, ui) {
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
-                $(this).sortable('refreshPositions')
+            //    $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
                 // $(this).css('min-height', '10px');
                 //	$( this ).sortable( 'refreshPositions' )
@@ -706,7 +738,7 @@ function init_sortables() {
             deactivate: function (en, ui) {
                 window.mw_drag_started = false;
 
-                $('.empty').hide()
+                
                 // $('.row').equalWidths().equalHeights() ;
                 $(this).css('min-height', '10px');
             }
