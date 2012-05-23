@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
 
+
 function mw_html_tag_delete(){
 	
 	
@@ -977,7 +978,7 @@ function mw_html_tag_editor_apply_styles(){
 					 
 					//	   classApplier.toggleSelection();
 					   
-					   var range = rangy.getSelection();
+					/*   var range = rangy.getSelection();
 	 
 					    
 					     if (range != null && range != '') {
@@ -1004,7 +1005,7 @@ function mw_html_tag_editor_apply_styles(){
 					    	  		   classApplier.applyToSelection();
 									   
 									    $sel123 =   $("." + randomCssClass);
-							   
+							   */
 //							   var el = $("." + randomCssClass);
 //							   var range = rangy.createRange();
 //							   range.selectNodeContents(el);
@@ -1013,19 +1014,16 @@ function mw_html_tag_editor_apply_styles(){
 							    //classApplier.applyToSelection();
 							  
 							    // Now use jQuery to add the CSS colour and remove the class
-							   $sel123.attr( "mw_tag_edit",$element );
+							   //$sel123.attr( "mw_tag_edit",$element );
 							  
 						 
-							   var sel = rangy.getSelection();
-							     sel.refresh(true);
+							   //var sel = rangy.getSelection();
+							     //sel.refresh(true);
 							    
 							     
 								 
 						    
-					     } else {
-					    	
 					     
-					     }
 	
     // classApplier.toggleSelection();
     // not sure if you wanted this, but I thought I'd add it.
@@ -1247,7 +1245,8 @@ function mw_html_tag_editor_apply_styles(){
 									 }
 									 
 				 	  $('span[mw_tag_edit="'+$element+'"]', '.edit').css(cssstr_spans);
-					  
+					    $('[id="#'+$element+'"]', '.edit').css(cssstr_spans);
+					   
 					   $('[mw_tag_edit="'+$element+'"]').each(function() {
  $(this).css(cssstr);  
 });
@@ -1323,20 +1322,12 @@ function mw_html_tag_editor_apply_styles(){
   $(document).ready(function() {
 							 
 							 
-							 
-		$(".mw_editor_accordeon").accordion({
-			autoHeight: false,
-			clearStyle: true,
-			collapsible: true,
-				 
-				animated: false,
-				icons: { header: "ui-icon-triangle-1-w",
-			headerSelected: "ui-icon-triangle-1-s" },
-				navigation: true
-										   
-									   
-		})
+			$(".mw_editor_accordeon").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+		$(".mw_editor_accordeon li").removeClass('ui-corner-top').addClass('ui-corner-left');
 		
+		
+						 
+	 
 		 
 		
 		$("#mw_html_css_editor").live("mouseenter", function(event) {
@@ -1452,7 +1443,16 @@ function mw_html_tag_editor_apply_styles(){
   
 $(document).ready(function() {
 						   
-	 	   
+	 	   $('#mw_html_css_editor .css_property').die('change')
+	 $('#mw_html_css_editor .css_property').live('change',function(){
+	  mw_html_tag_editor_apply_styles()
+	  mw_slider_name = $(this).attr('for');
+	  
+	  
+	  $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
+	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
+
+	});
 			// upl_options = { 
 //       beforeSubmit: function(a,f,o) {
 //            o.dataType = 'json';

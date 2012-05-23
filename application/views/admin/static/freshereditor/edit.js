@@ -927,7 +927,14 @@ $('.column', '.row').live('mouseout', function (e) {
 })*/;
 
 
- 
+ $('.mw-sorthandle', '.edit').die('dblclick');
+$('.mw-sorthandle', '.edit').live('dblclick', function (e) {
+    $id = $(this).parent().attr('id')
+	 $('#mw_css_editor_element_id').val( $id);
+	 $(this).parent().attr('mw_tag_edit', $id)
+	mw_show_css_editor()
+	 
+});
 
 
 $('.column', '.row').die('hover');

@@ -45,7 +45,6 @@
 
 
 
-
 /**
  * jQuery.equalHeights - Making an equal height panels.
  * @copyright (c) 2010-2011 Aamir Afridi - http://www.aamirafridi.com/blog

@@ -86,6 +86,13 @@ if (window.mw) {
 --><!--<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/html5_sortable.js" type="text/javascript"></script>-->
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/javascripts/jquery.boxy.js" type="text/javascript"></script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/javascripts/mColorPicker.js" type="text/javascript"></script>
+ 
 <script type="text/javascript">
  /* Plugin to make variable height divs equal heights */
 $.fn.sameHeights = function() {
@@ -313,6 +320,12 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 								
 	});
  
+ 
+ 
+ 
+ function mw_show_css_editor(){
+	 $( "#mw_toolbar_tabs" ).tabs("select", "#mw_css_editor");
+  }
  
   </script> 
 <script type="text/javascript">
@@ -765,7 +778,8 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
           <li><a href="#mw_toolbar_tabs-4">Pages</a></li>
           <li><a href="#mw_toolbar_tabs-5">Templates</a></li>
           <li><a href="#mw_toolbar_tabs-6">Settings</a></li>
-          <li><a href="#mw_toolbar_tabs-7">Help</a></li>
+          <li><a href="#mw_toolbar_tabs-7">Help</a></li> 
+          <li><a href="#mw_css_editor">Style editor</a></li>
         </ul>
         <div id="mw_toolbar_tabs-1"><microweber module="admin/modules/list_elements" /></div>
         <div id="mw_toolbar_tabs-2">
@@ -775,7 +789,10 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
         <div id="mw_toolbar_tabs-4">Pages</div>
         <div id="mw_toolbar_tabs-5">Templates</div>
         <div id="mw_toolbar_tabs-6">Settings</div>
-        <div id="mw_toolbar_tabs-7">Help</div>
+        <div id="mw_toolbar_tabs-7">Help</div> 
+        <div id="mw_css_editor"> 
+<? include('toolbar_tag_editor.php') ; ?>
+ </div>
       </div>
     </div>
     <!--<div id="mw-layout-edit-toolbar-top-container-items">Modules list placeholder</div>
@@ -805,5 +822,6 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
   <a  href="<? print $enter_l_ed;?>">enter layout</a> <a  href="<? print url();?>/editmode:n">exit editmode</a> <a  href="<? print $exit_l_ed;?>">exit layout</a>
   <? endif; ?>
   <button  onclick="mw_save_all()">Save all</button>
-  <a  href="<? print   $exit_live_edit;?>">Exit live edit</a> <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a> </div>
-<? include('toolbar_tag_editor.php') ; ?>
+  <button  onclick="mw_show_css_editor()">Css Editor</button>
+  <a  href="<? print   $exit_live_edit;?>">Exit live edit</a> <a  href="<? print site_url('admin/action:pages');?>">Return to admin</a> 
+</div>
