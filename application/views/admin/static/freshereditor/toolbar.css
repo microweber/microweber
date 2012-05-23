@@ -42,14 +42,19 @@ body {
   }
   
 .empty-element {
-	font-size:18px;
-	background-color:#D3D181 !important;
+	font-size:11px;
+	background-color:#FFFF93 !important;
 	line-height: 28px;
-	margin-top:10px;
-	margin-bottom:30px;
+	color:#DEE0B6;
+	margin-top:80px;
+	margin-bottom:80px;
 	text-transform: none;
 	text-decoration: none;
-	height: 150px;
+	height: 28px;
+}
+
+.empty-element:hover {
+visibility:hidden;	
 }
 
 

@@ -245,18 +245,18 @@ function mw_load_new_dropped_modules() {
 
     if ($need_re_init == true) {
 
-
+if(window.mw_drag_started == false){
  $('.column', '.edit').resizable("destroy");
         $('.ui-resizable').resizable("destroy");
 
   
 
-       setTimeout("mw_make_handles()", 6000)
+       setTimeout("mw_make_handles()", 600)
 	   setTimeout("init_sortables()", 900)
  
 
  setTimeout("mw_fix_grid_sizes()", 900)
-       
+      }
     
 		//mw_make_handles()
     }
@@ -265,7 +265,7 @@ function mw_load_new_dropped_modules() {
 
 function mw_make_handles() {
  
-
+if(window.mw_drag_started == false){
  
     $('.row', '.edit').each(function (index) {
 
@@ -318,6 +318,9 @@ function mw_make_handles() {
     })
 mw_z_index_fix();
 
+
+
+}
 
 }
 
@@ -714,6 +717,7 @@ function init_sortables() {
             },
 
             out: function (event, ui) {
+            	$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
             //    $(this).sortable('refreshPositions')
@@ -929,6 +933,10 @@ $('.column', '.row').live('mouseout', function (e) {
 $('.column', '.row').die('hover');
 
 $('.column', '.row').live('hover', function (e) {
+	
+	
+if(window.mw_drag_started == false){	
+	
 $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
 
 
@@ -954,10 +962,11 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
         $inner_column = $(this).children(".column:first");
         $prow = $(this).parent('.row').attr('id');
         //$also =  $('#'+$prow).children(".column").not("#"+$el_id_column);
-
+$no_next = false;
         $also = $(this).next(".column");
         $also_check_exist = $also.size();
         if ($also_check_exist == 0) {
+        	$no_next  = true;
             $also = $(this).prev(".column");
 
         }
@@ -977,11 +986,23 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
 
         // $also.addClass('also-resize');
         //   $inner_column.addClass('also-resize-inner');
-       // $(this).resizable("destroy")
+       $(this).parent(".column").resizable("destroy")
+              $(this).children(".column").resizable("destroy")
+
+       
+       
+       
+       if($no_next  == false){
+       	$handles= 'e'
+       } else {
+       	 $handles= 'none'
+       }
+    
+    if($no_next  == false){
         $(this).attr("data-also-rezise-item", $also_reverse_id)
         $(this).resizable({
             grid: [1, 10000],
-            handles: 'e',
+            handles: $handles,
             containment: "parent",
             //	 aspectRatio: true,
            autoHide: true,
@@ -1009,6 +1030,10 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
 
 
             },
+            start: function (event, ui) {
+            $(".column").each(function(){ $(this).removeClass('selected'); });
+             ui.element.addClass('selected');
+           },
 
 
             stop: function (event, ui) {
@@ -1028,16 +1053,27 @@ mw_z_index_fix();
 
 
 
+	}
+
+
     } else {
 	// $(this).resizable("enable");  	
 	}
+
+
+
+
+
 
     e.preventDefault();
     //event.preventDefault(); // this prevents the original href of the link from being opened
     e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 
 
-
+} else {
+	
+	 
+}
 
 }); 
 $('.module', '.edit').live('click', function (e) {
