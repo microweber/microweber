@@ -38,7 +38,7 @@ body {
    madasdasdrgin-bottom:-40px;
    padding-bottom:-20px;
    margin-top:30px; 
-  
+  height: 150px;
   }
   
 .empty-element {
@@ -49,6 +49,7 @@ body {
 	margin-bottom:30px;
 	text-transform: none;
 	text-decoration: none;
+	height: 150px;
 }
 
 

@@ -290,7 +290,7 @@ function mw_make_handles() {
 
 
 
-    $('.element').each(function (index) {
+    $('.element:not(.empty-element)').each(function (index) {
 
  $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
