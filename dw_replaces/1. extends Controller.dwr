@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<dwquery>
-  <queryparams matchcase="false" ignorewhitespace="false" useregexp="false" wholeword="false" />
-  <find>
-    <qtext qname="extends Controller" qraw="true"></qtext>
-  </find>
-  <replace action="replaceText" param1="extends CI_Controller" param2=""/>
-</dwquery>

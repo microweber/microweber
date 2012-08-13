@@ -1,7 +1,7 @@
 <? $v = ( url_param('action', true) );?>
 <? if($v) {
 	 
-	 include("snippets/".$v.'.php'); 
+	 include("snippets/".$v.'.php');
 	 
 	 
  }  else { ?>
@@ -9,12 +9,9 @@
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
-$CI = get_instance ();
-if(is_callable($CI->template_model) == false){
- $CI->load->model ( 'Template_model', 'template_model' );
-}
-$modules = $CI->template_model->getModules($modules_options );
-
+ 
+$modules = get_modules($modules_options );
+ 
 
 //
 
@@ -32,12 +29,28 @@ $modules = $CI->template_model->getModules($modules_options );
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
-  <li data-filter="<? print $module2['name'] ?>" class="module-item" alt="<? print addslashes($module2['description']) ?>">
+  <li data-filter="<? print $module2['name'] ?>" data-category="<? print $module2['categories']; ?>" class="module-item" alt="<? print addslashes($module2['description']) ?>">
+  <span class="mw_module_hold">
     <? if($module2['icon']): ?>
-    <img alt="<? print $module2['name'] ?>" title="<? print addslashes($module2['description']) ?>" class="module_draggable" data-module-name="<? print $module2['module'] ?>"  data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="32" />
+
+
+          <span class="mw_module_image">
+            <span class="mw_module_image_shadow"></span>
+            <img
+                alt="<? print $module2['name'] ?>"
+                title="<? print addslashes($module2['description']) ?>"
+                class="module_draggable"
+                data-module-name="<? print $module2['module'] ?>"
+                data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>"
+                src="<? print $module2['icon'] ?>"
+                 />
+          </span>
+
+
+
     <? endif; ?>
-    <span alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span> 
-    
+    <span class="module_name" alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span>
+    </span>
     <!--    <div class="description"><? print $module2['description'] ?></div>--> 
   </li>
   <? endif; ?>

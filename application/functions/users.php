@@ -17,7 +17,6 @@
  * $mode = 'username' //prints username
    
  */
-
 function user_name($user_id = false, $mode = 'full') {
 	// $CI = get_instance ();
 	get_instance ()->load->model ( 'Users_model', 'users_model' );
@@ -34,7 +33,6 @@ function user_name($user_id = false, $mode = 'full') {
 	$name = get_instance ()->users_model->getPrintableName ( $user_id, $mode );
 	return $name;
 }
-
 function online_users_count() {
 	// $CI = get_instance ();
 	get_instance ()->load->model ( 'Users_model', 'users_model' );
@@ -55,41 +53,105 @@ function online_users_count() {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
+ *        	array();
  * @return array array of users;
  */
 function get_users($params = array()) {
+	$params2 = array ();
 	
-	// $CI = get_instance ();
-	// p($params);
-	// $data['no_cache']= true;
-	get_instance ()->load->model ( 'Users_model', 'users_model' );
-	$data = get_instance ()->users_model->getUsers ( $params );
-	
-	if (! is_array ( $data )) {
-		return $data;
+	if (is_string ( $params )) {
+		$params = parse_str ( $params, $params2 );
+		$params = $params2;
 	}
 	
-	if ($params ['curent_page'] == false) {
-		$params ['curent_page'] = isset ( $params ['curent_page'] ) ? $params ['curent_page'] : url_param ( 'curent_page' );
-	}
-	if (intval ( $params ['curent_page'] ) == 0) {
-		$params ['curent_page'] = 1;
-	}
+	$table = c ( 'db_tables' );
+	$table = $table ['table_users'];
 	
-	if ($params ['items_per_page'] == false) {
-		
-		$params ['items_per_page'] = get_instance ()->core_model->optionsGetByKey ( 'default_items_per_page' );
-	
-	}
-	
-	$res = array ();
-	if (! empty ( $data )) {
-		foreach ( $data as $item ) {
-			$res [] = $item;
+	// $q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
+	$data = string_clean ( $params );
+	// var_dump($data);
+	$orig_data = $data;
+	// getDbData($table = false, $criteria = false, $limit = false, $offset =
+	// false, $orderby = false, $cache_group = false, $debug = false, $ids =
+	// false, $count_only = false, $only_those_fields = false, $exclude_ids =
+	// false, $force_cache_id = false,
+	// $get_only_whats_requested_without_additional_stuff = false)
+	if (is_array ( $data ['ids'] )) {
+		if (! empty ( $data ['ids'] )) {
+			$ids = $data ['ids'];
 		}
 	}
-	return $res;
+	
+	$data ['search_by_keyword_in_fields'] = array (
+			'first_name',
+			'last_name',
+			'username',
+			'email' 
+	);
+	// $data ['debug'] = 1;
+	
+	if (intval ( $data ['id'] ) != 0) {
+		$cache_group = 'users/' . $data ['id'];
+	} else {
+		
+		$cache_group = 'users/global';
+	}
+	
+	if ($limit != false) {
+		$data ['limit'] = $limit;
+	}
+	
+	if ($count_only != false) {
+		$data ['get_count'] = $count_only;
+	}
+	
+	if ($data ['only_those_fields']) {
+		$only_those_fields = $data ['only_those_fields'];
+	}
+	
+	if ($data ['count']) {
+		$count_only = $data ['count'];
+	}
+	
+	// $data ['no_cache'] = 1;
+	
+	if ($data ['username'] == null) {
+		unset ( $data ['username'] );
+	}
+	// p ( $data );
+	// .//p($data);
+	
+	// $get = $this->core_model->fetchDbData ( $table, $data );
+	
+	$function_cache_id = false;
+	
+	$args = func_get_args ();
+	$i = 0;
+	foreach ( $args as $k => $v ) {
+		
+		$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		
+		$i ++;
+	}
+	
+	$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
+	
+	$cache_content = cache_get_content ( $function_cache_id, $cache_group );
+	
+	if (($cache_content) != false) {
+		
+		return $cache_content;
+	} else {
+		
+		$get =  db_get( $table, $criteria = $data, $limit, $offset = false, $orderby = array (
+				'updated_on',
+				'DESC' 
+		), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
+		// var_dump($get, $function_cache_id, $cache_group);
+		cache_store_data ( $get, $function_cache_id, $cache_group );
+		
+		return $get;
+	}
 }
 
 /**
@@ -102,7 +164,7 @@ function get_users($params = array()) {
  * @author Microweber
  * @link http://microweber.com
  * @param $period =
- *       	 7 days;
+ *        	7 days;
  * @return array $ids - array of user ids;
  */
 function get_new_users($period = '7 days', $limit = 20) {
@@ -111,8 +173,13 @@ function get_new_users($period = '7 days', $limit = 20) {
 	get_instance ()->load->model ( 'Users_model', 'users_model' );
 	$data = array ();
 	$data ['created_on'] = '[mt]-' . $period;
-	$data ['fields'] = array ('id' );
-	$limit = array ('0', $limit );
+	$data ['fields'] = array (
+			'id' 
+	);
+	$limit = array (
+			'0',
+			$limit 
+	);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
 	$data = get_instance ()->users_model->getUsers ( $data, $limit, $count_only = false );
@@ -135,12 +202,11 @@ function get_new_users($period = '7 days', $limit = 20) {
  * @author Microweber
  * @link http://microweber.com
  * @param $id =
- *       	 the id of the user;
+ *        	the id of the user;
  * @return array
  */
 function get_user($id = false) {
 	// $CI = get_instance ();
-	
 	if ($id == false) {
 		$id = user_id ();
 	}
@@ -161,24 +227,24 @@ function get_user($id = false) {
 	// p($res);
 	return $res;
 }
-
 function user_id() {
-	
+	// static $uid;
 	if (defined ( 'USER_ID' )) {
 		// print USER_ID;
 		return USER_ID;
 	} else {
-		// $CI = get_instance ();
-		$res = get_instance ()->core_model->userId ();
+		$sess = session::start ();
+		if ($sess->initialised == FALSE) {
+			$sess->initialize ();
+		}
+		$res = $sess->get ( 'user_id' );
 		define ( "USER_ID", $res );
 		return $res;
-	
 	}
 }
 
 if (! function_exists ( 'is_admin' )) {
 	function is_admin() {
-		
 		static $is = 0;
 		
 		if ($is != 0 or defined ( 'USER_IS_ADMIN' )) {
@@ -198,13 +264,10 @@ if (! function_exists ( 'is_admin' )) {
 			// var_dump( $is);
 			// var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
 			return USER_IS_ADMIN;
-		
 		}
 	}
 }
-
 function user_id_from_url() {
-	
 	if (url_param ( 'username' )) {
 		$usr = url_param ( 'username' );
 		// $CI = get_instance ();
@@ -218,22 +281,21 @@ function user_id_from_url() {
 		return $usr;
 	}
 	return user_id ();
-
 }
 
 /**
  * user_thumbnail
  *
  * get the user_thumbnail of the user
- * 
+ *
  * @access public
  * @category general
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
- *       	 $params['id'] = 15; //the user id
- *       	 $params['size'] = 200; //the thumbnail size
+ *        	array();
+ *        	$params['id'] = 15; //the user id
+ *        	$params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
  * @example Use
  *          user_thumbnail
@@ -245,28 +307,22 @@ function user_id_from_url() {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
- *       	 $params['id'] = 15; //the user id
- *       	 $params['size'] = 200; //the thumbnail size
+ *        	array();
+ *        	$params['id'] = 15; //the user id
+ *        	$params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
  * @example Use print post_thumbnail($post['id']);
  */
-
 function user_picture($params) {
 	return user_thumbnail ( $params );
 }
 function user_thumbnail($params) {
+	$params2 = array ();
 	
-	 
-		
-		$params2 = array ();
-		
-		if (is_string ( $params )) {
-			$params = parse_str ( $params, $params2 );
-			$params = $params2;
-		
-		}
-	 
+	if (is_string ( $params )) {
+		$params = parse_str ( $params, $params2 );
+		$params = $params2;
+	}
 	
 	//
 	// $CI = get_instance ();
@@ -286,14 +342,27 @@ function user_thumbnail($params) {
 	
 	return $thumb;
 }
-
 function users_count() {
-	// $CI = get_instance ();
-	get_instance ()->load->model ( 'Users_model', 'users_model' );
-	$c = get_instance ()->users_model->getUsersCount ();
-	return $c;
+	
+	
+ 
+	
+	$options = array();
+	$options['get_count'] = true;
+	//	$options ['debug'] = true;
+	$options['count'] = true;
+	//$options ['no_cache'] = true;
+	$options['cache_group'] = 'users/global/';
+	
+	$data = get_users($options);
+	 
+	
+	return $data;
+	
+	
+	
+	
 }
-
 function user_link($user_id) {
 	// a.k.a profile_link($user_id);
 	return profile_link ( $user_id );
@@ -305,11 +374,8 @@ function profile_link($user_id) {
 	}
 	
 	return site_url ( 'userbase/action:profile/username:' . user_name ( $user_id, 'username' ) );
-
 }
-
 function cf_get_user($user_id, $field_name) {
-	
 	$fields = get_custom_fields_for_user ( $user_id );
 	if (empty ( $fields )) {
 		return false;
@@ -325,23 +391,18 @@ function cf_get_user($user_id, $field_name) {
 				if ($field ['custom_field_values']) {
 					return $field ['custom_field_values'];
 				}
-			
 			}
 			
 			// p ( $field );
-		
 		}
 	}
-
 }
-
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
 	$more = get_instance ()->core_model->getCustomFields ( 'table_users', $user_id, true, $field_name );
 	return $more;
 }
-
 function friends_count($user_id = false) {
 	
 	// $CI = get_instance ();
@@ -358,43 +419,50 @@ function friends_count($user_id = false) {
 	$users = get_instance ()->users_model->realtionsGetFollowedIdsForUser ( $aUserId = $user_id, $special = false, $query_options );
 	return intval ( $users );
 }
-
 function fb_login() {
 	// $CI = get_instance ();
 	$data = array ();
 	
 	get_instance ()->load->library ( 'fb_connect' );
-	$data = array ('facebook' => get_instance ()->fb_connect->fb, 'fbSession' => get_instance ()->fb_connect->fbSession, 'user' => get_instance ()->fb_connect->user, 'uid' => get_instance ()->fb_connect->user_id, 'fbLogoutURL' => get_instance ()->fb_connect->fbLogoutURL, 'fbLoginURL' => get_instance ()->fb_connect->fbLoginURL, 'base_url' => site_url ( 'fb_login' ), 'appkey' => get_instance ()->fb_connect->appkey );
+	$data = array (
+			'facebook' => get_instance ()->fb_connect->fb,
+			'fbSession' => get_instance ()->fb_connect->fbSession,
+			'user' => get_instance ()->fb_connect->user,
+			'uid' => get_instance ()->fb_connect->user_id,
+			'fbLogoutURL' => get_instance ()->fb_connect->fbLogoutURL,
+			'fbLoginURL' => get_instance ()->fb_connect->fbLoginURL,
+			'base_url' => site_url ( 'fb_login' ),
+			'appkey' => get_instance ()->fb_connect->appkey 
+	);
 	
 	get_instance ()->template ['data'] = $data;
 	get_instance ()->load->vars ( get_instance ()->template );
 	$content_filename = get_instance ()->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/users/fb_login.php', true );
 	print ($content_filename) ;
-
 }
-
 function friend_requests() {
 	// $CI = get_instance ();
 	$db_params = array ();
-	$db_params [] = (array ('follower_id', user_id () ));
-	$db_params [] = (array ('is_approved', 'n' ));
+	$db_params [] = (array (
+			'follower_id',
+			user_id () 
+	));
+	$db_params [] = (array (
+			'is_approved',
+			'n' 
+	));
 	get_instance ()->load->model ( 'Users_model', 'users_model' );
 	$req = get_instance ()->users_model->getFollowers ( $db_params, $aOnlyIds = 'user_id', $db_options = false );
 	if (empty ( $req )) {
-	
 	}
 	
 	// p($req);
 	return $req;
-
 }
-
 function get_unread_messages() {
-	
 	$msgs = CI::model ( 'messages' )->messagesGetUnreadCountForUser ();
 	return $msgs;
 }
-
 function get_message_by_id($id) {
 	if (intval ( $id ) == 0) {
 		return false;
@@ -402,7 +470,6 @@ function get_message_by_id($id) {
 	// $CI = get_instance ();
 	$id = CI::model ( 'messages' )->messagesGetById ( $id );
 	return $id;
-
 }
 /**
  * get_messages
@@ -414,13 +481,12 @@ function get_message_by_id($id) {
  * @author Microweber
  * @link http://microweber.com
  * @param $params =
- *       	 array();
- *       	 $params['user_id'] = false; //the user id
- *       	 $params['show'] = false; // params: read, unread, 'all'
+ *        	array();
+ *        	$params['user_id'] = false; //the user id
+ *        	$params['show'] = false; // params: read, unread, 'all'
  * @return array - The messages.
  *        
  */
-
 function get_messages($params) {
 	if (! is_array ( $params )) {
 		$params = array ();
@@ -450,35 +516,61 @@ function get_messages($params) {
 	
 	if ($show == 'unread') {
 		$messages = $unreadedMessages = CI::model ( 'messages' )->messagesGetUnreadForUser ( $params ['user_id'] );
-	
 	}
 	
 	$some_items_per_page = 50;
 	$opts = array ();
 	$opts ['get_count'] = false;
 	$opts ['items_per_page'] = $some_items_per_page;
-	$opts ['only_fields'] = array ('id', 'parent_id', 'max(id) as id_1' ); // array
-	                                                                       // of
-	                                                                       // fields
+	$opts ['only_fields'] = array (
+			'id',
+			'parent_id',
+			'max(id) as id_1' 
+	); // array
+	   // of
+	   // fields
 	$opts ['group_by'] = 'parent_id , id'; // if set the results will be grouped
 	                                       // by the filed name
-	$opts ['order'] = array ('created_on', 'desc' );
+	$opts ['order'] = array (
+			'created_on',
+			'desc' 
+	);
 	// $opts ['debug'] = 1;
 	
 	$msg_params = array ();
-	$msg_params [] = array ('to_user', $currentUserId, '=', 'OR' );
-	$msg_params [] = array ('from_user', $currentUserId );
-	$msg_params [] = array ('parent_id', 0 );
+	$msg_params [] = array (
+			'to_user',
+			$currentUserId,
+			'=',
+			'OR' 
+	);
+	$msg_params [] = array (
+			'from_user',
+			$currentUserId 
+	);
+	$msg_params [] = array (
+			'parent_id',
+			0 
+	);
 	// $msg_params [] = array ('from_user', $currentUserId, '=', 'OR' );
 	
 	// $params [] = array ('is_read', 'y' );
-	$msg_params [] = array ('deleted_from_receiver', 'n' );
-	$msg_params [] = array ('deleted_from_sender', 'n' );
+	$msg_params [] = array (
+			'deleted_from_receiver',
+			'n' 
+	);
+	$msg_params [] = array (
+			'deleted_from_sender',
+			'n' 
+	);
 	// $params [] = array ('from_user', $currentUserId);
 	// $msg_params [] = array ('from_user', $currentUserId, '<>', 'and' );
 	
 	foreacH ( $params as $pk => $pv ) {
-		$msg_params [] = array ($pk, $pv );
+		$msg_params [] = array (
+				$pk,
+				$pv 
+		);
 	}
 	
 	// $execQuery
@@ -516,7 +608,10 @@ function get_messages($params) {
 		
 		$params = array ();
 		
-		$params [] = array ('from_user', get_instance ()->core_model->userId () );
+		$params [] = array (
+				'from_user',
+				get_instance ()->core_model->userId () 
+		);
 		
 		$some_items_per_page = 1;
 		$opts = array ();
@@ -532,7 +627,6 @@ function get_messages($params) {
 		
 		$url = site_url ( 'dashboard/action:messages/show:read' );
 		$paging = get_instance ()->content_model->pagingPrepareUrls ( $url, $pages_count );
-	
 	}
 	
 	if ($conversation != false) {
@@ -546,7 +640,10 @@ and to_user=$userid
 		}
 		
 		$params = array ();
-		$params [] = array ('id', $conversation );
+		$params [] = array (
+				'id',
+				$conversation 
+		);
 		$parentMessage = CI::library ( 'messages' )->messagesGetByParams ( $params, $options = false );
 		$parentMessage = $parentMessage [0];
 		
@@ -567,10 +664,8 @@ and to_user=$userid
 	AND deleted_from_receiver = 'n'))";
 		
 		$messages = CI::library ( 'messages' )->messagesThread ( $conversation );
-	
 	}
 	return $messages;
-
 }
 
 

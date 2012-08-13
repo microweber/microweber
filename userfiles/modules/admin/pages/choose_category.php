@@ -1,6 +1,10 @@
 <?
 $id = intval( $params['id']);
-
+if(intval($id) == 0){
+	if(defined('PAGE_ID')){
+	$id = PAGE_ID;
+	}
+}
 //
 
 $form_values = get_page($id);

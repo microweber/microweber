@@ -34,11 +34,20 @@ $modules = $CI->template_model->getDesignElements($params);
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
   <li data-filter="<? print $module2['name'] ?>" class="module-item" alt="<? print addslashes($module2['description']) ?>">
     <? if($module2['icon']): ?>
-    <img alt="<? print $module2['name'] ?>" title="<? print addslashes($module2['description']) ?>" class="module_draggable" data-element-name="<? print $module2['module'] ?>"  data-element-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="32" />
+      <span class="mw_module_image"><img
+          alt="<? print $module2['name'] ?>"
+          title="<? print addslashes($module2['description']) ?>"
+          class="module_draggable"
+          data-element-name="<? print $module2['module'] ?>"
+          data-element-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>"
+          src="<? print $module2['icon'] ?>"
+          height="32"
+          width="32"  /></span>
+
     <? endif; ?>
-    <span alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span> 
-    
-    <!--    <div class="description"><? print $module2['description'] ?></div>--> 
+    <span alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span>
+
+    <!--    <div class="description"><? print $module2['description'] ?></div>-->
   </li>
   <? endif; ?>
   <? endif; ?>

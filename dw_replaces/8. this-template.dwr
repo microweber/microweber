@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<dwquery>
-  <queryparams matchcase="false" ignorewhitespace="false" useregexp="false" wholeword="false" />
-  <find searchmode="selectedFiles">
-    <qtext qname="// $this-&gt;template " qraw="true"></qtext>
-  </find>
-  <replace action="replaceText" param1="$this->template " param2=""/>
-</dwquery>

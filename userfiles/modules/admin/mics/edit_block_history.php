@@ -107,17 +107,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
     
             
  
- <script type="text/javascript"> 
- 
-
- 
-
-
- 
- 
-
-
-</script>           
+      
             
             
             
@@ -146,7 +136,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 	 
 	//$content_of_file = file_get_contents($filename);	?>
     
-  <a href="javascript: replace_content_from_history('<? print base64_encode($filename) ?>')"> 
+  <a href="javascript: mw.history.load('<? print base64_encode($filename) ?>')"> 
   <? $fn1= rtrim(basename($filename ), '.php'); ?>
   
   <?  print $fn1  ?>

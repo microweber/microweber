@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classLuminousScanner.html" title="the base class for all scanners" alt="" coords="144,86,269,117"/>
-<area shape="rect" id="node5" href="$classLuminousEmbeddedWebScript.html" title="Superclass for languages which may nest, i.e. web languages." alt="" coords="5,166,203,197"/>
-<area shape="rect" id="node7" href="$classLuminousSimpleScanner.html" title="A largely automated scanner." alt="" coords="227,166,392,197"/>
-<area shape="rect" id="node9" href="$classLuminousStatefulScanner.html" title="Experimental transition table driven scanner." alt="" coords="224,246,395,277"/>
-</map>
