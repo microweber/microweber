@@ -21,7 +21,7 @@
         <td>     
       <? 
 
-	$p = cf_val($item['id'], 'price');
+	$p = custom_field_value($item['id'], 'price');
 	
 	
 	

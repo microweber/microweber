@@ -11,7 +11,7 @@
       <p><br>
 <br>
 
-      <a href="<? print page_link_to_layout('register'); ?>/view:login" class="blue" >Login</a>&nbsp;&nbsp;&nbsp; <a href="<? print page_link_to_layout('register'); ?>" class="blue"  >Create new account</a> 
+      <a href="<? print page_link('register'); ?>/view:login" class="blue" >Login</a>&nbsp;&nbsp;&nbsp; <a href="<? print page_link('register'); ?>" class="blue"  >Create new account</a> 
       </p>
             <br>
 <br>

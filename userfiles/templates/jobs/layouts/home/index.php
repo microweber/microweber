@@ -17,10 +17,10 @@ description: Home site layout
   <div class="banner_content">
     <div class="banner_tit">MEDICAL CAREERS IN USA </div>
     <div class="banner_caption">POST YOUR OPPORTUNITY OR CV</div>
-    <div class="joinfree_but"><a href="<? print page_link_to_layout('register'); ?>"><img src="<? print TEMPLATE_URL ?>images/joinfree_but.jpg" alt="join free" /></a></div>
-    <div class="login_but"><a href="<? print page_link_to_layout('register'); ?>/view:login"><img src="<? print TEMPLATE_URL ?>images/login_but.jpg" alt="login" /></a></div>
-    <div class="login_links"> <a href="<? print page_link_to_layout('register'); ?>"> Free registration in 15 seconds</a><br />
-      <a href="<? print page_link_to_layout('register'); ?>/view:forgot-pass">Forgot my passwrod</a> </div>
+    <div class="joinfree_but"><a href="<? print page_link('register'); ?>"><img src="<? print TEMPLATE_URL ?>images/joinfree_but.jpg" alt="join free" /></a></div>
+    <div class="login_but"><a href="<? print page_link('register'); ?>/view:login"><img src="<? print TEMPLATE_URL ?>images/login_but.jpg" alt="login" /></a></div>
+    <div class="login_links"> <a href="<? print page_link('register'); ?>"> Free registration in 15 seconds</a><br />
+      <a href="<? print page_link('register'); ?>/view:forgot-pass">Forgot my passwrod</a> </div>
   </div>
 </div>
 <div class="body_part">
@@ -37,9 +37,7 @@ description: Home site layout
   $param2['get_count'] = true;
 	
 	$posts_temp =  get_posts($param2);  
-				 if(!empty($posts)){
-					$posts =$posts["posts"];  
-				 }
+				 
 				// echo count($posts);
 				 
 				?>
@@ -57,7 +55,7 @@ description: Home site layout
 	$tot_pages=$tot_pages+1;
 	
 	
-	   $pages = paging_prepare($tot_pages,$posts_temp,1);
+	   $pages = paging_links($tot_pages,$posts_temp,1);
 	 	paging('uls',$pages); ?>
 		
 		<a href="#" id="next">Next</a>

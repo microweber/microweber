@@ -1,7 +1,7 @@
 <?
 //p($params);
 
-$rand = 'cf_vals_'.rand();
+$rand = 'custom_field_values_'.rand();
 
  
 
@@ -24,7 +24,7 @@ if($params['params_default']){
 	  if(1==1){
 		var mySplitResult = $t.split(",");
 			
-		var	$str_to_append='<ul class="cf_values_reorder">'; 
+		var	$str_to_append='<ul class="custom_field_valueues_reorder">'; 
 			for(i = 0; i < mySplitResult.length; i++){
 				 if(mySplitResult[i] != undefined && mySplitResult[i] != null && mySplitResult[i]!=''){
 				$str_to_append=$str_to_append+ "<li><span></span><input type='text' value='"+mySplitResult[i]+"' /><b></b></li>";

@@ -67,16 +67,10 @@ function get_users($params = array()) {
 	$table = c ( 'db_tables' );
 	$table = $table ['table_users'];
 	
-	// $q = $this->core_model->dbQuery ( $q, md5 ( $q ), 'comments' );
 	$data = string_clean ( $params );
-	// var_dump($data);
 	$orig_data = $data;
-	// getDbData($table = false, $criteria = false, $limit = false, $offset =
-	// false, $orderby = false, $cache_group = false, $debug = false, $ids =
-	// false, $count_only = false, $only_those_fields = false, $exclude_ids =
-	// false, $force_cache_id = false,
-	// $get_only_whats_requested_without_additional_stuff = false)
-	if (is_array ( $data ['ids'] )) {
+	
+	if (isset ( $data ['ids'] ) and  is_array ( $data ['ids'] )) {
 		if (! empty ( $data ['ids'] )) {
 			$ids = $data ['ids'];
 		}
@@ -90,32 +84,32 @@ function get_users($params = array()) {
 	);
 	// $data ['debug'] = 1;
 	
-	if (intval ( $data ['id'] ) != 0) {
+	if (isset ( $data ['id'] ) and intval ( $data ['id'] ) != 0) {
 		$cache_group = 'users/' . $data ['id'];
 	} else {
 		
 		$cache_group = 'users/global';
 	}
 	
-	if ($limit != false) {
+	if (isset ( $limit ) and $limit != false) {
 		$data ['limit'] = $limit;
 	}
 	
-	if ($count_only != false) {
+	if (isset ( $count_only ) and $count_only != false) {
 		$data ['get_count'] = $count_only;
 	}
 	
-	if ($data ['only_those_fields']) {
+	if (isset ( $data ['only_those_fields'] ) and $data ['only_those_fields']) {
 		$only_those_fields = $data ['only_those_fields'];
 	}
 	
-	if ($data ['count']) {
+	if (isset ( $data ['count'] ) and $data ['count']) {
 		$count_only = $data ['count'];
 	}
 	
 	// $data ['no_cache'] = 1;
 	
-	if ($data ['username'] == null) {
+	if (isset ( $data ['username'] ) and $data ['username'] == null) {
 		unset ( $data ['username'] );
 	}
 	// p ( $data );
@@ -143,7 +137,7 @@ function get_users($params = array()) {
 		return $cache_content;
 	} else {
 		
-		$get =  db_get( $table, $criteria = $data, $limit, $offset = false, $orderby = array (
+		$get = db_get ( $table, $criteria = $data, $limit, $offset = false, $orderby = array (
 				'updated_on',
 				'DESC' 
 		), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
@@ -343,25 +337,16 @@ function user_thumbnail($params) {
 	return $thumb;
 }
 function users_count() {
+	$options = array ();
+	$options ['get_count'] = true;
+	// $options ['debug'] = true;
+	$options ['count'] = true;
+	// $options ['no_cache'] = true;
+	$options ['cache_group'] = 'users/global/';
 	
-	
- 
-	
-	$options = array();
-	$options['get_count'] = true;
-	//	$options ['debug'] = true;
-	$options['count'] = true;
-	//$options ['no_cache'] = true;
-	$options['cache_group'] = 'users/global/';
-	
-	$data = get_users($options);
-	 
+	$data = get_users ( $options );
 	
 	return $data;
-	
-	
-	
-	
 }
 function user_link($user_id) {
 	// a.k.a profile_link($user_id);

@@ -169,7 +169,7 @@ $(document).ready(function() {
 		  $t = $('*[name="type"]').val(); 
 		   cf_type_set($t)
 		   $('.custom_fields_table_edit_cf tr').hide();
-		   $('.custom_fields_table_edit_cf .cf_values_row').show();
+		   $('.custom_fields_table_edit_cf .custom_field_valueues_row').show();
 		   
 		   
 		   
@@ -208,7 +208,7 @@ function cf_type_set_show_all_types($form_selector){
 function edit_cf_show_advanced(){
 	
 	   $('.custom_fields_table_edit_cf tr').toggle();
-		   $('.custom_fields_table_edit_cf .cf_values_row').show();
+		   $('.custom_fields_table_edit_cf .custom_field_valueues_row').show();
 }
 
 
@@ -267,8 +267,8 @@ function cf_type_set($type, $form_selector){
 	data1.param_values =param_values_v;
 	data1.cf_id =cf_id;
 	
-	$('.mw_cf_values_edit_by_type').load('<? print site_url('api/module') ?>',data1);
-	$('.mw_cf_values_edit_by_type').show();
+	$('.mw_custom_field_valueues_edit_by_type').load('<? print site_url('api/module') ?>',data1);
+	$('.mw_custom_field_valueues_edit_by_type').show();
 	 
 	 
 	 
@@ -343,10 +343,10 @@ function cf_type_set($type, $form_selector){
         </div>
         <a  href="javascript:cf_type_set_show_all_types('#cf_form_<? print $item['id'] ?>')" ><img height="28" class="cf_form_type_selector_arrow" width="28" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/arr_down.png" /></a></td>
     </tr>
-    <tr class="cf_values_row">
+    <tr class="custom_field_valueues_row">
       <td><span class="darkblue">Values:</span>
         <div class="formitem"> <span class="formfield">
-          <div class="mw_cf_values_edit_by_type">
+          <div class="mw_custom_field_valueues_edit_by_type">
             <microweber module="admin/content/custom_fields/<? print $item['type'] ?>"  cf_id="<? print $item['id'] ?>" param_default="<? print $item['param_default'] ?>" param_values="<? print $item['param_values'] ?>" />
           </div>
           <!--

@@ -1,5 +1,5 @@
 <?php
-//include_once ('parser/phpQuery.php');
+// include_once ('parser/phpQuery.php');
 
 /**
  * Parses the microweber tags from the $layout back to html content.
@@ -16,18 +16,19 @@
  * @return
  */
 function parse_micrwober_tags($layout, $options = false) {
-
+ 
+ 
 	$function_cache_id = false;
 	$args = func_get_args();
 	foreach ($args as $k => $v) {
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 	}
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-	$cache_content = CACHE_PARSE_MICROWEBER_TAGS_ . $function_cache_id;
+	$cache_content = 'CACHE_PARSE_MICROWEBER_TAGS_' . $function_cache_id;
 
 	if (!defined($cache_content)) {
 	} else {
-
+	
 		//p((constant($cache_content)));
 		return (constant($cache_content));
 
@@ -90,7 +91,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	//$layout = str_replace('<script ', '<TEXTAREA ', $layout);
 	// $layout = str_replace('</script', '</TEXTAREA', $layout);
 
-	$pq = phpQuery::newDocument($layout);
+	/* $pq = phpQuery::newDocument($layout);
 
 	$els = $pq['.edit'];
 	//$els = pq('body')->find('.edit')->filter(':not(script)');
@@ -142,7 +143,7 @@ function parse_micrwober_tags($layout, $options = false) {
 		$field_content = false;
 
 		if ($get_global == true) {
-			$field_content = $CI -> core_model -> optionsGetByKey($field, $return_full = false, $orderby = false);
+			$field_content = get_option($field, $return_full = false, $orderby = false);
 		} else {
 			
 			
@@ -174,7 +175,7 @@ function parse_micrwober_tags($layout, $options = false) {
 		} else {
 		}
 	}
-
+ */
 	/*
 	 foreach($pq['mw'] as $elem) {
 	 $name = pq($elem)->attr('module');
@@ -247,7 +248,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	 }
 
 	 }
-	 */
+	
 	if ($options['mw_embed']) {
 		$em = trim($options['mw_embed']);
 		if ($em != '') {
@@ -257,7 +258,7 @@ function parse_micrwober_tags($layout, $options = false) {
 			}
 		}
 
-	}
+	} */
 	//$layout = $pq;
 	//$layout = str_replace('<mw-script ', '<script ', $layout);
 	//$layout = str_replace('</mw-script', '</script', $layout);
@@ -270,7 +271,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	//
 	//
 
-	$layout = $pq -> htmlOuter();
+	//$layout = $pq -> htmlOuter();
 
 	if (!empty($replaced_scripts)) {
 		foreach ($replaced_scripts as $key => $value) {
@@ -282,7 +283,6 @@ function parse_micrwober_tags($layout, $options = false) {
 			unset($replaced_scripts[$key]);
 		}
 	}
-
 	if (!empty($replaced_modules)) {
 
 		$attribute_pattern = '@
@@ -354,17 +354,18 @@ function parse_micrwober_tags($layout, $options = false) {
 				// }
 
 				$module_html = "<div class='module __WRAP_NO_WRAP__' ";
+		 
 				//	$module_html = "<div class='module __WRAP_NO_WRAP__' ";
 				$module_has_class = false;
 
 				if (!empty($attrs)) {
 
-					if ($attrs['module']) {
+					if (isset($attrs['module']) and $attrs['module']) {
 						$attrs['data-type'] = $attrs['module'];
 						unset($attrs['module']);
 					}
 
-					if ($attrs['type']) {
+					if ( isset($attrs['type']) and  $attrs['type']) {
 						$attrs['data-type'] = $attrs['type'];
 						unset($attrs['type']);
 					}

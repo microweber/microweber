@@ -125,6 +125,9 @@ if((resp.success) != undefined){
     <link href="<? print TEMPLATE_URL ?>css/mw.modules.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
+    <? 
+debug_info();
+?>
 <div class="main" align="center">
 <div class="container">
 <div class="header">
@@ -170,10 +173,10 @@ if((resp.success) != undefined){
   
      ?>
     <? print $count; ?> JOBS ONLINE</div>
-      <div class="caption"><span class="blue"><? print users_count() ?> members</span> of our community <small style="float:right"> <a class="blue" href="<? print page_link_to_layout('register'); ?>">Register</a> or <a class="blue" href="<? print page_link_to_layout('register'); ?>/view:login">Login</a></small> </div>
+      <div class="caption"><span class="blue"><? print users_count() ?> members</span> of our community <small style="float:right"> <a class="blue" href="<? print page_link('register'); ?>">Register</a> or <a class="blue" href="<? print page_link('register'); ?>/view:login">Login</a></small> </div>
       <? endif;  ?>
     </div>
 <div class="nav">
-      <microweber module="content/menu"  name="main_menu"  />
+      <microweber module="menu"  name="main_menu"  />
  
     </div>
