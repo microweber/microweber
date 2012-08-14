@@ -41,7 +41,8 @@ $m = url ( 1 ) ?  : 'index';
 
 $c = new controller ();
 $m = 'index';
-
+$c->index();
+exit();
 call_user_func_array ( array (
 		$c,
 		$m 
