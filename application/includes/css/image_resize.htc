@@ -1,0 +1,10 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="onresizestart" ONEVENT="resize()" />
+<SCRIPT LANGUAGE="JScript">
+function resize(){  alert(1)
+      event.cancelBubble =true;
+      event.returnValue =false;
+return false;
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

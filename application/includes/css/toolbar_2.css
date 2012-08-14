@@ -1,0 +1,177 @@
+
+#mw-saving-loader{
+	height:48px;
+	width:48px;
+	background-image: url(images/saving.gif);
+	background-color:#FFFFB9 !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	  display:none;
+	position:absolute;
+	bottom:10px;
+	right:30px;
+}
+
+.sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-top:10px;
+	margin-bottom:10px;
+	background-image: url(images/drop.png);
+	background-color:#FFFFB9 !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	outline: 1px dashed #a5b3ac;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #000;
+	text-decoration: none;
+	font-style: normal;
+	line-height: 11px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	height:  55px;
+	min-height:  50px;
+	width:100%;	
+	opacity:0.9;
+	 
+	/*padding-right: 3%;
+	padding-left: 3%;    */     
+}
+.empty-column {
+	width:95%;
+	height:30px;
+	margin-bottom:30px;
+	madasdasdrgin-bottom:-40px;
+	padding-bottom:-20px;
+	margin-top:30px;
+	height: 150px;
+}
+ 
+
+.empty-element-edit-area{
+	 background-color:#FF0000 !important;
+	display:none !important;
+	height:  15px !important;
+	visibility:hidden;
+	opacity:0.1;
+	 
+}
+
+
+.empty-element-edit-area:hover,.empty-element-column:hover {
+	 
+	 visibility:visible;
+	 
+}
+
+.empty-element {
+	/*background-image: url(images/drop.png); */
+	background-color:white !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	font-size: 11px;
+	font-style: normal;
+	line-height: 11px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	width:100%;	
+
+}
+
+.empty-element:hover {
+  background-color:#FFFFB9 !important;
+}
+
+
+
+.empty-columasdn {
+	width:95%;
+	height:20px;
+	margin:1%;
+	margin:5px;
+	padding-bottom:-20px;
+	margin-top:-55px;
+	padding-top:65px;
+	margin-bottom:60px;
+}
+.empty-column-big {
+	height:150px;
+	margin-top:10px;
+	margin-bottom:45px;
+}
+.empty-column:hover {
+}
+.empty-column span {
+	color: #AAAAAA;
+	font-size: 20px;
+	text-align: center;
+}
+.empty {
+	width:100%;
+	line-height:20px !important;
+	margin-top:20px;
+	margin-bottom:20px;
+	background-image: none;
+	background-color:#CCCCCC !important;
+	clear: both !important;
+	display:block !important;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+
+
+
+.ui-resizable { position: relative;}
+.ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; }
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
+.ui-resizable-e {
+	cursor: e-resize;
+	width: 20px;
+	right: 0;
+	top: 0;
+	height: 100%;
+    background-image: url(../img/resize_color.gif);
+    background-position: right center;
+    background-repeat: repeat-y;
+    cursor: none;
+}
+
+.resize_arrows{
+  display: block;
+  position: absolute;
+  left: 3px;
+  left: 12px;
+  top: 0;
+  margin-top: -14px;
+  background: url(../img/resize_arrows.png) no-repeat;
+  width: 13px;
+  height: 14px;
+  visibility: hidden;
+}
+.ui-resizable-e:hover .resize_arrows{
+  visibility: visible;
+}
+
+.ui-resizable-e1 { cursor: e-resize; width: 7px; right: -5px; top: 0; height: 100%; background-color:#F00 }
+
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}/*!
+ * jQuery UI Selectable 1.8.20
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Selectable#theming
+ */
+.ui-selectable-helper { position: absolute; z-index: 100; border:1px dotted black; }

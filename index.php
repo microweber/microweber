@@ -8,7 +8,7 @@ require (APPPATH . 'functions.php');
 // require ('appication/functions.php');
 require (APPPATH . 'functions/mw_functions.php');
 set_error_handler ( function ($c, $e, $f = 0, $l = 0) {
-	$v = new View ( APPPATH_FULL . 'views' . DS . 'error.php' );
+	$v = new View ( ADMIN_VIEWS_PATH . 'error.php' );
 	$v->e = $e;
 	$v->f = $f;
 	$v->l = $l;
@@ -16,7 +16,7 @@ set_error_handler ( function ($c, $e, $f = 0, $l = 0) {
 	// _log("$e [$f:$l]");
 } );
 function exception($e) {
-	$v = new View (  APPPATH_FULL . 'views' . DS . 'exception.php'  );
+	$v = new View ( ADMIN_VIEWS_PATH . 'exception.php' );
 	$v->e = $e;
 	// _log($e -> getMessage() . ' ' . $e -> getFile());
 	die ( $v );
@@ -24,15 +24,14 @@ function exception($e) {
 
 set_exception_handler ( 'exception' );
 register_shutdown_function ( function () {
-	$e = error_get_last();
+	$e = error_get_last ();
 	
 	if (isset ( $e )) {
 		exception ( new ErrorException ( $e ['message'], $e ['type'], 0, v ( $e ['file'] ), $e ['line'] ) );
 	}
 } );
 
-$c = 'controller_' . (url ( 0 ) ?  : 'home');
-$m = url ( 1 ) ?  : 'index';
+$m = url ( 0 ) ?  : 'index';
 
 /*
  * if (!is_file(p("classes/$c")) || !($c = new $c) || $m == 'render' ||
@@ -40,9 +39,13 @@ $m = url ( 1 ) ?  : 'index';
  */
 
 $c = new controller ();
-$m = 'index';
-$c->index();
-exit();
+
+if (method_exists ( $c, $m )) {
+	$c->$m ();
+} else {
+	$c->index ();
+}
+exit ();
 call_user_func_array ( array (
 		$c,
 		$m 

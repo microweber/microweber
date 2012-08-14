@@ -477,9 +477,13 @@ define ( 'DATETIME_FORMAT', 'F j g:m a' );
 define ( 'APPPATH', $application_folder . DIRECTORY_SEPARATOR );
 define ( 'APPPATH_FULL', ROOTPATH. DIRECTORY_SEPARATOR. APPPATH  ); //full filesystem path
 
+ 
+
+
+
 define ( 'LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR  );
 define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
-define ( 'ADMINVIEWSPATH', APPPATH . 'views/admin/' ); //full filesystem path  
+define ( 'ADMIN_VIEWS_PATH', APPPATH_FULL . 'views' . DS ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );
 define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' . $application_folder . '/views/admin/static/' );
 define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admin/static/' );

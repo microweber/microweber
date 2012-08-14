@@ -18,7 +18,7 @@ class Controller {
 				$page = get_homepage ();
 			}
 		}
-	 // d($page);
+		// d($page);
 		if ($page ['content_type'] == "post") {
 			$content = $page;
 			$page = get_content_by_id ( $page ['content_parent'] );
@@ -30,7 +30,7 @@ class Controller {
 		
 		$render_file = get_layout_for_page ( $page );
 		
-		//d ( $render_file );
+		// d ( $render_file );
 		
 		if ($render_file) {
 			$l = new View ( $render_file );
@@ -54,6 +54,16 @@ class Controller {
 	}
 	function show_404() {
 		header ( "HTTP/1.0 404 Not Found" );
-		$this->content = new View ( '404' );
+		$v = new View ( ADMIN_VIEWS_PATH . '404.php' );
+		echo $v;
+	}
+	function admin() {
+		define_constants();
+		$l = new View ( ADMIN_VIEWS_PATH . 'admin.php' );
+		$l = $l->__toString ();
+		// var_dump($l);
+		$layout = parse_micrwober_tags ( $l, $options = false );
+		print $layout;
+		exit ();
 	}
 }

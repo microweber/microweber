@@ -9,39 +9,37 @@ function define_constants($content = false) {
 	} else {
 	}
 	
-	if ($page == false) {
-		print __FUNCTION__ . ' must be finished';
-	}
-	
-	if ($page ['content_type'] == "post") {
-		$content = $page;
-		
-		$page = get_content_by_id ( $page ['content_parent'] );
-		if (defined ( 'POST_ID' ) == false) {
-			define ( 'POST_ID', $content ['id'] );
+	if (isset ( $page )) {
+		if ($page ['content_type'] == "post") {
+			$content = $page;
+			
+			$page = get_content_by_id ( $page ['content_parent'] );
+			if (defined ( 'POST_ID' ) == false) {
+				define ( 'POST_ID', $content ['id'] );
+			}
+		} else {
+			$content = $page;
 		}
-	} else {
-		$content = $page;
-	}
-	
-	if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 		
-		define ( 'ACTIVE_PAGE_ID', $page ['id'] );
+		if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
+			
+			define ( 'ACTIVE_PAGE_ID', $page ['id'] );
+		}
+		
+		if (defined ( 'CONTENT_ID' ) == false) {
+			define ( 'CONTENT_ID', $content ['id'] );
+		}
+		
+		if (defined ( 'PAGE_ID' ) == false) {
+			define ( 'PAGE_ID', $page ['id'] );
+		}
+		
+		if (defined ( 'MAIN_PAGE_ID' ) == false) {
+			define ( 'MAIN_PAGE_ID', $page ['content_parent'] );
+		}
 	}
 	
-	if (defined ( 'CONTENT_ID' ) == false) {
-		define ( 'CONTENT_ID', $content ['id'] );
-	}
-	
-	if (defined ( 'PAGE_ID' ) == false) {
-		define ( 'PAGE_ID', $page ['id'] );
-	}
-	
-	if (defined ( 'MAIN_PAGE_ID' ) == false) {
-		define ( 'MAIN_PAGE_ID', $page ['content_parent'] );
-	}
-	
-	if (($page ['active_site_template']) != '' and strtolower ( $page ['active_site_template'] ) != 'default') {
+	if (isset ( $page ) and ($page ['active_site_template']) != '' and strtolower ( $page ['active_site_template'] ) != 'default') {
 		$the_active_site_template = $page ['active_site_template'];
 	} else {
 		$the_active_site_template = get_option ( 'curent_template' );
@@ -128,7 +126,7 @@ function get_layout_for_page($page = array()) {
 		}
 	}
 	
-	if ($render_file == false and ($page ['content_layout_name']) == false and ( $page ['content_layout_style'] ) == false) {
+	if ($render_file == false and ($page ['content_layout_name']) == false and ($page ['content_layout_style']) == false) {
 		$template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
 		if (is_file ( $template_view ) == true) {
 			$render_file = $template_view;
@@ -434,6 +432,8 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  * @category posts
  * @author Microweber
  * @link
+ *
+ *
  *
  *
  *
