@@ -11,18 +11,16 @@
       open:false
     });
 
-    mw.filechange(Uploader, function(){
-          var el = this;
-          if(el.files){
-            var files = el.files;
-            $.each(files, function(){
-                var reader = new FileReader();
-                var file = mw.files.processer(reader, el);
-            });
-          }
-          else{
 
-          }
+
+    mw.filechange(Uploader, function(){
+
+         this.validate(function(){
+            mw.files.upload(Uploader, {url:'http://pecata/Microweber/editor_tools/rte_image_editor/'}, function(){
+                console.log(this);
+            });
+         });
+
     });
 
     $("#rte_image_upload").click(function(){

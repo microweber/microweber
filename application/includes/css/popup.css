@@ -2,6 +2,10 @@
   margin: 0;
   padding: 0;
 }
+a, input, textarea, select{
+  outline: none;
+}
+
 body{
   font: 12px Verdana, Arial, sans-serif;
 }
@@ -70,7 +74,7 @@ body{
   padding: 5px 20px;
   border: 1px solid #5C9DC7;
   text-shadow:0 1px 0 #B4D6EC;
-    -webkit-border-radius: 5px;
+  -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   background-image: linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
@@ -79,7 +83,6 @@ body{
   background-image: -webkit-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
   filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#87C4ED", endColorStr="#549AC6");
   background-image: -ms-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-
   background-image: -webkit-gradient(
   	linear,
   	left bottom,

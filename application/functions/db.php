@@ -3,7 +3,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 	if (trim ( $q ) == '') {
 		return false;
 	}
-	//$cache_id = false;
+	// $cache_id = false;
 	if ($cache_id != false) {
 		// $results =false;
 		$results = cache_get_content ( $cache_id, $cache_group, $time );
@@ -44,10 +44,47 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
  * Everything relies on it.
  *
  * @author Peter Ivanov
- * @version 1.0
- * @since Version 1.0
+ *        
+ * @param string $table
+ *        	-
+ *        	the table name ex. table_content
+ * @param array $criteria
+ *        	The array of database fields you want to filter
+ *        	ex.
+ *        	$criteria =array('id' => 11); //gets the item
+ *        	
+ *        	
+ *        	Query options:
+ *        	$criteria['debug'] = 1; //print the sql
+ *        	$criteria['cache_group'] = 'content' //same as the $cache_group
+ *        	$criteria['no_cache'] = 1; //does not cache the query
+ *        	$criteria['count'] = 1; //get only the count
+ *        	
+ *        	
+ *        	
+ *        	Result limit:
+ *        	$criteria['limit'] = 10; //gets 10 results
+ *        	$criteria['limit'] = array(30,10); //gets 10 results with offset
+ *        	30
+ *        	
+ *        	
+ *        	
+ * @param string $cache_group
+ *        	-
+ *        	The cache folder to use to cache the query result
+ *        	You must delete this cache group when you save data to the $table
  */
-function db_get($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
+function db_get($table, $criteria, $cache_group = false) {
+	return __db_get_long ( $table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false );
+}
+/**
+ * get data
+ * Microweber CMS.
+ * Everything relies on it.
+ *
+ * @author Peter Ivanov
+ */
+function __db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
 	$cms_db_tables = c ( 'db_tables' ); // ->'table_options';
 	                                    
 	// $this->db->query ( 'SET NAMES utf8' );
@@ -83,7 +120,7 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 		}
 		if (isset ( $criteria ['no_cache'] )) {
 			$cache_group = false;
-			if (is_string ( $criteria ['no_cache'] )) {
+			if (($criteria ['no_cache']) == true) {
 				$criteria ['no_cache'] = false;
 			} else {
 				unset ( $criteria ['no_cache'] );
@@ -140,10 +177,8 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 		}
 		
 		if ($count_only == false) {
-			
+			$qLimit = "";
 			if ($limit == false) {
-				
-				$qLimit = "";
 				
 				if (! isset ( $items_per_page ) or $items_per_page == false) {
 					
@@ -457,11 +492,13 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 		$order_by = false;
 	}
 	
-	if ($qLimit == '' and ! empty ( $limit ) and $count_only == false) {
-		
-		$offset = $limit [1] - $limit [0];
-		
-		$limit = " limit  {$limit[0]} , $offset  ";
+	if ($qLimit == '' and ($limit != false) and $count_only == false) {
+		if (is_array ( $limit )) {
+			$offset = $limit [1] - $limit [0];
+			$limit = " limit  {$limit[0]} , $offset  ";
+		} else {
+			$limit = " limit  0 , {$limit}  ";
+		}
 	} else {
 		
 		$limit = false;
@@ -642,12 +679,6 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 				
 				$where .= "$k {$compare_sign} '$v' AND ";
 			}
-			if ($table_assoc_name != 'table_comments') {
-				if ($with_pics == true) {
-					$table_media = $cms_db_tables ['table_media'];
-					$where .= " id in (select to_table_id from $table_media where to_table='$table_assoc_name'   )     AND ";
-				}
-			}
 			
 			$where .= " ID is not null ";
 		} else {
@@ -656,6 +687,9 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 			
 			$where .= " ID is not null ";
 		}
+	}
+	if (! isset ( $idds )) {
+		$idds = '';
 	}
 	
 	if ($where != false) {
@@ -696,168 +730,12 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 		// exit ();
 	}
 	
-	if ($result [0] ['qty'] == true) {
+	if (isset($result [0] ['qty']) == true) {
 		
 		// p($result);
 		$ret = $result [0] ['qty'];
 		
 		return $ret;
-	}
-	
-	if ($only_those_fields == false) {
-		
-		if ($count_only == false) {
-			
-			if (! empty ( $result )) {
-				
-				if (count ( $result ) < 2) {
-					
-					$table_custom_field = $cms_db_tables ['table_custom_fields'];
-					
-					if (strval ( $table_assoc_name ) != 'table_custom_fields') {
-						
-						if (strval ( trim ( $table_assoc_name ) ) != '') {
-							
-							if (strval ( $table_assoc_name ) == 'table_content') {
-								
-								$this_cache_id = __FUNCTION__ . 'custom_fields_stuff' . md5 ( serialize ( $result ) );
-								
-								$this_cache_content = $this->cacheGetContentAndDecode ( $this_cache_id );
-								
-								// $this_cache_content = false;
-								if (($this_cache_content) != false) {
-									
-									$result = $this_cache_content;
-								} else {
-									
-									$the_data_with_custom_field__stuff = array ();
-									
-									foreach ( $result as $item ) {
-										
-										if (strval ( $table_assoc_name ) != '') {
-											
-											if (intval ( $item ['id'] ) != 0) {
-												
-												$q = " SELECT
-																* from  $table_custom_field where
-																to_table = '$table_assoc_name'
-																and to_table_id={$item['id']}
-
-																order by field_order asc
-																";
-												
-												// print $q;
-												$cache_id = __FUNCTION__ . 'custom_fields_stuff' . md5 ( $q );
-												
-												$cache_id = md5 ( $cache_id );
-												
-												$q = $this->dbQuery ( $q );
-												
-												if (! empty ( $q )) {
-													
-													$append_this = array ();
-													
-													foreach ( $q as $q2 ) {
-														
-														$i = 0;
-														
-														$the_name = false;
-														
-														$the_val = false;
-														
-														foreach ( $q2 as $cfk => $cfv ) {
-															
-															if ($cfk == 'custom_field_name') {
-																
-																$the_name = $cfv;
-															}
-															
-															if ($cfk == 'custom_field_value') {
-																
-																$the_val = $cfv;
-															}
-															
-															$i ++;
-														}
-														
-														if ($the_name != false and $the_val != false) {
-															
-															$append_this [$the_name] = $the_val;
-														}
-													}
-													
-													// var_dump (
-													// $append_this );
-													$item ['custom_fields'] = $append_this;
-												}
-											}
-										}
-										
-										$the_data_with_custom_field__stuff [] = $item;
-									}
-									
-									$result = $the_data_with_custom_field__stuff;
-									
-									// var_dump($result);
-									$this->cacheWriteAndEncode ( $result, $this_cache_id, $cache_group = 'global' );
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	// $result = $this->decodeLinksAndReplaceSiteUrl ( $result );
-	
-	if ($table_assoc_name != 'table_options') {
-		
-		// todo
-		
-		if ($get_only_whats_requested_without_additional_stuff == false) {
-			
-			if ($only_those_fields == false) {
-				
-				// print $table_assoc_name;
-				if (strval ( $table_assoc_name ) != '') {
-					
-					if ($table_assoc_name != 'table_media') {
-						
-						$result_with_media = array ();
-						
-						if (! empty ( $result )) {
-							
-							if (count ( $result ) == 1) {
-								
-								foreach ( $result as $item ) {
-									
-									// get media
-									if (intval ( $item ['id'] ) != 0) {
-										
-										$media = $this->mediaGetAndCache ( $table_assoc_name, $item ['id'] );
-										
-										if (! empty ( $media )) {
-											
-											$item ['media/global'] = $media;
-										}
-									}
-									
-									$result_with_media [] = $item;
-								}
-								
-								$result = $result_with_media;
-							}
-						}
-					}
-				}
-				
-				if ($table_assoc_name != 'table_taxonomy') {
-					
-					// todo
-				}
-			}
-		}
 	}
 	
 	if ($cache_group != false) {
@@ -887,7 +765,7 @@ function db_get($table = false, $criteria = false, $limit = false, $offset = fal
 		
 		foreach ( $result as $k => $v ) {
 			
-			$v =remove_slashes_from_array ( $v );
+			$v = remove_slashes_from_array ( $v );
 			
 			$return [$k] = $v;
 		}

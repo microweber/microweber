@@ -1,4 +1,8 @@
 <?php
+
+function option_get($key, $return_full = false, $orderby = false, $option_group = false){
+	return get_option($key, $return_full, $orderby, $option_group);
+}
 function get_option($key, $return_full = false, $orderby = false, $option_group = false) {
 	$function_cache_id = false;
 	
@@ -42,7 +46,7 @@ function get_option($key, $return_full = false, $orderby = false, $option_group 
 			$data ['option_group'] = $option_group;
 		}
 		
-		$get = db_get ( $table, $data, $limit = false, $offset = false, $orderby, $cache_group = 'options' );
+		$get = db_get ( $table, $data,$cache_group = 'options' );
 		
 		if (! empty ( $get )) {
 			

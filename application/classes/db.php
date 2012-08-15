@@ -17,12 +17,19 @@ class db extends SQL {
 		return ($s = $this->query ( $q, $p )) ? $s->fetchAll ( PDO::FETCH_OBJ ) : 0;
 	}
 	function get($q, $p = NULL) {
+		 
+	 
 		$s = ($s = $this->query ( $q, $p )) ? $s->fetchAll ( PDO::FETCH_ASSOC ) : 0;
 		return ($s);
 	}
 	function query($q, $p = NULL) {
 		$s = $this->pdo->prepare ( self::$q [] = str_replace ( '"', $this->i, $q ) );
 		$s->execute ( $p );
+		
+		 
+		
+		
+		
 		return $s;
 	}
 }

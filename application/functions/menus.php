@@ -27,7 +27,7 @@ function get_menu_id($name) {
 	
 	$data = get_menu ( $data );
 	
-//	$data = object_2_array ( $data );
+	// $data = object_2_array ( $data );
 	
 	$data = $data [0];
 	
@@ -51,8 +51,9 @@ function save_menu($data) {
 	$menu = $menu->save ();
 }
 function get_menu($params = array()) {
-	$menu = new menu ();
-	return $menu->get ( $params );
+	$table = c ( 'db_tables' );
+	$table = $table ['table_menus'];
+	return db_get ( $table, $params, 'menus' );
 }
 function menu_tree($menu_id, $maxdepth = false) {
 	$args = func_get_args ();
@@ -65,7 +66,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$cache_content = cache_get_content ( $function_cache_id, 'menus' );
 	if (($cache_content) != false) {
 		// p($cache_content);
-		  return $cache_content;
+		return $cache_content;
 	}
 	$passed_ids = array ();
 	

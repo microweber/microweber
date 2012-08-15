@@ -9,6 +9,8 @@ class menu extends orm {
 		menu::$db = new db ( c ( 'db' ) );
 	}
 	
+	
+	
 	/*
 	 * static $r = array( 'posts' => 'Model_Post', // Has many posts 'roles' =>
 	 * 'Model_Role', // Has many roles 'profile' => 'Model_Profile', // Has one

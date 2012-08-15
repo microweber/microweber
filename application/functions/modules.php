@@ -2,7 +2,7 @@
 function get_modules($options = false) {
 	// p($options);
 	$args = func_get_args ();
-	
+	$function_cache_id = '';
 	foreach ( $args as $k => $v ) {
 		
 		$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
@@ -10,23 +10,34 @@ function get_modules($options = false) {
 	
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 	
-	$cache_group = 'modules/';
+	$cache_group = 'modules';
 	
 	$cache_content = cache_get_content ( $cache_id, $cache_group );
 	
 	if (($cache_content) != false) {
 		
-		return $cache_content;
+		  return $cache_content;
 	}
 	
-	$dir_name = normalize_path ( MODULES_DIR );
-	$dir = rglob ( '*config.php', 0, $dir_name );
+	if (isset ( $options ['glob'] )) {
+		$glob_patern = $options ['glob'];
+	} else {
+		$glob_patern = '*config.php';
+	}
+	
+	if (isset ( $options ['dir_name'] )) {
+		$dir_name = $options ['dir_name'];
+	} else {
+		$dir_name = normalize_path ( MODULES_DIR );
+	}
+	
+	$dir = rglob ( $glob_patern, 0, $dir_name );
 	
 	if (! empty ( $dir )) {
 		$configs = array ();
 		foreach ( $dir as $key => $value ) {
 			$skip_module = false;
-			if ($options ['skip_admin'] == true) {
+			if (isset ( $options ['skip_admin'] ) and $options ['skip_admin'] == true) {
 				// p($value);
 				if (strstr ( $value, 'admin' )) {
 					$skip_module = true;
@@ -43,10 +54,22 @@ function get_modules($options = false) {
 				$value_fn = str_replace ( $dir_name, '', $value_fn );
 				
 				$value_fn = reduce_double_slashes ( $value_fn );
-				// p($value);
+				
 				$try_icon = $mod_name . '.png';
 				$def_icon = MODULES_DIR . 'default.png';
+				
+				ob_start ();
 				include ($value);
+				 
+				$content = ob_get_contents ();
+				ob_end_clean ();
+				
+				 
+				
+			
+				
+				
+				
 				$config ['module'] = $value_fn . '';
 				$config ['module_base'] = str_replace ( 'admin/', '', $value_fn );
 				
@@ -67,7 +90,7 @@ function get_modules($options = false) {
 					$config ['installed'] = true;
 				}
 				
-				if ($options ['ui'] == true) {
+				if (isset ( $options ['ui'] ) and $options ['ui'] == true) {
 					if ($config ['ui'] == false) {
 						$skip_module = true;
 					}
@@ -84,13 +107,9 @@ function get_modules($options = false) {
 		$cfg_ordered2 = array ();
 		$cfg = $configs;
 		foreach ( $cfg as $k => $item ) {
-			
-			if ($item ['position']) {
+			if (isset ( $item ['position'] )) {
 				$cfg_ordered2 [$item ['position']] [] = $item;
-				// $cfg_ordered[] = $item;
 				unset ( $cfg [$k] );
-			} else {
-				//
 			}
 		}
 		ksort ( $cfg_ordered2 );
@@ -106,6 +125,40 @@ function get_modules($options = false) {
 		
 		return $c2;
 	}
+}
+function get_elements($options = array()) {
+	//$options ['glob'] = '*.php';
+	$options ['dir_name'] = normalize_path ( ELEMENTS_DIR );
+	
+	return get_modules ( $options );
+	
+	$args = func_get_args ();
+	$function_cache_id = '';
+	foreach ( $args as $k => $v ) {
+		
+		$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+	}
+	
+	$cache_id = $function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
+	
+	$cache_group = 'elements';
+	
+	$cache_content = cache_get_content ( $cache_id, $cache_group );
+	
+	if (($cache_content) != false) {
+		
+		return $cache_content;
+	}
+	
+	$dir_name = normalize_path ( ELEMENTS_DIR );
+	$a1 = array ();
+	$dirs = array_filter ( glob ( $dir_name . '*' ), 'is_dir' );
+	foreach ( $dirs as $dir ) {
+		$a1 [] = basename ( $dir );
+	}
+	cache_save ( $a1, $function_cache_id, $cache_group );
+	
+	return $a1;
 }
 function load_module($module_name, $attrs = array()) {
 	$function_cache_id = false;

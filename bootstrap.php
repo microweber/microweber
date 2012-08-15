@@ -20,107 +20,12 @@ $mw_config = array ();
   
  
 
-$mw_config ['site_url'] = 'http://pecata/Microweber/';   //use slash at the end
+$mw_config ['site_url'] = site_url();   //use slash at the end
 
- $mw_config ['system_folder'] = 'application/ci';
+ $mw_config ['system_folder'] = 'application';
 $mw_config ['application_folder'] = 'application';
+   
  
-$mw_config ['db_hostname'] = 'localhost';
-
-$mw_config ['db_username'] = 'root';
-
-$mw_config ['db_password'] = '123456';  
-
- 
-$mw_config ['db_database'] = 'digi2';
-
-ini_set('display_errors', '1');
- 
-
-/*
- * PHP error settings (Report all PHP errors)
- */
-//error_reporting(E_ALL);
-//ini_set('display_errors','On'); 
-
-
-
-if(!defined('mw_curent_url')){
-function mw_curent_url() {
-	
-	$pageURL = 'http';
-	
-	if (isset ( $_SERVER ["HTTPS"] )) { 
-		
-		if ($_SERVER ["HTTPS"] == "on") {
-			
-			$pageURL .= "s";
-		
-		}
-	
-	}
-	
-	$pageURL .= "://";
-	
-	if ($_SERVER ["SERVER_PORT"] != "80") {
-		
-		$pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
-	
-	} else {
-		
-		$pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
-	
-	}
-	
-	return $pageURL;
-
-}
-}
-$the_curent_link123 = mw_curent_url ();
-
-$the_curent_link123 = strtolower ( $the_curent_link123 );
-
-/*
-
-
-
-|---------------------------------------------------------------
-
-
-
-| PHP ERROR REPORTING LEVEL
-
-
-
-|---------------------------------------------------------------
-
-
-
-|
-
-
-
-| By default CI runs with error reporting set to ALL.  For security
-
-
-
-| reasons you are encouraged to change this when your site goes live.
-
-
-
-| For more info visit:  http://www.php.net/error_reporting
-
-
-
-|
-
-
-
-*/
-
-//error_reporting(E_ALL);
-
-
 if (! defined ( 'E_STRICT' )) {
 	
 	define ( E_STRICT, 0 );
@@ -131,174 +36,14 @@ if (! defined ( 'E_STRICT' )) {
 
 //error_reporting ( E_ALL & ~ E_STRICT );
 
-
-/*
-
-
-
-|---------------------------------------------------------------
-
-
-
-| SYSTEM FOLDER NAME
-
-
-
-|---------------------------------------------------------------
-
-
-
-|
-
-
-
-| This variable must contain the name of your "system" folder.
-
-
-
-| Include the path if the folder is not in the same  directory
-
-
-
-| as this file.
-
-
-
-|
-
-
-
-| NO TRAILING SLASH!
-
-
-
-|
-
-
-
-*/
+ 
 
 $system_folder = $mw_config ['system_folder'];
 
-/*
-
-
-
-|---------------------------------------------------------------
-
-
-
-| APPLICATION FOLDER NAME
-
-
-
-|---------------------------------------------------------------
-
-
-
-|
-
-
-
-| If you want this front controller to use a different "application"
-
-
-
-| folder then the default one you can set its name here. The folder
-
-
-
-| can also be renamed or relocated anywhere on your server.
-
-
-
-| For more info please see the user guide:
-
-
-
-| http://codeigniter.com/user_guide/general/managing_apps.html
-
-
-
-|
-
-
-
-|
-
-
-
-| NO TRAILING SLASH!
-
-
-
-|
-
-
-
-*/
+ 
 
 $application_folder = $mw_config ['application_folder'];
-
-/*
-
-
-
-|===============================================================
-
-
-
-| END OF USER CONFIGURABLE SETTINGS
-
-
-
-|===============================================================
-
-
-
-*/
-
-/*
-
-
-
-|---------------------------------------------------------------
-
-
-
-| SET THE SERVER PATH
-
-
-
-|---------------------------------------------------------------
-
-
-
-|
-
-
-
-| Let's attempt to determine the full-server path to the "system"
-
-
-
-| folder in order to reduce the possibility of path problems.
-
-
-
-| Note: We only attempt this if the user hasn't specified a
-
-
-
-| full server path.
-
-
-
-|
-
-
-
-*/
+ 
 if (isset ( $mw_config ['system_folder_shared'] )) {
 	if ($mw_config ['system_folder_shared'] == false) {
 		
@@ -396,15 +141,7 @@ define ( 'STYLES_DIR', USERFILES . 'styles' . '/' );
 
 
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );
-
-define ( 'DBHOSTNAME', $mw_config ['db_hostname'] );
-
-define ( 'DBUSERNAME', $mw_config ['db_username'] );
-
-define ( 'DBPASSWORD', $mw_config ['db_password'] );
-
-define ( 'DBDATABASE', $mw_config ['db_database'] );
-
+ 
 define ( "USER_IP", $_SERVER ["REMOTE_ADDR"] );
 define ( "DS", DIRECTORY_SEPARATOR );
 
@@ -482,23 +219,24 @@ define ( 'APPPATH_FULL', ROOTPATH. DIRECTORY_SEPARATOR. APPPATH  ); //full files
 
 
 define ( 'LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR  );
-define ( 'VIEWSPATH', APPPATH . '/views/' ); //full filesystem path  
-define ( 'ADMIN_VIEWS_PATH', APPPATH_FULL . 'views' . DS ); //full filesystem path  
 define ( 'ADMIN_URL', SITEURL . 'admin' );
-define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' . $application_folder . '/views/admin/static/' );
-define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admin/static/' );
 
 
 
 
 
-
-
-
-define ( 'INCLUDES_PATH', ROOTPATH. DIRECTORY_SEPARATOR. APPPATH . 'includes/' ); //full filesystem path
+define ( 'INCLUDES_PATH', ROOTPATH. DIRECTORY_SEPARATOR. APPPATH . 'includes' . DS ); //full filesystem path
 define ( 'INCLUDES_DIR', INCLUDES_PATH); //full filesystem path
 define ( 'INCLUDES_URL', SITEURL . $application_folder. '/includes/' ); //full filesystem path  
+define ( 'VIEWSPATH', INCLUDES_PATH . 'admin' . DS ); //full filesystem path
+define ( 'ADMIN_VIEWS_PATH', INCLUDES_PATH . 'admin' . DS ); //full filesystem path
+define ( 'ADMIN_VIEWS_URL', INCLUDES_URL . 'admin' );
  
+
+
+
+
+
 
 
 
@@ -571,3 +309,41 @@ if (defined ( 'NO_MICROWEBER' ) == false) {
 
 }
 
+
+function site_url($add_string = false) {
+	static $u1;
+	if ($u1 == false) {
+		$pageURL = 'http';
+		if (isset ( $_SERVER ["HTTPS"] ) and ($_SERVER ["HTTPS"] == "on")) {
+			$pageURL .= "s";
+		}
+		$pageURL .= "://";
+		if ($_SERVER ["SERVER_PORT"] != "80") {
+			$pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
+		} else {
+			$pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
+		}
+			
+		if (isset ( $_SERVER ['SCRIPT_NAME'] )) {
+			$d = dirname ( $_SERVER ['SCRIPT_NAME'] );
+			$d = trim ( $d, '/' );
+		}
+		$url_segs = explode ( '/', $pageURL );
+		$i = 0;
+		$unset = false;
+		foreach ( $url_segs as $v ) {
+			if ($unset == true) {
+				unset ( $url_segs [$i] );
+			}
+			if ($v == $d) {
+					
+				$unset = true;
+			}
+
+			$i ++;
+		}
+		$url_segs [] = '';
+		$u1 = implode ( '/', $url_segs );
+	}
+	return $u1 . $add_string;
+}

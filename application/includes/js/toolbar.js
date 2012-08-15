@@ -321,6 +321,9 @@ $(window).load(function(){
 
 
 
+
+
+
 $("#module_category_selector").change(function(){
     var val = $(this).getDropdownValue();
     (val!=-1&&val!="-1")?mw.tools.toolbar_sorter(Modules_List, val):'';

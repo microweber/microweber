@@ -21,6 +21,14 @@ function exception($e) {
 	// _log($e -> getMessage() . ' ' . $e -> getFile());
 	die ( $v );
 }
+function error($e, $f = false, $l = false) {
+	$v = new View ( ADMIN_VIEWS_PATH . 'error.php' );
+	$v->e = $e;
+	$v->f = $f;
+	$v->l = $l;
+	// _log($e -> getMessage() . ' ' . $e -> getFile());
+	die ( $v );
+}
 
 set_exception_handler ( 'exception' );
 register_shutdown_function ( function () {
@@ -32,15 +40,27 @@ register_shutdown_function ( function () {
 } );
 
 $m = url ( 0 ) ?  : 'index';
-
+ 
 /*
  * if (!is_file(p("classes/$c")) || !($c = new $c) || $m == 'render' ||
- * !in_array($m, get_class_methods($c))) { }
+ * !in_array($m, get_class_methods($c))) { } if($m == 'api'){ $m = url ( 1 ) ? :
+ * 'index'; $c = new api (); } else { }
  */
 
 $c = new controller ();
-
+$admin_url = c ( 'admin_url' );
+if ($m == 'admin' or $m == $admin_url) {
+ 	if ($admin_url == $m) {
+		$c->admin ();
+		exit ();
+	} else {
+		error ( 'No access allowed to admin' );
+		exit ();
+	}
+}
 if (method_exists ( $c, $m )) {
+	
+	
 	$c->$m ();
 } else {
 	$c->index ();

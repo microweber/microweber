@@ -428,7 +428,9 @@ function parse_micrwober_tags($layout, $options = false) {
 
 		}
 	}
-
+	$layout = str_replace('{SITE_URL}', site_url(), $layout);
+	$layout = str_replace('{SITEURL}', site_url(), $layout);
+	
 	if (!defined($cache_content)) {
 		define($cache_content, $layout);
 	}

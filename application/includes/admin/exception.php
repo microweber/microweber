@@ -12,7 +12,10 @@
 <body>
 <div id="exception">
 <h1>Site Error</h1>
-<p><?php print $e->getMessage(); ?></p>
+<p><?php
+
+d($e);
+ print $e->getMessage(); ?></p>
 
 <?php if(c('debug_mode'))
 {

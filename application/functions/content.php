@@ -19,11 +19,18 @@ function define_constants($content = false) {
 			}
 		} else {
 			$content = $page;
+			if (defined ( 'POST_ID' ) == false) {
+				define ( 'POST_ID', false );
+			}
 		}
 		
 		if (defined ( 'ACTIVE_PAGE_ID' ) == false) {
 			
 			define ( 'ACTIVE_PAGE_ID', $page ['id'] );
+		}
+		
+		if (defined ( 'CATEGORY_ID' ) == false) {
+			define ( 'CATEGORY_ID', false );
 		}
 		
 		if (defined ( 'CONTENT_ID' ) == false) {
@@ -149,6 +156,9 @@ function get_homepage() {
 	
 	return $content;
 }
+function get_content_by_url($url = '', $no_recursive = false) {
+	return get_page_by_url ( $url, $no_recursive );
+}
 function get_page_by_url($url = '', $no_recursive = false) {
 	if (strval ( $url ) == '') {
 		
@@ -230,6 +240,33 @@ function get_content_by_id($id) {
 	
 	return $content;
 }
+function get_page($id = false) {
+	if ($id == false) {
+		return false;
+	}
+	
+	// $CI = get_instance ();
+	if (intval ( $id ) != 0) {
+		$page = get_content_by_id ( $id );
+		
+		if (empty ( $page )) {
+			$page = get_content_by_url ( $id );
+		}
+	} else {
+		if (empty ( $page )) {
+			$page = array ();
+			$page ['content_layout_name'] = trim ( $id );
+			
+			$page = get_pages ( $page );
+			$page = $page [0];
+		}
+	}
+	
+	return $page;
+	
+	// $link = get_instance()->content_model->getContentURLByIdAndCache (
+	// $link['id'] );
+}
 
 /**
  * Function to get single content item by id from the content_table
@@ -291,7 +328,7 @@ function get_content($params) {
 			$limit [1] = '30';
 		}
 		
-		$get = db_get ( $table, $params, $limit, $offset = false, $orderby, $cache_group = 'content' );
+		$get = db_get ( $table, $params, $cache_group = 'content' );
 		
 		if (! empty ( $get )) {
 			
@@ -339,6 +376,9 @@ function page_link($id = false) {
 	$link = site_url ( $link ['content_url'] );
 	return $link;
 }
+
+ 
+
 
 /**
  * get_posts
@@ -432,6 +472,11 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  * @category posts
  * @author Microweber
  * @link
+ *
+ *
+ *
+ *
+ *
  *
  *
  *
@@ -609,10 +654,17 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		order by field_order asc  ";
 		
 		if ($debug != false) {
-			p ( $q );
+			d ( $q );
+		}
+		// $crc = crc32 ( $q );
+		
+		$crc = abs ( crc32 ( $q ) );
+		if ($crc & 0x80000000) {
+			$crc ^= 0xffffffff;
+			$crc += 1;
 		}
 		
-		$cache_id = __FUNCTION__ . '_' . crc32 ( $q );
+		$cache_id = __FUNCTION__ . '_' . $crc;
 		
 		$q = db_query ( $q, $cache_id, 'custom_fields' );
 		// $q = $this->dbQuery ( $q );
@@ -716,4 +768,271 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	$result = $the_data_with_custom_field__stuff;
 	$result = (array_change_key_case ( $result, CASE_LOWER ));
 	return $result;
+}
+function save_field($post_data) {
+	// p($_SERVER);
+	$id = is_admin ();
+	// $id = 1;
+	if ($id == false) {
+		exit ( 'Error: not logged in as admin.' );
+	}
+	// p($_REQUEST);
+	if ($post_data) {
+		if (isset ( $post_data ['json_obj'] )) {
+			$obj = json_decode ( $post_data ['json_obj'], true );
+			$post_data = $obj;
+		}
+		// p($post_data);
+		if (isset ( $post_data ['mw_preview_only'] )) {
+			$is_no_save = true;
+			unset ( $the_field_data_all ['mw_preview_only'] );
+		}
+		$is_no_save = false;
+		$the_field_data_all = $post_data;
+	} else {
+		exit ( 'Error: no POST?' );
+	}
+	$ref_page = $_SERVER ['HTTP_REFERER'];
+	if ($ref_page != '') {
+		$ref_page = $the_ref_page = get_content_by_url ( $ref_page );
+		$page_id = $ref_page ['id'];
+	}
+	
+	$json_print = array ();
+	foreach ( $the_field_data_all as $the_field_data ) {
+		$save_global = false;
+		$save_layout = false;
+		if (! empty ( $the_field_data )) {
+			$save_global = false;
+			if ($the_field_data ['attributes']) {
+				// $the_field_data ['attributes'] = json_decode($the_field_data
+				// ['attributes']);
+				// var_dump($the_field_data ['attributes']);
+			}
+			$content_id = $page_id;
+			
+			/* if (intval ( $the_field_data ['attributes'] ['page'] ) != 0) {
+				$page_id = intval ( $the_field_data ['attributes'] ['page'] );
+				$the_ref_page = get_page ( $page_id );
+			}
+			if (intval ( $the_field_data ['attributes'] ['post'] ) != 0) {
+				$post_id = intval ( $the_field_data ['attributes'] ['post'] );
+				$content_id = $post_id;
+				$the_ref_post = get_content_by_id ( $post_id );
+			}
+			if (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {
+				$category_id = intval ( $the_field_data ['attributes'] ['category'] );
+			}
+			$page_element_id = false;
+			if (strval ( $the_field_data ['attributes'] ['id'] ) != '') {
+				$page_element_id = ($the_field_data ['attributes'] ['id']);
+			}
+			if (($the_field_data ['attributes'] ['global']) != false) {
+				$save_global = true;
+			}
+			if (($the_field_data ['attributes'] ['rel']) == 'global') {
+				$save_global = true;
+				$save_layout = false;
+			}
+			if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'layout') {
+				$save_global = false;
+				$save_layout = true;
+				// p($the_field_data ['attributes'] ['rel']);
+			}
+			if (($the_field_data ['attributes'] ['rel']) == 'post') {
+				if ($ref_page != '') {
+					$save_global = false;
+					$ref_post = $the_ref_post = get_ref_post ();
+					// p ( $ref_post );
+					$post_id = $ref_post ['id'];
+					$page_id = $ref_page ['id'];
+					$content_id = $post_id;
+				}
+			}
+			if (($the_field_data ['attributes'] ['rel']) == 'page') {
+				  p ( $_SERVER );
+				if ($ref_page != '') {
+					$save_global = false;
+					$ref_page = $the_ref_page = get_ref_page ();
+					$page_id = $ref_page ['id'];
+					$content_id = $page_id;
+				}
+			}
+			if (($the_field_data ['attributes'] ['rel']) == 'PAGE_ID') {
+				// p ( $_SERVER );
+				if ($ref_page != '') {
+					$save_global = false;
+					$ref_page = $the_ref_page = get_ref_page ();
+					$page_id = $ref_page ['id'];
+					$content_id = $page_id;
+				}
+			}
+			if (($the_field_data ['attributes'] ['rel']) == 'POST_ID') {
+				// p ( $_SERVER );
+				if ($ref_page != '') {
+					$save_global = false;
+					$ref_page = $the_ref_page = get_ref_page ();
+					$page_id = $ref_page ['id'];
+					$content_id = $page_id;
+				}
+			} */
+			$some_mods = array ();
+			if (($the_field_data ['attributes'])) {
+				if (($the_field_data ['html']) != '') {
+					$field = trim ( $the_field_data ['attributes'] ['field'] );
+					if ($field == '') {
+						$field = $page_element_id;
+					}
+					d($the_field_data);
+					$save_global = false;
+					if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'global') {
+						$save_global = true;
+						// p($the_field_data ['attributes'] ['rel']);
+					} else {
+						$save_global = false;
+					}
+					if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'layout') {
+						$save_global = false;
+						$save_layout = true;
+					} else {
+						$save_layout = false;
+					}
+					
+					$html_to_save = $the_field_data ['html'];
+					$html_to_save = $content = make_microweber_tags ( $html_to_save );
+					
+					if ($save_global == false and $save_layout == false) {
+						if ($content_id) {
+							
+								$for_histroy = $the_ref_page;
+								if ($post_id) {
+									$for_histroy = $the_ref_post;
+								}
+								if (stristr ( $field, 'custom_field_' )) {
+									$field123 = str_ireplace ( 'custom_field_', '', $field );
+									$old = $for_histroy ['custom_fields'] [$field123];
+								} else {
+									$old = $for_histroy [$field];
+								}
+								$history_to_save = array ();
+								$history_to_save ['table'] = 'table_content';
+								$history_to_save ['id'] = $content_id;
+								$history_to_save ['value'] = $old;
+								$history_to_save ['field'] = $field;
+								// p ( $history_to_save );
+								if ($is_no_save != true) {
+									$this->core_model->saveHistory ( $history_to_save );
+								}
+							
+							// p($html_to_save,1);
+							$to_save = array ();
+							$to_save ['id'] = $content_id;
+							// $to_save['quick_save'] = true;
+							
+							// $to_save['r'] = $some_mods;
+							$to_save ['page_element_id'] = $page_element_id;
+							// $to_save['page_element_content'] =
+							// $this->template_model->parseMicrwoberTags($html_to_save,
+							// $options = false);
+							$to_save ['custom_fields'] [$field] = ($html_to_save);
+							// print "<h2>For content $content_id</h2>";
+							// p ( $post_data );
+							// p ( $html_to_save, 1 );
+							
+							if ($is_no_save != true) {
+								$json_print [] = $to_save;
+								// if($to_save['content_body'])
+								$saved = $this->content_model->saveContent ( $to_save );
+								// p($to_save);
+								// p($content_id);
+								// p($page_id);
+								// p ( $html_to_save ,1);
+							}
+							// print ($html_to_save) ;
+							// $html_to_save =
+							// $this->template_model->parseMicrwoberTags (
+							// $html_to_save, $options = false );
+						} else if ($category_id) {
+							print (__FILE__ . __LINE__ . ' category is not implemented not rady yet') ;
+						}
+					} else {
+						if ($save_global == true and $save_layout == false) {
+							$field_content = $this->core_model->optionsGetByKey ( $the_field_data ['attributes'] ['field'], $return_full = true, $orderby = false );
+							$html_to_save = $this->template_model->parseToTags ( $html_to_save );
+							// p($html_to_save,1);
+							$to_save = $field_content;
+							$to_save ['option_key'] = $the_field_data ['attributes'] ['field'];
+							$to_save ['option_value'] = $html_to_save;
+							$to_save ['option_key2'] = 'editable_region';
+							$to_save ['page_element_id'] = $page_element_id;
+							// $to_save['page_element_content'] =
+							// $this->template_model->parseMicrwoberTags($html_to_save,
+							// $options = false);
+							// print "<h2>Global</h2>";
+							// p ( $to_save );
+							if ($is_no_save != true) {
+								$to_save = $this->core_model->optionsSave ( $to_save );
+							}
+							$json_print [] = $to_save;
+							$history_to_save = array ();
+							$history_to_save ['table'] = 'global';
+							// $history_to_save ['id'] = 'global';
+							$history_to_save ['value'] = $field_content ['option_value'];
+							$history_to_save ['field'] = $field;
+							if ($is_no_save != true) {
+								$this->core_model->saveHistory ( $history_to_save );
+							}
+							// $html_to_save =
+							// $this->template_model->parseMicrwoberTags (
+							// $html_to_save, $options = false );
+							// $json_print[] = array ($the_field_data
+							// ['attributes'] ['id'] => $html_to_save );
+						}
+						if ($save_global == false and $save_layout == true) {
+							// $field_content =
+							// $this->core_model->optionsGetByKey (
+							// $the_field_data ['attributes'] ['field'],
+							// $return_full = true, $orderby = false );
+							$d = TEMPLATE_DIR . 'layouts' . DIRECTORY_SEPARATOR . 'editabe' . DIRECTORY_SEPARATOR;
+							$f = $d . $ref_page ['id'] . '.php';
+							if (! is_dir ( $d )) {
+								mkdir_recursive ( $d );
+							}
+							// var_dump ( $f );
+							// $html_to_save =
+							// $this->template_model->parseToTags($html_to_save);
+							// p($html_to_save);
+							file_put_contents ( $f, $html_to_save );
+							// p($html_to_save,1);
+						}
+						// print ($html_to_save) ;
+						// print ($to_save) ;
+						// p ( $field_content );
+						// optionsSave($data)
+					}
+				}
+			} else {
+				// print ('Error: plase specify a "field" attribute') ;
+				// p($the_field_data);
+			}
+		}
+	}
+	header ( 'Cache-Control: no-cache, must-revalidate' );
+	header ( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+	header ( 'Content-type: application/json' );
+	
+	$json_print = json_encode ( $json_print );
+	// if ($is_no_save == true) {
+	// / $for_history = serialize ( $json_print );
+	// $for_history = base64_encode ( $for_history );
+	$history_to_save = array ();
+	$history_to_save ['table'] = 'edit';
+	$history_to_save ['id'] = (parse_url ( strtolower ( $_SERVER ['HTTP_REFERER'] ), PHP_URL_PATH ));
+	$history_to_save ['value'] = $json_print;
+	$history_to_save ['field'] = 'html_content';
+	$this->core_model->saveHistory ( $history_to_save );
+	// }
+	print $json_print;
+	$this->core_model->cleanCacheGroup ( 'global/blocks' );
+	exit ();
 }

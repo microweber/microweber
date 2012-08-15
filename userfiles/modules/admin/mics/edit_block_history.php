@@ -9,14 +9,14 @@
 			$history_to_get = array ();
 		$history_to_get ['table'] = 'edit';
 		$history_to_get ['id'] = ( parse_url(strtolower($params['for_url']), PHP_URL_PATH) );
-		$history_to_get ['value'] = $json_print;
+		$history_to_get ['value'] = $params;
 		$history_to_get ['field'] = 'html_content';
 		
  
 			
 			
-			$history_files = get_instance()->core_model->getHistoryFiles($history_to_get);
-		
+			$history_files = get_history_files($history_to_get);
+		 
 		} else {
 		
  
@@ -104,30 +104,19 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 			
 }			
 			?>
-    
-            
- 
-      
-            
-            
-            
-  <!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
+
+<!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
 <a class="mw_history_next " href="javascript:mw_click_on_history_next()">></a>    
             -->
-            
-            
-            <? print count($history_files);?> history files
-            <br />
 
-            <? // p($history_files); ?>
-            
-	<ul id="mw_history_files">
-	<? 		foreach ($history_files as $filename) : ?>
-    
-    
-    <li rel="<? print base64_encode($filename) ?>">
+<? print count($history_files);?>
+
+history files <br />
+<? // p($history_files); ?>
+<ul id="mw_history_files">
+  <? 		foreach ($history_files as $filename) : ?>
+  <li rel="<? print base64_encode($filename) ?>">
     <? //$mtime= filemtime($filename ); ?>
-    
     <?
 	if (file_exists($filename)) {
    $mtime=  date ("F d Y H:i:s.", filemtime($filename));
@@ -135,20 +124,9 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 	
 	 
 	//$content_of_file = file_get_contents($filename);	?>
-    
-  <a href="javascript: mw.history.load('<? print base64_encode($filename) ?>')"> 
-  <? $fn1= rtrim(basename($filename ), '.php'); ?>
-  
-  <?  print $fn1  ?>
-  (<? print ago($mtime, $granularity = 1); ?>)
-   </a> 
-
-   
-    </li>
-    
-    
-    
-<? 		endforeach; ?>
+    <a href="javascript: mw.history.load('<? print base64_encode($filename) ?>')">
+    <? $fn1= rtrim(basename($filename ), '.php'); ?>
+    <?  print $fn1  ?>
+    (<? print ago($mtime, $granularity = 1); ?>) </a> </li>
+  <? 		endforeach; ?>
 </ul>
-
-

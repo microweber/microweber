@@ -2,12 +2,19 @@
 
 defined ( 'T' ) or die ();
 
+
+
+
+
+
+
+
 // Global site configuration
 $config = array (
 		
 		// In development, debug mode unlocks extra error info
 		'debug_mode' => TRUE,
-		
+		'admin_url' => 'admin',
 		'uri_protocol' => 'AUTO',
 		
 		// Database Settings
@@ -17,22 +24,70 @@ $config = array (
 				'pass' => '123456',
 				'args' => array (
 						PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-						// PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" //
+					    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+						 //
 						// If using
 						// MySQL, force UTF-8
 						
 						// Cookie options
 						'cookie' => array (
-								'key' => 'a.very.long.secret.key.here',
-								'expires' => time () + 60 * 5, // 30 seconds
+								'key' => md5('__FILE__'),
+								'expires' => time () + 60 * 5, //
 								'path' => '/',
 								'domain' => '',
-								'secure' => '',
+								'secure' => '1',
 								'httponly' => '' 
 						) 
 				) 
 		) 
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $cms_db_tables = array();
 $cms_db_tables['table_cache'] = TABLE_PREFIX . 'cache';
 $cms_db_tables['table_content'] = TABLE_PREFIX . 'content';
@@ -93,6 +148,20 @@ $users_log_include[] = 'table_users_statuses';
 $users_log_include[] = 'table_content';
 $users_log_include[] = 'table_votes';
 $users_log_include[] = 'table_followers';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $config['db_tables'] = $cms_db_tables;
 $config['db_log_tables'] = $users_log_include; 
 //$_GLOBALS ['cms_db'] = $cms_db;.

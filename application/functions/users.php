@@ -1,26 +1,128 @@
 <?php
+function user_login($params) {
+	$params2 = array ();
+	
+	if (is_string ( $params )) {
+		$params = parse_str ( $params, $params2 );
+		$params = $params2;
+	}
+	
+	if (isset ( $params ) and ! empty ( $params )) {
+		
+		$user = isset ( $params ['username'] ) ? $params ['username'] : false;
+		$pass = isset ( $params ['password'] ) ? $params ['password'] : false;
+		$email = isset ( $params ['email'] ) ? $params ['email'] : false;
+		
+		$data = array ();
+		$data ['username'] = $user;
+		$data ['password'] = $pass;
+		$data ['is_active'] = 'y';
+		
+		$data = get_users ( $data );
+		$data = $data [0];
+		if (empty ( $data )) {
+			if (trim ( $email ) != '') {
+				$data = array ();
+				$data ['email'] = $email;
+				$data ['password'] = $pass;
+				$data ['is_active'] = 'y';
+				$data = get_users ( $data );
+				$data = $data [0];
+			}
+		}
+		
+		if (empty ( $data )) {
+			
+			return false;
+		} else {
+			
+			$user_session ['is_logged'] = 'yes';
+			$user_session ['user_id'] = $data ['id'];
+			session_set ( 'user_session', $user_session );
+			$user_session = session_get ( 'user_session' );
+			if (isset ( $data ["is_admin"] ) and $data ["is_admin"] == 'y') {
+				if (isset ( $params ['where_to'] ) and $params ['where_to'] == 'live_edit') {
+					
+					$p = get_page ();
+					if (! empty ( $p )) {
+						$link = page_link ( $p ['id'] );
+						$link = $link . '/editmode:y';
+						safe_redirect ( $link );
+					}
+				}
+			}
+			
+			return $user_session;
+		}
+	}
+	
+	return false;
+}
+function user_id() {
+	// static $uid;
+	if (defined ( 'USER_ID' )) {
+		// print USER_ID;
+		return USER_ID;
+	} else {
+		
+		$user_session = session_get ( 'user_session' );
+		
+		$res = false;
+		if (isset ( $user_session ['user_id'] )) {
+			$res = $user_session ['user_id'];
+		}
+		
+		// $res = $sess->get ( 'user_id' );
+		define ( "USER_ID", $res );
+		return $res;
+	}
+}
+function is_admin() {
+	static $is = 0;
+	
+	if ($is != 0 or defined ( 'USER_IS_ADMIN' )) {
+		// var_dump( $is);
+		return $is;
+	} else {
+		$usr = user_id ();
+		if ($usr == false) {
+			return false;
+		}
+		$usr = get_user ( $usr );
+		
+		if ($usr ['is_admin'] == 'y') {
+			define ( "USER_IS_ADMIN", true );
+		} else {
+			define ( "USER_IS_ADMIN", false );
+		}
+		$is = USER_IS_ADMIN;
+		// var_dump( $is);
+		// var_dump( $is);
+		// var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
+		return USER_IS_ADMIN;
+	}
+}
 
 /**
- * user_name 
+ * user_name
  *
- * @desc gets the user's FULL name
- * @access      public
- * @category    users
- * @author      Microweber 
- * @link        http://microweber.com
- * @param  $user_id - the is of the user. If false it will use the curent user (you)
- * @param  string 
- * $mode = 'full' //prints full name (first +last)
- * 
- * $mode = 'first' //prints first name
- * $mode = 'last' //prints last name
- * $mode = 'username' //prints username
-   
+ * gets the user's FULL name
+ *
+ * @access public
+ * @category users
+ * @author Microweber
+ * @link http://microweber.com
+ * @param $user_id -
+ *        	the is of the user. If false it will use the curent user (you)
+ * @param string $mode
+ *        	= 'full' //prints full name (first +last)
+ *        	
+ *        	$mode = 'first' //prints first name
+ *        	$mode = 'last' //prints last name
+ *        	$mode = 'username' //prints username
+ *        	
  */
 function user_name($user_id = false, $mode = 'full') {
-	// $CI = get_instance ();
-	get_instance ()->load->model ( 'Users_model', 'users_model' );
-	
 	if ($mode != 'username') {
 		if ($user_id == user_id ()) {
 			// return 'You';
@@ -30,7 +132,7 @@ function user_name($user_id = false, $mode = 'full') {
 		$user_id = user_id ();
 	}
 	
-	$name = get_instance ()->users_model->getPrintableName ( $user_id, $mode );
+	$name = nice_user_name ( $user_id, $mode );
 	return $name;
 }
 function online_users_count() {
@@ -70,7 +172,7 @@ function get_users($params = array()) {
 	$data = string_clean ( $params );
 	$orig_data = $data;
 	
-	if (isset ( $data ['ids'] ) and  is_array ( $data ['ids'] )) {
+	if (isset ( $data ['ids'] ) and is_array ( $data ['ids'] )) {
 		if (! empty ( $data ['ids'] )) {
 			$ids = $data ['ids'];
 		}
@@ -83,7 +185,7 @@ function get_users($params = array()) {
 			'email' 
 	);
 	// $data ['debug'] = 1;
-	
+	$cache_group = 'users/global';
 	if (isset ( $data ['id'] ) and intval ( $data ['id'] ) != 0) {
 		$cache_group = 'users/' . $data ['id'];
 	} else {
@@ -137,10 +239,7 @@ function get_users($params = array()) {
 		return $cache_content;
 	} else {
 		
-		$get = db_get ( $table, $criteria = $data, $limit, $offset = false, $orderby = array (
-				'updated_on',
-				'DESC' 
-		), $cache_group, $debug = false, $ids, $count_only = $count_only, $only_those_fields, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
+		$get = db_get ( $table, $criteria = $data, $cache_group );
 		// var_dump($get, $function_cache_id, $cache_group);
 		cache_store_data ( $get, $function_cache_id, $cache_group );
 		
@@ -148,6 +247,119 @@ function get_users($params = array()) {
 	}
 }
 
+/**
+ * get_user
+ *
+ * get_user get the user info from the DB
+ *
+ * @access public
+ * @category users
+ * @author Microweber
+ * @link http://microweber.com
+ * @param $id =
+ *        	the id of the user;
+ * @return array
+ */
+function get_user($id = false) {
+	if ($id == false) {
+		$id = user_id ();
+	}
+	
+	$res = get_user_by_id ( $id );
+	
+	if (empty ( $res )) {
+		
+		$res = get_user_by_username ( $id );
+	}
+	
+	return $res;
+}
+
+/**
+ * Generic function to get the user by id.
+ * Uses the getUsers function to get the data
+ *
+ * @param
+ *        	int id
+ * @return array
+ *
+ */
+function get_user_by_id($id) {
+	$id = intval ( $id );
+	if ($id == 0) {
+		return false;
+	}
+	
+	$data = array ();
+	$data ['id'] = $id;
+	$data ['limit'] = 1;
+	$data = get_users ( $data );
+	$data = $data [0];
+	return $data;
+}
+function get_user_by_username($username) {
+	$data = array ();
+	$data ['username'] = $username;
+	$data ['limit'] = 1;
+	$data = get_users ( $data );
+	$data = $data [0];
+	return $data;
+}
+
+/**
+ * Function to get user printable name by given ID
+ *
+ * @param
+ *        	$id
+ * @param
+ *        	$mode
+ * @return string
+ * @example Delete relation:
+ *          $this->users_model->getPrintableName(10, 'full');
+ *         
+ */
+function nice_user_name($id, $mode = 'full') {
+	$user = get_user_by_id ( $id );
+	$user_data = $user;
+	if (empty ( $user )) {
+		return false;
+	}
+	
+	switch ($mode) {
+		case 'first' :
+		case 'fist' :
+			// because of a common typo :)
+			$user_data ['first_name'] ? $name = $user_data ['first_name'] : $name = $user_data ['username'];
+			$name = ucwords ( $name );
+			return $name;
+			break;
+		
+		case 'last' :
+			$user_data ['last_name'] ? $name = $user_data ['last_name'] : $name = $user_data ['last_name'];
+			$name = ucwords ( $name );
+			return $name;
+			break;
+		
+		case 'username' :
+			$name = $user_data ['username'];
+			return $name;
+			break;
+		
+		case 'full' :
+		default :
+			$name = $user_data ['first_name'] . ' ' . $user_data ['last_name'];
+			
+			if (trim ( $name ) == '') {
+				$name = $user_data ['username'];
+			}
+			
+			$name = ucwords ( $name );
+			return $name;
+			
+			break;
+	}
+	exit ();
+}
 /**
  * get_new_users
  *
@@ -184,82 +396,6 @@ function get_new_users($period = '7 days', $limit = 20) {
 		}
 	}
 	return $res;
-}
-
-/**
- * get_user
- *
- * get_user get the user info from the DB
- *
- * @access public
- * @category users
- * @author Microweber
- * @link http://microweber.com
- * @param $id =
- *        	the id of the user;
- * @return array
- */
-function get_user($id = false) {
-	// $CI = get_instance ();
-	if ($id == false) {
-		$id = user_id ();
-	}
-	get_instance ()->load->model ( 'Users_model', 'users_model' );
-	
-	$res = get_instance ()->users_model->getUserById ( $id );
-	
-	if (empty ( $res )) {
-		
-		$res = get_instance ()->users_model->getUserByUsername ( $id );
-	}
-	
-	if (! empty ( $res )) {
-		$more = get_instance ()->core_model->getCustomFields ( 'table_users', $res ['id'] );
-		
-		$res ['custom_fields'] = $more;
-	}
-	// p($res);
-	return $res;
-}
-function user_id() {
-	// static $uid;
-	if (defined ( 'USER_ID' )) {
-		// print USER_ID;
-		return USER_ID;
-	} else {
-		$sess = session::start ();
-		if ($sess->initialised == FALSE) {
-			$sess->initialize ();
-		}
-		$res = $sess->get ( 'user_id' );
-		define ( "USER_ID", $res );
-		return $res;
-	}
-}
-
-if (! function_exists ( 'is_admin' )) {
-	function is_admin() {
-		static $is = 0;
-		
-		if ($is != 0 or defined ( 'USER_IS_ADMIN' )) {
-			// var_dump( $is);
-			return $is;
-		} else {
-			$usr = user_id ();
-			$usr = get_user ( $usr );
-			
-			if ($usr ['is_admin'] == 'y') {
-				define ( "USER_IS_ADMIN", true );
-			} else {
-				define ( "USER_IS_ADMIN", false );
-			}
-			$is = USER_IS_ADMIN;
-			// var_dump( $is);
-			// var_dump( $is);
-			// var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
-			return USER_IS_ADMIN;
-		}
-	}
 }
 function user_id_from_url() {
 	if (url_param ( 'username' )) {

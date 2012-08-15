@@ -154,7 +154,7 @@ function add_slashes_to_array($arr) {
 function debug_info() {
 	if (c ( 'debug_mode' )) {
 		
-		return include (APPPATH_FULL . 'views' . DS . 'debug.php');
+		return include (ADMIN_VIEWS_PATH . 'debug.php');
 	}
 }
 function remove_slashes_from_array($arr) {
@@ -218,4 +218,88 @@ function decode_var($var) {
 	$var = base64_decode ( $var );
 	$var = unserialize ( $var );
 	return $var;
+}
+
+/**
+ * Trims a entire array recursivly.
+ *
+ * @author Jonas John
+ * @version 0.2
+ * @link http://www.jonasjohn.de/snippets/php/trim-array.htm
+ * @param array $Input
+ *        	Input array
+ */
+function array_trim($Input) {
+	if (! is_array ( $Input ))
+		return trim ( $Input );
+	return array_map ( 'array_trim', $Input );
+}
+function safe_redirect($url) {
+	if (trim ( $url ) == '') {
+		return false;
+	}
+	$url = str_ireplace ( 'Location:', '', $url );
+	$url = trim ( $url );
+	if (headers_sent ()) {
+		print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
+	} else {
+		header ( 'Location: ' . $url );
+	}
+	exit ();
+}
+function session_set($name, $val) {
+	if (! isset ( $_SESSION )) {
+		session_start ();
+	}
+	if ($val == false) {
+		session_del ( $name );
+	} else {
+		$_SESSION [$name] = $val;
+	}
+}
+function session_get($name) {
+	if (! isset ( $_SESSION )) {
+		session_start ();
+	}
+	
+	if (isset ( $_SESSION [$name] )) {
+		return $_SESSION [$name];
+	} else {
+		return false;
+	}
+}
+function session_del($name) {
+	if (isset ( $_SESSION [$name] )) {
+		unset ( $_SESSION [$name] );
+	}
+}
+function session_end() {
+	$_SESSION = array ();
+	session_destroy ();
+}
+
+
+
+
+
+/**
+ * Recursive glob()
+ */
+/**
+ * @param int $pattern
+ * the pattern passed to glob()
+ * @param int $flags
+ * the flags passed to glob()
+ * @param string $path
+ * the path to scan
+ * @return mixed
+ * an array of files in the given path matching the pattern.
+ */
+function rglob($pattern = '*', $flags = 0, $path = '') {
+	$paths = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
+	$files = glob($path . $pattern, $flags);
+	foreach ($paths as $path) {
+		$files = array_merge($files, rglob($pattern, $flags, $path));
+	}
+	return $files;
 }
