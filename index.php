@@ -15,6 +15,8 @@ set_error_handler ( function ($c, $e, $f = 0, $l = 0) {
 	echo $v;
 	// _log("$e [$f:$l]");
 } );
+
+
 function exception($e) {
 	$v = new View ( ADMIN_VIEWS_PATH . 'exception.php' );
 	$v->e = $e;

@@ -222,12 +222,11 @@
 
 
       <ul id="mw_tabs">
-        <li> <a href="#mw_tab_modules">Modules</a> </li>
-        <li> <a href="#mw_tab_layouts">Layouts</a> </li>
-        <li> <a href="#mw_tab_design">Design</a> </li>
-        <li> <a href="#mw_tab_help">Help</a> </li>
-        <li> <a href="#mw_tab_style_editor">Style editor</a> </li>
-      </ul>
+        <li> <a href="#mw_tab_modules"><? _e('Modules'); ?></a> </li>
+        <li> <a href="#mw_tab_layouts"><? _e('Layouts'); ?></a> </li>
+        <li> <a href="#mw_tab_design"><? _e('Design'); ?></a> </li>
+        <li> <a href="#mw_tab_help"><? _e('Help'); ?></a> </li>
+       </ul>
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
       <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector" data-value='recommended'> <span class="mw_dropdown_val">Recommended</span>

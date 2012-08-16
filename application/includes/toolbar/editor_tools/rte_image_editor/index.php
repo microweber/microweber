@@ -15,21 +15,46 @@
 
     mw.filechange(Uploader, function(){
         var is_valid = this.validate();
+
         if(is_valid){
-            mw.files.upload(Uploader, {}, function(){
+            mw.files.upload(Uploader, {filetypes:'kuku'}, function(){
                 console.log('file is uploaded - ' + this);
             }, function(){
                 console.log('all files are uploaded - ' + this);
             });
          }
          else{
-           alert("Only: " + Uploader.accepts + " are supported!");
+           alert("Only: " + Uploader.filetypes + " are supported!");
          }
 
     });
 
 
+
     mw.files.browser_connector("#rte_image_upload", Uploader);
+
+
+
+    mw.files.drag_from_pc({
+      selector:"#drag_files_here",
+      filetypes:'jpg,png',
+      filesadded:function(){
+         console.log(this); // this is "object FileList" of added files
+      },
+      fileuploaded:function(){
+        console.log(this); //this is json object returned from server
+      },
+      done:function(){
+        console.log(this); //this is json object returned from server with all the files that are uploaded
+      },
+      skip:function(){
+        console.log(this); // this is "object File" of the skipped file
+      }
+
+
+    });
+
+
 
 
   });
@@ -42,11 +67,11 @@
         <li><a href="#">Search</a></li>
     </ul>
     <div class="mw_clear"></div>
-    <div class="tab">
+    <div class="tab" id="drag_files_here">
 
         <center style="padding-top: 100px;">
             <span class="bluebtn" id="rte_image_upload">Upload image from my compyter</span>
-            <i style="opacity:.5"><br /><br /><br />Drag your files here</i>
+            <div class="drag_files_label">Drag your files here</div>
         </center>
 
 

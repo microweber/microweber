@@ -14,6 +14,8 @@ include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
+include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+
 
 // require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 // require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');

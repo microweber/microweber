@@ -99,10 +99,14 @@ class Controller {
 		$layout = $l -> __toString();
 		// var_dump($l);
 
-		$p = new View($p);
-		$layout_tool = $p -> __toString();
+		if (is_file($p)) {
+			$p = new View($p);
+			$layout_tool = $p -> __toString();
+			$layout = str_replace('{content}', $layout_tool, $layout);
 
-		$layout = str_replace('{content}', $layout_tool, $layout);
+		} else {
+			$layout = str_replace('{content}', 'Not found!', $layout);
+		}
 
 		$layout = parse_micrwober_tags($layout, $options = false);
 		print $layout;
@@ -139,7 +143,7 @@ class Controller {
 
 		// content functions
 		$api_exposed .= 'save_field ';
-
+		$api_exposed .= 'set_language ';
 		$api_exposed = explode(' ', $api_exposed);
 		$api_exposed = array_trim($api_exposed);
 
@@ -150,7 +154,12 @@ class Controller {
 		} else {
 			if (in_array($api_function, $api_exposed)) {
 				if (function_exists($api_function)) {
-					$res = $api_function($_POST);
+					if (!$_POST) {
+						$data = url(2);
+					} else {
+						$data = $_POST;
+					}
+					$res = $api_function($data);
 					print json_encode($res);
 				} else {
 					error('The api function does not exist', __FILE__, __LINE__);

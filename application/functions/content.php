@@ -1,5 +1,5 @@
 <?php
-function define_constants($content = false) {
+function define_constants($content = false) { 
 	$page_data = false;
 	if (is_array($content)) {
 		if (isset($content['id'])) {

@@ -620,33 +620,7 @@ class URLify {
 	 * List of words to remove from URLs.
 	 */
 	public static $remove_list = array (
-			'a',
-			'an',
-			'as',
-			'at',
-			'before',
-			'but',
-			'by',
-			'for',
-			'from',
-			'is',
-			'in',
-			'into',
-			'like',
-			'of',
-			'off',
-			'on',
-			'onto',
-			'per',
-			'since',
-			'than',
-			'the',
-			'this',
-			'that',
-			'to',
-			'up',
-			'via',
-			'with' 
+			 
 	);
 	
 	/**

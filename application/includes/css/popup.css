@@ -5,6 +5,9 @@
 a, input, textarea, select{
   outline: none;
 }
+html, body{
+  overflow: hidden !important;
+}
 
 body{
   font: 12px Verdana, Arial, sans-serif;
@@ -37,6 +40,9 @@ body{
 	visibility: hidden;
 	line-height: 0;
 	height: 0;
+}
+#image_tabs .tab{
+  height: 270px;
 }
 
 .rte_tabs .mw_simple_tabs_nav li{
@@ -105,6 +111,19 @@ body{
   font-size: 100px;
   opacity:0;
   filter:alpha(opacity=0);
+}
+.drag_files_label{
+  padding-top: 30px;
+  font-style: italic;
+  opacity:.5;
+}
+
+#drag_files_here.drag_files_over{
+  background: #ADDBF5
+}
+#drag_files_here.drag_files_over .drag_files_label{
+  font-style: normal;
+  opacity:1;
 }
 
 

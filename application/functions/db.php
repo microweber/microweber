@@ -30,7 +30,11 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 		}
 		return false;
 	}
-	
+
+
+
+
+
 	// $result = $q->result_array ();
 	$result = $q;
 	if ($cache_id != false) {
