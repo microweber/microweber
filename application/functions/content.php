@@ -377,9 +377,6 @@ function page_link($id = false) {
 	return $link;
 }
 
- 
-
-
 /**
  * get_posts
  *
@@ -472,6 +469,29 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  * @category posts
  * @author Microweber
  * @link
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  *
@@ -596,11 +616,9 @@ function custom_field_value($content_id, $field_name, $use_vals_array = true) {
 		}
 	}
 }
-function get_custom_fields_for_content($content_id) {
-	// p($content_id);
-	// $CI = get_instance ();
+function get_custom_fields_for_content($content_id, $full = true) {
 	$more = false;
-	$more = get_custom_fields ( 'table_content', $content_id, true );
+	$more = get_custom_fields ( 'table_content', $content_id, $full );
 	return $more;
 }
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false) {
@@ -666,9 +684,8 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		
 		$cache_id = __FUNCTION__ . '_' . $crc;
 		
-		$q = db_query ( $q, $cache_id, 'custom_fields' );
-		// $q = $this->dbQuery ( $q );
-		// p($q);
+		$q = db_query ( $q, $cache_id, 'custom_fields/' . $table );
+		
 		if (! empty ( $q )) {
 			
 			if ($return_full == true) {
@@ -748,6 +765,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 				
 				if ($the_name != false and $the_val != false) {
 					if ($return_full == false) {
+						
 						$the_data_with_custom_field__stuff [$the_name] = $the_val;
 					} else {
 						$cf_cfg = array ();
@@ -796,6 +814,7 @@ function save_field($post_data) {
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url ( $ref_page );
 		$page_id = $ref_page ['id'];
+		$ref_page ['custom_fields'] = get_custom_fields_for_content ( $page_id, false );
 	}
 	
 	$json_print = array ();
@@ -811,91 +830,68 @@ function save_field($post_data) {
 			}
 			$content_id = $page_id;
 			
-			/* if (intval ( $the_field_data ['attributes'] ['page'] ) != 0) {
-				$page_id = intval ( $the_field_data ['attributes'] ['page'] );
-				$the_ref_page = get_page ( $page_id );
-			}
-			if (intval ( $the_field_data ['attributes'] ['post'] ) != 0) {
-				$post_id = intval ( $the_field_data ['attributes'] ['post'] );
-				$content_id = $post_id;
-				$the_ref_post = get_content_by_id ( $post_id );
-			}
-			if (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {
-				$category_id = intval ( $the_field_data ['attributes'] ['category'] );
-			}
-			$page_element_id = false;
-			if (strval ( $the_field_data ['attributes'] ['id'] ) != '') {
-				$page_element_id = ($the_field_data ['attributes'] ['id']);
-			}
-			if (($the_field_data ['attributes'] ['global']) != false) {
-				$save_global = true;
-			}
-			if (($the_field_data ['attributes'] ['rel']) == 'global') {
-				$save_global = true;
-				$save_layout = false;
-			}
-			if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'layout') {
-				$save_global = false;
-				$save_layout = true;
-				// p($the_field_data ['attributes'] ['rel']);
-			}
-			if (($the_field_data ['attributes'] ['rel']) == 'post') {
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_post = $the_ref_post = get_ref_post ();
-					// p ( $ref_post );
-					$post_id = $ref_post ['id'];
-					$page_id = $ref_page ['id'];
-					$content_id = $post_id;
-				}
-			}
-			if (($the_field_data ['attributes'] ['rel']) == 'page') {
-				  p ( $_SERVER );
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_page = $the_ref_page = get_ref_page ();
-					$page_id = $ref_page ['id'];
-					$content_id = $page_id;
-				}
-			}
-			if (($the_field_data ['attributes'] ['rel']) == 'PAGE_ID') {
-				// p ( $_SERVER );
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_page = $the_ref_page = get_ref_page ();
-					$page_id = $ref_page ['id'];
-					$content_id = $page_id;
-				}
-			}
-			if (($the_field_data ['attributes'] ['rel']) == 'POST_ID') {
-				// p ( $_SERVER );
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_page = $the_ref_page = get_ref_page ();
-					$page_id = $ref_page ['id'];
-					$content_id = $page_id;
-				}
-			} */
+			/*
+			 * if (intval ( $the_field_data ['attributes'] ['page'] ) != 0) {
+			 * $page_id = intval ( $the_field_data ['attributes'] ['page'] );
+			 * $the_ref_page = get_page ( $page_id ); } if (intval (
+			 * $the_field_data ['attributes'] ['post'] ) != 0) { $post_id =
+			 * intval ( $the_field_data ['attributes'] ['post'] ); $content_id =
+			 * $post_id; $the_ref_post = get_content_by_id ( $post_id ); } if
+			 * (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {
+			 * $category_id = intval ( $the_field_data ['attributes']
+			 * ['category'] ); } $page_element_id = false; if (strval (
+			 * $the_field_data ['attributes'] ['id'] ) != '') { $page_element_id
+			 * = ($the_field_data ['attributes'] ['id']); } if (($the_field_data
+			 * ['attributes'] ['global']) != false) { $save_global = true; } if
+			 * (($the_field_data ['attributes'] ['rel']) == 'global') {
+			 * $save_global = true; $save_layout = false; } if (trim (
+			 * $the_field_data ['attributes'] ['rel'] ) == 'layout') {
+			 * $save_global = false; $save_layout = true; // p($the_field_data
+			 * ['attributes'] ['rel']); } if (($the_field_data ['attributes']
+			 * ['rel']) == 'post') { if ($ref_page != '') { $save_global =
+			 * false; $ref_post = $the_ref_post = get_ref_post (); // p (
+			 * $ref_post ); $post_id = $ref_post ['id']; $page_id = $ref_page
+			 * ['id']; $content_id = $post_id; } } if (($the_field_data
+			 * ['attributes'] ['rel']) == 'page') { p ( $_SERVER ); if
+			 * ($ref_page != '') { $save_global = false; $ref_page =
+			 * $the_ref_page = get_ref_page (); $page_id = $ref_page ['id'];
+			 * $content_id = $page_id; } } if (($the_field_data ['attributes']
+			 * ['rel']) == 'PAGE_ID') { // p ( $_SERVER ); if ($ref_page != '')
+			 * { $save_global = false; $ref_page = $the_ref_page = get_ref_page
+			 * (); $page_id = $ref_page ['id']; $content_id = $page_id; } } if
+			 * (($the_field_data ['attributes'] ['rel']) == 'POST_ID') { // p (
+			 * $_SERVER ); if ($ref_page != '') { $save_global = false;
+			 * $ref_page = $the_ref_page = get_ref_page (); $page_id = $ref_page
+			 * ['id']; $content_id = $page_id; } }
+			 */
 			$some_mods = array ();
 			if (($the_field_data ['attributes'])) {
 				if (($the_field_data ['html']) != '') {
 					$field = trim ( $the_field_data ['attributes'] ['field'] );
-					if ($field == '') {
-						$field = $page_element_id;
+					
+					if (isset ( $the_field_data ['attributes'] ['field'] )) {
+						$page_element_id = $the_field_data ['attributes'] ['field'];
+					} else {
+						$page_element_id = $field;
 					}
-					d($the_field_data);
+					
 					$save_global = false;
-					if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'global') {
+					if (isset ( $the_field_data ['attributes'] ['rel'] ) and trim ( $the_field_data ['attributes'] ['rel'] ) == 'global') {
 						$save_global = true;
 						// p($the_field_data ['attributes'] ['rel']);
 					} else {
 						$save_global = false;
 					}
-					if (trim ( $the_field_data ['attributes'] ['rel'] ) == 'layout') {
+					if (isset ( $the_field_data ['attributes'] ['rel'] ) and trim ( $the_field_data ['attributes'] ['rel'] ) == 'layout') {
 						$save_global = false;
 						$save_layout = true;
 					} else {
 						$save_layout = false;
+					}
+					
+					if (isset ( $the_field_data ['attributes'] ['rel'] )) {
+						d ( $the_field_data );
+						error ( 'rel must be finished', __FILE__, __LINE__ );
 					}
 					
 					$html_to_save = $the_field_data ['html'];
@@ -904,25 +900,30 @@ function save_field($post_data) {
 					if ($save_global == false and $save_layout == false) {
 						if ($content_id) {
 							
-								$for_histroy = $the_ref_page;
-								if ($post_id) {
-									$for_histroy = $the_ref_post;
-								}
-								if (stristr ( $field, 'custom_field_' )) {
-									$field123 = str_ireplace ( 'custom_field_', '', $field );
+							$for_histroy = $ref_page;
+							$old = false;
+							$field123 = str_ireplace ( 'custom_field_', '', $field );
+							
+							if (stristr ( $field, 'custom_field_' )) {
+								
+								$old = $for_histroy ['custom_fields'] [$field123];
+							} else {
+								
+								if (isset ( $for_histroy ['custom_fields'] [$field123] )) {
 									$old = $for_histroy ['custom_fields'] [$field123];
-								} else {
+								} elseif (isset ( $for_histroy [$field] )) {
 									$old = $for_histroy [$field];
 								}
-								$history_to_save = array ();
-								$history_to_save ['table'] = 'table_content';
-								$history_to_save ['id'] = $content_id;
-								$history_to_save ['value'] = $old;
-								$history_to_save ['field'] = $field;
-								// p ( $history_to_save );
-								if ($is_no_save != true) {
-									$this->core_model->saveHistory ( $history_to_save );
-								}
+							}
+							$history_to_save = array ();
+							$history_to_save ['table'] = 'table_content';
+							$history_to_save ['id'] = $content_id;
+							$history_to_save ['value'] = $old;
+							$history_to_save ['field'] = $field;
+							// p ( $history_to_save );
+							if ($is_no_save != true) {
+								save_history ( $history_to_save );
+							}
 							
 							// p($html_to_save,1);
 							$to_save = array ();
@@ -942,7 +943,7 @@ function save_field($post_data) {
 							if ($is_no_save != true) {
 								$json_print [] = $to_save;
 								// if($to_save['content_body'])
-								$saved = $this->content_model->saveContent ( $to_save );
+								$saved = save_content ( $to_save );
 								// p($to_save);
 								// p($content_id);
 								// p($page_id);
@@ -1030,9 +1031,258 @@ function save_field($post_data) {
 	$history_to_save ['id'] = (parse_url ( strtolower ( $_SERVER ['HTTP_REFERER'] ), PHP_URL_PATH ));
 	$history_to_save ['value'] = $json_print;
 	$history_to_save ['field'] = 'html_content';
-	$this->core_model->saveHistory ( $history_to_save );
+	save_history ( $history_to_save );
 	// }
 	print $json_print;
-	$this->core_model->cleanCacheGroup ( 'global/blocks' );
+	cache_clean_group ( 'global/blocks' );
 	exit ();
+}
+
+/**
+ * Function to save content into the content_table
+ *
+ * @param
+ *        	array
+ *        	
+ * @param
+ *        	boolean
+ *        	
+ * @return string | the id saved
+ *        
+ * @author Peter Ivanov
+ *        
+ * @version 1.0
+ *         
+ * @since Version 1.0
+ *       
+ */
+function save_content($data, $delete_the_cache = true) {
+	$cms_db_tables = c ( 'db_tables' );
+	
+	$table = $cms_db_tables ['table_content'];
+	
+	if (empty ( $data )) {
+		
+		return false;
+	}
+	$data_to_save = $data;
+	
+	$more_categories_to_delete = array ();
+	if (intval ( $data ['id'] ) != 0) {
+		
+		$q = "SELECT * from $table where id='{$data_to_save['id']}' ";
+		
+		$q = db_query ( $q );
+		
+		$thecontent_title = $q [0] ['content_title'];
+		
+		$q = $q [0] ['content_url'];
+		
+		$thecontent_url = $q;
+		
+		$more_categories_to_delete = get_categories_for_content ( $data ['id'], 'categories' );
+	} else {
+		
+		$thecontent_url = $data ['content_url'];
+		
+		$thecontent_title = $data ['content_title'];
+	}
+	
+	if (isset ( $thecontent_url ) != false) {
+		
+		if (isset ( $data ['content_url'] ) and $data ['content_url'] == $thecontent_url) {
+			
+			// print 'asd2';
+			
+			$data ['content_url'] = $thecontent_url;
+		} else {
+		}
+		
+		if (! isset ( $data ['content_url'] ) or strval ( $data ['content_url'] ) == '') {
+			
+			// print 'asd1';
+			
+			$data ['content_url'] = $thecontent_url;
+		}
+		
+		if ((strval ( $data ['content_url'] ) == '') and (strval ( $thecontent_url ) == '')) {
+			
+			// print 'asd';
+			
+			$data ['content_url'] = url_title ( $thecontent_title );
+		}
+	} else {
+		if ($thecontent_title != false) {
+			$data ['content_url'] = url_title ( $thecontent_title );
+		}
+	}
+	if (isset ( $item ['content_title'] )) {
+		$item ['content_title'] = htmlspecialchars_decode ( $item ['content_title'], ENT_QUOTES );
+		
+		$item ['content_title'] = strip_tags ( $item ['content_title'] );
+	}
+	if ($data ['content_url'] != false) {
+		// if (intval ( $data ['id'] ) == 0) {
+		$data_to_save ['content_url'] = $data ['content_url'];
+		
+		// }
+	}
+	
+	if ($data ['content_url'] != false) {
+		$data ['content_url'] = url_title ( $data ['content_url'] );
+		
+		if (strval ( $data ['content_url'] ) == '') {
+			
+			$data ['content_url'] = url_title ( $data ['content_title'] );
+		}
+		
+		$date123 = date ( "YmdHis" );
+		
+		$q = "select id, content_url from $table where content_url LIKE '{$data ['content_url']}'";
+		
+		$q = db_query ( $q );
+		
+		if (! empty ( $q )) {
+			
+			$q = $q [0];
+			
+			if ($data ['id'] != $q ['id']) {
+				
+				$data ['content_url'] = $data ['content_url'] . '-' . $date123;
+				$data_to_save ['content_url'] = $data ['content_url'];
+			}
+		}
+		
+		if (isset ( $data_to_save ['content_url'] ) and strval ( $data_to_save ['content_url'] ) == '' and ($data_to_save ['quick_save'] == false)) {
+			
+			$data_to_save ['content_url'] = $data_to_save ['content_url'] . '-' . $date123;
+		}
+		
+		if (isset ( $data_to_save ['content_title'] ) and strval ( $data_to_save ['content_title'] ) == '' and ($data_to_save ['quick_save'] == false)) {
+			
+			$data_to_save ['content_title'] = 'post-' . $date123;
+		}
+		if (isset ( $data_to_save ['content_url'] ) and strval ( $data_to_save ['content_url'] ) == '' and ($data_to_save ['quick_save'] == false)) {
+			$data_to_save ['content_url'] = strtolower ( reduce_double_slashes ( $data ['content_url'] ) );
+		}
+		
+		// $data_to_save ['content_url_md5'] = md5 ( $data_to_save
+		// ['content_url'] );
+	}
+	
+	$data_to_save_options = array ();
+	
+	if (isset ( $data_to_save ['is_home'] ) and $data_to_save ['is_home'] == 'y') {
+		$sql = "UPDATE $table set is_home='n'   ";
+		$q = db_query ( $sql );
+	}
+	
+	if (isset ( $data_to_save ['content_subtype_value_new'] ) and strval ( $data_to_save ['content_subtype_value_new'] ) != '') {
+		$adm = is_admin ();
+		
+		if ($data_to_save ['content_subtype_value_new'] != '') {
+			
+			if ($adm == true) {
+				
+				$new_category = array ();
+				$new_category ["taxonomy_type"] = "category";
+				$new_category ["taxonomy_value"] = $data_to_save ['content_subtype_value_new'];
+				$new_category ["parent_id"] = "0";
+				
+				$new_category = $this->taxonomy_model->taxonomySave ( $new_category );
+				
+				$data_to_save ['content_subtype_value'] = $new_category;
+				$data_to_save ['content_subtype'] = 'dynamic';
+			}
+		}
+		if ($data_to_save ['content_subtype_value_auto_create'] == '') {
+			$data_to_save ['content_subtype_value_auto_create'] = $data_to_save ['auto_create_categories'];
+		}
+		
+		if (! empty ( $data_to_save ['taxonomy_categories_str'] )) {
+			$data_to_save ['content_subtype_value_auto_create'] = $data_to_save ['taxonomy_categories_str'];
+		}
+		
+		if (! empty ( $data_to_save ['taxonomy_categories_str'] ) or $data_to_save ['content_subtype_value_auto_create'] != '') {
+			
+			if ($adm == true) {
+				if (! is_array ( $original_data ['content_subtype_value_auto_create'] )) {
+					
+					$scats = explode ( ',', $data_to_save ['content_subtype_value_auto_create'] );
+				} else {
+					
+					$scats = explode ( ',', $data_to_save ['content_subtype_value_auto_create'] );
+				}
+				if (! empty ( $scats )) {
+					foreach ( $scats as $sc ) {
+						$new_scategory = array ();
+						$new_scategory ["taxonomy_type"] = "category";
+						$new_scategory ["taxonomy_value"] = $sc;
+						$new_scategory ["parent_id"] = intval ( $new_category );
+						
+						$new_scategory = $this->taxonomy_model->taxonomySave ( $new_scategory );
+					}
+				}
+			}
+		}
+	}
+	
+	$save = save_data ( $table, $data_to_save );
+	$id = $save;
+	return $save;
+	// if ($data_to_save ['content_type'] == 'page') {
+	
+	if (! empty ( $data_to_save ['menus'] )) {
+		
+		// housekeep
+		
+		$this->removeContentFromUnusedMenus ( $save, $data_to_save ['menus'] );
+		
+		foreach ( $data_to_save ['menus'] as $menu_item ) {
+			
+			$to_save = array ();
+			
+			$to_save ['item_type'] = 'menu_item';
+			
+			$to_save ['item_parent'] = $menu_item;
+			
+			$to_save ['content_id'] = intval ( $save );
+			
+			$to_save ['item_title'] = $data_to_save ['content_title'];
+			
+			$this->saveMenu ( $to_save );
+			
+			$this->core_model->cleanCacheGroup ( 'menus' );
+		}
+	}
+	
+	// }
+	
+	// $this->core_model->cacheDeleteAll ();
+	
+	if ($data_to_save ['preserve_cache'] == false) {
+		if (intval ( $data_to_save ['content_parent'] ) != 0) {
+			cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . intval ( $data_to_save ['content_parent'] ) );
+		}
+		cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . $id );
+		// cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . '0' );
+		cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . 'global' );
+		
+		if (! empty ( $data_to_save ['taxonomy_categories'] )) {
+			foreach ( $data_to_save ['taxonomy_categories'] as $cat ) {
+				
+				cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+			}
+			// cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
+			cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
+			cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . 'items' );
+		}
+		
+		if (! empty ( $more_categories_to_delete )) {
+			foreach ( $more_categories_to_delete as $cat ) {
+				cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $cat ) );
+			}
+		}
+	}
+	return $save;
 }

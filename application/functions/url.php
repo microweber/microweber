@@ -48,7 +48,7 @@ function curent_url() {
 	} else {
 		$serverrequri = $_SERVER ['REQUEST_URI'];
 	}
- 
+	
 	$s = empty ( $_SERVER ["HTTPS"] ) ? '' : ($_SERVER ["HTTPS"] == "on") ? "s" : "";
 	$protocol = strleft ( strtolower ( $_SERVER ["SERVER_PROTOCOL"] ), "/" ) . $s;
 	$port = ($_SERVER ["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER ["SERVER_PORT"]);
@@ -146,7 +146,7 @@ function full_url($skip_ajax = false, $skip_param = false) {
 function url_param($param, $param_sub_position = false, $skip_ajax = false) {
 	if ($_POST) {
 		
-		if (isset($_POST ['search_by_keyword'])) {
+		if (isset ( $_POST ['search_by_keyword'] )) {
 			
 			if ($param == 'keyword') {
 				
@@ -254,6 +254,7 @@ function url_title($text) {
 	if (function_exists ( 'iconv' )) {
 		$text = iconv ( 'utf-8', 'us-ascii//TRANSLIT', $text );
 	}
+	$text = URLify::filter ( $text );
 	// Make text lowercase
 	
 	$strtolower = function_exists ( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
@@ -263,6 +264,39 @@ function url_title($text) {
 	$text = preg_replace ( '/[^-\w]+/', '', $text );
 	
 	return $text;
+}
+function replace_site_vars($arr) {
+	$site = site_url ();
+	
+	if (is_string ( $arr )) {
+		
+		$ret = str_ireplace ( $site, '{SITE_URL}', $arr );
+		
+		return $ret;
+	}
+	
+	if (is_array ( $arr ) and ! empty ( $arr )) {
+		
+		$ret = array ();
+		
+		foreach ( $arr as $k => $v ) {
+			
+			if (is_array ( $v )) {
+				
+				$v = replace_site_vars ( $v );
+			} else {
+				
+				$v = str_ireplace ( $site, '{SITE_URL}', $v );
+				
+				// $v = addslashes ( $v );
+				// $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
+			}
+			
+			$ret [$k] = ($v);
+		}
+		
+		return $ret;
+	}
 }
 
 /**

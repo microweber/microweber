@@ -16,7 +16,7 @@ function get_modules($options = false) {
 	
 	if (($cache_content) != false) {
 		
-		  return $cache_content;
+		return $cache_content;
 	}
 	
 	if (isset ( $options ['glob'] )) {
@@ -60,15 +60,9 @@ function get_modules($options = false) {
 				
 				ob_start ();
 				include ($value);
-				 
+				
 				$content = ob_get_contents ();
 				ob_end_clean ();
-				
-				 
-				
-			
-				
-				
 				
 				$config ['module'] = $value_fn . '';
 				$config ['module_base'] = str_replace ( 'admin/', '', $value_fn );
@@ -127,7 +121,7 @@ function get_modules($options = false) {
 	}
 }
 function get_elements($options = array()) {
-	//$options ['glob'] = '*.php';
+	// $options ['glob'] = '*.php';
 	$options ['dir_name'] = normalize_path ( ELEMENTS_DIR );
 	
 	return get_modules ( $options );
@@ -175,6 +169,7 @@ function load_module($module_name, $attrs = array()) {
 		// p((constant($cache_content)));
 		return (constant ( $cache_content ));
 	}
+	$is_element = false;
 	$custom_view = false;
 	if (isset ( $attrs ['view'] )) {
 		
@@ -198,6 +193,7 @@ function load_module($module_name, $attrs = array()) {
 	
 	$try_file1 = false;
 	
+	
 	if (is_dir ( $module_in_template_dir )) {
 		$mod_d = $module_in_template_dir;
 		$mod_d1 = normalize_path ( $mod_d, 1 );
@@ -212,6 +208,10 @@ function load_module($module_name, $attrs = array()) {
 		$module_in_default_file = MODULES_DIR . $module_name . '.php';
 		$module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
 		
+		$element_in_default_file = ELEMENTS_DIR . $module_name . '.php';
+		$element_in_default_file = normalize_path ( $element_in_default_file, false );
+		
+		//
 		$module_in_default_file = normalize_path ( $module_in_default_file, false );
 		
 		if (is_dir ( $module_in_default_dir )) {
@@ -231,22 +231,30 @@ function load_module($module_name, $attrs = array()) {
 				
 				$try_file1 = $module_in_default_file;
 			}
+		} elseif (is_file ( $element_in_default_file )) {
+			 
+			$is_element = true;
+			 
+			$try_file1 = $element_in_default_file;
 		}
 	}
 	//
-	
+ 
 	if (isset ( $try_file1 ) != false and $try_file1 != false and is_file ( $try_file1 )) {
 		
 		$config ['path_to_module'] = normalize_path ( (dirname ( $try_file1 )) . '/', true );
 		$config ['url_to_module'] = pathToURL ( $config ['path_to_module'] ) . '/';
-		
+		//print(file_get_contents($try_file1));
 		$l1 = new View ( $try_file1 );
 		$l1->config = $config;
 		$l1->params = $attrs;
-		
+	
 		// $l->set ( $this );
 		$module_file = $l1->__toString ();
 		
+			
+			//d($module_file);
+		 
 		// $CI -> load -> vars($c);
 		
 		// $module_file = $CI -> load -> file($try_file1, true);

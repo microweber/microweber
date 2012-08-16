@@ -1,9 +1,15 @@
 <?php
+function db_q($q) {
+	$db = new DB ( c ( 'db' ) );
+	 
+	$q = $db->query ( $q );
+	return $q;
+}
 function db_query($q, $cache_id = false, $cache_group = 'global', $time = false) {
 	if (trim ( $q ) == '') {
 		return false;
 	}
-	// $cache_id = false;
+	  
 	if ($cache_id != false) {
 		// $results =false;
 		$results = cache_get_content ( $cache_id, $cache_group, $time );
@@ -730,7 +736,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 		// exit ();
 	}
 	
-	if (isset($result [0] ['qty']) == true) {
+	if (isset ( $result [0] ['qty'] ) == true) {
 		
 		// p($result);
 		$ret = $result [0] ['qty'];
@@ -786,6 +792,24 @@ function db_get_table_name($assoc_name) {
 				
 				// $table_assoc_name = $k;
 				return $v;
+			}
+		}
+		
+		return $assoc_name;
+	}
+}
+function db_get_real_table_name($assoc_name) {
+	$cms_db_tables = c ( 'db_tables' );
+	
+	if (! empty ( $cms_db_tables )) {
+		
+		foreach ( $cms_db_tables as $k => $v ) {
+			
+			// var_dump($k, $v);
+			if (strtolower ( $assoc_name ) == strtolower ( $v )) {
+				
+				// $table_assoc_name = $k;
+				return $k;
 			}
 		}
 		
@@ -874,10 +898,10 @@ function db_get_table_fields($table, $exclude_fields = false) {
 	}
 	
 	$table = db_get_table_name ( $table );
-	
+
 	$sql = "show columns from $table";
 	
-	// var_dump($sql );
+	  var_dump($sql );
 	$query = db_query ( $sql );
 	
 	$fields = $query;
@@ -912,4 +936,452 @@ function db_get_table_fields($table, $exclude_fields = false) {
 	
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return $fields;
+}
+
+/**
+ * Generic save data function, it saves data to the database
+ *
+ * @param
+ *        	string
+ * @param
+ *        	array
+ * @param
+ *        	array
+ * @return string
+ * @author Peter Ivanov
+ *        
+ * @uses add_slashes_to_array()
+ * @uses cache_clean_group()
+ * @uses session_get()
+ * @uses map_array_to_database_table()
+ *      
+ */
+function save_data($table, $data, $data_to_save_options = false) {
+	$cms_db_tables = c ( 'db_tables' );
+	
+	if (is_array ( $data ) == false) {
+		
+		return false;
+	}
+	
+	$data ['session_id'] = session_id ();
+	
+	$original_data = $data;
+	
+	$is_quick = isset ( $original_data ['quick_save'] );
+	
+	if ($is_quick == false) {
+		if (isset ( $data ['updated_on'] ) == false) {
+			
+			$data ['updated_on'] = date ( "Y-m-d H:i:s" );
+		}
+	}
+	
+	if (isset ( $data_to_save_options ) and ! empty ( $data_to_save_options )) {
+		
+		if (! empty ( $data_to_save_options ['delete_cache_groups'] )) {
+			
+			foreach ( $data_to_save_options ['delete_cache_groups'] as $item ) {
+				
+				cache_clean_group ( $item );
+			}
+		}
+	}
+	
+	$user_session = session_get ( 'user_session' );
+	if ($user_session == false) {
+		error ( 'You can\'t save data when you are not logged in. ' );
+	}
+	
+	if (isset ( $data ['cf_temp'] )) {
+		$cf_temp = $data ['cf_temp'];
+	}
+	
+	if (isset ( $data ['created_by'] )) {
+		$the_user_id = $data ['created_by'];
+		
+		$the_user_id = $data ['created_by'];
+	} else {
+		$the_user_id = user_id ();
+	}
+	if (isset ( $data ['screenshot_url'] )) {
+		$screenshot_url = $data ['screenshot_url'];
+	}
+	
+	if (isset ( $data ['debug'] ) and $data ['debug'] == true) {
+		$dbg = 1;
+		unset ( $data ['debug'] );
+	} else {
+		
+		$dbg = false;
+	}
+	
+	if (isset($data ['queue_id']) != false) {
+		$queue_id = $data ['queue_id'];
+	}
+	
+	if (isset($data ['url']) == false) {
+		$url = url_string ();
+		$data ['url'] = $url;
+	}
+	
+	 
+		
+		$data ['user_ip'] = USER_IP;
+	 
+	
+	// var_dump($data);
+	if (intval ( $data ['id'] ) == 0) {
+		
+		if ($data ['created_on'] == false) {
+			
+			$data ['created_on'] = date ( "Y-m-d H:i:s" );
+		}
+		
+		$data ['created_by'] = $the_user_id;
+		
+		$data ['edited_by'] = $the_user_id;
+	} else {
+		
+		// $data ['created_on'] = false;
+		$data ['edited_by'] = $the_user_id;
+	}
+	$table_assoc_name =  ( $table );
+ 
+	$criteria_orig = $data;
+	
+	$criteria = map_array_to_database_table ( $table, $data );
+	
+	// p($original_data);p($criteria);die;
+	if ($data_to_save_options ['do_not_replace_urls'] == false) {
+		
+		$criteria = replace_site_vars ( $criteria );
+	}
+	
+	if ($data_to_save_options ['use_this_field_for_id'] != false) {
+		
+		$criteria ['id'] = $criteria_orig [$data_to_save_options ['use_this_field_for_id']];
+	}
+	
+	// $criteria = map_array_to_database_table ( $table, $data );
+	
+	$criteria = add_slashes_to_array ( $criteria );
+	
+	// $criteria = $this->addSlashesToArray ( $criteria );
+	if (intval ( $criteria ['id'] ) == 0) {
+		
+		// insert
+		$data = $criteria;
+		
+		// $this->db->insert ( $table, $data );
+		$q = " INSERT INTO  $table set ";
+		
+		foreach ( $data as $k => $v ) {
+			
+			// $v
+			if (strtolower ( $k ) != $data_to_save_options ['use_this_field_for_id']) {
+				
+				if (strtolower ( $k ) != 'id') {
+					
+					// $v =
+					// $this->content_model->applyGlobalTemplateReplaceables
+					// ( $v );
+					// $v = htmlspecialchars ( $v, ENT_QUOTES );
+					$q .= "$k = '$v' , ";
+				}
+			}
+		}
+		
+		if (intval ( $original_data ['new_id'] ) != 0) {
+			$n_id = $original_data ['new_id'];
+		} else {
+			$n_id = "NULL";
+		}
+		
+		if ($data_to_save_options ['use_this_field_for_id'] != false) {
+			
+			$q .= " " . $data_to_save_options ['use_this_field_for_id'] . "={$n_id} ";
+		} else {
+			
+			$q .= " id={$n_id} ";
+		}
+		
+		// exit ();
+		// $this->dbQ ( $q );
+		// p($q
+		
+		db_q ( $q );
+		
+		$id_to_return = db_last_id ( $table );
+	} else {
+		 
+		// update
+		$data = $criteria;
+		
+		// $n = $this->db->update ( $table, $data, "id = {$data ['id']}" );
+		$q = " UPDATE  $table set ";
+		
+		foreach ( $data as $k => $v ) {
+			
+			// $v = addslashes ( $v );
+			// $v = htmlspecialchars ( $v, ENT_QUOTES );
+			$q .= "$k = '$v' , ";
+		}
+		
+		$q .= " id={$data ['id']} WHERE id={$data ['id']} ";
+		
+		db_q ( $q );
+		
+		$id_to_return = $data ['id'];
+	}
+	
+	if ($dbg != false) {
+		p ( $q );
+	}
+	
+	
+	// p($original_data);
+	/*
+	 * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
+	 * p($original_data ['taxonomy_categories_str'] ,1); foreach (
+	 * $original_data ['taxonomy_categories_str'] as $taxonomy_item ) {
+	 * $test_if_exist_cat = get_category ( $taxonomy_item ); } }
+	 */
+	
+	/* $taxonomy_table = $cms_db_tables ['table_taxonomy'];
+	$taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
+	// p ( $original_data );
+	if (is_array ( $original_data ['taxonomy_categories'] )) {
+		
+		$taxonomy_save = array ();
+		
+		$taxonomy_save ['to_table'] = $table_assoc_name;
+		
+		$taxonomy_save ['to_table_id'] = $id_to_return;
+		
+		$taxonomy_save ['taxonomy_type'] = 'category_item';
+		
+		if (trim ( $original_data ['content_type'] ) != '') {
+			
+			$taxonomy_save ['content_type'] = $original_data ['content_type'];
+		}
+		
+		// $this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy'
+		// );
+		$q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return' and  content_type='{$original_data ['content_type']}' and  taxonomy_type= 'category_item'     ";
+		// p ( $q );
+		db_query ( $q );
+		
+		foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
+			
+			$taxonomy_item = trim ( $taxonomy_item );
+			$parent_cat = get_category ( $taxonomy_item );
+			
+			$parent_cat_id = intval ( $parent_cat ['id'] );
+			// var_dump($parent_cat);
+			// $taxonomy_item = explode($taxonomy_item);
+			
+			// check if parent category exists
+			// $taxonomy_item
+			// $q = " SELECT * FROM $taxonomy_table where
+			// id='$taxonomy_item' and taxonomy_value LIKE '$taxonomy_item'
+			// and taxonomy_type= 'category' ";
+			
+			// $catcheck = $this->dbQuery ( $q );
+			
+			$q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
+			// p ( $q );
+			db_query ( $q );
+			cache_clean_group ( 'taxonomy/' . $parent_cat_id );
+		}
+		cache_clean_group ( 'taxonomy/global' );
+		
+		// exit ();
+	} */
+	
+	// upload media
+	/*
+	 * if ($table_assoc_name != 'table_media') { if ($queue_id) {
+	 * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
+	 * $table_assoc_name, $id_to_return, $queue_id ); } } if ($table_assoc_name
+	 * != 'table_media') { if (strval ( $original_data ['media_queue_pictures']
+	 * ) != '') { $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
+	 * $table_assoc_name, $id_to_return, $original_data ['media_queue_pictures']
+	 * ); } if (strval ( $original_data ['media_queue_videos'] ) != '') {
+	 * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
+	 * $table_assoc_name, $id_to_return, $original_data ['media_queue_videos']
+	 * ); } if (strval ( $original_data ['media_queue_files'] ) != '') {
+	 * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
+	 * $table_assoc_name, $id_to_return, $original_data ['media_queue_files'] );
+	 * } // $this->mediaUpload ( $table_assoc_name, $id_to_return );
+	 * $this->mediaUploadVideos ( $table_assoc_name, $id_to_return );
+	 * $this->mediaUploadFiles ( $table_assoc_name, $id_to_return ); } else {
+	 * $this->mediaUpload ( $table_assoc_name, $id_to_return ); } if (strval (
+	 * $screenshot_url ) != '') { $this->mediaUploadByUrl ( $screenshot_url,
+	 * $table_assoc_name, $id_to_return ); }
+	 */
+	
+	// adding custom fields
+	
+	if (!isset($original_data ['skip_custom_field_save']) and $table_assoc_name != 'table_custom_fields') {
+		$cms_db_tables = c ( 'db_tables' );
+		$custom_field_to_save = array ();
+		
+		foreach ( $original_data as $k => $v ) {
+			
+			if (stristr ( $k, 'custom_field_' ) == true) {
+				
+				// if (strval ( $v ) != '') {
+				$k1 = str_ireplace ( 'custom_field_', '', $k );
+				
+				if (trim ( $k ) != '') {
+					
+					$custom_field_to_save [$k1] = $v;
+				}
+				
+				// }
+			}
+		}
+		
+		if (is_array ( $original_data ['custom_fields'] ) and ! empty ( $original_data ['custom_fields'] )) {
+			$custom_field_to_save = array_merge ( $custom_field_to_save, $original_data ['custom_fields'] );
+		}
+		
+ 
+		 
+		if (! empty ( $custom_field_to_save )) {
+			// p($is_quick);
+			$custom_field_table = $cms_db_tables ['table_custom_fields'];
+			$table_assoc_name = db_get_real_table_name($table_assoc_name);
+			if ($is_quick == false) {
+		 
+				
+				$custom_field_to_delete ['to_table'] = $table_assoc_name;
+				
+				$custom_field_to_delete ['to_table_id'] = $id_to_return;
+			 
+			}
+			// p($original_data);
+			if (isset($original_data ['skip_custom_field_save']) == false) {
+
+				
+				
+				foreach ( $custom_field_to_save as $cf_k => $cf_v ) {
+					 
+					if (($cf_v != '')) {
+						
+						if ($cf_k != '') {
+							$clean = " delete from $custom_field_table where
+				to_table =\"{$table_assoc_name}\"
+				and
+				to_table_id =\"{$id_to_return}\"
+				and
+				custom_field_name =\"{$cf_k}\"
+
+
+				";
+							
+
+						//	d($clean);
+						 db_q ( $clean );
+						}
+						$cfvq= '';
+						$custom_field_to_save ['custom_field_name'] = $cf_k;
+						if (is_array ( $cf_v )) {
+							$custom_field_to_save ['custom_field_values'] = base64_encode ( json_encode ( $cf_v ) );
+$cfvq= "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
+						
+						}
+						$custom_field_to_save ['custom_field_value'] = $cf_v;
+						
+						$custom_field_to_save ['to_table'] = $table_assoc_name;
+						
+						$custom_field_to_save ['to_table_id'] = $id_to_return;
+						$custom_field_to_save ['skip_custom_field_save'] = true;
+						
+						
+						
+						
+						 
+						
+						$custom_field_to_save = add_slashes_to_array ( $custom_field_to_save );
+						$add = " insert into $custom_field_table set
+			custom_field_name =\"{$cf_k}\",
+			$cfvq
+			custom_field_value =\"" . $custom_field_to_save ['custom_field_value'] . "\",
+			to_table =\"" . $custom_field_to_save ['to_table'] . "\",
+			to_table_id =\"" . $custom_field_to_save ['to_table_id'] . "\"
+			";
+						 
+						
+						 
+				 	 db_q ( $add );
+					}
+				}
+				 cache_clean_group ( 'custom_fields' );
+				// cache_clean_group ( 'global' );
+			//	cache_clean_group ( 'extract_tags' );
+			}
+		}
+	}
+	return $id_to_return;
+	if (intval ( $data ['edited_by'] ) == 0) {
+		
+		$data ['edited_by'] = $user_session ['user_id'];
+	}
+	
+	// p($aUserId,1);
+	// var_dump ( $table_assoc_name );
+	// p ( $data ['edited_by'], 1 );
+	/*
+	 * if (strval ( $table_assoc_name ) != '') { if (intval ( $data
+	 * ['edited_by'] ) != 0) { $to_execute_query = false; global
+	 * $users_log_exclude; global $users_log_include; if (empty (
+	 * $users_log_include )) { // ..p($users_log_exclude,1); if (empty (
+	 * $users_log_exclude )) { $to_execute_query = true; // be careful } else {
+	 * if (in_array ( $table_assoc_name, $users_log_exclude ) == true) {
+	 * $to_execute_query = false; } else { $to_execute_query = true; } } if
+	 * ($table_assoc_name == 'table_users_notifications') { $to_execute_query =
+	 * false; } if ($table_assoc_name == 'table_custom_fields') {
+	 * $to_execute_query = false; } if ($table_assoc_name == 'table_media') {
+	 * $to_execute_query = false; } if ($table_assoc_name == 'bb_forums') {
+	 * $to_execute_query = false; } } else { if (in_array ( $table_assoc_name,
+	 * $users_log_include ) == true) { $to_execute_query = true; } else {
+	 * $to_execute_query = false; } } if ($to_execute_query == true) { // @todo
+	 * later: funtionality and documentation to move the // log in seperate
+	 * database cause of possible load issues on // social networks created witm
+	 * microweber $rel_table = $data ['to_table']; $rel_table_id = $data
+	 * ['to_table_id']; if ($rel_table == false) { $rel_table =
+	 * $table_assoc_name; } if ($rel_table_id == false) { $rel_table_id =
+	 * $id_to_return; } global $cms_db_tables; $by = intval ( $data
+	 * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
+	 * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
+	 * $users_table = $cms_db_tables ['table_users_log']; $q = " INSERT INTO
+	 * $users_table set "; $q .= " created_on ='{$now}', user_id={$by}, "; $q .=
+	 * " to_table_id={$id_to_return}, "; $q .= " to_table='{$table_assoc_name}'
+	 * ,"; $q .= " rel_table='{$rel_table}', "; $q .= "
+	 * rel_table_id={$rel_table_id} ,"; $q .= " edited_by={$by} ,"; $q .= "
+	 * created_by={$by2} ,"; $q .= " session_id='{$session_id}' , "; $q .= "
+	 * is_read='n' , "; $q .= " user_ip='{$_SERVER['REMOTE_ADDR']}'"; } } }
+	 */
+	
+	cache_clean_group ( 'global' );
+	
+	return intval ( $id_to_return );
+}
+
+/**
+ * save data
+ *
+ * @author Peter Ivanov
+ */
+function db_last_id($table) {
+	$q = "SELECT LAST_INSERT_ID() as the_id FROM $table";
+	
+	$q = db_query ( $q );
+	
+	$result = $q [0];
+	
+	// var_dump($result);
+	return intval ( $result ['the_id'] );
 }

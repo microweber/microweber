@@ -23,7 +23,6 @@
 
  */
 function category_tree($params) {
-	
 	print 'category_tree()';
 	return true;
 	$p2 = array ();
@@ -115,12 +114,12 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 	
 	if ($content_parent == false) {
 		
-		$content_parent =  ( 0 );
+		$content_parent = (0);
 		
 		$include_first = false;
 	} else {
 		
-		$content_parent = (int) $content_parent;
+		$content_parent = ( int ) $content_parent;
 	}
 	
 	if (! is_array ( $orderby )) {
@@ -634,5 +633,161 @@ function get_category_items_ids($root, $limit = false) {
 		return false;
 	}
 }
-
+function save_category($data, $preserve_cache = false) {
+	global $cms_db_tables;
+	
+	$table = $cms_db_tables ['table_taxonomy'];
+	$table_items = $cms_db_tables ['table_taxonomy_items'];
+	
+	if (trim ( $data ['content_body'] ) != '') {
+		// $CI = get_instance ();
+		$data ['content_body'] = $this->content_model->parseContentBodyItems ( $data ['content_body'], $data ['taxonomy_value'] );
+	}
+	
+	if ($data ['taxonomy_silo_keywords']) {
+		
+		$data ['taxonomy_silo_keywords'] = strip_tags ( $data ['taxonomy_silo_keywords'] );
+	}
+	
+	$content_ids = false;
+	
+	if ($data ['content_id']) {
+		
+		if (is_array ( $data ['content_id'] ) and ! empty ( $data ['content_id'] ) and trim ( $data ['taxonomy_type'] ) != '') {
+			$content_ids = $data ['content_id'];
+		}
+	}
+	$no_position_fix = false;
+	if (trim ( $data ['to_table'] ) != '' and trim ( $data ['to_table_id'] ) != '') {
+		
+		$table = $table_items;
+		$no_position_fix = true;
+	}
+	
+	// p($data);
+	$save = $this->core_model->saveData ( $table, $data );
+	
+	$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
+	$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $data ['id'] ) );
+	$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . intval ( $data ['parent_id'] ) );
+	if (intval ( $save ) == 0) {
+		
+		return false;
+	}
+	
+	if (! empty ( $content_ids )) {
+		
+		$content_ids = array_unique ( $content_ids );
+		
+		// p($content_ids, 1);
+		
+		$taxonomy_type = trim ( $data ['taxonomy_type'] ) . '_item';
+		
+		$content_ids_all = implode ( ',', $content_ids );
+		
+		$q = "delete from $table where to_table='table_content'
+		and content_type='post'
+		and parent_id=$save
+		and  taxonomy_type ='{$taxonomy_type}' ";
+		
+		// p($q,1);
+		
+		$this->core_model->dbQ ( $q );
+		
+		foreach ( $content_ids as $id ) {
+			
+			$item_save = array ();
+			
+			$item_save ['to_table'] = 'table_content';
+			
+			$item_save ['to_table_id'] = $id;
+			
+			$item_save ['taxonomy_type'] = $taxonomy_type;
+			
+			$item_save ['content_type'] = 'post';
+			
+			$item_save ['parent_id'] = intval ( $save );
+			
+			$item_save = $this->core_model->saveData ( $table_items, $item_save );
+			
+			$this->core_model->cleanCacheGroup ( 'content' . DIRECTORY_SEPARATOR . $id );
+		}
+	}
+	if ($no_position_fix == false) {
+		$this->taxonomyFixPositionsForId ( $save );
+	}
+	// $this->core_model->cleanCacheGroup ( 'taxonomy' );
+	
+	if ($preserve_cache == false) {
+		
+		// $this->core_model->cleanCacheGroup ( 'taxonomy' );
+		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . $save );
+		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
+		$this->core_model->cleanCacheGroup ( 'taxonomy' . DIRECTORY_SEPARATOR . 'global' );
+	}
+	
+	return $save;
+}
+function get_categories_for_content($content_id, $taxonomy_type = 'categories') {
+	if (intval ( $content_id ) == 0) {
+		
+		return false;
+	}
+	
+	$function_cache_id = false;
+	
+	$args = func_get_args ();
+	
+	foreach ( $args as $k => $v ) {
+		
+		$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+	}
+	$content_id = intval ( $content_id );
+	$cache_group = 'content/' . $content_id;
+	
+	$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
+	
+	$cache_content = cache_get_content ( $function_cache_id, $cache_group );
+	
+	if (($cache_content) != false) {
+		
+		return $cache_content;
+	}
+	
+	$cms_db_tables = c ( 'db_tables' );
+	
+	$table = $cms_db_tables ['table_taxonomy'];
+	$table_items = $cms_db_tables ['table_taxonomy_items'];
+	
+	$data = array ();
+	
+	$data ['to_table'] = 'table_content';
+	
+	$data ['to_table_id'] = $content_id;
+	$taxonomy_type_q = false;
+	if ($taxonomy_type == 'categories') {
+		$data ['taxonomy_type'] = 'category_item';
+		$taxonomy_type_q = "and taxonomy_type = 'category_item' ";
+	}
+	
+	if ($taxonomy_type == 'tags') {
+		$data ['taxonomy_type'] = 'tag_item';
+		$taxonomy_type_q = "and taxonomy_type = 'tag_item' ";
+	}
+	
+	$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $taxonomy_type_q ";
+	// var_dump($q);
+	$data = db_query ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group = 'content/' . $content_id );
+	// var_dump ( $data );
+	$results = false;
+	if (! empty ( $data )) {
+		$results = array ();
+		foreach ( $data as $item ) {
+			$results [] = $item ['parent_id'];
+		}
+		$results = array_unique ( $results );
+	}
+	cache_store_data ( $results, $function_cache_id, $cache_group );
+	return $results;
+}
 
