@@ -19,7 +19,7 @@ $config = array (
 		
 		// Database Settings
 		'db' => array (
-				'dsn' => 'mysql:host=localhost;port=3306;dbname=mw',
+				'dsn' => 'mysql:host=localhost;port=3306;dbname=digi2',
 				'user' => 'root',
 				'pass' => '123456',
 				'args' => array (

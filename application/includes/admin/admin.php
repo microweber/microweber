@@ -1,9 +1,8 @@
-<?php  
-include(ADMIN_VIEWS_PATH.'header.php');
-print __FILE__;
-?>
+<?php include (ADMIN_VIEWS_PATH . 'header.php'); ?>
+<? if(is_admin() == false): ?>
 <module type="login" />
-
- 
-
-<?php  include(ADMIN_VIEWS_PATH.'footer.php'); ?>
+<? else: ?>
+<module type="pages_menu" append_to_link="/editmode:y" />
+<? endif; ?>
+<?php	include (ADMIN_VIEWS_PATH . 'footer.php');
+?>

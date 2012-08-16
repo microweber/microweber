@@ -70,7 +70,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	}
 	$passed_ids = array ();
 	
-	global $cms_db_tables;
+  $cms_db_tables 	 = c ( 'db_tables' ); ;
 	
 	$params = array ();
 	$params ['item_parent'] = $menu_id;
@@ -79,18 +79,15 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$params_order = array ();
 	$params_order ['position'] = 'ASC';
 	
-	$menu = new menu ();
-	$data = $menu->get ( $params, 1 );
-	
+	 
 	$table_menus = $cms_db_tables ['table_menus'];
 	
-	$sql = "SELECT id from $table_menus
+	$sql = "SELECT id from {$table_menus}
 	where item_parent=$menu_id
-	and $table_menus.item_parent<>$table_menus.id
-	order by  ASC ";
+	and item_parent<>{$table_menus}.id
+	order by position ASC ";
 	// p ( $sql );
-	// $q = $this->core_model->dbQuery ( $sql, __FUNCTION__ . crc32 ( $sql ),
-	// 'menus' );
+	  $q = db_query ( $sql, __FUNCTION__ . crc32 ( $sql ), 'menus' );
 	
 	// $data = $q;
 	if (empty ( $data )) {

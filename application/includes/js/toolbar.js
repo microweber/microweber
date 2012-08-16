@@ -353,7 +353,7 @@ mw.extras = {
   }
 }
 
-mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
+
 
 
 mw.image_settings={

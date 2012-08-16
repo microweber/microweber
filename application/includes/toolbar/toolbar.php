@@ -71,7 +71,8 @@
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
-<script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
+  <script src="<?php   print( INCLUDES_URL);  ?>api/api.js" type="text/javascript"></script>
+
  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
@@ -139,7 +140,7 @@
                 $.ajax({
 
                     type: "POST",
-                    url: "<? print site_url('api/save_option') ?>",
+                    url: "<? print site_url('api/content/save_option') ?>",
                     data: ({
 
                         option_key: $(this).attr('name'),
@@ -205,6 +206,7 @@
 
 		
     </script>
+
     <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
 
 <div class="mw" id="live_edit_toolbar_holder">
@@ -247,7 +249,6 @@
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
           <microweber module="admin/modules/list" />
-
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
       <div class="mw_clear">&nbsp;</div>
@@ -406,8 +407,7 @@
      <span class="mw_editor_btnz" onclick="mw.drag.save()"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
 
-        <span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000">Refresh iframes &reg;</span>
+
 
 
     <?php /*  THE SMALL EDITOR  */ " Starts Here " ?>
@@ -477,3 +477,5 @@
   <!-- /end .mw -->
 </div>
 <!-- /end mw_holder --> 
+<span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
+        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000">Refresh iframes &reg;</span>

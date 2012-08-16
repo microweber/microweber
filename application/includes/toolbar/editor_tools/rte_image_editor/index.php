@@ -8,24 +8,30 @@
 
 
     Uploader = mw.files.browser({
-      open:false
+
     });
 
 
 
     mw.filechange(Uploader, function(){
-
-         this.validate(function(){
-            mw.files.upload(Uploader, {url:'http://pecata/Microweber/editor_tools/rte_image_editor/'}, function(){
-                console.log(this);
+        var is_valid = this.validate();
+        if(is_valid){
+            mw.files.upload(Uploader, {}, function(){
+                console.log('file is uploaded - ' + this);
+            }, function(){
+                console.log('all files are uploaded - ' + this);
             });
-         });
+         }
+         else{
+           alert("Only: " + Uploader.accepts + " are supported!");
+         }
 
     });
 
-    $("#rte_image_upload").click(function(){
-       $(Uploader).click();
-    });
+
+    mw.files.browser_connector("#rte_image_upload", Uploader);
+
+
   });
 </script>
 
@@ -40,10 +46,17 @@
 
         <center style="padding-top: 100px;">
             <span class="bluebtn" id="rte_image_upload">Upload image from my compyter</span>
+            <i style="opacity:.5"><br /><br /><br />Drag your files here</i>
         </center>
 
 
+
+
+
     </div>
+
+
+
     <div class="tab">Enter the URL of an image somewhere on the web</div>
     <div class="tab">Search for Images</div>
 </div>

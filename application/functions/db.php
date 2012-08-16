@@ -728,7 +728,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 		
 		var_dump ( $table, $q );
 	}
-	
+ 
 	$result = db_query ( $q );
 	if ($count_only == true) {
 		
@@ -901,8 +901,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
 	$sql = "show columns from $table";
 	
-	  var_dump($sql );
-	$query = db_query ( $sql );
+ 	$query = db_query ( $sql );
 	
 	$fields = $query;
 	

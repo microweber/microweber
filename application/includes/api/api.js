@@ -13,7 +13,7 @@ if (window.console != undefined) {
 window.mw = window.mw ? window.mw : {};
 
 
-
+mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
@@ -229,33 +229,45 @@ mw.simpletabs = function(context){
 
 
 mw.files = {
-    drag_from_pc:function(){
-        $(".element, .element>*").each(function(){
-            var el = $(this);
-            this.addEventListener('dragover', function(event){
-                event.stopPropagation();
-                event.preventDefault();
-                event.dataTransfer.dropEffect = 'copy';
-            }, false);
-            this.addEventListener('drop', function(event){
-                event.stopPropagation();
-                event.preventDefault();
-                var files = event.dataTransfer.files;
-                $.each(files, function(){
-                    var file_data = mw.files.processer(this);
-                });
-            }, false);
-        });
+    drag_from_pc:function(selector, filetypes){
+        if(window.FileReader){
+            $(selector).each(function(){
+                var el = $(this);
+                this.addEventListener('dragover', function(event){
+                    event.stopPropagation();
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'copy';
+                }, false);
+                this.addEventListener('drop', function(event){
+                    event.stopPropagation();
+                    event.preventDefault();
+                    var files = event.dataTransfer.files;
+                    $.each(files, function(){
+                        var file = this;
+                        var is_valid =  mw.files.validator(file.name, filetypes);
+                        if(is_valid){
+                          
+                        }
+
+                    });
+                }, false);
+            });
+        }
     },
-    processer : function(file, callback){
+    processer : function(file, callback){ //to read the file before upload
+      console.log(file);
           var reader = new FileReader();
           var toreturn = {}
+
+          toreturn.name = file.name;
+          toreturn.type = file.type;
+          toreturn.size = file.size;
+          toreturn.extension = file.name.split('.').pop();
+
           if(file.type.contains("image")){
-             toreturn.type = "image";
-             toreturn.name = file.name;
              reader.onload = function(e) {
                toreturn.result = e.target.result;
-               callback.call(toreturn)
+               callback.call(toreturn);
   		     }
              reader.readAsDataURL(file);
           }
@@ -263,102 +275,171 @@ mw.files = {
                   file.type.contains("rtf") ||
                   file.type.contains("html") ||
                   file.type.contains("html")){
-            toreturn.type = "text";
-            toreturn.name = file.name;
             reader.onload = function(e) {
                toreturn.result = e.target.result;
-               callback.call(toreturn)
+               callback.call(toreturn);
   		    }
             reader.readAsText(file,"UTF-8");
           }
+          else{
+             callback.call(toreturn);
+          }
     },
     browser_settings:{
-        accepts:"png,gif,jpg,jpeg,tiff,bmp",
-        multiple:true,
-        open:false
+        accepts:"png,gif,jpg,jpeg,tiff,bmp"
+    },
+    browser_connector:function(element, uploader){
+        var el = $(element);
+        var uploader = $(uploader);
+        if(!$.browser.msie){
+            el.mousedown(function(){
+              uploader.click();
+            });
+        }
+        else{
+          $(element).mouseenter(function(){
+               var offset = el.offset();
+               var w = el.outerWidth();
+               var h = el.outerHeight();
+               var z = parseFloat(el.css("zIndex"));
+               uploader.css({
+                  top:offset.top,
+                  left:offset.left,
+                  width:w,
+                  height:h,
+                  zIndex:z+1
+               });
+          });
+        }
+    },
+    validator:function(file_name, extensions_string){
+            var filetype = file_name.split('.').pop();
+            if(extensions_string.contains(filetype)){
+                return true;;
+            }
+            else{
+                return false;
+            }
     },
     browser:function(obj){
         if(obj!=undefined){
             var settings = mw.files.browser_settings;
             $.extend(settings, obj);
         }
+        var g = {};
+        g.toreturn = false;
         var u = document.createElement('input');
         u.type = 'file';
+        u.name = 'files_'+mw.random();
         u.multiple = 'multiple';
-        u.className = 'semi_hidden';
+        u.className = !$.browser.msie?'semi_hidden':'msie_uploader';
         document.body.appendChild(u);
-        settings.open?$(u).click():'';
-        u.validate = function(callback){
-          var accepts = settings.accepts;
+        u.validate = function(){
+          this.accepts = settings.accepts;
           var el = u;
           if(el.files){
             var files = el.files;
             var len = files.length;
             $.each(files, function(i){
-                mw.files.processer(this, function(){
-                    var filetype = this.name.split('.').pop();
-                    if(settings.accepts.contains(filetype)){
-                        if((i+1)==len){
-                           callback.call(true);
-                        }
-                    }
-                    else{
-                        callback.call(false);
-                    }
-                });
+                 var is_valid = mw.files.validator(this.name, settings.accepts);
+                 if(is_valid){
+                   if((i+1)==len){
+                      g.toreturn = true;
+
+                   }
+                 }
+                 else{
+                   g.toreturn = false;
+                 }
             });
           }
           else{ // browser has no filereader;
-            var value = this.value;
-            var filetype = value.split('.').pop();
-            if(settings.accepts.contains(filetype)){
-                callback.call(true)
+            var is_valid = mw.files.validator(this.value, settings.accepts);
+            if(is_valid){
+                g.toreturn = true;
             }
             else{
-                callback.call(false);
+                g.toreturn = false;
             }
           }
+
+          return g.toreturn;
         }
         return u;
     },
     iframe_uploader:function(input_file, url, callback){
-        var form = document.createElement('form');
-        form.enctype = 'multipart/form-data';
-        form.action = url;
-        form.method = 'post';
-        var input = $(input_file).clone(true);
-        input.removeAttr("id");
-        var frame = document.createElement('iframe');
-        frame.src= '#';
-        frame.onload = callback;
-
-
+      if($(input_file).parents("form").length==0){
+          var target = 'target_' + mw.random();
+          var form = document.createElement('form');
+          form.enctype = 'multipart/form-data';
+          form.action = url;
+          form.method = 'post';
+          form.target = target;
+          form.id = "form_"+target;
+          $(form).append(input_file);
+          var frame = document.createElement('iframe');
+          frame.src= "javascript:false;";
+          frame.className= 'semi_hidden';
+          frame.id = target;
+          frame.name = target;
+          frame.onload = function(){
+            if(!$(frame).hasClass("submitet")){
+                $(frame).addClass("submitet");
+                $("#form_"+target).submit();
+            }
+            else{
+              var data = frame.contentDocument.body.innerHTML;
+              var json = $.parseJSON(data);
+              callback.call(json);
+            }
+          }
+          form.appendChild(frame);
+          document.body.appendChild(form);
+      }
+      else{
+         $(input_file).parents("form").submit();
+      }
     },
     upload_settings:{
-        url:'/upload'
+        url:'http://pecata/Microweber/iframe_submit_test.php'
     },
-    upload:function(uploader, object, callback){
+    upload:function(uploader, object, single_file_uploaded, all_uploaded){
         var obj = mw.files.upload_settings;
         typeof object=='object' ? $.extend(obj, object) : '';
         if(uploader.files){
             var files = uploader.files;
             var len = files.length;
+            var all = {};
+            var count = 0;
             $.each(files, function(i){
                  mw.files.processer(this, function(){
                    var data = {
                      file:this.result,
                      name:this.name
                    }
-                   $.post(obj.url, data, function(){
-                        if((i+1)==len && typeof callback == 'function'){
-                           callback.call(files);
+                   $.post(obj.url, data, function(data){
+                        count += 1; //increasing after success
+                        var json = $.parseJSON( data );
+                        all['item_'+i] = json;
+                        if(typeof single_file_uploaded == 'function'){
+                           single_file_uploaded.call(json);
+                        }
+                        if(count==len && typeof all_uploaded == 'function'){
+                           all_uploaded.call(all);
                         }
                    });
                  });
             });
         }
         else{  // browser has no filereader;
-            mw.files.iframe_uploader(uploader, obj.url);
+            mw.files.iframe_uploader(uploader, obj.url, function(){
+              if(typeof single_file_uploaded == 'function'){
+                single_file_uploaded.call(this);
+              }
+              if(typeof all_uploaded == 'function'){
+                all_uploaded.call(this);
+              }
+            });
         }
     }
 }

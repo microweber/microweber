@@ -926,7 +926,7 @@ mw.drag = {
       $sav['save_field_content_layout_style'] = $styles_join;
       $.ajax({
         type: 'POST',
-        url: mw.settings.site_url + 'api/save_field_simple',
+        url: mw.settings.site_url + 'api/content/save_field_simple',
         data: $sav,
         async: true
       });

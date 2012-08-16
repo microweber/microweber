@@ -539,6 +539,14 @@ body.not-allowed{
   -khtml-user-select: none;
    user-select: none;
 }
+.msie_uploader{
+  position: absolute;
+  z-index: 1;
+  top: -9999px;
+  font-size: 100px;
+  opacity:0;
+  filter:alpha(opacity=0);
+}
 
 
 

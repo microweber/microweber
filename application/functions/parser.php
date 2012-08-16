@@ -54,15 +54,15 @@ function parse_micrwober_tags($layout, $options = false) {
 			}
 		}
 	}
-	
-	$script_pattern = "/<module[^>]*>/Uis";
+		$script_pattern = "/<module[^>]*>/Uis";
+
+	//$script_pattern = "/<module.*.[^>]*>/is";
 	$replaced_modules = array ();
 	preg_match_all ( $script_pattern, $layout, $mw_script_matches );
 	
 	if (! empty ( $mw_script_matches )) {
 		$matches1 = $mw_script_matches [0];
-		// p($matches1);
-		foreach ( $matches1 as $key => $value ) {
+ 		foreach ( $matches1 as $key => $value ) {
 			if ($value != '') {
 				$v1 = crc32 ( $value );
 				$v1 = 'mw_replace_back_this_module_' . $v1;
