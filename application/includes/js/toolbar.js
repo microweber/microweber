@@ -702,9 +702,6 @@ mw.wysiwyg = {
       $("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
       items.bind("mouseup",function(){
-
-
-
         if(!mw.isDrag && $(".module.element-active").length==0){
           $(this).attr('contenteditable','true');
           $(this).find('.mw-sorthandle').attr('contenteditable','false');
@@ -936,6 +933,20 @@ mw.wysiwyg = {
           var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture", 'mw_rte_image');
         }
     },
+    insert_html:function(html){
+      if(!$.browser.msie){
+         parent.mw.wysiwyg.execCommand('inserthtml', false, html);
+      }
+      else{
+        document.selection.createRange().pasteHTML(html)
+      }
+    },
+    insert_image:function(url){
+        var img = '<img class="let_that_burn" src="' + url + '" />';
+        mw.wysiwyg.insert_html(img);
+        //mw.wysiwyg.execCommand('inserthtml', false, img);
+        mw.tools.modal.remove('mw_rte_image');
+    },
     save_selection:function(){
         var selection = window.getSelection();
         var range =  selection.getRangeAt(0);
@@ -950,6 +961,7 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.element.focus();
         mw.wysiwyg.selection.sel.removeAllRanges()
         mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+        mw.wysiwyg.isThereEditableContent=true;
     },
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');

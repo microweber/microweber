@@ -82,19 +82,15 @@ mw.files = {
             });
         }
     },
-    upload_from_url:function(){
 
-    },
     image_url_test:function(url, valid, invalid){
         var url = url.replace(/\s/gi,'');
-        if(!url.contains('http')){var url = 'http://'+url}
-        console.log(url.length)
         if(url.length<6){
             typeof invalid =='function'? invalid.call(url) : '';
-
+            return false;
         }
-
         else{
+          if(!url.contains('http')){var url = 'http://'+url}
           if(!window.ImgTester){
               window.ImgTester = new Image();
               document.body.appendChild(window.ImgTester);
@@ -108,7 +104,21 @@ mw.files = {
           }
           window.ImgTester.src = url;
         }
-
+    },
+    url_to_base64:function(url, done){
+      var proxy = new Image();
+      document.body.appendChild(proxy);
+      proxy.className = 'semi_hidden';
+      proxy.onload = function(){
+        var canvas = document.createElement("canvas");
+        canvas.width = $(proxy).width();
+        canvas.height = $(proxy).height();
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(proxy, 0, 0);
+        var data = canvas.toDataURL("image/png");
+        done.call(data);
+      }
+      proxy.src = url;
     },
     processer : function(file, callback){ //to read the file before upload
           var reader = new FileReader();

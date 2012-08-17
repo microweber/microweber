@@ -58,16 +58,24 @@
      var img_status = document.getElementById('image_status');
 
      $("#get_image_by_url").bind("keyup change", function(){
-        img_status.className = 'loading';
+            img_status.className = 'loading';
         mw.files.image_url_test(this.value, function(){
           //is valid
-        img_status.className = 'valid';
+            img_status.className = 'valid';
 
         }, function(){
           //not valid
           img_status.className = 'error';
 
         });
+     });
+
+     $("#btn_inser_url_image").click(function(){
+          if(img_status.className == 'valid'){
+            var val =  $("#get_image_by_url").val();
+            parent.mw.wysiwyg.restore_selection();
+            parent.mw.wysiwyg.insert_image(val);
+          }
      });
 
 
@@ -101,13 +109,12 @@
 
         <h3>Enter the URL of an image somewhere on the web</h3>
 
-        <form method="post" action="?" id="form_get_image_from_url">
+
           <span class="fancy_input left">
               <input type="text" id="get_image_by_url" name="get_image_by_url" />
               <span id="image_status"></span>
           </span>
-          <input type="submit" class="bluebtn" value="Insert" />
-        </form>
+          <button type="button" class="bluebtn" id="btn_inser_url_image">Insert</button>
 
         <p id="image_types_desc">
           File must be a JPEG, GIF, PNG , BMP or TIFF <br />
