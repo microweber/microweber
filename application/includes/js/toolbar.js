@@ -123,7 +123,7 @@ mw.tools = {
         var modal = mw.tools.modal.init({
           html:frame,
           width:430,
-          height:365,
+          height:395,
           callback:false,
           title:title,
           name:name

@@ -1,6 +1,6 @@
-<?  $more = get_custom_fields($params['id']); ?>
-<? 
- 
+ <?  $more = get_custom_fields($params['id']); ?>
+<?
+
 if(!empty($more )): ?>
 <? foreach($more  as $field): ?>
 <?

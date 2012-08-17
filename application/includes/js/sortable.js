@@ -971,7 +971,7 @@ mw.drag = {
       master_prev = master;
       $.ajax({
         type: 'POST',
-        url: mw.settings.site_url + 'api/save_field',
+        url: mw.settings.site_url + 'api/save_edit',
         data: master,
         datatype: "json",
         async: true,

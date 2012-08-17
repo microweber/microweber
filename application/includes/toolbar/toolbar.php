@@ -2,76 +2,24 @@
 
 <script type="text/javascript">
 
-    window.onerror = function(err, file, row){alert(err + "\nFile: " + file + "\nRow: " + row)}
+    //window.onerror = function(err, file, row){alert(err + "\nFile: " + file + "\nRow: " + row)}
 
 
 
-    window.mw = window.mw ? window.mw : {};
 
-    mw.settings = {
-        site_url:'<?php print site_url(); ?>', //mw.settings.site_url
-        includes_url: '<?php   print( INCLUDES_URL);  ?>',
-        page_id : '<?php print intval(PAGE_ID) ?>',
-        post_id : '<?php print intval(POST_ID) ?>',
-        category_id : '<?php print intval(CATEGORY_ID) ?>',
-        content_id : '<?php print intval(CONTENT_ID) ?>',
-    	editables_created : false,
-    	element_id : false,
-    	text_edit_started : false,
-    	sortables_created : false,
-    	drag_started : false,
-    	sorthandle_hover : false,
-		resize_started:false,
-		sorthandle_click : false,
 
-    	row_id : false,
-    //	empty_column_placeholder : '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>',
-		
-		edit_area_placeholder : '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>',
-		
-		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
 
-    	//handles
-    	sorthandle_row : "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='columns_set'></div>\
-	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
-    	    </div>",
-    	sorthandle_row_columns_controlls :
-         '<a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
-    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.drag.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
-    	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
-    	sorthandle_col:
-        "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
-            <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
-                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick=\"mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
-            </div>\
-            <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
-        </div>",
-    	sorthandle_module:
-            "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
-                <div class='mw-element-name-handle'>MODULE_NAME</div>\
-                <div class='mw_col_delete mw_edit_delete_element'>\
-                    <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
-                    <a class='mw_edit_btn mw_edit_settings right' href=\"javascript:mw.drag.module_settings(MODULE_ID)\">Settings</a>\
-                </div>\
-                <span class='mw-sorthandle-moveit'>Move</span>\
-            </div>"
-    }
 
 </script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
+<?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>*/ ?>
+<script src="<?php   print( SITE_URL);  ?>api.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
-  <script src="<?php   print( INCLUDES_URL);  ?>api/api.js" type="text/javascript"></script>
+
 
  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>

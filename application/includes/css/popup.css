@@ -126,4 +126,27 @@ body{
   opacity:1;
 }
 
+#get_image_from_url h3{
+  text-align: center;
+  padding-top: 65px;
+  padding-bottom: 22px;
+  color: #595959;
+  font-size: 14px;
+}
+
+#get_image_from_url .fancy_input{
+  margin: 0 6px 0 22px;
+}
+
+#get_image_from_url .fancy_input input{
+  width: 270px;
+}
+
+#image_types_desc{
+  text-align: center;
+  color: #B9B9B9;
+  font-size: 11px;
+  padding-top: 33px;
+}
+
 

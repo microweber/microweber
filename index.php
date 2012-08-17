@@ -35,7 +35,7 @@ function error($e, $f = false, $l = false) {
 set_exception_handler ( 'exception' );
 register_shutdown_function ( function () {
 	$e = error_get_last ();
-	
+
 	if (isset ( $e )) {
 		exception ( new ErrorException ( $e ['message'], $e ['type'], 0, v ( $e ['file'] ), $e ['line'] ) );
 	}
@@ -61,8 +61,8 @@ if ($m == 'admin' or $m == $admin_url) {
 	}
 }
 if (method_exists ( $c, $m )) {
-	
-	
+
+
 	$c->$m ();
 } else {
 	$c->index ();
@@ -70,6 +70,6 @@ if (method_exists ( $c, $m )) {
 exit ();
 call_user_func_array ( array (
 		$c,
-		$m 
+		$m
 ), array_slice ( url (), 2 ) );
 //$c -> render();

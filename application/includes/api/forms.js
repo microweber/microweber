@@ -2,6 +2,16 @@ window.mw = window.mw ? window.mw : {};
 
  
 mw.form = {
+  d:function(selector, d){
+    var el = $(selector);
+    var e = el[0];
+    el.data("d",d);
+    if(!el.hasClass("binded")){
+       el.addClass("binded");
+       el.focus(function(){var d = el.data("d");e.value==d?e.value='':''});
+       el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
+    }
+  },
   post:function(selector){
     var is_form_valid = mw.form.validate.init(selector);
     if(is_form_valid){
@@ -28,6 +38,10 @@ mw.form = {
         var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
         return regexmail.test(obj.value);
     },
+    url:function(obj){
+        var rurl = /http:\/;
+        return rurl.test(obj.value);
+    }
     radio:function(objname){
         var radios = document.getElementsByName(objname);
         this_radio_valid = false;

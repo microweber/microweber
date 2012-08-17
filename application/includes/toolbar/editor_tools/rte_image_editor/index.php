@@ -1,23 +1,22 @@
 
 <script type="text/javascript">
 
+     mw.require("forms.js");
+     mw.require("files.js");
+     mw.require("tools.js");
+
 
 
     $(document).ready(function(){
-        mw.simpletabs(document.getElementById('image_tabs'));
 
+         mw.simpletabs(document.getElementById('image_tabs'));
 
-    Uploader = mw.files.browser({
+         Uploader = mw.files.browser();
 
-    });
-
-
-
-    mw.filechange(Uploader, function(){
+         mw.filechange(Uploader, function(){
         var is_valid = this.validate();
-
         if(is_valid){
-            mw.files.upload(Uploader, {filetypes:'kuku'}, function(){
+            mw.files.upload(Uploader, {filetypes:'png,jpg'}, function(){
                 console.log('file is uploaded - ' + this);
             }, function(){
                 console.log('all files are uploaded - ' + this);
@@ -26,7 +25,6 @@
          else{
            alert("Only: " + Uploader.filetypes + " are supported!");
          }
-
     });
 
 
@@ -55,6 +53,12 @@
     });
 
 
+   //tab get image by url
+
+
+
+
+
 
 
   });
@@ -70,7 +74,7 @@
     <div class="tab" id="drag_files_here">
 
         <center style="padding-top: 100px;">
-            <span class="bluebtn" id="rte_image_upload">Upload image from my compyter</span>
+            <span class="bluebtn" id="rte_image_upload">Upload image from my computer</span>
             <div class="drag_files_label">Drag your files here</div>
         </center>
 
@@ -82,6 +86,44 @@
 
 
 
-    <div class="tab">Enter the URL of an image somewhere on the web</div>
+    <div class="tab" id="get_image_from_url">
+
+        <h3>Enter the URL of an image somewhere on the web</h3>
+
+        <form method="post" action="?" id="form_get_image_from_url">
+          <span class="fancy_input left">
+              <input type="text" id="get_image_by_url" name="get_image_by_url" />
+          </span>
+          <input type="submit" class="bluebtn" value="Insert" />
+        </form>
+
+        <p id="image_types_desc">
+          File must be a JPEG, GIF, PNG , BMP or TIFF <br />
+          Example: http://mywebsite.com/image.jpg
+        </p>
+
+    </div>
+
+
+
+
     <div class="tab">Search for Images</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

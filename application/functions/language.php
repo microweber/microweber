@@ -6,6 +6,7 @@ function _e($k) {
 
     //$k = str_replace(' ', '-', $k);
     $k1 = URLify::filter(($k));
+ $lang = session_get('lang');
 
 //	$k1 = url_title($k);
     if ($c === NULL) {
@@ -14,6 +15,7 @@ function _e($k) {
                 $lang = 'en';
             } else {
                 $lang = session_get('lang');
+
             }
             $lang = str_replace('..', '', $lang);
             if (trim($lang) == '') {
@@ -21,7 +23,7 @@ function _e($k) {
             }
             $lang_file = APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
             $lang_file = normalize_path($lang_file, false);
-            //d($lang_file);
+             
             if (is_file($lang_file)) {
                 include ($lang_file);
             } else {
@@ -33,7 +35,7 @@ function _e($k) {
                 $lang_file = normalize_path($lang_file, false);
                 include ($lang_file);
             }
-            //  d($lang_file);
+
             $c = $language;
         }
     } else {
@@ -48,11 +50,13 @@ function _e($k) {
 
         print $k;
     } else {
+
         print $c[$k1];
     }
 }
 
 function set_language($lang = 'en') {
+
     session_set('lang', $lang);
     return $lang;
 }
