@@ -38,10 +38,6 @@ mw.form = {
         var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
         return regexmail.test(obj.value);
     },
-    url:function(obj){
-        var rurl = /http:\/;
-        return rurl.test(obj.value);
-    }
     radio:function(objname){
         var radios = document.getElementsByName(objname);
         this_radio_valid = false;

@@ -42,7 +42,7 @@ if(!Array.indexOf){
 
 
 
-
+mw.require("forms.js")
 
 
 

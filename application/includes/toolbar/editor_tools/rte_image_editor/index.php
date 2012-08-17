@@ -55,9 +55,20 @@
 
    //tab get image by url
 
+     var img_status = document.getElementById('image_status');
 
+     $("#get_image_by_url").bind("keyup change", function(){
+        img_status.className = 'loading';
+        mw.files.image_url_test(this.value, function(){
+          //is valid
+        img_status.className = 'valid';
 
+        }, function(){
+          //not valid
+          img_status.className = 'error';
 
+        });
+     });
 
 
 
@@ -93,6 +104,7 @@
         <form method="post" action="?" id="form_get_image_from_url">
           <span class="fancy_input left">
               <input type="text" id="get_image_by_url" name="get_image_by_url" />
+              <span id="image_status"></span>
           </span>
           <input type="submit" class="bluebtn" value="Insert" />
         </form>

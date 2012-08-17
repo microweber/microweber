@@ -1,0 +1,42 @@
+/*
+api css
+*/
+
+/* Forms styles */
+
+.fancy_input{
+    display: inline-block;
+    height: 33px;
+    border: 1px solid #D6D6D6;
+    box-shadow:0 -1px 0 #BDBDBD;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-image: linear-gradient(bottom, rgb(236,236,236) 0%, rgb(237,237,237) 66%);
+    background-image: -o-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(237,237,237) 66%);
+    background-image: -moz-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(237,237,237) 66%);
+    background-image: -webkit-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(237,237,237) 66%);
+    background-image: -ms-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(237,237,237) 66%);
+
+    background-image: -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0, rgb(236,236,236)),
+    	color-stop(0.66, rgb(237,237,237))
+    );
+}
+.fancy_input input{
+  background: none;
+  border: none;
+  padding: 7px;
+}
+
+.left{
+  float: left ;
+}
+.right{
+  float: right ;
+}
+
+/* End of Forms styles */

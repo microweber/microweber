@@ -139,7 +139,7 @@ body{
 }
 
 #get_image_from_url .fancy_input input{
-  width: 270px;
+  width: 250px;
 }
 
 #image_types_desc{
@@ -147,6 +147,24 @@ body{
   color: #B9B9B9;
   font-size: 11px;
   padding-top: 33px;
+}
+
+#image_status{
+  display: block;
+  float: right;
+  width: 16px;
+  height: 16px;
+  margin: 8px 8px 0 0;
+}
+
+#image_status.loading{
+  background: url(../img/img_check_loading.gif) no-repeat;
+}
+#image_status.error{
+  background: url(http://www.rockband.com/forums/images/icons/icon4.png) no-repeat;
+}
+#image_status.valid{
+  background: url(http://files.softicons.com/download/toolbar-icons/max-mini-icons-by-ashung/png/16x16/valid.png) no-repeat;
 }
 
 
