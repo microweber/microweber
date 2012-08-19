@@ -1,5 +1,14 @@
 <?php
 
+$db = c('db');
+$is_sqlite = strstr($db['dsn'], 'sqlite:');
+
+if ($is_sqlite != false) {
+    define("DB_IS_SQLITE", true);
+} else {
+    define("DB_IS_SQLITE", false);
+}
+
 function db_q($q) {
     $db = new DB(c('db'));
 
@@ -801,7 +810,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-
+        
     }
     if ($limit != false) {
 
@@ -985,7 +994,13 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
     $table = db_get_table_name($table);
 
-    $sql = "show columns from $table";
+    if (DB_IS_SQLITE != false) {
+        $sql = "PRAGMA table_info('{$table}');";
+    } else {
+        $sql = "show columns from $table";
+    }
+
+    //   $sql = "DESCRIBE $table";
 
     $query = db_query($sql);
 
@@ -996,6 +1011,10 @@ function db_get_table_fields($table, $exclude_fields = false) {
     foreach ($fields as $fivesdraft) {
 
         $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+        if (isset($fivesdraft ['name'])) {
+            $fivesdraft ['field'] = $fivesdraft ['name'];
+        }
+
 
         $exisiting_fields [strtolower($fivesdraft ['field'])] = true;
     }
@@ -1147,10 +1166,10 @@ function save_data($table, $data, $data_to_save_options = false) {
     $criteria = map_array_to_database_table($table, $data);
 
     // p($original_data);p($criteria);die;
-    if ($data_to_save_options ['do_not_replace_urls'] == false) {
+    //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
-        $criteria = replace_site_vars($criteria);
-    }
+    $criteria = replace_site_vars($criteria);
+    //  }
 
     if ($data_to_save_options ['use_this_field_for_id'] != false) {
 
@@ -1159,8 +1178,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     // $criteria = map_array_to_database_table ( $table, $data );
 
-    $criteria = add_slashes_to_array($criteria);
-
+    if (DB_IS_SQLITE != false) {
+        
+    } else {
+        $criteria = add_slashes_to_array($criteria);
+    }
+    $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria ['id']) == 0) {
 
@@ -1168,43 +1191,57 @@ function save_data($table, $data, $data_to_save_options = false) {
         $data = $criteria;
 
         // $this->db->insert ( $table, $data );
-        $q = " INSERT INTO  $table set ";
 
-        foreach ($data as $k => $v) {
 
-            // $v
-            if (strtolower($k) != $data_to_save_options ['use_this_field_for_id']) {
+        if (DB_IS_SQLITE == false) {
+            $q = " INSERT INTO  $table set ";
 
-                if (strtolower($k) != 'id') {
+            foreach ($data as $k => $v) {
 
-                    // $v =
-                    // $this->content_model->applyGlobalTemplateReplaceables
-                    // ( $v );
-                    // $v = htmlspecialchars ( $v, ENT_QUOTES );
-                    $q .= "$k = '$v' , ";
+                // $v
+                if (strtolower($k) != $data_to_save_options ['use_this_field_for_id']) {
+
+                    if (strtolower($k) != 'id') {
+
+                        // $v =
+                        // $this->content_model->applyGlobalTemplateReplaceables
+                        // ( $v );
+                        if (DB_IS_SQLITE) {
+                            $v = sqlite_escape_string($v);
+                        }
+                        $q .= "$k = '$v' , ";
+                    }
                 }
+            }
+
+            if (isset($original_data ['new_id']) and intval($original_data ['new_id']) != 0) {
+                $n_id = $original_data ['new_id'];
+            } else {
+                $n_id = "NULL";
+            }
+
+            if ($data_to_save_options ['use_this_field_for_id'] != false) {
+
+                $q .= " " . $data_to_save_options ['use_this_field_for_id'] . "={$n_id} ";
+            } else {
+
+                $q .= " id={$n_id} ";
             }
         }
 
-        if (isset($original_data ['new_id']) and intval($original_data ['new_id']) != 0) {
-            $n_id = $original_data ['new_id'];
+        if (DB_IS_SQLITE != false) {
+            $q = $db->insert($table, $criteria);
         } else {
-            $n_id = "NULL";
+            db_q($q);
         }
 
-        if ($data_to_save_options ['use_this_field_for_id'] != false) {
 
-            $q .= " " . $data_to_save_options ['use_this_field_for_id'] . "={$n_id} ";
-        } else {
 
-            $q .= " id={$n_id} ";
-        }
 
         // exit ();
         // $this->dbQ ( $q );
         // p($q
-
-        db_q($q);
+        // 
 
         $id_to_return = db_last_id($table);
     } else {
@@ -1217,14 +1254,23 @@ function save_data($table, $data, $data_to_save_options = false) {
 
         foreach ($data as $k => $v) {
 
-            // $v = addslashes ( $v );
             // $v = htmlspecialchars ( $v, ENT_QUOTES );
             $q .= "$k = '$v' , ";
         }
 
         $q .= " id={$data ['id']} WHERE id={$data ['id']} ";
 
-        db_q($q);
+        // db_q($q);
+
+        if (DB_IS_SQLITE != false) {
+            $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+        } else {
+            db_q($q);
+        }
+
+
+
+
 
         $id_to_return = $data ['id'];
     }
@@ -1396,7 +1442,14 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 
 
-                        $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
+
+
+                        if (DB_IS_SQLITE != false) {
+                            //  $custom_field_to_save = add_slashes_to_array($custom_field_to_save, $is_sqlite);
+                        } else {
+                            $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
+                        }
+
                         $add = " insert into $custom_field_table set
 			custom_field_name =\"{$cf_k}\",
 			$cfvq
@@ -1404,10 +1457,33 @@ function save_data($table, $data, $data_to_save_options = false) {
 			to_table =\"" . $custom_field_to_save ['to_table'] . "\",
 			to_table_id =\"" . $custom_field_to_save ['to_table_id'] . "\"
 			";
+                        $cf_to_save = array();
+                        $cf_to_save['id'] = 0;
+                        $cf_to_save['custom_field_name'] = $cf_k;
+                        $cf_to_save['to_table'] = $custom_field_to_save ['to_table'];
+                        $cf_to_save['to_table_id'] = $custom_field_to_save ['to_table_id'];
+                        $cf_to_save['custom_field_value'] = $custom_field_to_save ['custom_field_value'];
+
+                        if (isset($custom_field_to_save ['custom_field_values'])) {
+                            $cf_to_save['custom_field_values'] = $custom_field_to_save ['custom_field_values'];
+                        }
+                        $cf_to_save['custom_field_name'] = $cf_k;
+                        $cf_to_save['custom_field_name'] = $cf_k;
+
+
+                        if (DB_IS_SQLITE != false) {
+                            $q = $db->insert($custom_field_table, $cf_to_save);
+                        } else {
+                            db_q($add);
+                        }
 
 
 
-                        db_q($add);
+
+
+
+                        //   print($add);
+                        //  db_q($add);
                     }
                 }
                 cache_clean_group('custom_fields');

@@ -17,7 +17,7 @@
 
 </script>
       <script type="text/javascript" src="<? print INCLUDES_URL; ?>js/jquery-latest.js"></script>
-      <script type="text/javascript" src="<? print INCLUDES_URL; ?>api/api.js"></script>
+      <script type="text/javascript" src="<? print site_url(); ?>api.js"></script>
       <script type="text/javascript" src="<? print INCLUDES_URL; ?>api/editor_externals.js"></script>
       <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
   </head>
