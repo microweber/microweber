@@ -1,10 +1,11 @@
 window.mw = window.mw ? window.mw : {};
 
-
+mwd = document;
 
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
 String.prototype.contains = function(a) { return this.indexOf(a) != -1; };
+
 
 
 if(!Array.indexOf){
@@ -24,39 +25,37 @@ if(!Array.indexOf){
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(mw.required.indexOf(url)==-1){
        mw.required.push(url);
-       var h = document.getElementsByTagName('head')[0];
+       var h = mwd.getElementsByTagName('head')[0];
        var t = url.split('.').pop();
-       var j = document.createElement('script');
+       var j = mwd.createElement('script');
        if(!mw.loaded){
            if(t=='js'){
-              j.text = "document.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
+              j.text = "mwd.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
            }
            else if(t=='css'){
-              var link = document.createElement('link');
-              j.text = "document.write('<link rel=\"stylesheet\" href=\""+url+"\" type=\"text/css\" />')";
+              var link = mwd.createElement('link');
+              j.text = "mwd.write('<link rel=\"stylesheet\" href=\""+url+"\" type=\"text/css\" />')";
            }
            h.insertBefore( j, h.firstChild );
        }
        else{
          var text = "<script src='"+url+"'></script>";
-         $(document.body).append(text);
+         $(mwd.body).append(text);
        }
      }
   }
+  mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js');
 })();
 
 mw.loaded = false;
 
 
-!window.jQuery ? mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js') : '';
+
 
 
 window.onload = function(){
     mw.loaded = true;
 }
-
-
-
 
 
 
@@ -246,9 +245,15 @@ mw.reload_module = function($module_name) {
 						elem = $(this);
 
 						url1 = mw.settings.site_url + 'api/module/index/reload_module';
-						elem.load(url1, $all_attr, function() {
-							mw.settings.sortables_created = false;
-						});
+						
+					 
+					 elem.load(url1, $all_attr, function () {
+			mw.settings.sortables_created = false;
+		});
+					 
+					 
+					 
+						 
 
 					}
 
@@ -280,14 +285,5 @@ mw.clear_cache = function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
+ 
 

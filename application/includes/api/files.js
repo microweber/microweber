@@ -246,7 +246,7 @@ mw.files = {
                 $(frame).addClass("submitet");
                 $("#form_"+target).submit();
             }
-            else{    alert(data)
+            else{
               var data = frame.contentDocument.body.innerHTML;
               var json = $.parseJSON(data);
               callback.call(json);

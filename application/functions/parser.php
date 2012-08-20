@@ -254,13 +254,16 @@ function parse_micrwober_tags($layout, $options = false) {
   @xsi';
 
 
+            // (?P<name>\w+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))
+$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+//$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
             $attrs = array();
             foreach ($replaced_modules as $key => $value) {
                 if ($value != '') {
 
                     if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
                         foreach ($attrs1 as $item) {
-
+//d($attrs1);
                             $m_tag = trim($item [0], "\x22\x27");
                             $m_tag = trim($m_tag, "\x27\x22");
                             $m_tag = explode('=', $m_tag);
@@ -329,6 +332,7 @@ function parse_micrwober_tags($layout, $options = false) {
                         }
 
                         $z = 0;
+
                         foreach ($attrs as $nn => $nv) {
 
                             if ($nn == 'class') {
