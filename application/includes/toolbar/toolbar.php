@@ -1,22 +1,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<script type="text/javascript">
-
-    //window.onerror = function(err, file, row){alert(err + "\nFile: " + file + "\nRow: " + row)}
-
-
-
-
-
-
-
-</script>
+ 
 <?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>*/ ?>
 <script src="<?php   print( SITE_URL);  ?>api.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 
+<link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 
@@ -39,22 +30,7 @@
             mw.tools.toolbar_tabs.init();
             mw.tools.toolbar_slider.init();
         });
-        (function () {
-            function async_load() {
-                var s = document.createElement('script');
-                s.type = 'text/javascript';
-                s.async = true;
-                s.src = '<? print INCLUDES_URL; ?>js/api.js';
-                var x = document.getElementsByTagName('script')[0];
-                x.parentNode.insertBefore(s, x);
-            }
 
-            if (window.mw == undefined) {
-				if (window.attachEvent) window.attachEvent('onload', async_load);
-                else window.addEventListener('load', async_load, false);
-            }
-
-        })();
 		
 		
 		
@@ -88,7 +64,7 @@
                 $.ajax({
 
                     type: "POST",
-                    url: "<? print site_url('api/content/save_option') ?>",
+                    url: "<? print site_url('api/save_option') ?>",
                     data: ({
 
                         option_key: $(this).attr('name'),
@@ -172,7 +148,9 @@
       <ul id="mw_tabs">
         <li> <a href="#mw_tab_modules"><? _e('Modules'); ?></a> </li>
         <li> <a href="#mw_tab_layouts"><? _e('Layouts'); ?></a> </li>
+       
         <li> <a href="#mw_tab_design"><? _e('Design'); ?></a> </li>
+         <li> <a href="#tab_pages"><? _e('Pages'); ?></a> </li>
         <li> <a href="#mw_tab_help"><? _e('Help'); ?></a> </li>
        </ul>
     </div>
@@ -229,6 +207,13 @@
         <div class="span5"> </div>
       </div>
     </div>
+    
+     <div id="tab_pages" class="mw_toolbar_tab"> 
+      <microweber module="admin/content/pages_toolbar" />
+     
+     </div>
+    
+    
     <div id="tab_help" class="mw_toolbar_tab">Help</div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>

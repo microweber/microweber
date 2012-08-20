@@ -1,4 +1,7 @@
- <?  $more = get_custom_fields($params['id']); ?>
+ <?  $more = get_custom_fields('module',$params['id'],1); 
+ 
+ 
+ ?>
 <?
 
 if(!empty($more )): ?>

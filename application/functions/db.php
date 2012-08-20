@@ -72,6 +72,15 @@ function guess_table_name($for = false) {
                 $to_table = 'table_comments';
                 break;
 
+
+            case 'module' :
+            case 'modules' :
+            case 'table_modules' :
+            case 'modul' :
+
+                $to_table = 'table_modules';
+                break;
+
             case 'category' :
             case 'categories' :
             case 'cat' :
@@ -126,7 +135,29 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 
 
     // $result = $q->result_array ();
-    $result = $q;
+
+    $results = array();
+    if (!empty($q)) {
+        foreach ($q as $result) {
+
+            if (isset($result ['custom_field_value'])) {
+                if (strtolower($result ['custom_field_value']) == 'array') {
+                    if (isset($result ['custom_field_values'])) {
+                        $result ['custom_field_values'] = unserialize(base64_decode($result ['custom_field_values']));
+                        $result ['custom_field_value'] = 'Array';
+                        //$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
+                    }
+                }
+            }
+            $results[] = $result;
+        }
+    }
+
+
+    $result = $results;
+
+
+
     if ($cache_id != false) {
         if (!empty($result)) {
             cache_store_data($result, $cache_id, $cache_group);
@@ -810,7 +841,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-        
+
     }
     if ($limit != false) {
 
@@ -1132,14 +1163,17 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 
     $data ['user_ip'] = USER_IP;
-    if (isset($data ['id']) == false) {
+    if (isset($data ['id']) == false or $data ['id'] == 0) {
         $data ['id'] = 0;
+        $data ['new_id'] = intval(db_last_id($table) + 1);
+        $original_data ['new_id'] = $data ['new_id'];
     }
 
 
     if (isset($data ['custom_field_value'])) {
         if (is_array($data ['custom_field_value'])) {
-            $data ['custom_field_values'] = base64_encode(json_encode($data ['custom_field_value']));
+            $data ['custom_field_values'] = base64_encode(serialize($data ['custom_field_value']));
+            $data ['custom_field_value'] = 'Array';
             //$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
         }
     }
@@ -1179,13 +1213,19 @@ function save_data($table, $data, $data_to_save_options = false) {
     // $criteria = map_array_to_database_table ( $table, $data );
 
     if (DB_IS_SQLITE != false) {
-        
+
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
     $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria ['id']) == 0) {
+
+
+        if (isset($original_data ['new_id']) and intval($original_data ['new_id']) != 0) {
+
+            $criteria ['id'] = $original_data ['new_id'];
+        }
 
         // insert
         $data = $criteria;
@@ -1240,8 +1280,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
         // exit ();
         // $this->dbQ ( $q );
-        // p($q
-        // 
+        //
 
         $id_to_return = db_last_id($table);
     } else {
@@ -1547,10 +1586,16 @@ function db_last_id($table) {
 
     $db = new DB(c('db'));
 
+    if (DB_IS_SQLITE == true) {
 
-    $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
+       // $q = "SELECT last_insert_rowid()   FROM $table limit 1";
 
+         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
 
+    } else {
+        $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
+    }
+ 
     $q = db_query($q);
 
     $result = $q [0];

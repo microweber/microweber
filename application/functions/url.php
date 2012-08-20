@@ -183,7 +183,7 @@ function url_param($param, $param_sub_position = false, $skip_ajax = false) {
     foreach ($segs as $segment) {
 
         $seg1 = explode(':', $segment);
- 
+
         if ($param == '__MW_GET_ALL_PARAMS__') {
             if (isset($seg1[0]) and isset($seg1[1])) {
                 $all_params[$seg1[0]] = $seg1[1];
@@ -268,7 +268,7 @@ function url_param_unset($param, $url = false) {
 }
 
 function url_title($text) {
-
+ 
     // Swap out Non "Letters" with a -
     $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
 

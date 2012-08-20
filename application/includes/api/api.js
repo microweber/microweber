@@ -1,48 +1,61 @@
 window.mw = window.mw ? window.mw : {};
 
+
+
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
 String.prototype.contains = function(a) { return this.indexOf(a) != -1; };
 
 
 if(!Array.indexOf){
-	    Array.prototype.indexOf = function(obj){
-	        for(var i=0; i<this.length; i++){
-	            if(this[i]==obj){
-	                return i;
-	            }
-	        }
-	        return -1;
-	    }
-	}
+   Array.prototype.indexOf = function(obj){
+       for(var i=0; i<this.length; i++){
+           if(this[i]==obj){
+               return i;
+           }
+       }
+       return -1;
+   }
+}
 
 (function() {
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(mw.required.indexOf(url)==-1){
-         mw.required.push(url);
-         var h = document.getElementsByTagName('head')[0];
-         var t = url.split('.').pop();
-         var j = document.createElement('script');
-         if(t=='js'){
-            j.text = "document.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
-         }
-         else if(t=='css'){
-            var link = document.createElement('link');
-            j.text = "document.write('<link rel=\"stylesheet\" href=\""+url+"\" type=\"text/css\" />')";
-         }
-         h.insertBefore( j, h.firstChild );
+       mw.required.push(url);
+       var h = document.getElementsByTagName('head')[0];
+       var t = url.split('.').pop();
+       var j = document.createElement('script');
+       if(!mw.loaded){
+           if(t=='js'){
+              j.text = "document.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
+           }
+           else if(t=='css'){
+              var link = document.createElement('link');
+              j.text = "document.write('<link rel=\"stylesheet\" href=\""+url+"\" type=\"text/css\" />')";
+           }
+           h.insertBefore( j, h.firstChild );
+       }
+       else{
+         var text = "<script src='"+url+"'></script>";
+         $(document.body).append(text);
+       }
      }
   }
 })();
+
+mw.loaded = false;
 
 
 !window.jQuery ? mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js') : '';
 
 
+window.onload = function(){
+    mw.loaded = true;
+}
 
-mw.require("forms.js");
+
 
 
 
@@ -67,6 +80,7 @@ if (window.console != undefined) {
 mw.settings = {
     site_url:'<?php print site_url(); ?>', //mw.settings.site_url
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
+    upload_url:'<?php print site_url(); ?>api/upload/',
     page_id : '<?php print intval(PAGE_ID) ?>',
     post_id : '<?php print intval(POST_ID) ?>',
     category_id : '<?php print intval(CATEGORY_ID) ?>',

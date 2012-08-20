@@ -1,10 +1,15 @@
-<h1>Pages tree</h1>
 
 
 <?
 
+/*
+params
 
-//  append_to_link="/editmode:y" 
+append_to_link="/editmode:y"
+ 
+ 
+ 
+  */
 
 
  

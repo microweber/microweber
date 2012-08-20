@@ -1,6 +1,10 @@
 <?
-//p($data);
+
 $rand = rand();
+
+if (!isset($data['id'])) {
+include('empty_field_vals.php');
+}
 ?>
 
 <div class="control-group">

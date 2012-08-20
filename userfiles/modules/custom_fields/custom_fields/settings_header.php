@@ -41,7 +41,7 @@ if (!empty($params)) {
 
     function remove_cf_<? print $rand ?>(){
         var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
-        $.post("<? print site_url('api/forms/remove_field') ?>",    serializedForm, function(data)         {
+        $.post("<? print site_url('api/remove_field') ?>",    serializedForm, function(data)         {
 
             mw.reload_module('custom_fields')
             mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
@@ -59,9 +59,24 @@ if (!isset($data['id'])) {
 if (!isset($data['custom_field_name'])) {
     $data['custom_field_name'] = '';
 }
+ if (isset($data['custom_field_type'])) {
+	  $field_type = $data['custom_field_type'];
+}
+ 
+ 
+ 
+ 
+if (isset($data['type'])) {
+	  $field_type = $data['type'];
+} else {
 if (!isset($field_type)) {
     $field_type = 'text';
 }
+}
+
+
+
+
 if (!isset($data['custom_field_required'])) {
     $data['custom_field_required'] = 'n';
 }

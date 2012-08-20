@@ -1,7 +1,7 @@
 mw.files = {
     settings:{
         filetypes:"png,gif,jpg,jpeg,tiff,bmp",
-        url:"http://pecata/Microweber/iframe_submit_test.php"
+        url:mw.settings.upload_url
     },
     what_is_dragging:function(event){
         var types = event.dataTransfer.types;
@@ -246,7 +246,7 @@ mw.files = {
                 $(frame).addClass("submitet");
                 $("#form_"+target).submit();
             }
-            else{
+            else{    alert(data)
               var data = frame.contentDocument.body.innerHTML;
               var json = $.parseJSON(data);
               callback.call(json);
@@ -264,6 +264,7 @@ mw.files = {
        mw.files.processer(file, function(){
              obj.file = this.result;
              obj.name = this.name;
+             obj.type = this.type;
              $.post(obj.url, obj, function(data){
                var json = $.parseJSON( data );
                 callback.call(json);

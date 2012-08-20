@@ -188,6 +188,17 @@ function get_layout_for_page($page = array()) {
         }
     }
 
+    if ($render_file == false and ($page['content_layout_file']) != false) {
+        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_file'];
+        // d($template_view);
+        if (is_file($template_view) == true) {
+            $render_file = $template_view;
+        }
+    }
+
+
+
+
     return $render_file;
 }
 
@@ -229,7 +240,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
     $result = $q;
-    // d ( $result );
+
     $content = $result[0];
 
     if (!empty($content)) {
@@ -323,6 +334,16 @@ function get_page($id = false) {
     // $link['id'] );
 }
 
+api_expose('get_content_admin');
+
+function get_content_admin($params) {
+    if (is_admin() == false) {
+        return false;
+    }
+
+    return get_content($params);
+}
+
 /**
  * Function to get single content item by id from the content_table
  *
@@ -367,8 +388,8 @@ function get_content($params) {
         if (isset($params['orderby'])) {
             $orderby = $params['orderby'];
         }
-        if ($orderby == false) {
-
+        if (isset($orderby) == false) {
+            $orderby = array();
             $orderby[0] = 'created_on';
 
             $orderby[1] = 'DESC';
@@ -687,13 +708,21 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
         // return false;
     }
-
+    $table_assoc_name = false;
     if ($table != false) {
         $table_assoc_name = db_get_table_name($table);
     } else {
 
         $table_assoc_name = "MW_ANY_TABLE";
     }
+
+
+    if ((int) $table_assoc_name == 0) {
+        $table_assoc_name = guess_table_name($table);
+    }
+
+
+
 
     $table_custom_field = c('db_tables');
     // ->'table_custom_fields';
@@ -734,6 +763,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
+        // d($q);
         // $crc = crc32 ( $q );
 
         $crc = abs(crc32($q));
@@ -755,36 +785,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
                     // $it ['value'] = $it ['custom_field_value'];
                     $it['value'] = $it['custom_field_value'];
                     $it['values'] = $it['custom_field_value'];
-                    if (strtolower(trim($it['custom_field_value'])) == "array" or trim($it['custom_field_values']) != '') {
-                        if ($it['custom_field_values']) {
-                            // $it ['custom_field_values'] = str_replace
-                            // ( '&quot;', '"', $it
-                            // ['custom_field_values'] );
-                            // $it ['custom_field_values'] =
-                            // html_entity_decode($it
-                            // ['custom_field_values']);
 
-                            $a1 = (base64_decode($it['custom_field_values']));
-                            // p ( $a1 );
-                            $a1 = stripslashes($a1);
-                            // p ( $a1 );
-                            // $a1 = json_decode ( $a1 );
-                            $a1 = unserialize($a1);
-                            // $a1 = $this->objectToArray ( $a1 );
-                            // p ( $a1 );
-                            // p($it ['custom_field_values']);
-                            // $a = unserialize( base64_decode ( $it
-                            // ['custom_field_values'] ) );
-                            $a = $a1;
-                            // p ( $a );
-                            $it['values'] = $a;
-                            $it['value'] = $a;
-                            $it['custom_field_values'] = $a;
-
-                            // $it ['value'] = $it
-                            // ['custom_field_values'];
-                        }
-                    }
                     $it['cssClass'] = $it['custom_field_type'];
                     $it['type'] = $it['custom_field_type'];
 
@@ -1014,8 +1015,8 @@ function save_edit($post_data) {
                             // $html_to_save =
                             // $this->template_model->parseMicrwoberTags (
                             // $html_to_save, $options = false );
-                        } else if ($category_id) {
-                            print(__FILE__ . __LINE__ . ' category is not implemented not rady yet');
+                        } else if (isset($category_id)) {
+                            print(__FILE__ . __LINE__ . ' category is not implemented not ready yet');
                         }
                     } else {
                         if ($save_global == true and $save_layout == false) {
@@ -1118,6 +1119,12 @@ function save_edit($post_data) {
  *
  */
 function save_content($data, $delete_the_cache = true) {
+    $id = is_admin();
+    if ($id == false) {
+        error('Error: not logged in as admin.');
+    }
+
+
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_content'];
@@ -1426,7 +1433,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
                 $content_type_li_class = 'is_home';
             }
 
-            $to_pr_2 = "<li class='$content_type_li_class {active_class}' id='page_list_holder_{$item['id']}' >";
+            $to_pr_2 = "<li class='$content_type_li_class {active_class}' data-page-id='{$item['id']}' data-parent-page-id='{$item['content_parent']}'  id='page_list_holder_{$item['id']}' >";
 
             if ($link != false) {
 

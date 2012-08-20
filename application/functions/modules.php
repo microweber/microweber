@@ -237,6 +237,11 @@ function load_module($module_name, $attrs = array()) {
         $custom_view = str_replace('..', '', $custom_view);
     }
 
+    if ($custom_view != false and strtolower($custom_view) == 'admin') {
+        if (is_admin() == false) {
+            error('Not logged in as admin');
+        }
+    }
     // $CI = get_instance();
     $module_name = trim($module_name);
     $module_name = str_replace('\\', '/', $module_name);
@@ -277,6 +282,9 @@ function load_module($module_name, $attrs = array()) {
             $mod_d1 = normalize_path($module_in_default_dir, 1);
 
             if ($custom_view == true) {
+
+
+
                 $try_file1 = $mod_d1 . trim($custom_view) . '.php';
             } else {
                 $try_file1 = $mod_d1 . 'index.php';

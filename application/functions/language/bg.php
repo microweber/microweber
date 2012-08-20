@@ -56,3 +56,4 @@ $language["no"]= 'Не' ;
 $language["help-text"]= 'Помощен текст' ;
 $language["save-changes"]= 'Запази' ;
 $language["delete"]= 'Изтрий' ;
+$language["pages"]= 'Pages' ; 

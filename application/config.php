@@ -11,17 +11,17 @@ defined ( 'T' ) or die ();
 
 // Global site configuration
 $config = array (
-		
+
 		// In development, debug mode unlocks extra error info
 		'debug_mode' => TRUE,
 		'admin_url' => 'admin',
 		'uri_protocol' => 'AUTO',
-		
+
 		// Database Settings
 		'db' => array (
 				//'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
 				 'dsn' => 'sqlite:db.db',
-				
+
 				'user' => 'root',
 				'pass' => '123456',
 				'args' => array (
@@ -30,7 +30,7 @@ $config = array (
 						 //
 						// If using
 						// MySQL, force UTF-8
-						
+
 						// Cookie options
 						'cookie' => array (
 								'key' => md5('__FILE__'),
@@ -38,10 +38,10 @@ $config = array (
 								'path' => '/',
 								'domain' => '',
 								'secure' => '1',
-								'httponly' => '' 
-						) 
-				) 
-		) 
+								'httponly' => ''
+						)
+				)
+		)
 );
 
 
@@ -114,6 +114,10 @@ $cms_db_tables['table_custom_fields'] = TABLE_PREFIX . 'content_custom_fields';
 $cms_db_tables['table_custom_fields_config'] = TABLE_PREFIX . 'content_custom_fields_config';
 $cms_db_tables['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
+
+ $cms_db_tables['table_modules'] =  'table_modules';
+ 
+
 $cms_db_tables['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';
 $cms_db_tables['table_cart_orders_shipping_cost'] = TABLE_PREFIX . 'cart_orders_shipping_cost';
@@ -165,7 +169,7 @@ $users_log_include[] = 'table_followers';
 
 
 $config['db_tables'] = $cms_db_tables;
-$config['db_log_tables'] = $users_log_include; 
+$config['db_log_tables'] = $users_log_include;
 //$_GLOBALS ['cms_db'] = $cms_db;.
 $cms_db_tables_search_fields = array('content_title', "content_body", "content_url");
 return $config;

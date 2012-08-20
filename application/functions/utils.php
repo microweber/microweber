@@ -50,7 +50,7 @@ function normalize_path($path, $slash_it = true) {
         $path = $path_original;
     }
     if ($slash_it == false) {
-        
+
     } else {
         $path = $path . DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
@@ -70,7 +70,7 @@ function string_clean($var) {
         if (function_exists("mysql_real_escape_string")) {
             // $output = mysql_real_escape_string ( $var );
         } else {
-            
+
         }
         $output = stripslashes($var);
     }
@@ -325,10 +325,10 @@ function session_end() {
     session_destroy();
 }
 
-function recursive_remove_directory($directory, $empty = FALSE) {
+function recursive_remove_directory($directory, $empty = true) {
 
     // if the path has a slash at the end we remove it here
-    if (substr($directory, - 1) == '/') {
+    if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
 
         $directory = substr($directory, 0, - 1);
     }
@@ -359,19 +359,20 @@ function recursive_remove_directory($directory, $empty = FALSE) {
             if ($item != '.' && $item != '..') {
 
                 // we build the new path to delete
-                $path = $directory . '/' . $item;
+                $path = $directory . DIRECTORY_SEPARATOR . $item;
 
                 // if the new path is a directory
                 if (is_dir($path)) {
-
                     // we call this function with the new path
                     recursive_remove_directory($path);
-
                     // if the new path is a file
                 } else {
+                    $path = normalize_path($path, false);
+                    try {
+                        unlink($path);
+                    } catch (Exception $e) {
 
-                    // we remove the file
-                    @unlink($path);
+                    }
                 }
             }
         }

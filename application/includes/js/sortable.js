@@ -1384,8 +1384,8 @@ mw.history = {
 	}
 }
 
-window.onload = function(){
-  $(".element").mousemove(function(event){
+$(window).load(function(){
+    $(".element").mousemove(function(event){
       if(mw.isDrag){
         mw.drop_regions.init(this, event, function(region){
 
@@ -1393,7 +1393,7 @@ window.onload = function(){
       }
      // event.stopPropagation();
   });
-}
+});
 
 
 

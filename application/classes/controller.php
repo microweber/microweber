@@ -30,7 +30,7 @@ class Controller {
         } else {
 
             $page = get_page_by_url($page_url);
-
+ 
             if (empty($page)) {
                 $page = get_homepage();
             }

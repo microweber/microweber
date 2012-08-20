@@ -16,8 +16,9 @@
          mw.filechange(Uploader, function(){
         var is_valid = this.validate();
         if(is_valid){
-            mw.files.upload(Uploader, {filetypes:'png,jpg'}, function(){
-                console.log('file is uploaded - ' + this);
+            mw.files.upload(Uploader, {}, function(){
+               parent.mw.wysiwyg.restore_selection();
+               parent.mw.wysiwyg.insert_image(this.src, false);
             }, function(){
                 console.log('all files are uploaded - ' + this);
             });
@@ -40,7 +41,8 @@
          console.log(this); // this is "object FileList" of added files
       },
       fileuploaded:function(){
-        console.log(this); //this is json object returned from server
+        parent.mw.wysiwyg.restore_selection();
+        parent.mw.wysiwyg.insert_image(this.src, false);
       },
       done:function(){
         console.log(this); //this is json object returned from server with all the files that are uploaded
@@ -74,7 +76,7 @@
           if(img_status.className == 'valid'){
             var val =  $("#get_image_by_url").val();
             parent.mw.wysiwyg.restore_selection();
-            parent.mw.wysiwyg.insert_image(val);
+            parent.mw.wysiwyg.insert_image(val, true);
           }
      });
 

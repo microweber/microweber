@@ -1,5 +1,6 @@
 <?php $form_title = option_get('form_title', $params['id']);
- $temp_id = "mw_contact_form_".url_title($form_title) .'_'. rand(); 
+ 
+  $temp_id = "mw_contact_form_".url_title($form_title) .'_'. rand(); 
  
  if($form_title == '' or $form_title == false){
 	$form_title = "My form title"; 
@@ -7,32 +8,17 @@
 
  ?>
 <script  type="text/javascript">
+
+
+ mw.require("forms.js");
+
 $(document).ready(function(){
-				
-			 
-		mw.require("forms.js", function(){
 
-
-$('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
-  //alert('Handler for .submit() called.');+
-  mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
-  return false;
+  $('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
+    mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
+    return false;
+  });
 });
-
-
-
-
-
-
-			//alert(mw.form);
-			//onsubmit="mw.form.post(this)"
-
-
-
-			});
-		 
-			});
-
 </script>
 
 <h1><? print $form_title; ?></h1>

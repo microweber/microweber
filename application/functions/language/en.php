@@ -60,3 +60,4 @@ $language["active"]= 'Active' ;
 $language["yes"]= 'Yes' ; 
 $language["no"]= 'No' ; 
 $language["help-text"]= 'Help text' ; 
+$language["pages"]= 'Pages' ; 
