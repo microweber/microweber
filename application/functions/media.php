@@ -64,6 +64,10 @@ function upload($data) {
     ini_set("upload_max_filesize", "2500M");
     ini_set("memory_limit", "256M");
     ini_set("max_execution_time", 0);
+    ini_set("post_max_size", "2500M");
+    ini_set("max_input_time", 9999999);
+
+
 
     // ini_set("session.upload_progress.enabled", 1);
     if (isset($_SERVER["HTTP_REFERER"])) {
@@ -108,14 +112,8 @@ function upload($data) {
         }
     } else {
         //$upl = cache_save($_FILES, $cache_id, $cache_group);
-
-        $upl = cache_store_data($_FILES, $cache_id, $cache_group);
         foreach ($_FILES as $item) {
-
-
-
-
-
+            $upl = cache_store_data($item, $cache_id, $cache_group);
 
 
             $f = $target_path . $item['name'];
@@ -125,29 +123,29 @@ function upload($data) {
 
             $progress = (array) $item;
             $progress['f'] = $f;
-            // $upl = cache_store_data($progress, $cache_id, $cache_group);
+            $upl = cache_store_data($progress, $cache_id, $cache_group);
+
+            if (move_uploaded_file($item ['tmp_name'], $f)) {
+                $rerturn['src'] = pathToURL($f);
+                $rerturn['name'] = $item['name'];
+            }
+
 //
-//            if (move_uploaded_file($item ['tmp_name'], $f)) {
-//                $rerturn['src'] = pathToURL($f);
-//                $rerturn['name'] = $item['name'];
-//            }
-
-
-            $input = fopen("php://input", "r");
-            $temp = tmpfile();
-
-            $realSize = stream_copy_to_stream($input, $temp);
-            fclose($input);
-
-
-
-
-            $target = fopen($f, "w");
-            fseek($temp, 0, SEEK_SET);
-            stream_copy_to_stream($temp, $target);
-            $rerturn['src'] = pathToURL($f);
-            $rerturn['name'] = $item['name'];
-            fclose($target);
+//            $input = fopen("php://input", "r");
+//            $temp = tmpfile();
+//
+//            $realSize = stream_copy_to_stream($input, $temp);
+//            fclose($input);
+//
+//
+//
+//
+//            $target = fopen($f, "w");
+//            fseek($temp, 0, SEEK_SET);
+//            stream_copy_to_stream($temp, $target);
+//            $rerturn['src'] = pathToURL($f);
+//            $rerturn['name'] = $item['name'];
+//            fclose($target);
         }
 
 
