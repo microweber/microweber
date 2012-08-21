@@ -250,16 +250,31 @@ mw.wysiwyg = {
            $("#mw_rte_link").remove();
         }
         else{
-          var modal =  mw.tools.modal.rte_tool("rte_link_editor", "Add/Edit LInk", 'mw_rte_link');
-        }
+          if(mw.wysiwyg.isThereEditableContent){
+             mw.wysiwyg.save_selection();
+             mw.tools.modal.frame({
+              url:"rte_link_editor",
+              title:"Add/Edit LInk",
+              name:"mw_rte_link",
+              width:340,
+              height:515
+            });
+         }
+      }
     },
     image:function(){
         if($("#mw_rte_image").length>0){
            $("#mw_rte_image").remove();
         }
         else{
-          mw.wysiwyg.save_selection();
-          var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture", 'mw_rte_image');
+          if(mw.wysiwyg.isThereEditableContent){
+              mw.wysiwyg.save_selection();
+              mw.tools.modal.frame({
+                url:"rte_image_editor",
+                title:"Upload Picture",
+                name:"mw_rte_image"
+              });
+          }
         }
     },
     insert_html:function(html){

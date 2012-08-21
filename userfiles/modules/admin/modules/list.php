@@ -1,4 +1,4 @@
-<? 
+<?
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
@@ -22,13 +22,12 @@ $modules = get_modules($modules_options );
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
-  <li data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"> <span class="mw_module_hold">
+  <li data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item"> <span class="mw_module_hold">
     <? if($module2['icon']): ?>
     <span class="mw_module_image"> <span class="mw_module_image_shadow"></span> <img
                 alt="<? print $module2['name'] ?>"
                 title="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"
                 class="module_draggable"
-                data-module-name="<? print $module2['module'] ?>"
                 data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>"
                 src="<? print $module2['icon'] ?>"
                  /> </span>

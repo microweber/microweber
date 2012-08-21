@@ -255,7 +255,7 @@ function parse_micrwober_tags($layout, $options = false) {
 
 
             // (?P<name>\w+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))
-$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+            $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
 //$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
             $attrs = array();
             foreach ($replaced_modules as $key => $value) {
@@ -344,6 +344,18 @@ $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_q
                             if ($nn == 'module') {
                                 $module_name = $nv;
                                 $attrs ['data-type'] = $module_name;
+                                unset($attrs [$nn]);
+                            }
+
+
+                            if ($nn == 'data-module-name') {
+                                $module_name = $nv;
+                                $attrs ['data-type'] = $module_name;
+                                unset($attrs [$nn]);
+                            }
+
+                            if ($nn == 'data-module-name-enc') {
+
                                 unset($attrs [$nn]);
                             }
 

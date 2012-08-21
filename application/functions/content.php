@@ -405,10 +405,20 @@ function get_content($params) {
         }
         $params['limit'] = $limit;
 
+
+
         $get = db_get($table, $params, $cache_group = 'content');
 
         if (!empty($get)) {
-
+            $data2 = array();
+            foreach ($get as $item) {
+                if (isset($item['content_url'])) {
+                    //$item['url'] = page_link($item['id']);
+                    $item['url'] = site_url($item['content_url']);
+                }
+                $data2[] = $item;
+            }
+            $get = $data2;
             cache_store_data($get, $function_cache_id, $cache_group = 'content');
 
             return $get;
@@ -1118,6 +1128,8 @@ function save_edit($post_data) {
  * @since Version 1.0
  *
  */
+api_expose('save_content');
+
 function save_content($data, $delete_the_cache = true) {
     $id = is_admin();
     if ($id == false) {

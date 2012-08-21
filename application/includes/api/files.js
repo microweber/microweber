@@ -139,7 +139,7 @@ mw.files = {
           else if(file.type.contains("txt") ||
                   file.type.contains("rtf") ||
                   file.type.contains("html") ||
-                  file.type.contains("html")){
+                  file.type.contains("htm")){
             reader.onload = function(e) {
                toreturn.result = e.target.result;
                callback.call(toreturn);
@@ -147,7 +147,11 @@ mw.files = {
             reader.readAsText(file,"UTF-8");
           }
           else{
-             callback.call(toreturn);
+             reader.onload = function(e) {
+               toreturn.result = e.target.result;
+               callback.call(toreturn);
+  		     }
+             reader.readAsDataURL(file);
           }
     },
     browser_connector:function(element, uploader){
@@ -274,7 +278,7 @@ mw.files = {
     upload:function(uploader, object, single_file_uploaded, all_uploaded){
 
         var obj = typeof object=='object' ? $.extend({}, mw.files.settings, object) : $.extend({}, mw.files.settings);
-        if(uploader.files){
+        if(uploader.files && obj.upload_type!='iframe'){
             var files = uploader.files;
             var len = files.length;
             var all = {};

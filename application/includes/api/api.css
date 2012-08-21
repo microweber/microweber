@@ -26,6 +26,10 @@ api css
     	color-stop(0.66, rgb(237,237,237))
     );
 }
+.fancy_input.white{
+  background: white;
+}
+
 .fancy_input input{
   background: none;
   border: none;
@@ -42,28 +46,62 @@ api css
 .field_wrapper{
   display: inline-block;
   border: 1px solid #F4F4F4;
+  cursor: pointer;
   padding: 4px;
   box-shadow:0 -1px 0 #EDEDED;
-background-image: linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-background-image: -o-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-background-image: -moz-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-background-image: -webkit-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-background-image: -ms-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0, rgb(249,249,249)),
-	color-stop(1, rgb(245,245,245))
-);
+  background-image: linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0, rgb(249,249,249)),
+  	color-stop(1, rgb(245,245,245))
+  );
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+.field_wrapper:hover{
+  border-color: #D5D5D5;
+  box-shadow:0 -1px 0 #BCBCBC;
+  background-image: linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0.37, rgb(230,230,230)),
+  	color-stop(1, rgb(221,221,221))
+  );
+}
+.field_wrapper.active, .field_wrapper.active:hover{
+  background-image: linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  box-shadow:0 0 0 transparent;
+  border-color:#3D80AB;
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0.37, rgb(83,154,198)),
+  	color-stop(0.99, rgb(136,196,237)),
+  	color-stop(1, rgb(203,230,247))
+  );
+}
+
 .field_wrapper input[type='radio']{
   float: left;
-  margin:10px 5px;
+  margin:10px 10px 10px 5px;
 }
 .link_type_holder{
   display: inline-block;
@@ -172,9 +210,9 @@ background-image: -webkit-gradient(
     float: left;
     border:1px solid transparent;
     color: #595959;
--webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .mw_dropdown_type_wysiwyg:hover{
@@ -255,3 +293,5 @@ border-radius: 3px;
   margin-left: 1px;
   margin-right: 1px;
 }
+
+

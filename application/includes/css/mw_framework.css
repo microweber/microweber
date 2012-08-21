@@ -155,6 +155,7 @@ body:-webkit-full-screen {
   cursor: move;
   position: relative;
   border: 1px solid #4584AC;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#8CC7ED, endColorstr=#5398C5);
   background-image: url(../img/popup_settings_bar.png), -ms-linear-gradient(top, #8CC7ED 0%, #5398C5 100%);
   background-image: url(../img/popup_settings_bar.png), -moz-linear-gradient(top, #8CC7ED 0%, #5398C5 100%);
   background-image: url(../img/popup_settings_bar.png), -o-linear-gradient(top, #8CC7ED 0%, #5398C5 100%);

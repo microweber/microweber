@@ -2,12 +2,7 @@
 mw.require("wysiwyg.js");
 
 
-mw.external_tool = function(name){
-  //return mw.settings.includes_url  +  "toolbar/editor_tools/"+name+"/index.php";
 
-
-  return mw.settings.site_url  +  "editor_tools/" + name + "/";
-}
 
 
 
@@ -239,27 +234,7 @@ $.expr[':'].noop = function(){
 })( jQuery );
 
 
-(function( $ ){
-  $.fn.getDropdownValue = function() {
-    return this.attr("data-value");
-  };
-})( jQuery );
-(function( $ ){
-  $.fn.setDropdownValue = function(val, triggerChange) {
-     var isValidOption = false;
-     var el = this;
-     el.find("li").each(function(){
-         if(this.getAttribute('value')==val){
-              el.attr("data-value", val);
-              var isValidOption = true;
-              el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
-              triggerChange?el.trigger("change"):'';
-              return false;
-         }
-     });
-     this.attr("data-value", val);
-  };
-})( jQuery );
+
 
 
 

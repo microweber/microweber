@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Home layout
+name: About layout
 
-description: Home site layout
+description: About site layout
 
 */
 

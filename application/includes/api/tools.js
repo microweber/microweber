@@ -18,7 +18,9 @@ mw.simpletabs = function(context){
     });
 }
 
-
+mw.external_tool = function(url){
+  return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url + "/" : url;
+}
 
 mw.tools = {
   preloader:function(init, element){
@@ -31,8 +33,11 @@ mw.tools = {
 
     }
   },
-
   modal:{
+    settings:{
+      width:600,
+      height:500
+    },
     source:function(id){
       var id = id || "modal_"+mw.random();
       var html = ''
@@ -88,6 +93,7 @@ mw.tools = {
         return modal_return;
     },
     init:function(o){
+      var o = $.extend({}, mw.tools.modal.settings, o);
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name);
     },
     minimize:function(id){
@@ -130,14 +136,15 @@ mw.tools = {
         var modal = mw.modal("");
         return modal;
     },
-    rte_tool:function(tool_name, title, name){
-        var frame = "<iframe width='430' height='360' src='" + mw.external_tool(tool_name) + "' scrolling='auto' frameborder='0'></iframe>";
+    frame:function(obj){
+        var obj = $.extend({}, mw.tools.modal.settings, obj);
+        var frame = "<iframe width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "' scrolling='auto' frameborder='0'></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
-          width:430,
-          height:395,
-          callback:false,
-          title:title,
+          width:obj.width,
+          height:obj.height,
+          callback:obj.callback,
+          title:obj.title,
           name:name
         });
         $(modal.main).addClass("mw_modal_type_iframe");
@@ -326,3 +333,48 @@ mw.tools = {
     }
   }
 }
+
+
+
+
+
+Wait($, function(){
+  $.fn.getDropdownValue = function() {
+    return this.attr("data-value");
+  };
+  $.fn.setDropdownValue = function(val, triggerChange) {
+     var isValidOption = false;
+     var el = this;
+     el.find("li").each(function(){
+         if(this.getAttribute('value')==val){
+              el.attr("data-value", val);
+              var isValidOption = true;
+              el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
+              triggerChange?el.trigger("change"):'';
+              return false;
+         }
+     });
+     this.attr("data-value", val);
+  };
+});
+
+
+
+$(document).ready(function(){
+
+  $(".field_wrapper").click(function(){
+      var el = $(this);
+      if(!el.hasClass("active")){
+          el.parents(".link_type_holder_main").find(".field_wrapper").removeClass("active");
+          el.addClass("active");
+          el.find("input").attr("checked", true);
+      }
+
+  });
+
+});
+
+
+
+
+

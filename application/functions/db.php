@@ -728,10 +728,10 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
         $includeIds_idds = false;
     }
-
+    $to_search = false;
     if ($to_search != false) {
 
-        $fieals = $this->dbGetTableFields($table);
+        $fieals = db_get_table_fields($table);
 
         $where_post = ' OR ';
 
@@ -758,9 +758,12 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
                 if ($v != 'id' && $v != 'password') {
 
                     // $where .= " $v like '%$to_search%' " . $where_post;
+                    if (DB_IS_SQLITE == false) {
 
-                    $where_q .= " $v REGEXP '$to_search' " . $where_post;
-
+                        $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                    } else {
+                        $where_q .= " $v LIKE '%$to_search%' " . $where_post;
+                    }
                     // 'new\\*.\\*line';
                     // $where .= " MATCH($v) AGAINST ('*$to_search* in
                     // boolean mode') " . $where_post;
@@ -983,7 +986,9 @@ function map_array_to_database_table($table, $array) {
             }
         }
     }
-
+    if (!isset($array_to_return)) {
+        return false;
+    }
     return $array_to_return;
 }
 
@@ -1588,14 +1593,13 @@ function db_last_id($table) {
 
     if (DB_IS_SQLITE == true) {
 
-       // $q = "SELECT last_insert_rowid()   FROM $table limit 1";
+        // $q = "SELECT last_insert_rowid()   FROM $table limit 1";
 
-         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
-
+        $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
     } else {
         $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
     }
- 
+
     $q = db_query($q);
 
     $result = $q [0];

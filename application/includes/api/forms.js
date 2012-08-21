@@ -13,11 +13,21 @@ mw.form = {
        el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
     }
   },
-  post:function(selector){
+  post:function(selector, url_to_post){
     var is_form_valid = mw.form.validate.init(selector);
+	
+	if(!mw.is.defined(url_to_post)){
+		
+		url_to_post = mw.settings.site_url+'api/post_form';
+		
+	} else {
+		url_to_post = url_to_post;
+	}
+	
+	
     if(is_form_valid){
         var obj = mw.form.serialize.init(selector);
-      	$.post("{SITE_URL}api/forms/post_form", obj, function(data){
+      	$.post(url_to_post, obj, function(data){
 
         });
     }
@@ -110,7 +120,7 @@ mw.form = {
            $(obj).removeClass("error");
             return true;
         }
-    }
+    } 
   }
 }
 

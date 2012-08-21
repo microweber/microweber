@@ -181,7 +181,6 @@ mw.drag = {
 		mw.drag.sort(".element > *,.edit,.column > *");
 
 		mw.drag.fix_handles();
-        mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
 
         $(document.body).mouseup(function(event){
@@ -234,14 +233,12 @@ mw.drag = {
                     mw.have_new_items = true;
                        setTimeout(function () {
                         mw.drag.load_new_modules()
-                        mw.drag.fix_column_sizes_to_percent()
                       }, 300);
             		}
                     else {
                       setTimeout(function () {
                         mw.drag.edit_remove();
                         mw.drag.fix_placeholders();
-                        mw.drag.fix_column_sizes_to_percent()
                       }, 100);
             		}
                  if (typeof callback === 'function') {
@@ -465,7 +462,6 @@ mw.drag = {
 	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
-		$("img[data-module-name]", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
         $(mw.dragCurrent).css({
           top:'',
@@ -519,50 +515,6 @@ mw.drag = {
         el.css({height:the_row_height-the_column_height, position:'relative'});
       });
     },
-
-    /**
-	 * Makes handles for all elements
-	 *
-	 * @example mw.drag.fix_column_sizes_to_percent()
-	 */
-	fix_column_sizes_to_percent: function (row_id_or_object) {
-	  return false;
-
-
-		if (mw.isDrag == false) {
-		 if(row_id_or_object == undefined){
-             row_id_or_object = '.row'
-
-        }
-
-            $(row_id_or_object, '.edit').each(function () {
-			var the_row = $(this);
-                var the_cols = $(this).children(".column");
-                var the_cols_n = $(this).children(".column").length;
-            $row_max_w =the_row.width();
-
-            $j = 1;
-            $remaining_percent_for_the_last_col = 100;
-               the_cols.each(function () {
-			        var the_col = $(this);
-                    if($j < the_cols_n){
-                      	var w = (100 * parseFloat($(this).width()) / parseFloat($row_max_w));
-  						var wRight = 100 - w;
-                        $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
-  					    w = (w);
-                        w += "%";
-  						wRight += "%";
-  						$(this).width(w);
-                    } else {
-                         w = ($remaining_percent_for_the_last_col);
-                        $(this).width(w+"%");
-                    }
-                $j++;
-		        });
-		});
-		}
-	},
-
 
 
 /**
@@ -716,48 +668,18 @@ mw.drag = {
 	load_new_modules: function (callback) {
 
 
-
-		$(".edit .module-item img").each(function () {
-		   	var clone = $(this).clone(true);
+        $need_re_init = false;
 
 
-			$(this).parents("li").eq(0).replaceWith(clone);
+		$(".module-item", '.edit').each(function (c) {
 
+                mw._({
+                  selector:this,
+                  done:function(){
 
-		});
+                  }
+                })
 
-		
-	 
-		
-		$need_re_init = false;
-
-		$(".module_draggable", '.edit').each(function (c) {
-			
-			$name = $(this).attr("data-module-name");
-		   //	if ($name && $name != 'undefined' && $name != false && $name != '') {
-				$el_id_new = 'mw-module-' + mw.random();
-
-                $(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
-
-				mw.drag.load_module($name, '#' + $el_id_new);
-
-
-
-			   $(this).remove();
-
-		   //	}
-			$name = $(this).attr("data-element-name");
-			if ($name && $name != 'undefined' && $name != false && $name != '') {
-				$el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
-				$(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
-			//	mw.drag.load_layout_element($name, '#' + $el_id_new);
-			
-
-				mw.drag.load_module($name,'#' + $el_id_new);
-				$(this).remove();
-
-
-			}
 			$need_re_init = true;
 		});
  if(mw.have_new_items == true){
@@ -779,23 +701,7 @@ mw.drag = {
 
 	},
 
-	/**
-	 * Loads new dropped layouts
-	 *
-	 * @example mw.drag.load_layout_element()
-	 */
-	load_layout_element: function ($layout_element_name, $update_element) {
 
-		var attributes = {};
-		attributes.element = $layout_element_name;
-
-		url1 = mw.settings.site_url + 'api/content/load_layout_element';
-		$($update_element).load_modules(url1, attributes, function () {
-			window.mw_sortables_created = false;
-            mw.image.resize.init($update_element + " img");
-		});
-		//	mw.drag.unwrap_layout_holder()
-	},
 
 
 /**
@@ -989,106 +895,12 @@ mw.drag = {
       });
     }
   }
-
-
 }
 
 
 
 
 
-
-
-jQuery.fn.extend({
-	load_modules: function( url, params, callback ) {
-		if ( typeof url !== "string" && _load ) {
-			return _load.apply( this, arguments );
-
-		// Don't do a request if no elements are being requested
-		} else if ( !this.length ) {
-			return this;
-		}
-
-		var off = url.indexOf( " " );
-		if ( off >= 0 ) {
-			var selector = url.slice( off, url.length );
-			url = url.slice( 0, off );
-		}
-
-
-		var type = "GET";
-
-
-		if ( params ) {
-
-			if ( jQuery.isFunction( params ) ) {
-
-				callback = params;
-				params = undefined;
-
-
-			} else if ( typeof params === "object" ) {
-				params = jQuery.param( params, jQuery.ajaxSettings.traditional );
-				type = "POST";
-			}
-		}
-
-		var self = this;
-
-
-		jQuery.ajax({
-			url: url,
-			type: type,
-			dataType: "html",
-			data: params,
-
-			complete: function( jqXHR, status, responseText ) {
-
-				responseText = jqXHR.responseText;
-
-				if ( jqXHR.isResolved() ) {
-
-					jqXHR.done(function( r ) {
-						responseText = r;
-					});
-
-					self.after( selector ?
-
-						jQuery("<div>")
-							.append(responseText.replace(rscript, ""))
-
-
-							.find(selector) :
-
-						responseText );
-				}
-
-				if ( callback ) {
-					self.each( callback, [ responseText, status, jqXHR ] );
-				}
-				
-
-				self.remove();
-
-                mw.drag.fix_handles();
-                mw.drag.fixes();
-                mw.drag.fix_placeholders();
-
-			}
-		});
-
-		return this;
-	}});
-
-
-
-
-$.fn.mwUnwrap = function() {
-    this.parent(':not(body)').each(function(){
-        $(this).replaceWith( this.childNodes );
-    });
-    return this;
-};
 
 
 
@@ -1220,9 +1032,6 @@ mw.resizable_columns = function () {
 						mw.settings.resize_started = true;
 					},
 					stop: function (event, ui) {
-
-                        var parent = ui.element.parent('.row');
-                        mw.drag.fix_column_sizes_to_percent(parent);
 
  						mw.settings.resize_started = false;
 						mw.drag.fixes()
