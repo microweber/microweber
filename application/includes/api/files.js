@@ -265,18 +265,21 @@ mw.files = {
     },
     ajax_uploader:function(file, xobj, callback){
        var obj = typeof xobj=='object' ? $.extend({}, mw.files.settings, xobj) : $.extend({}, mw.files.settings);
-       mw.files.processer(file, function(){
-             obj.file = this.result;
-             obj.name = this.name;
-             obj.type = this.type;
-             $.post(obj.url, obj, function(data){
-               var json = $.parseJSON( data );
-                callback.call(json);
-             });
-       });
+       var data = new FormData();
+       data.append('file', file);
+      $.ajax({
+        url: obj.url,
+        data: data,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(data){
+          var json = $.parseJSON( data );
+          callback.call(json);
+        }
+      });
     },
     upload:function(uploader, object, single_file_uploaded, all_uploaded){
-
         var obj = typeof object=='object' ? $.extend({}, mw.files.settings, object) : $.extend({}, mw.files.settings);
         if(uploader.files && obj.upload_type!='iframe'){
             var files = uploader.files;
@@ -307,6 +310,21 @@ mw.files = {
               }
             });
         }
+    },
+    pl:function(obj){
+        var obj = $.extend({}, mw.settings.plupload, obj);
+        var uploader = new plupload.Uploader({
+      	runtimes : obj.runtimes,
+      	browse_button : obj.browse_button,
+      	container: obj.container,
+      	max_file_size :  obj.max_file_size,
+      	url : obj.url,
+      	flash_swf_url : obj.flash_swf_url,
+          multi_selection:obj.multi_selection,
+          filters:obj.filters,
+          resize:obj.resize
+        });
+        return uploader;
     }
 }
 

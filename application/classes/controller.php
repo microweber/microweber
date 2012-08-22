@@ -269,28 +269,28 @@ class Controller {
 
         $is_page_id = url_param('page_id', true);
         if ($is_page_id != '') {
-          //s  $data['page_id'] = $is_page_id;
+            //s  $data['page_id'] = $is_page_id;
         }
 
         $is_post_id = url_param('post_id', true);
         if ($is_post_id != '') {
-          //  $data['post_id'] = $is_post_id;
+            //  $data['post_id'] = $is_post_id;
         }
 
         $is_category_id = url_param('category_id', true);
         if ($is_category_id != '') {
-         //   $data['category_id'] = $is_category_id;
+            //   $data['category_id'] = $is_category_id;
         }
 
         $is_rel = url_param('rel', true);
         if ($is_rel != '') {
-         //   $data['rel'] = $is_rel;
+            //   $data['rel'] = $is_rel;
 
             if ($is_rel == 'page') {
                 $test = get_ref_page();
                 if (!empty($test)) {
                     if ($data['page_id'] == false) {
-                     //   $data['page_id'] = $test['id'];
+                        //   $data['page_id'] = $test['id'];
                     }
                 }
                 // p($test);
@@ -301,7 +301,7 @@ class Controller {
                 $refpost = get_ref_post();
                 if (!empty($refpost)) {
                     if ($data['post_id'] == false) {
-                       // $data['post_id'] = $refpost['id'];
+                        // $data['post_id'] = $refpost['id'];
                     }
                 }
             }
@@ -311,7 +311,7 @@ class Controller {
                 $refpost = get_ref_post();
                 if (!empty($refpost)) {
                     if ($data['post_id'] == false) {
-                      //  $data['post_id'] = $refpost['id'];
+                        //  $data['post_id'] = $refpost['id'];
                     }
                 }
             }
@@ -350,7 +350,7 @@ class Controller {
             $data['data-type'] = str_replace('__', '/', $data['data-type']);
         }
 
-           //d($data);
+        //d($data);
 
         $has_id = false;
 
@@ -375,7 +375,7 @@ class Controller {
         }
 
         $tags = "<module {$tags} />";
- 
+
 
 
         $opts = array();
@@ -421,6 +421,13 @@ class Controller {
         // var_dump($l);
         $l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
         print $l;
+        exit();
+    }
+
+    function plupload() {
+        define_constants();
+        $f = APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
+        require($f);
         exit();
     }
 

@@ -95,6 +95,16 @@ mw.settings = {
     resize_started:false,
     sorthandle_click : false,
 
+    plupload:{
+      runtimes : 'html5,html4',
+      browse_button : 'pickfiles',
+      container: 'container',
+      max_file_size : '<?php print ini_get("upload_max_filesize"); ?>',
+      url : '<? print site_url("plupload"); ?>',
+      flash_swf_url:'<? print INCLUDES_URL; ?>toolbar/editor_tools/plupload/plupload.flash.swf',
+      multi_selection:true
+    },
+
     row_id : false,
 
     edit_area_placeholder : '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>',
@@ -158,6 +168,15 @@ mw.reload_module = function($module_name) {
 	if ($module_name == undefined) {
 
 	} else {
+		
+		
+		if(typeof $module_name == 'object'){
+			 mw._({
+                      selector:$module_name
+                    });
+			
+		} else {
+		
 		var module_name = $module_name.toString();
 		var refresh_modules_explode = module_name.split(",");
 		for (var i = 0; i < refresh_modules_explode.length; i++) {
@@ -175,6 +194,10 @@ mw.reload_module = function($module_name) {
 				});
 			}
 		}
+		}
+		
+		
+		
 	}
 }
 

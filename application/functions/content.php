@@ -159,40 +159,43 @@ function define_constants($content = false) {
 function get_layout_for_page($page = array()) {
     $render_file = false;
 
-    if (trim($page['content_layout_name']) != '') {
-        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_name'] . DS . 'index.php';
-        // d($template_view);
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
-        }
-    }
-
-    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
-        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
-        }
-    }
-
-    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
-        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
-        }
-    }
-
-    if ($render_file == false and ($page['content_layout_name']) == false and ($page['content_layout_style']) == false) {
-        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
-        }
-    }
+//    if (trim($page['content_layout_name']) != '') {
+//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_name'] . DS . 'index.php';
+//        // d($template_view);
+//        if (is_file($template_view) == true) {
+//            $render_file = $template_view;
+//        }
+//    }
+//
+//    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
+//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+//        if (is_file($template_view) == true) {
+//            $render_file = $template_view;
+//        }
+//    }
+//
+//    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
+//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+//        if (is_file($template_view) == true) {
+//            $render_file = $template_view;
+//        }
+//    }
+//
+//    if ($render_file == false and ($page['content_layout_name']) == false and ($page['content_layout_style']) == false) {
+//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+//        if (is_file($template_view) == true) {
+//            $render_file = $template_view;
+//        }
+//    }
 
     if ($render_file == false and ($page['content_layout_file']) != false) {
         $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_file'];
-        // d($template_view);
+        $template_view = normalize_path($template_view, false);
+
         if (is_file($template_view) == true) {
             $render_file = $template_view;
+        } else {
+
         }
     }
 
@@ -300,7 +303,18 @@ function get_content_by_id($id) {
     $id = intval($id);
     $q = "SELECT * from $table where id='$id'  limit 0,1 ";
 
-    $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+    $params = array();
+    $params['id'] = $id;
+    $params['limit'] = 1;
+
+
+
+    $q = db_get($table, $params, $cache_group = 'content/' . $id);
+
+
+
+
+  //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     $content = $q[0];
 
     return $content;

@@ -13,7 +13,7 @@ mw.form = {
        el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
     }
   },
-  post:function(selector, url_to_post){
+  post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
 	
 	if(!mw.is.defined(url_to_post)){
@@ -28,7 +28,7 @@ mw.form = {
     if(is_form_valid){
         var obj = mw.form.serialize.init(selector);
       	$.post(url_to_post, obj, function(data){
-
+			callback.call(selector);
         });
     }
 	return false;

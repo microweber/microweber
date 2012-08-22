@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 
     is_searching = false;
@@ -7,29 +6,8 @@
      mw.require("files.js");
      mw.require("tools.js");
 
-    $(document).ready(function(){
-        mw.tools.dropdown();
-        mw.dd_autocomplete("#dd_pages_search");
 
-        Uploader = mw.files.browser({
-
-        });
-
-        mw.filechange(Uploader, function(){
-            mw.files.upload(Uploader, {upload_type:'iframe'}, function(){
-
-            }, function(){
-
-            });
-        });
-
-
-
-        mw.files.browser_connector("#Uploader", Uploader);
-
-
-    });
-
+    GLOBALURL = "";
 
 
     mw.search = function(keyword, limit, callback){
@@ -66,6 +44,23 @@
         }
       });
     }
+
+    $(document).ready(function(){
+        $("#upload_file_link").bind("progress",function(obj,percents){
+            $("#file_link_progres").width(percents+"%");
+        });
+        $("#upload_file_link").bind("done",function(a,data){
+            $("#file_link_progres").width(0);
+            GLOBALURL = data.src;
+        });
+
+
+        $("#insert_link_btn").click(function(){
+          parent.mw.wysiwyg.restore_selection();
+          parent.mw.wysiwyg.insert_link(GLOBALURL);
+        });
+
+    });
 
 
 </script>
@@ -116,11 +111,14 @@
 
   <div class="link_type_to type_to_file">
     <h3>File on My Website</h3>
-    <div class="field_wrapper">
+    <div class="field_wrapper relative" style="overflow: hidden">
+        <div id="file_link_progres"></div>
         <input type="radio" name="linktype" checked="checked" value="file_url" />
-        <div class="link_type_holder">
+        <div class="link_type_holder relative">
              No file. <span class="upload_file_link" id="Uploader">Upload a new file</span>
-             <small>Max file size: <?php print ini_get('upload_max_filesize'); ?></small>
+
+             <iframe scrolling="no" name="upload_file_link" id="upload_file_link" class="mw_upload_frame" frameborder="0" src="<? print SITE_URL; ?>editor_tools/plupload/"></iframe>
+
         </div>
     </div>
   </div>
@@ -135,7 +133,7 @@
   </div>
 
 
-
+  <span class="bluebtn right" id="insert_link_btn">Insert</span>
 
 
   </div>

@@ -897,9 +897,9 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (!empty($result)) {
 
         foreach ($result as $k => $v) {
-
-            $v = remove_slashes_from_array($v);
-
+            if (DB_IS_SQLITE == true) {
+                $v = remove_slashes_from_array($v);
+            }
             $return [$k] = $v;
         }
     }

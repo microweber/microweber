@@ -24,9 +24,17 @@ $(document).ready(function(){
 	 $('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() { 
 
  
- mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>');
+ mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
+	 
+	 
+	 mw.reload_module('[data-type="pages_menu"]');
+	 });
  
- 
+  
+//  var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
+ 	 
+		  // mw.reload_module($pmod);
+
  return false;
  
  
@@ -74,6 +82,8 @@ $(document).ready(function(){
   <br />
   is_active
   <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
+   is_home
+  <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
   <br />
   content_subtype
   <input name="content_subtype"  type="text" value="<? print ($data['content_subtype'])?>" />
@@ -84,6 +94,6 @@ $(document).ready(function(){
   content_subtype_value
   <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
   <br />
-  <module data-type="admin/content/layout_selector" data-page-id="<? print ($data['id'])?>" />
+  <module data-type="admin/content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <input type="submit" name="save" value="save" />
 </form>

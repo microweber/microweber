@@ -6,6 +6,7 @@ $data['content_type'] = 'page';
 $data['content_title'] = 'Title';	
 $data['content_url'] = '';	
 $data['is_active'] = 'y';	
+$data['is_home'] = 'n';	
 $data['content_subtype'] = '';	
 $data['content_description'] = '';	
 $data['active_site_template'] = '';	

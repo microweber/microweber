@@ -285,6 +285,11 @@ mw.wysiwyg = {
         document.selection.createRange().pasteHTML(html)
       }
     },
+    insert_link:function(url){
+       // mw.wysiwyg.execCommand('CreateLink', url);
+       alert(url)
+        mw.wysiwyg.execCommand('createlink', false, url);
+    },
     insert_image:function(url, autoclose){
         var autoclose = autoclose || false;
         var id = 'image_' + mw.random();

@@ -309,6 +309,7 @@ function load_module($module_name, $attrs = array()) {
     if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
 
         $config ['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
+        $config ['the_module'] = $module_name;
         $config ['url_to_module'] = pathToURL($config ['path_to_module']) . '/';
         //print(file_get_contents($try_file1));
         $l1 = new View($try_file1);

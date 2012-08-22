@@ -219,3 +219,13 @@ body{
   margin-top: 9px;
 }
 
+#file_link_progres{
+  height:100%;
+  background: #5B9FCB;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+}
+
