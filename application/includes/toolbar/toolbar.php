@@ -209,7 +209,7 @@
     </div>
     
      <div id="tab_pages" class="mw_toolbar_tab"> 
-      <microweber module="admin/content/pages_toolbar" />
+      <microweber module="content/pages_toolbar" />
      
      </div>
     
