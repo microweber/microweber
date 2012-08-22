@@ -94,6 +94,7 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
+      alert(o.name)
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name);
     },
     minimize:function(id){
