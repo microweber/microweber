@@ -86,8 +86,11 @@ $(document).ready(function(){
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
   <br />
   content_subtype
-  <input name="content_subtype"  type="text" value="<? print ($data['content_subtype'])?>" />
-  <br />
+    <select name="content_subtype">
+    <option value="static"   <? if( '' == trim($data['content_subtype']) or 'static' == trim($data['content_subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+     <option value="dynamic"   <? if( 'dynamic' == trim($data['content_subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+    </select>
+   <br />
   content_description
   <input name="content_description"  type="text" value="<? print ($data['content_description'])?>" />
   <br />

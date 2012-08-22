@@ -19,6 +19,11 @@ function mkdir_recursive($pathname) {
     return is_dir($pathname) || @ mkdir($pathname);
 }
 
+function array_rpush($arr, $item) {
+    $arr = array_pad($arr, - (count($arr) + 1), $item);
+    return $arr;
+}
+
 /**
  * Converts a path in the appropriate format for win or linux
  *

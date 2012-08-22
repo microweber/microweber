@@ -54,11 +54,15 @@
             GLOBALURL = data.src;
         });
 
-
-        $("#insert_link_btn").click(function(){
-          parent.mw.wysiwyg.restore_selection();
-          parent.mw.wysiwyg.insert_link(GLOBALURL);
-        });
+       $("#insert_link_btn").bind("mousedown mouseup click", function(event){
+           event.preventDefault();
+           if(event.type=='click'){
+             console.log(event.type)
+              parent.mw.wysiwyg.restore_selection();
+              parent.mw.wysiwyg.insert_link(GLOBALURL);
+              parent.mw.tools.modal.remove('mw_rte_link');
+           }
+       });
 
     });
 

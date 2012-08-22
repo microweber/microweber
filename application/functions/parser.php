@@ -400,7 +400,7 @@ function parse_micrwober_tags($layout, $options = false) {
 
                                 $module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
                             }
-
+ 
                             $mod_content = load_module($module_name, $attrs);
 
                             $mod_content = parse_micrwober_tags($mod_content, $options);

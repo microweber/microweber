@@ -1,4 +1,4 @@
-
+<? $rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -28,18 +28,82 @@ function mw_select_page_for_editing($p_id){
 	
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function(){
+	
+	 
+ 
+
+   
+});
+
+
+function mw_set_edit_categories<? print $rand  ?>(){
+	$('#holder_temp_<? print $rand  ?>').empty();
+	$('#holder_temp2_<? print $rand  ?>').empty();
+	 mw.load_module('categories','#holder_temp_<? print $rand  ?>');
+	 
+	 
+	 $('#holder_temp_<? print $rand  ?> a').live('click',function() { 
+
+$p_id = $(this).parent().attr('data-category-id');
+
+ mw_select_category_for_editing($p_id);
+ 
+
+ return false;});
+	
+}
+
+
+
+
+function mw_select_category_for_editing($p_id){
+	 $('#holder_temp2_<? print $rand  ?>').attr('data-category-id',$p_id);
+  	 mw.load_module('admin/categories/edit_category','#holder_temp2_<? print $rand  ?>');
+
+	
+}
 </script>
 
 
 <table  border="1" id="pages_temp_delete_me" style="z-index:9999999999; background-color:#efecec; position:absolute;" >
   <tr>
     <td>
+    <div id="holder_temp_<? print $rand  ?>">
 	<module data-type="pages_menu" id="pages_tree_toolbar"  />
     
     
-    <button onclick="mw_select_page_for_editing(0)">new page</button>
+       <button onclick="mw_select_page_for_editing(0)">new page</button>
+    </div>
+     <button onclick="mw_set_edit_categories<? print $rand  ?>()">mw_set_edit_categories<? print $rand  ?></button>
+ 
      </td>
-    <td><module data-type="admin/content/edit_page" id="edit_page_toolbar" /></td>
+    <td>
+    <div id="holder_temp2_<? print $rand  ?>">
+     <module data-type="admin/content/edit_page" id="edit_page_toolbar" />
+    
+    </div>
+    
+   </td>
   </tr>
 </table>
 

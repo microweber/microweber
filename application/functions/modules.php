@@ -277,19 +277,8 @@ function load_module($module_name, $attrs = array()) {
         //
         $module_in_default_file = normalize_path($module_in_default_file, false);
 
-        if (is_dir($module_in_default_dir)) {
 
-            $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-            if ($custom_view == true) {
-
-
-
-                $try_file1 = $mod_d1 . trim($custom_view) . '.php';
-            } else {
-                $try_file1 = $mod_d1 . 'index.php';
-            }
-        } elseif (is_file($module_in_default_file)) {
+        if (is_file($module_in_default_file)) {
 
             if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
                 $try_file1 = $module_in_default_file_custom_view;
@@ -297,11 +286,29 @@ function load_module($module_name, $attrs = array()) {
 
                 $try_file1 = $module_in_default_file;
             }
-        } elseif (is_file($element_in_default_file)) {
 
-            $is_element = true;
 
-            $try_file1 = $element_in_default_file;
+
+
+        } else {
+            if (is_dir($module_in_default_dir)) {
+
+                $mod_d1 = normalize_path($module_in_default_dir, 1);
+
+                if ($custom_view == true) {
+
+
+
+                    $try_file1 = $mod_d1 . trim($custom_view) . '.php';
+                } else {
+                    $try_file1 = $mod_d1 . 'index.php';
+                }
+            } elseif (is_file($element_in_default_file)) {
+
+                $is_element = true;
+
+                $try_file1 = $element_in_default_file;
+            }
         }
     }
     //
@@ -315,14 +322,10 @@ function load_module($module_name, $attrs = array()) {
         $l1 = new View($try_file1);
         $l1->config = $config;
         $l1->params = $attrs;
-
-        // $l->set ( $this );
+ 
         $module_file = $l1->__toString();
 
 
-        //d($module_file);
-        // $CI -> load -> vars($c);
-        // $module_file = $CI -> load -> file($try_file1, true);
 
         if (!defined($cache_content)) {
             define($cache_content, $module_file);

@@ -94,7 +94,6 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
-      alert(o.name)
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name);
     },
     minimize:function(id){
@@ -146,7 +145,7 @@ mw.tools = {
           height:obj.height,
           callback:obj.callback,
           title:obj.title,
-          name:name
+          name:obj.name
         });
         $(modal.main).addClass("mw_modal_type_iframe");
         mw.tools.modal.overlay(modal.main);

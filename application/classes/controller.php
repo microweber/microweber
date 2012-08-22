@@ -42,7 +42,7 @@ class Controller {
         } else {
             $content = $page;
         }
-        // d($page);
+        //d($page);
         define_constants($content);
 
         $render_file = get_layout_for_page($page);

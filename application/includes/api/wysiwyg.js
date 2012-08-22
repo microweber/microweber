@@ -1,7 +1,4 @@
 /* A Cool HTML5 WYSIWYG Editor */
-
-
-
 mw.wysiwyg = {
     _external:function(){  //global element for handelig the iframe tools
       var external = document.createElement('div');
@@ -61,26 +58,31 @@ mw.wysiwyg = {
     },
     init:function(){
       var mw_editor_btns = $(".mw_editor_btn");
-      mw_editor_btns.mousedown(function(event){
-          var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
-          if(!command.contains('custom-')){
-             mw.wysiwyg._do(command);
-          }
-          else{
-            var name = command.replace('custom-', "");
-            mw.wysiwyg[name]();
-          }
-          $(this).addClass("mw_editor_btn_mousedown");
-          mw.wysiwyg.check_selection();
+      mw_editor_btns.bind("mousedown mouseup click", function(event){
           event.preventDefault();
-      });
-      mw_editor_btns.mouseup(function(){
-           $(this).removeClass("mw_editor_btn_mousedown");
+          if(event.type=='mouseup'){
+             var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
+              if(!command.contains('custom-')){
+                 mw.wysiwyg._do(command);
+              }
+              else{
+                var name = command.replace('custom-', "");
+                mw.wysiwyg[name]();
+              }
+              mw.wysiwyg.check_selection();
+              $(this).removeClass("mw_editor_btn_mousedown");
+          }
+          if(event.type=='mousedown'){
+              $(this).addClass("mw_editor_btn_mousedown");
+          }
       });
       mw_editor_btns.hover(function(){
         $(this).addClass("mw_editor_btn_hover");
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
+      });
+      $(document.body).keyup(function(){
+         mw.wysiwyg.check_selection();
       });
     },
     applier:function(tag, classname, style_object){
@@ -246,8 +248,8 @@ mw.wysiwyg = {
       }
     },
     link:function(){
-        if($("#mw_rte_link").length>0){
-           $("#mw_rte_link").remove();
+        if($(".mw_editor_link.mw_editor_btn_active").length>0){
+             mw.wysiwyg.execCommand('unlink', null, null);
         }
         else{
           if(mw.wysiwyg.isThereEditableContent){
@@ -279,16 +281,25 @@ mw.wysiwyg = {
     },
     insert_html:function(html){
       if(!document.selection){
-         parent.mw.wysiwyg.execCommand('inserthtml', false, html);
+         mw.wysiwyg.execCommand('inserthtml', false, html);
       }
       else{
         document.selection.createRange().pasteHTML(html)
       }
     },
+    selection_length:function(){
+      return (($(mw.wysiwyg.checker).html()).replace(/\s/g, "")).length;
+    },
     insert_link:function(url){
-       // mw.wysiwyg.execCommand('CreateLink', url);
-       alert(url)
-        mw.wysiwyg.execCommand('createlink', false, url);
+      console.log(mw.wysiwyg.selection_length())
+      if(mw.wysiwyg.selection_length()>0){
+         mw.wysiwyg.execCommand('createlink', false, url);
+      }
+      else{
+         var html = "<a href='" + url + "'>" + url + "</a>";
+         mw.wysiwyg.insert_html(html);
+      }
+
     },
     insert_image:function(url, autoclose){
         var autoclose = autoclose || false;

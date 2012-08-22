@@ -189,9 +189,9 @@ function get_layout_for_page($page = array()) {
 //    }
 
     if ($render_file == false and ($page['content_layout_file']) != false) {
-        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_file'];
+        $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['content_layout_file'];
         $template_view = normalize_path($template_view, false);
-
+ 
         if (is_file($template_view) == true) {
             $render_file = $template_view;
         } else {
@@ -314,7 +314,7 @@ function get_content_by_id($id) {
 
 
 
-  //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+    //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     $content = $q[0];
 
     return $content;
@@ -630,58 +630,6 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
 function paging($display = 'default', $data = false) {
     print "paging()";
     return true;
-
-    // $CI = get_instance ();
-    if ($display) {
-        $list_file = $display;
-        $display = strtolower($display);
-    }
-    if ($data == false) {
-        $posts_pages_links = get_instance()->template['posts_pages_links'];
-    } else {
-        $posts_pages_links = $data;
-    }
-
-    if ($posts_pages_curent_page == false) {
-
-        $posts_pages_curent_page = url_param('curent_page');
-    }
-
-    if ($posts_pages_curent_page == false) {
-
-        $posts_pages_curent_page = 1;
-    }
-
-    //
-    switch ($display) {
-        case 'default' :
-        case 'ul' :
-        case 'uls' :
-            get_instance()->template['posts_pages_links'] = $posts_pages_links;
-            get_instance()->template['posts_pages_curent_page'] = $posts_pages_curent_page;
-            get_instance()->load->vars(get_instance()->template);
-
-            // p(RESOURCES_DIR . 'blocks/nav/default.php');
-
-            $content_filename = get_instance()->load->file(RESOURCES_DIR . 'blocks/nav/nav_default.php', true);
-            print($content_filename);
-            break;
-
-        case 'divs' :
-            get_instance()->template['posts_pages_links'] = $posts_pages_links;
-            get_instance()->template['posts_pages_curent_page'] = $posts_pages_curent_page;
-            get_instance()->load->vars(get_instance()->template);
-
-            $content_filename = get_instance()->load->file(RESOURCES_DIR . 'blocks/nav/nav_divs.php', true);
-
-            print($content_filename);
-            break;
-
-        case false :
-        default :
-            return $posts_pages_links;
-            break;
-    }
 }
 
 /**
@@ -1145,8 +1093,9 @@ function save_edit($post_data) {
 api_expose('save_content');
 
 function save_content($data, $delete_the_cache = true) {
-    $id = is_admin();
-    if ($id == false) {
+
+    $adm = is_admin();
+    if ($adm == false) {
         error('Error: not logged in as admin.');
     }
 
@@ -1272,8 +1221,23 @@ function save_content($data, $delete_the_cache = true) {
         $q = db_query($sql);
     }
 
+    if (isset($data_to_save['content_subtype']) and strval($data_to_save['content_subtype']) == 'dynamic') {
+
+        if (!isset($data_to_save['content_subtype_value']) or trim($data_to_save['content_subtype_value']) == '') {
+
+            if (!isset($data_to_save['content_subtype_value_new'])) {
+                if (isset($data_to_save['content_title'])) {
+
+                    $data_to_save['content_subtype_value_new'] = $data_to_save['content_title'];
+                }
+            }
+        }
+    }
+
+
+
     if (isset($data_to_save['content_subtype_value_new']) and strval($data_to_save['content_subtype_value_new']) != '') {
-        $adm = is_admin();
+
 
         if ($data_to_save['content_subtype_value_new'] != '') {
 
@@ -1284,21 +1248,16 @@ function save_content($data, $delete_the_cache = true) {
                 $new_category["taxonomy_value"] = $data_to_save['content_subtype_value_new'];
                 $new_category["parent_id"] = "0";
 
-                $new_category = $this->taxonomy_model->taxonomySave($new_category);
-
+                $new_category = save_category($new_category);
+                //d($new_category);
                 $data_to_save['content_subtype_value'] = $new_category;
                 $data_to_save['content_subtype'] = 'dynamic';
             }
         }
-        if ($data_to_save['content_subtype_value_auto_create'] == '') {
-            $data_to_save['content_subtype_value_auto_create'] = $data_to_save['auto_create_categories'];
-        }
 
-        if (!empty($data_to_save['taxonomy_categories_str'])) {
+        if (isset($data_to_save['taxonomy_categories_str']) and !empty($data_to_save['taxonomy_categories_str'])) {
             $data_to_save['content_subtype_value_auto_create'] = $data_to_save['taxonomy_categories_str'];
-        }
 
-        if (!empty($data_to_save['taxonomy_categories_str']) or $data_to_save['content_subtype_value_auto_create'] != '') {
 
             if ($adm == true) {
                 if (!is_array($original_data['content_subtype_value_auto_create'])) {
@@ -1315,7 +1274,7 @@ function save_content($data, $delete_the_cache = true) {
                         $new_scategory["taxonomy_value"] = $sc;
                         $new_scategory["parent_id"] = intval($new_category);
 
-                        $new_scategory = $this->taxonomy_model->taxonomySave($new_scategory);
+                        $new_scategory = save_category($new_scategory);
                     }
                 }
             }
@@ -1324,6 +1283,19 @@ function save_content($data, $delete_the_cache = true) {
 
     $save = save_data($table, $data_to_save);
     $id = $save;
+
+
+    if (isset($data_to_save['content_parent']) and intval($data_to_save['content_parent']) != 0) {
+        cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['content_parent']));
+    }
+    if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
+        cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
+    }
+    cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
+    cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
+
+
+
     return $save;
     // if ($data_to_save ['content_type'] == 'page') {
 
