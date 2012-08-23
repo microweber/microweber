@@ -139,7 +139,8 @@
 
        $("#insert_link_list").change(function(){
          var val = $(this).getDropdownValue();
-         $("#dd_pages_search_radio").val(val)
+         $("#dd_pages_search_radio").val(val);
+         $("#insert_link_btn").removeClass("disabled");
        });
 
 
