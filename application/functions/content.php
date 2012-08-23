@@ -384,12 +384,12 @@ function get_content($params) {
 
     $cache_content = cache_get_content($function_cache_id, $cache_group = 'content');
     if (($cache_content) == '--false--') {
-       // return false;
+        // return false;
     }
     // $cache_content = false;
     if (($cache_content) != false) {
 
-       // return $cache_content;
+        // return $cache_content;
     } else {
 
         $table = c('db_tables');
@@ -416,7 +416,9 @@ function get_content($params) {
 
 
         $get = db_get($table, $params, $cache_group = false);
-
+        if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+            return $get;
+        }
         if (!empty($get)) {
             $data2 = array();
             foreach ($get as $item) {

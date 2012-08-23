@@ -35,7 +35,7 @@
                 var obj = json[item];
                 var title = obj.content_title;
                 var url = obj.url;
-                lis+= "<li value='"+url+"'><a href='javascript:;'>"+title+"</a>";
+                lis+= "<li value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
             }
             var parent = el.parents("ul");
             parent.find("li:gt(0)").remove();
@@ -135,6 +135,13 @@
               $("#insert_link_btn").addClass("disabled");
            }
        });
+
+
+       $("#insert_link_list").change(function(){
+         var val = $(this).getDropdownValue();
+         $("#dd_pages_search_radio").val(val)
+       });
+
 
     });
 

@@ -25,11 +25,23 @@ mw.wysiwyg = {
         $("#mw-text-editor").removeClass("editor_hover");
     },
     prepare:function(){
-
       mw.wysiwyg.external = mw.wysiwyg._external();
       mw.wysiwyg.checker = mw.wysiwyg._checker();
       $("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
+      items.bind("paste", function(event){
+
+          var id = "el_"+mw.random();
+          var el = "<div contenteditable='true' id='"+id+"'>&nbsp;</div>";
+          mw.wysiwyg.insert_html(el);
+          var el = $("#"+id);
+
+         setTimeout(function(){
+           var html = el.html();
+           var newhtml = mw.wysiwyg.clean_word(html);
+           el.html(newhtml)
+         },50);
+      });
       items.bind("mouseup",function(){
         if(!mw.isDrag && $(".module.element-active").length==0){
           $(this).attr('contenteditable','true');
@@ -354,6 +366,90 @@ mw.wysiwyg = {
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
+    },
+    clean_word:function( html ){
+
+        html = html.replace( /<td([^>]*)>/gi, '<td>' ) ;
+        html = html.replace( /<table([^>]*)>/gi, '<table cellspacing="1" cellpadding="1" border="1">' ) ;
+
+    	html = html.replace(/<o:p>\s*<\/o:p>/g, '') ;
+    	html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;') ;
+
+    	html = html.replace( /\s*mso-[^:]+:[^;"]+;?/gi, '' ) ;
+
+    	html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*;/gi, '' ) ;
+    	html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*"/gi, "\"" ) ;
+
+    	html = html.replace( /\s*TEXT-INDENT: 0cm\s*;/gi, '' ) ;
+    	html = html.replace( /\s*TEXT-INDENT: 0cm\s*"/gi, "\"" ) ;
+
+    	html = html.replace( /\s*TEXT-ALIGN: [^\s;]+;?"/gi, "\"" ) ;
+
+    	html = html.replace( /\s*PAGE-BREAK-BEFORE: [^\s;]+;?"/gi, "\"" ) ;
+
+    	html = html.replace( /\s*FONT-VARIANT: [^\s;]+;?"/gi, "\"" ) ;
+
+    	html = html.replace( /\s*tab-stops:[^;"]*;?/gi, '' ) ;
+    	html = html.replace( /\s*tab-stops:[^"]*/gi, '' ) ;
+
+        html = html.replace( /\s*face="[^"]*"/gi, '' ) ;
+        html = html.replace( /\s*face=[^ >]*/gi, '' ) ;
+        html = html.replace( /\s*FONT-FAMILY:[^;"]*;?/gi, '' ) ;
+
+    	html = html.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3") ;
+
+    	html = html.replace( /<STYLE[^>]*>[\s\S]*?<\/STYLE[^>]*>/gi, '' ) ;
+    	html = html.replace( /<(?:META|LINK)[^>]*>\s*/gi, '' ) ;
+
+    	html =  html.replace( /\s*style="\s*"/gi, '' ) ;
+
+    	html = html.replace( /<SPAN\s*[^>]*>\s*&nbsp;\s*<\/SPAN>/gi, '&nbsp;' ) ;
+
+    	html = html.replace( /<SPAN\s*[^>]*><\/SPAN>/gi, '' ) ;
+
+    	html = html.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3") ;
+
+    	html = html.replace( /<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '$1' ) ;
+
+    	html = html.replace( /<FONT\s*>([\s\S]*?)<\/FONT>/gi, '$1' ) ;
+
+    	html = html.replace(/<\\?\?xml[^>]*>/gi, '' ) ;
+
+    	html = html.replace( /<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '' ) ;
+
+    	html = html.replace(/<\/?\w+:[^>]*>/gi, '' ) ;
+
+    	html = html.replace(/<\!--[\s\S]*?-->/g, '' ) ;
+
+    	html = html.replace( /<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;' ) ;
+
+    	html = html.replace( /<H\d>\s*<\/H\d>/gi, '' ) ;
+
+    	html = html.replace( /<(\w+)[^>]*\sstyle="[^"]*DISPLAY\s?:\s?none[\s\S]*?<\/\1>/ig, '' ) ;
+
+    	html = html.replace( /<(\w[^>]*) language=([^ |>]*)([^>]*)/gi, "<$1$3") ;
+
+    	html = html.replace( /<(\w[^>]*) onmouseover="([^\"]*)"([^>]*)/gi, "<$1$3") ;
+    	html = html.replace( /<(\w[^>]*) onmouseout="([^\"]*)"([^>]*)/gi, "<$1$3") ;
+
+    	html = html.replace( /<H(\d)([^>]*)>/gi, '<h$1>' ) ;
+
+        html = html.replace(/<font size=2>(.*)<\/font>/gi,'$1') ;
+        html = html.replace(/<font size=3>(.*)<\/font>/gi,'$1') ;
+
+        html = html.replace(/<a name=.*>(.*)<\/a>/gi,'$1') ;
+
+        html = html.replace( /<H1([^>]*)>/gi, '<H2$1>' ) ;
+        html = html.replace( /<\/H1\d>/gi, '<\/H2>' ) ;
+
+
+        html = html.replace( /<span>/gi, '$1' ) ;
+        html = html.replace( /<\/span\d>/gi, '' ) ;
+
+        html = html.replace( /<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>' );
+        html = html.replace( /<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>' );
+
+    	return html ;
     }
 }
 

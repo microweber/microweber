@@ -10,6 +10,10 @@ if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
  
+if(isset($params["data-content-id"])){
+	$params["data-page-id"] = $params["data-content-id"];
+}
+ 
 
 $data = get_content_by_id($params["data-page-id"]); 
 

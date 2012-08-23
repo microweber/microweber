@@ -192,12 +192,15 @@ mw.tools = {
         $(this).removeClass("hover");
     });
     $(".mw_dropdown a").click(function(){
-      $(this).parents(".mw_dropdown_fields").hide();
-      var html = $(this).html();
-      var value = this.parentNode.getAttribute("value");
-      $(this).parents(".mw_dropdown").setDropdownValue(value, true);
+      mw.tools.dd_sub_set(this);
       return false;
     });
+  },
+  dd_sub_set:function(item){
+      $(item).parents(".mw_dropdown_fields").hide();
+      var html = $(item).html();
+      var value = item.parentNode.getAttribute("value");
+      $(item).parents(".mw_dropdown").setDropdownValue(value, true);
   },
   module_slider:{
     scale:function(){

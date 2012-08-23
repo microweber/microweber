@@ -190,6 +190,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
  *        	$criteria['cache_group'] = 'content' //same as the $cache_group
  *        	$criteria['no_cache'] = 1; //does not cache the query
  *        	$criteria['count'] = 1; //get only the count
+ *              $post_params_paging['page_count'] = true;  //get the page count
  *
  *
  *
@@ -289,6 +290,17 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
             $limit = $criteria ['limit'] = $criteria ['data-limit'];
         }
 
+        $count_paging = false;
+        if (isset($criteria['page_count']) or isset($criteria['data-page-count'])) {
+            $count_only = true;
+            $count_paging = true;
+        }
+
+
+        $_default_limit = 30;
+
+
+
 
         if (isset($criteria ['limit']) and $criteria ['limit'] == true and $count_only == false) {
             $limit = $criteria ['limit'];
@@ -313,12 +325,13 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
         if ($offset == false) {
             $offset = isset($criteria ['offset']) ? $criteria ['offset'] : false;
         }
-        $qLimit = "";
+        $qLimit = $limit_from_paging_q = "";
         if ($limit == false) {
             if ($count_only == false) {
-                $limit = 30;
+                $limit = $_default_limit;
             }
         }
+
         // d($limit);
         if (is_string($limit) or is_int($limit)) {
             $items_per_page = intval($limit);
@@ -562,10 +575,6 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
 
 
-
-
-
-
     if ($cache_group != false) {
 
         $cache_group = trim($cache_group);
@@ -597,10 +606,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
         $cache_content = cache_get_content($original_cache_id, $original_cache_group);
 
-        if ($cache_group == 'taxonomy') {
 
-            //
-        }
 
         if (($cache_content) != false) {
 
@@ -852,8 +858,29 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
     if (isset($result [0] ['qty']) == true) {
 
-        // p($result);
         $ret = $result [0] ['qty'];
+
+        if ($count_paging == true) {
+            $plimit = false;
+
+            if ($limit == false) {
+                $plimit = $_default_limit;
+            } else {
+                if (is_array($limit)) {
+                    $plimit = end($plimit);
+                } else {
+                    $plimit = intval($plimit);
+                }
+            }
+
+            if ($plimit != false) {
+                return ceil($ret / $plimit);
+                // d($plimit);
+            }
+        }
+
+        // p($result);
+
 
         return $ret;
     }

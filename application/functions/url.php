@@ -268,7 +268,7 @@ function url_param_unset($param, $url = false) {
 }
 
 function url_title($text) {
- 
+
     // Swap out Non "Letters" with a -
     $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
 
