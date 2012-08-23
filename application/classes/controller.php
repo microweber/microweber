@@ -42,12 +42,12 @@ class Controller {
         } else {
             $content = $page;
         }
-        //d($page);
+
         define_constants($content);
 
         $render_file = get_layout_for_page($page);
 
-        // d ( $render_file );
+         
 
         if ($render_file) {
             $l = new View($render_file);
@@ -75,6 +75,14 @@ class Controller {
             print $l;
             exit();
         } else {
+
+
+
+
+
+
+
+
             print 'NO LAYOUT IN ' . __FILE__;
             d($template_view);
             d($page);

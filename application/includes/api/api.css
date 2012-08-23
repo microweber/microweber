@@ -5,6 +5,13 @@ api css
 .relative{
   position: relative;
 }
+.z-1{z-index:1}
+.z-2{z-index:2}
+.z-3{z-index:3}
+.z-4{z-index:4}
+.z-5{z-index:5}
+.z-6{z-index:6}
+.z-7{z-index:7}
 
 /* Forms styles */
 
@@ -280,9 +287,9 @@ margin-right: 6px;
   border:1px solid #D2D2D2;
   box-shadow:inset -2px -2px 2px #F6F6F6;
   -webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
- background: white;
+  -moz-border-radius: 3px;
+   border-radius: 3px;
+   background: white;
 }
 
 
@@ -311,4 +318,9 @@ border-radius: 3px;
   height: 100%;
   border: none;
   overflow: hidden;
+}
+
+.disabled{
+  opacity:.5;
+  cursor: default !important;
 }

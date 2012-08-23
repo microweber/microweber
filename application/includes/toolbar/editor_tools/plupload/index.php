@@ -40,11 +40,6 @@
 
             this_frame = parent.$("iframe[name='"+Name+"']");
 
-            function $id(id) {
-                return document.getElementById(id);
-            }
-
-
             var uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
                 browse_button : 'pickfiles_<? print $uid  ?>',
@@ -72,6 +67,11 @@
             });
 
 
+        $(document).ready(function(){
+               $(document.body).click(function(){
+                     this_frame.trigger("click")
+               });
+        });
 
         </script>
  

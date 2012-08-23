@@ -360,19 +360,7 @@ Wait($, function(){
 
 
 
-$(document).ready(function(){
 
-  $(".field_wrapper").click(function(){
-      var el = $(this);
-      if(!el.hasClass("active")){
-          el.parents(".link_type_holder_main").find(".field_wrapper").removeClass("active");
-          el.addClass("active");
-          el.find("input").attr("checked", true);
-      }
-
-  });
-
-});
 
 
 

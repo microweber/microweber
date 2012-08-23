@@ -28,6 +28,13 @@ $mw_config ['system_folder'] = 'application';
 $mw_config ['application_folder'] = 'application';
 
 
+
+
+
+session_set_cookie_params(86400); //Sets the session cookie lifetime to 12 hours.
+
+
+
 if (!defined('E_STRICT')) {
 
     define(E_STRICT, 0);
@@ -37,7 +44,7 @@ if (!defined('E_STRICT')) {
 //error_reporting ( E_ALL & ~ E_STRICT );
 
 
-
+//error_reporting ( E_ALL  );
 $system_folder = $mw_config ['system_folder'];
 
 

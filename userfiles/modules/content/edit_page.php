@@ -1,5 +1,11 @@
 <?
 
+if(!isset($edit_post_mode)){
+	$edit_post_mode = false;
+}
+
+ 
+
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
@@ -97,6 +103,6 @@ $(document).ready(function(){
   content_subtype_value
   <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
   <br />
-  <module data-type="admin/content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <input type="submit" name="save" value="save" />
 </form>

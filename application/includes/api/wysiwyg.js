@@ -259,7 +259,7 @@ mw.wysiwyg = {
               title:"Add/Edit LInk",
               name:"mw_rte_link",
               width:340,
-              height:515
+              height:535
             });
          }
       }

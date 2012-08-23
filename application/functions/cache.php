@@ -3,7 +3,7 @@
 function cache_file_memory_storage($path) {
     static $mem = array();
     $path_md = crc32($path);
-    if ($mem ["{$path_md}"] != false) {
+    if (isset($mem ["{$path_md}"]) != false) {
         return $mem [$path_md];
     }
     $cont = @ file_get_contents($path);
@@ -94,13 +94,8 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
             }
         }
         $cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
-        if ($deleted_cache_dir == false) {
-            $cacheDir = CACHEDIR . $cache_group;
-        } else {
-            // $cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date (
-            // 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
-            $cacheDir = CACHEDIR . $cache_group;
-        }
+        $cacheDir = CACHEDIR . $cache_group;
+
         if (!is_dir($cacheDir)) {
             mkdir_recursive($cacheDir);
         }

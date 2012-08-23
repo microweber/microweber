@@ -7,8 +7,6 @@ function define_constants($content = false) {
 
             $page = $content;
         }
-    } else {
-
     }
 
     if (isset($page)) {
@@ -191,7 +189,7 @@ function get_layout_for_page($page = array()) {
     if ($render_file == false and ($page['content_layout_file']) != false) {
         $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['content_layout_file'];
         $template_view = normalize_path($template_view, false);
- 
+
         if (is_file($template_view) == true) {
             $render_file = $template_view;
         } else {
@@ -361,8 +359,6 @@ function get_content_admin($params) {
 /**
  * Function to get single content item by id from the content_table
  *
- * @param
- *        	array
  * @return array
  * @author Peter Ivanov
  *
@@ -381,19 +377,19 @@ function get_content($params) {
 
     foreach ($args as $k => $v) {
 
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        $function_cache_id = $function_cache_id . serialize($params);
     }
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
     $cache_content = cache_get_content($function_cache_id, $cache_group = 'content');
     if (($cache_content) == '--false--') {
-        return false;
+       // return false;
     }
     // $cache_content = false;
     if (($cache_content) != false) {
 
-        return $cache_content;
+       // return $cache_content;
     } else {
 
         $table = c('db_tables');
@@ -417,11 +413,9 @@ function get_content($params) {
 
             $limit[1] = '30';
         }
-        $params['limit'] = $limit;
 
 
-
-        $get = db_get($table, $params, $cache_group = 'content');
+        $get = db_get($table, $params, $cache_group = false);
 
         if (!empty($get)) {
             $data2 = array();
@@ -433,11 +427,11 @@ function get_content($params) {
                 $data2[] = $item;
             }
             $get = $data2;
-            cache_store_data($get, $function_cache_id, $cache_group = 'content');
+            // cache_store_data($get, $function_cache_id, $cache_group = 'content');
 
             return $get;
         } else {
-            cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
+            // cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
 
             return FALSE;
         }
@@ -822,14 +816,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 }
 
 function save_edit($post_data) {
-    // p($_SERVER);
     $id = is_admin();
-    // $id = 1;
     if ($id == false) {
         exit('Error: not logged in as admin.');
     }
-
-    // p($_REQUEST);
     if ($post_data) {
         if (isset($post_data['json_obj'])) {
             $obj = json_decode($post_data['json_obj'], true);
@@ -960,33 +950,20 @@ function save_edit($post_data) {
                                 save_history($history_to_save);
                             }
 
-                            // p($html_to_save,1);
+
                             $to_save = array();
                             $to_save['id'] = $content_id;
-                            // $to_save['quick_save'] = true;
-                            // $to_save['r'] = $some_mods;
+
                             $to_save['page_element_id'] = $page_element_id;
-                            // $to_save['page_element_content'] =
-                            // $this->template_model->parseMicrwoberTags($html_to_save,
-                            // $options = false);
+
                             $to_save['custom_fields'][$field] = ($html_to_save);
-                            // print "<h2>For content $content_id</h2>";
-                            // p ( $post_data );
-                            // p ( $html_to_save, 1 );
+
 
                             if ($is_no_save != true) {
                                 $json_print[] = $to_save;
-                                // if($to_save['content_body'])
+
                                 $saved = save_content($to_save);
-                                // p($to_save);
-                                // p($content_id);
-                                // p($page_id);
-                                // p ( $html_to_save ,1);
                             }
-                            // print ($html_to_save) ;
-                            // $html_to_save =
-                            // $this->template_model->parseMicrwoberTags (
-                            // $html_to_save, $options = false );
                         } else if (isset($category_id)) {
                             print(__FILE__ . __LINE__ . ' category is not implemented not ready yet');
                         }
@@ -1000,11 +977,7 @@ function save_edit($post_data) {
                             $to_save['option_value'] = $html_to_save;
                             $to_save['option_key2'] = 'editable_region';
                             $to_save['page_element_id'] = $page_element_id;
-                            // $to_save['page_element_content'] =
-                            // $this->template_model->parseMicrwoberTags($html_to_save,
-                            // $options = false);
-                            // print "<h2>Global</h2>";
-                            // p ( $to_save );
+
                             if ($is_no_save != true) {
                                 $to_save = $this->core_model->optionsSave($to_save);
                             }
@@ -1017,38 +990,21 @@ function save_edit($post_data) {
                             if ($is_no_save != true) {
                                 $this->core_model->saveHistory($history_to_save);
                             }
-                            // $html_to_save =
-                            // $this->template_model->parseMicrwoberTags (
-                            // $html_to_save, $options = false );
-                            // $json_print[] = array ($the_field_data
-                            // ['attributes'] ['id'] => $html_to_save );
                         }
                         if ($save_global == false and $save_layout == true) {
-                            // $field_content =
-                            // $this->core_model->optionsGetByKey (
-                            // $the_field_data ['attributes'] ['field'],
-                            // $return_full = true, $orderby = false );
+
                             $d = TEMPLATE_DIR . 'layouts' . DIRECTORY_SEPARATOR . 'editabe' . DIRECTORY_SEPARATOR;
                             $f = $d . $ref_page['id'] . '.php';
                             if (!is_dir($d)) {
                                 mkdir_recursive($d);
                             }
-                            // var_dump ( $f );
-                            // $html_to_save =
-                            // $this->template_model->parseToTags($html_to_save);
-                            // p($html_to_save);
+
                             file_put_contents($f, $html_to_save);
-                            // p($html_to_save,1);
                         }
-                        // print ($html_to_save) ;
-                        // print ($to_save) ;
-                        // p ( $field_content );
-                        // optionsSave($data)
                     }
                 }
             } else {
-                // print ('Error: plase specify a "field" attribute') ;
-                // p($the_field_data);
+
             }
         }
     }
@@ -1057,9 +1013,7 @@ function save_edit($post_data) {
     header('Content-type: application/json');
 
     $json_print = json_encode($json_print);
-    // if ($is_no_save == true) {
-    // / $for_history = serialize ( $json_print );
-    // $for_history = base64_encode ( $for_history );
+
     $history_to_save = array();
     $history_to_save['table'] = 'edit';
     $history_to_save['id'] = (parse_url(strtolower($_SERVER['HTTP_REFERER']), PHP_URL_PATH));
@@ -1098,6 +1052,10 @@ function save_content($data, $delete_the_cache = true) {
     if ($adm == false) {
         error('Error: not logged in as admin.');
     }
+
+
+
+
 
 
     $cms_db_tables = c('db_tables');

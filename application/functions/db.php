@@ -16,7 +16,7 @@ function db_q($q) {
     return $q;
 }
 
-function db_get_id($table, $id = 0, $is_this_field = false) {
+function db_get_id($table, $id = 0, $field_name = 'id') {
 
     $id = intval($id);
 
@@ -25,13 +25,13 @@ function db_get_id($table, $id = 0, $is_this_field = false) {
         return false;
     }
 
-    if ($is_this_field == false) {
-        $is_this_field = "id";
+    if ($field_name == false) {
+        $field_name = "id";
     }
 
     $table = db_get_table_name($table);
 
-    $q = "SELECT * from $table where {$is_this_field}=$id limit 1";
+    $q = "SELECT * from $table where {$field_name}=$id limit 1";
     // d($q);
     $q = db_query($q);
 
@@ -278,13 +278,17 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
         if (isset($criteria ['count']) and $criteria ['count'] == true) {
             $count_only = $criteria ['count'];
-
             unset($criteria ['count']);
         }
 
         if (isset($criteria ['with_pictures']) and $criteria ['with_pictures'] == true) {
             $with_pics = true;
         }
+
+        if (isset($criteria ['data-limit'])) {
+            $limit = $criteria ['limit'] = $criteria ['data-limit'];
+        }
+
 
         if (isset($criteria ['limit']) and $criteria ['limit'] == true and $count_only == false) {
             $limit = $criteria ['limit'];
@@ -293,10 +297,13 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
             $limit = $criteria ['limit'];
         }
 
-        $curent_page = isset($criteria ['curent_page']) ? $criteria ['curent_page'] : null;
+        $curent_page = isset($criteria ['curent_page']) ? $criteria ['curent_page'] : false;
+
         if ($curent_page == false) {
-            $curent_page = isset($criteria ['page']) ? $criteria ['page'] : null;
+            $curent_page = isset($criteria ['data-curent-page']) ? $criteria ['data-curent-page'] : false;
         }
+
+
 
         $offset = isset($criteria ['offset']) ? $criteria ['offset'] : false;
 
@@ -306,10 +313,20 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
         if ($offset == false) {
             $offset = isset($criteria ['offset']) ? $criteria ['offset'] : false;
         }
+        $qLimit = "";
+        if ($limit == false) {
+            if ($count_only == false) {
+                $limit = 30;
+            }
+        }
+        // d($limit);
+        if (is_string($limit) or is_int($limit)) {
+            $items_per_page = intval($limit);
 
-        if ($count_only == false) {
-            $qLimit = "";
-            if ($limit == false) {
+
+            if ($count_only == false) {
+
+
 
                 if (!isset($items_per_page) or $items_per_page == false) {
 
@@ -340,13 +357,15 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
                     $qLimit .= "OFFSET {$page_start} ";
                 }
+
+                $limit_from_paging_q = $qLimit;
             }
-            $limit_from_paging_q = $qLimit;
         }
 
+
+
         if ($debug) {
-            // p($limit_from_paging_q);
-            // p($limit);
+
         }
 
         if (isset($criteria ['fields'])) {
@@ -518,47 +537,35 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
     $to_search = false;
 
+
+
+
+
     if (isset($criteria ['keyword'])) {
-        if (!isset($criteria ['search_by_keyword']) or $criteria ['search_by_keyword'] == false) {
-            $criteria ['search_by_keyword'] = $criteria ['keyword'];
-        }
+        $criteria ['search_by_keyword'] = $criteria ['keyword'];
     }
 
-    if (isset($criteria ['keywords'])) {
-        if (!isset($criteria ['search_by_keyword']) or $criteria ['search_by_keyword'] == false) {
-            $criteria ['search_by_keyword'] = $criteria ['keywords'];
-        }
-    }
-
-    if (isset($criteria ['search_keyword'])) {
-        if (!isset($criteria ['search_by_keyword']) or $criteria ['search_by_keyword'] == false) {
-            $criteria ['search_by_keyword'] = $criteria ['search_keyword'];
-        }
-    }
-
-    if (isset($criteria ['search_in_fields'])) {
-        if ($criteria ['search_by_keyword_in_fields'] == false) {
-            $criteria ['search_by_keyword_in_fields'] = $criteria ['search_in_fields'];
-        }
+    if (isset($criteria ['data-keyword'])) {
+        $criteria ['search_by_keyword'] = $criteria ['data-keyword'];
     }
 
     if (isset($criteria ['search_by_keyword']) and strval(trim($criteria ['search_by_keyword'])) != '') {
-
         $to_search = trim($criteria ['search_by_keyword']);
-
-        // p($to_search,1);
     }
 
-    if (isset($criteria ['search_by_keyword_in_fields']) and is_array(($criteria ['search_by_keyword_in_fields']))) {
 
-        if (!empty($criteria ['search_by_keyword_in_fields'])) {
 
-            $to_search_in_those_fields = $criteria ['search_by_keyword_in_fields'];
-        }
+    if (isset($criteria ['search_in_fields'])) {
+        $criteria ['search_by_keyword_in_fields'] = $criteria ['search_in_fields'];
     }
 
-    // if ($count_only == false) {
-    // var_dump ( $cache_group );
+
+
+
+
+
+
+
     if ($cache_group != false) {
 
         $cache_group = trim($cache_group);
@@ -636,15 +643,6 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
     $criteria = map_array_to_database_table($table, $criteria);
 
-    if (!empty($criteria)) {
-
-        // $query = $this->db->get_where ( $table, $criteria, $limit,
-        // $offset );
-    } else {
-
-        // $query = $this->db->get ( $table, $limit, $offset );
-    }
-
     if ($only_those_fields == false) {
 
         $q = "SELECT * FROM $table ";
@@ -714,21 +712,13 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     }
 
     if (!empty($includeIds)) {
-
-        // $first = array_shift ( $includeIds );
-
         $includeIds_idds = false;
-        // p ( $includeIds );
-        // p($includeIds);
-
         $includeIds_i = implode(',', $includeIds);
-
         $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
     } else {
-
         $includeIds_idds = false;
     }
-    $to_search = false;
+    // $to_search = false;
     if ($to_search != false) {
 
         $fieals = db_get_table_fields($table);
@@ -757,16 +747,12 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
                 if ($v != 'id' && $v != 'password') {
 
-                    // $where .= " $v like '%$to_search%' " . $where_post;
                     if (DB_IS_SQLITE == false) {
 
                         $where_q .= " $v REGEXP '$to_search' " . $where_post;
                     } else {
                         $where_q .= " $v LIKE '%$to_search%' " . $where_post;
                     }
-                    // 'new\\*.\\*line';
-                    // $where .= " MATCH($v) AGAINST ('*$to_search* in
-                    // boolean mode') " . $where_post;
                 }
             }
         }
@@ -856,6 +842,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
         var_dump($table, $q);
     }
 
+
     $result = db_query($q);
     if ($count_only == true) {
 
@@ -874,9 +861,6 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if ($cache_group != false) {
 
         if (!empty($result)) {
-
-            // p($original_cache_group);
-            // p($cache_id);
             cache_store_data($result, $original_cache_id, $original_cache_group);
         } else {
 
@@ -897,7 +881,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (!empty($result)) {
 
         foreach ($result as $k => $v) {
-            if (DB_IS_SQLITE == true) {
+            if (DB_IS_SQLITE == false) {
                 $v = remove_slashes_from_array($v);
             }
             $return [$k] = $v;
@@ -1494,7 +1478,11 @@ function save_data($table, $data, $data_to_save_options = false) {
                             $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
                         }
 
+                        $next_id = intval(db_last_id($custom_field_table) + 1);
+
+
                         $add = " insert into $custom_field_table set
+                        id =\"{$next_id}\",
 			custom_field_name =\"{$cf_k}\",
 			$cfvq
 			custom_field_value =\"" . $custom_field_to_save ['custom_field_value'] . "\",
@@ -1502,7 +1490,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 			to_table_id =\"" . $custom_field_to_save ['to_table_id'] . "\"
 			";
                         $cf_to_save = array();
-                        $cf_to_save['id'] = 0;
+                        $cf_to_save['id'] = $next_id;
                         $cf_to_save['custom_field_name'] = $cf_k;
                         $cf_to_save['to_table'] = $custom_field_to_save ['to_table'];
                         $cf_to_save['to_table_id'] = $custom_field_to_save ['to_table_id'];

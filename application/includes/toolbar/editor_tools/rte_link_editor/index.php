@@ -7,7 +7,7 @@
      mw.require("tools.js");
 
 
-    GLOBALURL = "";
+
 
 
     mw.search = function(keyword, limit, callback){
@@ -46,21 +46,93 @@
     }
 
     $(document).ready(function(){
+
+        mw.tools.dropdown();
+
+        mw.dd_autocomplete('#dd_pages_search');
+
         $("#upload_file_link").bind("progress",function(obj,percents){
             $("#file_link_progres").width(percents+"%");
         });
         $("#upload_file_link").bind("done",function(a,data){
             $("#file_link_progres").width(0);
-            GLOBALURL = data.src;
+            $("#file_radio").val(data.src);
+            $("#insert_link_btn").removeClass("disabled");
         });
+
+
+  $(".field_wrapper, .field_wrapper iframe").click(function(){
+      var el = this.tagName.toLowerCase()=='iframe' ? $(this).parents(".field_wrapper").eq(0) : $(this);
+      if(!el.hasClass("active")){
+          el.parents(".link_type_holder_main").find(".field_wrapper").removeClass("active");
+          el.addClass("active");
+          el.find("input").attr("checked", true);
+      }
+  });
+
+  $(".field_wrapper input[type='text']").focus(function(){
+    $(this).parents(".field_wrapper").trigger("click");
+    if(this.id=='mail_url'){
+       if(mw.form.validate.email(this)){
+            $("#insert_link_btn").removeClass("disabled");
+       }
+       else{
+          $("#insert_link_btn").addClass("disabled");
+       }
+    }
+    else if(this.id=='link_url'){
+       if(mw.form.validate.url(this)){
+            $("#insert_link_btn").removeClass("disabled");
+       }
+       else{
+          $("#insert_link_btn").addClass("disabled");
+       }
+    }
+  });
+
+
 
        $("#insert_link_btn").bind("mousedown mouseup click", function(event){
            event.preventDefault();
+
            if(event.type=='click'){
-             console.log(event.type)
-              parent.mw.wysiwyg.restore_selection();
-              parent.mw.wysiwyg.insert_link(GLOBALURL);
-              parent.mw.tools.modal.remove('mw_rte_link');
+             if(!$(this).hasClass("disabled")){
+                parent.mw.wysiwyg.restore_selection();
+                var val = $("input:radio:checked").val();
+                if(mw.form.validate.email(val)){
+                  var val = 'mailto:'+val;
+                }
+                parent.mw.wysiwyg.insert_link(val);
+                parent.mw.tools.modal.remove('mw_rte_link');
+             }
+             else{
+
+             }
+           }
+       });
+
+
+
+
+       $("#link_url").keyup(function(){
+         if(mw.form.validate.url(this)){
+            $("#insert_link_btn").removeClass("disabled");
+            var val = (this.value.indexOf('http://')==0 || this.value.indexOf('https://')==0 || this.value.indexOf('ftp://')==0) ? this.value : 'http://'+this.value;
+            $("#link_url_radio").val(val);
+         }
+         else{
+           $("#insert_link_btn").addClass("disabled");
+         }
+       });
+
+
+       $("#mail_url").keyup(function(){
+           if(mw.form.validate.email(this)){
+                $("#insert_link_btn").removeClass("disabled");
+                $("#mail_radio").val(this.value);
+           }
+           else{
+              $("#insert_link_btn").addClass("disabled");
            }
        });
 
@@ -84,7 +156,7 @@
     <h3>Website URL</h3>
     <label><input type="checkbox" checked="false" id="is_target_blank" />Open link in new window</label>
     <div class="field_wrapper active">
-        <input type="radio" name="linktype" checked="checked" value="outer_url" />
+        <input type="radio" name="linktype" id="link_url_radio" checked="checked" value="" />
         <div class="link_type_holder">
             <span class="fancy_input white"><input type="text" id="link_url" /></span>
         </div>
@@ -92,8 +164,8 @@
   </div>
   <div class="link_type_to type_to_my_site">
     <h3>Page on My Website</h3>
-    <div class="field_wrapper">
-        <input type="radio" name="linktype" value="from_site_url" />
+    <div class="field_wrapper relative z-2">
+        <input type="radio" name="linktype" id="dd_pages_search_radio" value="" />
         <div class="link_type_holder">
             <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
                 <div class="mw_dropdown_fields">
@@ -115,9 +187,9 @@
 
   <div class="link_type_to type_to_file">
     <h3>File on My Website</h3>
-    <div class="field_wrapper relative" style="overflow: hidden">
+    <div class="field_wrapper relative">
         <div id="file_link_progres"></div>
-        <input type="radio" name="linktype" checked="checked" value="file_url" />
+        <input type="radio" name="linktype" id="file_radio" value="" />
         <div class="link_type_holder relative">
              No file. <span class="upload_file_link" id="Uploader">Upload a new file</span>
 
@@ -129,7 +201,7 @@
   <div class="link_type_to type_to_mail">
     <h3>Email Address</h3>
     <div class="field_wrapper">
-        <input type="radio" name="linktype" checked="checked" value="mail_url" />
+        <input type="radio" name="linktype" id="mail_radio"  value="" />
         <div class="link_type_holder">
             <span class="fancy_input white"><input type="text" id="mail_url" /></span>
         </div>
@@ -137,7 +209,7 @@
   </div>
 
 
-  <span class="bluebtn right" id="insert_link_btn">Insert</span>
+  <span class="bluebtn right disabled" id="insert_link_btn">Insert</span>
 
 
   </div>

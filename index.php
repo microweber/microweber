@@ -7,27 +7,21 @@ require ('bootstrap.php');
 require (APPPATH . 'functions.php');
 // require ('appication/functions.php');
 require (APPPATH . 'functions/mw_functions.php');
-set_error_handler ( function ($c, $e, $f = 0, $l = 0) {
-	$v = new View ( ADMIN_VIEWS_PATH . 'error.php' );
-	$v->e = $e;
-	$v->f = $f;
-	$v->l = $l;
-	echo $v;
-	// _log("$e [$f:$l]");
-} );
+set_error_handler ('error');
 
 
-function exception($e) {
-	$v = new View ( ADMIN_VIEWS_PATH . 'exception.php' );
-	$v->e = $e;
-	// _log($e -> getMessage() . ' ' . $e -> getFile());
-	die ( $v );
-}
 function error($e, $f = false, $l = false) {
 	$v = new View ( ADMIN_VIEWS_PATH . 'error.php' );
 	$v->e = $e;
 	$v->f = $f;
 	$v->l = $l;
+	// _log($e -> getMessage() . ' ' . $e -> getFile());
+	die ( $v );
+}
+
+function exception($e) {
+	$v = new View ( ADMIN_VIEWS_PATH . 'exception.php' );
+	$v->e = $e;
 	// _log($e -> getMessage() . ' ' . $e -> getFile());
 	die ( $v );
 }
@@ -42,7 +36,7 @@ register_shutdown_function ( function () {
 } );
 
 $m = url ( 0 ) ?  : 'index';
- 
+
 /*
  * if (!is_file(p("classes/$c")) || !($c = new $c) || $m == 'render' ||
  * !in_array($m, get_class_methods($c))) { } if($m == 'api'){ $m = url ( 1 ) ? :
