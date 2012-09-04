@@ -30,12 +30,17 @@ h2 {
 	overflow: hidden;
 }
 .element {
-	padding: 15px;
+	padding: 0
 }
 </style>
+<script>
+$(document).ready(function(){
+  $("link[hre*='bootstrap.min.css']").remove();
+})
+</script>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test" field="test_v11">
+  <div class="edit" id="the_test" field="test_v15">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

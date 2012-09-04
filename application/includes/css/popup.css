@@ -161,10 +161,10 @@ body{
   background: url(../img/img_check_loading.gif) no-repeat;
 }
 #image_status.error{
-  background: url(http://www.rockband.com/forums/images/icons/icon4.png) no-repeat;
+  background: url(../img/imginvalid.png) no-repeat;
 }
 #image_status.valid{
-  background: url(http://files.softicons.com/download/toolbar-icons/max-mini-icons-by-ashung/png/16x16/valid.png) no-repeat;
+  background: url(../img/imgvalid.png) no-repeat;
 }
 
 #pop_up_link .field_wrapper{

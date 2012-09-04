@@ -7,7 +7,11 @@ mw.require("wysiwyg.js");
 
 
 mw.require("tools.js");
+mw.require("style_editors.js");
 
+
+
+mw.prev_hash = window.location.hash;
 
 
 $(window).load(function(){
@@ -49,80 +53,7 @@ mw.extras = {
 
 
 
-mw.image_settings={
-    html:function(){
-        var id = 'image_'+mw.random();
-        var html = ''
-        + '<div onmouseleave="$(this).remove();" class="mw_image_settings" id="'+id+'">'
-          +  '<span class="image_close">Close</span>'
-          +  '<span class="image_change">Change</span>'
-        + '</div>';
-        return {html:html,id:id};
-    },
-    prepare:function(){
-       var item = mw.image_settings.html();
-       $(document.body).append(item.html);
-       return item.id;
-    },
-    scale:function(el, id){
-        var offset = $(el).offset();
-        var width = $(el).outerWidth();
-        var height = $(el).outerHeight();
-        $("#" + id).css({
-          left:offset.left,
-          top:offset.top,
-          width:width,
-          height:height,
-          display:'block'
-        });
-    },
-    init:function(el){  return false;
-       var id = mw.edit.image_settings.prepare();
-       mw.image_settings.scale(el, id);
 
-       mw.image_settings.del_init(id, el);
-       mw.image_settings.change_init(id, el);
-    },
-    del_init:function(id, el){
-       $("#"+id).find(".image_close").click(function(){
-         var filename = mw.extras.get_filename(el.src);
-         if(confirm("Are you sure you want to delete '"+filename+"'?")){
-           $(el).slideUp(function(){$(this).remove();});
-         }
-       });
-    },
-    change_init:function(id, el){
-      $("#"+id).find(".image_change").click(function(){
-        var w = $(window).width()-100;
-        var h = $(window).height()-100;
-        var save_img_url = '/Microweber/save.php';
-        //var frame = "<iframe width='"+(w-30)+"' height='"+(h-30)+"' src='http://pixlr.com/express/?wmode=transparent&locktarget=true&target="+save_img_url+"&image=" + el.src + "' scrolling='no' frameborder='0'></iframe>";
-        var frame = ":)";
-        mw.modal(frame, w, h);
-      });
-    },
-    image_resize:function(selector){
-      //chrome, opera, safari
-
-      if($.browser.safari || $.browser.chrome || $.browser.opera || true){
-        $(selector).each(function(){
-          if(!$(this).parent().hasClass("image_resizer")){
-              var w = $(this).width();
-              var h = $(this).height();
-              $(this).wrap("<span class='image_resizer' style='width:"+w+"px;height:"+h+"px'></span>");
-          }
-        });
-        $(".image_resizer").resizable({
-           resize: function(event, ui){
-            var w = $(this).width();
-            var h = $(this).height();
-            $(this).find("img").attr("width",w).attr("height",h).width(w).height(h);
-           }
-        });
-        $(".edit img").attr("contentEditable", false);
-      }
-    }
-}
 
 
 
@@ -135,6 +66,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw_image_resizer';
+          resizer.innerHTML = '<span onclick="mw.wysiwyg.image(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer;
         }
@@ -153,17 +85,9 @@ mw.image = {
             },
             resize:function(){
               var offset = mw.image.currentResizing.offset();
-              $(this).css({
-                top: offset.top,
-                left: offset.left
-              })
+              $(this).css(offset);
             },
             aspectRatio: 16 / 9
-        });
-        $(mw.image_resizer).mouseleave(function(){
-          if( !mw.image.isResizing ){
-             $(this).removeClass("active");
-          }
         });
       },
       init:function(selector){
@@ -172,6 +96,11 @@ mw.image = {
           $(this).notclick().bind("click", function(){
              if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
              var el = $(this);
+
+             window.location.hash = '#mw_tab_design';
+
+             $("#module_design_selector").setDropdownValue("#tb_image_edit", true);
+
              var offset = el.offset();
              var r = $(mw.image_resizer);
              var width = el.width();
@@ -262,6 +191,14 @@ $(document).ready(function(){
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
 
+
+$("#module_design_selector").change(function(){
+  var val = $(this).getDropdownValue();
+  $(".tb_design_tool").hide();
+  $(val).show();
+});
+
+
 });
 
 mw.toolbar = {
@@ -309,7 +246,7 @@ $(window).load(function(){
 
 
   mw.smallEditor = $("#mw_small_editor");
-mw.bigEditor = $("#mw-text-editor");
+  mw.bigEditor = $("#mw-text-editor");
 
 
 $(".mw_dropdown_action_font_family").change(function(){
@@ -327,9 +264,7 @@ $(".mw_dropdown_action_format").change(function(){
 
 
 
-  $(".edit img").click(function(){
-      mw.image_settings.init(this);
-  });
+
 
   mw.image.resize.init(".element img");
 
@@ -349,7 +284,8 @@ $(".mw_dropdown_action_format").change(function(){
         });
       }  }, 100);
     });
-    $(document.body).mousedown(function(){
+    $(document.body).mousedown(function(event){
+
       if($(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
         mw.wysiwyg.check_selection();
@@ -390,9 +326,21 @@ $(".mw_dropdown_action_format").change(function(){
             $("#mw-text-editor").removeClass("hover");
         }
     });
-    $(document.body).mouseup(function(){
+    $(document.body).mouseup(function(event){
+         mw.target.item = event.target;
+         mw.target.tag = event.target.tagName.toLowerCase();
          mw.mouseDownOnEditor = false;
          mw.SmallEditorIsDragging = false;
+
+        if( !mw.image.isResizing &&
+             mw.target.tag!='img' &&
+             mw.target.item.className!='image_change' && $(mw.image_resizer).hasClass("active")){
+           $(mw.image_resizer).removeClass("active");
+
+
+           $("#module_design_selector").setDropdownValue("#tb_el_style", true);
+
+        }
     });
 
 
@@ -417,7 +365,7 @@ windowOnScroll = {
                else{
                  clearInterval(windowOnScroll.int);
                  windowOnScroll.int = null;
-                 $(window).trigger("scrollstop");
+                 //$(window).trigger("scrollstop");
                }
            }, 37);
         }

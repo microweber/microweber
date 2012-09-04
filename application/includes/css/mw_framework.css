@@ -32,6 +32,12 @@ body:-webkit-full-screen {
   clear: both;
 }
 
+.clear{
+  clear: both;
+  float: none;
+}
+
+
 
 /* Image edit */
 
@@ -58,10 +64,14 @@ body:-webkit-full-screen {
   position: absolute;
   cursor: pointer;
   font-size: 10px;
-  right: 0;
-  bottom: 0;
-  padding: 7px 7px 7px 30px;
-  background:url(../img/imgedit.jpg) no-repeat left top;
+  right: 7px;
+  bottom: 7px;
+  padding: 0px 6px;
+  background: white;
+  box-shadow:0 0 2px #454545;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 
 .mw_modal{
@@ -250,6 +260,8 @@ body:-webkit-full-screen {
 
 
 
+
+
 .ui-draggable-dragging{
   z-index: 999;
 }
@@ -404,7 +416,11 @@ body.not-allowed{
 }
 
 .element{
+    display: block;
+}
 
+.element-image{
+  display: inline-block;
 }
 
 .column.ui-resizable:hover{

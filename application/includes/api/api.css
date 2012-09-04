@@ -324,3 +324,31 @@ margin-right: 6px;
   opacity:.5;
   cursor: default !important;
 }
+
+.ed_slider{
+  display: inline-block;
+  position: relative;
+  background: white;
+  height: 9px;
+  min-width: 50px;
+  box-shadow:0px 1px 0px #C4C3C3;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.ed_slider .ui-slider-handle{
+  display: block;
+  position: relative;
+  top: -5px;
+  left: 0;
+  margin-left: -5px;
+  outline: none;
+  width: 9px;
+  height: 17px;
+  border: 1px solid #DAD8D8;
+  background: url(../img/grad.php?top=F5F5F5&bot=E0E0E0);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

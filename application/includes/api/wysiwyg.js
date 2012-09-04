@@ -45,6 +45,18 @@ mw.wysiwyg = {
       items.bind("mouseup",function(){
         if(!mw.isDrag && $(".module.element-active").length==0){
           $(this).attr('contenteditable','true');
+
+          mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+
+          if(mw.smallEditor.css("visibility")=='hidden'){
+              mw.bigEditor.fadeIn('fast');
+          }
+          else{
+              mw.smallEditor.css("opacity", 1);
+          }
+
+
+
           $(this).find('.mw-sorthandle').attr('contenteditable','false');
           this.focus();
           mw.wysiwyg.isThereEditableContent=true;
@@ -53,20 +65,45 @@ mw.wysiwyg = {
           $(this).bind("change", function(event){
             mw.drag.fix_placeholders(true , $(this));
           });
+          mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+
         }
         if($(".module.element-active").length>0){
           $(".module.element-active").parents(".element").attr("contenteditable", false);
           this.blur();
           mw.wysiwyg.isThereEditableContent=false;
         }
+
       });
       items.blur(function(){
            if($(".editor_hover").length==0){
               $(this).attr('contenteditable','false');
               mw.wysiwyg.isThereEditableContent=false;
+             setTimeout(function(){
+               if(mw.smallEditor.css("visibility")=='hidden'){
+                 !mw.wysiwyg.isThereEditableContent ? mw.bigEditor.fadeOut('fast') : '';
+               }
+               else{
+                 !mw.wysiwyg.isThereEditableContent ? mw.smallEditor.css("opacity", "0.5") : '';
+
+               }
+             }, 100);
            }
       });
       $(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
+
+
+      if (document.createElement("input").webkitSpeech !== undefined) {
+         $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />')
+         $("#vtest").mouseenter(function(){
+             mw.wysiwyg.save_selection();
+         });
+         $("#vtest").change(function(){
+             mw.wysiwyg.restore_selection();
+             mw.wysiwyg.insert_html(this.value)
+         });
+      }
+
     },
     init:function(){
       var mw_editor_btns = $(".mw_editor_btn");
@@ -261,7 +298,13 @@ mw.wysiwyg = {
     },
     link:function(){
         if($(".mw_editor_link.mw_editor_btn_active").length>0){
+          if(mw.wysiwyg.selection_length()>0){
              mw.wysiwyg.execCommand('unlink', null, null);
+          }
+          else{
+            var html = $(mw.target.item).html();
+            $(mw.target.item).replaceWith(html);
+          }
         }
         else{
           if(mw.wysiwyg.isThereEditableContent){
@@ -276,17 +319,19 @@ mw.wysiwyg = {
          }
       }
     },
-    image:function(){
+    image:function(hash){
+        var hash = hash || '';
         if($("#mw_rte_image").length>0){
            $("#mw_rte_image").remove();
         }
         else{
-          if(mw.wysiwyg.isThereEditableContent){
+          if(mw.wysiwyg.isThereEditableContent || mw.target.item.className=='image_change'){
               mw.wysiwyg.save_selection();
               mw.tools.modal.frame({
-                url:"rte_image_editor",
+                url:"rte_image_editor"+hash,
                 title:"Upload Picture",
-                name:"mw_rte_image"
+                name:"mw_rte_image",
+                width:430
               });
           }
         }
@@ -316,7 +361,7 @@ mw.wysiwyg = {
     insert_image:function(url, autoclose){
         var autoclose = autoclose || false;
         var id = 'image_' + mw.random();
-        var img = '<div id="'+id+'" class="element"><img src="' + url + '" /></div>';
+        var img = '<div id="'+id+'" class="element element-image"><img src="' + url + '" /></div>';
         mw.wysiwyg.insert_html(img);
         if(autoclose){
            mw.tools.modal.remove('mw_rte_image');

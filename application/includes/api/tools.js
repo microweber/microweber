@@ -19,7 +19,7 @@ mw.simpletabs = function(context){
 }
 
 mw.external_tool = function(url){
-  return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url + "/" : url;
+  return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
 }
 
 mw.tools = {
@@ -172,7 +172,7 @@ mw.tools = {
     }, function(){
       $(this).removeClass("other-action-hover");
     });
-    $(".mw_dropdown").click(function(){
+    $(".mw_dropdown").mouseup(function(){
       $(".mw_dropdown").not(this).find(".mw_dropdown_fields").hide();
       if($(this).find(".other-action-hover").length==0){
         var item =  $(this).find(".mw_dropdown_fields");
@@ -191,7 +191,7 @@ mw.tools = {
     }, function(){
         $(this).removeClass("hover");
     });
-    $(".mw_dropdown a").click(function(){
+    $(".mw_dropdown a").mousedown(function(){
       mw.tools.dd_sub_set(this);
       return false;
     });
@@ -225,6 +225,7 @@ mw.tools = {
   },
   toolbar_tabs:{
     get_active:function(){
+        mw.prev_hash = $("#mw_tabs li.active a").attr("href");
         var hash = window.location.hash;
         if(hash==''){
           return '#tab_modules';
@@ -234,6 +235,7 @@ mw.tools = {
         }
     },
     change:function(){
+
        var hash = mw.tools.toolbar_tabs.get_active();
        $("#mw_tabs li").removeClass("active");
        var xdiez = hash.replace("#", "");

@@ -22,7 +22,7 @@
  * @version 1.0
  */
 
-;(function($) {
+(function($) {
 	$.fn.equalHeights = function(options) {
 		return this.each(function() {
 			// Extend the options if any provided

@@ -29,13 +29,10 @@ h2 {
 	height: 1px;
 	overflow: hidden;
 }
-.element {
-	padding: 15px;
-}
 </style>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test" field="test_v11">
+  <div class="edit" id="the_test" field="test_v12">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

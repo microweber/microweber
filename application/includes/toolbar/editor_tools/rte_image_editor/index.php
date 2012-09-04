@@ -5,20 +5,31 @@
      mw.require("files.js");
      mw.require("tools.js");
 
+    hash = window.location.hash;
+
+    afterInput = function(url){   //what to do after image is uploaded (depending on the hash in the url)
+      if(hash=='#editimage'){
+        parent.mw.image.currentResizing.attr("src", url);
+        parent.mw.tools.modal.remove('mw_rte_image');
+      }
+      else{
+        parent.mw.wysiwyg.restore_selection();
+        parent.mw.wysiwyg.insert_image(url, true);
+      }
+    }
 
 
     $(document).ready(function(){
 
-         mw.simpletabs(document.getElementById('image_tabs'));
+        mw.simpletabs(document.getElementById('image_tabs'));
 
-         Uploader = mw.files.browser();
+        Uploader = mw.files.browser();
 
-         mw.filechange(Uploader, function(){
+        mw.filechange(Uploader, function(){
         var is_valid = this.validate();
         if(is_valid){
             mw.files.upload(Uploader, {}, function(){
-               parent.mw.wysiwyg.restore_selection();
-               parent.mw.wysiwyg.insert_image(this.src, false);
+              afterInput(this.src);
             }, function(){
                 console.log('all files are uploaded - ' + this);
             });
@@ -41,8 +52,7 @@
          console.log(this); // this is "object FileList" of added files
       },
       fileuploaded:function(){
-        parent.mw.wysiwyg.restore_selection();
-        parent.mw.wysiwyg.insert_image(this.src, false);
+        afterInput(this.src);
       },
       done:function(){
         console.log(this); //this is json object returned from server with all the files that are uploaded
@@ -75,8 +85,7 @@
      $("#btn_inser_url_image").click(function(){
           if(img_status.className == 'valid'){
             var val =  $("#get_image_by_url").val();
-            parent.mw.wysiwyg.restore_selection();
-            parent.mw.wysiwyg.insert_image(val, true);
+            afterInput(val);
           }
      });
 

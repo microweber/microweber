@@ -59,6 +59,8 @@ mw.drag = {
          mw.top_half = false;
          $(document.body).mousemove(function(event){
 
+
+
            if(mw.mouseDownOnEditor){
             $("#mw_small_editor").css({
                top:event.pageY-$(window).scrollTop(),
@@ -80,6 +82,23 @@ mw.drag = {
              x:event.pageX,
              y:event.pageY
            }
+
+           if(!mw.isDrag){
+
+               var the_target = event.target;
+
+               if($(the_target).hasClass("row") || $(the_target).parents(".row").length>0){
+                     $(the_target).find(".mw-sorthandle-row:first").visible();
+                     $(the_target).parents(".row:first").find(".mw-sorthandle-row:first").visible();
+               }
+
+               if($(the_target).hasClass("element") || $(the_target).parents(".element").length>0){
+                     $(the_target).find(".mw-sorthandle:first").visible();
+                     $(the_target).parents(".element:first").find(".mw-sorthandle:first").visible();
+               }
+
+           }
+
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
 
             var el = $(mw.currentDragMouseOver);
@@ -191,11 +210,6 @@ mw.drag = {
         });
 
 
-
-
-
-
-
 	},
 
 
@@ -247,21 +261,10 @@ mw.drag = {
                  $(".row").css({marginTop:'0px',marginBottom:'0px'});
             	}
             });
-            $(this).mouseover(function(event){
-              $(".mw-sorthandle").invisible();
-              $(".element-active").removeClass("element-active");
-              $(this).not(".module-item").addClass("element-active");
-              $(this).find(".mw-sorthandle").eq(0).visible();
-              event.stopPropagation();
-            });
+
             $(this).mouseleave(function(event){
               $(".mw-sorthandle").invisible();
-               var el = $(this);
-               el.removeClass("element-active");
-               $(this).removeClass("mw-sorthandle-active");
-               $(this).parents(".element").eq(0).addClass("element-active");
-              $(this).parents(".element").eq(0).find(".mw-sorthandle").eq(0).visible();
-              //event.stopPropagation();
+               event.stopPropagation();
             });
         });
 
@@ -303,7 +306,6 @@ mw.drag = {
                 mw.dropable.data("position", "bottom");
              }
            }
-
          });
          el.bind("mouseenter", function(){
            if(mw.isDrag && ($(this).parents(".module").length==0)){
@@ -327,26 +329,21 @@ mw.drag = {
 				var el = $(this);
 				if (el.hasClass("mw-sorthandle")) {
 					mw.mouse_over_handle = true;
-
 				}
 				else {
-
 					setTimeout(function () {
 						mw.mouse_over_handle = false;
 					}, 200);
 				}
-
-
 			}
 			event.stopPropagation();
 		});
-        el.bind("mouseleave", function(){
+        el.bind("mouseleave", function(event){
 
-          if (mw.isDrag) {
-            mw.currentDragMouseOver = null; 
-            
-            
-            }
+          if (mw.isDrag && $(this).hasClass("element")) {
+            mw.currentDragMouseOver = this;
+            event.stopPropagation();
+          }
         });
 
     	mw.drag.the_drop();
@@ -354,10 +351,12 @@ mw.drag = {
 	},
 
     the_drop: function () {
+        if(!$(document.body).hasClass("bup")){
+          $(document.body).addClass("bup")
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
-				var el = this;
 				setTimeout(function () {
+                        console.log('yeah up')
                         var position = mw.dropable.data("position");
                         var hovered = $(mw.currentDragMouseOver);
                         if(hovered.hasClass("empty-element")){
@@ -366,7 +365,6 @@ mw.drag = {
                            $(mw.dragCurrent).removeClass("mw_drag_float_right");
                         }
                         else{
-
                               if(position=='top'){
                                  $(mw.dragCurrent).removeClass("mw_drag_float");
                                  $(mw.dragCurrent).removeClass("mw_drag_float_right");
@@ -410,9 +408,10 @@ mw.drag = {
                                         hovered.after(mw.dragCurrent);
                                      }
                                  }
+                                 $(mw.dragCurrent).addClass("mw_clear");
                               }
                               else if(position=='left'){
-
+                                $(mw.dragCurrent).removeClass("mw_clear");
 
                                 hovered.before(mw.dragCurrent);
 
@@ -423,6 +422,7 @@ mw.drag = {
 
                               }
                               else if(position=='right'){
+                                $(mw.dragCurrent).removeClass("mw_clear");
                                 $(mw.dragCurrent).removeClass("mw_drag_float");
                                 $(mw.dragCurrent).addClass("mw_drag_float_right");
 
@@ -455,6 +455,7 @@ mw.drag = {
 
 
 		});
+        }//toremove
 	},
 	/**
 	 * Various fixes
@@ -733,7 +734,7 @@ mw.drag = {
       $(this.container).load(mw.settings.site_url + "api/module", data1);
       $(this.container).attr('data-settings-for-module', $module_id);
 
-    }	
+    }
 	});
 
   },
@@ -741,7 +742,7 @@ mw.drag = {
 
 	/**
 	 * Loads the module in the given dom element by the $update_element selector .
-	 * 
+	 *
 	 * @example mw.drag.load_module('user_login', '#login_box')
 	 * @param $module_name
 	 * @param $update_element
@@ -996,21 +997,13 @@ mw.resizable_columns = function () {
                         mw.settings.resize_started = true;
 					},
 					create: function (event, ui) {
-						//$(".row", '.edit').equalWidths();
-					    
-
 						var el = $(this);
-
 						el.find(".ui-resizable-e:first").append('<span class="resize_arrows"></span>');
-
 						el.mousemove(function (event) {
 							el.children(".ui-resizable-e").find(".resize_arrows:first").css({
 								"top": (event.pageY - el.offset().top) + "px"
 							});
-
 						});
-
-
 					},
 					start: function (event, ui) {
 					  $(this).resizable("option", "maxWidth", 9999);

@@ -8,7 +8,7 @@ $modules = get_modules($modules_options );
  }
 //
 
-?>
+?>   
 
 <ul class="modules-list">
   <? foreach($modules as $module2): ?>

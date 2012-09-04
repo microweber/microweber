@@ -56,7 +56,7 @@
 					                var refresh_modules11 = $(this).attr('data-reload');
 
 				}
-				
+
 				og = $(this).attr('data-module-id');
 				if(og == undefined){
 					og = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module') 
@@ -199,13 +199,50 @@
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
     <div id="tab_design" class="mw_toolbar_tab">
-      <div class="mw_module_settings row">
-        <div class="span5">
-         </div>
-        <div class="span5">
-         </div>
-        <div class="span5"> </div>
+
+     <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
+        <div class="mw_dropdown_fields">
+          <ul>
+            <li value="#tb_image_edit"><a href="#">Picture Editor</a></li>
+            <li value="#tb_el_style"><a href="#">Site style</a></li>
+          </ul>
+        </div>
       </div>
+
+
+      <div id="tb_design_holder">
+
+
+          <div class="tb_design_tool" id="tb_image_edit"></div>
+          <div class="tb_design_tool" id="tb_el_style">
+
+
+            <span class="ed_opacity">
+                <span class="ed_label">Opacity</span>
+                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
+            </span>
+            <span class="ed_opacity">
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg left" id="margin_selector"> <span class="mw_dropdown_val">Recommended</span>
+                    <div class="mw_dropdown_fields">
+                      <ul>
+                        <li value="margin"><a href="#">Margin</a></li>
+                        <li value="margin-top"><a href="#">Margin Top</a></li>
+                        <li value="margin-bottom"><a href="#">Margin Bottom</a></li>
+                        <li value="margin-left"><a href="#">Margin Left</a></li>
+                        <li value="margin-right"><a href="#">Margin Right</a></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="ed_slider opacity-slider es_item" data-type="margin"></div>
+            </span>
+
+
+          </div>
+
+
+      </div>
+
+
     </div>
     
      <div id="tab_pages" class="mw_toolbar_tab"> 
