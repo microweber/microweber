@@ -1,0 +1,270 @@
+// Bootswatch.less
+// Swatch: Simplex
+// Version: 2.0.3
+// -----------------------------------------------------
+
+@boxShadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+// TYPOGRAPHY
+// -----------------------------------------------------
+
+h6, .hero-unit {
+	color: @headingsColor;
+}
+
+// NAVBAR
+// -----------------------------------------------------
+
+.navbar .navbar-inner {
+	.box-shadow(inset 0 -1px #CFCACA);
+	border-bottom: 1px solid #FFF;
+	border-bottom: none;
+}
+
+.navbar .brand {
+	padding-top: 10px;
+	color: @headingsColor;
+}
+
+.navbar .nav > li > a {
+	padding-top: 14px;
+	text-shadow: none;
+	font-weight: normal;
+	font-size: 11px;
+}
+
+.navbar .navbar-text {
+	padding: 14px 10px 11px;
+	text-shadow: none;
+	font-weight: normal;
+	font-size: 11px;
+}
+
+.navbar .nav > li > a:hover {
+	text-decoration: underline;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover {
+	background-color: transparent;
+}
+
+.navbar .nav li.dropdown .dropdown-toggle .caret,
+.navbar .nav li.open.dropdown .dropdown-toggle .caret {
+	border-top-color: @textColor;
+}
+
+.dropdown.open .dropdown-toggle {
+	color: @headingsColor;
+}
+
+div.subnav {
+	
+	background-image: none;
+	background-color: @navbarBackground;
+	border-bottom: 1px solid transparent;
+	.box-shadow(@boxShadow);
+	
+	&.subnav-fixed {
+		.box-shadow(inset 0 5px #fff~"," @boxShadow);
+	}
+	
+	.nav > li > a {
+		padding-top: 12px;
+		color: @navbarText;
+		font-weight: normal;
+		font-size: 11px;
+	
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	
+	.nav > li.open > a,
+	.nav > li.open > a:hover {
+		background-color: transparent;
+		border-left: 1px solid whiteSmoke;
+		border-right: 1px solid #E5E5E5;
+	}
+}
+
+.dropdown-menu {
+	.border-radius(0);
+	font-size: 11px;
+}
+
+.nav .nav-header {
+	font-weight: normal;
+	text-transform: none;
+}
+.navbar .nav-collapse.in .nav li > a {
+	color: @headingsColor;
+	font-weight: normal;
+}
+
+.navbar .nav-collapse.in .nav li > a:hover {
+	background-color: transparent;
+	color: @black;
+	text-decoration: underline;
+}
+
+@media (max-width: 979px) {
+	form.navbar-form, form.navbar-search {
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+	}
+}
+
+// NAV
+// -----------------------------------------------------
+
+.nav > li > a {
+	font-size: 11px;
+	border-width: 1px;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li > a:hover,
+.tabbable > .nav-tabs > li > a,
+.tabbable > .nav-tabs > li > a:hover {
+	background-color: darken(@bodyBackground, 3%);
+	border: 1px solid #ccc;
+}
+
+.tabbable > .nav-tabs > li.active > a {
+	border-bottom: 1px solid transparent;
+}
+
+.tabbable.tabs-below > .nav-tabs > li.active > a,
+.tabbable.tabs-left > .nav-tabs > li.active > a,
+.tabbable.tabs-right > .nav-tabs > li.active > a {
+	border-bottom: 1px solid #ccc;
+}
+
+.nav-pills > li > a:hover {
+	background-color: transparent;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover {
+	background-color: @bodyBackground;
+}
+
+// FORMS
+// -----------------------------------------------------
+
+legend {
+	border-bottom: 1px solid #ddd;
+}
+
+.navbar-search .search-query {
+	border: 1px solid #ddd;
+	.border-radius(0);
+	background-color: @bodyBackground;
+	color: @gray;
+}
+
+.help-inline, .help-block {
+	font-size: 11px;
+}
+
+// TABLES
+// -----------------------------------------------------
+
+
+// BUTTONS
+// -----------------------------------------------------
+
+.btn {
+  .border-radius(2px);
+  font-weight: bold;
+  #gradient > .vertical-three-colors(@white, @white, 25%, darken(@white, 10%));
+}
+
+.btn-primary {
+  .buttonBackground(lighten(@btnPrimaryBackground, 5%), @btnPrimaryBackground);
+}
+
+.btn-warning {
+  .buttonBackground(lighten(@orange, 5%), @orange);
+}
+
+.btn-danger {
+  .buttonBackground(lighten(@red, 5%), @red);
+}
+
+.btn-success {
+  .buttonBackground(lighten(@green, 5%), @green);
+}
+
+.btn-info {
+  .buttonBackground(lighten(#5bc0de, 5%), #5bc0de);
+}
+
+.btn-inverse {
+  .buttonBackground(lighten(@purple, 5%), @purple);
+}
+
+// MODALS
+// -----------------------------------------------------
+
+.modal,
+.modal-header,
+.modal-footer {
+	.border-radius(0);
+}
+
+.modal-header {
+	border-bottom: none;
+}
+
+.modal-header,
+.modal-body {
+	background-color: @navbarBackground;
+}
+
+.modal-footer {
+	background-color: @bodyBackground;
+}
+
+// MISCELLANEOUS
+// -----------------------------------------------------
+
+i[class^="icon-"]{
+	opacity: 0.6;
+	vertical-align: -2px;
+}
+
+.alert, .alert p, .alert-heading {
+	font-size: 11px;
+}
+
+.progress {
+    #gradient > .vertical(#e0e0e0, #e8e8e8);
+}
+
+.label {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+.hero-unit {
+	background-color: @white;
+	.box-shadow(@boxShadow);
+}
+
+.well {
+	.box-shadow(@boxShadow);
+	background-color: @white;
+	border: none;
+}
+
+.breadcrumb {
+	.box-shadow(@boxShadow);
+	border: 0px solid transparent;
+	font-size: 11px;
+}
+
+footer.footer p {
+	font-size: 11px;
+}

@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<dwquery>
-  <queryparams matchcase="false" ignorewhitespace="false" useregexp="false" wholeword="false" />
-  <find>
-    <qtext qname="parent::_construct();" qraw="true"></qtext>
-  </find>
-  <replace action="replaceText" param1="parent::__construct();" param2=""/>
-</dwquery>

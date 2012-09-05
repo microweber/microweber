@@ -126,7 +126,7 @@ $products = get_posts($products);
         <td>Цена:</td>
         <td>  <? 
 
-	$p = cf_val($product['id'], 'price');
+	$p = custom_field_value($product['id'], 'price');
 	
 	
 	

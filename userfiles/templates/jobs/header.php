@@ -8,27 +8,9 @@
     <link href="<? print TEMPLATE_URL ?>css/styles.css" rel="stylesheet" type="text/css" />
     <link href="<? print TEMPLATE_URL ?>css/ooyes.framework.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="<? print TEMPLATE_URL ?>/layouts/dashboard/dashboard.css" />
-    <!--  button scroller files -->
-
-<!--    <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/l10n.js"></script>
--->   
- 
- 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_003.js"></script>
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery_002.js"></script>
-
-    
-    
-    
-    <!--<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-1.7.1.min"></script>
--->
-
-  
-  
-  
-  
-  
     <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
     <link rel="stylesheet" href="<? print TEMPLATE_URL ?>js/jquery-ui-1.8.18.custom/css/custom-theme/jquery-ui-1.8.18.custom.css" type="text/css" media="all" />
     <!--  button scroller files -->
@@ -143,6 +125,9 @@ if((resp.success) != undefined){
     <link href="<? print TEMPLATE_URL ?>css/mw.modules.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
+    <? 
+debug_info();
+?>
 <div class="main" align="center">
 <div class="container">
 <div class="header">
@@ -184,14 +169,14 @@ if((resp.success) != undefined){
   $count['content_type'] = 'post'; 
   
    // $CI = get_instance ();
-  $count =   get_instance()->content_model->getContentAndCache($count, $orderby = false, $limit = false, $count_only = true);
+  $count =   get_content($count, $orderby = false, $limit = false, $count_only = true);
   
      ?>
     <? print $count; ?> JOBS ONLINE</div>
-      <div class="caption"><span class="blue"><? print users_count() ?> members</span> of our community <small style="float:right"> <a class="blue" href="<? print page_link_to_layout('register'); ?>">Register</a> or <a class="blue" href="<? print page_link_to_layout('register'); ?>/view:login">Login</a></small> </div>
+      <div class="caption"><span class="blue"><? print users_count() ?> members</span> of our community <small style="float:right"> <a class="blue" href="<? print page_link('register'); ?>">Register</a> or <a class="blue" href="<? print page_link('register'); ?>/view:login">Login</a></small> </div>
       <? endif;  ?>
     </div>
 <div class="nav">
-      <microweber module="content/menu"  name="main_menu"  />
+      <microweber module="menu"  name="main_menu"  />
  
     </div>

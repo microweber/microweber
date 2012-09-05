@@ -1,0 +1,525 @@
+// Bootswatch.less
+// Swatch: Spruce
+// Version: 2.0.3
+// -----------------------------------------------------
+
+// TYPOGRAPHY
+// --------------------------------------------------
+
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab:400,700');
+
+.navbar .brand, legend, .btn,
+.navbar .nav > li > a,
+div.subnav li > a,
+.navbar-text  {
+	font-family: @headingsFontFamily;
+	font-weight: @headingsFontWeight;
+}
+
+h3 { font-size: 20px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+
+h1, h2, h3, h4, h5, h6 {
+	color: @yellow;
+}
+
+h1 > small, h2 > small, h3 > small, h4 > small, h5 > small, h6 > small, .muted {
+	color: @linkColor;
+	font-family: @baseFontFamily;
+}
+
+.alert-heading {
+	font-family: @baseFontFamily;
+}
+
+// SCAFFOLDING
+// --------------------------------------------------
+
+body {
+	#gradient > .vertical-three-colors (#90A38F, #AEAD8E, 60%, #90A38F);
+	background-size: 100% 1400px;
+	background-repeat: repeat-y;
+}
+
+blockquote {
+	border-left: 2px solid @linkColor;
+	
+	&.pull-right {
+		border-right: 2px solid @linkColor;
+	}
+	
+	small {
+		color: @blueDark;
+	}
+}
+
+code, pre {
+	color: lighten(@blueDark, 10%);
+	background-color: @linkColor;
+}
+
+// NAVBAR
+// --------------------------------------------------
+
+.navbar {
+	
+	.navbar-inner {
+		background-image: none;
+		.box-shadow(none);
+	}
+	
+	.brand {
+		font-size: 26px;
+		padding: 18px 20px 12px;
+	}
+
+	.nav > li > a {
+		font-size: 20px;
+		padding: 22px 10px 11px;
+	}
+	
+	.nav .active > a,
+	.nav .active > a:hover {
+		color: @yellow;
+	}
+	
+	.navbar-text {
+		font-size: 20px;
+		padding-top: 12px;
+	}
+
+	.navbar-search {
+		margin-top: 12px;
+	}
+
+	.navbar-search .search-query {
+		border-color: transparent;
+		padding: 6px 9px 2px 9px;
+		background-color: rgba(255, 255, 255, 0.4);
+	}
+
+	.nav > .open > a {
+		color: @yellow;
+	}
+
+	.nav > .open > .dropdown-menu {
+		background-color: @linkColor;
+		color: @textColor;
+		border-color: transparent;
+	}
+
+	.nav > .open > .dropdown-menu a:hover {
+		background-color: darken(#90A38F, 10%);
+		color: @linkColor;
+	}
+
+	.btn-navbar {
+		margin-top: 14px;
+	}
+
+	.nav-collapse.in .nav li > a {
+		color: @linkColor;
+
+		&:hover {
+			color: @yellow;
+			background-color: @blue;
+		}
+	}
+
+	.navbar-form, .navbar-search {
+		border-color: transparent;
+		.box-shadow(none);
+	}
+}
+
+.dropdown-menu .divider {
+	background-color: transparent;
+	border-bottom: 1px solid #AEAD8E;
+}
+
+div.subnav {
+	background-color: @green;
+	background-image: none;
+	border-color: transparent;
+	.box-shadow(0 1px 5px rgba(0,0,0,.1));
+	font-size: 18px;
+	
+	.nav > li > a {
+		color: @linkColor;
+		border-color: transparent;
+		background-color: transparent;
+	}
+
+	.nav > li + li > a {
+		border-color: transparent;
+	}
+
+	.nav > li.active > a,
+	.nav > li > a:hover,
+	.nav > li.active > a:hover,
+	.dropdown.open .dropdown-toggle,
+	.dropdown.open.active .dropdown-toggle:hover {
+		.box-shadow(none);
+		background-color: transparent;
+		border-color: transparent;
+		color: @yellow;
+	}
+
+	.dropdown.open > .dropdown-menu {
+		background-color: @linkColor;
+		color: @textColor;
+		border-color: transparent;
+	}
+
+	.dropdown.open > .dropdown-menu a:hover {
+		background-color: darken(#90A38F, 10%);
+		color: @linkColor;
+	}
+
+	&.subnav-fixed {
+		top: 54px;
+	}
+}
+
+// TABLES
+// --------------------------------------------------
+
+.table,
+.table.table-bordered,
+.table.table-striped {
+	.border-radius(0 0 8px 8px);
+}
+
+.table-bordered thead:first-child tr:first-child th:first-child,
+.table-bordered tbody:first-child tr:first-child td:first-child,
+.table-bordered thead:first-child tr:first-child th:last-child,
+.table-bordered tbody:first-child tr:first-child td:last-child {
+	.border-radius(0);
+}
+
+.table-striped tbody:last-child tr:last-child td:first-child {
+	.border-radius(0 0 0 8px);
+}
+
+.table-striped tbody:last-child tr:last-child td:last-child {
+	.border-radius(0 0 8px 0);
+}
+
+.table-bordered {
+	border: none;
+}
+
+.table thead tr th:first-child,
+.table tbody tr td:first-child {
+	border-left: none;
+}
+
+.table th,
+.table-striped tbody tr:nth-child(odd) th {
+	background-color: darken(#90A38F, 10%);
+	color: @linkColor;
+}
+
+// BUTTONS
+// --------------------------------------------------
+
+.btn {
+  .buttonBackground(lighten(@blueDark, 5%), @blueDark);
+    text-shadow: none;
+    color: @white;
+	border-color: transparent;
+	.box-shadow(none);
+	
+	&:hover {
+		color: @grayLighter;
+	}
+}
+
+.btn-large {
+	font-size: 18px;
+}
+
+.btn-primary {
+	.buttonBackground(lighten(@blue, 10%), lighten(@blue, 5%));
+}
+
+.btn-warning {
+  .buttonBackground(@orange, darken(@orange, 5%));
+}
+
+.btn-danger {
+  .buttonBackground(lighten(@red, 5%), @red);
+}
+
+.btn-success {
+  .buttonBackground(#62c462, #51a351);
+}
+
+.btn-info {
+  .buttonBackground(#5bc0de, #2f96b4);
+}
+
+.btn-inverse {
+  .buttonBackground(@yellow, darken(@yellow, 5%));
+}
+
+.btn-group .dropdown-toggle {
+	.box-shadow(none);
+}
+
+// NAVIGATION
+// --------------------------------------------------
+
+.breadcrumb {
+	background-color: darken(#90A38F, 10%);
+	background-image: none;
+	border-color: transparent;
+	.box-shadow(none);
+	
+	li {
+		color: @yellow;
+		text-shadow: none;
+
+		a {
+			color: @linkColor;
+		}
+
+		a:hover {
+			color: @yellow;
+		}
+
+		.divider {
+			color: @blue;
+		}
+	}
+}
+
+.pagination > ul {
+	background-color: darken(#90A38F, 10%);
+	background-image: none;
+	border-color: transparent;
+	.box-shadow(none);
+}
+
+.pagination a {
+	color: @linkColor;
+	border-color: transparent;
+	
+	&:hover {
+		color: @yellow;
+		background-color: #748C73;
+	}
+}
+
+.pagination .active a {
+	color: @blue;
+	background-color: #A2CDB5;
+}
+
+.pagination .disabled a,
+.pagination .disabled a:hover {
+	color: @blue;
+}
+
+.nav-list {
+	
+	li > a,
+	.nav-header {
+		text-shadow: none;
+	}
+
+	li > a:hover {
+		background-color: transparent;
+	}
+	
+	li.active > a,
+	li.active > a:hover {
+		background-color: #A2CDB5;
+		text-shadow: none;
+	}
+	
+	.divider {
+		background-color: transparent;
+		border-bottom: 1px solid @linkColor;
+	}
+}
+
+.nav-tabs {
+	border-color: transparent;
+}
+
+.nav-tabs > li > a,
+.nav-pills > li > a {
+	background-color: #748C73;
+	
+	&:hover {
+		background-color: #748C73;
+		border-color: transparent;
+	}
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-pills .active > a,
+.nav-pills .active > a:hover {
+	background-color: #A2CDB5;
+	border-color: transparent;
+	color: @blue;
+}
+
+.nav-tabs.nav-stacked > li > a {
+	border-color: transparent;
+	
+	&:hover {
+		border-color: transparent;
+	}
+}
+
+.nav-tabs .open .dropdown-toggle,
+.nav-pills .open .dropdown-toggle  {
+	background-color: #748C73;
+	border-color: transparent;
+	color: @yellow;
+}
+
+.nav-tabs .active.open .dropdown-toggle,
+.nav-pills .active.open .dropdown-toggle {
+	background-color: #A2CDB5;
+}
+
+.nav-tabs .dropdown-menu,
+.nav-pills .dropdown-menu {
+	background-color: @linkColor;
+	color: @textColor;
+	border-color: transparent;
+	
+	a:hover {
+		background-color: #A2CDB5;
+		color: @linkColor;
+	}
+}
+
+.nav .nav-header {
+	color: @blue;
+}
+
+.tabbable {
+	.nav-tabs,
+	.nav-tabs > li > a,
+	.nav-tabs > li > a:hover,
+	.nav-tabs > li.active > a,
+	.nav-tabs > li.active > a:hover  {
+		border-color: transparent;
+	}
+}
+
+.pager a {
+	border: none;
+	background-color: #748C73;
+	
+	&:hover {
+		background-color: transparent;
+		background-color: #748C73;
+	}
+}
+
+// FORMS
+// --------------------------------------------------
+
+legend {
+	color: @yellow;
+}
+
+label, .help-block, input[type="file"] {
+	color: @linkColor;
+}
+
+input, textarea, select {
+	color: @textColor;
+}
+
+.uneditable-input {
+	color: @gray;
+}
+
+legend {
+	border-bottom: 2px solid @white;
+}
+
+.form-actions {
+	border-top: none;
+	.border-radius(4px);
+}
+
+// MODALS
+// --------------------------------------------------
+
+.modal-header {
+	background-color: @green;
+}
+
+.modal-body,
+.modal-footer {
+	background-color: @linkColor;
+	border: none;
+	.box-shadow(none);
+}
+
+.modal-footer {
+	.border-radius(0 0 4px 4px);
+}
+
+// MISCELLANEOUS
+// --------------------------------------------------
+
+.alert {
+	text-shadow: none;
+	border: none;
+}
+
+.label {
+	color: @linkColor;
+	opacity: 1;
+	text-shadow: none;
+}
+
+.progress {
+	background-color: darken(#90A38F, 10%);
+	background-image: none;
+	.box-shadow(none);
+	
+	.bar {
+		background-image: none;	
+		background-color: #A2CDB5;
+	}
+}
+
+.well {
+	background-color: darken(#90A38F, 10%);
+	border: none;
+	.box-shadow(none);
+}
+
+.thumbnail {
+	border: none;
+	.box-shadow(none);
+	
+	img {
+		.border-radius(4px);
+	}
+}
+
+hr {
+	border-top: none;
+	border-bottom: 2px solid @linkColor;
+}
+
+.page-header {
+	border-bottom: 2px solid @linkColor;
+	padding-bottom: 5px;
+}
+
+footer.footer {
+	border-top: 2px solid @linkColor;
+}
