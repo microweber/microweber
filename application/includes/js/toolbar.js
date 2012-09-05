@@ -197,7 +197,10 @@ $("#module_design_selector").change(function(){
   $(".tb_design_tool").hide();
   $(val).show();
   if(val=='#tb_el_style'){
-    mw.config_element_styles();
+    if($(".element-current").length==0){
+        $(".element").eq(0).addClass("element-current");
+        mw.config_element_styles();
+    }
   }
 });
 

@@ -13,7 +13,11 @@ if(!isset($params["data-page-id"])){
 if(isset($params["data-content-id"])){
 	$params["data-page-id"] = $params["data-content-id"];
 }
- 
+
+if(isset($params["data-content"])){
+	$params["data-page-id"] = $params["data-content"];
+}
+ //d($params);
 
 $data = get_content_by_id($params["data-page-id"]); 
 

@@ -234,10 +234,12 @@ mw.drag = {
             	cursorAt: {
             		top: -30
             	},
+                containment:document.body,
 				scroll:true,
 				scrollSensitivity:100,
             	helper: helper,
             	start: function () {
+            	    document.body.style.overflowX='hidden';
             		mw.isDrag = true;
             		mw.dragCurrent = this;
             		mw.drag.edit_remove();
@@ -253,6 +255,7 @@ mw.drag = {
                     }, 200);
             	},
             	stop: function (event, ui) {
+            	  document.body.style.overflowX='';
             		mw.isDrag = false;
             		$(this).removeClass("mw_drag_started");
             		if ($(mw.dragCurrent).hasClass("module-item")) {
@@ -376,7 +379,7 @@ mw.drag = {
                            $(mw.dragCurrent).visible();
 
                         }
-                        else{ 
+                        else{
 
                         var hovered =  $(mw.currentDragMouseOver);
 
