@@ -1,0 +1,1 @@
+<module type="pages_menu" append_to_link="/editmode:y" />

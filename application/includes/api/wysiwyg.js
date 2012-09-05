@@ -85,7 +85,6 @@ mw.wysiwyg = {
                }
                else{
                  !mw.wysiwyg.isThereEditableContent ? mw.smallEditor.css("opacity", "0.5") : '';
-
                }
              }, 100);
            }
@@ -94,13 +93,13 @@ mw.wysiwyg = {
 
 
       if (document.createElement("input").webkitSpeech !== undefined) {
-         $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />')
+         $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />');
          $("#vtest").mouseenter(function(){
              mw.wysiwyg.save_selection();
          });
          $("#vtest").change(function(){
              mw.wysiwyg.restore_selection();
-             mw.wysiwyg.insert_html(this.value)
+             mw.wysiwyg.insert_html(this.value);
          });
       }
 

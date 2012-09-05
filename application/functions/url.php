@@ -61,6 +61,13 @@ function strleft($s1, $s2) {
     return substr($s1, 0, strpos($s1, $s2));
 }
 
+function admin_url() {
+
+    $admin_url = c('admin_url');
+
+    return site_url($admin_url). '/';
+}
+
 /**
  * Returns the curent site url
  *

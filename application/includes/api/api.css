@@ -352,3 +352,38 @@ margin-right: 6px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+
+
+.square_map{
+    padding: 3px;
+    margin: 0 auto;
+}
+
+.square_map td{
+  width: 12px;
+  height: 12px;
+}
+.square_map td .square_map_item{
+  display: block;
+  text-indent: -9999px;
+  overflow: hidden;
+  width: 10px;
+  height: 10px;
+  background: url(../img/grad.php?top=FDFDFD&bot=F5F5F5);
+  cursor: pointer;
+  border: 1px solid #D6D6D6;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.square_map td .square_map_item:hover, .square_map td .square_map_item.active{
+  background: url(../img/grad.php?top=C1E1F6&bot=75AACD);
+  border-color:#429BD5;
+}
+.square_map_value{
+  display: block;
+  clear: both;
+  padding:3px 0 3px;
+  text-align: center;
+  font-size: 10px; 
+}

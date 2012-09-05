@@ -22,5 +22,3 @@
       <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
   </head>
   <body>
-
- 

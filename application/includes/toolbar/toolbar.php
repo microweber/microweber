@@ -1,6 +1,5 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-
 <?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>*/ ?>
 <script src="<?php   print( SITE_URL);  ?>api.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
@@ -222,18 +221,35 @@
                 <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
             </span>
             <span class="ed_opacity">
-                <div class="mw_dropdown mw_dropdown_type_wysiwyg left" id="margin_selector"> <span class="mw_dropdown_val">Recommended</span>
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw_dropdown_val">All</span>
                     <div class="mw_dropdown_fields">
-                      <ul>
-                        <li value="margin"><a href="#">Margin</a></li>
-                        <li value="margin-top"><a href="#">Margin Top</a></li>
-                        <li value="margin-bottom"><a href="#">Margin Bottom</a></li>
-                        <li value="margin-left"><a href="#">Margin Left</a></li>
-                        <li value="margin-right"><a href="#">Margin Right</a></li>
+                      <ul style="width: 100%">
+                        <li value="true">
+                            <div class="square_map">
+                                <table cellpadding="2" cellspacing="0" align="center">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="margin-top">Top</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="square_map_item" data-value="margin-left">Left</span></td>
+                                        <td><span class="square_map_item square_map_item_default active" data-value="margin">All</span></td>
+                                        <td><span class="square_map_item" data-value="margin-right">Right</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="margin-bottom">Bottom</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </table>
+                                <span class="square_map_value">&nbsp;</span>
+                            </div>
+                        </li>
                       </ul>
                     </div>
                 </div>
-                <div class="ed_slider opacity-slider es_item" data-type="margin"></div>
+                <div class="ed_slider margin-slider es_item" id="margin_slider" data-type="margin"></div>
             </span>
 
 

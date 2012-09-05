@@ -196,6 +196,9 @@ $("#module_design_selector").change(function(){
   var val = $(this).getDropdownValue();
   $(".tb_design_tool").hide();
   $(val).show();
+  if(val=='#tb_el_style'){
+    mw.config_element_styles();
+  }
 });
 
 

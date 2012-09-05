@@ -346,18 +346,28 @@ Wait($, function(){
   $.fn.getDropdownValue = function() {
     return this.attr("data-value");
   };
-  $.fn.setDropdownValue = function(val, triggerChange) {
+  $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
+     var isCustom = isCustom || false;
      var isValidOption = false;
      var el = this;
-     el.find("li").each(function(){
-         if(this.getAttribute('value')==val){
-              el.attr("data-value", val);
-              var isValidOption = true;
-              el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
-              triggerChange?el.trigger("change"):'';
-              return false;
-         }
-     });
+     if(isCustom){
+        var isValidOption = true;
+        el.attr("data-value", val);
+        triggerChange?el.trigger("change"):'';
+        el.find(".mw_dropdown_val").html(customValueToDisplay);
+     }
+     else{
+       el.find("li").each(function(){
+           if(this.getAttribute('value')==val){
+                el.attr("data-value", val);
+                var isValidOption = true;
+                el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
+                triggerChange?el.trigger("change"):'';
+                return false;
+           }
+       });
+     }
+
      this.attr("data-value", val);
   };
 });

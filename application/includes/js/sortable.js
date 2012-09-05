@@ -53,13 +53,16 @@ mw.dropables = {
 }
 
 
+
+
+
 mw.drag = {
 
 	create: function () {
          mw.top_half = false;
          $(document.body).mousemove(function(event){
 
-
+            if(!mw.settings.resize_started){
 
            if(mw.mouseDownOnEditor){
             $("#mw_small_editor").css({
@@ -185,6 +188,7 @@ mw.drag = {
                mw.dropable.hide();
             }
            }
+           }
          });
 
 
@@ -223,7 +227,7 @@ mw.drag = {
                 }
             }
             else {
-                helper = 'original'
+                helper = 'clone'
             }
             el.draggable({
                 handle: ".mw-sorthandle-moveit",
@@ -239,6 +243,10 @@ mw.drag = {
             		mw.drag.edit_remove();
             		$(this).addClass("mw_drag_started");
             		mw.drag.fixes();
+                    $(".ui-draggable-dragging").css({
+                      width:$(mw.dragCurrent).width(),
+                      height:$(mw.dragCurrent).height()
+                    })
             	},
             	stop: function (event, ui) {
             		mw.isDrag = false;
@@ -356,7 +364,7 @@ mw.drag = {
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				setTimeout(function () {
-                        console.log('yeah up')
+
                         var position = mw.dropable.data("position");
                         var hovered = $(mw.currentDragMouseOver);
                         if(hovered.hasClass("empty-element")){
@@ -721,13 +729,9 @@ mw.drag = {
     data1 = attributes
     //data1.module = '' + $module_name;
     data1.view = 'admin';
-/*data1.module_id = $module_id;
-		data1.page_id = window.page_id;
-		data1.post_id = window.post_id;
-		data1.category_id = window.category_id;*/
 
     mw.tools.modal.init({
-	html:"", 
+	html:"",
 	width:600, 
 	height:450, 
 	callback:function() {
@@ -902,6 +906,14 @@ mw.drag = {
 
 
 
+mw.px2pc = function(selector){
+    $(selector).each(function(){
+      var parent = $(this).parents('.row:first');
+		$(this).css({
+			width: ((($(this).width() / parent.width()) * 100)+"%")
+		});
+    });
+}
 
 
 
@@ -916,19 +928,17 @@ mw.resizable_columns = function () {
 
 
 
-	$('.edit').find('.column').not('.ui-resizable').each(function () {
-
+	$('.edit').find('.column').each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
-			$el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
+			$el_id_column = 'mw-column-' + mw.random();
 			$(this).attr('id', $el_id_column);
 		}
-		this_col_id = $el_id_column;
-		var parent1 = $(this).parent('.row');
-		$(this).css({
-			width: $(this).width() / parent1.width() * 100 + "%"
-		});
+
+        mw.px2pc(this);
+
+
 		$is_done = $(this).hasClass('ui-resizable')
 		$ds = mw.settings.drag_started;
 		$is_done = false;
@@ -958,8 +968,8 @@ mw.resizable_columns = function () {
 			$also_inner_items = $inner_column.attr('id');
 
 
-		  $(this).parent(".column").resizable("destroy")
-			$(this).children(".column").resizable("destroy")
+		  $(this).parent(".column").resizable("destroy");
+		  $(this).children(".column").resizable("destroy");
 
 			if ($no_next == false) {
 				$handles = 'e'
@@ -1025,14 +1035,16 @@ mw.resizable_columns = function () {
 						mw.settings.resize_started = true;
 					},
 					stop: function (event, ui) {
-
  						mw.settings.resize_started = false;
-						mw.drag.fixes()
-						mw.drag.fix_placeholders()
+						mw.drag.fixes();
+						mw.drag.fix_placeholders();
+
+                        mw.px2pc(".column");
 					}
 				});
 			}
 		}
+
 	});
 
 
