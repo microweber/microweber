@@ -243,10 +243,14 @@ mw.drag = {
             		mw.drag.edit_remove();
             		$(this).addClass("mw_drag_started");
             		mw.drag.fixes();
-                    $(".ui-draggable-dragging").css({
-                      width:$(mw.dragCurrent).width(),
-                      height:$(mw.dragCurrent).height()
-                    })
+                    $(mw.dragCurrent).invisible();
+                    setTimeout(function(){
+                      $(".ui-draggable-dragging").css({
+                        width:$(mw.dragCurrent).width(),
+                        height:$(mw.dragCurrent).height(),
+                        background:'white'
+                      })
+                    }, 200);
             	},
             	stop: function (event, ui) {
             		mw.isDrag = false;
@@ -364,9 +368,18 @@ mw.drag = {
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				setTimeout(function () {
-
+                        $(mw.dragCurrent).visible();
                         var position = mw.dropable.data("position");
-                        var hovered = $(mw.currentDragMouseOver);
+
+                        if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){
+
+                           $(mw.dragCurrent).visible();
+
+                        }
+                        else{ 
+
+                        var hovered =  $(mw.currentDragMouseOver);
+
                         if(hovered.hasClass("empty-element")){
                            hovered.before(mw.dragCurrent);
                            $(mw.dragCurrent).removeClass("mw_drag_float");
@@ -440,6 +453,7 @@ mw.drag = {
                                     hovered.removeClass("mw_drag_float");
                                 }, 73);
                               }
+                        }
                         }
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
@@ -990,6 +1004,9 @@ mw.resizable_columns = function () {
                   next:'',
                   sum:0
                 }
+
+                var imgs = $(this).find("img");
+
 				$(this).resizable({
 					handles: $handles,
 					ghost:false,
@@ -998,7 +1015,7 @@ mw.resizable_columns = function () {
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					//maxWidth: $row_max_w - $last_c_w,
-					alsoResize: '#' + $also_inner_items,
+					alsoResize: imgs,
 					resize: function (event, ui) {
 						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
                         if(mw.global_resizes.next.width()<151){
