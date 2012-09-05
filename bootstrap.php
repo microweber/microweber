@@ -114,6 +114,7 @@ if (isset($mw_config ['system_folder_shared'])) {
 
 define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
 
+define("DS", DIRECTORY_SEPARATOR);
 define('FCPATH', __FILE__);
 
 define('ROOTPATH', dirname(__FILE__));
@@ -131,13 +132,12 @@ define('TABLE_PREFIX', 'firecms_');
 
 define('USERFILES_DIRNAME', 'userfiles');
 
-define('USERFILES', ROOTPATH . '/' . USERFILES_DIRNAME . '/');
+define('USERFILES', ROOTPATH . DS . USERFILES_DIRNAME . DS);
 
 
 
 
 define("USERFILES_URL", site_url('userfiles/'));
-
 
 
 
@@ -150,7 +150,7 @@ define("MODULES_DIR", USERFILES . 'modules/');
 
 define('TEMPLATEFILES_DIRNAME', 'templates');
 
-define('TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . '/');
+define('TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . DS);
 
 define('MEDIAFILES', USERFILES . 'media' . '/');
 
@@ -163,7 +163,7 @@ define('STYLES_DIR', USERFILES . 'styles' . '/');
 define('PLUGINS_DIRNAME', USERFILES . 'plugins' . '/');
 
 define("USER_IP", $_SERVER ["REMOTE_ADDR"]);
-define("DS", DIRECTORY_SEPARATOR);
+
 
 
 

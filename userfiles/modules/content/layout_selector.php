@@ -45,7 +45,52 @@ $(document).ready(function() {
     });
 	
 	
+		$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
+        // Do something exciting
+	//	var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
+		
+		// $pmod.attr('data-active-site-template',$(this).val());
+		 
+		 generate_preview<? print $rand; ?>();
+		 
+		//   mw.reload_module($pmod);
+		
+	 	//alert($(this).val());
+    });
 	
+	function safe_chars_to_str<? print $rand; ?>(str) {
+str=str.replace(/\\/g,'____');
+str=str.replace(/\'/g,'\\\'');
+str=str.replace(/\"/g,'\\"');
+str=str.replace(/\0/g,'____');
+return str;
+}
+	
+	function generate_preview<? print $rand; ?>(){
+		var $template = $('#active_site_template_<? print $rand; ?>').val();
+		var $layout = $('#active_site_layout_<? print $rand; ?>').val();
+		
+		$template = safe_chars_to_str<? print $rand; ?>($template);
+		$layout =  safe_chars_to_str<? print $rand; ?>($layout);
+		
+		$template = $template.replace('/','___');;
+		$layout = $layout.replace('/','___');;
+		
+		var iframe_url = '<? print page_link($data['id']); ?>/no_editmode:true/preview_template:'+$template+'/preview_layout:'+$layout
+		
+		
+		var $html = '<iframe src="'+iframe_url+'" class="preview_frame_small" ></iframe>'
+		$('.preview_frame_wrap').html($html);
+		$('#preview_frame_wrap').append(iframe_url);
+		
+		
+		
+		//alert($template+$layout );
+		
+	}
+	
+	
+	generate_preview<? print $rand; ?>();
 	
 	
 });
@@ -68,7 +113,7 @@ $(document).ready(function() {
 content_layout_file
 <? if(!empty($layouts)): ?>
  
-<select name="content_layout_file">
+<select name="content_layout_file" id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"   <? if(('' == trim($data['content_layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
   <? foreach($layouts as $item): ?>
   <option value="<? print $item['content_layout_file'] ?>"  title="<? print $item['content_layout_file'] ?>"   <? if(($item['content_layout_file'] == $data['content_layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
@@ -77,3 +122,27 @@ content_layout_file
 <? endif; ?>
 <br />
 <br />
+Preview<br />
+<br />
+
+
+
+
+         <style type="text/css">
+.preview_frame_small{
+zoom: 0.15;
+-moz-transform: scale(0.15);
+-moz-transform-origin: 0 0;
+-o-transform: scale(0.15);
+-o-transform-origin: 0 0;
+-webkit-transform: scale(0.15);
+-webkit-transform-origin: 0 0;
+
+width:600px;height:800px;border:5px solid black;
+}
+</style>
+<div class="preview_frame_wrap">
+
+  
+</div>
+

@@ -121,12 +121,23 @@ function define_constants($content = false) {
         define('TEMPLATE_DIR', $the_active_site_template_dir);
     }
 
+
+    if (defined('TEMPLATES_DIR') == false) {
+
+        define('TEMPLATES_DIR', TEMPLATEFILES);
+    }
+
+
+
+
     $the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
     // d($the_template_url);
     $the_template_url = $the_template_url . '/';
     if (defined('TEMPLATE_URL') == false) {
         define("TEMPLATE_URL", $the_template_url);
     }
+
+
 
 
     if (defined('LAYOUTS_DIR') == false) {
@@ -156,6 +167,50 @@ function define_constants($content = false) {
 
 function get_layout_for_page($page = array()) {
     $render_file = false;
+
+
+
+    if (isset($page['active_site_template']) and $render_file == false and isset($page['content_layout_file'])) {
+
+        if (strtolower($page['active_site_template']) == 'default') {
+            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['content_layout_file'];
+        } else {
+            $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['content_layout_file'];
+        }
+
+
+
+        if (is_file($template_view) == true) {
+            $render_file = $template_view;
+        }
+    }
+
+
+
+
+    if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
+        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+        if (is_file($template_view) == true) {
+            $render_file = $template_view;
+        }
+    }
+
+    if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+        if (is_file($template_view) == true) {
+            $render_file = $template_view;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 //    if (trim($page['content_layout_name']) != '') {
 //        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_name'] . DS . 'index.php';

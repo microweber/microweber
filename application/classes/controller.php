@@ -6,13 +6,15 @@ class Controller {
     function index() {
         $page_url = url_string();
         $page_url = rtrim($page_url, '/');
+        $is_admin = is_admin();
 
         $is_editmode = url_param('editmode');
-        if ($is_editmode) {
+        $is_no_editmode = url_param('no_editmode');
+        if ($is_editmode and $is_no_editmode == false) {
             $editmode_sess = session_get('editmode');
 
             $page_url = url_param_unset('editmode', $page_url);
-            if (is_admin() == true) {
+            if ( $is_admin == true) {
                 if ($editmode_sess == false) {
                     session_set('editmode', true);
                 }
@@ -22,7 +24,34 @@ class Controller {
                 $is_editmode = false;
             }
         }
-        $is_editmode = session_get('editmode');
+        if (!$is_no_editmode) {
+            $is_editmode = session_get('editmode');
+        } else {
+            $is_editmode = false;
+            $page_url = url_param_unset('no_editmode', $page_url);
+        }
+
+        $is_preview_template = url_param('preview_template');
+        if (!$is_preview_template) {
+            $is_preview_template = false;
+        } else {
+
+            $page_url = url_param_unset('preview_template', $page_url);
+        }
+
+
+        $is_content_layout_file = url_param('preview_layout');
+        if (!$is_content_layout_file) {
+            $is_content_layout_file = false;
+        } else {
+
+            $page_url = url_param_unset('preview_layout', $page_url);
+        }
+
+
+
+
+
 
         if (trim($page_url) == '') {
             //
@@ -43,11 +72,30 @@ class Controller {
             $content = $page;
         }
 
+
+
+
+        if ($is_preview_template != false and $is_admin == true) {
+            $is_preview_template = str_replace('____', DS, $is_preview_template);
+            $content['active_site_template'] = $is_preview_template;
+        }
+
+        if ($is_content_layout_file != false and $is_admin == true) {
+            $is_content_layout_file = str_replace('____', DS, $is_content_layout_file);
+            $content['content_layout_file'] = $is_content_layout_file;
+        }
+
+
+
+
         define_constants($content);
 
-        $render_file = get_layout_for_page($page);
 
-         
+
+
+        $render_file = get_layout_for_page($content);
+
+
 
         if ($render_file) {
             $l = new View($render_file);
