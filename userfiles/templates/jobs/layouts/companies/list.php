@@ -95,7 +95,7 @@
    $u = get_users($param);
   //
   
-  $pages = paging_prepare($uc,30);
+  $pages = paging_links($uc,30);
  // paging('uls', $pages);
 //  p($pa); 
    ?>
@@ -114,7 +114,7 @@
 	$tot_pages=$tot_pages+1;
 	
 	
-	   $pages = paging_prepare($tot_pages,$u,1);
+	   $pages = paging_links($tot_pages,$u,1);
 	 	paging('uls',$pages); ?>
     <a href="#" id="next">Next</a>
     <div class="page_number"> </div>

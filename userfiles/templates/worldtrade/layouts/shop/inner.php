@@ -322,7 +322,7 @@ $i++;  endforeach ;  ?>
       
       <? 
 
-	$p = cf_val($post['id'], 'price');
+	$p = custom_field_value($post['id'], 'price');
 	
 	
 	
@@ -376,7 +376,7 @@ if(!empty($p )){
         </td>
       <td>
      
-      <? $sizes =   cf_val($post['id'], 'sizes');
+      <? $sizes =   custom_field_value($post['id'], 'sizes');
  
 	   ?>
       
@@ -409,7 +409,7 @@ if(!empty($p )){
         </td>
       <td>
    
- <? $colors =   cf_val($post['id'], 'colors_selector');
+ <? $colors =   custom_field_value($post['id'], 'colors_selector');
  //p($colors );
 	   ?>
        <? if(!empty($colors)): ?>

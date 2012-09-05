@@ -37,7 +37,7 @@
 	$tot_pages=$tot_pages+1;
 	
 	
-	   $pages = paging_prepare($tot_pages,$posts_temp,1);
+	   $pages = paging_links($tot_pages,$posts_temp,1);
 	 	paging('uls',$pages); ?>
       <a href="#" id="next">Next</a>
       <div class="page_number"> </div>
@@ -50,7 +50,7 @@
 	$tot_pages=$tot_pages+1;
 	
 	
-	   $pages = paging_prepare($tot_pages,$posts_temp,1);
+	   $pages = paging_links($tot_pages,$posts_temp,1);
 	 	paging('uls',$pages); ?>
     <a href="#" id="next">Next</a>
     <div class="page_number"> </div>

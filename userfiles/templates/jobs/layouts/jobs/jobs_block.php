@@ -5,11 +5,11 @@
   <div class="searched_job_desc"><? print $post['content_body_nohtml'] ?></div>
   <div class="searched_job_add_buts">
     <div class="searched_job_location"> Date Posted:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $post['created_on'] ?></span><br />
-      <?  $v = cf_val($post['id'], $field_name = 'Location') ;?>
+      <?  $v = custom_field_value($post['id'], $field_name = 'Location') ;?>
       <? if($v != false): ?>
       Location:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $v; ?> </span> <br />
       <? endif; ?>
-      <?  $v = cf_val($post['id'], $field_name = 'sallary-range') ;?>
+      <?  $v = custom_field_value($post['id'], $field_name = 'sallary-range') ;?>
       <? if($v != false): ?>
       Salary:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $v; ?></span> <br />
       <? endif; ?> 

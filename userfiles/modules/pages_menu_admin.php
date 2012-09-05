@@ -1,0 +1,1 @@
+<h1>Pages tree admin</h1> 

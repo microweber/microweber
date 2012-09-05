@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<dwquery>
-  <queryparams matchcase="false" ignorewhitespace="false" useregexp="false" wholeword="false" />
-  <find>
-    <qtext qname="extends CI_Model" qraw="true"></qtext>
-  </find>
-  <replace action="reextends extends CI_Model" param1="extends CI_Model" param2=""/>
-</dwquery>

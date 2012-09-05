@@ -1,5 +1,0 @@
-[18-Feb-2011 00:41:45] PHP Fatal error:  Call to undefined function get_post() in /home/skidekid/public_html/userfiles/templates/skide/modules/posts/read.php on line 1
-[18-Feb-2011 00:50:50] PHP Fatal error:  Call to undefined function add_post_form() in /home/skidekid/public_html/userfiles/templates/skide/modules/posts/add.php on line 34
-[18-Feb-2011 00:52:34] PHP Fatal error:  Call to undefined function app_var() in /home/skidekid/public_html/userfiles/templates/skide/modules/posts/paging.php on line 2
-[18-Feb-2011 01:21:24] PHP Fatal error:  Call to undefined function get_categories() in /home/skidekid/public_html/userfiles/templates/skide/modules/posts/most_popular_from_categories.php on line 5
-[18-Feb-2011 01:41:05] PHP Fatal error:  Call to undefined function url_param() in /home/skidekid/public_html/userfiles/templates/skide/modules/posts/list.php on line 86

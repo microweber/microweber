@@ -1,0 +1,1 @@
+<?php category_tree($params); ?>
