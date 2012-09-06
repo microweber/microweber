@@ -385,5 +385,18 @@ margin-right: 6px;
   clear: both;
   padding:3px 0 3px;
   text-align: center;
-  font-size: 10px; 
+  font-size: 10px;
+}
+
+#items_handle{
+  position: absolute;
+  z-index: 999;
+  width: 10px;
+  height: 10px;
+  background: red;
+  cursor: move;
+}
+
+.fx{
+  display: none;
 }

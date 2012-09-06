@@ -8,13 +8,15 @@ class Controller {
         $page_url = rtrim($page_url, '/');
         $is_admin = is_admin();
 
+        $simply_a_file = false; // if this is a file path it will load it
+
         $is_editmode = url_param('editmode');
         $is_no_editmode = url_param('no_editmode');
         if ($is_editmode and $is_no_editmode == false) {
             $editmode_sess = session_get('editmode');
 
             $page_url = url_param_unset('editmode', $page_url);
-            if ( $is_admin == true) {
+            if ($is_admin == true) {
                 if ($editmode_sess == false) {
                     session_set('editmode', true);
                 }
@@ -61,10 +63,51 @@ class Controller {
             $page = get_page_by_url($page_url);
 
             if (empty($page)) {
-                $page = get_homepage();
+                $page_url_segment_1 = url_segment(0);
+
+                $page_url_segment_2 = url_segment(1);
+
+                $td = TEMPLATEFILES . DS . $page_url_segment_1;
+                $tf1 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . 'index.php';
+                $tf2 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . $page_url_segment_2 . '.php';
+                $tf3 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . $page_url_segment_2;
+
+
+
+
+                if (is_dir($td)) {
+
+                    if (is_file($tf1)) {
+                        $simply_a_file = $tf1;
+                    }
+
+                    if (is_file($tf2)) {
+                        $simply_a_file = $tf2;
+                    }
+                    if (is_file($tf3)) {
+                        $simply_a_file = $tf3;
+                    }
+
+
+                    if (($simply_a_file) != false) {
+                        $simply_a_file = str_replace('..', '', $simply_a_file);
+                    }
+
+                    //   d($simply_a_file);
+                }
+                if ($simply_a_file == false) {
+                    $page = get_homepage();
+                } else {
+                    $page['id'] = 0;
+                    $page['content_type'] = 'page';
+                    $page['content_parent'] = '0';
+                    $page['active_site_template'] = $page_url_segment_1;
+                    $page['simply_a_file'] = $simply_a_file;
+                }
             }
+            //  d($page);
         }
-        // d($page);
+        //
         if ($page['content_type'] == "post") {
             $content = $page;
             $page = get_content_by_id($page['content_parent']);
@@ -90,10 +133,9 @@ class Controller {
 
         define_constants($content);
 
-
-
-
         $render_file = get_layout_for_page($content);
+
+
 
 
 
@@ -112,11 +154,18 @@ class Controller {
 
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
+
                     if ($layout_toolbar != '') {
-                        $l = str_replace('<body>', '<body>' . $layout_toolbar, $l);
+                        $l = str_replace('</head>', $layout_toolbar . '</head>', $l);
                     }
                 }
             }
+            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+
+
+
+
+
 
             // var_dump($l);
             $l = parse_micrwober_tags($l, $options = false);
@@ -217,7 +266,7 @@ class Controller {
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
 
-        $api_function = url(1) ? : 'index';
+        $api_function = url_segment(1) ? : 'index';
 
         if ($api_function == 'module') {
             $this->module();

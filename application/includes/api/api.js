@@ -49,6 +49,8 @@ if(!Array.indexOf){
 
 mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js');
 
+
+
 Wait = function(a,b){ !mw.is.defined(a) ? setTimeout(function(){Wait(a,b),22}) : b.call(a); }
 
 mw.loaded = false;

@@ -4,6 +4,26 @@ function isAjax() {
     return (isset($_SERVER ['HTTP_X_REQUESTED_WITH']) && ($_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }
 
+function url_segment($k = -1) {
+    static $u;
+    if ($u == false) {
+
+        $u1 = curent_url();
+        $u2 = site_url();
+
+        $u1 = str_replace($u2, '', $u1);
+
+        $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
+
+        // $u = $u ? : explode ( '/', trim ( preg_replace (
+        // '/^([A-Za-z0-9:]+)/i', '', current ( explode ( '?', $u1, 2 ) ) ), '/'
+        // )
+        // );
+    }
+
+    return $k != - 1 ? v($u [$k]) : $u;
+}
+
 /**
  * Returns the url segments as array;
  *
@@ -39,7 +59,7 @@ function url($k = -1) {
 function url_string() {
     static $u1;
     if ($u1 == false) {
-        $u1 = implode('/', url());
+        $u1 = implode('/', url_segment());
     }
     return $u1;
 }

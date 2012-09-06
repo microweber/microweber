@@ -7,19 +7,19 @@
  * @access      public
  * @category    categories
  * @author      Microweber
- * @link        http://microweber.info/documentation/get_categories
- * @param
-  $params = array();
-  $params['content_parent'] = false; //parent id
-  $params['link'] = false; // the link on for the <a href
-  $params['actve_ids'] = array(); //ids of active categories
-  $params['active_code'] = false; //inserts this code for the active ids's
-  $params['remove_ids'] = array(); //remove those caregory ids
-  $params['ul_class_name'] = false; //class name for the ul
-  $params['include_first'] = false; //if true it will include the main parent category
-  $params['content_type'] = false; //if this is set it will include only categories from desired type
-  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
-  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+ * @param $params = array();
+ * @param  $params['content_parent'] = false; //parent id
+ * @param  $params['link'] = false; // the link on for the <a href
+ * @param  $params['actve_ids'] = array(); //ids of active categories
+ * @param  $params['active_code'] = false; //inserts this code for the active ids's
+ * @param  $params['remove_ids'] = array(); //remove those caregory ids
+ * @param   $params['ul_class_name'] = false; //class name for the ul
+ * @param  $params['include_first'] = false; //if true it will include the main parent category
+ * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
+ * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
+ * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+
+ * @usage category_tree($params);
 
  */
 function category_tree($params) {

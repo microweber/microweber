@@ -165,8 +165,30 @@ function define_constants($content = false) {
     return true;
 }
 
+api_expose('css3_write');
+
+function css3_write($property, $value) {
+    
+
+    $css3 = "-webkit-" . $property . ": " . $value . ";\n"
+            . " -moz-" . $property . ": " . $value . ";\n"
+            . " -o-" . $property . ": " . $value . ";\n"
+            . " -ms-" . $property . ": " . $value . ";\n"
+            . " " . $property . ": " . $value . ";\n";
+    echo $css3;
+}
+
 function get_layout_for_page($page = array()) {
     $render_file = false;
+
+    if (isset($page['simply_a_file'])) {
+
+        if (is_file($page['simply_a_file']) == true) {
+            $render_file = $page['simply_a_file'];
+        }
+    }
+
+
 
 
 
@@ -496,6 +518,26 @@ function get_content($params) {
 }
 
 function post_link($id = false) {
+    if (is_string($id)) {
+        // $link = page_link_to_layout ( $id );
+    }
+    if ($id == false) {
+        if (defined('PAGE_ID') == true) {
+            $id = PAGE_ID;
+        }
+    }
+
+    $link = get_content_by_id($id);
+    if (strval($link) == '') {
+        $link = get_page_by_url($id);
+    }
+    $link = site_url($link['content_url']);
+    return $link;
+}
+
+api_expose('content_link');
+
+function content_link($id = false) {
     if (is_string($id)) {
         // $link = page_link_to_layout ( $id );
     }
@@ -1387,6 +1429,11 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
             extract($params);
         }
     }
+
+
+
+
+
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_content'];
@@ -1521,6 +1568,14 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
             } else {
                 $children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
             }
+
+            if (isset($include_categories) and $include_categories == true) {
+                $cat_params = array();
+                $cat_params['content_parent'] = $item['id'];
+                //  d($cat_params);
+                category_tree($cat_params);
+            }
+
 
             print "</li>";
         }

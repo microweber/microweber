@@ -52,7 +52,7 @@
                 var refresh_modules11 = $(this).attr('data-refresh');
 				
 				if(refresh_modules11 == undefined){
-					                var refresh_modules11 = $(this).attr('data-reload');
+				    var refresh_modules11 = $(this).attr('data-reload');
 
 				}
 
@@ -72,11 +72,7 @@
 
 
                     }),
-
-
                     success: function () {
-
-
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
 
@@ -91,43 +87,10 @@
                         //  $(this).addClass("done");
                     }
                 });
-
-
-
             });
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		    });
-		
-		
-		
-		
-		
-		
 
-		
-		
-		
-		
-		
-		
-		
-		
-
-		
-
-		
     </script>
 
     <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
@@ -251,6 +214,33 @@
                 </div>
                 <div class="ed_slider margin-slider es_item" id="margin_slider" data-type="margin"></div>
             </span>
+
+
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">F<b>x</b></span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="shadow"><a href="#">Drop Shadow</a></li>
+                  <li value="perspective"><a href="#">Perspective</a></li>
+                </ul>
+              </div>
+            </div>
+            <div id="element_effx">
+                <div class="fx" id="fx_shadow">
+                    <span>Top</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_top"></div>
+                    <span>Left</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_left"></div>
+                    <span class="shadow_color"></span>
+                </div>
+                <div class="fx" id="fx_perspective">
+                    <span>Perspective</span> <div class="ed_slider perspective-slider"></div>
+                </div>
+            </div>
+
+
 
 
           </div>

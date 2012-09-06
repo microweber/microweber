@@ -22,7 +22,7 @@ $modules = get_modules($modules_options );
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
-  <li data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item"> <span class="mw_module_hold">
+  <li id="c<?php print uniqid(); ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item"> <span class="mw_module_hold">
     <? if($module2['icon']): ?>
     <span class="mw_module_image"> <span class="mw_module_image_shadow"></span> <img
                 alt="<? print $module2['name'] ?>"

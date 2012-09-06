@@ -1,8 +1,21 @@
 
 
+
+
 mw.current_element_styles = {}
 
 Registered_Sliders = ['margin', 'opacity'];
+
+
+mw.css3fx = {
+  perspective:function(el,a,b){
+    el.style.WebkitTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+    el.style.MozTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+    el.style.OTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+    el.style.transform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+    $(el).addClass("mwfx");
+  }
+}
 
 mw.config_element_styles=function(){
     var q = mw.current_element_styles;
@@ -85,5 +98,22 @@ $(document).ready(function(){
 
 
   init_square_maps();
+
+  $("#fx_element").change(function(){
+    var val = $(this).getDropdownValue();
+    $("#element_effx .fx").hide();
+    $("#fx_"+val).show();
+  });
+
+  $(".perspective-slider").slider({
+    slide:function(event,ui){
+      mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
+    },
+    min:0,
+    max:180,
+    value:0
+  });
+
+
 
 });

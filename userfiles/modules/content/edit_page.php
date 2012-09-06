@@ -24,7 +24,7 @@ $data = get_content_by_id($params["data-page-id"]);
 if($data == false or empty($data )){
 include('_empty_content_data.php');	
 }
-$form_rand_id = md5(serialize($data));
+$form_rand_id = $rand = uniqid();
 ?>
 <script  type="text/javascript">
 
@@ -40,8 +40,8 @@ $(document).ready(function(){
  
  mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
 	 
+	 mw_after_content_save<? print $rand ?>(this);
 	 
-	 mw.reload_module('[data-type="pages_menu"]');
 	 });
  
   
@@ -53,6 +53,50 @@ $(document).ready(function(){
  
  
  });
+   
+   
+    $('#go_live_edit_<? print $rand ?>').click(function() { 
+
+ 
+ mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
+	 
+	 
+	 
+	 
+  mw_after_content_save<? print $rand ?>(this);
+	 
+	 
+	 
+	 
+	 
+	 
+	 });
+	 
+	 
+	
+
+ return false;
+ 
+ 
+ });
+ 
+ 
+ 
+ 
+ function mw_after_content_save<? print $rand ?>($id){
+	$id = $id.replace(/"/gi, "");
+	mw.reload_module('[data-type="pages_menu"]');
+	$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
+		//console.log(data);
+   window.location.href = data;
+  
+}); 
+	
+	
+	
+	 
+ }
+   
    
  
 
@@ -96,21 +140,22 @@ $(document).ready(function(){
   <br />
   is_active
   <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
-   is_home
+  is_home
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
   <br />
   content_subtype
-    <select name="content_subtype">
+  <select name="content_subtype">
     <option value="static"   <? if( '' == trim($data['content_subtype']) or 'static' == trim($data['content_subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-     <option value="dynamic"   <? if( 'dynamic' == trim($data['content_subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
-    </select>
-   <br />
+    <option value="dynamic"   <? if( 'dynamic' == trim($data['content_subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+  </select>
+  <br />
   content_description
   <input name="content_description"  type="text" value="<? print ($data['content_description'])?>" />
   <br />
   content_subtype_value
   <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
   <br />
-  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <input type="submit" name="save" value="save" />
+  <input type="button" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
 </form>

@@ -2,3 +2,4 @@
 <? error('Not logged as admin'); ?>
 <? endif; ?>
 index.php
+ 
