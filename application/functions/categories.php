@@ -22,7 +22,7 @@
  * @usage category_tree($params);
 
  */
-function category_tree($params) {
+function category_tree($params = false) {
 
     $p2 = array();
     // p($params);
@@ -43,7 +43,7 @@ function category_tree($params) {
     $link = isset($params ['link']) ? $params ['link'] : false;
 
     if ($link == false) {
-        $link = "<a href='{taxonomy_url}' {active_code} >{taxonomy_value}</a>";
+        $link = "<a href='{taxonomy_url}' data-category-id='{id}' {active_code} >{taxonomy_value}</a>";
     }
 
     $actve_ids = isset($params ['actve_ids']) ? $params ['actve_ids'] : array(

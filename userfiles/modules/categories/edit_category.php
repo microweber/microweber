@@ -31,6 +31,7 @@ $(document).ready(function(){
 	 
 	 
 	 mw.reload_module('[data-type="categories"]');
+	  mw.reload_module('[data-type="pages_menu"]');
 	 });
 
  return false;

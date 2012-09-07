@@ -68,24 +68,34 @@ class Controller {
                 $page_url_segment_2 = url_segment(1);
 
                 $td = TEMPLATEFILES . DS . $page_url_segment_1;
-                $tf1 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . 'index.php';
-                $tf2 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . $page_url_segment_2 . '.php';
-                $tf3 = TEMPLATEFILES . DS . $page_url_segment_1 . DS . $page_url_segment_2;
 
 
 
+                $fname1 = 'index.php';
+                $fname2 = $page_url_segment_2 . '.php';
+                $fname3 = $page_url_segment_2;
+
+                $tf1 = $td . DS . $fname1;
+                $tf2 = $td . DS . $fname2;
+                $tf3 = $td . DS . $fname3;
+
+
+                $the_new_page_file = false;
 
                 if (is_dir($td)) {
 
                     if (is_file($tf1)) {
                         $simply_a_file = $tf1;
+                        $the_new_page_file = $fname1;
                     }
 
                     if (is_file($tf2)) {
                         $simply_a_file = $tf2;
+                        $the_new_page_file = $fname2;
                     }
                     if (is_file($tf3)) {
                         $simply_a_file = $tf3;
+                        $the_new_page_file = $fname3;
                     }
 
 
@@ -101,8 +111,13 @@ class Controller {
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
                     $page['content_parent'] = '0';
+                    $page['content_url'] = url_string();
                     $page['active_site_template'] = $page_url_segment_1;
+                    $page['content_layout_file'] = $the_new_page_file;
                     $page['simply_a_file'] = $simply_a_file;
+
+                    template_var('new_page', $page);
+                    //template_var('new_page');
                 }
             }
             //  d($page);
@@ -141,9 +156,8 @@ class Controller {
 
         if ($render_file) {
             $l = new View($render_file);
-            // $this->content = $content;
-            // var_dump($l);
-            // $l->set ( $this );
+            // $l->content = $content;
+            // $l->set($l);
             $l = $l->__toString();
 
             if ($is_editmode == true) {
@@ -160,6 +174,13 @@ class Controller {
                     }
                 }
             }
+
+            $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
+
+            $l = str_replace('</head>', $default_css . '</head>', $l);
+
+
+
             $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 
 
@@ -430,6 +451,12 @@ class Controller {
                 $mod_n = $data['data-type'] = $data['type'];
             }
         }
+
+        if (isset($data['data-module-name'])) {
+            $mod_n = $data['data-type'] = $data['data-module-name'];
+            unset($data['data-module-name']);
+        }
+
 
         if (isset($data['data-type']) != false) {
             $mod_n = $data['data-type'];

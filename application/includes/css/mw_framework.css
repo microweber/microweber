@@ -196,6 +196,7 @@ body:-webkit-full-screen {
     position: absolute !important;
     height: 2px;
     background:#56B2F3;
+    z-index: 997;
 }
 
 .mw_dropable_vertical{
@@ -451,7 +452,7 @@ body.not-allowed{
 #live_edit_toolbar{
   width: 100%;
   position: relative;
-  z-index: 997;
+  z-index: 999;
 }
 
 #live_edit_toolbar{

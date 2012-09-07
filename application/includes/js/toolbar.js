@@ -91,7 +91,12 @@ mw.image = {
         });
       },
       init:function(selector){
-        mw.image_resizer == undefined?mw.image.resize.prepare():'';
+        mw.image_resizer == undefined?mw.image.resize.prepare():'';   /*
+        $(".element-image").each(function(){
+          var img = this.getElementsByTagName('img')[0];
+          this.style.width = $(img).width()+'px';
+          this.style.height = $(img).height()+'px';
+        });     */
         $(selector, '.edit').each(function(){
           $(this).notclick().bind("click", function(){
              if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
@@ -243,7 +248,8 @@ $(window).load(function(){
         mw.wysiwyg.check_selection();
     });
     $(".element").mousedown(function(event){
-        $(".mw_editor_btn").removeClass("mw_editor_btn_active")
+        $(".mw_editor_btn").removeClass("mw_editor_btn_active");
+
     });
 
 
@@ -273,6 +279,7 @@ $(".mw_dropdown_action_format").change(function(){
 
 
   mw.image.resize.init(".element img");
+  //mw.image.resize.init(".element-image");
 
 
 

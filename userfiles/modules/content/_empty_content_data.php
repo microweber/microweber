@@ -1,4 +1,8 @@
 <?
+$is_new = template_var('new_page');
+
+
+
 
 $data  = array();
 $data['id'] = 0;	
@@ -14,3 +18,13 @@ $data['content_subtype_value'] = '';
 $data['content_parent'] = 0;	
 $data['content_layout_name'] = '';		
 $data['content_layout_file'] = '';	
+
+if($is_new == false){
+	 
+} else {
+	 foreach($is_new as $k => $v){
+		$data[$k] =  $v;	
+		 
+	 }
+	
+}

@@ -1,5 +1,5 @@
 <?
-
+ 
 if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
 }
@@ -88,7 +88,7 @@ $(document).ready(function(){
 	mw.reload_module('[data-type="pages_menu"]');
 	$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
 		//console.log(data);
-   window.location.href = data;
+   window.location.href = data+'/editmode:y';
   
 }); 
 	
@@ -117,7 +117,16 @@ $(document).ready(function(){
   <input name="id"  type="text" value="<? print ($data['id'])?>" />
   <br />
   content_parent
-  <? $pages = get_content('content_type=page');   ?>
+    <? if($edit_post_mode != false): ?>
+     <? $pages = get_content('content_type=page');   ?>
+    <? else: ?>
+    
+	 <? $pages = get_content('content_type=page&content_subtype=dynamic');   ?>
+	<? endif; ?>
+    
+    
+    
+ 
   <? if(!empty($pages)): ?>
   <select name="content_parent">
     <option value="0"   <? if((0 == intval($data['content_parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -129,8 +138,7 @@ $(document).ready(function(){
   </select>
   <? endif; ?>
   <br />
-  content_type
-  <input name="content_type"  type="text" value="<? print ($data['content_type'])?>" />
+ 
   <br />
   content_title
   <input name="content_title"  type="text" value="<? print ($data['content_title'])?>" />
@@ -140,6 +148,30 @@ $(document).ready(function(){
   <br />
   is_active
   <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
+  
+   content_type
+    <? if($edit_post_mode != false): ?>
+	<? $data['content_type'] = 'post'; ?>
+	<? endif; ?>
+    
+    <select name="content_type">
+    <option value="page"   <? if(('page' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>page</option>
+        <option value="post"   <? if(('post' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>post</option>
+
+   
+  </select>
+  
+   <? if($edit_post_mode != false): ?>
+   
+ <? category_tree(); ?>  
+   <? endif; ?>
+  
+ 
+   <? if($edit_post_mode == false): ?>
+   
+   
+   
+   
   is_home
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
   <br />
@@ -149,13 +181,18 @@ $(document).ready(function(){
     <option value="dynamic"   <? if( 'dynamic' == trim($data['content_subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
   </select>
   <br />
+    content_subtype_value
+  <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
+  <br />
+  
+    <? endif; ?>
   content_description
   <input name="content_description"  type="text" value="<? print ($data['content_description'])?>" />
   <br />
-  content_subtype_value
-  <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
-  <br />
+
   <input type="submit" name="save" value="save" />
   <input type="button" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+  <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+  <? endif; ?>
 </form>

@@ -18,7 +18,12 @@ $modules = get_modules($modules_options );
 		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
 		 $module_group2 = $module_group2[0];
 		?>
-  <? $module2['module'] = str_replace('\\','/',$module2['module']); ?>
+  <? $module2['module'] = str_replace('\\','/',$module2['module']);
+  
+  $module2['module'] = rtrim($module2['module'],'/');
+  $module2['module'] = rtrim($module2['module'],'\\');
+  
+   ?>
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>

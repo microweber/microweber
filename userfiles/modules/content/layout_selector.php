@@ -11,7 +11,7 @@ if($data == false or empty($data )){
 include('_empty_content_data.php');	
 }
 
-
+ 
 if(isset($params["data-active-site-template"])){
 	$data['active_site_template'] = $params["data-active-site-template"] ;
 }
@@ -100,6 +100,13 @@ return str;
 <? if($templates != false and !empty($templates)): ?>
 <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
   <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
+  
+    <? if(('' != trim($data['active_site_template']))): ?>
+  <option value="<? print $data['active_site_template'] ?>"     selected="selected" ><? print $data['active_site_template'] ?></option>
+   <? endif; ?>
+  
+  
+  
   <? foreach($templates as $item): ?>
   <? $attrs = ''; 
  foreach($item as $k=>$v): ?>
@@ -111,15 +118,21 @@ return str;
 <? endif; ?>
 <br />
 content_layout_file
-<? if(!empty($layouts)): ?>
+
  
 <select name="content_layout_file" id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"   <? if(('' == trim($data['content_layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
+   <? if(('' != trim($data['content_layout_file']))): ?>
+  <option value="<? print $data['content_layout_file'] ?>"     selected="selected" ><? print $data['content_layout_file'] ?></option>
+   <? endif; ?>
+  
+  <? if(!empty($layouts)): ?>
   <? foreach($layouts as $item): ?>
   <option value="<? print $item['content_layout_file'] ?>"  title="<? print $item['content_layout_file'] ?>"   <? if(($item['content_layout_file'] == $data['content_layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
   <? endforeach; ?>
+  <? endif; ?>
 </select>
-<? endif; ?>
+
 <br />
 <br />
 Preview<br />

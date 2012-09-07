@@ -179,3 +179,25 @@ function layouts_list($options = false) {
         cache_store_data(false, $function_cache_id, $cache_group);
     }
 }
+
+function template_var($key, $new_val = false) {
+    static $defined = array();
+    $contstant = ($key);
+    if ($new_val == false) {
+        if (isset($defined[$contstant]) != false) {
+            return $defined[$contstant];
+        } else {
+            return false;
+        }
+    } else {
+        if (isset($defined[$contstant]) == false) {
+            $defined[$contstant] = $new_val;
+            return $new_val;
+        }
+    }
+    return false;
+
+
+
+    //
+}

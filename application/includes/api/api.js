@@ -178,7 +178,7 @@ mw.reload_module = function($module_name) {
 		if(typeof $module_name == 'object'){
 			 mw._({
                       selector:$module_name
-                    });
+             });
 			
 		} else {
 		
@@ -200,9 +200,6 @@ mw.reload_module = function($module_name) {
 			}
 		}
 		}
-		
-		
-		
 	}
 }
 
@@ -223,6 +220,7 @@ mw._ = function(obj){
     });
     $.post(url, to_send, function(data){
         $(selector).after(data);
+        //$(".element").notclick().attr("contenteditable", true);
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) :'';
     });

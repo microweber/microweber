@@ -242,6 +242,30 @@
 
 
 
+            <br />Width<br />
+            <div class="ed_slider width-slider es_item" id="width_slider" data-max="1000" data-min="100" data-type="width"></div>
+
+
+            align<br />
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg" id="align_element" title="Align" data-value="none" onchange="mw.alignem($(this).getDropdownValue());">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">Align</span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="none"><a href="#">None</a></li>
+                  <li value="left"><a href="#">Left</a></li>
+                  <li value="right"><a href="#">Right</a></li>
+                  <li value="center"><a href="#">Center</a></li>
+
+                </ul>
+              </div>
+            </div>
+
+
+
 
           </div>
 
@@ -252,8 +276,7 @@
     </div>
     
      <div id="tab_pages" class="mw_toolbar_tab"> 
-      <microweber module="content/pages_toolbar" />
-     
+      <? include(INCLUDES_DIR.'admin'.DS.'content.php') ?>
      </div>
     
     

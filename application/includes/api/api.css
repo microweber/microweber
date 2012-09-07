@@ -1,4 +1,4 @@
-/*
+﻿/*
 api css
 */
 
@@ -391,12 +391,48 @@ margin-right: 6px;
 #items_handle{
   position: absolute;
   z-index: 999;
-  width: 10px;
-  height: 10px;
-  background: red;
+  width: 18px;
+  height: 18px;
+  background: white url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/cursor_drag_arrow_2.png) no-repeat center center;
   cursor: move;
+  box-shadow: 1px 0 1px #212121;
+  opacity:0.66;
+}
+
+#items_handle:hover{
+  opacity:1;
 }
 
 .fx{
   display: none;
+}
+
+.edit.currentDragMouseOver{
+  background-color:#E2D63F;
+}
+
+.mw_element_resizer{
+  position: absolute;
+  z-index: 997;
+}
+
+.mw_element_resizer .ui-resizable-e{
+  width: 20px;
+  height: 20px;
+  background: #595959;
+  top: 50%;
+  left: -10px;
+}
+.mw_element_resizer .ui-resizable-w{
+  width: 20px;
+  height: 20px;
+  background: #595959;
+  top: 50%;
+  right: -10px;
+}
+
+.center{
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }

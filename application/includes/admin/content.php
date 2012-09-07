@@ -1,4 +1,6 @@
-<? $rand = uniqid(); ?>
+<?
+
+ $rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -8,24 +10,55 @@ $(document).ready(function(){
 	
 	 
  
-$('#pages_tree_toolbar a').live('click',function() { 
+$('#pages_tree_toolbar .pages_tree a[data-page-id]').live('click',function(e) { 
 
 $p_id = $(this).parent().attr('data-page-id');
  
  
  mw_select_page_for_editing($p_id);
-
- return false;});
+ return false;
+ 
+ 
+ 
+ });
    
 });
 
 
 
+$('#holder_temp_<? print $rand  ?> .category_tree a[data-category-id]').live('click',function(e) { 
+
+	$p_id = $(this).parent().attr('data-category-id');
+ 
+ 	mw_select_category_for_editing($p_id);
+return false;
+ 
+ 
+ 
+ 
+ });
+ 
+ 
+ 
+
+
 
 function mw_select_page_for_editing($p_id){
 	 
-	$('#edit_content_admin_<? print $rand  ?>').attr('data-page-id',$p_id);
-  mw.reload_module('#edit_content_admin_<? print $rand  ?>');
+	 
+	 
+	 
+	 
+	//$('#edit_content_admin_<? print $rand  ?>').attr('data-page-id',$p_id);
+	
+	
+	$('#holder_temp2_<? print $rand  ?>').attr('data-page-id',$p_id);
+  	 mw.load_module('content/edit_page','#holder_temp2_<? print $rand  ?>');
+	 
+	 
+	 
+	 
+ // mw.reload_module('#edit_content_admin_<? print $rand  ?>');
 	
 }
 
@@ -118,14 +151,16 @@ function mw_select_post_for_editing($p_id){
 	
 }
 </script>
-
+   <button onclick="mw_select_page_for_editing(0)">new page</button>
+        <button onclick="mw_select_category_for_editing(0)">new category</button>
+         <button onclick="mw_select_post_for_editing(0)">new post</button>
 <button onclick="mw_set_edit_categories<? print $rand  ?>()">mw_set_edit_categories<? print $rand  ?></button>
 <button onclick="mw_set_edit_posts<? print $rand  ?>()">mw_set_edit_posts<? print $rand  ?></button>
 <table  border="1" id="pages_temp_delete_me" style="z-index:9999999999; background-color:#efecec; position:absolute;" >
   <tr>
     <td><div id="holder_temp_<? print $rand  ?>">
-        <module data-type="pages_menu" id="pages_tree_toolbar"  />
-        <button onclick="mw_select_page_for_editing(0)">new page</button>
+        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar"  />
+     
       </div></td>
     <td><div id="holder_temp2_<? print $rand  ?>"><module data-type="content/edit_page" id="edit_content_admin_<? print $rand  ?>"  /></div></td>
   </tr>

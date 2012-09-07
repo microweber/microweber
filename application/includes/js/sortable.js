@@ -88,11 +88,12 @@ mw.drag = {
 
            if(!mw.isDrag){
 
-
-
                mw.mm_target = event.target;
 
+
+
                if($(mw.mm_target).hasClass("row") || $(mw.mm_target).parents(".row").length>0){
+                     $(".mw-sorthandle").invisible();
                      $(mw.mm_target).find(".mw-sorthandle-row:first").visible();
                      $(mw.mm_target).parents(".row:first").find(".mw-sorthandle-row:first").visible();
                }
@@ -102,7 +103,7 @@ mw.drag = {
                      $(mw.mm_target).parents(".element:first").find(".mw-sorthandle:first").visible();
                }
 
-               if(!$(mw.mm_target).hasClass("element")){
+               if(!$(mw.mm_target).hasClass("element") && $(mw.mm_target).parents(".element").length>0){
                  if(mw.mm_target.tagName=='P'){
                    var off = $(mw.mm_target).offset();
                     $(mw.items_handle).css({top:off.top+10,left:off.left+10});
@@ -114,6 +115,13 @@ mw.drag = {
                    }
 
                  }
+               }
+
+               if($(mw.mm_target).hasClass("module")){
+                 //mw.drag.fix_handles(mw.mm_target);
+               }
+               if($(mw.mm_target).parents(".module").length>0){
+                 //mw.drag.fix_handles($(mw.mm_target).parents(".module").eq(0));
                }
 
            }
@@ -136,7 +144,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region){
+            if(mw.drop_regions.global_drop_is_in_region && $(mw.dragCurrent).hasClass("element-image")){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
@@ -189,11 +197,6 @@ mw.drag = {
                 }
             }
 
-
-
-
-
-
             if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
@@ -212,30 +215,41 @@ mw.drag = {
 
         mw.dropables.prepare();
 
-	   mw.drag.edit_remove();
+	    mw.drag.edit_remove();
 
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
 
-		mw.drag.init(".element, .row");
+        mw.drag.init(".element, .row");
 		mw.drag.init(".module-item");
-		mw.drag.sort(".element > *,.edit,.column > *");
 
-		mw.drag.fix_handles();
+
+	   	mw.drag.sort(".element > *,.edit,.column > *,.edit > *");
+
+		//mw.drag.sort(".element > *, .element, .edit, .edit > *");    //
+
+
+
+        mw.drag.fix_handles();
 		mw.resizable_columns();
 
         $(document.body).mouseup(function(event){
         	if(mw.isDrag && mw.dropable.is(":hidden")){
-        		$(".ui-draggable-dragging").animate({top:0,left:0});
+        		$(".ui-draggable-dragging").css({top:0,left:0});
         	}
             $(this).removeClass("not-allowed");
         });
 
-
 	},
 
-
 	init: function (selector, callback) {
+
+        if(!mw.master_drag){
+            mw.items_handle = mwd.createElement('div');
+            mw.items_handle.id = 'items_handle';
+            mwd.body.appendChild(mw.items_handle);
+        }
+
 
         $(selector).not(".ui-draggable").not(".module .module").each(function(){
             var el = $(this);
@@ -302,6 +316,8 @@ mw.drag = {
             });
         });
 
+        if(!mw.items_handle){
+
         mw.items_handle = mwd.createElement('div');
         mw.items_handle.id = 'items_handle';
         mwd.body.appendChild(mw.items_handle);
@@ -323,22 +339,23 @@ mw.drag = {
               mw.dragCurrent.style.left = '';
               mw.dragCurrent.style.width = '';
               mw.dragCurrent.style.height = '';
-              console.log(mw.dragCurrent);
             }
         });
         $(mw.items_handle).mousedown(function(){
             var target = $(this).data("target");
             target.id = 'c'+mw.random();
+            $(target).addClass("mw_pdrag");
             var target = $(target);
 
             $(this).draggable("option", "helper", function(){
               target.css({
                 width:target.width(),
                 height:target.height()
-              })
+              });
               return target;
             });
         });
+        }
 
 	},
 
@@ -360,8 +377,6 @@ mw.drag = {
        }, function(){
            $(this).parent().parent().removeClass("moveit-hover");
        });
-
-
 	},
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
@@ -465,7 +480,13 @@ mw.drag = {
                                               parent.append(mw.dragCurrent);
                                            }
                                            else{
-                                              parent.before(mw.dragCurrent);
+                                             if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
+                                                parent.before(mw.dragCurrent);
+                                             }
+                                             else{
+                                                parent.prepend(mw.dragCurrent);
+                                             }
+
                                            }
                                          }
                                      }
@@ -484,7 +505,11 @@ mw.drag = {
                                                 parent.prepend(mw.dragCurrent);
                                              }
                                              else{
-                                                parent.after(mw.dragCurrent);
+                                                if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
+                                                   parent.after(mw.dragCurrent);
+                                                }
+                                                else{parent.append(mw.dragCurrent); }
+
                                              }
                                          }
                                          else{
@@ -638,17 +663,33 @@ mw.drag = {
 	 *
 	 * @example mw.drag.fix_handles()
 	 */
-	fix_handles: function () {
+	fix_handles: function (selector) {   return false;
+        if(mw.is.defined(selector)){
+
+            var el = $(selector);
+            var has = el.children("div:first").hasClass("mw-sorthandle-module");
+            if(!has){
+              var name = el.attr('data-type');
+              var id = el.attr('id');
+              var text = mw.settings.sorthandle_module
+              var text = text.replace(/MODULE_NAME/g, "" + '' + name + "");
+              var text = text.replace(/MODULE_ID/g, "'" + id + "'");
+              text = text.replace(/ELEMENT_ID/g, "'" + '' + id + "'");
+              el.prepend(text);
+            }
+        }
+        else{
+
 
 		if (mw.isDrag == false) {
 			$('.row', '.edit').each(function (index) {
-				$has = $(this).children("div:first").hasClass("mw-sorthandle-row");
-				if ($has == false) {
+				var has = $(this).children("div:first").hasClass("mw-sorthandle-row");
+				if (!has) {
 					$(this).prepend(mw.settings.sorthandle_row);
 				}
 				$el_id = $(this).attr('id');
 				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
+					$el_id = 'mw-row-' + mw.random();
 					$(this).attr('id', $el_id);
 				}
 				mw.drag.init_row_handles($el_id);
@@ -657,11 +698,11 @@ mw.drag = {
 			$('.element:not(.empty-element)', '.edit').each(function (index) {
 				$el_id = $(this).attr('id');
 				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
+					$el_id = 'mw-element-' + mw.random();
 					$(this).attr('id', $el_id);
 				}
-				$has = $(this).children(":first").hasClass("mw-sorthandle-col");
-				if ($has == false) {
+				var has = $(this).children(":first").hasClass("mw-sorthandle-col");
+				if (!has) {
 					$has_module = $(this).hasClass("module");
 					if ($has_module == false) {
 						text = mw.settings.sorthandle_col
@@ -694,6 +735,8 @@ mw.drag = {
 
 			mw.drag.sort_handles_events();
  		}
+
+        }
 	},
 
 
@@ -865,6 +908,7 @@ mw.drag = {
 
 
     $(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
+
     $(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
     $(".mw-sorthandle", '.edit').remove();
@@ -1031,6 +1075,7 @@ mw.resizable_columns = function () {
 			$also_reverse_id = $also_el_id_column;
 
 			$also_inner_items = $inner_column.attr('id');
+
 
 
 		  $(this).parent(".column").resizable("destroy");

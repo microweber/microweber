@@ -14,6 +14,13 @@ mw.css3fx = {
     el.style.OTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
     el.style.transform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
     $(el).addClass("mwfx");
+  },
+  stop:function(el,property){
+    var data = $(el).attr("data-mwfx").split(",");
+    if(data.indexOf(property)==-1){
+      data.push(property);
+      //da se napravi s obekt
+    }
   }
 }
 
@@ -40,6 +47,23 @@ mw.config_element_styles=function(){
 
 }
 
+
+mw.alignem = function(align){
+    var el = $(".element-current");
+    switch(align){
+      case "left":
+        el.removeClass("right").removeClass("center").addClass("left");
+        break;
+      case "right":
+        el.removeClass("left").removeClass("center").addClass("right");
+        break;
+      case "center":
+        el.removeClass("right").removeClass("left").addClass("center");
+        break;
+      default:
+        el.removeClass("right").removeClass("left").removeClass("center");
+    }
+}
 
 mw.sliders_settings = {
   css:{
@@ -94,6 +118,12 @@ $(document).ready(function(){
   $(".ed_slider").each(function(){
     var el = $(this);
     el.slider(mw.sliders_settings.css);
+    var max = $(this).attr("data-max");
+    var min = $(this).attr("data-min");
+
+    el.slider("option", "max", max!=undefined?parseFloat(max):100);
+    el.slider("option", "min", min!=undefined?parseFloat(min):0);
+    console.log(el.slider("option", "min"))
   });
 
 

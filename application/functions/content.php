@@ -168,7 +168,7 @@ function define_constants($content = false) {
 api_expose('css3_write');
 
 function css3_write($property, $value) {
-    
+
 
     $css3 = "-webkit-" . $property . ": " . $value . ";\n"
             . " -moz-" . $property . ": " . $value . ";\n"
@@ -1458,7 +1458,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
     if (!empty($result)) {
 
         if ($ul_class_name == false) {
-            print "<ul>";
+           print "<ul class='pages_tree'>";
         } else {
             print "<ul class='{$ul_class_name}'>";
         }
@@ -1570,10 +1570,13 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
             }
 
             if (isset($include_categories) and $include_categories == true) {
-                $cat_params = array();
-                $cat_params['content_parent'] = $item['id'];
-                //  d($cat_params);
-                category_tree($cat_params);
+                 if (isset($item['content_subtype_value']) and intval($item['content_subtype_value']) == true) {
+                    $cat_params = array();
+                    $cat_params['content_subtype_value'] = $item['content_subtype_value'];
+                    $cat_params['include_first'] = 1;
+                   //  d($cat_params);
+                    category_tree($cat_params);
+                }
             }
 
 
