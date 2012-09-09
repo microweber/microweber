@@ -11,17 +11,20 @@ $config = array(
     'debug_mode' => TRUE,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
-    'installed' => false,
+    'installed' => '1',
     // Database Settings
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
-        'dsn' => '{DSN}',
-        'user' => '{DB_USER}',
-        'pass' => '{DB_PASS}',
+        'dsn' => 'sqlite:application\db\default.db',
+        'user' => '',
+        'pass' => '',
+        
         'args' => array(
-            // If using MySQL, force UTF-8
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            //
+            // If using
+            // MySQL, force UTF-8
             // Cookie options
             'cookie' => array(
                 'key' => md5(__FILE__),

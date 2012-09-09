@@ -42,8 +42,6 @@ if (!defined('E_STRICT')) {
 
 //
 //error_reporting ( E_ALL & ~ E_STRICT );
-
-
 //error_reporting ( E_ALL  );
 $system_folder = $mw_config ['system_folder'];
 
@@ -235,6 +233,8 @@ define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesys
 
 
 define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
+define('DBPATH', APPPATH . 'db' . DIRECTORY_SEPARATOR);
+
 define('ADMIN_URL', SITEURL . 'admin');
 
 

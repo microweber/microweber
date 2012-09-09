@@ -569,6 +569,14 @@ class Controller {
             $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
             require($f);
             exit();
+        } else {
+            if (is_admin() == true) {
+                $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+                require($f);
+                exit();
+            } else {
+                error('You must login as admin');
+            }
         }
     }
 

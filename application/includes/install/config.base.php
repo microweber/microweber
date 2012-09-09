@@ -27,7 +27,7 @@ $config = array(
             // MySQL, force UTF-8
             // Cookie options
             'cookie' => array(
-                'key' => md5('__FILE__'),
+                'key' => md5(__FILE__),
                 'expires' => time() + 60 * 5, //
                 'path' => '/',
                 'domain' => '',
