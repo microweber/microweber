@@ -563,5 +563,14 @@ class Controller {
         exit();
     }
 
+    function install() {
+        $installed = c('installed');
+        if ($installed == false) {
+            $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+            require($f);
+            exit();
+        }
+    }
+
 }
 

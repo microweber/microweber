@@ -11,20 +11,23 @@ $config = array(
     'debug_mode' => TRUE,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
-    'installed' => false,
+    'installed' => '{IS_INSTALLED}',
     // Database Settings
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
         'dsn' => '{DSN}',
         'user' => '{DB_USER}',
         'pass' => '{DB_PASS}',
+        
         'args' => array(
-            // If using MySQL, force UTF-8
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            //
+            // If using
+            // MySQL, force UTF-8
             // Cookie options
             'cookie' => array(
-                'key' => md5(__FILE__),
+                'key' => md5('__FILE__'),
                 'expires' => time() + 60 * 5, //
                 'path' => '/',
                 'domain' => '',
