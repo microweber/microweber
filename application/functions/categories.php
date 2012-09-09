@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * category_tree
