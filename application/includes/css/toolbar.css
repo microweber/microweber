@@ -53,13 +53,13 @@
 
 .mw-sorthandle {
     z-index: 9;
+    height: 1px;
 	width:100%;
-    visibility: hidden;
+    /*visibility: hidden;*/
 	position:absolute;
 	left: 0px;
     top: 0;
 	border: none;
-	height:25px;
 }
 
 .mw-sorthandle-moveit{

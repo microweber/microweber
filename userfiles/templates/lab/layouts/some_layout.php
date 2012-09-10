@@ -33,10 +33,10 @@ h2 {
 	padding: 0
 }
 </style>
-<script>
+<script>  /*
 $(document).ready(function(){
   $("link[hre*='bootstrap.min.css']").remove();
-})
+})  */
 </script>
 
 <div id="MagicTheme">

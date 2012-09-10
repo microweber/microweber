@@ -1,6 +1,4 @@
-
-
-;(function($) {
+(function($) {
 	$.fn.putPlaceholdersInEmptyColumns = function(options) {
 		return this.each(function() {
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);

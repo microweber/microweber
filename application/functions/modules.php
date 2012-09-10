@@ -52,7 +52,81 @@ function get_all_functions_files_for_modules($options = false) {
     }
 }
 
+function get_modules_from_db($params = false) {
+    $cms_db_tables = c('db_tables');
+
+    $table = $cms_db_tables['table_modules'];
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $options = $params2;
+    }
+    $params['table'] = $table;
+    $params['cache_group'] = 'modules/global';
+
+    return get($params);
+}
+
+function save_module_to_db($data_to_save) {
+    if (is_admin() == false) {
+        return false;
+    }
+
+
+    $cms_db_tables = c('db_tables');
+
+    $table = $cms_db_tables['table_modules'];
+    $save = false;
+    // d($table);
+    //d($data_to_save);
+
+    if (!empty($data_to_save)) {
+        $s = $data_to_save;
+        // $s["module_name"] = $data_to_save["name"];
+        $s["module"] = $data_to_save["module"];
+        // $s["module_name"] = $data_to_save["name"];
+        if (!isset($s["parent_id"])) {
+            $s["parent_id"] = 0;
+        }
+        if (!isset($s["id"])) {
+            if (!isset($s["module_id"])) {
+                $save = get_modules_from_db('limit=1&module=' . $s["module"]);
+                if ($save != false and isset($save[0]) and is_array($save[0])) {
+                    $s["id"] = $save[0]["id"];
+                } else {
+                    $save = save_data($table, $s);
+                }
+            }
+        } else {
+            $save = save_data($table, $s);
+        }
+
+
+
+        //
+        //d($s);
+    }
+
+    if ($save != false) {
+        cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
+        cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
+    }
+    return $save;
+}
+
+function modules_list($options = false) {
+
+    return get_modules($options);
+}
+
 function get_modules($options = false) {
+
+
+    $params = $options;
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $options = $params2;
+    }
+
 
     $args = func_get_args();
     $function_cache_id = '';
@@ -65,13 +139,15 @@ function get_modules($options = false) {
 
     $cache_group = 'modules';
 
-    $cache_content = cache_get_content($cache_id, $cache_group);
 
-    if (($cache_content) != false) {
 
-        return $cache_content;
+    if (isset($options['skip_cache']) == false) {
+        $cache_content = cache_get_content($cache_id, $cache_group);
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
     }
-
     if (isset($options ['glob'])) {
         $glob_patern = $options ['glob'];
     } else {
@@ -117,7 +193,14 @@ function get_modules($options = false) {
                 $content = ob_get_contents();
                 ob_end_clean();
 
+                $value_fn = rtrim($value_fn, '\\');
+                $value_fn = rtrim($value_fn, '/');
+
+
                 $config ['module'] = $value_fn . '';
+                $config ['module'] = rtrim($config ['module'], '\\');
+                $config ['module'] = rtrim($config ['module'], '/');
+
                 $config ['module_base'] = str_replace('admin/', '', $value_fn);
 
                 if (is_file($try_icon)) {
@@ -145,6 +228,7 @@ function get_modules($options = false) {
 
                 if ($skip_module == false) {
                     $configs [] = $config;
+                    save_module_to_db($config);
                 }
             }
 
@@ -286,10 +370,6 @@ function load_module($module_name, $attrs = array()) {
 
                 $try_file1 = $module_in_default_file;
             }
-
-
-
-
         } else {
             if (is_dir($module_in_default_dir)) {
 
@@ -317,12 +397,12 @@ function load_module($module_name, $attrs = array()) {
 
         $config ['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
         $config ['the_module'] = $module_name;
-        $config ['url_to_module'] = pathToURL($config ['path_to_module']) . '/';
+        $config ['url_to_module'] = pathToURL($config ['path_to_module']) . '/  ';
         //print(file_get_contents($try_file1));
         $l1 = new View($try_file1);
         $l1->config = $config;
         $l1->params = $attrs;
- 
+
         $module_file = $l1->__toString();
 
 

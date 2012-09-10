@@ -436,3 +436,10 @@ margin-right: 6px;
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+#mw_handle_row{
+  position: absolute;
+  z-index: 997;
+}
+
+

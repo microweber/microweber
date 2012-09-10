@@ -389,8 +389,8 @@ function parse_micrwober_tags($layout, $options = false) {
 
                                 $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             } else {
-
-                                $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
+                                // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
+                                $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             }
 
                             if (strstr($module_name, 'text')) {

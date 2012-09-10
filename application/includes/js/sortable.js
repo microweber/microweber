@@ -53,13 +53,21 @@ mw.dropables = {
 }
 
 
+$(document).ready(function(){
+   mw.drag.create();
+});
 
+mw.isDragItem = function(obj){
+  var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table)$/i;
+  return items.test(obj.nodeName);
+}
 
 
 mw.drag = {
-
 	create: function () {
          mw.top_half = false;
+
+
          $(document.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
@@ -86,46 +94,43 @@ mw.drag = {
              y:event.pageY
            }
 
+           mw.mm_target = event.target;
+
            if(!mw.isDrag){
-
-               mw.mm_target = event.target;
-
-
-
-               if($(mw.mm_target).hasClass("row") || $(mw.mm_target).parents(".row").length>0){
-                     $(".mw-sorthandle").invisible();
-                     $(mw.mm_target).find(".mw-sorthandle-row:first").visible();
-                     $(mw.mm_target).parents(".row:first").find(".mw-sorthandle-row:first").visible();
-               }
-
-               if($(mw.mm_target).hasClass("element") || $(mw.mm_target).parents(".element").length>0){
-                     $(mw.mm_target).find(".mw-sorthandle:first").visible();
-                     $(mw.mm_target).parents(".element:first").find(".mw-sorthandle:first").visible();
-               }
-
-               if(!$(mw.mm_target).hasClass("element") && $(mw.mm_target).parents(".element").length>0){
-                 if(mw.mm_target.tagName=='P'){
-                   var off = $(mw.mm_target).offset();
-                    $(mw.items_handle).css({top:off.top+10,left:off.left+10});
-                    $(mw.items_handle).data("target", mw.mm_target);
-                 }
-                 else{
-                   if(!mw.mm_target.id=='items_handle'){
-                      $(mw.items_handle).css("top", "-9999px");
+               if(mw.mouse.x%3==0){ //not on every pixel
+                   //trigger on element
+                   if($(mw.mm_target).hasClass("element")){
+                     $(window).trigger("onelement", mw.mm_target);
+                   }
+                   if($(mw.mm_target).parents(".element").length>0){
+                     $(window).trigger("onelement", $(mw.mm_target).parents(".element:first")[0]);
                    }
 
-                 }
-               }
+                   //trigger on module
+                   if($(mw.mm_target).hasClass("module")){
+                     $(window).trigger("onmodule", mw.mm_target);
+                   }
+                   if($(mw.mm_target).parents(".module").length>0){
+                     $(window).trigger("onmodule", $(mw.mm_target).parents(".module:first")[0]);
+                   }
 
-               if($(mw.mm_target).hasClass("module")){
-                 //mw.drag.fix_handles(mw.mm_target);
-               }
-               if($(mw.mm_target).parents(".module").length>0){
-                 //mw.drag.fix_handles($(mw.mm_target).parents(".module").eq(0));
-               }
+                   //trigger on row
+                   if($(mw.mm_target).hasClass("row")){
+                     $(window).trigger("onrow", mw.mm_target);
+                   }
+                   if($(mw.mm_target).parents(".row").length>0){
+                     $(window).trigger("onrow", $(mw.mm_target).parents(".row:first")[0]);
+                   }
 
+                   //trigger on item
+                   if(mw.isDragItem(mw.mm_target) && $(mw.mm_target).parent().hasClass("element")){
+                     $(window).trigger("onitem", mw.mm_target);
+                   }
+               }
            }
-
+           else{
+              mw.currentDragMouseOver = mw.mm_target;
+           }
 
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
@@ -220,17 +225,9 @@ mw.drag = {
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
 
-        mw.drag.init(".element, .row");
-		mw.drag.init(".module-item");
+        mw.drag.init();
 
 
-	   	mw.drag.sort(".element > *,.edit,.column > *,.edit > *");
-
-		//mw.drag.sort(".element > *, .element, .edit, .edit > *");    //
-
-
-
-        mw.drag.fix_handles();
 		mw.resizable_columns();
 
         $(document.body).mouseup(function(event){
@@ -240,203 +237,89 @@ mw.drag = {
             $(this).removeClass("not-allowed");
         });
 
+        $(window).bind("onelement", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var width = el.width();
+          $(mw.handle_element).css({
+            top:o.top,
+            left:o.left,
+            width:width
+          });
+          $(mw.handle_element).data("curr", element);
+        });
+        $(window).bind("onmodule", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var width = el.width();
+          $(mw.handle_module).css({
+            top:o.top,
+            left:o.left,
+            width:width
+          });
+        });
+        $(window).bind("onrow", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var width = el.width();
+          $(mw.handle_row).css({
+            top:o.top-30,
+            left:o.left,
+            width:width
+          });
+          $(mw.handle_row).data("curr", element);
+        });
+        $(window).bind("onitem", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          $(mw.handle_item).css({
+            top:o.top,
+            left:o.left
+          });
+        });
+
 	},
 
 	init: function (selector, callback) {
+        if(!mw.handle_item){
+            $(mwd.body).append(mw.settings.handles.module);
+            $(mwd.body).append(mw.settings.handles.row);
+            $(mwd.body).append(mw.settings.handles.element);
+            $(mwd.body).append(mw.settings.handles.item);
+            mw.handle_module = mwd.getElementById('mw_handle_module');
+            mw.handle_row = mwd.getElementById('mw_handle_row');
+            mw.handle_element = mwd.getElementById('mw_handle_element');
+            mw.handle_item = mwd.getElementById('items_handle');
 
-        if(!mw.master_drag){
-            mw.items_handle = mwd.createElement('div');
-            mw.items_handle.id = 'items_handle';
-            mwd.body.appendChild(mw.items_handle);
+            $(mw.handle_element).mouseenter(function(){
+                var curr = $(this).data("curr");
+                $(this).draggable("option", "helper", function(){
+                    return $(curr).clone(true);
+                });
+            });
+            $(mw.handle_element).draggable({
+               handle:".mw-sorthandle-moveit",
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_element).data("curr");
+                  console.log(curr);
+                  mw.dragCurrent = curr;
+               },
+               stop:function(){
+                  mw.isDrag = false;
+               }
+            });
+
         }
 
-
-        $(selector).not(".ui-draggable").not(".module .module").each(function(){
-            var el = $(this);
-            if( el.hasClass("module-item")){
-                helper = function(event, ui) {
-                    return mw.dragCurrent = $(this).clone(true).appendTo('body').css({'zIndex':5});
-                }
-            }
-            else {
-                helper = 'clone'
-            }
-            el.draggable({
-                handle: ".mw-sorthandle-moveit",
-            	cursorAt: {
-            		top: -30
-            	},
-                containment:document.body,
-				scroll:true,
-				scrollSensitivity:100,
-            	helper: helper,
-            	start: function () {
-            	    document.body.style.overflowX='hidden';
-            		mw.isDrag = true;
-            		mw.dragCurrent = this;
-            		mw.drag.edit_remove();
-            		$(this).addClass("mw_drag_started");
-            		mw.drag.fixes();
-                    $(mw.dragCurrent).invisible();
-                    setTimeout(function(){
-                      $(".ui-draggable-dragging").css({
-                        width:$(mw.dragCurrent).width(),
-                        height:$(mw.dragCurrent).height(),
-                        background:'white'
-                      })
-                    }, 200);
-            	},
-            	stop: function (event, ui) {
-            	  document.body.style.overflowX='';
-            		mw.isDrag = false;
-            		$(this).removeClass("mw_drag_started");
-
-            		if ($(mw.dragCurrent).hasClass("module-item")) {
-                    mw.have_new_items = true;
-                       setTimeout(function () {
-                        mw.drag.load_new_modules();
-                      }, 300);
-            		}
-                    else {
-                      setTimeout(function () {
-                        mw.drag.edit_remove();
-                        mw.drag.fix_placeholders();
-                      }, 100);
-            		}
-                 if (typeof callback === 'function') {
-            			callback.call(this);
-            	 }
-                 $(".row").css({marginTop:'0px',marginBottom:'0px'});
-            	}
-            });
-
-            $(this).mouseleave(function(event){
-              $(".mw-sorthandle").invisible();
-               event.stopPropagation();
-            });
-        });
-
-        if(!mw.items_handle){
-
-        mw.items_handle = mwd.createElement('div');
-        mw.items_handle.id = 'items_handle';
-        mwd.body.appendChild(mw.items_handle);
-
-
-        $(mw.items_handle).draggable({
-            cursorAt:{
-              top:-10
-            },
-            start:function(){
-              $(this).css("top", -9999);
-              mw.isDrag = true;
-              mw.dragCurrent = $(this).data("target");
-            },
-            stop:function(){
-              mw.isDrag = false;
-              mw.dragCurrent.style.position = '';
-              mw.dragCurrent.style.top = '';
-              mw.dragCurrent.style.left = '';
-              mw.dragCurrent.style.width = '';
-              mw.dragCurrent.style.height = '';
-            }
-        });
-        $(mw.items_handle).mousedown(function(){
-            var target = $(this).data("target");
-            target.id = 'c'+mw.random();
-            $(target).addClass("mw_pdrag");
-            var target = $(target);
-
-            $(this).draggable("option", "helper", function(){
-              target.css({
-                width:target.width(),
-                height:target.height()
-              });
-              return target;
-            });
-        });
-        }
-
+        mw.drag.the_drop();
 	},
 
 
-	sort_handles_events: function (selector) {
-		if (selector == undefined) {
-			selector = '.mw-sorthandle';
-		}
-		$(selector).unbind('mousedown');
-		$(selector).bind("mousedown", function (event) {
-			if (!mw.isDrag) {
-				mw.drag.sort(".element > *");
-				mw.drag.edit_remove();
-			}
-		});
 
-       $(selector).find(".mw-sorthandle-moveit").hover(function(){
-            $(this).parent().parent().addClass("moveit-hover");
-       }, function(){
-           $(this).parent().parent().removeClass("moveit-hover");
-       });
-	},
-	sort: function (selector) {
-         var selector = selector || '.row, .edit';
-         var el = $(selector).not(".mw-sorthandle").not(".module *").not(".mw-sorthandle *").notmouseenter();
-
-         el.bind("mouseleave", function(event){
-           if (mw.isDrag && ($(this).parents(".module").length==0)) {
-             mw.currentDragMouseOver = this;
-             var el = this;
-             var offset = $(el).offset();
-             if(offset.top>event.pageY){
-                mw.dropable.data("position", "top");
-             }
-             else{
-                mw.dropable.data("position", "bottom");
-             }
-           }
-         });
-         /*
-         el.bind("mouseenter", function(){
-           if(mw.isDrag && ($(this).parents(".module").length==0)){
-                mw.currentDragMouseOver = this;
-           }
-         });  */
-
-		el.bind("mouseenter", function (event) {
-			if (mw.isDrag && ($(this).parents(".module").length==0)) {
-    			if (this.className.indexOf('ui-draggable-dragging')==-1 && $(this).parents(".ui-draggable-dragging").length==0) {
-                   mw.currentDragMouseOver = this;
-                   $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-                   $(this).addClass("currentDragMouseOver");
-                   if(!$(this).hasClass("empty-element")){
-                       mw.dropables.display(this);
-                       event.stopPropagation();
-                   }
-    			}
-			}
-			else {
-				var el = $(this);
-				if (el.hasClass("mw-sorthandle")) {
-					mw.mouse_over_handle = true;
-				}
-				else {
-					setTimeout(function () {
-						mw.mouse_over_handle = false;
-					}, 200);
-				}
-			}
-			event.stopPropagation();
-		});
-        el.bind("mouseleave", function(event){
-          if (mw.isDrag && $(this).hasClass("element")) {
-            mw.currentDragMouseOver = this;
-            event.stopPropagation();
-          }
-        });
-
-    	mw.drag.the_drop();
-		return $(selector);
-	},
 
     the_drop: function () {
         if(!$(document.body).hasClass("bup")){
@@ -627,117 +510,6 @@ mw.drag = {
     },
 
 
-/**
-	 * Makes handles for given row
-	 *
-	 * @example mw.drag.init_row_handles
-	 * @param $el_id - the id of the row element
-	 */
-	init_row_handles: function ($el_id) {
-		if ($el_id == undefined || $el_id == 'undefined') {
-			$el_id = mw.settings.row_id;
-		}
-		else {
-			mw.settings.row_id = $el_id;
-		}
-		$(".mw-layout-edit-curent-row-element").html($el_id);
-		$exisintg_num = $('#' + $el_id).children(".column").size();
-		text = mw.settings.sorthandle_row_columns_controlls
-		if (text != undefined) {
-			text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".columns_set").html(text);
-		}
-		text1 = mw.settings.sorthandle_row_delete
-		if (text1 != undefined) {
-			text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
-
-		}
-		$(".mw-make-cols", '#' + $el_id).removeClass('active');
-		$(".mw-make-cols-" + $exisintg_num, '#' + $el_id).addClass('active');
-	},
-
-
-	/**
-	 * Makes handles for all elements
-	 *
-	 * @example mw.drag.fix_handles()
-	 */
-	fix_handles: function (selector) {   return false;
-        if(mw.is.defined(selector)){
-
-            var el = $(selector);
-            var has = el.children("div:first").hasClass("mw-sorthandle-module");
-            if(!has){
-              var name = el.attr('data-type');
-              var id = el.attr('id');
-              var text = mw.settings.sorthandle_module
-              var text = text.replace(/MODULE_NAME/g, "" + '' + name + "");
-              var text = text.replace(/MODULE_ID/g, "'" + id + "'");
-              text = text.replace(/ELEMENT_ID/g, "'" + '' + id + "'");
-              el.prepend(text);
-            }
-        }
-        else{
-
-
-		if (mw.isDrag == false) {
-			$('.row', '.edit').each(function (index) {
-				var has = $(this).children("div:first").hasClass("mw-sorthandle-row");
-				if (!has) {
-					$(this).prepend(mw.settings.sorthandle_row);
-				}
-				$el_id = $(this).attr('id');
-				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-row-' + mw.random();
-					$(this).attr('id', $el_id);
-				}
-				mw.drag.init_row_handles($el_id);
-			});
-
-			$('.element:not(.empty-element)', '.edit').each(function (index) {
-				$el_id = $(this).attr('id');
-				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-element-' + mw.random();
-					$(this).attr('id', $el_id);
-				}
-				var has = $(this).children(":first").hasClass("mw-sorthandle-col");
-				if (!has) {
-					$has_module = $(this).hasClass("module");
-					if ($has_module == false) {
-						text = mw.settings.sorthandle_col
-					}
-					else {
-						$m_name = $(this).attr('data-type');
-
-						$m_id = $(this).attr('id');
-						text = mw.settings.sorthandle_module
-						text = text.replace(/MODULE_NAME/g, "" + '' + $m_name + "");
-						text = text.replace(/MODULE_ID/g, "'" + $m_id + "'");
-					}
-					text = text.replace(/ELEMENT_ID/g, "'" + '' + $el_id + "'");
-					$(this).prepend(text);
-				}
-			})
-
-
-			$('.mw-sorthandle-main-level', '.edit').removeClass('mw-sorthandle-main-level');
-			$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
-			$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
-			$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
-			$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
-			$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
-			$('.element').find('img').addClass('mw-sorthandle-img-in-element');
-			$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
-
-
-
-
-			mw.drag.sort_handles_events();
- 		}
-
-        }
-	},
 
 
 
@@ -1320,6 +1092,11 @@ $(window).load(function(){
       }
      // event.stopPropagation();
   });
+
+
+
+
+
 });
 
 

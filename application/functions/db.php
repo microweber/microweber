@@ -206,6 +206,31 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
  *        	The cache folder to use to cache the query result
  *        	You must delete this cache group when you save data to the $table
  */
+function get($params) {
+
+    $cache_group = false;
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+        extract($params);
+    }
+    $criteria = array();
+    foreach ($params as $k => $v) {
+        if ($k == 'table') {
+            $table = $v;
+        }
+
+        if ($k == 'cache_group') {
+            $cache_group = $v;
+        }
+
+        $criteria[$k] = $v;
+    }
+
+
+    return __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+}
+
 function db_get($table, $criteria, $cache_group = false) {
     return __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 }

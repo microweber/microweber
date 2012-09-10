@@ -18,7 +18,6 @@ $config = array(
         'dsn' => '{DSN}',
         'user' => '{DB_USER}',
         'pass' => '{DB_PASS}',
-        
         'args' => array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
@@ -109,8 +108,7 @@ $cms_db_tables['table_custom_fields_config'] = TABLE_PREFIX . 'content_custom_fi
 $cms_db_tables['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
 
-$cms_db_tables['table_modules'] = 'table_modules';
-
+$cms_db_tables['table_modules'] = TABLE_PREFIX . 'modules';
 
 $cms_db_tables['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';
