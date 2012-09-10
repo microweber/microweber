@@ -3,9 +3,11 @@
 }
 .element-image {
     display: inline-block;
+    clear: none;
 }
 .element {
     display: block;
+    clear: both;
 }
 .edit:after, .column:after, .element:after {
     clear: both;

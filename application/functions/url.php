@@ -318,6 +318,40 @@ function url_title($text) {
     return $text;
 }
 
+function replace_site_vars_back($arr) {
+    $site = site_url();
+
+    if (is_string($arr)) {
+
+        $ret = str_replace('{SITE_URL}', $site, $arr);
+
+        return $ret;
+    }
+
+    if (is_array($arr) and !empty($arr)) {
+
+        $ret = array();
+
+        foreach ($arr as $k => $v) {
+
+            if (is_array($v)) {
+
+                $v = replace_site_vars_back($v);
+            } else {
+
+                // $v = str_ireplace($site, '{SITE_URL}', $v);
+                $v = str_replace('{SITE_URL}', $site, $v);
+                // $v = addslashes ( $v );
+                // $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
+            }
+
+            $ret [$k] = ($v);
+        }
+
+        return $ret;
+    }
+}
+
 function replace_site_vars($arr) {
     $site = site_url();
 

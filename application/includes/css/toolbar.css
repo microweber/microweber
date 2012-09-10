@@ -121,6 +121,10 @@ background-image: -webkit-gradient(
 }
 .mw-sorthandle-row {
  	top:0px;
+
+}
+#mw_handle_row{
+    height: 30px;
 }
 
 .ui-resizable-helper {
@@ -407,6 +411,7 @@ padding:0px !important;
   padding:0px 4px;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
   border: 1px solid #D9D9D9;
+  cursor: move;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

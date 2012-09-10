@@ -390,8 +390,11 @@ function get_content_by_id($id) {
 
 
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-    $content = $q[0];
-
+    if (isset($q[0])) {
+        $content = $q[0];
+    } else {
+        return false;
+    }
     return $content;
 }
 

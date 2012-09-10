@@ -48,8 +48,18 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
     }
 }
 
-function guess_table_name($for = false) {
+function guess_cache_group($for = false) {
+    return guess_table_name($for, true);
+}
 
+function guess_table_name($for = false) {
+    $cms_db_tables = c('db_tables');
+
+    foreach ($cms_db_tables as $k => $cms_db_table) {
+        if (strtolower($k) == strtolower($for) or strtolower($k) == strtolower('table_' . $for)) {
+            $to_table = $cms_db_table;
+        }
+    }
 
 
     if (stristr($for, 'table_') == false) {
@@ -98,10 +108,11 @@ function guess_table_name($for = false) {
                 $to_table = 'table_content';
                 break;
         }
-        return $to_table;
+        $for = $to_table;
     } else {
-        return $for;
+
     }
+    return $for;
 }
 
 function db_query($q, $cache_id = false, $cache_group = 'global', $time = false) {
@@ -220,6 +231,10 @@ function get($params) {
             $table = $v;
         }
 
+        if ($k == 'what') {
+            $table = guess_table_name($v);
+        }
+
         if ($k == 'cache_group') {
             $cache_group = $v;
         }
@@ -260,6 +275,8 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
             }
         }
     }
+//  $table = db_g($table);
+    //$table = db_get_real_table_name($table);
 
     $aTable_assoc = db_get_table_name($table);
 
@@ -646,6 +663,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
                 return $ret;
             } else {
+                $cache_content = replace_site_vars_back($cache_content);
 
                 return $cache_content;
             }
@@ -931,6 +949,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     $return = array();
 
     if (!empty($result)) {
+        $result = replace_site_vars_back($result);
 
         foreach ($result as $k => $v) {
             if (DB_IS_SQLITE == false) {
@@ -974,7 +993,7 @@ function db_get_real_table_name($assoc_name) {
             if (strtolower($assoc_name) == strtolower($v)) {
 
                 // $table_assoc_name = $k;
-                return $k;
+                return $v;
             }
         }
 
@@ -1368,78 +1387,69 @@ function save_data($table, $data, $data_to_save_options = false) {
      * $test_if_exist_cat = get_category ( $taxonomy_item ); } }
      */
 
-    /* $taxonomy_table = $cms_db_tables ['table_taxonomy'];
-      $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-      // p ( $original_data );
-      if (is_array ( $original_data ['taxonomy_categories'] )) {
 
-      $taxonomy_save = array ();
+    // p ( $original_data );
+    if (isset($original_data['categories'])) {
 
-      $taxonomy_save ['to_table'] = $table_assoc_name;
 
-      $taxonomy_save ['to_table_id'] = $id_to_return;
 
-      $taxonomy_save ['taxonomy_type'] = 'category_item';
+        if ($table_assoc_name != 'table_taxonomy' and $table_assoc_name != 'table_taxonomy_items') {
 
-      if (trim ( $original_data ['content_type'] ) != '') {
 
-      $taxonomy_save ['content_type'] = $original_data ['content_type'];
-      }
 
-      // $this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy'
-      // );
-      $q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return' and  content_type='{$original_data ['content_type']}' and  taxonomy_type= 'category_item'     ";
-      // p ( $q );
-      db_query ( $q );
+            if (is_string($original_data['categories'])) {
+                $original_data['categories'] = explode(',', $original_data['categories']);
+            }
+            $cat_names_or_ids = array_trim($original_data['categories']);
 
-      foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
+            foreach ($cat_names_or_ids as $cat_name_or_id) {
+                $taxonomy_table = $cms_db_tables ['table_taxonomy'];
+                $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
+                $str1 = 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
 
-      $taxonomy_item = trim ( $taxonomy_item );
-      $parent_cat = get_category ( $taxonomy_item );
 
-      $parent_cat_id = intval ( $parent_cat ['id'] );
-      // var_dump($parent_cat);
-      // $taxonomy_item = explode($taxonomy_item);
+                //   $is_ex = get_categories($str1);
+                $is_ex = get('what=categories');
 
-      // check if parent category exists
-      // $taxonomy_item
-      // $q = " SELECT * FROM $taxonomy_table where
-      // id='$taxonomy_item' and taxonomy_value LIKE '$taxonomy_item'
-      // and taxonomy_type= 'category' ";
+                d($is_ex);
+            }
+        }
 
-      // $catcheck = $this->dbQuery ( $q );
 
-      $q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
-      // p ( $q );
-      db_query ( $q );
-      cache_clean_group ( 'taxonomy/' . $parent_cat_id );
-      }
-      cache_clean_group ( 'taxonomy/global' );
 
-      // exit ();
-      } */
 
-    // upload media
-    /*
-     * if ($table_assoc_name != 'table_media') { if ($queue_id) {
-     * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
-     * $table_assoc_name, $id_to_return, $queue_id ); } } if ($table_assoc_name
-     * != 'table_media') { if (strval ( $original_data ['media_queue_pictures']
-     * ) != '') { $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
-     * $table_assoc_name, $id_to_return, $original_data ['media_queue_pictures']
-     * ); } if (strval ( $original_data ['media_queue_videos'] ) != '') {
-     * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
-     * $table_assoc_name, $id_to_return, $original_data ['media_queue_videos']
-     * ); } if (strval ( $original_data ['media_queue_files'] ) != '') {
-     * $this->mediaAfterUploadAssociatetheMediaQueueWithTheId (
-     * $table_assoc_name, $id_to_return, $original_data ['media_queue_files'] );
-     * } // $this->mediaUpload ( $table_assoc_name, $id_to_return );
-     * $this->mediaUploadVideos ( $table_assoc_name, $id_to_return );
-     * $this->mediaUploadFiles ( $table_assoc_name, $id_to_return ); } else {
-     * $this->mediaUpload ( $table_assoc_name, $id_to_return ); } if (strval (
-     * $screenshot_url ) != '') { $this->mediaUploadByUrl ( $screenshot_url,
-     * $table_assoc_name, $id_to_return ); }
-     */
+
+
+
+//
+//
+//        $q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return'  and  taxonomy_type= 'category_item'     ";
+//        // p ( $q );
+//        db_query($q);
+//
+//        foreach ($original_data ['taxonomy_categories'] as $taxonomy_item) {
+//
+//            $taxonomy_item = trim($taxonomy_item);
+//            $parent_cat = get_category($taxonomy_item);
+//
+//            $parent_cat_id = intval($parent_cat ['id']);
+//
+//
+//            $q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
+//            // p ( $q );
+//            db_query($q);
+//            cache_clean_group('taxonomy/' . $parent_cat_id);
+//        }
+//        cache_clean_group('taxonomy/global');
+        // exit ();
+    }
+
+
+
+
+
+
+
 
     // adding custom fields
 
@@ -1576,6 +1586,25 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return $id_to_return;
     if (intval($data ['edited_by']) == 0) {
 

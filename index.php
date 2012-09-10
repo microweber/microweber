@@ -8,7 +8,7 @@ require ('bootstrap.php');
 require (APPPATH . 'functions.php');
 // require ('appication/functions.php');
 require (APPPATH . 'functions/mw_functions.php');
-set_error_handler('error');
+//set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
     $v = new View(ADMIN_VIEWS_PATH . 'error.php');
@@ -26,7 +26,7 @@ function exception($e) {
     die($v);
 }
 
-set_exception_handler('exception');
+//set_exception_handler('exception');
 register_shutdown_function(function () {
             $e = error_get_last();
 

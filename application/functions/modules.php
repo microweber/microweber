@@ -66,7 +66,14 @@ function get_modules_from_db($params = false) {
     return get($params);
 }
 
+api_expose('save_settings_md');
+
+function save_settings_md($data_to_save) {
+    return save_module_to_db($data_to_save);
+}
+
 function save_module_to_db($data_to_save) {
+
     if (is_admin() == false) {
         return false;
     }
@@ -82,12 +89,12 @@ function save_module_to_db($data_to_save) {
     if (!empty($data_to_save)) {
         $s = $data_to_save;
         // $s["module_name"] = $data_to_save["name"];
-        $s["module"] = $data_to_save["module"];
         // $s["module_name"] = $data_to_save["name"];
         if (!isset($s["parent_id"])) {
             $s["parent_id"] = 0;
         }
-        if (!isset($s["id"])) {
+        if (!isset($s["id"]) and isset($s["module"])) {
+            $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
                 $save = get_modules_from_db('limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {

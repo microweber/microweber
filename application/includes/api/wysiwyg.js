@@ -42,39 +42,33 @@ mw.wysiwyg = {
            el.html(newhtml)
          },50);
       });
-      items.bind("mouseup",function(){
+
+      $(window).bind("onElementMouseDown", function(event, element){
+        var el = $(element);
         if(!mw.isDrag && $(".module.element-active").length==0){
-          $(this).attr('contenteditable','true');
-
+          el.attr('contenteditable','true');
           mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
-
           if(mw.smallEditor.css("visibility")=='hidden'){
               mw.bigEditor.fadeIn('fast');
           }
           else{
               mw.smallEditor.css("opacity", 1);
           }
-
-
-
-          $(this).find('.mw-sorthandle').attr('contenteditable','false');
-          this.focus();
           mw.wysiwyg.isThereEditableContent=true;
-          mw.drag.fix_onChange_editable_elements(this);
-          $(this).unbind("change");
-          $(this).bind("change", function(event){
-            mw.drag.fix_placeholders(true , $(this));
+          el.unbind("change");
+          el.bind("change", function(event){
+            mw.drag.fix_placeholders(true , el);
           });
           mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
-
+          event.stopPropagation();
         }
         if($(".module.element-active").length>0){
           $(".module.element-active").parents(".element").attr("contenteditable", false);
-          this.blur();
+          el.blur();
           mw.wysiwyg.isThereEditableContent=false;
         }
-
       });
+
       items.blur(function(){
            if($(".editor_hover").length==0){
               $(this).attr('contenteditable','false');
@@ -512,3 +506,16 @@ mw.disable_selection = function(element){
       return false;
     });
 }
+
+
+$(mwd).ready(function(){
+  $(mwd.body).mousedown(function(event){
+    var target = event.target;
+    if($(target).hasClass("element")){
+      $(window).trigger("onElementMouseDown", target);
+    }
+    else if($(target).parents(".element").length>0){
+      $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
+    }
+  });
+});

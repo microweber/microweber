@@ -390,13 +390,26 @@ margin-right: 6px;
 
 #items_handle{
   position: absolute;
+
   z-index: 999;
   width: 18px;
   height: 18px;
   background: white url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/cursor_drag_arrow_2.png) no-repeat center center;
   cursor: move;
+
   box-shadow: 1px 0 1px #212121;
   opacity:0.66;
+
+    -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  width: 32px;
+  margin-left: -32px;
+  margin-top: 5px;
+
 }
 
 #items_handle:hover{
@@ -441,5 +454,11 @@ margin-right: 6px;
   position: absolute;
   z-index: 997;
 }
+
+.mw_drag_current *{
+  visibility: hidden !important;
+}
+
+
 
 
