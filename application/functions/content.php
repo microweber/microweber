@@ -551,7 +551,7 @@ function content_link($id = false) {
     }
 
     $link = get_content_by_id($id);
-    if (strval($link) == '') {
+    if (strval($link['content_url']) == '') {
         $link = get_page_by_url($id);
     }
     $link = site_url($link['content_url']);
@@ -569,7 +569,7 @@ function page_link($id = false) {
     }
 
     $link = get_content_by_id($id);
-    if (strval($link) == '') {
+    if (strval($link['content_url']) == '') {
         $link = get_page_by_url($id);
     }
     $link = site_url($link['content_url']);

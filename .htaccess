@@ -1,14 +1,14 @@
- 
 
-  
+
+
 
 
 
  RewriteEngine On
 
- 
 
- 
+
+
 
     #prevents the db from being downloaded
     RewriteCond %{REQUEST_URI} (.*).db [NC]
@@ -22,4 +22,3 @@
     RewriteCond %{REQUEST_FILENAME} !-d
 
     RewriteRule ^(.*)$ index.php?/$1  [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-  

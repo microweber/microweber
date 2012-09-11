@@ -1,5 +1,7 @@
 <?php
-
+if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
+    return false; // serve the requested resource as-is.
+}
 // Setup system and load controller
 define('T', microtime());
 define('M', memory_get_usage());
@@ -8,6 +10,7 @@ require ('bootstrap.php');
 require (APPPATH . 'functions.php');
 // require ('appication/functions.php');
 require (APPPATH . 'functions/mw_functions.php');
+
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
@@ -43,6 +46,19 @@ $m = url(0) ? : 'index';
  * 'index'; $c = new api (); } else { }
  */
 
+
+$default_timezone = c('default_timezone');
+if($default_timezone == false){
+    date_default_timezone_set('UTC');
+
+} else {
+    date_default_timezone_set($default_timezone);
+
+}
+
+
+
+
 $c = new controller ();
 $admin_url = c('admin_url');
 
@@ -62,6 +78,14 @@ if ($m == 'admin' or $m == $admin_url) {
         exit();
     }
 }
+
+if ($m == 'api.js') {
+    $m = 'apijs';
+}
+
+
+
+
 if (method_exists($c, $m)) {
 
 

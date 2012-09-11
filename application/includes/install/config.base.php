@@ -11,6 +11,7 @@ $config = array(
     'debug_mode' => TRUE,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
+    'uri_protocol' => 'UTC',
     'installed' => '{IS_INSTALLED}',
     // Database Settings
     'db' => array(

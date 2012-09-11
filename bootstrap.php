@@ -256,6 +256,8 @@ define('ADMIN_VIEWS_URL', INCLUDES_URL . 'admin');
 
 
 
+
+
 $media_url = SITEURL;
 
 $media_url = $media_url . USERFILES_DIRNAME . '/media/';
@@ -330,17 +332,34 @@ function site_url($add_string = false) {
         if (isset($_SERVER ["HTTPS"]) and ($_SERVER ["HTTPS"] == "on")) {
             $pageURL .= "s";
         }
+
+        $subdir_append = false;
+        if (isset($_SERVER ['PATH_INFO'])) {
+            // $subdir_append = $_SERVER ['PATH_INFO'];
+        } else {
+            $subdir_append = $_SERVER ['REQUEST_URI'];
+        }
+
+        // var_dump($_SERVER);
         $pageURL .= "://";
         if ($_SERVER ["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
+            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $subdir_append;
         } else {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
+            $pageURL .= $_SERVER ["SERVER_NAME"] . $subdir_append;
         }
 
         if (isset($_SERVER ['SCRIPT_NAME'])) {
             $d = dirname($_SERVER ['SCRIPT_NAME']);
             $d = trim($d, '/');
         }
+
+        if (isset($_SERVER ['QUERY_STRING'])) {
+            $pageURL = str_replace($_SERVER ['QUERY_STRING'], '', $pageURL);
+        }
+
+
+
+
         $url_segs = explode('/', $pageURL);
         $i = 0;
         $unset = false;

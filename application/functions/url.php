@@ -11,10 +11,18 @@ function url_segment($k = -1) {
         $u1 = curent_url();
         $u2 = site_url();
 
+        $u1 = rtrim($u1, '\\');
+        $u1 = rtrim($u1, '/');
+
+
+        $u2 = rtrim($u2, '\\');
+        $u2 = rtrim($u2, '/');
+
+
         $u1 = str_replace($u2, '', $u1);
-
+ 
         $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
-
+        // $u = $u ? : explode('/', $u1);
         // $u = $u ? : explode ( '/', trim ( preg_replace (
         // '/^([A-Za-z0-9:]+)/i', '', current ( explode ( '?', $u1, 2 ) ) ), '/'
         // )
@@ -32,6 +40,10 @@ function url_segment($k = -1) {
  * @return array Array of the segments
  */
 function url($k = -1) {
+
+    return url_segment($k);
+
+
     static $u;
     if ($u == false) {
 
@@ -65,6 +77,9 @@ function url_string() {
 }
 
 function curent_url() {
+
+
+
     if (!isset($_SERVER ['REQUEST_URI'])) {
         $serverrequri = $_SERVER ['PHP_SELF'];
     } else {
@@ -74,7 +89,12 @@ function curent_url() {
     $s = empty($_SERVER ["HTTPS"]) ? '' : ($_SERVER ["HTTPS"] == "on") ? "s" : "";
     $protocol = strleft(strtolower($_SERVER ["SERVER_PROTOCOL"]), "/") . $s;
     $port = ($_SERVER ["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER ["SERVER_PORT"]);
-    return $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
+    $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
+
+
+
+
+    return $u;
 }
 
 function strleft($s1, $s2) {
@@ -88,55 +108,6 @@ function admin_url($add_string = false) {
     return site_url($admin_url) . '/' . $add_string;
 }
 
-/**
- * Returns the curent site url
- *
- * @param string $add_string
- *        	You can pass any string to be appended to the main site url
- * @return string the url string
- * @example site_url('blog');
- */
-if (!function_exists('site_url')) {
-
-    function site_url($add_string = false) {
-        static $u1;
-        if ($u1 == false) {
-            $pageURL = 'http';
-            if (isset($_SERVER ["HTTPS"]) and ($_SERVER ["HTTPS"] == "on")) {
-                $pageURL .= "s";
-            }
-            $pageURL .= "://";
-            if ($_SERVER ["SERVER_PORT"] != "80") {
-                $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
-            } else {
-                $pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
-            }
-
-            if (isset($_SERVER ['SCRIPT_NAME'])) {
-                $d = dirname($_SERVER ['SCRIPT_NAME']);
-                $d = trim($d, '/');
-            }
-            $url_segs = explode('/', $pageURL);
-            $i = 0;
-            $unset = false;
-            foreach ($url_segs as $v) {
-                if ($unset == true) {
-                    unset($url_segs [$i]);
-                }
-                if ($v == $d) {
-
-                    $unset = true;
-                }
-
-                $i++;
-            }
-            $url_segs [] = '';
-            $u1 = implode('/', $url_segs);
-        }
-        return $u1 . $add_string;
-    }
-
-}
 
 function full_url($skip_ajax = false, $skip_param = false) {
     if ($skip_ajax == false) {

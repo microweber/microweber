@@ -22,7 +22,9 @@ function c($k) {
     static $c;
     $c = $c ? $c :
             require p('config');
-    return $c[$k];
+    if (isset($c[$k])) {
+        return $c[$k];
+    }
 }
 
 function d($v) {
