@@ -459,6 +459,16 @@ margin-right: 6px;
   visibility: hidden !important;
 }
 
+#mw_handle_module,
+#mw_handle_row,
+#mw_handle_element,
+#items_handle{
+  left: -9999px;
+  top: -9999px;
+}
+
+
+
 
 
 

@@ -127,6 +127,7 @@ mw.drag = {
                      $(window).trigger("onItemOver", mw.mm_target);
                      $(mw.mm_target).addClass("mw_item");
                    }
+
                }
            }
            else{
@@ -135,6 +136,28 @@ mw.drag = {
                    mw.currentDragMouseOver = mw.mm_target;
                }
              }
+
+
+            /* if(mw.mm_target.tagName==='BODY' && mw.mouse.y%2==0){
+                    var items = mwd.getElementsByClassName('element');
+                    for(var i=0; i<items.length; i++ ){
+                      var rect = items[i].getClientRects()[0];
+                      var top = rect.top;
+                      var bot = rect.bottom;
+                      var height = rect.height;
+
+                      if(mw.mouse.y > top && mw.mouse.y < bot){
+                        if(mw.mouse.y<top+height/2){
+                          mw.currentDragMouseOver = items[i];
+                          mw.dropable.data("position", 'top');
+                        }
+                        else if(mw.mouse.y>top+height/2){
+                          mw.currentDragMouseOver = items[i];
+                          mw.dropable.data("position", 'bottom');
+                        }
+                      }
+                    }
+               } */
            }
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
@@ -253,6 +276,9 @@ mw.drag = {
         });
         $(window).bind("onModuleOver", function(a, element){
           var el = $(element);
+          var title = el.dataset("filter");
+          $(mw.handle_module).find(".mw-element-name-handle").html(title);
+          $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
           var o = el.offset();
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
@@ -310,6 +336,17 @@ mw.drag = {
                     return clone;
                 });
             });
+            $(mw.handle_module).mouseenter(function(){
+                var curr = $(this).data("curr");
+                $(this).draggable("option", "helper", function(){
+                    var clone =  $(curr).clone(true);
+                    clone.css({
+                       width:$(curr).width(),
+                       height:$(curr).height()
+                    });
+                    return clone;
+                });
+            });
             $(mw.handle_row).mouseenter(function(){
                 var curr = $(this).data("curr");
                 $(this).draggable("option", "helper", function(){
@@ -342,6 +379,21 @@ mw.drag = {
                start:function(){
                   mw.isDrag = true;
                   var curr = $(mw.handle_element).data("curr");
+                  mw.dragCurrent = curr;
+                  $(mw.dragCurrent).invisible();
+               },
+               stop:function(){
+                  mw.isDrag = false;
+               }
+            });
+            $(mw.handle_module).draggable({
+               handle:".mw-sorthandle-moveit",
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_module).data("curr");
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible();
                },
@@ -396,10 +448,6 @@ mw.drag = {
 
         mw.drag.the_drop();
 	},
-
-
-
-
     the_drop: function () {
         if(!$(document.body).hasClass("bup")){
           $(document.body).addClass("bup");
@@ -414,10 +462,10 @@ mw.drag = {
             }
 			if (mw.isDrag) {
 				setTimeout(function () {
-                        $(mw.dragCurrent).visible().removeClass("mw_drag_current");
+                        $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         var position = mw.dropable.data("position");
                         if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){
-                           $(mw.dragCurrent).visible().addClass("mw_drag_current");
+                           $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         }
                         else{
 
@@ -672,7 +720,6 @@ mw.drag = {
                 if (typeof callback === 'function') {
     				callback.call(this);
 				}
-				setTimeout("mw.drag.create()", 200);
 			}
 		}
         mw.have_new_items = false;
@@ -695,7 +742,6 @@ mw.drag = {
 
 
     data1 = attributes
-    //data1.module = '' + $module_name;
     data1.view = 'admin';
 
     mw.tools.modal.init({
@@ -704,8 +750,7 @@ mw.drag = {
 	height:450, 
 	callback:function() {
       $(this.container).load(mw.settings.site_url + "api/module", data1);
-      $(this.container).attr('data-settings-for-module', $module_id);
-
+      $(this.container).dataset('settings-for-module', $module_id);
     }
 	});
 
@@ -723,8 +768,7 @@ mw.drag = {
 	load_module: function ($module_name, $update_element) {
 		var attributes = {};
 		attributes.module = $module_name;
-
-		url1 = mw.settings.site_url + 'api/module';
+		var url1 = mw.settings.site_url + 'api/module';
 		$($update_element).load_modules(url1, attributes, function () {
 			window.mw_sortables_created = false;
 		});
@@ -739,19 +783,18 @@ mw.drag = {
   /**
    * Deletes element by id or selector
    *
-   * @method mw.edit.delete_element($el_id)
+   * @method mw.edit.delete_element(idobj)
    * @param Element id or selector
    */
-  delete_element: function($el_id) {
-    var r = confirm(mw.settings.sorthandle_delete_confirmation_text);
-    if (r == true) {
-      if ($el_id == undefined || $el_id == 'undefined') {
-        $el_id = mw.settings.element_id;
+  delete_element: function(idobj) {
+    var id = mw.is.obj(idobj) ? $(idobj).dataset("delete") : idobj;
+    if (confirm(mw.settings.sorthandle_delete_confirmation_text)) {
+      if (id == "") {
+        id = mw.settings.element_id;
       }
-      //	alert($el_id);
-      $($el_id).remove();
-      $('#' + $el_id).remove();
-		mw.drag.fix_placeholders(true);
+      id.contains("#") ? $(id).remove() : $('#' + id).remove();
+      $(mw.handle_module).css({left:'', top:''});
+	  mw.drag.fix_placeholders(true);
     }
   },
 
@@ -961,7 +1004,7 @@ mw.resizable_columns = function () {
                   sum:0
                 }
 
-                var imgs = $(this).find("img");
+
 
 				$(this).resizable({
 					handles: $handles,
@@ -970,14 +1013,24 @@ mw.resizable_columns = function () {
                     greedy:true,
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
-					//maxWidth: $row_max_w - $last_c_w,
-					alsoResize: imgs,
+
 					resize: function (event, ui) {
 						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
                         if(mw.global_resizes.next.width()<151){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }
                         mw.settings.resize_started = true;
+                        var w = $(this).width();
+
+                        $(this).find("img").each(function(){
+
+                          $(this).width() <= w ? this.style.height = 'auto' : '';
+                        });
+                        var nw =mw.global_resizes.next.width();
+                        mw.global_resizes.next.find("img").each(function(){
+                          $(this).width() <= w ? this.style.height = 'auto' : '';
+                        });
+
 					},
 					create: function (event, ui) {
 						var el = $(this);

@@ -160,6 +160,11 @@ $.expr[':'].noop = function(){
     return this.css("visibility", "visible");
   };
 })( jQuery );
+(function( $ ){
+  $.fn.visibilityDefault = function() {
+    return this.css("visibility", "");
+  };
+})( jQuery );
 
 (function( $ ){
   $.fn.invisible = function() {

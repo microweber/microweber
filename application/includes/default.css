@@ -26,3 +26,7 @@
     min-height: 50px;
     position: relative;
 }
+
+.column img{
+  height: auto !important;
+}

@@ -62,6 +62,7 @@ window.onload = function(){
 mw.target = {} //
 
 
+
 mw.is = {
   obj:function(obj){return typeof obj=='object'},
   func:function(obj){return typeof obj=='function'},
@@ -119,10 +120,10 @@ mw.settings = {
     handles:{
       module:"\
         <div contenteditable='false' id='mw_handle_module' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
-            <div class='mw-element-name-handle'>MODULE_NAME</div>\
+            <div class='mw-element-name-handle'></div>\
             <div class='mw_col_delete mw_edit_delete_element'>\
-                <a class='mw_edit_btn mw_edit_delete right' href='javascript:mw.drag.delete_element(ELEMENT_ID)'><span></span></a>\
-                <a class='mw_edit_btn mw_edit_settings right' href='javascript:mw.drag.module_settings(MODULE_ID)'>Settings</a>\
+                <a class='mw_edit_btn mw_edit_delete right' href='javascript:;' onclick='mw.drag.delete_element(this);'><span></span></a>\
+                <a class='mw_edit_btn mw_edit_settings right' href='javascript:;' onclick='mw.drag.module_settings(this);'>Settings</a>\
             </div>\
             <span class='mw-sorthandle-moveit'>Move</span>\
         </div>",
@@ -134,17 +135,17 @@ mw.settings = {
 	    	    <div class='mw_row_delete mw.edit.delete_element'></div>\
     	    </div>\
             <span class='column_separator_title'>Columns</span>\
-            <a  href='javascript:mw.edit.create_columns(ROW_ID,1)' class='mw-make-cols mw-make-cols-1' >1</a>\
-            <a  href='javascript:mw.edit.create_columns(ROW_ID,2)' class='mw-make-cols mw-make-cols-2' >2</a>\
-            <a  href='javascript:mw.edit.create_columns(ROW_ID,3)' class='mw-make-cols mw-make-cols-3' >3</a>\
-            <a  href='javascript:mw.edit.create_columns(ROW_ID,4)' class='mw-make-cols mw-make-cols-4' >4</a>\
-            <a  href='javascript:mw.edit.create_columns(ROW_ID,5)' class='mw-make-cols mw-make-cols-5' >5</a>\
-            <a class='mw_edit_delete_element' href='javascript:mw.drag.delete_element(ROW_ID)'><span></span></a>\
+            <a  href='javascript:mw.edit.create_columns(this,1)' class='mw-make-cols mw-make-cols-1' >1</a>\
+            <a  href='javascript:mw.edit.create_columns(this,2)' class='mw-make-cols mw-make-cols-2' >2</a>\
+            <a  href='javascript:mw.edit.create_columns(this,3)' class='mw-make-cols mw-make-cols-3' >3</a>\
+            <a  href='javascript:mw.edit.create_columns(this,4)' class='mw-make-cols mw-make-cols-4' >4</a>\
+            <a  href='javascript:mw.edit.create_columns(this,5)' class='mw-make-cols mw-make-cols-5' >5</a>\
+            <a class='mw_edit_delete_element' href='javascript:mw.drag.delete_element(this)'><span></span></a>\
         </div>",
       element:"\
         <div contenteditable='false' id='mw_handle_element' class='mw-sorthandle mw-sorthandle-element'>\
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
-                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(ELEMENT_ID);'><span></span></a>\
+                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(this);'><span></span></a>\
             </div>\
             <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
@@ -225,7 +226,6 @@ mw._ = function(obj){
     });
     $.post(url, to_send, function(data){
         $(selector).after(data);
-        //$(".element").notclick().attr("contenteditable", true);
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) :'';
     });
