@@ -402,6 +402,7 @@ mw.drag = {
             });
             $(mw.handle_module).mouseenter(function(){
                 var curr = $(this).data("curr");
+
                 $(this).draggable("option", "helper", function(){
                     var clone =  $(curr).clone(true);
                     clone.css({
@@ -866,6 +867,72 @@ mw.drag = {
     }
   },
 
+    /**
+	 * Creates columns of given row id
+	 *
+	 * @method mw.edit.create_columns(selector, $numcols)
+	 * @param selector - the id of the row element
+	 * @param $numcols - number of columns required
+	 */
+
+  create_columns: function (selector, $numcols) {
+
+        var id = mw.is.obj(selector) ? $(mw.handle_row).data("curr").id : selector;
+
+        var $el_id = id!=''?id:mw.settings.row_id;
+
+
+
+        var column_set = $(document.getElementById($el_id)).find(".columns_set").eq(0);
+        column_set.find("a").removeClass("active");
+        column_set.find("a").eq($numcols-1).addClass("active");
+
+		if ($el_id != undefined && $el_id != false && $el_id != 'undefined') {
+			mw.settings.sortables_created = false;
+			$exisintg_num = $('#' + $el_id).children(".column").size();
+
+			if ($numcols == 0) {
+				$numcols = 1;
+			}
+			$exisintg_num = parseInt($exisintg_num);
+			$numcols = parseInt($numcols);
+			if ($exisintg_num == 0) {
+				$exisintg_num = 1;
+			}
+			if ($numcols != $exisintg_num) {
+				if ($numcols > $exisintg_num) {  //more columns
+					for (i = $exisintg_num; i < $numcols; i++) {
+                        var new_col = document.createElement('div');
+                        new_col.className = 'column';
+                        $('#' + $el_id).append(new_col);
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
+					}
+                    mw.resizable_columns();
+				}
+				else {  //less columns
+					$cols_to_remove = $exisintg_num - $numcols;
+					if ($cols_to_remove > 0) {
+                        var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
+                        var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        $(elements_to_clone).each(function(){
+                            var el = $(this).children(".element, .module, .row, .mw-layout-holder");
+                            //last_after_remove.append(el);
+                            last_after_remove.find(".empty-element").before(el);
+                           $("#"+this.id).remove();
+                        });
+                        last_after_remove.resizable("destroy");
+                        $('#' + $el_id).children(".empty-element").remove();
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
+					}
+				}
+
+				$exisintg_num = $('#' + $el_id).children(".column").size();
+				$eq_w = 100 / $exisintg_num;
+				$eq_w1 = $eq_w;
+				$('#' + $el_id).children(".column").width($eq_w1 + '%');
+			}
+		}
+	},
 	
 	
   /**
@@ -1098,9 +1165,6 @@ mw.resizable_columns = function () {
                         mw.global_resizes.next.find("img").each(function(){
                           $(this).width() <= w ? this.style.height = 'auto' : '';
                         });
-
-
-
 					},
 					create: function (event, ui) {
 						var el = $(this);
@@ -1145,33 +1209,7 @@ mw.resizable_columns = function () {
 		}
 
 	});
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

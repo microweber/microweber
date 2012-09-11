@@ -1,13 +1,15 @@
 .col, .row, .element {
     position: relative;
 }
-.element-image {
-    display: inline-block;
-    clear: none;
-}
+
 .element {
     display: block;
     clear: both;
+}
+.element-image {
+    display: inline-block;
+    clear: none;
+    max-width: 100%;
 }
 .edit:after, .column:after, .element:after {
     clear: both;
@@ -27,6 +29,7 @@
     position: relative;
 }
 
-.column img{
+.edit .column img{
   height: auto !important;
+  max-width: 100% !important;
 }

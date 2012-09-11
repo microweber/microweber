@@ -1,5 +1,8 @@
 window.mw = window.mw ? window.mw : {};
 
+
+
+
 mwd = document;
 
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
@@ -132,14 +135,14 @@ mw.settings = {
             <div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='columns_set'></div>\
 	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='mw_row_delete mw.edit.delete_element'></div>\
+	    	    <div class='mw_row_delete mw_edit_delete_element'></div>\
     	    </div>\
             <span class='column_separator_title'>Columns</span>\
-            <a  href='javascript:mw.edit.create_columns(this,1)' class='mw-make-cols mw-make-cols-1' >1</a>\
-            <a  href='javascript:mw.edit.create_columns(this,2)' class='mw-make-cols mw-make-cols-2' >2</a>\
-            <a  href='javascript:mw.edit.create_columns(this,3)' class='mw-make-cols mw-make-cols-3' >3</a>\
-            <a  href='javascript:mw.edit.create_columns(this,4)' class='mw-make-cols mw-make-cols-4' >4</a>\
-            <a  href='javascript:mw.edit.create_columns(this,5)' class='mw-make-cols mw-make-cols-5' >5</a>\
+            <a  href='javascript:mw.drag.create_columns(this,1)' class='mw-make-cols mw-make-cols-1' >1</a>\
+            <a  href='javascript:mw.drag.create_columns(this,2)' class='mw-make-cols mw-make-cols-2' >2</a>\
+            <a  href='javascript:mw.drag.create_columns(this,3)' class='mw-make-cols mw-make-cols-3' >3</a>\
+            <a  href='javascript:mw.drag.create_columns(this,4)' class='mw-make-cols mw-make-cols-4' >4</a>\
+            <a  href='javascript:mw.drag.create_columns(this,5)' class='mw-make-cols mw-make-cols-5' >5</a>\
             <a class='mw_edit_delete_element' href='javascript:mw.drag.delete_element(this)'><span></span></a>\
         </div>",
       element:"\

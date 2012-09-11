@@ -1425,14 +1425,32 @@ function save_data($table, $data, $data_to_save_options = false) {
                 if (trim($cat_name_or_id) != '') {
                     $taxonomy_table = $cms_db_tables ['table_taxonomy'];
                     $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-                    $str1 = 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                    $is_ex = get('limit=1&what=categories&' . $str1);
+                    $str1 = 'taxonomy_value=' . $cat_name_or_id . '&taxonomy_type=category&to_table=' . $table_assoc_name;
+                    $is_ex = get('limit=1&taxonomy_type=category&what=categories&' . $str1);
                     if (empty($is_ex)) {
+
                         $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                        $is_ex = get('limit=1&what=categories&' . $str1);
+                        $is_ex = get('limit=1&taxonomy_type=category&what=categories&' . $str1);
+                    }
+                    $new_c = false;
+
+
+                    if (empty($is_ex)) {
+                        $new_cat = array();
+                        $new_cat['to_table'] = $table_assoc_name;
+                        $new_cat['taxonomy_type'] = 'category';
+
+                        $new_cat['taxonomy_value'] = $cat_name_or_id;
+                        $new_c = save_category($new_cat);
+                        $is_ex = get('limit=1&taxonomy_type=category&what=categories&id=' . $new_c);
                     }
 
-                    d($is_ex);
+
+
+                    if (isset($is_ex[0])) {
+                        d($new_c);
+                        d($is_ex);
+                    }
                 }
             }
         }
