@@ -119,7 +119,7 @@ mw.settings = {
     //handles
     handles:{
       module:"\
-        <div contenteditable='false' id='mw_handle_module' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+        <div contenteditable='false' id='mw_handle_module' class='mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
             <div class='mw-element-name-handle'></div>\
             <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:;' onclick='mw.drag.delete_element(this);'><span></span></a>\
@@ -128,7 +128,7 @@ mw.settings = {
             <span class='mw-sorthandle-moveit'>Move</span>\
         </div>",
       row:"\
-        <div contenteditable='false' id='mw_handle_row'>\
+        <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
             <div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='columns_set'></div>\
 	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
@@ -143,13 +143,13 @@ mw.settings = {
             <a class='mw_edit_delete_element' href='javascript:mw.drag.delete_element(this)'><span></span></a>\
         </div>",
       element:"\
-        <div contenteditable='false' id='mw_handle_element' class='mw-sorthandle mw-sorthandle-element'>\
+        <div contenteditable='false' id='mw_handle_element' class='mw_master_handle mw-sorthandle mw-sorthandle-element'>\
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
                 <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(this);'><span></span></a>\
             </div>\
             <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
-      item:"<div id='items_handle'></div>"
+      item:"<div class='mw_master_handle' id='items_handle'></div>"
     },
     sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?"
 }

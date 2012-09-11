@@ -95,44 +95,63 @@ mw.drag = {
            }
 
            mw.mm_target = event.target;
+           mw.$mm_target = $(mw.mm_target);
 
            if(!mw.isDrag){
                if(mw.mouse.x%2==0){ //not on every pixel
                    //trigger on element
-                   if($(mw.mm_target).hasClass("element")){
+                   if(mw.$mm_target.hasClass("element")){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
-                   if($(mw.mm_target).parents(".element").length>0){
-                     $(window).trigger("onElementOver", $(mw.mm_target).parents(".element:first")[0]);
+                   else if(mw.$mm_target.parents(".element").length>0){
+                     $(window).trigger("onElementOver", mw.$mm_target.parents(".element:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length==0){
+                     $(window).trigger("onElementLeave", mw.mm_target);
                    }
 
                    //trigger on module
-                   if($(mw.mm_target).hasClass("module")){
+                   if(mw.$mm_target.hasClass("module")){
                      $(window).trigger("onModuleOver", mw.mm_target);
                    }
-                   if($(mw.mm_target).parents(".module").length>0){
-                     $(window).trigger("onModuleOver", $(mw.mm_target).parents(".module:first")[0]);
+                   else if(mw.$mm_target.parents(".module").length>0){
+                     $(window).trigger("onModuleOver", mw.$mm_target.parents(".module:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length==0){
+                     $(window).trigger("onModuleLeave", mw.mm_target);
                    }
 
+
                    //trigger on row
-                   if($(mw.mm_target).hasClass("row")){
+                   if(mw.$mm_target.hasClass("row")){
                      $(window).trigger("onRowOver", mw.mm_target);
                    }
-                   if($(mw.mm_target).parents(".row").length>0){
-                     $(window).trigger("onRowOver", $(mw.mm_target).parents(".row:first")[0]);
+                   else if(mw.$mm_target.parents(".row").length>0){
+                     $(window).trigger("onRowOver", mw.$mm_target.parents(".row:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length==0){
+                     $(window).trigger("onRowLeave", mw.mm_target);
                    }
 
                    //trigger on item
-                   if((mw.isDragItem(mw.mm_target) && $(mw.mm_target).parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
+                   if((mw.isDragItem(mw.mm_target) && mw.$mm_target.parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
                      $(window).trigger("onItemOver", mw.mm_target);
-                     $(mw.mm_target).addClass("mw_item");
+                     mw.$mm_target.addClass("mw_item");
+                   }
+                   else if(mw.mm_target.id!='items_handle' && mw.$mm_target.parents("#items_handle").length==0){
+                     $(window).trigger("onItemLeave", mw.mm_target);
+                   }
+                   if(mw.$mm_target.parents(".edit,.mw_master_handle").length==0){
+                     if(!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")){
+                          $(window).trigger("onAllLeave", mw.mm_target);
+                     }
                    }
 
                }
            }
            else{
-             if($(mw.mm_target).hasClass("element") || $(mw.mm_target).hasClass("empty-element") || $(mw.mm_target).parents(".element").length>0){
-               if(!$(mw.mm_target).hasClass("ui-draggable-dragging") && $(mw.mm_target).parents(".ui-draggable-dragging").length==0){
+             if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
+               if(!mw.$mm_target.hasClass("ui-draggable-dragging") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
                    mw.currentDragMouseOver = mw.mm_target;
                }
              }
@@ -312,6 +331,48 @@ mw.drag = {
           $(mw.handle_item).data("curr", element);
         });
 
+
+
+
+        $("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").hover(function(){
+           var active = $(this).data("curr");
+           $(active).addClass("element-active");
+        }, function(){
+           var active = $(this).data("curr");
+           $(active).removeClass("element-active");
+        });
+
+        $(window).bind("onAllLeave", function(e, target){
+            $("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").css({
+              top:"",
+              left:""
+            })
+        });
+        $(window).bind("onElementLeave", function(e, target){
+            $(mw.handle_element).css({
+              top:"",
+              left:""
+            })
+        });
+        $(window).bind("onModuleLeave", function(e, target){
+            $(mw.handle_module).css({
+              top:"",
+              left:""
+            });
+        });
+        $(window).bind("onRowLeave", function(e, target){
+            $(mw.handle_row).css({
+              top:"",
+              left:""
+            });
+        });
+        $(window).bind("onItemLeave", function(e, target){
+            $(mw.handle_item).css({
+              top:"",
+              left:""
+            });
+        });
+
 	},
 
 	init: function (selector, callback) {
@@ -381,6 +442,7 @@ mw.drag = {
                   var curr = $(mw.handle_element).data("curr");
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible();
+                  $(window).trigger("onAllLeave");
                },
                stop:function(){
                   mw.isDrag = false;
@@ -396,6 +458,7 @@ mw.drag = {
                   var curr = $(mw.handle_module).data("curr");
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible();
+                  $(window).trigger("onAllLeave");
                },
                stop:function(){
                   mw.isDrag = false;
@@ -411,6 +474,7 @@ mw.drag = {
                   var curr = $(mw.handle_row).data("curr");
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
                },
                stop:function(){
                   mw.isDrag = false;
@@ -425,6 +489,7 @@ mw.drag = {
                   var curr = $(mw.handle_item).data("curr");
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
                },
                stop:function(){
                   mw.isDrag = false;

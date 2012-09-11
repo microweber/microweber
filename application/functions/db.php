@@ -276,7 +276,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
         }
     }
 //  $table = db_g($table);
-    //$table = db_get_real_table_name($table);
+    $table = db_get_real_table_name($table);
 
     $aTable_assoc = db_get_table_name($table);
 
@@ -982,6 +982,25 @@ function db_get_table_name($assoc_name) {
     }
 }
 
+function db_get_assoc_table_name($assoc_name) {
+    $cms_db_tables = c('db_tables');
+
+    if (!empty($cms_db_tables)) {
+
+        foreach ($cms_db_tables as $k => $v) {
+
+
+            if (trim(strtolower($assoc_name)) == trim(strtolower($v))) {
+
+                $table_assoc_name = $k;
+                return $k;
+            }
+        }
+
+        return $assoc_name;
+    }
+}
+
 function db_get_real_table_name($assoc_name) {
     $cms_db_tables = c('db_tables');
 
@@ -989,10 +1008,10 @@ function db_get_real_table_name($assoc_name) {
 
         foreach ($cms_db_tables as $k => $v) {
 
-            // var_dump($k, $v);
-            if (strtolower($assoc_name) == strtolower($v)) {
 
-                // $table_assoc_name = $k;
+            if (trim(strtolower($assoc_name)) == trim(strtolower($k))) {
+
+                $table_assoc_name = $k;
                 return $v;
             }
         }
@@ -1253,7 +1272,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         // $data ['created_on'] = false;
         $data ['edited_by'] = $the_user_id;
     }
-    $table_assoc_name = ( $table );
+    $table_assoc_name = db_get_assoc_table_name($table);
 
     $criteria_orig = $data;
 
@@ -1403,15 +1422,18 @@ function save_data($table, $data, $data_to_save_options = false) {
             $cat_names_or_ids = array_trim($original_data['categories']);
 
             foreach ($cat_names_or_ids as $cat_name_or_id) {
-                $taxonomy_table = $cms_db_tables ['table_taxonomy'];
-                $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-                $str1 = 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                if (trim($cat_name_or_id) != '') {
+                    $taxonomy_table = $cms_db_tables ['table_taxonomy'];
+                    $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
+                    $str1 = 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                    $is_ex = get('limit=1&what=categories&' . $str1);
+                    if (empty($is_ex)) {
+                        $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                        $is_ex = get('limit=1&what=categories&' . $str1);
+                    }
 
-
-                //   $is_ex = get_categories($str1);
-                $is_ex = get('what=categories');
-
-                d($is_ex);
+                    d($is_ex);
+                }
             }
         }
 

@@ -66,9 +66,6 @@ switch ($do) {
  *
  * This class requires extension ZLib Enabled.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Encryption
  * @author		Alexandre Tedeschi
  * @author		Phil Sturgeon
  * @link		http://bitbucket.org/philsturgeon/codeigniter-unzip

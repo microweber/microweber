@@ -16,9 +16,9 @@ $config = array(
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
         'dsn' => 'sqlite:application/db/default.db',
-        'user' => '',    
+        'user' => '',     
         'pass' => '',   
-        'args' => array(  
+        'args' => array(   
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             //
