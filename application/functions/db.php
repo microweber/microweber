@@ -34,9 +34,9 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
     $q = "SELECT * from $table where {$field_name}=$id limit 1";
     // d($q);
     $q = db_query($q);
-
-    $q = $q [0];
-
+    if (isset($q [0])) {
+        $q = $q [0];
+    }
     // /$q = intval ( $q );
 
     if (count($q) > 0) {
@@ -1381,9 +1381,10 @@ function save_data($table, $data, $data_to_save_options = false) {
         // db_q($q);
 
         if (DB_IS_SQLITE != false) {
-            $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+            //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+			db_q($q);
         } else {
-            db_q($q);
+             db_q($q);
         }
 
 
@@ -1408,7 +1409,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 
     // p ( $original_data );
-    if (isset($original_data['categories'])) {
+    if (isset($original_data['categoaaaaaries'])) {
 
 
 
@@ -1441,13 +1442,26 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $new_cat['taxonomy_type'] = 'category';
 
                         $new_cat['taxonomy_value'] = $cat_name_or_id;
-                        $new_c = save_category($new_cat);
+                        //$new_c = save_category($new_cat);
                         $is_ex = get('limit=1&taxonomy_type=category&what=categories&id=' . $new_c);
                     }
 
 
 
                     if (isset($is_ex[0])) {
+
+                        $cat = $is_ex[0];
+
+                        $new_cat = array();
+                        $new_cat['to_table'] = $table_assoc_name;
+                        $new_cat['taxonomy_type'] = 'category';
+
+                        $new_cat['taxonomy_value'] = $cat_name_or_id;
+                        // $new_c = save_category($new_cat);
+                        $is_ex = get('limit=1&taxonomy_type=category&what=categories&id=' . $new_c);
+
+
+
                         d($new_c);
                         d($is_ex);
                     }

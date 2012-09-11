@@ -337,17 +337,18 @@ function site_url($add_string = false) {
         if (isset($_SERVER ['PATH_INFO'])) {
             // $subdir_append = $_SERVER ['PATH_INFO'];
         } else {
-            $subdir_append = $_SERVER ['REQUEST_URI'];
+          $subdir_append = $_SERVER ['REQUEST_URI'];
         }
 
-        // var_dump($_SERVER);
+      //  var_dump($_SERVER);
         $pageURL .= "://";
         if ($_SERVER ["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $subdir_append;
+            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] ;
         } else {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . $subdir_append;
+            $pageURL .= $_SERVER ["SERVER_NAME"] ;
         }
-
+$pageURL_host = $pageURL;
+ $pageURL .= $subdir_append;
         if (isset($_SERVER ['SCRIPT_NAME'])) {
             $d = dirname($_SERVER ['SCRIPT_NAME']);
             $d = trim($d, '/');
@@ -359,13 +360,13 @@ function site_url($add_string = false) {
 
 
 
-
-        $url_segs = explode('/', $pageURL);
+ //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
+        $url_segs = explode('/', $pageURL );
         $i = 0;
         $unset = false;
         foreach ($url_segs as $v) {
             if ($unset == true) {
-                unset($url_segs [$i]);
+               //unset($url_segs [$i]);
             }
             if ($v == $d) {
 

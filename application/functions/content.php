@@ -1340,7 +1340,7 @@ function save_content($data, $delete_the_cache = true) {
             }
         }
     }
-
+ 
     $save = save_data($table, $data_to_save);
     $id = $save;
 

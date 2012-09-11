@@ -501,16 +501,29 @@ mw.drag = {
             });
 
             $(".modules-list li").draggable({
-                helper:'clone',
+                revert: true,
+                revertDuration: 0,
                 start:function(){
                     mw.isDrag = true;
-                    var clone = $(this).clone(true).attr("id", "module-"+mw.random());
-                    mw.dragCurrent = clone[0];
+                    mw.dragCurrent = mw.GlobalModuleListHelper;
                 },
                stop:function(){
                   mw.isDrag = false;
-                  setTimeout(function(){mw.drag.load_new_modules();}, 200);
+                  var el = $(this);
+                  setTimeout(function(){
+                    mw.drag.load_new_modules();
+
+                    el.addClass("ui-draggable")
+                  }, 200);
                }
+            });
+
+            $(".modules-list li").mouseenter(function(){
+                $(this).draggable("option", "helper", function(){
+                  var clone = $(this).clone(true).attr("id", "module-"+mw.random());
+                  mw.GlobalModuleListHelper = clone[0];
+                  return clone[0];
+                });
             });
 
         }
@@ -856,7 +869,7 @@ mw.drag = {
    * @param Element id or selector
    */
   delete_element: function(idobj) {
-    var id = mw.is.obj(idobj) ? $(idobj).dataset("delete") : idobj;
+    var id = mw.is.obj(idobj) ? $(idobj).data("curr").id : idobj;
     if (confirm(mw.settings.sorthandle_delete_confirmation_text)) {
       if (id == "") {
         id = mw.settings.element_id;
@@ -880,7 +893,6 @@ mw.drag = {
         var id = mw.is.obj(selector) ? $(mw.handle_row).data("curr").id : selector;
 
         var $el_id = id!=''?id:mw.settings.row_id;
-
 
 
         var column_set = $(document.getElementById($el_id)).find(".columns_set").eq(0);

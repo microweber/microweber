@@ -12,7 +12,7 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'installed' => '1',
-    // Database Settings
+    // Database Settings 
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
         'dsn' => 'sqlite:application/db/default.db',

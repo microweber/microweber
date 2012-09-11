@@ -18,7 +18,7 @@ function url_segment($k = -1) {
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
 
-
+ 
         $u1 = str_replace($u2, '', $u1);
  
         $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
