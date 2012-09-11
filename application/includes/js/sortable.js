@@ -500,36 +500,40 @@ mw.drag = {
                }
             });
 
-            $(".modules-list li").draggable({
-                revert: true,
-                revertDuration: 0,
-                start:function(){
-                    mw.isDrag = true;
-                    mw.dragCurrent = mw.GlobalModuleListHelper;
-                },
-               stop:function(){
-                  mw.isDrag = false;
-                  var el = $(this);
-                  setTimeout(function(){
-                    mw.drag.load_new_modules();
-
-                    el.addClass("ui-draggable")
-                  }, 200);
-               }
-            });
-
-            $(".modules-list li").mouseenter(function(){
-                $(this).draggable("option", "helper", function(){
-                  var clone = $(this).clone(true).attr("id", "module-"+mw.random());
-                  mw.GlobalModuleListHelper = clone[0];
-                  return clone[0];
-                });
-            });
+          //  mw.drag.toolbar_modules();
 
         }
 
         mw.drag.the_drop();
 	},
+    toolbar_modules:function(selector){/*
+        var items = selector || ".modules-list li";
+        $(items).draggable({
+            revert: true,
+            revertDuration: 0,
+            start:function(){
+                mw.isDrag = true;
+                mw.dragCurrent = mw.GlobalModuleListHelper;
+            },
+           stop:function(){
+              mw.isDrag = false;
+              var el = this;
+              setTimeout(function(){
+                mw.drag.load_new_modules();
+                mw.drag.toolbar_modules(el);
+                mw.dragCurrent.style.postion = "";
+              }, 200);
+           }
+        });
+        $(items).mouseenter(function(){
+          mw.GlobalModuleListHelper = this;
+            $(this).draggable("option", "helper", function(){
+              var clone = $(this).clone(true).attr("id", "module-"+mw.random());
+              mw.GlobalModuleListHelper = clone[0];
+              return clone[0];
+            });
+        });*/
+    },
     the_drop: function () {
         if(!$(document.body).hasClass("bup")){
           $(document.body).addClass("bup");

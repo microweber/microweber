@@ -788,6 +788,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
     if ((int) $table_assoc_name == 0) {
         $table_assoc_name = guess_table_name($table);
     }
+        $table_ass = db_get_assoc_table_name($table);
 
 
 
@@ -811,7 +812,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
             $qt = '';
         } else {
-            $qt = "to_table = '{$table_assoc_name}' and";
+            //$qt = " (to_table='{$table_assoc_name}'  or to_table='{$table_ass}'  ) and";
+
+            $qt = " to_table='{$table_assoc_name}'    and";
         }
 
         if ($return_full == true) {
@@ -831,7 +834,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
-        // d($q);
+         // d($q);
         // $crc = crc32 ( $q );
 
         $crc = abs(crc32($q));
@@ -1340,7 +1343,7 @@ function save_content($data, $delete_the_cache = true) {
             }
         }
     }
- 
+
     $save = save_data($table, $data_to_save);
     $id = $save;
 

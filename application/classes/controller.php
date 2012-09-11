@@ -120,9 +120,10 @@ class Controller {
                     //template_var('new_page');
                 }
             }
-            //  d($page);
+            //
         }
         //
+
         if ($page['content_type'] == "post") {
             $content = $page;
             $page = get_content_by_id($page['content_parent']);
@@ -159,7 +160,7 @@ class Controller {
             // $l->content = $content;
             // $l->set($l);
             $l = $l->__toString();
-
+            $l = parse_micrwober_tags($l, $options = false);
             if ($is_editmode == true) {
                 $is_admin = is_admin();
                 if ($is_admin == true) {
@@ -188,8 +189,9 @@ class Controller {
 
 
 
-            // var_dump($l);
             $l = parse_micrwober_tags($l, $options = false);
+
+
             print $l;
             exit();
         } else {

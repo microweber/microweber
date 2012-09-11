@@ -1382,9 +1382,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 
         if (DB_IS_SQLITE != false) {
             //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-			db_q($q);
+            db_q($q);
         } else {
-             db_q($q);
+            db_q($q);
         }
 
 
@@ -1536,7 +1536,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         if (!empty($custom_field_to_save)) {
             // p($is_quick);
             $custom_field_table = $cms_db_tables ['table_custom_fields'];
-            $table_assoc_name = db_get_real_table_name($table_assoc_name);
+            $table_assoc_name = db_get_assoc_table_name($table_assoc_name);
             if ($is_quick == false) {
 
 
