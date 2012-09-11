@@ -408,7 +408,7 @@ margin-right: 6px;
   border-bottom-left-radius: 10px;
   width: 32px;
   margin-left: -32px;
-  margin-top: 5px;
+  margin-top: 25px;
 
 }
 
@@ -467,7 +467,9 @@ margin-right: 6px;
   top: -9999px;
 }
 
-
+.mw_resizing > .column{
+  height: auto !important;
+}
 
 
 

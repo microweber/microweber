@@ -138,6 +138,9 @@ mw.drag = {
                      $(window).trigger("onItemOver", mw.mm_target);
                      mw.$mm_target.addClass("mw_item");
                    }
+                   else if(mw.$mm_target.parents(".mw_item").length>0){
+                     $(window).trigger("onItemOver", mw.$mm_target.parents(".mw_item")[0]);
+                   }
                    else if(mw.mm_target.id!='items_handle' && mw.$mm_target.parents("#items_handle").length==0){
                      $(window).trigger("onItemLeave", mw.mm_target);
                    }
@@ -1096,6 +1099,8 @@ mw.resizable_columns = function () {
                           $(this).width() <= w ? this.style.height = 'auto' : '';
                         });
 
+
+
 					},
 					create: function (event, ui) {
 						var el = $(this);
@@ -1124,8 +1129,11 @@ mw.resizable_columns = function () {
 
 						ui.element.addClass('selected');
 						mw.settings.resize_started = true;
+                        $(this).parent().addClass('mw_resizing');
+
 					},
 					stop: function (event, ui) {
+					   $(this).parent().removeClass('mw_resizing');
  						mw.settings.resize_started = false;
 						mw.drag.fixes();
 						mw.drag.fix_placeholders();

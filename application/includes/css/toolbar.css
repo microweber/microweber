@@ -530,9 +530,8 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 }
 
 .element-active{
-
     outline:1px solid #D4D4D4;
-    box-shadow:0 0 6px  #D4D4D4;
+    background: rgba(215, 220, 227, 0.9);
 }
 
 .row:hover .mw-sorthandle-row:first-child{
