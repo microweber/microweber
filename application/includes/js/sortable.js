@@ -97,6 +97,9 @@ mw.drag = {
            mw.mm_target = event.target;
            mw.$mm_target = $(mw.mm_target);
 
+
+
+
            if(!mw.isDrag){
                if(mw.mouse.x%2==0){ //not on every pixel
                    //trigger on element
@@ -149,7 +152,6 @@ mw.drag = {
                           $(window).trigger("onAllLeave", mw.mm_target);
                      }
                    }
-
                }
            }
            else{
@@ -445,11 +447,9 @@ mw.drag = {
                   mw.isDrag = true;
                   var curr = $(mw.handle_element).data("curr");
                   mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_'+mw.random() : '';
                   $(mw.dragCurrent).invisible();
                   $(window).trigger("onAllLeave");
-               },
-               stop:function(){
-                  mw.isDrag = false;
                }
             });
             $(mw.handle_module).draggable({
@@ -461,11 +461,9 @@ mw.drag = {
                   mw.isDrag = true;
                   var curr = $(mw.handle_module).data("curr");
                   mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'module_'+mw.random() : '';
                   $(mw.dragCurrent).invisible();
                   $(window).trigger("onAllLeave");
-               },
-               stop:function(){
-                  mw.isDrag = false;
                }
             });
             $(mw.handle_row).draggable({
@@ -477,11 +475,9 @@ mw.drag = {
                   mw.isDrag = true;
                   var curr = $(mw.handle_row).data("curr");
                   mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'row_'+mw.random() : '';
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
-               },
-               stop:function(){
-                  mw.isDrag = false;
                }
             });
             $(mw.handle_item).draggable({
@@ -494,19 +490,16 @@ mw.drag = {
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
-               },
-               stop:function(){
-                  mw.isDrag = false;
                }
             });
 
-          //  mw.drag.toolbar_modules();
+            mw.drag.toolbar_modules();
 
         }
 
         mw.drag.the_drop();
 	},
-    toolbar_modules:function(selector){/*
+    toolbar_modules:function(selector){
         var items = selector || ".modules-list li";
         $(items).draggable({
             revert: true,
@@ -532,7 +525,7 @@ mw.drag = {
               mw.GlobalModuleListHelper = clone[0];
               return clone[0];
             });
-        });*/
+        });
     },
     the_drop: function () {
         if(!$(document.body).hasClass("bup")){
@@ -546,8 +539,10 @@ mw.drag = {
             if($(target).parents(".element").length>0){
               $(window).trigger("onElementClick", $(target).parents(".element")[0]);
             }
+
 			if (mw.isDrag) {
 				setTimeout(function () {
+				  mw.isDrag = false;
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         var position = mw.dropable.data("position");
                         if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){
@@ -895,6 +890,8 @@ mw.drag = {
   create_columns: function (selector, $numcols) {
 
         var id = mw.is.obj(selector) ? $(mw.handle_row).data("curr").id : selector;
+
+
 
         var $el_id = id!=''?id:mw.settings.row_id;
 
