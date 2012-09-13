@@ -1,1 +1,0 @@
-Note: Images used in the slider for the Orman Theme should have the dimensions 568px x 268px

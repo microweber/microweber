@@ -1,13 +1,13 @@
 
-<div class="page_tit"><? print $post['content_title']; ?></div>
+<div class="page_tit"><? print $post['title']; ?></div>
 <div class="body_part_inner">
   <div class="body_left_inner">
-  <h1><? print $post['content_title']; ?></h1>
+  <h1><? print $post['title']; ?></h1>
   <br />
 
   
-   <? print $post['the_content_body']; ?>
-    <? $c = $this->taxonomy_model->getTaxonomiesForContent($post['id'], $taxonomy_type = 'categories');
+   <? print $post['the_content']; ?>
+    <? $c = $this->taxonomy_model->getTaxonomiesForContent($post['id'], $data_type = 'categories');
 		//print PAGE_ID;
 		?>
     <?php
@@ -22,7 +22,7 @@
     <? if(!empty($posts_temp['posts'])): ?>
     <div class="news_links"> <strong>Other Medical and Health News </strong><br />
       <? foreach($posts_temp['posts'] as $post1): ?>
-      <a href="<? print post_link($post1['id']) ?>"><? print $post1['content_title'] ?></a><br />
+      <a href="<? print post_link($post1['id']) ?>"><? print $post1['title'] ?></a><br />
       <? endforeach; ?>
     </div>
     <? endif; ?>

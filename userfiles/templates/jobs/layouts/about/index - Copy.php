@@ -23,7 +23,7 @@ description: Home site layout
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 
-<div class="page_tit"><? print $page['content_title'] ?></div>
+<div class="page_tit"><? print $page['title'] ?></div>
 <div class="body_part_inner">
   <div class="body_left_inner">
      <div class="about_text">

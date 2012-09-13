@@ -68,9 +68,9 @@ $post_data = get_post(url_param('id'));
 
 
 
- <h2><? print $post_data['content_title']; ?></h2>
+ <h2><? print $post_data['title']; ?></h2>
  <br />
-<? print html_entity_decode($post_data['content_body']); ?>
+<? print html_entity_decode($post_data['content']); ?>
 
 
 <div class="my__embed">
@@ -82,7 +82,7 @@ $post_data = get_post(url_param('id'));
 
 
 
-<div><span class="st_sharethis" st_url="<? print post_link($post_data["id"]); ?>" st_title="<? print addslashes($post_data["content_title"]); ?>" displayText="Share this"></span>
+<div><span class="st_sharethis" st_url="<? print post_link($post_data["id"]); ?>" st_title="<? print addslashes($post_data["title"]); ?>" displayText="Share this"></span>
 
  <a href="#" class="user_activity_comments"><strong><? print comments_count($post_data['id'], false); ?></strong><span></span><strong>Comments</strong></a> <a  class="user_activity_likes right"  href="<? print voting_link($post_data['id'], '#post-likes-'.$post_data['id']); ?>"><strong id="post-likes-<? print ($post_data['id']); ?>"><? print votes_count($post_data['id'], false ); ?></strong> Like</a> </div>
   </div>

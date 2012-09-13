@@ -1,5 +1,8 @@
 window.mw = window.mw ? window.mw : {};
 
+
+
+
 mwd = document;
 
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
@@ -49,6 +52,8 @@ if(!Array.indexOf){
 
 mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js');
 
+
+
 Wait = function(a,b){ !mw.is.defined(a) ? setTimeout(function(){Wait(a,b),22}) : b.call(a); }
 
 mw.loaded = false;
@@ -58,6 +63,7 @@ window.onload = function(){
 }
 
 mw.target = {} //
+
 
 
 mw.is = {
@@ -80,7 +86,9 @@ if (window.console != undefined) {
  */
 
 
+
 mw.settings = {
+    debug:true,
     site_url:'<?php print site_url(); ?>', //mw.settings.site_url
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url:'<?php print site_url(); ?>api/upload/',
@@ -114,36 +122,41 @@ mw.settings = {
     empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
 
     //handles
-    sorthandle_row : "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
+    handles:{
+      module:"\
+        <div contenteditable='false' id='mw_handle_module' class='mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+            <div class='mw-element-name-handle'></div>\
+            <div class='mw_col_delete mw_edit_delete_element'>\
+                <a class='mw_edit_btn mw_edit_delete right' href='javascript:;' onclick='mw.drag.delete_element(mw.handle_module);'><span></span></a>\
+                <a class='mw_edit_btn mw_edit_settings right' href='javascript:;' onclick='mw.drag.module_settings(this);'>Settings</a>\
+            </div>\
+            <span class='mw-sorthandle-moveit'>Move</span>\
+        </div>",
+      row:"\
+        <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
+            <div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='columns_set'></div>\
 	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
-    	    </div>",
-    sorthandle_row_columns_controlls :
-          '<span class="column_separator_title">Columns</span>\
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
-          <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
-    sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.drag.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
-    sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
-    sorthandle_col:
-    "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
+	    	    <div class='mw_row_delete mw_edit_delete_element'></div>\
+    	    </div>\
+            <span class='column_separator_title'>Columns</span>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,4);' class='mw-make-cols mw-make-cols-4' >4</a>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,5);' class='mw-make-cols mw-make-cols-5' >5</a>\
+            <a class='mw_edit_delete mw_edit_btn right' onclick='mw.drag.delete_element(mw.handle_row);' href='javascript:;'><span></span></a>\
+        </div>",
+      element:"\
+        <div contenteditable='false' id='mw_handle_element' class='mw_master_handle mw-sorthandle mw-sorthandle-element'>\
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
-                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick=\"mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
+                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\
             <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
-    sorthandle_module:
-    "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
-        <div class='mw-element-name-handle'>MODULE_NAME</div>\
-        <div class='mw_col_delete mw_edit_delete_element'>\
-            <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
-            <a class='mw_edit_btn mw_edit_settings right' href=\"javascript:mw.drag.module_settings(MODULE_ID)\">Settings</a>\
-        </div>\
-        <span class='mw-sorthandle-moveit'>Move</span>\
-    </div>"
+      item:"<div class='mw_master_handle' id='items_handle'></div>"
+    },
+    sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?"
 }
 
 
@@ -171,15 +184,15 @@ mw.reload_module = function($module_name) {
 	if ($module_name == undefined) {
 
 	} else {
-		
-		
+
+
 		if(typeof $module_name == 'object'){
 			 mw._({
                       selector:$module_name
-                    });
-			
+             });
+
 		} else {
-		
+
 		var module_name = $module_name.toString();
 		var refresh_modules_explode = module_name.split(",");
 		for (var i = 0; i < refresh_modules_explode.length; i++) {
@@ -198,9 +211,6 @@ mw.reload_module = function($module_name) {
 			}
 		}
 		}
-		
-		
-		
 	}
 }
 
@@ -211,17 +221,46 @@ mw.clear_cache = function() {
 	});
 }
 
-mw._ = function(obj){
+
+
+mw._ = function(obj, sendSpecific){
     var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
-    $.each($(obj.selector)[0].attributes, function(index, attr) {
-      to_send[attr.name] = attr.value;
-    });
+    var attrs =  $(obj.selector)[0].attributes;
+
+    if(sendSpecific){
+        attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
+        attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
+        attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
+    }
+    else{
+        for(var i in attrs){
+            var name = attrs[i].name;
+            var val =  attrs[i].nodeValue;
+            to_send[name] = val;
+        }
+    }
+
     $.post(url, to_send, function(data){
         $(selector).after(data);
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) :'';
+        mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
+        mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true):'';
     });
+
 }
+
+mw.qsas = mwd.querySelectorAll;
+
+mw.log = function(what){
+  if(window.console && mw.settings.debug){
+    console.log(what);
+  }
+}
+
+
+
+

@@ -1,7 +1,0 @@
-[17-Feb-2011 15:20:57] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[20-Feb-2011 10:59:01] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[20-Feb-2011 21:41:22] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[28-Feb-2011 21:58:55] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[15-Mar-2011 10:25:36] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[28-Mar-2011 07:05:30] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1
-[31-Mar-2011 23:05:18] PHP Fatal error:  Call to undefined function user_id_from_url() in /home/skidekid/public_html/userfiles/templates/skide/dashboard/index.php on line 1

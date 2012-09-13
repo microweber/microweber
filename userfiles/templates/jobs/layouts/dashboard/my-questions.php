@@ -48,9 +48,9 @@ function add_edit_question($id){
   <div class="" id="q_list">
 
    <? if($dashboard_user == user_id()) : ?>
-  <microweber module="posts/list" category="<? print intval($questions['content_subtype_value']) ?>" display="questions_and_answers_admin" created_by="<? print $dashboard_user; ?>" no_results_text="I don't have any questions yet."  limit="500"   ></microweber>
+  <microweber module="posts/list" category="<? print intval($questions['subtype_value']) ?>" display="questions_and_answers_admin" created_by="<? print $dashboard_user; ?>" no_results_text="I don't have any questions yet."  limit="500"   ></microweber>
   <? else: ?> 
-   <microweber module="posts/list" category="<? print intval($questions['content_subtype_value']) ?>" display="questions_and_answers" created_by="<? print $dashboard_user; ?>" no_results_text="<? print user_name($dashboard_user); ?> haven't asked any questions yet."  limit="500"   ></microweber>
+   <microweber module="posts/list" category="<? print intval($questions['subtype_value']) ?>" display="questions_and_answers" created_by="<? print $dashboard_user; ?>" no_results_text="<? print user_name($dashboard_user); ?> haven't asked any questions yet."  limit="500"   ></microweber>
   
   
    <? endif; ?>

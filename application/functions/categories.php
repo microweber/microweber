@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * category_tree
@@ -7,22 +7,22 @@
  * @access      public
  * @category    categories
  * @author      Microweber
- * @link        http://microweber.info/documentation/get_categories
- * @param
-  $params = array();
-  $params['content_parent'] = false; //parent id
-  $params['link'] = false; // the link on for the <a href
-  $params['actve_ids'] = array(); //ids of active categories
-  $params['active_code'] = false; //inserts this code for the active ids's
-  $params['remove_ids'] = array(); //remove those caregory ids
-  $params['ul_class_name'] = false; //class name for the ul
-  $params['include_first'] = false; //if true it will include the main parent category
-  $params['content_type'] = false; //if this is set it will include only categories from desired type
-  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
-  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+ * @param $params = array();
+ * @param  $params['parent'] = false; //parent id
+ * @param  $params['link'] = false; // the link on for the <a href
+ * @param  $params['actve_ids'] = array(); //ids of active categories
+ * @param  $params['active_code'] = false; //inserts this code for the active ids's
+ * @param  $params['remove_ids'] = array(); //remove those caregory ids
+ * @param   $params['ul_class_name'] = false; //class name for the ul
+ * @param  $params['include_first'] = false; //if true it will include the main parent category
+ * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
+ * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
+ * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+
+ * @usage category_tree($params);
 
  */
-function category_tree($params) {
+function category_tree($params = false) {
 
     $p2 = array();
     // p($params);
@@ -32,18 +32,18 @@ function category_tree($params) {
             $params = $p2;
         }
     }
-    if (isset($params ['content_parent'])) {
-        $content_parent = ($params ['content_parent']);
-    } else if (isset($params ['content_subtype_value'])) {
-        $content_parent = ($params ['content_subtype_value']);
+    if (isset($params ['parent'])) {
+        $parent = ($params ['parent']);
+    } else if (isset($params ['subtype_value'])) {
+        $parent = ($params ['subtype_value']);
     } else {
-        $content_parent = 0;
+        $parent = 0;
     }
 
     $link = isset($params ['link']) ? $params ['link'] : false;
 
     if ($link == false) {
-        $link = "<a href='{taxonomy_url}' {active_code} >{taxonomy_value}</a>";
+        $link = "<a href='{taxonomy_url}' data-category-id='{id}' {active_code} >{title}</a>";
     }
 
     $actve_ids = isset($params ['actve_ids']) ? $params ['actve_ids'] : array(
@@ -108,14 +108,28 @@ function category_tree($params) {
 
 
 
+
+
+
+
     if (isset($params ['for_page']) and $params ['for_page'] != false) {
         $page = get_page($params ['for_page']);
-        $content_parent = $page ['content_subtype_value'];
+        $parent = $page ['subtype_value'];
     }
-    if (isset($params ['content_subtype_value']) and $params ['content_subtype_value'] != false) {
-        $content_parent = $params ['content_subtype_value'];
+    if (isset($params ['subtype_value']) and $params ['subtype_value'] != false) {
+        $parent = $params ['subtype_value'];
     }
 
+    $skip123 = false;
+    if (isset($params ['for']) and $params ['for'] != false) {
+        $fors = array();
+        $table_assoc_name = db_get_assoc_table_name($params ['for']);
+        $skip123 = true;
+
+        $str0 = 'data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
+        $fors = get($str0);
+        //   d($fors);
+    }
 
 
 
@@ -124,11 +138,19 @@ function category_tree($params) {
     if (isset($params ['not_for_page']) and $params ['not_for_page'] != false) {
         $page = get_page($params ['not_for_page']);
         $remove_ids = array(
-            $page ['content_subtype_value']
+            $page ['subtype_value']
         );
     }
+    if ($skip123 == false) {
 
-    content_helpers_getCaregoriesUlTree($content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+        content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+    } else {
+        if ($fors != false and is_array($fors) and !empty($fors)) {
+            foreach ($fors as $cat) {
+                content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
+            }
+        }
+    }
 }
 
 /**
@@ -150,21 +172,21 @@ function category_tree($params) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
     $table = c('db_tables');
 
     $table_content = $table ['table_content'];
 
     $table = $table_taxonomy = $table ['table_taxonomy'];
 
-    if ($content_parent == false) {
+    if ($parent == false) {
 
-        $content_parent = (0);
+        $parent = (0);
 
         $include_first = false;
     } else {
 
-        $content_parent = (int) $content_parent;
+        $parent = (int) $parent;
     }
 
     if (!is_array($orderby)) {
@@ -202,19 +224,19 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 
         if ($include_first == true) {
 
-            $sql = "SELECT * from $table where id=$content_parent  and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+            $sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
         } else {
 
-            $sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+            $sql = "SELECT * from $table where parent_id=$parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
         }
     } else {
 
         if ($include_first == true) {
 
-            $sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+            $sql = "SELECT * from $table where id=$parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
         } else {
 
-            $sql = "SELECT * from $table where parent_id=$content_parent and taxonomy_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+            $sql = "SELECT * from $table where parent_id=$parent and data_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
         }
     }
 
@@ -235,12 +257,12 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
         $my_limit_q = false;
     }
     $output = '';
-    $children_of_the_main_parent = get_category_items($content_parent, $type = 'category_item', $visible_on_frontend, $limit);
+    $children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
     //
-    $q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5($sql), 'taxonomy/' . intval($content_parent));
+    $q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5($sql), 'taxonomy/' . intval($parent));
     // $q = $this->core_model->dbQuery ( $sql, $cache_id =
     // 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
-    // 'taxonomy/' . intval ( $content_parent ) );
+    // 'taxonomy/' . intval ( $parent ) );
 
     $result = $q;
 
@@ -304,7 +326,7 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 						select id , count(to_table_id) as qty from $table_taxonomy where
 						to_table_id in($children_of_the_next_parent_i)
 						and parent_id  IN ($chosen_categories_array_i)
-						and taxonomy_type =  'category_item'
+						and data_type =  'category_item'
 						group by to_table_id
 						$my_limit_q
 						";
@@ -388,11 +410,11 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 
                 if ($do_not_show == false) {
 
-                    $output = $output . $item ['taxonomy_value'];
+                    $output = $output . $item ['title'];
 
                     if ($li_class_name == false) {
 
-                        print "<li class='category_element' id='category_item_{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-taxonomy-type='{$item['taxonomy_type']}'>";
+                        print "<li class='category_element' id='category_item_{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-taxonomy-type='{$item['data_type']}'>";
                     } else {
 
                         print "<li class='$li_class_name' id='category_item_{$item['id']}' >";
@@ -409,10 +431,10 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 
                         $to_print = str_ireplace('{taxonomy_url}', category_link($item ['id']), $to_print);
 
-                        $to_print = str_ireplace('{taxonomy_value}', $item ['taxonomy_value'], $to_print);
+                        $to_print = str_ireplace('{title}', $item ['title'], $to_print);
 
-                        //$to_print = str_ireplace('{taxonomy_value2}', $item ['taxonomy_value2'], $to_print);
-                        // $to_print = str_ireplace('{taxonomy_value3}', $item ['taxonomy_value3'], $to_print);
+                        //$to_print = str_ireplace('{title2}', $item ['title2'], $to_print);
+                        // $to_print = str_ireplace('{title3}', $item ['title3'], $to_print);
 
                         $to_print = str_ireplace('{taxonomy_content_type}', trim($item ['taxonomy_content_type']), $to_print);
 
@@ -451,17 +473,17 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 
                         if (strval($to_print) == '') {
 
-                            print $item ['taxonomy_value'];
+                            print $item ['title'];
                         } else {
 
                             print $to_print;
                         }
                     } else {
 
-                        print $item ['taxonomy_value'];
+                        print $item ['title'];
                     }
 
-                    // $content_parent, $link = false, $actve_ids = false,
+                    // $parent, $link = false, $actve_ids = false,
                     // $active_code = false, $remove_ids = false,
                     // $removed_ids_code = false, $ul_class_name = false,
                     // $include_first = false, $content_type = false,
@@ -541,9 +563,9 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
     if ($type != FALSE) {
         // var_Dump($type);
 
-        $data ['taxonomy_type'] = $type;
+        $data ['data_type'] = $type;
 
-        $type_q = " and taxonomy_type='$type'   ";
+        $type_q = " and data_type='$type'   ";
     } else {
         // @doto: remove the hard coded part here by revieweing all the other
         // files for diferent values of $type
@@ -551,9 +573,9 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
 
         // var_Dump($type);
 
-        $data ['taxonomy_type'] = $type;
+        $data ['data_type'] = $type;
 
-        $type_q = " and taxonomy_type='$type'   ";
+        $type_q = " and data_type='$type'   ";
     }
     $visible_on_frontend_q = '';
     if ($visible_on_frontend == true) {
@@ -632,7 +654,7 @@ function get_category_items_ids($root, $limit = false) {
         $cache_group = 'taxonomy/global';
     }
 
-    $q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and taxonomy_type='category_item'  group by to_table_id   $my_limit_q ";
+    $q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and data_type='category_item'  group by to_table_id   $my_limit_q ";
 
     // var_dump($q);
     $taxonomies = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
@@ -692,7 +714,7 @@ function save_category($data, $preserve_cache = false) {
 
     if (isset($data ['content_id'])) {
 
-        if (is_array($data ['content_id']) and !empty($data ['content_id']) and trim($data ['taxonomy_type']) != '') {
+        if (is_array($data ['content_id']) and !empty($data ['content_id']) and trim($data ['data_type']) != '') {
             $content_ids = $data ['content_id'];
         }
     }
@@ -703,7 +725,7 @@ function save_category($data, $preserve_cache = false) {
         $no_position_fix = true;
     }
 
-    // p($data);
+    p($data);
     $save = save_data($table, $data);
 
     cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $save);
@@ -724,14 +746,14 @@ function save_category($data, $preserve_cache = false) {
 
         // p($content_ids, 1);
 
-        $taxonomy_type = trim($data ['taxonomy_type']) . '_item';
+        $data_type = trim($data ['data_type']) . '_item';
 
         $content_ids_all = implode(',', $content_ids);
 
         $q = "delete from $table where to_table='table_content'
 		and content_type='post'
 		and parent_id=$save
-		and  taxonomy_type ='{$taxonomy_type}' ";
+		and  data_type ='{$data_type}' ";
 
         // p($q,1);
 
@@ -745,7 +767,7 @@ function save_category($data, $preserve_cache = false) {
 
             $item_save ['to_table_id'] = $id;
 
-            $item_save ['taxonomy_type'] = $taxonomy_type;
+            $item_save ['data_type'] = $data_type;
 
             $item_save ['content_type'] = 'post';
 
@@ -772,7 +794,62 @@ function save_category($data, $preserve_cache = false) {
     return $save;
 }
 
-function get_categories_for_content($content_id, $taxonomy_type = 'categories') {
+function get_categories($params, $data_type = 'categories') {
+
+    $to_table_id = 0;
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $options = $params2;
+    }
+
+
+    $cms_db_tables = c('db_tables');
+
+    $table = $cms_db_tables ['table_taxonomy'];
+    $table_items = $cms_db_tables ['table_taxonomy_items'];
+
+    $data = $params;
+    $data_type_q = false;
+    if ($data_type == 'categories') {
+        $data ['data_type'] = 'category_item';
+        $data_type_q = "and data_type = 'category_item' ";
+    }
+
+    if ($data_type == 'tags') {
+        $data ['data_type'] = 'tag_item';
+        $data_type_q = "and data_type = 'tag_item' ";
+    }
+    $data['table'] = $table;
+
+    $data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
+    $data['only_those_fields'] = array('parent_id');
+
+    d($data);
+
+    $data = get($data);
+
+
+    //$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
+    // var_dump($q);
+    //
+    //
+    //
+    //
+    //$data = db_query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
+    // var_dump ( $data );
+    $results = false;
+    if (!empty($data)) {
+        $results = array();
+        foreach ($data as $item) {
+            $results [] = $item ['parent_id'];
+        }
+        $results = array_unique($results);
+    }
+    cache_store_data($results, $function_cache_id, $cache_group);
+    return $results;
+}
+
+function get_categories_for_content($content_id, $data_type = 'categories') {
     if (intval($content_id) == 0) {
 
         return false;
@@ -808,18 +885,18 @@ function get_categories_for_content($content_id, $taxonomy_type = 'categories') 
     $data ['to_table'] = 'table_content';
 
     $data ['to_table_id'] = $content_id;
-    $taxonomy_type_q = false;
-    if ($taxonomy_type == 'categories') {
-        $data ['taxonomy_type'] = 'category_item';
-        $taxonomy_type_q = "and taxonomy_type = 'category_item' ";
+    $data_type_q = false;
+    if ($data_type == 'categories') {
+        $data ['data_type'] = 'category_item';
+        $data_type_q = "and data_type = 'category_item' ";
     }
 
-    if ($taxonomy_type == 'tags') {
-        $data ['taxonomy_type'] = 'tag_item';
-        $taxonomy_type_q = "and taxonomy_type = 'tag_item' ";
+    if ($data_type == 'tags') {
+        $data ['data_type'] = 'tag_item';
+        $data_type_q = "and data_type = 'tag_item' ";
     }
 
-    $q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $taxonomy_type_q ";
+    $q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
     // var_dump($q);
     $data = db_query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
     // var_dump ( $data );
@@ -884,14 +961,14 @@ function category_link($id) {
 
         $content = array();
 
-        $content ['content_subtype'] = 'dynamic';
+        $content ['subtype'] = 'dynamic';
 
-        $content ['content_subtype_value'] = $id;
+        $content ['subtype_value'] = $id;
 
         //$orderby = array ('id', 'desc' );
 
 
-        $q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
+        $q = " select * from $table_content where subtype ='dynamic' and subtype_value={$id} limit 0,1";
         //p($q,1);
         $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 
@@ -928,13 +1005,13 @@ function category_link($id) {
 
             $content = array();
 
-            $content ['content_subtype'] = 'dynamic';
+            $content ['subtype'] = 'dynamic';
 
-            $content ['content_subtype_value'] = $item;
+            $content ['subtype_value'] = $item;
 
             $orderby = array('id', 'desc');
 
-            $q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
+            $q = " select * from $table_content where subtype ='dynamic' and subtype_value={$item} limit 0,1";
             //p($q);
             $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 
@@ -953,10 +1030,10 @@ function category_link($id) {
                 if ($content ['content_type'] == 'page') {
                     if (function_exists('page_link')) {
                         $url = page_link($content ['id']);
-                        //$url = $url . '/category:' . $data ['taxonomy_value'];
+                        //$url = $url . '/category:' . $data ['title'];
 
 
-                        $str = $data ['taxonomy_value'];
+                        $str = $data ['title'];
                         if (function_exists('mb_strtolower')) {
                             $str = mb_strtolower($str, "UTF-8");
                         } else {
@@ -1086,14 +1163,14 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 
     if ($type != FALSE) {
 
-        $data ['taxonomy_type'] = $type;
+        $data ['data_type'] = $type;
 
-        $type_q = " and taxonomy_type='$type'   ";
+        $type_q = " and data_type='$type'   ";
     } else {
         $type = 'category_item';
-        $data ['taxonomy_type'] = $type;
+        $data ['data_type'] = $type;
 
-        $type_q = " and taxonomy_type='$type'   ";
+        $type_q = " and data_type='$type'   ";
     }
 
 
@@ -1131,7 +1208,7 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
     return $to_return;
 }
 
-function get_category_parents($id = 0, $without_main_parrent = false, $taxonomy_type = 'category') {
+function get_category_parents($id = 0, $without_main_parrent = false, $data_type = 'category') {
 
     if (intval($id) == 0) {
 
@@ -1154,7 +1231,7 @@ function get_category_parents($id = 0, $without_main_parrent = false, $taxonomy_
         $with_main_parrent_q = false;
     }
     $id = intval($id);
-    $q = " select id, parent_id  from $table where id = $id and  taxonomy_type='{$taxonomy_type}'  $with_main_parrent_q ";
+    $q = " select id, parent_id  from $table where id = $id and  data_type='{$data_type}'  $with_main_parrent_q ";
 
     $taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'taxonomy/' . $id);
 

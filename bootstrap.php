@@ -42,8 +42,6 @@ if (!defined('E_STRICT')) {
 
 //
 //error_reporting ( E_ALL & ~ E_STRICT );
-
-
 //error_reporting ( E_ALL  );
 $system_folder = $mw_config ['system_folder'];
 
@@ -235,6 +233,8 @@ define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesys
 
 
 define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
+define('DBPATH', APPPATH . 'db' . DIRECTORY_SEPARATOR);
+
 define('ADMIN_URL', SITEURL . 'admin');
 
 
@@ -247,6 +247,8 @@ define('INCLUDES_URL', SITEURL . $application_folder . '/includes/'); //full fil
 define('VIEWSPATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_PATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_URL', INCLUDES_URL . 'admin');
+
+
 
 
 
@@ -330,23 +332,41 @@ function site_url($add_string = false) {
         if (isset($_SERVER ["HTTPS"]) and ($_SERVER ["HTTPS"] == "on")) {
             $pageURL .= "s";
         }
-        $pageURL .= "://";
-        if ($_SERVER ["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
+
+        $subdir_append = false;
+        if (isset($_SERVER ['PATH_INFO'])) {
+            // $subdir_append = $_SERVER ['PATH_INFO'];
         } else {
-            $pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
+          $subdir_append = $_SERVER ['REQUEST_URI'];
         }
 
+      //  var_dump($_SERVER);
+        $pageURL .= "://";
+        if ($_SERVER ["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] ;
+        } else {
+            $pageURL .= $_SERVER ["SERVER_NAME"] ;
+        }
+$pageURL_host = $pageURL;
+ $pageURL .= $subdir_append;
         if (isset($_SERVER ['SCRIPT_NAME'])) {
             $d = dirname($_SERVER ['SCRIPT_NAME']);
             $d = trim($d, '/');
         }
-        $url_segs = explode('/', $pageURL);
+
+        if (isset($_SERVER ['QUERY_STRING'])) {
+            $pageURL = str_replace($_SERVER ['QUERY_STRING'], '', $pageURL);
+        }
+
+
+
+ //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
+        $url_segs = explode('/', $pageURL );
         $i = 0;
         $unset = false;
         foreach ($url_segs as $v) {
             if ($unset == true) {
-                unset($url_segs [$i]);
+               //unset($url_segs [$i]);
             }
             if ($v == $d) {
 

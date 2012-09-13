@@ -1,6 +1,4 @@
-
-
-;(function($) {
+(function($) {
 	$.fn.putPlaceholdersInEmptyColumns = function(options) {
 		return this.each(function() {
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
@@ -39,7 +37,7 @@
 		});
 	};//End of Plugin
 	$.fn.equalHeights.defaults = {
-		itemsToEqualize : '.column' 
+		itemsToEqualize : '.column'
  	};
 })(jQuery);
 
@@ -70,40 +68,40 @@
 
 			 // $('.also-resize').removeClass('also-resize');
 			// last_col.addClass('also-resize');
-			
+
 				if (child_count == 1) {
-					
-					
-					
+
+
+
 				$(this).children('.column').each(function(index) {
 				   $(this).css({
 						width:  (100 )+"%",
 					 });
 					// $(this).addClass('also-resize');
 					 });
-					 
-					 
-					 
-					 
-					 
+
+
+
+
+
 				} else if (child_count > 0) { // only proceed if we've found any children
 								w_parent1 = $(this).width();
 								w_parent = 100;
 								//  width: $(this).width()/parent.width()*100+"%",
-								
-								
+
+
 								w_ch = 0;
 								w_parent_diff = w_parent;
 								$a = 1;
 								$(this).children('.column').each(function(index) {
-									
-									
+
+
 									if(mw.settings.empty_column_placeholder != undefined){
 											var col_size = $(this).children().size();
-											
+
 											if(col_size == 0){
 												$(this).html(mw.settings.empty_column_placeholder);
-												
+
 											}
 									}
 									  var parent = parent_row;
@@ -111,50 +109,50 @@
 									//  if(parent_column != undefined ){
 									//	  parent = parent_column
 									//  }
-									  
+
 									   var parent_w = parent.width();
-									
-									
-									
+
+
+
 									  $w1 = $(this).width()/w_parent1*100;
-									 
+
 									  if($a < child_count){
 									  w_ch = w_ch+$w1;
 									  }
-									  
+
 									  if($a == child_count){
-										 //$w1 = $w1 -1; 
+										 //$w1 = $w1 -1;
 										  if(w_ch < 100){
 											  $t1 = 100 - w_ch - (child_count * 1) ;
 										 $w1 = Math.ceil($t1-1); // -1% padding
 									  }
-										 
-										 
-										 
-										   
-										 
+
+
+
+
+
 									  }
-									  
-									  
-									  
-									  
+
+
+
+
 									  //$w1 = Math.ceil($w1); // -1% padding
 					   $(this).css({
 							width:  $w1+"%",
 							//height: ui.element.height()/parent.height()*100+"%"
 						});
-	 
-	 
+
+
 	 				$a++;
-					}); 
-				
-	  
-				 
+					});
+
+
+
 			} else {
-				
-				
-				
-				
+
+
+
+
 			}
 		});
 	};

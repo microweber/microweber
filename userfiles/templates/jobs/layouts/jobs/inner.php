@@ -1,8 +1,8 @@
 
-<div class="page_tit"><? print $post['content_title']; ?></div>
+<div class="page_tit"><? print $post['title']; ?></div>
 <?php $c = 0; ?>
 <div class="body_part_inner">
-  <div class="companies_inner_logo"><img src="<? print user_picture($post['created_by'], 200); ?>" alt="<? print addslashes($post['content_title']); ?>" /></div>
+  <div class="companies_inner_logo"><img src="<? print user_picture($post['created_by'], 200); ?>" alt="<? print addslashes($post['title']); ?>" /></div>
   <div class="applytothejob_but"><a href="#"><img src="<? print TEMPLATE_URL ?>images/applytothejob_but.jpg" alt="apply to this job" border="0" /></a></div>
   <div class="jobseaker_tit">Job Ad &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Information</div>
   <div class="jobseakers_info_container">
@@ -13,7 +13,7 @@
       </tr>
       <tr>
         <td class="<? print($c++%2==1) ? 'zebra1' : 'zebra2' ?>" >Job title</td>
-        <td class="lt_line"><? print $post['content_title']; ?></td>
+        <td class="lt_line"><? print $post['title']; ?></td>
       </tr>
       <? if($post['custom_fields']['location']): ?>
       <tr>

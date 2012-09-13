@@ -112,8 +112,8 @@ function menu_tree($menu_id, $maxdepth = false) {
 		if ($full_item ['content_id'] == MAIN_PAGE_ID) {
 			$active_class = ' active';
 		}
-		$thecontent_title = get_content_by_id ( $full_item ['content_id'] );
-		$active_class_titl = url_title ( strtolower ( $thecontent_title ['content_title'] ) );
+		$thetitle = get_content_by_id ( $full_item ['content_id'] );
+		$active_class_titl = url_title ( strtolower ( $thetitle ['title'] ) );
 		
 		if ($full_item ['item_title'] == '') {
 			$full_item ['item_title'] = $full_item ['id'];
@@ -231,11 +231,11 @@ function get_menu_items($menu_id = false, $id = false) {
 				
 				if (strval ( $item ['item_title'] ) == '') {
 					
-					$q = " select content_title from $table_content where id={$item ['content_id']}  limit 0,1 ";
+					$q = " select title from $table_content where id={$item ['content_id']}  limit 0,1 ";
 					
 					$q = db_query ( $q, __FUNCTION__ . crc32 ( q ), 'content/' . $item ['content_id'] );
 					
-					$fix_title = $q [0] ['content_title'];
+					$fix_title = $q [0] ['title'];
 					
 					// print $fix_title;
 					
@@ -258,7 +258,7 @@ function get_menu_items($menu_id = false, $id = false) {
 				$this->load->model ( 'Taxonomy_model', 'taxonomy_model' );
 				$get_taxonomy = $this->taxonomy_model->getSingleItem ( $item ['taxonomy_id'] );
 				
-				$fix_title = $get_taxonomy ['taxonomy_value'];
+				$fix_title = $get_taxonomy ['title'];
 				
 				$item ['item_title'] = $fix_title;
 				

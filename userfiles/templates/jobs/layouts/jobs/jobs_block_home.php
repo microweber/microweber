@@ -4,8 +4,8 @@ $posts = get_posts();
 foreach($posts as $post): ?>
 
 <div class="exebox">
-  <div class="exe_tit"><a href="<? print post_link($post['id']) ?>" class="exe_tit"><? print $post['content_title'] ?></a></div>
-  <div class="exe_content" style="text-align:justify"><? print $post['content_body'] ?></div>
+  <div class="exe_tit"><a href="<? print post_link($post['id']) ?>" class="exe_tit"><? print $post['title'] ?></a></div>
+  <div class="exe_content" style="text-align:justify"><? print $post['content'] ?></div>
   <div class="exe_details"> Date Posted:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $post['created_on'] ?></span><br />
       <?  $v = custom_field_value($post['id'], $field_name = 'Location') ;?>
       <? if($v != false): ?>

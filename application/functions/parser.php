@@ -133,6 +133,7 @@ function parse_micrwober_tags($layout, $options = false) {
             if ($rel == 'page') {
                 $data = get_page(PAGE_ID);
                 $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
+
             } else if ($attr ['post']) {
                 $data = get_post($attr ['post']);
                 if ($data == false) {
@@ -175,17 +176,18 @@ function parse_micrwober_tags($layout, $options = false) {
                 foreach ($data ['custom_fields'] as $kf => $vf) {
 
                     if ($kf == $field) {
+
                         $field_content = ($vf);
                     }
                 }
             }
 
-            // d($field);
+          //  d($field);
 
             if ($field_content != false and $field_content != '') {
                 $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-                // d($field_content);
+               //  d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
                 pq($elem)->html($field_content);
             } else {
@@ -389,8 +391,8 @@ function parse_micrwober_tags($layout, $options = false) {
 
                                 $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             } else {
-
-                                $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
+                                // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
+                                $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             }
 
                             if (strstr($module_name, 'text')) {

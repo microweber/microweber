@@ -30,7 +30,7 @@ Import your email addresses, then send invites to the friends you choose. <br />
  
  
  $var_params['selected_categories'] =  array(1);
-$var_params['fields'] =  array('id', 'content_title');
+$var_params['fields'] =  array('id', 'title');
 $var_params['items_per_page'] = 6;
 $var_params['curent_page'] = rand(1,5);
 
@@ -65,7 +65,7 @@ if($dashboard_user != user_id()){
  shuffle( $games);
  ?>
     <? foreach($games as $item): ?>
-    <li> <a href="<? print post_link($item['id']); ?>" class="img" style="background-image: url(<? print thumbnail($item['id'], 120) ?>)"></a> <a  href="<? print post_link($item['id']); ?>"><? print $item['content_title']; ?></a></li>
+    <li> <a href="<? print post_link($item['id']); ?>" class="img" style="background-image: url(<? print thumbnail($item['id'], 120) ?>)"></a> <a  href="<? print post_link($item['id']); ?>"><? print $item['title']; ?></a></li>
     <? endforeach; ?>
   </ul>
   <?
@@ -113,8 +113,8 @@ if($dashboard_user != user_id()){
    ?>
     <li> <a class="img" href="<? print post_link($item['id']); ?>"><img src="<? print thumbnail($item['id'], 120) ?>" alt="" /></a>
       <div class="toy_desc">
-        <h4><a href="<? print post_link($item['id']); ?>"><? print $item['content_title']; ?></a></h4>
-        <span><? print character_limiter(codeClean($item['content_body']), 100); ?></span> <strong class="red">$<? print $item["custom_fields"]['price'];?> </strong>
+        <h4><a href="<? print post_link($item['id']); ?>"><? print $item['title']; ?></a></h4>
+        <span><? print character_limiter(codeClean($item['content']), 100); ?></span> <strong class="red">$<? print $item["custom_fields"]['price'];?> </strong>
         <div class="c" style="padding-bottom: 5px;"></div>
         <a href="<? print post_link($item['id']); ?>" class="right">See more</a> </div>
     </li>

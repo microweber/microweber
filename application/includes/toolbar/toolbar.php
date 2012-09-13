@@ -1,7 +1,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 <?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>*/ ?>
-<script src="<?php   print( SITE_URL);  ?>api.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+
+<script src="<?php   print( SITE_URL);  ?>apijs" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
@@ -28,6 +29,9 @@
             mw.tools.dropdown();
             mw.tools.toolbar_tabs.init();
             mw.tools.toolbar_slider.init();
+
+
+
         });
 
 		
@@ -52,7 +56,7 @@
                 var refresh_modules11 = $(this).attr('data-refresh');
 				
 				if(refresh_modules11 == undefined){
-					                var refresh_modules11 = $(this).attr('data-reload');
+				    var refresh_modules11 = $(this).attr('data-reload');
 
 				}
 
@@ -72,11 +76,7 @@
 
 
                     }),
-
-
                     success: function () {
-
-
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
 
@@ -91,43 +91,10 @@
                         //  $(this).addClass("done");
                     }
                 });
-
-
-
             });
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		    });
-		
-		
-		
-		
-		
-		
 
-		
-		
-		
-		
-		
-		
-		
-		
-
-		
-
-		
     </script>
 
     <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
@@ -202,8 +169,8 @@
      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
         <div class="mw_dropdown_fields">
           <ul>
-            <li value="#tb_image_edit"><a href="#">Picture Editor</a></li>
-            <li value="#tb_el_style"><a href="#">Site style</a></li>
+            <li value="#tb_image_edit"><a href="javascript:;">Picture Editor</a></li>
+            <li value="#tb_el_style"><a href="javascript:;">Site style</a></li>
           </ul>
         </div>
       </div>
@@ -213,15 +180,21 @@
 
 
           <div class="tb_design_tool" id="tb_image_edit"></div>
+
           <div class="tb_design_tool" id="tb_el_style">
 
 
-            <span class="ed_opacity">
-                <span class="ed_label">Opacity</span>
-                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
-            </span>
-            <span class="ed_opacity">
-                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw_dropdown_val">All</span>
+
+
+
+            <div class="ed_style_margin_padding">
+
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider">
+                    <span class="mw_dropdown_val_holder">
+                      <span class="dd_rte_arr"></span>
+                      <span class="mw_dropdown_val">Margin</span>
+                    </span>
+
                     <div class="mw_dropdown_fields">
                       <ul style="width: 100%">
                         <li value="true">
@@ -249,8 +222,104 @@
                       </ul>
                     </div>
                 </div>
-                <div class="ed_slider margin-slider es_item" id="margin_slider" data-type="margin"></div>
+                <div class="ed_slider margin-slider es_item left" id="margin_slider" data-type="margin"></div>
+                <div class="mw_clear"></div>
+
+
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="padding_selector" data-for="padding_slider">
+                    <span class="mw_dropdown_val_holder">
+                      <span class="dd_rte_arr"></span>
+                      <span class="mw_dropdown_val">Padding</span>
+                    </span>
+
+                    <div class="mw_dropdown_fields">
+                      <ul style="width: 100%">
+                        <li value="true">
+                            <div class="square_map">
+                                <table cellpadding="2" cellspacing="0" align="center">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="padding-top">Top</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="square_map_item" data-value="padding-left">Left</span></td>
+                                        <td><span class="square_map_item square_map_item_default active" data-value="padding">All</span></td>
+                                        <td><span class="square_map_item" data-value="padding-right">Right</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="padding-bottom">Bottom</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </table>
+                                <span class="square_map_value">&nbsp;</span>
+                            </div>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="ed_slider padding-slider es_item left" id="padding_slider" data-type="padding"></div>
+
+              
+
+          </div>
+
+           <span class="mw_dlm mw_dlm_style"></span>
+
+           <span class="ed_opacity">
+                <span class="ed_label">Opacity</span>
+                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
             </span>
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">F<b>x</b></span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="shadow"><a href="javascript:;">Drop Shadow</a></li>
+                  <li value="perspective"><a href="javascript:;">Perspective</a></li>
+                </ul>
+              </div>
+            </div>
+            <div id="element_effx">
+                <div class="fx" id="fx_shadow">
+                    <span>Top</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_top"></div>
+                    <span>Left</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_left"></div>
+                    <span class="shadow_color"></span>
+                </div>
+                <div class="fx" id="fx_perspective">
+                    <span>Perspective</span> <div class="ed_slider perspective-slider"></div>
+                </div>
+            </div>
+
+
+
+            <br />Width<br />
+            <div class="ed_slider width-slider es_item" id="width_slider" data-max="1000" data-min="100" data-type="width"></div>
+
+
+            align<br />
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg" id="align_element" title="Align" data-value="none" onchange="mw.alignem($(this).getDropdownValue());">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">Align</span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="none"><a href="javascript:;">None</a></li>
+                  <li value="left"><a href="javascript:;">Left</a></li>
+                  <li value="right"><a href="javascript:;">Right</a></li>
+                  <li value="center"><a href="javascript:;">Center</a></li>
+
+                </ul>
+              </div>
+            </div>
+
+
 
 
           </div>
@@ -262,8 +331,7 @@
     </div>
     
      <div id="tab_pages" class="mw_toolbar_tab"> 
-      <microweber module="content/pages_toolbar" />
-     
+      <? include(INCLUDES_DIR.'admin'.DS.'content.php') ?>
      </div>
     
     

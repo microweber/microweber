@@ -1,7 +1,7 @@
 <? 
 
 $config = array();
-$config['name'] = "MW docs site";
+$config['name'] = "docs";
 $config['author'] = "Microweber";
  
- 
+ $config['version'] = 0.1;

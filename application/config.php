@@ -1,46 +1,41 @@
 <?php
 
-defined ( 'T' ) or die ();
-
-
-
+defined('T') or die();
 
 
 
 
 // Global site configuration
-$config = array (
-
-		// In development, debug mode unlocks extra error info
-		'debug_mode' => TRUE,
-		'admin_url' => 'admin',
-		'uri_protocol' => 'AUTO',
-
-		// Database Settings
-		'db' => array (
-				//'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
-				 'dsn' => 'sqlite:db.db',
-
-				'user' => 'root',
-				'pass' => '123456',
-				'args' => array (
-						PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-					    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
-						 //
-						// If using
-						// MySQL, force UTF-8
-
-						// Cookie options
-						'cookie' => array (
-								'key' => md5('__FILE__'),
-								'expires' => time () + 60 * 5, //
-								'path' => '/',
-								'domain' => '',
-								'secure' => '1',
-								'httponly' => ''
-						)
-				)
-		)
+$config = array(
+    // In development, debug mode unlocks extra error info
+    'version' => 0.508,
+    'debug_mode' => TRUE,
+    'admin_url' => 'admin',
+    'uri_protocol' => 'AUTO',
+    'installed' => '1',
+    // Database Settings
+    'db' => array(
+        //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
+        'dsn' => 'sqlite:application/db/default.db',
+        'user' => '',
+        'pass' => '',
+        'args' => array(
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            //
+            // If using
+            // MySQL, force UTF-8
+            // Cookie options
+            'cookie' => array(
+                'key' => md5(__FILE__),
+                'expires' => time() + 60 * 5, //
+                'path' => '/',
+                'domain' => '',
+                'secure' => '1',
+                'httponly' => ''
+            )
+        )
+    )
 );
 
 
@@ -114,8 +109,9 @@ $cms_db_tables['table_custom_fields_config'] = TABLE_PREFIX . 'content_custom_fi
 $cms_db_tables['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
 
- $cms_db_tables['table_modules'] =  'table_modules';
+$cms_db_tables['table_modules'] = TABLE_PREFIX . 'modules';
 
+$cms_db_tables['table_elements'] = TABLE_PREFIX . 'elements';
 
 $cms_db_tables['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';
@@ -170,5 +166,5 @@ $users_log_include[] = 'table_followers';
 $config['db_tables'] = $cms_db_tables;
 $config['db_log_tables'] = $users_log_include;
 //$_GLOBALS ['cms_db'] = $cms_db;.
-$cms_db_tables_search_fields = array('content_title', "content_body", "content_url");
+$cms_db_tables_search_fields = array('title', "content", "url");
 return $config;

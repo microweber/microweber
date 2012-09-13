@@ -1,8 +1,8 @@
 <? foreach($posts as $post): ?>
 
 <div class="searched_job_blk">
-  <div class="searched_job_tit"><a href="<? print post_link($post['id']) ?>"><? print $post['content_title'] ?></a></div>
-  <div class="searched_job_desc"><? print $post['content_body_nohtml'] ?></div>
+  <div class="searched_job_tit"><a href="<? print post_link($post['id']) ?>"><? print $post['title'] ?></a></div>
+  <div class="searched_job_desc"><? print $post['content_nohtml'] ?></div>
   <div class="searched_job_add_buts">
     <div class="searched_job_location"> Date Posted:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $post['created_on'] ?></span><br />
       <?  $v = custom_field_value($post['id'], $field_name = 'Location') ;?>
@@ -14,7 +14,7 @@
       Salary:&nbsp;&nbsp;&nbsp;<span class="blue"><? print $v; ?></span> <br />
       <? endif; ?> 
       
-          <? // $c = $this->taxonomy_model->getTaxonomiesForContent($post['id'], $taxonomy_type = 'categories'); 
+          <? // $c = $this->taxonomy_model->getTaxonomiesForContent($post['id'], $data_type = 'categories'); 
  
  
  ?>
@@ -23,10 +23,10 @@
  Categories: 
 <? $i = 0; foreach($c as $cx): ?>
 <? $cx1 = get_category($cx);  ?>
- <? if(stristr($cx1['taxonomy_value'], 'jobs') == false): ?>
+ <? if(stristr($cx1['title'], 'jobs') == false): ?>
 
 
-<a class="blue" href="<? print category_url($cx1['id'] ) ?>"><? print $cx1['taxonomy_value'] ?></a>,
+<a class="blue" href="<? print category_url($cx1['id'] ) ?>"><? print $cx1['title'] ?></a>,
   
 <? endif; ?>
 <? endforeach; ?>
