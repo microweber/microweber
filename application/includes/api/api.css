@@ -472,7 +472,8 @@ margin-right: 6px;
 .mw_resizing > .column{
   height: auto !important;
 }
-.column .empty-element:first-child .delete_column{
+.column .empty-element:first-child .delete_column,
+.column .ui-resizable-e:first-child + .empty-element .delete_column{
   display: inline-block;
 }
 

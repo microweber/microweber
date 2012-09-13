@@ -1,4 +1,5 @@
 <?php
+
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
@@ -18,6 +19,7 @@ include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
+include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 
 
 // require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');

@@ -1147,8 +1147,11 @@ mw.scale_cols = function(){
 mw.delete_column = function(which){
   if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
      var row =  $(which).parents(".row").eq(0);
-     $(which).parents(".column").eq(0).prev(".column").resizable("destroy");
-     $(which).parents(".column").eq(0).remove();
+     var col =  $(which).parents(".column").eq(0);
+     if(col.next(".column").length==0){
+        col.prev(".column").resizable("destroy");
+     }
+     col.remove();
      if(row.find(".column").length==0){
        row.remove();
      }
