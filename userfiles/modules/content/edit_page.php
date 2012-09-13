@@ -132,7 +132,7 @@ $(document).ready(function(){
     <option value="0"   <? if((0 == intval($data['content_parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
     <? foreach($pages as $item): ?>
     <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['content_parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <? print $item['content_title'] ?>
+    <? print $item['title'] ?>
     </option>
     <? endforeach; ?>
   </select>
@@ -140,8 +140,8 @@ $(document).ready(function(){
   <br />
  
   <br />
-  content_title
-  <input name="content_title"  type="text" value="<? print ($data['content_title'])?>" />
+  title
+  <input name="title"  type="text" value="<? print ($data['title'])?>" />
   <br />
   content_url
   <input name="content_url"  type="text" value="<? print ($data['content_url'])?>" />
@@ -186,8 +186,8 @@ $(document).ready(function(){
   <br />
   
     <? endif; ?>
-  content_description
-  <input name="content_description"  type="text" value="<? print ($data['content_description'])?>" />
+  description
+  <input name="description"  type="text" value="<? print ($data['description'])?>" />
   <br />
 
   <input type="submit" name="save" value="save" />

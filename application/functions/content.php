@@ -313,7 +313,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
     $url = strtolower($url);
     $url = string_clean($url);
     $url = addslashes($url);
-    $sql = "SELECT id,content_url from $table where content_url='{$url}' or content_title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
+    $sql = "SELECT id,content_url from $table where content_url='{$url}' or title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
@@ -1180,7 +1180,7 @@ function save_content($data, $delete_the_cache = true) {
 
         $q = db_query($q);
 
-        $thecontent_title = $q[0]['content_title'];
+        $thetitle = $q[0]['title'];
 
         $q = $q[0]['content_url'];
 
@@ -1191,7 +1191,7 @@ function save_content($data, $delete_the_cache = true) {
 
         $thecontent_url = $data['content_url'];
 
-        $thecontent_title = $data['content_title'];
+        $thetitle = $data['title'];
     }
 
     if (isset($thecontent_url) != false) {
@@ -1216,17 +1216,17 @@ function save_content($data, $delete_the_cache = true) {
 
             // print 'asd';
 
-            $data['content_url'] = url_title($thecontent_title);
+            $data['content_url'] = url_title($thetitle);
         }
     } else {
-        if ($thecontent_title != false) {
-            $data['content_url'] = url_title($thecontent_title);
+        if ($thetitle != false) {
+            $data['content_url'] = url_title($thetitle);
         }
     }
-    if (isset($item['content_title'])) {
-        $item['content_title'] = htmlspecialchars_decode($item['content_title'], ENT_QUOTES);
+    if (isset($item['title'])) {
+        $item['title'] = htmlspecialchars_decode($item['title'], ENT_QUOTES);
 
-        $item['content_title'] = strip_tags($item['content_title']);
+        $item['title'] = strip_tags($item['title']);
     }
     if ($data['content_url'] != false) {
         // if (intval ( $data ['id'] ) == 0) {
@@ -1240,7 +1240,7 @@ function save_content($data, $delete_the_cache = true) {
 
         if (strval($data['content_url']) == '') {
 
-            $data['content_url'] = url_title($data['content_title']);
+            $data['content_url'] = url_title($data['title']);
         }
 
         $date123 = date("YmdHis");
@@ -1265,9 +1265,9 @@ function save_content($data, $delete_the_cache = true) {
             $data_to_save['content_url'] = $data_to_save['content_url'] . '-' . $date123;
         }
 
-        if (isset($data_to_save['content_title']) and strval($data_to_save['content_title']) == '' and ($data_to_save['quick_save'] == false)) {
+        if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and ($data_to_save['quick_save'] == false)) {
 
-            $data_to_save['content_title'] = 'post-' . $date123;
+            $data_to_save['title'] = 'post-' . $date123;
         }
         if (isset($data_to_save['content_url']) and strval($data_to_save['content_url']) == '' and ($data_to_save['quick_save'] == false)) {
             $data_to_save['content_url'] = strtolower(reduce_double_slashes($data['content_url']));
@@ -1289,9 +1289,9 @@ function save_content($data, $delete_the_cache = true) {
         if (!isset($data_to_save['content_subtype_value']) or trim($data_to_save['content_subtype_value']) == '') {
 
             if (!isset($data_to_save['content_subtype_value_new'])) {
-                if (isset($data_to_save['content_title'])) {
+                if (isset($data_to_save['title'])) {
 
-                    $data_to_save['content_subtype_value_new'] = $data_to_save['content_title'];
+                    $data_to_save['content_subtype_value_new'] = $data_to_save['title'];
                 }
             }
         }
@@ -1307,8 +1307,8 @@ function save_content($data, $delete_the_cache = true) {
             if ($adm == true) {
 
                 $new_category = array();
-                $new_category["taxonomy_type"] = "category";
-                $new_category["taxonomy_value"] = $data_to_save['content_subtype_value_new'];
+                $new_category["data_type"] = "category";
+                $new_category["title"] = $data_to_save['content_subtype_value_new'];
                 $new_category["parent_id"] = "0";
 
                 $new_category = save_category($new_category);
@@ -1333,8 +1333,8 @@ function save_content($data, $delete_the_cache = true) {
                 if (!empty($scats)) {
                     foreach ($scats as $sc) {
                         $new_scategory = array();
-                        $new_scategory["taxonomy_type"] = "category";
-                        $new_scategory["taxonomy_value"] = $sc;
+                        $new_scategory["data_type"] = "category";
+                        $new_scategory["title"] = $sc;
                         $new_scategory["parent_id"] = intval($new_category);
 
                         $new_scategory = save_category($new_scategory);
@@ -1378,7 +1378,7 @@ function save_content($data, $delete_the_cache = true) {
 
             $to_save['content_id'] = intval($save);
 
-            $to_save['item_title'] = $data_to_save['content_title'];
+            $to_save['item_title'] = $data_to_save['title'];
 
             $this->saveMenu($to_save);
 
@@ -1471,7 +1471,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
 
         foreach ($result as $item) {
 
-            $output = $output . $item['content_title'];
+            $output = $output . $item['title'];
 
             $content_type_li_class = false;
 
@@ -1505,7 +1505,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
 
                 $to_print = str_ireplace('{id}', $item['id'], $link);
 
-                $to_print = str_ireplace('{content_title}', $item['content_title'], $to_print);
+                $to_print = str_ireplace('{title}', $item['title'], $to_print);
 
                 $to_print = str_ireplace('{link}', page_link($item['id']), $to_print);
 
@@ -1566,7 +1566,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
             } else {
                 print $to_pr_2;
                 $to_pr_2 = false;
-                print $item['content_title'];
+                print $item['title'];
             }
             if (is_array($params)) {
                 $params['content_parent'] = $item['id'];

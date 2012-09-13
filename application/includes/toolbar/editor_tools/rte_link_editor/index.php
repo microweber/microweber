@@ -33,7 +33,7 @@
             var json = this;
             for(var item in json){
                 var obj = json[item];
-                var title = obj.content_title;
+                var title = obj.title;
                 var url = obj.url;
                 lis+= "<li value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
             }

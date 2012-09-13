@@ -545,6 +545,17 @@ mw.drag = {
             }
 
 			if (mw.isDrag) {
+			    var history_id = 'history_'+mw.random();
+
+                $(mw.dragCurrent).before('<input type="hidden" id="'+history_id+'" />');
+
+                var story = {
+                  pos:history_id,
+                  who:mw.dragCurrent
+                }
+                mw.drag.stories.push(story);
+                mw.drag.story_active+=1;
+
 				setTimeout(function () {
 				  mw.isDrag = false;
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
@@ -1438,6 +1449,23 @@ $(window).load(function(){
 
 
 });
+
+mw.drag.story_active = -1;
+
+mw.drag.stories = [];
+
+mw.drag.story = {
+  forward:function(){
+
+  },
+  back:function(){
+    var curr = mw.drag.stories[mw.drag.story_active];
+    if(mw.is.defined(curr)){
+      $("#"+curr.pos).replaceWith(curr.who);
+      mw.drag.story_active-=1;
+    }
+  }
+}
 
 
 

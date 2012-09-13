@@ -39,7 +39,7 @@ description: Home site layout
 </head>
 <body>
 <div class="wrapper">
-  <div class="page edit" field="content_body3">
+  <div class="page edit" field="content3">
     <div class="header element">
       <h1>BaseDemo <span class="version">v1.0</span></h1>
       <p>BaseDemo is just a basic template that can be used for creating demos for your development projects. It also works great for <a href="http://pages.github.com/">GitHub Pages</a>. This is an example of what you could do with this template and some content types.

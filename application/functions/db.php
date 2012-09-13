@@ -653,8 +653,8 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
             foreach ($search_n_cats as $cat_name_or_id) {
 
-                $str0 = 'fields=id&limit=100&taxonomy_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                $str1 = 'fields=id&limit=100&taxonomy_type=category&what=categories&' . 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                $str0 = 'fields=id&limit=100&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                $str1 = 'fields=id&limit=100&data_type=category&what=categories&' . 'title=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
                 //  d($str0);
 
                 $is_in_category = get($str0);
@@ -665,7 +665,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
                 if (!empty($is_in_category)) {
                     foreach ($is_in_category as $is_in_category_item) {
                         $cat_name_or_id1 = $is_in_category_item['id'];
-                        $str1_items = 'fields=to_table_id&limit=100&taxonomy_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
+                        $str1_items = 'fields=to_table_id&limit=100&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
                         $is_in_category_items = get($str1_items);
 
                         if (!empty($is_in_category_items)) {
@@ -682,7 +682,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
                 }
             }
         }
-        // $is_in_category = get('limit=1&taxonomy_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+        // $is_in_category = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
         //  $includeIds;
     }
 
@@ -1544,8 +1544,8 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $gc = $ccount - 2;
                         $prev_cat = $all_cat_name_or_ids[$gc];
 
-                        $str0 = 'limit=1&taxonomy_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                        $str00 = 'limit=1&taxonomy_type=category&what=categories&' . 'taxonomy_value=' . $prev_cat . '&to_table=' . $table_assoc_name;
+                        $str0 = 'limit=1&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                        $str00 = 'limit=1&data_type=category&what=categories&' . 'title=' . $prev_cat . '&to_table=' . $table_assoc_name;
                         $is_ex_parent = get($str0);
                         if ($is_ex_parent == false or empty($is_ex_parent)) {
                             $is_ex_parent = get($str00);
@@ -1564,14 +1564,14 @@ function save_data($table, $data, $data_to_save_options = false) {
 
                     $taxonomy_table = $cms_db_tables ['table_taxonomy'];
                     $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-                    $str1 = 'taxonomy_value=' . $cat_name_or_id . '&taxonomy_type=category&to_table=' . $table_assoc_name;
-                    $is_ex = get('limit=1&taxonomy_type=category&what=categories&' . $str1);
+                    $str1 = 'title=' . $cat_name_or_id . '&data_type=category&to_table=' . $table_assoc_name;
+                    $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
 
                     $gotten_by_id = false;
                     if (empty($is_ex)) {
 
                         $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                        $is_ex = get('limit=1&taxonomy_type=category&what=categories&' . $str1);
+                        $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
                         $gotten_by_id = true;
                     } else {
 
@@ -1613,10 +1613,10 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $new_cat = array();
                         $new_cat['to_table'] = $table_assoc_name;
                         // $new_cat['to_table_id'] = $id_to_return;
-                        $new_cat['taxonomy_type'] = 'category';
+                        $new_cat['data_type'] = 'category';
                         $new_cat['parent_id'] = $parent_id;
                         //  d($table_cats);
-                        $new_cat['taxonomy_value'] = $cat_name_or_id;
+                        $new_cat['title'] = $cat_name_or_id;
 
                         // d($new_cat);
 
@@ -1629,7 +1629,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         // cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
 
 
-                        $is_ex = get('limit=1&taxonomy_type=category&what=categories&id=' . $new_c);
+                        $is_ex = get('limit=1&data_type=category&what=categories&id=' . $new_c);
                     }
 
                     if (isset($is_ex[0])) {
@@ -1642,10 +1642,10 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $keep_thosecat_items[] = $is_ex['id'];
                         $new_cat['to_table'] = $table_assoc_name;
                         $new_cat['to_table_id'] = $id_to_return;
-                        $new_cat['taxonomy_type'] = 'category_item';
+                        $new_cat['data_type'] = 'category_item';
                         $new_cat['parent_id'] = $is_ex['id'];
 
-                        $is_ex1 = get('limit=1&taxonomy_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+                        $is_ex1 = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
                         // d($is_ex1);
                         if (!isset($is_ex1[0])) {
                             //   d($table_cats_items);
@@ -1666,7 +1666,7 @@ function save_data($table, $data, $data_to_save_options = false) {
             if (!empty($keep_thosecat_items)) {
                 $id_in = implode(',', $keep_thosecat_items);
                 $clean_q = "delete
-                    from $taxonomy_items_table where                            taxonomy_type='category_item' and
+                    from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
                     to_table_id='{$id_to_return}' and
                     parent_id NOT IN ($id_in) ";
@@ -1694,7 +1694,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 //
 //
-//        $q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return'  and  taxonomy_type= 'category_item'     ";
+//        $q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return'  and  data_type= 'category_item'     ";
 //        // p ( $q );
 //        db_query($q);
 //
@@ -1706,7 +1706,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 //            $parent_cat_id = intval($parent_cat ['id']);
 //
 //
-//            $q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
+//            $q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  data_type= 'category_item' , parent_id='$parent_cat_id'   ";
 //            // p ( $q );
 //            db_query($q);
 //            cache_clean_group('taxonomy/' . $parent_cat_id);

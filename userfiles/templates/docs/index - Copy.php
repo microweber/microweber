@@ -156,7 +156,7 @@
   <!--// site-block --> 
 </div>
 <!--// site-header -->
-<div class="site-center edit" data-field="content_body">
+<div class="site-center edit" data-field="content">
   <div class="site-block">
     <div class="page-content">
       <div class="columns features-list">

@@ -86,7 +86,7 @@
 
 
 
-            <div id="about-us" class="ui-tabs-panel ui-widget-content ui-corner-bottom edit" field="content_body">
+            <div id="about-us" class="ui-tabs-panel ui-widget-content ui-corner-bottom edit" field="content">
 
 
             <div class="element">

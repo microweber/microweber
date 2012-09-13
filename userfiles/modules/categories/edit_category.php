@@ -62,14 +62,14 @@ $(document).ready(function(){
   <input name="to_table"  type="text" value="<? print ($data['to_table'])?>" />
   to_table_id
   <input name="to_table_id"  type="text" value="<? print ($data['to_table_id'])?>" />
-  taxonomy_type
-  <input name="taxonomy_type"  type="text" value="<? print ($data['taxonomy_type'])?>" />
-  taxonomy_value
-  <input name="taxonomy_value"  type="text" value="<? print ($data['taxonomy_value'])?>" />
-  taxonomy_description
-  <input name="taxonomy_description"  type="text" value="<? print ($data['taxonomy_description'])?>" />
-  content_body
-  <input name="taxonomy_description"  type="text" value="<? print ($data['content_body'])?>" />
+  data_type
+  <input name="data_type"  type="text" value="<? print ($data['data_type'])?>" />
+  title
+  <input name="title"  type="text" value="<? print ($data['title'])?>" />
+  description
+  <input name="description"  type="text" value="<? print ($data['description'])?>" />
+  content
+  <input name="description"  type="text" value="<? print ($data['content'])?>" />
   position
   <input name="position"  type="text" value="<? print ($data['position'])?>" />
   <input type="submit" name="save" value="save" />
