@@ -152,8 +152,8 @@ function layouts_list($options = false) {
                         $result = str_ireplace('name:', '', $result);
                         $to_return_temp['name'] = trim($result);
                     }
-                    $content_layout_file = str_replace($path, '', $filename);
-                    $to_return_temp['content_layout_file'] = $content_layout_file;
+                    $layout_file = str_replace($path, '', $filename);
+                    $to_return_temp['layout_file'] = $layout_file;
 
                     $screen = str_ireplace('.php', '.png', $filename);
                     if (is_file($screen)) {
@@ -178,4 +178,26 @@ function layouts_list($options = false) {
     } else {
         cache_store_data(false, $function_cache_id, $cache_group);
     }
+}
+
+function template_var($key, $new_val = false) {
+    static $defined = array();
+    $contstant = ($key);
+    if ($new_val == false) {
+        if (isset($defined[$contstant]) != false) {
+            return $defined[$contstant];
+        } else {
+            return false;
+        }
+    } else {
+        if (isset($defined[$contstant]) == false) {
+            $defined[$contstant] = $new_val;
+            return $new_val;
+        }
+    }
+    return false;
+
+
+
+    //
 }

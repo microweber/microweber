@@ -11,7 +11,7 @@ mw.require("style_editors.js");
 
 
 
-mw.prev_hash = window.location.hash;
+
 
 
 $(window).load(function(){
@@ -75,23 +75,32 @@ mw.image = {
         mw.image.resize.create_resizer();
         $(mw.image_resizer).resizable({
             handles: "all",
-            minWidth: 20,
-            minHeight: 20,
+            minWidth: 60,
+            minHeight: 60,
             start:function(){
               mw.image.isResizing = true;
+              $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+
             },
             stop:function(){
               mw.image.isResizing = false;
+              mw.drag.fix_placeholders();
             },
             resize:function(){
               var offset = mw.image.currentResizing.offset();
               $(this).css(offset);
+
             },
             aspectRatio: 16 / 9
         });
       },
       init:function(selector){
-        mw.image_resizer == undefined?mw.image.resize.prepare():'';
+        mw.image_resizer == undefined?mw.image.resize.prepare():'';   /*
+        $(".element-image").each(function(){
+          var img = this.getElementsByTagName('img')[0];
+          this.style.width = $(img).width()+'px';
+          this.style.height = $(img).height()+'px';
+        });     */
         $(selector, '.edit').each(function(){
           $(this).notclick().bind("click", function(){
              if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
@@ -153,6 +162,11 @@ $.expr[':'].noop = function(){
 (function( $ ){
   $.fn.visible = function() {
     return this.css("visibility", "visible");
+  };
+})( jQuery );
+(function( $ ){
+  $.fn.visibilityDefault = function() {
+    return this.css("visibility", "");
   };
 })( jQuery );
 
@@ -243,7 +257,8 @@ $(window).load(function(){
         mw.wysiwyg.check_selection();
     });
     $(".element").mousedown(function(event){
-        $(".mw_editor_btn").removeClass("mw_editor_btn_active")
+        $(".mw_editor_btn").removeClass("mw_editor_btn_active");
+
     });
 
 
@@ -272,7 +287,8 @@ $(".mw_dropdown_action_format").change(function(){
 
 
 
-  mw.image.resize.init(".element img");
+  //mw.image.resize.init(".edit img");
+  mw.image.resize.init(".element-image");
 
 
 
@@ -344,7 +360,7 @@ $(".mw_dropdown_action_format").change(function(){
            $(mw.image_resizer).removeClass("active");
 
 
-           $("#module_design_selector").setDropdownValue("#tb_el_style", true);
+           //$("#module_design_selector").setDropdownValue("#tb_el_style", true);
 
         }
     });

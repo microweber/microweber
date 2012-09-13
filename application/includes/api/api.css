@@ -1,4 +1,4 @@
-/*
+﻿/*
 api css
 */
 
@@ -385,5 +385,110 @@ margin-right: 6px;
   clear: both;
   padding:3px 0 3px;
   text-align: center;
-  font-size: 10px; 
+  font-size: 10px;
 }
+
+#items_handle{
+  position: absolute;
+
+  z-index: 999;
+  width: 18px;
+  height: 18px;
+  background: white url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/cursor_drag_arrow_2.png) no-repeat center center;
+  cursor: move;
+
+  box-shadow: 1px 0 1px #212121;
+  opacity:0.66;
+
+    -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  width: 32px;
+  margin-left: -32px;
+  margin-top: 25px;
+
+}
+
+#items_handle:hover{
+  opacity:1;
+}
+
+.fx{
+  display: none;
+}
+
+.edit.currentDragMouseOver{
+  background-color:#E2D63F;
+}
+
+.mw_element_resizer{
+  position: absolute;
+  z-index: 997;
+}
+
+.mw_element_resizer .ui-resizable-e{
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: -10px;
+}
+.mw_element_resizer .ui-resizable-w{
+  width: 20px;
+  height: 20px;
+  background: #595959;
+  top: 50%;
+  right: -10px;
+}
+
+.center{
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+#mw_handle_row{
+  position: absolute;
+  z-index: 997;
+  margin-top: -10px;
+  padding-bottom: 10px;
+  background: #D5D5D5
+}
+
+
+
+.mw_drag_current *{
+  visibility: hidden !important;
+}
+
+
+
+#mw_handle_module,
+#mw_handle_row,
+#mw_handle_element,
+#items_handle{
+  left: -9999px;
+  top: -9999px;
+}
+
+.mw_resizing > .column{
+  height: auto !important;
+}
+.column .empty-element:first-child .delete_column,
+.column .ui-resizable-e:first-child + .empty-element .delete_column{
+  display: inline-block;
+}
+
+.delete_column{
+  position: absolute;
+  top:10%;
+  left: 50%;
+  margin: 0 0 0 -15px;
+  display: none;
+}
+
+
+
+

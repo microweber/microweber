@@ -30,11 +30,27 @@ mw.form = {
     if(is_form_valid){
         var obj = mw.form.serialize.init(selector);
       	$.post(url_to_post, obj, function(data){
-			callback.call(selector);
+			if(mw.is.func(callback)){
+				//callback.call(selector);
+				callback.call(data);
+
+			} else {
+				//alert(data);
+				return data;
+			}
+			
+			
+			
         });
     }
 	return false;
   },
+  
+  
+  
+  
+  
+  
   serialize : {
       init:function(form){
         return $(form).serialize();

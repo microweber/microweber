@@ -137,7 +137,7 @@ $(function() {
   <form id="send_cv" method="post" action="">
     <input type="hidden" name="mk" value="<?php print enc ( user_id() ); ?>" />
     <input type="hidden" name="to_user" value="<?php print $post['created_by']; ?>" />
-    <input type="hidden" name="subject" value="New candidate: <?php print $post['content_title']; ?>" />
+    <input type="hidden" name="subject" value="New candidate: <?php print $post['title']; ?>" />
     <input type="hidden" name="send_email" value="1" />
     <h3>Attach CV</h3>
     

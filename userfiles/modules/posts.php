@@ -68,7 +68,7 @@ $pages = get_content($post_params_paging);
     <p> id:<? print ($item['id']) ?> / 
     
     <a  href="<? print post_link($item['id']) ?>"><? print post_link($item['id']) ?></a><br>
-      <? print $item['content_title'] ?>
+      <? print $item['title'] ?>
       
       
       </p>

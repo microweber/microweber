@@ -208,9 +208,9 @@ function get_dashboard_action($log_id) {
 				$thumb = thumbnail ( $content_data ['id'], 90 );
 				
 				//p($comm);
-				$to_return ['msg'] = "commented on <a href='{$url}'>{$content_data['content_title']}</a><br> {$comm_txt}";
-				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
-							$to_return ['msg'] .= "<div class='post_item'><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
+				$to_return ['msg'] = "commented on <a href='{$url}'>{$content_data['title']}</a><br> {$comm_txt}";
+				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
+							$to_return ['msg'] .= "<div class='post_item'><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
 				
 			}
 			
@@ -223,9 +223,9 @@ function get_dashboard_action($log_id) {
 				$thumb = thumbnail ( $content_data ['id'], 90 );
 				
 				//p($comm);
-				$to_return ['msg'] = "commented on <a href='{$url}'>{$content_data['content_title']}</a><br> {$comm_txt}";
-				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
-										$to_return ['msg'] .= "<div class='post_item'><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
+				$to_return ['msg'] = "commented on <a href='{$url}'>{$content_data['title']}</a><br> {$comm_txt}";
+				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
+										$to_return ['msg'] .= "<div class='post_item'><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
 				
 			
 			}
@@ -246,7 +246,7 @@ function get_dashboard_action($log_id) {
 				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $vote ['to_table_id'] );
 				$url = get_instance()->content_model->getContentURLByIdAndCache ( $vote ['to_table_id'] );
 				
-				$to_return ['msg'] = "liked <a href='{$url}'>{$content_data['content_title']}</a>";
+				$to_return ['msg'] = "liked <a href='{$url}'>{$content_data['title']}</a>";
 				
 				if ($more ['embed_code']) {
 					$emded_txt = "<textarea>" . html_entity_decode ( $more ['embed_code'] ) . "</textarea>";
@@ -255,13 +255,13 @@ function get_dashboard_action($log_id) {
 				}
 				$thumb = thumbnail ( $content_data ['id'], 90 );
 				
-				$desc = codeClean ( $content_data ['content_body'] );
+				$desc = codeClean ( $content_data ['content'] );
 				$desc = character_limiter ( $desc, 140, '...' );
 				$desc = str_ireplace ( "\n", ' ', $desc );
 				$desc = str_ireplace ( '\n', ' ', $desc );
 				
-				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
-								$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
+				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
+								$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
 				
 				break;
 			} else {
@@ -280,7 +280,7 @@ function get_dashboard_action($log_id) {
 				$to_return ['allow_comments'] = true;
 				$to_return ['allow_likes'] = true;
 				
-				$to_return ['msg'] = "published <a href='{$url}'>{$content_data['content_title']}</a>";
+				$to_return ['msg'] = "published <a href='{$url}'>{$content_data['title']}</a>";
 				if ($more ['embed_code']) {
 					$emded_txt = "<textarea>" . html_entity_decode ( $more ['embed_code'] ) . "</textarea>";
 				} else {
@@ -288,14 +288,14 @@ function get_dashboard_action($log_id) {
 				}
 				$thumb = thumbnail ( $content_data ['id'], 90 );
 				
-				$desc = codeClean ( $content_data ['content_body'] );
+				$desc = codeClean ( $content_data ['content'] );
 				$desc = character_limiter ( $desc, 140, '...' );
 				$desc = str_ireplace ( "\n", ' ', $desc );
 				$desc = str_ireplace ( '\n', ' ', $desc );
 				
-				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
+				//$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><a href='{$url}'><img class='embed_img' src='{$thumb}' border='0'></a><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
 				
-								$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['content_title']}</a></h3> $desc  $emded_txt 	</div>";
+								$to_return ['msg'] .= "<div class='post_item'><div style='height:10px;'>&nbsp;</div><h3 style='padding-bottom:5px;'><a href='{$url}'>{$content_data['title']}</a></h3> $desc  $emded_txt 	</div>";
 				
 				break;
 			}

@@ -28,7 +28,7 @@ description: Home site layout
     <meta NAME="Keywords" CONTENT="{content_meta_keywords}">
 </head>
 <body>
-<div class="page_tit"><? print $page['content_title'] ?></div>
+<div class="page_tit"><? print $page['title'] ?></div>
 <div class="body_part_inner">
   <div class="body_left_inner">
     <div class="about_text">

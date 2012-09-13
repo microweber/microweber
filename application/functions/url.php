@@ -4,6 +4,34 @@ function isAjax() {
     return (isset($_SERVER ['HTTP_X_REQUESTED_WITH']) && ($_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }
 
+function url_segment($k = -1) {
+    static $u;
+    if ($u == false) {
+
+        $u1 = curent_url();
+        $u2 = site_url();
+
+        $u1 = rtrim($u1, '\\');
+        $u1 = rtrim($u1, '/');
+
+
+        $u2 = rtrim($u2, '\\');
+        $u2 = rtrim($u2, '/');
+
+
+        $u1 = str_replace($u2, '', $u1);
+
+        $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
+        // $u = $u ? : explode('/', $u1);
+        // $u = $u ? : explode ( '/', trim ( preg_replace (
+        // '/^([A-Za-z0-9:]+)/i', '', current ( explode ( '?', $u1, 2 ) ) ), '/'
+        // )
+        // );
+    }
+
+    return $k != - 1 ? v($u [$k]) : $u;
+}
+
 /**
  * Returns the url segments as array;
  *
@@ -12,6 +40,10 @@ function isAjax() {
  * @return array Array of the segments
  */
 function url($k = -1) {
+
+    return url_segment($k);
+
+
     static $u;
     if ($u == false) {
 
@@ -39,12 +71,15 @@ function url($k = -1) {
 function url_string() {
     static $u1;
     if ($u1 == false) {
-        $u1 = implode('/', url());
+        $u1 = implode('/', url_segment());
     }
     return $u1;
 }
 
 function curent_url() {
+
+
+
     if (!isset($_SERVER ['REQUEST_URI'])) {
         $serverrequri = $_SERVER ['PHP_SELF'];
     } else {
@@ -54,7 +89,12 @@ function curent_url() {
     $s = empty($_SERVER ["HTTPS"]) ? '' : ($_SERVER ["HTTPS"] == "on") ? "s" : "";
     $protocol = strleft(strtolower($_SERVER ["SERVER_PROTOCOL"]), "/") . $s;
     $port = ($_SERVER ["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER ["SERVER_PORT"]);
-    return $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
+    $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
+
+
+
+
+    return $u;
 }
 
 function strleft($s1, $s2) {
@@ -66,56 +106,6 @@ function admin_url($add_string = false) {
     $admin_url = c('admin_url');
 
     return site_url($admin_url) . '/' . $add_string;
-}
-
-/**
- * Returns the curent site url
- *
- * @param string $add_string
- *        	You can pass any string to be appended to the main site url
- * @return string the url string
- * @example site_url('blog');
- */
-if (!function_exists('site_url')) {
-
-    function site_url($add_string = false) {
-        static $u1;
-        if ($u1 == false) {
-            $pageURL = 'http';
-            if (isset($_SERVER ["HTTPS"]) and ($_SERVER ["HTTPS"] == "on")) {
-                $pageURL .= "s";
-            }
-            $pageURL .= "://";
-            if ($_SERVER ["SERVER_PORT"] != "80") {
-                $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
-            } else {
-                $pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
-            }
-
-            if (isset($_SERVER ['SCRIPT_NAME'])) {
-                $d = dirname($_SERVER ['SCRIPT_NAME']);
-                $d = trim($d, '/');
-            }
-            $url_segs = explode('/', $pageURL);
-            $i = 0;
-            $unset = false;
-            foreach ($url_segs as $v) {
-                if ($unset == true) {
-                    unset($url_segs [$i]);
-                }
-                if ($v == $d) {
-
-                    $unset = true;
-                }
-
-                $i++;
-            }
-            $url_segs [] = '';
-            $u1 = implode('/', $url_segs);
-        }
-        return $u1 . $add_string;
-    }
-
 }
 
 function full_url($skip_ajax = false, $skip_param = false) {
@@ -296,6 +286,40 @@ function url_title($text) {
     $text = preg_replace('/[^-\w]+/', '', $text);
 
     return $text;
+}
+
+function replace_site_vars_back($arr) {
+    $site = site_url();
+
+    if (is_string($arr)) {
+
+        $ret = str_replace('{SITE_URL}', $site, $arr);
+
+        return $ret;
+    }
+
+    if (is_array($arr) and !empty($arr)) {
+
+        $ret = array();
+
+        foreach ($arr as $k => $v) {
+
+            if (is_array($v)) {
+
+                $v = replace_site_vars_back($v);
+            } else {
+
+                // $v = str_ireplace($site, '{SITE_URL}', $v);
+                $v = str_replace('{SITE_URL}', $site, $v);
+                // $v = addslashes ( $v );
+                // $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
+            }
+
+            $ret [$k] = ($v);
+        }
+
+        return $ret;
+    }
 }
 
 function replace_site_vars($arr) {
@@ -761,3 +785,24 @@ class URLify {
     }
 
 }
+
+function url_download($requestUrl, $post_params = false) {
+
+
+    $postdata = http_build_query($post_params);
+
+    $opts = array('http' =>
+        array(
+            'method' => 'POST',
+            'header' => 'Content-type: application/x-www-form-urlencoded',
+            'content' => $postdata
+        )
+    );
+
+    $context = stream_context_create($opts);
+
+    $result = file_get_contents('http://microweber.us/update.php', false, $context);
+    return $result;
+}
+
+ 

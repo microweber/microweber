@@ -24,7 +24,7 @@
 <?php $content_data = $this->content_model->contentGetByIdAndCache ( $notification ['to_table_id'] );
 $url = $this->content_model->getContentURLByIdAndCache($notification ['to_table_id']);
  ?>
-commented on your <?php print $notification['type'];  ?>: <a href="<?php print $url; ?> "><?php print( $content_data['content_title']); ?>  </a>
+commented on your <?php print $notification['type'];  ?>: <a href="<?php print $url; ?> "><?php print( $content_data['title']); ?>  </a>
 <?php else: ?>
 <?php p($notification); ?>
 <?php endif; ?>
@@ -36,7 +36,7 @@ commented on your <?php print $notification['type'];  ?>: <a href="<?php print $
 <?php $content_data = $this->content_model->contentGetByIdAndCache ( $notification ['to_table_id'] );
 $url = $this->content_model->getContentURLByIdAndCache($notification ['to_table_id']);
  ?>
-voted for <?php print $notification['type'];  ?>: <a href="<?php print $url; ?> "><?php print( $content_data['content_title']); ?>  </a>
+voted for <?php print $notification['type'];  ?>: <a href="<?php print $url; ?> "><?php print( $content_data['title']); ?>  </a>
 <?php else: ?>
 <?php p($notification); ?>
 <?php endif; ?>

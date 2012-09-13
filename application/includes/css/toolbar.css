@@ -53,13 +53,13 @@
 
 .mw-sorthandle {
     z-index: 9;
+    height: 1px;
 	width:100%;
-    visibility: hidden;
+    /*visibility: hidden;*/
 	position:absolute;
 	left: 0px;
     top: 0;
 	border: none;
-	height:25px;
 }
 
 .mw-sorthandle-moveit{
@@ -121,6 +121,10 @@ background-image: -webkit-gradient(
 }
 .mw-sorthandle-row {
  	top:0px;
+
+}
+#mw_handle_row{
+    height: 30px;
 }
 
 .ui-resizable-helper {
@@ -407,6 +411,7 @@ padding:0px !important;
   padding:0px 4px;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
   border: 1px solid #D9D9D9;
+  cursor: move;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -416,7 +421,7 @@ padding:0px !important;
   display: block;
 }
 
-.columns_set a{
+a.mw-make-cols{
   color: #5A5A5A;
   background: none;
   text-decoration: none;
@@ -427,14 +432,14 @@ padding:0px !important;
   border-radius: 3px;
 }
 
-.columns_set a:hover, .columns_set a.active{
+a.mw-make-cols:hover, a.mw-make-cols.active{
   text-decoration: none;
   padding:0px 4px;
   border: 1px solid #D9D9D9;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 }
 
-.columns_set a.active, .columns_set a.active:hover{
+a.mw-make-cols.active, a.mw-make-cols.active:hover{
   background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
   border-color:#227BD1;
   color: white;
@@ -525,9 +530,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 }
 
 .element-active{
-
-outline:1px solid #D4D4D4;
-
+    outline:1px solid #D4D4D4;
 }
 
 .row:hover .mw-sorthandle-row:first-child{
@@ -637,6 +640,9 @@ outline:1px solid #D4D4D4;
   );
 }
 
+
+
+
 .mw_editor_btn_mousedown, .mw_editor_btn_mousedown:hover{
 
 box-shadow:inset 0 0 3px #828282;
@@ -668,6 +674,9 @@ background-image: -webkit-gradient(
   display: inline-block;
   float: left;
   margin-top: 6px;
+}
+.mw_dlm_style{
+  height: 61px;
 }
 
 .mw_editor_btn .ico{
@@ -709,7 +718,10 @@ background-image: -webkit-gradient(
 
 
 
-
+.mw_editor_link.mw_editor_btn_active .ico{
+  background-image: url(../img/editor.link_active.png);
+  background-position: center center;
+}
 
 
 
@@ -792,6 +804,15 @@ height: 13px;
 #tb_image_edit{
   width: 785px;
   background: url(../img/tests/image_edit.jpg) no-repeat;
+}
+
+.ed_style_margin_padding{
+  float: left;
+  width: 195px;
+  padding-top: 12px;
+}
+.ed_style_margin_padding .ed_slider{
+  margin: 8px 0 0 10px;
 }
 
 

@@ -13,7 +13,7 @@ $('#pages_tree_toolbar a').live('click',function() {
 $p_id = $(this).parent().attr('data-page-id');
 
  
-mw_select_page_for_editing($p_id);
+ mw_select_page_for_editing($p_id);
 
  return false;});
    
@@ -23,6 +23,7 @@ mw_select_page_for_editing($p_id);
 
 
 function mw_select_page_for_editing($p_id){
+	return false;
 	$('#edit_page_toolbar').attr('data-page-id',$p_id);
   mw.reload_module('#edit_page_toolbar');
 	
@@ -127,7 +128,7 @@ function mw_select_post_for_editing($p_id){
         <button onclick="mw_select_page_for_editing(0)">new page</button>
       </div></td>
     <td><div id="holder_temp2_<? print $rand  ?>">
-        <module data-type="content/edit_page" id="edit_page_toolbar" />
+         
       </div></td>
   </tr>
 </table>

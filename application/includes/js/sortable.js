@@ -53,13 +53,21 @@ mw.dropables = {
 }
 
 
+$(document).ready(function(){
+   mw.drag.create();
+});
 
+mw.isDragItem = function(obj){
+  var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table)$/i;
+  return items.test(obj.nodeName);
+}
 
 
 mw.drag = {
-
 	create: function () {
          mw.top_half = false;
+
+
          $(document.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
@@ -86,20 +94,95 @@ mw.drag = {
              y:event.pageY
            }
 
+           mw.mm_target = event.target;
+           mw.$mm_target = $(mw.mm_target);
+
+
+
+
            if(!mw.isDrag){
+               if(mw.mouse.x%2==0){ //not on every pixel
+                   //trigger on element
+                   if(mw.$mm_target.hasClass("element")){
+                     $(window).trigger("onElementOver", mw.mm_target);
+                   }
+                   else if(mw.$mm_target.parents(".element").length>0){
+                     $(window).trigger("onElementOver", mw.$mm_target.parents(".element:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length==0){
+                     $(window).trigger("onElementLeave", mw.mm_target);
+                   }
 
-               var the_target = event.target;
+                   //trigger on module
+                   if(mw.$mm_target.hasClass("module")){
+                     $(window).trigger("onModuleOver", mw.mm_target);
+                   }
+                   else if(mw.$mm_target.parents(".module").length>0){
+                     $(window).trigger("onModuleOver", mw.$mm_target.parents(".module:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length==0){
+                     $(window).trigger("onModuleLeave", mw.mm_target);
+                   }
 
-               if($(the_target).hasClass("row") || $(the_target).parents(".row").length>0){
-                     $(the_target).find(".mw-sorthandle-row:first").visible();
-                     $(the_target).parents(".row:first").find(".mw-sorthandle-row:first").visible();
+
+                   //trigger on row
+                   if(mw.$mm_target.hasClass("row")){
+                     $(window).trigger("onRowOver", mw.mm_target);
+                   }
+                   else if(mw.$mm_target.parents(".row").length>0){
+                     $(window).trigger("onRowOver", mw.$mm_target.parents(".row:first")[0]);
+                   }
+                   else if(mw.mm_target.id!='mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length==0){
+                     $(window).trigger("onRowLeave", mw.mm_target);
+
+                   }
+
+                   //trigger on item
+                   if((mw.isDragItem(mw.mm_target) && mw.$mm_target.parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
+                     $(window).trigger("onItemOver", mw.mm_target);
+                     mw.$mm_target.addClass("mw_item");
+                   }
+                   else if(mw.$mm_target.parents(".mw_item").length>0){
+                     $(window).trigger("onItemOver", mw.$mm_target.parents(".mw_item")[0]);
+                   }
+                   else if(mw.mm_target.id!='items_handle' && mw.$mm_target.parents("#items_handle").length==0){
+                     $(window).trigger("onItemLeave", mw.mm_target);
+                   }
+                   if(mw.$mm_target.parents(".edit,.mw_master_handle").length==0){
+                     if(!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")){
+                          $(window).trigger("onAllLeave", mw.mm_target);
+                     }
+                   }
                }
-
-               if($(the_target).hasClass("element") || $(the_target).parents(".element").length>0){
-                     $(the_target).find(".mw-sorthandle:first").visible();
-                     $(the_target).parents(".element:first").find(".mw-sorthandle:first").visible();
+           }
+           else{
+             if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
+               if(!mw.$mm_target.hasClass("ui-draggable-dragging") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
+                   mw.currentDragMouseOver = mw.mm_target;
                }
+             }
 
+
+            /* if(mw.mm_target.tagName==='BODY' && mw.mouse.y%2==0){
+                    var items = mwd.getElementsByClassName('element');
+                    for(var i=0; i<items.length; i++ ){
+                      var rect = items[i].getClientRects()[0];
+                      var top = rect.top;
+                      var bot = rect.bottom;
+                      var height = rect.height;
+
+                      if(mw.mouse.y > top && mw.mouse.y < bot){
+                        if(mw.mouse.y<top+height/2){
+                          mw.currentDragMouseOver = items[i];
+                          mw.dropable.data("position", 'top');
+                        }
+                        else if(mw.mouse.y>top+height/2){
+                          mw.currentDragMouseOver = items[i];
+                          mw.dropable.data("position", 'bottom');
+                        }
+                      }
+                    }
+               } */
            }
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
@@ -118,7 +201,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region){
+            if(mw.drop_regions.global_drop_is_in_region && $(mw.dragCurrent).hasClass("element-image")){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
@@ -171,11 +254,6 @@ mw.drag = {
                 }
             }
 
-
-
-
-
-
             if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
@@ -194,269 +272,394 @@ mw.drag = {
 
         mw.dropables.prepare();
 
-	   mw.drag.edit_remove();
-
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
 
-		mw.drag.init(".element, .row");
-		mw.drag.init(".module-item");
-		mw.drag.sort(".element > *,.edit,.column > *");
+        mw.drag.init();
 
-		mw.drag.fix_handles();
+
 		mw.resizable_columns();
 
-        $(document.body).mouseup(function(event){
+
+
+        $(mwd.body).mouseup(function(event){
         	if(mw.isDrag && mw.dropable.is(":hidden")){
-        		$(".ui-draggable-dragging").animate({top:0,left:0});
+        		$(".ui-draggable-dragging").css({top:0,left:0});
         	}
             $(this).removeClass("not-allowed");
         });
 
+        $(window).bind("onElementOver", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var width = el.width();
+          var pleft = parseFloat(el.css("paddingLeft"));
+          $(mw.handle_element).css({
+            top:o.top,
+            left:o.left+pleft,
+            width:width
+          });
+          $(mw.handle_element).data("curr", element);
+          element.id=="" ? element.id="row_"+mw.random() : "";
+        });
+        $(window).bind("onModuleOver", function(a, element){
+          var el = $(element);
+          var title = el.dataset("filter");
+          $(mw.handle_module).find(".mw-element-name-handle").html(title);
+          $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
+          var o = el.offset();
+          var width = el.width();
+          var pleft = parseFloat(el.css("paddingLeft"));
+          $(mw.handle_module).css({
+            top:o.top,
+            left:o.left+pleft,
+            width:width
+          });
+          $(mw.handle_module).data("curr", element);
+          element.id=="" ? element.id="row_"+mw.random() : "";
+        });
+        $(window).bind("onRowOver", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var width = el.width();
+          var pleft = parseFloat(el.css("paddingLeft"));
+          $(mw.handle_row).css({
+            top:o.top-25,
+            left:o.left+pleft,
+            width:width
+          });
+          $(mw.handle_row).data("curr", element);
+          var size =  $(element).children(".column").length;
+          $("a.mw-make-cols").removeClass("active");
+          $("a.mw-make-cols").eq(size-1).addClass("active");
+          element.id=="" ? element.id="row_"+mw.random() : "";
+        });
+        $(window).bind("onItemOver", function(a, element){
+          var el = $(element);
+          var o = el.offset();
+          var pleft = parseFloat(el.css("paddingLeft"));
+          $(mw.handle_item).css({
+            top:o.top,
+            left:o.left+pleft
+          });
+          $(mw.handle_item).data("curr", element);
+        });
+
+
+
+        $("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").hover(function(){
+           var active = $(this).data("curr");
+           $(active).addClass("element-active");
+        }, function(){
+           var active = $(this).data("curr");
+           $(active).removeClass("element-active");
+        });
+
+        $(window).bind("onAllLeave", function(e, target){
+            $("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").css({
+              top:"",
+              left:""
+            })
+        });
+        $(window).bind("onElementLeave", function(e, target){
+            $(mw.handle_element).css({
+              top:"",
+              left:""
+            })
+        });
+        $(window).bind("onModuleLeave", function(e, target){
+            $(mw.handle_module).css({
+              top:"",
+              left:""
+            });
+        });
+        $(window).bind("onRowLeave", function(e, target){
+            $(mw.handle_row).css({
+              top:"",
+              left:""
+            });
+        });
+        $(window).bind("onItemLeave", function(e, target){
+            $(mw.handle_item).css({
+              top:"",
+              left:""
+            });
+        });
 
 	},
-
 
 	init: function (selector, callback) {
+        if(!mw.handle_item){
+            $(mwd.body).append(mw.settings.handles.module);
+            $(mwd.body).append(mw.settings.handles.row);
+            $(mwd.body).append(mw.settings.handles.element);
+            $(mwd.body).append(mw.settings.handles.item);
+            mw.handle_module = mwd.getElementById('mw_handle_module');
+            mw.handle_row = mwd.getElementById('mw_handle_row');
+            mw.handle_element = mwd.getElementById('mw_handle_element');
+            mw.handle_item = mwd.getElementById('items_handle');
 
-        $(selector).not(".ui-draggable").not(".module .module").each(function(){
-            var el = $(this);
-            if( el.hasClass("module-item")){
-                helper = function(event, ui) {
-                    return mw.dragCurrent = $(this).clone(true).appendTo('body').css({'zIndex':5});
-                }
-            }
-            else {
-                helper = 'clone'
-            }
-            el.draggable({
-                handle: ".mw-sorthandle-moveit",
-            	cursorAt: {
-            		top: -30
-            	},
-                containment:document.body,
-				scroll:true,
-				scrollSensitivity:100,
-            	helper: helper,
-            	start: function () {
-            	    document.body.style.overflowX='hidden';
-            		mw.isDrag = true;
-            		mw.dragCurrent = this;
-            		mw.drag.edit_remove();
-            		$(this).addClass("mw_drag_started");
-            		mw.drag.fixes();
-                    $(mw.dragCurrent).invisible();
-                    setTimeout(function(){
-                      $(".ui-draggable-dragging").css({
-                        width:$(mw.dragCurrent).width(),
-                        height:$(mw.dragCurrent).height(),
-                        background:'white'
-                      })
-                    }, 200);
-            	},
-            	stop: function (event, ui) {
-            	  document.body.style.overflowX='';
-            		mw.isDrag = false;
-            		$(this).removeClass("mw_drag_started");
-            		if ($(mw.dragCurrent).hasClass("module-item")) {
-                    mw.have_new_items = true;
-                       setTimeout(function () {
-                        mw.drag.load_new_modules()
-                      }, 300);
-            		}
-                    else {
-                      setTimeout(function () {
-                        mw.drag.edit_remove();
-                        mw.drag.fix_placeholders();
-                      }, 100);
-            		}
-                 if (typeof callback === 'function') {
-            			callback.call(this);
-            	 }
-                 $(".row").css({marginTop:'0px',marginBottom:'0px'});
-            	}
+            $(mw.handle_element).mouseenter(function(){
+                var curr = $(this).data("curr");
+                $(this).draggable("option", "helper", function(){
+                    var clone =  $(curr).clone(true);
+                    clone.css({
+                       width:$(curr).width(),
+                       height:$(curr).height()
+                    });
+                    return clone;
+                });
+            });
+            $(mw.handle_module).mouseenter(function(){
+                var curr = $(this).data("curr");
+
+                $(this).draggable("option", "helper", function(){
+                    var clone =  $(curr).clone(true);
+                    clone.css({
+                       width:$(curr).width(),
+                       height:$(curr).height()
+                    });
+                    return clone;
+                });
+            });
+            $(mw.handle_row).mouseenter(function(){
+                var curr = $(this).data("curr");
+                $(this).draggable("option", "helper", function(){
+                    var clone =  $(curr).clone(true);
+                    clone.css({
+                       width:$(curr).width(),
+                       height:$(curr).height()
+                    });
+                    return clone;
+                });
+            });
+            $(mw.handle_item).mouseenter(function(){
+                var el = $(this);
+                var curr = el.data("curr");
+                curr.id = 'item_'+mw.random();
+                el.draggable("option", "helper", function(){
+                    var clone =  $(curr).clone(true);
+                    clone.css({
+                       width:$(curr).width(),
+                       height:$(curr).height()
+                    });
+                    return clone;
+                });
+            });
+            $(mw.handle_element).draggable({
+               handle:".mw-sorthandle-moveit",
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_element).data("curr");
+                  mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_'+mw.random() : '';
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
+               }
+            });
+            $(mw.handle_module).draggable({
+               handle:".mw-sorthandle-moveit",
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_module).data("curr");
+                  mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'module_'+mw.random() : '';
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
+               }
+            });
+            $(mw.handle_row).draggable({
+               handle:".column_separator_title",
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_row).data("curr");
+                  mw.dragCurrent = curr;
+                  mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'row_'+mw.random() : '';
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
+               }
+            });
+            $(mw.handle_item).draggable({
+               cursorAt:{
+                 top:-30
+               },
+               start:function(){
+                  mw.isDrag = true;
+                  var curr = $(mw.handle_item).data("curr");
+                  mw.dragCurrent = curr;
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                  $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
+               }
             });
 
-            $(this).mouseleave(function(event){
-              $(".mw-sorthandle").invisible();
-               event.stopPropagation();
+            mw.drag.toolbar_modules();
+
+        }
+
+        mw.drag.the_drop();
+	},
+    toolbar_modules:function(selector){
+        var items = selector || ".modules-list li";
+        $(items).draggable({
+            revert: true,
+            revertDuration: 0,
+            start:function(){
+                mw.isDrag = true;
+                mw.dragCurrent = mw.GlobalModuleListHelper;
+            },
+           stop:function(){
+              mw.isDrag = false;
+              var el = this;
+              setTimeout(function(){
+                mw.drag.load_new_modules();
+                mw.drag.toolbar_modules(el);
+              }, 200);
+           }
+        });
+        $(items).mouseenter(function(){
+            $(this).draggable("option", "helper", function(){
+              var clone = $(this).clone(true);
+              mw.GlobalModuleListHelper = clone[0];
+              return clone[0];
             });
         });
-
-	},
-
-	sort_handles_events: function (selector) {
-		if (selector == undefined) {
-			selector = '.mw-sorthandle';
-		}
-		$(selector).unbind('mousedown');
-		$(selector).bind("mousedown", function (event) {
-			if (!mw.isDrag) {
-				mw.drag.sort(".element > *");
-				mw.drag.edit_remove();
-			}
-		});
-
-       $(selector).find(".mw-sorthandle-moveit").hover(function(){
-            $(this).parent().parent().addClass("moveit-hover");
-       }, function(){
-           $(this).parent().parent().removeClass("moveit-hover");
-       });
-
-
-	},
-	sort: function (selector) {
-         var selector = selector || '.row, .edit';
-         var el = $(selector).not(".mw-sorthandle").not(".module *").not(".mw-sorthandle *").notmouseenter();
-
-         el.bind("mouseleave", function(event){
-           if (mw.isDrag && ($(this).parents(".module").length==0)) {
-             mw.currentDragMouseOver = this;
-             var el = this;
-             var offset = $(el).offset();
-             if(offset.top>event.pageY){
-                mw.dropable.data("position", "top");
-             }
-             else{
-                mw.dropable.data("position", "bottom");
-             }
-           }
-         });
-         el.bind("mouseenter", function(){
-           if(mw.isDrag && ($(this).parents(".module").length==0)){
-                mw.currentDragMouseOver = this;
-           }
-         });
-
-		el.bind("mouseenter", function (event) {
-			if (mw.isDrag && ($(this).parents(".module").length==0)) {
-    			if (this.className.indexOf('ui-draggable-dragging')==-1 && $(this).parents(".ui-draggable-dragging").length==0) {
-                   mw.currentDragMouseOver = this;
-                   $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-                   $(this).addClass("currentDragMouseOver");
-                   if(!$(this).hasClass("empty-element")){
-                       mw.dropables.display(this);
-                       event.stopPropagation();
-                   }
-    			}
-			}
-			else {
-				var el = $(this);
-				if (el.hasClass("mw-sorthandle")) {
-					mw.mouse_over_handle = true;
-				}
-				else {
-					setTimeout(function () {
-						mw.mouse_over_handle = false;
-					}, 200);
-				}
-			}
-			event.stopPropagation();
-		});
-        el.bind("mouseleave", function(event){
-
-          if (mw.isDrag && $(this).hasClass("element")) {
-            mw.currentDragMouseOver = this;
-            event.stopPropagation();
-          }
-        });
-
-    	mw.drag.the_drop();
-		return $(selector);
-	},
-
+    },
     the_drop: function () {
         if(!$(document.body).hasClass("bup")){
-          $(document.body).addClass("bup")
+          $(document.body).addClass("bup");
+
 		$(document.body).bind("mouseup", function (event) {
+		    var target = event.target;
+            if($(target).hasClass("element")){
+              $(window).trigger("onElementClick", target);
+            }
+            if($(target).parents(".element").length>0){
+              $(window).trigger("onElementClick", $(target).parents(".element")[0]);
+            }
+
 			if (mw.isDrag) {
+			  /*  var history_id = 'history_'+mw.random();
+
+                $(mw.dragCurrent).before('<input type="hidden" id="'+history_id+'" />');
+
+                var story = {
+                  pos:history_id,
+                  who:mw.dragCurrent
+                }
+                mw.drag.stories.push(story);
+                mw.drag.story_active+=1;  */
+
 				setTimeout(function () {
-                        $(mw.dragCurrent).visible();
+				  mw.isDrag = false;
+                        $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         var position = mw.dropable.data("position");
-
                         if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){
-
-                           $(mw.dragCurrent).visible();
-
+                           $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         }
                         else{
 
-                        var hovered =  $(mw.currentDragMouseOver);
-
-                        if(hovered.hasClass("empty-element")){
-                           hovered.before(mw.dragCurrent);
-                           $(mw.dragCurrent).removeClass("mw_drag_float");
-                           $(mw.dragCurrent).removeClass("mw_drag_float_right");
-                        }
-                        else{
-                              if(position=='top'){
-                                 $(mw.dragCurrent).removeClass("mw_drag_float");
-                                 $(mw.dragCurrent).removeClass("mw_drag_float_right");
-                                 hovered.removeClass("mw_drag_float");
-                                 if(hovered.hasClass("edit")){
-                                    hovered.append(mw.dragCurrent);
-                                 }
-                                 else{
-                                     if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
-                                        hovered.before(mw.dragCurrent);
+                            var hovered =  $(mw.currentDragMouseOver);
+                            if(mw.dragCurrent.tagName.toLowerCase()=='li'){
+                               mw.dragCurrent = $(mw.dragCurrent).clone(true);
+                               $(mw.dragCurrent).removeAttr("id");
+                            }
+                            if(hovered.hasClass("empty-element")){
+                               hovered.before(mw.dragCurrent);
+                               $(mw.dragCurrent).removeClass("mw_drag_float");
+                               $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                            }
+                            else{
+                                  if(position=='top'){
+                                     $(mw.dragCurrent).removeClass("mw_drag_float");
+                                     $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                                     hovered.removeClass("mw_drag_float");
+                                     if(hovered.hasClass("edit")){
+                                        hovered.append(mw.dragCurrent);
                                      }
                                      else{
-                                       var parent = hovered.parent();
-                                       if(parent.hasClass("edit")){
-                                          parent.append(mw.dragCurrent);
-                                       }
-                                       else{
-                                          parent.before(mw.dragCurrent);
-                                       }
-                                     }
-                                 }
-                              }
-                              else if(position=='bottom'){
-                                $(mw.dragCurrent).removeClass("mw_drag_float");
-                                $(mw.dragCurrent).removeClass("mw_drag_float_right");
-                                 hovered.removeClass("mw_drag_float");
-                                 if(hovered.hasClass("edit")){
-                                    hovered.prepend(mw.dragCurrent);
-                                 }
-                                 else{
-                                     if(hovered.next().length==0){  //if is last child
-                                        var parent = hovered.parent();
-                                        if(parent.hasClass("edit")){
-                                            parent.prepend(mw.dragCurrent);
+                                         if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+                                            hovered.before(mw.dragCurrent);
                                          }
                                          else{
-                                            parent.after(mw.dragCurrent);
+                                           var parent = hovered.parent();
+                                           if(parent.hasClass("edit")){
+                                              parent.append(mw.dragCurrent);
+                                           }
+                                           else{
+                                             if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
+                                                parent.before(mw.dragCurrent);
+                                             }
+                                             else{
+                                                parent.prepend(mw.dragCurrent);
+                                             }
+
+                                           }
                                          }
                                      }
-                                     else{
-                                        hovered.after(mw.dragCurrent);
+                                  }
+                                  else if(position=='bottom'){
+                                    $(mw.dragCurrent).removeClass("mw_drag_float");
+                                    $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                                     hovered.removeClass("mw_drag_float");
+                                     if(hovered.hasClass("edit")){
+                                        hovered.prepend(mw.dragCurrent);
                                      }
-                                 }
-                                 $(mw.dragCurrent).addClass("mw_clear");
-                              }
-                              else if(position=='left'){
-                                $(mw.dragCurrent).removeClass("mw_clear");
+                                     else{
+                                         if(hovered.next().length==0){  //if is last child
+                                            var parent = hovered.parent();
+                                            if(parent.hasClass("edit")){
+                                                parent.prepend(mw.dragCurrent);
+                                             }
+                                             else{
+                                                if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
+                                                   parent.after(mw.dragCurrent);
+                                                }
+                                                else{parent.append(mw.dragCurrent); }
 
-                                hovered.before(mw.dragCurrent);
+                                             }
+                                         }
+                                         else{
+                                            hovered.after(mw.dragCurrent);
+                                         }
+                                     }
+                                     $(mw.dragCurrent).addClass("clear");
+                                  }
+                                  else if(position=='left'){
+                                    $(mw.dragCurrent).removeClass("clear");
 
-                                setTimeout(function(){
-                                   $(mw.dragCurrent).addClass("mw_drag_float");
-                                   $(mw.dragCurrent).removeClass("mw_drag_float_right");
-                                }, 73);
+                                    hovered.before(mw.dragCurrent);
 
-                              }
-                              else if(position=='right'){
-                                $(mw.dragCurrent).removeClass("mw_clear");
-                                $(mw.dragCurrent).removeClass("mw_drag_float");
-                                $(mw.dragCurrent).addClass("mw_drag_float_right");
+                                    setTimeout(function(){
+                                       $(mw.dragCurrent).addClass("mw_drag_float");
+                                       $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                                    }, 73);
 
-                                hovered.before(mw.dragCurrent);
+                                  }
+                                  else if(position=='right'){
+                                    $(mw.dragCurrent).removeClass("clear");
+                                    $(mw.dragCurrent).removeClass("mw_drag_float");
+                                    $(mw.dragCurrent).addClass("mw_drag_float_right");
 
-                                setTimeout(function(){
-                                    hovered.removeClass("mw_drag_float");
-                                }, 73);
-                              }
-                        }
+                                    hovered.before(mw.dragCurrent);
+
+                                    setTimeout(function(){
+                                        hovered.removeClass("mw_drag_float");
+                                    }, 73);
+                                  }
+                            }
                         }
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
@@ -467,14 +670,19 @@ mw.drag = {
                     mw.resizable_columns();
                     mw.dropable.hide();
 
+                    if(!$(mw.dragCurrent).parent().hasClass("element")){
+                      $(mw.dragCurrent).addClass("element");
+                    }
 
+                    $(mw.dragCurrent).css({
+                       width:"",
+                       height:"",
+                    });
 
 					event.stopPropagation();
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-            mw.currentDragMouseOver = null;
-
-
+                    mw.currentDragMouseOver = null;
 				}, 37);
 			}
 
@@ -525,7 +733,7 @@ mw.drag = {
           el.children("div.column").each(function(){
             var the_empty_child = $(this).children("div.empty-element");
             if(the_empty_child.length==0){
-              $(this).append('<div class="empty-element" id="mw-placeholder-'+mw.random()+'"></div>');
+              $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
               var the_empty_child = $(this).children("div.empty-element");
             }
           });
@@ -543,99 +751,6 @@ mw.drag = {
     },
 
 
-/**
-	 * Makes handles for given row
-	 *
-	 * @example mw.drag.init_row_handles
-	 * @param $el_id - the id of the row element
-	 */
-	init_row_handles: function ($el_id) {
-		if ($el_id == undefined || $el_id == 'undefined') {
-			$el_id = mw.settings.row_id;
-		}
-		else {
-			mw.settings.row_id = $el_id;
-		}
-		$(".mw-layout-edit-curent-row-element").html($el_id);
-		$exisintg_num = $('#' + $el_id).children(".column").size();
-		text = mw.settings.sorthandle_row_columns_controlls
-		if (text != undefined) {
-			text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".columns_set").html(text);
-		}
-		text1 = mw.settings.sorthandle_row_delete
-		if (text1 != undefined) {
-			text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
-
-		}
-		$(".mw-make-cols", '#' + $el_id).removeClass('active');
-		$(".mw-make-cols-" + $exisintg_num, '#' + $el_id).addClass('active');
-	},
-
-
-	/**
-	 * Makes handles for all elements
-	 *
-	 * @example mw.drag.fix_handles()
-	 */
-	fix_handles: function () {
-
-		if (mw.isDrag == false) {
-			$('.row', '.edit').each(function (index) {
-				$has = $(this).children("div:first").hasClass("mw-sorthandle-row");
-				if ($has == false) {
-					$(this).prepend(mw.settings.sorthandle_row);
-				}
-				$el_id = $(this).attr('id');
-				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
-					$(this).attr('id', $el_id);
-				}
-				mw.drag.init_row_handles($el_id);
-			});
-
-			$('.element:not(.empty-element)', '.edit').each(function (index) {
-				$el_id = $(this).attr('id');
-				if ($el_id == undefined || $el_id == 'undefined') {
-					$el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
-					$(this).attr('id', $el_id);
-				}
-				$has = $(this).children(":first").hasClass("mw-sorthandle-col");
-				if ($has == false) {
-					$has_module = $(this).hasClass("module");
-					if ($has_module == false) {
-						text = mw.settings.sorthandle_col
-					}
-					else {
-						$m_name = $(this).attr('data-type');
-
-						$m_id = $(this).attr('id');
-						text = mw.settings.sorthandle_module
-						text = text.replace(/MODULE_NAME/g, "" + '' + $m_name + "");
-						text = text.replace(/MODULE_ID/g, "'" + $m_id + "'");
-					}
-					text = text.replace(/ELEMENT_ID/g, "'" + '' + $el_id + "'");
-					$(this).prepend(text);
-				}
-			})
-
-
-			$('.mw-sorthandle-main-level', '.edit').removeClass('mw-sorthandle-main-level');
-			$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
-			$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
-			$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
-			$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
-			$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
-			$('.element').find('img').addClass('mw-sorthandle-img-in-element');
-			$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
-
-
-
-
-			mw.drag.sort_handles_events();
- 		}
-	},
 
 
 
@@ -647,8 +762,8 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
-		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
- 
+	   	$('*[contenteditable]', '.edit').removeAttr("contenteditable");
+
 	},
 
 
@@ -660,7 +775,7 @@ mw.drag = {
 	 */
     fix_onChange_editable_elements : function(el)   {
 
-
+                   //     return false;
 
     var el = el || '[contenteditable]';
 
@@ -673,9 +788,6 @@ mw.drag = {
     var $this = $(this);
     if ($this.data('before') !== $this.html()) {
         $this.data('before', $this.html());
-
-              
-
         $this.trigger('change');
     }
     return $this;
@@ -692,39 +804,27 @@ mw.drag = {
 	 * @return void
 	 */
 	load_new_modules: function (callback) {
-
-
         $need_re_init = false;
-
-
 		$(".module-item", '.edit').each(function (c) {
-
                 mw._({
                   selector:this,
                   done:function(){
 
                   }
-                })
-
+                }, true);
 			$need_re_init = true;
 		});
- if(mw.have_new_items == true){
-              $need_re_init = true;
-          }
-
+        if(mw.have_new_items == true){
+            $need_re_init = true;
+        }
 		if ($need_re_init == true) {
 			if (!mw.isDrag) {
-
-
                 if (typeof callback === 'function') {
     				callback.call(this);
 				}
-				setTimeout("mw.drag.create()", 200);
 			}
 		}
-
         mw.have_new_items = false;
-
 	},
 
 
@@ -744,7 +844,6 @@ mw.drag = {
 
 
     data1 = attributes
-    //data1.module = '' + $module_name;
     data1.view = 'admin';
 
     mw.tools.modal.init({
@@ -753,8 +852,7 @@ mw.drag = {
 	height:450, 
 	callback:function() {
       $(this.container).load(mw.settings.site_url + "api/module", data1);
-      $(this.container).attr('data-settings-for-module', $module_id);
-
+      $(this.container).dataset('settings-for-module', $module_id);
     }
 	});
 
@@ -772,8 +870,7 @@ mw.drag = {
 	load_module: function ($module_name, $update_element) {
 		var attributes = {};
 		attributes.module = $module_name;
-
-		url1 = mw.settings.site_url + 'api/module';
+		var url1 = mw.settings.site_url + 'api/module';
 		$($update_element).load_modules(url1, attributes, function () {
 			window.mw_sortables_created = false;
 		});
@@ -788,22 +885,82 @@ mw.drag = {
   /**
    * Deletes element by id or selector
    *
-   * @method mw.edit.delete_element($el_id)
+   * @method mw.edit.delete_element(idobj)
    * @param Element id or selector
    */
-  delete_element: function($el_id) {
-    var r = confirm(mw.settings.sorthandle_delete_confirmation_text);
-    if (r == true) {
-      if ($el_id == undefined || $el_id == 'undefined') {
-        $el_id = mw.settings.element_id;
+  delete_element: function(idobj) {
+    var id = mw.is.obj(idobj) ? $(idobj).data("curr").id : idobj;
+    if (confirm(mw.settings.sorthandle_delete_confirmation_text)) {
+      if (id == "") {
+        id = mw.settings.element_id;
       }
-      //	alert($el_id);
-      $($el_id).remove();
-      $('#' + $el_id).remove();
-		mw.drag.fix_placeholders(true);
+      id.contains("#") ? $(id).remove() : $('#' + id).remove();
+      $(mw.handle_module).css({left:'', top:''});
+	  mw.drag.fix_placeholders(true);
     }
   },
 
+    /**
+	 * Creates columns of given row id
+	 *
+	 * @method mw.edit.create_columns(selector, $numcols)
+	 * @param selector - the id of the row element
+	 * @param $numcols - number of columns required
+	 */
+
+  create_columns: function (selector, $numcols) {
+
+        if(!$(selector).hasClass("active")){
+
+        var id = $(mw.handle_row).data("curr").id;
+
+        $(mw.handle_row).find("a").removeClass("active");
+        $(selector).addClass("active")
+         var $el_id = id!=''?id:mw.settings.row_id;
+
+			mw.settings.sortables_created = false;
+			var $exisintg_num = $('#' + $el_id).children(".column").length;
+
+			if ($numcols == 0) {
+				$numcols = 1;
+			}
+			$numcols = parseInt($numcols);
+			if ($exisintg_num == 0) {
+				$exisintg_num = 1;
+			}
+			if ($numcols != $exisintg_num) {
+				if ($numcols > $exisintg_num) {  //more columns
+					for (i = $exisintg_num; i < $numcols; i++) {
+                        var new_col = mwd.createElement('div');
+                        new_col.className = 'column';
+                        $('#' + $el_id).append(new_col);
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
+					}
+                    mw.resizable_columns();
+				}
+				else {  //less columns
+					var $cols_to_remove = $exisintg_num - $numcols;
+					if ($cols_to_remove > 0) {
+                        var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
+                        var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        $(elements_to_clone).each(function(){
+                            var el = $(this).children(".element, .module, .row, .mw-layout-holder");
+                            last_after_remove.find(".empty-element").before(el);
+                           $("#"+this.id).remove();
+                        });
+                        last_after_remove.resizable("destroy");
+                        $('#' + $el_id).children(".empty-element").remove();
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
+					}
+				}
+
+				var $exisintg_num = $('#' + $el_id).children(".column").size();
+				var $eq_w = 100 / $exisintg_num;
+				var $eq_w1 = $eq_w;
+				$('#' + $el_id).children(".column").width($eq_w1 + '%');
+			}
+        }
+	},
 	
 	
   /**
@@ -817,6 +974,7 @@ mw.drag = {
 
 
     $(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
+
     $(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
     $(".mw-sorthandle", '.edit').remove();
@@ -921,17 +1079,93 @@ mw.drag = {
 
 
 
+mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
+  if(final<3){
+    selector.eq(len-1).width((cache[len-1]+final)+"%");
+  }
+  else{
+     var final = 0;
+     selector.each(function(i){
+           var el = $(this);
+           cache[i] = cache[i] + howMuch;
+           final += cache[i];
+           el.width(cache[i]+"%");
+     });
+     if(final<100){
+       mw.pcWidthExtend(selector, howMuch, cache, final, len);
+     }
+  }
 
-
-mw.px2pc = function(selector){
-    $(selector).each(function(){
-      var parent = $(this).parents('.row:first');
-		$(this).css({
-			width: ((($(this).width() / parent.width()) * 100)+"%")
-		});
-    });
 }
 
+
+mw.px2pc = function(row){
+
+    var cache = [];
+    var row = $(row);
+    var width = row.width();
+    var cols = row.children(".column");
+    var len = cols.length;
+    cols.each(function(){
+        var el = $(this);
+        var w = ((Math.floor(el.width() / width * 100)));
+        cache.push(w);
+        el.css({
+        	width:w+"%"
+        });
+    });
+    //check them after
+    mwcsum = 0;
+    for(var x=0; x<len; x++){
+        mwcsum+=cache[x];
+    }
+    var final = 100-mwcsum;
+    if(final != 0){
+        mw.pcWidthExtend(cols, final/len, cache, final, len);
+    }
+}
+
+
+
+
+mw.scale_cols = function(){
+  $(".row").each(function(){
+    var el = $(this);
+    var cols = el.children(".column");
+    var len = cols.length;
+    var width = el.width();
+    var w = 0;
+    cols.each(function(){
+        w+=$(this).width();
+    });
+    var res = width-w;
+    if(res>6){
+        var each = res/len;
+        cols.each(function(){
+            $(this).width($(this).width()+each);
+        });
+        mw.px2pc(this);
+    }
+  });
+}
+
+
+mw.delete_column = function(which){
+  if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
+     var row =  $(which).parents(".row").eq(0);
+     var col =  $(which).parents(".column").eq(0);
+     if(col.next(".column").length==0){
+        col.prev(".column").resizable("destroy");
+     }
+     col.remove();
+     if(row.find(".column").length==0){
+       row.remove();
+     }
+     else{
+        mw.px2pc(row[0]);
+     }
+  }
+}
 
 
 
@@ -943,9 +1177,12 @@ mw.px2pc = function(selector){
  */
 mw.resizable_columns = function () {
 
+$(".edit .row").each(function(){
+    mw.px2pc(this);
+});
 
 
-	$('.edit').find('.column').each(function () {
+	$('.edit .column').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -953,7 +1190,7 @@ mw.resizable_columns = function () {
 			$(this).attr('id', $el_id_column);
 		}
 
-        mw.px2pc(this);
+
 
 
 		$is_done = $(this).hasClass('ui-resizable')
@@ -985,8 +1222,9 @@ mw.resizable_columns = function () {
 			$also_inner_items = $inner_column.attr('id');
 
 
-		  $(this).parent(".column").resizable("destroy");
-		  $(this).children(".column").resizable("destroy");
+
+		  //$(this).parents(".column").resizable("destroy");
+		  //$(this).children(".column").resizable("destroy");
 
 			if ($no_next == false) {
 				$handles = 'e'
@@ -1008,7 +1246,7 @@ mw.resizable_columns = function () {
                   sum:0
                 }
 
-                var imgs = $(this).find("img");
+
 
 				$(this).resizable({
 					handles: $handles,
@@ -1017,14 +1255,23 @@ mw.resizable_columns = function () {
                     greedy:true,
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
-					//maxWidth: $row_max_w - $last_c_w,
-					alsoResize: imgs,
+
 					resize: function (event, ui) {
 						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
                         if(mw.global_resizes.next.width()<151){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }
                         mw.settings.resize_started = true;
+                        var w = $(this).width();
+
+                        $(this).find("img").each(function(){
+
+                          $(this).width() <= w ? this.style.height = 'auto' : '';
+                        });
+                        var nw =mw.global_resizes.next.width();
+                        mw.global_resizes.next.find("img").each(function(){
+                          $(this).width() <= w ? this.style.height = 'auto' : '';
+                        });
 					},
 					create: function (event, ui) {
 						var el = $(this);
@@ -1053,46 +1300,26 @@ mw.resizable_columns = function () {
 
 						ui.element.addClass('selected');
 						mw.settings.resize_started = true;
+                        $(this).parent().addClass('mw_resizing');
+                        $(mw.image_resizer).removeClass("active");
+
 					},
 					stop: function (event, ui) {
+					   $(this).parent().removeClass('mw_resizing');
  						mw.settings.resize_started = false;
 						mw.drag.fixes();
 						mw.drag.fix_placeholders();
 
-                        mw.px2pc(".column");
+                        mw.px2pc($(this).parents(".row")[0]);
+
+                       //mw.scale_cols();
 					}
 				});
 			}
 		}
 
 	});
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1227,7 +1454,29 @@ $(window).load(function(){
       }
      // event.stopPropagation();
   });
+
+
+
+
+
 });
+
+mw.drag.story_active = -1;
+
+mw.drag.stories = [];
+
+mw.drag.story = {
+  forward:function(){
+
+  },
+  back:function(){
+    var curr = mw.drag.stories[mw.drag.story_active];
+    if(mw.is.defined(curr)){
+      $("#"+curr.pos).replaceWith(curr.who);
+      mw.drag.story_active-=1;
+    }
+  }
+}
 
 
 

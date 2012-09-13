@@ -1,0 +1,41 @@
+/*
+ * Microweber - Javascript Framework
+ *
+ * Default styles
+ * Do not change anything!
+ *
+ */
+
+.col, .row, .element {
+    position: relative;
+}
+.element {
+    display: block;
+    clear: both;
+}
+.element-image {
+    display: inline-block;
+    clear: none;
+    max-width: 100%;
+}
+.edit:after, .column:after, .element:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+.column {
+    float: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.edit, .column {
+    min-height: 50px;
+    position: relative;
+}
+.edit .column img{
+  height: auto !important;
+  max-width: 100% !important;
+}

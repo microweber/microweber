@@ -142,7 +142,7 @@ function showResponse(responseText, statusText, xhr, $form)  {
   <? endif; ?>
   <label><strong>Album title</strong></label>
   <span>
-  <input style="width:550px;" class="required" name="content_title" type="text" value="<? print $the_post['content_title']; ?>" />
+  <input style="width:550px;" class="required" name="title" type="text" value="<? print $the_post['title']; ?>" />
   </span>
   <div class="c" style="padding-bottom: 12px;">&nbsp;</div>
   <div class="ghr">&nbsp;</div>
@@ -188,7 +188,7 @@ function showResponse(responseText, statusText, xhr, $form)  {
 
 
 <? if(url_param('id') != false): ?>
-<h2><? print $the_post['content_title']; ?></h2>
+<h2><? print $the_post['title']; ?></h2>
 
 
 

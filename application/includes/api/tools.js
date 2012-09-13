@@ -1,3 +1,5 @@
+
+
 mw.simpletabs = function(context){
     var context = context || document.body;
     $(".mw_simple_tabs_nav", context).each(function(){
@@ -225,7 +227,6 @@ mw.tools = {
   },
   toolbar_tabs:{
     get_active:function(){
-        mw.prev_hash = $("#mw_tabs li.active a").attr("href");
         var hash = window.location.hash;
         if(hash==''){
           return '#tab_modules';
@@ -340,6 +341,7 @@ mw.tools = {
 
 
 
+mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
 
 
 Wait($, function(){
@@ -352,14 +354,14 @@ Wait($, function(){
      var el = this;
      if(isCustom){
         var isValidOption = true;
-        el.attr("data-value", val);
+        el.dataset("value", val);
         triggerChange?el.trigger("change"):'';
         el.find(".mw_dropdown_val").html(customValueToDisplay);
      }
      else{
        el.find("li").each(function(){
            if(this.getAttribute('value')==val){
-                el.attr("data-value", val);
+                el.dataset("value", val);
                 var isValidOption = true;
                 el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
                 triggerChange?el.trigger("change"):'';
@@ -367,9 +369,24 @@ Wait($, function(){
            }
        });
      }
-
-     this.attr("data-value", val);
+     this.dataset("value", val);
   };
+
+
+
+$.fn.dataset = function(dataset, val){
+  var el = this[0];
+
+  if(!val){
+     var dataset = mw.datassetSupport ? el.dataset[dataset] : $(el).attr("data-"+dataset);
+     return dataset!==undefined ? dataset : "";
+  }
+  else{
+    mw.datassetSupport ? el.dataset[dataset] = val :  $(el).attr("data-"+dataset, val);
+    return $(el)
+  }
+}
+
 });
 
 

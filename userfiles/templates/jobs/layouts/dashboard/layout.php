@@ -7,7 +7,7 @@
     <? if(url_param('ns') == false): ?>
     <?php require (ACTIVE_TEMPLATE_DIR.'dashboard/dashboard_right.php') ?>
     <? endif; ?>
-    <h2 class="blue-title-normal"><?php print ucwords($page['content_title']); ?></h2>
+    <h2 class="blue-title-normal"><?php print ucwords($page['title']); ?></h2>
     <?    ?>
     
     {content} 

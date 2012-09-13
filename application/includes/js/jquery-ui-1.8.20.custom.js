@@ -1294,7 +1294,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 				this.parentNode.removeChild(this); 
 			}); //Remove frame helpers
 		}
-		
+
 		//If the ddmanager is used for droppables, inform the manager that dragging has stopped (see #5003)
 		if( $.ui.ddmanager ) $.ui.ddmanager.dragStop(this, event);
 		
@@ -1315,7 +1315,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 	_getHandle: function(event) {
 
-		var handle = !this.options.handle || !$(this.options.handle, this.element).length ? true : false;
+    var handle = !this.options.handle || !$(this.options.handle, this.element).length ? true : false;
 		$(this.options.handle, this.element)
 			.find("*")
 			.andSelf()
@@ -1326,7 +1326,6 @@ $.widget("ui.draggable", $.ui.mouse, {
 		return handle;
 
 	},
-
 	_createHelper: function(event) {
 
 		var o = this.options;
