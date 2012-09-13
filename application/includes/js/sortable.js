@@ -1301,6 +1301,7 @@ $(".edit .row").each(function(){
 						ui.element.addClass('selected');
 						mw.settings.resize_started = true;
                         $(this).parent().addClass('mw_resizing');
+                        $(mw.image_resizer).removeClass("active");
 
 					},
 					stop: function (event, ui) {

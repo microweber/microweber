@@ -75,10 +75,12 @@ mw.image = {
         mw.image.resize.create_resizer();
         $(mw.image_resizer).resizable({
             handles: "all",
-            minWidth: 20,
-            minHeight: 20,
+            minWidth: 60,
+            minHeight: 60,
             start:function(){
               mw.image.isResizing = true;
+              $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+
             },
             stop:function(){
               mw.image.isResizing = false;
