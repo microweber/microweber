@@ -83,7 +83,19 @@ function user_id() {
         return $res;
     }
 }
+function has_access($function_name) {
 
+
+        $is_a = is_admin();
+
+        if ($is_a == true){
+            return true;
+        } else {
+            return false;
+        }
+
+
+}
 function is_admin() {
     static $is = 0;
 

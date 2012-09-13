@@ -421,7 +421,7 @@ padding:0px !important;
   display: block;
 }
 
-.columns_set a{
+a.mw-make-cols{
   color: #5A5A5A;
   background: none;
   text-decoration: none;
@@ -432,14 +432,14 @@ padding:0px !important;
   border-radius: 3px;
 }
 
-.columns_set a:hover, .columns_set a.active{
+a.mw-make-cols:hover, a.mw-make-cols.active{
   text-decoration: none;
   padding:0px 4px;
   border: 1px solid #D9D9D9;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 }
 
-.columns_set a.active, .columns_set a.active:hover{
+a.mw-make-cols.active, a.mw-make-cols.active:hover{
   background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
   border-color:#227BD1;
   color: white;
@@ -531,7 +531,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 
 .element-active{
     outline:1px solid #D4D4D4;
-    background: rgba(215, 220, 227, 0.9);
 }
 
 .row:hover .mw-sorthandle-row:first-child{

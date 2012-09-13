@@ -703,7 +703,7 @@ function save_category($data, $preserve_cache = false) {
         $no_position_fix = true;
     }
 
-    // p($data);
+    p($data);
     $save = save_data($table, $data);
 
     cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $save);

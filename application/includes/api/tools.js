@@ -374,8 +374,10 @@ Wait($, function(){
   };
 
 
+
 $.fn.dataset = function(dataset, val){
   var el = this[0];
+
   if(!val){
      var dataset = mw.datassetSupport ? el.dataset[dataset] : $(el).attr("data-"+dataset);
      return dataset!==undefined ? dataset : "";

@@ -1,7 +1,14 @@
+/*
+ * Microweber - Javascript Framework
+ *
+ * Default styles
+ * Do not change anything!
+ *
+ */
+
 .col, .row, .element {
     position: relative;
 }
-
 .element {
     display: block;
     clear: both;
@@ -28,7 +35,6 @@
     min-height: 50px;
     position: relative;
 }
-
 .edit .column img{
   height: auto !important;
   max-width: 100% !important;

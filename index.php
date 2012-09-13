@@ -1,7 +1,7 @@
 <?php
-if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
-    return false; // serve the requested resource as-is.
-}
+/*if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
+ //   return false; // serve the requested resource as-is.
+}*/
 // Setup system and load controller
 define('T', microtime());
 define('M', memory_get_usage());
@@ -21,22 +21,8 @@ function error($e, $f = false, $l = false) {
     // _log($e -> getMessage() . ' ' . $e -> getFile());
     die($v);
 }
-
-function exception($e) {
-    $v = new View(ADMIN_VIEWS_PATH . 'exception.php');
-    $v->e = $e;
-    // _log($e -> getMessage() . ' ' . $e -> getFile());
-    die($v);
-}
-
-//set_exception_handler('exception');
-register_shutdown_function(function () {
-            $e = error_get_last();
-
-            if (isset($e)) {
-                exception(new ErrorException($e ['message'], $e ['type'], 0, v($e ['file']), $e ['line']));
-            }
-        });
+ 
+ 
 
 $m = url(0) ? : 'index';
 

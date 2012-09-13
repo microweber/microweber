@@ -1,4 +1,5 @@
 <?php
+include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 
@@ -10,7 +11,6 @@ include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
-include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');

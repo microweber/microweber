@@ -432,7 +432,6 @@ margin-right: 6px;
 .mw_element_resizer .ui-resizable-e{
   width: 20px;
   height: 20px;
-  background: #595959;
   top: 50%;
   left: -10px;
 }
@@ -453,6 +452,9 @@ margin-right: 6px;
 #mw_handle_row{
   position: absolute;
   z-index: 997;
+  margin-top: -10px;
+  padding-bottom: 10px;
+  background: #D5D5D5
 }
 
 .mw_drag_current *{
@@ -469,6 +471,17 @@ margin-right: 6px;
 
 .mw_resizing > .column{
   height: auto !important;
+}
+.column .empty-element:first-child .delete_column{
+  display: inline-block;
+}
+
+.delete_column{
+  position: absolute;
+  top:10%;
+  left: 50%;
+  margin: 0 0 0 -15px;
+  display: none;
 }
 
 

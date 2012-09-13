@@ -182,15 +182,15 @@ class Controller {
 
 
 
-            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 
 
 
 
-
+            // d(TEMPLATE_URL);
 
             $l = parse_micrwober_tags($l, $options = false);
-
+            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 
             print $l;
             exit();

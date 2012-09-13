@@ -182,6 +182,7 @@ body:-webkit-full-screen {
   display: block;
   position: relative;
   width: 100%;
+  min-height: 30px;
 }
 
 .absolute-dropable{
@@ -277,7 +278,7 @@ body:-webkit-full-screen {
 }
 
 .row{
-  margin-top: 40px !important;
+  margin: 0px !important;
 }
 
 .mw_image_resizer{
@@ -452,7 +453,7 @@ body.not-allowed{
 #live_edit_toolbar{
   width: 100%;
   position: relative;
-  z-index: 999;
+  z-index: 995;
 }
 
 #live_edit_toolbar{

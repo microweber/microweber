@@ -134,6 +134,7 @@ mw.drag = {
                    }
                    else if(mw.mm_target.id!='mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length==0){
                      $(window).trigger("onRowLeave", mw.mm_target);
+
                    }
 
                    //trigger on item
@@ -297,6 +298,7 @@ mw.drag = {
             width:width
           });
           $(mw.handle_element).data("curr", element);
+          element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onModuleOver", function(a, element){
           var el = $(element);
@@ -312,6 +314,7 @@ mw.drag = {
             width:width
           });
           $(mw.handle_module).data("curr", element);
+          element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onRowOver", function(a, element){
           var el = $(element);
@@ -324,6 +327,10 @@ mw.drag = {
             width:width
           });
           $(mw.handle_row).data("curr", element);
+          var size =  $(element).children(".column").length;
+          $("a.mw-make-cols").removeClass("active");
+          $("a.mw-make-cols").eq(size-1).addClass("active");
+          element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onItemOver", function(a, element){
           var el = $(element);
@@ -335,7 +342,6 @@ mw.drag = {
           });
           $(mw.handle_item).data("curr", element);
         });
-
 
 
 
@@ -514,14 +520,12 @@ mw.drag = {
               setTimeout(function(){
                 mw.drag.load_new_modules();
                 mw.drag.toolbar_modules(el);
-                mw.dragCurrent.style.postion = "";
               }, 200);
            }
         });
         $(items).mouseenter(function(){
-          mw.GlobalModuleListHelper = this;
             $(this).draggable("option", "helper", function(){
-              var clone = $(this).clone(true).attr("id", "module-"+mw.random());
+              var clone = $(this).clone(true);
               mw.GlobalModuleListHelper = clone[0];
               return clone[0];
             });
@@ -712,7 +716,7 @@ mw.drag = {
           el.children("div.column").each(function(){
             var the_empty_child = $(this).children("div.empty-element");
             if(the_empty_child.length==0){
-              $(this).append('<div class="empty-element" id="mw-placeholder-'+mw.random()+'"></div>');
+              $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
               var the_empty_child = $(this).children("div.empty-element");
             }
           });
@@ -889,25 +893,20 @@ mw.drag = {
 
   create_columns: function (selector, $numcols) {
 
-        var id = mw.is.obj(selector) ? $(mw.handle_row).data("curr").id : selector;
+        if(!$(selector).hasClass("active")){
 
+        var id = $(mw.handle_row).data("curr").id;
 
+        $(mw.handle_row).find("a").removeClass("active");
+        $(selector).addClass("active")
+         var $el_id = id!=''?id:mw.settings.row_id;
 
-        var $el_id = id!=''?id:mw.settings.row_id;
-
-
-        var column_set = $(document.getElementById($el_id)).find(".columns_set").eq(0);
-        column_set.find("a").removeClass("active");
-        column_set.find("a").eq($numcols-1).addClass("active");
-
-		if ($el_id != undefined && $el_id != false && $el_id != 'undefined') {
 			mw.settings.sortables_created = false;
-			$exisintg_num = $('#' + $el_id).children(".column").size();
+			var $exisintg_num = $('#' + $el_id).children(".column").length;
 
 			if ($numcols == 0) {
 				$numcols = 1;
 			}
-			$exisintg_num = parseInt($exisintg_num);
 			$numcols = parseInt($numcols);
 			if ($exisintg_num == 0) {
 				$exisintg_num = 1;
@@ -915,7 +914,7 @@ mw.drag = {
 			if ($numcols != $exisintg_num) {
 				if ($numcols > $exisintg_num) {  //more columns
 					for (i = $exisintg_num; i < $numcols; i++) {
-                        var new_col = document.createElement('div');
+                        var new_col = mwd.createElement('div');
                         new_col.className = 'column';
                         $('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
@@ -923,13 +922,12 @@ mw.drag = {
                     mw.resizable_columns();
 				}
 				else {  //less columns
-					$cols_to_remove = $exisintg_num - $numcols;
+					var $cols_to_remove = $exisintg_num - $numcols;
 					if ($cols_to_remove > 0) {
                         var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
                         var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
-                            //last_after_remove.append(el);
                             last_after_remove.find(".empty-element").before(el);
                            $("#"+this.id).remove();
                         });
@@ -939,12 +937,12 @@ mw.drag = {
 					}
 				}
 
-				$exisintg_num = $('#' + $el_id).children(".column").size();
-				$eq_w = 100 / $exisintg_num;
-				$eq_w1 = $eq_w;
+				var $exisintg_num = $('#' + $el_id).children(".column").size();
+				var $eq_w = 100 / $exisintg_num;
+				var $eq_w1 = $eq_w;
 				$('#' + $el_id).children(".column").width($eq_w1 + '%');
 			}
-		}
+        }
 	},
 	
 	
@@ -1064,17 +1062,89 @@ mw.drag = {
 
 
 
+mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
+  if(final<3){
+    selector.eq(len-1).width((cache[len-1]+final)+"%");
+  }
+  else{
+     var final = 0;
+     selector.each(function(i){
+           var el = $(this);
+           cache[i] = cache[i] + howMuch;
+           final += cache[i];
+           el.width(cache[i]+"%");
+     });
+     if(final<100){
+       mw.pcWidthExtend(selector, howMuch, cache, final, len);
+     }
+  }
 
-
-mw.px2pc = function(selector){
-    $(selector).each(function(){
-      var parent = $(this).parents('.row:first');
-		$(this).css({
-			width: ((($(this).width() / parent.width()) * 100)+"%")
-		});
-    });
 }
 
+
+mw.px2pc = function(row){
+
+    var cache = [];
+    var row = $(row);
+    var width = row.width();
+    var cols = row.children(".column");
+    var len = cols.length;
+    cols.each(function(){
+        var el = $(this);
+        var w = ((Math.floor(el.width() / width * 100)));
+        cache.push(w);
+        el.css({
+        	width:w+"%"
+        });
+    });
+    //check them after
+    mwcsum = 0;
+    for(var x=0; x<len; x++){
+        mwcsum+=cache[x];
+    }
+    var final = 100-mwcsum;
+    if(final != 0){
+        mw.pcWidthExtend(cols, final/len, cache, final, len);
+    }
+}
+
+
+
+
+mw.scale_cols = function(){
+  $(".row").each(function(){
+    var el = $(this);
+    var cols = el.children(".column");
+    var len = cols.length;
+    var width = el.width();
+    var w = 0;
+    cols.each(function(){
+        w+=$(this).width();
+    });
+    var res = width-w;
+    if(res>6){
+        var each = res/len;
+        cols.each(function(){
+            $(this).width($(this).width()+each);
+        });
+        mw.px2pc(this);
+    }
+  });
+}
+
+
+mw.delete_column = function(which){
+  if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
+     var row =  $(which).parents(".row").eq(0);
+     $(which).parents(".column").eq(0).remove();
+     if(row.find(".column").length==0){
+       row.remove();
+     }
+     else{
+
+     }
+  }
+}
 
 
 
@@ -1086,9 +1156,12 @@ mw.px2pc = function(selector){
  */
 mw.resizable_columns = function () {
 
+$(".edit .row").each(function(){
+    mw.px2pc(this);
+});
 
 
-	$('.edit').find('.column').each(function () {
+	$('.edit .column').each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1096,7 +1169,7 @@ mw.resizable_columns = function () {
 			$(this).attr('id', $el_id_column);
 		}
 
-        mw.px2pc(this);
+
 
 
 		$is_done = $(this).hasClass('ui-resizable')
@@ -1129,7 +1202,7 @@ mw.resizable_columns = function () {
 
 
 
-		  $(this).parent(".column").resizable("destroy");
+		  $(this).parents(".column").resizable("destroy");
 		  $(this).children(".column").resizable("destroy");
 
 			if ($no_next == false) {
@@ -1215,7 +1288,9 @@ mw.resizable_columns = function () {
 						mw.drag.fixes();
 						mw.drag.fix_placeholders();
 
-                        mw.px2pc(".column");
+                        mw.px2pc($(this).parents(".row")[0]);
+
+                       //mw.scale_cols();
 					}
 				});
 			}

@@ -86,7 +86,9 @@ if (window.console != undefined) {
  */
 
 
+
 mw.settings = {
+    debug:true,
     site_url:'<?php print site_url(); ?>', //mw.settings.site_url
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url:'<?php print site_url(); ?>api/upload/',
@@ -138,12 +140,12 @@ mw.settings = {
 	    	    <div class='mw_row_delete mw_edit_delete_element'></div>\
     	    </div>\
             <span class='column_separator_title'>Columns</span>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1' >1</a>\
+            <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,4);' class='mw-make-cols mw-make-cols-4' >4</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,5);' class='mw-make-cols mw-make-cols-5' >5</a>\
-            <a class='mw_edit_delete_element mw_edit_delete' href='javascript:mw.drag.delete_element(mw.handle_row)'><span></span></a>\
+            <a class='mw_edit_delete mw_edit_btn right' onclick='mw.drag.delete_element(mw.handle_row);' href='javascript:;'><span></span></a>\
         </div>",
       element:"\
         <div contenteditable='false' id='mw_handle_element' class='mw_master_handle mw-sorthandle mw-sorthandle-element'>\
@@ -219,17 +221,37 @@ mw.clear_cache = function() {
 	});
 }
 
+
+
 mw._ = function(obj){
     var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
-    $.each($(obj.selector)[0].attributes, function(index, attr) {
-      to_send[attr.name] = attr.value;
-    });
+    var attrs =  $(obj.selector)[0].attributes;
+
+    to_send["class"] = attrs["class"] !== undefined ? attrs["class"].nodeValue : "";
+    to_send["data-module-name"] = attrs["data-module-name"] !== undefined ? attrs["data-module-name"].nodeValue : "";
+
     $.post(url, to_send, function(data){
         $(selector).after(data);
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) :'';
+        mw.resizable_columns();
+        mw.drag.fix_placeholders(true);
     });
+
+
 }
+
+mw.qsas = mwd.querySelectorAll;
+
+mw.log = function(what){
+  if(window.console && mw.settings.debug){
+    console.log(what);
+  }
+}
+
+
+
+
