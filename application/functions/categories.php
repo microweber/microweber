@@ -108,6 +108,10 @@ function category_tree($params = false) {
 
 
 
+
+
+
+
     if (isset($params ['for_page']) and $params ['for_page'] != false) {
         $page = get_page($params ['for_page']);
         $content_parent = $page ['content_subtype_value'];
@@ -115,7 +119,16 @@ function category_tree($params = false) {
     if (isset($params ['content_subtype_value']) and $params ['content_subtype_value'] != false) {
         $content_parent = $params ['content_subtype_value'];
     }
+    $fors = array();
+    if (isset($params ['for']) and $params ['for'] != false) {
 
+        $table_assoc_name = db_get_assoc_table_name($params ['for']);
+
+
+        $str0 = 'taxonomy_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
+        $fors = get($str0);
+        //  d($fors);
+    }
 
 
 
@@ -127,8 +140,13 @@ function category_tree($params = false) {
             $page ['content_subtype_value']
         );
     }
-
-    content_helpers_getCaregoriesUlTree($content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+    if (empty($fors)) {
+        content_helpers_getCaregoriesUlTree($content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+    } else {
+        foreach ($fors as $cat) {
+            content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
+        }
+    }
 }
 
 /**

@@ -223,24 +223,33 @@ mw.clear_cache = function() {
 
 
 
-mw._ = function(obj){
+mw._ = function(obj, sendSpecific){
     var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
     var attrs =  $(obj.selector)[0].attributes;
 
-    to_send["class"] = attrs["class"] !== undefined ? attrs["class"].nodeValue : "";
-    to_send["data-module-name"] = attrs["data-module-name"] !== undefined ? attrs["data-module-name"].nodeValue : "";
+    if(sendSpecific){
+        attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
+        attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
+        attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
+    }
+    else{
+        for(var i in attrs){
+            var name = attrs[i].name;
+            var val =  attrs[i].nodeValue;
+            to_send[name] = val;
+        }
+    }
 
     $.post(url, to_send, function(data){
         $(selector).after(data);
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) :'';
-        mw.resizable_columns();
-        mw.drag.fix_placeholders(true);
+        mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
+        mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true):'';
     });
-
 
 }
 

@@ -62,7 +62,8 @@ function get_modules_from_db($params = false) {
     }
     $params['table'] = $table;
     $params['cache_group'] = 'modules/global';
-
+    $params['skip_cache'] = $table;
+//d($params);
     return get($params);
 }
 
@@ -401,6 +402,23 @@ function load_module($module_name, $attrs = array()) {
     //
 
     if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
+
+        if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
+            $attrs2 = array();
+            foreach ($attrs as $attrs_k => $attrs_v) {
+                $attrs_k2 = substr($attrs_k, 0, 5);
+                //d($attrs_k2);
+                if (strtolower($attrs_k2) == 'data-') {
+                    $attrs_k21 = substr($attrs_k, 5);
+                    $attrs2[$attrs_k21] = $attrs_v;
+                    //d($attrs_k21);
+                }
+
+                $attrs2[$attrs_k] = $attrs_v;
+            }
+            $attrs = $attrs2;
+        }
+
 
         $config ['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
         $config ['the_module'] = $module_name;

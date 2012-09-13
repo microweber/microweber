@@ -254,7 +254,7 @@ function get($params) {
             $table = guess_table_name($v);
         }
 
-        if ($k == 'for') {
+        if ($k == 'for' and !isset($params['to_table'])) {
             $v = db_get_assoc_table_name($v);
             $k = 'to_table';
         }
@@ -330,7 +330,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     $table = db_get_real_table_name($table);
 
     $aTable_assoc = db_get_table_name($table);
-
+    $includeIds = array();
     if (!empty($criteria)) {
         if (isset($criteria ['debug'])) {
             $debug = true;
@@ -473,14 +473,17 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
         if ($debug) {
 
         }
+    }
+    if (isset($criteria ['fields'])) {
+        $only_those_fields = $criteria ['fields'];
 
-        if (isset($criteria ['fields'])) {
+        if (is_string($criteria ['fields'])) {
+            $criteria ['fields'] = explode(',', $criteria ['fields']);
             $only_those_fields = $criteria ['fields'];
-            if (is_string($criteria ['fields'])) {
-                $criteria ['fields'] = false;
-            } else {
-                unset($criteria ['fields']);
-            }
+            //     d($only_those_fields);
+            unset($criteria ['fields']);
+        } else {
+            unset($criteria ['fields']);
         }
     }
     if (!empty($criteria)) {
@@ -599,11 +602,9 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
                 $remove_all_ids = true;
 
-                $includeIds = false;
-
-                $includeIds [] = '0';
-
-                $includeIds [] = 0;
+                //  $includeIds = array();
+                //  $includeIds [] = '0';
+                // $includeIds [] = 0;
             }
         }
     }
@@ -643,8 +644,47 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
     $to_search = false;
 
+    if (isset($criteria ['category'])) {
+        $search_n_cats = $criteria ['category'];
+        if (is_string($search_n_cats)) {
+            $search_n_cats = explode(',', $search_n_cats);
+        }
+        if (is_array($search_n_cats) and !empty($search_n_cats)) {
 
+            foreach ($search_n_cats as $cat_name_or_id) {
 
+                $str0 = 'fields=id&limit=100&taxonomy_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                $str1 = 'fields=id&limit=100&taxonomy_type=category&what=categories&' . 'taxonomy_value=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                //  d($str0);
+
+                $is_in_category = get($str0);
+                if (empty($is_in_category)) {
+                    $is_in_category = get($str1);
+                }
+
+                if (!empty($is_in_category)) {
+                    foreach ($is_in_category as $is_in_category_item) {
+                        $cat_name_or_id1 = $is_in_category_item['id'];
+                        $str1_items = 'fields=to_table_id&limit=100&taxonomy_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
+                        $is_in_category_items = get($str1_items);
+
+                        if (!empty($is_in_category_items)) {
+
+                            foreach ($is_in_category_items as $is_in_category_items_tt) {
+
+                                $includeIds[] = $is_in_category_items_tt ["to_table_id"];
+                                // d($includeIds);
+                            }
+                        }
+// d($is_in_category_items);
+                        //d($is_in_category_items);
+                    }
+                }
+            }
+        }
+        // $is_in_category = get('limit=1&taxonomy_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+        //  $includeIds;
+    }
 
 
     if (isset($criteria ['keyword'])) {
@@ -812,6 +852,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     }
 
     if (!empty($includeIds)) {
+        //  d($includeIds);
         $includeIds_idds = false;
         $includeIds_i = implode(',', $includeIds);
         $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
@@ -1571,7 +1612,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
                         $new_cat = array();
                         $new_cat['to_table'] = $table_assoc_name;
-                        $new_cat['to_table_id'] = $id_to_return;
+                        // $new_cat['to_table_id'] = $id_to_return;
                         $new_cat['taxonomy_type'] = 'category';
                         $new_cat['parent_id'] = $parent_id;
                         //  d($table_cats);
@@ -1584,6 +1625,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
                         $keep_thosecat_items[] = $new_c;
                         $cats_data_modified = TRUE;
+                        $parent_id = $new_c;
                         // cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
 
 
@@ -1604,7 +1646,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $new_cat['parent_id'] = $is_ex['id'];
 
                         $is_ex1 = get('limit=1&taxonomy_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
-                       // d($is_ex1);
+                        // d($is_ex1);
                         if (!isset($is_ex1[0])) {
                             //   d($table_cats_items);
                             $new_c = save_data($table_cats_items, $new_cat);
@@ -1636,6 +1678,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 
             if ($cats_data_modified == TRUE) {
                 cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
+                cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $parent_id);
+                //cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
             }
             if ($cats_data_items_modified == TRUE) {
                 cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');

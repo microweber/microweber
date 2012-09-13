@@ -794,7 +794,7 @@ mw.drag = {
                   done:function(){
 
                   }
-                })
+                }, true);
 			$need_re_init = true;
 		});
         if(mw.have_new_items == true){
