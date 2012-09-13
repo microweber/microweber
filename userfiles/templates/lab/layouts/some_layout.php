@@ -40,7 +40,7 @@ $(document).ready(function(){
 </script>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test" field="test_v152">
+  <div class="edit" id="the_test" field="ridin">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>
@@ -62,25 +62,25 @@ $(document).ready(function(){
         </div>
       </div>
       <div class="column" style="width: 450px;">
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" /></div>
+        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" />
       </div>
     </div>
     <div class="c">&nbsp;</div>
     <div class="row">
       <div class="column" style="width: 450px;">
         <h2 class="element"><span>Hollywood Style</span></h2>
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" /></div>
+        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" />
       </div>
       <div class="column" style="width: 450px;">
         <div class="row">
           <div class="column" style="width: 215px;">
-            <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" /></div>
+            <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" />
           </div>
           <div class="column" style="width: 215px;">
-            <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" /></div>
+            <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" />
           </div>
         </div>
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" /></div>
+        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" />
       </div>
     </div>
   </div>

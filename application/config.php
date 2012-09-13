@@ -8,6 +8,7 @@ defined('T') or die();
 // Global site configuration
 $config = array(
     // In development, debug mode unlocks extra error info
+    'version' => 0.508,
     'debug_mode' => TRUE,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',

@@ -82,10 +82,12 @@ mw.image = {
             },
             stop:function(){
               mw.image.isResizing = false;
+              mw.drag.fix_placeholders();
             },
             resize:function(){
               var offset = mw.image.currentResizing.offset();
               $(this).css(offset);
+
             },
             aspectRatio: 16 / 9
         });
@@ -283,8 +285,8 @@ $(".mw_dropdown_action_format").change(function(){
 
 
 
-  mw.image.resize.init(".element img");
-  //mw.image.resize.init(".element-image");
+  //mw.image.resize.init(".edit img");
+  mw.image.resize.init(".element-image");
 
 
 

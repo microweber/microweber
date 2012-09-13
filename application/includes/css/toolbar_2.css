@@ -87,6 +87,12 @@
 }
 
 
+.column .mw_drag_current:first-child+.empty-element{
+  min-height: 100% !important;
+  position: absolute !important;
+  top: 0;
+}
+
 
 .empty-columasdn {
 	width:95%;

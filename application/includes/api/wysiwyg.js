@@ -364,7 +364,7 @@ mw.wysiwyg = {
         mw.disable_selection("#"+id);
         mw.drag.init("#"+id);
         mw.drag.fix_handles();
-        mw.image.resize.init("#"+ id + " img");
+        mw.image.resize.init("#"+ id);
         mw.wysiwyg.set_cursor('after', "#"+ id + " img");
         mw.wysiwyg.save_selection();
         return id;

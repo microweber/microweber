@@ -457,9 +457,13 @@ margin-right: 6px;
   background: #D5D5D5
 }
 
+
+
 .mw_drag_current *{
   visibility: hidden !important;
 }
+
+
 
 #mw_handle_module,
 #mw_handle_row,

@@ -29,6 +29,9 @@
             mw.tools.dropdown();
             mw.tools.toolbar_tabs.init();
             mw.tools.toolbar_slider.init();
+
+
+
         });
 
 		

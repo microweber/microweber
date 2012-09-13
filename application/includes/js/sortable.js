@@ -280,7 +280,9 @@ mw.drag = {
 
 		mw.resizable_columns();
 
-        $(document.body).mouseup(function(event){
+
+
+        $(mwd.body).mouseup(function(event){
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").css({top:0,left:0});
         	}
@@ -454,8 +456,9 @@ mw.drag = {
                   var curr = $(mw.handle_element).data("curr");
                   mw.dragCurrent = curr;
                   mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_'+mw.random() : '';
-                  $(mw.dragCurrent).invisible();
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
                }
             });
             $(mw.handle_module).draggable({
@@ -468,8 +471,9 @@ mw.drag = {
                   var curr = $(mw.handle_module).data("curr");
                   mw.dragCurrent = curr;
                   mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'module_'+mw.random() : '';
-                  $(mw.dragCurrent).invisible();
+                  $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
                }
             });
             $(mw.handle_row).draggable({
@@ -484,6 +488,7 @@ mw.drag = {
                   mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'row_'+mw.random() : '';
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
                }
             });
             $(mw.handle_item).draggable({
@@ -496,6 +501,7 @@ mw.drag = {
                   mw.dragCurrent = curr;
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
+                  mw.drag.fix_placeholders();
                }
             });
 
@@ -545,7 +551,7 @@ mw.drag = {
             }
 
 			if (mw.isDrag) {
-			    var history_id = 'history_'+mw.random();
+			  /*  var history_id = 'history_'+mw.random();
 
                 $(mw.dragCurrent).before('<input type="hidden" id="'+history_id+'" />');
 
@@ -554,7 +560,7 @@ mw.drag = {
                   who:mw.dragCurrent
                 }
                 mw.drag.stories.push(story);
-                mw.drag.story_active+=1;
+                mw.drag.story_active+=1;  */
 
 				setTimeout(function () {
 				  mw.isDrag = false;
