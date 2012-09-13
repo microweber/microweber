@@ -18,9 +18,9 @@ function url_segment($k = -1) {
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
 
- 
+
         $u1 = str_replace($u2, '', $u1);
- 
+
         $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
         // $u = $u ? : explode('/', $u1);
         // $u = $u ? : explode ( '/', trim ( preg_replace (
@@ -107,7 +107,6 @@ function admin_url($add_string = false) {
 
     return site_url($admin_url) . '/' . $add_string;
 }
-
 
 function full_url($skip_ajax = false, $skip_param = false) {
     if ($skip_ajax == false) {
@@ -786,3 +785,24 @@ class URLify {
     }
 
 }
+
+function url_download($requestUrl, $post_params = false) {
+
+
+    $postdata = http_build_query($post_params);
+
+    $opts = array('http' =>
+        array(
+            'method' => 'POST',
+            'header' => 'Content-type: application/x-www-form-urlencoded',
+            'content' => $postdata
+        )
+    );
+
+    $context = stream_context_create($opts);
+
+    $result = file_get_contents('http://microweber.us/update.php', false, $context);
+    return $result;
+}
+
+ 

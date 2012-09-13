@@ -45,6 +45,9 @@ if($default_timezone == false){
 
 
 
+if(!defined('MW_BARE_BONES')){
+
+
 $c = new controller ();
 $admin_url = c('admin_url');
 
@@ -78,10 +81,15 @@ if (method_exists($c, $m)) {
     $c->$m();
 } else {
     $c->index();
+	exit();
 }
 exit();
-call_user_func_array(array(
+}
+
+
+
+/*call_user_func_array(array(
     $c,
     $m
-        ), array_slice(url(), 2));
+        ), array_slice(url(), 2));*/
 //$c -> render();

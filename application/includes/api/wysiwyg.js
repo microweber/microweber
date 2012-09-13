@@ -43,18 +43,33 @@ mw.wysiwyg = {
          },50);
       });
 
+      items.blur(function(){
+           if($(".editor_hover").length==0){
+              $(this).attr('contenteditable','false');
+             setTimeout(function(){
+               if(mw.smallEditor.css("visibility")=='hidden'){
+                 !mw.wysiwyg.isThereEditableContent ? mw.bigEditor.hide() : '';
+               }
+               else{
+                 !mw.wysiwyg.isThereEditableContent ? mw.smallEditor.css("opacity", "0.5") : '';
+               }
+             }, 70);
+           }
+      });
+
       $(window).bind("onElementMouseDown", function(event, element){
         var el = $(element);
         if(!mw.isDrag && $(".module.element-active").length==0){
           el.attr('contenteditable','true');
+          mw.wysiwyg.isThereEditableContent=true;
           mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
           if(mw.smallEditor.css("visibility")=='hidden'){
-              mw.bigEditor.fadeIn('fast');
+              mw.bigEditor.show();
           }
           else{
               mw.smallEditor.css("opacity", 1);
           }
-          mw.wysiwyg.isThereEditableContent=true;
+
           el.unbind("change");
           el.bind("change", function(event){
             mw.drag.fix_placeholders(true , el);
@@ -67,24 +82,12 @@ mw.wysiwyg = {
           el.blur();
           mw.wysiwyg.isThereEditableContent=false;
         }
+
         window.location.hash = "#mw_tab_design";
         $("#module_design_selector").setDropdownValue("#tb_el_style", true);
       });
 
-      items.blur(function(){
-           if($(".editor_hover").length==0){
-              $(this).attr('contenteditable','false');
-              mw.wysiwyg.isThereEditableContent=false;
-             setTimeout(function(){
-               if(mw.smallEditor.css("visibility")=='hidden'){
-                 !mw.wysiwyg.isThereEditableContent ? mw.bigEditor.fadeOut('fast') : '';
-               }
-               else{
-                 !mw.wysiwyg.isThereEditableContent ? mw.smallEditor.css("opacity", "0.5") : '';
-               }
-             }, 100);
-           }
-      });
+
       $(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
 
 
@@ -300,6 +303,8 @@ mw.wysiwyg = {
             var html = $(mw.target.item).html();
             $(mw.target.item).replaceWith(html);
           }
+          mw.wysiwyg.check_selection();
+          $(".mw_editor_link.mw_editor_btn_active").removeClass("mw_editor_btn_active");
         }
         else{
           if(mw.wysiwyg.isThereEditableContent){

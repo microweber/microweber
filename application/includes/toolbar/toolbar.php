@@ -180,15 +180,21 @@
 
 
           <div class="tb_design_tool" id="tb_image_edit"></div>
+
           <div class="tb_design_tool" id="tb_el_style">
 
 
-            <span class="ed_opacity">
-                <span class="ed_label">Opacity</span>
-                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
-            </span>
-            <span class="ed_opacity">
-                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw_dropdown_val">All</span>
+
+
+
+            <div class="ed_style_margin_padding">
+
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider">
+                    <span class="mw_dropdown_val_holder">
+                      <span class="dd_rte_arr"></span>
+                      <span class="mw_dropdown_val">Margin</span>
+                    </span>
+
                     <div class="mw_dropdown_fields">
                       <ul style="width: 100%">
                         <li value="true">
@@ -216,10 +222,55 @@
                       </ul>
                     </div>
                 </div>
-                <div class="ed_slider margin-slider es_item" id="margin_slider" data-type="margin"></div>
+                <div class="ed_slider margin-slider es_item left" id="margin_slider" data-type="margin"></div>
+                <div class="mw_clear"></div>
+
+
+                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="padding_selector" data-for="padding_slider">
+                    <span class="mw_dropdown_val_holder">
+                      <span class="dd_rte_arr"></span>
+                      <span class="mw_dropdown_val">Padding</span>
+                    </span>
+
+                    <div class="mw_dropdown_fields">
+                      <ul style="width: 100%">
+                        <li value="true">
+                            <div class="square_map">
+                                <table cellpadding="2" cellspacing="0" align="center">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="padding-top">Top</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="square_map_item" data-value="padding-left">Left</span></td>
+                                        <td><span class="square_map_item square_map_item_default active" data-value="padding">All</span></td>
+                                        <td><span class="square_map_item" data-value="padding-right">Right</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><span class="square_map_item" data-value="padding-bottom">Bottom</span></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </table>
+                                <span class="square_map_value">&nbsp;</span>
+                            </div>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="ed_slider padding-slider es_item left" id="padding_slider" data-type="padding"></div>
+
+              
+
+          </div>
+
+           <span class="mw_dlm mw_dlm_style"></span>
+
+           <span class="ed_opacity">
+                <span class="ed_label">Opacity</span>
+                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
             </span>
-
-
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
                 <span class="mw_dropdown_val_holder">
