@@ -42,9 +42,9 @@ class Controller {
         }
 
 
-        $is_content_layout_file = url_param('preview_layout');
-        if (!$is_content_layout_file) {
-            $is_content_layout_file = false;
+        $is_layout_file = url_param('preview_layout');
+        if (!$is_layout_file) {
+            $is_layout_file = false;
         } else {
 
             $page_url = url_param_unset('preview_layout', $page_url);
@@ -110,10 +110,10 @@ class Controller {
                 } else {
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
-                    $page['content_parent'] = '0';
-                    $page['content_url'] = url_string();
+                    $page['parent'] = '0';
+                    $page['url'] = url_string();
                     $page['active_site_template'] = $page_url_segment_1;
-                    $page['content_layout_file'] = $the_new_page_file;
+                    $page['layout_file'] = $the_new_page_file;
                     $page['simply_a_file'] = $simply_a_file;
 
                     template_var('new_page', $page);
@@ -126,7 +126,7 @@ class Controller {
 
         if ($page['content_type'] == "post") {
             $content = $page;
-            $page = get_content_by_id($page['content_parent']);
+            $page = get_content_by_id($page['parent']);
         } else {
             $content = $page;
         }
@@ -139,9 +139,9 @@ class Controller {
             $content['active_site_template'] = $is_preview_template;
         }
 
-        if ($is_content_layout_file != false and $is_admin == true) {
-            $is_content_layout_file = str_replace('____', DS, $is_content_layout_file);
-            $content['content_layout_file'] = $is_content_layout_file;
+        if ($is_layout_file != false and $is_admin == true) {
+            $is_layout_file = str_replace('____', DS, $is_layout_file);
+            $content['layout_file'] = $is_layout_file;
         }
 
 

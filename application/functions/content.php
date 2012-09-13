@@ -13,7 +13,7 @@ function define_constants($content = false) {
         if ($page['content_type'] == "post") {
             $content = $page;
 
-            $page = get_content_by_id($page['content_parent']);
+            $page = get_content_by_id($page['parent']);
             if (defined('POST_ID') == false) {
                 define('POST_ID', $content['id']);
             }
@@ -42,7 +42,7 @@ function define_constants($content = false) {
         }
 
         if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', $page['content_parent']);
+            define('MAIN_PAGE_ID', $page['parent']);
         }
     }
 
@@ -192,12 +192,12 @@ function get_layout_for_page($page = array()) {
 
 
 
-    if (isset($page['active_site_template']) and $render_file == false and isset($page['content_layout_file'])) {
+    if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
 
         if (strtolower($page['active_site_template']) == 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['content_layout_file'];
+            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
         } else {
-            $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['content_layout_file'];
+            $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
         }
 
 
@@ -234,8 +234,8 @@ function get_layout_for_page($page = array()) {
 
 
 
-//    if (trim($page['content_layout_name']) != '') {
-//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['content_layout_name'] . DS . 'index.php';
+//    if (trim($page['layout_name']) != '') {
+//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['layout_name'] . DS . 'index.php';
 //        // d($template_view);
 //        if (is_file($template_view) == true) {
 //            $render_file = $template_view;
@@ -256,15 +256,15 @@ function get_layout_for_page($page = array()) {
 //        }
 //    }
 //
-//    if ($render_file == false and ($page['content_layout_name']) == false and ($page['content_layout_style']) == false) {
+//    if ($render_file == false and ($page['layout_name']) == false and ($page['layout_style']) == false) {
 //        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
 //        if (is_file($template_view) == true) {
 //            $render_file = $template_view;
 //        }
 //    }
 
-    if ($render_file == false and ($page['content_layout_file']) != false) {
-        $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['content_layout_file'];
+    if ($render_file == false and ($page['layout_file']) != false) {
+        $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
         $template_view = normalize_path($template_view, false);
 
         if (is_file($template_view) == true) {
@@ -313,7 +313,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
     $url = strtolower($url);
     $url = string_clean($url);
     $url = addslashes($url);
-    $sql = "SELECT id,content_url from $table where content_url='{$url}' or title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
+    $sql = "SELECT id,url from $table where url='{$url}' or title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
@@ -413,7 +413,7 @@ function get_page($id = false) {
     } else {
         if (empty($page)) {
             $page = array();
-            $page['content_layout_name'] = trim($id);
+            $page['layout_name'] = trim($id);
 
             $page = get_pages($page);
             $page = $page[0];
@@ -502,9 +502,9 @@ function get_content($params) {
         if (!empty($get)) {
             $data2 = array();
             foreach ($get as $item) {
-                if (isset($item['content_url'])) {
+                if (isset($item['url'])) {
                     //$item['url'] = page_link($item['id']);
-                    $item['url'] = site_url($item['content_url']);
+                    $item['url'] = site_url($item['url']);
                 }
                 $data2[] = $item;
             }
@@ -534,7 +534,7 @@ function post_link($id = false) {
     if (strval($link) == '') {
         $link = get_page_by_url($id);
     }
-    $link = site_url($link['content_url']);
+    $link = site_url($link['url']);
     return $link;
 }
 
@@ -551,10 +551,10 @@ function content_link($id = false) {
     }
 
     $link = get_content_by_id($id);
-    if (strval($link['content_url']) == '') {
+    if (strval($link['url']) == '') {
         $link = get_page_by_url($id);
     }
-    $link = site_url($link['content_url']);
+    $link = site_url($link['url']);
     return $link;
 }
 
@@ -569,10 +569,10 @@ function page_link($id = false) {
     }
 
     $link = get_content_by_id($id);
-    if (strval($link['content_url']) == '') {
+    if (strval($link['url']) == '') {
         $link = get_page_by_url($id);
     }
-    $link = site_url($link['content_url']);
+    $link = site_url($link['url']);
     return $link;
 }
 
@@ -1182,45 +1182,45 @@ function save_content($data, $delete_the_cache = true) {
 
         $thetitle = $q[0]['title'];
 
-        $q = $q[0]['content_url'];
+        $q = $q[0]['url'];
 
-        $thecontent_url = $q;
+        $theurl = $q;
 
         $more_categories_to_delete = get_categories_for_content($data['id'], 'categories');
     } else {
 
-        $thecontent_url = $data['content_url'];
+        $theurl = $data['url'];
 
         $thetitle = $data['title'];
     }
 
-    if (isset($thecontent_url) != false) {
+    if (isset($theurl) != false) {
 
-        if (isset($data['content_url']) and $data['content_url'] == $thecontent_url) {
+        if (isset($data['url']) and $data['url'] == $theurl) {
 
             // print 'asd2';
 
-            $data['content_url'] = $thecontent_url;
+            $data['url'] = $theurl;
         } else {
 
         }
 
-        if (!isset($data['content_url']) or strval($data['content_url']) == '') {
+        if (!isset($data['url']) or strval($data['url']) == '') {
 
             // print 'asd1';
 
-            $data['content_url'] = $thecontent_url;
+            $data['url'] = $theurl;
         }
 
-        if ((strval($data['content_url']) == '') and (strval($thecontent_url) == '')) {
+        if ((strval($data['url']) == '') and (strval($theurl) == '')) {
 
             // print 'asd';
 
-            $data['content_url'] = url_title($thetitle);
+            $data['url'] = url_title($thetitle);
         }
     } else {
         if ($thetitle != false) {
-            $data['content_url'] = url_title($thetitle);
+            $data['url'] = url_title($thetitle);
         }
     }
     if (isset($item['title'])) {
@@ -1228,24 +1228,24 @@ function save_content($data, $delete_the_cache = true) {
 
         $item['title'] = strip_tags($item['title']);
     }
-    if ($data['content_url'] != false) {
+    if ($data['url'] != false) {
         // if (intval ( $data ['id'] ) == 0) {
-        $data_to_save['content_url'] = $data['content_url'];
+        $data_to_save['url'] = $data['url'];
 
         // }
     }
 
-    if ($data['content_url'] != false) {
-        $data['content_url'] = url_title($data['content_url']);
+    if ($data['url'] != false) {
+        $data['url'] = url_title($data['url']);
 
-        if (strval($data['content_url']) == '') {
+        if (strval($data['url']) == '') {
 
-            $data['content_url'] = url_title($data['title']);
+            $data['url'] = url_title($data['title']);
         }
 
         $date123 = date("YmdHis");
 
-        $q = "select id, content_url from $table where content_url LIKE '{$data ['content_url']}'";
+        $q = "select id, url from $table where url LIKE '{$data ['url']}'";
 
         $q = db_query($q);
 
@@ -1255,26 +1255,26 @@ function save_content($data, $delete_the_cache = true) {
 
             if ($data['id'] != $q['id']) {
 
-                $data['content_url'] = $data['content_url'] . '-' . $date123;
-                $data_to_save['content_url'] = $data['content_url'];
+                $data['url'] = $data['url'] . '-' . $date123;
+                $data_to_save['url'] = $data['url'];
             }
         }
 
-        if (isset($data_to_save['content_url']) and strval($data_to_save['content_url']) == '' and ($data_to_save['quick_save'] == false)) {
+        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and ($data_to_save['quick_save'] == false)) {
 
-            $data_to_save['content_url'] = $data_to_save['content_url'] . '-' . $date123;
+            $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
         }
 
         if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and ($data_to_save['quick_save'] == false)) {
 
             $data_to_save['title'] = 'post-' . $date123;
         }
-        if (isset($data_to_save['content_url']) and strval($data_to_save['content_url']) == '' and ($data_to_save['quick_save'] == false)) {
-            $data_to_save['content_url'] = strtolower(reduce_double_slashes($data['content_url']));
+        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and ($data_to_save['quick_save'] == false)) {
+            $data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));
         }
 
-        // $data_to_save ['content_url_md5'] = md5 ( $data_to_save
-        // ['content_url'] );
+        // $data_to_save ['url_md5'] = md5 ( $data_to_save
+        // ['url'] );
     }
 
     $data_to_save_options = array();
@@ -1284,14 +1284,14 @@ function save_content($data, $delete_the_cache = true) {
         $q = db_query($sql);
     }
 
-    if (isset($data_to_save['content_subtype']) and strval($data_to_save['content_subtype']) == 'dynamic') {
+    if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
 
-        if (!isset($data_to_save['content_subtype_value']) or trim($data_to_save['content_subtype_value']) == '') {
+        if (!isset($data_to_save['subtype_value']) or trim($data_to_save['subtype_value']) == '') {
 
-            if (!isset($data_to_save['content_subtype_value_new'])) {
+            if (!isset($data_to_save['subtype_value_new'])) {
                 if (isset($data_to_save['title'])) {
 
-                    $data_to_save['content_subtype_value_new'] = $data_to_save['title'];
+                    $data_to_save['subtype_value_new'] = $data_to_save['title'];
                 }
             }
         }
@@ -1299,36 +1299,36 @@ function save_content($data, $delete_the_cache = true) {
 
 
 
-    if (isset($data_to_save['content_subtype_value_new']) and strval($data_to_save['content_subtype_value_new']) != '') {
+    if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {
 
 
-        if ($data_to_save['content_subtype_value_new'] != '') {
+        if ($data_to_save['subtype_value_new'] != '') {
 
             if ($adm == true) {
 
                 $new_category = array();
                 $new_category["data_type"] = "category";
-                $new_category["title"] = $data_to_save['content_subtype_value_new'];
+                $new_category["title"] = $data_to_save['subtype_value_new'];
                 $new_category["parent_id"] = "0";
 
                 $new_category = save_category($new_category);
                 //d($new_category);
-                $data_to_save['content_subtype_value'] = $new_category;
-                $data_to_save['content_subtype'] = 'dynamic';
+                $data_to_save['subtype_value'] = $new_category;
+                $data_to_save['subtype'] = 'dynamic';
             }
         }
 
         if (isset($data_to_save['taxonomy_categories_str']) and !empty($data_to_save['taxonomy_categories_str'])) {
-            $data_to_save['content_subtype_value_auto_create'] = $data_to_save['taxonomy_categories_str'];
+            $data_to_save['subtype_value_auto_create'] = $data_to_save['taxonomy_categories_str'];
 
 
             if ($adm == true) {
-                if (!is_array($original_data['content_subtype_value_auto_create'])) {
+                if (!is_array($original_data['subtype_value_auto_create'])) {
 
-                    $scats = explode(',', $data_to_save['content_subtype_value_auto_create']);
+                    $scats = explode(',', $data_to_save['subtype_value_auto_create']);
                 } else {
 
-                    $scats = explode(',', $data_to_save['content_subtype_value_auto_create']);
+                    $scats = explode(',', $data_to_save['subtype_value_auto_create']);
                 }
                 if (!empty($scats)) {
                     foreach ($scats as $sc) {
@@ -1348,8 +1348,8 @@ function save_content($data, $delete_the_cache = true) {
     $id = $save;
 
 
-    if (isset($data_to_save['content_parent']) and intval($data_to_save['content_parent']) != 0) {
-        cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['content_parent']));
+    if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
+        cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
     }
     if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
         cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
@@ -1390,8 +1390,8 @@ function save_content($data, $delete_the_cache = true) {
     // $this->core_model->cacheDeleteAll ();
 
     if ($data_to_save['preserve_cache'] == false) {
-        if (intval($data_to_save['content_parent']) != 0) {
-            cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['content_parent']));
+        if (intval($data_to_save['parent']) != 0) {
+            cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
         }
         cache_clean_group('content' . DIRECTORY_SEPARATOR . $id);
         // cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . '0' );
@@ -1416,22 +1416,22 @@ function save_content($data, $delete_the_cache = true) {
     return $save;
 }
 
-function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
+function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
     $params2 = array();
     $params = false;
     $output = '';
-    if (is_integer($content_parent)) {
+    if (is_integer($parent)) {
 
     } else {
-        $params = $content_parent;
+        $params = $parent;
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
             extract($params);
         }
         if (is_array($params)) {
-            $content_parent = 0;
+            $parent = 0;
             extract($params);
         }
     }
@@ -1444,18 +1444,18 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
 
     $table = $cms_db_tables['table_content'];
 
-    if ($content_parent == false) {
+    if ($parent == false) {
 
-        $content_parent = (0);
+        $parent = (0);
     }
     if ($include_first == true) {
-        $sql = "SELECT * from $table where  id=$content_parent    and content_type='page'  order by updated_on desc limit 0,1";
+        $sql = "SELECT * from $table where  id=$parent    and content_type='page'  order by updated_on desc limit 0,1";
     } else {
 
-        $sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc limit 0,1";
+        $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
     }
 
-    $sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc limit 0,10000";
+    $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,10000";
 
     $q = db_query($sql);
 
@@ -1477,7 +1477,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
 
             if ($item['is_home'] != 'y') {
 
-                switch ($item ['content_subtype']) {
+                switch ($item ['subtype']) {
 
                     case 'dynamic' :
                         $content_type_li_class = 'is_category';
@@ -1499,7 +1499,7 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
                 $content_type_li_class = 'is_home';
             }
 
-            $to_pr_2 = "<li class='$content_type_li_class {active_class}' data-page-id='{$item['id']}' data-parent-page-id='{$item['content_parent']}'  id='page_list_holder_{$item['id']}' >";
+            $to_pr_2 = "<li class='$content_type_li_class {active_class}' data-page-id='{$item['id']}' data-parent-page-id='{$item['parent']}'  id='page_list_holder_{$item['id']}' >";
 
             if ($link != false) {
 
@@ -1569,16 +1569,16 @@ function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $act
                 print $item['title'];
             }
             if (is_array($params)) {
-                $params['content_parent'] = $item['id'];
+                $params['parent'] = $item['id'];
                 $children = pages_tree($params);
             } else {
                 $children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
             }
 
             if (isset($include_categories) and $include_categories == true) {
-                if (isset($item['content_subtype_value']) and intval($item['content_subtype_value']) == true) {
+                if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
                     $cat_params = array();
-                    $cat_params['content_subtype_value'] = $item['content_subtype_value'];
+                    $cat_params['subtype_value'] = $item['subtype_value'];
                     $cat_params['include_first'] = 1;
                     //  d($cat_params);
                     category_tree($cat_params);

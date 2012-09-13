@@ -116,22 +116,25 @@ $(document).ready(function(){
   id
   <input name="id"  type="text" value="<? print ($data['id'])?>" />
   <br />
-  content_parent
+  parent
     <? if($edit_post_mode != false): ?>
      <? $pages = get_content('content_type=page');   ?>
     <? else: ?>
     
-	 <? $pages = get_content('content_type=page&content_subtype=dynamic');   ?>
+	 <? $pages = get_content('content_type=page&subtype=dynamic');   ?>
 	<? endif; ?>
     
     
     
  
   <? if(!empty($pages)): ?>
-  <select name="content_parent">
-    <option value="0"   <? if((0 == intval($data['content_parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+  <select name="parent">
+    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+<? if((0 != intval($data['parent']))): ?> 
+ <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+<? endif; ?>
     <? foreach($pages as $item): ?>
-    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['content_parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
     <? print $item['title'] ?>
     </option>
     <? endforeach; ?>
@@ -143,8 +146,8 @@ $(document).ready(function(){
   title
   <input name="title"  type="text" value="<? print ($data['title'])?>" />
   <br />
-  content_url
-  <input name="content_url"  type="text" value="<? print ($data['content_url'])?>" />
+  url
+  <input name="url"  type="text" value="<? print ($data['url'])?>" />
   <br />
   is_active
   <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
@@ -175,14 +178,14 @@ $(document).ready(function(){
   is_home
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
   <br />
-  content_subtype
-  <select name="content_subtype">
-    <option value="static"   <? if( '' == trim($data['content_subtype']) or 'static' == trim($data['content_subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-    <option value="dynamic"   <? if( 'dynamic' == trim($data['content_subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+  subtype
+  <select name="subtype">
+    <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+    <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
   </select>
   <br />
-    content_subtype_value
-  <input name="content_subtype_value"  type="text" value="<? print ($data['content_subtype_value'])?>" />
+    subtype_value
+  <input name="subtype_value"  type="text" value="<? print ($data['subtype_value'])?>" />
   <br />
   
     <? endif; ?>

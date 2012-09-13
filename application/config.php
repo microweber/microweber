@@ -164,5 +164,5 @@ $users_log_include[] = 'table_followers';
 $config['db_tables'] = $cms_db_tables;
 $config['db_log_tables'] = $users_log_include;
 //$_GLOBALS ['cms_db'] = $cms_db;.
-$cms_db_tables_search_fields = array('title', "content", "content_url");
+$cms_db_tables_search_fields = array('title', "content", "url");
 return $config;

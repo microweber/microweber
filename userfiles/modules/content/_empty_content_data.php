@@ -8,16 +8,16 @@ $data  = array();
 $data['id'] = 0;	
 $data['content_type'] = 'page';	
 $data['title'] = 'Title';	
-$data['content_url'] = '';	
+$data['url'] = '';	
 $data['is_active'] = 'y';	
 $data['is_home'] = 'n';	
-$data['content_subtype'] = 'dynamic';	
+$data['subtype'] = 'dynamic';	
 $data['description'] = '';	
 $data['active_site_template'] = '';	
-$data['content_subtype_value'] = '';	
-$data['content_parent'] = 0;	
-$data['content_layout_name'] = '';		
-$data['content_layout_file'] = '';	
+$data['subtype_value'] = '';	
+$data['parent'] = 0;	
+$data['layout_name'] = '';		
+$data['layout_file'] = '';	
 
 if($is_new == false){
 	 

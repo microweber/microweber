@@ -8,7 +8,7 @@
  * @category    categories
  * @author      Microweber
  * @param $params = array();
- * @param  $params['content_parent'] = false; //parent id
+ * @param  $params['parent'] = false; //parent id
  * @param  $params['link'] = false; // the link on for the <a href
  * @param  $params['actve_ids'] = array(); //ids of active categories
  * @param  $params['active_code'] = false; //inserts this code for the active ids's
@@ -32,12 +32,12 @@ function category_tree($params = false) {
             $params = $p2;
         }
     }
-    if (isset($params ['content_parent'])) {
-        $content_parent = ($params ['content_parent']);
-    } else if (isset($params ['content_subtype_value'])) {
-        $content_parent = ($params ['content_subtype_value']);
+    if (isset($params ['parent'])) {
+        $parent = ($params ['parent']);
+    } else if (isset($params ['subtype_value'])) {
+        $parent = ($params ['subtype_value']);
     } else {
-        $content_parent = 0;
+        $parent = 0;
     }
 
     $link = isset($params ['link']) ? $params ['link'] : false;
@@ -114,10 +114,10 @@ function category_tree($params = false) {
 
     if (isset($params ['for_page']) and $params ['for_page'] != false) {
         $page = get_page($params ['for_page']);
-        $content_parent = $page ['content_subtype_value'];
+        $parent = $page ['subtype_value'];
     }
-    if (isset($params ['content_subtype_value']) and $params ['content_subtype_value'] != false) {
-        $content_parent = $params ['content_subtype_value'];
+    if (isset($params ['subtype_value']) and $params ['subtype_value'] != false) {
+        $parent = $params ['subtype_value'];
     }
     $fors = array();
     if (isset($params ['for']) and $params ['for'] != false) {
@@ -137,11 +137,11 @@ function category_tree($params = false) {
     if (isset($params ['not_for_page']) and $params ['not_for_page'] != false) {
         $page = get_page($params ['not_for_page']);
         $remove_ids = array(
-            $page ['content_subtype_value']
+            $page ['subtype_value']
         );
     }
     if (empty($fors)) {
-        content_helpers_getCaregoriesUlTree($content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+        content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
     } else {
         foreach ($fors as $cat) {
             content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
@@ -168,21 +168,21 @@ function category_tree($params = false) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
     $table = c('db_tables');
 
     $table_content = $table ['table_content'];
 
     $table = $table_taxonomy = $table ['table_taxonomy'];
 
-    if ($content_parent == false) {
+    if ($parent == false) {
 
-        $content_parent = (0);
+        $parent = (0);
 
         $include_first = false;
     } else {
 
-        $content_parent = (int) $content_parent;
+        $parent = (int) $parent;
     }
 
     if (!is_array($orderby)) {
@@ -220,19 +220,19 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
 
         if ($include_first == true) {
 
-            $sql = "SELECT * from $table where id=$content_parent  and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+            $sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
         } else {
 
-            $sql = "SELECT * from $table where parent_id=$content_parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+            $sql = "SELECT * from $table where parent_id=$parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
         }
     } else {
 
         if ($include_first == true) {
 
-            $sql = "SELECT * from $table where id=$content_parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
+            $sql = "SELECT * from $table where id=$parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  ";
         } else {
 
-            $sql = "SELECT * from $table where parent_id=$content_parent and data_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
+            $sql = "SELECT * from $table where parent_id=$parent and data_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   ";
         }
     }
 
@@ -253,12 +253,12 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
         $my_limit_q = false;
     }
     $output = '';
-    $children_of_the_main_parent = get_category_items($content_parent, $type = 'category_item', $visible_on_frontend, $limit);
+    $children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
     //
-    $q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5($sql), 'taxonomy/' . intval($content_parent));
+    $q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5($sql), 'taxonomy/' . intval($parent));
     // $q = $this->core_model->dbQuery ( $sql, $cache_id =
     // 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
-    // 'taxonomy/' . intval ( $content_parent ) );
+    // 'taxonomy/' . intval ( $parent ) );
 
     $result = $q;
 
@@ -479,7 +479,7 @@ function content_helpers_getCaregoriesUlTree($content_parent, $link = false, $ac
                         print $item ['title'];
                     }
 
-                    // $content_parent, $link = false, $actve_ids = false,
+                    // $parent, $link = false, $actve_ids = false,
                     // $active_code = false, $remove_ids = false,
                     // $removed_ids_code = false, $ul_class_name = false,
                     // $include_first = false, $content_type = false,
@@ -957,14 +957,14 @@ function category_link($id) {
 
         $content = array();
 
-        $content ['content_subtype'] = 'dynamic';
+        $content ['subtype'] = 'dynamic';
 
-        $content ['content_subtype_value'] = $id;
+        $content ['subtype_value'] = $id;
 
         //$orderby = array ('id', 'desc' );
 
 
-        $q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
+        $q = " select * from $table_content where subtype ='dynamic' and subtype_value={$id} limit 0,1";
         //p($q,1);
         $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 
@@ -1001,13 +1001,13 @@ function category_link($id) {
 
             $content = array();
 
-            $content ['content_subtype'] = 'dynamic';
+            $content ['subtype'] = 'dynamic';
 
-            $content ['content_subtype_value'] = $item;
+            $content ['subtype_value'] = $item;
 
             $orderby = array('id', 'desc');
 
-            $q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
+            $q = " select * from $table_content where subtype ='dynamic' and subtype_value={$item} limit 0,1";
             //p($q);
             $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 

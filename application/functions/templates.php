@@ -152,8 +152,8 @@ function layouts_list($options = false) {
                         $result = str_ireplace('name:', '', $result);
                         $to_return_temp['name'] = trim($result);
                     }
-                    $content_layout_file = str_replace($path, '', $filename);
-                    $to_return_temp['content_layout_file'] = $content_layout_file;
+                    $layout_file = str_replace($path, '', $filename);
+                    $to_return_temp['layout_file'] = $layout_file;
 
                     $screen = str_ireplace('.php', '.png', $filename);
                     if (is_file($screen)) {

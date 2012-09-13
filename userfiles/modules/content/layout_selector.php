@@ -117,18 +117,18 @@ return str;
 </select>
 <? endif; ?>
 <br />
-content_layout_file
+layout_file
 
  
-<select name="content_layout_file" id="active_site_layout_<? print $rand; ?>">
-  <option value="inherit"   <? if(('' == trim($data['content_layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
-   <? if(('' != trim($data['content_layout_file']))): ?>
-  <option value="<? print $data['content_layout_file'] ?>"     selected="selected" ><? print $data['content_layout_file'] ?></option>
+<select name="layout_file" id="active_site_layout_<? print $rand; ?>">
+  <option value="inherit"   <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
+   <? if(('' != trim($data['layout_file']))): ?>
+  <option value="<? print $data['layout_file'] ?>"     selected="selected" ><? print $data['layout_file'] ?></option>
    <? endif; ?>
   
   <? if(!empty($layouts)): ?>
   <? foreach($layouts as $item): ?>
-  <option value="<? print $item['content_layout_file'] ?>"  title="<? print $item['content_layout_file'] ?>"   <? if(($item['content_layout_file'] == $data['content_layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
+  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
   <? endforeach; ?>
   <? endif; ?>
 </select>

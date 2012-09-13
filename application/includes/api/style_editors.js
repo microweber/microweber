@@ -7,6 +7,15 @@ mw.current_element_styles = {}
 Registered_Sliders = ['margin', 'opacity'];
 
 
+var t = mwd.body;
+mw.log(t.webkitTransform);
+mw.log(t.WebkitTransform);
+
+mw.CSSPrefix = t.transform?"": t.MozTransform?"-moz-": t.webkitTransform?"-webkit-": t.OTransform?"-o-":"-ms-";
+
+
+
+
 mw.css3fx = {
   perspective:function(el,a,b){
     el.style.WebkitTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
@@ -14,13 +23,49 @@ mw.css3fx = {
     el.style.OTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
     el.style.transform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
     $(el).addClass("mwfx");
+
   },
-  stop:function(el,property){
-    var data = $(el).attr("data-mwfx").split(",");
-    if(data.indexOf(property)==-1){
-      data.push(property);
-      //da se napravi s obekt
+
+  set_obj:function(element, option, value){
+
+    if(mw.is.defined(element.attributes["data-mwfx"])){
+
+     var json = mw.css3fx.read(element);
+
+     json[option] = value;
+
+     var string = JSON.stringify(json);
+
+     var string = string.replace(/{/g, "").replace(/}/g);
+     var string = string.replace(/"/g, "XX");
+
+     $(element).attr("data-mwfx", string);
     }
+    else{
+      $(element).attr("data-mwfx", "XX"+option+"XX:XX"+value+"XX");
+    }
+  },
+  init_css:function(el){
+    var el = el || ".mwfx";
+    $(el).each(function(){
+      var elem = this;
+      var json = mw.css3fx.read(el);
+      $.each(json, function(a,b){
+         $(elem).css(mw.CSSPrefix+a, b);
+
+      });
+    });
+  },
+  read:function(el){
+    var el = $(el);
+    var attr = el.attr("data-mwfx");
+    if(mw.is.defined(attr)){
+      var attr = attr.replace(/XX/g, '"');
+      var attr = attr.replace(/undefined/g, '');
+      var json = $.parseJSON('{'+attr+'}');
+      return json;
+    }
+    else{return false;}
   }
 }
 
@@ -139,11 +184,16 @@ $(document).ready(function(){
     slide:function(event,ui){
       mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
     },
+    stop:function(event,ui){
+        mw.css3fx.set_obj($(".element-current")[0], 'transform', "perspective( "+$(".element-current").width()+"px ) rotateY( "+ui.value+"deg )");
+    },
     min:0,
     max:180,
     value:0
   });
 
-
+    mw.css3fx.init_css();
 
 });
+
+

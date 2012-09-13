@@ -1003,7 +1003,7 @@ mw.drag = {
       $styles_join = custom_styles.join(',');
       $sav = {};
       $sav['content_id'] = window.content_id;
-      $sav['save_field_content_layout_style'] = $styles_join;
+      $sav['save_field_layout_style'] = $styles_join;
       $.ajax({
         type: 'POST',
         url: mw.settings.site_url + 'api/content/save_field_simple',
