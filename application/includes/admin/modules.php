@@ -74,6 +74,10 @@ function mw_reload_all_modules(){
  
 </script>
 <button onclick="mw_reload_all_modules()">Reload modules</button>
+
+
+
+
 <table width=" 100%" border="1">
   <tr>
     <td><module type="categories" data-for="modules" id="modules_admin_categories_<? print $rand  ?>" /></td>

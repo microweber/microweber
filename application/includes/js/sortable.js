@@ -1003,7 +1003,7 @@ mw.drag = {
       $styles_join = custom_styles.join(',');
       $sav = {};
       $sav['content_id'] = window.content_id;
-      $sav['save_field_layout_style'] = $styles_join;
+      $sav['save_field_content_layout_style'] = $styles_join;
       $.ajax({
         type: 'POST',
         url: mw.settings.site_url + 'api/content/save_field_simple',
@@ -1147,12 +1147,13 @@ mw.scale_cols = function(){
 mw.delete_column = function(which){
   if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
      var row =  $(which).parents(".row").eq(0);
+     $(which).parents(".column").eq(0).prev(".column").resizable("destroy");
      $(which).parents(".column").eq(0).remove();
      if(row.find(".column").length==0){
        row.remove();
      }
      else{
-
+        mw.px2pc(row[0]);
      }
   }
 }
@@ -1172,7 +1173,7 @@ $(".edit .row").each(function(){
 });
 
 
-	$('.edit .column').each(function () {
+	$('.edit .column').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1213,8 +1214,8 @@ $(".edit .row").each(function(){
 
 
 
-		  $(this).parents(".column").resizable("destroy");
-		  $(this).children(".column").resizable("destroy");
+		  //$(this).parents(".column").resizable("destroy");
+		  //$(this).children(".column").resizable("destroy");
 
 			if ($no_next == false) {
 				$handles = 'e'

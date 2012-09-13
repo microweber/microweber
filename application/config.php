@@ -12,20 +12,20 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'installed' => '1',
-    // Database Settings 
+    // Database Settings
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
         'dsn' => 'sqlite:application/db/default.db',
-        'user' => '',     
-        'pass' => '',   
-        'args' => array(   
+        'user' => '',
+        'pass' => '',
+        'args' => array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             //
             // If using
-            // MySQL, force UTF-8 
+            // MySQL, force UTF-8
             // Cookie options
-            'cookie' => array( 
+            'cookie' => array(
                 'key' => md5(__FILE__),
                 'expires' => time() + 60 * 5, //
                 'path' => '/',
@@ -110,6 +110,7 @@ $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
 
 $cms_db_tables['table_modules'] = TABLE_PREFIX . 'modules';
 
+$cms_db_tables['table_elements'] = TABLE_PREFIX . 'elements';
 
 $cms_db_tables['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';

@@ -119,15 +119,16 @@ function category_tree($params = false) {
     if (isset($params ['subtype_value']) and $params ['subtype_value'] != false) {
         $parent = $params ['subtype_value'];
     }
-    $fors = array();
+
+    $skip123 = false;
     if (isset($params ['for']) and $params ['for'] != false) {
-
+        $fors = array();
         $table_assoc_name = db_get_assoc_table_name($params ['for']);
-
+        $skip123 = true;
 
         $str0 = 'data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
         $fors = get($str0);
-        //  d($fors);
+        //   d($fors);
     }
 
 
@@ -140,11 +141,14 @@ function category_tree($params = false) {
             $page ['subtype_value']
         );
     }
-    if (empty($fors)) {
+    if ($skip123 == false) {
+
         content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
     } else {
-        foreach ($fors as $cat) {
-            content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
+        if ($fors != false and is_array($fors) and !empty($fors)) {
+            foreach ($fors as $cat) {
+                content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
+            }
         }
     }
 }

@@ -68,7 +68,7 @@
 
 .empty-element {
 	/*background-image: url(images/drop.png); */
-	background-color:white !important;
+	background-color:transparent !important;
 	background-repeat: no-repeat;
 	background-position: center center;
 

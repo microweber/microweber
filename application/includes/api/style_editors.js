@@ -7,11 +7,10 @@ mw.current_element_styles = {}
 Registered_Sliders = ['margin', 'opacity'];
 
 
-var t = mwd.body;
-mw.log(t.webkitTransform);
-mw.log(t.WebkitTransform);
+var t = mwd.body.style;
 
-mw.CSSPrefix = t.transform?"": t.MozTransform?"-moz-": t.webkitTransform?"-webkit-": t.OTransform?"-o-":"-ms-";
+
+mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-": t.WebkitPerspective!==undefined?"-webkit-": t.OPerspective!==undefined?"-o-":"-ms-";
 
 
 
@@ -52,7 +51,7 @@ mw.css3fx = {
       var json = mw.css3fx.read(el);
       $.each(json, function(a,b){
          $(elem).css(mw.CSSPrefix+a, b);
-
+         mw.log(mw.CSSPrefix+a + " : " + b)
       });
     });
   },
