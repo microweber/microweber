@@ -227,7 +227,6 @@ mw.tools = {
   },
   toolbar_tabs:{
     get_active:function(){
-        mw.prev_hash = $("#mw_tabs li.active a").attr("href");
         var hash = window.location.hash;
         if(hash==''){
           return '#tab_modules';

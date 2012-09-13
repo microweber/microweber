@@ -11,7 +11,7 @@ mw.require("style_editors.js");
 
 
 
-mw.prev_hash = window.location.hash;
+
 
 
 $(window).load(function(){
@@ -358,7 +358,7 @@ $(".mw_dropdown_action_format").change(function(){
            $(mw.image_resizer).removeClass("active");
 
 
-           $("#module_design_selector").setDropdownValue("#tb_el_style", true);
+           //$("#module_design_selector").setDropdownValue("#tb_el_style", true);
 
         }
     });

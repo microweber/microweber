@@ -67,6 +67,8 @@ mw.wysiwyg = {
           el.blur();
           mw.wysiwyg.isThereEditableContent=false;
         }
+        window.location.hash = "#mw_tab_design";
+        $("#module_design_selector").setDropdownValue("#tb_el_style", true);
       });
 
       items.blur(function(){

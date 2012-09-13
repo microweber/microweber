@@ -169,8 +169,8 @@
      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
         <div class="mw_dropdown_fields">
           <ul>
-            <li value="#tb_image_edit"><a href="#">Picture Editor</a></li>
-            <li value="#tb_el_style"><a href="#">Site style</a></li>
+            <li value="#tb_image_edit"><a href="javascript:;">Picture Editor</a></li>
+            <li value="#tb_el_style"><a href="javascript:;">Site style</a></li>
           </ul>
         </div>
       </div>
@@ -228,8 +228,8 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="shadow"><a href="#">Drop Shadow</a></li>
-                  <li value="perspective"><a href="#">Perspective</a></li>
+                  <li value="shadow"><a href="javascript:;">Drop Shadow</a></li>
+                  <li value="perspective"><a href="javascript:;">Perspective</a></li>
                 </ul>
               </div>
             </div>
@@ -259,10 +259,10 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="none"><a href="#">None</a></li>
-                  <li value="left"><a href="#">Left</a></li>
-                  <li value="right"><a href="#">Right</a></li>
-                  <li value="center"><a href="#">Center</a></li>
+                  <li value="none"><a href="javascript:;">None</a></li>
+                  <li value="left"><a href="javascript:;">Left</a></li>
+                  <li value="right"><a href="javascript:;">Right</a></li>
+                  <li value="center"><a href="javascript:;">Center</a></li>
 
                 </ul>
               </div>
