@@ -354,7 +354,7 @@ mw.wysiwyg = {
     insert_image:function(url, autoclose){
         var autoclose = autoclose || false;
         var id = 'image_' + mw.random();
-        var img = '<div id="'+id+'" class="element element-image"><img src="' + url + '" /></div>';
+        var img = '<img id="'+id+'" class="element element-image" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
         if(autoclose){
            mw.tools.modal.remove('mw_rte_image');
