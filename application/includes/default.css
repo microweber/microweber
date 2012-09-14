@@ -48,3 +48,7 @@
     display: inline-block !important;
     float: right !important;
 }
+.layout-element{
+  clear: both;
+  float: none;
+}

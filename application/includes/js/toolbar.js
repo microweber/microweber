@@ -79,7 +79,10 @@ mw.image = {
             minHeight: 60,
             start:function(){
               mw.image.isResizing = true;
-              $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+
+                 $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+
+
 
             },
             stop:function(){
@@ -101,10 +104,13 @@ mw.image = {
           this.style.width = $(img).width()+'px';
           this.style.height = $(img).height()+'px';
         });     */
-        $(selector, '.edit').each(function(){
-          $(this).notclick().bind("click", function(){
-             if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
-             var el = $(this);
+
+        $(window).bind("onElementClick", function(e, el){
+
+         if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName=='IMG'){
+             var el = $(el);
+
+
 
              window.location.hash = '#mw_tab_design';
 
@@ -121,11 +127,17 @@ mw.image = {
                 height:height
              });
              r.addClass("active");
-             $(mw.image_resizer).resizable( "option", "alsoResize", el); }
+             $(mw.image_resizer).resizable( "option", "alsoResize", el);
              $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
              mw.image.currentResizing = el;
-            })
-          });
+
+         } 
+        })
+
+
+
+
+
         }
       }
     }

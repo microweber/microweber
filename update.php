@@ -7,6 +7,12 @@ $downloads_dir = ROOTPATH . DS . 'download' . DS;
 
 $seg = url_segment(2);
 
+
+$root_dir_files_to_copy = array();
+$root_dir_files_to_copy[] = 'index.php';
+$root_dir_files_to_copy[] = 'bootstrap.php';
+$root_dir_files_to_copy[] = '.htaccess';
+
 if ($seg != false and $seg == 'download') {
 
     $segs = url_segment();
@@ -22,8 +28,9 @@ if ($seg != false and $seg == 'download') {
 
         $download_dir_get = urldecode($download_dir_get);
 
-         d($download_dir_get);
+        $download_dir_get0 = ROOTPATH . DS . 'download' . DS;
         $download_dir_get1 = ROOTPATH . DS . $download_dir_get;
+
 
         $download_dir_get1 = str_replace('..', '', $download_dir_get1);
         $download_dir_get1 = normalize_path($download_dir_get1, false);
@@ -31,8 +38,32 @@ if ($seg != false and $seg == 'download') {
 
 
 
+        $seg_latest = url_segment(3);
+        if ($seg_latest != false and $seg_latest == 'latest') {
+            $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
+            if (!is_file($download_dir_get_latest)) {
+                $download_dir_get_v_dir2 = $download_dir_get0 . 'microweber-' . MW_VERSION . DS;
+                if (!is_dir($download_dir_get_v_dir2)) {
+                    mkdir_recursive($download_dir_get_v_dir2);
+                }
+                $new_app_p = $download_dir_get_v_dir2 . DS . APPPATH;
+                $new_app_p = normalize_path($new_app_p, 1);
+                if (!is_dir($new_app_p)) {
+                    mkdir_recursive($new_app_p);
+                }
 
+                copy_directory(APPPATH_FULL, $new_app_p);
 
+                $crm_f = $new_app_p . DS . 'config.php';
+                if (is_file($crm_f)) {
+                    unlink($crm_f);
+                }
+
+                d($new_app_p);
+            }
+        }
+
+//latest.zip
 
 
 
@@ -150,10 +181,11 @@ if ($seg != false and $seg == 'download') {
             $d124 = normalize_path($d124, 0);
 
             copy_directory($d124, $downloads_dir_mw_v);
-            $files_to_copy = array();
-            $files_to_copy[] = 'index.php';
-            $files_to_copy[] = 'bootstrap.php';
-            $files_to_copy[] = '.htaccess';
+
+
+
+            $files_to_copy = $root_dir_files_to_copy;
+
 
             if (!empty($files_to_copy)) {
                 foreach ($files_to_copy as $files_to_copy_item) {

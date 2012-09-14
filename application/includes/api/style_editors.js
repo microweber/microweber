@@ -268,14 +268,15 @@ init_square_maps = function(){
 
 
 $(document).ready(function(){
-  var elements = $(".element");
-  elements.mousedown(function(){
-         elements.removeClass("element-current");
-         $(this).addClass("element-current");
-         mw.current_element_styles = window.getComputedStyle(this, null);
-         $(".es_item").trigger("change");
-  });
 
+$(window).bind("onElementClick", function(e, el){
+
+         $(".element").not(el).removeClass("element-current");
+         $(el).addClass("element-current");
+         mw.current_element_styles = window.getComputedStyle(el, null);
+         $(".es_item").trigger("change");
+
+});
 
   $(".ed_slider").each(function(){
     var el = $(this);
