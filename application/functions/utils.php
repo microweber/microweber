@@ -4,6 +4,30 @@ function reduce_double_slashes($str) {
     return preg_replace("#([^:])//+#", "\\1/", $str);
 }
 
+//copy_directory('dirnameSource','dirnameDestination');
+
+function copy_directory($source, $destination) {
+    if (is_dir($source)) {
+        @mkdir($destination);
+        $directory = dir($source);
+        while (FALSE !== ( $readdirectory = $directory->read() )) {
+            if ($readdirectory == '.' || $readdirectory == '..') {
+                continue;
+            }
+            $PathDir = $source . '/' . $readdirectory;
+            if (is_dir($PathDir)) {
+                copy_directory($PathDir, $destination . '/' . $readdirectory);
+                continue;
+            }
+            copy($PathDir, $destination . '/' . $readdirectory);
+        }
+
+        $directory->close();
+    } else {
+        copy($source, $destination);
+    }
+}
+
 /**
  * Makes directory recursive, returns TRUE if exists or made and false on error
  *
@@ -55,7 +79,7 @@ function normalize_path($path, $slash_it = true) {
         $path = $path_original;
     }
     if ($slash_it == false) {
-        
+
     } else {
         $path = $path . DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
@@ -75,7 +99,7 @@ function string_clean($var) {
         if (function_exists("mysql_real_escape_string")) {
             // $output = mysql_real_escape_string ( $var );
         } else {
-            
+
         }
         $output = stripslashes($var);
     }
@@ -379,7 +403,7 @@ function recursive_remove_directory($directory, $empty = true) {
                     try {
                         unlink($path);
                     } catch (Exception $e) {
-                        
+
                     }
                 }
             }

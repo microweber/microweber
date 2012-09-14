@@ -1,5 +1,12 @@
 <?php
 
+defined('T') or die();
+if (!defined('__DIR__'))
+    define('__DIR__', dirname(__FILE__));
+if (!defined('MW_VERSION')) {
+    define('MW_VERSION', 0.508);
+}
+
 // Basic system functions
 function p($f) {
     return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));

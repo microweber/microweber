@@ -23,14 +23,15 @@ if(!Array.indexOf){
 }
 
 (function() {
+
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(mw.required.indexOf(url)==-1){
-       mw.required.push(url);
-       var h = mwd.getElementsByTagName('head')[0];
-       var t = url.split('.').pop();
-       var j = mwd.createElement('script');
+         mw.required.push(url);
+         var h = mwd.getElementsByTagName('head')[0];
+         var t = url.split('.').pop();
+         var j = mwd.createElement('script');
        if(!mw.loaded){
            if(t=='js'){
               j.text = "mwd.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
