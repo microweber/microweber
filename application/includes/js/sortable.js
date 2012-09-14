@@ -583,6 +583,7 @@ mw.drag = {
                             }
                             else{
                                   if(position=='top'){
+
                                      $(mw.dragCurrent).removeClass("mw_drag_float");
                                      $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                      hovered.removeClass("mw_drag_float");
@@ -590,8 +591,19 @@ mw.drag = {
                                         hovered.append(mw.dragCurrent);
                                      }
                                      else{
-                                         if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
-                                            hovered.before(mw.dragCurrent);
+                                         if(hovered.prev().length==0){//if is NOT the first child ??
+                                            if(mw.isDragItem(mw.currentDragMouseOver)){
+                                               hovered.before(mw.dragCurrent);
+                                            }
+                                            else{
+                                              hovered.parents("*").each(function(){
+                                                if(mw.isDragItem(this)){
+                                                    $(this).before(mw.dragCurrent);
+                                                    return false;
+                                                }
+                                              })
+                                            }
+
                                          }
                                          else{
                                            var parent = hovered.parent();
