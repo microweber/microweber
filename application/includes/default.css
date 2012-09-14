@@ -39,3 +39,12 @@
   height: auto !important;
   max-width: 100% !important;
 }
+
+.mw_drag_float{
+    display: inline-block !important;
+    float: left !important;
+}
+.mw_drag_float_right {
+    display: inline-block !important;
+    float: right !important;
+}
