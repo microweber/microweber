@@ -288,9 +288,15 @@
               <div id="element_effx" class="clear" style="padding: 0px 0 0 13px;">
                   <div class="fx" id="fx_shadow">
 
-                    <div id="ed_shadow" class="fx_canvas_slider" style="width: 35px;height: 35px;"></div>
-                    <div class="mw_clear"></div>
-                    <div id="ed_shadow_strength" style="width: 35px;height: 10px;"></div>
+                    <span class="ed_label left">Position</span><div id="ed_shadow" class="fx_canvas_slider left" style="width: 40px;height: 40px;"></div>
+
+                    <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
+
+                    <span class="ed_label left">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 12px;background-image: none"></div>
+
+                    <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
+
+                    <span class="ed_item ed_bgcolor left" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
 
                   </div>
                   <div class="fx" id="fx_perspective">

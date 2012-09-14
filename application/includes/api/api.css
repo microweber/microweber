@@ -534,7 +534,8 @@ margin-right: 6px;
 }
 
 .fx_canvas_slider{
-  border:1px solid #D2D2D2
+  border:1px solid #D2D2D2;
+  background: url(../img/cross.png) no-repeat center;
 }
 
 

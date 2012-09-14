@@ -58,12 +58,12 @@ $.fn.canvasCTRL = function(options){
   var canvas = mwd.getElementById(id);
 
   var context = canvas.getContext("2d");
-  canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+  canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
   if(opt.alwayPositive=='no'){
      canvasCTRL_draw(context, 'arc', '#444444', w/2,h/2);
   }
   else{
-    canvasCTRL_draw(context, 'arc', '#444444', 0, 0);
+    canvasCTRL_draw(context, 'arc', '#444444', 5, 5);
   }
 
 
@@ -83,7 +83,7 @@ $.fn.canvasCTRL = function(options){
         var off = $(canvas).offset();
         var x = isX ? event.pageX-off.left : w/2;
         var y = isY ? event.pageY-off.top : h/2;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y);
         canvasCTRL_rendValue(canvas, x, y, opt);
         canvas.x=x;
@@ -94,7 +94,7 @@ $.fn.canvasCTRL = function(options){
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.y=y-1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y-1);
         canvasCTRL_rendValue(canvas, x, y-1, opt);
       }
@@ -102,7 +102,7 @@ $.fn.canvasCTRL = function(options){
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.y=y+1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y+1);
         canvasCTRL_rendValue(canvas, x, y+1, opt);
       }
@@ -110,7 +110,7 @@ $.fn.canvasCTRL = function(options){
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.x=x-1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x-1,y);
         canvasCTRL_rendValue(canvas, x-1, y, opt);
       }
@@ -118,7 +118,7 @@ $.fn.canvasCTRL = function(options){
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.x=x+1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x+1,y);
         canvasCTRL_rendValue(canvas, x+1, y, opt);
       }
