@@ -36,7 +36,7 @@ canvasCTRL_rendValue = function(canvas, x, y){
     });
 }
 
-$.fn.canvasCTRL = function(){
+$.fn.canvasCTRL = function(options){
   var el = this;
   var id = 'canvas_'+mw.random();
   var w = el.width();
@@ -47,6 +47,9 @@ $.fn.canvasCTRL = function(){
   var context = canvas.getContext("2d");
   canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
   canvasCTRL_draw(context, 'arc', '#444444', w/2,h/2);
+
+  canvasCTRL_draw(context, 'rect', '#000000', 10, h-10, 2,10);
+
   canvas.x=w/2;
   canvas.y=h/2;
   canvas.isDrag = false;
@@ -289,11 +292,18 @@ $(document).ready(function(){
   });
 
 
-  var noob  = $("#ed_shadow").canvasCTRL();
+  var shadow_pos  = $("#ed_shadow").canvasCTRL();
 
-  noob.bind("change", function(event, val){
-      var s = 6;
+  shadow_pos.bind("change", function(event, val){
+      var s = mw.current_element_styles.boxShadow !="none"?parseFloat(mw.current_element_styles.boxShadow.spalit(' ').pop()):6;
       $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #696969");
+  });
+
+  var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x'});
+
+  shadow_pos.bind("change", function(event, val){
+      var s = 6;
+
   });
 
 

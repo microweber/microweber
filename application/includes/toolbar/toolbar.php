@@ -289,6 +289,8 @@
                   <div class="fx" id="fx_shadow">
 
                     <div id="ed_shadow" class="fx_canvas_slider" style="width: 35px;height: 35px;"></div>
+                    <div class="mw_clear"></div>
+                    <div id="ed_shadow_strength" style="width: 35px;height: 10px;"></div>
 
                   </div>
                   <div class="fx" id="fx_perspective">
