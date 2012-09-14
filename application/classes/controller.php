@@ -214,7 +214,15 @@ class Controller {
 
     function editor_tools() {
 
-        $tool = url(1) ? : 'index';
+        $tool = url(1);
+
+        if ($tool) {
+
+        } else {
+            $tool = 'index';
+        }
+
+
 
         $tool = str_replace('..', '', $tool);
 
@@ -289,7 +297,15 @@ class Controller {
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
 
-        $api_function = url_segment(1) ? : 'index';
+        $api_function = url_segment(1);
+
+        if ($api_function) {
+
+        } else {
+            $api_function = 'index';
+        }
+
+
 
         if ($api_function == 'module') {
             $this->module();

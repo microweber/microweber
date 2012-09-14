@@ -169,8 +169,8 @@
      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
         <div class="mw_dropdown_fields">
           <ul>
-            <li value="#tb_image_edit"><a href="javascript:;">Picture Editor</a></li>
             <li value="#tb_el_style"><a href="javascript:;">Site style</a></li>
+            <li value="#tb_image_edit"><a href="javascript:;">Picture Editor</a></li>
           </ul>
         </div>
       </div>
@@ -187,7 +187,7 @@
 
 
 
-            <div class="ed_style_margin_padding">
+            <div class="ed_style_all ed_style_margin_padding">
 
                 <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider">
                     <span class="mw_dropdown_val_holder">
@@ -261,49 +261,63 @@
                 </div>
                 <div class="ed_slider padding-slider es_item left" id="padding_slider" data-type="padding"></div>
 
-              
+
 
           </div>
 
-           <span class="mw_dlm mw_dlm_style"></span>
+          <span class="mw_dlm mw_dlm_style"></span>
 
-           <span class="ed_opacity">
-                <span class="ed_label">Opacity</span>
-                <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
-            </span>
+          <div class="ed_style_all" style="padding-top: 0">
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">F<b>x</b></span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="shadow"><a href="javascript:;">Drop Shadow</a></li>
-                  <li value="perspective"><a href="javascript:;">Perspective</a></li>
-                </ul>
+
+              <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
+                  <span class="mw_dropdown_val_holder">
+                      <span class="dd_rte_arr"></span>
+                      <span class="mw_dropdown_val">F<b>x</b></span>
+                  </span>
+                <div class="mw_dropdown_fields">
+                  <ul>
+                    <li value="-1"><a href="javascript:;">Choose F<b>x</b></a></li>
+                    <li value="shadow"><a href="javascript:;">Drop Shadow</a></li>
+                    <li value="perspective"><a href="javascript:;">Perspective</a></li>
+                    <li value="opacity"><a href="javascript:;">Opacity</a></li>
+                    <li value="radius"><a href="javascript:;">Radius</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div id="element_effx" class="clear" style="padding: 0px 0 0 13px;">
+                  <div class="fx" id="fx_shadow">
+
+                    <div id="ed_shadow" class="fx_canvas_slider" style="width: 35px;height: 35px;"></div>
+
+                  </div>
+                  <div class="fx" id="fx_perspective">
+                       <div class="ed_slider perspective-slider"></div>
+                  </div>
+
+               <div class="fx" id="fx_opacity">
+                  <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
+               </div>
+               <div class="fx" id="fx_radius">
+                  <div class="ed_slider radius-slider es_item" data-type="border-radius"></div>
+               </div>
               </div>
             </div>
-            <div id="element_effx">
-                <div class="fx" id="fx_shadow">
-                    <span>Top</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_top"></div>
-                    <span>Left</span> <div class="fx_slider shadow-slider shadow_slider_item shadow_left"></div>
-                    <span class="shadow_color"></span>
-                </div>
-                <div class="fx" id="fx_perspective">
-                    <span>Perspective</span> <div class="ed_slider perspective-slider"></div>
-                </div>
-            </div>
+
+            <span class="mw_dlm mw_dlm_style"></span>
 
 
 
-            <br />Width<br />
+           <div class="ed_style_all">
+
+
+            <span class="ed_label left">Width</span>
             <div class="ed_slider width-slider es_item" id="width_slider" data-max="1000" data-min="100" data-type="width"></div>
 
+            <div class="mw_clear" style="padding-bottom: 5px;"></div>
 
-            align<br />
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg" id="align_element" title="Align" data-value="none" onchange="mw.alignem($(this).getDropdownValue());">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg" style="margin-left: -5px;" id="align_element" title="Align" data-value="none" onchange="mw.alignem($(this).getDropdownValue());">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val">Align</span>
@@ -320,7 +334,19 @@
             </div>
 
 
+             </div>
 
+            <span class="mw_dlm mw_dlm_style"></span>
+
+            <div class="ed_style_all">
+
+            <span class="ed_item ed_bgcolor" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
+
+
+
+            </div>
+
+            <span class="mw_dlm mw_dlm_style"></span>
 
           </div>
 

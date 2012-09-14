@@ -137,6 +137,10 @@ api css
   cursor: pointer;
   z-index: 10;
 }
+.mw_dropdown.active{
+  z-index: 11;
+}
+
   .mw_dropdown_fields{
     position: absolute;
     z-index: 9;
@@ -487,6 +491,50 @@ margin-right: 6px;
   left: 50%;
   margin: 0 0 0 -15px;
   display: none;
+}
+
+.ed_label{
+  display: inline-block;
+    font-size: 11px;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #595959;
+    padding-right: 9px;
+    position: relative;
+    top: 2px;
+}
+
+
+.ed_item{
+  display: block;
+  cursor: pointer;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #C7C7C7;
+  overflow: hidden;
+  background-color: #F5F5F5;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.ed_item span{
+  display: block;
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 1px 0 0 1px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+}
+.ed_bgcolor span{
+  background-image:url(../img/ico.transparentbg.png);
+}
+
+.fx_canvas_slider{
+  border:1px solid #D2D2D2
 }
 
 
