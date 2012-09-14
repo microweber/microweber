@@ -26,17 +26,30 @@ canvasCTRL_draw = function(context, type, color, x, y, w, h){
          context.fill();
 }
 
-canvasCTRL_rendValue = function(canvas, x, y){
+canvasCTRL_rendValue = function(canvas, x, y, opt){
     var canvas = $(canvas);
     var zeroX = canvas.width()/2;
     var zeroY = canvas.height()/2;
+    var r_left = opt.alwayPositive=='no' ? x-zeroX : x;
+    var r_top = opt.alwayPositive=='no' ? y-zeroY : y;
     canvas.trigger("change",{
-      top:y-zeroY,
-      left:x-zeroX
+      top: y-zeroY,
+      left: r_left
     });
 }
 
+canvasCTRL_defaults = {
+  axis:'x,y',
+  alwayPositive:'no'
+}
+
 $.fn.canvasCTRL = function(options){
+
+  var opt = mw.is.obj(options) ? $.extend({}, canvasCTRL_defaults, options) : canvasCTRL_defaults;
+
+  var isX =  opt.axis.contains('x');
+  var isY =  opt.axis.contains('y');
+
   var el = this;
   var id = 'canvas_'+mw.random();
   var w = el.width();
@@ -45,10 +58,16 @@ $.fn.canvasCTRL = function(options){
   var canvas = mwd.getElementById(id);
 
   var context = canvas.getContext("2d");
-  canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
-  canvasCTRL_draw(context, 'arc', '#444444', w/2,h/2);
+  canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
+  if(opt.alwayPositive=='no'){
+     canvasCTRL_draw(context, 'arc', '#444444', w/2,h/2);
+  }
+  else{
+    canvasCTRL_draw(context, 'arc', '#444444', 5, 5);
+  }
 
-  canvasCTRL_draw(context, 'rect', '#000000', 10, h-10, 2,10);
+
+
 
   canvas.x=w/2;
   canvas.y=h/2;
@@ -62,47 +81,46 @@ $.fn.canvasCTRL = function(options){
   canvas.onmousemove = function(event){
     if(canvas.isDrag){
         var off = $(canvas).offset();
-        var x = event.pageX-off.left;
-        var y = event.pageY-off.top;
-        mw.log(y)
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        var x = isX ? event.pageX-off.left : w/2;
+        var y = isY ? event.pageY-off.top : h/2;
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y);
-        canvasCTRL_rendValue(canvas, x, y);
+        canvasCTRL_rendValue(canvas, x, y, opt);
         canvas.x=x;
         canvas.y=y;
     }
     canvas.onkeydown = function(event){
-      if(event.keyCode==38){//up
+      if(event.keyCode==38 && isY){//up
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.y=y-1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y-1);
-        canvasCTRL_rendValue(canvas, x, y-1);
+        canvasCTRL_rendValue(canvas, x, y-1, opt);
       }
-      else if(event.keyCode==40){//down
+      else if(event.keyCode==40 && isY){//down
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.y=y+1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y+1);
-        canvasCTRL_rendValue(canvas, x, y+1);
+        canvasCTRL_rendValue(canvas, x, y+1, opt);
       }
-      if(event.keyCode==37){//left
+      if(event.keyCode==37 && isX ){//left
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.x=x-1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x-1,y);
-        canvasCTRL_rendValue(canvas, x-1, y);
+        canvasCTRL_rendValue(canvas, x-1, y, opt);
       }
-      else if(event.keyCode==39){//left
+      else if(event.keyCode==39 && isX ){//left
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
         canvas.x=x+1;
-        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x+1,y);
-        canvasCTRL_rendValue(canvas, x+1, y);
+        canvasCTRL_rendValue(canvas, x+1, y, opt);
       }
       event.preventDefault();
     }
@@ -295,14 +313,26 @@ $(document).ready(function(){
   var shadow_pos  = $("#ed_shadow").canvasCTRL();
 
   shadow_pos.bind("change", function(event, val){
-      var s = mw.current_element_styles.boxShadow !="none"?parseFloat(mw.current_element_styles.boxShadow.spalit(' ').pop()):6;
+      if(mw.current_element_styles.boxShadow !="none"){
+        var arr = mw.current_element_styles.boxShadow.split(' ');
+        var len = arr.length;
+        var s = parseFloat(arr[len-2]);
+      }
+      else{var s = 6}
       $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #696969");
   });
 
-  var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x'});
+  var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
 
-  shadow_pos.bind("change", function(event, val){
-      var s = 6;
+  shadow_strength.bind("change", function(event, val){
+      if( mw.current_element_styles.boxShadow !="none" ){
+        var arr = mw.current_element_styles.boxShadow.split(' ');
+        var len = arr.length;
+        var x =  parseFloat(arr[len-4]);
+        var y =  parseFloat(arr[len-3]);
+        $(".element-current").css("box-shadow", x+"px " + y + "px "+ val.left +"px #696969");
+      }
+
 
   });
 

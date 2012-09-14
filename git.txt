@@ -1,4 +1,20 @@
+ git fetch git@github.com:ooyes/Microweber.git
+ git fetch git@github.com:ooyes/Microweber.git
+ git fetch  
+ git remote add origin git@github.com:ooyes/Microweber.git
 
-microweber@microweber.us:/home/microweber/public_html/git/update.git/	
+ git checkout git@github.com:ooyes/Microweber.git -f
+ 
+  git checkout orgin/master -f
+ git reset --hard HEAD
+git pull git@github.com:ooyes/Microweber.git
 
-git@github.com:ooyes/Microweber.git
+git pull --force -t origin master 
+git checkout -t -f -b master 
+git 
+
+git fetch -t -f -b master 
+
+    git checkout -t master
+ 
+git switch -t -f -b master 
