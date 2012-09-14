@@ -22,11 +22,19 @@ if ($seg != false and $seg == 'download') {
 
         $download_dir_get = urldecode($download_dir_get);
 
-        //d($download_dir_get);
+         d($download_dir_get);
         $download_dir_get1 = ROOTPATH . DS . $download_dir_get;
 
         $download_dir_get1 = str_replace('..', '', $download_dir_get1);
         $download_dir_get1 = normalize_path($download_dir_get1, false);
+
+
+
+
+
+
+
+
 
         if (is_file($download_dir_get1)) {
             $fnb = basename($download_dir_get1);
@@ -340,7 +348,7 @@ function Zip($source, $destination) {
             $file = str_replace('\\', '/', $file);
 
             // Ignore "." and ".." folders
-            if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..')))
+            if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..', '.git', '.gitignore')))
                 continue;
 
             $file = realpath($file);
