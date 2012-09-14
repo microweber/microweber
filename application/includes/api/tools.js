@@ -175,7 +175,8 @@ mw.tools = {
       $(this).removeClass("other-action-hover");
     });
     $(".mw_dropdown").mouseup(function(){
-      $(".mw_dropdown").not(this).find(".mw_dropdown_fields").hide();
+      $(this).toggleClass("active");
+      $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
       if($(this).find(".other-action-hover").length==0){
         var item =  $(this).find(".mw_dropdown_fields");
         if(item.is(":visible")){

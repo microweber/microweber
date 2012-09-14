@@ -11,7 +11,7 @@
 }
 .element {
     display: block;
-    clear: both;
+    /*clear: both;*/
 }
 .element-image {
     display: inline-block;

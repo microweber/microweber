@@ -176,6 +176,13 @@ mw.wysiwyg = {
          mw.wysiwyg.execCommand('backcolor', null, "#"+color);
        }
     },
+    request_change_bg_color:function(el){
+       mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_bg_color');
+       $(mw.wysiwyg.external).find("iframe").width(360).height(180);
+    },
+    change_bg_color : function(color){
+        $(".element-current").css("backgroundColor", "#"+color);
+    },
     fontFamily:function(font_name){
        if(mw.wysiwyg.isThereEditableContent){
          mw.wysiwyg.execCommand('fontname', null, font_name);

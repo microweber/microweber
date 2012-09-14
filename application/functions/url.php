@@ -21,12 +21,11 @@ function url_segment($k = -1) {
 
         $u1 = str_replace($u2, '', $u1);
 
-        $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
-        // $u = $u ? : explode('/', $u1);
-        // $u = $u ? : explode ( '/', trim ( preg_replace (
-        // '/^([A-Za-z0-9:]+)/i', '', current ( explode ( '?', $u1, 2 ) ) ), '/'
-        // )
-        // );
+        //  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
+        if (!isset($u) or $u == false) {
+            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+        }
+        // $u = $u ? :
     }
 
     return $k != - 1 ? v($u [$k]) : $u;
@@ -42,25 +41,7 @@ function url_segment($k = -1) {
 function url($k = -1) {
 
     return url_segment($k);
-
-
-    static $u;
-    if ($u == false) {
-
-        $u1 = curent_url();
-        $u2 = site_url();
-
-        $u1 = str_replace($u2, '', $u1);
-
-        $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\/])/i', '', current(explode('?', $u1, 2))), '/'));
-
-        // $u = $u ? : explode ( '/', trim ( preg_replace (
-        // '/^([A-Za-z0-9:]+)/i', '', current ( explode ( '?', $u1, 2 ) ) ), '/'
-        // )
-        // );
-    }
-
-    return $k != - 1 ? v($u [$k]) : $u;
+ 
 }
 
 /**
@@ -786,23 +767,31 @@ class URLify {
 
 }
 
-function url_download($requestUrl, $post_params = false) {
+function url_download($requestUrl, $post_params = false, $save_to_file = false) {
 
-
+    if ($post_params == false) {
+        $post_params = array('date' => date("YmdHis"));
+    }
     $postdata = http_build_query($post_params);
 
     $opts = array('http' =>
         array(
             'method' => 'POST',
-            'header' => 'Content-type: application/x-www-form-urlencoded',
+            'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n"
+            . 'Content-type: application/x-www-form-urlencoded' . "\r\n"
+            ,
             'content' => $postdata
         )
     );
-
+    $requestUrl = str_replace(' ', '%20', $requestUrl);
     $context = stream_context_create($opts);
 
-    $result = file_get_contents('http://microweber.us/update.php', false, $context);
-    return $result;
+    $result = file_get_contents($requestUrl, false, $context);
+    if ($save_to_file == true) {
+        //  d($result);
+        file_put_contents($save_to_file, $result);
+    } else {
+        return $result;
+    }
 }
 
- 

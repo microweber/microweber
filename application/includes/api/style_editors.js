@@ -4,7 +4,7 @@
 
 mw.current_element_styles = {}
 
-Registered_Sliders = ['margin', 'opacity'];
+Registered_Sliders = ['margin', 'opacity', 'padding'];
 
 
 var t = mwd.body.style;
@@ -13,6 +13,104 @@ var t = mwd.body.style;
 mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-": t.WebkitPerspective!==undefined?"-webkit-": t.OPerspective!==undefined?"-o-":"-ms-";
 
 
+
+(function($) {
+
+
+canvasCTRL_draw = function(context, type, color, x, y, w, h){
+         context.clearRect(x, y, w, h);
+         context.fillStyle = color;
+         context.beginPath();
+         type=='rect' ? context.rect(x,y,w,h) : context.arc(x,y,3,15, Math.PI*2, true);
+         context.closePath();
+         context.fill();
+}
+
+canvasCTRL_rendValue = function(canvas, x, y){
+    var canvas = $(canvas);
+    var zeroX = canvas.width()/2;
+    var zeroY = canvas.height()/2;
+    canvas.trigger("change",{
+      top:y-zeroY,
+      left:x-zeroX
+    });
+}
+
+$.fn.canvasCTRL = function(options){
+  var el = this;
+  var id = 'canvas_'+mw.random();
+  var w = el.width();
+  var h = el.height();
+  el.html('<canvas tabindex="0" focusable="true" id="'+id+'" width="'+w+'" height="'+h+'"></canvas>');
+  var canvas = mwd.getElementById(id);
+
+  var context = canvas.getContext("2d");
+  canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+  canvasCTRL_draw(context, 'arc', '#444444', w/2,h/2);
+
+  canvasCTRL_draw(context, 'rect', '#000000', 10, h-10, 2,10);
+
+  canvas.x=w/2;
+  canvas.y=h/2;
+  canvas.isDrag = false;
+  canvas.onmousedown = function(){
+    canvas.isDrag = true;
+  }
+  canvas.onmouseup = function(){
+    canvas.isDrag = false;
+  }
+  canvas.onmousemove = function(event){
+    if(canvas.isDrag){
+        var off = $(canvas).offset();
+        var x = event.pageX-off.left;
+        var y = event.pageY-off.top;
+        mw.log(y)
+        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'arc', '#444444', x,y);
+        canvasCTRL_rendValue(canvas, x, y);
+        canvas.x=x;
+        canvas.y=y;
+    }
+    canvas.onkeydown = function(event){
+      if(event.keyCode==38){//up
+        var x = parseFloat(canvas.x);
+        var y = parseFloat(canvas.y);
+        canvas.y=y-1;
+        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'arc', '#444444', x,y-1);
+        canvasCTRL_rendValue(canvas, x, y-1);
+      }
+      else if(event.keyCode==40){//down
+        var x = parseFloat(canvas.x);
+        var y = parseFloat(canvas.y);
+        canvas.y=y+1;
+        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'arc', '#444444', x,y+1);
+        canvasCTRL_rendValue(canvas, x, y+1);
+      }
+      if(event.keyCode==37){//left
+        var x = parseFloat(canvas.x);
+        var y = parseFloat(canvas.y);
+        canvas.x=x-1;
+        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'arc', '#444444', x-1,y);
+        canvasCTRL_rendValue(canvas, x-1, y);
+      }
+      else if(event.keyCode==39){//left
+        var x = parseFloat(canvas.x);
+        var y = parseFloat(canvas.y);
+        canvas.x=x+1;
+        canvasCTRL_draw(context, 'rect', '#E6E6E6', 0 , 0, w, h);
+        canvasCTRL_draw(context, 'arc', '#444444', x+1,y);
+        canvasCTRL_rendValue(canvas, x+1, y);
+      }
+      event.preventDefault();
+    }
+  }
+  return $(canvas);
+}
+
+})(jQuery);
 
 
 mw.css3fx = {
@@ -149,6 +247,8 @@ init_square_maps = function(){
 }
 
 
+
+
 $(document).ready(function(){
   var elements = $(".element");
   elements.mousedown(function(){
@@ -186,10 +286,26 @@ $(document).ready(function(){
     stop:function(event,ui){
         mw.css3fx.set_obj($(".element-current")[0], 'transform', "perspective( "+$(".element-current").width()+"px ) rotateY( "+ui.value+"deg )");
     },
-    min:0,
+    min:-180,
     max:180,
     value:0
   });
+
+
+  var shadow_pos  = $("#ed_shadow").canvasCTRL();
+
+  shadow_pos.bind("change", function(event, val){
+      var s = mw.current_element_styles.boxShadow !="none"?parseFloat(mw.current_element_styles.boxShadow.spalit(' ').pop()):6;
+      $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #696969");
+  });
+
+  var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x'});
+
+  shadow_pos.bind("change", function(event, val){
+      var s = 6;
+
+  });
+
 
     mw.css3fx.init_css();
 
