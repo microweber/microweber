@@ -7,6 +7,7 @@ $downloads_dir = ROOTPATH . DS . 'download' . DS;
 
 $seg = url_segment(2);
 
+set_time_limit(0);
 
 $root_dir_files_to_copy = array();
 $root_dir_files_to_copy[] = 'index.php';
@@ -39,27 +40,66 @@ if ($seg != false and $seg == 'download') {
 
 
         $seg_latest = url_segment(3);
-        if ($seg_latest != false and $seg_latest == 'latest') {
+        if ($seg_latest != false and ($seg_latest == 'latest' or $seg_latest == 'latest.zip')) {
             $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
             if (!is_file($download_dir_get_latest)) {
                 $download_dir_get_v_dir2 = $download_dir_get0 . 'microweber-' . MW_VERSION . DS;
+                $path_to_zip_dir = $download_dir_get_v_dir2;
+
                 if (!is_dir($download_dir_get_v_dir2)) {
                     mkdir_recursive($download_dir_get_v_dir2);
-                }
-                $new_app_p = $download_dir_get_v_dir2 . DS . APPPATH;
-                $new_app_p = normalize_path($new_app_p, 1);
-                if (!is_dir($new_app_p)) {
-                    mkdir_recursive($new_app_p);
-                }
 
-                copy_directory(APPPATH_FULL, $new_app_p);
+                    $files_to_copy = $root_dir_files_to_copy;
 
-                $crm_f = $new_app_p . DS . 'config.php';
-                if (is_file($crm_f)) {
-                    unlink($crm_f);
+
+                    if (!empty($files_to_copy)) {
+                        foreach ($files_to_copy as $files_to_copy_item) {
+                            $fn = basename($files_to_copy_item);
+                            $fn2 = $download_dir_get_v_dir2 . $fn;
+
+                            copy($files_to_copy_item, $fn2);
+                        }
+                    }
+
+
+
+
+
+
+
+
+                    $new_app_p = $download_dir_get_v_dir2 . DS . APPPATH;
+                    $new_app_p = normalize_path($new_app_p, 1);
+                    if (!is_dir($new_app_p)) {
+                        mkdir_recursive($new_app_p);
+                    }
+
+                    copy_directory(APPPATH_FULL, $new_app_p);
+
+                    $crm_f = $new_app_p . DS . 'config.php';
+                    if (is_file($crm_f)) {
+                        unlink($crm_f);
+                    }
+
+
+                    $new_app_p = $download_dir_get_v_dir2 . DS . USERFILES_DIRNAME;
+                    $new_app_p = normalize_path($new_app_p, 1);
+                    if (!is_dir($new_app_p)) {
+                        mkdir_recursive($new_app_p);
+                    }
+
+                    copy_directory(ROOTPATH . DS . USERFILES_DIRNAME, $new_app_p);
                 }
+                chdir($path_to_zip_dir);
 
-                d($new_app_p);
+                $dir = getcwd();
+
+                Zip($dir, $download_dir_get_latest);
+
+                //  d($dir);
+            }
+            if (is_file($download_dir_get_latest)) {
+                $download_dir_get1 = $download_dir_get_latest;
             }
         }
 
@@ -363,7 +403,7 @@ if ($seg != false and $seg == 'download') {
 
 function Zip($source, $destination) {
     if (!extension_loaded('zip') || !file_exists($source)) {
-        return false;
+        error('The PHP Zip extension is required!');
     }
 
     $zip = new ZipArchive();
@@ -372,23 +412,29 @@ function Zip($source, $destination) {
     }
 
     $source = str_replace('\\', '/', realpath($source));
-
+    $source = normalize_path($source);
     if (is_dir($source) === true) {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($files as $file) {
             $file = str_replace('\\', '/', $file);
+            $file = normalize_path($file, false);
 
             // Ignore "." and ".." folders
-            if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..', '.git', '.gitignore')))
+            if (in_array(substr($file, strrpos($file, DS) + 1), array('.', '..', '.git', '.gitignore')))
                 continue;
 
             $file = realpath($file);
 
             if (is_dir($file) === true) {
-                $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                $rel_d = str_replace($source, '', $file);
+
+                $zip->addEmptyDir($rel_d);
             } else if (is_file($file) === true) {
-                $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                $rel_d = str_replace($source, '', $file);
+
+
+                $zip->addFromString($rel_d, file_get_contents($file));
             }
         }
     } else if (is_file($source) === true) {

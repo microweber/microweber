@@ -131,7 +131,7 @@ mw.image = {
              $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
              mw.image.currentResizing = el;
 
-         } 
+         }
         })
 
 
