@@ -40,9 +40,14 @@ function define_constants($content = false) {
         if (defined('PAGE_ID') == false) {
             define('PAGE_ID', $page['id']);
         }
+        if (isset($page['parent'])) {
+            if (defined('MAIN_PAGE_ID') == false) {
+                define('MAIN_PAGE_ID', $page['parent']);
+            }
 
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', $page['parent']);
+            if (defined('PARENT_PAGE_ID') == false) {
+                define('PARENT_PAGE_ID', $page['parent']);
+            }
         }
     }
 
@@ -270,7 +275,7 @@ function get_layout_for_page($page = array()) {
         if (is_file($template_view) == true) {
             $render_file = $template_view;
         } else {
-
+            
         }
     }
 
@@ -569,11 +574,18 @@ function page_link($id = false) {
     }
 
     $link = get_content_by_id($id);
-    if (strval($link['url']) == '') {
-        $link = get_page_by_url($id);
+    if (isset($link['url'])) {
+        if (strval($link['url']) == '') {
+            $link = get_page_by_url($id);
+        }
+        $link = site_url($link['url']);
+        return $link;
+    } else {
+        $link = site_url( );
+        return $link;
     }
-    $link = site_url($link['url']);
-    return $link;
+
+    
 }
 
 /**
@@ -788,7 +800,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
     if ((int) $table_assoc_name == 0) {
         $table_assoc_name = guess_table_name($table);
     }
-        $table_ass = db_get_assoc_table_name($table);
+    $table_ass = db_get_assoc_table_name($table);
 
 
 
@@ -834,7 +846,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
-         // d($q);
+        // d($q);
         // $crc = crc32 ( $q );
 
         $crc = abs(crc32($q));
@@ -1109,7 +1121,7 @@ function save_edit($post_data) {
                     }
                 }
             } else {
-
+                
             }
         }
     }
@@ -1202,7 +1214,7 @@ function save_content($data, $delete_the_cache = true) {
 
             $data['url'] = $theurl;
         } else {
-
+            
         }
 
         if (!isset($data['url']) or strval($data['url']) == '') {
@@ -1422,7 +1434,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $params = false;
     $output = '';
     if (is_integer($parent)) {
-
+        
     } else {
         $params = $parent;
         if (is_string($params)) {
@@ -1591,7 +1603,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
         print "</ul>";
     } else {
-
+        
     }
 }
 
