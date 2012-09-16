@@ -7,7 +7,9 @@ include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'utils.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'url.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
-include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
+
+    include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
+ 
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 

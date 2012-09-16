@@ -233,7 +233,7 @@ define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesys
 
 
 define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
-define('DBPATH', ROOTPATH . 'db' . DIRECTORY_SEPARATOR);
+define('DBPATH', ROOTPATH . DS . 'db' . DS);
 
 define('ADMIN_URL', SITEURL . 'admin');
 

@@ -1,7 +1,7 @@
 <?php
 
 defined('T') or die();
-$installed = c('installed');
+$installed = MW_IS_INSTALLED;
 if ($installed != false) {
     if (is_admin() == true) {
         
@@ -22,7 +22,10 @@ if (isset($to_save)) {
                 if ($to_save['db_file'] == 'db_file_new') {
                     $dbf1 = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'default.db';
                     $new_db = gethostname() . '_' . date("Ymd-his") . '_.db';
-                    $dbf2 = DBPATH . $new_db;
+                    $dbf2 = DBPATH . DS . $new_db;
+                    if (!is_dir(DBPATH)) {
+                        mkdir_recursive(DBPATH);
+                    }
                     if (copy($dbf1, $dbf2)) {
                         $to_save['db_file'] = $new_db;
                         $to_save['dsn'] = 'sqlite:' . DBPATH . $new_db;
@@ -40,7 +43,7 @@ if (isset($to_save)) {
                 $to_save['dsn'] = $to_save['custom_dsn'];
             }
         }
-        $to_save['IS_INSTALLED'] = true;
+        $to_save['IS_INSTALLED'] = 'yes';
 
 
 
@@ -55,8 +58,8 @@ if (isset($to_save)) {
 
 
         file_put_contents($cfg, $save_config);
-
-        var_dump($save_config);
+        clearcache();
+        //  var_dump($save_config);
     }
 
 

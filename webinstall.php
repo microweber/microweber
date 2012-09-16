@@ -1,15 +1,42 @@
 <?php
 
-function getfile($url, $dir) {
-    file_put_contents($dir . substr($url, strrpos($url, '/'), strlen($url)), file_get_contents($url));
+function getfile($requestUrl, $save_to_file) {
+
+
+
+    $opts = array('http' =>
+        array(
+            'method' => 'POST',
+            'header' => "User-Agent: Microweber/Web Install" . "\r\n"
+            . 'Content-type: application/x-www-form-urlencoded' . "\r\n"
+        )
+    );
+    $requestUrl = str_replace(' ', '%20', $requestUrl);
+    $context = stream_context_create($opts);
+
+    $result = file_get_contents($requestUrl, false, $context);
+    if ($save_to_file == true) {
+        //  d($result);
+        file_put_contents($save_to_file, $result);
+    } else {
+        return $result;
+    }
+
+
+    //..file_put_contents($dir . substr($url, strrpos($url, '/'), strlen($url)), file_get_contents($url));
 }
 
-$do = $_REQUEST['action'];
+$do = false;
+if (isset($_REQUEST['action'])) {
+    $do = $_REQUEST['action'];
+}
 switch ($do) {
     case 'download':
         $dir = dirname(__FILE__);
-        $url = 'http://microweber.com/mw-latest.zip';
-        getfile($url, $dir);
+        $url = 'http://update.microweber.us/update.php//download/latest';
+
+        $fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
+        getfile($url, $fn);
 
         break;
 
@@ -107,7 +134,7 @@ class Unzip {
      * @return    none
      */
     function __construct() {
-
+        
     }
 
     // --------------------------------------------------------------------
