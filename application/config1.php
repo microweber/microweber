@@ -8,15 +8,15 @@ defined('T') or die();
 // Global site configuration
 $config = array(
     // In development, debug mode unlocks extra error info
+    'version' => MW_VERSION,
     'debug_mode' => TRUE,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
-    'uri_protocol' => 'UTC',
-    'installed' => 'yes',
+    'installed' => '1',
     // Database Settings
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
-        'dsn' => 'sqlite:C:\xampp\htdocs\1kdb\pecata1_20120916-103710_.db',
+        'dsn' => 'sqlite:db/default.db',
         'user' => '',
         'pass' => '',
         'args' => array(
@@ -87,12 +87,8 @@ $config = array(
 $cms_db_tables = array();
 $cms_db_tables['table_cache'] = TABLE_PREFIX . 'cache';
 $cms_db_tables['table_content'] = TABLE_PREFIX . 'content';
-$cms_db_tables['table_taxonomy'] = $cms_db_tables['table_categories'] = TABLE_PREFIX . 'taxonomy';
+$cms_db_tables['table_taxonomy'] = TABLE_PREFIX . 'taxonomy';
 $cms_db_tables['table_taxonomy_items'] = TABLE_PREFIX . 'taxonomy_items';
-
-
-
-
 $cms_db_tables['table_menus'] = TABLE_PREFIX . 'menus';
 $cms_db_tables['table_options'] = TABLE_PREFIX . 'options';
 $cms_db_tables['table_media'] = TABLE_PREFIX . 'media';
@@ -114,9 +110,8 @@ $cms_db_tables['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';
 
 $cms_db_tables['table_modules'] = TABLE_PREFIX . 'modules';
+
 $cms_db_tables['table_elements'] = TABLE_PREFIX . 'elements';
-
-
 
 $cms_db_tables['table_cart_promo_codes'] = TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';

@@ -7,10 +7,30 @@
 define('T', microtime());
 define('M', memory_get_usage());
 define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest');
- 
+
 require ('bootstrap.php');
+$c_file = APPPATH . 'config.php';
+$go_to_install = false;
+if (!is_file($c_file)) {
+
+    $default_config = INCLUDES_PATH . DS . 'install' . DS . 'config.base.php';
+    copy($default_config, $c_file);
+    $go_to_install = true;
+}
+
+
 require (APPPATH . 'functions.php');
+$installed = c('installed');
+if (strval($installed) != 'yes') {
+    define('MW_IS_INSTALLED', false);
+} else {
+    define('MW_IS_INSTALLED', true);
+}
+
+
+
 // require ('appication/functions.php');
+
 require (APPPATH . 'functions/mw_functions.php');
 
 //set_error_handler('error');
@@ -24,12 +44,6 @@ function error($e, $f = false, $l = false) {
     die($v);
 }
 
-$m1 = url(0);
-if ($m1) {
-    $m = $m1;
-} else {
-    $m = 'index';
-}
 //$m = url(0) ? : 'index';
 
 /*
@@ -48,20 +62,26 @@ if ($default_timezone == false) {
 
 
 
-
 if (!defined('MW_BARE_BONES')) {
 
 
     $c = new controller ();
-    $admin_url = c('admin_url');
 
-    $installed = c('installed');
-    if ($installed == false) {
+
+    if (MW_IS_INSTALLED != true or $go_to_install == true) {
         $c->install();
         exit();
     }
 
 
+    $m1 = url(0);
+    if ($m1) {
+        $m = $m1;
+    } else {
+        $m = 'index';
+    }
+
+    $admin_url = c('admin_url');
     if ($m == 'admin' or $m == $admin_url) {
         if ($admin_url == $m) {
             $c->admin();

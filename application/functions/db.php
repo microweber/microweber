@@ -10,7 +10,16 @@ if ($is_sqlite != false) {
 }
 
 function db_q($q) {
-    $db = new DB(c('db'));
+   
+    if (MW_IS_INSTALLED == false) {
+        return false;
+      
+    }
+
+
+    $dbc = c('db');
+
+    $db = new DB($dbc);
 
     $q = $db->query($q);
     return $q;
@@ -118,7 +127,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
         }
         $for = $to_table;
     } else {
-
+        
     }
     if ($guess_cache_group != false) {
         $for = str_replace('table_', '', $for);
@@ -471,7 +480,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
 
         if ($debug) {
-
+            
         }
     }
     if (isset($criteria ['fields'])) {
@@ -971,7 +980,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-
+        
     }
     if ($limit != false) {
 
@@ -1391,7 +1400,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     // $criteria = map_array_to_database_table ( $table, $data );
 
     if (DB_IS_SQLITE != false) {
-
+        
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
@@ -1574,7 +1583,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
                         $gotten_by_id = true;
                     } else {
-
+                        
                     }
                     if ($gotten_by_id == false and isset($is_ex[0])) {
 

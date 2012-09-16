@@ -359,7 +359,10 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 api_expose('clearcache');
 
 function clearcache() {
-
+    if (MW_IS_INSTALLED == false) {
+        recursive_remove_directory(CACHEDIR, true);
+        return true;
+    }
     if (is_admin() == false) {
         error('Error: not logged in as admin.');
     }

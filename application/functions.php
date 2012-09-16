@@ -27,6 +27,10 @@ function __autoload($c) {
 
 function c($k) {
     static $c;
+
+
+
+
     $c = $c ? $c :
             require p('config');
     if (isset($c[$k])) {

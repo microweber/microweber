@@ -12,8 +12,10 @@ class db extends SQL {
         $dsn = str_replace('/', DS, $dsn);
         $dsn = str_replace('\\', DS, $dsn);
         //}
-//d($dsn);
-
+ 
+        if (MW_IS_INSTALLED == false) {
+            return false;
+        }
         $this->pdo = new PDO($dsn, $user, $pass, $args);
     }
 
@@ -35,6 +37,12 @@ class db extends SQL {
     }
 
     function query($q, $p = NULL) {
+        
+        
+        if (MW_IS_INSTALLED == false) {
+            return false;
+        }
+        
         $s = $this->pdo->prepare(self::$q [] = $q);
         $s->execute($p);
 

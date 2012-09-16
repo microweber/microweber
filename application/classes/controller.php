@@ -217,7 +217,7 @@ class Controller {
         $tool = url(1);
 
         if ($tool) {
-
+            
         } else {
             $tool = 'index';
         }
@@ -300,7 +300,7 @@ class Controller {
         $api_function = url_segment(1);
 
         if ($api_function) {
-
+            
         } else {
             $api_function = 'index';
         }
@@ -582,7 +582,8 @@ class Controller {
     }
 
     function install() {
-        $installed = c('installed');
+        $installed = MW_IS_INSTALLED;
+        
         if ($installed == false) {
             $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
             require($f);
