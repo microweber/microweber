@@ -18,3 +18,5 @@ git fetch -t -f -b master
     git checkout -t master
  
 git switch -t -f -b master 
+
+~/etc/git_update.sh

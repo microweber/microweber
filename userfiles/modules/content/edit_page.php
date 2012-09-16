@@ -20,7 +20,7 @@ if(isset($params["data-content"])){
  //d($params);
 
 $data = get_content_by_id($params["data-page-id"]); 
-
+ 
 if($data == false or empty($data )){
 include('_empty_content_data.php');	
 }
