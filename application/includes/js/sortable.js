@@ -566,6 +566,10 @@ mw.drag = {
 				  mw.isDrag = false;
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         var position = mw.dropable.data("position");
+                        if($(mw.currentDragMouseOver).hasClass("mw-free-element")){
+                              $(mw.currentDragMouseOver).append(mw.dragCurrent)
+                          return false;
+                        }
                         if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){
                            $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         }
