@@ -2,6 +2,7 @@
 
 defined('T') or die();
 $installed = MW_IS_INSTALLED;
+
 if ($installed != false) {
     if (is_admin() == true) {
 
@@ -59,7 +60,7 @@ if (isset($to_save)) {
 
         file_put_contents($cfg, $save_config);
         clearcache();
-        $done= true;
+        $done = true;
         //  var_dump($save_config);
     }
 

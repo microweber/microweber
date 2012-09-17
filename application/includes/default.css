@@ -83,7 +83,6 @@ img.sepia{
 
   /*filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1) progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://pecata/1k/application/includes/img/fx/ie.sepia.png', sizingMethod='scale');*/
  filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
- background:url(img/fx/sepia.svg#sepia);
   opacity:0.9;
 
   /*sepia -#704214*/
