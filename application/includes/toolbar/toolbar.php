@@ -296,7 +296,7 @@
 
                     <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
 
-                    <span class="ed_item ed_bgcolor left" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
+                    <span class="ed_item ed_color_pick ed_shadow_color left" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
 
                   </div>
                   <div class="fx" id="fx_perspective">
@@ -348,7 +348,7 @@
 
             <div class="ed_style_all">
 
-            <span class="ed_item ed_bgcolor" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
+            <span class="ed_item ed_color_pick" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
 
 
 
