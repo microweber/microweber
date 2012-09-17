@@ -1,5 +1,5 @@
 <?php $id = "mw-free-".uniqid(); ?>
-<div class="element mw-free-element" id="<?php print $id; ?>"></div>
+<div class="element mw-free-element" style="height: 250px;" id="<?php print $id; ?>"></div>
 
 <script type="text/javascript">
 
