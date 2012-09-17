@@ -282,6 +282,8 @@
                     <li value="perspective"><a href="javascript:;">Perspective</a></li>
                     <li value="opacity"><a href="javascript:;">Opacity</a></li>
                     <li value="radius"><a href="javascript:;">Radius</a></li>
+                    <li value="sepia"><a href="javascript:;" onclick="$('.element-current').addClass('sepia')">Sepia</a></li>
+                    <li value="grayscale"><a href="javascript:;" onclick="$('.element-current').addClass('grayscale')">Grayscale</a></li>
                   </ul>
                 </div>
               </div>

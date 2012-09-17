@@ -33,7 +33,7 @@ if (isset($_REQUEST['action'])) {
 switch ($do) {
     case 'download':
         $dir = dirname(__FILE__);
-        $url = 'http://microweber.us/update/update.php//download/latest';
+        $url = 'http://upd.microweber.me/update.php//download/latest';
 
         $fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
         getfile($url, $fn);
