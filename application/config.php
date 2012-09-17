@@ -16,7 +16,7 @@ $config = array(
     // Database Settings
     'db' => array(
         //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw1',
-        'dsn' => 'sqlite:C:\xampp\htdocs\1kdb\pecata1_20120916-103710_.db',
+        'dsn' => 'sqlite:db/default.db',
         'user' => '',
         'pass' => '',
         'args' => array(

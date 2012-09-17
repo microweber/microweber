@@ -61,3 +61,4 @@ $language["yes"]= 'Yes' ;
 $language["no"]= 'No' ; 
 $language["help-text"]= 'Help text' ; 
 $language["pages"]= 'Pages' ; 
+$language["free-element"]= 'Free element' ; 
