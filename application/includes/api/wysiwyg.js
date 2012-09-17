@@ -195,9 +195,11 @@ mw.wysiwyg = {
            var y =  parseFloat(arr[len-3]);
            var blur =  parseFloat(arr[len-2]);
            $(".element-current").css("box-shadow", x+"px " + y + "px "+ blur +"px #"+color);
+           $(".ed_shadow_color").dataset("color", color);
         }
         else{
            $(".element-current").css("box-shadow", "0px 0px 6px #"+color);
+           $(".ed_shadow_color").dataset("color", color);
         }
     },
     fontFamily:function(font_name){

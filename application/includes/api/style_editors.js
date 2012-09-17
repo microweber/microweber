@@ -320,7 +320,8 @@ $(window).bind("onElementClick", function(e, el){
         var s = parseFloat(arr[len-2]);
       }
       else{var s = 6}
-      $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #696969");
+      var color = $(".ed_shadow_color").dataset("color");
+      $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #"+color);
   });
 
   var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
@@ -331,7 +332,8 @@ $(window).bind("onElementClick", function(e, el){
         var len = arr.length;
         var x =  parseFloat(arr[len-4]);
         var y =  parseFloat(arr[len-3]);
-        $(".element-current").css("box-shadow", x+"px " + y + "px "+ val.left +"px #696969");
+        var color = $(".ed_shadow_color").dataset("color");
+        $(".element-current").css("box-shadow", x+"px " + y + "px "+ val.left +"px #" + color);
       }
 
 
