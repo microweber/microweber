@@ -1,6 +1,12 @@
+<?php $id = "mw-free-".uniqid(); ?>
+<div class="element mw-free-element" id="<?php print $id; ?>"></div>
 
-<div class="mw-free-element">
-  <div class="mw-free-element-content">
-  <b>Free element</b>
-</div>
-</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+     $("#<?php print $id; ?>").resizable({
+       handles:"e,s"
+     });
+});
+
+</script>

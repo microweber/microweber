@@ -52,3 +52,16 @@
   clear: both;
   float: none;
 }
+
+.mw-free-element{
+  position: relative !important;
+  min-height: 100px;
+  overflow: hidden;
+}
+
+.mw-free-element .element{
+  position: absolute;
+}
+.mw-free-element:empty{
+  background:#ffffb9 
+}

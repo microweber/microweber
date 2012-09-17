@@ -215,7 +215,7 @@ define('CACHEDIR', $cache_main_dir);
 define('SITE_URL', SITEURL);
 
 
-define('HISTORY_DIR', CACHEDIR . 'history' . '/');
+define('HISTORY_DIR', CACHEDIR . 'history' . DIRECTORY_SEPARATOR);
 
 define('CACHE_FILES_EXTENSION', '.php');
 
@@ -233,7 +233,7 @@ define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesys
 
 
 define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
-define('DBPATH', ROOTPATH . DS . 'db' . DS);
+define('DBPATH', 'db' . DS);
 
 define('ADMIN_URL', SITEURL . 'admin');
 
@@ -243,7 +243,7 @@ define('ADMIN_URL', SITEURL . 'admin');
 
 define('INCLUDES_PATH', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH . 'includes' . DS); //full filesystem path
 define('INCLUDES_DIR', INCLUDES_PATH); //full filesystem path
-define('INCLUDES_URL', SITEURL . $application_folder . '/includes/'); //full filesystem path
+define('INCLUDES_URL', SITEURL . $application_folder .  '/includes/'); //full filesystem path
 define('VIEWSPATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_PATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_URL', INCLUDES_URL . 'admin');

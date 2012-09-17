@@ -292,7 +292,7 @@
 
                     <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
 
-                    <span class="ed_label left">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 12px;background-image: none"></div>
+                    <span class="ed_label left">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 9px;background-image: none"></div>
 
                     <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
 
