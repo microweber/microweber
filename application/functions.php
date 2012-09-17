@@ -5,7 +5,7 @@ if (!defined('__DIR__')) {
     define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.509);
+    define('MW_VERSION', 0.510);
 }
 
 // Basic system functions

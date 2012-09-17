@@ -4,13 +4,13 @@ defined('T') or die();
 $installed = MW_IS_INSTALLED;
 if ($installed != false) {
     if (is_admin() == true) {
-        
+
     } else {
         exit('Microweber seems to be already installed!');
     }
 }
 
-
+$done = false;
 $to_save = $_GET;
 if (isset($to_save)) {
     if (isset($to_save['submit']) and isset($to_save['db_type'])) {
@@ -59,6 +59,7 @@ if (isset($to_save)) {
 
         file_put_contents($cfg, $save_config);
         clearcache();
+        $done= true;
         //  var_dump($save_config);
     }
 
@@ -67,4 +68,3 @@ if (isset($to_save)) {
     $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include($f);
 }
- 

@@ -27,13 +27,14 @@ function getfile($requestUrl, $save_to_file) {
 }
 
 $do = false;
+$done = false;
 if (isset($_REQUEST['action'])) {
     $do = $_REQUEST['action'];
 }
 switch ($do) {
     case 'download':
         $dir = dirname(__FILE__);
-        $url = 'http://upd.microweber.me/update.php//download/latest';
+        $url = 'http://update.microweber.me/update.php//download/latest';
 
         $fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
         getfile($url, $fn);
@@ -56,6 +57,7 @@ switch ($do) {
 
 
 
+        $done = true;
         ///   unlink($upload_dir . '/' . $filename); //delete uploaded file
 //        $zip = new ZipArchive;
 //        $res = $zip->open('mw-latest.zip');
@@ -72,15 +74,83 @@ switch ($do) {
         break;
 }
 ?>
-<form>
-    <input type="radio" name="action" value="download">download
 
-    <input type="radio" name="action" value="unzip">unzip
-    <input type="submit" name="submit" value="submit">
+<?
+ 
+if ($done == false):
+    ?>
 
-</form>
+    <form>
+        <input type="radio" name="action" value="download">download
 
+        <input type="radio" name="action" value="unzip">unzip
+        <input type="submit" name="submit" value="submit">
+
+    </form>
+<? else: ?>
+
+
+    <h2>Done, <a href="<? print site_url() ?>../">click here to continue</a></h2>
+    <? unlink(__FILE__); ?>
+
+<? endif; ?>
 <?php
+
+function site_url($add_string = false) {
+    static $u1;
+    if ($u1 == false) {
+        $pageURL = 'http';
+        if (isset($_SERVER ["HTTPS"]) and ($_SERVER ["HTTPS"] == "on")) {
+            $pageURL .= "s";
+        }
+
+        $subdir_append = false;
+        if (isset($_SERVER ['PATH_INFO'])) {
+            // $subdir_append = $_SERVER ['PATH_INFO'];
+        } else {
+            $subdir_append = $_SERVER ['REQUEST_URI'];
+        }
+
+        //  var_dump($_SERVER);
+        $pageURL .= "://";
+        if ($_SERVER ["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"];
+        } else {
+            $pageURL .= $_SERVER ["SERVER_NAME"];
+        }
+        $pageURL_host = $pageURL;
+        $pageURL .= $subdir_append;
+        if (isset($_SERVER ['SCRIPT_NAME'])) {
+            $d = dirname($_SERVER ['SCRIPT_NAME']);
+            $d = trim($d, '/');
+        }
+
+        if (isset($_SERVER ['QUERY_STRING'])) {
+            $pageURL = str_replace($_SERVER ['QUERY_STRING'], '', $pageURL);
+        }
+
+
+
+        //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
+        $url_segs = explode('/', $pageURL);
+        $i = 0;
+        $unset = false;
+        foreach ($url_segs as $v) {
+            if ($unset == true) {
+                //unset($url_segs [$i]);
+            }
+            if ($v == $d) {
+
+                $unset = true;
+            }
+
+            $i++;
+        }
+        $url_segs [] = '';
+        $u1 = implode('/', $url_segs);
+    }
+    return $u1 . $add_string;
+}
 
 /**
  * UnZip Class
@@ -343,6 +413,11 @@ class Unzip {
 
         if ($underscore_case) {
             $pathinfo = pathinfo($target_file_name);
+
+            if (!isset($pathinfo['extension'])) {
+                $pathinfo['extension'] = '';
+            }
+
             $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
             $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
         }
