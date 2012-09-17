@@ -76,7 +76,6 @@ switch ($do) {
 ?>
 
 <?
- 
 if ($done == false):
     ?>
 
@@ -88,9 +87,15 @@ if ($done == false):
 
     </form>
 <? else: ?>
+    <?
+    $y = site_url();
 
+    $y = str_replace(basename(__FILE__), '', $y);
+    $y = str_replace('?/', '', $y);
+    //$y = str_replace('//', '/install', $y);
+    ?>
 
-    <h2>Done, <a href="<? print site_url() ?>../">click here to continue</a></h2>
+    <h2>Done, <a href="<? print $y ?>/install">click here to continue</a></h2>
     <? unlink(__FILE__); ?>
 
 <? endif; ?>
