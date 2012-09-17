@@ -571,6 +571,42 @@ margin-right: 6px;
   outline: 1px dotted #D5D5D5;
 }
 
+.free-element-item .ui-resizable-s{
+  width: 10px;
+  height: 10px;
+  background: #D2D2D2;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+.free-element-item .ui-resizable-e{
+  width: 10px;
+  height: 10px;
+  background: #D2D2D2;
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.ed_btn{
+  display: inline-block;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #595959;
+  text-decoration: none;
+  padding: 2px 9px;
+  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  border-top: 1px solid #EAE6E6;
+  border-left: 1px solid #BDBBBB;
+  border-right: 1px solid #BDBBBB;
+  border-bottom: 1px solid #B1B0B0;
+}
+.ed_btn:hover{
+  color: #595959;
+  text-decoration: none;
+}
+
 
 
 

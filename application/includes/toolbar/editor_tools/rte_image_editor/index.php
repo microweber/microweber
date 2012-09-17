@@ -12,6 +12,10 @@
         parent.mw.image.currentResizing.attr("src", url);
         parent.mw.tools.modal.remove('mw_rte_image');
       }
+      else if(hash=='#background_image'){
+        parent.mw.setbg(url);
+        parent.mw.tools.modal.remove('mw_rte_image');
+      }
       else{
         parent.mw.wysiwyg.restore_selection();
         parent.mw.wysiwyg.insert_image(url, true);

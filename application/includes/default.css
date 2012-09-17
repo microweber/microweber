@@ -63,5 +63,33 @@
   position: absolute;
 }
 .mw-free-element:empty{
-  background:#ffffb9 
+  background:#ffffb9
+}
+.free-element-item{
+  position: absolute;
+  display: inline-block !important;
+}
+
+/* Effects */
+
+img.sepia{
+  -webkit-filter: sepia(100%);
+  -moz-filter: sepia(100%);
+  -ms-filter: sepia(100%);
+  -o-filter: sepia(100%);
+  filter: url(img/fx/sepia.svg#sepia);
+  -webkit-filter: sepia(1);
+
+  -ms-filter: alpha(opacity = 50);
+  filter: sepia(100%);
+
+}
+
+img.grayscale{
+  filter: url(img/fx/grayscale.svg#grayscale);
+  filter: gray;
+  -webkit-filter: grayscale(1);
+}
+img.blur{
+
 }
