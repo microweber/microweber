@@ -55,6 +55,15 @@ mw.dropables = {
 
 $(document).ready(function(){
    mw.drag.create();
+
+   $(window).bind("onFreeEnter", function(e, el){
+     $(el).find(".element").removeClass("element").removeClass("mw_item").addClass("free-element-item").draggable().resizable({
+        handles:"e,s"
+     });
+     $(el).find(".mw_item").removeClass("mw_item").addClass("free-element-item").draggable().resizable({
+       handles:"e,s"
+     });
+   });
 });
 
 mw.isDragItem = function(obj){
@@ -567,7 +576,8 @@ mw.drag = {
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         var position = mw.dropable.data("position");
                         if($(mw.currentDragMouseOver).hasClass("mw-free-element")){
-                              $(mw.currentDragMouseOver).append(mw.dragCurrent)
+                              $(mw.currentDragMouseOver).append(mw.dragCurrent);
+                              $(window).trigger("onFreeEnter", mw.currentDragMouseOver);
                           return false;
                         }
                         if(mw.currentDragMouseOver==null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)){

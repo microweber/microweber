@@ -1,10 +1,11 @@
 <?php
 
 defined('T') or die();
-if (!defined('__DIR__'))
+if (!defined('__DIR__')) {
     define('__DIR__', dirname(__FILE__));
+}
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.508);
+    define('MW_VERSION', 0.509);
 }
 
 // Basic system functions
