@@ -21,8 +21,14 @@ if (isset($to_save)) {
         if (($to_save['db_type']) == 'sqlite') {
             if (isset($to_save['db_file'])) {
                 if ($to_save['db_file'] == 'db_file_new') {
+                    $temtxt = 'db_';
+                    if (function_exists('gethostname')) {
+                        $temtxt = $temtxt . gethostname();
+                    }
+
+
                     $dbf1 = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'default.db';
-                    $new_db = gethostname() . '_' . date("Ymd-his") . '_.db';
+                    $new_db = $temtxt . '_' . date("Ymd-his") . '_.db';
                     $dbf2 = DBPATH . DS . $new_db;
                     if (!is_dir(DBPATH)) {
                         mkdir_recursive(DBPATH);
