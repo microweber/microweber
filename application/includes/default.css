@@ -79,9 +79,16 @@ img.sepia{
   -o-filter: sepia(100%);
   filter: url(img/fx/sepia.svg#sepia);
   -webkit-filter: sepia(1);
-
-  -ms-filter: alpha(opacity = 50);
   filter: sepia(100%);
+
+  /*filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1) progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://pecata/1k/application/includes/img/fx/ie.sepia.png', sizingMethod='scale');*/
+filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+ background:#704214;
+  opacity:0.9;
+
+  /*sepia -#704214*/
+  /*filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1, maskcolor=#704214);*/
+
 
 }
 
