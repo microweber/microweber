@@ -80,17 +80,13 @@ img.sepia{
   filter: url(img/fx/sepia.svg#sepia);
   -webkit-filter: sepia(1);
   filter: sepia(100%);
-  filter:gray;
-  box-shadow: 0 0 10px #000;
-  border-collapse:separate;
-
-
 }
 
 img.grayscale{
   filter: url(img/fx/grayscale.svg#grayscale);
   filter: gray;
   -webkit-filter: grayscale(1);
+  filter: grayscale(100%);
 }
 img.blur{
 
