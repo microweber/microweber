@@ -113,7 +113,7 @@ function mw_check_for_update() {
     $data['elements'] = $t;
 
 
-    $serv = 'http://microweber.us/update.php';
+    $serv = 'http://upd.microweber.me/update.php';
     $p = url_download($serv, $data);
     // print $p;
     return (json_decode($p, true));

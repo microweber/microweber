@@ -183,6 +183,14 @@ mw.wysiwyg = {
     change_bg_color : function(color){
         $(".element-current").css("backgroundColor", "#"+color);
     },
+    request_border_color:function(el){
+       mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_border_color');
+       $(mw.wysiwyg.external).find("iframe").width(360).height(180);
+    },
+    change_border_color : function(color){
+        $(".element-current").css(mw.border_which + "Color", "#"+color);
+    },
+
     request_change_shadow_color:function(el){
        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_shadow_color');
        $(mw.wysiwyg.external).find("iframe").width(360).height(180);

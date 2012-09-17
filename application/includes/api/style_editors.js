@@ -7,6 +7,9 @@ mw.current_element_styles = {}
 Registered_Sliders = ['margin', 'opacity', 'padding'];
 
 
+mw.border_which = 'border';
+
+
 var t = mwd.body.style;
 
 
@@ -38,6 +41,18 @@ canvasCTRL_rendValue = function(canvas, x, y, opt){
     });
 }
 
+
+canvasCTRL_rendXY = function(w,h,event,isX,isY, off){
+    if(event!=""){
+        var ml =  event.pageX;
+        var mt =  event.pageY;
+        return {
+          x: isX ? ((ml-off.left>=5) && ((ml-off.left+5)<=w) ? ml-off.left : (ml-off.left<5) ? 5 : (ml-off.left+5)>w ? w-5 : w-5) : h/2,
+          y: isY ? ((mt-off.top>=5) && ((mt-off.top+5)<=h) ? mt-off.top : (mt-off.top<5) ? 5 : (mt-off.top+5)>h ? h-5 : h-5) : h/2
+        }
+    }
+}
+
 canvasCTRL_defaults = {
   axis:'x,y',
   alwayPositive:'no'
@@ -54,7 +69,7 @@ $.fn.canvasCTRL = function(options){
   var id = 'canvas_'+mw.random();
   var w = el.width();
   var h = el.height();
-  el.html('<canvas tabindex="0" focusable="true" id="'+id+'" width="'+w+'" height="'+h+'"></canvas>');
+  el.html('<canvas tabindex="0" class="canvas-slider" focusable="true" id="'+id+'" width="'+w+'" height="'+h+'"></canvas>');
   var canvas = mwd.getElementById(id);
 
   var context = canvas.getContext("2d");
@@ -75,14 +90,16 @@ $.fn.canvasCTRL = function(options){
   canvas.onmousedown = function(){
     canvas.isDrag = true;
   }
-  canvas.onmouseup = function(){
-    canvas.isDrag = false;
-  }
+
   canvas.onmousemove = function(event){
     if(canvas.isDrag){
         var off = $(canvas).offset();
-        var x = isX ? event.pageX-off.left : w/2;
-        var y = isY ? event.pageY-off.top : h/2;
+
+        var coords =  canvasCTRL_rendXY(w,h,event,isX,isY, off);
+
+        var x = coords.x;
+        var y = coords.y;
+
         canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
         canvasCTRL_draw(context, 'arc', '#444444', x,y);
         canvasCTRL_rendValue(canvas, x, y, opt);
@@ -93,34 +110,42 @@ $.fn.canvasCTRL = function(options){
       if(event.keyCode==38 && isY){//up
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
-        canvas.y=y-1;
-        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
-        canvasCTRL_draw(context, 'arc', '#444444', x,y-1);
-        canvasCTRL_rendValue(canvas, x, y-1, opt);
+        if(y>5){
+          canvas.y=y-1;
+          canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
+          canvasCTRL_draw(context, 'arc', '#444444', x,y-1);
+          canvasCTRL_rendValue(canvas, x, y-1, opt);
+        }
       }
       else if(event.keyCode==40 && isY){//down
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
-        canvas.y=y+1;
-        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
-        canvasCTRL_draw(context, 'arc', '#444444', x,y+1);
-        canvasCTRL_rendValue(canvas, x, y+1, opt);
+        if(y+5<h){
+          canvas.y=y+1;
+          canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
+          canvasCTRL_draw(context, 'arc', '#444444', x,y+1);
+          canvasCTRL_rendValue(canvas, x, y+1, opt);
+        }
       }
       if(event.keyCode==37 && isX ){//left
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
-        canvas.x=x-1;
-        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
-        canvasCTRL_draw(context, 'arc', '#444444', x-1,y);
-        canvasCTRL_rendValue(canvas, x-1, y, opt);
+        if(x>5){
+          canvas.x=x-1;
+          canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
+          canvasCTRL_draw(context, 'arc', '#444444', x-1,y);
+          canvasCTRL_rendValue(canvas, x-1, y, opt);
+        }
       }
-      else if(event.keyCode==39 && isX ){//left
+      else if(event.keyCode==39 && isX ){//right
         var x = parseFloat(canvas.x);
         var y = parseFloat(canvas.y);
-        canvas.x=x+1;
-        canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
-        canvasCTRL_draw(context, 'arc', '#444444', x+1,y);
-        canvasCTRL_rendValue(canvas, x+1, y, opt);
+        if(x+5<w){
+          canvas.x=x+1;
+          canvasCTRL_draw(context, 'rect', 'transparent', 0 , 0, w, h);
+          canvasCTRL_draw(context, 'arc', '#444444', x+1,y);
+          canvasCTRL_rendValue(canvas, x+1, y, opt);
+        }
       }
       event.preventDefault();
     }
@@ -223,6 +248,10 @@ mw.alignem = function(align){
       default:
         el.removeClass("right").removeClass("left").removeClass("center");
     }
+}
+
+mw.setbg = function(url){
+  $(".element-current").css("backgroundImage", "url("+url+")");
 }
 
 mw.sliders_settings = {
@@ -333,7 +362,7 @@ $(window).bind("onElementClick", function(e, el){
         var x =  parseFloat(arr[len-4]);
         var y =  parseFloat(arr[len-3]);
         var color = $(".ed_shadow_color").dataset("color");
-        $(".element-current").css("box-shadow", x+"px " + y + "px "+ val.left +"px #" + color);
+        $(".element-current").css("box-shadow", x+"px " + y + "px "+ (val.left-5)*2 +"px #" + color);
       }
 
 
