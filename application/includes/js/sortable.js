@@ -57,12 +57,7 @@ $(document).ready(function(){
    mw.drag.create();
 
    $(window).bind("onFreeEnter", function(e, el){
-     $(el).find(".element").removeClass("element").removeClass("mw_item").addClass("free-element-item").draggable().resizable({
-        handles:"e,s"
-     });
-     $(el).find(".mw_item").removeClass("mw_item").addClass("free-element-item").draggable().resizable({
-       handles:"e,s"
-     });
+        var el = $(el);
    });
 });
 
@@ -551,6 +546,11 @@ mw.drag = {
           $(document.body).addClass("bup");
 
 		$(document.body).bind("mouseup", function (event) {
+
+
+            var sliders = mwd.getElementsByClassName("canvas-slider");
+            for(var i=0;i<sliders.length;i++){sliders[i].isDrag = false;}
+
 		    var target = event.target;
             if($(target).hasClass("element")){
               $(window).trigger("onElementClick", target);
@@ -596,7 +596,7 @@ mw.drag = {
                                $(mw.dragCurrent).removeClass("mw_drag_float_right");
                             }
                             else{
-                                  if(position=='top'){ 
+                                  if(position=='top'){
                                      $(mw.dragCurrent).removeClass("mw_drag_float");
                                      $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                      hovered.removeClass("mw_drag_float");
@@ -699,6 +699,9 @@ mw.drag = {
                     mw.currentDragMouseOver = null;
 				}, 37);
 			}
+
+
+
 
 
 		});

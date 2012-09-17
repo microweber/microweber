@@ -63,5 +63,9 @@
   position: absolute;
 }
 .mw-free-element:empty{
-  background:#ffffb9 
+  background:#ffffb9
+}
+.free-element-item{
+  position: absolute;
+  display: inline-block !important;
 }
