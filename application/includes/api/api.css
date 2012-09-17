@@ -536,6 +536,11 @@ margin-right: 6px;
 .fx_canvas_slider{
   border:1px solid #D2D2D2;
   background: url(../img/cross.png) no-repeat center;
+  border-radius:3px;
+  position: relative;
+}
+.fx_canvas_slider canvas{
+  position: absolute;
 }
 
 
