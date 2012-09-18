@@ -172,7 +172,7 @@ mw.drag = {
            }
            else{
              if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
-               if(!mw.$mm_target.hasClass("ui-draggable-dragging") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
+               if(!mw.$mm_target.hasClass("ui-draggable-dragging") && !mw.$mm_target.hasClass("ui-resizable-handle") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
                   if(mw.isDragItem(mw.mm_target) || mw.mm_target.tagName=='IMG'){
                     mw.currentDragMouseOver = mw.mm_target;
                   }
@@ -219,7 +219,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region && $(mw.dragCurrent).hasClass("element-image")){
+            if(mw.drop_regions.global_drop_is_in_region /*&& $(mw.dragCurrent).hasClass("element-image")*/){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
@@ -972,7 +972,7 @@ mw.drag = {
         if(!$(selector).hasClass("active")){
 
         var id = $(mw.handle_row).data("curr").id;
-
+        $(mw.handle_row).children(".column").removeClass("temp_column");
         $(mw.handle_row).find("a").removeClass("active");
         $(selector).addClass("active")
          var $el_id = id!=''?id:mw.settings.row_id;
