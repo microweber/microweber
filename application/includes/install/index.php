@@ -10,7 +10,7 @@ if ($installed != false) {
         exit('Microweber seems to be already installed!');
     }
 }
-
+ 
 $done = false;
 $to_save = $_GET;
 if (isset($to_save)) {

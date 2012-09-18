@@ -173,7 +173,10 @@ mw.drag = {
            else{
              if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
                if(!mw.$mm_target.hasClass("ui-draggable-dragging") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                   mw.currentDragMouseOver = mw.mm_target;
+                  if(mw.isDragItem(mw.mm_target)){
+                    mw.currentDragMouseOver = mw.mm_target; 
+                  }
+
                }
              }
 
@@ -587,6 +590,10 @@ mw.drag = {
 				setTimeout(function () {
 				  mw.isDrag = false;
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
+
+
+
+
                         var position = mw.dropable.data("position");
                         if($(mw.currentDragMouseOver).hasClass("mw-free-element")){
                               $(mw.currentDragMouseOver).append(mw.dragCurrent);
@@ -669,10 +676,14 @@ mw.drag = {
 
                                     hovered.before(mw.dragCurrent);
 
-                                    setTimeout(function(){
-                                       $(mw.dragCurrent).addClass("mw_drag_float");
-                                       $(mw.dragCurrent).removeClass("mw_drag_float_right");
-                                    }, 73);
+                                    var row = mwd.createElement('div');
+                                    row.className = 'row';
+                                    row.id = "row_" + mw.random();
+                                    row.innerHTML = "<div class='column' style='width:50%'></div><div class='column' style='width:50%'></div>";
+                                    hovered.before(row);
+
+                                    $(row).find(".column").eq(0).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                    $(row).find(".column").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
                                   }
                                   else if(position=='right'){
