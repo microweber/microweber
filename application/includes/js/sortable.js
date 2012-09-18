@@ -219,7 +219,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region /*&& $(mw.dragCurrent).hasClass("element-image")*/){
+            if(mw.drop_regions.global_drop_is_in_region && !$(mw.dragCurrent).hasClass("row")/*&& $(mw.dragCurrent).hasClass("element-image")*/){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){

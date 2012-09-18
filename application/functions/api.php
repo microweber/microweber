@@ -31,8 +31,8 @@ function execute_document_ready($l) {
 
         foreach ($document_ready_exposed as $api_function) {
             if (function_exists($api_function)) {
-//                for ($index = 0; $index < 1; $index++) {
-//                    //   $l = $api_function($l);
+//                for ($index = 0; $index < 20000; $index++) {
+//                     $l = $api_function($l);
 //                }
                 $l = $api_function($l);
             }

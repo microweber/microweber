@@ -699,25 +699,16 @@ function utf162utf8($utf16) {
     return '';
 }
 
+function modify_html2($layout, $selector, $content = "") {
+
+    $layout = str_replace($selector, $selector . $content, $layout);
+
+
+    return $layout;
+}
+
 function modify_html($layout, $selector, $action = 'append', $content = "") {
-    $args = func_get_args();
-    $function_cache_id = '';
-    foreach ($args as $k => $v) {
 
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-    }
-
-    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-
-    $cache_group = 'modify_html';
-    $cache_content = false;
- //   $cache_content = cache_get_content($cache_id, $cache_group);
-    // $cache_content = $this->cacheGetContent ( $function_cache_id,
-    // $cache_group );
-    if (($cache_content) != false) {
-      //  return $cache_content;
-    }
 
 
     $pq = phpQuery::newDocument($layout);
@@ -729,7 +720,6 @@ function modify_html($layout, $selector, $action = 'append', $content = "") {
 //
     }
     $layout = $pq->htmlOuter();
-  //  cache_save($layout, $function_cache_id, $cache_group);
 
     return $layout;
 }
