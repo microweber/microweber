@@ -28,7 +28,7 @@ categories
     $cats_str = array();
   if(isset($is_ex1[0])){
 	  foreach($is_ex1 as $item){
-		  $par = get('one&limit=1&taxonomy=category_item&what=category&for='.$for.'&id='.$item['parent_id']);
+		  $par = get('one&limit=1&data_type=category_item&what=category&for='.$for.'&id='.$item['parent_id']);
 		  // d( $par);
 		  if(isset($par['title'])){
 			  		  $cats_str[] =   $par['title'];

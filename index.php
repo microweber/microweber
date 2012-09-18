@@ -3,6 +3,8 @@
 /* if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
   //   return false; // serve the requested resource as-is.
   } */
+
+
 // Setup system and load controller
 define('T', microtime());
 define('M', memory_get_usage());
@@ -74,7 +76,8 @@ if (!defined('MW_BARE_BONES')) {
     }
 
 
-    $m1 = url(0);
+    $m1 = url_segment(0);
+ 
     if ($m1) {
         $m = $m1;
     } else {
@@ -97,17 +100,19 @@ if (!defined('MW_BARE_BONES')) {
     }
 
 
-
+    
 
     if (method_exists($c, $m)) {
-
+ 
 
         $c->$m();
     } else {
+        
+        
         $c->index();
         exit();
     }
-    exit();
+    exit('No method');
 }
 
 
