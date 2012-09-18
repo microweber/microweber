@@ -115,6 +115,6 @@ function mw_check_for_update() {
 
     $serv = 'http://update.microweber.com/update.php';
     $p = url_download($serv, $data);
-    // print $p;
+     print $p;
     return (json_decode($p, true));
 }

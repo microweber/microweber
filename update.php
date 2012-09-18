@@ -150,7 +150,7 @@ if ($seg != false and $seg == 'download') {
 
                     foreach ($t as $keyt => $valuet) {
                         if ($valuet['name'] == $value['name']) {
-                            if (floatval($valuet['version']) > floatval($value['version'])) {
+                            if (isset($valuet['version']) and floatval($valuet['version']) > floatval($value['version'])) {
                                 //d($valuet);
                                 $data['templates'] = $valuet;
                             }
@@ -171,7 +171,9 @@ if ($seg != false and $seg == 'download') {
                         $valuet['module'] = normalize_path($valuet['module']);
                         if ($valuet['module'] == normalize_path($value['module'])) {
                             //d($valuet);
-                            if (floatval($valuet['version']) > floatval($value['version'])) {
+							
+							
+                            if (isset($valuet['version']) and floatval($valuet['version']) > floatval($value['version'])) {
 
                                 $data['modules'][] = $valuet;
                             }
@@ -190,7 +192,7 @@ if ($seg != false and $seg == 'download') {
                     foreach ($t as $keyt => $valuet) {
                         $valuet['module'] = normalize_path($valuet['module']);
                         if ($valuet['module'] == normalize_path($value['module'])) {
-                            if (floatval($valuet['version']) > floatval($value['version'])) {
+                            if (isset($valuet['version']) and floatval($valuet['version']) > floatval($value['version'])) {
 
                                 $data['elements'][] = $valuet;
                             }
