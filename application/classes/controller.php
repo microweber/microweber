@@ -275,14 +275,16 @@ class Controller {
         }
         $this->api();
     }
-
+ 
     function api() {
+     
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
         }
+        
+ 
         define_constants();
         $api_exposed = '';
-
 
 
 

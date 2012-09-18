@@ -61,6 +61,8 @@ function get_elements_from_db($params = false) {
         $params = $options = $params2;
     }
     $params['table'] = $table;
+		$params['orderby'] = 'position,asc';
+
     $params['cache_group'] = 'elements/global';
     $params['skip_cache'] = $table;
 //d($params);
@@ -76,6 +78,9 @@ function get_modules_from_db($params = false) {
         $params = $options = $params2;
     }
     $params['table'] = $table;
+	   
+ 
+	$params['orderby'] = 'position,asc';
     $params['cache_group'] = 'modules/global';
     $params['skip_cache'] = $table;
 //d($params);

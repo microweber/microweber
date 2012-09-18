@@ -6,6 +6,7 @@ function isAjax() {
 
 function url_segment($k = -1) {
     static $u;
+     
     if ($u == false) {
 
         $u1 = curent_url();
@@ -17,17 +18,42 @@ function url_segment($k = -1) {
 
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
-
+//        
+   //      $u2 = explode("?", $u2);
+        ///$u2 = $u2[0];
+// 
+//        $u1 = explode("?", $u1);
+//        $u1 = $u1[0];
 
         $u1 = str_replace($u2, '', $u1);
-
+    
+  
         //  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
         if (!isset($u) or $u == false) {
-            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+             
+            //$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+                    $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+          //  $u = explode('/', $u1);
+             //$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', $u1), '/'));
+          //   $u = explode('/', $u1);
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // $u = $u ? :
     }
-
+ 
     return $k != - 1 ? v($u [$k]) : $u;
 }
 
@@ -72,7 +98,7 @@ function curent_url() {
     $port = ($_SERVER ["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER ["SERVER_PORT"]);
     $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
 
-
+ 
 
 
     return $u;
