@@ -59,6 +59,17 @@ $(document).ready(function(){
    $(window).bind("onFreeEnter", function(e, el){
         var el = $(el);
    });
+
+
+
+   $(mwd.body).keyup(function(){
+     $(".mw_master_handle").css({
+       left:"",
+       top:""
+     })
+   });
+
+
 });
 
 mw.isDragItem = function(obj){
@@ -339,6 +350,7 @@ mw.drag = {
           element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onItemOver", function(a, element){
+          console.log(Math.random())
           var el = $(element);
           var o = el.offset();
           var pleft = parseFloat(el.css("paddingLeft"));
@@ -383,11 +395,12 @@ mw.drag = {
               left:""
             });
         });
+
         $(window).bind("onItemLeave", function(e, target){
-            $(mw.handle_item).css({
+            /*$(mw.handle_item).css({
               top:"",
               left:""
-            });
+            });*/
         });
 
 	},
