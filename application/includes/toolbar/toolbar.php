@@ -633,8 +633,8 @@
     </div>
 
 
-     <span class="mw_editor_btnz" onclick="mw.drag.save()"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
+     <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
+        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
 
 
 
@@ -705,6 +705,6 @@
 
   <!-- /end .mw -->
 </div>
-<!-- /end mw_holder --> 
+<!-- /end mw_holder -->
 <span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000">Refresh iframes &reg;</span>
+        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;display: none">Refresh iframes &reg;</span>

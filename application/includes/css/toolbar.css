@@ -64,7 +64,7 @@
 
 .mw-sorthandle-moveit{
   position: absolute;
-  left: 3px;
+  left: 0px;
   top: 3px;
   line-height: normal;
   display: inline-block;
@@ -124,7 +124,7 @@ background-image: -webkit-gradient(
 
 }
 #mw_handle_row{
-    height: 30px;
+    height: 20px;
 }
 
 .ui-resizable-helper {
@@ -760,8 +760,8 @@ border-radius: 3px;
   margin-right: 0px;
 }
 #mw_small_editor .mw_small_editor_top .mw_dlm{
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .mw_small_editor_bottom,
