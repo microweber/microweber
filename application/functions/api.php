@@ -31,15 +31,15 @@ function execute_document_ready($l) {
 
         foreach ($document_ready_exposed as $api_function) {
             if (function_exists($api_function)) {
-                for ($index = 0; $index < 500; $index++) {
-                 //   $l = $api_function($l);
-                }
-                 $l = $api_function($l);
-
-                $l = parse_micrwober_tags($l, $options = false);
+//                for ($index = 0; $index < 1; $index++) {
+//                    //   $l = $api_function($l);
+//                }
+                $l = $api_function($l);
             }
         }
     }
+    $l = parse_micrwober_tags($l, $options = false);
+
     return $l;
 }
 

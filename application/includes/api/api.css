@@ -620,6 +620,12 @@ margin-right: 6px;
   padding-top: 25px;
 }
 
+body.dragStart .ui-resizable-handle,
+body.dragStart #items_handle{
+  display: none !important;
+}
+
+
 
 
 

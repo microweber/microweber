@@ -172,7 +172,7 @@ mw.drag = {
            }
            else{
              if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
-               if(!mw.$mm_target.hasClass("ui-draggable-dragging") && !mw.$mm_target.hasClass("ui-resizable-handle") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
+               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
                   if(mw.isDragItem(mw.mm_target) || mw.mm_target.tagName=='IMG'){
                     mw.currentDragMouseOver = mw.mm_target;
                   }
@@ -479,7 +479,9 @@ mw.drag = {
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
-               }
+                  $(mwd.body).addClass("dragStart");
+               },
+               stop:function(){$(mwd.body).removeClass("dragStart");}
             });
             $(mw.handle_module).draggable({
                handle:".mw-sorthandle-moveit",
@@ -494,7 +496,9 @@ mw.drag = {
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
-               }
+                  $(mwd.body).addClass("dragStart");
+               },
+               stop:function(){$(mwd.body).removeClass("dragStart");}
             });
             $(mw.handle_row).draggable({
                handle:".column_separator_title",
@@ -509,7 +513,9 @@ mw.drag = {
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
-               }
+                  $(mwd.body).addClass("dragStart");
+               },
+               stop:function(){$(mwd.body).removeClass("dragStart");}
             });
             $(mw.handle_item).draggable({
                cursorAt:{
@@ -522,7 +528,9 @@ mw.drag = {
                   $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
-               }
+                  $(mwd.body).addClass("dragStart");
+               },
+               stop:function(){$(mwd.body).removeClass("dragStart");}
             });
 
             mw.drag.toolbar_modules();
@@ -539,10 +547,12 @@ mw.drag = {
             start:function(){
                 mw.isDrag = true;
                 mw.dragCurrent = mw.GlobalModuleListHelper;
+                $(mwd.body).addClass("dragStart");
             },
            stop:function(){
               mw.isDrag = false;
               var el = this;
+              $(mwd.body).removeClass("dragStart");
               setTimeout(function(){
                 mw.drag.load_new_modules();
                 mw.drag.toolbar_modules(el);
@@ -1397,12 +1407,12 @@ mw.drop_regions = {
     var offset = el.offset();
     var region_left = {
       l:offset.left,
-      r:offset.left+20,
+      r:offset.left+120,
       t:offset.top,
       b:offset.top+height
     }
     var region_right = {
-      l:offset.left+width-20,
+      l:offset.left+width-120,
       r:offset.left+width,
       t:offset.top,
       b:offset.top+height

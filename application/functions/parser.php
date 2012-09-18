@@ -133,7 +133,6 @@ function parse_micrwober_tags($layout, $options = false) {
             if ($rel == 'page') {
                 $data = get_page(PAGE_ID);
                 $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-
             } else if ($attr ['post']) {
                 $data = get_post($attr ['post']);
                 if ($data == false) {
@@ -182,12 +181,12 @@ function parse_micrwober_tags($layout, $options = false) {
                 }
             }
 
-          //  d($field);
+            //  d($field);
 
             if ($field_content != false and $field_content != '') {
                 $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-               //  d($field_content);
+                //  d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
                 pq($elem)->html($field_content);
             } else {
@@ -700,9 +699,44 @@ function utf162utf8($utf16) {
     return '';
 }
 
+function modify_html($layout, $selector, $action = 'append', $content = "") {
+    $args = func_get_args();
+    $function_cache_id = '';
+    foreach ($args as $k => $v) {
+
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+
+    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+
+    $cache_group = 'modify_html';
+    $cache_content = false;
+ //   $cache_content = cache_get_content($cache_id, $cache_group);
+    // $cache_content = $this->cacheGetContent ( $function_cache_id,
+    // $cache_group );
+    if (($cache_content) != false) {
+      //  return $cache_content;
+    }
+
+
+    $pq = phpQuery::newDocument($layout);
+
+    $els = $pq [$selector];
+    foreach ($els as $elem) {
+//  pq($elem)->html($field_content);
+        pq($elem)->$action($content);
+//
+    }
+    $layout = $pq->htmlOuter();
+  //  cache_save($layout, $function_cache_id, $cache_group);
+
+    return $layout;
+}
+
 function clean_word($html_to_save) {
     if (strstr($html_to_save, '<!--[if gte mso')) {
-        // word mess up tags
+// word mess up tags
         $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 
         $matches = $tags;
@@ -719,15 +753,15 @@ function clean_word($html_to_save) {
             $html_to_save = str_replace('class="MsoNormal"', '', $html_to_save);
         }
 
-        // $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
-        // $return_the_entire_tag = true, $charset = 'UTF-8' );
-        //
-		// $matches = $tags;
-        // if (! empty ( $matches )) {
-        // foreach ( $matches as $m ) {
-        // $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-        // }
-        // }
+// $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
+// $return_the_entire_tag = true, $charset = 'UTF-8' );
+//
+        // $matches = $tags;
+// if (! empty ( $matches )) {
+// foreach ( $matches as $m ) {
+// $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+// }
+// }
     }
     $html_to_save = str_replace('class="exec"', '', $html_to_save);
     $html_to_save = str_replace('style=""', '', $html_to_save);
@@ -742,18 +776,18 @@ function clean_word($html_to_save) {
     $html_to_save = str_replace('<br>', '<br />', $html_to_save);
     $html_to_save = str_replace(' class=""', '', $html_to_save);
     $html_to_save = str_replace(' class=" "', '', $html_to_save);
-    // $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
-    // $html_to_save );
-    // $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
-    // $html_to_save );
+// $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
+// $html_to_save );
+// $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
+// $html_to_save );
     $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
-    // $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
-    // /><br />", "</p><p>", $html_to_save)) . '</p>';
-    // $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
-    // "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
-    // "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
-    // "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
-    // "<table"), $html_to_save);
-    // p($html_to_save);
+// $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
+// /><br />", "</p><p>", $html_to_save)) . '</p>';
+// $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
+// "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
+// "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
+// "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
+// "<table"), $html_to_save);
+// p($html_to_save);
     return $html_to_save;
 }
