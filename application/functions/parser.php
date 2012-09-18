@@ -699,7 +699,7 @@ function utf162utf8($utf16) {
     return '';
 }
 
-function modify_html2($layout, $selector, $content = "") {
+function modify_html($layout, $selector, $content = "") {
 
     $layout = str_replace($selector, $selector . $content, $layout);
 
@@ -707,7 +707,7 @@ function modify_html2($layout, $selector, $content = "") {
     return $layout;
 }
 
-function modify_html($layout, $selector, $action = 'append', $content = "") {
+function modify_html_slow($layout, $selector, $action = 'append', $content = "") {
 
 
 
