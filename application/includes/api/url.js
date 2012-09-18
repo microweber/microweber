@@ -1,6 +1,6 @@
 // URL Strings - Manipulations
 
-json2url = function(obj){t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&")};
+json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&")};
 
 mw.url = {
     removeHash:function(url){

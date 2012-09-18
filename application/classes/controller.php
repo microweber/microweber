@@ -189,8 +189,40 @@ class Controller {
             // d(TEMPLATE_URL);
 
             $l = parse_micrwober_tags($l, $options = false);
+
+
+
+
+
+            $l = execute_document_ready($l);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
             $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+
+
+
 
             print $l;
             exit();
@@ -217,7 +249,7 @@ class Controller {
         $tool = url(1);
 
         if ($tool) {
-            
+
         } else {
             $tool = 'index';
         }
@@ -245,6 +277,14 @@ class Controller {
         }
 
         $layout = parse_micrwober_tags($layout, $options = false);
+
+
+
+       $layout = execute_document_ready($layout);
+
+
+
+
         print $layout;
         exit();
         //
@@ -265,6 +305,8 @@ class Controller {
         $l = $l->__toString();
         // var_dump($l);
         $layout = parse_micrwober_tags($l, $options = false);
+               $layout = execute_document_ready($layout);
+
         print $layout;
         exit();
     }
@@ -275,14 +317,14 @@ class Controller {
         }
         $this->api();
     }
- 
+
     function api() {
-     
+
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
         }
-        
- 
+
+
         define_constants();
         $api_exposed = '';
 
@@ -302,7 +344,7 @@ class Controller {
         $api_function = url_segment(1);
 
         if ($api_function) {
-            
+
         } else {
             $api_function = 'index';
         }
@@ -327,6 +369,7 @@ class Controller {
                     if (!defined('MW_API_HTML_OUTPUT')) {
                         print json_encode($res);
                     } else {
+
                         print ($res);
                     }
                 } else {
@@ -550,6 +593,8 @@ class Controller {
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
+               $res = execute_document_ready($res);
+
         print $res;
         exit();
     }
@@ -585,7 +630,7 @@ class Controller {
 
     function install() {
         $installed = MW_IS_INSTALLED;
-        
+
         if ($installed == false) {
             $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
             require($f);

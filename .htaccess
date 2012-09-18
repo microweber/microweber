@@ -21,4 +21,4 @@
 
     RewriteCond %{REQUEST_FILENAME} !-d
 
-    RewriteRule ^(.*)$ index.php?/$1  [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+    RewriteRule ^(.*)$ index.php  [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]

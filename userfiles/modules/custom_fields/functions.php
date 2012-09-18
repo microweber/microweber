@@ -1,5 +1,22 @@
 <?
 
+document_ready('test_document_ready_api');
+
+function test_document_ready_api($layout) {
+
+    $pq = phpQuery::newDocument($layout);
+
+    $els = $pq ['.editor_wrapper'];
+    foreach ($els as $elem) {
+      //  pq($elem)->html($field_content);
+         pq($elem)->append('ivan');
+        //
+    }
+    $layout = $pq->htmlOuter();
+    unset($pq);
+    return $layout;
+}
+
 /**
  * make_custom_field
  *
