@@ -1,5 +1,5 @@
 
-
+mw.require("url.js");
 
 
 mw.current_element_styles = {}

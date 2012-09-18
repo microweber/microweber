@@ -243,7 +243,7 @@ define('ADMIN_URL', SITEURL . 'admin');
 
 define('INCLUDES_PATH', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH . 'includes' . DS); //full filesystem path
 define('INCLUDES_DIR', INCLUDES_PATH); //full filesystem path
-define('INCLUDES_URL', SITEURL . $application_folder .  '/includes/'); //full filesystem path
+define('INCLUDES_URL', SITEURL . $application_folder . '/includes/'); //full filesystem path
 define('VIEWSPATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_PATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
 define('ADMIN_VIEWS_URL', INCLUDES_URL . 'admin');
@@ -358,15 +358,22 @@ function site_url($add_string = false) {
             $pageURL = str_replace($_SERVER ['QUERY_STRING'], '', $pageURL);
         }
 
-
+        $uz = parse_url($pageURL);
+        if (isset($uz['query'])) {
+            $pageURL = str_replace($uz['query'], '', $pageURL);
+             $pageURL = rtrim($pageURL, '?');
+        }
+     
 
         //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
         $url_segs = explode('/', $pageURL);
+//        var_dump($_SERVER);
+//        exit;
         $i = 0;
         $unset = false;
         foreach ($url_segs as $v) {
             if ($unset == true) {
-                //unset($url_segs [$i]);
+                unset($url_segs [$i]);
             }
             if ($v == $d) {
 

@@ -4,11 +4,27 @@ $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
  
  if(!isset($modules ) ){
-$modules = get_modules($modules_options );
+//$modules = get_modules($modules_options );
  }
 //
 
-?>   
+?>
+<?
+$mod_obj_str = 'modules';
+ if(isset($is_elements) and $is_elements == true) {
+                              $mod_obj_str = 'elements';
+                                         $modules = get_elements_from_db();
+}     else {
+
+ $modules = get_modules_from_db();
+}
+
+ ?>
+<script type="text/javascript">
+
+ Modules_List_<? print $mod_obj_str ?> = {}
+
+</script>
 
 <ul class="modules-list">
   <? foreach($modules as $module2): ?>
@@ -19,17 +35,49 @@ $modules = get_modules($modules_options );
 		 $module_group2 = $module_group2[0];
 		?>
   <? $module2['module'] = str_replace('\\','/',$module2['module']);
-  
+
   $module2['module'] = rtrim($module2['module'],'/');
   $module2['module'] = rtrim($module2['module'],'\\');
-  
+                 $module2['categories'] =    get('fields=title&limit=100&what=category&for='.$mod_obj_str.'&title='.$module2['module']);
+                                //.;//   d($module2['categories']);
+                 if(!empty($module2['categories'])){
+
+                   $temp = array();
+                   foreach($module2['categories'] as $it){
+                      $temp[]            = $it['title'];
+                   }
+                   $module2['categories'] = implode(',',$temp);
+				//   d( $module2['categories']); 
+                 }
+
    ?>
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
   <li id="c<?php print uniqid(); ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item"> <span class="mw_module_hold">
-    <? if($module2['icon']): ?>
-    <span class="mw_module_image"> <span class="mw_module_image_shadow"></span> <img
+     <? $module_id = $module2['name_clean'].'_'.uniqid(); ?>
+  <script type="text/javascript">
+      Modules_List_<? print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
+       id:'<?php print($module_id); ?>',
+       name:'<? print $module2["module"] ?>',
+       title:'<? print $module2["name"] ?>',
+       description:'<? print addslashes($module2["description"]) ?>',
+       category:'<? print $module2["categories"]; ?>'
+     }
+
+
+
+  </script>
+
+
+
+   <? if($module2['icon']): ?>
+
+
+    <span class="mw_module_image"> <span class="mw_module_image_shadow"></span>
+
+
+    <img
                 alt="<? print $module2['name'] ?>"
                 title="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"
                 class="module_draggable"

@@ -244,7 +244,7 @@ if (is_admin() == true) {
 }
 
 function get($params) {
-
+$orderby = false;
     $cache_group = false;
     $debug = false;
     $getone = false;
@@ -282,6 +282,10 @@ function get($params) {
 
             $criteria[$k] = $v;
         }
+		
+		if ('orderby' == $k ) {
+             $orderby = $v;
+        }  
     }
 
     if ($cache_group == false and $debug == false) {
@@ -295,7 +299,7 @@ function get($params) {
         // d($cache_group);
     }
 
-    $ge = __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+    $ge = __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
     if ($getone == true) {
         if (isset($ge[0])) {
@@ -769,7 +773,13 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
             }
         }
     }
-
+if(isset($orderby) and $orderby != false){
+	if(!is_array($orderby)){
+		if(is_string($orderby)){
+		$orderby = explode(',', $orderby);	
+		}
+	}
+}
     if (!empty($orderby)) {
 
         $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";

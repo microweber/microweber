@@ -22,6 +22,7 @@ include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
+include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'fx.php');
 
 
 // require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');

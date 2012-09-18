@@ -112,7 +112,7 @@ mw.drag = {
            mw.mm_target = event.target;
            mw.$mm_target = $(mw.mm_target);
 
-
+           mw.mm_target_current = {}
 
 
            if(!mw.isDrag){
@@ -154,11 +154,15 @@ mw.drag = {
 
                    //trigger on item
                    if((mw.isDragItem(mw.mm_target) && mw.$mm_target.parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
+                     if(mw.mm_target_current!=mw.mm_target){
                      $(window).trigger("onItemOver", mw.mm_target);
                      mw.$mm_target.addClass("mw_item");
+                     }
                    }
                    else if(mw.$mm_target.parents(".mw_item").length>0){
+                     if(mw.mm_target_current!=mw.$mm_target.parents(".mw_item")[0]){
                      $(window).trigger("onItemOver", mw.$mm_target.parents(".mw_item")[0]);
+                     }
                    }
                    else if(mw.mm_target.id!='items_handle' && mw.$mm_target.parents("#items_handle").length==0){
                      $(window).trigger("onItemLeave", mw.mm_target);
@@ -350,9 +354,9 @@ mw.drag = {
           element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onItemOver", function(a, element){
-          console.log(Math.random())
           var el = $(element);
           var o = el.offset();
+          mw.log(mw.random());
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_item).css({
             top:o.top,
