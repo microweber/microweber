@@ -327,15 +327,15 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             unset($attrs ['module']);
                         }
 
-                          if ($coming_from_parent == true) {
-                                 $attrs ['data-parent-module'] = $coming_from_parent;
-                            }
-                         if ($coming_from_parent_id == true) {
-                                 $attrs ['data-parent-module-id'] = $coming_from_parent_id;
-                            }
-                            
-                            
-                        
+                        if ($coming_from_parent == true) {
+                            $attrs ['data-parent-module'] = $coming_from_parent;
+                        }
+                        if ($coming_from_parent_id == true) {
+                            $attrs ['data-parent-module-id'] = $coming_from_parent_id;
+                        }
+
+
+
                         if (isset($attrs ['type']) and $attrs ['type']) {
                             $attrs ['data-type'] = $attrs ['type'];
                             unset($attrs ['type']);
@@ -343,6 +343,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                         $z = 0;
                         $mod_as_element = false;
+                        $mod_no_wrapper = false;
                         foreach ($attrs as $nn => $nv) {
 
 
@@ -365,6 +366,13 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                                 unset($attrs [$nn]);
                             }
 
+
+
+                            if ($nn == 'data-no-wrap') {
+                                $mod_no_wrapper = true;
+                              //  $attrs ['data-no-wrap'] = $module_name;
+                                unset($attrs [$nn]);
+                            }
 
                             if ($nn == 'data-module-name') {
                                 $module_name = $nv;
@@ -431,14 +439,18 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             if ($coming_from_parent == true) {
                                 $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
                             }
-                              if (isset($attrs ['id']) == true) {
+                            if (isset($attrs ['id']) == true) {
                                 $coming_from_parent_strz1 = $attrs ['id'];
                             }
-                             
 
-                            $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz,$coming_from_parent_strz1);
-                            $module_html .=  $coming_from_parent_str . '>' . $mod_content . '</div>';
 
+                            $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+
+                            if ($mod_no_wrapper == false) {
+                                $module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
+                            } else {
+                                $module_html = $mod_content;
+                            }
                             $layout = str_replace($key, $module_html, $layout);
                         }
                     }
