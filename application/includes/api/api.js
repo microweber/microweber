@@ -51,7 +51,7 @@ if(!Array.indexOf){
 
 })();
 
-mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js');
+!window.$ ? mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js'):'';
 
 
 

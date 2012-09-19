@@ -194,7 +194,7 @@ mw.tools = {
     }, function(){
         $(this).removeClass("hover");
     });
-    $(".mw_dropdown a").mousedown(function(){
+    $(".mw_dropdown a").mousedown(function(event){
       mw.tools.dd_sub_set(this);
       return false;
     });
@@ -384,6 +384,29 @@ $.fn.dataset = function(dataset, val){
   else{
     mw.datassetSupport ? el.dataset[dataset] = val :  $(el).attr("data-"+dataset, val);
     return $(el)
+  }
+}
+
+mw.cookie = {
+  get:function(name){
+      var cookies=document.cookie.split(";");
+      for (var i=0; i<cookies.length; i++){
+        var x=cookies[i].substr(0,cookies[i].indexOf("="));
+        var y=cookies[i].substr(cookies[i].indexOf("=")+1);
+        var x=x.replace(/^\s+|\s+$/g,"");
+        if (x==name){
+          return unescape(y);
+        }
+      }
+  },
+  set:function( name, value, expires, path, domain, secure ){
+    var now = new Date();
+    now.setTime( now.getTime() );
+    if ( expires ){
+        expires = expires * 1000 * 60 * 60 * 24;
+    }
+    var expires_date = new Date( now.getTime() + (expires) );
+    document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : "" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
   }
 }
 

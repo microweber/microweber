@@ -152,7 +152,7 @@ class Controller {
         $render_file = get_layout_for_page($content);
 
 
-
+ 
 
 
         if ($render_file) {
@@ -169,19 +169,20 @@ class Controller {
 
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
-
+ 
                     if ($layout_toolbar != '') {
-                        $l = str_replace('</head>', $layout_toolbar . '</head>', $l);
+                        $l = str_ireplace('</body>',   $layout_toolbar . '</body>' , $l);
                     }
                 }
             }
 
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
-            $l = str_replace('</head>', $default_css . '</head>', $l);
+            $l = str_ireplace('</head>', $default_css . '</head>', $l);
 
 
-
+  $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 
 
 
@@ -218,8 +219,7 @@ class Controller {
 
 
 
-            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+          
 
 
 

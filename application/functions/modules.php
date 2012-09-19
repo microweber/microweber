@@ -64,7 +64,7 @@ function get_elements_from_db($params = false) {
 		$params['orderby'] = 'position,asc';
 
     $params['cache_group'] = 'elements/global';
-    $params['skip_cache'] = $table;
+  $params['limit'] = 10000;
 //d($params);
     return get($params);
 }
@@ -82,8 +82,8 @@ function get_modules_from_db($params = false) {
  
 	$params['orderby'] = 'position,asc';
     $params['cache_group'] = 'modules/global';
-    $params['skip_cache'] = $table;
-//d($params);
+   $params['limit'] = 10000;
+ 
     return get($params);
 }
 
@@ -322,9 +322,9 @@ function get_modules($options = false) {
 
                 if ($skip_module == false) {
                     $configs [] = $config;
-
+ 
                     if ($list_as_element == true) {
-                        //d($config);
+                       
                         save_element_to_db($config);
                     } else {
 
