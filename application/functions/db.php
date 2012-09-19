@@ -22,6 +22,7 @@ function db_q($q) {
     $db = new DB($dbc);
 
     $q = $db->query($q);
+     unset($db);
     return $q;
 }
 
@@ -155,6 +156,8 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
     }
     $db = new DB(c('db'));
     $q = $db->get($q);
+    unset($db);
+
     if (empty($q)) {
         if ($cache_id != false) {
 
