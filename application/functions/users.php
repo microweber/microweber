@@ -57,9 +57,6 @@ function captcha() {
     $answ = $text1 + $text2;
     $x = 100;
     $y = 20;
-    
-    
-    
     $image = @imagecreate($x, 20) or die("Unable to render a CAPTCHA picture!");
 
     $tcol1z = rand(1, 150);
@@ -76,27 +73,22 @@ $col1z1 = rand(150, 242);
 $col1z11 = rand(150, 242);
     $color1 = imagecolorallocate($image,  $col1z, $col1z1, $tcol1z11);
     $color2 = imagecolorallocate($image, $tcol1z-1, $ttcol1z1-1, $tcol1z11-2);
-     imagefill($image, 0, 0, $color1);
+    imagefill($image, 0, 0, $color1);
     for ($i = 0; $i < $x; $i++) {
         for ($j = 0; $j < $y; $j++) {
-            if (mt_rand(0, 15) == 15){
-                 $x_rand  = rand(0, $x);
-                 $y_rand  =rand(0, $y);
-                    imagefilledpolygon($image, array($x_rand,$y_rand), 3, $black); 
-
-                 
-                 
-                imagesetpixel($image, $i, $j, $color2);
-                $coords = array($x1,$y1, $x2,$y2, $x3,$y3); 
+            if (mt_rand(0, 10) == 10){
+                
+                $coords = array(mt_rand(0, 10),mt_rand(0, 10), mt_rand(0, 10),mt_rand(0, 10), 5,6); 
+           imagesetpixel($image, $i, $j, $color2);
             }
         }
     }
  $x1 = mt_rand(15 , 30);  
   $y1 = mt_rand(15 , 20);
-    $tsize = mt_rand(11, 14);    
+    $tsize = rand(10, 13);    
 imagettftext($image, $tsize, $roit,  $x1,$y1, $black, $font, $text);
  //   imagestring($image, 5, 2, 2, $text, $black);
-
+ imagefilter($image, IMG_FILTER_SMOOTH, 15);
     imagepng($image);
     imagecolordeallocate($image, $bgcolor);
     imagecolordeallocate($image, $black);
