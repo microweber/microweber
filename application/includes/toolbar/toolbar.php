@@ -121,22 +121,7 @@
        </ul>
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
-      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector" data-value='recommended'> <span class="mw_dropdown_val">Recommended</span>
-        <div class="mw_dropdown_fields">
-          <ul>
-            <li value="-1" class="other-action"><div class="dd_search"><input type="text" id="dd_module_search" class="dd_search" /><span class="tb_search_magnify"></span></div></li>
-            <li value="recommended"><a href="#">Recommended</a></li>
-            <li value="forms"><a href="#">Forms</a></li>
-            <li value="media"><a href="#">Media</a></li>
-            <li value="users"><a href="#">Users</a></li>
-            <li value="navigation"><a href="#">Navigation</a></li>
-            <li value="content"><a href="#">Content</a></li>
-            <li value="shop"><a href="#">Online Shop</a></li>
-            <li value="social"><a href="#">Social Networks</a></li>
-            <li value="others"><a href="#">Others</a></li>
-          </ul>
-        </div>
-      </div>
+        <microweber module="admin/modules/categories_dropdown" />
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
           <microweber module="admin/modules/list" />
@@ -145,19 +130,8 @@
       <div class="mw_clear">&nbsp;</div>
     </div>
     <div id="tab_layouts" class="mw_toolbar_tab">
-      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_layout_selector"> <span class="mw_dropdown_val">Recommended</span>
-        <div class="mw_dropdown_fields">
-          <ul>
-            <li><a href="#">Recommended</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Online Shop</a></li>
-            <li><a href="#">Simple</a></li>
-            <li><a href="#">Custom</a></li>
-          </ul>
-        </div>
-      </div>
+       
+      <microweber module="admin/modules/categories_dropdown" data-for="elements" />
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
           <microweber module="admin/modules/list_elements" />

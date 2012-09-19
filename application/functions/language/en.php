@@ -64,3 +64,6 @@ $language["pages"]= 'Pages' ;
 $language["free-element"]= 'Free element' ; 
 $language["title"]= 'Title' ; 
 $language["title"]= 'Title' ; 
+$language["empty-element"]= 'Empty Element' ; 
+$language["multiple-columns"]= 'Multiple Columns' ; 
+$language["picture"]= 'Picture' ; 
