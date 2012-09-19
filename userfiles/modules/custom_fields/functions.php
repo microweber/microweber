@@ -1,5 +1,16 @@
 <?
 
+document_ready('test_document_ready_api');
+
+function test_document_ready_api($layout) {
+
+
+//   $layout = modify_html($layout, $selector = '.editor_wrapper', 'append', 'ivan');
+
+ //$layout = modify_html2($layout, $selector = '<div class="editor_wrapper">', '');
+    return $layout;
+}
+
 /**
  * make_custom_field
  *

@@ -24,12 +24,13 @@ categories
 <pre>
   <?
   
-   $is_ex1 = get('limit=100&data_type=category_item&what=category_items&for='.$for.$to_table_id);
+   $is_ex1 = get('limit=100&what=category_items&for='.$for.$to_table_id);
+ //  d($is_ex1);
     $cats_str = array();
   if(isset($is_ex1[0])){
 	  foreach($is_ex1 as $item){
-		  $par = get('one&limit=1&data_type=category_item&what=category&for='.$for.'&id='.$item['parent_id']);
-		  // d( $par);
+		  $par = get('&one&limit=1&what=category&for='.$for.'&id='.$item['parent_id']);
+		 //   d( $par);
 		  if(isset($par['title'])){
 			  		  $cats_str[] =   $par['title'];
 

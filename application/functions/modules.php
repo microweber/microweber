@@ -143,8 +143,8 @@ function save_element_to_db($data_to_save) {
     }
 
     if ($save != false) {
-        cache_clean_group('elements' . DIRECTORY_SEPARATOR . intval($save));
-        cache_clean_group('elements' . DIRECTORY_SEPARATOR . 'global');
+ 
+        cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
     }
     return $save;
 }
@@ -193,8 +193,10 @@ function save_module_to_db($data_to_save) {
     }
 
     if ($save != false) {
-        cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
-        cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
+     //   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
+       // cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
+                cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+
     }
     return $save;
 }

@@ -29,7 +29,7 @@
  *
  *
  */
-function parse_micrwober_tags($layout, $options = false) {
+function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
 
 
 
@@ -133,7 +133,6 @@ function parse_micrwober_tags($layout, $options = false) {
             if ($rel == 'page') {
                 $data = get_page(PAGE_ID);
                 $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-
             } else if ($attr ['post']) {
                 $data = get_post($attr ['post']);
                 if ($data == false) {
@@ -182,16 +181,16 @@ function parse_micrwober_tags($layout, $options = false) {
                 }
             }
 
-          //  d($field);
+            //  d($field);
 
             if ($field_content != false and $field_content != '') {
                 $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-               //  d($field_content);
+                //  d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
                 pq($elem)->html($field_content);
             } else {
-
+                
             }
         }
         $layout = $pq->htmlOuter();
@@ -232,7 +231,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	//
 
 	//
-
+ 
 	if (!empty($replaced_scripts)) {
             foreach ($replaced_scripts as $key => $value) {
                 if ($value != '') {
@@ -328,17 +327,34 @@ function parse_micrwober_tags($layout, $options = false) {
                             unset($attrs ['module']);
                         }
 
+                          if ($coming_from_parent == true) {
+                                 $attrs ['data-parent-module'] = $coming_from_parent;
+                            }
+                         if ($coming_from_parent_id == true) {
+                                 $attrs ['data-parent-module-id'] = $coming_from_parent_id;
+                            }
+                            
+                            
+                        
                         if (isset($attrs ['type']) and $attrs ['type']) {
                             $attrs ['data-type'] = $attrs ['type'];
                             unset($attrs ['type']);
                         }
 
                         $z = 0;
-
+                        $mod_as_element = false;
                         foreach ($attrs as $nn => $nv) {
+
+
+
+
 
                             if ($nn == 'class') {
                                 $module_has_class = $nv;
+
+                                if (stristr($nv, 'module-as-element')) {
+                                    $mod_as_element = true;
+                                }
                             } else {
                                 $module_html .= " {$nn}='{$nv}'  ";
                             }
@@ -376,6 +392,9 @@ function parse_micrwober_tags($layout, $options = false) {
                                 $module_name = $nv;
                             }
 
+
+
+
                             $z++;
                         }
 
@@ -394,19 +413,31 @@ function parse_micrwober_tags($layout, $options = false) {
                                 // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
                                 $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             }
+                            if ($mod_as_element == false) {
+                                if (strstr($module_name, 'text')) {
 
-                            if (strstr($module_name, 'text')) {
+                                    $module_html = str_replace('__MODULE_CLASS__', 'layout-element', $module_html);
+                                } else {
 
-                                $module_html = str_replace('__MODULE_CLASS__', 'layout-element', $module_html);
+                                    $module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
+                                }
                             } else {
-
-                                $module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
+                                $module_html = str_replace('__MODULE_CLASS__', 'element', $module_html);
                             }
-
                             $mod_content = load_module($module_name, $attrs);
+                            $coming_from_parentz = $module_name;
+                            $coming_from_parent_str = false;
+                            $coming_from_parent_strz1 = false;
+                            if ($coming_from_parent == true) {
+                                $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
+                            }
+                              if (isset($attrs ['id']) == true) {
+                                $coming_from_parent_strz1 = $attrs ['id'];
+                            }
+                             
 
-                            $mod_content = parse_micrwober_tags($mod_content, $options);
-                            $module_html .= '>' . $mod_content . '</div>';
+                            $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz,$coming_from_parent_strz1);
+                            $module_html .=  $coming_from_parent_str . '>' . $mod_content . '</div>';
 
                             $layout = str_replace($key, $module_html, $layout);
                         }
@@ -480,7 +511,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
             if ($i != 2) {
                 $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             } else {
-
+                
             }
             $i++;
         }
@@ -700,9 +731,34 @@ function utf162utf8($utf16) {
     return '';
 }
 
+function modify_html($layout, $selector, $content = "") {
+
+    $layout = str_replace($selector, $selector . $content, $layout);
+
+
+    return $layout;
+}
+
+function modify_html_slow($layout, $selector, $action = 'append', $content = "") {
+
+
+
+    $pq = phpQuery::newDocument($layout);
+
+    $els = $pq [$selector];
+    foreach ($els as $elem) {
+//  pq($elem)->html($field_content);
+        pq($elem)->$action($content);
+//
+    }
+    $layout = $pq->htmlOuter();
+
+    return $layout;
+}
+
 function clean_word($html_to_save) {
     if (strstr($html_to_save, '<!--[if gte mso')) {
-        // word mess up tags
+// word mess up tags
         $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 
         $matches = $tags;
@@ -719,15 +775,15 @@ function clean_word($html_to_save) {
             $html_to_save = str_replace('class="MsoNormal"', '', $html_to_save);
         }
 
-        // $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
-        // $return_the_entire_tag = true, $charset = 'UTF-8' );
-        //
-		// $matches = $tags;
-        // if (! empty ( $matches )) {
-        // foreach ( $matches as $m ) {
-        // $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-        // }
-        // }
+// $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
+// $return_the_entire_tag = true, $charset = 'UTF-8' );
+//
+        // $matches = $tags;
+// if (! empty ( $matches )) {
+// foreach ( $matches as $m ) {
+// $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+// }
+// }
     }
     $html_to_save = str_replace('class="exec"', '', $html_to_save);
     $html_to_save = str_replace('style=""', '', $html_to_save);
@@ -742,18 +798,18 @@ function clean_word($html_to_save) {
     $html_to_save = str_replace('<br>', '<br />', $html_to_save);
     $html_to_save = str_replace(' class=""', '', $html_to_save);
     $html_to_save = str_replace(' class=" "', '', $html_to_save);
-    // $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
-    // $html_to_save );
-    // $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
-    // $html_to_save );
+// $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
+// $html_to_save );
+// $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
+// $html_to_save );
     $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
-    // $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
-    // /><br />", "</p><p>", $html_to_save)) . '</p>';
-    // $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
-    // "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
-    // "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
-    // "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
-    // "<table"), $html_to_save);
-    // p($html_to_save);
+// $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
+// /><br />", "</p><p>", $html_to_save)) . '</p>';
+// $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
+// "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
+// "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
+// "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
+// "<table"), $html_to_save);
+// p($html_to_save);
     return $html_to_save;
 }
