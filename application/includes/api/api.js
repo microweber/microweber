@@ -131,7 +131,7 @@ mw.settings = {
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:;' onclick='mw.drag.delete_element(mw.handle_module);'><span></span></a>\
                 <a class='mw_edit_btn mw_edit_settings right' href='javascript:;' onclick='mw.drag.module_settings(this);'>Settings</a>\
             </div>\
-            <span class='mw-sorthandle-moveit'>Move</span>\
+            <span title='Click to select this module.' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
       row:"\
         <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
@@ -140,7 +140,7 @@ mw.settings = {
 	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='mw_row_delete mw_edit_delete_element'></div>\
     	    </div>\
-            <span class='column_separator_title'>Columns</span>\
+            <span title='Click to select this column.' class='column_separator_title'>Columns</span>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
@@ -153,9 +153,9 @@ mw.settings = {
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
                 <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\
-            <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
+            <span title='Click to select this element.' contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
-      item:"<div class='mw_master_handle' id='items_handle'></div>"
+      item:"<div title='Click to select this item.' class='mw_master_handle' id='items_handle'></div>"
     },
     sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?"
 }

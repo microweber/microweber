@@ -91,7 +91,7 @@ mw.wysiwyg = {
       $(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
 
 
-      if (document.createElement("input").webkitSpeech !== undefined) {
+      if (document.createElement("input").webkitSpeech !== undefined) { /*
          $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />');
          $("#vtest").mouseenter(function(){
              mw.wysiwyg.save_selection();
@@ -100,7 +100,7 @@ mw.wysiwyg = {
              mw.wysiwyg.restore_selection();
              mw.wysiwyg.insert_html(this.value);
          });
-      }
+      */ }
 
     },
     init:function(){
@@ -128,8 +128,16 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(document.body).keyup(function(){
+      $(document.body).keyup(function(event){
          mw.wysiwyg.check_selection();
+
+         if(event.keyCode == 13) {
+            //event.preventDefault();
+            //mw.wysiwyg.insert_html("<br />");
+            //return false;
+
+            $(mwd.getElementsByClassName("element-current")[1]).removeClass("element-current")
+         }
       });
     },
     applier:function(tag, classname, style_object){

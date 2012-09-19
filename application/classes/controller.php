@@ -152,7 +152,7 @@ class Controller {
         $render_file = get_layout_for_page($content);
 
 
- 
+
 
 
         if ($render_file) {
@@ -169,19 +169,26 @@ class Controller {
 
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
- 
+
                     if ($layout_toolbar != '') {
-                        $l = str_ireplace('</body>',   $layout_toolbar . '</body>' , $l);
+                        $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l);
                     }
                 }
             }
 
+            $apijs_loaded = site_url('apijs'); 
+
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
+
             $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            if (!stristr($l, $apijs_loaded)) {
+                $default_css = '<script src="' . $apijs_loaded . '"></script>';
 
+                $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            }
 
-  $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
             $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 
 
@@ -219,7 +226,7 @@ class Controller {
 
 
 
-          
+
 
 
 
@@ -249,7 +256,7 @@ class Controller {
         $tool = url(1);
 
         if ($tool) {
-
+            
         } else {
             $tool = 'index';
         }
@@ -280,7 +287,7 @@ class Controller {
 
 
 
-       $layout = execute_document_ready($layout);
+        $layout = execute_document_ready($layout);
 
 
 
@@ -305,7 +312,7 @@ class Controller {
         $l = $l->__toString();
         // var_dump($l);
         $layout = parse_micrwober_tags($l, $options = false);
-               $layout = execute_document_ready($layout);
+        $layout = execute_document_ready($layout);
 
         print $layout;
         exit();
@@ -344,7 +351,7 @@ class Controller {
         $api_function = url_segment(1);
 
         if ($api_function) {
-
+            
         } else {
             $api_function = 'index';
         }
@@ -593,7 +600,7 @@ class Controller {
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
-               $res = execute_document_ready($res);
+        $res = execute_document_ready($res);
 
         print $res;
         exit();

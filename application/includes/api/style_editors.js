@@ -298,14 +298,29 @@ init_square_maps = function(){
 
 $(document).ready(function(){
 
-$(window).bind("onElementClick", function(e, el){
-
-         $(".element").not(el).removeClass("element-current");
-         $(el).addClass("element-current");
-         mw.current_element_styles = window.getComputedStyle(el, null);
-         $(".es_item").trigger("change");
-
+$(window).bind("onItemClick", function(e, el){
+  $(".element-current").removeClass("element-current");
+  $(el).addClass("element-current");
+  mw.current_element_styles = window.getComputedStyle(el, null);
+  $(".es_item").trigger("change");
 });
+
+$(window).bind("onImageClick", function(e, el){
+  $(".element-current").removeClass("element-current");
+  $(el).addClass("element-current");
+  mw.current_element_styles = window.getComputedStyle(el, null);
+  $(".es_item").trigger("change");
+});
+
+
+$(window).bind("onBodyClick", function(){
+    $(".element-current").removeClass("element-current");
+    $("#items_handle").css({
+      top:"",
+      left:""
+    })
+});
+
 
   $(".ed_slider").each(function(){
     var el = $(this);

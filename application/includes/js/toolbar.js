@@ -1,4 +1,7 @@
 
+mwd.body.className = mwd.body.className + " mw-live-edit";
+
+
 mw.require("wysiwyg.js");
 
 
@@ -86,11 +89,7 @@ mw.image = {
             minHeight: 60,
             start:function(){
               mw.image.isResizing = true;
-
                  $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
-
-
-
             },
             stop:function(){
               mw.image.isResizing = false;

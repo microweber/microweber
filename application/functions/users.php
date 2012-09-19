@@ -1,5 +1,109 @@
 <?php
 
+//api_expose('register_user');
+api_expose('register_user');
+
+function register_user($params) {
+    // d($params);
+    $user = isset($params ['username']) ? $params ['username'] : false;
+    $pass = isset($params ['password']) ? $params ['password'] : false;
+    $email = isset($params ['email']) ? $params ['email'] : false;
+
+
+    if ($email != false) {
+
+        $data = array();
+        $data ['email'] = $email;
+        $data ['password'] = $pass;
+        // $data ['is_active'] = 'y';
+        $data = get_users($data);
+        if (empty($data)) {
+
+            $data = array();
+            $data ['username'] = $email;
+            $data ['password'] = $pass;
+            // $data ['is_active'] = 'y';
+            $data = get_users($data);
+        }
+
+        if (empty($data)) {
+            $data = array();
+            $data ['username'] = $email;
+            $data ['password'] = $pass;
+            $data ['is_active'] = 'n';
+            $data = get_users($data);
+        } else {
+            return array('error' => 'This user already exists!');
+        }
+    }
+}
+
+api_expose('captcha');
+
+function captcha() {
+     $roit1 = rand(1, 6);
+     $font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts'.DS.'font'.$roit1.'.ttf';
+     $font = normalize_path($font,0);
+    // d($font);
+   //  exit;
+    header("Content-type: image/png");
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    $text1 = rand(1, 15);
+    $text2 = rand(2, 9);
+    $roit = rand(1, 3);
+    $text = "$text1 + $text2";
+    $answ = $text1 + $text2;
+    $x = 100;
+    $y = 20;
+    
+    
+    
+    $image = @imagecreate($x, 20) or die("Unable to render a CAPTCHA picture!");
+
+    $tcol1z = rand(1, 150);
+$ttcol1z1 = rand(0, 150);
+$tcol1z11 = rand(0, 150);
+    
+    
+    $bgcolor = imagecolorallocate($image, 255, 255, 255);
+    $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
+    session_set('catcha', $answ);
+
+$col1z = rand(200, 242);
+$col1z1 = rand(150, 242);
+$col1z11 = rand(150, 242);
+    $color1 = imagecolorallocate($image,  $col1z, $col1z1, $tcol1z11);
+    $color2 = imagecolorallocate($image, $tcol1z-1, $ttcol1z1-1, $tcol1z11-2);
+     imagefill($image, 0, 0, $color1);
+    for ($i = 0; $i < $x; $i++) {
+        for ($j = 0; $j < $y; $j++) {
+            if (mt_rand(0, 15) == 15){
+                 $x_rand  = rand(0, $x);
+                 $y_rand  =rand(0, $y);
+                    imagefilledpolygon($image, array($x_rand,$y_rand), 3, $black); 
+
+                 
+                 
+                imagesetpixel($image, $i, $j, $color2);
+                $coords = array($x1,$y1, $x2,$y2, $x3,$y3); 
+            }
+        }
+    }
+ $x1 = mt_rand(15 , 30);  
+  $y1 = mt_rand(15 , 20);
+    $tsize = mt_rand(11, 14);    
+imagettftext($image, $tsize, $roit,  $x1,$y1, $black, $font, $text);
+ //   imagestring($image, 5, 2, 2, $text, $black);
+
+    imagepng($image);
+    imagecolordeallocate($image, $bgcolor);
+    imagecolordeallocate($image, $black);
+
+    imagedestroy($image);
+}
+
 function user_login($params) {
     $params2 = array();
 
@@ -605,7 +709,7 @@ function friend_requests() {
     get_instance()->load->model('Users_model', 'users_model');
     $req = get_instance()->users_model->getFollowers($db_params, $aOnlyIds = 'user_id', $db_options = false);
     if (empty($req)) {
-
+        
     }
 
     // p($req);

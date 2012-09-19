@@ -67,3 +67,5 @@ $language["title"]= 'Title' ;
 $language["empty-element"]= 'Empty Element' ; 
 $language["multiple-columns"]= 'Multiple Columns' ; 
 $language["picture"]= 'Picture' ; 
+$language["hashtag"]= 'Hashtag' ; 
+$language["hashtag"]= 'Hashtag' ; 

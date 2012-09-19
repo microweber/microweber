@@ -40,7 +40,7 @@ $(document).ready(function(){
 </script>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test" field="ridin">
+  <div class="edit" id="the_test" field="ridin_the">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

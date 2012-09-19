@@ -2,8 +2,8 @@
 api css
 */
 
-body{
-  padding-top:110px;
+body.mw-live-edit{
+    padding-top: 170px;
 }
 
 .relative{
@@ -644,13 +644,18 @@ body.dragStart #items_handle{
 
 
 .element {
-    outline: 1px solid #3D80AB !important;
+  padding:7px;
+/*    outline: 1px solid #3D80AB !important;
     outline:none\9;
     outline-offset: 3000px;
     -webkit-transition: outline-offset 0.6s;
        -moz-transition: outline-offset 0.6s;
          -o-transition: outline-offset 0.6s;
-            transition: outline-offset 0.6s;
+            transition: outline-offset 0.6s;*/
+}
+
+img.element{
+  padding: 0;
 }
 
 .element-current{

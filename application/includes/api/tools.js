@@ -387,6 +387,9 @@ $.fn.dataset = function(dataset, val){
   }
 }
 
+});
+
+
 mw.cookie = {
   get:function(name){
       var cookies=document.cookie.split(";");
@@ -403,14 +406,34 @@ mw.cookie = {
     var now = new Date();
     now.setTime( now.getTime() );
     if ( expires ){
-        expires = expires * 1000 * 60 * 60 * 24;
+        var expires = expires * 1000 * 60 * 60 * 24;
     }
     var expires_date = new Date( now.getTime() + (expires) );
     document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : "" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
   }
 }
 
-});
+mw.recommend = {
+  get:function(){
+    var kuki = mw.cookie.get("recommend");
+    if(!kuki){return {}}
+    else{
+      return $.parseJSON(kuki);
+    }
+  },
+  increase:function(item_name){
+    var json  =  mw.recommend.get();
+    var curr =  parseFloat(json[item_name]);
+    if(isNaN(curr)){
+       json[item_name] = 1;
+    }
+    else{
+        json[item_name] += 1;
+    }
+    var tostring = JSON.stringify(json);
+    mw.cookie.set("recommend", tostring, false, "/");
+  }
+}
 
 
 

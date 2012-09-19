@@ -59,6 +59,15 @@
 				    var refresh_modules11 = $(this).attr('data-reload');
 
 				}
+				
+					
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
+ refresh_modules11 = '#'+refresh_modules11;
+				}
+				
+				 
+				
 
 				og = $(this).attr('data-module-id');
 				if(og == undefined){
