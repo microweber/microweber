@@ -626,6 +626,22 @@ body.dragStart #items_handle{
 }
 
 
+.element {
+    outline: 3px solid #3D80AB !important;
+    outline:none\9;
+    outline-offset: 3000px;
+    -webkit-transition: outline-offset 0.7s;
+       -moz-transition: outline-offset 0.7s;
+         -o-transition: outline-offset 0.7s;
+            transition: outline-offset 0.7s;
+}
+
+.element-current{
+  outline: 3px solid #3D80AB !important;
+  outline-offset: -3px
+}
+
+
 
 
 

@@ -38,24 +38,33 @@ $mod_obj_str = 'modules';
 
   $module2['module'] = rtrim($module2['module'],'/');
   $module2['module'] = rtrim($module2['module'],'\\');
-                 $module2['categories'] =    get('fields=title&limit=100&what=category&for='.$mod_obj_str.'&title='.$module2['module']);
-                                //.;//   d($module2['categories']);
-                 if(!empty($module2['categories'])){
+                 $module2['categories'] =    get('fields=parent_id,id&limit=100&what=category_items&for='.$mod_obj_str.'&to_table_id='.$module2['id']);
+                              //d($module2['categories']);
+               $temp = array();
+			   // $temp2 = array();
+			     if(!empty($module2['categories'])){
 
-                   $temp = array();
+                  
                    foreach($module2['categories'] as $it){
-                      $temp[]            = $it['title'];
+                    $temp[]            = $it['parent_id'];
+					//  $temp2[]            = $it['id'];
                    }
                    $module2['categories'] = implode(',',$temp);
+				 //   $module2['categories_ids'] = implode(',',$temp2);
 				//   d( $module2['categories']); 
                  }
 
    ?>
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
-  <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
-  <li id="c<?php print uniqid(); ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>" class="module-item <? if(isset( $module2['as_element']) and intval($module2['as_element'] == 1)) : ?> module-as-element<? endif; ?>"> <span class="mw_module_hold">
-     <? $module_id = $module2['name_clean'].'_'.uniqid(); ?>
+  <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']);
+
+
+  ?>
+
+   <? $module_id = $module2['name_clean'].'_'.uniqid(); ?>
+  <li  id="<?php print $module_id; ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <? if(isset( $module2['as_element']) and intval($module2['as_element'] == 1)) : ?> module-as-element<? endif; ?>"> <span class="mw_module_hold">
+
   <script type="text/javascript">
       Modules_List_<? print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
        id:'<?php print($module_id); ?>',

@@ -23,11 +23,12 @@ $(window).load(function(){
 
 $("#module_category_selector").change(function(){
     var val = $(this).getDropdownValue();
-    (val!=-1&&val!="-1")?mw.tools.toolbar_sorter(Modules_List, val):'';
+    (val!=-1&&val!="-1")?mw.tools.toolbar_sorter(Modules_List_modules, val):'';
 });
 
 $("#module_category_selector #dd_module_search").bind("keyup paste", function(){
-    mw.tools.toolbar_searh(Modules_List, this.value);
+
+    mw.tools.toolbar_searh(Modules_List_modules, this.value);
 });
 
 
