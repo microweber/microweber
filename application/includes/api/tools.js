@@ -325,10 +325,7 @@ mw.tools = {
   },
   toolbar_searh : function(obj, value){
     var value = value.toLowerCase();
-    if(value==''){
-        $(".modules-list li").show()
-    }
-    else{
+
       for (var item in obj){
           var child_object = obj[item];
           var id = child_object.id;
@@ -341,7 +338,7 @@ mw.tools = {
             item.hide();
           }
       }
-    }
+
 
   }
 }

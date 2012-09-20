@@ -161,8 +161,6 @@ mw.wysiwyg = {
     },
     createelement : function(){
        var el = mw.wysiwyg.applier('div', 'mw_applier element');
-       mw.drag.init(el);
-       mw.drag.fix_handles();
     },
     fontcolorpicker:function(){
         var el = ".mw_editor_font_color";

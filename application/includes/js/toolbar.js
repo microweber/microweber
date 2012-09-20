@@ -35,7 +35,7 @@ $("#module_category_selector").change(function(){
     (val!=-1&&val!="-1")?mw.tools.toolbar_sorter(Modules_List_modules, val):'';
 });
 
-$("#module_category_selector #dd_module_search").bind("keyup paste", function(){
+$("#module_category_selector #dd_module_search").bind("keyup paste focus blur", function(){
 
     mw.tools.toolbar_searh(Modules_List_modules, this.value);
 });
