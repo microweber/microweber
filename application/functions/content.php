@@ -846,7 +846,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
-        // d($q);
+      //  d($q);
         // $crc = crc32 ( $q );
 
         $crc = abs(crc32($q));

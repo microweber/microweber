@@ -1,4 +1,9 @@
- <?  $more = get_custom_fields('module',$params['id'],1); 
+ <?  
+ $for = 'module';
+ if(isset($params['for'])){
+	$for = $params['for'];
+ }
+ $more = get_custom_fields($for ,$params['id'],1); 
  
  
  ?>

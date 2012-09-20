@@ -174,7 +174,7 @@ mw.tools = {
     }, function(){
       $(this).removeClass("other-action-hover");
     });
-    $(".mw_dropdown").mouseup(function(){
+    $(".mw_dropdown").mouseup(function(event){
       $(this).toggleClass("active");
       $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
       if($(this).find(".other-action-hover").length==0){
@@ -325,18 +325,24 @@ mw.tools = {
   },
   toolbar_searh : function(obj, value){
     var value = value.toLowerCase();
-    for (var item in obj){
-        var child_object = obj[item];
-        var id = child_object.id;
-        var title = child_object.title.toLowerCase();
-        var item = $(document.getElementById(id))
-        if (title.contains(value)){
-           item.show();
-        }
-        else{
-          item.hide();
-        }
+    if(value==''){
+        $(".modules-list li").show()
     }
+    else{
+      for (var item in obj){
+          var child_object = obj[item];
+          var id = child_object.id;
+          var title = child_object.title.toLowerCase();
+          var item = $(document.getElementById(id))
+          if (title.contains(value)){
+             item.show();
+          }
+          else{
+            item.hide();
+          }
+      }
+    }
+
   }
 }
 

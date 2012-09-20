@@ -159,9 +159,9 @@ body.mw-live-edit{
     }
     .mw_dropdown_fields > ul{
       background: #f1f1f1 url(../img/dropdown_fields_bottom.png) no-repeat center bottom;
-      max-height: 250px;
+      /*max-height: 250px;
       overflow-x:hidden;
-      overflow-y:auto;
+      overflow-y:auto;*/
       background-size: 100% 6px;
       width: 100%;
       box-shadow:1px 1px 0px #f0f0f0;
@@ -644,7 +644,7 @@ body.dragStart #items_handle{
 
 
 .element {
-  
+
 /*    outline: 1px solid #3D80AB !important;
     outline:none\9;
     outline-offset: 3000px;

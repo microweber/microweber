@@ -13,14 +13,16 @@
  }
  
  
- d($params);
+// d($params);
 
  if($params['for_module_id']): ?>
-	<?     $more = get_custom_fields($for,$params['for_module_id'],1);    ?>
+	<?     
+	 
+	$more = get_custom_fields($for,$params['for_module_id'],1);    ?>
     <? if(!empty( $more)):  ?>
     <? foreach( $more as $field): ?>
     <?
-//	d($field);
+ 	 
 	   print  make_field($field, false, 1); ?>
     <? endforeach; ?>
     <? endif; ?>
