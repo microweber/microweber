@@ -163,10 +163,17 @@ $(document).ready(function(){
 
    
   </select>
-  
+  <? //d($edit_post_mode); ?>
    <? if($edit_post_mode != false): ?>
+   <? if(intval($data['id']) > 0): ?>
+        <microweber module="categories/selector" for="content" to_table_id="<? print $data['id'] ?>">
+
+    
+   <? else: ?>
+       <microweber module="categories/selector" for="content">
+
    
-    <microweber module="categories/selector" for="content" debug=1  >
+   <? endif; ?>
 
    <? endif; ?>
   

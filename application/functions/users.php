@@ -113,7 +113,7 @@ function captcha() {
     header("Pragma: no-cache");
     $text1 = mt_rand(2, 15);
     $text2 = mt_rand(2, 9);
-    $roit = mt_rand(1, 8) - mt_rand(1, 10);
+    $roit = mt_rand(1, 5);
     $text = "$text1 + $text2";
     $answ = $text1 + $text2;
     $x = 100;
@@ -134,12 +134,12 @@ function captcha() {
     $col1z11 = rand(150, 242);
     $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
     $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
-    //   imagefill($image, 0, 0, $color1);
+    // imagefill($image, 0, 0, $color1);
     for ($i = 0; $i < $x; $i++) {
         for ($j = 0; $j < $y; $j++) {
             if (mt_rand(0, 50) == 20) {
 
-                //    $coords = array(mt_rand(0, 10),mt_rand(0, 10), mt_rand(0, 10),mt_rand(0, 10), 5,6); 
+                //    $coords = array(mt_rand(0, 10),mt_rand(0, 10), mt_rand(0, 10),mt_rand(0, 10), 5,6);
                 imagesetpixel($image, $i, $j, $color2);
             }
         }
@@ -154,10 +154,12 @@ function captcha() {
 
 
     //   imagestring($image, 5, 2, 2, $text, $black);
-    imagefilter($image, IMG_FILTER_SMOOTH, 50);
 
 
+    $emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
 
+    imageconvolution($image, $emboss, 3, 255);
+  imagefilter($image, IMG_FILTER_SMOOTH, 50);
     imagepng($image);
     imagecolordeallocate($image, $bgcolor);
     imagecolordeallocate($image, $black);

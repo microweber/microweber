@@ -158,10 +158,10 @@ function full_url($skip_ajax = false, $skip_param = false) {
 }
 
 function url_params($skip_ajax = false) {
-    return url_param($param = "__MW_GET_ALL_PARAMS__", $param_sub_position = false, $skip_ajax);
+    return url_param($param = "__MW_GET_ALL_PARAMS__",   $skip_ajax);
 }
 
-function url_param($param, $param_sub_position = false, $skip_ajax = false) {
+function url_param($param,   $skip_ajax = false) {
     if ($_POST) {
 
         if (isset($_POST ['search_by_keyword'])) {
@@ -185,7 +185,7 @@ function url_param($param, $param_sub_position = false, $skip_ajax = false) {
     $all_params = array();
     $segs = explode('/', $url);
     foreach ($segs as $segment) {
-
+ 
         $seg1 = explode(':', $segment);
 
         if ($param == '__MW_GET_ALL_PARAMS__') {
@@ -193,10 +193,10 @@ function url_param($param, $param_sub_position = false, $skip_ajax = false) {
                 $all_params[$seg1[0]] = $seg1[1];
             }
         } else {
-
-
+$param_sub_position = false;
+ 
             // var_dump($seg1);
-            if (($seg1 [0]) == ($param)) {
+            if (trim($seg1[0]) == trim($param)) {
 
                 // if (stristr ( $segment, $param . ':' ) == true) {
                 if ($param_sub_position == false) {

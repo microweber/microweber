@@ -10,10 +10,9 @@ if ($is_sqlite != false) {
 }
 
 function db_q($q) {
-   
+
     if (MW_IS_INSTALLED == false) {
         return false;
-      
     }
 
 
@@ -22,7 +21,7 @@ function db_q($q) {
     $db = new DB($dbc);
 
     $q = $db->query($q);
-     unset($db);
+    unset($db);
     return $q;
 }
 
@@ -247,7 +246,7 @@ if (is_admin() == true) {
 }
 
 function get($params) {
-$orderby = false;
+    $orderby = false;
     $cache_group = false;
     $debug = false;
     $getone = false;
@@ -285,10 +284,10 @@ $orderby = false;
 
             $criteria[$k] = $v;
         }
-		
-		if ('orderby' == $k ) {
-             $orderby = $v;
-        }  
+
+        if ('orderby' == $k) {
+            $orderby = $v;
+        }
     }
 
     if ($cache_group == false and $debug == false) {
@@ -776,13 +775,13 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
             }
         }
     }
-if(isset($orderby) and $orderby != false){
-	if(!is_array($orderby)){
-		if(is_string($orderby)){
-		$orderby = explode(',', $orderby);	
-		}
-	}
-}
+    if (isset($orderby) and $orderby != false) {
+        if (!is_array($orderby)) {
+            if (is_string($orderby)) {
+                $orderby = explode(',', $orderby);
+            }
+        }
+    }
     if (!empty($orderby)) {
 
         $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
@@ -1531,157 +1530,171 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     // p ( $original_data );
     if (isset($original_data['categories'])) {
-
+        $table_cats = $cms_db_tables ['table_taxonomy'];
+        $table_cats_items = $cms_db_tables ['table_taxonomy_items'];
+        $taxonomy_table = $cms_db_tables ['table_taxonomy'];
+        $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
         $is_a = has_access('save_category');
 
         if ($is_a == true and $table_assoc_name != 'table_taxonomy' and $table_assoc_name != 'table_taxonomy_items') {
+            if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
+                // exit('__EMPTY_CATEGORIES__');
+
+                $clean_q = "delete
+                    from $taxonomy_items_table where                            data_type='category_item' and
+                    to_table='{$table_assoc_name}' and
+                    to_table_id='{$id_to_return}'  ";
+                $cats_data_items_modified = true;
+                $cats_data_modified = true;
+                db_q($clean_q);
+            } else {
 
 
 
-            if (is_string($original_data['categories'])) {
-                $original_data['categories'] = explode(',', $original_data['categories']);
-            }
-            $cat_names_or_ids = array_trim($original_data['categories']);
-            $table_cats = $cms_db_tables ['table_taxonomy'];
-            $table_cats_items = $cms_db_tables ['table_taxonomy_items'];
 
-            $cats_data_modified = false;
-            $cats_data_items_modified = false;
-            $keep_thosecat_items = array();
-            foreach ($cat_names_or_ids as $cat_name_or_id) {
-                if (trim($cat_name_or_id) != '') {
-
-                    $cat_name_or_id = str_replace('\\', '/', $cat_name_or_id);
-                    $cat_name_or_id = explode('/', $cat_name_or_id);
+                if (is_string($original_data['categories'])) {
+                    $original_data['categories'] = explode(',', $original_data['categories']);
+                }
+                $cat_names_or_ids = array_trim($original_data['categories']);
 
 
-                    $parent_id = 0;
+                $cats_data_modified = false;
+                $cats_data_items_modified = false;
+                $keep_thosecat_items = array();
+                foreach ($cat_names_or_ids as $cat_name_or_id) {
+                    if (trim($cat_name_or_id) != '') {
+
+                        $cat_name_or_id = str_replace('\\', '/', $cat_name_or_id);
+                        $cat_name_or_id = explode('/', $cat_name_or_id);
+
+
+                        $parent_id = 0;
 
 
 
-                    $all_cat_name_or_ids = $cat_name_or_id;
-                    $cat_name_or_id = end($cat_name_or_id);
-                    $ccount = count($all_cat_name_or_ids);
-                    if ($ccount > 1) {
-                        $gc = $ccount - 2;
-                        $prev_cat = $all_cat_name_or_ids[$gc];
+                        $all_cat_name_or_ids = $cat_name_or_id;
+                        $cat_name_or_id = end($cat_name_or_id);
+                        $ccount = count($all_cat_name_or_ids);
+                        if ($ccount > 1) {
+                            $gc = $ccount - 2;
+                            $prev_cat = $all_cat_name_or_ids[$gc];
 
-                        $str0 = 'limit=1&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                        $str00 = 'limit=1&data_type=category&what=categories&' . 'title=' . $prev_cat . '&to_table=' . $table_assoc_name;
-                        $is_ex_parent = get($str0);
-                        if ($is_ex_parent == false or empty($is_ex_parent)) {
-                            $is_ex_parent = get($str00);
-                            $parent_id = $is_ex_parent[0]['id'];
-                        } else {
-                            $parent_id = $is_ex_parent[0]['parent_id'];
-                        }
+                            $str0 = 'limit=1&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                            $str00 = 'limit=1&data_type=category&what=categories&' . 'title=' . $prev_cat . '&to_table=' . $table_assoc_name;
+                            $is_ex_parent = get($str0);
+                            if ($is_ex_parent == false or empty($is_ex_parent)) {
+                                $is_ex_parent = get($str00);
+                                $parent_id = $is_ex_parent[0]['id'];
+                            } else {
+                                $parent_id = $is_ex_parent[0]['parent_id'];
+                            }
 //                        if (isset($is_ex_parent[0])) {
 //                            $parent_id = $is_ex_parent[0]['id'];
 //                        }
-                        unset($all_cat_name_or_ids[$gc]);
-                        // $cat_name_or_id = implode('/', $all_cat_name_or_ids);
-                    }
+                            unset($all_cat_name_or_ids[$gc]);
+                            // $cat_name_or_id = implode('/', $all_cat_name_or_ids);
+                        }
 
 
 
-                    $taxonomy_table = $cms_db_tables ['table_taxonomy'];
-                    $taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-                    $str1 = 'title=' . $cat_name_or_id . '&data_type=category&to_table=' . $table_assoc_name;
-                    $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
 
-                    $gotten_by_id = false;
-                    if (empty($is_ex)) {
-
-                        $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                        $str1 = 'title=' . $cat_name_or_id . '&data_type=category&to_table=' . $table_assoc_name;
                         $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
-                        $gotten_by_id = true;
-                    } else {
-                        
-                    }
-                    if ($gotten_by_id == false and isset($is_ex[0])) {
 
+                        $gotten_by_id = false;
+                        if (empty($is_ex)) {
 
-
-
-
-                        $is_expar = $is_ex[0];
-
-
-                        if ($parent_id == ($is_expar['parent_id'])) {
-                            // d($parent_id);
-                            // d($is_expar);
+                            $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                            $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
+                            $gotten_by_id = true;
                         } else {
+                            
+                        }
+                        if ($gotten_by_id == false and isset($is_ex[0])) {
 
 
-                            if (intval($parent_id) != intval($is_expar['parent_id'])) {
-                                $new_cat = array();
 
-                                $new_cat['id'] = $is_expar['id'];
-                                $new_cat['parent_id'] = $parent_id;
-                                // d($new_cat);
-                                $new_c = save_data($taxonomy_table, $new_cat);
-                                $keep_thosecat_items[] = $new_c;
-                                $cats_data_modified = TRUE;
+
+
+                            $is_expar = $is_ex[0];
+
+
+                            if ($parent_id == ($is_expar['parent_id'])) {
+                                // d($parent_id);
+                                // d($is_expar);
+                            } else {
+
+
+                                if (intval($parent_id) != intval($is_expar['parent_id'])) {
+                                    $new_cat = array();
+
+                                    $new_cat['id'] = $is_expar['id'];
+                                    $new_cat['parent_id'] = $parent_id;
+                                    // d($new_cat);
+                                    $new_c = save_data($taxonomy_table, $new_cat);
+                                    $keep_thosecat_items[] = $new_c;
+                                    $cats_data_modified = TRUE;
+                                }
                             }
                         }
-                    }
 
-                    $new_c = false;
+                        $new_c = false;
 
-                    if (!isset($is_ex[0])) {
+                        if (!isset($is_ex[0])) {
 
-                        // $cat = $is_ex[0];
+                            // $cat = $is_ex[0];
 
-                        $new_cat = array();
-                        $new_cat['to_table'] = $table_assoc_name;
-                        // $new_cat['to_table_id'] = $id_to_return;
-                        $new_cat['data_type'] = 'category';
-                        $new_cat['parent_id'] = $parent_id;
-                        //  d($table_cats);
-                        $new_cat['title'] = $cat_name_or_id;
+                            $new_cat = array();
+                            $new_cat['to_table'] = $table_assoc_name;
+                            // $new_cat['to_table_id'] = $id_to_return;
+                            $new_cat['data_type'] = 'category';
+                            $new_cat['parent_id'] = $parent_id;
+                            //  d($table_cats);
+                            $new_cat['title'] = $cat_name_or_id;
 
-                        // d($new_cat);
+                            // d($new_cat);
 
-                        $new_c = save_data($table_cats, $new_cat);
-
-
-                        $keep_thosecat_items[] = $new_c;
-                        $cats_data_modified = TRUE;
-                        $parent_id = $new_c;
-                        // cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
+                            $new_c = save_data($table_cats, $new_cat);
 
 
-                        $is_ex = get('limit=1&data_type=category&what=categories&id=' . $new_c);
-                    }
-
-                    if (isset($is_ex[0])) {
-
-
-
-                        $is_ex = $is_ex[0];
-
-                        $new_cat = array();
-                        $keep_thosecat_items[] = $is_ex['id'];
-                        $new_cat['to_table'] = $table_assoc_name;
-                        $new_cat['to_table_id'] = $id_to_return;
-                        $new_cat['data_type'] = 'category_item';
-                        $new_cat['parent_id'] = $is_ex['id'];
-
-                        $is_ex1 = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
-                        // d($is_ex1);
-                        if (!isset($is_ex1[0])) {
-                            //   d($table_cats_items);
-                            $new_c = save_data($table_cats_items, $new_cat);
-                            // $keep_thosecat_items[] = $new_c;
+                            $keep_thosecat_items[] = $new_c;
                             $cats_data_modified = TRUE;
-                            $cats_data_items_modified = TRUE;
-                        } else {
-                            foreach ($is_ex1 as $sc) {
-                                // $keep_thosecat_items[] = $sc['id'];
-                            }
+                            $parent_id = $new_c;
+                            // cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
+
+
+                            $is_ex = get('limit=1&data_type=category&what=categories&id=' . $new_c);
                         }
-                        //
-                        //  d($is_ex);
+
+                        if (isset($is_ex[0])) {
+
+
+
+                            $is_ex = $is_ex[0];
+
+                            $new_cat = array();
+                            $keep_thosecat_items[] = $is_ex['id'];
+                            $new_cat['to_table'] = $table_assoc_name;
+                            $new_cat['to_table_id'] = $id_to_return;
+                            $new_cat['data_type'] = 'category_item';
+                            $new_cat['parent_id'] = $is_ex['id'];
+
+                            $is_ex1 = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+                            // d($is_ex1);
+                            if (!isset($is_ex1[0])) {
+                                //   d($table_cats_items);
+                                $new_c = save_data($table_cats_items, $new_cat);
+                                // $keep_thosecat_items[] = $new_c;
+                                $cats_data_modified = TRUE;
+                                $cats_data_items_modified = TRUE;
+                            } else {
+                                foreach ($is_ex1 as $sc) {
+                                    // $keep_thosecat_items[] = $sc['id'];
+                                }
+                            }
+                            //
+                            //  d($is_ex);
+                        }
                     }
                 }
             }
@@ -1700,7 +1713,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 
             if ($cats_data_modified == TRUE) {
                 cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
-                cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $parent_id);
+                if (isset($parent_id)) {
+                    cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $parent_id);
+                }
                 //cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
             }
             if ($cats_data_items_modified == TRUE) {

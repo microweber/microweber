@@ -71,3 +71,4 @@ $language["hashtag"]= 'Hashtag' ;
 $language["hashtag"]= 'Hashtag' ; 
 $language["whmcs-hook"]= 'WHMCS hook' ; 
 $language["4-pictures"]= '4 Pictures' ; 
+$language["double-floated-image-with-paragraph"]= 'Double - floated image with paragraph' ; 

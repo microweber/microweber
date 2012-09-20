@@ -5,7 +5,8 @@ $rand = round($rand);
 
 
 $is_for_module = url_param('for_module_id', 1);
-
+$for = url_param('for', 1);
+ 
 if (!empty($params)) {
 
     if (isset($params['custom_field_type']) and trim($params['custom_field_type']) != '') {
@@ -102,7 +103,8 @@ if (isset($params['for_module_id'])) {
             <input type="hidden" name="id" value="<? print intval($data['id']) ?>" />
         <? endif; ?>
         <? if (isset($for_module_id) and $for_module_id != false): ?>
-            <input type="hidden" name="to_table" value="table_modules" />
+        <? $db_t = $for; ?>
+            <input type="text" name="to_table" value="<? print $db_t ?>" />
             <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
         <? endif; ?>
         <div class="control-group">

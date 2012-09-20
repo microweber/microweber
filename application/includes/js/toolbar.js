@@ -219,7 +219,7 @@ editablePurify = function(el){
 $(document).ready(function(){
 
 
-$("a[href='#mw_tab_design']").remove();
+
 
 
 

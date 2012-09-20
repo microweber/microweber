@@ -434,6 +434,13 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
         mw.wysiwyg.isThereEditableContent=true;
     },
+    select_all:function(el){
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
@@ -446,6 +453,10 @@ mw.wysiwyg = {
         else if(before_after=='before'){
            var el = $(element)[0].previousSibling;
            var start = el.data.length;
+        }
+        else if(before_after=='end'){
+           var el = element;
+           var start = $(element)[0].data.length;
         }
         range.setStart(el,start);
         range.setEnd(el, start);
@@ -565,6 +576,14 @@ $(mwd).ready(function(){
     }
     else if($(target).parents(".element").length>0){
       $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
+    }
+  });
+
+
+  $(window).bind("onElementClick", function(e, el){
+    if($(el).hasClass("lipsum")){
+       $(el).removeClass("lipsum");
+       mw.wysiwyg.select_all(el);
     }
   });
 });
