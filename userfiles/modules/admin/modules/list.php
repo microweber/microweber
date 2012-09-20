@@ -27,7 +27,7 @@ $mod_obj_str = 'modules';
 
 </script>
 
-<ul class="modules-list">
+<ul class="modules-list list-<? print $mod_obj_str ?>">
   <? foreach($modules as $module2): ?>
   <?
 		//d($module2);
@@ -95,7 +95,7 @@ $mod_obj_str = 'modules';
                 src="<? print $module2['icon'] ?>"
                  /> </span>
     <? endif; ?>
-    <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span> </span> </li>
+    <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span>  </span> </li>
   <? endforeach; ?>
   <? foreach($modules as $module): ?>
   <?

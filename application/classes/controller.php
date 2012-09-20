@@ -176,7 +176,7 @@ class Controller {
                 }
             }
 
-            $apijs_loaded = site_url('apijs'); 
+            $apijs_loaded = site_url('apijs');
 
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
@@ -373,6 +373,17 @@ class Controller {
                         $data = $_POST;
                     }
                     $res = $api_function($data);
+
+
+                    $hooks = api_hook(true);
+                    if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+                        foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+                             $hook_value($res);
+                            //d($hook_value);
+                        }
+                    }
+
+                    //d($hooks);
                     if (!defined('MW_API_HTML_OUTPUT')) {
                         print json_encode($res);
                     } else {

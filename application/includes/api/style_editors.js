@@ -254,18 +254,24 @@ mw.setbg = function(url){
   $(".element-current").css("backgroundImage", "url("+url+")");
 }
 
-mw.sliders_settings = {
-  css:{
-    slide:function(event,ui){
-        var type = $(this).attr("data-type");
-        var val = (ui.value);
-        type=='opacity'?  val = val/100 :'';
-        $(".element-current").css($(this).attr("data-type"), val);
-    },
-    min:0,
-    max:100,
-    value:0
-  }
+
+mw.sliders_settings = function(el){
+    var el = $(el);
+    var type = el.dataset('type');
+    var min = parseFloat(el.dataset('min'));
+    var max = parseFloat(el.dataset('max'));
+    var val = parseFloat(el.dataset('value'));
+    mw.log(" - "+type + " - "+min +" - "+ max + " - "+val);
+    return {
+       slide:function(event,ui){
+          var val = (ui.value);
+          type=='opacity'?  val = val/100 :'';
+          $(".element-current").css(type, val);
+       },
+       min:min,
+       max:max,
+       value:val
+    }
 }
 
 init_square_maps = function(){
@@ -323,15 +329,12 @@ $(window).bind("onBodyClick", function(){
 
 
   $(".ed_slider").each(function(){
-    var el = $(this);
-    el.slider(mw.sliders_settings.css);
-    var max = $(this).attr("data-max");
-    var min = $(this).attr("data-min");
+    $(this).slider(mw.sliders_settings(this));
+      //vadiat bugove zaradi tova che sa skriti
+      //trqbva da se zarejda kogato editora e vidim
 
-    el.slider("option", "max", max!=undefined?parseFloat(max):100);
-    el.slider("option", "min", min!=undefined?parseFloat(min):0);
-    console.log(el.slider("option", "min"))
   });
+
 
 
   init_square_maps();

@@ -1,6 +1,5 @@
-  <? $rand = uniqid(); ?>
- 
- <script  type="text/javascript">
+<? $rand = uniqid(); ?>
+<script  type="text/javascript">
 
 mw.require('forms.js');
  
@@ -31,7 +30,8 @@ $(document).ready(function(){
    
 });
 </script>
-<form class="form-horizontal" id="user_registration_form<? print $rand ?>">
+
+<form class="form-horizontal" id="user_registration_form<? print $rand ?>" method="post">
   <legend><?php print option_get('form_title', $params['id']) ?></legend>
   <div class="control-group">
     <label class="control-label" for="email">Email</label>
@@ -45,19 +45,18 @@ $(document).ready(function(){
       <input type="password"   name="password" placeholder="Password">
     </div>
   </div>
-   <div class="control-group">
+  <div class="control-group">
     <label class="control-label" for="captcha" >Captcha</label>
-    <div class="controls">
-    <img src="<? print site_url('api/captcha') ?>" />
+    <div class="controls"> <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
       <input type="captcha"   name="captcha" placeholder="?">
     </div>
   </div>
   <div class="control-group">
-    <div class="controls">
-     <!-- <label class="checkbox">
+    <div class="controls"> 
+      <!-- <label class="checkbox">
         <input type="checkbox">
         Remember me </label>-->
-        <?php $form_btn_title =  option_get('form_btn_title', $params['id']);
+      <?php $form_btn_title =  option_get('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		$form_btn_title = 'Register';
 		}

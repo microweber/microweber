@@ -1320,6 +1320,7 @@ function save_content($data, $delete_the_cache = true) {
 
                 $new_category = array();
                 $new_category["data_type"] = "category";
+                 $new_category["to_table"] = "table_content";
                 $new_category["title"] = $data_to_save['subtype_value_new'];
                 $new_category["parent_id"] = "0";
 

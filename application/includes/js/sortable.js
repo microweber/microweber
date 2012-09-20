@@ -516,6 +516,7 @@ mw.drag = {
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
+                  $(mw.image_resizer).removeClass("active");
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -533,6 +534,7 @@ mw.drag = {
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
+                  $(mw.image_resizer).removeClass("active");
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -550,6 +552,7 @@ mw.drag = {
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
+                  $(mw.image_resizer).removeClass("active");
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -565,6 +568,7 @@ mw.drag = {
                   $(window).trigger("onAllLeave");
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
+                  $(mw.image_resizer).removeClass("active");
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -584,6 +588,7 @@ mw.drag = {
                 mw.isDrag = true;
                 mw.dragCurrent = mw.GlobalModuleListHelper;
                 $(mwd.body).addClass("dragStart");
+                $(mw.image_resizer).removeClass("active");
             },
            stop:function(){
               mw.isDrag = false;
@@ -754,28 +759,35 @@ mw.drag = {
                                     $(row).find(".column").eq(0).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
                                     $(row).find(".column").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
+                                    if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
+                                         setTimeout(function(){
+                                              mw.drag.fix_placeholders(true);
+                                         }, 200)
+                                    }
+
                                   }
                                   else if(position=='right'){
 
 
-                                    //hovered.before(mw.dragCurrent);
+                                          var row = mwd.createElement('div');
+                                          row.className = 'row';
+                                          row.id = "row_" + mw.random();
+                                          row.innerHTML = "<div class='column temp_column' style='width:50%'></div><div class='column temp_column' style='width:50%'></div>";
+                                          hovered.before(row);
+                                          hovered.addClass("element");
 
-                                    var row = mwd.createElement('div');
-                                    row.className = 'row';
-                                    row.id = "row_" + mw.random();
-                                    row.innerHTML = "<div class='column temp_column' style='width:50%'></div><div class='column temp_column' style='width:50%'></div>";
-                                    hovered.before(row);
-                                    hovered.addClass("element");
+                                          $(row).find(".column").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                          $(row).find(".column").eq(1).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
-                                    $(row).find(".column").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                                    $(row).find(".column").eq(1).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-
-
-
+                                          if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
+                                            setTimeout(function(){
+                                              mw.drag.fix_placeholders(true);
+                                            }, 200)
+                                          }
                                   }
                             }
 
-                            if(curr_prev.length==0 && curr_next.hasClass("empty-element") && curr_parent.hasClass("temp_column")){
+                            if(curr_prev.length==0 && curr_next.hasClass("empty-element") && curr_parent.hasClass("temp_column") && !hovered.hasClass("empty-element")){
                                  var row = curr_parent.parents(".row").eq(0);
                                  curr_parent.remove();
                                  row.find(".empty-element").remove();
@@ -1463,12 +1475,12 @@ mw.drop_regions = {
     var offset = el.offset();
     var region_left = {
       l:offset.left,
-      r:offset.left+20,
+      r:offset.left+40,
       t:offset.top,
       b:offset.top+height
     }
     var region_right = {
-      l:offset.left+width-20,
+      l:offset.left+width-40,
       r:offset.left+width,
       t:offset.top,
       b:offset.top+height

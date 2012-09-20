@@ -79,7 +79,7 @@ function normalize_path($path, $slash_it = true) {
         $path = $path_original;
     }
     if ($slash_it == false) {
-
+        
     } else {
         $path = $path . DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
@@ -99,7 +99,7 @@ function string_clean($var) {
         if (function_exists("mysql_real_escape_string")) {
             // $output = mysql_real_escape_string ( $var );
         } else {
-
+            
         }
         $output = stripslashes($var);
     }
@@ -339,7 +339,8 @@ function session_get($name) {
             session_start();
         }
     }
-    if (isset($_SESSION [$name])) {
+    // d($_SESSION[$name]);
+    if (isset($_SESSION[$name]) ) {
         return $_SESSION [$name];
     } else {
         return false;
@@ -403,7 +404,7 @@ function recursive_remove_directory($directory, $empty = true) {
                     try {
                         unlink($path);
                     } catch (Exception $e) {
-
+                        
                     }
                 }
             }

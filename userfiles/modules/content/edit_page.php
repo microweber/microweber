@@ -166,7 +166,8 @@ $(document).ready(function(){
   
    <? if($edit_post_mode != false): ?>
    
- <? category_tree(); ?>  
+    <microweber module="categories/selector" for="content" debug=1  >
+
    <? endif; ?>
   
  
