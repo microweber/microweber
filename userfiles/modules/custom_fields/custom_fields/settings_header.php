@@ -104,7 +104,7 @@ if (isset($params['for_module_id'])) {
         <? endif; ?>
         <? if (isset($for_module_id) and $for_module_id != false): ?>
         <? $db_t = $for; ?>
-            <input type="text" name="to_table" value="<? print guess_table_name($db_t ); ?>" />
+            <input type="hidden" name="to_table" value="<? print guess_table_name($db_t ); ?>" />
             <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
         <? endif; ?>
         <div class="control-group">

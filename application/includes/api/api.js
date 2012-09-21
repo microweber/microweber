@@ -161,7 +161,7 @@ mw.settings = {
 }
 
 
-mw.load_module = function($module_name, $update_element) {
+mw.load_module = function($module_name, $update_element, callback) {
 	var attributes = {};
 	attributes.module = $module_name;
     mw._({
@@ -169,6 +169,9 @@ mw.load_module = function($module_name, $update_element) {
       params:attributes,
       done:function(){
         mw.settings.sortables_created = false;
+        if(mw.is.func(callback)){
+          callback.call($($update_element)[0]);
+        }
       }
     });
 }
@@ -261,7 +264,6 @@ mw.log = function(what){
     console.log(what);
   }
 }
-
 
 
 

@@ -44,7 +44,9 @@ if(isset($params['data-paging-param'])){
 <? 
 //$post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
-$content = get_content($post_params);  ?>
+$content = get_content($post_params);
+ 
+  ?>
 <? 
 
 $post_params_paging = $post_params;

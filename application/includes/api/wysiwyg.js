@@ -12,6 +12,18 @@ mw.wysiwyg = {
          document.execCommand(a,b,c);
          $.browser.mozilla?document.designMode = 'off':'';
       }
+      else if(mwd.querySelector(".element-current")!==null){
+        var el = mwd.querySelector(".element-current");
+
+        $(el).attr('contenteditable','true');
+        mw.wysiwyg.isThereEditableContent = true;
+        el.focus();
+        mw.wysiwyg.select_all(el);
+        mw.wysiwyg.execCommand(a,b,c);
+        //el.contenteditable = true;
+        //mw.wysiwyg.isThereEditableContent = true;
+        //mw.wysiwyg.execCommand(a,b,c);
+      }
     },
     isThereEditableContent:false,
     selection:'',
@@ -298,6 +310,7 @@ mw.wysiwyg = {
                   }
                });
            }
+
           wys_is_bold ? $(".mw_editor_bold").addClass("mw_editor_btn_active") : $(".mw_editor_bold").removeClass("mw_editor_btn_active");
           wys_is_italic ? $(".mw_editor_italic").addClass("mw_editor_btn_active") : $(".mw_editor_italic").removeClass("mw_editor_btn_active");
           wys_is_underlined ? $(".mw_editor_underline").addClass("mw_editor_btn_active") : $(".mw_editor_underline").removeClass("mw_editor_btn_active");

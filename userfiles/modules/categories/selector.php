@@ -97,9 +97,9 @@ $(document).ready(function(){
     });
 
  if(names.length > 0){
-$('#mw_cat_selected_<? print $rand ?>').val(names.join(','));
+$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
  } else {
-	$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__'); 
+	$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__').change(); 
 	 
  }
 

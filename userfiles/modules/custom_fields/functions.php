@@ -6,8 +6,7 @@ function test_document_ready_api($layout) {
 
 
 //   $layout = modify_html($layout, $selector = '.editor_wrapper', 'append', 'ivan');
-
- //$layout = modify_html2($layout, $selector = '<div class="editor_wrapper">', '');
+    //$layout = modify_html2($layout, $selector = '<div class="editor_wrapper">', '');
     return $layout;
 }
 
@@ -35,8 +34,8 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     } else {
         if ($field_id != 0) {
 //
-            error('can steal data', __FILE__, __LINE__);
-            $form_data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            error('cant steal data');
+         //   $form_data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
         }
     }
 
@@ -50,6 +49,24 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
             }
         }
     }
+    if (isset($data['copy_from'])) {
+        $copy_from = $data['copy_from'];
+        if (is_admin() == true) {
+
+            $cms_db_tables = c('db_tables');
+
+            $table_custom_field = $cms_db_tables ['table_custom_fields'];
+            $form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+            $field_type = $form_data['custom_field_type'];
+            $form_data['id'] = 0;
+        }
+        //d($form_data);
+    }
+
+
+
+
+
     if (isset($data['settings'])) {
         $settings = $data['settings'];
     }

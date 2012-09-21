@@ -127,7 +127,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
         }
         $for = $to_table;
     } else {
-        
+
     }
     if ($guess_cache_group != false) {
         $for = str_replace('table_', '', $for);
@@ -301,7 +301,7 @@ function get($params) {
         // d($cache_group);
     }
 
-    $ge = __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+    $ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
     if ($getone == true) {
         if (isset($ge[0])) {
@@ -313,7 +313,7 @@ function get($params) {
 }
 
 function db_get($table, $criteria, $cache_group = false) {
-    return __db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+    return db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 }
 
 /**
@@ -323,7 +323,7 @@ function db_get($table, $criteria, $cache_group = false) {
  *
  * @author Peter Ivanov
  */
-function __db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
+function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
     $cms_db_tables = c('db_tables'); // ->'table_options';
     // $this->db->query ( 'SET NAMES utf8' );
     if ($table == false) {
@@ -486,7 +486,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
 
 
         if ($debug) {
-            
+
         }
     }
     if (isset($criteria ['fields'])) {
@@ -992,7 +992,7 @@ function __db_get_long($table = false, $criteria = false, $limit = false, $offse
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-        
+
     }
     if ($limit != false) {
 
@@ -1412,7 +1412,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     // $criteria = map_array_to_database_table ( $table, $data );
 
     if (DB_IS_SQLITE != false) {
-        
+
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
@@ -1501,7 +1501,9 @@ function save_data($table, $data, $data_to_save_options = false) {
         // db_q($q);
 
         if (DB_IS_SQLITE != false) {
-            //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+            // $q1 = "UPDATE  $table SET \"" . implode('"=?,"', array_keys($data)) . '"=? WHERE ';
+            // $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+
             db_q($q);
         } else {
             db_q($q);
@@ -1608,7 +1610,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                             $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
                             $gotten_by_id = true;
                         } else {
-                            
+
                         }
                         if ($gotten_by_id == false and isset($is_ex[0])) {
 

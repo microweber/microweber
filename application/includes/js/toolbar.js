@@ -32,12 +32,25 @@ $("#module_category_selector a").each(function(){
 
 $("#module_category_selector").change(function(){
     var val = $(this).getDropdownValue();
-    (val!=-1&&val!="-1")?mw.tools.toolbar_sorter(Modules_List_modules, val):'';
+    (val!=-1&&val!="-1") ? mw.tools.toolbar_sorter(Modules_List_modules, val):'';
+
 });
 
-$("#module_category_selector #dd_module_search").bind("keyup paste focus blur", function(){
+$("#module_category_selector #dd_module_search").bind("keyup paste", function(event){
+       var val = this.value;
+       if(val!=""){
+          mwd.getElementById("dd_module_val_ctrl").innerHTML = val;
+       }
+       else{
+          mwd.getElementById("dd_module_val_ctrl").innerHTML = "Categories";
+       }
 
-    mw.tools.toolbar_searh(Modules_List_modules, this.value);
+       $("#module_category_selector").setDropdownValue(-1, false);
+       mw.tools.toolbar_searh(Modules_List_modules, val);
+       event.preventDefault();
+       event.stopPropagation();
+       return false;
+
 });
 
 

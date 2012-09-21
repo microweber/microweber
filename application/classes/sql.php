@@ -45,7 +45,9 @@ class SQL {
     function update($t, $d, $w = NULL) {
         $q = "UPDATE $t SET \"" . implode('"=?,"', array_keys($d)) . '"=? WHERE ';
         list ( $a, $b ) = $this->where($w);
-        return (($s = $this->query($q . $a, array_merge(array_values($d), $b))) ? $s->rowCount() : NULL);
+        $a = (($s = $this->query($q . $a, array_merge(array_values($d), $b))) ? $s->rowCount() : NULL);
+ 
+        return  $a;
     }
 
     function where($w = 0) {

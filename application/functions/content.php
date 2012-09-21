@@ -275,7 +275,7 @@ function get_layout_for_page($page = array()) {
         if (is_file($template_view) == true) {
             $render_file = $template_view;
         } else {
-            
+
         }
     }
 
@@ -581,11 +581,9 @@ function page_link($id = false) {
         $link = site_url($link['url']);
         return $link;
     } else {
-        $link = site_url( );
+        $link = site_url();
         return $link;
     }
-
-    
 }
 
 /**
@@ -846,7 +844,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
-      //  d($q);
+        //  d($q);
         // $crc = crc32 ( $q );
 
         $crc = abs(crc32($q));
@@ -1121,7 +1119,7 @@ function save_edit($post_data) {
                     }
                 }
             } else {
-                
+
             }
         }
     }
@@ -1214,7 +1212,7 @@ function save_content($data, $delete_the_cache = true) {
 
             $data['url'] = $theurl;
         } else {
-            
+
         }
 
         if (!isset($data['url']) or strval($data['url']) == '') {
@@ -1320,7 +1318,7 @@ function save_content($data, $delete_the_cache = true) {
 
                 $new_category = array();
                 $new_category["data_type"] = "category";
-                 $new_category["to_table"] = "table_content";
+                $new_category["to_table"] = "table_content";
                 $new_category["title"] = $data_to_save['subtype_value_new'];
                 $new_category["parent_id"] = "0";
 
@@ -1358,7 +1356,29 @@ function save_content($data, $delete_the_cache = true) {
     }
 
     $save = save_data($table, $data_to_save);
+
+    $custom_field_table = $cms_db_tables ['table_custom_fields'];
+
+
+
+
+
+    $sid = session_id();
+
     $id = $save;
+
+    $clean = " update $custom_field_table set
+				to_table =\"table_content\"
+				, to_table_id =\"{$id}\"
+				where
+				session_id =\"{$sid}\"
+and to_table IS NULL and to_table_id IS NULL
+
+				";
+
+
+
+    db_q($clean);
 
 
     if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
@@ -1369,7 +1389,6 @@ function save_content($data, $delete_the_cache = true) {
     }
     cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
     cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
-
 
 
     return $save;
@@ -1435,7 +1454,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $params = false;
     $output = '';
     if (is_integer($parent)) {
-        
+
     } else {
         $params = $parent;
         if (is_string($params)) {
@@ -1604,7 +1623,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
         print "</ul>";
     } else {
-        
+
     }
 }
 
