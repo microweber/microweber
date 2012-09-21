@@ -205,6 +205,11 @@ mw.drag = {
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
 
+
+            mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){   });
+
+
+
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
             if(el.hasClass("ui-draggable-dragging") || el.parents(".ui-draggable-dragging").length>0){
@@ -1582,21 +1587,7 @@ mw.history = {
 	}
 }
 
-$(window).load(function(){
-    $(".element").mousemove(function(event){
-      if(mw.isDrag){
-        mw.drop_regions.init(this, event, function(region){
 
-        });
-      }
-     // event.stopPropagation();
-  });
-
-
-
-
-
-});
 
 mw.drag.story_active = -1;
 
