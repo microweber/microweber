@@ -30,7 +30,8 @@ $styles = $CI->template_model->getDesignStyles($params);
     <? if($style['icon']): ?>
     <img alt="<? print $style['style_name'] ?>" title="<? print addslashes($module2['style_name']) ?>"   data-element-name="<? print $module2['style_name'] ?>"   src="<? print $style['icon'] ?>" height="48"     />
     <? endif; ?>
-    <span alt="<? print addslashes($style['description']) ?>"><? print $style['name'] ?></span> 
+
+   <span alt="<? print addslashes($style['description']) ?>"><? print $style['name'] ?></span>   
     
     <!--    <div class="description"><? print $module2['description'] ?></div>--> 
   </li>

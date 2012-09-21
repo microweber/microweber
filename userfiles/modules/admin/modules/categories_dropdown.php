@@ -15,6 +15,7 @@ $for2 = 'module';
         <div class="dd_search">
           <input type="text" id="dd_<? print $for2 ?>_search" class="dd_search" />
           <span class="tb_search_magnify"></span></div>
+          <a href="#" id="dd_module_val_ctrl" class="semi_hidden"></a>
       </li>
 
       <li><module type="categories" data-no-wrap=1 data-for="<? print $for ?>" id="modules_toolbar_categories_<? print $rand+1  ?>" /></li>

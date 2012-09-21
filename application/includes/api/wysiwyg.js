@@ -12,6 +12,18 @@ mw.wysiwyg = {
          document.execCommand(a,b,c);
          $.browser.mozilla?document.designMode = 'off':'';
       }
+      else if(mwd.querySelector(".element-current")!==null){
+        var el = mwd.querySelector(".element-current");
+
+        $(el).attr('contenteditable','true');
+        mw.wysiwyg.isThereEditableContent = true;
+        el.focus();
+        mw.wysiwyg.select_all(el);
+        mw.wysiwyg.execCommand(a,b,c);
+        //el.contenteditable = true;
+        //mw.wysiwyg.isThereEditableContent = true;
+        //mw.wysiwyg.execCommand(a,b,c);
+      }
     },
     isThereEditableContent:false,
     selection:'',
@@ -91,7 +103,7 @@ mw.wysiwyg = {
       $(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
 
 
-      if (document.createElement("input").webkitSpeech !== undefined) {
+      if (document.createElement("input").webkitSpeech !== undefined) { /*
          $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />');
          $("#vtest").mouseenter(function(){
              mw.wysiwyg.save_selection();
@@ -100,7 +112,7 @@ mw.wysiwyg = {
              mw.wysiwyg.restore_selection();
              mw.wysiwyg.insert_html(this.value);
          });
-      }
+      */ }
 
     },
     init:function(){
@@ -128,8 +140,16 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(document.body).keyup(function(){
+      $(document.body).keyup(function(event){
          mw.wysiwyg.check_selection();
+
+         if(event.keyCode == 13) {
+            //event.preventDefault();
+            //mw.wysiwyg.insert_html("<br />");
+            //return false;
+
+            $(mwd.getElementsByClassName("element-current")[1]).removeClass("element-current")
+         }
       });
     },
     applier:function(tag, classname, style_object){
@@ -153,8 +173,6 @@ mw.wysiwyg = {
     },
     createelement : function(){
        var el = mw.wysiwyg.applier('div', 'mw_applier element');
-       mw.drag.init(el);
-       mw.drag.fix_handles();
     },
     fontcolorpicker:function(){
         var el = ".mw_editor_font_color";
@@ -292,6 +310,7 @@ mw.wysiwyg = {
                   }
                });
            }
+
           wys_is_bold ? $(".mw_editor_bold").addClass("mw_editor_btn_active") : $(".mw_editor_bold").removeClass("mw_editor_btn_active");
           wys_is_italic ? $(".mw_editor_italic").addClass("mw_editor_btn_active") : $(".mw_editor_italic").removeClass("mw_editor_btn_active");
           wys_is_underlined ? $(".mw_editor_underline").addClass("mw_editor_btn_active") : $(".mw_editor_underline").removeClass("mw_editor_btn_active");
@@ -426,6 +445,13 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
         mw.wysiwyg.isThereEditableContent=true;
     },
+    select_all:function(el){
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
@@ -438,6 +464,10 @@ mw.wysiwyg = {
         else if(before_after=='before'){
            var el = $(element)[0].previousSibling;
            var start = el.data.length;
+        }
+        else if(before_after=='end'){
+           var el = element;
+           var start = $(element)[0].data.length;
         }
         range.setStart(el,start);
         range.setEnd(el, start);
@@ -557,6 +587,14 @@ $(mwd).ready(function(){
     }
     else if($(target).parents(".element").length>0){
       $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
+    }
+  });
+
+
+  $(window).bind("onElementClick", function(e, el){
+    if($(el).hasClass("lipsum")){
+       $(el).removeClass("lipsum");
+       mw.wysiwyg.select_all(el);
     }
   });
 });

@@ -9,6 +9,24 @@ function api_expose($function_name) {
         $index .= ' ' . $function_name;
     }
 }
+  
+function api_hook($function_name, $next_function_name = false) {
+    static $index = array();
+
+
+
+    if (is_bool($function_name)) {
+        $index = array_unique($index);
+        return $index;
+    } else {
+
+        $index[$function_name][] = $next_function_name;
+
+
+
+        //  $index .= ' ' . $function_name;
+    }
+}
 
 function document_ready($function_name) {
     static $index = ' ';

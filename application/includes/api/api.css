@@ -2,6 +2,10 @@
 api css
 */
 
+body.mw-live-edit{
+    padding-top: 170px;
+}
+
 .relative{
   position: relative;
 }
@@ -150,10 +154,15 @@ api css
     display: none;
     padding-top: 5px;
   }
-    .mw_dropdown_type_navigation ul{
+    .mw_dropdown_fields ul{
+        margin: 0;
+    }
+    .mw_dropdown_fields > ul{
       background: #f1f1f1 url(../img/dropdown_fields_bottom.png) no-repeat center bottom;
+      /*max-height: 250px;
+      overflow-x:hidden;
+      overflow-y:auto;*/
       background-size: 100% 6px;
-      margin: 0;
       width: 100%;
       box-shadow:1px 1px 0px #f0f0f0;
       -webkit-border-radius: 5px;
@@ -166,11 +175,16 @@ api css
        .mw_dropdown_type_navigation li a{
             display: block;
             padding: 5px 6px 5px 13px;
+            text-transform: capitalize;
             text-shadow:1px 1px 0px white;
             font-size: 11px;
             color: #212121;
             text-decoration: none !important;
        }
+       .mw_dropdown_type_navigation li li li a{
+         padding:3px 6px 3px 26px;
+       }
+
        .mw_dropdown_type_navigation li:first-child a{
           -webkit-border-top-left-radius: 5px;
           -webkit-border-top-right-radius: 5px;
@@ -197,8 +211,10 @@ api css
             background: -o-linear-gradient(top,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
             background: -ms-linear-gradient(top,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
             background: linear-gradient(to bottom,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
+       }
 
-
+       .mw_dropdown_type_navigation li li li a:hover{
+         padding:2px 5px 2px 25px;
        }
 
     .mw_dropdown_val{
@@ -211,6 +227,7 @@ api css
 
     .mw_dropdown_type_navigation .mw_dropdown_val{
         border: 1px solid #DCDCDC;
+        text-transform: capitalize;
         border-top: none;
         background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
         padding: 8px 39px 7px 11px;
@@ -627,18 +644,27 @@ body.dragStart #items_handle{
 
 
 .element {
-    outline: 3px solid #3D80AB !important;
+
+/*    outline: 1px solid #3D80AB !important;
     outline:none\9;
     outline-offset: 3000px;
-    -webkit-transition: outline-offset 0.7s;
-       -moz-transition: outline-offset 0.7s;
-         -o-transition: outline-offset 0.7s;
-            transition: outline-offset 0.7s;
+    -webkit-transition: outline-offset 0.6s;
+       -moz-transition: outline-offset 0.6s;
+         -o-transition: outline-offset 0.6s;
+            transition: outline-offset 0.6s;*/
+}
+
+img.element{
+  padding: 0;
 }
 
 .element-current{
-  outline: 3px solid #3D80AB !important;
-  outline-offset: -3px
+  outline: 1px solid #3D80AB !important;
+  outline-offset: -1px
+}
+
+.lipsum{
+  color: rgba(0, 0, 0, 0.5);
 }
 
 

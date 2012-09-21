@@ -73,4 +73,6 @@ $(document).ready(function(){
   position
   <input name="position"  type="text" value="<? print ($data['position'])?>" />
   <input type="submit" name="save" value="save" />
+  
 </form>
+<microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />

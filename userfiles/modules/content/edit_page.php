@@ -37,10 +37,10 @@ $(document).ready(function(){
 	 
 	 $('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() { 
 
- 
+ mw_before_content_save<? print $rand ?>()
  mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
 	 
-	 mw_after_content_save<? print $rand ?>(this);
+	 mw_after_content_save<? print $rand ?>();
 	 
 	 });
  
@@ -56,7 +56,7 @@ $(document).ready(function(){
    
    
     $('#go_live_edit_<? print $rand ?>').click(function() { 
-
+mw_before_content_save<? print $rand ?>()
  
  mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
 	 
@@ -81,18 +81,29 @@ $(document).ready(function(){
  });
  
  
- 
+ function mw_before_content_save<? print $rand ?>(){
+	$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
+ }
  
  function mw_after_content_save<? print $rand ?>($id){
-	$id = $id.replace(/"/gi, "");
+	
 	mw.reload_module('[data-type="pages_menu"]');
-	$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
-		//console.log(data);
-   window.location.href = data+'/editmode:y';
-  
-}); 
+	  <? if($edit_post_mode != false): ?>
+mw.reload_module('[data-type="posts"]');
+	<? endif; ?>
 	
 	
+	
+	mw.reload_module('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]');
+	if($id != undefined){
+				$id = $id.replace(/"/gi, "");
+				$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
+					//console.log(data);
+			   window.location.href = data+'/editmode:y';
+			  
+			}); 
+	
+	}
 	
 	 
  }
@@ -115,7 +126,7 @@ $(document).ready(function(){
 <form id="admin_edit_page_form_<? print $form_rand_id ?>">
   id
   <input name="id"  type="text" value="<? print ($data['id'])?>" />
-  <br />
+   <br />
   parent
     <? if($edit_post_mode != false): ?>
      <? $pages = get_content('content_type=page');   ?>
@@ -163,10 +174,109 @@ $(document).ready(function(){
 
    
   </select>
-  
+  <? //d($edit_post_mode); ?>
    <? if($edit_post_mode != false): ?>
    
- <? category_tree(); ?>  
+   
+   
+   <script  type="text/javascript">
+
+ 
+ 
+
+$(document).ready(function(){
+	
+	 mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+	$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
+   mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+
+});
+   
+ 
+
+
+ 
+   
+});
+
+function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
+var a =	$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').val();
+var holder1 = $('#custom_fields_from_categorories_selector_for_post_<? print $rand ?>')
+if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
+	holder1.empty();
+	
+} else {
+	var cf_cats = a.split(',');
+	holder1.empty();
+	var i = 1;
+	$.each(cf_cats, function(index, value) { 
+	
+	$new_div_id = 'cf_post_cat_hold_<? print $rand  ?>_'+i+mw.random();
+	$new_div = '<div id="'+$new_div_id+'"></div>'
+	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
+  holder1.append($new_div); 
+		 $('#'+$new_div_id).attr('for','categories');
+		 $('#'+$new_div_id).attr('to_table_id',value);
+		 
+  	     mw.load_module('custom_fields/index','#'+$new_div_id, function(){
+			// mw.log(this);
+			//	$(this).find('*').addClass('red');
+		 	$(this).find('input').attr('disabled','disabled');
+			$(this).find('.control-group').append($new_use_btn);
+			$('.use_'+$new_div_id).unbind('click');
+					$('.use_'+$new_div_id).bind('click', function(e){
+						//   mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+						$closest =$(this).parent('.control-group').find('*[data-custom-field-id]:first');
+						$closest= $closest.attr('data-custom-field-id');
+						$('#fields_for_post_<? print $rand  ?>').attr('copy_from',$closest);
+						mw.reload_module('#fields_for_post_<? print $rand  ?>');
+					 	mw.log($closest );
+						 
+						return false;
+						});
+			
+			
+			
+			
+			 });
+  // $('#'+$new_div_id).find('input').attr('disabled','disabled');
+  i++;
+  
+});
+	//holder1.html(a);
+	//holder1.children().attr('disabled','disabled');
+	
+	
+}
+	
+}
+</script>
+   
+   
+   <? if(intval($data['id']) > 0): ?>
+        <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>">
+
+       
+   <? else: ?>
+       <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content">
+
+   
+   <? endif; ?>
+
+<br />
+
+Custom fields for post
+ <div id="custom_fields_for_post_<? print $rand ?>" >
+ <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
+ 
+ </div>
+<br />
+
+Available custom fields
+ <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
+
+
+
    <? endif; ?>
   
  
@@ -193,8 +303,8 @@ $(document).ready(function(){
   <input name="description"  type="text" value="<? print ($data['description'])?>" />
   <br />
 
-  <input type="submit" name="save" value="save" />
-  <input type="button" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+  <input type="submit" name="save"    value="save" />
+  <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>

@@ -179,6 +179,19 @@ background-image: -webkit-gradient(
   max-width: 95px;
 }
 
+.list-elements .module-item span.module_name{
+  display: none;
+}
+
+.list-elements span{
+  height: 63px;
+  padding: 0;
+  min-width: 70px;
+}
+.list-elements .mw_module_image_shadow{
+  height: 12px;
+}
+
 .module_name{
   white-space: nowrap;
   display: block;
@@ -552,6 +565,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
   margin: 0 auto;
 }
 
+
 .mw_module_image img{
   position: relative;
   z-index: 1;
@@ -822,7 +836,7 @@ height: 13px;
 }
 
 .element{
- 
+
 }
 
 

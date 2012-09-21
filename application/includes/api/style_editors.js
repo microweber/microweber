@@ -254,18 +254,24 @@ mw.setbg = function(url){
   $(".element-current").css("backgroundImage", "url("+url+")");
 }
 
-mw.sliders_settings = {
-  css:{
-    slide:function(event,ui){
-        var type = $(this).attr("data-type");
-        var val = (ui.value);
-        type=='opacity'?  val = val/100 :'';
-        $(".element-current").css($(this).attr("data-type"), val);
-    },
-    min:0,
-    max:100,
-    value:0
-  }
+
+mw.sliders_settings = function(el){
+    var el = $(el);
+    var type = el.dataset('type');
+    var min = parseFloat(el.dataset('min'));
+    var max = parseFloat(el.dataset('max'));
+    var val = parseFloat(el.dataset('value'));
+    mw.log(" - "+type + " - "+min +" - "+ max + " - "+val);
+    return {
+       slide:function(event,ui){
+          var val = (ui.value);
+          type=='opacity'?  val = val/100 :'';
+          $(".element-current").css(type, val);
+       },
+       min:min,
+       max:max,
+       value:val
+    }
 }
 
 init_square_maps = function(){
@@ -298,25 +304,37 @@ init_square_maps = function(){
 
 $(document).ready(function(){
 
-$(window).bind("onElementClick", function(e, el){
-
-         $(".element").not(el).removeClass("element-current");
-         $(el).addClass("element-current");
-         mw.current_element_styles = window.getComputedStyle(el, null);
-         $(".es_item").trigger("change");
-
+$(window).bind("onItemClick", function(e, el){
+  $(".element-current").removeClass("element-current");
+  $(el).addClass("element-current");
+  mw.current_element_styles = window.getComputedStyle(el, null);
+  $(".es_item").trigger("change");
 });
 
-  $(".ed_slider").each(function(){
-    var el = $(this);
-    el.slider(mw.sliders_settings.css);
-    var max = $(this).attr("data-max");
-    var min = $(this).attr("data-min");
+$(window).bind("onImageClick", function(e, el){
+  $(".element-current").removeClass("element-current");
+  $(el).addClass("element-current");
+  mw.current_element_styles = window.getComputedStyle(el, null);
+  $(".es_item").trigger("change");
+});
 
-    el.slider("option", "max", max!=undefined?parseFloat(max):100);
-    el.slider("option", "min", min!=undefined?parseFloat(min):0);
-    console.log(el.slider("option", "min"))
+
+$(window).bind("onBodyClick", function(){
+    $(".element-current").removeClass("element-current");
+    $("#items_handle").css({
+      top:"",
+      left:""
+    })
+});
+
+
+  $(".ed_slider").each(function(){
+    $(this).slider(mw.sliders_settings(this));
+      //vadiat bugove zaradi tova che sa skriti
+      //trqbva da se zarejda kogato editora e vidim
+
   });
+
 
 
   init_square_maps();

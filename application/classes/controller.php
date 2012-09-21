@@ -171,17 +171,25 @@ class Controller {
                     $layout_toolbar = $layout_toolbar->__toString();
 
                     if ($layout_toolbar != '') {
-                        $l = str_replace('</head>', $layout_toolbar . '</head>', $l);
+                        $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l);
                     }
                 }
             }
 
+            $apijs_loaded = site_url('apijs');
+
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
-            $l = str_replace('</head>', $default_css . '</head>', $l);
 
+            $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            if (!stristr($l, $apijs_loaded)) {
+                $default_css = '<script src="' . $apijs_loaded . '"></script>';
 
+                $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            }
 
+            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 
 
 
@@ -218,8 +226,7 @@ class Controller {
 
 
 
-            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+
 
 
 
@@ -249,7 +256,7 @@ class Controller {
         $tool = url(1);
 
         if ($tool) {
-
+            
         } else {
             $tool = 'index';
         }
@@ -280,7 +287,7 @@ class Controller {
 
 
 
-       $layout = execute_document_ready($layout);
+        $layout = execute_document_ready($layout);
 
 
 
@@ -305,7 +312,7 @@ class Controller {
         $l = $l->__toString();
         // var_dump($l);
         $layout = parse_micrwober_tags($l, $options = false);
-               $layout = execute_document_ready($layout);
+        $layout = execute_document_ready($layout);
 
         print $layout;
         exit();
@@ -344,7 +351,7 @@ class Controller {
         $api_function = url_segment(1);
 
         if ($api_function) {
-
+            
         } else {
             $api_function = 'index';
         }
@@ -366,6 +373,17 @@ class Controller {
                         $data = $_POST;
                     }
                     $res = $api_function($data);
+
+
+                    $hooks = api_hook(true);
+                    if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+                        foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+                             $hook_value($res);
+                            //d($hook_value);
+                        }
+                    }
+
+                    //d($hooks);
                     if (!defined('MW_API_HTML_OUTPUT')) {
                         print json_encode($res);
                     } else {
@@ -593,7 +611,7 @@ class Controller {
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
-               $res = execute_document_ready($res);
+        $res = execute_document_ready($res);
 
         print $res;
         exit();

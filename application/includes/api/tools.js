@@ -174,7 +174,7 @@ mw.tools = {
     }, function(){
       $(this).removeClass("other-action-hover");
     });
-    $(".mw_dropdown").mouseup(function(){
+    $(".mw_dropdown").mouseup(function(event){
       $(this).toggleClass("active");
       $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
       if($(this).find(".other-action-hover").length==0){
@@ -194,7 +194,7 @@ mw.tools = {
     }, function(){
         $(this).removeClass("hover");
     });
-    $(".mw_dropdown a").mousedown(function(){
+    $(".mw_dropdown a").mousedown(function(event){
       mw.tools.dd_sub_set(this);
       return false;
     });
@@ -325,18 +325,21 @@ mw.tools = {
   },
   toolbar_searh : function(obj, value){
     var value = value.toLowerCase();
-    for (var item in obj){
-        var child_object = obj[item];
-        var id = child_object.id;
-        var title = child_object.title.toLowerCase();
-        var item = $(document.getElementById(id))
-        if (title.contains(value)){
-           item.show();
-        }
-        else{
-          item.hide();
-        }
-    }
+       
+      for (var item in obj){
+          var child_object = obj[item];
+          var id = child_object.id;
+          var title = child_object.title.toLowerCase();
+          var item = $(document.getElementById(id))
+          if (title.contains(value)){
+             item.show();
+          }
+          else{
+            item.hide();
+          }
+      }
+
+
   }
 }
 
@@ -388,6 +391,52 @@ $.fn.dataset = function(dataset, val){
 }
 
 });
+
+
+mw.cookie = {
+  get:function(name){
+      var cookies=document.cookie.split(";");
+      for (var i=0; i<cookies.length; i++){
+        var x=cookies[i].substr(0,cookies[i].indexOf("="));
+        var y=cookies[i].substr(cookies[i].indexOf("=")+1);
+        var x=x.replace(/^\s+|\s+$/g,"");
+        if (x==name){
+          return unescape(y);
+        }
+      }
+  },
+  set:function( name, value, expires, path, domain, secure ){
+    var now = new Date();
+    now.setTime( now.getTime() );
+    if ( expires ){
+        var expires = expires * 1000 * 60 * 60 * 24;
+    }
+    var expires_date = new Date( now.getTime() + (expires) );
+    document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : "" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
+  }
+}
+
+mw.recommend = {
+  get:function(){
+    var kuki = mw.cookie.get("recommend");
+    if(!kuki){return {}}
+    else{
+      return $.parseJSON(kuki);
+    }
+  },
+  increase:function(item_name){
+    var json  =  mw.recommend.get();
+    var curr =  parseFloat(json[item_name]);
+    if(isNaN(curr)){
+       json[item_name] = 1;
+    }
+    else{
+        json[item_name] += 1;
+    }
+    var tostring = JSON.stringify(json);
+    mw.cookie.set("recommend", tostring, false, "/");
+  }
+}
 
 
 
