@@ -264,7 +264,7 @@ class Unzip {
             $pathinfo = pathinfo($target_file_name);
             $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
             $target_file_name = $pathinfo['dirname'] . DS . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
-      d($target_file_name);
+   //   d($target_file_name);
             }
 
         fseek($this->fh, $fdetails['contents_start_offset']);
