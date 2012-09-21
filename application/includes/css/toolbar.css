@@ -314,14 +314,14 @@ padding:0px !important;
 
 #module_category_selector,
 #module_design_selector,
-#module_layout_selector{
+#elements_category_selector{
   clear: both;
   margin:21px 20px;
 }
 
 #module_category_selector span,
 #module_design_selector span,
-#module_layout_selector span{
+#elements_category_selector span{
   float: left;
   width: 94px;
   white-space: nowrap;

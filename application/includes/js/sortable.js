@@ -206,7 +206,7 @@ mw.drag = {
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
 
 
-            mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){   });
+            mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
 
 
 
@@ -442,6 +442,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_module).mouseenter(function(){
@@ -463,6 +465,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_row).mouseenter(function(){
@@ -483,6 +487,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_item).mouseenter(function(){
@@ -505,6 +511,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_element).draggable({
@@ -1602,6 +1610,27 @@ mw.drag.story = {
     if(mw.is.defined(curr)){
       $("#"+curr.pos).replaceWith(curr.who);
       mw.drag.story_active-=1;
+    }
+  }
+}
+
+
+
+_mwmatrix = {}
+
+mw.matrix = {
+  rec:function(){
+    var arr = document.querySelectorAll(".element");
+    var len = arr.length;
+    for(var i=0; i<len ;i++){
+        var el = arr[i];
+        _mwmatrix[i] = {
+            x:el.offsetLeft,
+            y:el.offsetTop,
+            w:el.offsetWidth,
+            h:el.offsetHeight,
+            index:i
+        }
     }
   }
 }

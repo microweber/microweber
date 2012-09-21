@@ -667,6 +667,10 @@ img.element{
   color: rgba(0, 0, 0, 0.5);
 }
 
+.element.CL{
+  outline:6px solid red !important;
+}
+
 
 
 

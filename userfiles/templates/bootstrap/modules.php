@@ -55,14 +55,26 @@ description: Home site layout
 <body>
 <section id="buttonDropdowns">
   <div class="page-header">
-    <h1>Test  <? print site_url('update.php/download/latest-module/custom_fields'); ?></h1>
+    <h1>highlight_code  </h1>
+    <h3><? print site_url('update.php/download/latest-module/highlight_code'); ?></h3>
   </div>
  <div class="btn-toolbar" style="margin: 0;">
       <div class="btn-group">
+      <?
+	  
+	   $m = array();
+	    $m['action'] = 'install';
+		 $m['type'] = 'modules';
+	  $m['url'] = site_url('update.php/download/latest-module/highlight_code');
+  $m = serialize( $m);
+	  
+	   ?>
       
+ 
+ 
       
      
-        <button class="btn dropdown-toggle">Action</button>
+        <button onclick="window.parent.postMessage('<? print (urlencode($m));  ?>', '*');" class="btn dropdown-toggle">Install this module</button>
         
       </div>
       
