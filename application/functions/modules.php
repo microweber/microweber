@@ -61,10 +61,15 @@ function get_elements_from_db($params = false) {
         $params = $options = $params2;
     }
     $params['table'] = $table;
-		$params['orderby'] = 'position,asc';
+    $params['orderby'] = 'position,asc';
 
     $params['cache_group'] = 'elements/global';
-    $params['skip_cache'] = $table;
+    $params['limit'] = 10000;
+
+
+    if (!isset($params['ui'])) {
+        $params['ui'] = 1;
+    }
 //d($params);
     return get($params);
 }
@@ -78,12 +83,15 @@ function get_modules_from_db($params = false) {
         $params = $options = $params2;
     }
     $params['table'] = $table;
-	   
- 
-	$params['orderby'] = 'position,asc';
+
+
+    $params['orderby'] = 'position,asc';
     $params['cache_group'] = 'modules/global';
-    $params['skip_cache'] = $table;
-//d($params);
+    $params['limit'] = 10000;
+    if (!isset($params['ui'])) {
+        $params['ui'] = 1;
+    }
+
     return get($params);
 }
 
@@ -143,10 +151,40 @@ function save_element_to_db($data_to_save) {
     }
 
     if ($save != false) {
- 
+
         cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
     }
     return $save;
+}
+
+function delete_elements_from_db() {
+    if (is_admin() == false) {
+        return false;
+    } else {
+        $cms_db_tables = c('db_tables');
+
+        $table = $cms_db_tables['table_elements'];
+
+
+        $q = "delete from $table ";
+        db_q($q);
+        cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
+    }
+}
+
+function delete_modules_from_db() {
+    if (is_admin() == false) {
+        return false;
+    } else {
+        $cms_db_tables = c('db_tables');
+
+        $table = $cms_db_tables['table_modules'];
+
+
+        $q = "delete from $table ";
+        db_q($q);
+        cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+    }
 }
 
 function save_module_to_db($data_to_save) {
@@ -193,10 +231,9 @@ function save_module_to_db($data_to_save) {
     }
 
     if ($save != false) {
-     //   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
-       // cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
-                cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
-
+        //   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
+        // cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
+        cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
     }
     return $save;
 }
@@ -236,9 +273,21 @@ function get_modules($options = false) {
     }
 
 
+    if (isset($options['cleanup_db']) == true) {
+        if ($cache_group == 'modules') {
+            delete_modules_from_db();
+        }
 
+        if ($cache_group == 'elements') {
+            delete_elements_from_db();
+        }
+    }
 
     if (isset($options['skip_cache']) == false) {
+
+
+
+
         $cache_content = cache_get_content($cache_id, $cache_group);
         if (($cache_content) != false) {
 
@@ -250,6 +299,8 @@ function get_modules($options = false) {
     } else {
         $glob_patern = '*config.php';
     }
+
+
 
 
 
@@ -324,7 +375,7 @@ function get_modules($options = false) {
                     $configs [] = $config;
 
                     if ($list_as_element == true) {
-                        //d($config);
+
                         save_element_to_db($config);
                     } else {
 
@@ -411,7 +462,7 @@ function load_module($module_name, $attrs = array()) {
     $cache_content = 'CACHE_LOAD_MODULE_' . $function_cache_id;
 
     if (!defined($cache_content)) {
-
+        
     } else {
 
         // p((constant($cache_content)));

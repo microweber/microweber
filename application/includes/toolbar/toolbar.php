@@ -59,6 +59,15 @@
 				    var refresh_modules11 = $(this).attr('data-reload');
 
 				}
+				
+					
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
+ refresh_modules11 = '#'+refresh_modules11;
+				}
+				
+				 
+				
 
 				og = $(this).attr('data-module-id');
 				if(og == undefined){
@@ -196,7 +205,7 @@
                       </ul>
                     </div>
                 </div>
-                <div class="ed_slider margin-slider es_item left" id="margin_slider" data-type="margin"></div>
+                <div class="ed_slider margin-slider es_item left" id="margin_slider" data-min="-100" data-max="100" data-value="0" data-type="margin"></div>
                 <div class="mw_clear"></div>
 
 
@@ -233,7 +242,7 @@
                       </ul>
                     </div>
                 </div>
-                <div class="ed_slider padding-slider es_item left" id="padding_slider" data-type="padding"></div>
+                <div class="ed_slider padding-slider es_item left" id="padding_slider" data-min="0" data-max="100" data-value="0" data-type="padding"></div>
 
 
 

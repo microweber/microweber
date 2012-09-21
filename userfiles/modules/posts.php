@@ -1,8 +1,12 @@
 <? 
 
-d($params);
+//d($params);
 
-
+if(isset($params['data-type'])){
+	
+	 $params['data_type'] = $params['data-type'];	
+//	d($paging_param);
+}
 $post_params = $params; 
 
 if(isset($post_params['id'])){
@@ -32,8 +36,17 @@ if(isset($params['data-paging-param'])){
 
 
 
+
+
+
+
 ?>
-<? $content = get_content($post_params);  ?>
+<? 
+//$post_params['debug'] = 'posts';
+$post_params['content_type'] = 'post';
+$content = get_content($post_params);
+ 
+  ?>
 <? 
 
 $post_params_paging = $post_params;

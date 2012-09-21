@@ -35,7 +35,6 @@ $('#modules_admin_categories_<? print $rand  ?> .category_tree a[data-category-i
 	$p_id = $(this).parent().attr('data-category-id');
 	
 	$('#modules_admin_<? print $rand  ?>').attr('data-category', $p_id);
-	
  
  mw.reload_module('#modules_admin_<? print $rand  ?>');
  //	 alert($p_id);
@@ -61,7 +60,8 @@ return false;
 function mw_reload_all_modules(){
 
 	$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
-		 
+		 	$('#modules_admin_<? print $rand  ?>').attr('cleanup_db',1);
+
 		 
   	 mw.load_module('admin/modules/elements','#modules_admin_<? print $rand  ?>');
 	

@@ -1,5 +1,172 @@
 <?php
 
+//api_expose('register_user');
+api_expose('register_user');
+
+function register_user($params) {
+    // d($params);
+    $user = isset($params ['username']) ? $params ['username'] : false;
+    $pass = isset($params ['password']) ? $params ['password'] : false;
+    $email = isset($params ['email']) ? $params ['email'] : false;
+
+    if (!isset($params ['captcha'])) {
+        return array('error' => 'Please enter the captcha answer!');
+    } else {
+        $cap = session_get('captcha');
+        if ($cap == false) {
+            return array('error' => 'You must load a captcha first!');
+        }
+        if ($params ['captcha'] != $cap) {
+            return array('error' => 'Invalid captcha answer!');
+        }
+    }
+    if (!isset($params ['password'])) {
+        return array('error' => 'Please set password!');
+    } else {
+        if ($params ['password'] == '') {
+            return array('error' => 'Please set password!');
+        }
+    }
+
+
+
+    if ($email != false) {
+
+        $data = array();
+        $data ['email'] = $email;
+        $data ['password'] = $pass;
+        // $data ['is_active'] = 'y';
+        $data = get_users($data);
+        if (empty($data)) {
+
+            $data = array();
+            $data ['username'] = $email;
+            $data ['password'] = $pass;
+            // $data ['is_active'] = 'y';
+            $data = get_users($data);
+        }
+
+        if (empty($data)) {
+            $data = array();
+            $data ['username'] = $email;
+            $data ['password'] = $pass;
+            $data ['is_active'] = 'n';
+
+            $cms_db_tables = c('db_tables');
+            $table = $cms_db_tables['table_users'];
+
+            $q = " INSERT INTO  $table set email='$email',  password='$pass',   is_active='n' ";
+            $next = db_last_id($table);
+            $next = intval($next) + 1;
+            $q = "INSERT INTO $table (id,email, password, is_active)
+VALUES ($next, '$email', '$pass', 'n')";
+            db_q($q);
+            cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
+            //$data = save_user($data);
+            session_del('captcha');
+
+
+            return array($next);
+        } else {
+            return array('error' => 'This user already exists!');
+        }
+    }
+}
+
+function save_user($params) {
+
+    if (isset($params['id'])) {
+        error('COMLETE ME!!!! ');
+
+        $adm = is_admin();
+        if ($adm == false) {
+            error('Error: not logged in as admin.');
+        }
+    } else {
+        error('COMLETE ME!!!! ');
+    }
+
+
+    $data_to_save = $params;
+    $cms_db_tables = c('db_tables');
+
+    $table = $cms_db_tables['table_users'];
+    $save = save_data($table, $data_to_save);
+    $id = $save;
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . '0');
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . $id);
+    return $id;
+}
+
+api_expose('captcha');
+
+function captcha() {
+    $roit1 = rand(1, 6);
+    $font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
+    $font = normalize_path($font, 0);
+    // d($font);
+    //  exit;
+    header("Content-type: image/png");
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    $text1 = mt_rand(2, 15);
+    $text2 = mt_rand(2, 9);
+    $roit = mt_rand(1, 5);
+    $text = "$text1 + $text2";
+    $answ = $text1 + $text2;
+    $x = 100;
+    $y = 20;
+    $image = @imagecreate($x, 20) or die("Unable to render a CAPTCHA picture!");
+
+    $tcol1z = rand(1, 150);
+    $ttcol1z1 = rand(0, 150);
+    $tcol1z11 = rand(0, 150);
+
+
+    $bgcolor = imagecolorallocate($image, 255, 255, 255);
+    $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
+    session_set('captcha', $answ);
+
+    $col1z = rand(200, 242);
+    $col1z1 = rand(150, 242);
+    $col1z11 = rand(150, 242);
+    $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
+    $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
+    // imagefill($image, 0, 0, $color1);
+    for ($i = 0; $i < $x; $i++) {
+        for ($j = 0; $j < $y; $j++) {
+            if (mt_rand(0, 50) == 20) {
+
+                //    $coords = array(mt_rand(0, 10),mt_rand(0, 10), mt_rand(0, 10),mt_rand(0, 10), 5,6);
+                imagesetpixel($image, $i, $j, $color2);
+            }
+        }
+    }
+    $x1 = mt_rand(15, 30);
+    $y1 = mt_rand(15, 20);
+    $tsize = rand(11, 13);
+    imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
+
+
+
+
+
+    //   imagestring($image, 5, 2, 2, $text, $black);
+
+
+    $emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
+
+    imageconvolution($image, $emboss, 3, 255);
+  imagefilter($image, IMG_FILTER_SMOOTH, 50);
+    imagepng($image);
+    imagecolordeallocate($image, $bgcolor);
+    imagecolordeallocate($image, $black);
+
+    imagedestroy($image);
+}
+
 function user_login($params) {
     $params2 = array();
 
@@ -153,16 +320,6 @@ function user_name($user_id = false, $mode = 'full') {
 
     $name = nice_user_name($user_id, $mode);
     return $name;
-}
-
-function online_users_count() {
-    // $CI = get_instance ();
-    get_instance()->load->model('Users_model', 'users_model');
-    get_instance()->load->library('OnlineUsers');
-    $u = get_instance()->onlineusers->total_users();
-
-    // $u = CI::library( 'OnlineUsers' )->total_users();
-    return $u;
 }
 
 /**
@@ -508,20 +665,6 @@ function users_count() {
     return $data;
 }
 
-function user_link($user_id) {
-    // a.k.a profile_link($user_id);
-    return profile_link($user_id);
-}
-
-function profile_link($user_id) {
-    // $CI = get_instance ();
-    if ($user_id == false) {
-        $user_id = user_id();
-    }
-
-    return site_url('userbase/action:profile/username:' . user_name($user_id, 'username'));
-}
-
 function cf_get_user($user_id, $field_name) {
     $fields = get_custom_fields_for_user($user_id);
     if (empty($fields)) {
@@ -567,258 +710,5 @@ function friends_count($user_id = false) {
     get_instance()->load->model('Users_model', 'users_model');
     $users = get_instance()->users_model->realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
     return intval($users);
-}
-
-function fb_login() {
-    // $CI = get_instance ();
-    $data = array();
-
-    get_instance()->load->library('fb_connect');
-    $data = array(
-        'facebook' => get_instance()->fb_connect->fb,
-        'fbSession' => get_instance()->fb_connect->fbSession,
-        'user' => get_instance()->fb_connect->user,
-        'uid' => get_instance()->fb_connect->user_id,
-        'fbLogoutURL' => get_instance()->fb_connect->fbLogoutURL,
-        'fbLoginURL' => get_instance()->fb_connect->fbLoginURL,
-        'base_url' => site_url('fb_login'),
-        'appkey' => get_instance()->fb_connect->appkey
-    );
-
-    get_instance()->template ['data'] = $data;
-    get_instance()->load->vars(get_instance()->template);
-    $content_filename = get_instance()->load->file(DEFAULT_TEMPLATE_DIR . 'blocks/users/fb_login.php', true);
-    print ($content_filename);
-}
-
-function friend_requests() {
-    // $CI = get_instance ();
-    $db_params = array();
-    $db_params [] = (array(
-        'follower_id',
-        user_id()
-            ));
-    $db_params [] = (array(
-        'is_approved',
-        'n'
-            ));
-    get_instance()->load->model('Users_model', 'users_model');
-    $req = get_instance()->users_model->getFollowers($db_params, $aOnlyIds = 'user_id', $db_options = false);
-    if (empty($req)) {
-
-    }
-
-    // p($req);
-    return $req;
-}
-
-function get_unread_messages() {
-    $msgs = CI::model('messages')->messagesGetUnreadCountForUser();
-    return $msgs;
-}
-
-function get_message_by_id($id) {
-    if (intval($id) == 0) {
-        return false;
-    }
-    // $CI = get_instance ();
-    $id = CI::model('messages')->messagesGetById($id);
-    return $id;
-}
-
-/**
- * get_messages
- *
- * get the messages by parameters
- *
- * @access public
- * @category general
- * @author Microweber
- * @link http://microweber.com
- * @param $params =
- *        	array();
- *        	$params['user_id'] = false; //the user id
- *        	$params['show'] = false; // params: read, unread, 'all'
- * @return array - The messages.
- *
- */
-function get_messages($params) {
-    if (!is_array($params)) {
-        $params = array();
-        $numargs = func_num_args();
-        if ($numargs > 1) {
-            foreach (func_get_args() as $name => $value)
-
-            // $arg_list = func_get_args ();
-                $params ['user_id'] = func_get_arg(0);
-            $params ['show'] = func_get_arg(1);
-        }
-    }
-    // var_Dump($params);
-    // $CI = get_instance ();
-
-    if ($params ['user_id'] == false) {
-        $params ['user_id'] = user_id();
-    }
-    $currentUserId = $params ['user_id'];
-    if ($show == false and $conversation == false) {
-        $show = 'read';
-    }
-
-    if ($show_inbox == 1 and $conversation == false) {
-        $show = 'unread';
-    }
-
-    if ($show == 'unread') {
-        $messages = $unreadedMessages = CI::model('messages')->messagesGetUnreadForUser($params ['user_id']);
-    }
-
-    $some_items_per_page = 50;
-    $opts = array();
-    $opts ['get_count'] = false;
-    $opts ['items_per_page'] = $some_items_per_page;
-    $opts ['only_fields'] = array(
-        'id',
-        'parent_id',
-        'max(id) as id_1'
-    ); // array
-    // of
-    // fields
-    $opts ['group_by'] = 'parent_id , id'; // if set the results will be grouped
-    // by the filed name
-    $opts ['order'] = array(
-        'created_on',
-        'desc'
-    );
-    // $opts ['debug'] = 1;
-
-    $msg_params = array();
-    $msg_params [] = array(
-        'to_user',
-        $currentUserId,
-        '=',
-        'OR'
-    );
-    $msg_params [] = array(
-        'from_user',
-        $currentUserId
-    );
-    $msg_params [] = array(
-        'parent_id',
-        0
-    );
-    // $msg_params [] = array ('from_user', $currentUserId, '=', 'OR' );
-    // $params [] = array ('is_read', 'y' );
-    $msg_params [] = array(
-        'deleted_from_receiver',
-        'n'
-    );
-    $msg_params [] = array(
-        'deleted_from_sender',
-        'n'
-    );
-    // $params [] = array ('from_user', $currentUserId);
-    // $msg_params [] = array ('from_user', $currentUserId, '<>', 'and' );
-
-    foreacH ($params as $pk => $pv) {
-        $msg_params [] = array(
-            $pk,
-            $pv
-        );
-    }
-
-    // $execQuery
-    $table = TABLE_PREFIX . 'messages';
-    $opts ['query'] = "select id,parent_id from $table where";
-    $opts ['query'] .= "(to_user={$currentUserId} or from_user={$currentUserId}) ";
-    $opts ['query'] .= "and parent_id=0 and deleted_from_receiver='n' and deleted_from_sender='n' order by created_on desc";
-    $msg_params ['query'] = $opts ['query'];
-
-    $messages = $conversations = CI::model('messages')->messagesGetByParams($msg_params, $opts);
-    $res = array();
-    if (!empty($messages)) {
-        foreach ($messages as $message) {
-            // if(intval($message ['parent_id']) == 0){
-            $res [] = $message ['id'];
-
-            // }
-        }
-    }
-    return $res;
-
-    $opts = array();
-    $opts ['get_count'] = true;
-    $opts ['items_per_page'] = 100;
-    $conversations_count = CI::model('messages')->messagesGetByParams($msg_params, $opts);
-    $results_count = intval($conversations_count);
-    $pages_count = ceil($results_count / $some_items_per_page);
-    // p ( $conversations );
-    $url = site_url('dashboard/action:messages/show:read');
-    $paging = get_instance()->content_model->pagingPrepareUrls($url, $pages_count);
-
-    // }
-
-    if ($show == 'sent') {
-
-        $params = array();
-
-        $params [] = array(
-            'from_user',
-            get_instance()->core_model->userId()
-        );
-
-        $some_items_per_page = 1;
-        $opts = array();
-        $opts ['get_count'] = false;
-        $opts ['items_per_page'] = $some_items_per_page;
-        $conversations = CI::model('messages')->messagesGetByDefaultParams($params, $opts);
-        $opts = array();
-        $opts ['get_count'] = true;
-        $opts ['items_per_page'] = 1;
-        $conversations_count = CI::model('messages')->messagesGetByDefaultParams($params, $opts);
-        $results_count = intval($conversations_count);
-        $pages_count = ceil($results_count / $some_items_per_page);
-
-        $url = site_url('dashboard/action:messages/show:read');
-        $paging = get_instance()->content_model->pagingPrepareUrls($url, $pages_count);
-    }
-
-    if ($conversation != false) {
-
-        $conversation = intval($conversation);
-        if (intval($conversation) > 0) {
-            $q = "UPDATE " . TABLE_PREFIX . 'messages' . " SET is_read='y' where  (id = {$conversation} OR parent_id = {$conversation})
-and to_user=$userid
-		 ";
-            $q = get_instance()->core_model->dbQ($q);
-        }
-
-        $params = array();
-        $params [] = array(
-            'id',
-            $conversation
-        );
-        $parentMessage = CI::library('messages')->messagesGetByParams($params, $options = false);
-        $parentMessage = $parentMessage [0];
-
-        if ($parentMessage ['from_user'] == get_instance()->core_model->userId()) {
-            $receiver = $parentMessage ['to_user'];
-        } elseif ($parentMessage ['to_user'] == get_instance()->core_model->userId()) {
-            $receiver = $parentMessage ['from_user'];
-        } else {
-            // throw new Exception ( 'You have no permission to view this
-            // conversation.' );
-            exit('You have no permission to view this conversation.');
-        }
-
-        $q = "(id = {$conversation}
-	OR parent_id = {$conversation})
-	AND ((from_user = {$currentUser['id']}
-	AND deleted_from_sender = 'n') OR (to_user = {$currentUser['id']}
-	AND deleted_from_receiver = 'n'))";
-
-        $messages = CI::library('messages')->messagesThread($conversation);
-    }
-    return $messages;
 }
 
