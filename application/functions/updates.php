@@ -58,8 +58,8 @@ function mw_apply_updates($updates) {
         if (!is_dir($down_dir2)) {
             mkdir_recursive($down_dir2);
         }
-         // d($updates);
-         // d($what_nex);
+        // d($updates);
+        // d($what_nex);
         if (isset($updates[$what_nex])) {
 
 
@@ -107,9 +107,9 @@ function mw_apply_updates($updates) {
 
                     $unzip = new Unzip();
                     $a = $unzip->extract($value2, $unzip_loc);
-                  //  $unzip->close();
-                    $unzipped = array_merge($a,$unzipped);
-                     d($unzipped);
+                    //  $unzip->close();
+                    $unzipped = array_merge($a, $unzipped);
+                    d($unzipped);
                     //  d($unzip_loc);
                     // d($value2);
                 }
@@ -143,14 +143,88 @@ function mw_check_for_update() {
     $data['elements'] = $t;
 
 
-    $serv = 'http://update.microweber.com/update.php';
-    $p = url_download($serv, $data);
+    $serv = mw_get_update_serv();
 
+    $p = url_download($serv, $data);
+    d($p);
     return (json_decode($p, true));
 }
 
+function mw_get_update_serv() {
+    $servs = explode(' ', MW_UPDATE_SERV);
+    $servs_return = array();
+    if (!empty($servs)) {
+        $servs = array_trim($servs);
+        foreach ($servs as $value) {
+            if ($value != '') {
+                $servs_return[] = $value;
+            }
+        }
+    }
+    if (!empty($servs_return)) {
+        shuffle($servs_return);
+        return $servs_return[0];
+    }
+}
+
+/**
+ * whm_get_user
+ * whm_get_user
+ * @link whm_get_user
+ * @param resource $ch
+ * @return resource a new cURL handle.
+ */
+if (!defined('MW_WHM_SERV')) {
+    define('MW_WHM_SERV', 'http://microweber.com/members/');
+}
+if (!defined('MW_WHM_SERV_USER')) {
+    define('MW_WHM_SERV_USER', 'Admin');
+}
+if (!defined('MW_WHM_SERV_PASS')) {
+    define('MW_WHM_SERV_PASS', 'otivamnabali123z');
+}
+
+function whm_get_user($params = false) {
+
+    $params2 = array();
+    if ($params == false) {
+        $params = array();
+    }
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    $url = MW_WHM_SERV . "includes/api.php"; # URL to WHMCS API file
+    $username = MW_WHM_SERV_USER; # Admin username goes here
+    $password = MW_WHM_SERV_PASS; # Admin password goes here
+    $postfields = $params;
+    $postfields["username"] = $username;
+    $postfields["password"] = md5($password);
+     
+    $postfields["responsetype"] = "json";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    $results = json_decode($data, true);
+    return $results;
+    if ($results["result"] == "success") {
+        # Result was OK!
+    } else {
+        # An error occured
+        echo "The following error occured: " . $results["message"];
+    }
+}
+
 function check_license($licensekey, $localkey = "") {
-    $whmcsurl = "http://microweber.com/members/";
+    $whmcsurl = MW_WHM_SERV;
     $licensing_secret_key = "abc123"; # Unique value, should match what is set in the product configuration for MD5 Hash Verification
     $check_token = time() . md5(mt_rand(1000000000, 9999999999) . $licensekey);
     $checkdate = date("Ymd"); # Current date

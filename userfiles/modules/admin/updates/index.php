@@ -1,7 +1,7 @@
 <? $rand = uniqid(); ?>
 <?  $iudates =  mw_check_for_update();
 
-//d($iudates);
+ d($iudates);
 ?>
 <pre id="update_log_<? print $rand ?>">
 </pre>

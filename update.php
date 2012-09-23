@@ -486,6 +486,16 @@ if ($seg != false and $seg == 'download') {
             $i++;
         }
     }
+    
+   
+ $data['license_check'] = array();
+    
+    foreach($_REQUEST['modules'] as $item){
+         $data['license_check'][] = $item;
+    }
+    $data['temp'] = whm_get_user();
+    
+    
     exit(print(json_encode($data)));
 }
 //d($data);
