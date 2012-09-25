@@ -490,29 +490,44 @@ if ($seg != false and $seg == 'download') {
 
     $data['license_check'] = array();
 
-    foreach ($_REQUEST['modules'] as $item) {
-        $data['license_check'][] = $item;
+
+
+
+    //  $shake = whm_mw_command('action=handshake');
+    $shake = array();
+    $shake['shake'] = true;
+    if (isset($shake['shake'])) {
+        $shake = $shake['shake'];
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            extract(parse_url($_SERVER['HTTP_REFERER']));
+            $referer = $scheme . '://' . str_replace('www.', null, $host);
+        }
+
+
+
+        $data['temp'] = array();
+        $postfields_all = array();
+        $postfields_all['postfields_all'] = 1;
+        foreach ($req['modules'] as $item) {
+
+            $postfields = array();
+            $postfields["action"] = "validate_license";
+            $postfields["valid_domain"] = $referer;
+            $postfields["name"] = $item['module'];
+            $postfields_all[] = $postfields;
+            //    $postfields["shake"] = $shake;
+        }
+        $data['temp'][] = whm_mw_command($postfields_all);
+
+
+
+        exit(print(json_encode($data)));
+    } else {
+        $data = array();
+        $data["error"] = "cant_connect";
+
+        exit(print(json_encode($data)));
     }
-    $postfields = array();
-    $postfields["action"] = "validate_license";
-
-    if (isset($_SERVER['HTTP_REFERER'])) {
-        extract(parse_url($_SERVER['HTTP_REFERER']));
-
-        $referer = $scheme . '://' . str_replace('www.', null, $host);
-
-        //   echo $referer;
-    }
-
-    $postfields["valid_domain"] = $referer;
-
-    $postfields["name"] = "highlight_code";
-
-
-    $data['temp'] = whm_mw_command($postfields);
-
-
-    exit(print(json_encode($data)));
 }
 //d($data);
 ?>
@@ -538,8 +553,9 @@ function whm_mw_command($params = false) {
     if (!empty($params)) {
         $str .= http_build_query($params);
     }
-    $s = url_download(MW_WHM_SERV . 'mw.php' . $str);
-    d($s);
+    $u = MW_WHM_SERV . 'mw.php' . $str;
+    $s = url_download($u);
+
     return json_decode($s, true);
 }
 
