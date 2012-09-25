@@ -1,9 +1,14 @@
 <? $rand = uniqid(); ?>
 <?  $iudates =  mw_check_for_update();
 
- d($iudates);
 ?>
 <pre id="update_log_<? print $rand ?>">
+<?
+if(isset($iudates['temp'])){
+ print_r($iudates['temp']);
+}
+
+ ?>
 </pre>
 <? if(!empty($iudates)): ?>
 
