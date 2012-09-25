@@ -74,3 +74,7 @@ $language["4-pictures"]= '4 Pictures' ;
 $language["double-floated-image-with-paragraph"]= 'Double - floated image with paragraph' ; 
 $language["image-categories-text"]= 'Image Categories Text' ; 
 $language["header-image-text-newsletter-banners-and-categories"]= 'Header Image text, newsletter, banners and categories.' ; 
+$language["your-name"]= 'Your Name' ; 
+$language["your-e-mail"]= 'Your E-mail' ; 
+$language["subscribe-me-now"]= 'Subscribe me Now' ; 
+$language["last-articles"]= 'Last articles' ; 

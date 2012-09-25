@@ -6,9 +6,27 @@
  *
  */
 
+
+.mw-reset, .mw-reset *{
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+.mw-reset img{
+  border: none;
+}
+.mw-reset div,
+.mw-reset input,
+.mw-reset select,
+.mw-reset textarea,
+.mw-reset button{
+  height: auto;
+}
+
 .col, .row, .element {
     position: relative;
 }
+
 .element {
     display: block;
     clear: both !important;
@@ -71,3 +89,17 @@
   display: inline-block !important;
 }
 
+
+.free-element{
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.free-element img,
+.free-element div,
+.free-element p,
+.free-element ul,
+.free-element ol{
+  position: absolute;
+}

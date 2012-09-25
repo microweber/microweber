@@ -150,9 +150,9 @@ mw.image = {
 
 
 
-             window.location.hash = '#mw_tab_design';
+             //window.location.hash = '#mw_tab_design';
 
-             $("#module_design_selector").setDropdownValue("#tb_image_edit", true);
+             //$("#module_design_selector").setDropdownValue("#tb_image_edit", true);
 
              var offset = el.offset();
              var r = $(mw.image_resizer);

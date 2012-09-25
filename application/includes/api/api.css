@@ -671,6 +671,22 @@ img.element{
   outline:6px solid red !important;
 }
 
+li.module-item.ui-draggable-dragging{
+  border-radius: 6px;
+  box-shadow: 0 0 3px #000;
+  background: white;
+  padding: 10px !important;
+  border: 2px soid #429BD5;
+}
+
+.free-element img,
+.free-element div,
+.free-element p,
+.free-element ul,
+.free-element ol{
+  cursor: move;
+}
+
 
 
 

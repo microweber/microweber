@@ -72,7 +72,7 @@ mw.wysiwyg = {
       $(window).bind("onElementMouseDown", function(event, element){
         var el = $(element);
         if(!mw.isDrag && $(".module.element-active").length==0){
-          el.attr('contenteditable','true');
+          !el.hasClass("module")?el.attr('contenteditable','true'):'';
           mw.wysiwyg.isThereEditableContent=true;
           mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
           if(mw.smallEditor.css("visibility")=='hidden'){
@@ -95,8 +95,10 @@ mw.wysiwyg = {
           mw.wysiwyg.isThereEditableContent=false;
         }
 
-        window.location.hash = "#mw_tab_design";
-        $("#module_design_selector").setDropdownValue("#tb_el_style", true);
+        //window.location.hash = "#mw_tab_design";
+        //$("#module_design_selector").setDropdownValue("#tb_el_style", true);
+
+
       });
 
 

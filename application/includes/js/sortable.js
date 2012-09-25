@@ -171,12 +171,13 @@ mw.drag = {
                }
            }
            else{
-             if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
+             if(   mw.$mm_target.hasClass("element")
+                || mw.$mm_target.hasClass("empty-element")
+                || mw.$mm_target.parents(".element").length>0
+                || mw.isDragItem(mw.mm_target)
+                || mw.mm_target.tagName=='IMG'){
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                  if(mw.isDragItem(mw.mm_target) || mw.mm_target.tagName=='IMG'){
                     mw.currentDragMouseOver = mw.mm_target;
-                  }
-
                }
              }
 
@@ -1258,7 +1259,7 @@ mw.px2pc = function(row){
     var len = cols.length;
     cols.each(function(){
         var el = $(this);
-        var w = ((Math.floor(el.width() / width * 100)));
+        var w = ((/*Math.floor*/(el.width() / width * 100)));
         cache.push(w);
         el.css({
         	width:w+"%"
@@ -1634,6 +1635,12 @@ mw.matrix = {
     }
   }
 }
+
+mw.onKey = function(which, callback){
+
+}
+
+mw.require("keys.js");
 
 
 
