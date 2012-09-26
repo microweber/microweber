@@ -79,7 +79,7 @@ function normalize_path($path, $slash_it = true) {
         $path = $path_original;
     }
     if ($slash_it == false) {
-        
+
     } else {
         $path = $path . DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
@@ -99,7 +99,7 @@ function string_clean($var) {
         if (function_exists("mysql_real_escape_string")) {
             // $output = mysql_real_escape_string ( $var );
         } else {
-            
+
         }
         $output = stripslashes($var);
     }
@@ -272,6 +272,36 @@ if (!function_exists('dirToURL')) {
 
 }
 
+function encrypt_var($var, $key = false) {
+    if ($var == '') {
+        return '';
+    }
+    if ($key == false) {
+        $key = md5(dirname(__FILE__));
+    }
+    $var = serialize($var);
+    //  $var = base64_encode($var);
+
+    $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
+
+
+    return $encrypted;
+} 
+
+function decrypt_var($var, $key = false) {
+    if ($var == '') {
+        return '';
+    }
+    if ($key == false) {
+        $key = md5(dirname(__FILE__));
+    }
+    //  $var = base64_decode($var);
+    $var = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($var), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+
+    $var = unserialize($var);
+    return $var;
+}
+
 function encode_var($var) {
     if ($var == '') {
         return '';
@@ -405,7 +435,7 @@ function recursive_remove_directory($directory, $empty = true) {
 
                         unlink($path);
                     } catch (Exception $e) {
-                        
+
                     }
                 }
             }
@@ -517,7 +547,7 @@ function pixum_img() {
     imagecolordeallocate($bg);
     imagedestroy($img);
 }
- 
+
 function pixum($width, $height) {
     return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }

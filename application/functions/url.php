@@ -18,10 +18,10 @@ function url_segment($k = -1) {
 
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
-//        
+//
         //      $u2 = explode("?", $u2);
         ///$u2 = $u2[0];
-// 
+//
 //        $u1 = explode("?", $u1);
 //        $u1 = $u1[0];
 
@@ -55,6 +55,18 @@ function url_segment($k = -1) {
     }
 
     return $k != - 1 ? v($u [$k]) : $u;
+}
+
+function site_hostname() {
+    static $u1;
+    if ($u1 == false) {
+        $valid_domain = parse_url(site_url());
+        extract($valid_domain);
+        //var_dump($valid_domain);
+        $host = str_ireplace('www.', null, $host);
+        $u1 = $host;
+    }
+    return $u1;
 }
 
 /**
@@ -119,13 +131,13 @@ function full_url($skip_ajax = false, $skip_param = false) {
         $is_ajax = isAjax();
 
         if ($is_ajax == false) {
-            
+
         } else {
 
             if ($_SERVER ['HTTP_REFERER'] != false) {
                 return $_SERVER ['HTTP_REFERER'];
             } else {
-                
+
             }
         }
     }

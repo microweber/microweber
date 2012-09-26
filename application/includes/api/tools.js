@@ -448,7 +448,7 @@ $(document).ready(function(){
     maxWidth:'none',
     width:'auto'
   })
-});
+});  
 
 
 

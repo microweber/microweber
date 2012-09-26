@@ -147,11 +147,37 @@ function mw_check_for_update() {
 
     $p = url_download($serv, $data);
 
-
+    $h = site_hostname();
     $iudates = $p = (json_decode($p, true));
+    $lic_path = DBPATH_FULL . 'lic' . DS . $h . DS;
+    if (!is_dir($lic_path)) {
+        mkdir_recursive($lic_path);
+    }
     if (isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])):
+
         foreach ($iudates["license_check"]["modules"] as $item):
-d($item);
+            if (isset($item['host']) and $item['host'] == $h) {
+                $var_lic = $item;
+                $var_lic = encode_var($var_lic, $h);
+
+                $lic_file = $lic_path . $item['module'] . '.php';
+                $lic_file_d = dirname($lic_file);
+                if (!is_dir($lic_file_d)) {
+                    mkdir_recursive($lic_file_d);
+                }
+                $content = CACHE_CONTENT_PREPEND . $var_lic;
+                // var_dump ( $cache_file, $content );
+                try {
+                    $cache = file_put_contents($lic_file, $content);
+                } catch (Exception $e) {
+
+                }
+
+
+//                d($var_lic);
+//                $var_lic = decode_var($var_lic, $h);
+//                d($var_lic);
+            }
         endforeach;
     endif;
 
