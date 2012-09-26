@@ -154,11 +154,11 @@ function mw_check_for_update() {
         mkdir_recursive($lic_path);
     }
     if (isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])):
-
+        $lic_modified = false;
         foreach ($iudates["license_check"]["modules"] as $item):
             if (isset($item['host']) and $item['host'] == $h) {
                 $var_lic = $item;
-                $var_lic = encode_var($var_lic, $h);
+                $var_lic = encrypt_var($var_lic, $h);
 
                 $lic_file = $lic_path . $item['module'] . '.php';
                 $lic_file_d = dirname($lic_file);
@@ -169,6 +169,7 @@ function mw_check_for_update() {
                 // var_dump ( $cache_file, $content );
                 try {
                     $cache = file_put_contents($lic_file, $content);
+                    $lic_modified = true;
                 } catch (Exception $e) {
 
                 }
@@ -179,6 +180,12 @@ function mw_check_for_update() {
 //                d($var_lic);
             }
         endforeach;
+
+        if ($lic_modified == true) {
+            cache_clean_group('updates');
+            cache_clean_group('modules');
+             cache_clean_group('elements');
+        }
     endif;
 
 

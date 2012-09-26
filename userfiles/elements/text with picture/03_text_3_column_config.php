@@ -1,10 +1,13 @@
 <?
 
 $config = array();
-$config['name'] = "Text and pictures 3 column";
+$config['name'] = "Three Columns with Pictures";
 $config['author'] = "Microweber";
 $config['description'] = "Text and pictures 3 column";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['as_element'] = true;
- 
+
+$config['categories'] = "recommended, portfolio, gallery, online shop";
+$config['position'] = true;
+$config['version'] = 0.2;

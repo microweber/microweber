@@ -156,6 +156,7 @@ body.mw-live-edit{
   }
     .mw_dropdown_fields ul{
         margin: 0;
+        padding: 0;
     }
     .mw_dropdown_fields > ul{
       background: #f1f1f1 url(../img/dropdown_fields_bottom.png) no-repeat center bottom;

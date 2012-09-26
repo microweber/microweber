@@ -186,11 +186,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             if ($field_content != false and $field_content != '') {
                 $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-                //  d($field_content);
+            //     d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
+
                 pq($elem)->html($field_content);
             } else {
-                
+
             }
         }
         $layout = $pq->htmlOuter();
@@ -231,7 +232,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 	//
 
 	//
- 
+
 	if (!empty($replaced_scripts)) {
             foreach ($replaced_scripts as $key => $value) {
                 if ($value != '') {
@@ -523,7 +524,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
             if ($i != 2) {
                 $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             } else {
-                
+
             }
             $i++;
         }
