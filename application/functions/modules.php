@@ -452,6 +452,97 @@ function get_elements($options = array()) {
     return $a1;
 }
 
+function load_all_lic() {
+    $h = site_hostname();
+    $cache_id = __FUNCTION__ . $h;
+    $cache_group = 'updates';
+
+    $cache_content = cache_get_content($cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
+
+
+    static $u1;
+    if ($u1 == false) {
+        //  $dir_name = DBPATH_FULL . 'lic' . DS;
+
+
+        $dir_name = DBPATH_FULL . 'lic' . DS . $h . DS;
+        $glob_patern = '*.php';
+        if (is_dir($dir_name)) {
+            $dir = rglob($glob_patern, 0, $dir_name);
+
+            if (!empty($dir)) {
+                $lic_files = array();
+                foreach ($dir as $key => $value) {
+                    $lic_files[] = normalize_path($value, false);
+                }
+            }
+        }
+
+        //  $u1 = $module_name;
+        // return $u1;
+        if (isset($lic_files)) {
+            $u1 = $lic_files;
+        }
+    }
+    cache_save($u1, $cache_id, $cache_group);
+
+    return $u1;
+}
+
+function load_module_lic($module_name = false) {
+    static $u1;
+
+    if ($u1 == false) {
+        $u1 = array();
+    }
+
+
+    if (isset($u1[$module_name]) == false) {
+        $all_lic = load_all_lic();
+        $h = site_hostname();
+        $dir_name = DBPATH_FULL . 'lic' . DS . $h . DS;
+        $m_name = $dir_name . $module_name;
+        $m_name = normalize_path($m_name, false);
+        $m_name = $m_name . '.php';
+        if (isset($all_lic) and is_array($all_lic)) {
+            foreach ($all_lic as $itemz) {
+                if ($itemz == $m_name) {
+                    //if (is_file($itemz)) {
+                    $lic = file_get_contents($m_name);
+                    $search = CACHE_CONTENT_PREPEND;
+
+                    $replace = '';
+
+                    $count = 1;
+
+                    $cache = str_replace($search, $replace, $lic, $count);
+                    $lic = decrypt_var($cache, $h);
+                    if ($lic == false) {
+                        $u1[$module_name] = array("error" => "no_license_found", "module" => $module_name, "license_decoding_error" => $module_name);
+                    } else {
+                        $u1[$module_name] = $lic;
+                    }
+                    // }
+                }
+            }
+        }
+        //$u1 = $module_name;
+        // d($all_lic);
+        // return $u1;
+    }
+    if (isset($u1[$module_name]) != false) {
+
+        return $u1[$module_name];
+    }
+    return $module_name;
+}
+
 function load_module($module_name, $attrs = array()) {
     $function_cache_id = false;
     $args = func_get_args();
@@ -462,12 +553,19 @@ function load_module($module_name, $attrs = array()) {
     $cache_content = 'CACHE_LOAD_MODULE_' . $function_cache_id;
 
     if (!defined($cache_content)) {
-        
+
     } else {
 
         // p((constant($cache_content)));
         return (constant($cache_content));
     }
+
+
+
+
+
+
+
 
 
     $is_element = false;
@@ -574,6 +672,12 @@ function load_module($module_name, $attrs = array()) {
         $config ['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
         $config ['the_module'] = $module_name;
         $config ['url_to_module'] = pathToURL($config ['path_to_module']) . '/  ';
+
+        $lic = load_module_lic($module_name);
+        if ($lic != false) {
+            $config ['license'] = $lic;
+        }
+
         //print(file_get_contents($try_file1));
         $l1 = new View($try_file1);
         $l1->config = $config;
@@ -586,7 +690,16 @@ function load_module($module_name, $attrs = array()) {
         if (!defined($cache_content)) {
             define($cache_content, $module_file);
         }
+        if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
+            $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
+            $lic_l1 = new View($lic_l1_try_file1);
 
+            $lic_l1->config = $config;
+            $lic_l1->params = $attrs;
+
+            $lic_l1e_file = $lic_l1->__toString();
+            return $lic_l1e_file . $module_file;
+        }
         return $module_file;
     } else {
         define($cache_content, FALSE);

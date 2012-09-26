@@ -7,4 +7,10 @@ $config['description'] = "Text (3 columns) and wide picture";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['as_element'] = true;
- 
+
+$config['categories'] = "portfolio";
+$config['position'] = 6;
+$config['version'] = 0.2;
+
+
+
