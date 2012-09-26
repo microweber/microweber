@@ -436,7 +436,7 @@ mw.recommend = {
     mw.cookie.set("recommend", tostring, false, "/");
   }
 }
-
+/*
 $(document).ready(function(){
   $(".modules-list.list-elements img").each(function(){
     var file = mw.extras.get_filename(this.src);
@@ -448,11 +448,8 @@ $(document).ready(function(){
     maxWidth:'none',
     width:'auto'
   })
-});  
-
-
-
-
+});
+        */
 
 
 

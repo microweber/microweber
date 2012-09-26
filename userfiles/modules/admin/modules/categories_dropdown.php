@@ -8,7 +8,7 @@ $for2 = 'module';
 }
 
 ?>
-<div class="mw_dropdown mw_dropdown_type_navigation left" id="<? print $for2 ?>_category_selector" data-value='recommended'> <span class="mw_dropdown_val">Recommended</span>
+<div class="mw_dropdown mw_dropdown_type_navigation left" id="<? print $for2 ?>_category_selector" data-value='all'> <span class="mw_dropdown_val">All</span>
   <div class="mw_dropdown_fields">
     <ul>
       <li value="-1" class="other-action">
@@ -17,6 +17,8 @@ $for2 = 'module';
           <span class="tb_search_magnify"></span></div>
           <a href="#" id="dd_<? print $for2 ?>_val_ctrl" class="semi_hidden"></a>
       </li>
+
+      <li value="all"><a href="#">All</a></li>
 
       <li><module type="categories" data-no-wrap=1 data-for="<? print $for ?>" id="modules_toolbar_categories_<? print $rand+1  ?>" /></li>
     
