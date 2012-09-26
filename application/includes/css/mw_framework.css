@@ -182,7 +182,7 @@ body:-webkit-full-screen {
   display: block;
   position: relative;
   width: 100%;
-  min-height: 30px;
+  /*min-height: 30px; */
 }
 
 .absolute-dropable{

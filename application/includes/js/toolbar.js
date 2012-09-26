@@ -22,7 +22,7 @@ $(window).load(function(){
 
 
 
-$("#module_category_selector a").each(function(){
+$(".mw_dropdown_type_navigation a").each(function(){
   var el = $(this);
   var li = el.parent();
   el.attr("href", "javascript:;");
@@ -33,10 +33,13 @@ $("#module_category_selector a").each(function(){
 $("#module_category_selector").change(function(){
     var val = $(this).getDropdownValue();
     (val!=-1&&val!="-1") ? mw.tools.toolbar_sorter(Modules_List_modules, val):'';
-
+});
+$("#elements_category_selector").change(function(){
+    var val = $(this).getDropdownValue();
+    (val!=-1&&val!="-1") ? mw.tools.toolbar_sorter(Modules_List_elements, val):'';
 });
 
-$("#module_category_selector #dd_module_search").bind("keyup paste", function(event){
+$("#dd_module_search").bind("keyup paste", function(event){
        var val = this.value;
        if(val!=""){
           mwd.getElementById("dd_module_val_ctrl").innerHTML = val;
@@ -47,6 +50,22 @@ $("#module_category_selector #dd_module_search").bind("keyup paste", function(ev
 
        $("#module_category_selector").setDropdownValue(-1, false);
        mw.tools.toolbar_searh(Modules_List_modules, val);
+       event.preventDefault();
+       event.stopPropagation();
+       return false;
+
+});
+$("#dd_elements_search").bind("keyup paste", function(event){
+       var val = this.value;
+       if(val!=""){
+          mwd.getElementById("dd_elements_val_ctrl").innerHTML = val;
+       }
+       else{
+          mwd.getElementById("dd_elements_val_ctrl").innerHTML = "Categories";
+       }
+
+       $("#dd_elements_val_ctrl").setDropdownValue(-1, false);
+       mw.tools.toolbar_searh(Modules_List_elements, val);
        event.preventDefault();
        event.stopPropagation();
        return false;
@@ -131,9 +150,9 @@ mw.image = {
 
 
 
-             window.location.hash = '#mw_tab_design';
+             //window.location.hash = '#mw_tab_design';
 
-             $("#module_design_selector").setDropdownValue("#tb_image_edit", true);
+             //$("#module_design_selector").setDropdownValue("#tb_image_edit", true);
 
              var offset = el.offset();
              var r = $(mw.image_resizer);

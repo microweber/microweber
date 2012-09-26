@@ -149,7 +149,36 @@
     </div>
     <div id="tab_design" class="mw_toolbar_tab">
 
-     <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
+
+
+    <div id="design_sub_nav" class="toolbar_subnav" style="left:405px;width: 160px;display: none">
+        <ul class="ts_main_ul">
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Size</a>
+            </li>
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Spacing</a>
+            </li>
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Border</a>
+            </li>
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Background</a>
+            </li>
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Effects</a>
+            </li>
+            <li class="ts_main_li">
+                <a class="ts_main_a" href="javascript:;">Images</a>
+            </li>
+        </ul>
+
+    </div>
+
+
+
+
+     <div <?php /* style="display: none" */ ?> class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
         <div class="mw_dropdown_fields">
           <ul>
             <li value="#tb_el_style"><a href="javascript:;">Site style</a></li>
@@ -159,7 +188,7 @@
       </div>
 
 
-      <div id="tb_design_holder">
+      <div id="tb_design_holder" <?php /* style="display: none"*/ ?>>
 
 
           <div class="tb_design_tool" id="tb_image_edit"></div>
@@ -618,6 +647,9 @@
 
      <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
         style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
+
+        <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
+        style="position: fixed;top: 133px;right:130px; z-index: 2000;">Empty</span>
 
 
 

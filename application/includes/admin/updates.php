@@ -11,8 +11,19 @@ $(document).ready(function(){
 
 function receiveMessage(evt)
 {
+	
+	
+	//evt.data
    
-    alert("got message: "+evt.data);
+   $.post('<? print site_url('api/mw_install_new_from_remote') ?>', { data: evt.data, time: "2pm" } , function(data) {
+				 mw.log(data);
+			  
+			}); 
+   
+   
+   
+   
+    
    
 }
  
@@ -50,5 +61,5 @@ function mw_reload_all_updates(){
   </tr>
 </table>
 
-<!--<iframe src="http://192.168.0.3/" ></iframe>
--->
+ <iframe height="600" width="500" src="<? print site_url('bootstrap/modules/no_editmode:true') ?>" ></iframe>
+ 

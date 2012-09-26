@@ -18,25 +18,19 @@ description: Home site layout
 	width: 950px;
 	margin: 0 auto;
 }
-h2 {
-	font-weight: normal;
-}
 #MagicTheme p, #MagicTheme h2 {
 	font-family: 'Myriad Pro';
 }
-.c {
-	clear: both;
-	height: 1px;
-	overflow: hidden;
+h1,h2,h3,h4,h5,h6{
+  font-weight: normal;
 }
-.element {
-	padding: 0
-}
+
 </style>
 
 
+
 <div id="MagicTheme">
-  <div class="edit" id="the_test1221" field="test_v15112221">
+  <div class="edit" id="the_test1221sf" field="test_v15112221sf">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>
