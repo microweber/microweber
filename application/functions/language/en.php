@@ -78,3 +78,4 @@ $language["your-name"]= 'Your Name' ;
 $language["your-e-mail"]= 'Your E-mail' ; 
 $language["subscribe-me-now"]= 'Subscribe me Now' ; 
 $language["last-articles"]= 'Last articles' ; 
+$language["you-must-activate-this-module"]= 'You must activate this module' ; 
