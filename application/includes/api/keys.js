@@ -98,7 +98,8 @@ mw.keys = {
     222: "'"
 };
 
-mw.keyCombination = {}
+mw.keyCombination = {};
+mw.kombinations_register = [];
 
 $(document).ready(function(){
   $(window).bind("keydown keyup", function(event){
@@ -125,3 +126,7 @@ $(document).ready(function(){
     }
   });
 });
+
+mw.onkey = function(key){
+
+}

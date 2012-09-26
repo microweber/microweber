@@ -3,9 +3,10 @@
 $config = array();
 $config['name'] = "Last articles";
 $config['author'] = "Microweber";
-$config['description'] = "6 blocks with images and title";
+$config['description'] = "Last articles";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "online shop";
-$config['version'] = 1.5;
+$config['version'] = 1.3;
 $config['position'] = 6;
+$config['as_element'] = true;

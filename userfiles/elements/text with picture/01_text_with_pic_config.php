@@ -6,4 +6,5 @@ $config['author'] = "Microweber";
 $config['description'] = "Text with picture";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
- $config['categories'] = "with picture"; 
+ $config['categories'] = "with picture";
+ $config['as_element'] = true;

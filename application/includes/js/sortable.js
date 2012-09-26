@@ -1636,9 +1636,7 @@ mw.matrix = {
   }
 }
 
-mw.onKey = function(which, callback){
 
-}
 
 mw.require("keys.js");
 

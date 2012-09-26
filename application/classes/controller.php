@@ -181,7 +181,8 @@ class Controller {
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
 
-            $l = str_ireplace('</head>', $default_css . '</head>', $l);
+           // $l = str_ireplace('</head>', $default_css . '</head>', $l);
+             $l = str_ireplace('<head>', '<head>'.$default_css , $l);
             if (!stristr($l, $apijs_loaded)) {
                 $default_css = '<script src="' . $apijs_loaded . '"></script>';
 

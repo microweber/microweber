@@ -1,4 +1,19 @@
-window.mw = window.mw ? window.mw : {};
+Microweber = function(){
+    this.get = function(){
+        return {
+          modules:Modules_List_modules,
+          layouts:Modules_List_elements
+        }
+    }
+    return this;
+}
+
+mw = function(){
+    return new Microweber();
+}
+
+
+//window.mw = window.mw ? window.mw : {};
 
 
 
@@ -250,9 +265,9 @@ mw._ = function(obj, sendSpecific){
     $.post(url, to_send, function(data){
         $(selector).after(data);
         $(selector).remove();
-        mw.is.defined(obj.done) ? obj.done.call(selector) :'';
+        mw.is.defined(obj.done) ? obj.done.call(selector) : '';
         mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
-        mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true):'';
+        mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true) : '';
     });
 
 }
@@ -264,6 +279,17 @@ mw.log = function(what){
     console.log(what);
   }
 }
+
+mw.resizerX = function(){
+  if(!mw._resizerX){
+    mw._resizerX = mwd.createElement('div');
+    mw._resizerX.className = 'mw_resizer_X';
+    mwd.body.appendChild(mw._resizerX);
+  }
+  return mw._resizerX;
+}
+
+
 
 
 

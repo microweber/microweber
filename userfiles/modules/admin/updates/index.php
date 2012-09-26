@@ -3,10 +3,19 @@
 
 //d($iudates);
 ?>
-<pre id="update_log_<? print $rand ?>">
-</pre>
-<? if(!empty($iudates)): ?>
 
+<? if(!empty($iudates)): ?>
+ <pre id="update_lddog_<? print $rand ?>">
+<? d($iudates); ?>
+</pre>
+
+<? if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
+ <? foreach($iudates["license_check"]["modules"] as  $item): ?>
+ <pre id="update_log_<? print $rand ?>">
+<? d($item); ?>
+</pre>
+ <? endforeach; ?>
+<? endif;  ?>
  <script  type="text/javascript">
 
 mw.require('forms.js');

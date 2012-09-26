@@ -272,6 +272,36 @@ if (!function_exists('dirToURL')) {
 
 }
 
+function encrypt_var($var, $key = false) {
+    if ($var == '') {
+        return '';
+    }
+    if ($key == false) {
+        $key = md5(dirname(__FILE__));
+    }
+    $var = serialize($var);
+    //  $var = base64_encode($var);
+
+    $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
+
+
+    return $encrypted;
+} 
+
+function decrypt_var($var, $key = false) {
+    if ($var == '') {
+        return '';
+    }
+    if ($key == false) {
+        $key = md5(dirname(__FILE__));
+    }
+    //  $var = base64_decode($var);
+    $var = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($var), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+
+    $var = unserialize($var);
+    return $var;
+}
+
 function encode_var($var) {
     if ($var == '') {
         return '';
@@ -402,7 +432,7 @@ function recursive_remove_directory($directory, $empty = true) {
                 } else {
                     $path = normalize_path($path, false);
                     try {
-                       
+
                         unlink($path);
                     } catch (Exception $e) {
 
@@ -507,7 +537,17 @@ function lipsum() {
     return "This is the simple text layout design. You can write what you want directly here, easy as never before. You must know that every layout comes with this default text for your better view of your website. Discover all of cool features of Microweber. You are able to make complex layout designs, connect the layouts with modules and categories with one click, and organize the content as you always wanted. Take look around and play with confidence creating your great website.";
 }
 
+api_expose('pixum_img');
 
-function pixum($width, $height){
-    return "http://pecata/1k/pixum.php?width=".$width."&height=".$height;
+function pixum_img() {
+    $img = imagecreate($_REQUEST['width'], $_REQUEST['height']);
+    $bg = imagecolorallocate($img, 225, 226, 227);
+    header("Content-type: image/png");
+    imagepng($img);
+    imagecolordeallocate($bg);
+    imagedestroy($img);
+}
+
+function pixum($width, $height) {
+    return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }

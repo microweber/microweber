@@ -9,3 +9,4 @@ $config['no_cache'] = true;
 $config['categories'] = "custom";
 $config['version'] = 0.5;
 $config['position'] = 4;
+$config['as_element'] = true;
