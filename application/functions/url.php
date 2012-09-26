@@ -6,7 +6,7 @@ function isAjax() {
 
 function url_segment($k = -1) {
     static $u;
-     
+
     if ($u == false) {
 
         $u1 = curent_url();
@@ -18,43 +18,55 @@ function url_segment($k = -1) {
 
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
-//        
-   //      $u2 = explode("?", $u2);
+//
+        //      $u2 = explode("?", $u2);
         ///$u2 = $u2[0];
-// 
+//
 //        $u1 = explode("?", $u1);
 //        $u1 = $u1[0];
 
         $u1 = str_replace($u2, '', $u1);
-    
-  
+
+
         //  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
         if (!isset($u) or $u == false) {
-             
+
             //$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-                    $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-          //  $u = explode('/', $u1);
-             //$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', $u1), '/'));
-          //   $u = explode('/', $u1);
+            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+            //  $u = explode('/', $u1);
+            //$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', $u1), '/'));
+            //   $u = explode('/', $u1);
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // $u = $u ? :
     }
- 
+
     return $k != - 1 ? v($u [$k]) : $u;
+}
+
+function site_hostname() {
+    static $u1;
+    if ($u1 == false) {
+        $valid_domain = parse_url(site_url());
+        extract($valid_domain);
+        //var_dump($valid_domain);
+        $host = str_ireplace('www.', null, $host);
+        $u1 = $host;
+    }
+    return $u1;
 }
 
 /**
@@ -67,7 +79,6 @@ function url_segment($k = -1) {
 function url($k = -1) {
 
     return url_segment($k);
- 
 }
 
 /**
@@ -98,7 +109,7 @@ function curent_url() {
     $port = ($_SERVER ["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER ["SERVER_PORT"]);
     $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
 
- 
+
 
 
     return $u;
@@ -158,10 +169,10 @@ function full_url($skip_ajax = false, $skip_param = false) {
 }
 
 function url_params($skip_ajax = false) {
-    return url_param($param = "__MW_GET_ALL_PARAMS__",   $skip_ajax);
+    return url_param($param = "__MW_GET_ALL_PARAMS__", $skip_ajax);
 }
 
-function url_param($param,   $skip_ajax = false) {
+function url_param($param, $skip_ajax = false) {
     if ($_POST) {
 
         if (isset($_POST ['search_by_keyword'])) {
@@ -185,7 +196,7 @@ function url_param($param,   $skip_ajax = false) {
     $all_params = array();
     $segs = explode('/', $url);
     foreach ($segs as $segment) {
- 
+
         $seg1 = explode(':', $segment);
 
         if ($param == '__MW_GET_ALL_PARAMS__') {
@@ -193,8 +204,8 @@ function url_param($param,   $skip_ajax = false) {
                 $all_params[$seg1[0]] = $seg1[1];
             }
         } else {
-$param_sub_position = false;
- 
+            $param_sub_position = false;
+
             // var_dump($seg1);
             if (trim($seg1[0]) == trim($param)) {
 
@@ -799,12 +810,13 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
         $post_params = array('date' => date("YmdHis"));
     }
     $postdata = http_build_query($post_params);
-
+    $ref = site_url();
     $opts = array('http' =>
         array(
             'method' => 'POST',
             'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n"
             . 'Content-type: application/x-www-form-urlencoded' . "\r\n"
+            . 'Referer: ' . $ref . "\r\n"
             ,
             'content' => $postdata
         )
@@ -820,4 +832,3 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
         return $result;
     }
 }
-

@@ -234,6 +234,7 @@ define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesys
 
 define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
 define('DBPATH', 'db' . DS);
+define('DBPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . DBPATH);
 
 define('ADMIN_URL', SITEURL . 'admin');
 
@@ -361,9 +362,9 @@ function site_url($add_string = false) {
         $uz = parse_url($pageURL);
         if (isset($uz['query'])) {
             $pageURL = str_replace($uz['query'], '', $pageURL);
-             $pageURL = rtrim($pageURL, '?');
+            $pageURL = rtrim($pageURL, '?');
         }
-     
+
 
         //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
         $url_segs = explode('/', $pageURL);

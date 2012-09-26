@@ -14,15 +14,13 @@ description: Home site layout
 <? include TEMPLATE_DIR. "header.php"; ?>
 <style type="text/css">
 #MagicTheme {
-	font-family: 'Myriad Pro';
+	font-family: 'Verdana';
 	width: 950px;
 	margin: 0 auto;
 }
-h2 {
-	font-weight: normal;
-}
+
 #MagicTheme p, #MagicTheme h2 {
-	font-family: 'Myriad Pro';
+	font-family: 'Verdana';
 }
 .c {
 	clear: both;
@@ -40,7 +38,7 @@ $(document).ready(function(){
 </script>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test" field="ridin_the">
+  <div class="edit" id="the_testxsdcvxc" field="ridin_thesdzxc">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

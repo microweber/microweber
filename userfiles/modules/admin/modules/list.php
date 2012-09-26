@@ -64,7 +64,7 @@ $mod_obj_str = 'modules';
   ?>
 
    <? $module_id = $module2['name_clean'].'_'.uniqid(); ?>
-  <li  id="<?php print $module_id; ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <? if(isset( $module2['as_element']) and intval($module2['as_element'] == 1)) : ?> module-as-element<? endif; ?>"> <span class="mw_module_hold">
+  <li  id="<?php print $module_id; ?>" data-module-name="<? print $module2['module'] ?>" data-filter="<? print $module2['name'] ?>" data-category="<? isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <? if(isset( $module2['as_element']) and intval($module2['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<? endif; ?>"> <span class="mw_module_hold">
 
   <script type="text/javascript">
       Modules_List_<? print $mod_obj_str ?>['<?php print($module_id); ?>'] = {

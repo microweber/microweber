@@ -9,3 +9,4 @@ $config['no_cache'] = true;
 $config['categories'] = "gallery";
 $config['version'] = 0.3;
 $config['position'] = 3;
+$config['as_element'] = true;
