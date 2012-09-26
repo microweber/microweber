@@ -507,17 +507,34 @@ if ($seg != false and $seg == 'download') {
 
         $data['temp'] = array();
         $postfields_all = array();
-        $postfields_all['postfields_all'] = 1;
+        $postfields_all['postfields_all'] = array();
         foreach ($req['modules'] as $item) {
 
             $postfields = array();
             $postfields["action"] = "validate_license";
             $postfields["valid_domain"] = $referer;
             $postfields["name"] = $item['module'];
-            $postfields_all[] = $postfields;
+            $postfields_all['postfields_all'][] = $postfields;
             //    $postfields["shake"] = $shake;
         }
-        $data['temp'][] = whm_mw_command($postfields_all);
+
+        $lic_resp = whm_mw_command($postfields_all);
+        if ($lic_resp != false and is_array($lic_resp)) {
+            foreach ($lic_resp as $value) {
+                if (isset($value['error']) and ($value['error'] == 'no_license_found') and isset($value['module'])) {
+
+                    $data['license_check']['modules'][$value['module']] = $value;
+                } elseif (isset($value['domainstatus'])) {
+
+                    $data['license_check']['modules'][] = $value;
+                } else {
+                    $data['temp'][] = $value;
+                }
+            }
+        }
+
+
+
 
 
 
@@ -833,7 +850,7 @@ class Unzip {
      * @return    none
      */
     function __construct() {
-        
+
     }
 
     // --------------------------------------------------------------------

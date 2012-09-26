@@ -1,4 +1,4 @@
-﻿/*
+/*
 api css
 */
 
@@ -666,6 +666,29 @@ img.element{
 .lipsum{
   color: rgba(0, 0, 0, 0.5);
 }
+/*.lipsum:before{
+  opacity:0;
+  -moz-transition:opacity .4s linear;
+  content:"Click to edit";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-shadow:0 0 1px #fff;
+  box-shadow:0 0 4px #000;
+  margin: -10px 0 0 -60px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 12px;
+  z-index: 1;
+  display: block;
+  text-align: center;
+  color: #212121;
+  background: rgba(136, 136, 136, 0.7);
+}
+
+.lipsum:hover:before{
+    opacity:1;
+}*/
 
 .element.CL{
   outline:6px solid red !important;
@@ -685,6 +708,20 @@ li.module-item.ui-draggable-dragging{
 .free-element ul,
 .free-element ol{
   cursor: move;
+}
+
+
+.mw_resizer_X{
+    background: none repeat scroll 0 0 white;
+    border: 1px solid white;
+    box-shadow: 0 0 2px -1px #595959;
+    display: block;
+    height: 15px;
+    opacity: 0.8;
+    position: absolute;
+    left: -999px;
+    top: -999px;
+    width: 15px;
 }
 
 

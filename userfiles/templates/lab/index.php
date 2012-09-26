@@ -12,25 +12,12 @@ description: Home site layout
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
-<style type="text/css">
-#MagicTheme {
-	font-family: 'Myriad Pro';
-	width: 950px;
-	margin: 0 auto;
-}
-#MagicTheme p, #MagicTheme h2 {
-	font-family: 'Myriad Pro';
-}
-h1,h2,h3,h4,h5,h6{
-  font-weight: normal;
-}
 
-</style>
 
 
 
 <div id="MagicTheme">
-  <div class="edit" id="the_test1221sf" field="test_v15112221sf">
+  <div class="edit" id="the_test1df22dffd1sf" field="test_v15dff112fd221sf">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

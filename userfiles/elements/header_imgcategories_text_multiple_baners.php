@@ -1,14 +1,14 @@
-<img class="element element-image layout-wide-img" src="<?php print pixum(800,200); ?>" />
+<img class="element element-image layout-wide-img" src="<?php print pixum(800,120); ?>" />
 <div class="row">
     <div class="column" style="width: 20%">
         <module type="categories" for="content" />
     </div>
     <div class="column" style="width: 50%">
-        <h2 class="element">Simple Text</h2>
-        <p class="element lipsum layout-paragraph">
+        <h2 class="element layout-title lipsum">Simple Text</h2>
+        <p class="element layout-paragraph lipsum">
             <?php print lipsum(); ?>
         </p>
-        <p class="element lipsum layout-paragraph">
+        <p class="element layout-paragraph lipsum">
             <?php print lipsum(); ?>
         </p>
     </div>

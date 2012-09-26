@@ -146,8 +146,19 @@ function mw_check_for_update() {
     $serv = mw_get_update_serv();
 
     $p = url_download($serv, $data);
-    d($p);
-    return (json_decode($p, true));
+
+
+    $iudates = $p = (json_decode($p, true));
+    if (isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])):
+        foreach ($iudates["license_check"]["modules"] as $item):
+d($item);
+        endforeach;
+    endif;
+
+
+
+
+    return ($p);
 }
 
 function mw_get_update_serv() {

@@ -794,55 +794,25 @@ class URLify {
 
 function url_download($requestUrl, $post_params = false, $save_to_file = false) {
 
-
-
-
     if ($post_params == false) {
         $post_params = array('date' => date("YmdHis"));
     }
-    $requestUrl = str_replace(' ', '%20', $requestUrl);
-    if (isset($_COOKIE['PHPSESSID'])) {
-        $strCookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
-    }
-    $referer = site_url();
-    session_write_close();
-
-    $ch = curl_init($requestUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    if (isset($_COOKIE['PHPSESSID'])) {
-        curl_setopt($ch, CURLOPT_COOKIE, $strCookie);
-    }
-    curl_setopt($ch, CURLOPT_REFERER, $referer);
     $postdata = http_build_query($post_params);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Microweber/" . MW_VERSION);
+    $ref = site_url();
+    $opts = array('http' =>
+        array(
+            'method' => 'POST',
+            'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n"
+            . 'Content-type: application/x-www-form-urlencoded' . "\r\n"
+            . 'Referer: ' . $ref . "\r\n"
+            ,
+            'content' => $postdata
+        )
+    );
+    $requestUrl = str_replace(' ', '%20', $requestUrl);
+    $context = stream_context_create($opts);
 
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-//    
-//    $postdata = http_build_query($post_params);
-//    
-//    $opts = array("http' =>
-//        array(
-//            'method' => 'POST',
-//            'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n"
-//            . "Referer: $referer\r\n"
-//            . 'Content-type: application/x-www-form-urlencoded' . "\r\n"
-//            ,
-//            'content' => $postdata
-//        )
-//    );
-//  
-//    $context = stream_context_create($opts);
-//
-//    $result = file_get_contents($requestUrl, false, $context);
-//    
-//    
-
-
-
+    $result = file_get_contents($requestUrl, false, $context);
     if ($save_to_file == true) {
         //  d($result);
         file_put_contents($save_to_file, $result);
@@ -850,4 +820,3 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
         return $result;
     }
 }
-

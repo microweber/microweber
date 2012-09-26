@@ -437,6 +437,21 @@ mw.recommend = {
   }
 }
 
+$(document).ready(function(){
+  $(".modules-list.list-elements img").each(function(){
+    var file = mw.extras.get_filename(this.src);
+    $(this).after("<div><textarea onfocus='this.select()' style='padding:5px;background:#B8CDE2;white-space:nowrap;box-shadow:inset 0 0 2px #000;height:14px;border:0;width:120px;font:11px Arial;resize:none'>"+file+"</textarea></div>");
+  });
+
+  $(".mw_module_image, .mw_module_hold").css({
+    minWidth:0,
+    maxWidth:'none',
+    width:'auto'
+  })
+});
+
+
+
 
 
 
