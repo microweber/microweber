@@ -9,6 +9,12 @@ if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.513);
 }
 
+if (!defined('MW_UPDATE_SERV')) {
+    $test = site_url('update.php');
+    //  define('MW_UPDATE_SERV', 'http://update.microweber.com/update.php '); //seperate by whitespace
+    define('MW_UPDATE_SERV', $test); //seperate by whitespace
+}
+
 // Basic system functions
 function p($f) {
     return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
