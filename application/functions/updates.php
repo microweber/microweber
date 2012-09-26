@@ -1,5 +1,28 @@
 <?php
 
+api_expose('mw_install_new_from_remote');
+
+function mw_install_new_from_remote($updates) {
+    $a = is_admin();
+    if ($a == false) {
+        error('Must be admin!');
+    }
+
+    $new_updates = array();
+    if (isset($updates['data'])) {
+        $u = urldecode($updates['data']);
+        $u = unserialize($u);
+
+        if ($u['action'] == 'install') {
+            $update = array();
+            $update[$u['type']][] = $u['url'];
+            $new_updates = $update;
+
+            mw_apply_updates($new_updates);
+        }
+    }
+}
+
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($updates) {
@@ -8,6 +31,7 @@ function mw_apply_updates($updates) {
     if ($a == false) {
         error('Must be admin!');
     }
+
     $down_dir = CACHEDIR_ROOT . 'downloads' . DS;
     if (!is_dir($down_dir)) {
         mkdir_recursive($down_dir);
@@ -34,9 +58,13 @@ function mw_apply_updates($updates) {
         if (!is_dir($down_dir2)) {
             mkdir_recursive($down_dir2);
         }
+         // d($updates);
+         // d($what_nex);
         if (isset($updates[$what_nex])) {
+
+
             foreach ($updates[$what_nex] as $key => $value) {
-                // d($value);
+
                 $loc_fn = url_title($value) . '.zip';
                 $loc_fn_d = $down_dir2 . $loc_fn;
 
@@ -72,14 +100,16 @@ function mw_apply_updates($updates) {
                 if (!is_dir($unzip_loc)) {
                     mkdir_recursive($unzip_loc);
                 }
+
                 foreach ($value as $value2) {
                     $value2 = normalize_path($value2, 0);
 
 
                     $unzip = new Unzip();
                     $a = $unzip->extract($value2, $unzip_loc);
-                    $unzipped = array_merge($unzipped, $a);
-                    //d($a);
+                  //  $unzip->close();
+                    $unzipped = array_merge($a,$unzipped);
+                     d($unzipped);
                     //  d($unzip_loc);
                     // d($value2);
                 }

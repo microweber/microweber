@@ -2,7 +2,7 @@
 
 $config = array();
 $config['name'] = "Highlight Code";
-$config['author'] = "Microweber";
+$config['author'] = "Microweber test ";
 $config['no_cache'] = true;
 $config['ui'] = true;
 $config['categories'] = "other"; 

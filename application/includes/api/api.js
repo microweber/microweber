@@ -71,7 +71,7 @@ mw.is = {
   obj:function(obj){return typeof obj=='object'},
   func:function(obj){return typeof obj=='function'},
   string:function(obj){return typeof obj=='string'},
-  defined:function(obj){return obj!==undefined}
+  defined:function(obj){return typeof obj!=="undefined"}
 }
 
 if (window.console != undefined) {
@@ -264,6 +264,12 @@ mw.log = function(what){
     console.log(what);
   }
 }
+
+
+
+
+
+
 
 
 

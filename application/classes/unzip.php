@@ -78,8 +78,8 @@ class Unzip {
             $dirname = pathinfo($file, PATHINFO_DIRNAME);
             $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-            $folders = explode('/', $dirname);
-            $out_dn = $this->_target_dir . '/' . $dirname;
+            $folders = explode(DS, $dirname);
+            $out_dn = $this->_target_dir . DS . $dirname;
 
 // Skip stuff in stupid folders
             if (in_array(current($folders), $this->_skip_dirs)) {
@@ -94,9 +94,9 @@ class Unzip {
             if (!is_dir($out_dn) && $preserve_filepath) {
                 $str = "";
                 foreach ($folders as $folder) {
-                    $str = $str ? $str . '/' . $folder : $folder;
-                    if (!is_dir($this->_target_dir . '/' . $str)) {
-                        $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
+                    $str = $str ? $str . DS . $folder : $folder;
+                    if (!is_dir($this->_target_dir . DS . $str)) {
+                        $this->set_debug('Creating folder: ' . $this->_target_dir . DS . $str);
 
                         if (!@mkdir($this->_target_dir . '/' . $str)) {
                             $this->set_error('Desitnation path is not writable.');
@@ -104,16 +104,17 @@ class Unzip {
                         }
 
 // Apply chmod if configured to do so
-                        $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                        $this->apply_chmod && chmod($this->_target_dir . DS . $str, $this->apply_chmod);
                     }
                 }
             }
 
-            if (substr($file, -1, 1) == '/') {
+            if (substr($file, -1, 1) == DS) {
                 continue;
             }
-
-            $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+            $file_location = $this->_target_dir . DS . ($preserve_filepath ? $file : basename($file));
+            $file_location = normalize_path($file_location, false);
+            $file_locations[] = $file_location;
 
             $this->_extract_file($file, $file_location, $this->underscore_case);
         }
@@ -262,8 +263,9 @@ class Unzip {
         if ($underscore_case) {
             $pathinfo = pathinfo($target_file_name);
             $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
-            $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
-        }
+            $target_file_name = $pathinfo['dirname'] . DS . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
+   //   d($target_file_name);
+            }
 
         fseek($this->fh, $fdetails['contents_start_offset']);
         $ret = $this->_uncompress(
@@ -271,7 +273,7 @@ class Unzip {
         );
 
         if ($this->apply_chmod && $target_file_name) {
-            chmod($target_file_name, 0755);
+        //    chmod($target_file_name, 0755);
         }
 
         return $ret;

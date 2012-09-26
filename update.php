@@ -102,6 +102,95 @@ if ($seg != false and $seg == 'download') {
                 $download_dir_get1 = $download_dir_get_latest;
             }
         }
+		
+		if ($seg_latest != false and ($seg_latest == 'latest-module')) {
+			 $seg_latest_m = url_segment();
+			  
+			 $what = array_slice($seg_latest_m, 4);
+			 $seg_latest_m_s = implode(DS,$what);
+			 $seg_latest_m_s1 = implode('-',$what);
+				 
+		     $downloads_dir_md = $downloads_dir . 'modules' . DS . $seg_latest_m_s ;
+          
+			 
+			$files_to_copy_item_src = $downloads_dir_md = normalize_path($downloads_dir_md, 1);
+            if (!is_dir($downloads_dir_md)) {
+                mkdir_recursive($downloads_dir_md);
+            }
+			 
+			    $version_zip = $downloads_dir_md . $seg_latest_m_s1 . '-latest.zip';
+			  if (!is_file($version_zip)) {
+				 // d($version_zip);
+				  
+				  
+				  
+				  
+				  $md_orig = MODULES_DIR . $seg_latest_m_s;
+                $md_orig = normalize_path($md_orig, false);
+                $md_orig_f = $md_orig . '.php';
+
+                if (is_dir($md_orig)) {
+                    $files_to_copy_item_srczas = $downloads_dir_md;
+                    if (!is_dir($files_to_copy_item_srczas)) {
+                        mkdir($files_to_copy_item_srczas);
+                    }
+                    copy_directory($md_orig, $files_to_copy_item_srczas);
+                    $md_orig = $files_to_copy_item_src;
+                    //print $md_orig;
+                }
+                if (is_file($md_orig_f)) {
+                    $files_to_copy = array();
+                    $files_to_copy[] = $md_orig_f;
+                    $md_orig_f1 = $md_orig . '_config.php';
+                    if (is_file($md_orig_f)) {
+                        $files_to_copy[] = $md_orig_f1;
+                    }
+
+                    $md_orig_f1 = $md_orig . '.png';
+                    if (is_file($md_orig_f)) {
+                        $files_to_copy[] = $md_orig_f1;
+                    }
+                    if (!empty($files_to_copy)) {
+                        foreach ($files_to_copy as $files_to_copy_item) {
+                            $fn = basename($files_to_copy_item);
+                            $fn2 = $files_to_copy_item_src . $fn;
+                            //d($fn2);
+                            copy($files_to_copy_item, $fn2);
+                        }
+                        $md_orig = $files_to_copy_item_src;
+                    }
+                    //d($files_to_copy);
+                }
+				
+				
+				
+				  if (is_dir($md_orig)) {
+                    Zip($md_orig, $version_zip);
+                    //print $md_orig;
+                }
+				  
+			  }
+			 
+			 
+			 
+			 if (is_file($version_zip)) {
+                $download_dir_get1 = $version_zip;
+            }
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			
+		}
 
 //latest.zip
 

@@ -171,12 +171,13 @@ mw.drag = {
                }
            }
            else{
-             if(mw.$mm_target.hasClass("element") || mw.$mm_target.hasClass("empty-element") || mw.$mm_target.parents(".element").length>0){
+             if(   mw.$mm_target.hasClass("element")
+                || mw.$mm_target.hasClass("empty-element")
+                || mw.$mm_target.parents(".element").length>0
+                || mw.isDragItem(mw.mm_target)
+                || mw.mm_target.tagName=='IMG'){
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                  if(mw.isDragItem(mw.mm_target) || mw.mm_target.tagName=='IMG'){
                     mw.currentDragMouseOver = mw.mm_target;
-                  }
-
                }
              }
 
@@ -204,6 +205,11 @@ mw.drag = {
            }
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
+
+
+            mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
+
+
 
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
@@ -437,6 +443,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_module).mouseenter(function(){
@@ -458,6 +466,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_row).mouseenter(function(){
@@ -478,6 +488,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_item).mouseenter(function(){
@@ -500,6 +512,8 @@ mw.drag = {
                     $(curr).addClass("element-current");
                     mw.current_element_styles = window.getComputedStyle(curr, null);
                     $(".es_item").trigger("change", curr);
+                    $(curr).attr("contenteditable", "false");
+                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_element).draggable({
@@ -1245,7 +1259,7 @@ mw.px2pc = function(row){
     var len = cols.length;
     cols.each(function(){
         var el = $(this);
-        var w = ((Math.floor(el.width() / width * 100)));
+        var w = ((/*Math.floor*/(el.width() / width * 100)));
         cache.push(w);
         el.css({
         	width:w+"%"
@@ -1582,21 +1596,7 @@ mw.history = {
 	}
 }
 
-$(window).load(function(){
-    $(".element").mousemove(function(event){
-      if(mw.isDrag){
-        mw.drop_regions.init(this, event, function(region){
 
-        });
-      }
-     // event.stopPropagation();
-  });
-
-
-
-
-
-});
 
 mw.drag.story_active = -1;
 
@@ -1614,6 +1614,33 @@ mw.drag.story = {
     }
   }
 }
+
+
+
+_mwmatrix = {}
+
+mw.matrix = {
+  rec:function(){
+    var arr = document.querySelectorAll(".element");
+    var len = arr.length;
+    for(var i=0; i<len ;i++){
+        var el = arr[i];
+        _mwmatrix[i] = {
+            x:el.offsetLeft,
+            y:el.offsetTop,
+            w:el.offsetWidth,
+            h:el.offsetHeight,
+            index:i
+        }
+    }
+  }
+}
+
+mw.onKey = function(which, callback){
+
+}
+
+mw.require("keys.js");
 
 
 
