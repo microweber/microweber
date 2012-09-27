@@ -770,7 +770,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                 return $ret;
             } else {
                 $cache_content = replace_site_vars_back($cache_content);
-
+ $cache_content = remove_slashes_from_array($cache_content);
+ 
                 return $cache_content;
             }
         }
@@ -1041,15 +1042,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         return $ret;
     }
 
-    if ($cache_group != false) {
 
-        if (!empty($result)) {
-            cache_store_data($result, $original_cache_id, $original_cache_group);
-        } else {
-
-            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
-        }
-    }
 
     // var_dump($result);
     if ($count_only == true) {
@@ -1065,14 +1058,22 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $result = replace_site_vars_back($result);
 
         foreach ($result as $k => $v) {
-            if (DB_IS_SQLITE == false) {
+           // if (DB_IS_SQLITE == false) {
                 $v = remove_slashes_from_array($v);
-            }
+           // }
             $return [$k] = $v;
         }
     }
+    if ($cache_group != false) {
 
-    // var_dump ( $return );
+        if (!empty($return)) {
+            cache_store_data($return, $original_cache_id, $original_cache_group);
+        } else {
+
+            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+        }
+    }
+   //   var_dump ( $return );
     return $return;
 }
 
@@ -1402,6 +1403,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
     $criteria = replace_site_vars($criteria);
+
     //  }
 
     if ($data_to_save_options ['use_this_field_for_id'] != false) {
@@ -1441,12 +1443,16 @@ function save_data($table, $data, $data_to_save_options = false) {
                 if (strtolower($k) != $data_to_save_options ['use_this_field_for_id']) {
 
                     if (strtolower($k) != 'id') {
+                        //    $v = str_ireplace(site_url(), '{SITE_URL}', $v);
 
+                        $v = htmlentities($v, ENT_COMPAT, "UTF-8");
+
+                        //html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
                         // $v =
                         // $this->content_model->applyGlobalTemplateReplaceables
                         // ( $v );
                         if (DB_IS_SQLITE) {
-                            $v = sqlite_escape_string($v);
+                            //   $v = sqlite_escape_string($v);
                         }
                         $q .= "$k = '$v' , ";
                     }
@@ -1803,12 +1809,13 @@ function save_data($table, $data, $data_to_save_options = false) {
             // p($original_data);
             if (isset($original_data ['skip_custom_field_save']) == false) {
 
-
+                $custom_field_to_save = replace_site_vars($custom_field_to_save);
 
                 foreach ($custom_field_to_save as $cf_k => $cf_v) {
 
                     if (($cf_v != '')) {
-
+                        $cf_v = replace_site_vars($cf_v);
+//d($cf_v);
                         if ($cf_k != '') {
                             $clean = " delete from $custom_field_table where
 				to_table =\"{$table_assoc_name}\"
@@ -1847,7 +1854,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         if (DB_IS_SQLITE != false) {
                             //  $custom_field_to_save = add_slashes_to_array($custom_field_to_save, $is_sqlite);
                         } else {
-                            $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
+                           // $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
                         }
 
                         $next_id = intval(db_last_id($custom_field_table) + 1);

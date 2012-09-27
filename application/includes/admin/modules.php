@@ -64,6 +64,7 @@ function mw_reload_all_modules(){
 		 $('#modules_admin_<? print $rand  ?>').attr('cleanup_db',1);
 		 
   	 mw.load_module('admin/modules','#modules_admin_<? print $rand  ?>');
+	 $('#modules_admin_<? print $rand  ?>').removeAttr('cleanup_db');
 	
 }
 

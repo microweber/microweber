@@ -195,16 +195,16 @@ if ($mw_config ['site_url']) {
 } else {
     define('SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/');
 }
-
-$md5_conf = md5(serialize($mw_config));
-$cache_main_dir = dirname((__FILE__)) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
+$dnf = ROOTPATH;
+$md5_conf = 'mw_cache_' . crc32($dnf);
+$cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
     @mkdir($cache_main_dir);
 }
 
-$cache_main_dir = $cache_main_dir . md5(ROOTPATH) . DIRECTORY_SEPARATOR;
+//$cache_main_dir = $cache_main_dir . crc32(ROOTPATH) . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 

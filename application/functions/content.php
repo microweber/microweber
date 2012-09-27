@@ -927,6 +927,8 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
     $result = $the_data_with_custom_field__stuff;
     $result = (array_change_key_case($result, CASE_LOWER));
+    $result = remove_slashes_from_array($result);
+    $result = replace_site_vars_back($result);
     return $result;
 }
 

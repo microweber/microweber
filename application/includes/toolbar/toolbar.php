@@ -111,6 +111,7 @@
 <div class="mw" id="live_edit_toolbar_holder">
   <div class="mw" id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
+    
 
 
 
@@ -523,7 +524,7 @@
      </div>
     
     
-    <div id="tab_help" class="mw_toolbar_tab">Help</div>
+    <div id="tab_help" class="mw_toolbar_tab">Help <a href="<?php print site_url('admin'); ?>">Admin</a></div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>

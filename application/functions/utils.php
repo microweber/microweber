@@ -281,9 +281,11 @@ function encrypt_var($var, $key = false) {
     }
     $var = serialize($var);
     //  $var = base64_encode($var);
-
+if(function_exists('mcrypt_encrypt')){
     $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $var, MCRYPT_MODE_CBC, md5(md5($key))));
-
+} else {
+	$encrypted = base64_encode($var);
+}
 
     return $encrypted;
 }
@@ -295,8 +297,18 @@ function decrypt_var($var, $key = false) {
     if ($key == false) {
         $key = md5(dirname(__FILE__));
     }
+	
+	
+	if(function_exists('mcrypt_decrypt')){
+     $var = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($var), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+} else {
+	$var = base64_decode($var);
+}
+
+
+
     //  $var = base64_decode($var);
-    $var = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($var), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+    //$var = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($var), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
 
     try {
         $var = @unserialize($var);

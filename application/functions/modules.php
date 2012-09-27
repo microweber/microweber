@@ -165,9 +165,23 @@ function delete_elements_from_db() {
 
         $table = $cms_db_tables['table_elements'];
 
+        $table_taxonomy = $cms_db_tables['table_taxonomy'];
+        $table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+
 
         $q = "delete from $table ";
         db_q($q);
+
+
+        $q = "delete from $table_taxonomy where to_table='table_elements' and data_type='category' ";
+        db_q($q);
+
+
+        $q = "delete from $table_taxonomy_items where to_table='table_elements' and data_type='category_item' ";
+        db_q($q);
+        cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+
         cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
     }
 }
@@ -179,10 +193,23 @@ function delete_modules_from_db() {
         $cms_db_tables = c('db_tables');
 
         $table = $cms_db_tables['table_modules'];
+        $table_taxonomy = $cms_db_tables['table_taxonomy'];
+        $table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
 
 
         $q = "delete from $table ";
         db_q($q);
+
+
+        $q = "delete from $table_taxonomy where to_table='table_modules' and data_type='category' ";
+        db_q($q);
+
+
+        $q = "delete from $table_taxonomy_items where to_table='table_modules' and data_type='category_item' ";
+        db_q($q);
+        cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+
         cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
     }
 }
@@ -244,8 +271,10 @@ function modules_list($options = false) {
 }
 
 function get_modules($options = false) {
-
-
+    ini_set("memory_limit", "160M");
+    if (!ini_get('safe_mode')) {
+        set_time_limit(250);
+    }
     $params = $options;
     if (is_string($params)) {
         $params = parse_str($params, $params2);
@@ -274,12 +303,14 @@ function get_modules($options = false) {
 
 
     if (isset($options['cleanup_db']) == true) {
-        if ($cache_group == 'modules') {
-            delete_modules_from_db();
-        }
+        if (is_admin() == true) {
+            if ($cache_group == 'modules') {
+                delete_modules_from_db();
+            }
 
-        if ($cache_group == 'elements') {
-            delete_elements_from_db();
+            if ($cache_group == 'elements') {
+                delete_elements_from_db();
+            }
         }
     }
 

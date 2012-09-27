@@ -4,8 +4,12 @@ modules admin
 $mod_params = array();
 //$mod_params['debug']  = 1;
 if(isset($params['reload_modules'])){
+	$s = 'skip_cache=1';
+	if(isset($params['cleanup_db'])){
+		$s.= '&cleanup_db=1';
+	}
 	
-	 $mods = modules_list('skip_cache=1'); 
+	 $mods = modules_list($s); 
 }
 if(isset($params['category'])){
 	
