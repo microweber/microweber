@@ -154,7 +154,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
         }
     }
     $db = new DB(c('db'));
-    $q = $db->get($q); 
+    $q = $db->get($q);
    // d($q);
     unset($db);
 
@@ -1474,13 +1474,13 @@ function save_data($table, $data, $data_to_save_options = false) {
         }
 
         if (DB_IS_SQLITE != false) {
-            $q = $db->insert($table, $criteria);
+           // $q = $db->insert($table, $criteria);
         } else {
             //db_q($q);
         }
-        $q = $db->insert($table, $criteria);
+        //$q = $db->insert($table, $criteria);
 
-
+db_q($q);
 
         // exit ();
         // $this->dbQ ( $q );
@@ -1503,8 +1503,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 
         $q .= " id={$data ['id']} WHERE id={$data ['id']} ";
 
-        // db_q($q);
-        $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
+
+        //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
         if (DB_IS_SQLITE != false) {
             // $q1 = "UPDATE  $table SET \"" . implode('"=?,"', array_keys($data)) . '"=? WHERE ';
             // $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
@@ -1512,7 +1512,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         } else {
             // db_q($q);
         }
-
+db_q($q);
 
 
 
@@ -1891,16 +1891,17 @@ function save_data($table, $data, $data_to_save_options = false) {
                         }
                         $cf_to_save['custom_field_name'] = $cf_k;
                         $cf_to_save['custom_field_name'] = $cf_k;
-
+                        //d($add);
+db_q($add); 
 
                         if (DB_IS_SQLITE != false) {
-                            $q = $db->insert($custom_field_table, $cf_to_save);
+                         //   $q = $db->insert($custom_field_table, $cf_to_save);
                             //   db_q($add);
                         } else {
                             //   db_q($add);
                         }
 
-                        $q = $db->insert($custom_field_table, $cf_to_save);
+                      //  $q = $db->insert($custom_field_table, $cf_to_save);
 
 
 
