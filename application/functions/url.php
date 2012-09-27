@@ -310,7 +310,7 @@ function replace_site_vars_back($arr) {
     $site = site_url();
 
     if (is_string($arr)) {
- $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
+// $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
 
         $ret = str_replace('{SITE_URL}', $site, $arr);
 
@@ -327,8 +327,8 @@ function replace_site_vars_back($arr) {
 
                 $v = replace_site_vars_back($v);
             } else {
- $v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
-
+ //$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
+ 
                 // $v = str_ireplace($site, '{SITE_URL}', $v);
                 $v = str_replace('{SITE_URL}', $site, $v);
                 // $v = addslashes ( $v );

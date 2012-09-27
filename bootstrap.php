@@ -337,11 +337,13 @@ function site_url($add_string = false) {
         $subdir_append = false;
         if (isset($_SERVER ['PATH_INFO'])) {
             // $subdir_append = $_SERVER ['PATH_INFO'];
+        }  elseif (isset($_SERVER ['REDIRECT_URL'])) {
+            $subdir_append = $_SERVER ['REDIRECT_URL'];
         } else {
-            $subdir_append = $_SERVER ['REQUEST_URI'];
+           //  $subdir_append = $_SERVER ['REQUEST_URI'];
         }
 
-        //  var_dump($_SERVER);
+        
         $pageURL .= "://";
         if ($_SERVER ["SERVER_PORT"] != "80") {
             $pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"];
@@ -350,14 +352,31 @@ function site_url($add_string = false) {
         }
         $pageURL_host = $pageURL;
         $pageURL .= $subdir_append;
+		
+		$d = '';
         if (isset($_SERVER ['SCRIPT_NAME'])) {
             $d = dirname($_SERVER ['SCRIPT_NAME']);
             $d = trim($d, '/');
         }
+		
+		if($d == ''){
+			 $pageURL = $pageURL_host;
+		}
 
         if (isset($_SERVER ['QUERY_STRING'])) {
             $pageURL = str_replace($_SERVER ['QUERY_STRING'], '', $pageURL);
         }
+		
+		
+		
+        if (isset($_SERVER ['REDIRECT_URL'])) {
+          //  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
+        }
+		
+ 
+
+
+
 
         $uz = parse_url($pageURL);
         if (isset($uz['query'])) {
@@ -365,18 +384,22 @@ function site_url($add_string = false) {
             $pageURL = rtrim($pageURL, '?');
         }
 
-
+//var_Dump($_SERVER);
         //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
         $url_segs = explode('/', $pageURL);
-//        var_dump($_SERVER);
+// 	 var_dump($d);
+// var_dump($pageURL);
+//		  var_dump($_SERVER);
 //        exit;
         $i = 0;
         $unset = false;
         foreach ($url_segs as $v) {
-            if ($unset == true) {
+            if ($unset == true and $d != '') {
                 unset($url_segs [$i]);
+				
+			
             }
-            if ($v == $d) {
+            if ($v == $d and $d != '') {
 
                 $unset = true;
             }
@@ -386,5 +409,6 @@ function site_url($add_string = false) {
         $url_segs [] = '';
         $u1 = implode('/', $url_segs);
     }
+	//var_Dump($u1);
     return $u1 . $add_string;
 }

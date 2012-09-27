@@ -91,7 +91,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 }
             }
         }
-        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+       // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
@@ -186,7 +186,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             if ($field_content != false and $field_content != '') {
                 //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-            //     d($field_content);
+               // d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
 
                 pq($elem)->html($field_content);

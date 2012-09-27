@@ -910,13 +910,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
                         $the_data_with_custom_field__stuff[$the_name] = $the_val;
                     } else {
-                        $cf_cfg = array();
-                        $cf_cfg['name'] = $the_name;
-                        $cf_cfg = $this->getCustomFieldsConfig($cf_cfg);
-                        if (!empty($cf_cfg)) {
-                            $cf_cfg = $cf_cfg[0];
-                            $q2['config'] = $cf_cfg;
-                        }
+
 
                         $the_data_with_custom_field__stuff[$the_name] = $q2;
                     }
@@ -927,7 +921,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
     $result = $the_data_with_custom_field__stuff;
     $result = (array_change_key_case($result, CASE_LOWER));
-    $result = remove_slashes_from_array($result);
+     $result = remove_slashes_from_array($result);
     $result = replace_site_vars_back($result);
     return $result;
 }
