@@ -1,6 +1,6 @@
 <?
 
- $rand = uniqid(); ?>
+ $rand = uniqid().rand(); ?>
 <script  type="text/javascript">
 
 
@@ -37,7 +37,7 @@ $('#modules_admin_categories_<? print $rand  ?> .category_tree a[data-category-i
 	$('#modules_admin_<? print $rand  ?>').attr('data-category', $p_id);
  
  mw.reload_module('#modules_admin_<? print $rand  ?>');
- 	 $('#modules_admin_<? print $rand  ?>').removeAttr('cleanup_db');
+ 	 //$('#modules_admin_<? print $rand  ?>').removeAttr('cleanup_db'); 
 
  //	 alert($p_id);
 return false;
@@ -83,7 +83,7 @@ function mw_reload_all_modules(){
 <table width=" 100%" border="1">
   <tr>
     <td><module type="categories" data-for="elements" id="modules_admin_categories_<? print $rand  ?>" /></td>
-    <td><module type="admin/modules/elements" id="modules_admin_<? print $rand  ?>"   /></td>
+    <td><module type="admin/modules/elements" id="modules_admin_<? print $rand  ?>"    /></td>
   </tr>
 </table>
 

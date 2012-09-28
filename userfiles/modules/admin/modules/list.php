@@ -14,6 +14,7 @@ $mod_obj_str = 'modules';
  if(isset($is_elements) and $is_elements == true) {
                               $mod_obj_str = 'elements';
                                          $modules = get_elements_from_db();
+										// 
 }     else {
 
  $modules = get_modules_from_db();
@@ -21,6 +22,9 @@ $mod_obj_str = 'modules';
 }
 
  ?>
+   <? foreach($modules as $moduleddasdas2): ?>
+  <? //d($moduleddasdas2); ?>
+    <? endforeach; ?>
 <script type="text/javascript">
 
  Modules_List_<? print $mod_obj_str ?> = {}
@@ -29,8 +33,9 @@ $mod_obj_str = 'modules';
 
 <ul class="modules-list list-<? print $mod_obj_str ?>">
   <? foreach($modules as $module2): ?>
+   
   <?
-		//d($module2);
+		
 		 
 		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
 		 $module_group2 = $module_group2[0];
@@ -97,15 +102,5 @@ $mod_obj_str = 'modules';
     <? endif; ?>
     <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span>  </span> </li>
   <? endforeach; ?>
-  <? foreach($modules as $module): ?>
-  <?
- $module_group = explode(DIRECTORY_SEPARATOR ,$module['module']);
- $module_group = $module_group[0];
- $showed_module_groups = array();
-
-?>
-  <? if(!in_array($module_group, $showed_module_groups))  : ?>
-  <? endif; ?>
-  <?  $showed_module_groups[] = $module_group; ?>
-  <? endforeach; ?>
+   
 </ul>

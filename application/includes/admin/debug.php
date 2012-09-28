@@ -9,10 +9,14 @@
 </pre>
   <b>URL</b>
   <pre><?php print implode('/',url()); ?></pre>
-  <?php if(class_exists('DB', FALSE)&&DB::$q)
+  <?php
+
+
+  $ql = db_query_log(true) ;
+  if($ql and is_array($ql) and !empty($ql))
 {
-	print '<b>'. count(DB::$q). ' Database Queries</b>';
-	foreach(DB::$q as $query)
+	print '<b>'. count(db_query_log(true)). ' Database Queries</b>';
+	foreach(db_query_log(true) as $query)
 	{
 		print '<pre style="background:#fff">'. $query. '</pre>';
 	}
@@ -25,6 +29,6 @@
   <b><?php print count($included_files); ?> PHP Files Included:</b>
   <pre>
 <?php print implode("\n", $included_files); ?>
- 
+
 </pre>
 </div>

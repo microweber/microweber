@@ -62,16 +62,20 @@ function get_elements_from_db($params = false) {
     }
     $params['table'] = $table;
     $params['orderby'] = 'position,asc';
-
-    $params['cache_group'] = 'elements/global';
-    $params['limit'] = 10000;
-
+   // $params['debug'] = 1;
+  //  $params['cache_group'] = 'elements/global';
+    if (isset($params['id'])) {
+        $params['limit'] = 1;
+    } else {
+        $params['limit'] = 1000;
+    }
 
     if (!isset($params['ui'])) {
-        $params['ui'] = 1;
+        //   $params['ui'] = 1;
     }
-//d($params);
-    return get($params);
+    $s =  get($params);
+  //d($params); d( $s);
+    return  $s;
 }
 
 function get_modules_from_db($params = false) {
@@ -87,7 +91,11 @@ function get_modules_from_db($params = false) {
 
     $params['orderby'] = 'position,asc';
     $params['cache_group'] = 'modules/global';
-    $params['limit'] = 10000;
+    if (isset($params['id'])) {
+        $params['limit'] = 1;
+    } else {
+        $params['limit'] = 1000;
+    }
     if (!isset($params['ui'])) {
         $params['ui'] = 1;
     }
@@ -153,6 +161,7 @@ function save_element_to_db($data_to_save) {
     if ($save != false) {
 
         cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('elements' . DIRECTORY_SEPARATOR . 'global');
     }
     return $save;
 }
@@ -170,14 +179,17 @@ function delete_elements_from_db() {
 
 
         $q = "delete from $table ";
+        //   d($q);
         db_q($q);
 
 
         $q = "delete from $table_taxonomy where to_table='table_elements' and data_type='category' ";
+        // d($q);
         db_q($q);
 
 
         $q = "delete from $table_taxonomy_items where to_table='table_elements' and data_type='category_item' ";
+        // d($q);
         db_q($q);
         cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
         cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
@@ -301,8 +313,12 @@ function get_modules($options = false) {
         $cache_group = 'modules';
     }
 
+    if (isset($options['reload_modules']) == true) {
+        //   d($cache_group);
+    }
 
     if (isset($options['cleanup_db']) == true) {
+
         if (is_admin() == true) {
             if ($cache_group == 'modules') {
                 delete_modules_from_db();
@@ -311,6 +327,10 @@ function get_modules($options = false) {
             if ($cache_group == 'elements') {
                 delete_elements_from_db();
             }
+
+
+            cache_clean_group('taxonomy');
+            cache_clean_group('taxonomy_items');
         }
     }
 
@@ -322,7 +342,7 @@ function get_modules($options = false) {
         $cache_content = cache_get_content($cache_id, $cache_group);
         if (($cache_content) != false) {
 
-            //   return $cache_content;
+            return $cache_content;
         }
     }
     if (isset($options ['glob'])) {
@@ -414,8 +434,6 @@ function get_modules($options = false) {
                     }
                 }
             }
-
-            // p ( $value );
         }
         $cfg_ordered = array();
         $cfg_ordered2 = array();

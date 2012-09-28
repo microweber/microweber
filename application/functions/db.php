@@ -1,29 +1,6 @@
 <?php
 
-$db = c('db');
-$is_sqlite = strstr($db['dsn'], 'sqlite:');
-
-if ($is_sqlite != false) {
-    define("DB_IS_SQLITE", true);
-} else {
-    define("DB_IS_SQLITE", false);
-}
-
-function db_q($q) {
-
-    if (MW_IS_INSTALLED == false) {
-        return false;
-    }
-
-
-    $dbc = c('db');
-
-    $db = new DB($dbc);
-
-    $q = $db->query($q);
-    unset($db);
-    return $q;
-}
+define("DB_IS_SQLITE", false);
 
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
@@ -137,6 +114,65 @@ function guess_table_name($for = false, $guess_cache_group = false) {
     return $for;
 }
 
+function db_query_log($q) {
+    static $index = array();
+    if (is_bool($q)) {
+        $index = array_unique($index);
+        return $index;
+    } else {
+
+        $index[] = $q;
+    }
+}
+
+function db_q($q) {
+
+    if (MW_IS_INSTALLED == false) {
+        return false;
+    }
+    $db = c('db');
+
+    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+    db_query_log($q);
+    //   $mysqli->query("SET NAMES 'utf8'");
+    $q = $mysqli->query($q);
+   // $mysqli->close();
+
+//
+//
+//
+//
+//    if (mysqli_connect_errno()) {
+//        printf("Connection failed: %s\n", mysqli_connect_error());
+//        exit();
+//    }
+//
+//    $SQL = $q;
+//    if (($result = $mysqli->query($SQL)) === false) {
+//        printf("Invalid query: %s\nWhole query: %s\n", $mysqli->error, $SQL);
+//        exit();
+//    }
+//
+//    while ($myrow = $result->fetch_array(MYSQLI_ASSOC)) {
+//        $q[] = $myrow;
+//    }
+//    //mysqli_free_result($result);
+//
+//
+//
+//
+//
+//
+    //d($q);
+//    $dbc = c('db');
+//
+//    $db = new DB($dbc);
+//
+//    $q = $db->query($q);
+//    unset($db);
+    return $q;
+}
+
 function db_query($q, $cache_id = false, $cache_group = 'global', $time = false) {
     if (trim($q) == '') {
         return false;
@@ -153,10 +189,40 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
             }
         }
     }
-    $db = new DB(c('db'));
-    $q = $db->get($q);
-   // d($q);
-    unset($db);
+
+    if (MW_IS_INSTALLED == false) {
+        return false;
+    }
+    $db = c('db');
+
+    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+    db_query_log($q);
+    //   $mysqli->query("SET NAMES 'utf8'");
+    $result = $mysqli->query($q);
+
+
+    if (!$result) {
+        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+    } else {
+
+
+
+        $nwq = array();
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $nwq[] = $row;
+        }
+        $q = $nwq;
+    }
+
+   // $mysqli->close();
+
+
+
+
+    // $db = new DB(c('db'));
+    //  $q = $db->get($q);
+    // d($q);
+    //  unset($db);
 
     if (empty($q)) {
         if ($cache_id != false) {
@@ -169,8 +235,6 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 
 
 
-
-    // $result = $q->result_array ();
 
     $results = array();
     if (!empty($q)) {
@@ -303,7 +367,7 @@ function get($params) {
     }
 
     $ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
-
+//d($ge);
     if ($getone == true) {
         if (isset($ge[0])) {
             return $ge[0];
@@ -1366,7 +1430,9 @@ function save_data($table, $data, $data_to_save_options = false) {
     $data ['user_ip'] = USER_IP;
     if (isset($data ['id']) == false or $data ['id'] == 0) {
         $data ['id'] = 0;
-        $data ['new_id'] = intval(db_last_id($table) + 1);
+        $l = db_last_id($table);
+
+        $data ['new_id'] = intval($l + 1);
         $original_data ['new_id'] = $data ['new_id'];
     }
 
@@ -1419,7 +1485,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
-    $db = new DB(c('db'));
+    //  $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria ['id']) == 0) {
 
@@ -1453,7 +1519,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         if (DB_IS_SQLITE) {
                             //   $v = sqlite_escape_string($v);
                         }
-                        $q .= "$k = '$v' , ";
+                        $q .= "$k = '$v' ,";
                     }
                 }
             }
@@ -1469,18 +1535,24 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $q .= " " . $data_to_save_options ['use_this_field_for_id'] . "={$n_id} ";
             } else {
 
-                $q .= " id={$n_id} ";
+
+                //  $q = rtrim($q, ',');
+                // $n_id = "NULL";
+                //
+                //
+                //
+               $q .= " id={$n_id} ";
             }
         }
 
         if (DB_IS_SQLITE != false) {
-           // $q = $db->insert($table, $criteria);
+            // $q = $db->insert($table, $criteria);
         } else {
             //db_q($q);
         }
         //$q = $db->insert($table, $criteria);
-
-db_q($q);
+        //    d($q);
+        db_q($q);
 
         // exit ();
         // $this->dbQ ( $q );
@@ -1512,7 +1584,8 @@ db_q($q);
         } else {
             // db_q($q);
         }
-db_q($q);
+
+        db_q($q);
 
 
 
@@ -1523,7 +1596,7 @@ db_q($q);
     if ($dbg != false) {
         d($q);
     }
-
+    //d($q);
     // p($original_data);
     /*
      * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
@@ -1807,6 +1880,8 @@ db_q($q);
             if (isset($original_data ['skip_custom_field_save']) == false) {
 
                 $custom_field_to_save = replace_site_vars($custom_field_to_save);
+                $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
+
 
                 foreach ($custom_field_to_save as $cf_k => $cf_v) {
 
@@ -1873,6 +1948,7 @@ db_q($q);
 			custom_field_name ='{$cf_k}',
 			$cfvq
 			custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+                         custom_field_type = 'content',
 			to_table ='{$custom_field_to_save ['to_table']}',
 			to_table_id ='{$custom_field_to_save ['to_table_id']}'
 			";
@@ -1892,20 +1968,16 @@ db_q($q);
                         $cf_to_save['custom_field_name'] = $cf_k;
                         $cf_to_save['custom_field_name'] = $cf_k;
                         //d($add);
-db_q($add); 
+                        db_q($add);
 
                         if (DB_IS_SQLITE != false) {
-                         //   $q = $db->insert($custom_field_table, $cf_to_save);
+                            //   $q = $db->insert($custom_field_table, $cf_to_save);
                             //   db_q($add);
                         } else {
                             //   db_q($add);
                         }
 
-                      //  $q = $db->insert($custom_field_table, $cf_to_save);
-
-
-
-
+                        //  $q = $db->insert($custom_field_table, $cf_to_save);
                         //  print($add);
                         //  db_q($add);
                     }
@@ -1988,7 +2060,7 @@ db_q($add);
  */
 function db_last_id($table) {
 
-    $db = new DB(c('db'));
+    //  $db = new DB(c('db'));
 
     if (DB_IS_SQLITE == true) {
 
@@ -1996,13 +2068,15 @@ function db_last_id($table) {
 
         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
     } else {
-        $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
-    }
+        //   $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
 
+        $q = "SELECT id as the_id FROM $table order by id DESC limit 1";
+    }
+//d($q);
     $q = db_query($q);
 
     $result = $q [0];
-
+//d($result);
     //
     return intval($result ['the_id']);
 }
