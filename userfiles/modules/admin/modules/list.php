@@ -4,7 +4,7 @@ $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
  
  if(!isset($modules ) ){
-//$modules = get_modules($modules_options );
+//$modules = scan_for_get_modules($modules_options );
  }
 //
 
@@ -17,7 +17,7 @@ $mod_obj_str = 'modules';
 										// 
 }     else {
 
- $modules = get_modules_from_db();
+ $modules = scan_for_get_modules_from_db();
  
 }
 

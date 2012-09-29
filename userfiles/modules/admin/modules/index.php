@@ -17,10 +17,10 @@ if(isset($params['category'])){
 }
 
 
- $mods = get_modules_from_db($mod_params); 
+ $mods = scan_for_get_modules_from_db($mod_params); 
  if( $mods == false){
 	  $mods = modules_list('skip_cache=1'); 
-	  $mods = get_modules_from_db($mod_params); 
+	  $mods = scan_for_get_modules_from_db($mod_params); 
  }
 //
 

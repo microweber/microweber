@@ -22,8 +22,8 @@ if(isset($params['category'])){
 	  $mods = get_elements('skip_cache=1'); 
 	  $mods = get_elements_from_db($mod_params); 
  }
+  //d( $params );
  
-// d( $mods );
 //
 
  

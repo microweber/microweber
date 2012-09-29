@@ -101,6 +101,13 @@ function save_user($params) {
 
 api_expose('captcha');
 
+function captcha_vector($palette, $startx, $starty, $angle, $length, $colour) {
+    $angle = deg2rad($angle);
+    $endx = $startx + cos($angle) * $length;
+    $endy = $starty - sin($angle) * $length;
+    return(imageline($palette, $startx, $starty, $endx, $endy, $colour));
+}
+
 function captcha() {
     $roit1 = rand(1, 6);
     $font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
@@ -111,11 +118,11 @@ function captcha() {
     header("Cache-Control: no-store, no-cache, must-revalidate");
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
-    $text1 = mt_rand(2, 15);
+    $text1 = mt_rand(100, 4500);
     $text2 = mt_rand(2, 9);
     $roit = mt_rand(1, 5);
-    $text = "$text1 + $text2";
-    $answ = $text1 + $text2;
+    $text = "$text1";
+    $answ = $text1;
     $x = 100;
     $y = 20;
     $image = @imagecreate($x, 20) or die("Unable to render a CAPTCHA picture!");
@@ -126,7 +133,8 @@ function captcha() {
 
 
     $bgcolor = imagecolorallocate($image, 255, 255, 255);
-    $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
+    // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
+    $black = imagecolorallocate($image, 0, 0, 0);
     session_set('captcha', $answ);
 
     $col1z = rand(200, 242);
@@ -137,10 +145,14 @@ function captcha() {
     // imagefill($image, 0, 0, $color1);
     for ($i = 0; $i < $x; $i++) {
         for ($j = 0; $j < $y; $j++) {
-            if (mt_rand(0, 50) == 20) {
+            if (mt_rand(0, 20) == 20) {
 
-                //    $coords = array(mt_rand(0, 10),mt_rand(0, 10), mt_rand(0, 10),mt_rand(0, 10), 5,6);
-                imagesetpixel($image, $i, $j, $color2);
+              //  $coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
+
+
+                $y21 = mt_rand(5, 20);
+                captcha_vector($image, $x- mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
+                //   imagesetpixel($image, $i, $j, $color2);
             }
         }
     }
@@ -150,6 +162,14 @@ function captcha() {
     imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
 
 
+    $y21 = mt_rand(5, 20);
+    captcha_vector($image, $x, $y21 / 2, 180, 200, $bgcolor);
+
+    $y21 = mt_rand(5, 20);
+    captcha_vector($image, $x, $y21 / 2, $col1z11, 200, $bgcolor);
+
+    $y21 = mt_rand(5, 20);
+    captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $bgcolor);
 
 
 
@@ -157,9 +177,9 @@ function captcha() {
 
 
     $emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
-
-    imageconvolution($image, $emboss, 3, 255);
-  imagefilter($image, IMG_FILTER_SMOOTH, 50);
+    $embize = mt_rand(1, 4);
+    // imageconvolution($image, $emboss, $embize, 255);
+ //   imagefilter($image, IMG_FILTER_SMOOTH, 50);
     imagepng($image);
     imagecolordeallocate($image, $bgcolor);
     imagecolordeallocate($image, $black);

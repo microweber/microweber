@@ -136,8 +136,7 @@ function db_q($q) {
     db_query_log($q);
     //   $mysqli->query("SET NAMES 'utf8'");
     $q = $mysqli->query($q);
-   // $mysqli->close();
-
+    // $mysqli->close();
 //
 //
 //
@@ -177,9 +176,10 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
     if (trim($q) == '') {
         return false;
     }
-
+    $results = false;
     if ($cache_id != false) {
         // $results =false;
+        $cache_id = $cache_id . crc32($q);
         $results = cache_get_content($cache_id, $cache_group, $time);
         if ($results != false) {
             if ($results == '---empty---') {
@@ -208,17 +208,14 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 
 
         $nwq = array();
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($row = $result->fetch_array()) {
+
             $nwq[] = $row;
         }
         $q = $nwq;
     }
 
-   // $mysqli->close();
-
-
-
-
+    // $mysqli->close();
     // $db = new DB(c('db'));
     //  $q = $db->get($q);
     // d($q);
@@ -231,9 +228,15 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
         }
         return false;
     }
-
-
-
+    $result = $q;
+    if ($cache_id != false) {
+        if (!empty($result)) {
+            cache_store_data($result, $cache_id, $cache_group);
+        } else {
+            cache_store_data('---empty---', $cache_id, $cache_group);
+        }
+    }
+    return $q;
 
 
     $results = array();
@@ -249,7 +252,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
                     }
                 }
             }
-            $results[] = $result;
+            $results[] = remove_slashes_from_array($result);
         }
     }
 
@@ -260,12 +263,13 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 
     if ($cache_id != false) {
         if (!empty($result)) {
-            cache_store_data($result, $cache_id, $cache_group);
+            //    cache_store_data($result, $cache_id, $cache_group);
         } else {
-            cache_store_data('---empty---', $cache_id, $cache_group);
+            //   cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
-
+    print '0000000000000000000000000000000---------------------';
+    //d($result);
     return $result;
 }
 
@@ -834,9 +838,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
                 return $ret;
             } else {
-                $cache_content = replace_site_vars_back($cache_content);
-                $cache_content = remove_slashes_from_array($cache_content);
-
+              //  $cache_content = replace_site_vars_back($cache_content);
+               // $cache_content = remove_slashes_from_array($cache_content);
+ 
                 return $cache_content;
             }
         }
@@ -1124,7 +1128,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
         foreach ($result as $k => $v) {
             // if (DB_IS_SQLITE == false) {
-            $v = remove_slashes_from_array($v);
+            // $v = remove_slashes_from_array($v);
             // }
             $return [$k] = $v;
         }
@@ -1132,10 +1136,11 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if ($cache_group != false) {
 
         if (!empty($return)) {
-            cache_store_data($return, $original_cache_id, $original_cache_group);
+
+              cache_store_data($return, $original_cache_id, $original_cache_group);
         } else {
 
-            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+              cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
     //   var_dump ( $return );

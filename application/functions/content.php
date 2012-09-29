@@ -386,14 +386,11 @@ function get_content_by_id($id) {
     $params = array();
     $params['id'] = $id;
     $params['limit'] = 1;
+    $params['table'] = $table;
 
+    $q = get($params);
 
-
-    $q = db_get($table, $params, $cache_group = 'content/' . $id);
-
-
-
-
+    //  $q = db_get($table, $params, $cache_group = 'content/' . $id);
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     if (isset($q[0])) {
         $content = $q[0];
@@ -469,12 +466,12 @@ function get_content($params) {
 
     $cache_content = cache_get_content($function_cache_id, $cache_group = 'content');
     if (($cache_content) == '--false--') {
-        // return false;
+        return false;
     }
     // $cache_content = false;
     if (($cache_content) != false) {
 
-        // return $cache_content;
+        return $cache_content;
     } else {
 
         $table = c('db_tables');
@@ -514,11 +511,11 @@ function get_content($params) {
                 $data2[] = $item;
             }
             $get = $data2;
-            // cache_store_data($get, $function_cache_id, $cache_group = 'content');
+            cache_store_data($get, $function_cache_id, $cache_group = 'content');
 
             return $get;
         } else {
-            // cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
+            cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
 
             return FALSE;
         }
@@ -921,7 +918,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
     $result = $the_data_with_custom_field__stuff;
     $result = (array_change_key_case($result, CASE_LOWER));
-     $result = remove_slashes_from_array($result);
+    $result = remove_slashes_from_array($result);
     $result = replace_site_vars_back($result);
     return $result;
 }

@@ -62,8 +62,8 @@ function get_elements_from_db($params = false) {
     }
     $params['table'] = $table;
     $params['orderby'] = 'position,asc';
-   // $params['debug'] = 1;
-  //  $params['cache_group'] = 'elements/global';
+   //$params['debug'] = 1;
+ //   $params['cache_group'] = 'elements/global';
     if (isset($params['id'])) {
         $params['limit'] = 1;
     } else {
@@ -73,12 +73,12 @@ function get_elements_from_db($params = false) {
     if (!isset($params['ui'])) {
         //   $params['ui'] = 1;
     }
-    $s =  get($params);
-  //d($params); d( $s);
-    return  $s;
+    $s = get($params);
+    //d($params); d( $s);
+    return $s;
 }
 
-function get_modules_from_db($params = false) {
+function scan_for_get_modules_from_db($params = false) {
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_modules'];
@@ -252,7 +252,7 @@ function save_module_to_db($data_to_save) {
         if (!isset($s["id"]) and isset($s["module"])) {
             $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
-                $save = get_modules_from_db('limit=1&module=' . $s["module"]);
+                $save = scan_for_get_modules_from_db('limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {
                     $s["id"] = $save[0]["id"];
                 } else {
@@ -279,10 +279,10 @@ function save_module_to_db($data_to_save) {
 
 function modules_list($options = false) {
 
-    return get_modules($options);
+    return scan_for_get_modules($options);
 }
 
-function get_modules($options = false) {
+function scan_for_get_modules($options = false) {
     ini_set("memory_limit", "160M");
     if (!ini_get('safe_mode')) {
         set_time_limit(250);
@@ -298,7 +298,7 @@ function get_modules($options = false) {
     $function_cache_id = '';
     foreach ($args as $k => $v) {
 
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v). serialize($params);
     }
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
@@ -339,10 +339,10 @@ function get_modules($options = false) {
 
 
 
-        $cache_content = cache_get_content($cache_id, $cache_group);
+       // $cache_content = cache_get_content($cache_id, $cache_group);
         if (($cache_content) != false) {
 
-            return $cache_content;
+          //  return $cache_content;
         }
     }
     if (isset($options ['glob'])) {
@@ -453,7 +453,7 @@ function get_modules($options = false) {
 
         $c2 = array_merge($cfg_ordered, $cfg);
 
-        cache_save($c2, $function_cache_id, $cache_group);
+       // cache_save($c2, $function_cache_id, $cache_group);
 
         return $c2;
     }
@@ -470,7 +470,7 @@ function get_elements($options = array()) {
     // $options ['glob'] = '*.php';
     $options ['dir_name'] = normalize_path(ELEMENTS_DIR);
 
-    return get_modules($options);
+    return scan_for_get_modules($options);
 
     $args = func_get_args();
     $function_cache_id = '';
