@@ -838,9 +838,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
                 return $ret;
             } else {
-              //  $cache_content = replace_site_vars_back($cache_content);
-               // $cache_content = remove_slashes_from_array($cache_content);
- 
+                //  $cache_content = replace_site_vars_back($cache_content);
+                // $cache_content = remove_slashes_from_array($cache_content);
+
                 return $cache_content;
             }
         }
@@ -1137,10 +1137,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
         if (!empty($return)) {
 
-              cache_store_data($return, $original_cache_id, $original_cache_group);
+            cache_store_data($return, $original_cache_id, $original_cache_group);
         } else {
 
-              cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
     //   var_dump ( $return );
