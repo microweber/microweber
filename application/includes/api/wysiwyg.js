@@ -208,7 +208,16 @@ mw.wysiwyg = {
        $(mw.wysiwyg.external).find("iframe").width(360).height(180);
     },
     change_border_color : function(color){
-        $(".element-current").css(mw.border_which + "Color", "#"+color);
+        if(color!="transparent"){
+          $(".element-current").css(mw.border_which + "Color", "#"+color);
+          $(".ed_bordercolor_pick span").css("background", "#"+color);
+        }
+        else{
+          $(".element-current").css(mw.border_which + "Color", "transparent");
+          $(".ed_bordercolor_pick span").css("background", "");
+        }
+
+
     },
 
     request_change_shadow_color:function(el){

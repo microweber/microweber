@@ -20,7 +20,7 @@ if (!defined('MW_WHM_SERV_PASS')) {
 }
 $downloads_dir = ROOTPATH . DS . 'download' . DS;
 
-$seg = url_segment(2);
+$seg = url_segment(1);
 
 set_time_limit(0);
 
@@ -54,7 +54,7 @@ if ($seg != false and $seg == 'download') {
 
 
 
-        $seg_latest = url_segment(3);
+        $seg_latest = url_segment(2);
         if ($seg_latest != false and ($seg_latest == 'latest' or $seg_latest == 'latest.zip')) {
             $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
             if (!is_file($download_dir_get_latest)) {
@@ -496,7 +496,7 @@ if ($seg != false and $seg == 'download') {
     //  $shake = whm_mw_command('action=handshake');
     $shake = array();
     $shake['shake'] = true;
-    if (isset($shake['shake'])) {
+    if (isset($req['modules'])) {
         $shake = $shake['shake'];
         if (isset($_SERVER['HTTP_REFERER'])) {
             extract(parse_url($_SERVER['HTTP_REFERER']));
@@ -540,8 +540,8 @@ if ($seg != false and $seg == 'download') {
 
         exit(print(json_encode($data)));
     } else {
-        $data = array();
-        $data["error"] = "cant_connect";
+       // $data = array();
+       // $data["error"] = "cant_connect";
 
         exit(print(json_encode($data)));
     }

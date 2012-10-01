@@ -125,12 +125,12 @@ function db_query_log($q) {
     }
 }
 
-function db_q($q) {
+function db_q($q, $connection_settigns = false) {
 
     if (MW_IS_INSTALLED == false) {
         //    return false;
     }
-    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true);
+    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $connection_settigns);
 //    $db = c('db');
 //
 //    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
@@ -140,7 +140,7 @@ function db_q($q) {
     return $q;
 }
 
-function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false) {
+function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settigns = false) {
     if (trim($q) == '') {
         return false;
     }
@@ -166,8 +166,12 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     }
     //d($q);
     db_query_log($q);
-
-    $db = c('db');
+if($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)){
+	$db = $connection_settigns;
+} else {
+	$db = c('db');
+}
+    
 	//var_dump($db);
 //$is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;

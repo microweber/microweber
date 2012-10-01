@@ -17,9 +17,11 @@ mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-
 
 
 
-mw.rendAborder = function(type){
+mw.styleborder = {
 
-var el = $(".element-current");
+rend:function(type){
+
+ var el = $(".element-current");
 
   switch (type) {
     case "none":
@@ -33,7 +35,24 @@ var el = $(".element-current");
     default:
 
   }
+},
+
+getStyles:function(){
+  var style = $(".dd_border_selector").getDropdownValue();
+  var width = $(".dd_borderwidth_selector").getDropdownValue();
+  var color = $(".element-current").css("borderColor");
+  return {
+    style:style,
+    width:width,
+    color:color,
+  }
 }
+
+
+}
+
+
+
 
 
 (function($) {
