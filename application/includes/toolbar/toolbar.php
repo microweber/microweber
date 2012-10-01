@@ -276,12 +276,12 @@
                   <div class="ts_action_item ts_border_position_selector">
 
 
-                  <a class="border-style none"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style all"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bleft"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style bright"></a><span class="mw_dlm left"></span>
-                  <a class="border-style top"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bottom"></a>
+                  <a class="border-style none" data-val="none" title="<?php _e("Remove Borders"); ?>"></a> <span class="mw_dlm left"></span>
+                  <a class="border-style all active" data-val="none" title="<?php _e("All"); ?>"></a>  <span class="mw_dlm left"></span>
+                  <a class="border-style bleft" data-val="none" title="<?php _e("Border Left"); ?>"></a> <span class="mw_dlm left"></span>
+                  <a class="border-style bright" data-val="none" title="<?php _e("Border Right"); ?>"></a><span class="mw_dlm left"></span>
+                  <a class="border-style top" data-val="none" title="<?php _e("Border Top"); ?>"></a>  <span class="mw_dlm left"></span>
+                  <a class="border-style bottom" data-val="none" title="<?php _e("Border Bottom"); ?>"></a>
 
 
 
@@ -303,7 +303,7 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg" style="margin-left: -5px;width: auto"  title="Border Width" data-value="0" onchange="$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue())">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="Border Width" data-value="0" onchange="$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue())">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val" style="width: auto">0</span>

@@ -164,12 +164,14 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     if (MW_IS_INSTALLED == false) {
         //return false;
     }
-	//d($q);
+    //d($q);
     db_query_log($q);
 
     $db = c('db');
-
-    if (function_exists('mysqli_connect')) {
+	//var_dump($db);
+//$is_mysqli = function_exists('mysqli_connect');
+    $is_mysqli = false;
+    if ($is_mysqli != false) {
         $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
 
         $result = $mysqli->query($q);
@@ -217,7 +219,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             $error['error'][] = 'Query failed: ' . mysql_error();
             return $error;
         }
- $nwq = array();
+        $nwq = array();
 
 // Printing results in HTML
         if (!$result) {
@@ -226,18 +228,17 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         } else {
             if ($only_query == false) {
                 while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
- 
+
                     $nwq[] = $row;
-                  
                 }
-				  $q = $nwq;
+                $q = $nwq;
             }
         }
 
 // Free resultset
-if(is_array($result)){
-        mysql_free_result($result);
-}
+        if (is_array($result)) {
+            mysql_free_result($result);
+        }
 
 // Closing connection
         mysql_close($link);
@@ -495,7 +496,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
             unset($criteria ['get_count']);
         }
- 
+
         if (isset($criteria ['count']) and $criteria ['count'] == true) {
             $count_only = $criteria ['count'];
             unset($criteria ['count']);
@@ -1167,13 +1168,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
     if (!empty($result)) {
         $result = replace_site_vars_back($result);
- $return = $result;
-/*        foreach ($result as $k => $v) {
-            // if (DB_IS_SQLITE == false) {
-            // $v = remove_slashes_from_array($v);
-            // }
-            $return [$k] = $v;
-        }*/
+        $return = $result;
+        /*        foreach ($result as $k => $v) {
+          // if (DB_IS_SQLITE == false) {
+          // $v = remove_slashes_from_array($v);
+          // }
+          $return [$k] = $v;
+          } */
     }
     if ($cache_group != false) {
 
@@ -1342,27 +1343,25 @@ function db_get_table_fields($table, $exclude_fields = false) {
     } else {
         $sql = "show columns from $table";
     }
- //var_dump($sql);
+    //var_dump($sql);
     //   $sql = "DESCRIBE $table";
 
     $query = db_query($sql);
 
     $fields = $query;
- 
-    $exisiting_fields = array();
-if($fields == false or $fields == NULL){
-return false;	
-}
-    foreach ($fields as $fivesdraft) {
-if($fivesdraft != NULL and is_array($fivesdraft)){
-        $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
-        if (isset($fivesdraft ['name'])) {
-            $fivesdraft ['field'] = $fivesdraft ['name'];
-        }
-		  $exisiting_fields [strtolower($fivesdraft ['field'])] = true;
-}
 
-      
+    $exisiting_fields = array();
+    if ($fields == false or $fields == NULL) {
+        return false;
+    }
+    foreach ($fields as $fivesdraft) {
+        if ($fivesdraft != NULL and is_array($fivesdraft)) {
+            $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+            if (isset($fivesdraft ['name'])) {
+                $fivesdraft ['field'] = $fivesdraft ['name'];
+            }
+            $exisiting_fields [strtolower($fivesdraft ['field'])] = true;
+        }
     }
 
     // var_dump ( $exisiting_fields );
@@ -1816,7 +1815,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                                 $cats_data_modified = TRUE;
                                 $cats_data_items_modified = TRUE;
                             } else {
-                               
+
                             }
                             //
                             //  d($is_ex);
@@ -2129,211 +2128,170 @@ function db_last_id($table) {
     return intval($result ['the_id']);
 }
 
+/* * *************************************************************************
+ *                             sql_parse.php
+ *                              -------------------
+ *     begin                : Thu May 31, 2001
+ *     copyright            : (C) 2001 The phpBB Group
+ *     email                : support@phpbb.com
+ *
+ *     $Id: sql_parse.php,v 1.8 2002/03/18 23:53:12 psotfx Exp $
+ *
+ * ************************************************************************** */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***************************************************************************
-*                             sql_parse.php
-*                              -------------------
-*     begin                : Thu May 31, 2001
-*     copyright            : (C) 2001 The phpBB Group
-*     email                : support@phpbb.com
-*
-*     $Id: sql_parse.php,v 1.8 2002/03/18 23:53:12 psotfx Exp $
-*
-****************************************************************************/
-
-/***************************************************************************
+/* * *************************************************************************
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- ***************************************************************************/
+ * ************************************************************************* */
 
-/***************************************************************************
-*
-*   These functions are mainly for use in the db_utilities under the admin
-*   however in order to make these functions available elsewhere, specifically
-*   in the installation phase of phpBB I have seperated out a couple of
-*   functions into this file.  JLH
-*
-\***************************************************************************/
+/* * *************************************************************************
+ *
+ *   These functions are mainly for use in the db_utilities under the admin
+ *   however in order to make these functions available elsewhere, specifically
+ *   in the installation phase of phpBB I have seperated out a couple of
+ *   functions into this file.  JLH
+ *
+  \************************************************************************** */
 
 //
 // remove_comments will strip the sql comment lines out of an uploaded sql file
 // specifically for mssql and postgres type files in the install....
-// 
-function sql_remove_comments($output)
-{
-   $lines = explode("\n", $output);
-   $output = "";
+//
+function sql_remove_comments($output) {
+    $lines = explode("\n", $output);
+    $output = "";
 
-   // try to keep mem. use down
-   $linecount = count($lines);
+    // try to keep mem. use down
+    $linecount = count($lines);
 
-   $in_comment = false;
-   for($i = 0; $i < $linecount; $i++)
-   {
-      if( preg_match("/^\/\*/", preg_quote($lines[$i])) )
-      {
-         $in_comment = true;
-      }
+    $in_comment = false;
+    for ($i = 0; $i < $linecount; $i++) {
+        if (preg_match("/^\/\*/", preg_quote($lines[$i]))) {
+            $in_comment = true;
+        }
 
-      if( !$in_comment )
-      {
-         $output .= $lines[$i] . "\n";
-      }
+        if (!$in_comment) {
+            $output .= $lines[$i] . "\n";
+        }
 
-      if( preg_match("/\*\/$/", preg_quote($lines[$i])) )
-      {
-         $in_comment = false;
-      }
-   }
+        if (preg_match("/\*\/$/", preg_quote($lines[$i]))) {
+            $in_comment = false;
+        }
+    }
 
-   unset($lines);
-   return $output;
+    unset($lines);
+    return $output;
 }
 
 //
 // remove_remarks will strip the sql comment lines out of an uploaded sql file
 //
-function sql_remove_remarks($sql)
-{
-   $lines = explode("\n", $sql);
+function sql_remove_remarks($sql) {
+    $lines = explode("\n", $sql);
 
-   // try to keep mem. use down
-   $sql = "";
+    // try to keep mem. use down
+    $sql = "";
 
-   $linecount = count($lines);
-   $output = "";
+    $linecount = count($lines);
+    $output = "";
 
-   for ($i = 0; $i < $linecount; $i++)
-   {
-      if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0))
-      {
-         if (isset($lines[$i][0]) && $lines[$i][0] != "#")
-         {
-            $output .= $lines[$i] . "\n";
-         }
-         else
-         {
-            $output .= "\n";
-         }
-         // Trading a bit of speed for lower mem. use here.
-         $lines[$i] = "";
-      }
-   }
+    for ($i = 0; $i < $linecount; $i++) {
+        if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0)) {
+            if (isset($lines[$i][0]) && $lines[$i][0] != "#") {
+                $output .= $lines[$i] . "\n";
+            } else {
+                $output .= "\n";
+            }
+            // Trading a bit of speed for lower mem. use here.
+            $lines[$i] = "";
+        }
+    }
 
-   return $output;
-
+    return $output;
 }
 
 //
 // split_sql_file will split an uploaded sql file into single sql statements.
 // Note: expects trim() to have already been run on $sql.
 //
-function split_sql_file($sql, $delimiter)
-{
-   // Split up our string into "possible" SQL statements.
-   $tokens = explode($delimiter, $sql);
+function split_sql_file($sql, $delimiter) {
+    // Split up our string into "possible" SQL statements.
+    $tokens = explode($delimiter, $sql);
 
-   // try to save mem.
-   $sql = "";
-   $output = array();
+    // try to save mem.
+    $sql = "";
+    $output = array();
 
-   // we don't actually care about the matches preg gives us.
-   $matches = array();
+    // we don't actually care about the matches preg gives us.
+    $matches = array();
 
-   // this is faster than calling count($oktens) every time thru the loop.
-   $token_count = count($tokens);
-   for ($i = 0; $i < $token_count; $i++)
-   {
-      // Don't wanna add an empty string as the last thing in the array.
-      if (($i != ($token_count - 1)) || (strlen($tokens[$i] > 0)))
-      {
-         // This is the total number of single quotes in the token.
-         $total_quotes = preg_match_all("/'/", $tokens[$i], $matches);
-         // Counts single quotes that are preceded by an odd number of backslashes,
-         // which means they're escaped quotes.
-         $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$i], $matches);
+    // this is faster than calling count($oktens) every time thru the loop.
+    $token_count = count($tokens);
+    for ($i = 0; $i < $token_count; $i++) {
+        // Don't wanna add an empty string as the last thing in the array.
+        if (($i != ($token_count - 1)) || (strlen($tokens[$i] > 0))) {
+            // This is the total number of single quotes in the token.
+            $total_quotes = preg_match_all("/'/", $tokens[$i], $matches);
+            // Counts single quotes that are preceded by an odd number of backslashes,
+            // which means they're escaped quotes.
+            $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$i], $matches);
 
-         $unescaped_quotes = $total_quotes - $escaped_quotes;
+            $unescaped_quotes = $total_quotes - $escaped_quotes;
 
-         // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
-         if (($unescaped_quotes % 2) == 0)
-         {
-            // It's a complete sql statement.
-            $output[] = $tokens[$i];
-            // save memory.
-            $tokens[$i] = "";
-         }
-         else
-         {
-            // incomplete sql statement. keep adding tokens until we have a complete one.
-            // $temp will hold what we have so far.
-            $temp = $tokens[$i] . $delimiter;
-            // save memory..
-            $tokens[$i] = "";
+            // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
+            if (($unescaped_quotes % 2) == 0) {
+                // It's a complete sql statement.
+                $output[] = $tokens[$i];
+                // save memory.
+                $tokens[$i] = "";
+            } else {
+                // incomplete sql statement. keep adding tokens until we have a complete one.
+                // $temp will hold what we have so far.
+                $temp = $tokens[$i] . $delimiter;
+                // save memory..
+                $tokens[$i] = "";
 
-            // Do we have a complete statement yet?
-            $complete_stmt = false;
+                // Do we have a complete statement yet?
+                $complete_stmt = false;
 
-            for ($j = $i + 1; (!$complete_stmt && ($j < $token_count)); $j++)
-            {
-               // This is the total number of single quotes in the token.
-               $total_quotes = preg_match_all("/'/", $tokens[$j], $matches);
-               // Counts single quotes that are preceded by an odd number of backslashes,
-               // which means they're escaped quotes.
-               $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$j], $matches);
+                for ($j = $i + 1; (!$complete_stmt && ($j < $token_count)); $j++) {
+                    // This is the total number of single quotes in the token.
+                    $total_quotes = preg_match_all("/'/", $tokens[$j], $matches);
+                    // Counts single quotes that are preceded by an odd number of backslashes,
+                    // which means they're escaped quotes.
+                    $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$j], $matches);
 
-               $unescaped_quotes = $total_quotes - $escaped_quotes;
+                    $unescaped_quotes = $total_quotes - $escaped_quotes;
 
-               if (($unescaped_quotes % 2) == 1)
-               {
-                  // odd number of unescaped quotes. In combination with the previous incomplete
-                  // statement(s), we now have a complete statement. (2 odds always make an even)
-                  $output[] = $temp . $tokens[$j];
+                    if (($unescaped_quotes % 2) == 1) {
+                        // odd number of unescaped quotes. In combination with the previous incomplete
+                        // statement(s), we now have a complete statement. (2 odds always make an even)
+                        $output[] = $temp . $tokens[$j];
 
-                  // save memory.
-                  $tokens[$j] = "";
-                  $temp = "";
+                        // save memory.
+                        $tokens[$j] = "";
+                        $temp = "";
 
-                  // exit the loop.
-                  $complete_stmt = true;
-                  // make sure the outer loop continues at the right point.
-                  $i = $j;
-               }
-               else
-               {
-                  // even number of unescaped quotes. We still don't have a complete statement.
-                  // (1 odd and 1 even always make an odd)
-                  $temp .= $tokens[$j] . $delimiter;
-                  // save memory.
-                  $tokens[$j] = "";
-               }
+                        // exit the loop.
+                        $complete_stmt = true;
+                        // make sure the outer loop continues at the right point.
+                        $i = $j;
+                    } else {
+                        // even number of unescaped quotes. We still don't have a complete statement.
+                        // (1 odd and 1 even always make an odd)
+                        $temp .= $tokens[$j] . $delimiter;
+                        // save memory.
+                        $tokens[$j] = "";
+                    }
+                } // for..
+            } // else
+        }
+    }
 
-            } // for..
-         } // else
-      }
-   }
-
-   return $output;
+    return $output;
 }
-
-
-
-
 
