@@ -91,7 +91,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 }
             }
         }
-        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+       // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
@@ -184,9 +184,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             //  d($field);
 
             if ($field_content != false and $field_content != '') {
-                $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
+                //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-            //     d($field_content);
+               // d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
 
                 pq($elem)->html($field_content);
@@ -464,6 +464,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     }
     $layout = str_replace('{SITE_URL}', site_url(), $layout);
     $layout = str_replace('{SITEURL}', site_url(), $layout);
+     $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+
+
+
 
     return $layout;
     exit();

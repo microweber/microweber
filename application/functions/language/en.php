@@ -85,3 +85,4 @@ $language["three-coloms"]= 'Three Coloms' ;
 $language["two-coloms-with-pictures"]= 'Two Coloms with Pictures' ; 
 $language["image-text-categories-and-banners"]= 'Image, text, categories and banners.' ; 
 $language["two-coloms-picture"]= 'Two Coloms & Picture' ; 
+$language["two-coloms-amp-picture"]= 'Two Coloms &amp; Picture' ; 

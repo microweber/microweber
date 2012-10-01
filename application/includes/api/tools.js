@@ -359,7 +359,10 @@ Wait($, function(){
         var isValidOption = true;
         el.dataset("value", val);
         triggerChange?el.trigger("change"):'';
-        el.find(".mw_dropdown_val").html(customValueToDisplay);
+        if(customValueToDisplay!=false){
+           el.find(".mw_dropdown_val").html(customValueToDisplay);
+        }
+
      }
      else{
        el.find("li").each(function(){

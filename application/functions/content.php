@@ -386,14 +386,11 @@ function get_content_by_id($id) {
     $params = array();
     $params['id'] = $id;
     $params['limit'] = 1;
+    $params['table'] = $table;
 
+    $q = get($params);
 
-
-    $q = db_get($table, $params, $cache_group = 'content/' . $id);
-
-
-
-
+    //  $q = db_get($table, $params, $cache_group = 'content/' . $id);
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     if (isset($q[0])) {
         $content = $q[0];
@@ -469,12 +466,12 @@ function get_content($params) {
 
     $cache_content = cache_get_content($function_cache_id, $cache_group = 'content');
     if (($cache_content) == '--false--') {
-        // return false;
+        return false;
     }
     // $cache_content = false;
     if (($cache_content) != false) {
 
-        // return $cache_content;
+        return $cache_content;
     } else {
 
         $table = c('db_tables');
@@ -514,11 +511,11 @@ function get_content($params) {
                 $data2[] = $item;
             }
             $get = $data2;
-            // cache_store_data($get, $function_cache_id, $cache_group = 'content');
+            cache_store_data($get, $function_cache_id, $cache_group = 'content');
 
             return $get;
         } else {
-            // cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
+            cache_store_data('--false--', $function_cache_id, $cache_group = 'content');
 
             return FALSE;
         }
@@ -881,7 +878,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
             }
 
             $append_this = array();
-
+  if (is_array($q) and !empty($q)) {
             foreach ($q as $q2) {
 
                 $i = 0;
@@ -910,23 +907,22 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
                         $the_data_with_custom_field__stuff[$the_name] = $the_val;
                     } else {
-                        $cf_cfg = array();
-                        $cf_cfg['name'] = $the_name;
-                        $cf_cfg = $this->getCustomFieldsConfig($cf_cfg);
-                        if (!empty($cf_cfg)) {
-                            $cf_cfg = $cf_cfg[0];
-                            $q2['config'] = $cf_cfg;
-                        }
+
 
                         $the_data_with_custom_field__stuff[$the_name] = $q2;
                     }
                 }
             }
+			
+  }
+			
         }
     }
 
     $result = $the_data_with_custom_field__stuff;
     $result = (array_change_key_case($result, CASE_LOWER));
+    $result = remove_slashes_from_array($result);
+    $result = replace_site_vars_back($result);
     return $result;
 }
 
@@ -1030,8 +1026,8 @@ function save_edit($post_data) {
                     }
 
                     if (isset($the_field_data['attributes']['rel'])) {
-                        d($the_field_data);
-                        error('rel must be finished', __FILE__, __LINE__);
+                    //    d($the_field_data);
+                     //   error('rel must be finished', __FILE__, __LINE__);
                     }
 
                     $html_to_save = $the_field_data['html'];
@@ -1493,7 +1489,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
     $result = $q;
 
-    if (!empty($result)) {
+    if (is_array($result) and !empty($result)) {
 
         if ($ul_class_name == false) {
             print "<ul class='pages_tree'>";

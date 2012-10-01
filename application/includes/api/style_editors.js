@@ -208,7 +208,7 @@ mw.css3fx = {
     else{return false;}
   }
 }
-
+/*
 mw.config_element_styles=function(){
     var q = mw.current_element_styles;
 
@@ -231,6 +231,8 @@ mw.config_element_styles=function(){
    $(".square_map_item_default").addClass("active");
 
 }
+
+*/
 
 
 mw.alignem = function(align){
@@ -257,16 +259,31 @@ mw.setbg = function(url){
 
 mw.sliders_settings = function(el){
     var el = $(el);
+
     var type = el.dataset('type');
     var min = parseFloat(el.dataset('min'));
+    var min = !isNaN(min)?min:0;
     var max = parseFloat(el.dataset('max'));
+    var max = !isNaN(max)?max:100;
     var val = parseFloat(el.dataset('value'));
-    mw.log(" - "+type + " - "+min +" - "+ max + " - "+val);
+    var val = !isNaN(val)?val:0;
+
+
+
     return {
        slide:function(event,ui){
           var val = (ui.value);
           type=='opacity'?  val = val/100 :'';
           $(".element-current").css(type, val);
+          $("input[name='"+this.id+"']").val(val);
+       },
+       change:function(event,ui){
+          var val = (ui.value);
+          type=='opacity'?  val = val/100 :'';
+          $(".element-current").css(type, val);
+       },
+       create: function(event, ui) {
+          $("input[name='"+this.id+"']").val(val);
        },
        min:min,
        max:max,
@@ -288,7 +305,7 @@ init_square_maps = function(){
     if(!el.hasClass("active")){
         el.parents(".square_map").find(".active").removeClass("active");
         el.addClass("active");
-        el.parents(".mw_dropdown").setDropdownValue(el.attr("data-value"), true, true, el.html());
+        el.parents(".mw_dropdown").setDropdownValue(el.attr("data-value"), true, true, false);
     }
   });
 
@@ -303,6 +320,8 @@ init_square_maps = function(){
 
 
 $(document).ready(function(){
+
+$("#design_sub_nav").draggable();
 
 $(window).bind("onItemClick", function(e, el){
   $(".element-current").removeClass("element-current");
@@ -330,9 +349,6 @@ $(window).bind("onBodyClick", function(){
 
   $(".ed_slider").each(function(){
     $(this).slider(mw.sliders_settings(this));
-      //vadiat bugove zaradi tova che sa skriti
-      //trqbva da se zarejda kogato editora e vidim
-
   });
 
 
@@ -347,7 +363,7 @@ $(window).bind("onBodyClick", function(){
 
   $(".perspective-slider").slider({
     slide:function(event,ui){
-      mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
+        mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
     },
     stop:function(event,ui){
         mw.css3fx.set_obj($(".element-current")[0], 'transform', "perspective( "+$(".element-current").width()+"px ) rotateY( "+ui.value+"deg )");
@@ -388,6 +404,19 @@ $(window).bind("onBodyClick", function(){
 
 
     mw.css3fx.init_css();
+
+
+    $(".slider_val input").keyup(function(event){
+      var el = $(this);
+      var _el = this;
+      var val = _el.value;
+      var val = val.replace(/[^-\d]/,'');
+      var val = val !=="" ? val : 0;
+      var val = parseFloat(val);
+      el.val(val);
+      var name = _el.name;
+      $("#"+name).slider("value", val);
+    });
 
 });
 

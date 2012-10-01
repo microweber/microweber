@@ -12,14 +12,14 @@ if ($installed != false) {
 }
  
 $done = false;
-$to_save = $_GET;
+$to_save = $_REQUEST;
  
 if (isset($to_save)) {
-    if (isset($to_save['submit']) and isset($to_save['db_type'])) {
+    if (isset($to_save['IS_INSTALLED'])) {
         $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
         $save_config = file_get_contents($f);
 
-        if (($to_save['db_type']) == 'sqlite') {
+        if (isset($to_save['db_type']) and ($to_save['db_type']) == 'sqlite') {
             if (isset($to_save['db_file'])) {
                 if ($to_save['db_file'] == 'db_file_new') {
                     $temtxt = 'db_';
@@ -54,31 +54,109 @@ if (isset($to_save)) {
                 $to_save['dsn'] = $to_save['custom_dsn'];
             }
         }
-        $to_save['IS_INSTALLED'] = 'yes';
+		
+		
+		
+		if (isset($to_save['test'])) {
+		
+			
+		}
+			
+        //$to_save['IS_INSTALLED'] = 'yes';
 
 
 
 
 
-
+ $save_config_orig =  $save_config ;
         foreach ($to_save as $k => $v) {
             $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
         }
-        $cfg = APPPATH . 'config.php';
+        $cfg = APPPATH_FULL . 'config.php';
+		//var_dump( $cfg);
+
+//var_dump( c('db'));
 
 
-
-        file_put_contents($cfg, $save_config);
+         file_put_contents($cfg, $save_config);
         clearcache();
-        $done = true;
+		clearstatcache();
+		sleep(1);
+		
+		
+		if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] == 'no') {
+			
+			
+			//var_dump(MW_IS_INSTALLED);
+			
+			$qs = "SELECT '' AS empty_col";
+			//var_dump($qs);
+			$qz = db_query($qs);
+			if(isset($qz['error'])){
+				var_dump($qz); 
+			//	var_dump('asdasdasdasd'); 
+				
+			} else {
+				ini_set('memory_limit', '512M');
+set_time_limit ( 0 );
+
+
+
+
+
+
+
+
+$dbms_schema =  INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'default.sql';;
+
+$sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
+$sql_query = sql_remove_remarks($sql_query);
+
+$sql_query = sql_remove_comments($sql_query);
+$sql_query = split_sql_file($sql_query, ';');
+ 
+
+$i=1;
+foreach($sql_query as $sql){ 
+	//$sql = str_ireplace('{dbname}', $to_save['dbname'], $sql); 
+ $qz = db_q($sql);
+ // var_dump($qz);  
+}
+			}
+			  $save_config  =  $save_config_orig;
+			   $to_save['IS_INSTALLED'] = 'yes';
+			  foreach ($to_save as $k => $v) {
+            $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+        }
+			 
+			
+			          file_put_contents($cfg, $save_config);
+
+			 
+			 
+		  print ('done');
+	exit();
+	 
+			
+			//var_dump($_REQUEST);
+			//$l = db_query_log(true);
+			//var_dump($l);
+		} else {
+			     $done = true;
 		   $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'done.php';
     include($f);
 	exit();
+		}
+		
+		
+   
         //  var_dump($save_config);
     }
 
-
-
-    $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
+ if (!isset($to_save['IS_INSTALLED'])) {
+	  $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include($f);
+ }
+
+   
 }

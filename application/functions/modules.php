@@ -62,19 +62,23 @@ function get_elements_from_db($params = false) {
     }
     $params['table'] = $table;
     $params['orderby'] = 'position,asc';
-
-    $params['cache_group'] = 'elements/global';
-    $params['limit'] = 10000;
-
+   //$params['debug'] = 1;
+ //   $params['cache_group'] = 'elements/global';
+    if (isset($params['id'])) {
+        $params['limit'] = 1;
+    } else {
+        $params['limit'] = 1000;
+    }
 
     if (!isset($params['ui'])) {
-        $params['ui'] = 1;
+        //   $params['ui'] = 1;
     }
-//d($params);
-    return get($params);
+    $s = get($params);
+    //d($params); d( $s);
+    return $s;
 }
 
-function get_modules_from_db($params = false) {
+function scan_for_get_modules_from_db($params = false) {
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_modules'];
@@ -87,7 +91,11 @@ function get_modules_from_db($params = false) {
 
     $params['orderby'] = 'position,asc';
     $params['cache_group'] = 'modules/global';
-    $params['limit'] = 10000;
+    if (isset($params['id'])) {
+        $params['limit'] = 1;
+    } else {
+        $params['limit'] = 1000;
+    }
     if (!isset($params['ui'])) {
         $params['ui'] = 1;
     }
@@ -153,6 +161,7 @@ function save_element_to_db($data_to_save) {
     if ($save != false) {
 
         cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('elements' . DIRECTORY_SEPARATOR . 'global');
     }
     return $save;
 }
@@ -165,9 +174,26 @@ function delete_elements_from_db() {
 
         $table = $cms_db_tables['table_elements'];
 
+        $table_taxonomy = $cms_db_tables['table_taxonomy'];
+        $table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+
 
         $q = "delete from $table ";
+        //   d($q);
         db_q($q);
+
+
+        $q = "delete from $table_taxonomy where to_table='table_elements' and data_type='category' ";
+        // d($q);
+        db_q($q);
+
+
+        $q = "delete from $table_taxonomy_items where to_table='table_elements' and data_type='category_item' ";
+        // d($q);
+        db_q($q);
+        cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+
         cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
     }
 }
@@ -179,10 +205,23 @@ function delete_modules_from_db() {
         $cms_db_tables = c('db_tables');
 
         $table = $cms_db_tables['table_modules'];
+        $table_taxonomy = $cms_db_tables['table_taxonomy'];
+        $table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
 
 
         $q = "delete from $table ";
         db_q($q);
+
+
+        $q = "delete from $table_taxonomy where to_table='table_modules' and data_type='category' ";
+        db_q($q);
+
+
+        $q = "delete from $table_taxonomy_items where to_table='table_modules' and data_type='category_item' ";
+        db_q($q);
+        cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
+        cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+
         cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
     }
 }
@@ -213,7 +252,7 @@ function save_module_to_db($data_to_save) {
         if (!isset($s["id"]) and isset($s["module"])) {
             $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
-                $save = get_modules_from_db('limit=1&module=' . $s["module"]);
+                $save = scan_for_get_modules_from_db('limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {
                     $s["id"] = $save[0]["id"];
                 } else {
@@ -240,12 +279,14 @@ function save_module_to_db($data_to_save) {
 
 function modules_list($options = false) {
 
-    return get_modules($options);
+    return scan_for_get_modules($options);
 }
 
-function get_modules($options = false) {
-
-
+function scan_for_get_modules($options = false) {
+    ini_set("memory_limit", "160M");
+    if (!ini_get('safe_mode')) {
+        set_time_limit(250);
+    }
     $params = $options;
     if (is_string($params)) {
         $params = parse_str($params, $params2);
@@ -257,7 +298,7 @@ function get_modules($options = false) {
     $function_cache_id = '';
     foreach ($args as $k => $v) {
 
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v). serialize($params);
     }
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
@@ -272,14 +313,24 @@ function get_modules($options = false) {
         $cache_group = 'modules';
     }
 
+    if (isset($options['reload_modules']) == true) {
+        //   d($cache_group);
+    }
 
     if (isset($options['cleanup_db']) == true) {
-        if ($cache_group == 'modules') {
-            delete_modules_from_db();
-        }
 
-        if ($cache_group == 'elements') {
-            delete_elements_from_db();
+        if (is_admin() == true) {
+            if ($cache_group == 'modules') {
+                delete_modules_from_db();
+            }
+
+            if ($cache_group == 'elements') {
+                delete_elements_from_db();
+            }
+
+
+            cache_clean_group('taxonomy');
+            cache_clean_group('taxonomy_items');
         }
     }
 
@@ -288,10 +339,10 @@ function get_modules($options = false) {
 
 
 
-        $cache_content = cache_get_content($cache_id, $cache_group);
+       // $cache_content = cache_get_content($cache_id, $cache_group);
         if (($cache_content) != false) {
 
-            //   return $cache_content;
+          //  return $cache_content;
         }
     }
     if (isset($options ['glob'])) {
@@ -383,8 +434,6 @@ function get_modules($options = false) {
                     }
                 }
             }
-
-            // p ( $value );
         }
         $cfg_ordered = array();
         $cfg_ordered2 = array();
@@ -404,7 +453,7 @@ function get_modules($options = false) {
 
         $c2 = array_merge($cfg_ordered, $cfg);
 
-        cache_save($c2, $function_cache_id, $cache_group);
+       // cache_save($c2, $function_cache_id, $cache_group);
 
         return $c2;
     }
@@ -421,7 +470,7 @@ function get_elements($options = array()) {
     // $options ['glob'] = '*.php';
     $options ['dir_name'] = normalize_path(ELEMENTS_DIR);
 
-    return get_modules($options);
+    return scan_for_get_modules($options);
 
     $args = func_get_args();
     $function_cache_id = '';

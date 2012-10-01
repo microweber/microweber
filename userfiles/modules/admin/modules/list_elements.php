@@ -1,9 +1,9 @@
 
 <? 
  
-$modules =  get_elements();
+$modulsdsdes =  get_elements_from_db();
        $is_elements = true;
-//p($modules );
+ //d($modulsdsdes );
 //
 include('list.php');
 ?>

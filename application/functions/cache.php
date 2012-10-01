@@ -233,7 +233,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 
         return false;
     } else {
-
+        $cache = base64_decode($cache);
         $cache = unserialize($cache);
 
         return $cache;
@@ -272,7 +272,7 @@ function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
         $data_to_cache = serialize($data_to_cache);
 
         // var_dump($data_to_cache);
-        // $data_to_cache = base64_encode ( $data_to_cache );
+        $data_to_cache = base64_encode($data_to_cache);
         // .$data_to_cache = ($data_to_cache);
 
         cache_write_to_file($cache_id, $data_to_cache, $cache_group);

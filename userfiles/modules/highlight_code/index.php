@@ -21,8 +21,8 @@ $source_code_id = md5($source_code );
  
 ?>
 <script  type="text/javascript">
-$(document).ready(function(){
-			
+/*	$(document).ready(function(){
+		
 			mw.require("<? print $config['url_to_module'] ?>jquery.snippet.css", function(){
 
  
@@ -43,10 +43,10 @@ $(document).ready(function(){
 			
 			
 		 
-			});
+			});*/
 
 </script>
-
+ 
 <pre id="<? print $source_code_id ?>">
 <? print htmlentities($source_code ); ?>
 </pre>

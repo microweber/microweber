@@ -1,12 +1,15 @@
-modules admin
+elements admin
 <?
  
 $mod_params = array();
-//$mod_params['debug']  = 1;
+ //$mod_params['debug']  = 1;
 if(isset($params['reload_modules'])){
+	$s = 'skip_cache=1';
+	if(isset($params['cleanup_db'])){
+		$s.= '&cleanup_db=1';
+	}
 	
-	 $mods = get_elements('skip_cache=1'); 
-	// d($mods);
+	 $mods = get_elements($s); 
 }
 if(isset($params['category'])){
 	
@@ -19,6 +22,8 @@ if(isset($params['category'])){
 	  $mods = get_elements('skip_cache=1'); 
 	  $mods = get_elements_from_db($mod_params); 
  }
+  //d( $params );
+ 
 //
 
  

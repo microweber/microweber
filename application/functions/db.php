@@ -1,29 +1,6 @@
 <?php
 
-$db = c('db');
-$is_sqlite = strstr($db['dsn'], 'sqlite:');
-
-if ($is_sqlite != false) {
-    define("DB_IS_SQLITE", true);
-} else {
-    define("DB_IS_SQLITE", false);
-}
-
-function db_q($q) {
-
-    if (MW_IS_INSTALLED == false) {
-        return false;
-    }
-
-
-    $dbc = c('db');
-
-    $db = new DB($dbc);
-
-    $q = $db->query($q);
-    unset($db);
-    return $q;
-}
+define("DB_IS_SQLITE", false);
 
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
@@ -137,39 +114,172 @@ function guess_table_name($for = false, $guess_cache_group = false) {
     return $for;
 }
 
-function db_query($q, $cache_id = false, $cache_group = 'global', $time = false) {
+function db_query_log($q) {
+    static $index = array();
+    if (is_bool($q)) {
+        $index = array_unique($index);
+        return $index;
+    } else {
+
+        $index[] = $q;
+    }
+}
+
+function db_q($q) {
+
+    if (MW_IS_INSTALLED == false) {
+        //    return false;
+    }
+    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true);
+//    $db = c('db');
+//
+//    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+//    db_query_log($q);
+//    //   $mysqli->query("SET NAMES 'utf8'");
+//    $q = $mysqli->query($q);
+    return $q;
+}
+
+function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false) {
     if (trim($q) == '') {
         return false;
     }
-
-    if ($cache_id != false) {
-        // $results =false;
-        $results = cache_get_content($cache_id, $cache_group, $time);
-        if ($results != false) {
-            if ($results == '---empty---') {
-                return false;
-            } else {
-                return $results;
+    $error['error'] = array();
+    $results = false;
+    if (MW_IS_INSTALLED != false) {
+        if ($cache_id != false and $only_query == false) {
+            // $results =false;
+            $cache_id = $cache_id . crc32($q);
+            $results = cache_get_content($cache_id, $cache_group);
+            if ($results != false) {
+                if ($results == '---empty---') {
+                    return false;
+                } else {
+                    return $results;
+                }
             }
         }
     }
-    $db = new DB(c('db'));
-    $q = $db->get($q);
-    unset($db);
 
-    if (empty($q)) {
-        if ($cache_id != false) {
+    if (MW_IS_INSTALLED == false) {
+        //return false;
+    }
+	//d($q);
+    db_query_log($q);
 
-            cache_store_data('---empty---', $cache_id, $cache_group);
+    $db = c('db');
+
+    if (function_exists('mysqli_connect')) {
+        $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+
+        $result = $mysqli->query($q);
+
+
+        if (!$result) {
+            $error['error'][] = $mysqli->database->error;
+
+            return $error;
+            // throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+        } else {
+
+
+            if ($only_query == false) {
+                $nwq = array();
+                while ($row = $result->fetch_array()) {
+
+                    $nwq[] = $row;
+                }
+                $q = $nwq;
+            }
         }
-        return false;
+    } else {
+
+
+
+        $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+        if ($link == false) {
+            $error['error'][] = 'Could not connect: ' . mysql_error();
+            return $error;
+        }
+
+
+
+
+        if (mysql_select_db($db['dbname']) == false) {
+            $error['error'][] = 'Could not select database ' . $db['dbname'];
+            return $error;
+        }
+
+// Performing SQL query
+        $query = $q;
+        $result = mysql_query($query);
+        if (!$result) {
+            $error['error'][] = 'Query failed: ' . mysql_error();
+            return $error;
+        }
+ $nwq = array();
+
+// Printing results in HTML
+        if (!$result) {
+            $error['error'][] = 'Can\'t connect to the database';
+            return $error;
+        } else {
+            if ($only_query == false) {
+                while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+ 
+                    $nwq[] = $row;
+                  
+                }
+				  $q = $nwq;
+            }
+        }
+
+// Free resultset
+if(is_array($result)){
+        mysql_free_result($result);
+}
+
+// Closing connection
+        mysql_close($link);
+    }
+
+
+    if ($only_query != false) {
+        return true;
     }
 
 
 
 
 
-    // $result = $q->result_array ();
+
+
+
+
+    // $mysqli->close();
+    // $db = new DB(c('db'));
+    //  $q = $db->get($q);
+    // d($q);
+    //  unset($db);
+    if (MW_IS_INSTALLED != false) {
+        if (empty($q)) {
+            if ($cache_id != false) {
+
+                cache_store_data('---empty---', $cache_id, $cache_group);
+            }
+            return false;
+        }
+        $result = $q;
+        if ($cache_id != false) {
+            if (!empty($result)) {
+                cache_store_data($result, $cache_id, $cache_group);
+            } else {
+                cache_store_data('---empty---', $cache_id, $cache_group);
+            }
+        }
+    }
+    return $q;
+
 
     $results = array();
     if (!empty($q)) {
@@ -184,7 +294,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
                     }
                 }
             }
-            $results[] = $result;
+            $results[] = remove_slashes_from_array($result);
         }
     }
 
@@ -195,12 +305,13 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $time = false)
 
     if ($cache_id != false) {
         if (!empty($result)) {
-            cache_store_data($result, $cache_id, $cache_group);
+            //    cache_store_data($result, $cache_id, $cache_group);
         } else {
-            cache_store_data('---empty---', $cache_id, $cache_group);
+            //   cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
-
+    print '0000000000000000000000000000000---------------------';
+    //d($result);
     return $result;
 }
 
@@ -302,7 +413,7 @@ function get($params) {
     }
 
     $ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
-
+//d($ge);
     if ($getone == true) {
         if (isset($ge[0])) {
             return $ge[0];
@@ -384,7 +495,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
             unset($criteria ['get_count']);
         }
-
+ 
         if (isset($criteria ['count']) and $criteria ['count'] == true) {
             $count_only = $criteria ['count'];
             unset($criteria ['count']);
@@ -769,7 +880,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
                 return $ret;
             } else {
-                $cache_content = replace_site_vars_back($cache_content);
+                //  $cache_content = replace_site_vars_back($cache_content);
+                // $cache_content = remove_slashes_from_array($cache_content);
 
                 return $cache_content;
             }
@@ -1041,15 +1153,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         return $ret;
     }
 
-    if ($cache_group != false) {
 
-        if (!empty($result)) {
-            cache_store_data($result, $original_cache_id, $original_cache_group);
-        } else {
-
-            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
-        }
-    }
 
     // var_dump($result);
     if ($count_only == true) {
@@ -1063,16 +1167,25 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
     if (!empty($result)) {
         $result = replace_site_vars_back($result);
-
-        foreach ($result as $k => $v) {
-            if (DB_IS_SQLITE == false) {
-                $v = remove_slashes_from_array($v);
-            }
+ $return = $result;
+/*        foreach ($result as $k => $v) {
+            // if (DB_IS_SQLITE == false) {
+            // $v = remove_slashes_from_array($v);
+            // }
             $return [$k] = $v;
+        }*/
+    }
+    if ($cache_group != false) {
+
+        if (!empty($return)) {
+
+            cache_store_data($return, $original_cache_id, $original_cache_group);
+        } else {
+
+            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
-
-    // var_dump ( $return );
+    //   var_dump ( $return );
     return $return;
 }
 
@@ -1229,24 +1342,27 @@ function db_get_table_fields($table, $exclude_fields = false) {
     } else {
         $sql = "show columns from $table";
     }
-
+ //var_dump($sql);
     //   $sql = "DESCRIBE $table";
 
     $query = db_query($sql);
 
     $fields = $query;
-
+ 
     $exisiting_fields = array();
-
+if($fields == false or $fields == NULL){
+return false;	
+}
     foreach ($fields as $fivesdraft) {
-
+if($fivesdraft != NULL and is_array($fivesdraft)){
         $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
         if (isset($fivesdraft ['name'])) {
             $fivesdraft ['field'] = $fivesdraft ['name'];
         }
+		  $exisiting_fields [strtolower($fivesdraft ['field'])] = true;
+}
 
-
-        $exisiting_fields [strtolower($fivesdraft ['field'])] = true;
+      
     }
 
     // var_dump ( $exisiting_fields );
@@ -1364,7 +1480,9 @@ function save_data($table, $data, $data_to_save_options = false) {
     $data ['user_ip'] = USER_IP;
     if (isset($data ['id']) == false or $data ['id'] == 0) {
         $data ['id'] = 0;
-        $data ['new_id'] = intval(db_last_id($table) + 1);
+        $l = db_last_id($table);
+
+        $data ['new_id'] = intval($l + 1);
         $original_data ['new_id'] = $data ['new_id'];
     }
 
@@ -1402,6 +1520,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
     $criteria = replace_site_vars($criteria);
+
     //  }
 
     if ($data_to_save_options ['use_this_field_for_id'] != false) {
@@ -1412,11 +1531,11 @@ function save_data($table, $data, $data_to_save_options = false) {
     // $criteria = map_array_to_database_table ( $table, $data );
 
     if (DB_IS_SQLITE != false) {
-
+        $criteria = add_slashes_to_array($criteria);
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
-    $db = new DB(c('db'));
+    //  $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria ['id']) == 0) {
 
@@ -1441,14 +1560,16 @@ function save_data($table, $data, $data_to_save_options = false) {
                 if (strtolower($k) != $data_to_save_options ['use_this_field_for_id']) {
 
                     if (strtolower($k) != 'id') {
-
+                        //    $v = str_ireplace(site_url(), '{SITE_URL}', $v);
+                        // $v = htmlentities($v, ENT_COMPAT, "UTF-8");
+                        //html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
                         // $v =
                         // $this->content_model->applyGlobalTemplateReplaceables
                         // ( $v );
                         if (DB_IS_SQLITE) {
-                            $v = sqlite_escape_string($v);
+                            //   $v = sqlite_escape_string($v);
                         }
-                        $q .= "$k = '$v' , ";
+                        $q .= "$k = '$v' ,";
                     }
                 }
             }
@@ -1464,18 +1585,24 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $q .= " " . $data_to_save_options ['use_this_field_for_id'] . "={$n_id} ";
             } else {
 
-                $q .= " id={$n_id} ";
+
+                //  $q = rtrim($q, ',');
+                // $n_id = "NULL";
+                //
+                //
+                //
+               $q .= " id={$n_id} ";
             }
         }
 
         if (DB_IS_SQLITE != false) {
-            $q = $db->insert($table, $criteria);
+            // $q = $db->insert($table, $criteria);
         } else {
-            db_q($q);
+            //db_q($q);
         }
-
-
-
+        //$q = $db->insert($table, $criteria);
+        //    d($q);
+        db_q($q);
 
         // exit ();
         // $this->dbQ ( $q );
@@ -1498,17 +1625,17 @@ function save_data($table, $data, $data_to_save_options = false) {
 
         $q .= " id={$data ['id']} WHERE id={$data ['id']} ";
 
-        // db_q($q);
 
+        //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
         if (DB_IS_SQLITE != false) {
             // $q1 = "UPDATE  $table SET \"" . implode('"=?,"', array_keys($data)) . '"=? WHERE ';
             // $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-
-            db_q($q);
+            // db_q($q);
         } else {
-            db_q($q);
+            // db_q($q);
         }
 
+        db_q($q);
 
 
 
@@ -1519,8 +1646,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     if ($dbg != false) {
         d($q);
     }
-
-
+    //d($q);
     // p($original_data);
     /*
      * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
@@ -1690,9 +1816,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                                 $cats_data_modified = TRUE;
                                 $cats_data_items_modified = TRUE;
                             } else {
-                                foreach ($is_ex1 as $sc) {
-                                    // $keep_thosecat_items[] = $sc['id'];
-                                }
+                               
                             }
                             //
                             //  d($is_ex);
@@ -1803,12 +1927,15 @@ function save_data($table, $data, $data_to_save_options = false) {
             // p($original_data);
             if (isset($original_data ['skip_custom_field_save']) == false) {
 
+                $custom_field_to_save = replace_site_vars($custom_field_to_save);
+                $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
 
 
                 foreach ($custom_field_to_save as $cf_k => $cf_v) {
 
                     if (($cf_v != '')) {
-
+                        $cf_v = replace_site_vars($cf_v);
+//d($cf_v);
                         if ($cf_k != '') {
                             $clean = " delete from $custom_field_table where
 				to_table =\"{$table_assoc_name}\"
@@ -1847,7 +1974,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                         if (DB_IS_SQLITE != false) {
                             //  $custom_field_to_save = add_slashes_to_array($custom_field_to_save, $is_sqlite);
                         } else {
-                            $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
+                            // $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
                         }
 
                         $next_id = intval(db_last_id($custom_field_table) + 1);
@@ -1861,6 +1988,21 @@ function save_data($table, $data, $data_to_save_options = false) {
 			to_table =\"" . $custom_field_to_save ['to_table'] . "\",
 			to_table_id =\"" . $custom_field_to_save ['to_table_id'] . "\"
 			";
+
+
+
+                        $add = " insert into $custom_field_table set
+                        id ='{$next_id}',
+			custom_field_name ='{$cf_k}',
+			$cfvq
+			custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+                         custom_field_type = 'content',
+			to_table ='{$custom_field_to_save ['to_table']}',
+			to_table_id ='{$custom_field_to_save ['to_table_id']}'
+			";
+
+
+
                         $cf_to_save = array();
                         $cf_to_save['id'] = $next_id;
                         $cf_to_save['custom_field_name'] = $cf_k;
@@ -1873,20 +2015,18 @@ function save_data($table, $data, $data_to_save_options = false) {
                         }
                         $cf_to_save['custom_field_name'] = $cf_k;
                         $cf_to_save['custom_field_name'] = $cf_k;
-
+                        //d($add);
+                        db_q($add);
 
                         if (DB_IS_SQLITE != false) {
-                            $q = $db->insert($custom_field_table, $cf_to_save);
+                            //   $q = $db->insert($custom_field_table, $cf_to_save);
+                            //   db_q($add);
                         } else {
-                            db_q($add);
+                            //   db_q($add);
                         }
 
-
-
-
-
-
-                        //   print($add);
+                        //  $q = $db->insert($custom_field_table, $cf_to_save);
+                        //  print($add);
                         //  db_q($add);
                     }
                 }
@@ -1968,7 +2108,7 @@ function save_data($table, $data, $data_to_save_options = false) {
  */
 function db_last_id($table) {
 
-    $db = new DB(c('db'));
+    //  $db = new DB(c('db'));
 
     if (DB_IS_SQLITE == true) {
 
@@ -1976,13 +2116,224 @@ function db_last_id($table) {
 
         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
     } else {
-        $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
-    }
+        //   $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
 
+        $q = "SELECT id as the_id FROM $table order by id DESC limit 1";
+    }
+//d($q);
     $q = db_query($q);
 
     $result = $q [0];
-
+//d($result);
     //
     return intval($result ['the_id']);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************************************
+*                             sql_parse.php
+*                              -------------------
+*     begin                : Thu May 31, 2001
+*     copyright            : (C) 2001 The phpBB Group
+*     email                : support@phpbb.com
+*
+*     $Id: sql_parse.php,v 1.8 2002/03/18 23:53:12 psotfx Exp $
+*
+****************************************************************************/
+
+/***************************************************************************
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ ***************************************************************************/
+
+/***************************************************************************
+*
+*   These functions are mainly for use in the db_utilities under the admin
+*   however in order to make these functions available elsewhere, specifically
+*   in the installation phase of phpBB I have seperated out a couple of
+*   functions into this file.  JLH
+*
+\***************************************************************************/
+
+//
+// remove_comments will strip the sql comment lines out of an uploaded sql file
+// specifically for mssql and postgres type files in the install....
+// 
+function sql_remove_comments($output)
+{
+   $lines = explode("\n", $output);
+   $output = "";
+
+   // try to keep mem. use down
+   $linecount = count($lines);
+
+   $in_comment = false;
+   for($i = 0; $i < $linecount; $i++)
+   {
+      if( preg_match("/^\/\*/", preg_quote($lines[$i])) )
+      {
+         $in_comment = true;
+      }
+
+      if( !$in_comment )
+      {
+         $output .= $lines[$i] . "\n";
+      }
+
+      if( preg_match("/\*\/$/", preg_quote($lines[$i])) )
+      {
+         $in_comment = false;
+      }
+   }
+
+   unset($lines);
+   return $output;
+}
+
+//
+// remove_remarks will strip the sql comment lines out of an uploaded sql file
+//
+function sql_remove_remarks($sql)
+{
+   $lines = explode("\n", $sql);
+
+   // try to keep mem. use down
+   $sql = "";
+
+   $linecount = count($lines);
+   $output = "";
+
+   for ($i = 0; $i < $linecount; $i++)
+   {
+      if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0))
+      {
+         if (isset($lines[$i][0]) && $lines[$i][0] != "#")
+         {
+            $output .= $lines[$i] . "\n";
+         }
+         else
+         {
+            $output .= "\n";
+         }
+         // Trading a bit of speed for lower mem. use here.
+         $lines[$i] = "";
+      }
+   }
+
+   return $output;
+
+}
+
+//
+// split_sql_file will split an uploaded sql file into single sql statements.
+// Note: expects trim() to have already been run on $sql.
+//
+function split_sql_file($sql, $delimiter)
+{
+   // Split up our string into "possible" SQL statements.
+   $tokens = explode($delimiter, $sql);
+
+   // try to save mem.
+   $sql = "";
+   $output = array();
+
+   // we don't actually care about the matches preg gives us.
+   $matches = array();
+
+   // this is faster than calling count($oktens) every time thru the loop.
+   $token_count = count($tokens);
+   for ($i = 0; $i < $token_count; $i++)
+   {
+      // Don't wanna add an empty string as the last thing in the array.
+      if (($i != ($token_count - 1)) || (strlen($tokens[$i] > 0)))
+      {
+         // This is the total number of single quotes in the token.
+         $total_quotes = preg_match_all("/'/", $tokens[$i], $matches);
+         // Counts single quotes that are preceded by an odd number of backslashes,
+         // which means they're escaped quotes.
+         $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$i], $matches);
+
+         $unescaped_quotes = $total_quotes - $escaped_quotes;
+
+         // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
+         if (($unescaped_quotes % 2) == 0)
+         {
+            // It's a complete sql statement.
+            $output[] = $tokens[$i];
+            // save memory.
+            $tokens[$i] = "";
+         }
+         else
+         {
+            // incomplete sql statement. keep adding tokens until we have a complete one.
+            // $temp will hold what we have so far.
+            $temp = $tokens[$i] . $delimiter;
+            // save memory..
+            $tokens[$i] = "";
+
+            // Do we have a complete statement yet?
+            $complete_stmt = false;
+
+            for ($j = $i + 1; (!$complete_stmt && ($j < $token_count)); $j++)
+            {
+               // This is the total number of single quotes in the token.
+               $total_quotes = preg_match_all("/'/", $tokens[$j], $matches);
+               // Counts single quotes that are preceded by an odd number of backslashes,
+               // which means they're escaped quotes.
+               $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$j], $matches);
+
+               $unescaped_quotes = $total_quotes - $escaped_quotes;
+
+               if (($unescaped_quotes % 2) == 1)
+               {
+                  // odd number of unescaped quotes. In combination with the previous incomplete
+                  // statement(s), we now have a complete statement. (2 odds always make an even)
+                  $output[] = $temp . $tokens[$j];
+
+                  // save memory.
+                  $tokens[$j] = "";
+                  $temp = "";
+
+                  // exit the loop.
+                  $complete_stmt = true;
+                  // make sure the outer loop continues at the right point.
+                  $i = $j;
+               }
+               else
+               {
+                  // even number of unescaped quotes. We still don't have a complete statement.
+                  // (1 odd and 1 even always make an odd)
+                  $temp .= $tokens[$j] . $delimiter;
+                  // save memory.
+                  $tokens[$j] = "";
+               }
+
+            } // for..
+         } // else
+      }
+   }
+
+   return $output;
+}
+
+
+
+
+
