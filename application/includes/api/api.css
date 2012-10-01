@@ -525,7 +525,7 @@ margin-right: 6px;
     color: #595959;
     padding-right: 9px;
     position: relative;
-    top: 2px;
+    margin: 4px 0 0 8px;
 }
 
 
@@ -616,6 +616,7 @@ margin-right: 6px;
   display: inline-block;
   cursor: pointer;
   white-space: nowrap;
+  text-align: center;
   font-size: 11px;
   color: #595959;
   text-decoration: none;
@@ -723,6 +724,12 @@ li.module-item.ui-draggable-dragging{
     left: -999px;
     top: -999px;
     width: 15px;
+}
+
+.ts_border_position_selector .mw_dlm{
+  margin-top: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 

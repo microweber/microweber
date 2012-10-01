@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
 
-VAR T = 1;
+var T = 1;
 
 </script>
 <br />

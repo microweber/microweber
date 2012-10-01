@@ -1,6 +1,6 @@
 <?php include (ADMIN_VIEWS_PATH . 'header.php'); ?>
 <? if(is_admin() == false): ?>
-<module type="login" />
+<module type="users/login" />
 <? else: ?>
 <?php include (ADMIN_VIEWS_PATH . 'header_nav.php'); ?>
 

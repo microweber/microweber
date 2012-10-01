@@ -4,8 +4,12 @@ modules admin
 $mod_params = array();
 //$mod_params['debug']  = 1;
 if(isset($params['reload_modules'])){
+	$s = 'skip_cache=1';
+	if(isset($params['cleanup_db'])){
+		$s.= '&cleanup_db=1';
+	}
 	
-	 $mods = modules_list('skip_cache=1'); 
+	 $mods = modules_list($s); 
 }
 if(isset($params['category'])){
 	
@@ -13,10 +17,10 @@ if(isset($params['category'])){
 }
 
 
- $mods = get_modules_from_db($mod_params); 
+ $mods = scan_for_get_modules_from_db($mod_params); 
  if( $mods == false){
 	  $mods = modules_list('skip_cache=1'); 
-	  $mods = get_modules_from_db($mod_params); 
+	  $mods = scan_for_get_modules_from_db($mod_params); 
  }
 //
 

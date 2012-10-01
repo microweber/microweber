@@ -1,0 +1,161 @@
+#!/usr/bin/perl
+# You may need to change this path to /usr/local/bin/perl
+
+#**************************************************************
+#
+# Script to modify skeleton files upon account creation: PWSpostwwwacct3 V3.0
+#
+# Written by:
+#  Premier Website Solutions - http://www.premierwebsitesolutions.com
+#  Created - in 2003 (V1.0)
+#  Modified - October 6, 2004 (V2.0)
+#      - altered to be more usable by others
+#      - added instructions for other users
+#  Modified - June 6, 2006 (V2.5)
+#      - modified to work with home or home2 directories
+#  Last Modified - March 12, 2008 (V3.0)
+#      - modified to work with cPanel changes using %OPTS instead of @ARGV
+#
+# To use this script, just list the pages you want modified below, provide markers on
+#  those pages as explained shortly, and upload this file to the /scripts directory on
+#  your server, renamed to postwwwacct and made executable.
+# 
+# Every time an account is created in WHM, this script is automatically called to
+#  do it's job. Variables are passed to it from WHM's wwwacct script and some of
+#  those variable are used in place of the markers on the skeleton file pages.
+#
+# Here are the variables that are passed to this script:
+#    (most are quite obvious)
+#  domain --> domain
+#  user --> username
+#  pass --> password
+#  quota --> space (MB)
+#  cpmod --> theme
+#  useip --> ded IP (y/n)
+#  hascgi --> cgi (y/n)
+#  installfp --> FP (y/n)
+#  maxftp --> max ftp accounts (n or #)
+#  maxsql --> max sql databases (n or #)
+#  maxpop --> max POP accounts (n or #)
+#  maxlst --> max lists (n or #)
+#  maxsub --> max subdomains (n or #)
+#  bwlimit --> bandwidth (# or 0) in MB's
+#  hasshell --> shell (y/n)
+#  owner --> owner
+#  plan --> plan
+#  maxpark --> max park (# or unlimited)
+#  maxaddon --> max addon  (# or unlimited)
+#  featurelist --> feature list (default)
+#  contactemail --> contact email
+#  useregns --> use registered nameservers
+#  forcedns --> overwrite existing DNS zones
+#
+#
+# PROVIDING MARKERS ON PAGES TO BE MODIFIED
+# -----------------------------------------
+#
+#  What this script does is substitute markers on your cpanel3_skel pages with the
+#  variables just listed. The markers are in the format
+#  **domain**
+#  **user**
+#  **pass**
+#  and so on, using any of the options in the list you just saw.
+#
+#  Anywhere you place **domain** in your skeleton pages, that will be replaced with the domain.
+#  Anywhere you place **user** in your skeleton pages, that will be replaced with the username.
+#  Anywhere you place **pass** in your skeleton pages, that will be replaced with the password.
+#
+#  Obviously, you DO NOT want to put the password on the default pages. That's just
+#  explaining how it works. The ones you may want to use are:
+#  **domain** is replaced with the domain (i.e. domain.com)
+#  **user** is replaced with the username (we use it for our custom formmail script)
+#  **quota** is replaced with the space (quota) in MB's
+#  **bwlimit** is replaced with the bandwidth limit in MB's
+#
+#  Here is an example of a skeleton index.html page:
+#
+#  <html>
+#  <head>
+#  <title>**domain** temporary front page</title>
+#  </head>
+#  
+#  <body bgcolor="#ffffff" link="#0000ff" alink="#ff00ff" vlink="#ff0000">
+#  
+#  <p align="center">
+#  <b>Welcome to **domain**</b>
+#  
+#  <p align="left">
+#  This is a newly created account. Please bookmark this site and check back later.
+#  
+#  <p align="left">
+#  You can contact the site owner at <a href="mailto:**contactemail**">**contactemail**</a>.
+#  
+#  <p align="left">
+#  <u>Website Owner:</u>
+#  
+#  <p align="left">
+#  Your new account is ready. You have **quota**MB's of space and **bwlimit**MB's of bandwidth.<br>
+#  If you have any questions, please contact us at <a href="mailto:email&#64;host.com">email&#64;host.com</a>.
+#  
+#  </body>
+#  </html>
+#
+#
+# Registered users of this script will be notified of any future updates.
+# If you registered this copy with us, put your email here for future reference.
+# This copy is registered to: 
+# 
+#**************************************************************
+
+
+# Modify this array of files to point to the skeleton files you want customized.
+# This is the path relative to /home/[username]/
+# Whether your list contains 1 or 100 files, the format for an array is:
+# start with       @whatever = (
+# then all file paths between double quotes separated by commas
+# then end with    );
+
+@pages = ("public_html/index.php");
+
+
+ 
+
+
+sub editsite {
+%OPTS = @ARGV;
+
+if (-e "/home/$OPTS{'user'}") {
+    $homedir = "home";
+  }
+  elsif (-e "/home2/$OPTS{'user'}") {
+    $homedir = "home2";
+  }
+  else {
+    print "\nCan't find the $OPTS{'user'} directory. It must be in a directory other than home or home2.";
+    return;
+}
+
+foreach $page (@pages) {
+  if (-e "/$homedir/$OPTS{'user'}/$page") {
+      print "editing $page\n";
+
+      open (FILE,"/$homedir/$OPTS{'user'}/$page");
+      @LINES=<FILE>;
+      close(FILE);
+      $size=@LINES;
+
+      open(FILE2,">/$homedir/$OPTS{'user'}/$page");
+      for ($i=0;$i<=$size;$i++) {
+        foreach $key (keys %OPTS) {
+          $LINES[$i] =~ s/\*\*$key\*\*/$OPTS{$key}/g;
+        }
+        chomp($LINES[$i]);
+        print FILE2 "$LINES[$i]\n";
+      }
+      close(FILE2);
+    }
+    else {
+      print "/$homedir/$OPTS{'user'}/$page doesn't exist\n";
+  }
+}
+}
