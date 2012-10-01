@@ -15,7 +15,7 @@ var t = mwd.body.style;
 
 mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-": t.WebkitPerspective!==undefined?"-webkit-": t.OPerspective!==undefined?"-o-":"-ms-";
 
-
+      /*    tuka neshto garmi mnogo stranno
 
 mw.styleborder = {
 
@@ -29,10 +29,10 @@ rend:function(type){
     break;
 
     case "all":
-
+        "asdasd"
     break;
 
-    default:
+    default:   "sadsadsad"
 
   }
 },
@@ -44,14 +44,14 @@ getStyles:function(){
   return {
     style:style,
     width:width,
-    color:color,
+    color:color
   }
 }
 
 
 }
 
-
+  */
 
 
 
