@@ -33,9 +33,13 @@ function __autoload($c) {
     require p("classes/$c");
 }
 
-function c($k) {
-    static $c;
+function c($k, $no_static = false) {
 
+    if ($no_static == false) {
+        static $c;
+    } else {
+        $c = false;
+    }
 
 
 
