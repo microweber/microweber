@@ -48,7 +48,7 @@ $mod_obj_str = 'modules';
                               //d($module2['categories']);
                $temp = array();
 			   // $temp2 = array();
-			     if(!empty($module2['categories'])){
+			     if(is_array($module2['categories']) and !empty($module2['categories'])){
 
                   
                    foreach($module2['categories'] as $it){

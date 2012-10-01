@@ -878,7 +878,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
             }
 
             $append_this = array();
-
+  if (is_array($q) and !empty($q)) {
             foreach ($q as $q2) {
 
                 $i = 0;
@@ -913,6 +913,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
                     }
                 }
             }
+			
+  }
+			
         }
     }
 
@@ -1023,8 +1026,8 @@ function save_edit($post_data) {
                     }
 
                     if (isset($the_field_data['attributes']['rel'])) {
-                        d($the_field_data);
-                        error('rel must be finished', __FILE__, __LINE__);
+                    //    d($the_field_data);
+                     //   error('rel must be finished', __FILE__, __LINE__);
                     }
 
                     $html_to_save = $the_field_data['html'];
@@ -1486,7 +1489,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
     $result = $q;
 
-    if (!empty($result)) {
+    if (is_array($result) and !empty($result)) {
 
         if ($ul_class_name == false) {
             print "<ul class='pages_tree'>";

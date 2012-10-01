@@ -274,8 +274,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
     $chosen_categories_array = array();
 
-    if (!empty($result)) {
-
+    if (isset($result) and is_array($result) and !empty($result)) {
+ 
         // $output = "<ul>";
 
         $i = 0;
@@ -600,14 +600,12 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
     if (!empty($save)) {
         $to_return [] = $parent_id;
     }
+	  if (is_array($save) and !empty($save)) {
     foreach ($save as $item) {
         $to_return [] = $item ['id'];
-        /*
-         * $clidren = $this->getItemsRecursive ( $item ['id'], $type,
-         * $visible_on_frontend ); if (! empty ( $clidren )) { foreach (
-         * $clidren as $temp ) { $to_return [] = $temp; } }
-         */
+        
     }
+	  }
 
     $to_return = array_unique($to_return);
 
@@ -1190,18 +1188,15 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
         return false;
     }
     $to_return = array();
-    if (!empty($save)) {
-        //$to_return [] = $parent_id;
-    }
-    foreach ($save as $item) {
+    if (is_array($save) and !empty($save)) {
+            foreach ($save as $item) {
         $to_return [] = $item ['id'];
-        /* $clidren = $this->getChildrensRecursive ( $item ['id'], $type, $visible_on_frontend );
-          if (! empty ( $clidren )) {
-          foreach ( $clidren as $temp ) {
-          $to_return [] = $temp;
-          }
-          } */
+        
     }
+    }
+	
+	
+
 
     $to_return = array_unique($to_return);
 
