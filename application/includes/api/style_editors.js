@@ -17,6 +17,25 @@ mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-
 
 
 
+mw.rendAborder = function(type){
+
+var el = $(".element-current");
+
+  switch (type) {
+    case "none":
+        el.css("border", "none");
+    break;
+
+    case "all":
+
+    break;
+
+    default:
+
+  }
+}
+
+
 (function($) {
 
 
@@ -235,22 +254,7 @@ mw.config_element_styles=function(){
 */
 
 
-mw.alignem = function(align){
-    var el = $(".element-current");
-    switch(align){
-      case "left":
-        el.removeClass("right").removeClass("center").addClass("left");
-        break;
-      case "right":
-        el.removeClass("left").removeClass("center").addClass("right");
-        break;
-      case "center":
-        el.removeClass("right").removeClass("left").addClass("center");
-        break;
-      default:
-        el.removeClass("right").removeClass("left").removeClass("center");
-    }
-}
+
 
 mw.setbg = function(url){
   $(".element-current").css("backgroundImage", "url("+url+")");
@@ -326,6 +330,7 @@ $("#design_sub_nav").draggable();
 $(window).bind("onItemClick", function(e, el){
   $(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
+  mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
   $(".es_item").trigger("change");
 });
@@ -333,6 +338,7 @@ $(window).bind("onItemClick", function(e, el){
 $(window).bind("onImageClick", function(e, el){
   $(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
+  mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
   $(".es_item").trigger("change");
 });
@@ -340,6 +346,7 @@ $(window).bind("onImageClick", function(e, el){
 
 $(window).bind("onBodyClick", function(){
     $(".element-current").removeClass("element-current");
+    mw.current_element = false;
     $("#items_handle").css({
       top:"",
       left:""

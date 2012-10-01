@@ -74,14 +74,13 @@ if (isset($to_save)) {
         }
         $cfg = APPPATH_FULL . 'config.php';
 		//var_dump( $cfg);
-
-//var_dump( c('db'));
+ 
 
 
          file_put_contents($cfg, $save_config);
         clearcache();
 		clearstatcache();
-		sleep(1);
+		sleep(2);
 		
 		
 		if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] == 'no') {
@@ -120,7 +119,7 @@ $i=1;
 foreach($sql_query as $sql){ 
 	//$sql = str_ireplace('{dbname}', $to_save['dbname'], $sql); 
  $qz = db_q($sql);
- // var_dump($qz);  
+  var_dump($qz);  
 }
 			}
 			  $save_config  =  $save_config_orig;
@@ -131,7 +130,7 @@ foreach($sql_query as $sql){
 			 
 			
 			          file_put_contents($cfg, $save_config);
-
+clearstatcache();
 			 
 			 
 		  print ('done');
