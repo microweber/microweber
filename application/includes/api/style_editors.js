@@ -15,47 +15,15 @@ var t = mwd.body.style;
 
 mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-": t.WebkitPerspective!==undefined?"-webkit-": t.OPerspective!==undefined?"-o-":"-ms-";
 
-      /*    tuka neshto garmi mnogo stranno
-
-mw.styleborder = {
-
-rend:function(type){
-
- var el = $(".element-current");
-
-  switch (type) {
-    case "none":
-        el.css("border", "none");
-    break;
-
-    case "all":
-        "asdasd"
-    break;
-
-    default:   "sadsadsad"
-
-  }
-},
-
-getStyles:function(){
-  var style = $(".dd_border_selector").getDropdownValue();
-  var width = $(".dd_borderwidth_selector").getDropdownValue();
-  var color = $(".element-current").css("borderColor");
-  return {
-    style:style,
-    width:width,
-    color:color
-  }
-}
-
-
-}
-
-  */
 
 
 
-(function($) {
+
+
+
+
+
+
 
 
 canvasCTRL_draw = function(context, type, color, x, y, w, h){
@@ -191,7 +159,7 @@ $.fn.canvasCTRL = function(options){
   return $(canvas);
 }
 
-})(jQuery);
+
 
 
 mw.css3fx = {
@@ -271,6 +239,7 @@ mw.config_element_styles=function(){
 }
 
 */
+
 
 
 
@@ -442,6 +411,21 @@ $(window).bind("onBodyClick", function(){
       el.val(val);
       var name = _el.name;
       $("#"+name).slider("value", val);
+    });
+
+
+    $(".ts_border_position_selector a.border-style").click(function(){
+      if(!$(this).hasClass("active")){
+         $(".ts_border_position_selector a.border-style.active").removeClass("active");
+         $(this).addClass("active");
+         var which = $(this).dataset("val");
+         mw.border_which = which;
+      }
+    });
+
+    $(".dd_border_selector").change(function(){
+
+      $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
 
 });

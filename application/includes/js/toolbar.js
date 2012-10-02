@@ -172,11 +172,18 @@ mw.image = {
          }
         })
 
-
-
-
-
         }
+      },
+      rotate:function(angle){
+        if(!mw.image.Rotator){
+           mw.image.Rotator = document.createElement('canvas');
+           mw.image.Rotator.style.top = '-9999px';
+           mw.image.Rotator.style.position = 'absolute';
+           mw.image.RotatorContext = mw.image.Rotator.getContext('2d');
+           document.body.appendChild(mw.image.Rotator);
+        }
+        var angle = angle || 90;
+
       }
     }
 

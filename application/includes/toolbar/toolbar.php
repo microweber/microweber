@@ -272,22 +272,22 @@
             <li class="ts_main_li">
                 <a class="ts_main_a dd_design_border" href="javascript:;">Border</a>
 
-                <div class="ts_action" style="width: 185px;visibility: visible">
+                <div class="ts_action" style="width: 185px;">
                   <div class="ts_action_item ts_border_position_selector">
 
 
                   <a class="border-style none" data-val="none" title="<?php _e("Remove Borders"); ?>"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style all active" data-val="none" title="<?php _e("All"); ?>"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bleft" data-val="none" title="<?php _e("Border Left"); ?>"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style bright" data-val="none" title="<?php _e("Border Right"); ?>"></a><span class="mw_dlm left"></span>
-                  <a class="border-style top" data-val="none" title="<?php _e("Border Top"); ?>"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bottom" data-val="none" title="<?php _e("Border Bottom"); ?>"></a>
+                  <a class="border-style all active" data-val="border" title="<?php _e("All"); ?>"></a>  <span class="mw_dlm left"></span>
+                  <a class="border-style bleft" data-val="borderLeft" title="<?php _e("Border Left"); ?>"></a> <span class="mw_dlm left"></span>
+                  <a class="border-style bright" data-val="borderRight" title="<?php _e("Border Right"); ?>"></a><span class="mw_dlm left"></span>
+                  <a class="border-style top" data-val="borderTop" title="<?php _e("Border Top"); ?>"></a>  <span class="mw_dlm left"></span>
+                  <a class="border-style bottom" data-val="borderBottom" title="<?php _e("Border Bottom"); ?>"></a>
 
 
 
                 </div>
                 <div class="ts_action_item">
-                    <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_border_selector" style="margin: 0 8px 0 0;width: auto;"  title="Border Style" data-value="solid" onchange="$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue())">
+                    <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_border_selector" style="margin: 0 8px 0 0;width: auto;"  title="Border Style" data-value="solid">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
                             <span class="mw_dropdown_val" style="width: 62px;"><span class="border_selector" style="border-bottom-style: solid">Solid</span></span>
@@ -414,6 +414,26 @@
             </li>
             <li class="ts_main_li">
                 <a class="ts_main_a dd_design_img" href="javascript:;">Image</a>
+                <div class="ts_action ts_image_action" style="width: 200px;visibility: visible">
+                    <div class="ts_action_item">
+                        <div class="ts_action_centerer">
+                            <span class="ed_item ed_item_image_text left">
+                                <span></span>
+                            </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
+                            <span class="ed_item ed_item_image_rotate left">
+                                <span></span>
+                            </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
+                            <span class="ed_item ed_item_image_link left">
+                                <span></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ts_action_item">
+                        <div class="ts_action_centerer">
+                            <a href="javascript:;" class="ed_btn">Add Description</a>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
 
@@ -512,6 +532,7 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
+
                   <li value="none"><a href="javascript:;">None</a></li>
                   <li value="left"><a href="javascript:;">Left</a></li>
                   <li value="right"><a href="javascript:;">Right</a></li>

@@ -1024,8 +1024,18 @@ li .ts_action_item:last-child{
   opacity:1;
 }
 
+.border-style.active{
+  box-shadow:0 0 2px #111;
+}
+
+.ed_item_image_text span{background:url(../img/image_edit.png) no-repeat 2px 0;}
+.ed_item_image_rotate span{background:url(../img/image_edit.png) no-repeat -34px 0;}
+.ed_item_image_link span{background:url(../img/image_edit.png) no-repeat -69px 0;}
 
 
+.ts_image_action .ts_action_centerer{
+  width: 110px;
+}
 
 
 
