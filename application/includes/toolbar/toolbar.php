@@ -417,10 +417,10 @@
                 <div class="ts_action ts_image_action" style="width: 200px;visibility: visible">
                     <div class="ts_action_item">
                         <div class="ts_action_centerer">
-                            <span class="ed_item ed_item_image_text left">
+                            <span class="ed_item ed_item_image_text left" onclick="mw.image.enterText();">
                                 <span></span>
                             </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_item_image_rotate left">
+                            <span class="ed_item ed_item_image_rotate left" onclick="mw.image.rotate();">
                                 <span></span>
                             </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
                             <span class="ed_item ed_item_image_link left">

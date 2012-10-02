@@ -172,7 +172,7 @@ if($connection_settigns != false and is_array($connection_settigns) and !empty($
 	$db = c('db');
 }
     
-	//var_dump($db);
+	 //var_dump($db);
 //$is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;
     if ($is_mysqli != false) {

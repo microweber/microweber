@@ -174,7 +174,7 @@ mw.image = {
 
         }
       },
-      rotate:function(angle){
+      rotate:function(img_object, angle){
         if(!mw.image.Rotator){
            mw.image.Rotator = document.createElement('canvas');
            mw.image.Rotator.style.top = '-9999px';
@@ -182,20 +182,84 @@ mw.image = {
            mw.image.RotatorContext = mw.image.Rotator.getContext('2d');
            document.body.appendChild(mw.image.Rotator);
         }
-        var angle = angle || 90;
 
+        var img_object = img_object || document.querySelector("img.element-current");
+        if(!img_object.src.contains("base64")){
+          var currDomain = mw.url.getDomain(window.location.href);
+
+          var srcDomain = mw.url.getDomain(img_object.src);
+
+          if(currDomain!==srcDomain){
+               mw.tools.alert("This action is allowed for images on the same domain.");
+               return false;
+          }
+        }
+
+        var angle = angle || 90;
+        var image = $(img_object);
+        var w = image.width();
+        var h = image.height();
+
+          var contextWidth = w
+          var contextHeight = h
+          var x = 0;
+          var y = 0;
+
+           switch(angle){
+                case 90:
+                    var contextWidth = h;
+                    var contextHeight = w;
+                    var y = -h;
+                    break;
+                case 180:
+                    var x = -w;
+                    var y = -h;
+                    break;
+                case 270:
+                    var contextWidth = h;
+                    var contextHeight = w;
+                    var x = -w;
+                    break;
+           }
+
+           mw.image.Rotator.setAttribute('width', contextWidth);
+		   mw.image.Rotator.setAttribute('height', contextHeight);
+		   mw.image.RotatorContext.rotate(angle * Math.PI / 180);
+		   mw.image.RotatorContext.drawImage(img_object, x, y);
+
+           var data =  mw.image.Rotator.toDataURL("image/png");
+           image.attr("src", data);
+      },
+      text_object:function(text){
+        var el = mwd.createElement('span');
+        el.innerHTML = text;
+        el.style.position = 'absolute';
+        el.contenteditable = true;
+        el.style.top = '20px';
+        el.style.fontSize = '25px';
+        el.style.left = '20px';
+        el.style.color = 'white';
+        return el;
+      },
+      enterText:function(img_object){
+          var img_object = img_object || document.querySelector("img.element-current");
+          var image = $(img_object);
+          if(!img_object.is_activated){
+                img_object.is_activated = true;
+                image.removeClass("element");
+                image.wrap("<div class='element mw_image_txt'></div>");
+                var obj = mw.image.text_object("Lorem ipsum");
+                image.after(obj);
+          }
       }
     }
 
 
 
 
-$.expr[':'].noop = function(){
-    return true;
-};
 
 
-(function( $ ){
+
   $.fn.notmouseenter = function() {
     return this.filter(function(){
       var el = $(el);
@@ -203,9 +267,7 @@ $.expr[':'].noop = function(){
       return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
     });
   };
-})( jQuery );
 
-(function( $ ){
   $.fn.notclick = function() {
     return this.filter(function(){
       var el = $(el);
@@ -213,25 +275,18 @@ $.expr[':'].noop = function(){
       return (events==undefined || events.click==undefined);
     });
   };
-})( jQuery );
 
 
-(function( $ ){
   $.fn.visible = function() {
     return this.css("visibility", "visible");
   };
-})( jQuery );
-(function( $ ){
   $.fn.visibilityDefault = function() {
     return this.css("visibility", "");
   };
-})( jQuery );
 
-(function( $ ){
   $.fn.invisible = function() {
     return this.css("visibility", "hidden");
   };
-})( jQuery );
 
 
 

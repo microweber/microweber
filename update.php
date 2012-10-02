@@ -55,6 +55,7 @@ if ($seg != false and $seg == 'download') {
 
 
         $seg_latest = url_segment(2);
+        // d($seg_latest);
         if ($seg_latest != false and ($seg_latest == 'latest' or $seg_latest == 'latest.zip')) {
             $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
             if (!is_file($download_dir_get_latest)) {
@@ -116,7 +117,7 @@ if ($seg != false and $seg == 'download') {
             if (is_file($download_dir_get_latest)) {
                 $download_dir_get1 = $download_dir_get_latest;
             }
-        }
+        } 
 
         if ($seg_latest != false and ($seg_latest == 'latest-module')) {
             $seg_latest_m = url_segment();
@@ -136,10 +137,6 @@ if ($seg != false and $seg == 'download') {
             $version_zip = $downloads_dir_md . $seg_latest_m_s1 . '-latest.zip';
             if (!is_file($version_zip)) {
                 // d($version_zip);
-
-
-
-
                 $md_orig = MODULES_DIR . $seg_latest_m_s;
                 $md_orig = normalize_path($md_orig, false);
                 $md_orig_f = $md_orig . '.php';
@@ -496,7 +493,7 @@ if ($seg != false and $seg == 'download') {
     //  $shake = whm_mw_command('action=handshake');
     $shake = array();
     $shake['shake'] = true;
-    if (isset($req['modules'])) {
+    if (isset($req['modules']) and is_array($req['modules'])) {
         $shake = $shake['shake'];
         if (isset($_SERVER['HTTP_REFERER'])) {
             extract(parse_url($_SERVER['HTTP_REFERER']));
@@ -540,15 +537,12 @@ if ($seg != false and $seg == 'download') {
 
         exit(print(json_encode($data)));
     } else {
-       // $data = array();
-       // $data["error"] = "cant_connect";
+        // $data = array();
+        // $data["error"] = "cant_connect";
 
         exit(print(json_encode($data)));
     }
 }
-//d($data);
-?>
-<?
 
 /**
  * whm_get_user
@@ -850,7 +844,7 @@ class Unzip {
      * @return    none
      */
     function __construct() {
-
+        
     }
 
     // --------------------------------------------------------------------

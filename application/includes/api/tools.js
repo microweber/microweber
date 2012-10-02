@@ -168,6 +168,18 @@ mw.tools = {
         }
     },
   },
+  alert:function(text){
+    var html = ''
+    + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
+        + '<tr>'
+        + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td align="center" height="25"><span class="ed_btn" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
+        + '</tr>'
+    + '</table>';
+    return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
+  },
   dropdown:function(callback){
     $(".mw_dropdown .other-action").hover(function(){
       $(this).addClass("other-action-hover");

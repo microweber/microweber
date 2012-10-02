@@ -424,7 +424,6 @@ $(window).bind("onBodyClick", function(){
     });
 
     $(".dd_border_selector").change(function(){
-
       $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
 

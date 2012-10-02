@@ -138,6 +138,7 @@ foreach($sql_query as $sql){
 			
 			          file_put_contents($cfg, $save_config);
 clearstatcache();
+clearcache();
 			 
 			 
 		  print ('done');

@@ -11,7 +11,7 @@ if (!defined('MW_VERSION')) {
 
 if (!defined('MW_UPDATE_SERV')) {
     $test = site_url('update.php');
-    define('MW_UPDATE_SERV', 'http://update.microweber.com/update.php '); //seperate by whitespace
+    define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php '); //seperate by whitespace
     // define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
 

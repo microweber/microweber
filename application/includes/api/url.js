@@ -3,6 +3,9 @@
 json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&")};
 
 mw.url = {
+    getDomain:function(url){
+      return url.match(/:\/\/(www\.)?(.[^/:]+)/)[2];
+    },
     removeHash:function(url){
         return url.replace( /#.*/, "");
     },

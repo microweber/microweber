@@ -340,7 +340,7 @@ function scan_for_get_modules($options = false) {
 
 
        // $cache_content = cache_get_content($cache_id, $cache_group);
-        if (($cache_content) != false) {
+        if (isset($cache_content) != false) {
 
           //  return $cache_content;
         }
