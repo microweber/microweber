@@ -311,6 +311,7 @@ mw.drag = {
         		$(".ui-draggable-dragging").css({top:0,left:0});
         	}
             $(this).removeClass("not-allowed");
+
         });
 
         $(window).bind("onElementOver", function(a, element){
@@ -435,8 +436,7 @@ mw.drag = {
                     });
                     return clone;
                 });
-            })
-            .click(function(){
+            }).click(function(){
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(".element-current").removeClass("element-current");
@@ -458,8 +458,7 @@ mw.drag = {
                     });
                     return clone;
                 });
-            })
-            .click(function(){
+            }).click(function(){
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(".element-current").removeClass("element-current");
@@ -480,8 +479,7 @@ mw.drag = {
                     });
                     return clone;
                 });
-            })
-            .click(function(){
+            }).click(function(){
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(".element-current").removeClass("element-current");
@@ -504,8 +502,7 @@ mw.drag = {
                     });
                     return clone;
                 });
-            })
-            .click(function(){
+            }).click(function(){
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(".element-current").removeClass("element-current");

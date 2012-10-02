@@ -230,14 +230,14 @@ mw.image = {
            var data =  mw.image.Rotator.toDataURL("image/png");
            image.attr("src", data);
       },
-      text_object:function(text){
-        var el = mwd.createElement('span');
-        el.innerHTML = text;
+      text_object:function(tag, text){
+        var el = mwd.createElement(tag);
+        el.className = "image_free_text";
+        el.innerHTML = "<span class='mw_free_handle'></span>"+text;
         el.style.position = 'absolute';
         el.contenteditable = true;
-        el.style.top = '20px';
-        el.style.fontSize = '25px';
-        el.style.left = '20px';
+        el.style.top = '40px';
+        el.style.left = '40px';
         el.style.color = 'white';
         return el;
       },
@@ -248,8 +248,12 @@ mw.image = {
                 img_object.is_activated = true;
                 image.removeClass("element");
                 image.wrap("<div class='element mw_image_txt'></div>");
-                var obj = mw.image.text_object("Lorem ipsum");
+                var obj = mw.image.text_object('span', "Lorem ipsum");
                 image.after(obj);
+                $(obj).draggable({
+                  handle:".mw_free_handle",
+                  containment:"parent"
+                })
           }
       }
     }

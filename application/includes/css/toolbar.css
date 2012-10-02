@@ -1037,6 +1037,39 @@ li .ts_action_item:last-child{
   width: 110px;
 }
 
+.mw_free_handle{
+  cursor: move;
+  position: absolute;
+  visibility: hidden;
+  top: -19px;
+  left: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: #5A5A5A;
+}
+
+
+.mw_image_txt *[_moz_abspos]{
+    background: none !important;
+  outline: none !important;
+  z-index: auto !important;
+}
+
+[_moz_anonclass]{
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.image_free_text:hover .mw_free_handle{
+  visibility: visible;
+}
+
+
+
+
+
+
 
 
 
