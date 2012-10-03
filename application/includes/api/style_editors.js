@@ -310,6 +310,15 @@ init_square_maps = function(){
 
 
 
+mw.parseCSS = function(element){
+
+    this.border = function(){
+
+    }
+
+    return this;
+}
+
 
 $(document).ready(function(){
 

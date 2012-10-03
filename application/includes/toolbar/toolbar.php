@@ -423,7 +423,7 @@
                             <span class="ed_item ed_item_image_rotate left" onclick="mw.image.rotate();">
                                 <span></span>
                             </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_item_image_link left">
+                            <span class="ed_item ed_item_image_link left" onclick="mw.image.linkIt();">
                                 <span></span>
                             </span>
                         </div>

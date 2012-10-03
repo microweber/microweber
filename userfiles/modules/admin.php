@@ -1,23 +1,24 @@
-<? 
+ <?
  
-$rand_id = md5(serialize($params)); ?>
+$module_id = $params['id'];
+$rand = rand();
+?>
+<button onclick="mw_make_new_field('text')" value="mw_make_new_field('text')">mw_make_new_field('text')</button>
+<button onclick="mw_make_new_field('checkbox')" value="mw_make_new_field('checkbox')">mw_make_new_field('checkbox')</button>
 
-<div id="mw_email_source_code_editor<? print $rand_id ?>">
-  <fieldset class="inputs">
-    <legend><span>Source code editor</span></legend>
-     
-        <? $langs = array( "html","php", "javascript",  "css",  "python",  "sql", 
-    "java",  "perl","xml", "ruby", "c", "cpp", "csharp"); ?>
-        <?php $l_sel =  option_get('source_code_language', $params['id']); ?>
-        <label  class="label">Source Code Language</label>
-        <select name="source_code_language" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"   type="text" data-refresh="highlight_code"  id="link_existing_bookmark">
-          <option value="<? print $l_sel ?>"><? print $l_sel ?></option>
-          <? foreach($langs as $lan): ?>
-          <option value="<? print $lan ?>" <? if($lan == $l_sel): ?> selected="selected" <? endif; ?>><? print $lan ?></option>
-          <? endforeach; ?>
-        </select>
-       <hr />
-        <textarea name="source_code" cols=""  class="mw_option_field" style="height:200px; width:300px;" data-refresh="highlight_code"     rows="2"><?php print option_get('source_code', $params['id']) ?></textarea>
-      
-  </fieldset>
-</div>
+<div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
+<script type="text/javascript">
+    function mw_make_new_field($type){
+        $('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $params['id']; ?>/custom_field_type:'+$type);
+
+
+    }
+
+    $(document).ready(function(){
+
+
+        //make_new_field()
+
+    });
+</script>
+<module type="custom_fields" view="list" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />

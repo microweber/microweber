@@ -768,6 +768,14 @@ li.module-item.ui-draggable-dragging{
 }
 
 
+  [draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
 
 
 

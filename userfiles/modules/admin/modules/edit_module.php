@@ -46,6 +46,56 @@ $(document).ready(function(){
  
 
 
+	 
+	 $('#module_uninstall_<? print $rand ?>').click(function() { 
+
+ 
+ var for_module = {}
+ for_module.id =  $(this).attr('data-module-id');
+ 
+ 
+ $.post('<? print site_url('api') ?>/uninstall_module/', for_module, function(data) {
+   
+});
+
+
+ 
+ 
+ 
+
+		 return false;
+		 
+		 
+		 });
+		 
+		 
+		 
+		  
+	 $('#module_install_<? print $rand ?>').click(function() { 
+
+ 
+ 
+ var for_module = {}
+ for_module.for_module =  $(this).attr('data-module-name');
+// for_module = url
+ $.post('<? print site_url('api') ?>/install_module/', for_module,  function(data) {
+   
+});
+
+
+ 
+ 
+ 
+
+		 return false;
+		 
+		 
+		 });
+
+
+
+
+
  
    
 });
@@ -106,6 +156,14 @@ $(document).ready(function(){
  
  
  <input name="save" type="submit" value="save">
+ 
+ <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
+ 
+   <input name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="install">
+
+ <? else : ?>
+  <input name="uninstall" type="button" id="module_uninstall_<? print $rand ?>" data-module-id="<? print $data['id'] ?>" value="uninstall">
+ <? endif; ?>
 </form>
  
  <? endif; ?>

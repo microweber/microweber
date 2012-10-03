@@ -168,7 +168,13 @@ mw.drag = {
                           $(window).trigger("onAllLeave", mw.mm_target);
                      }
                    }
+
+
                }
+
+
+               mw.image._dragTxt(event);
+
            }
            else{
              if(   mw.$mm_target.hasClass("element")
@@ -312,6 +318,20 @@ mw.drag = {
         	}
             $(this).removeClass("not-allowed");
 
+        });
+
+        $(mwd.body).mousedown(function(event){
+          var target = event.target;
+          if($(target).hasClass("image_free_text")){
+            mw.image._dragcurrent = target;
+            mw.image._dragparent = target.parentNode;
+            mw.image._dragcursorAt.x = event.pageX-target.offsetLeft;
+            mw.image._dragcursorAt.y = event.pageY-target.offsetTop;
+
+            target.startedY = target.offsetTop - target.parentNode.offsetTop;
+            target.startedX = target.offsetLeft - target.parentNode.offsetLeft;
+
+          }
         });
 
         $(window).bind("onElementOver", function(a, element){
@@ -623,11 +643,14 @@ mw.drag = {
         });
     },
     the_drop: function () {
-        if(!$(document.body).hasClass("bup")){
-          $(document.body).addClass("bup");
+        if(!$(mwd.body).hasClass("bup")){
+          $(mwd.body).addClass("bup");
 
-		$(document.body).bind("mouseup", function (event) {
+		$(mwd.body).bind("mouseup", function (event) {
 
+
+            mw.image._dragcurrent = null;
+            mw.image._dragparent = null;
 
             var sliders = mwd.getElementsByClassName("canvas-slider");
             for(var i=0;i<sliders.length;i++){sliders[i].isDrag = false;}

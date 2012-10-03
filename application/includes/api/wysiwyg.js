@@ -375,13 +375,16 @@ mw.wysiwyg = {
              mw.wysiwyg.save_selection();
              mw.tools.modal.frame({
               url:"rte_link_editor",
-              title:"Add/Edit LInk",
+              title:"Add/Edit Link",
               name:"mw_rte_link",
               width:340,
               height:535
             });
          }
       }
+    },
+    image_link:function(url){
+        $("img.element-current").wrap("<a href='" + url + "'></a>");
     },
     image:function(hash){
         var hash = hash || '';
@@ -412,7 +415,7 @@ mw.wysiwyg = {
       return (($(mw.wysiwyg.checker).html()).replace(/\s/g, "")).length;
     },
     insert_link:function(url){
-      console.log(mw.wysiwyg.selection_length())
+      mw.wysiwyg.restore_selection();
       if(mw.wysiwyg.selection_length()>0){
          mw.wysiwyg.execCommand('createlink', false, url);
       }
@@ -459,6 +462,13 @@ mw.wysiwyg = {
     select_all:function(el){
         var range = document.createRange();
         range.selectNodeContents(el);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
+    select_element:function(el){
+        var range = document.createRange();
+        range.selectNode(el);
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);

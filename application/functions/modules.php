@@ -10,7 +10,7 @@ function get_all_functions_files_for_modules($options = false) {
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_group = 'modules';
+    $cache_group = 'modules/global';
 
     $cache_content = cache_get_content($cache_id, $cache_group);
 
@@ -20,7 +20,7 @@ function get_all_functions_files_for_modules($options = false) {
     }
 
 
-
+//d($uninstall_lock);
     if (isset($options ['glob'])) {
         $glob_patern = $options ['glob'];
     } else {
@@ -34,12 +34,26 @@ function get_all_functions_files_for_modules($options = false) {
     }
 
 
+
+    $uninstall_lock = get_modules_from_db('ui=any&installed=0');
+    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
+        $disabled_files = array();
+        foreach ($uninstall_lock as $value) {
+            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php' , false);
+            $disabled_files[] = $value1;
+        }
+    }
+//d($disabled_files);
+
     $dir = rglob($glob_patern, 0, $dir_name);
 
     if (!empty($dir)) {
         $configs = array();
         foreach ($dir as $key => $value) {
-            $configs[] = normalize_path($value, false);
+            $value = normalize_path($value, false);
+            if (!in_array($value, $disabled_files)) {
+                $configs[] = $value;
+            }
         }
 
 
@@ -204,6 +218,33 @@ function delete_elements_from_db() {
     }
 }
 
+function delete_module_by_id($id) {
+    if (is_admin() == false) {
+        return false;
+    }
+    $id = intval($id);
+    $cms_db_tables = c('db_tables');
+
+    $table = $cms_db_tables['table_modules'];
+    $table_taxonomy = $cms_db_tables['table_taxonomy'];
+    $table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+
+
+    $q = "delete from $table where id={$id}";
+    db_q($q);
+
+
+
+
+
+    $q = "delete from $table_taxonomy_items where to_table='table_modules' and data_type='category_item' and to_table_id={$id}";
+    db_q($q);
+    cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
+    // cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+
+    cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+}
+
 function delete_modules_from_db() {
     if (is_admin() == false) {
         return false;
@@ -232,17 +273,25 @@ function delete_modules_from_db() {
     }
 }
 
-function locate_module($module_name) {
+function locate_module($module_name, $custom_view = false) {
+
+    if (!defined("ACTIVE_TEMPLATE_DIR")) {
+        define_constants();
+    }
+
     $module_name = trim($module_name);
     $module_name = str_replace('\\', '/', $module_name);
     $module_name = str_replace('..', '', $module_name);
     // prevent hack of the directory
     $module_name = reduce_double_slashes($module_name);
 
+
     $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
+
     $module_in_template_dir = normalize_path($module_in_template_dir, 1);
     $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
     $module_in_template_file = normalize_path($module_in_template_file, false);
+//d($module_in_template_dir);
 
     $try_file1 = false;
 
@@ -273,7 +322,7 @@ function locate_module($module_name) {
                 $try_file1 = $module_in_default_file_custom_view;
             } else {
 
-                $try_file1 = $module_in_default_file;
+                //  $try_file1 = $module_in_default_file;
             }
         } else {
             if (is_dir($module_in_default_dir)) {
@@ -286,7 +335,7 @@ function locate_module($module_name) {
 
                     $try_file1 = $mod_d1 . trim($custom_view) . '.php';
                 } else {
-                    $try_file1 = $mod_d1 . 'index.php';
+                    // $try_file1 = $mod_d1 . 'index.php';
                 }
             } elseif (is_file($element_in_default_file)) {
 
@@ -296,12 +345,170 @@ function locate_module($module_name) {
             }
         }
     }
+    $try_file1 = normalize_path($try_file1, false);
     return $try_file1;
 }
 
-function install_module($module_name) {
-   // $loc = locate_module($module_name);
-   // d($loc);
+api_expose('uninstall_module');
+
+function uninstall_module($params) {
+
+    if (is_admin() == false) {
+        return false;
+    }
+    if (isset($params['id'])) {
+        $id = intval($params['id']);
+        $this_module = get_modules_from_db('ui=any&one=1&id=' . $id);
+        if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
+            $module_name = $this_module['module'];
+            if (is_admin() == false) {
+                return false;
+            }
+
+
+            if (trim($module_name) == '') {
+                return false;
+            }
+//            $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
+//            if (!is_dir($uninstall_lock)) {
+//                mkdir_recursive($uninstall_lock);
+//            }
+//            $unistall_file = url_title($module_name);
+//            $unistall_file = $uninstall_lock . $unistall_file . '.php';
+//            touch($unistall_file);
+            //  d($unistall_file);
+            $loc_of_config = locate_module($module_name, 'config');
+            $res = array();
+            $loc_of_functions = locate_module($module_name, 'functions');
+            $cfg = false;
+            if (is_file($loc_of_config)) {
+                include($loc_of_config);
+                if (isset($config)) {
+                    $cfg = $config;
+                }
+
+
+                if (is_array($cfg) and !empty($cfg)) {
+
+
+                    if (isset($cfg['on_uninstall'])) {
+
+
+                        $func = $cfg['on_uninstall'];
+
+                        if (!function_exists($func)) {
+                            if (is_file($loc_of_functions)) {
+                                include_once($loc_of_functions);
+                            }
+                        }
+
+                        if (function_exists($func)) {
+
+                            $res = $func();
+                            // return $res;
+                        }
+                    } else {
+                        //  return true;
+                    }
+                }
+
+
+                // d($loc_of_config);
+            }
+            $to_save = array();
+            $to_save['id'] = $id;
+            $to_save['installed'] = '0';
+            //  $to_save['keep_cache'] = '1';
+            //   $to_save['module'] = $module_name;
+            // $to_save['debug'] = '1';
+            //d($to_save);
+            save_module_to_db($to_save);
+            // delete_module_by_id($id);
+        }
+    }
+    cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+
+    // d($params);
+}
+
+api_expose('install_module');
+
+function install_module($params) {
+
+    if (is_admin() == false) {
+        return false;
+    }
+    $module_name = $params['for_module'];
+
+    if (trim($module_name) == '') {
+        return false;
+    }
+
+
+    $loc_of_config = locate_module($module_name, 'config');
+    $res = array();
+    $loc_of_functions = locate_module($module_name, 'functions');
+    $cfg = false;
+    if (is_file($loc_of_config)) {
+        include($loc_of_config);
+        if (isset($config)) {
+            $cfg = $config;
+        }
+        // d($loc_of_config);
+    }
+
+
+//    $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
+//    if (!is_dir($uninstall_lock)) {
+//        mkdir_recursive($uninstall_lock);
+//    }
+//    $unistall_file = url_title($module_name);
+//    $unistall_file = $uninstall_lock . $unistall_file . '.php';
+//    // d($unistall_file);
+//    if (is_file($unistall_file)) {
+//        unlink($unistall_file);
+//    }
+
+    $this_module = get_modules_from_db('no_cache=1&ui=any&one=1&module=' . $module_name);
+    //d($this_module);
+    if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
+        $to_save = array();
+        $to_save['id'] = $this_module['id'];
+        $to_save['installed'] = '1';
+        //   $to_save['keep_cache'] = '1';
+        //   $to_save['module'] = $module_name;
+        // $to_save['debug'] = '1';
+        // d($to_save);
+        save_module_to_db($to_save);
+    }
+
+
+    if (is_array($cfg) and !empty($cfg)) {
+
+
+        if (isset($cfg['on_install'])) {
+
+
+            $func = $cfg['on_install'];
+
+            if (!function_exists($func)) {
+                if (is_file($loc_of_functions)) {
+                    include_once($loc_of_functions);
+                }
+            }
+
+            if (function_exists($func)) {
+
+                $res = $func();
+                return $res;
+            }
+        } else {
+            return true;
+        }
+    }
+
+
+    // d($loc_of_functions);
 }
 
 function save_module_to_db($data_to_save) {
@@ -330,7 +537,7 @@ function save_module_to_db($data_to_save) {
         if (!isset($s["id"]) and isset($s["module"])) {
             $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
-                $save = get_modules_from_db('limit=1&module=' . $s["module"]);
+                $save = get_modules_from_db('ui=any&limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {
                     $s["id"] = $save[0]["id"];
                 } else {
@@ -346,11 +553,12 @@ function save_module_to_db($data_to_save) {
         //
         //d($s);
     }
-
-    if ($save != false) {
-        //   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
-        // cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
-        cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+    if (!isset($data_to_save['keep_cache'])) {
+        if ($save != false) {
+            //   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
+            // cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
+            cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+        }
     }
     return $save;
 }
@@ -451,20 +659,27 @@ function scan_for_get_modules($options = false) {
 
                 $config = array();
                 $value = normalize_path($value, false);
+                //
                 $value_fn = $mod_name = str_replace('_config.php', '', $value);
                 $value_fn = $mod_name = str_replace('config.php', '', $value_fn);
                 $value_fn = $mod_name = str_replace('index.php', '', $value_fn);
+
+
+
+                //  d( $value_fn);
+
+
+
                 $value_fn = str_replace($dir_name, '', $value_fn);
 
-
-
-
-                $value_fn = reduce_double_slashes($value_fn);
+//d( $value_fn);
+                //  $value_fn = reduce_double_slashes($value_fn);
 
                 $try_icon = $mod_name . '.png';
                 $def_icon = MODULES_DIR . 'default.png';
 
                 ob_start();
+
                 include ($value);
 
                 $content = ob_get_contents();
@@ -477,9 +692,6 @@ function scan_for_get_modules($options = false) {
                 $config ['module'] = $value_fn . '';
                 $config ['module'] = rtrim($config ['module'], '\\');
                 $config ['module'] = rtrim($config ['module'], '/');
-                if (isset($config['on_install'])) {
-                    // d($config['on_install']);
-                }
 
                 $config ['module_base'] = str_replace('admin/', '', $value_fn);
 
@@ -489,7 +701,7 @@ function scan_for_get_modules($options = false) {
                 } else {
                     $config ['icon'] = pathToURL($def_icon);
                 }
-                $config ['installed'] = install_module($config ['module']);
+                //   $config ['installed'] = install_module($config ['module']);
                 // $mmd5 = url_title($config ['module']);
                 //   $check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
 //                if (is_file($check_if_uninstalled)) {
@@ -507,14 +719,19 @@ function scan_for_get_modules($options = false) {
 //                }
 
                 if ($skip_module == false) {
-                    $configs [] = $config;
+                    if (trim($config ['module']) != '') {
 
-                    if ($list_as_element == true) {
 
-                        save_element_to_db($config);
-                    } else {
+                        $configs [] = $config;
 
-                        save_module_to_db($config);
+                        if ($list_as_element == true) {
+
+                            save_element_to_db($config);
+                        } else {
+                            // d($config);
+                            save_module_to_db($config);
+                            install_module($config ['module']);
+                        }
                     }
                 }
             }
@@ -694,11 +911,11 @@ function load_module($module_name, $attrs = array()) {
     }
 
 
-
-
-
-
-
+    $uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
+    if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+        return '';
+    }
+    //d($uninstall_lock);
 
 
     $is_element = false;

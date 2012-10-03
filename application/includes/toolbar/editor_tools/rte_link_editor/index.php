@@ -7,8 +7,10 @@
      mw.require("tools.js");
 
 
+    var hash = window.location.hash;
+    var hash = hash.replace(/#/g, "");
 
-
+    command = hash!=='' ? hash : 'insert_link';
 
     mw.search = function(keyword, limit, callback){
       is_searching = true;
@@ -97,12 +99,12 @@
 
            if(event.type=='click'){
              if(!$(this).hasClass("disabled")){
-                parent.mw.wysiwyg.restore_selection();
+                
                 var val = $("input:radio:checked").val();
                 if(mw.form.validate.email(val)){
                   var val = 'mailto:'+val;
                 }
-                parent.mw.wysiwyg.insert_link(val);
+                parent.mw.wysiwyg[command](val);
                 parent.mw.tools.modal.remove('mw_rte_link');
              }
              else{

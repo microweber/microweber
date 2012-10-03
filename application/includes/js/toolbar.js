@@ -174,6 +174,22 @@ mw.image = {
 
         }
       },
+      linkIt:function(img_object){
+        var img_object = img_object || document.querySelector("img.element-current");
+
+        if(img_object.parentNode.tagName === 'A'){
+           $(img_object.parentNode).replaceWith(img_object);
+        }
+        else{
+            mw.tools.modal.frame({
+              url:"rte_link_editor#image_link",
+              title:"Add/Edit Link",
+              name:"mw_rte_link",
+              width:340,
+              height:535
+            });
+        }
+      },
       rotate:function(img_object, angle){
         if(!mw.image.Rotator){
            mw.image.Rotator = document.createElement('canvas');
@@ -220,6 +236,10 @@ mw.image = {
                     var contextHeight = w;
                     var x = -w;
                     break;
+                default:
+                    var contextWidth = h;
+                    var contextHeight = w;
+                    var y = -h;
            }
 
            mw.image.Rotator.setAttribute('width', contextWidth);
@@ -230,15 +250,41 @@ mw.image = {
            var data =  mw.image.Rotator.toDataURL("image/png");
            image.attr("src", data);
       },
+      _dragActivated : false,
+      _dragcurrent : null,
+      _dragparent : null,
+      _dragcursorAt : {x:0,y:0},
+      _dragTxt:function(e){
+        if(mw.image._dragcurrent!==null){
+          mw.image._dragcursorAt.x = e.pageX-mw.image._dragcurrent.offsetLeft;
+          mw.image._dragcursorAt.y = e.pageY-mw.image._dragcurrent.offsetTop;
+          var x = e.pageX - mw.image._dragparent.offsetLeft - mw.image._dragcurrent.startedX  - mw.image._dragcursorAt.x;
+          var y = e.pageY - mw.image._dragparent.offsetTop - mw.image._dragcurrent.startedY  - mw.image._dragcursorAt.y;
+          mw.image._dragcurrent.style.top = y + 'px';
+          mw.image._dragcurrent.style.left = x + 'px';
+
+          mw.log(mw.image._dragcurrent.startedX)
+
+        }
+      },
       text_object:function(tag, text){
         var el = mwd.createElement(tag);
         el.className = "image_free_text";
-        el.innerHTML = "<span class='mw_free_handle'></span>"+text;
-        el.style.position = 'absolute';
-        el.contenteditable = true;
-        el.style.top = '40px';
+        el.innerHTML = text;
+        el.style.position = 'relative';
+        el.style.display = 'inline-block';
+        el.contenteditable = false;
+        el.style.top = '0px';
         el.style.left = '40px';
         el.style.color = 'white';
+        el.style.textShadow = '0 0 6px black';
+        el.style.cursor = 'move';
+        el.style.zIndex = '999';
+        el.style.height = 'auto';
+        el.ondblclick = function(e){
+          e.preventDefault();
+          mw.wysiwyg.select_all(this);
+        }
         return el;
       },
       enterText:function(img_object){
@@ -248,12 +294,8 @@ mw.image = {
                 img_object.is_activated = true;
                 image.removeClass("element");
                 image.wrap("<div class='element mw_image_txt'></div>");
-                var obj = mw.image.text_object('span', "Lorem ipsum");
-                image.after(obj);
-                $(obj).draggable({
-                  handle:".mw_free_handle",
-                  containment:"parent"
-                })
+                var obj = mw.image.text_object('span', "Lorem ipsum a asd a as asd");
+                image.before(obj);
           }
       }
     }

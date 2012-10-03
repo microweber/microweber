@@ -55,32 +55,35 @@ description: Home site layout
 <body>
 <section id="buttonDropdowns">
   <div class="page-header">
-    <h1>highlight_code  </h1>
-    <h3><? print site_url('update.php/download/latest-module/highlight_code'); ?></h3>
+   Modules list
   </div>
- <div class="btn-toolbar" style="margin: 0;">
-      <div class="btn-group">
+  <div class="btn-toolbar" style="margin: 0;" > 
+  
+  
+  <? $temp = array('highlight_code', 'custom_menu', 'site_stats'); ?>
+  
+  <?  foreach( $temp  as $item) :?>
+  <h1><? print $item ?></h1>
+    <h3><? print site_url('update.php/download/latest-module/'); ?><? print $item ?></h3>
+    <div class="btn-group">
       <?
 	  
 	   $m = array();
 	    $m['action'] = 'install';
-		 $m['type'] = 'modules';
-	  $m['url'] = site_url('update.php/download/latest-module/highlight_code');
+		$m['type'] = 'modules';
+		$m['name'] = $item;
+	  $m['url'] = site_url('update.php/download/latest-module/'.$item);
   $m = serialize( $m);
 	  
 	   ?>
-      
- 
- 
-      
-     
-        <button onclick="window.parent.postMessage('<? print (urlencode($m));  ?>', '*');" class="btn dropdown-toggle">Install this module</button>
-        
-      </div>
-      
-      <!-- /btn-group --> 
+      <button onclick="window.parent.postMessage('<? print (urlencode($m));  ?>', '*');" class="btn dropdown-toggle">Install this module</button>
     </div>
-  
+    
+    <? endforeach; ?>
+    
+    
+    <!-- /btn-group --> 
+  </div>
   <p>&nbsp;</p>
 </section>
 </body>

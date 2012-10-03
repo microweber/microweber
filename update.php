@@ -55,7 +55,7 @@ if ($seg != false and $seg == 'download') {
 
 
         $seg_latest = url_segment(2);
-        // d($seg_latest);
+        //  d($seg_latest);
         if ($seg_latest != false and ($seg_latest == 'latest' or $seg_latest == 'latest.zip')) {
             $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
             if (!is_file($download_dir_get_latest)) {
@@ -117,12 +117,14 @@ if ($seg != false and $seg == 'download') {
             if (is_file($download_dir_get_latest)) {
                 $download_dir_get1 = $download_dir_get_latest;
             }
-        } 
+        }
 
         if ($seg_latest != false and ($seg_latest == 'latest-module')) {
             $seg_latest_m = url_segment();
 
-            $what = array_slice($seg_latest_m, 4);
+            $what = array_slice($seg_latest_m, 3, 4);
+
+
             $seg_latest_m_s = implode(DS, $what);
             $seg_latest_m_s1 = implode('-', $what);
 
@@ -765,7 +767,7 @@ function Zip($source, $destination) {
             $file = normalize_path($file, false);
 
             // Ignore "." and ".." folders
-            if (in_array(substr($file, strrpos($file, DS) + 1), array('.', '..', '.git', '.gitignore')))
+            if (in_array(substr($file, strrpos($file, DS) + 1), array('.', '..', '.git', '.gitignore', '_notes')))
                 continue;
 
             $file = realpath($file);
