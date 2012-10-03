@@ -99,7 +99,7 @@ $('#update_log_<? print $rand ?>').append(value);
   <? endforeach; ?>
   <? endif; ?>
   <? if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
-  <h4>New elements  updates are available</h4>
+  <h4>New layouts updates are available</h4>
   <? foreach($iudates["elements"] as $k => $item): ?>
   <p>
     <label>

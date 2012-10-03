@@ -17,26 +17,13 @@ mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-
 
 
 
-mw.rendAborder = function(type){
-
-var el = $(".element-current");
-
-  switch (type) {
-    case "none":
-        el.css("border", "none");
-    break;
-
-    case "all":
-
-    break;
-
-    default:
-
-  }
-}
 
 
-(function($) {
+
+
+
+
+
 
 
 canvasCTRL_draw = function(context, type, color, x, y, w, h){
@@ -172,7 +159,7 @@ $.fn.canvasCTRL = function(options){
   return $(canvas);
 }
 
-})(jQuery);
+
 
 
 mw.css3fx = {
@@ -256,6 +243,7 @@ mw.config_element_styles=function(){
 
 
 
+
 mw.setbg = function(url){
   $(".element-current").css("backgroundImage", "url("+url+")");
 }
@@ -321,6 +309,15 @@ init_square_maps = function(){
 }
 
 
+
+mw.parseCSS = function(element){
+
+    this.border = function(){
+
+    }
+
+    return this;
+}
 
 
 $(document).ready(function(){
@@ -423,6 +420,20 @@ $(window).bind("onBodyClick", function(){
       el.val(val);
       var name = _el.name;
       $("#"+name).slider("value", val);
+    });
+
+
+    $(".ts_border_position_selector a.border-style").click(function(){
+      if(!$(this).hasClass("active")){
+         $(".ts_border_position_selector a.border-style.active").removeClass("active");
+         $(this).addClass("active");
+         var which = $(this).dataset("val");
+         mw.border_which = which;
+      }
+    });
+
+    $(".dd_border_selector").change(function(){
+      $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
 
 });

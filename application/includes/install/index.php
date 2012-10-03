@@ -77,20 +77,27 @@ if (isset($to_save)) {
  
 
 
-         file_put_contents($cfg, $save_config);
+       /*  file_put_contents($cfg, $save_config);
         clearcache();
 		clearstatcache();
-		sleep(2);
+		sleep(2);*/
 		
 		
 		if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] == 'no') {
-			
+			$temp_db = array(
+        //'dsn' => 'mysql:host=localhost;port=3306;dbname=mw_install',
+        // 'dsn' => 'sqlite:db/default.db',
+        'host' => $to_save['DB_HOST'],
+        'dbname' => $to_save['dbname'],
+        'user' => $to_save['DB_USER'],
+        'pass' => $to_save['DB_PASS']
+    );
 			
 			//var_dump(MW_IS_INSTALLED);
 			
 			$qs = "SELECT '' AS empty_col";
 			//var_dump($qs);
-			$qz = db_query($qs);
+			$qz = db_query($qs,  $cache_id = false, $cache_group = false, $only_query = false, $temp_db );
 			if(isset($qz['error'])){
 				var_dump($qz); 
 			//	var_dump('asdasdasdasd'); 
@@ -118,8 +125,8 @@ $sql_query = split_sql_file($sql_query, ';');
 $i=1;
 foreach($sql_query as $sql){ 
 	//$sql = str_ireplace('{dbname}', $to_save['dbname'], $sql); 
- $qz = db_q($sql);
-  var_dump($qz);  
+ $qz = db_q($sql, $temp_db);
+ // var_dump($qz);  
 }
 			}
 			  $save_config  =  $save_config_orig;
@@ -131,6 +138,7 @@ foreach($sql_query as $sql){
 			
 			          file_put_contents($cfg, $save_config);
 clearstatcache();
+clearcache();
 			 
 			 
 		  print ('done');

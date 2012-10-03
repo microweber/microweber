@@ -147,6 +147,20 @@
 	top: 142px;
 	overflow: hidden;
 }
+
+.colorpicker_transparent{
+	position: absolute;
+	width: 22px;
+	height: 22px;
+	background: url(../images/transparent.jpg) no-repeat;
+	left: 322px;
+	top: 142px;
+    cursor: pointer;
+	overflow: hidden;
+    box-shadow: 0 0 3px #222222 inset;
+    opacity: 0.65;
+}
+
 .colorpicker_focus {
 	background-position: center;
 }

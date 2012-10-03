@@ -125,12 +125,12 @@ function db_query_log($q) {
     }
 }
 
-function db_q($q) {
+function db_q($q, $connection_settigns = false) {
 
     if (MW_IS_INSTALLED == false) {
         //    return false;
     }
-    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true);
+    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $connection_settigns);
 //    $db = c('db');
 //
 //    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
@@ -140,7 +140,7 @@ function db_q($q) {
     return $q;
 }
 
-function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false) {
+function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settigns = false) {
     if (trim($q) == '') {
         return false;
     }
@@ -166,9 +166,13 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     }
     //d($q);
     db_query_log($q);
+    if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
+        $db = $connection_settigns;
+    } else {
+        $db = c('db');
+    }
 
-    $db = c('db');
-	//var_dump($db);
+    //var_dump($db);
 //$is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;
     if ($is_mysqli != false) {
@@ -362,6 +366,8 @@ function get($params) {
     $cache_group = false;
     $debug = false;
     $getone = false;
+    $no_cahce = false;
+
     if (is_string($params)) {
         $params = parse_str($params, $params2);
         $params = $params2;
@@ -387,7 +393,14 @@ function get($params) {
         }
 
         if ($k == 'cache_group') {
-            $cache_group = $v;
+            if ($no_cahce == false) {
+                $cache_group = $v;
+            }
+        }
+
+        if ($k == 'no_cache') {
+            $cache_group = false;
+            $no_cahce = true;
         }
 
         if ($k == 'one') {
@@ -916,7 +929,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     }
 
     $criteria = map_array_to_database_table($table, $criteria);
-
+    $criteria = add_slashes_to_array($criteria);
     if ($only_those_fields == false) {
 
         $q = "SELECT * FROM $table ";
@@ -1298,6 +1311,20 @@ function map_array_to_database_table($table, $array) {
         return false;
     }
     return $array_to_return;
+}
+
+function db_table_exist($table) {
+    // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
+    $sql_check = "DESC {$table};";
+
+
+    $q = db_query($sql_check);
+    if (isset($q['error'])) {
+        return false;
+    } else {
+        return $q;
+    }
+    // var_dump($q);
 }
 
 /**
@@ -2185,6 +2212,32 @@ function sql_remove_comments($output) {
 
     unset($lines);
     return $output;
+}
+
+function import_sql_from_file($full_path_to_file) {
+
+
+    $dbms_schema = $full_path_to_file;
+
+
+    if (is_file($dbms_schema)) {
+        $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
+        $sql_query = str_ireplace('{TABLE_PREFIX}', TABLE_PREFIX, $sql_query);
+        $sql_query = sql_remove_remarks($sql_query);
+
+        $sql_query = sql_remove_comments($sql_query);
+        $sql_query = split_sql_file($sql_query, ';');
+
+
+        $i = 1;
+        foreach ($sql_query as $sql) {
+            d($sql);
+            $qz = db_q($sql);
+        }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //

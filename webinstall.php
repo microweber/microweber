@@ -35,7 +35,7 @@ if (isset($_REQUEST['action'])) {
 switch ($do) {
     case 'download':
         $dir = dirname(__FILE__);
-        $url = 'http://update.microweber.com/update.php/download/latest';
+        $url = 'http://update.microweber.us/update.php/download/latest';
 
         $fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
         getfile($url, $fn);
@@ -163,8 +163,7 @@ function site_url($add_string = false) {
  *
  * This class is based on a library I found at PHPClasses:
  * http://phpclasses.org/package/2495-PHP-Pack-and-unpack-files-packed-in-ZIP-archives.html
- *
- * The original library is a little rough around the edges so I
+ * so I
  * refactored it and added several additional methods -- Phil Sturgeon
  *
  * This class requires extension ZLib Enabled.

@@ -91,8 +91,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 }
             }
         }
-       // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-
+        // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
 
@@ -185,8 +184,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
             if ($field_content != false and $field_content != '') {
                 //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-
-               // d($field_content);
+                // d($field_content);
                 $field_content = parse_micrwober_tags($field_content);
 
                 pq($elem)->html($field_content);
@@ -371,7 +369,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                             if ($nn == 'data-no-wrap') {
                                 $mod_no_wrapper = true;
-                              //  $attrs ['data-no-wrap'] = $module_name;
+                                //  $attrs ['data-no-wrap'] = $module_name;
                                 unset($attrs [$nn]);
                             }
 
@@ -464,7 +462,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     }
     $layout = str_replace('{SITE_URL}', site_url(), $layout);
     $layout = str_replace('{SITEURL}', site_url(), $layout);
-     $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+    $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
 
 
@@ -748,9 +746,30 @@ function utf162utf8($utf16) {
     return '';
 }
 
-function modify_html($layout, $selector, $content = "") {
+function modify_html($layout, $preg_match_all, $content = "", $action = 'append') {
 
-    $layout = str_replace($selector, $selector . $content, $layout);
+
+
+    $stringa = $layout;
+
+    $m = preg_match_all($preg_match_all, $stringa, $match);
+
+    if ($m) {
+        $links = $match[0];
+        for ($j = 0; $j < $m; $j++) {
+            if (trim($action) == 'append') {
+                $stringa = str_replace($links[$j], $links[$j] . $content, $stringa);
+            } else {
+                $stringa = str_replace($links[$j], $content . $links[$j], $stringa);
+            }
+        }
+    }
+
+    // echo $stringa;
+
+    $layout = $stringa;
+
+    //$layout = str_replace($selector, $selector . $content, $layout);
 
 
     return $layout;

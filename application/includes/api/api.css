@@ -704,12 +704,42 @@ li.module-item.ui-draggable-dragging{
   border: 2px soid #429BD5;
 }
 
-.free-element img,
-.free-element div,
-.free-element p,
-.free-element ul,
-.free-element ol{
+.mw_image_txt{
+  position: relative;
+  overflow: hidden;
+}
+
+.mw_free_element{
+  position: relative;
+  overflow: hidden;
+}
+
+.mw_free_element img,
+.mw_free_element div,
+.mw_free_element h1,
+.mw_free_element h2,
+.mw_free_element h3,
+.mw_free_element h4,
+.mw_free_element h5,
+.mw_free_element h6,
+.mw_free_element p,
+.mw_free_element ul,
+.mw_free_element ol{
   cursor: move;
+  position: absolute;
+}
+.mw_image_txt div,
+.mw_image_txt h1,
+.mw_image_txt h2,
+.mw_image_txt h3,
+.mw_image_txt h4,
+.mw_image_txt h5,
+.mw_image_txt h6,
+.mw_image_txt p,
+.mw_image_txt ul,
+.mw_image_txt ol{
+  cursor: move;
+  position: absolute;
 }
 
 
@@ -730,6 +760,19 @@ li.module-item.ui-draggable-dragging{
   margin-top: 1px;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.mw_alert_holder{
+  max-height: 115px;
+  overflow: hidden;
+}
+
+
+  [draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 
