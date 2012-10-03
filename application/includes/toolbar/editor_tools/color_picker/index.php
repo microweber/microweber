@@ -15,6 +15,9 @@
             flat: true,
             onChange:function(hsb, hex){
               parent.mw.wysiwyg[command](hex);
+            },
+            onSubmit:function(hsb, hex){
+              parent.mw.wysiwyg[command]("transparent");
             }
           });
         });

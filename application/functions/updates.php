@@ -15,10 +15,13 @@ function mw_install_new_from_remote($updates) {
 
         if ($u['action'] == 'install') {
             $update = array();
-            $update[$u['type']][] = $u['url'];
-            $new_updates = $update;
 
-            mw_apply_updates($new_updates);
+            if (isset($u['name'])) {
+                $update[$u['type']][$u['name']] = $u['url'];
+                $new_updates = $update;
+
+                mw_apply_updates($new_updates);
+            }
         }
     }
 }
@@ -72,7 +75,7 @@ function mw_apply_updates($updates) {
                     $loc_fn_d1 = url_download($value, false, $loc_fn_d);
                 }
                 if (is_file($loc_fn_d)) {
-                    $to_be_unzipped[$what_nex][] = $loc_fn_d;
+                    $to_be_unzipped[$what_nex][$key] = $loc_fn_d;
                 }
             }
         }
@@ -101,17 +104,21 @@ function mw_apply_updates($updates) {
                     mkdir_recursive($unzip_loc);
                 }
 
-                foreach ($value as $value2) {
+                foreach ($value as $key2 => $value2) {
                     $value2 = normalize_path($value2, 0);
 
 
                     $unzip = new Unzip();
                     $a = $unzip->extract($value2, $unzip_loc);
-                    //  $unzip->close();
+                    $unzip->close();
                     $unzipped = array_merge($a, $unzipped);
-                    d($unzipped);
+                    //  d($unzipped);
                     //  d($unzip_loc);
                     // d($value2);
+
+                    if ($key == 'modules') {
+                        install_module($key2);
+                    }
                 }
             }
         }
@@ -171,7 +178,7 @@ function mw_check_for_update() {
                     $cache = file_put_contents($lic_file, $content);
                     $lic_modified = true;
                 } catch (Exception $e) {
-
+                    
                 }
 
 
@@ -184,7 +191,7 @@ function mw_check_for_update() {
         if ($lic_modified == true) {
             cache_clean_group('updates');
             cache_clean_group('modules');
-             cache_clean_group('elements');
+            cache_clean_group('elements');
         }
     endif;
 

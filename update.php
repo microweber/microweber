@@ -20,7 +20,7 @@ if (!defined('MW_WHM_SERV_PASS')) {
 }
 $downloads_dir = ROOTPATH . DS . 'download' . DS;
 
-$seg = url_segment(2);
+$seg = url_segment(1);
 
 set_time_limit(0);
 
@@ -54,7 +54,8 @@ if ($seg != false and $seg == 'download') {
 
 
 
-        $seg_latest = url_segment(3);
+        $seg_latest = url_segment(2);
+        //  d($seg_latest);
         if ($seg_latest != false and ($seg_latest == 'latest' or $seg_latest == 'latest.zip')) {
             $download_dir_get_latest = $download_dir_get0 . 'microweber-' . MW_VERSION . '.zip';
             if (!is_file($download_dir_get_latest)) {
@@ -121,7 +122,9 @@ if ($seg != false and $seg == 'download') {
         if ($seg_latest != false and ($seg_latest == 'latest-module')) {
             $seg_latest_m = url_segment();
 
-            $what = array_slice($seg_latest_m, 4);
+            $what = array_slice($seg_latest_m, 3, 4);
+
+
             $seg_latest_m_s = implode(DS, $what);
             $seg_latest_m_s1 = implode('-', $what);
 
@@ -136,10 +139,6 @@ if ($seg != false and $seg == 'download') {
             $version_zip = $downloads_dir_md . $seg_latest_m_s1 . '-latest.zip';
             if (!is_file($version_zip)) {
                 // d($version_zip);
-
-
-
-
                 $md_orig = MODULES_DIR . $seg_latest_m_s;
                 $md_orig = normalize_path($md_orig, false);
                 $md_orig_f = $md_orig . '.php';
@@ -496,7 +495,7 @@ if ($seg != false and $seg == 'download') {
     //  $shake = whm_mw_command('action=handshake');
     $shake = array();
     $shake['shake'] = true;
-    if (isset($shake['shake'])) {
+    if (isset($req['modules']) and is_array($req['modules'])) {
         $shake = $shake['shake'];
         if (isset($_SERVER['HTTP_REFERER'])) {
             extract(parse_url($_SERVER['HTTP_REFERER']));
@@ -540,15 +539,12 @@ if ($seg != false and $seg == 'download') {
 
         exit(print(json_encode($data)));
     } else {
-        $data = array();
-        $data["error"] = "cant_connect";
+        // $data = array();
+        // $data["error"] = "cant_connect";
 
         exit(print(json_encode($data)));
     }
 }
-//d($data);
-?>
-<?
 
 /**
  * whm_get_user
@@ -771,7 +767,7 @@ function Zip($source, $destination) {
             $file = normalize_path($file, false);
 
             // Ignore "." and ".." folders
-            if (in_array(substr($file, strrpos($file, DS) + 1), array('.', '..', '.git', '.gitignore')))
+            if (in_array(substr($file, strrpos($file, DS) + 1), array('.', '..', '.git', '.gitignore', '_notes')))
                 continue;
 
             $file = realpath($file);
@@ -850,7 +846,7 @@ class Unzip {
      * @return    none
      */
     function __construct() {
-
+        
     }
 
     // --------------------------------------------------------------------

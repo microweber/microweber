@@ -17,7 +17,7 @@ $mod_obj_str = 'modules';
 										// 
 }     else {
 
- $modules = scan_for_get_modules_from_db();
+ $modules = get_modules_from_db();
  
 }
 

@@ -2,7 +2,8 @@ modules admin
 <?
  
 $mod_params = array();
-//$mod_params['debug']  = 1;
+$mod_params['ui']  = 'any';
+//$mod_params['debug']  = 'any';
 if(isset($params['reload_modules'])){
 	$s = 'skip_cache=1';
 	if(isset($params['cleanup_db'])){
@@ -17,10 +18,10 @@ if(isset($params['category'])){
 }
 
 
- $mods = scan_for_get_modules_from_db($mod_params); 
+ $mods = get_modules_from_db($mod_params); 
  if( $mods == false){
 	  $mods = modules_list('skip_cache=1'); 
-	  $mods = scan_for_get_modules_from_db($mod_params); 
+	  $mods = get_modules_from_db($mod_params); 
  }
 //
 
@@ -29,8 +30,9 @@ if(isset($params['category'])){
 <ul>
   <? foreach($mods as $k=>$item): ?>
   <li>
+   
   <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
-    <? // d($item); ?>
+    
   </li>
   <? endforeach; ?>
 </ul>
