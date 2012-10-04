@@ -911,9 +911,12 @@ height: 13px;
   border-bottom:1px solid #A09F9F;
 }
 
-.ts_main_li:hover .ts_action{
+.ts_main_li:hover > .ts_action{
   visibility: visible;
+}
 
+.ts_action_item:hover > .ts_action{
+  visibility: visible;
 }
 
 .ts_action_item{
@@ -941,6 +944,12 @@ height: 13px;
 
 li .ts_action_item:last-child{
   background: none
+}
+
+
+
+.ts_action_item:hover  .ts_sub_tool{
+  visibility: visible;
 }
 
 .ts_action_item:after{
@@ -1064,6 +1073,8 @@ li .ts_action_item:last-child{
 .image_free_text:hover .mw_free_handle{
   visibility: visible;
 }
+
+
 
 
 

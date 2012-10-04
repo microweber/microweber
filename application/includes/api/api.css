@@ -252,7 +252,7 @@ body.mw-live-edit{
     border-radius: 3px;
 }
 
-.mw_dropdown_type_wysiwyg:hover{
+.mw_dropdown_type_wysiwyg:hover, .mw_dropdown_type_wysiwyg.hovered{
   border-color:#D2D2D2;
 background-image: linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
 background-image: -o-linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
@@ -542,6 +542,14 @@ margin-right: 6px;
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
+.ed_nobg{
+  background-color: transparent;
+  border-color: transparent;
+}
+.ed_nobg:hover{
+  background-color: #F5F5F5;
+  border-color: #C7C7C7;
+}
 
 .ed_item span{
   display: block;
@@ -565,6 +573,9 @@ margin-right: 6px;
 }
 .fx_canvas_slider canvas{
   position: absolute;
+}
+.canvas-slider:focus{
+    box-shadow:inset 0 0 6px #B4B4B4;
 }
 
 .mw-free-element > .ui-resizable-handle{

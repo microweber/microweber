@@ -346,12 +346,12 @@
                           </div>
                       </div>
                       <div class="ts_action_item">
-                          <div class="ts_action_centerer"><a href="javascript:;" class="ed_btn left" onclick="mw.wysiwyg.image('#background_image');">Background Image</a></div>
+                          <div class="ts_action_centerer"><a href="javascript:;" class="ed_btn left" onclick="mw.wysiwyg.request_bg_image();">Background Image</a></div>
                       </div>
                       <div class="ts_action_item">
                           <div class="ts_action_centerer">
                               <span class="ed_label left">Repeat</span>
-                              <div class="mw_dropdown mw_dropdown_type_wysiwyg" style="margin-left: -5px;margin-top: -3px;width: auto;" id="align_element" title="Background Repeat" data-value="none" onchange="$('.element-current').css('backgroundRepeat', $(this).getDropdownValue())">
+                              <div class="mw_dropdown mw_dropdown_type_wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="align_element" title="Background Repeat" data-value="none" onchange="$('.element-current').css('backgroundRepeat', $(this).getDropdownValue())">
                                   <span class="mw_dropdown_val_holder">
                                       <span class="dd_rte_arr"></span>
                                       <span class="mw_dropdown_val" style="width: auto">No-Repeat</span>
@@ -369,7 +369,7 @@
                        </div>
                        <div class="ts_action_item">
                             <div class="ts_action_centerer">
-                                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" style="width: auto;margin-left: -6px;" id="bg_pos_selector" onchange="$('.element-current').css('backgroundPosition', $(this).getDropdownValue())">
+                                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="bg_pos_selector" onchange="$('.element-current').css('backgroundPosition', $(this).getDropdownValue())">
                                   <span class="mw_dropdown_val_holder">
                                     <span class="dd_rte_arr"></span>
                                     <span class="mw_dropdown_val" style="width: auto;">Background Position</span>
@@ -411,19 +411,78 @@
             </li>
             <li class="ts_main_li">
                 <a class="ts_main_a dd_design_fx" href="javascript:;">Effects</a>
+                <div class="ts_action ts_fx_action" style="width: 200px;">
+
+
+                <div class="ts_action_item"><span class="ed_label">Drop Shadow</span>
+                    <div class="ts_action" style="width: 260px;">
+                          <div class="ts_action_item">
+                                <span class="ed_label left" style="margin-top: 14px;">Position</span><div id="ed_shadow" class="fx_canvas_slider left" style="width: 40px;height: 40px;"></div>
+
+                                <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
+
+                                <span class="ed_label left" style="margin-top: 14px;">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 9px;background-image: none;margin-top: 17px"></div>
+
+                                <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
+
+                                <span class="ed_item ed_color_pick ed_shadow_color left" style="margin-top: 9px;" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
+
+                          </div>
+                    </div>
+                </div>
+                <div class="ts_action_item">
+
+                    <span class="ed_label">Opacity</span>
+                    <div class="ts_action" style="width: 260px;">
+                          <div class="ts_action_item">
+                                <div class="ed_slider opacity-slider es_item left" id="opacity_slider" data-value="100" data-type="opacity"></div>
+
+                                <span class="slider_val"><input type="text" value="" name="opacity_slider"><span class="slider_val_label">%</span></span>
+                          </div>
+                    </div>
+                </div>
+                <div class="ts_action_item"><span class="ed_label">Radius</span>
+                <div class="ts_action" style="width: 260px;">
+                          <div class="ts_action_item">
+                              <div class="ed_slider radius-slider es_item left" id="radius_slider" data-type="border-radius"></div>
+                              <span class="slider_val"><input type="text" value="" name="radius_slider"><span class="slider_val_label">px</span></span>
+                          </div>
+                    </div>
+
+
+                </div>
+                <div class="ts_action_item"><span class="ed_label">Rotation</span>
+                <div class="ts_action" style="width: 260px;">
+                      <div class="ts_action_item">
+                        <div class="ed_slider rotate-slider es_item" id="rotate_slider"></div>
+                      </div>
+                  </div>
+                </div>
+                <div class="ts_action_item"><span class="ed_label">Pespective</span>
+                  <div class="ts_action" style="width: 260px;">
+                      <div class="ts_action_item">
+                        <div class="ed_slider perspective-slider left" data-min="-100" data-max="100" data-value="0" data-custom="perspective" id="perspective_slider"></div>
+                        <span class="slider_val"><input type="text" value="" name="perspective_slider"><span class="slider_val_label">%</span></span>
+                      </div>
+                  </div>
+                </div>
+
+
+            </div>
+
             </li>
             <li class="ts_main_li">
                 <a class="ts_main_a dd_design_img" href="javascript:;">Image</a>
-                <div class="ts_action ts_image_action" style="width: 200px;visibility: visible">
+                <div class="ts_action ts_image_action" style="width: 200px;">
                     <div class="ts_action_item">
                         <div class="ts_action_centerer">
-                            <span class="ed_item ed_item_image_text left" onclick="mw.image.enterText();">
+                            <span class="ed_item ed_nobg ed_item_image_text left" onclick="mw.image.enterText();">
                                 <span></span>
                             </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_item_image_rotate left" onclick="mw.image.rotate();">
+                            <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();">
                                 <span></span>
                             </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_item_image_link left" onclick="mw.image.linkIt();">
+                            <span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();">
                                 <span></span>
                             </span>
                         </div>
@@ -467,52 +526,7 @@
 
           <span class="mw_dlm mw_dlm_style"></span>
 
-          <div class="ed_style_all" style="padding-top: 0">
 
-
-              <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fx" id="fx_element" title="Effects" data-value="">
-                  <span class="mw_dropdown_val_holder">
-                      <span class="dd_rte_arr"></span>
-                      <span class="mw_dropdown_val">F<b>x</b></span>
-                  </span>
-                <div class="mw_dropdown_fields">
-                  <ul>
-                    <li value="-1"><a href="javascript:;">Choose F<b>x</b></a></li>
-                    <li value="shadow"><a href="javascript:;">Drop Shadow</a></li>
-                    <li value="perspective"><a href="javascript:;">Perspective</a></li>
-                    <li value="opacity"><a href="javascript:;">Opacity</a></li>
-                    <li value="radius"><a href="javascript:;">Radius</a></li>
-                    <li value="sepia"><a href="javascript:;" onclick="$('.element-current').addClass('sepia')">Sepia</a></li>
-                    <li value="grayscale"><a href="javascript:;" onclick="$('.element-current').addClass('grayscale')">Grayscale</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div id="element_effx" class="clear" style="padding: 0px 0 0 13px;">
-                  <div class="fx" id="fx_shadow">
-
-                    <span class="ed_label left">Position</span><div id="ed_shadow" class="fx_canvas_slider left" style="width: 40px;height: 40px;"></div>
-
-                    <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
-
-                    <span class="ed_label left">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 9px;background-image: none"></div>
-
-                    <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
-
-                    <span class="ed_item ed_color_pick ed_shadow_color left" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
-
-                  </div>
-                  <div class="fx" id="fx_perspective">
-                       <div class="ed_slider perspective-slider"></div>
-                  </div>
-
-               <div class="fx" id="fx_opacity">
-                  <div class="ed_slider opacity-slider es_item" data-type="opacity"></div>
-               </div>
-               <div class="fx" id="fx_radius">
-                  <div class="ed_slider radius-slider es_item" data-type="border-radius"></div>
-               </div>
-              </div>
-            </div>
 
             <span class="mw_dlm mw_dlm_style"></span>
 

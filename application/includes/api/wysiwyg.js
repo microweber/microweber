@@ -403,6 +403,17 @@ mw.wysiwyg = {
           }
         }
     },
+    request_bg_image:function(){
+        mw.tools.modal.frame({
+          url:"rte_image_editor#set_bg_image",
+          title:"Upload Picture",
+          name:"mw_rte_image",
+          width:430
+        });
+    },
+    set_bg_image:function(url){
+      $(".element-current").css("backgroundImage", "url(" + url + ")");
+    },
     insert_html:function(html){
       if(!document.selection){
          mw.wysiwyg.execCommand('inserthtml', false, html);

@@ -71,7 +71,7 @@ $("#dd_elements_search").bind("keyup paste", function(event){
        return false;
 
 });
-
+       
 
 });
 
@@ -430,7 +430,13 @@ mw.toolbar = {
 
 
 $(window).load(function(){
+
+
+
+
     mw.toolbar.module_icons();
+
+
 
     $(".element").keyup(function(event){
         editablePurify(this);
@@ -610,6 +616,8 @@ mw.recommend = {
 
   }
 }
+
+
 
 
 $(window).resize(function(){

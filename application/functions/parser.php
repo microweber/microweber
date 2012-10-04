@@ -750,24 +750,24 @@ function modify_html($layout, $preg_match_all, $content = "", $action = 'append'
 
 
 
-    $stringa = $layout;
+    $string_html = $layout;
 
-    $m = preg_match_all($preg_match_all, $stringa, $match);
+    $m = preg_match_all($preg_match_all, $string_html, $match);
 
     if ($m) {
-        $links = $match[0];
+        $match_html = $match[0];
         for ($j = 0; $j < $m; $j++) {
             if (trim($action) == 'append') {
-                $stringa = str_replace($links[$j], $links[$j] . $content, $stringa);
+                $string_html = str_replace($match_html[$j], $match_html[$j] . $content, $string_html);
             } else {
-                $stringa = str_replace($links[$j], $content . $links[$j], $stringa);
+                $string_html = str_replace($match_html[$j], $content . $match_html[$j], $string_html);
             }
         }
     }
 
-    // echo $stringa;
+    // echo $string_html;
 
-    $layout = $stringa;
+    $layout = $string_html;
 
     //$layout = str_replace($selector, $selector . $content, $layout);
 
@@ -775,7 +775,7 @@ function modify_html($layout, $preg_match_all, $content = "", $action = 'append'
     return $layout;
 }
 
-function modify_html_slow($layout, $selector, $action = 'append', $content = "") {
+function modify_html_slow($layout, $selector, $content = "", $action = 'append') {
 
 
 
