@@ -32,6 +32,14 @@
     clear: both !important;
     max-width:100%;
 }
+.element, .column, .mw_item{
+ -ms-transform-origin:50% 50%;
+ -webkit-transform-origin:50% 50%;
+ -moz-transform-origin:50% 50%;
+ -o-transform-origin:50% 50%;
+ transform-origin:50% 50%;
+}
+
 .element-image {
     display: inline-block;
     clear: none;

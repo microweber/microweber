@@ -12,8 +12,8 @@
         parent.mw.image.currentResizing.attr("src", url);
         parent.mw.tools.modal.remove('mw_rte_image');
       }
-      else if(hash=='#background_image'){
-        parent.mw.setbg(url);
+      else if(hash=='#set_bg_image'){
+        parent.mw.wysiwyg.set_bg_image(url);
         parent.mw.tools.modal.remove('mw_rte_image');
       }
       else{
