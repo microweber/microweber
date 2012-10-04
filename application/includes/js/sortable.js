@@ -970,7 +970,7 @@ mw.drag = {
 
 	/**
 	 * Scans for new dropped modules and loads them
-	 * 
+	 *
 	 * @example mw.drag.load_new_modules()
 	 * @return void
 	 */
@@ -1019,8 +1019,8 @@ mw.drag = {
 
     mw.tools.modal.init({
 	html:"",
-	width:600, 
-	height:450, 
+	width:600,
+	height:450,
 	callback:function() {
       $(this.container).load(mw.settings.site_url + "api/module", data1);
       $(this.container).attr('data-settings-for-module', curr.id);
@@ -1047,12 +1047,12 @@ mw.drag = {
 		});
 
 	},
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
   /**
    * Deletes element by id or selector
    *
@@ -1132,8 +1132,8 @@ mw.drag = {
 			}
         }
 	},
-	
-	
+
+
   /**
    * Saves the page
    *
@@ -1561,6 +1561,10 @@ mw.drop_regions = {
     }
   }
 }
+
+
+
+
 
 
 

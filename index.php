@@ -1,9 +1,8 @@
 <?php
 
 /* if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
-  //   return false; // serve the requested resource as-is.
-  } */
-
+ //   return false; // serve the requested resource as-is.
+ } */
 
 // Setup system and load controller
 define('T', microtime());
@@ -15,21 +14,18 @@ $c_file = APPPATH . 'config.php';
 $go_to_install = false;
 if (!is_file($c_file)) {
 
-    $default_config = INCLUDES_PATH . DS . 'install' . DS . 'config.base.php';
-    copy($default_config, $c_file);
-    $go_to_install = true;
+	$default_config = INCLUDES_PATH . DS . 'install' . DS . 'config.base.php';
+	copy($default_config, $c_file);
+	$go_to_install = true;
 }
-
 
 require (APPPATH . 'functions.php');
 $installed = c('installed');
 if (strval($installed) != 'yes') {
-    define('MW_IS_INSTALLED', false);
+	define('MW_IS_INSTALLED', false);
 } else {
-    define('MW_IS_INSTALLED', true);
+	define('MW_IS_INSTALLED', true);
 }
-
-
 
 // require ('appication/functions.php');
 
@@ -38,12 +34,12 @@ require (APPPATH . 'functions/mw_functions.php');
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
-    $v = new View(ADMIN_VIEWS_PATH . 'error.php');
-    $v->e = $e;
-    $v->f = $f;
-    $v->l = $l;
-    // _log($e -> getMessage() . ' ' . $e -> getFile());
-    die($v);
+	$v = new View(ADMIN_VIEWS_PATH . 'error.php');
+	$v -> e = $e;
+	$v -> f = $f;
+	$v -> l = $l;
+	// _log($e -> getMessage() . ' ' . $e -> getFile());
+	die($v);
 }
 
 //$m = url(0) ? : 'index';
@@ -54,71 +50,63 @@ function error($e, $f = false, $l = false) {
  * 'index'; $c = new api (); } else { }
  */
 
-
 $default_timezone = c('default_timezone');
 if ($default_timezone == false) {
-    date_default_timezone_set('UTC');
+	date_default_timezone_set('UTC');
 } else {
-    date_default_timezone_set($default_timezone);
+	date_default_timezone_set($default_timezone);
 }
-
-
 
 if (!defined('MW_BARE_BONES')) {
 
+	$c = new controller();
 
-    $c = new controller ();
+	if (MW_IS_INSTALLED != true or $go_to_install == true) {
+		$c -> install();
+		exit();
+	}
 
+	$m1 = url_segment(0);
 
-    if (MW_IS_INSTALLED != true or $go_to_install == true) {
-        $c->install();
-        exit();
-    }
+	if ($m1) {
+		$m = $m1;
+	} else {
+		$m = 'index';
+	}
 
+	$admin_url = c('admin_url');
+	if ($m == 'admin' or $m == $admin_url) {
+		if ($admin_url == $m) {
 
-    $m1 = url_segment(0);
- 
-    if ($m1) {
-        $m = $m1;
-    } else {
-        $m = 'index';
-    }
+			if (!defined('IN_ADMIN')) {
+				define('IN_ADMIN', true);
+			}
 
-    $admin_url = c('admin_url');
-    if ($m == 'admin' or $m == $admin_url) {
-        if ($admin_url == $m) {
-            $c->admin();
-            exit();
-        } else {
-            error('No access allowed to admin');
-            exit();
-        }
-    }
+			$c->admin();
+			exit();
+		} else {
+			error('No access allowed to admin');
+			exit();
+		}
+	}
 
-    if ($m == 'api.js') {
-        $m = 'apijs';
-    }
+	if ($m == 'api.js') {
+		$m = 'apijs';
+	}
 
+	if (method_exists($c, $m)) {
 
-    
+		$c -> $m();
+	} else {
 
-    if (method_exists($c, $m)) {
- 
-
-        $c->$m();
-    } else {
-        
-        
-        $c->index();
-        exit();
-    }
-    exit('No method');
+		$c -> index();
+		exit();
+	}
+	exit('No method');
 }
 
-
-
 /*call_user_func_array(array(
-    $c,
-    $m
-        ), array_slice(url(), 2));*/
+ $c,
+ $m
+ ), array_slice(url(), 2));*/
 //$c -> render();

@@ -1,5 +1,10 @@
 
 mw.require("url.js");
+mw.require("css_parser.js");
+
+
+
+
 
 
 mw.current_element_styles = {}
@@ -13,16 +18,28 @@ mw.border_which = 'border';
 var t = mwd.body.style;
 
 
-mw.CSSPrefix = t.perspective!==undefined?"": t.MozPerspective!==undefined?"-moz-": t.WebkitPerspective!==undefined?"-webkit-": t.OPerspective!==undefined?"-o-":"-ms-";
 
 
 
+  mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'MS'];
 
+  mw._CSSPrefixes = ['-moz-', '-webki-t', '-o-', '-ms-'];
 
+  var _Prefixtest = document.body.style;
 
-
-
-
+  mw.JSPrefix = function(property){
+    if(_Prefixtest[property]!==undefined){
+      return property;
+    }
+    else{
+       var property = property.charAt(0).toUpperCase() + property.slice(1);
+       for(var i=0;i<mw._JSPrefixes.length;i++){
+         if(_Prefixtest[mw._JSPrefixes[i]+property] !==undefined){
+            return mw._JSPrefixes[i]+property;
+         }
+       }
+    }
+  }
 
 
 
@@ -87,18 +104,19 @@ $.fn.canvasCTRL = function(options){
     canvasCTRL_draw(context, 'arc', '#444444', 5, 5);
   }
 
-
-
-
   canvas.x=w/2;
   canvas.y=h/2;
   canvas.isDrag = false;
   canvas.onmousedown = function(){
     canvas.isDrag = true;
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   canvas.onmousemove = function(event){
     if(canvas.isDrag){
+      event.stopPropagation();
+      event.preventDefault();
         var off = $(canvas).offset();
 
         var coords =  canvasCTRL_rendXY(w,h,event,isX,isY, off);
@@ -164,12 +182,10 @@ $.fn.canvasCTRL = function(options){
 
 mw.css3fx = {
   perspective:function(el,a,b){
-    el.style.WebkitTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
-    el.style.MozTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
-    el.style.OTransform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
-    el.style.transform = "perspective( "+a+"px ) rotateY( "+b+"deg )";
-    $(el).addClass("mwfx");
-
+    if(el){
+      el.style[mw.JSPrefix('transform')] = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+      $(el).addClass("mwfx");
+    }
   },
 
   set_obj:function(element, option, value){
@@ -197,8 +213,7 @@ mw.css3fx = {
       var elem = this;
       var json = mw.css3fx.read(el);
       $.each(json, function(a,b){
-         $(elem).css(mw.CSSPrefix+a, b);
-         mw.log(mw.CSSPrefix+a + " : " + b)
+         $(elem).css(mw.JSPrefix(a), b);
       });
     });
   },
@@ -214,39 +229,13 @@ mw.css3fx = {
     else{return false;}
   }
 }
-/*
-mw.config_element_styles=function(){
-    var q = mw.current_element_styles;
-
-    $.each(Registered_Sliders, function(a,b){
-        var val = q[b];
-        if(val == "") {var val = 0;}
-        var val = parseFloat(val);
-
-
-        if(b=='opacity'){
-           $("#tb_design_holder ."+b+"-slider").slider("option", "value", val*100);
-         }
-         else{
-           $("#tb_design_holder ."+b+"-slider").slider("option", "value", val);
-         }
-    });
-
-
-   $(".square_map_item").removeClass("active");
-   $(".square_map_item_default").addClass("active");
-
-}
-
-*/
 
 
 
 
 
-mw.setbg = function(url){
-  $(".element-current").css("backgroundImage", "url("+url+")");
-}
+
+
 
 
 mw.sliders_settings = function(el){
@@ -265,14 +254,15 @@ mw.sliders_settings = function(el){
     return {
        slide:function(event,ui){
           var val = (ui.value);
-          type=='opacity'?  val = val/100 :'';
-          $(".element-current").css(type, val);
+          var to_set = type=='opacity'? val/100 :val;
+          $(".element-current").css(type, to_set);
           $("input[name='"+this.id+"']").val(val);
        },
        change:function(event,ui){
           var val = (ui.value);
-          type=='opacity'?  val = val/100 :'';
-          $(".element-current").css(type, val);
+          var to_set = type=='opacity'? val/100 :val;
+          $(".element-current").css(type, to_set);
+          $("input[name='"+this.id+"']").val(val);
        },
        create: function(event, ui) {
           $("input[name='"+this.id+"']").val(val);
@@ -322,7 +312,7 @@ mw.parseCSS = function(element){
 
 $(document).ready(function(){
 
-$("#design_sub_nav").draggable();
+//$("#design_sub_nav").draggable();
 
 $(window).bind("onItemClick", function(e, el){
   $(".element-current").removeClass("element-current");
@@ -365,8 +355,13 @@ $(window).bind("onBodyClick", function(){
     $("#fx_"+val).show();
   });
 
+
+  /*
   $(".perspective-slider").slider({
     slide:function(event,ui){
+        mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
+    },
+    change:function(event,ui){
         mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
     },
     stop:function(event,ui){
@@ -375,7 +370,7 @@ $(window).bind("onBodyClick", function(){
     min:-180,
     max:180,
     value:0
-  });
+  });      */
 
 
   var shadow_pos  = $("#ed_shadow").canvasCTRL();
@@ -429,6 +424,9 @@ $(window).bind("onBodyClick", function(){
          $(this).addClass("active");
          var which = $(this).dataset("val");
          mw.border_which = which;
+         if(which=='none'){
+           $('.element-current').css("border", "none");
+         }
       }
     });
 

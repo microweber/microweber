@@ -1,24 +1,70 @@
- <?
+<?
+d($config);
+
+  $rand = uniqid(); ?>
+<script  type="text/javascript">
+$r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
+mw.require($r1);
+
+$r2 = '<? print $config['url_to_module'] ?>morris.min.js';
+mw.require($r2);
+
+ </script>
+<? $v = get_visits(); 
+ //d( $v);
+ ?>
+<script  type="text/javascript">
+$(document).ready(function(){
+	
+ var day_data = [
+ <? if(!empty($v)): ?>
+ <? $i=0; foreach($v as $item) : ?>
+  {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+ <? $i++; endforeach; ?>
+   <? endif; ?>
  
-$module_id = $params['id'];
-$rand = rand();
-?>
-<button onclick="mw_make_new_field('text')" value="mw_make_new_field('text')">mw_make_new_field('text')</button>
-<button onclick="mw_make_new_field('checkbox')" value="mw_make_new_field('checkbox')">mw_make_new_field('checkbox')</button>
-
-<div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
-<script type="text/javascript">
-    function mw_make_new_field($type){
-        $('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $params['id']; ?>/custom_field_type:'+$type);
-
-
-    }
-
-    $(document).ready(function(){
-
-
-        //make_new_field()
-
-    });
+ 
+ 
+  
+];
+Morris.Line({
+  element: 'stats_<? print $rand ?>',
+  data: day_data,
+  xkey: 'period',
+  ykeys: ['total_visits', 'unique_visits'],
+  labels: ['Total visits', 'Unique visits'],
+  /* custom label formatting with `xLabelFormat` */
+  xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
+  /* setting `xLabels` is recommended when using xLabelFormat */
+  xLabels: 'day'
+});
+ 
+   
+});
 </script>
-<module type="custom_fields" view="list" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
+
+<div id="stats_<? print $rand ?>"></div>
+<hr />
+users_online:
+<? $users_online = get_visits('users_online'); print intval($users_online) ?>
+<? $users_last5 = get_visits('last5'); 
+
+  //d($users_online) ?>
+<? if(!empty($users_last5)): ?>
+<table border="1">
+  <tr>
+    <th scope="col">Date</th>
+    <th scope="col">IP</th>
+    <th scope="col">Last page</th>
+    <th scope="col">Page views</th>
+  </tr>
+  <? $i=0; foreach($users_last5 as $item) : ?>
+  <tr>
+    <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
+    <td><? print $item['user_ip'] ?></td>
+    <td><? print $item['last_page'] ?></td>
+    <td><? print $item['view_count'] ?></td>
+  </tr>
+  <? $i++; endforeach; ?>
+</table>
+<? endif; ?>
