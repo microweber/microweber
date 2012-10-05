@@ -331,7 +331,18 @@ mw.drag = {
             target.startedY = target.offsetTop - target.parentNode.offsetTop;
             target.startedX = target.offsetLeft - target.parentNode.offsetLeft;
 
+
+
           }
+          if($(".toolbar_bnav_hover").length==0){
+            $(".ts_main_ul .ts_action").invisible();
+            $(".ts_main_ul .ts_action").css({left:"100%", top:0});
+          }
+          if($(".desc_area_hover").length==0){
+             $(".desc_area").hide();
+          }
+
+
         });
 
         $(window).bind("onElementOver", function(a, element){

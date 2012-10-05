@@ -912,6 +912,10 @@ height: 13px;
   background: url(../img/toolbar.sub_nav_main_a_bg.jpg) right bottom no-repeat;
   position: relative;
 }
+.ts_main_li.hovered{
+  z-index: 2;
+}
+
 .toolbar_subnav li:last-child{
   background: none
 }
@@ -929,7 +933,7 @@ height: 13px;
   color:#595959;
 }
 
-.ts_action{
+div.ts_action{
   visibility: hidden;
   position: absolute;
   left: 100%;
@@ -941,13 +945,15 @@ height: 13px;
   border-bottom:1px solid #A09F9F;
 }
 
-.ts_main_li:hover > .ts_action{
+
+
+/*.ts_main_li:hover > .ts_action{
   visibility: visible;
 }
 
 .ts_action_item:hover > .ts_action{
   visibility: visible;
-}
+}*/
 
 .ts_action_item{
   background: url(../img/toolbar.sub_nav_main_a_bg.jpg) right bottom no-repeat;
@@ -1125,6 +1131,45 @@ li .ts_action_item:last-child{
 
 .mw_ex_tools.active{
   background: #f5f5f5 url(../img/fx.radio.png) no-repeat 7px 50%;
+}
+
+.desc_area{
+    background: white;
+    border: 1px solid #bbb;
+    padding: 3px;
+    box-shadow:none;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.desc_area::-webkit-scrollbar {
+  width: 9px;
+  height: 13px;
+}
+.desc_area::-webkit-scrollbar-button:start:decrement,
+.desc_area::-webkit-scrollbar-button:end:increment  {
+  display: none;
+}
+.desc_area::-webkit-scrollbar-track-piece  {
+  background: transparent url(../img/area_scroller_v.png) repeat-y center center ;
+  width:9px;
+  margin: 3px;
+  -webkit-border-radius: 5px;
+}
+.desc_area::-webkit-scrollbar-thumb:vertical {
+  background: transparent url(../img/area_scroller.png) no-repeat center center ;
+}
+
+
+#ts_image_description{
+    left: 160px;
+    position: absolute;
+    top: 4px;
+    width: 126px;
+    height: 63px;
+    display: none;
+    resize:none;
 }
 
 

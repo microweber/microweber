@@ -93,6 +93,8 @@
 
     <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
 
+
+
 <div class="mw" id="live_edit_toolbar_holder">
   <div class="mw" id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
@@ -140,7 +142,7 @@
      <div id="tab_pages" class="mw_toolbar_tab"> 
       <? include(INCLUDES_DIR.'admin'.DS.'content.php') ?>
      </div>
-    
+
     
     <div id="tab_help" class="mw_toolbar_tab">Help <a href="<?php print site_url('admin'); ?>">Admin</a></div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
@@ -173,5 +175,4 @@
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
 
 
-
-           <?php include "design.php"; ?>
+      <?php include "design.php"; ?>

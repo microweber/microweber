@@ -17,6 +17,34 @@ body.mw-live-edit{
 .z-6{z-index:6}
 .z-7{z-index:7}
 
+/* Let's get this party started */
+.desc_area ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+
+}
+
+/* Track */
+.desc_area  ::-webkit-scrollbar-corner {
+background: purple;
+}
+
+/* Handle */
+.desc_area ::-webkit-scrollbar-corner {
+background: red;
+
+}
+.desc_area  ::-webkit-resizer {
+background: blue
+}
+
+
+.desc_area ::-webkit-resizer {
+background: grey
+}
+
+
+
 /* Forms styles */
 
 .fancy_input{

@@ -180,7 +180,7 @@
 
 
             </li>
-            <li class="ts_main_li ">
+            <li class="ts_main_li">
                 <a class="ts_main_a dd_design_bg" href="javascript:;">Background</a>
 
 
@@ -280,7 +280,7 @@
                 <div class="ts_action_item">
 
                     <span class="ed_label">Opacity</span>
-                    <div class="ts_action" style="width: 260px;">
+                    <div class="ts_action" style="width: 120px;">
                           <div class="ts_action_item">
                                 <div class="ed_slider opacity-slider es_item left" id="opacity_slider" data-value="100" data-type="opacity"></div>
 
@@ -289,7 +289,7 @@
                     </div>
                 </div>
                 <div class="ts_action_item"><span class="ed_label">Radius</span>
-                <div class="ts_action" style="width: 260px;">
+                <div class="ts_action" style="width: 120px;">
                           <div class="ts_action_item">
                               <div class="ed_slider radius-slider es_item left" id="radius_slider" data-type="border-radius"></div>
                               <span class="slider_val"><input type="text" value="" name="radius_slider"><span class="slider_val_label">px</span></span>
@@ -299,14 +299,14 @@
 
                 </div>
                 <div class="ts_action_item"><span class="ed_label">Rotation</span>
-                <div class="ts_action" style="width: 260px;">
+                <div class="ts_action" style="width: 120px;">
                       <div class="ts_action_item">
                         <div class="ed_slider rotate-slider es_item" id="rotate_slider"></div>
                       </div>
                   </div>
                 </div>
                 <div class="ts_action_item"><span class="ed_label">Pespective</span>
-                  <div class="ts_action" style="width: 260px;">
+                  <div class="ts_action" style="width: 120px;">
                       <div class="ts_action_item">
                         <div class="ed_slider perspective-slider left" data-min="-100" data-max="100" data-value="0" data-custom="perspective" id="perspective_slider"></div>
                         <span class="slider_val"><input type="text" value="" name="perspective_slider"><span class="slider_val_label">%</span></span>
@@ -336,7 +336,8 @@
                     </div>
                     <div class="ts_action_item">
                         <div class="ts_action_centerer">
-                            <a href="javascript:;" class="ed_btn">Add Description</a>
+                            <a href="javascript:;" class="ed_btn" onclick="mw.image.description.init('#ts_image_description');">Add Description</a>
+                            <textarea class="desc_area" id="ts_image_description"></textarea>
                         </div>
                     </div>
                 </div>

@@ -314,7 +314,12 @@ $(document).ready(function(){
 
 $("#design_bnav").draggable({
   handle:"#design_bnav_handle",
-  containment:'window'
+  containment:'window',
+  scroll:false,
+  start:function(){
+    $(".ts_main_ul .ts_action").invisible();
+    $(".ts_main_ul .ts_action").css({"left":"100%", top:0});
+  }
 });
 
 $(window).bind("onItemClick", function(e, el){
