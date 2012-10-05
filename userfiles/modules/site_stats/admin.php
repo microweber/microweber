@@ -1,5 +1,5 @@
 <?
-d($config);
+ 
 
   $rand = uniqid(); ?>
 <script  type="text/javascript">

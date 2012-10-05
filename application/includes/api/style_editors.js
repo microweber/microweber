@@ -312,7 +312,10 @@ mw.parseCSS = function(element){
 
 $(document).ready(function(){
 
-//$("#design_sub_nav").draggable();
+$("#design_bnav").draggable({
+  handle:"#design_bnav_handle",
+  containment:'window'
+});
 
 $(window).bind("onItemClick", function(e, el){
   $(".element-current").removeClass("element-current");

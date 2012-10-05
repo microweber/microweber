@@ -71,7 +71,15 @@ $("#dd_elements_search").bind("keyup paste", function(event){
        return false;
 
 });
-       
+
+
+$(".mw_ex_tools").click(function(){
+  var rel = $(this).attr("href");
+  $(rel).toggleClass('active');
+  $(this).toggleClass('active');
+  return false;
+});
+
 
 });
 

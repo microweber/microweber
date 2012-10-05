@@ -35,21 +35,10 @@
         });
 
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
 		    $(document).ready(function () {
-		
-		
-		
 
 
  $(".mw_option_field").live("change blur", function () {
@@ -57,16 +46,12 @@
 				
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = $(this).attr('data-reload');
-
 				}
-				
-					
+
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
  refresh_modules11 = '#'+refresh_modules11;
 				}
-				
-				 
 				
 
 				og = $(this).attr('data-module-id');
@@ -118,18 +103,20 @@
     <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
 
 
-
-
-
       <ul id="mw_tabs">
         <li> <a href="#mw_tab_modules"><? _e('Modules'); ?></a> </li>
         <li> <a href="#mw_tab_layouts"><? _e('Layouts'); ?></a> </li>
        
-        <li> <a href="#mw_tab_design"><? _e('Design'); ?></a> </li>
+
          <li> <a href="#tab_pages"><? _e('Pages'); ?></a> </li>
         <li> <a href="#mw_tab_help"><? _e('Help'); ?></a> </li>
        </ul>
+
+       <a href="#design_bnav" class="mw_ex_tools">Design</a>
+
     </div>
+
+
     <div id="tab_modules" class="mw_toolbar_tab">
         <microweber module="admin/modules/categories_dropdown" />
       <div class="modules_bar_slider bar_slider">
@@ -148,436 +135,8 @@
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
-    <div id="tab_design" class="mw_toolbar_tab" style="height: 0;">
 
 
-
-    <div id="design_sub_nav" class="toolbar_subnav" style="left:405px;width: 160px;">
-        <ul class="ts_main_ul">
-            <li class="ts_main_li">
-                <a class="ts_main_a dd_design_size" href="javascript:;">Size</a>
-                <div class="ts_action" style="width: 190px;top: 0;">
-                  <div class="ts_action_item">
-                       <span class="ed_label left">Width</span>
-                       <div class="ed_slider width-slider es_item left" id="width_slider" data-max="999" data-min="100" data-type="width"></div>
-                       <span class="slider_val">
-                    <input type="text" name="width_slider" value="" />
-                    <span class="slider_val_label">px</span>
-                  </span>
-                  </div>
-                </div>
-            </li>
-            <li class="ts_main_li">
-                <a class="ts_main_a dd_design_spacing" href="javascript:;">Spacing</a>
-
-                <div class="ts_action" style="width: 200px;">
-                  <div class="ts_action_item">
-
-
-
-                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="margin_selector" data-for="margin_slider">
-                    <span class="mw_dropdown_val_holder">
-                      <span class="dd_rte_arr"></span>
-                      <span class="mw_dropdown_val">Margin</span>
-                    </span>
-
-                    <div class="mw_dropdown_fields">
-                      <ul style="width: 100%">
-                        <li value="true">
-                            <div class="square_map">
-                                <table cellpadding="2" cellspacing="0" align="center">
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td><span class="square_map_item" data-value="margin-top">Top</span></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="square_map_item" data-value="margin-left">Left</span></td>
-                                        <td><span class="square_map_item square_map_item_default active" data-value="margin">All</span></td>
-                                        <td><span class="square_map_item" data-value="margin-right">Right</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td><span class="square_map_item" data-value="margin-bottom">Bottom</span></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                </table>
-                                <span class="square_map_value">&nbsp;</span>
-                            </div>
-                        </li>
-                      </ul>
-                    </div>
-                </div>
-                <div class="ed_slider margin-slider es_item left" id="margin_slider" data-min="0" data-max="100" data-value="0" data-type="margin"></div>
-
-
-                  <span class="slider_val">
-                    <input type="text" name="margin_slider" value="" />
-                    <span class="slider_val_label">px</span>
-                  </span>
-
-
-
-
-                  </div>
-
-                  <div class="ts_action_item">
-
-                    <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="padding_selector" data-for="padding_slider">
-                    <span class="mw_dropdown_val_holder">
-                      <span class="dd_rte_arr"></span>
-                      <span class="mw_dropdown_val">Padding</span>
-                    </span>
-
-                    <div class="mw_dropdown_fields">
-                      <ul style="width: 100%">
-                        <li value="true">
-                            <div class="square_map">
-                                <table cellpadding="2" cellspacing="0" align="center">
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td><span class="square_map_item" data-value="padding-top">Top</span></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="square_map_item" data-value="padding-left">Left</span></td>
-                                        <td><span class="square_map_item square_map_item_default active" data-value="padding">All</span></td>
-                                        <td><span class="square_map_item" data-value="padding-right">Right</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td><span class="square_map_item" data-value="padding-bottom">Bottom</span></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                </table>
-                                <span class="square_map_value">&nbsp;</span>
-                            </div>
-                        </li>
-                      </ul>
-                    </div>
-                </div>
-                <div class="ed_slider padding-slider es_item left" id="padding_slider" data-min="0" data-max="100" data-value="0" data-type="padding"></div>
-
-                <span class="slider_val">
-                    <input type="text" name="padding_slider" value="" />
-                    <span class="slider_val_label">px</span>
-                  </span>
-
-
-                  </div>
-                </div>
-
-
-            </li>
-            <li class="ts_main_li">
-                <a class="ts_main_a dd_design_border" href="javascript:;">Border</a>
-
-                <div class="ts_action" style="width: 185px;">
-                  <div class="ts_action_item ts_border_position_selector">
-
-
-                  <a class="border-style none" data-val="none" title="<?php _e("Remove Borders"); ?>"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style all active" data-val="border" title="<?php _e("All"); ?>"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bleft" data-val="borderLeft" title="<?php _e("Border Left"); ?>"></a> <span class="mw_dlm left"></span>
-                  <a class="border-style bright" data-val="borderRight" title="<?php _e("Border Right"); ?>"></a><span class="mw_dlm left"></span>
-                  <a class="border-style top" data-val="borderTop" title="<?php _e("Border Top"); ?>"></a>  <span class="mw_dlm left"></span>
-                  <a class="border-style bottom" data-val="borderBottom" title="<?php _e("Border Bottom"); ?>"></a>
-
-
-
-                </div>
-                <div class="ts_action_item">
-                    <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_border_selector" style="margin: 0 8px 0 0;width: auto;"  title="Border Style" data-value="solid">
-                        <span class="mw_dropdown_val_holder">
-                            <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val" style="width: 62px;"><span class="border_selector" style="border-bottom-style: solid">Solid</span></span>
-                        </span>
-                      <div class="mw_dropdown_fields">
-                        <ul style="width: auto">
-                          <li value="solid"><a href="javascript:;"><span class="border_selector" style="border-bottom-style: solid">Solid</span></a></li>
-                          <li value="dotted"><a href="javascript:;"><span class="border_selector" style="border-bottom-style:dotted">Dotted</span></a></li>
-                          <li value="dashed"><a href="javascript:;"><span class="border_selector" style="border-bottom-style:dashed">Dashed</span></a></li>
-                        </ul>
-                      </div>
-                    </div>
-
-
-
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="Border Width" data-value="0" onchange="$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue())">
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val" style="width: auto">0</span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul style="width: auto">
-                  <li value="0px"><a href="javascript:;">0</a></li>
-                  <li value="1px"><a href="javascript:;">1</a></li>
-                  <li value="2px"><a href="javascript:;">2</a></li>
-                  <li value="3px"><a href="javascript:;">3</a></li>
-                  <li value="4px"><a href="javascript:;">4</a></li>
-                  <li value="5px"><a href="javascript:;">5</a></li>
-                  <li value="6px"><a href="javascript:;">6</a></li>
-                  <li value="7px"><a href="javascript:;">7</a></li>
-                  <li value="8px"><a href="javascript:;">8</a></li>
-                  <li value="9px"><a href="javascript:;">9</a></li>
-                </ul>
-              </div>
-            </div> <span class="slider_val_label left" style="margin: 9px 10px 0 0;">px</span>
-
-                <span class="ed_item ed_color_pick ed_bordercolor_pick" style="margin-top: 3px;" onclick="mw.wysiwyg.request_border_color(this);"><span></span></span>
-            </div>
-
-
-            </div>
-
-
-
-            </li>
-            <li class="ts_main_li ">
-                <a class="ts_main_a dd_design_bg" href="javascript:;">Background</a>
-
-
-
-                <div class="ts_action ts_bg_action" style="width: 200px;">
-                      <div class="ts_action_item">
-                          <div class="ts_action_centerer">
-                              <span class="ed_label left">Background color</span>
-                              <span class="ed_item ed_color_pick left" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
-                          </div>
-                      </div>
-                      <div class="ts_action_item">
-                          <div class="ts_action_centerer"><a href="javascript:;" class="ed_btn left" onclick="mw.wysiwyg.request_bg_image();">Background Image</a></div>
-                      </div>
-                      <div class="ts_action_item">
-                          <div class="ts_action_centerer">
-                              <span class="ed_label left">Repeat</span>
-                              <div class="mw_dropdown mw_dropdown_type_wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="align_element" title="Background Repeat" data-value="none" onchange="$('.element-current').css('backgroundRepeat', $(this).getDropdownValue())">
-                                  <span class="mw_dropdown_val_holder">
-                                      <span class="dd_rte_arr"></span>
-                                      <span class="mw_dropdown_val" style="width: auto">No-Repeat</span>
-                                  </span>
-                                <div class="mw_dropdown_fields">
-                                  <ul style="width: 100px;">
-                                    <li value="no-repeat"><a href="javascript:;">No-Repeat</a></li>
-                                    <li value="repeat-x"><a href="javascript:;">Horizontally</a></li>
-                                    <li value="repeat-y"><a href="javascript:;">Vertically</a></li>
-                                    <li value="repeat"><a href="javascript:;">Both</a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                          </div>
-                       </div>
-                       <div class="ts_action_item">
-                            <div class="ts_action_centerer">
-                                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="bg_pos_selector" onchange="$('.element-current').css('backgroundPosition', $(this).getDropdownValue())">
-                                  <span class="mw_dropdown_val_holder">
-                                    <span class="dd_rte_arr"></span>
-                                    <span class="mw_dropdown_val" style="width: auto;">Background Position</span>
-                                  </span>
-                                  <div class="mw_dropdown_fields">
-                                    <ul style="width: 100%">
-                                      <li value="true">
-                                          <div class="square_map">
-                                              <table cellpadding="2" cellspacing="0" align="center">
-                                                  <tr>
-                                                      <td><span class="square_map_item square_map_item_default active" data-value="left top">Left Top</span></td>
-                                                      <td><span class="square_map_item" data-value="center top">Center Top</span></td>
-                                                      <td><span class="square_map_item" data-value="right top">Right Top</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                      <td><span class="square_map_item" data-value="left center">Left Center</span></td>
-                                                      <td><span class="square_map_item" data-value="center center">Center Center</span></td>
-                                                      <td><span class="square_map_item" data-value="right center">Right Center</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                      <td><span class="square_map_item" data-value="left bottom">Left Bottom</span></td>
-                                                      <td><span class="square_map_item" data-value="center bottom">Center Bottom</span></td>
-                                                      <td><span class="square_map_item" data-value="right bottom">Right Bottom</span></td>
-                                                  </tr>
-                                              </table>
-                                              <span class="square_map_value">&nbsp;</span>
-                                          </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                              </div>
-                            </div>
-                       </div>
-                </div>
-
-
-
-
-            </li>
-            <li class="ts_main_li">
-                <a class="ts_main_a dd_design_fx" href="javascript:;">Effects</a>
-                <div class="ts_action ts_fx_action" style="width: 200px;">
-
-
-                <div class="ts_action_item"><span class="ed_label">Drop Shadow</span>
-                    <div class="ts_action" style="width: 260px;">
-                          <div class="ts_action_item">
-                                <span class="ed_label left" style="margin-top: 14px;">Position</span><div id="ed_shadow" class="fx_canvas_slider left" style="width: 40px;height: 40px;"></div>
-
-                                <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
-
-                                <span class="ed_label left" style="margin-top: 14px;">Blur</span><div id="ed_shadow_strength" class="fx_canvas_slider left" style="width: 30px;height: 9px;background-image: none;margin-top: 17px"></div>
-
-                                <span class="mw_dlm" style="height: 40px;margin-top: 0"></span>
-
-                                <span class="ed_item ed_color_pick ed_shadow_color left" style="margin-top: 9px;" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
-
-                          </div>
-                    </div>
-                </div>
-                <div class="ts_action_item">
-
-                    <span class="ed_label">Opacity</span>
-                    <div class="ts_action" style="width: 260px;">
-                          <div class="ts_action_item">
-                                <div class="ed_slider opacity-slider es_item left" id="opacity_slider" data-value="100" data-type="opacity"></div>
-
-                                <span class="slider_val"><input type="text" value="" name="opacity_slider"><span class="slider_val_label">%</span></span>
-                          </div>
-                    </div>
-                </div>
-                <div class="ts_action_item"><span class="ed_label">Radius</span>
-                <div class="ts_action" style="width: 260px;">
-                          <div class="ts_action_item">
-                              <div class="ed_slider radius-slider es_item left" id="radius_slider" data-type="border-radius"></div>
-                              <span class="slider_val"><input type="text" value="" name="radius_slider"><span class="slider_val_label">px</span></span>
-                          </div>
-                    </div>
-
-
-                </div>
-                <div class="ts_action_item"><span class="ed_label">Rotation</span>
-                <div class="ts_action" style="width: 260px;">
-                      <div class="ts_action_item">
-                        <div class="ed_slider rotate-slider es_item" id="rotate_slider"></div>
-                      </div>
-                  </div>
-                </div>
-                <div class="ts_action_item"><span class="ed_label">Pespective</span>
-                  <div class="ts_action" style="width: 260px;">
-                      <div class="ts_action_item">
-                        <div class="ed_slider perspective-slider left" data-min="-100" data-max="100" data-value="0" data-custom="perspective" id="perspective_slider"></div>
-                        <span class="slider_val"><input type="text" value="" name="perspective_slider"><span class="slider_val_label">%</span></span>
-                      </div>
-                  </div>
-                </div>
-
-
-            </div>
-
-            </li>
-            <li class="ts_main_li">
-                <a class="ts_main_a dd_design_img" href="javascript:;">Image</a>
-                <div class="ts_action ts_image_action" style="width: 200px;">
-                    <div class="ts_action_item">
-                        <div class="ts_action_centerer">
-                            <span class="ed_item ed_nobg ed_item_image_text left" onclick="mw.image.enterText();">
-                                <span></span>
-                            </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();">
-                                <span></span>
-                            </span>  <span class="mw_dlm left" style="margin: 2px 6px"></span>
-                            <span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();">
-                                <span></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="ts_action_item">
-                        <div class="ts_action_centerer">
-                            <a href="javascript:;" class="ed_btn">Add Description</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-    </div>
-
-
-
-
-     <div style="display: none"  class="mw_dropdown mw_dropdown_type_navigation left" id="module_design_selector"> <span class="mw_dropdown_val">Picture Editor</span>
-        <div class="mw_dropdown_fields">
-          <ul>
-            <li value="#tb_el_style"><a href="javascript:;">Site style</a></li>
-            <li value="#tb_image_edit"><a href="javascript:;">Picture Editor</a></li>
-          </ul>
-        </div>
-      </div>
-
-
-      <div id="tb_design_holder"  style="display: none">
-
-
-          <div class="tb_design_tool" id="tb_image_edit"></div>
-
-          <div class="tb_design_tool" id="tb_el_style">
-
-
-
-
-
-
-
-          <span class="mw_dlm mw_dlm_style"></span>
-
-
-
-            <span class="mw_dlm mw_dlm_style"></span>
-
-
-
-           <div class="ed_style_all">
-
-
-
-
-
-
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg" style="margin-left: -5px;" id="align_element" title="Align" data-value="none" onchange="mw.alignem($(this).getDropdownValue());">
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">Align</span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-
-                  <li value="none"><a href="javascript:;">None</a></li>
-                  <li value="left"><a href="javascript:;">Left</a></li>
-                  <li value="right"><a href="javascript:;">Right</a></li>
-                  <li value="center"><a href="javascript:;">Center</a></li>
-
-                </ul>
-              </div>
-            </div>
-
-
-             </div>
-
-            <span class="mw_dlm mw_dlm_style"></span>
-
-
-
-            <span class="mw_dlm mw_dlm_style"></span>
-
-
-
-
-            <span class="mw_dlm mw_dlm_style"></span>
-
-          </div>
-
-
-      </div>
-
-
-    </div>
-    
      <div id="tab_pages" class="mw_toolbar_tab"> 
       <? include(INCLUDES_DIR.'admin'.DS.'content.php') ?>
      </div>
@@ -587,122 +146,9 @@
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
-    <div id="mw-text-editor" class="mw_editor">
-        <div class="editor_wrapper">
-            <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ico"></span></span>
-            <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
-
-            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="Font Color"><span class="ico"></span></span>
-
-            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="Font Background Color"><span class="ico"></span></span>
-
-            <span class="mw_dlm"></span>
 
 
-
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">Format</span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="h1"><a href="#">Heading 1</a></li>
-                  <li value="h2"><a href="#">Heading 2</a></li>
-                  <li value="h3"><a href="#">Heading 3</a></li>
-                  <li value="h4"><a href="#">Heading 4</a></li>
-                  <li value="h5"><a href="#">Heading 5</a></li>
-                  <li value="h6"><a href="#">Heading 6</a></li>
-                  <li value="p"><a href="#">Paragraph</a></li>
-                </ul>
-              </div>
-            </div>
-
-
-
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font" data-value="Arial">
-              <span class="mw_dropdown_val_holder">
-                  <span class="dd_rte_arr"></span>
-                  <span class="mw_dropdown_val">Arial</span>
-              </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
-                  <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
-                  <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
-                  <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
-                  <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
-                </ul>
-              </div>
-            </div>
-
-
-
-
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size">
-
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">10pt</span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="1"><a href="#">8pt</a></li>
-                  <li value="2"><a href="#">10pt</a></li>
-                  <li value="3"><a href="#">12pt</a></li>
-                  <li value="4"><a href="#">14pt</a></li>
-                  <li value="5"><a href="#">18pt</a></li>
-                  <li value="6"><a href="#">24pt</a></li>
-                  <li value="7"><a href="#">36pt</a></li>
-                </ul>
-              </div>
-            </div>
-
-
-
-            <span class="mw_dlm"></span>
-
-
-            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="Ordered List"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="Unordered List"><span class="ico"></span></span>
-
-            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ico"></span></span>
-
-
-
-            <span class="mw_dlm"></span>
-
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
-
-
-            <span class="mw_dlm"></span>
-
-
-            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ico"></span></span>
-
-
-
-            <span class="mw_dlm"></span>
-
-
-
-            <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ico"></span></span>
-        </div>
-
-
-
-
-    </div>
+    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
 
 
      <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
@@ -712,63 +158,7 @@
         style="position: fixed;top: 133px;right:130px; z-index: 2000;">Empty</span>
 
 
-
-
-    <?php /*  THE SMALL EDITOR  */ " Starts Here " ?>
-
-    <div id="mw_small_editor">
-        <div class="mw_small_editor_top">
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="Font" data-value="Arial">
-              <span class="mw_dropdown_val_holder">
-                  <span class="dd_rte_arr"></span>
-                  <span class="mw_dropdown_val">Arial</span>
-              </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
-                  <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
-                  <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
-                  <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
-                  <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
-                </ul>
-              </div>
-            </div>
-            <span class="mw_dlm"></span>
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="Font Size">
-                <span class="mw_dropdown_val_holder">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">10pt</span>
-                </span>
-              <div class="mw_dropdown_fields">
-                <ul>
-                  <li value="1"><a href="#">8pt</a></li>
-                  <li value="2"><a href="#">10pt</a></li>
-                  <li value="3"><a href="#">12pt</a></li>
-                  <li value="4"><a href="#">14pt</a></li>
-                  <li value="5"><a href="#">18pt</a></li>
-                  <li value="6"><a href="#">24pt</a></li>
-                  <li value="7"><a href="#">36pt</a></li>
-                </ul>
-              </div>
-            </div>
-            <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ico"></span></span>
-            <div class="mw_clear">&nbsp;</div>
-        </div>
-        <div class="mw_small_editor_bottom">
-          <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
-          <span class="mw_dlm"></span>
-          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
-          <div class="mw_clear">&nbsp;</div>
-        </div>
-
-    </div><!-- /mw_small_editor -->
+    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
 
 
     <div id="mw-history-panel"></div>
@@ -776,10 +166,12 @@
   </div>
 
 
-
-
   <!-- /end .mw -->
 </div>
 <!-- /end mw_holder -->
 <span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
+
+
+
+           <?php include "design.php"; ?>
