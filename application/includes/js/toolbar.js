@@ -73,10 +73,28 @@ $("#dd_elements_search").bind("keyup paste", function(event){
 });
 
 
+
+
+$("#design_bnav").addClass(mw.cookie.ui("designtool"));
+
+var design_pos = mw.cookie.ui("designtool_position");
+
+if(design_pos!=""){
+    var design_pos = design_pos.split("|");
+    $("#design_bnav").css({
+      top:design_pos[0]+"px",
+      left:design_pos[1]+"px"
+    });
+}
+
+
 $(".mw_ex_tools").click(function(){
   var rel = $(this).attr("href");
   $(rel).toggleClass('active');
   $(this).toggleClass('active');
+
+  mw.cookie.ui("designtool", $(rel).hasClass("active") ? "active" : "");
+
   return false;
 });
 
@@ -112,6 +130,8 @@ $(".ts_main_li .ts_action_item").mouseenter(function(){
   $(this).parent().find(".ts_action").css("left", "100%");
   var toshow = $(this).find(".ts_action:first");
   var offset = toshow.offset();
+  if(offset!==null){
+
   var width = toshow.outerWidth();
   var window_w = $(window).width();
   if((offset.left+width) < window_w){
@@ -125,6 +145,7 @@ $(".ts_main_li .ts_action_item").mouseenter(function(){
        left:-width,
        visibility:'visible'
     });
+  }
   }
 });
 
@@ -261,7 +282,9 @@ mw.image = {
             });
         }
       },
+      _isrotating:false,
       rotate:function(img_object, angle){
+
         if(!mw.image.Rotator){
            mw.image.Rotator = document.createElement('canvas');
            mw.image.Rotator.style.top = '-9999px';
@@ -271,6 +294,8 @@ mw.image = {
         }
 
 
+        if(!mw.image._isrotating){
+          mw.image._isrotating = true;
         var img_object = img_object || document.querySelector("img.element-current");
 
         mw.image.preload(img_object.src, function(){
@@ -326,9 +351,9 @@ mw.image = {
 
            var data =  mw.image.Rotator.toDataURL("image/png");
            img_object.src = data;
-
+           mw.image._isrotating = false;
         });
-
+        }
       },
       _dragActivated : false,
       _dragcurrent : null,
@@ -486,17 +511,7 @@ $(document).ready(function(){
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
 
-$("#module_design_selector").change(function(){
-  var val = $(this).getDropdownValue();
-  $(".tb_design_tool").hide();
-  $(val).show();
-  if(val=='#tb_el_style'){
-    if($(".element-current").length==0){
-        $(".element").eq(0).addClass("element-current");
-        mw.config_element_styles();
-    }
-  }
-});
+
 
 
 });

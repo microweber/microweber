@@ -592,6 +592,12 @@ margin-right: 6px;
 .ed_color_pick span{
   background-image:url(../img/ico.transparentbg.png);
 }
+.ed_item img{
+  max-width: 18px;
+  max-height: 18px;
+  float: left;
+  margin: 1px 0 0 1px;
+}
 
 .fx_canvas_slider{
   border:1px solid #D2D2D2;

@@ -181,13 +181,16 @@ $.fn.canvasCTRL = function(options){
 
 
 mw.css3fx = {
-  perspective:function(el,a,b){
-    if(el){
-      el.style[mw.JSPrefix('transform')] = "perspective( "+a+"px ) rotateY( "+b+"deg )";
+  perspective:function(a){
+      var el = mw.current_element;
+      el.style[mw.JSPrefix('transform')] = "perspective( "+$(el).width()+"px ) rotateY( "+a+"deg )";
       $(el).addClass("mwfx");
-    }
   },
-
+  rotate : function(a){
+      var el = mw.current_element;
+      el.style[mw.JSPrefix('transform')] = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + ","  + Math.cos(a) + ", 0, 0)";
+      $(el).addClass("mwfx");
+  },
   set_obj:function(element, option, value){
 
     if(mw.is.defined(element.attributes["data-mwfx"])){
@@ -233,7 +236,9 @@ mw.css3fx = {
 
 
 
-
+width_slider_onstart = function(){
+  mwd.getElementById('ed_auto_width').checked=false;
+}
 
 
 
@@ -241,7 +246,8 @@ mw.css3fx = {
 mw.sliders_settings = function(el){
     var el = $(el);
 
-    var type = el.dataset('type');
+    var step = parseFloat(el.dataset('step'));
+    var step = !isNaN(step)?step:1;
     var min = parseFloat(el.dataset('min'));
     var min = !isNaN(min)?min:0;
     var max = parseFloat(el.dataset('max'));
@@ -249,27 +255,49 @@ mw.sliders_settings = function(el){
     var val = parseFloat(el.dataset('value'));
     var val = !isNaN(val)?val:0;
 
+    var onstart = el.dataset("onstart");
+    var custom = el.dataset("custom");
 
 
     return {
        slide:function(event,ui){
           var val = (ui.value);
+          var type = $(this).dataset('type');
           var to_set = type=='opacity'? val/100 :val;
-          $(".element-current").css(type, to_set);
+          if(custom==''){
+            $(".element-current").css(type, to_set);
+          }
+          else{
+            custom._exec(ui.value);
+          }
           $("input[name='"+this.id+"']").val(val);
        },
        change:function(event,ui){
-          var val = (ui.value);
-          var to_set = type=='opacity'? val/100 :val;
-          $(".element-current").css(type, to_set);
-          $("input[name='"+this.id+"']").val(val);
+         if(event.originalEvent!==undefined){
+            var val = (ui.value);
+            var type = $(this).dataset('type');
+            var to_set = type=='opacity'? val/100 :val;
+            $("input[name='"+this.id+"']").val(val);
+            if(custom==''){
+                $(".element-current").css(type, to_set);
+            }
+            else{
+              custom._exec(ui.value);
+            }
+         }
        },
        create: function(event, ui) {
           $("input[name='"+this.id+"']").val(val);
        },
+       start:function(event, ui){
+         if(onstart!==''){
+           onstart._exec(ui.value);
+         }
+       },
        min:min,
        max:max,
-       value:val
+       value:val,
+       step:step
     }
 }
 
@@ -298,15 +326,39 @@ init_square_maps = function(){
   });
 }
 
+String.prototype.tonumber = function(){
+  var n = parseFloat(this);
+  if(!isNaN(n)){
+      return n;
+  }
+  else{
+    return 0;
+  }
+}
+
+mw.setCurrentStyles = function(el){
+  var parser = mw.CSSParser(el);
+  $("#width_slider").slider("value", parser.get.width().tonumber());
 
 
-mw.parseCSS = function(element){
+  var bg = parser.get.background();
+  $("#ts_bg_repeat").setDropdownValue(bg.repeat);
+  $("#ts_bg_position").setDropdownValue(bg.position);
 
-    this.border = function(){
+  if(bg.color!=='transparent'){
+     $("#ts_element_bgcolor span").css("background", bg.color);
+  }
+  else{
+     $("#ts_element_bgcolor span").css("background", '');
+  }
+  if(bg.image!=='none'){
+     var url =  bg.image.replace(/url\(|\)|"|'/g, "");
+     $("#ed_bg_image_status").html("<img src='"+url+"' />");
+  }
+  else{
+     $("#ed_bg_image_status").html("");
+  }
 
-    }
-
-    return this;
 }
 
 
@@ -319,33 +371,55 @@ $("#design_bnav").draggable({
   start:function(){
     $(".ts_main_ul .ts_action").invisible();
     $(".ts_main_ul .ts_action").css({"left":"100%", top:0});
+  },
+  stop:function(event, ui){
+    mw.cookie.ui("designtool_position", ui.position.top+"|"+ui.position.left)
   }
 });
 
-$(window).bind("onItemClick", function(e, el){
+
+
+$(window).bind("onItemClick onImageClick onElementClick", function(e, el){
   $(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
   mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
   $(".es_item").trigger("change");
+
+  if(e.type=='onImageClick'){
+    $(".mw-designtype-element").hide();
+    $(".mw-designtype-image").show();
+  }
+  else if(e.type=='onItemClick'){
+    $(".mw-designtype-element").show();
+    $(".mw-designtype-image").hide();
+  }
+  else if(e.type=='onElementClick'){
+    $(".mw-designtype-element").show();
+    $(".mw-designtype-image").hide();
+  }
+
+
+  mw.setCurrentStyles(el);
+
+  width_slider_onstart();
+
+
 });
 
-$(window).bind("onImageClick", function(e, el){
-  $(".element-current").removeClass("element-current");
-  $(el).addClass("element-current");
-  mw.current_element = el;
-  mw.current_element_styles = window.getComputedStyle(el, null);
-  $(".es_item").trigger("change");
-});
 
 
 $(window).bind("onBodyClick", function(){
     $(".element-current").removeClass("element-current");
-    mw.current_element = false;
+    $(mwd.body).addClass("element-current");
+    mw.current_element = mwd.body;
     $("#items_handle").css({
       top:"",
       left:""
-    })
+    });
+    $(".mw-designtype-element").show();
+    $(".mw-designtype-image").hide();
+    mw.setCurrentStyles(mwd.body);
 });
 
 
@@ -423,6 +497,7 @@ $(window).bind("onBodyClick", function(){
       el.val(val);
       var name = _el.name;
       $("#"+name).slider("value", val);
+
     });
 
 
@@ -441,7 +516,26 @@ $(window).bind("onBodyClick", function(){
     $(".dd_border_selector").change(function(){
       $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
+    $("#ts_bg_repeat").bind("change", function(){
+       $('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
+    });
+    $("#ts_bg_position").bind("change", function(){
+       $('.element-current').css('backgroundPosition', $(this).getDropdownValue())
+    });
+
+
+
+
+
+
+    $("#ed_auto_width").commuter(function(){
+         $(".element-current").width('auto');
+    }, function(){
+         $(".element-current").width($("#width_slider").slider("value"));
+    });
 
 });
+
+
 
 

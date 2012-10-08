@@ -1,16 +1,21 @@
-<div id="design_bnav" class="toolbar_bnav" style="left:405px;width: 160px;">
+<div id="design_bnav" class="toolbar_bnav" style="width: 160px;">
         <div id="design_bnav_handle"></div>
         <ul class="ts_main_ul">
-            <li class="ts_main_li">
+            <li class="ts_main_li mw-designtype-universal">
                 <a class="ts_main_a dd_design_size" href="javascript:;">Size</a>
                 <div class="ts_action" style="width: 190px;top: 0;">
                   <div class="ts_action_item">
                        <span class="ed_label left">Width</span>
-                       <div class="ed_slider width-slider es_item left" id="width_slider" data-max="999" data-min="100" data-type="width"></div>
+                       <div class="ed_slider width-slider es_item left" id="width_slider" data-onstart="width_slider_onstart" data-max="999" data-min="100" data-type="width"></div>
                        <span class="slider_val">
                     <input type="text" name="width_slider" value="" />
                     <span class="slider_val_label">px</span>
                   </span>
+                  </div>
+
+                  <div class="ts_action_item">
+                       <span class="ed_label left">Auto</span>
+                       <input type="checkbox" class="mwcheck" id="ed_auto_width" />
                   </div>
                 </div>
             </li>
@@ -18,7 +23,7 @@
                 <a class="ts_main_a dd_design_spacing" href="javascript:;">Spacing</a>
 
                 <div class="ts_action" style="width: 200px;">
-                  <div class="ts_action_item">
+                  <div class="ts_action_item mw-designtype-universal">
 
 
 
@@ -68,7 +73,7 @@
 
                   </div>
 
-                  <div class="ts_action_item">
+                  <div class="ts_action_item mw-designtype-element">
 
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left" id="padding_selector" data-for="padding_slider">
                     <span class="mw_dropdown_val_holder">
@@ -116,7 +121,7 @@
 
 
             </li>
-            <li class="ts_main_li">
+            <li class="ts_main_li mw-designtype-universal">
                 <a class="ts_main_a dd_design_border" href="javascript:;">Border</a>
 
                 <div class="ts_action" style="width: 185px;">
@@ -180,7 +185,7 @@
 
 
             </li>
-            <li class="ts_main_li">
+            <li class="ts_main_li mw-designtype-element">
                 <a class="ts_main_a dd_design_bg" href="javascript:;">Background</a>
 
 
@@ -189,16 +194,20 @@
                       <div class="ts_action_item">
                           <div class="ts_action_centerer">
                               <span class="ed_label left">Background color</span>
-                              <span class="ed_item ed_color_pick left" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
+                              <span class="ed_item ed_color_pick left" id="ts_element_bgcolor" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span>
                           </div>
                       </div>
                       <div class="ts_action_item">
-                          <div class="ts_action_centerer"><a href="javascript:;" class="ed_btn left" onclick="mw.wysiwyg.request_bg_image();">Background Image</a></div>
+                          <div class="ts_action_centerer">
+                            <span onclick="mw.current_element.style.backgroundImage='none'">none</span>
+                            <a href="javascript:;" class="ed_btn left" onclick="mw.wysiwyg.request_bg_image();">Background Image</a>
+                            <span class="ed_item" id="ed_bg_image_status"></span>
+                          </div>
                       </div>
                       <div class="ts_action_item">
                           <div class="ts_action_centerer">
                               <span class="ed_label left">Repeat</span>
-                              <div class="mw_dropdown mw_dropdown_type_wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="align_element" title="Background Repeat" data-value="none" onchange="$('.element-current').css('backgroundRepeat', $(this).getDropdownValue())">
+                              <div class="mw_dropdown mw_dropdown_type_wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="ts_bg_repeat" title="Background Repeat" data-value="none">
                                   <span class="mw_dropdown_val_holder">
                                       <span class="dd_rte_arr"></span>
                                       <span class="mw_dropdown_val" style="width: auto">No-Repeat</span>
@@ -216,7 +225,7 @@
                        </div>
                        <div class="ts_action_item">
                             <div class="ts_action_centerer">
-                                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="bg_pos_selector" onchange="$('.element-current').css('backgroundPosition', $(this).getDropdownValue())">
+                                <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="ts_bg_position">
                                   <span class="mw_dropdown_val_holder">
                                     <span class="dd_rte_arr"></span>
                                     <span class="mw_dropdown_val" style="width: auto;">Background Position</span>
@@ -261,7 +270,7 @@
                 <div class="ts_action ts_fx_action" style="width: 200px;">
 
 
-                <div class="ts_action_item"><span class="ed_label">Drop Shadow</span>
+                <div class="ts_action_item mw-designtype-universal"><span class="ed_label">Drop Shadow</span>
                     <div class="ts_action" style="width: 260px;">
                           <div class="ts_action_item">
                                 <span class="ed_label left" style="margin-top: 14px;">Position</span><div id="ed_shadow" class="fx_canvas_slider left" style="width: 40px;height: 40px;"></div>
@@ -277,7 +286,7 @@
                           </div>
                     </div>
                 </div>
-                <div class="ts_action_item">
+                <div class="ts_action_item mw-designtype-universal">
 
                     <span class="ed_label">Opacity</span>
                     <div class="ts_action" style="width: 120px;">
@@ -288,7 +297,7 @@
                           </div>
                     </div>
                 </div>
-                <div class="ts_action_item"><span class="ed_label">Radius</span>
+                <div class="ts_action_item mw-designtype-universal"><span class="ed_label">Radius</span>
                 <div class="ts_action" style="width: 120px;">
                           <div class="ts_action_item">
                               <div class="ed_slider radius-slider es_item left" id="radius_slider" data-type="border-radius"></div>
@@ -298,17 +307,18 @@
 
 
                 </div>
-                <div class="ts_action_item"><span class="ed_label">Rotation</span>
+                <div class="ts_action_item mw-designtype-universal"><span class="ed_label">Rotation</span>
                 <div class="ts_action" style="width: 120px;">
                       <div class="ts_action_item">
-                        <div class="ed_slider rotate-slider es_item" id="rotate_slider"></div>
+                        <div class="ed_slider rotate-slider es_item left"  data-min="-3.14" data-max="3.14" data-step="0.001" data-custom="mw.css3fx.rotate" id="rotate_slider"></div>
+                        <span class="slider_val"><input type="text" value="" name="rotate_slider"><span class="slider_val_label">&deg;</span></span>
                       </div>
                   </div>
                 </div>
-                <div class="ts_action_item"><span class="ed_label">Pespective</span>
+                <div class="ts_action_item mw-designtype-universal"><span class="ed_label">Pespective</span>
                   <div class="ts_action" style="width: 120px;">
                       <div class="ts_action_item">
-                        <div class="ed_slider perspective-slider left" data-min="-100" data-max="100" data-value="0" data-custom="perspective" id="perspective_slider"></div>
+                        <div class="ed_slider perspective-slider left" data-min="-55" data-max="55" data-value="0" data-custom="mw.css3fx.perspective" id="perspective_slider"></div>
                         <span class="slider_val"><input type="text" value="" name="perspective_slider"><span class="slider_val_label">%</span></span>
                       </div>
                   </div>
@@ -318,7 +328,7 @@
             </div>
 
             </li>
-            <li class="ts_main_li">
+            <li class="ts_main_li mw-designtype-image">
                 <a class="ts_main_a dd_design_img" href="javascript:;">Image</a>
                 <div class="ts_action ts_image_action" style="width: 200px;">
                     <div class="ts_action_item">
@@ -343,5 +353,5 @@
                 </div>
             </li>
         </ul>
-
+        <?php /* <div id="mw_design_disabler" class="mw_disabler"></div> */ ?>
     </div>
