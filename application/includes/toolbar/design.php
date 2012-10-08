@@ -110,6 +110,7 @@
                 </div>
                 <div class="ed_slider padding-slider es_item left" id="padding_slider" data-min="0" data-max="100" data-value="0" data-type="padding"></div>
 
+
                 <span class="slider_val">
                     <input type="text" name="padding_slider" value="" />
                     <span class="slider_val_label">px</span>
@@ -310,7 +311,12 @@
                 <div class="ts_action_item mw-designtype-universal"><span class="ed_label">Rotation</span>
                 <div class="ts_action" style="width: 120px;">
                       <div class="ts_action_item">
+
+
                         <div class="ed_slider rotate-slider es_item left"  data-min="-3.14" data-max="3.14" data-step="0.001" data-custom="mw.css3fx.rotate" id="rotate_slider"></div>
+
+
+
                         <span class="slider_val"><input type="text" value="" name="rotate_slider"><span class="slider_val_label">&deg;</span></span>
                       </div>
                   </div>

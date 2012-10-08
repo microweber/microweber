@@ -649,8 +649,6 @@ $(".mw_dropdown_action_format").change(function(){
         }
     });
 
-
-
     $("#mw-text-editor").mousedown(function(){
       if($(".mw_editor_btn_hover").length==0){
         mw.mouseDownOnEditor = true;

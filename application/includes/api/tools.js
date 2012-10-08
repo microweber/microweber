@@ -406,16 +406,16 @@ $.fn.dataset = function(dataset, val){
 
 
 $.fn.commuter = function(a,b) {
-    if(a===undefined){return false}
-    return this.each(function(){
-      if(this.type==='checkbox'/*  || this.type==='radio' */){
-        $(this).bind("keyup click change", function(){
-          this.checked===true ? a.call(this) : b.call(this);
-        });
-      }
-    });
-  };
-
+  if(a===undefined){return false}
+  var b = b || function(){};
+  return this.each(function(){
+    if(this.type==='checkbox'  || this.type==='radio' ){
+      $(this).bind("change", function(){
+        this.checked==true ? a.call(this) : b.call(this);
+      });
+    }
+  });
+};
 
 });
 

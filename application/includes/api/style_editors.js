@@ -188,8 +188,10 @@ mw.css3fx = {
   },
   rotate : function(a){
       var el = mw.current_element;
-      el.style[mw.JSPrefix('transform')] = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + ","  + Math.cos(a) + ", 0, 0)";
+      var val = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + ","  + Math.cos(a) + ", 0, 0)";
+      el.style[mw.JSPrefix('transform')] = val;
       $(el).addClass("mwfx");
+      mw.css3fx.set_obj(el, "transform", val);
   },
   set_obj:function(element, option, value){
 
