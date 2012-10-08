@@ -21,9 +21,10 @@ var t = mwd.body.style;
 
 
 
-  mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'MS'];
+  mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 
-  mw._CSSPrefixes = ['-moz-', '-webki-t', '-o-', '-ms-'];
+
+  mw._CSSPrefixes = ['-moz-', '-webki-', '-o-', '-ms-'];
 
   var _Prefixtest = document.body.style;
 
@@ -183,8 +184,10 @@ $.fn.canvasCTRL = function(options){
 mw.css3fx = {
   perspective:function(a){
       var el = mw.current_element;
-      el.style[mw.JSPrefix('transform')] = "perspective( "+$(el).width()+"px ) rotateY( "+a+"deg )";
+      var val = "perspective( "+$(el).width()+"px ) rotateY( "+a+"deg )";
+      el.style[mw.JSPrefix('transform')] = val;
       $(el).addClass("mwfx");
+      mw.css3fx.set_obj(el, "transform", val);
   },
   rotate : function(a){
       var el = mw.current_element;
@@ -206,10 +209,10 @@ mw.css3fx = {
      var string = string.replace(/{/g, "").replace(/}/g);
      var string = string.replace(/"/g, "XX");
 
-     $(element).attr("data-mwfx", string);
+     $(element).dataset("mwfx", string);
     }
     else{
-      $(element).attr("data-mwfx", "XX"+option+"XX:XX"+value+"XX");
+      $(element).dataset("mwfx", "XX"+option+"XX:XX"+value+"XX");
     }
   },
   init_css:function(el){
@@ -224,7 +227,7 @@ mw.css3fx = {
   },
   read:function(el){
     var el = $(el);
-    var attr = el.attr("data-mwfx");
+    var attr = el.dataset("mwfx");
     if(mw.is.defined(attr)){
       var attr = attr.replace(/XX/g, '"');
       var attr = attr.replace(/undefined/g, '');
