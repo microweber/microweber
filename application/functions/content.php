@@ -170,18 +170,7 @@ function define_constants($content = false) {
     return true;
 }
 
-api_expose('css3_write');
-
-function css3_write($property, $value) {
-
-
-    $css3 = "-webkit-" . $property . ": " . $value . ";\n"
-            . " -moz-" . $property . ": " . $value . ";\n"
-            . " -o-" . $property . ": " . $value . ";\n"
-            . " -ms-" . $property . ": " . $value . ";\n"
-            . " " . $property . ": " . $value . ";\n";
-    echo $css3;
-}
+ 
 
 function get_layout_for_page($page = array()) {
     $render_file = false;
@@ -913,9 +902,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
                     }
                 }
             }
-			
+
   }
-			
+
         }
     }
 

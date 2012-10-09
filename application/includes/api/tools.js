@@ -404,6 +404,19 @@ $.fn.dataset = function(dataset, val){
   }
 }
 
+
+$.fn.commuter = function(a,b) {
+  if(a===undefined){return false}
+  var b = b || function(){};
+  return this.each(function(){
+    if(this.type==='checkbox'  || this.type==='radio' ){
+      $(this).bind("change", function(){
+        this.checked==true ? a.call(this) : b.call(this);
+      });
+    }
+  });
+};
+
 });
 
 
@@ -427,6 +440,17 @@ mw.cookie = {
     }
     var expires_date = new Date( now.getTime() + (expires) );
     document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : "" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
+  },
+  ui:function(a,b){
+    var mwui = mw.cookie.get("mwui");
+    var mwui = !mwui ? {} : $.parseJSON(mwui);
+    if(a===undefined){return mwui}
+    if(b===undefined){return mwui[a]!==undefined?mwui[a]:""}
+    else{
+        mwui[a] = b;
+        var tostring = JSON.stringify(mwui);
+        mw.cookie.set("mwui", tostring, false, "/");
+    }
   }
 }
 
@@ -451,6 +475,26 @@ mw.recommend = {
     mw.cookie.set("recommend", tostring, false, "/");
   }
 }
+
+String.prototype._exec = function(a,b,c){
+  var a = a || "";
+  var b = b || "";
+  var c = c || "";
+  if(!this.contains(".")){
+    return window[this](a,b,c);
+  }
+  else{
+    var arr = this.split(".");
+    var temp = window[arr[0]];
+    var len = arr.length-1;
+    for(var i=1; i<=len; i++){
+        var temp = temp[arr[i]];
+    }
+    return mw.is.func(temp) ? temp(a,b,c) : temp;
+  }
+}
+
+
 /*
 $(document).ready(function(){
   $(".modules-list.list-elements img").each(function(){

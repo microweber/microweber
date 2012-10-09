@@ -242,6 +242,7 @@ class Controller {
 	}
 
 	function admin() {
+            create_mw_default_options();
 		define_constants();
 		$l = new View(ADMIN_VIEWS_PATH . 'admin.php');
 		$l = $l -> __toString();
