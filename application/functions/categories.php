@@ -141,13 +141,21 @@ function category_tree($params = false) {
             $page ['subtype_value']
         );
     }
+
+
+   // $add_ids1 = false;
+     if (is_string($add_ids)) {
+        $add_ids = explode(',', $add_ids);
+    }
+
+
     if ($skip123 == false) {
 
-        content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby);
+        content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type,$li_class_name = false, $add_ids, $orderby);
     } else {
         if ($fors != false and is_array($fors) and !empty($fors)) {
             foreach ($fors as $cat) {
-                content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $add_ids, $orderby);
+                content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type,$li_class_name = false, $add_ids, $orderby);
             }
         }
     }
@@ -174,8 +182,7 @@ function category_tree($params = false) {
  */
 function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false) {
     $table = c('db_tables');
-
-    $table_content = $table ['table_content'];
+     $table_content = $table ['table_content'];
 
     $table = $table_taxonomy = $table ['table_taxonomy'];
 
@@ -205,6 +212,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
         $remove_ids_q = false;
     }
+
 
     if (!empty($add_ids)) {
 
@@ -275,7 +283,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
     $chosen_categories_array = array();
 
     if (isset($result) and is_array($result) and !empty($result)) {
- 
+
         // $output = "<ul>";
 
         $i = 0;
@@ -508,7 +516,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
                         }
                     }
 
-                    $children = content_helpers_getCaregoriesUlTree($item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend);
+                    $children = content_helpers_getCaregoriesUlTree($item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend);
 
                     print "</li>";
                 }
@@ -600,12 +608,11 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
     if (!empty($save)) {
         $to_return [] = $parent_id;
     }
-	  if (is_array($save) and !empty($save)) {
-    foreach ($save as $item) {
-        $to_return [] = $item ['id'];
-        
+    if (is_array($save) and !empty($save)) {
+        foreach ($save as $item) {
+            $to_return [] = $item ['id'];
+        }
     }
-	  }
 
     $to_return = array_unique($to_return);
 
@@ -1189,13 +1196,12 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
     }
     $to_return = array();
     if (is_array($save) and !empty($save)) {
-            foreach ($save as $item) {
-        $to_return [] = $item ['id'];
-        
+        foreach ($save as $item) {
+            $to_return [] = $item ['id'];
+        }
     }
-    }
-	
-	
+
+
 
 
     $to_return = array_unique($to_return);

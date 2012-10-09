@@ -15,6 +15,14 @@ if(!isset($params['to_table_id'])){
 }
 
 
+if(!isset($params['to_table_id'])){
+ 	$to_table_id = '';
+} else {
+	$to_table_id = '&to_table_id='.$params['to_table_id'];
+}
+
+
+
 
 
 
@@ -124,6 +132,15 @@ $('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
 	   $tree = array();
 	   $tree['include_first'] = 1;
 	    $tree['parent'] = $item1;
+		
+		if(isset($params['add_ids'])){
+			 $tree['add_ids'] = $params['add_ids'];
+			
+		}
+		
+		
+		
+		
 		if(!empty($cats_ids)){
 			$tree['actve_ids'] = $cats_ids;
 			$tree['active_code'] = 'checked="checked" ';
@@ -132,6 +149,7 @@ $('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
 		
 		
 		$tree['link'] = "<input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' >{title}";
+		//  d($tree);
 	   category_tree( $tree);
 	   
    }

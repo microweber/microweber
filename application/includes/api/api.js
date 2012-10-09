@@ -263,7 +263,8 @@ mw._ = function(obj, sendSpecific){
 
     $.post(url, to_send, function(data){
         $(selector).after(data);
-        var id = to_send.id || $(selector).next(".module")[0].id;
+
+        var id = to_send.id || $(selector).next()[0].id;
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) : '';
         mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';

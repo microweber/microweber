@@ -75,6 +75,9 @@ function mw_select_page_for_editing($p_id){
 	
 	
 	$('#holder_temp2_<? print $rand  ?>').attr('data-page-id',$p_id);
+		 	 	 $('#holder_temp2_<? print $rand  ?>').removeAttr('data-subtype');
+				 $('#holder_temp2_<? print $rand  ?>').removeAttr('data-content-id');
+
   	 mw.load_module('content/edit_page','#holder_temp2_<? print $rand  ?>');
 
 

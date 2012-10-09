@@ -31,6 +31,7 @@ if(isset($params["data-is-shop"])){
 
 
 
+
 $form_rand_id = $rand = uniqid();
 ?>
 <script  type="text/javascript">
@@ -136,21 +137,53 @@ mw.reload_module('[data-type="posts"]');
   <br />
   parent
   <? if($edit_post_mode != false): ?>
+  <?
   
- <? if(isset($params['subtype']) and $params['subtype'] == 'product'): ?>
-  <? $pages = get_content('debug=1&content_type=page&subtype=dynamic&is_shop=y');   ?>
-   <? else: ?>
-     <? $pages = get_content('debug=1&content_type=page&subtype=dynamic&is_shop=n');   ?>
-  <? endif; ?>  
-  
-  
-  <? else: ?>
-  
-    <? $pages = get_content('content_type=page');   ?>
+  if(!isset($params["subtype"])){
+	  if(intval($data['id']) != 0){
+		  if(isset($data["subtype"]) and trim($data["subtype"]) != ''){
+			  $params['subtype'] = $data["subtype"];
+		  } else {
+			  $params['subtype'] = 'post';
+		  }
+	  } else {
+		  $params['subtype'] = 'post';
+	  }
+	
+}
 
- 
-  
+ ?>
+  <? if(isset($params['subtype']) and $params['subtype'] == 'product'): ?>
+  <? $pages = get_content('content_type=page&subtype=dynamic&is_shop=y&limit=1000');   ?>
+  <? else: ?>
+  <? $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
   <? endif; ?>
+  <? if(!isset($params['subtype'])): ?>
+  <?   $params['subtype'] = 'post'; ?>
+  <? endif; ?>
+  <br />
+  subtype
+  <input name="subtype"   value="<? print $params['subtype'] ?>" >
+  <? if(!empty($pages)): ?>
+  <select name="parent" id="the_post_parent_page<? print $rand ?>">
+    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+    <? if((0 != intval($data['parent']))): ?>
+    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+    <? endif; ?>
+    <?
+	$include_categories_in_cat_selector = array();
+	 foreach($pages as $item):
+	
+	$include_categories_in_cat_selector[] = $item['subtype_value'];
+	 ?>
+    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+    <? print $item['title'] ?>
+    </option>
+    <? endforeach; ?>
+  </select>
+  <? endif; ?>
+  <? else: ?>
+  <? $pages = get_content('content_type=page&limit=1000');   ?>
   <? if(!empty($pages)): ?>
   <select name="parent">
     <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -163,6 +196,7 @@ mw.reload_module('[data-type="posts"]');
     </option>
     <? endforeach; ?>
   </select>
+  <? endif; ?>
   <? endif; ?>
   <br />
   <br />
@@ -256,10 +290,17 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	
 }
 </script>
+  <?
+ $strz = '';
+  if(isset($include_categories_in_cat_selector)): ?>
+  <? 
+ $x = implode(',',$include_categories_in_cat_selector);
+ $strz = ' add_ids="'.$x.'" ';   ?>
+  <? endif; ?>
   <? if(intval($data['id']) > 0): ?>
-  <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>">
+  <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
   <? else: ?>
-  <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content">
+  <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
   <? endif; ?>
   <br />
   Custom fields for post
@@ -273,16 +314,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? if($edit_post_mode == false): ?>
   is_home
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
-   
   <br />
-  
-   is_shop
+  is_shop
   <select name="is_shop">
     <option value="n"   <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   selected="selected"  <? endif; ?>>No</option>
     <option value="y"   <? if( 'y' == trim($data['is_shop'])  ): ?>   selected="selected"  <? endif; ?>>Yes</option>
   </select>
-  
-  
   <br />
   subtype
   <select name="subtype">
