@@ -567,6 +567,8 @@ $(window).load(function(){
 
 
 
+
+
     mw.toolbar.module_icons();
 
 
@@ -688,7 +690,12 @@ $(".mw_dropdown_action_format").change(function(){
 
 
 
-
+    $(mwd).ajaxStart(function(){
+      mw.tools.preloader('start');
+    });
+    $(mwd).ajaxStop(function(){
+      mw.tools.preloader('stop');
+    });
 
 
 });

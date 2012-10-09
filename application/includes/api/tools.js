@@ -26,14 +26,26 @@ mw.external_tool = function(url){
 
 mw.tools = {
   preloader:function(init, element){
-    if(init=='stop'){$("#preloader").hide()}
-    else{
-      var el = $("#element");
-      var offset = el.offset();
-      var w = el.width();
-      var h = el.height();
-
+    if(!mw._preloader)mw._preloader=mwd.getElementById('mwpreloader');
+    if(element){
+        var el = $(element);
+        var off = el.offset();
+        var w = el.outerWidth();
+        var h = el.outerHeight();
+        $(mw._preloader).css({
+         left:off.left+(w/2)-8,
+         top:off.top+(h/2)-8
+       })
     }
+    else{
+       $(mw._preloader).css({
+         left:"",
+         top:""
+       })
+    }
+    if(init=='stop'){$(mw._preloader).invisible()}
+    else if(init=='start'){$(mw._preloader).visible()}
+
   },
   modal:{
     settings:{

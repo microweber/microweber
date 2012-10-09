@@ -39,4 +39,4 @@ if ($module_functions != false) {
 	}
 }
 
-// d($module_functions);
+ // d($module_functions);

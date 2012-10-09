@@ -53,21 +53,30 @@ mw.dropables = {
 }
 
 
+
+
+
+
+
+
+
+
 $(document).ready(function(){
    mw.drag.create();
 
-   $(window).bind("onFreeEnter", function(e, el){
-        var el = $(el);
-   });
 
-
-
-   $(mwd.body).keyup(function(){
-     $(".mw_master_handle").css({
+   mw.$(mwd.body).keyup(function(){
+     mw.$(".mw_master_handle").css({
        left:"",
        top:""
      })
    });
+
+
+   mw.holder = mw.$('.mw_holder');
+
+
+   mw.holder.append('<div class="edit"><div contenteditable="false" id="mw-placeholder-'+mw.random()+'" class="empty-element" style="position: relative; height: 32px;"></div></div>')
 
 
 });
@@ -83,7 +92,7 @@ mw.drag = {
          mw.top_half = false;
 
 
-         $(document.body).mousemove(function(event){
+         mw.$(document.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
 
@@ -170,6 +179,8 @@ mw.drag = {
                    }
 
 
+
+
                }
 
 
@@ -183,7 +194,12 @@ mw.drag = {
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                    mw.currentDragMouseOver = mw.mm_target;
+                    if(mw.$mm_target.parents('.edit').length>0){
+                       mw.currentDragMouseOver = mw.mm_target;
+                    }
+                    else{
+                      //mw.currentDragMouseOver =  null;
+                    }
                }
              }
 
@@ -416,7 +432,8 @@ mw.drag = {
             $("#mw_handle_row,#mw_handle_module,#mw_handle_element").css({
               top:"",
               left:""
-            })
+            });
+
         });
         $(window).bind("onElementLeave", function(e, target){
             $(mw.handle_element).css({

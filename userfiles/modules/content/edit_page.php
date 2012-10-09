@@ -1,5 +1,4 @@
 <?
- 
 if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
 }
@@ -24,6 +23,14 @@ $data = get_content_by_id($params["data-page-id"]);
 if($data == false or empty($data )){
 include('_empty_content_data.php');	
 }
+
+
+if(isset($params["data-is-shop"])){
+	$data["is_shop"] = $params["data-is-shop"];
+}
+
+
+
 $form_rand_id = $rand = uniqid();
 ?>
 <script  type="text/javascript">
@@ -126,24 +133,30 @@ mw.reload_module('[data-type="posts"]');
 <form id="admin_edit_page_form_<? print $form_rand_id ?>">
   id
   <input name="id"  type="text" value="<? print ($data['id'])?>" />
-   <br />
+  <br />
   parent
-    <? if($edit_post_mode != false): ?>
-     <? $pages = get_content('content_type=page');   ?>
-    <? else: ?>
-    
-	 <? $pages = get_content('content_type=page&subtype=dynamic');   ?>
-	<? endif; ?>
-    
-    
-    
+  <? if($edit_post_mode != false): ?>
+  
+ <? if(isset($params['subtype']) and $params['subtype'] == 'product'): ?>
+  <? $pages = get_content('debug=1&content_type=page&subtype=dynamic&is_shop=y');   ?>
+   <? else: ?>
+     <? $pages = get_content('debug=1&content_type=page&subtype=dynamic&is_shop=n');   ?>
+  <? endif; ?>  
+  
+  
+  <? else: ?>
+  
+    <? $pages = get_content('content_type=page');   ?>
+
  
+  
+  <? endif; ?>
   <? if(!empty($pages)): ?>
   <select name="parent">
     <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-<? if((0 != intval($data['parent']))): ?> 
- <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
-<? endif; ?>
+    <? if((0 != intval($data['parent']))): ?>
+    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+    <? endif; ?>
     <? foreach($pages as $item): ?>
     <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
     <? print $item['title'] ?>
@@ -152,7 +165,6 @@ mw.reload_module('[data-type="posts"]');
   </select>
   <? endif; ?>
   <br />
- 
   <br />
   title
   <input name="title"  type="text" value="<? print ($data['title'])?>" />
@@ -162,24 +174,17 @@ mw.reload_module('[data-type="posts"]');
   <br />
   is_active
   <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
-  
-   content_type
-    <? if($edit_post_mode != false): ?>
-	<? $data['content_type'] = 'post'; ?>
-	<? endif; ?>
-    
-    <select name="content_type">
+  content_type
+  <? if($edit_post_mode != false): ?>
+  <? $data['content_type'] = 'post'; ?>
+  <? endif; ?>
+  <select name="content_type">
     <option value="page"   <? if(('page' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>page</option>
-        <option value="post"   <? if(('post' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>post</option>
-
-   
+    <option value="post"   <? if(('post' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>post</option>
   </select>
   <? //d($edit_post_mode); ?>
-   <? if($edit_post_mode != false): ?>
-   
-   
-   
-   <script  type="text/javascript">
+  <? if($edit_post_mode != false): ?>
+  <script  type="text/javascript">
 
  
  
@@ -251,42 +256,33 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	
 }
 </script>
-   
-   
-   <? if(intval($data['id']) > 0): ?>
-        <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>">
-
-       
-   <? else: ?>
-       <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content">
-
-   
-   <? endif; ?>
-
-<br />
-
-Custom fields for post
- <div id="custom_fields_for_post_<? print $rand ?>" >
- <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
- 
- </div>
-<br />
-
-Available custom fields
- <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
-
-
-
-   <? endif; ?>
-  
- 
-   <? if($edit_post_mode == false): ?>
-   
-   
-   
-   
+  <? if(intval($data['id']) > 0): ?>
+  <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>">
+  <? else: ?>
+  <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content">
+  <? endif; ?>
+  <br />
+  Custom fields for post
+  <div id="custom_fields_for_post_<? print $rand ?>" >
+    <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
+  </div>
+  <br />
+  Available custom fields
+  <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
+  <? endif; ?>
+  <? if($edit_post_mode == false): ?>
   is_home
   <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
+   
+  <br />
+  
+   is_shop
+  <select name="is_shop">
+    <option value="n"   <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   selected="selected"  <? endif; ?>>No</option>
+    <option value="y"   <? if( 'y' == trim($data['is_shop'])  ): ?>   selected="selected"  <? endif; ?>>Yes</option>
+  </select>
+  
+  
   <br />
   subtype
   <select name="subtype">
@@ -294,15 +290,13 @@ Available custom fields
     <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
   </select>
   <br />
-    subtype_value
+  subtype_value
   <input name="subtype_value"  type="text" value="<? print ($data['subtype_value'])?>" />
   <br />
-  
-    <? endif; ?>
+  <? endif; ?>
   description
   <input name="description"  type="text" value="<? print ($data['description'])?>" />
   <br />
-
   <input type="submit" name="save"    value="save" />
   <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   <? if($edit_post_mode == false): ?>

@@ -2,6 +2,45 @@
 
 define("DB_IS_SQLITE", false);
 
+function db_delete_by_id($table, $id = 0, $field_name = 'id') {
+	$table = guess_table_name($table);
+	$table_real = db_get_real_table_name($table);
+	$id = intval($id);
+
+	if ($id == 0) {
+
+		return false;
+	}
+
+	$q = "DELETE from $table_real where {$field_name}=$id ";
+
+	$cg = guess_cache_group($table);
+	//
+
+	// d($cg);
+	cache_clean_group($cg);
+	$q = db_q($q);
+
+	$cms_db_tables = c('db_tables');
+
+	$table1 = $cms_db_tables['table_taxonomy'];
+	$table_items = $cms_db_tables['table_taxonomy_items'];
+
+	$q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
+
+	$q = db_q($q);
+	cache_clean_group('taxonomy');
+
+	$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
+	//d($q);
+	$q = db_q($q);
+
+	cache_clean_group('taxonomy_items');
+
+	//	d($q);
+
+}
+
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
 	$id = intval($id);

@@ -1,6 +1,4 @@
-<?
-
- $rand = uniqid(); ?>
+<?php $rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -8,19 +6,33 @@
 
 $(document).ready(function(){
 	
-	 
+	 mw_append_pages_tree_controlls<? print $rand  ?>();
  
-$('#pages_tree_toolbar .pages_tree a[data-page-id]').live('click',function(e) { 
-
+$('#pages_tree_toolbar<? print $rand  ?> .pages_tree a[data-page-id]').live('click',function(e) { 
 $p_id = $(this).parent().attr('data-page-id');
- 
- 
  mw_select_page_for_editing($p_id);
  return false;
- 
- 
- 
  });
+ 
+ 
+ 
+  mw.on.moduleReload("pages_tree_toolbar<? print $rand  ?>", function(){
+ mw_append_pages_tree_controlls<? print $rand  ?>();
+ });
+
+ 
+$('#pages_tree_toolbar<? print $rand  ?> .pages_tree .mw_del_content').live('click',function(e) { 
+				$p_id = $(this).parent().attr('data-page-id');
+				 $.post("<? print site_url('api/delete_content'); ?>", { id: $p_id },
+				   function(data) {
+					    $('#pages_tree_toolbar<? print $rand  ?> .pages_tree').find('li[data-page-id="'+$p_id+'"]').remove();
+					// mw.log("Data Loaded: " + data);
+				   });
+				
+				 }); 
+ 
+ 
+ 
    
 });
 
@@ -40,7 +52,17 @@ return false;
  
  
  
+function mw_delete_content($p_id){
+	 $('#holder_temp2_<? print $rand  ?>').attr('data-content-id',$p_id);
+  	 mw.load_module('content/edit_post','#holder_temp2_<? print $rand  ?>');
+}
 
+
+
+function mw_append_pages_tree_controlls<? print $rand  ?>(){
+	$b1 = " <span class='mw_del_content'>[x]</span>"
+	$('#pages_tree_toolbar<? print $rand  ?> .pages_tree a[data-page-id]').after($b1);
+}
 
 
 function mw_select_page_for_editing($p_id){
@@ -54,9 +76,9 @@ function mw_select_page_for_editing($p_id){
 	
 	$('#holder_temp2_<? print $rand  ?>').attr('data-page-id',$p_id);
   	 mw.load_module('content/edit_page','#holder_temp2_<? print $rand  ?>');
-	 
-	 
-	 
+
+
+
 	 
  // mw.reload_module('#edit_content_admin_<? print $rand  ?>');
 	
@@ -84,7 +106,7 @@ function mw_set_edit_categories<? print $rand  ?>(){
 	$('#holder_temp_<? print $rand  ?>').empty();
 	$('#holder_temp2_<? print $rand  ?>').empty();
 	 mw.load_module('categories','#holder_temp_<? print $rand  ?>');
-	 
+
 	 
 	 $('#holder_temp_<? print $rand  ?> a').live('click',function() { 
 
@@ -146,20 +168,34 @@ function mw_set_edit_posts<? print $rand  ?>(){
 
 function mw_select_post_for_editing($p_id){
 	 $('#holder_temp2_<? print $rand  ?>').attr('data-content-id',$p_id);
-  	 mw.load_module('content/edit_post','#holder_temp2_<? print $rand  ?>');
+	 	 	 $('#holder_temp2_<? print $rand  ?>').removeAttr('data-subtype', 'post');
 
-	
+  	 mw.load_module('content/edit_post','#holder_temp2_<? print $rand  ?>');
 }
+
+function mw_add_product(){
+	 $('#holder_temp2_<? print $rand  ?>').attr('data-content-id',0);
+	 	 $('#holder_temp2_<? print $rand  ?>').attr('data-subtype','product');
+
+  	 mw.load_module('content/edit_post','#holder_temp2_<? print $rand  ?>');
+}
+
+
+
+
+
+
 </script>
    <button onclick="mw_select_page_for_editing(0)">new page</button>
         <button onclick="mw_select_category_for_editing(0)">new category</button>
          <button onclick="mw_select_post_for_editing(0)">new post</button>
+           <button onclick="mw_add_product(0)">new product</button>
 <button onclick="mw_set_edit_categories<? print $rand  ?>()">mw_set_edit_categories<? print $rand  ?></button>
 <button onclick="mw_set_edit_posts<? print $rand  ?>()">mw_set_edit_posts<? print $rand  ?></button>
 <table  border="1" id="pages_temp_delete_me" style="z-index:9999999999; background-color:#efecec; position:absolute;" >
   <tr>
     <td><div id="holder_temp_<? print $rand  ?>">
-        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar"  />
+        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar<? print $rand  ?>"  />
      
       </div></td>
     <td><div id="holder_temp2_<? print $rand  ?>"><module data-type="content/edit_page" id="edit_content_admin_<? print $rand  ?>"  /></div></td>
