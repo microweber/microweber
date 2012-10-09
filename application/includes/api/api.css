@@ -17,6 +17,34 @@ body.mw-live-edit{
 .z-6{z-index:6}
 .z-7{z-index:7}
 
+/* Let's get this party started */
+.desc_area ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+
+}
+
+/* Track */
+.desc_area  ::-webkit-scrollbar-corner {
+background: purple;
+}
+
+/* Handle */
+.desc_area ::-webkit-scrollbar-corner {
+background: red;
+
+}
+.desc_area  ::-webkit-resizer {
+background: blue
+}
+
+
+.desc_area ::-webkit-resizer {
+background: grey
+}
+
+
+
 /* Forms styles */
 
 .fancy_input{
@@ -563,6 +591,12 @@ margin-right: 6px;
 }
 .ed_color_pick span{
   background-image:url(../img/ico.transparentbg.png);
+}
+.ed_item img{
+  max-width: 18px;
+  max-height: 18px;
+  float: left;
+  margin: 1px 0 0 1px;
 }
 
 .fx_canvas_slider{

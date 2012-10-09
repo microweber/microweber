@@ -1,5 +1,35 @@
 <?php
 
+function create_mw_default_options() {
+    define('FORCE_SAVE',1);
+    $data = array();
+    $data['option_group'] = 'other';
+    $data['option_key'] = 'pecatazzz';
+    $data['option_value'] = 'pecatazzz';
+    set_default_option($data);
+
+
+}
+
+function set_default_option($data) {
+
+    if (is_array($data)) {
+        if (!isset($data['option_group'])) {
+            $data['option_group'] = 'other';
+        }
+
+
+        if (isset($data['option_key'])) {
+            $check = get_option($data['option_key'], $option_group = $data['option_group'], $return_full = false, $orderby = false);
+            if ($check == false) {
+                save_option($data);
+            }
+        }
+    } else {
+        error('set_default_option $data param must be array');
+    }
+}
+
 function option_get($key, $option_group = false, $return_full = false, $orderby = false) {
     return get_option($key, $option_group, $return_full, $orderby);
 }
@@ -80,7 +110,7 @@ api_expose('save_option');
 function save_option($data) {
     $id = is_admin();
     if ($id == false) {
-        error('Error: not logged in as admin.');
+     //   error('Error: not logged in as admin.');
     }
     // p($_POST);
     if ($data) {

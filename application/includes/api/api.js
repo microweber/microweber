@@ -17,7 +17,6 @@ mw = function(){
 
 
 
-
 mwd = document;
 
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
