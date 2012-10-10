@@ -96,17 +96,14 @@ return str;
 });
 
 </script>
+
 <strong>active_site_template</strong>
 <? if($templates != false and !empty($templates)): ?>
 <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
   <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
-  
-    <? if(('' != trim($data['active_site_template']))): ?>
+  <? if(('' != trim($data['active_site_template']))): ?>
   <option value="<? print $data['active_site_template'] ?>"     selected="selected" ><? print $data['active_site_template'] ?></option>
-   <? endif; ?>
-  
-  
-  
+  <? endif; ?>
   <? foreach($templates as $item): ?>
   <? $attrs = ''; 
  foreach($item as $k=>$v): ?>
@@ -118,30 +115,22 @@ return str;
 <? endif; ?>
 <br />
 layout_file
-
- 
 <select name="layout_file" id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"   <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
-   <? if(('' != trim($data['layout_file']))): ?>
+  <? if(('' != trim($data['layout_file']))): ?>
   <option value="<? print $data['layout_file'] ?>"     selected="selected" ><? print $data['layout_file'] ?></option>
-   <? endif; ?>
-  
+  <? endif; ?>
   <? if(!empty($layouts)): ?>
   <? foreach($layouts as $item): ?>
   <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
   <? endforeach; ?>
   <? endif; ?>
 </select>
-
 <br />
 <br />
 Preview<br />
 <br />
-
-
-
-
-         <style type="text/css">
+<style type="text/css">
 .preview_frame_small{
 zoom: 0.15;
 -moz-transform: scale(0.15);
@@ -151,11 +140,7 @@ zoom: 0.15;
 -webkit-transform: scale(0.15);
 -webkit-transform-origin: 0 0;
 
-width:600px;height:800px;border:5px solid black;
+width:600px;height:300px;border:5px solid black;
 }
 </style>
-<div class="preview_frame_wrap">
-
-  
-</div>
-
+<div class="preview_frame_wrap"> </div>

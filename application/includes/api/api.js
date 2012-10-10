@@ -270,7 +270,7 @@ mw._ = function(obj, sendSpecific){
         mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
         mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true) : '';
 
-       mw.on._moduleReload(id)
+       mw.on.moduleReload(id, "", true);
 
 
     });
@@ -302,13 +302,14 @@ mw.$ = function(selector){
 mw.on = {
   _onmodules : [],
   _onmodules_funcs : [],
-  _moduleReload : function(id){
-    var index = mw.on._onmodules.indexOf(id);
-    if(index != -1){
-      mw.on._onmodules_funcs[index].call(mwd.getElementById(id));
-    }
-  },
-  moduleReload : function(id, c){
+  moduleReload : function(id, c, trigger){
+     if(trigger){
+          var index = mw.on._onmodules.indexOf(id);
+          if(index != -1){
+            mw.on._onmodules_funcs[index].call(mwd.getElementById(id));
+          }
+          return false;
+     }
      if(mw.is.func(c)){
        mw.on._onmodules.push(id);
        mw.on._onmodules_funcs.push(c);
@@ -316,8 +317,8 @@ mw.on = {
      else if(c==='off'){
        var index = mw.on._onmodules.indexOf(id);
        if(index != -1){
-        delete mw.on._onmodules.splice(index, 1);
-        delete mw.on._onmodules_funcs.splice(index, 1);
+        mw.on._onmodules.splice(index, 1);
+        mw.on._onmodules_funcs.splice(index, 1);
        }
      }
   }

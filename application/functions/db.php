@@ -833,6 +833,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$criteria['search_by_keyword'] = $criteria['keyword'];
 	}
 
+	if (isset($criteria['orderby'])) {
+		$orderby = $criteria['orderby'];
+		if (is_string($orderby)) {
+			$orderby = mysql_real_escape_string($orderby);
+		}
+
+	}
+
 	if (isset($criteria['data-keyword'])) {
 		$criteria['search_by_keyword'] = $criteria['data-keyword'];
 	}
@@ -935,6 +943,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			if (!empty($only_those_fields)) {
 
 				$flds = implode(',', $only_those_fields);
+				$flds = mysql_real_escape_string($flds);
 
 				$q = "SELECT $flds FROM $table ";
 			} else {

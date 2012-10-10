@@ -22,7 +22,7 @@
             mw.history.init();
             mw.tools.module_slider.init();
             mw.tools.dropdown();
-            mw.tools.toolbar_tabs.init();
+
             mw.tools.toolbar_slider.init();
 
 
@@ -102,16 +102,16 @@
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
       <ul id="mw_tabs">
-        <li> <a href="#mw_tab_modules">
+        <li id="t_modules"> <a href="#modules">
           <? _e('Modules'); ?>
           </a> </li>
-        <li> <a href="#mw_tab_layouts">
+        <li id="t_layouts"> <a href="#layouts">
           <? _e('Layouts'); ?>
           </a> </li>
-        <li> <a href="#tab_pages">
+        <li id="t_pages"> <a href="#pages">
           <? _e('Pages'); ?>
           </a> </li>
-        <li> <a href="#mw_tab_help">
+        <li id="t_help"> <a href="#help">
           <? _e('Help'); ?>
           </a> </li>
       </ul>

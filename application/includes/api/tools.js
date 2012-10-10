@@ -250,32 +250,7 @@ mw.tools = {
         mw.tools.module_slider.scale();
     }
   },
-  toolbar_tabs:{
-    get_active:function(){
-        var hash = window.location.hash;
-        if(hash==''){
-          return '#tab_modules';
-        }
-        else{
-            return hash.replace(/mw_/g, '');
-        }
-    },
-    change:function(){
 
-       var hash = mw.tools.toolbar_tabs.get_active();
-       $("#mw_tabs li").removeClass("active");
-       var xdiez = hash.replace("#", "");
-       $("#mw_tabs a[href*='"+xdiez+"']").parent().addClass("active");
-       $(".mw_tab_active").removeClass("mw_tab_active");
-       $(hash).addClass("mw_tab_active");
-    },
-    init:function(){
-        $(window).bind('hashchange', function(){
-            mw.tools.toolbar_tabs.change();
-        });
-        mw.tools.toolbar_tabs.change();
-    }
-  },
   toolbar_slider:{
     slide_left:function(item){
        var item = $(item);
@@ -363,8 +338,20 @@ mw.tools = {
           }
       }
 
+  },
+  classNameSpaceDelete:function(el_obj, namespace){
+    var clas =  el_obj.className.split(" ");
+    for(var i=0; i<clas.length; i++){
+      if(clas[i].indexOf(namespace)==0){
+           clas[i] = 'MWDeleteNameSpace';
+      }
+    }
+    el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   }
+
 }
+
+
 
 
 

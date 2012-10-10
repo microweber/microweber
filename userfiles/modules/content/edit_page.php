@@ -125,16 +125,16 @@ mw.reload_module('[data-type="posts"]');
 });
 </script>
 
-<textarea>
- 
- 
- <? print_r($data); ?> 
- 
- </textarea>
-<form id="admin_edit_page_form_<? print $form_rand_id ?>">
-  id
-  <input name="id"  type="text" value="<? print ($data['id'])?>" />
+<form id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form">
+  <input name="id"  type="hidden" value="<? print ($data['id'])?>" />
+  Page name
+  <input name="title"  type="text" value="<? print ($data['title'])?>" />
   <br />
+  url
+  <input name="url"  type="text" value="<? print ($data['url'])?>" />
+  <? if($edit_post_mode == false): ?>
+  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+  <? endif; ?>
   parent
   <? if($edit_post_mode != false): ?>
   <?
@@ -161,9 +161,7 @@ mw.reload_module('[data-type="posts"]');
   <? if(!isset($params['subtype'])): ?>
   <?   $params['subtype'] = 'post'; ?>
   <? endif; ?>
-  <br />
-  subtype
-  <input name="subtype"   value="<? print $params['subtype'] ?>" >
+  <input name="subtype"  type="hidden"  value="<? print $params['subtype'] ?>" >
   <? if(!empty($pages)): ?>
   <select name="parent" id="the_post_parent_page<? print $rand ?>">
     <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -198,25 +196,10 @@ mw.reload_module('[data-type="posts"]');
   </select>
   <? endif; ?>
   <? endif; ?>
-  <br />
-  <br />
-  title
-  <input name="title"  type="text" value="<? print ($data['title'])?>" />
-  <br />
-  url
-  <input name="url"  type="text" value="<? print ($data['url'])?>" />
-  <br />
-  is_active
-  <input name="is_active"  type="text" value="<? print ($data['is_active'])?>" />
-  content_type
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
   <? endif; ?>
-  <select name="content_type">
-    <option value="page"   <? if(('page' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>page</option>
-    <option value="post"   <? if(('post' == trim($data['content_type']))): ?>   selected="selected"  <? endif; ?>>post</option>
-  </select>
-  <? //d($edit_post_mode); ?>
+  <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
   <script  type="text/javascript">
 
@@ -311,15 +294,24 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
+  <h2>Advanced settings</h2>
+  description
+  <input name="description"  type="text" value="<? print ($data['description'])?>" />
   <? if($edit_post_mode == false): ?>
+  <br />
+  <br />
   is_home
-  <input name="is_home"  type="text" value="<? print ($data['is_home'])?>" />
+  <input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
+  No
+  <input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
+  Yes <br />
   <br />
   is_shop
-  <select name="is_shop">
-    <option value="n"   <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   selected="selected"  <? endif; ?>>No</option>
-    <option value="y"   <? if( 'y' == trim($data['is_shop'])  ): ?>   selected="selected"  <? endif; ?>>Yes</option>
-  </select>
+  <input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
+  No
+  <input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
+  Yes <br />
+  <br />
   <br />
   subtype
   <select name="subtype">
@@ -331,12 +323,16 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <input name="subtype_value"  type="text" value="<? print ($data['subtype_value'])?>" />
   <br />
   <? endif; ?>
-  description
-  <input name="description"  type="text" value="<? print ($data['description'])?>" />
+  <br />
+  is_active
+  <input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+  No
+  <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+  Yes <br />
+  <br />
   <br />
   <input type="submit" name="save"    value="save" />
   <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   <? if($edit_post_mode == false): ?>
-  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
 </form>
