@@ -32,68 +32,6 @@
 		
 
 
-
-		    $(document).ready(function () {
-
-
- $(".mw_option_field").live("change blur", function () {
-                var refresh_modules11 = $(this).attr('data-refresh');
-				
-				if(refresh_modules11 == undefined){
-				    var refresh_modules11 = $(this).attr('data-reload');
-				}
-
-				if(refresh_modules11 == undefined){
-				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
- refresh_modules11 = '#'+refresh_modules11;
-				}
-				
-				 var mname = $(this).parents('.module:first').attr('data-type');
-				
-
-				og = $(this).attr('data-module-id');
-				if(og == undefined){
-				og = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module') 
-				}
-				
-				
-				var o_data = {
-
-                        option_key: $(this).attr('name'),
-                        option_group: og,
-                        option_value: $(this).val()
-
-
-                    }
-				if(mname != undefined){
-					o_data.module = mname;
-				}
-				
-				
-                $.ajax({
-
-                    type: "POST",
-                    url: "<? print site_url('api/save_option') ?>",
-                    data: o_data,
-                    success: function () {
-                        if (refresh_modules11 != undefined && refresh_modules11 != '') {
-                            refresh_modules11 = refresh_modules11.toString()
-
-                            if (window.mw != undefined) {
-                                if (window.mw.reload_module != undefined) {
-                                    window.mw.reload_module(refresh_modules11);
-                                }
-                            }
-  
-                        }
-
-                        //  $(this).addClass("done");
-                    }
-                });
-            });
-		
-		    });
-
     </script>
 
 <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>

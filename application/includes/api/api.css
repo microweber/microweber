@@ -3,6 +3,8 @@ api css
 */
 
 body.mw-live-edit{
+    margin: 0;
+    padding: 0;
     padding-top: 170px;
 }
 
@@ -527,6 +529,8 @@ margin-right: 6px;
 #items_handle{
   left: -9999px;
   top: -9999px;
+  font-family: Verdana, sans-serif;
+  font-size:12px;
 }
 
 .mw_resizing > .column{
@@ -685,9 +689,7 @@ margin-right: 6px;
 #mw-history-panel{
   display: none;
 }
-#MagicTheme{
-  padding-top: 25px;
-}
+
 
 body.dragStart .ui-resizable-handle,
 body.dragStart #items_handle{
@@ -823,6 +825,68 @@ li.module-item.ui-draggable-dragging{
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+input.mw-ui[type='checkbox'],
+input.mw-ui[type='radio']{
+  display: none;
+}
+
+input.mw-ui[type='checkbox'] + label,
+input.mw-ui[type='radio'] + label{
+  display: inline-block;
+  cursor: pointer;
+  background: url(../img/chkrd.png) no-repeat;
+}
+input.mw-ui[type='checkbox']:disabled + label,
+input.mw-ui[type='radio']:disabled + label{
+    opacity:.7;
+    cursor: default !important;
+}
+
+
+input.mw-ui[type='checkbox'] + label{
+  width: 16px;
+  height: 17px;
+  background-position: 0 -15px;
+}
+input.mw-ui[type='checkbox']:checked + label{
+  background-position: -16px -15px;
+}
+
+input.mw-ui[type='radio'] + label{
+  width: 14px;
+  height: 15px;
+}
+input.mw-ui[type='radio']:checked + label{
+  background-position: -14px 0;
+}
+
+.mw-ui-select{
+  display: inline-block;
+  width: auto;
+  position: relative;
+
+
+  border: 1px solid #DCDCDC;
+  border-top: none;
+  background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  box-shadow:inset 0px 1px 0px #B8B8B8;
+
+}
+
+.mw-ui-select select{
+  opacity:1;
+  height: 33px;
+  outline: none;
+  background: #F1F1F1;
+  border: none;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
 }
 
 

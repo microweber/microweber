@@ -9,6 +9,9 @@ $data['id'] = 0;
 $data['content_type'] = 'page';	
 $data['title'] = 'Title';	
 $data['url'] = '';	
+
+$data['thumbnail'] = '';	 
+
 $data['is_active'] = 'y';	
 $data['is_home'] = 'n';	
 

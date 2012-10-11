@@ -34,6 +34,44 @@ if(isset($params["data-is-shop"])){
 
 $form_rand_id = $rand = uniqid();
 ?>
+
+
+
+<br /><br /><br /><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input class="mw-ui" type="radio" id="tchk22" name="yo" />
+<label for="tchk22"></label>
+<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input class="mw-ui"  checked="checked" name="yo" type="radio" id="tchk2211" />
+<label for="tchk2211"></label>
+
+<br /><br /><br /><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input class="mw-ui" type="checkbox" id="tchk221" name="yo1" /><label for="tchk221"></label>
+<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+<input class="mw-ui"  name="yo1" type="checkbox" id="tchk22115" />
+
+
+
+<label for="tchk22115"></label>
+
+
+
+
+
+
 <script  type="text/javascript">
 
 mw.require('forms.js');
@@ -132,6 +170,13 @@ mw.reload_module('[data-type="posts"]');
   <br />
   url
   <input name="url"  type="text" value="<? print ($data['url'])?>" />
+  <?  if(!isset($data["thumbnail"])){
+	   $data['thumbnail'] = '';
+	  
+  }?>
+ 
+   thumbnail
+  <input name="thumbnail"  type="text" value="<? print ($data['thumbnail'])?>" />
   <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
@@ -163,37 +208,41 @@ mw.reload_module('[data-type="posts"]');
   <? endif; ?>
   <input name="subtype"  type="hidden"  value="<? print $params['subtype'] ?>" >
   <? if(!empty($pages)): ?>
-  <select name="parent" id="the_post_parent_page<? print $rand ?>">
-    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-    <? if((0 != intval($data['parent']))): ?>
-    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
-    <? endif; ?>
-    <?
-	$include_categories_in_cat_selector = array();
-	 foreach($pages as $item):
-	
-	$include_categories_in_cat_selector[] = $item['subtype_value'];
-	 ?>
-    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <? print $item['title'] ?>
-    </option>
-    <? endforeach; ?>
-  </select>
+  <div class="mw-ui-select">
+    <select name="parent" id="the_post_parent_page<? print $rand ?>">
+      <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+      <? if((0 != intval($data['parent']))): ?>
+      <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+      <? endif; ?>
+      <?
+  	$include_categories_in_cat_selector = array();
+  	 foreach($pages as $item):
+
+  	$include_categories_in_cat_selector[] = $item['subtype_value'];
+  	 ?>
+      <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+      <? print $item['title'] ?>
+      </option>
+      <? endforeach; ?>
+    </select>
+  </div>
   <? endif; ?>
   <? else: ?>
   <? $pages = get_content('content_type=page&limit=1000');   ?>
   <? if(!empty($pages)): ?>
-  <select name="parent">
-    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-    <? if((0 != intval($data['parent']))): ?>
-    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
-    <? endif; ?>
-    <? foreach($pages as $item): ?>
-    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <? print $item['title'] ?>
-    </option>
-    <? endforeach; ?>
-  </select>
+  <div class="mw-ui-select">
+    <select name="parent">
+      <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+      <? if((0 != intval($data['parent']))): ?>
+      <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+      <? endif; ?>
+      <? foreach($pages as $item): ?>
+      <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+      <? print $item['title'] ?>
+      </option>
+      <? endforeach; ?>
+    </select>
+  </div>
   <? endif; ?>
   <? endif; ?>
   <? if($edit_post_mode != false): ?>
@@ -314,10 +363,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <br />
   <br />
   subtype
-  <select name="subtype">
-    <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-    <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
-  </select>
+  <div class="mw-ui-select">
+    <select name="subtype">
+      <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+      <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+    </select>
+  </div>
   <br />
   subtype_value
   <input name="subtype_value"  type="text" value="<? print ($data['subtype_value'])?>" />

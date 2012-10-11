@@ -92,3 +92,5 @@ $language["border-left"]= 'Border Left' ;
 $language["border-right"]= 'Border Right' ; 
 $language["border-top"]= 'Border Top' ; 
 $language["border-bottom"]= 'Border Bottom' ; 
+$language["edit"]= 'Edit' ; 
+$language["edit"]= 'Edit' ; 

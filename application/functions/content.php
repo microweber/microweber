@@ -1379,6 +1379,11 @@ and to_table IS NULL and to_table_id IS NULL
 
 function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
+    $nest_level = 0;
+
+
+
+
     $params2 = array();
     $params = false;
     $output = '';
@@ -1395,6 +1400,11 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             $parent = 0;
             extract($params);
         }
+    }
+
+
+    if (isset($params['nest_level'])) {
+        $nest_level = $params['nest_level'];
     }
 
     $cms_db_tables = c('db_tables');
@@ -1419,11 +1429,12 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $result = $q;
 
     if (is_array($result) and !empty($result)) {
+        $nest_level++;
 
         if ($ul_class_name == false) {
-            print "<ul class='pages_tree'>";
+            print "<ul class='pages_tree depth-{$nest_level}'>";
         } else {
-            print "<ul class='{$ul_class_name}'>";
+            print "<ul class='{$ul_class_name} depth-{$nest_level}'>";
         }
 
         foreach ($result as $item) {
@@ -1478,13 +1489,16 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 
 
-            $to_pr_2 = "<li class='$content_type_li_class {active_class}' data-page-id='{$item['id']}' data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  id='page_list_holder_{$item['id']}' >";
+            $to_pr_2 = "<li class='$content_type_li_class {active_class} depth-{$nest_level}' data-page-id='{$item['id']}' data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  id='page_list_holder_{$item['id']}' >";
 
             if ($link != false) {
 
                 $to_print = str_ireplace('{id}', $item['id'], $link);
 
                 $to_print = str_ireplace('{title}', $item['title'], $to_print);
+
+                $to_print = str_ireplace('{nest_level}', 'depth-' . $nest_level, $to_print);
+
 
                 $to_print = str_ireplace('{link}', page_link($item['id']), $to_print);
 
@@ -1547,8 +1561,13 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
                 $to_pr_2 = false;
                 print $item['title'];
             }
+
+
+
             if (is_array($params)) {
                 $params['parent'] = $item['id'];
+               //   $nest_level++;
+               $params['nest_level'] = $nest_level;
                 $children = pages_tree($params);
             } else {
                 $children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);

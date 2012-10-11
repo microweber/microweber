@@ -325,6 +325,10 @@ mw.on = {
 }
 
 
+mw.hash = function(b){
+  return b===undefined ?  window.location.hash : window.location.hash = b;
+}
+
 
 
 

@@ -134,6 +134,7 @@ $(document).ready(function(){
            mw.dropables.set("bottom", off, h, w);
          }
        }
+       mw.dropable.addClass("mw_dropable_onleaveedit");
      }
    });
 
@@ -255,6 +256,10 @@ mw.drag = {
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
                     if(mw.$mm_target.parents('.edit').length>0){
                        mw.currentDragMouseOver = mw.mm_target;
+                       if(mw.$mm_target.hasClass("empty-element")){
+                          mw.dropable.removeClass("mw_dropable_onleaveedit");
+                       }
+
                     }
                     else{
                       //mw.currentDragMouseOver =  null;
@@ -404,6 +409,7 @@ mw.drag = {
           });
           $(mw.handle_element).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
+          mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function(a, element){
           var el = $(element);
@@ -755,6 +761,9 @@ mw.drag = {
 
 
                         var position = mw.dropable.data("position");
+                        mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+
 
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
@@ -917,7 +926,7 @@ mw.drag = {
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                     mw.currentDragMouseOver = null;
-				}, 137);
+				}, 77);
 			}
 
 
@@ -1088,10 +1097,88 @@ mw.drag = {
 	width:600,
 	height:450,
 	callback:function() {
-      $(this.container).load(mw.settings.site_url + "api/module", data1);
+      var id = this.main[0].id;
+      $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
+        mw.drag.ModuleSettingsPopupLoaded(id);
+      });
       $(this.container).attr('data-settings-for-module', curr.id);
     }
 	});
+
+  },
+
+  ModuleSettingsPopupLoaded : function(id){
+
+   mw.$("#"+id+" .mw_option_field").bind("change blur", function () {
+
+                var refresh_modules11 = $(this).attr('data-refresh');
+
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = $(this).attr('data-reload');
+				}
+
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
+                    var refresh_modules11 = '#'+refresh_modules11;
+				}
+
+				 var mname = $(this).parents('.module:first').attr('data-type');
+
+
+				var og = $(this).attr('data-module-id');
+				if(og == undefined){
+				    var og = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module')
+				}
+
+
+                 if(this.type==='checkbox'){
+                   var val = '';
+                   var items = mw.$('input[name="'+this.name+'"]');
+                   for(var i=0; i<items.length; i++){
+                       var _val = items[i].value;
+                       var val = items[i].checked==true ? (val==='' ? _val: val+", "+_val) : val;
+
+                   }
+                 }
+                 else{val = this.value }
+
+
+
+
+
+				var o_data = {
+                    option_key: $(this).attr('name'),
+                    option_group: og,
+                    option_value: val
+                   // chkboxes:checkboxes_obj
+                }
+				if(mname != undefined){
+					o_data.module = mname;
+				}
+
+
+                $.ajax({
+
+                    type: "POST",
+                    url: mw.settings.site_url+"api/save_option",
+                    data: o_data,
+                    success: function () {
+                        if (refresh_modules11 != undefined && refresh_modules11 != '') {
+                            refresh_modules11 = refresh_modules11.toString()
+
+                            if (window.mw != undefined) {
+                                if (window.mw.reload_module != undefined) {
+                                    window.mw.reload_module(refresh_modules11);
+                                }
+                            }
+
+                        }
+
+                        //  $(this).addClass("done");
+                    }
+                });
+            });
+
 
   },
 

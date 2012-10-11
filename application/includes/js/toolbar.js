@@ -700,10 +700,17 @@ $(".mw_dropdown_action_format").change(function(){
 
 
     mw.on.hashParam("tab", function(){
+      var tab = this;
       $(".mw_toolbar_tab").removeClass("mw_tab_active");
-      $("#tab_"+this).addClass("mw_tab_active");
+      $("#tab_"+tab).addClass("mw_tab_active");
       $("#mw_tabs li").removeClass("active");
-      $("#mw_tabs li#t_"+this).addClass("active");
+      $("#mw_tabs li#t_"+tab).addClass("active");
+      if(tab=='pages'){
+        mw.$("html").addClass("mw_pages");
+      }
+      else{
+        mw.$("html").removeClass("mw_pages");
+      }
     });
 
 
@@ -713,6 +720,12 @@ $(".mw_dropdown_action_format").change(function(){
       mw.url.windowHashParam("tab", $(this).attr("href").replace(/#/, ''));
       return false;
     });
+
+
+   if(mw.hash()==='' || mw.url.getHashParams(mw.hash()).tab===undefined){
+     mw.url.windowHashParam("tab", "modules");
+   }
+
 
 });
 
@@ -771,4 +784,8 @@ mw.toggle_subpanel = function(){
 $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
+    $("#mw_edit_pages").css({
+       width:window.innerWidth,
+       height:window.innerHeight-50
+     });
 });

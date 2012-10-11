@@ -139,6 +139,7 @@ background-image: -webkit-gradient(
 	width:90%;
 	overflow:hidden;
 	height: 75px;
+    margin: 0;
 }
 .modules-list img {
 	border: 0 none;
@@ -356,11 +357,19 @@ padding:0px !important;
 
 #mw_edit_pages{
   width: 100%;
-  height: 100%;
-  background: white;
+  height: 900px;
   position: absolute;
+  background: white;
   left: 0;
   top: 0;
+  overflow: hidden;
+}
+#mw_edit_pages_content{
+  background: white;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  overflow: auto;
 }
 
 /* tabs navigation */
@@ -571,7 +580,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 
 .ui-draggable-dragging{
 
-  opacity:0.7;
+  opacity:0.9;
 }
 
 
@@ -848,6 +857,7 @@ height: 13px;
 }
 #design_bnav{
   position: fixed;
+  font-family: Verdana, sans-serif;
   top: 150px;
   left: 70%;
   z-index: 998;
@@ -1242,6 +1252,43 @@ li .ts_action_item:last-child{
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+.mw_tree_title{
+  background: url(../img/ico.tree.png) no-repeat;
+  color: #777777;
+  text-transform: uppercase;
+  font-size:16px;
+  font-weight: normal;
+  padding: 10px 0 15px 45px;
+  margin: 0;
+}
+
+.mw_dropable_onleaveedit{
+  display: block !important;
+}
+
+/* .element{
+   transition: transform 0.3s;
+  -moz-transition: -moz-transform 0.3s;
+  -webkit-transition: -webkit-transform 0.3s;
+  -o-transition: -o-transform 0.3s;
+  -ms-transition: -ms-transform 0.3s;
+}
+
+.element.ui-draggable-dragging, .module.ui-draggable-dragging{
+  box-shadow: 0 0 30px #000000;
+  padding: 20px;
+  transform:scale(0.35, 0.35);
+  -ms-transform:scale(0.35, 0.35);
+  -moz-transform:scale(0.35, 0.35);
+  -webkit-transform:scale(0.35, 0.35);
+  -o-transform:scale(0.35, 0.35);
+  transform-origin:0 0;
+  -ms-transform-origin:0 0;
+  -moz-transform-origin:0 0;
+  -webkit-transform-origin:0 0;
+  -o-transform-origin:0 0;
+} */
 
 
 
