@@ -24,9 +24,9 @@ var t = mwd.body.style;
   mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 
 
-  mw._CSSPrefixes = ['-moz-', '-webki-', '-o-', '-ms-'];
+  //mw._CSSPrefixes = ['-moz-', '-webki-', '-o-', '-ms-'];
 
-  var _Prefixtest = document.body.style;
+  var _Prefixtest = mwd.body.style;
 
   mw.JSPrefix = function(property){
     if(_Prefixtest[property]!==undefined){

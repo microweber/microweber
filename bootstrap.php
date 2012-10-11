@@ -203,7 +203,7 @@ if ($mw_config ['site_url']) {
     define('SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/');
 }
 $dnf = ROOTPATH;
-$md5_conf = 'mw_cache_' . crc32($dnf);
+$md5_conf = 'mw_cache_' . crc32($dnf.SITEURL);
 $cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {

@@ -483,6 +483,39 @@ body.not-allowed{
 }
 
 
+.mw_action_nav{
+  display: block;
+  width: 48px;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.mw_action_nav label{
+  color: #6C6C6C;
+  font-size: 10px;
+}
+
+.mw_action_nav button{
+  width: 48px;
+  height: 24px;
+  background: url(../img/mw_content_actions.png) no-repeat;
+  border: none;
+  cursor: pointer;
+  display: block;
+}
+.mw_action_post button{background-position: -62px 0}
+.mw_action_category button{background-position: -120px 0}
+.mw_action_product button{background-position: -180px 0}
+
+
+.mw_edit_pages_nav{
+  height: 105px;
+  border-bottom: 1px solid #E2E2E2;
+}
+
+
 
 
 

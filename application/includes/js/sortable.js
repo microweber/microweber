@@ -48,25 +48,93 @@ mw.dropables = {
           width:width
       });
     }
-
+  },
+  set:function(pos, offset, height, width){
+    if(pos==='top'){
+      mw.top_half = true;
+      mw.dropable.css({
+        top:offset.top-2,
+        left:offset.left,
+        height:2,
+        width:width
+      });
+      mw.dropable.data("position", "top");
+      mw.dropable.addClass("mw_dropable_arr_up");
+    }
+    else if(pos==='bottom'){
+        mw.top_half = false;
+        mw.dropable.css({
+          top:offset.top+height+2,
+          left:offset.left,
+          height:2,
+          width:width
+        });
+        mw.dropable.data("position", "bottom");
+        mw.dropable.removeClass("mw_dropable_arr_up");
+        mw.dropable.removeClass("mw_dropable_arr_rigt");
+    }
+    else if(pos==='left'){
+       mw.dropable.data("position", 'left');
+       mw.dropable.css({
+            top:offset.top,
+            height:height,
+            left:offset.left,
+            width:2
+       });
+    }
+    else if(pos==='right'){
+      mw.dropable.data("position", 'right');
+      mw.dropable.addClass("mw_dropable_arr_rigt");
+      mw.dropable.css({
+          top:offset.top,
+          left:offset.left+width,
+          height:height,
+          width:2
+     });
+    }
   }
 }
+
+
+
+
+
+
+
+
 
 
 $(document).ready(function(){
    mw.drag.create();
 
-   $(window).bind("onFreeEnter", function(e, el){
-        var el = $(el);
-   });
 
-
-
-   $(mwd.body).keyup(function(){
-     $(".mw_master_handle").css({
+   mw.$(mwd.body).keyup(function(){
+     mw.$(".mw_master_handle").css({
        left:"",
        top:""
      })
+   });
+
+
+   mw.edits = mw.$('.edit');
+
+
+   mw.edits.mouseleave(function(e){
+     if(mw.isDrag){
+       var el = $(this);
+       var off = el.offset();
+       var h = el.outerHeight();
+       var w = el.outerWidth();
+       if(e.pageX>off.left && e.pageX<off.left+w){
+         mw.currentDragMouseOver = this;
+         if(off.top+h<e.pageY){
+            mw.dropables.set("top", off, h, w);
+         }
+         else{
+           mw.dropables.set("bottom", off, h, w);
+         }
+       }
+     }
    });
 
 
@@ -83,7 +151,7 @@ mw.drag = {
          mw.top_half = false;
 
 
-         $(document.body).mousemove(function(event){
+         mw.$(document.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
 
@@ -170,6 +238,8 @@ mw.drag = {
                    }
 
 
+
+
                }
 
 
@@ -183,7 +253,12 @@ mw.drag = {
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                    mw.currentDragMouseOver = mw.mm_target;
+                    if(mw.$mm_target.parents('.edit').length>0){
+                       mw.currentDragMouseOver = mw.mm_target;
+                    }
+                    else{
+                      //mw.currentDragMouseOver =  null;
+                    }
                }
              }
 
@@ -235,24 +310,10 @@ mw.drag = {
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
-                mw.dropable.data("position", 'left');
-
-                 mw.dropable.css({
-                      top:offset.top,
-                      height:height,
-                      left:offset.left,
-                      width:2
-                 });
+                mw.dropables.set('left', offset, height);
               }
               else{
-                  mw.dropable.data("position", 'right');
-                  mw.dropable.addClass("mw_dropable_arr_rigt");
-                  mw.dropable.css({
-                      top:offset.top,
-                      left:offset.left+width,
-                      height:height,
-                      width:2
-                 });
+                mw.dropables.set('right', offset, height, width);
               }
             }
             else{
@@ -260,27 +321,13 @@ mw.drag = {
                 mw.dropable.removeClass("mw_dropable_arr_rigt");
                 if(event.pageY > offset.top+(height/2)){  //is on the bottom part
 
-                  mw.top_half = false;
-                  mw.dropable.css({
-                    top:offset.top+height+2,
-                    left:offset.left,
-                    height:2,
-                    width:width
-                  });
-                  mw.dropable.data("position", "bottom");
-                  mw.dropable.removeClass("mw_dropable_arr_up");
-                  mw.dropable.removeClass("mw_dropable_arr_rigt");
+                    mw.dropables.set('bottom', offset, height, width);
                 }
                 else{
-                  mw.top_half = true;
-                  mw.dropable.css({
-                    top:offset.top-2,
-                    left:offset.left,
-                    height:2,
-                    width:width
-                  });
-                  mw.dropable.data("position", "top");
-                  mw.dropable.addClass("mw_dropable_arr_up");
+                 mw.dropables.set('top', offset, height, width);
+
+
+
                 }
             }
 
@@ -416,7 +463,8 @@ mw.drag = {
             $("#mw_handle_row,#mw_handle_module,#mw_handle_element").css({
               top:"",
               left:""
-            })
+            });
+
         });
         $(window).bind("onElementLeave", function(e, target){
             $(mw.handle_element).css({
@@ -707,6 +755,19 @@ mw.drag = {
 
 
                         var position = mw.dropable.data("position");
+
+                        if($(mw.currentDragMouseOver).hasClass("edit")){
+
+                           if(position=='top'){
+                                $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                           }
+                           else if(position=='bottom'){
+                               $(mw.currentDragMouseOver).append(mw.dragCurrent);
+                           }
+
+                          return false;
+                        }
+
                         if($(mw.currentDragMouseOver).hasClass("mw-free-element")){
                               $(mw.currentDragMouseOver).append(mw.dragCurrent);
                               $(window).trigger("onFreeEnter", mw.currentDragMouseOver);
@@ -856,7 +917,7 @@ mw.drag = {
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                     mw.currentDragMouseOver = null;
-				}, 37);
+				}, 137);
 			}
 
 

@@ -11,6 +11,10 @@ $data['title'] = 'Title';
 $data['url'] = '';	
 $data['is_active'] = 'y';	
 $data['is_home'] = 'n';	
+
+$data['is_shop'] = 'n';	
+
+
 $data['subtype'] = 'dynamic';	
 $data['description'] = '';	
 $data['active_site_template'] = '';	

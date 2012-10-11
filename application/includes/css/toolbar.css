@@ -346,8 +346,22 @@ padding:0px !important;
 .mw_tab_active{
   position: static;
 }
+#tab_pages.mw_tab_active{
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 15;
+}
 
 
+#mw_edit_pages{
+  width: 100%;
+  height: 100%;
+  background: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 
 /* tabs navigation */
 
@@ -1110,28 +1124,34 @@ li .ts_action_item:last-child{
   visibility: visible;
 }
 
-.mw_ex_tools{
-  float: left;
+.mw_ico{
   display: inline-block;
-  padding: 5px 12px 5px 26px;
-  background: #f5f5f5 url(../img/fx.radio_unchecked.png) no-repeat 7px 50%;
-  font-size:12px;
-  color: #595959;
-  text-decoration: none;
-  outline: none;
-  margin: 12px 12px 0;
 }
-.mw_ex_tools:hover{
-  color: #595959;
+.mw_ico:hover{
+  box-shadow:inset 0 0 1px #ccc;
 }
-.mw_ex_tools:active{
+.mw_ico:active{
   outline: none;
-  box-shadow:inset 0 0 4px #ccc;
+  box-shadow:inset 0 0 2px #ccc;
+}
+.mw_check{
+  background: url(../img/fx.radio_unchecked.png) no-repeat;
+  width: 10px;
+  height: 11px;
+  margin-right: 7px;
+}
+.mw_check.mw_checked{
+  background: url(../img/fx.radio_checked.png) no-repeat;
 }
 
-.mw_ex_tools.active{
-  background: #f5f5f5 url(../img/fx.radio.png) no-repeat 7px 50%;
+.ed_btn .mw_check{
+  margin-right: 7px;
+  margin-top: 2px;
 }
+.ed_btn.active .mw_check{
+  background: url(../img/fx.radio.png) no-repeat;
+}
+
 
 .desc_area{
     background: white;
@@ -1183,6 +1203,44 @@ li .ts_action_item:last-child{
   background: #E1E1E1;
   z-index: 10;
   opacity:0.6;
+}
+
+#mwpreloader{
+  width: 16px;
+  height: 16px;
+  display: block;
+  background: url(../img/loader.png) no-repeat;
+  background-size:16px 16px;
+  position: absolute;
+  right: 100px;
+  top: 15px;
+  visibility: hidden;
+  z-index: 999;
+  -moz-animation: mwpreloader 0.5s linear 0s infinite;
+  -webkit-animation: mwpreloader 0.5s linear 0 infinite;
+  -ms-animation: mwpreloader 0.5s linear 0 infinite;
+  -o-animation: mwpreloader 0.5s linear 0 infinite;
+  animation: mwpreloader 0.5s linear 0 infinite;
+}
+@-moz-keyframes mwpreloader {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes mwpreloader {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@-ms-keyframes mwpreloader {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-o-keyframes mwpreloader {
+    from { -o-transform: rotate(0deg); }
+    to { -o-transform: rotate(360deg); }
+}
+@keyframes mwpreloader {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 

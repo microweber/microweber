@@ -26,14 +26,26 @@ mw.external_tool = function(url){
 
 mw.tools = {
   preloader:function(init, element){
-    if(init=='stop'){$("#preloader").hide()}
-    else{
-      var el = $("#element");
-      var offset = el.offset();
-      var w = el.width();
-      var h = el.height();
-
+    if(!mw._preloader)mw._preloader=mwd.getElementById('mwpreloader');
+    if(element){
+        var el = $(element);
+        var off = el.offset();
+        var w = el.outerWidth();
+        var h = el.outerHeight();
+        $(mw._preloader).css({
+         left:off.left+(w/2)-8,
+         top:off.top+(h/2)-8
+       })
     }
+    else{
+       $(mw._preloader).css({
+         left:"",
+         top:""
+       })
+    }
+    if(init=='stop'){$(mw._preloader).invisible()}
+    else if(init=='start'){$(mw._preloader).visible()}
+
   },
   modal:{
     settings:{
@@ -238,32 +250,7 @@ mw.tools = {
         mw.tools.module_slider.scale();
     }
   },
-  toolbar_tabs:{
-    get_active:function(){
-        var hash = window.location.hash;
-        if(hash==''){
-          return '#tab_modules';
-        }
-        else{
-            return hash.replace(/mw_/g, '');
-        }
-    },
-    change:function(){
 
-       var hash = mw.tools.toolbar_tabs.get_active();
-       $("#mw_tabs li").removeClass("active");
-       var xdiez = hash.replace("#", "");
-       $("#mw_tabs a[href*='"+xdiez+"']").parent().addClass("active");
-       $(".mw_tab_active").removeClass("mw_tab_active");
-       $(hash).addClass("mw_tab_active");
-    },
-    init:function(){
-        $(window).bind('hashchange', function(){
-            mw.tools.toolbar_tabs.change();
-        });
-        mw.tools.toolbar_tabs.change();
-    }
-  },
   toolbar_slider:{
     slide_left:function(item){
        var item = $(item);
@@ -351,8 +338,20 @@ mw.tools = {
           }
       }
 
+  },
+  classNameSpaceDelete:function(el_obj, namespace){
+    var clas =  el_obj.className.split(" ");
+    for(var i=0; i<clas.length; i++){
+      if(clas[i].indexOf(namespace)==0){
+           clas[i] = 'MWDeleteNameSpace';
+      }
+    }
+    el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   }
+
 }
+
+
 
 
 
