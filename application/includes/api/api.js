@@ -15,7 +15,7 @@ mw = function(){
 
 //window.mw = window.mw ? window.mw : {};
 
-
+mw={}
 
 mwd = document;
 
@@ -263,15 +263,21 @@ mw._ = function(obj, sendSpecific){
 
     $.post(url, to_send, function(data){
         $(selector).after(data);
+
+        var id = to_send.id || $(selector).next()[0].id;
         $(selector).remove();
         mw.is.defined(obj.done) ? obj.done.call(selector) : '';
         mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
         mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true) : '';
+
+       mw.on.moduleReload(id, "", true);
+
+
     });
 
 }
 
-mw.qsas = mwd.querySelectorAll;
+mw.qsas = mwd.querySelector;
 
 mw.log = function(what){
   if(window.console && mw.settings.debug){
@@ -279,14 +285,47 @@ mw.log = function(what){
   }
 }
 
-mw.resizerX = function(){
-  if(!mw._resizerX){
-    mw._resizerX = mwd.createElement('div');
-    mw._resizerX.className = 'mw_resizer_X';
-    mwd.body.appendChild(mw._resizerX);
-  }
-  return mw._resizerX;
+mw.$ = function(selector){
+    if(mw.qsas){
+       if(mw.is.string(selector)){
+          return $(mwd.querySelectorAll(selector));
+       }
+       else{
+          return $(selector);
+       }
+    }
+    else{
+      return $(selector);
+    }
 }
+
+mw.on = {
+  _onmodules : [],
+  _onmodules_funcs : [],
+  moduleReload : function(id, c, trigger){
+     if(trigger){
+          var index = mw.on._onmodules.indexOf(id);
+          if(index != -1){
+            mw.on._onmodules_funcs[index].call(mwd.getElementById(id));
+          }
+          return false;
+     }
+     if(mw.is.func(c)){
+       mw.on._onmodules.push(id);
+       mw.on._onmodules_funcs.push(c);
+     }
+     else if(c==='off'){
+       var index = mw.on._onmodules.indexOf(id);
+       if(index != -1){
+        mw.on._onmodules.splice(index, 1);
+        mw.on._onmodules_funcs.splice(index, 1);
+       }
+     }
+  }
+}
+
+
+
 
 
 

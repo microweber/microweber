@@ -567,6 +567,8 @@ $(window).load(function(){
 
 
 
+
+
     mw.toolbar.module_icons();
 
 
@@ -688,8 +690,29 @@ $(".mw_dropdown_action_format").change(function(){
 
 
 
+    $(mwd).ajaxStart(function(){
+      mw.tools.preloader('start');
+    });
+    $(mwd).ajaxStop(function(){
+      mw.tools.preloader('stop');
+    });
 
 
+
+    mw.on.hashParam("tab", function(){
+      $(".mw_toolbar_tab").removeClass("mw_tab_active");
+      $("#tab_"+this).addClass("mw_tab_active");
+      $("#mw_tabs li").removeClass("active");
+      $("#mw_tabs li#t_"+this).addClass("active");
+    });
+
+
+
+
+    mw.$("#mw_tabs a").click(function(){
+      mw.url.windowHashParam("tab", $(this).attr("href").replace(/#/, ''));
+      return false;
+    });
 
 });
 
@@ -739,12 +762,6 @@ mw.toggle_subpanel = function(){
 
     $(".mw_tab_active").slideUp(this.speed);
     $("#mw_toolbar_nav").slideUp(this.speed);
-  }
-}
-
-mw.recommend = {
-  read:function(){
-
   }
 }
 

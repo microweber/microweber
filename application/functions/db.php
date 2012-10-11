@@ -2,6 +2,45 @@
 
 define("DB_IS_SQLITE", false);
 
+function db_delete_by_id($table, $id = 0, $field_name = 'id') {
+	$table = guess_table_name($table);
+	$table_real = db_get_real_table_name($table);
+	$id = intval($id);
+
+	if ($id == 0) {
+
+		return false;
+	}
+
+	$q = "DELETE from $table_real where {$field_name}=$id ";
+
+	$cg = guess_cache_group($table);
+	//
+
+	// d($cg);
+	cache_clean_group($cg);
+	$q = db_q($q);
+
+	$cms_db_tables = c('db_tables');
+
+	$table1 = $cms_db_tables['table_taxonomy'];
+	$table_items = $cms_db_tables['table_taxonomy_items'];
+
+	$q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
+
+	$q = db_q($q);
+	cache_clean_group('taxonomy');
+
+	$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
+	//d($q);
+	$q = db_q($q);
+
+	cache_clean_group('taxonomy_items');
+
+	//	d($q);
+
+}
+
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
 	$id = intval($id);
@@ -794,6 +833,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$criteria['search_by_keyword'] = $criteria['keyword'];
 	}
 
+	if (isset($criteria['orderby'])) {
+		$orderby = $criteria['orderby'];
+		if (is_string($orderby)) {
+			$orderby = mysql_real_escape_string($orderby);
+		}
+
+	}
+
 	if (isset($criteria['data-keyword'])) {
 		$criteria['search_by_keyword'] = $criteria['data-keyword'];
 	}
@@ -896,6 +943,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			if (!empty($only_those_fields)) {
 
 				$flds = implode(',', $only_those_fields);
+				$flds = mysql_real_escape_string($flds);
 
 				$q = "SELECT $flds FROM $table ";
 			} else {

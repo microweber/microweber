@@ -16,8 +16,8 @@ description: Home site layout
 
 
 
-<div id="MagicTheme">
-  <div class="edit" id="the_test1df22dffd1sf" field="test_v15dff112fd221sf">
+<div id="MagicTheme" class="mw_holder">
+  <div class="edit" id="the_test1df22dffd1sfdd1" field="test_v15dff112fd221sfdd1">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>Simple Cool Text</span></h2>

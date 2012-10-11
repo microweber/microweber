@@ -1,3 +1,5 @@
+<div id="mwpreloader">&nbsp;</div>
+
 <div id="design_bnav" class="toolbar_bnav" style="width: 160px;">
         <div id="design_bnav_handle"></div>
         <ul class="ts_main_ul">
