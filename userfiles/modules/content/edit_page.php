@@ -163,7 +163,7 @@ mw.reload_module('[data-type="posts"]');
 });
 </script>
 
-<form id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form">
+<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form">
   <input name="id"  type="hidden" value="<? print ($data['id'])?>" />
   Page name
   <input name="title"  type="text" value="<? print ($data['title'])?>" />
@@ -285,7 +285,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	$new_div_id = 'cf_post_cat_hold_<? print $rand  ?>_'+i+mw.random();
 	$new_div = '<div id="'+$new_div_id+'"></div>'
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
-  holder1.append($new_div); 
+  holder1.append($new_div);
 		 $('#'+$new_div_id).attr('for','categories');
 		 $('#'+$new_div_id).attr('to_table_id',value);
 		 
@@ -329,12 +329,15 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
-  <? if(intval($data['id']) > 0): ?>
-  <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
-  <? else: ?>
-  <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
-  <? endif; ?>
-  <br />
+  <div class="mw-ui mw-ui-category-selector">
+    <? if(intval($data['id']) > 0): ?>
+      <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
+    <? else: ?>
+      <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
+    <? endif; ?>
+  </div>
+
+
   Custom fields for post
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
@@ -386,4 +389,11 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   <? if($edit_post_mode == false): ?>
   <? endif; ?>
+
+
+
+
+  <button type="submit">Save be</button>
+
+
 </form>

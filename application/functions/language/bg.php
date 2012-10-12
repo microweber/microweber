@@ -218,3 +218,5 @@ $language["last-articles"]= 'Last articles' ;
 $language["4-pictures"]= '4 Pictures' ; 
 $language["double-floated-image-with-paragraph"]= 'Double - floated image with paragraph' ; 
 $language["image-categories-text"]= 'Image Categories Text' ; 
+$language["edit"]= 'Edit' ; 
+$language["edit"]= 'Edit' ; 

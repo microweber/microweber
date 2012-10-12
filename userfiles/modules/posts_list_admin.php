@@ -1,5 +1,24 @@
 admin posts
 <hr />
+
+Adrrsss
+<module type="option" name="asdsadas" field_type="category_tree">
+
+
+
+
+Pages
+<module type="option" name="asdsadas" field_type="pages_menu">
+
+
+<strong>Limit</strong>
+<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print option_get('data-limit', $params['id']) ?>" />
+
+ 
+ 
+
+
+
 <? $rand = uniqid(); ?>
 <? $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
 <?php $posts_parent_page =  option_get('data-page-id', $params['id']); ?>

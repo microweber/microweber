@@ -518,9 +518,17 @@ $(window).bind("onBodyClick", function(){
       }
     });
 
-    $(".dd_border_selector").change(function(){
+    $(".dd_border_selector").bind("change", function(){
       $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
+
+    $(".dd_borderwidth_Selector").bind("change", function(){
+      $('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
+    });
+
+
+
+
     $("#ts_bg_repeat").bind("change", function(){
        $('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
     });

@@ -62,16 +62,42 @@ function mw_delete_content($p_id){
 }
 
 
-
-function mw_append_pages_tree_controlls<? print $rand  ?>(){
-	$b1 = "\
-    <span class='mw_ed_tree_content' onclick='mw.url.windowHashParam(\"action\", \"editpage:\"+this.parentNode.getAttribute(\"data-page-id\"));return false;' title='<?php _e("Edit"); ?>'>\
+mw_edit_btns = function(pageid){
+  return "\
+  <span class='mw_del_tree_content' title='<?php _e("Delete"); ?>'>\
+        <?php _e("Delete"); ?>\
+    </span>\
+  <span class='mw_ed_tree_content' onclick='mw.url.windowHashParam(\"action\", \"editpage:"+pageid+"\");return false;' title='<?php _e("Edit"); ?>'>\
         <?php _e("Edit"); ?>\
     </span>\
-    <span class='mw_del_tree_content' title='<?php _e("Delete"); ?>'>\
-        <?php _e("Delete"); ?>\
-    </span>";
-	$('#pages_tree_toolbar<? print $rand  ?> .pages_tree a[data-page-id]').after($b1);
+    ";
+}
+
+
+function mw_append_pages_tree_controlls<? print $rand  ?>(){
+
+
+
+    mw.$('#pages_tree_toolbar<? print $rand  ?> .pages_tree a').each(function(){
+        var el = this;
+        el.href = 'javascript:void(0);';
+        var html = el.innerHTML;
+        var attr = el.attributes;
+        if(attr['data-page-id']!==undefined){
+            var pageid = attr['data-page-id'].nodeValue;
+            el.setAttribute("onclick", "mw.url.windowHashParam('action', 'editpage:"+pageid+"')");
+            if(el.parentNode.className.contains('have_category')){
+               el.innerHTML = '<span class="mw_toggle_tree" onclick="mw.tools.tree(this.parentNode.parentNode, event).toggle();"></span><span class="pages_tree_link_text">'+html+'</span>'+mw_edit_btns(pageid);
+            }
+            else{
+               el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>'+mw_edit_btns(pageid);
+            }
+
+        }
+
+    });
+
+
 }
 
 
@@ -243,7 +269,7 @@ function mw_add_product(){
     </div>
 
 
-      <div class="pages_tree"  id="pages_tree_container_<? print $rand  ?>">
+      <div class="mw_pages_posts_tree"  id="pages_tree_container_<? print $rand  ?>">
         <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar<? print $rand  ?>"  />
       </div>
     </div>

@@ -1578,6 +1578,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
                     $cat_params = array();
                     $cat_params['subtype_value'] = $item['subtype_value'];
                     $cat_params['include_first'] = 1;
+                    $cat_params['nest_level'] = $nest_level;
                     //  d($cat_params);
                     category_tree($cat_params);
                 }

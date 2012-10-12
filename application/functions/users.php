@@ -147,11 +147,11 @@ function captcha() {
         for ($j = 0; $j < $y; $j++) {
             if (mt_rand(0, 20) == 20) {
 
-              //  $coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
+                //  $coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
 
 
                 $y21 = mt_rand(5, 20);
-                captcha_vector($image, $x- mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
+                captcha_vector($image, $x - mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
                 //   imagesetpixel($image, $i, $j, $color2);
             }
         }
@@ -179,7 +179,7 @@ function captcha() {
     $emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
     $embize = mt_rand(1, 4);
     // imageconvolution($image, $emboss, $embize, 255);
- //   imagefilter($image, IMG_FILTER_SMOOTH, 50);
+    //   imagefilter($image, IMG_FILTER_SMOOTH, 50);
     imagepng($image);
     imagecolordeallocate($image, $bgcolor);
     imagecolordeallocate($image, $black);
@@ -244,11 +244,41 @@ function user_login($params) {
                 }
             }
 
+            $aj = isAjax();
+
+
+            if ($aj == false) {
+                if (isset($_SERVER["HTTP_REFERER"])) {
+                    safe_redirect($_SERVER["HTTP_REFERER"]);
+                    exit();
+                }
+
+            }
+
             return $user_session;
         }
     }
 
     return false;
+}
+
+api_expose('logout');
+
+function logout() {
+
+
+
+
+// static $uid;
+    $aj = isAjax();
+    session_end();
+
+    if ($aj == false) {
+        if (isset($_SERVER["HTTP_REFERER"])) {
+            safe_redirect($_SERVER["HTTP_REFERER"]);
+        }
+        //d($_SERVER);
+    }
 }
 
 function user_id() {

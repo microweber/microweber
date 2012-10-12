@@ -59,26 +59,25 @@ h1, h2, h3, h4, h5 {
 
 /* category tree */
 
-.category_tree, .category_tree ul{
+.edit .category_tree, .edit .category_tree ul{
   padding: 0;
   margin: 0;
 }
 
-.category_tree{
+.edit .category_tree{
   padding-right: 10px;
   padding-top: 0px;
 }
 
-.category_tree .category_tree{
+.edit .category_tree .category_tree{
   padding-right: 0;
 }
-
-.category_tree li{
+.edit .category_tree li{
   list-style: none;
   background: #F3F3F3;
 }
 
-.category_tree li a{
+.edit .category_tree li a{
   display: block;
   padding: 6px 12px;
   color: #313131;
@@ -86,16 +85,18 @@ h1, h2, h3, h4, h5 {
 
 }
 
-.category_tree li:nth-child(2n){
+.edit .category_tree li:nth-child(2n){
   background: white;
 }
 
-.category_tree li li a{
+.edit .category_tree li li a{
   padding-left: 24px;
 }
-.category_tree li li li a{
+.edit .category_tree li li li a{
   padding-left: 36px;
 }
+
+
 
 
 

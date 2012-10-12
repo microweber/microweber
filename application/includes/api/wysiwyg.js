@@ -216,8 +216,6 @@ mw.wysiwyg = {
           $(".element-current").css(mw.border_which + "Color", "transparent");
           $(".ed_bordercolor_pick span").css("background", "");
         }
-
-
     },
 
     request_change_shadow_color:function(el){

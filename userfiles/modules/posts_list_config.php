@@ -9,4 +9,6 @@ $config['categories'] = "content";
 $config['version'] = 0.1;
 $config['position'] = 1;
 
-
+$config['options'] = array();
+$config['options']['zoom'] = array("type"=>"number", "default"=> 11);
+$config['options']['category'] = array("type"=>"category_tree", "default"=> ''); 

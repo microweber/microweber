@@ -158,7 +158,7 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="Border Width" data-value="0" onchange="$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue())">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="Border Width" data-value="0">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val" style="width: auto">0</span>

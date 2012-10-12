@@ -420,16 +420,21 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                                 // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
                                 $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             }
+                            $module_name_url = url_title($module_name);
+
                             if ($mod_as_element == false) {
                                 if (strstr($module_name, 'text')) {
 
-                                    $module_html = str_replace('__MODULE_CLASS__', 'layout-element', $module_html);
+                                    $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                 } else {
 
                                     $module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
                                 }
                             } else {
-                                $module_html = str_replace('__MODULE_CLASS__', 'element', $module_html);
+
+
+
+                                $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
                             }
                             $mod_content = load_module($module_name, $attrs);
                             $coming_from_parentz = $module_name;

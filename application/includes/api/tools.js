@@ -347,6 +347,19 @@ mw.tools = {
       }
     }
     el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
+  },
+  tree:function(el, event){
+    var el = $(el);
+    this.toggle = function(){
+      el.toggleClass("active");
+        if(event.type==='click'){
+          $(event.target).toggleClass("active");
+          event.stopPropagation();
+          event.preventDefault();
+          return false;
+        }
+    }
+    return this;
   }
 
 }
@@ -508,6 +521,23 @@ $(document).ready(function(){
   })
 });
         */
+
+
+$.fn.datas = function(){
+    var attrs = this[0].attributes;
+    var toreturn = {}
+    for(var item in attrs){
+        var attr = attrs[item];
+        if(attr.nodeName!==undefined){
+            if(attr.nodeName.contains("data-")){
+                toreturn[attr.nodeName] = attr.nodeValue;
+            }
+        }
+    }
+    return toreturn;
+}
+
+
 
 
 
