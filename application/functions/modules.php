@@ -1,5 +1,7 @@
 <?php
 
+define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
+
 function module($params) {
 
     if (is_string($params)) {
@@ -7,6 +9,7 @@ function module($params) {
         $params = $options = $params2;
     }
     $tags = '';
+    $em = EMPTY_MOD_STR;
     foreach ($params as $k => $v) {
 
         if ($k == 'type') {
@@ -21,22 +24,32 @@ function module($params) {
             $module_name = $v;
         }
 
-        if (is_array($v)) {
-            $v1 = encode_var($v);
-            $tags .= "{$k}=\"$v1\" ";
-        } else {
-            $tags .= "{$k}=\"$v\" ";
+
+        if ($k != 'display') {
+
+            if (is_array($v)) {
+                $v1 = encode_var($v);
+                $tags .= "{$k}=\"$v1\" ";
+            } else {
+
+                $em = str_ireplace("{" . $k . "}", $v, $em);
+
+
+                $tags .= "{$k}=\"$v\" ";
+            }
         }
     }
 
 
 
-    $tags = "<div class='module' {$tags}>$module_name</div>";
+    $tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
 
 
 
     $res = load_module($module_name, $params);
-    $res['tag'] = $tags;
+    if (is_array($res)) {
+        $res['edit'] = $tags;
+    }
     return $res;
 }
 
@@ -1023,17 +1036,20 @@ function load_module($module_name, $attrs = array()) {
         $l1 = new View($try_file1);
         $l1->config = $config;
         $l1->params = $attrs;
+        if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 
-
-        if (isset($attrs['display']) && (trim($attrs['display']) != 'true')) {
-            $module_file = $l1->__get_vars();
-            return $module_file;
+            $module_file = EMPTY_MOD_STR;
         } else {
-            $module_file = $l1->__toString();
-        }
 
+            if (isset($attrs['display']) && (trim($attrs['display']) != 'true')) {
+                $module_file = $l1->__get_vars();
+                return $module_file;
+            } else {
+                $module_file = $l1->__toString();
+            }
+        }
         if (!defined($cache_content)) {
-            define($cache_content, $module_file);
+            //define($cache_content, $module_file);
         }
         if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
             $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
@@ -1047,7 +1063,7 @@ function load_module($module_name, $attrs = array()) {
         }
         return $module_file;
     } else {
-        define($cache_content, FALSE);
+        //define($cache_content, FALSE);
 
         return false;
     }

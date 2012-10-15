@@ -107,14 +107,12 @@ mw.dropables = {
 $(document).ready(function(){
    mw.drag.create();
 
-
    mw.$(mwd.body).keyup(function(){
      mw.$(".mw_master_handle").css({
        left:"",
        top:""
-     })
+     });
    });
-
 
    mw.edits = mw.$('.edit');
 
@@ -180,8 +178,6 @@ mw.drag = {
            mw.$mm_target = $(mw.mm_target);
 
 
-
-
            if(!mw.isDrag){
                if(mw.mouse.x%2==0){ //not on every pixel
                    //trigger on element
@@ -232,7 +228,7 @@ mw.drag = {
                    }
                    if(mw.$mm_target.parents(".edit,.mw_master_handle").length==0){
                      if(!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")){
-                          $(window).trigger("onAllLeave", mw.mm_target);
+                          //$(window).trigger("onAllLeave", mw.mm_target);
                      }
                    }
 
@@ -245,14 +241,14 @@ mw.drag = {
            else{
              if(   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
-                || mw.$mm_target.parents(".element").length > 0
+                || mw.tools.hasParentsWithClass(mw.mm_target, "element")
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
 
 
 
-               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                    if(mw.$mm_target.parents('.edit').length>0 && mw.$mm_target.parents('.no-drop').length==0 && !mw.$mm_target.hasClass('no-drop')){
+               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
+                    if(mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'no-drop') && !mw.$mm_target.hasClass('no-drop')){
                        mw.currentDragMouseOver = mw.mm_target;
                        if(mw.$mm_target.hasClass("empty-element")){
                           mw.dropable.removeClass("mw_dropable_onleaveedit");
@@ -263,6 +259,8 @@ mw.drag = {
                     }
                }
              }
+
+
 
 
               //mw.currentDragMouseOver = mw.mm_target;
@@ -426,7 +424,6 @@ mw.drag = {
           });
           $(mw.handle_module).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
-          alert(1)
         });
         $(window).bind("onRowOver", function(a, element){
           var el = $(element);

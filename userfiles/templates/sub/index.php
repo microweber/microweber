@@ -64,14 +64,13 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
     <time datetime="2012-09-27" id="top_time">September 27, 2012</time>
   </header>
  
- 
- 
+
  
 
  
 <? $query = module("type=posts_list&id=posts_home&display=false");
  $cont  = ($query['data'] );
-print $query['tag']; 
+print $query['edit'];
 ?>
 
 

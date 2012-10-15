@@ -369,13 +369,17 @@ mw.tools = {
   hasParentsWithClass:function(el, cls){
     _curr = el.parentNode;
     _i = 0;
-    while(i=100){
-         if(_curr.tagName=='BODY'){return false;}
-         if(_curr.className.indexOf(cls)!=-1){
-           return true;
+    while(_i<100){
+      if(_curr!==null){
+         if(_curr.className!==undefined){
+           if(_curr.tagName=='BODY'){return false;}
+           if(_curr.className.indexOf(cls)!=-1){
+             return true;
+           }
          }
         _curr = _curr.parentNode;
-        i++
+        _i++
+      }else{return false;}
     }
   }
 }
