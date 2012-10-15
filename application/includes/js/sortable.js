@@ -118,7 +118,6 @@ $(document).ready(function(){
 
    mw.edits = mw.$('.edit');
 
-
    mw.edits.mouseleave(function(e){
      if(mw.isDrag){
        var el = $(this);
@@ -150,7 +149,6 @@ mw.isDragItem = function(obj){
 mw.drag = {
 	create: function () {
          mw.top_half = false;
-
 
          mw.$(document.body).mousemove(function(event){
 
@@ -238,9 +236,6 @@ mw.drag = {
                      }
                    }
 
-
-
-
                }
 
 
@@ -250,22 +245,27 @@ mw.drag = {
            else{
              if(   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
-                || mw.$mm_target.parents(".element").length>0
+                || mw.$mm_target.parents(".element").length > 0
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
+
+
+
                if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && mw.$mm_target.parents(".ui-draggable-dragging").length==0){
-                    if(mw.$mm_target.parents('.edit').length>0){
+                    if(mw.$mm_target.parents('.edit').length>0 && mw.$mm_target.parents('.no-drop').length==0 && !mw.$mm_target.hasClass('no-drop')){
                        mw.currentDragMouseOver = mw.mm_target;
                        if(mw.$mm_target.hasClass("empty-element")){
                           mw.dropable.removeClass("mw_dropable_onleaveedit");
                        }
-
                     }
                     else{
-                      //mw.currentDragMouseOver =  null;
+                      mw.currentDragMouseOver =  null;
                     }
                }
              }
+
+
+              //mw.currentDragMouseOver = mw.mm_target;
 
 
             /* if(mw.mm_target.tagName==='BODY' && mw.mouse.y%2==0){
@@ -294,7 +294,6 @@ mw.drag = {
 
 
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
-
 
 
             var el = $(mw.currentDragMouseOver);
@@ -412,6 +411,7 @@ mw.drag = {
           mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function(a, element){
+
           var el = $(element);
           var title = el.dataset("filter");
           $(mw.handle_module).find(".mw-element-name-handle").html(title);
@@ -426,6 +426,7 @@ mw.drag = {
           });
           $(mw.handle_module).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
+          alert(1)
         });
         $(window).bind("onRowOver", function(a, element){
           var el = $(element);
@@ -531,8 +532,6 @@ mw.drag = {
                     else{
                       $(window).trigger("onElementClick", curr);
                     }
-                    $(curr).attr("contenteditable", "false");
-                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_module).mouseenter(function(){
@@ -550,8 +549,6 @@ mw.drag = {
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(window).trigger("onElementClick", curr);
-                    $(curr).attr("contenteditable", "false");
-                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_row).mouseenter(function(){
@@ -568,8 +565,6 @@ mw.drag = {
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(window).trigger("onElementClick", curr);
-                    $(curr).attr("contenteditable", "false");
-                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_item).mouseenter(function(){
@@ -588,8 +583,6 @@ mw.drag = {
                 var curr = $(this).data("curr");
                 if(!$(curr).hasClass("element-current")){
                     $(window).trigger("onItemClick", curr);
-                    $(curr).attr("contenteditable", "false");
-                    mw.wysiwyg.isThereEditableContent = false;
                 }
             });
             $(mw.handle_element).draggable({
@@ -1008,7 +1001,7 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
-	   	$('*[contenteditable]', '.edit').removeAttr("contenteditable");
+	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
 
 	},
 
@@ -1026,18 +1019,19 @@ mw.drag = {
     var el = el || '[contenteditable]';
 
 
-      $(el).bind('focus', function() {
-    var $this = $(this);
-    $this.data('before', $this.html());
-    return $this;
-}).bind('blur keyup paste', function() {
-    var $this = $(this);
-    if ($this.data('before') !== $this.html()) {
-        $this.data('before', $this.html());
-        $this.trigger('change');
-    }
-    return $this;
-});
+      mw.$(el).bind('focus', function() {
+          var $this = $(this);
+          $this.data('before', $this.html());
+          return $this;
+      })
+      .bind('blur keyup paste', function() {
+          var el = $(this);
+          if (el.data('before') !== $this.html()) {
+              el.data('before', $this.html());
+              el.trigger('change');
+          }
+          return $this;
+      });
     },
 
 
@@ -1050,7 +1044,7 @@ mw.drag = {
 	 * @return void
 	 */
 	load_new_modules: function (callback) {
-        $need_re_init = false;
+        var need_re_init = false;
 		$(".module-item", '.edit').each(function (c) {
                 mw._({
                   selector:this,
@@ -1058,12 +1052,12 @@ mw.drag = {
 
                   }
                 }, true);
-			$need_re_init = true;
+			need_re_init = true;
 		});
         if(mw.have_new_items == true){
-            $need_re_init = true;
+            need_re_init = true;
         }
-		if ($need_re_init == true) {
+		if (need_re_init == true) {
 			if (!mw.isDrag) {
                 if (typeof callback === 'function') {
     				callback.call(this);
@@ -1072,6 +1066,7 @@ mw.drag = {
 		}
         mw.have_new_items = false;
 	},
+
 
 
 
@@ -1292,93 +1287,53 @@ mw.drag = {
    *
    * @method mw.drag.save()
    */
+
+
   save: function() {
 
-    $("#mw-saving-loader").fadeIn();
 
 
-    $(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
+  //Clean the code before send
 
-    $(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
+  mw.$('.element-current').removeClass('element-current');
+  mw.$('.element-active').removeClass('element-active');
+  mw.$('.empty-element').remove();
+  mw.$('.empty-element').remove();
+  mw.$('.edit .ui-resizable-handle').remove();
+  mw.tools.classNamespaceDelete('all', 'ui-');
+  //end cleaning
 
-    $(".mw-sorthandle", '.edit').remove();
-    $('.ui-resizable-handle', '.edit').remove();
-    $('.ui-draggable', '.edit').removeClass("ui-draggable");
-    $('.ui-resizable', '.edit').removeClass("ui-resizable");
-    $('.column', '.edit').removeClass("selected");
-
-
-
-
-    var custom_styles = new Array();
-    var regEx = /^mw-style/;
-    var elm = $(".mw-custom-style", '.edit');
-    $save_custom_styles = false
-    elm.each(function(j) {
-      var classes = $(this).attr('class').split(/\s+/);
-      //it will return  foo1, foo2, foo3, foo4
-      for (var i = 0; i < classes.length; i++) {
-        var className = classes[i];
-
-        if (className.match(regEx)) {
-          $save_custom_styles = true
-          custom_styles.push(className);
-          //elm.removeClass(className);
-        }
-      }
-    });
-
-    if ($save_custom_styles == true) {
-      custom_styles.unique();
-      $styles_join = custom_styles.join(',');
-      $sav = {};
-      $sav['content_id'] = window.content_id;
-      $sav['save_field_content_layout_style'] = $styles_join;
-      $.ajax({
-        type: 'POST',
-        url: mw.settings.site_url + 'api/content/save_field_simple',
-        data: $sav,
-        async: true
-      });
-    }
+    var edits = mw.$(".edit.changed");
 
     var master = {};
 
-    $('.edit').each(function(j) {
+    edits.each(function(j) {
       j++;
-      content = $(this).get(0).innerHTML;
-      if (window.no_async == true) {
-        $async_save = false;
-        window.no_async = false;
-      } else {
-        $async_save = true;
-      }
-      var nic_obj = {};
-      var attrs = $(this).get(0).attributes;
-      for (var i = 0; i < attrs.length; i++) {
-        temp1 = attrs[i].nodeName;
-        temp2 = attrs[i].nodeValue;
-        if ((temp2 != null) && (temp1 != null) && (temp1 != undefined) && (temp2 != undefined)) {
-          if ((new String(temp2).indexOf("function(") == -1) && (temp2 != "") && (temp1 != "")) {
-            nic_obj[temp1] = temp2;
-          }
+      var el = $(this);
+      content = el.html();
+
+      var attr_obj = {};
+      var attrs = el.get(0).attributes;
+      if(attrs.length>0){
+        for (var i = 0; i < attrs.length; i++) {
+          temp1 = attrs[i].nodeName;
+          temp2 = attrs[i].nodeValue;
+          attr_obj[temp1] = temp2;
         }
       }
       var obj = {
-        attributes: nic_obj,
+        attributes: attr_obj,
         html: content
       }
       var objX = "field_data_" + j;
       var arr1 = [{
-        "attributes": nic_obj
+        "attributes": attr_obj
       }, {
         "html": (content)
       }];
       master[objX] = obj;
     });
-    $emp = false;
-    if (!$emp) {
-      master_prev = master;
+
       $.ajax({
         type: 'POST',
         url: mw.settings.site_url + 'api/save_edit',
@@ -1386,18 +1341,13 @@ mw.drag = {
         datatype: "json",
         async: true,
         beforeSend: function() {
-          window.saving = true;
-          $("#mw-saving-loader").fadeIn();
+
         },
         success: function(data) {
           mw.history.init();
-          window.saving = false;
-          window.mw_sortables_created = false;
-          window.mw_drag_started = false;
-          $("#mw-saving-loader").fadeOut();
         }
       });
-    }
+
   }
 }
 

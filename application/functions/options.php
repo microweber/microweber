@@ -12,6 +12,8 @@ function create_mw_default_options() {
     define('FORCE_SAVE', 1);
     $datas = array();
 
+
+
     $data = array();
     $data['option_group'] = 'website';
     $data['option_key'] = 'website_title';
@@ -107,7 +109,7 @@ function get_options($params = '') {
     $data = $params;
     $table = c('db_tables');
     $table = $table['table_options'];
-  //  $data['debug'] = 1000;
+    //  $data['debug'] = 1000;
     $data['limit'] = 1000;
     $get = db_get($table, $data, $cache_group = 'options');
     return $get;

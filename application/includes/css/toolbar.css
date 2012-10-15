@@ -1292,7 +1292,7 @@ li .ts_action_item:last-child{
 
 
 .mw_editor_btnz{
-  display: none !important;
+  /*display: none !important;*/
 }
 
 

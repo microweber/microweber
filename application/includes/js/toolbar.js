@@ -586,12 +586,12 @@ $(window).load(function(){
     });
 
 
-    mw.disable_selection();
+  //  mw.disable_selection();
+    
 
 
 
-  mw.smallEditor = $("#mw_small_editor");
-  mw.bigEditor = $("#mw-text-editor");
+
 
 
 $(".mw_dropdown_action_font_family").change(function(){

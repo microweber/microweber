@@ -6,6 +6,18 @@
 <!-- Footer
       ================================================== -->
 <footer class="footer">
+<br />
+<br />
+<br />
+<br />
+<div class="edit" field="footer_text"  rel="global">My global footer</div>
+
+
+
+
+
+
+
 <? debug_info() ?>
   <p class="pull-right"><a href="#">Back to top</a></p>
 </footer>

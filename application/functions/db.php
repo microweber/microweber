@@ -916,7 +916,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $order_by = false;
     }
 
-    if ($qLimit == '' and ($limit != false) and $count_only == false) {
+    if (!isset($qLimit) and ($limit != false) and $count_only == false) {
         if (is_array($limit)) {
             $offset = $limit[1] - $limit[0];
             $limit = " limit  {$limit[0]} , $offset  ";
@@ -947,7 +947,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                         }
                     }
                 }
- 
+
                 $flds = implode(',', $flds1);
                 $flds = mysql_real_escape_string($flds);
 
@@ -1365,18 +1365,18 @@ function db_get_table_fields($table, $exclude_fields = false) {
         return $cache_content;
     }
 
-    $table = db_get_table_name($table);
+    $table = db_get_real_table_name($table);
 
     if (DB_IS_SQLITE != false) {
         $sql = "PRAGMA table_info('{$table}');";
     } else {
         $sql = "show columns from $table";
     }
-    //var_dump($sql);
+    // var_dump($sql);
     //   $sql = "DESCRIBE $table";
 
     $query = db_query($sql);
-
+//d($query);
     $fields = $query;
 
     $exisiting_fields = array();
@@ -1388,8 +1388,13 @@ function db_get_table_fields($table, $exclude_fields = false) {
             $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
             if (isset($fivesdraft['name'])) {
                 $fivesdraft['field'] = $fivesdraft['name'];
+                $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+            } else {
+                if (isset($fivesdraft['field'])) {
+
+                    $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+                }
             }
-            $exisiting_fields[strtolower($fivesdraft['field'])] = true;
         }
     }
 

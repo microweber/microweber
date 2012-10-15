@@ -270,6 +270,10 @@ mw._ = function(obj, sendSpecific){
         mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() :'';
         mw.is.defined( mw.drag) ? mw.drag.fix_placeholders(true) : '';
 
+        var m = mwd.getElementById(id);
+
+        mw.wysiwyg.init_editables(m);
+
        mw.on.moduleReload(id, "", true);
 
 
@@ -321,6 +325,11 @@ mw.on = {
         mw.on._onmodules_funcs.splice(index, 1);
        }
      }
+  },
+  DOMChange:function(element, callback){
+    element.addEventListener("DOMCharacterDataModified", function(){
+        callback.call(this);
+    }, false)
   }
 }
 
@@ -328,6 +337,9 @@ mw.on = {
 mw.hash = function(b){
   return b===undefined ?  window.location.hash : window.location.hash = b;
 }
+
+
+
 
 
 

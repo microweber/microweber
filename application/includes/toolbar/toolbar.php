@@ -29,7 +29,7 @@
 
         });
 
-		
+
 
 
     </script>
@@ -83,8 +83,9 @@
     </div>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
-        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span> <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
-        style="position: fixed;top: 133px;right:130px; z-index: 2000;">Empty</span>
+        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
+        <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
+        style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>

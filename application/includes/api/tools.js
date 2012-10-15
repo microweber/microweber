@@ -339,7 +339,12 @@ mw.tools = {
       }
 
   },
-  classNameSpaceDelete:function(el_obj, namespace){
+  classNamespaceDelete:function(el_obj, namespace){
+    if(el_obj ==='all'){
+      var all = mwd.querySelectorAll('.edit *');
+      for(var i=0;i<all.length; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      return;
+    }
     var clas =  el_obj.className.split(" ");
     for(var i=0; i<clas.length; i++){
       if(clas[i].indexOf(namespace)==0){
@@ -360,8 +365,19 @@ mw.tools = {
         }
     }
     return this;
+  },
+  hasParentsWithClass:function(el, cls){
+    _curr = el.parentNode;
+    _i = 0;
+    while(i=100){
+         if(_curr.tagName=='BODY'){return false;}
+         if(_curr.className.indexOf(cls)!=-1){
+           return true;
+         }
+        _curr = _curr.parentNode;
+        i++
+    }
   }
-
 }
 
 

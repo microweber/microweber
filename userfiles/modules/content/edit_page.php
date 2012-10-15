@@ -102,24 +102,21 @@ $(document).ready(function(){
    
    
     $('#go_live_edit_<? print $rand ?>').click(function() { 
+	
+
 mw_before_content_save<? print $rand ?>()
  
+ 	<? if(intval($data['id']) == 0): ?>
  mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
-	 
-	 
-	 
-	 
   mw_after_content_save<? print $rand ?>(this);
+});
+
+<? else: ?>
+  mw_after_content_save<? print $rand ?>('<? print $data['id'] ?>');
+
+ <? endif; ?>
+
 	 
-	 
-	 
-	 
-	 
-	 
-	 });
-	 
-	 
-	
 
  return false;
  

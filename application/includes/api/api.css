@@ -889,6 +889,10 @@ input.mw-ui[type='radio']:checked + label{
   border-radius: 7px;
 }
 
+body.dragStart .no-drop{
+  cursor: not-allowed;
+}
+
 
 
 
