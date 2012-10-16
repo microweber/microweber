@@ -130,7 +130,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 
             $option_mod = pq($elem)->attr('data-module');
-
+            if ($option_mod == false) {
+                $option_mod = pq($elem)->attr('data-type');
+            }
+            if ($option_mod == false) {
+                $option_mod = pq($elem)->attr('type');
+            }
 
 
 
@@ -180,9 +185,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 
                 if ($option_mod != false) {
+                    //   d($field);
 
-                    //  d($option_mod);
                     $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
+                    //
                 } else {
                     $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
                 }
@@ -383,6 +389,13 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                         $z = 0;
                         $mod_as_element = false;
                         $mod_no_wrapper = false;
+
+                        if (isset($attrs['data-module'])) {
+
+                            $attrs ['data-type'] = $attrs['data-module'];
+                            unset($attrs['data-module']);
+                        }
+
                         foreach ($attrs as $nn => $nv) {
 
 
@@ -404,6 +417,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                                 $attrs ['data-type'] = $module_name;
                                 unset($attrs [$nn]);
                             }
+
 
 
 
@@ -445,11 +459,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             $z++;
                         }
 
-                        if (!isset($module_name)) {
-                            if (isset($_POST['module'])) {
-                                $module_name = $_POST['module'];
-                            }
-                        }
+//                        if (!isset($module_name)) {
+//                            if (isset($_POST['module'])) {
+//                                $module_name = $_POST['module'];
+//                            }
+//                        }
 
 
                         if (isset($module_name)) {

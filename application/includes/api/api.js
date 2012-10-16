@@ -1,3 +1,11 @@
+if(!window.CanvasRenderingContext2D){
+  document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
+  document.body.id = 'UnsupportedBrowser';
+}
+
+
+
+
 Microweber = function(){
     this.get = function(){
         return {
@@ -344,6 +352,9 @@ mw.on = {
 mw.hash = function(b){
   return b===undefined ?  window.location.hash : window.location.hash = b;
 }
+
+
+
 
 
 

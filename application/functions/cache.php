@@ -1,5 +1,50 @@
 <?
 
+function cache_get_content_from_memory($cache_id, $cache_group) {
+    static $mem = array();
+
+
+
+    $mem_f = cache_get_index_file_path($cache_group);
+    $mem_f_str = 'mem-' . crc32($mem_f);
+    if (!isset($mem[$mem_f_str])) {
+        if (is_file($mem_f)) {
+            $mem[$mem_f_str] = file_get_contents($mem_f);
+        }
+    }
+
+
+    if (isset($mem[$mem_f_str])) {
+        $mem = $mem[$mem_f_str];
+        $findcache = '#mw_sep_cache_id#' . $cache_id;
+        $findcache_l = strlen($findcache);
+        $findcache_p = strpos($mem, $findcache);
+        if ($findcache_p != false) {
+            $findcache_p_end = strpos($mem, '#mw_sep_cache_id_end#', $findcache_p);
+
+            if ($findcache_p_end != false) {
+                $cache_res = substr($mem, $findcache_p, $findcache_p_end - $findcache_p);
+                $cache_res = str_replace($findcache, '', $cache_res);
+                $cache_res = str_replace('#mw_sep_cache_content#', '', $cache_res);
+
+                if ($cache_res != '') {
+                    //  d($cache_res);
+                    return $cache_res;
+                }
+                //
+                //  d($findcache_p);
+            }
+        }
+
+
+        // d($mem);
+    }
+
+
+    //
+    return false;
+}
+
 function cache_file_memory_storage($path) {
     static $mem = array();
     $path_md = crc32($path);
@@ -31,16 +76,24 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
  */
 function cache_clean_group($cache_group = 'global') {
     try {
+
+        $recycle_bin_f = CACHEDIR . 'db' . DS . 'recycle_bin_clear_' . date("Ymd") . '.php';
+        if (!is_file($recycle_bin_f)) {
+            cache_clear_recycle();
+            @touch($recycle_bin_f);
+        }
+
         $dir = cache_get_dir('global');
 
         if (is_dir($dir)) {
-            @recursive_remove_directory($dir);
+            @recursive_remove_from_cache_index($dir);
         }
         $dir = cache_get_dir($cache_group);
 
         if (is_dir($dir)) {
-            @recursive_remove_directory($dir);
+            @recursive_remove_from_cache_index($dir);
         }
+        // clearstatcache();
         return true;
     } catch (Exception $e) {
         return false;
@@ -131,19 +184,43 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
  * @since Version 1.0
  */
 function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = false) {
+
+
+    static $cache_index_array;
+    static $index_file_c;
+    static $index_file;
+
+
+    //  $mem = cache_get_content_from_memory($cache_id, $cache_group);
+    //if ($mem != false) {
+    //    d($mem);
+    // }
+
     /* $function_cache_id = false;
       $args = func_get_args ();
       foreach ( $args as $k => $v ) {
       $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
       }
       $function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
-      $cache_content = 'CACHE_GET_CONTENT_' . $function_cache_id;
+      $cache_content = 'CACHE_GET_CONTENT_' . $function_cacheok_id;
 
       if (! defined ( $cache_content )) {
       } else {
 
       //	return (constant ( $cache_content ));
       } */
+    //
+    // $cacheDir_index = CACHEDIR . 'rmindex' . DS;
+//    if (!is_arr($cache_index_array)) {
+//        $index_file = CACHEDIR . 'cache_index.php';
+//        if (is_file($index_file)) {
+//            $index_file_c = file_get_contents($index_file);
+//            $cache_index_array = explode(',', $index_file_c);
+//        }
+//    }
+
+
+
 
     if ($cache_group === null) {
 
@@ -162,7 +239,25 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
     $cache_group = reduce_double_slashes($cache_group);
 
     $cache_file = cache_get_file_path($cache_id, $cache_group);
+    $cache_file = normalize_path($cache_file, false);
     $get_file = $cache_file;
+
+    $rm_f = crc32($get_file);
+
+    if (is_array($cache_index_array) and in_array($rm_f, $cache_index_array)) {
+        //  d($rm_f);
+        //read the entire string
+        // $str = $index_file_c;
+//replace something in the file string - this is a VERY simple example
+        //$str = str_replace($get_file . ",", "", $str);
+        //file_put_contents($index_file, $str);
+        //    return false;
+    }
+    //if (is_file($rm_f)) {
+    //   @unlink($rm_f);
+    //return false;
+    // }
+
     $cache = false;
     try {
 
@@ -197,7 +292,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
           if (strlen ( $cache_content ) < 50) {
           define ( $cache_content, $cache );
           }
-          } */
+          } is */
 
         return $cache;
     }
@@ -233,7 +328,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 
         return false;
     } else {
-     //   $cache = base64_decode($cache);
+        //   $cache = base64_decode($cache);
         $cache = unserialize($cache);
 
         return $cache;
@@ -268,12 +363,8 @@ function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
 
         return false;
     } else {
-
         $data_to_cache = serialize($data_to_cache);
 
-        // var_dump($data_to_cache);
-       // $data_to_cache = base64_encode($data_to_cache);
-        // .$data_to_cache = ($data_to_cache);
 
         cache_write_to_file($cache_id, $data_to_cache, $cache_group);
 
@@ -301,13 +392,33 @@ function cache_write($data_to_cache, $cache_id, $cache_group = 'global') {
  * @since Version 1.0
  * @see cache_store_data
  */
+function cache_get_index_file_path($cache_group) {
+    $cache_group_clean = explode("/", $cache_group);
+    if (isset($cache_group_clean[0])) {
+        $cache_group_clean = "cache_index_" . $cache_group_clean[0];
+    } else {
+        $cache_group_clean = "cache_index_global";
+    }
+
+
+    $cache_group_index = CACHEDIR . $cache_group_clean . '.php';
+    return $cache_group_index;
+}
+
 function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
     if (strval(trim($cache_id)) == '') {
 
         return false;
     }
 
+    $cache_group_index = cache_get_index_file_path($cache_group);
+
+
+
+
+
     $cache_file = cache_get_file_path($cache_id, $cache_group);
+    $cache_file = normalize_path($cache_file, false);
 
     if (strval(trim($content)) == '') {
 
@@ -343,10 +454,12 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
             }
         }
 
-        $content = CACHE_CONTENT_PREPEND . $content;
+        $content1 = CACHE_CONTENT_PREPEND . $content;
         // var_dump ( $cache_file, $content );
         try {
-            $cache = file_put_contents($cache_file, $content);
+            $cache = file_put_contents($cache_file, $content1);
+
+            //  file_put_contents($cache_group_index, "#mw_sep_cache_id#{$cache_id}#mw_sep_cache_content#" . $content . "#mw_sep_cache_id_end#", FILE_APPEND);
         } catch (Exception $e) {
             // $this -> cache_storage[$cache_id] = $content;
             $cache = false;
@@ -356,19 +469,123 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
     return $content;
 }
 
+function cache_clear_recycle() {
+    static $recycle_bin;
+
+
+    if ($recycle_bin == false) {
+        $recycle_bin = CACHEDIR . '_recycle_bin' . DS;
+        if (is_dir($recycle_bin)) {
+            recursive_remove_directory($recycle_bin, false);
+        }
+    }
+}
+
 api_expose('clearcache');
 
 function clearcache() {
     if (MW_IS_INSTALLED == false) {
-        recursive_remove_directory(CACHEDIR, true);
+        recursive_remove_from_cache_index(CACHEDIR, true);
         return true;
     }
     if (is_admin() == false) {
         error('Error: not logged in as admin.');
     }
 
-    recursive_remove_directory(CACHEDIR, true);
+    recursive_remove_from_cache_index(CACHEDIR, true);
 
-    recursive_remove_directory(CACHEDIR_ROOT, true);
+    recursive_remove_from_cache_index(CACHEDIR_ROOT, true);
     return true;
+}
+
+function recursive_remove_from_cache_index($directory, $empty = true) {
+    static $recycle_bin;
+
+
+    if ($recycle_bin == false) {
+        $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("YmdH") . DS;
+        if (!is_dir($recycle_bin)) {
+            mkdir_recursive($recycle_bin, false);
+        }
+    }
+
+
+
+
+
+
+    // if the path has a slash at the end we remove it here
+    if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
+
+        $directory = substr($directory, 0, - 1);
+    }
+
+    // if the path is not valid or is not a directory ...
+    if (!file_exists($directory) || !is_dir($directory)) {
+
+        // ... we return false and exit the function
+        return FALSE;
+
+        // ... if the path is not readable
+    } elseif (!is_readable($directory)) {
+
+        // ... we return false and exit the function
+        return FALSE;
+
+        // ... else if the path is readable
+    } else {
+
+        // we open the directory
+        $handle = opendir($directory);
+
+        // and scan through the items inside
+        while (FALSE !== ($item = readdir($handle))) {
+
+            // if the filepointer is not the current directory
+            // or the parent directory
+            if ($item != '.' && $item != '..') {
+
+                // we build the new path to delete
+                $path = $directory . DIRECTORY_SEPARATOR . $item;
+
+                // if the new path is a directory
+                if (is_dir($path)) {
+                    // we call this function with the new path
+                    //recursive_remove_from_cache_index($path);
+
+                     rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
+                    // if the new path is a file
+                } else {
+                    $path = normalize_path($path, false);
+                    try {
+                         rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999)) . '.php';
+                        //    $path_small = crc32($path);
+                        //file_put_contents($index_file, $path_small . ",", FILE_APPEND);
+                       // rename($index_file_rand, $index_file);
+//  d($path);
+                      //  unlink($path);
+                    } catch (Exception $e) {
+
+                    }
+                }
+            }
+        }
+
+        // close the directory
+        closedir($handle);
+
+        // if the option to empty is not set to true
+        if ($empty == FALSE) {
+
+            // try to delete the now empty directory
+            if (!rmdir($directory)) {
+
+                // return false if not possible
+                return FALSE;
+            }
+        }
+
+        // return success
+        return TRUE;
+    }
 }

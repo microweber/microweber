@@ -9,14 +9,17 @@ class Controller {
     function index() {
 
 
-        if ($this->render_this_url == false) {
+        if ($this->render_this_url == false and isAjax() == FALSE) {
             $page_url = url_string();
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
-            // d($page_url);
-            // exit();
         }
+
+
+
+
+
         $page_url = rtrim($page_url, '/');
         $is_admin = is_admin();
 
@@ -153,8 +156,12 @@ class Controller {
             // $l->content = $content;
             // $l->set($l);
             $l = $l->__toString();
+
+            // d($l);
+            //exit();
+
             $l = parse_micrwober_tags($l, $options = false);
-            if ($is_editmode == true) {
+            if ($is_editmode == true and $this->isolate_by_html_id == false) {
                 $is_admin = is_admin();
                 if ($is_admin == true) {
 
@@ -162,8 +169,9 @@ class Controller {
 
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
-
                     if ($layout_toolbar != '') {
+                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
+
                         $l = str_ireplace('</head>', $layout_toolbar . '</head>', $l);
                     }
                 }
@@ -186,7 +194,7 @@ class Controller {
 
             // d(TEMPLATE_URL);
 
-            $l = parse_micrwober_tags($l, $options = false);
+
 
             $l = execute_document_ready($l);
 
@@ -204,7 +212,7 @@ class Controller {
             if ($this->isolate_by_html_id != false) {
 
                 $id_sel = $this->isolate_by_html_id;
-
+                $this->isolate_by_html_id = false;
                 require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $pq = phpQuery::newDocument($l);
@@ -218,7 +226,7 @@ class Controller {
             }
 
 
-            setcookie('last_page', $page_url);
+            //  setcookie('last_page', $page_url);
 
 
 
@@ -286,6 +294,16 @@ class Controller {
     }
 
     function admin() {
+
+        $recycle_bin_f = CACHEDIR . 'db' . DS . 'recycle_bin_clear_' . date("Ymd") . '.php';
+        if (!is_file($recycle_bin_f)) {
+            cache_clear_recycle();
+            @touch($recycle_bin_f);
+        }
+
+
+
+
         create_mw_default_options();
         define_constants();
         $l = new View(ADMIN_VIEWS_PATH . 'admin.php');

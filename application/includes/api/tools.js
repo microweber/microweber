@@ -357,12 +357,14 @@ mw.tools = {
     var el = $(el);
     this.toggle = function(){
       el.toggleClass("active");
+      mw.tools.tree().remember();
         if(event.type==='click'){
           $(event.target).toggleClass("active");
           event.stopPropagation();
           event.preventDefault();
           return false;
         }
+
     }
     this.del = function(id){
       if(confirm('Are you sure you want to delete this?')){
@@ -372,6 +374,29 @@ mw.tools = {
                  todelete.remove();
              })
 		 });
+      }
+    }
+    this.remember = function(){
+      _remember = "";
+      var lis = mw.$(".mw_pages_posts_tree").eq(0).find("li.active");
+      var len = lis.length;
+      lis.each(function(i){
+        i++;
+        _remember = i<len ? _remember + this.id + "," : _remember + this.id;
+      });
+      mw.cookie.ui("tree", _remember);
+    }
+    this.recall = function(){
+      var ids = mw.cookie.ui("tree");
+      if(ids!==''){
+        var ids = ids.split(",");
+        $.each(ids, function(a,b){
+          var el = mwd.getElementById(b);
+          el.className+=' active';
+          if(el.querySelector('.mw_toggle_tree')!=null){
+               el.querySelector('.mw_toggle_tree').className+=' active';
+          }
+        });
       }
     }
     return this;

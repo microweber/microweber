@@ -8,6 +8,31 @@ body.mw-live-edit{
     padding-top: 170px;
 }
 
+
+body#UnsupportedBrowser div {
+  display: none !important;
+}
+
+body#UnsupportedBrowser  #UnsupportedBrowserMSG{
+  display: block !important;
+  position: absolute;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: #3D80AB;
+  color: white;
+  text-align: center;
+  font-weight: normal;
+  z-index: 9999;
+  border-bottom: 1px solid #ccc;
+}
+
+
+body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
+  padding: 30px;
+}
+
 .relative{
   position: relative;
 }

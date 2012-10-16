@@ -132,7 +132,7 @@ $(".mw-newsletter-default input[type='text']").keydown(function(){
 <div class="mw-reset mw-newsletter mw-newsletter-default">
   <div class="mw-newsletter-content">
   
-  
+  <? //  d($params);?>
   
 <div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
  <h3>Subscribe for our Newsletter</h3>

@@ -1043,7 +1043,7 @@ function save_edit($post_data) {
 
 
 
-
+ 
 
 
 
@@ -1091,7 +1091,7 @@ function save_edit($post_data) {
     save_history($history_to_save);
     // }
     print $json_print;
-    cache_clean_group('global/blocks');
+    //cache_clean_group('global/blocks');
     exit();
 }
 
@@ -1138,7 +1138,7 @@ function save_content($data, $delete_the_cache = true) {
     if ($adm == false) {
         error('Error: not logged in as admin.');
     }
-
+    $cats_modified = false;
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_content'];
@@ -1211,6 +1211,13 @@ function save_content($data, $delete_the_cache = true) {
         // }
     }
 
+    if (isset($data['category']) or isset($data['categories'])) {
+        $cats_modified = true;
+    }
+
+
+
+
     if ($data['url'] != false) {
         $data['url'] = url_title($data['url']);
 
@@ -1266,7 +1273,7 @@ function save_content($data, $delete_the_cache = true) {
 
             if (!isset($data_to_save['subtype_value_new'])) {
                 if (isset($data_to_save['title'])) {
-
+                    $cats_modified = true;
                     $data_to_save['subtype_value_new'] = $data_to_save['title'];
                 }
             }
@@ -1284,7 +1291,7 @@ function save_content($data, $delete_the_cache = true) {
                 $new_category["to_table"] = "table_content";
                 $new_category["title"] = $data_to_save['subtype_value_new'];
                 $new_category["parent_id"] = "0";
-
+                $cats_modified = true;
                 $new_category = save_category($new_category);
                 //d($new_category);
                 $data_to_save['subtype_value'] = $new_category;
@@ -1309,7 +1316,7 @@ function save_content($data, $delete_the_cache = true) {
                         $new_scategory["data_type"] = "category";
                         $new_scategory["title"] = $sc;
                         $new_scategory["parent_id"] = intval($new_category);
-
+                        $cats_modified = true;
                         $new_scategory = save_category($new_scategory);
                     }
                 }
@@ -1361,8 +1368,12 @@ and to_table IS NULL and to_table_id IS NULL
     }
     cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
     cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
-    cache_clean_group('taxonomy');
-    cache_clean_group('taxonomy_items');
+
+    if ($cats_modified != false) {
+
+        cache_clean_group('taxonomy');
+        cache_clean_group('taxonomy_items');
+    }
     return $save;
     // if ($data_to_save ['content_type'] == 'page') {
     // if (!empty($data_to_save['menus'])) {

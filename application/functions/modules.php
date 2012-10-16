@@ -920,10 +920,9 @@ function load_module($module_name, $attrs = array()) {
 	// // p((constant($cache_content)));
     // return (constant($cache_content));
     // }
-
-    $uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
+    //$uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
     if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
-        return '';
+        //return '';
     }
     //d($uninstall_lock);
 
@@ -1027,7 +1026,8 @@ function load_module($module_name, $attrs = array()) {
         $config['the_module'] = $module_name;
         $config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
         //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-        $lic = load_module_lic($module_name);
+        // $lic = load_module_lic($module_name);
+        $lic = 'valid';
         if ($lic != false) {
             $config['license'] = $lic;
         }
@@ -1048,7 +1048,7 @@ function load_module($module_name, $attrs = array()) {
             $module_file = $l1->__toString();
         } else {
 
-            if (isset($attrs['display']) && (trim($attrs['display']) != 'true')) {
+            if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
                 $module_file = $l1->__get_vars();
                 return $module_file;
             } else {

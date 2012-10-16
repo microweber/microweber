@@ -599,15 +599,19 @@ ul.depth-3 a{
 
 .mw_pages_posts_tree ul.depth-2{
   margin-left:95px;
-  border-left: 1px solid #EDEDED;
+  /*border-left: 1px solid #CFCFCF;*/
 }
-.mw_pages_posts_tree ul.depth-3{
-  margin-left:24px;
+.mw_pages_posts_tree ul.depth-2 ul{
+  margin-left:30px;
 }
 
-.mw_pages_posts_tree ul.depth-2 li.depth-2{
+.mw_pages_posts_tree ul.depth-2 li{
     padding-left: 10px;
-    background: url(../img/treelisub.gif) no-repeat 0 18px;
+    background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
+}
+
+.mw_pages_posts_tree ul.depth-2 li:last-child{
+background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
 }
 
 .mw_pages_posts_tree ul.depth-2 li.depth-2 a{
@@ -662,8 +666,11 @@ html.mw_pages, html.mw_pages body{
   visibility: hidden;
   opacity:.6;
 }
-.pages_tree_link:hover .mw_del_tree_content,
-.pages_tree_link:hover .mw_ed_tree_content{
+
+
+
+a:hover .mw_del_tree_content,
+a:hover .mw_ed_tree_content{
   visibility: visible;
 }
 .mw_del_tree_content:hover,
@@ -681,8 +688,20 @@ html.mw_pages, html.mw_pages body{
   background: url(../img/treectrls.png) no-repeat;
 }
 
+a.depth-1 .mw_toggle_tree{
+    left: 8.4%;
+}
+
 .mw_toggle_tree.active{
   background-position: 0 -8px;
+}
+
+.mw_ed_tree_show_posts{
+  display: block;
+  float: right;
+  width: 10px;
+  height: 10px;
+  background: #5B5B5B;
 }
 
 
@@ -695,7 +714,7 @@ html.mw_pages, html.mw_pages body{
     border-right:1px solid #D0D0D0;
     overflow-y: auto;
     overflow-x:hidden;
-    box-shadow:inset 0 0 1px
+    box-shadow:inset 0 0 1px;
 }
 
 .mw-ui-category-selector li{

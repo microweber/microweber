@@ -33,9 +33,13 @@ mw.wysiwyg = {
     },
     execCommand:function(a,b,c){
       if(mw.wysiwyg.isThereEditableContent){
+        if(document.queryCommandSupported(a)){
+        var b = b || false;
+        var c = c || false;
          $.browser.mozilla?mwd.designMode = 'on':'';  // for firefox
          mwd.execCommand(a,b,c);
          $.browser.mozilla?mwd.designMode = 'off':'';
+        }
       }
       else if(mwd.querySelector(".element-current")!==null){
 
@@ -56,6 +60,36 @@ mw.wysiwyg = {
     },
     deselect_selected_element:function(){
         mw.$("#mw-text-editor").removeClass("editor_hover");
+    },
+    nceui:function(){  //remove defaults for browser's content editable
+        mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+        mw.wysiwyg.execCommand('2D-Position', false, false);
+        mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
+
+
+
+        if($.browser.msie){
+            var all = document.querySelectorAll('.edit *:not(.disable-resize)');
+
+            for(var i=0;i<all.length;i++){
+                all[i].className+=' disable-resize';
+                all[i].attachEvent("onresizestart", function(e) {
+                    e.returnValue = false;
+                }, false);  /*
+                all[i].attachEvent("onmousedown", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+                all[i].attachEvent("onmouseup", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+                all[i].attachEvent("onclick", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);*/
+            }
+        }
     },
     prepare:function(){
       mw.wysiwyg.external = mw.wysiwyg._external();
@@ -95,7 +129,10 @@ mw.wysiwyg = {
         if(!mw.isDrag && $(".module.element-active").length==0){
           el.hasClass("module")?el.attr('contenteditable','false'):'';
           mw.wysiwyg.isThereEditableContent=true;
-          mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+
+          mw.wysiwyg.nceui();
+
+
           if(mw.smallEditor.css("visibility")=='hidden'){
               mw.bigEditor.show();
           }
@@ -107,7 +144,11 @@ mw.wysiwyg = {
           el.bind("change", function(event){
             mw.drag.fix_placeholders(true , el);
           });
-          mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+
+
+          mw.wysiwyg.nceui();
+
+
           event.stopPropagation();
         }
         if(mw.$(".module.element-active").length>0){

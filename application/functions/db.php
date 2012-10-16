@@ -17,7 +17,7 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     $cg = guess_cache_group($table);
     //
     // d($cg);
-    cache_clean_group($cg);
+   // cache_clean_group($cg);
     $q = db_q($q);
 
     $cms_db_tables = c('db_tables');
@@ -28,13 +28,13 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     $q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
 
     $q = db_q($q);
-    cache_clean_group('taxonomy');
+  //  cache_clean_group('taxonomy');
 
     $q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
     //d($q);
     $q = db_q($q);
 
-    cache_clean_group('taxonomy_items');
+ //   cache_clean_group('taxonomy_items');
 
     //	d($q);
 }
@@ -323,7 +323,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         if (!empty($result)) {
             //    cache_store_data($result, $cache_id, $cache_group);
         } else {
-            //   cache_store_data('---empty---', $cache_id, $cache_group);
+              cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
     print '0000000000000000000000000000000---------------------';
@@ -1202,7 +1202,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
             cache_store_data($return, $original_cache_id, $original_cache_group);
         } else {
 
-            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+           cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
     //   var_dump ( $return );

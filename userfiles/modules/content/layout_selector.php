@@ -143,4 +143,4 @@ zoom: 0.15;
 width:600px;height:300px;border:5px solid black;
 }
 </style>
-<div class="preview_frame_wrap"> </div>
+<div class="preview_frame_wrap_AAAAA"> </div>
