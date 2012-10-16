@@ -10,12 +10,19 @@
 
 
     <!-- Le styles -->
-    <link href="<? print TEMPLATE_URL ?>css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="<? print TEMPLATE_URL ?>css/style.css"  rel="stylesheet">
-    <link href="<? print TEMPLATE_URL ?>assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="<? print TEMPLATE_URL ?>css/docs.css" rel="stylesheet">
 
- 
+
+
+
+
+
+<link href="<? print TEMPLATE_URL ?>css/bootstrap.min.css" rel="stylesheet">
+<link href="<? print TEMPLATE_URL ?>assets/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="<? print TEMPLATE_URL ?>css/docs.css" rel="stylesheet">
+<link type="text/css" href="<? print TEMPLATE_URL ?>css/style.css"  rel="stylesheet" />
+
+
+
 
   </head>
 

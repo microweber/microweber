@@ -10,18 +10,20 @@
 <script  type="text/javascript">
 
 
- mw.require("forms.js");
+// mw.require("forms.js");
 
 $(document).ready(function(){
 
   $('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
-    mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
-    return false;
+  //  mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
+   // return false;
   });
 });
 </script>
 
-<h1><? print $form_title; ?></h1>
+<div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+  <h1>This is My editable title</h1>
+</div>
 <form class="mw_form" data-temp-id="<? print $temp_id ?>" >
   <? $save_as = option_get('form_save_as', $params['id']);
 

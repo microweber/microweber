@@ -4,6 +4,11 @@ function isAjax() {
     return (isset($_SERVER ['HTTP_X_REQUESTED_WITH']) && ($_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }
 
+function api_url($str = '') {
+    $str = ltrim($str, '/');
+    return site_url('api/' . $str);
+}
+
 function url_segment($k = -1) {
     static $u;
 
@@ -327,8 +332,7 @@ function replace_site_vars_back($arr) {
 
                 $v = replace_site_vars_back($v);
             } else {
- //$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
- 
+                //$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
                 // $v = str_ireplace($site, '{SITE_URL}', $v);
                 $v = str_replace('{SITE_URL}', $site, $v);
                 // $v = addslashes ( $v );

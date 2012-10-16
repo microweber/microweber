@@ -15,6 +15,37 @@
     <td>Only the posts that have this page id as a parent will be shown</td>
     <td> data-page-id="5" </td>
   </tr>
+  
+  
+  
+   <tr>
+    <td>data-show</td>
+    <td>Shows the post data in the defined order</td>
+    <td> data-show="title,description,read_more"
+    <br />
+Available fields are:<br />
+<ul>
+<li>title</li>
+<li>description</li>
+<li>read_more</li>
+<li>updated_on</li>
+<li>created_on</li>
+<li>created_by</li>
+<li>edited_by</li>
+ 
+
+</ul>
+    
+     </td>
+  </tr>
+  
+  
+  
+ 
+
+  
+  
+  
   <tr>
     <td> - </td>
     <td> - </td>
@@ -41,3 +72,22 @@
     <td> data-keyword="search keyword" </td>
   </tr>
 </table>
+
+
+<textarea>data-type="posts" 
+data-fields="id,thumbnail, title, description, date, categories, author, comments, price, expriration_date" 
+data-read-more='aaaa' 
+data-thumbnail-size='300x200' 
+data-category='10, shop' 
+data-posts-per-page=10 
+data-order="date,asc"
+data-keyword="ivan"
+
+data-callback="mw.posts.fancy('#aadas')"
+data-list-tag="ul, table"
+
+
+data-filter-price="<60"
+data-filter-price=">30"
+data-filter-title="^ivan*"
+data-filter-date="<> 1 hour ago</textarea>

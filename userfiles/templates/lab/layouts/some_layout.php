@@ -38,7 +38,7 @@ $(document).ready(function(){
 </script>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_testxsdcvxc1" field="ridin_thesdzxc1">
+  <div class="edit" id="the_testxsdcvxc1" field="ridin_thesdasdasdzxc1">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>:)))))))))))Simple Cool Text</span></h2>
@@ -60,25 +60,25 @@ $(document).ready(function(){
         </div>
       </div>
       <div class="column" style="width: 450px;">
-        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" />
+        <img class="element element-image" src="<? print site_url() ?>application/includes/img/tests/i1.jpg" />
       </div>
     </div>
     <div class="c">&nbsp;</div>
     <div class="row">
       <div class="column" style="width: 450px;">
         <h2 class="element"><span>Hollywood Style</span></h2>
-        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" />
+        <img class="element element-image" src="<? print site_url() ?>application/includes/img/tests/i2.jpg" />
       </div>
       <div class="column" style="width: 450px;">
         <div class="row">
           <div class="column" style="width: 215px;">
-            <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" />
+            <img class="element element-image" src="<? print site_url() ?>application/includes/img/tests/i3.jpg" />
           </div>
           <div class="column" style="width: 215px;">
-            <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" />
+            <img class="element element-image" src="<? print site_url() ?>application/includes/img/tests/i4.jpg" />
           </div>
         </div>
-        <img class="element element-image" src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" />
+        <img class="element element-image" src="<? print site_url() ?>application/includes/img/tests/i5.jpg" />
       </div>
     </div>
   </div>

@@ -921,16 +921,24 @@ function save_edit($post_data) {
             $some_mods = array();
             if (($the_field_data['attributes'])) {
                 if (($the_field_data['html']) != '') {
-                    $field = trim($the_field_data['attributes']['field']);
-
+                    $field = false;
                     if (isset($the_field_data['attributes']['field'])) {
-                        $page_element_id = $the_field_data['attributes']['field'];
-                    } else {
+                        $field = trim($the_field_data['attributes']['field']);
+                    }
+
+                    if (isset($the_field_data['attributes']['data-field'])) {
+                        $field = trim($the_field_data['attributes']['data-field']);
+                    }
+
+                    if (($field != false)) {
                         $page_element_id = $field;
                     }
 
+
+
+
                     $save_global = false;
-                    if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'global') {
+                    if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {
                         $save_global = true;
                         // p($the_field_data ['attributes'] ['rel']);
                     } else {
@@ -943,9 +951,10 @@ function save_edit($post_data) {
                         $save_layout = false;
                     }
 
-                    if (isset($the_field_data['attributes']['rel'])) {
-                        //    d($the_field_data);
-                        //   error('rel must be finished', __FILE__, __LINE__);
+                    if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'content' and isset($the_field_data['attributes']['data-id'])) {
+                        $save_global = false;
+                        $save_layout = false;
+                        $content_id = $the_field_data['attributes']['data-id'];
                     }
 
                     $html_to_save = $the_field_data['html'];
@@ -982,9 +991,19 @@ function save_edit($post_data) {
                             $to_save = array();
                             $to_save['id'] = $content_id;
 
+//$to_save['debug'] = $content_id;
+
+
                             $to_save['page_element_id'] = $page_element_id;
 
-                            $to_save['custom_fields'][$field] = ($html_to_save);
+                            $is_native_fld = db_get_table_fields('table_content');
+                            if (in_array($field, $is_native_fld)) {
+                                $to_save [$field] = ($html_to_save);
+                            } else {
+                                $to_save['custom_fields'][$field] = ($html_to_save);
+                            }
+                            // d($to_save);
+                            //  exit;
 
                             if ($is_no_save != true) {
                                 $json_print[] = $to_save;
@@ -996,17 +1015,40 @@ function save_edit($post_data) {
                         }
                     } else {
                         if ($save_global == true and $save_layout == false) {
-                            $field_content = $this->core_model->optionsGetByKey($the_field_data['attributes']['field'], $return_full = true, $orderby = false);
-                            $html_to_save = $this->template_model->parseToTags($html_to_save);
+
+
+                            if (isset($the_field_data['attributes']['data-option_group'])) {
+                                $og = $the_field_data['attributes']['data-option_group'];
+                            } else {
+                                $og = 'editable_region';
+                            }
+
+
+
+
+                            $field_content = get_option($the_field_data['attributes']['field'], $og, $return_full = true, $orderby = false);
+                            $html_to_save = make_microweber_tags($html_to_save);
                             // p($html_to_save,1);
                             $to_save = $field_content;
                             $to_save['option_key'] = $the_field_data['attributes']['field'];
                             $to_save['option_value'] = $html_to_save;
-                            $to_save['option_key2'] = 'editable_region';
+                            //  $to_save['option_key2'] = 'editable_region';
+                            $to_save['option_group'] = $og;
                             $to_save['page_element_id'] = $page_element_id;
 
+                            if (isset($the_field_data['attributes']['data-module'])) {
+                                $to_save['module'] = $the_field_data['attributes']['data-module'];
+                            }
+
+
+
+
+
+
+
+
                             if ($is_no_save != true) {
-                                $to_save = $this->core_model->optionsSave($to_save);
+                                save_option($to_save);
                             }
                             $json_print[] = $to_save;
                             $history_to_save = array();
@@ -1015,7 +1057,7 @@ function save_edit($post_data) {
                             $history_to_save['value'] = $field_content['option_value'];
                             $history_to_save['field'] = $field;
                             if ($is_no_save != true) {
-                                $this->core_model->saveHistory($history_to_save);
+                                //  $this->core_model->saveHistory($history_to_save);
                             }
                         }
                         if ($save_global == false and $save_layout == true) {
@@ -1379,6 +1421,11 @@ and to_table IS NULL and to_table_id IS NULL
 
 function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
+    $nest_level = 0;
+
+
+
+
     $params2 = array();
     $params = false;
     $output = '';
@@ -1395,6 +1442,11 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             $parent = 0;
             extract($params);
         }
+    }
+
+
+    if (isset($params['nest_level'])) {
+        $nest_level = $params['nest_level'];
     }
 
     $cms_db_tables = c('db_tables');
@@ -1419,11 +1471,12 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $result = $q;
 
     if (is_array($result) and !empty($result)) {
+        $nest_level++;
 
         if ($ul_class_name == false) {
-            print "<ul class='pages_tree'>";
+            print "<ul class='pages_tree depth-{$nest_level}'>";
         } else {
-            print "<ul class='{$ul_class_name}'>";
+            print "<ul class='{$ul_class_name} depth-{$nest_level}'>";
         }
 
         foreach ($result as $item) {
@@ -1478,13 +1531,16 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 
 
-            $to_pr_2 = "<li class='$content_type_li_class {active_class}' data-page-id='{$item['id']}' data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  id='page_list_holder_{$item['id']}' >";
+            $to_pr_2 = "<li class='$content_type_li_class {active_class} depth-{$nest_level}' data-page-id='{$item['id']}' data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  id='page_list_holder_{$item['id']}' >";
 
             if ($link != false) {
 
                 $to_print = str_ireplace('{id}', $item['id'], $link);
 
                 $to_print = str_ireplace('{title}', $item['title'], $to_print);
+
+                $to_print = str_ireplace('{nest_level}', 'depth-' . $nest_level, $to_print);
+
 
                 $to_print = str_ireplace('{link}', page_link($item['id']), $to_print);
 
@@ -1547,8 +1603,13 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
                 $to_pr_2 = false;
                 print $item['title'];
             }
+
+
+
             if (is_array($params)) {
                 $params['parent'] = $item['id'];
+                //   $nest_level++;
+                $params['nest_level'] = $nest_level;
                 $children = pages_tree($params);
             } else {
                 $children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
@@ -1559,6 +1620,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
                     $cat_params = array();
                     $cat_params['subtype_value'] = $item['subtype_value'];
                     $cat_params['include_first'] = 1;
+                    $cat_params['nest_level'] = $nest_level;
                     //  d($cat_params);
                     category_tree($cat_params);
                 }

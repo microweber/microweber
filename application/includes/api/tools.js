@@ -339,7 +339,12 @@ mw.tools = {
       }
 
   },
-  classNameSpaceDelete:function(el_obj, namespace){
+  classNamespaceDelete:function(el_obj, namespace){
+    if(el_obj ==='all'){
+      var all = mwd.querySelectorAll('.edit *');
+      for(var i=0;i<all.length; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      return;
+    }
     var clas =  el_obj.className.split(" ");
     for(var i=0; i<clas.length; i++){
       if(clas[i].indexOf(namespace)==0){
@@ -347,8 +352,36 @@ mw.tools = {
       }
     }
     el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
+  },
+  tree:function(el, event){
+    var el = $(el);
+    this.toggle = function(){
+      el.toggleClass("active");
+        if(event.type==='click'){
+          $(event.target).toggleClass("active");
+          event.stopPropagation();
+          event.preventDefault();
+          return false;
+        }
+    }
+    return this;
+  },
+  hasParentsWithClass:function(el, cls){
+    _curr = el.parentNode;
+    _i = 0;
+    while(_i<100){
+      if(_curr!==null){
+         if(_curr.className!==undefined){
+           if(_curr.tagName=='BODY'){return false;}
+           if(_curr.className.indexOf(cls)!=-1){
+             return true;
+           }
+         }
+        _curr = _curr.parentNode;
+        _i++
+      }else{return false;}
+    }
   }
-
 }
 
 
@@ -508,6 +541,27 @@ $(document).ready(function(){
   })
 });
         */
+
+
+$.fn.datas = function(){
+    var attrs = this[0].attributes;
+    var toreturn = {}
+    for(var item in attrs){
+        var attr = attrs[item];
+        if(attr.nodeName!==undefined){
+            if(attr.nodeName.contains("data-")){
+                toreturn[attr.nodeName] = attr.nodeValue;
+            }
+        }
+    }
+    return toreturn;
+}
+
+
+
+
+
+
 
 
 

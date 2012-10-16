@@ -99,7 +99,7 @@
 
            if(event.type=='click'){
              if(!$(this).hasClass("disabled")){
-                
+
                 var val = $("input:radio:checked").val();
                 if(mw.form.validate.email(val)){
                   var val = 'mailto:'+val;
@@ -166,7 +166,8 @@
     <h3>Website URL</h3>
     <label><input type="checkbox" checked="false" id="is_target_blank" />Open link in new window</label>
     <div class="field_wrapper active">
-        <input type="radio" name="linktype" id="link_url_radio" checked="checked" value="" />
+        <input type="radio" class="mw-ui" name="linktype" id="link_url_radio" checked="checked" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
+
         <div class="link_type_holder">
             <span class="fancy_input white"><input type="text" id="link_url" /></span>
         </div>
@@ -175,7 +176,7 @@
   <div class="link_type_to type_to_my_site">
     <h3>Page on My Website</h3>
     <div class="field_wrapper relative z-2">
-        <input type="radio" name="linktype" id="dd_pages_search_radio" value="" />
+        <input type="radio" class="mw-ui" name="linktype" id="dd_pages_search_radio" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
         <div class="link_type_holder">
             <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
                 <div class="mw_dropdown_fields">
@@ -199,7 +200,7 @@
     <h3>File on My Website</h3>
     <div class="field_wrapper relative">
         <div id="file_link_progres"></div>
-        <input type="radio" name="linktype" id="file_radio" value="" />
+        <input type="radio" class="mw-ui" name="linktype" id="file_radio" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
         <div class="link_type_holder relative">
              No file. <span class="upload_file_link" id="Uploader">Upload a new file</span>
 
@@ -211,7 +212,7 @@
   <div class="link_type_to type_to_mail">
     <h3>Email Address</h3>
     <div class="field_wrapper">
-        <input type="radio" name="linktype" id="mail_radio"  value="" />
+        <input type="radio" class="mw-ui" name="linktype" id="mail_radio"  value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
         <div class="link_type_holder">
             <span class="fancy_input white"><input type="text" id="mail_url" /></span>
         </div>

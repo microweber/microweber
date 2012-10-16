@@ -17,8 +17,8 @@ description: About site layout
 ================================================== -->
 
 <section id="typography">
-  <editable rel="page" field="custom_field_sdfafsdfsdcdasdasdasfgasdcr5s43erfsdfs4df134534"> </editable>
-  <editable rel="page" field="custom_field_czdfegddff1sddsdfddssdfsdfdfsdfa1fd34345d1">
+  <editable rel="page" field="custom_field_sdfafsdfsdcdasdasdasfgasdcr5sadas43erfsdfs4df134534"> </editable>
+  <editable rel="page" field="custom_field_czdfegddff1sddsdfddssdfsdfdfsdfa1asdasfd34345d1">
     <div class="row">
       <div class="column span5">
         <div class="element">
