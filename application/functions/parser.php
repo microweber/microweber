@@ -148,15 +148,18 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             if ($rel == 'module') {
                 $get_global = true;
             }
+            if ($get_global == false) {
+                $rel = 'page';
+            }
 
-
+ 
             if ($rel == 'content') {
                 if ($data_id != false) {
                     $data_id = intval($data_id);
                     $data = get_content_by_id($data_id);
                     $data ['custom_fields'] = get_custom_fields_for_content($data_id, 0);
                 }
-            } else if (isset($attr ['post'])) {
+            } else if ($rel == 'page') {
                 $data = get_page(PAGE_ID);
                 $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
             } else if (isset($attr ['post'])) {

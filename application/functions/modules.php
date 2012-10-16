@@ -48,7 +48,7 @@ function module($params) {
 
     $res = load_module($module_name, $params);
     if (is_array($res)) {
-        $res['edit'] = $tags;
+       // $res['edit'] = $tags;
     }
     return $res;
 }
