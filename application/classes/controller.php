@@ -3,8 +3,20 @@
 // Controller Class
 class Controller {
 
+    private $render_this_url = false;
+    private $isolate_by_html_id = false;
+
     function index() {
-        $page_url = url_string();
+
+
+        if ($this->render_this_url == false) {
+            $page_url = url_string();
+        } else {
+            $page_url = $this->render_this_url;
+            $this->render_this_url = false;
+            // d($page_url);
+            // exit();
+        }
         $page_url = rtrim($page_url, '/');
         $is_admin = is_admin();
 
@@ -178,6 +190,34 @@ class Controller {
 
             $l = execute_document_ready($l);
 
+
+
+
+
+
+
+
+            if ($this->isolate_by_html_id != false) {
+
+                $id_sel = $this->isolate_by_html_id;
+
+                require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+                $pq = phpQuery::newDocument($l);
+
+                foreach ($pq ['#' . $id_sel] as $elem) {
+
+                    $l = pq($elem)->htmlOuter();
+                }
+
+                // return $pq->htmlOuter();
+            }
+
+
+
+
+
+
             print $l;
             exit();
         } else {
@@ -338,6 +378,34 @@ class Controller {
             define('MW_API_CALL', true);
         }
         $page = false;
+
+
+        $custom_display = false;
+        if (isset($_POST['data-display']) and $_POST['data-display'] == 'custom') {
+            $custom_display = true;
+        }
+
+
+
+        if (isset($_POST['display']) and $_POST['display'] == 'custom') {
+            $custom_display = true;
+        }
+        if (isset($_POST['view']) and $_POST['view'] == 'admin') {
+            $custom_display = FALSE;
+        }
+
+
+
+        if ($custom_display == true) {
+            $custom_display_id = false;
+            if (isset($_POST['id'])) {
+                $custom_display_id = $_POST['id'];
+            }
+            if (isset($_POST['data-id'])) {
+                $custom_display_id = $_POST['data-id'];
+            }
+        }
+
         if (isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
             if (trim($url) == '') {
@@ -348,7 +416,28 @@ class Controller {
 
                 $page = get_content_by_url($url);
             }
+
+
+            if ($custom_display == true) {
+
+                $u2 = site_url();
+                $u1 = str_replace($u2, '', $url);
+                $this->render_this_url = $u1;
+                $this->isolate_by_html_id = $custom_display_id;
+                $this->index();
+                exit();
+            }
         }
+
+
+
+
+
+
+
+
+
+
         define_constants($page);
         $module_info = url_param('module_info', true);
 
@@ -510,7 +599,7 @@ class Controller {
 
         $tags = "<module {$tags} />";
 
-        $opts = array(); 
+        $opts = array();
         if ($_POST) {
             $opts = $_POST;
         }

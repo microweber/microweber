@@ -1039,6 +1039,9 @@ function load_module($module_name, $attrs = array()) {
         if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 
             $module_file = EMPTY_MOD_STR;
+        } elseif (isset($attrs['view']) && (trim($attrs['view']) == 'admin')) {
+
+                $module_file = $l1->__toString();
         } else {
 
             if (isset($attrs['display']) && (trim($attrs['display']) != 'true')) {
