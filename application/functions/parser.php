@@ -149,10 +149,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 $get_global = true;
             }
             if ($get_global == false) {
-                $rel = 'page';
+                //  $rel = 'page';
             }
 
- 
+
             if ($rel == 'content') {
                 if ($data_id != false) {
                     $data_id = intval($data_id);

@@ -85,7 +85,9 @@ mw.is = {
   obj:function(obj){return typeof obj=='object'},
   func:function(obj){return typeof obj=='function'},
   string:function(obj){return typeof obj=='string'},
-  defined:function(obj){return typeof obj!=="undefined"}
+  defined:function(obj){return typeof obj!=="undefined"},
+  invisible:function(obj){return window.getComputedStyle(obj, null).visibility==='hidden'},
+  visible:function(obj){return window.getComputedStyle(obj, null).visibility==='visible'}
 }
 
 if (window.console != undefined) {
@@ -272,7 +274,7 @@ mw._ = function(obj, sendSpecific){
 
         var m = mwd.getElementById(id);
 
-        mw.wysiwyg.init_editables(m);
+       $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '';
 
        mw.on.moduleReload(id, "", true);
 
@@ -329,9 +331,14 @@ mw.on = {
   DOMChange:function(element, callback){
     element.addEventListener("DOMCharacterDataModified", function(){
         callback.call(this);
-    }, false)
+    }, false);
+    element.addEventListener("DOMNodeInserted", function(){
+        callback.call(this);
+    }, false);
   }
 }
+
+
 
 
 mw.hash = function(b){

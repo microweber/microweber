@@ -192,7 +192,11 @@ class Controller {
 
 
 
+            $is_embed = url_param('embed');
 
+            if ($is_embed != false) {
+                $this->isolate_by_html_id = $is_embed;
+            }
 
 
 
@@ -214,7 +218,7 @@ class Controller {
             }
 
 
-
+            setcookie('last_page', $page_url);
 
 
 

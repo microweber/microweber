@@ -18,7 +18,7 @@ $(document).ready(function(){
 
 
 	 mw_append_pages_tree_controlls<? print $rand  ?>();
- 
+
  $('#pages_tree_toolbar<? print $rand  ?> .pages_tree a[data-page-id]').live('click',function(e) {
     $p_id = $(this).parent().attr('data-page-id');
     mw_set_edit_posts<? print $rand  ?>($p_id );
@@ -31,23 +31,16 @@ $(document).ready(function(){
       mw_set_edit_posts<? print $rand  ?>(this);
  });
  
- 
+
 
   mw.on.moduleReload("pages_tree_toolbar<? print $rand  ?>", function(){
  mw_append_pages_tree_controlls<? print $rand  ?>();
  });
 
  
-$('#pages_tree_toolbar<? print $rand  ?> .pages_tree .mw_del_tree_content').live('click',function(e) {
-				$p_id = $(this).parent().attr('data-page-id');
-				 $.post("<? print site_url('api/delete_content'); ?>", { id: $p_id },
-				   function(data) {
-					    $('#pages_tree_toolbar<? print $rand  ?> .pages_tree').find('li[data-page-id="'+$p_id+'"]').remove();
-					// mw.log("Data Loaded: " + data);
-				   });
- return false;
-				 }); 
-   
+
+
+
 });
 
 
@@ -64,7 +57,7 @@ function mw_delete_content($p_id){
 
 mw_edit_btns = function(pageid){
   return "\
-  <span class='mw_del_tree_content' title='<?php _e("Delete"); ?>'>\
+  <span class='mw_del_tree_content' onclick='mw.tools.tree().del("+pageid+");' title='<?php _e("Delete"); ?>'>\
         <?php _e("Delete"); ?>\
     </span>\
   <span class='mw_ed_tree_content' onclick='mw.url.windowHashParam(\"action\", \"editpage:"+pageid+"\");return false;' title='<?php _e("Edit"); ?>'>\
@@ -86,7 +79,7 @@ function mw_append_pages_tree_controlls<? print $rand  ?>(){
         if(attr['data-page-id']!==undefined){
             var pageid = attr['data-page-id'].nodeValue;
             el.setAttribute("onclick", "mw.url.windowHashParam('action', 'editpage:"+pageid+"')");
-            if(el.parentNode.className.contains('have_category')){
+            if($(el.parentNode).find('ul').length>0){
                el.innerHTML = '<span class="mw_toggle_tree" onclick="mw.tools.tree(this.parentNode.parentNode, event).toggle();"></span><span class="pages_tree_link_text">'+html+'</span>'+mw_edit_btns(pageid);
             }
             else{

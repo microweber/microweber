@@ -478,6 +478,17 @@ mw.image = {
   };
 
 
+$.expr[':'].isHidden = function(obj, index, meta, stack){
+    return  mw.is.invisible(obj);
+};
+$.expr[':'].isVisible = function(obj, index, meta, stack){
+    return  mw.is.visible(obj);
+};
+
+
+
+
+
 
 
 

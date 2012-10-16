@@ -385,10 +385,18 @@ $("#design_bnav").draggable({
 
 
 $(window).bind("onItemClick onImageClick onElementClick", function(e, el){
+
+if($(".ts_action:isVisible").length==0){
+
   $(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
   mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
+
+
+
+
+
   $(".es_item").trigger("change");
 
   if(e.type=='onImageClick'){
@@ -409,12 +417,13 @@ $(window).bind("onItemClick onImageClick onElementClick", function(e, el){
 
   width_slider_onstart();
 
-
+ }
 });
 
 
 
 $(window).bind("onBodyClick", function(){
+  if($(".ts_action:isVisible").length==0){
     $(".element-current").removeClass("element-current");
     $(mwd.body).addClass("element-current");
     mw.current_element = mwd.body;
@@ -425,6 +434,7 @@ $(window).bind("onBodyClick", function(){
     $(".mw-designtype-element").show();
     $(".mw-designtype-image").hide();
     mw.setCurrentStyles(mwd.body);
+    }
 });
 
 

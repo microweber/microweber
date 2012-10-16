@@ -345,7 +345,8 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? endif; ?>
   <h2>Advanced settings</h2>
   description
-  <input name="description"  type="text" value="<? print ($data['description'])?>" />
+  <textarea name="description"><? print ($data['description'])?></textarea>
+   
   <? if($edit_post_mode == false): ?>
   <br />
   <br />

@@ -364,6 +364,16 @@ mw.tools = {
           return false;
         }
     }
+    this.del = function(id){
+      if(confirm('Are you sure you want to delete this?')){
+         $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
+            var todelete =  mw.$("#page_list_holder_" + id);
+             todelete.fadeOut(function(){
+                 todelete.remove();
+             })
+		 });
+      }
+    }
     return this;
   },
   hasParentsWithClass:function(el, cls){

@@ -572,10 +572,10 @@ ul.depth-3 a{
   height: 0;
 }
 
-.mw_pages_posts_tree li.have_category ul{
+.mw_pages_posts_tree li > ul{
   display: none;
 }
-.mw_pages_posts_tree li.have_category.active ul{
+.mw_pages_posts_tree li.active > ul{
   display: block;
 }
 
@@ -600,6 +600,9 @@ ul.depth-3 a{
 .mw_pages_posts_tree ul.depth-2{
   margin-left:95px;
   border-left: 1px solid #EDEDED;
+}
+.mw_pages_posts_tree ul.depth-3{
+  margin-left:24px;
 }
 
 .mw_pages_posts_tree ul.depth-2 li.depth-2{

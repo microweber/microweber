@@ -129,10 +129,21 @@ $(".mw-newsletter-default input[type='text']").keydown(function(){
 </script>
 
 
-<div class="module mw-reset mw-newsletter mw-newsletter-default" contenteditable="false">
+<div class="mw-reset mw-newsletter mw-newsletter-default">
   <div class="mw-newsletter-content">
-      <h3>Subscribe for our Newsletter</h3>
-      <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
+  
+  
+  
+<div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+ <h3>Subscribe for our Newsletter</h3>
+</div>
+  
+  <div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+ <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
+</div>
+  
+      
+     
       <form method="post" action="#">
           <div class="mw-field">
             <label for="mw-newsletter-name"><?php _e("Your Name"); ?></label>

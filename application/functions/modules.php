@@ -48,7 +48,7 @@ function module($params) {
 
     $res = load_module($module_name, $params);
     if (is_array($res)) {
-       // $res['edit'] = $tags;
+        // $res['edit'] = $tags;
     }
     return $res;
 }
@@ -1032,6 +1032,10 @@ function load_module($module_name, $attrs = array()) {
             $config['license'] = $lic;
         }
 
+        if (!isset($attrs['id'])) {
+            $attrs['id'] = url_title($module_name . '-' . date("YmdHis"));
+        }
+
         //print(file_get_contents($try_file1));
         $l1 = new View($try_file1);
         $l1->config = $config;
@@ -1041,7 +1045,7 @@ function load_module($module_name, $attrs = array()) {
             $module_file = EMPTY_MOD_STR;
         } elseif (isset($attrs['view']) && (trim($attrs['view']) == 'admin')) {
 
-                $module_file = $l1->__toString();
+            $module_file = $l1->__toString();
         } else {
 
             if (isset($attrs['display']) && (trim($attrs['display']) != 'true')) {

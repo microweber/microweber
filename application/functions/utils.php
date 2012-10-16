@@ -414,6 +414,22 @@ function session_end() {
 
 function recursive_remove_directory($directory, $empty = true) {
 
+
+
+
+    system("rm -rf $directory");
+
+    return true;
+
+
+
+
+
+
+
+
+
+
     // if the path has a slash at the end we remove it here
     if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
 
