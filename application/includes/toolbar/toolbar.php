@@ -29,70 +29,8 @@
 
         });
 
-		
 
 
-
-		    $(document).ready(function () {
-
-
- $(".mw_option_field").live("change blur", function () {
-                var refresh_modules11 = $(this).attr('data-refresh');
-				
-				if(refresh_modules11 == undefined){
-				    var refresh_modules11 = $(this).attr('data-reload');
-				}
-
-				if(refresh_modules11 == undefined){
-				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
- refresh_modules11 = '#'+refresh_modules11;
-				}
-				
-				 var mname = $(this).parents('.module:first').attr('data-type');
-				
-
-				og = $(this).attr('data-module-id');
-				if(og == undefined){
-				og = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module') 
-				}
-				
-				
-				var o_data = {
-
-                        option_key: $(this).attr('name'),
-                        option_group: og,
-                        option_value: $(this).val()
-
-
-                    }
-				if(mname != undefined){
-					o_data.module = mname;
-				}
-				
-				
-                $.ajax({
-
-                    type: "POST",
-                    url: "<? print site_url('api/save_option') ?>",
-                    data: o_data,
-                    success: function () {
-                        if (refresh_modules11 != undefined && refresh_modules11 != '') {
-                            refresh_modules11 = refresh_modules11.toString()
-
-                            if (window.mw != undefined) {
-                                if (window.mw.reload_module != undefined) {
-                                    window.mw.reload_module(refresh_modules11);
-                                }
-                            }
-  
-                        }
-
-                        //  $(this).addClass("done");
-                    }
-                });
-            });
-		
-		    });
 
     </script>
 
@@ -145,8 +83,9 @@
     </div>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
-        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span> <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
-        style="position: fixed;top: 133px;right:130px; z-index: 2000;">Empty</span>
+        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
+        <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
+        style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>

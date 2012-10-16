@@ -255,7 +255,7 @@ if (!function_exists('pathToURL')) {
         // var_dump($path);
         $path = str_ireplace(ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
-		$path = str_replace('//', '/', $path);
+        $path = str_replace('//', '/', $path);
         // var_dump($path);
         return site_url($path);
     }
@@ -481,6 +481,18 @@ function recursive_remove_directory($directory, $empty = true) {
 
         // return success
         return TRUE;
+    }
+}
+
+function is_arr($var) {
+    return isarr($var);
+}
+
+function isarr($var) {
+    if (is_array($var) and !empty($var)) {
+        return true;
+    } else {
+        return false;
     }
 }
 

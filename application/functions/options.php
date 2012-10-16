@@ -12,6 +12,8 @@ function create_mw_default_options() {
     define('FORCE_SAVE', 1);
     $datas = array();
 
+
+
     $data = array();
     $data['option_group'] = 'website';
     $data['option_key'] = 'website_title';
@@ -90,6 +92,29 @@ function get_option_groups() {
     return $res1;
 }
 
+function get_options($params = '') {
+
+
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+        extract($params);
+    }
+    if (is_array($params)) {
+        $parent = 0;
+        extract($params);
+    }
+
+//d($params);
+    $data = $params;
+    $table = c('db_tables');
+    $table = $table['table_options'];
+    //  $data['debug'] = 1000;
+    $data['limit'] = 1000;
+    $get = db_get($table, $data, $cache_group = 'options');
+    return $get;
+}
+
 function get_option($key, $option_group = false, $return_full = false, $orderby = false) {
     $function_cache_id = false;
 
@@ -118,9 +143,9 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
         if ($orderby == false) {
 
-            $orderby[0] = 'created_on';
+            $orderby[0] = 'position';
 
-            $orderby[1] = 'DESC';
+            $orderby[1] = 'ASC';
         }
 
         $data = array();

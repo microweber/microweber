@@ -28,8 +28,8 @@ if(!isset($params['to_table_id'])){
 
  ?>
 
-categories
-<pre>
+
+
   <?
   
   if($to_table_id != ''){
@@ -85,13 +85,13 @@ categories
 
    ?>
   <? //print $cats_str ?>
-   </pre>
+
    <? if(!empty($cats__parents)): ?>
    
    
    <script  type="text/javascript">
 
- 
+
  
 
 $(document).ready(function(){
@@ -156,4 +156,4 @@ $('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
    
    ?>
    <? endif; ?>
-<input type="text" name="categories" id="mw_cat_selected_<? print $rand ?>" value="<? print $cats_str ?>" />
+<input type="hidden" name="categories" id="mw_cat_selected_<? print $rand ?>" value="<? print $cats_str ?>" />

@@ -34,6 +34,44 @@ if(isset($params["data-is-shop"])){
 
 $form_rand_id = $rand = uniqid();
 ?>
+
+
+
+<br /><br /><br /><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input class="mw-ui" type="radio" id="tchk22" name="yo" />
+<label for="tchk22"></label>
+<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input class="mw-ui"  checked="checked" name="yo" type="radio" id="tchk2211" />
+<label for="tchk2211"></label>
+
+<br /><br /><br /><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input class="mw-ui" type="checkbox" id="tchk221" name="yo1" /><label for="tchk221"></label>
+<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+<input class="mw-ui"  name="yo1" type="checkbox" id="tchk22115" />
+
+
+
+<label for="tchk22115"></label>
+
+
+
+
+
+
 <script  type="text/javascript">
 
 mw.require('forms.js');
@@ -64,24 +102,21 @@ $(document).ready(function(){
    
    
     $('#go_live_edit_<? print $rand ?>').click(function() { 
+	
+
 mw_before_content_save<? print $rand ?>()
  
+ 	<? if(intval($data['id']) == 0): ?>
  mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
-	 
-	 
-	 
-	 
   mw_after_content_save<? print $rand ?>(this);
+});
+
+<? else: ?>
+  mw_after_content_save<? print $rand ?>('<? print $data['id'] ?>');
+
+ <? endif; ?>
+
 	 
-	 
-	 
-	 
-	 
-	 
-	 });
-	 
-	 
-	
 
  return false;
  
@@ -125,13 +160,20 @@ mw.reload_module('[data-type="posts"]');
 });
 </script>
 
-<form id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form">
+<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form">
   <input name="id"  type="hidden" value="<? print ($data['id'])?>" />
   Page name
   <input name="title"  type="text" value="<? print ($data['title'])?>" />
   <br />
   url
   <input name="url"  type="text" value="<? print ($data['url'])?>" />
+  <?  if(!isset($data["thumbnail"])){
+	   $data['thumbnail'] = '';
+	  
+  }?>
+ 
+   thumbnail
+  <input name="thumbnail"  type="text" value="<? print ($data['thumbnail'])?>" />
   <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
@@ -163,37 +205,41 @@ mw.reload_module('[data-type="posts"]');
   <? endif; ?>
   <input name="subtype"  type="hidden"  value="<? print $params['subtype'] ?>" >
   <? if(!empty($pages)): ?>
-  <select name="parent" id="the_post_parent_page<? print $rand ?>">
-    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-    <? if((0 != intval($data['parent']))): ?>
-    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
-    <? endif; ?>
-    <?
-	$include_categories_in_cat_selector = array();
-	 foreach($pages as $item):
-	
-	$include_categories_in_cat_selector[] = $item['subtype_value'];
-	 ?>
-    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <? print $item['title'] ?>
-    </option>
-    <? endforeach; ?>
-  </select>
+  <div class="mw-ui-select">
+    <select name="parent" id="the_post_parent_page<? print $rand ?>">
+      <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+      <? if((0 != intval($data['parent']))): ?>
+      <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+      <? endif; ?>
+      <?
+  	$include_categories_in_cat_selector = array();
+  	 foreach($pages as $item):
+
+  	$include_categories_in_cat_selector[] = $item['subtype_value'];
+  	 ?>
+      <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+      <? print $item['title'] ?>
+      </option>
+      <? endforeach; ?>
+    </select>
+  </div>
   <? endif; ?>
   <? else: ?>
   <? $pages = get_content('content_type=page&limit=1000');   ?>
   <? if(!empty($pages)): ?>
-  <select name="parent">
-    <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-    <? if((0 != intval($data['parent']))): ?>
-    <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
-    <? endif; ?>
-    <? foreach($pages as $item): ?>
-    <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <? print $item['title'] ?>
-    </option>
-    <? endforeach; ?>
-  </select>
+  <div class="mw-ui-select">
+    <select name="parent">
+      <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+      <? if((0 != intval($data['parent']))): ?>
+      <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
+      <? endif; ?>
+      <? foreach($pages as $item): ?>
+      <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
+      <? print $item['title'] ?>
+      </option>
+      <? endforeach; ?>
+    </select>
+  </div>
   <? endif; ?>
   <? endif; ?>
   <? if($edit_post_mode != false): ?>
@@ -236,7 +282,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	$new_div_id = 'cf_post_cat_hold_<? print $rand  ?>_'+i+mw.random();
 	$new_div = '<div id="'+$new_div_id+'"></div>'
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
-  holder1.append($new_div); 
+  holder1.append($new_div);
 		 $('#'+$new_div_id).attr('for','categories');
 		 $('#'+$new_div_id).attr('to_table_id',value);
 		 
@@ -280,12 +326,15 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
-  <? if(intval($data['id']) > 0): ?>
-  <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
-  <? else: ?>
-  <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
-  <? endif; ?>
-  <br />
+  <div class="mw-ui mw-ui-category-selector">
+    <? if(intval($data['id']) > 0): ?>
+      <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
+    <? else: ?>
+      <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
+    <? endif; ?>
+  </div>
+
+
   Custom fields for post
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
@@ -314,10 +363,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <br />
   <br />
   subtype
-  <select name="subtype">
-    <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-    <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
-  </select>
+  <div class="mw-ui-select">
+    <select name="subtype">
+      <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+      <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+    </select>
+  </div>
   <br />
   subtype_value
   <input name="subtype_value"  type="text" value="<? print ($data['subtype_value'])?>" />
@@ -335,4 +386,11 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   <? if($edit_post_mode == false): ?>
   <? endif; ?>
+
+
+
+
+  <button type="submit">Save be</button>
+
+
 </form>

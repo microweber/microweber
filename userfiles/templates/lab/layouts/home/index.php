@@ -32,7 +32,7 @@ h2 {
 </style>
 
 <div id="MagicTheme">
-  <div class="edit" id="the_tesssadasdt1" field="test_v1sss21">
+  <div class="edit" id="the_tesssadasdt1" field="test_v1sasdasss21">
     <div class="row">
       <div class="column">
         <h2 class="element"><span>1111111111asdSimple Cool Text</span></h2>
@@ -54,25 +54,25 @@ h2 {
         </div>
       </div>
       <div class="column" style="width: 450px;">
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" /></div>
+        <div class="element element-image"><img src="<? print site_url() ?>application/includes/img/tests/i1.jpg" /></div>
       </div>
     </div>
     <div class="c">&nbsp;</div>
     <div class="row">
       <div class="column" style="width: 450px;">
         <h2 class="element"><span>Hollywood Style</span></h2>
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" /></div>
+        <div class="element element-image"><img src="<? print site_url() ?>application/includes/img/tests/i2.jpg" /></div>
       </div>
       <div class="column" style="width: 450px;">
         <div class="row">
           <div class="column" style="width: 215px;">
-            <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" /></div>
+            <div class="element element-image"><img src="<? print site_url() ?>application/includes/img/tests/i3.jpg" /></div>
           </div>
           <div class="column" style="width: 215px;">
-            <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" /></div>
+            <div class="element element-image"><img src="<? print site_url() ?>application/includes/img/tests/i4.jpg" /></div>
           </div>
         </div>
-        <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" /></div>
+        <div class="element element-image"><img src="<? print site_url() ?>application/includes/img/tests/i5.jpg" /></div>
       </div>
     </div>
   </div>

@@ -1,4 +1,29 @@
+<? 
 
+$address = false;
+if (isset($params['data-address'])) {
+  
+    $address = $params['data-address'];
+} else {
+      $address =  option_get('data-address', $params['id']);
+}
+if($address == false or $address == ''){
+$address = "Sofia, Bulgaria";	
+}
+
+
+$zoom = false;
+if (isset($params['data-address'])) {
+  
+    $zoom = $params['data-zoom'];
+} else {
+      $zoom =  option_get('data-zoom', $params['id']);
+}
+if($zoom == false or $zoom == ''){
+$zoom = "14";	
+}
+
+?>
 
 <script type="text/javascript">
 
@@ -8,8 +33,13 @@ var T = 1;
 <br />
 
 <div class="resize-x resize-y " style="width: 100%;height: 250px">
-
- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/?ie=UTF8&amp;ll=57.20771,-125.290833&amp;spn=1.133528,4.22699&amp;t=h&amp;z=9&amp;output=embed"></iframe>
+ 
+ 
+ <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;hl=en&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<? print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<? print intval($zoom); ?>&amp;output=embed"></iframe>
+ 
+ 
+ 
+ 
 
 </div>
 

@@ -62,13 +62,14 @@ mw.url = {
         }
     },
     setHashParam:function(param, value, hash){
-      var hash = hash || window.location.hash;
+      var hash = hash || mw.hash();
       var obj = mw.url.getHashParams(hash);
       obj[param] = value;
-      return "?"+json2url(obj);
+      return "?"+ decodeURIComponent( json2url(obj) );
     },
     windowHashParam:function(a,b){
-      window.location.hash = mw.url.setHashParam(a,b);
+      mw.hash(mw.url.setHashParam(a,b));
+
     }
 }
 
@@ -81,9 +82,11 @@ mw.on.hashParam = function(param, callback, trigger){
     if(trigger==true){
           var index = mw._hashparams.indexOf(param);
           if(index != -1){
-            var hash = window.location.hash;
+            var hash = mw.hash();
             var params = mw.url.getHashParams(hash);
-            mw._hashparam_funcs[index].call(params[param]);
+            if(mw.is.string(params[param])){
+                mw._hashparam_funcs[index].call(params[param]);
+            }
           }
     }
     else{
@@ -93,7 +96,7 @@ mw.on.hashParam = function(param, callback, trigger){
 }
 
 $(window).bind("hashchange load", function(){
-  var hash = window.location.hash;
+  var hash = mw.hash();
   var params = mw.url.getHashParams(hash);
   if(hash=='' || hash=='#' || hash =='#?'){
     for(var i = 0; i<mw._hashparams.length; i++){
