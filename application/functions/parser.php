@@ -375,6 +375,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 }
                 $layout = $pq->htmlOuter();
                 $pq->__destruct();
+                $pq = null;
                 unset($pq);
 
                 break;
@@ -896,7 +897,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     exit();
 }
 
-function make_microweber_tags_old($layout) {
+function make_microweber_tags($layout) {
     if ($layout == '') {
         return $layout;
     }

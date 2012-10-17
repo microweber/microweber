@@ -2,19 +2,22 @@
 
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
     static $mem = array();
- static $mem_hits = array();
+    static $mem_hits = array();
 
     if (is_bool($cache_id) and $cache_id == true) {
         return $mem_hits;
     }
 
 
-
+    $cache_group = (int) crc32($cache_group);
+    $cache_id = (int) crc32($cache_id);
     //$cache_group = 'gr' . crc32($cache_group);
-   // $cache_id = 'id' . crc32($cache_id);
+    // $cache_id = 'id' . crc32($cache_id);
     if ($replace_with_new != false) {
         $mem[$cache_group][$cache_id] = $replace_with_new;
-         $mem_hits[$cache_group][$cache_id] = 1;
+        asort($mem[$cache_group]);
+        $mem_hits[$cache_group][$cache_id] = 1;
+         asort($mem);
     }
 
     if (isset($mem[$cache_group][$cache_id])) {
@@ -223,7 +226,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
     $mem = cache_get_content_from_memory($cache_id, $cache_group);
     // d($mem);
     if ($mem != false) {
- //d($cache_id);
+        //d($cache_id);
         // exit();
         return $mem;
     }
@@ -560,7 +563,7 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 //  d($path);
                         //  unlink($path);
                     } catch (Exception $e) {
-
+                        
                     }
                 }
             }
