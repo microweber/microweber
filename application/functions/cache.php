@@ -13,18 +13,47 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
     $cache_id = (int) crc32($cache_id);
     //$cache_group = 'gr' . crc32($cache_group);
     // $cache_id = 'id' . crc32($cache_id);
-    if ($replace_with_new != false) {
-        $mem[$cache_group][$cache_id] = $replace_with_new;
-        asort($mem[$cache_group]);
-        $mem_hits[$cache_group][$cache_id] = 1;
-         asort($mem);
-    }
+    $mode = 2;
+    switch ($mode) {
+        case 1:
+            if ($replace_with_new != false) {
+                $mem[$cache_group][$cache_id] = $replace_with_new;
+                asort($mem[$cache_group]);
+                $mem_hits[$cache_group][$cache_id] = 1;
+                asort($mem);
+            }
 
-    if (isset($mem[$cache_group][$cache_id])) {
-        $mem_hits[$cache_group][$cache_id]++;
-        return $mem[$cache_group][$cache_id];
-    } else {
-        return false;
+            if (isset($mem[$cache_group][$cache_id])) {
+                $mem_hits[$cache_group][$cache_id]++;
+                return $mem[$cache_group][$cache_id];
+            } else {
+                return false;
+            }
+
+            break;
+
+        case 2:
+            $key = $cache_group + $cache_id;
+            $key = intval($key);
+            if ($replace_with_new != false) {
+                $mem[$key] = $replace_with_new;
+
+                $mem_hits[$key] = 1;
+               // ksort($mem);
+                // ksort($mem_hits);
+            }
+
+            if (isset($mem[$key])) {
+                $mem_hits[$key]++;
+                return $mem[$key];
+            } else {
+                return false;
+            }
+
+            break;
+
+        default:
+            break;
     }
 }
 
@@ -251,7 +280,14 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
                 // this is slower
                 // $cache = implode('', file($cache_file));
                 // this is faster
-                $cache = file_get_contents($cache_file);
+                ob_start();
+                readfile($cache_file);
+
+                $cache = ob_get_contents();
+
+                ob_end_clean();
+
+                //$cache = file_get_contents($cache_file);
             }
         }
     } catch (Exception $e) {
