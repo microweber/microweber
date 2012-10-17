@@ -1,48 +1,28 @@
 <?
 
-function cache_get_content_from_memory($cache_id, $cache_group) {
+function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
     static $mem = array();
+ static $mem_hits = array();
 
-
-
-    $mem_f = cache_get_index_file_path($cache_group);
-    $mem_f_str = 'mem-' . crc32($mem_f);
-    if (!isset($mem[$mem_f_str])) {
-        if (is_file($mem_f)) {
-            $mem[$mem_f_str] = file_get_contents($mem_f);
-        }
+    if (is_bool($cache_id) and $cache_id == true) {
+        return $mem_hits;
     }
 
 
-    if (isset($mem[$mem_f_str])) {
-        $mem = $mem[$mem_f_str];
-        $findcache = '#mw_sep_cache_id#' . $cache_id;
-        $findcache_l = strlen($findcache);
-        $findcache_p = strpos($mem, $findcache);
-        if ($findcache_p != false) {
-            $findcache_p_end = strpos($mem, '#mw_sep_cache_id_end#', $findcache_p);
 
-            if ($findcache_p_end != false) {
-                $cache_res = substr($mem, $findcache_p, $findcache_p_end - $findcache_p);
-                $cache_res = str_replace($findcache, '', $cache_res);
-                $cache_res = str_replace('#mw_sep_cache_content#', '', $cache_res);
-
-                if ($cache_res != '') {
-                    //  d($cache_res);
-                    return $cache_res;
-                }
-                //
-                //  d($findcache_p);
-            }
-        }
-
-
-        // d($mem);
+    //$cache_group = 'gr' . crc32($cache_group);
+   // $cache_id = 'id' . crc32($cache_id);
+    if ($replace_with_new != false) {
+        $mem[$cache_group][$cache_id] = $replace_with_new;
+         $mem_hits[$cache_group][$cache_id] = 1;
     }
 
-
-    //
-    return false;
+    if (isset($mem[$cache_group][$cache_id])) {
+        $mem_hits[$cache_group][$cache_id]++;
+        return $mem[$cache_group][$cache_id];
+    } else {
+        return false;
+    }
 }
 
 function cache_file_memory_storage($path) {
@@ -185,16 +165,27 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
  */
 function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = false) {
 
+//
+//    static $cache_index_array = array();
+//
+//    if (isset($cache_index_array[$cache_id])) {
+//        $cache_index_array[$cache_id]++;
+//        print $cache_index_array[$cache_id] . '<br>';
+//    } else {
+//        $cache_index_array[$cache_id] = 1;
+//    }
 
-    static $cache_index_array;
-    static $index_file_c;
-    static $index_file;
+    if ($cache_group === null) {
+
+        $cache_group = 'global';
+    }
+
+    if ($cache_id === null) {
+
+        return false;
+    }
 
 
-    //  $mem = cache_get_content_from_memory($cache_id, $cache_group);
-    //if ($mem != false) {
-    //    d($mem);
-    // }
 
     /* $function_cache_id = false;
       $args = func_get_args ();
@@ -222,15 +213,6 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 
 
-    if ($cache_group === null) {
-
-        $cache_group = 'global';
-    }
-
-    if ($cache_id === null) {
-
-        return false;
-    }
 
     $cache_id = trim($cache_id);
 
@@ -238,21 +220,19 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
     $cache_group = reduce_double_slashes($cache_group);
 
+    $mem = cache_get_content_from_memory($cache_id, $cache_group);
+    // d($mem);
+    if ($mem != false) {
+ //d($cache_id);
+        // exit();
+        return $mem;
+    }
+
     $cache_file = cache_get_file_path($cache_id, $cache_group);
     $cache_file = normalize_path($cache_file, false);
     $get_file = $cache_file;
 
-    $rm_f = crc32($get_file);
 
-    if (is_array($cache_index_array) and in_array($rm_f, $cache_index_array)) {
-        //  d($rm_f);
-        //read the entire string
-        // $str = $index_file_c;
-//replace something in the file string - this is a VERY simple example
-        //$str = str_replace($get_file . ",", "", $str);
-        //file_put_contents($index_file, $str);
-        //    return false;
-    }
     //if (is_file($rm_f)) {
     //   @unlink($rm_f);
     //return false;
@@ -293,7 +273,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
           define ( $cache_content, $cache );
           }
           } is */
-
+        cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
         return $cache;
     }
     /* 	if (! defined ( $cache_content )) {
@@ -441,22 +421,17 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 
         $see_if_dir_is_there = dirname($cache_file);
 
-        $cache_content1 = 'CACHE_DIR_INDEX_' . crc32($see_if_dir_is_there);
 
-        if (!defined($cache_content1)) {
+
+        $content1 = CACHE_CONTENT_PREPEND . $content;
+        // var_dump ( $cache_file, $content );
+        try {
 
             if (is_dir($see_if_dir_is_there) == false) {
 
                 mkdir_recursive($see_if_dir_is_there);
             }
-            if (!defined($cache_content1)) {
-                define($cache_content1, 1);
-            }
-        }
 
-        $content1 = CACHE_CONTENT_PREPEND . $content;
-        // var_dump ( $cache_file, $content );
-        try {
             $cache = file_put_contents($cache_file, $content1);
 
             //  file_put_contents($cache_group_index, "#mw_sep_cache_id#{$cache_id}#mw_sep_cache_content#" . $content . "#mw_sep_cache_id_end#", FILE_APPEND);
@@ -499,6 +474,7 @@ function clearcache() {
 }
 
 function recursive_remove_from_cache_index($directory, $empty = true) {
+
     static $recycle_bin;
 
 
@@ -506,8 +482,29 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
         $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("YmdH") . DS;
         if (!is_dir($recycle_bin)) {
             mkdir_recursive($recycle_bin, false);
+            @touch($recycle_bin . 'index.php');
+            @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
         }
     }
+
+
+    foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
+        rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
+    }
+
+
+
+    return true;
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -552,18 +549,16 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
                 if (is_dir($path)) {
                     // we call this function with the new path
                     //recursive_remove_from_cache_index($path);
-
-                     rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
                     // if the new path is a file
                 } else {
                     $path = normalize_path($path, false);
                     try {
-                         rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999)) . '.php';
+                        rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999)) . '.php';
                         //    $path_small = crc32($path);
                         //file_put_contents($index_file, $path_small . ",", FILE_APPEND);
-                       // rename($index_file_rand, $index_file);
+                        // rename($index_file_rand, $index_file);
 //  d($path);
-                      //  unlink($path);
+                        //  unlink($path);
                     } catch (Exception $e) {
 
                     }

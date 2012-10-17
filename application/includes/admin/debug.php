@@ -29,6 +29,17 @@
   <b><?php print count($included_files); ?> PHP Files Included:</b>
   <pre>
 <?php print implode("\n", $included_files); ?>
-
 </pre>
+
+
+<b>
+
+Cache hits <? $ch = cache_get_content_from_memory(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
+  <pre><?php print_r( $ch) ?></pre>
+
+
+
+
+
+
 </div>

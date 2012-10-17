@@ -49,10 +49,20 @@ class Controller {
             $page_url = url_param_unset('no_editmode', $page_url);
         }
 
+
+        $is_debug = url_param('debug');
+        if (!$is_debug) {
+            $is_debug = false;
+        } else {
+            setcookie('is_debug', $is_debug);
+            $page_url = url_param_unset('debug', $page_url);
+        }
+
         $is_preview_template = url_param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
         } else {
+
 
             $page_url = url_param_unset('preview_template', $page_url);
         }
@@ -226,11 +236,19 @@ class Controller {
             }
 
 
-            //  setcookie('last_page', $page_url);
+            setcookie('last_page', $page_url);
 
 
 
             print $l;
+
+            if (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug'] == 1)) {
+                $is_admin = is_admin();
+                if ($is_admin == true) {
+                    debug_info();
+                }
+            }
+
             exit();
         } else {
 

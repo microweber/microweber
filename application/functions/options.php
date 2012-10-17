@@ -47,7 +47,7 @@ function create_mw_default_options() {
         set_default_option($value);
     }
 
-    cache_store_data('--true--', $function_cache_id, $cache_group = 'options');
+    cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
 
     return true;
 }
@@ -82,7 +82,7 @@ function get_option_groups() {
     $q = "select option_group from $table where module IS NULL and option_group IS NOT NULL group by option_group order by position ASC ";
     $function_cache_id = __FUNCTION__ . crc32($q);
     $res1 = false;
-    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options');
+    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
     if (is_array($res) and !empty($res)) {
         $res1 = array();
         foreach ($res as $item) {
@@ -111,7 +111,7 @@ function get_options($params = '') {
     $table = $table['table_options'];
     //  $data['debug'] = 1000;
     $data['limit'] = 1000;
-    $get = db_get($table, $data, $cache_group = 'options');
+    $get = db_get($table, $data, $cache_group = 'options/global');
     return $get;
 }
 
@@ -149,7 +149,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $data['module'] = $module;
     }
     $data['limit'] = 1;
-    $get = db_get($table, $data, $cache_group = 'options');
+    $get = db_get($table, $data, $cache_group = 'options/global');
 
     if (!empty($get)) {
 
