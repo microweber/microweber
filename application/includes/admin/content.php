@@ -17,20 +17,20 @@ $(document).ready(function(){
 
 
 
-	 mw_append_pages_tree_controlls<? print $rand  ?>();
+	 mw_append_pages_tree_controlls();
 
 
 
 
 
  mw.on.hashParam("page-posts", function(){
-      mw_set_edit_posts<? print $rand  ?>(this);
+      mw_set_edit_posts(this);
  });
  
 
 
-  mw.on.moduleReload("pages_tree_toolbar<? print $rand  ?>", function(){
- mw_append_pages_tree_controlls<? print $rand  ?>();
+  mw.on.moduleReload("pages_tree_toolbar", function(){
+ mw_append_pages_tree_controlls();
  });
 
  
@@ -46,8 +46,8 @@ $(document).ready(function(){
  
  
 function mw_delete_content($p_id){
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-content-id',$p_id);
-  	 mw.load_module('content/edit_post','#pages_edit_container_<? print $rand  ?>');
+	 $('#pages_edit_container_').attr('data-content-id',$p_id);
+  	 mw.load_module('content/edit_post','#pages_edit_container_');
 }
 
 
@@ -77,10 +77,10 @@ mw_edit_btns = function(type, id){
 }
 
 
-function mw_append_pages_tree_controlls<? print $rand  ?>(){
+function mw_append_pages_tree_controlls(){
 
 
-    mw.$('#pages_tree_toolbar<? print $rand  ?> a').each(function(){
+    mw.$('#pages_tree_toolbar a').each(function(){
         var el = this;
         el.href = 'javascript:void(0);';
         var html = el.innerHTML;
@@ -118,18 +118,18 @@ function mw_append_pages_tree_controlls<? print $rand  ?>(){
 
 
 function mw_select_page_for_editing($p_id){
-	$('#pages_edit_container_<? print $rand  ?>').attr('data-page-id',$p_id);
+	$('#pages_edit_container_').attr('data-page-id',$p_id);
 
-   $('#pages_edit_container_<? print $rand  ?>').attr('data-type','content/edit_page');
-
-
-    $('#pages_edit_container_<? print $rand  ?>').removeAttr('data-subtype');
+   $('#pages_edit_container_').attr('data-type','content/edit_page');
 
 
+    $('#pages_edit_container_').removeAttr('data-subtype');
 
 
-	$('#pages_edit_container_<? print $rand  ?>').removeAttr('data-content-id');
-  	 mw.load_module('content/edit_page','#pages_edit_container_<? print $rand  ?>');
+
+
+	$('#pages_edit_container_').removeAttr('data-content-id');
+  	 mw.load_module('content/edit_page','#pages_edit_container_');
 }
 
 mw.on.hashParam("action", function(){
@@ -138,7 +138,7 @@ mw.on.hashParam("action", function(){
       mw_select_page_for_editing(arr[1])
   }
   else if(arr[0]==='showposts'){
-    mw_set_edit_posts<? print $rand  ?>(arr[1])
+    mw_set_edit_posts(arr[1])
   }
   else if(arr[0]==='editcategory'){
     mw_select_category_for_editing(arr[1])
@@ -171,43 +171,43 @@ mw.on.hashParam("action", function(){
 
 
 function mw_select_category_for_editing($p_id){
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-category-id',$p_id);
-  	 mw.load_module('categories/edit_category','#pages_edit_container_<? print $rand  ?>');
+	 $('#pages_edit_container_').attr('data-category-id',$p_id);
+  	 mw.load_module('categories/edit_category','#pages_edit_container_');
 }
 
 
 
 
-function mw_set_edit_posts<? print $rand  ?>($in_page){
+function mw_set_edit_posts($in_page){
 
 
 
 if($in_page != undefined){
- $('#pages_edit_container_<? print $rand  ?>').attr('data-page-id',$in_page);
+ $('#pages_edit_container_').attr('data-page-id',$in_page);
 
 	
 } else {
-	 $('#pages_edit_container_<? print $rand  ?>').removeAttr('data-page-id');
+	 $('#pages_edit_container_').removeAttr('data-page-id');
 
 }
 
-//	$('#pages_tree_container_<? print $rand  ?>').empty();
-//	$('#pages_edit_container_<? print $rand  ?>').empty();
-//	 $('#pages_tree_container_<? print $rand  ?>').attr('data-limit','10');
+//	$('#pages_tree_container_').empty();
+//	$('#pages_edit_container_').empty();
+//	 $('#pages_tree_container_').attr('data-limit','10');
 
 
 
 
 
 
-	 mw.load_module('posts_list','#pages_edit_container_<? print $rand  ?>');
-	 $('#pages_edit_container_<? print $rand  ?> .paging a').live('click',function() {
+	 mw.load_module('posts_list','#pages_edit_container_');
+	 $('#pages_edit_container_ .paging a').live('click',function() {
 	 
 	 $p_id = $(this).attr('data-page-number');
 	 $p_param = $(this).attr('data-paging-param'); 
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-page-number',$p_id);
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-page-param',$p_param);
-	 mw.load_module('posts','#pages_edit_container_<? print $rand  ?>');
+	 $('#pages_edit_container_').attr('data-page-number',$p_id);
+	 $('#pages_edit_container_').attr('data-page-param',$p_param);
+	 mw.load_module('posts','#pages_edit_container_');
 		 return false;
 	 });
 	 
@@ -222,17 +222,17 @@ if($in_page != undefined){
 
 
 function mw_select_post_for_editing($p_id){
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-content-id',$p_id);
-	 	 	 $('#pages_edit_container_<? print $rand  ?>').removeAttr('data-subtype', 'post');
+	 $('#pages_edit_container_').attr('data-content-id',$p_id);
+	 	 	 $('#pages_edit_container_').removeAttr('data-subtype', 'post');
 
-  	 mw.load_module('content/edit_post','#pages_edit_container_<? print $rand  ?>');
+  	 mw.load_module('content/edit_post','#pages_edit_container_');
 }
 
 function mw_add_product(){
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-content-id',0);
-	 $('#pages_edit_container_<? print $rand  ?>').attr('data-subtype','product');
+	 $('#pages_edit_container_').attr('data-content-id',0);
+	 $('#pages_edit_container_').attr('data-subtype','product');
 
-  	 mw.load_module('content/edit_post','#pages_edit_container_<? print $rand  ?>');
+  	 mw.load_module('content/edit_post','#pages_edit_container_');
 }
 
 
@@ -267,16 +267,16 @@ function mw_add_product(){
 
 
 
-       <?php /*  <button onclick="mw_set_edit_categories<? print $rand  ?>()">mw_set_edit_categories<? print $rand  ?></button>
-        <button onclick="mw_set_edit_posts<? print $rand  ?>()">mw_set_edit_posts<? print $rand  ?></button>
+       <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
+        <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
 
 
     </div>
 
 
-      <div class="mw_pages_posts_tree"  id="pages_tree_container_<? print $rand  ?>">
-        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar<? print $rand  ?>"  />
+      <div class="mw_pages_posts_tree"  id="pages_tree_container_">
+        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar"  />
       </div>
     </div>
 
@@ -289,7 +289,7 @@ function mw_add_product(){
          </div>
     
 
-        <div id="pages_edit_container_<? print $rand  ?>"><module data-type="content/edit_page" id="edit_content_admin_<? print $rand  ?>"  /></div>
+        <div id="pages_edit_container_"><module data-type="content/edit_page" id="edit_content_admin_"  /></div>
         
         
         

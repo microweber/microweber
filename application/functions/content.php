@@ -1043,7 +1043,7 @@ function save_edit($post_data) {
 
 
 
- 
+
 
 
 
@@ -1476,8 +1476,9 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     }
 
     $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
-
-    $q = db_query($sql);
+    $cid = __FUNCTION__ . crc32($sql);
+    $cidg = 'content/' . $parent;
+    $q = db_query($sql, $cid, $cidg);
 
     $result = $q;
 

@@ -95,7 +95,8 @@ mw.is = {
   string:function(obj){return typeof obj=='string'},
   defined:function(obj){return typeof obj!=="undefined"},
   invisible:function(obj){return window.getComputedStyle(obj, null).visibility==='hidden'},
-  visible:function(obj){return window.getComputedStyle(obj, null).visibility==='visible'}
+  visible:function(obj){return window.getComputedStyle(obj, null).visibility==='visible'},
+  ie:/*@cc_on!@*/false
 }
 
 if (window.console != undefined) {

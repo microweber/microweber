@@ -245,10 +245,10 @@ class Controller {
             if (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug'] == 1)) {
                 $is_admin = is_admin();
                 if ($is_admin == true) {
-                    debug_info();
+
                 }
             }
-
+debug_info();
             exit();
         } else {
 

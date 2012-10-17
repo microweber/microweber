@@ -556,6 +556,17 @@ body.not-allowed{
   background-repeat: no-repeat;
   background-position: 14% 9px;
 }
+
+.mw_pages_posts_tree .have_category > a{
+    background-image: url(../img/tree.catico.png);
+    background-position: 14% 6px;
+}
+
+.mw_pages_posts_tree .is_shop > a{
+    background-image: url(../img/tree.shopico.png)
+}
+
+
 ul.depth-3{
   font-size: 11px;
 }
@@ -644,26 +655,26 @@ html.mw_pages, html.mw_pages body{
 .mw_del_tree_content{
   display: inline-block;
   cursor: pointer;
-  width:10px;
-  height: 10px;
-  background: url(../img/admin_tree_icons.png) no-repeat -49px 2px;
+  width:19px;
+  height: 19px;
+  background:  url(../img/admin_tree_icons.png) no-repeat -45px 6px;
   text-indent: -9999px;
   float: right;
-  margin: 2px 10px 0;
-  visibility: hidden;
+  margin: 0px 5px 0;
+  visibility: visible;
   opacity:.6;
 }
 
 .mw_ed_tree_content{
   display: inline-block;
   cursor: pointer;
-  width:16px;
-  height: 13px;
-  background: url(../img/admin_tree_icons.png) no-repeat -28px 2px;
+  width:19px;
+  height: 19px;
+  background: url(../img/admin_tree_icons.png) no-repeat -26px 6px;
   text-indent: -9999px;
   float: right;
-  margin: 2px 10px 0;
-  visibility: hidden;
+  margin: 0px 5px 0;
+  visibility: visible;
   opacity:.6;
 }
 
@@ -681,11 +692,16 @@ a:hover .mw_ed_tree_content{
 .mw_toggle_tree{
   left: -26px;
   position: absolute;
-  top: 13px;
+  top: 7px;
   display: block;
-  width: 8px;
-  height: 8px;
-  background: url(../img/treectrls.png) no-repeat;
+  width: 19px;
+  height: 19px;
+  background: url(../img/treectrls.png) no-repeat 5px 6px;
+  opacity:.6;
+}
+
+.mw_toggle_tree:hover{
+  opacity:1;
 }
 
 a.depth-1 .mw_toggle_tree{
@@ -693,7 +709,7 @@ a.depth-1 .mw_toggle_tree{
 }
 
 .mw_toggle_tree.active{
-  background-position: 0 -8px;
+  background-position: 5px -36px;
 }
 
 .mw_ed_tree_show_posts{

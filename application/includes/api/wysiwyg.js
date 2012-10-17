@@ -66,28 +66,18 @@ mw.wysiwyg = {
         mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
 
-
-
-        if($.browser.msie){
+        if(mw.is.ie){
             var all = document.querySelectorAll('.edit *:not(.disable-resize)');
-
-            for(var i=0;i<all.length;i++){
-                all[i].className+=' disable-resize';
-                all[i].attachEvent("onresizestart", function(e) {
-                    e.returnValue = false;
-                }, false);  /*
-                all[i].attachEvent("onmousedown", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }, false);
-                all[i].attachEvent("onmouseup", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }, false);
-                all[i].attachEvent("onclick", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }, false);*/
+            if(all.length>0){
+                for(var i=0;i<all.length;i++){
+                    all[i].className+=' disable-resize';
+                    all[i].attachEvent("onresizestart", function(e) {
+                        e.returnValue = false;
+                    }, false);
+                    all[i].attachEvent("onmousedown", function(e) {
+                        e.preventDefault();
+                    }, false);
+                }
             }
         }
     },
@@ -671,6 +661,9 @@ mw.disable_selection = function(element){
 $(mwd).ready(function(){
 
     mw.wysiwyg.init_editables();
+
+    
+    mw.wysiwyg.nceui();
 
 
   mw.smallEditor = mw.$("#mw_small_editor");
