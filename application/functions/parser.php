@@ -1,5 +1,5 @@
 <?php
- 
+
 class MwDom extends DOMDocument {
 
     function getElementById($id) {
@@ -126,7 +126,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
 
-        $parse_mode =1;
+        $parse_mode = 1;
 
         switch ($parse_mode) {
             case 1:
@@ -271,7 +271,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                         pq($elem)->html($field_content);
                     } else {
-
+                        
                     }
                 }
                 $layout = $pq->htmlOuter();
@@ -465,7 +465,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             //$layout = $dom->saveHTML($dom);
                             //  pq($elem)->html($field_content);
                         } else {
-
+                            
                         }
                         // var_dump($rel);
                     }
@@ -478,19 +478,176 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                 break;
             case 3:
-                require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'simple_html_dom.php');
-                // Create a DOM object
-                $html = new simple_html_dom();
 
-// Load HTML from a string
-                $html->load($layout);
 
-// get DOM from URL or file
-// remove all image
-                foreach ($html->find('.edit') as $e) {
-                    $e->outertext = 'aaa';
+
+
+                $re = '% # Match a DIV element having id="content".
+    <div\b             # Start of outer DIV start tag.
+    [^>]*?             # Lazily match up to id attrib.
+    \bid\s*+=\s*+      # id attribute name and =
+    ([\'"]?+)          # $1: Optional quote delimiter.
+    \bthe_test1df22dffd1sfdd1\b        # specific ID to be matched.
+    (?(1)\1)           # If open quote, match same closing quote
+    [^>]*+>            # remaining outer DIV start tag.
+    (                  # $2: DIV contents. (may be called recursively!)
+      (?:              # Non-capture group for DIV contents alternatives.
+      # DIV contents option 1: All non-DIV, non-comment stuff...
+        [^<]++         # Use Friedl\'s "Unroll-the-loop" technique
+        (?:            # Begin {(special normal*)*} construct.
+          <            # {special} Match a "<", but only if it
+          (?!          # is not the beginning of either
+            /?div\b    # a DIV start or end tag,
+          | !--        # or an HTML comment.
+          )            # Ok, that < was not a DIV or comment, so
+          [^<]*+       # safe to continue consuming more {normal*}
+        )*+            # finish {(special normal*)*} (See: MRE3)
+      # DIV contents Option 2: an HTML comment.
+      | <!--.*?-->     # A non-SGML compliant HTML comment.
+      # DIV contents Option 3: a nested DIV element!
+      | <div\b[^>]*+>  # Inner DIV element start tag.
+        (?2)           # Recurse group 2 as a nested subroutine.
+        </div\s*>      # Inner DIV element end tag.
+      )*+              # Zero or more of these contents alternatives.
+    )                  # End 2$: DIV contents.
+    </div\s*>          # Outer DIV end tag.
+    %isx';
+
+
+
+
+
+
+
+
+
+
+                $re = '% # Match a DIV element having id="content".
+    <div\b             # Start of outer DIV start tag.
+    [^>]*?             # Lazily match up to id attrib.
+    \bclass\s*+=\s*+      # id attribute name and =
+    ([\'"]?+)          # $1: Optional quote delimiter.
+    \b.*?edit.*?\b           # specific ID to be matched.
+    (?(1)\1)           # If open quote, match same closing quote
+    [^>]*+>            # remaining outer DIV start tag.
+    (                  # $2: DIV contents. (may be called recursively!)
+      (?:              # Non-capture group for DIV contents alternatives.
+      # DIV contents option 1: All non-DIV, non-comment stuff...
+        [^<]++         # Use Friedl\'s "Unroll-the-loop" technique
+        (?:            # Begin {(special normal*)*} construct.
+          <            # {special} Match a "<", but only if it
+          (?!          # is not the beginning of either
+            /?div\b    # a DIV start or end tag,
+          | !--        # or an HTML comment.
+          )            # Ok, that < was not a DIV or comment, so
+          [^<]*+       # safe to continue consuming more {normal*}
+        )*+            # finish {(special normal*)*} (See: MRE3)
+      # DIV contents Option 2: an HTML comment.
+      | <!--.*?-->     # A non-SGML compliant HTML comment.
+      # DIV contents Option 3: a nested DIV element!
+      | <div\b[^>]*+>  # Inner DIV element start tag.
+        (?2)           # Recurse group 2 as a nested subroutine.
+        </div\s*>      # Inner DIV element end tag.
+      )*+              # Zero or more of these contents alternatives.
+    )                  # End 2$: DIV contents.
+    </div\s*>          # Outer DIV end tag.
+    %isx';
+
+                $re1 = '% # Match a DIV element having id="content".
+    <div\b             # Start of outer DIV start tag.
+    [^>]*?             # Lazily match up to id attrib.
+    \bclass\s*+=\s*+      # id attribute name and =
+    ([\'"]?+)          # $1: Optional quote delimiter.
+    \bedit\b           # specific ID to be matched.
+    (?(1)\1)           # If open quote, match same closing quote
+    [^>]*+>            # remaining outer DIV start tag.
+    (                  # $2: DIV contents. (may be called recursively!)
+      (?:              # Non-capture group for DIV contents alternatives.
+      # DIV contents option 1: All non-DIV, non-comment stuff...
+        [^<]++         # Use Friedl\'s "Unroll-the-loop" technique
+        (?:            # Begin {(special normal*)*} construct.
+          <            # {special} Match a "<", but only if it
+          (?!          # is not the beginning of either
+            /?div\b    # a DIV start or end tag,
+          | !--        # or an HTML comment.
+          )            # Ok, that < was not a DIV or comment, so
+          [^<]*+       # safe to continue consuming more {normal*}
+        )*+            # finish {(special normal*)*} (See: MRE3)
+      # DIV contents Option 2: an HTML comment.
+      | <!--.*?-->     # A non-SGML compliant HTML comment.
+      # DIV contents Option 3: a nested DIV element!
+      | <div\b[^>]*+>  # Inner DIV element start tag.
+        (?2)           # Recurse group 2 as a nested subroutine.
+        </div\s*>      # Inner DIV element end tag.
+      )*+              # Zero or more of these contents alternatives.
+    )                  # End 2$: DIV contents.
+    </div\s*>          # Outer DIV end tag.
+    %isx';
+
+
+
+                $pattern_strict = '@# match nested tag
+(?(DEFINE)
+    (?<comment>     <!--.*?-->)
+    (?<cdata>       <![CDATA[.*?]]>)
+    (?<empty>       <\w+[^>]*?/>)
+    (?<inline>      <(script|style)[^>]+>.*?</\g{-1}>)
+    (?<nested>      <(\w+)[^>]*(?<!/)>(?&innerHTML)</\g{-1}>)
+    (?<unclosed>        <\w+[^>]*(?<!/)>)
+    (?<text>        [^<]+)
+)
+(?<outerHTML><(?<tagName>div)\s?(?<attributes>[^>]*?class\h*=\h*(?<quote>"|\')[^(?&quote)\v>]*\bedit\b[^(?&quote)\v>]*(?&quote)[^>]*)> # opening tag
+(?<innerHTML>
+    (?: (?&comment) | (?&cdata) | (?&empty) | (?&inline) | (?&nested) | (?&unclosed) | (?&text) )*
+)
+</(?&tagName)>) # closing tag
+@six';
+
+
+                $pattern = '@# match nested tag
+(?(DEFINE)
+    (?<comment>     <!--.*?-->)
+    (?<cdata>       <![CDATA[.*?]]>)
+    (?<empty>       <\w+[^>]*?/>)
+    (?<inline>      <(script|style)[^>]+>.*?</\g{-1}>)
+    (?<nested>      <(\w+)[^>]*(?<!/)>(?&innerHTML)</\g{-1}>)
+    (?<unclosed>        <\w+[^>]*(?<!/)>)
+    (?<text>        [^<]+)
+)
+(?<outerHTML><(?<tagName>div)\s?(?<attributes>[^>]*?class\h*=\h*(?<quote>"|\')[^(?&quote)\v>]*\b.*?edit.*?\b[^(?&quote)\v>]*(?&quote)[^>]*)> # opening tag
+(?<innerHTML>
+    (?: (?&comment) | (?&cdata) | (?&empty) | (?&inline) | (?&nested) | (?&unclosed) | (?&text) )*
+)
+</(?&tagName)>) # closing tag
+@six';
+
+
+                $all_edits = array();
+
+
+
+                preg_match_all($pattern, $layout, $matches);
+
+                $magggtches = (array_intersect_key($matches, array(
+                            'tagName' => 1,
+                            'attributes' => 0,
+                            'innerHTML' => 0,
+                            'outerHTML' => 1
+                        )));
+                if (isarr($matches)) {
+                    print_r($matches );
+                    foreach ($matches as $ve) {
+                       
+                         // $all_edits[] = $ve[0];
+                    }
+                  
                 }
-                $layout = $html->save();
+
+               //d($all_edits);
+
+                if (preg_match($re, $layout, $matches)) {
+                    //    
+                }
                 break;
             default:
                 break;
@@ -853,7 +1010,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
             if ($i != 2) {
                 $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             } else {
-
+                
             }
             $i++;
         }
