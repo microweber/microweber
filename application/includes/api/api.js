@@ -26,6 +26,7 @@ mw = function(){
 mw={}
 
 mwd = document;
+mww = window;
 
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
@@ -48,6 +49,7 @@ if(!Array.indexOf){
 
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
+  
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(mw.required.indexOf(url)==-1){
          mw.required.push(url);
@@ -90,12 +92,12 @@ mw.target = {} //
 
 
 mw.is = {
-  obj:function(obj){return typeof obj=='object'},
-  func:function(obj){return typeof obj=='function'},
-  string:function(obj){return typeof obj=='string'},
-  defined:function(obj){return typeof obj!=="undefined"},
-  invisible:function(obj){return window.getComputedStyle(obj, null).visibility==='hidden'},
-  visible:function(obj){return window.getComputedStyle(obj, null).visibility==='visible'},
+  obj:function(obj){return typeof obj === 'object'},
+  func:function(obj){return typeof obj === 'function'},
+  string:function(obj){return typeof obj === 'string'},
+  defined:function(obj){return obj !== undefined},
+  invisible:function(obj){return window.getComputedStyle(obj, null).visibility === 'hidden'},
+  visible:function(obj){return window.getComputedStyle(obj, null).visibility === 'visible'},
   ie:/*@cc_on!@*/false
 }
 
@@ -205,6 +207,7 @@ mw.reload_module_interval = function($module_name, $interval) {
 	if ($interval == undefined) {
 		$interval = 500;
 	}
+
 	$interval = parseInt($interval);
 	t_reload_module_interval = setInterval("mw.reload_module('" + $module_name + "')", $interval);
 }
@@ -253,6 +256,7 @@ mw.clear_cache = function() {
 
 
 mw._ = function(obj, sendSpecific){
+		
     var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};

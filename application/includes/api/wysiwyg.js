@@ -13,17 +13,26 @@ mw.wysiwyg = {
         else{
             mw.$(".element[contenteditable]").removeAttr('contenteditable');
             mw.$(".edit").each(function(){
-                this.contentEditable = true;
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                 });
             });
-            mw.$(".module, img").each(function(){
+            mw.$("img, .empty-element, .ui-resizable-handle").each(function(){
                 this.contentEditable = false;
             });
-            mw.$(".module .edit").attr('contenteditable', true);
+            mw.on.moduleReload(function(){
+                  mw.wysiwyg.nceui();
+            })
         }
-
+    },
+    prepareContentEditable:function(){
+      $(window).bind("onEditMouseDown", function(e, el){
+        var _el = $(el);
+        if(mw.tools.hasParentsWithClass(el, "module")){
+            mw.$("[contenteditable='true']").removeAttr("contenteditable");
+        }
+        el.contentEditable = true;
+      });
     },
     _external:function(){  //global element for handelig the iframe tools
       var external = mwd.createElement('div');
@@ -70,12 +79,13 @@ mw.wysiwyg = {
             var all = document.querySelectorAll('.edit *:not(.disable-resize)');
             if(all.length>0){
                 for(var i=0;i<all.length;i++){
-                    all[i].className+=' disable-resize';
-                    all[i].attachEvent("onresizestart", function(e) {
+                    var dis = all[i];
+                    dis.className+=' disable-resize';
+                    dis.attachEvent("onresizestart", function(e) {
                         e.returnValue = false;
                     }, false);
-                    all[i].attachEvent("onmousedown", function(e) {
-                        e.preventDefault();
+                    dis.attachEvent("onmousedown", function(e) {
+                      e.returnValue = false;
                     }, false);
                 }
             }
@@ -114,41 +124,6 @@ mw.wysiwyg = {
            }
       });
 
-      $(window).bind("onElementMouseDown", function(event, element){
-        var el = $(element);
-        if(!mw.isDrag && $(".module.element-active").length==0){
-          el.hasClass("module")?el.attr('contenteditable','false'):'';
-          mw.wysiwyg.isThereEditableContent=true;
-
-          mw.wysiwyg.nceui();
-
-
-          if(mw.smallEditor.css("visibility")=='hidden'){
-              mw.bigEditor.show();
-          }
-          else{
-              mw.smallEditor.css("opacity", 1);
-          }
-
-          el.unbind("change");
-          el.bind("change", function(event){
-            mw.drag.fix_placeholders(true , el);
-          });
-
-
-          mw.wysiwyg.nceui();
-
-
-          event.stopPropagation();
-        }
-        if(mw.$(".module.element-active").length>0){
-          mw.$(".module.element-active").parents(".element").attr("contenteditable", false);
-          el.blur();
-          mw.wysiwyg.isThereEditableContent=false;
-        }
-
-
-      });
 
 
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
@@ -167,6 +142,7 @@ mw.wysiwyg = {
 
     },
     init:function(){
+
       var mw_editor_btns = mw.$(".mw_editor_btn");
       mw_editor_btns.bind("mousedown mouseup click", function(event){
           event.preventDefault();
@@ -662,9 +638,10 @@ $(mwd).ready(function(){
 
     mw.wysiwyg.init_editables();
 
-    
-    mw.wysiwyg.nceui();
 
+
+
+    mw.wysiwyg.nceui();
 
   mw.smallEditor = mw.$("#mw_small_editor");
   mw.bigEditor = mw.$("#mw-text-editor");
@@ -678,8 +655,13 @@ $(mwd).ready(function(){
     else if($(target).parents(".element").length>0){
       $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
     }
+    if($(target).hasClass("edit")){
+      $(window).trigger("onEditMouseDown", target);
+    }
+    else if($(target).parents(".edit").length>0){
+      $(window).trigger("onEditMouseDown", $(target).parents(".edit")[0]);
+    }
   });
-
 
   $(window).bind("onElementClick", function(e, el){
     if($(el).hasClass("lipsum")){
@@ -687,4 +669,10 @@ $(mwd).ready(function(){
        mw.wysiwyg.select_all(el);
     }
   });
+
+
+
+  mw.wysiwyg.prepareContentEditable();
+
+
 });

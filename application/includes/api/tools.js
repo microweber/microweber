@@ -71,6 +71,7 @@ mw.tools = {
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
+
         var modal = mw.tools.modal.source(name);
 
         $(document.body).append(modal.html);
@@ -404,11 +405,11 @@ mw.tools = {
   hasParentsWithClass:function(el, cls){
     _curr = el.parentNode;
     _i = 0;
-    while(_i<100){
+    while(_i<300){
       if(_curr!==null){
          if(_curr.className!==undefined){
            if(_curr.tagName=='BODY'){return false;}
-           if(_curr.className.indexOf(cls)!=-1){
+           if((' ' + _curr.className + ' ').indexOf(' ' + cls + ' ') > -1){
              return true;
            }
          }

@@ -369,6 +369,8 @@ mw.setCurrentStyles = function(el){
 
 $(document).ready(function(){
 
+
+
 $("#design_bnav").draggable({
   handle:"#design_bnav_handle",
   containment:'window',

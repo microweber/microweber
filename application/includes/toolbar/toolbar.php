@@ -7,8 +7,9 @@
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+<?php /*  */ ?>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
+<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script type="text/javascript">
 
@@ -16,10 +17,10 @@
 
         $(document).ready(function () {
 
-           mw.drag.create();
+         // mw.drag.create();
 
 
-            mw.history.init();
+           // mw.history.init();
             mw.tools.module_slider.init();
             mw.tools.dropdown();
 
@@ -96,6 +97,6 @@
 <!-- /end mw_holder --> 
 <span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
-<?php include "design.php"; ?>
+<?php   include "design.php"; ?>
 
 

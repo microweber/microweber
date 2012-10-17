@@ -12,7 +12,6 @@
  *        	doctype
  * @return string $layout
  */
-
 /**
  *
  *
@@ -29,6 +28,8 @@
  *
  *
  */
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
 
 
@@ -40,7 +41,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     if (!isset($options['parse_only_vars'])) {
 
 
-        require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
 
         $layout = str_replace('<mw ', '<module ', $layout);
         $layout = str_replace('<editable ', '<div class="edit" ', $layout);
@@ -239,6 +240,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             }
         }
         $layout = $pq->htmlOuter();
+        $pq->__destruct();
+        unset($pq);
         /*
          * foreach($pq['mw'] as $elem) { $name = pq($elem)->attr('module');
          * $attributes = array(); $ats = $elem->attributes; $module_html = "<module

@@ -1224,34 +1224,10 @@ li .ts_action_item:last-child{
   position: absolute;
   right: 100px;
   top: 15px;
-  visibility: hidden;
+  visibility: visible;
   z-index: 999;
-  -moz-animation: mwpreloader 0.5s linear 0s infinite;
-  -webkit-animation: mwpreloader 0.5s linear 0 infinite;
-  -ms-animation: mwpreloader 0.5s linear 0 infinite;
-  -o-animation: mwpreloader 0.5s linear 0 infinite;
-  animation: mwpreloader 0.5s linear 0 infinite;
 }
-@-moz-keyframes mwpreloader {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes mwpreloader {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-}
-@-ms-keyframes mwpreloader {
-    from { -ms-transform: rotate(0deg); }
-    to { -ms-transform: rotate(360deg); }
-}
-@-o-keyframes mwpreloader {
-    from { -o-transform: rotate(0deg); }
-    to { -o-transform: rotate(360deg); }
-}
-@keyframes mwpreloader {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+
 
 .mw_tree_title{
   background: url(../img/ico.tree.png) no-repeat;

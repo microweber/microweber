@@ -387,8 +387,8 @@ function get_content($params) {
     }
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-    $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
+    $cache_content = false;
+    // $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
     if (($cache_content) == '--false--') {
         return false;
     }
@@ -420,7 +420,7 @@ function get_content($params) {
             $limit[1] = '30';
         }
 
-        $get = db_get($table, $params, $cache_group = false);
+        $get = db_get($table, $params, $cache_group = 'content/global');
         if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             return $get;
         }
@@ -434,11 +434,11 @@ function get_content($params) {
                 $data2[] = $item;
             }
             $get = $data2;
-            cache_store_data($get, $function_cache_id, $cache_group = 'content/global');
+            //  cache_store_data($get, $function_cache_id, $cache_group = 'content/global');
 
             return $get;
         } else {
-            cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');
+            // cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');
 
             return FALSE;
         }
@@ -1432,10 +1432,28 @@ and to_table IS NULL and to_table_id IS NULL
 
 function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
+
+    $function_cache_id = false;
+    $args = func_get_args();
+    foreach ($args as $k => $v) {
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'content/global';
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+        print $cache_content;
+        return;
+        //  return $cache_content;
+    }
+
+
     $nest_level = 0;
 
 
-
+    ob_start();
 
     $params2 = array();
     $params = false;
@@ -1645,6 +1663,15 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     } else {
 
     }
+
+
+
+    $content = ob_get_contents();
+    cache_store_data($content, $function_cache_id, $cache_group);
+
+    ob_end_clean();
+    print $content;
+    return;
 }
 
 function mw_create_default_content($what) {

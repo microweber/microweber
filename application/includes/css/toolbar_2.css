@@ -1,4 +1,3 @@
-
 #mw-saving-loader{
 	height:48px;
 	width:48px;
@@ -137,8 +136,10 @@
 .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
 .ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
 .ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
-.column > .ui-resizable-e {
-	cursor: e-resize;
+
+
+
+body .column > .ui-resizable-e {
 	width: 20px;
 	right: 0;
 	top: 0;
@@ -146,8 +147,10 @@
     background-image: url(../img/resize_color.gif);
     background-position: right center;
     background-repeat: repeat-y;
-    cursor: none;
+   cursor: url(../img/blank.gif), url(../img/blank.cur), none;
 }
+
+
 
 .resize_arrows{
   display: block;

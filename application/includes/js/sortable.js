@@ -148,7 +148,7 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
 
-         mw.$(document.body).mousemove(function(event){
+         $(mwd.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
 
@@ -181,6 +181,7 @@ mw.drag = {
            if(!mw.isDrag){
                if(mw.mouse.x%2==0){ //not on every pixel
                    //trigger on element
+
                    if(mw.$mm_target.hasClass("element")){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -385,8 +386,6 @@ mw.drag = {
 
             target.startedY = target.offsetTop - target.parentNode.offsetTop;
             target.startedX = target.offsetLeft - target.parentNode.offsetLeft;
-
-
 
           }
 
@@ -1297,11 +1296,12 @@ mw.drag = {
 
   mw.$('.element-current').removeClass('element-current');
   mw.$('.element-active').removeClass('element-active');
+  mw.$('.disable-resize').removeClass('disable-resize');
   mw.$('.empty-element').remove();
   mw.$('.empty-element').remove();
   mw.$('.edit .ui-resizable-handle').remove();
   mw.tools.classNamespaceDelete('all', 'ui-');
-  //end cleaning
+  //end cleaning the code
 
     var edits = mw.$(".edit.changed");
 

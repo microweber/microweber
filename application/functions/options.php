@@ -139,9 +139,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     } else {
         $data['option_key'] = $key;
     }
-
+    $cache_group = 'options/global';
     if ($option_group != false) {
         $data['option_group'] = $option_group;
+        $cache_group = 'options/' . $option_group;
     }
 
 
@@ -149,7 +150,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $data['module'] = $module;
     }
     $data['limit'] = 1;
-    $get = db_get($table, $data, $cache_group = 'options/global');
+    $get = db_get($table, $data, $cache_group);
 
     if (!empty($get)) {
 
@@ -185,9 +186,11 @@ function save_option($data) {
         //error('Error: not logged in as admin.');
     }
     // p($_POST);
+    $option_group = false;
     if ($data) {
         if (!isset($data['id']) or intval($data['id']) == 0) {
             if ($data['option_key'] and $data['option_group']) {
+                $option_group = $data['option_group'];
                 delete_option_by_key($data['option_key'], $data['option_group']);
             }
         }
@@ -199,21 +202,31 @@ function save_option($data) {
 
             // $data ['debug'] = 1;
             $save = save_data($table, $data);
-            cache_clean_group('options');
+
+            $cache_group = 'options/global';
+            if ($option_group != false) {
+
+                $cache_group = 'options/' . $option_group;
+            }
+            cache_clean_group($cache_group);
+            if (isset($data['id'])) {
+                $cache_group = 'options/' . $data['id'];
+                cache_clean_group($cache_group);
+            }
             return $save;
         }
     }
 }
 
 function delete_option_by_key($key, $option_group = false) {
-    $key = mysql_real_escape_string($key);
+    $key = db_escape_string($key);
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_options'];
 
     cache_clean_group('options');
     if ($option_group != false) {
-        $option_group = mysql_real_escape_string($option_group);
+        $option_group = db_escape_string($option_group);
         $option_group_q1 = "and option_group='{$option_group}'";
     }
     // $save = $this->saveData ( $table, $data );
