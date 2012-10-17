@@ -918,6 +918,12 @@ body.dragStart .no-drop{
   cursor: not-allowed;
 }
 
+/* MSIE ContentEditable elements */
+
+div[id*='SSDIVEL']{
+  display: none !important;
+}
+
 
 
 

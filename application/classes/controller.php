@@ -182,7 +182,7 @@ class Controller {
                     if ($layout_toolbar != '') {
                         $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
 
-                        $l = str_ireplace('</head>', $layout_toolbar . '</head>', $l);
+                        $l = str_ireplace('</body>',  $layout_toolbar.'</body>'  , $l,$c = 1);
                     }
                 }
             }
@@ -248,7 +248,7 @@ class Controller {
 
                 }
             }
-            debug_info();
+             debug_info();
             // print (round(microtime()-T,5)*1000);
 //
             exit();

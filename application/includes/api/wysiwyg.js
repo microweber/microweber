@@ -11,7 +11,7 @@ mw.wysiwyg = {
             });
         }
         else{
-            mw.$(".element[contenteditable]").removeAttr('contenteditable');
+            mw.$("[contenteditable]").removeAttr('contenteditable');
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
@@ -29,7 +29,7 @@ mw.wysiwyg = {
       $(window).bind("onEditMouseDown", function(e, el){
         var _el = $(el);
         if(mw.tools.hasParentsWithClass(el, "module")){
-            mw.$("[contenteditable='true']").removeAttr("contenteditable");
+            mw.$(".edit").removeAttr("contenteditable");
         }
         el.contentEditable = true;
       });
@@ -72,10 +72,10 @@ mw.wysiwyg = {
     },
     nceui:function(){  //remove defaults for browser's content editable
         mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
-        mw.wysiwyg.execCommand('2D-Position', false, false);
+        //mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
 
-        if(mw.is.ie){
+        if(mw.is.ie){ //return false;
             var all = document.querySelectorAll('.edit *:not(.disable-resize)');
             if(all.length>0){
                 for(var i=0;i<all.length;i++){
@@ -85,6 +85,7 @@ mw.wysiwyg = {
                         e.returnValue = false;
                     }, false);
                     dis.attachEvent("onmousedown", function(e) {
+                      dis.contentEditable = true;
                       e.returnValue = false;
                     }, false);
                 }

@@ -1000,7 +1000,7 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
-	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
+   //	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
 
 	},
 
