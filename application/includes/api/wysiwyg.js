@@ -32,7 +32,7 @@ mw.wysiwyg = {
           if(mw.tools.hasParentsWithClass(target, "module")){
             mw.$(".edit").removeAttr("contenteditable");
           }
-          el.contentEditable = true;
+         !el.isContentEditable ? el.contentEditable = true :'';
         }
         else{   // IE browser
             if(mw.tools.hasParentsWithClass(el, 'module')){
