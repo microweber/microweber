@@ -3,9 +3,13 @@
 /* if (file_exists(__DIR__ . '/' . $_SERVER['REQUEST_URI'])) {
  //   return false; // serve the requested resource as-is.
  } */
+   $mtime = microtime();
+   $mtime = explode(" ",$mtime);
+   $mtime = $mtime[1] + $mtime[0];
 
 // Setup system and load controller
-define('T', microtime());
+define('T', $mtime);
+unset($mtime);
 define('M', memory_get_usage());
 define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest');
 

@@ -599,7 +599,7 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 //  d($path);
                         //  unlink($path);
                     } catch (Exception $e) {
-                        
+
                     }
                 }
             }

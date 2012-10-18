@@ -35,7 +35,8 @@ mw.wysiwyg = {
          !el.isContentEditable ? el.contentEditable = true :'';
         }
         else{   // IE browser
-            if(mw.tools.hasParentsWithClass(el, 'module')){
+            mw.$(".edit [contenteditable='true']").removeAttr('contenteditable');
+            if(mw.tools.hasParentsWithClass(target, 'module')){
                 el.contentEditable = true;
             }
             else{
