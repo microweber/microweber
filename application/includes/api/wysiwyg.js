@@ -72,7 +72,7 @@ mw.wysiwyg = {
     },
     nceui:function(){  //remove defaults for browser's content editable
         mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
-        //mw.wysiwyg.execCommand('2D-Position', false, false);
+        mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
 
         if(mw.is.ie){ //return false;
@@ -84,9 +84,9 @@ mw.wysiwyg = {
                     dis.attachEvent("onresizestart", function(e) {
                         e.returnValue = false;
                     }, false);
-                    dis.attachEvent("onmousedown", function(e) {
-                      dis.contentEditable = true;
-                      e.returnValue = false;
+                    dis.attachEvent("onmouseup", function(e) {
+                      //dis.contentEditable = true;
+                      //e.returnValue = false;
                     }, false);
                 }
             }

@@ -50,11 +50,19 @@ class Controller {
         }
 
 
+        if (isset($_GET['test_cookie'])) {
+            if (!headers_sent()) {
+                setcookie('test_cookie', $_GET['test_cookie']);
+            }
+        }
+
         $is_debug = url_param('debug');
         if (!$is_debug) {
             $is_debug = false;
         } else {
-            setcookie('is_debug', $is_debug);
+            if (!headers_sent()) {
+                setcookie('is_debug', $is_debug);
+            }
             $page_url = url_param_unset('debug', $page_url);
         }
 
@@ -182,7 +190,7 @@ class Controller {
                     if ($layout_toolbar != '') {
                         $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
 
-                        $l = str_ireplace('</body>',  $layout_toolbar.'</body>'  , $l,$c = 1);
+                        $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
                     }
                 }
             }
@@ -248,7 +256,7 @@ class Controller {
 
                 }
             }
-             debug_info();
+            debug_info();
             // print (round(microtime()-T,5)*1000);
 //
             exit();

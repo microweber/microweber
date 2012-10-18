@@ -271,7 +271,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                         pq($elem)->html($field_content);
                     } else {
-                        
+
                     }
                 }
                 $layout = $pq->htmlOuter();
@@ -465,7 +465,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             //$layout = $dom->saveHTML($dom);
                             //  pq($elem)->html($field_content);
                         } else {
-                            
+
                         }
                         // var_dump($rel);
                     }
@@ -622,6 +622,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 @six';
 
 
+                
+
+
                 $all_edits = array();
 
 
@@ -637,16 +640,16 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 if (isarr($matches)) {
                     print_r($matches );
                     foreach ($matches as $ve) {
-                       
+
                          // $all_edits[] = $ve[0];
                     }
-                  
+
                 }
 
                //d($all_edits);
 
                 if (preg_match($re, $layout, $matches)) {
-                    //    
+                    //
                 }
                 break;
             default:
@@ -1010,7 +1013,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
             if ($i != 2) {
                 $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             } else {
-                
+
             }
             $i++;
         }

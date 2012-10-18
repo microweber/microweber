@@ -1612,12 +1612,12 @@ mw.drop_regions = {
     var offset = el.offset();
     var region_left = {
       l:offset.left,
-      r:offset.left+40,
+      r:offset.left+width*0.1,
       t:offset.top,
       b:offset.top+height
     }
     var region_right = {
-      l:offset.left+width-40,
+      l:offset.left+width-width*0.1,
       r:offset.left+width,
       t:offset.top,
       b:offset.top+height
