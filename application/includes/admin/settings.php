@@ -9,9 +9,9 @@
 
 
 function mw_select_opt_group<? print $rand  ?>($p_id){
-	$('#options_list_<? print $rand  ?>').attr('data-option_group',$p_id);
-	//$('#pages_edit_container_<? print $rand  ?>').removeAttr('data-subtype');
-	//$('#pages_edit_container_<? print $rand  ?>').removeAttr('data-content-id');
+	mw.$('#options_list_<? print $rand  ?>').attr('data-option_group',$p_id);
+	//mw.$('#pages_edit_container_<? print $rand  ?>').removeAttr('data-subtype');
+	//mw.$('#pages_edit_container_<? print $rand  ?>').removeAttr('data-content-id');
   	 mw.load_module('options/list','#options_list_<? print $rand  ?>');
 }
  

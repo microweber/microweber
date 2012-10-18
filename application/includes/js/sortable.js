@@ -1212,7 +1212,7 @@ mw.drag = {
       if (id == "") {
         id = mw.settings.element_id;
       }
-      id.contains("#") ? $(id).remove() : $('#' + id).remove();
+      id.contains("#") ? $(id).remove() : mw.$('#' + id).remove();
       $(mw.handle_module).css({left:'', top:''});
 	  mw.drag.fix_placeholders(true);
     }
@@ -1237,7 +1237,7 @@ mw.drag = {
          var $el_id = id!=''?id:mw.settings.row_id;
 
 			mw.settings.sortables_created = false;
-			var $exisintg_num = $('#' + $el_id).children(".column").length;
+			var $exisintg_num = mw.$('#' + $el_id).children(".column").length;
 
 			if ($numcols == 0) {
 				$numcols = 1;
@@ -1251,7 +1251,7 @@ mw.drag = {
 					for (i = $exisintg_num; i < $numcols; i++) {
                         var new_col = mwd.createElement('div');
                         new_col.className = 'column';
-                        $('#' + $el_id).append(new_col);
+                        mw.$('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
                     mw.resizable_columns();
@@ -1259,23 +1259,23 @@ mw.drag = {
 				else {  //less columns
 					var $cols_to_remove = $exisintg_num - $numcols;
 					if ($cols_to_remove > 0) {
-                        var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
-                        var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        var last_after_remove = mw.$('#' + $el_id).children(".column").eq($numcols-1);
+                        var elements_to_clone = mw.$('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
                             last_after_remove.find(".empty-element").before(el);
                            $("#"+this.id).remove();
                         });
                         last_after_remove.resizable("destroy");
-                        $('#' + $el_id).children(".empty-element").remove();
+                        mw.$('#' + $el_id).children(".empty-element").remove();
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
 				}
 
-				var $exisintg_num = $('#' + $el_id).children(".column").size();
+				var $exisintg_num = mw.$('#' + $el_id).children(".column").size();
 				var $eq_w = 100 / $exisintg_num;
 				var $eq_w1 = $eq_w;
-				$('#' + $el_id).children(".column").width($eq_w1 + '%');
+				mw.$('#' + $el_id).children(".column").width($eq_w1 + '%');
 			}
         }
 	},
@@ -1456,7 +1456,7 @@ $(".edit .row").each(function(){
 });
 
 
-	$('.edit .column').not(".ui-resizable").each(function () {
+	mw.$('.edit .column').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1693,7 +1693,7 @@ mw.history = {
 		data.post_id = mw.settings.post_id;
 		data.category_id = mw.settings.category_id;
 		data.for_url = document.location.href;
-		$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
+		mw.$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
 	},
 
 	/**

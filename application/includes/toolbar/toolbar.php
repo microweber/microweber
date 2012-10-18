@@ -85,7 +85,7 @@
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
         style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
-        <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
+        <span class="mw_editor_btnz ed_btn" onclick="mw.$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
         style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
@@ -95,7 +95,7 @@
   <!-- /end .mw --> 
 </div>
 <!-- /end mw_holder --> 
-<span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
+<span class="mw_editor_btnz" onclick="mw.$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
 <?php   include "design.php"; ?>
 

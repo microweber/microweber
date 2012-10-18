@@ -1136,7 +1136,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 		if ( o.iframeFix ) {
 			$(o.iframeFix === true ? "iframe" : o.iframeFix).each(function() {
-				$('<div class="ui-draggable-iframeFix" style="background: #fff;"></div>')
+				mw.$('<div class="ui-draggable-iframeFix" style="background: #fff;"></div>')
 				.css({
 					width: this.offsetWidth+"px", height: this.offsetHeight+"px",
 					position: "absolute", opacity: "0.001", zIndex: 1000
@@ -1709,13 +1709,13 @@ $.ui.plugin.add("draggable", "connectToSortable", {
 
 $.ui.plugin.add("draggable", "cursor", {
 	start: function(event, ui) {
-		var t = $('body'), o = $(this).data('draggable').options;
+		var t = mw.$('body'), o = $(this).data('draggable').options;
 		if (t.css("cursor")) o._cursor = t.css("cursor");
 		t.css("cursor", o.cursor);
 	},
 	stop: function(event, ui) {
 		var o = $(this).data('draggable').options;
-		if (o._cursor) $('body').css("cursor", o._cursor);
+		if (o._cursor) mw.$('body').css("cursor", o._cursor);
 	}
 });
 
@@ -2232,7 +2232,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 			//Create a wrapper element and set the wrapper to the new current internal element
 			this.element.wrap(
-				$('<div class="ui-wrapper" style="overflow: hidden;"></div>').css({
+				mw.$('<div class="ui-wrapper" style="overflow: hidden;"></div>').css({
 					position: this.element.css('position'),
 					width: this.element.outerWidth(),
 					height: this.element.outerHeight(),
@@ -2267,7 +2267,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 		}
 
-		this.handles = o.handles || (!$('.ui-resizable-handle', this.element).length ? "e,s,se" : { n: '.ui-resizable-n', e: '.ui-resizable-e', s: '.ui-resizable-s', w: '.ui-resizable-w', se: '.ui-resizable-se', sw: '.ui-resizable-sw', ne: '.ui-resizable-ne', nw: '.ui-resizable-nw' });
+		this.handles = o.handles || (!mw.$('.ui-resizable-handle', this.element).length ? "e,s,se" : { n: '.ui-resizable-n', e: '.ui-resizable-e', s: '.ui-resizable-s', w: '.ui-resizable-w', se: '.ui-resizable-se', sw: '.ui-resizable-sw', ne: '.ui-resizable-ne', nw: '.ui-resizable-nw' });
 		if(this.handles.constructor == String) {
 
 			if(this.handles == 'all') this.handles = 'n,e,s,w,se,sw,ne,nw';
@@ -2276,7 +2276,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 			for(var i = 0; i < n.length; i++) {
 
 				var handle = $.trim(n[i]), hname = 'ui-resizable-'+handle;
-				var axis = $('<div class="ui-resizable-handle ' + hname + '"></div>');
+				var axis = mw.$('<div class="ui-resizable-handle ' + hname + '"></div>');
 
 				// Apply zIndex to all handles - see #7960
 				axis.css({ zIndex: o.zIndex });
@@ -2332,7 +2332,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		//TODO: make renderAxis a prototype function
 		this._renderAxis(this.element);
 
-		this._handles = $('.ui-resizable-handle', this.element)
+		this._handles = mw.$('.ui-resizable-handle', this.element)
 			.disableSelection();
 
 		//Matching axis name
@@ -2443,8 +2443,8 @@ $.widget("ui.resizable", $.ui.mouse, {
 		//Aspect Ratio
 		this.aspectRatio = (typeof o.aspectRatio == 'number') ? o.aspectRatio : ((this.originalSize.width / this.originalSize.height) || 1);
 
-	    var cursor = $('.ui-resizable-' + this.axis).css('cursor');
-	    $('body').css('cursor', cursor == 'auto' ? this.axis + '-resize' : cursor);
+	    var cursor = mw.$('.ui-resizable-' + this.axis).css('cursor');
+	    mw.$('body').css('cursor', cursor == 'auto' ? this.axis + '-resize' : cursor);
 
 		el.addClass("ui-resizable-resizing");
 		this._propagate("start", event);
@@ -2513,7 +2513,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 			if (this._helper && !o.animate) this._proportionallyResize();
 		}
 
-		$('body').css('cursor', 'auto');
+		mw.$('body').css('cursor', 'auto');
 
 		this.element.removeClass("ui-resizable-resizing");
 
@@ -2644,7 +2644,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 		if(this._helper) {
 
-			this.helper = this.helper || $('<div style="overflow:hidden;"></div>');
+			this.helper = this.helper || mw.$('<div style="overflow:hidden;"></div>');
 
 			// fix ie6 offset TODO: This seems broken
 			var ie6 = $.browser.msie && $.browser.version < 7, ie6offset = (ie6 ? 1 : 0),
@@ -3219,7 +3219,7 @@ $.widget("ui.selectable", $.ui.mouse, {
 
 		var options = this.options;
 
-		$('.ui-unselecting', this.element[0]).each(function() {
+		mw.$('.ui-unselecting', this.element[0]).each(function() {
 			var selectee = $.data(this, "selectable-item");
 			selectee.$element.removeClass('ui-unselecting');
 			selectee.unselecting = false;
@@ -3228,7 +3228,7 @@ $.widget("ui.selectable", $.ui.mouse, {
 				unselected: selectee.element
 			});
 		});
-		$('.ui-selecting', this.element[0]).each(function() {
+		mw.$('.ui-selecting', this.element[0]).each(function() {
 			var selectee = $.data(this, "selectable-item");
 			selectee.$element.removeClass('ui-selecting').addClass('ui-selected');
 			selectee.selecting = false;
@@ -3447,8 +3447,8 @@ $.widget("ui.sortable", $.ui.mouse, {
 			this._setContainment();
 
 		if(o.cursor) { // cursor option
-			if ($('body').css("cursor")) this._storedCursor = $('body').css("cursor");
-			$('body').css("cursor", o.cursor);
+			if (mw.$('body').css("cursor")) this._storedCursor = mw.$('body').css("cursor");
+			mw.$('body').css("cursor", o.cursor);
 		}
 
 		if(o.opacity) { // opacity option
@@ -4276,7 +4276,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		//Do what was originally in plugins
-		if(this._storedCursor) $('body').css("cursor", this._storedCursor); //Reset cursor
+		if(this._storedCursor) mw.$('body').css("cursor", this._storedCursor); //Reset cursor
 		if(this._storedOpacity) this.helper.css("opacity", this._storedOpacity); //Reset opacity
 		if(this._storedZIndex) this.helper.css("zIndex", this._storedZIndex == 'auto' ? '' : this._storedZIndex); //Reset z-index
 
@@ -6091,7 +6091,7 @@ $.widget("ui.dialog", {
 			title = options.title || '&#160;',
 			titleId = $.ui.dialog.getTitleId(self.element),
 
-			uiDialog = (self.uiDialog = $('<div></div>'))
+			uiDialog = (self.uiDialog = mw.$('<div></div>'))
 				.appendTo(document.body)
 				.hide()
 				.addClass(uiDialogClasses + options.dialogClass)
@@ -6124,7 +6124,7 @@ $.widget("ui.dialog", {
 					'ui-widget-content')
 				.appendTo(uiDialog),
 
-			uiDialogTitlebar = (self.uiDialogTitlebar = $('<div></div>'))
+			uiDialogTitlebar = (self.uiDialogTitlebar = mw.$('<div></div>'))
 				.addClass(
 					'ui-dialog-titlebar ' +
 					'ui-widget-header ' +
@@ -6133,7 +6133,7 @@ $.widget("ui.dialog", {
 				)
 				.prependTo(uiDialog),
 
-			uiDialogTitlebarClose = $('<a href="#"></a>')
+			uiDialogTitlebarClose = mw.$('<a href="#"></a>')
 				.addClass(
 					'ui-dialog-titlebar-close ' +
 					'ui-corner-all'
@@ -6159,7 +6159,7 @@ $.widget("ui.dialog", {
 				})
 				.appendTo(uiDialogTitlebar),
 
-			uiDialogTitlebarCloseText = (self.uiDialogTitlebarCloseText = $('<span></span>'))
+			uiDialogTitlebarCloseText = (self.uiDialogTitlebarCloseText = mw.$('<span></span>'))
 				.addClass(
 					'ui-icon ' +
 					'ui-icon-closethick'
@@ -6167,7 +6167,7 @@ $.widget("ui.dialog", {
 				.text(options.closeText)
 				.appendTo(uiDialogTitlebarClose),
 
-			uiDialogTitle = $('<span></span>')
+			uiDialogTitle = mw.$('<span></span>')
 				.addClass('ui-dialog-title')
 				.attr('id', titleId)
 				.html(title)
@@ -6257,7 +6257,7 @@ $.widget("ui.dialog", {
 		// adjust the maxZ to allow other modal dialogs to continue to work (see #4309)
 		if (self.options.modal) {
 			maxZ = 0;
-			$('.ui-dialog').each(function() {
+			mw.$('.ui-dialog').each(function() {
 				if (this !== self.uiDialog[0]) {
 					thisZ = $(this).css('z-index');
 					if(!isNaN(thisZ)) {
@@ -6326,7 +6326,7 @@ $.widget("ui.dialog", {
 					return;
 				}
 
-				var tabbables = $(':tabbable', this),
+				var tabbables = mw.$(':tabbable', this),
 					first = tabbables.filter(':first'),
 					last  = tabbables.filter(':last');
 
@@ -6355,7 +6355,7 @@ $.widget("ui.dialog", {
 	_createButtons: function(buttons) {
 		var self = this,
 			hasButtons = false,
-			uiDialogButtonPane = $('<div></div>')
+			uiDialogButtonPane = mw.$('<div></div>')
 				.addClass(
 					'ui-dialog-buttonpane ' +
 					'ui-widget-content ' +
@@ -6378,7 +6378,7 @@ $.widget("ui.dialog", {
 				props = $.isFunction( props ) ?
 					{ click: props, text: name } :
 					props;
-				var button = $('<button type="button"></button>')
+				var button = mw.$('<button type="button"></button>')
 					.click(function() {
 						props.click.apply(self.element[0], arguments);
 					})
@@ -6751,7 +6751,7 @@ $.extend($.ui.dialog.overlay, {
 			$(window).bind('resize.dialog-overlay', $.ui.dialog.overlay.resize);
 		}
 
-		var $el = (this.oldInstances.pop() || $('<div></div>').addClass('ui-widget-overlay'))
+		var $el = (this.oldInstances.pop() || mw.$('<div></div>').addClass('ui-widget-overlay'))
 			.appendTo(document.body)
 			.css({
 				width: this.width(),
@@ -8397,7 +8397,7 @@ function Datepicker() {
 		disabled: false // The initial disabled state
 	};
 	$.extend(this._defaults, this.regional['']);
-	this.dpDiv = bindHover($('<div id="' + this._mainDivId + '" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>'));
+	this.dpDiv = bindHover(mw.$('<div id="' + this._mainDivId + '" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>'));
 }
 
 $.extend(Datepicker.prototype, {
@@ -8466,7 +8466,7 @@ $.extend(Datepicker.prototype, {
 			drawMonth: 0, drawYear: 0, // month being drawn
 			inline: inline, // is datepicker inline or not
 			dpDiv: (!inline ? this.dpDiv : // presentation div
-			bindHover($('<div class="' + this._inlineClass + ' ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>')))};
+			bindHover(mw.$('<div class="' + this._inlineClass + ' ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>')))};
 	},
 
 	/* Attach the date picker to an input field. */
@@ -8499,7 +8499,7 @@ $.extend(Datepicker.prototype, {
 		if (inst.append)
 			inst.append.remove();
 		if (appendText) {
-			inst.append = $('<span class="' + this._appendClass + '">' + appendText + '</span>');
+			inst.append = mw.$('<span class="' + this._appendClass + '">' + appendText + '</span>');
 			input[isRTL ? 'before' : 'after'](inst.append);
 		}
 		input.unbind('focus', this._showDatepicker);
@@ -8512,10 +8512,10 @@ $.extend(Datepicker.prototype, {
 			var buttonText = this._get(inst, 'buttonText');
 			var buttonImage = this._get(inst, 'buttonImage');
 			inst.trigger = $(this._get(inst, 'buttonImageOnly') ?
-				$('<img/>').addClass(this._triggerClass).
+				mw.$('<img/>').addClass(this._triggerClass).
 					attr({ src: buttonImage, alt: buttonText, title: buttonText }) :
-				$('<button type="button"></button>').addClass(this._triggerClass).
-					html(buttonImage == '' ? buttonText : $('<img/>').attr(
+				mw.$('<button type="button"></button>').addClass(this._triggerClass).
+					html(buttonImage == '' ? buttonText : mw.$('<img/>').attr(
 					{ src:buttonImage, alt:buttonText, title:buttonText })));
 			input[isRTL ? 'before' : 'after'](inst.trigger);
 			inst.trigger.click(function() {
@@ -8595,10 +8595,10 @@ $.extend(Datepicker.prototype, {
 		if (!inst) {
 			this.uuid += 1;
 			var id = 'dp' + this.uuid;
-			this._dialogInput = $('<input type="text" id="' + id +
+			this._dialogInput = mw.$('<input type="text" id="' + id +
 				'" style="position: absolute; top: -100px; width: 0px; z-index: -10;"/>');
 			this._dialogInput.keydown(this._doKeyDown);
-			$('body').append(this._dialogInput);
+			mw.$('body').append(this._dialogInput);
 			inst = this._dialogInst = this._newInst(this._dialogInput, false);
 			inst.settings = {};
 			$.data(this._dialogInput[0], PROP_NAME, inst);
@@ -8818,7 +8818,7 @@ $.extend(Datepicker.prototype, {
 				case 9: $.datepicker._hideDatepicker();
 						handled = false;
 						break; // hide on tab out
-				case 13: var sel = $('td.' + $.datepicker._dayOverClass + ':not(.' +
+				case 13: var sel = mw.$('td.' + $.datepicker._dayOverClass + ':not(.' +
 									$.datepicker._currentClass + ')', inst.dpDiv);
 						if (sel[0])
 							$.datepicker._selectDay(event.target, inst.selectedMonth, inst.selectedYear, sel[0]);
@@ -8922,7 +8922,7 @@ $.extend(Datepicker.prototype, {
 	_showDatepicker: function(input) {
 		input = input.target || input;
 		if (input.nodeName.toLowerCase() != 'input') // find from button/image trigger
-			input = $('input', input.parentNode)[0];
+			input = mw.$('input', input.parentNode)[0];
 		if ($.datepicker._isDisabledDatepicker(input) || $.datepicker._lastInput == input) // already here
 			return;
 		var inst = $.datepicker._getInst(input);
@@ -9108,7 +9108,7 @@ $.extend(Datepicker.prototype, {
 				this._dialogInput.css({ position: 'absolute', left: '0', top: '-100px' });
 				if ($.blockUI) {
 					$.unblockUI();
-					$('body').append(this.dpDiv);
+					mw.$('body').append(this.dpDiv);
 				}
 			}
 			this._inDialog = false;
@@ -9187,7 +9187,7 @@ $.extend(Datepicker.prototype, {
 			return;
 		}
 		var inst = this._getInst(target[0]);
-		inst.selectedDay = inst.currentDay = $('a', td).html();
+		inst.selectedDay = inst.currentDay = mw.$('a', td).html();
 		inst.selectedMonth = inst.currentMonth = month;
 		inst.selectedYear = inst.currentYear = year;
 		this._selectDate(id, this._formatDate(inst,
@@ -10580,7 +10580,7 @@ $.extend($.effects, {
 				height: element.outerHeight(true),
 				'float': element.css('float')
 			},
-			wrapper = $('<div></div>')
+			wrapper = mw.$('<div></div>')
 				.addClass('ui-effects-wrapper')
 				.css({
 					fontSize: '100%',
@@ -11282,7 +11282,7 @@ $.effects.explode = function(o) {
 				if(o.callback) o.callback.apply(el[0]); // Callback
 				el.dequeue();
 
-				$('div.ui-effects-explode').remove();
+				mw.$('div.ui-effects-explode').remove();
 
 	}, o.duration || 500);
 
@@ -11792,7 +11792,7 @@ $.effects.transfer = function(o) {
 				width: target.innerWidth()
 			},
 			startPosition = elem.offset(),
-			transfer = $('<div class="ui-effects-transfer"></div>')
+			transfer = mw.$('<div class="ui-effects-transfer"></div>')
 				.appendTo(document.body)
 				.addClass(o.options.className)
 				.css({

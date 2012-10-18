@@ -27,7 +27,7 @@ if (!empty($params)) {
 
 
             if(serializedForm.id == undefined){
-                //$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
+                //mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
 
             }
 
@@ -46,7 +46,7 @@ if (!empty($params)) {
 
             mw.reload_module('custom_fields')
             mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-            $('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
+            mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
 
         });
 

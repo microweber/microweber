@@ -97,17 +97,17 @@ if(!isset($params['to_table_id'])){
 $(document).ready(function(){
 	
 	 
-	$('.mw_cat_selector_<? print $rand ?>').on('click', function(e){
+	mw.$('.mw_cat_selector_<? print $rand ?>').on('click', function(e){
    // e.preventDefault(); //stop the default form action
     var names = [];
-    $('.mw_cat_selector_<? print $rand ?>:checked').each(function() {
+    mw.$('.mw_cat_selector_<? print $rand ?>:checked').each(function() {
         names.push($(this).val());
     });
 
  if(names.length > 0){
-$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
+mw.$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
  } else {
-	$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__').change(); 
+	mw.$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__').change(); 
 	 
  }
 

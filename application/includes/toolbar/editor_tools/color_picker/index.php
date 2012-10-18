@@ -11,7 +11,7 @@
           $(document.body).mouseleave(function(){
             parent.mw.wysiwyg.deselect_selected_element();
           });
-          $('#colorpicker').ColorPicker({
+          mw.$('#colorpicker').ColorPicker({
             flat: true,
             onChange:function(hsb, hex){
               parent.mw.wysiwyg[command](hex);

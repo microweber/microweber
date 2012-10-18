@@ -46,7 +46,7 @@ $(document).ready(function(){
  
  
 function mw_delete_content($p_id){
-	 $('#pages_edit_container_').attr('data-content-id',$p_id);
+	 mw.$('#pages_edit_container_').attr('data-content-id',$p_id);
   	 mw.load_module('content/edit_post','#pages_edit_container_');
 }
 
@@ -118,17 +118,17 @@ function mw_append_pages_tree_controlls(){
 
 
 function mw_select_page_for_editing($p_id){
-	$('#pages_edit_container_').attr('data-page-id',$p_id);
+	mw.$('#pages_edit_container_').attr('data-page-id',$p_id);
 
-   $('#pages_edit_container_').attr('data-type','content/edit_page');
-
-
-    $('#pages_edit_container_').removeAttr('data-subtype');
+   mw.$('#pages_edit_container_').attr('data-type','content/edit_page');
 
 
+    mw.$('#pages_edit_container_').removeAttr('data-subtype');
 
 
-	$('#pages_edit_container_').removeAttr('data-content-id');
+
+
+	mw.$('#pages_edit_container_').removeAttr('data-content-id');
   	 mw.load_module('content/edit_page','#pages_edit_container_');
 }
 
@@ -171,7 +171,7 @@ mw.on.hashParam("action", function(){
 
 
 function mw_select_category_for_editing($p_id){
-	 $('#pages_edit_container_').attr('data-category-id',$p_id);
+	 mw.$('#pages_edit_container_').attr('data-category-id',$p_id);
   	 mw.load_module('categories/edit_category','#pages_edit_container_');
 }
 
@@ -183,17 +183,17 @@ function mw_set_edit_posts($in_page){
 
 
 if($in_page != undefined){
- $('#pages_edit_container_').attr('data-page-id',$in_page);
+ mw.$('#pages_edit_container_').attr('data-page-id',$in_page);
 
 	
 } else {
-	 $('#pages_edit_container_').removeAttr('data-page-id');
+	 mw.$('#pages_edit_container_').removeAttr('data-page-id');
 
 }
 
-//	$('#pages_tree_container_').empty();
-//	$('#pages_edit_container_').empty();
-//	 $('#pages_tree_container_').attr('data-limit','10');
+//	mw.$('#pages_tree_container_').empty();
+//	mw.$('#pages_edit_container_').empty();
+//	 mw.$('#pages_tree_container_').attr('data-limit','10');
 
 
 
@@ -201,12 +201,12 @@ if($in_page != undefined){
 
 
 	 mw.load_module('posts_list','#pages_edit_container_');
-	 $('#pages_edit_container_ .paging a').live('click',function() {
+	 mw.$('#pages_edit_container_ .paging a').live('click',function() {
 	 
 	 $p_id = $(this).attr('data-page-number');
 	 $p_param = $(this).attr('data-paging-param'); 
-	 $('#pages_edit_container_').attr('data-page-number',$p_id);
-	 $('#pages_edit_container_').attr('data-page-param',$p_param);
+	 mw.$('#pages_edit_container_').attr('data-page-number',$p_id);
+	 mw.$('#pages_edit_container_').attr('data-page-param',$p_param);
 	 mw.load_module('posts','#pages_edit_container_');
 		 return false;
 	 });
@@ -222,15 +222,15 @@ if($in_page != undefined){
 
 
 function mw_select_post_for_editing($p_id){
-	 $('#pages_edit_container_').attr('data-content-id',$p_id);
-	 	 	 $('#pages_edit_container_').removeAttr('data-subtype', 'post');
+	 mw.$('#pages_edit_container_').attr('data-content-id',$p_id);
+	 	 	 mw.$('#pages_edit_container_').removeAttr('data-subtype', 'post');
 
   	 mw.load_module('content/edit_post','#pages_edit_container_');
 }
 
 function mw_add_product(){
-	 $('#pages_edit_container_').attr('data-content-id',0);
-	 $('#pages_edit_container_').attr('data-subtype','product');
+	 mw.$('#pages_edit_container_').attr('data-content-id',0);
+	 mw.$('#pages_edit_container_').attr('data-subtype','product');
 
   	 mw.load_module('content/edit_post','#pages_edit_container_');
 }

@@ -81,10 +81,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() { 
+	 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() { 
 
  mw_before_content_save<? print $rand ?>()
- mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
+ mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
 	 
 	 mw_after_content_save<? print $rand ?>();
 	 
@@ -101,13 +101,13 @@ $(document).ready(function(){
  });
    
    
-    $('#go_live_edit_<? print $rand ?>').click(function() { 
+    mw.$('#go_live_edit_<? print $rand ?>').click(function() { 
 	
 
 mw_before_content_save<? print $rand ?>()
  
  	<? if(intval($data['id']) == 0): ?>
- mw.form.post($('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
+ mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
   mw_after_content_save<? print $rand ?>(this);
 });
 
@@ -125,7 +125,7 @@ mw_before_content_save<? print $rand ?>()
  
  
  function mw_before_content_save<? print $rand ?>(){
-	$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
+	mw.$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
  }
  
  function mw_after_content_save<? print $rand ?>($id){
@@ -255,7 +255,7 @@ mw.reload_module('[data-type="posts"]');
 $(document).ready(function(){
 	
 	 mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-	$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
+	mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
 
 });
@@ -268,8 +268,8 @@ $(document).ready(function(){
 });
 
 function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
-var a =	$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').val();
-var holder1 = $('#custom_fields_from_categorories_selector_for_post_<? print $rand ?>')
+var a =	mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').val();
+var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_<? print $rand ?>')
 if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	holder1.empty();
 	
@@ -283,20 +283,20 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	$new_div = '<div id="'+$new_div_id+'"></div>'
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
   holder1.append($new_div);
-		 $('#'+$new_div_id).attr('for','categories');
-		 $('#'+$new_div_id).attr('to_table_id',value);
+		 mw.$('#'+$new_div_id).attr('for','categories');
+		 mw.$('#'+$new_div_id).attr('to_table_id',value);
 		 
   	     mw.load_module('custom_fields/index','#'+$new_div_id, function(){
 			// mw.log(this);
 			//	$(this).find('*').addClass('red');
 		 	$(this).find('input').attr('disabled','disabled');
 			$(this).find('.control-group').append($new_use_btn);
-			$('.use_'+$new_div_id).unbind('click');
-					$('.use_'+$new_div_id).bind('click', function(e){
+			mw.$('.use_'+$new_div_id).unbind('click');
+					mw.$('.use_'+$new_div_id).bind('click', function(e){
 						//   mw_load_post_cutom_fields_from_categories<? print $rand ?>()
 						$closest =$(this).parent('.control-group').find('*[data-custom-field-id]:first');
 						$closest= $closest.attr('data-custom-field-id');
-						$('#fields_for_post_<? print $rand  ?>').attr('copy_from',$closest);
+						mw.$('#fields_for_post_<? print $rand  ?>').attr('copy_from',$closest);
 						mw.reload_module('#fields_for_post_<? print $rand  ?>');
 					 	mw.log($closest );
 						 
@@ -307,7 +307,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 			
 			
 			 });
-  // $('#'+$new_div_id).find('input').attr('disabled','disabled');
+  // mw.$('#'+$new_div_id).find('input').attr('disabled','disabled');
   i++;
   
 });

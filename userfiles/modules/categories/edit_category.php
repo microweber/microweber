@@ -24,10 +24,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
+	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
 
  
- mw.form.post($('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
+ mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
 	 
 	 
 	 mw.reload_module('[data-type="categories"]');

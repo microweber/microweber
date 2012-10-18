@@ -10,12 +10,12 @@ if (r==true)
   {
 
 
-	$element = $('#mw_css_editor_element_id').val();
+	$element = mw.$('#mw_css_editor_element_id').val();
 	
 	//alert($element);
 	
 
-	$element_obj = $('*[mw_tag_edit="'+$element+'"]' ,'.edit');
+	$element_obj = mw.$('*[mw_tag_edit="'+$element+'"]' ,'.edit');
 	$element_obj.fadeOut()
 	$element_obj.remove()
 
@@ -33,7 +33,7 @@ function mw_html_tag_editor($mw_tag_edit_value){
 	
 	
 //	if($mw_tag_edit_value != undefined){
-//		$mw_tag_edit_value11 = $('#mw_css_editor_element_id').val();
+//		$mw_tag_edit_value11 = mw.$('#mw_css_editor_element_id').val();
 //		if($mw_tag_edit_value == $mw_tag_edit_value11){
 //			//alert(1);
 //			return false;
@@ -44,19 +44,19 @@ function mw_html_tag_editor($mw_tag_edit_value){
 	
 //	alert(123);
 
-$('#mw_sidebar_module_edit_holder').hide();
+mw.$('#mw_sidebar_module_edit_holder').hide();
 mw_sidebar_nav('#mw_sidebar_css_editor_holder');
 	
 	mw_sidebar_nav('#mw_sidebar_css_editor_holder');
 	
 	if($mw_tag_edit_value == undefined){
 		
-		$mw_tag_edit_value = $('#mw_css_editor_element_id').val();
-		$('#mw_css_editor_element_id').val($mw_tag_edit_value);
+		$mw_tag_edit_value = mw.$('#mw_css_editor_element_id').val();
+		mw.$('#mw_css_editor_element_id').val($mw_tag_edit_value);
 		
 		
 	} else {
-		$('#mw_css_editor_element_id').val($mw_tag_edit_value);
+		mw.$('#mw_css_editor_element_id').val($mw_tag_edit_value);
 	}
 	
 	$("div[module_id='"+$mw_tag_edit_value+"']",'.edit').attr('mw_tag_edit', $mw_tag_edit_value);
@@ -66,21 +66,21 @@ mw_sidebar_nav('#mw_sidebar_css_editor_holder');
 	
 	
 	mw_html_tag_editor_show_styles_for_tag();
-	 $('*[mw_tag_edit="'+$mw_tag_edit_value+'"]', '.edit').each(function(index) {
+	 mw.$('*[mw_tag_edit="'+$mw_tag_edit_value+'"]', '.edit').each(function(index) {
 			//$(this).hide('aaa'); 	
 			
 		//	$(this).hide('aaa'); 
 											 
 	 });
 	 
-	  $('#mw_html_css_editor .css_property').die('change')
-	 $('#mw_html_css_editor .css_property').live('change',function(){
+	  mw.$('#mw_html_css_editor .css_property').die('change')
+	 mw.$('#mw_html_css_editor .css_property').live('change',function(){
 	  mw_html_tag_editor_apply_styles()
 	  mw_slider_name = $(this).attr('for');
 	  
 	  
-	  $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
-	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
+	  mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
+	//   mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
 
 	});
 	 
@@ -90,7 +90,7 @@ mw_sidebar_nav('#mw_sidebar_css_editor_holder');
 	 $( ".mw_slider_generated" ).remove();
 $( "#mw_html_css_editor .mw_slider" ).each(function() {
 		var $input = $(this);
-		var $slider = $('<div class="mw_slider_generated" for="' + $input.attr('name') + '" mw_slider_name="' + $input.attr('name') + '"></div>');
+		var $slider = mw.$('<div class="mw_slider_generated" for="' + $input.attr('name') + '" mw_slider_name="' + $input.attr('name') + '"></div>');
 		//var step = $input.attr('step');
 		$what = $input.attr('name');
 		$input.addClass('mw_slider_value');
@@ -143,24 +143,24 @@ if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 				
 				$what = $input.attr('name');
 				
-				$('#mw_'+$what+'_val', '#mw_html_css_editor').html('');
+				mw.$('#mw_'+$what+'_val', '#mw_html_css_editor').html('');
 				 
 				 if($what=='height'){
-					 $('*[name="width"]', '#mw_html_css_editor').val('auto');
-					 $('#mw_width_val', '#mw_html_css_editor').html('auto');
-					 $('#mw_height_val', '#mw_html_css_editor').html(ui.value);
+					 mw.$('*[name="width"]', '#mw_html_css_editor').val('auto');
+					 mw.$('#mw_width_val', '#mw_html_css_editor').html('auto');
+					 mw.$('#mw_height_val', '#mw_html_css_editor').html(ui.value);
 				 }
 				 
 				 if($what=='width'){
-					 $('*[name="height"]', '#mw_html_css_editor').val('auto');
-					  $('#mw_height_val', '#mw_html_css_editor').html('auto');
-					  $('#mw_width_val', '#mw_html_css_editor').html(ui.value);
+					 mw.$('*[name="height"]', '#mw_html_css_editor').val('auto');
+					  mw.$('#mw_height_val', '#mw_html_css_editor').html('auto');
+					  mw.$('#mw_width_val', '#mw_html_css_editor').html(ui.value);
 				 }
 				 
 				 
 				 
-				 $('*[name="'+$input.attr('name')+'"]', '#mw_html_css_editor').val(ui.value);
-				// $('*[name="'+$input.attr('name')+'"]', '#mw_html_css_editor').change();
+				 mw.$('*[name="'+$input.attr('name')+'"]', '#mw_html_css_editor').val(ui.value);
+				// mw.$('*[name="'+$input.attr('name')+'"]', '#mw_html_css_editor').change();
 				  mw_html_tag_editor_apply_styles()
 	 
 				 
@@ -180,7 +180,7 @@ if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 	 
 	   
 //	  
-//	   $('#mw_html_css_editor .mw_color_picker').ColorPicker({
+//	   mw.$('#mw_html_css_editor .mw_color_picker').ColorPicker({
 //	onSubmit: function(hsb, hex, rgb, el) {
 //		$(el).val(''+hex);
 //		$(el).ColorPickerHide();
@@ -232,7 +232,7 @@ if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 	 
 	 
 	 
-//	 $('.mw_color').colorpicker({
+//	 mw.$('.mw_color').colorpicker({
 //                size: 20,
 //                label: 'Color: ',
 //                hide: false
@@ -260,7 +260,7 @@ if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 		
  
 		  
-		   $('.mw_ac_fonts').live('click',function(){ 
+		   mw.$('.mw_ac_fonts').live('click',function(){ 
 												  
        $(this).autocomplete("search", "")
 	    //$(this).trigger('keydown.autocomplete');
@@ -305,7 +305,7 @@ if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 }
 
 function mw_html_tag_editor_show_styles_for_tag(){
-	$element = $('#mw_css_editor_element_id').val();
+	$element = mw.$('#mw_css_editor_element_id').val();
 	
 	//alert($element);
 	
@@ -319,9 +319,9 @@ function mw_html_tag_editor_show_styles_for_tag(){
 	
  
 	try{
-// $tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
+// $tag_name = mw.$('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
 
- $tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').nodeName;
+ $tag_name = mw.$('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').nodeName;
 }
 catch(e){
 	
@@ -335,14 +335,14 @@ catch(e){
 	if($tag_name == undefined){
 	$tag_name = 'DIV';	
 	}
-	//$tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
+	//$tag_name = mw.$('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
 	
-	$el123 = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit');
+	$el123 = mw.$('*[mw_tag_edit="'+$element+'"]:last' ,'.edit');
 	
 	
-	$element_obj = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit');
-	//$styles = $('*[mw_tag_edit="'+$element+'"]').css2();
-	//$('#module_info').html('');
+	$element_obj = mw.$('*[mw_tag_edit="'+$element+'"]:last' ,'.edit');
+	//$styles = mw.$('*[mw_tag_edit="'+$element+'"]').css2();
+	//mw.$('#module_info').html('');
 //	var attr = ['font-family','font-size','font-weight','font-style','color',
 //	        'text-transform','text-decoration','letter-spacing','word-spacing',
 //	        'line-height','text-align','vertical-align','direction','background-color',
@@ -393,13 +393,13 @@ catch(e){
 	 var len=attr.length;
 for(var i=0; i<len; i++) {
 	var value1 = attr[i];
-	$('input[name="'+value1+'"]', '#mw_html_css_editor').val('');
-	 $('select[name="'+value1+'"] option', '#mw_html_css_editor').removeAttr('selected');
+	mw.$('input[name="'+value1+'"]', '#mw_html_css_editor').val('');
+	 mw.$('select[name="'+value1+'"] option', '#mw_html_css_editor').removeAttr('selected');
 	 
 	 
 	 
 	 
-	 $('a[css_name="'+value1+'"]' , '#mw_html_css_editor').removeClass('active');
+	 mw.$('a[css_name="'+value1+'"]' , '#mw_html_css_editor').removeClass('active');
 									
 									
 	 
@@ -410,7 +410,7 @@ for(var i=0; i<len; i++) {
 								  if($check_is_color != -1){
 									//   $dim = '#' ;
 									
-									$('input[name="'+value1+'"]', '#mw_html_css_editor').css('background-color','' );
+									mw.$('input[name="'+value1+'"]', '#mw_html_css_editor').css('background-color','' );
 									
 								  }
 	 
@@ -546,14 +546,14 @@ for(var i=0; i<len; i++) {
 								  if($check_is_color != -1){
 									//   $dim = '#' ;
 									
-									$('input[name="'+$old_key+'"]', '#mw_html_css_editor').css('background-color',$old_val );
+									mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').css('background-color',$old_val );
 									
 								  }
 								  
 								 
 							
 								  
-								 $('select[name="'+$old_key+'"] option[value=""]', '#mw_html_css_editor').removeAttr('selected');
+								 mw.$('select[name="'+$old_key+'"] option[value=""]', '#mw_html_css_editor').removeAttr('selected');
 								  
 								  
 								  
@@ -562,7 +562,7 @@ for(var i=0; i<len; i++) {
 								  $check_padding = $old_key.indexOf("padding") ;
 								  if($check_padding != -1){
 									 // alert($old_val);
-									 $('#mw_padding_val' ).html($old_val);
+									 mw.$('#mw_padding_val' ).html($old_val);
 								  }
 								  
 								  
@@ -570,7 +570,7 @@ for(var i=0; i<len; i++) {
 								    $check_margin = $old_key.indexOf("margin") ;
 								  if($check_margin != -1){
 									 //  alert($old_val);
-									 $('#mw_margin_val' ).html($old_val);
+									 mw.$('#mw_margin_val' ).html($old_val);
 								  }
 								  
 								  if($old_key == 'padding' || $old_key == 'margin'){
@@ -589,7 +589,7 @@ for(var i=0; i<len; i++) {
 											if(check_box_shadow1[0] != undefined){
 												 $box_shadow_horizontals = check_box_shadow1[0].indexOf("px") ;
 												if(check_box_shadow1[0] != undefined && $box_shadow_horizontals != -1){
-													 box_shadow_horizontal = $('#mw_html_css_editor *[name="box-shadow-horizontal"]').val(check_box_shadow1[0]);
+													 box_shadow_horizontal = mw.$('#mw_html_css_editor *[name="box-shadow-horizontal"]').val(check_box_shadow1[0]);
 												}
 												
 												 
@@ -600,19 +600,19 @@ for(var i=0; i<len; i++) {
 											if(check_box_shadow1[1] != undefined){
 											 $box_shadow_verticals = check_box_shadow1[1].indexOf("px") ;
 											if(check_box_shadow1[1] != undefined && $box_shadow_verticals != -1 ){
-												 box_shadow_vertical = $('#mw_html_css_editor *[name="box-shadow-vertical"]').val(check_box_shadow1[1]);
+												 box_shadow_vertical = mw.$('#mw_html_css_editor *[name="box-shadow-vertical"]').val(check_box_shadow1[1]);
 											}
 											}
 											if(check_box_shadow1[2] != undefined){
 											 $box_shadow_blurs = check_box_shadow1[2].indexOf("px") ;
 											if(check_box_shadow1[2] != undefined && $box_shadow_blurs != -1 ){
-												 box_shadow_blur = $('#mw_html_css_editor *[name="box-shadow-blur"]').val(check_box_shadow1[2]);
+												 box_shadow_blur = mw.$('#mw_html_css_editor *[name="box-shadow-blur"]').val(check_box_shadow1[2]);
 											}
 											}
 											if(check_box_shadow1[3] != undefined){
 											 $box_shadow_spreads = check_box_shadow1[3].indexOf("px") ;
 											if(check_box_shadow1[3] != undefined && $box_shadow_spreads != -1){
-												 box_shadow_spread = $('#mw_html_css_editor *[name="box-shadow-spread"]').val();
+												 box_shadow_spread = mw.$('#mw_html_css_editor *[name="box-shadow-spread"]').val();
 											}
 											}
 											if(check_box_shadow1[4] != undefined){
@@ -621,7 +621,7 @@ for(var i=0; i<len; i++) {
 											if(check_box_shadow1[4] != undefined && ($box_shadow_color_check_1 != -1 || $box_shadow_color_check_2 != -1)){
 												vhex = rgbConvert(check_box_shadow1[4]) 
 										 
-												 box_shadow_color = $('#mw_html_css_editor *[name="box-shadow-color"]').val();
+												 box_shadow_color = mw.$('#mw_html_css_editor *[name="box-shadow-color"]').val();
 											}
 											}
 									    
@@ -648,21 +648,21 @@ for(var i=0; i<len; i++) {
 								  
 								  if($dim != false){
 									  $vvvvv = parseInt($old_val);
-									  $('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
+									  mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
 									  
-								   $('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions',$dim);
+								   mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions',$dim);
 									} else {
 										$vvvvv = ($old_val);
-									  $('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
-									   $('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions','');
+									  mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
+									   mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions','');
 									   
 									   
-									   	 $('a[css_value_active="'+$vvvvv+'"]' , '#mw_html_css_editor').addClass('active');
+									   	 mw.$('a[css_value_active="'+$vvvvv+'"]' , '#mw_html_css_editor').addClass('active');
 
 									   
 									   
 									   
-								  // $('input[name="'+attr[i]+'"]').attr('dimensions',$dim);
+								  // mw.$('input[name="'+attr[i]+'"]').attr('dimensions',$dim);
 									}
 							 if($dim != false){
 								 
@@ -670,9 +670,9 @@ for(var i=0; i<len; i++) {
 								 
 							 }
 							
-							$('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('value_from_document',$vvvvv);
+							mw.$('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('value_from_document',$vvvvv);
 							
-							$('select[name="'+$old_key+'"] option[value="'+$vvvvv+'"]', '#mw_html_css_editor').attr('selected', 'selected');
+							mw.$('select[name="'+$old_key+'"] option[value="'+$vvvvv+'"]', '#mw_html_css_editor').attr('selected', 'selected');
 							
 							
 							
@@ -682,9 +682,9 @@ for(var i=0; i<len; i++) {
 						   }
 						   } //if old key
 			   } else {
-				   $('input.css_property', '#mw_html_css_editor').val('');
-	 $('option.css_property', '#mw_html_css_editor select').removeAttr('selected');
-	 $('option:first', '#mw_html_css_editor select.css_property').attr('selected', 'selected');
+				   mw.$('input.css_property', '#mw_html_css_editor').val('');
+	 mw.$('option.css_property', '#mw_html_css_editor select').removeAttr('selected');
+	 mw.$('option:first', '#mw_html_css_editor select.css_property').attr('selected', 'selected');
 				   
 				   
 			   }
@@ -693,73 +693,73 @@ for(var i=0; i<len; i++) {
 	//alert($tag_name);
 	
 	if(($tag_name == 'A') || ($tag_name == 'a')){
-		$('#link_editor_holder').show();
+		mw.$('#link_editor_holder').show();
 		
 		
 		$href_attr = $el123.attr('href');
 		$href_attr_taget = $el123.attr('target');
-		$('#mw_edit_link').val($href_attr);
-		$('#mw_edit_link_window').val($href_attr_taget);
+		mw.$('#mw_edit_link').val($href_attr);
+		mw.$('#mw_edit_link_window').val($href_attr_taget);
 	 
 	 
 		
  
 		
 	} else {
-		$('#link_editor_holder').hide();
+		mw.$('#link_editor_holder').hide();
 	}
 	
 	if(($tag_name == 'IMG') || ($tag_name == 'img')){
-		$('#image_editor_holder').show();
-		//   $('.css_editor_tab_size', '#mw_html_css_editor').show();
-//		   $('.css_editor_tab_size_inside', '#mw_html_css_editor').show();
-//		    $('.css_editor_tab_border', '#mw_html_css_editor').show();
+		mw.$('#image_editor_holder').show();
+		//   mw.$('.css_editor_tab_size', '#mw_html_css_editor').show();
+//		   mw.$('.css_editor_tab_size_inside', '#mw_html_css_editor').show();
+//		    mw.$('.css_editor_tab_border', '#mw_html_css_editor').show();
 //		   
 //		   
 //		   
-//		     $('.css_editor_tab_text', '#mw_html_css_editor').hide();
-//			 $('.css_editor_tab_background', '#mw_html_css_editor').hide();
+//		     mw.$('.css_editor_tab_text', '#mw_html_css_editor').hide();
+//			 mw.$('.css_editor_tab_background', '#mw_html_css_editor').hide();
 //			 
 			 
 			 
 	}
 	
 	//
-//		  $('.css_editor_tab_text_inside', '#mw_html_css_editor').hide();
+//		  mw.$('.css_editor_tab_text_inside', '#mw_html_css_editor').hide();
 //		  
 //		  
-//		  $('.css_editor_tab_background_inside', '#mw_html_css_editor').hide();
+//		  mw.$('.css_editor_tab_background_inside', '#mw_html_css_editor').hide();
 //
-//		   $('.css_editor_tab_size_inside', '#mw_html_css_editor').hide();
-//		   $('.css_editor_tab_border_inside', '#mw_html_css_editor').hide();
+//		   mw.$('.css_editor_tab_size_inside', '#mw_html_css_editor').hide();
+//		   mw.$('.css_editor_tab_border_inside', '#mw_html_css_editor').hide();
 	
 	
 	
 	
 	
 	if(($tag_name == 'P') || ($tag_name == 'SPAN') || ($tag_name == 'CODE') || ($tag_name == 'STRONG') || ($tag_name == 'LI') || ($tag_name == 'UL') ||  ($tag_name == 'A')){
-		//  $('.css_editor_tab_text', '#mw_html_css_editor').show();
-//		   $('.css_editor_tab_text_inside', '#mw_html_css_editor').show();
+		//  mw.$('.css_editor_tab_text', '#mw_html_css_editor').show();
+//		   mw.$('.css_editor_tab_text_inside', '#mw_html_css_editor').show();
 //		  
 //		  
-//		  $('.css_editor_tab_background', '#mw_html_css_editor').show();
+//		  mw.$('.css_editor_tab_background', '#mw_html_css_editor').show();
 //
-//		   $('.css_editor_tab_size', '#mw_html_css_editor').hide();
-//		   $('.css_editor_tab_border', '#mw_html_css_editor').hide();
+//		   mw.$('.css_editor_tab_size', '#mw_html_css_editor').hide();
+//		   mw.$('.css_editor_tab_border', '#mw_html_css_editor').hide();
 	}
 	
 	if(($tag_name == 'DIV') || ($tag_name == 'FORM') || ($tag_name == 'TABLE') ){
-		//  $('.css_editor_tab_text', '#mw_html_css_editor').show();
-//		  $('.css_editor_tab_text_inside', '#mw_html_css_editor').show();
+		//  mw.$('.css_editor_tab_text', '#mw_html_css_editor').show();
+//		  mw.$('.css_editor_tab_text_inside', '#mw_html_css_editor').show();
 //		  
 //		  
-//		  $('.css_editor_tab_background', '#mw_html_css_editor').show();
+//		  mw.$('.css_editor_tab_background', '#mw_html_css_editor').show();
 //
-//		   $('.css_editor_tab_size', '#mw_html_css_editor').show();
-//		   $('.css_editor_tab_border', '#mw_html_css_editor').show();
+//		   mw.$('.css_editor_tab_size', '#mw_html_css_editor').show();
+//		   mw.$('.css_editor_tab_border', '#mw_html_css_editor').show();
 	}
 	
-	$('.css_editor_tab_effects', '#mw_html_css_editor').show();
+	mw.$('.css_editor_tab_effects', '#mw_html_css_editor').show();
 	
 	
 	if(($tag_name == 'IMG') || ($tag_name == 'img')){
@@ -777,8 +777,8 @@ for(var i=0; i<len; i++) {
 		
 		
 		$src_attr = $el123.attr('src');
-		  $('#image_editor_holder').show();
-		$('#image_editor_holder_src').attr('src', $src_attr);
+		  mw.$('#image_editor_holder').show();
+		mw.$('#image_editor_holder_src').attr('src', $src_attr);
 		
 		
 		
@@ -793,35 +793,35 @@ for(var i=0; i<len; i++) {
 		width1 = $el123.width();
 		 
 		 
-		$('.mw_img_size').val(width1+'x'+height1);			
+		mw.$('.mw_img_size').val(width1+'x'+height1);			
 		
 		
 		  
 				 if ($el123.parent().is("a")) {
 				 link1= $el123.parent().attr("href" );
-				 $('#mw_edit_image_link').val(link1);
+				 mw.$('#mw_edit_image_link').val(link1);
 				}  else {
-					 $('#mw_edit_image_link').val('');
+					 mw.$('#mw_edit_image_link').val('');
 				}
 				
 					
 				 
 		 
-		//$('input[name="height"]', '#mw_html_css_editor').val(height1);
-		$('#mw_height_val', '#mw_html_css_editor').html(height1);
+		//mw.$('input[name="height"]', '#mw_html_css_editor').val(height1);
+		mw.$('#mw_height_val', '#mw_html_css_editor').html(height1);
 		
-		//$('input[name="width"]', '#mw_html_css_editor').val(width1);
-		$('#mw_width_val', '#mw_html_css_editor').html(width1);
-		$('#image_editor_holder').show();
+		//mw.$('input[name="width"]', '#mw_html_css_editor').val(width1);
+		mw.$('#mw_width_val', '#mw_html_css_editor').html(width1);
+		mw.$('#image_editor_holder').show();
 		
 		
 		
 		 
 
 	} else {
-		$('.mw_img_size').val('');		
-		 $('#mw_edit_image_link').val('');
-	 $('#image_editor_holder').hide();	
+		mw.$('.mw_img_size').val('');		
+		 mw.$('#mw_edit_image_link').val('');
+	 mw.$('#image_editor_holder').hide();	
 	}
 	
 	
@@ -840,9 +840,9 @@ for(var i=0; i<len; i++) {
 	
 	//alert();
 	
-	//$('.mw_edit_tag_table tr', '#mw_html_css_editor').hide();
+	//mw.$('.mw_edit_tag_table tr', '#mw_html_css_editor').hide();
 	//$($c).show();
-	//$('.mw_edit_tag_table *').hasClass($c).html('asdsadasd');
+	//mw.$('.mw_edit_tag_table *').hasClass($c).html('asdsadasd');
 	
  
 	
@@ -912,12 +912,12 @@ function mw_html_tag_editor_apply_style_for_element($css_property, $new_value, $
 	 
 	 
 	 
-	 		$('a[css_value_active="'+$new_value+'"]' , '#mw_html_css_editor').addClass('active');
+	 		mw.$('a[css_value_active="'+$new_value+'"]' , '#mw_html_css_editor').addClass('active');
 
 	 
 	if($is_toggle != undefined){
 	
-	$old = $('*[name="'+$css_property+'"].css_property' , '#mw_html_css_editor').val();
+	$old = mw.$('*[name="'+$css_property+'"].css_property' , '#mw_html_css_editor').val();
 	
 	
 
@@ -929,7 +929,7 @@ function mw_html_tag_editor_apply_style_for_element($css_property, $new_value, $
 				if($old == $new_value){
 					
 				$new_value = $is_toggle;
-						$('a[css_name="'+$css_property+'"]' , '#mw_html_css_editor').removeClass('active');
+						mw.$('a[css_name="'+$css_property+'"]' , '#mw_html_css_editor').removeClass('active');
 
 				
 				}
@@ -940,11 +940,11 @@ function mw_html_tag_editor_apply_style_for_element($css_property, $new_value, $
 	
 	
 	
-	$('.css_property input[name="'+$css_property+'"]').val( $new_value);
+	mw.$('.css_property input[name="'+$css_property+'"]').val( $new_value);
 	
- 	 $('select[name="'+$css_property+'"] option', '#mw_html_css_editor').removeAttr('selected');
-	 $('select[name="'+$css_property+'"] option', '#mw_html_css_editor').removeAttr('selected');
-	$('select[name="'+$css_property+'"] option[value="'+ $new_value+'"]', '#mw_html_css_editor').attr('selected', 'selected');
+ 	 mw.$('select[name="'+$css_property+'"] option', '#mw_html_css_editor').removeAttr('selected');
+	 mw.$('select[name="'+$css_property+'"] option', '#mw_html_css_editor').removeAttr('selected');
+	mw.$('select[name="'+$css_property+'"] option[value="'+ $new_value+'"]', '#mw_html_css_editor').attr('selected', 'selected');
 
 
  mw_html_tag_editor_apply_styles()
@@ -955,15 +955,15 @@ function mw_html_tag_editor_apply_style_for_element($css_property, $new_value, $
 }
 
 function mw_html_tag_remove_styles(){
-	$element = $('#mw_css_editor_element_id').val();
-		  $('*[mw_tag_edit="'+$element+'"]' ,'.edit').removeAttr("style");
-		   $('*[mw_tag_edit="'+$element+'"] *' ,'.edit').removeAttr("style");
-	  $('*[mw_tag_edit="'+$element+'"]' ,'.edit').children().removeAttr("style");
-	  	//$('*[mw_tag_edit="'+$element+'"]').parent().removeAttr("style");
+	$element = mw.$('#mw_css_editor_element_id').val();
+		  mw.$('*[mw_tag_edit="'+$element+'"]' ,'.edit').removeAttr("style");
+		   mw.$('*[mw_tag_edit="'+$element+'"] *' ,'.edit').removeAttr("style");
+	  mw.$('*[mw_tag_edit="'+$element+'"]' ,'.edit').children().removeAttr("style");
+	  	//mw.$('*[mw_tag_edit="'+$element+'"]').parent().removeAttr("style");
 }
 
 function mw_html_tag_editor_apply_custom_element_style($style_name, $style_url){
-		$element = $('#mw_css_editor_element_id').val();
+		$element = mw.$('#mw_css_editor_element_id').val();
 		
 		url = $style_url;
  
@@ -1007,8 +1007,8 @@ for (var i = 0; i < classes.length; i++) {
 	
 }
 function mw_html_tag_editor_apply_styles(){
-	$element = $('#mw_css_editor_element_id').val();
-	var $inputs = $('#mw_html_css_editor .css_property').not('.css_fx');
+	$element = mw.$('#mw_css_editor_element_id').val();
+	var $inputs = mw.$('#mw_html_css_editor .css_property').not('.css_fx');
 	
 
 	
@@ -1028,7 +1028,7 @@ function mw_html_tag_editor_apply_styles(){
 							  window.mw_last_hover++;
 							 	$element =  window.mw_last_hover++;	
  
-	$('#mw_css_editor_element_id').val($element);
+	mw.$('#mw_css_editor_element_id').val($element);
 							 
 							 	randomCssClass = 'rcc_'+$element;
 	
@@ -1098,18 +1098,18 @@ function mw_html_tag_editor_apply_styles(){
 										 $vvv = $vvv + $dims;
 									$vvv = $vvv.replace(";", "");
 									 //alert( $vvv);
-									// $('*[mw_tag_edit="'+$element+'"]').css($css_attr,  $vvv );
+									// mw.$('*[mw_tag_edit="'+$element+'"]').css($css_attr,  $vvv );
 									cssstr= cssstr+ ' "'+$css_attr+'":"'+$vvv+ '",';
 									cssstr_spans= cssstr_spans+ ' "'+$css_attr+'":"'+$vvv+ '",';
 									 if($css_attr == 'font-size'){
-										// $('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
+										// mw.$('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
 										cssstr= cssstr+ ' '+'"line-height"'+':"'+$vvv+ '",';
 										cssstr_spans= cssstr_spans+ ' '+'"line-height"'+':"'+$vvv+ '",';
 									 }
 									 
 									 
 									  if($css_attr == 'border-radius'){
-										// $('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
+										// mw.$('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
 										cssstr= cssstr+ ' '+'"-webkit-border-radius"'+':"'+$vvv+ '",';
 										cssstr= cssstr+ ' '+'"-moz-border-radius"'+':"'+$vvv+ '",';
 										
@@ -1132,7 +1132,7 @@ function mw_html_tag_editor_apply_styles(){
 									
 									
 									  if($css_attr == 'background-image'){
-										// $('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
+										// mw.$('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
 										//cssstr= cssstr+ ' '+'"line-height"'+':"'+$vvv+ '",';
 									 }
 									 
@@ -1149,7 +1149,7 @@ function mw_html_tag_editor_apply_styles(){
 									 
 									 
 								   } else {
-									//	$('*[mw_tag_edit="'+$element+'"]').css($css_attr, $(this).val());
+									//	mw.$('*[mw_tag_edit="'+$element+'"]').css($css_attr, $(this).val());
 									$val1234 = $(this).val();
 									if($val1234 != undefined && $val1234 != ''){
 										
@@ -1196,12 +1196,12 @@ function mw_html_tag_editor_apply_styles(){
 
  
  
- box_shadow_horizontal = $('#mw_html_css_editor *[name="box-shadow-horizontal"]').val();
- box_shadow_vertical = $('#mw_html_css_editor *[name="box-shadow-vertical"]').val();
+ box_shadow_horizontal = mw.$('#mw_html_css_editor *[name="box-shadow-horizontal"]').val();
+ box_shadow_vertical = mw.$('#mw_html_css_editor *[name="box-shadow-vertical"]').val();
  
- box_shadow_blur = $('#mw_html_css_editor *[name="box-shadow-blur"]').val();
-  box_shadow_spread = $('#mw_html_css_editor *[name="box-shadow-spread"]').val();
-  box_shadow_color = $('#mw_html_css_editor *[name="box-shadow-color"]').val();
+ box_shadow_blur = mw.$('#mw_html_css_editor *[name="box-shadow-blur"]').val();
+  box_shadow_spread = mw.$('#mw_html_css_editor *[name="box-shadow-spread"]').val();
+  box_shadow_color = mw.$('#mw_html_css_editor *[name="box-shadow-color"]').val();
  //alert(box_shadow_horizontal);
  if(box_shadow_horizontal != '' && box_shadow_vertical != ''){
 	$shadow = '';
@@ -1246,7 +1246,7 @@ function mw_html_tag_editor_apply_styles(){
  
  }
  
-  transforms_cssOut_v = $('#transforms_cssOut').val();
+  transforms_cssOut_v = mw.$('#transforms_cssOut').val();
  
  
    if(transforms_cssOut_v != ''){
@@ -1269,15 +1269,15 @@ function mw_html_tag_editor_apply_styles(){
 				
 				
 				
-				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').css('');
-				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').removeClass('rangyTemp');
+				// mw.$('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').css('');
+				// mw.$('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').removeClass('rangyTemp');
 				
 				
 				
-				 //$('*[mw_tag_edit="'+$element+'"]').css(cssstr);
+				 //mw.$('*[mw_tag_edit="'+$element+'"]').css(cssstr);
 				 
 				 
-				  $('.module > [mw_tag_edit="'+$element+'"]', '.edit').attr('mw_tag_edit', ''); 
+				  mw.$('.module > [mw_tag_edit="'+$element+'"]', '.edit').attr('mw_tag_edit', ''); 
 				
 				 //cssstr_1 = cssstr;
 				 //cssstr_1 = cssstr_1.replace(/<(\/?)strong>|<strong( [^>]+)>/gi, '<$1span style="font-weight:bold;"$2>');
@@ -1286,18 +1286,18 @@ function mw_html_tag_editor_apply_styles(){
 									  console.log('apply css spans '+cssstr_spans );
 									 }
 									 
-				 	  $('span[mw_tag_edit="'+$element+'"]', '.edit').css(cssstr_spans);
-					    $('[id="#'+$element+'"]', '.edit').css(cssstr_spans);
+				 	  mw.$('span[mw_tag_edit="'+$element+'"]', '.edit').css(cssstr_spans);
+					    mw.$('[id="#'+$element+'"]', '.edit').css(cssstr_spans);
 					   
-					   $('[mw_tag_edit="'+$element+'"]').each(function() {
+					   mw.$('[mw_tag_edit="'+$element+'"]').each(function() {
  $(this).css(cssstr);  
 });
 
 				 
-	 // $('*[mw_tag_edit="'+$element+'"]', '.edit').not('span').css(cssstr); 
-	 // $('*[mw_tag_edit="'+$element+'"]').children().css(cssstr);
+	 // mw.$('*[mw_tag_edit="'+$element+'"]', '.edit').not('span').css(cssstr); 
+	 // mw.$('*[mw_tag_edit="'+$element+'"]').children().css(cssstr);
 	  
-	//$spans =  $('*[mw_tag_edit="'+$element+'"]').parent().find('span');
+	//$spans =  mw.$('*[mw_tag_edit="'+$element+'"]').parent().find('span');
 //	
 //	$spans.each(function() {
 //						  
@@ -1343,9 +1343,9 @@ function mw_html_tag_editor_apply_styles(){
  
 
 	  
- //$('*[mw_tag_edit="'+$element+'"]').children().has('span[mw_tag_edit]').css('border','5px solid #ccc');
+ //mw.$('*[mw_tag_edit="'+$element+'"]').children().has('span[mw_tag_edit]').css('border','5px solid #ccc');
 
-	// console.log($('*[mw_tag_edit="'+$element+'"]').children('span[mw_tag_edit]'));  
+	// console.log(mw.$('*[mw_tag_edit="'+$element+'"]').children('span[mw_tag_edit]'));  
 	
 	
 	
@@ -1354,7 +1354,7 @@ function mw_html_tag_editor_apply_styles(){
       'font-weight' : '',
       'color' : 'rgb(0,40,244)'
     }*/
-    // $('*[mw_tag_edit="'+$element+'"]').css(cssObj);
+    // mw.$('*[mw_tag_edit="'+$element+'"]').css(cssObj);
 	
 }
  
@@ -1373,7 +1373,7 @@ function mw_html_tag_editor_apply_styles(){
 		 
 		
 		$("#mw_html_css_editor").live("mouseenter", function(event) {
-		//	$element = $('#mw_css_editor_element_id').val();
+		//	$element = mw.$('#mw_css_editor_element_id').val();
 		//	$(".mw_outline").remove();
 		//	mw.outline.init('*[mw_tag_edit="'+$element+'"]', '#DCCC01');		   
 	 
@@ -1394,14 +1394,14 @@ function mw_html_tag_editor_apply_styles(){
 		$( ".mColorPickerTrigger" ).hide();
 		
 		
-/*	 	$('.mw_color').mColorPicker({
+/*	 	mw.$('.mw_color').mColorPicker({
                imageFolder: '<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/images/'
 			   
            });*/
 	 
 	 
-	  //$('.mw_color').addClass('mColorPickerTrigger');
-	  $('.mw_color').show();
+	  //mw.$('.mw_color').addClass('mColorPickerTrigger');
+	  mw.$('.mw_color').show();
 	  $( ".mw_tag_editor_input_font_color" ).hide(); 
 	 
 	 
@@ -1427,16 +1427,16 @@ function mw_html_tag_editor_apply_styles(){
    upl_options = { 
        beforeSubmit: function(a,f,o) {
             o.dataType = 'json';
-            $('#uploadOutput').html('Submitting...');
+            mw.$('#uploadOutput').html('Submitting...');
         },
         success: function(data) {
 		//	alert(data);
-				$element = $('#mw_css_editor_element_id').val();
-		  $('*[mw_tag_edit="'+$element+'"]' ,'.edit').attr("src", data.url);
-			 $('#mw_img_size_set').val(data.width+'x'+data.height);
+				$element = mw.$('#mw_css_editor_element_id').val();
+		  mw.$('*[mw_tag_edit="'+$element+'"]' ,'.edit').attr("src", data.url);
+			 mw.$('#mw_img_size_set').val(data.width+'x'+data.height);
 			
 			
-           // var $out = $('#uploadOutput');
+           // var $out = mw.$('#uploadOutput');
 //            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
 //            if (typeof data == 'object' && data.nodeType)
 //                data = elementToString(data.documentElement, true);
@@ -1454,21 +1454,21 @@ function mw_html_tag_editor_apply_styles(){
 	   upl_options = { 
        beforeSubmit: function(a,f,o) {
             o.dataType = 'json';
-            $('#uploadOutput').html('Submitting...');
+            mw.$('#uploadOutput').html('Submitting...');
         },
 		     clearForm: true  ,      // clear all form fields after successful submit 
          resetForm: true,
         success: function(data) {
 		//	alert(data);
-				$element = $('#mw_css_editor_element_id').val();
-		  $('*[mw_tag_edit="'+$element+'"]' ,'.edit').attr("src", data.url);
-		  $('#image_editor_holder_src').attr("src", data.url);
+				$element = mw.$('#mw_css_editor_element_id').val();
+		  mw.$('*[mw_tag_edit="'+$element+'"]' ,'.edit').attr("src", data.url);
+		  mw.$('#image_editor_holder_src').attr("src", data.url);
 		  
 		  
-			 $('#mw_img_size_set').val(data.width+'x'+data.height);
+			 mw.$('#mw_img_size_set').val(data.width+'x'+data.height);
 			
 			
-           // var $out = $('#uploadOutput');
+           // var $out = mw.$('#uploadOutput');
 //            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
 //            if (typeof data == 'object' && data.nodeType)
 //                data = elementToString(data.documentElement, true);
@@ -1479,20 +1479,20 @@ function mw_html_tag_editor_apply_styles(){
     }; 				
 	
 	
-	  $('#uploadForm').ajaxSubmit(upl_options); 
+	  mw.$('#uploadForm').ajaxSubmit(upl_options); 
   }
   
   
 $(document).ready(function() {
 						   
-	 	   $('#mw_html_css_editor .css_property').die('change')
-	 $('#mw_html_css_editor .css_property').live('change',function(){
+	 	   mw.$('#mw_html_css_editor .css_property').die('change')
+	 mw.$('#mw_html_css_editor .css_property').live('change',function(){
 	  mw_html_tag_editor_apply_styles()
 	  mw_slider_name = $(this).attr('for');
 	  
 	  
-	  $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
-	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
+	  mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
+	//   mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
 
 	});
 	
@@ -1500,8 +1500,8 @@ $(document).ready(function() {
 	
 	
 	
-	  $('#mw_html_css_editor .style-item').die('click')
-	 $('#mw_html_css_editor .style-item').live('click',function(){
+	  mw.$('#mw_html_css_editor .style-item').die('click')
+	 mw.$('#mw_html_css_editor .style-item').live('click',function(){
 	
 	$style = $(this).attr('data-style-name');
 	$style_url = $(this).attr('data-style-url');
@@ -1512,8 +1512,8 @@ $(document).ready(function() {
 	//  mw_slider_name = $(this).attr('for');
 	  
 	  
-	 // $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
-	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
+	 // mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
+	//   mw.$('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
 
 	});
 	
@@ -1521,16 +1521,16 @@ $(document).ready(function() {
 			// upl_options = { 
 //       beforeSubmit: function(a,f,o) {
 //            o.dataType = 'json';
-//            $('#uploadOutput').html('Submitting...');
+//            mw.$('#uploadOutput').html('Submitting...');
 //        },
 //        success: function(data) {
 //		//	alert(data);
-//				$element = $('#mw_css_editor_element_id').val();
-//		  $('*[mw_tag_edit="'+$element+'"]').attr("src", data.url);
-//			 $('#mw_img_size_set').val(data.width+'x'+data.height);
+//				$element = mw.$('#mw_css_editor_element_id').val();
+//		  mw.$('*[mw_tag_edit="'+$element+'"]').attr("src", data.url);
+//			 mw.$('#mw_img_size_set').val(data.width+'x'+data.height);
 //			
 //			
-//           // var $out = $('#uploadOutput');
+//           // var $out = mw.$('#uploadOutput');
 ////            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
 ////            if (typeof data == 'object' && data.nodeType)
 ////                data = elementToString(data.documentElement, true);
@@ -1541,9 +1541,9 @@ $(document).ready(function() {
 //    }; 							   
 //						   
 //						   
-//    $('#uploadForm').ajaxForm(upl_options);
+//    mw.$('#uploadForm').ajaxForm(upl_options);
 
-//$('#uploadForm').submit(function() { 
+//mw.$('#uploadForm').submit(function() { 
 //        // inside event callbacks 'this' is the DOM element so we first 
 //        // wrap it in a jQuery object and then invoke ajaxSubmit 
 //        $(this).ajaxSubmit(upl_options); 
@@ -1555,8 +1555,8 @@ $(document).ready(function() {
 
  $("#mw_edit_link, #mw_edit_link_window").live("click blur", function(){
   //$(this).after("<p>Another paragraph!</p>");
-  	$elementz = $('#mw_css_editor_element_id').val();
-		element = $('a[mw_tag_edit="'+$elementz+'"]:first' ,'.edit');
+  	$elementz = mw.$('#mw_css_editor_element_id').val();
+		element = mw.$('a[mw_tag_edit="'+$elementz+'"]:first' ,'.edit');
 		  
 		  link1= $("#mw_edit_link").val();
 			 
@@ -1576,8 +1576,8 @@ $(document).ready(function() {
 
 $("#mw_edit_image_link").live("blur", function(){
   //$(this).after("<p>Another paragraph!</p>");
-  	$elementz = $('#mw_css_editor_element_id').val();
-		element = $('*[mw_tag_edit="'+$elementz+'"]:first' ,'.edit');
+  	$elementz = mw.$('#mw_css_editor_element_id').val();
+		element = mw.$('*[mw_tag_edit="'+$elementz+'"]:first' ,'.edit');
 		  
 		  link1= $("#mw_edit_image_link").val();
 				 if (!element.parent().is("a")) {
@@ -1607,19 +1607,19 @@ $("#mw_edit_image_link").live("blur", function(){
 			close: function(event, ui) {
 				 
 				 
-				 	$v = $('.mw_img_size').val();			
+				 	$v = mw.$('.mw_img_size').val();			
 					
 					if($v == 'Original'){
-						$('*[name="width"]', '#mw_html_css_editor').val('auto');
-						$('*[name="height"]', '#mw_html_css_editor').val('auto');
+						mw.$('*[name="width"]', '#mw_html_css_editor').val('auto');
+						mw.$('*[name="height"]', '#mw_html_css_editor').val('auto');
 					} else {
 					
 							$v =$v.split("x");		
 							if($v[0] != undefined){
-							$('*[name="width"]', '#mw_html_css_editor').val($v[0]);
+							mw.$('*[name="width"]', '#mw_html_css_editor').val($v[0]);
 							}
 							if($v[1] != undefined){
-							$('*[name="height"]', '#mw_html_css_editor').val($v[1]);
+							mw.$('*[name="height"]', '#mw_html_css_editor').val($v[1]);
 							}
 				
 					}
@@ -1638,19 +1638,19 @@ $("#mw_edit_image_link").live("blur", function(){
 				change: function(event, ui) { 
 				
 				
-					$v = $('.mw_img_size').val();			
+					$v = mw.$('.mw_img_size').val();			
 					
 					if($v == 'Original'){
-						$('*[name="width"]', '#mw_html_css_editor').val('');
-						$('*[name="height"]', '#mw_html_css_editor').val('');
+						mw.$('*[name="width"]', '#mw_html_css_editor').val('');
+						mw.$('*[name="height"]', '#mw_html_css_editor').val('');
 					} else {
 					
 							$v =$v.split("x");		
 							if($v[0] != undefined){
-							$('*[name="width"]', '#mw_html_css_editor').val($v[0]);
+							mw.$('*[name="width"]', '#mw_html_css_editor').val($v[0]);
 							}
 							if($v[1] != undefined){
-							$('*[name="height"]', '#mw_html_css_editor').val($v[1]);
+							mw.$('*[name="height"]', '#mw_html_css_editor').val($v[1]);
 							}
 				
 					}
@@ -1667,7 +1667,7 @@ $("#mw_edit_image_link").live("blur", function(){
 		
  
 		  
-		   $('.mw_img_size').live('click',function(){ 
+		   mw.$('.mw_img_size').live('click',function(){ 
 												   
 												   
 												  

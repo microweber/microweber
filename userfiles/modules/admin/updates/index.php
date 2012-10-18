@@ -25,10 +25,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#mw_form1_updates<? print $rand ?>').submit(function() { 
+	 mw.$('#mw_form1_updates<? print $rand ?>').submit(function() { 
 
  
- mw.form.post($('#mw_form1_updates<? print $rand ?>') , '<? print site_url('api') ?>/mw_apply_updates', function(){
+ mw.form.post(mw.$('#mw_form1_updates<? print $rand ?>') , '<? print site_url('api') ?>/mw_apply_updates', function(){
 	 
 var obj =  (this);
 
@@ -36,13 +36,13 @@ var obj =  (this);
 
 
 	 if(mw.is.defined(obj) && obj != null){
-	 $('#update_log_<? print $rand ?>').empty();
+	 mw.$('#update_log_<? print $rand ?>').empty();
 	 $.each(obj, function(index, value) { 
 	 
  
 	 
 	 
-$('#update_log_<? print $rand ?>').append(value);
+mw.$('#update_log_<? print $rand ?>').append(value);
 });
 	  }
 	// mw.log(this);

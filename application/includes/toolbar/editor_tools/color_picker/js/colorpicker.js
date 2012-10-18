@@ -203,7 +203,7 @@
 				cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
 			},
 			show = function (ev) {
-				var cal = $('#' + $(this).data('colorpickerId'));
+				var cal = mw.$('#' + $(this).data('colorpickerId'));
 				cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
 				var pos = $(this).offset();
 				var viewPort = getViewport();
@@ -445,7 +445,7 @@
 			hidePicker: function() {
 				return this.each( function () {
 					if ($(this).data('colorpickerId')) {
-						$('#' + $(this).data('colorpickerId')).hide();
+						mw.$('#' + $(this).data('colorpickerId')).hide();
 					}
 				});
 			},
@@ -461,7 +461,7 @@
 				}
 				return this.each(function(){
 					if ($(this).data('colorpickerId')) {
-						var cal = $('#' + $(this).data('colorpickerId'));
+						var cal = mw.$('#' + $(this).data('colorpickerId'));
 						cal.data('colorpicker').color = col;
 						cal.data('colorpicker').origColor = col;
 						fillRGBFields(col, cal.get(0));

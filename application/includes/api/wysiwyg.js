@@ -468,7 +468,7 @@ mw.wysiwyg = {
         mw.wysiwyg.selection = {
           sel:selection,
           range:range,
-          element:$('[contenteditable="true"]').eq(0)
+          element:mw.$('[contenteditable="true"]').eq(0)
         }
     },
     restore_selection:function(){

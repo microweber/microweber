@@ -28,10 +28,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#module_admin_settings_form_<? print $rand ?>').submit(function() { 
+	 mw.$('#module_admin_settings_form_<? print $rand ?>').submit(function() { 
 
  
- mw.form.post($('#module_admin_settings_form_<? print $rand ?>') , '<? print site_url('api') ?>/save_settings_md', function(){
+ mw.form.post(mw.$('#module_admin_settings_form_<? print $rand ?>') , '<? print site_url('api') ?>/save_settings_md', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');
@@ -47,7 +47,7 @@ $(document).ready(function(){
 
 
 	 
-	 $('#module_uninstall_<? print $rand ?>').click(function() { 
+	 mw.$('#module_uninstall_<? print $rand ?>').click(function() { 
 
  
  var for_module = {}
@@ -71,7 +71,7 @@ $(document).ready(function(){
 		 
 		 
 		  
-	 $('#module_install_<? print $rand ?>').click(function() { 
+	 mw.$('#module_install_<? print $rand ?>').click(function() { 
 
  
  

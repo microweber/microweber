@@ -101,7 +101,7 @@
 
 <script type="text/javascript">
 
-
+/*
 $(".mw-newsletter-default input[type='text']").focus(function(){
   var val = $(this).val();
   var label = this.parentNode.getElementsByTagName('label')[0];
@@ -124,7 +124,7 @@ $(".mw-newsletter-default input[type='text']").keydown(function(){
     label.className = 'semi_hidden';
   }
 });
-
+*/
 
 </script>
 

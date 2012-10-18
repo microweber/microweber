@@ -14,7 +14,7 @@
 
 $(document).ready(function(){
 
-  $('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
+  mw.$('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
   //  mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
    // return false;
   });

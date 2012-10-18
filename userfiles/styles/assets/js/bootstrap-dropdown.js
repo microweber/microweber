@@ -29,7 +29,7 @@
   var toggle = '[data-toggle="dropdown"]'
     , Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        mw.$('html').on('click.dropdown.data-api', function () {
           $el.parent().removeClass('open')
         })
       }
@@ -91,8 +91,8 @@
    * =================================== */
 
   $(function () {
-    $('html').on('click.dropdown.data-api', clearMenus)
-    $('body')
+    mw.$('html').on('click.dropdown.data-api', clearMenus)
+    mw.$('body')
       .on('click.dropdown', '.dropdown form', function (e) { e.stopPropagation() })
       .on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
   })
