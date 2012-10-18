@@ -304,15 +304,15 @@ mw.log = function(what){
 mw.$ = function(selector){
     if(mw.qsas){
        if(mw.is.string(selector)){
-         try{return $(mwd.querySelectorAll(selector));}
-         catch(e){return $(selector);}
+         try{return jQuery(mwd.querySelectorAll(selector));}
+         catch(e){return jQuery(selector);}
        }
        else{
-          return $(selector);
+          return jQuery(selector);
        }
     }
     else{
-      return $(selector);
+      return jQuery(selector);
     }
 }
 

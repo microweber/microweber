@@ -138,8 +138,16 @@ $(".mw-newsletter-default input[type='text']").keydown(function(){
  <h3>Subscribe for our Newsletter</h3>
 </div>
   
-  <div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+<div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
  <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
+</div>
+<div>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
 </div>
   
       

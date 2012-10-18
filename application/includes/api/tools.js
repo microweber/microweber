@@ -403,20 +403,25 @@ mw.tools = {
     return this;
   },
   hasParentsWithClass:function(el, cls){
-    _curr = el.parentNode;
-    _i = 0;
-    while(_i<300){
-      if(_curr!==null){
-         if(_curr.className!==undefined){
-           if(_curr.tagName=='BODY'){return false;}
-           if((' ' + _curr.className + ' ').indexOf(' ' + cls + ' ') > -1){
-             return true;
-           }
-         }
-        _curr = _curr.parentNode;
-        _i++
-      }else{return false;}
-    }
+    var toreturn = false;
+    mw.tools.foreachParents(el, function(){
+        if((' ' + this.className + ' ').indexOf(' ' + cls + ' ') > -1){
+            return true;
+        }
+    });
+    return toreturn;
+  },
+  foreachParents:function(el, callback){
+     var _curr = el.parentNode;
+     var _tag = _curr.tagName;
+     if(_curr !== null){
+       while(_tag !== 'BODY'){
+           if(callback.apply( _curr ) === false ) {break};
+           var _curr = _curr.parentNode;
+           if(_curr == null ) { break };
+           var _tag = _curr.tagName;
+       }
+     }
   }
 }
 

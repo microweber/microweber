@@ -26,12 +26,21 @@ mw.wysiwyg = {
         }
     },
     prepareContentEditable:function(){
-      $(window).bind("onEditMouseDown", function(e, el){
-        var _el = $(el);
-        if(mw.tools.hasParentsWithClass(el, "module")){
-            mw.$(".edit").removeAttr("contenteditable");
+      $(window).bind("onEditMouseDown", function(e, el, target){
+        if(!mw.is.ie){
+          var _el = $(el);
+          if(mw.tools.hasParentsWithClass(target, "module")){
+              mw.$(".edit").removeAttr("contenteditable");
+          }
+          else{
+
+          }
+          el.contentEditable = true;
+
         }
-        el.contentEditable = true;
+        else{
+
+        }
       });
     },
     _external:function(){  //global element for handelig the iframe tools
@@ -51,7 +60,6 @@ mw.wysiwyg = {
         }
       }
       else if(mwd.querySelector(".element-current")!==null){
-
         $(el).attr('contenteditable','true');
         mw.wysiwyg.isThereEditableContent = true;
         el.focus();
@@ -132,7 +140,7 @@ mw.wysiwyg = {
       mw_editor_btns.bind("mousedown mouseup click", function(event){
           event.preventDefault();
           if(event.type=='mouseup'){
-             var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
+             var command = $(this).dataset('command');
               if(!command.contains('custom-')){
                  mw.wysiwyg._do(command);
               }
@@ -641,10 +649,11 @@ $(mwd).ready(function(){
       $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
     }
     if($(target).hasClass("edit")){
-      $(window).trigger("onEditMouseDown", target);
+      $(window).trigger("onEditMouseDown", [target, target]);
     }
     else if($(target).parents(".edit").length>0){
-      $(window).trigger("onEditMouseDown", $(target).parents(".edit")[0]);
+      $(window).trigger("onEditMouseDown", [$(target).parents(".edit")[0], target]);
+
     }
   });
 

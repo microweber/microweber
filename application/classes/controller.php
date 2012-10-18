@@ -252,7 +252,7 @@ class Controller {
 
             print $l;
 
-            if (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug']) == 1) {
+            if (isset($_GET['test_cookie']) or (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug'])) == 1) {
                 debug_info();
                 $is_admin = is_admin();
                 if ($is_admin == true) {
