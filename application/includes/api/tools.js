@@ -418,12 +418,12 @@ mw.tools = {
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.parentNode;
-     var _tag = _curr.tagName;
-     if(_curr !== null){
+     if(_curr !== null && _curr !== undefined){
+       var _tag = _curr.tagName;
        while(_tag !== 'BODY'){
            var caller =  callback.call( _curr, index);
            var _curr = _curr.parentNode;
-           if( caller == false || _curr == null || !mw.tools.loop[index]){delete mw.tools.loop[index]; break}
+           if( caller == false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
            var _tag = _curr.tagName;
        }
      }
@@ -434,7 +434,7 @@ mw.tools = {
 
 
 
-mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
+
 
 
 Wait('$', function(){
@@ -470,6 +470,7 @@ Wait('$', function(){
   };
 
 
+mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
 
 $.fn.dataset = function(dataset, val){
   var el = this[0];

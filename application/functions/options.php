@@ -236,7 +236,7 @@ function save_option($data) {
 //                $cache_group = 'options/' . $data['option_key'];
 //                cache_clean_group($cache_group);
 //            }
-            cache_clean_group('options');
+          
 
 
 

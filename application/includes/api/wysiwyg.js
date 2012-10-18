@@ -27,19 +27,30 @@ mw.wysiwyg = {
     },
     prepareContentEditable:function(){
       $(window).bind("onEditMouseDown", function(e, el, target){
-        if(!mw.is.ie){
+        if(!mw.is.ie){ //Non IE browser
           var _el = $(el);
           if(mw.tools.hasParentsWithClass(target, "module")){
-              mw.$(".edit").removeAttr("contenteditable");
-          }
-          else{
-
+            mw.$(".edit").removeAttr("contenteditable");
           }
           el.contentEditable = true;
-
         }
-        else{
-
+        else{   // IE browser
+            if(mw.tools.hasParentsWithClass(el, 'module')){
+                el.contentEditable = true;
+            }
+            else{
+                if(mw.isDragItem(target)){
+                   target.contentEditable = true;
+                }
+                else{
+                   mw.tools.foreachParents(target, function(loop){
+                      if(mw.isDragItem(this)){
+                          this.contentEditable = true;
+                          mw.tools.loop[loop] = false;
+                      }
+                   });
+                }
+            }
         }
       });
     },
@@ -50,7 +61,7 @@ mw.wysiwyg = {
       return external;
     },
     execCommand:function(a,b,c){
-      if(mw.wysiwyg.isThereEditableContent){
+     // if(mw.wysiwyg.isThereEditableContent){
         if(document.queryCommandSupported(a)){
         var b = b || false;
         var c = c || false;
@@ -58,16 +69,18 @@ mw.wysiwyg = {
          mwd.execCommand(a,b,c);
          $.browser.mozilla?mwd.designMode = 'off':'';
         }
-      }
+     /* }
       else if(mwd.querySelector(".element-current")!==null){
         $(el).attr('contenteditable','true');
         mw.wysiwyg.isThereEditableContent = true;
         el.focus();
         mw.wysiwyg.select_all(el);
         mw.wysiwyg.execCommand(a,b,c);
-      }
+      } */
     },
-    isThereEditableContent:false,
+    isThereEditableContent:function(){
+        return true;
+    },
     selection:'',
     _do:function(what){
         mw.wysiwyg.execCommand(what);
@@ -83,7 +96,7 @@ mw.wysiwyg = {
         mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
 
-        if(mw.is.ie){ //return false;
+        if(mw.is.ie){
             var all = document.querySelectorAll('.edit *:not(.disable-resize)');
             if(all.length>0){
                 for(var i=0;i<all.length;i++){
@@ -91,10 +104,6 @@ mw.wysiwyg = {
                     dis.className+=' disable-resize';
                     dis.attachEvent("onresizestart", function(e) {
                         e.returnValue = false;
-                    }, false);
-                    dis.attachEvent("onmouseup", function(e) {
-                      //dis.contentEditable = true;
-                      //e.returnValue = false;
                     }, false);
                 }
             }
@@ -205,14 +214,10 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(360).height(180);
     },
     fontColor:function(color){
-       if(mw.wysiwyg.isThereEditableContent){
          mw.wysiwyg.execCommand('forecolor', null, color);
-       }
     },
     fontbg:function(color){
-       if(mw.wysiwyg.isThereEditableContent){
          mw.wysiwyg.execCommand('backcolor', null, "#"+color);
-       }
     },
     request_change_bg_color:function(el){
        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_bg_color');
@@ -256,9 +261,7 @@ mw.wysiwyg = {
         }
     },
     fontFamily:function(font_name){
-       if(mw.wysiwyg.isThereEditableContent){
          mw.wysiwyg.execCommand('fontname', null, font_name);
-       }
     },
     fontSize:function(px){
         var obj = {
@@ -306,7 +309,7 @@ mw.wysiwyg = {
     },
     check_selection:function(){
        var selection = window.getSelection();
-       if(mw.wysiwyg.isThereEditableContent && selection.rangeCount>0){
+       if(selection.rangeCount>0){
            var range = selection.getRangeAt(0);
            var selection_clone = range.cloneContents();
            $(mw.wysiwyg.checker).empty().append(selection_clone);
@@ -387,7 +390,7 @@ mw.wysiwyg = {
           $(".mw_editor_link.mw_editor_btn_active").removeClass("mw_editor_btn_active");
         }
         else{
-          if(mw.wysiwyg.isThereEditableContent){
+          if(mw.wysiwyg.isThereEditableContent()){
              mw.wysiwyg.save_selection();
              mw.tools.modal.frame({
               url:"rte_link_editor",
@@ -408,7 +411,7 @@ mw.wysiwyg = {
            $("#mw_rte_image").remove();
         }
         else{
-          if(mw.wysiwyg.isThereEditableContent || mw.target.item.className=='image_change'){
+          if(mw.wysiwyg.isThereEditableContent() || mw.target.item.className=='image_change'){
               mw.wysiwyg.save_selection();
               mw.tools.modal.frame({
                 url:"rte_image_editor"+hash,
@@ -484,7 +487,6 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.element.focus();
         mw.wysiwyg.selection.sel.removeAllRanges()
         mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
-        mw.wysiwyg.isThereEditableContent=true;
     },
     select_all:function(el){
         var range = document.createRange();
@@ -670,3 +672,5 @@ $(mwd).ready(function(){
 
 
 });
+
+

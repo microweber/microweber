@@ -115,8 +115,6 @@ function curent_url() {
     $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
 
 
-
-
     return $u;
 }
 

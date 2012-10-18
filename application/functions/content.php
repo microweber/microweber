@@ -239,10 +239,25 @@ function get_page_by_url($url = '', $no_recursive = false) {
     // ->'table_content';
     $table = $table['table_content'];
 
-    $url = strtolower($url);
-    $url = string_clean($url);
+    // $url = strtolower($url);
+    //  $url = string_clean($url);
+    $url = db_escape_string($url);
     $url = addslashes($url);
-    $sql = "SELECT id,url from $table where url='{$url}' or title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
+
+    $url12 = parse_url($url);
+    if (isset($url12['scheme'])
+            and isset($url12['host'])
+            and isset($url12['path'])
+    ) {
+
+        $u1 = site_url();
+        $u2 = str_replace($u1, '', $url);
+        $current_url = explode('?', $u2);
+        $u2 = $current_url[0];
+        $url = ($u2);
+    }
+
+    $sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
@@ -870,7 +885,7 @@ function save_edit($post_data) {
         $page_id = $ref_page['id'];
         $ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
     }
-
+     
     $json_print = array();
     foreach ($the_field_data_all as $the_field_data) {
         $save_global = false;
@@ -956,12 +971,13 @@ function save_edit($post_data) {
                         $save_layout = false;
                         $content_id = $the_field_data['attributes']['data-id'];
                     }
+                    $save_layout = false;
 
                     $html_to_save = $the_field_data['html'];
                     $html_to_save = $content = make_microweber_tags($html_to_save);
-
                     if ($save_global == false and $save_layout == false) {
                         if ($content_id) {
+
 
                             $for_histroy = $ref_page;
                             $old = false;
@@ -1043,7 +1059,7 @@ function save_edit($post_data) {
 
 
 
-
+                            $opts_saved = true;
 
 
 
@@ -1076,6 +1092,9 @@ function save_edit($post_data) {
 
             }
         }
+    }
+    if (isset($opts_saved)) {
+        cache_clean_group('options');
     }
     header('Cache-Control: no-cache, must-revalidate');
     header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

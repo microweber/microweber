@@ -79,7 +79,7 @@ if(!Array.indexOf){
 
 
 
-Wait = function(a,b){ window[a] === undefined ? setTimeout(function(){Wait(a,b),52}) : b.call(a); } 
+Wait = function(a,b){ window[a] === undefined ? setTimeout(function(){Wait(a,b),52}) : b.call(a); }
 
 mw.loaded = false;
 

@@ -128,9 +128,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         if (isset($_GET['test_cookie'])) {
             $parse_mode = intval($_GET['test_cookie']);
         } else {
-
+            $parse_mode = 1;
         }
-  $parse_mode = 1;
+
 
         switch ($parse_mode) {
             case 1:
@@ -159,7 +159,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             case 5:
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
 
-                 case 6:
+            case 6:
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
 
                 break;

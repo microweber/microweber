@@ -330,7 +330,7 @@ mw.drag = {
                  mw.dropables.set('top', offset, height, width);
                 }
             }
-       
+
 
             if(el.hasClass("element") || el.hasClass("row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
@@ -709,14 +709,14 @@ mw.drag = {
                 if($(target).hasClass("element")){
                   $(window).trigger("onElementClick", target);
                 }
-                else if($(target).parents(".element").length>0){
+                else if(mw.tools.hasParentsWithClass(target, 'element')){
                   $(window).trigger("onElementClick", $(target).parents(".element")[0]);
                 }
 
                 if($(target).hasClass("mw_item")){
                   $(window).trigger("onItemClick", target);
                 }
-                else if($(target).parents(".mw_item").length>0){
+                else if(mw.tools.hasParentsWithClass(target, 'mw_item')){
                   $(window).trigger("onItemClick", $(target).parents(".mw_item")[0]);
                 }
 
