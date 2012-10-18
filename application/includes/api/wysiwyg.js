@@ -100,9 +100,9 @@ mw.wysiwyg = {
       items.bind("paste", function(event){
 
           var id = "el_"+mw.random();
-          var el = "<div contenteditable='true' id='"+id+"'>&nbsp;</div>";
+          var el = "<div id='"+id+"'>&nbsp;</div>";
           mw.wysiwyg.insert_html(el);
-          var el = $("#"+id);
+          var el = mw.$("#"+id);
 
          setTimeout(function(){
            var html = el.html();
@@ -110,22 +110,6 @@ mw.wysiwyg = {
            el.html(newhtml)
          },50);
       });
-
-      items.blur(function(){
-           if($(".editor_hover").length==0){
-              $(this).attr('contenteditable','false');
-             setTimeout(function(){
-               if(mw.smallEditor.css("visibility")=='hidden'){
-                 !mw.wysiwyg.isThereEditableContent ? mw.bigEditor.hide() : '';
-               }
-               else{
-                 !mw.wysiwyg.isThereEditableContent ? mw.smallEditor.css("opacity", "0.5") : '';
-               }
-             }, 70);
-           }
-      });
-
-
 
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
 

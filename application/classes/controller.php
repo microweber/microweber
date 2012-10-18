@@ -243,20 +243,23 @@ class Controller {
                 // return $pq->htmlOuter();
             }
 
+            if (!headers_sent()) {
+                setcookie('last_page', $page_url);
+            }
 
-            setcookie('last_page', $page_url);
 
 
 
             print $l;
 
             if (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug']) == 1) {
+                debug_info();
                 $is_admin = is_admin();
                 if ($is_admin == true) {
 
                 }
             }
-            debug_info();
+
             // print (round(microtime()-T,5)*1000);
 //
             exit();
