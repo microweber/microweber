@@ -289,7 +289,7 @@ mw.drag = {
                } */
            }
 
-           if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
+           if(mw.isDrag && mw.currentDragMouseOver!=null  && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module')){
 
 
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
@@ -297,7 +297,7 @@ mw.drag = {
 
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
-            if(el.hasClass("ui-draggable-dragging") || el.parents(".ui-draggable-dragging").length>0){
+            if(el.hasClass("ui-draggable-dragging") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, "ui-draggable-dragging")){
               // check if mouse is over the dragging element
               return false;
             }
@@ -328,13 +328,11 @@ mw.drag = {
                 }
                 else{
                  mw.dropables.set('top', offset, height, width);
-
-
-
                 }
             }
+       
 
-            if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
+            if(el.hasClass("element") || el.hasClass("row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
                 }

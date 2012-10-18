@@ -50,11 +50,8 @@ class Controller {
         }
 
 
-        if (isset($_GET['test_cookie'])) {
-            if (!headers_sent()) {
-                setcookie('test_cookie', $_GET['test_cookie']);
-            }
-        }
+
+       
 
         $is_debug = url_param('debug');
         if (!$is_debug) {

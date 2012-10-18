@@ -403,22 +403,27 @@ mw.tools = {
     return this;
   },
   hasParentsWithClass:function(el, cls){
-    var toreturn = false;
-    mw.tools.foreachParents(el, function(){
+    var d = this;
+    d.toreturn = false;
+    mw.tools.foreachParents(el, function(loop){
         if((' ' + this.className + ' ').indexOf(' ' + cls + ' ') > -1){
-            return true;
+            d.toreturn = true;
+            mw.tools.loop[loop] = false;
         }
     });
-    return toreturn;
+    return d.toreturn;
   },
+  loop:{},
   foreachParents:function(el, callback){
+     var index = mw.random();
+     mw.tools.loop[index]=true;
      var _curr = el.parentNode;
      var _tag = _curr.tagName;
      if(_curr !== null){
        while(_tag !== 'BODY'){
-           if(callback.apply( _curr ) === false ) {break};
+           var caller =  callback.call( _curr, index);
            var _curr = _curr.parentNode;
-           if(_curr == null ) { break };
+           if( caller == false || _curr == null || !mw.tools.loop[index]){delete mw.tools.loop[index]; break}
            var _tag = _curr.tagName;
        }
      }
@@ -432,7 +437,8 @@ mw.tools = {
 mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
 
 
-Wait($, function(){
+Wait('$', function(){
+
   $.fn.getDropdownValue = function() {
     return this.attr("data-value");
   };

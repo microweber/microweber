@@ -28,7 +28,8 @@ mw={}
 mwd = document;
 mww = window;
 
-mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
+mw._random = 9999999;
+mw.random = function(){return mw._random++;}
 
 String.prototype.contains = function(a) { return this.indexOf(a) != -1; };
 
@@ -78,7 +79,7 @@ if(!Array.indexOf){
 
 
 
-Wait = function(a,b){ !mw.is.defined(a) ? setTimeout(function(){Wait(a,b),22}) : b.call(a); }
+Wait = function(a,b){ window[a] === undefined ? setTimeout(function(){Wait(a,b),52}) : b.call(a); } 
 
 mw.loaded = false;
 

@@ -90,9 +90,9 @@ foreach ($els as $elem) {
 
     if ($get_global == true) {
 
-  
-        if ($option_mod != false) {
 
+        if ($option_mod != false) {
+            //   d($field);
 
             $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
             //

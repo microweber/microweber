@@ -203,16 +203,43 @@ function save_option($data) {
             // $data ['debug'] = 1;
             $save = save_data($table, $data);
 
-            $cache_group = 'options/global';
-            if ($option_group != false) {
 
-                $cache_group = 'options/' . $option_group;
-            }
-            cache_clean_group($cache_group);
-            if (isset($data['id'])) {
-                $cache_group = 'options/' . $data['id'];
-                cache_clean_group($cache_group);
-            }
+//            if ($option_group != false) {
+//
+//                $cache_group = 'options/' . $option_group;
+//                cache_clean_group($cache_group);
+//            }
+//
+//            if (isset($data['id'])) {
+//                $cache_group = 'options/' . $data['id'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['module'])) {
+//                $cache_group = 'options/' . $data['module'];
+//                cache_clean_group($cache_group);
+//            }
+//
+//
+//            if (isset($data['data-option-group'])) {
+//                $cache_group = 'options/' . $data['data-option-group'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['option-group'])) {
+//                $cache_group = 'options/' . $data['option-group'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['data-module'])) {
+//                $cache_group = 'options/' . $data['data-module'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['option_key'])) {
+//                $cache_group = 'options/' . $data['option_key'];
+//                cache_clean_group($cache_group);
+//            }
+            cache_clean_group('options');
+
+
+
             return $save;
         }
     }
