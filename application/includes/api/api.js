@@ -49,7 +49,6 @@ if(!Array.indexOf){
 
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
-  
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(mw.required.indexOf(url)==-1){
          mw.required.push(url);
@@ -207,7 +206,6 @@ mw.reload_module_interval = function($module_name, $interval) {
 	if ($interval == undefined) {
 		$interval = 500;
 	}
-
 	$interval = parseInt($interval);
 	t_reload_module_interval = setInterval("mw.reload_module('" + $module_name + "')", $interval);
 }
@@ -256,7 +254,6 @@ mw.clear_cache = function() {
 
 
 mw._ = function(obj, sendSpecific){
-		
     var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};
@@ -307,7 +304,8 @@ mw.log = function(what){
 mw.$ = function(selector){
     if(mw.qsas){
        if(mw.is.string(selector)){
-          return $(mwd.querySelectorAll(selector));
+         try{return $(mwd.querySelectorAll(selector));}
+         catch(e){return $(selector);}
        }
        else{
           return $(selector);

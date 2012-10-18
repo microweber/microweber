@@ -125,8 +125,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
+        if (isset($_COOKIE['test_cookie'])) {
+            $parse_mode = $_COOKIE['test_cookie'];
+        } else {
+            $parse_mode = 1;
+        }
 
-        $parse_mode = 1;
 
         switch ($parse_mode) {
             case 1:
@@ -622,7 +626,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 @six';
 
 
-                
+
 
 
                 $all_edits = array();
@@ -631,26 +635,25 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                 preg_match_all($pattern, $layout, $matches);
 
-                $magggtches = (array_intersect_key($matches, array(
-                            'tagName' => 1,
-                            'attributes' => 0,
-                            'innerHTML' => 0,
+                $matches = (array_intersect_key($matches, array(
+
+
                             'outerHTML' => 1
                         )));
                 if (isarr($matches)) {
-                    print_r($matches );
+
                     foreach ($matches as $ve) {
 
-                         // $all_edits[] = $ve[0];
+                        $all_edits[] = $ve;
                     }
-
+                }
+                if (isarr($all_edits)) {
+                    foreach ($all_edits as $key => $value) {
+                        d($value);
+                    }
                 }
 
-               //d($all_edits);
 
-                if (preg_match($re, $layout, $matches)) {
-                    //
-                }
                 break;
             default:
                 break;
