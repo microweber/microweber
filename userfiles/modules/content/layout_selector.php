@@ -31,7 +31,7 @@ if(isset($params["data-active-site-template"])){
 
 $(document).ready(function() {
     // bind your jQuery events here initially
-	$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
+	mw.$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
         // Do something exciting
 		var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
 		
@@ -45,7 +45,7 @@ $(document).ready(function() {
     });
 	
 	
-		$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
+		mw.$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
         // Do something exciting
 	//	var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
 		
@@ -67,8 +67,8 @@ return str;
 }
 	
 	function generate_preview<? print $rand; ?>(){
-		var $template = $('#active_site_template_<? print $rand; ?>').val();
-		var $layout = $('#active_site_layout_<? print $rand; ?>').val();
+		var $template = mw.$('#active_site_template_<? print $rand; ?>').val();
+		var $layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
 		
 		$template = safe_chars_to_str<? print $rand; ?>($template);
 		$layout =  safe_chars_to_str<? print $rand; ?>($layout);
@@ -80,8 +80,8 @@ return str;
 		
 		
 		var $html = '<iframe src="'+iframe_url+'" class="preview_frame_small" ></iframe>'
-		$('.preview_frame_wrap').html($html);
-		$('#preview_frame_wrap').append(iframe_url);
+		mw.$('.preview_frame_wrap').html($html);
+		mw.$('#preview_frame_wrap').append(iframe_url);
 		
 		
 		
@@ -143,4 +143,4 @@ zoom: 0.15;
 width:600px;height:300px;border:5px solid black;
 }
 </style>
-<div class="preview_frame_wrap"> </div>
+<div class="preview_frame_wrap_AAAAA"> </div>

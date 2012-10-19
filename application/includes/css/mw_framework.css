@@ -556,6 +556,17 @@ body.not-allowed{
   background-repeat: no-repeat;
   background-position: 14% 9px;
 }
+
+.mw_pages_posts_tree .have_category > a{
+    background-image: url(../img/tree.catico.png);
+    background-position: 14% 6px;
+}
+
+.mw_pages_posts_tree .is_shop > a{
+    background-image: url(../img/tree.shopico.png)
+}
+
+
 ul.depth-3{
   font-size: 11px;
 }
@@ -572,10 +583,10 @@ ul.depth-3 a{
   height: 0;
 }
 
-.mw_pages_posts_tree li.have_category ul{
+.mw_pages_posts_tree li > ul{
   display: none;
 }
-.mw_pages_posts_tree li.have_category.active ul{
+.mw_pages_posts_tree li.active > ul{
   display: block;
 }
 
@@ -599,12 +610,19 @@ ul.depth-3 a{
 
 .mw_pages_posts_tree ul.depth-2{
   margin-left:95px;
-  border-left: 1px solid #EDEDED;
+  /*border-left: 1px solid #CFCFCF;*/
+}
+.mw_pages_posts_tree ul.depth-2 ul{
+  margin-left:30px;
 }
 
-.mw_pages_posts_tree ul.depth-2 li.depth-2{
+.mw_pages_posts_tree ul.depth-2 li{
     padding-left: 10px;
-    background: url(../img/treelisub.gif) no-repeat 0 18px;
+    background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
+}
+
+.mw_pages_posts_tree ul.depth-2 li:last-child{
+background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
 }
 
 .mw_pages_posts_tree ul.depth-2 li.depth-2 a{
@@ -637,30 +655,33 @@ html.mw_pages, html.mw_pages body{
 .mw_del_tree_content{
   display: inline-block;
   cursor: pointer;
-  width:10px;
-  height: 10px;
-  background: url(../img/admin_tree_icons.png) no-repeat -49px 2px;
+  width:19px;
+  height: 19px;
+  background:  url(../img/admin_tree_icons.png) no-repeat -45px 6px;
   text-indent: -9999px;
   float: right;
-  margin: 2px 10px 0;
-  visibility: hidden;
+  margin: 0px 5px 0;
+  visibility: visible;
   opacity:.6;
 }
 
 .mw_ed_tree_content{
   display: inline-block;
   cursor: pointer;
-  width:16px;
-  height: 13px;
-  background: url(../img/admin_tree_icons.png) no-repeat -28px 2px;
+  width:19px;
+  height: 19px;
+  background: url(../img/admin_tree_icons.png) no-repeat -26px 6px;
   text-indent: -9999px;
   float: right;
-  margin: 2px 10px 0;
-  visibility: hidden;
+  margin: 0px 5px 0;
+  visibility: visible;
   opacity:.6;
 }
-.pages_tree_link:hover .mw_del_tree_content,
-.pages_tree_link:hover .mw_ed_tree_content{
+
+
+
+a:hover .mw_del_tree_content,
+a:hover .mw_ed_tree_content{
   visibility: visible;
 }
 .mw_del_tree_content:hover,
@@ -671,15 +692,32 @@ html.mw_pages, html.mw_pages body{
 .mw_toggle_tree{
   left: -26px;
   position: absolute;
-  top: 13px;
+  top: 7px;
   display: block;
-  width: 8px;
-  height: 8px;
-  background: url(../img/treectrls.png) no-repeat;
+  width: 19px;
+  height: 19px;
+  background: url(../img/treectrls.png) no-repeat 5px 6px;
+  opacity:.6;
+}
+
+.mw_toggle_tree:hover{
+  opacity:1;
+}
+
+a.depth-1 .mw_toggle_tree{
+    left: 8.4%;
 }
 
 .mw_toggle_tree.active{
-  background-position: 0 -8px;
+  background-position: 5px -36px;
+}
+
+.mw_ed_tree_show_posts{
+  display: block;
+  float: right;
+  width: 10px;
+  height: 10px;
+  background: #5B5B5B;
 }
 
 
@@ -692,7 +730,7 @@ html.mw_pages, html.mw_pages body{
     border-right:1px solid #D0D0D0;
     overflow-y: auto;
     overflow-x:hidden;
-    box-shadow:inset 0 0 1px
+    box-shadow:inset 0 0 1px;
 }
 
 .mw-ui-category-selector li{

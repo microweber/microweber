@@ -1,3 +1,11 @@
+if(!window.CanvasRenderingContext2D){
+  document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
+  document.body.id = 'UnsupportedBrowser';
+}
+
+
+
+
 Microweber = function(){
     this.get = function(){
         return {
@@ -18,10 +26,12 @@ mw = function(){
 mw={}
 
 mwd = document;
+mww = window;
 
-mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
+mw._random = 9999999;
+mw.random = function(){return mw._random++;}
 
-String.prototype.contains = function(a) { return this.indexOf(a) != -1; };
+String.prototype.contains = function(a) { return !!~this.indexOf(a)};
 
 
 
@@ -41,7 +51,7 @@ if(!Array.indexOf){
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
-     if(mw.required.indexOf(url)==-1){
+     if(!~mw.required.indexOf(url)){
          mw.required.push(url);
          var h = mwd.getElementsByTagName('head')[0];
          var t = url.split('.').pop();
@@ -69,7 +79,7 @@ if(!Array.indexOf){
 
 
 
-Wait = function(a,b){ !mw.is.defined(a) ? setTimeout(function(){Wait(a,b),22}) : b.call(a); }
+Wait = function(a,b){ window[a] === undefined ? setTimeout(function(){Wait(a,b),52}) : b.call(a); }
 
 mw.loaded = false;
 
@@ -82,10 +92,13 @@ mw.target = {} //
 
 
 mw.is = {
-  obj:function(obj){return typeof obj=='object'},
-  func:function(obj){return typeof obj=='function'},
-  string:function(obj){return typeof obj=='string'},
-  defined:function(obj){return typeof obj!=="undefined"}
+  obj:function(obj){return typeof obj === 'object'},
+  func:function(obj){return typeof obj === 'function'},
+  string:function(obj){return typeof obj === 'string'},
+  defined:function(obj){return obj !== undefined},
+  invisible:function(obj){return window.getComputedStyle(obj, null).visibility === 'hidden'},
+  visible:function(obj){return window.getComputedStyle(obj, null).visibility === 'visible'},
+  ie:/*@cc_on!@*/false
 }
 
 if (window.console != undefined) {
@@ -272,7 +285,7 @@ mw._ = function(obj, sendSpecific){
 
         var m = mwd.getElementById(id);
 
-        mw.wysiwyg.init_editables(m);
+       $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '';
 
        mw.on.moduleReload(id, "", true);
 
@@ -292,14 +305,15 @@ mw.log = function(what){
 mw.$ = function(selector){
     if(mw.qsas){
        if(mw.is.string(selector)){
-          return $(mwd.querySelectorAll(selector));
+         try{return jQuery(mwd.querySelectorAll(selector));}
+         catch(e){return jQuery(selector);}
        }
        else{
-          return $(selector);
+          return jQuery(selector);
        }
     }
     else{
-      return $(selector);
+      return jQuery(selector);
     }
 }
 
@@ -329,14 +343,22 @@ mw.on = {
   DOMChange:function(element, callback){
     element.addEventListener("DOMCharacterDataModified", function(){
         callback.call(this);
-    }, false)
+    }, false);
+    element.addEventListener("DOMNodeInserted", function(){
+        callback.call(this);
+    }, false);
   }
 }
+
+
 
 
 mw.hash = function(b){
   return b===undefined ?  window.location.hash : window.location.hash = b;
 }
+
+
+
 
 
 

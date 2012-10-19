@@ -7,9 +7,9 @@ Add new product to shop
 <script type="text/javascript">
     function mw_make_new_shop<? print $rand ?>(){
 		
-		$('#add_shop_<? print $rand  ?>').attr('data-type', 'content/edit_page');
-		$('#add_shop_<? print $rand  ?>').attr('data-page-id', '0');
-		$('#add_shop_<? print $rand  ?>').attr('data-is-shop', 'y');
+		mw.$('#add_shop_<? print $rand  ?>').attr('data-type', 'content/edit_page');
+		mw.$('#add_shop_<? print $rand  ?>').attr('data-page-id', '0');
+		mw.$('#add_shop_<? print $rand  ?>').attr('data-is-shop', 'y');
 		
 		mw.reload_module('#add_shop_<? print $rand  ?>');
 

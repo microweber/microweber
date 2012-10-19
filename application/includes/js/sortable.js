@@ -136,6 +136,20 @@ $(document).ready(function(){
    });
 
 
+   $(window).bind("onDragHoverOnEmpty", function(e,el){
+     if($.browser.webkit){
+       var _el = $(el);
+       _el.addClass("hover");
+       if(!_el.hasClass("mw-webkit-drag-hover-binded")){
+          _el.addClass("mw-webkit-drag-hover-binded");
+          _el.mouseleave(function(){
+            _el.removeClass("hover");
+          });
+       }
+     }
+   });
+
+
 });
 
 mw.isDragItem = function(obj){
@@ -148,7 +162,7 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
 
-         mw.$(document.body).mousemove(function(event){
+         $(mwd.body).mousemove(function(event){
 
             if(!mw.settings.resize_started){
 
@@ -181,6 +195,7 @@ mw.drag = {
            if(!mw.isDrag){
                if(mw.mouse.x%2==0){ //not on every pixel
                    //trigger on element
+
                    if(mw.$mm_target.hasClass("element")){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -239,6 +254,19 @@ mw.drag = {
 
            }
            else{
+
+
+
+           if( mw.$mm_target.hasClass("empty-element")){
+            $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit bug
+           }
+           else if($(mw.mm_target.parentNode).hasClass("empty-element")){
+            $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
+           }
+
+
+
+
              if(   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
@@ -288,7 +316,7 @@ mw.drag = {
                } */
            }
 
-           if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
+           if(mw.isDrag && mw.currentDragMouseOver!=null  && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module')){
 
 
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
@@ -296,7 +324,7 @@ mw.drag = {
 
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
-            if(el.hasClass("ui-draggable-dragging") || el.parents(".ui-draggable-dragging").length>0){
+            if(el.hasClass("ui-draggable-dragging") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, "ui-draggable-dragging")){
               // check if mouse is over the dragging element
               return false;
             }
@@ -327,13 +355,11 @@ mw.drag = {
                 }
                 else{
                  mw.dropables.set('top', offset, height, width);
-
-
-
                 }
             }
 
-            if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
+
+            if(el.hasClass("element") || el.hasClass("row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
                 }
@@ -367,6 +393,12 @@ mw.drag = {
         	}
             $(this).removeClass("not-allowed");
 
+
+            if($(".toolbar_bnav_hover").length==0){
+            $(".ts_main_ul .ts_action").invisible();
+            $(".ts_main_ul .ts_action").css({left:"100%", top:0});
+          }
+
         });
 
         $(mwd.body).mousedown(function(event){
@@ -380,13 +412,8 @@ mw.drag = {
             target.startedY = target.offsetTop - target.parentNode.offsetTop;
             target.startedX = target.offsetLeft - target.parentNode.offsetLeft;
 
-
-
           }
-          if($(".toolbar_bnav_hover").length==0){
-            $(".ts_main_ul .ts_action").invisible();
-            $(".ts_main_ul .ts_action").css({left:"100%", top:0});
-          }
+
           if($(".desc_area_hover").length==0){
              $(".desc_area").hide();
           }
@@ -709,14 +736,14 @@ mw.drag = {
                 if($(target).hasClass("element")){
                   $(window).trigger("onElementClick", target);
                 }
-                else if($(target).parents(".element").length>0){
+                else if(mw.tools.hasParentsWithClass(target, 'element')){
                   $(window).trigger("onElementClick", $(target).parents(".element")[0]);
                 }
 
                 if($(target).hasClass("mw_item")){
                   $(window).trigger("onItemClick", target);
                 }
-                else if($(target).parents(".mw_item").length>0){
+                else if(mw.tools.hasParentsWithClass(target, 'mw_item')){
                   $(window).trigger("onItemClick", $(target).parents(".mw_item")[0]);
                 }
 
@@ -998,7 +1025,7 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
-	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
+   //	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
 
 	},
 
@@ -1210,7 +1237,7 @@ mw.drag = {
       if (id == "") {
         id = mw.settings.element_id;
       }
-      id.contains("#") ? $(id).remove() : $('#' + id).remove();
+      id.contains("#") ? $(id).remove() : mw.$('#' + id).remove();
       $(mw.handle_module).css({left:'', top:''});
 	  mw.drag.fix_placeholders(true);
     }
@@ -1235,7 +1262,7 @@ mw.drag = {
          var $el_id = id!=''?id:mw.settings.row_id;
 
 			mw.settings.sortables_created = false;
-			var $exisintg_num = $('#' + $el_id).children(".column").length;
+			var $exisintg_num = mw.$('#' + $el_id).children(".column").length;
 
 			if ($numcols == 0) {
 				$numcols = 1;
@@ -1249,7 +1276,7 @@ mw.drag = {
 					for (i = $exisintg_num; i < $numcols; i++) {
                         var new_col = mwd.createElement('div');
                         new_col.className = 'column';
-                        $('#' + $el_id).append(new_col);
+                        mw.$('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
                     mw.resizable_columns();
@@ -1257,23 +1284,23 @@ mw.drag = {
 				else {  //less columns
 					var $cols_to_remove = $exisintg_num - $numcols;
 					if ($cols_to_remove > 0) {
-                        var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
-                        var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        var last_after_remove = mw.$('#' + $el_id).children(".column").eq($numcols-1);
+                        var elements_to_clone = mw.$('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
                             last_after_remove.find(".empty-element").before(el);
                            $("#"+this.id).remove();
                         });
                         last_after_remove.resizable("destroy");
-                        $('#' + $el_id).children(".empty-element").remove();
+                        mw.$('#' + $el_id).children(".empty-element").remove();
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
 				}
 
-				var $exisintg_num = $('#' + $el_id).children(".column").size();
+				var $exisintg_num = mw.$('#' + $el_id).children(".column").size();
 				var $eq_w = 100 / $exisintg_num;
 				var $eq_w1 = $eq_w;
-				$('#' + $el_id).children(".column").width($eq_w1 + '%');
+				mw.$('#' + $el_id).children(".column").width($eq_w1 + '%');
 			}
         }
 	},
@@ -1294,11 +1321,12 @@ mw.drag = {
 
   mw.$('.element-current').removeClass('element-current');
   mw.$('.element-active').removeClass('element-active');
+  mw.$('.disable-resize').removeClass('disable-resize');
   mw.$('.empty-element').remove();
   mw.$('.empty-element').remove();
   mw.$('.edit .ui-resizable-handle').remove();
   mw.tools.classNamespaceDelete('all', 'ui-');
-  //end cleaning
+  //end cleaning the code
 
     var edits = mw.$(".edit.changed");
 
@@ -1453,7 +1481,7 @@ $(".edit .row").each(function(){
 });
 
 
-	$('.edit .column').not(".ui-resizable").each(function () {
+	mw.$('.edit .column').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1609,12 +1637,12 @@ mw.drop_regions = {
     var offset = el.offset();
     var region_left = {
       l:offset.left,
-      r:offset.left+40,
+      r:offset.left+width*0.1,
       t:offset.top,
       b:offset.top+height
     }
     var region_right = {
-      l:offset.left+width-40,
+      l:offset.left+width-width*0.1,
       r:offset.left+width,
       t:offset.top,
       b:offset.top+height
@@ -1690,7 +1718,7 @@ mw.history = {
 		data.post_id = mw.settings.post_id;
 		data.category_id = mw.settings.category_id;
 		data.for_url = document.location.href;
-		$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
+		mw.$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
 	},
 
 	/**

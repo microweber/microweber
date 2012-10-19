@@ -84,7 +84,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
-//d($post_params);
+
 //$post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
 $content   =$data = get_content($post_params);
@@ -127,7 +127,7 @@ $pages_count = intval($pages);
                         <?
                         $show_field = trim($show_field);
 
-
+ $fv = false;
                         switch ($show_field) {
 
                             case 'read_more':
@@ -155,7 +155,9 @@ $pages_count = intval($pages);
                                     //  d($hstr);
 
                                     $iu = $item[$show_field];
+									if(trim($iu != '')){
                                     $fv = $fv_i = "<img src='{$iu}' {$wstr} {$hstr} />";
+									}
                                     // $fv = "<a href='{$u}' class='thumbnail'>{$fv_i}</a>";
                                 }
 
@@ -176,7 +178,7 @@ $pages_count = intval($pages);
                                 break;
                         }
                         ?>
-                        <? if ($fv != false): ?>
+                        <? if ($fv != false and trim($fv) != ''): ?>
                             <div class="post-field-<? print $show_field ?>"><? print $fv ?></div>
                         <? endif; ?>
                     <? endforeach; ?>

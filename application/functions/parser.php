@@ -1,5 +1,174 @@
 <?php
 
+function parse_elem_callback($elem) {
+    $name = $elem->getAttr('field');
+
+    if (strval($name) == '') {
+        $name = $elem->getAttr('id');
+    }
+
+    if (strval($name) == '') {
+        $name = $elem->getAttr('data-field');
+    }
+
+
+    // $fld_id = $elem->getAttr('data-field-id');
+
+    $rel = $elem->getAttr('rel');
+    if ($rel == false) {
+        $rel = 'page';
+    }
+
+
+    $option_group = $elem->getAttr('data-option_group');
+    if ($option_group == false) {
+        $option_group = 'editable_region';
+    }
+    $data_id = $elem->getAttr('data-id');
+
+
+    $option_mod = $elem->getAttr('data-module');
+    if ($option_mod == false) {
+        $option_mod = $elem->getAttr('data-type');
+    }
+    if ($option_mod == false) {
+        $option_mod = $elem->getAttr('type');
+    }
+
+    // d($name);
+
+    $get_global = false;
+    //  $rel = 'page';
+    $field = $name;
+    $use_id_as_field = $name;
+
+    if ($rel == 'global') {
+        $get_global = true;
+    } else {
+        $get_global = false;
+    }
+
+    if ($rel == 'module') {
+        $get_global = true;
+    }
+    if ($get_global == false) {
+        //  $rel = 'page';
+    }
+
+
+    if ($rel == 'content') {
+        if ($data_id != false) {
+            $data_id = intval($data_id);
+            $data = get_content_by_id($data_id);
+            $data ['custom_fields'] = get_custom_fields_for_content($data_id, 0);
+        }
+    } else if ($rel == 'page') {
+        $data = get_page(PAGE_ID);
+        $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
+    } else if (isset($attr ['post'])) {
+        $data = get_post($attr ['post']);
+        if ($data == false) {
+            $data = get_page($attr ['post']);
+            $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
+        }
+    } else if (isset($attr ['category'])) {
+        $data = get_category($attr ['category']);
+    } else if (isset($attr ['global'])) {
+        $get_global = true;
+    }
+    $cf = false;
+    $field_content = false;
+
+    if ($get_global == true) {
+
+
+        if ($option_mod != false) {
+            //   d($field);
+
+            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
+            //
+        } else {
+            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+        }
+    } else {
+
+        if ($use_id_as_field != false) {
+            if (isset($data [$use_id_as_field])) {
+                $field_content = $data [$use_id_as_field];
+            }
+            if ($field_content == false) {
+                if (isset($data ['custom_fields'] [$use_id_as_field])) {
+                    $field_content = $data ['custom_fields'] [$use_id_as_field];
+                }
+                // d($field_content);
+            }
+        }
+
+        //  if ($field_content == false) {
+        if (isset($data [$field])) {
+
+            $field_content = $data [$field];
+        }
+        //}
+    }
+
+    if ($field_content == false and isset($data ['custom_fields']) and !empty($data ['custom_fields'])) {
+        foreach ($data ['custom_fields'] as $kf => $vf) {
+
+            if ($kf == $field) {
+
+                $field_content = ($vf);
+            }
+        }
+    }
+
+    //  d($field);
+
+    if ($field_content != false and $field_content != '') {
+        $field_content = htmlspecialchars_decode($field_content);
+
+        //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
+        // d($field_content);
+        $field_content = parse_micrwober_tags($field_content);
+
+        $elem->setInnerHTML($field_content);
+    } else {
+
+    }
+    return $elem;
+}
+
+class MwDom extends DOMDocument {
+
+    function getElementById($id) {
+
+        //thanks to: http://www.php.net/manual/en/domdocument.getelementbyid.php#96500
+        $xpath = new DOMXPath($this);
+        return $xpath->query("//*[@id='$id']")->item(0);
+    }
+
+    function getElementByClass($id) {
+
+        $xpath = new DOMXPath($this);
+        return $xpath->query('//div[contains(@class,"' . $id . '")]');
+    }
+
+    function output() {
+
+        // thanks to: http://www.php.net/manual/en/domdocument.savehtml.php#85165
+
+
+        /*
+          $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this->saveHTML()));
+         */
+        $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this->saveHTML(), $c = 1), 1);
+
+
+        return html_entity_decode($output, false, "UTF-8");
+    }
+
+}
+
 // include_once ('parser/phpQuery.php');
 
 /**
@@ -30,17 +199,21 @@
  *
  */
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
+    static $checker = array();
 
 
-
-
-
+    $d = crc32($layout);
+    if (isset($checker[$d])) {
+        
+        return $layout;
+    }
+    //d($d);
 
 
     if (!isset($options['parse_only_vars'])) {
 
 
-        require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
 
         $layout = str_replace('<mw ', '<module ', $layout);
         $layout = str_replace('<editable ', '<div class="edit" ', $layout);
@@ -94,142 +267,73 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
-
-        $pq = phpQuery::newDocument($layout);
-
-        $els = $pq ['.edit'];
-        // $els = pq('body')->find('.edit')->filter(':not(script)');
-
-        foreach ($els as $elem) {
-            // iteration returns PLAIN dom nodes, NOT phpQuery objects
-            $tagName = $elem->tagName;
-            $name = pq($elem)->attr('field');
-
-            if (strval($name) == '') {
-                $name = pq($elem)->attr('id');
-            }
-
-            if (strval($name) == '') {
-                $name = pq($elem)->attr('data-field');
-            }
-
-
-            // $fld_id = pq($elem)->attr('data-field-id');
-
-            $rel = pq($elem)->attr('rel');
-            if ($rel == false) {
-                $rel = 'page';
-            }
-
-
-            $option_group = pq($elem)->attr('data-option_group');
-            if ($option_group == false) {
-                $option_group = 'editable_region';
-            }
-            $data_id = pq($elem)->attr('data-id');
-
-
-            $option_mod = pq($elem)->attr('data-module');
-
-
-
-
-            $get_global = false;
-            //  $rel = 'page';
-            $field = $name;
-            $use_id_as_field = $name;
-
-            if ($rel == 'global') {
-                $get_global = true;
-            } else {
-                $get_global = false;
-            }
-
-            if ($rel == 'module') {
-                $get_global = true;
-            }
-
-
-            if ($rel == 'content') {
-                if ($data_id != false) {
-                    $data_id = intval($data_id);
-                    $data = get_content_by_id($data_id);
-                    $data ['custom_fields'] = get_custom_fields_for_content($data_id, 0);
-                }
-            } else if (isset($attr ['post'])) {
-                $data = get_page(PAGE_ID);
-                $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-            } else if (isset($attr ['post'])) {
-                $data = get_post($attr ['post']);
-                if ($data == false) {
-                    $data = get_page($attr ['post']);
-                    $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-                }
-            } else if (isset($attr ['category'])) {
-                $data = get_category($attr ['category']);
-            } else if (isset($attr ['global'])) {
-                $get_global = true;
-            }
-            $cf = false;
-            $field_content = false;
-
-            if ($get_global == true) {
-
-
-                if ($option_mod != false) {
-
-                    //  d($option_mod);
-                    $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
-                } else {
-                    $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
-                }
-            } else {
-
-                if ($use_id_as_field != false) {
-                    if (isset($data [$use_id_as_field])) {
-                        $field_content = $data [$use_id_as_field];
-                    }
-                    if ($field_content == false) {
-                        if (isset($data ['custom_fields'] [$use_id_as_field])) {
-                            $field_content = $data ['custom_fields'] [$use_id_as_field];
-                        }
-                        // d($field_content);
-                    }
-                }
-
-                //  if ($field_content == false) {
-                if (isset($data [$field])) {
-
-                    $field_content = $data [$field];
-                }
-                //}
-            }
-
-            if ($field_content == false and isset($data ['custom_fields']) and !empty($data ['custom_fields'])) {
-                foreach ($data ['custom_fields'] as $kf => $vf) {
-
-                    if ($kf == $field) {
-
-                        $field_content = ($vf);
-                    }
-                }
-            }
-
-            //  d($field);
-
-            if ($field_content != false and $field_content != '') {
-                $field_content = htmlspecialchars_decode($field_content);
-
-                //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-                // d($field_content);
-                $field_content = parse_micrwober_tags($field_content);
-
-                pq($elem)->html($field_content);
-            } else {
-
-            }
+        if (isset($_GET['test_cookie'])) {
+            $parse_mode = intval($_GET['test_cookie']);
+        } else {
+            $parse_mode = 1;
         }
-        $layout = $pq->htmlOuter();
+
+
+        switch ($parse_mode) {
+            case 1:
+
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+
+                break;
+
+
+
+            case 2:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_dom.php');
+
+                break;
+            case 3:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_regex.php');
+
+                break;
+
+
+            case 4:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
+
+                break;
+
+            case 5:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
+
+            case 6:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
+
+                break;
+
+
+            case 7:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
+
+                break;
+
+            case 8:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
+
+                break;
+
+
+
+            default:
+                break;
+        }
+
+
+        //  echo $dom->output();
+
+        /*
+         */
+
+
+
+
+
+
         /*
          * foreach($pq['mw'] as $elem) { $name = pq($elem)->attr('module');
          * $attributes = array(); $ats = $elem->attributes; $module_html = "<module
@@ -380,6 +484,13 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                         $z = 0;
                         $mod_as_element = false;
                         $mod_no_wrapper = false;
+
+                        if (isset($attrs['data-module'])) {
+
+                            $attrs ['data-type'] = $attrs['data-module'];
+                            unset($attrs['data-module']);
+                        }
+
                         foreach ($attrs as $nn => $nv) {
 
 
@@ -401,6 +512,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                                 $attrs ['data-type'] = $module_name;
                                 unset($attrs [$nn]);
                             }
+
 
 
 
@@ -442,11 +554,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             $z++;
                         }
 
-                        if (!isset($module_name)) {
-                            if (isset($_POST['module'])) {
-                                $module_name = $_POST['module'];
-                            }
-                        }
+//                        if (!isset($module_name)) {
+//                            if (isset($_POST['module'])) {
+//                                $module_name = $_POST['module'];
+//                            }
+//                        }
 
 
                         if (isset($module_name)) {
@@ -507,7 +619,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
 
-
+    $checker[$d] = 1;
 
     return $layout;
     exit();
@@ -891,3 +1003,4 @@ function clean_word($html_to_save) {
 // p($html_to_save);
     return $html_to_save;
 }
+

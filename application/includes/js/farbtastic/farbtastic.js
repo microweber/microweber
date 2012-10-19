@@ -33,8 +33,8 @@ jQuery._farbtastic = function (container, callback) {
 
   // Insert markup
   $(container).html('<div class="farbtastic"><div class="color"></div><div class="wheel"></div><div class="overlay"></div><div class="h-marker marker"></div><div class="sl-marker marker"></div></div>');
-  var e = $('.farbtastic', container);
-  fb.wheel = $('.wheel', container).get(0);
+  var e = mw.$('.farbtastic', container);
+  fb.wheel = mw.$('.wheel', container).get(0);
   // Dimensions
   fb.radius = 84;
   fb.square = 100;
@@ -42,7 +42,7 @@ jQuery._farbtastic = function (container, callback) {
 
   // Fix background PNGs in IE6
   if (navigator.appVersion.match(/MSIE [0-6]\./)) {
-    $('*', e).each(function () {
+    mw.$('*', e).each(function () {
       if (this.currentStyle.backgroundImage != 'none') {
         var image = this.currentStyle.backgroundImage;
         image = this.currentStyle.backgroundImage.substring(5, image.length - 2);
@@ -160,8 +160,8 @@ jQuery._farbtastic = function (container, callback) {
     else {
       // Use absolute coordinates
       var pos = fb.absolutePosition(reference);
-      x = (event.pageX || 0*(event.clientX + $('html').get(0).scrollLeft)) - pos.x;
-      y = (event.pageY || 0*(event.clientY + $('html').get(0).scrollTop)) - pos.y;
+      x = (event.pageX || 0*(event.clientX + mw.$('html').get(0).scrollLeft)) - pos.x;
+      y = (event.pageY || 0*(event.clientY + mw.$('html').get(0).scrollTop)) - pos.y;
     }
     // Subtract distance to middle
     return { x: x - fb.width / 2, y: y - fb.width / 2 };
@@ -223,18 +223,18 @@ jQuery._farbtastic = function (container, callback) {
   fb.updateDisplay = function () {
     // Markers
     var angle = fb.hsl[0] * 6.28;
-    $('.h-marker', e).css({
+    mw.$('.h-marker', e).css({
       left: Math.round(Math.sin(angle) * fb.radius + fb.width / 2) + 'px',
       top: Math.round(-Math.cos(angle) * fb.radius + fb.width / 2) + 'px'
     });
 
-    $('.sl-marker', e).css({
+    mw.$('.sl-marker', e).css({
       left: Math.round(fb.square * (.5 - fb.hsl[1]) + fb.width / 2) + 'px',
       top: Math.round(fb.square * (.5 - fb.hsl[2]) + fb.width / 2) + 'px'
     });
 
     // Saturation/Luminance gradient
-    $('.color', e).css('backgroundColor', fb.pack(fb.HSLToRGB([fb.hsl[0], 1, 0.5])));
+    mw.$('.color', e).css('backgroundColor', fb.pack(fb.HSLToRGB([fb.hsl[0], 1, 0.5])));
 
     // Linked elements or callback
     if (typeof fb.callback == 'object') {
@@ -333,7 +333,7 @@ jQuery._farbtastic = function (container, callback) {
   }
 
   // Install mousedown handler (the others are set on the document on-demand)
-  $('*', e).mousedown(fb.mousedown);
+  mw.$('*', e).mousedown(fb.mousedown);
 
     // Init color
   fb.setColor('#000000');

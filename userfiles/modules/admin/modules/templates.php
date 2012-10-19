@@ -21,7 +21,7 @@ function set_template_<? print $params['module_id'] ?>($filename){
 
 //alert($filename, $layout_name);
 
-	 $('input.template_<? print $params['module_id'] ?>').val($filename).change();
+	 mw.$('input.template_<? print $params['module_id'] ?>').val($filename).change();
  
 
   //call_layout_config_module();

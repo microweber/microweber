@@ -131,6 +131,19 @@ function define_constants($content = false) {
 
 function get_layout_for_page($page = array()) {
     $render_file = false;
+    $look_for_post = false;
+    if (isset($page['content_type']) and $page['content_type'] == 'post') {
+        $look_for_post = $page;
+        if (isset($page['parent'])) {
+
+            $par_page = get_content_by_id($page['parent']);
+            if (isarr($par_page)) {
+                $page = $par_page;
+            }
+        }
+    }
+
+
 
     if (isset($page['simply_a_file'])) {
 
@@ -141,14 +154,63 @@ function get_layout_for_page($page = array()) {
 
     if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
 
-        if (strtolower($page['active_site_template']) == 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
-        } else {
-            $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+
+        if ($look_for_post != false) {
+            $f1 = $page['layout_file'];
+            $stringA = $f1;
+            $stringB = "_inner";
+            $length = strlen($stringA);
+            $temp1 = substr($stringA, 0, $length - 4);
+            $temp2 = substr($stringA, $length - 4, $length);
+            $f1 = $temp1 . $stringB . $temp2;
+
+
+            if (strtolower($page['active_site_template']) == 'default') {
+                $template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
+            } else {
+                $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
+            }
+
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            } else {
+                $dn = dirname($template_view);
+                $dn1 = $dn . DS;
+                $f1 = $dn1 . 'inner.php';
+
+                if (is_file($f1) == true) {
+                    $render_file = $f1;
+                } else {
+                    $dn = dirname($dn);
+                    $dn1 = $dn . DS;
+                    $f1 = $dn1 . 'inner.php';
+
+                    if (is_file($f1) == true) {
+                        $render_file = $f1;
+                    } else {
+                        $dn = dirname($dn);
+                        $dn1 = $dn . DS;
+                        $f1 = $dn1 . 'inner.php';
+
+                        if (is_file($f1) == true) {
+                            $render_file = $f1;
+                        }
+                    }
+                }
+            }
         }
 
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
+
+        if ($render_file == false) {
+            if (strtolower($page['active_site_template']) == 'default') {
+                $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
+            } else {
+                $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+            }
+
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
         }
     }
 
@@ -239,10 +301,30 @@ function get_page_by_url($url = '', $no_recursive = false) {
     // ->'table_content';
     $table = $table['table_content'];
 
-    $url = strtolower($url);
-    $url = string_clean($url);
+    // $url = strtolower($url);
+    //  $url = string_clean($url);
+    $url = db_escape_string($url);
     $url = addslashes($url);
-    $sql = "SELECT id,url from $table where url='{$url}' or title LIKE '{$url}'   order by updated_on desc limit 0,1 ";
+
+    $url12 = parse_url($url);
+    if (isset($url12['scheme'])
+            and isset($url12['host'])
+            and isset($url12['path'])
+    ) {
+
+        $u1 = site_url();
+        $u2 = str_replace($u1, '', $url);
+        $current_url = explode('?', $u2);
+        $u2 = $current_url[0];
+        $url = ($u2);
+    } else {
+        $current_url = explode('?', $url);
+        $u2 = $current_url[0];
+        $url = ($u2);
+    }
+    $url = rtrim($url, '?');
+    $url = rtrim($url, '#');
+    $sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
@@ -387,8 +469,8 @@ function get_content($params) {
     }
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-    $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
+    $cache_content = false;
+    // $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
     if (($cache_content) == '--false--') {
         return false;
     }
@@ -420,7 +502,7 @@ function get_content($params) {
             $limit[1] = '30';
         }
 
-        $get = db_get($table, $params, $cache_group = false);
+        $get = db_get($table, $params, $cache_group = 'content/global');
         if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             return $get;
         }
@@ -434,11 +516,11 @@ function get_content($params) {
                 $data2[] = $item;
             }
             $get = $data2;
-            cache_store_data($get, $function_cache_id, $cache_group = 'content/global');
+            //  cache_store_data($get, $function_cache_id, $cache_group = 'content/global');
 
             return $get;
         } else {
-            cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');
+            // cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');
 
             return FALSE;
         }
@@ -956,12 +1038,13 @@ function save_edit($post_data) {
                         $save_layout = false;
                         $content_id = $the_field_data['attributes']['data-id'];
                     }
+                    $save_layout = false;
 
                     $html_to_save = $the_field_data['html'];
                     $html_to_save = $content = make_microweber_tags($html_to_save);
-
                     if ($save_global == false and $save_layout == false) {
                         if ($content_id) {
+
 
                             $for_histroy = $ref_page;
                             $old = false;
@@ -1043,7 +1126,7 @@ function save_edit($post_data) {
 
 
 
-
+                            $opts_saved = true;
 
 
 
@@ -1077,6 +1160,9 @@ function save_edit($post_data) {
             }
         }
     }
+    if (isset($opts_saved)) {
+        cache_clean_group('options');
+    }
     header('Cache-Control: no-cache, must-revalidate');
     header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
     header('Content-type: application/json');
@@ -1091,7 +1177,7 @@ function save_edit($post_data) {
     save_history($history_to_save);
     // }
     print $json_print;
-    cache_clean_group('global/blocks');
+    //cache_clean_group('global/blocks');
     exit();
 }
 
@@ -1138,7 +1224,7 @@ function save_content($data, $delete_the_cache = true) {
     if ($adm == false) {
         error('Error: not logged in as admin.');
     }
-
+    $cats_modified = false;
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_content'];
@@ -1211,6 +1297,13 @@ function save_content($data, $delete_the_cache = true) {
         // }
     }
 
+    if (isset($data['category']) or isset($data['categories'])) {
+        $cats_modified = true;
+    }
+
+
+
+
     if ($data['url'] != false) {
         $data['url'] = url_title($data['url']);
 
@@ -1266,7 +1359,7 @@ function save_content($data, $delete_the_cache = true) {
 
             if (!isset($data_to_save['subtype_value_new'])) {
                 if (isset($data_to_save['title'])) {
-
+                    $cats_modified = true;
                     $data_to_save['subtype_value_new'] = $data_to_save['title'];
                 }
             }
@@ -1284,7 +1377,7 @@ function save_content($data, $delete_the_cache = true) {
                 $new_category["to_table"] = "table_content";
                 $new_category["title"] = $data_to_save['subtype_value_new'];
                 $new_category["parent_id"] = "0";
-
+                $cats_modified = true;
                 $new_category = save_category($new_category);
                 //d($new_category);
                 $data_to_save['subtype_value'] = $new_category;
@@ -1309,7 +1402,7 @@ function save_content($data, $delete_the_cache = true) {
                         $new_scategory["data_type"] = "category";
                         $new_scategory["title"] = $sc;
                         $new_scategory["parent_id"] = intval($new_category);
-
+                        $cats_modified = true;
                         $new_scategory = save_category($new_scategory);
                     }
                 }
@@ -1361,8 +1454,12 @@ and to_table IS NULL and to_table_id IS NULL
     }
     cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
     cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
-    cache_clean_group('taxonomy');
-    cache_clean_group('taxonomy_items');
+
+    if ($cats_modified != false) {
+
+        cache_clean_group('taxonomy');
+        cache_clean_group('taxonomy_items');
+    }
     return $save;
     // if ($data_to_save ['content_type'] == 'page') {
     // if (!empty($data_to_save['menus'])) {
@@ -1421,10 +1518,28 @@ and to_table IS NULL and to_table_id IS NULL
 
 function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
+
+    $function_cache_id = false;
+    $args = func_get_args();
+    foreach ($args as $k => $v) {
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'content/global';
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+        print $cache_content;
+        return;
+        //  return $cache_content;
+    }
+
+
     $nest_level = 0;
 
 
-
+    ob_start();
 
     $params2 = array();
     $params = false;
@@ -1465,8 +1580,9 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     }
 
     $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
-
-    $q = db_query($sql);
+    $cid = __FUNCTION__ . crc32($sql);
+    $cidg = 'content/' . $parent;
+    $q = db_query($sql, $cid, $cidg);
 
     $result = $q;
 
@@ -1633,6 +1749,15 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     } else {
 
     }
+
+
+
+    $content = ob_get_contents();
+    cache_store_data($content, $function_cache_id, $cache_group);
+
+    ob_end_clean();
+    print $content;
+    return;
 }
 
 function mw_create_default_content($what) {

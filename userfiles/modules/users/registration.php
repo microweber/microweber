@@ -8,10 +8,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#user_registration_form<? print $rand ?>').submit(function() { 
+	 mw.$('#user_registration_form<? print $rand ?>').submit(function() { 
 
  
- mw.form.post($('#user_registration_form<? print $rand ?>') , '<? print site_url('api') ?>/register_user', function(){
+ mw.form.post(mw.$('#user_registration_form<? print $rand ?>') , '<? print site_url('api') ?>/register_user', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');

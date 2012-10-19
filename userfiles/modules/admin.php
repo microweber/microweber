@@ -9,7 +9,7 @@ $rand = rand();
 <div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
 <script type="text/javascript">
     function mw_make_new_field($type){
-        $('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $params['id']; ?>/custom_field_type:'+$type);
+        mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $params['id']; ?>/custom_field_type:'+$type);
 
 
     }
