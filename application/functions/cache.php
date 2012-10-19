@@ -1,6 +1,9 @@
 <?
 
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
+
+
+   // return false;
     static $mem = array();
     static $mem_hits = array();
 
@@ -312,6 +315,8 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
           define ( $cache_content, $cache );
           }
           } is */
+
+        //gc_collect_cycles();
         cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
         return $cache;
     }

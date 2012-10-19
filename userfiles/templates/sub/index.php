@@ -65,7 +65,9 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
   </header>
   <div class="module" id="posts_home" data-type="posts_list" data-display="custom">
     <? $query = module("type=posts_list&id=posts_home&display=custom");
+	 //d($query );
  $cont  = ($query['data'] );
+
 //print $query['edit'];
 ?>
     <? //$cont =  get_posts("id=22&parent=".$posts_parent_page );  ?>

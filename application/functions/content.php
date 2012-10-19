@@ -255,8 +255,13 @@ function get_page_by_url($url = '', $no_recursive = false) {
         $current_url = explode('?', $u2);
         $u2 = $current_url[0];
         $url = ($u2);
+    } else {
+        $current_url = explode('?', $url);
+        $u2 = $current_url[0];
+        $url = ($u2);
     }
-
+    $url = rtrim($url, '?');
+    $url = rtrim($url, '#');
     $sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
@@ -885,7 +890,7 @@ function save_edit($post_data) {
         $page_id = $ref_page['id'];
         $ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
     }
-     
+
     $json_print = array();
     foreach ($the_field_data_all as $the_field_data) {
         $save_global = false;

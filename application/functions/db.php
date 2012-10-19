@@ -1298,8 +1298,11 @@ function db_get_real_table_name($assoc_name) {
 function map_array_to_database_table($table, $array) {
 
     static $arr_maps = array();
-    if (isset($arr_maps[$table])) {
-        return $arr_maps[$table];
+
+
+    $arr_key = crc32($table) + crc32(serialize($array));
+    if (isset($arr_maps[$arr_key])) {
+        return $arr_maps[$arr_key];
     }
 
     if (empty($array)) {
@@ -1328,9 +1331,11 @@ function map_array_to_database_table($table, $array) {
             }
         }
     }
-    $arr_maps[$table] = $array_to_return;
+
     if (!isset($array_to_return)) {
         return false;
+    } else {
+        $arr_maps[$arr_key] = $array_to_return;
     }
     return $array_to_return;
 }

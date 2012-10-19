@@ -28,12 +28,12 @@ mw.wysiwyg = {
     removeEditable : function(){
       if(!mw.is.ie){
         var i,
-        all = mwd.getElementsByClassName('edit'),
-        len = all.length;
+            all = mwd.getElementsByClassName('edit'),
+            len = all.length;
         for( ; i<len ; i++ ) { all[i].contentEditable = false; }
       }
       else{
-
+         mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
       }
     },
     validateEditForIE:function(target){
@@ -43,15 +43,13 @@ mw.wysiwyg = {
             arr.push(this.className);
             if($(this).hasClass("module")){mw.tools.loop[loop]=false;}
         });
-
     },
     prepareContentEditable:function(){
       $(window).bind("onEditMouseDown", function(e, el, target){
-        mw.$(".edit").removeAttr("contenteditable");
+        mw.wysiwyg.removeEditable();
         if(!mw.is.ie){ //Non IE browser
           var _el = $(el);
           if(mw.tools.hasParentsWithClass(el, "module")){
-            mw.$(".edit").removeAttr("contenteditable");
             !el.isContentEditable ? el.contentEditable = true :'';
           }
           else{
@@ -59,26 +57,28 @@ mw.wysiwyg = {
                     !el.isContentEditable ? el.contentEditable = true :'';
               }
               else{
-                target.contentEditable = false;
+                el.contentEditable = false;
               }
           }
         }
         else{   // IE browser
-            mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
-            if(mw.tools.hasParentsWithClass(target, 'module')){
+            mw.wysiwyg.removeEditable();
+            if(mw.tools.hasParentsWithClass(el, 'module')){
                 target.contentEditable = true;
             }
             else{
-                if(mw.isDragItem(target)){
-                   target.contentEditable = true;
-                }
-                else{
-                   mw.tools.foreachParents(target, function(loop){
-                      if(mw.isDragItem(this)){
-                          this.contentEditable = true;
-                          mw.tools.loop[loop] = false;
-                      }
-                   });
+                if(!mw.tools.hasParentsWithClass(target, "module")){
+                    if(mw.isDragItem(target)){
+                       target.contentEditable = true;
+                    }
+                    else{
+                       mw.tools.foreachParents(target, function(loop){
+                          if(mw.isDragItem(this)){
+                              this.contentEditable = true;
+                              mw.tools.loop[loop] = false;
+                          }
+                       });
+                    }
                 }
             }
         }

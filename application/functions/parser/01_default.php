@@ -1,5 +1,4 @@
 <?php
-
 require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 $pq = phpQuery::newDocument($layout);
@@ -90,7 +89,7 @@ foreach ($els as $elem) {
 
     if ($get_global == true) {
 
-  
+
         if ($option_mod != false) {
 
 

@@ -308,6 +308,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                 break;
 
+              case 8:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
+
+                break;
+
+
 
             default:
                 break;
