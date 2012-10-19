@@ -402,11 +402,14 @@ mw.tools = {
     }
     return this;
   },
+  hasClass:function(classname, whattosearch){   //for strings
+    return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
+  },
   hasParentsWithClass:function(el, cls){
     var d = this;
     d.toreturn = false;
     mw.tools.foreachParents(el, function(loop){
-        if((' ' + this.className + ' ').indexOf(' ' + cls + ' ') > -1){
+        if(mw.tools.hasClass(this.className, cls)){
             d.toreturn = true;
             mw.tools.loop[loop] = false;
         }

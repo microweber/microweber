@@ -25,19 +25,48 @@ mw.wysiwyg = {
             })
         }
     },
+    removeEditable : function(){
+      if(!mw.is.ie){
+        var i,
+        all = mwd.getElementsByClassName('edit'),
+        len = all.length;
+        for( ; i<len ; i++ ) { all[i].contentEditable = false; }
+      }
+      else{
+
+      }
+    },
+    validateEditForIE:function(target){
+        if($(target).hasClass("edit")){return true;}
+        var arr = [];
+        mw.tools.foreachParents(target, function(loop){
+            arr.push(this.className);
+            if($(this).hasClass("module")){mw.tools.loop[loop]=false;}
+        });
+
+    },
     prepareContentEditable:function(){
       $(window).bind("onEditMouseDown", function(e, el, target){
+        mw.$(".edit").removeAttr("contenteditable");
         if(!mw.is.ie){ //Non IE browser
           var _el = $(el);
-          if(mw.tools.hasParentsWithClass(target, "module")){
+          if(mw.tools.hasParentsWithClass(el, "module")){
             mw.$(".edit").removeAttr("contenteditable");
+            !el.isContentEditable ? el.contentEditable = true :'';
           }
-         !el.isContentEditable ? el.contentEditable = true :'';
+          else{
+              if(!mw.tools.hasParentsWithClass(target, "module")){
+                    !el.isContentEditable ? el.contentEditable = true :'';
+              }
+              else{
+                target.contentEditable = false;
+              }
+          }
         }
         else{   // IE browser
-            mw.$(".edit [contenteditable='true']").removeAttr('contenteditable');
+            mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
             if(mw.tools.hasParentsWithClass(target, 'module')){
-                el.contentEditable = true;
+                target.contentEditable = true;
             }
             else{
                 if(mw.isDragItem(target)){

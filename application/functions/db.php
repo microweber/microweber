@@ -1296,6 +1296,12 @@ function db_get_real_table_name($assoc_name) {
  * @since Version 1.0
  */
 function map_array_to_database_table($table, $array) {
+
+    static $arr_maps = array();
+    if (isset($arr_maps[$table])) {
+        return $arr_maps[$table];
+    }
+
     if (empty($array)) {
 
         return false;
@@ -1322,6 +1328,7 @@ function map_array_to_database_table($table, $array) {
             }
         }
     }
+    $arr_maps[$table] = $array_to_return;
     if (!isset($array_to_return)) {
         return false;
     }

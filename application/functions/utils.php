@@ -466,13 +466,13 @@ function recursive_remove_directory($directory, $empty = true) {
 
         // if the option to empty is not set to true
         if ($empty == FALSE) {
-
+@rmdir($directory);
             // try to delete the now empty directory
-            if (!rmdir($directory)) {
-
-                // return false if not possible
-                return FALSE;
-            }
+//            if (!rmdir($directory)) {
+//
+//                // return false if not possible
+//                return FALSE;
+//            }
         }
 
         // return success
