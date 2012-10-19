@@ -188,25 +188,20 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     }
     $error['error'] = array();
     $results = false;
-    if (MW_IS_INSTALLED != false) {
-        if ($cache_id != false and $only_query == false) {
-            // $results =false;
-            $cache_id = $cache_id . crc32($q);
-            $results = cache_get_content($cache_id, $cache_group);
-            if ($results != false) {
-                if ($results == '---empty---') {
-                    return false;
-                } else {
-                    return $results;
-                }
+    // if (MW_IS_INSTALLED != false) {
+    if ($cache_id != false and $only_query == false) {
+        // $results =false;
+        $cache_id = $cache_id . crc32($q);
+        $results = cache_get_content($cache_id, $cache_group);
+        if ($results != false) {
+            if ($results == '---empty---') {
+                return false;
+            } else {
+                return $results;
             }
         }
     }
-
-    if (MW_IS_INSTALLED == false) {
-        //return false;
-    }
-    //d($q);
+    // }
     db_query_log($q);
     if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
         $db = $connection_settigns;
@@ -255,6 +250,8 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         $query = $q;
         $result = mysql_query($query);
         if (!$result) {
+
+
             $error['error'][] = 'Query failed: ' . mysql_error();
             return $error;
         }
@@ -281,6 +278,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 
         // Closing connection
         mysql_close($link);
+        $result = null;
     }
 
     if ($only_query != false) {
@@ -292,23 +290,25 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     //  $q = $db->get($q);
     // d($q);
     //  unset($db);
-    if (MW_IS_INSTALLED != false) {
-        if (empty($q) or $q == false) {
-            if ($cache_id != false) {
-
-                cache_store_data('---empty---', $cache_id, $cache_group);
-            }
-            return false;
-        }
-        $result = $q;
+    // if (MW_IS_INSTALLED != false) {
+    if (empty($q) or $q == false) {
         if ($cache_id != false) {
-            if (isarr($result)) {
-                cache_store_data($result, $cache_id, $cache_group);
-            } else {
-                cache_store_data('---empty---', $cache_id, $cache_group);
-            }
+
+
+            cache_store_data('---empty---', $cache_id, $cache_group);
+        }
+        return false;
+    }
+    // $result = $q;
+    if ($cache_id != false) {
+        if (isarr($q)) {
+
+            cache_save($q, $cache_id, $cache_group);
+        } else {
+            cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
+    // }
     return $q;
 
     $results = array();
