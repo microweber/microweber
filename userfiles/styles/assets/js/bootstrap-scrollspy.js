@@ -35,7 +35,7 @@
     this.selector = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
       || '') + ' .nav li > a'
-    this.$body = $('body')
+    this.$body = mw.$('body')
     this.refresh()
     this.process()
   }
@@ -142,7 +142,7 @@
   * ================== */
 
   $(function () {
-    $('[data-spy="scroll"]').each(function () {
+    mw.$('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
       $spy.scrollspy($spy.data())
     })

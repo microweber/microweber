@@ -21,20 +21,20 @@ $(document).ready(function(){
 	
 	 
 	 
-	 $('#form_<? print $rand ?>').submit(function() { 
+	 mw.$('#form_<? print $rand ?>').submit(function() { 
 
-  $data = $('#form_<? print $rand ?>').serialize();
+  $data = mw.$('#form_<? print $rand ?>').serialize();
 //  alert($data);
   //alert('<? print url_string() ?>');
   
   $.post("<? print url_string() ?>", $data,
    function(data) {
-	    $('.mw_log').html('');
+	    mw.$('.mw_log').html('');
 	   if(data != undefined){
 		 if(data == 'done'){
 			 window.location.href= '<? print site_url('admin') ?>'
 		 } else {
-		  $('.mw_log').html(data);	
+		  mw.$('.mw_log').html(data);	
 		 }
 		   
 	   }

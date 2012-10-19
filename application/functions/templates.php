@@ -167,10 +167,10 @@ function layouts_list($options = false) {
 
 			return $configs;
 		} else {
-			cache_store_data(false, $function_cache_id, $cache_group);
+			//cache_store_data(false, $function_cache_id, $cache_group);
 		}
 	} else {
-		cache_store_data(false, $function_cache_id, $cache_group);
+		//cache_store_data(false, $function_cache_id, $cache_group);
 	}
 }
 

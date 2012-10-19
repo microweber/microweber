@@ -30,7 +30,7 @@ $rand = rand();
 		if($copy != undefined){
 		$copy_str = '/copy_from:'+ $copy;	
 		}
-        $('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type+$copy_str);
+        mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type+$copy_str);
 return false;
 
     }

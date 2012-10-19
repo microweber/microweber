@@ -115,8 +115,6 @@ function curent_url() {
     $u = $protocol . "://" . $_SERVER ['SERVER_NAME'] . $port . $serverrequri;
 
 
-
-
     return $u;
 }
 
@@ -318,7 +316,7 @@ function replace_site_vars_back($arr) {
 // $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
 
         $ret = str_replace('{SITE_URL}', $site, $arr);
-
+        $ret = htmlspecialchars_decode($ret);
         return $ret;
     }
 
@@ -335,6 +333,7 @@ function replace_site_vars_back($arr) {
                 //$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
                 // $v = str_ireplace($site, '{SITE_URL}', $v);
                 $v = str_replace('{SITE_URL}', $site, $v);
+                $v = htmlspecialchars_decode($v);
                 // $v = addslashes ( $v );
                 // $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
             }

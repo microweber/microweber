@@ -48,7 +48,7 @@
 
         if (this.isShown || e.isDefaultPrevented()) return
 
-        $('body').addClass('modal-open')
+        mw.$('body').addClass('modal-open')
 
         this.isShown = true
 
@@ -89,7 +89,7 @@
 
         this.isShown = false
 
-        $('body').removeClass('modal-open')
+        mw.$('body').removeClass('modal-open')
 
         escape.call(this)
 
@@ -134,7 +134,7 @@
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
-      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+      this.$backdrop = mw.$('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(document.body)
 
       if (this.options.backdrop != 'static') {
@@ -205,7 +205,7 @@
   * ============== */
 
   $(function () {
-    $('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
+    mw.$('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
       var $this = $(this), href
         , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
         , option = $target.data('modal') ? 'toggle' : $.extend({}, $target.data(), $this.data())

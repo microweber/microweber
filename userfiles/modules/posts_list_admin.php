@@ -12,6 +12,9 @@ Pages
 
 
 <strong>Limit</strong>
+<?php print get_option('data-limit', $params['id']) ?>
+
+
 <input name="data-limit" class="mw_option_field"   type="text"    value="<?php print option_get('data-limit', $params['id']) ?>" />
 
  

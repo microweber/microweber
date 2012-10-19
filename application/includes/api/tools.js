@@ -71,6 +71,7 @@ mw.tools = {
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
+
         var modal = mw.tools.modal.source(name);
 
         $(document.body).append(modal.html);
@@ -357,30 +358,78 @@ mw.tools = {
     var el = $(el);
     this.toggle = function(){
       el.toggleClass("active");
+      mw.tools.tree().remember();
         if(event.type==='click'){
           $(event.target).toggleClass("active");
           event.stopPropagation();
           event.preventDefault();
           return false;
         }
+
+    }
+    this.del = function(id){
+      if(confirm('Are you sure you want to delete this?')){
+         $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
+            var todelete =  mw.$("#page_list_holder_" + id);
+             todelete.fadeOut(function(){
+                 todelete.remove();
+             })
+		 });
+      }
+    }
+    this.remember = function(){
+      _remember = "";
+      var lis = mw.$(".mw_pages_posts_tree").eq(0).find("li.active");
+      var len = lis.length;
+      lis.each(function(i){
+        i++;
+        _remember = i<len ? _remember + this.id + "," : _remember + this.id;
+      });
+      mw.cookie.ui("tree", _remember);
+    }
+    this.recall = function(){
+      var ids = mw.cookie.ui("tree");
+      if(ids!==''){
+        var ids = ids.split(",");
+        $.each(ids, function(a,b){
+          var el = mwd.getElementById(b);
+          el.className+=' active';
+          if(el.querySelector('.mw_toggle_tree')!=null){
+               el.querySelector('.mw_toggle_tree').className+=' active';
+          }
+        });
+      }
     }
     return this;
   },
+  hasClass:function(classname, whattosearch){   //for strings
+    return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
+  },
   hasParentsWithClass:function(el, cls){
-    _curr = el.parentNode;
-    _i = 0;
-    while(_i<100){
-      if(_curr!==null){
-         if(_curr.className!==undefined){
-           if(_curr.tagName=='BODY'){return false;}
-           if(_curr.className.indexOf(cls)!=-1){
-             return true;
-           }
-         }
-        _curr = _curr.parentNode;
-        _i++
-      }else{return false;}
-    }
+    var d = this;
+    d.toreturn = false;
+    mw.tools.foreachParents(el, function(loop){
+        if(mw.tools.hasClass(this.className, cls)){
+            d.toreturn = true;
+            mw.tools.loop[loop] = false;
+        }
+    });
+    return d.toreturn;
+  },
+  loop:{},
+  foreachParents:function(el, callback){
+     var index = mw.random();
+     mw.tools.loop[index]=true;
+     var _curr = el.parentNode;
+     if(_curr !== null && _curr !== undefined){
+       var _tag = _curr.tagName;
+       while(_tag !== 'BODY'){
+           var caller =  callback.call( _curr, index);
+           var _curr = _curr.parentNode;
+           if( caller == false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
+           var _tag = _curr.tagName;
+       }
+     }
   }
 }
 
@@ -388,10 +437,15 @@ mw.tools = {
 
 
 
-mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
 
 
-Wait($, function(){
+
+
+
+
+
+Wait('$', function(){
+
   $.fn.getDropdownValue = function() {
     return this.attr("data-value");
   };
@@ -423,6 +477,7 @@ Wait($, function(){
   };
 
 
+mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
 
 $.fn.dataset = function(dataset, val){
   var el = this[0];

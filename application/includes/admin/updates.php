@@ -36,7 +36,7 @@ function receiveMessage(evt)
 
 function mw_reload_all_updates(){
 
-	$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
+	mw.$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
 		 
 		 
   	 mw.load_module('admin/updates','#modules_admin_<? print $rand  ?>');

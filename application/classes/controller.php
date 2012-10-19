@@ -9,14 +9,17 @@ class Controller {
     function index() {
 
 
-        if ($this->render_this_url == false) {
+        if ($this->render_this_url == false and isAjax() == FALSE) {
             $page_url = url_string();
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
-            // d($page_url);
-            // exit();
         }
+
+
+
+
+
         $page_url = rtrim($page_url, '/');
         $is_admin = is_admin();
 
@@ -46,10 +49,17 @@ class Controller {
             $page_url = url_param_unset('no_editmode', $page_url);
         }
 
+
+
+
+
+
+
         $is_preview_template = url_param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
         } else {
+
 
             $page_url = url_param_unset('preview_template', $page_url);
         }
@@ -153,22 +163,11 @@ class Controller {
             // $l->content = $content;
             // $l->set($l);
             $l = $l->__toString();
+
+            // d($l);
+            //exit();
+
             $l = parse_micrwober_tags($l, $options = false);
-            if ($is_editmode == true) {
-                $is_admin = is_admin();
-                if ($is_admin == true) {
-
-                    $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
-
-                    $layout_toolbar = new View($tb);
-                    $layout_toolbar = $layout_toolbar->__toString();
-
-                    if ($layout_toolbar != '') {
-                        $l = str_ireplace('</head>', $layout_toolbar . '</head>', $l);
-                    }
-                }
-            }
-
             $apijs_loaded = site_url('apijs');
 
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
@@ -180,19 +179,40 @@ class Controller {
 
                 $l = str_ireplace('</head>', $default_css . '</head>', $l);
             }
+            if ($is_editmode == true and $this->isolate_by_html_id == false) {
+                $is_admin = is_admin();
+                if ($is_admin == true) {
+
+                    $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
+
+                    $layout_toolbar = new View($tb);
+                    $layout_toolbar = $layout_toolbar->__toString();
+                    if ($layout_toolbar != '') {
+                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
+
+                        $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
+                    }
+                }
+            }
+
+
 
             $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
             $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 
             // d(TEMPLATE_URL);
 
-            $l = parse_micrwober_tags($l, $options = false);
+
 
             $l = execute_document_ready($l);
 
 
 
+            $is_embed = url_param('embed');
 
+            if ($is_embed != false) {
+                $this->isolate_by_html_id = $is_embed;
+            }
 
 
 
@@ -200,7 +220,7 @@ class Controller {
             if ($this->isolate_by_html_id != false) {
 
                 $id_sel = $this->isolate_by_html_id;
-
+                $this->isolate_by_html_id = false;
                 require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $pq = phpQuery::newDocument($l);
@@ -213,12 +233,25 @@ class Controller {
                 // return $pq->htmlOuter();
             }
 
-
+            if (!headers_sent()) {
+                setcookie('last_page', $page_url);
+            }
 
 
 
 
             print $l;
+
+            if (isset($_GET['test_cookie'])) {
+                debug_info();
+                $is_admin = is_admin();
+                if ($is_admin == true) {
+
+                }
+            }
+
+            // print (round(microtime()-T,5)*1000);
+//
             exit();
         } else {
 
@@ -282,6 +315,16 @@ class Controller {
     }
 
     function admin() {
+
+        $recycle_bin_f = CACHEDIR . 'db' . DS . 'recycle_bin_clear_' . date("Ymd") . '.php';
+        if (!is_file($recycle_bin_f)) {
+            cache_clear_recycle();
+            @touch($recycle_bin_f);
+        }
+
+
+
+
         create_mw_default_options();
         define_constants();
         $l = new View(ADMIN_VIEWS_PATH . 'admin.php');

@@ -641,16 +641,16 @@ mw.drag = {
 			mw.settings.row_id = $el_id;
 		}
 		$(".mw-layout-edit-curent-row-element").html($el_id);
-		$exisintg_num = $('#' + $el_id).children(".column").size();
+		$exisintg_num = mw.$('#' + $el_id).children(".column").size();
 		text = mw.settings.sorthandle_row_columns_controlls
 		if (text != undefined) {
 			text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".columns_set").html(text);
+			mw.$('#' + $el_id).children("div:first").find(".columns_set").html(text);
 		}
 		text1 = mw.settings.sorthandle_row_delete
 		if (text1 != undefined) {
 			text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-			$('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
+			mw.$('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
 
 		}
 		$(".mw-make-cols", '#' + $el_id).removeClass('active');
@@ -682,7 +682,7 @@ mw.drag = {
 
 
 		if (mw.isDrag == false) {
-			$('.row', '.edit').each(function (index) {
+			mw.$('.row', '.edit').each(function (index) {
 				var has = $(this).children("div:first").hasClass("mw-sorthandle-row");
 				if (!has) {
 					$(this).prepend(mw.settings.sorthandle_row);
@@ -695,7 +695,7 @@ mw.drag = {
 				mw.drag.init_row_handles($el_id);
 			});
 
-			$('.element:not(.empty-element)', '.edit').each(function (index) {
+			mw.$('.element:not(.empty-element)', '.edit').each(function (index) {
 				$el_id = $(this).attr('id');
 				if ($el_id == undefined || $el_id == 'undefined') {
 					$el_id = 'mw-element-' + mw.random();
@@ -721,14 +721,14 @@ mw.drag = {
 			})
 
 
-			$('.mw-sorthandle-main-level', '.edit').removeClass('mw-sorthandle-main-level');
-			$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
-			$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
-			$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
-			$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
-			$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
-			$('.element').find('img').addClass('mw-sorthandle-img-in-element');
-			$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
+			mw.$('.mw-sorthandle-main-level', '.edit').removeClass('mw-sorthandle-main-level');
+			mw.$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
+			mw.$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
+			mw.$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
+			mw.$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
+			mw.$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
+			mw.$('.element').find('img').addClass('mw-sorthandle-img-in-element');
+			mw.$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
 
 
 
@@ -749,7 +749,7 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
-		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
+		mw.$('*[contenteditable]', '.edit').removeAttr("contenteditable");
  
 	},
 
@@ -827,7 +827,7 @@ mw.drag = {
    * @method mw.drag.module_settings()
    */
   module_settings: function($module_id) {
-    $module = $('#' + $module_id);
+    $module = mw.$('#' + $module_id);
     var attributes = {};
     $.each($module[0].attributes, function(index, attr) {
       attributes[attr.name] = attr.value;
@@ -890,7 +890,7 @@ mw.drag = {
       }
       //	alert($el_id);
       $($el_id).remove();
-      $('#' + $el_id).remove();
+      mw.$('#' + $el_id).remove();
 		mw.drag.fix_placeholders(true);
     }
   },
@@ -912,10 +912,10 @@ mw.drag = {
     $(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
     $(".mw-sorthandle", '.edit').remove();
-    $('.ui-resizable-handle', '.edit').remove();
-    $('.ui-draggable', '.edit').removeClass("ui-draggable");
-    $('.ui-resizable', '.edit').removeClass("ui-resizable");
-    $('.column', '.edit').removeClass("selected");
+    mw.$('.ui-resizable-handle', '.edit').remove();
+    mw.$('.ui-draggable', '.edit').removeClass("ui-draggable");
+    mw.$('.ui-resizable', '.edit').removeClass("ui-resizable");
+    mw.$('.column', '.edit').removeClass("selected");
 
 
 
@@ -954,7 +954,7 @@ mw.drag = {
 
     var master = {};
 
-    $('.edit').each(function(j) {
+    mw.$('.edit').each(function(j) {
       j++;
       content = $(this).get(0).innerHTML;
       if (window.no_async == true) {
@@ -1037,7 +1037,7 @@ mw.resizable_columns = function () {
 
 
 
-	$('.edit').find('.column').each(function () {
+	mw.$('.edit').find('.column').each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1281,7 +1281,7 @@ mw.history = {
 		data.post_id = mw.settings.post_id;
 		data.category_id = mw.settings.category_id;
 		data.for_url = document.location.href;
-		$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
+		mw.$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
 	},
 
 	/**

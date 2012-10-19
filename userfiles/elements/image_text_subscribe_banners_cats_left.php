@@ -9,7 +9,15 @@
         </div>
     </div>
     <div class="column" style="width: 40%">
+    
+    
+    
+    
         <module type="newsletter" />
+        
+        
+        
+        
         <div class="row">
             <div class="column" style="width: 50%">
                 <img class="element element-image layout-img" style="margin-top: 0;" src="<?php print pixum(200,200); ?>" />

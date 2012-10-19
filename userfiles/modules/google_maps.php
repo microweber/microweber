@@ -1,5 +1,7 @@
 <? 
-
+if($params['type'] != 'google_maps'){
+return;	
+}
 $address = false;
 if (isset($params['data-address'])) {
   

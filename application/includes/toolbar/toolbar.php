@@ -1,14 +1,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>*/ ?>
-<script src="<?php   print( SITE_URL);  ?>apijs" type="text/javascript"></script>
+<?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>
+<script src="<?php   print( SITE_URL);  ?>apijs" type="text/javascript"></script>*/ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+<?php /*  */ ?>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
+<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script type="text/javascript">
 
@@ -16,10 +17,10 @@
 
         $(document).ready(function () {
 
-           mw.drag.create();
+         // mw.drag.create();
 
 
-            mw.history.init();
+           // mw.history.init();
             mw.tools.module_slider.init();
             mw.tools.dropdown();
 
@@ -84,7 +85,7 @@
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
         style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
-        <span class="mw_editor_btnz ed_btn" onclick="$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
+        <span class="mw_editor_btnz ed_btn" onclick="mw.$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
         style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
@@ -94,8 +95,8 @@
   <!-- /end .mw --> 
 </div>
 <!-- /end mw_holder --> 
-<span class="mw_editor_btnz" onclick="$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
+<span class="mw_editor_btnz" onclick="mw.$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
-<?php include "design.php"; ?>
+<?php   include "design.php"; ?>
 
 

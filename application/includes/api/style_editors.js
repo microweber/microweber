@@ -35,7 +35,7 @@ var t = mwd.body.style;
     else{
        var property = property.charAt(0).toUpperCase() + property.slice(1);
        for(var i=0;i<mw._JSPrefixes.length;i++){
-         if(_Prefixtest[mw._JSPrefixes[i]+property] !==undefined){
+         if(_Prefixtest[mw._JSPrefixes[i]+property] !== undefined){
             return mw._JSPrefixes[i]+property;
          }
        }
@@ -369,6 +369,8 @@ mw.setCurrentStyles = function(el){
 
 $(document).ready(function(){
 
+
+
 $("#design_bnav").draggable({
   handle:"#design_bnav_handle",
   containment:'window',
@@ -385,10 +387,18 @@ $("#design_bnav").draggable({
 
 
 $(window).bind("onItemClick onImageClick onElementClick", function(e, el){
+
+if($(".ts_action:isVisible").length==0){
+
   $(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
   mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
+
+
+
+
+
   $(".es_item").trigger("change");
 
   if(e.type=='onImageClick'){
@@ -409,12 +419,13 @@ $(window).bind("onItemClick onImageClick onElementClick", function(e, el){
 
   width_slider_onstart();
 
-
+ }
 });
 
 
 
 $(window).bind("onBodyClick", function(){
+  if($(".ts_action:isVisible").length==0){
     $(".element-current").removeClass("element-current");
     $(mwd.body).addClass("element-current");
     mw.current_element = mwd.body;
@@ -425,6 +436,7 @@ $(window).bind("onBodyClick", function(){
     $(".mw-designtype-element").show();
     $(".mw-designtype-image").hide();
     mw.setCurrentStyles(mwd.body);
+    }
 });
 
 
@@ -513,27 +525,27 @@ $(window).bind("onBodyClick", function(){
          var which = $(this).dataset("val");
          mw.border_which = which;
          if(which=='none'){
-           $('.element-current').css("border", "none");
+           mw.$('.element-current').css("border", "none");
          }
       }
     });
 
     $(".dd_border_selector").bind("change", function(){
-      $('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
+      mw.$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
     });
 
     $(".dd_borderwidth_Selector").bind("change", function(){
-      $('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
+      mw.$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
     });
 
 
 
 
     $("#ts_bg_repeat").bind("change", function(){
-       $('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
+       mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
     });
     $("#ts_bg_position").bind("change", function(){
-       $('.element-current').css('backgroundPosition', $(this).getDropdownValue())
+       mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue())
     });
 
 

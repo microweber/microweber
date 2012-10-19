@@ -2,6 +2,13 @@
 
 define("DB_IS_SQLITE", false);
 
+function db_escape_string($value) {
+    $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+    $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+
+    return str_replace($search, $replace, $value);
+}
+
 function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     $table = guess_table_name($table);
     $table_real = db_get_real_table_name($table);
@@ -28,14 +35,13 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     $q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
 
     $q = db_q($q);
-    cache_clean_group('taxonomy');
+    //  cache_clean_group('taxonomy');
 
     $q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
     //d($q);
     $q = db_q($q);
 
-    cache_clean_group('taxonomy_items');
-
+    //   cache_clean_group('taxonomy_items');
     //	d($q);
 }
 
@@ -161,7 +167,12 @@ function db_q($q, $connection_settigns = false) {
     if (MW_IS_INSTALLED == false) {
         //    return false;
     }
-    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $connection_settigns);
+    if ($connection_settigns == false) {
+        $db = c('db');
+    } else {
+        $db = $connection_settigns;
+    }
+    $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
     //    $db = c('db');
     //
 	//    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
@@ -177,25 +188,20 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     }
     $error['error'] = array();
     $results = false;
-    if (MW_IS_INSTALLED != false) {
-        if ($cache_id != false and $only_query == false) {
-            // $results =false;
-            $cache_id = $cache_id . crc32($q);
-            $results = cache_get_content($cache_id, $cache_group);
-            if ($results != false) {
-                if ($results == '---empty---') {
-                    return false;
-                } else {
-                    return $results;
-                }
+    // if (MW_IS_INSTALLED != false) {
+    if ($cache_id != false and $only_query == false) {
+        // $results =false;
+        $cache_id = $cache_id . crc32($q);
+        $results = cache_get_content($cache_id, $cache_group);
+        if ($results != false) {
+            if ($results == '---empty---') {
+                return false;
+            } else {
+                return $results;
             }
         }
     }
-
-    if (MW_IS_INSTALLED == false) {
-        //return false;
-    }
-    //d($q);
+    // }
     db_query_log($q);
     if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
         $db = $connection_settigns;
@@ -244,6 +250,8 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         $query = $q;
         $result = mysql_query($query);
         if (!$result) {
+
+
             $error['error'][] = 'Query failed: ' . mysql_error();
             return $error;
         }
@@ -270,6 +278,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 
         // Closing connection
         mysql_close($link);
+        $result = null;
     }
 
     if ($only_query != false) {
@@ -281,23 +290,25 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     //  $q = $db->get($q);
     // d($q);
     //  unset($db);
-    if (MW_IS_INSTALLED != false) {
-        if (empty($q)) {
-            if ($cache_id != false) {
-
-                cache_store_data('---empty---', $cache_id, $cache_group);
-            }
-            return false;
-        }
-        $result = $q;
+    // if (MW_IS_INSTALLED != false) {
+    if (empty($q) or $q == false) {
         if ($cache_id != false) {
-            if (!empty($result)) {
-                cache_store_data($result, $cache_id, $cache_group);
-            } else {
-                cache_store_data('---empty---', $cache_id, $cache_group);
-            }
+
+
+            cache_store_data('---empty---', $cache_id, $cache_group);
+        }
+        return false;
+    }
+    // $result = $q;
+    if ($cache_id != false) {
+        if (isarr($q)) {
+
+            cache_save($q, $cache_id, $cache_group);
+        } else {
+            cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
+    // }
     return $q;
 
     $results = array();
@@ -323,7 +334,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         if (!empty($result)) {
             //    cache_store_data($result, $cache_id, $cache_group);
         } else {
-            //   cache_store_data('---empty---', $cache_id, $cache_group);
+            cache_store_data('---empty---', $cache_id, $cache_group);
         }
     }
     print '0000000000000000000000000000000---------------------';
@@ -834,7 +845,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (isset($criteria['orderby'])) {
         $orderby = $criteria['orderby'];
         if (is_string($orderby)) {
-            $orderby = mysql_real_escape_string($orderby);
+            $orderby = db_escape_string($orderby);
         }
     }
 
@@ -879,8 +890,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
         $original_cache_id = $cache_id;
 
-        $cache_content = cache_get_content($original_cache_id, $original_cache_group);
-
+        //  $cache_content = cache_get_content($original_cache_id, $original_cache_group);
+        $cache_content = false;
         if (($cache_content) != false) {
 
             if ($cache_content == '---empty---') {
@@ -949,7 +960,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                 }
 
                 $flds = implode(',', $flds1);
-                $flds = mysql_real_escape_string($flds);
+                $flds = db_escape_string($flds);
 
                 $q = "SELECT $flds FROM $table ";
             } else {
@@ -1140,7 +1151,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         var_dump($table, $q);
     }
 
-    $result = db_query($q);
+    $result = db_query($q, $original_cache_id, $original_cache_group);
     if ($count_only == true) {
 
         // var_dump ( $result );
@@ -1178,6 +1189,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     // var_dump($result);
     if ($count_only == true) {
 
+
         $ret = $result[0]['qty'];
 
         return $ret;
@@ -1197,15 +1209,15 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     }
     if ($cache_group != false) {
 
-        if (!empty($return)) {
+        if (is_arr($return)) {
 
-            cache_store_data($return, $original_cache_id, $original_cache_group);
+            //  cache_store_data($return, $original_cache_id, $original_cache_group);
         } else {
 
-            cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+            //   cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
-    //   var_dump ( $return );
+    //
     return $return;
 }
 
@@ -1284,6 +1296,15 @@ function db_get_real_table_name($assoc_name) {
  * @since Version 1.0
  */
 function map_array_to_database_table($table, $array) {
+
+    static $arr_maps = array();
+
+
+    $arr_key = crc32($table) + crc32(serialize($array));
+    if (isset($arr_maps[$arr_key])) {
+        return $arr_maps[$arr_key];
+    }
+
     if (empty($array)) {
 
         return false;
@@ -1310,8 +1331,11 @@ function map_array_to_database_table($table, $array) {
             }
         }
     }
+
     if (!isset($array_to_return)) {
         return false;
+    } else {
+        $arr_maps[$arr_key] = $array_to_return;
     }
     return $array_to_return;
 }

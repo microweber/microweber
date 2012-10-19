@@ -24,6 +24,24 @@
  */
 function category_tree($params = false) {
 
+
+    $function_cache_id = false;
+    $args = func_get_args();
+    foreach ($args as $k => $v) {
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'taxonomy/global';
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+        print $cache_content;
+        return;
+        //  return $cache_content;
+    }
+
+
     $p2 = array();
     // p($params);
     if (!is_array($params)) {
@@ -157,16 +175,38 @@ function category_tree($params = false) {
     }
 
 
+
+
+
+    ob_start();
+
+
+
+
+
+    //  cache_store_data($fields, $function_cache_id, $cache_group = 'db');
+
+
     if ($skip123 == false) {
 
         content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter);
     } else {
+
+
+
         if ($fors != false and is_array($fors) and !empty($fors)) {
             foreach ($fors as $cat) {
                 content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter);
             }
         }
     }
+
+    $content = ob_get_contents();
+    cache_store_data($content, $function_cache_id, $cache_group);
+
+    ob_end_clean();
+    print $content;
+    return;
 }
 
 /**
@@ -275,6 +315,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
     $output = '';
     $children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
     //
+    //d($sql);
     $q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5($sql), 'taxonomy/' . intval($parent));
     // $q = $this->core_model->dbQuery ( $sql, $cache_id =
     // 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
@@ -739,7 +780,7 @@ function save_category($data, $preserve_cache = false) {
         $no_position_fix = true;
     }
 
-    p($data);
+    //  p($data);
     $save = save_data($table, $data);
 
     cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $save);

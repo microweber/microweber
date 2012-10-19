@@ -144,7 +144,7 @@
   * ============== */
 
   $(function () {
-    $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
+    mw.$('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
   })
 
 }(window.jQuery);/* ============================================================
@@ -235,7 +235,7 @@
   * =============== */
 
   $(function () {
-    $('body').on('click.button.data-api', '[data-toggle^=button]', function ( e ) {
+    mw.$('body').on('click.button.data-api', '[data-toggle^=button]', function ( e ) {
       var $btn = $(e.target)
       if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
       $btn.button('toggle')
@@ -401,7 +401,7 @@
   * ================= */
 
   $(function () {
-    $('body').on('click.carousel.data-api', '[data-slide]', function ( e ) {
+    mw.$('body').on('click.carousel.data-api', '[data-slide]', function ( e ) {
       var $this = $(this), href
         , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
         , options = !$target.data('modal') && $.extend({}, $target.data(), $this.data())
@@ -556,7 +556,7 @@
   * ==================== */
 
   $(function () {
-    $('body').on('click.collapse.data-api', '[data-toggle=collapse]', function ( e ) {
+    mw.$('body').on('click.collapse.data-api', '[data-toggle=collapse]', function ( e ) {
       var $this = $(this), href
         , target = $this.attr('data-target')
           || e.preventDefault()
@@ -597,7 +597,7 @@
   var toggle = '[data-toggle="dropdown"]'
     , Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        mw.$('html').on('click.dropdown.data-api', function () {
           $el.parent().removeClass('open')
         })
       }
@@ -659,8 +659,8 @@
    * =================================== */
 
   $(function () {
-    $('html').on('click.dropdown.data-api', clearMenus)
-    $('body')
+    mw.$('html').on('click.dropdown.data-api', clearMenus)
+    mw.$('body')
       .on('click.dropdown', '.dropdown form', function (e) { e.stopPropagation() })
       .on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
   })
@@ -715,7 +715,7 @@
 
         if (this.isShown || e.isDefaultPrevented()) return
 
-        $('body').addClass('modal-open')
+        mw.$('body').addClass('modal-open')
 
         this.isShown = true
 
@@ -756,7 +756,7 @@
 
         this.isShown = false
 
-        $('body').removeClass('modal-open')
+        mw.$('body').removeClass('modal-open')
 
         escape.call(this)
 
@@ -801,7 +801,7 @@
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
-      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+      this.$backdrop = mw.$('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(document.body)
 
       if (this.options.backdrop != 'static') {
@@ -872,7 +872,7 @@
   * ============== */
 
   $(function () {
-    $('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
+    mw.$('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
       var $this = $(this), href
         , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
         , option = $target.data('modal') ? 'toggle' : $.extend({}, $target.data(), $this.data())
@@ -1291,7 +1291,7 @@
     this.selector = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
       || '') + ' .nav li > a'
-    this.$body = $('body')
+    this.$body = mw.$('body')
     this.refresh()
     this.process()
   }
@@ -1398,7 +1398,7 @@
   * ================== */
 
   $(function () {
-    $('[data-spy="scroll"]').each(function () {
+    mw.$('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
       $spy.scrollspy($spy.data())
     })
@@ -1532,7 +1532,7 @@
   * ============ */
 
   $(function () {
-    $('body').on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
+    mw.$('body').on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
       e.preventDefault()
       $(this).tab('show')
     })
@@ -1814,7 +1814,7 @@
   * ================== */
 
   $(function () {
-    $('body').on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
+    mw.$('body').on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
       var $this = $(this)
       if ($this.data('typeahead')) return
       e.preventDefault()

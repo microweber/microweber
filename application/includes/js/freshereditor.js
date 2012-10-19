@@ -58,30 +58,30 @@ Improvments by Quan Nguyen (github.com/mquan):
 			});
 		},
 		fontname: function() {
-			var pos = $('.toolbar_fontname').offset();
-			var height = $('.toolbar_fontname').height() + 5;
-			$('#fontname-select').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
-			$('#fontname-select').toggle();
+			var pos = mw.$('.toolbar_fontname').offset();
+			var height = mw.$('.toolbar_fontname').height() + 5;
+			mw.$('#fontname-select').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
+			mw.$('#fontname-select').toggle();
 		},
 		FontSize: function() {			
-			var pos = $('.toolbar_fontsize').offset();
-			var height = $('.toolbar_fontsize').height() + 5;
-			$('#fontsize-select').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
-			$('#fontsize-select').toggle();
+			var pos = mw.$('.toolbar_fontsize').offset();
+			var height = mw.$('.toolbar_fontsize').height() + 5;
+			mw.$('#fontsize-select').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
+			mw.$('#fontsize-select').toggle();
 		},
 		forecolor: function() {
 			bgcolorpicker = false;
-			var pos = $('.toolbar_forecolor').offset();
-			var height = $('.toolbar_forecolor').height() + 5;
-			$('#colorpanel').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
-			$('#colorpanel').show();
+			var pos = mw.$('.toolbar_forecolor').offset();
+			var height = mw.$('.toolbar_forecolor').height() + 5;
+			mw.$('#colorpanel').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
+			mw.$('#colorpanel').show();
 		},
 		backcolor: function() {
 			bgcolorpicker = true;
-			var pos = $('.toolbar_bgcolor').offset();
-			var height = $('.toolbar_bgcolor').height() + 5;
-			$('#colorpanel').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
-			$('#colorpanel').show();
+			var pos = mw.$('.toolbar_bgcolor').offset();
+			var height = mw.$('.toolbar_bgcolor').height() + 5;
+			mw.$('#colorpanel').css({"left": (pos.left - $(document).scrollLeft()) + 'px', "top": (pos.top + height - $(document).scrollTop()) + 'px'});
+			mw.$('#colorpanel').show();
 		},
 		createlink: function () { /* This can be improved */
 			var urlPrompt = prompt("Enter URL:", "http://");
@@ -104,25 +104,25 @@ Improvments by Quan Nguyen (github.com/mquan):
 			}
 			else { //prepend toolbar if not specified
 				$(this).before("<div id='editor-toolbar'></div>");
-				$toolbar = $('#editor-toolbar');
+				$toolbar = mw.$('#editor-toolbar');
 			}
 			$toolbar.addClass('fresheditor-toolbar');
 			
 			//add color picker panel
 			$toolbar.append("<div id='colorpanel'><input type='text' id='colorinput' value='#000000' /><div id='colorpicker'></div></div>");
-			$('#colorpanel').hide(); 
-			$('#colorpicker').farbtastic(function (color) {
-				$('#colorinput').val(color);
+			mw.$('#colorpanel').hide(); 
+			mw.$('#colorpicker').farbtastic(function (color) {
+				mw.$('#colorinput').val(color);
 				if(bgcolorpicker) {
 					document.execCommand("backcolor", false, color);
-					$('.toolbar_bgcolor div').css({"background-color": color});
+					mw.$('.toolbar_bgcolor div').css({"background-color": color});
 				} else {
 					document.execCommand("forecolor", false, color);
-					$('.toolbar_forecolor').css({"color": color});
+					mw.$('.toolbar_forecolor').css({"color": color});
 				}
 			});
 			var mouse_on_colorpicker = false;
-			$('#colorpanel').hover(
+			mw.$('#colorpanel').hover(
 				function() {
 					mouse_on_colorpicker = true;
 				},
@@ -135,17 +135,17 @@ Improvments by Quan Nguyen (github.com/mquan):
 			fontnames = ["Arial", "Arial Black", "Book Antiqua", "Comic Sans MS", "Courier New", "Georgia", "Helvetica",
 						"Impact", "Symbol", "Tahoma", "Terminal", "Times New Roman", "Trebuchet MS", "Verdana", "Webdings", "Windings"];
 			$toolbar.append("<div id='fontname-select'><div style='background-color:#ddd;'>Font Name</div></div>");
-			$('#fontname-select').hide();
+			mw.$('#fontname-select').hide();
 			$.each(fontnames, function(index, font) {
-				$('#fontname-select').append("<a href='#' class='font-option fontname-option' style='font-family:" + font + ";'>" + font + "</a>")
+				mw.$('#fontname-select').append("<a href='#' class='font-option fontname-option' style='font-family:" + font + ";'>" + font + "</a>")
 			});			
-			$('.fontname-option').click(function() {
+			mw.$('.fontname-option').click(function() {
 				document.execCommand("fontname", false, $(this).text());
-				$('#fontname-select').hide();
+				mw.$('#fontname-select').hide();
 				return false;
 			});
 			var mouse_on_fontname=false;
-			$('.fontname-option').hover(
+			mw.$('.fontname-option').hover(
 				function() {
 					$(this).css({"background-color": '#a7d6fb'});
 					mouse_on_fontname = true;
@@ -160,19 +160,19 @@ Improvments by Quan Nguyen (github.com/mquan):
 			fontsizes = [{size: 1, point: 8}, {size:2, point:10}, {size:3, point:12}, {size:4, point:14},
 						 {size:5, point:18}, {size:6, point:24}, {size:7, point:36}];
 			$toolbar.append("<div id='fontsize-select'><div style='background-color:#ddd;'>Font Size</div></div>");
-			$('#fontsize-select').hide();
+			mw.$('#fontsize-select').hide();
 			$.each(fontsizes, function (index, fontsize) {
-				$('#fontsize-select', $toolbar).append("<a href='#' class='font-option fontsize-option' style='font-size:" + 
+				mw.$('#fontsize-select', $toolbar).append("<a href='#' class='font-option fontsize-option' style='font-size:" + 
 							fontsize.point + "px;' fontsize='" + fontsize.size + "'>" +fontsize.size +  " (" + fontsize.point + "pt)</a>");
 			});
 
-			$('a.fontsize-option').click(function() {
+			mw.$('a.fontsize-option').click(function() {
 				document.execCommand("FontSize", false, $(this).attr('fontsize'));
-				$('#fontsize-select').hide();
+				mw.$('#fontsize-select').hide();
 				return false;
 			});
 			var mouse_on_fontsize=false;
-			$('.fontsize-option').hover(
+			mw.$('.fontsize-option').hover(
 				function() {
 					$(this).css({"background-color": '#a7d6fb'});
 					mouse_on_fontsize = true;
@@ -187,13 +187,13 @@ Improvments by Quan Nguyen (github.com/mquan):
 			$("body").click(function(event) {
 				var target = event.target;
 				if(!mouse_on_colorpicker) {
-					$('#colorpanel').hide();
+					mw.$('#colorpanel').hide();
 				}
 				if(!mouse_on_fontname) {
-					$('#fontname-select').hide();
+					mw.$('#fontname-select').hide();
 				}
 				if(!mouse_on_fontsize) {
-					$('#fontsize-select').hide();
+					mw.$('#fontsize-select').hide();
 				}
 			});
 
@@ -266,9 +266,9 @@ Improvments by Quan Nguyen (github.com/mquan):
 			//one common click event for all command buttons
 			$("a.toolbar-cmd").click(function() { 
 				//first close userinput panels b/c this click event won't be propagated to body's click
-				$('#colorpanel').hide();
-				$('#fontname-select').hide();
-				$('#fontsize-select').hide();
+				mw.$('#colorpanel').hide();
+				mw.$('#fontname-select').hide();
+				mw.$('#fontsize-select').hide();
 				
 				var cmd = $(this).attr('command');
 				if($(this).attr('userinput') === 'yes') {
@@ -359,7 +359,7 @@ Improvments by Quan Nguyen (github.com/mquan):
 			return this.each(function () {
 
 				var $this = $(this), data = $this.data('fresheditor'),
-					tooltip = $('<div />', {
+					tooltip = mw.$('<div />', {
 						text: $this.attr('title')
 					});
 

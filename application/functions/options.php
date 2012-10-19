@@ -4,7 +4,7 @@ function create_mw_default_options() {
 
     $function_cache_id = __FUNCTION__;
 
-    $cache_content = cache_get_content($function_cache_id, $cache_group = 'options');
+    $cache_content = cache_get_content($function_cache_id, $cache_group = 'db');
     if (($cache_content) == '--true--') {
         return true;
     }
@@ -42,18 +42,24 @@ function create_mw_default_options() {
     $data['position'] = '3';
 
     $datas[] = $data;
-
+    $changes = false;
     foreach ($datas as $value) {
-        set_default_option($value);
+        $ch = set_default_option($value);
+        if ($ch == true) {
+            $changes = true;
+        }
     }
-
-    cache_store_data('--true--', $function_cache_id, $cache_group = 'options');
+    if ($changes == true) {
+        //var_dump($changes);
+        cache_clean_group('options/global');
+    }
+    cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
 
     return true;
 }
 
 function set_default_option($data) {
-
+    $changes = false;
     if (is_array($data)) {
         if (!isset($data['option_group'])) {
             $data['option_group'] = 'other';
@@ -68,6 +74,7 @@ function set_default_option($data) {
     } else {
         error('set_default_option $data param must be array');
     }
+    return $changes;
 }
 
 function option_get($key, $option_group = false, $return_full = false, $orderby = false) {
@@ -82,7 +89,7 @@ function get_option_groups() {
     $q = "select option_group from $table where module IS NULL and option_group IS NOT NULL group by option_group order by position ASC ";
     $function_cache_id = __FUNCTION__ . crc32($q);
     $res1 = false;
-    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options');
+    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
     if (is_array($res) and !empty($res)) {
         $res1 = array();
         foreach ($res as $item) {
@@ -105,85 +112,91 @@ function get_options($params = '') {
         extract($params);
     }
 
-//d($params);
+
     $data = $params;
     $table = c('db_tables');
     $table = $table['table_options'];
     //  $data['debug'] = 1000;
     $data['limit'] = 1000;
-    $get = db_get($table, $data, $cache_group = 'options');
+    $get = db_get($table, $data, $cache_group = 'options/global');
     return $get;
 }
 
-function get_option($key, $option_group = false, $return_full = false, $orderby = false) {
+function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
+
+//d($key);
     $function_cache_id = false;
-
     $args = func_get_args();
-
     foreach ($args as $k => $v) {
-
         $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
     }
-
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_content = cache_get_content($function_cache_id, $cache_group = 'options');
-    if (($cache_content) == '--false--') {
-        return false;
+
+    $table = c('db_tables');
+    // ->'table_options';
+    $table = $table['table_options'];
+
+    if ($orderby == false) {
+
+        $orderby[0] = 'position';
+
+        $orderby[1] = 'ASC';
     }
-    // $cache_content = false;
-    if (($cache_content) != false) {
 
-        return $cache_content;
+    $data = array();
+    //   $data ['debug'] = 1;
+    if (is_array($key)) {
+        $data = $key;
     } else {
+        $data['option_key'] = $key;
+    }
+    $cache_group = 'options/global/' . $function_cache_id;
+    $ok1 = '';
+    $ok2 = '';
+    if ($option_group != false) {
+        $option_group = db_escape_string($option_group);
+        $ok1 = " AND option_group='{$option_group}' ";
+    }
 
-        $table = c('db_tables');
-        // ->'table_options';
-        $table = $table['table_options'];
 
-        if ($orderby == false) {
+    if ($module != false) {
+        $module = db_escape_string($module);
+        $data['module'] = $module;
+        $ok1 = " AND module='{$module}' ";
+    }
+    $data['limit'] = 1;
+    // $get = db_get($table, $data, $cache_group);
+    $ok = db_escape_string($data['option_key']);
 
-            $orderby[0] = 'position';
+    $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
+    $function_cache_id = __FUNCTION__ . crc32($q . $function_cache_id);
+    //
+    $cache_group = 'options/global';
+    $get = db_query($q, $function_cache_id, $cache_group);
+//d($get);
 
-            $orderby[1] = 'ASC';
-        }
+    if (!empty($get)) {
 
-        $data = array();
-        // $data ['debug'] = 1;
-        if (is_array($key)) {
-            $data = $key;
+        if ($return_full == false) {
+
+            $get = $get[0]['option_value'];
+
+
+
+            return $get;
         } else {
-            $data['option_key'] = $key;
+
+            $get = $get[0];
+
+
+
+            return $get;
         }
+    } else {
+        cache_store_data('--false--', $function_cache_id, $cache_group);
 
-        if ($option_group != false) {
-            $data['option_group'] = $option_group;
-        }
-        $data['limit'] = 1;
-        $get = db_get($table, $data, $cache_group = 'options');
-
-        if (!empty($get)) {
-
-            if ($return_full == false) {
-
-                $get = $get[0]['option_value'];
-
-                cache_store_data($get, $function_cache_id, $cache_group = 'options');
-
-                return $get;
-            } else {
-
-                $get = $get[0];
-
-                cache_store_data($get, $function_cache_id, $cache_group = 'options');
-
-                return $get;
-            }
-        } else {
-            cache_store_data('--false--', $function_cache_id, $cache_group = 'options');
-
-            return FALSE;
-        }
+        return FALSE;
     }
 }
 
@@ -197,9 +210,11 @@ function save_option($data) {
         //error('Error: not logged in as admin.');
     }
     // p($_POST);
+    $option_group = false;
     if ($data) {
         if (!isset($data['id']) or intval($data['id']) == 0) {
             if ($data['option_key'] and $data['option_group']) {
+                $option_group = $data['option_group'];
                 delete_option_by_key($data['option_key'], $data['option_group']);
             }
         }
@@ -211,21 +226,58 @@ function save_option($data) {
 
             // $data ['debug'] = 1;
             $save = save_data($table, $data);
-            cache_clean_group('options');
+
+
+//            if ($option_group != false) {
+//
+//                $cache_group = 'options/' . $option_group;
+//                cache_clean_group($cache_group);
+//            }
+//
+//            if (isset($data['id'])) {
+//                $cache_group = 'options/' . $data['id'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['module'])) {
+//                $cache_group = 'options/' . $data['module'];
+//                cache_clean_group($cache_group);
+//            }
+//
+//
+//            if (isset($data['data-option-group'])) {
+//                $cache_group = 'options/' . $data['data-option-group'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['option-group'])) {
+//                $cache_group = 'options/' . $data['option-group'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['data-module'])) {
+//                $cache_group = 'options/' . $data['data-module'];
+//                cache_clean_group($cache_group);
+//            }
+//            if (isset($data['option_key'])) {
+//                $cache_group = 'options/' . $data['option_key'];
+//                cache_clean_group($cache_group);
+//            }
+
+
+            cache_clean_group('options/global');
+
             return $save;
         }
     }
 }
 
 function delete_option_by_key($key, $option_group = false) {
-    $key = mysql_real_escape_string($key);
+    $key = db_escape_string($key);
     $cms_db_tables = c('db_tables');
 
     $table = $cms_db_tables['table_options'];
 
     cache_clean_group('options');
     if ($option_group != false) {
-        $option_group = mysql_real_escape_string($option_group);
+        $option_group = db_escape_string($option_group);
         $option_group_q1 = "and option_group='{$option_group}'";
     }
     // $save = $this->saveData ( $table, $data );

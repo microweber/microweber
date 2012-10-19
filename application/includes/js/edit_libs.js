@@ -66,7 +66,7 @@
 			var last_col = $(this).children('.column:last-child');
 	        var parent_row = $(this);
 
-			 // $('.also-resize').removeClass('also-resize');
+			 // mw.$('.also-resize').removeClass('also-resize');
 			// last_col.addClass('also-resize');
 
 				if (child_count == 1) {

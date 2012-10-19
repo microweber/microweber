@@ -86,12 +86,12 @@
   border-left-color: #c6c6c6;
   border-right-color: #c6c6c6;
   border-bottom-color: #b2b2b2;
-  background: url(/1k/application/includes/img/grad.php?top=ffffff&bot=e9e9e9);
+  background: url(<? print INCLUDES_URL ?>img/grad.php?top=ffffff&bot=e9e9e9);
   border-radius:3px;
 }
 .mw-newsletter-default input[type='submit']:hover,
 .mw-newsletter-default input[type='submit']:focus{
-  background: url(/1k/application/includes/img/grad.php?top=e9e9e9&bot=ffffff);
+  background: url(<? print INCLUDES_URL ?>img/grad.php?top=e9e9e9&bot=ffffff);
 }
 .mw-newsletter-default input[type='submit']:active{
   box-shadow:inset 0 0 4px #5D5D5D;
@@ -101,7 +101,7 @@
 
 <script type="text/javascript">
 
-
+/*
 $(".mw-newsletter-default input[type='text']").focus(function(){
   var val = $(this).val();
   var label = this.parentNode.getElementsByTagName('label')[0];
@@ -124,15 +124,34 @@ $(".mw-newsletter-default input[type='text']").keydown(function(){
     label.className = 'semi_hidden';
   }
 });
-
+*/
 
 </script>
 
 
-<div class="module mw-reset mw-newsletter mw-newsletter-default" contenteditable="false">
+<div class="mw-reset mw-newsletter mw-newsletter-default">
   <div class="mw-newsletter-content">
-      <h3>Subscribe for our Newsletter</h3>
-      <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
+  
+  <? //  d($params);?>
+  
+<div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+ <h3>Subscribe for our Newsletter</h3>
+</div>
+  
+<div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+ <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
+</div>
+<div>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+<p>NOT editable     </p>
+</div>
+  
+      
+     
       <form method="post" action="#">
           <div class="mw-field">
             <label for="mw-newsletter-name"><?php _e("Your Name"); ?></label>
