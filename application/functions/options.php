@@ -166,13 +166,13 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $ok1 = " AND module='{$module}' ";
     }
     $data['limit'] = 1;
-     $get = db_get($table, $data, $cache_group);
+    // $get = db_get($table, $data, $cache_group);
     $ok = db_escape_string($data['option_key']);
 
     $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
     $function_cache_id = __FUNCTION__ . crc32($q . $function_cache_id);
- //d($q);
-    //$get = db_query($q, $function_cache_id, $cache_group = 'options/global');
+    //d($q);
+    $get = db_query($q, $function_cache_id, $cache_group = 'options/global');
 
 
     if (!empty($get)) {
@@ -261,7 +261,7 @@ function save_option($data) {
 //            }
 
 
-
+            cache_clean_group('options/global');
 
             return $save;
         }

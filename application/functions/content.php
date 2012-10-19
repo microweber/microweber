@@ -131,6 +131,19 @@ function define_constants($content = false) {
 
 function get_layout_for_page($page = array()) {
     $render_file = false;
+    $look_for_post = false;
+    if (isset($page['content_type']) and $page['content_type'] == 'post') {
+        $look_for_post = $page;
+        if (isset($page['parent'])) {
+
+            $par_page = get_content_by_id($page['parent']);
+            if (isarr($par_page)) {
+                $page = $par_page;
+            }
+        }
+    }
+
+
 
     if (isset($page['simply_a_file'])) {
 
@@ -141,14 +154,63 @@ function get_layout_for_page($page = array()) {
 
     if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
 
-        if (strtolower($page['active_site_template']) == 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
-        } else {
-            $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+
+        if ($look_for_post != false) {
+            $f1 = $page['layout_file'];
+            $stringA = $f1;
+            $stringB = "_inner";
+            $length = strlen($stringA);
+            $temp1 = substr($stringA, 0, $length - 4);
+            $temp2 = substr($stringA, $length - 4, $length);
+            $f1 = $temp1 . $stringB . $temp2;
+
+
+            if (strtolower($page['active_site_template']) == 'default') {
+                $template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
+            } else {
+                $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
+            }
+
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            } else {
+                $dn = dirname($template_view);
+                $dn1 = $dn . DS;
+                $f1 = $dn1 . 'inner.php';
+
+                if (is_file($f1) == true) {
+                    $render_file = $f1;
+                } else {
+                    $dn = dirname($dn);
+                    $dn1 = $dn . DS;
+                    $f1 = $dn1 . 'inner.php';
+
+                    if (is_file($f1) == true) {
+                        $render_file = $f1;
+                    } else {
+                        $dn = dirname($dn);
+                        $dn1 = $dn . DS;
+                        $f1 = $dn1 . 'inner.php';
+
+                        if (is_file($f1) == true) {
+                            $render_file = $f1;
+                        }
+                    }
+                }
+            }
         }
 
-        if (is_file($template_view) == true) {
-            $render_file = $template_view;
+
+        if ($render_file == false) {
+            if (strtolower($page['active_site_template']) == 'default') {
+                $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
+            } else {
+                $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+            }
+
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
         }
     }
 

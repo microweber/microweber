@@ -35,7 +35,7 @@ function parse_elem_callback($elem) {
         $option_mod = $elem->getAttr('type');
     }
 
-   // d($name);
+    // d($name);
 
     $get_global = false;
     //  $rel = 'page';
@@ -199,11 +199,14 @@ class MwDom extends DOMDocument {
  *
  */
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
+    static $checker = array();
 
 
-
-
-
+    $d = crc32($layout);
+    if (isset($checker[$d])) {
+        return $layout;
+    }
+    //d($d);
 
 
     if (!isset($options['parse_only_vars'])) {
@@ -308,7 +311,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                 break;
 
-              case 8:
+            case 8:
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
 
                 break;
@@ -615,7 +618,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
 
-
+    $checker[$d] = 1;
 
     return $layout;
     exit();

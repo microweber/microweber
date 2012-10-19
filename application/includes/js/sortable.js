@@ -136,6 +136,20 @@ $(document).ready(function(){
    });
 
 
+   $(window).bind("onDragHoverOnEmpty", function(e,el){
+     if($.browser.webkit){
+       var _el = $(el);
+       _el.addClass("hover");
+       if(!_el.hasClass("mw-webkit-drag-hover-binded")){
+          _el.addClass("mw-webkit-drag-hover-binded");
+          _el.mouseleave(function(){
+            _el.removeClass("hover");
+          });
+       }
+     }
+   });
+
+
 });
 
 mw.isDragItem = function(obj){
@@ -240,6 +254,19 @@ mw.drag = {
 
            }
            else{
+
+
+
+           if( mw.$mm_target.hasClass("empty-element")){
+            $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit bug
+           }
+           else if($(mw.mm_target.parentNode).hasClass("empty-element")){
+            $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
+           }
+
+
+
+
              if(   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")

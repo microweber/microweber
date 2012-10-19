@@ -63,21 +63,24 @@ mw.wysiwyg = {
         }
         else{   // IE browser
             mw.wysiwyg.removeEditable();
-            if(mw.tools.hasParentsWithClass(el, 'module')){
-                target.contentEditable = true;
-            }
-            else{
-                if(!mw.tools.hasParentsWithClass(target, "module")){
-                    if(mw.isDragItem(target)){
-                       target.contentEditable = true;
-                    }
-                    else{
-                       mw.tools.foreachParents(target, function(loop){
-                          if(mw.isDragItem(this)){
-                              this.contentEditable = true;
-                              mw.tools.loop[loop] = false;
-                          }
-                       });
+            var cls = target.className;
+            if(!mw.tools.hasClass(cls, 'empty-element')  && !mw.tools.hasClass(cls, 'ui-resizable-handle')){
+                if(mw.tools.hasParentsWithClass(el, 'module')){
+                    target.contentEditable = true;
+                }
+                else{
+                    if(!mw.tools.hasParentsWithClass(target, "module")){
+                        if(mw.isDragItem(target)){
+                           target.contentEditable = true;
+                        }
+                        else{
+                           mw.tools.foreachParents(target, function(loop){
+                              if(mw.isDragItem(this)){
+                                  this.contentEditable = true;
+                                  mw.tools.loop[loop] = false;
+                              }
+                           });
+                        }
                     }
                 }
             }
@@ -135,6 +138,11 @@ mw.wysiwyg = {
                     dis.attachEvent("onresizestart", function(e) {
                         e.returnValue = false;
                     }, false);
+                    if(dis.tagName == 'IMG' ){
+                       dis.attachEvent("onmousedown", function(e) {
+                            e.returnValue = false;
+                       }, false);
+                    }
                 }
             }
         }

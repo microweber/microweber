@@ -84,7 +84,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
-//d($post_params);
+
 //$post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
 $content   =$data = get_content($post_params);

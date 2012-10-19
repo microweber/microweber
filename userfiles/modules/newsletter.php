@@ -86,12 +86,12 @@
   border-left-color: #c6c6c6;
   border-right-color: #c6c6c6;
   border-bottom-color: #b2b2b2;
-  background: url(/1k/application/includes/img/grad.php?top=ffffff&bot=e9e9e9);
+  background: url(<? print INCLUDES_URL ?>img/grad.php?top=ffffff&bot=e9e9e9);
   border-radius:3px;
 }
 .mw-newsletter-default input[type='submit']:hover,
 .mw-newsletter-default input[type='submit']:focus{
-  background: url(/1k/application/includes/img/grad.php?top=e9e9e9&bot=ffffff);
+  background: url(<? print INCLUDES_URL ?>img/grad.php?top=e9e9e9&bot=ffffff);
 }
 .mw-newsletter-default input[type='submit']:active{
   box-shadow:inset 0 0 4px #5D5D5D;

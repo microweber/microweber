@@ -31,7 +31,7 @@ mww = window;
 mw._random = 9999999;
 mw.random = function(){return mw._random++;}
 
-String.prototype.contains = function(a) { return this.indexOf(a) != -1; };
+String.prototype.contains = function(a) { return !!~this.indexOf(a)};
 
 
 
@@ -51,7 +51,7 @@ if(!Array.indexOf){
   mw.required = [];
   mw.require = function(url){ //The Fast and the Furious
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
-     if(mw.required.indexOf(url)==-1){
+     if(!~mw.required.indexOf(url)){
          mw.required.push(url);
          var h = mwd.getElementsByTagName('head')[0];
          var t = url.split('.').pop();

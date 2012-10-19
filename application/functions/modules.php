@@ -1026,8 +1026,8 @@ function load_module($module_name, $attrs = array()) {
         $config['the_module'] = $module_name;
         $config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
         //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-        // $lic = load_module_lic($module_name);
-        $lic = 'valid';
+        $lic = load_module_lic($module_name);
+      //  $lic = 'valid';
         if ($lic != false) {
             $config['license'] = $lic;
         }

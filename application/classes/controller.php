@@ -51,17 +51,9 @@ class Controller {
 
 
 
-       
 
-        $is_debug = url_param('debug');
-        if (!$is_debug) {
-            $is_debug = false;
-        } else {
-            if (!headers_sent()) {
-                setcookie('is_debug', $is_debug);
-            }
-            $page_url = url_param_unset('debug', $page_url);
-        }
+
+
 
         $is_preview_template = url_param('preview_template');
         if (!$is_preview_template) {
@@ -176,6 +168,17 @@ class Controller {
             //exit();
 
             $l = parse_micrwober_tags($l, $options = false);
+            $apijs_loaded = site_url('apijs');
+
+            $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
+
+            // $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+            if (!stristr($l, $apijs_loaded)) {
+                $default_css = '<script src="' . $apijs_loaded . '"></script>';
+
+                $l = str_ireplace('</head>', $default_css . '</head>', $l);
+            }
             if ($is_editmode == true and $this->isolate_by_html_id == false) {
                 $is_admin = is_admin();
                 if ($is_admin == true) {
@@ -192,17 +195,7 @@ class Controller {
                 }
             }
 
-            $apijs_loaded = site_url('apijs');
 
-            $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
-
-            // $l = str_ireplace('</head>', $default_css . '</head>', $l);
-            $l = str_ireplace('<head>', '<head>' . $default_css, $l);
-            if (!stristr($l, $apijs_loaded)) {
-                $default_css = '<script src="' . $apijs_loaded . '"></script>';
-
-                $l = str_ireplace('</head>', $default_css . '</head>', $l);
-            }
 
             $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
             $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
@@ -249,7 +242,7 @@ class Controller {
 
             print $l;
 
-            if (isset($_GET['test_cookie']) or (isset($_COOKIE['is_debug']) and intval($_COOKIE['is_debug'])) == 1) {
+            if (isset($_GET['test_cookie'])) {
                 debug_info();
                 $is_admin = is_admin();
                 if ($is_admin == true) {

@@ -81,7 +81,7 @@
 
 }
 
-.empty-element:hover {
+.empty-element:hover, .empty-element.hover {
   background-color:#FFFFB9 !important;
 }
 
@@ -147,7 +147,11 @@ body .column > .ui-resizable-e {
     background-image: url(../img/resize_color.gif);
     background-position: right center;
     background-repeat: repeat-y;
-   cursor: url(../img/blank.gif), url(../img/blank.cur), none;
+    /*cursor: url(http://pecata/1k/application/includes/img/blank.gif), url(http://pecata/1k/application/includes/img/blank.cur), none;*/
+    cursor: none;
+}
+body .column > .ui-resizable-e *{
+  cursor: none;
 }
 
 
