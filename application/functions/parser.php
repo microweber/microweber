@@ -204,6 +204,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
     $d = crc32($layout);
     if (isset($checker[$d])) {
+        
         return $layout;
     }
     //d($d);

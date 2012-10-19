@@ -302,7 +302,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         }
         $result = $q;
         if ($cache_id != false) {
-            if (!empty($result)) {
+            if (isarr($result)) {
                 cache_store_data($result, $cache_id, $cache_group);
             } else {
                 cache_store_data('---empty---', $cache_id, $cache_group);

@@ -112,7 +112,7 @@ function get_options($params = '') {
         extract($params);
     }
 
-//d($params);
+
     $data = $params;
     $table = c('db_tables');
     $table = $table['table_options'];
@@ -171,9 +171,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
     $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
     $function_cache_id = __FUNCTION__ . crc32($q . $function_cache_id);
-    //d($q);
-    $get = db_query($q, $function_cache_id, $cache_group = 'options/global');
-
+    //
+    $cache_group = 'options/global';
+    $get = db_query($q, $function_cache_id, $cache_group);
+//d($get);
 
     if (!empty($get)) {
 
@@ -193,7 +194,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
             return $get;
         }
     } else {
-        //  cache_store_data('--false--', $function_cache_id, $cache_group = 'options');
+        cache_store_data('--false--', $function_cache_id, $cache_group);
 
         return FALSE;
     }

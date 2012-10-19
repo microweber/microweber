@@ -348,7 +348,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
     $cache = cache_get_content_encoded($cache_id, $cache_group, $time);
 
-    if ($cache == '') {
+    if ($cache == '' or $cache == '--empty--') {
 
         return false;
     } else {
