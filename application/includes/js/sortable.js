@@ -728,8 +728,8 @@ mw.drag = {
             mw.image._dragcurrent = null;
             mw.image._dragparent = null;
 
-            var sliders = mwd.getElementsByClassName("canvas-slider");
-            for(var i=0;i<sliders.length;i++){sliders[i].isDrag = false;}
+            var sliders = mwd.getElementsByClassName("canvas-slider"), len = sliders.length, i=0;
+            for( ; i<len; i++){sliders[i].isDrag = false;}
             if (!mw.isDrag) {
     		    var target = event.target;
 
@@ -1790,7 +1790,7 @@ mw.matrix = {
 
 
 
-mw.require("keys.js");
+
 
 
 

@@ -201,46 +201,13 @@ class MwDom extends DOMDocument {
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
     static $checker = array();
 
-    $d = 1;
+
+    $d = crc32($layout);
     if (isset($checker[$d])) {
-        //  return $layout;
+ 
+        return $layout;
     }
-
-
-    $use_apc = false;
-    if (APC_CACHE == true) {
-        $use_apc = true;
-    }
-    if (isarr($options)) {
-        // d($options);
-        if (isset($options['no_apc'])) {
-            $use_apc = false;
-        }
-    }
-
-    if ($use_apc == true) {
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($layout);
-
-        $quote = false;
-
-        $quote = apc_fetch($function_cache_id);
-
-
-        if ($quote) {
-
-            return $quote;
-        }
-    }
+    //d($d);
 
 
     if (!isset($options['parse_only_vars'])) {
@@ -265,7 +232,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
+                    $v1 = 'mw_replace_back_this_script_' . $v1;
                     $layout = str_replace($value, $v1, $layout);
                     // $layout = str_replace_count($value, $v1, $layout,1);
                     if (!isset($replaced_scripts [$v1])) {
@@ -286,7 +253,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
+                    $v1 = 'mw_replace_back_this_module_' . $v1;
                     $layout = str_replace($value, $v1, $layout);
                     // $layout = str_replace_count($value, $v1, $layout,1);
                     if (!isset($replaced_modules [$v1])) {
@@ -297,27 +264,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 }
             }
         }
-
-
-
-//        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
-//        $replaced_head = array();
-//        preg_match_all($script_pattern, $layout, $mw_script_matches);
-//
-//        if (!empty($mw_script_matches)) {
-//            foreach ($mw_script_matches [0] as $key => $value) {
-//                if ($value != '') {
-//                    $v1 = crc32($value);
-//                    $v1 = '<!-- mw_replace_back_this_head_' . $v1 . ' -->';
-//                    $layout = str_replace($value, $v1, $layout);
-//                    // $layout = str_replace_count($value, $v1, $layout,1);
-//                    if (!isset($replaced_scripts [$v1])) {
-//                        $replaced_head [$v1] = $value;
-//                    }
-//                    // p($value);
-//                }
-//            }
-//        }
         // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
@@ -326,9 +272,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         } else {
             $parse_mode = 1;
         }
-
-
-
 
 
         switch ($parse_mode) {
@@ -374,12 +317,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                 break;
 
-
-            case 9:
-                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
+ case 9:
+                include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_regex.php');
 
                 break;
-
 
 
             default:
@@ -658,7 +599,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             if (isset($attrs ['id']) == true) {
                                 $coming_from_parent_strz1 = $attrs ['id'];
                             }
-//d($mod_content);
+
 
                             $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 
@@ -683,12 +624,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 
     $checker[$d] = 1;
-
-
-    if ($use_apc == true) {
-//d($function_cache_id);
-        apc_store($function_cache_id, $layout, 30);
-    }
 
     return $layout;
     exit();
@@ -1072,3 +1007,4 @@ function clean_word($html_to_save) {
 // p($html_to_save);
     return $html_to_save;
 }
+

@@ -188,7 +188,7 @@ class Controller {
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
-                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
+                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
 
                         $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
                     }
@@ -218,13 +218,10 @@ class Controller {
 
 
             if ($this->isolate_by_html_id != false) {
-
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
                 require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-
                 $pq = phpQuery::newDocument($l);
-
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
                     $l = pq($elem)->htmlOuter();
@@ -236,7 +233,6 @@ class Controller {
             if (!headers_sent()) {
                 setcookie('last_page', $page_url);
             }
-
 
 
 

@@ -1,52 +1,53 @@
 <?php
 
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'PQLite' . DIRECTORY_SEPARATOR . 'PQLite.php');
 
-$pq = phpQuery::newDocument($layout);
 
-$els = $pq ['.edit'];
-// $els = pq('body')->find('.edit')->filter(':not(script)');
+$pq = new PQLite($layout);
 
-foreach ($els as $elem) {
+
+$els = $pq->find('.edit');
+
+
+
+foreach ($els[0]  as $elem) {
     // iteration returns PLAIN dom nodes, NOT phpQuery objects
-    $tagName = $elem->tagName;
-    $name = pq($elem)->attr('field');
+    //$tagName = $elem->tagName;
+    $name = $elem->getAttr('field');
 
     if (strval($name) == '') {
-        $name = pq($elem)->attr('id');
+        $name = $elem->getAttr('id');
     }
 
     if (strval($name) == '') {
-        $name = pq($elem)->attr('data-field');
+        $name = $elem->getAttr('data-field');
     }
 
 
-    // $fld_id = pq($elem)->attr('data-field-id');
+    // $fld_id = $elem->getAttr('data-field-id');
 
-    $rel = pq($elem)->attr('rel');
+    $rel = $elem->getAttr('rel');
     if ($rel == false) {
         $rel = 'page';
     }
 
 
-    $option_group = pq($elem)->attr('data-option_group');
+    $option_group = $elem->getAttr('data-option_group');
     if ($option_group == false) {
         $option_group = 'editable_region';
     }
-    $data_id = pq($elem)->attr('data-id');
-    if ($data_id == false) {
-        $data_id = pq($elem)->attr('id');
-    }
+    $data_id = $elem->getAttr('data-id');
 
-    $option_mod = pq($elem)->attr('data-module');
+
+    $option_mod = $elem->getAttr('data-module');
     if ($option_mod == false) {
-        $option_mod = pq($elem)->attr('data-type');
+        $option_mod = $elem->getAttr('data-type');
     }
     if ($option_mod == false) {
-        $option_mod = pq($elem)->attr('type');
+        $option_mod = $elem->getAttr('type');
     }
 
-
+d($name);
 
     $get_global = false;
     //  $rel = 'page';
@@ -94,9 +95,9 @@ foreach ($els as $elem) {
 
 
         if ($option_mod != false) {
+            //   d($field);
 
-
-            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
             //
         } else {
             $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
@@ -140,14 +141,13 @@ foreach ($els as $elem) {
 
         //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
         // d($field_content);
-        $field_content = parse_micrwober_tags($field_content. $options);
+        $field_content = parse_micrwober_tags($field_content);
 
-        pq($elem)->html($field_content);
+        $elem->setInnerHTML($field_content);
     } else {
 
     }
 }
-$layout = $pq->htmlOuter();
-$pq->__destruct();
+$layout = $pq->getHTML();
 $pq = null;
 unset($pq);

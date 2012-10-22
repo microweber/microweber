@@ -598,7 +598,7 @@ ul.depth-3 a{
 
 
 
-.mw_pages_posts_tree a:hover{
+.mw_pages_posts_tree a:hover, .mw_pages_posts_tree a.active{
   background-color: white;
   border-top-color:#EDEDED;
   border-bottom-color:#EDEDED;
@@ -708,7 +708,7 @@ a.depth-1 .mw_toggle_tree{
     left: 8.4%;
 }
 
-.mw_toggle_tree.active{
+.mw_toggle_tree.active, a.pages_tree_link.active .mw_toggle_tree{
   background-position: 5px -36px;
 }
 

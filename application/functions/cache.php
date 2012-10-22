@@ -1,9 +1,16 @@
 <?
 
+if (!defined('APC_CACHE')) {
+    $apc_exists = function_exists('apc_fetch');
+
+    $apc_exists = isset($_GET['test_cookie']);
+    define("APC_CACHE", $apc_exists);
+}
+
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 
-
-   // return false;
+    global $shmop_exist;
+    // return false;
     static $mem = array();
     static $mem_hits = array();
 
@@ -12,8 +19,22 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
     }
 
 
+
+
+
+    //  d(APC_CACHE);
+
+
+
+
     $cache_group = (int) crc32($cache_group);
     $cache_id = (int) crc32($cache_id);
+
+
+
+
+
+
     //$cache_group = 'gr' . crc32($cache_group);
     // $cache_id = 'id' . crc32($cache_id);
     $mode = 2;
@@ -21,9 +42,9 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
         case 1:
             if ($replace_with_new != false) {
                 $mem[$cache_group][$cache_id] = $replace_with_new;
-                asort($mem[$cache_group]);
+                //   asort($mem[$cache_group]);
                 $mem_hits[$cache_group][$cache_id] = 1;
-                asort($mem);
+                // asort($mem);
             }
 
             if (isset($mem[$cache_group][$cache_id])) {
@@ -42,7 +63,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
                 $mem[$key] = $replace_with_new;
 
                 $mem_hits[$key] = 1;
-               // ksort($mem);
+                // ksort($mem);
                 // ksort($mem_hits);
             }
 
@@ -221,6 +242,25 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
     }
 
 
+    $use_apc = false;
+    if (APC_CACHE == true) {
+        $use_apc = true;
+    }
+
+
+    //$use_apc = false;
+
+
+    if ($use_apc == true) {
+        $quote = apc_fetch($cache_id);
+
+
+        if ($quote) {
+
+            return $quote;
+        }
+    }
+
 
     /* $function_cache_id = false;
       $args = func_get_args ();
@@ -254,13 +294,14 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
     $cache_group = $cache_group . DS;
 
     $cache_group = reduce_double_slashes($cache_group);
-
-    $mem = cache_get_content_from_memory($cache_id, $cache_group);
-    // d($mem);
-    if ($mem != false) {
-        //d($cache_id);
-        // exit();
-        return $mem;
+    if ($use_apc == false) {
+        $mem = cache_get_content_from_memory($cache_id, $cache_group);
+        // d($mem);
+        if ($mem != false) {
+            //d($cache_id);
+            // exit();
+            return $mem;
+        }
     }
 
     $cache_file = cache_get_file_path($cache_id, $cache_group);
@@ -317,9 +358,21 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
           } is */
 
         //gc_collect_cycles();
-        cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
+        if ($use_apc == false) {
+            cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
+        }
+        if ($use_apc == true) {
+
+            apc_store($cache_id, $cache, 15);
+        }
         return $cache;
     }
+
+
+
+
+
+
     /* 	if (! defined ( $cache_content )) {
       //	define ( $cache_content, false );
       } */

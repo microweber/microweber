@@ -1,8 +1,11 @@
 
 
+
+
+
 mw.simpletabs = function(context){
     var context = context || document.body;
-    $(".mw_simple_tabs_nav", context).each(function(){
+    mw.$(".mw_simple_tabs_nav", context).each(function(){
       var parent = $(this).parents(".mw_simple_tabs").eq(0);
       parent.find(".tab").addClass("semi_hidden");
       parent.find(".tab").eq(0).removeClass("semi_hidden");
@@ -357,6 +360,7 @@ mw.tools = {
   tree:function(el, event){
     var el = $(el);
     this.toggle = function(){
+      mw.$(".mw_pages_posts_tree a").not(el).removeClass("active");
       el.toggleClass("active");
       mw.tools.tree().remember();
         if(event.type==='click'){
@@ -400,6 +404,12 @@ mw.tools = {
         });
       }
     }
+    this.toggleit = function(el, event, pageid){
+       event.stopPropagation();
+       mw.url.windowHashParam('action', 'showposts:'+pageid);
+       mw.tools.tree(el.parentNode, event).toggle();
+
+    }
     return this;
   },
   hasClass:function(classname, whattosearch){   //for strings
@@ -426,7 +436,7 @@ mw.tools = {
        while(_tag !== 'BODY'){
            var caller =  callback.call( _curr, index);
            var _curr = _curr.parentNode;
-           if( caller == false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
+           if( caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
            var _tag = _curr.tagName;
        }
      }

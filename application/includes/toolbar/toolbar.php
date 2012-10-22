@@ -1,9 +1,32 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<?php /*<script src="<?php   print( INCLUDES_URL);  ?>js/jquery.js" type="text/javascript"></script>
-<script src="<?php   print( SITE_URL);  ?>apijs" type="text/javascript"></script>*/ ?>
-<script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
-<?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
-<script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
+
+
+
+<script type="text/javascript">
+
+
+
+  mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
+  mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
+  mw.require("events.js");
+  mw.require("url.js");
+  mw.require("tools.js");
+  mw.require("wysiwyg.js");
+  mw.require("css_parser.js");
+  mw.require("style_editors.js");
+
+
+
+  //mw.require("keys.js");
+
+
+</script>
+
+
+
+
+
+
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />

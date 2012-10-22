@@ -906,13 +906,14 @@ function load_module_lic($module_name = false) {
 
 function load_module($module_name, $attrs = array()) {
     $function_cache_id = false;
-    $args = func_get_args();
-    foreach ($args as $k => $v) {
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-    }
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-    $cache_content = 'CACHE_LOAD_MODULE_' . $function_cache_id;
-
+//    $args = func_get_args();
+//    foreach ($args as $k => $v) {
+//        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//    }
+//    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+//
+//    d($function_cache_id);
+//    $cache_content = 'CACHE_LOAD_MODULE_' . $function_cache_id;
     // if (!defined($cache_content)) {
     //
 	// } else {
@@ -1027,7 +1028,7 @@ function load_module($module_name, $attrs = array()) {
         $config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
         //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
         $lic = load_module_lic($module_name);
-      //  $lic = 'valid';
+        //  $lic = 'valid';
         if ($lic != false) {
             $config['license'] = $lic;
         }
@@ -1055,9 +1056,8 @@ function load_module($module_name, $attrs = array()) {
                 $module_file = $l1->__toString();
             }
         }
-        if (!defined($cache_content)) {
-            //define($cache_content, $module_file);
-        }
+        $l1 = null;
+
         if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
             $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
             $lic_l1 = new View($lic_l1_try_file1);
@@ -1066,6 +1066,8 @@ function load_module($module_name, $attrs = array()) {
             $lic_l1->params = $attrs;
 
             $lic_l1e_file = $lic_l1->__toString();
+
+            $lic_l1 = null;
             return $lic_l1e_file . $module_file;
         }
         return $module_file;

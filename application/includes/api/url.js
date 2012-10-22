@@ -73,44 +73,19 @@ mw.url = {
     }
 }
 
-mw._hashrec = {};
 
-mw._hashparams = [];
-mw._hashparam_funcs = [];
 
-mw.on.hashParam = function(param, callback, trigger){
-    if(trigger==true){
-          var index = mw._hashparams.indexOf(param);
-          if(index != -1){
-            var hash = mw.hash();
-            var params = mw.url.getHashParams(hash);
-            if(mw.is.string(params[param])){
-                mw._hashparam_funcs[index].call(params[param]);
-            }
-          }
-    }
-    else{
-        mw._hashparams.push(param);
-        mw._hashparam_funcs.push(callback);
-    }
-}
 
-$(window).bind("hashchange load", function(){
-  var hash = mw.hash();
-  var params = mw.url.getHashParams(hash);
-  if(hash=='' || hash=='#' || hash =='#?'){
-    for(var i = 0; i<mw._hashparams.length; i++){
-        mw.on.hashParam(mw._hashparams[i], "", true);
-    }
-  }
-  else{
-    for(var x in params){
-        if(params[x] !== mw._hashrec[x] || mw._hashrec[x]===undefined){
-            mw.on.hashParam(x, "", true);
-        }
-    }
-  }
-  mw._hashrec = params;
-});
+
+
+
+
+
+
+
+
+
+
+
 
 

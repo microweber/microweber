@@ -22,7 +22,7 @@
     <article id="eidEPbDNHCf7HcO1IgzovgucHUQ5XFDZsgdXMAaX<? print $item['id'] ?>" class="post">
       <h2 class="edit no-drop"    rel="content"  data-field="title"  data-id="<? print $item['id'] ?>"  >My post title</h2>
       <div class="edit"  rel="content"  data-field="description" data-id="<? print $item['id'] ?>"  >
-        <p>My post description</p>
+        <p>asdasdasdasdasd</p>
       </div>
       <a href="<? print post_link($item['id']); ?>"> Read more </a> </article>
     <? endforeach; ?>
