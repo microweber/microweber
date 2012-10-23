@@ -157,7 +157,7 @@ function stats_insert() {
     $data['last_page'] = $lp;
 
     if (!defined("FORCE_SAVE")) {
-        define('FORCE_SAVE', 1);
+        define('FORCE_SAVE', $table);
     }
 
     $save = save_data($table, $data);

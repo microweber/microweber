@@ -21,7 +21,7 @@ if(isset($params["data-content"])){
 $data = get_content_by_id($params["data-page-id"]); 
  
 if($data == false or empty($data )){
-include('_empty_content_data.php');	
+include('_empty_content_data.php');
 }
 
 
@@ -37,35 +37,6 @@ $form_rand_id = $rand = uniqid();
 
 
 
-<br /><br /><br /><br />
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input class="mw-ui" type="radio" id="tchk22" name="yo" />
-<label for="tchk22"></label>
-<br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input class="mw-ui"  checked="checked" name="yo" type="radio" id="tchk2211" />
-<label for="tchk2211"></label>
-
-<br /><br /><br /><br />
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input class="mw-ui" type="checkbox" id="tchk221" name="yo1" /><label for="tchk221"></label>
-<br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-<input class="mw-ui"  name="yo1" type="checkbox" id="tchk22115" />
-
-
-
-<label for="tchk22115"></label>
 
 
 
@@ -74,7 +45,7 @@ $form_rand_id = $rand = uniqid();
 
 <script  type="text/javascript">
 
-mw.require('forms.js');
+
  
 
 $(document).ready(function(){
@@ -122,56 +93,93 @@ mw_before_content_save<? print $rand ?>()
  
  
  });
- 
+
  
  function mw_before_content_save<? print $rand ?>(){
 	mw.$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
  }
- 
+
  function mw_after_content_save<? print $rand ?>($id){
 	
 	mw.reload_module('[data-type="pages_menu"]');
 	  <? if($edit_post_mode != false): ?>
-mw.reload_module('[data-type="posts"]');
-	<? endif; ?>
-	
-	
-	
+        mw.reload_module('[data-type="posts"]');
+	  <? endif; ?>
+
+
+
 	mw.reload_module('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]');
 	if($id != undefined){
-				$id = $id.replace(/"/gi, "");
-				$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
-					//console.log(data);
+				$id = $id.replace(/"/g, "");
+	    $.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
 			   window.location.href = data+'/editmode:y';
-			  
-			}); 
+
+		});
 	
 	}
 	
-	 
+
  }
-   
-   
- 
 
 
- 
-   
 });
 </script>
 
 <form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form">
-  <input name="id"  type="hidden" value="<? print ($data['id'])?>" />
-  Page name
-  <input name="title"  type="text" value="<? print ($data['title'])?>" />
+
+     <input name="id" type="hidden" value="<? print ($data['id'])?>" />
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label">Page name</label>
+    <input name="title" style="width: 360px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
+</div>
+
+<div class="edit-post-url">
+
+        <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
+        <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
+        <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
+
+
+</div>
+
+
+
+<div class="tpl-slider active-1">
+
+
+
+
+</div>
+
+
+
+
   <br />
-  url
-  <input name="url"  type="text" value="<? print ($data['url'])?>" />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+
+
   <?  if(!isset($data["thumbnail"])){
 	   $data['thumbnail'] = '';
-	  
+
   }?>
- 
+
    thumbnail
   <input name="thumbnail"  type="text" value="<? print ($data['thumbnail'])?>" />
   <? if($edit_post_mode == false): ?>
@@ -180,7 +188,7 @@ mw.reload_module('[data-type="posts"]');
   parent
   <? if($edit_post_mode != false): ?>
   <?
-  
+
   if(!isset($params["subtype"])){
 	  if(intval($data['id']) != 0){
 		  if(isset($data["subtype"]) and trim($data["subtype"]) != ''){

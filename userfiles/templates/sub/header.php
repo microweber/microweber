@@ -5,6 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- /Added by HTTrack -->
+<script type="text/javascript">
+mw.require("<?php print( INCLUDES_URL); ?>js/jquery.js");
+</script>
+
+
 
 <meta charset="utf-8">
 <title>The Official Svbtle Blog by Svbtle Network</title>
@@ -38,7 +43,7 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
 </style>
 </head>
 <body class="blog">
-
+ 
 <header id="sidebar">
   <aside id="logo" class="clearfix">
     <div class="editable" id="sdasd<? print $item['id'] ?>" field="content">My post</div>

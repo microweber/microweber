@@ -1,4 +1,4 @@
-<? 
+<?
  
 $rand = uniqid();
 if(!isset($params["data-page-id"])){
@@ -79,7 +79,7 @@ return str;
 		var iframe_url = '<? print page_link($data['id']); ?>/no_editmode:true/preview_template:'+$template+'/preview_layout:'+$layout
 		
 		
-		var $html = '<iframe src="'+iframe_url+'" class="preview_frame_small" ></iframe>'
+		var $html = '<iframe src="'+iframe_url+'" class="preview_frame_small" width="357" height="290" frameborder="0" scrolling="no"></iframe>'
 		mw.$('.preview_frame_wrap').html($html);
 		mw.$('#preview_frame_wrap').append(iframe_url);
 		
@@ -143,4 +143,4 @@ zoom: 0.15;
 width:600px;height:300px;border:5px solid black;
 }
 </style>
-<div class="preview_frame_wrap_AAAAA"> </div>
+<div class="preview_frame_wrap"> </div>
