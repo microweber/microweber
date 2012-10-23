@@ -167,6 +167,6 @@ if ($use_apc == true) {
         $pq = null;
         unset($pq);
       //  apc_delete($cache_id1);
-        apc_store($cache_id1, $layout, 10);
+        apc_store($cache_id1, $layout, APC_EXPIRES);
     }
 }

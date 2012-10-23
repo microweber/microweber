@@ -324,7 +324,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         if (isset($_GET['test_cookie'])) {
             $parse_mode = intval($_GET['test_cookie']);
         } else {
-            $parse_mode = 1;
+            $parse_mode = 9;
         }
 
 
@@ -687,6 +687,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
     if ($use_apc == true) {
 //d($function_cache_id);
+            apc_delete($function_cache_id);
+
         apc_store($function_cache_id, $layout, 30);
     }
 
