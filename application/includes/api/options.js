@@ -73,6 +73,8 @@ mw.$(""+$selector+" .mw_option_field").bind("change", function () {
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module != undefined) {
                                     window.mw.reload_module(refresh_modules11);
+																		window.mw.reload_module('#'+refresh_modules11);
+
                                 }
                             }
 

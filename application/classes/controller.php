@@ -177,7 +177,7 @@ class Controller {
             if (!stristr($l, $apijs_loaded)) {
                 $default_css = '<script src="' . $apijs_loaded . '"></script>';
 
-                $l = str_ireplace('</head>', $default_css . '</head>', $l);
+                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
             if ($is_editmode == true and $this->isolate_by_html_id == false) {
                 $is_admin = is_admin();
@@ -188,7 +188,7 @@ class Controller {
                     $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
-                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = false);
+                        $layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
 
                         $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
                     }
@@ -218,13 +218,10 @@ class Controller {
 
 
             if ($this->isolate_by_html_id != false) {
-
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
                 require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-
                 $pq = phpQuery::newDocument($l);
-
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
                     $l = pq($elem)->htmlOuter();
@@ -236,7 +233,6 @@ class Controller {
             if (!headers_sent()) {
                 setcookie('last_page', $page_url);
             }
-
 
 
 
@@ -451,24 +447,16 @@ class Controller {
 
         if (isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
-            if (trim($url) == '') {
+            $url = explode('?', $url);
+            $url = $url[0];
 
+            if (trim($url) == '' or trim($url) == site_url()) {
+                //$page = get_content_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
             } else {
 
                 $page = get_content_by_url($url);
-            }
-
-
-            if ($custom_display == true) {
-
-                $u2 = site_url();
-                $u1 = str_replace($u2, '', $url);
-                $this->render_this_url = $u1;
-                $this->isolate_by_html_id = $custom_display_id;
-                $this->index();
-                exit();
             }
         }
 
@@ -480,8 +468,19 @@ class Controller {
 
 
 
-
         define_constants($page);
+
+
+        if ($custom_display == true) {
+
+            $u2 = site_url();
+            $u1 = str_replace($u2, '', $url);
+            $this->render_this_url = $u1;
+            $this->isolate_by_html_id = $custom_display_id;
+            $this->index();
+            exit();
+        }
+
         $module_info = url_param('module_info', true);
 
         if ($module_info) {

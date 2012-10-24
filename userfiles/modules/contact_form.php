@@ -24,6 +24,14 @@ $(document).ready(function(){
 <div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
   <h1>This is My editable title</h1>
 </div>
+
+<div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+  My form decription
+</div>
+
+<div class="edit" field="data-address"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+My address
+</div>
 <form class="mw_form" data-temp-id="<? print $temp_id ?>" >
   <? $save_as = option_get('form_save_as', $params['id']);
 

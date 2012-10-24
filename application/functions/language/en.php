@@ -94,3 +94,7 @@ $language["border-top"]= 'Border Top' ;
 $language["border-bottom"]= 'Border Bottom' ; 
 $language["edit"]= 'Edit' ; 
 $language["edit"]= 'Edit' ; 
+$language["zoom-inout"]= 'Zoom in/out' ; 
+$language["previous-layout"]= 'Previous layout' ; 
+$language["next-layout"]= 'Next layout' ; 
+$language["advanced-settings"]= 'Advanced Settings' ; 
