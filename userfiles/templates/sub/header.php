@@ -8,9 +8,6 @@
 <script type="text/javascript">
 mw.require("<?php print( INCLUDES_URL); ?>js/jquery.js");
 </script>
-
-
-
 <meta charset="utf-8">
 <title>The Official Svbtle Blog by Svbtle Network</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,20 +40,15 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
 </style>
 </head>
 <body class="blog">
- 
 <header id="sidebar">
   <aside id="logo" class="clearfix">
     <div class="edit"   id="site_logo" rel="global">My post</div>
   </aside>
-  <ul id="user_meta">
-  
-    
-   
-   
+  <ul id="user_sidebar" class="edit"    rel="global">
     <li class="blog_name">
-   
-    <div class="edit"   id="site_title"  rel="global" ><h1 id="blog_name"> <a href="<? print site_url() ?>"> The Official Blog</a></h1></div>
-   
+      <div >
+        <h1 id="blog_name"> <a href="<? print site_url() ?>"> The Official Blog</a></h1>
+      </div>
     </li>
     <li class="blog_owner">
       <h2 id="blog_owner"> <a href="{TEMPLATE_URL}/index_files/index.php">Svbtle Network</a> </h2>
@@ -64,12 +56,7 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
     <li class="tagline">
       <h2 id="tagline"> The future of news and opinion on the web </h2>
     </li>
-    <li class="link website"> <a href="http://svbtle.com/"> svbtle.com </a> </li>
-    <li class="link twitter"> <a href="http://twitter.com/svbtle"> @svbtle </a> </li>
-    <li class="link email"> <a href="mailto:hello@svbtle.com?subject=hi"> say hello </a> </li>
-    <li class="link feed"> <a href="file:///C:/My%20Web%20Sites/http___blog.svbtle.com_/blog.svbtle.com/feedhtml.html"> feed </a> </li>
   </ul>
-  <aside id="svbtle_linkback"> <a href="https://svbtle.com/"> <span class="logo_square"><span class="logo_circle">&nbsp;</span></span>&nbsp;<span class="svbtle">Svbtle</span> </a> </aside>
+  <div id="user_sidebar_2" class="edit"    rel="global"> </div>
+  <aside id="svbtle_linkback"> <a href="http://microweber.com" target="_blank"> <span class="logo_square"><span class="logo_circle">&nbsp;</span></span>&nbsp;<span class="svbtle">MW</span> </a> </aside>
 </header>
-  
-

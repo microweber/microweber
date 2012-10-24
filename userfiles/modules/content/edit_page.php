@@ -264,7 +264,13 @@ $(document).ready(function(){
 
     mw_load_post_cutom_fields_from_categories<? print $rand ?>()
     mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
-    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+    mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+
+
+    mw.$(".toggle_advanced_settings").click(function(){
+      mw.$(".advanced_settings_holder").toggle()
+    });
+
 
 });
    
@@ -330,7 +336,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <?
  $strz = '';
   if(isset($include_categories_in_cat_selector)): ?>
-  <? 
+  <?
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
@@ -341,9 +347,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
       <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
     <? endif; ?>
   </div>
-
-
-  Custom fields for post
+       Custom fields for post
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
   </div>
@@ -351,24 +355,60 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
+
+ <div class="advanced_settings">
+    <a href="#" class="toggle_advanced_settings"><?php _e('Advanced Settings'); ?></a>
+    <div class="advanced_settings_holder">
+
+
+
+
+
+
+
+
+
+
+
+
   <h2>Advanced settings</h2>
-  description
-  <textarea name="description"><? print ($data['description'])?></textarea>
-   
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label">Description</label>
+    <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
+  </div>
+
+
+
+
+
+
+
+
+
   <? if($edit_post_mode == false): ?>
   <br />
   <br />
-  is_home
-  <input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
-  No
-  <input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
-  Yes <br />
-  <br />
-  is_shop
-  <input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
-  No
-  <input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
-  Yes <br />
+
+
+  <div class="mw-ui-check-selector">
+      <div class="mw-ui-label left">Is Home?</div>
+      <label class="mw-ui-check"><input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
+      <label class="mw-ui-check"><input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /> <span></span><span>Yeah</span></label>
+  </div>
+
+
+
+ <br class="mw-clear" />
+
+ <div class="mw-ui-check-selector">
+     <div class="mw-ui-label left">Is Shop?</div>
+     <label class="mw-ui-check"><input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
+     <label class="mw-ui-check"><input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>Yes</span></label>
+ </div>
+
+
+
+
   <br />
   <br />
   subtype
@@ -400,6 +440,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 
   <button type="submit">Save be</button>
+
+
+
+      </div>
+ </div>
+
 
 
 </form>

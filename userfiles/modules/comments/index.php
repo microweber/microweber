@@ -14,10 +14,10 @@ if (!isset($data['to_table_id'])) {
     if (defined('POST_ID') == true and intval(POST_ID) != 0) {
         $data['to_table_id'] = POST_ID;
     }
-    if (!isset($data['to_table_id'])) {
-        if (defined('PAGE_ID') == true) {
-            $data['to_table_id'] = PAGE_ID;
-        }
+}
+if (!isset($data['to_table_id'])) {
+    if (defined('PAGE_ID') == true) {
+        $data['to_table_id'] = PAGE_ID;
     }
 }
 ?>
@@ -26,8 +26,9 @@ if (!isset($data['to_table_id'])) {
 $comments_data = array();
 $comments_data['to_table_id'] = $data['to_table_id'];
 $comments_data['to_table'] = $data['to_table'];
+//$comments_data['debug'] = $data['to_table'];
 $comments = get_comments($comments_data);
-//d($comments);
+//d($data);
 
 
 $template = option_get('data-template', $params['id']);
@@ -40,33 +41,32 @@ if ($template != false and strtolower($template) != 'none') {
 }
 ?>
 <script  type="text/javascript">
-            mw.require("forms.js");
- </script>
- <script  type="text/javascript">
- $(document).ready(function(){
-                mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
-                    mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>');
 
-                    mw.reload_module('#<? print $params['id'] ?>');
+    mw.require("forms.js");
+</script>
+<script  type="text/javascript">
+    $(document).ready(function(){
+        mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
+            mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>');
 
-                    return false;
-                });
-            });
-   </script>
-        <?php
+            mw.reload_module('#<? print $params['id'] ?>');
+
+            return false;
+        });
+    });
+</script>
+<?php
 switch ($template_file):
     case true:
         ?>
         <? include($template_file); ?>
         <?
-       // d();
+        // d();
 
-        if($template_file != false){
+        if ($template_file != false) {
             break;
         }
-
-
-    ?>
+        ?>
     <?php
     case false:
         ?>
@@ -76,25 +76,25 @@ switch ($template_file):
 
         <? if (isarr($comments)): ?>
             <div class="comments" id="comments-list-<? print $data['id'] ?>">
-                <? foreach ($comments as $comment) : ?>
+            <? foreach ($comments as $comment) : ?>
                     <div class="comment" id="comment-<? print $comment['id'] ?>">
 
                         <div class="comment-author">
-                            <? print $comment['comment_name'] ?>
+                    <? print $comment['comment_name'] ?>
 
                         </div>
 
                         <div class="comment-body">
-                            <? print $comment['comment_body'] ?>
+                <? print $comment['comment_body'] ?>
 
                         </div>
 
 
                     </div>
-                <? endforeach; ?>
+            <? endforeach; ?>
 
             </div>
-        <? endif; ?>
+            <? endif; ?>
 
         <div class="comments_form" id="comments-<? print $data['id'] ?>">
             <form id="comments-form-<? print $data['id'] ?>">
