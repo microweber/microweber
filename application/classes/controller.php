@@ -177,7 +177,7 @@ class Controller {
             if (!stristr($l, $apijs_loaded)) {
                 $default_css = '<script src="' . $apijs_loaded . '"></script>';
 
-                $l = str_ireplace('</head>', $default_css . '</head>', $l);
+                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
             if ($is_editmode == true and $this->isolate_by_html_id == false) {
                 $is_admin = is_admin();
@@ -447,24 +447,16 @@ class Controller {
 
         if (isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
-            if (trim($url) == '') {
+            $url = explode('?', $url);
+            $url = $url[0];
 
+            if (trim($url) == '' or trim($url) == site_url()) {
+                //$page = get_content_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
             } else {
 
                 $page = get_content_by_url($url);
-            }
-
-
-            if ($custom_display == true) {
-
-                $u2 = site_url();
-                $u1 = str_replace($u2, '', $url);
-                $this->render_this_url = $u1;
-                $this->isolate_by_html_id = $custom_display_id;
-                $this->index();
-                exit();
             }
         }
 
@@ -476,8 +468,19 @@ class Controller {
 
 
 
-
         define_constants($page);
+
+
+        if ($custom_display == true) {
+
+            $u2 = site_url();
+            $u1 = str_replace($u2, '', $url);
+            $this->render_this_url = $u1;
+            $this->isolate_by_html_id = $custom_display_id;
+            $this->index();
+            exit();
+        }
+
         $module_info = url_param('module_info', true);
 
         if ($module_info) {

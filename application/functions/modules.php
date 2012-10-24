@@ -2,6 +2,34 @@
 
 define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
 
+function module_templates($module_name, $template_name = false) {
+
+    $module_name_l = locate_module($module_name);
+
+    $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
+    if (!is_dir($module_name_l)) {
+        return false;
+    } else {
+        if ($template_name == false) {
+            $options = array();
+            $options['no_cache'] = 1;
+            $options['path'] = $module_name_l;
+            $module_name_l = layouts_list($options);
+            return $module_name_l;
+        } else {
+            $tf = $module_name_l . $template_name;
+            if (is_file($tf)) {
+                return $tf;
+            } else {
+                return false;
+            }
+        }
+
+
+        // d($module_name_l);
+    }
+}
+
 function module($params) {
 
     if (is_string($params)) {
@@ -350,7 +378,7 @@ function locate_module($module_name, $custom_view = false) {
 
         $module_in_default_dir = MODULES_DIR . $module_name . '';
         $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-        // d($module_in_default_dir);
+        //  d($module_in_default_dir);
         $module_in_default_file = MODULES_DIR . $module_name . '.php';
         $module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
 
@@ -377,7 +405,8 @@ function locate_module($module_name, $custom_view = false) {
 
                     $try_file1 = $mod_d1 . trim($custom_view) . '.php';
                 } else {
-                    // $try_file1 = $mod_d1 . 'index.php';
+                    //temp
+                    $try_file1 = $mod_d1 . 'index.php';
                 }
             } elseif (is_file($element_in_default_file)) {
 
@@ -387,6 +416,12 @@ function locate_module($module_name, $custom_view = false) {
             }
         }
     }
+
+
+
+
+
+
     $try_file1 = normalize_path($try_file1, false);
     return $try_file1;
 }
@@ -906,6 +941,9 @@ function load_module_lic($module_name = false) {
 
 function load_module($module_name, $attrs = array()) {
     $function_cache_id = false;
+    //if (defined('PAGE_ID') == false) {
+       // define_constants();
+       // }
 //    $args = func_get_args();
 //    foreach ($args as $k => $v) {
 //        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);

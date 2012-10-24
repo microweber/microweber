@@ -229,7 +229,8 @@ mw.reload_module = function($module_name) {
 			var $module_name = refresh_modules_explode[i];
 
 			if ($module_name != undefined) {
-				$mods = $(".module[data-type='" + $module_name + "']", '.edit');
+				//$mods = $(".module[data-type='" + $module_name + "']", '.edit');
+				$mods = $(".module[data-type='" + $module_name + "']");
 				if ($mods.length == 0) {
 					$mods = $($module_name);
 				}

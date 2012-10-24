@@ -1184,10 +1184,11 @@ mw.drag = {
                     success: function () {
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
-
+ 
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module != undefined) {
                                     window.mw.reload_module(refresh_modules11);
+									window.mw.reload_module('#'+refresh_modules11);
                                 }
                             }
 

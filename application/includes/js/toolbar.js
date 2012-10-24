@@ -522,6 +522,10 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
+        if(!mw.templatePreview._once){
+          mw.templatePreview._once = true;
+          mw.templatePreview.generate();
+        }
       }
       else{
         mw.$("html").removeClass("mw_pages");
@@ -791,6 +795,6 @@ $(window).resize(function(){
     mw.tools.toolbar_slider.ctrl_show_hide();
     mw.$("#mw_edit_pages").css({
        width:window.innerWidth,
-       height:window.innerHeight-50
+       height:window.innerHeight-130
      });
 });

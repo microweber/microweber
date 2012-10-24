@@ -1,4 +1,21 @@
 /* A Cool HTML5 WYSIWYG Editor */
+
+
+String.prototype.toFragment = function(){
+  var f = document.createDocumentFragment();
+  f.appendChild(document.createTextNode(this));
+  return f;
+}
+String.prototype.toDomObject = function(){
+
+  return f;
+}
+
+mw.checker = mwd.createElement('div');
+mw.checker.className = 'mw-checker semi_hidden';
+mwd.body.appendChild(mw.checker);
+
+
 mw.wysiwyg = {
     init_editables : function(module){
         if(mw.is.defined(module)){
@@ -124,7 +141,7 @@ mw.wysiwyg = {
     deselect_selected_element:function(){
         mw.$("#mw-text-editor").removeClass("editor_hover");
     },
-    nceui:function(){  //remove defaults for browser's content editable
+    nceui:function(){  //remove defaults for browser's content editable tools
         mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
         mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);

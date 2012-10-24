@@ -321,13 +321,21 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
-        if (isset($_GET['test_cookie'])) {
-            $parse_mode = intval($_GET['test_cookie']);
-        } else {
+//        if (isset($_GET['test_cookie'])) {
+//            $parse_mode = intval($_GET['test_cookie']);
+//        } else {
+//            $parse_mode = 1;
+//        }
+
+
+
+
+
+        if (APC_CACHE == true) {
             $parse_mode = 9;
+        } else {
+            $parse_mode = 1;
         }
-
-
 
 
 
@@ -648,7 +656,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                                 $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
                             }
-                            $mod_content = load_module($module_name, $attrs);
+
                             $coming_from_parentz = $module_name;
                             $coming_from_parent_str = false;
                             $coming_from_parent_strz1 = false;
@@ -658,7 +666,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             if (isset($attrs ['id']) == true) {
                                 $coming_from_parent_strz1 = $attrs ['id'];
                             }
-//d($mod_content);
+                            if ($coming_from_parent_strz1 == true) {
+                             //   $attrs['data-parent-module'] = $coming_from_parentz;
+                            }
+
+                            $mod_content = load_module($module_name, $attrs);
+
 
                             $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 
@@ -687,7 +700,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
     if ($use_apc == true) {
 //d($function_cache_id);
-            apc_delete($function_cache_id);
+        apc_delete($function_cache_id);
 
         apc_store($function_cache_id, $layout, 30);
     }

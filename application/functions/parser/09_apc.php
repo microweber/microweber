@@ -155,7 +155,7 @@ if ($use_apc == true) {
 
                 //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
                 // d($field_content);
-                $field_content = parse_micrwober_tags($field_content);
+                $field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
                 pq($elem)->html($field_content);
             } else {
@@ -166,7 +166,7 @@ if ($use_apc == true) {
         $pq->__destruct();
         $pq = null;
         unset($pq);
-      //  apc_delete($cache_id1);
+        //  apc_delete($cache_id1);
         apc_store($cache_id1, $layout, APC_EXPIRES);
     }
 }

@@ -28,6 +28,29 @@ function copy_directory($source, $destination) {
     }
 }
 
+function array_change_key($array, $search, $replace) {
+
+    $arr = array();
+    if (isset($array[0]) and is_arr($array[0])) {
+        foreach ($array as $item) {
+            $item = array_change_key($item, $search, $replace);
+
+            $arr[] = $item;
+        }
+        return $arr;
+    } else {
+        if (is_arr($array)) {
+
+            if (isset($array[$search])) {
+                $array[$replace] = $array[$search];
+
+            }
+            return $array;
+        }
+    }
+    // return TRUE; // Swap complete
+}
+
 /**
  * Makes directory recursive, returns TRUE if exists or made and false on error
  *
@@ -466,7 +489,7 @@ function recursive_remove_directory($directory, $empty = true) {
 
         // if the option to empty is not set to true
         if ($empty == FALSE) {
-@rmdir($directory);
+            @rmdir($directory);
             // try to delete the now empty directory
 //            if (!rmdir($directory)) {
 //

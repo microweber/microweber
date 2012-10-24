@@ -27,6 +27,8 @@ mw.external_tool = function(url){
   return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
 }
 
+
+
 mw.tools = {
   preloader:function(init, element){
     if(!mw._preloader)mw._preloader=mwd.getElementById('mwpreloader');
@@ -454,6 +456,10 @@ mw.tools = {
 
 
 
+
+
+
+
 Wait('$', function(){
 
   $.fn.getDropdownValue = function() {
@@ -621,6 +627,33 @@ $.fn.datas = function(){
     }
     return toreturn;
 }
+
+
+
+
+RefreshCSS = function(){
+
+  mw.$('link').each(function(){var src = this.href;this.href = '#';this.href =mw.url.strip(src)+'?v='+mw.random()});
+
+
+}
+
+AutoRefreshCSS = function(int){
+   mw._AutoRefreshCSS =  setInterval(function(){
+      !window_focus ? RefreshCSS() : '';
+   }, 3250);
+}
+
+
+
+window_focus=false;
+
+$(window).focus(function() {
+    window_focus = true;
+})
+    .blur(function() {
+        window_focus = false;
+    });
 
 
 

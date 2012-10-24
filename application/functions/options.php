@@ -8,8 +8,11 @@ function create_mw_default_options() {
     if (($cache_content) == '--true--') {
         return true;
     }
+    $cms_db_tables = c('db_tables');
 
-    define('FORCE_SAVE', 1);
+    $table = $cms_db_tables['table_options'];
+
+    define('FORCE_SAVE', $table);
     $datas = array();
 
 
@@ -177,6 +180,9 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 //d($get);
 
     if (!empty($get)) {
+    
+
+
 
         if ($return_full == false) {
 

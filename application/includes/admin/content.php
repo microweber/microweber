@@ -12,7 +12,7 @@ $(document).ready(function(){
 
      $("#mw_edit_pages").css({
        width:window.innerWidth,
-       height:window.innerHeight-50
+       height:window.innerHeight-130
      });
 
 

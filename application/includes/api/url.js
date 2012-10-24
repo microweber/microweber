@@ -1,5 +1,7 @@
 // URL Strings - Manipulations
 
+// Do not change the encoding of this file
+
 json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false')};
 
 mw.url = {
@@ -72,6 +74,72 @@ mw.url = {
 
     }
 }
+
+mw.slug = {
+  normalize:function(string){
+    return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\\/]/g, '');
+  },
+  removeSpecials:function(string){
+    var string = mw.slug.normalize(string);
+    var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·/_,:;',
+        normal =  'aaaaaeeeeiiiiooooouuuunc-------',
+        len = special.length,
+        i = 0;
+    for ( ; i<len; i++) {
+       var bad = special[i];
+       var good = normal[i];
+       var string = string.replace(new RegExp(bad, 'g'), good);
+    }
+    return string;
+  },
+  create:function(string){
+    var string = mw.slug.removeSpecials(string);
+    return string.trim().toLowerCase().replace(/[-\s]+/g, '-');
+  },
+  toggleEdit:function(){
+    var edit = mw.$(".edit-post-slug");
+    var view = mw.$(".view-post-slug");
+    $([edit, view]).toggleClass('active');
+
+    if(view.hasClass("active")){
+     view.html(edit.val());
+    }
+    else{
+       edit.focus();
+       mw.slug.fieldAutoWidthGrow(edit[0]);
+    }
+  },
+  fieldAutoWidthGrow:function(field){
+    var element = mw.$(".view-post-slug");
+    element[0].innerHTML = field.value;
+    $(field).width(element.width() + 10)
+  },
+  setVal:function(el){
+    var val = mw.slug.create(el.value)
+    el.value=val;
+    mw.$(".view-post-slug").html(val)
+  }
+}
+
+mw.walker = function(context, callback){   //todo
+  var context = mw.is.obj(context) ? context : mwd.body;
+  var callback = mw.is.func(context) ? context :  callback;
+  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
+  while (walker.nextNode()){
+    callback.call(walker.currentNode);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
