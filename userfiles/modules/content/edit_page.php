@@ -51,7 +51,7 @@ $form_rand_id = $rand = uniqid();
 $(document).ready(function(){
 	
 	 
-	 
+
 	 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() { 
 
  mw_before_content_save<? print $rand ?>()
@@ -258,13 +258,13 @@ mw_before_content_save<? print $rand ?>()
   <script  type="text/javascript">
 
  
- 
+
 
 $(document).ready(function(){
-	
-	 mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-	mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
-   mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+
+    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+    mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
+    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
 
 });
    

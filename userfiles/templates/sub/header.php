@@ -46,11 +46,17 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
  
 <header id="sidebar">
   <aside id="logo" class="clearfix">
-    <div class="editable" id="sdasd<? print $item['id'] ?>" field="content">My post</div>
+    <div class="edit"   id="site_logo" rel="global">My post</div>
   </aside>
   <ul id="user_meta">
+  
+    
+   
+   
     <li class="blog_name">
-      <h1 id="blog_name"> <a href="{TEMPLATE_URL}/index_files/index.php">The Official Svbtle Blog</a> </h1>
+   
+    <div class="edit"   id="site_title"  rel="global" ><h1 id="blog_name"> <a href="<? print site_url() ?>"> The Official Blog</a></h1></div>
+   
     </li>
     <li class="blog_owner">
       <h2 id="blog_owner"> <a href="{TEMPLATE_URL}/index_files/index.php">Svbtle Network</a> </h2>

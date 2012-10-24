@@ -11,7 +11,7 @@ if($data == false or empty($data )){
 include('_empty_content_data.php');	
 }
 
- 
+
 if(isset($params["data-active-site-template"])){
 	$data['active_site_template'] = $params["data-active-site-template"] ;
 }
@@ -29,68 +29,81 @@ if(isset($params["data-active-site-template"])){
  ?>
 <script>
 
-$(document).ready(function() {
-    // bind your jQuery events here initially
-	mw.$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
-        // Do something exciting
-		var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
-		
-		 $pmod.attr('data-active-site-template',$(this).val());
-		 
-		 
-		 
-		   mw.reload_module($pmod);
-		
-	//	alert(1);
-    });
-	
-	
-		mw.$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
-        // Do something exciting
-	//	var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
-		
-		// $pmod.attr('data-active-site-template',$(this).val());
-		 
-		 generate_preview<? print $rand; ?>();
-		 
-		//   mw.reload_module($pmod);
-		
-	 	//alert($(this).val());
-    });
-	
-	function safe_chars_to_str<? print $rand; ?>(str) {
-str=str.replace(/\\/g,'____');
-str=str.replace(/\'/g,'\\\'');
-str=str.replace(/\"/g,'\\"');
-str=str.replace(/\0/g,'____');
-return str;
+
+safe_chars_to_str = function(str){ return str.replace(/\\/g,'____').replace(/\'/g,'\\\'').replace(/\"/g,'\\"').replace(/\0/g,'____');}
+
+
+mw.templatePreview = {
+  set:function(){
+    mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+    mw.$('.preview_frame_wrapper').removeClass("loading");
+  },
+  rend:function(url){
+    var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0" scrolling="no"></iframe>';
+    mw.$('.preview_frame_container').html(frame);
+  },
+  next:function(){
+    var index = mw.templatePreview.selector.selectedIndex;
+    var next = mw.templatePreview.selector.options[index+1] !== undefined ? (index+1) : 0;
+    mw.templatePreview.selector.selectedIndex = next;
+    mw.$("#layout_selector li.active").removeClass('active');
+    mw.$("#layout_selector li").eq(next).addClass('active');
+    $(mw.templatePreview.selector).trigger('change');
+  },
+  prev:function(){
+    var index = mw.templatePreview.selector.selectedIndex;
+    var prev = mw.templatePreview.selector.options[index-1] !== undefined ? (index-1) : mw.templatePreview.selector.options.length-1;
+    mw.templatePreview.selector.selectedIndex = prev;
+    mw.$("#layout_selector li.active").removeClass('active');
+    mw.$("#layout_selector li").eq(prev).addClass('active');
+    $(mw.templatePreview.selector).trigger('change');
+  },
+  zoom:function(){
+    mw.$('.preview_frame_wrapper').toggleClass('zoom');
+    mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+  },
+  generate:function(){
+        mw.$('.preview_frame_wrapper').addClass("loading");
+
+		var template = mw.$('#active_site_template_<? print $rand; ?>').val();
+		var layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
+
+		var template = safe_chars_to_str(template);
+		var layout =  safe_chars_to_str(layout);
+
+		var template = template.replace('/','___');;
+		var layout = layout.replace('/','___');;
+
+		var iframe_url = '<? print page_link($data['id']); ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
+
+        mw.templatePreview.rend(iframe_url);
+  }
 }
+
+
+
+
+
+$(document).ready(function() {
+
+
+    mw.templatePreview.selector = mwd.getElementById('active_site_layout_<? print $rand; ?>');
+
+	mw.$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
+		var parent_module = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
+		parent_module.attr('data-active-site-template',$(this).val());
+        mw.reload_module(parent_module);
+    });
+
+	mw.$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
+		mw.templatePreview.generate();
+    });
+
+
+
+
 	
-	function generate_preview<? print $rand; ?>(){
-		var $template = mw.$('#active_site_template_<? print $rand; ?>').val();
-		var $layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
-		
-		$template = safe_chars_to_str<? print $rand; ?>($template);
-		$layout =  safe_chars_to_str<? print $rand; ?>($layout);
-		
-		$template = $template.replace('/','___');;
-		$layout = $layout.replace('/','___');;
-		
-		var iframe_url = '<? print page_link($data['id']); ?>/no_editmode:true/preview_template:'+$template+'/preview_layout:'+$layout
-		
-		
-		var $html = '<iframe src="'+iframe_url+'" class="preview_frame_small" width="357" height="290" frameborder="0" scrolling="no"></iframe>'
-		mw.$('.preview_frame_wrap').html($html);
-		mw.$('#preview_frame_wrap').append(iframe_url);
-		
-		
-		
-		//alert($template+$layout );
-		
-	}
-	
-	
-	generate_preview<? print $rand; ?>();
+	mw.templatePreview.generate();
 	
 	
 });
@@ -130,17 +143,45 @@ layout_file
 <br />
 Preview<br />
 <br />
-<style type="text/css">
-.preview_frame_small{
-zoom: 0.15;
--moz-transform: scale(0.15);
--moz-transform-origin: 0 0;
--o-transform: scale(0.15);
--o-transform-origin: 0 0;
--webkit-transform: scale(0.15);
--webkit-transform-origin: 0 0;
 
-width:600px;height:300px;border:5px solid black;
-}
-</style>
-<div class="preview_frame_wrap"> </div>
+
+
+<div class="preview_frame_wrapper loading left">
+    <div class="preview_frame_ctrls">
+        <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoom();"></span>
+        <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span>
+        <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span>
+    </div>
+    <div class="preview_frame_container"></div>
+    <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
+</div>
+
+
+<div class="layouts_box_holder">
+
+  <label class="mw-ui-label">Page Layout</label>
+
+
+  <div class="layouts_box" id="layout_selector">
+
+      <ul>
+        <li value="inherit"   <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
+        <? if(('' != trim($data['layout_file']))): ?>
+            <li value="<? print $data['layout_file'] ?>"     class="active" ><? print $data['layout_file'] ?></li>
+        <? endif; ?>
+        <? if(!empty($layouts)): ?>
+          <? foreach($layouts as $item): ?>
+              <li value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </li>
+          <? endforeach; ?>
+        <? endif; ?>
+      </ul>
+
+  </div>
+
+
+</div>
+
+
+<div class="mw_clear">&nbsp;</div>
+
+
