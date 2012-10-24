@@ -2,13 +2,18 @@
  if(IS_ADMIN == false){
 	//error('Not alowed'); 
  }
- if(isset($params['is_moderated'])){
-	 $is_moderated = $params['is_moderated'];
+ $data= $params;
+ if(isset($data['id'])){
+	 unset($data['id']);
+ }
+ 
+ if(!isset($data['is_moderated'])){
+	$data['is_moderated'] = 'n';
  } else {
-	  $is_moderated = 'n';
+	//  $is_moderated = 'n';
  }
 
- $comments = get_comments('is_moderated='.$is_moderated);
+ $comments = get_comments($data);
 
 ?>
 <? if (isarr($comments)): ?>

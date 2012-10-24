@@ -60,7 +60,7 @@ $(document).ready(function(){
 	 mw_after_content_save<? print $rand ?>();
 	 
 	 });
- 
+
   
 //  var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
  	 
@@ -87,7 +87,7 @@ mw_before_content_save<? print $rand ?>()
 
  <? endif; ?>
 
-	 
+
 
  return false;
  
@@ -267,9 +267,7 @@ $(document).ready(function(){
     mw_load_post_cutom_fields_from_categories<? print $rand ?>();
 
 
-    mw.$(".toggle_advanced_settings").click(function(){
-      mw.$(".advanced_settings_holder").toggle()
-    });
+
 
 
 });
@@ -299,7 +297,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   holder1.append($new_div);
 		 mw.$('#'+$new_div_id).attr('for','categories');
 		 mw.$('#'+$new_div_id).attr('to_table_id',value);
-		 
+
   	     mw.load_module('custom_fields/index','#'+$new_div_id, function(){
 			// mw.log(this);
 			//	$(this).find('*').addClass('red');
@@ -357,32 +355,15 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? endif; ?>
 
  <div class="advanced_settings">
-    <a href="#" class="toggle_advanced_settings"><?php _e('Advanced Settings'); ?></a>
+    <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings"><?php _e('Advanced Settings'); ?></a>
     <div class="advanced_settings_holder">
 
 
-
-
-
-
-
-
-
-
-
-
-  <h2>Advanced settings</h2>
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Description</label>
-    <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
-  </div>
-
-
-
-
-
-
-
+      <h2>Advanced settings</h2>
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Description</label>
+        <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
+      </div>
 
 
   <? if($edit_post_mode == false): ?>
@@ -390,18 +371,18 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <br />
 
 
-  <div class="mw-ui-check-selector">
-      <div class="mw-ui-label left">Is Home?</div>
-      <label class="mw-ui-check"><input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
-      <label class="mw-ui-check"><input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /> <span></span><span>Yeah</span></label>
-  </div>
+      <div class="mw-ui-check-selector">
+          <div class="mw-ui-label left" style="width: 130px">Is Home?</div>
+          <label class="mw-ui-check"><input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
+          <label class="mw-ui-check"><input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /> <span></span><span>Yes</span></label>
+      </div>
 
 
 
  <br class="mw-clear" />
 
  <div class="mw-ui-check-selector">
-     <div class="mw-ui-label left">Is Shop?</div>
+     <div class="mw-ui-label left" style="width: 130px">Is Shop?</div>
      <label class="mw-ui-check"><input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
      <label class="mw-ui-check"><input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>Yes</span></label>
  </div>
