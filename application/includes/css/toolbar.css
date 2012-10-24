@@ -352,6 +352,7 @@ padding:0px !important;
   top: 0;
   left: 0;
   z-index: 15;
+  padding: 22px;
 }
 
 
@@ -361,7 +362,7 @@ padding:0px !important;
   position: absolute;
   background: white;
   left: 0;
-  top: 0;
+  top: 74px;
   overflow: hidden;
 }
 #mw_edit_pages_content{

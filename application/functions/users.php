@@ -252,7 +252,6 @@ function user_login($params) {
                     safe_redirect($_SERVER["HTTP_REFERER"]);
                     exit();
                 }
-
             }
 
             return $user_session;
@@ -272,6 +271,11 @@ function logout() {
 // static $uid;
     $aj = isAjax();
     session_end();
+
+    if (isset($_COOKIE['editmode'])) {
+        setcookie('editmode');
+    }
+
 
     if ($aj == false) {
         if (isset($_SERVER["HTTP_REFERER"])) {
@@ -328,8 +332,10 @@ function is_admin() {
 
         if ($usr ['is_admin'] == 'y') {
             define("USER_IS_ADMIN", true);
+            define("IS_ADMIN", true);
         } else {
             define("USER_IS_ADMIN", false);
+            define("IS_ADMIN", false);
         }
         $is = USER_IS_ADMIN;
         // var_dump( $is);

@@ -1,9 +1,29 @@
 <?
 
+if (!defined('APC_CACHE')) {
+
+
+    $apc_exists = function_exists('apc_fetch');
+    $is_editmode = session_get('editmode');
+    if ($is_editmode and intval($is_editmode) == 1) {
+        $apc_exists = false;
+    }
+//    if (isset($_COOKIE['editmode'])) {
+//
+//    }
+    //$apc_exists = isset($_GET['test_cookie']);
+    define("APC_CACHE", $apc_exists);
+}
+
+if (!defined('APC_EXPIRES')) {
+
+    define("APC_EXPIRES", 30);
+}
+
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 
-
-   // return false;
+    global $shmop_exist;
+    // return false;
     static $mem = array();
     static $mem_hits = array();
 
@@ -11,19 +31,21 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
         return $mem_hits;
     }
 
+    //  d(APC_CACHE);
 
     $cache_group = (int) crc32($cache_group);
     $cache_id = (int) crc32($cache_id);
+
     //$cache_group = 'gr' . crc32($cache_group);
     // $cache_id = 'id' . crc32($cache_id);
     $mode = 2;
     switch ($mode) {
-        case 1:
+        case 1 :
             if ($replace_with_new != false) {
                 $mem[$cache_group][$cache_id] = $replace_with_new;
-                asort($mem[$cache_group]);
+                //   asort($mem[$cache_group]);
                 $mem_hits[$cache_group][$cache_id] = 1;
-                asort($mem);
+                // asort($mem);
             }
 
             if (isset($mem[$cache_group][$cache_id])) {
@@ -35,14 +57,14 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 
             break;
 
-        case 2:
+        case 2 :
             $key = $cache_group + $cache_id;
             $key = intval($key);
             if ($replace_with_new != false) {
                 $mem[$key] = $replace_with_new;
 
                 $mem_hits[$key] = 1;
-               // ksort($mem);
+                // ksort($mem);
                 // ksort($mem_hits);
             }
 
@@ -55,7 +77,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 
             break;
 
-        default:
+        default :
             break;
     }
 }
@@ -63,11 +85,11 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 function cache_file_memory_storage($path) {
     static $mem = array();
     $path_md = crc32($path);
-    if (isset($mem ["{$path_md}"]) != false) {
-        return $mem [$path_md];
+    if (isset($mem["{$path_md}"]) != false) {
+        return $mem[$path_md];
     }
     $cont = @ file_get_contents($path);
-    $mem [$path_md] = $cont;
+    $mem[$path_md] = $cont;
     return $cont;
 }
 
@@ -90,6 +112,11 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
  * @since Version 1.0
  */
 function cache_clean_group($cache_group = 'global') {
+
+    if (APC_CACHE == true) {
+        apc_clear_cache();
+    }
+
     try {
 
         $recycle_bin_f = CACHEDIR . 'db' . DS . 'recycle_bin_clear_' . date("Ymd") . '.php';
@@ -155,10 +182,10 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
                 $item_temp = intval($item) / 1000;
                 $item_temp = ceil($item_temp);
                 $item_temp = $item_temp . '000';
-                $cache_group_new [] = $item_temp;
-                $cache_group_new [] = $item;
+                $cache_group_new[] = $item_temp;
+                $cache_group_new[] = $item;
             } else {
-                $cache_group_new [] = $item;
+                $cache_group_new[] = $item;
             }
         }
         $cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
@@ -200,15 +227,15 @@ function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
  */
 function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = false) {
 
-//
-//    static $cache_index_array = array();
-//
-//    if (isset($cache_index_array[$cache_id])) {
-//        $cache_index_array[$cache_id]++;
-//        print $cache_index_array[$cache_id] . '<br>';
-//    } else {
-//        $cache_index_array[$cache_id] = 1;
-//    }
+    //
+    //    static $cache_index_array = array();
+    //
+	//    if (isset($cache_index_array[$cache_id])) {
+    //        $cache_index_array[$cache_id]++;
+    //        print $cache_index_array[$cache_id] . '<br>';
+    //    } else {
+    //        $cache_index_array[$cache_id] = 1;
+    //    }
 
     if ($cache_group === null) {
 
@@ -220,7 +247,21 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
         return false;
     }
 
+    $use_apc = false;
+    if (APC_CACHE == true) {
+        $use_apc = true;
+    }
 
+    //$use_apc = false;
+
+    if ($use_apc == true) {
+        $quote = apc_fetch($cache_id);
+
+        if ($quote) {
+
+            return $quote;
+        }
+    }
 
     /* $function_cache_id = false;
       $args = func_get_args ();
@@ -237,36 +278,32 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
       } */
     //
     // $cacheDir_index = CACHEDIR . 'rmindex' . DS;
-//    if (!is_arr($cache_index_array)) {
-//        $index_file = CACHEDIR . 'cache_index.php';
-//        if (is_file($index_file)) {
-//            $index_file_c = file_get_contents($index_file);
-//            $cache_index_array = explode(',', $index_file_c);
-//        }
-//    }
-
-
-
-
+    //    if (!is_arr($cache_index_array)) {
+    //        $index_file = CACHEDIR . 'cache_index.php';
+    //        if (is_file($index_file)) {
+    //            $index_file_c = file_get_contents($index_file);
+    //            $cache_index_array = explode(',', $index_file_c);
+    //        }
+    //    }
 
     $cache_id = trim($cache_id);
 
     $cache_group = $cache_group . DS;
 
     $cache_group = reduce_double_slashes($cache_group);
-
-    $mem = cache_get_content_from_memory($cache_id, $cache_group);
-    // d($mem);
-    if ($mem != false) {
-        //d($cache_id);
-        // exit();
-        return $mem;
+    if ($use_apc == false) {
+        $mem = cache_get_content_from_memory($cache_id, $cache_group);
+        // d($mem);
+        if ($mem != false) {
+            //d($cache_id);
+            // exit();
+            return $mem;
+        }
     }
 
     $cache_file = cache_get_file_path($cache_id, $cache_group);
     $cache_file = normalize_path($cache_file, false);
     $get_file = $cache_file;
-
 
     //if (is_file($rm_f)) {
     //   @unlink($rm_f);
@@ -317,9 +354,17 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
           } is */
 
         //gc_collect_cycles();
-        cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
+        if ($use_apc == false) {
+            cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
+        }
+        if ($use_apc == true) {
+            apc_delete($cache_id);
+
+            @apc_store($cache_id, $cache, APC_EXPIRES);
+        }
         return $cache;
     }
+
     /* 	if (! defined ( $cache_content )) {
       //	define ( $cache_content, false );
       } */
@@ -389,7 +434,6 @@ function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
     } else {
         $data_to_cache = serialize($data_to_cache);
 
-
         cache_write_to_file($cache_id, $data_to_cache, $cache_group);
 
         return true;
@@ -424,7 +468,6 @@ function cache_get_index_file_path($cache_group) {
         $cache_group_clean = "cache_index_global";
     }
 
-
     $cache_group_index = CACHEDIR . $cache_group_clean . '.php';
     return $cache_group_index;
 }
@@ -436,10 +479,6 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
     }
 
     $cache_group_index = cache_get_index_file_path($cache_group);
-
-
-
-
 
     $cache_file = cache_get_file_path($cache_id, $cache_group);
     $cache_file = normalize_path($cache_file, false);
@@ -465,8 +504,6 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 
         $see_if_dir_is_there = dirname($cache_file);
 
-
-
         $content1 = CACHE_CONTENT_PREPEND . $content;
         // var_dump ( $cache_file, $content );
         try {
@@ -489,8 +526,8 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 }
 
 function cache_clear_recycle() {
+    return true;
     static $recycle_bin;
-
 
     if ($recycle_bin == false) {
         $recycle_bin = CACHEDIR . '_recycle_bin' . DS;
@@ -521,44 +558,26 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 
     static $recycle_bin;
 
-
-    if ($recycle_bin == false) {
-        $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("YmdH") . DS;
-        if (!is_dir($recycle_bin)) {
-            mkdir_recursive($recycle_bin, false);
-            @touch($recycle_bin . 'index.php');
-            @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
-        }
-    }
-
+//    if ($recycle_bin == false) {
+//        $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
+//        if (!is_dir($recycle_bin)) {
+//            mkdir_recursive($recycle_bin, false);
+//            @touch($recycle_bin . 'index.php');
+//            @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
+//        }
+//    }
 
     foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
-        rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
+        recursive_remove_directory($filename);
+        // @rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
     }
-
-
 
     return true;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // if the path has a slash at the end we remove it here
-    if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
+    if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
 
-        $directory = substr($directory, 0, - 1);
+        $directory = substr($directory, 0, -1);
     }
 
     // if the path is not valid or is not a directory ...
@@ -601,7 +620,7 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
                         //    $path_small = crc32($path);
                         //file_put_contents($index_file, $path_small . ",", FILE_APPEND);
                         // rename($index_file_rand, $index_file);
-//  d($path);
+                        //  d($path);
                         //  unlink($path);
                     } catch (Exception $e) {
 

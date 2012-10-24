@@ -4,6 +4,10 @@ if(!window.CanvasRenderingContext2D){
 }
 
 
+typeof mw === 'undefined' ?
+
+(function(){
+
 
 
 Microweber = function(){
@@ -16,19 +20,18 @@ Microweber = function(){
     return this;
 }
 
-mw = function(){
-    return new Microweber();
-}
 
 
-//window.mw = window.mw ? window.mw : {};
 
-mw={}
+
+mw  =  {}
 
 mwd = document;
-mww = window;
+
+mw.loaded = false;
 
 mw._random = 9999999;
+
 mw.random = function(){return mw._random++;}
 
 String.prototype.contains = function(a) { return !!~this.indexOf(a)};
@@ -46,28 +49,22 @@ if(!Array.indexOf){
    }
 }
 
+
+
+
 (function() {
 
   mw.required = [];
-  mw.require = function(url){ //The Fast and the Furious
+  mw.require = function(url){ //Veyron
      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
      if(!~mw.required.indexOf(url)){
          mw.required.push(url);
-         var h = mwd.getElementsByTagName('head')[0];
          var t = url.split('.').pop();
-         var j = mwd.createElement('script');
        if(!mw.loaded){
-           if(t=='js'){
-              j.text = "mwd.write('<script type=\"text/javascript\" src=\""+url+"\"><\/script>')";
-           }
-           else if(t=='css'){
-              var link = mwd.createElement('link');
-              j.text = "mwd.write('<link rel=\"stylesheet\" href=\""+url+"\" type=\"text/css\" />')";
-           }
-           h.insertBefore( j, h.firstChild );
+            t !=='css' ? mwd.write("<script type='text/javascript' src='"+url+"'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='"+url+"' />");
        }
        else{
-         var text = "<script src='"+url+"'></script>";
+         var text = t !== 'css' ? "<script type='text/javascript' src='"+url+"'></script>" : "<link rel='stylesheet' type='text/css' href='"+url+"' />";
          $(mwd.body).append(text);
        }
      }
@@ -75,13 +72,15 @@ if(!Array.indexOf){
 
 })();
 
-!window.$ ? mw.require('<?php   print( INCLUDES_URL);  ?>js/jquery.js'):'';
+
+
+
 
 
 
 Wait = function(a,b){ window[a] === undefined ? setTimeout(function(){Wait(a,b),52}) : b.call(a); }
 
-mw.loaded = false;
+
 
 window.onload = function(){
     mw.loaded = true;
@@ -230,7 +229,8 @@ mw.reload_module = function($module_name) {
 			var $module_name = refresh_modules_explode[i];
 
 			if ($module_name != undefined) {
-				$mods = $(".module[data-type='" + $module_name + "']", '.edit');
+				//$mods = $(".module[data-type='" + $module_name + "']", '.edit');
+				$mods = $(".module[data-type='" + $module_name + "']");
 				if ($mods.length == 0) {
 					$mods = $($module_name);
 				}
@@ -296,6 +296,7 @@ mw._ = function(obj, sendSpecific){
 
 mw.qsas = mwd.querySelector;
 
+
 mw.log = function(what){
   if(window.console && mw.settings.debug){
     console.log(what);
@@ -315,47 +316,17 @@ mw.$ = function(selector){
     else{
       return jQuery(selector);
     }
-}
+};
 
-mw.on = {
-  _onmodules : [],
-  _onmodules_funcs : [],
-  moduleReload : function(id, c, trigger){
-     if(trigger){
-          var index = mw.on._onmodules.indexOf(id);
-          if(index != -1){
-            mw.on._onmodules_funcs[index].call(mwd.getElementById(id));
-          }
-          return false;
-     }
-     if(mw.is.func(c)){
-       mw.on._onmodules.push(id);
-       mw.on._onmodules_funcs.push(c);
-     }
-     else if(c==='off'){
-       var index = mw.on._onmodules.indexOf(id);
-       if(index != -1){
-        mw.on._onmodules.splice(index, 1);
-        mw.on._onmodules_funcs.splice(index, 1);
-       }
-     }
-  },
-  DOMChange:function(element, callback){
-    element.addEventListener("DOMCharacterDataModified", function(){
-        callback.call(this);
-    }, false);
-    element.addEventListener("DOMNodeInserted", function(){
-        callback.call(this);
-    }, false);
-  }
-}
+
+
+})() : '[]';
 
 
 
 
-mw.hash = function(b){
-  return b===undefined ?  window.location.hash : window.location.hash = b;
-}
+
+
 
 
 

@@ -54,7 +54,7 @@ function stats_append_image($layout) {
     //<table(?=[^>]*class="details")[^>]*>
     //$selector = '<body>';
     $selector = '/<\/body>/si';
-    $rand = uniqid();
+    $rand = date("Y-m-d");
     $layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
     //}
     //   $layout = modify_html($layout, $selector = '.editor_wrapper', 'append', 'ivan');
@@ -157,7 +157,7 @@ function stats_insert() {
     $data['last_page'] = $lp;
 
     if (!defined("FORCE_SAVE")) {
-        define('FORCE_SAVE', 1);
+        define('FORCE_SAVE', $table);
     }
 
     $save = save_data($table, $data);

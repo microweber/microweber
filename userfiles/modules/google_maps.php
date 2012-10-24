@@ -2,6 +2,7 @@
 if($params['type'] != 'google_maps'){
 return;	
 }
+ 
 $address = false;
 if (isset($params['data-address'])) {
   
@@ -10,10 +11,22 @@ if (isset($params['data-address'])) {
       $address =  option_get('data-address', $params['id']);
 }
 if($address == false or $address == ''){
-$address = "Sofia, Bulgaria";	
+	if (isset($params['parent-module-id'])) {
+  
+    $address = $params['parent-module-id'];
+	 $address =  option_get('data-address',$address);;
+}
 }
 
 
+if($address == false or $address == ''){
+	$address = "Sofia, Bulgaria";	
+
+}
+
+$address = html_entity_decode($address);
+$address = strip_tags($address);
+ //d($address);
 $zoom = false;
 if (isset($params['data-address'])) {
   

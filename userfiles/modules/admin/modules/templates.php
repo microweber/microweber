@@ -1,48 +1,25 @@
-<? $v = ( url_param('action', true) );?>
-<? if($v) {
-	 
- }  else { ?>
-<? 
-$modules_options = array();
-$modules_options['skip_admin'] = true;
-$modules_options['ui'] = true;
-$CI = get_instance ();
-if(is_callable($CI->template_model) == false){
- $CI->load->model ( 'Template_model', 'template_model' );
-}
-$templates = $CI->template_model->getModuleTemplates($params['module_name']);
-
-//
-
-?>
- <script type="text/javascript">
-function set_template_<? print $params['module_id'] ?>($filename){
-
-
-//alert($filename, $layout_name);
-
-	 mw.$('input.template_<? print $params['module_id'] ?>').val($filename).change();
- 
-
-  //call_layout_config_module();
+<?
+if(!isset($params['parent-module'])){
+error('parent-module is required');	
+	
 }
 
-</script>
+if(!isset($params['parent-module-id'])){
+error('parent-module-id');	
+	
+}
+ $templates = module_templates($params['parent-module']);
+//$params['type'];
+//d($templates);
+$cur_template = option_get('data-template', $params['parent-module-id']);
+ ?><?  if(is_arr( $templates)): ?>
 
-
-<input name="template" class="mw_option_field template_<? print $params['module_id'] ?>"  type="text" refresh_modules="forms/mail_form" option_group="<? print $params['module_id'] ?>"  value="<?php print option_get('template', $params['module_id']) ?>" />
-
-<ul class="mw-template-list">
-  <? foreach($templates as $style): ?>
-  <li data-template-name="<? print $style['name'] ?>" data-template-file="<? print $style['template'] ?>"  class="template-item" alt="<? print addslashes($style['name']) ?>">
-   <a href="javascript:set_template_<? print $params['module_id'] ?>('<? print $style['template'] ?>');">
-    <? if($style['thumbnail']): ?>
-    <img alt="<? print $style['name'] ?>" title="<? print addslashes($style['name']) ?>"   data-element-name="<? print $module2['name'] ?>"   src="<? print $style['thumbnail'] ?>" height="64"     />
-    <? endif; ?>
-    <span alt="<? print addslashes($style['description']) ?>"><? print $style['name'] ?></span>
-    </a>
-    
-     </li>
+<select name="data-template"     class="mw_option_field" option_group="<? print $params['parent-module-id'] ?>"  data-refresh="<? print $params['parent-module-id'] ?>"  >
+  <option  valie="none"   <? if(('none' == $cur_template)): ?>   selected="selected"  <? endif; ?>>None</option>
+  <?  foreach($templates as $item):	 ?>
+  <option value="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $cur_template)): ?>   selected="selected"  <? endif; ?>     > <? print $item['name'] ?> </option>
   <? endforeach; ?>
-</ul>
-<?  }   ?>
+</select>
+ 
+<? //d($templates); ?>
+<? endif; ?>

@@ -845,54 +845,58 @@ li.module-item.ui-draggable-dragging{
 }
 
 
-  [draggable] {
+[draggable] {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
-input.mw-ui[type='checkbox'],
-input.mw-ui[type='radio']{
+.mw-ui-check{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.mw-ui-check input{
   display: none;
 }
 
-input.mw-ui[type='checkbox'] + label,
-input.mw-ui[type='radio'] + label{
+.mw-ui-check input + span{
   display: inline-block;
+  position: relative;
+  top: 1px;
   cursor: pointer;
   background: url(../img/chkrd.png) no-repeat;
 }
-input.mw-ui[type='checkbox']:disabled + label,
-input.mw-ui[type='radio']:disabled + label{
-    opacity:.7;
+.mw-ui-check input:disabled + span{
+    opacity:.6;
     cursor: default !important;
 }
 
 
-input.mw-ui[type='checkbox'] + label{
+.mw-ui-check input[type='checkbox'] + span{
   width: 16px;
   height: 17px;
   background-position: 0 -15px;
 }
-input.mw-ui[type='checkbox']:checked + label{
+.mw-ui-check input[type='checkbox']:checked + span{
   background-position: -16px -15px;
 }
 
-input.mw-ui[type='radio'] + label{
+.mw-ui-check input[type='radio'] + span{
   width: 14px;
   height: 15px;
 }
-input.mw-ui[type='radio']:checked + label{
+.mw-ui-check input[type='radio']:checked + span{
   background-position: -14px 0;
 }
 
 .mw-ui-select{
   display: inline-block;
   width: auto;
+  min-width: 160px;
   position: relative;
-
-
+  overflow: hidden;
   border: 1px solid #DCDCDC;
   border-top: none;
   background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
@@ -900,18 +904,22 @@ input.mw-ui[type='radio']:checked + label{
   -moz-border-radius: 7px;
   border-radius: 7px;
   box-shadow:inset 0px 1px 0px #B8B8B8;
-
 }
 
 .mw-ui-select select{
   opacity:1;
   height: 33px;
+  padding: 7px 0 0 7px;
+  font-size: 12px;
+  min-width: 110%;
   outline: none;
-  background: #F1F1F1;
+  background: transparent;
+  background-color: rgba(0,0,0,0);
   border: none;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   border-radius: 7px;
+  -webkit-appearance:none;
 }
 
 body.dragStart .no-drop{

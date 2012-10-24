@@ -12,7 +12,7 @@ $(document).ready(function(){
 
      $("#mw_edit_pages").css({
        width:window.innerWidth,
-       height:window.innerHeight-50
+       height:window.innerHeight-130
      });
 
 
@@ -89,23 +89,24 @@ function mw_append_pages_tree_controlls(){
         var attr = el.attributes;
 
         if($(el.parentNode).children('ul').length>0){
-            var toggle = '<span class="mw_toggle_tree" onclick="mw.tools.tree(this.parentNode.parentNode, event).toggle();"></span>';
+            var toggle = '<span class="mw_toggle_tree"></span>';
         }
         // type: page or category
         if(attr['data-page-id']!==undefined){
             var pageid = attr['data-page-id'].nodeValue;
             if($(el.parentNode).hasClass("have_category")){
                var show_posts = "<span class='mw_ed_tree_show_posts' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"showposts:"+pageid+"\")'></span>";
-               el.setAttribute("onclick", "event.stopPropagation();mw.url.windowHashParam('action', 'showposts:"+pageid+"')");
+
             }
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('page', pageid) + toggle + show_posts;
+            el.setAttribute("onclick", "mw.tools.tree().toggleit(this,event,"+pageid+")");
 
         }
         else if(attr['data-category-id']!==undefined){
             var pageid = attr['data-category-id'].nodeValue;
             var show_posts = "<span class='mw_ed_tree_show_posts' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"showposts:"+pageid+"\")'></span>";
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('category', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "event.stopPropagation();mw.url.windowHashParam('action', 'showposts:"+pageid+"')");
+            el.setAttribute("onclick", "mw.tools.tree().toggleit(this,event,"+pageid+")");
         }
 
     });

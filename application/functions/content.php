@@ -325,7 +325,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
     $url = rtrim($url, '?');
     $url = rtrim($url, '#');
     $sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
-
+//d($sql);
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
     $result = $q;
@@ -1010,6 +1010,13 @@ function save_edit($post_data) {
 
                     if (isset($the_field_data['attributes']['data-field'])) {
                         $field = trim($the_field_data['attributes']['data-field']);
+                    }
+
+
+                    if ($field == false) {
+                        if (isset($the_field_data['attributes']['id'])) {
+                            $the_field_data['attributes']['field'] = $field = $the_field_data['attributes']['id'];
+                        }
                     }
 
                     if (($field != false)) {

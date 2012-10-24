@@ -137,7 +137,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
             case 'content' :
 
             default :
-                $to_table = 'table_content';
+                $to_table = $for;
                 break;
         }
         $for = $to_table;
@@ -145,7 +145,9 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 
     }
     if ($guess_cache_group != false) {
+
         $for = str_replace('table_', '', $for);
+        $for = str_replace(TABLE_PREFIX, '', $for);
     }
 
     return $for;
@@ -842,6 +844,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $criteria['search_by_keyword'] = $criteria['keyword'];
     }
 
+    $groupby = false;
+    if (isset($criteria['group'])) {
+        $groupby = $criteria['group'];
+        if (is_string($orderby)) {
+            $groupby = db_escape_string($groupby);
+        }
+    }
+
     if (isset($criteria['orderby'])) {
         $orderby = $criteria['orderby'];
         if (is_string($orderby)) {
@@ -860,7 +870,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (isset($criteria['search_in_fields'])) {
         $criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
     }
-
+    $original_cache_id = false;
     if ($cache_group != false) {
 
         $cache_group = trim($cache_group);
@@ -919,6 +929,24 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
             }
         }
     }
+
+
+    if (isset($groupby) and $groupby != false) {
+        if (is_array($groupby)) {
+            $groupby = implode(',', $groupby);
+            $groupby = db_escape_string($groupby);
+        }
+    }
+
+    if (is_string($groupby)) {
+
+        $groupby = " GROUP BY  {$groupby}  ";
+    } else {
+
+        $groupby = false;
+    }
+
+
     if (!empty($orderby)) {
 
         $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
@@ -1128,8 +1156,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if ($includeIds_idds != false) {
         $q = $q . $includeIds_idds;
     }
-    if ($count_only != true) {
-        $q .= " group by ID  ";
+
+    if ($groupby != false) {
+        $q .= " $groupby  ";
+    } else {
+
+        if ($count_only != true) {
+            $q .= " group by ID  ";
+        }
     }
     if ($order_by != false) {
 
@@ -1496,9 +1530,15 @@ function save_data($table, $data, $data_to_save_options = false) {
     }
 
     $user_session = session_get('user_session');
+
     if ($user_session == false) {
         if (!defined("FORCE_SAVE")) {
             error('You can\'t save data when you are not logged in. ');
+        } else {
+
+            if ($table != FORCE_SAVE) {
+                error('You can\'t save data to ' . $table);
+            }
         }
     }
 
@@ -2034,7 +2074,10 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
         }
     }
-
+    $cg = guess_cache_group($table);
+    // d($cg);
+    cache_clean_group($cg . '/global');
+    cache_clean_group($cg . '/' . $id_to_return);
     return $id_to_return;
     if (intval($data['edited_by']) == 0) {
 
@@ -2076,7 +2119,7 @@ function save_data($table, $data, $data_to_save_options = false) {
      * is_read='n' , "; $q .= " user_ip='{$_SERVER['REMOTE_ADDR']}'"; } } }
      */
 
-    cache_clean_group('global');
+
 
     return intval($id_to_return);
 }

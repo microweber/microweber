@@ -1,7 +1,4 @@
 
-mw.require("url.js");
-mw.require("css_parser.js");
-
 
 
 
@@ -15,20 +12,12 @@ Registered_Sliders = ['margin', 'opacity', 'padding'];
 mw.border_which = 'border';
 
 
-var t = mwd.body.style;
-
-
-
-
-
   mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 
 
-  //mw._CSSPrefixes = ['-moz-', '-webki-', '-o-', '-ms-'];
-
-  var _Prefixtest = mwd.body.style;
 
   mw.JSPrefix = function(property){
+    ! _Prefixtest ? _Prefixtest = mwd.body.style : '';
     if(_Prefixtest[property]!==undefined){
       return property;
     }
