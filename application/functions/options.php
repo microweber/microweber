@@ -126,14 +126,29 @@ function get_options($params = '') {
 }
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-
+    $cache_group = 'options/global';
 //d($key);
     $function_cache_id = false;
+
     $args = func_get_args();
+
     foreach ($args as $k => $v) {
+
         $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
     }
+
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+    if (($cache_content) == '--false--') {
+        return false;
+    }
+    // $cache_content = false;
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
 
 
     $table = c('db_tables');
@@ -154,7 +169,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     } else {
         $data['option_key'] = $key;
     }
-    $cache_group = 'options/global/' . $function_cache_id;
+    //   $cache_group = 'options/global/' . $function_cache_id;
     $ok1 = '';
     $ok2 = '';
     if ($option_group != false) {
@@ -173,14 +188,14 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     $ok = db_escape_string($data['option_key']);
 
     $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
-    $function_cache_id = __FUNCTION__ . crc32($q . $function_cache_id);
+    $function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
     //
-    $cache_group = 'options/global';
-    $get = db_query($q, $function_cache_id, $cache_group);
+
+    $get = db_query($q, $function_cache_id_q, $cache_group);
 //d($get);
 
     if (!empty($get)) {
-    
+
 
 
 

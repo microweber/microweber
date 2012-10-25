@@ -2,7 +2,7 @@
 
 if ($use_apc == true) {
 
-    $cache_id1 = 'apc-' . crc32($layout);
+    $cache_id1 = 'parser-' . crc32($layout);
     //d($cache_id1);
     $quote = apc_fetch($cache_id1);
 
@@ -167,6 +167,13 @@ if ($use_apc == true) {
         $pq = null;
         unset($pq);
         //  apc_delete($cache_id1);
+        static $apc_apc_delete;
+        if ($apc_apc_delete == false) {
+            $apc_apc_delete = function_exists('apc_delete');
+        }
+        if ($apc_apc_delete == true) {
+            apc_delete($cache_id1);
+        } 
         apc_store($cache_id1, $layout, APC_EXPIRES);
     }
 }

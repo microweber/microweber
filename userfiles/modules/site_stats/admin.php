@@ -1,7 +1,4 @@
-<?
- 
-
-  $rand = uniqid(); ?>
+<?  $rand = uniqid(); ?>
 <script  type="text/javascript">
 $r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
 mw.require($r1);
@@ -14,35 +11,71 @@ mw.require($r2);
  //d( $v);
  ?>
 <script  type="text/javascript">
+
+mw.stat = {
+  draw:function(data, obj){
+
+    var el = obj || mwd.getElementById('stats_<? print $rand ?>');
+    $(el).empty().removeClass('graph-initialised');
+    Morris.Line({
+      element: el,
+      data: data,
+      lineColors:['#9A9A9A', '#E6E6E6'],
+      pointStrokeColors:['#5B5B5B', '#5B5B5B'],
+      pointFillColors:['#ffffff','#5B5B5B'],
+      xkey: 'period',
+      ykeys: ['total_visits', 'unique_visits'],
+      labels: ['Total visits', 'Unique visits'],
+      xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
+      xLabels: 'day'
+    });
+  }
+}
+
+
+mw.statdatas = {
+    day:[
+        <?php if(!empty($v)): ?>
+          <?php $i=0; foreach($v as $item) : ?>
+            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+          <?php $i++; endforeach; ?>
+        <?php endif; ?>
+    ],
+    week:[
+        <?php if(!empty($v)): ?>
+          <?php $i=0; foreach($v as $item) : ?>
+            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+          <?php $i++; endforeach; ?>
+        <?php endif; ?>
+    ],
+    month:[
+        <?php if(!empty($v)): ?>
+          <?php $i=0; foreach($v as $item) : ?>
+            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+          <?php $i++; endforeach; ?>
+        <?php endif; ?>
+    ]
+}
+
+
 $(document).ready(function(){
-	
- var day_data = [
- <? if(!empty($v)): ?>
- <? $i=0; foreach($v as $item) : ?>
-  {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
- <? $i++; endforeach; ?>
-   <? endif; ?>
+
+
+
+
+    mw.stat.draw(mw.statdatas.day);
+
+     mw.$("#stats_nav a").click(function(){
+      var el = $(this);
+      if(!el.hasClass("active")){
+        mw.$("#stats_nav a").removeClass("active");
+        el.addClass("active");
+        var data = el.dataset("stat");
+        mw.stat.draw(mw.statdatas[data]);
+      }
+    });
  
- 
- 
-  
-];
-Morris.Line({
-  element: 'stats_<? print $rand ?>',
-  data: day_data,
-  lineColors:['#9A9A9A', '#E6E6E6'],
-  pointStrokeColors:['#5B5B5B', '#5B5B5B'],
-  pointFillColors:['#ffffff','#5B5B5B'],
-  xkey: 'period',
-  ykeys: ['total_visits', 'unique_visits'],
-  labels: ['Total visits', 'Unique visits'],
-  /* custom label formatting with `xLabelFormat` */
-  xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
-  /* setting `xLabels` is recommended when using xLabelFormat */
-  xLabels: 'day'
-});
- 
-   
+
 });
 </script>
 
@@ -50,9 +83,9 @@ Morris.Line({
 <div id="stats">
     <h2>Traffic Statistic</h2>
     <ul id="stats_nav">
-        <li class="active"><a href="#">Daily</a></li>
-        <li><a href="#">Weekly</a></li>
-        <li><a href="#">Monthly</a></li>
+        <li><a href="#" data-stat='day' class="active">Daily</a></li>
+        <li><a href="#" data-stat='week'>Weekly</a></li>
+        <li><a href="#" data-stat='month'>Monthly</a></li>
     </ul>
     <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
 

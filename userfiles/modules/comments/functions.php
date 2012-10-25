@@ -5,47 +5,9 @@
 
  */
 api_expose('post_comment');
+ 
 
 function post_comment($data) {
-
-
-    //  $adm = is_admin();
-    $cms_db_tables = c('db_tables');
-    $table = $cms_db_tables['table_comments'];
-    define('FORCE_SAVE', $table);
-
-    if (isset($data['action']) and isset($data['id'])) {
-
-        $action = strtolower($data['action']);
-
-        switch ($action) {
-            case 'publish':
-                $data['is_moderated'] = 'y';
-
-                break;
-            case 'unpublish':
-            case 'spam':
-                $data['is_moderated'] = 'n';
-
-                break;
-
-            case 'delete':
-
-                $del = db_delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
-                return $del;
-                break;
-
-            default:
-                break;
-        }
-    }
-    $data['debug'] = 1;
-    $data = save_data($table, $data);
-
-    return $data;
-}
-
-function post_commenta($data) {
 
     $adm = is_admin();
     $cms_db_tables = c('db_tables');

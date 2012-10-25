@@ -119,8 +119,10 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
 function cache_clean_group($cache_group = 'global') {
     // return true;
     $apc_exists = function_exists('apc_clear_cache');
+
     if ($apc_exists == true) {
-        apc_clear_cache();
+        apc_clear_cache('user');
+        //d('apc_clear_cache');
     }
 
     try {
@@ -363,10 +365,18 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
         if ($use_apc == false) {
             cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
         }
-        if ($use_apc == true) {
+        static $apc_apc_delete;
+        if ($apc_apc_delete == false) {
+            $apc_apc_delete = function_exists('apc_delete');
+        }
+        if ($apc_apc_delete == true) {
             apc_delete($cache_id);
+        }
 
-            @apc_store($cache_id, $cache, APC_EXPIRES);
+        if ($use_apc == true) {
+
+
+            apc_store($cache_id, $cache, APC_EXPIRES);
         }
         return $cache;
     }
