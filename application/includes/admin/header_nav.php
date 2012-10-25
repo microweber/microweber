@@ -4,7 +4,7 @@
 
 <? if(is_admin()): ?>
     <?   $active = url_param('view'); ?>
-<ul id="mw_tabs">
+<?php /* <ul id="mw_tabs">
   <li <?php if($active == 'dashboard'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
   <li <?php if($active == 'content'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:content">Content</a></li>
   <li <?php if($active == 'shop'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:shop">Online shop</a></li>
@@ -13,7 +13,21 @@
   <li <?php if($active == 'updates'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:updates">Updates</a></li>
   <li <?php if($active == 'settings'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:settings">Settings</a></li>
   <li <?php if($active == 'comments'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:comments">Comments</a></li>
+</ul> */ ?>
+
+
+
+
+<ul id="mw_tabs">
+    <li <?php if($active == 'dashboard'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
+    <li><a href="#">Website</a></li>
+    <li><a href="#">Online Shop</a></li>
+    <li><a href="#">Settings</a></li>
+    <li><a href="#">Users</a></li>
+    <li><a href="#">Help</a></li>
 </ul>
+
+
 
 <?
 

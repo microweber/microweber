@@ -98,3 +98,7 @@ $language["zoom-inout"]= 'Zoom in/out' ;
 $language["previous-layout"]= 'Previous layout' ; 
 $language["next-layout"]= 'Next layout' ; 
 $language["advanced-settings"]= 'Advanced Settings' ; 
+$language["powered-by-microweber"]= 'Powered by Microweber' ; 
+$language["powered-by-microweber"]= 'Powered by Microweber' ; 
+$language["powered-by"]= 'Powered by' ; 
+$language["microweber"]= 'Microweber' ; 

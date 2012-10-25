@@ -92,25 +92,35 @@ $(document).ready(function(){
 </div>
 
 users_online:
-<? $users_online = get_visits('users_online'); print intval($users_online) ?>
-<? $users_last5 = get_visits('last5'); 
+
+
+
+<div class="users_online"><? $users_online = get_visits('users_online'); print intval($users_online) ?></div>
+
+
+
+<? $users_last5 = get_visits('last5');
 
   //d($users_online) ?>
 <? if(!empty($users_last5)): ?>
-<table border="1">
-  <tr>
-    <th scope="col">Date</th>
-    <th scope="col">IP</th>
-    <th scope="col">Last page</th>
-    <th scope="col">Page views</th>
-  </tr>
-  <? $i=0; foreach($users_last5 as $item) : ?>
-  <tr>
-    <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
-    <td><? print $item['user_ip'] ?></td>
-    <td><? print $item['last_page'] ?></td>
-    <td><? print $item['view_count'] ?></td>
-  </tr>
-  <? $i++; endforeach; ?>
+<table border="0" cellspacing="0" cellpadding="0" class="stats_table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">IP</th>
+      <th scope="col">Last page</th>
+      <th scope="col">Page views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <? $i=0; foreach($users_last5 as $item) : ?>
+      <tr>
+        <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
+        <td><? print $item['user_ip'] ?></td>
+        <td><? print $item['last_page'] ?></td>
+        <td><? print $item['view_count'] ?></td>
+      </tr>
+    <? $i++; endforeach; ?>
+  </tbody>
 </table>
 <? endif; ?>

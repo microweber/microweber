@@ -1,5 +1,7 @@
 <?
- 
+ if(is_admin() == false){
+	 error('Must be admin'); 
+ }
  $data= $params;
  if(isset($data['id'])){
 	 unset($data['id']);

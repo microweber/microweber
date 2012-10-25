@@ -24,7 +24,7 @@ if ($use_apc == true) {
 
         foreach ($els as $elem) {
             // iteration returns PLAIN dom nodes, NOT phpQuery objects
-            $tagName = $elem->tagName;
+          //  $tagName = $elem->tagName;
             $name = pq($elem)->attr('field');
 
             if (strval($name) == '') {
@@ -173,7 +173,7 @@ if ($use_apc == true) {
         }
         if ($apc_apc_delete == true) {
             apc_delete($cache_id1);
-        } 
-        apc_store($cache_id1, $layout, APC_EXPIRES);
+        }
+        @apc_store($cache_id1, $layout, APC_EXPIRES);
     }
 }
