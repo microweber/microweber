@@ -10,7 +10,7 @@ $r2 = '<? print $config['url_to_module'] ?>morris.min.js';
 mw.require($r2);
 
  </script>
-<? $v = get_visits(); 
+<? $v = get_visits();
  //d( $v);
  ?>
 <script  type="text/javascript">
@@ -30,6 +30,9 @@ $(document).ready(function(){
 Morris.Line({
   element: 'stats_<? print $rand ?>',
   data: day_data,
+  lineColors:['#9A9A9A', '#E6E6E6'],
+  pointStrokeColors:['#5B5B5B', '#5B5B5B'],
+  pointFillColors:['#ffffff','#5B5B5B'],
   xkey: 'period',
   ykeys: ['total_visits', 'unique_visits'],
   labels: ['Total visits', 'Unique visits'],
@@ -43,8 +46,18 @@ Morris.Line({
 });
 </script>
 
-<div id="stats_<? print $rand ?>"></div>
-<hr />
+
+<div id="stats">
+    <h2>Traffic Statistic</h2>
+    <ul id="stats_nav">
+        <li class="active"><a href="#">Daily</a></li>
+        <li><a href="#">Weekly</a></li>
+        <li><a href="#">Monthly</a></li>
+    </ul>
+    <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
+
+</div>
+
 users_online:
 <? $users_online = get_visits('users_online'); print intval($users_online) ?>
 <? $users_last5 = get_visits('last5'); 

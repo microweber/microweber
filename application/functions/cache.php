@@ -8,6 +8,11 @@ if (!defined('APC_CACHE')) {
     if ($is_editmode and intval($is_editmode) == 1) {
         $apc_exists = false;
     }
+
+    if (isset($_POST) and isarr($_POST)) {
+        $apc_exists = false;
+    }
+
 //    if (isset($_COOKIE['editmode'])) {
 //
 //    }
@@ -22,7 +27,7 @@ if (!defined('APC_EXPIRES')) {
 
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 
-    global $shmop_exist;
+
     // return false;
     static $mem = array();
     static $mem_hits = array();
@@ -112,8 +117,9 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
  * @since Version 1.0
  */
 function cache_clean_group($cache_group = 'global') {
-
-    if (APC_CACHE == true) {
+    // return true;
+    $apc_exists = function_exists('apc_clear_cache');
+    if ($apc_exists == true) {
         apc_clear_cache();
     }
 

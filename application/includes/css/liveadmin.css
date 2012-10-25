@@ -1,0 +1,138 @@
+/*
+    Styles that are in both "Admin" and "Live edit"
+
+*/
+
+*{
+  margin: 0;
+  padding: 0
+}
+
+body, textarea, input{
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 12px;
+  line-height: normal;
+  color: #212121;
+}
+a{
+  color: #212121;
+  text-decoration: none;
+}
+
+body:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.mw{
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: normal;
+  color: #212121;
+}
+
+.mw *{
+  line-height: normal;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.left{
+  float: left !important;
+}
+
+.right{
+  float: right !important;
+}
+
+.mw_clear{
+  display: block;
+  height: 1px;
+  overflow: hidden;
+  clear: both;
+}
+
+.clear{
+  clear: both;
+  float: none;
+}
+
+
+.mw-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: transparent;
+}
+
+
+/*******************************************/
+
+
+/* tabs navigation */
+
+#mw_toolbar_nav{
+    width: 100%;
+    height:52px;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    background: url(../img/navbg.jpg) repeat-x;
+}
+
+
+
+
+#mw_tabs{
+  float: left;
+  list-style: none;
+  margin: 0 25px 9px;
+}
+
+#mw_tabs li{
+  float: left;
+    background: url(../img/nav_item_border.jpg) no-repeat right top;
+}
+#mw_tabs li a{
+  display: block;
+  padding:19px 20px 19px;
+  text-decoration: none;
+  outline: none;
+  color: #212121;
+  text-shadow:1px 1px 0px white;
+}
+#mw_tabs li:last-child {
+  background-image: none;
+}
+
+#mw_tabs li.active{
+  background: url(../img/nav_active_left.jpg) no-repeat;
+  margin-left: -2px;
+  padding-left: 2px;
+}
+
+#mw_tabs li.active a{
+
+  background:url(../img/nav_active_right.jpg) no-repeat right top;
+}
+
+#mw_toolbar_logo{
+  display: block;
+  float: left;
+  text-indent: -9999px;
+  background: url(../img/mw_live.png) no-repeat;
+  width:159px;
+  height: 29px;
+  overflow: hidden;
+  margin: 14px 20px;
+}
+
+
+
+
+

@@ -6,16 +6,13 @@
 
 $(document).ready(function(){
 	
-	 
- 
-mw.$('#pages_tree_toolbar a').live('click',function() { 
 
-$p_id = $(this).parent().attr('data-page-id');
 
- 
- mw_select_page_for_editing($p_id);
-
- return false;});
+mw.$('#pages_tree_toolbar a').live('click',function() {
+    $p_id = $(this).parent().attr('data-page-id');
+    mw_select_page_for_editing($p_id);
+    return false;
+});
    
 });
 

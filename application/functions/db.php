@@ -211,8 +211,8 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         $db = c('db');
     }
 
-    //var_dump($db);
-    //$is_mysqli = function_exists('mysqli_connect');
+    //  var_dump($db);
+    // $is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;
     if ($is_mysqli != false) {
         $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
@@ -236,8 +236,10 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
     } else {
-
+        // static $link;
+        //if ($link == false) {
         $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+        // }
         if ($link == false) {
             $error['error'][] = 'Could not connect: ' . mysql_error();
             return $error;
@@ -274,13 +276,14 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         }
 
         // Free resultset
-        if (is_array($result)) {
-            mysql_free_result($result);
+        if ($only_query == false) {
+            if (is_array($result)) {
+                mysql_free_result($result);
+            }
         }
-
         // Closing connection
         mysql_close($link);
-        $result = null;
+        // $result = null;
     }
 
     if ($only_query != false) {
@@ -293,21 +296,23 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     // d($q);
     //  unset($db);
     // if (MW_IS_INSTALLED != false) {
-    if (empty($q) or $q == false) {
+    if ($only_query == false and empty($q) or $q == false) {
         if ($cache_id != false) {
 
 
-            cache_store_data('---empty---', $cache_id, $cache_group);
+            // cache_store_data('---empty---', $cache_id, $cache_group);
         }
         return false;
     }
-    // $result = $q;
-    if ($cache_id != false) {
-        if (isarr($q)) {
+    if ($only_query == false) {
+        // $result = $q;
+        if ($cache_id != false) {
+            if (isarr($q)) {
 
-            cache_save($q, $cache_id, $cache_group);
-        } else {
-            cache_store_data('---empty---', $cache_id, $cache_group);
+                cache_save($q, $cache_id, $cache_group);
+            } else {
+                cache_store_data('---empty---', $cache_id, $cache_group);
+            }
         }
     }
     // }
@@ -1400,6 +1405,12 @@ function db_table_exist($table) {
  * @since Version 1.0
  */
 function db_get_table_fields($table, $exclude_fields = false) {
+
+    $db_get_table_fields = array();
+    if (!$table) {
+
+        return false;
+    }
     if (!$table) {
 
         return false;
@@ -1422,6 +1433,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
         return $cache_content;
     }
+
 
     $table = db_get_real_table_name($table);
 
@@ -1474,7 +1486,6 @@ function db_get_table_fields($table, $exclude_fields = false) {
     }
 
     cache_store_data($fields, $function_cache_id, $cache_group = 'db');
-
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
     return $fields;
 }
@@ -1505,7 +1516,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         return false;
     }
 
-    $data['session_id'] = session_id();
+
 
     $original_data = $data;
 
@@ -1520,7 +1531,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     if (isset($data_to_save_options) and !empty($data_to_save_options)) {
 
-        if (!empty($data_to_save_options['delete_cache_groups'])) {
+        if (isset($data_to_save_options['delete_cache_groups']) and !empty($data_to_save_options['delete_cache_groups'])) {
 
             foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
 
@@ -1531,7 +1542,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     $user_session = session_get('user_session');
 
+    $user_sid = false;
     if ($user_session == false) {
+
+
         if (!defined("FORCE_SAVE")) {
             error('You can\'t save data when you are not logged in. ');
         } else {
@@ -1542,17 +1556,30 @@ function save_data($table, $data, $data_to_save_options = false) {
         }
     }
 
+    if (!isset($user_session['user_id'])) {
+        $user_sid = session_id();
+        //d($user_sid);
+    } else {
+        if (intval($user_session['user_id']) == 0) {
+            unset($user_session['user_id']);
+            $user_sid = session_id();
+        }
+    }
+    if ($user_sid != false) {
+        $data['session_id'] = $user_sid;
+    } else {
+        $data['session_id'] = session_id();
+    }
+
+
     if (isset($data['cf_temp'])) {
         $cf_temp = $data['cf_temp'];
     }
-
-    if (isset($data['created_by'])) {
-        $the_user_id = $data['created_by'];
-
-        $the_user_id = $data['created_by'];
-    } else {
-        $the_user_id = user_id();
+    $the_user_id = user_id();
+    if ($the_user_id == false) {
+        $the_user_id = 0;
     }
+
     if (isset($data['screenshot_url'])) {
         $screenshot_url = $data['screenshot_url'];
     }
@@ -1606,13 +1633,14 @@ function save_data($table, $data, $data_to_save_options = false) {
         // $data ['created_on'] = false;
         $data['edited_by'] = $the_user_id;
     }
+
     $table_assoc_name = db_get_assoc_table_name($table);
 
     $criteria_orig = $data;
 
     $criteria = map_array_to_database_table($table, $data);
 
-    // p($original_data);p($criteria);die;
+    //
     //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
     $criteria = replace_site_vars($criteria);
@@ -1631,6 +1659,11 @@ function save_data($table, $data, $data_to_save_options = false) {
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
+
+    if (!isset($criteria['id'])) {
+        $criteria['id'] = 0;
+    }
+    $criteria['id'] = intval($criteria['id']);
     //  $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria['id']) == 0) {
@@ -1654,16 +1687,9 @@ function save_data($table, $data, $data_to_save_options = false) {
                 if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
 
                     if (strtolower($k) != 'id') {
-                        //    $v = str_ireplace(site_url(), '{SITE_URL}', $v);
-                        // $v = htmlentities($v, ENT_COMPAT, "UTF-8");
-                        //html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-                        // $v =
-                        // $this->content_model->applyGlobalTemplateReplaceables
-                        // ( $v );
-                        if (DB_IS_SQLITE) {
-                            //   $v = sqlite_escape_string($v);
-                        }
-                        $q .= "$k = '$v' ,";
+
+
+                        $q .= "$k='$v',";
                     }
                 }
             }
@@ -1679,55 +1705,40 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $q .= " " . $data_to_save_options['use_this_field_for_id'] . "={$n_id} ";
             } else {
 
-                //  $q = rtrim($q, ',');
-                // $n_id = "NULL";
-                //
-				//
-				//
-				$q .= " id={$n_id} ";
+                $q .= " id={$n_id} ";
             }
         }
 
-        if (DB_IS_SQLITE != false) {
-            // $q = $db->insert($table, $criteria);
-        } else {
-            //db_q($q);
-        }
-        //$q = $db->insert($table, $criteria);
-        //    d($q);
-        db_q($q);
 
-        // exit ();
-        // $this->dbQ ( $q );
-        //
 
-		$id_to_return = db_last_id($table);
+        $id_to_return = db_last_id($table);
     } else {
 
         // update
         $data = $criteria;
 
-        // $n = $this->db->update ( $table, $data, "id = {$data ['id']}" );
+
         $q = " UPDATE  $table set ";
 
         foreach ($data as $k => $v) {
-
-            // $v = htmlspecialchars ( $v, ENT_QUOTES );
-            $q .= "$k = '$v' , ";
+            if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
+                // $v = htmlspecialchars ( $v, ENT_QUOTES );
+                $q .= "$k='$v',";
+            }
         }
-
-        $q .= " id={$data ['id']} WHERE id={$data ['id']} ";
-
-        //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-        if (DB_IS_SQLITE != false) {
-            // $q1 = "UPDATE  $table SET \"" . implode('"=?,"', array_keys($data)) . '"=? WHERE ';
-            // $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-            // db_q($q);
+        $user_sidq = '';
+        if ($user_sid != false) {
+            $user_sidq = " AND session_id='{$user_sid}' ";
         } else {
-            // db_q($q);
+
+        }
+        $user_createdq = '';
+        if (is_admin() == false) {
+            $user_createdq = " AND created_by=$the_user_id ";
         }
 
-        db_q($q);
+        $q .= " edited_by=$the_user_id WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
+
 
         $id_to_return = $data['id'];
     }
@@ -1735,7 +1746,9 @@ function save_data($table, $data, $data_to_save_options = false) {
     if ($dbg != false) {
         d($q);
     }
-    //d($q);
+    db_q($q);
+
+    // d($q);
     // p($original_data);
     /*
      * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
@@ -2074,6 +2087,7 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
         }
     }
+
     $cg = guess_cache_group($table);
     // d($cg);
     cache_clean_group($cg . '/global');

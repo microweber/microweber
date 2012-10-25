@@ -1,0 +1,17 @@
+@import url("liveadmin.css");
+
+#mw_toolbar_logo{
+  background-image: url(../img/logo_admin.png);
+}
+#mw_toolbar_nav{
+  height: 49px;
+}
+
+#stats{
+    background: #F4F4F4;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+#main{
+  width: 1000px;
+}

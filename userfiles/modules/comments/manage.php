@@ -1,7 +1,5 @@
 <?
- if(IS_ADMIN == false){
-	//error('Not alowed'); 
- }
+ 
  $data= $params;
  if(isset($data['id'])){
 	 unset($data['id']);

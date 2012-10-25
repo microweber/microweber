@@ -51,18 +51,18 @@
 
     mw.files.drag_from_pc({
       selector:"#drag_files_here",
-      filetypes:'jpg,png',
+      filetypes:'jpg,png,gif',
       filesadded:function(){
-         console.log(this); // this is "object FileList" of added files
+         mw.log(this); // this is "object FileList" of added files
       },
       fileuploaded:function(){
         afterInput(this.src);
       },
       done:function(){
-        console.log(this); //this is json object returned from server with all the files that are uploaded
+        mw.log(this); //this is json object returned from server with all the files that are uploaded
       },
       skip:function(){
-        console.log(this); // this is "object File" of the skipped file
+        mw.log(this); // this is "object File" of the skipped file
       }
 
 

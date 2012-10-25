@@ -217,30 +217,30 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             $use_apc = false;
         }
     }
-
-    if ($use_apc == true) {
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($layout);
-
-        $quote = false;
-
-        $quote = apc_fetch($function_cache_id);
-
-
-        if ($quote) {
-
-            return $quote;
-        }
-    }
+//
+//    if ($use_apc == true) {
+//
+//        $function_cache_id = false;
+//
+//        $args = func_get_args();
+//
+//        foreach ($args as $k => $v) {
+//
+//            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
+//        }
+//
+//        $function_cache_id = __FUNCTION__ . crc32($layout);
+//
+//        $quote = false;
+//
+//        $quote = apc_fetch($function_cache_id);
+//
+//
+//        if ($quote) {
+//
+//            return $quote;
+//        }
+//    }
 
 
     if (!isset($options['parse_only_vars'])) {
@@ -700,9 +700,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
     if ($use_apc == true) {
 //d($function_cache_id);
-        apc_delete($function_cache_id);
+     //   apc_delete($function_cache_id);
 
-        apc_store($function_cache_id, $layout, 30);
+       // apc_store($function_cache_id, $layout, 30);
     }
 
     return $layout;
