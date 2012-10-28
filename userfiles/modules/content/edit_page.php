@@ -17,8 +17,12 @@ if(isset($params["data-content"])){
 	$params["data-page-id"] = $params["data-content"];
 }
  //d($params);
+$pid = false;
+$data = false;
+if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 $data = get_content_by_id($params["data-page-id"]); 
+}
  
 if($data == false or empty($data )){
 include('_empty_content_data.php');

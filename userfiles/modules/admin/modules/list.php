@@ -64,7 +64,9 @@ $mod_obj_str = 'modules';
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']);
-
+if(is_array($module2['categories'])){
+$module2['categories'] = implode(',',$module2['categories']);	
+}
 
   ?>
 
@@ -77,7 +79,7 @@ $mod_obj_str = 'modules';
        name:'<? print $module2["module"] ?>',
        title:'<? print $module2["name"] ?>',
        description:'<? print addslashes($module2["description"]) ?>',
-       category:'<? print $module2["categories"]; ?>'
+       category:'<? print addslashes($module2["categories"]); ?>'
      }
 
 

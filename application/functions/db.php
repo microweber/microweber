@@ -142,7 +142,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
         }
         $for = $to_table;
     } else {
-
+        
     }
     if ($guess_cache_group != false) {
 
@@ -236,10 +236,10 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
     } else {
-        // static $link;
-        //if ($link == false) {
+         static $link;
+         if ($link == false) {
         $link = mysql_connect($db['host'], $db['user'], $db['pass']);
-        // }
+          }
         if ($link == false) {
             $error['error'][] = 'Could not connect: ' . mysql_error();
             return $error;
@@ -282,7 +282,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
         // Closing connection
-        mysql_close($link);
+       // mysql_close($link);
         // $result = null;
     }
 
@@ -412,6 +412,7 @@ function get($params) {
             $table = guess_table_name($v);
         }
 
+ 
         if ($k == 'for' and !isset($params['to_table'])) {
             $v = db_get_assoc_table_name($v);
             $k = 'to_table';
@@ -630,7 +631,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         }
 
         if ($debug) {
-
+            
         }
     }
     if (isset($criteria['fields'])) {
@@ -1178,7 +1179,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-
+        
     }
     if ($limit != false) {
 
@@ -1730,7 +1731,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         if ($user_sid != false) {
             $user_sidq = " AND session_id='{$user_sid}' ";
         } else {
-
+            
         }
         $user_createdq = '';
         if (is_admin() == false) {
@@ -1827,7 +1828,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                             $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
                             $gotten_by_id = true;
                         } else {
-
+                            
                         }
                         if ($gotten_by_id == false and isset($is_ex[0])) {
 
@@ -1897,7 +1898,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                                 $cats_data_modified = TRUE;
                                 $cats_data_items_modified = TRUE;
                             } else {
-
+                                
                             }
                             //
                             //  d($is_ex);
@@ -2089,7 +2090,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     }
 
     $cg = guess_cache_group($table);
-   //   d($cg);
+    //   d($cg);
     cache_clean_group($cg . '/global');
     cache_clean_group($cg . '/' . $id_to_return);
     return $id_to_return;

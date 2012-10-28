@@ -10,7 +10,12 @@ if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
  
+$data = false;
+if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
+
+
 $data = get_content_by_id($params["data-page-id"]); 
+} 
 
 if($data == false or empty($data )){
 include('_empty_content_data.php');	
@@ -21,7 +26,11 @@ if(isset($params["data-active-site-template"])){
 	$data['active_site_template'] = $params["data-active-site-template"] ;
 }
 
-
+if(isset($data['active_site_template']) and $data['active_site_template'] == ''){
+	 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+}
+ 
+ 
 
  
  $templates= templates_list();

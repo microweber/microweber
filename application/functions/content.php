@@ -92,6 +92,12 @@ function define_constants($content = false) {
         define('TEMPLATE_DIR', $the_active_site_template_dir);
     }
 
+    if (defined('ACTIVE_SITE_TEMPLATE') == false) {
+
+        define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
+    }
+
+    
     if (defined('TEMPLATES_DIR') == false) {
 
         define('TEMPLATES_DIR', TEMPLATEFILES);
