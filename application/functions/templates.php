@@ -106,7 +106,7 @@ function layouts_list($options = false) {
         }
     }
     if (!isset($options['path'])) {
-        if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default')) {
+        if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
             $tmpl = trim($options['site_template']);
             $check_dir = TEMPLATEFILES . '' . $tmpl;
             if (is_dir($check_dir)) {

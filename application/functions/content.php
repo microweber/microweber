@@ -264,7 +264,7 @@ function get_layout_for_page($page = array()) {
         if (is_file($template_view) == true) {
             $render_file = $template_view;
         } else {
-
+            
         }
     }
 
@@ -1163,7 +1163,7 @@ function save_edit($post_data) {
                     }
                 }
             } else {
-
+                
             }
         }
     }
@@ -1271,7 +1271,7 @@ function save_content($data, $delete_the_cache = true) {
 
             $data['url'] = $theurl;
         } else {
-
+            
         }
 
         if (!isset($data['url']) or strval($data['url']) == '') {
@@ -1336,16 +1336,16 @@ function save_content($data, $delete_the_cache = true) {
             }
         }
 
-        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and ($data_to_save['quick_save'] == false)) {
+        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
 
             $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
         }
 
-        if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and ($data_to_save['quick_save'] == false)) {
+        if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and (isset($data_to_save['quick_save']) == false)) {
 
             $data_to_save['title'] = 'post-' . $date123;
         }
-        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and ($data_to_save['quick_save'] == false)) {
+        if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
             $data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));
         }
 
@@ -1537,8 +1537,8 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $cache_content = cache_get_content($function_cache_id, $cache_group);
 
     if (($cache_content) != false) {
-        print $cache_content;
-        return;
+      print $cache_content;
+      return;
         //  return $cache_content;
     }
 
@@ -1552,7 +1552,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $params = false;
     $output = '';
     if (is_integer($parent)) {
-
+        
     } else {
         $params = $parent;
         if (is_string($params)) {
@@ -1565,7 +1565,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             extract($params);
         }
     }
-
+//d($params);
 
     if (isset($params['nest_level'])) {
         $nest_level = $params['nest_level'];
@@ -1579,6 +1579,10 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
         $parent = (0);
     }
+
+
+
+
     if ($include_first == true) {
         $sql = "SELECT * from $table where  id=$parent    and content_type='page'  order by updated_on desc limit 0,1";
     } else {
@@ -1587,9 +1591,37 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     }
 
     $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
+
+
+
+
+
+
     $cid = __FUNCTION__ . crc32($sql);
     $cidg = 'content/' . $parent;
-    $q = db_query($sql, $cid, $cidg);
+
+
+
+
+
+    //$q = db_query($sql, $cid, $cidg);
+    if (!isarr($params)) {
+        $params = array();
+    }
+    if (isset($params['id'])) {
+        unset($params['id']);
+    }
+
+
+    $params['parent'] = $parent;
+    //$params['debug'] = $parent;
+    $params['content_type'] = 'page';
+
+
+    $q = get_content($params);
+
+
+
 
     $result = $q;
 
@@ -1629,7 +1661,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             }
 
             if ($item['is_home'] != 'y') {
-
+                
             } else {
 
                 $content_type_li_class .= ' is_home';
@@ -1731,6 +1763,11 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
             if (is_array($params)) {
                 $params['parent'] = $item['id'];
+
+
+
+
+
                 //   $nest_level++;
                 $params['nest_level'] = $nest_level;
                 $children = pages_tree($params);
@@ -1754,7 +1791,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
         print "</ul>";
     } else {
-
+        
     }
 
 

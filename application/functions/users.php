@@ -255,7 +255,7 @@ function user_login($params) {
             $user_session ['user_id'] = $data ['id'];
 
             if (!defined('USER_ID')) {
-                define("USER_ID", $data ['idF']);
+                define("USER_ID", $data ['id']);
             }
 
 

@@ -240,59 +240,43 @@ function mw_add_product(){
 
 </script>
 
-
-
-
-
-
-
 <div id="mw_edit_pages">
-<div id="mw_edit_pages_content">
+  <div id="mw_edit_pages_content">
     <div class="left mw_edit_page_left" style="width: 25%">
-
-    <div class="mw_edit_pages_nav">
-
+      <div class="mw_edit_pages_nav">
         <h2 class="mw_tree_title">Website  Navigation</h2>
-
         <span class="mw_action_nav mw_action_page" onclick="mw_select_page_for_editing(0);">
-            <label>Page</label>
-            <button></button>
+        <label>Page</label>
+        <button></button>
+        </span> <span class="mw_action_nav mw_action_post" onclick="mw_select_post_for_editing(0)">
+        <label>Post</label>
+        <button>&nbsp;</button>
+        </span> <span class="mw_action_nav mw_action_category" onclick="mw_select_category_for_editing(0)">
+        <label>Category</label>
+        <button>&nbsp;</button>
+        </span> <span class="mw_action_nav mw_action_product" onclick="mw_add_product(0)">
+        <label>Product</label>
+        <button>&nbsp;</button>
         </span>
-        <span class="mw_action_nav mw_action_post" onclick="mw_select_post_for_editing(0)"><label>Post</label><button>&nbsp;</button></span>
-        <span class="mw_action_nav mw_action_category" onclick="mw_select_category_for_editing(0)"><label>Category</label><button>&nbsp;</button></span>
-        <span class="mw_action_nav mw_action_product" onclick="mw_add_product(0)"><label>Product</label><button>&nbsp;</button></span>
-
-
-
-
-       <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
+        <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
-
-
-    </div>
-
-
+      </div>
       <div class="mw_pages_posts_tree"  id="pages_tree_container_">
-        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar"  />
+        <?
+	  $is_shop_str = '';
+	   if(isset($is_shop)){
+		 $is_shop_str = " is_shop='{$is_shop}' "   ;
+	   }
+	   ?>
+        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
       </div>
     </div>
-
-
     <div class="left mw_edit_page_right" style="width: 70%">
-
-         <div class="mw_edit_pages_nav">
-
-
-         </div>
-    
-
-        <div id="pages_edit_container"><module data-type="content/edit_page" id="edit_content_admin_"  /></div>
-        
-        
-        
-        
+      <div class="mw_edit_pages_nav"> </div>
+      <div id="pages_edit_container">
+        <module data-type="content/edit_page" id="edit_content_admin_"  />
+      </div>
     </div>
+  </div>
 </div>
-</div>
-

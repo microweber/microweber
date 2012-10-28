@@ -1,10 +1,15 @@
 <?
+
+
+
+
+ 
  
 $rand = uniqid();
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
-
+ 
 $data = get_content_by_id($params["data-page-id"]); 
 
 if($data == false or empty($data )){
@@ -22,6 +27,7 @@ if(isset($params["data-active-site-template"])){
  $templates= templates_list();
  
  $layout_options = array();
+ 
  $layout_options  ['site_template'] = $data['active_site_template'];
  
   $layouts = layouts_list($layout_options);
