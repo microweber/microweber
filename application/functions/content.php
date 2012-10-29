@@ -97,7 +97,7 @@ function define_constants($content = false) {
         define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
     }
 
-    
+
     if (defined('TEMPLATES_DIR') == false) {
 
         define('TEMPLATES_DIR', TEMPLATEFILES);
@@ -1422,23 +1422,52 @@ function save_content($data, $delete_the_cache = true) {
             }
         }
     }
-
+    $par_page = false;
     if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
             $par_page = get_content_by_id($data_to_save['parent']);
-            if (is_array($par_page)) {
-                if (!isset($data_to_save['categories'])) {
-                    $data_to_save['categories'] = '';
-                }
-                if (is_string($data_to_save['categories'])) {
-                    $data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
-                }
+        }
+
+
+        if (is_array($par_page)) {
+            if (!isset($data_to_save['categories'])) {
+                $data_to_save['categories'] = '';
             }
-            //d($par_page);
-            //d($data_to_save);
-            //	exit();
+            if (is_string($data_to_save['categories'])) {
+                $data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
+            }
+        }
+
+
+
+        if (isset($data_to_save['categories']) and $par_page == false) {
+            if (is_string($data_to_save['categories'])) {
+                $c1 = explode(',', $data_to_save['categories']);
+                if (isarr($c1)) {
+                    foreach ($c1 as $item) {
+                        $item = intval($item);
+                        if ($item > 0) {
+                            $cont_cat = get_content('limit=1&content_type=page&subtype=dynamic&subtype_value=' . $item);
+                            if (isset($cont_cat[0]) and isarr($cont_cat[0])) {
+                                $cont_cat = $cont_cat[0];
+                                if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
+                                    // d($cont_cat);
+                                    $data_to_save['parent'] = $cont_cat["id"];
+                                    break;
+                                }
+                            }
+                            //   
+                        }
+                    }
+                }
+                // d($c1);
+            }
         }
     }
+
+
+//d($data_to_save);
+
 
     $save = save_data($table, $data_to_save);
 
@@ -1543,8 +1572,8 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     $cache_content = cache_get_content($function_cache_id, $cache_group);
 
     if (($cache_content) != false) {
-      print $cache_content;
-      return;
+        print $cache_content;
+        return;
         //  return $cache_content;
     }
 

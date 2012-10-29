@@ -38,15 +38,6 @@ if(isset($params["data-is-shop"])){
 
 $form_rand_id = $rand = uniqid();
 ?>
-
-
-
-
-
-
-
-
-
 <script  type="text/javascript">
 
 
@@ -138,34 +129,16 @@ mw_before_content_save<? print $rand ?>()
 </script>
 
 <form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form">
-
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
-      <div class="mw-ui-field-holder">
-          <label class="mw-ui-label">Page name</label>
-          <input name="title" style="width: 360px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
-      </div>
-      <div class="edit-post-url">
-          <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
-          <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
-          <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
-      </div>
+    <div class="mw-ui-field-holder">
+      <label class="mw-ui-label">Page name</label>
+      <input name="title" style="width: 360px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
+    </div>
+    <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
+      <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
+      <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
@@ -226,9 +199,8 @@ mw_before_content_save<? print $rand ?>()
       <option value="<? print $data['parent'] ?>"     selected="selected"  ><? print $data['parent'] ?></option>
       <? endif; ?>
       <? foreach($pages as $item): ?>
-
       <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $data['parent']) and $item['id'] != $data['id']): ?>   selected="selected"  <? endif; ?>  <? if($item['id'] == $data['id']): ?>    disabled="disabled"  <? endif; ?>  >
-    <?php print $item['parent']!=0 ? '&nbsp;&nbsp;' : '';  ?><? print $item['title']; ?>
+      <?php print $item['parent']!=0 ? '&nbsp;&nbsp;' : '';  ?><? print $item['title']; ?>
       </option>
       <? endforeach; ?>
     </select>
@@ -325,12 +297,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? endif; ?>
   <div class="mw-ui mw-ui-category-selector">
     <? if(intval($data['id']) > 0): ?>
-      <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
+    <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?>>
     <? else: ?>
-      <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
+    <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?>>
     <? endif; ?>
   </div>
-       Custom fields for post
+  Custom fields for post
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
   </div>
@@ -338,127 +310,86 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
-
- <div class="advanced_settings">
-    <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more"><?php _e('Advanced Settings'); ?></a>
+  <div class="advanced_settings"> <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
+    <?php _e('Advanced Settings'); ?>
+    </a>
     <div class="advanced_settings_holder">
-
-
-
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
       </div>
-
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Meta Keywords</label>
         <textarea class="mw-ui-field" name="metakeys">Some keywords</textarea>
       </div>
-
-
-  <? if($edit_post_mode == false): ?>
-  <br />
-  <br />
-
-
-
-
-
-
+      <? if($edit_post_mode == false): ?>
+      <br />
+      <br />
       <div class="mw-ui-check-selector">
-          <div class="mw-ui-label left" style="width: 130px">Is Home?</div>
-          <label class="mw-ui-check"><input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
-          <label class="mw-ui-check"><input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> /> <span></span><span>Yes</span></label>
+        <div class="mw-ui-label left" style="width: 130px">Is Home?</div>
+        <label class="mw-ui-check">
+          <input name="is_home" type="radio"  value="n" <? if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>No</span></label>
+        <label class="mw-ui-check">
+          <input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>Yes</span></label>
       </div>
-
-
-
- <br class="mw-clear" />
-
- <div class="mw-ui-check-selector">
-     <div class="mw-ui-label left" style="width: 130px">Is Shop?</div>
-     <label class="mw-ui-check"><input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
-     <label class="mw-ui-check"><input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>Yes</span></label>
- </div>
-
-
-
-
-  <br />
-  <br />
-  subtype
-  <div class="mw-ui-select">
-    <select name="subtype">
-      <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-      <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
-    </select>
-  </div>
-  <br />
-  <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
-  <br />
-  <? endif; ?>
-
-  <br />
-
-  <div class="mw-ui-check-selector">
-     <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
-     <label class="mw-ui-check"><input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>No</span></label>
-     <label class="mw-ui-check"><input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> /><span></span><span>Yes</span></label>
- </div>
-
-
-
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <input type="submit" name="save"    value="save" />
-  <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
-  <? if($edit_post_mode == false): ?>
-  <? endif; ?>
-
-
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Password</label>
-    <input name="title" style="width: 360px;" class="mw-ui-field"  type="password" value="" />
-</div>
-
-    <br /><br />
-  <?  if(!isset($data["thumbnail"])){
+      <br class="mw-clear" />
+      <div class="mw-ui-check-selector">
+        <div class="mw-ui-label left" style="width: 130px">Is Shop?</div>
+        <label class="mw-ui-check">
+          <input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>No</span></label>
+        <label class="mw-ui-check">
+          <input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>Yes</span></label>
+      </div>
+      <br />
+      <br />
+      subtype
+      <div class="mw-ui-select">
+        <select name="subtype">
+          <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+          <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+        </select>
+      </div>
+      <br />
+      <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
+      <br />
+      <? endif; ?>
+      <br />
+      <div class="mw-ui-check-selector">
+        <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
+        <label class="mw-ui-check">
+          <input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>No</span></label>
+        <label class="mw-ui-check">
+          <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>Yes</span></label>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <input type="submit" name="save"    value="save" />
+      <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+      <? if($edit_post_mode == false): ?>
+      <? endif; ?>
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Password</label>
+        <input name="password" style="width: 360px;" class="mw-ui-field"  type="password" value="" />
+      </div>
+      <br />
+      <br />
+      <?  if(!isset($data["thumbnail"])){
 	   $data['thumbnail'] = '';
 
   }?>
-
-  <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
-
-
-  <span class="mw-ui-btn" onclick="mw.wysiwyg.request_image('');">Thumbnail image</span>
-
-
-  <div class="post-thumb-uploader">
-
-
-
-
+      <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
+      <span class="mw-ui-btn" onclick="mw.wysiwyg.request_image('');">Thumbnail image</span>
+      <div class="post-thumb-uploader"> </div>
+      <button type="submit">Save be</button>
+    </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-  <button type="submit">Save be</button>
-
-
-
-      </div>
- </div>
-
-
-
 </form>

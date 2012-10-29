@@ -236,10 +236,10 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
     } else {
-         static $link;
-         if ($link == false) {
-        $link = mysql_connect($db['host'], $db['user'], $db['pass']);
-          }
+        static $link;
+        if ($link == false) {
+            $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+        }
         if ($link == false) {
             $error['error'][] = 'Could not connect: ' . mysql_error();
             return $error;
@@ -261,7 +261,6 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         }
         $nwq = array();
 
-        // Printing results in HTML
         if (!$result) {
             $error['error'][] = 'Can\'t connect to the database';
             return $error;
@@ -282,7 +281,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
         // Closing connection
-       // mysql_close($link);
+        // mysql_close($link);
         // $result = null;
     }
 
@@ -317,7 +316,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     }
     // }
     return $q;
-
+//remove below
     $results = array();
     if (!empty($q)) {
         foreach ($q as $result) {
@@ -412,7 +411,7 @@ function get($params) {
             $table = guess_table_name($v);
         }
 
- 
+
         if ($k == 'for' and !isset($params['to_table'])) {
             $v = db_get_assoc_table_name($v);
             $k = 'to_table';
