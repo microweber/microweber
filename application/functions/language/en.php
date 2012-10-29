@@ -102,3 +102,6 @@ $language["powered-by-microweber"]= 'Powered by Microweber' ;
 $language["powered-by-microweber"]= 'Powered by Microweber' ; 
 $language["powered-by"]= 'Powered by' ; 
 $language["microweber"]= 'Microweber' ; 
+$language["logout"]= 'Logout' ; 
+$language["go-live-edit"]= 'Go Live Edit' ; 
+$language["go-live-edit"]= 'Go Live Edit' ; 

@@ -6,14 +6,9 @@ String.prototype.toFragment = function(){
   f.appendChild(document.createTextNode(this));
   return f;
 }
-String.prototype.toDomObject = function(){
 
-  return f;
-}
 
-mw.checker = mwd.createElement('div');
-mw.checker.className = 'mw-checker semi_hidden';
-mwd.body.appendChild(mw.checker);
+
 
 
 mw.wysiwyg = {

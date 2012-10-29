@@ -17,6 +17,7 @@ body, textarea, input{
 a{
   color: #212121;
   text-decoration: none;
+  outline: none;
 }
 
 body:-webkit-full-screen {
@@ -85,7 +86,10 @@ body:-webkit-full-screen {
     background: url(../img/navbg.jpg) repeat-x;
 }
 
-
+#mw_toolbar_nav .mw-ui-btn{
+  margin-top: 7px;
+  margin-right: 10px;
+}
 
 
 #mw_tabs{

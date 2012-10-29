@@ -26,6 +26,8 @@ Microweber = function(){
 
 mw  =  {}
 
+mw.module = {} //Global Variable for modules scripts
+
 mwd = document;
 
 mw.loaded = false;
@@ -36,6 +38,13 @@ mw.random = function(){return mw._random++;}
 
 String.prototype.contains = function(a) { return !!~this.indexOf(a)};
 
+
+mw.onLive = function(callback){
+  if(!window['mwAdmin']){callback.call(this)}
+}
+mw.onAdmin = function(callback){
+  if(window['mwAdmin']){callback.call(this)}
+}
 
 
 if(!Array.indexOf){
@@ -119,6 +128,10 @@ mw.settings = {
     site_url:'<?php print site_url(); ?>', //mw.settings.site_url
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url:'<?php print site_url(); ?>api/upload/',
+	
+	api_url:'<?php print site_url(); ?>api/',
+	
+	
     page_id : '<?php print intval(PAGE_ID) ?>',
     post_id : '<?php print intval(POST_ID) ?>',
     category_id : '<?php print intval(CATEGORY_ID) ?>',

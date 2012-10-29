@@ -275,7 +275,7 @@ if (!function_exists('pathToURL')) {
         $path = str_ireplace(ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
-        // var_dump($path);
+        //var_dump($path);
         return site_url($path);
     }
 

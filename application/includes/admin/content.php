@@ -9,12 +9,16 @@
 $(document).ready(function(){
 
 
+    mw.onLive(function(){
+      set_pagetab_size();
+    });
 
-     set_pagetab_size();
 
 
 
-	 mw_append_pages_tree_controlls();
+
+
+mw_append_pages_tree_controlls();
 
 
 
@@ -23,7 +27,7 @@ $(document).ready(function(){
  mw.on.hashParam("page-posts", function(){
       mw_set_edit_posts(this);
  });
- 
+
 
 
   mw.on.moduleReload("pages_tree_toolbar", function(){

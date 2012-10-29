@@ -296,7 +296,7 @@ function delete_option_by_key($key, $option_group = false) {
 
     $table = $cms_db_tables['table_options'];
 
-    cache_clean_group('options');
+
     if ($option_group != false) {
         $option_group = db_escape_string($option_group);
         $option_group_q1 = "and option_group='{$option_group}'";
@@ -305,6 +305,6 @@ function delete_option_by_key($key, $option_group = false) {
     $q = "delete from $table where option_key='$key' $option_group_q1 ";
 
     db_q($q);
-
+ cache_clean_group('options');
     return true;
 }

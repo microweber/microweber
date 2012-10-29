@@ -589,16 +589,23 @@ String.prototype._exec = function(a,b,c){
   else{
     var arr = this.split(".");
     var temp = window[arr[0]];
+
     var len = arr.length-1;
     for(var i=1; i<=len; i++){
         var temp = temp[arr[i]];
+        mw.log(temp);
     }
     return mw.is.func(temp) ? temp(a,b,c) : temp;
   }
 }
 
+mw.exec = function(str, a,b,c){
+    return str._exec(a,b,c);
+}
+
 
 /*
+
 $(document).ready(function(){
   $(".modules-list.list-elements img").each(function(){
     var file = mw.extras.get_filename(this.src);
@@ -611,7 +618,8 @@ $(document).ready(function(){
     width:'auto'
   })
 });
-        */
+
+*/
 
 
 $.fn.datas = function(){

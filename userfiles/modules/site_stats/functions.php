@@ -84,23 +84,33 @@ function stats_image() {
 function stats_insert() {
     $function_cache_id = false;
     $uip = $_SERVER['REMOTE_ADDR'];
-    $function_cache_id = $function_cache_id . $uip;
+    $function_cache_id = $function_cache_id . $uip . USER_IP;
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_content = cache_get_content($function_cache_id, $cache_group = 'stats');
+    $cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
     if (($cache_content) == '--false--') {
         //return false;
     }
     $cookie_name = md5($function_cache_id);
 
+
+    $vc1 = 1;
+    if (isset($_COOKIE[$cookie_name])) {
+        $vc1 = intval($_COOKIE[$cookie_name]) + 1;
+        setcookie($cookie_name, $vc1);
+        //  return true;
+    } elseif (!isset($_COOKIE[$cookie_name])) {
+        setcookie($cookie_name, $vc1);
+        // return true;
+    }
+
     // $cache_content = false;
     if (($cache_content) != false) {
+
         if (isset($cache_content["visit_time"])) {
             $then = strtotime($cache_content["visit_time"]);
             $few_mins_ago = strtotime("-1 minute");
-
-
 
 
             $then_visit_date = date("Y-m-d", strtotime($cache_content["visit_date"]));
@@ -108,27 +118,28 @@ function stats_insert() {
 
             if ($then_visit_date == $few_mins_ago_visit_date) {
                 if ($then > $few_mins_ago) {
-
-                    $vc1 = 1;
-                    if (isset($_COOKIE[$cookie_name])) {
-                        $vc1 = intval($_COOKIE[$cookie_name]) + 1;
-                        setcookie($cookie_name, $vc1);
-                    } elseif (!isset($_COOKIE[$cookie_name])) {
-                        setcookie($cookie_name, $vc1);
-                    }
-
                     return true;
+
+
                     //d($cache_content);
+                } else {
+                    //  exit('asdasd');
                 }
             }
         }
         //return $cache_content;
     }
 
+
+
+
+
+
+
     $data = array();
     $data['visit_date'] = date("Y-m-d");
     $data['visit_time'] = date("H:i:s");
-    //  $data['debug'] = date("H:i:s");
+    //   $data['debug'] = date("H:i:s");
 
     $table = MODULE_DB_TABLE_USERS_ONLINE;
     $check = get("table={$table}&user_ip={$uip}&no_cache=1&one=1&limit=1&visit_date=" . $data['visit_date']);
@@ -143,7 +154,7 @@ function stats_insert() {
         $vc1 = 0;
         if (isset($_COOKIE[$cookie_name])) {
             $vc1 = intval($_COOKIE[$cookie_name]);
-            setcookie($cookie_name, '', 1);
+            // setcookie($cookie_name, '', 1);
         }
         $vc = $vc + 1 + $vc1;
         $data['view_count'] = $vc;
@@ -155,13 +166,19 @@ function stats_insert() {
         $lp = $_SERVER['PHP_SELF'];
     }
     $data['last_page'] = $lp;
+    //$data['debug'] = $lp;
 
     if (!defined("FORCE_SAVE")) {
         define('FORCE_SAVE', $table);
     }
 
+
+
     $save = save_data($table, $data);
-    cache_store_data($data, $function_cache_id, $cache_group = 'stats');
+
+
+
+    cache_store_data($data, $function_cache_id, $cache_group = 'module_stats_users_online');
     return true;
     //d($save);
 }
@@ -188,13 +205,13 @@ function get_visits($range = 'daily') {
         case 'users_online' :
 
             //$data['visit_time'] = date("H:i:s");
-            $ago = date("H:i:s", strtotime("-10 minutes"));
+            $ago = date("H:i:s", strtotime("-30 minutes"));
             $ago2 = date("Y-m-d", strtotime("now"));
-            $q = "SELECT COUNT(*) AS users_online FROM $table where visit_date='$ago2' and visit_time>='$ago'    ";
+            $q = "SELECT COUNT(*) AS users_online FROM $table where visit_date='$ago2' and visit_time>'$ago'    ";
 
             $results = db_query($q);
             $results = intval($results[0]['users_online']);
-            //d($results);
+
             //	$q = 'SELECT COUNT(*) AS count FROM ' . $table . ' WHERE visit_date > '';
             //
 			break;

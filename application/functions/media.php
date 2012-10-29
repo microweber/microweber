@@ -5,7 +5,7 @@ function get_picture($content_id, $for = 'post') {
     return false;
     $imgages = get_pictures($content_id, $for);
     //..p($imgages);
-    return $imgages [0];
+    return $imgages[0];
 }
 
 api_expose('upload_progress_check');
@@ -25,30 +25,27 @@ function upload_progress_check() {
     $cache_group = 'media/global';
 
     $cache_content = cache_get_content($cache_id, $cache_group);
-    d($cache_content);
     if ($cache_content != false) {
-        if (isset($cache_content ["tmp_name"]) != false) {
-            if (isset($cache_content ["f"]) != false) {
+        if (isset($cache_content["tmp_name"]) != false) {
+            if (isset($cache_content["f"]) != false) {
 
-                $filename = $cache_content ["tmp_name"];
+                $filename = $cache_content["tmp_name"];
                 if (is_file($filename)) {
                     $filesize = filesize($filename);
                 }
 
-                $filename = $cache_content ["f"];
+                $filename = $cache_content["f"];
 
                 if (is_file($filename)) {
                     $filesize = filesize($filename);
                 }
 
-                $perc = percent($filesize, $cache_content ["size"]);
+                $perc = percent($filesize, $cache_content["size"]);
                 return $perc;
                 //  d($perc);
             }
         }
     }
-
-
 
     //ini_set("session.upload_progress.enabled", true);
     // return $_SESSION;
@@ -67,8 +64,6 @@ function upload($data) {
     ini_set("post_max_size", "2500M");
     ini_set("max_input_time", 9999999);
 
-
-
     // ini_set("session.upload_progress.enabled", 1);
     if (isset($_SERVER["HTTP_REFERER"])) {
         $ref_str = md5($_SERVER["HTTP_REFERER"]);
@@ -78,7 +73,6 @@ function upload($data) {
     $ref_str = 'no_HTTP_REFERER';
     $cache_id = 'upload_progress_' . $ref_str;
     $cache_group = 'media/global';
-
 
     $target_path = MEDIAFILES . 'uploaded' . DS;
     $target_path = normalize_path($target_path, 1);
@@ -103,52 +97,60 @@ function upload($data) {
                 //    d($data['file']);
             }
 
-
-            base64_to_file($data['file'], $f);
-
+            // base64_to_file($data['file'], $f);
 
             $rerturn['src'] = pathToURL($f);
             $rerturn['name'] = $data['name'];
         }
     } else {
+
+        $allowedExts = array("jpg", "jpeg", "gif", "png", 'bmp');
+
         //$upl = cache_save($_FILES, $cache_id, $cache_group);
         foreach ($_FILES as $item) {
-            $upl = cache_store_data($item, $cache_id, $cache_group);
 
+            $extension = end(explode(".", $item["name"]));
+            if (in_array($extension, $allowedExts)) {
+                if ($item["error"] > 0) {
+                    error("Error: " . $item["error"]);
+                } else {
+                    $upl = cache_store_data($item, $cache_id, $cache_group);
 
-            $f = $target_path . $item['name'];
-            if (is_file($f)) {
-                $f = $target_path . date('YmdHis') . $item['name'];
+                    $f = $target_path . $item['name'];
+                    if (is_file($f)) {
+                        $f = $target_path . date('YmdHis') . $item['name'];
+                    }
+
+                    $progress = (array) $item;
+                    $progress['f'] = $f;
+                    $upl = cache_store_data($progress, $cache_id, $cache_group);
+
+                    if (move_uploaded_file($item['tmp_name'], $f)) {
+                        $rerturn['src'] = pathToURL($f);
+                        $rerturn['name'] = $item['name'];
+                    }
+                }
+            } else {
+                error("Invalid file ext");
             }
 
-            $progress = (array) $item;
-            $progress['f'] = $f;
-            $upl = cache_store_data($progress, $cache_id, $cache_group);
-
-            if (move_uploaded_file($item ['tmp_name'], $f)) {
-                $rerturn['src'] = pathToURL($f);
-                $rerturn['name'] = $item['name'];
-            }
-
-//
-//            $input = fopen("php://input", "r");
-//            $temp = tmpfile();
-//
-//            $realSize = stream_copy_to_stream($input, $temp);
-//            fclose($input);
-//
-//
-//
-//
-//            $target = fopen($f, "w");
-//            fseek($temp, 0, SEEK_SET);
-//            stream_copy_to_stream($temp, $target);
-//            $rerturn['src'] = pathToURL($f);
-//            $rerturn['name'] = $item['name'];
-//            fclose($target);
+            //
+            //            $input = fopen("php://input", "r");
+            //            $temp = tmpfile();
+            //
+			//            $realSize = stream_copy_to_stream($input, $temp);
+            //            fclose($input);
+            //
+			//
+			//
+			//
+			//            $target = fopen($f, "w");
+            //            fseek($temp, 0, SEEK_SET);
+            //            stream_copy_to_stream($temp, $target);
+            //            $rerturn['src'] = pathToURL($f);
+            //            $rerturn['name'] = $item['name'];
+            //            fclose($target);
         }
-
-
 
         //   var_dump($_FILES);
     }
@@ -170,4 +172,167 @@ function base64_to_file($data, $target) {
 
     // file_put_contents($target, base64_decode($data));
     fclose($whandle);
+}
+
+api_expose('reorder_media');
+
+function reorder_media($data) {
+
+    $adm = is_admin();
+    if ($adm == false) {
+        error('Error: not logged in as admin.');
+    }
+    $tables = c('db_tables');
+
+    $table = $tables['table_media'];
+    foreach ($data as $value) {
+        if (is_arr($value)) {
+            $indx = array();
+            $i = 0;
+            foreach ($value as $value2) {
+                $indx[$i] = $value2;
+                $i++;
+            }
+
+            db_update_position($table, $indx);
+            return true;
+            // d($indx);
+        }
+    }
+}
+
+api_expose('delete_media');
+
+function delete_media($data) {
+
+    $adm = is_admin();
+    if ($adm == false) {
+        error('Error: not logged in as admin.');
+    }
+
+    if (isset($data['id'])) {
+        $c_id = intval($data['id']);
+        db_delete_by_id('table_media', $c_id);
+
+        //d($c_id);
+    }
+}
+
+api_expose('save_media');
+
+function save_media($data) {
+
+    $s = array();
+    if (isset($data['for'])) {
+        $t = guess_table_name($data['for']);
+        $t = db_get_assoc_table_name($t);
+        $s['to_table'] = $t;
+    }
+
+    if (isset($data['for-id'])) {
+        $t = intval($data['for-id']);
+        $s['to_table_id'] = $t;
+    }
+
+    if (isset($data['src'])) {
+
+        $s['filename'] = $data['src'];
+    }
+
+    if (!isset($data['position'])) {
+        $s['position'] = 9999999;
+    }
+
+
+    if (isset($data['for_id'])) {
+        $t = intval($data['for_id']);
+        $s['to_table_id'] = $t;
+    }
+
+    if (isset($data['media_type'])) {
+        $t = db_escape_string($data['media_type']);
+        $s['media_type'] = $t;
+    }
+    $tables = c('db_tables');
+
+    // ->'table_content';
+    if (isset($s['to_table']) and isset($s['to_table_id'])) {
+        $table = $tables['table_media'];
+        //$s['debug'] = $t;
+        $s = save_data($table, $s);
+        return ($s);
+    } else {
+        error('Invalid data');
+    }
+}
+
+function thumbnail($src, $width = 200, $height = 200) {
+    //require_once ();
+    $surl = site_url();
+    $local = false;
+
+    $media_url = MEDIA_URL;
+    if (stristr($src, $surl)) {
+        $src = str_ireplace($surl . '/', $surl, $src);
+
+        $src = str_replace($media_url, '', $src);
+        $src = str_ireplace($surl, '', $src);
+        $src = ltrim($src, DS);
+        $src = ltrim($src, '/');
+        $src = rtrim($src, DS);
+        $src = MEDIAFILES . $src;
+        $src = normalize_path($src, false);
+        //d($src);
+    } else {
+        $dl_file = MEDIAFILES . md5($src) . basename($src);
+        url_download($src, false, $dl_file);
+        $src = $dl_file;
+    }
+    $cd = CACHEDIR . 'thumbnail' . DS;
+    if (!is_dir($cd)) {
+        mkdir_recursive($cd);
+    }
+
+    $cache = md5($src . $width . $height) . basename($src);
+    $cache = str_replace(' ', '_', $cache);
+    $cache_path = $cd . $cache;
+    //d($src);
+    //d($cache_path);
+    if (file_exists($cache_path)) {
+
+    } else {
+        if (file_exists($src)) {
+            $tn = new Thumbnailer($src);
+            $thumbOptions = array('maxLength' => $height, 'width' => $width);
+            $tn->createThumb($thumbOptions, $cache_path);
+        }
+    }
+
+    $cache_path = pathToURL($cache_path);
+    return $cache_path;
+    //d($src);
+}
+
+function get_pictures($params) {
+    $tables = c('db_tables');
+    $table = $tables['table_media'];
+    $params2 = array();
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    if (isset($params['for'])) {
+
+    }
+
+
+
+
+
+    $params['table'] = $table;
+    $params['orderby'] = 'position ASC';
+    $data = get($params);
+
+    return $data;
 }

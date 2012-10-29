@@ -310,6 +310,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
+  
+  <div class="mw_save_buttons_holder">
+  <input type="submit" name="save"    value="save" />
+      <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+  </div>
+  
   <div class="advanced_settings"> <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
@@ -372,8 +378,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
       <br />
       <br />
       <br />
-      <input type="submit" name="save"    value="save" />
-      <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+      
       <? if($edit_post_mode == false): ?>
       <? endif; ?>
       <div class="mw-ui-field-holder">
@@ -382,13 +387,18 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
       </div>
       <br />
       <br />
-      <?  if(!isset($data["thumbnail"])){
-	   $data['thumbnail'] = '';
-
-  }?>
-      <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
-      <span class="mw-ui-btn" onclick="mw.wysiwyg.request_image('');">Thumbnail image</span>
-      <div class="post-thumb-uploader"> </div>
+      
+      
+      
+      
+      <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+      
+   
+      
+      
+      
+      
+      
       <button type="submit">Save be</button>
     </div>
   </div>

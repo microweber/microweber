@@ -142,7 +142,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
         }
         $for = $to_table;
     } else {
-        
+
     }
     if ($guess_cache_group != false) {
 
@@ -630,7 +630,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         }
 
         if ($debug) {
-            
+
         }
     }
     if (isset($criteria['fields'])) {
@@ -852,7 +852,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     $groupby = false;
     if (isset($criteria['group'])) {
         $groupby = $criteria['group'];
-        if (is_string($orderby)) {
+        if (is_string($groupby)) {
             $groupby = db_escape_string($groupby);
         }
     }
@@ -930,7 +930,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (isset($orderby) and $orderby != false) {
         if (!is_array($orderby)) {
             if (is_string($orderby)) {
-                $orderby = explode(',', $orderby);
+                // $orderby = explode(',', $orderby);
             }
         }
     }
@@ -951,8 +951,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $groupby = false;
     }
 
-
-    if (!empty($orderby)) {
+    if (is_string($orderby)) {
+        $order_by = " ORDER BY  $orderby  ";
+    } elseif (is_array($orderby) and !empty($orderby)) {
 
         $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
     } else {
@@ -1178,7 +1179,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (trim($limit_from_paging_q) != "") {
         $limit = $limit_from_paging_q;
     } else {
-        
+
     }
     if ($limit != false) {
 
@@ -1730,14 +1731,21 @@ function save_data($table, $data, $data_to_save_options = false) {
         if ($user_sid != false) {
             $user_sidq = " AND session_id='{$user_sid}' ";
         } else {
-            
+
         }
         $user_createdq = '';
-        if (is_admin() == false) {
+        $user_createdq1 = '';
+        if (is_admin() == false and isset($data['created_by'])) {
             $user_createdq = " AND created_by=$the_user_id ";
         }
 
-        $q .= " edited_by=$the_user_id WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
+        if (isset($data['edited_by'])) {
+            $user_createdq1 = " edited_by=$the_user_id ";
+        } else {
+            $user_createdq1 = " id={$data ['id']} ";
+        }
+
+        $q .= " $user_createdq1 WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
 
 
         $id_to_return = $data['id'];
@@ -1827,7 +1835,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                             $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
                             $gotten_by_id = true;
                         } else {
-                            
+
                         }
                         if ($gotten_by_id == false and isset($is_ex[0])) {
 
@@ -1897,7 +1905,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                                 $cats_data_modified = TRUE;
                                 $cats_data_items_modified = TRUE;
                             } else {
-                                
+
                             }
                             //
                             //  d($is_ex);
@@ -2164,6 +2172,25 @@ function db_last_id($table) {
     //d($result);
     //
 	return intval($result['the_id']);
+}
+
+function db_update_position($table, $data = array()) {
+    $table = guess_table_name($table);
+    $table_real = db_get_real_table_name($table);
+    $i = 0;
+    if (isarr($data)) {
+        foreach ($data as $value) {
+            $q = "UPDATE $table_real set position={$i} where id={$value} ";
+            $q = db_q($q);
+            $i++;
+        }
+    }
+
+
+    $cg = guess_cache_group($table);
+    //
+    // d($cg);
+    cache_clean_group($cg);
 }
 
 /* * *************************************************************************

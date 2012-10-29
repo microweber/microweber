@@ -1,16 +1,95 @@
 <?  $rand = uniqid(); ?>
 <script  type="text/javascript">
-$r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
-mw.require($r1);
+    $r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
+    mw.require($r1);
 
-$r2 = '<? print $config['url_to_module'] ?>morris.min.js';
-mw.require($r2);
-
+    $r2 = '<? print $config['url_to_module'] ?>morris.min.js';
+    mw.require($r2);
  </script>
 <? $v = get_visits();
  //d( $v);
  ?>
+
+
+
+<div id="stats">
+    <h2>Traffic Statistic</h2>
+    <ul id="stats_nav">
+        <li><a href="#" data-stat='day' class="active">Daily</a></li>
+        <li><a href="#" data-stat='week'>Weekly</a></li>
+        <li><a href="#" data-stat='month'>Monthly</a></li>
+    </ul>
+
+    <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
+
+</div>
+
+
+
+<div class="vspace">&nbsp;</div>
+
+<div id="users_online">
+
+  <h2>Users Online</h2>
+  <div class="users_online" id="real_users_online"><? $users_online = get_visits('users_online'); print intval($users_online); ?></div>
+
+
+</div>
+<div id="visits_info_table">
+<h2>User Info</h2>
+
+<? $users_last5 = get_visits('last5');
+
+  //d($users_online) ?>
+<? if(!empty($users_last5)): ?>
+<table border="0" cellspacing="0" cellpadding="0" class="stats_table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">IP</th>
+      <th scope="col">Last page</th>
+      <th scope="col">Page views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <? $i=0; foreach($users_last5 as $item) : ?>
+      <tr>
+        <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
+        <td><? print $item['user_ip'] ?></td>
+        <td><? print $item['last_page'] ?></td>
+        <td><? print $item['view_count'] ?></td>
+      </tr>
+    <? $i++; endforeach; ?>
+  </tbody>
+</table>
+<? endif; ?>
+
+</div>
+
+
+
+
+
 <script  type="text/javascript">
+
+var curr_users = mwd.getElementById('real_users_online');
+var curr_users_numb = parseFloat(curr_users.innerHTML);
+var i = -1;
+_countEm = 100;
+
+rendvisits = function(){
+  i++;
+  _countEm > 0 ? _countEm--:'';
+  if(curr_users_numb>=i){
+    setTimeout(function(){
+     curr_users.innerHTML = i;
+     rendvisits();
+    }, _countEm);
+  }
+}
+
+
+rendvisits();
 
 mw.stat = {
   draw:function(data, obj){
@@ -62,9 +141,6 @@ $(document).ready(function(){
 
 
 
-
-    mw.stat.draw(mw.statdatas.day);
-
      mw.$("#stats_nav a").click(function(){
       var el = $(this);
       if(!el.hasClass("active")){
@@ -74,53 +150,21 @@ $(document).ready(function(){
         mw.stat.draw(mw.statdatas[data]);
       }
     });
- 
+
+
+       mw.stat.draw(mw.statdatas.day);
+
+
+    $(window).resize(function(){
+        //var data = $("#stats_nav a.active").dataset("stat");
+        //mw.stat.draw(mw.statdatas[data]);
+    });
+
 
 });
+
+
+
+
+
 </script>
-
-
-<div id="stats">
-    <h2>Traffic Statistic</h2>
-    <ul id="stats_nav">
-        <li><a href="#" data-stat='day' class="active">Daily</a></li>
-        <li><a href="#" data-stat='week'>Weekly</a></li>
-        <li><a href="#" data-stat='month'>Monthly</a></li>
-    </ul>
-    <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
-
-</div>
-
-users_online:
-
-
-
-<div class="users_online"><? $users_online = get_visits('users_online'); print intval($users_online) ?></div>
-
-
-
-<? $users_last5 = get_visits('last5');
-
-  //d($users_online) ?>
-<? if(!empty($users_last5)): ?>
-<table border="0" cellspacing="0" cellpadding="0" class="stats_table">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">IP</th>
-      <th scope="col">Last page</th>
-      <th scope="col">Page views</th>
-    </tr>
-  </thead>
-  <tbody>
-    <? $i=0; foreach($users_last5 as $item) : ?>
-      <tr>
-        <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
-        <td><? print $item['user_ip'] ?></td>
-        <td><? print $item['last_page'] ?></td>
-        <td><? print $item['view_count'] ?></td>
-      </tr>
-    <? $i++; endforeach; ?>
-  </tbody>
-</table>
-<? endif; ?>

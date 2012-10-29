@@ -4,22 +4,48 @@
 h2{ /*  ask the designer */
     font-size: 18px;
     font-weight: normal;
+    padding: 10px 0;
 }
+
+.vspace{
+  padding: 11px 0 12px;
+  height: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
 
 #mw_toolbar_logo{
   background-image: url(../img/logo_admin.png);
 }
 #mw_toolbar_nav{
   height: 49px;
+  border-bottom: 1px solid #fff;
+}
+
+#mw_tabs li a{
+  padding: 17px 20px;
 }
 
 #stats{
     background: #F4F4F4;
     border-bottom: 1px solid #E5E5E5;
+    padding: 20px;
+}
+
+#stats svg{
+  min-width: 100%;
 }
 
 #stats rect{
   fill:#6E6E6E;
+}
+
+#stats_nav{
+  clear: both;
+  overflow: hidden;
+  position: relative;
+  zoom:1;
 }
 
 #stats li{
@@ -33,12 +59,15 @@ h2{ /*  ask the designer */
 #stats li a{
   display: inline-block;
   white-space: nowrap;
-  padding: 4px 0px 2px;
+  padding: 4px 0px;
   width:90px;
   text-align: center;
-    border: 1px solid transparent;
+  border: 1px solid transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
+  -webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
 }
 #stats li a.active{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
@@ -49,14 +78,35 @@ h2{ /*  ask the designer */
 
 #main{
   width: 1000px;
+  padding-bottom: 60px;
+  zoom:1;
+}
+
+#main.liquid{
+  width: auto;
+  min-width: 1000px;
+}
+
+#main:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#users_online{
+  width:220px;
+  margin-left: 20px;
+  float: left;
 }
 
 .users_online{
-  float: left;
   width: 150px;
   height: 105px;
   padding-top: 45px;
-  margin: 0 40px;
+  margin: 0 auto;
   text-align: center;
   background:#D8FFC2;
   color: #4C7301;
@@ -64,11 +114,32 @@ h2{ /*  ask the designer */
   border-radius:100%;
 }
 
+#visits_info_table{
+  float: left;
+}
+
 
 .stats_table{
   float: left;
   width: 750px;
 }
+
+#main.liquid .stats_table{
+  width: auto;
+}
+
+#main.liquid #users_online{
+  width: 15%;
+}
+#main.liquid #visits_info_table{
+  width: 80%;
+}
+
+#main.liquid #visits_info_table table{
+  width: 100%;
+}
+
+
 
 .stats_table th{
   font-size: 11px;
@@ -137,18 +208,25 @@ h2{ /*  ask the designer */
 .ireport{background-position:-749px 1px;}
 .isuggest{background-position:-749px -43px;}
 .ihelp{background-position:-749px -82px;}
+.ilive{background-position:-875px 5px;}
+.ilogout{background-position:-880px -24px}
 
+a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 
-
+.mw-ui-btn .ico{
+    margin-right: 7px;
+    top: -4px;
+}
 
 
 .quick-links li {
   list-style: none;
   display: block;
+  padding: 5px 0;
 }
 
 .quick-links li a{
-
+  position: relative;
   list-style: none;
   display: inline-block;
   white-space: nowrap;
@@ -181,8 +259,27 @@ h2{ /*  ask the designer */
   top: 5px;
 }
 
+.quick-links li a span.mw-ui-btn-plus{
+  position: absolute;
+  left: 10px;
+  top: 9px;
+}
+
+.quick-links li a span.mw-ui-btn-plus + span{
+  margin-left:23px;
+  top: 0;
+}
+
 .quick-links-case{
   float: left;
+  width: 24%;
+}
+
+.quick-links-case .quick-links{
+  padding-top: 42px;
+}
+.quick-links-case > h2 + .quick-links{
+  padding-top: 0;
 }
 
 .quick-links .ico{
@@ -190,9 +287,7 @@ h2{ /*  ask the designer */
   float: left;
 }
 
-.quick-links-case h2{
-  padding: 0 0 25px;
-}
+
 
 
 .quick-lists{

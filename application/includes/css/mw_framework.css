@@ -616,6 +616,7 @@ html.mw_pages, html.mw_pages body{
 .mw_edit_page_right{
   border-left:1px solid #E2E2E2;
   padding-left: 40px;
+  padding-bottom: 50px;
 }
 
 .mw_del_tree_content{

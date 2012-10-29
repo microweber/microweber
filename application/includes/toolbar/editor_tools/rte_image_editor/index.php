@@ -5,14 +5,22 @@
      mw.require("files.js");
      mw.require("tools.js");
 
-    hash = window.location.hash;
+    hash = window.location.hash.replace(/#/g, '');
 
     afterInput = function(url){   //what to do after image is uploaded (depending on the hash in the url)
-      if(hash=='#editimage'){
+
+
+
+    parent.mw.exec(hash, url);
+
+
+    return false;
+
+      if(hash=='editimage'){
         parent.mw.image.currentResizing.attr("src", url);
         parent.mw.tools.modal.remove('mw_rte_image');
       }
-      else if(hash=='#set_bg_image'){
+      else if(hash=='set_bg_image'){
         parent.mw.wysiwyg.set_bg_image(url);
         parent.mw.tools.modal.remove('mw_rte_image');
       }
@@ -35,7 +43,7 @@
             mw.files.upload(Uploader, {}, function(){
               afterInput(this.src);
             }, function(){
-                console.log('all files are uploaded - ' + this);
+                mw.log('all files are uploaded - ' + this);
             });
          }
          else{
