@@ -136,27 +136,47 @@ function mw_select_page_for_editing($p_id){
 mw.on.hashParam("action", function(){
   var arr = this.split(":");
 
-  mw.$(".active-bg").removeClass('active-bg');
-
-  var active_item = mw.$("#page_list_holder_"+arr[1]+", #category_item_"+arr[1]);
-
-  active_item.addClass('active-bg');
-
-  active_item.parents("li").addClass('active');
-
-
-  if(arr[0]==='editpage'){
-      mw_select_page_for_editing(arr[1])
+  if(arr[0]==='new'){
+      if(arr[1]==='page'){
+        mw_select_page_for_editing(0);
+      }
+      else if(arr[1]==='post'){
+        mw_select_post_for_editing(0);
+      }
+      else if(arr[1]==='category'){
+        mw_select_category_for_editing(0);
+      }
+      else if(arr[1]==='product'){
+        mw_add_product(0);
+      }
   }
-  else if(arr[0]==='showposts'){
-    mw_set_edit_posts(arr[1])
+  else{
+      mw.$(".active-bg").removeClass('active-bg');
+      var active_item = mw.$("#page_list_holder_"+arr[1]+", #category_item_"+arr[1]);
+      active_item.addClass('active-bg');
+      active_item.parents("li").addClass('active');
+      if(arr[0]==='editpage'){
+        mw_select_page_for_editing(arr[1])
+      }
+      else if(arr[0]==='showposts'){
+        mw_set_edit_posts(arr[1])
+      }
+      else if(arr[0]==='showpostscat'){
+        mw_set_edit_posts(arr[1], true)
+      }
+      else if(arr[0]==='editcategory'){
+        mw_select_category_for_editing(arr[1])
+      }
   }
-  else if(arr[0]==='showpostscat'){
-    mw_set_edit_posts(arr[1], true)
-  }
-  else if(arr[0]==='editcategory'){
-    mw_select_category_for_editing(arr[1])
-  }
+
+
+
+
+
+
+
+
+
 
 
 });
@@ -193,7 +213,7 @@ function mw_select_category_for_editing($p_id){
 
 
 function mw_set_edit_posts($in_page, $is_cat){
-       mw.$('#pages_edit_container').removeAttr('data-content-id');       
+       mw.$('#pages_edit_container').removeAttr('data-content-id');
 	 mw.$('#pages_edit_container').removeAttr('data-page-id');
       mw.$('#pages_edit_container').removeAttr('data-category-id');
 
@@ -302,16 +322,16 @@ function mw_add_product(){
     <div class="left mw_edit_page_left">
       <div class="mw_edit_pages_nav">
         <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
-        <span class="mw_action_nav mw_action_page" onclick="mw_select_page_for_editing(0);">
+        <span class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');">
         <label>Page</label>
         <button></button>
-        </span> <span class="mw_action_nav mw_action_post" onclick="mw_select_post_for_editing(0)">
+        </span> <span class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');">
         <label>Post</label>
         <button>&nbsp;</button>
-        </span> <span class="mw_action_nav mw_action_category" onclick="mw_select_category_for_editing(0)">
+        </span> <span class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');">
         <label>Category</label>
         <button>&nbsp;</button>
-        </span> <span class="mw_action_nav mw_action_product" onclick="mw_add_product(0)">
+        </span> <span class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
         <label>Product</label>
         <button>&nbsp;</button>
         </span>

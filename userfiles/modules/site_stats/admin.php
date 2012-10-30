@@ -10,8 +10,8 @@
 
 
 <? $v_weekly = get_visits('weekly');
-
-d($v_weekly);
+$v_monthly = get_visits('monthly');
+//print_r($v_monthly);
  ?>
 <div id="stats">
     <h2>Traffic Statistic</h2>
@@ -125,14 +125,14 @@ mw.statdatas = {
     week:[
         <?php if(!empty($v_weekly)): ?>
           <?php $i=0; foreach($v_weekly as $item) : ?>
-            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v_weekly[$i+1])) : ?>, <? endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>
     ],
     month:[
-        <?php if(!empty($v)): ?>
-          <?php $i=0; foreach($v as $item) : ?>
-            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+        <?php if(!empty($v_monthly)): ?>
+          <?php $i=0; foreach($v_monthly as $item) : ?>
+            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v_monthly[$i+1])) : ?>, <? endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>
     ]
