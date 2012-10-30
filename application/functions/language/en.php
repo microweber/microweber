@@ -105,3 +105,5 @@ $language["microweber"]= 'Microweber' ;
 $language["logout"]= 'Logout' ; 
 $language["go-live-edit"]= 'Go Live Edit' ; 
 $language["go-live-edit"]= 'Go Live Edit' ; 
+$language[""]= '' ; 
+$language[""]= '' ; 

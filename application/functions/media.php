@@ -288,7 +288,7 @@ function thumbnail($src, $width = 200, $height = 200) {
         url_download($src, false, $dl_file);
         $src = $dl_file;
     }
-    $cd = CACHEDIR . 'thumbnail' . DS;
+    $cd = CACHEDIR_ROOT . 'thumbnail' . DS;
     if (!is_dir($cd)) {
         mkdir_recursive($cd);
     }

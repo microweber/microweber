@@ -207,6 +207,7 @@ mw_before_content_save<? print $rand ?>()
   </div>
   <? endif; ?>
   <? endif; ?>
+  <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
   <? endif; ?>
@@ -310,12 +311,10 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
-  
   <div class="mw_save_buttons_holder">
-  <input type="submit" name="save"    value="save" />
-      <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
+    <input type="submit" name="save"    value="save" />
+    <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
   </div>
-  
   <div class="advanced_settings"> <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
@@ -378,7 +377,6 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
       <br />
       <br />
       <br />
-      
       <? if($edit_post_mode == false): ?>
       <? endif; ?>
       <div class="mw-ui-field-holder">
@@ -387,18 +385,6 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
       </div>
       <br />
       <br />
-      
-      
-      
-      
-      <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
-      
-   
-      
-      
-      
-      
-      
       <button type="submit">Save be</button>
     </div>
   </div>
