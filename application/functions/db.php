@@ -812,9 +812,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
             foreach ($search_n_cats as $cat_name_or_id) {
 
-                $str0 = 'fields=id&limit=100&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                $str1 = 'fields=id&limit=100&data_type=category&what=categories&' . 'title=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                //  d($str0);
+                $str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                $str1 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+               
 
                 $is_in_category = get($str0);
                 if (empty($is_in_category)) {
@@ -824,7 +824,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                 if (!empty($is_in_category)) {
                     foreach ($is_in_category as $is_in_category_item) {
                         $cat_name_or_id1 = $is_in_category_item['id'];
-                        $str1_items = 'fields=to_table_id&limit=100&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
+                        $str1_items = 'fields=to_table_id&limit=10000&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
                         $is_in_category_items = get($str1_items);
 
                         if (!empty($is_in_category_items)) {
@@ -838,6 +838,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                         // d($is_in_category_items);
                         //d($is_in_category_items);
                     }
+                } else {
+                	return false;
                 }
             }
         }
@@ -1605,8 +1607,8 @@ function save_data($table, $data, $data_to_save_options = false) {
     $data['user_ip'] = USER_IP;
     if (isset($data['id']) == false or $data['id'] == 0) {
         $data['id'] = 0;
-        $l = db_last_id($table);
-
+      $l = db_last_id($table);
+//$data['id'] = $l;
         $data['new_id'] = intval($l + 1);
         $original_data['new_id'] = $data['new_id'];
     }
@@ -1712,7 +1714,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 
 
-        $id_to_return = db_last_id($table);
+       $id_to_return = false;
     } else {
 
         // update
@@ -1755,6 +1757,10 @@ function save_data($table, $data, $data_to_save_options = false) {
         d($q);
     }
     db_q($q);
+    
+	if($id_to_return == false){
+	 $id_to_return = db_last_id($table);
+	}
 
     // d($q);
     // p($original_data);
@@ -1780,13 +1786,25 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
-                    to_table_id='{$id_to_return}'  ";
+                    to_table_id={$id_to_return}  ";
                 $cats_data_items_modified = true;
                 $cats_data_modified = true;
                 db_q($clean_q);
             } else {
 
                 if (is_string($original_data['categories'])) {
+                	
+					 $clean_q = "delete
+                    from $taxonomy_items_table where                            data_type='category_item' and
+                    to_table='{$table_assoc_name}' and
+                    parent_id NOT IN ({$original_data['categories']}) and
+                    to_table_id={$id_to_return}  ";
+                $cats_data_items_modified = true;
+                $cats_data_modified = true;
+				//d($clean_q);
+                db_q($clean_q);
+					
+					
                     $original_data['categories'] = explode(',', $original_data['categories']);
                 }
                 $cat_names_or_ids = array_trim($original_data['categories']);
@@ -1795,7 +1813,18 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $cats_data_items_modified = false;
                 $keep_thosecat_items = array();
                 foreach ($cat_names_or_ids as $cat_name_or_id) {
-                    if (trim($cat_name_or_id) != '') {
+                	$cat_name_or_id = db_escape_string($cat_name_or_id);
+                	
+					$q_cat1 = "INSERT INTO $taxonomy_items_table  set 
+					
+					parent_id='{$cat_name_or_id}',
+					to_table='{$table_assoc_name}',
+					data_type='category_item',
+					to_table_id='{$id_to_return}'
+					";
+					db_q($q_cat1);
+					 // d($q_cat1);
+                    if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {
 
                         $cat_name_or_id = str_replace('\\', '/', $cat_name_or_id);
                         $cat_name_or_id = explode('/', $cat_name_or_id);
@@ -1915,15 +1944,15 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
             if (!empty($keep_thosecat_items)) {
                 $id_in = implode(',', $keep_thosecat_items);
-                $clean_q = "delete
+                $clean_fq = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
                     to_table_id='{$id_to_return}' and
                     parent_id NOT IN ($id_in) ";
                 $cats_data_items_modified = true;
                 $cats_data_modified = true;
-                db_q($clean_q);
-                // d($clean_q);
+                //db_q($clean_q);
+            //   d($clean_q);
             }
 
             if ($cats_data_modified == TRUE) {
@@ -2161,9 +2190,9 @@ function db_last_id($table) {
 
         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
     } else {
-        //   $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
+        // $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
 
-        $q = "SELECT id as the_id FROM $table order by id DESC limit 1";
+     $q = "SELECT id as the_id FROM $table order by id DESC limit 1";
     }
     //d($q);
     $q = db_query($q);

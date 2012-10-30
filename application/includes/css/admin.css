@@ -22,6 +22,14 @@ h2{ /*  ask the designer */
   height: 49px;
   border-bottom: 1px solid #fff;
 }
+#mw_toolbar_nav .ilive{
+  opacity:0.4;
+}
+
+#mw_toolbar_nav .mw-ui-btn:hover .ilive{
+  opacity:1;
+}
+
 
 #mw_tabs li a{
   padding: 17px 20px;
@@ -216,6 +224,7 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 .mw-ui-btn .ico{
     margin-right: 7px;
     top: -4px;
+
 }
 
 

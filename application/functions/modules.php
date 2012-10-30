@@ -163,7 +163,7 @@ function get_elements_from_db($params = false) {
         $params = $options = $params2;
     }
     $params['table'] = $table;
-    $params['orderby'] = 'position,asc';
+    $params['orderby'] = 'position asc';
     //$params['debug'] = 1;
     //   $params['cache_group'] = 'elements/global';
     if (isset($params['id'])) {
@@ -190,7 +190,7 @@ function get_modules_from_db($params = false) {
     }
     $params['table'] = $table;
 
-    $params['orderby'] = 'position,asc';
+    $params['orderby'] = 'position asc';
     $params['cache_group'] = 'modules/global';
     if (isset($params['id'])) {
         $params['limit'] = 1;
@@ -205,8 +205,9 @@ function get_modules_from_db($params = false) {
     if (isset($params['ui']) and $params['ui'] == 'any') {
         // d($params);
         unset($params['ui']);
-        //  d($params);
+       
     }
+  
     return get($params);
 }
 

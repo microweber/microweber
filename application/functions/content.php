@@ -1341,6 +1341,14 @@ function save_content($data, $delete_the_cache = true) {
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
 
+		if (isset($data_to_save['subtype_value']) and intval(trim($data_to_save['subtype_value'])) > 0) {
+
+			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));
+			if ($check_ex == false) {
+				unset($data_to_save['subtype_value']);
+			}
+		}
+
 		if (!isset($data_to_save['subtype_value']) or trim($data_to_save['subtype_value']) == '') {
 
 			if (!isset($data_to_save['subtype_value_new'])) {
@@ -1433,9 +1441,9 @@ function save_content($data, $delete_the_cache = true) {
 				// d($c1);
 			}
 		}
-	}
+	} 
 
-	//d($data_to_save);
+	 d($data_to_save);
 
 	$save = save_data($table, $data_to_save);
 

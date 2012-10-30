@@ -34,6 +34,8 @@ $mod_obj_str = 'modules';
 <ul class="modules-list list-<? print $mod_obj_str ?>">
   <? foreach($modules as $module2): ?>
    
+   <? if(isset($module2['module'])): ?>
+   
   <?
 		
 		 
@@ -103,6 +105,10 @@ $module2['categories'] = implode(',',$module2['categories']);
                  /> </span>
     <? endif; ?>
     <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span>  </span> </li>
+    
+    
+    
+     <? endif; ?>
   <? endforeach; ?>
    
 </ul>

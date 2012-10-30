@@ -83,11 +83,14 @@ function mw_append_pages_tree_controlls(){
 
     mw.$('#pages_tree_toolbar a').each(function(){
         var el = this;
+        var href = el.href;
         el.href = 'javascript:void(0);';
         var html = el.innerHTML;
         var toggle = "";
         var show_posts = "";
         var attr = el.attributes;
+
+
 
         if($(el.parentNode).children('ul').length>0){
             var toggle = '<span class="mw_toggle_tree"></span>';
@@ -95,19 +98,15 @@ function mw_append_pages_tree_controlls(){
         // type: page or category
         if(attr['data-page-id']!==undefined){
             var pageid = attr['data-page-id'].nodeValue;
-            if($(el.parentNode).hasClass("have_category")){
-               var show_posts = '';//"<span class='mw_ed_tree_show_posts' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"showposts:"+pageid+"\")'></span>";
-
-            }
+            var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('page', pageid) + toggle + show_posts;
             el.setAttribute("onclick", "mw.tools.tree().toggleit(this,event,"+pageid+")");
-
         }
         else if(attr['data-category-id']!==undefined){
             var pageid = attr['data-category-id'].nodeValue;
-            var show_posts = '';//"<span class='mw_ed_tree_show_posts' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"showposts:"+pageid+"\")'></span>";
+            var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('category', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "mw.tools.tree().toggleit(this,event,"+pageid+")");
+            el.setAttribute("onclick", "mw.tools.tree().toggleit(this,event,"+pageid+");");
         }
 
     });
@@ -136,11 +135,24 @@ function mw_select_page_for_editing($p_id){
 
 mw.on.hashParam("action", function(){
   var arr = this.split(":");
+
+  mw.$(".active-bg").removeClass('active-bg');
+
+  var active_item = mw.$("#page_list_holder_"+arr[1]+", #category_item_"+arr[1]);
+
+  active_item.addClass('active-bg');
+
+  active_item.parents("li").addClass('active');
+
+
   if(arr[0]==='editpage'){
       mw_select_page_for_editing(arr[1])
   }
   else if(arr[0]==='showposts'){
     mw_set_edit_posts(arr[1])
+  }
+  else if(arr[0]==='showpostscat'){
+    mw_set_edit_posts(arr[1], true)
   }
   else if(arr[0]==='editcategory'){
     mw_select_category_for_editing(arr[1])
@@ -180,18 +192,24 @@ function mw_select_category_for_editing($p_id){
 
 
 
-function mw_set_edit_posts($in_page){
-
-
-
-if($in_page != undefined){
- mw.$('#pages_edit_container').attr('data-page-id',$in_page);
-
-	
-} else {
+function mw_set_edit_posts($in_page, $is_cat){
+       mw.$('#pages_edit_container').removeAttr('data-content-id');       
 	 mw.$('#pages_edit_container').removeAttr('data-page-id');
+      mw.$('#pages_edit_container').removeAttr('data-category-id');
 
+if($in_page != undefined && $is_cat == undefined){
+ mw.$('#pages_edit_container').attr('data-page-id',$in_page);
 }
+
+if($in_page != undefined && $is_cat != undefined){
+ mw.$('#pages_edit_container').attr('data-category-id',$in_page);
+}
+
+
+
+
+
+
 
 //	mw.$('#pages_tree_container_').empty();
 //	mw.$('#pages_edit_container').empty();
@@ -202,14 +220,49 @@ if($in_page != undefined){
 
 
 
-	 mw.load_module('posts_list','#pages_edit_container');
+	 mw.load_module('posts_list','#pages_edit_container', function(){
+
+          /* TODO*/
+
+          mw.$(".read_more").each(function(){
+            var href = $(this).attr("href");
+            if(href !== 'javascript:;'){
+               $(this).attr("href", 'javascript:;').css("background", "#efecec").css("boxShadow", "1px 1px 15px #2E2E2E");
+               var id = $(this.parentNode.parentNode).dataset("contentId");
+               $(this).click(function(){
+                     mw_select_post_for_editing(id);
+               });
+            }
+          });
+
+          /* /TODO*/
+
+	 });
+
+
+
+
+
+
 	 mw.$('#pages_edit_container .paging a').live('click',function() {
-	 
+
 	 $p_id = $(this).attr('data-page-number');
 	 $p_param = $(this).attr('data-paging-param'); 
 	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
 	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
-	 mw.load_module('posts','#pages_edit_container');
+
+
+
+
+	 mw.load_module('posts','#pages_edit_container', function(){
+
+
+
+	 });
+
+
+
+
 		 return false;
 	 });
 	 
@@ -246,9 +299,9 @@ function mw_add_product(){
 
 <div id="mw_edit_pages">
   <div id="mw_edit_pages_content">
-    <div class="left mw_edit_page_left" style="width: 25%">
+    <div class="left mw_edit_page_left">
       <div class="mw_edit_pages_nav">
-        <h2 class="mw_tree_title">Website  Navigation</h2>
+        <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
         <span class="mw_action_nav mw_action_page" onclick="mw_select_page_for_editing(0);">
         <label>Page</label>
         <button></button>

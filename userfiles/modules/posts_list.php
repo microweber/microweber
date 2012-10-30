@@ -20,6 +20,15 @@ if (isset($post_params['data-page-number'])) {
 
 
 
+if (isset($post_params['data-category-id'])) {
+
+    $post_params['category'] = $post_params['data-category-id'];
+    unset($post_params['data-category-id']);
+}
+
+
+
+
 
 
 if (isset($params['data-paging-param'])) {
@@ -79,6 +88,7 @@ if (isset($post_params['data-thumbnail-size'])) {
         }
     }
 }
+
 
 
 

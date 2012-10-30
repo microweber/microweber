@@ -6,12 +6,13 @@
     $r2 = '<? print $config['url_to_module'] ?>morris.min.js';
     mw.require($r2);
  </script>
-<? $v = get_visits();
- //d( $v);
+<? $v = get_visits(); ?>
+
+
+<? $v_weekly = get_visits('weekly');
+
+d($v_weekly);
  ?>
-
-
-
 <div id="stats">
     <h2>Traffic Statistic</h2>
     <ul id="stats_nav">
@@ -77,19 +78,20 @@ var curr_users_numb = parseFloat(curr_users.innerHTML);
 var i = -1;
 _countEm = 100;
 
-rendvisits = function(){
+_rendvisits = function(){
   i++;
   _countEm > 0 ? _countEm--:'';
   if(curr_users_numb>=i){
     setTimeout(function(){
      curr_users.innerHTML = i;
-     rendvisits();
+     _rendvisits();
     }, _countEm);
   }
 }
 
+curr_users_numb <= 10 ? _rendvisits() : '';
 
-rendvisits();
+
 
 mw.stat = {
   draw:function(data, obj){
@@ -121,8 +123,8 @@ mw.statdatas = {
         <?php endif; ?>
     ],
     week:[
-        <?php if(!empty($v)): ?>
-          <?php $i=0; foreach($v as $item) : ?>
+        <?php if(!empty($v_weekly)): ?>
+          <?php $i=0; foreach($v_weekly as $item) : ?>
             {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>

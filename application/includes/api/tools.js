@@ -360,18 +360,17 @@ mw.tools = {
     el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   },
   tree:function(el, event){
-    var el = $(el);
+    var _el = $(el);
     this.toggle = function(){
-      mw.$(".mw_pages_posts_tree a").not(el).removeClass("active");
-      el.toggleClass("active");
+      $(el.parentNode).toggleClass('active');
+      //mw.$(".active-bg").removeClass('active-bg');
+      //$(el.parentNode).addClass('active-bg');
       mw.tools.tree().remember();
         if(event.type==='click'){
-          $(event.target).toggleClass("active");
           event.stopPropagation();
           event.preventDefault();
           return false;
         }
-
     }
     this.del = function(id){
       if(confirm('Are you sure you want to delete this?')){
@@ -400,17 +399,19 @@ mw.tools = {
         $.each(ids, function(a,b){
           var el = mwd.getElementById(b);
           el.className+=' active';
-          if(el.querySelector('.mw_toggle_tree')!=null){
-               el.querySelector('.mw_toggle_tree').className+=' active';
-          }
         });
       }
     }
     this.toggleit = function(el, event, pageid){
        event.stopPropagation();
-       mw.url.windowHashParam('action', 'showposts:'+pageid);
-       mw.tools.tree(el.parentNode, event).toggle();
+       if(el.attributes['data-page-id'] !== undefined){
+          mw.url.windowHashParam('action', 'showposts:'+pageid);
+       }
+       else if(el.attributes['data-category-id'] !== undefined){
+          mw.url.windowHashParam('action', 'showpostscat:'+pageid);
+       }
 
+       mw.tools.tree(el, event).toggle();
     }
     return this;
   },

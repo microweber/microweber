@@ -22,6 +22,15 @@
 .row {
 	margin-left: 0px !important;
 	min-height:40x;
+    clear: both;
+}
+.row:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
  
 .ui-state-highlight2, .also-resize {
@@ -1174,15 +1183,7 @@ li .ts_action_item:last-child{
 }
 
 
-.mw_tree_title{
-  background: url(../img/ico.tree.png) no-repeat;
-  color: #777777;
-  text-transform: uppercase;
-  font-size:16px;
-  font-weight: normal;
-  padding: 10px 0 15px 45px;
-  margin: 0;
-}
+
 
 .mw_dropable_onleaveedit{
   display: block !important;

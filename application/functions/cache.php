@@ -12,7 +12,7 @@ if (!defined('APC_CACHE')) {
     if (isset($_POST) and isarr($_POST)) {
         $apc_exists = false;
     }
-
+$apc_exists = false;
 //    if (isset($_COOKIE['editmode'])) {
 //
 //    }
@@ -573,18 +573,18 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 
     static $recycle_bin;
 
-//    if ($recycle_bin == false) {
-//        $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
-//        if (!is_dir($recycle_bin)) {
-//            mkdir_recursive($recycle_bin, false);
-//            @touch($recycle_bin . 'index.php');
-//            @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
-//        }
-//    }
+   if ($recycle_bin == false) {
+       $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
+       if (!is_dir($recycle_bin)) {
+           mkdir_recursive($recycle_bin, false);
+           @touch($recycle_bin . 'index.php');
+           @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
+       }
+   }
 
     foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
-        recursive_remove_directory($filename);
-        // @rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
+       // recursive_remove_directory($filename);
+          @rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
     }
 
     return true;

@@ -139,9 +139,7 @@ $(document).ready(function() {
 <? if($templates != false and !empty($templates)): ?>
 <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
   <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
-  <? if(('' != trim($data['active_site_template']))): ?>
-  <option value="<? print $data['active_site_template'] ?>"     selected="selected" ><? print $data['active_site_template'] ?></option>
-  <? endif; ?>
+  
   <? foreach($templates as $item): ?>
   <? $attrs = ''; 
  foreach($item as $k=>$v): ?>
@@ -154,14 +152,12 @@ $(document).ready(function() {
 
 </div>
 
-<select name="layout_file" style="display: none" id="active_site_layout_<? print $rand; ?>">
+<select name="layout_file"   id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
-  <? if(('' != trim($data['layout_file']))): ?>
-  <option value="<? print $data['layout_file'] ?>"     selected="selected" ><? print $data['layout_file'] ?></option>
-  <? endif; ?>
+ 
   <? if(!empty($layouts)): ?>
   <? foreach($layouts as $item): ?>
-  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </option>
+  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   >  <? print $item['name'] ?> </option>
   <? endforeach; ?>
   <? endif; ?>
 </select>
@@ -192,13 +188,14 @@ Preview<br />
 
           <ul>
             <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
-            <? if(('' != trim($data['layout_file']))): ?>
-                <li value="<? print $data['layout_file'] ?>"   onclick="mw.templatePreview.view(1);"    class="active" ><? print $data['layout_file'] ?></li>
-            <? endif; ?>
+            <? if(('asdas3333das' == trim($data['layout_file']))): ?>
+<!--                <li value="<? print $data['layout_file'] ?>"   onclick="mw.templatePreview.view(1);"    class="active" ><? print basename($data['layout_file']) ?></li>
+-->          
+  <? endif; ?>
             <? if(!empty($layouts)): ?>
               <? $i=1; foreach($layouts as $item): ?>
                    <?php $i++; ?>
-                  <li value="<? print $item['layout_file'] ?>"  onclick="mw.templatePreview.view(<?php print $i; ?>);"   title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   > <? print $item['name'] ?> </li>
+                  <li value="<? print $item['layout_file'] ?>"  onclick="mw.templatePreview.view(<?php print $i; ?>);"   title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"   class="active"  <? endif; ?>   > <? print $item['name'] ?> </li>
               <? endforeach; ?>
             <? endif; ?>
           </ul>

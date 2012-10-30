@@ -138,5 +138,19 @@ body:-webkit-full-screen {
 
 
 
+.mw_tree_title{
+  background: url(../img/ico.tree.png) no-repeat 9px 0;
+  padding: 5px 0 10px 55px;
+  margin: 0;
+  font-family: 'Kozuka Gothic Pro', 'Myriad Pro', Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #777777;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+
+
 
 
