@@ -452,17 +452,19 @@ body.not-allowed{
 
 .mw_action_nav{
   display: block;
-  width: 48px;
+  width: 65px;
   float: left;
   text-align: center;
   cursor: pointer;
-  margin: 0 8px;
+  margin: 0 5px;
 }
 
 .mw_action_nav label{
   color: #6C6C6C;
   font-size: 10px;
   cursor: pointer;
+  display: block;
+  text-align: center;
 }
 
 .mw_action_nav button{
@@ -471,37 +473,56 @@ body.not-allowed{
   background: url(../img/mw_content_actions.png) no-repeat;
   border: none;
   cursor: pointer;
-  display: block;
+  display: inline-block;
   border-radius:2px;
 }
+.mw_action_nav:hover button{
+  box-shadow:0 1px 10px -6px #212121;
+}
+
+.mw_action_nav.not-active button{
+  opacity:0.3;
+}
+.mw_action_nav.not-active:hover button{
+  opacity:0.6;
+}
+
 .mw_action_post button{background-position: -64px 0}
 .mw_action_category button{background-position: -130px 0}
-.mw_action_product button{background-position: -196px 0}
+.mw_action_product button{background-position: -196px 0;/*box-shadow:0px 1px 2px -2px #434343; */}
+
+
+
+/*
 
 .mw_action_page:hover button{background-position: 0 -31px}
 .mw_action_post:hover button{background-position: -64px -31px}
 .mw_action_category:hover button{background-position: -130px -31px}
-.mw_action_product:hover button{background-position: -196px -31px}
+.mw_action_product:hover button{background-position: -196px -31px} */
 
 
 
 
 .mw_edit_pages_nav{
-  height: 105px;
+  height: 96px;
   border-bottom: 1px solid #E2E2E2;
   background: white;
-  padding: 18px 20px 0;
+  padding:18px 0 0 18px;
+
 }
 
 
 
 
 
-.mw_action_nav button:focus{
+.mw_action_nav button:active{
   box-shadow:0 0 5px #CCCCCC inset
 }
+.mw_pages_posts_tree{
+  padding: 10px 0;
+}
 
-.mw_pages_posts_tree, .mw_pages_posts_tree *{
+.mw_pages_posts_tree *{
   margin: 0;
   padding: 0;
 }
@@ -583,7 +604,7 @@ ul.depth-3 a{
   white-space: nowrap;
   overflow: hidden;
   max-width: 60%;
-  margin-right:5px;
+  margin-left:3px;
 }
 
 
@@ -644,17 +665,17 @@ html.mw_pages, html.mw_pages body{
 }
 
 
-.mw_edit_page_left{
-  height: 100%;
+#mw_edit_page_left{
+  min-height: 100%;
   width: 331px;
-  background: #f4f4f4;
-  border-right:1px solid #fff;
+  float: left;
 }
 
+
 .mw_edit_page_right{
-  border-left:1px solid #E2E2E2;
   padding-left: 40px;
   padding-bottom: 50px;
+  float: left;
 }
 
 .mw_del_tree_content{
@@ -665,8 +686,27 @@ html.mw_pages, html.mw_pages body{
   background: url(../img/admin_tree_icons.png) no-repeat -26px 6px;
 }
 
+.tree-show-hide-nav{
+  clear: both;
+  padding: 10px 0 10px 37px;
+}
+.tree-show-hide-nav a{
+  font-size: 10px;
+  margin:0 10px;
 
+}
+.tree-show-hide-nav a.mw-ui-btn{
+  padding: 3px 14px 5px;
+  height: 11px;
+}
 
+.tree-show-hide-nav a:hover{
+
+}
+
+.tree-show-hide-nav span{
+  font-size: 10px;
+}
 
 .mw_toggle_tree{
   left: -30px;

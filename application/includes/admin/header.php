@@ -17,12 +17,16 @@
       mw.require("url.js");
       mw.require("options.js");
       mw.require("events.js");
+      mw.require("admin.js");
 
       mw.require("<? print INCLUDES_URL; ?>api/editor_externals.js");
+
+
 
     </script>
 
 </head>
 <body class="is_admin">
+<div id="mw-admin-container">
 
 

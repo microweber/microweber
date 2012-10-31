@@ -429,17 +429,17 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 					$do_not_show = false;
 				}
-
+$iid =$item['id'];
 				if ($do_not_show == false) {
 
 					$output = $output . $item['title'];
 
 					if ($li_class_name == false) {
 
-						print "<li class='category_element depth-{$depth_level_counter}' id='category_item_{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-taxonomy-type='{$item['data_type']}'>";
+						print "<li class='category_element depth-{$depth_level_counter} category_item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-taxonomy-type='{$item['data_type']}'>";
 					} else {
 
-						print "<li class='$li_class_name' id='category_item_{$item['id']}' >";
+						print "<li class='$li_class_name category_item_{$iid}'   >";
 					}
 				}
 

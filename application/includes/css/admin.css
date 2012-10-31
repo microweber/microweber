@@ -14,6 +14,10 @@ h2{ /*  ask the designer */
   position: relative;
 }
 
+#mw-admin-container{
+  background: url("../img/treebg.gif") repeat-y -167px 0;
+}
+
 
 #mw_toolbar_logo{
   background-image: url(../img/logo_admin.png);
@@ -170,7 +174,7 @@ border-radius: 20px;
 #footer{
   clear: both;
   background: #E9E9E9;
-  position: fixed;
+  position: static;
   bottom: 0;
   left: 0;
   width: 100%;

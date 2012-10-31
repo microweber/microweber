@@ -140,14 +140,30 @@ body:-webkit-full-screen {
 
 .mw_tree_title{
   background: url(../img/ico.tree.png) no-repeat 9px 0;
-  padding: 5px 0 10px 55px;
+  padding: 12px 0 13px 55px;
   margin: 0;
   font-family: 'Kozuka Gothic Pro', 'Myriad Pro', Arial, sans-serif;
+  font-family: Arial, sans-serif;
   text-transform: uppercase;
   font-weight: bold;
   color: #777777;
   font-size: 15px;
   letter-spacing: 2px;
+}
+
+#mw_edit_pages_content{
+  background: white url(../img/treebg.gif) repeat-y -167px 0;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+
+
+.semi_hidden{
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
 }
 
 

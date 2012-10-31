@@ -1,6 +1,6 @@
 
 
-
+</div> <!--  /#mw-admin-container -->
 <div id="footer">
 
     <div id="footer-content">
@@ -13,8 +13,13 @@
 
 
 
+<?php
 
-<a href="<? print site_url('api/set_language/en') ?>">en</a>
-<a href="<? print site_url('api/set_language/bg') ?>">bg</a>
+
+
+/* <a href="<? print site_url('api/set_language/en') ?>">en</a>
+<a href="<? print site_url('api/set_language/bg') ?>">bg</a>  */
+
+?>
   </body>
 </html>

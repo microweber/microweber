@@ -93,7 +93,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
-
+ 
 
 //$post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
@@ -107,8 +107,8 @@ $post_params_paging = $post_params;
 
 
 $post_params_paging['page_count'] = true;
-$pages = get_content($post_params_paging);
-
+ $pages = get_content($post_params_paging);
+ 
 
 $pages_count = intval($pages);
 ?>

@@ -338,11 +338,7 @@ padding:0px !important;
   white-space: nowrap;
 }
 
-.semi_hidden{
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-}
+
 
 
 /* tabs */
@@ -368,6 +364,7 @@ padding:0px !important;
 
 #mw_edit_pages{
   width: 100%;
+  min-height: 100%;
   height: 900px;
   position: absolute;
   background: white;
@@ -375,13 +372,7 @@ padding:0px !important;
   top: 74px;
   overflow: hidden;
 }
-#mw_edit_pages_content{
-  background: white;
-  overflow: hidden;
-  position: relative;
-  height: 100%;
-  overflow: auto;
-}
+
 
 
 

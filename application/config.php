@@ -2,7 +2,7 @@
 
 defined('T') or die();
 
-
+error_reporting(E_ALL);
 
 
 // Global site configuration

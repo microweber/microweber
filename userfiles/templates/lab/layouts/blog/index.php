@@ -2,6 +2,7 @@
 /*
 
 type: layout
+content_type: dynamic 
 name: blog
 description: blog
 

@@ -787,7 +787,7 @@ mw.toggle_subpanel = function(){
   }
 }
 
-set_pagetab_size = function(){
+set_pagetab_size = function(){  
     mw.$("#mw_edit_pages").css({
        width:window.innerWidth,
        height:window.innerHeight-126

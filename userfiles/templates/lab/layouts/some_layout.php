@@ -3,7 +3,7 @@
 /*
 
 type: layout
-
+content_type: static
 name: My cool name
 
 description: Home site layout

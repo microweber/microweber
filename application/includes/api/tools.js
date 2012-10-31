@@ -359,50 +359,53 @@ mw.tools = {
     }
     el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   },
-  tree:function(el, event){
-    var _el = $(el);
-    this.toggle = function(){
+  tree:{
+    toggle : function(el, event){
       $(el.parentNode).toggleClass('active');
       //mw.$(".active-bg").removeClass('active-bg');
       //$(el.parentNode).addClass('active-bg');
-      mw.tools.tree().remember();
+      var master = mw.tools.firstParentWithClass(el,'module');
+      mw.log(master)
+       mw.tools.tree.remember(master);
         if(event.type==='click'){
           event.stopPropagation();
           event.preventDefault();
           return false;
         }
-    }
-    this.del = function(id){
+    },
+    del : function(id){
       if(confirm('Are you sure you want to delete this?')){
          $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
-            var todelete =  mw.$("#page_list_holder_" + id);
+            var todelete =  mw.$("#page_list_holder_" + id, "#category_item_"+id);
              todelete.fadeOut(function(){
                  todelete.remove();
-             })
+             });
 		 });
       }
-    }
-    this.remember = function(){
+    },
+    remember : function(tree){
       _remember = "";
-      var lis = mw.$(".mw_pages_posts_tree").eq(0).find("li.active");
+      var lis = mw.$(tree).find("li.active");
       var len = lis.length;
       lis.each(function(i){
         i++;
-        _remember = i<len ? _remember + this.id + "," : _remember + this.id;
+        var cls = this.className.split(' ').pop();
+        _remember = i<len ? _remember + cls + "," : _remember + cls;
       });
       mw.cookie.ui("tree", _remember);
-    }
-    this.recall = function(){
+    },
+    recall : function(tree){
       var ids = mw.cookie.ui("tree");
       if(ids!==''){
         var ids = ids.split(",");
+        
         $.each(ids, function(a,b){
-          var el = mwd.getElementById(b);
+          var el = tree.querySelector('.'+b);
           el.className+=' active';
         });
       }
-    }
-    this.toggleit = function(el, event, pageid){
+    },
+    toggleit : function(el, event, pageid){
        event.stopPropagation();
        if(el.attributes['data-page-id'] !== undefined){
           mw.url.windowHashParam('action', 'showposts:'+pageid);
@@ -410,10 +413,16 @@ mw.tools = {
        else if(el.attributes['data-category-id'] !== undefined){
           mw.url.windowHashParam('action', 'showpostscat:'+pageid);
        }
-
-       mw.tools.tree(el, event).toggle();
+       mw.tools.tree.toggle(el, event);
+    },
+    closeAll : function(tree){
+        $(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');
+        mw.tools.tree.remember(tree);
+    },
+    openAll : function(tree){
+       $(tree.querySelectorAll('li')).addClass('active');
+       mw.tools.tree.remember(tree);
     }
-    return this;
   },
   hasClass:function(classname, whattosearch){   //for strings
     return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
@@ -443,6 +452,16 @@ mw.tools = {
            var _tag = _curr.tagName;
        }
      }
+  },
+  firstParentWithClass:function(el,cls){
+      _has = false;
+      mw.tools.foreachParents(el, function(loop){
+         if(mw.tools.hasClass(this.className, cls)){
+           _has = this;
+           mw.tools.loop[loop] = false;
+         }
+      });
+      return _has;
   }
 }
 

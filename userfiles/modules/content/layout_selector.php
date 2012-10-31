@@ -151,13 +151,13 @@ $(document).ready(function() {
 <? endif; ?>
 
 </div>
-
+ 
 <select name="layout_file"   id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
  
   <? if(!empty($layouts)): ?>
   <? foreach($layouts as $item): ?>
-  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?>   >  <? print $item['name'] ?> </option>
+  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?> <? if(isset($item['content_type']) ): ?>   data-content-type="<? print $item['content_type'] ?>" <? else: ?> data-content-type="static"  <? endif; ?> <? if(isset($item['is_shop']) ): ?>   data-is-shop="<? print $item['is_shop'] ?>"  <? endif; ?>   ><? print $item['name'] ?></option>
   <? endforeach; ?>
   <? endif; ?>
 </select>
