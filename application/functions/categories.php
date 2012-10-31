@@ -436,10 +436,10 @@ $iid =$item['id'];
 
 					if ($li_class_name == false) {
 
-						print "<li class='category_element depth-{$depth_level_counter} category_item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-taxonomy-type='{$item['data_type']}'>";
+						print "<li class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}' data-taxonomy-type='{$item['data_type']}'>";
 					} else {
 
-						print "<li class='$li_class_name category_item_{$iid}'   >";
+						print "<li class='$li_class_name  item_{$iid}' data-item-id='{$item['id']}'   >";
 					}
 				}
 

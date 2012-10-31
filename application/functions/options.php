@@ -38,6 +38,14 @@ function create_mw_default_options() {
     $data['position'] = '3';
     $datas[] = $data;
 
+
+    $data = array();
+    $data['option_group'] = 'website';
+    $data['option_key'] = 'items_pre_page';
+    $data['option_value'] = '30';
+    $data['position'] = '4';
+    $datas[] = $data;
+
     $data = array();
     $data['option_group'] = 'users';
     $data['option_key'] = 'enable_user_registration';
@@ -125,102 +133,6 @@ function get_options($params = '') {
     return $get;
 }
 
-function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-    $cache_group = 'options/global';
-//d($key);
-    $function_cache_id = false;
-
-    $args = func_get_args();
-
-    foreach ($args as $k => $v) {
-
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-    }
-
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-    $cache_content = cache_get_content($function_cache_id, $cache_group);
-    if (($cache_content) == '--false--') {
-        return false;
-    }
-    // $cache_content = false;
-    if (($cache_content) != false) {
-
-        return $cache_content;
-    }
-
-
-
-    $table = c('db_tables');
-    // ->'table_options';
-    $table = $table['table_options'];
-
-    if ($orderby == false) {
-
-        $orderby[0] = 'position';
-
-        $orderby[1] = 'ASC';
-    }
-
-    $data = array();
-    //   $data ['debug'] = 1;
-    if (is_array($key)) {
-        $data = $key;
-    } else {
-        $data['option_key'] = $key;
-    }
-    //   $cache_group = 'options/global/' . $function_cache_id;
-    $ok1 = '';
-    $ok2 = '';
-    if ($option_group != false) {
-        $option_group = db_escape_string($option_group);
-        $ok1 = " AND option_group='{$option_group}' ";
-    }
-
-
-    if ($module != false) {
-        $module = db_escape_string($module);
-        $data['module'] = $module;
-        $ok1 = " AND module='{$module}' ";
-    }
-    $data['limit'] = 1;
-    // $get = db_get($table, $data, $cache_group);
-    $ok = db_escape_string($data['option_key']);
-
-    $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
-    $function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
-    //
-
-    $get = db_query($q, $function_cache_id_q, $cache_group);
-//d($get);
-
-    if (!empty($get)) {
-
-
-
-
-        if ($return_full == false) {
-
-            $get = $get[0]['option_value'];
-
-
-
-            return $get;
-        } else {
-
-            $get = $get[0];
-
-
-
-            return $get;
-        }
-    } else {
-        cache_store_data('--false--', $function_cache_id, $cache_group);
-
-        return FALSE;
-    }
-}
-
 if (is_admin() != false) {
     api_expose('save_option');
 }
@@ -305,6 +217,6 @@ function delete_option_by_key($key, $option_group = false) {
     $q = "delete from $table where option_key='$key' $option_group_q1 ";
 
     db_q($q);
- cache_clean_group('options');
+    cache_clean_group('options');
     return true;
 }

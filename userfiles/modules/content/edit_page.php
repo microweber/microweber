@@ -286,6 +286,8 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? endif; ?>
   <div class="mw-ui-select">
     <select name="parent">
+          <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+
       <?    
 $pt_opts = array();
 $pt_opts['link'] = "{title}";

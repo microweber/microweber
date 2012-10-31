@@ -362,16 +362,18 @@ mw.tools = {
   tree:{
     toggle : function(el, event){
       $(el.parentNode).toggleClass('active');
-      //mw.$(".active-bg").removeClass('active-bg');
-      //$(el.parentNode).addClass('active-bg');
-      var master = mw.tools.firstParentWithClass(el,'module');
-      mw.log(master)
+       var master = mw.tools.firstParentWithClass(el,'module');
        mw.tools.tree.remember(master);
         if(event.type==='click'){
           event.stopPropagation();
           event.preventDefault();
           return false;
         }
+    },
+    open:function(el, event){
+      $(el.parentNode).addClass('active');
+      var master = mw.tools.firstParentWithClass(el,'module');
+      mw.tools.tree.remember(master);
     },
     del : function(id){
       if(confirm('Are you sure you want to delete this?')){
@@ -389,11 +391,9 @@ mw.tools = {
       var len = lis.length;
       $.each(lis, function(i){
         i++;
-
-        var id = this.attributes['data-page-id'].nodeValue || this.attributes['data-category-id'].nodeValue;
+        var id = this.attributes['data-item-id'].nodeValue;
         _remember = i<len ? _remember + id + "," : _remember + id;
       });
-      mw.log(_remember)
       mw.cookie.ui("tree", _remember);
     },
     recall : function(tree){
@@ -402,13 +402,7 @@ mw.tools = {
         var ids = ids.split(",");
         mw.log(ids)
         $.each(ids, function(a,b){
-
-          try{ tree.querySelector('.page_list_holder_'+b).className+=' active';}catch(e){};
-          try{ tree.querySelector('.category_item_'+b).className+=' active'; }catch(e){}
-
-          if(b==214){
-            alert(tree.querySelector(".category_item_214").classname)
-          }
+          tree.querySelector('.item_'+b).className+=' active';
         });
       }
     },
@@ -421,6 +415,16 @@ mw.tools = {
           mw.url.windowHashParam('action', 'showpostscat:'+pageid);
        }
        mw.tools.tree.toggle(el, event);
+    },
+    openit : function(el, event, pageid){
+       event.stopPropagation();
+       if(el.attributes['data-page-id'] !== undefined){
+          mw.url.windowHashParam('action', 'showposts:'+pageid);
+       }
+       else if(el.attributes['data-category-id'] !== undefined){
+          mw.url.windowHashParam('action', 'showpostscat:'+pageid);
+       }
+       mw.tools.tree.open(el, event);
     },
     closeAll : function(tree){
         $(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');

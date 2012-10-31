@@ -74,22 +74,27 @@ function mw_append_pages_tree_controlls(){
         var attr = el.attributes;
 
 
+        var toggle ='';
 
-        if($(el.parentNode).children('ul').length>0){
-            var toggle = '<span class="mw_toggle_tree"></span>';
-        }
         // type: page or category
         if(attr['data-page-id']!==undefined){
+
             var pageid = attr['data-page-id'].nodeValue;
+            if($(el.parentNode).children('ul').length>0){
+                var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+            }
             var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('page', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "mw.tools.tree.toggleit(this,event,"+pageid+")");
+            el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
         }
         else if(attr['data-category-id']!==undefined){
             var pageid = attr['data-category-id'].nodeValue;
+            if($(el.parentNode).children('ul').length>0){
+                var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+            }
             var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
             el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('category', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "mw.tools.tree.toggleit(this,event,"+pageid+");");
+            el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
         }
 
     });
@@ -132,7 +137,7 @@ mw.on.hashParam("action", function(){
   else{
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
-      var active_item = mw.$("#page_list_holder_"+arr[1]+", #category_item_"+arr[1]);
+      var active_item = mw.$(".item_"+arr[1]);
       active_item.addClass('active-bg');
       active_item.parents("li").addClass('active');
       if(arr[0]==='editpage'){

@@ -10,8 +10,10 @@ if (isset($post_params['id'])) {
     $paging_param = 'curent_page';
 }
 
-
-
+if (isset($post_params['paging_param'])) {
+	$paging_param = $post_params['paging_param'];
+}
+d($paging_param );
 if (isset($post_params['data-page-number'])) {
 
     $post_params['curent_page'] = $post_params['data-page-number'];
