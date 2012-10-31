@@ -256,7 +256,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		if (!$result) {
 
 			$error['error'][] = 'Query failed: ' . mysql_error();
-			return $error;
+			return false;
 		}
 		$nwq = array();
 
@@ -872,7 +872,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 
 	if (isset($criteria['search_by_keyword']) and strval(trim($criteria['search_by_keyword'])) != '') {
-		$to_search = trim($criteria['search_by_keyword']);
+		$to_search = db_escape_string($criteria['search_by_keyword']);
 	}
 
 	if (isset($criteria['search_in_fields'])) {
@@ -1064,16 +1064,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$includeIds_idds = false;
 	}
 	// $to_search = false;
+	$where_search = '';
 	if ($to_search != false) {
 
 		$fieals = db_get_table_fields($table);
 
 		$where_post = ' OR ';
 
-		if (!$where) {
-
-			$where = " WHERE ";
-		}
+		 
 		$where_q = '';
 
 		foreach ($fieals as $v) {
@@ -1119,15 +1117,25 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$where_q = rtrim($where_q, ' OR ');
 
 		if ($includeIds_idds != false) {
-			$where = $where . '  (' . $where_q . ')' . $includeIds_idds;
+			$where_search = $where_search . '  (' . $where_q . ')' . $includeIds_idds;
 		} else {
 
-			$where = $where . $where_q;
+			$where_search = $where_search . $where_q;
 		}
 
 	} else {
 
-		if (!empty($criteria)) {
+		
+	}
+	
+	if($where_search != ''){
+		$where_search = " AND ({$where_search}) ";
+		//exit($where_search);
+	}
+	
+	
+	
+	if (!empty($criteria)) {
 
 			if (!$where) {
 
@@ -1165,20 +1173,41 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			$where .= " ID is not null ";
 		}
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	if (!isset($idds)) {
 		$idds = '';
 	}
 
 	if ($where != false) {
 
-		$q = $q . $where . $idds . $exclude_idds;
+		$q = $q . $where . $idds . $exclude_idds . $where_search;
 	} else {
-		$q = $q . " WHERE " . $idds . $exclude_idds;
+		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds;
+		$q = $q . $includeIds_idds . $where_search;;
 	}
+	if($where_search != ''){
+	//	$where_search = " AND {$where_search} ";
+		//  exit($q);
+	}
+	
+	
 
 	if ($groupby != false) {
 		$q .= " $groupby  ";

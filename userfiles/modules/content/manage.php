@@ -40,7 +40,7 @@ $posts_mod['data-category-id'] =$params['data-category-id'];
 <h2>Posts</h2>
 <?  if(isset($posts['data']) and isarr($posts['data'])): 
 
-d($posts['data']);
+//d($posts['data']);
  ?>
 <div class="manage-posts-holder">
   <? foreach ($posts['data'] as $item): ?>

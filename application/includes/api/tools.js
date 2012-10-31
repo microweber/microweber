@@ -385,23 +385,30 @@ mw.tools = {
     },
     remember : function(tree){
       _remember = "";
-      var lis = mw.$(tree).find("li.active");
+      var lis = tree.querySelectorAll("li.active");
       var len = lis.length;
-      lis.each(function(i){
+      $.each(lis, function(i){
         i++;
-        var cls = this.className.split(' ').pop();
-        _remember = i<len ? _remember + cls + "," : _remember + cls;
+
+        var id = this.attributes['data-page-id'].nodeValue || this.attributes['data-category-id'].nodeValue;
+        _remember = i<len ? _remember + id + "," : _remember + id;
       });
+      mw.log(_remember)
       mw.cookie.ui("tree", _remember);
     },
     recall : function(tree){
       var ids = mw.cookie.ui("tree");
       if(ids!==''){
         var ids = ids.split(",");
-        
+        mw.log(ids)
         $.each(ids, function(a,b){
-          var el = tree.querySelector('.'+b);
-          el.className+=' active';
+
+          try{ tree.querySelector('.page_list_holder_'+b).className+=' active';}catch(e){};
+          try{ tree.querySelector('.category_item_'+b).className+=' active'; }catch(e){}
+
+          if(b==214){
+            alert(tree.querySelector(".category_item_214").classname)
+          }
         });
       }
     },
