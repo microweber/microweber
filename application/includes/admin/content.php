@@ -352,7 +352,24 @@ function mw_add_product(){
     <div class="mw_edit_page_right" style="width: 70%">
 
 
-    <input type="text" onkeyup="mw.url.windowHashParam('search',this.value);" />
+    <input type="text" id="mw-search-field"  />
+
+    <script>
+
+    $(document).ready(function(){
+
+        mw.$("#mw-search-field").bind("keyup", function(){
+          mw.on.stopWriting(this, function(){
+              mw.url.windowHashParam('search',this.value);
+          });
+        });
+
+
+    });
+
+
+    </script>
+
 
 
       <div class="mw_edit_pages_nav"> </div>

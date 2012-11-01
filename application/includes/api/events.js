@@ -69,7 +69,14 @@ DOMChange:function(element, callback){
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
-  }
+ },
+ _stopWriting:null,
+ stopWriting:function(el,callback){
+    typeof mw.on._stopWriting === 'number' ? clearTimeout(mw.on._stopWriting) : '';
+     mw.on._stopWriting = setTimeout(function(){
+       callback.call(el);
+     }, 600);
+ }
 }
 
 
