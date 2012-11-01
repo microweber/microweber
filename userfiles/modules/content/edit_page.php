@@ -44,11 +44,7 @@ $form_rand_id = $rand = uniqid();
 <script  type="text/javascript">
 
 
-set_page_size = function(){
 
-}
-
- 
 
 $(document).ready(function(){
 	
@@ -117,9 +113,9 @@ mw_before_content_save<? print $rand ?>()
 			   window.location.href = data+'/editmode:y';
 
 		});
-	
+
 	}
-	
+
 
  }
 
@@ -131,12 +127,12 @@ mw_before_content_save<? print $rand ?>()
 });
 </script>
 
-<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form">
+<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
       <label class="mw-ui-label">Page name</label>
-      <input name="title" style="width: 360px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
+      <input name="title" style="width: 346px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
@@ -144,7 +140,7 @@ mw_before_content_save<? print $rand ?>()
   </div>
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
-  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+    <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
@@ -256,7 +252,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
-  parent
+
   <? if($edit_post_mode != false): ?>
   <?
 
@@ -284,11 +280,19 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
   <? endif; ?>
   <input name="subtype"  type="hidden"  value="<? print $params['subtype'] ?>" >
   <? endif; ?>
-  <div class="mw-ui-select">
+
+
+  <div class="mw-ui-field-holder">
+
+
+ <label class="mw-ui-label">Page Parent</label>
+
+
+  <div class="mw-ui-select" style="width: 364px;">
     <select name="parent">
           <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
 
-      <?    
+      <?
 $pt_opts = array();
 $pt_opts['link'] = "{title}";
 $pt_opts['list_tag'] = " ";
@@ -305,15 +309,13 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  pages_tree($pt_opts);  ?>
     </select>
   </div>
+  </div>
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
   <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
   <? endif; ?>
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
-  <div class="mw_save_buttons_holder">
-    <input type="submit" name="save"    value="save" />
-    <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="go live edit" />
-  </div>
+
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
   Custom fields for post
@@ -325,7 +327,11 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
-  <div class="advanced_settings"> <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
+  <div class="advanced_settings">
+
+
+    <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
+
     <?php _e('Advanced Settings'); ?>
     </a>
     <div class="advanced_settings_holder">
@@ -360,18 +366,20 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
           <input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
       </div>
-      <br />
-      <br />
-      subtype
-      <div class="mw-ui-select">
-        <select name="subtype">
-          <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
-          <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
-        </select>
+
+
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Subtype</label>
+        <div class="mw-ui-select" style="width: 364px;">
+          <select name="subtype">
+            <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
+            <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
+          </select>
+        </div>
       </div>
-      <br />
+
       <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
-      <br />
+
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
       <br />
@@ -384,20 +392,21 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
           <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <? if($edit_post_mode == false): ?>
+
+      <? if($edit_post_mode != false): ?>
+            <div class="mw-ui-field-holder mw_save_buttons_holder">
+          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
+          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+        </div>
       <? endif; ?>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Password</label>
         <input name="password" style="width: 360px;" class="mw-ui-field"  type="password" value="" />
       </div>
-      <br />
-      <br />
-      <button type="submit">Save be</button>
+
+
+
+
     </div>
   </div>
 </form>

@@ -51,6 +51,11 @@ h2{ /*  ask the designer */
 
 #stats rect{
   fill:#6E6E6E;
+  stroke-width:0;
+}
+#stats circle{
+  fill:#ffffff;
+  stroke:#696969;
 }
 
 #stats_nav{
@@ -97,6 +102,7 @@ border-radius: 20px;
 #main.liquid{
   width: auto;
   min-width: 1000px;
+  background: white; /* no sidebar */
 }
 
 #main:after{

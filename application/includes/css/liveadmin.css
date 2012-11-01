@@ -166,6 +166,31 @@ body:-webkit-full-screen {
   left: -9999px !important;
 }
 
+#page_title_and_url{
+  float: left;
+  width: 372px;
+  margin-right: 10px;
+}
+
+.mw-template-selector{
+  float:left;
+  width:280px;
+}
+
+.mw-ui-field-holder{
+  padding: 10px 0;
+  position: relative;
+}
+
+form.add-edit-page-post textarea{
+  width: 346px;
+  height: 85px;
+}
+
+.advanced_settings{
+  padding: 25px 0;
+}
+
 
 
 
