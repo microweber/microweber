@@ -16,9 +16,9 @@ $module_id = $params['id'];
  }
  
  
- 
 
 $rand = rand();
+ 
 ?>
 <button onclick="mw_make_new_field('text'); return false;" value="mw_make_new_field('text')">mw_make_new_field('text')</button>
 <button onclick="mw_make_new_field('checkbox'); return false;" value="mw_make_new_field('checkbox')">mw_make_new_field('checkbox')</button>
@@ -30,7 +30,7 @@ $rand = rand();
 		if($copy != undefined){
 		$copy_str = '/copy_from:'+ $copy;	
 		}
-        mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type+$copy_str);
+        mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type+$copy_str);
 return false;
 
     }

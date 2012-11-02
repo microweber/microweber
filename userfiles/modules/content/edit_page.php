@@ -1,7 +1,7 @@
 <?
 if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
-}
+}   //  $params['content_type'] = 'post';
 
  
 
@@ -23,9 +23,12 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 $data = get_content_by_id($params["data-page-id"]); 
 }
- 
+
 if($data == false or empty($data )){
 include('_empty_content_data.php');
+}
+if(isset($edit_post_mode) and $edit_post_mode == true){
+             $data['content_type'] = 'post';
 }
 
 
@@ -38,7 +41,7 @@ if(isset($params["data-is-shop"])){
 
 $form_rand_id = $rand = uniqid();
 ?>
-<script  type="text/javascript">
+ <script  type="text/javascript">
   mw.require('forms.js');
  </script>
 <script  type="text/javascript">
@@ -54,12 +57,20 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
  mw_before_content_save<? print $rand ?>();
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
-	 
+                        	<? if(intval($data['id']) == 0): ?>
+
+
+                            mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
+
+
+
+
+                             <? endif; ?>
 	 mw_after_content_save<? print $rand ?>();
 
  });
 
-  
+
 //  var $pmod = $(this).parent('[data-type="<? print $config['the_module'] ?>"]');
 
 		  // mw.reload_module($pmod);
@@ -69,15 +80,19 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
  
  });
    
-   
-    mw.$('#go_live_edit_<? print $rand ?>').click(function() { 
+
+    mw.$('#go_live_edit_<? print $rand ?>').click(function() {
 	
 
 mw_before_content_save<? print $rand ?>()
- 
+
  	<? if(intval($data['id']) == 0): ?>
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
-  mw_after_content_save<? print $rand ?>(this);
+  //mw_after_content_save<? print $rand ?>(this);
+
+
+
+
 });
 
 <? else: ?>
@@ -98,7 +113,7 @@ mw_before_content_save<? print $rand ?>()
  }
 
  function mw_after_content_save<? print $rand ?>($id){
-	
+
 	mw.reload_module('[data-type="pages_menu"]');
 	  <? if($edit_post_mode != false): ?>
         mw.reload_module('[data-type="posts"]');
@@ -131,7 +146,7 @@ mw_before_content_save<? print $rand ?>()
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-      <label class="mw-ui-label">Page name</label>
+      <label class="mw-ui-label"><?php print ucfirst($data['content_type']); ?> name</label>
       <input name="title" style="width: 346px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
@@ -153,7 +168,7 @@ mw_before_content_save<? print $rand ?>()
 $(document).ready(function(){
 
     mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-    mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').bind('change', function(e){
+    mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="categories"]').bind('change', function(e){
     mw_load_post_cutom_fields_from_categories<? print $rand ?>();
 
 
@@ -306,13 +321,16 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
 
- pages_tree($pt_opts);  ?>
+ pages_tree($pt_opts);
+
+
+  ?>
     </select>
   </div>
   </div>
   <? if($edit_post_mode != false): ?>
-  <? $data['content_type'] = 'post'; ?>
-  <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+    <? $data['content_type'] = 'post'; ?>
+    <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
   <? endif; ?>
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
 
@@ -394,14 +412,14 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
       </div>
 
       <? if($edit_post_mode != false): ?>
-            <div class="mw-ui-field-holder mw_save_buttons_holder">
+        <div class="mw-ui-field-holder mw_save_buttons_holder">
           <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
           <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
         </div>
       <? endif; ?>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Password</label>
-        <input name="password" style="width: 360px;" class="mw-ui-field"  type="password" value="" />
+        <input name="password" style="width: 360px;" class="mw-ui-field" type="password" value="" />
       </div>
 
 

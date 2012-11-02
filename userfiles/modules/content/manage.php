@@ -1,3 +1,4 @@
+<microweber module="faker" />
 <?  if(isset($params['page-id'])):  ?>
 
 <h2>Pages</h2>

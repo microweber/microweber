@@ -20,6 +20,9 @@ if (!isset($data['custom_field_help_text'])) {
 if (!isset($data['custom_field_value'])) {
     $data['custom_field_value'] = '';
 }
+if (!isset($data['custom_field_values'])) {
+    $data['custom_field_values'] = '';
+}
 
 if (isset($params['for_module_id'])) {
     $for_module_id = $params['for_module_id'] ;
