@@ -73,6 +73,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     $dir = dirname(__FILE__);
     $dir = $dir . DS . 'custom_fields' . DS;
     $field_type = str_replace('..', '', $field_type);
+   // d($field_type);
     if ($settings == true) {
         $file = $dir . $field_type . '_settings.php';
     } else {

@@ -73,9 +73,19 @@ mw.templatePreview = {
     mw.$("#layout_selector li").eq(which).addClass('active');
     $(mw.templatePreview.selector).trigger('change');
   },
-  zoom:function(){
+  zoom:function(in_or_out){
+    var zoom = in_or_out || 'in';
     mw.$('.preview_frame_wrapper').toggleClass('zoom');
     mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+    if(zoom==='in'){
+      var overlay = mw.tools.modal.overlay();
+      overlay.onclick = function(){
+         mw.templatePreview.zoom('out');
+      }
+    }
+    else{
+      mw.$(".mw_overlay").remove();
+    }
   },
   generate:function(){
         mw.$('.preview_frame_wrapper').addClass("loading");
@@ -88,8 +98,15 @@ mw.templatePreview = {
 
 		var template = template.replace('/','___');;
 		var layout = layout.replace('/','___');;
+<? if($data['id'] ==0){
+	
+	$iframe_start = site_url('home');
+} else {
+	$iframe_start = page_link($data['id']);
+}
 
-		var iframe_url = '<? print page_link($data['id']); ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
+?>
+		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
 
         mw.templatePreview.rend(iframe_url);
   },
@@ -178,7 +195,7 @@ $(document).ready(function() {
 
 <div class="preview_frame_wrapper loading left">
     <div class="preview_frame_ctrls">
-        <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoom();"></span>
+        <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
         <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span>
         <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span>
     </div>

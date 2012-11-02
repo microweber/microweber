@@ -75,7 +75,9 @@ if (!isset($data['custom_field_name'])) {
  if (isset($data['custom_field_type'])) {
 	  $field_type = $data['custom_field_type'];
 }
- 
+ if ($data['custom_field_name'] == '') {
+    $data['custom_field_name'] =  $field_type;
+}
  
  
  
@@ -146,6 +148,7 @@ if (isset($data['to_table_id'])) {
       <option <? if (trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">text</option>
       <option  <? if (trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">dropdown</option>
       <option  <? if (trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">checkbox</option>
+      <option  <? if (trim($field_type) == 'price'): ?>  selected="selected"  <? endif; ?>  value="price">price</option>
     </select>
   </div>
 </div>
