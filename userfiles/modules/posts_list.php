@@ -10,13 +10,24 @@ if (isset($post_params['id'])) {
     $paging_param = 'curent_page';
 }
 
-
-
+if (isset($post_params['paging_param'])) {
+	$paging_param = $post_params['paging_param'];
+}
+d($paging_param );
 if (isset($post_params['data-page-number'])) {
 
     $post_params['curent_page'] = $post_params['data-page-number'];
     unset($post_params['data-page-number']);
 }
+
+
+
+if (isset($post_params['data-category-id'])) {
+
+    $post_params['category'] = $post_params['data-category-id'];
+    unset($post_params['data-category-id']);
+}
+
 
 
 
@@ -84,6 +95,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
+ 
 
 //$post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
@@ -97,8 +109,8 @@ $post_params_paging = $post_params;
 
 
 $post_params_paging['page_count'] = true;
-$pages = get_content($post_params_paging);
-
+ $pages = get_content($post_params_paging);
+ 
 
 $pages_count = intval($pages);
 ?>

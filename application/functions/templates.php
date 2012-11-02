@@ -106,7 +106,7 @@ function layouts_list($options = false) {
         }
     }
     if (!isset($options['path'])) {
-        if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default')) {
+        if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
             $tmpl = trim($options['site_template']);
             $check_dir = TEMPLATEFILES . '' . $tmpl;
             if (is_dir($check_dir)) {
@@ -151,6 +151,16 @@ function layouts_list($options = false) {
                         $result = str_ireplace('name:', '', $result);
                         $to_return_temp['name'] = trim($result);
                     }
+					
+					
+					  if (preg_match('/content_type:.+/', $fin, $regs)) {
+                        $result = $regs[0];
+                        $result = str_ireplace('content_type:', '', $result);
+                        $to_return_temp['content_type'] = trim($result);
+                    }
+					
+					
+					
                     $layout_file = str_replace($path, '', $filename);
                     $to_return_temp['layout_file'] = $layout_file;
 

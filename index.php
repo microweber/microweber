@@ -69,6 +69,7 @@ if (!defined('MW_BARE_BONES')) {
         $c->install();
         exit();
     }
+    $close_conn = function_exists('db_query');
 
     $m1 = url_segment(0);
 
@@ -87,8 +88,14 @@ if (!defined('MW_BARE_BONES')) {
             }
 
             $c->admin();
+            if ($close_conn == true) {
+                db_query('close');
+            }
             exit();
         } else {
+            if ($close_conn == true) {
+                db_query('close');
+            }
             error('No access allowed to admin');
             exit();
         }
@@ -101,10 +108,20 @@ if (!defined('MW_BARE_BONES')) {
     if (method_exists($c, $m)) {
 
         $c->$m();
+        if ($close_conn == true) {
+            db_query('close');
+        }
+        exit();
     } else {
 
         $c->index();
+        if ($close_conn == true) {
+            db_query('close');
+        }
         exit();
+    }
+    if ($close_conn == true) {
+        db_query('close');
     }
     exit('No method');
 }

@@ -6,14 +6,9 @@ String.prototype.toFragment = function(){
   f.appendChild(document.createTextNode(this));
   return f;
 }
-String.prototype.toDomObject = function(){
 
-  return f;
-}
 
-mw.checker = mwd.createElement('div');
-mw.checker.className = 'mw-checker semi_hidden';
-mwd.body.appendChild(mw.checker);
+
 
 
 mw.wysiwyg = {
@@ -460,6 +455,14 @@ mw.wysiwyg = {
     image_link:function(url){
         $("img.element-current").wrap("<a href='" + url + "'></a>");
     },
+    request_image:function(hash){
+        mw.tools.modal.frame({
+          url:"rte_image_editor"+hash,
+          title:"Upload Picture",
+          name:"mw_rte_image",
+          width:430
+        });
+    },
     image:function(hash){
         var hash = hash || '';
         if($("#mw_rte_image").length>0){
@@ -468,22 +471,12 @@ mw.wysiwyg = {
         else{
           if(mw.wysiwyg.isThereEditableContent() || mw.target.item.className=='image_change'){
               mw.wysiwyg.save_selection();
-              mw.tools.modal.frame({
-                url:"rte_image_editor"+hash,
-                title:"Upload Picture",
-                name:"mw_rte_image",
-                width:430
-              });
+              mw.wysiwyg.request_image(hash);
           }
         }
     },
     request_bg_image:function(){
-        mw.tools.modal.frame({
-          url:"rte_image_editor#set_bg_image",
-          title:"Upload Picture",
-          name:"mw_rte_image",
-          width:430
-        });
+      mw.wysiwyg.request_image('#set_bg_image');
     },
     set_bg_image:function(url){
       $(".element-current").css("backgroundImage", "url(" + url + ")");

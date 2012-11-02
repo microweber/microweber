@@ -204,32 +204,61 @@ function user_login($params) {
         $data = array();
         $data ['username'] = $user;
         $data ['password'] = $pass;
-        $data ['is_active'] = 'y';
+
+        // $data ['is_active'] = 'y';
 
         $data = get_users($data);
+
         if (isset($data [0])) {
             $data = $data [0];
-            if (empty($data)) {
-                if (trim($email) != '') {
-                    $data = array();
-                    $data ['email'] = $email;
-                    $data ['password'] = $pass;
-                    $data ['is_active'] = 'y';
-                    $data = get_users($data);
+        } else {
+            if (trim($email) != '') {
+                $data = array();
+                $data ['email'] = $email;
+                $data ['password'] = $pass;
+                $data ['debug'] = 1;
+                $data = get_users($data);
+                if (isset($data [0])) {
+                    $data = $data [0];
+                } else {
+
+                }
+            }
+
+
+
+            // return false;
+        }
+
+
+        if (!isarr($data)) {
+            if (trim($user) != '') {
+                $data = array();
+                $data ['email'] = $user;
+                $data ['password'] = $pass;
+                // $data ['debug'] = 1;
+
+                $data = get_users($data);
+                //d($data);
+
+                if (isset($data [0])) {
                     $data = $data [0];
                 }
             }
-        } else {
-            return false;
         }
-
-        if (empty($data)) {
+        if (!isarr($data)) {
 
             return false;
         } else {
 
             $user_session ['is_logged'] = 'yes';
             $user_session ['user_id'] = $data ['id'];
+
+            if (!defined('USER_ID')) {
+                define("USER_ID", $data ['id']);
+            }
+
+
             session_set('user_session', $user_session);
             $user_session = session_get('user_session');
             if (isset($data ["is_admin"]) and $data ["is_admin"] == 'y') {
@@ -266,7 +295,7 @@ api_expose('logout');
 function logout() {
 
 
-
+    define("USER_ID", false);
 
 // static $uid;
     $aj = isAjax();
@@ -281,7 +310,6 @@ function logout() {
         if (isset($_SERVER["HTTP_REFERER"])) {
             safe_redirect($_SERVER["HTTP_REFERER"]);
         }
-        //d($_SERVER);
     }
 }
 
@@ -298,9 +326,11 @@ function user_id() {
         if (isset($user_session ['user_id'])) {
             $res = $user_session ['user_id'];
         }
-
-        // $res = $sess->get ( 'user_id' );
-        define("USER_ID", $res);
+       
+        if ($res != false) {
+            // $res = $sess->get ( 'user_id' );
+            define("USER_ID", $res);
+        }
         return $res;
     }
 }
@@ -330,7 +360,7 @@ function is_admin() {
         }
         $usr = get_user($usr);
 
-        if ($usr ['is_admin'] == 'y') {
+        if (isset($usr ['is_admin']) and $usr ['is_admin'] == 'y') {
             define("USER_IS_ADMIN", true);
             define("IS_ADMIN", true);
         } else {
@@ -423,9 +453,8 @@ function get_users($params = array()) {
         $cache_group = 'users/' . $data ['id'];
     } else {
 
-        $cache_group = 'users/global';
     }
-
+    $cache_group = 'users/global';
     if (isset($limit) and $limit != false) {
         $data ['limit'] = $limit;
     }
@@ -462,21 +491,17 @@ function get_users($params = array()) {
         $i++;
     }
 
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+    // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+    //  $data ['table'] = $table;
+    //  $data ['cache_group'] = $cache_group;
+    //  $get = get($data);
 
-    $cache_content = cache_get_content($function_cache_id, $cache_group);
+    $get = db_get($table, $criteria = $data, $cache_group);
+    // $get = db_get($table, $criteria = $data, $cache_group);
+    // var_dump($get, $function_cache_id, $cache_group);
+    //  cache_store_data($get, $function_cache_id, $cache_group);
 
-    if (($cache_content) != false) {
-
-        return $cache_content;
-    } else {
-
-        $get = db_get($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        cache_store_data($get, $function_cache_id, $cache_group);
-
-        return $get;
-    }
+    return $get;
 }
 
 /**
@@ -526,7 +551,9 @@ function get_user_by_id($id) {
     $data ['id'] = $id;
     $data ['limit'] = 1;
     $data = get_users($data);
-    $data = $data [0];
+    if (isset($data[0])) {
+        $data = $data [0];
+    }
     return $data;
 }
 
@@ -535,7 +562,9 @@ function get_user_by_username($username) {
     $data ['username'] = $username;
     $data ['limit'] = 1;
     $data = get_users($data);
-    $data = $data [0];
+    if (isset($data[0])) {
+        $data = $data [0];
+    }
     return $data;
 }
 

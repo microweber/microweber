@@ -2,6 +2,7 @@
 /*
 
 type: layout
+content_type: dynamic
 name: Online shop
 is_shop: yes
 description: shop

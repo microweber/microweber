@@ -29,15 +29,14 @@ mw.on = {
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger){
     if(trigger==true){
-          var index = mw.on._hashparams.indexOf(param);
-          if(index != -1){
-            var hash = mw.hash();
-            var params = mw.url.getHashParams(hash);
-            if(mw.is.string(params[param])){
-
-                mw.on._hashparam_funcs[index].call(params[param]);
-            }
+        var index = mw.on._hashparams.indexOf(param);
+        if(index != -1){
+          var hash = mw.hash();
+          var params = mw.url.getHashParams(hash);
+          if(mw.is.string(params[param])){
+              mw.on._hashparam_funcs[index].call(params[param]);
           }
+        }
     }
     else{
         mw.on._hashparams.push(param);
@@ -69,7 +68,14 @@ DOMChange:function(element, callback){
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
-  }
+ },
+ _stopWriting:null,
+ stopWriting:function(el,callback){
+    typeof mw.on._stopWriting === 'number' ? clearTimeout(mw.on._stopWriting) : '';
+     mw.on._stopWriting = setTimeout(function(){
+       callback.call(el);
+     }, 600);
+ }
 }
 
 

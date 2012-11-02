@@ -3,7 +3,7 @@
 /*
 
 type: layout
-
+content_type: static
 name: About layout
 
 description: About site layout

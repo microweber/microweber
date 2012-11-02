@@ -35,7 +35,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
         if ($field_id != 0) {
 //
             error('cant steal data');
-         //   $form_data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            //   $form_data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
         }
     }
 
@@ -73,6 +73,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     $dir = dirname(__FILE__);
     $dir = $dir . DS . 'custom_fields' . DS;
     $field_type = str_replace('..', '', $field_type);
+   // d($field_type);
     if ($settings == true) {
         $file = $dir . $field_type . '_settings.php';
     } else {
@@ -124,7 +125,13 @@ function save_custom_field($data) {
     if (isset($data_to_save ['for'])) {
         $data_to_save ['to_table'] = guess_table_name($data_to_save ['for']);
     }
-
+    if (!isset($data_to_save ['to_table'])) {
+        $data_to_save ['to_table'] = 'table_content';
+    }
+    $data_to_save ['to_table'] = db_get_assoc_table_name($data_to_save ['to_table']);
+    if (!isset($data_to_save ['to_table_id'])) {
+        $data_to_save ['to_table_id'] = '0';
+    }
     //  $data_to_save['debug'] = 1;
 
 
@@ -210,6 +217,16 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
     if (isset($data['type'])) {
         $field_type = $data['type'];
     }
+    if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
+        if (isset($data['custom_field_values']) and is_string($data['custom_field_value'])) {
+            $try = base64_decode($data['custom_field_values']);
+            if ($try != false) {
+                $data['custom_field_values'] = unserialize($try);
+            }
+        }
+    }
+
+
 
 
     $dir = dirname(__FILE__);
@@ -226,6 +243,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 
     $l = new View($file);
     //
+    $l->settings = $settings;
 
     if (isset($data) and !empty($data)) {
         $l->data = $data;

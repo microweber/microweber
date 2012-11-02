@@ -62,7 +62,7 @@ mw.files = {
                         if(is_valid){
                             mw.files.ajax_uploader(file, {url:settings.url}, function(){
                                count+=1;
-                               typeof settings.fileuploaded == 'function' ? settings.fileuploaded.call(this) : '';
+                               typeof settings.fileuploaded === 'function' ? settings.fileuploaded.call(this) : '';
                                all['item_'+i] = this;
                                if(count==len) {
                                  if(typeof settings.done == 'function') {

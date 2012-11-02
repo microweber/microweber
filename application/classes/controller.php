@@ -709,4 +709,11 @@ class Controller {
         }
     }
 
+
+    function __destruct() {
+        //print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+       
+    }
+
+
 }

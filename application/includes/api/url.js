@@ -21,8 +21,8 @@ mw.url = {
         var url = mw.url.removeHash(url);
         if(url.contains('?')){
           var arr = url.slice(url.indexOf('?') + 1).split('&');
-          var obj = {}
-          for(var i=0;i<arr.length;i++){
+          var obj = {}, i=0, len = arr.length;
+          for( ; i<len; i++){
             var p_arr = arr[i].split('=');
             obj[p_arr[0]] = p_arr[1];
           }
@@ -55,8 +55,8 @@ mw.url = {
           var hash = hash.replace(/#/g, "");
           var hash = hash.replace(/\?/g, "");
           var arr = hash.split('&');
-          var obj = {}
-          for(var i=0;i<arr.length;i++){
+          var obj = {}, i=0, len = arr.length;
+          for( ; i<len; i++){
             var p_arr = arr[i].split('=');
             obj[p_arr[0]] = p_arr[1];
           }
@@ -67,11 +67,19 @@ mw.url = {
       var hash = hash || mw.hash();
       var obj = mw.url.getHashParams(hash);
       obj[param] = value;
-      return "?"+ decodeURIComponent( json2url(obj) );
+      return "?"+ decodeURIComponent(json2url(obj));
     },
     windowHashParam:function(a,b){
       mw.hash(mw.url.setHashParam(a,b));
-
+    },
+    deleteHashParam:function(hash, param){
+        var params = mw.url.getHashParams(hash);
+        delete params[param];
+        var params_string = decodeURIComponent("?"+json2url(params));
+        return params_string;
+    },
+    windowDeleteHashParam:function(param){
+       mw.hash(mw.url.deleteHashParam(window.location.hash, param));
     }
 }
 

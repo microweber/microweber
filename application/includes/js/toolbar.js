@@ -787,14 +787,16 @@ mw.toggle_subpanel = function(){
   }
 }
 
-
+set_pagetab_size = function(){  
+    mw.$("#mw_edit_pages").css({
+       width:window.innerWidth,
+       height:window.innerHeight-126
+     });
+}
 
 
 $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
-    mw.$("#mw_edit_pages").css({
-       width:window.innerWidth,
-       height:window.innerHeight-130
-     });
+    set_pagetab_size();
 });

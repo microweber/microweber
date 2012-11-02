@@ -275,7 +275,7 @@ if (!function_exists('pathToURL')) {
         $path = str_ireplace(ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
-        // var_dump($path);
+        //var_dump($path);
         return site_url($path);
     }
 
@@ -432,7 +432,7 @@ function session_end() {
 }
 
 function recursive_remove_directory($directory, $empty = true) {
-
+ 
     // if the path has a slash at the end we remove it here
     if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
 
@@ -476,7 +476,7 @@ function recursive_remove_directory($directory, $empty = true) {
                     $path = normalize_path($path, false);
                     try {
 
-                        unlink($path);
+                        @unlink($path);
                     } catch (Exception $e) {
 
                     }

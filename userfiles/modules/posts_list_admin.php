@@ -28,14 +28,30 @@ Pages
 <strong>From page</strong>
 <select name="data-page-id" id="the_post_data-page-id<? print $rand ?>"  class="mw_option_field"  >
   <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
-  <?
-	$include_categories_in_cat_selector = array();
-	 foreach($pages as $item):
-	
-	$include_categories_in_cat_selector[] = $item['subtype_value'];
-	 ?>
-  <option value="<? print $item['id'] ?>"   <? if(($item['id'] == $posts_parent_page)): ?>   selected="selected"  <? endif; ?>     > <? print $item['title'] ?> </option>
-  <? endforeach; ?>
+  
+   <?
+$pt_opts = array();
+$pt_opts['link'] = "{title}";
+$pt_opts['list_tag'] = " ";
+$pt_opts['list_item_tag'] = "option";
+$pt_opts['actve_ids'] = $posts_parent_page;
+$pt_opts['remove_ids'] = $params['id'];
+ 
+ 
+$pt_opts['active_code_tag'] = '   selected="selected"  ';
+ 
+
+
+
+ pages_tree($pt_opts);
+
+
+  ?>
+  
+  
+  
+  
+  
 </select>
 <br />
 <strong>Limit</strong>

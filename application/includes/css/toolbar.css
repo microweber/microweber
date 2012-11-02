@@ -1,4 +1,5 @@
-@import url("toolbar_2.css");
+@import url("liveadmin.css");
+@import url("liveedit.css");
   .helper{
 
     background: #ccc;
@@ -21,6 +22,15 @@
 .row {
 	margin-left: 0px !important;
 	min-height:40x;
+    clear: both;
+}
+.row:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
  
 .ui-state-highlight2, .also-resize {
@@ -328,11 +338,7 @@ padding:0px !important;
   white-space: nowrap;
 }
 
-.semi_hidden{
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-}
+
 
 
 /* tabs */
@@ -358,6 +364,7 @@ padding:0px !important;
 
 #mw_edit_pages{
   width: 100%;
+  min-height: 100%;
   height: 900px;
   position: absolute;
   background: white;
@@ -365,71 +372,8 @@ padding:0px !important;
   top: 74px;
   overflow: hidden;
 }
-#mw_edit_pages_content{
-  background: white;
-  overflow: hidden;
-  position: relative;
-  height: 100%;
-  overflow: auto;
-}
-
-/* tabs navigation */
-
-#mw_toolbar_nav{
-    width: 100%;
-    height:52px;
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-    background: url(../img/navbg.jpg) repeat-x;
-}
 
 
-
-
-#mw_tabs{
-  float: left;
-  list-style: none;
-  margin: 0 25px 9px;
-}
-
-#mw_tabs li{
-  float: left;
-    background: url(../img/nav_item_border.jpg) no-repeat right top;
-}
-#mw_tabs li a{
-  display: block;
-  padding:19px 20px 19px;
-  text-decoration: none;
-  outline: none;
-  color: #212121;
-  text-shadow:1px 1px 0px white;
-}
-#mw_tabs li:last-child {
-  background-image: none;
-}
-
-#mw_tabs li.active{
-  background: url(../img/nav_active_left.jpg) no-repeat;
-  margin-left: -2px;
-  padding-left: 2px;
-}
-
-#mw_tabs li.active a{
-
-  background:url(../img/nav_active_right.jpg) no-repeat right top;
-}
-
-#mw_toolbar_logo{
-  display: block;
-  float: left;
-  text-indent: -9999px;
-  background: url(../img/mw_live.png) no-repeat;
-  width:159px;
-  height: 29px;
-  overflow: hidden;
-  margin: 14px 20px;
-}
 
 
 
@@ -1230,15 +1174,7 @@ li .ts_action_item:last-child{
 }
 
 
-.mw_tree_title{
-  background: url(../img/ico.tree.png) no-repeat;
-  color: #777777;
-  text-transform: uppercase;
-  font-size:16px;
-  font-weight: normal;
-  padding: 10px 0 15px 45px;
-  margin: 0;
-}
+
 
 .mw_dropable_onleaveedit{
   display: block !important;
