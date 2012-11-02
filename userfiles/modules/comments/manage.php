@@ -1,6 +1,6 @@
 <?
- if(IS_ADMIN == false){
-	//error('Not alowed'); 
+ if(is_admin() == false){
+	 error('Must be admin'); 
  }
  $data= $params;
  if(isset($data['id'])){

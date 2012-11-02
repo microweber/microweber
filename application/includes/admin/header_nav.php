@@ -1,7 +1,16 @@
-<? if(is_admin() != false): ?>
+<div id="mw_toolbar_nav"> <a href="<?php print admin_url(); ?>view:dashboard" id="mw_toolbar_logo"></a>
+  <? if(is_admin()): ?>
+  <?   $active = url_param('view'); ?>
 
-<a href="<?php print admin_url(); ?>view:dashboard">dashboard</a> <a href="<?php print admin_url(); ?>view:content">content</a> <a href="<?php print admin_url(); ?>view:shop">Online shop</a> <a href="<?php print admin_url(); ?>view:modules">modules</a> <a href="<?php print admin_url(); ?>view:elements">elements</a> <a href="<?php print admin_url(); ?>view:updates">updates</a> <a href="<?php print admin_url(); ?>view:settings">settings</a> | <a href="<?php print admin_url(); ?>view:comments">comments</a> |
-<? 
+  <ul id="mw_tabs">
+    <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
+    <li <?php if($active == 'content'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
+    <li <?php if($active == 'shop'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:shop">Online Shop</a></li>
+    <li <?php if($active == 'settings'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:settings">Settings</a></li>
+    <li><a href="#">Users</a></li>
+    <li><a href="#">Help</a></li>
+  </ul>
+  <?
 
 if(isset($_COOKIE['last_page'])){
 	$past_page = site_url($_COOKIE['last_page']);
@@ -13,5 +22,12 @@ $past_page = content_link($past_page[0]['id']);
 
 //d($past_page);
  ?>
-<a href="<?php print $past_page; ?>/editmode:y">go live edit</a> | <a href="<?php print api_url('logout'); ?>">logout</a>
-<? endif; ?>
+
+   <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 11px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a>
+  <a title="<?php _e("Go Live Edit"); ?>" class="mw-ui-btn right" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
+
+
+
+
+  <? endif; ?>
+</div>

@@ -2,7 +2,7 @@
 
 defined('T') or die();
 
-
+error_reporting(E_ALL);
 
 
 // Global site configuration
@@ -94,7 +94,7 @@ $cms_db_tables['table_users_notifications'] = TABLE_PREFIX . 'users_notification
 $cms_db_tables['table_users_statuses'] = TABLE_PREFIX . 'users_statuses';
 $cms_db_tables['table_followers'] = TABLE_PREFIX . 'followers';
 $cms_db_tables['table_sessions'] = TABLE_PREFIX . 'sessions';
-$cms_db_tables['table_custom_fields'] = TABLE_PREFIX . 'content_custom_fields';
+$cms_db_tables['table_custom_fields'] = TABLE_PREFIX . 'custom_fields';
 $cms_db_tables['table_custom_fields_config'] = TABLE_PREFIX . 'content_custom_fields_config';
 $cms_db_tables['table_cart'] = TABLE_PREFIX . 'cart';
 $cms_db_tables['table_cart_orders'] = TABLE_PREFIX . 'cart_orders';

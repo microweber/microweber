@@ -211,8 +211,19 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         $db = c('db');
     }
 
-    //var_dump($db);
-    //$is_mysqli = function_exists('mysqli_connect');
+    if($q =='close'){
+        if(isset($link)){
+            mysql_close($link);
+        }
+    }
+
+
+
+
+
+
+    //  var_dump($db);
+    // $is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;
     if ($is_mysqli != false) {
         $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
@@ -236,30 +247,32 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
             }
         }
     } else {
+        static $link;
+        if ($link == false) {
+            $link = mysql_connect($db['host'], $db['user'], $db['pass']);
 
-        $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+            if (mysql_select_db($db['dbname']) == false) {
+                $error['error'][] = 'Could not select database ' . $db['dbname'];
+                return $error;
+            }
+        }
         if ($link == false) {
             $error['error'][] = 'Could not connect: ' . mysql_error();
             return $error;
         }
 
-        if (mysql_select_db($db['dbname']) == false) {
-            $error['error'][] = 'Could not select database ' . $db['dbname'];
-            return $error;
-        }
+
 
         // Performing SQL query
         $query = $q;
         $result = mysql_query($query);
         if (!$result) {
 
-
-            $error['error'][] = 'Query failed: ' . mysql_error();
-            return $error;
+            error( 'Query failed: ' . mysql_error());
+            return false;
         }
         $nwq = array();
 
-        // Printing results in HTML
         if (!$result) {
             $error['error'][] = 'Can\'t connect to the database';
             return $error;
@@ -274,13 +287,14 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         }
 
         // Free resultset
-        if (is_array($result)) {
-            mysql_free_result($result);
+        if ($only_query == false) {
+            if (is_array($result)) {
+                mysql_free_result($result);
+            }
         }
-
         // Closing connection
-        mysql_close($link);
-        $result = null;
+        // mysql_close($link);
+        // $result = null;
     }
 
     if ($only_query != false) {
@@ -293,26 +307,27 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     // d($q);
     //  unset($db);
     // if (MW_IS_INSTALLED != false) {
-    if (empty($q) or $q == false) {
+    if ($only_query == false and empty($q) or $q == false) {
         if ($cache_id != false) {
 
-
-            cache_store_data('---empty---', $cache_id, $cache_group);
+             cache_store_data('---empty---', $cache_id, $cache_group);
         }
         return false;
     }
-    // $result = $q;
-    if ($cache_id != false) {
-        if (isarr($q)) {
+    if ($only_query == false) {
+        // $result = $q;
+        if ($cache_id != false) {
+            if (isarr($q)) {
 
-            cache_save($q, $cache_id, $cache_group);
-        } else {
-            cache_store_data('---empty---', $cache_id, $cache_group);
+                cache_save($q, $cache_id, $cache_group);
+            } else {
+                cache_store_data('---empty---', $cache_id, $cache_group);
+            }
         }
     }
     // }
     return $q;
-
+    //remove below
     $results = array();
     if (!empty($q)) {
         foreach ($q as $result) {
@@ -556,6 +571,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
         $_default_limit = 30;
 
+
+        $cfg_default_limit = get_option('items_pre_page ', 'website');
+        if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
+            $_default_limit = intval($cfg_default_limit);
+        }
+
+
+
         if (isset($criteria['limit']) and $criteria['limit'] == true and $count_only == false) {
             $limit = $criteria['limit'];
         }
@@ -797,8 +820,11 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     }
 
     $to_search = false;
-
+    if (isset($criteria['category-id'])) {
+        $criteria['category'] = $criteria['category-id'];
+    }
     if (isset($criteria['category'])) {
+        //
         $search_n_cats = $criteria['category'];
         if (is_string($search_n_cats)) {
             $search_n_cats = explode(',', $search_n_cats);
@@ -807,11 +833,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
             foreach ($search_n_cats as $cat_name_or_id) {
 
-                $str0 = 'fields=id&limit=100&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                $str1 = 'fields=id&limit=100&data_type=category&what=categories&' . 'title=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-                //  d($str0);
+                $str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+                $str1 = 'fields=id&limit=10000&what=categories&' . 'id=' . $cat_name_or_id;
 
-                $is_in_category = get($str0);
+                //d($str1);
+                $is_in_category = get($str1);
+                //d($is_in_category);
                 if (empty($is_in_category)) {
                     $is_in_category = get($str1);
                 }
@@ -819,7 +846,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                 if (!empty($is_in_category)) {
                     foreach ($is_in_category as $is_in_category_item) {
                         $cat_name_or_id1 = $is_in_category_item['id'];
-                        $str1_items = 'fields=to_table_id&limit=100&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
+                        $str1_items = 'fields=to_table_id&limit=10000&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
                         $is_in_category_items = get($str1_items);
 
                         if (!empty($is_in_category_items)) {
@@ -833,6 +860,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
                         // d($is_in_category_items);
                         //d($is_in_category_items);
                     }
+                } else {
+                    return false;
                 }
             }
         }
@@ -847,7 +876,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     $groupby = false;
     if (isset($criteria['group'])) {
         $groupby = $criteria['group'];
-        if (is_string($orderby)) {
+        if (is_string($groupby)) {
             $groupby = db_escape_string($groupby);
         }
     }
@@ -864,7 +893,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     }
 
     if (isset($criteria['search_by_keyword']) and strval(trim($criteria['search_by_keyword'])) != '') {
-        $to_search = trim($criteria['search_by_keyword']);
+        $to_search = db_escape_string($criteria['search_by_keyword']);
     }
 
     if (isset($criteria['search_in_fields'])) {
@@ -925,11 +954,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     if (isset($orderby) and $orderby != false) {
         if (!is_array($orderby)) {
             if (is_string($orderby)) {
-                $orderby = explode(',', $orderby);
+                // $orderby = explode(',', $orderby);
             }
         }
     }
-
 
     if (isset($groupby) and $groupby != false) {
         if (is_array($groupby)) {
@@ -946,8 +974,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $groupby = false;
     }
 
-
-    if (!empty($orderby)) {
+    if (is_string($orderby)) {
+        $order_by = " ORDER BY  $orderby  ";
+    } elseif (is_array($orderby) and !empty($orderby)) {
 
         $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
     } else {
@@ -1056,16 +1085,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $includeIds_idds = false;
     }
     // $to_search = false;
+    $where_search = '';
     if ($to_search != false) {
 
         $fieals = db_get_table_fields($table);
 
         $where_post = ' OR ';
 
-        if (!$where) {
 
-            $where = " WHERE ";
-        }
         $where_q = '';
 
         foreach ($fieals as $v) {
@@ -1084,11 +1111,24 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
                 if ($v != 'id' && $v != 'password') {
 
+                    switch ($v) {
+                        case 'title' :
+                        case 'description' :
+                        case 'content' :
+                            $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                            // $where_q .= " $v LIKE '%$to_search%' " . $where_post;
+                            break;
+
+                        default :
+                            break;
+                    }
+
                     if (DB_IS_SQLITE == false) {
 
-                        $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                        // $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                        // $where_q .= " $v REGEXP '$to_search' " . $where_post;
                     } else {
-                        $where_q .= " $v LIKE '%$to_search%' " . $where_post;
+
                     }
                 }
             }
@@ -1097,65 +1137,96 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $where_q = rtrim($where_q, ' OR ');
 
         if ($includeIds_idds != false) {
-            $where = $where . '  (' . $where_q . ')' . $includeIds_idds;
+            $where_search = $where_search . '  (' . $where_q . ')' . $includeIds_idds;
         } else {
 
-            $where = $where . $where_q;
+            $where_search = $where_search . $where_q;
         }
     } else {
 
-        if (!empty($criteria)) {
+    }
 
-            if (!$where) {
+    if ($where_search != '') {
+        $where_search = " AND ({$where_search}) ";
+        //exit($where_search);
+    }
 
-                $where = " WHERE ";
-            }
-            foreach ($criteria as $k => $v) {
-                $compare_sign = '=';
-                if (stristr($v, '[lt]')) {
-                    $compare_sign = '<=';
-                    $v = str_replace('[lt]', '', $v);
-                }
 
-                if (stristr($v, '[mt]')) {
 
-                    $compare_sign = '>=';
+    if (!empty($criteria)) {
 
-                    $v = str_replace('[mt]', '', $v);
-                }
-                /*
-                 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
-                 */
-                if (($k == 'updated_on') or ($k == 'created_on')) {
-
-                    $v = strtotime($v);
-                    $v = date("Y-m-d H:i:s", $v);
-                }
-
-                $where .= "$k {$compare_sign} '$v' AND ";
-            }
-
-            $where .= " ID is not null ";
-        } else {
+        if (!$where) {
 
             $where = " WHERE ";
-
-            $where .= " ID is not null ";
         }
+        foreach ($criteria as $k => $v) {
+            $compare_sign = '=';
+            if (stristr($v, '[lt]')) {
+                $compare_sign = '<=';
+                $v = str_replace('[lt]', '', $v);
+            }
+
+            if (stristr($v, '[mt]')) {
+
+                $compare_sign = '>=';
+
+                $v = str_replace('[mt]', '', $v);
+            }
+            /*
+             * var_dump ( $k ); var_dump ( $v ); print '<hr>';
+             */
+            if (($k == 'updated_on') or ($k == 'created_on')) {
+
+                $v = strtotime($v);
+                $v = date("Y-m-d H:i:s", $v);
+            }
+
+            $where .= "$k {$compare_sign} '$v' AND ";
+        }
+
+        $where .= " ID is not null ";
+    } else {
+
+        $where = " WHERE ";
+
+        $where .= " ID is not null ";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     if (!isset($idds)) {
         $idds = '';
     }
 
     if ($where != false) {
 
-        $q = $q . $where . $idds . $exclude_idds;
+        $q = $q . $where . $idds . $exclude_idds . $where_search;
     } else {
-        $q = $q . " WHERE " . $idds . $exclude_idds;
+        $q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
     }
     if ($includeIds_idds != false) {
-        $q = $q . $includeIds_idds;
+        $q = $q . $includeIds_idds . $where_search;
+        ;
     }
+    if ($where_search != '') {
+        //	$where_search = " AND {$where_search} ";
+        //  exit($q);
+    }
+
+
 
     if ($groupby != false) {
         $q .= " $groupby  ";
@@ -1185,11 +1256,22 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         var_dump($table, $q);
     }
 
-    $result = db_query($q, $original_cache_id, $original_cache_group);
-    if ($count_only == true) {
+    if ($to_search != false) {
 
-        // var_dump ( $result );
-        // exit ();
+    }
+    if ($to_search != false) {
+        $original_cache_id = false;
+        $original_cache_group = false;
+        // print($q);
+        //	return;
+    }
+
+    $result = db_query($q, $original_cache_id, $original_cache_group);
+
+    if ($count_only != true) {
+        if ($to_search != false) {
+            //	return $result;
+        }
     }
 
     if (isset($result[0]['qty']) == true) {
@@ -1223,7 +1305,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
     // var_dump($result);
     if ($count_only == true) {
 
-
         $ret = $result[0]['qty'];
 
         return $ret;
@@ -1245,10 +1326,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
         if (is_arr($return)) {
 
-            //  cache_store_data($return, $original_cache_id, $original_cache_group);
+            //cache_store_data($return, $original_cache_id, $original_cache_group);
         } else {
 
-            //   cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+            //  cache_store_data('---empty---', $original_cache_id, $original_cache_group);
         }
     }
     //
@@ -1333,7 +1414,6 @@ function map_array_to_database_table($table, $array) {
 
     static $arr_maps = array();
 
-
     $arr_key = crc32($table) + crc32(serialize($array));
     if (isset($arr_maps[$arr_key])) {
         return $arr_maps[$arr_key];
@@ -1400,6 +1480,12 @@ function db_table_exist($table) {
  * @since Version 1.0
  */
 function db_get_table_fields($table, $exclude_fields = false) {
+
+    $db_get_table_fields = array();
+    if (!$table) {
+
+        return false;
+    }
     if (!$table) {
 
         return false;
@@ -1434,7 +1520,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
     //   $sql = "DESCRIBE $table";
 
     $query = db_query($sql);
-//d($query);
+    //d($query);
     $fields = $query;
 
     $exisiting_fields = array();
@@ -1474,7 +1560,6 @@ function db_get_table_fields($table, $exclude_fields = false) {
     }
 
     cache_store_data($fields, $function_cache_id, $cache_group = 'db');
-
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
     return $fields;
 }
@@ -1505,8 +1590,6 @@ function save_data($table, $data, $data_to_save_options = false) {
         return false;
     }
 
-    $data['session_id'] = session_id();
-
     $original_data = $data;
 
     $is_quick = isset($original_data['quick_save']);
@@ -1520,7 +1603,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     if (isset($data_to_save_options) and !empty($data_to_save_options)) {
 
-        if (!empty($data_to_save_options['delete_cache_groups'])) {
+        if (isset($data_to_save_options['delete_cache_groups']) and !empty($data_to_save_options['delete_cache_groups'])) {
 
             foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
 
@@ -1531,7 +1614,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 
     $user_session = session_get('user_session');
 
+    $user_sid = false;
     if ($user_session == false) {
+
         if (!defined("FORCE_SAVE")) {
             error('You can\'t save data when you are not logged in. ');
         } else {
@@ -1542,17 +1627,29 @@ function save_data($table, $data, $data_to_save_options = false) {
         }
     }
 
+    if (!isset($user_session['user_id'])) {
+        $user_sid = session_id();
+        //d($user_sid);
+    } else {
+        if (intval($user_session['user_id']) == 0) {
+            unset($user_session['user_id']);
+            $user_sid = session_id();
+        }
+    }
+    if ($user_sid != false) {
+        $data['session_id'] = $user_sid;
+    } else {
+        $data['session_id'] = session_id();
+    }
+
     if (isset($data['cf_temp'])) {
         $cf_temp = $data['cf_temp'];
     }
-
-    if (isset($data['created_by'])) {
-        $the_user_id = $data['created_by'];
-
-        $the_user_id = $data['created_by'];
-    } else {
-        $the_user_id = user_id();
+    $the_user_id = user_id();
+    if ($the_user_id == false) {
+        $the_user_id = 0;
     }
+
     if (isset($data['screenshot_url'])) {
         $screenshot_url = $data['screenshot_url'];
     }
@@ -1578,7 +1675,7 @@ function save_data($table, $data, $data_to_save_options = false) {
     if (isset($data['id']) == false or $data['id'] == 0) {
         $data['id'] = 0;
         $l = db_last_id($table);
-
+        //$data['id'] = $l;
         $data['new_id'] = intval($l + 1);
         $original_data['new_id'] = $data['new_id'];
     }
@@ -1606,13 +1703,14 @@ function save_data($table, $data, $data_to_save_options = false) {
         // $data ['created_on'] = false;
         $data['edited_by'] = $the_user_id;
     }
+
     $table_assoc_name = db_get_assoc_table_name($table);
 
     $criteria_orig = $data;
 
     $criteria = map_array_to_database_table($table, $data);
 
-    // p($original_data);p($criteria);die;
+    //
     //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
     $criteria = replace_site_vars($criteria);
@@ -1631,6 +1729,11 @@ function save_data($table, $data, $data_to_save_options = false) {
     } else {
         $criteria = add_slashes_to_array($criteria);
     }
+
+    if (!isset($criteria['id'])) {
+        $criteria['id'] = 0;
+    }
+    $criteria['id'] = intval($criteria['id']);
     //  $db = new DB(c('db'));
     // $criteria = $this->addSlashesToArray ( $criteria );
     if (intval($criteria['id']) == 0) {
@@ -1654,16 +1757,8 @@ function save_data($table, $data, $data_to_save_options = false) {
                 if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
 
                     if (strtolower($k) != 'id') {
-                        //    $v = str_ireplace(site_url(), '{SITE_URL}', $v);
-                        // $v = htmlentities($v, ENT_COMPAT, "UTF-8");
-                        //html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-                        // $v =
-                        // $this->content_model->applyGlobalTemplateReplaceables
-                        // ( $v );
-                        if (DB_IS_SQLITE) {
-                            //   $v = sqlite_escape_string($v);
-                        }
-                        $q .= "$k = '$v' ,";
+
+                        $q .= "$k='$v',";
                     }
                 }
             }
@@ -1679,55 +1774,43 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $q .= " " . $data_to_save_options['use_this_field_for_id'] . "={$n_id} ";
             } else {
 
-                //  $q = rtrim($q, ',');
-                // $n_id = "NULL";
-                //
-				//
-				//
-				$q .= " id={$n_id} ";
+                $q .= " id={$n_id} ";
             }
         }
 
-        if (DB_IS_SQLITE != false) {
-            // $q = $db->insert($table, $criteria);
-        } else {
-            //db_q($q);
-        }
-        //$q = $db->insert($table, $criteria);
-        //    d($q);
-        db_q($q);
-
-        // exit ();
-        // $this->dbQ ( $q );
-        //
-
-		$id_to_return = db_last_id($table);
+        $id_to_return = false;
     } else {
 
         // update
         $data = $criteria;
 
-        // $n = $this->db->update ( $table, $data, "id = {$data ['id']}" );
         $q = " UPDATE  $table set ";
 
         foreach ($data as $k => $v) {
-
-            // $v = htmlspecialchars ( $v, ENT_QUOTES );
-            $q .= "$k = '$v' , ";
+            if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
+                // $v = htmlspecialchars ( $v, ENT_QUOTES );
+                $q .= "$k='$v',";
+            }
         }
-
-        $q .= " id={$data ['id']} WHERE id={$data ['id']} ";
-
-        //$q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-        if (DB_IS_SQLITE != false) {
-            // $q1 = "UPDATE  $table SET \"" . implode('"=?,"', array_keys($data)) . '"=? WHERE ';
-            // $q = $db->update($table, $criteria, $w = array('id' => $data ['id']));
-            // db_q($q);
+        $user_sidq = '';
+        if ($user_sid != false) {
+            $user_sidq = " AND session_id='{$user_sid}' ";
         } else {
-            // db_q($q);
+
+        }
+        $user_createdq = '';
+        $user_createdq1 = '';
+        if (is_admin() == false and isset($data['created_by'])) {
+            $user_createdq = " AND created_by=$the_user_id ";
         }
 
-        db_q($q);
+        if (isset($data['edited_by'])) {
+            $user_createdq1 = " edited_by=$the_user_id ";
+        } else {
+            $user_createdq1 = " id={$data ['id']} ";
+        }
+
+        $q .= " $user_createdq1 WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
 
         $id_to_return = $data['id'];
     }
@@ -1735,7 +1818,13 @@ function save_data($table, $data, $data_to_save_options = false) {
     if ($dbg != false) {
         d($q);
     }
-    //d($q);
+    db_q($q);
+
+    if ($id_to_return == false) {
+        $id_to_return = db_last_id($table);
+    }
+
+    // d($q);
     // p($original_data);
     /*
      * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
@@ -1759,13 +1848,24 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
-                    to_table_id='{$id_to_return}'  ";
+                    to_table_id={$id_to_return}  ";
                 $cats_data_items_modified = true;
                 $cats_data_modified = true;
                 db_q($clean_q);
             } else {
 
                 if (is_string($original_data['categories'])) {
+
+                    $clean_q = "delete
+                    from $taxonomy_items_table where                            data_type='category_item' and
+                    to_table='{$table_assoc_name}' and
+                    parent_id NOT IN ({$original_data['categories']}) and
+                    to_table_id={$id_to_return}  ";
+                    $cats_data_items_modified = true;
+                    $cats_data_modified = true;
+                    //d($clean_q);
+                    db_q($clean_q);
+
                     $original_data['categories'] = explode(',', $original_data['categories']);
                 }
                 $cat_names_or_ids = array_trim($original_data['categories']);
@@ -1774,7 +1874,18 @@ function save_data($table, $data, $data_to_save_options = false) {
                 $cats_data_items_modified = false;
                 $keep_thosecat_items = array();
                 foreach ($cat_names_or_ids as $cat_name_or_id) {
-                    if (trim($cat_name_or_id) != '') {
+                    $cat_name_or_id = db_escape_string($cat_name_or_id);
+
+                    $q_cat1 = "INSERT INTO $taxonomy_items_table  set
+
+					parent_id='{$cat_name_or_id}',
+					to_table='{$table_assoc_name}',
+					data_type='category_item',
+					to_table_id='{$id_to_return}'
+					";
+                    db_q($q_cat1);
+                    // d($q_cat1);
+                    if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {
 
                         $cat_name_or_id = str_replace('\\', '/', $cat_name_or_id);
                         $cat_name_or_id = explode('/', $cat_name_or_id);
@@ -1894,15 +2005,15 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
             if (!empty($keep_thosecat_items)) {
                 $id_in = implode(',', $keep_thosecat_items);
-                $clean_q = "delete
+                $clean_fq = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
                     to_table_id='{$id_to_return}' and
                     parent_id NOT IN ($id_in) ";
                 $cats_data_items_modified = true;
                 $cats_data_modified = true;
-                db_q($clean_q);
-                // d($clean_q);
+                //db_q($clean_q);
+                //   d($clean_q);
             }
 
             if ($cats_data_modified == TRUE) {
@@ -2074,8 +2185,9 @@ function save_data($table, $data, $data_to_save_options = false) {
             }
         }
     }
+
     $cg = guess_cache_group($table);
-    // d($cg);
+    //   d($cg);
     cache_clean_group($cg . '/global');
     cache_clean_group($cg . '/' . $id_to_return);
     return $id_to_return;
@@ -2119,8 +2231,6 @@ function save_data($table, $data, $data_to_save_options = false) {
      * is_read='n' , "; $q .= " user_ip='{$_SERVER['REMOTE_ADDR']}'"; } } }
      */
 
-
-
     return intval($id_to_return);
 }
 
@@ -2139,7 +2249,7 @@ function db_last_id($table) {
 
         $q = "SELECT ROWID as the_id from $table order by ROWID DESC limit 1";
     } else {
-        //   $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
+        // $q = "SELECT LAST_INSERT_ID() as the_id FROM $table limit 1";
 
         $q = "SELECT id as the_id FROM $table order by id DESC limit 1";
     }
@@ -2150,6 +2260,24 @@ function db_last_id($table) {
     //d($result);
     //
 	return intval($result['the_id']);
+}
+
+function db_update_position($table, $data = array()) {
+    $table = guess_table_name($table);
+    $table_real = db_get_real_table_name($table);
+    $i = 0;
+    if (isarr($data)) {
+        foreach ($data as $value) {
+            $q = "UPDATE $table_real set position={$i} where id={$value} ";
+            $q = db_q($q);
+            $i++;
+        }
+    }
+
+    $cg = guess_cache_group($table);
+    //
+    // d($cg);
+    cache_clean_group($cg);
 }
 
 /* * *************************************************************************
@@ -2341,4 +2469,100 @@ function split_sql_file($sql, $delimiter) {
     }
 
     return $output;
+}
+
+function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
+    $cache_group = 'options/global';
+//d($key);
+    $function_cache_id = false;
+
+    $args = func_get_args();
+
+    foreach ($args as $k => $v) {
+
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+    if (($cache_content) == '--false--') {
+        return false;
+    }
+    // $cache_content = false;
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
+
+
+    $table = c('db_tables');
+    // ->'table_options';
+    $table = $table['table_options'];
+
+    if ($orderby == false) {
+
+        $orderby[0] = 'position';
+
+        $orderby[1] = 'ASC';
+    }
+
+    $data = array();
+    //   $data ['debug'] = 1;
+    if (is_array($key)) {
+        $data = $key;
+    } else {
+        $data['option_key'] = $key;
+    }
+    //   $cache_group = 'options/global/' . $function_cache_id;
+    $ok1 = '';
+    $ok2 = '';
+    if ($option_group != false) {
+        $option_group = db_escape_string($option_group);
+        $ok1 = " AND option_group='{$option_group}' ";
+    }
+
+
+    if ($module != false) {
+        $module = db_escape_string($module);
+        $data['module'] = $module;
+        $ok1 = " AND module='{$module}' ";
+    }
+    $data['limit'] = 1;
+    // $get = db_get($table, $data, $cache_group);
+    $ok = db_escape_string($data['option_key']);
+
+    $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
+    $function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
+    //
+
+    $get = db_query($q, $function_cache_id_q, $cache_group);
+//d($get);
+
+    if (!empty($get)) {
+
+
+
+
+        if ($return_full == false) {
+
+            $get = $get[0]['option_value'];
+
+
+
+            return $get;
+        } else {
+
+            $get = $get[0];
+
+
+
+            return $get;
+        }
+    } else {
+        cache_store_data('--false--', $function_cache_id, $cache_group);
+
+        return FALSE;
+    }
 }

@@ -24,7 +24,7 @@ if(isset($params['category'])){
 	  $mods = get_modules_from_db($mod_params); 
  }
 //
-
+ 
  
 ?>
 <ul>

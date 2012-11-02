@@ -12,7 +12,9 @@ Registered_Sliders = ['margin', 'opacity', 'padding'];
 mw.border_which = 'border';
 
 
-  mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
+mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
+
+_Prefixtest = false;
 
 
 
@@ -22,8 +24,10 @@ mw.border_which = 'border';
       return property;
     }
     else{
-       var property = property.charAt(0).toUpperCase() + property.slice(1);
-       for(var i=0;i<mw._JSPrefixes.length;i++){
+       var property = property.charAt(0).toUpperCase() + property.slice(1),
+           len = mw._JSPrefixes.length,
+           i = 0;
+       for( ; i<len ;i++){
          if(_Prefixtest[mw._JSPrefixes[i]+property] !== undefined){
             return mw._JSPrefixes[i]+property;
          }

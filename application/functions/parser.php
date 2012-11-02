@@ -11,7 +11,6 @@ function parse_elem_callback($elem) {
         $name = $elem->getAttr('data-field');
     }
 
-
     // $fld_id = $elem->getAttr('data-field-id');
 
     $rel = $elem->getAttr('rel');
@@ -19,13 +18,11 @@ function parse_elem_callback($elem) {
         $rel = 'page';
     }
 
-
     $option_group = $elem->getAttr('data-option_group');
     if ($option_group == false) {
         $option_group = 'editable_region';
     }
     $data_id = $elem->getAttr('data-id');
-
 
     $option_mod = $elem->getAttr('data-module');
     if ($option_mod == false) {
@@ -55,32 +52,30 @@ function parse_elem_callback($elem) {
         //  $rel = 'page';
     }
 
-
     if ($rel == 'content') {
         if ($data_id != false) {
             $data_id = intval($data_id);
             $data = get_content_by_id($data_id);
-            $data ['custom_fields'] = get_custom_fields_for_content($data_id, 0);
+            $data['custom_fields'] = get_custom_fields_for_content($data_id, 0);
         }
     } else if ($rel == 'page') {
         $data = get_page(PAGE_ID);
-        $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-    } else if (isset($attr ['post'])) {
-        $data = get_post($attr ['post']);
+        $data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+    } else if (isset($attr['post'])) {
+        $data = get_post($attr['post']);
         if ($data == false) {
-            $data = get_page($attr ['post']);
-            $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
+            $data = get_page($attr['post']);
+            $data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
         }
-    } else if (isset($attr ['category'])) {
-        $data = get_category($attr ['category']);
-    } else if (isset($attr ['global'])) {
+    } else if (isset($attr['category'])) {
+        $data = get_category($attr['category']);
+    } else if (isset($attr['global'])) {
         $get_global = true;
     }
     $cf = false;
     $field_content = false;
 
     if ($get_global == true) {
-
 
         if ($option_mod != false) {
             //   d($field);
@@ -93,26 +88,26 @@ function parse_elem_callback($elem) {
     } else {
 
         if ($use_id_as_field != false) {
-            if (isset($data [$use_id_as_field])) {
-                $field_content = $data [$use_id_as_field];
+            if (isset($data[$use_id_as_field])) {
+                $field_content = $data[$use_id_as_field];
             }
             if ($field_content == false) {
-                if (isset($data ['custom_fields'] [$use_id_as_field])) {
-                    $field_content = $data ['custom_fields'] [$use_id_as_field];
+                if (isset($data['custom_fields'][$use_id_as_field])) {
+                    $field_content = $data['custom_fields'][$use_id_as_field];
                 }
                 // d($field_content);
             }
         }
 
         //  if ($field_content == false) {
-        if (isset($data [$field])) {
+        if (isset($data[$field])) {
 
-            $field_content = $data [$field];
+            $field_content = $data[$field];
         }
         //}
     }
 
-    if ($field_content == false and isset($data ['custom_fields']) and !empty($data ['custom_fields'])) {
+    if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
         foreach ($data ['custom_fields'] as $kf => $vf) {
 
             if ($kf == $field) {
@@ -157,12 +152,10 @@ class MwDom extends DOMDocument {
 
         // thanks to: http://www.php.net/manual/en/domdocument.savehtml.php#85165
 
-
         /*
           $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this->saveHTML()));
          */
         $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this->saveHTML(), $c = 1), 1);
-
 
         return html_entity_decode($output, false, "UTF-8");
     }
@@ -172,7 +165,8 @@ class MwDom extends DOMDocument {
 // include_once ('parser/phpQuery.php');
 
 /**
- * Parses the microweber tags from the $layout back to html content.
+ * Parses the microweber tags from the $layout string back to full html content.
+ * Also replaces the {SITEURL} and alike vars with the curent site address
  *
  * @param string $layout
  * @param array $options
@@ -180,22 +174,7 @@ class MwDom extends DOMDocument {
  *              $options['parse_only_vars'] = true ; // will skip modules parsing only will parse vars like {SITE_URL}.
  *        	doctype
  * @return string $layout
- */
 
-/**
- *
- *
- * parse_micrwober_tags()
- *
- * @param string $layout
- * @param array $options
- * @return
- *
- *
- *
- *
- *
- *
  *
  */
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
@@ -205,7 +184,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     if (isset($checker[$d])) {
         //  return $layout;
     }
-
 
     $use_apc = false;
     if (APC_CACHE == true) {
@@ -217,36 +195,32 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             $use_apc = false;
         }
     }
-
-    if ($use_apc == true) {
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($layout);
-
-        $quote = false;
-
-        $quote = apc_fetch($function_cache_id);
-
-
-        if ($quote) {
-
-            return $quote;
-        }
-    }
-
+    //
+    //    if ($use_apc == true) {
+    //
+	//        $function_cache_id = false;
+    //
+	//        $args = func_get_args();
+    //
+	//        foreach ($args as $k => $v) {
+    //
+	//            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
+    //        }
+    //
+	//        $function_cache_id = __FUNCTION__ . crc32($layout);
+    //
+	//        $quote = false;
+    //
+	//        $quote = apc_fetch($function_cache_id);
+    //
+	//
+	//        if ($quote) {
+    //
+	//            return $quote;
+    //        }
+    //    }
 
     if (!isset($options['parse_only_vars'])) {
-
-
-
 
         $layout = str_replace('<mw ', '<module ', $layout);
         $layout = str_replace('<editable ', '<div class="edit" ', $layout);
@@ -268,8 +242,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                     $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
                     // $layout = str_replace_count($value, $v1, $layout,1);
-                    if (!isset($replaced_scripts [$v1])) {
-                        $replaced_scripts [$v1] = $value;
+                    if (!isset($replaced_scripts[$v1])) {
+                        $replaced_scripts[$v1] = $value;
                     }
                     // p($value);
                 }
@@ -282,54 +256,48 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         preg_match_all($script_pattern, $layout, $mw_script_matches);
 
         if (!empty($mw_script_matches)) {
-            $matches1 = $mw_script_matches [0];
+            $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
                     $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
                     // $layout = str_replace_count($value, $v1, $layout,1);
-                    if (!isset($replaced_modules [$v1])) {
+                    if (!isset($replaced_modules[$v1])) {
 
-                        $replaced_modules [$v1] = $value;
+                        $replaced_modules[$v1] = $value;
                     }
                     // p($value);
                 }
             }
         }
 
-
-
-//        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
-//        $replaced_head = array();
-//        preg_match_all($script_pattern, $layout, $mw_script_matches);
-//
-//        if (!empty($mw_script_matches)) {
-//            foreach ($mw_script_matches [0] as $key => $value) {
-//                if ($value != '') {
-//                    $v1 = crc32($value);
-//                    $v1 = '<!-- mw_replace_back_this_head_' . $v1 . ' -->';
-//                    $layout = str_replace($value, $v1, $layout);
-//                    // $layout = str_replace_count($value, $v1, $layout,1);
-//                    if (!isset($replaced_scripts [$v1])) {
-//                        $replaced_head [$v1] = $value;
-//                    }
-//                    // p($value);
-//                }
-//            }
-//        }
+        //        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
+        //        $replaced_head = array();
+        //        preg_match_all($script_pattern, $layout, $mw_script_matches);
+        //
+		//        if (!empty($mw_script_matches)) {
+        //            foreach ($mw_script_matches [0] as $key => $value) {
+        //                if ($value != '') {
+        //                    $v1 = crc32($value);
+        //                    $v1 = '<!-- mw_replace_back_this_head_' . $v1 . ' -->';
+        //                    $layout = str_replace($value, $v1, $layout);
+        //                    // $layout = str_replace_count($value, $v1, $layout,1);
+        //                    if (!isset($replaced_scripts [$v1])) {
+        //                        $replaced_head [$v1] = $value;
+        //                    }
+        //                    // p($value);
+        //                }
+        //            }
+        //        }
         // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = str_replace('<script ', '<TEXTAREA ', $layout);
         // $layout = str_replace('</script', '</TEXTAREA', $layout);
-//        if (isset($_GET['test_cookie'])) {
-//            $parse_mode = intval($_GET['test_cookie']);
-//        } else {
-//            $parse_mode = 1;
-//        }
-
-
-
-
+        //        if (isset($_GET['test_cookie'])) {
+        //            $parse_mode = intval($_GET['test_cookie']);
+        //        } else {
+        //            $parse_mode = 1;
+        //        }
 
         if (APC_CACHE == true) {
             $parse_mode = 9;
@@ -337,73 +305,61 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             $parse_mode = 1;
         }
 
-
+        if (isset($_POST)) {
+            $parse_mode = 1;
+        }
 
         switch ($parse_mode) {
-            case 1:
-
+            case 1 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
 
                 break;
 
-
-
-            case 2:
+            case 2 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_dom.php');
 
                 break;
-            case 3:
+            case 3 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_regex.php');
 
                 break;
 
-
-            case 4:
+            case 4 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
 
                 break;
 
-            case 5:
+            case 5 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
 
-            case 6:
+            case 6 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
 
                 break;
 
-
-            case 7:
+            case 7 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
 
                 break;
 
-            case 8:
+            case 8 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
 
                 break;
 
-
-            case 9:
+            case 9 :
                 include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
 
                 break;
 
-
-
-            default:
+            default :
                 break;
         }
-
 
         //  echo $dom->output();
 
         /*
          */
-
-
-
-
-
 
         /*
          * foreach($pq['mw'] as $elem) { $name = pq($elem)->attr('module');
@@ -439,17 +395,17 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         // $mw_script_matches = $mw_script_matches[0];
         // }
         //
-	//
+		//
 
-	//
+		//
 
-	if (!empty($replaced_scripts)) {
+		if (!empty($replaced_scripts)) {
             foreach ($replaced_scripts as $key => $value) {
                 if ($value != '') {
 
                     $layout = str_replace($key, $value, $layout);
                 }
-                unset($replaced_scripts [$key]);
+                unset($replaced_scripts[$key]);
             }
         }
 
@@ -465,28 +421,27 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
   )
   @xsi';
 
-
             // (?P<name>\w+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))
             $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
-//$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
+            //$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
             $attrs = array();
             foreach ($replaced_modules as $key => $value) {
                 if ($value != '') {
 
                     if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
                         foreach ($attrs1 as $item) {
-//d($attrs1);
-                            $m_tag = trim($item [0], "\x22\x27");
+                            //d($attrs1);
+                            $m_tag = trim($item[0], "\x22\x27");
                             $m_tag = trim($m_tag, "\x27\x22");
                             $m_tag = explode('=', $m_tag);
 
-                            $a = trim($m_tag [0], "''");
+                            $a = trim($m_tag[0], "''");
                             $a = trim($a, '""');
 
-                            $b = trim($m_tag [1], "''");
+                            $b = trim($m_tag[1], "''");
                             $b = trim($b, '""');
 
-                            $attrs [$a] = $b;
+                            $attrs[$a] = $b;
 
                             // $attrs[$item['name']] = $item['value_quoted'];
                         }
@@ -496,35 +451,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                     $m_tag = rtrim($m_tag, "/>");
                     $m_tag = rtrim($m_tag);
-
-                    // $m_tag =
-                    // preg_replace(array('/style=[\'\"].+?[\'\"]/','/style=/'), '',
-                    // $m_tag);
-                    // Find all tags
-                    //
-				//
-				// $m_tag = explode(' ', $m_tag);
-                    // // $m_tag2 = join('&', $m_tag);
-                    // // $m_tag2 = parse_str($m_tag2);
-                    // $attrs = array();
-                    // if (isset($m_tag[0])) {
-                    // foreach ($m_tag as $m_tag_param) {
-                    //
-				// if ($m_tag_param != '') {
-                    //
-				//
-				//
-				// $m_tag_param = explode('=', $m_tag_param);
-                    // $a = trim($m_tag_param[0], "\x22\x27");
-                    // if ($a != 'style') {
-                    // $b = trim($m_tag_param[1], "\x22\x27");
-                    // $attrs[$a] = $b;
-                    // }
-                    //
-				// }
-                    // }
-                    //
-				// }
+ 
 
                     $module_html = "<div class='__MODULE_CLASS__ __WRAP_NO_WRAP__' ";
 
@@ -533,23 +460,21 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                     if (!empty($attrs)) {
 
-                        if (isset($attrs ['module']) and $attrs ['module']) {
-                            $attrs ['data-type'] = $attrs ['module'];
-                            unset($attrs ['module']);
+                        if (isset($attrs['module']) and $attrs['module']) {
+                            $attrs['data-type'] = $attrs['module'];
+                            unset($attrs['module']);
                         }
 
                         if ($coming_from_parent == true) {
-                            $attrs ['data-parent-module'] = $coming_from_parent;
+                            $attrs['data-parent-module'] = $coming_from_parent;
                         }
                         if ($coming_from_parent_id == true) {
-                            $attrs ['data-parent-module-id'] = $coming_from_parent_id;
+                            $attrs['data-parent-module-id'] = $coming_from_parent_id;
                         }
 
-
-
-                        if (isset($attrs ['type']) and $attrs ['type']) {
-                            $attrs ['data-type'] = $attrs ['type'];
-                            unset($attrs ['type']);
+                        if (isset($attrs['type']) and $attrs['type']) {
+                            $attrs['data-type'] = $attrs['type'];
+                            unset($attrs['type']);
                         }
 
                         $z = 0;
@@ -558,15 +483,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                         if (isset($attrs['data-module'])) {
 
-                            $attrs ['data-type'] = $attrs['data-module'];
+                            $attrs['data-type'] = $attrs['data-module'];
                             unset($attrs['data-module']);
                         }
 
                         foreach ($attrs as $nn => $nv) {
-
-
-
-
 
                             if ($nn == 'class') {
                                 $module_has_class = $nv;
@@ -580,34 +501,31 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                             if ($nn == 'module') {
                                 $module_name = $nv;
-                                $attrs ['data-type'] = $module_name;
-                                unset($attrs [$nn]);
+                                $attrs['data-type'] = $module_name;
+                                unset($attrs[$nn]);
                             }
-
-
-
 
                             if ($nn == 'data-no-wrap') {
                                 $mod_no_wrapper = true;
                                 //  $attrs ['data-no-wrap'] = $module_name;
-                                unset($attrs [$nn]);
+                                unset($attrs[$nn]);
                             }
 
                             if ($nn == 'data-module-name') {
                                 $module_name = $nv;
-                                $attrs ['data-type'] = $module_name;
-                                unset($attrs [$nn]);
+                                $attrs['data-type'] = $module_name;
+                                unset($attrs[$nn]);
                             }
 
                             if ($nn == 'data-module-name-enc') {
 
-                                unset($attrs [$nn]);
+                                unset($attrs[$nn]);
                             }
 
                             if ($nn == 'type') {
                                 $module_name = $nv;
-                                $attrs ['data-type'] = $module_name;
-                                unset($attrs [$nn]);
+                                $attrs['data-type'] = $module_name;
+                                unset($attrs[$nn]);
                             }
 
                             if ($nn == 'data-type') {
@@ -615,22 +533,18 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             }
 
                             if ($nn == 'data-module') {
-                                $attrs ['data-type'] = $module_name;
+                                $attrs['data-type'] = $module_name;
                                 $module_name = $nv;
                             }
-
-
-
 
                             $z++;
                         }
 
-//                        if (!isset($module_name)) {
-//                            if (isset($_POST['module'])) {
-//                                $module_name = $_POST['module'];
-//                            }
-//                        }
-
+                        //                        if (!isset($module_name)) {
+                        //                            if (isset($_POST['module'])) {
+                        //                                $module_name = $_POST['module'];
+                        //                            }
+                        //                        }
 
                         if (isset($module_name)) {
                             if (strstr($module_name, 'admin')) {
@@ -652,8 +566,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                                 }
                             } else {
 
-
-
                                 $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
                             }
 
@@ -663,15 +575,14 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             if ($coming_from_parent == true) {
                                 $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
                             }
-                            if (isset($attrs ['id']) == true) {
-                                $coming_from_parent_strz1 = $attrs ['id'];
+                            if (isset($attrs['id']) == true) {
+                                $coming_from_parent_strz1 = $attrs['id'];
                             }
                             if ($coming_from_parent_strz1 == true) {
-                             //   $attrs['data-parent-module'] = $coming_from_parentz;
+                                //   $attrs['data-parent-module'] = $coming_from_parentz;
                             }
 
                             $mod_content = load_module($module_name, $attrs);
-
 
                             $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 
@@ -685,7 +596,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                     }
                     //
                 }
-                unset($replaced_modules [$key]);
+                unset($replaced_modules[$key]);
                 // $layout = str_replace($key, $value, $layout);
             }
         }
@@ -694,15 +605,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     $layout = str_replace('{SITEURL}', site_url(), $layout);
     $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
-
     $checker[$d] = 1;
 
-
     if ($use_apc == true) {
-//d($function_cache_id);
-        apc_delete($function_cache_id);
-
-        apc_store($function_cache_id, $layout, 30);
+        //d($function_cache_id);
+        //   apc_delete($function_cache_id);
+        // apc_store($function_cache_id, $layout, 30);
     }
 
     return $layout;
@@ -782,7 +690,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
     if ($normal_replace == false) {
         $iSet = 0;
         // Count how many times we increase the limit
-        while ($iSet < 10) { // If the default limit is 100'000 characters
+        while ($iSet < 10) {// If the default limit is 100'000 characters
             // the highest new limit will be 250'000
             // characters
             $sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
@@ -790,7 +698,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
             // to
             // use
             // PREG
-            if (preg_last_error() == PREG_BACKTRACK_LIMIT_ERROR) { // Only
+            if (preg_last_error() == PREG_BACKTRACK_LIMIT_ERROR) {// Only
                 // check on
                 // backtrack
                 // limit
@@ -803,7 +711,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
                 // increase
                 $iSet++;
                 // Do not overkill the server
-            } else { // No fail
+            } else {// No fail
                 $sVeryLongText = $sNewText;
                 // On failure $sNewText would be NULL
                 break;
@@ -823,12 +731,12 @@ function parse_memory_storage($id = false, $content = false) {
     static $parse_mem = array();
     $path_md = ($id);
     // p($parse_mem);
-    if ($parse_mem [$path_md] != false) {
-        return $parse_mem [$path_md];
+    if ($parse_mem[$path_md] != false) {
+        return $parse_mem[$path_md];
     }
 
     if ($content != false) {
-        $parse_mem [$path_md] = $content;
+        $parse_mem[$path_md] = $content;
         return $content;
     }
 }
@@ -849,9 +757,9 @@ function parseTextForEmail($text) {
 
             // checking to see if this is a valid email address
             if (is_valid_email($email) !== true) {
-                $email [] = strtolower($token);
+                $email[] = strtolower($token);
             } else {
-                $invalid_email [] = strtolower($token);
+                $invalid_email[] = strtolower($token);
             }
         }
 
@@ -861,10 +769,7 @@ function parseTextForEmail($text) {
     $email = array_unique($email);
     $invalid_email = array_unique($invalid_email);
 
-    return array(
-        "valid_email" => $email,
-        "invalid_email" => $invalid_email
-    );
+    return array("valid_email" => $email, "invalid_email" => $invalid_email);
 }
 
 function is_valid_email($email) {
@@ -893,7 +798,7 @@ function decodeUnicodeString($chrs) {
     for ($i = 0; $i < $strlen_chrs; $i++) {
 
         $substr_chrs_c_2 = substr($chrs, $i, 2);
-        $ord_chrs_c = ord($chrs [$i]);
+        $ord_chrs_c = ord($chrs[$i]);
 
         switch (true) {
             case preg_match('/\\\u[0-9A-F]{4}/i', substr($chrs, $i, 6)) :
@@ -903,7 +808,7 @@ function decodeUnicodeString($chrs) {
                 $i += 5;
                 break;
             case ($ord_chrs_c >= 0x20) && ($ord_chrs_c <= 0x7F) :
-                $utf8 .= $chrs {$i};
+                $utf8 .= $chrs{$i};
                 break;
             case ($ord_chrs_c & 0xE0) == 0xC0 :
                 // characters U-00000080 - U-000007FF, mask 110XXXXX
@@ -961,7 +866,7 @@ function utf162utf8($utf16) {
         return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
     }
 
-    $bytes = (ord($utf16 {0}) << 8) | ord($utf16 {1});
+    $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
 
     switch (true) {
         case ((0x7F & $bytes) == $bytes) :
@@ -986,8 +891,6 @@ function utf162utf8($utf16) {
 
 function modify_html($layout, $preg_match_all, $content = "", $action = 'append') {
 
-
-
     $string_html = $layout;
 
     $m = preg_match_all($preg_match_all, $string_html, $match);
@@ -1009,21 +912,18 @@ function modify_html($layout, $preg_match_all, $content = "", $action = 'append'
 
     //$layout = str_replace($selector, $selector . $content, $layout);
 
-
     return $layout;
 }
 
 function modify_html_slow($layout, $selector, $content = "", $action = 'append') {
 
-
-
     $pq = phpQuery::newDocument($layout);
 
-    $els = $pq [$selector];
+    $els = $pq[$selector];
     foreach ($els as $elem) {
-//  pq($elem)->html($field_content);
+        //  pq($elem)->html($field_content);
         pq($elem)->$action($content);
-//
+        //
     }
     $layout = $pq->htmlOuter();
 
@@ -1032,13 +932,13 @@ function modify_html_slow($layout, $selector, $content = "", $action = 'append')
 
 function clean_word($html_to_save) {
     if (strstr($html_to_save, '<!--[if gte mso')) {
-// word mess up tags
+        // word mess up tags
         $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 
         $matches = $tags;
         if (!empty($matches)) {
             foreach ($matches as $m) {
-                $html_to_save = str_replace($m ['full_tag'], '', $html_to_save);
+                $html_to_save = str_replace($m['full_tag'], '', $html_to_save);
             }
 
             $html_to_save = str_replace('<!--[if gte mso 8]><![endif]-->', '', $html_to_save);
@@ -1049,15 +949,15 @@ function clean_word($html_to_save) {
             $html_to_save = str_replace('class="MsoNormal"', '', $html_to_save);
         }
 
-// $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
-// $return_the_entire_tag = true, $charset = 'UTF-8' );
-//
-        // $matches = $tags;
-// if (! empty ( $matches )) {
-// foreach ( $matches as $m ) {
-// $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-// }
-// }
+        // $tags = extract_tags ( $html_to_save, 'style', $selfclosing = false,
+        // $return_the_entire_tag = true, $charset = 'UTF-8' );
+        //
+		// $matches = $tags;
+        // if (! empty ( $matches )) {
+        // foreach ( $matches as $m ) {
+        // $html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+        // }
+        // }
     }
     $html_to_save = str_replace('class="exec"', '', $html_to_save);
     $html_to_save = str_replace('style=""', '', $html_to_save);
@@ -1072,18 +972,18 @@ function clean_word($html_to_save) {
     $html_to_save = str_replace('<br>', '<br />', $html_to_save);
     $html_to_save = str_replace(' class=""', '', $html_to_save);
     $html_to_save = str_replace(' class=" "', '', $html_to_save);
-// $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
-// $html_to_save );
-// $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
-// $html_to_save );
+    // $html_to_save = str_replace ( '<br><br>', '<div><br><br></div>',
+    // $html_to_save );
+    // $html_to_save = str_replace ( '<br /><br />', '<div><br /><br /></div>',
+    // $html_to_save );
     $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
-// $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
-// /><br />", "</p><p>", $html_to_save)) . '</p>';
-// $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
-// "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
-// "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
-// "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
-// "<table"), $html_to_save);
-// p($html_to_save);
+    // $html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br
+    // /><br />", "</p><p>", $html_to_save)) . '</p>';
+    // $html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>",
+    // "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p",
+    // "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>",
+    // "<h1>", "<div", "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p",
+    // "<table"), $html_to_save);
+    // p($html_to_save);
     return $html_to_save;
 }
