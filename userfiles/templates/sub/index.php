@@ -10,8 +10,10 @@
   </header>
   <div class="module" id="posts_home" data-type="posts_list" data-display="custom">
     <? 
-	$has_shop = if_module('shop');
-	d($has_shop);
+	$has_shop = is_module('shop');
+	
+ 
+	 
 	$query = module("type=posts_list&id=posts_home&display=custom");
 	 //d($query );
  $cont  = ($query['data'] );

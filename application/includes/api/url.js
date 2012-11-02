@@ -21,8 +21,8 @@ mw.url = {
         var url = mw.url.removeHash(url);
         if(url.contains('?')){
           var arr = url.slice(url.indexOf('?') + 1).split('&');
-          var obj = {}
-          for(var i=0;i<arr.length;i++){
+          var obj = {}, i=0, len = arr.length;
+          for( ; i<len; i++){
             var p_arr = arr[i].split('=');
             obj[p_arr[0]] = p_arr[1];
           }
@@ -55,8 +55,8 @@ mw.url = {
           var hash = hash.replace(/#/g, "");
           var hash = hash.replace(/\?/g, "");
           var arr = hash.split('&');
-          var obj = {}
-          for(var i=0;i<arr.length;i++){
+          var obj = {}, i=0, len = arr.length;
+          for( ; i<len; i++){
             var p_arr = arr[i].split('=');
             obj[p_arr[0]] = p_arr[1];
           }

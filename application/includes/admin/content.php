@@ -4,7 +4,7 @@
 
 
 
- 
+
 
 $(document).ready(function(){
     mw.onLive(function(){
@@ -61,10 +61,11 @@ mw_edit_btns = function(type, id){
 }
 
 
-function mw_append_pages_tree_controlls(){
+function mw_append_pages_tree_controlls(holder){
 
+    var holder = holder || "#pages_tree_container_<?php print url_param("view"); ?>";
 
-    mw.$('#pages_tree_toolbar a').each(function(){
+    mw.$(holder+' a').each(function(){
         var el = this;
         var href = el.href;
         el.href = 'javascript:void(0);';
@@ -78,7 +79,6 @@ function mw_append_pages_tree_controlls(){
 
         // type: page or category
         if(attr['data-page-id']!==undefined){
-
             var pageid = attr['data-page-id'].nodeValue;
             if($(el.parentNode).children('ul').length>0){
                 var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
@@ -100,8 +100,10 @@ function mw_append_pages_tree_controlls(){
     });
 
 
-    mw.tools.tree.recall(mwd.getElementById('pages_tree_toolbar'));
+    mw.tools.tree.recall(mwd.querySelector(holder));
 
+    mw.log(mwd.querySelector(holder).id)
+    mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id))
 
 }
 
@@ -256,7 +258,7 @@ if($in_page != undefined && $is_cat != undefined){
 	 mw.$('#pages_edit_container .paging a').live('click',function() {
 
 	 $p_id = $(this).attr('data-page-number');
-	 $p_param = $(this).attr('data-paging-param'); 
+	 $p_param = $(this).attr('data-paging-param');
 	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
 	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
 
@@ -328,7 +330,7 @@ function mw_add_product(){
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
       </div>
-      <div class="mw_pages_posts_tree"  id="pages_tree_container_">
+      <div class="mw_pages_posts_tree"  id="pages_tree_container_<?php print url_param("view"); ?>">
         <?
 	  $is_shop_str = '';
 	   if(isset($is_shop)){

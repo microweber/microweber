@@ -265,6 +265,9 @@ typeof mw === 'undefined' ?
           var $module_name = refresh_modules_explode[i];
 
           if ($module_name != undefined) {
+			 $module_name = $module_name.replace(/##/g, '#');
+			   mw.log( $module_name );
+			  
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {

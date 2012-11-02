@@ -379,11 +379,21 @@ function get_page_by_url($url = '', $no_recursive = false) {
  *
  */
 function get_content_by_id($id) {
+
+
+
+
     $table = c('db_tables');
     // ->'table_content';
     $table = $table['table_content'];
 
     $id = intval($id);
+    if($id == 0){
+        return false;
+    }
+
+
+
     $q = "SELECT * from $table where id='$id'  limit 0,1 ";
 
     $params = array();
@@ -622,7 +632,7 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
                 $base_url = url_string();
             } else {
                 if ($_SERVER ['HTTP_REFERER'] != false) {
-                     $base_url = $_SERVER ['HTTP_REFERER'];
+                    $base_url = $_SERVER ['HTTP_REFERER'];
                 }
             }
             // $base_url =  full_url(true);
@@ -797,6 +807,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
         // return false;
     }
+
+
+    $id = intval($id);
+
     $table_assoc_name = false;
     if ($table != false) {
         $table_assoc_name = db_get_table_name($table);
@@ -808,7 +822,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
     if ((int) $table_assoc_name == 0) {
         $table_assoc_name = guess_table_name($table);
     }
-    $table_ass = db_get_assoc_table_name($table);
+    $table_assoc_name = db_get_assoc_table_name($table_assoc_name);
 
     $table_custom_field = c('db_tables');
     // ->'table_custom_fields';
@@ -851,18 +865,15 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         if ($debug != false) {
             d($q);
         }
-        //  d($q);
+
         // $crc = crc32 ( $q );
 
-        $crc = abs(crc32($q));
-        if ($crc & 0x80000000) {
-            $crc^=0xffffffff;
-            $crc += 1;
-        }
+        $crc =  (crc32($q));
+  
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $q = db_query($q, $cache_id, 'custom_fields/' . $table);
+        $q = db_query($q, $cache_id, 'custom_fields/global');
 
         if (!empty($q)) {
 
@@ -1453,7 +1464,7 @@ function save_content($data, $delete_the_cache = true) {
         }
     }
 
-    d($data_to_save);
+    //d($data_to_save);
 
     $save = save_data($table, $data_to_save);
 
@@ -1468,11 +1479,12 @@ function save_content($data, $delete_the_cache = true) {
 				, to_table_id =\"{$id}\"
 				where
 				session_id =\"{$sid}\"
-and to_table IS NULL and to_table_id IS NULL
+and (to_table_id=0 or to_table_id IS NULL)
 
 				";
 
     db_q($clean);
+    cache_clean_group('custom_fields');
 
     $media_table = $cms_db_tables['table_media'];
 
@@ -1481,9 +1493,11 @@ and to_table IS NULL and to_table_id IS NULL
 				  to_table_id =\"{$id}\"
 				where
 				session_id =\"{$sid}\"
-and to_table =\"table_content\" and (to_table=0 or to_table_id IS NULL)
+and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 
 				";
+                             //   d($clean);
+    cache_clean_group('media');
 
     db_q($clean);
 
@@ -1648,7 +1662,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     } else {
 
         //$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-        $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
+        $sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,100";
     }
     //d($sql);
     //$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -1708,7 +1722,8 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
     } else {
         $params['parent'] = $parent;
     }
-    $params['limit'] = 10000;
+    $params['limit'] = 50;
+    $params['curent_page'] = 1;
     $q = get_content($params);
 
     $result = $q;
@@ -1727,7 +1742,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             if (is_array($remove_ids) == true) {
 
                 if (in_array($item['id'], $remove_ids)) {
-                    d($item['id']);
+
                     $skip_me_cause_iam_removed = true;
                 }
             }

@@ -29,15 +29,14 @@ mw.on = {
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger){
     if(trigger==true){
-          var index = mw.on._hashparams.indexOf(param);
-          if(index != -1){
-            var hash = mw.hash();
-            var params = mw.url.getHashParams(hash);
-            if(mw.is.string(params[param])){
-
-                mw.on._hashparam_funcs[index].call(params[param]);
-            }
+        var index = mw.on._hashparams.indexOf(param);
+        if(index != -1){
+          var hash = mw.hash();
+          var params = mw.url.getHashParams(hash);
+          if(mw.is.string(params[param])){
+              mw.on._hashparam_funcs[index].call(params[param]);
           }
+        }
     }
     else{
         mw.on._hashparams.push(param);

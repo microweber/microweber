@@ -184,6 +184,7 @@ mw.tools = {
         if(is_over_modal!=undefined){
 
         }
+        return overlay;
     },
   },
   alert:function(text){
@@ -378,7 +379,7 @@ mw.tools = {
     del : function(id){
       if(confirm('Are you sure you want to delete this?')){
          $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
-            var todelete =  mw.$("#page_list_holder_" + id, "#category_item_"+id);
+            var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
                  todelete.remove();
              });
@@ -394,15 +395,17 @@ mw.tools = {
         var id = this.attributes['data-item-id'].nodeValue;
         _remember = i<len ? _remember + id + "," : _remember + id;
       });
-      mw.cookie.ui("tree", _remember);
+      mw.cookie.ui("tree_"+tree.id, _remember);
     },
     recall : function(tree){
-      var ids = mw.cookie.ui("tree");
+      var ids = mw.cookie.ui("tree_"+tree.id);
       if(ids!==''){
         var ids = ids.split(",");
         mw.log(ids)
         $.each(ids, function(a,b){
-          tree.querySelector('.item_'+b).className+=' active';
+          if(tree.querySelector('.item_'+b)){
+             tree.querySelector('.item_'+b).className+=' active';
+          }
         });
       }
     },
@@ -475,19 +478,6 @@ mw.tools = {
       return _has;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

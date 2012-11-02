@@ -234,12 +234,23 @@ function save_media($data) {
         $s['to_table_id'] = $t;
     }
 
+
+    if (isset($data['id'])) {
+        $t = intval($data['id']);
+        $s['id'] = $t;
+    }
+
+    if (isset($data['title'])) {
+        $t = ($data['title']);
+        $s['title'] = $t;
+    }
+
     if (isset($data['src'])) {
 
         $s['filename'] = $data['src'];
     }
 
-    if (!isset($data['position'])) {
+    if (!isset($data['position']) and !isset($s['id'])) {
         $s['position'] = 9999999;
     }
 
@@ -257,6 +268,11 @@ function save_media($data) {
 
     // ->'table_content';
     if (isset($s['to_table']) and isset($s['to_table_id'])) {
+        $table = $tables['table_media'];
+        //$s['debug'] = $t;
+        $s = save_data($table, $s);
+        return ($s);
+    } elseif (isset($s['id']) and isset($s['title'])) {
         $table = $tables['table_media'];
         //$s['debug'] = $t;
         $s = save_data($table, $s);

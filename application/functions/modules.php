@@ -205,9 +205,8 @@ function get_modules_from_db($params = false) {
     if (isset($params['ui']) and $params['ui'] == 'any') {
         // d($params);
         unset($params['ui']);
-       
     }
-  
+
     return get($params);
 }
 
@@ -346,6 +345,25 @@ function delete_modules_from_db() {
 
         cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
     }
+}
+
+function is_module($module_name) {
+    if (!is_string($module_name)) {
+        return false;
+    }
+    $checked = array();
+
+    if (!isset($checked[$module_name])) {
+         $ch = locate_module($module_name, $custom_view = false);
+        if ($ch != false) {
+            $checked[$module_name] = true;
+        } else {
+            $checked[$module_name] = false;
+        }
+    }
+
+
+    return $checked[$module_name];
 }
 
 function locate_module($module_name, $custom_view = false) {
@@ -943,8 +961,8 @@ function load_module_lic($module_name = false) {
 function load_module($module_name, $attrs = array()) {
     $function_cache_id = false;
     //if (defined('PAGE_ID') == false) {
-       // define_constants();
-       // }
+    // define_constants();
+    // }
 //    $args = func_get_args();
 //    foreach ($args as $k => $v) {
 //        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);

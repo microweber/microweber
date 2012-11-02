@@ -211,6 +211,17 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         $db = c('db');
     }
 
+    if($q =='close'){
+        if(isset($link)){
+            mysql_close($link);
+        }
+    }
+
+
+
+
+
+
     //  var_dump($db);
     // $is_mysqli = function_exists('mysqli_connect');
     $is_mysqli = false;
@@ -239,23 +250,25 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
         static $link;
         if ($link == false) {
             $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+
+            if (mysql_select_db($db['dbname']) == false) {
+                $error['error'][] = 'Could not select database ' . $db['dbname'];
+                return $error;
+            }
         }
         if ($link == false) {
             $error['error'][] = 'Could not connect: ' . mysql_error();
             return $error;
         }
 
-        if (mysql_select_db($db['dbname']) == false) {
-            $error['error'][] = 'Could not select database ' . $db['dbname'];
-            return $error;
-        }
+
 
         // Performing SQL query
         $query = $q;
         $result = mysql_query($query);
         if (!$result) {
 
-            $error['error'][] = 'Query failed: ' . mysql_error();
+            error( 'Query failed: ' . mysql_error());
             return false;
         }
         $nwq = array();
@@ -297,7 +310,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     if ($only_query == false and empty($q) or $q == false) {
         if ($cache_id != false) {
 
-            // cache_store_data('---empty---', $cache_id, $cache_group);
+             cache_store_data('---empty---', $cache_id, $cache_group);
         }
         return false;
     }
@@ -2457,9 +2470,6 @@ function split_sql_file($sql, $delimiter) {
 
     return $output;
 }
-
-
-
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
     $cache_group = 'options/global';

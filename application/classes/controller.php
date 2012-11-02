@@ -640,13 +640,13 @@ class Controller {
         }
 
         $tags = "<module {$tags} />";
- 
+
         $opts = array();
         if ($_POST) {
             $opts = $_POST;
         }
         $opts['admin'] = $admin;
- 
+
         $res = parse_micrwober_tags($tags, $opts);
         $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
@@ -708,5 +708,12 @@ class Controller {
             }
         }
     }
+
+
+    function __destruct() {
+        //print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+       
+    }
+
 
 }

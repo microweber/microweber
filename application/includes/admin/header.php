@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
     <script type="text/javascript">
     mwAdmin = true;
