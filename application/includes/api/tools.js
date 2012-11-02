@@ -363,7 +363,7 @@ mw.tools = {
   tree:{
     toggle : function(el, event){
       $(el.parentNode).toggleClass('active');
-       var master = mw.tools.firstParentWithClass(el,'module');
+       var master = mw.tools.firstParentWithClass(el,'mw-tree');
        mw.tools.tree.remember(master);
         if(event.type==='click'){
           event.stopPropagation();
@@ -373,7 +373,7 @@ mw.tools = {
     },
     open:function(el, event){
       $(el.parentNode).addClass('active');
-      var master = mw.tools.firstParentWithClass(el,'module');
+      var master = mw.tools.firstParentWithClass(el,'mw-tree');
       mw.tools.tree.remember(master);
     },
     del : function(id){

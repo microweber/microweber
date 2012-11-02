@@ -2,9 +2,9 @@
 
 
 
-
+//d($params);
  
- 
+  
 $rand = uniqid().rand().rand();
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;

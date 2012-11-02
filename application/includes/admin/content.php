@@ -1,4 +1,6 @@
 <?php $rand = uniqid(); ?>
+  <?php $my_tree_id = crc32(url_string()); ?>
+ 
 <script  type="text/javascript">
 
 
@@ -26,9 +28,9 @@ $(document).ready(function(){
 
 
 
- 
- 
- 
+
+
+
 function mw_delete_content($p_id){
 	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
   	 mw.load_module('content/edit_post','#pages_edit_container');
@@ -63,7 +65,7 @@ mw_edit_btns = function(type, id){
 
 function mw_append_pages_tree_controlls(holder){
 
-    var holder = holder || "#pages_tree_container_<?php print url_param("view"); ?>";
+    var holder = holder || "#pages_tree_container_<?php print $my_tree_id; ?>";
 
     mw.$(holder+' a').each(function(){
         var el = this;
@@ -276,11 +278,11 @@ if($in_page != undefined && $is_cat != undefined){
 
 		 return false;
 	 });
-	 
-	 
 
 
-	 
+
+
+
 
 }
 
@@ -330,7 +332,8 @@ function mw_add_product(){
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
       </div>
-      <div class="mw_pages_posts_tree"  id="pages_tree_container_<?php print url_param("view"); ?>">
+
+      <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?
 	  $is_shop_str = '';
 	   if(isset($is_shop)){
@@ -347,8 +350,8 @@ function mw_add_product(){
 
       </div>
       <div class="tree-show-hide-nav">
-            <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_toolbar'));">Open All</a>
-            <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_toolbar'));">Close All</a>
+            <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a>
+            <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a>
         </div>
     </div>
     <div class="mw_edit_page_right" style="width: 70%">
