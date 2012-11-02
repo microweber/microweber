@@ -108,7 +108,7 @@ foreach ($cats__parents as $item1) {
 		$tree['active_code'] = 'checked="checked" ';
 	}
  
-	$tree['link'] = "<input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' >{title}";
+	$tree['link'] = "<label class='mw-ui-check'><input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' ><span></span><span>{title}</span></label>";
 
 	category_tree($tree);
 
