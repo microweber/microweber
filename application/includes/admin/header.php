@@ -21,6 +21,7 @@
       mw.require("admin.js");
 
       mw.require("<? print INCLUDES_URL; ?>api/editor_externals.js");
+      mw.require("keys.js");
 
 
 

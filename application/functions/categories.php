@@ -279,7 +279,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
-	//d($sql);
+	// d($sql);
 
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =

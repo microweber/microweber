@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0078)file:///C:/My%20Web%20Sites/http___blog.svbtle.com_/blog.svbtle.com/index.html -->
 <html lang="en" class="wf-proximanova-n6-inactive wf-proximanova-n7-inactive wf-freightsanspro-n7-inactive wf-proximanova-n4-inactive wf-inactive">
-<!-- Mirrored from blog.svbtle.com/ by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 14 Oct 2012 14:53:03 GMT --><!-- Added by HTTrack -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- /Added by HTTrack -->
 <script type="text/javascript">
 mw.require("<?php print( INCLUDES_URL); ?>js/jquery.js");
 </script>
@@ -32,13 +29,27 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
 </style>
 <style type="text/css">
 .tk-freight-sans-pro {
-	font-family:"freight-sans-pro", sans-serif;
+	font-family: "freight-sans-pro", sans-serif;
 }
 .tk-proxima-nova {
-	font-family:"proxima-nova", sans-serif;
+	font-family: "proxima-nova", sans-serif;
 }
 </style>
+<?
+	$has_shop = is_module('shop');
+	$shop_module = false;
+	if($has_shop){
+		$shop_module = module_url('shop'); 
+		
+	}
+ ?>
+<? if($shop_module != false): ?>
+<script type="text/javascript">
+mw.require("<?php print( $shop_module); ?>shop.js");
+</script>
+<? endif; ?>
 </head>
+
 <body class="blog">
 <header id="sidebar">
   <aside id="logo" class="clearfix">

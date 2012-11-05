@@ -1,3 +1,19 @@
+<? if(!is_admin()){error("must be admin");}; ?>
+ 
+<?
+$load_module = url_param('load_module');
+
+ if($load_module == true): ?>
+<?
+$mod =decode_var($load_module);
+//d($mod );
+
+$mod = load_module($mod);
+print $mod ;
+?>
+
+<? else: ?>
+
 modules admin
 <?
  
@@ -36,3 +52,4 @@ if(isset($params['category'])){
   </li>
   <? endforeach; ?>
 </ul>
+<? endif; ?>

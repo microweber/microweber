@@ -44,7 +44,7 @@ $form_rand_id = $rand = uniqid();
  <script  type="text/javascript">
   mw.require('forms.js');
  </script>
-<script  type="text/javascript">
+<script type="text/javascript">
 
 
 
@@ -104,7 +104,7 @@ mw_before_content_save<? print $rand ?>()
 
  return false;
  
- 
+
  });
 
  
@@ -258,13 +258,33 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
-  <div class="mw-ui mw-ui-category-selector">
+
+
+
+
+
+      <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));"><u>Checked</u></a>
+    <a href="javascript:;" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();"><u>All</u></a>
+
+  <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+
+
+
+
+
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
     <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $shopstr ?> />
     <? endif; ?>
   </div>
+
+  <script type="text/javascript">
+    $(mwd).ready(function(){
+        mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
+    });
+  </script>
+
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
 
@@ -398,6 +418,12 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
       <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
 
+
+    <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+
+
+
+
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
       <br />
@@ -410,6 +436,13 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
           <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
       </div>
+
+
+
+
+
+
+
 
       <? if($edit_post_mode != false): ?>
         <div class="mw-ui-field-holder mw_save_buttons_holder">

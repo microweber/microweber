@@ -793,14 +793,22 @@ function custom_field_value($content_id, $field_name, $use_vals_array = true) {
         }
     }
 }
-
-function get_custom_fields_for_content($content_id, $full = true) {
+function custom_fields_content($content_id, $field_type = false,$full = true) {
+	return get_custom_fields_for_content($content_id, $full, $field_type);
+}
+function get_custom_fields_for_content($content_id, $full = true, $field_type = false) {
     $more = false;
-    $more = get_custom_fields('table_content', $content_id, $full);
+    $more = get_custom_fields('table_content', $content_id, $full ,false,false,$field_type);
+	
+	
+	
+	
+	
+	
     return $more;
 }
 
-function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false) {
+function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false,$field_type = false) {
 
     // $id = intval ( $id );
     if ($id == 0) {
@@ -854,18 +862,32 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         } else {
             $select_what = '*';
         }
+		
+		
+		if ($field_type == false) {
+
+            $field_type_q = ' ';
+        } else {
+        	$field_type = db_escape_string($field_type);
+            $field_type_q = ' and custom_field_type="'.$field_type.'"  ';
+        }
+		
+		
+		
+		
 
         $q = " SELECT
 		{$select_what} from  $table_custom_field where
 		{$qt}
 		to_table_id='{$id}'
 		$field_for_q
+		$field_type_q
 		order by field_order asc  ";
 
         if ($debug != false) {
             d($q);
         }
-
+ 
         // $crc = crc32 ( $q );
 
         $crc =  (crc32($q));

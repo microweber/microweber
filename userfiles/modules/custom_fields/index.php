@@ -4,7 +4,14 @@
 	$for = $params['for'];
  }
  
-  $for_id =$params['id'];
+ 
+  if(isset($params['for_id'])){
+	$for_id = $params['for_id'];
+ } else  if(isset($params['id'])){
+	$for_id = $params['id'];
+ }
+ 
+  //$for_id =$params['id'];
  if(isset($params['to_table_id'])){
 $for_id =$params['to_table_id'];
  }
@@ -17,11 +24,38 @@ $for_id =$params['to_table_id'];
 <?
 
 if(!empty($more )): ?>
+<? $price_fields = array(); ?>
 <? foreach($more  as $field): ?>
-<?
- print  make_field($field);
-   ?>
+<? 
+if(isset($field['custom_field_type']) and $field['custom_field_type'] =='price'){
+	$price_fields[] = $field;
+} else {
+print  make_field($field);  
+}
+ ?>
 <? endforeach; ?>
+<? if(isarr($price_fields )): ?>
+<? $price_fields_c = count($price_fields); ?>
+ <? if($price_fields_c >1) : ?>
+ <select>
+ <? endif; ?>
+<? 
+
+ 
+foreach($price_fields  as $field): ?>
+<?
+if($price_fields_c >1){
+	$field['make_select'] = true;
+}
+ ?>
+
+<? print  make_field($field);   ?>
+
+<? endforeach; ?>
+<? if($price_fields_c >1) : ?>
+ </select>
+ <? endif; ?>
+<? endif; ?>
 <? else: ?>
 <? //_e("You don't have any custom fields."); ?>
 <? endif; ?>

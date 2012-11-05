@@ -20,6 +20,7 @@ description: shop
     <div class="edit"  rel="content"  data-field="content" data-id="<? print POST_ID ?>"  >
       <p>My post content</p>
     </div>
+     <module type="custom_fields" for="content" for_id="<? print POST_ID ?>"  />
   </article>
   <module data-type="comments" id="comments_posts" data-content-id="<? print POST_ID ?>"  />
 </section>

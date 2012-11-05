@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
 
-<div class="post-thumb-uploader"onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
+
 
 
 <? 
@@ -92,6 +92,12 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
     </div>
   </div>
   <? endforeach; ?>
+
+  <div class="post-thumb-uploader"onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div> 
+
 </div>
+
+
+
 <div class="mw_clear" style="padding-bottom: 20px;"></div>
 <? endif;?>
