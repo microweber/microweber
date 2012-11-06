@@ -110,3 +110,5 @@ $language[""]= '' ;
 $language["website-navigation"]= 'Website  Navigation' ; 
 $language["db-backup"]= 'DB Backup' ; 
 $language["save"]= 'Save' ; 
+$language["my-cart"]= 'My cart' ; 
+$language["your-cart-is-empty"]= 'Your cart is empty' ; 

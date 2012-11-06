@@ -507,8 +507,18 @@ mw.tools = {
          }
       });
       return _has;
+  },
+  toggle:function(who, callback){
+    var who = mw.$(who).eq(0);
+    who.toggle();
+    who.toggleClass('toggle-active');
+    callback.call(who);
   }
 }
+
+
+
+
 
 
 

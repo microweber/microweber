@@ -43,7 +43,6 @@ function array_change_key($array, $search, $replace) {
 
             if (isset($array[$search])) {
                 $array[$replace] = $array[$search];
-
             }
             return $array;
         }
@@ -345,6 +344,14 @@ function decrypt_var($var, $key = false) {
     return $var;
 }
 
+function no_ext($filename) {
+
+    $filebroken = explode('.', $filename);
+     array_pop($filebroken);
+    
+    return  implode('.', $filebroken);;
+}
+
 function encode_var($var) {
     if ($var == '') {
         return '';
@@ -432,7 +439,7 @@ function session_end() {
 }
 
 function recursive_remove_directory($directory, $empty = true) {
- 
+
     // if the path has a slash at the end we remove it here
     if (substr($directory, - 1) == DIRECTORY_SEPARATOR) {
 

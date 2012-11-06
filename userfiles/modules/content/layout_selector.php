@@ -114,18 +114,14 @@ mw.templatePreview = {
 }
 
 
-ToggleAdvancedSettings = function(){
-  mw.$(".advanced_settings_holder").toggle();
 
-  var main = mwd.getElementById('mw_edit_pages_content');
-  main.scrollTop = main.offsetHeight;
-
-}
 
 
 
 
 $(document).ready(function() {
+
+
 
 
     mw.templatePreview.selector = mwd.getElementById('active_site_layout_<? print $rand; ?>');

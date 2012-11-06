@@ -163,13 +163,7 @@ mw_before_content_save<? print $rand ?>()
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
 
-        <? if($edit_post_mode != false): ?>
 
-       <div class="mw-ui-field-holder mw_save_buttons_holder">
-          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
-          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
-        </div>
-      <? endif; ?>
 
 
   <? /* PAGES ONLY  */ ?>
@@ -369,6 +363,48 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? endif; ?>
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
 
+
+  <a href="#">Custom Fields</a>
+
+
+
+  <div class="custom_fields_selector" style="display: none">
+
+    <ul class="quick-links">
+        <li><a href="#">Single Line Text</a></li>
+        <li><a href="#">Paragraph Text</a></li>
+        <li><a href="#">Multiple Choice</a></li>
+        <li><a href="#">Name</a></li>
+    </ul>
+
+
+  </div>
+
+
+  <span class="ico iSingleText"></span>
+  <span class="ico iPText"></span>
+  <span class="ico iRadio"></span>
+  <span class="ico iName"></span>
+  <span class="ico iPhone"></span>
+  <span class="ico iWebsite"></span>
+  <span class="ico iEmail"></span>
+  <span class="ico iUpload"></span>
+  <span class="ico iNumber"></span>
+  <span class="ico iChk"></span>
+  <span class="ico iDropdown"></span>
+  <span class="ico iDate"></span>
+  <span class="ico iTime"></span>
+  <span class="ico iAddr"></span>
+  <span class="ico iPrice"></span>
+  <span class="ico iSpace"></span>
+
+
+
+  <?php include "/sprite_creator.php"; ?>
+
+
+
+
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
   Custom fields for post
@@ -379,11 +415,32 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   Available custom fields
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
+
+
+
+
+
+      <? if($edit_post_mode != false): ?>
+       <div class="mw-ui-field-holder mw_save_buttons_holder">
+          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0" value="Save" />
+          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+        </div>
+      <? endif; ?>
+
+
+
+
+
+<div class="mw_clear">&nbsp;</div>
+
   <? /* ONLY FOR POSTS  */ ?>
   <div class="advanced_settings">
 
 
-    <a href="javascript:;" onclick="ToggleAdvancedSettings();"  class="toggle_advanced_settings mw-ui-more">
+    <a href="javascript:;" onclick=" mw.tools.toggle('.advanced_settings_holder');"  class="toggle_advanced_settings mw-ui-more">
+
+
+
 
     <?php _e('Advanced Settings'); ?>
     </a>
