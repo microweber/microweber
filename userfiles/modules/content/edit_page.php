@@ -30,6 +30,9 @@ include('_empty_content_data.php');
 if(isset($edit_post_mode) and $edit_post_mode == true){
              $data['content_type'] = 'post';
 }
+if(isset($data['content_type']) and  $data['content_type'] == 'post'){
+	$edit_post_mode = true;
+}
 
 
 if(isset($params["data-is-shop"])){
@@ -382,7 +385,14 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         <textarea class="mw-ui-field" name="metakeys">Some keywords</textarea>
       </div>
       <? /* PAGES ONLY  */ ?>
+      
+ 
+      
       <? if($edit_post_mode == false): ?>
+ 
+          <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+
+      
       <br />
       <br />
       <div class="mw-ui-check-selector">
@@ -419,7 +429,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
       <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
 
 
-    <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
 
 
 

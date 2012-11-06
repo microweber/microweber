@@ -1259,6 +1259,14 @@ a.mw-ui-btn, span.mw-ui-btn{
   width: 133px;
   margin: 0 10px 20px;
 }
+.admin-thumbs-holder .admin-thumb-item:first-child{
+  margin-left: 0;
+}
+
+.admin-thumbs-holder .admin-thumb-item:nth-child(6n){
+  clear: both;
+  margin-left: 0;
+}
 
 .admin-thumb-delete{
   display: block;

@@ -755,7 +755,7 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  *
  */
 function paging($display = 'default', $data = false) {
-    print "paging()";
+    print "todo: paging() function";
     return true;
 }
 

@@ -36,8 +36,6 @@ function after_upld_<? print $rand ?>(a){
 
 
 </script>
-
-
 <script  type="text/javascript">
 $(document).ready(function(){
 
@@ -46,20 +44,13 @@ $(document).ready(function(){
 
 
 });
-</script> 
-
-
-
+</script>
 <?  if(!isset($data["thumbnail"])){
 	   $data['thumbnail'] = '';
 
   }?>
 
 <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
-
-
-
-
 <? 
 
 if(intval($for_id) >0){
@@ -70,15 +61,13 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 }
 
  ?>
-<? if(isarr( $media)): ?>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>">
+  <? if(isarr( $media)): ?>
   <? foreach( $media as $item): ?>
   <div class="admin-thumb-item" id="admin-thumb-item-<? print $item['id'] ?>">
     <? $tn = thumbnail($item['filename'], 131, 131); ?>
-
     <span class="mw-post-media-img" style="background-image: url(<?php print $tn; ?>);"></span>
     <div class="mw-post-media-img-edit">
-
       <input
             type="text"
             value="<? print $item['title'] ?>"
@@ -87,17 +76,12 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
-
-      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module.pictures.del('<? print $item['id'] ?>');"><?php _e("Delete"); ?></a>
-    </div>
+      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module.pictures.del('<? print $item['id'] ?>');">
+      <?php _e("Delete"); ?>
+      </a> </div>
   </div>
   <? endforeach; ?>
-
-  <div class="post-thumb-uploader"onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div> 
-
+  <? endif;?>
+  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
 </div>
-
-
-
 <div class="mw_clear" style="padding-bottom: 20px;"></div>
-<? endif;?>

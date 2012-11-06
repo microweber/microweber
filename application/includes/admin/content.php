@@ -415,7 +415,21 @@ function mw_add_product(){
 
       <div class="mw_edit_pages_nav"> </div>
       <div id="pages_edit_container">
-        <module data-type="content/edit_page" id="edit_content_admin_"  />
+      
+      
+      <? $content_id = '';
+	    if(defined('PAGE_ID') == true){
+		  $content_id = ' data-content-id='.PAGE_ID.' ';
+		  
+	  }
+	  if(defined('POST_ID')== true and POST_ID != false){
+		 $content_id = ' data-content-id='.POST_ID.' ';
+		  
+	  }
+	   
+	   ?>
+       
+        <module data-type="content/edit_page" id="edit_content_admin_" <? print  $content_id ?>  />
       </div>
     </div>
   </div>
