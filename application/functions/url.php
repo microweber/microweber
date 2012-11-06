@@ -32,7 +32,7 @@ function url_segment($k = -1) {
 
         $u1 = str_replace($u2, '', $u1);
 
-
+//$u1 = str_replace('admin/admin/', 'admin/', $u1);
         //  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
         if (!isset($u) or $u == false) {
 

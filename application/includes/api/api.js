@@ -42,6 +42,7 @@ typeof mw === 'undefined' ?
   };
 
 
+
   mw.onLive = function(callback) {
     if (!window['mwAdmin']) {
       callback.call(this)
@@ -318,16 +319,15 @@ typeof mw === 'undefined' ?
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
       mw.is.defined(obj.done) ? obj.done.call(selector) : '';
+
       mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() : '';
       mw.is.defined(mw.drag) ? mw.drag.fix_placeholders(true) : '';
 
       var m = mwd.getElementById(id);
-
-      $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '';
-
-      mw.on.moduleReload(id, "", true);
-
-
+      if(!!mw.wysiwyg){
+        $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
+        mw.on.moduleReload(id, "", true);
+      }
     });
 
   }

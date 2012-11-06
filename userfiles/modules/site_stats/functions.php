@@ -39,7 +39,7 @@ function mw_uninstall_stats_module() {
 
     $table = MODULE_DB_TABLE_USERS_ONLINE;
     $q = "DROP TABLE IF EXISTS {$table}; ";
-    d($q);
+    //d($q);
 
     db_q($q);
     cache_clean_group('stats');

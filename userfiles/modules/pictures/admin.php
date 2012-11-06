@@ -46,7 +46,7 @@ $(document).ready(function(){
 
 
 });
-</script> 
+</script>
 
 
 
@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
 
-<div class="post-thumb-uploader"onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
+
 
 
 <? 
@@ -70,8 +70,15 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 }
 
  ?>
-<? if(isarr( $media)): ?>
-<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>">
+
+
+ <div class="vSpace">&nbsp;</div>
+
+ <label class="mw-ui-label">Add Images <small>(THE FIRST IMAGE WILL BE THUMBNAIL)</small></label>
+
+
+<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>"> <? if(isarr( $media)): ?>
+
   <? foreach( $media as $item): ?>
   <div class="admin-thumb-item" id="admin-thumb-item-<? print $item['id'] ?>">
     <? $tn = thumbnail($item['filename'], 131, 131); ?>
@@ -91,7 +98,11 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
       <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module.pictures.del('<? print $item['id'] ?>');"><?php _e("Delete"); ?></a>
     </div>
   </div>
-  <? endforeach; ?>
+  <? endforeach; ?> <? endif;?>
+
+  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
 </div>
+
+
+
 <div class="mw_clear" style="padding-bottom: 20px;"></div>
-<? endif;?>

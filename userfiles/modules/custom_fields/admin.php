@@ -10,13 +10,20 @@
 	$copy_from = $params['copy_from'];
  }
   
-$module_id = $params['id'];
-  if(isset($params['to_table_id'])){
-	$module_id = $params['to_table_id'];
+ 
+ 
+  if(isset($params['for_id'])){
+	$for_id = $params['for_id'];
+ } else  if(isset($params['id'])){
+	$for_id = $params['id'];
  }
  
+  //$for_id =$params['id'];
+ if(isset($params['to_table_id'])){
+$for_id =$params['to_table_id'];
+ }
  
-
+$module_id = $for_id;
 $rand = rand();
  
 ?>

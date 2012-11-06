@@ -53,7 +53,7 @@ if (!empty($params)) {
         $.post("<? print site_url('api/remove_field') ?>",    serializedForm, function(data)         {
 
             mw.reload_module('custom_fields')
-            mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
+          //  mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
             mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
 
         });

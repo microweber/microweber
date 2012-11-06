@@ -17,7 +17,7 @@ mw.form = {
   },
   post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
-	
+
 	if(!mw.is.defined(url_to_post)){
 		
 		url_to_post = mw.settings.site_url+'api/post_form';
@@ -26,7 +26,7 @@ mw.form = {
 		url_to_post = url_to_post;
 	}
 	
-	
+
     if(is_form_valid){
         var obj = mw.form.serialize.init(selector);
       	$.post(url_to_post, obj, function(data){
@@ -143,7 +143,29 @@ mw.form = {
             return true;
         }
     } 
-  }
+  },
+  serialize : function(id){
+      var el = mw.$(id);
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      var data = {}
+      $(fields, el).each(function(){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(el.type!=='checkbox'){
+             data[name] = val;
+          }
+          else{
+            try {
+               data[name].push(val);
+            }
+            catch(e){
+              data[name] = [val];
+            }
+          }
+      });
+      return data;
+ }
 }
 
 

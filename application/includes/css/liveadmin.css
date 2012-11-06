@@ -166,20 +166,52 @@ body:-webkit-full-screen {
   left: -9999px !important;
 }
 
-#page_title_and_url{
+
+
+/* Add/Edit Page */
+
+form.content-type-page .mw-ui-field[name='title']{width: 346px;}
+
+
+form.content-type-page #page_title_and_url{
   float: left;
   width: 372px;
   margin-right: 10px;
 }
+
+
+
+/* Add/Edit Post */
+
+form.content-type-post .mw-ui-field[name='title']{width: 660px;}
+
+
+
 
 .mw-template-selector{
   float:left;
   width:280px;
 }
 
+
 .mw-ui-field-holder{
   padding: 10px 0;
   position: relative;
+}
+.mw_save_buttons_holder{
+  padding: 15px 0 0 15px;
+  position: relative;
+}
+
+
+
+.mw_save_buttons_holder input[type='submit']{
+  float: left;
+  width: 46%;
+}
+.mw_save_buttons_holder input[type='button']{
+  float: right;
+  width: 46%;
 }
 
 form.add-edit-page-post textarea{

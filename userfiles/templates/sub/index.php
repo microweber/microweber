@@ -1,8 +1,4 @@
-
 <? include TEMPLATE_DIR. "header.php"; ?>
-
-
-
 
 <section id="river">
   <header id="begin">
@@ -10,9 +6,7 @@
   </header>
   <div class="module" id="posts_home" data-type="posts_list" data-display="custom">
     <? 
-	$has_shop = is_module('shop');
-	
- 
+
 	 
 	$query = module("type=posts_list&id=posts_home&display=custom");
 	 //d($query );
@@ -29,6 +23,30 @@
       <div class="edit"  rel="content"  data-field="description" data-id="<? print $item['id'] ?>"  >
         <p>My post description</p>
       </div>
+      
+	  
+	  <div class="cart_add">
+      
+      <module type="custom_fields" for="content" for_id="<? print $item['id'] ?>"  />
+      
+      </div>
+	  <? 
+	  
+	  
+	   $cf  = false;
+     // $cf  = custom_fields_content($item['id'], 'price');
+   // d($cf) ;
+   if(isarr($cf)){
+	foreach($cf as $field){
+	?>
+    <? print  make_field($field); ?>
+      <a href="javascript:mw.module.shop.add_to_cart('<? print $item['id'] ?>')"><? print ($field['custom_field_name']); ?>: <? print ($field['custom_field_value']); ?></a> <br />
+      <?	
+	}
+   }
+   
+   
+   ?>
       <a href="<? print post_link($item['id']); ?>"> Read more </a> </article>
     <? endforeach; ?>
   </div>

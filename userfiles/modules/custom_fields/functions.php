@@ -73,7 +73,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     $dir = dirname(__FILE__);
     $dir = $dir . DS . 'custom_fields' . DS;
     $field_type = str_replace('..', '', $field_type);
-   // d($field_type);
+    // d($field_type);
     if ($settings == true) {
         $file = $dir . $field_type . '_settings.php';
     } else {
@@ -218,7 +218,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
         $field_type = $data['type'];
     }
     if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
-        if (isset($data['custom_field_values']) and is_string($data['custom_field_value'])) {
+        if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
             $try = base64_decode($data['custom_field_values']);
             if ($try != false) {
                 $data['custom_field_values'] = unserialize($try);

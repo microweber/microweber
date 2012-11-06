@@ -127,6 +127,10 @@ $(document).ready(function(){
   });
 });
 
-mw.onkey = function(key){
 
-}
+
+$(window).bind("AltA", function(){
+  mw.$(".mw_modal").remove();
+  mw.$(".mw_overlay").remove();
+  mw.$(".zoom").removeClass("zoom");
+});
