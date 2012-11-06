@@ -820,7 +820,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 
     $id = intval($id);
-
+    $table = db_escape_string($table);
     $table_assoc_name = false;
     if ($table != false) {
         $table_assoc_name = db_get_table_name($table);
@@ -907,12 +907,21 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
                     // $it ['value'] = $it ['custom_field_value'];
                     $it['value'] = $it['custom_field_value'];
-                    $it['values'] = $it['custom_field_value'];
+                    if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
+        if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
+            $try = base64_decode($it['custom_field_values']);
+            if ($try != false) {
+                $it['custom_field_values'] = unserialize($try);
+            }
+        }
+    }
 
-                    $it['cssClass'] = $it['custom_field_type'];
+                  //  $it['values'] = $it['custom_field_value'];
+
+                   // $it['cssClass'] = $it['custom_field_type'];
                     $it['type'] = $it['custom_field_type'];
 
-                    $it['baseline'] = "undefined";
+                  //  $it['baseline'] = "undefined";
 
                     $it['title'] = $it['custom_field_name'];
                     $it['required'] = $it['custom_field_required'];
@@ -1506,6 +1515,7 @@ function save_content($data, $delete_the_cache = true) {
 and (to_table_id=0 or to_table_id IS NULL)
 
 				";
+    //d($clean);
 
     db_q($clean);
     cache_clean_group('custom_fields');

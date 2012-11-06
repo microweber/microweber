@@ -36,6 +36,7 @@ mw.module.pictures = {
     var el = mw.$(selector);
     el.sortable({
         items:".admin-thumb-item",
+        placeholder:'admin-thumb-item-placeholder',
         update: function(){
           var serial = el.sortable('serialize');
           $.ajax({

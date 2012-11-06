@@ -109,3 +109,4 @@ $language[""]= '' ;
 $language[""]= '' ; 
 $language["website-navigation"]= 'Website  Navigation' ; 
 $language["db-backup"]= 'DB Backup' ; 
+$language["save"]= 'Save' ; 

@@ -1,4 +1,4 @@
- <?  
+<?  
  $for = 'module';
  if(isset($params['for'])){
 	$for = $params['for'];
@@ -21,6 +21,9 @@ $for_id =$params['to_table_id'];
  
  
  ?>
+
+<input type="hidden" name="for_id" value="<? print $for_id?>" />
+<input type="hidden" name="for" value="<? print $for?>" />
 <?
 
 if(!empty($more )): ?>
@@ -36,25 +39,23 @@ print  make_field($field);
 <? endforeach; ?>
 <? if(isarr($price_fields )): ?>
 <? $price_fields_c = count($price_fields); ?>
- <? if($price_fields_c >1) : ?>
- <select>
- <? endif; ?>
-<? 
+<? if($price_fields_c >1) : ?>
+<select name="price">
+  <? endif; ?>
+  <? 
 
  
 foreach($price_fields  as $field): ?>
-<?
+  <?
 if($price_fields_c >1){
 	$field['make_select'] = true;
 }
  ?>
-
-<? print  make_field($field);   ?>
-
-<? endforeach; ?>
-<? if($price_fields_c >1) : ?>
- </select>
- <? endif; ?>
+  <? print  make_field($field);   ?>
+  <? endforeach; ?>
+  <? if($price_fields_c >1) : ?>
+</select>
+<? endif; ?>
 <? endif; ?>
 <? else: ?>
 <? //_e("You don't have any custom fields."); ?>

@@ -1,6 +1,10 @@
 
 
-
+.vSpace{
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  display: block;
+}
 
 
 
@@ -506,9 +510,8 @@ body.not-allowed{
 .mw_edit_pages_nav{
   height: 96px;
   border-bottom: 1px solid #E2E2E2;
-  background: white;
+  background: transparent;
   padding:18px 0 0 18px;
-
 }
 
 
@@ -696,8 +699,8 @@ html.mw_pages, html.mw_pages body{
 
 
 .mw_edit_page_right{
-  padding-left: 40px;
   padding-bottom: 50px;
+  width: 720px;
   float: left;
 }
 
@@ -896,7 +899,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .edit-post-url{
   font-size: 10px;
   color: #8F8F8F;
-  padding: 8px 0;
+  padding: 0 0 8px;
 }
 
 .edit-post-slug{
@@ -939,6 +942,11 @@ a.mw-ui-btn, span.mw-ui-btn{
   color: #777777;
 }
 
+.mw-ui-label small{
+  text-transform: uppercase;
+  font-size: 7px;
+}
+
 .edit-url-ico{
   display: block;
   float: left;
@@ -974,10 +982,15 @@ a.mw-ui-btn, span.mw-ui-btn{
 .preview_frame_ctrls{
   position: absolute;
   z-index: 2;
-  top: 4px;
-  right: 25px;
+  right: 7px;
+  top: 10px;
   height:21px;
 }
+
+.zoom .preview_frame_ctrls{
+  right: 25px;
+}
+
 .preview_frame_wrapper .mw-overlay{
     z-index: 1;
     cursor: pointer;
@@ -1073,6 +1086,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 .layouts_box{
   padding: 10px;
+  min-height: 65px;
   width: 260px;
   background:#EDEDED;
 }
@@ -1118,6 +1132,12 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-check-selector  .mw-ui-check span{
   float: left;
   margin: 0 3px 3px;
+}
+
+.is_shop_label{
+  padding:5px 10px;
+  width: 350px;
+  background: #FFFDD1;
 }
 
 .post-thumb-uploader{
@@ -1224,8 +1244,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 .admin-thumbs-holder{
-  width: auto;
-  display: inline-block;
+  width: 770px;
+  padding-top: 5px;
 }
 
 .mw-post-media-img{
@@ -1254,7 +1274,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 .admin-thumb-item{
-  display: block;
+  display: block ;
+  position: relative ;
   float: left;
   width: 133px;
   margin: 0 10px 20px;
@@ -1263,10 +1284,11 @@ a.mw-ui-btn, span.mw-ui-btn{
   margin-left: 0;
 }
 
-.admin-thumbs-holder .admin-thumb-item:nth-child(6n){
+.admin-thumbs-holder > div:nth-child(5n){
   clear: both;
   margin-left: 0;
 }
+
 
 .admin-thumb-delete{
   display: block;
@@ -1311,20 +1333,41 @@ a.mw-ui-btn, span.mw-ui-btn{
   visibility: hidden;
 }
 
-.admin-thumbs-holder .ui-sortable-placeholder{
+.admin-thumbs-holder .admin-thumb-item-placeholder{
   display: block;
-  margin: 0 10px 20px;
   float: left;
-  width: 133px;
-  height: 133px;
+  position: relative;
+  margin: 0 10px 20px;
+  width: 131px;
+  height: 131px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-color: #C6C6C6;
+  background-color: #FFFF66;
   border: 1px dotted #235F99;
   visibility: visible !important;
-  position: relative;
 }
 
+
+body{
+  min-width: 1060px;
+}
+
+#pages_edit_container{
+  padding: 6px 20px;
+}
+
+.top_label{
+  font-size: 11px;
+  padding-top: 35px;
+}
+
+.top_label a{
+  color:#488BCD;
+}
+
+.top_label a:hover{
+  text-decoration: underline;
+}
 
 
 

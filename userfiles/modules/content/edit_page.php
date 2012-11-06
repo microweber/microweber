@@ -44,6 +44,8 @@ if(isset($params["data-is-shop"])){
 
 $form_rand_id = $rand = uniqid();
 ?>
+
+
  <script  type="text/javascript">
   mw.require('forms.js');
  </script>
@@ -145,12 +147,12 @@ mw_before_content_save<? print $rand ?>()
 });
 </script>
 
-<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post">
+<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
       <label class="mw-ui-label"><?php print ucfirst($data['content_type']); ?> name</label>
-      <input name="title" style="width: 346px;" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
+      <input name="title" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
@@ -160,6 +162,16 @@ mw_before_content_save<? print $rand ?>()
   <? if($edit_post_mode == false): ?>
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? endif; ?>
+
+        <? if($edit_post_mode != false): ?>
+
+       <div class="mw-ui-field-holder mw_save_buttons_holder">
+          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
+          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+        </div>
+      <? endif; ?>
+
+
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
@@ -392,9 +404,18 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  
           <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
 
-      
-      <br />
-      <br />
+     <div class="mw-ui-check-selector">
+        <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
+        <label class="mw-ui-check">
+          <input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>No</span></label>
+        <label class="mw-ui-check">
+          <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
+          <span></span><span>Yes</span></label>
+      </div>
+
+      <div class="mw_clear vSpace"></div>
+
       <div class="mw-ui-check-selector">
         <div class="mw-ui-label left" style="width: 130px">Is Home?</div>
         <label class="mw-ui-check">
@@ -404,7 +425,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
           <input name="is_home" type="radio"  value="y" <? if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
       </div>
-      <br class="mw-clear" />
+
+      <div class="mw_clear vSpace"></div>
+
       <div class="mw-ui-check-selector">
         <div class="mw-ui-label left" style="width: 130px">Is Shop?</div>
         <label class="mw-ui-check">
@@ -414,7 +437,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
           <input name="is_shop" type="radio"  value="y" <? if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
       </div>
-
+     <div class="mw_clear vSpace"></div>
 
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Subtype</label>
@@ -435,16 +458,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
-      <br />
-      <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
-        <label class="mw-ui-check">
-          <input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
-          <span></span><span>No</span></label>
-        <label class="mw-ui-check">
-          <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
-          <span></span><span>Yes</span></label>
-      </div>
 
 
 
@@ -453,12 +466,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
 
-      <? if($edit_post_mode != false): ?>
-        <div class="mw-ui-field-holder mw_save_buttons_holder">
-          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
-          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
-        </div>
-      <? endif; ?>
+
+
+
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Password</label>
         <input name="password" style="width: 360px;" class="mw-ui-field" type="password" value="" />

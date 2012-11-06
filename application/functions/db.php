@@ -411,7 +411,7 @@ function get($params) {
 			$table = guess_table_name($v);;
 		}
 
-		if ($k == 'what') {
+		if ($k == 'what' and !isset($params['to_table'])) {
 			$table = guess_table_name($v);
 		}
 
@@ -1244,7 +1244,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 	}
 
-	if (isset($result[0]['qty']) == true) {
+	if (isset($result[0]['qty']) == true and $count_only == true) {
 
 		$ret = $result[0]['qty'];
 
@@ -1816,7 +1816,7 @@ $table = db_get_real_table_name($table);
 				// exit('__EMPTY_CATEGORIES__');
 
 				$clean_q = "delete
-                    from $taxonomy_items_table where                            
+                    from $taxonomy_items_table where
                     data_type='category_item' and
                     to_table='{$table_assoc_name}' and
                     to_table_id={$id_to_return}  ";
@@ -1836,32 +1836,32 @@ $table = db_get_real_table_name($table);
 							$is_ex = get($str1);
 							if (empty($is_ex)) {
 								$clean_q = "INSERT INTO
-                     $taxonomy_table set   
-                     title='{$cname_check}',   
-                      parent_id=0,  
-                       position=999,                          
+                     $taxonomy_table set
+                     title='{$cname_check}',
+                      parent_id=0,
+                       position=999,
                     data_type='category',
-                    to_table='{$table_assoc_name}' 
+                    to_table='{$table_assoc_name}'
                     ";
 								$cats_data_items_modified = true;
 								$cats_data_modified = true;
 								//d($clean_q);
 								db_q($clean_q);
 
-								
-								
-							} 
-							
-							
+
+
+							}
+
+
 							$is_ex = get($str1);
 								if (!empty($is_ex) and isarr($is_ex[0])) {
 									$cz[$j] = $is_ex[0]['id'];
 								//	d($is_ex);
 								}
-							
-							
-							
-							 
+
+
+
+
 						}
 						$j++;
 					}
@@ -2010,7 +2010,8 @@ $original_data['categories'] = implode(',', $cz);
 					// //
 					// //  d($is_ex);
 					// }
-					// }
+					// }
+
 				}
 			}
 			if (!empty($keep_thosecat_items)) {

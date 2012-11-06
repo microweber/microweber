@@ -390,18 +390,20 @@ function mw_add_product(){
             <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a>
         </div>
     </div>
-    <div class="mw_edit_page_right" style="width: 70%">
+    <div class="mw_edit_page_right">
 
 
-    <input type="text" id="mw-search-field"  />
+
 
     <script>
 
     $(document).ready(function(){
 
-        mw.$("#mw-search-field").bind("keyup", function(){
+        var s = mw.$("#mw-search-field");
+        mw.form.d(s, 'Search');
+       s.bind("keyup", function(){
           mw.on.stopWriting(this, function(){
-              mw.url.windowHashParam('search',this.value);
+             this.value !== 'Search' ? mw.url.windowHashParam('search',this.value) : '';
           });
         });
 
@@ -413,7 +415,14 @@ function mw_add_product(){
 
 
 
-      <div class="mw_edit_pages_nav"> </div>
+      <div class="mw_edit_pages_nav">
+
+      <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+
+
+    <input style="position: fixed;right: 201px;top: 13px;z-index: 999;" value="Search" type="text" id="mw-search-field"  />
+
+      </div>
       <div id="pages_edit_container">
       
       

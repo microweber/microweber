@@ -1,11 +1,11 @@
-<?php  
-
-
-
-
-
-
+<?php
 /**
+ *
+ * This class is borrowed from CodeIgniter.
+ * Microweber was first written in CodeIgniter prior version 0.326 
+ *
+ *
+ *
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
@@ -77,7 +77,7 @@ class uri {
 	{
 	//	$this->config =& load_class('Config', 'core');
 		//log_message('debug', "URI Class Initialized");
-		
+
 		if($this->uri_string == ''){
 		$this-> _fetch_uri_string();
 		}
@@ -95,26 +95,26 @@ class uri {
 	function _fetch_uri_string()
 	{
 
-		
+
 		$protocol = c('uri_protocol');
 		if (strtoupper($protocol) == 'AUTO')
 		{
 
-			
-			
-			
+
+
+
 			// Is the request coming from the command line?
 			if (php_sapi_name() == 'cli' or defined('STDIN'))
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
 			}
-		
+
 			// Let's try the REQUEST_URI first, this will work in most situations
 			if ($uri = $this->_detect_uri())
 			{
 
-				
+
 			//	 var_dump($uri);
 				$this->_set_uri_string($uri);
 				return;
@@ -143,7 +143,7 @@ class uri {
 				$this->_set_uri_string(key($_GET));
 				return;
 			}
-			
+
 			// We've exhausted all our options...
 			$this->uri_string = '';
 			return;
@@ -179,10 +179,10 @@ class uri {
 	{
 		// Filter out control characters
 		$str = remove_invisible_characters($str, FALSE);
- 
+
 		// If the URI contains only a slash we'll kill it
 		//$this->uri_string = ($str == '/') ? '' : $str;
-		
+
 		$this->uri_string = $str;
 	}
 
@@ -199,9 +199,9 @@ class uri {
 	 */
 	private function _detect_uri()
 	{
-		
-		
-		
+
+
+
 		if ( ! isset($_SERVER['REQUEST_URI']) OR ! isset($_SERVER['SCRIPT_NAME']))
 		{
 			return '';
@@ -216,7 +216,7 @@ class uri {
 		{
 			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
-		
+
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
 		if (strncmp($uri, '?/', 2) === 0)
@@ -240,7 +240,7 @@ class uri {
 		{
 			return '/';
 		}
-		
+
 		$uri = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it

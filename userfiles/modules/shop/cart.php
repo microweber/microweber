@@ -1,4 +1,1 @@
-
-
-Lorem Ipsum
-
+My cart
