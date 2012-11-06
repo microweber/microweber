@@ -1,10 +1,115 @@
 <?php $rand = uniqid(); ?>
   <?php $my_tree_id = crc32(url_string()); ?>
- 
+
 <script  type="text/javascript">
 
 
 
+
+mw.treeRenderer = {
+  edit_buttons:function(type, id){
+      if(type==='page'){
+        return "\
+        <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
+              <?php _e("Delete"); ?>\
+          </span>\
+        <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editpage:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
+              <?php _e("Edit"); ?>\
+          </span>\
+          ";
+      }
+      else if(type==='category'){
+          return "\
+            <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
+                  <?php _e("Delete"); ?>\
+              </span>\
+            <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editcategory:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
+                  <?php _e("Edit"); ?>\
+              </span>\
+          ";
+      }
+  },
+
+  rendController:function(holder){
+      mw.$(holder+' li').each(function(){
+          var master = this;
+          var el = master.querySelector('a');
+          var href = el.href;
+          el.href = 'javascript:void(0);';
+          var html = el.innerHTML;
+          var toggle = "";
+          var show_posts = "";
+          var attr = master.attributes;
+
+          var toggle ='';
+
+          // type: page or category
+          if(attr['data-page-id']!==undefined){
+              var pageid = attr['data-page-id'].nodeValue;
+              if($(el.parentNode).children('ul').length>0){
+                  var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+              }
+              var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid) + toggle + show_posts;
+              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
+          }
+          else if(attr['data-category-id']!==undefined){
+              var pageid = attr['data-category-id'].nodeValue;
+              if($(el.parentNode).children('ul').length>0){
+                  var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+              }
+              var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid) + toggle + show_posts;
+              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
+          }
+      });
+  },
+  rendSelector:function(holder){
+       mw.$(holder+' li').each(function(){
+
+          var master = this;
+          var el = master.querySelector('label');
+          el.setAttribute("onclick", "mw.tools.tree.checker(this);");
+          var html = el.innerHTML;
+          var toggle = "";
+
+          var attr = master.attributes;
+
+          // type: page or category
+          if(attr['data-page-id']!==undefined){
+              var pageid = attr['data-page-id'].nodeValue;
+              if($(el.parentNode).children('ul').length>0){
+                  var toggle = '<span onclick="mw.tools.tree.toggle(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+              }
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>'  + toggle;
+          }
+          else if(attr['data-category-id']!==undefined){
+              var pageid = attr['data-category-id'].nodeValue;
+              if($(el.parentNode).children('ul').length>0){
+                  var toggle = '<span onclick="mw.tools.tree.toggle(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+              }
+
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + toggle;
+          }
+
+
+       });
+  },
+  appendUI:function(tree){
+      var holder = tree || "#pages_tree_container_<?php print $my_tree_id; ?>";
+      var type = mw.tools.tree.detectType(mwd.querySelector(holder));
+
+      if(type==='controller'){
+         mw.treeRenderer.rendController(holder);
+      }
+      else if(type==='selector'){
+         mw.treeRenderer.rendSelector(holder);
+      }
+      mw.tools.tree.recall(mwd.querySelector(holder));
+      mw.log(mwd.querySelector(holder).id)
+      mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id))
+  }
+}
 
 
 
@@ -13,14 +118,15 @@ $(document).ready(function(){
       set_pagetab_size();
     });
 
-    mw_append_pages_tree_controlls();
+    mw.treeRenderer.appendUI();
+
 
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
 
     mw.on.moduleReload("pages_tree_toolbar", function(){
-        mw_append_pages_tree_controlls();
+        mw.treeRenderer.appendUI();
     });
 
 });
@@ -37,77 +143,7 @@ function mw_delete_content($p_id){
 }
 
 
-mw_edit_btns = function(type, id){
-  if(type==='page'){
 
-    return "\
-    <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
-          <?php _e("Delete"); ?>\
-      </span>\
-    <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editpage:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
-          <?php _e("Edit"); ?>\
-      </span>\
-      ";
-
-  }
-  else if(type==='category'){
-      return "\
-        <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
-              <?php _e("Delete"); ?>\
-          </span>\
-        <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editcategory:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
-              <?php _e("Edit"); ?>\
-          </span>\
-      ";
-  }
-}
-
-
-function mw_append_pages_tree_controlls(holder){
-
-    var holder = holder || "#pages_tree_container_<?php print $my_tree_id; ?>";
-
-    mw.$(holder+' a').each(function(){
-        var el = this;
-        var href = el.href;
-        el.href = 'javascript:void(0);';
-        var html = el.innerHTML;
-        var toggle = "";
-        var show_posts = "";
-        var attr = el.attributes;
-
-
-        var toggle ='';
-
-        // type: page or category
-        if(attr['data-page-id']!==undefined){
-            var pageid = attr['data-page-id'].nodeValue;
-            if($(el.parentNode).children('ul').length>0){
-                var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
-            }
-            var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-            el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('page', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
-        }
-        else if(attr['data-category-id']!==undefined){
-            var pageid = attr['data-category-id'].nodeValue;
-            if($(el.parentNode).children('ul').length>0){
-                var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
-            }
-            var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-            el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw_edit_btns('category', pageid) + toggle + show_posts;
-            el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
-        }
-
-    });
-
-
-    mw.tools.tree.recall(mwd.querySelector(holder));
-
-    mw.log(mwd.querySelector(holder).id)
-    mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id))
-
-}
 
 
 function mw_select_page_for_editing($p_id){
@@ -354,18 +390,20 @@ function mw_add_product(){
             <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a>
         </div>
     </div>
-    <div class="mw_edit_page_right" style="width: 70%">
+    <div class="mw_edit_page_right">
 
 
-    <input type="text" id="mw-search-field"  />
+
 
     <script>
 
     $(document).ready(function(){
 
-        mw.$("#mw-search-field").bind("keyup", function(){
+        var s = mw.$("#mw-search-field");
+        mw.form.d(s, 'Search');
+       s.bind("keyup", function(){
           mw.on.stopWriting(this, function(){
-              mw.url.windowHashParam('search',this.value);
+             this.value !== 'Search' ? mw.url.windowHashParam('search',this.value) : '';
           });
         });
 
@@ -377,9 +415,30 @@ function mw_add_product(){
 
 
 
-      <div class="mw_edit_pages_nav"> </div>
+      <div class="mw_edit_pages_nav">
+
+      <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+
+
+    <input style="position: fixed;right: 201px;top: 13px;z-index: 999;" value="Search" type="text" id="mw-search-field"  />
+
+      </div>
       <div id="pages_edit_container">
-        <module data-type="content/edit_page" id="edit_content_admin_"  />
+      
+      
+      <? $content_id = '';
+	    if(defined('PAGE_ID') == true){
+		  $content_id = ' data-content-id='.PAGE_ID.' ';
+		  
+	  }
+	  if(defined('POST_ID')== true and POST_ID != false){
+		 $content_id = ' data-content-id='.POST_ID.' ';
+		  
+	  }
+	   
+	   ?>
+       
+        <module data-type="content/edit_page" id="edit_content_admin_" <? print  $content_id ?>  />
       </div>
     </div>
   </div>

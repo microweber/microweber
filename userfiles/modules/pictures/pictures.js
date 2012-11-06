@@ -21,7 +21,7 @@ mw.module.pictures = {
 
      $.post(mw.settings.api_url+'save_media', data ,
      function(data) {
-         
+
      });
   },
 
@@ -35,6 +35,8 @@ mw.module.pictures = {
   init:function(selector){
     var el = mw.$(selector);
     el.sortable({
+        items:".admin-thumb-item",
+        placeholder:'admin-thumb-item-placeholder',
         update: function(){
           var serial = el.sortable('serialize');
           $.ajax({

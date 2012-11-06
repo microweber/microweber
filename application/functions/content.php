@@ -388,7 +388,7 @@ function get_content_by_id($id) {
     $table = $table['table_content'];
 
     $id = intval($id);
-    if($id == 0){
+    if ($id == 0) {
         return false;
     }
 
@@ -755,7 +755,7 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  *
  */
 function paging($display = 'default', $data = false) {
-    print "paging()";
+    print "todo: paging() function";
     return true;
 }
 
@@ -794,13 +794,23 @@ function custom_field_value($content_id, $field_name, $use_vals_array = true) {
     }
 }
 
-function get_custom_fields_for_content($content_id, $full = true) {
+function custom_fields_content($content_id, $field_type = false, $full = true) {
+    return get_custom_fields_for_content($content_id, $full, $field_type);
+}
+
+function get_custom_fields_for_content($content_id, $full = true, $field_type = false) {
     $more = false;
-    $more = get_custom_fields('table_content', $content_id, $full);
+    $more = get_custom_fields('table_content', $content_id, $full, false, false, $field_type);
+
+
+
+
+
+
     return $more;
 }
 
-function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false) {
+function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
 
     // $id = intval ( $id );
     if ($id == 0) {
@@ -810,7 +820,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 
     $id = intval($id);
-
+    $table = db_escape_string($table);
     $table_assoc_name = false;
     if ($table != false) {
         $table_assoc_name = db_get_table_name($table);
@@ -855,11 +865,25 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
             $select_what = '*';
         }
 
+
+        if ($field_type == false) {
+
+            $field_type_q = ' ';
+        } else {
+            $field_type = db_escape_string($field_type);
+            $field_type_q = ' and custom_field_type="' . $field_type . '"  ';
+        }
+
+
+
+
+
         $q = " SELECT
 		{$select_what} from  $table_custom_field where
 		{$qt}
 		to_table_id='{$id}'
 		$field_for_q
+		$field_type_q
 		order by field_order asc  ";
 
         if ($debug != false) {
@@ -868,8 +892,8 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
         // $crc = crc32 ( $q );
 
-        $crc =  (crc32($q));
-  
+        $crc = (crc32($q));
+
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
@@ -883,12 +907,21 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
                     // $it ['value'] = $it ['custom_field_value'];
                     $it['value'] = $it['custom_field_value'];
-                    $it['values'] = $it['custom_field_value'];
+                    if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
+        if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
+            $try = base64_decode($it['custom_field_values']);
+            if ($try != false) {
+                $it['custom_field_values'] = unserialize($try);
+            }
+        }
+    }
 
-                    $it['cssClass'] = $it['custom_field_type'];
+                  //  $it['values'] = $it['custom_field_value'];
+
+                   // $it['cssClass'] = $it['custom_field_type'];
                     $it['type'] = $it['custom_field_type'];
 
-                    $it['baseline'] = "undefined";
+                  //  $it['baseline'] = "undefined";
 
                     $it['title'] = $it['custom_field_name'];
                     $it['required'] = $it['custom_field_required'];
@@ -1438,7 +1471,7 @@ function save_content($data, $delete_the_cache = true) {
                 $data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
             }
         }
-
+        $c1 = false;
         if (isset($data_to_save['categories']) and $par_page == false) {
             if (is_string($data_to_save['categories'])) {
                 $c1 = explode(',', $data_to_save['categories']);
@@ -1482,6 +1515,7 @@ function save_content($data, $delete_the_cache = true) {
 and (to_table_id=0 or to_table_id IS NULL)
 
 				";
+    //d($clean);
 
     db_q($clean);
     cache_clean_group('custom_fields');
@@ -1496,7 +1530,7 @@ and (to_table_id=0 or to_table_id IS NULL)
 and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 
 				";
-                             //   d($clean);
+    //   d($clean);
     cache_clean_group('media');
 
     db_q($clean);
@@ -1512,8 +1546,16 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 
     if ($cats_modified != false) {
 
-        cache_clean_group('taxonomy');
-        cache_clean_group('taxonomy_items');
+        cache_clean_group('taxonomy/global');
+        cache_clean_group('taxonomy_items/global');
+        if (isset($c1) and isarr($c1)) {
+            foreach ($c1 as $item) {
+                $item = intval($item);
+                if ($item > 0) {
+                    cache_clean_group('taxonomy/' . $item);
+                }
+            }
+        }
     }
     return $save;
     // if ($data_to_save ['content_type'] == 'page') {
@@ -1604,25 +1646,6 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 
 function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
-    $function_cache_id = false;
-    $args = func_get_args();
-    foreach ($args as $k => $v) {
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-    }
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-    $cache_group = 'content/global';
-    $cache_content = cache_get_content($function_cache_id, $cache_group);
-
-    if (($cache_content) != false) {
-        print $cache_content;
-        return;
-        //  return $cache_content;
-    }
-
-    $nest_level = 0;
-
-    ob_start();
 
     $params2 = array();
     $params = false;
@@ -1641,6 +1664,30 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
             extract($params);
         }
     }
+
+    $function_cache_id = false;
+    $args = func_get_args();
+    foreach ($args as $k => $v) {
+        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+    }
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+    if ($parent == 0) {
+        $cache_group = 'content/global';
+    } else {
+        $cache_group = 'content/' . $parent;
+    }
+    $cache_content = cache_get_content($function_cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+        print $cache_content;
+        return;
+        //  return $cache_content;
+    }
+
+    $nest_level = 0;
+
+    ob_start();
+
     //d($params);
 
     if (isset($params['nest_level'])) {
@@ -1965,3 +2012,4 @@ function mw_create_default_content($what) {
             break;
     }
 }
+

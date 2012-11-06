@@ -114,18 +114,14 @@ mw.templatePreview = {
 }
 
 
-ToggleAdvancedSettings = function(){
-  mw.$(".advanced_settings_holder").toggle();
 
-  var main = mwd.getElementById('mw_edit_pages_content');
-  main.scrollTop = main.offsetHeight;
-
-}
 
 
 
 
 $(document).ready(function() {
+
+
 
 
     mw.templatePreview.selector = mwd.getElementById('active_site_layout_<? print $rand; ?>');
@@ -188,10 +184,11 @@ $(document).ready(function() {
   <div class="preview_frame_container"></div>
   <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 </div>
-<div class="mw-ui-field-holder mw_save_buttons_holder">
-  <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0"   value="Save" />
-  <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
-</div>
+
+
+
+
+
 <div class="layouts_box_holder">
   <label class="mw-ui-label">Page Layout</label>
   <div class="layouts_box_container">
@@ -211,5 +208,18 @@ $(document).ready(function() {
       </ul>
     </div>
   </div>
+
+
+
+<div class="mw_save_buttons_holder">
+  <input type="submit" name="save" value="<?php _e("Save"); ?>" />
+  <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="<?php _e("Go live edit"); ?>" />
 </div>
+
+
+</div>
+
+
+
+
 <div class="mw_clear">&nbsp;</div>

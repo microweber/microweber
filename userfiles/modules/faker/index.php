@@ -27,4 +27,34 @@ $data ['url'] = $data ['title'].'-'.$i.rand();
  // echo 
 }
 
+
+
+
+
+$faker = Faker\Factory::create();
+for ($i=0; $i < 1000; $i++) { 
+$item_save = array();
+
+			$item_save['to_table'] = 'table_content';
+
+		 $item_save['title'] =$faker->sentence($nbWords = 3) ; 
+
+
+			$item_save['data_type'] = 'category';
+
+		 
+
+			$item_save['parent_id'] = rand(300,600);
+			
+		 //	$item_save = save_data('table_taxonomy', $item_save);
+			
+			
+//d($item_save ); 
+			//$item_save = save_data($table_items, $item_save);
+//$data = save_content($data);
+//d($data ); 
+ //echo 
+ // echo 
+}
+
 ?>

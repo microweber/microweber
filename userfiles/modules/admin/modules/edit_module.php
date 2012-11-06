@@ -153,8 +153,8 @@ $(document).ready(function(){
  <input type="text" name="position" value="<? print $data['position'] ?>" />
  
   <microweber module="categories/selector" for="modules"  to_table_id="<? print $data['id'] ?>" >
- 
- 
+
+ <a href="<? print curent_url() ?>/load_module:<? print encode_var( $data['module']) ?>">Open</a>
  <input name="save" type="submit" value="save">
  
  <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>

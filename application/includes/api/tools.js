@@ -386,16 +386,22 @@ mw.tools = {
 		 });
       }
     },
+    detectType:function(tree_object){
+      return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
+    },
     remember : function(tree){
-      _remember = "";
-      var lis = tree.querySelectorAll("li.active");
-      var len = lis.length;
-      $.each(lis, function(i){
-        i++;
-        var id = this.attributes['data-item-id'].nodeValue;
-        _remember = i<len ? _remember + id + "," : _remember + id;
-      });
-      mw.cookie.ui("tree_"+tree.id, _remember);
+      var type = mw.tools.tree.detectType(tree);
+      if(type==='controller'){
+          _remember = "";
+          var lis = tree.querySelectorAll("li.active");
+          var len = lis.length;
+          $.each(lis, function(i){
+            i++;
+            var id = this.attributes['data-item-id'].nodeValue;
+            _remember = i<len ? _remember + id + "," : _remember + id;
+          });
+          mw.cookie.ui("tree_"+tree.id, _remember);
+      }
     },
     recall : function(tree){
       var ids = mw.cookie.ui("tree_"+tree.id);
@@ -436,6 +442,28 @@ mw.tools = {
     openAll : function(tree){
        $(tree.querySelectorAll('li')).addClass('active');
        mw.tools.tree.remember(tree);
+    },
+    checker:function(el){
+        var state = el.getElementsByTagName('input')[0].checked;
+        if( state === true){
+          mw.tools.foreachParents(el.parentNode, function(loop){
+            this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked=true : '';
+            this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
+          });
+        }
+        else{
+          var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;
+          for( ; i<len; i++){
+            f[i].checked=false;
+          }
+        }
+    },
+    viewChecked:function(tree){
+        var all = tree.querySelectorAll('li input'), i=0, len=all.length;
+        for ( ; i<len; i++){
+          var curr = all[i];
+          curr.parentNode.parentNode.style.display =  !curr.checked ? 'none' : '';
+        }
     }
   },
   hasClass:function(classname, whattosearch){   //for strings
@@ -447,12 +475,15 @@ mw.tools = {
     mw.tools.foreachParents(el, function(loop){
         if(mw.tools.hasClass(this.className, cls)){
             d.toreturn = true;
-            mw.tools.loop[loop] = false;
+            mw.tools.stopLoop(loop);
         }
     });
     return d.toreturn;
   },
-  loop:{},
+  loop:{/* Global index for MW loops */},
+  stopLoop:function(loop){
+    mw.tools.loop[loop] = false;
+  },
   foreachParents:function(el, callback){
      var index = mw.random();
      mw.tools.loop[index]=true;
@@ -472,12 +503,22 @@ mw.tools = {
       mw.tools.foreachParents(el, function(loop){
          if(mw.tools.hasClass(this.className, cls)){
            _has = this;
-           mw.tools.loop[loop] = false;
+           mw.tools.stopLoop(loop);
          }
       });
       return _has;
+  },
+  toggle:function(who, callback){
+    var who = mw.$(who).eq(0);
+    who.toggle();
+    who.toggleClass('toggle-active');
+    callback.call(who);
   }
 }
+
+
+
+
 
 
 
@@ -497,7 +538,6 @@ Wait('$', function(){
         if(customValueToDisplay!=false){
            el.find(".mw_dropdown_val").html(customValueToDisplay);
         }
-
      }
      else{
        el.find("li").each(function(){

@@ -229,6 +229,17 @@ border-radius: 20px;
 .ilive{background-position:-875px 5px;}
 .ilogout{background-position:-880px -24px}
 
+/* Custom fields icons */
+
+.iSingleText{background-position:-976px -36px;}
+.iPText{background-position:-976px -66px;}
+.iRadio{background-position:-976px -98px;}
+.iName{background-position:-976px -129px;}
+.iPhone{background-position:-1013px -36px;}
+
+
+
+
 a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 
 .mw-ui-btn .ico{
