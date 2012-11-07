@@ -6,13 +6,13 @@ if (!defined('APC_CACHE')) {
     $apc_exists = function_exists('apc_fetch');
     $is_editmode = session_get('editmode');
     if ($is_editmode and intval($is_editmode) == 1) {
-        $apc_exists = false;
+     //   $apc_exists = false;
     }
 
     if (isset($_POST) and isarr($_POST)) {
         $apc_exists = false;
     }
-    $apc_exists = false;
+    //$apc_exists = false;
 //    if (isset($_COOKIE['editmode'])) {
 //
 //    }

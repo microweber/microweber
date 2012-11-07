@@ -1,5 +1,8 @@
 @import url("liveadmin.css");
 
+input, a, textarea, select{
+  outline: none;
+}
 
 h2{ /*  ask the designer */
     font-size: 18px;

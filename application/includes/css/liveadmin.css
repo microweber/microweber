@@ -361,10 +361,12 @@ form.add-edit-page-post textarea{
 .posts-selector{
   font-size: 11px;
   color: #235F99;
+  padding: 9px 14px 0 14px;
 }
 
 .posts-selector span{
   cursor: pointer;
+  margin: 0 5px;
 }
 
 
@@ -374,6 +376,7 @@ form.add-edit-page-post textarea{
   height: 11px;
   background: url(../img/posts_arr.png) no-repeat;
   overflow: hidden;
+  margin-top: 13px;
 }
 
 .mn-tb-arr-bottom{
@@ -384,9 +387,17 @@ form.add-edit-page-post textarea{
   padding: 5px 17px;
 }
 
+.manage-toolbar-top .mw-ui-btn{
+  margin-right: 30px;
+}
+
 .manage-toolbar-top{
   background: #F4F4F4;
-  border-bottom: 1px solid #E2E2E2;
+  border-top: 1px solid #E2E2E2;
+  bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 686px;
 }
 
 .manage-ico{
@@ -400,6 +411,16 @@ form.add-edit-page-post textarea{
 .mComments{
   background-position: -69px 0;
   float: right;
+}
+
+.post-th{
+  float: right;
+  width: 99px;
+  padding-top: 7px;
+}
+
+.mw-paging{
+  padding-top: 12px;
 }
 
 

@@ -1675,7 +1675,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	} else {
 		$cache_group = 'content/' . $parent;
 	}
-	$cache_group = 'content/global';
+	//$cache_group = 'content/global';
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
 
 	if (($cache_content) != false) {

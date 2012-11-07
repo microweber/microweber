@@ -417,7 +417,7 @@ function mw_add_product(){
 
 
 
-      <div class="mw_edit_pages_nav">
+      <div class="mw_edit_pages_nav" style="padding-left: 0;">
 
       <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
 
@@ -425,18 +425,18 @@ function mw_add_product(){
 
       <div class="manage-toobar manage-toolbar-top">
 
-          <span class="mn-tb-arr-top"></span>
+          <span class="mn-tb-arr-top left"></span>
 
-          <span class="posts-selector"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span>
+          <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span>
 
           <span class="mw-ui-btn">Delete</span>
 
           <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
 
-
-          <span class="manage-ico mAuthor"></span>
-          <span class="manage-ico mComments"></span>
-
+          <div class="post-th">
+            <span class="manage-ico mAuthor"></span>
+            <span class="manage-ico mComments"></span>
+          </div>
 
       </div>
 
@@ -446,7 +446,7 @@ function mw_add_product(){
       </div>
       <div id="pages_edit_container">
       
-      
+
       <? $content_id = '';
 	    if(defined('PAGE_ID') == true){
 		  $content_id = ' data-content-id='.PAGE_ID.' ';
@@ -454,7 +454,7 @@ function mw_add_product(){
 	  }
 	  if(defined('POST_ID')== true and POST_ID != false){
 		 $content_id = ' data-content-id='.POST_ID.' ';
-		  
+
 	  }
 	   
 	   ?>

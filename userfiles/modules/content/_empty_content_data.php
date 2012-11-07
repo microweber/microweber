@@ -18,7 +18,7 @@ $data['is_home'] = 'n';
 $data['is_shop'] = 'n';	
 
 
-$data['subtype'] = 'dynamic';	
+$data['subtype'] = 'static';	
 $data['description'] = '';	
 $data['active_site_template'] = '';	
 $data['subtype_value'] = '';	

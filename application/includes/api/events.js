@@ -84,6 +84,18 @@ DOMChange:function(element, callback){
 
 $(window).bind("hashchange load", function(){
    mw.on.hashParamEventInit();
+
+   var hash =  mw.hash();
+   if(hash.contains("showpostscat")){
+      mw.$(".manage-toolbar-top").show();
+      mw.$("html").addClass("showpostscat");
+   }
+   else{
+      mw.$(".manage-toolbar-top").hide();
+      mw.$("html").removeClass("showpostscat");
+   }
+
+
 });
 
 

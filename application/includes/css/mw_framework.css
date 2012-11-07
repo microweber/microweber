@@ -512,6 +512,7 @@ body.not-allowed{
   border-bottom: 1px solid #E2E2E2;
   background: white;
   padding:18px 0 0 30px;
+  position: relative;
 }
 
 #mw_edit_page_left .mw_edit_pages_nav{
@@ -1369,9 +1370,13 @@ body{
   padding: 6px 0 0 30px;
 }
 
+
 .top_label{
   font-size: 11px;
   padding-top: 35px;
+  padding-top: 25px;
+  padding-left: 30px;
+
 }
 
 .top_label a{

@@ -8,21 +8,48 @@ if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', TABLE_PREFIX . 'cart_orders');
 }
 
+function get_orders($params = false){
+	if (is_admin() == false) {
+		error("You must be admin");
+	}
+	$params2 = array();
+if($params == false){
+	$params = array();
+}
+	if (is_string($params)) {
+		$params = parse_str($params, $params2);
+		$params = $params2;
+	}
+	$table = MODULE_DB_TABLE_SHOP_ORDERS;
+	$params['table'] = $table;
+
+	 
+
+	//  d($params);
+	return get($params);
+	
+	
+}
+
 function cart_sum($return_amount = true) {
 	if (!session_id() and !headers_sent()) {
 		session_start();
 	}
 
 	$sid = session_id();
-
+	$diferent_items = 0;
 	$amount = floatval(0.00);
 	$table_cart = MODULE_DB_TABLE_SHOP;
 	$sumq = " SELECT  price, qty FROM $table_cart where order_completed='n' and order_id IS NULL and session_id='{$sid}'  ";
 	$sumq = db_query($sumq);
 	if (isarr($sumq)) {
 		foreach ($sumq as $value) {
+			$diferent_items ++;
 			$amount = $amount + (intval($value['qty']) * floatval($value['price']));
 		}
+	}
+	if($return_amount == false){
+		return $diferent_items;
 	}
 	return $amount;
 }
@@ -52,7 +79,7 @@ function checkout($data) {
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 		$place_order['url'] = curent_url(true);
 		$place_order['session_id'] = $sid;
-		
+
 		$items_count = 0;
 		foreach ($flds_from_data as $value) {
 			if (isset($data[$value]) and ($data[$value]) != false) {
@@ -65,6 +92,11 @@ function checkout($data) {
 		}
 
 		$place_order['amount'] = $amount;
+		$amount = cart_sum(false);
+		$place_order['items_count'] = $amount;
+		
+		
+		
 		define('FORCE_SAVE', $table_orders);
 		$ord = save_data($table_orders, $place_order);
 		if ($ord > 0) {
@@ -265,9 +297,9 @@ function update_cart_item_qty($data) {
 	$cart = array();
 	$cart['id'] = intval($data['id']);
 
-	if (is_admin() == false) {
+	//if (is_admin() == false) {
 		$cart['session_id'] = session_id();
-	}
+	//}
 	$cart['order_completed'] = 'n';
 
 	$cart['one'] = 1;
