@@ -434,6 +434,10 @@ function mw_add_product(){
           <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
 
 
+          <span class="manage-ico mAuthor"></span>
+          <span class="manage-ico mComments"></span>
+
+
       </div>
 
 

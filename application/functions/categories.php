@@ -251,14 +251,13 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	}
 	
 	
-	 
-	// d($max_level);
+	
  
 	if ($max_level != false and $depth_level_counter != false) {
 		 
 		
 		if (intval($depth_level_counter) >= intval($max_level)) {
-			
+			print '';
 			return;
 		}
 	}

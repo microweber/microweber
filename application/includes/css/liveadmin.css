@@ -353,7 +353,7 @@ form.add-edit-page-post textarea{
   padding: 4px 5px 4px 30px;
   font-size:11px;
   color: #777777;
-  box-shadow: 0 0 2px 10px #ccc;
+  box-shadow: 0 2px 2px -2px #CCCCCC;
   background:white url(../img/manage_search.png) no-repeat 7px 3px;
   border-radius:30px;
 }
@@ -387,6 +387,19 @@ form.add-edit-page-post textarea{
 .manage-toolbar-top{
   background: #F4F4F4;
   border-bottom: 1px solid #E2E2E2;
+}
+
+.manage-ico{
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: url(../img/managebar-ico.png) no-repeat;
+  cursor: pointer;
+  float: left;
+}
+.mComments{
+  background-position: -69px 0;
+  float: right;
 }
 
 

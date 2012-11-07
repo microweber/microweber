@@ -1679,8 +1679,8 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
 
 	if (($cache_content) != false) {
-		  print $cache_content;
-		 return;
+		print $cache_content;
+		return;
 		//  return $cache_content;
 	}
 
@@ -1697,7 +1697,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	if ($max_level != false) {
 
 		if (intval($nest_level) >= intval($max_level)) {
-
+			print '';
 			return;
 		}
 	}
@@ -1954,7 +1954,6 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 						if ($max_level != false) {
 							$cat_params['max_level'] = $max_level;
 						}
-						//  d($cat_params);
 						category_tree($cat_params);
 					}
 				}
