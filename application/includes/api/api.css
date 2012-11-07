@@ -558,6 +558,13 @@ margin-right: 6px;
   font-size:12px;
 }
 
+#mw_handle_module,
+#mw_handle_row,
+#mw_handle_element,
+#items_handle{
+  display: none;
+}
+
 .mw_resizing > .column{
   height: auto !important;
 }

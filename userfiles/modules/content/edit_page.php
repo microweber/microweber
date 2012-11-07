@@ -364,10 +364,10 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
 
 
-  <a href="#">Custom Fields</a>
 
 
 
+  <a href="#" style="display: none">Custom Fields</a>
   <div class="custom_fields_selector" style="display: none">
 
     <ul class="quick-links">
@@ -400,7 +400,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
 
-  <?php include "/sprite_creator.php"; ?>
+  <?php #include "/sprite_creator.php"; ?>
 
 
 

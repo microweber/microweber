@@ -160,7 +160,7 @@ background-image: -webkit-gradient(
 	float:left;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
-	text-decoration: none;
+/*  */	text-decoration: none;
     text-align: center;
     line-height: normal;
     cursor: move;
@@ -1171,6 +1171,7 @@ li .ts_action_item:last-child{
   top: 15px;
   visibility: visible;
   z-index: 999;
+  display: none !important;
 }
 
 

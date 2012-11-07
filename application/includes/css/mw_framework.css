@@ -819,7 +819,7 @@ a:hover .mw_ed_tree_content{
 .mw-ui-category-selector > .module{
     overflow-y: auto;
     overflow-x:hidden;
-    height: 150px;
+    max-height: 150px;
 }
 
 
@@ -965,9 +965,9 @@ a.mw-ui-btn, span.mw-ui-btn{
 .preview_frame_wrapper{
   width:355px;
   height: 290px;
-  padding: 6px;
+  border: 6px solid #ededed;
   position: relative;
-  background-color:#ededed;
+  background-color:white;
   background-repeat: no-repeat;
   background-position: center center;
   overflow:hidden;
@@ -1019,6 +1019,14 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 .preview_frame_ctrls span.next{
   background-position: -52px 0;
+}
+.preview_frame_ctrls span.close{
+  background-position: -103px 0;
+  display: none;
+}
+
+.zoom .preview_frame_ctrls span.close{
+  display: block;
 }
 
 .preview_frame_wrapper.loading{

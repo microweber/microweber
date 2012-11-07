@@ -151,7 +151,9 @@ function mw_select_page_for_editing($p_id){
     mw.$('#pages_edit_container').attr('data-type','content/edit_page');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('data-content-id');
-    mw.load_module('content/edit_page','#pages_edit_container');
+    mw.load_module('content/edit_page','#pages_edit_container', function(){
+         mw.templatePreview.view(0);
+    });
 }
 
 mw.on.hashParam("action", function(){
@@ -420,7 +422,7 @@ function mw_add_product(){
       <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
 
 
-    <input style="position: fixed;right: 201px;top: 13px;z-index: 999;" value="Search" type="text" id="mw-search-field"  />
+    <input style="position: fixed;right: 201px;top: 13px;z-index: 999;display: none" value="Search" type="text" id="mw-search-field"  />
 
       </div>
       <div id="pages_edit_container">

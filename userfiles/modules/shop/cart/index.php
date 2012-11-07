@@ -51,6 +51,27 @@ $cart['order_completed'] = 'n';
     <input type="text" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" />
     <a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a> </div>
   <? endforeach; ?>
+  
+  
+  
+  <? $checkout_link_enanbled =  option_get('data-checkout-link-enabled', $params['id']) ?>
+   
+   <? if($checkout_link_enanbled != 'n') :?>
+   <? $checkout_page =option_get('data-checkout-page', $params['id']); ?>
+   <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
+	   
+	   $checkout_page_link = content_link($checkout_page).'/checkout';
+   } else {
+	   $checkout_page_link = site_url().'checkout';;
+	   
+   }
+   
+   ?>
+ 
+ 
+   <a href="<? print $checkout_page_link; ?>">Checkout</a> 
+   
+  <? endif ; ?>
   <? else : ?>
   <div class="mw-cart-empty mw-cart-<? print $params['id']?>">
     <?   _e('Your cart is empty') ?>

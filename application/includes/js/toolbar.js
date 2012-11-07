@@ -502,11 +502,6 @@ editablePurify = function(el){
 
 $(document).ready(function(){
 
-
-
-
-
-
     windowOnScroll.stop();
 
     mw.wysiwyg.prepare();
@@ -520,15 +515,17 @@ $(document).ready(function(){
       mw.$("#tab_"+tab).addClass("mw_tab_active");
       mw.$("#mw_tabs li").removeClass("active");
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
-      if(tab=='pages'){
-        mw.$("html").addClass("mw_pages");
-        if(!mw.templatePreview._once){
-          mw.templatePreview._once = true;
-          mw.templatePreview.generate();
+      if(tab==='pages'){
+        $(mwd.body).addClass("mw_pages");
+        if(!!mw.templatePreview){
+          if(!mw.templatePreview._once){
+            mw.templatePreview._once = true;
+            mw.templatePreview.generate();
+          }
         }
       }
       else{
-        mw.$("html").removeClass("mw_pages");
+        $(mwd.body).removeClass("mw_pages");
       }
  });
 
@@ -787,7 +784,7 @@ mw.toggle_subpanel = function(){
   }
 }
 
-set_pagetab_size = function(){  
+set_pagetab_size = function(){
     mw.$("#mw_edit_pages").css({
        width:window.innerWidth,
        height:window.innerHeight-126
