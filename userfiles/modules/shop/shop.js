@@ -50,6 +50,34 @@ mw.cart = {
 		// mw.reload_module('shop/cart');
       //   mw.$('#tagline').html(data);
      });
+  },
+  
+    checkout : function(selector){
+	  
+	  
+	 //  data = mw.$(selector+' input').serialize();
+	  
+	   data = mw.form.serialize(selector);
+     $.post(mw.settings.api_url+'checkout', data ,
+     function(data) {
+		 
+		 if(data != undefined){
+			 if(parseInt(data) > 0){
+			 
+			 
+			 mw.$(selector).parents('[data-type="shop/checkout"]').attr('view', 'completed');
+			 mw.reload_module('shop/checkout');
+			 mw.reload_module('shop/cart');
+			 
+			 } else {
+				alert(data); 
+				 
+			 }
+		 }
+		 
+		// mw.reload_module('shop/cart');
+      // mw.$('#sidebar').html(data);
+     });
   }
 }
 

@@ -845,6 +845,10 @@ height: 13px;
   border-top-right-radius: 4px;
 }
 
+html.mw_pages #design_bnav{
+  display: none;
+}
+
 .toolbar_bnav li, .toolbar_bnav ul{
   list-style: none;
   margin: 0;

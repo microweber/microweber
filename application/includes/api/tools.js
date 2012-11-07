@@ -700,29 +700,18 @@ $.fn.datas = function(){
 
 
 
-RefreshCSS = function(){
-
-  mw.$('link').each(function(){var src = this.href;this.href = '#';this.href =mw.url.strip(src)+'?v='+mw.random()});
-
-
-}
-
-AutoRefreshCSS = function(int){
-   mw._AutoRefreshCSS =  setInterval(function(){
-      !window_focus ? RefreshCSS() : '';
-   }, 3250);
-}
-
-
-
-window_focus=false;
-
-$(window).focus(function() {
-    window_focus = true;
-})
-    .blur(function() {
-        window_focus = false;
+ mw.check = {
+   all:function(selector){
+    mw.$(selector).find("input[type='checkbox']").each(function(){
+       this.checked = true;
     });
+   },
+   none:function(selector){
+      mw.$(selector).find("input[type='checkbox']").each(function(){
+       this.checked = false;
+    });
+   }
+ }
 
 
 

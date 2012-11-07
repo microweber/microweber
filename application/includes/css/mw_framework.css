@@ -510,8 +510,12 @@ body.not-allowed{
 .mw_edit_pages_nav{
   height: 96px;
   border-bottom: 1px solid #E2E2E2;
-  background: transparent;
-  padding:18px 0 0 18px;
+  background: white;
+  padding:18px 0 0 30px;
+}
+
+#mw_edit_page_left .mw_edit_pages_nav{
+    border-right: 1px solid #E2E2E2;
 }
 
 
@@ -693,7 +697,7 @@ html.mw_pages, html.mw_pages body{
 
 #mw_edit_page_left{
   min-height: 100%;
-  width: 331px;
+  width: 333px;
   float: left;
 }
 
@@ -1362,7 +1366,7 @@ body{
 }
 
 #pages_edit_container{
-  padding: 6px 20px;
+  padding: 6px 0 0 30px;
 }
 
 .top_label{

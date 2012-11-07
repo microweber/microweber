@@ -515,8 +515,8 @@ $(document).ready(function(){
       mw.$("#tab_"+tab).addClass("mw_tab_active");
       mw.$("#mw_tabs li").removeClass("active");
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
-      if(tab==='pages'){
-        $(mwd.body).addClass("mw_pages");
+      if(tab=='pages'){
+        mw.$("html").addClass("mw_pages");
         if(!!mw.templatePreview){
           if(!mw.templatePreview._once){
             mw.templatePreview._once = true;
@@ -525,7 +525,7 @@ $(document).ready(function(){
         }
       }
       else{
-        $(mwd.body).removeClass("mw_pages");
+        mw.$("html").removeClass("mw_pages");
       }
  });
 

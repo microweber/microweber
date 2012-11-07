@@ -369,6 +369,25 @@ function module_url($module_name) {
 	if (!is_string($module_name)) {
 		return false;
 	}
+
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_group = 'modules/global';
+
+	$cache_content = cache_get_content($cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
 	$checked = array();
 
 	if (!isset($checked[$module_name])) {
@@ -386,7 +405,10 @@ function module_url($module_name) {
 		}
 	}
 
+	cache_save($checked[$module_name], $function_cache_id, $cache_group);
+
 	return $checked[$module_name];
+
 }
 
 function locate_module($module_name, $custom_view = false) {
@@ -645,7 +667,7 @@ function save_module_to_db($data_to_save) {
 		if (!isset($s["id"]) and isset($s["module"])) {
 			$s["module"] = $data_to_save["module"];
 			if (!isset($s["module_id"])) {
-				$save = get_modules_from_db('ui=any&limit=1&module=' . $s["module"]);
+				$save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
 				// d($s["module"]);
 				// d($s );
 				if ($save != false and isset($save[0]) and is_array($save[0])) {

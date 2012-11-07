@@ -558,12 +558,14 @@ margin-right: 6px;
   font-size:12px;
 }
 
-#mw_handle_module,
-#mw_handle_row,
-#mw_handle_element,
-#items_handle{
+html.mw_pages #mw_handle_module,
+html.mw_pages #mw_handle_row,
+html.mw_pages #mw_handle_element,
+html.mw_pages #items_handle{
   display: none;
 }
+
+
 
 .mw_resizing > .column{
   height: auto !important;

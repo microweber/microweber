@@ -111,6 +111,7 @@ $cms_db_tables['table_cart_currency'] = TABLE_PREFIX . 'cart_currency';
 $cms_db_tables['table_reports'] = TABLE_PREFIX . 'reports';
 
 $cms_db_tables['table_forms'] = TABLE_PREFIX . "forms";
+$cms_db_tables['table_country'] = TABLE_PREFIX . "country";
 //stats
 $cms_db_tables['table_stats_site'] = 'piwik_site';
 $cms_db_tables['table_stats_access'] = 'piwik_access';

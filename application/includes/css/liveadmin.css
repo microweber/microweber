@@ -36,7 +36,7 @@ body:-webkit-full-screen {
 
 .mw *{
   line-height: normal;
-  font-size: 12px;
+  /*font-size: 12px;*/
   font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
@@ -105,11 +105,16 @@ body:-webkit-full-screen {
 #mw_tabs li a{
   display: block;
   padding:19px 20px 19px;
+  text-align: center;
   text-decoration: none;
   outline: none;
   color: #212121;
   text-shadow:1px 1px 0px white;
 }
+#mw_tabs li a:first-child{
+  min-width: 70px;
+}
+
 #mw_tabs li:last-child {
   background-image: none;
 }
@@ -223,6 +228,166 @@ form.add-edit-page-post textarea{
   padding: 25px 0;
 }
 
+
+
+
+/*\manage posts/*/
+
+
+
+.manage-post-item{
+  padding: 10px;
+  border-bottom: 1px solid #E2E2E2;
+  clear: both;
+  color: #4D4D4D;
+}
+
+.manage-post-item a{
+  color: #4D4D4D;
+}
+
+.manage-post-item:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.manage-post-image{
+  display: block;
+  float: left;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-color: white;
+}
+
+.manage-post-item-comments{
+  display: block;
+  float: right;
+  cursor: default;
+  font-size: 9px;
+  height: 23px;
+  padding-top: 3px;
+  text-align: center;
+  width: 27px;
+  background: url(../img/cmnts.png) no-repeat;
+}
+.manage-post-item-title, .manage-post-item-title a{
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.manage-post-item-title a:hover{
+  color: #245E99;
+}
+
+.manage-post-item-links{
+  position: absolute;
+  bottom:5px;
+  left: 0;
+  visibility: hidden;
+}
+
+.manage-post-item-links a{
+  margin: 0 12px 0 0;
+  color: #245E99;
+}
+
+.manage-post-item-links a:hover{
+  text-decoration: underline;
+}
+
+.manage-post-item:hover .manage-post-item-links{
+  visibility: visible;
+}
+
+.manage-post-item .manage-post-image{
+  margin: 0 10px;
+}
+
+.manage-post-main{
+  float: left;
+  width: 440px;
+  position: relative;
+  padding-bottom: 30px;
+  margin-right: 15px;
+  overflow: hidden;
+}
+
+.manage-post-item-author{
+  float: left;
+  width: 80px;
+}
+
+/* paging */
+
+.mw-paging a{
+  display: inline-block;
+  padding: 3px 5px;
+  min-width:12px;
+  height: 16px;
+  font-size: 12px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius:20px;
+}
+.mw-paging a.active{
+  border-top-color:#E2DDDD;
+  border-left-color:#BCB9B9;
+  border-right-color:#BCB9B9;
+  border-bottom-color:#AFAEAE;
+}
+
+
+.manage-search{
+  border-top: 1px solid #EAE6E6;
+  border-left: 1px solid #C4C1C1;
+  border-right: 1px solid #C4C1C1;
+  border-bottom: 1px solid #C4C1C1;
+  padding: 4px 5px 4px 30px;
+  font-size:11px;
+  color: #777777;
+  box-shadow: 0 0 2px 10px #ccc;
+  background:white url(../img/manage_search.png) no-repeat 7px 3px;
+  border-radius:30px;
+}
+
+.posts-selector{
+  font-size: 11px;
+  color: #235F99;
+}
+
+.posts-selector span{
+  cursor: pointer;
+}
+
+
+.mn-tb-arr-bottom, .mn-tb-arr-top{
+  display: inline-block;
+  width: 20px;
+  height: 11px;
+  background: url(../img/posts_arr.png) no-repeat;
+  overflow: hidden;
+}
+
+.mn-tb-arr-bottom{
+  background-position: 0 -11px;
+}
+
+.manage-toolbar-top, .manage-toolbar-bottom{
+  padding: 5px 17px;
+}
+
+.manage-toolbar-top{
+  background: #F4F4F4;
+  border-bottom: 1px solid #E2E2E2;
+}
 
 
 

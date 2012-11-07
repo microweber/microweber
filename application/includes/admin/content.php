@@ -402,10 +402,10 @@ function mw_add_product(){
     $(document).ready(function(){
 
         var s = mw.$("#mw-search-field");
-        mw.form.d(s, 'Search');
+        mw.form.d(s, 'Search for posts');
        s.bind("keyup", function(){
           mw.on.stopWriting(this, function(){
-             this.value !== 'Search' ? mw.url.windowHashParam('search',this.value) : '';
+             this.value !== 'Search for posts' ? mw.url.windowHashParam('search',this.value) : '';
           });
         });
 
@@ -422,7 +422,22 @@ function mw_add_product(){
       <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
 
 
-    <input style="position: fixed;right: 201px;top: 13px;z-index: 999;display: none" value="Search" type="text" id="mw-search-field"  />
+
+      <div class="manage-toobar manage-toolbar-top">
+
+          <span class="mn-tb-arr-top"></span>
+
+          <span class="posts-selector"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span>
+
+          <span class="mw-ui-btn">Delete</span>
+
+          <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
+
+
+      </div>
+
+
+
 
       </div>
       <div id="pages_edit_container">

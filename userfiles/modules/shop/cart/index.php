@@ -1,3 +1,6 @@
+<script type="text/javascript">
+mw.require("<?php print( module_url('shop')); ?>shop.js");
+</script>
 <?
 
 $template = option_get('data-template', $params['id']);
@@ -54,15 +57,21 @@ $cart['order_completed'] = 'n';
   
   
   
-  <? $checkout_link_enanbled =  option_get('data-checkout-link-enabled', $params['id']) ?>
+  <? 
+  if(!isset($params['checkout-link-enabled'])){
+	  $checkout_link_enanbled =  option_get('data-checkout-link-enabled', $params['id']);
+  } else {
+	   $checkout_link_enanbled = $params['checkout-link-enabled'];
+  }
+   ?>
    
    <? if($checkout_link_enanbled != 'n') :?>
    <? $checkout_page =option_get('data-checkout-page', $params['id']); ?>
    <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 	   
-	   $checkout_page_link = content_link($checkout_page).'/checkout';
+	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
-	   $checkout_page_link = site_url().'checkout';;
+	   $checkout_page_link = site_url().'?view=checkout';;
 	   
    }
    

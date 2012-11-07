@@ -20,6 +20,17 @@ class Controller {
 
 		$simply_a_file = false;
 		// if this is a file path it will load it
+		if (isset($_GET['view'])) {
+			$is_custom_view = $_GET['view'];
+		} else {
+			$is_custom_view = url_param('view');
+			if ($is_custom_view and $is_custom_view != false) {
+
+				$page_url = url_param_unset('view', $page_url);
+
+			}
+
+		}
 
 		$is_editmode = url_param('editmode');
 		$is_no_editmode = url_param('no_editmode');
@@ -140,6 +151,9 @@ class Controller {
 		if ($is_layout_file != false and $is_admin == true) {
 			$is_layout_file = str_replace('____', DS, $is_layout_file);
 			$content['layout_file'] = $is_layout_file;
+		}
+		if ($is_custom_view and $is_custom_view != false) {
+			$content['custom_view'] = $is_custom_view;
 		}
 
 		define_constants($content);
@@ -401,7 +415,8 @@ class Controller {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_POST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_POST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

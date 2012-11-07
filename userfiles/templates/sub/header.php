@@ -35,19 +35,7 @@ ul#user_meta a:hover, nav.pagination span.next a, nav.pagination span.prev a {
 	font-family: "proxima-nova", sans-serif;
 }
 </style>
-<?
-	$has_shop = is_module('shop');
-	$shop_module = false;
-	if($has_shop){
-		$shop_module = module_url('shop'); 
-		
-	}
- ?>
-<? if($shop_module != false): ?>
-<script type="text/javascript">
-mw.require("<?php print( $shop_module); ?>shop.js");
-</script>
-<? endif; ?>
+ 
 </head>
 
 <body class="blog">

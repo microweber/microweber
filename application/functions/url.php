@@ -99,8 +99,19 @@ function url_string() {
     return $u1;
 }
 
-function curent_url() {
+function curent_url($skip_ajax = false) {
 
+if ($skip_ajax == true) {
+        $is_ajax = isAjax();
+
+        if ($is_ajax == true) {
+if ($_SERVER ['HTTP_REFERER'] != false) {
+                return $_SERVER ['HTTP_REFERER'];
+            } else {
+
+            }
+        }  
+    }
 
 
     if (!isset($_SERVER ['REQUEST_URI'])) {

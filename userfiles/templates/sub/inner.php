@@ -1,14 +1,3 @@
-<?php
-/*
-
-type: layout
-name: Online shop
-is_shop: yes
-description: shop
-
-*/
-
-?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 
 <section id="river">

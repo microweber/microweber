@@ -13,7 +13,12 @@ if (isset($post_params['id'])) {
 if (isset($post_params['paging_param'])) {
 	$paging_param = $post_params['paging_param'];
 }
- 
+
+
+if (isset($params['curent_page'])) {
+	$curent_page = $params['curent_page'];
+}
+
 if (isset($post_params['data-page-number'])) {
 
     $post_params['curent_page'] = $post_params['data-page-number'];
@@ -36,7 +41,7 @@ if (isset($post_params['data-category-id'])) {
 if (isset($params['data-paging-param'])) {
 
     $paging_param = $params['data-paging-param'];
-//	d($paging_param);
+
 }
 
 
