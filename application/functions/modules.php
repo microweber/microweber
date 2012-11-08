@@ -365,6 +365,52 @@ function is_module($module_name) {
 	return $checked[$module_name];
 }
 
+function module_dir($module_name) {
+	if (!is_string($module_name)) {
+		return false;
+	}
+
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_group = 'modules/global';
+
+	$cache_content = cache_get_content($cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$checked = array();
+
+	if (!isset($checked[$module_name])) {
+		$ch = locate_module($module_name, $custom_view = false);
+
+		if ($ch != false) {
+			$ch = dirname($ch);
+			//$ch = dir2url($ch);
+			$ch = normalize_path($ch,1) ;
+			//	$ch = trim($ch,'\//');
+
+			$checked[$module_name] = $ch;
+		} else {
+			$checked[$module_name] = false;
+		}
+	}
+
+	cache_save($checked[$module_name], $function_cache_id, $cache_group);
+
+	return $checked[$module_name];
+
+}
+
 function module_url($module_name) {
 	if (!is_string($module_name)) {
 		return false;

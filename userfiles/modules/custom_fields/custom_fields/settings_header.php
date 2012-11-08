@@ -121,8 +121,8 @@ if (isset($data['to_table_id'])) {
 }
 ?>
 
-<div   id="custom_fields_edit<? print $rand ?>"  >
-<fieldset>
+<div  id="custom_fields_edit<? print $rand ?>" >
+
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
 <input type="hidden" name="id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>
@@ -132,23 +132,25 @@ if (isset($data['to_table_id'])) {
 <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
 <? endif; ?>
 <div class="mw-custom-field-group ">
-  <label class="mw-custom-field-label" for="input_field_label<? print $rand ?>">
+  <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Field name'); ?>
   </label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"   value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
+    <input type="text" class="mw-ui-field"   value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
   </div>
 </div>
 <div class="mw-custom-field-group<? print $hidden_class ?>">
-  <label class="mw-custom-field-label" for="select_custom_field_type<? print $rand ?>">
+  <label class="mw-ui-label" for="select_custom_field_type<? print $rand ?>">
     <?php _e('Field type'); ?>
   </label>
-  <div class="mw-custom-field-form-controls">
-    <select id="select_custom_field_type<? print $rand ?>" name="custom_field_type">
-      <option <? if (trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">text</option>
-      <option  <? if (trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">dropdown</option>
-      <option  <? if (trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">checkbox</option>
-      <option  <? if (trim($field_type) == 'price'): ?>  selected="selected"  <? endif; ?>  value="price">price</option>
-    </select>
+  <div>
+    <div class="mw-ui-select">
+      <select class="mw-ui-field" id="select_custom_field_type<? print $rand ?>" name="custom_field_type">
+        <option <? if (trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">Text</option>
+        <option  <? if (trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">Dropdown</option>
+        <option  <? if (trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">Checkbox</option>
+        <option  <? if (trim($field_type) == 'price'): ?>  selected="selected"  <? endif; ?>  value="price">Price</option>
+      </select>
+    </div>
   </div>
 </div>

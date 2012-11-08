@@ -104,6 +104,7 @@ typeof mw === 'undefined' ?
 
   window.onload = function() {
     mw.loaded = true;
+    mwd.body.className+=' loaded';
   }
 
   mw.target = {} //

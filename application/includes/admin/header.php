@@ -3,6 +3,19 @@
 <head>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
+
+
+
+    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
+    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:content" />
+    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:shop" />
+    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:settings" />
+
+
+
+
+
+
     <script type="text/javascript">
     mwAdmin = true;
     </script>
@@ -28,7 +41,7 @@
     </script>
 
 </head>
-<body class="is_admin">
+<body class="is_admin"> <?php   include "UI.php"; ?>
 <div id="mw-admin-container">
 
 

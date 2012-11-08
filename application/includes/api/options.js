@@ -33,6 +33,15 @@ mw.$(""+$selector+" .mw_option_field").bind("change", function () {
 				if(og == undefined){
 				    var og = $(this).attr('data-refresh');
 				}
+				
+				
+				if(og == undefined){
+				    var og = $(this).attr('option-group');
+				}
+				
+					if(og == undefined){
+				    var og = $(this).attr('data-option-group');
+				}
 
 
                  if(this.type==='checkbox'){

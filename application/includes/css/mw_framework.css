@@ -53,7 +53,8 @@
   background: white;
   border:1px solid #C4C4C4;
   overflow: hidden;
-  /*box-shadow:0 0 5px #555555;*/
+  box-shadow:0 0 27px -20px #111111;
+
 }
 
 .mw_modal_close{
@@ -535,13 +536,13 @@ body.not-allowed{
   padding: 0;
 }
 
-.mw-tree li{
+.mw-tree .module li{
   list-style: none;
   clear: both;
   position: relative;
 }
 
-.mw-tree a{
+.mw-tree .module a{
   color: #212121;
   padding: 0;
   display: block;
@@ -607,7 +608,7 @@ ul.depth-3 a{
   font-size: 11px;
 }
 
-.mw-tree a:after, .mw-tree label:after{
+.mw-tree .module a:after, .mw-tree .module label:after{
   content: ".";
   display: block;
   clear: both;
@@ -633,7 +634,7 @@ ul.depth-3 a{
 
 
 
-.mw-tree a:hover, .mw-tree li.active-bg > a{
+.mw-tree .module a:hover, .mw-tree li.active-bg > a{
   background-color: white;
   border-top-color:#EDEDED;
   border-bottom-color:#EDEDED;
@@ -814,17 +815,19 @@ a:hover .mw_ed_tree_content{
 }*/
 .mw-ui-category-selector{
     padding: 15px 15px 15px 40px;
+    padding: 0;
     background:#F4F4F4;
     border:1px solid #DCDCDC;
     border-top-color:#BDBDBD;
     overflow: hidden;
     border-radius:10px;
-    width: 625px;
+    width: 686px;
 }
 .mw-ui-category-selector > .module{
     overflow-y: auto;
     overflow-x:hidden;
-    max-height: 150px;
+    max-height: 120px;
+    padding: 15px
 }
 
 
@@ -837,6 +840,26 @@ a:hover .mw_ed_tree_content{
 .mw-ui-category-selector ul ul ul ul{padding-left: 60px;}
 .mw-ui-category-selector ul ul ul ul ul{padding-left: 80px;}
 .mw-ui-category-selector ul ul ul ul ul ul{padding-left: 100px;}
+
+
+.cat_selector_view_ctrl{
+  clear: both;
+  border-bottom: 1px solid #ccc;
+  padding:7px  10px;
+  background: #E2E2E2;
+  font-size: 11px;
+}
+
+.cat_selector_view_ctrl a{
+
+  padding: 3px 14px 5px;
+  border: 1px solid transparent;
+}
+
+.cat_selector_view_ctrl a.active{
+    background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+}
+
 
 .mw-ui-btn,
 .mw-ui-form input[type='submit'],
@@ -899,13 +922,18 @@ a.mw-ui-btn, span.mw-ui-btn{
   white-space: nowrap;
   padding-right: 20px;
   white-space: nowrap;
-  background: url(../img/advanced_arr.png) no-repeat right center;
+  background: url(../img/advanced_arr.png) no-repeat 100% 5px;
+}
+
+.mw-ui-more.toggler-active{
+  background-position: 100% -33px;
 }
 
 .edit-post-url{
   font-size: 10px;
   color: #8F8F8F;
-  padding: 0 0 8px;
+  padding: 0 0 15px;
+  overflow: hidden;
 }
 
 .edit-post-slug{
@@ -1387,15 +1415,9 @@ body{
   text-decoration: underline;
 }
 
-.custom_fields_selector{
-  width: auto;
-  padding: 5px;
-  background: #EFEFEF;
-  border: 1px solid #CDCBCB;
-  border-top-color:#EAE6E6;
-  border-bottom-color:#9F9F9F;
-  border-radius:5px;
-}
+
+
+
 
 
 

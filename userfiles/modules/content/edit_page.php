@@ -272,19 +272,22 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 
 
-      <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));"><u>Checked</u></a>
-    <a href="javascript:;" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();"><u>All</u></a>
+
 
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
 
 
-
+   <div class="cat_selector_view_ctrl">
+      <span>View: </span>
+      <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));">Selected</a>
+      <a href="javascript:;" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();">All</a>
+   </div>
 
 
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
-    <microweber module="categories/selector"  id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $shopstr ?> />
+    <microweber module="categories/selector" id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $shopstr ?> />
     <? endif; ?>
   </div>
 
@@ -367,47 +370,12 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
 
-  <a href="#" style="display: none">Custom Fields</a>
-  <div class="custom_fields_selector" style="display: none">
-
-    <ul class="quick-links">
-        <li><a href="#">Single Line Text</a></li>
-        <li><a href="#">Paragraph Text</a></li>
-        <li><a href="#">Multiple Choice</a></li>
-        <li><a href="#">Name</a></li>
-    </ul>
-
-
-  </div>
-
-
-  <span class="ico iSingleText"></span>
-  <span class="ico iPText"></span>
-  <span class="ico iRadio"></span>
-  <span class="ico iName"></span>
-  <span class="ico iPhone"></span>
-  <span class="ico iWebsite"></span>
-  <span class="ico iEmail"></span>
-  <span class="ico iUpload"></span>
-  <span class="ico iNumber"></span>
-  <span class="ico iChk"></span>
-  <span class="ico iDropdown"></span>
-  <span class="ico iDate"></span>
-  <span class="ico iTime"></span>
-  <span class="ico iAddr"></span>
-  <span class="ico iPrice"></span>
-  <span class="ico iSpace"></span>
-
-
-
-  <?php #include "/sprite_creator.php"; ?>
-
-
+  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('.custom_fields_selector', this);">Custom Fields</a>
 
 
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
-  Custom fields for post
+
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
   </div>
@@ -437,12 +405,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="advanced_settings">
 
 
-    <a href="javascript:;" onclick=" mw.tools.toggle('.advanced_settings_holder');"  class="toggle_advanced_settings mw-ui-more">
-
-
-
-
-    <?php _e('Advanced Settings'); ?>
+    <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
+        <?php _e('Advanced Settings'); ?>
     </a>
     <div class="advanced_settings_holder">
       <div class="mw-ui-field-holder">

@@ -27,25 +27,69 @@ $module_id = $for_id;
 $rand = rand();
  
 ?>
-<button onclick="mw_make_new_field('text'); return false;"  >mw_make_new_field('text')</button>
-<button onclick="mw_make_new_field('checkbox'); return false;" >mw_make_new_field('checkbox')</button>
-<button onclick="mw_make_new_field('price'); return false;">mw_make_new_field('price')</button>
+
+
+
+<div class="custom_fields_selector" style="display: none;">
+
+    <ul class="mw-quick-links left">
+        <li><a href="javascript:;" onclick="mw.cfields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
+        <li><a href="#"><span class="ico iPText"></span><span>Paragraph Text</span></a></li>
+        <li><a href="#"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>
+        <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
+    </ul>
+
+    <ul class="mw-quick-links left">
+      <li><a href="#"><span class="ico iPhone"></span><span>Phone</span></a></li>
+      <li><a href="#"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
+      <li><a href="#"><span class="ico iEmail"></span><span>E-mail</span></a></li>
+      <li><a href="#"><span class="ico iUpload"></span><span>File Upload</span></a></li>
+    </ul>
+
+
+    <ul class="mw-quick-links left">
+      <li><a href="#"><span class="ico iNumber"></span><span>Number</span></a></li>
+      <li><a href="javascript:;" onclick="mw.cfields.create('checkbox');"><span class="ico iChk"></span><span>Checkbox</span></a></li>
+      <li><a href="javascript:;" onclick="mw.cfields.create('dropdown');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
+      <li><a href="#"><span class="ico iDate"></span><span>Date</span></a></li>
+    </ul>
+
+    <ul class="mw-quick-links left">
+      <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
+      <li><a href="#"><span class="ico iAddr"></span><span>Adress</span></a></li>
+      <li><a href="javascript:;" onclick="mw.cfields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
+      <li><a href="#"><span class="ico iSpace"></span><span>Section Break</span></a></li>
+    </ul>
+
+
+  </div>
+
+
+
+
+
 
 <div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
 <script type="text/javascript">
-    function mw_make_new_field($type, $copy){
-		$copy_str = ''	
-		if($copy != undefined){
-		$copy_str = '/copy_from:'+ $copy;	
-		}
-        mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type+$copy_str);
-return false;
 
-    }
+
+mw.cfields = {
+  create:function($type, $copy, callback){
+      var copy_str = '';
+      if($copy !== undefined){
+        var copy_str = '/copy_from:'+ $copy;
+      }
+      mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type + copy_str, function(){
+        mw.is.func(callback) ? callback.call($type) : '';
+      });
+  }
+}
+
+
 
     $(document).ready(function(){
 <? if($copy_from != false): ?>
-mw_make_new_field('', '<? print $copy_from ?>')
+mw.cfields.create('', '<? print $copy_from ?>')
 <? endif; ?>
         //make_new_field()
 

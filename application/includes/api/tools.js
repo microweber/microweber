@@ -508,11 +508,12 @@ mw.tools = {
       });
       return _has;
   },
-  toggle:function(who, callback){
+  toggle:function(who, toggler, callback){
     var who = mw.$(who).eq(0);
     who.toggle();
     who.toggleClass('toggle-active');
-    callback.call(who);
+    $(toggler).toggleClass('toggler-active');
+    mw.is.func(callback) ? callback.call(who) : '';
   }
 }
 
@@ -525,7 +526,7 @@ mw.tools = {
 Wait('$', function(){
 
   $.fn.getDropdownValue = function() {
-    return this.attr("data-value");
+    return this.dataset("value");
   };
   $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
      var isCustom = isCustom || false;

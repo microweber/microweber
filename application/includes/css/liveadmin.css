@@ -8,6 +8,11 @@
   padding: 0
 }
 
+
+
+
+
+
 body, textarea, input{
   font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size: 12px;
@@ -422,6 +427,218 @@ form.add-edit-page-post textarea{
 .mw-paging{
   padding-top: 12px;
 }
+
+/* icons */
+
+
+.ico{
+  display: inline-block;
+  float: left;
+  width: 25px;
+  height: 25px;
+  overflow: hidden;
+  position: relative;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-image: url(../img/quick.icons.png);
+}
+/* icons */
+.ipage{background-position: 5px 2px}
+.ipost{background-position:4px -39px;}
+.icategory{background-position:3px -78px;}
+.iproduct{background-position:1px -120px;}
+.iorder{background-position:-227px 1px;}
+.icomment{background-position:-228px -42px;}
+.imanage-website{background-position:-225px -80px;}
+.imanage-module{background-position:-228px -119px;}
+.iupgrade{background-position:-495px 1px;}
+.inotification{background-position:-495px -42px;}
+.iupload{background-position:-497px -81px;}
+.ireport{background-position:-749px 1px;}
+.isuggest{background-position:-749px -43px;}
+.ihelp{background-position:-749px -82px;}
+.ilive{background-position:-875px 5px;}
+.ilogout{background-position:-880px -24px}
+
+/* Custom fields icons */
+
+.iSingleText{background-position:-976px -36px;}
+.iPText{background-position:-976px -66px;}
+.iRadio{background-position:-976px -98px;}
+.iName{background-position:-976px -129px;}
+.iPhone{background-position:-1013px -36px;}
+.iWebsite{background-position:-1012px -67px;}
+.iEmail{background-position:-1012px -96px;}
+.iUpload{background-position:-1011px -126px;}
+.iNumber{background-position:-1051px -33px;}
+.iChk{background-position:-1051px -63px;}
+.iDropdown{background-position:-1052px -96px;}
+.iDate{background-position:-1052px -126px;}
+.iTime{background-position:-1090px -32px;}
+.iAddr{background-position:-1091px -63px;}
+.iPrice{background-position:-1092px -93px;}
+.iSpace{background-position:-1092px -127px;}
+
+
+
+.mw-ui-btn .ico{
+    margin-right: 7px;
+    top: -4px;
+
+}
+
+
+.mw-quick-links li {
+  list-style: none;
+  display: block;
+  padding: 5px 0;
+}
+
+.mw-quick-links li a{
+  position: relative;
+  list-style: none;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 2px 14px 2px 7px;
+  margin-right: 20px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  color: #434343;
+  font-size: 11px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.mw-quick-links li a:hover{
+  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  border: 1px solid #DFDDDD;
+  border-top-color: #E9E6E6;
+  border-bottom-color: #A1A0A0;
+}
+
+.custom_fields_selector .quick-links li a:hover{
+  background: white;
+}
+
+.mw-quick-links li a:active{
+  box-shadow:inset 0 0 6px #ccc;
+}
+
+.mw-quick-links li a span + span{
+  position: relative;
+  top: 5px;
+}
+
+.mw-quick-links li a span.mw-ui-btn-plus{
+  position: absolute;
+  left: 10px;
+  top: 9px;
+}
+
+.mw-quick-links li a span.mw-ui-btn-plus + span{
+  margin-left:23px;
+  top: 0;
+}
+
+.quick-links-case{
+  float: left;
+  width: 24%;
+}
+
+.quick-links-case .mw-quick-links{
+  padding-top: 42px;
+}
+.quick-links-case > h2 + .mw-quick-links{
+  padding-top: 0;
+}
+
+.mw-quick-links .ico{
+  margin-right: 10px;
+  float: left;
+}
+
+
+
+
+.quick-lists{
+  padding:20px 0 0 20px;
+  border-top:1px solid #E5E5E5;
+  clear: both;
+}
+
+
+.custom_fields_selector{
+  width: auto;
+  padding: 5px;
+  margin-top: 12px;
+  background: #EFEFEF;
+  border: 1px solid #CDCBCB;
+  border-top-color:#EAE6E6;
+  border-bottom-color:#9F9F9F;
+  border-radius:5px;
+}
+.custom_fields_selector:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.custom_fields_selector .mw-quick-links li{
+  padding: 0;
+}
+
+.custom-field-table{
+  width: 100%;
+  border-top: 1px solid #E2E2E2;
+}
+
+.custom-field-table td{
+  border-bottom: 1px solid #E2E2E2;
+}
+
+.custom-field-table td{
+  padding: 12px;
+  vertical-align: top;
+  width: 50%;
+}
+
+.custom-field-table tr td:first-child{
+  border-right: 1px solid #E2E2E2;
+}
+.custom-field-set{
+  display: none;
+}
+
+.custom-field-table tr.active .custom-field-set{
+  display: block;
+}
+
+.edit-custom-field-btn{
+  cursor: pointer;
+    display: block;
+    float: right;
+    height: 19px;
+    text-indent: -9999px;
+    visibility: hidden;
+    width: 19px;
+    background: url(../img/admin_tree_icons.png) no-repeat -28px 5px;
+}
+
+.custom-field-table tr:hover .edit-custom-field-btn{
+  visibility: visible;
+}
+
+#UITU{
+  display: none !important;
+}
+
+
 
 
 

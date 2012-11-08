@@ -8,14 +8,14 @@ if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', TABLE_PREFIX . 'cart_orders');
 }
 
-function get_orders($params = false){
+function get_orders($params = false) {
 	if (is_admin() == false) {
 		error("You must be admin");
 	}
 	$params2 = array();
-if($params == false){
-	$params = array();
-}
+	if ($params == false) {
+		$params = array();
+	}
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
@@ -23,12 +23,9 @@ if($params == false){
 	$table = MODULE_DB_TABLE_SHOP_ORDERS;
 	$params['table'] = $table;
 
-	 
-
 	//  d($params);
 	return get($params);
-	
-	
+
 }
 
 function cart_sum($return_amount = true) {
@@ -44,18 +41,18 @@ function cart_sum($return_amount = true) {
 	$sumq = db_query($sumq);
 	if (isarr($sumq)) {
 		foreach ($sumq as $value) {
-			$diferent_items ++;
+			$diferent_items++;
 			$amount = $amount + (intval($value['qty']) * floatval($value['price']));
 		}
 	}
-	if($return_amount == false){
+	if ($return_amount == false) {
 		return $diferent_items;
 	}
 	return $amount;
 }
 
 api_expose('checkout');
-
+ 
 function checkout($data) {
 	if (!session_id() and !headers_sent()) {
 		session_start();
@@ -65,15 +62,35 @@ function checkout($data) {
 	$table_cart = MODULE_DB_TABLE_SHOP;
 	$table_orders = MODULE_DB_TABLE_SHOP_ORDERS;
 	$cart['session_id'] = $sid;
-
 	$cart['order_completed'] = 'n';
-
 	$cart['limit'] = 1;
 	$check_cart = get_cart($cart);
 	if (!isarr($check_cart)) {
 		error('Your cart is empty');
 	} else {
-		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
+
+		if (!isset($data['payment_gw'])) {
+			error('No payment method is specified');
+		} else {
+
+			$gw_check = payment_options($data['payment_gw']);
+			if (isarr($gw_check[0])) {
+				$gateway = $gw_check[0];
+			} else {
+				error('No such payment gateway is activated');
+			}
+
+		}
+		$shop_dir = module_dir('shop');
+		$shop_dir = $shop_dir . DS . 'payments' . DS ;
+
+		
+
+		d($shop_dir);
+		exit();
+
+		//post any of those on the form
+		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code', 'payment_gw');
 
 		$place_order = array();
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
@@ -92,11 +109,9 @@ function checkout($data) {
 		}
 
 		$place_order['amount'] = $amount;
-		$amount = cart_sum(false);
-		$place_order['items_count'] = $amount;
-		
-		
-		
+		$items_count = cart_sum(false);
+		$place_order['items_count'] = $items_count;
+
 		define('FORCE_SAVE', $table_orders);
 		$ord = save_data($table_orders, $place_order);
 		if ($ord > 0) {
@@ -298,7 +313,7 @@ function update_cart_item_qty($data) {
 	$cart['id'] = intval($data['id']);
 
 	//if (is_admin() == false) {
-		$cart['session_id'] = session_id();
+	$cart['session_id'] = session_id();
 	//}
 	$cart['order_completed'] = 'n';
 
@@ -360,9 +375,40 @@ function get_cart($params) {
 	}
 	$table = MODULE_DB_TABLE_SHOP;
 	$params['table'] = $table;
-
 	$params['session_id'] = session_id();
+	if (isset($params['no_session_id']) and is_admin() == true) {
+		unset($params['session_id']);
+		//	$params['session_id'] = session_id();
+	} else {
+
+	}
 
 	//  d($params);
 	return get($params);
+}
+
+function payment_options($option_key = false) {
+
+	$option_key_q = '';
+	if (is_string($option_key)) {
+		$option_key_q = "&limit=1&option_key={$option_key}";
+
+	}
+
+	$providers = get_options('option_group=payments' . $option_key_q);
+	$str = 'payment_gw_';
+	$l = strlen($str);
+
+	$valid = array();
+	foreach ($providers as $value) {
+		if (substr($value['option_key'], 0, $l) == $str) {
+			$title = substr($value['option_key'], $l);
+			$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
+			$value['gw_file'] = $title;
+			$value['title'] = $string;
+			$valid[] = $value;
+
+		}
+	}
+	return $valid;
 }

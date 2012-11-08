@@ -6,7 +6,7 @@ if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-<? 
+<?
 
 
 //print $data["custom_field_value"]; ?>
