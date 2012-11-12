@@ -868,8 +868,7 @@ function get_categories($params, $data_type = 'categories') {
 	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
 	$data['only_those_fields'] = array('parent_id');
 
-	d($data);
-
+ 
 	$data = get($data);
 
 	//$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
@@ -1209,8 +1208,8 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 	//$save = $this->taxonomyGet ( $data = $data, $orderby = $orderby );
 
 	$cache_group = 'taxonomy/' . $parent_id;
-	$q = " SELECT id,  parent_id from $table where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
-	//var_dump($cache_group);
+	$q = " SELECT id,  parent_id from $table where parent_id=$parent_id   ";
+	 //var_dump($q);
 	$q_cache_id = __FUNCTION__ . crc32($q);
 	//var_dump($q_cache_id);
 	$save = db_query($q, $q_cache_id, $cache_group);

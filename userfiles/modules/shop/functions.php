@@ -52,7 +52,7 @@ function cart_sum($return_amount = true) {
 }
 
 api_expose('checkout');
- 
+
 function checkout($data) {
 	if (!session_id() and !headers_sent()) {
 		session_start();
@@ -64,64 +64,100 @@ function checkout($data) {
 	$cart['session_id'] = $sid;
 	$cart['order_completed'] = 'n';
 	$cart['limit'] = 1;
+	$mw_process_payment = true;
+	if (isset($_GET['mw_payment_success'])) {
+		$mw_process_payment = false;
+	}
+
 	$check_cart = get_cart($cart);
 	if (!isarr($check_cart)) {
 		error('Your cart is empty');
 	} else {
 
-		if (!isset($data['payment_gw'])) {
+		if (!isset($data['payment_gw']) and $mw_process_payment == true) {
 			error('No payment method is specified');
 		} else {
+			if ($mw_process_payment == true) {
+				$gw_check = payment_options('payment_gw_' . $data['payment_gw']);
+				if (isarr($gw_check[0])) {
+					$gateway = $gw_check[0];
+				} else {
+					error('No such payment gateway is activated');
+				}
 
-			$gw_check = payment_options($data['payment_gw']);
-			if (isarr($gw_check[0])) {
-				$gateway = $gw_check[0];
-			} else {
-				error('No such payment gateway is activated');
 			}
-
 		}
-		$shop_dir = module_dir('shop');
-		$shop_dir = $shop_dir . DS . 'payments' . DS ;
-
-		
-
-		d($shop_dir);
-		exit();
 
 		//post any of those on the form
 		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code', 'payment_gw');
-
+		$posted_fields = array();
 		$place_order = array();
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
-		$place_order['url'] = curent_url(true);
+		if (isAjax()) {
+			$place_order['url'] = curent_url(true);
+		} elseif (isset($_SERVER['HTTP_REFERER'])) {
+			$place_order['url'] = $_SERVER['HTTP_REFERER'];
+		} else {
+			$place_order['url'] = curent_url();
+
+		}
+
 		$place_order['session_id'] = $sid;
 
 		$items_count = 0;
 		foreach ($flds_from_data as $value) {
 			if (isset($data[$value]) and ($data[$value]) != false) {
 				$place_order[$value] = $data[$value];
+				$posted_fields[$value] = $data[$value];
+
 			}
 		}
 		$amount = cart_sum();
 		if ($amount == 0) {
+			error('Cart sum is 0?');
 			return;
 		}
+
+		$place_order['payment_verify_token'] = date("ymdhis") . uniqid() . rand();
 
 		$place_order['amount'] = $amount;
 		$items_count = cart_sum(false);
 		$place_order['items_count'] = $items_count;
+		if ($mw_process_payment == true) {
+			$shop_dir = module_dir('shop');
+			$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+			$gw_process = $shop_dir . $data['payment_gw'] . '_process.php';
 
-		define('FORCE_SAVE', $table_orders);
-		$ord = save_data($table_orders, $place_order);
-		if ($ord > 0) {
-			$q = " UPDATE $table_cart set order_completed='y', order_id='{$ord}' where order_completed='n' and order_id IS NULL and session_id='{$sid}'  ";
-			//d($q);
-			db_q($q);
+			$mw_return_url = api_url('checkout') . '?mw_payment_success=1';
+			$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1';
+			$mw_ipn_url = api_url('checkout_ipn') . '?payment_verify_token=' . $place_order['payment_verify_token'];
+
+			if (is_file($gw_process)) {
+				require_once $gw_process;
+			} else {
+				error('Payment gateway\'s process file not found.');
+			}
+			define('FORCE_SAVE', $table_orders);
+			$ord = save_data($table_orders, $place_order);
+			$_SESSION['order_id'] = $ord;
 		}
 
-		cache_clean_group('cart/global');
-		cache_clean_group('cart_orders/global');
+		if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1) {
+
+			$_SESSION['mw_payment_success'] = true;
+			$ord = $_SESSION['order_id'];
+			if ($ord > 0) {
+				$q = " UPDATE $table_cart set order_completed='y', order_id='{$ord}' where order_completed='n' and order_id IS NULL and session_id='{$sid}'  ";
+				//d($q);
+				db_q($q);
+			}
+
+			cache_clean_group('cart/global');
+			cache_clean_group('cart_orders/global');
+		}
+
+		exit();
+
 		return ($ord);
 
 	}
@@ -401,13 +437,15 @@ function payment_options($option_key = false) {
 
 	$valid = array();
 	foreach ($providers as $value) {
-		if (substr($value['option_key'], 0, $l) == $str) {
-			$title = substr($value['option_key'], $l);
-			$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
-			$value['gw_file'] = $title;
-			$value['title'] = $string;
-			$valid[] = $value;
+		if ($value['option_value'] == 'y') {
+			if (substr($value['option_key'], 0, $l) == $str) {
+				$title = substr($value['option_key'], $l);
+				$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
+				$value['gw_file'] = $title;
+				$value['title'] = $string;
+				$valid[] = $value;
 
+			}
 		}
 	}
 	return $valid;

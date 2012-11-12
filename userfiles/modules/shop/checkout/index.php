@@ -3,7 +3,7 @@
  
 ?>
 
-<div id="checkout_form_<? print $params['id'] ?>" > 
+<form id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" > 
   <script type="text/javascript">
 mw.require("<?php print( module_url('shop')); ?>shop.js");
 </script> 
@@ -44,27 +44,18 @@ mw.require("<?php print( module_url('shop')); ?>shop.js");
   phone
   <input name="phone"  type="text" value="" />
   <br />
-  <? $payment_options =  payment_options();  ?>
-  <? if(isarr($payment_options)) :?>
-  <h3>Credit card info</h3>
-  <select name="payment_gw">
-    <? foreach ($payment_options as $item) : ?>
-    <option value="<? print  $item['option_key']; ?>"><? print  $item['title']; ?></option>
-    <? endforeach; ?>
-  </select>
-  first_name
-  <input name="cc_first_name"  type="text" value="" />
-  last_name
-  <input name="cc_last_name"  type="text" value="" />
-  number
-  <input name="cc_number"  type="text" value="" />
-  month
-  <input name="cc_month"  type="text" value="" />
-  year
-  <input name="cc_year"  type="text" value="" />
-  verification_code
-  <input name="cc_verification_value"  type="text" value="" />
-  <br />
-  <? endif;?>
-  <button onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');">Checkout</button>
-</div>
+  
+  
+  
+  
+<module type="shop/payments" />
+
+
+
+
+
+
+
+  <button onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Checkout</button>
+  <button type="submit">submit</button>
+</form>

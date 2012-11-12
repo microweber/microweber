@@ -396,7 +396,7 @@ function module_dir($module_name) {
 		if ($ch != false) {
 			$ch = dirname($ch);
 			//$ch = dir2url($ch);
-			$ch = normalize_path($ch,1) ;
+			$ch = normalize_path($ch, 1);
 			//	$ch = trim($ch,'\//');
 
 			$checked[$module_name] = $ch;
@@ -733,7 +733,7 @@ function save_module_to_db($data_to_save) {
 		if ($save != false) {
 			//   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
 			// cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
-			cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+			//cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
 		}
 	}
 	return $save;
@@ -741,10 +741,10 @@ function save_module_to_db($data_to_save) {
 
 function modules_list($options = false) {
 
-	return scan_for_get_modules($options);
+	return scan_for_modules($options);
 }
 
-function scan_for_get_modules($options = false) {
+function scan_for_modules($options = false) {
 	ini_set("memory_limit", "160M");
 	if (!ini_get('safe_mode')) {
 		set_time_limit(250);
@@ -796,10 +796,10 @@ function scan_for_get_modules($options = false) {
 
 	if (isset($options['skip_cache']) == false) {
 
-		// $cache_content = cache_get_content($cache_id, $cache_group);
+		 $cache_content = cache_get_content($cache_id, $cache_group);
 		if (isset($cache_content) != false) {
 
-			//  return $cache_content;
+			  return $cache_content;
 		}
 	}
 	if (isset($options['glob'])) {
@@ -892,8 +892,8 @@ function scan_for_get_modules($options = false) {
 							save_element_to_db($config);
 						} else {
 							// d($config);
-							save_module_to_db($config);
-							install_module($config['module']);
+							 save_module_to_db($config);
+							 install_module($config['module']);
 						}
 					}
 				}
@@ -917,7 +917,7 @@ function scan_for_get_modules($options = false) {
 
 		$c2 = array_merge($cfg_ordered, $cfg);
 
-		// cache_save($c2, $function_cache_id, $cache_group);
+		cache_save($c2, $cache_id, $cache_group);
 
 		return $c2;
 	}
@@ -933,7 +933,7 @@ function get_elements($options = array()) {
 	// $options ['glob'] = '*.php';
 	$options['dir_name'] = normalize_path(ELEMENTS_DIR);
 
-	return scan_for_get_modules($options);
+	return scan_for_modules($options);
 
 	$args = func_get_args();
 	$function_cache_id = '';

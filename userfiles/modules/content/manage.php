@@ -1,11 +1,16 @@
 
+
+<div class="page_posts_list_tree">
+
 <?  if(isset($params['page-id'])):  ?>
 
-<h2>Pages</h2>
+ 
 <?
  $pt_opts = array();
   $pt_opts['parent'] = $params['page-id'];  
  //  $pt_opts['id'] = "pgs_tree";
+ 	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
+
   $pt_opts['include_first'] = 'yes';  
   $pt_opts['include_categories'] = 'yes';
     $pt_opts['max_level'] = 2;
@@ -15,6 +20,30 @@
  }
    pages_tree($pt_opts);
  ?>
+ <? else : ?>
+ <?  if(isset($params['category-id'])):  ?>
+ <?
+ $pt_opts = array();
+  $pt_opts['parent'] = $params['category-id'];  
+ //  $pt_opts['id'] = "pgs_tree";
+ //	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
+
+  $pt_opts['include_first'] = 'yes';  
+  $pt_opts['include_categories'] = 'yes';
+   $pt_opts['max_level'] = 2;
+
+   if(isset($params['keyword'])){
+//$pt_opts['keyword'] =$params['keyword'];
+ }
+  category_tree($pt_opts);
+ ?>
+ <? endif; ?>
+
+
+
+           </div>
+
+
 <? endif; ?>
 <? //d($params); ?>
 <?
@@ -37,15 +66,37 @@ $posts_mod['data-page-id'] =$params['page-id'];
  }
   
 if(isset($params['data-category-id'])){
-        $posts_mod['data-category-id'] = $params['data-category-id'];
+        $posts_mod['category-id'] = $params['data-category-id'];
 }
  $posts = array();
 //
   $posts = module($posts_mod);
-  //print $posts ;  
+  
 ?>
 
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
+
+   <div class="manage-toobar manage-toolbar-top">
+
+          <span class="mn-tb-arr-top left"></span>
+
+          <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span>
+
+          <span class="mw-ui-btn">Delete</span>
+
+          <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
+
+          <div class="post-th">
+            <span class="manage-ico mAuthor"></span>
+            <span class="manage-ico mComments"></span>
+          </div>
+
+      </div>
+
+
+
+
+
 <div class="manage-posts-holder">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">

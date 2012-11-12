@@ -3,6 +3,8 @@ if (!window.CanvasRenderingContext2D) {
   document.body.id = 'UnsupportedBrowser';
 }
 
+document.getElementsByTagName('html')[0].className = window.location.href.indexOf('pecata/') !==-1 ?  document.getElementsByTagName('html')[0].className + ' mwoffice' : document.getElementsByTagName('html')[0].className;
+
 
 typeof mw === 'undefined' ?
 

@@ -11,7 +11,7 @@
  }
   
  
- 
+
   if(isset($params['for_id'])){
 	$for_id = $params['for_id'];
  } else  if(isset($params['id'])){
@@ -29,8 +29,20 @@ $rand = rand();
 ?>
 
 
+<div id="the_custom_fields">
+
+
+
+<span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span><?php _e("Add New Custom Field"); ?></span>
+
+<div class="vSpace"></div>
 
 <div class="custom_fields_selector" style="display: none;">
+
+
+
+
+
 
     <ul class="mw-quick-links left">
         <li><a href="javascript:;" onclick="mw.cfields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
@@ -87,12 +99,15 @@ mw.cfields = {
 
 
 
-    $(document).ready(function(){
+$(document).ready(function(){
 <? if($copy_from != false): ?>
-mw.cfields.create('', '<? print $copy_from ?>')
+    mw.cfields.create('', '<? print $copy_from ?>');
 <? endif; ?>
         //make_new_field()
 
     });
 </script>
 <module type="custom_fields" view="list" for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
+
+
+</div>

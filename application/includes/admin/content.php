@@ -127,7 +127,21 @@ $(document).ready(function(){
 
     mw.on.moduleReload("pages_tree_toolbar", function(){
         mw.treeRenderer.appendUI();
+
     });
+
+    mw.on.moduleReload("pages_edit_container", function(){
+        mw.treeRenderer.appendUI("#pages_edit_container .page_posts_list_tree");
+
+    });
+
+
+
+
+
+
+
+
 
 });
 
@@ -305,7 +319,7 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 
-	 mw.load_module('posts','#pages_edit_container', function(){
+	 mw.load_module('posts','.mw_edit_page_right #pages_edit_container', function(){
 
 
 
@@ -423,22 +437,7 @@ function mw_add_product(){
 
 
 
-      <div class="manage-toobar manage-toolbar-top">
 
-          <span class="mn-tb-arr-top left"></span>
-
-          <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span>
-
-          <span class="mw-ui-btn">Delete</span>
-
-          <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
-
-          <div class="post-th">
-            <span class="manage-ico mAuthor"></span>
-            <span class="manage-ico mComments"></span>
-          </div>
-
-      </div>
 
 
 

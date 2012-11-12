@@ -18,6 +18,11 @@ include('empty_field_vals.php');
     <label>
       <input type="checkbox" name="<? print $data["custom_field_name"]; ?>[]"  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $v; ?>">
       <? print ($v); ?> </label>
+
+      <div class="custom-field-add-remove">
+        (+).(-)
+      </div>
+
   </div>
   <? endforeach; ?>
 </div>

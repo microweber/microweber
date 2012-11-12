@@ -22,7 +22,7 @@ include('_empty_category_data.php');
 <script  type="text/javascript">
 
 mw.require('forms.js');
- 
+
 
 $(document).ready(function(){
 	
@@ -52,7 +52,7 @@ $(document).ready(function(){
 </script>
 
 
-<form id="admin_edit_category_form_<? print $form_rand_id ?>">
+<form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>">
 
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
 

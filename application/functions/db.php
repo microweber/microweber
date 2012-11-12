@@ -408,7 +408,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -446,7 +447,10 @@ function get($params) {
 			$orderby = $v;
 		}
 	}
+	if (!isset($table) and isset($params['what'])) {
+		$table = db_get_real_table_name(guess_table_name($params['what']));
 
+	}
 	if ($cache_group == false and $debug == false) {
 		$cache_group = guess_cache_group($table);
 		if (!isset($criteria['id'])) {
@@ -824,34 +828,48 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			foreach ($search_n_cats as $cat_name_or_id) {
 
 				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-				$str1 = 'fields=id&limit=10000&what=categories&' . 'id=' . $cat_name_or_id;
+				$str1 = 'fields=id&limit=10000&table=table_taxonomy&' . 'id=' . $cat_name_or_id;
 
-				//d($str1);
-				$is_in_category = get($str1);
-				//d($is_in_category);
-				if (empty($is_in_category)) {
-					$is_in_category = get($str1);
+				$cat_name_or_id1 = intval($cat_name_or_id);
+				$str1_items = 'fields=to_table_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+				$is_in_category_items = get($str1_items);
+
+				if (!empty($is_in_category_items)) {
+
+					foreach ($is_in_category_items as $is_in_category_items_tt) {
+
+						$includeIds[] = $is_in_category_items_tt["to_table_id"];
+						// @fixme - delete me 
+						//$more = get_category_children($cat_name_or_id);
+						// if (isarr($more)) {
+						// foreach ($more as $it) {
+						// $str1_items1 = 'fields=to_table_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+						// $is_in_category_items1 = get($str1_items1);
+						//
+						// if (!empty($is_in_category_items1)) {
+						// foreach ($is_in_category_items1 as $is_in_category_items_ttz) {
+						//
+						// $includeIds[] = $is_in_category_items_ttz["to_table_id"];
+						//
+						// }
+						// }
+						//
+						// }
+						// }
+						//d($more);
+						//exit();
+						// d($includeIds);
+					}
 				}
 
-				if (!empty($is_in_category)) {
-					foreach ($is_in_category as $is_in_category_item) {
-						$cat_name_or_id1 = $is_in_category_item['id'];
-						$str1_items = 'fields=to_table_id&limit=10000&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
-						$is_in_category_items = get($str1_items);
+				//d($str1);
+				//$is_in_category = get($str1);
+				//d($is_in_category);
 
-						if (!empty($is_in_category_items)) {
+				if (!empty($is_in_category_items)) {
 
-							foreach ($is_in_category_items as $is_in_category_items_tt) {
-
-								$includeIds[] = $is_in_category_items_tt["to_table_id"];
-								// d($includeIds);
-							}
-						}
-						// d($is_in_category_items);
-						//d($is_in_category_items);
-					}
 				} else {
-					return false;
+					//	return false;
 				}
 			}
 		}
@@ -1190,8 +1208,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1583,7 +1600,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	$user_session = session_get('user_session');
-$table = db_get_real_table_name($table);
+	$table = db_get_real_table_name($table);
 	$user_sid = false;
 	if ($user_session == false) {
 
@@ -1828,7 +1845,7 @@ $table = db_get_real_table_name($table);
 				if (is_string($original_data['categories'])) {
 
 					$cz = explode(',', $original_data['categories']);
-					$j=0;
+					$j = 0;
 					foreach ($cz as $cname_check) {
 
 						if (intval($cname_check) == 0) {
@@ -1848,24 +1865,18 @@ $table = db_get_real_table_name($table);
 								//d($clean_q);
 								db_q($clean_q);
 
-
-
 							}
 
-
 							$is_ex = get($str1);
-								if (!empty($is_ex) and isarr($is_ex[0])) {
-									$cz[$j] = $is_ex[0]['id'];
+							if (!empty($is_ex) and isarr($is_ex[0])) {
+								$cz[$j] = $is_ex[0]['id'];
 								//	d($is_ex);
-								}
-
-
-
+							}
 
 						}
 						$j++;
 					}
-$original_data['categories'] = implode(',', $cz);
+					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and

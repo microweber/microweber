@@ -367,10 +367,21 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
 
 
+   <? if($edit_post_mode != false): ?>
+       <div class="vSpace"></div>
+       <div class="mw-ui-field-holder mw_save_buttons_holder">
+          <input type="submit" name="save"  style="width: 120px;" value="Save" />
+          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+        </div>
+        <div class="mw_clear"></div>
+        <div class="vSpace"></div>
+      <? endif; ?>
+
+ <div class="vSpace"></div>
+ <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#the_custom_fields', this);">Custom Fields</a>
+ <div class="vSpace"></div>
 
 
-
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('.custom_fields_selector', this);">Custom Fields</a>
 
 
   <? /* ONLY FOR POSTS  */ ?>
@@ -380,7 +391,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
     <microweber module="custom_fields" view="admin" for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
   </div>
   <br />
-  Available custom fields
+
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? endif; ?>
 
@@ -388,12 +399,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
 
-      <? if($edit_post_mode != false): ?>
-       <div class="mw-ui-field-holder mw_save_buttons_holder">
-          <input type="submit" name="save"  style="width: 120px;margin: 0 10px 0 0" value="Save" />
-          <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
-        </div>
-      <? endif; ?>
+
 
 
 

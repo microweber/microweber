@@ -78,6 +78,9 @@ mw.cart = {
 		// mw.reload_module('shop/cart');
       // mw.$('#sidebar').html(data);
      });
+  
+  return false;
+  
   }
 }
 

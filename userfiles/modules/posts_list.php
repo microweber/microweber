@@ -68,16 +68,44 @@ if ($show_fields != false and is_string($show_fields)) {
 if (!isset($post_params['data-limit'])) {
     $post_params['limit'] = option_get('data-limit', $params['id']);
 }
-
+$cfg_page_id = false;
 if (isset($post_params['data-page-id'])) {
-    $post_params['parent'] = intval($post_params['data-page-id']);
+     $cfg_page_id =   intval($post_params['data-page-id']);
 } else {
     $cfg_page_id = option_get('data-page-id', $params['id']);
-    if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
-        $post_params['parent'] = $cfg_page_id;
-    }
+
 }
 
+	if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
+				
+						$par_page = get_content_by_id($cfg_page_id);
+						if(isset($par_page['subtype']) and strval($par_page['subtype']) == 'dynamic' and isset($par_page['subtype_value']) and intval(trim($par_page['subtype_value'])) > 0){
+					  
+						 
+						
+						
+						$sub_cats = get_category_children($par_page['subtype_value']);
+						
+						if(!empty($sub_cats)){
+							$sub_cats = implode(',',$sub_cats);
+							 
+							$post_params['category'] = $par_page['subtype_value'].','.$sub_cats;
+					 
+						} else {
+							$post_params['category'] = $par_page['subtype_value'];
+						}
+						
+					  
+						 
+					}  
+			 $post_params['parent'] = $cfg_page_id;	
+		
+	}  
+	
+	
+	
+	
+	
 $tn_size = array('150');
 
 if (isset($post_params['data-thumbnail-size'])) {
@@ -120,28 +148,27 @@ $post_params_paging['page_count'] = true;
 $pages_count = intval($pages);
 ?>
 <? if (intval($pages) > 1): ?>
-    <? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
-    <? if (!empty($paging_links)): ?>
+<? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+<? if (!empty($paging_links)): ?>
 
-        <div class="paging">
-            <? foreach ($paging_links as $k => $v): ?>
-                <span class="paging-item" data-page-number="<? print $k; ?>" ><a  data-page-number="<? print $k; ?>" data-paging-param="<? print $paging_param; ?>" href="<? print $v; ?>"  class="paging-link"><? print $k; ?></a></span>
-            <? endforeach; ?>
-        </div>
-    <? endif; ?>
+<div class="paging">
+  <? foreach ($paging_links as $k => $v): ?>
+  <span class="paging-item" data-page-number="<? print $k; ?>" ><a  data-page-number="<? print $k; ?>" data-paging-param="<? print $paging_param; ?>" href="<? print $v; ?>"  class="paging-link"><? print $k; ?></a></span>
+  <? endforeach; ?>
+</div>
+<? endif; ?>
 <? endif; ?>
 <hr>
 <div class="content-list">
-    <? if (!empty($content)): ?>
-        <? if ($show_fields == false): ?>
-            <? $show_fields = array('thumbnail', 'title', 'description', 'read_more'); ?>
-        <? endif; ?>
-        <? foreach ($content as $item): ?>
-            <div class="content-item" data-content-id="<? print ($item['id']) ?>">
-
-                <? if (is_array($content) and !empty($content)): ?>
-                    <? foreach ($show_fields as $show_field): ?>
-                        <?
+  <? if (!empty($content)): ?>
+  <? if ($show_fields == false): ?>
+  <? $show_fields = array('thumbnail', 'title', 'description', 'read_more'); ?>
+  <? endif; ?>
+  <? foreach ($content as $item): ?>
+  <div class="content-item" data-content-id="<? print ($item['id']) ?>">
+    <? if (is_array($content) and !empty($content)): ?>
+    <? foreach ($show_fields as $show_field): ?>
+    <?
                         $show_field = trim($show_field);
 
  $fv = false;
@@ -195,16 +222,15 @@ $pages_count = intval($pages);
                                 break;
                         }
                         ?>
-                        <? if ($fv != false and trim($fv) != ''): ?>
-                            <div class="post-field-<? print $show_field ?>"><? print $fv ?></div>
-                        <? endif; ?>
-                    <? endforeach; ?>
-                    <? // d($show_fields); ?>
-                <? endif; ?>
-
-            </div>
-        <? endforeach; ?>
-    <? else: ?>
-        <div class="content-list-empty"> No posts </div>
+    <? if ($fv != false and trim($fv) != ''): ?>
+    <div class="post-field-<? print $show_field ?>"><? print $fv ?></div>
     <? endif; ?>
+    <? endforeach; ?>
+    <? // d($show_fields); ?>
+    <? endif; ?>
+  </div>
+  <? endforeach; ?>
+  <? else: ?>
+  <div class="content-list-empty"> No posts </div>
+  <? endif; ?>
 </div>
