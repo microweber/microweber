@@ -11,9 +11,10 @@
 
    ?>
 
+   <div class="vSpace"></div>
    <label class="mw-ui-label">Values</label>
    
-    <div class="mw-custom-field-group" id="fields<?php print $rand; ?>">
+    <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
 
      <? if(isarr($data['custom_field_values'])) : ?>
      <? foreach($data['custom_field_values'] as $v): ?>

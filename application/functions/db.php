@@ -57,11 +57,11 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
 	if ($field_name == false) {
 		$field_name = "id";
 	}
-
+	$table = db_get_real_table_name($table);
 	$table = db_get_table_name($table);
 
 	$q = "SELECT * from $table where {$field_name}=$id limit 1";
-	// d($q);
+ 
 	$q = db_query($q);
 	if (isset($q[0])) {
 		$q = $q[0];
@@ -408,7 +408,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1176,15 +1177,15 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[mt]', '', $v);
 			}
-			
+
 			if (stristr($v, '[is]')) {
 
 				$compare_sign = ' IS ';
 
 				$v = str_replace('[is]', '', $v);
 			}
-			
-				if (stristr($v, '[is_not]')) {
+
+			if (stristr($v, '[is_not]')) {
 
 				$compare_sign = ' IS NOT ';
 
@@ -1221,8 +1222,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1800,7 +1800,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$user_createdq1 = '';
 
 		if (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE) {
-$user_createdq1 = " id={$data ['id']} ";
+			$user_createdq1 = " id={$data ['id']} ";
 		} else {
 
 			if (is_admin() == false and isset($data['created_by'])) {

@@ -1,6 +1,4 @@
-<script type="text/javascript">
-        mw.require("custom_fields.js");
-</script>
+
 
 
 <?
@@ -43,9 +41,7 @@
 
       <tr class="custom-field-table-tr">
         <td class="custom-field-preview-cell" onclick="$(this).parent().addClass('active')">
-
-                <div class="custom-field-preview"><?  print  make_field($field); ?><span class="edit-custom-field-btn" title="<?php _e("Edit this field"); ?>"></span></div>
-
+            <div class="custom-field-preview"><?  print  make_field($field); ?><span class="edit-custom-field-btn" title="<?php _e("Edit this field"); ?>"></span></div>
         </td>
         <td class="second-col"><div class="custom-field-set"><? print  make_field($field, false, 2); ?></div></td>
       </tr>

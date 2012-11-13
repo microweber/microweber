@@ -1,4 +1,14 @@
- <?
+  <script type="text/javascript">
+
+
+
+    mw.require("custom_fields.js");
+
+
+
+
+    </script>
+    <?
  $for = 'module';
  
   $copy_from = false;
@@ -45,7 +55,7 @@ $rand = rand();
 
 
     <ul class="mw-quick-links left">
-        <li><a href="javascript:;" onclick="mw.cfields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
+        <li><a href="javascript:;" onclick="mw.custom_fields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
         <li><a href="#"><span class="ico iPText"></span><span>Paragraph Text</span></a></li>
         <li><a href="#"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>
         <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
@@ -61,15 +71,15 @@ $rand = rand();
 
     <ul class="mw-quick-links left">
       <li><a href="#"><span class="ico iNumber"></span><span>Number</span></a></li>
-      <li><a href="javascript:;" onclick="mw.cfields.create('checkbox');"><span class="ico iChk"></span><span>Checkbox</span></a></li>
-      <li><a href="javascript:;" onclick="mw.cfields.create('dropdown');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('checkbox');"><span class="ico iChk"></span><span>Checkbox</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('dropdown');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
       <li><a href="#"><span class="ico iDate"></span><span>Date</span></a></li>
     </ul>
 
     <ul class="mw-quick-links left">
       <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
       <li><a href="#"><span class="ico iAddr"></span><span>Adress</span></a></li>
-      <li><a href="javascript:;" onclick="mw.cfields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
       <li><a href="#"><span class="ico iSpace"></span><span>Section Break</span></a></li>
     </ul>
 
@@ -92,8 +102,7 @@ $rand = rand();
 <script type="text/javascript">
 
 
-mw.cfields = {
-  create:function($type, $copy, callback){
+mw.custom_fields.create = function($type, $copy, callback){
       var copy_str = '';
       if($copy !== undefined){
         var copy_str = '/copy_from:'+ $copy;
@@ -104,13 +113,13 @@ mw.cfields = {
       });
 
   }
-}
+
 
 
 
 $(document).ready(function(){
 <? if($copy_from != false): ?>
-    mw.cfields.create('', '<? print $copy_from ?>');
+    mw.custom_fields.create('', '<? print $copy_from ?>');
 <? endif; ?>
         //make_new_field()
 

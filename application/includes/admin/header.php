@@ -37,6 +37,10 @@
       mw.require("keys.js");
 
 
+    mw.require("custom_fields.js");
+
+
+
 
     </script>
 

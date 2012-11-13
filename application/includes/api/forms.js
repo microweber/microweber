@@ -155,7 +155,7 @@ mw.form = {
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
-          if(el.type!=='checkbox'){
+          if(!el.name.contains("[]")){
              data[name] = val;
           }
           else{
