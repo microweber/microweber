@@ -71,8 +71,7 @@ typeof mw === 'undefined' ?
 
 
 
-  (function() {
-
+(function() {
     mw.required = [];
     mw.require = function(url) { //Veyron
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
@@ -87,8 +86,7 @@ typeof mw === 'undefined' ?
         }
       }
     }
-
-  })();
+})();
 
 
 

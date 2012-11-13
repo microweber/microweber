@@ -60,6 +60,9 @@ $(document).ready(function(){
 
 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
+
+alert('opaaa')
+
  mw_before_content_save<? print $rand ?>();
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
                         	<? if(intval($data['id']) == 0): ?>

@@ -29,9 +29,10 @@
         <input type="text"  name="custom_field_help_text" class="mw-ui-field"   value="<? print ($data['custom_field_help_text']) ?>"  id="custom_field_help_text<? print $rand ?>">
     </div>
 </div>
-<div class="form-actions">
-    <button type="button" class="btn btn-primary" onclick="save_cf_<? print $rand ?>()"><?php _e('Save changes'); ?></button>
-    <button class="btn"   onclick="remove_cf_<? print $rand ?>()" ><?php _e('Delete'); ?></button>
+<div class="form-actions custom-fields-form-actions">
+    <button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');"><?php _e('Save changes'); ?></button>
+
+    <span class="mw-ui-delete right" onclick="mw.custom_fields.del('custom_fields_edit<? print $rand ?>');"><?php _e('Delete'); ?></span>
 </div>
 
 </div>

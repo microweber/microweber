@@ -28,7 +28,7 @@
  //  $pt_opts['id'] = "pgs_tree";
  //	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
 
-  $pt_opts['include_first'] = 'yes';  
+  $pt_opts['include_first'] = 'yes';
   $pt_opts['include_categories'] = 'yes';
    $pt_opts['max_level'] = 2;
 

@@ -1,5 +1,5 @@
 <?
-$orders = get_orders();
+$orders = get_orders('order_completed=y&is_paid=y');
  
 ?>
 <? if(isarr($orders)) :?>

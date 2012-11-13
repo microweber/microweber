@@ -1,9 +1,14 @@
 <?
-
+$payment_success = false;
+if(isset($_SESSION['mw_payment_success'])){
+session_del('mw_payment_success');	
+$payment_success = true;
+}
  
 ?>
+<? if($payment_success == false): ?>
 
-<form id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" > 
+<form id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" >
   <script type="text/javascript">
 mw.require("<?php print( module_url('shop')); ?>shop.js");
 </script> 
@@ -44,18 +49,10 @@ mw.require("<?php print( module_url('shop')); ?>shop.js");
   phone
   <input name="phone"  type="text" value="" />
   <br />
-  
-  
-  
-  
-<module type="shop/payments" />
-
-
-
-
-
-
-
+  <module type="shop/payments" />
   <button onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Checkout</button>
   <button type="submit">submit</button>
 </form>
+<? else: ?>
+<h2>Your payment was successfull.</h2>
+<? endif; ?>

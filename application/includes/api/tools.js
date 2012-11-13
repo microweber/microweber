@@ -387,7 +387,9 @@ mw.tools = {
       }
     },
     detectType:function(tree_object){
-      return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
+      if(tree_object!==null){
+        return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
+      }
     },
     remember : function(tree){
       var type = mw.tools.tree.detectType(tree);
@@ -404,6 +406,7 @@ mw.tools = {
       }
     },
     recall : function(tree){
+      if(tree!==null){
       var ids = mw.cookie.ui("tree_"+tree.id);
       if(ids!==''){
         var ids = ids.split(",");
@@ -413,6 +416,7 @@ mw.tools = {
              tree.querySelector('.item_'+b).className+=' active';
           }
         });
+      }
       }
     },
     toggleit : function(el, event, pageid){
@@ -514,6 +518,11 @@ mw.tools = {
     who.toggleClass('toggle-active');
     $(toggler).toggleClass('toggler-active');
     mw.is.func(callback) ? callback.call(who) : '';
+  },
+  confirm:function(question, callback){
+    if(confirm(question)){
+      callback.call(window);
+    }
   }
 }
 

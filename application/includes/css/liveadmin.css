@@ -440,6 +440,10 @@ form.add-edit-page-post textarea{
   background-repeat: no-repeat;
   background-image: url(../img/quick.icons.png);
 }
+.ico[onclick]{
+  cursor: pointer;
+}
+
 /* icons */
 .ipage{background-position: 5px 2px}
 .ipost{background-position:4px -39px;}
@@ -477,6 +481,14 @@ form.add-edit-page-post textarea{
 .iPrice{background-position:-1092px -93px;}
 .iSpace{background-position:-1092px -127px;}
 .iAdd{background-position:-976px 1px;}
+.iRemove{background-position:-1013px 1px;}
+
+.iMove{
+  background-image: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/cursor_drag_arrow_2.png);
+  cursor: move;
+  margin: 3px 0 0 3px;
+}
+
 
 
 
@@ -577,6 +589,7 @@ form.add-edit-page-post textarea{
   width: auto;
   padding: 5px;
   margin-top: 12px;
+  margin-bottom: 28px;
   background: #EFEFEF;
   border: 1px solid #CDCBCB;
   border-top-color:#EAE6E6;
@@ -604,14 +617,19 @@ form.add-edit-page-post textarea{
 .custom-field-table td{
   border-bottom: 1px solid #E2E2E2;
 }
+#create-custom-field-table td{
+  border-bottom: none;
+}
 
 .custom-field-table td{
   padding: 12px;
   vertical-align: top;
-  width: 50%;
+}
+.custom-field-table td.second-col{
+  width: 340px;
 }
 
-.custom-field-table tr td:first-child{
+.custom-field-table tr.active td:first-child{
   border-right: 1px solid #E2E2E2;
 }
 .custom-field-set{
@@ -620,10 +638,12 @@ form.add-edit-page-post textarea{
 
 .custom-field-table tr.active .custom-field-set{
   display: block;
+  width: 340px;
+  overflow: hidden;
+  position: relative;
 }
 
 .edit-custom-field-btn{
-  cursor: pointer;
     display: block;
     position: relative;
     z-index: 2;
@@ -639,6 +659,14 @@ form.add-edit-page-post textarea{
   visibility: visible;
 }
 
+.custom-fields-form-actions button{
+  margin: 0 69px 0 0;
+}
+
+.custom-fields-form-actions .mw-ui-delete{
+  margin: 7px 10px 0 0;
+}
+
 #UITU{
   display: none;
 }
@@ -652,11 +680,33 @@ form.add-edit-page-post textarea{
 }
 .mw-custom-field-form-controls{
   padding: 5px 0;
+  overflow: hidden;
+  clear: both;
+}
+
+.mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
+  display: none;
 }
 
 .mw-custom-field-group{
   padding-top: 10px;
 }
+
+.mw-custom-field-group input.mw-ui-field{
+  float: left;
+  margin-right: 5px;
+}
+.mw-custom-field-form-controls .ico{
+  float: left;
+  margin-right: -5px;
+  opacity:0.62;
+}
+
+
+.mw-custom-field-form-controls .ico:hover{
+  opacity:1;
+}
+
 
 .custom-field-preview{
   position: relative;
@@ -677,9 +727,28 @@ form.add-edit-page-post textarea{
   opacity:0.1;
 }
 
+td.custom-field-preview-cell{
+  cursor: pointer;
+}
+
+tr.active td.custom-field-preview-cell{
+  cursor: default;
+}
+
 
 form.add-edit-page-post{
   padding-left: 20px;
+}
+
+body.loading{
+  opacity:0.4;
+}
+body.loading, body.loading *{
+  cursor: progress !important;
+}
+
+.form-actions{
+  padding: 10px 0 0;
 }
 
 

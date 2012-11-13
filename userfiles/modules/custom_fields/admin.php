@@ -78,10 +78,17 @@ $rand = rand();
 
 
 
+<table class="custom-field-table semi_hidden" id="create-custom-field-table" cellpadding="0" cellspacing="0">
 
+<tr class="active">
+    <td>&nbsp;</td>
+    <td class="second-col">
+        <div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>">
+        </div>
+    </td>
 
-
-<div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
+</tr>
+</table>
 <script type="text/javascript">
 
 
@@ -93,7 +100,9 @@ mw.cfields = {
       }
       mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type + copy_str, function(){
         mw.is.func(callback) ? callback.call($type) : '';
+        mw.$("#create-custom-field-table").removeClass("semi_hidden");
       });
+
   }
 }
 

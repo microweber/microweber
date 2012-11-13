@@ -8,29 +8,40 @@
    
   // d($data);
    // p ($data['custom_field_values'])
-   
+
    ?>
+
+   <label class="mw-ui-label">Values</label>
    
-    <div class="mw-custom-field-group">
-      <label class="mw-ui-label">Values</label>
+    <div class="mw-custom-field-group" id="fields<?php print $rand; ?>">
 
      <? if(isarr($data['custom_field_values'])) : ?>
      <? foreach($data['custom_field_values'] as $v): ?>
       <div class="mw-custom-field-form-controls">
         <input type="text" class="mw-ui-field" name="custom_field_value[]"  value="<? print $v; ?>">
+        <?php print $add_remove_controls; ?>
       </div>
   <? endforeach; ?>
-  <? endif; ?>
-  
-  
-  
-   <div class="mw-custom-field-form-controls">
-        <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="">
+
+  <? else: ?>
+
+
+    <div class="mw-custom-field-form-controls">
+        <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="" />
+        <?php print $add_remove_controls; ?>
       </div>
-  
-  
+  <? endif; ?>
+
+
+
+  <script type="text/javascript">
+    mw.custom_fields.sort("fields<?php print $rand; ?>");
+  </script>
+
 
   
+
+
     </div>
  
 <? include('settings_footer.php'); ?>

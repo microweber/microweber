@@ -145,7 +145,7 @@ $myPaypal->addField('cancel_return', $mw_cancel_url);
 $myPaypal->addField('notify_url', $mw_ipn_url);
 
 // Specify the product information
-$myPaypal->addField('item_name', 'Order '.$cart['session_id']);
+$myPaypal->addField('item_name', $place_order['item_name']);
 $myPaypal->addField('amount', $place_order['amount']);
 //$myPaypal->addField('item_number', $cart['session_id']);
 
@@ -153,6 +153,11 @@ $myPaypal->addField('amount', $place_order['amount']);
 $myPaypal->addField('total_items', $place_order['items_count'] );
 if(isarr($posted_fields)){
 foreach ($posted_fields as $k => $value) {
+		 $myPaypal->addField($k,  $value );
+		} 
+}
+if(isarr($place_order)){
+foreach ($place_order as $k => $value) {
 		 $myPaypal->addField($k,  $value );
 		} 
 }

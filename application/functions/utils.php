@@ -294,6 +294,65 @@ if (!function_exists('dirToURL')) {
 
 }
 
+
+function __encrypt($sData, $sKey='mysecretkey'){ 
+    $sResult = ''; 
+    for($i=0;$i<strlen($sData);$i++){ 
+        $sChar    = substr($sData, $i, 1); 
+        $sKeyChar = substr($sKey, ($i % strlen($sKey)) - 1, 1); 
+        $sChar    = chr(ord($sChar) + ord($sKeyChar)); 
+        $sResult .= $sChar; 
+    } 
+    return encode_base64($sResult); 
+} 
+
+function __decrypt($sData, $sKey='mysecretkey'){ 
+    $sResult = ''; 
+    $sData   = decode_base64($sData); 
+    for($i=0;$i<strlen($sData);$i++){ 
+        $sChar    = substr($sData, $i, 1); 
+        $sKeyChar = substr($sKey, ($i % strlen($sKey)) - 1, 1); 
+        $sChar    = chr(ord($sChar) - ord($sKeyChar)); 
+        $sResult .= $sChar; 
+    } 
+    return $sResult; 
+} 
+
+
+function encode_base64($sData){
+        $sBase64 = base64_encode($sData);
+        return substr(strtr($sBase64, '+/', '-_'), 0, -2);
+}
+
+function decode_base64($sData){
+        $sBase64 = strtr($sData, '-_', '+/');
+        return base64_decode($sBase64.'==');
+}
+ 
+ 
+ 
+    function simple_crypt($key, $string, $action = 'encrypt'){
+            $res = '';
+            if($action !== 'encrypt'){
+                $string = base64_decode($string);
+            } 
+            for( $i = 0; $i < strlen($string); $i++){
+                    $c = ord(substr($string, $i));
+                    if($action == 'encrypt'){
+                        $c += ord(substr($key, (($i + 1) % strlen($key))));
+                        $res .= chr($c & 0xFF);
+                    }else{
+                        $c -= ord(substr($key, (($i + 1) % strlen($key))));
+                        $res .= chr(abs($c) & 0xFF);
+                    }
+            }
+            if($action == 'encrypt'){
+                $res = base64_encode($res);
+            } 
+            return $res;
+    }
+
+
 function encrypt_var($var, $key = false) {
     if ($var == '') {
         return '';
@@ -301,7 +360,14 @@ function encrypt_var($var, $key = false) {
     if ($key == false) {
         $key = md5(dirname(__FILE__));
     }
-    $var = serialize($var);
+    $var = encode_var($var);
+	
+	
+	return __encrypt($var, $key);
+	
+	
+	
+	
     //  $var = base64_encode($var);
     if (function_exists('mcrypt_encrypt')) {
         $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $var, MCRYPT_MODE_CBC, md5(md5($key))));
@@ -319,6 +385,22 @@ function decrypt_var($var, $key = false) {
     if ($key == false) {
         $key = md5(dirname(__FILE__));
     }
+
+
+
+
+
+$var = __decrypt($var,$key);
+ 
+
+    try {
+        $var =  decode_var($var);
+    } catch (Exception $exc) {
+        return false;
+    }
+ 
+return $var;
+
 
 
     if (function_exists('mcrypt_decrypt')) {
@@ -357,7 +439,7 @@ function encode_var($var) {
         return '';
     }
 
-    $var = serialize($var);
+    $var = json_encode($var);
     $var = base64_encode($var);
     return $var;
 }
@@ -367,7 +449,16 @@ function decode_var($var) {
         return '';
     }
     $var = base64_decode($var);
-    $var = unserialize($var);
+	
+	  try {
+        $var = @json_decode($var,1);
+    } catch (Exception $exc) {
+        return false;
+    }
+	
+	
+	
+    //$var = unserialize($var);
     return $var;
 }
 

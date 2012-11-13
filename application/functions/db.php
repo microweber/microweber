@@ -408,8 +408,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -839,7 +838,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 					foreach ($is_in_category_items as $is_in_category_items_tt) {
 
 						$includeIds[] = $is_in_category_items_tt["to_table_id"];
-						// @fixme - delete me 
+						// @fixme - delete me
 						//$more = get_category_children($cat_name_or_id);
 						// if (isarr($more)) {
 						// foreach ($more as $it) {
@@ -1177,6 +1176,20 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[mt]', '', $v);
 			}
+			
+			if (stristr($v, '[is]')) {
+
+				$compare_sign = ' IS ';
+
+				$v = str_replace('[is]', '', $v);
+			}
+			
+				if (stristr($v, '[is_not]')) {
+
+				$compare_sign = ' IS NOT ';
+
+				$v = str_replace('[is_not]', '', $v);
+			}
 			/*
 			 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
 			 */
@@ -1208,7 +1221,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1674,6 +1688,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
 		}
 	}
+
 	// var_dump($data);
 	if (intval($data['id']) == 0) {
 
@@ -1780,21 +1795,28 @@ function save_data($table, $data, $data_to_save_options = false) {
 			}
 		}
 		$user_sidq = '';
-		if ($user_sid != false) {
-			$user_sidq = " AND session_id='{$user_sid}' ";
-		} else {
 
-		}
 		$user_createdq = '';
 		$user_createdq1 = '';
-		if (is_admin() == false and isset($data['created_by'])) {
-			$user_createdq = " AND created_by=$the_user_id ";
-		}
 
-		if (isset($data['edited_by'])) {
-			$user_createdq1 = " edited_by=$the_user_id ";
+		if (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE) {
+$user_createdq1 = " id={$data ['id']} ";
 		} else {
-			$user_createdq1 = " id={$data ['id']} ";
+
+			if (is_admin() == false and isset($data['created_by'])) {
+				$user_createdq = " AND created_by=$the_user_id ";
+			}
+
+			if (isset($data['edited_by'])) {
+				$user_createdq1 = " edited_by=$the_user_id ";
+			} else {
+				$user_createdq1 = " id={$data ['id']} ";
+			}
+
+			if ($user_sid != false) {
+				$user_sidq = " AND session_id='{$user_sid}' ";
+			}
+
 		}
 
 		$q .= " $user_createdq1 WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";

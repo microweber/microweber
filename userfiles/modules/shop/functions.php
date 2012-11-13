@@ -9,9 +9,7 @@ if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 }
 
 function get_orders($params = false) {
-	if (is_admin() == false) {
-		error("You must be admin");
-	}
+
 	$params2 = array();
 	if ($params == false) {
 		$params = array();
@@ -20,6 +18,11 @@ function get_orders($params = false) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 	}
+	if (is_admin() == false) {
+		if (!isset($params['payment_verify_token']))
+			error("You must be admin");
+	}
+
 	$table = MODULE_DB_TABLE_SHOP_ORDERS;
 	$params['table'] = $table;
 
@@ -37,7 +40,7 @@ function cart_sum($return_amount = true) {
 	$diferent_items = 0;
 	$amount = floatval(0.00);
 	$table_cart = MODULE_DB_TABLE_SHOP;
-	$sumq = " SELECT  price, qty FROM $table_cart where order_completed='n' and order_id IS NULL and session_id='{$sid}'  ";
+	$sumq = " SELECT  price, qty FROM $table_cart where order_completed='n'  and session_id='{$sid}'  ";
 	$sumq = db_query($sumq);
 	if (isarr($sumq)) {
 		foreach ($sumq as $value) {
@@ -49,6 +52,108 @@ function cart_sum($return_amount = true) {
 		return $diferent_items;
 	}
 	return $amount;
+}
+
+api_expose('checkout_ipn1');
+
+function checkout_ipn1() {
+
+	$cache_gr = 'ipn';
+	$cache_id = '1';
+	$c = cache_get_content($cache_id, $cache_gr);
+	d($c);
+	$c = checkout_ipn($c);
+	d($c);
+}
+
+api_expose('checkout_ipn');
+
+function checkout_ipn($data) {
+	if (!session_id() and !headers_sent()) {
+		session_start();
+	}
+	$sid = session_id();
+
+	$cache_gr = 'ipn';
+	$cache_id = md5(serialize($data));
+	if (isset($_GET) and !empty($_GET) and !empty($_POST)) {
+		$data = $_REQUEST;
+	}
+	if (isset($data['payment_verify_token'])) {
+		$payment_verify_token = trim($data['payment_verify_token']);
+	}
+
+	if (isset($_REQUEST['payment_verify_token'])) {
+		$payment_verify_token = ($_REQUEST['payment_verify_token']);
+	}
+
+	if (isset($_REQUEST['payment_gw'])) {
+		$data['payment_gw'] = ($_REQUEST['payment_gw']);
+	}
+	$data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+
+	$hostname = get_domain_from_str($_SERVER['REMOTE_ADDR']);
+
+	cache_save($_REQUEST, $cache_id, $cache_gr);
+	//d($payment_verify_token);
+	$ord_data = get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
+	// d($ord_data);
+
+	if (!isset($ord_data[0]) or !isarr($ord_data[0])) {
+		error('Order is completed or expired.');
+	} else {
+
+		$ord_data = $ord_data[0];
+		$ord = $ord_data['id'];
+	}
+
+	$payment_verify_token_data = decrypt_var($payment_verify_token);
+
+	if (!isarr($payment_verify_token_data)) {
+		error('Invalid token.');
+	}
+	$table_cart = MODULE_DB_TABLE_SHOP;
+	$table_orders = MODULE_DB_TABLE_SHOP_ORDERS;
+
+	$shop_dir = module_dir('shop');
+	$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+	$gw_process = $shop_dir . $data['payment_gw'] . '_checkout_ipn.php';
+	$update_order = array();
+	//$update_order['id'] = $ord;
+	if (is_file($gw_process)) {
+		include $gw_process;
+	}
+	if (!empty($update_order)) {
+		$update_order['id'] = $ord;
+		$update_order['is_paid'] = 'y';
+		//$update_order['debug'] = 'y';
+		$update_order['order_completed'] = 'y';
+		$update_order['payment_gw'] = $data['payment_gw'];
+		define('FORCE_SAVE', $table_orders);
+		define('FORCE_ANON_UPDATE', $table_orders);
+		save_data($table_orders, $update_order);
+
+		if ($ord > 0) {
+
+			$q = " UPDATE $table_cart set 
+				order_completed='y', order_id='{$ord}' 
+				where order_completed='n'   ";
+			//d($q);
+			db_q($q);
+
+			$q = " UPDATE $table_orders set 
+				order_completed='y'   
+				where order_completed='n' and 
+				id='{$ord}'  ";
+			//	 d($q);
+			db_q($q);
+			cache_clean_group('cart/global');
+			cache_clean_group('cart_orders/global');
+			return true;
+		}
+	}
+	//
+	return false;
 }
 
 api_expose('checkout');
@@ -67,6 +172,35 @@ function checkout($data) {
 	$mw_process_payment = true;
 	if (isset($_GET['mw_payment_success'])) {
 		$mw_process_payment = false;
+	}
+
+	if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1 and isset($_SESSION['order_id'])) {
+
+		$_SESSION['mw_payment_success'] = true;
+		$ord = $_SESSION['order_id'];
+		if ($ord > 0) {
+			$q = " UPDATE $table_cart set 
+				order_completed='y', order_id='{$ord}' 
+				where order_completed='n'   and session_id='{$sid}'  ";
+			//d($q);
+			db_q($q);
+
+			$q = " UPDATE $table_orders set 
+				order_completed='y'   
+				where order_completed='n' and 
+				id='{$ord}' and 
+				session_id='{$sid}'  ";
+			//d($q);
+			db_q($q);
+
+		}
+
+		cache_clean_group('cart/global');
+		cache_clean_group('cart_orders/global');
+		if (isset($_GET['return_to'])) {
+			$return_to = urldecode($_GET['return_to']);
+			safe_redirect($return_to);
+		}
 	}
 
 	$check_cart = get_cart($cart);
@@ -93,17 +227,20 @@ function checkout($data) {
 		$posted_fields = array();
 		$place_order = array();
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
+
+		$return_url_after = '';
 		if (isAjax()) {
 			$place_order['url'] = curent_url(true);
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			$place_order['url'] = $_SERVER['HTTP_REFERER'];
+			$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
 		} else {
 			$place_order['url'] = curent_url();
 
 		}
 
 		$place_order['session_id'] = $sid;
-
+		$place_order['order_completed'] = 'n';
 		$items_count = 0;
 		foreach ($flds_from_data as $value) {
 			if (isset($data[$value]) and ($data[$value]) != false) {
@@ -117,43 +254,44 @@ function checkout($data) {
 			error('Cart sum is 0?');
 			return;
 		}
-
-		$place_order['payment_verify_token'] = date("ymdhis") . uniqid() . rand();
-
 		$place_order['amount'] = $amount;
 		$items_count = cart_sum(false);
 		$place_order['items_count'] = $items_count;
+
+		$cart_checksum = md5($sid . serialize($check_cart));
+
+		$place_order['item_name'] = 'Order' . ' ' . $cart_checksum . '' . $amount;
+
+		$place_order['payment_verify_token'] = encrypt_var($place_order);
+
 		if ($mw_process_payment == true) {
 			$shop_dir = module_dir('shop');
 			$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 			$gw_process = $shop_dir . $data['payment_gw'] . '_process.php';
 
-			$mw_return_url = api_url('checkout') . '?mw_payment_success=1';
-			$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1';
-			$mw_ipn_url = api_url('checkout_ipn') . '?payment_verify_token=' . $place_order['payment_verify_token'];
+			$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
+			$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
+			$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
 			if (is_file($gw_process)) {
 				require_once $gw_process;
 			} else {
 				error('Payment gateway\'s process file not found.');
 			}
+			// $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
+
+			// db_q($q);
+
 			define('FORCE_SAVE', $table_orders);
 			$ord = save_data($table_orders, $place_order);
+
+			$q = " UPDATE $table_cart set 
+				order_id='{$ord}' 
+				where order_completed='n'  and session_id='{$sid}'  ";
+
+			db_q($q);
+
 			$_SESSION['order_id'] = $ord;
-		}
-
-		if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1) {
-
-			$_SESSION['mw_payment_success'] = true;
-			$ord = $_SESSION['order_id'];
-			if ($ord > 0) {
-				$q = " UPDATE $table_cart set order_completed='y', order_id='{$ord}' where order_completed='n' and order_id IS NULL and session_id='{$sid}'  ";
-				//d($q);
-				db_q($q);
-			}
-
-			cache_clean_group('cart/global');
-			cache_clean_group('cart_orders/global');
 		}
 
 		exit();

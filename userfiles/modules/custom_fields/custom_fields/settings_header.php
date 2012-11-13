@@ -1,4 +1,11 @@
 <?
+
+$add_remove_controls = ''.
+'<span class="ico iAdd mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
+'<span class="ico iRemove mw-removefield" onclick="mw.custom_fields.remove(this);" title="'. _e("Remove", true). '"></span>'.
+'<span class="ico iMove" title="'. _e("Move", true). '"></span>';
+
+
 $rand = rand();
  
 $rand = round($rand);
@@ -9,9 +16,9 @@ $settings = 1;
 }
   $hidden_class = '';
  if(intval($settings) == 2){
- $hidden_class = ' mw-hide ';
+
  }
- 
+       $hidden_class = ' mw-hide ';
 $is_for_module = url_param('for_module_id', 1);
 $for = url_param('for', 1);
  
@@ -25,40 +32,27 @@ if (!empty($params)) {
 ?>
 <script type="text/javascript">
 
+mw.custom_fields.save = function(id){
+    var obj = $("#"+id+" :input").serialize();
+    $.post("<? print site_url('api/save_custom_field') ?>", obj, function(data) {
+        mw.reload_module('custom_fields')
+        mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
+    });
+}
 
-    function save_cf_<? print $rand ?>(){
-        var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
-        $.post("<? print site_url('api/save_custom_field') ?>",    serializedForm, function(data)         {
+mw.custom_fields.del = function(id){
+    var q = "Are you sure you want to delete this?";
+    mw.tools.confirm(q, function(){
+      var obj = $("#"+id+" :input").serialize();
+      $.post("<? print site_url('api/remove_field') ?>",  obj, function(data){
+          mw.reload_module('custom_fields');
+          mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
+      });
+    });
 
-            mw.reload_module('custom_fields')
-            mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-
-
-            if(serializedForm.id == undefined){
-                //mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-
-            }
-
-
-
-
-
-
-        });
-    }
+}
 
 
-    function remove_cf_<? print $rand ?>(){
-        var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
-        $.post("<? print site_url('api/remove_field') ?>",    serializedForm, function(data)         {
-
-            mw.reload_module('custom_fields')
-          //  mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-            mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-
-        });
-
-    }
 
 </script>
 <?php
