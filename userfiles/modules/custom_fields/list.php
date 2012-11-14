@@ -59,7 +59,13 @@ mw.custom_fields.del = function(id){
 
 
 $(document).ready(function(){
-  mw.$("table#custom-field-main-table tbody").sortable({
+  
+});
+
+mw.custom_fields.make_sort = function(){
+
+if(!mw.$("table#custom-field-main-table tbody").hasClass("ui-sortable")){
+mw.$("table#custom-field-main-table tbody").sortable({
      items: 'tr',
      axis:'y',
      handle:'.custom-field-handle-row',
@@ -81,8 +87,11 @@ $(document).ready(function(){
 
      placeholder: "custom-field-main-table-placeholder"
   });
-});
-
+  
+}
+  
+  
+}
 
 
 </script>
@@ -101,7 +110,7 @@ $(document).ready(function(){
       </td>
     <td class="second-col">
         <div class="custom-field-set-holder">
-          <span class="ico iMove custom-field-handle-row right"></span>
+          <span class="ico iMove custom-field-handle-row right" onmousedown="mw.custom_fields.make_sort()"></span>
           <div class="custom-field-set">
               <? print  make_field($field, false, 2); ?>
           </div>
