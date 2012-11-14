@@ -68,7 +68,7 @@ $rand = rand();
       <li><a href="#"><span class="ico iNumber"></span><span>Number</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('checkbox');"><span class="ico iChk"></span><span>Checkbox</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('dropdown');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
-      <li><a href="#"><span class="ico iDate"></span><span>Date</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('date');"><span class="ico iDate"></span><span>Date</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
       <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
