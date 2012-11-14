@@ -610,12 +610,14 @@ form.add-edit-page-post textarea{
 }
 
 .custom-field-table{
-  width: 100%;
+  width: 697px;
   border-top: 1px solid #E2E2E2;
+  table-layout: fixed;
 }
 
 .custom-field-table td{
   border-bottom: 1px solid #E2E2E2;
+  background: white;
 }
 #create-custom-field-table td{
   border-bottom: none;
@@ -629,11 +631,27 @@ form.add-edit-page-post textarea{
   width: 340px;
 }
 
+.custom-field-set-holder{
+  width: 340px;
+  position: relative;
+}
+
 .custom-field-table tr.active td:first-child{
   border-right: 1px solid #E2E2E2;
 }
 .custom-field-set{
   display: none;
+}
+.custom-field-main-table-placeholder{
+  background: #FFFFB9;
+  height: 100px;
+  width: 700px;
+  display: block;
+}
+.custom-fields-placeholder{
+  width:340px;
+  height: 30px;
+  background: #FFFFB9;
 }
 
 .custom-field-table tr.active .custom-field-set{
@@ -711,6 +729,7 @@ form.add-edit-page-post textarea{
 .custom-field-preview{
   position: relative;
   overflow: hidden;
+  width: 309px;
 }
 
 .custom-field-preview:after{
@@ -749,6 +768,16 @@ body.loading, body.loading *{
 
 .form-actions{
   padding: 10px 0 0;
+}
+
+.custom-field-handle-row{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+.custom-field-table-tr.ui-sortable-helper{
+  box-shadow:0 5px 10px -5px #000000;
 }
 
 

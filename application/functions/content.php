@@ -886,12 +886,14 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		to_table_id='{$id}'
 		$field_for_q
 		$field_type_q
-		order by field_order asc  ";
+		
+		order by position asc
+		   ";
 
 		if ($debug != false) {
 			d($q);
 		}
-
+ 
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));
@@ -901,9 +903,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		$q = db_query($q, $cache_id, 'custom_fields/global');
 
 		if (!empty($q)) {
-
+ 
 			if ($return_full == true) {
 				$to_ret = array();
+				$i=1;
 				foreach ($q as $it) {
 
 					// $it ['value'] = $it ['custom_field_value'];
@@ -916,18 +919,19 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 							}
 						}
 					}
-
+ 
 					//  $it['values'] = $it['custom_field_value'];
 
 					// $it['cssClass'] = $it['custom_field_type'];
 					$it['type'] = $it['custom_field_type'];
-
+$it['position'] = $i;
 					//  $it['baseline'] = "undefined";
 
 					$it['title'] = $it['custom_field_name'];
 					$it['required'] = $it['custom_field_required'];
 
 					$to_ret[] = $it;
+					$i++;
 				}
 				return $to_ret;
 			}

@@ -231,6 +231,7 @@ function checkout($data) {
 		$return_url_after = '';
 		if (isAjax()) {
 			$place_order['url'] = curent_url(true);
+			$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			$place_order['url'] = $_SERVER['HTTP_REFERER'];
 			$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
@@ -290,6 +291,27 @@ function checkout($data) {
 				where order_completed='n'  and session_id='{$sid}'  ";
 
 			db_q($q);
+
+			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
+				if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
+					$q = " UPDATE $table_cart set 
+				order_completed='y', order_id='{$ord}' 
+				where order_completed='n'   ";
+				 
+					db_q($q);
+
+					$q = " UPDATE $table_orders set 
+				order_completed='y'   
+				where order_completed='n' and 
+				id='{$ord}'  ";
+				 
+					db_q($q);
+					cache_clean_group('cart/global');
+					cache_clean_group('cart_orders/global');
+				}
+				
+				$_SESSION['mw_payment_success'] = true;
+			}
 
 			$_SESSION['order_id'] = $ord;
 		}

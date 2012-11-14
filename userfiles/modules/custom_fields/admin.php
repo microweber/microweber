@@ -25,7 +25,7 @@
  }
   $hide_preview = '';
   if(isset($params['contenteditable'])){
-	$hide_preview = " data-hide-preview=true " ;
+	//$hide_preview = " data-hide-preview=true " ;
  }
 
 
@@ -55,7 +55,7 @@ $rand = rand();
     <ul class="mw-quick-links left">
       <li><a href="javascript:;" onclick="mw.custom_fields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
       <li><a href="#"><span class="ico iPText"></span><span>Paragraph Text</span></a></li>
-      <li><a href="#"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>
+      <li><a href="#" onclick="mw.custom_fields.create('radio');"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>
       <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
     </ul>
     <ul class="mw-quick-links left">

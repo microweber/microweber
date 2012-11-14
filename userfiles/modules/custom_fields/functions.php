@@ -130,6 +130,33 @@ function save_custom_field($data) {
 
 	//exit
 }
+api_expose('reorder_custom_fields');
+
+function reorder_custom_fields($data) {
+
+    $adm = is_admin();
+    if ($adm == false) {
+        error('Error: not logged in as admin.');
+    }
+    $tables = c('db_tables');
+	$table = $tables['table_custom_fields'];
+
+    
+    foreach ($data as $value) {
+        if (is_arr($value)) {
+            $indx = array();
+            $i = 0;
+            foreach ($value as $value2) {
+                $indx[$i] = $value2;
+                $i++;
+            }
+
+            db_update_position($table, $indx);
+            return true;
+            // d($indx);
+        }
+    }
+}
 
 api_expose('remove_field');
 

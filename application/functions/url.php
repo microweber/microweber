@@ -513,7 +513,12 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
 	if ($post_params == false) {
 		$post_params = array('date' => date("YmdHis"));
 	}
+	if(is_array($post_params)){
 	$postdata = http_build_query($post_params);
+	} else {
+			$postdata = ($post_params);
+		
+	}
 	$ref = site_url();
 	$opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n" . 'Referer: ' . $ref . "\r\n", 'content' => $postdata));
 	$requestUrl = str_replace(' ', '%20', $requestUrl);

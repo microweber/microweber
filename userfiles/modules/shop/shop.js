@@ -57,8 +57,8 @@ mw.cart = {
 	  
 	 //  data = mw.$(selector+' input').serialize();
 	  
-	   data = mw.form.serialize(selector);
-     $.post(mw.settings.api_url+'checkout', data ,
+	   var obj = mw.form.serialize(selector);
+     $.post(mw.settings.api_url+'checkout', obj ,
      function(data) {
 		 
 		 if(data != undefined){
@@ -70,7 +70,19 @@ mw.cart = {
 			 mw.reload_module('shop/cart');
 			 
 			 } else {
-				alert(data); 
+				 if(obj.payment_gw != undefined){
+					 
+					 var callback_func = obj.payment_gw+'_checkout';
+					 
+					 if(typeof window[callback_func] === 'function'){
+							 
+						window[callback_func](data,selector); 
+					 }
+				//	if(mw.is.func()) 
+				 }
+				// mw.log(obj);
+				 
+			//	alert(data); 
 				 
 			 }
 		 }

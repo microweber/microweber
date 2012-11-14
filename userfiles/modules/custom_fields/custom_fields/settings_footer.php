@@ -30,7 +30,9 @@
     </div>
 </div>
 <div class="form-actions custom-fields-form-actions">
-    <button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');"><?php _e('Save changes'); ?></button>
+
+
+    <?php /* <button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');"><?php _e('Save changes'); ?></button> */ ?>
 
     <span class="mw-ui-delete right" onclick="mw.custom_fields.del('custom_fields_edit<? print $rand ?>');"><?php _e('Delete'); ?></span>
 </div>

@@ -391,7 +391,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? if($edit_post_mode != false): ?>
 
   <div id="custom_fields_for_post_<? print $rand ?>" >
-    <microweber module="custom_fields/admin"   for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
+      <module type="custom_fields/admin"    for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
+
   </div>
   <br />
 

@@ -113,12 +113,37 @@ abstract class PaymentGateway
 
         $this->prepareSubmit();
 
+$rand = uniqid();
+
+$aj = isAjax();
+
+if($aj  == false){
         echo "<html>\n";
         echo "<head><title>Processing Payment...</title></head>\n";
         echo "<body onLoad=\"document.forms['gateway_form'].submit();\">\n";
-        echo "<p style=\"text-align:center;\"><h2>Please wait, your order is being processed and you";
+		
+} else {
+
+?>
+<script  type="text/javascript">
+$(document).ready(function(){
+ 
+ 
+ $('#gateway_form_<? print $rand; ?>').submit();
+
+});
+</script>
+
+<?
+
+	
+}
+        
+		
+		
+		echo "<p style=\"text-align:center;\"><h2>Please wait, your order is being processed and you";
         echo " will be redirected to the payment website.</h2></p>\n";
-        echo "<form method=\"POST\" name=\"gateway_form\" ";
+        echo "<form method=\"POST\" name=\"gateway_form\" id='gateway_form_{$rand}' ";
         echo "action=\"" . $this->gatewayUrl . "\">\n";
 
         foreach ($this->fields as $name => $value)
@@ -132,7 +157,12 @@ abstract class PaymentGateway
         echo "<input type=\"submit\" value=\"Click Here\"></p>\n";
 
         echo "</form>\n";
+		if($aj  == false){
         echo "</body></html>\n";
+		}
+		
+		
+		
     }
 
     /**

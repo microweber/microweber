@@ -1,16 +1,17 @@
-
-
 <?
+
+$rand = rand();
+$rand = round($rand);
 
 $add_remove_controls = ''.
 '<span class="ico iAdd mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
-'<span class="ico iRemove mw-removefield" onclick="mw.custom_fields.remove(this);" title="'. _e("Remove", true). '"></span>'.
-'<span class="ico iMove" title="'. _e("Move", true). '"></span>';
+'<span class="ico iRemove mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
+'<span class="ico iMove custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
 
 
-$rand = rand();
- 
-$rand = round($rand);
+
+
+
 if(!isset($settings)){
 $settings = 1;	
 } else if($settings == false){
@@ -47,9 +48,7 @@ if (!isset($data['custom_field_name'])) {
  if (isset($data['custom_field_type'])) {
 	  $field_type = $data['custom_field_type'];
 }
- if ($data['custom_field_name'] == '') {
-    $data['custom_field_name'] =  $field_type;
-}
+
  
  
  
@@ -61,9 +60,13 @@ if (!isset($field_type)) {
 }
 }
 
+if (!isset($data['type'])) {
+	$data['type'] =  $field_type;
+}
 
-
-
+ if ($data['custom_field_name'] == '') {
+    $data['custom_field_name'] =  $field_type;
+}
 if (!isset($data['custom_field_required'])) {
     $data['custom_field_required'] = 'n';
 }
@@ -87,6 +90,13 @@ if (isset($data['to_table'])) {
   $for = $data['to_table'];
 	
 }
+
+if (!isset($data['position'])) {
+  $data['position'] = 0;
+	
+}
+
+
 if (isset($data['to_table_id'])) {
   $for_module_id = $data['to_table_id'];
 	
@@ -103,26 +113,15 @@ if (isset($data['to_table_id'])) {
 <input type="hidden" name="to_table" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
 <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
 <? endif; ?>
+<input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
+<input type="hidden" name="position" value="<? print $data['position'] ?>" />
+
 <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Field name'); ?>
   </label>
   <div class="mw-custom-field-form-controls">
-    <input type="text" class="mw-ui-field"   value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
+    <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
   </div>
 </div>
-<div class="mw-custom-field-group<? print $hidden_class ?>">
-  <label class="mw-ui-label" for="select_custom_field_type<? print $rand ?>">
-    <?php _e('Field type'); ?>
-  </label>
-  <div>
-    <div class="mw-ui-select">
-      <select class="mw-ui-field" id="select_custom_field_type<? print $rand ?>" name="custom_field_type">
-        <option <? if (trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">Text</option>
-        <option  <? if (trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">Dropdown</option>
-        <option  <? if (trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">Checkbox</option>
-        <option  <? if (trim($field_type) == 'price'): ?>  selected="selected"  <? endif; ?>  value="price">Price</option>
-      </select>
-    </div>
-  </div>
-</div>
+ 

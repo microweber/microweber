@@ -16,7 +16,7 @@ include('empty_field_vals.php');
  <span class="mw-custom-field-label" for="custom_field_help_text<? print $rand ?>"><? print $data["custom_field_name"]; ?></span>
   <? foreach($data['custom_field_values'] as $v): ?>
   <div class="mw-custom-field-form-controls">
-    <input type="checkbox" name="<? print $data["custom_field_name"]; ?>[]" id="field-<? print $data["id"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $v; ?>">
+    <input type="radio" name="<? print $data["custom_field_name"]; ?>" id="field-<? print $data["id"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $v; ?>">
     <label for="field-<? print $data["id"]; ?>"><? print ($v); ?></label>
   </div>
   <? endforeach; ?>

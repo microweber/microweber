@@ -18,13 +18,23 @@ mw.custom_fields = {
   sort:function(group){
     var group = mwd.getElementById(group);
     $(group).sortable({
-        handle:'.iMove',
-        containment: "parent",
+        handle:'.custom-fields-handle-field',
+        placeholder:'custom-fields-placeholder',
+        //containment: "parent",
         axis:'y',
-        items:".mw-custom-field-form-controls"
+        items:".mw-custom-field-form-controls",
+        start:function(a,ui){
+            $(ui.placeholder).height($(ui.item).outerHeight())
+        },
+        scroll:false,
+        update:function(){
+          mw.custom_fields.save(this.parentNode.id);
+        }
     });
   },
-  refreshSort:function(){
-
+  autoSaveOnWriting:function(el, id){
+     mw.on.stopWriting(el, function(){
+         mw.custom_fields.save(id);
+     });
   }
 }
