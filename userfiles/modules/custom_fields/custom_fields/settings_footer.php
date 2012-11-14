@@ -32,7 +32,7 @@
 <div class="form-actions custom-fields-form-actions">
 
 
-    <?php /* <button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');"><?php _e('Save changes'); ?></button> */ ?>
+   <? if (isset($data['id']) and intval($data['id']) == 0): ?><button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');$('#create-custom-field-table').addClass('semi_hidden');"><?php _e('Save changes'); ?></button> <?php endif; ?>
 
     <span class="mw-ui-delete right" onclick="mw.custom_fields.del('custom_fields_edit<? print $rand ?>');"><?php _e('Delete'); ?></span>
 </div>

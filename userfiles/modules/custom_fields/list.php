@@ -73,10 +73,12 @@ $(document).ready(function(){
        $.post("<?php print site_url('api/reorder_custom_fields'); ?>", obj, function(){});
      },
      start:function(a,ui){
+            $(this).height($(this).outerHeight());
             $(ui.placeholder).height($(ui.item).outerHeight())
             $(ui.placeholder).width($(ui.item).outerWidth())
      },
      scroll:false,
+
      placeholder: "custom-field-main-table-placeholder"
   });
 });

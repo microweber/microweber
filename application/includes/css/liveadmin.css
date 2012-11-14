@@ -778,6 +778,13 @@ body.loading, body.loading *{
 }
 .custom-field-table-tr.ui-sortable-helper{
   box-shadow:0 5px 10px -5px #000000;
+  background: white;
+}
+
+.custom-field-preview input[type='checkbox'], .custom-field-preview input[type='radio']{
+  position: relative;
+  top: 1px;
+  margin-right: 2px;
 }
 
 

@@ -914,7 +914,9 @@ function modify_html($layout, $preg_match_all, $content = "", $action = 'append'
 
     return $layout;
 }
-
+function mw_dom($layout, $selector, $content = "", $action = 'append'){
+	return modify_html_slow($layout, $selector, $content , $action );
+}
 function modify_html_slow($layout, $selector, $content = "", $action = 'append') {
 
     $pq = phpQuery::newDocument($layout);

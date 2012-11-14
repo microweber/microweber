@@ -310,7 +310,7 @@ function checkout($data) {
 					cache_clean_group('cart_orders/global');
 				}
 				
-				$_SESSION['mw_payment_success'] = true;
+				//$_SESSION['mw_payment_success'] = true;
 			}
 
 			$_SESSION['order_id'] = $ord;

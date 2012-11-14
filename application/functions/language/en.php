@@ -136,3 +136,5 @@ $language["remove"]= 'Remove' ;
 $language["add"]= 'Add' ; 
 $language["remove"]= 'Remove' ; 
 $language["move"]= 'Move' ; 
+$language["default-shipping-to-country-module"]= 'Default shipping to country module' ; 
+$language["default-shipping-to-country-module"]= 'Default shipping to country module' ; 
