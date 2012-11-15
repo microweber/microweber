@@ -701,7 +701,8 @@ function save_module_to_db($data_to_save) {
 	$table = $cms_db_tables['table_modules'];
 	$save = false;
 	// d($table);
-	//d($data_to_save);
+	
+	 //d($data_to_save);
 
 	if (!empty($data_to_save)) {
 		$s = $data_to_save;
@@ -715,9 +716,12 @@ function save_module_to_db($data_to_save) {
 			if (!isset($s["module_id"])) {
 				$save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
 				// d($s["module"]);
-				// d($s );
+				// 
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
+					//$s['debug'] = 1;
+					//d($s );
+					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
 				}

@@ -7,6 +7,14 @@ if (!isset($params['for'])) {
 	$for = $params['for'];
 }
 
+
+if (!isset($params['to_table'])) {
+$for = 'content';
+	 
+} else {
+	$for = $params['to_table'];
+}
+
 $is_shop = '';
 
 if (isset($params['is_shop'])) {
@@ -38,6 +46,7 @@ $is_ex1 = array();
 
  } else {
 	 $for = db_get_assoc_table_name($for);
+	 // d($for);
 	$str1 = 'table=table_taxonomy&to_table='.$for.'&data_type=category&limit=1000';
 							$is_ex = get($str1); 
  	// $is_ex1 = get('limit=100&what=category&parent_id=0&for='.$for);
@@ -61,7 +70,7 @@ if (empty($cats__parents)) {
 
 if ($to_table_id != '') {
 
-	$is_ex3 = get('limit=1000&what=category_items&for=' . $for . $to_table_id);
+	$is_ex3 = get('limit=1000&what=category_items&to_table=' . $for . $to_table_id);
 	// d($to_table_id);
 	 
 	if (isset($is_ex3[0])) {
@@ -75,7 +84,9 @@ if ($to_table_id != '') {
 } 
  
 ?>
-<? //print $cats_str ?>
+<? 
+ 
+//print $cats_str ?>
 <? if(!empty($cats__parents)):
 ?>
 <script  type="text/javascript">
@@ -126,7 +137,7 @@ foreach ($cats__parents as $item1) {
 		$tree['actve_ids'] = $cats_ids;
 		$tree['active_code'] = 'checked="checked" ';
 	}
- //d($tree);
+ 
 	$tree['link'] = "<label class='mw-ui-check'><input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' ><span></span><span>{title}</span></label>";
 
 	category_tree($tree);

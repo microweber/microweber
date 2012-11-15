@@ -61,7 +61,7 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
 	$table = db_get_table_name($table);
 
 	$q = "SELECT * from $table where {$field_name}=$id limit 1";
- 
+
 	$q = db_query($q);
 	if (isset($q[0])) {
 		$q = $q[0];
@@ -408,8 +408,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -882,22 +881,21 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 
 	$groupby = false;
-	
+
 	if (isset($criteria['group_by'])) {
 		$groupby = $criteria['group_by'];
 		if (is_string($groupby)) {
 			$groupby = db_escape_string($groupby);
 		}
 	}
-	
-	
+
 	if (isset($criteria['group'])) {
 		$groupby = $criteria['group'];
 		if (is_string($groupby)) {
 			$groupby = db_escape_string($groupby);
 		}
 	}
-	
+
 	if (isset($criteria['order_by'])) {
 		$orderby = $criteria['order_by'];
 		if (is_string($orderby)) {
@@ -1238,7 +1236,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1881,7 +1880,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 			} else {
 
 				if (is_string($original_data['categories'])) {
-
+					$original_data['categories'] = str_replace('/', ',', $original_data['categories']);
 					$cz = explode(',', $original_data['categories']);
 					$j = 0;
 					foreach ($cz as $cname_check) {
@@ -1923,6 +1922,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
 					//d($clean_q);
+					if ($dbg != false) {
+		d($clean_q);
+	}
 					db_q($clean_q);
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
@@ -1942,6 +1944,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 					data_type='category_item',
 					to_table_id='{$id_to_return}'
 					";
+					if ($dbg != false) {
+		d($q_cat1);
+	}
 					db_q($q_cat1);
 					// d($q_cat1);
 					// if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {
