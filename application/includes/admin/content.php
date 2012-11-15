@@ -372,19 +372,19 @@ function mw_add_product(){
     <div class="mw_edit_page_left" id="mw_edit_page_left">
       <div class="mw_edit_pages_nav">
         <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
-        <span class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');">
+        <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
-        </span> <span class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');">
+        </a> <a href="#?action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
         <label>Post</label>
         <button>&nbsp;</button>
-        </span> <span class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');">
+        </a> <a href="#?action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
         <label>Category</label>
         <button>&nbsp;</button>
-        </span> <span class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
+        </a> <a href="#?action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
         <label>Product</label>
         <button>&nbsp;</button>
-        </span>
+        </a>
         <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>

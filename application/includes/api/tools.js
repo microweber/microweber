@@ -348,11 +348,11 @@ mw.tools = {
   },
   classNamespaceDelete:function(el_obj, namespace){
     if(el_obj ==='all'){
-      var all = mwd.querySelectorAll('.edit *');
-      for(var i=0;i<all.length; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      var all = mwd.querySelectorAll('.edit *'), i=0, len=all.length;
+      for( ;i<len; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
       return;
     }
-    var clas =  el_obj.className.split(" ");
+    var clas =  el_obj.className!==undefined ? el_obj.className.split(" ") : '';
     for(var i=0; i<clas.length; i++){
       if(clas[i].indexOf(namespace)==0){
            clas[i] = 'MWDeleteNameSpace';

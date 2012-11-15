@@ -26,29 +26,10 @@ mw.require("<?php print( module_url('shop')); ?>shop.js");
   email
   <input name="email"  type="text" value="" />
   <br />
-  country
-  <select name="country" >
-    <? $countries = countries_list() ; ?>
-    <? foreach( $countries as $item) :?>
-    <option value="<? print  $item?>"><? print  $item?></option>
-    <? endforeach; ?>
-  </select>
-  <br />
-  city
-  <input name="city"  type="text" value="" />
-  <br />
-  state
-  <input name="state"  type="text" value="" />
-  <br />
-  zip
-  <input name="zip"  type="text" value="" />
-  <br />
-  address
-  <input name="address"  type="text" value="" />
-  <br />
-  phone
-  <input name="phone"  type="text" value="" />
-  <br />
+ 
+   <module type="shop/shipping" />
+  
+  
   <module type="shop/payments" />
   <button onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Checkout</button>
   <button type="submit">submit</button>

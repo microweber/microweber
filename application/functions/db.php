@@ -882,10 +882,26 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 
 	$groupby = false;
+	
+	if (isset($criteria['group_by'])) {
+		$groupby = $criteria['group_by'];
+		if (is_string($groupby)) {
+			$groupby = db_escape_string($groupby);
+		}
+	}
+	
+	
 	if (isset($criteria['group'])) {
 		$groupby = $criteria['group'];
 		if (is_string($groupby)) {
 			$groupby = db_escape_string($groupby);
+		}
+	}
+	
+	if (isset($criteria['order_by'])) {
+		$orderby = $criteria['order_by'];
+		if (is_string($orderby)) {
+			$orderby = db_escape_string($orderby);
 		}
 	}
 

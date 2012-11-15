@@ -61,7 +61,7 @@ $(document).ready(function(){
 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
 
-alert('opaaa')
+
 
  mw_before_content_save<? print $rand ?>();
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
@@ -150,7 +150,7 @@ mw_before_content_save<? print $rand ?>()
 });
 </script>
 
-<form  id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
+<form autocomplete="off" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">

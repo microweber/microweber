@@ -278,7 +278,7 @@ class Controller {
 		$this -> api();
 	}
 
-	function api() {
+	function api($api_function = false) {
 
 		if (!defined('MW_API_CALL')) {
 			define('MW_API_CALL', true);
@@ -297,9 +297,9 @@ class Controller {
 		$api_exposed = explode(' ', $api_exposed);
 		$api_exposed = array_unique($api_exposed);
 		$api_exposed = array_trim($api_exposed);
-
-		$api_function = url_segment(1);
-
+		if ($api_function == false) {
+			$api_function = url_segment(1);
+		}
 		if ($api_function) {
 
 		} else {
@@ -310,17 +310,30 @@ class Controller {
 			$this -> module();
 		} else {
 			if (in_array($api_function, $api_exposed)) {
-				if (function_exists($api_function)) {
-					if (!$_POST) {
+				if (function_exists($api_function) or class_exists($api_function)) {
+					if (!$_POST and !$_GET) {
 						//  $data = url(2);
 						$data = url_params(true);
 						if (empty($data)) {
 							$data = url(2);
 						}
 					} else {
-						$data = $_POST;
+						$data = $_REQUEST;
 					}
-					$res = $api_function($data);
+
+					if (function_exists($api_function)) {
+						$res = $api_function($data);
+					} elseif (class_exists($api_function, false)) {
+						//	d($api_function);
+						$segs = url();
+						$mmethod = array_pop($segs);
+						//d($segs);
+						$res = new $api_function($data);
+						if (method_exists($res, $mmethod)) {
+							$res = $res -> $mmethod($data);
+						}
+
+					}
 
 					$hooks = api_hook(true);
 					if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
@@ -343,38 +356,61 @@ class Controller {
 
 				// print $api_function;
 			} else {
-				error('The api function is not defined in the allowed functions list');
+				error('The api function ' . $api_function . ' is not defined in the allowed functions list');
 			}
 			exit();
 		}
 		// exit ( $api_function );
 	}
 
-	function module() {
+	function m() {
+
 		if (!defined('MW_API_CALL')) {
 			define('MW_API_CALL', true);
+		}
+
+		if (!defined('MW_NO_OUTPUT')) {
+			define('MW_NO_OUTPUT', true);
+		}
+		return $this -> module();
+	}
+
+	function module() {
+		if (!defined('MW_API_CALL')) {
+			//	define('MW_API_CALL', true);
 		}
 		$page = false;
 
 		$custom_display = false;
-		if (isset($_POST['data-display']) and $_POST['data-display'] == 'custom') {
+		if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
 			$custom_display = true;
 		}
 
-		if (isset($_POST['display']) and $_POST['display'] == 'custom') {
+
+if (isset($_REQUEST['data-module-name'])) {
+			$_REQUEST['module'] = $_REQUEST['data-module-name'];
+	$_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+		}
+
+
+		if (isset($_REQUEST['data-type'])) {
+			$_REQUEST['module'] = $_REQUEST['data-type'];
+		}
+
+		if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
 			$custom_display = true;
 		}
-		if (isset($_POST['view']) and $_POST['view'] == 'admin') {
+		if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
 			$custom_display = FALSE;
 		}
 
 		if ($custom_display == true) {
 			$custom_display_id = false;
-			if (isset($_POST['id'])) {
-				$custom_display_id = $_POST['id'];
+			if (isset($_REQUEST['id'])) {
+				$custom_display_id = $_REQUEST['id'];
 			}
-			if (isset($_POST['data-id'])) {
-				$custom_display_id = $_POST['data-id'];
+			if (isset($_REQUEST['data-id'])) {
+				$custom_display_id = $_REQUEST['data-id'];
 			}
 		}
 
@@ -404,18 +440,65 @@ class Controller {
 			$this -> index();
 			exit();
 		}
+		$url_last = false;
+		if (!isset($_REQUEST['module'])) {
+			$url = url_string(1);
+			$url = str_replace_once('module/', '', $url);
+			$url = str_replace_once('module_api/', '', $url);
+			$url = str_replace_once('m/', '', $url);
+			//d($url);
+			if (is_module($url)) {
+				$_REQUEST['module'] = $url;
+				$mod_from_url = $url;
+			} else {
+				$url1 = $url_temp = explode('/', $url);
+				$url_last = array_pop($url_temp);
+
+				$try_intil_found = false;
+				$temp1 = array();
+				foreach ($url_temp as $item) {
+
+					$temp1[] = implode('/', $url_temp);
+					$url_laset = array_pop($url_temp);
+
+				}
+
+				$i = 0;
+				foreach ($temp1 as $item) {
+					if ($try_intil_found == false) {
+
+						if (is_module($item)) {
+
+							$url_tempx = explode('/', $url);
+
+							$_REQUEST['module'] = $item;
+							$url_prev = $url_last;
+							$url_last = array_pop($url_tempx);
+							$url_prev = array_pop($url_tempx);
+
+							// d($url_prev);
+							$mod_from_url = $item;
+							$try_intil_found = true;
+						}
+
+					}
+					$i++;
+				}
+
+			}
+		}
 
 		$module_info = url_param('module_info', true);
 
 		if ($module_info) {
-			if ($_POST['module']) {
-				$_POST['module'] = str_replace('..', '', $_POST['module']);
-				$try_config_file = MODULES_DIR . '' . $_POST['module'] . '_config.php';
+			if ($_REQUEST['module']) {
+				$_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
+				$try_config_file = MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
 				$try_config_file = normalize_path($try_config_file, false);
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_POST['module'] . '.png';
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
 						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
@@ -435,12 +518,13 @@ class Controller {
 			$mod_to_edit = str_ireplace('_mw_slash_replace_', '/', $mod_to_edit);
 			$mod_iframe = true;
 		}
-		//$data = $_POST;
+		//$data = $_REQUEST;
 
 		if (($_POST)) {
 			$data = $_POST;
 		} else {
 			$url = url();
+
 			if (!empty($url)) {
 				foreach ($url as $k => $v) {
 					$kv = explode(':', $v);
@@ -456,9 +540,9 @@ class Controller {
 			//s  $data['page_id'] = $is_page_id;
 		}
 
-		$is_post_id = url_param('post_id', true);
-		if ($is_post_id != '') {
-			//  $data['post_id'] = $is_post_id;
+		$is_REQUEST_id = url_param('post_id', true);
+		if ($is_REQUEST_id != '') {
+			//  $data['post_id'] = $is_REQUEST_id;
 		}
 
 		$is_category_id = url_param('category_id', true);
@@ -477,7 +561,7 @@ class Controller {
 						//   $data['page_id'] = $test['id'];
 					}
 				}
-				// p($test);
+
 			}
 
 			if ($is_rel == 'post') {
@@ -538,25 +622,29 @@ class Controller {
 			$data['data-type'] = rtrim($data['data-type'], '\\');
 			$data['data-type'] = str_replace('__', '/', $data['data-type']);
 		}
-
-		//d($data);
-
-		$has_id = false;
-
-		foreach ($data as $k => $v) {
-
-			if ($k == 'id') {
-				$has_id = true;
-			}
-
-			if (is_array($v)) {
-				$v1 = encode_var($v);
-				$tags .= "{$k}=\"$v1\" ";
-			} else {
-				$tags .= "{$k}=\"$v\" ";
-			}
+		if (!isset($data)) {
+			$data = $_REQUEST;
+		}
+		if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
+			$data['module'] = ($mod_from_url);
 		}
 
+		$has_id = false;
+		if (isset($data) and isarr($data)) {
+			foreach ($data as $k => $v) {
+
+				if ($k == 'id') {
+					$has_id = true;
+				}
+
+				if (is_array($v)) {
+					$v1 = encode_var($v);
+					$tags .= "{$k}=\"$v1\" ";
+				} else {
+					$tags .= "{$k}=\"$v\" ";
+				}
+			}
+		}
 		if ($has_id == false) {
 
 			$mod_n = url_title($mod_n) . '-' . date("YmdHis");
@@ -566,8 +654,8 @@ class Controller {
 		$tags = "<module {$tags} />";
 
 		$opts = array();
-		if ($_POST) {
-			$opts = $_POST;
+		if ($_REQUEST) {
+			$opts = $_REQUEST;
 		}
 		$opts['admin'] = $admin;
 
@@ -582,8 +670,20 @@ class Controller {
 			$res = str_replace('{content}', $res, $layout);
 		}
 		$res = execute_document_ready($res);
+		if (!defined('MW_NO_OUTPUT')) {
+			print $res;
+		}
+		if (function_exists($url_last)) {
+			//d($url_last);
+			$this -> api($url_last);
+		} else if (isset($url_prev) and function_exists($url_prev)) {
+			$this -> api($url_last);
+		} elseif (class_exists($url_last, false)) {
+			$this -> api($url_last);
+		} elseif (isset($url_prev) and class_exists($url_prev, false)) {
+			$this -> api($url_prev);
+		}
 
-		print $res;
 		exit();
 	}
 

@@ -10,8 +10,6 @@ mwd.body.className = mwd.body.className + " mw-live-edit";
 $(window).load(function(){
 
 
-
-
 $(".mw_dropdown_type_navigation a").each(function(){
   var el = $(this);
   var li = el.parent();

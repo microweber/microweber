@@ -164,8 +164,8 @@ function get_elements_from_db($params = false) {
 	}
 	$params['table'] = $table;
 	$params['orderby'] = 'position asc';
-	//$params['debug'] = 1;
-	//   $params['cache_group'] = 'elements/global';
+	// $params['debug'] = 1;
+	   $params['cache_group'] = 'elements/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
 	} else {
@@ -176,7 +176,7 @@ function get_elements_from_db($params = false) {
 		//   $params['ui'] = 1;
 	}
 	$s = get($params);
-	//d($params); d( $s);
+	// d($params); d( $s);
 	return $s;
 }
 
@@ -765,7 +765,7 @@ function scan_for_modules($options = false) {
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($options['dir_name'])) {
 		$dir_name = $options['dir_name'];
-		$list_as_element = true;
+		//$list_as_element = true;
 		$cache_group = 'elements/global';
 		//
 	} else {
@@ -773,6 +773,13 @@ function scan_for_modules($options = false) {
 		$list_as_element = false;
 		$cache_group = 'modules/global';
 	}
+
+
+if(isset($options['is_elements'])){
+	$list_as_element = true;
+	
+}
+
 if (isset($options['cache_group'])) {
 	$cache_group = $cache_group ;
 		}
@@ -934,7 +941,7 @@ function get_elements($options = array()) {
 		$options = $params2;
 	}
 
-	// $options ['glob'] = '*.php';
+	  $options ['is_elements'] = 1;
 	$options['dir_name'] = normalize_path(ELEMENTS_DIR);
 
 	return scan_for_modules($options);
@@ -1179,6 +1186,13 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
+	 
+		$config['module_api'] = site_url('m/'.$module_name);
+		
+		$config['ns'] =    str_replace('/', '\\', $module_name );
+	 $config['module_class'] = str_replace('/', '-', $module_name );;
+		
+		
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
 		$lic = load_module_lic($module_name);
