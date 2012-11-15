@@ -58,7 +58,7 @@ class paypal_pro
 		$response = curl_exec($ch);
 		$nvpResArray=$this->deformatNVP($response);
 		$nvpReqArray=$this->deformatNVP($nvpreq);
-		$_SESSION['nvpReqArray']=$nvpReqArray;
+	//	$_SESSION['nvpReqArray']=$nvpReqArray;
 		if (curl_errno($ch))
 		{
 			die("CURL send a error during perform operation: ".curl_errno($ch));

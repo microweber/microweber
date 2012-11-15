@@ -463,7 +463,7 @@ function mw_add_product(){
 	   
 	   ?>
        
-        <module data-type="content/edit_page" id="edit_content_admin_" <? print  $content_id ?>  />
+        <module data-type="content/manage" page-id="global" id="edit_content_admin_" <? print  $content_id ?>  />
       </div>
     </div>
   </div>

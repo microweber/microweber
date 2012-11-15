@@ -1,4 +1,6 @@
-
+<script  type="text/javascript">
+  mw.require('forms.js');
+ </script>
 
 <div class="page_posts_list_tree">
 
@@ -7,6 +9,11 @@
  
 <?
  $pt_opts = array();
+ 
+ if($params['page-id'] == 'global'){
+	 $params['page-id'] = 0;
+ }
+ 
   $pt_opts['parent'] = $params['page-id'];  
  //  $pt_opts['id'] = "pgs_tree";
  	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
@@ -14,10 +21,11 @@
   $pt_opts['include_first'] = 'yes';  
   $pt_opts['include_categories'] = 'yes';
     $pt_opts['max_level'] = 2;
-
+//$pt_opts['debug'] = 2;
    if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
  }
+ //d($pt_opts);
    pages_tree($pt_opts);
  ?>
  <? else : ?>

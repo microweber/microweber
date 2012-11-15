@@ -35,8 +35,8 @@ function category_tree($params = false) {
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
 
 	if (($cache_content) != false) {
-	 print $cache_content;
-	 	return;
+		print $cache_content;
+		return;
 		//  return $cache_content;
 	}
 
@@ -117,7 +117,7 @@ function category_tree($params = false) {
 	} else {
 		$orderby = false;
 	}
-$table = c('db_tables');
+	$table = c('db_tables');
 
 	$table = $table['table_taxonomy'];
 	if (isset($params['for_page']) and $params['for_page'] != false) {
@@ -134,7 +134,7 @@ $table = c('db_tables');
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
 
-		$str0 = 'table='.$table.'&limit=1000&data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
+		$str0 = 'table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
 		$fors = get($str0);
 		//   d($fors);
 	}
@@ -149,15 +149,12 @@ $table = c('db_tables');
 	} else {
 		$depth_level_counter = 0;
 	}
-	
-	
+
 	$max_level = false;
 	if (isset($params['max_level'])) {
 		$max_level = $params['max_level'];
 	}
- 
-	 
-	
+
 	$params['table'] = $table;
 	// $add_ids1 = false;
 	if (is_string($add_ids)) {
@@ -249,20 +246,14 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 		$add_ids_q = false;
 	}
-	
-	
-	
- 
+
 	if ($max_level != false and $depth_level_counter != false) {
-		 
-		
+
 		if (intval($depth_level_counter) >= intval($max_level)) {
 			print '';
 			return;
 		}
 	}
-	
-	
 
 	$content_type = addslashes($content_type);
 	$hard_limit = " LIMIT 300 ";
@@ -315,10 +306,6 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 	//
 
-	
-	
-	
-	
 	$only_with_content2 = $only_with_content;
 
 	$do_not_show_next = false;
@@ -756,7 +743,10 @@ function save_category($data, $preserve_cache = false) {
 	$table_items = $cms_db_tables['table_taxonomy_items'];
 
 	$content_ids = false;
-
+	
+	if (isset($data['to_table']) and ($data['to_table'] == '') or !isset($data['to_table'])) {
+		$data['to_table'] = 'table_content';
+	}
 	if (isset($data['content_id'])) {
 
 		if (is_array($data['content_id']) and !empty($data['content_id']) and trim($data['data_type']) != '') {
@@ -868,7 +858,6 @@ function get_categories($params, $data_type = 'categories') {
 	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
 	$data['only_those_fields'] = array('parent_id');
 
- 
 	$data = get($data);
 
 	//$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
@@ -1209,7 +1198,7 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 
 	$cache_group = 'taxonomy/' . $parent_id;
 	$q = " SELECT id,  parent_id from $table where parent_id=$parent_id   ";
-	 //var_dump($q);
+	//var_dump($q);
 	$q_cache_id = __FUNCTION__ . crc32($q);
 	//var_dump($q_cache_id);
 	$save = db_query($q, $q_cache_id, $cache_group);
