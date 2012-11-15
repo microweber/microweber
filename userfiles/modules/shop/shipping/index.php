@@ -36,11 +36,11 @@ $(document).ready(function(){
  
 });
 </script>
-
+ 
 <h3>Shipping information</h3>
 <select name="shipping_gw" class="mw-shipping-gateway mw-shipping-gateway-<? print $params['id']; ?> <? if(count($shipping_options) == 1): ?> semi_hidden <? endif; ?>" >
   <? foreach ($shipping_options as $item) : ?>
-  <option value="<? print  $item['name']; ?>"><? print  $item['name']; ?></option>
+  <option value="<? print  $item['module_base']; ?>"><? print  $item['name']; ?></option>
   <? endforeach; ?>
 </select>
 <div id="mw-shipping-gateway-selected-<? print $params['id']; ?>">

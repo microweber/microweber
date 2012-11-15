@@ -222,6 +222,23 @@ function checkout($data) {
 			}
 		}
 
+		$shiping_country = false;
+		$shiping_cost_max = false;
+		$shiping_cost = false;
+		$shiping_cost_above = false;
+		if (isset($_SESSION['shiping_country'])) {
+			$shiping_country = $_SESSION['shiping_country'];
+		}
+		if (isset($_SESSION['shiping_cost_max'])) {
+			$shiping_cost_max = $_SESSION['shiping_cost_max'];
+		}
+		if (isset($_SESSION['shiping_cost'])) {
+			$shiping_cost = $_SESSION['shiping_cost'];
+		}
+		if (isset($_SESSION['shiping_cost_above'])) {
+			$shiping_cost_above = $_SESSION['shiping_cost_above'];
+		}
+
 		//post any of those on the form
 		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code', 'payment_gw');
 		$posted_fields = array();
@@ -241,6 +258,7 @@ function checkout($data) {
 		}
 
 		$place_order['session_id'] = $sid;
+
 		$place_order['order_completed'] = 'n';
 		$items_count = 0;
 		foreach ($flds_from_data as $value) {
@@ -256,6 +274,19 @@ function checkout($data) {
 			return;
 		}
 		$place_order['amount'] = $amount;
+
+		if (isset($data['shipping_gw'])) {
+			$place_order['shipping_service'] = $data['shipping_gw'];
+		}
+
+		if (intval($shiping_cost_above) > 0 and intval($shiping_cost_max) > 0) {
+			if ($amount > $shiping_cost_above) {
+				$shiping_cost = $shiping_cost_max;
+			}
+		}
+
+		$place_order['shipping'] = $shiping_cost;
+
 		$items_count = cart_sum(false);
 		$place_order['items_count'] = $items_count;
 
@@ -297,19 +328,19 @@ function checkout($data) {
 					$q = " UPDATE $table_cart set 
 				order_completed='y', order_id='{$ord}' 
 				where order_completed='n'   ";
-				 
+
 					db_q($q);
 
 					$q = " UPDATE $table_orders set 
 				order_completed='y'   
 				where order_completed='n' and 
 				id='{$ord}'  ";
-				 
+
 					db_q($q);
 					cache_clean_group('cart/global');
 					cache_clean_group('cart_orders/global');
 				}
-				
+
 				//$_SESSION['mw_payment_success'] = true;
 			}
 

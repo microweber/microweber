@@ -24,7 +24,16 @@ $address2 = '';
 $city = urlencode($_POST['city']);
 $state =urlencode( $_POST['state']);
 $zip = urlencode($_POST['zip']);
-$amount = urlencode($place_order['amount']);
+
+$amount = ($place_order['amount']);
+if(isset($place_order['shipping']) and intval($place_order['shipping']) > 0){
+	$amount = $amount+floatval($place_order['shipping']);
+}
+
+$amount = urlencode($amount);
+
+
+
 $currencyCode="USD";
 $paymentAction = urlencode("Sale");
  
@@ -64,6 +73,9 @@ else
 	$res['success'] = 'Your payment was successful! Transaction id: '.$resArray['TRANSACTIONID']; 
 	$res['amount'] = $currencyCode.$resArray['AMT'];
 	$res['transaction_id'] = $resArray['TRANSACTIONID'] ;
+	if(isset($place_order['shipping']) and intval($place_order['shipping']) > 0){
+	$res['shipping'] = floatval($place_order['shipping']);
+}
 	
 		$place_order['payment_amount'] = $resArray['AMT'];
 $place_order['is_paid'] = 'y';

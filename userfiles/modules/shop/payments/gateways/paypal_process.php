@@ -147,6 +147,10 @@ $myPaypal->addField('notify_url', $mw_ipn_url);
 // Specify the product information
 $myPaypal->addField('item_name', $place_order['item_name']);
 $myPaypal->addField('amount', $place_order['amount']);
+$myPaypal->addField('shipping',$place_order['shipping']);
+
+
+
 //$myPaypal->addField('item_number', $cart['session_id']);
 
 // Specify any custom value

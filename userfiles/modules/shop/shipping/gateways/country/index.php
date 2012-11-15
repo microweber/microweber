@@ -40,7 +40,7 @@ mw.$('#<? print $rand ?>').change(function() {
 <div class="<? print $config['module_class'] ?>" id="<? print $rand ?>"> Choose country:
   <select name="country" >
     <? foreach($data  as $item): ?>
-    <option value="<? print $item['shiping_country'] ?>"      ><? print $item['shiping_country'] ?></option>
+    <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
     <? endforeach ; ?>
   </select>
   <? endif; ?>

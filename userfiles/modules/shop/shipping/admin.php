@@ -26,7 +26,6 @@ $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
     <input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field"     data-option-group="shipping"  value="n"  type="radio"  <? if(option_get('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> checked="checked" <? endif; ?> >
     <span></span>No</label>
   <div class="mw-set-shipping-gw-options" >
-  
     <module type="shop/shipping/gateways/<? print $shipping_module['module'] ?>" view="admin" />
   </div>
   <? endforeach ; ?>

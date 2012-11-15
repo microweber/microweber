@@ -136,7 +136,7 @@ mw.$('#<? print $rand ?>').submit(function() {
     <? //d( $item); ?>
     <form action="<? print $config['module_api']; ?>/shipping_add_to_country" id="<? print $rand ?>" data-field-id="<? print $item['id']; ?>">
       <? if($new == false): ?>
-      <input type="text" name="id" value="<? print $item['id']; ?>" >
+      <input type="hidden" name="id" value="<? print $item['id']; ?>" >
       <? endif; ?>
       <select name="shiping_country">
         <? if($new == true): ?>
