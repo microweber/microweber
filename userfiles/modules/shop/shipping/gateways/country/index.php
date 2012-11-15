@@ -26,6 +26,7 @@
   
   
 $(document).ready(function(){
+	mw_shipping_<? print $rand ?>();
 mw.$('#<? print $rand ?>').change(function() {
 	mw_shipping_<? print $rand ?>();
 }); 

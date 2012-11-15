@@ -78,6 +78,25 @@ class shipping_to_country {
 		//d($c_id);
 	}
 }
+	
+		function set($params = false) {
+	 
+			if(isset($params['country'])){
+				$active = $this->get('fields=shiping_country,shiping_cost_max,shiping_cost,shiping_cost_above&one=1&is_active=y&shiping_country='.$params['country']);
+				if(isarr($active)){
+					foreach($active as $name => $val){
+						 session_set($name, $val);
+					}
+					
+				}
+  return $active;
+			}
+			
+
+		
+
+	}
+	
 	function reorder($data) {
 
     $adm = is_admin();

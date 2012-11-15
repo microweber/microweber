@@ -761,7 +761,7 @@ function scan_for_modules($options = false) {
 
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v) . serialize($params);
 	}
-
+$list_as_element = false;
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($options['dir_name'])) {
 		$dir_name = $options['dir_name'];
