@@ -18,8 +18,10 @@
  * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
  * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
  * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
-
- * @usage category_tree($params);
+ * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
+ * @param  $params['list_tag'] = 'select';
+ * @param  $params['list_item_tag'] = "option";
+ *
 
  */
 function category_tree($params = false) {
@@ -33,13 +35,13 @@ function category_tree($params = false) {
 
 	$cache_group = 'taxonomy/global';
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-
-	if (($cache_content) != false) {
-		print $cache_content;
-		return;
-		//  return $cache_content;
+	if (!isset($_GET['debug'])) {
+		if (($cache_content) != false) {
+			print $cache_content;
+			return;
+			//  return $cache_content;
+		}
 	}
-
 	$p2 = array();
 	// p($params);
 	if (!is_array($params)) {
@@ -128,16 +130,39 @@ function category_tree($params = false) {
 		$parent = $params['subtype_value'];
 	}
 
+	if (isset($params['parent']) and $params['parent'] != false) {
+		//	$parent = $params['parent'];
+	}
+
 	$skip123 = false;
+	$fors = array();
 	if (isset($params['for']) and $params['for'] != false) {
-		$fors = array();
+		
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
 
 		$str0 = 'table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
 		$fors = get($str0);
-		//   d($fors);
+		 
 	}
+	
+	if (isset($params['try_to_table_id']) and intval($params['try_to_table_id']) != 0) {
+		$skip123 = true;
+		
+		$str1 = 'table=' . $table . '&limit=1000&parent_id=0&to_table_id=' . $params['try_to_table_id'];
+		$fors1 = get($str1);
+		if(isarr($fors1)){
+			$fors = array_merge($fors,$fors1);
+			
+		}
+		
+		
+	
+		
+	}
+	
+		
+	
 
 	if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
 		$page = get_page($params['not_for_page']);
@@ -154,12 +179,25 @@ function category_tree($params = false) {
 	if (isset($params['max_level'])) {
 		$max_level = $params['max_level'];
 	}
+	$list_tag = false;
+	if (isset($params['list_tag'])) {
+		$list_tag = $params['list_tag'];
+	}
+	$list_item_tag = false;
+	if (isset($params['list_item_tag'])) {
+		$list_item_tag = $params['list_item_tag'];
+	}
 
 	$params['table'] = $table;
 	// $add_ids1 = false;
 	if (is_string($add_ids)) {
 		$add_ids = explode(',', $add_ids);
 	}
+	
+	if (isset($params['debug'])) {
+	 	 d($params);
+	}
+	
 
 	ob_start();
 
@@ -167,19 +205,20 @@ function category_tree($params = false) {
 
 	if ($skip123 == false) {
 
-		content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level);
+		content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 	} else {
 
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
-				content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level);
+				content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 			}
 		}
 	}
 
 	$content = ob_get_contents();
-	cache_store_data($content, $function_cache_id, $cache_group);
-
+	if (!isset($_GET['debug'])) {
+		cache_store_data($content, $function_cache_id, $cache_group);
+	}
 	ob_end_clean();
 	print $content;
 	return;
@@ -204,7 +243,7 @@ function category_tree($params = false) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false) {
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
 	$table = c('db_tables');
 	$table_content = $table['table_content'];
 
@@ -255,6 +294,18 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 		}
 	}
 
+	if (isset($list_tag) == false or $list_tag == false) {
+		$list_tag = 'ul';
+	}
+
+	if (isset($active_code_tag) == false or $active_code_tag == false) {
+		$active_code_tag = '';
+	}
+
+	if (isset($list_item_tag) == false or $list_item_tag == false) {
+		$list_item_tag = 'li';
+	}
+
 	$content_type = addslashes($content_type);
 	$hard_limit = " LIMIT 300 ";
 	$inf_loop_fix = "  and $table.id!=$table.parent_id  ";
@@ -295,7 +346,9 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
-	// d($sql);
+	 if (isset($_GET['debug'])) {
+	 	d($sql);
+	 	}
 
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
@@ -411,15 +464,15 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 		if ($do_not_show == false) {
 
 			$print1 = false;
+			if (trim($list_tag) != '') {
+				if ($ul_class_name == false) {
 
-			if ($ul_class_name == false) {
+					$print1 = "<{$list_tag}  class='category_tree depth-{$depth_level_counter}'>";
+				} else {
 
-				$print1 = "<ul  class='category_tree depth-{$depth_level_counter}'>";
-			} else {
-
-				$print1 = "<ul class='$ul_class_name depth-{$depth_level_counter}'>";
+					$print1 = "<{$list_tag} class='$ul_class_name depth-{$depth_level_counter}'>";
+				}
 			}
-
 			print $print1;
 			// print($type);
 			foreach ($result as $item) {
@@ -452,10 +505,10 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 					if ($li_class_name == false) {
 
-						print "<li class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}' data-taxonomy-type='{$item['data_type']}'>";
+						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'    data-taxonomy-type='{$item['data_type']}'>";
 					} else {
 
-						print "<li class='$li_class_name  item_{$iid}' data-item-id='{$item['id']}'   >";
+						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
 					}
 				}
 
@@ -547,18 +600,390 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 						}
 					}
 
-					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level);
+					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 
-					print "</li>";
+					print "</{$list_item_tag}>";
 				}
 			}
-
-			print "</ul>";
+			if (trim($list_tag) != '') {
+				print "</{$list_tag}>";
+			}
 		}
 	} else {
 
 	}
 }
+
+
+function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
+	$table = c('db_tables');
+	$table_content = $table['table_content'];
+
+	$table = $table_taxonomy = $table['table_taxonomy'];
+
+	if ($parent == false) {
+
+		$parent = (0);
+
+		$include_first = false;
+	} else {
+
+		$parent = (int)$parent;
+	}
+
+	if (!is_array($orderby)) {
+
+		$orderby[0] = 'position';
+
+		$orderby[1] = 'ASC';
+	}
+
+	if (!empty($remove_ids)) {
+
+		$remove_ids_q = implode(',', $remove_ids);
+
+		$remove_ids_q = " and id not in ($remove_ids_q) ";
+	} else {
+
+		$remove_ids_q = false;
+	}
+
+	if (!empty($add_ids)) {
+
+		$add_ids_q = implode(',', $add_ids);
+
+		$add_ids_q = " and id in ($add_ids_q) ";
+	} else {
+
+		$add_ids_q = false;
+	}
+
+	if ($max_level != false and $depth_level_counter != false) {
+
+		if (intval($depth_level_counter) >= intval($max_level)) {
+			print '';
+			return;
+		}
+	}
+
+	if (isset($list_tag) == false or $list_tag == false) {
+		$list_tag = 'ul';
+	}
+
+	if (isset($active_code_tag) == false or $active_code_tag == false) {
+		$active_code_tag = '';
+	}
+
+	if (isset($list_item_tag) == false or $list_item_tag == false) {
+		$list_item_tag = 'li';
+	}
+
+	$content_type = addslashes($content_type);
+	$hard_limit = " LIMIT 300 ";
+	$inf_loop_fix = "  and $table.id!=$table.parent_id  ";
+	$inf_loop_fix = "     ";
+	if ($content_type == false) {
+
+		if ($include_first == true) {
+
+			$sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+		} else {
+
+			$sql = "SELECT * from $table where parent_id=$parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+		}
+	} else {
+
+		if ($include_first == true) {
+
+			$sql = "SELECT * from $table where id=$parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+		} else {
+
+			$sql = "SELECT * from $table where parent_id=$parent and data_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+		}
+	}
+
+	if (empty($limit)) {
+		$limit = array(0, 10);
+	}
+
+	if (!empty($limit)) {
+
+		$my_offset = $limit[1] - $limit[0];
+
+		$my_limit_q = " limit  {$limit[0]} , $my_offset  ";
+	} else {
+
+		$my_limit_q = false;
+	}
+	$output = '';
+	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
+	//
+	 
+	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
+	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
+	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
+	// 'taxonomy/' . intval ( $parent ) );
+
+	$result = $q;
+
+	//
+
+	$only_with_content2 = $only_with_content;
+
+	$do_not_show_next = false;
+
+	$chosen_categories_array = array();
+
+	if (isset($result) and is_array($result) and !empty($result)) {
+
+		// $output = "<ul>";
+		$depth_level_counter++;
+		$i = 0;
+
+		foreach ($result as $item) {
+
+			$do_not_show = false;
+
+			if ($only_with_content == true) {
+
+				$check_in_table_content = false;
+
+				if (is_array($only_with_content) and !empty($only_with_content)) {
+
+					$content_ids_of_the_1_parent = $this -> taxonomy_model -> getToTableIds($only_with_content[0], $limit);
+
+					$content_ids_of_the_1_parent_o = $content_ids_of_the_1_parent;
+
+					if (!empty($content_ids_of_the_1_parent)) {
+
+						$only_with_content3 = array();
+
+						$chosen_categories_array = array();
+
+						foreach ($only_with_content2 as $only_with_content2_i) {
+
+							$only_with_content2_i = str_ireplace('{id}', $item['id'], $only_with_content2_i);
+
+							$only_with_content2_i = intval($only_with_content2_i);
+
+							$chosen_categories_array[] = $only_with_content2_i;
+						}
+
+						if (count($chosen_categories_array) > 1) {
+
+							// array_shift ( $chosen_categories_array );
+						}
+
+						$chosen_categories_array_i = implode(',', $chosen_categories_array);
+
+						$children_of_the_next_parent = get_category_items_ids($only_with_content[0], $limit);
+
+						$children_of_the_next_parent_i = implode(',', $children_of_the_next_parent);
+
+						$children_of_the_next_parent_qty = count($chosen_categories_array);
+
+						$q = "
+						select id , count(to_table_id) as qty from $table_taxonomy where
+						to_table_id in($children_of_the_next_parent_i)
+						and parent_id  IN ($chosen_categories_array_i)
+						and data_type =  'category_item'
+						group by to_table_id
+						$my_limit_q
+						";
+
+						$total_count_array = array();
+
+						if (!empty($q)) {
+
+							foreach ($q as $q1) {
+								$qty = intval($q1['qty']);
+
+								if (($children_of_the_next_parent_qty) == $qty) {
+									$total_count_array[] = $q1;
+								}
+							}
+						}
+
+						$results_count = count($total_count_array);
+
+						$content_ids_of_the_1_parent_i = implode(',', $children_of_the_main_parent);
+
+						$chosen_categories_array_i = implode(',', $chosen_categories_array);
+
+						$result[$i]['content_count'] = $results_count;
+
+						$item['content_count'] = $results_count;
+					} else {
+
+						$results_count = 0;
+					}
+
+					$result[$i]['content_count'] = $results_count;
+
+					$item['content_count'] = $results_count;
+				} else {
+
+					$do_not_show = false;
+				}
+			}
+
+			$i++;
+		}
+
+		if ($do_not_show == false) {
+
+			$print1 = false;
+			if (trim($list_tag) != '') {
+				if ($ul_class_name == false) {
+
+					$print1 = "<{$list_tag}  class='category_tree depth-{$depth_level_counter}'>";
+				} else {
+
+					$print1 = "<{$list_tag} class='$ul_class_name depth-{$depth_level_counter}'>";
+				}
+			}
+			print $print1;
+			// print($type);
+			foreach ($result as $item) {
+
+				if ($only_with_content == true) {
+
+					$do_not_show = false;
+
+					$check_in_table_content = false;
+					$childern_content = array();
+
+					$do_not_show = false;
+					// print($type);
+
+					if (!empty($childern_content)) {
+
+						$do_not_show = false;
+					} else {
+
+						$do_not_show = true;
+					}
+				} else {
+
+					$do_not_show = false;
+				}
+				$iid = $item['id'];
+				if ($do_not_show == false) {
+
+					$output = $output . $item['title'];
+
+					if ($li_class_name == false) {
+
+						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'    data-taxonomy-type='{$item['data_type']}'>";
+					} else {
+
+						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
+					}
+				}
+
+				if ($do_not_show == false) {
+
+					if ($link != false) {
+
+						$to_print = false;
+
+						$to_print = str_ireplace('{id}', $item['id'], $link);
+
+						$to_print = str_ireplace('{taxonomy_url}', category_link($item['id']), $to_print);
+						$to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
+
+						$to_print = str_ireplace('{title}', $item['title'], $to_print);
+
+						//$to_print = str_ireplace('{title2}', $item ['title2'], $to_print);
+						// $to_print = str_ireplace('{title3}', $item ['title3'], $to_print);
+
+						$to_print = str_ireplace('{taxonomy_content_type}', trim($item['taxonomy_content_type']), $to_print);
+
+						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
+
+						if (is_array($actve_ids) == true) {
+
+							if (in_array($item['id'], $actve_ids)) {
+
+								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
+							} else {
+
+								$to_print = str_ireplace('{active_code}', '', $to_print);
+							}
+						} else {
+
+							$to_print = str_ireplace('{active_code}', '', $to_print);
+						}
+
+						if (is_array($remove_ids) == true) {
+
+							if (in_array($item['id'], $remove_ids)) {
+
+								if ($removed_ids_code == false) {
+
+									$to_print = false;
+								} else {
+
+									$to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);
+								}
+							} else {
+
+								$to_print = str_ireplace('{removed_ids_code}', '', $to_print);
+							}
+						}
+
+						if (strval($to_print) == '') {
+
+							print $item['title'];
+						} else {
+
+							print $to_print;
+						}
+					} else {
+
+						print $item['title'];
+					}
+
+					// $parent, $link = false, $actve_ids = false,
+					// $active_code = false, $remove_ids = false,
+					// $removed_ids_code = false, $ul_class_name = false,
+					// $include_first = false, $content_type = false,
+					// $li_class_name = false) {
+					// $li_class_name = false, $add_ids = false, $orderby =
+					// false, $only_with_content = false
+					$children_of_the_main_parent1 = array();
+					// $children_of_the_main_parent1 = get_category_children($item ['id'], $type = 'category', $visible_on_frontend = false);
+					// p($children_of_the_main_parent1 );
+					$remove_ids[] = $item['id'];
+					if (!empty($children_of_the_main_parent1)) {
+						foreach ($children_of_the_main_parent1 as $children_of_the_main_par) {
+
+							// $remove_ids[] = $children_of_the_main_par;
+							// $children = CI::model ( 'content'
+							// )->content_helpers_getCaregoriesUlTree (
+							// $children_of_the_main_par, $link, $actve_ids,
+							// $active_code, $remove_ids, $removed_ids_code,
+							// $ul_class_name, false, $content_type,
+							// $li_class_name, $add_ids, $orderby,
+							// $only_with_content, $visible_on_frontend );
+						}
+					}
+
+					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+
+					print "</{$list_item_tag}>";
+				}
+			}
+			if (trim($list_tag) != '') {
+				print "</{$list_tag}>";
+			}
+		}
+	} else {
+
+	}
+}
+
+
 
 function get_category_items($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
 	global $cms_db_tables;
@@ -743,7 +1168,7 @@ function save_category($data, $preserve_cache = false) {
 	$table_items = $cms_db_tables['table_taxonomy_items'];
 
 	$content_ids = false;
-	
+
 	if (isset($data['to_table']) and ($data['to_table'] == '') or !isset($data['to_table'])) {
 		$data['to_table'] = 'table_content';
 	}
@@ -759,8 +1184,10 @@ function save_category($data, $preserve_cache = false) {
 		$table = $table_items;
 		$no_position_fix = true;
 	}
-
-	//  p($data);
+	if (isset($data['table']) and ($data['table'] != '')) {
+		$table = $data['table'];
+	}
+ 
 	$save = save_data($table, $data);
 
 	cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $save);
@@ -829,6 +1256,34 @@ function save_category($data, $preserve_cache = false) {
 	return $save;
 }
 
+function get_taxonomy($params, $data_type = 'categories') {
+	$params2 = array();
+	$to_table_id = 0;
+	if (is_string($params)) {
+		$params = parse_str($params, $params2);
+		$params = $options = $params2;
+		extract($params);
+	}
+
+	$cms_db_tables = c('db_tables');
+
+	$table = $cms_db_tables['table_taxonomy'];
+	$table_items = $cms_db_tables['table_taxonomy_items'];
+
+	$data = $params;
+	$data_type_q = false;
+	 
+ 
+	$data['table'] = $table;
+
+	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
+	//$data['only_those_fields'] = array('parent_id');
+
+	$data = get($data);
+	return $data;
+
+}
+
 function get_categories($params, $data_type = 'categories') {
 
 	$to_table_id = 0;
@@ -876,7 +1331,7 @@ function get_categories($params, $data_type = 'categories') {
 		}
 		$results = array_unique($results);
 	}
-	cache_store_data($results, $function_cache_id, $cache_group);
+	//cache_store_data($results, $function_cache_id, $cache_group);
 	return $results;
 }
 

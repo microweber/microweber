@@ -59,6 +59,56 @@
     </td>
       <td><textarea style="width: 200px"><textarea class="mw-ui-field"></textarea></textarea></td>
     </tr>
+
+    <tr>
+      <td colspan="2">
+
+      <h5>Ikoni</h5>
+
+<span class="ico ipage"></span>
+<span class="ico ipost"></span>
+<span class="ico icategory"></span>
+<span class="ico iproduct"></span>
+<span class="ico iorder"></span>
+<span class="ico icomment"></span>
+<span class="ico imanage-website"></span>
+<span class="ico imanage-module"></span>
+<span class="ico iupgrade"></span>
+<span class="ico inotification"></span>
+<span class="ico iupload"></span>
+<span class="ico ireport"></span>
+<span class="ico isuggest"></span>
+<span class="ico ihelp"></span>
+<span class="ico iusers"></span>
+<span class="ico itruck"></span>
+<span class="ico ilive"></span>
+<span class="ico ilogout"></span>
+<span class="ico iSingleText"></span>
+<span class="ico iPText"></span>
+<span class="ico iRadio"></span>
+<span class="ico iName"></span>
+<span class="ico iPhone"></span>
+<span class="ico iWebsite"></span>
+<span class="ico iEmail"></span>
+<span class="ico iUpload"></span>
+<span class="ico iNumber"></span>
+<span class="ico iChk"></span>
+<span class="ico iDropdown"></span>
+<span class="ico iDate"></span>
+<span class="ico iTime"></span>
+<span class="ico iAddr"></span>
+<span class="ico iPrice"></span>
+<span class="ico iSpace"></span>
+<span class="ico iAdd"></span>
+<span class="ico iRemove"></span>
+<span class="ico iMove"></span>
+<span class="ico ipromo"></span>
+<span class="ico ioptions"></span>
+
+
+    </td>
+
+    </tr>
    </tbody>
 
   </table>

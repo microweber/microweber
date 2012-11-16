@@ -28,5 +28,5 @@ source.onmessage = function (event) {
 });
 </script>
 
-<h1>Orders</h1>
-<module type="shop/orders"  id="mw-admin-manage-orders"  />
+
+<module type="shop/orders/manage"  id="mw-admin-manage-orders"  />

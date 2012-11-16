@@ -290,7 +290,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
-    <microweber module="categories/selector" id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $shopstr ?> />
+    <microweber module="categories/selector" include_global_categories="true" id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $shopstr ?> />
     <? endif; ?>
   </div>
 

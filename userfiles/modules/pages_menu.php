@@ -50,5 +50,42 @@ if (isset($params['data-include_categories'])) {
 }
 
 
- //d($params);
- pages_tree($params) ?>
+ //
+ pages_tree($params);
+ 
+ if(isset($params['include_categories']) and $params['include_categories'] == true  and isset($params['include_global_categories'])){
+	 
+						
+						
+					 
+						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&to_table_id=0&to_table=table_content';
+		$fors = get($str0);
+					//d($fors );
+					
+					
+					if ($fors != false and is_array($fors) and !empty($fors)) {
+			foreach ($fors as $cat) {
+				$cat_params =$params;
+						$cat_params['parent'] =$cat['id'];
+						//$cat_params['to_table'] = 'table_content';
+					//	$cat_params['to_table_id'] = ' 0 ';
+					// $cat_params['for'] = 'table_content';
+				 $cat_params['include_first'] = 1;
+					 //$cat_params['debug'] = 1;
+					// d($cat_params);
+						 category_tree($cat_params);
+			}
+		}
+						
+				
+				
+				 
+					
+					
+ 
+	 
+ }
+ 
+ 
+ 
+  ?>

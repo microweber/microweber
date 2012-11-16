@@ -37,7 +37,9 @@ class View {
         $var_names = array_keys(get_defined_vars());
 
         foreach ($var_names as $var_name) {
+        	if($var_name != 'defined_vars'){
             $defined_vars[$var_name] = $$var_name;
+			}
         }
 
         return $defined_vars;

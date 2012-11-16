@@ -386,12 +386,10 @@ class Controller {
 			$custom_display = true;
 		}
 
-
-if (isset($_REQUEST['data-module-name'])) {
+		if (isset($_REQUEST['data-module-name'])) {
 			$_REQUEST['module'] = $_REQUEST['data-module-name'];
-	$_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+			$_REQUEST['data-type'] = $_REQUEST['data-module-name'];
 		}
-
 
 		if (isset($_REQUEST['data-type'])) {
 			$_REQUEST['module'] = $_REQUEST['data-type'];
@@ -427,6 +425,8 @@ if (isset($_REQUEST['data-module-name'])) {
 
 				$page = get_content_by_url($url);
 			}
+		} else {
+			$url = url_string();
 		}
 
 		define_constants($page);
@@ -498,8 +498,7 @@ if (isset($_REQUEST['data-module-name'])) {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

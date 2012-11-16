@@ -145,5 +145,44 @@ foreach ($cats__parents as $item1) {
 }
 ?>
 <? endif; ?>
+<?  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
+	 
+						
+						
+					 
+						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&to_table_id=0&to_table=table_content';
+		$fors = get($str0);
+					//d($fors );
+					
+					
+					if ($fors != false and is_array($fors) and !empty($fors)) {
+			foreach ($fors as $cat) {
+				$cat_params =$params;
+				$pt_opts = array();
+	$pt_opts['link'] = "<label class='mw-ui-check'><input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' ><span></span><span>{title}</span></label>";
+ 
+ 
+						$pt_opts['parent'] =$cat['id'];
+						//$cat_params['to_table'] = 'table_content';
+					//	$cat_params['to_table_id'] = ' 0 ';
+					// $cat_params['for'] = 'table_content';
+				 $pt_opts['include_first'] = 1;
+					 //$cat_params['debug'] = 1;
+					// d($cat_params);
+						 category_tree($pt_opts);
+			}
+		}
+						
+				
+				
+				 
+					
+					
+ 
+	 
+ }
+  
+  
+   ?>
 
 <input type="hidden" name="categories" id="mw_cat_selected_<? print $rand ?>" value="<? print $cats_str ?>" />

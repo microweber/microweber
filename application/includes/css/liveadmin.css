@@ -456,11 +456,15 @@ form.add-edit-page-post textarea{
 .iupgrade{background-position:-495px 1px;}
 .inotification{background-position:-495px -42px;}
 .iupload{background-position:-497px -81px;}
+.itruck{background-position:-497px -114px;width: 28px;}
 .ireport{background-position:-749px 1px;}
 .isuggest{background-position:-749px -43px;}
 .ihelp{background-position:-749px -82px;}
+.iusers{background-position:-748px -115px;}
 .ilive{background-position:-875px 5px;}
 .ilogout{background-position:-880px -24px}
+.ipromo{background-position:-881px -83px}
+.ioptions{background-position:-880px -118px}
 
 /* Custom fields icons */
 
@@ -527,11 +531,15 @@ form.add-edit-page-post textarea{
   border-radius: 15px;
 }
 
-.mw-quick-links li a:hover{
+.mw-quick-links li a:hover, .mw-quick-links li.active a{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
   border-bottom-color: #A1A0A0;
+}
+
+.mw-quick-links li.active a{
+  background: #F5F5F5;
 }
 
 .custom_fields_selector .quick-links li a:hover{
@@ -992,5 +1000,201 @@ body.loading, body.loading *{
 
 
 
+
+/* Admin Navigation */
+
+
+#mw-admin-shop-navigation{
+  width:780px;
+  height: 65px;
+  float: left;
+  border: 1px solid #DCDCDC;
+  background: #f7f7f7;
+  border-radius:7px;
+}
+
+#mw-admin-shop-navigation ul{
+  padding: 14px 6px;
+  overflow: hidden;
+}
+
+#mw-admin-shop-navigation li{
+  float: left;
+  list-style: none;
+  margin: 0;
+}
+
+.new-order-notification{
+  min-width:130px;
+  display: block;
+  height:58px;
+  padding: 9px 15px 0;
+  float: left;
+  margin-right: 12px;
+  text-align: center;
+  border-radius:7px;
+  font-size: 12px;
+  color: #4D7301;
+  background: #D7FFC3;
+}
+.new-order-notification strong{
+  font-size: 36px;
+  font-weight: normal;
+  margin-right: 10px;
+  display: inline;
+}
+.new-order-notification:hover{
+  box-shadow:0 0 2px #349F00;
+}
+.new-order-notification:active{
+  box-shadow:inset 0 0 4px #349F00;
+}
+
+
+#mw-shop-menu{
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  background: white;
+  border-bottom:1px solid #E2E2E2;
+}
+
+#mw-order-table-holder{
+  padding: 20px;
+}
+
+.mw-order-table{
+  width: 960px;
+  border: 1px solid #F0ECEC;
+  background: #f7f7f7;
+  border-radius:7px;
+}
+
+.mw-order-table td,
+.mw-order-table th{
+  border-right:1px solid #E5E5E5;
+  border-bottom:1px solid #E5E5E5;
+}
+
+.mw-order-table tr td:last-child,
+.mw-order-table tr th:last-child{
+  border-right: none;
+}
+.mw-order-table tr:last-child td{
+  border-bottom: none;
+}
+
+.mw-order-table td{
+    padding: 10px;
+}
+
+.mw-order-table th, .mw-order-table tfoot td{
+    font-weight: normal;
+    text-align: center;
+     padding: 10px;
+}
+.mw-order-table tbody tr:nth-child(2n+1){
+  background: white;
+}
+
+.mw-order-table tbody tr:hover{
+  background: #D8FFC4;
+}
+
+.mw-items-rate{
+  display: inline-block;
+  width: 45px;
+  height: 7px;
+  overflow: hidden;
+  background: url(../img/order-rate.png) no-repeat;
+}
+
+.mw-items-rate-1{width: 12px;}
+.mw-items-rate-2{width: 23px;}
+.mw-items-rate-3{width: 34px;}
+
+.mw-order-item-edit > *{
+  visibility: hidden;
+}
+
+tr:hover > .mw-order-item-edit > *{
+  visibility: visible;
+}
+
+
+
+.del-row{
+  background: url("../img/delete_item.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  height: 8px;
+  width: 8px;
+  float: right;
+  cursor: pointer;
+}
+
+
+.del-row:hover{
+  background-position:0 -16px;
+}
+
+.mw-order-item-id a{
+  color:#0D5C98;
+}
+.mw-order-item-id a:hover span{
+  text-decoration: underline;
+}
+
+.mw-ord-id{
+  font-size: 10px;
+}
+
+.mw-table-sorting ul{
+  display: inline;
+}
+
+.mw-table-sorting li{
+  list-style: none;
+  float: left;
+  margin-right:25px;
+}
+
+.mw-table-sorting li span{
+  white-space: nowrap;
+  padding:0 15px 0 0;
+  color:#0B568D;
+  background: url(../img/sort.png) no-repeat 100% 3px;
+  cursor: pointer;
+}
+
+.mw-table-sorting li span.ASC{
+  background-position: 100% -40px;
+}
+.mw-table-sorting li span.DESC{
+  background-position: 100% -79px;
+}
+
+
+.mw-table-sorting-controller{
+  width: 960px;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  clear: both;
+}
+.mw-table-sorting label{
+  float: left;
+  color: #8B8B8B;
+  margin-right:20px;
+  white-space: nowrap;
+}
+.mw-table-sorting-controller .manage-search{
+  margin-left: 173px;
+  width: 365px;
+  float: left;
+}
+
+.mw-table-sorting{
+  padding-top: 5px;
+}
 
 

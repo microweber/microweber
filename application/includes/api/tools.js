@@ -523,6 +523,53 @@ mw.tools = {
     if(confirm(question)){
       callback.call(window);
     }
+  },
+  sort:function(obj){
+    var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
+	// var parent_mod = mw.tools.firstParentWithClass(obj.el, 'module');
+
+    // Tablicata
+    var table = mwd.getElementById(obj.id);
+	
+	var parent_mod = mw.tools.firstParentWithClass(table, 'module');
+ 
+    var others = group.querySelectorAll('li span'), i=0, len = others.length;
+    for( ; i<len; i++ ){
+        var curr = others[i];
+        if(curr !== obj.el){
+           //curr.setAttribute('data-state', 0);
+           $(curr).removeClass('ASC').removeClass('DESC');
+        }
+    }
+    obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';
+    var state = obj.el.attributes['data-state'].nodeValue;
+    var tosend = {}
+    tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
+    if(state === '0'){
+        tosend.state = 'ASC';
+        obj.el.className = 'ASC';
+        obj.el.setAttribute('data-state', 'ASC');
+    }
+    else if(state==='ASC'){
+        tosend.state = 'DESC';
+        obj.el.className = 'DESC';
+        obj.el.setAttribute('data-state', 'DESC');
+    }
+    else if(state==='DESC'){
+         tosend.state = 'ASC';
+         obj.el.className = 'ASC';
+         obj.el.setAttribute('data-state', 'ASC');
+    }
+    else{
+       tosend.state = 'ASC';
+       obj.el.className = 'ASC';
+       obj.el.setAttribute('data-state', 'ASC');
+    }
+	
+	if(parent_mod !== undefined){
+		 parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);
+	     mw.reload_module(parent_mod);
+	}
   }
 }
 

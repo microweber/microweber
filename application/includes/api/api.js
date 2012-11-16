@@ -59,7 +59,8 @@ typeof mw === 'undefined' ?
 
   if (!Array.indexOf) {
     Array.prototype.indexOf = function(obj) {
-      for (var i = 0; i < this.length; i++) {
+      var i=0, l=this.length;
+      for ( ; i < l; i++) {
         if (this[i] == obj) {
           return i;
         }

@@ -498,7 +498,9 @@ body.not-allowed{
 .mw_action_category button{background-position: -130px 0}
 .mw_action_product button{background-position: -196px 0;/*box-shadow:0px 1px 2px -2px #434343; */}
 
-
+body.view-shop .mw_action_post{
+  display: none;
+}
 
 /*
 
@@ -894,7 +896,7 @@ a:hover .mw_ed_tree_content{
 }
 
 a.mw-ui-btn, span.mw-ui-btn{
-    height: 18px;
+    /*height: 18px;*/
 }
 
 .mw-ui-btn-plus{

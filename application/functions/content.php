@@ -893,7 +893,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		if ($debug != false) {
 			d($q);
 		}
- 
+
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));
@@ -903,10 +903,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		$q = db_query($q, $cache_id, 'custom_fields/global');
 
 		if (!empty($q)) {
- 
+
 			if ($return_full == true) {
 				$to_ret = array();
-				$i=1;
+				$i = 1;
 				foreach ($q as $it) {
 
 					// $it ['value'] = $it ['custom_field_value'];
@@ -919,12 +919,12 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 							}
 						}
 					}
- 
+
 					//  $it['values'] = $it['custom_field_value'];
 
 					// $it['cssClass'] = $it['custom_field_type'];
 					$it['type'] = $it['custom_field_type'];
-$it['position'] = $i;
+					$it['position'] = $i;
 					//  $it['baseline'] = "undefined";
 
 					$it['title'] = $it['custom_field_name'];
@@ -1399,16 +1399,34 @@ function save_content($data, $delete_the_cache = true) {
 	}
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
-
+$check_ex = false;
 		if (isset($data_to_save['subtype_value']) and intval(trim($data_to_save['subtype_value'])) > 0) {
 
 			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));
+			//
+			//d($check_ex);
 			if ($check_ex == false) {
+				if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
+					$test2 = get_taxonomy('data_type=category&to_table=table_content&to_table_id='.intval(($data_to_save['id'])));
+			//	d($test2);
+			
+			if(isset($test2[0])){
+				$check_ex = $test2[0];
+				$data_to_save['subtype_value'] =  $test2[0]['id'];
+			}
+			
+			
+				}
+
+				if ($check_ex == false) {
+
+				}
+
 				unset($data_to_save['subtype_value']);
 			}
 		}
 
-		if (!isset($data_to_save['subtype_value']) or trim($data_to_save['subtype_value']) == '') {
+		if ($check_ex == false) {
 
 			if (!isset($data_to_save['subtype_value_new'])) {
 				if (isset($data_to_save['title'])) {
@@ -1420,7 +1438,9 @@ function save_content($data, $delete_the_cache = true) {
 	}
 
 	if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {
+$cms_db_tables = c('db_tables');
 
+	$table_cats = $cms_db_tables['table_taxonomy'];
 		if ($data_to_save['subtype_value_new'] != '') {
 
 			if ($adm == true) {
@@ -1428,11 +1448,17 @@ function save_content($data, $delete_the_cache = true) {
 				$new_category = array();
 				$new_category["data_type"] = "category";
 				$new_category["to_table"] = "table_content";
+				$new_category["table" ] = $table_cats;
+				//$new_category["debug" ] = $table_cats;
+					if (isset($data_to_save['id']) and intval(($data_to_save['id'])) > 0) {
+					$new_category["to_table_id"] = intval(($data_to_save['id']));
+				}
 				$new_category["title"] = $data_to_save['subtype_value_new'];
 				$new_category["parent_id"] = "0";
 				$cats_modified = true;
-				$new_category = save_category($new_category);
 				//d($new_category);
+				$new_category = save_category($new_category);
+				// d($new_category);
 				$data_to_save['subtype_value'] = $new_category;
 				$data_to_save['subtype'] = 'dynamic';
 			}
@@ -1454,6 +1480,8 @@ function save_content($data, $delete_the_cache = true) {
 						$new_scategory = array();
 						$new_scategory["data_type"] = "category";
 						$new_scategory["title"] = $sc;
+						$new_scategory["to_table"] = "table_content";
+				$new_scategory["table" ] = $table_cats;
 						$new_scategory["parent_id"] = intval($new_category);
 						$cats_modified = true;
 						$new_scategory = save_category($new_scategory);
@@ -1505,6 +1533,20 @@ function save_content($data, $delete_the_cache = true) {
 	//d($data_to_save);
 
 	$save = save_data($table, $data_to_save);
+
+	//d($check_ex);
+	if (isset($new_category) and intval($new_category)> 0 ) {
+		$new_category_id = intval($new_category);
+	$new_category = array();
+				$new_category["data_type"] = "category";
+				$new_category["to_table_id"] = $save;
+				$new_category["table" ] = $table_cats;
+				$new_category["title"] = $data_to_save['title'];
+				$new_category["parent_id"] = "0";
+						$cats_modified = true;
+			 			$new_category = save_category($new_category);
+					//	d($new_category);
+	}
 
 	$custom_field_table = $cms_db_tables['table_custom_fields'];
 
@@ -1680,15 +1722,21 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	} else {
 		$cache_group = 'content/' . $parent;
 	}
-	//$cache_group = 'content/global';
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-
-	if (($cache_content) != false) {
-		print $cache_content;
-		return;
-		//  return $cache_content;
+	if (isset($include_categories) and $include_categories == true) {
+		$cache_group = 'taxonomy/global';
 	}
-
+	
+	
+	
+	//
+	$cache_content = cache_get_content($function_cache_id, $cache_group);
+	if (!isset($_GET['debug'])) {
+		if (($cache_content) != false) {
+			print $cache_content;
+			return;
+			//  return $cache_content;
+		}
+	}
 	$nest_level = 0;
 
 	if (isset($params['nest_level'])) {
@@ -1794,13 +1842,13 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 	if (is_array($result) and !empty($result)) {
 		$nest_level++;
-
-		if ($ul_class_name == false) {
-			print "<{$list_tag} class='pages_tree depth-{$nest_level}'>";
-		} else {
-			print "<{$list_tag} class='{$ul_class_name} depth-{$nest_level}'>";
+		if (trim($list_tag) != '') {
+			if ($ul_class_name == false) {
+				print "<{$list_tag} class='pages_tree depth-{$nest_level}'>";
+			} else {
+				print "<{$list_tag} class='{$ul_class_name} depth-{$nest_level}'>";
+			}
 		}
-
 		foreach ($result as $item) {
 			$skip_me_cause_iam_removed = false;
 			if (is_array($remove_ids) == true) {
@@ -1954,10 +2002,22 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 					if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
 						$cat_params = array();
 						$cat_params['subtype_value'] = $item['subtype_value'];
+						
+						$cat_params['try_to_table_id'] = $item['id'];
+						
+						
+						
+						//$cat_params['for'] = 'table_content';
+						$cat_params['list_tag'] = $list_tag;
+						$cat_params['list_item_tag'] = $list_item_tag;
+
 						$cat_params['include_first'] = 1;
 						$cat_params['nest_level'] = $nest_level;
 						if ($max_level != false) {
 							$cat_params['max_level'] = $max_level;
+						}
+						if (isset($_GET['debug'])) {
+							//	d($cat_params);
 						}
 						category_tree($cat_params);
 					}
@@ -1965,15 +2025,17 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 			}
 			print "</{$list_item_tag}>";
 		}
-
-		print "</{$list_tag}>";
+		if (trim($list_tag) != '') {
+			print "</{$list_tag}>";
+		}
 	} else {
 
 	}
 
 	$content = ob_get_contents();
-	cache_store_data($content, $function_cache_id, $cache_group);
-
+	if (!isset($_GET['debug'])) {
+		cache_store_data($content, $function_cache_id, $cache_group);
+	}
 	ob_end_clean();
 	print $content;
 	return;

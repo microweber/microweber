@@ -371,7 +371,15 @@ function mw_add_product(){
   <div id="mw_edit_pages_content">
     <div class="mw_edit_page_left" id="mw_edit_page_left">
       <div class="mw_edit_pages_nav">
-        <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
+        <?php
+            $view = url_param('view');
+            if($view=='shop'){
+        ?>
+            <h2 class="mw_tree_title"><?php _e("My Online Shop"); ?></h2>
+        <?php } else { ?>
+            <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
+        <?php } ?>
+
         <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
@@ -397,7 +405,7 @@ function mw_add_product(){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }
 	   ?>
-        <module data-type="pages_menu" include_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
+        <module data-type="pages_menu" include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
 
         <div class="mw-clear"></div>
 
