@@ -1,7 +1,17 @@
 <?
+
 $rand = rand();
- 
 $rand = round($rand);
+
+$add_remove_controls = ''.
+'<span class="ico iAdd mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
+'<span class="ico iRemove mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
+'<span class="ico iMove custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
+
+
+
+
+
 if(!isset($settings)){
 $settings = 1;	
 } else if($settings == false){
@@ -9,9 +19,9 @@ $settings = 1;
 }
   $hidden_class = '';
  if(intval($settings) == 2){
- $hidden_class = ' mw-hide ';
+
  }
- 
+       $hidden_class = ' mw-hide ';
 $is_for_module = url_param('for_module_id', 1);
 $for = url_param('for', 1);
  
@@ -23,44 +33,7 @@ if (!empty($params)) {
     }
 }
 ?>
-<script type="text/javascript">
 
-
-    function save_cf_<? print $rand ?>(){
-        var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
-        $.post("<? print site_url('api/save_custom_field') ?>",    serializedForm, function(data)         {
-
-            mw.reload_module('custom_fields')
-            mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-
-
-            if(serializedForm.id == undefined){
-                //mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-
-            }
-
-
-
-
-
-
-        });
-    }
-
-
-    function remove_cf_<? print $rand ?>(){
-        var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
-        $.post("<? print site_url('api/remove_field') ?>",    serializedForm, function(data)         {
-
-            mw.reload_module('custom_fields')
-          //  mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-            mw.$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-
-        });
-
-    }
-
-</script>
 <?php
 if (!isset($data['id'])) {
     $data['id'] = 0;
@@ -75,9 +48,7 @@ if (!isset($data['custom_field_name'])) {
  if (isset($data['custom_field_type'])) {
 	  $field_type = $data['custom_field_type'];
 }
- if ($data['custom_field_name'] == '') {
-    $data['custom_field_name'] =  $field_type;
-}
+
  
  
  
@@ -89,9 +60,13 @@ if (!isset($field_type)) {
 }
 }
 
+if (!isset($data['type'])) {
+	$data['type'] =  $field_type;
+}
 
-
-
+ if ($data['custom_field_name'] == '') {
+    $data['custom_field_name'] =  $field_type;
+}
 if (!isset($data['custom_field_required'])) {
     $data['custom_field_required'] = 'n';
 }
@@ -115,40 +90,38 @@ if (isset($data['to_table'])) {
   $for = $data['to_table'];
 	
 }
+
+if (!isset($data['position'])) {
+  $data['position'] = 0;
+	
+}
+
+
 if (isset($data['to_table_id'])) {
   $for_module_id = $data['to_table_id'];
 	
 }
 ?>
 
-<div   id="custom_fields_edit<? print $rand ?>"  >
-<fieldset>
+<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand ?>" >
+
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
-<input type="hidden" name="id" value="<? print intval($data['id']) ?>" />
+<input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>
 <? if (isset($for_module_id) and $for_module_id != false): ?>
 <? $db_t = $for; ?>
 <input type="hidden" name="to_table" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
 <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
 <? endif; ?>
+<input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
+<input type="hidden" name="position" value="<? print $data['position'] ?>" />
+
 <div class="mw-custom-field-group ">
-  <label class="mw-custom-field-label" for="input_field_label<? print $rand ?>">
+  <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Field name'); ?>
   </label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"   value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
+    <input type="text" class="mw-ui-field" <? if (isset($data['id']) and intval($data['id']) != 0): ?>onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"<?php endif; ?> value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
   </div>
 </div>
-<div class="mw-custom-field-group<? print $hidden_class ?>">
-  <label class="mw-custom-field-label" for="select_custom_field_type<? print $rand ?>">
-    <?php _e('Field type'); ?>
-  </label>
-  <div class="mw-custom-field-form-controls">
-    <select id="select_custom_field_type<? print $rand ?>" name="custom_field_type">
-      <option <? if (trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">text</option>
-      <option  <? if (trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">dropdown</option>
-      <option  <? if (trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">checkbox</option>
-      <option  <? if (trim($field_type) == 'price'): ?>  selected="selected"  <? endif; ?>  value="price">price</option>
-    </select>
-  </div>
-</div>
+ 

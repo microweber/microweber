@@ -109,6 +109,8 @@ mw.templatePreview = {
 		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
 
         mw.templatePreview.rend(iframe_url);
+
+
   },
   _once:false
 }
@@ -180,7 +182,10 @@ $(document).ready(function() {
 <div class="preview_frame_wrapper loading left">
   <div class="preview_frame_ctrls">
     <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
-    <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> </div>
+    <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span>
+    <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span>
+    <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
+  </div>
   <div class="preview_frame_container"></div>
   <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 </div>

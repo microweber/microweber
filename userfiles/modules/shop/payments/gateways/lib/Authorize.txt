@@ -1,0 +1,14 @@
+Authorize.net Gateway Readme
+============================
+
+IMPORTANT:
+
+1. Login into your authorize.net merchant account. Go to "Settings and Profile"
+menu.
+
+2. Go to "Payment Form->Form Fields" menu. At least uncheck all boxes near
+"Customer ID". You can also disable another fields to make signup a bit less
+painful for your customers.
+
+3. Go to "MD5 Hash" menu. Set secret word to desired values and use that in
+the "setUserInfo" function showed in the example.

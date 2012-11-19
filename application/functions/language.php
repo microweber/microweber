@@ -1,6 +1,6 @@
 <?php
 
-function _e($k) {
+function _e($k, $to_return = false) {
     static $c;
     static $lang_file;
 
@@ -47,10 +47,14 @@ function _e($k) {
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
             @file_put_contents($lang_file, $b, FILE_APPEND);
         }
-
+if($to_return == true ){
+	return   $k;
+}
         print $k;
     } else {
-
+if($to_return == true ){
+	return   $c[$k1];
+}
         print $c[$k1];
     }
 }

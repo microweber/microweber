@@ -1,3 +1,6 @@
+<script type="text/javascript">
+mw.require("<?php print( module_url('shop')); ?>shop.js");
+</script>
 <?
 
 $template = option_get('data-template', $params['id']);
@@ -51,6 +54,33 @@ $cart['order_completed'] = 'n';
     <input type="text" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" />
     <a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a> </div>
   <? endforeach; ?>
+  
+  
+  
+  <? 
+  if(!isset($params['checkout-link-enabled'])){
+	  $checkout_link_enanbled =  option_get('data-checkout-link-enabled', $params['id']);
+  } else {
+	   $checkout_link_enanbled = $params['checkout-link-enabled'];
+  }
+   ?>
+   
+   <? if($checkout_link_enanbled != 'n') :?>
+   <? $checkout_page =option_get('data-checkout-page', $params['id']); ?>
+   <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
+	   
+	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
+   } else {
+	   $checkout_page_link = site_url().'?view=checkout';;
+	   
+   }
+   
+   ?>
+ 
+ 
+   <a href="<? print $checkout_page_link; ?>">Checkout</a> 
+   
+  <? endif ; ?>
   <? else : ?>
   <div class="mw-cart-empty mw-cart-<? print $params['id']?>">
     <?   _e('Your cart is empty') ?>

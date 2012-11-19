@@ -2,13 +2,13 @@
 
 mw.options = {};
 
-mw.options.form = function($selector){
-   
+mw.options.form = function($selector, callback){
    
    
    
 
-mw.$(""+$selector+" .mw_option_field").bind("change", function () {
+
+mw.$($selector+" .mw_option_field").bind("change", function () {
 
                 var refresh_modules11 = $(this).attr('data-refresh');
 
@@ -32,6 +32,15 @@ mw.$(""+$selector+" .mw_option_field").bind("change", function () {
 				
 				if(og == undefined){
 				    var og = $(this).attr('data-refresh');
+				}
+				
+				
+				if(og == undefined){
+				    var og = $(this).attr('option-group');
+				}
+				
+					if(og == undefined){
+				    var og = $(this).attr('data-option-group');
 				}
 
 
@@ -66,7 +75,7 @@ mw.$(""+$selector+" .mw_option_field").bind("change", function () {
                     type: "POST",
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
-                    success: function () {
+                    success: function (data) {
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
 
@@ -79,7 +88,9 @@ mw.$(""+$selector+" .mw_option_field").bind("change", function () {
                             }
 
                         }
-
+                        if(mw.is.func(callback)){
+                          callback.call(data);
+                        }
                         //  $(this).addClass("done");
                     }
                 });

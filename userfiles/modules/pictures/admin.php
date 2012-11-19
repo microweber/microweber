@@ -79,6 +79,8 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>"> <? if(isarr( $media)): ?>
 
+<?php $default_title = _e("Image title", true); ?>
+
   <? foreach( $media as $item): ?>
   <div class="admin-thumb-item" id="admin-thumb-item-<? print $item['id'] ?>">
     <? $tn = thumbnail($item['filename'], 131, 131); ?>
@@ -87,8 +89,8 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
     <div class="mw-post-media-img-edit">
 
       <input
-            type="text"
-            value="<? print $item['title'] ?>"
+            type="text" autocomplete="off"
+            value="<? if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
             onkeyup="mw.on.stopWriting(this, function(){mw.module.pictures.save_title('<? print $item['id'] ?>', this.value);});"
             onfocus="$(this.parentNode).addClass('active');"
             onblur="$(this.parentNode).removeClass('active');"
@@ -102,6 +104,15 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 
   <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
 </div>
+
+
+<script type="text/javascript">
+
+
+
+mw.form.d(".mw-post-media-img-edit input")
+
+</script>
 
 
 

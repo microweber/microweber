@@ -1,4 +1,3 @@
-
 <?
 $id =  false;
 if(isset($params["data-module-id"])){
@@ -15,11 +14,9 @@ if($id != false){
 }
 
   ?>
- <? if(!empty($data)):  ?>
- 
- <? $rand = uniqid().$data['id']; ?>
- 
- <script  type="text/javascript">
+<? if(!empty($data)):  ?>
+<? $rand = uniqid().$data['id']; ?>
+<script  type="text/javascript">
 
 mw.require('forms.js');
  
@@ -100,70 +97,40 @@ $(document).ready(function(){
    
 });
 </script>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- <form  id="module_admin_settings_form_<? print $rand ?>">
+
+<form  id="module_admin_settings_form_<? print $rand ?>">
   <? if(isset($data['icon'])):  ?>
- <img src="<? print $data['icon'] ?>"> <br />
-<? endif; ?>
-
- <? if(isset($data['name'])):  ?>
- Name : <? print $data['name'] ?><br />
-<? endif; ?>
-
- <? if(isset($data['description'])):  ?>
- description : <? print $data['description'] ?><br />
-<? endif; ?>
-
- <? if(isset($data['author'])):  ?>
- author : <? print $data['author'] ?><br />
-<? endif; ?>
-
-<? if(isset($data['website'])):  ?>
- website : <? print $data['website'] ?><br />
-<? endif; ?>
-
-<? if(isset($data['help'])):  ?>
- help : <? print $data['help'] ?><br />
-<? endif; ?>
- 
- 
-
-  
+  <img src="<? print $data['icon'] ?>"> <br />
+  <? endif; ?>
+  <? if(isset($data['name'])):  ?>
+  Name : <? print $data['name'] ?><br />
+  <? endif; ?>
+  <? if(isset($data['description'])):  ?>
+  description : <? print $data['description'] ?><br />
+  <? endif; ?>
+  <? if(isset($data['author'])):  ?>
+  author : <? print $data['author'] ?><br />
+  <? endif; ?>
+  <? if(isset($data['website'])):  ?>
+  website : <? print $data['website'] ?><br />
+  <? endif; ?>
+  <? if(isset($data['help'])):  ?>
+  help : <? print $data['help'] ?><br />
+  <? endif; ?>
   <input type="hidden" name="id" value="<? print $data['id'] ?>" />
- installed  <input type="text" name="installed" value="<? print $data['installed'] ?>" />
-  ui  <input type="text" name="ui" value="<? print $data['ui'] ?>" />
- position
- <input type="text" name="position" value="<? print $data['position'] ?>" />
- 
-  <microweber module="categories/selector" for="modules"  to_table_id="<? print $data['id'] ?>" >
-
- <a href="<? print curent_url() ?>/load_module:<? print encode_var( $data['module']) ?>">Open</a>
- <input name="save" type="submit" value="save">
- 
- <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
- 
-   <input name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="install">
-
- <? else : ?>
+  installed
+  <input type="text" name="installed" value="<? print $data['installed'] ?>" />
+  ui
+  <input type="text" name="ui" value="<? print $data['ui'] ?>" />
+  position
+  <input type="text" name="position" value="<? print $data['position'] ?>" />
+  <microweber module="categories/selector" to_table="table_modules"  to_table_id="<? print $data['id'] ?>" >
+  <a href="<? print curent_url() ?>/load_module:<? print encode_var( $data['module']) ?>">Open</a>
+  <input name="save" type="submit" value="save">
+  <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
+  <input name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="install">
+  <? else : ?>
   <input name="uninstall" type="button" id="module_uninstall_<? print $rand ?>" data-module-id="<? print $data['id'] ?>" value="uninstall">
- <? endif; ?>
+  <? endif; ?>
 </form>
- 
- <? endif; ?>
+<? endif; ?>

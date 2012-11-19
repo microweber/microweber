@@ -1,0 +1,7 @@
+2CheckOut Gateway Readme
+========================
+
+1. Login into your 2checkout.com account and go to "Look and Feel" section.
+
+2. At the bottom enter the Secret Word and use it in the IPN verification
+process as shown in the example.
