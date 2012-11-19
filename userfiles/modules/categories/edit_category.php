@@ -1,6 +1,3 @@
-
-
-
 <?
 $form_rand_id  = uniqid();
 if(!isset($params["data-category-id"])){
@@ -18,10 +15,6 @@ include('_empty_category_data.php');
 
  
 ?>
-
-
-
-
 <script  type="text/javascript">
 
 mw.require('forms.js');
@@ -95,58 +88,37 @@ $(document).ready(function(){
 });
 </script>
 
-
 <form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>">
-
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
-
-
-
- <input name="table" type="hidden" value="table_taxonomy" />
-
-  
-
+  <input name="table" type="hidden" value="table_taxonomy" />
   <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
   <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />
-
-
-  <label class="mw-ui-label">Title</label>
+  <? if(intval($data['id']) > 0): ?>
+  <? $act = 'Edit ' ;?>
+  <? else : ?>
+  <? $act = 'Add new ' ;?>
+  <? endif; ?>
+  <label class="mw-ui-label"><? print $act ?> category title</label>
   <input style="width: 660px;" class="mw-ui-field" name="title" type="text" value="<? print ($data['title'])?>" />
-
- 
-
-
-  <label class="mw-ui-label"><?php _e("Parent"); ?></label>
-  
-  
+  <label class="mw-ui-label">
+    <?php _e("Parent"); ?>
+  </label>
   <? // d($data); ?>
-  
-   <input name="parent_id" type="text" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
-<div id="edit_category_set_par_<? print $form_rand_id ?>">
-
-  <module style="width: 660px;" type="categories/dropdown"   active_ids="<? print ($data['parent_id'])?>" input-name="temp_<? print $form_rand_id ?>" />
-  
-  
-</div>
-
-  <label class="mw-ui-label"><?php _e("Description"); ?> </label>
-
+  <input name="parent_id" type="text" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
+  <div id="edit_category_set_par_<? print $form_rand_id ?>">
+    <module style="width: 660px;" type="categories/dropdown"   active_ids="<? print ($data['parent_id'])?>" input-name="temp_<? print $form_rand_id ?>" />
+  </div>
+  <label class="mw-ui-label">
+    <?php _e("Description"); ?>
+  </label>
   <textarea style="width: 660px;height: 50px;" class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
-
-
-  <label class="mw-ui-label"><?php _e("Content"); ?></label>
+  <label class="mw-ui-label">
+    <?php _e("Content"); ?>
+  </label>
   <textarea style="width: 660px;height: 100px;" class="mw-ui-field" name="content"><? print ($data['content'])?></textarea>
-
-
-
   <input name="position"  type="hidden" value="<? print ($data['position'])?>" />
-
-
   <div class="vSpace">&nbsp;</div>
-
-
   <input type="submit" class="mw-ui-btn" name="save" value="<?php _e("Save"); ?>" />
-
 </form>
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />

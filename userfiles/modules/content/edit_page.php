@@ -417,7 +417,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
       </div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Subtype</label>
+        <label class="mw-ui-label">Page type</label>
         <div class="mw-ui-select" style="width: 364px;">
           <select name="subtype">
             <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
