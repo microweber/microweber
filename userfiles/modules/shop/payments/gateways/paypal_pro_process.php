@@ -81,7 +81,7 @@ else
 $place_order['is_paid'] = 'y';
 $place_order['order_completed'] = 'y';
 $place_order['curency'] = $currencyCode;	
-	$place_order['payment_name'] =  $_POST['cc_first_name']. ' '. $_POST['cc_last_name'];
+ 
 
 }
 print json_encode($res);

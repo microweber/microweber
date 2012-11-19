@@ -822,6 +822,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		if (is_string($search_n_cats)) {
 			$search_n_cats = explode(',', $search_n_cats);
 		}
+		$is_in_category_items = false;
 		if (is_array($search_n_cats) and !empty($search_n_cats)) {
 
 			foreach ($search_n_cats as $cat_name_or_id) {
@@ -838,42 +839,18 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 					foreach ($is_in_category_items as $is_in_category_items_tt) {
 
 						$includeIds[] = $is_in_category_items_tt["to_table_id"];
-						// @fixme - delete me
-						//$more = get_category_children($cat_name_or_id);
-						// if (isarr($more)) {
-						// foreach ($more as $it) {
-						// $str1_items1 = 'fields=to_table_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
-						// $is_in_category_items1 = get($str1_items1);
-						//
-						// if (!empty($is_in_category_items1)) {
-						// foreach ($is_in_category_items1 as $is_in_category_items_ttz) {
-						//
-						// $includeIds[] = $is_in_category_items_ttz["to_table_id"];
-						//
-						// }
-						// }
-						//
-						// }
-						// }
-						//d($more);
-						//exit();
-						// d($includeIds);
+
 					}
 				}
 
-				//d($str1);
-				//$is_in_category = get($str1);
-				//d($is_in_category);
-
-				if (!empty($is_in_category_items)) {
-
-				} else {
-					//	return false;
-				}
 			}
 		}
 		// $is_in_category = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
 		//  $includeIds;
+		if ($is_in_category_items == false) {
+			return false;
+		}
+
 	}
 
 	if (isset($criteria['keyword'])) {
@@ -1180,16 +1157,27 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 		foreach ($criteria as $k => $v) {
 			$compare_sign = '=';
+			$is_val_str = true;
+			$is_val_int = false;
 			if (stristr($v, '[lt]')) {
-				$compare_sign = '<=';
+				$compare_sign = '<';
 				$v = str_replace('[lt]', '', $v);
 			}
 
 			if (stristr($v, '[mt]')) {
 
-				$compare_sign = '>=';
+				$compare_sign = '>';
 
 				$v = str_replace('[mt]', '', $v);
+			}
+
+			
+			if (stristr($v, '[int]')) {
+
+				$is_val_str = false;
+				$is_val_int = true;
+
+				$v = str_replace('[int]', '', $v);
 			}
 
 			if (stristr($v, '[is]')) {
@@ -1213,8 +1201,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$v = strtotime($v);
 				$v = date("Y-m-d H:i:s", $v);
 			}
+			if ($is_val_int == true and $is_val_str == false) {
+				$v = intval($v);
+				
+				$where .= "$k {$compare_sign} $v AND ";
+			} else {
+				$where .= "$k {$compare_sign} '$v' AND ";
 
-			$where .= "$k {$compare_sign} '$v' AND ";
+			}
 		}
 
 		$where .= " ID is not null ";
@@ -1923,8 +1917,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 					$cats_data_modified = true;
 					//d($clean_q);
 					if ($dbg != false) {
-		d($clean_q);
-	}
+						d($clean_q);
+					}
 					db_q($clean_q);
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
@@ -1945,8 +1939,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 					to_table_id='{$id_to_return}'
 					";
 					if ($dbg != false) {
-		d($q_cat1);
-	}
+						d($q_cat1);
+					}
 					db_q($q_cat1);
 					// d($q_cat1);
 					// if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {

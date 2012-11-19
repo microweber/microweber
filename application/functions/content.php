@@ -414,7 +414,7 @@ function get_content_by_id($id) {
 	$params['table'] = $table;
 
 	$q = get($params);
-
+ 
 	//  $q = db_get($table, $params, $cache_group = 'content/' . $id);
 	//  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
 	if (isset($q[0])) {
@@ -1530,11 +1530,11 @@ $cms_db_tables = c('db_tables');
 		}
 	}
 
-	//d($data_to_save);
-
+	 //d($data_to_save);
+$cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
-	//d($check_ex);
+	// d($save);
 	if (isset($new_category) and intval($new_category)> 0 ) {
 		$new_category_id = intval($new_category);
 	$new_category = array();
@@ -1815,11 +1815,15 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	if (isset($remove_ids) and is_string($remove_ids)) {
 		$remove_ids = explode(',', $remove_ids);
 	}
-
+if (isset($active_ids)){
+	$actve_ids = $active_ids;
+}
+	
+	
 	if (isset($actve_ids) and is_string($actve_ids)) {
 		$actve_ids = explode(',', $actve_ids);
 	}
-
+ 
 	//	$params['debug'] = $parent;
 	$params['content_type'] = 'page';
 	if ($include_first == true) {
@@ -1835,6 +1839,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 		$params['parent'] = $parent;
 	}
 	$params['limit'] = 50;
+	 
 	$params['curent_page'] = 1;
 	$q = get_content($params);
 
@@ -1990,6 +1995,9 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 					if ($max_level != false) {
 						$params['max_level'] = $max_level;
 					}
+					if (isset($params['is_shop'])) {
+						unset($params['is_shop']);
+					}
 
 					//   $nest_level++;
 					$params['nest_level'] = $nest_level;
@@ -2005,19 +2013,35 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 						
 						$cat_params['try_to_table_id'] = $item['id'];
 						
+						if(isset($categores_link)){
+													$cat_params['link'] = $categores_link;
+							
+						}
+						
+							if(isset($categores_actve_ids)){
+													$cat_params['actve_ids'] = $categores_actve_ids;
+							
+						}
+
+if(isset($active_code)){
+													$cat_params['active_code'] = $active_code;
+							
+						}
+						
+						
 						
 						
 						//$cat_params['for'] = 'table_content';
 						$cat_params['list_tag'] = $list_tag;
 						$cat_params['list_item_tag'] = $list_item_tag;
 
-						$cat_params['include_first'] = 1;
+					 	$cat_params['include_first'] = 1;
 						$cat_params['nest_level'] = $nest_level;
 						if ($max_level != false) {
 							$cat_params['max_level'] = $max_level;
 						}
-						if (isset($_GET['debug'])) {
-							//	d($cat_params);
+						if (isset($debug)) {
+						 	d($cat_params);
 						}
 						category_tree($cat_params);
 					}

@@ -187,3 +187,4 @@ $language["clients"]= 'Clients' ;
 $language["shipping"]= 'Shipping' ; 
 $language["promo-codes"]= 'Promo codes' ; 
 $language["options"]= 'Options' ; 
+$language["see-location-on-map"]= 'See Location on map' ; 

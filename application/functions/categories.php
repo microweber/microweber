@@ -34,7 +34,8 @@ function category_tree($params = false) {
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 	$cache_group = 'taxonomy/global';
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
+	//$cache_content = cache_get_content($function_cache_id, $cache_group);
+	$cache_content = false;
 	if (!isset($_GET['debug'])) {
 		if (($cache_content) != false) {
 			print $cache_content;
@@ -137,32 +138,26 @@ function category_tree($params = false) {
 	$skip123 = false;
 	$fors = array();
 	if (isset($params['for']) and $params['for'] != false) {
-		
+
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
 
 		$str0 = 'table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
 		$fors = get($str0);
-		 
+
 	}
-	
+
 	if (isset($params['try_to_table_id']) and intval($params['try_to_table_id']) != 0) {
 		$skip123 = true;
-		
+
 		$str1 = 'table=' . $table . '&limit=1000&parent_id=0&to_table_id=' . $params['try_to_table_id'];
 		$fors1 = get($str1);
-		if(isarr($fors1)){
-			$fors = array_merge($fors,$fors1);
-			
+		if (isarr($fors1)) {
+			$fors = array_merge($fors, $fors1);
+
 		}
-		
-		
-	
-		
+
 	}
-	
-		
-	
 
 	if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
 		$page = get_page($params['not_for_page']);
@@ -193,11 +188,10 @@ function category_tree($params = false) {
 	if (is_string($add_ids)) {
 		$add_ids = explode(',', $add_ids);
 	}
-	
+
 	if (isset($params['debug'])) {
-	 	 d($params);
+		d($params);
 	}
-	
 
 	ob_start();
 
@@ -285,7 +279,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 		$add_ids_q = false;
 	}
-
+	//$add_ids_q = '';
+	//$remove_ids_q =   '';
 	if ($max_level != false and $depth_level_counter != false) {
 
 		if (intval($depth_level_counter) >= intval($max_level)) {
@@ -306,15 +301,22 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 		$list_item_tag = 'li';
 	}
 
+	if (empty($limit)) {
+		$limit = array(0, 10);
+	}
+
 	$content_type = addslashes($content_type);
 	$hard_limit = " LIMIT 300 ";
 	$inf_loop_fix = "  and $table.id!=$table.parent_id  ";
-	$inf_loop_fix = "     ";
+	//	$inf_loop_fix = "     ";
 	if ($content_type == false) {
 
 		if ($include_first == true) {
 
 			$sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+
+			// $sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q    $inf_loop_fix group by id   ";
+
 		} else {
 
 			$sql = "SELECT * from $table where parent_id=$parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
@@ -323,15 +325,11 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 		if ($include_first == true) {
 
-			$sql = "SELECT * from $table where id=$parent and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )  $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+			$sql = "SELECT * from $table where id=$parent   $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 		} else {
 
 			$sql = "SELECT * from $table where parent_id=$parent and data_type='category' and (taxonomy_content_type='$content_type' or taxonomy_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 		}
-	}
-
-	if (empty($limit)) {
-		$limit = array(0, 10);
 	}
 
 	if (!empty($limit)) {
@@ -346,10 +344,10 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
-	 if (isset($_GET['debug'])) {
-	 	d($sql);
-	 	}
-
+	if (isset($_GET['debug'])) {
+		d($sql);
+	}
+	//
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
@@ -531,10 +529,20 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 						$to_print = str_ireplace('{taxonomy_content_type}', trim($item['taxonomy_content_type']), $to_print);
 
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
-
+						$active_found = false;
 						if (is_array($actve_ids) == true) {
+							$actve_ids = array_trim($actve_ids);
+							//d($actve_ids);
 
-							if (in_array($item['id'], $actve_ids)) {
+							foreach ($actve_ids as $value_active_cat) {
+								$value_active_cat = intval($value_active_cat);
+								if (intval($item['id']) == $value_active_cat) {
+									$active_found = $value_active_cat;
+									//d($value_active_cat);
+								}
+							}
+
+							if ($active_found == true) {
 
 								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
 							} else {
@@ -613,7 +621,6 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 	}
 }
-
 
 function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
 	$table = c('db_tables');
@@ -718,7 +725,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
-	 
+
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
@@ -982,8 +989,6 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 
 	}
 }
-
-
 
 function get_category_items($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
 	global $cms_db_tables;
@@ -1187,7 +1192,7 @@ function save_category($data, $preserve_cache = false) {
 	if (isset($data['table']) and ($data['table'] != '')) {
 		$table = $data['table'];
 	}
- 
+
 	$save = save_data($table, $data);
 
 	cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $save);
@@ -1256,6 +1261,26 @@ function save_category($data, $preserve_cache = false) {
 	return $save;
 }
 
+
+api_expose('delete_category');
+
+function delete_category($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id('table_taxonomy', $c_id);
+		db_delete_by_id('table_taxonomy', $c_id, 'parent_id');
+		db_delete_by_id('table_taxonomy_items', $c_id, 'parent_id');
+
+		//d($c_id);
+	}
+}
+
 function get_taxonomy($params, $data_type = 'categories') {
 	$params2 = array();
 	$to_table_id = 0;
@@ -1272,8 +1297,7 @@ function get_taxonomy($params, $data_type = 'categories') {
 
 	$data = $params;
 	$data_type_q = false;
-	 
- 
+
 	$data['table'] = $table;
 
 	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;

@@ -106,7 +106,7 @@ if (isset($data['to_table_id'])) {
 <div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand ?>" >
 
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
-<input type="hidden" name="id" value="<? print intval($data['id']) ?>" />
+<input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>
 <? if (isset($for_module_id) and $for_module_id != false): ?>
 <? $db_t = $for; ?>

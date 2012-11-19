@@ -8,6 +8,14 @@
   position: relative;
 }
 
+.font-10{font-size: 10px;}
+.font-11{font-size: 11px;}
+.font-12{font-size: 12px;}
+.font-13{font-size: 13px;}
+.font-14{font-size: 14px;}
+.font-15{font-size: 15px;}
+.font-16{font-size: 16px;}
+
 
 
 /* Image edit */
@@ -440,7 +448,7 @@ body.not-allowed{
   outline: none;
 }
 
-.unselectable{
+.unselectable, .unselectable *{
   -moz-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
@@ -1520,6 +1528,31 @@ body{
 .mw_modal #the_custom_fields{
   display: block;
 }
+
+.mw-notification{
+  padding: 12px;
+  min-width: 351px;
+  display: table;
+  text-align: center;
+  border-radius:7px;
+}
+.mw-notification > div{
+  display: table-cell;
+  vertical-align: middle;
+  height: 51px;  /* actually it's like min-height --> (display: table-cell) */
+}
+
+.mw-notification > div > * {
+  vertical-align: middle;
+}
+
+.mw-notification .ico {
+  float: none;
+}
+
+.mw-success{background-color:#D8FFC4;}
+.mw-warning{background-color:#FFFD8C;}
+.mw-error{background-color:#FE4B59;}
 
 
 

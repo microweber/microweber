@@ -113,6 +113,11 @@ function save_custom_field($data) {
 	if (isset($data_to_save['for'])) {
 		$data_to_save['to_table'] = guess_table_name($data_to_save['for']);
 	}
+	if (isset($data_to_save['cf_id'])) {
+		$data_to_save['id'] = intval($data_to_save['cf_id']);
+	}
+	
+	
 	if (!isset($data_to_save['to_table'])) {
 		$data_to_save['to_table'] = 'table_content';
 	}
@@ -120,6 +125,8 @@ function save_custom_field($data) {
 	if (!isset($data_to_save['to_table_id'])) {
 		$data_to_save['to_table_id'] = '0';
 	}
+	
+	
 	//  $data_to_save['debug'] = 1;
 
 	$save = save_data($table_custom_field, $data_to_save);

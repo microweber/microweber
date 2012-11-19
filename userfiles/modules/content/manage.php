@@ -45,10 +45,10 @@
   <? endif; ?>
 </div>
 <? endif; ?>
- <?
+<?
 $posts_mod = array();
 $posts_mod['type'] = 'posts_list';
- $posts_mod['display'] = 'custom';
+  $posts_mod['display'] = 'custom';
  if(isset($params['page-id'])){ 
 $posts_mod['data-page-id'] =$params['page-id'];
  }
@@ -69,7 +69,10 @@ if(isset($params['data-category-id'])){
 }
  $posts = array();
 //
+
+ 
   $posts = module($posts_mod);
+ 
   
 ?>
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
@@ -100,7 +103,7 @@ if(isset($params['data-category-id'])){
   <?
 
         $numactive = 1;
-       // d($posts);
+ 
      if(isset($posts['data-page-number'])){
                 $numactive   = $posts['data-page-number'];
               }

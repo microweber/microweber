@@ -386,6 +386,16 @@ mw.tools = {
 		 });
       }
     },
+	  del_category : function(id){
+      if(confirm('Are you sure you want to delete this?')){
+         $.post(mw.settings.site_url + "api/delete_category", {id:id}, function(data) {
+            var todelete =  mw.$(".item_" + id);
+             todelete.fadeOut(function(){
+                 todelete.remove();
+             });
+		 });
+      }
+    },
     detectType:function(tree_object){
       if(tree_object!==null){
         return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
@@ -523,6 +533,15 @@ mw.tools = {
     if(confirm(question)){
       callback.call(window);
     }
+  },
+  el_switch:function(arr){
+    $(arr).each(function(){
+      var el = $(this);
+      if(el.css('display')=='none'){
+        el.show();
+      }
+      else{el.hide()}
+    });
   },
   sort:function(obj){
     var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');

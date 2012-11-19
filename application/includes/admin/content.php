@@ -1,6 +1,5 @@
 <?php $rand = uniqid(); ?>
-  <?php $my_tree_id = crc32(url_string()); ?>
-
+<?php $my_tree_id = crc32(url_string()); ?>
 <script  type="text/javascript">
 
 
@@ -20,7 +19,7 @@ mw.treeRenderer = {
       }
       else if(type==='category'){
           return "\
-            <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
+            <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del_category("+id+");' title='<?php _e("Delete"); ?>'>\
                   <?php _e("Delete"); ?>\
               </span>\
             <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editcategory:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
@@ -34,7 +33,10 @@ mw.treeRenderer = {
       mw.$(holder+' li').each(function(){
           var master = this;
           var el = master.querySelector('a');
-          var href = el.href;
+          
+		  
+		  if(el != undefined){
+		  var href = el.href;
           el.href = 'javascript:void(0);';
           var html = el.innerHTML;
           var toggle = "";
@@ -62,6 +64,10 @@ mw.treeRenderer = {
               el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
+		  
+		  
+		  }
+		  
       });
   },
   rendSelector:function(holder){
@@ -163,6 +169,46 @@ function mw_delete_content($p_id){
 
 
 function mw_select_page_for_editing($p_id){
+ 
+ 
+ 
+ 	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
+	 var active_item_is_page = active_item.attr('data-page-id');
+	
+	 
+	 
+	  var active_item_is_category = active_item.attr('data-category-id');
+	 if(active_item_is_category != undefined){
+			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
+			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
+			   if(active_item_parent_page != undefined){
+					var active_item_is_page = active_item_parent_page.attr('data-page-id');
+				   
+			   } else {
+				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+				   if(active_item_parent_page != undefined){
+						var active_item_is_page = active_item_parent_page.attr('data-page-id');
+					   
+				   }   
+				   
+			   }
+  
+  
+	 } else {
+	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+
+	 }
+	 
+	  if(active_item_is_page != undefined){
+		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
+
+	 } else {
+		mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+
+	 }
+	
+	
+	
     mw.$('#pages_edit_container').attr('data-page-id',$p_id);
     mw.$('#pages_edit_container').attr('data-type','content/edit_page');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
@@ -178,6 +224,14 @@ function mw_select_page_for_editing($p_id){
 mw.on.hashParam("action", function(){
   var arr = this.split(":");
   $(mwd.body).addClass("loading");
+  
+
+  
+  
+   // mw.$('#pages_edit_container').attr('data-active-item',active_item);
+  
+  
+  
   if(arr[0]==='new'){
       if(arr[1]==='page'){
         mw_select_page_for_editing(0);
@@ -199,6 +253,7 @@ mw.on.hashParam("action", function(){
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
       var active_item = mw.$(".item_"+arr[1]);
+
       active_item.addClass('active-bg');
       active_item.parents("li").addClass('active');
       if(arr[0]==='editpage'){
@@ -346,18 +401,63 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 
-function mw_select_post_for_editing($p_id){
-	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
-	 	 	 mw.$('#pages_edit_container').removeAttr('data-subtype', 'post');
+function mw_select_post_for_editing($p_id, $subtype){
+	
+	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
+	 var active_item_is_page = active_item.attr('data-page-id');
+	
+	 
+	 
+	  var active_item_is_category = active_item.attr('data-category-id');
+	 if(active_item_is_category != undefined){
+			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
+			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
+			   if(active_item_parent_page != undefined){
+					var active_item_is_page = active_item_parent_page.attr('data-page-id');
+				   
+			   } else {
+				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+				   if(active_item_parent_page != undefined){
+						var active_item_is_page = active_item_parent_page.attr('data-page-id');
+					   
+				   }   
+				   
+			   }
+  
+  
+	 } else {
+	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
 
+	 }
+	 
+	  if(active_item_is_page != undefined){
+		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
+
+	 } else {
+		mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+
+	 }
+	 
+	 
+	 
+	   mw.$('#pages_edit_container').removeAttr('data-subtype');
+	 	
+	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
+	 if($subtype != undefined){
+	 mw.$('#pages_edit_container').attr('data-subtype', $subtype);
+	 } else {
+		
+	 }
   	 mw.load_module('content/edit_post','#pages_edit_container');
 }
 
 function mw_add_product(){
-	 mw.$('#pages_edit_container').attr('data-content-id',0);
-	 mw.$('#pages_edit_container').attr('data-subtype','product');
-
-  	 mw.load_module('content/edit_post','#pages_edit_container');
+	
+	
+	 mw_select_post_for_editing(0,   'product')
+ 
+	
+ 
 }
 
 
@@ -375,11 +475,14 @@ function mw_add_product(){
             $view = url_param('view');
             if($view=='shop'){
         ?>
-            <h2 class="mw_tree_title"><?php _e("My Online Shop"); ?></h2>
+        <h2 class="mw_tree_title">
+          <?php _e("My Online Shop"); ?>
+        </h2>
         <?php } else { ?>
-            <h2 class="mw_tree_title"><?php _e("Website  Navigation"); ?></h2>
+        <h2 class="mw_tree_title">
+          <?php _e("Website  Navigation"); ?>
+        </h2>
         <?php } ?>
-
         <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
@@ -397,7 +500,6 @@ function mw_add_product(){
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
       </div>
-
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?
 	  $is_shop_str = '';
@@ -406,25 +508,12 @@ function mw_add_product(){
 	   }
 	   ?>
         <module data-type="pages_menu" include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
-
         <div class="mw-clear"></div>
-
-
-
-
-
       </div>
-      <div class="tree-show-hide-nav">
-            <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a>
-            <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a>
-        </div>
+      <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    <div class="mw_edit_page_right">
-
-
-
-
-    <script>
+    <div class="mw_edit_page_right"> 
+      <script>
 
     $(document).ready(function(){
 
@@ -441,25 +530,11 @@ function mw_add_product(){
 
 
     </script>
-
-
-
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
-
-      <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
-
-
-
-
-
-
-
-
+        <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
       </div>
       <div id="pages_edit_container">
-      
-
-      <? $content_id = '';
+        <? $content_id = '';
 	    if(defined('PAGE_ID') == true){
 		  $content_id = ' data-content-id='.PAGE_ID.' ';
 		  
@@ -470,7 +545,6 @@ function mw_add_product(){
 	  }
 	   
 	   ?>
-       
         <module data-type="content/manage" page-id="global" id="edit_content_admin_" <? print  $content_id ?>  />
       </div>
     </div>

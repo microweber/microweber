@@ -22,12 +22,7 @@ class View {
         // write content
         extract((array) $this);
 
-        foreach ($this as $k => $v) {
-            if (is_array($v)) {
-                //d($v);
-                //extract ( ( array ) $v );
-            }
-        }
+      
 
         require ($this->v);
         $content = ob_get_contents();
@@ -37,7 +32,7 @@ class View {
         $var_names = array_keys(get_defined_vars());
 
         foreach ($var_names as $var_name) {
-        	if($var_name != 'defined_vars'){
+        	if($var_name != 'defined_vars' and $var_name != 'this'){
             $defined_vars[$var_name] = $$var_name;
 			}
         }

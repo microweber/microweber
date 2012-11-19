@@ -7,6 +7,29 @@ if (!defined("MODULE_DB_TABLE_SHOP")) {
 if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', TABLE_PREFIX . 'cart_orders');
 }
+api_expose('update_order');
+function update_order($params = false) {
+
+	$params2 = array();
+	if ($params == false) {
+		$params = array();
+	}
+	if (is_string($params)) {
+		$params = parse_str($params, $params2);
+		$params = $params2;
+	}
+	if (is_admin() == false) {
+
+		error("You must be admin");
+	}
+
+	$table = MODULE_DB_TABLE_SHOP_ORDERS;
+	$params['table'] = $table;
+
+	//  d($params);
+	return save_data($table, $params);
+
+}
 
 function get_orders($params = false) {
 
@@ -240,7 +263,8 @@ function checkout($data) {
 		}
 
 		//post any of those on the form
-		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code', 'payment_gw');
+		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
+
 		$posted_fields = array();
 		$place_order = array();
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
