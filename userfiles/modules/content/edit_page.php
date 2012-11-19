@@ -159,11 +159,23 @@ mw_before_content_save<? print $rand ?>()
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-      <? if(isset($params['subtype']) and trim($params['subtype']) != ''): ?>
-      <label class="mw-ui-label"><?php print ucfirst($params['subtype']); ?> name</label>
-      <? else :  ?>
-      <label class="mw-ui-label"><?php print ucfirst($data['content_type']); ?> name</label>
+    
+    
+     <? if(intval($data['id']) > 0): ?>
+     <? $act = 'Edit ' ;?>
+     
+     <? else : ?>
+      <? $act = 'Add new ' ;?>
       <? endif; ?>
+      <? if(isset($params['subtype']) and trim($params['subtype']) != ''): ?>
+      <label class="mw-ui-label"><? print $act ?><?php print ucfirst($params['subtype']); ?></label>
+      <? else :  ?>
+      <label class="mw-ui-label"><? print $act ?> <?php print ucfirst($data['content_type']); ?></label>
+      <? endif; ?>
+      
+      
+      
+      
       <input name="title" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>

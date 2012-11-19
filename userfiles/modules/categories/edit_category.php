@@ -107,7 +107,7 @@ $(document).ready(function(){
   
 
   <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
-  <input name="to_table_id" type="text" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
+  <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />
 
 
@@ -118,10 +118,14 @@ $(document).ready(function(){
 
 
   <label class="mw-ui-label"><?php _e("Parent"); ?></label>
+  
+  
+  <? // d($data); ?>
+  
    <input name="parent_id" type="text" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
 <div id="edit_category_set_par_<? print $form_rand_id ?>">
 
-  <module style="width: 660px;" type="categories/dropdown" include_global_categories="true" active-id="<? print ($data['parent_id'])?>" input-name="temp_<? print $form_rand_id ?>" />
+  <module style="width: 660px;" type="categories/dropdown"   active_ids="<? print ($data['parent_id'])?>" input-name="temp_<? print $form_rand_id ?>" />
   
   
 </div>

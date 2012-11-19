@@ -1,8 +1,8 @@
 <?
  
-// d($params);
- if(!isset($params['active-id'])){
-	$params['active-id'] = 0; 
+d($params);
+ if(!isset($params['active_ids'])){
+	$params['active_ids'] = 0; 
  }
  
  
@@ -10,7 +10,10 @@
 $params['input-name'] = 'category_id' ;
  }
  
-  $posts_parent_page = intval($params['active-id']) ?>
+  $posts_parent_page = intval($params['active_ids']) ;
+  
+ // d( $posts_parent_page);
+  ?>
 
 <select name="<? print $params['input-name'] ?>"     >
   <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -22,22 +25,18 @@ $pt_opts['list_item_tag'] = "option";
 $pt_opts['include_categories'] = "true";
 $pt_opts['for'] = "table_content";
 
- $pt_opts['actve_ids'] = $posts_parent_page;
-//$pt_opts['remove_ids'] = $params['id'];
+ $pt_opts['categores_actve_ids'] = $posts_parent_page;
+ $pt_opts['remove_ids'] = $params['id'];
 
 $pt_opts['active_code_tag'] = '   selected="selected"  ';
  
 
-
+ 
 
  pages_tree($pt_opts);
 
 
   ?>
-  
-  
-  
-  
   <?
    
  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){

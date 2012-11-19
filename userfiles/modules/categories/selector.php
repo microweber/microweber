@@ -183,7 +183,7 @@ mw.$('#<? print $params['id'] ?> .mw-ui-check').on('click', function(e){
 	mw.$('#<? print $params['id'] ?> .mw-ui-check-input-sel:checked').each(function() {
 	names.push($(this).val());
 	});
-mw.log('<? print $params['id'] ?>');
+ 
 	if(names.length > 0){
 	mw.$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
 } else {
@@ -202,7 +202,7 @@ mw.log('<? print $params['id'] ?>');
 </script>
 <? if(!empty($cats__parents)): ?>
 <?
-// d($params);
+  
 $active_cats1 = array();
 foreach ($cats__parents as $item1) {
  
@@ -222,7 +222,10 @@ foreach ($cats__parents as $item1) {
 		//$tree['add_ids'] = $params['add_ids'];
 
 	}
-	
+	if (isset($params['is_shop'])) {
+		 $tree['is_shop'] = $params['is_shop'];
+
+	}
 	
 	if (isset($params['actve_ids'])) {
 		 $tree['actve_ids'] = $params['actve_ids'];

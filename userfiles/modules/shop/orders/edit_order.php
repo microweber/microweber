@@ -125,7 +125,7 @@ error("Invalid order id");
      mw.$("input[name='order_status']").commuter(function(){
         obj.order_status = this.value;
         $.post(mw.settings.site_url+"api/update_order", obj, function(){
-            mw.tools.el_switch(mwd.querySelectorAll('#order_status .mw-notification'))
+            mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'))
         });
      });
 
@@ -138,7 +138,7 @@ error("Invalid order id");
 
 
 
-  <div id="order_status">
+  <div id="mw_order_status">
     <div class="mw-notification mw-warning" <?php if($ord['order_status']=='y'): ?>style='display:none;'<?php endif; ?>>
       <div>
         Pending
