@@ -534,14 +534,25 @@ mw.tools = {
       callback.call(window);
     }
   },
-  el_switch:function(arr){
-    $(arr).each(function(){
-      var el = $(this);
-      if(el.css('display')=='none'){
-        el.show();
-      }
-      else{el.hide()}
-    });
+  el_switch:function(arr, type){
+    if(type==='semi'){
+      $(arr).each(function(){
+        var el = $(this);
+        if(el.hasClass("semi_hidden")){
+          el.removeClass("semi_hidden");
+        }
+        else{el.addClass("semi_hidden");}
+      });
+    }
+    else{
+      $(arr).each(function(){
+        var el = $(this);
+        if(el.css('display')=='none'){
+          el.show();
+        }
+        else{el.hide();}
+      });
+    }
   },
   sort:function(obj){
     var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
@@ -786,8 +797,20 @@ $.fn.datas = function(){
       mw.$(selector).find("input[type='checkbox']").each(function(){
        this.checked = false;
     });
+   },
+   collectChecked:function(parent){
+     var arr = [];
+     var all = parent.querySelectorAll('input[type="checkbox"]'), i=0, l=all.length;
+     for( ; i<l; i++){
+        var el = all[i];
+        el.checked ? arr.push(el.value) : '';
+     }
+     return arr;
    }
  }
+
+
+
 
 
 

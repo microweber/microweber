@@ -15,12 +15,12 @@
 if(isset($_COOKIE['last_page'])){
 	$past_page = site_url($_COOKIE['last_page']);
 } else {
-	$past_page=get_content("limit=1");
+	$past_page=get_content("order_by=updated_on desc&limit=1");
 $past_page = content_link($past_page[0]['id']);
 }
 
 
-//d($past_page);
+// d($past_page);
  ?>
 
    <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 11px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a>

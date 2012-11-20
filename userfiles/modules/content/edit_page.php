@@ -29,7 +29,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 $data = get_content_by_id(intval($params["data-page-id"])); 
 
 }
- 
+
 
 if($data == false or empty($data )){
 include('_empty_content_data.php');
@@ -53,6 +53,7 @@ $form_rand_id = $rand = uniqid();
 ?>
 <script  type="text/javascript">
   mw.require('forms.js');
+  mw.require('url.js');
  </script>
 <script type="text/javascript">
 
@@ -61,7 +62,7 @@ $form_rand_id = $rand = uniqid();
 
 $(document).ready(function(){
 	
-	
+
 
 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
@@ -75,11 +76,11 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
                             mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
-
-
-
+							 mw.url.windowHashParam("new_content", 'true');
+  <? else: ?>
+ mw_after_content_save<? print $rand ?>();
                              <? endif; ?>
-	 mw_after_content_save<? print $rand ?>();
+	
 
  });
 
@@ -120,63 +121,102 @@ mw_before_content_save<? print $rand ?>()
 
  });
 
- 
- function mw_before_content_save<? print $rand ?>(){
-	mw.$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
- }
-
- function mw_after_content_save<? print $rand ?>($id){
-
-	mw.reload_module('[data-type="pages_menu"]');
-	  <? if($edit_post_mode != false): ?>
-        mw.reload_module('[data-type="posts"]');
-	  <? endif; ?>
 
 
 
-	mw.reload_module('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]');
-	if($id != undefined){
-				$id = $id.replace(/"/g, "");
-	    $.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
-			   window.location.href = data+'/editmode:y';
-
-		});
-
-	}
-
-
- }
-
-
+  
 
 
 
 
 });
+
+
+	  mw.on.hashParam("new_content", function(){
+   
+     //alert(' mw_on_save_complete<? print $rand ?>')
+	 mw_on_save_complete<? print $rand ?>();
+	
+//mw.url.windowDeleteHashParam("new_content")
+ });
+ 
+
+ 
+ function mw_on_save_complete<? print $rand ?>(){
+	//alert(1);
+	mw.$('.notification_<? print $rand ?>').fadeIn('slow').fadeOut(8000);
+ }
+
+
+ 
+ function mw_before_content_save<? print $rand ?>(){
+	mw.$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
+ }
+ 
+ 
+ 
+
+		 function mw_after_content_save<? print $rand ?>($id){
+		
+				mw.reload_module('[data-type="pages_menu"]');
+				  <? if($edit_post_mode != false): ?>
+					mw.reload_module('[data-type="posts"]');
+				  <? endif; ?>
+			
+			
+			
+				mw.reload_module('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]');
+				if($id != undefined){
+							$id = $id.replace(/"/g, "");
+					$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
+						   window.location.href = data+'/editmode:y';
+			
+					});
+			
+				}
+			
+			
+			
+			mw_on_save_complete<? print $rand ?>()
+			
+	
+	
+		}
 </script>
 
 <form autocomplete="off" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-    
-    
-     <? if(intval($data['id']) > 0): ?>
-     <? $act = 'Edit ' ;?>
-     
-     <? else : ?>
-      <? $act = 'Add new ' ;?>
+      <? if(intval($data['id']) > 0): ?>
+      <? $act = _e("Edit ", true); ;?>
+      <? else : ?>
+      <? $act = _e('Add new ', true); ;?>
       <? endif; ?>
-      <? if(isset($params['subtype']) and trim($params['subtype']) != ''): ?>
-      <label class="mw-ui-label"><? print $act ?><?php print ucfirst($params['subtype']); ?></label>
-      <? else :  ?>
-      <label class="mw-ui-label"><? print $act ?> <?php print ucfirst($data['content_type']); ?></label>
+      <?php /*         */
+if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subtype']) != '') {
+		  $data['subtype'] = $params['subtype'];
+		  $t =      $data['subtype'];
+	} else if($data['content_type'] == 'post'){
+		
+     //   $data['subtype'] = 'post';
+        $t =      $data['subtype'];
+     } else {
+            $t =      $data['content_type'];
+     }
+
+
+ ?>
+      <label class="mw-ui-label"><?php print ucfirst( $t); ?> Name</label>
+      <? if(intval($data['id']) > 0): ?>
+      <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
+      <? else : ?>
+      <?
+    //d($params);
+
+     ?>
+      <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> title" />
       <? endif; ?>
-      
-      
-      
-      
-      <input name="title" class="mw-ui-field"  type="text" value="<? print ($data['title'])?>" />
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
@@ -351,17 +391,29 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
+  
+ 
+  
   <div class="mw-ui-field-holder mw_save_buttons_holder">
     <input type="submit" name="save"  style="width: 120px;" value="Save" />
     <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
   </div>
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
+   <div class="mw-notification mw-success notification_<? print $rand ?> hidden">
+    <div>
+      <span class="ico icheck"></span>
+      <span>Changes are saved</span>
+    </div>
+  </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#the_custom_fields', this);">Custom Fields</a>
+  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#the_custom_fields', this);">
+  <?php _e("Custom Fields"); ?>
+  </a>
+  <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div class="vSpace"></div>
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <module type="custom_fields/admin"    for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
@@ -374,6 +426,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="advanced_settings"> <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
+    <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn-rect">
+       <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
+    </a> */ ?>
     <div class="advanced_settings_holder">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>

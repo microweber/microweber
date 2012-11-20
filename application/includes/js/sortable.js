@@ -1110,7 +1110,7 @@ mw.drag = {
 
     data1 = attributes
     data1.view = 'admin';
-
+	data1.live_edit = 'true';
     mw.tools.modal.init({
 	html:"",
 	width:600,

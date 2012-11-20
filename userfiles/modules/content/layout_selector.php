@@ -132,7 +132,10 @@ $(document).ready(function() {
 	 var parent_module = $(this).parents('.module').first();
 	 if(parent_module != undefined){
  parent_module.attr('data-active-site-template',$(this).val());
-        mw.reload_module('<? print $params['type']?>');
+        mw.reload_module('<? print $params['type']?>', function(){
+           mw.templatePreview.view(0); 
+        });
+
 	 }
     });
 
@@ -145,14 +148,14 @@ $(document).ready(function() {
 
 	
 
-	
+
 
 });
 
 </script>
 
 <div class="mw-ui-field-holder mw-template-selector">
-  <label class="mw-ui-label">Template</label>
+  <label class="mw-ui-label"><?php _e("Select Template"); ?></label>
   <div class="mw-ui-select" style="width: 275px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
@@ -179,6 +182,13 @@ $(document).ready(function() {
   <? endforeach; ?>
   <? endif; ?>
 </select>
+
+
+
+
+<div class="left">
+
+<label class="mw-ui-label"><?php _e("Preview Layout"); ?></label>
 <div class="preview_frame_wrapper loading left">
   <div class="preview_frame_ctrls">
     <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
@@ -191,19 +201,15 @@ $(document).ready(function() {
 </div>
 
 
-
+</div>
 
 
 <div class="layouts_box_holder">
-  <label class="mw-ui-label">Page Layout</label>
+  <label class="mw-ui-label"><?php _e("Choose Page Layout"); ?></label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector">
       <ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
-        <? if(('asdas3333das' == trim($data['layout_file']))): ?>
-        <!--                <li value="<? print $data['layout_file'] ?>"   onclick="mw.templatePreview.view(1);"    class="active" ><? print basename($data['layout_file']) ?></li>
--->
-        <? endif; ?>
         <? if(!empty($layouts)): ?>
         <? $i=0; foreach($layouts as $item): ?>
         <?php $i++; ?>
@@ -213,6 +219,8 @@ $(document).ready(function() {
       </ul>
     </div>
   </div>
+</div>
+
 
 
 
@@ -222,9 +230,10 @@ $(document).ready(function() {
 </div>
 
 
-</div>
+
 
 
 
 
 <div class="mw_clear">&nbsp;</div>
+<div class="vSpace">&nbsp;</div>

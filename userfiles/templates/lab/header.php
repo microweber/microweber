@@ -21,3 +21,5 @@
 </head>
 
 <body>
+ <module type="menus"  />
+ 

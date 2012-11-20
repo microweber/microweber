@@ -137,6 +137,7 @@ function define_constants($content = false) {
 function get_layout_for_page($page = array()) {
 	$render_file = false;
 	$look_for_post = false;
+	$template_view_set_inner = false;
 	if (isset($page['content_type']) and $page['content_type'] == 'post') {
 		$look_for_post = $page;
 		if (isset($page['parent'])) {
@@ -144,7 +145,14 @@ function get_layout_for_page($page = array()) {
 			$par_page = get_content_by_id($page['parent']);
 			if (isarr($par_page)) {
 				$page = $par_page;
+			} else {
+							 $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+				
 			}
+		} else {
+			 $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+			
+			
 		}
 	}
 
@@ -215,6 +223,9 @@ function get_layout_for_page($page = array()) {
 
 	}
 
+
+
+
 	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
 		$template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
 		if (is_file($template_view) == true) {
@@ -228,6 +239,15 @@ function get_layout_for_page($page = array()) {
 			$render_file = $template_view;
 		}
 	}
+	
+	
+	if($template_view_set_inner != false){
+	$template_view_set_inner = normalize_path($template_view_set_inner, false);
+		if (is_file($template_view_set_inner) == true) {
+			$render_file = $template_view_set_inner;
+		}
+	//d($template_view_set_inner);
+}
 
 	//    if (trim($page['layout_name']) != '') {
 	//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['layout_name'] . DS . 'index.php';
@@ -1241,8 +1261,14 @@ function delete_content($data) {
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		db_delete_by_id('table_content', $c_id);
-
-		//d($c_id);
+	}
+	
+	if (isset($data['ids']) and isarr($data['ids'])) {
+		foreach ($data['ids'] as   $value) {
+			$c_id = intval($value);
+		db_delete_by_id('table_content', $c_id);
+		}
+		
 	}
 }
 
@@ -1277,7 +1303,7 @@ function save_content($data, $delete_the_cache = true) {
 
 	$table = $cms_db_tables['table_content'];
 
-	if (empty($data)) {
+	if (empty($data) or !isset($data['id'])) {
 
 		return false;
 	}
@@ -1496,7 +1522,33 @@ $cms_db_tables = c('db_tables');
 			$par_page = get_content_by_id($data_to_save['parent']);
 		}
 
+
+
+
+
+
 		if (is_array($par_page)) {
+			
+			
+			
+			if($par_page['subtype'] == 'static'){
+				$par_page_new = array();
+				$par_page_new['id'] = $par_page['id'];
+				$par_page_new['subtype'] = 'dynamic';
+				$par_page_new = save_data($table, $par_page_new);
+				 $cats_modified = true;
+				//d($par_page);
+				//exit();
+				    
+			}
+			
+			
+			
+			
+			
+			
+			
+			
 			if (!isset($data_to_save['categories'])) {
 				$data_to_save['categories'] = '';
 			}

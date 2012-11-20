@@ -211,11 +211,11 @@ foreach ($cats__parents as $item1) {
 }
 	$tree = array();
 	 $tree['include_categories'] = 1;
-	 $tree['subtype'] = 'dynamic';
-	 $tree['parent'] = '[int]0';
+	// $tree['subtype'] = 'dynamic';
+	    $tree['parent'] = '[int]0';
 //	  $tree['include_first'] = 1;
 	//$tree['parent'] = $item1;
-//	$tree['to_table_id'] = '[gte]0';
+//	$tree['to_tabqqle_id'] = '[gte]0';
 	
 	 //  $tree['debug'] = 1;
 	if (isset($params['add_ids'])) {
@@ -229,6 +229,12 @@ foreach ($cats__parents as $item1) {
 	
 	if (isset($params['actve_ids'])) {
 		 $tree['actve_ids'] = $params['actve_ids'];
+
+	}
+	
+	
+	if (isset($params['categores_actve_ids'])) {
+		 $tree['categores_actve_ids'] = $params['categores_actve_ids'];
 
 	}
 	
@@ -246,13 +252,30 @@ foreach ($cats__parents as $item1) {
 		
 	}
 	}
+	$input_name = " name='parent' ";
+	if(isset($params['input-name'])){
+		$input_name = " name='{$params['input-name']}' ";
+	}
+	
+	
+	$input_name_cats = "  ";
+	if(isset($params['input-name-categories'])){
+		$input_name_cats = " name='{$params['input-name-categories']}' ";
+	}
+	
+	
+	
+	$input_type_cats = "  type='checkbox'  ";
+	if(isset($params['input-type-categories'])){
+		$input_type_cats = " type='{$params['input-type-categories']}' ";
+	}
 	
 	
 	 $tree['active_code'] = 'checked="checked" ';
 	 $tree['active_code'] = 'checked="checked" ';
 //  $tree['debug'] = 1;
-	$tree['link'] = "<label class='mw-ui-check'><input type='radio' name='parent'  {active_code} value='{id}' id='mw_cat_selector_{$rand}' class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
- 	$tree['categores_link'] = "<label class='mw-ui-check'><input type='checkbox'    {active_code} value='{id}' id='mw_cat_selector_{$rand}' class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
+	$tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
+ 	$tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
 
  
 

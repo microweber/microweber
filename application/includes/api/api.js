@@ -249,7 +249,8 @@ typeof mw === 'undefined' ?
     t_reload_module_interval = setInterval("mw.reload_module('" + $module_name + "')", $interval);
   }
 
-  mw.reload_module = function($module_name) {
+  mw.reload_module = function($module_name, callback) {
+    var done = callback || false;
     if ($module_name == undefined) {
 
     } else {
@@ -257,7 +258,8 @@ typeof mw === 'undefined' ?
 
       if (typeof $module_name == 'object') {
         mw._({
-          selector: $module_name
+          selector: $module_name,
+          done:done
         });
 
       } else {
@@ -276,9 +278,11 @@ typeof mw === 'undefined' ?
             if ($mods.length == 0) {
               $mods = $($module_name);
             }
+
             $mods.each(function() {
               mw._({
-                selector: this
+                selector: this,
+                done:done
               });
             });
           }
@@ -320,7 +324,8 @@ typeof mw === 'undefined' ?
 
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
-      mw.is.defined(obj.done) ? obj.done.call(selector) : '';
+      typeof obj.done === 'function' ? obj.done.call(selector) : '';
+
 
       mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() : '';
       mw.is.defined(mw.drag) ? mw.drag.fix_placeholders(true) : '';

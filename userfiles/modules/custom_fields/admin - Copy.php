@@ -25,8 +25,8 @@
 	$copy_from = $params['copy_from'];
  }
   $hide_preview = '';
-  if(isset($params['live_edit'])){
-	 $hide_preview = " live_edit=true " ;
+  if(isset($params['contenteditable'])){
+	//$hide_preview = " data-hide-preview=true " ;
  }
 
 
@@ -69,16 +69,16 @@ $rand = rand();
       <li><a href="#"><span class="ico iUpload"></span><span>File Upload</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('number');"><span class="ico iNumber"></span><span>Number</span></a></li>
+      <li><a href="#"><span class="ico iNumber"></span><span>Number</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('checkbox');"><span class="ico iChk"></span><span>Checkbox</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('dropdown');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('date');"><span class="ico iDate"></span><span>Date</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
       <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('address');"><span class="ico iAddr"></span><span>Adress</span></a></li>
+      <li><a href="#"><span class="ico iAddr"></span><span>Adress</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('hr');"><span class="ico iSpace"></span><span>Section Break</span></a></li>
+      <li><a href="#"><span class="ico iSpace"></span><span>Section Break</span></a></li>
     </ul>
   </div>
 
@@ -113,91 +113,6 @@ $(document).ready(function(){
         //make_new_field()
 
     });
-</script>
-
-
-<script type="text/javascript">
-
-mw.custom_fields.save = function(id){
-    var obj = mw.form.serialize("#"+id);
-    $.post("<? print site_url('api_html/save_custom_field') ?>", obj, function(data) {
-       
-	 
-	   
-	    if(obj.id === undefined){
-             mw.reload_module('.edit [data-parent-module="custom_fields"]');
-			  mw.reload_module('custom_fields/list');
-			 $("#"+id).hide();
-        }
-        else {
-            $("#"+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
-        }
-		
-		$cfadm_reload = false;
-         mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
-         if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
-			// if(!mw.tools.hasParentsWithClass(this, 'mw_modal') ){
-               mw.reload_module(this);
-           } else {
-			$cfadm_reload = true;   
-		   }
-        });
-		
-		
-		if($cfadm_reload  == true){
-	        mw.reload_module('custom_fields/admin');
-		}
-
-		
-		
-    });
-}
-
-mw.custom_fields.del = function(id){
-    var q = "Are you sure you want to delete this?";
-    mw.tools.confirm(q, function(){
-      var obj = mw.form.serialize("#"+id);
-      $.post("<? print site_url('api/remove_field') ?>",  obj, function(data){
-        $("#"+id).parents('.custom-field-table-tr').first().remove();
-      });
-    });
-
-}
-
-
-$(document).ready(function(){
-  
-});
-
-mw.custom_fields.sort_rows = function(){
-  if(!mw.$("#custom-field-main-table").hasClass("ui-sortable")){
-   mw.$("#custom-field-main-table").sortable({
-       items: '.custom-field-table-tr',
-       axis:'y',
-       handle:'.custom-field-handle-row',
-       update:function(){
-         var obj = {cforder:[]}
-         $(this).find('.custom-field-table-tr').each(function(){
-            var id = this.attributes['data-field-id'].nodeValue;
-            obj.cforder.push(id);
-         });
-
-         $.post("<?php print site_url('api/reorder_custom_fields'); ?>", obj, function(){});
-       },
-       start:function(a,ui){
-              $(this).height($(this).outerHeight());
-              $(ui.placeholder).height($(ui.item).outerHeight())
-              $(ui.placeholder).width($(ui.item).outerWidth())
-       },
-       scroll:false,
-
-       placeholder: "custom-field-main-table-placeholder"
-    });
-
-  }
-}
-
-
 </script>
   <module type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

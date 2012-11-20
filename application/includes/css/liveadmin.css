@@ -199,7 +199,7 @@ form.content-type-post .mw-ui-field[name='title']{width: 660px;}
 
 
 .mw-template-selector{
-  float:left;
+  float:right;
   width:280px;
 }
 
@@ -209,8 +209,10 @@ form.content-type-post .mw-ui-field[name='title']{width: 660px;}
   position: relative;
 }
 .mw_save_buttons_holder{
-  padding: 0;
-  position: relative;
+    float: right;
+    overflow: hidden;
+    padding: 20px 0 0;
+    width: 280px;
 }
 
 
@@ -220,7 +222,7 @@ form.content-type-post .mw-ui-field[name='title']{width: 660px;}
   width: 46%;
 }
 .mw_save_buttons_holder input[type='button']{
-  float: left;
+  float: right;
   width: 46%;
 }
 
@@ -258,6 +260,7 @@ form.add-edit-page-post textarea{
   height: 0;
 }
 
+
 .manage-post-image{
   display: block;
   float: left;
@@ -269,6 +272,13 @@ form.add-edit-page-post textarea{
   background-position: center top;
   background-color: white;
 }
+
+
+.manage-post-image-no-image{
+    background-color: #8B8B8B;
+}
+
+
 
 .manage-post-item-comments{
   display: block;
@@ -689,6 +699,11 @@ form.add-edit-page-post textarea{
 }
 .mwoffice #UITU{
   display: block;
+  max-height: 90%;
+  padding: 30px;
+  overflow-y:scroll;
+  bottom:0;
+  top: auto !important;
 }
 
 .custom-field-table input[type='text']{
@@ -1061,7 +1076,7 @@ body.loading, body.loading *{
   border-bottom:1px solid #E2E2E2;
 }
 
-#mw-order-table-holder{
+#mw-order-table-holder, .mw-admin-wrap{
   padding: 20px;
   width: 960px;
 }
@@ -1306,6 +1321,34 @@ tr.mw-o-box-table-footer.last td{
 .mw-o-client-table a:hover{
   text-decoration: underline;
 }
+
+.order-status-selector .font-11{
+  color: #8B8B8B;
+  padding: 0 9px 0 16px;
+}
+
+.order-status-selector .mw-ui-check input + span{
+  top: 3px;
+  margin-left: 25px;
+  margin-right: 5px;
+}
+
+.backico{
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  background: url(../img/backarr.png) no-repeat;
+  margin: 0 7px 0 0;
+}
+
+
+.hidden{
+  display: none;
+}
+
+
 
 
 

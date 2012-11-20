@@ -28,6 +28,28 @@ function copy_directory($source, $destination) {
     }
 }
 
+function character_limiter($str, $length, $minword = 3)
+{
+    $sub = '';
+    $len = 0;
+    
+    foreach (explode(' ', $str) as $word)
+    {
+        $part = (($sub != '') ? ' ' : '') . $word;
+        $sub .= $part;
+        $len += strlen($part);
+        
+        if (strlen($word) > $minword && strlen($sub) >= $length)
+        {
+            break;
+        }
+    }
+    
+    return $sub . (($len < strlen($str)) ? '...' : '');
+}
+
+ 
+
 function array_change_key($array, $search, $replace) {
 
     $arr = array();

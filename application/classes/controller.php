@@ -159,7 +159,7 @@ class Controller {
 		define_constants($content);
 
 		$render_file = get_layout_for_page($content);
-
+ 
 		if ($render_file) {
 			$l = new View($render_file);
 			// $l->content = $content;

@@ -2532,7 +2532,16 @@ function split_sql_file($sql, $delimiter) {
 }
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-	$cache_group = 'options/global';
+		
+		 if ($option_group != false) {
+			
+			               $cache_group = 'options/' . $option_group;
+			                
+			           } else {
+			           	$cache_group = 'options/global';
+			           }
+		
+	
 	//d($key);
 	$function_cache_id = false;
 

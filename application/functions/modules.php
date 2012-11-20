@@ -35,7 +35,19 @@ function module_name_encode($module_name) {
 
 	//$module_name = str_replace('/', '___', $module_name);
 }
-
+function module_data($params) {
+	if (is_string($params)) {
+		$params = parse_str($params, $params2);
+		$params = $options = $params2;
+	}
+	
+	$params['display'] = 'custom';
+	
+	
+	return module($params);
+	
+	
+}
 function module($params) {
 
 	if (is_string($params)) {

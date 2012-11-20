@@ -17,13 +17,15 @@ error("Invalid order id");
  
 ?>
 
-<h2><? print $ord['id'] ?> | <? print $ord['created_on'] ?> </h2>
+
 
 
 
 
 <div id="mw-order-table-holder">
 
+    <a class="mw-ui-btn right" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="backico"></span><?php _e("Back to Orders"); ?></a>
+  <h2><span style="color: #0D5C98"><? print $ord['id'] ?> |</span> <span class="font-12"><? print $ord['created_on'] ?></span> </h2>
 
 <div class="mw-o-box mw-o-box-order-info">
   <div class="mw-o-box-header">
@@ -98,26 +100,25 @@ error("Invalid order id");
     <span class="ico iorder"></span><span>Order Status</span>
  </div>
 
-  <span class="font-11" style="color: #8B8B8B;">What is the status of this order?</span>
-
-  <label class="mw-ui-check">
-    <input <?php if($ord['order_status']=='y'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
-    <span></span>
-    <span>Completed Order</span>
-  </label>
-
-
- <label class="mw-ui-check">
-    <input <?php if($ord['order_status']=='n'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="n"  />
-    <span></span>
-    <span>Pending</span>
-  </label>
-
+ <div class="order-status-selector">
+    <span class="font-11">What is the status of this order?</span>
+    <label class="mw-ui-check">
+      <input <?php if($ord['order_status']=='y'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
+      <span></span>
+      <span>Completed Order</span>
+    </label>
+    <label class="mw-ui-check">
+      <input <?php if($ord['order_status']=='n'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="n"  />
+      <span></span>
+      <span>Pending</span>
+    </label>
+  </div>
 
 
+<div class="vSpace">&nbsp;</div>
 
-  <script type="text/javascript">
 
+<script type="text/javascript">
   $(document).ready(function(){
      var obj = {
        id:"<?php print $ord['id']; ?>"
@@ -125,27 +126,23 @@ error("Invalid order id");
      mw.$("input[name='order_status']").commuter(function(){
         obj.order_status = this.value;
         $.post(mw.settings.site_url+"api/update_order", obj, function(){
-            mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'))
+            mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
         });
      });
-
   });
-
-
-
-  </script>
+</script>
 
 
 
 
   <div id="mw_order_status">
-    <div class="mw-notification mw-warning" <?php if($ord['order_status']=='y'): ?>style='display:none;'<?php endif; ?>>
+    <div class="mw-notification mw-warning <?php if($ord['order_status']=='y'): ?>semi_hidden<?php endif; ?>">
       <div>
         Pending
       </div>
     </div>
 
-    <div class="mw-notification mw-success" <?php if($ord['order_status']=='n'): ?>style='display:block;'<?php endif; ?>>
+    <div class="mw-notification mw-success <?php if($ord['order_status']=='n'): ?>semi_hidden<?php endif; ?>">
       <div>
         <span class="ico icheck"></span>
         <span>Successfully Completed</span>

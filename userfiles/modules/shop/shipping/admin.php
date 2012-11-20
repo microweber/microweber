@@ -1,4 +1,4 @@
- shipping providers 
+ shipping providers
 <script  type="text/javascript">
  mw.require('options.js');
  </script> 
@@ -14,10 +14,12 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 // d($shipping_modules);
 ?>
-<div class="mw-set-shipping-options" >
+<div class="mw-set-shipping-options mw-admin-wrap">
+<div class="mw-o-box" style="background: #F8F8F8;">
+
   <? if(isarr($shipping_modules )): ?>
   <? foreach($shipping_modules  as $shipping_module): ?>
-  <h2><? print $shipping_module['name'] ?></h2>
+  <div class="mw-o-box-header"><span class="ico itruck"></span><span><? print $shipping_module['name'] ?></span></div>      <div style="padding: 15px;">
   Enabled:
   <label class="mw-ui-check">
     <input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field"    data-option-group="shipping"  value="y"  type="radio"  <? if(option_get('shipping_gw_'.$shipping_module['module'], 'shipping') == 'y'): ?> checked="checked" <? endif; ?> >
@@ -29,5 +31,6 @@ $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
     <module type="shop/shipping/gateways/<? print $shipping_module['module'] ?>" view="admin" />
   </div>
   <? endforeach ; ?>
-  <? endif; ?>
+  <? endif; ?>  </div>
+  </div>
 </div>

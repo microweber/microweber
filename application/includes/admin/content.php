@@ -111,8 +111,8 @@ mw.treeRenderer = {
            mw.treeRenderer.rendSelector(holder);
         }
         mw.tools.tree.recall(mwd.querySelector(holder));
-        mw.log(mwd.querySelector(holder).id);
-        mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
+       // mw.log(mwd.querySelector(holder).id);
+      //  mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
     }
   }
 }
@@ -223,16 +223,24 @@ function mw_select_page_for_editing($p_id){
 
 mw.on.hashParam("action", function(){
   var arr = this.split(":");
-  $(mwd.body).addClass("loading");
-  
 
-  
-  
+  $(mwd.body).removeClass("action-Array");
+
+  $(mwd.body).addClass("loading");
+
+
+
+
+
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
-  
-  
-  
+
+
+
   if(arr[0]==='new'){
+
+
+
+
       if(arr[1]==='page'){
         mw_select_page_for_editing(0);
       }
@@ -289,16 +297,7 @@ mw.on.hashParam("action", function(){
    }
    mw.reload_module('#pages_edit_container');
  });
-
-
-
-
-
-
-
 });
-
-
 
 
 
@@ -333,6 +332,7 @@ function mw_set_edit_posts($in_page, $is_cat){
        mw.$('#pages_edit_container').removeAttr('data-content-id');
 	 mw.$('#pages_edit_container').removeAttr('data-page-id');
       mw.$('#pages_edit_container').removeAttr('data-category-id');
+	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
 
 if($in_page != undefined && $is_cat == undefined){
  mw.$('#pages_edit_container').attr('data-page-id',$in_page);
@@ -340,6 +340,7 @@ if($in_page != undefined && $is_cat == undefined){
 
 if($in_page != undefined && $is_cat != undefined){
  mw.$('#pages_edit_container').attr('data-category-id',$in_page);
+ mw.$('#pages_edit_container').attr('data-selected-category-id',$in_page);
 }
 
 
@@ -369,28 +370,7 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 
-	 mw.$('#pages_edit_container .paging a').live('click',function() {
-
-	 $p_id = $(this).attr('data-page-number');
-	 $p_param = $(this).attr('data-paging-param');
-	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
-	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
-
-
-
-
-	 mw.load_module('posts','.mw_edit_page_right #pages_edit_container', function(){
-
-
-
-	 });
-
-
-
-
-		 return false;
-	 });
-
+	 
 
 
 
@@ -440,13 +420,18 @@ function mw_select_post_for_editing($p_id, $subtype){
 	 
 	 
 	 
-	   mw.$('#pages_edit_container').removeAttr('data-subtype');
-	 	
+	 mw.$('#pages_edit_container').removeAttr('data-subtype');
+	 mw.$('#pages_edit_container').removeAttr('is_shop');
 	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
 	 if($subtype != undefined){
+		 if($subtype == 'product'){
+			  mw.$('#pages_edit_container').attr('is_shop', 'y');
+		 }
+		 
+		 
 	 mw.$('#pages_edit_container').attr('data-subtype', $subtype);
 	 } else {
-		
+		mw.$('#pages_edit_container').attr('data-subtype', 'post');
 	 }
   	 mw.load_module('content/edit_post','#pages_edit_container');
 }
@@ -460,6 +445,40 @@ function mw_add_product(){
  
 }
 
+
+//paging
+  mw.on.hashParam("pg", function(){
+
+     var dis =  $p_id = this.trim();
+
+ mw.$('#pages_edit_container').attr("paging_param", 'pg');
+
+
+     if(dis!==''){
+       mw.$('#pages_edit_container').attr("pg", dis);
+        mw.$('#pages_edit_container').attr("data-page-number", dis);
+     }
+     else{
+        mw.$('#pages_edit_container').removeAttr("pg");
+        mw.$('#pages_edit_container').removeAttr("data-page-number");
+        mw.url.windowDeleteHashParam('pg');
+     }
+
+
+ $p_id = $(this).attr('data-page-number');
+	 $p_param = $(this).attr('data-paging-param');
+	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
+	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
+ mw.$('#pages_edit_container').removeAttr('data-content-id');
+
+
+  	 mw.load_module('content/manage','#pages_edit_container');
+
+	 //mw.reload_module('#pages_edit_container');
+ 
+
+
+ });
 
 
 
@@ -533,19 +552,24 @@ function mw_add_product(){
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
         <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
       </div>
-      <div id="pages_edit_container">
-        <? $content_id = '';
+       <?
+		
+		 $content_id = '';
 	    if(defined('PAGE_ID') == true){
-		  $content_id = ' data-content-id='.PAGE_ID.' ';
+		  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
 		  
 	  }
 	  if(defined('POST_ID')== true and POST_ID != false){
-		 $content_id = ' data-content-id='.POST_ID.' ';
+		 $content_id = ' data-content-id='.intval(POST_ID).' ';
 
 	  }
-	   
+	   //d( $content_id );
 	   ?>
-        <module data-type="content/manage" page-id="global" id="edit_content_admin_" <? print  $content_id ?>  />
+       
+       
+      <div id="pages_edit_container"  <? print $is_shop_str ?>>
+       
+        <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
       </div>
     </div>
   </div>

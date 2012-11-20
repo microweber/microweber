@@ -77,7 +77,7 @@
       </ul>
       <a href="#design_bnav" class="ed_btn mw_ex_tools" style="margin-top: 14px;"><span class="mw_ico mw_check left"></span>Design</a>
 
-      <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span></span>Back to Admin</a>
+      <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
 
       </div>
 

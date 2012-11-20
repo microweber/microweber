@@ -114,7 +114,7 @@ function get_options($params = '') {
 		$params = $params2;
 		extract($params);
 	}
-	 
+
 	$data = $params;
 	$table = c('db_tables');
 	$table = $table['table_options'];
@@ -137,13 +137,13 @@ function save_option($data) {
 	}
 	// p($_POST);
 	$option_group = false;
-	if ($data) {
-		if (!isset($data['id']) or intval($data['id']) == 0) {
+	if (isarr($data)) {
+		//if (!isset($data['id']) or intval($data['id']) == 0) {
 			if ($data['option_key'] and $data['option_group']) {
 				$option_group = $data['option_group'];
 				delete_option_by_key($data['option_key'], $data['option_group']);
 			}
-		}
+		//}
 		if (strval($data['option_key']) != '') {
 
 			$cms_db_tables = c('db_tables');
@@ -153,11 +153,12 @@ function save_option($data) {
 			// $data ['debug'] = 1;
 			$save = save_data($table, $data);
 
-			//            if ($option_group != false) {
-			//
-			//                $cache_group = 'options/' . $option_group;
-			//                cache_clean_group($cache_group);
-			//            }
+			if ($option_group != false) {
+
+				$cache_group = 'options/' . $option_group;
+				cache_clean_group($cache_group);
+			}
+			//d($cache_group);
 			//
 			//            if (isset($data['id'])) {
 			//                $cache_group = 'options/' . $data['id'];
