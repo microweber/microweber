@@ -10,6 +10,36 @@ function api_expose($function_name) {
 	}
 }
 
+function exec_action($api_function, $data = false) {
+
+	$hooks = action_hook(true);
+	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+		foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+			if (function_exists($hook_value)) {
+				if ($data != false) {
+					$hook_value($data);
+				} else {
+					$hook_value();
+				}
+			}
+		}
+	}
+}
+
+function action_hook($function_name, $next_function_name = false) {
+	static $index = array();
+
+	if (is_bool($function_name)) {
+		$index = array_unique($index);
+		return $index;
+	} else {
+
+		$index[$function_name][] = $next_function_name;
+
+		//  $index .= ' ' . $function_name;
+	}
+}
+
 function api_hook($function_name, $next_function_name = false) {
 	static $index = array();
 
@@ -73,10 +103,10 @@ function event_stream() {
 	header("Content-Type: text/event-stream\n\n");
 
 	for ($i = 0; $i < 10; $i++) {
-	 
-		echo 'data: '.$i . rand() . rand() . rand() . rand() . rand() . rand() . "\n";
-		 
+
+		echo 'data: ' . $i . rand() . rand() . rand() . rand() . rand() . rand() . "\n";
+
 	}
 
-	 exit();
+	exit();
 }

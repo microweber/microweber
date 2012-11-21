@@ -285,6 +285,7 @@ function save_media($data) {
 }
 
 function thumbnail($src, $width = 200, $height = 200) {
+
 	//require_once ();
 	$surl = site_url();
 	$local = false;
@@ -298,28 +299,30 @@ function thumbnail($src, $width = 200, $height = 200) {
 		$src = ltrim($src, DS);
 		$src = ltrim($src, '/');
 		$src = rtrim($src, DS);
+		$src = rtrim($src, '/');
 		$src = MEDIAFILES . $src;
 		$src = normalize_path($src, false);
 		//d($src);
 	} else {
-		$dl_file = MEDIAFILES . md5($src) . basename($src);
+		$dl_file = MEDIAFILES . crc32($src) . basename($src);
 		url_download($src, false, $dl_file);
 		$src = $dl_file;
 	}
-	$cd = CACHEDIR_ROOT . 'thumbnail' . DS;
+	$cd = CACHEDIR . 'thumbnail' . DS;
 	if (!is_dir($cd)) {
 		mkdir_recursive($cd);
 	}
 
-	$cache = md5($src . $width . $height) . basename($src);
+	$cache = crc32($src . $width . $height) . basename($src);
+	
 	$cache = str_replace(' ', '_', $cache);
 	$cache_path = $cd . $cache;
-	//d($src);
-	//d($cache_path);
+
 	if (file_exists($cache_path)) {
 
 	} else {
 		if (file_exists($src)) {
+
 			$tn = new Thumbnailer($src);
 			$thumbOptions = array('maxLength' => $height, 'width' => $width);
 			$tn -> createThumb($thumbOptions, $cache_path);

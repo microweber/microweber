@@ -14,11 +14,13 @@
 
 
 body, textarea, input{
-  font-family: Verdana,Arial,Helvetica,sans-serif;
-  font-size: 12px;
-  line-height: normal;
+  font: 12px Verdana,Arial,Helvetica,sans-serif;
   color: #212121;
 }
+body{
+  line-height: 1.5;
+}
+
 a{
   color: #212121;
   text-decoration: none;
@@ -159,6 +161,11 @@ body:-webkit-full-screen {
   color: #777777;
   font-size: 15px;
   letter-spacing: 2px;
+  display: block;
+}
+.mw_tree_title_shop{
+  background-image: url(../img/shop.big.png);
+  background-position: 9px 7px;
 }
 
 #mw_edit_pages_content{
@@ -242,9 +249,14 @@ form.add-edit-page-post textarea{
 
 .manage-post-item{
   padding: 10px;
+  position: relative;
   border-bottom: 1px solid #E2E2E2;
+  background: white;
   clear: both;
   color: #4D4D4D;
+}
+.manage-post-item.ui-sortable-helper{
+  box-shadow:0 0 10px -5px #000;
 }
 
 .manage-post-item a{
@@ -441,6 +453,7 @@ form.add-edit-page-post textarea{
 
 .ico{
   display: inline-block;
+  text-indent: 100%;
   float: left;
   width: 25px;
   height: 25px;
@@ -497,11 +510,12 @@ form.add-edit-page-post textarea{
 .iAdd{background-position:-976px 1px;}
 .iRemove{background-position:-1013px 1px;}
 .icheck{background-position: -1051px 2px;}
+.iplus{background-position: -1140px 2px;}
 
 
 .iMove{
   background-position: -1090px 2px;
-  cursor: move;
+  cursor: move !important;
   margin: 3px 0 0 3px;
 }
 
@@ -511,11 +525,14 @@ form.add-edit-page-post textarea{
 .mw-ui-btn .ico, .mw-ui-btn-rect .ico{
     margin-right: 7px;
     top: -4px;
-
 }
 .mw-ui-btn-rect .ico{
   margin-bottom: -7px;
   margin-left: -4px;
+}
+
+.mw-ui-btn-rect .ico + .ico{
+  margin-left: -8px;
 }
 
 
@@ -1348,6 +1365,49 @@ tr.mw-o-box-table-footer.last td{
   display: none;
 }
 
+.mw-no-posts-foot{
+  clear: both;
+  padding: 20px;
+}
+
+.mw-no-posts-foot h2{
+  display: inline;
+  margin-right: 15px;
+}
+
+
+.mw_sort_tree_handle, .mw_admin_posts_sortable_handle{
+  float: none;
+  position: absolute;
+  left: -4px;
+  margin-top: -3px;
+  opacity:0.4;
+  visibility: hidden;
+}
+
+.mw_admin_posts_sortable_handle{left:3px;top: 31px;}
+
+.mw_sort_tree_handle:hover, .mw_admin_posts_sortable_handle:hover{
+  opacity:1;
+}
+
+.manage-post-item:hover .mw_admin_posts_sortable_handle{
+  visibility: visible;
+}
+
+#pages_edit_container li a:hover .mw_sort_tree_handle{
+    visibility: visible;
+}
+
+
+select.mw-ui-simple-dropdown{
+  border: 1px solid #B9B9B9;
+  border-radius:3px;
+  padding: 4px;
+}
+select.mw-ui-simple-dropdown:focus{
+  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
 
 
 

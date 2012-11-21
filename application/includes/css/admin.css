@@ -203,11 +203,43 @@ border-radius: 20px;
 }
 
 
-
-
-
-
 a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
+
+
+.shipping-country-holder{
+  background: white;
+  border: 1px solid #E8E8E8;
+  margin-bottom: 19px;
+  width: 774px;
+  clear: both;
+  outline: none;
+}
+.shipping-country-holder:focus{
+  box-shadow:0 0 1px 0px #235F99;
+}
+
+.mw-shipping-items{
+  float: right;
+  width: 776px;
+}
+
+.shipping-truck{
+  display: inline-block;
+  width: 111px;
+  height:61px;
+  background:url(../img/quick.icons.png) no-repeat -1148px -25px;
+}
+
+.shipping-truck-red{
+  background-position: -1148px -86px
+}
+
+.mw-shipping-left-bar{
+  float: left;
+  width: 120px;
+}
+
+
 
 
 

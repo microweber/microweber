@@ -21,5 +21,4 @@
 </head>
 
 <body>
- <module type="menus"  />
- 
+ <module type="nav" data-menu-name="main menu" />

@@ -603,15 +603,22 @@ body.view-shop .mw_action_post{
     background-position: 47px 8px;
 }
 
-.mw-tree .is_home > a, .mw-tree .is_home > label{
-  background-image: url(../img/tree.pageico.png), url(../img/is_home.gif);
-  background-repeat: no-repeat;
-   background-position: 47px 9px, right 50%;
+
+
+
+#mw_edit_page_left .is_home > a:before{
+  position: absolute;
+  display: block;
+  width: 22px;
+  height: 12px;
+  background: url(../img/is_home.gif) no-repeat;
+  top: 12px;
+  right: 0;
+  content: "";
 }
-.mw-tree .is_home > a:hover{
-  background-image: url(../img/tree.pageico.png);
-  background-repeat: no-repeat;
-  background-position: 47px 9px;
+
+#mw_edit_page_left .is_home > a:hover:before{
+  visibility: hidden;
 }
 
 
@@ -830,6 +837,7 @@ a:hover .mw_ed_tree_content{
 }*/
 .mw-ui-category-selector{
     padding: 15px 15px 15px 40px;
+    position: relative;
     padding: 0;
     background:#F4F4F4;
     border:1px solid #DCDCDC;
@@ -841,8 +849,10 @@ a:hover .mw_ed_tree_content{
 .mw-ui-category-selector > .module{
     overflow-y: auto;
     overflow-x:hidden;
-    max-height: 120px;
-    padding: 15px
+    height: 172px;
+    min-height: 30px;
+    padding: 15px;
+    resize:vertical;
 }
 
 
@@ -859,20 +869,25 @@ a:hover .mw_ed_tree_content{
 
 .cat_selector_view_ctrl{
   clear: both;
-  border-bottom: 1px solid #ccc;
   padding:7px  10px;
-  background: #E2E2E2;
   font-size: 11px;
+  font-size: 11px;
+  position: absolute;
+  z-index: 2;
+right: 15px;
+    top: 6px;
 }
 
 .cat_selector_view_ctrl a{
-
-  padding: 3px 14px 5px;
+  padding:2px 12px;
   border: 1px solid transparent;
+  font-size: 11px;
+  border-radius:12px;
 }
 
 .cat_selector_view_ctrl a.active{
     background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+    border-color:#BDBBBB;
 }
 
 
@@ -1458,12 +1473,19 @@ body{
 
 #pages_edit_container .page_posts_list_tree li > a{
   display: block;
+  position: relative;
   padding: 15px 0 15px 95px;
   background-image:url(../img/static.big.png);
   background-repeat: no-repeat;
   background-position:  25px 50%;
+  background-color: white;
   border-bottom: 1px solid #D9D9D9;
 }
+
+body #pages_edit_container .page_posts_list_tree li a.depth-2{padding-left: 125px;background-position: 44px 50%;}
+body #pages_edit_container .page_posts_list_tree li a.depth-3{padding-left: 145px;background-position: 66px 50%;}
+body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165px;background-position: 88px 50%;}
+
 #pages_edit_container .page_posts_list_tree li a .mw_toggle_tree{
   display: none;
 }

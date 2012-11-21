@@ -204,10 +204,11 @@ error("Invalid order id");
                           scrolling="no"
                           marginheight="0"
                           marginwidth="0"
-                          src="https://maps.google.com/?ie=UTF8&amp;q=<? print $ord['address2']; ?>&amp;t=m&amp;z=7&amp;output=embed&amp;iwloc=">
+                          src="http://maps.yahoo.com/embed#zoom=15&mvt=m&trf=0&q=<? print $ord['address2']; ?>&conf=1&start=1">
+
                     </iframe>
                     <div class="vSpace"></div>
-                    <a target="_blank" href="https://maps.google.com/?ie=UTF8&amp;q=<? print $ord['address2']; ?>&amp;t=m&amp;z=7&amp;output=embed&amp;iwloc="><?php _e("See Location on map"); ?></a>
+                    <a target="_blank" href="http://maps.yahoo.com#zoom=15&mvt=m&trf=0&q=<? print $ord['address2']; ?>&conf=1&start=1"><?php _e("See Location on map"); ?></a>
                  </center>
 
               </td>

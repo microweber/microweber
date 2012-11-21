@@ -228,7 +228,7 @@ define('CACHE_FILES_EXTENSION', '.php');
 
 define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
 
-define('CACHEDIR_ROOT', dirname((__FILE__)) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR);
+define('CACHEDIR_ROOT', dirname((__FILE__)) .  'cache' . DIRECTORY_SEPARATOR);
 
 define('DATETIME_FORMAT', 'F j g:m a');
 

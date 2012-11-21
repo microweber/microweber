@@ -1,5 +1,5 @@
 <?php
-function get_menu_id($name) {
+function old_get_menu_id($name) {
 	$name = trim ( $name );
 	
 	if ($name == '') {
@@ -43,19 +43,19 @@ function get_menu_id($name) {
 	
 	return $id;
 }
-function save_menu($data) {
+function old_save_menu($data) {
 	$menu = new menu ();
 	foreach ( $data as $k => $v ) {
 		$menu->$k = $v;
 	}
 	$menu = $menu->save ();
 }
-function get_menu($params = array()) {
+function old_get_menu($params = array()) {
 	$table = c ( 'db_tables' );
 	$table = $table ['table_menus'];
 	return db_get ( $table, $params, 'menus' );
 }
-function menu_tree($menu_id, $maxdepth = false) {
+function old_menu_tree($menu_id, $maxdepth = false) {
 	$args = func_get_args ();
 	$function_cache_id = '';
 	foreach ( $args as $k => $v ) {
@@ -152,7 +152,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	cache_store_data ( $to_print, $function_cache_id, 'menus' );
 	return $to_print;
 }
-function get_menu_items($menu_id = false, $id = false) {
+function old_get_menu_items($menu_id = false, $id = false) {
 	$args = func_get_args ();
 	$function_cache_id = '';
 	foreach ( $args as $k => $v ) {

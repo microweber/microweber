@@ -35,19 +35,19 @@ function module_name_encode($module_name) {
 
 	//$module_name = str_replace('/', '___', $module_name);
 }
+
 function module_data($params) {
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 	}
-	
+
 	$params['display'] = 'custom';
-	
-	
+
 	return module($params);
-	
-	
+
 }
+
 function module($params) {
 
 	if (is_string($params)) {
@@ -84,12 +84,17 @@ function module($params) {
 		}
 	}
 
-	$tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
+	//$tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
 
 	$res = load_module($module_name, $params);
 	if (is_array($res)) {
 		// $res['edit'] = $tags;
 	}
+
+	if (isset($params['wrap']) or isset($params['data-wrap'])) {
+		$res = "<div class='module' {$tags} data-type='{$module_name}'>" . $res . "</div>";
+	}
+
 	return $res;
 }
 
@@ -1205,8 +1210,7 @@ function load_module($module_name, $attrs = array()) {
 		$config['module_api'] = site_url('m/' . $module_name);
 
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name);
-		;
+		$config['module_class'] = str_replace('/', '-', $module_name); ;
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
@@ -1235,8 +1239,7 @@ function load_module($module_name, $attrs = array()) {
 			if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
 				$module_file = $l1 -> __get_vars();
 				return $module_file;
-			}
-			else if (isset($attrs['format']) && (trim($attrs['format']) == 'json')) {
+			} else if (isset($attrs['format']) && (trim($attrs['format']) == 'json')) {
 				$module_file = $l1 -> __get_vars();
 				header("Content-type: application/json");
 				exit(json_encode($module_file));

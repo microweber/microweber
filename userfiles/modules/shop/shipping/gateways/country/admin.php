@@ -1,4 +1,4 @@
- 
+
 <? $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
 <?
  
@@ -73,9 +73,28 @@
 
  
 </script>
+
+
+<div class="vSpace"></div>
+<div class="vSpace"></div>
+
+<div class="mw-shipping-left-bar">
+
+
+<span class="shipping-truck shipping-truck-green"></span>
+
+
+<span class="mw-ui-btn">Add Country</span>
+
+
+</div>
+
+
 <? if(isarr($data )): ?>
 
-<div id="<? print $rand1 ?>">
+
+
+<div class="mw-shipping-items" id="<? print $rand1 ?>">
 
 <? foreach($data  as $item): ?>
 <? if(isset($item['shiping_country'])){
@@ -113,7 +132,7 @@ $new = true;
 $(document).ready(function(){
 mw.$('#<? print $rand ?>').submit(function() {
 	 mw.form.post($(this) , '<? print $config['module_api']; ?>/shipping_to_country/save');  
-	 
+
 	 <? if($new == true): ?>
     mw.reload_module('<? print $params['data-type']; ?>');
     <? endif; ?>
@@ -138,7 +157,7 @@ mw.$('#<? print $rand ?>').submit(function() {
       <? if($new == false): ?>
       <input type="hidden" name="id" value="<? print $item['id']; ?>" >
       <? endif; ?>
-      <select name="shiping_country">
+      <select name="shiping_country" class="mw-ui-simple-dropdown">
         <? if($new == true): ?>
         <option value="none">Choose country</option>
         <? endif; ?>
@@ -155,23 +174,23 @@ mw.$('#<? print $rand ?>').submit(function() {
 		
 		?>
         <? endforeach ; ?>
-        
+
         <option value="<? print $item1 ?>"   <? if($item1 == $item['shiping_country']): ?> selected="selected" <? else : ?> <? print $disabled ?> <? endif; ?>  ><? print $item1 ?></option>
         <? endforeach ; ?>
       </select>
       
       <? //d($item['shiping_country']); ?>
       <? // d($countries_used); ?>
-      <br />
-      shiping_cost<br />
-      <input type="text" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onFocus="if(this.value=='0')this.value='';">
+
+      <label class="mw-ui-label">Shipoing Price</label>
+      <input class="mw-ui-field" type="text" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onfocus="if(this.value=='0')this.value='';">
       <br />
       For orders above: 
       shiping_cost_above<br />
-      <input type="text" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onFocus="if(this.value=='0')this.value='';">
+      <input class="mw-ui-field" type="text" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onfocus="if(this.value=='0')this.value='';">
       <br />
       shiping_cost_max<br />
-      <input type="text" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onFocus="if(this.value=='0')this.value='';">
+      <input class="mw-ui-field" type="text" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';">
       <br />
       
       
@@ -186,7 +205,7 @@ mw.$('#<? print $rand ?>').submit(function() {
       </div>
       
       
-      <button type="submit" >Save</button>
+      <button class="mw-ui-btn" type="submit" >Save</button>
           
 
       <span title="Move" class="ico iMove shipping-handle-field"></span>
@@ -201,5 +220,6 @@ mw.$('#<? print $rand ?>').submit(function() {
   </div>
   <? endforeach ; ?>
 </div>
+<div class="mw_clear"></div>
 <? endif; ?>
  

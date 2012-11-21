@@ -5,7 +5,7 @@
 <? 
 $shipping_api = new shipping_api();
 
- $shipping_options =  $shipping_api->get_active(); 
+ $shipping_options =  $shipping_api->get_active();
  
  
   ?>
@@ -13,7 +13,7 @@ $shipping_api = new shipping_api();
 <script  type="text/javascript">
 $(document).ready(function(){
  
- 
+
  $('.mw-shipping-gateway-<? print $params['id']; ?>').unbind('change');
   $('.mw-shipping-gateway-<? print $params['id']; ?>').bind('change',function() {
 
@@ -38,7 +38,7 @@ $(document).ready(function(){
 </script>
  
 <h3>Shipping information</h3>
-<select name="shipping_gw" class="mw-shipping-gateway mw-shipping-gateway-<? print $params['id']; ?> <? if(count($shipping_options) == 1): ?> semi_hidden <? endif; ?>" >
+<select name="shipping_gw" class="mw-ui-simple-dropdown mw-shipping-gateway mw-shipping-gateway-<? print $params['id']; ?> <? if(count($shipping_options) == 1): ?> semi_hidden <? endif; ?>" >
   <? foreach ($shipping_options as $item) : ?>
   <option value="<? print  $item['module_base']; ?>"><? print  $item['name']; ?></option>
   <? endforeach; ?>

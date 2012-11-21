@@ -18,6 +18,10 @@
       <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Link</a></textarea></td>
     </tr>
     <tr>
+        <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>
+        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Rect link</a></textarea></td>
+    </tr>
+    <tr>
       <td>
         <div class="mw-ui-select">
           <select >

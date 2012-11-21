@@ -1,0 +1,4 @@
+Nav admin
+
+
+<? d($params); ?>

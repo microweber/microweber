@@ -36,9 +36,9 @@ mw.$('#<? print $rand ?>').change(function() {
 
  
 </script>
- 
+
 <div class="<? print $config['module_class'] ?>" id="<? print $rand ?>"> Choose country:
-  <select name="country" >
+  <select name="country" class="mw-ui-simple-dropdown">
     <? foreach($data  as $item): ?>
     <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
     <? endforeach ; ?>

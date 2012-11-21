@@ -133,7 +133,7 @@ $(document).ready(function() {
 	 if(parent_module != undefined){
  parent_module.attr('data-active-site-template',$(this).val());
         mw.reload_module('<? print $params['type']?>', function(){
-           mw.templatePreview.view(0); 
+           mw.templatePreview.view(0);
         });
 
 	 }

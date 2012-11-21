@@ -6,9 +6,9 @@
 
 
 mw.treeRenderer = {
-  edit_buttons:function(type, id){
+  edit_buttons:function(type, id, sort_button){
       if(type==='page'){
-        return "\
+        var $str  = "\
         <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
               <?php _e("Delete"); ?>\
           </span>\
@@ -16,9 +16,16 @@ mw.treeRenderer = {
               <?php _e("Edit"); ?>\
           </span>\
           ";
+		  
+		  if(sort_button != undefined && sort_button == true){
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+		     $str = $str+$str2;
+		  }
+		  
+		  return  $str;
       }
       else if(type==='category'){
-          return "\
+           var $str  = "\
             <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del_category("+id+");' title='<?php _e("Delete"); ?>'>\
                   <?php _e("Delete"); ?>\
               </span>\
@@ -26,10 +33,86 @@ mw.treeRenderer = {
                   <?php _e("Edit"); ?>\
               </span>\
           ";
+		  
+
+		   if(sort_button != undefined && sort_button == true){
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+		  $str = $str+$str2;
+		  }
+		  return  $str;
+
       }
   },
 
+  makeSortable:function(handle){
+    var  $is_sort = mw.$(handle).parents('[data-sortable]').first();
+	if($is_sort != undefined){
+
+
+// mw.$($is_sort).children('.category_tree').each(function(){
+        //  var master = $(this);
+		
+		   var master = $is_sort;
+		  
+    		  if(!master.hasClass("ui-sortable")){
+
+
+
+               master.sortable({
+                   items: 'li',
+				     
+                   axis:'y',
+				   containment: master,
+				 // containment: '.category_tree',
+            	   //containment: $is_sort,
+                   handle:'.mw_sort_tree_handle',
+                   update:function(){
+                     var obj = {ids:[]}
+            		 var cont_found = false;
+                     $(this).find('[data-page-id]').each(function(){
+                         var id = this.attributes['data-page-id'].nodeValue;
+                        obj.ids.push(id);
+            			cont_found = true;
+                     });
+            		 if(cont_found == true){
+            		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){});
+            		 }
+            		 var cat_found = false;
+            		  var obj = {ids:[]}
+                     $(this).find('[data-category-id]').each(function(){
+                         var id = this.attributes['data-category-id'].nodeValue;
+                        obj.ids.push(id);
+            			cat_found = true;
+                     });
+
+            		 if(cat_found == true){
+            		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){});
+            		 }
+                   },
+                   start:function(a,ui){
+                          $(this).height($(this).outerHeight());
+                          $(ui.placeholder).height($(ui.item).outerHeight())
+                          $(ui.placeholder).width($(ui.item).outerWidth())
+                   },
+                   scroll:false,
+                   placeholder: "custom-field-main-table-placeholder"
+                });
+
+  			}
+
+
+//});
+
+
+
+	}
+ 
+  },
+
   rendController:function(holder){
+	 var  $is_sort = mw.$(holder).attr('data-sortable');
+
+	  
       mw.$(holder+' li').each(function(){
           var master = this;
           var el = master.querySelector('a');
@@ -52,16 +135,31 @@ mw.treeRenderer = {
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid) + toggle + show_posts;
+             
+			 var  sort_content = false;
+			  
+			if($is_sort != undefined){
+		    var sort_content = true;
+	  		}
+			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
+			  
+			  
           }
           else if(attr['data-category-id']!==undefined){
               var pageid = attr['data-category-id'].nodeValue;
               if($(el.parentNode).children('ul').length>0){
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
+			  	 var  sort_content = false;
+			  
+			if($is_sort != undefined){
+		    var sort_content = true;
+	  		}
+			
+			
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid) + toggle + show_posts;
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
 		  
@@ -69,6 +167,9 @@ mw.treeRenderer = {
 		  }
 		  
       });
+	  
+	  
+	  
   },
   rendSelector:function(holder){
        mw.$(holder+' li').each(function(){
@@ -126,10 +227,13 @@ $(document).ready(function(){
 
     mw.treeRenderer.appendUI();
 
-
+ mw.treeRenderer.appendUI('.page_posts_list_tree');
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
+
+
+
 
     mw.on.moduleReload("pages_tree_toolbar", function(){
         mw.treeRenderer.appendUI();
@@ -230,7 +334,8 @@ mw.on.hashParam("action", function(){
 
 
 
-
+mw.$('#pages_edit_container').removeAttr('data-page-number');
+	mw.$('#pages_edit_container').removeAttr('data-paging-param');
 
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
 
@@ -258,6 +363,7 @@ mw.on.hashParam("action", function(){
      mw.$(".mw_action_"+arr[1]).removeClass("not-active");
   }
   else{
+        //mw.url.windowHashParam("pg", 1);
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
       var active_item = mw.$(".item_"+arr[1]);
@@ -494,13 +600,13 @@ function mw_add_product(){
             $view = url_param('view');
             if($view=='shop'){
         ?>
-        <h2 class="mw_tree_title">
+        <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
           <?php _e("My Online Shop"); ?>
-        </h2>
+        </a>
         <?php } else { ?>
-        <h2 class="mw_tree_title">
+        <a href="<?php print admin_url(); ?>view:website" class="mw_tree_title">
           <?php _e("Website  Navigation"); ?>
-        </h2>
+        </a>
         <?php } ?>
         <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
@@ -551,6 +657,7 @@ function mw_add_product(){
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
         <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+       
       </div>
        <?
 		
@@ -568,9 +675,12 @@ function mw_add_product(){
        
        
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
+      
        
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
       </div>
     </div>
   </div>
+   
 </div>
+

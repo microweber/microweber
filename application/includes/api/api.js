@@ -313,10 +313,15 @@ typeof mw === 'undefined' ?
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
     } else {
       for (var i in attrs) {
+		  
+		  if(attrs[i] != undefined){
         var name = attrs[i].name;
         var val = attrs[i].nodeValue;
         to_send[name] = val;
-      }
+		  }
+      } 
+	  
+	//  to_send = attrs;
     }
 
     $.post(url, to_send, function(data) {

@@ -432,6 +432,8 @@ function get_content_by_id($id) {
 	$params['id'] = $id;
 	$params['limit'] = 1;
 	$params['table'] = $table;
+	$params['cache_group'] = 'content/'.$id;
+	
 
 	$q = get($params);
  
@@ -472,6 +474,50 @@ function get_page($id = false) {
 	// $link = get_instance()->content_model->getContentURLByIdAndCache (
 	// $link['id'] );
 }
+
+api_expose('reorder_content');
+function reorder_content()
+    {
+        $id = is_admin();
+        if ($id == false) {
+            exit('Error: not logged in as admin.');
+        }
+        $ids = $_POST['ids'];
+        if (empty($ids)) {
+            $ids = $_POST[0];
+        }
+        if (empty($ids)) {
+            exit();
+        }
+		$ids = array_unique($ids);
+        $ids_implode = implode(',', $ids);
+      
+		
+		$tables = c('db_tables');
+
+	$table = $tables['table_content'];
+		
+		
+		
+        $q = " SELECT id, created_on from $table where id IN ($ids_implode)  order by created_on DESC  ";
+        $q = db_query($q);
+        $max_date = $q[0]['created_on'];
+        $max_date_str = strtotime($max_date);
+        $i = 1;
+        foreach ($ids as $id) {
+            $max_date_str = $max_date_str - $i;
+            $nw_date = date('Y-m-d H:i:s', $max_date_str);
+            $q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
+             //var_dump($q);
+            $q = db_q($q);
+            $i++;
+        }
+       // 
+        // var_dump($q);
+        cache_clean_group('content/global');
+		 cache_clean_group('taxonomy/global');
+        exit();
+    }
 
 api_expose('get_content_admin');
 
@@ -1821,12 +1867,12 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 	}
 
 	if ($include_first == true) {
-		$sql = "SELECT * from $table where  id=$parent    and content_type='page'  order by updated_on desc limit 0,1";
+		$sql = "SELECT * from $table where  id=$parent    and content_type='page'  order by created_on desc limit 0,1";
 		//
 	} else {
 
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-		$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,100";
+		$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by created_on desc limit 0,100";
 	}
 	//d($sql);
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -1891,6 +1937,7 @@ if (isset($active_ids)){
 		$params['parent'] = $parent;
 	}
 	$params['limit'] = 50;
+	$params['orderby'] = 'created_on desc';
 	 
 	$params['curent_page'] = 1;
 	$q = get_content($params);
@@ -2093,7 +2140,7 @@ if(isset($active_code)){
 							$cat_params['max_level'] = $max_level;
 						}
 						if (isset($debug)) {
-						 	d($cat_params);
+						 //	d($cat_params);
 						}
 						category_tree($cat_params);
 					}

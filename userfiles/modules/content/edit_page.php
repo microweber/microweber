@@ -309,7 +309,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 }
   
 
- 
+
  
  
  
@@ -318,8 +318,14 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
+  <label class="mw-ui-label"><?php _e("Select Category"); ?></label>
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-    <div class="cat_selector_view_ctrl"> <span>View: </span> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));">Selected</a> <a href="javascript:;" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();">All</a> </div>
+    <div class="cat_selector_view_ctrl">
+      <span>View: </span>
+      <a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a>
+      <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a>
+
+    </div>
     <? // d($data); ?>
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  actve_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
@@ -377,7 +383,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? if(!isset($params['subtype'])): ?>
   <?   $params['subtype'] = 'post'; ?>
   <? endif; ?>
-  <input name="subtype"  type="hidden"  value="<? print $params['subtype'] ?>" >
+  <input name="subtype"  type="hidden"  value="<? print $data['subtype'] ?>" >
   <? endif; ?>
   <?
 
@@ -388,6 +394,18 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? $data['content_type'] = 'post'; ?>
   <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
   <? endif; ?>
+  
+  
+  <? exec_action('mw_edit_content_admin', $data); ?>
+  <? if($edit_post_mode != false): ?>
+  <? exec_action('mw_edit_post_admin', $data); ?>
+   <? else: ?>
+  <? exec_action('mw_edit_page_admin', $data); ?>
+  <? endif; ?>
+  
+  
+  
+  
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
