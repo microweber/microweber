@@ -146,7 +146,7 @@ mw.$('#<? print $rand ?>').submit(function() {
 
  
 </script>
-  <div data-field-id="<? print $item['id']; ?>" class="shipping-country-holder country-id-<? print $item['id']; ?>">
+  <div data-field-id="<? print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<? print $item['id']; ?>">
     <? if($new == true): ?>
     <h1>Add new</h1>
     <? else : ?>

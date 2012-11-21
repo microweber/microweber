@@ -1109,19 +1109,7 @@ mw.drag = {
 
 
     data1 = attributes
-  //  data1.view = 'admin';
-  if(data1['data-type'] != undefined){
-	 // alert(1);
-	 data1['data-type'] = data1['data-type']+'/admin';
-  }
-  
-    if(data1['type'] != undefined){
-	 // alert(1);
-	 data1['type'] = data1['type']+'/admin';
-  }
-  
-  
-  
+    data1.view = 'admin';
 	data1.live_edit = 'true';
     mw.tools.modal.init({
 	html:"",

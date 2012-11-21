@@ -600,6 +600,14 @@ mw.tools = {
 		 parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);
 	     mw.reload_module(parent_mod);
 	}
+  },
+  focus_on:function(el){
+    if(!$(el).hasClass('mw-focus')){
+      mw.$(".mw-focus").each(function(){
+         this!==el ? $(this).removeClass('mw-focus') : '';
+      });
+      $(el).addClass('mw-focus');
+    }
   }
 }
 

@@ -214,7 +214,7 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   clear: both;
   outline: none;
 }
-.shipping-country-holder:focus{
+.shipping-country-holder.mw-focus{
   box-shadow:0 0 1px 0px #235F99;
 }
 
