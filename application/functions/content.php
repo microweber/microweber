@@ -887,10 +887,7 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
 
 	// $id = intval ( $id );
-	if ($id == 0) {
-
-		// return false;
-	}
+	
 
 	$id = intval($id);
 	$table = db_escape_string($table);
@@ -946,13 +943,20 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 			$field_type_q = ' and custom_field_type="' . $field_type . '"  ';
 		}
 
+$sidq= '';
+if ($id == 0) {
+$sid = session_id();
+		$sidq = ' and session_id="' . $sid . '"  '; 
+	}
+
+
 		$q = " SELECT
 		{$select_what} from  $table_custom_field where
 		{$qt}
 		to_table_id='{$id}'
 		$field_for_q
 		$field_type_q
-		
+		$sidq
 		order by position asc
 		   ";
 

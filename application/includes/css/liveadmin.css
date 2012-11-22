@@ -1410,6 +1410,18 @@ select.mw-ui-simple-dropdown:focus{
 }
 
 
+.mw-ui-delete-x{
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: url(../img/delete_item.png) no-repeat 3px 3px;
+  text-indent: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.mw-ui-delete-x:hover{background-position: 3px -13px;}
+
+
 
 
 

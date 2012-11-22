@@ -207,12 +207,16 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 
 
 .shipping-country-holder{
-  background: white;
   border: 1px solid #E8E8E8;
   margin-bottom: 19px;
+  position: relative;
   width: 774px;
   clear: both;
   outline: none;
+  background-color: white;
+  background-image:  url(../img/cf_middle_border.png), url(../img/shipping_supported.png);
+  background-position:  165px 50%, 5px 5px;
+  background-repeat:  repeat-y, no-repeat;
 }
 .shipping-country-holder.mw-focus{
   box-shadow:0 0 1px 0px #235F99;
@@ -237,6 +241,128 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 .mw-shipping-left-bar{
   float: left;
   width: 120px;
+}
+
+.shipping-country-row{
+  clear: none;
+  overflow: hidden;
+  position: relative;
+}
+form .shipping-country-row:first-child{
+  border-bottom: 1px solid #ECECEC;
+}
+
+
+.shipping-country-row label{
+  white-space: nowrap;
+  float: left;
+  margin: 4px 7px 0;
+}
+
+.shipping-country-row select{
+  width: 255px;
+  float: left;
+}
+
+.shipping-country-row input[type='text']{
+  float: left;
+  padding: 5px 10px;
+}
+
+.shipping-country-holder .shipping-arrow{
+  margin: 0 15px;
+}
+
+.shipping-country-holder .mw-ui-delete-x{
+  position: absolute;
+  top: 1px;
+  right: 2px;
+}
+
+.shipping-country-label{
+  float: left;
+  width: 165px;
+  text-align: center;
+}
+
+.shipping-country-setting{
+  float: left;
+  width: 605px;
+}
+
+
+.shipping-arrow{
+  display: block;
+  float: left;
+  width: 28px;
+  height: 28px;
+  background: url(../img/quick.icons.png) no-repeat -1280px 0;
+}
+
+.shipping-price-field{
+  width: 50px;
+}
+.shipping-country-holder .mw-ui-btn-small{
+  margin: -11px 13px 0 0;
+  padding: 2px 10px;
+  position: relative;
+  float: right;
+}
+
+.mw-switcher{
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  height:17px;
+  min-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  background: #D7D7D7;
+  border: 1px solid #CDCDCD;
+  border-top-color: #BABABA;
+  cursor: pointer;
+  border-radius:3px;
+  box-shadow:inset 0 1px 1px #CFCFCF;
+}
+.mw-switch-handle{
+  background: url("../img/onoff_slider.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  height: 16px;
+  position: absolute;
+  top: 1px;
+  right:0;
+  width: 23px;
+  z-index: 1;
+}
+
+.mw-switcher input{
+  display: none;
+}
+.mw-switcher label{
+  white-space: nowrap;
+  color: #6F6F6F;
+  cursor: pointer;
+  font-size: 10px;
+  float: left;
+  margin: 1px 0 0 1px;
+  text-shadow: 1px 0 0 #FFFFFF;
+}
+
+.mw-switcher label:last-child{
+  visibility: hidden;
+  margin: 1px 0 0;
+  padding-right: 2px;
+  float: right;
+}
+.mw-switcher-off label{
+  visibility: hidden;
+}
+.mw-switcher-off label:last-child{
+  visibility: visible;
+}
+
+.mw-switcher-off .mw-switch-handle{
+    left: 0;
 }
 
 

@@ -1,7 +1,4 @@
-<? // d() ?>
-
-
-
+<? //  d($params) ?>
 <script type="text/javascript">
 
 
@@ -48,9 +45,6 @@ $rand = rand();
  
 ?>
 
-
-
-
 <div id="the_custom_fields"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
   <?php _e("Add New Custom Field"); ?>
   </span>
@@ -81,11 +75,12 @@ $rand = rand();
       <li><a href="javascript:;" onclick="mw.custom_fields.create('hr');"><span class="ico iSpace"></span><span>Section Break</span></a></li>
     </ul>
   </div>
-
   <div class="custom-field-table semi_hidden" id="create-custom-field-table">
     <div class="custom-field-table-tr active">
       <div class="custom-field-preview-cell"></div>
-      <div class="second-col"><div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div></div>
+      <div class="second-col">
+        <div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div>
+      </div>
     </div>
   </div>
   <script type="text/javascript">
@@ -112,11 +107,17 @@ $(document).ready(function(){
 <? endif; ?>
         //make_new_field()
 
+<? if(isset($params['content-subtype']) != false and trim($params['content-subtype'] == 'product') and intval($module_id) == 0): ?>
+mw.custom_fields.create('price');
+    //    mw.$(".custom_fields_selector").show();
+
+<? endif; ?>
+
+
+
     });
-</script>
-
-
-<script type="text/javascript">
+</script> 
+  <script type="text/javascript">
 
 mw.custom_fields.save = function(id){
     var obj = mw.form.serialize("#"+id);
@@ -124,10 +125,14 @@ mw.custom_fields.save = function(id){
        
 	 
 	   
-	    if(obj.id === undefined){
+	    if(obj.cf_id === undefined){
              mw.reload_module('.edit [data-parent-module="custom_fields"]');
 			  mw.reload_module('custom_fields/list');
-			 $("#"+id).hide();
+			  $('#create-custom-field-table').addClass('semi_hidden');
+			// $("#"+id).hide();
+			
+			$("#mw_custom_fields_list_<? print $params['id']; ?>").show();
+			
         }
         else {
             $("#"+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
@@ -199,5 +204,5 @@ mw.custom_fields.sort_rows = function(){
 
 
 </script>
-  <module type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

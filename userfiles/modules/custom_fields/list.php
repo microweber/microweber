@@ -22,7 +22,6 @@
 <div class="custom-field-table" id="custom-field-main-table">
   <? foreach( $more as $field): ?>
   <div class="custom-field-table-tr" data-field-id="<? print $field['id'] ?>">
-   
     <div class="custom-field-preview-cell" onclick="$(this).parent().addClass('active')">
       <div class="custom-field-preview">
         <?   print  make_field($field); ?>
@@ -35,10 +34,11 @@
         </div>
       </div>
     </div>
-    
-    
   </div>
   <? endforeach; ?>
 </div>
+<? else : ?>
+You dont have any custom fields
 <? endif; ?>
+
 <? endif; ?>

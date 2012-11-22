@@ -922,6 +922,13 @@ a.mw-ui-btn, span.mw-ui-btn{
     /*height: 18px;*/
 }
 
+
+.mw-ui-btn-small{
+  padding: 2px 10px;
+  font-size: 10px;
+}
+
+
 .mw-ui-btn-plus{
     display: inline-block;
     position: relative;

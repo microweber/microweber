@@ -1,7 +1,8 @@
 <? require_once($config['path_to_module'].'country_api.php'); ?>
+
 <?  if (!defined('MW_API_CALL')) : ?>
 <? $rand = md5(serialize($params));
- 
+
   $shipping_to_country = new shipping_to_country(); 
  
  
@@ -15,21 +16,20 @@
   ?>
 <script  type="text/javascript">
   mw.require('forms.js');
- </script>
+</script>
 <script type="text/javascript">
-  
+
   function mw_shipping_<? print $rand ?>(){
- mw.form.post( '#<? print $rand ?>', '<? print $config['module_api']; ?>/shipping_to_country/set');  
- 
-}
+    mw.form.post( '#<? print $rand ?>', '<? print $config['module_api']; ?>/shipping_to_country/set');
+  }
   
   
-  
+
 $(document).ready(function(){
 	mw_shipping_<? print $rand ?>();
 mw.$('#<? print $rand ?>').change(function() {
 	mw_shipping_<? print $rand ?>();
-}); 
+});
 
 }); 
 

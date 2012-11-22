@@ -604,7 +604,7 @@ function mw_add_product(){
           <?php _e("My Online Shop"); ?>
         </a>
         <?php } else { ?>
-        <a href="<?php print admin_url(); ?>view:website" class="mw_tree_title">
+        <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
           <?php _e("Website  Navigation"); ?>
         </a>
         <?php } ?>
@@ -657,14 +657,24 @@ function mw_add_product(){
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
         <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
-       
+
+             <div class="vSpace"></div>
+
+            <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+                <label>ON<input type="radio" value="on" onchange="alert(1)" checked="checked" name="born" /></label>
+                <label>OFF<input type="radio" value="off" name="born"  /></label>
+            </div>
+            <label class="mw-ui-label right" style="margin-right: 10px;">Show Categories and Pages</label>
+
+
+
       </div>
        <?
 		
 		 $content_id = '';
 	    if(defined('PAGE_ID') == true){
 		  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
-		  
+
 	  }
 	  if(defined('POST_ID')== true and POST_ID != false){
 		 $content_id = ' data-content-id='.intval(POST_ID).' ';
@@ -672,7 +682,7 @@ function mw_add_product(){
 	  }
 	   //d( $content_id );
 	   ?>
-       
+
        
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
       

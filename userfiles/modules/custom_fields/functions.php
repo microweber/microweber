@@ -116,8 +116,7 @@ function save_custom_field($data) {
 	if (isset($data_to_save['cf_id'])) {
 		$data_to_save['id'] = intval($data_to_save['cf_id']);
 	}
-	
-	
+
 	if (!isset($data_to_save['to_table'])) {
 		$data_to_save['to_table'] = 'table_content';
 	}
@@ -125,8 +124,7 @@ function save_custom_field($data) {
 	if (!isset($data_to_save['to_table_id'])) {
 		$data_to_save['to_table_id'] = '0';
 	}
-	
-	
+
 	//  $data_to_save['debug'] = 1;
 
 	$save = save_data($table_custom_field, $data_to_save);
@@ -137,32 +135,32 @@ function save_custom_field($data) {
 
 	//exit
 }
+
 api_expose('reorder_custom_fields');
 
 function reorder_custom_fields($data) {
 
-    $adm = is_admin();
-    if ($adm == false) {
-        error('Error: not logged in as admin.');
-    }
-    $tables = c('db_tables');
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	$tables = c('db_tables');
 	$table = $tables['table_custom_fields'];
 
-    
-    foreach ($data as $value) {
-        if (is_arr($value)) {
-            $indx = array();
-            $i = 0;
-            foreach ($value as $value2) {
-                $indx[$i] = $value2;
-                $i++;
-            }
+	foreach ($data as $value) {
+		if (is_arr($value)) {
+			$indx = array();
+			$i = 0;
+			foreach ($value as $value2) {
+				$indx[$i] = $value2;
+				$i++;
+			}
 
-            db_update_position($table, $indx);
-            return true;
-            // d($indx);
-        }
-    }
+			db_update_position($table, $indx);
+			return true;
+			// d($indx);
+		}
+	}
 }
 
 api_expose('remove_field');
@@ -183,6 +181,9 @@ function remove_field($id) {
 	}
 
 	$id = intval($id);
+	if (isset($cf_id)) {
+		$id = intval($cf_id);
+	}
 
 	if ($id == 0) {
 

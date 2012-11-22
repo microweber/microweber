@@ -792,6 +792,17 @@ $.fn.datas = function(){
     return toreturn;
 }
 
+mw.switcher = {
+  _switch:function(el){
+    var _el = $(el);
+    var attr = el.attributes;
+    _el.toggleClass('mw-switcher-off');
+    var first = el.getElementsByTagName('input')[0];
+    var sec = el.getElementsByTagName('input')[1];
+    first.checked ? sec.checked = true : first.checked = true;
+  }
+}
+
 
 
 

@@ -10,7 +10,12 @@ if(isset($params['menu-name'])){
 	
 	$menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isarr($menu)){
-		print menu_tree($menu['id']);
+		$mt =  menu_tree($menu['id']);
+		if($mt != false){
+			print ($mt);
+		} else {
+			print "There are no items in the menu <b>".$params['menu-name']. '</b>';	
+		}
 	} else {
 		print "Click on settings to edit this menu";	
 	}

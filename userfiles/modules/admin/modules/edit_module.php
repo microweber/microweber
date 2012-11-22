@@ -125,7 +125,7 @@ $(document).ready(function(){
   position
   <input type="text" name="position" value="<? print $data['position'] ?>" />
   <microweber module="categories/selector" to_table="table_modules"  to_table_id="<? print $data['id'] ?>" >
-  <a href="<? print curent_url() ?>/load_module:<? print encode_var( $data['module']) ?>">Open</a>
+  <a href="<? print curent_url() ?>/load_module:<? print encode_var( $data['module']) ?>" class="mw-ui-btn">Open</a>
   <input name="save" type="submit" value="save">
   <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
   <input name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="install">

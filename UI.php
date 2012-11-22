@@ -112,6 +112,20 @@
   </div></textarea></td>
     </tr>
 
+    <tr>
+      <td>
+
+      <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable"><span class="mw-switch-handle"></span>
+                <label>ON<input type="radio" name="x" /></label>
+                <label>OFF<input type="radio" name="x"  /></label>
+            </div>
+    </td>
+      <td><textarea style="width: 200px"><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable"><span class="mw-switch-handle"></span>
+                <label>ON<input type="radio" name="x" /></label>
+                <label>OFF<input type="radio" name="x"  /></label>
+            </div></textarea></td>
+    </tr>
+
 
 
 

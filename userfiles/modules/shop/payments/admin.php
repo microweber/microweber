@@ -1,7 +1,6 @@
- Payment providers 
 <script  type="text/javascript">
  mw.require('options.js');
- </script> 
+ </script>
 <script  type="text/javascript">
 
 $(document).ready(function(){
@@ -14,7 +13,15 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 // d($payment_modules);
 ?>
+
 <div class="mw-set-payment-options" >
+  <h1>currency options</h1>
+  <span></span>currency
+  <input name="currency" class="mw_option_field"    data-option-group="payments"  value="<? print option_get('currency', 'payments') ?>"  type="text">
+  <br />
+  <span></span>currency sign
+  <input name="currency_sign" class="mw_option_field"    data-option-group="payments"  value="<? print option_get('currency_sign', 'payments') ?>"  type="text">
+  <h1>Payment providers </h1>
   <? if(isarr($payment_modules )): ?>
   <? foreach($payment_modules  as $payment_module): ?>
   <h2><? print $payment_module['name'] ?></h2>

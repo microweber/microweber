@@ -318,14 +318,11 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
-  <label class="mw-ui-label"><?php _e("Select Category"); ?></label>
+  <label class="mw-ui-label">
+    <?php _e("Select Category"); ?>
+  </label>
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-    <div class="cat_selector_view_ctrl">
-      <span>View: </span>
-      <a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a>
-      <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a>
-
-    </div>
+    <div class="cat_selector_view_ctrl"> <span>View: </span> <a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? // d($data); ?>
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  actve_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
@@ -392,37 +389,25 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 ?>
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
-  <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+  <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
   <? endif; ?>
-  
-  
   <? exec_action('mw_edit_content_admin', $data); ?>
   <? if($edit_post_mode != false): ?>
   <? exec_action('mw_edit_post_admin', $data); ?>
-   <? else: ?>
+  <? else: ?>
   <? exec_action('mw_edit_page_admin', $data); ?>
   <? endif; ?>
-  
-  
-  
-  
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
-  
- 
-  
   <div class="mw-ui-field-holder mw_save_buttons_holder">
     <input type="submit" name="save"  style="width: 120px;" value="Save" />
     <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
   </div>
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
-   <div class="mw-notification mw-success notification_<? print $rand ?> hidden">
-    <div>
-      <span class="ico icheck"></span>
-      <span>Changes are saved</span>
-    </div>
+  <div class="mw-notification mw-success notification_<? print $rand ?> hidden">
+    <div> <span class="ico icheck"></span> <span>Changes are saved</span> </div>
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
@@ -434,7 +419,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div class="vSpace"></div>
   <div id="custom_fields_for_post_<? print $rand ?>" >
-    <module type="custom_fields/admin"    for="content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" />
+    <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
   </div>
   <br />
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>

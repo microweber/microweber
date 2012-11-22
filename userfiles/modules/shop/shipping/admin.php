@@ -1,7 +1,7 @@
- shipping providers
+
 <script  type="text/javascript">
  mw.require('options.js');
- </script> 
+ </script>
 <script  type="text/javascript">
 
 $(document).ready(function(){

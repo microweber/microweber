@@ -271,14 +271,16 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 			return $error;
 		} else {
 			if ($only_query == false) {
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				if (!empty($result)) {
+					while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 
-					$nwq[] = $row;
+						$nwq[] = $row;
+					}
+					$q = $nwq;
+
 				}
-				$q = $nwq;
 			}
 		}
-
 		// Free resultset
 		if ($only_query == false) {
 			if (is_array($result)) {
@@ -408,7 +410,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -939,7 +942,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			if ($count_only == true) {
 
-				$ret = $cache_content[0]['qty'];
+				$ret = intval($cache_content[0]['qty']);
 
 				return $ret;
 			} else {
@@ -1171,7 +1174,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$v = str_replace('[mt]', '', $v);
 			}
 
-			
 			if (stristr($v, '[int]')) {
 
 				$is_val_str = false;
@@ -1203,7 +1205,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 			if ($is_val_int == true and $is_val_str == false) {
 				$v = intval($v);
-				
+
 				$where .= "$k {$compare_sign} $v AND ";
 			} else {
 				$where .= "$k {$compare_sign} '$v' AND ";
@@ -1230,8 +1232,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -2247,9 +2248,15 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	$cg = guess_cache_group($table);
-	//   d($cg);
+	//
 	cache_clean_group($cg . '/global');
 	cache_clean_group($cg . '/' . $id_to_return);
+
+	if (isset($criteria['parent_id'])) {
+		//d($criteria['parent_id']);
+		cache_clean_group($cg . '/' . intval($criteria['parent_id']));
+	}
+
 	return $id_to_return;
 	if (intval($data['edited_by']) == 0) {
 
@@ -2532,16 +2539,15 @@ function split_sql_file($sql, $delimiter) {
 }
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-		
-		 if ($option_group != false) {
-			
-			               $cache_group = 'options/' . $option_group;
-			                
-			           } else {
-			           	$cache_group = 'options/global';
-			           }
-		
-	
+
+	if ($option_group != false) {
+
+		$cache_group = 'options/' . $option_group;
+
+	} else {
+		$cache_group = 'options/global';
+	}
+
 	//d($key);
 	$function_cache_id = false;
 
