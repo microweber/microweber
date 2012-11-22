@@ -95,6 +95,32 @@ function add_new_menu($data_to_save) {
 
 }
 
+
+api_expose('edit_menu_item');
+function edit_menu_item($data_to_save) {
+
+	$id = is_admin();
+	if ($id == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	if (isset($data_to_save['menu_id'])) {
+		$data_to_save['id'] = intval($data_to_save['menu_id']);
+	}
+	$table = MODULE_DB_TABLE_MENUS;
+
+	$data_to_save['table'] = $table;
+	$data_to_save['item_type'] = 'menu_item';
+
+	$save = save_data($table, $data_to_save);
+
+	cache_clean_group('menus/global');
+
+	return $save;
+
+}
+
+
 api_expose('reorder_menu_items');
 
 function reorder_menu_items($data) {

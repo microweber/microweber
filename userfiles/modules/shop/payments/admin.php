@@ -14,18 +14,21 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 // d($payment_modules);
 ?>
 
-<div class="mw-set-payment-options" >
-  <h1>currency options</h1>
-  <span></span>currency
-  <input name="currency" class="mw_option_field"    data-option-group="payments"  value="<? print option_get('currency', 'payments') ?>"  type="text">
-  <br />
-  <span></span>currency sign
-  <input name="currency_sign" class="mw_option_field"    data-option-group="payments"  value="<? print option_get('currency_sign', 'payments') ?>"  type="text">
+<div class="vSpace"></div>
+
+
+<div class="mw-o-box mw-set-payment-options" style="background: #F7F7F7;" >
+
+  <label class="mw-ui-label">Currency</label>
+  <input name="currency" class="mw-ui-field mw_option_field" data-option-group="payments"  value="<? print option_get('currency', 'payments') ?>"  type="text" />
+   <div class="vSpace"></div>
+  <label class="mw-ui-label">Currency Sign</label>
+  <input name="currency_sign" class="mw-ui-field mw_option_field"    data-option-group="payments"  value="<? print option_get('currency_sign', 'payments') ?>"  type="text" />
   <h1>Payment providers </h1>
   <? if(isarr($payment_modules )): ?>
   <? foreach($payment_modules  as $payment_module): ?>
   <h2><? print $payment_module['name'] ?></h2>
-  Enabled:
+  <label class="mw-ui-label">Enabled:</label>
   <label class="mw-ui-check">
     <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(option_get('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
     <span></span>Yes</label>
@@ -38,3 +41,6 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
   <? endforeach ; ?>
   <? endif; ?>
 </div>
+
+
+<div class="vSpace"></div>

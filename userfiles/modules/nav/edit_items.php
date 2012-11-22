@@ -112,3 +112,10 @@ mw.menu_items_sort_<? print $rand ?>()
 <? else: ?>
 This menu is empty, please add items.
 <? endif; ?>
+
+<div>
+<module data-type="nav/edit_item" item-id="0" />
+
+
+
+</div>

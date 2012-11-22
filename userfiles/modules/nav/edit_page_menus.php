@@ -10,8 +10,9 @@ $menu_name = false;
 <div class="control-group-nav">
   <label class="mw-ui-label">Add to navigation</label>
 
-    <label class="mw-ui-check semi_hidden"><input name="add_content_to_menu[]"  type="radio"    value="remove_from_all"    /><span></span>
-    <span>Remove from all menus</span></label>
+    <label class="mw-ui-check semi_hidden"><input name="add_content_to_menu[]"  type="radio" value="remove_from_all" /><span></span>
+        <span>Remove from all menus</span>
+    </label>
   <? foreach($menus  as $item): ?>
   <div class="controls">
     <label class="mw-ui-check">

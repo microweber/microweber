@@ -299,6 +299,7 @@ if(isset($params['data-category-id'])){
 
               if(pages_state!==''){
                 mw.switcher[pages_state](mwd.getElementById('toggle_cats_and_pages'));
+                pages_state == 'off' ? mw.$("#edit_content_admin .page_posts_list_tree").hide() : '';
               }
 
               toggle_cats_and_pages = function(){
