@@ -1057,6 +1057,11 @@ a.mw-ui-btn, span.mw-ui-btn{
   color: #6C6C6C;
 }
 
+.mw-ui-label-small{
+  font-size: 10px;
+  color: #212121;
+}
+
 .mw-ui-label small{
   text-transform: uppercase;
   font-size: 7px;

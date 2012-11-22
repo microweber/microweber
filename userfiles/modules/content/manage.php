@@ -1,3 +1,17 @@
+
+         <div class="vSpace"></div>
+
+            <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, false, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+                <label>Show<input type="radio" value="on" checked="checked" name="born" /></label>
+                <label>Hide<input type="radio" value="off" name="born" /></label>
+            </div>
+
+
+            <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
+
+            <div class="mw_clear vSpace"></div>
+
+
 <script  type="text/javascript">
   mw.require('forms.js');
 
@@ -24,7 +38,7 @@ delete_selected_posts = function(){
 
 
 mw.manage_content_sort = function(){
-  if(!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")){ 
+  if(!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")){
    mw.$("#mw_admin_posts_sortable").sortable({
        items: '.manage-post-item',
        axis:'y',
@@ -276,3 +290,25 @@ if(isset($params['data-category-id'])){
 <? endif; ?>
 
 <? endif; ?>
+
+
+
+        <script type="text/javascript">
+
+              var pages_state = mw.cookie.ui('ToggleCatsAndPages');
+
+              if(pages_state!==''){
+                mw.switcher[pages_state](mwd.getElementById('toggle_cats_and_pages'));
+              }
+
+              toggle_cats_and_pages = function(){
+                  if(this.value === 'on'){
+                    mw.$("#edit_content_admin .page_posts_list_tree").hide();
+                    mw.cookie.ui('ToggleCatsAndPages', 'off');
+                  }
+                  else{
+                    mw.$("#edit_content_admin .page_posts_list_tree").show();
+                    mw.cookie.ui('ToggleCatsAndPages', 'on');
+                  }
+              }
+            </script>

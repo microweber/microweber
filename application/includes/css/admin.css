@@ -227,6 +227,8 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   width: 776px;
 }
 
+..mw-shipping-items
+
 .shipping-truck{
   display: inline-block;
   width: 111px;
@@ -247,6 +249,7 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   clear: none;
   overflow: hidden;
   position: relative;
+  width: 774px;
 }
 form .shipping-country-row:first-child{
   border-bottom: 1px solid #ECECEC;
@@ -256,10 +259,20 @@ form .shipping-country-row:first-child{
 .shipping-country-row label{
   white-space: nowrap;
   float: left;
-  margin: 4px 7px 0;
+  margin: 4px 7px 0 0;
+}
+.shipping-handle-field{
+  float: none;
+  position: absolute;
+  right: 17px;
+  top: -8px;
 }
 
 .shipping-country-row select{
+  width: 255px;
+  float: left;
+}
+.same-as-country-selector{
   width: 255px;
   float: left;
 }
@@ -283,11 +296,13 @@ form .shipping-country-row:first-child{
   float: left;
   width: 165px;
   text-align: center;
+  padding-top: 17px;
 }
 
 .shipping-country-setting{
   float: left;
-  width: 605px;
+  width: 580px;
+  padding: 12px;
 }
 
 
@@ -313,7 +328,7 @@ form .shipping-country-row:first-child{
   display: inline-block;
   cursor: pointer;
   position: relative;
-  height:17px;
+  height:16px;
   min-width: 50px;
   overflow: hidden;
   white-space: nowrap;
@@ -345,6 +360,7 @@ form .shipping-country-row:first-child{
   font-size: 10px;
   float: left;
   margin: 1px 0 0 1px;
+  line-height: 13px;
   text-shadow: 1px 0 0 #FFFFFF;
 }
 
@@ -363,6 +379,10 @@ form .shipping-country-row:first-child{
 
 .mw-switcher-off .mw-switch-handle{
     left: 0;
+}
+
+.mw-set-shipping-gw-options{
+  position: relative;
 }
 
 

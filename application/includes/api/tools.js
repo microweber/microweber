@@ -793,13 +793,31 @@ $.fn.datas = function(){
 }
 
 mw.switcher = {
-  _switch:function(el){
-    var _el = $(el);
-    var attr = el.attributes;
-    _el.toggleClass('mw-switcher-off');
-    var first = el.getElementsByTagName('input')[0];
-    var sec = el.getElementsByTagName('input')[1];
-    first.checked ? sec.checked = true : first.checked = true;
+  _switch:function(el, trigger_events, callback){
+    if($(el).hasClass("mw-switcher-off")){
+       mw.switcher.on(el);
+       var checked = el.getElementsByTagName('input')[0];
+    }
+    else{
+       mw.switcher.off(el);
+       var checked = el.getElementsByTagName('input')[1];
+    }
+    if(trigger_events){
+       $(el).trigger('change', checked);
+    }
+    if(typeof callback==='function'){
+      callback.call(checked);
+    }
+  },
+  on:function(el){
+     var _el = $(el);
+     _el.removeClass('mw-switcher-off');
+     el.getElementsByTagName('input')[0].checked = true;
+  },
+  off:function(el){
+     var _el = $(el);
+     _el.addClass('mw-switcher-off');
+     el.getElementsByTagName('input')[1].checked = true;
   }
 }
 

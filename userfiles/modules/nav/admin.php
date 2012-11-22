@@ -1,3 +1,4 @@
+<? $rand = uniqid(); ?>
 <script  type="text/javascript">
   mw.require('forms.js');
   mw.require('url.js');
@@ -11,7 +12,17 @@
       });
  
  }
+ 
+ 
+  mw.menu_edit_items = function($menu_id, $selector){
+  		mw.$($selector).attr('data-menu-id',$menu_id);
+  	 mw.load_module('nav/edit_items',$selector);
+      
+ 
+ }
  </script>
+ 
+ 
 <? $menus = get_menu(); ?>
 
 <h2>Tab 1 - settings</h2>
@@ -25,7 +36,13 @@
     <button type="button" class="mw-ui-btn" onclick="mw.menu_save('#add_new_menu')">Save</button>
   </div>
 </fieldset>
-<?php $menu_name = option_get('menu_name', $params['id']) ?>
+<?php $menu_name = option_get('menu_name', $params['id']);
+$menu_id = false;
+if($menu_name != false){
+$menu_id = get_menu_id('title='.$menu_name);	
+}
+ 
+ ?>
 <? if(isarr($menus) == true): ?>
 <? if(isarr($menus )): ?>
 <fieldset>
@@ -35,13 +52,15 @@
     <div class="controls">
       <label>
         <input name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav"  value="<? print $item['title'] ?>" <? if($menu_name == $item['title']): ?> checked="checked" <? endif; ?> />
-        <? print $item['title'] ?> </label>
+        <? print $item['title'] ?></label><a href="javascript:mw.menu_edit_items(<? print $item['id'] ?>, '#items_list_<?  print $rand ?>');"> | Edit menu items</a>
     </div>
     <? endforeach ; ?>
   </div>
 </fieldset>
 <? endif; ?>
 <? else : ?>
+You have no exising menus. Please create one.
 <? endif; ?>
+<div class="<? print $config['module_class']; ?> menu_items" id="items_list_<?  print $rand ?>"></div>
 <strong>Skin/Template</strong>
 <module type="admin/modules/templates"  />

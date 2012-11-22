@@ -30,6 +30,28 @@ function get_menu_items($params = false) {
 	return get($params);
 }
 
+function get_menu_id($params = false) {
+
+	$table = MODULE_DB_TABLE_MENUS;
+
+	$params2 = array();
+	if ($params == false) {
+		$params = array();
+	}
+	if (is_string($params)) {
+		$params = parse_str($params, $params2);
+		$params = $params2;
+	}
+	$params['table'] = $table;
+	$params['item_type'] = 'menu';
+	$params['limit'] = 1;
+	$params['one'] = 1;
+	$params = get($params);
+	if (isset($params['id'])) {
+		return $params['id'];
+	}
+}
+
 function get_menu($params = false) {
 
 	$table = MODULE_DB_TABLE_MENUS;
@@ -73,6 +95,55 @@ function add_new_menu($data_to_save) {
 
 }
 
+api_expose('reorder_menu_items');
+
+function reorder_menu_items($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	$table = MODULE_DB_TABLE_MENUS;
+
+	if (isset($data['ids_parents'])) {
+		$value = $data['ids_parents'];
+		if (is_arr($value)) {
+
+			foreach ($value as $k => $value2) {
+				$k = intval($k);
+				$value2 = intval($value2);
+
+				$sql = "UPDATE $table set 
+				parent_id=$k
+	where id=$value2
+	and item_type='menu_item'
+	  ";
+				// d($sql);
+				$q = db_q($sql);
+cache_clean_group('menus/'.$k);
+			}
+
+		}
+	}
+
+	if (isset($data['ids'])) {
+		$value = $data['ids'];
+		if (is_arr($value)) {
+			$indx = array();
+			$i = 0;
+			foreach ($value as $value2) {
+				$indx[$i] = $value2;
+				$i++;
+			}
+
+			db_update_position($table, $indx);
+			return true;
+			// d($indx);
+		}
+	}
+
+}
+
 function menu_tree($menu_id, $maxdepth = false) {
 
 	static $passed_ids;
@@ -103,7 +174,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	}
 	$active_class = '';
 	// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-	$to_print = '<ul class="menu menu_' . $menu_id . '">';
+	$to_print = '<ul class="menu menu_' . $menu_id . '" >';
 
 	$cur_depth = 0;
 	foreach ($q as $item) {
@@ -131,8 +202,8 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 		if ($title != '') {
 			//$full_item['the_url'] = page_link($full_item['content_id']);
-			$to_print .= '<li class="menu_element ' . ' ' . $active_class . '" id="menu_item_' . $item['id'] . '">';
-			$to_print .= '<a class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
+			$to_print .= '<li   class="menu_element ' . ' ' . $active_class . '" data-item-id="' . $item['id'] . '" >';
+			$to_print .= '<a data-item-id="' . $item['id'] . '" class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
 			$to_print .= '</li>';
 			if (in_array($item['id'], $passed_ids) == false) {
 
