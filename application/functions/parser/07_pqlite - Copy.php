@@ -1,6 +1,6 @@
 <?php
 
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'PQLite' . DIRECTORY_SEPARATOR . 'PQLite.php');
+require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'PQLite' . DIRECTORY_SEPARATOR . 'PQLite.php');
 
 
 $pq = new PQLite($layout);

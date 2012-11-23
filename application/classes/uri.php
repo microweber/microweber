@@ -123,7 +123,7 @@ class uri {
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path != "/".SELF)
+			if (trim($path, '/') != '' && $path != "/".MW_SELF)
 			{
 				$this->_set_uri_string($path);
 				return;

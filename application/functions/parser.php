@@ -311,44 +311,44 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 		switch ($parse_mode) {
 			case 1 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
 
 				break;
 
 			case 2 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_dom.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_dom.php');
 
 				break;
 			case 3 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_regex.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_regex.php');
 
 				break;
 
 			case 4 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
 
 				break;
 
 			case 5 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
 
 			case 6 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
 
 				break;
 
 			case 7 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
 
 				break;
 
 			case 8 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
 
 				break;
 
 			case 9 :
-				include (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
 
 				break;
 
@@ -625,7 +625,7 @@ function make_microweber_tags($layout) {
 		return $layout;
 	}
 
-	require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 	$pq = phpQuery::newDocument($layout);
 	// print first list outer HTML
@@ -656,7 +656,7 @@ function make_microweber_tags($layout) {
  * @author Peter Ivanov
  *
  *         function groupsSave($data) {
- *         $table = $table = TABLE_PREFIX . 'groups';
+ *         $table = $table = MW_TABLE_PREFIX . 'groups';
  *         $criteria = $this->input->xss_clean ( $data );
  *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
  *         $data );

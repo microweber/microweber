@@ -30,7 +30,7 @@ if (isset($to_save)) {
 
                     $dbf1 = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'default.db';
                     $new_db = $temtxt . '_' . date("Ymd-his") . '_.db';
-					 $dbf2_full = ROOTPATH. DS.DBPATH . DS ;
+					 $dbf2_full = MW_ROOTPATH. DS.DBPATH . DS ;
 					  $dbf2_full = normalize_path( $dbf2_full, 1);
                     $dbf2 = $dbf2_full . $new_db;
                     if (!is_dir($dbf2_full)) {
@@ -72,7 +72,7 @@ if (isset($to_save)) {
         foreach ($to_save as $k => $v) {
             $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
         }
-        $cfg = APPPATH_FULL . 'config.php';
+        $cfg = MW_APPPATH_FULL . 'config.php';
 		//var_dump( $cfg);
  
 

@@ -1,11 +1,11 @@
 <?
 
 if (!defined("MODULE_DB_TABLE_SHOP")) {
-	define('MODULE_DB_TABLE_SHOP', TABLE_PREFIX . 'cart');
+	define('MODULE_DB_TABLE_SHOP', MW_TABLE_PREFIX . 'cart');
 }
 
 if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
-	define('MODULE_DB_TABLE_SHOP_ORDERS', TABLE_PREFIX . 'cart_orders');
+	define('MODULE_DB_TABLE_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
 api_expose('update_order');
 function update_order($params = false) {

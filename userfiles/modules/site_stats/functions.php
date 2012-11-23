@@ -1,7 +1,7 @@
 <?
 
 if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
-    define('MODULE_DB_TABLE_USERS_ONLINE', TABLE_PREFIX . 'module_stats_users_online');
+    define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'module_stats_users_online');
 }
 
 function mw_install_stats_module($config = false) {

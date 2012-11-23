@@ -147,7 +147,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 	if ($guess_cache_group != false) {
 
 		$for = str_replace('table_', '', $for);
-		$for = str_replace(TABLE_PREFIX, '', $for);
+		$for = str_replace(MW_TABLE_PREFIX, '', $for);
 	}
 
 	return $for;
@@ -2414,7 +2414,7 @@ function import_sql_from_file($full_path_to_file) {
 
 	if (is_file($dbms_schema)) {
 		$sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
-		$sql_query = str_ireplace('{TABLE_PREFIX}', TABLE_PREFIX, $sql_query);
+		$sql_query = str_ireplace('{MW_TABLE_PREFIX}', MW_TABLE_PREFIX, $sql_query);
 		$sql_query = sql_remove_remarks($sql_query);
 
 		$sql_query = sql_remove_comments($sql_query);

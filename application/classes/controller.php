@@ -213,7 +213,7 @@ class Controller {
 			if ($this -> isolate_by_html_id != false) {
 				$id_sel = $this -> isolate_by_html_id;
 				$this -> isolate_by_html_id = false;
-				require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 				$pq = phpQuery::newDocument($l);
 				foreach ($pq ['#' . $id_sel] as $elem) {
 
@@ -709,7 +709,7 @@ class Controller {
 
 	function plupload() {
 		define_constants();
-		$f = APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
+		$f = MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
 		require ($f);
 		exit();
 	}

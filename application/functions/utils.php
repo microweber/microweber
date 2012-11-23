@@ -293,7 +293,7 @@ if (!function_exists('pathToURL')) {
 
     function pathToURL($path) {
         // var_dump($path);
-        $path = str_ireplace(ROOTPATH, '', $path);
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         //var_dump($path);

@@ -1,7 +1,7 @@
 <?
 
 if (!defined("MODULE_DB_TABLE_SHOP")) {
-	define('MODULE_DB_TABLE_MENUS', TABLE_PREFIX . 'menus');
+	define('MODULE_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
 }
 
 action_hook('mw_edit_page_admin', 'mw_print_admin_menu_selector');

@@ -69,7 +69,7 @@ $the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
 		
 		if($params['tag'] != 'edit'){
  
-$history_dir = APPPATH . '/history/blocks/' . $id . '/';
+$history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
 			$history_dir = normalize_path ( $history_dir );
 			$history_dir = reduce_double_slashes($history_dir);
 			$history_files = array();
@@ -83,7 +83,7 @@ $history_dir = APPPATH . '/history/blocks/' . $id . '/';
 		//	$page_id = 'global';	
 			}
 			
-			$history_dir = APPPATH . '/history/blocks/' . $id . '/';
+			$history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
 			$history_dir = normalize_path ( $history_dir );
 			$history_dir = reduce_double_slashes($history_dir);
 			$hdata= array();

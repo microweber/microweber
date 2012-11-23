@@ -82,7 +82,7 @@ function mw_apply_updates($updates) {
         foreach ($to_be_unzipped as $key => $value) {
             $unzip_loc = false;
             if ($key == 'root') {
-                $unzip_loc = ROOTPATH;
+                $unzip_loc = MW_ROOTPATH;
             }
 
             if ($key == 'modules') {

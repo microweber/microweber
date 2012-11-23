@@ -72,100 +72,65 @@ if (isset($mw_config ['system_folder_shared'])) {
     }
 }
 /*
-
-
-
+ 
   |---------------------------------------------------------------
-
-
-
   | DEFINE APPLICATION CONSTANTS
-
-
-
-  |---------------------------------------------------------------
-
-
-
-  |
-
-
-
-  | EXT		- The file extension.  Typically ".php"
-
-
-
-  | FCPATH	- The full server path to THIS file
-
-
-
-  | SELF		- The name of THIS file (typically "index.php)
-
-
-
-  | BASEPATH	- The full server path to the "system" folder
-
-
-
-  | APPPATH	- The full server path to the "application" folder
-
-
-
-  |
-
+ 
+ |---------------------------------------------------------------
+ 
 
 
  */
 
-define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
+//define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
 
 define("DS", DIRECTORY_SEPARATOR);
-define('FCPATH', __FILE__);
+//define('FCPATH', __FILE__);
 
-define('ROOTPATH', dirname(__FILE__));
+define('MW_ROOTPATH', dirname(__FILE__));
 
-define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('MW_SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-define('BASEPATH', $system_folder . '/');
+define('MW_BASEPATH', $system_folder . '/');
 
-define('BASEPATHSTATIC', ROOTPATH . '/static/');
+define('MW_BASEPATHSTATIC', MW_ROOTPATH . '/static/');
 
-#define ( 'BASEPATHCONTENT', BASEPATH . 'content/' );
-
-
-define('TABLE_PREFIX', 'firecms_');
-
-define('USERFILES_DIRNAME', 'userfiles');
-
-define('USERFILES', ROOTPATH . DS . USERFILES_DIRNAME . DS);
+#define ( 'MW_BASEPATHCONTENT', MW_BASEPATH . 'content/' );
 
 
+define('MW_TABLE_PREFIX', 'firecms_');
 
+define('MW_USERFILES_DIRNAME', 'userfiles');
 
-define("USERFILES_URL", site_url('userfiles/'));
+define('MW_USERFILES', MW_ROOTPATH . DS . MW_USERFILES_DIRNAME . DS);
 
 
 
-define("USERFILES_DIR", USERFILES);
+
+define("MW_USERFILES_URL", site_url('userfiles/'));
 
 
 
-define("MODULES_DIR", USERFILES . 'modules/');
+define("MW_USERFILES_DIR", MW_USERFILES);
+
+
+
+define("MODULES_DIR", MW_USERFILES . 'modules/');
 
 
 define('TEMPLATEFILES_DIRNAME', 'templates');
 
-define('TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . DS);
+define('TEMPLATEFILES', MW_USERFILES . TEMPLATEFILES_DIRNAME . DS);
 
-define('MEDIAFILES', USERFILES . 'media' . '/');
-
-
-define('ELEMENTS_DIR', USERFILES . 'elements' . '/');
-
-define('STYLES_DIR', USERFILES . 'styles' . '/');
+define('MEDIAFILES', MW_USERFILES . 'media' . '/');
 
 
-define('PLUGINS_DIRNAME', USERFILES . 'plugins' . '/');
+define('ELEMENTS_DIR', MW_USERFILES . 'elements' . '/');
+
+define('STYLES_DIR', MW_USERFILES . 'styles' . '/');
+
+
+define('PLUGINS_DIRNAME', MW_USERFILES . 'plugins' . '/');
 
 define("USER_IP", $_SERVER ["REMOTE_ADDR"]);
 
@@ -202,7 +167,7 @@ if ($mw_config ['site_url']) {
 } else {
     define('SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/');
 }
-$dnf = ROOTPATH;
+$dnf = MW_ROOTPATH;
 $md5_conf = 'mw_cache_' . crc32($dnf.SITEURL);
 $cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
@@ -211,7 +176,7 @@ if (is_dir($cache_main_dir) == false) {
     @mkdir($cache_main_dir);
 }
 
-//$cache_main_dir = $cache_main_dir . crc32(ROOTPATH) . DIRECTORY_SEPARATOR;
+//$cache_main_dir = $cache_main_dir . crc32(MW_ROOTPATH) . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
@@ -232,16 +197,16 @@ define('CACHEDIR_ROOT', dirname((__FILE__)) .  'cache' . DIRECTORY_SEPARATOR);
 
 define('DATETIME_FORMAT', 'F j g:m a');
 
-define('APPPATH', $application_folder . DIRECTORY_SEPARATOR);
-define('APPPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH); //full filesystem path
+define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
+define('MW_APPPATH_FULL', MW_ROOTPATH . DIRECTORY_SEPARATOR . MW_APPPATH); //full filesystem path
 
 
 
 
 
-define('LIBSPATH', APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
+define('LIBSPATH', MW_APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
 define('DBPATH', 'db' . DS);
-define('DBPATH_FULL', ROOTPATH . DIRECTORY_SEPARATOR . DBPATH);
+define('DBPATH_FULL', MW_ROOTPATH . DIRECTORY_SEPARATOR . DBPATH);
 
 define('ADMIN_URL', SITEURL . 'admin');
 
@@ -249,7 +214,7 @@ define('ADMIN_URL', SITEURL . 'admin');
 
 
 
-define('INCLUDES_PATH', ROOTPATH . DIRECTORY_SEPARATOR . APPPATH . 'includes' . DS); //full filesystem path
+define('INCLUDES_PATH', MW_ROOTPATH . DIRECTORY_SEPARATOR . MW_APPPATH . 'includes' . DS); //full filesystem path
 define('INCLUDES_DIR', INCLUDES_PATH); //full filesystem path
 define('INCLUDES_URL', SITEURL . $application_folder . '/includes/'); //full filesystem path
 define('VIEWSPATH', INCLUDES_PATH . 'admin' . DS); //full filesystem path
@@ -268,30 +233,30 @@ define('ADMIN_VIEWS_URL', INCLUDES_URL . 'admin');
 
 $media_url = SITEURL;
 
-$media_url = $media_url . USERFILES_DIRNAME . '/media/';
+$media_url = $media_url . MW_USERFILES_DIRNAME . '/media/';
 
 define('MEDIA_URL', $media_url);
 
-$media_url = SITEURL . USERFILES_DIRNAME . '/elements/';
+$media_url = SITEURL . MW_USERFILES_DIRNAME . '/elements/';
 
 define('ELEMENTS_URL', $media_url);
 
-$media_url = SITEURL . USERFILES_DIRNAME . '/resources/';
+$media_url = SITEURL . MW_USERFILES_DIRNAME . '/resources/';
 
 define('RESOURCES_URL', $media_url);
 
 
-$media_url = SITEURL . USERFILES_DIRNAME . '/modules/';
+$media_url = SITEURL . MW_USERFILES_DIRNAME . '/modules/';
 
 define('MODULES_URL', $media_url);
 
-$media_url = SITEURL . USERFILES_DIRNAME . '/styles/';
+$media_url = SITEURL . MW_USERFILES_DIRNAME . '/styles/';
 
 define('STYLES_URL', $media_url);
 
 
 
-define('RESOURCES_DIR', USERFILES . 'resources' . '/');
+define('RESOURCES_DIR', MW_USERFILES . 'resources' . '/');
 ////var_dump( ADMIN_STATIC_FILES_URL);
 
 
@@ -325,12 +290,12 @@ define('RESOURCES_DIR', USERFILES . 'resources' . '/');
 
  */
 
-ini_set('include_path', ini_get('include_path') . ':' . BASEPATH . 'libraries/');
+ini_set('include_path', ini_get('include_path') . ':' . MW_BASEPATH . 'libraries/');
 
 if (defined('NO_MICROWEBER') == false) {
 
     //rm(($file));
-    //require_once (APPPATH . 'models/system_loader.php');
+    //require_once (MW_APPPATH . 'models/system_loader.php');
 }
 
 function site_url($add_string = false) {
