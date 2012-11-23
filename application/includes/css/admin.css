@@ -362,7 +362,7 @@ form .shipping-country-row:first-child{
 }
 
 .mw-switcher input{
-  display: none;
+  XXXdisplay: none;
 }
 .mw-switcher label{
   white-space: nowrap;
@@ -373,6 +373,9 @@ form .shipping-country-row:first-child{
   margin: 1px 0 0 1px;
   line-height: 13px;
   text-shadow: 1px 0 0 #FFFFFF;
+
+  visibility: visible !important;  
+
 }
 
 .mw-switcher label:last-child{

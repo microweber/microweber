@@ -12,7 +12,7 @@ typeof mw === 'undefined' ?
 
 
 
-  Microweber = function() {
+  mw = function() {
     this.get = function() {
       return {
         modules: Modules_List_modules,
@@ -22,11 +22,36 @@ typeof mw === 'undefined' ?
     return this;
   }
 
-
+__mwextend = function(el){
+      el.getModal = function(){
+          var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
+          if(!!modal){
+              return  {
+                   main:modal,
+                   container:modal.querySelector(".mw_modal_container")
+              }
+          }
+          else {return false};
+      }
+      el.attr = function(name, value){
+        if(value===undefined){
+          return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : '';
+        }
+        else{
+          el.setAttribute(name, value);
+          return el;
+        }
+      }
+    return el;
+}
 
 
 
   mw = {}
+
+  mw.extend = function(el){
+    return __mwextend(el);
+  }
 
   mw.module = {} //Global Variable for modules scripts
   mwd = document;

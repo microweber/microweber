@@ -858,20 +858,19 @@ mw.switcher = {
 
 
 
-HTMLElement.prototype.mw = function(){
-  var el = this;
-  el.getModal = function(){
-      var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-      if(!!modal){
-          return  {
-               main:modal,
-               container:modal.querySelector(".mw_modal_container")
-          }
-      }
-      else {return false};
-  }
-  return el;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1208,7 +1208,7 @@ function load_module($module_name, $attrs = array()) {
 		$config['the_module'] = $module_name;
 
 		$config['module_api'] = site_url('m/' . $module_name);
-
+$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
 		$config['module_class'] = str_replace('/', '-', $module_name); ;
 

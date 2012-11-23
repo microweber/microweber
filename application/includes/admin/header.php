@@ -45,7 +45,7 @@
     </script>
 
 </head>
-<body class="is_admin view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include "UI.php"; ?>
+<body class="is_admin view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
 <div id="mw-admin-container">
 
 

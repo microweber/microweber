@@ -67,11 +67,6 @@ mw.form = {
 	return false;
   },
   
-  
-  
-  
-  
-  
   serialize : {
       init:function(form){
         return $(form).serialize();
@@ -93,9 +88,9 @@ mw.form = {
        return rurl.test(FieldUnify(FieldUnify(obj)));
     },
     radio:function(objname){
-        var radios = document.getElementsByName(objname);
+        var radios = document.getElementsByName(objname), i = 0, len = radios.length;
         this_radio_valid = false;
-        for(i=0; i < radios.length; i++){
+        for( ; i < len ; i++){
             if(radios[i].checked){
                 this_radio_valid = true;
                 break;

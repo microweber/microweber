@@ -7,6 +7,10 @@
 $(document).ready(function(){
     mw.options.form('.mw-set-shipping-options');
 });
+
+
+
+
 </script>
 <?
 $here = dirname(__FILE__).DS.'gateways'.DS;
