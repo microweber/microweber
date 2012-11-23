@@ -222,6 +222,9 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 .shipping-country-holder.mw-focus{
   box-shadow:0 0 1px 0px #235F99;
 }
+.country-id-0{
+  display: none;
+}
 
 .mw-shipping-items{
   float: right;
@@ -284,10 +287,11 @@ form .shipping-country-row:first-child{
   float: left;
 }
 
-.shipping-country-row input[type='text']{
+.shipping-country-row input[type='text'], .shipping-country-row input[type='number']{
   float: left;
   padding: 5px 10px;
 }
+
 
 .shipping-country-holder .shipping-arrow{
   margin: 0 15px;
@@ -322,7 +326,7 @@ form .shipping-country-row:first-child{
 }
 
 .shipping-price-field{
-  width: 50px;
+  width: 60px;
 }
 .shipping-country-holder .mw-ui-btn-small{
   margin: -11px 13px 0 0;

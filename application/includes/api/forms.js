@@ -5,6 +5,24 @@ FieldUnify = function(a){
 }
 
 mw.form = {
+  typeNumber:function(el){
+    el.value = el.value.replace(/[^0-9\.,]/g,'');
+  },
+  fixNum:function(el){
+    el.value = el.value.replace(/,/g,'');
+    var arr = el.value.split('.');
+    var len = arr.length;
+    if(len>1){
+      if(arr[len-1]===''){
+          arr[len-1] = '.00';
+      }
+      else{
+         arr[len-1] = '.' + arr[len-1];
+      }
+      el.value = arr.join('');
+    }
+
+  },
   d:function(selector, d){
     var el = mw.$(selector);
     var e = el[0];
@@ -22,7 +40,7 @@ mw.form = {
     var is_form_valid = mw.form.validate.init(selector);
 
 	if(!mw.is.defined(url_to_post)){
-		
+
 		url_to_post = mw.settings.site_url+'api/post_form';
 		
 	} else {

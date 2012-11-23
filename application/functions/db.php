@@ -410,8 +410,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1115,6 +1114,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 					switch ($v) {
 						case 'title' :
 						case 'description' :
+						case 'name' :
+						case 'help' :
 						case 'content' :
 							$where_q .= " $v REGEXP '$to_search' " . $where_post;
 							// $where_q .= " $v LIKE '%$to_search%' " . $where_post;
@@ -1232,7 +1233,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";

@@ -69,7 +69,7 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
 <span class="shipping-truck shipping-truck-green"></span>
 
 
-<span class="mw-ui-btn">Add Country</span>
+<span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');"><?php _e("Add Country"); ?></span>
 
 
 </div>
@@ -82,12 +82,26 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
 <div class="mw-shipping-items" id="<? print $rand1 ?>">
 
 <? foreach($data  as $item): ?>
-<? if(isset($item['shiping_country'])){
-	 $countries_used[] = ($item['shiping_country']);
-	 
-}
-?>
+    <? if(isset($item['shiping_country'])){
+    	 $countries_used[] = ($item['shiping_country']);
+    }
+    ?>
 <? endforeach ; ?>
+
+
+<script type="text/javascript">
+
+SaveShipping = function(form, dataType){
+    mw.form.post($(form) , '<? print $config['module_api']; ?>/shipping_to_country/save');
+    if(dataType==='new'){
+       mw.reload_module('[data-parent-module="shop/shipping"]');
+    }
+    else{
+       mw.reload_module(dataType);
+    }
+}
+
+</script>
 
   <? foreach($data  as $item): ?>
   
@@ -95,13 +109,13 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
   
   
   
-  <? 
+  <?
 $new = false;
 if(!isset($item['id'])) :?>
   <?  
 
 $item['id']= 0; 
-$item['is_active']= 'y'; 
+$item['is_active']= 'y';
 $item['shiping_country']= 'new'; 
 $item['shiping_cost']= '0'; 
 $item['shiping_cost_max']= '0';
@@ -113,43 +127,27 @@ $new = true;
  ?>
   <? endif;?>
   <? $rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
-  <script type="text/javascript">
 
-
-$(document).ready(function(){
-mw.$('#<? print $rand ?>').submit(function() {
-	 mw.form.post($(this) , '<? print $config['module_api']; ?>/shipping_to_country/save');
-	 <? if($new == true): ?>
-        mw.reload_module('<? print $params['data-type']; ?>');
-     <? endif; ?>
-	   mw.reload_module('[data-parent-module="shop/shipping"]');
-	 return false;
-	  });
-});
-
-
-
-</script>
   <div data-field-id="<? print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<? print $item['id']; ?>">
 
 
-    <form action="<? print $config['module_api']; ?>/shipping_add_to_country" id="<? print $rand ?>" data-field-id="<? print $item['id']; ?>">
+    <form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<? print $config['module_api']; ?>/shipping_add_to_country" id="<? print $rand ?>" data-field-id="<? print $item['id']; ?>">
 
     <div class="shipping-country-row">
       <div class="shipping-country-label">
           <? if($new == true): ?>
-          Add new
+          <?php _e("Add new"); ?>
           <? else : ?>
-          Shipping to <? /* print ucfirst($item['shiping_country']); */ ?>
+          <?php _e("Shipping to"); ?> <? /* print ucfirst($item['shiping_country']); */ ?>
           <? endif; ?>
       </div>
       <div class="shipping-country-setting">
           <? if($new == false): ?>
       <input type="hidden" name="id" value="<? print $item['id']; ?>" >
       <? endif; ?>
-      <select name="shiping_country" class="mw-ui-simple-dropdown">
+      <span class="mw-help-field left"><select name="shiping_country" class="mw-ui-simple-dropdown">
         <? if($new == true): ?>
-        <option value="none">Choose country</option>
+        <option value="none"><?php _e("Choose country"); ?></option>
         <? endif; ?>
 
         <? foreach($countries  as $item1): ?>
@@ -169,11 +167,17 @@ mw.$('#<? print $rand ?>').submit(function() {
         <? endforeach ; ?>
       </select>
 
+      <span class="mw-ui-label-help"><?php _e("Select country"); ?></span>
+      </span>
+
       <span class="shipping-arrow"></span>
 
-      <label>Shipping Price <b><? print option_get('currency_sign', 'payments') ?></b></label>
+      <label><?php _e("Shipping Price"); ?> <b><? print option_get('currency_sign', 'payments') ?></b></label>
 
-       <input class="mw-ui-field shipping-price-field" type="text" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onfocus="if(this.value=='0')this.value='';">
+       <span class="mw-help-field">
+          <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"  onblur="mw.form.fixNum(this);" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onfocus="if(this.value==='0')this.value='';" />
+          <span class="mw-ui-label-help"><?php _e("Type the price"); ?></span>
+       </span>
 
       </div>
   </div>
@@ -193,30 +197,34 @@ mw.$('#<? print $rand ?>').submit(function() {
 
 
   <div class="shipping-country-row">
-        <div class="shipping-country-label">Shipping Discount</div>
+        <div class="shipping-country-label"><?php _e("Shipping Discount"); ?></div>
         <div class="shipping-country-setting">
-
-
-        <div class="same-as-country-selector">
-          <label>For orders above:</label>
-          <input class="mw-ui-field shipping-price-field right" type="text" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onfocus="if(this.value=='0')this.value='';">
-         </div>
-          <span class="shipping-arrow"></span>
-          <label>Shipping Price <b><? print option_get('currency_sign', 'payments') ?></b></label>
-          <input class="mw-ui-field shipping-price-field" type="text" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';" />
-        <div class="mw_clear vSpace">&nbsp;</div>
-        <div class="mw-ui-check-selector">
-            <div class="left" style=" margin-right: 10px;margin-top: 3px;">Is active?</div>
-            <label class="mw-ui-check">
-              <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($item['is_active'])): ?>   checked="checked"  <? endif; ?> />
-              <span></span><span>Yes</span>
-            </label>
-            <label class="mw-ui-check">
-              <input name="is_active" type="radio"  value="n" <? if( '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <? endif; ?> />
-              <span></span><span>No</span>
-            </label>
-        </div>
-      </div>
+          <div class="same-as-country-selector">
+            <span class="mw-help-field"><label><?php _e("For orders above:"); ?></label>
+                <span class="mw-ui-label-help">example $100</span>
+            </span>
+            <input class="mw-ui-field shipping-price-field right" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixNum(this);" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onfocus="if(this.value=='0')this.value='';">
+            <label class="right"><b><? print option_get('currency_sign', 'payments') ?></b></label>
+           </div>
+            <span class="shipping-arrow"></span>
+            <label><?php _e("Shipping Price"); ?> <b><? print option_get('currency_sign', 'payments') ?></b></label>
+            <span class="mw-help-field">
+              <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixNum(this);" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';" />
+              <span class="mw-ui-label-help">Type the price</span>
+            </span>
+          <div class="mw_clear vSpace">&nbsp;</div>
+          <div class="mw-ui-check-selector">
+              <div class="left" style=" margin-right: 10px;margin-top: 3px;"><?php _e("Is active?"); ?></div>
+              <label class="mw-ui-check">
+                <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($item['is_active'])): ?>   checked="checked"  <? endif; ?> />
+                <span></span><span><?php _e("Yes"); ?></span>
+              </label>
+              <label class="mw-ui-check">
+                <input name="is_active" type="radio"  value="n" <? if( '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <? endif; ?> />
+                <span></span><span><?php _e("No"); ?></span>
+              </label>
+          </div>
+       </div>
       </div>
 
 

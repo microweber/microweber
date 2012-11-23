@@ -397,7 +397,7 @@ mw.tools = {
       }
     },
     detectType:function(tree_object){
-      if(tree_object!==null){
+      if(tree_object!==null && typeof tree_object === 'object'){
         return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
       }
     },
@@ -608,8 +608,15 @@ mw.tools = {
       });
       $(el).addClass('mw-focus');
     }
+  },
+  scrollTo:function(el, callback){
+    mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
+        typeof callback === 'function' ? callback.call(el) : '';
+    });
   }
 }
+
+
 
 
 
@@ -758,6 +765,8 @@ String.prototype._exec = function(a,b,c){
 mw.exec = function(str, a,b,c){
     return str._exec(a,b,c);
 }
+
+
 
 
 /*

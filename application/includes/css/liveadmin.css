@@ -1421,6 +1421,20 @@ select.mw-ui-simple-dropdown:focus{
 }
 .mw-ui-delete-x:hover{background-position: 3px -13px;}
 
+.mw-ui-label-help{
+  font-size:10px;
+  line-height: 12px;
+  display: block;
+  color: #8F8F8F;
+}
+
+.mw-help-field{
+  display: inline-block;
+}
+.mw-help-field .mw-ui-label-help{
+    clear: both;
+}
+
 
 
 

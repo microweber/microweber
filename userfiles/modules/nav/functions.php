@@ -95,7 +95,6 @@ function add_new_menu($data_to_save) {
 
 }
 
-
 api_expose('edit_menu_item');
 function edit_menu_item($data_to_save) {
 
@@ -119,7 +118,6 @@ function edit_menu_item($data_to_save) {
 	return $save;
 
 }
-
 
 api_expose('reorder_menu_items');
 
@@ -146,7 +144,7 @@ function reorder_menu_items($data) {
 	  ";
 				// d($sql);
 				$q = db_q($sql);
-cache_clean_group('menus/'.$k);
+				cache_clean_group('menus/' . $k);
 			}
 
 		}

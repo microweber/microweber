@@ -28,7 +28,7 @@ function module_templates($module_name, $template_name = false) {
 		// d($module_name_l);
 	}
 }
-
+ 
 function module_name_encode($module_name) {
 	$module_name = str_replace('/', '___', $module_name);
 	$module_name = str_replace('%20', '___', $module_name);
