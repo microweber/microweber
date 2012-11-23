@@ -15,6 +15,14 @@ if (!defined('MW_UPDATE_SERV')) {
     // define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
 
+spl_autoload_register(function($className) 
+{ 
+    require(str_replace('\\', '/', ltrim($className, '\\')) . '.php'); 
+}); 
+
+set_include_path(__DIR__.DS.'classes'.DS. PATH_SEPARATOR . get_include_path()); 
+
+
 // Basic system functions
 function p($f) {
     return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
@@ -29,8 +37,8 @@ function v(&$v, $d = NULL) {
     return isset($v) ? $v : $d;
 }
 
-function __autoload($c) {
-    require p("classes/$c");
+function eeeeeeee__autoload($c) {
+  //  require p("classes/$c");
 }
 
 function c($k, $no_static = false) {

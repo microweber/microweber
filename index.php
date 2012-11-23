@@ -38,7 +38,7 @@ require (MW_APPPATH . 'functions/mw_functions.php');
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
-    $v = new View(ADMIN_VIEWS_PATH . 'error.php');
+    $v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;
@@ -63,7 +63,7 @@ if ($default_timezone == false) {
 
 if (!defined('MW_BARE_BONES')) {
 
-    $c = new controller();
+    $c = new MwController();
 
     if (MW_IS_INSTALLED != true or $go_to_install == true) {
         $c->install();

@@ -1,7 +1,7 @@
 <?php
 
 // Handles working with HTML output templates
-class View {
+class MwView {
 
     var $v;
 
@@ -22,7 +22,8 @@ class View {
         // write content
         extract((array) $this);
 
-      
+      set_include_path(dirname($this->v).DS. PATH_SEPARATOR . get_include_path()); 
+
 
         require ($this->v);
         $content = ob_get_contents();
@@ -51,6 +52,7 @@ class View {
                 //extract ( ( array ) $v );
             }
         }
+      set_include_path(dirname($this->v).DS. PATH_SEPARATOR . get_include_path()); 
 
         require ($this->v);
         $content = ob_get_contents();

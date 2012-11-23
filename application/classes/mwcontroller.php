@@ -1,7 +1,7 @@
 <?php
 
 // Controller Class
-class Controller {
+class MwController {
 
 	private $render_this_url = false;
 	private $isolate_by_html_id = false;
@@ -161,7 +161,7 @@ class Controller {
 		$render_file = get_layout_for_page($content);
  
 		if ($render_file) {
-			$l = new View($render_file);
+			$l = new MwView($render_file);
 			// $l->content = $content;
 			// $l->set($l);
 			$l = $l -> __toString();
@@ -187,7 +187,7 @@ class Controller {
 
 					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
 
-					$layout_toolbar = new View($tb);
+					$layout_toolbar = new MwView($tb);
 					$layout_toolbar = $layout_toolbar -> __toString();
 					if ($layout_toolbar != '') {
 						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
@@ -261,7 +261,7 @@ class Controller {
 
 		create_mw_default_options();
 		define_constants();
-		$l = new View(ADMIN_VIEWS_PATH . 'admin.php');
+		$l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
 		$l = $l -> __toString();
 		// var_dump($l);
 		$layout = parse_micrwober_tags($l, $options = false);
@@ -664,7 +664,7 @@ class Controller {
 		if ($embed != false) {
 			$p_index = INCLUDES_PATH . 'api/index.php';
 			$p_index = normalize_path($p_index, false);
-			$l = new View($p_index);
+			$l = new MwView($p_index);
 			$layout = $l -> __toString();
 			$res = str_replace('{content}', $res, $layout);
 		}
@@ -699,7 +699,7 @@ class Controller {
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
-		$l = new View(INCLUDES_PATH . 'api' . DS . 'api.js');
+		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();
 		// var_dump($l);
 		$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
@@ -752,12 +752,12 @@ class Controller {
 		$p = INCLUDES_PATH . 'toolbar/editor_tools/' . $tool . '/index.php';
 		$p = normalize_path($p, false);
 
-		$l = new View($p_index);
+		$l = new MwView($p_index);
 		$layout = $l -> __toString();
 		// var_dump($l);
 
 		if (is_file($p)) {
-			$p = new View($p);
+			$p = new MwView($p);
 			$layout_tool = $p -> __toString();
 			$layout = str_replace('{content}', $layout_tool, $layout);
 		} else {
@@ -772,13 +772,13 @@ class Controller {
 		exit();
 		//
 		//header("HTTP/1.0 404 Not Found");
-		//$v = new View(ADMIN_VIEWS_PATH . '404.php');
+		//$v = new MwView(ADMIN_VIEWS_PATH . '404.php');
 		//echo $v;
 	}
 
 	function show_404() {
 		header("HTTP/1.0 404 Not Found");
-		$v = new View(ADMIN_VIEWS_PATH . '404.php');
+		$v = new MwView(ADMIN_VIEWS_PATH . '404.php');
 		echo $v;
 	}
 

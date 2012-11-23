@@ -1225,7 +1225,7 @@ function load_module($module_name, $attrs = array()) {
 		}
 
 		//print(file_get_contents($try_file1));
-		$l1 = new View($try_file1);
+		$l1 = new MwView($try_file1);
 		$l1 -> config = $config;
 		$l1 -> params = $attrs;
 		if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
@@ -1251,7 +1251,7 @@ function load_module($module_name, $attrs = array()) {
 
 		if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
 			$lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
-			$lic_l1 = new View($lic_l1_try_file1);
+			$lic_l1 = new MwView($lic_l1_try_file1);
 
 			$lic_l1 -> config = $config;
 			$lic_l1 -> params = $attrs;

@@ -79,7 +79,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 	}
 
 	define_constants();
-	$l = new View($file);
+	$l = new MwView($file);
 
 	$l -> params = $data;
 	$l -> data = $form_data;
@@ -253,7 +253,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 		$file = $dir . $field_type . '.php';
 	}
 
-	$l = new View($file);
+	$l = new MwView($file);
 	//
 	$l -> settings = $settings;
 
