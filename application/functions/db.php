@@ -468,8 +468,8 @@ function get($params) {
 		case 1 :
 			static $results_map = array();
 			//static $results_map_hits = array();
-			$criteria_id = crc32(serialize($criteria));
-			
+			$criteria_id = (int) crc32($table.serialize($criteria));
+		 
 			if (isset($results_map[$criteria_id])) {
 				$ge = $results_map[$criteria_id];
 				//$results_map_hits[$criteria_id]++;
