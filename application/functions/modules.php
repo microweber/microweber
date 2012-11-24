@@ -28,7 +28,7 @@ function module_templates($module_name, $template_name = false) {
 		// d($module_name_l);
 	}
 }
- 
+
 function module_name_encode($module_name) {
 	$module_name = str_replace('/', '___', $module_name);
 	$module_name = str_replace('%20', '___', $module_name);
@@ -1208,7 +1208,7 @@ function load_module($module_name, $attrs = array()) {
 		$config['the_module'] = $module_name;
 
 		$config['module_api'] = site_url('m/' . $module_name);
-$config['module_view'] = site_url('module/' . $module_name);
+		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
 		$config['module_class'] = str_replace('/', '-', $module_name); ;
 
@@ -1221,7 +1221,9 @@ $config['module_view'] = site_url('module/' . $module_name);
 		}
 
 		if (!isset($attrs['id'])) {
-			$attrs['id'] = url_title($module_name . '-' . date("YmdHis"));
+			$attrs1 = crc32(serialize($attrs));
+			 
+			$attrs['id'] = url_title($module_name . '-' . $attrs1);
 		}
 
 		//print(file_get_contents($try_file1));

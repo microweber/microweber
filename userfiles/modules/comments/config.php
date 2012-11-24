@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Comments";
 $config['author'] = "Microweber";
-$config['ui_admin'] = true;
+$config['no_cache'] = true;
 $config['ui'] = true;
 
 

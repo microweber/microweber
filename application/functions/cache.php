@@ -23,11 +23,11 @@ if (!defined('APC_EXPIRES')) {
 
 	define("APC_EXPIRES", 30);
 }
-
+$mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
-
+global $mem ;
 	// return false;
-	static $mem = array();
+	//static $mem = array();
 	static $mem_hits = array();
 
 	if (is_bool($cache_id) and $cache_id == true) {
@@ -35,7 +35,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	}
 
 	//  d(APC_CACHE);
-
+	$cache_id_o = $cache_id;
 	$cache_group = (int) crc32($cache_group);
 	$cache_id = (int) crc32($cache_id);
 
@@ -66,13 +66,13 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			if ($replace_with_new != false) {
 				$mem[$key] = $replace_with_new;
 
-				$mem_hits[$key] = 1;
+				$mem_hits[$cache_id_o] = 1;
 				// ksort($mem);
 				// ksort($mem_hits);
 			}
 
 			if (isset($mem[$key])) {
-				$mem_hits[$key]++;
+				$mem_hits[$cache_id_o]++;
 				return $mem[$key];
 			} else {
 				return false;
@@ -325,6 +325,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
+
 				// this is faster
 				ob_start();
 				readfile($cache_file);
@@ -333,7 +334,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				ob_end_clean();
 
-				//$cache = file_get_contents($cache_file);
+				//$cache = file_get_contents($cache_file); // this is slower
 			}
 		}
 	} catch (Exception $e) {
@@ -367,7 +368,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 		if ($apc_apc_delete == false) {
 			$apc_apc_delete = function_exists('apc_delete');
 		}
-		if ($apc_apc_delete == true) {
+		if ($apc_apc_delete == true and $use_apc == true) {
 			apc_delete($cache_id);
 		}
 
@@ -577,9 +578,9 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 	//           @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
 	//       }
 	//   }
-
+	recursive_remove_directory($directory);
 	foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
-		recursive_remove_directory($filename);
+
 		//@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
 	}
 

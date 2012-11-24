@@ -159,7 +159,7 @@ class MwController {
 		define_constants($content);
 
 		$render_file = get_layout_for_page($content);
- 
+
 		if ($render_file) {
 			$l = new MwView($render_file);
 			// $l->content = $content;
@@ -268,6 +268,11 @@ class MwController {
 		$layout = execute_document_ready($layout);
 
 		print $layout;
+		
+		if (isset($_GET['test'])) {
+			debug_info();
+			 
+		}
 		exit();
 	}
 
@@ -389,6 +394,11 @@ class MwController {
 		if (isset($_REQUEST['data-module-name'])) {
 			$_REQUEST['module'] = $_REQUEST['data-module-name'];
 			$_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+
+			if (!isset($_REQUEST['id'])) {
+				$_REQUEST['id'] = url_title($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+			}
+
 		}
 
 		if (isset($_REQUEST['data-type'])) {
@@ -498,7 +508,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

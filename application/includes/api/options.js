@@ -17,7 +17,7 @@ mw.options = {
          		var mname = modal.attr('data-type');
 
                 for( ;i<l;i++){
-                  var og = og === '' ? el.attr(a[i]) : og;
+                  var og = og === undefined ? el.attr(a[i]) : og;
                 }
                 if(el.type==='checkbox'){
                    var val = '';

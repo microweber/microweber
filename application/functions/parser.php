@@ -308,7 +308,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (isset($_POST)) {
 			$parse_mode = 1;
 		}
-
+//$parse_mode = 10;
 		switch ($parse_mode) {
 			case 1 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
@@ -349,6 +349,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 			case 9 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
+
+				break;
+				
+					case 10 :
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_with_cache.php');
 
 				break;
 
