@@ -1210,7 +1210,8 @@ function load_module($module_name, $attrs = array()) {
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name); ;
+		$config['module_class'] = str_replace('/', '-', $module_name);
+		;
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
@@ -1222,13 +1223,19 @@ function load_module($module_name, $attrs = array()) {
 
 		if (!isset($attrs['id'])) {
 			$attrs1 = crc32(serialize($attrs));
-			 
+
 			$attrs['id'] = url_title($module_name . '-' . $attrs1);
 		}
 
 		//print(file_get_contents($try_file1));
 		$l1 = new MwView($try_file1);
 		$l1 -> config = $config;
+		if (!empty($config)) {
+			foreach ($config as $key1 => $value1) {
+				template_var($key1, $value1);
+			}
+		}
+
 		$l1 -> params = $attrs;
 		if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 

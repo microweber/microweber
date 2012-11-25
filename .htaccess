@@ -18,6 +18,13 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
  RewriteEngine On
 
 
+ php_value xdebug.profiler_output_dir C:\xampp\tmp
+  php_value xdebug.profiler_output_name cachegrind.out.%t.%p
+  php_value xdebug.profiler_enable 0
+  php_value xdebug.auto_trace 0
+  php_value xdebug.trace_format 1
+  php_value xdebug.trace_output_name cachegrind.out.%t.%p
+php_value  xdebug.profiler_enable_trigger 0
 
 
 

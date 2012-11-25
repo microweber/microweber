@@ -34,7 +34,7 @@ if (strval($installed) != 'yes') {
 // require ('appication/functions.php');
 
 require (MW_APPPATH . 'functions/mw_functions.php');
-
+ 
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
@@ -72,7 +72,7 @@ if (!defined('MW_BARE_BONES')) {
     $close_conn = function_exists('db_query');
 
     $m1 = url_segment(0);
-
+ 
     if ($m1) {
         $m = $m1;
     } else {
