@@ -410,7 +410,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -462,8 +463,29 @@ function get($params) {
 
 		// d($cache_group);
 	}
+	$mode = 1;
+	switch ($mode) {
+		case 1 :
+			static $results_map = array();
+			//static $results_map_hits = array();
+			$criteria_id = (int) crc32($table.serialize($criteria));
+		 
+			if (isset($results_map[$criteria_id])) {
+				$ge = $results_map[$criteria_id];
+				//$results_map_hits[$criteria_id]++;
+			} else {
+				$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+				//$results_map_hits[$criteria_id] = 1;
+				$results_map[$criteria_id] = $ge;
+			}
+			break;
 
-	$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+		default :
+			$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+
+			break;
+	}
+
 	//d($ge);
 	if ($getone == true) {
 		if (isset($ge[0])) {
@@ -568,8 +590,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 
 		$_default_limit = 30;
-
-		$cfg_default_limit = get_option('items_pre_page ', 'website');
+		static $cfg_default_limit;
+		if ($cfg_default_limit == false) {
+			$cfg_default_limit = get_option('items_pre_page ', 'website');
+		}
 		if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
 			$_default_limit = intval($cfg_default_limit);
 		}
@@ -1007,6 +1031,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		if (is_array($only_those_fields)) {
 
 			if (!empty($only_those_fields)) {
+
 				$ex_fields = db_get_table_fields($table);
 				$flds1 = array();
 				foreach ($ex_fields as $ex_field) {
@@ -1233,8 +1258,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1438,7 +1462,12 @@ function map_array_to_database_table($table, $array) {
 	}
 	// $table = db_get_table_name($table);
 
-	$fields = db_get_table_fields($table);
+	if (isset($arr_maps[$table])) {
+		$fields = $arr_maps[$table];
+	} else {
+		$fields = db_get_table_fields($table);
+		$arr_maps[$table] = $fields;
+	}
 
 	foreach ($fields as $field) {
 
@@ -1494,6 +1523,12 @@ function db_table_exist($table) {
  */
 function db_get_table_fields($table, $exclude_fields = false) {
 
+	static $ex_fields_static = array();
+	if (isset($ex_fields_static[$table])) {
+		return $ex_fields_static[$table];
+
+	}
+
 	$db_get_table_fields = array();
 	if (!$table) {
 
@@ -1538,6 +1573,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
 	$exisiting_fields = array();
 	if ($fields == false or $fields == NULL) {
+		$ex_fields_static[$table] = false;
 		return false;
 	}
 	foreach ($fields as $fivesdraft) {
@@ -1571,7 +1607,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 			$fields[] = $k;
 		}
 	}
-
+	$ex_fields_static[$table] = $fields;
 	cache_store_data($fields, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return $fields;

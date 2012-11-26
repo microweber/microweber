@@ -1250,6 +1250,17 @@ tr:hover > .mw-order-item-edit > *{
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
+.mw-o-box-accordion .mw-o-box-header{
+  margin-bottom: 0;
+}
+
+.mw-o-box-accordion-content{
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #F7F7F7;
+}
+
 .mw-o-box-header > .ico{
   margin-right: 10px;
 }

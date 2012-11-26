@@ -11,36 +11,28 @@ typeof mw === 'undefined' ?
 (function() {
 
 
-
-  mw = function() {
-    this.get = function() {
-      return {
-        modules: Modules_List_modules,
-        layouts: Modules_List_elements
-      }
-    }
-    return this;
-  }
-
 __mwextend = function(el){
-      el.getModal = function(){
-          var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-          if(!!modal){
-              return  {
-                   main:modal,
-                   container:modal.querySelector(".mw_modal_container")
+      if(el.attributes['data-extended']===undefined){
+          el.setAttribute('data-extended', true);
+          el.getModal = function(){
+              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
+              if(!!modal){
+                  return  {
+                       main:modal,
+                       container:modal.querySelector(".mw_modal_container")
+                  }
               }
+              else {return false};
           }
-          else {return false};
-      }
-      el.attr = function(name, value){
-        if(value===undefined){
-          return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : '';
-        }
-        else{
-          el.setAttribute(name, value);
-          return el;
-        }
+          el.attr = function(name, value){
+            if(value===undefined){
+              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+            }
+            else{
+              el.setAttribute(name, value);
+              return el;
+            }
+          }
       }
     return el;
 }
@@ -396,4 +388,4 @@ __mwextend = function(el){
 
 
 
-})() : '[]';
+})() : '';

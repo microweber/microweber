@@ -159,7 +159,7 @@ class MwController {
 		define_constants($content);
 
 		$render_file = get_layout_for_page($content);
- 
+
 		if ($render_file) {
 			$l = new MwView($render_file);
 			// $l->content = $content;
@@ -268,6 +268,11 @@ class MwController {
 		$layout = execute_document_ready($layout);
 
 		print $layout;
+
+		if (isset($_GET['test'])) {
+			debug_info();
+
+		}
 		exit();
 	}
 
@@ -379,6 +384,7 @@ class MwController {
 		if (!defined('MW_API_CALL')) {
 			//	define('MW_API_CALL', true);
 		}
+
 		$page = false;
 
 		$custom_display = false;
@@ -389,6 +395,11 @@ class MwController {
 		if (isset($_REQUEST['data-module-name'])) {
 			$_REQUEST['module'] = $_REQUEST['data-module-name'];
 			$_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+
+			if (!isset($_REQUEST['id'])) {
+				$_REQUEST['id'] = url_title($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+			}
+
 		}
 
 		if (isset($_REQUEST['data-type'])) {
@@ -443,10 +454,14 @@ class MwController {
 		$url_last = false;
 		if (!isset($_REQUEST['module'])) {
 			$url = url_string(1);
+			if ($url == __FUNCTION__) {
+				$url = url_string(2);
+			}
+
 			$url = str_replace_once('module/', '', $url);
 			$url = str_replace_once('module_api/', '', $url);
 			$url = str_replace_once('m/', '', $url);
-			//d($url);
+
 			if (is_module($url)) {
 				$_REQUEST['module'] = $url;
 				$mod_from_url = $url;
@@ -498,7 +513,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -672,17 +688,18 @@ class MwController {
 		if (!defined('MW_NO_OUTPUT')) {
 			print $res;
 		}
-		if (function_exists($url_last)) {
-			//d($url_last);
-			$this -> api($url_last);
-		} else if (isset($url_prev) and function_exists($url_prev)) {
-			$this -> api($url_last);
-		} elseif (class_exists($url_last, false)) {
-			$this -> api($url_last);
-		} elseif (isset($url_prev) and class_exists($url_prev, false)) {
-			$this -> api($url_prev);
+		if ($url_last != __FUNCTION__) {
+			if (function_exists($url_last)) {
+				//d($url_last);
+				$this -> api($url_last);
+			} else if (isset($url_prev) and function_exists($url_prev)) {
+				$this -> api($url_last);
+			} elseif (class_exists($url_last, false)) {
+				$this -> api($url_last);
+			} elseif (isset($url_prev) and class_exists($url_prev, false)) {
+				$this -> api($url_prev);
+			}
 		}
-
 		exit();
 	}
 

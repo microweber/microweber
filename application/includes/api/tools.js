@@ -613,6 +613,28 @@ mw.tools = {
     mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
         typeof callback === 'function' ? callback.call(el) : '';
     });
+  },
+  accordion:function(el, stickto, callback){
+    mw.extend(el);
+    var speed = 200;
+    if($(el).hasClass('mw-accordion-active')){
+        $(el).removeClass('mw-accordion-active');
+        var height = el.attr('data-height');
+        $(el).animate({height:height}, speed, function(){
+          typeof callback === 'function' ? callback.call(el, 'visible') : '';
+        });
+    }
+    else{
+      if(el.attr('data-height')===undefined){
+        var height = $(el).height();
+        el.attr('data-height', height);
+      }
+      $(el).addClass('mw-accordion-active');
+      var min = !(stickto==='' || stickto===undefined || stickto===null) ? $(stickto).outerHeight() : 0;
+      $(el).animate({height:min}, speed, function(){
+          typeof callback === 'function' ? callback.call(el, 'hidden') : '';
+      });
+    }
   }
 }
 
