@@ -1237,6 +1237,10 @@ tr:hover > .mw-order-item-edit > *{
   border: 1px solid #E5E5E5;
   border-radius:7px;
 }
+.mw-o-box-accordion{
+  overflow: hidden;
+}
+
 .mw-o-box-header{
   background: #E9E9E9;
   overflow: hidden;
@@ -1254,11 +1258,27 @@ tr:hover > .mw-order-item-edit > *{
   margin-bottom: 0;
 }
 
+.mw-o-box-header .mw-ui-btn-small{
+  margin-top: 2px;
+}
+
+.mw-o-box-header h2{
+  padding: 0;
+}
+
 .mw-o-box-accordion-content{
   padding: 12px;
   overflow: hidden;
   position: relative;
   background: #F7F7F7;
+}
+
+.mw-accordion-active > .mw-o-box-accordion-content{
+  display: none;
+}
+
+.mw-accordion-active > .mw-o-box-accordion-content{
+  display: none;
 }
 
 .mw-o-box-header > .ico{
@@ -1285,6 +1305,7 @@ tr:hover > .mw-order-item-edit > *{
     border-bottom:1px solid #ECECEC;
     clear: both;
     font-size: 11px;
+    text-align: left;
 }
 
 .mw-o-box-table td{
@@ -1446,8 +1467,48 @@ select.mw-ui-simple-dropdown:focus{
     clear: both;
 }
 
+.mw-ui-arr{
+   display: inline-block;
+   width: 0;
+   height: 0;
+   border-top: 6px solid black;
+   border-left: 4px solid transparent;
+   border-right: 4px solid transparent;
+}
+
+.mw-ui-arr-up{transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);}
+.mw-ui-arr-left{transform:rotate(90deg);-ms-transform:rotate(90deg);-moz-transform:rotate(90deg);-webkit-transform:rotate(90deg);-o-transform:rotate(90deg);}
+.mw-ui-arr-right{transform:rotate(-90deg);-ms-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-webkit-transform:rotate(-90deg);-o-transform:rotate(-90deg);}
+
+.mw-ui-arr-blue{border-top-color: #0D5D97;}
 
 
+.mw-admin-side-nav{
+    padding: 10px;
+}
+
+.mw-admin-side-nav li{
+    list-style: none
+}
+
+.mw-admin-side-nav li a{
+    display: block;
+    text-transform: capitalize;
+    border:1px solid transparent;
+    padding:6px 6px 6px 45px;
+    border-radius:5px;
+}
+.mw-admin-side-nav li a:hover{
+    box-shadow:0 1px 0 0 #FFFFFF inset;
+    border-color:#F0F0F0 #F0F0F0 #D3D2D2 #F0F0F0;
+    background: url(../img/grad.php?top=F4F4F4&bot=ECECEC)
+}
+
+.mw-admin-side-nav li a.active, .mw-admin-side-nav li a.active:hover{
+    box-shadow:0 1px 0 0 #FFFFFF inset;
+    border-color:#E9E6E6 #C5C2C2 #A1A0A0 #C5C2C2;
+    background: url(../img/grad.php?top=F4F4F4&bot=ECECEC)
+}
 
 
 

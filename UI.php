@@ -1,7 +1,12 @@
-<div id="UITU" ondblclick="$(this).toggleClass('active')" style="width: 500px;position: fixed;top: 0px;right: 20px;background: #669DBB;z-index: 99999">
-   <style>#UITU{height: 10px;overflow: hidden;box-shadow:0 0 10px #ccc;}#UITU.active{height: auto;padding: 30px;}
+<div id="UITU" ondblclick="$(this).toggleClass('active')" style="width: 600px;position: fixed;top: 0px;right: 20px;background: #F9F7F7;z-index: 99999">
+   <style>#UITU{height: 5px;overflow: hidden;box-shadow:0 0 4px #BBBBBB;}#UITU.active{height: auto;padding: 30px;}
 </style>
-  <table width="100%">
+
+
+<meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
+
+
+  <table width="80%">
    <col width="50%" />
    <col width="50%" />
    <tbody>
@@ -16,6 +21,10 @@
     <tr>
       <td><a href="javascript:;" class="mw-ui-btn">Link</a></td>
       <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Link</a></textarea></td>
+    </tr>
+    <tr>
+      <td><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></td>
+      <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></textarea></td>
     </tr>
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>

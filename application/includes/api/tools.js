@@ -614,24 +614,18 @@ mw.tools = {
         typeof callback === 'function' ? callback.call(el) : '';
     });
   },
-  accordion:function(el, stickto, callback){
-    mw.extend(el);
+  accordion:function(el, callback){
     var speed = 200;
+    var container = el.querySelector('.mw-o-box-accordion-content');
     if($(el).hasClass('mw-accordion-active')){
-        $(el).removeClass('mw-accordion-active');
-        var height = el.attr('data-height');
-        $(el).animate({height:height}, speed, function(){
+        $(container).slideDown(speed, function(){
+          $(el).removeClass('mw-accordion-active');
           typeof callback === 'function' ? callback.call(el, 'visible') : '';
         });
     }
     else{
-      if(el.attr('data-height')===undefined){
-        var height = $(el).height();
-        el.attr('data-height', height);
-      }
-      $(el).addClass('mw-accordion-active');
-      var min = !(stickto==='' || stickto===undefined || stickto===null) ? $(stickto).outerHeight() : 0;
-      $(el).animate({height:min}, speed, function(){
+      $(container).slideUp(speed, function(){
+          $(el).addClass('mw-accordion-active');
           typeof callback === 'function' ? callback.call(el, 'hidden') : '';
       });
     }

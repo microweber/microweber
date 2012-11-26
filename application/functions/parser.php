@@ -589,15 +589,15 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$mod_content = load_module($module_name, $attrs);
 
 							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
-							if (trim($mod_content) != '') {
+							//if (trim($mod_content) != '') {
 								if ($mod_no_wrapper == false) {
 									$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
 								} else {
 									$module_html = $mod_content;
 								}
-							} else {
-								$module_html = '';
-							}
+							//} else {
+							//	$module_html = '';
+							//}
 
 							$layout = str_replace($key, $module_html, $layout);
 						}

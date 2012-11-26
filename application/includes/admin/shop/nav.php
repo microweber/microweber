@@ -17,3 +17,12 @@
 
 
 </div>
+
+<script type="text/javascript">
+   mw.on.hashParam("clientorder", function(){
+      mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
+      mw.load_module('shop/orders/client_inner','#mw-clientorder', function(){
+
+      });
+    });
+</script>

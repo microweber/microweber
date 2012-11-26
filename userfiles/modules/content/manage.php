@@ -1,17 +1,15 @@
 
-         <div class="vSpace"></div>
-
-            <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, false, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
-                <label>Show<input type="radio" value="on" checked="checked" name="born" /></label>
-                <label>Hide<input type="radio" value="off" name="born" /></label>
-            </div>
-
-
-            <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
-
-            <div class="mw_clear vSpace"></div>
-
-
+<div class="vSpace"></div>
+<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, false, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+  <label>Show
+    <input type="radio" value="on" checked="checked" name="born" />
+  </label>
+  <label>Hide
+    <input type="radio" value="off" name="born" />
+  </label>
+</div>
+<label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
+<div class="mw_clear vSpace"></div>
 <script  type="text/javascript">
   mw.require('forms.js');
 
@@ -68,10 +66,8 @@ mw.manage_content_sort = function(){
 
 
  </script>
- <div class="page_posts_list_tree" data-sortable="true">
-<?  if(isset($params['page-id'])):  ?>
-
-
+<div class="page_posts_list_tree" data-sortable="true">
+  <?  if(isset($params['page-id'])):  ?>
   <?
   
   
@@ -138,9 +134,7 @@ mw.manage_content_sort = function(){
   category_tree($pt_opts);
  ?>
   <? endif; ?>
-
-<? endif; ?>
-
+  <? endif; ?>
 </div>
 <?
 $posts_mod = array();
@@ -207,21 +201,13 @@ if(isset($params['data-category-id'])){
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">
- 
     <label class="mw-ui-check left">
       <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
       <span></span></label>
-      <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-      
-      
+    <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
     <?
 	$pic  = get_picture(  $item['id'],  'post'); ?>
- 
     <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-    
-       
-   
-    
     <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
     <? else : ?>
     <a class="manage-post-image manage-post-image-no-image left"></a>
@@ -279,21 +265,16 @@ if(isset($params['data-category-id'])){
 </script>
 <? endif; ?>
 <? else: ?>
-  <div class="mw-no-posts-foot">
+<div class="mw-no-posts-foot">
   <? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
-      <h2>No Products Here</h2>
-      <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
-   <? else: ?>
-      <h2>No Posts Here</h2>
-      <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a>
-  </div>
+  <h2>No Products Here</h2>
+  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
+  <? else: ?>
+  <h2>No Posts Here</h2>
+  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a> </div>
 <? endif; ?>
-
 <? endif; ?>
-
-
-
-        <script type="text/javascript">
+<script type="text/javascript">
 
               var pages_state = mw.cookie.ui('ToggleCatsAndPages');
 
@@ -312,4 +293,4 @@ if(isset($params['data-category-id'])){
                     mw.cookie.ui('ToggleCatsAndPages', 'on');
                   }
               }
-            </script>
+            </script> 

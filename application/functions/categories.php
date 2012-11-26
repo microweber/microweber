@@ -349,6 +349,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	}
 	//
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
+	
+ 
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
 	// 'taxonomy/' . intval ( $parent ) );

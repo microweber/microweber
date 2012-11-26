@@ -10,13 +10,13 @@ mw.options = {
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-reload');
 				}
-				if(refresh_modules11 == undefined){
+				if(refresh_modules11 == undefined && modal!==undefined){
 				    var refresh_modules11 = '#' + modal.attr('data-settings-for-module');
 				}
                 var a = ['data-module-id','data-settings-for-module','data-refresh','option-group','data-option-group'], i=0, l=a.length, og='';
-         		var mname = modal.attr('data-type');
+         		var mname = modal!==undefined ? modal.attr('data-type'):undefined;
 
-                for( ;i<l;i++){
+                for( ; i<l; i++){
                   var og = og === undefined ? el.attr(a[i]) : og;
                 }
                 if(el.type==='checkbox'){
@@ -50,9 +50,9 @@ mw.options = {
                                 }
                             }
                         }
-                        if(mw.is.func(callback)){
-                          callback.call(data);
-                        }
+
+                         typeof callback==='function' ?  callback.call(data) : '';
+
                     }
           });
     }

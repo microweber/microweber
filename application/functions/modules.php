@@ -28,10 +28,17 @@ function module_templates($module_name, $template_name = false) {
 		// d($module_name_l);
 	}
 }
+function module_name_decode($module_name) {
+	$module_name = str_replace('__', '/', $module_name);
+	return $module_name;
+	//$module_name = str_replace('%20', '___', $module_name);
 
+	//$module_name = str_replace('/', '___', $module_name);
+}
 function module_name_encode($module_name) {
-	$module_name = str_replace('/', '___', $module_name);
-	$module_name = str_replace('%20', '___', $module_name);
+	$module_name = str_replace('/', '__', $module_name);
+	return $module_name;
+	//$module_name = str_replace('%20', '___', $module_name);
 
 	//$module_name = str_replace('/', '___', $module_name);
 }
@@ -474,7 +481,7 @@ function module_url($module_name) {
 
 }
 
-function locate_module($module_name, $custom_view = false) {
+function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false) {
 
 	if (!defined("ACTIVE_TEMPLATE_DIR")) {
 		define_constants();
@@ -503,9 +510,9 @@ function locate_module($module_name, $custom_view = false) {
 	} elseif (is_file($module_in_template_file)) {
 		$try_file1 = $module_in_template_file;
 		//d($try_file1);
-	} elseif (is_file($module_in_default_file12)) {
+	} elseif (is_file($module_in_default_file12) and $custom_view == false) {
 		$try_file1 = $module_in_default_file12;
-		//d($try_file1);
+		//	d($try_file1);
 	} else {
 
 		$module_in_default_dir = MODULES_DIR . $module_name . '';
@@ -524,10 +531,15 @@ function locate_module($module_name, $custom_view = false) {
 
 			if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
 				$try_file1 = $module_in_default_file_custom_view;
+				if ($no_fallback_to_view == true) {
+					return $try_file1;
+				}
+
 			} else {
 
 				//  $try_file1 = $module_in_default_file;
 			}
+
 		} else {
 			if (is_dir($module_in_default_dir)) {
 
@@ -536,7 +548,14 @@ function locate_module($module_name, $custom_view = false) {
 				if ($custom_view == true) {
 
 					$try_file1 = $mod_d1 . trim($custom_view) . '.php';
+					if ($no_fallback_to_view == true) {
+						return $try_file1;
+					}
 				} else {
+					if ($no_fallback_to_view == true) {
+						return false;
+					}
+
 					//temp
 					$try_file1 = $mod_d1 . 'index.php';
 				}
@@ -637,22 +656,34 @@ function install_module($params) {
 	if (is_admin() == false) {
 		return false;
 	}
-	$module_name = $params['for_module'];
 
-	if (trim($module_name) == '') {
-		return false;
+	if (isset($params['for_module'])) {
+		$module_name = $params['for_module'];
+
+		if (trim($module_name) == '') {
+			return false;
+		}
 	}
 
-	$loc_of_config = locate_module($module_name, 'config');
+	if (isset($params['module'])) {
+		$module_name = $params['module'];
+
+		if (trim($module_name) == '') {
+			return false;
+		}
+	}
+
+	$loc_of_config = locate_module($module_name, 'config', 1);
+	//d($loc_of_config);
 	$res = array();
-	$loc_of_functions = locate_module($module_name, 'functions');
+	$loc_of_functions = locate_module($module_name, 'functions', 1);
 	$cfg = false;
-	if (is_file($loc_of_config)) {
+	if ($loc_of_config != false and is_file($loc_of_config)) {
 		include ($loc_of_config);
 		if (isset($config)) {
 			$cfg = $config;
 		}
-		// d($loc_of_config);
+
 	}
 
 	//    $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
@@ -671,12 +702,23 @@ function install_module($params) {
 	if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
 		$to_save = array();
 		$to_save['id'] = $this_module['id'];
-		$to_save['installed'] = '1';
-		//   $to_save['keep_cache'] = '1';
+		if (isset($params['installed']) and $params['installed'] == 'auto') {
+			if (isset($this_module['installed']) and $this_module['installed'] == '') {
+$to_save['installed'] = '1';
+			} else 	if (isset($this_module['installed']) and $this_module['installed'] != '') {
+$to_save['installed'] = $this_module['installed'];
+			}
+
+			
+		} else {
+			$to_save['installed'] = '1';
+		}
+
+		$to_save['keep_cache'] = '1';
 		//   $to_save['module'] = $module_name;
 		// $to_save['debug'] = '1';
-		// d($to_save);
-		save_module_to_db($to_save);
+		//d($to_save);
+		 save_module_to_db($to_save);
 	}
 
 	if (is_array($cfg) and !empty($cfg)) {
@@ -805,18 +847,18 @@ function scan_for_modules($options = false) {
 	}
 
 	if (isset($options['reload_modules']) == true) {
-		// d($cache_group);
+		//
 	}
 
 	if (isset($options['cleanup_db']) == true) {
 
 		if (is_admin() == true) {
 			if ($cache_group == 'modules') {
-				delete_modules_from_db();
+				//	delete_modules_from_db();
 			}
 
 			if ($cache_group == 'elements') {
-				delete_elements_from_db();
+				//	delete_elements_from_db();
 			}
 
 			cache_clean_group('taxonomy');
@@ -922,9 +964,11 @@ function scan_for_modules($options = false) {
 
 							save_element_to_db($config);
 						} else {
-							// d($config);
+
 							save_module_to_db($config);
-							install_module($config['module']);
+
+							$config['installed'] = 'auto';
+							install_module($config);
 						}
 					}
 				}
@@ -1210,8 +1254,7 @@ function load_module($module_name, $attrs = array()) {
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name);
-		;
+		$config['module_class'] = str_replace('/', '-', $module_name); ;
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');

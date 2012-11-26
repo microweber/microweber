@@ -243,8 +243,11 @@ __mwextend = function(el){
   }
 
 
-  mw.load_module = function($module_name, $update_element, callback) {
-    var attributes = {};
+  mw.load_module = function($module_name, $update_element, callback, attributes) {
+
+  if(attributes == undefined){
+   var attributes = {};
+   }
     attributes.module = $module_name;
     mw._({
       selector: $update_element,

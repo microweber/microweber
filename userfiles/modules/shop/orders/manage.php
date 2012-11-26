@@ -9,7 +9,4 @@
     </ul>
   </div>
 </div>
-
-
-
 <module type="shop/orders"  id="mw-admin-manage-orders-list"  />

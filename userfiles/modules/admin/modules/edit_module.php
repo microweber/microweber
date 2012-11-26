@@ -18,7 +18,7 @@ if($id != false){
 <? $rand = uniqid().$data['id']; ?>
 <script  type="text/javascript">
 
-mw.require('forms.js');
+
  
 
 $(document).ready(function(){
@@ -123,9 +123,9 @@ $(document).ready(function(){
   <input type="hidden" name="ui" value="<? print $data['ui'] ?>" />
   <input type="hidden" name="ui_admin" value="<? print $data['ui_admin'] ?>" />
   <input type="hidden" name="position" value="<? print $data['position'] ?>" />
-  <a href="<? print admin_url() ?>view:modules/load_module:<? print str_replace(DS, '___', $data['module']) ?>" class="mw-ui-btn">Settings</a>
-  <input name="save" type="submit" value="save">
-  <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
+  <a href="<? print admin_url() ?>view:modules/load_module:<? print str_replace(DS, '___', $data['module']) ?>" class="mw-ui-btn">Go to module</a>
+<!--  <input name="save" type="submit" value="save">
+-->  <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
   <input name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="install">
   <? else : ?>
   <input name="uninstall" type="button" id="module_uninstall_<? print $rand ?>" data-module-id="<? print $data['id'] ?>" value="uninstall">

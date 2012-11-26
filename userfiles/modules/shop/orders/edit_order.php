@@ -6,7 +6,7 @@ $ord = get_orders($params['order-id']);
 $cart_items = array();
 if(isarr($ord[0])){
 	$ord = $ord[0];
-	$cart_items = get_cart('no_session_id=1');
+	$cart_items = get_cart('id='.$ord['id'].'&no_session_id=1');
 	
 	
 } else {
@@ -233,8 +233,8 @@ error("Invalid order id");
                     Phone <? print $ord['phone'] ?> <br />
                 </p>
               </td>
-              <td>
-                  &nbsp;
+              <td>&nbsp;
+                  
               </td>
           </tr>
 

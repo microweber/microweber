@@ -21,6 +21,7 @@ h2{ /*  ask the designer */
   background: url("../img/treebg.gif") repeat-y -167px 0;
 }
 body.action-orders #mw-admin-container,
+body.action-clients #mw-admin-container,
 body.action-options #mw-admin-container,
 body.action-shipping #mw-admin-container
 {background-image:none;}
@@ -374,7 +375,7 @@ form .shipping-country-row:first-child{
   line-height: 13px;
   text-shadow: 1px 0 0 #FFFFFF;
 
-  visibility: visible !important;  
+  visibility: visible !important;
 
 }
 
