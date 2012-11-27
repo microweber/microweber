@@ -17,13 +17,13 @@
 
 
 
-.font-10{font-size: 10px;}
-.font-11{font-size: 11px;}
-.font-12{font-size: 12px;}
-.font-13{font-size: 13px;}
-.font-14{font-size: 14px;}
-.font-15{font-size: 15px;}
-.font-16{font-size: 16px;}
+.font-10{font-size: 10px !important;}
+.font-11{font-size: 11px !important;}
+.font-12{font-size: 12px !important;}
+.font-13{font-size: 13px !important;}
+.font-14{font-size: 14px !important;}
+.font-15{font-size: 15px !important;}
+.font-16{font-size: 16px !important;}
 
 
 
@@ -986,7 +986,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);border-color: #BAD7F6;border-bottom-color: #89B6D9;}
 .mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
 
-
+.mw-btn-single-ico{padding: 5px 0px 5px 8px !important;}
 
 .mw-ui-field{
   border: 1px solid #E6E6E6;
@@ -1305,10 +1305,15 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-check input + span{
   display: inline-block;
   position: relative;
-  top: 1px;
+  top: 3px;
   cursor: pointer;
   background: url(../img/chkrd.png) no-repeat;
 }
+
+.mw-ui-check input + span + span{
+  margin-left: 6px;
+}
+
 .mw-ui-check input:disabled + span{
     opacity:.6;
     cursor: default !important;

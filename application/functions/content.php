@@ -575,6 +575,11 @@ function get_content($params) {
 
 			$orderby[1] = 'DESC';
 		}
+$cache_group = 'content/global';
+if (isset($params['cache_group'])) {
+			$cache_group = $params['cache_group'];
+		} 
+
 
 		if (isset($params['limit'])) {
 			$limit = $params['limit'];
@@ -589,7 +594,7 @@ function get_content($params) {
 
 		$table = c('db_tables');
 		$table = $table['table_content'];
-		$get = db_get($table, $params, $cache_group = 'content/global');
+		$get = db_get($table, $params, $cache_group );
 		if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
 			return $get;
 		}

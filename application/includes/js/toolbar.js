@@ -533,44 +533,12 @@ $(document).ready(function(){
 });
 
 mw.toolbar = {
-  module_icons:function(){
-    $(".list-modules .mw_module_image").each(function(){
-      var img = $(this.getElementsByTagName('img')[0]);
-      var Istyle = window.getComputedStyle(img[0], null);
+  center_icons:function(){
+    mw.$(".list-modules .mw_module_image img").each(function(){
+      var Istyle = window.getComputedStyle(this, null);
       var img_height = parseFloat(Istyle.height);
-      var pad = parseFloat(Istyle.paddingTop)
-      var img_margin = 0;
-      if(img_height<32){
-        var img_margin = ($(this).height()/2)-(img_height/2);
-        img.css({
-          marginTop: img_margin
-        });
-      }
-      $(this).find(".mw_module_image_shadow").css({
-         top:img_height+pad-4,
-         left:($(this).width()/2)-32,
-         marginTop:img_margin>0?img_margin+2:img_margin
-      }).visible();
+      img_height < 32 ? $(this).css("marginTop", 16 - img_height/2) : '';
     });
-
-    $(".list-elements .mw_module_image").each(function(){
-      var img = this.getElementsByTagName('img')[0];
-      var Istyle = window.getComputedStyle(img, null);
-      var img_height = parseFloat(Istyle.height);
-      var center = ($(this).height()/2)-(img_height/2)
-      img.style.marginTop = center + 'px';
-
-      $(this).find(".mw_module_image_shadow").css({
-         top:img_height+center-7,
-         left:($(this).width()/2)-32
-      }).visible();
-
-    });
-
-
-
-
-
   }
 }
 
@@ -580,14 +548,7 @@ mw.toolbar = {
 
 $(window).load(function(){
 
-
-
-
-
-
-    mw.toolbar.module_icons();
-
-
+    mw.toolbar.center_icons();
 
     mw.$(".element").keyup(function(event){
         editablePurify(this);

@@ -28,6 +28,7 @@ function module_templates($module_name, $template_name = false) {
 		// d($module_name_l);
 	}
 }
+
 function module_name_decode($module_name) {
 	$module_name = str_replace('__', '/', $module_name);
 	return $module_name;
@@ -35,8 +36,10 @@ function module_name_decode($module_name) {
 
 	//$module_name = str_replace('/', '___', $module_name);
 }
+
 function module_name_encode($module_name) {
 	$module_name = str_replace('/', '__', $module_name);
+	$module_name = str_replace('\\', '__', $module_name);
 	return $module_name;
 	//$module_name = str_replace('%20', '___', $module_name);
 
@@ -704,12 +707,11 @@ function install_module($params) {
 		$to_save['id'] = $this_module['id'];
 		if (isset($params['installed']) and $params['installed'] == 'auto') {
 			if (isset($this_module['installed']) and $this_module['installed'] == '') {
-$to_save['installed'] = '1';
-			} else 	if (isset($this_module['installed']) and $this_module['installed'] != '') {
-$to_save['installed'] = $this_module['installed'];
+				$to_save['installed'] = '1';
+			} else if (isset($this_module['installed']) and $this_module['installed'] != '') {
+				$to_save['installed'] = $this_module['installed'];
 			}
 
-			
 		} else {
 			$to_save['installed'] = '1';
 		}
@@ -718,7 +720,7 @@ $to_save['installed'] = $this_module['installed'];
 		//   $to_save['module'] = $module_name;
 		// $to_save['debug'] = '1';
 		//d($to_save);
-		 save_module_to_db($to_save);
+		save_module_to_db($to_save);
 	}
 
 	if (is_array($cfg) and !empty($cfg)) {
@@ -1250,11 +1252,21 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
-
+		$config['module_name_url_safe'] = module_name_encode($module_name);
+		
+		$find_base_url = curent_url(1);
+		if($pos = strpos($find_base_url, ':'.$module_name) or $pos =  strpos($find_base_url, ':'.$config['module_name_url_safe'])){
+		//	d($pos);
+			$find_base_url = substr($find_base_url, 0,$pos).':'.$config['module_name_url_safe'];
+		}
+		$config['url'] = $find_base_url;
+		
+		
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name); ;
+		$config['module_class'] = str_replace('/', '-', $module_name);
+ 
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');

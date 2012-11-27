@@ -93,16 +93,16 @@ $module2['categories'] = implode(',',$module2['categories']);
    <? if($module2['icon']): ?>
 
 
-    <span class="mw_module_image"> <span class="mw_module_image_shadow"></span>
+    <span class="mw_module_image">
 
 
-    <img
+    <span class="mw_module_image_holder"><img
                 alt="<? print $module2['name'] ?>"
                 title="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"
                 class="module_draggable"
                 data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>"
                 src="<? print $module2['icon'] ?>"
-                 /> </span>
+                 /> <s class="mw_module_image_shadow"></s></span></span>
     <? endif; ?>
     <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span>  </span> </li>
     

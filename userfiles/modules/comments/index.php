@@ -47,9 +47,12 @@ if ($template != false and strtolower($template) != 'none') {
 <script  type="text/javascript">
     $(document).ready(function(){
         mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
-            mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>');
+            mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>',
+			function() {
+				mw.reload_module('#<? print $params['id'] ?>');
+			});
 
-            mw.reload_module('#<? print $params['id'] ?>');
+           // 
 
             return false;
         });
@@ -117,7 +120,7 @@ switch ($template_file):
                 <br>
                 <br>
                 <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
-                <input type="captcha"   name="captcha" placeholder="?">
+                <input type="text"   name="captcha" placeholder="?">
                 <input type="submit" value="Submit">
             </form>
         </div>

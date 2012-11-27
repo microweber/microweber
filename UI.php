@@ -30,6 +30,17 @@
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>
         <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Rect link</a></textarea></td>
     </tr>
+
+    <tr>
+        <td><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></td>
+        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></textarea></td>
+    </tr>
+
+    <tr>
+      <td><a href="javascript:;" class="mw-ui-btn"><span class="ico iorder"></span><span>Button with icon</span></a></td>
+      <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn"><span class="ico iorder"></span><span>Button with icon</span></a></textarea></td>
+    </tr>
+
     <tr>
       <td>
         <div class="mw-ui-select">
@@ -60,11 +71,20 @@
     </tr>
     <tr>
       <td>
-
       <input type="text" class="mw-ui-field" value="Text field" />
     </td>
       <td><textarea style="width: 200px"><input type="text" class="mw-ui-field" /></textarea></td>
     </tr>
+
+    <tr>
+      <td>
+      <input type="text" class="mw-ui-searchfield" value="Search" />
+    </td>
+      <td><textarea style="width: 200px"><input type="text" class="mw-ui-searchfield" value="Search" /></textarea></td>
+    </tr>
+
+
+
     <tr>
       <td>
 
@@ -190,6 +210,9 @@
         <span class="ico ipromo"></span>
         <span class="ico ioptions"></span>
         <span class="ico icheck"></span>
+        <span class="ico iset"></span>
+        <span class="ico ilaquo"></span>
+        <span class="ico iplus"></span>
     </td>
 
     </tr>

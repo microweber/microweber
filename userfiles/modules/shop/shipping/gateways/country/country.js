@@ -1,3 +1,5 @@
+
+
 mw.shipping_country = {
     delete_country : function(id){
         var q = "Are you sure you want to delete shipping to this country?";

@@ -1,3 +1,11 @@
+window.onload = function() {
+  mw.loaded = true;
+  mwd.body.className+=' loaded';
+}
+
+
+
+
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
   document.body.id = 'UnsupportedBrowser';
@@ -91,16 +99,22 @@ __mwextend = function(el){
 
 (function() {
     mw.required = [];
-    mw.require = function(url) { //Veyron
+    mw.require = function(url) {
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
-        if (!mw.loaded) {
+        if (document.readyState === 'loading') {
           t !== 'css' ? mwd.write("<script type='text/javascript' src='" + url + "'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='" + url + "' />");
         } else {
-          var text = t !== 'css' ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-          $(mwd.body).append(text);
+          if(t !== 'css'){
+            var s = mwd.createElement('script'); s.type = 'text/javascript';
+            s.src = url;
+          }
+          else{
+             var s = mwd.createElement('link'); s.rel = 'stylesheet'; s.type = 'text/css';
+          }
+          mwd.body.appendChild(s);
         }
       }
     }
@@ -120,10 +134,7 @@ __mwextend = function(el){
 
 
 
-  window.onload = function() {
-    mw.loaded = true;
-    mwd.body.className+=' loaded';
-  }
+
 
   mw.target = {} //
 
@@ -147,8 +158,7 @@ __mwextend = function(el){
     visible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'visible'
     },
-    ie: /*@cc_on!@*/
-    false
+    ie: /*@cc_on!@*/false
   }
 
   if (window.console != undefined) {

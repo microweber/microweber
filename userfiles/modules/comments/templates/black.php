@@ -126,7 +126,7 @@ border-right:1px double #FF0033;
       <textarea name="comment_body" class="message" rows="15" cols="50"></textarea>
     </label>
     <label> <span>Verification *</span> <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
-      <input type="captcha"   name="captcha" class="input_text" placeholder="?">
+      <input type="text"   name="captcha" class="input_text" placeholder="?">
     </label>
     <input type="submit" class="button" value="Submit">
     </label>

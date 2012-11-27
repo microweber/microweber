@@ -468,8 +468,8 @@ function get($params) {
 		case 1 :
 			static $results_map = array();
 			//static $results_map_hits = array();
-			$criteria_id = (int) crc32($table.serialize($criteria));
-		 
+			$criteria_id = (int) crc32($table . serialize($criteria));
+
 			if (isset($results_map[$criteria_id])) {
 				$ge = $results_map[$criteria_id];
 				//$results_map_hits[$criteria_id]++;
@@ -912,6 +912,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$orderby = db_escape_string($orderby);
 		}
 	}
+	$is_in_table = false;
+	if (isset($criteria['in_table'])) {
+
+		$is_in_table = db_escape_string($criteria['in_table']);
+
+	}
 
 	if (isset($criteria['data-keyword'])) {
 		$criteria['search_by_keyword'] = $criteria['data-keyword'];
@@ -1221,15 +1227,19 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[is_not]', '', $v);
 			}
+
 			/*
 			 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
 			 */
+
 			if (($k == 'updated_on') or ($k == 'created_on')) {
 
 				$v = strtotime($v);
 				$v = date("Y-m-d H:i:s", $v);
 			}
-			if ($is_val_int == true and $is_val_str == false) {
+			if (trim($v) == '[null]') {
+				$where .= "$k IS NULL AND ";
+			} else if ($is_val_int == true and $is_val_str == false) {
 				$v = intval($v);
 
 				$where .= "$k {$compare_sign} $v AND ";
@@ -1247,6 +1257,15 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$where .= " ID is not null ";
 	}
 
+	if ($is_in_table != false) {
+		$v1 = db_get_real_table_name($is_in_table);
+		$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
+		if($v1 != false){
+			$where .= " AND id in (select to_table_id from $v1 where $v1.to_table='{$aTable_assoc1}' and $v1.to_table_id=$table.id ) ";
+		}
+		// d($where);
+	}
+ 
 	if (!isset($idds)) {
 		$idds = '';
 	}
@@ -1290,7 +1309,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 	if ($debug == true) {
 
-		var_dump($table, $q);
+		var_dump($table, $q, $is_in_table);
 	}
 
 	if ($to_search != false) {

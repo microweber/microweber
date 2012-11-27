@@ -101,7 +101,7 @@ define('TEMPLATEFILES_DIRNAME', 'templates');
 
 define('TEMPLATEFILES', MW_USERFILES . TEMPLATEFILES_DIRNAME . DS);
 
-define('MEDIAFILES', MW_USERFILES . 'media' . '/');
+define('MEDIAFILES', MW_USERFILES . 'media' . DS);
 
 define('ELEMENTS_DIR', MW_USERFILES . 'elements' . '/');
 

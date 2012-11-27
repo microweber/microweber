@@ -1,17 +1,23 @@
 <?
+ 
  if(is_admin() == false){
 	 error('Must be admin'); 
  }
- $data= $params;
+ $data= array();
  if(isset($data['id'])){
-	 unset($data['id']);
+	// unset($data['id']);
  }
  
- if(!isset($data['is_moderated'])){
+ if(!isset($params['is_moderated'])){
 	$data['is_moderated'] = 'n';
  } else {
 	//  $is_moderated = 'n';
  }
+ 
+  if(isset($params['content-id'])){
+	$data['to_table'] = 'table_content';
+	$data['to_table_id'] = intval($params['content-id']);
+  }
 
  $comments = get_comments($data);
 

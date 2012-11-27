@@ -11,7 +11,7 @@ print $mod ;
 ?>
 <? else: ?>
 
-modules admin
+
 <?
  
 $mod_params = array();
@@ -62,7 +62,7 @@ if(isset($params['show-ui'])){
  }
 ?>
 <? if(isarr($mods) == true): ?>
-<ul>
+<ul class="mw-modules-admin">
   <? foreach($mods as $k=>$item): ?>
   <li>
     <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />

@@ -17,9 +17,14 @@
      $countries_used = array();
      $countries[] = 'Worldwide';
     ?>
+ 
 <script  type="text/javascript">
+  mw.shipping_country = {};
+
   mw.require('forms.js');
+
   mw.require('<? print $config['url_to_module'] ?>country.js');
+
  </script>
 <script  type="text/javascript">
 

@@ -180,7 +180,7 @@ background-image: -webkit-gradient(
    background: url(../img/module_hover_left.jpg) no-repeat;
 }
 
-.module-item span{
+.module-item span.mw_module_image, .module-item span.module_name, .module-item span.mw_module_hold{
   font-size: 11px;
   text-align:center;
   display: block;
@@ -194,7 +194,13 @@ background-image: -webkit-gradient(
   display: none;
 }
 
-.list-elements span{
+.list-elements .module-item img{
+  margin-top: 16px;
+}
+
+.list-elements span.mw_module_hold,
+.list-elements span.mw_module_image
+{
   height: 63px;
   padding: 0;
   min-width: 70px;
@@ -540,14 +546,22 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 .mw_module_image img{
   position: relative;
   z-index: 1;
+  max-height: 32px;
+}
+.mw_module_image_holder{
+  display: inline-block;
+  position: relative;
 }
 
 .mw_module_image_shadow{
     display: inline-block;
-    visibility: hidden;
+    text-decoration: none;
     height: 12px;
-    position: absolute;
     width: 64px;
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    margin-left: -32px;
     z-index: 0;
     background: url(../img/module_shadow.png) no-repeat;
 }
@@ -1181,6 +1195,7 @@ li .ts_action_item:last-child{
 
 
 
+
 .mw_dropable_onleaveedit{
   display: block !important;
 }
@@ -1212,6 +1227,8 @@ li .ts_action_item:last-child{
 .mw_editor_btnz{
   /*display: none !important;*/
 }
+
+
 
 
 
