@@ -410,8 +410,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -929,13 +928,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$to_search = db_escape_string($criteria['search_by_keyword']);
 	}
 
-	$to_search_in_those_fields = false;
+	$to_search_in_those_fields = array();
 	if (isset($criteria['search_in_fields'])) {
 		$criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
 	}
 
 	if (isset($criteria['search_by_keyword_in_fields'])) {
-		$to_search_in_those_fields = db_escape_string($criteria['search_by_keyword_in_fields']);
+		$to_search_in_those_fields = ($criteria['search_by_keyword_in_fields']);
 	}
 	$original_cache_id = false;
 	if ($cache_group != false) {
@@ -1231,6 +1230,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[is]', '', $v);
 			}
+			
+			if (stristr($v, '[like]')) {
+
+				$compare_sign = ' LIKE ';
+
+				$v = str_replace('[like]', '', $v);
+			}
 
 			if (stristr($v, '[is_not]')) {
 
@@ -1250,6 +1256,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 			if (trim($v) == '[null]') {
 				$where .= "$k IS NULL AND ";
+			} else if ($k == 'module') {
+				$module_name = trim($v);
+				$module_name = str_replace('\\\\', DS, $module_name);
+				$module_name = str_replace('\\', DS, $module_name);
+				$module_name = str_replace('//', DS, $module_name);
+				$module_name = addslashes($module_name);
+				//$module_name = reduce_double_slashes($module_name);
+				$where .= "$k {$compare_sign} '{$module_name}' AND ";
 			} else if ($is_val_int == true and $is_val_str == false) {
 				$v = intval($v);
 
@@ -1288,7 +1302,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";

@@ -13,12 +13,16 @@ function api_expose($function_name) {
 function exec_action($api_function, $data = false) {
 
 	$hooks = action_hook(true);
+
 	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+
 		foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+
 			if (function_exists($hook_value)) {
 				if ($data != false) {
 					$hook_value($data);
 				} else {
+
 					$hook_value();
 				}
 			}
@@ -26,15 +30,19 @@ function exec_action($api_function, $data = false) {
 	}
 }
 
+$mw_action_hook_index = array();
 function action_hook($function_name, $next_function_name = false) {
-	static $index = array();
+	global $mw_action_hook_index;
 
 	if (is_bool($function_name)) {
-		$index = array_unique($index);
-		return $index;
+		$mw_action_hook_index = ($mw_action_hook_index);
+		return $mw_action_hook_index;
 	} else {
+		if (!isset($mw_action_hook_index[$function_name])) {
+			$mw_action_hook_index[$function_name] = array();
+		}
 
-		$index[$function_name][] = $next_function_name;
+		$mw_action_hook_index[$function_name][] = $next_function_name;
 
 		//  $index .= ' ' . $function_name;
 	}

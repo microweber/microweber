@@ -107,14 +107,16 @@ __mwextend = function(el){
         if (document.readyState === 'loading') {
           t !== 'css' ? mwd.write("<script type='text/javascript' src='" + url + "'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='" + url + "' />");
         } else {
-          if(t !== 'css'){
+          if(t !== 'css'){     $.holdReady(true);alert($.isReady)
             var s = mwd.createElement('script'); s.type = 'text/javascript';
             s.src = url;
           }
           else{
              var s = mwd.createElement('link'); s.rel = 'stylesheet'; s.type = 'text/css';
           }
-          mwd.body.appendChild(s);
+          //mwd.body.insertBefore(s, mwd.body.firstChild);
+
+          mwd.getElementsByTagName('head')[0].appendChild(s);
         }
       }
     }

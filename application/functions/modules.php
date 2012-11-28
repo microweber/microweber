@@ -374,6 +374,30 @@ function delete_modules_from_db() {
 	}
 }
 
+function is_module_installed($module_name) {
+	$module_name = trim($module_name);
+	$module_name = str_replace('\\', '/', $module_name);
+	$module_name = str_replace('..', '', $module_name);
+	$module_name = reduce_double_slashes($module_name);
+
+	$module_namei = $module_name;
+	if (strstr($module_name, 'admin')) {
+
+		$module_namei = str_ireplace('\\admin', '', $module_namei);
+		$module_namei = str_ireplace('/admin', '', $module_namei);
+	}
+
+	//$module_namei = str_ireplace($search, $replace, $subject)e
+
+	$uninstall_lock = get_modules_from_db('one=1&&ui=any&module=' . $module_namei);
+
+	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function is_module($module_name) {
 	if (!is_string($module_name)) {
 		return false;
@@ -967,11 +991,12 @@ function scan_for_modules($options = false) {
 
 							save_element_to_db($config);
 						} else {
+							//if (isset($options['dir_name'])) {
+								save_module_to_db($config);
 
-							save_module_to_db($config);
-
-							$config['installed'] = 'auto';
-							install_module($config);
+								$config['installed'] = 'auto';
+								install_module($config);
+							//}
 						}
 					}
 				}
@@ -1149,10 +1174,7 @@ function load_module($module_name, $attrs = array()) {
 	// // p((constant($cache_content)));
 	// return (constant($cache_content));
 	// }
-	$uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
-	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
-		return '';
-	}
+
 	//d($uninstall_lock);
 
 	$is_element = false;
@@ -1176,6 +1198,21 @@ function load_module($module_name, $attrs = array()) {
 	$module_name = str_replace('..', '', $module_name);
 	// prevent hack of the directory
 	$module_name = reduce_double_slashes($module_name);
+
+	$module_namei = $module_name;
+	if (strstr($module_name, 'admin')) {
+
+		$module_namei = str_ireplace('\\admin', '', $module_namei);
+		$module_namei = str_ireplace('/admin', '', $module_namei);
+	}
+
+	//$module_namei = str_ireplace($search, $replace, $subject)e
+
+	$uninstall_lock = get_modules_from_db('one=1&&ui=any&module=' . $module_namei);
+
+	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+		return '';
+	}
 
 	$module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
 	$module_in_template_dir = normalize_path($module_in_template_dir, 1);

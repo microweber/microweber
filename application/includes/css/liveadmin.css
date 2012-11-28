@@ -185,10 +185,7 @@ body:-webkit-full-screen {
 }
 
 #mw_edit_pages_content{
-  background: white url(../img/treebg.gif) repeat-y -167px 0;
-  overflow: hidden;
   position: relative;
-  height: 100%;
   overflow: auto;
 }
 
@@ -1675,5 +1672,7 @@ select.mw-ui-simple-dropdown:focus{
 .modules-index-bar{
   padding-top: 12px;
 }
+
+
 
 

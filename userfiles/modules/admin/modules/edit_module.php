@@ -71,6 +71,7 @@ $(document).ready(function(){
   </div>
   <div class="admin-modules-list-description">
     <h2><? if(isset($data['name'])):  ?><? print $data['name'] ?><? endif; ?></h2>
+    <small><? print $data['module'] ?></small>
     <p><? if(isset($data['description'])):  ?><? print $data['description'] ?><? endif; ?></p>
   </div>
 

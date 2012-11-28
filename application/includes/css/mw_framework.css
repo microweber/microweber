@@ -13,7 +13,18 @@
   position: relative;
 }
 
+.inline{
+  display: inline !important;
+}
 
+.inline-block{
+  display: inline-block !important;
+}
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+}
 
 
 

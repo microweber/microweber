@@ -18,7 +18,7 @@ $(document).ready(function(){
 
     mw.$('#modules_categories_tree_<? print $rand  ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
 
-    mw.$('#modules_categories_tree_<? print $rand  ?> a').each(function(){
+    mw.$('#modules_categories_tree_<? print $rand  ?> li a').each(function(){
         var el = this;
         var id = el.attributes['data-category-id'].nodeValue;
         el.href = '#?category=' + id;
@@ -36,8 +36,20 @@ $(document).ready(function(){
        mwd.getElementById('installed_1').checked=true;
     }
 
+ var h = mw.hash();
+
+if( h === '' || h=== '#' || h==='#?' ){
+    _modulesSort();
+}
+else{
+  var hash = mw.url.getHashParams(h);
+  try {mwd.querySelector(".modules-index-bar input[value='"+hash.ui+"']").checked = true; } catch(e){}
+}
+
+
 
 });
+
 
 
 </script>
@@ -55,9 +67,10 @@ function mw_reload_all_modules(){
 
 _modulesSort = function(){
 
-    var ui = mw.url.getHashParams(window.location.hash).ui;
+    var hash = mw.url.getHashParams(window.location.hash);
 
-    ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;
+    hash.ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;
+    hash.category === undefined ? mw.url.windowHashParam('category', '0') : '' ;
 
     var attrs  = mw.url.getHashParams(window.location.hash);
     var holder = mw.$('#modules_admin_<? print $rand  ?>');
@@ -89,10 +102,6 @@ mw.on.hashParam('installed', function(){
 
     _modulesSort();
 
-
-
-
-
 });
 
 
@@ -100,8 +109,15 @@ mw.on.hashParam('installed', function(){
 </script>
 
 <div id="mw_index_modules">
-  <div class="mw_edit_page_left" id="mw_edit_page_left">
-    <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
+  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
+
+
+  <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;Modules</h2>
+
+  <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
+
+
+
       <module type="categories" data-for="modules" id="modules_admin_categories_<? print $rand  ?>" />
 
 
@@ -110,14 +126,14 @@ mw.on.hashParam('installed', function(){
 
        <div style="padding-left: 46px">
           <div class="vSpace"></div>
-          <label class="mw-ui-label-help left" style="margin-right: 10px;">Show: </label>
+          <label class="mw-ui-label">Show: </label>
           <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher">
               <span class="mw-switch-handle"></span>
               <label>Installed<input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" /></label>
               <label>Uninstalled<input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  /></label>
           </div>
           <div class="vSpace">&nbsp;</div>
-          <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;"><span class="ico iplus"></span><span>Add new modules</span></a>
+          <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
        </div>
 
 

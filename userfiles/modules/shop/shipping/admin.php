@@ -14,7 +14,11 @@ $(document).ready(function(){
 </script>
 <?
 $here = dirname(__FILE__).DS.'gateways'.DS;
-$shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
+ $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
+
+//$shipping_modules = get_modules_from_db('debug=1&ui=any&module=shop\shipping\gateways\*');
+ // d($shipping_modules);
+ 
 // d($shipping_modules);
 ?>
 <div class="mw-set-shipping-options mw-admin-wrap">

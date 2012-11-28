@@ -14,7 +14,11 @@ class shipping_api {
 	function __construct() {
 		$this -> here = dirname(__FILE__).DS.'gateways'.DS;;
   $here = $this -> here;
-$this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
+  
+  
+ 
+  
+ $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
 	}
 
 	// getInstance method

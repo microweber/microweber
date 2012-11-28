@@ -27,7 +27,7 @@ function after_upld_<? print $rand ?>(a){
 	 data.src = a;
 	 data.media_type = 'picture';
 	 data.for_id = '<? print $for_id ?>';
-	 mw.module.pictures.after_upload(data);
+	 mw.module_pictures.after_upload(data);
 
 }
 
@@ -42,7 +42,7 @@ function after_upld_<? print $rand ?>(a){
 $(document).ready(function(){
 
 
-    mw.module.pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
+    mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
 
 
 });
@@ -91,13 +91,13 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
       <input
             type="text" autocomplete="off"
             value="<? if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
-            onkeyup="mw.on.stopWriting(this, function(){mw.module.pictures.save_title('<? print $item['id'] ?>', this.value);});"
+            onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<? print $item['id'] ?>', this.value);});"
             onfocus="$(this.parentNode).addClass('active');"
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
 
-      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module.pictures.del('<? print $item['id'] ?>');"><?php _e("Delete"); ?></a>
+      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module_pictures.del('<? print $item['id'] ?>');"><?php _e("Delete"); ?></a>
     </div>
   </div>
   <? endforeach; ?> <? endif;?>

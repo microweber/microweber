@@ -7,6 +7,22 @@ if (!defined("MODULE_DB_TABLE_SHOP")) {
 if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
+
+
+action_hook('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
+
+function mw_print_admin_menu_shop_btn() {
+  $active = url_param('view');
+  $cls = '';
+  if($active == 'shop'){
+	   $cls = ' class="active" ';
+  }
+	print '<li'.$cls.'><a href="'.admin_url().'view:shop">Online Shop</a></li>';
+}
+
+
+
+
 api_expose('update_order');
 function update_order($params = false) {
 

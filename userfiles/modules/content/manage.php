@@ -1,11 +1,11 @@
 
 <div class="vSpace"></div>
-<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, false, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
-  <label>Show
-    <input type="radio" value="on" checked="checked" name="born" />
+<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+  <label>Yes
+    <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
   </label>
-  <label>Hide
-    <input type="radio" value="off" name="born" />
+  <label>No
+    <input type="radio" value="off" name="toggle_cats_and_pages" />
   </label>
 </div>
 <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
@@ -276,21 +276,29 @@ if(isset($params['data-category-id'])){
 <? endif; ?>
 <script type="text/javascript">
 
-              var pages_state = mw.cookie.ui('ToggleCatsAndPages');
-
-              if(pages_state!==''){
-                mw.switcher[pages_state](mwd.getElementById('toggle_cats_and_pages'));
-                pages_state == 'off' ? mw.$("#edit_content_admin .page_posts_list_tree").hide() : '';
-              }
+              $(document).ready(function(){
+                _toggle_cats_and_pages(function(){
+                  if(this=='off'){
+                    mw.switcher._switch(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                });
+              })
 
               toggle_cats_and_pages = function(){
-                  if(this.value === 'on'){
-                    mw.$("#edit_content_admin .page_posts_list_tree").hide();
-                    mw.cookie.ui('ToggleCatsAndPages', 'off');
+                    mw.cookie.ui('ToggleCatsAndPages', this.value);
+                    _toggle_cats_and_pages();
+
+              }
+
+              _toggle_cats_and_pages = function(callback){
+                  var state =  mw.cookie.ui('ToggleCatsAndPages');
+                  if(state === 'on'){
+                       mw.$("#edit_content_admin .page_posts_list_tree").show()
                   }
                   else{
-                    mw.$("#edit_content_admin .page_posts_list_tree").show();
-                    mw.cookie.ui('ToggleCatsAndPages', 'on');
+                      mw.$("#edit_content_admin .page_posts_list_tree").hide()
                   }
+
+                  typeof callback === 'function' ? callback.call(state) : '';
               }
             </script> 

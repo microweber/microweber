@@ -17,9 +17,14 @@ h2{ /*  ask the designer */
   position: relative;
 }
 
-#mw-admin-container{
-  background: url("../img/treebg.gif") repeat-y -167px 0;
-}
+body.view-shop.action-Array #mw-admin-container,
+body.view-content #mw-admin-container
+{background: url("../img/treebg.gif") repeat-y -167px 0;}
+body.view-modules #mw-admin-container{background: url("../img/treebg.gif") repeat-y -304px 0;}
+
+
+
+
 #mw-admin-container:after{
   content: ".";
   display: block;
@@ -29,11 +34,7 @@ h2{ /*  ask the designer */
   height: 0;
 }
 
-body.action-orders #mw-admin-container,
-body.action-clients #mw-admin-container,
-body.action-options #mw-admin-container,
-body.action-shipping #mw-admin-container
-{background-image:none;}
+
 
 
 #mw_toolbar_logo{

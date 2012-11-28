@@ -4,11 +4,21 @@
   <ul id="mw_tabs">
     <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
     <li <?php if($active == 'content'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
-    <li <?php if($active == 'shop'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:shop">Online Shop</a></li>
+    
+      <? exec_action('mw_admin_header_menu_start'); ?>
+
+    
+    
+  
+    
+    
     <li <?php if($active == 'modules'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
     <li <?php if($active == 'settings'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:settings">Settings</a></li>
      <li <?php if($active == 'users'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
+      <? exec_action('mw_admin_header_menu'); ?>
+
      <li><a href="#">Help</a></li>
+     <? exec_action('mw_admin_header_menu_end'); ?>
   </ul>
   <?
 
