@@ -833,9 +833,11 @@ mw.switcher = {
     }
   },
   on:function(el){
+    if(el){
      var _el = $(el);
      _el.removeClass('mw-switcher-off');
      el.getElementsByTagName('input')[0].checked = true;
+    }
   },
   off:function(el){
      var _el = $(el);

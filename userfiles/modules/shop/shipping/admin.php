@@ -26,7 +26,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
     <? if(isarr($shipping_modules )): ?>
     <? foreach($shipping_modules  as $shipping_module): ?>
-
+ <? if(is_module_installed( $shipping_module['module'] )): ?>
 
     <div class="mw-o-box-header">
         <span class="ico itruck"></span><span><? print $shipping_module['name'] ?></span>
@@ -46,10 +46,10 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
     <div style="padding: 15px;">
       <div class="mw-set-shipping-gw-options" >
-        <module type="shop/shipping/gateways/<? print $shipping_module['module'] ?>" view="admin" />
+        <module type="<? print $shipping_module['module'] ?>" view="admin" />
       </div>
     </div>
-
+<? endif; ?>
     <? endforeach ; ?>
     <? endif; ?>
 

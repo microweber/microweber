@@ -716,10 +716,19 @@ class MwController {
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
+		
+		
+		
+		
+		
 		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();
 		// var_dump($l);
-		$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
+		
+			$l = str_replace('{SITE_URL}', site_url(), $l);
+	$l = str_replace('{SITEURL}', site_url(), $l);
+	$l = str_replace('%7BSITE_URL%7D', site_url(), $l);
+		//$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
 		print $l;
 		exit();
 	}

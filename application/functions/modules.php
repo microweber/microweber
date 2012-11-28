@@ -376,9 +376,6 @@ function delete_modules_from_db() {
 
 function is_module_installed($module_name) {
 	$module_name = trim($module_name);
-	$module_name = str_replace('\\', '/', $module_name);
-	$module_name = str_replace('..', '', $module_name);
-	$module_name = reduce_double_slashes($module_name);
 
 	$module_namei = $module_name;
 	if (strstr($module_name, 'admin')) {
@@ -389,7 +386,7 @@ function is_module_installed($module_name) {
 
 	//$module_namei = str_ireplace($search, $replace, $subject)e
 
-	$uninstall_lock = get_modules_from_db('one=1&&ui=any&module=' . $module_namei);
+	$uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
 
 	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
 		return false;
@@ -912,7 +909,7 @@ function scan_for_modules($options = false) {
 	//clearstatcache();
 
 	$dir = rglob($glob_patern, 0, $dir_name);
-
+	$dir_name_mods = MODULES_DIR;
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
@@ -935,7 +932,7 @@ function scan_for_modules($options = false) {
 
 				//  d( $value_fn);
 
-				$value_fn = str_replace($dir_name, '', $value_fn);
+				$value_fn = str_replace($dir_name_mods, '', $value_fn);
 
 				//d( $value_fn);
 				//  $value_fn = reduce_double_slashes($value_fn);
@@ -952,7 +949,7 @@ function scan_for_modules($options = false) {
 
 				$value_fn = rtrim($value_fn, '\\');
 				$value_fn = rtrim($value_fn, '/');
-
+				$value_fn = str_replace('\\', '/', $value_fn);
 				$config['module'] = $value_fn . '';
 				$config['module'] = rtrim($config['module'], '\\');
 				$config['module'] = rtrim($config['module'], '/');
@@ -991,11 +988,12 @@ function scan_for_modules($options = false) {
 
 							save_element_to_db($config);
 						} else {
+							//d($config);
 							//if (isset($options['dir_name'])) {
-								save_module_to_db($config);
+							save_module_to_db($config);
 
-								$config['installed'] = 'auto';
-								install_module($config);
+							$config['installed'] = 'auto';
+							install_module($config);
 							//}
 						}
 					}

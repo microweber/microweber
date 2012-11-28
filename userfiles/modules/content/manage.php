@@ -8,7 +8,7 @@
     <input type="radio" value="off" name="toggle_cats_and_pages" />
   </label>
 </div>
-<label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
+<label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
 <div class="mw_clear vSpace"></div>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -28,7 +28,9 @@ delete_selected_posts = function(){
   var master = mwd.getElementById('pages_edit_container');
   var arr = mw.check.collectChecked(master);
   mw.post.del(arr, function(){
-     mw.reload_module('#<? print $params['id'] ?>');
+     mw.reload_module('#<? print $params['id'] ?>', function(){
+       toggle_cats_and_pages()
+     });
   });
 }
 
@@ -66,10 +68,10 @@ mw.manage_content_sort = function(){
 
 
  </script>
-<div class="page_posts_list_tree" data-sortable="true">
+<div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?  if(isset($params['page-id'])):  ?>
   <?
-  
+
   
   
 
@@ -274,31 +276,4 @@ if(isset($params['data-category-id'])){
   <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a> </div>
 <? endif; ?>
 <? endif; ?>
-<script type="text/javascript">
 
-              $(document).ready(function(){
-                _toggle_cats_and_pages(function(){
-                  if(this=='off'){
-                    mw.switcher._switch(mwd.getElementById('toggle_cats_and_pages'));
-                  }
-                });
-              })
-
-              toggle_cats_and_pages = function(){
-                    mw.cookie.ui('ToggleCatsAndPages', this.value);
-                    _toggle_cats_and_pages();
-
-              }
-
-              _toggle_cats_and_pages = function(callback){
-                  var state =  mw.cookie.ui('ToggleCatsAndPages');
-                  if(state === 'on'){
-                       mw.$("#edit_content_admin .page_posts_list_tree").show()
-                  }
-                  else{
-                      mw.$("#edit_content_admin .page_posts_list_tree").hide()
-                  }
-
-                  typeof callback === 'function' ? callback.call(state) : '';
-              }
-            </script> 

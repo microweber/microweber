@@ -659,10 +659,10 @@ function isarr($var) {
  * an array of files in the given path matching the pattern.
  */
 function rglob($pattern = '*', $flags = 0, $path = '') {
-    $paths = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
+    $paths = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR );
     $files = glob($path . $pattern, $flags);
-    foreach ($paths as $path) {
-        $files = array_merge($files, rglob($pattern, $flags, $path));
+    foreach ($paths as $path) { 
+        $files[] = array_merge($files, rglob($pattern, $flags, $path));
     }
     return $files;
 }
@@ -684,7 +684,7 @@ function rglob($pattern = '*', $flags = 0, $path = '') {
  * @param	int		depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
  * @return	array
  */
-function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
+function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full_path = false) {
     if ($fp = @opendir($source_dir)) {
         $filedata = array();
         $new_depth = $directory_depth - 1;
@@ -697,9 +697,14 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
             }
 
             if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)) {
-                $filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden);
+                $filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden,$full_path);
             } else {
-                $filedata[] = $file;
+            	if($full_path == false){
+            		$filedata[] = $file;
+				} else {
+					$filedata[] = $source_dir.$file;
+				}
+                
             }
         }
 
@@ -710,6 +715,48 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
     return FALSE;
 }
 
+/**
+     * Get an array that represents directory tree
+     * @param string $directory     Directory path
+     * @param bool $recursive         Include sub directories
+     * @param bool $listDirs         Include directories on listing
+     * @param bool $listFiles         Include files on listing
+     * @param regex $exclude         Exclude paths that matches this regex
+     */
+    function dir_to_array($directory, $recursive = true, $listDirs = false, $listFiles = true, $exclude = '') {
+        $arrayItems = array();
+        $skipByExclude = false;
+		 $directory = rtrim($directory, DIRECTORY_SEPARATOR);
+        $handle = opendir($directory);
+        if ($handle) {
+            while (false !== ($file = readdir($handle))) {
+            preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/iu", $file, $skip);
+            if($exclude){
+                preg_match($exclude, $file, $skipByExclude);
+            }
+            if (!$skip && !$skipByExclude) {
+                if (is_dir($directory. DIRECTORY_SEPARATOR . $file)) {
+                   if($listDirs){
+                        $file = $directory . DIRECTORY_SEPARATOR . $file;
+                        $arrayItems['dirs'][] = $file;
+                    }
+				    if($recursive) {
+                        $arrayItems = array_merge($arrayItems, dir_to_array($directory. DIRECTORY_SEPARATOR . $file, $recursive, $listDirs, $listFiles, $exclude));
+                    }
+                    
+                } else {
+                    if($listFiles){
+                        $file = $directory . DIRECTORY_SEPARATOR . $file;
+                        $arrayItems['files'][] = $file;
+                    }
+                }
+            }
+        }
+        closedir($handle);
+        }
+        return $arrayItems;
+    }
+ 
 function percent($num_amount, $num_total) {
     $count1 = $num_amount / $num_total;
     $count2 = $count1 * 100;

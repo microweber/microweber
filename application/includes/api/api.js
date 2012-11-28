@@ -104,19 +104,11 @@ __mwextend = function(el){
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
-        if (document.readyState === 'loading') {
-          t !== 'css' ? mwd.write("<script type='text/javascript' src='" + url + "'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='" + url + "' />");
+        var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+        if (document.readyState === 'loading' || document.readyState === 'interactive') {
+           mwd.write(string);
         } else {
-          if(t !== 'css'){     $.holdReady(true);alert($.isReady)
-            var s = mwd.createElement('script'); s.type = 'text/javascript';
-            s.src = url;
-          }
-          else{
-             var s = mwd.createElement('link'); s.rel = 'stylesheet'; s.type = 'text/css';
-          }
-          //mwd.body.insertBefore(s, mwd.body.firstChild);
-
-          mwd.getElementsByTagName('head')[0].appendChild(s);
+          $(mwd.body).append(string);
         }
       }
     }
@@ -143,22 +135,22 @@ __mwextend = function(el){
 
   mw.is = {
     obj: function(obj) {
-      return typeof obj === 'object'
+      return typeof obj === 'object';
     },
     func: function(obj) {
-      return typeof obj === 'function'
+      return typeof obj === 'function';
     },
     string: function(obj) {
-      return typeof obj === 'string'
+      return typeof obj === 'string';
     },
     defined: function(obj) {
-      return obj !== undefined
+      return obj !== undefined;
     },
     invisible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'hidden'
+      return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
     visible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'visible'
+      return window.getComputedStyle(obj, null).visibility === 'visible';
     },
     ie: /*@cc_on!@*/false
   }

@@ -36,13 +36,13 @@ function category_tree($params = false) {
 	$cache_group = 'taxonomy/global';
 	//$cache_content = cache_get_content($function_cache_id, $cache_group);
 	$cache_content = false;
-	if (!isset($_GET['debug'])) {
+	//if (!isset($_GET['debug'])) {
 		if (($cache_content) != false) {
 			print $cache_content;
 			return;
 			//  return $cache_content;
 		}
-	}
+	//}
 	$p2 = array();
 	// p($params);
 	if (!is_array($params)) {
@@ -189,9 +189,9 @@ function category_tree($params = false) {
 		$add_ids = explode(',', $add_ids);
 	}
 
-	if (isset($params['debug'])) {
-		d($params);
-	}
+	//if (isset($params['debug'])) {
+	//	d($params);
+	//}
 
 	ob_start();
 
@@ -210,9 +210,9 @@ function category_tree($params = false) {
 	}
 
 	$content = ob_get_contents();
-	if (!isset($_GET['debug'])) {
+	//if (!isset($_GET['debug'])) {
 		cache_store_data($content, $function_cache_id, $cache_group);
-	}
+	//}
 	ob_end_clean();
 	print $content;
 	return;
@@ -344,9 +344,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
-	if (isset($_GET['debug'])) {
-		d($sql);
-	}
+	 
 	//
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	
@@ -1474,7 +1472,7 @@ function category_link($id) {
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-
+ 
 	if (($cache_content) != false) {
 
 		return $cache_content;
@@ -1520,7 +1518,7 @@ function category_link($id) {
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-
+ 
 	if (($cache_content) != false) {
 
 		return $cache_content;
@@ -1612,10 +1610,10 @@ function category_link($id) {
 				}
 			}
 
-			if ($url != false) {
+			//if ($url != false) {
 				cache_save($url, $function_cache_id, $cache_group);
 				return $url;
-			}
+			//}
 		}
 
 		return false;
@@ -1661,11 +1659,11 @@ function get_category_by_id($id = 0) {
 	$taxonomy_id = intval($id);
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 	$cache_content = false;
-	//$cache_content = cache_get_content($function_cache_id, $cache_group);
+	 $cache_content = cache_get_content($function_cache_id, $cache_group);
 
 	if (($cache_content) != false) {
 
-		//	return $cache_content;
+		 	return $cache_content;
 	}
 
 	$cms_db_tables = $table = c('db_tables');
@@ -1682,7 +1680,7 @@ function get_category_by_id($id = 0) {
 
 	if (!empty($q)) {
 
-		//cache_save($q, $function_cache_id, $cache_group);
+		cache_save($q, $function_cache_id, $cache_group);
 		//return $to_cache;
 
 		return $q;

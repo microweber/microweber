@@ -1,6 +1,4 @@
-<script  type="text/javascript">
-    mw.require('<? print $config['url_to_module'] ?>pictures.js');
-</script>
+
 <?
 
 $for = 'table_content';
@@ -13,7 +11,7 @@ $for =  db_get_assoc_table_name($for);
 
 
 if(isset($params['for-id'])){
-	$for_id = $params['for-id']; 
+	$for_id = $params['for-id'];
 }
 
 
@@ -37,13 +35,15 @@ function after_upld_<? print $rand ?>(a){
 
 </script>
 
+<script  type="text/javascript">
+    //mw.require('<? print $config['url_to_module'] ?>pictures.js');
+    mw.require('http://pecata/1k/userfiles/modules/pictures/pictures.js');
+
+</script>
 
 <script  type="text/javascript">
 $(document).ready(function(){
-
-
-    mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
-
+   mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
 
 });
 </script>

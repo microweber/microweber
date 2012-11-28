@@ -95,7 +95,7 @@ define("MW_USERFILES_URL", site_url('userfiles/'));
 
 define("MW_USERFILES_DIR", MW_USERFILES);
 
-define("MODULES_DIR", MW_USERFILES . 'modules/');
+define("MODULES_DIR", MW_USERFILES . 'modules'.DS);
 
 define('TEMPLATEFILES_DIRNAME', 'templates');
 
@@ -237,10 +237,10 @@ if (defined('NO_MICROWEBER') == false) {
 	//rm(($file));
 	//require_once (MW_APPPATH . 'models/system_loader.php');
 }
-
+$mw_site_url = false;
 function site_url($add_string = false) {
-	static $u1;
-	if ($u1 == false) {
+	global $mw_site_url;
+	if ($mw_site_url == false) {
 		$pageURL = 'http';
 		if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
 			$pageURL .= "s";
@@ -312,8 +312,8 @@ function site_url($add_string = false) {
 			$i++;
 		}
 		$url_segs[] = '';
-		$u1 = implode('/', $url_segs);
-	}
-	//var_Dump($u1);
-	return $u1 . $add_string;
+		$mw_site_url = implode('/', $url_segs);
+	}  
+	//
+	return $mw_site_url . $add_string;
 }

@@ -92,7 +92,16 @@ _modulesSort = function(){
 
 
 mw.on.hashParam('ui', _modulesSort);
-mw.on.hashParam('search', _modulesSort);
+mw.on.hashParam('search', function(){
+  _modulesSort();
+
+  var field = mwd.getElementById('module_keyword');
+
+  if(!field.focused){
+    field.value = this;
+  }
+
+});
 mw.on.hashParam('category', function(){
   _modulesSort();
   $("#mw_index_modules .category_tree a").removeClass('active');
@@ -152,7 +161,7 @@ mw.on.hashParam('installed', function(){
 
         <span class="mw-ui-label-help font-11 left">Sort modules:</span>
 
-        <input name="module_keyword" class="mw-ui-searchfield right" type="text" value="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+        <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
 
         <div class="mw_clear"></div>
 

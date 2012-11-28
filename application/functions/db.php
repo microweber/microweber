@@ -1261,6 +1261,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$module_name = str_replace('\\\\', DS, $module_name);
 				$module_name = str_replace('\\', DS, $module_name);
 				$module_name = str_replace('//', DS, $module_name);
+				$module_name = str_replace('\\', '/', $module_name);
 				$module_name = addslashes($module_name);
 				//$module_name = reduce_double_slashes($module_name);
 				$where .= "$k {$compare_sign} '{$module_name}' AND ";
