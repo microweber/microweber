@@ -94,8 +94,11 @@ $(window).bind("hashchange load", function(event){
       mw.$(".manage-toolbar-top").hide();
       mw.$("html").removeClass("showpostscat");
    }
-   if((hash==='' || hash==='#') && event.type=='hashchange'){
-     window.location.href = window.location.href;
+
+
+
+   if((hash==='' || hash==='#' || hash==='#?') && event.type=='hashchange'){
+     window.location.href = mw.url.removeHash(window.location.href);
    }
 
 });

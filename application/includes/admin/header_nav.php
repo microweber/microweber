@@ -7,8 +7,8 @@
     <li <?php if($active == 'shop'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:shop">Online Shop</a></li>
     <li <?php if($active == 'modules'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
     <li <?php if($active == 'settings'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:settings">Settings</a></li>
-    <li><a href="#">Users</a></li>
-    <li><a href="#">Help</a></li>
+     <li <?php if($active == 'users'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
+     <li><a href="#">Help</a></li>
   </ul>
   <?
 

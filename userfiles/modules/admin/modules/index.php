@@ -15,12 +15,26 @@ $(document).ready(function(){
         alert("got message: "+evt.data);
     }
 
+
+    mw.$('#modules_categories_tree_<? print $rand  ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
+
     mw.$('#modules_categories_tree_<? print $rand  ?> a').each(function(){
         var el = this;
         var id = el.attributes['data-category-id'].nodeValue;
-        el.href = 'javascript:;';
-        el.setAttribute('onclick', 'mw.url.windowHashParam("category",' + id + ');mw.$("#modules_admin_<? print $rand  ?>").attr("data-category",'+id+');');
+        el.href = '#?category=' + id;
+        el.className += ' cat-'+ id;
+        el.setAttribute('onclick', 'mw.url.windowHashParam("category",' + id + ');return false;');
     });
+
+
+    if(mw.url.getHashParams(window.location.hash).installed === '0' ){
+       mw.$('.installed_switcher').addClass('mw-switcher-off');
+       mwd.getElementById('installed_0').checked=true;
+    }
+    else{
+       mw.$('.installed_switcher').removeClass('mw-switcher-off');
+       mwd.getElementById('installed_1').checked=true;
+    }
 
 
 });
@@ -32,68 +46,92 @@ function mw_reload_all_modules(){
 
 	mw.$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
 	mw.$('#modules_admin_<? print $rand  ?>').attr('cleanup_db',1);
-		 
+
   	 mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
 	// mw.$('#modules_admin_<? print $rand  ?>').removeAttr('cleanup_db');
 
 }
 
 
-$(document).ready(function(){
-  mw_show_modules_list();
-});
+_modulesSort = function(){
 
-function mw_show_modules_list(){
+    var ui = mw.url.getHashParams(window.location.hash).ui;
 
-var ui = mw.url.getHashParams(window.location.hash).ui;
+    ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;
 
- if(ui  !== undefined){
-    	mw.$('#modules_admin_<? print $rand  ?>').attr('data-show-ui',ui);
-    } else {
-    	mw.$('#modules_admin_<? print $rand  ?>').removeAttr('data-show-ui');
+    var attrs  = mw.url.getHashParams(window.location.hash);
+    var holder = mw.$('#modules_admin_<? print $rand  ?>');
+
+    var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
+
+    var sync = ['ui','search','category','installed'];
+
+    for(;i<l;i++){
+      holder.removeAttr(arr[i]);
     }
-
- 
- 
- var search = mw.url.getHashParams(window.location.hash).search;
-  if(search  !== undefined){
-    	mw.$('#modules_admin_<? print $rand  ?>').attr('data-search-keyword',search);
-    } else {
-    	mw.$('#modules_admin_<? print $rand  ?>').removeAttr('data-search-keyword');
+    for (var x in attrs){
+        if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
+        holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
-	
-	
-	 var category = mw.url.getHashParams(window.location.hash).category;
-	 if(category  !== undefined && parseInt(category)  !== 0){
-  	mw.$('#modules_admin_<? print $rand  ?>').attr('data-category',category);
-  } else {
-  	mw.$('#modules_admin_<? print $rand  ?>').removeAttr('data-category');
-  }
-  
-  
-	
-
-// mw.reload_module('#modules_admin_<? print $rand  ?>');
-
-mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
-
+    mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
 
 }
+
+
+mw.on.hashParam('ui', _modulesSort);
+mw.on.hashParam('search', _modulesSort);
+mw.on.hashParam('category', function(){
+  _modulesSort();
+  $("#mw_index_modules .category_tree a").removeClass('active');
+  $("#mw_index_modules .cat-"+this).addClass('active');
+});
+mw.on.hashParam('installed', function(){
+
+    _modulesSort();
+
+
+
+
+
+});
 
 
 
 </script>
 
 <div id="mw_index_modules">
-  <div class="mw_edit_page_left" id="mw_edit_page_left"> <a href="#category=0" class="mw-ui-btn mw-ui-btn-small">Show all</a>
+  <div class="mw_edit_page_left" id="mw_edit_page_left">
     <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
       <module type="categories" data-for="modules" id="modules_admin_categories_<? print $rand  ?>" />
+
+
+
+
+
+       <div style="padding-left: 46px">
+          <div class="vSpace"></div>
+          <label class="mw-ui-label-help left" style="margin-right: 10px;">Show: </label>
+          <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher">
+              <span class="mw-switch-handle"></span>
+              <label>Installed<input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" /></label>
+              <label>Uninstalled<input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  /></label>
+          </div>
+          <div class="vSpace">&nbsp;</div>
+          <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;"><span class="ico iplus"></span><span>Add new modules</span></a>
+       </div>
+
+
+
+
+
     </div>
-    <div class="tree-show-hide-nav"><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Show uninstalled</a></div>
-    <div class="tree-show-hide-nav">Add new modules</div>
+
+
+
+
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;width: 750px;">
-    <div class="mw_edit_pages_nav" style="padding-left: 0;border: none">
+
       <div class="modules-index-bar">
 
         <span class="mw-ui-label-help font-11 left">Sort modules:</span>
@@ -126,32 +164,9 @@ mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
 
       </div>
       <div class="vSpace"></div>
-    </div>
+
     <div id="pages_edit_container" > </div>
     <div id="modules_admin_<? print $rand  ?>" ></div>
   </div>
 </div>
 <button onclick="mw_reload_all_modules()">Reload modules</button>
-<script type="text/javascript">
-
-_modulesholder = mw.$('#modules_admin_<? print $rand  ?>');
-
-mw.on.hashParam("category", function(){
-	//
-	 mw_show_modules_list();
- 
- // mw.reload_module('#modules_admin_<? print $rand  ?>');
-});
-
-mw.on.hashParam("search", function(){
-    mw_show_modules_list();
-   // mw.reload_module('#modules_admin_<? print $rand  ?>');
-
-});
-
-mw.on.hashParam("ui", function(){
-    mw_show_modules_list();
-   
-	//mw.reload_module('#modules_admin_<? print $rand  ?>');
-});
-</script>

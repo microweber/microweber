@@ -526,6 +526,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 		}
 	}
+	$to_search = false;
 	//  $table = db_g($table);
 	$table = db_get_real_table_name($table);
 
@@ -838,7 +839,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 	}
 
-	$to_search = false;
 	if (isset($criteria['category-id'])) {
 		$criteria['category'] = $criteria['category-id'];
 	}
@@ -918,17 +918,24 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$is_in_table = db_escape_string($criteria['in_table']);
 
 	}
-
+	if (isset($criteria['keyword'])) {
+		$criteria['search_by_keyword'] = $criteria['keyword'];
+	}
 	if (isset($criteria['data-keyword'])) {
 		$criteria['search_by_keyword'] = $criteria['data-keyword'];
 	}
 
-	if (isset($criteria['search_by_keyword']) and strval(trim($criteria['search_by_keyword'])) != '') {
+	if (isset($criteria['search_by_keyword'])) {
 		$to_search = db_escape_string($criteria['search_by_keyword']);
 	}
 
+	$to_search_in_those_fields = false;
 	if (isset($criteria['search_in_fields'])) {
 		$criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
+	}
+
+	if (isset($criteria['search_by_keyword_in_fields'])) {
+		$to_search_in_those_fields = db_escape_string($criteria['search_by_keyword_in_fields']);
 	}
 	$original_cache_id = false;
 	if ($cache_group != false) {
@@ -1117,6 +1124,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$includeIds_idds = false;
 	}
 	// $to_search = false;
+
 	$where_search = '';
 	if ($to_search != false) {
 
@@ -1132,12 +1140,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			if (!empty($to_search_in_those_fields)) {
 
-				if (in_array($v, $to_search_in_those_fields) == false) {
+				if (array_search($v, $to_search_in_those_fields) == false) {
 
 					$add_to_seachq_q = false;
 				}
 			}
-
+			if ($debug == true) {
+				//d($add_to_seachq_q);
+			}
 			if ($add_to_seachq_q == true) {
 
 				if ($v != 'id' && $v != 'password') {
@@ -1148,6 +1158,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 						case 'name' :
 						case 'help' :
 						case 'content' :
+						case in_array($v, $to_search_in_those_fields) :
 							$where_q .= " $v REGEXP '$to_search' " . $where_post;
 							// $where_q .= " $v LIKE '%$to_search%' " . $where_post;
 							break;
@@ -1260,12 +1271,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	if ($is_in_table != false) {
 		$v1 = db_get_real_table_name($is_in_table);
 		$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
-		if($v1 != false){
+		if ($v1 != false) {
 			$where .= " AND id in (select to_table_id from $v1 where $v1.to_table='{$aTable_assoc1}' and $v1.to_table_id=$table.id ) ";
 		}
 		// d($where);
 	}
- 
+
 	if (!isset($idds)) {
 		$idds = '';
 	}

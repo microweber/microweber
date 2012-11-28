@@ -7,6 +7,7 @@
 
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
+  //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");

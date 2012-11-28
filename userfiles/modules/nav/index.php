@@ -1,3 +1,5 @@
+<? //include_once($config['path_to_module'].'functions.php'); ?>
+
 <? 
 
   $menu_name = option_get('menu_name', $params['id']);  

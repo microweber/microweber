@@ -51,7 +51,12 @@ if(isset($params['show-ui'])){
 	}
 
 }
- 
+
+if(isset($params['installed'])){
+	
+	  $mod_params['installed'] = '[int]'.$params['installed'];
+}
+  
  //d($mod_params);
  
 
@@ -64,7 +69,7 @@ if(isset($params['show-ui'])){
 <? if(isarr($mods) == true): ?>
 <ul class="mw-modules-admin">
   <? foreach($mods as $k=>$item): ?>
-  <li>
+  <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>">
     <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
   </li>
   <? endforeach; ?>

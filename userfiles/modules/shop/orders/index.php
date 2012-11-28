@@ -3,10 +3,9 @@
 $ord = '';
  
 
-    if(isset($params['order'])){
-               $ord   = '&order_by='.$params['order'];
-			  
-              }
+if(isset($params['order'])){
+$data['order_by'] =$params['order'];
+}
  
 
 $kw = '';

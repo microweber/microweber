@@ -320,3 +320,4 @@ $language["address"]= 'Address' ;
 $language["address-2"]= 'Address 2' ; 
 $language["install"]= 'Install' ; 
 $language["buy-now"]= 'Buy now' ; 
+$language["view-all"]= 'View All' ; 

@@ -1550,7 +1550,7 @@ select.mw-ui-simple-dropdown:focus{
   width: 750px;
 }
 .mw-modules-admin li > .module{
-  padding: 7px 0;
+  padding: 13px 0 10px;
   overflow: hidden;
   position: relative;
   border-width: 1px;
@@ -1670,6 +1670,10 @@ select.mw-ui-simple-dropdown:focus{
   display: inline;
   margin-right: 10px;
   font-size: 11px;
+}
+
+.modules-index-bar{
+  padding-top: 12px;
 }
 
 

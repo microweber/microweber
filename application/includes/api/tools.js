@@ -818,7 +818,7 @@ $.fn.datas = function(){
 }
 
 mw.switcher = {
-  _switch:function(el, trigger_events, callback){
+  _switch:function(el, callback){
     if($(el).hasClass("mw-switcher-off")){
        mw.switcher.on(el);
        var checked = el.getElementsByTagName('input')[0];
@@ -827,9 +827,7 @@ mw.switcher = {
        mw.switcher.off(el);
        var checked = el.getElementsByTagName('input')[1];
     }
-    if(trigger_events){
-       $(el).trigger('change', checked);
-    }
+    $(checked).trigger('change', checked);
     if(typeof callback==='function'){
       callback.call(checked);
     }

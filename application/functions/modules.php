@@ -118,7 +118,7 @@ function get_all_functions_files_for_modules($options = false) {
 
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_group = 'modules/global';
+	$cache_group = 'modules/functions';
 
 	$cache_content = cache_get_content($cache_id, $cache_group);
 
@@ -794,6 +794,7 @@ function save_module_to_db($data_to_save) {
 		//
 		//d($s);
 	}
+	cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'functions');
 	if (!isset($data_to_save['keep_cache'])) {
 		if ($save != false) {
 			//   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
@@ -1148,9 +1149,9 @@ function load_module($module_name, $attrs = array()) {
 	// // p((constant($cache_content)));
 	// return (constant($cache_content));
 	// }
-	//$uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
+	$uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
 	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
-		//return '';
+		return '';
 	}
 	//d($uninstall_lock);
 
@@ -1253,20 +1254,18 @@ function load_module($module_name, $attrs = array()) {
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
 		$config['module_name_url_safe'] = module_name_encode($module_name);
-		
+
 		$find_base_url = curent_url(1);
-		if($pos = strpos($find_base_url, ':'.$module_name) or $pos =  strpos($find_base_url, ':'.$config['module_name_url_safe'])){
-		//	d($pos);
-			$find_base_url = substr($find_base_url, 0,$pos).':'.$config['module_name_url_safe'];
+		if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
+			//	d($pos);
+			$find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
 		}
 		$config['url'] = $find_base_url;
-		
-		
+
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
 		$config['module_class'] = str_replace('/', '-', $module_name);
- 
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');

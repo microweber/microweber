@@ -1,3 +1,4 @@
+<? //include_once($config['path_to_module'].'functions.php'); ?>
 <? $rand = uniqid(); ?>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -10,7 +11,7 @@
       $.post("<? print site_url('api/add_new_menu') ?>",  obj, function(data){
         mw.reload_module('<? print $params['type']; ?>');
       });
- 
+  
  }
  
  

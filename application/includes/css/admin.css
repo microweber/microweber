@@ -372,7 +372,7 @@ form .shipping-country-row:first-child{
 }
 
 .mw-switcher input{
-  XXXdisplay: none;
+  display: none;
 }
 .mw-switcher label{
   white-space: nowrap;
@@ -384,7 +384,7 @@ form .shipping-country-row:first-child{
   line-height: 13px;
   text-shadow: 1px 0 0 #FFFFFF;
 
-  visibility: visible !important;
+
 
 }
 
