@@ -28,8 +28,13 @@
     </tr>
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>
-        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Rect link</a></textarea></td>
+        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></textarea></td>
+    </tr><tr>
+        <td><a href="javascript:;" class="mw-ui-btn-action">Action Button</a></td>
+        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-blue">Action Button</a></textarea></td>
     </tr>
+
+
 
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></td>

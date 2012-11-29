@@ -175,12 +175,7 @@ function db_q($q, $connection_settigns = false) {
 		$db = $connection_settigns;
 	}
 	$q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
-	//    $db = c('db');
-	//
-	//    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
-	//    db_query_log($q);
-	//    //   $mysqli->query("SET NAMES 'utf8'");
-	//    $q = $mysqli->query($q);
+
 	return $q;
 }
 
@@ -396,17 +391,17 @@ if (is_admin() == true) {
 }
 
 /**
- * 
+ *
  * Function to query the database
- * 
+ *
  * @access public
  * @package db
  * @category  db
- * 
+ *
  * @author Peter Ivanov
  * @version 1.0
- * 
- * 
+ *
+ *
  * @see db
  * @since 0.320
  * @return mixed Array with data or false
@@ -428,7 +423,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -526,8 +522,7 @@ function db_get($table, $criteria, $cache_group = false) {
  */
 function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
 	$cms_db_tables = c('db_tables');
-	// ->'table_options';
-	// $this->db->query ( 'SET NAMES utf8' );
+
 	if ($table == false) {
 
 		return false;
@@ -1248,7 +1243,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[is]', '', $v);
 			}
-			
+
 			if (stristr($v, '[like]')) {
 
 				$compare_sign = ' LIKE ';
@@ -1321,8 +1316,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1439,7 +1433,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 function db_get_table_name($assoc_name) {
 	$cms_db_tables = c('db_tables');
-	// ->'table_options';
 
 	if (!empty($cms_db_tables)) {
 
@@ -1848,8 +1841,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$criteria['id'] = 0;
 	}
 	$criteria['id'] = intval($criteria['id']);
-	//  $db = new DB(c('db'));
-	// $criteria = $this->addSlashesToArray ( $criteria );
+
 	if (intval($criteria['id']) == 0) {
 
 		if (isset($original_data['new_id']) and intval($original_data['new_id']) != 0) {
@@ -1859,8 +1851,6 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 		// insert
 		$data = $criteria;
-
-		// $this->db->insert ( $table, $data );
 
 		if (DB_IS_SQLITE == false) {
 			$q = " INSERT INTO  $table set ";
@@ -2330,16 +2320,6 @@ function save_data($table, $data, $data_to_save_options = false) {
 						//d($add);
 						db_q($add);
 
-						if (DB_IS_SQLITE != false) {
-							//   $q = $db->insert($custom_field_table, $cf_to_save);
-							//   db_q($add);
-						} else {
-							//   db_q($add);
-						}
-
-						//  $q = $db->insert($custom_field_table, $cf_to_save);
-						//  print($add);
-						//  db_q($add);
 					}
 				}
 				cache_clean_group('custom_fields');
@@ -2733,3 +2713,184 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		return FALSE;
 	}
 }
+
+/**
+ * Function set_db_tables
+ *
+ * @desc refresh tables in DB
+ * @access		public
+ * @category	db
+ * @subpackage		tables
+ * @author		Peter Ivanov
+ * @link		http://ooyes.net
+ * @param		varchar $table_name to alter table
+ * @param		array $fields_to_add to add new column
+ * @param		array $column_for_not_drop for not drop
+ */
+function set_db_tables($table_name, $fields_to_add, $column_for_not_drop = array()) {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	if ($table_name != 'firecms_sessions') {
+		if (empty($column_for_not_drop))
+			$column_for_not_drop = array('id');
+
+		$sql = "show columns from $table_name";
+
+		$columns = db_query($sql);
+
+		$exisiting_fields = array();
+		$no_exisiting_fields = array();
+
+		foreach ($columns as $fivesdraft) {
+			$fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+			$exisiting_fields[strtolower($fivesdraft['field'])] = true;
+		}
+
+		for ($i = 0; $i < count($columns); $i++) {
+			$column_to_move = true;
+			for ($j = 0; $j < count($fields_to_add); $j++) {
+				if (in_array($columns[$i]['Field'], $fields_to_add[$j])) {
+					$column_to_move = false;
+				}
+			}
+			$sql = false;
+			if ($column_to_move) {
+				if (!empty($column_for_not_drop)) {
+					if (!in_array($columns[$i]['Field'], $column_for_not_drop)) {
+						$sql = "alter table $table_name drop column {$columns[$i]['Field']} ";
+					}
+				} else {
+					$sql = "alter table $table_name drop column {$columns[$i]['Field']} ";
+				}
+				if ($sql) {
+					db_q($sql);
+
+				}
+			}
+		}
+
+		foreach ($fields_to_add as $the_field) {
+			$the_field[0] = strtolower($the_field[0]);
+
+			$sql = false;
+			if ($exisiting_fields[$the_field[0]] != true) {
+				$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
+				db_q($sql);
+			} else {
+				//$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+
+			}
+
+		}
+
+	}
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+	//set_db_tables
+}
+
+/**
+ * Add new table index if not exists
+ * @example $this->addIndex('I_messages_parent_id', $table_name, array('parent_id'));
+ *
+ * @param unknown_type $aIndexName Index name
+ * @param unknown_type $aTable Table name
+ * @param unknown_type $aOnColumns Involved columns
+ */
+function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false) {
+	$columns = implode(',', $aOnColumns);
+
+	$query = db_query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+
+	if ($indexType != false) {
+
+		$index = $indexType;
+	} else {
+		$index = " INDEX ";
+
+		//FULLTEXT
+	}
+
+	if ($query == 0) {
+		$q = "
+				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
+			";
+		//var_dump($q);
+		db_q($q);
+	}
+
+}
+
+/**
+ * Set table's engine
+ *
+ * @param unknown_type $aTable
+ * @param unknown_type $aEngine
+ */
+function db_set_engine($aTable, $aEngine = 'InnoDB') {
+	db_q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+}
+
+/**
+ * Create foreign key if not exists
+ *
+ * @param unknown_type $aFKName Foreign key name
+ * @param unknown_type $aTable Source table name
+ * @param unknown_type $aColumns Source columns
+ * @param unknown_type $aForeignTable Foreign table name
+ * @param unknown_type $aForeignColumns Foreign columns
+ * @param unknown_type $aOptions On update and on delete options
+ */
+function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array()) {
+	$query = db_query("
+			SELECT
+				*
+			FROM
+				INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+			WHERE
+				CONSTRAINT_TYPE = 'FOREIGN KEY'
+ 			AND
+ 				constraint_name = '{$aFKName}'
+		;");
+
+	if ($query == 0) {
+
+		$columns = implode(',', $aColumns);
+		$fColumns = implode(',', $aForeignColumns); ;
+		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
+		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
+
+		$q = "
+				ALTER TABLE {$aTable}
+			    ADD CONSTRAINT `{$aFKName}`
+			    FOREIGN KEY
+			    ({$columns})
+			    REFERENCES {$aForeignTable} ($fColumns)
+			    {$onDelete}
+			    {$onUpdate}
+			";
+
+		db_q($q);
+	}
+
+}
+
+exec_action('mw_db_init');

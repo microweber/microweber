@@ -1496,7 +1496,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 
-body{
+body.mw-live-edit, body.is_admin{
   min-width: 1060px;
 }
 
@@ -1667,7 +1667,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 }
 
 
-.bluebtn{
+.mw-ui-btn-action{
   text-align: center;
   cursor: pointer;
   border: none;
@@ -1681,25 +1681,19 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-image: linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-  background-image: -o-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-  background-image: -moz-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-  background-image: -webkit-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#87C4ED", endColorStr="#549AC6");
-  background-image: -ms-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0.27, #549AC6),
-  	color-stop(0.99, #87C4ED),
-  	color-stop(1, #CBE6F7)
-  );
-
+  background: url(../img/grad.php?top=87C4ED&bot=549AC6);
+}
+.mw-ui-btn-action:hover{
+  background:#87C4ED;
+}
+.mw-ui-btn-action:active{
+  box-shadow:0 0 5px #CCCCCC inset;
 }
 
-.bluebtn.small{
-  font-size: 11px;
+
+
+.mw_tabs_layout_stylish{
+
 }
 
 
