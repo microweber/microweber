@@ -423,8 +423,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1316,7 +1315,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -2727,7 +2727,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  * @param		array $fields_to_add to add new column
  * @param		array $column_for_not_drop for not drop
  */
-function set_db_tables($table_name, $fields_to_add, $column_for_not_drop = array()) {
+function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array()) {
 	$function_cache_id = false;
 
 	$args = func_get_args();
@@ -2744,6 +2744,22 @@ function set_db_tables($table_name, $fields_to_add, $column_for_not_drop = array
 	if (($cache_content) != false) {
 
 		return $cache_content;
+	}
+
+	$query = db_query("show tables like '$table_name'");
+
+	if (!is_array($query)) {
+		$sql = "CREATE TABLE " . $table_name . " (
+		id int(11) NOT NULL auto_increment,
+		UNIQUE KEY id (id)
+		);
+		 
+		"; 
+		//
+		//if (isset($_GET['debug'])) {
+		//	d($sql);
+			db_q($sql);
+		//}
 	}
 
 	if ($table_name != 'firecms_sessions') {
@@ -2789,7 +2805,7 @@ function set_db_tables($table_name, $fields_to_add, $column_for_not_drop = array
 			$the_field[0] = strtolower($the_field[0]);
 
 			$sql = false;
-			if ($exisiting_fields[$the_field[0]] != true) {
+			if (isset($exisiting_fields[$the_field[0]]) != true) {
 				$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
 				db_q($sql);
 			} else {
@@ -2874,7 +2890,8 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == 0) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns); ;
+		$fColumns = implode(',', $aForeignColumns);
+		;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 
@@ -2892,5 +2909,3 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	}
 
 }
-
-exec_action('mw_db_init');

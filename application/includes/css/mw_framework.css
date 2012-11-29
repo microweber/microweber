@@ -1681,19 +1681,50 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  box-shadow:0 1px 0 0 #DAECF7 inset;
   background: url(../img/grad.php?top=87C4ED&bot=549AC6);
 }
 .mw-ui-btn-action:hover{
-  background:#87C4ED;
+  background: url(../img/grad.php?top=87C4ED&bot=70ABCF);
 }
 .mw-ui-btn-action:active{
-  box-shadow:0 0 5px #CCCCCC inset;
+  box-shadow:0 0 5px #235F99 inset;
 }
 
 
 
 .mw_tabs_layout_stylish{
+    overflow: hidden;
+}
 
+.mw_tabs_layout_stylish .mw_simple_tabs_nav{
+  border-bottom: 1px solid #A1A0A0;
+  overflow: hidden;
+}
+
+.mw_tabs_layout_stylish .mw_simple_tabs_nav li{
+  list-style: none;
+  float: left;
+  margin-right: 12px;
+}
+
+.mw_tabs_layout_stylish .mw_simple_tabs_nav li a{
+  display: block;
+  box-shadow:0 1px 0 0 #F9F9F9 inset;
+  padding:8px 20px;
+  text-align: center;
+  color: #212121;
+  background: url(../img/grad.php?top=F4F4F4&bot=EBEBEB);
+  border-width:1px 1px 0;
+  border-color:#EBE9E9 #D8D6D6 transparent;
+  border-style:solid solid none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.mw_tabs_layout_stylish .mw_simple_tabs_nav li a.active{
+ background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+ border-color:#E2DDDD #B7B4B4 transparent;
 }
 
 

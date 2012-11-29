@@ -45,5 +45,5 @@ if ($module_functions != false) {
 		}
 	}
 }
-
+exec_action('mw_db_init');
  // d($module_functions);

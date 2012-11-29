@@ -51,17 +51,17 @@ $(document).ready(function(){
 
 
 <div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish">
-    <ul class="mw_simple_tabs_nav">
-        <li><a href="javascript:;">Comments</a></li>
-        <li><a href="javascript:;">Settings</a></li>
-    </ul>
+    <div style="height: 126px;background: #F4F4F4;">
+        <div style="height: 90px;"></div>
+        <ul class="mw_simple_tabs_nav">
+            <li><a href="javascript:;">Comments</a></li>
+            <li><a href="javascript:;">Settings</a></li>
+        </ul>
+    </div>
     <div class="tab" id="the_comments">
-
           <label class="mw-ui-label"><?php _e("Search"); ?>:</label>
           <input  class="mw-ui-field" type="search"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
           <module type="comments/search_content" id="mw_admin_posts_with_comments"    />
-
-
           <div class="<? print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">
             <h2>New - green</h2>
             <module type="comments/manage"  is_moderated="n" />
@@ -69,8 +69,6 @@ $(document).ready(function(){
             <module type="comments/manage"  is_moderated="y" />
           </div>
           <div class="<? print $config['module_class'] ?> mw_comments_admin_for_post" id="mw_admin_posts_with_comments_edit"> </div>
-
-
     </div>
     <div class="tab">
         Settings will be here ...
