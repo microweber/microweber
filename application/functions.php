@@ -36,9 +36,7 @@ function v(&$v, $d = NULL) {
 	return isset($v) ? $v : $d;
 }
 
-function eeeeeeee__autoload($c) {
-	//  require p("classes/$c");
-}
+ 
 
 function c($k, $no_static = false) {
 

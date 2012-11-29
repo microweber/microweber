@@ -513,8 +513,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -716,18 +715,14 @@ class MwController {
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
-		
-		
-		
-		
-		
+
 		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();
 		// var_dump($l);
-		
-			$l = str_replace('{SITE_URL}', site_url(), $l);
-	$l = str_replace('{SITEURL}', site_url(), $l);
-	$l = str_replace('%7BSITE_URL%7D', site_url(), $l);
+
+		$l = str_replace('{SITE_URL}', site_url(), $l);
+		$l = str_replace('{SITEURL}', site_url(), $l);
+		$l = str_replace('%7BSITE_URL%7D', site_url(), $l);
 		//$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
 		print $l;
 		exit();
@@ -769,7 +764,25 @@ class MwController {
 		} else {
 			$tool = 'index';
 		}
+		$page = false;
+		if (isset($_SERVER["HTTP_REFERER"])) {
+			$url = $_SERVER["HTTP_REFERER"];
+			$url = explode('?', $url);
+			$url = $url[0];
 
+			if (trim($url) == '' or trim($url) == site_url()) {
+				//$page = get_content_by_url($url);
+				$page = get_homepage();
+				// var_dump($page);
+			} else {
+
+				$page = get_content_by_url($url);
+			}
+		} else {
+			$url = url_string();
+		}
+
+		define_constants($page);
 		$tool = str_replace('..', '', $tool);
 
 		$p_index = INCLUDES_PATH . 'toolbar/editor_tools/index.php';
