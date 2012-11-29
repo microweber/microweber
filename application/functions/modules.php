@@ -111,22 +111,20 @@ function module($params) {
 function get_all_functions_files_for_modules($options = false) {
 	$args = func_get_args();
 	$function_cache_id = '';
-	foreach ($args as $k => $v) {
 
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-	}
+	$function_cache_id = serialize($options);
 
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 	$cache_group = 'modules/functions';
 
 	$cache_content = cache_get_content($cache_id, $cache_group);
-
+ 
 	if (($cache_content) != false) {
 
-		return $cache_content;
+		 return $cache_content;
 	}
-
+ 
 	//d($uninstall_lock);
 	if (isset($options['glob'])) {
 		$glob_patern = $options['glob'];
@@ -139,34 +137,37 @@ function get_all_functions_files_for_modules($options = false) {
 	} else {
 		$dir_name = normalize_path(MODULES_DIR);
 	}
+
 	$disabled_files = array();
 
-	$uninstall_lock = get_modules_from_db('ui=any&installed=0');
+	$uninstall_lock = get_modules_from_db('ui=any&installed=[int]0');
+
 	if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
 		foreach ($uninstall_lock as $value) {
 			$value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
 			$disabled_files[] = $value1;
 		}
 	}
-	//	 d($disabled_files);
 
 	$dir = rglob($glob_patern, 0, $dir_name);
-
+	 
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
-			$value = normalize_path($value, false);
 
-			$found = false;
-			foreach ($disabled_files as $disabled_file) {
-				if (strtolower($value) == strtolower($disabled_file)) {
-					$found = 1;
+			if (is_string($value)) {
+				$value = normalize_path($value, false);
+
+				$found = false;
+				foreach ($disabled_files as $disabled_file) {
+					if (strtolower($value) == strtolower($disabled_file)) {
+						$found = 1;
+					}
+				}
+				if ($found == false) {
+					$configs[] = $value;
 				}
 			}
-			if ($found == false) {
-				$configs[] = $value;
-			}
-
 			//d($value);
 			//if ($disabled_files !== null and !in_array($value, $disabled_files,1)) {
 			//
@@ -375,6 +376,7 @@ function delete_modules_from_db() {
 }
 
 function is_module_installed($module_name) {
+
 	$module_name = trim($module_name);
 
 	$module_namei = $module_name;

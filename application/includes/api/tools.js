@@ -778,6 +778,14 @@ String.prototype._exec = function(a,b,c){
   }
 }
 
+
+String.prototype.toCamelCase = function() {
+    return this
+        .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
+        .replace(/\s/g, '')
+        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
+};
+
 mw.exec = function(str, a,b,c){
     return str._exec(a,b,c);
 }

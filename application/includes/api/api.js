@@ -5,7 +5,6 @@ window.onload = function() {
 
 
 
-
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
   document.body.id = 'UnsupportedBrowser';
@@ -22,7 +21,7 @@ typeof mw === 'undefined' ?
 __mwextend = function(el){
       if(el.attributes['data-extended']===undefined){
           el.setAttribute('data-extended', true);
-          el.getModal = function(){
+          el.prototype.getModal = function(){
               var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
               if(!!modal){
                   return  {
@@ -32,7 +31,7 @@ __mwextend = function(el){
               }
               else {return false};
           }
-          el.attr = function(name, value){
+          el.prototype.attr = function(name, value){
             if(value===undefined){
               return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
             }
@@ -278,16 +277,12 @@ __mwextend = function(el){
     if ($module_name == undefined) {
 
     } else {
-
-
       if (typeof $module_name == 'object') {
         mw._({
           selector: $module_name,
           done:done
         });
-
       } else {
-
         var module_name = $module_name.toString();
         var refresh_modules_explode = module_name.split(",");
         for (var i = 0; i < refresh_modules_explode.length; i++) {
@@ -296,13 +291,12 @@ __mwextend = function(el){
           if ($module_name != undefined) {
 			 $module_name = $module_name.replace(/##/g, '#');
 			   mw.log( $module_name );
-			  
+
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
               $mods = $($module_name);
             }
-
             $mods.each(function() {
               mw._({
                 selector: this,

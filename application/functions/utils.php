@@ -105,6 +105,8 @@ function normalize_path($path, $slash_it = true) {
     // DIRECTORY_SEPARATOR is a system variable
     // which contains the right slash for the current
     // system (windows = \ or linux = /)
+ 
+  
     $path_original = $path;
     $s = DIRECTORY_SEPARATOR;
     $path = preg_replace('/[\/\\\]/', $s, $path);
@@ -599,10 +601,10 @@ function recursive_remove_directory($directory, $empty = true) {
                 // if the new path is a directory
                 if (is_dir($path)) {
                     // we call this function with the new path
-                    recursive_remove_directory($path, $empty);
+                   // recursive_remove_directory($path, $empty);
                     // if the new path is a file
                 } else {
-                    $path = normalize_path($path, false);
+                 //   $path = normalize_path($path, false);
                     try {
 
                         @unlink($path);
@@ -659,12 +661,18 @@ function isarr($var) {
  * an array of files in the given path matching the pattern.
  */
 function rglob($pattern = '*', $flags = 0, $path = '') {
-    $paths = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR );
-    $files = glob($path . $pattern, $flags);
-    foreach ($paths as $path) { 
-        $files[] = array_merge($files, rglob($pattern, $flags, $path));
-    }
-    return $files;
+   
+     if (!$path && ($dir = dirname($pattern)) != '.') {
+	        if ($dir == '\\' || $dir == '/') $dir = '';
+	        return rglob(basename($pattern), $flags, $dir . DS);
+	    }
+	    $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+	    $files = glob($path . $pattern, $flags);
+	    foreach ($paths as $p) $files = array_merge($files, rglob($pattern, $flags, $p . DS));
+	    return $files;
+   
+   
+    
 }
 
 // ------------------------------------------------------------------------

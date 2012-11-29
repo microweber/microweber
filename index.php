@@ -33,7 +33,7 @@ if (strval($installed) != 'yes') {
 
 // require ('appication/functions.php');
 
-require (MW_APPPATH . 'functions/mw_functions.php');
+require (MW_APPPATH . 'functions'.DS.'mw_functions.php');
 
 //set_error_handler('error');
 

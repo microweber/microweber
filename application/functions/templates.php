@@ -35,7 +35,7 @@ function templates_list($options = false) {
     //exit;
     //$map = directory_map ( $path, TRUE );
     $map = directory_map($path, TRUE, TRUE);
-    //var_dump ( $map );
+
     $to_return = array();
 
     foreach ($map as $dir) {

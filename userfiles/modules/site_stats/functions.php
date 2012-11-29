@@ -4,6 +4,27 @@ if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
     define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'module_stats_users_online');
 }
 
+
+action_hook('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
+
+function mw_print_stats_on_dashboard() {
+  $active = url_param('view');
+  $cls = '';
+  if($active == 'shop'){
+	//   $cls = ' class="active" ';
+  }
+	print '<microweber module="site_stats" view="admin" />';
+}
+
+
+
+
+
+
+
+
+
+
 function mw_install_stats_module($config = false) {
 
     if (is_admin() == false) {

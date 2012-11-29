@@ -44,7 +44,6 @@ function after_upld_<? print $rand ?>(a){
 <script  type="text/javascript">
 $(document).ready(function(){
    mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
-
 });
 </script>
 
