@@ -24,7 +24,6 @@
 ?>
 <? if (isarr($comments)): ?>
 <script  type="text/javascript">
-
     mw.require("forms.js");
 </script>
 <script  type="text/javascript">

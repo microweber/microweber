@@ -21,7 +21,7 @@ typeof mw === 'undefined' ?
 __mwextend = function(el){
       if(el.attributes['data-extended']===undefined){
           el.setAttribute('data-extended', true);
-          el.prototype.getModal = function(){
+          el.getModal = function(){
               var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
               if(!!modal){
                   return  {
@@ -31,7 +31,7 @@ __mwextend = function(el){
               }
               else {return false};
           }
-          el.prototype.attr = function(name, value){
+          el.attr = function(name, value){
             if(value===undefined){
               return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
             }
@@ -49,7 +49,7 @@ __mwextend = function(el){
   mw = {}
 
   mw.extend = function(el){
-    return __mwextend(el);
+    return new __mwextend(el);
   }
 
   mw.module = {} //Global Variable for modules scripts
@@ -107,7 +107,7 @@ __mwextend = function(el){
         if (document.readyState === 'loading' || document.readyState === 'interactive') {
            mwd.write(string);
         } else {
-          $(mwd.body).append(string);
+          $(mwd.getElementsByTagName('head')[0]).append(string);
         }
       }
     }

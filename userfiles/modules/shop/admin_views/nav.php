@@ -1,4 +1,4 @@
- 
+
 <? if(is_admin() == false) {error('Must be admin');}  ?>
 <div id="mw-shop-menu">
 <? $orders = get_orders('count=1&order_status=[null]&order_completed=y&is_paid=y'); ?>
@@ -18,9 +18,9 @@
 </div>
 <script type="text/javascript">
    mw.on.hashParam("clientorder", function(){
+      mw.$('#mw-order-table-holder').hide();
       mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
       mw.load_module('shop/orders/client_inner','#mw-clientorder', function(){
-
       });
     });
 </script>

@@ -529,11 +529,23 @@ function get_content_admin($params) {
 	return get_content($params);
 }
 
+
+
 /**
+ * 
  * Function to get single content item by id from the content_table
- *
- * @return array
+ * 
+ * @access public
+ * @package content
+ * 
  * @author Peter Ivanov
+ * @version 1.0
+ * 
+ * 
+ * @see db#get
+ * @since 0.320
+ * @return mixed Array with posts or false
+ * @param array $params parameters for the DB
  *
  */
 function get_content($params) {

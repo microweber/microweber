@@ -1,5 +1,17 @@
 <?
 
+/**
+ *
+ * Shop module api
+ *
+ * @package		modules
+ * @subpackage		shop
+ * @since		Version 0.1
+ */
+
+// ------------------------------------------------------------------------
+
+
 if (!defined("MODULE_DB_TABLE_SHOP")) {
 	define('MODULE_DB_TABLE_SHOP', MW_TABLE_PREFIX . 'cart');
 }
@@ -7,6 +19,8 @@ if (!defined("MODULE_DB_TABLE_SHOP")) {
 if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
+
+
 
 
 action_hook('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
@@ -24,6 +38,16 @@ function mw_print_admin_menu_shop_btn() {
 
 
 api_expose('update_order');
+/**
+ * update_order
+ *
+ * updates order by parameters
+ *
+ * @package		modules
+ * @subpackage	shop
+ * @subpackage	shop\orders
+ * @category	shop module api
+ */
 function update_order($params = false) {
 
 	$params2 = array();

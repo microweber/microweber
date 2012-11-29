@@ -556,7 +556,7 @@ function get_user_by_username($username) {
  * @param
  *        	$mode
  * @return string
- * @example Delete relation:
+ * @usage Delete relation:
  *          $this->users_model->getPrintableName(10, 'full');
  *
  */
@@ -666,7 +666,7 @@ function user_id_from_url() {
  *        	$params['id'] = 15; //the user id
  *        	$params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
- * @example Use
+ * @usage Use
  *          user_thumbnail
  *
  *          get the user_thumbnail of the user
@@ -680,7 +680,7 @@ function user_id_from_url() {
  *        	$params['id'] = 15; //the user id
  *        	$params['size'] = 200; //the thumbnail size
  * @return string - The thumbnail link.
- * @example Use print post_thumbnail($post['id']);
+ * @usage Use print post_thumbnail($post['id']);
  */
 function user_picture($params) {
 	return user_thumbnail($params);

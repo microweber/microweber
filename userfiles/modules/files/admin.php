@@ -1,55 +1,117 @@
+<?
+ if(is_admin() == false) { error("Must be admin"); }
+ $rand = uniqid(); ?>
+<script type="text/javascript">
+ mw.require("events.js");
+     mw.require("url.js");
+     mw.require("files.js");
+   
 
-<h1>Directory Browser</h1>
-<?php
-  // Explore the files via a web interface.   
-  $script = $config['url']; // the name of this script
-  $path   =   MEDIAFILES; // the path the script should access
- if(isset($_REQUEST['path'])){
-	 
-	  $path   =   $_REQUEST['path']; // the path the script should access
- }
-  
- //$data = rglob($path);
- $data = dir_to_array($path, $recursive = 0, $listDirs = 1, $listFiles = 1, $exclude = '');
+</script>
+<script  type="text/javascript">
  
-$path_nav = explode(DS,$path); 
 
-?>
-<? if(isarr($path_nav )): ?>
-<? 
 
-$path_nav_pop = false;
-foreach($path_nav  as $item): ?>
-<? 
+$(document).ready(function(){
+   _mw_admin_files_manage();
+});
 
-if($path_nav_pop  == false){
-	$path_nav_pop = $item;
-} else {
-
-$path_nav_pop = $path_nav_pop.DS.$item;
  
+
+_mw_admin_files_manage = function(){
+var attrs = mw.url.getHashParams(window.location.hash);
+var holder = mw.$('#files_admin_<? print $rand ?>');
+holder.removeAttr('search');
+for (var x in attrs){
+	if(x=='path'){
+	holder.attr(x, attrs[x]);
+	}
+	if(x=='search'){
+	holder.attr(x, attrs[x]);
+	}
+	if(x=='sort_by'){
+	holder.attr(x, attrs[x]);
+	}
+	if(x=='sort_order'){
+	holder.attr(x, attrs[x]);
+	}
 }
+mw.load_module('files/browser','#files_admin_<? print $rand ?>');
+
+}
+
+
+$(window).bind("load", function(){
+ _mw_admin_files_manage();
+});
+
+
+
+
+
  
- ?>
-<a href="?path=<? print urlencode($path_nav_pop) ?>"><span class="<? print $config['module_class']; ?> path-item"><? print ($item) ?></span><span class="<? print $config['module_class']; ?> ds"><? print DS ?></span></a>
+mw.on.hashParam('path', _mw_admin_files_manage);
+mw.on.hashParam('search', _mw_admin_files_manage);
+mw.on.hashParam('sort_by', _mw_admin_files_manage);
+mw.on.hashParam('sort_order', _mw_admin_files_manage);
  
-<? endforeach ; ?>
-<? endif; ?>
-<? if(isset($data['dirs'] )): ?>
-<ul>
-  <? foreach($data['dirs']  as $item): ?>
-  <li> <a href="?path=<? print urlencode($item) ?>">
-    <? d($item) ?>
-    </a> </li>
-  <? endforeach ; ?>
-</ul>
-<? endif; ?>
-<? if(isset($data['files'] )): ?>
-<ul>
-  <? foreach($data['files']  as $item): ?>
-  <li> <a target="_blank" href="<? print dir2url($item) ?>">
-    <? d($item) ?>
-    </a> </li>
-  <? endforeach ; ?>
-</ul>
-<? endif; ?>
+
+
+
+</script>
+
+<div id="mw_index_users">
+  <div id="mw_edit_page_left" class="mw_edit_page_left"> Sort by
+    <ul class="mw-ui-inline-selector">
+      <li>
+        <label class="mw-ui-check">
+          <input name="module_show" class="mw_files_filter_show" type="radio" value="filemtime" checked="checked" onchange="mw.url.windowHashParam('sort_by', this.value)" />
+          <span></span><span>Last modified</span></label>
+      </li>
+      <li>
+        <label class="mw-ui-check">
+          <input name="module_show"  class="mw_files_filter_show"  type="radio" value="filesize" onchange="mw.url.windowHashParam('sort_by', this.value)" />
+          <span></span><span>Size</span></label>
+      </li>
+      <li>
+        <label class="mw-ui-check">
+          <input name="module_show"  class="mw_files_filter_show"  type="radio" value=""  onchange="mw.url.windowDeleteHashParam('sort_by')" />
+          <span></span><span>Any</span></label>
+      </li>
+    </ul>
+    Sort order
+    <ul class="mw-ui-inline-selector">
+      <li>
+        <label class="mw-ui-check">
+          <input name="is_active" class="mw_files_filter_show" type="radio" value="ASC" checked="checked" onchange="mw.url.windowHashParam('sort_order', this.value)" />
+          <span></span><span>Up</span></label>
+      </li>
+      <li>
+        <label class="mw-ui-check">
+          <input name="is_active"  class="mw_files_filter_show"  type="radio" value="DESC" onchange="mw.url.windowHashParam('sort_order', this.value)" />
+          <span></span><span>Down</span></label>
+      </li>
+      <li>
+        <label class="mw-ui-check">
+          <input name="is_active"  class="mw_files_filter_show"  type="radio" value="" onchange="mw.url.windowDeleteHashParam('sort_order')"  />
+          <span></span><span>Any</span></label>
+      </li>
+    </ul>
+  </div>
+  <div style="padding: 20px;width: 750px;" class="mw_edit_page_right">
+    <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
+      <input name="module_keyword" class="mw-ui-searchfield right" type="text" default="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+      <div class="mw_clear"></div>
+    </div>
+    <div class="vSpace"></div>
+    <div id="files_admin_<? print $rand  ?>" ></div>
+    <div id="user_edit_admin_<? print $rand  ?>" ></div>
+  </div>
+</div>
+<div class="mw_clear"></div>
+<div class="vSpace"></div>
+<center>
+  <div class="mw-ui-btn-rect relative" style="width: 100px;height: 20px;">Upload Files
+    <iframe scrolling="no" frameborder="0" src="<? print site_url('editor_tools/plupload') ?>" class="mw_upload_frame" id="upload_file_link" name="upload_file_link"></iframe>
+  </div>
+</center>

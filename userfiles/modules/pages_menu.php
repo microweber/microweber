@@ -9,7 +9,7 @@
  *        	Replace the link href with your own. Ex: link="<? print site_url('page_id:{id}'); ?>"
  * @return string prints the site tree
  * @uses pages_tree($params);
- * @example  <module type="pages_menu" append_to_link="/editmode:y" />
+ * @usage  type="pages_menu" append_to_link="/editmode:y" 
  */
  
   

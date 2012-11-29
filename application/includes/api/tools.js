@@ -3,24 +3,26 @@
 
 
 
-mw.simpletabs = function(context){
-    var context = context || document.body;
-    mw.$(".mw_simple_tabs_nav", context).each(function(){
-      var parent = $(this).parents(".mw_simple_tabs").eq(0);
-      parent.find(".tab").addClass("semi_hidden");
-      parent.find(".tab").eq(0).removeClass("semi_hidden");
-      $(this).find("a").eq(0).addClass("active");
-      $(this).find("a").click(function(){
-          var parent = $(this).parents(".mw_simple_tabs_nav").eq(0);
-          var parent_master =  $(this).parents(".mw_simple_tabs").eq(0);
-          parent.find("a").removeClass("active");
-          $(this).addClass("active");
-          parent_master.find(".tab").addClass("semi_hidden");
-          var index = parent.find("a").index(this);
-          parent_master.find(".tab").eq(index).removeClass("semi_hidden");
-          return false;
-      });
-    });
+mw.simpletabs = function(){
+  mw.$(".mw_simple_tabs_nav").each(function(){
+    if(!$(this).hasClass('activated')){
+        $(this).addClass('activated')
+        var parent = $(this).parents(".mw_simple_tabs").eq(0);
+        parent.find(".tab").addClass("semi_hidden");
+        parent.find(".tab").eq(0).removeClass("semi_hidden");
+        $(this).find("a").eq(0).addClass("active");
+        $(this).find("a").click(function(){
+            var parent = $(this).parents(".mw_simple_tabs_nav").eq(0);
+            var parent_master =  $(this).parents(".mw_simple_tabs").eq(0);
+            parent.find("a").removeClass("active");
+            $(this).addClass("active");
+            parent_master.find(".tab").addClass("semi_hidden");
+            var index = parent.find("a").index(this);
+            parent_master.find(".tab").eq(index).removeClass("semi_hidden");
+            return false;
+        });
+    }
+  });
 }
 
 mw.external_tool = function(url){
@@ -693,7 +695,7 @@ $.fn.commuter = function(a,b) {
   return this.each(function(){
     if(this.type==='checkbox'  || this.type==='radio' ){
       $(this).bind("change", function(){
-        this.checked==true ? a.call(this) : b.call(this);
+        this.checked === true ? a.call(this) : b.call(this);
       });
     }
   });
@@ -848,9 +850,11 @@ mw.switcher = {
     }
   },
   off:function(el){
+     if(el){
      var _el = $(el);
      _el.addClass('mw-switcher-off');
      el.getElementsByTagName('input')[1].checked = true;
+     }
   }
 }
 

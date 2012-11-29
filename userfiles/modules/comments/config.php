@@ -4,7 +4,7 @@ $config = array();
 $config['name'] = "Comments";
 $config['author'] = "Microweber";
 $config['ui_admin'] = true;
-$config['ui'] = true;
+$config['ui'] = true;                                 
 
 
 $config['categories'] = "content";

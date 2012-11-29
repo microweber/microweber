@@ -321,3 +321,7 @@ $language["address-2"]= 'Address 2' ;
 $language["install"]= 'Install' ; 
 $language["buy-now"]= 'Buy now' ; 
 $language["view-all"]= 'View All' ; 
+$language["names111"]= 'Names111' ; 
+$language["edit-information"]= 'Edit Information' ; 
+$language["upload-image"]= 'Upload Image' ; 
+$language["no-options-found"]= 'No options found' ; 

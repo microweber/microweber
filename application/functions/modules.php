@@ -1,7 +1,25 @@
 <?php
+/**
+ *
+ * Modules functions API
+ *
+ * @package		modules
+ * @since		Version 0.1
+ */
+
+// ------------------------------------------------------------------------
 
 define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
 
+/**
+ * module_templates
+ *
+ * Gets all templates for a module
+ *
+ * @package		modules
+ * @subpackage	functions
+ * @category	modules api
+ */
 function module_templates($module_name, $template_name = false) {
 
 	$module_name_l = locate_module($module_name);
@@ -119,12 +137,12 @@ function get_all_functions_files_for_modules($options = false) {
 	$cache_group = 'modules/functions';
 
 	$cache_content = cache_get_content($cache_id, $cache_group);
- 
+
 	if (($cache_content) != false) {
 
-		 return $cache_content;
+		return $cache_content;
 	}
- 
+
 	//d($uninstall_lock);
 	if (isset($options['glob'])) {
 		$glob_patern = $options['glob'];
@@ -150,7 +168,7 @@ function get_all_functions_files_for_modules($options = false) {
 	}
 
 	$dir = rglob($glob_patern, 0, $dir_name);
-	 
+
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
@@ -160,6 +178,7 @@ function get_all_functions_files_for_modules($options = false) {
 
 				$found = false;
 				foreach ($disabled_files as $disabled_file) {
+					//d($disabled_file);
 					if (strtolower($value) == strtolower($disabled_file)) {
 						$found = 1;
 					}
@@ -909,7 +928,7 @@ function scan_for_modules($options = false) {
 
 	//clearcache();
 	//clearstatcache();
-
+	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
 	if (!empty($dir)) {
@@ -993,7 +1012,7 @@ function scan_for_modules($options = false) {
 							//d($config);
 							//if (isset($options['dir_name'])) {
 							save_module_to_db($config);
-
+							$modules_remove_old = true;
 							$config['installed'] = 'auto';
 							install_module($config);
 							//}
@@ -1015,6 +1034,25 @@ function scan_for_modules($options = false) {
 		foreach ($cfg_ordered2 as $k => $item) {
 			foreach ($item as $ite) {
 				$cfg_ordered[] = $ite;
+			}
+		}
+
+		if ($modules_remove_old == true) {
+			$cms_db_tables = c('db_tables');
+			$table = $cms_db_tables['table_options'];
+			$uninstall_lock = get_modules_from_db('ui=any');
+			if (!empty($uninstall_lock)) {
+				foreach ($uninstall_lock as $value) {
+					$ism = is_module($value['module']);
+					if ($ism == false) {
+						delete_module_by_id($value['id']);
+						$mn = $value['module'];
+						$q = "delete from $table where option_group='{$mn}'  ";
+ 
+						db_q($q);
+					}
+					//	d($ism);
+				}
 			}
 		}
 

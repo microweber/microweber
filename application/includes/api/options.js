@@ -1,5 +1,26 @@
 // JavaScript Document
 
+/**
+ *
+ * Options API
+ *
+ * @package		js
+ * @subpackage		options
+ * @since		Version 0.567
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * mw.options
+ *
+ *  mw.options object
+ *
+ * @package		js
+ * @subpackage	options
+ * @category	options internal api
+ * @version 1.0
+ */
 mw.options = {
     save:function(el){
 

@@ -2,6 +2,7 @@
   padding-top: 6px !important;
   padding-bottom: 6px !important;
   display: block;
+  clear: both;
 }
 .hSpace{
   display: inline-block;
@@ -1619,6 +1620,87 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 
 
 
+
+.mw_tabs_layout_simple .mw_simple_tabs_nav{
+  position: relative;
+  z-index: 1;
+  padding-top: 15px;
+  background:#EEEEEE;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav:after{
+    content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+#mw_tabs_layout_simple .tab{
+  height: 270px;
+}
+
+.mw_tabs_layout_simple .mw_simple_tabs_nav li{
+  list-style: none;
+  float: left;
+  margin: 0 22px;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav li a{
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #212121;
+  padding: 15px;
+  position: relative;
+  top: 2px;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav li a.active{
+  border: 1px solid #D7D7D7;
+  border-bottom: none;
+  padding: 14px 14px 15px;
+  background: white;
+}
+
+
+
+.mw_tabs_layout_simple .tab{
+  border-top: 1px solid #d7d7d7;
+}
+
+
+.bluebtn{
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+  text-decoration: none;
+  color: #343434;
+  font-size: 18px;
+  padding: 5px 20px;
+  border: 1px solid #5C9DC7;
+  text-shadow:0 1px 0 #B4D6EC;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-image: linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
+  background-image: -o-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
+  background-image: -moz-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
+  background-image: -webkit-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#87C4ED", endColorStr="#549AC6");
+  background-image: -ms-linear-gradient(bottom, #549AC6 27%, #87C4ED 99%, #CBE6F7 100%);
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0.27, #549AC6),
+  	color-stop(0.99, #87C4ED),
+  	color-stop(1, #CBE6F7)
+  );
+
+}
+
+.bluebtn.small{
+  font-size: 11px;
+}
 
 
 

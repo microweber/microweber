@@ -1,3 +1,5 @@
+
+
 <?
 $data = $params;
 if (!isset($params['to_table'])) {
@@ -41,7 +43,6 @@ if ($template != false and strtolower($template) != 'none') {
 }
 ?>
 <script  type="text/javascript">
-
     mw.require("forms.js");
 </script>
 <script  type="text/javascript">

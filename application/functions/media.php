@@ -159,7 +159,7 @@ function upload($data) {
 		//   var_dump($_FILES);
 	}
 
-	return $rerturn;
+	exit(json_encode($rerturn));
 	//var_dump($data);
 	//var_dump($_FILES);
 }
@@ -314,7 +314,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 	}
 
 	$cache = crc32($src . $width . $height) . basename($src);
-	
+
 	$cache = str_replace(' ', '_', $cache);
 	$cache_path = $cd . $cache;
 
@@ -337,11 +337,13 @@ function thumbnail($src, $width = 200, $height = 200) {
 function get_pictures($params) {
 	$tables = c('db_tables');
 	$table = $tables['table_media'];
-	$params2 = array();
-	if (is_string($params)) {
-		$params = parse_str($params, $params2);
-		$params = $params2;
-	}
+	$params = parse_params($params);
+/*
+	// if (is_string($params)) {
+		// $params = parse_str($params, $params2);
+		// $params = $params2;
+	// }*/
+
 
 	if (isset($params['for'])) {
 		$params['for'] = db_get_assoc_table_name($params['for']);

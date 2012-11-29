@@ -647,10 +647,18 @@ function isarr($var) {
 }
 
 /**
+ * 
+ * 
  * Recursive glob()
- */
-
-/**
+ * 
+ * @access public
+ * @package utils
+ * @subpackage	files
+ * @category	files
+ * 
+ * @version 1.0
+ * 
+ * 
  * @param int $pattern
  * the pattern passed to glob()
  * @param int $flags
@@ -674,6 +682,7 @@ function rglob($pattern = '*', $flags = 0, $path = '') {
    
     
 }
+
 
 // ------------------------------------------------------------------------
 
@@ -723,47 +732,7 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
     return FALSE;
 }
 
-/**
-     * Get an array that represents directory tree
-     * @param string $directory     Directory path
-     * @param bool $recursive         Include sub directories
-     * @param bool $listDirs         Include directories on listing
-     * @param bool $listFiles         Include files on listing
-     * @param regex $exclude         Exclude paths that matches this regex
-     */
-    function dir_to_array($directory, $recursive = true, $listDirs = false, $listFiles = true, $exclude = '') {
-        $arrayItems = array();
-        $skipByExclude = false;
-		 $directory = rtrim($directory, DIRECTORY_SEPARATOR);
-        $handle = opendir($directory);
-        if ($handle) {
-            while (false !== ($file = readdir($handle))) {
-            preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/iu", $file, $skip);
-            if($exclude){
-                preg_match($exclude, $file, $skipByExclude);
-            }
-            if (!$skip && !$skipByExclude) {
-                if (is_dir($directory. DIRECTORY_SEPARATOR . $file)) {
-                   if($listDirs){
-                        $file = $directory . DIRECTORY_SEPARATOR . $file;
-                        $arrayItems['dirs'][] = $file;
-                    }
-				    if($recursive) {
-                        $arrayItems = array_merge($arrayItems, dir_to_array($directory. DIRECTORY_SEPARATOR . $file, $recursive, $listDirs, $listFiles, $exclude));
-                    }
-                    
-                } else {
-                    if($listFiles){
-                        $file = $directory . DIRECTORY_SEPARATOR . $file;
-                        $arrayItems['files'][] = $file;
-                    }
-                }
-            }
-        }
-        closedir($handle);
-        }
-        return $arrayItems;
-    }
+
  
 function percent($num_amount, $num_total) {
     $count1 = $num_amount / $num_total;

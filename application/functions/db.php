@@ -395,6 +395,24 @@ if (is_admin() == true) {
 	api_expose('get');
 }
 
+/**
+ * 
+ * Function to query the database
+ * 
+ * @access public
+ * @package db
+ * @category  db
+ * 
+ * @author Peter Ivanov
+ * @version 1.0
+ * 
+ * 
+ * @see db
+ * @since 0.320
+ * @return mixed Array with data or false
+ * @param array $params parameters for the DB
+ *
+ */
 function get($params) {
 	$orderby = false;
 	$cache_group = false;

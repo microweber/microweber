@@ -1266,6 +1266,7 @@ tr:hover > .mw-order-item-edit > *{
 }
 .mw-o-box-accordion{
   overflow: hidden;
+  margin-bottom: 12px;
 }
 
 .mw-o-box-header{
@@ -1358,8 +1359,8 @@ tr.mw-o-box-table-footer td:first-child{
   border: none;
 }
 
-tr.mw-o-box-table-footer.last td{
-  border-bottom: none;
+.mw-o-box tr.last td{
+  border-bottom: none !important;
 }
 
 
@@ -1672,6 +1673,64 @@ select.mw-ui-simple-dropdown:focus{
 .modules-index-bar{
   padding-top: 12px;
 }
+
+
+.mw-client-information input[type='text']{
+    width: 86px;
+    padding: 4px;
+}
+.mw-client-information.nonactive input[type='text']{
+    display: none;
+}
+
+.mw-client-information .val{
+  display: none;
+}
+
+.mw-client-information.nonactive .val{
+  display: inline-block;
+  padding: 5px;
+}
+
+.mw-client-image-holder{
+  width: 115px;
+  height: 115px;
+  border: 1px solid #E9E9E9;
+  background-color: white;
+  margin: 0 12px 12px;
+  text-align: center;
+}
+.mw-client-image-holder img{
+  max-width: 115px;
+  max-height: 115px;
+}
+
+.mw-save-bar{
+  clear: both;
+  overflow: hidden;
+  position: relative;
+  padding: 12px 0;
+}
+
+.mw-save-bar-edit-client .mw-ui-btn{
+  margin: 0 10px;
+}
+.mw-client-information td{
+  padding: 0;
+}
+
+
+.mw_upload_frame{
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  overflow: hidden;
+}
+
 
 
 
