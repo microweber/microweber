@@ -953,12 +953,11 @@ function scan_for_modules($options = false) {
 
 				//  d( $value_fn);
 
-				$value_fn = str_replace($dir_name_mods, '', $value_fn);
+				$value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
 
 				//d( $value_fn);
 				//  $value_fn = reduce_double_slashes($value_fn);
 
-				$try_icon = $mod_name . '.png';
 				$def_icon = MODULES_DIR . 'default.png';
 
 				ob_start();
@@ -976,9 +975,17 @@ function scan_for_modules($options = false) {
 				$config['module'] = rtrim($config['module'], '/');
 
 				$config['module_base'] = str_replace('admin/', '', $value_fn);
+				if (is_dir($mod_name)) {
+					$t1 = ($mod_name) . $value_fn;
 
+					$try_icon = $t1 . '.png';
+
+				} else {
+					$try_icon = $mod_name . '.png';
+				}
+				$try_icon = normalize_path($try_icon, false);
 				if (is_file($try_icon)) {
-					// p($try_icon);
+
 					$config['icon'] = pathToURL($try_icon);
 				} else {
 					$config['icon'] = pathToURL($def_icon);
@@ -1048,7 +1055,7 @@ function scan_for_modules($options = false) {
 						delete_module_by_id($value['id']);
 						$mn = $value['module'];
 						$q = "delete from $table where option_group='{$mn}'  ";
- 
+
 						db_q($q);
 					}
 					//	d($ism);
