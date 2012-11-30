@@ -1,7 +1,5 @@
 <?
-
 $rand = rand();
-
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
@@ -11,23 +9,30 @@ include('empty_field_vals.php');
 
 //print $data["custom_field_value"]; ?>
 <? if(!empty($data['custom_field_values'])) : ?>
+
 <div class="mw-custom-field-group mw-custom-field-group-checkbox custom-field-preview">
-<label class="mw-ui-label mw-custom-field-label" for="custom_field_help_text<? print $rand ?>"><? print $data["custom_field_name"]; ?></label>
-<select <? if(option_get('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?>multiple="multiple"<? endif; ?> name="<? print $data["custom_field_name"]; ?>">
-
-
-  <? foreach($data['custom_field_values'] as $v): ?>
-
-
-      <option  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $v; ?>"><? print ($v); ?></option>
-
-
-  <? endforeach; ?>
-</select>
+  <label class="mw-ui-label mw-custom-field-label">
+    <? if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <? print $data['name'] ?>
+    <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
+    <? print $data['custom_field_name'] ?>
+    <? else : ?>
+    <? endif; ?>
+  </label>
+  <? if(isset($data['help']) == true and $data['help'] != ''): ?>
+  <small  class="mw-custom-field-help"><? print $data['name'] ?></small>
+  <? endif; ?>
+ 
+  <select <? if(option_get('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?>multiple="multiple"<? endif; ?> name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
+    <? foreach($data['custom_field_values'] as $k=>$v): ?>
+    <? if(is_string( $k)){
+	$kv =  $k;	
+	} else {
+	$kv =  $v;	
+	}
+	?>
+    <option  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <? endif; ?> ><? print ($v); ?></option>
+    <? endforeach; ?>
+  </select>
 </div>
 <? endif; ?>
-
-
-
-
-<? #print html_entity_decode(option_get('embed_code_'.$data['id'], 'custom_fields'));   ?>

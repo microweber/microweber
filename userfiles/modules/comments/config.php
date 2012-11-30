@@ -13,23 +13,41 @@ $config['version'] = 0.3;
 
 
 $config['tables'] = array();
+$fields_to_add = array();
+$fields_to_add[] = array('to_table', 'TEXT default NULL');
+$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+$fields_to_add[] = array('updated_on', 'datetime default NULL');
+$fields_to_add[] = array('created_on', 'datetime default NULL');
+$fields_to_add[] = array('created_by', 'int(11) default NULL');
+$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+$fields_to_add[] = array('comment_name', 'TEXT default NULL');
+$fields_to_add[] = array('comment_body', 'TEXT default NULL');
+$fields_to_add[] = array('comment_email', 'TEXT default NULL');
+$fields_to_add[] = array('comment_website', 'TEXT default NULL');
+$fields_to_add[] = array('is_moderated', "char(1) default 'n'");
+$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+$fields_to_add[] = array('for_newsletter', "char(1) default 'n'");
+$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+$config['tables']['table_comments'] = $fields_to_add;
+
+
+
+$options = array();
+$option = array();
+
+$option['option_key'] = 'email_notifcation_on_comment';
+$option['name'] = 'Enable email notification on new comment';
+$option['help'] = 'If yes it will send you email for every new comment';
+$option['option_value'] = 'n';
+$option['position'] = '3';
+$option['field_type'] = 'dropdown';
+$option['field_values'] = array('y' => 'yes', 'n' => 'no');
+$config['options'][] = $option;
+
+
+
+
+ 
  
 
-	$fields_to_add = array();
-	$fields_to_add[] = array('title', 'TEXT default NULL');
-	$fields_to_add[] = array('is_active', "char(1) default 'y'");
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
-	$fields_to_add[] = array('updated_on', 'datetime default NULL');
-	$fields_to_add[] = array('created_on', 'datetime default NULL');
-	$fields_to_add[] = array('price', 'float default NULL');
-	$fields_to_add[] = array('currency', 'varchar(33)  default NULL ');
-	$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-	$fields_to_add[] = array('qty', 'int(11) default NULL');
-	$fields_to_add[] = array('other_info', 'TEXT default NULL');
-	$fields_to_add[] = array('order_completed', "char(1) default 'n'");
-	$fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
-	$fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
-	$fields_to_add[] = array('created_by', 'int(11) default NULL');
-	$fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
-	//$config['tables']['table_comments'] = $fields_to_add;
+ 

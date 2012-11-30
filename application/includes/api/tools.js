@@ -7,23 +7,41 @@ mw.simpletabs = function(){
   mw.$(".mw_simple_tabs_nav").each(function(){
     if(!$(this).hasClass('activated')){
         $(this).addClass('activated')
-        var parent = $(this).parents(".mw_simple_tabs").eq(0);
-        parent.find(".tab").addClass("semi_hidden");
-        parent.find(".tab").eq(0).removeClass("semi_hidden");
-        $(this).find("a").eq(0).addClass("active");
-        $(this).find("a").click(function(){
-            var parent = $(this).parents(".mw_simple_tabs_nav").eq(0);
-            var parent_master =  $(this).parents(".mw_simple_tabs").eq(0);
-            parent.find("a").removeClass("active");
-            $(this).addClass("active");
-            parent_master.find(".tab").addClass("semi_hidden");
-            var index = parent.find("a").index(this);
-            parent_master.find(".tab").eq(index).removeClass("semi_hidden");
-            return false;
-        });
+        if(!$(this).hasClass('by-hash')){
+            var parent = $(this).parents(".mw_simple_tabs").eq(0);
+            parent.find(".tab").addClass("semi_hidden");
+            parent.find(".tab").eq(0).removeClass("semi_hidden");
+            $(this).find("a").eq(0).addClass("active");
+            $(this).find("a").click(function(){
+                mw.simpletab.set(this);
+                return false;
+            });
+        }
+        else{
+
+        }
     }
   });
 }
+
+mw.simpletab = {
+  set:function(el){
+    if(!$(el).hasClass('active')){
+      var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
+      var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
+      $(ul.querySelector('.active')).removeClass('active');
+      $(el).addClass('active');
+      var index = mw.tools.index(el, ul);
+      $(master.querySelectorAll('.tab')).addClass('semi_hidden');
+      $(master.querySelectorAll('.tab')[index]).removeClass('semi_hidden');
+    }
+  }
+}
+
+
+
+
+
 
 mw.external_tool = function(url){
   return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
@@ -196,7 +214,7 @@ mw.tools = {
         + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="ed_btn" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
+        + '<td align="center" height="25"><span class="mw-ui-btn-action" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
         + '</tr>'
     + '</table>';
     return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
@@ -350,11 +368,11 @@ mw.tools = {
   },
   classNamespaceDelete:function(el_obj, namespace){
     if(el_obj ==='all'){
-      var all = mwd.querySelectorAll('.edit *'), i=0, len=all.length;
-      for( ;i<len; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      var all = mwd.querySelectorAll('.edit *'), i=0, l=all.length;
+      for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
       return;
     }
-    var clas =  el_obj.className!==undefined ? el_obj.className.split(" ") : '';
+    var clas = el_obj.className!==undefined ? el_obj.className.split(" ") : '';
     for(var i=0; i<clas.length; i++){
       if(clas[i].indexOf(namespace)==0){
            clas[i] = 'MWDeleteNameSpace';
@@ -379,24 +397,24 @@ mw.tools = {
       mw.tools.tree.remember(master);
     },
     del : function(id){
-      if(confirm('Are you sure you want to delete this?')){
-         $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
-            var todelete =  mw.$(".item_" + id);
-             todelete.fadeOut(function(){
-                 todelete.remove();
-             });
-		 });
-      }
+        mw.tools.confirm('Are you sure you want to delete this?', function(){
+           $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
+              var todelete =  mw.$(".item_" + id);
+               todelete.fadeOut(function(){
+                   todelete.remove();
+               });
+  		    });
+        })
     },
 	  del_category : function(id){
-      if(confirm('Are you sure you want to delete this?')){
+      mw.tools.confirm('Are you sure you want to delete this?', function(){
          $.post(mw.settings.site_url + "api/delete_category", {id:id}, function(data) {
             var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
                  todelete.remove();
              });
 		 });
-      }
+      })
     },
     detectType:function(tree_object){
       if(tree_object!==null && typeof tree_object === 'object'){
@@ -630,6 +648,14 @@ mw.tools = {
           $(el).addClass('mw-accordion-active');
           typeof callback === 'function' ? callback.call(el, 'hidden') : '';
       });
+    }
+  },
+  index:function(el, parent, selector){
+    var selector = selector || el.tagName.toLowerCase();
+    var parent = parent || el.parentNode;
+    var all = parent.querySelectorAll(selector), i=0, l=all.length;
+    for ( ; i<l;i++){
+        if(el===all[i]) return i;
     }
   }
 }

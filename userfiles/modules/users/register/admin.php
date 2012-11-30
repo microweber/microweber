@@ -15,10 +15,10 @@
     </div>
   </div>
   <h2>Global settings</h2>
-  <div class="control-group">
-    <label class="control-label">facebook_api</label>
-    <div class="controls">
-      <input name="facebook_api" class="mw_option_field" data-module-id='api'  type="text"   value="<?php print option_get('facebook_api', 'api') ?>" />
-    </div>
-  </div>
+  
+ 
+  
+  <microweber module="settings/list"   id="options_list_<? print  $params['id']  ?>" for_module="<? print $config['module'] ?>" >
+  
+   
 </fieldset>

@@ -421,6 +421,9 @@ function is_module($module_name) {
 	if (!is_string($module_name)) {
 		return false;
 	}
+	if(trim($module_name) == ''){
+		return false;
+	}
 	$checked = array();
 
 	if (!isset($checked[$module_name])) {
@@ -768,6 +771,27 @@ function install_module($params) {
 						set_db_table($table, $fields_to_add);
 					}
 				}
+
+				if (isset($config['options']) and is_arr($config['options'])) {
+					$changes = false;
+					$tabl = $config['options'];
+					foreach ($tabl as $key => $value) {
+						//$table = db_get_real_table_name($key);
+						//d($value);
+						$value['module'] = $module_name;
+						$ch = set_default_option($value);
+						//	d($ch);
+						if ($ch == true) {
+							$changes = true;
+						}
+					}
+
+					if ($changes == true) {
+
+						cache_clean_group('options/global');
+					}
+				}
+
 				//
 			}
 		}
@@ -1348,6 +1372,8 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
+				$config['module'] = $module_name;
+		
 		$config['module_name_url_safe'] = module_name_encode($module_name);
 
 		$find_base_url = curent_url(1);

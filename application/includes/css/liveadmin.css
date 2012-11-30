@@ -399,6 +399,10 @@ form.add-edit-page-post textarea{
   border-radius:30px;
 }
 
+.mw-ui-searchfield.loading{
+  background:url("../img/img_check_loading.gif") no-repeat no-repeat 7px 3px
+}
+
 .manage-search:focus, .mw-ui-searchfield:focus{
     box-shadow:inset  0px 0px  4px 0px #CCCCCC;
     border-color: #D1C9C9 #BAB6B6 #BAB6B6 #BAB6B6;
@@ -805,6 +809,8 @@ form.add-edit-page-post .mw-custom-field-group textarea{
   z-index: 1;
   background: white;
   opacity:0.1;
+
+  display: none !important;
 }
 
 .custom-field-preview-cell{
@@ -1537,6 +1543,29 @@ select.mw-ui-simple-dropdown:focus{
     box-shadow:0 1px 0 0 #FFFFFF inset;
     border-color:#E9E6E6 #C5C2C2 #A1A0A0 #C5C2C2;
     background: url(../img/grad.php?top=F4F4F4&bot=ECECEC)
+}
+
+.mw-admin-side-nav-simple li{
+  list-style: none;
+  margin-bottom: 5px;
+}
+
+.mw-admin-side-nav-simple a{
+  display: block;
+  color: #245E99;
+  text-decoration: none;
+  padding: 5px 20px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.mw-admin-side-nav-simple a:hover{
+  background: rgba(255,255,255,0.5);
+  border-top-color:#EDEDED;
+  border-bottom-color:#EDEDED;
+}
+.mw-admin-side-nav-simple a.active{
+  background: white;
 }
 
 

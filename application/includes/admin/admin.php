@@ -49,8 +49,8 @@
   <?php
         
         $v_mod = module_name_decode($v);
-        
-         if(is_module($v_mod)){
+      
+         if($v_mod != '' and is_module($v_mod)){
              $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
             
 			

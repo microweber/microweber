@@ -1,7 +1,11 @@
-<? //d($params); 
+<?   
 $orig_params = $params;
 if(isset($params['id'])){
 unset($params['id']);	
+}
+
+if(isset($params['for_module'])){
+$params['module'] = $params['for_module'];	
 }
 $opts = get_options($params);
 //d($opts);
@@ -13,8 +17,3 @@ $opts = get_options($params);
 <?  else: ?>
 <? _e("No options found"); ?>
 <? endif; ?>
-
- 
- 
- 
- 

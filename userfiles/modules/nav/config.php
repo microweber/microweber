@@ -14,6 +14,7 @@ $config['version'] = 0.3;
 $config['tables'] = array();
 $fields_to_add = array();
 $fields_to_add[] = array('title', 'TEXT default NULL');
+$fields_to_add[] = array('item_type', 'varchar(33) default NULL');
 $fields_to_add[] = array('parent_id', 'int(11) default NULL');
 $fields_to_add[] = array('content_id', 'int(11) default NULL');
 $fields_to_add[] = array('taxonomy_id', 'int(11) default NULL');

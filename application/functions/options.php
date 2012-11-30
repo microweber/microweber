@@ -85,6 +85,10 @@ function create_mw_default_options() {
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_description';
 	$data['option_value'] = 'My website\'s description';
+	$data['name'] = 'Website description';
+	$data['help'] = 'Describe your website here';
+	$data['field_type'] = 'textarea';
+
 	$data['position'] = '2';
 	$datas[] = $data;
 
@@ -105,9 +109,12 @@ function create_mw_default_options() {
 	$data = array();
 	$data['option_group'] = 'users';
 	$data['option_key'] = 'enable_user_registration';
+	$data['name'] = 'Enable user registration';
+	$data['help'] = 'You can enable or disable the regitration for new users';
 	$data['option_value'] = '0';
 	$data['position'] = '3';
- 
+	$data['field_type'] = 'dropdown';
+	$data['field_values'] = array('y' => 'yes', 'n' => 'no');
 
 	$datas[] = $data;
 	$changes = false;
@@ -194,8 +201,12 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	$data['limit'] = 1;
 	// $get = db_get($table, $data, $cache_group);
 	$ok = db_escape_string($data['option_key']);
+	if ($return_full == true) {
+		$q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
+	} else {
+		$q = "select option_value from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
 
-	$q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
+	}
 	$function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
 	//
 
@@ -212,6 +223,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		} else {
 
 			$get = $get[0];
+
+			if (isset($get['field_values']) and $get['field_values'] != false) {
+				$get['field_values'] = unserialize(base64_decode($get['field_values']));
+			}
 
 			return $get;
 		}
@@ -243,6 +258,23 @@ function set_default_option($data) {
 
 function option_get($key, $option_group = false, $return_full = false, $orderby = false) {
 	return get_option($key, $option_group, $return_full, $orderby);
+}
+
+function get_option_by_id($id) {
+	$id = intval($id);
+	if ($id == 0) {
+		return false;
+	}
+	$table = MW_DB_TABLE_OPTIONS;
+
+	$q = "select * from $table where id={$id} limit 1 ";
+	$function_cache_id = __FUNCTION__ . crc32($q);
+	$res1 = false;
+	$res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
+	if (is_array($res) and !empty($res)) {
+		return $res[0];
+	}
+
 }
 
 function get_option_groups() {
@@ -292,22 +324,46 @@ function save_option($data) {
 	// p($_POST);
 	$option_group = false;
 	if (isarr($data)) {
-		//if (!isset($data['id']) or intval($data['id']) == 0) {
-		if ($data['option_key'] and $data['option_group']) {
-			$option_group = $data['option_group'];
-			delete_option_by_key($data['option_key'], $data['option_group']);
+		if (!isset($data['id']) or intval($data['id']) == 0) {
+			if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
+				$option_group = $data['option_group'];
+				delete_option_by_key($data['option_key'], $data['option_group']);
+			}
 		}
+		if (isset($data['field_values']) and $data['field_values'] != false) {
+			$data['field_values'] = base64_encode(serialize($data['field_values']));
+		}
+
 		//}
 		if (strval($data['option_key']) != '') {
 
 			$table = MW_DB_TABLE_OPTIONS;
+			if (isset($data['option_group']) and strval($data['option_group']) == '') {
 
-			// $data ['debug'] = 1;
+				unset($data['option_group']);
+			}
+
+			//  $data ['debug'] = 1;
 			$save = save_data($table, $data);
 
 			if ($option_group != false) {
 
 				$cache_group = 'options/' . $option_group;
+				cache_clean_group($cache_group);
+			} else {
+				$cache_group = 'options/' . 'global';
+				cache_clean_group($cache_group);
+			}
+
+			if (isset($data['id']) and intval($data['id']) > 0) {
+
+				$opt = get_option_by_id($data['id']);
+
+				if (isset($opt['option_group'])) {
+					$cache_group = 'options/' . $opt['option_group'];
+					cache_clean_group($cache_group);
+				}
+				$cache_group = 'options/' . intval($data['id']);
 				cache_clean_group($cache_group);
 			}
 			//d($cache_group);

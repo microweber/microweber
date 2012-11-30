@@ -219,21 +219,31 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 		}
 	} else {
 		if ($field_id != 0) {
-
-			//print $field_id;
-
 			$data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
-			//p($data);
-			//getById($table, $id = 0, $is_this_field = false)
-			//exit('$field_id' . $field_id);
 		}
 	}
-	if (isset($data['type'])) {
-		$field_type = $data['type'];
-	}
+
 	if (isset($data['custom_field_type'])) {
 		$field_type = $data['custom_field_type'];
 	}
+
+	if (!isset($data['custom_field_required'])) {
+		$data['custom_field_required'] = 'n';
+	}
+
+	if (isset($data['type'])) {
+		$field_type = $data['type'];
+	}
+
+	if (isset($data['field_type'])) {
+		$field_type = $data['field_type'];
+	}
+
+	if (isset($data['field_values']) and !isset($data['custom_field_value'])) {
+		$data['custom_field_values'] = $data['field_values'];
+	}
+
+	$data['custom_field_type'] = $field_type;
 
 	if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
 		if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
@@ -247,23 +257,24 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	$dir = dirname(__FILE__);
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);
-	if ($settings == true) {
+	if ($settings == true or isset($data['settings'])) {
 		$file = $dir . $field_type . '_settings.php';
 	} else {
 		$file = $dir . $field_type . '.php';
 	}
+	if (is_file($file)) {
+		$l = new MwView($file);
+		//
+		$l -> settings = $settings;
 
-	$l = new MwView($file);
-	//
-	$l -> settings = $settings;
+		if (isset($data) and !empty($data)) {
+			$l -> data = $data;
+		} else {
+			$l -> data = array();
+		}
 
-	if (isset($data) and !empty($data)) {
-		$l -> data = $data;
-	} else {
-		$l -> data = array();
+		$layout = $l -> __toString();
+
+		return $layout;
 	}
-
-	$layout = $l -> __toString();
-
-	return $layout;
 }

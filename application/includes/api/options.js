@@ -81,6 +81,16 @@ if(refresh_modules11 == undefined){
 				if(mname !== undefined){
 					o_data.module = mname;
 				}
+				 if(og != undefined){
+				    o_data.id = have_id;
+				}
+				
+				var have_id = el.attr('data-custom-field-id');
+				 
+				if(have_id != undefined){
+				    o_data.id = have_id;
+				}
+				
                 $.ajax({
                     type: "POST",
                     url: mw.settings.site_url+"api/save_option",
@@ -104,7 +114,9 @@ if(refresh_modules11 == undefined){
 };
 
 mw.options.form = function($selector, callback){
-    mw.$($selector+" .mw_option_field").bind("change", function(){
+  //  mw.$($selector+" .mw_option_field").bind("change", function(){
+	  
+	   mw.$($selector+" input,select,textarea").bind("change", function(){
           mw.options.save(this);
     });
 }
