@@ -25,6 +25,9 @@ function exec_action($api_function, $data = false) {
 
 					$hook_value();
 				}
+				//unset($hooks[$api_function][$hook_key]);
+				
+				
 			}
 		}
 	}
@@ -127,4 +130,22 @@ function parse_params($params) {
 		unset($params2);
 	}
 	return $params;
+}
+$mw_var = array();
+function mw_var($key, $new_val = false) {
+	global $mw_var;
+	$contstant = ($key);
+	if ($new_val == false) {
+		if (isset($defined[$contstant]) != false) {
+			return $defined[$contstant];
+		} else {
+			return false;
+		}
+	} else {
+		if (isset($defined[$contstant]) == false) {
+			$defined[$contstant] = $new_val;
+			return $new_val;
+		}
+	}
+	return false;
 }

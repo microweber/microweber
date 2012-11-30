@@ -80,7 +80,7 @@ function old_menu_tree($menu_id, $maxdepth = false) {
 	$params_order ['position'] = 'ASC';
 	
 	 
-	$table_menus = $cms_db_tables ['table_menus'];
+	$table_menus = MW_TABLE_PREFIX . 'menus';
 	
 	$sql = "SELECT id from {$table_menus}
 	where item_parent=$menu_id
@@ -171,7 +171,7 @@ function old_get_menu_items($menu_id = false, $id = false) {
 	
 	$cms_db_tables = c ( 'db_tables' );
 	
-	$table_menus = $cms_db_tables ['table_menus'];
+	$table_menus = MW_TABLE_PREFIX . 'menus';
 	
 	$table_content = $cms_db_tables ['table_content'];
 	

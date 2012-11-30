@@ -17,8 +17,9 @@ include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
 
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
-
+ 
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+exec_action('mw_db_init_options');
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');

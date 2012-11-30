@@ -1219,7 +1219,7 @@ function save_edit($post_data) {
 							$to_save = array();
 							$to_save['id'] = $content_id;
 
-							//$to_save['debug'] = $content_id;
+						 $to_save['debug'] = $content_id;
 
 							$to_save['page_element_id'] = $page_element_id;
 

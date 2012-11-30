@@ -308,7 +308,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (isset($_POST)) {
 			$parse_mode = 1;
 		}
-//$parse_mode = 10;
+		//$parse_mode = 10;
 		switch ($parse_mode) {
 			case 1 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
@@ -351,8 +351,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
 
 				break;
-				
-					case 10 :
+
+			case 10 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_with_cache.php');
 
 				break;
@@ -565,8 +565,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 									$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
 								} else {
-
-									$module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
+									$module_class = module_css_class($module_name);
+									$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
 								}
 							} else {
 
@@ -590,11 +590,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 							//if (trim($mod_content) != '') {
-								if ($mod_no_wrapper == false) {
-									$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
-								} else {
-									$module_html = $mod_content;
-								}
+							if ($mod_no_wrapper == false) {
+								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
+							} else {
+								$module_html = $mod_content;
+							}
 							//} else {
 							//	$module_html = '';
 							//}

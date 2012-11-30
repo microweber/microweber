@@ -259,7 +259,7 @@ class MwController {
 			@touch($recycle_bin_f);
 		}
 
-		create_mw_default_options();
+		//create_mw_default_options();
 		define_constants();
 		$l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
 		$l = $l -> __toString();

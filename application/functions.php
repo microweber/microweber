@@ -67,11 +67,7 @@ function dump($v) {
 	return '<pre>' . var_dump($v) . '</pre>';
 }
 
-function post($k, $d = '', $s = 1) {
-	$v = v($_POST[$k], $d);
-	return ($s && is_string($v)) ? $v : (!$s && is_array($v) ? $v : $d);
-}
-
+ 
 function _log($m) {
 	file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
 }

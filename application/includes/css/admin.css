@@ -16,22 +16,30 @@ h2{ /*  ask the designer */
   overflow: hidden;
   position: relative;
 }
+/*
 
-body.view-shop.action-Array #mw-admin-container,
-body.view-content #mw-admin-container
+
+body.view-shop.action-Array .mw-admin-wrapper,
+body.view-content .mw-admin-wrapper
 {background: url("../img/treebg.gif") repeat-y -167px 0;}
-body.view-modules #mw-admin-container{background: url("../img/treebg.gif") repeat-y -304px 0;}
+body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-y -304px 0;}
+
+*/
+
+.admin-main-wrapper.modules{background: url("../img/treebg.gif") repeat-y -304px 0;}
 
 
-
-
-#mw-admin-container:after{
+#mw-admin-container:after, .admin-main-wrapper:after{
   content: ".";
   display: block;
   clear: both;
   visibility: hidden;
   line-height: 0;
   height: 0;
+}
+
+.admin-main-wrapper{
+
 }
 
 

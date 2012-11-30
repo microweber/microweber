@@ -31,15 +31,39 @@ mw.options = {
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-reload');
 				}
+				
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = el.attr('data-reload');
+				}
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = el.attr('option-group');
+				}
+				
+				if(refresh_modules11 == undefined){
+				    var refresh_modules11 = el.attr('option_group');
+				}
+				
+					if(refresh_modules11 == undefined){
+				    var refresh_modules11 = el.attr('data-option-group');
+				}
+				
 				if(refresh_modules11 == undefined && modal!==undefined){
 				    var refresh_modules11 = '#' + modal.attr('data-settings-for-module');
 				}
                 var a = ['data-module-id','data-settings-for-module','data-refresh','option-group','data-option-group'], i=0, l=a.length, og='';
          		var mname = modal!==undefined ? modal.attr('data-type'):undefined;
 
-                for( ; i<l; i++){
+if(refresh_modules11 == undefined){
+				    for( ; i<l; i++){
                   var og = og === undefined ? el.attr(a[i]) : og;
                 }
+				} else {
+					var og = refresh_modules11;
+				}
+				
+				
+				
+               
                 if(el.type==='checkbox'){
                    var val = '';
                    var items = mwd.getElementsByName(el.name), i=0, len = items.length;

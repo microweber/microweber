@@ -44,8 +44,17 @@ function mw_newsletter_module_init_db() {
   
   
   $fields_to_add = array ();
-	$fields_to_add [] = array ('newsletter_name', 'TEXT default NULL' );
-	$fields_to_add [] = array ('require_login', "ENUM('n', 'y') default 'y'" );
+	$fields_to_add [] = array ('title', 'TEXT default NULL' );
+	$fields_to_add [] = array ('is_active', "char(1) default 'y'" );
+	 set_db_table ( $table_name, $fields_to_add );
+	
+	
+	 db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+
+	
+	
+	
+	
 	/*$fields_to_add [] = array ('content_subtype', 'varchar(150) default "none"' );
 	$fields_to_add [] = array ('content_subtype_value', 'varchar(150) default "none"' );
 	
@@ -87,7 +96,7 @@ function mw_newsletter_module_init_db() {
 	$fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
 	$fields_to_add [] = array ('is_special', 'char(1) default "n"' );*/
 	 
-	 set_db_table ( $table_name, $fields_to_add );
+	
 	
 	//add fulltext search
 	//ALTER TABLE articles ADD FULLTEXT(body, title);

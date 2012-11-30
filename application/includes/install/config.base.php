@@ -68,7 +68,7 @@ $cms_db_tables['table_taxonomy_items'] = MW_TABLE_PREFIX . 'taxonomy_items';
 
 
 
-$cms_db_tables['table_menus'] = MW_TABLE_PREFIX . 'menus';
+MW_TABLE_PREFIX . 'menus' = MW_TABLE_PREFIX . 'menus';
 $cms_db_tables['table_options'] = MW_TABLE_PREFIX . 'options';
 $cms_db_tables['table_media'] = MW_TABLE_PREFIX . 'media';
 $cms_db_tables['table_geodata'] = MW_TABLE_PREFIX . 'geodata';

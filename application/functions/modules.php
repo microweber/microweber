@@ -120,7 +120,8 @@ function module($params) {
 	}
 
 	if (isset($params['wrap']) or isset($params['data-wrap'])) {
-		$res = "<div class='module' {$tags} data-type='{$module_name}'>" . $res . "</div>";
+		$module_cl = module_css_class($module_name);
+		$res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>" . $res . "</div>";
 	}
 
 	return $res;
@@ -756,8 +757,20 @@ function install_module($params) {
 
 		} else {
 			$to_save['installed'] = '1';
-		}
 
+		}
+		if ($to_save['installed'] == '1') {
+			if (isset($config)) {
+				if (isset($config['tables']) and is_arr($config['tables'])) {
+					$tabl = $config['tables'];
+					foreach ($tabl as $key => $value) {
+						$table = db_get_real_table_name($key);
+						set_db_table($table, $fields_to_add);
+					}
+				}
+				//
+			}
+		}
 		$to_save['keep_cache'] = '1';
 		//   $to_save['module'] = $module_name;
 		// $to_save['debug'] = '1';
@@ -1046,7 +1059,7 @@ function scan_for_modules($options = false) {
 
 		if ($modules_remove_old == true) {
 			$cms_db_tables = c('db_tables');
-			$table = $cms_db_tables['table_options'];
+			$table = MW_DB_TABLE_OPTIONS;
 			$uninstall_lock = get_modules_from_db('ui=any');
 			if (!empty($uninstall_lock)) {
 				foreach ($uninstall_lock as $value) {
@@ -1347,7 +1360,8 @@ function load_module($module_name, $attrs = array()) {
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name);
+
+		$config['module_class'] = module_css_class($module_name);
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
@@ -1411,5 +1425,24 @@ function load_module($module_name, $attrs = array()) {
 		//define($cache_content, FALSE);
 
 		return false;
+	}
+}
+
+function module_css_class($module_name) {
+	static $defined = array();
+
+	if (isset($defined[$module_name]) != false) {
+		return $defined[$module_name];
+	} else {
+
+		$module_class = str_replace('/', '-', $module_name);
+		$module_class = str_replace('\\', '-', $module_class);
+		$module_class = str_replace(' ', '-', $module_class);
+		$module_class = str_replace('%20', '-', $module_class);
+		$module_class = str_replace('_', '-', $module_class);
+		$module_class = 'module-' . $module_class;
+
+		$defined[$module_name] = $module_class;
+		return $module_class;
 	}
 }

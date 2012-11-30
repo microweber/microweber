@@ -1,49 +1,66 @@
 <div id="UITU" ondblclick="$(this).toggleClass('active')" style="width: 600px;position: fixed;top: 0px;right: 20px;background: #F9F7F7;z-index: 99999">
-   <style>#UITU{height: 5px;overflow: hidden;box-shadow:0 0 4px #BBBBBB;}#UITU.active{height: auto;padding: 30px;}
+   <style>#UITU{height: 5px;overflow: hidden;box-shadow:0 0 4px #BBBBBB;}#UITU.active{height: auto;padding: 30px;#} #qweqwe98989898 td{
+        padding: 20px;
+        border: 1px solid #ccc;
+   }
+
+   #qweqwe98989898 tr:nth-child(2n+1) td{
+     background: white;
+   }
+
+   #qweqwe98989898 tr td:last-child textarea{
+     width: 150px;
+   }
+
 </style>
 
 
 <meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
 
 
-  <table width="80%">
+  <table width="70%" id="qweqwe98989898">
    <col width="50%" />
    <col width="50%" />
    <tbody>
     <tr>
       <td><button class="mw-ui-btn">Button</button></td>
-      <td><textarea style="width: 200px"><button class="mw-ui-btn">Button</button></textarea></td>
+      <td><textarea><button class="mw-ui-btn">Button</button></textarea></td>
     </tr>
     <tr>
       <td><input type="submit" class="mw-ui-btn" value="Submit" /></td>
-      <td><textarea style="width: 200px"><input type="submit" class="mw-ui-btn" value="Submit" /></textarea></td>
+      <td><textarea><input type="submit" class="mw-ui-btn" value="Submit" /></textarea></td>
     </tr>
     <tr>
       <td><a href="javascript:;" class="mw-ui-btn">Link</a></td>
-      <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn">Link</a></textarea></td>
+      <td><textarea><a href="javascript:;" class="mw-ui-btn">Link</a></textarea></td>
     </tr>
     <tr>
       <td><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></td>
-      <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></textarea></td>
+      <td><textarea><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></textarea></td>
     </tr>
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>
-        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></textarea></td>
-    </tr><tr>
+        <td><textarea><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></textarea></td>
+    </tr>
+    <tr>
+        <td><a href="javascript:;" class="mw-ui-link">Simple link</a></td>
+        <td><textarea><a href="javascript:;" class="mw-ui-link">Simple link</a></textarea></td>
+    </tr>
+    <tr>
         <td><a href="javascript:;" class="mw-ui-btn-action">Action Button</a></td>
-        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-blue">Action Button</a></textarea></td>
+        <td><textarea><a href="javascript:;" class="mw-ui-action">Action Button</a></textarea></td>
     </tr>
 
 
 
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></td>
-        <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></textarea></td>
+        <td><textarea><a href="javascript:;" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico iorder"></span></a></textarea></td>
     </tr>
 
     <tr>
       <td><a href="javascript:;" class="mw-ui-btn"><span class="ico iorder"></span><span>Button with icon</span></a></td>
-      <td><textarea style="width: 200px"><a href="javascript:;" class="mw-ui-btn"><span class="ico iorder"></span><span>Button with icon</span></a></textarea></td>
+      <td><textarea><a href="javascript:;" class="mw-ui-btn"><span class="ico iorder"></span><span>Button with icon</span></a></textarea></td>
     </tr>
 
     <tr>
@@ -54,17 +71,34 @@
           </select>
        </div>
     </td>
-      <td><textarea style="width: 200px"><div class="mw-ui-select">
+      <td><textarea><div class="mw-ui-select">
           <select >
             <option value="dropdown" selected="selected">Dropdown</option>
           </select>
        </div></textarea></td>
     </tr>
+
+    <tr>
+      <td>
+          <select class="mw-ui-simple-dropdown">
+            <option value="dropdown" selected="selected">Simple Dropdown</option>
+          </select>
+    </td>
+      <td><textarea>
+          <select class="mw-ui-simple-dropdown">
+            <option value="dropdown" selected="selected">Simple Dropdown</option>
+          </select>
+      </textarea></td>
+    </tr>
+
+
+
+
     <tr>
       <td>
           <label class="mw-ui-check"><input type="checkbox" /><span></span></label>
     </td>
-      <td><textarea style="width: 200px"><label class="mw-ui-check"><input type="checkbox" /><span></span></label></textarea></td>
+      <td><textarea><label class="mw-ui-check"><input type="checkbox" /><span></span></label></textarea></td>
     </tr>
     <tr>
       <td>
@@ -72,20 +106,20 @@
       <label class="mw-ui-check"><input type="radio" /><span></span></label>
 
     </td>
-      <td><textarea style="width: 200px"><label class="mw-ui-check"><input type="checkbox" /><span></span></label></textarea></td>
+      <td><textarea><label class="mw-ui-check"><input type="checkbox" /><span></span></label></textarea></td>
     </tr>
     <tr>
       <td>
       <input type="text" class="mw-ui-field" value="Text field" />
     </td>
-      <td><textarea style="width: 200px"><input type="text" class="mw-ui-field" /></textarea></td>
+      <td><textarea><input type="text" class="mw-ui-field" /></textarea></td>
     </tr>
 
     <tr>
       <td>
       <input type="text" class="mw-ui-searchfield" value="Search" />
     </td>
-      <td><textarea style="width: 200px"><input type="text" class="mw-ui-searchfield" value="Search" /></textarea></td>
+      <td><textarea><input type="text" class="mw-ui-searchfield" value="Search" /></textarea></td>
     </tr>
 
 
@@ -95,7 +129,7 @@
 
       <textarea class="mw-ui-field">Text Area</textarea>
     </td>
-      <td><textarea style="width: 200px"><textarea class="mw-ui-field"></textarea></textarea></td>
+      <td><textarea><textarea class="mw-ui-field"></textarea></textarea></td>
     </tr>
     <tr>
       <td>
@@ -107,7 +141,7 @@
     </div>
   </div>
     </td>
-      <td><textarea style="width: 200px"><div class="mw-notification mw-success">
+      <td><textarea><div class="mw-notification mw-success">
     <div>
       <span class="ico icheck"></span>
       <span>Success</span>
@@ -124,7 +158,7 @@
     </div>
   </div>
     </td>
-      <td><textarea style="width: 200px"><div class="mw-notification mw-warning">
+      <td><textarea><div class="mw-notification mw-warning">
     <div>
     Warning
     </div>
@@ -139,7 +173,7 @@
     </div>
   </div>
     </td>
-      <td><textarea style="width: 200px"><div class="mw-notification mw-error">
+      <td><textarea><div class="mw-notification mw-error">
     <div>
     Error
     </div>
@@ -154,7 +188,7 @@
                 <label>OFF<input type="radio" name="x"  /></label>
             </div>
     </td>
-      <td><textarea style="width: 200px"><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable"><span class="mw-switch-handle"></span>
+      <td><textarea><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable"><span class="mw-switch-handle"></span>
                 <label>ON<input type="radio" name="x" /></label>
                 <label>OFF<input type="radio" name="x"  /></label>
             </div></textarea></td>
@@ -237,6 +271,49 @@
 
     </td>
     </tr>
+
+    <tr>
+        <td id="qwewqeqw">
+          <script>
+          $(document).ready(function(){
+            mw.simpletabs();
+          });
+          </script>
+          <div class="mw_simple_tabs mw_tabs_layout_stylish">
+            <ul class="mw_simple_tabs_nav activated">
+              <li><a href="javascript:;" class="active">Comments</a></li>
+              <li><a href="javascript:;">Settings</a></li>
+            </ul>
+            <div class="tab">tab 1</div>
+            <div class="tab">tab 2 :)</div>
+          </div>
+
+        </td>
+        <td>
+            Stylish <input name="qwewqeqw" type="radio" checked="checked" onchange="$('#qwewqeqw .mw_simple_tabs').attr('class', 'mw_simple_tabs mw_tabs_layout_stylish')" />
+            Simple <input name="qwewqeqw" type="radio" onchange="$('#qwewqeqw .mw_simple_tabs').attr('class', 'mw_simple_tabs mw_tabs_layout_simple')" />
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="mw-admin-side-nav">
+                <li><a href="javascript:;">Side nav</a></li>
+                <li><a href="javascript:;" class="active">Side nav active</a></li>
+                <li><a href="javascript:;">Side nav</a></li>
+            </div>
+        </td>
+        <td>Admin side nav</td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="mw-o-box"><div class="mw-o-box-header"><span class="ico ireport"></span><span>Hi I'm 'O' Box</span></div>Lorem Ipsum</div>
+
+        </td>
+        <td>The 'O' Box</td>
+    </tr>
+
    </tbody>
 
   </table>

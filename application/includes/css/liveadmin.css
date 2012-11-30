@@ -1516,7 +1516,8 @@ select.mw-ui-simple-dropdown:focus{
 }
 
 .mw-admin-side-nav li{
-    list-style: none
+    list-style: none;
+    margin-bottom: 5px;
 }
 
 .mw-admin-side-nav li a{

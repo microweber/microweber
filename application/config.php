@@ -77,9 +77,7 @@ $cms_db_tables['table_taxonomy'] = $cms_db_tables['table_categories'] = MW_TABLE
 $cms_db_tables['table_taxonomy_items'] = MW_TABLE_PREFIX . 'taxonomy_items';
 
 
-
-
-$cms_db_tables['table_menus'] = MW_TABLE_PREFIX . 'menus';
+ 
 $cms_db_tables['table_options'] = MW_TABLE_PREFIX . 'options';
 $cms_db_tables['table_media'] = MW_TABLE_PREFIX . 'media';
 $cms_db_tables['table_geodata'] = MW_TABLE_PREFIX . 'geodata';
@@ -96,9 +94,7 @@ $cms_db_tables['table_followers'] = MW_TABLE_PREFIX . 'followers';
 $cms_db_tables['table_sessions'] = MW_TABLE_PREFIX . 'sessions';
 $cms_db_tables['table_custom_fields'] = MW_TABLE_PREFIX . 'custom_fields';
 $cms_db_tables['table_custom_fields_config'] = MW_TABLE_PREFIX . 'content_custom_fields_config';
-$cms_db_tables['table_cart'] = MW_TABLE_PREFIX . 'cart';
-$cms_db_tables['table_cart_orders'] = MW_TABLE_PREFIX . 'cart_orders';
-
+ 
 $cms_db_tables['table_modules'] = MW_TABLE_PREFIX . 'modules';
 $cms_db_tables['table_elements'] = MW_TABLE_PREFIX . 'elements';
 
@@ -106,9 +102,7 @@ $cms_db_tables['table_elements'] = MW_TABLE_PREFIX . 'elements';
 
 $cms_db_tables['table_cart_promo_codes'] = MW_TABLE_PREFIX . 'cart_promo_codes';
 $cms_db_tables['table_countries'] = MW_TABLE_PREFIX . 'countries';
-$cms_db_tables['table_cart_orders_shipping_cost'] = MW_TABLE_PREFIX . 'cart_orders_shipping_cost';
-$cms_db_tables['table_cart_currency'] = MW_TABLE_PREFIX . 'cart_currency';
-$cms_db_tables['table_reports'] = MW_TABLE_PREFIX . 'reports';
+  $cms_db_tables['table_reports'] = MW_TABLE_PREFIX . 'reports';
 
 $cms_db_tables['table_forms'] = MW_TABLE_PREFIX . "forms";
 $cms_db_tables['table_country'] = MW_TABLE_PREFIX . "country";

@@ -11,7 +11,6 @@
 
 // ------------------------------------------------------------------------
 
-
 if (!defined("MODULE_DB_TABLE_SHOP")) {
 	define('MODULE_DB_TABLE_SHOP', MW_TABLE_PREFIX . 'cart');
 }
@@ -20,22 +19,207 @@ if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
 	define('MODULE_DB_TABLE_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
 
+action_hook('mw_db_init', 'mw_shop_module_init_db');
 
+function mw_shop_module_init_db() {
+	$function_cache_id = false;
 
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MODULE_DB_TABLE_SHOP;
+
+	$fields_to_add = array();
+	$fields_to_add[] = array('title', 'TEXT default NULL');
+	$fields_to_add[] = array('is_active', "char(1) default 'y'");
+	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('price', 'float default NULL');
+	$fields_to_add[] = array('currency', 'varchar(33)  default NULL ');
+	$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('qty', 'int(11) default NULL');
+	$fields_to_add[] = array('other_info', 'TEXT default NULL');
+	$fields_to_add[] = array('order_completed', "char(1) default 'n'");
+	$fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
+
+	set_db_table($table_name, $fields_to_add);
+
+	// db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+	db_add_table_index('to_table', $table_name, array('to_table'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+
+	db_add_table_index('session_id', $table_name, array('session_id'));
+
+	$table_name = MODULE_DB_TABLE_SHOP_ORDERS;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('country', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('promo_code', 'TEXT default NULL');
+	$fields_to_add[] = array('amount', 'float default NULL');
+	$fields_to_add[] = array('transaction_id', 'TEXT default NULL');
+	$fields_to_add[] = array('shipping_service', 'TEXT default NULL');
+	$fields_to_add[] = array('shipping', 'float default NULL');
+	$fields_to_add[] = array('currency', 'varchar(33)  default NULL ');
+
+	$fields_to_add[] = array('currency_code', 'varchar(33)  default NULL ');
+
+	$fields_to_add[] = array('first_name', 'TEXT default NULL');
+
+	$fields_to_add[] = array('last_name', 'TEXT default NULL');
+
+	$fields_to_add[] = array('email', 'TEXT default NULL');
+
+	$fields_to_add[] = array('city', 'TEXT default NULL');
+
+	$fields_to_add[] = array('state', 'TEXT default NULL');
+
+	$fields_to_add[] = array('zip', 'TEXT default NULL');
+	$fields_to_add[] = array('address', 'TEXT default NULL');
+	$fields_to_add[] = array('address2', 'TEXT default NULL');
+	$fields_to_add[] = array('phone', 'TEXT default NULL');
+
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('order_completed', "char(1) default 'n'");
+	$fields_to_add[] = array('is_paid', "char(1) default 'n'");
+	$fields_to_add[] = array('url', 'TEXT default NULL');
+	$fields_to_add[] = array('user_ip', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('items_count', 'int(11) default NULL');
+	$fields_to_add[] = array('payment_gw', 'TEXT  default NULL ');
+	$fields_to_add[] = array('payment_verify_token', 'TEXT  default NULL ');
+	$fields_to_add[] = array('payment_amount', 'float default NULL');
+
+	$fields_to_add[] = array('payment_status', 'varchar(255)  default NULL ');
+
+	$fields_to_add[] = array('payment_email', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payment_name', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payment_country', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payment_address', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payment_city', 'TEXT default NULL');
+	$fields_to_add[] = array('payment_state', 'TEXT default NULL');
+	$fields_to_add[] = array('payment_zip', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payer_id', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payer_status', 'TEXT default NULL');
+	$fields_to_add[] = array('payment_type', 'TEXT default NULL');
+	$fields_to_add[] = array('order_status', 'TEXT default NULL');
+
+	$fields_to_add[] = array('payment_shipping', 'float default NULL');
+
+	$fields_to_add[] = array('is_active', "char(1) default 'y'");
+	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+	$fields_to_add[] = array('price', 'float default NULL');
+	$fields_to_add[] = array('other_info', 'TEXT default NULL');
+	$fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
+	$fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
+
+	set_db_table($table_name, $fields_to_add);
+
+	// db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+	db_add_table_index('to_table', $table_name, array('to_table'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+
+	db_add_table_index('session_id', $table_name, array('session_id'));
+
+	/*$fields_to_add [] = array ('content_subtype', 'varchar(150) default "none"' );
+	 $fields_to_add [] = array ('content_subtype_value', 'varchar(150) default "none"' );
+
+	 $fields_to_add [] = array ('content_layout_file', 'varchar(150) default NULL' );
+	 $fields_to_add [] = array ('content_layout_name', 'varchar(50) default NULL' );
+	 $fields_to_add [] = array ('content_layout_style', 'varchar(50) default NULL' );
+
+	 $fields_to_add [] = array ('content_url', 'varchar(150) default NULL' );
+	 //$fields_to_add [] = array ('content_url_md5', 'varchar(33) default NULL' );
+
+	 $fields_to_add [] = array ('content_filename', 'varchar(150) default NULL' );
+	 $fields_to_add [] = array ('content_filename_sync_with_editor', 'char(1) default "n"' );
+	 //$fields_to_add [] = array ('model_group', 'varchar(150) default NULL' );
+	 $fields_to_add [] = array ('content_parent', 'int(11) default 0' );
+	 $fields_to_add [] = array ('content_title', 'varchar(150) default NULL' );
+	 $fields_to_add [] = array ('content_meta_title', 'varchar(600) default NULL' );
+	 $fields_to_add [] = array ('content_meta_description', 'TEXT default NULL' );
+	 $fields_to_add [] = array ('content_meta_keywords', 'TEXT default NULL' );
+
+	 $fields_to_add [] = array ('is_active', 'char(1) default "y"' );
+	 $fields_to_add [] = array ('is_home', 'char(1) default "n"' );
+	 $fields_to_add [] = array ('is_featured', 'char(1) default "n"' );
+	 $fields_to_add [] = array ('is_pinged', 'char(1) default "n"' );
+	 $fields_to_add [] = array ('comments_enabled', 'char(1) default "y"' );
+
+	 $fields_to_add [] = array ('expires_on', 'datetime default NULL' );
+
+	 $fields_to_add [] = array ('visible_on_frontend', 'char(1) default "y"' );
+
+	 $fields_to_add [] = array ('original_link', 'TEXT default NULL' );
+
+	 $fields_to_add [] = array ('require_login', "ENUM('n', 'y') default 'n'" );
+	 $fields_to_add [] = array ('created_by', 'int(11) default NULL' );
+	 $fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
+	 $fields_to_add [] = array ('is_special', 'char(1) default "n"' );*/
+
+	//add fulltext search
+	//ALTER TABLE articles ADD FULLTEXT(body, title);
+	//$sql = "alter table $table_name add FULLTEXT (content_url, content_title, content_body)  ";
+	//$this->db->query ( $sql );
+
+	/*
+	 db_add_table_index ( 'content_type', $table_name, array ('content_type' ) );
+	 db_add_table_index( 'content_subtype', $table_name, array ('content_subtype' ) );
+	 db_add_table_index ( 'content_title', $table_name, array ('content_subtype' ), "FULLTEXT" );
+	 db_add_table_index ( 'content_body', $table_name, array ('content_body' ), "FULLTEXT" );
+	 db_add_table_index ( 'content_description', $table_name, array ('content_description' ), "FULLTEXT" );
+	 db_add_table_index ( 'content_url', $table_name, array ('content_url' ), "FULLTEXT" );
+
+	 db_add_table_index ( 'created_by', $table_name, array ('created_by' ) );
+	 db_add_table_index( 'edited_by', $table_name, array ('edited_by' ) );
+
+	 */
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
 
 action_hook('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
 
 function mw_print_admin_menu_shop_btn() {
-  $active = url_param('view');
-  $cls = '';
-  if($active == 'shop'){
-	   $cls = ' class="active" ';
-  }
-	print '<li'.$cls.'><a href="'.admin_url().'view:shop">Online Shop</a></li>';
+	$active = url_param('view');
+	$cls = '';
+	if ($active == 'shop') {
+		$cls = ' class="active" ';
+	}
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">Online Shop</a></li>';
 }
-
-
-
 
 api_expose('update_order');
 /**

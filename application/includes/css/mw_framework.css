@@ -1727,6 +1727,16 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
  border-color:#E2DDDD #B7B4B4 transparent;
 }
 
+.mw-ui-link{
+  color:#488BCD;
+}
+.mw-ui-link:hover{
+  text-decoration: underline;
+}
+.mw-ui-link:action{
+  outline: 1px dotted #BAD7F6;
+}
+
 
 
 

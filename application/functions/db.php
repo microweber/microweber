@@ -604,7 +604,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$_default_limit = 30;
 		static $cfg_default_limit;
 		if ($cfg_default_limit == false) {
-			$cfg_default_limit = get_option('items_pre_page ', 'website');
+			if (function_exists('get_option')) {
+				$cfg_default_limit = get_option('items_pre_page ', 'website');
+			}
 		}
 		if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
 			$_default_limit = intval($cfg_default_limit);
@@ -1446,8 +1448,10 @@ function db_get_table_name($assoc_name) {
 			}
 		}
 
-		return $assoc_name;
+		//return $assoc_name;
 	}
+	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+	return $assoc_name;
 }
 
 function db_get_assoc_table_name($assoc_name) {
@@ -1469,8 +1473,10 @@ function db_get_assoc_table_name($assoc_name) {
 			}
 		}
 
-		return $assoc_name;
 	}
+	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+
+	return $assoc_name;
 }
 
 function db_get_real_table_name($assoc_name) {
@@ -1487,8 +1493,9 @@ function db_get_real_table_name($assoc_name) {
 			}
 		}
 
-		return $assoc_name;
 	}
+	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+	return $assoc_name;
 }
 
 /**
@@ -2270,6 +2277,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 						if (is_array($cf_v)) {
 							$custom_field_to_save['custom_field_values'] = base64_encode(json_encode($cf_v));
 							$cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
+						} else {
+							$cf_v = db_escape_string($cf_v);
 						}
 						$custom_field_to_save['custom_field_value'] = $cf_v;
 
@@ -2305,6 +2314,16 @@ function save_data($table, $data, $data_to_save_options = false) {
 			to_table_id ='{$custom_field_to_save ['to_table_id']}'
 			";
 
+						$add = " insert into $custom_field_table set
+                        
+			custom_field_name ='{$cf_k}',
+			$cfvq
+			custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+                         custom_field_type = 'content',
+			to_table ='{$custom_field_to_save ['to_table']}',
+			to_table_id ='{$custom_field_to_save ['to_table_id']}'
+			";
+
 						$cf_to_save = array();
 						$cf_to_save['id'] = $next_id;
 						$cf_to_save['custom_field_name'] = $cf_k;
@@ -2317,12 +2336,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
-						//d($add);
+						//	 d($add);
 						db_q($add);
 
 					}
 				}
-				cache_clean_group('custom_fields');
+				cache_clean_group('custom_fields/global');
 				// cache_clean_group ( 'global' );
 				//	cache_clean_group ( 'extract_tags' );
 			}
@@ -2620,100 +2639,6 @@ function split_sql_file($sql, $delimiter) {
 	return $output;
 }
 
-function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-
-	if ($option_group != false) {
-
-		$cache_group = 'options/' . $option_group;
-
-	} else {
-		$cache_group = 'options/global';
-	}
-
-	//d($key);
-	$function_cache_id = false;
-
-	$args = func_get_args();
-
-	foreach ($args as $k => $v) {
-
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-	}
-
-	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (($cache_content) == '--false--') {
-		return false;
-	}
-	// $cache_content = false;
-	if (($cache_content) != false) {
-
-		return $cache_content;
-	}
-
-	$table = c('db_tables');
-	// ->'table_options';
-	$table = $table['table_options'];
-
-	if ($orderby == false) {
-
-		$orderby[0] = 'position';
-
-		$orderby[1] = 'ASC';
-	}
-
-	$data = array();
-	//   $data ['debug'] = 1;
-	if (is_array($key)) {
-		$data = $key;
-	} else {
-		$data['option_key'] = $key;
-	}
-	//   $cache_group = 'options/global/' . $function_cache_id;
-	$ok1 = '';
-	$ok2 = '';
-	if ($option_group != false) {
-		$option_group = db_escape_string($option_group);
-		$ok1 = " AND option_group='{$option_group}' ";
-	}
-
-	if ($module != false) {
-		$module = db_escape_string($module);
-		$data['module'] = $module;
-		$ok1 = " AND module='{$module}' ";
-	}
-	$data['limit'] = 1;
-	// $get = db_get($table, $data, $cache_group);
-	$ok = db_escape_string($data['option_key']);
-
-	$q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
-	$function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
-	//
-
-	$get = db_query($q, $function_cache_id_q, $cache_group);
-	//d($get);
-
-	if (!empty($get)) {
-
-		if ($return_full == false) {
-
-			$get = $get[0]['option_value'];
-
-			return $get;
-		} else {
-
-			$get = $get[0];
-
-			return $get;
-		}
-	} else {
-		cache_store_data('--false--', $function_cache_id, $cache_group);
-
-		return FALSE;
-	}
-}
-
 /**
  * Function set_db_tables
  *
@@ -2737,7 +2662,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 	}
 
-	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
 	$cache_content = cache_get_content($function_cache_id, 'db');
 
@@ -2752,13 +2677,14 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 		$sql = "CREATE TABLE " . $table_name . " (
 		id int(11) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
-		);
+		
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 		 
-		"; 
+		";
 		//
 		//if (isset($_GET['debug'])) {
 		//	d($sql);
-			db_q($sql);
+		db_q($sql);
 		//}
 	}
 
@@ -2845,7 +2771,7 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
 		//FULLTEXT
 	}
 
-	if ($query == 0) {
+	if ($query == false) {
 		$q = "
 				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
 			";
@@ -2861,7 +2787,7 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
  * @param unknown_type $aTable
  * @param unknown_type $aEngine
  */
-function db_set_engine($aTable, $aEngine = 'InnoDB') {
+function db_set_engine($aTable, $aEngine = 'MyISAM') {
 	db_q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
 }
 
@@ -2887,7 +2813,7 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
  				constraint_name = '{$aFKName}'
 		;");
 
-	if ($query == 0) {
+	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
 		$fColumns = implode(',', $aForeignColumns);
