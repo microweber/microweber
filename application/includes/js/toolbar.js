@@ -2,7 +2,23 @@
 mwd.body.className = mwd.body.className + " mw-live-edit";
 
 
+mw.designTool = {
+  position:function(rel){
+    var rel = rel || mw.$("#design_bnav");
+    var ww = $(window).width();
+    var wh = $(window).height();
 
+    var off = rel.offset();
+    var w = rel.width();
+    var h = rel.height();
+
+    var sumWidth = off.left + w;
+    var sumHeight = off.top + h;
+
+    sumWidth > ww ? rel.css('left', ww-w-20) : '';
+    sumHeight > wh ? rel.css('top', wh-h-20) : '';
+  }
+}
 
 
 
@@ -75,13 +91,20 @@ if(design_pos!=""){
     });
 }
 
+mw.designTool.position();
+
 
 $(".mw_ex_tools").click(function(){
-  var rel = $(this).attr("href");
-  $(rel).toggleClass('active');
+
+  var rel = mw.$($(this).attr("href"));
+
+  rel.toggleClass('active');
+
   $(this).toggleClass('active');
 
-  mw.cookie.ui("designtool", $(rel).hasClass("active") ? "active" : "");
+  mw.cookie.ui("designtool", rel.hasClass("active") ? "active" : "");
+
+  mw.designTool.position(rel);
 
   return false;
 });
@@ -541,6 +564,7 @@ mw.toolbar = {
     });
   }
 }
+
 
 
 

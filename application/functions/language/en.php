@@ -476,3 +476,4 @@ $language["reply"]= 'Reply' ;
 $language["new-comments"]= 'New Comments ' ; 
 $language["new-comment"]= 'New Comment' ; 
 $language["there-are-no-new-comments"]= 'There are no new comments' ; 
+$language["user-info"]= 'User Info' ; 

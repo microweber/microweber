@@ -36,6 +36,8 @@ function mw_shop_module_init_shipping_to_country_db() {
 	$fields_to_add[] = array('shiping_cost_above', 'float default NULL');
 
 	$fields_to_add[] = array('shiping_country', 'TEXT default NULL');
+		$fields_to_add[] = array('position', 'int(11) default NULL');
+
 
 	set_db_table($table_name, $fields_to_add);
 

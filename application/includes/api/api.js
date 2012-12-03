@@ -371,19 +371,20 @@ __mwextend = function(el){
     }
   }
 
-  mw.$ = function(selector) {
+  mw.$ = function(selector, context) {
+    var context = context || mwd;
     if (mw.qsas) {
       if (mw.is.string(selector)) {
         try {
-          return jQuery(mwd.querySelectorAll(selector));
+          return jQuery(context.querySelectorAll(selector));
         } catch (e) {
-          return jQuery(selector);
+          return jQuery(selector, context);
         }
       } else {
-        return jQuery(selector);
+        return jQuery(selector, context);
       }
     } else {
-      return jQuery(selector);
+      return jQuery(selector, context);
     }
   };
 

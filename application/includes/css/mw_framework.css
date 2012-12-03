@@ -102,7 +102,7 @@
 
 .mw_modal_title{
   display: inline-block;
-    font-family: Verdana, sans-serif;
+  font-family: Verdana, sans-serif;
   float: left;
   font-size: 11px;
   white-space: nowrap;
@@ -1496,9 +1496,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 
-body.mw-live-edit, body.is_admin{
-  min-width: 1060px;
-}
+
 
 #pages_edit_container{
   /*padding: 6px 0 0 30px;*/

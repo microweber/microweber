@@ -20,7 +20,7 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
 <? if(isarr($orders)) :?>
 
 <div id="mw-order-table-holder">
-  <table class="mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>
@@ -63,10 +63,10 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>
         <td class="mw-order-item-country"><? print $item['country'] ?></td>
-        <td class="mw-order-item-edit"><span class="del-row"></span>
+        <td class="mw-order-item-edit"><span class="mw-ui-admin-table-show-on-hover del-row"></span>
           <div class="mw_clear"></div>
           <center>
-            <a class="mw-ui-btn" href="#vieworder=<? print ($item['id']) ?>">
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#vieworder=<? print ($item['id']) ?>">
             <?php _e("View order"); ?>
             </a>
           </center></td>

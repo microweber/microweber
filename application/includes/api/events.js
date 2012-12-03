@@ -98,9 +98,8 @@ $(window).bind("hashchange load", function(event){
 
 
    if((hash==='' || hash==='#' || hash==='#?') && event.type=='hashchange'){
-     window.location.href = mw.url.removeHash(window.location.href);
+       window.location.href = mw.url.removeHash(window.location.href);
    }
-
 });
 
 

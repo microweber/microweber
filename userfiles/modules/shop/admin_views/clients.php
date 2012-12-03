@@ -22,8 +22,7 @@
 
 
 
-<div id="mw-order-table-holder">
-  <table class="mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <th><?php _e("Name & Number"); ?></th>
@@ -59,16 +58,12 @@
           <?php print $total_ord; ?>
         </td>
         <td>
-            <a class="mw-ui-btn" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
       <? endforeach; ?>
     </tbody>
   </table>
-</div>
-
-
-
 
 
 

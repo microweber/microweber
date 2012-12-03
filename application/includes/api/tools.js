@@ -503,6 +503,12 @@ mw.tools = {
   hasClass:function(classname, whattosearch){   //for strings
     return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
   },
+  addClass:function(el, cls){
+   if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);
+  },
+  removeClass:function(el, cls){
+   if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
+  },
   hasParentsWithClass:function(el, cls){
     var d = this;
     d.toreturn = false;

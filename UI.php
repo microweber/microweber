@@ -1,4 +1,4 @@
-<div id="UITU" ondblclick="$(this).toggleClass('active')" style="width: 600px;position: fixed;top: 0px;right: 20px;background: #F9F7F7;z-index: 99999">
+<div id="UITU" ondblclick="$(this).toggleClass('active')" style="width: 800px;position: fixed;top: 0px;right: 20px;background: #F9F7F7;z-index: 99999">
    <style>#UITU{height: 5px;overflow: hidden;box-shadow:0 0 4px #BBBBBB;}#UITU.active{height: auto;padding: 30px;#} #qweqwe98989898 td{
         padding: 20px;
         border: 1px solid #ccc;
@@ -317,5 +317,46 @@
    </tbody>
 
   </table>
+
+
+  <div class="hr">&nbsp;</div>
+
+
+  <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table" width="550">
+  <thead>
+      <tr>
+        <th>Table </th>
+        <th>Head</th>
+        <th>Client</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Orders</th>
+        <th>View</th>
+      </tr>
+  </thead>
+  <tfoot>
+      <tr>
+        <td>Table </td>
+        <td>Footer</td>
+        <td>Client</td>
+        <td>Country</td>
+        <td>City</td>
+        <td>Orders</td>
+        <td>View</td>
+      </tr>
+  </tfoot>
+  <tbody>
+    <tr>
+        <td>Lorem</td>
+        <td>Ipsum</td>
+        <td>Sit</td>
+        <td>Amet</td>
+        <td>Dolor</td>
+        <td>987987</td>
+        <td><a href="javascript:;" class="mw-ui-admin-table-show-on-hover mw-ui-btn">View on hover</a></td>
+    </tr>
+  </tbody>
+</table>
+
 
 </div>
