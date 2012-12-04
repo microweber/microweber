@@ -1798,16 +1798,7 @@ select.mw-ui-simple-dropdown:focus{
 }
 
 
-.mw_upload_frame{
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  overflow: hidden;
-}
+
 
 
 

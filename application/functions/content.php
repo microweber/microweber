@@ -483,7 +483,7 @@ function homepage_link() {
 }
 
 function get_homepage() {
-	$table = c('db_tables');
+	 
 	// ->'table_content';
 	$table = MW_TABLE_PREFIX . 'content';
 
@@ -508,7 +508,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 		$url = url_string();
 	}
 
-	$table = c('db_tables');
+	 
 	// ->'table_content';
 	$table = MW_TABLE_PREFIX . 'content';
 
@@ -591,7 +591,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
  */
 function get_content_by_id($id) {
 
-	$table = c('db_tables');
+	 
 	// ->'table_content';
 	$table = MW_TABLE_PREFIX . 'content';
 
@@ -667,9 +667,9 @@ function reorder_content()
         $ids_implode = implode(',', $ids);
       
 		
-		$tables = c('db_tables');
+		 
 
-	$table = $tables['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 		
 		
 		
@@ -778,7 +778,7 @@ if (isset($params['cache_group'])) {
 		// $params['debug'] = 1;
 		// d($table);
 
-		$table = c('db_tables');
+		 
 		$table = MW_TABLE_PREFIX . 'content';
 		$get = db_get($table, $params, $cache_group );
 		if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -1095,7 +1095,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	}
 	$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
 
-	$table_custom_field = c('db_tables');
+	 
 	// ->'table_custom_fields';
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
@@ -1540,7 +1540,7 @@ function save_content($data, $delete_the_cache = true) {
 		error('Error: not logged in as admin.');
 	}
 	$cats_modified = false;
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'content';
 
@@ -1705,7 +1705,7 @@ $check_ex = false;
 	}
 
 	if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {
-$cms_db_tables = c('db_tables');
+ 
 
 	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
 		if ($data_to_save['subtype_value_new'] != '') {
@@ -2052,7 +2052,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 	//d($params);
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'content';
 

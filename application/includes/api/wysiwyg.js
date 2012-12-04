@@ -181,16 +181,6 @@ mw.wysiwyg = {
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
 
 
-      if (mwd.createElement("input").webkitSpeech !== undefined) { /*
-         $(".mw_editor").after('<input id="vtest" style="width: 15px; height:20px;border: 0px;background-color:transparent;" type="text" x-webkit-speech="x-webkit-speech" />');
-         $("#vtest").mouseenter(function(){
-             mw.wysiwyg.save_selection();
-         });
-         $("#vtest").change(function(){
-             mw.wysiwyg.restore_selection();
-             mw.wysiwyg.insert_html(this.value);
-         });
-      */ }
 
     },
     init:function(){
@@ -464,7 +454,7 @@ mw.wysiwyg = {
         });
     },
     image:function(hash){
-        var hash = hash || '';
+        var hash = hash || '#mw.wysiwyg.insert_image';
         if($("#mw_rte_image").length>0){
            $("#mw_rte_image").remove();
         }

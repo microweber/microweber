@@ -27,7 +27,12 @@ mw.on = {
   _hashrec : {},
   _hashparams : [],
   _hashparam_funcs : [],
-  hashParam : function(param, callback, trigger){
+  hashParam : function(param, callback, trigger, isManual){
+    if(isManual){
+        var index = mw.on._hashparams.indexOf(param);
+        mw.on._hashparam_funcs[index].call(false);
+        return false;
+    }
     if(trigger==true){
         var index = mw.on._hashparams.indexOf(param);
         if(index != -1){
@@ -98,17 +103,14 @@ $(window).bind("hashchange load", function(event){
 
    if(event.type=='hashchange'){
      mw.hashHistory.push(mw.hash());
-
+     //Check if current hash has lost params and bind the event with fasle
      var size = mw.hashHistory.length;
-
-     var changes = mw.url.whichParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
-
+     var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if(l>0){
        for( ; i<l; i++){
-          mw.on.hashParam(changes[i], "", true);
+          mw.on.hashParam(changes[i], "", true, true);
        }
      }
-
    }
 
 });

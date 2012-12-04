@@ -283,7 +283,7 @@ function get_all_functions_files_for_modules($options = false) {
 }
 
 function get_elements_from_db($params = false) {
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'elements';
 	if (is_string($params)) {
@@ -309,7 +309,7 @@ function get_elements_from_db($params = false) {
 }
 
 function get_modules_from_db($params = false) {
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	if (is_string($params)) {
@@ -359,7 +359,7 @@ function save_element_to_db($data_to_save) {
 		exit(d($data_to_save));
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'elements';
 	$save = false;
@@ -403,7 +403,7 @@ function delete_elements_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		$cms_db_tables = c('db_tables');
+		 
 
 		$table = MW_TABLE_PREFIX . 'elements';
 
@@ -433,7 +433,7 @@ function delete_module_by_id($id) {
 		return false;
 	}
 	$id = intval($id);
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -454,7 +454,7 @@ function delete_modules_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		$cms_db_tables = c('db_tables');
+		 
 
 		$table = MW_TABLE_PREFIX . 'modules';
 		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -916,7 +916,7 @@ function save_module_to_db($data_to_save) {
 		exit(d($data_to_save));
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	$save = false;
@@ -1162,7 +1162,7 @@ function scan_for_modules($options = false) {
 		}
 
 		if ($modules_remove_old == true) {
-			$cms_db_tables = c('db_tables');
+			 
 			$table = MW_DB_TABLE_OPTIONS;
 			$uninstall_lock = get_modules_from_db('ui=any');
 			if (!empty($uninstall_lock)) {

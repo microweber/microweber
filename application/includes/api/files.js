@@ -46,7 +46,7 @@ mw.files = {
                 this.addEventListener('drop', function(event){
                    this.checked=false;
                    $(this).removeClass("drag_files_over");
-                   mw.log(event.dataTransfer);
+                   
                     event.stopPropagation();
                     event.preventDefault();
 

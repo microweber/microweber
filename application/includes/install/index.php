@@ -74,7 +74,7 @@ if (isset($to_save)) {
         }
         $cfg = MW_APPPATH_FULL . 'config.php';
 		//var_dump( $cfg);
- 
+
 
 
        /*  file_put_contents($cfg, $save_config);
@@ -93,6 +93,11 @@ if (isset($to_save)) {
         'pass' => $to_save['DB_PASS']
     );
 			
+ 
+
+
+
+
 			//var_dump(MW_IS_INSTALLED);
 			
 			$qs = "SELECT '' AS empty_col";
@@ -125,7 +130,7 @@ $sql_query = split_sql_file($sql_query, ';');
 $i=1;
 foreach($sql_query as $sql){ 
 	//$sql = str_ireplace('{dbname}', $to_save['dbname'], $sql); 
- $qz = db_q($sql, $temp_db);
+ //$qz = db_q($sql, $temp_db);
  // var_dump($qz);  
 }
 			}
@@ -134,9 +139,9 @@ foreach($sql_query as $sql){
 			  foreach ($to_save as $k => $v) {
             $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
         }
-			 
+			 d($save_config);
 			
-			          file_put_contents($cfg, $save_config);
+			       //   file_put_contents($cfg, $save_config);
 clearstatcache();
 clearcache();
 			 
@@ -161,6 +166,12 @@ clearcache();
     }
 
  if (!isset($to_save['IS_INSTALLED'])) {
+	    $cfg = MW_APPPATH_FULL . 'config.php';
+	 $data = false;
+	  if(is_file($cfg)){
+	$data = include($cfg);
+//	d($data);
+ }
 	  $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include($f);
  }

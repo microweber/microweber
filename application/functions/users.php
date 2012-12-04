@@ -120,7 +120,7 @@ function register_user($params) {
 			$data['password'] = $pass;
 			$data['is_active'] = 'n';
 
-			$cms_db_tables = c('db_tables');
+			 
 			$table = MW_TABLE_PREFIX . 'users';
 
 			$q = " INSERT INTO  $table set email='$email',  password='$pass',   is_active='n' ";
@@ -156,7 +156,7 @@ function save_user($params) {
 	}
 
 	$data_to_save = $params;
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'users';
 	$save = save_data($table, $data_to_save);
@@ -483,7 +483,7 @@ function get_users($params = array()) {
 		$params = $params2;
 	}
 
-	$table = c('db_tables');
+	 
 	$table = MW_TABLE_PREFIX . 'users';
 
 	$data = string_clean($params);

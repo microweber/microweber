@@ -205,7 +205,7 @@ function category_tree($params = false) {
 	} else {
 		$orderby = false;
 	}
-	$table = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	if (isset($params['for_page']) and $params['for_page'] != false) {
@@ -323,7 +323,7 @@ function category_tree($params = false) {
  *
  */
 function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
-	$table = c('db_tables');
+	 
 	$table_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -708,7 +708,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 }
 
 function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
-	$table = c('db_tables');
+	 
 	$table_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -1076,14 +1076,14 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 }
 
 function get_category_items($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
-	global $cms_db_tables;
+	 
 	$taxonomy_id = intval($parent_id);
 
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 
-	$tables = c('db_tables');
+	 
 
-	$table = $tables['table_taxonomy'];
+	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$table_content = MW_TABLE_PREFIX . 'content';
@@ -1174,7 +1174,7 @@ function get_category_items_ids($root, $limit = false) {
 		}
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1252,7 +1252,7 @@ function save_category($data, $preserve_cache = false) {
 		error('Ony admin can save category');
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1374,7 +1374,7 @@ function get_taxonomy($params, $data_type = 'categories') {
 		extract($params);
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1400,7 +1400,7 @@ function get_categories($params, $data_type = 'categories') {
 		$params = $options = $params2;
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1451,9 +1451,9 @@ function reorder_categories($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	$tables = c('db_tables');
+	 
 
-	$table = $tables['table_taxonomy'];
+	$table = MW_TABLE_PREFIX . 'taxonomy';
 	foreach ($data as $value) {
 		if (is_arr($value)) {
 			$indx = array();
@@ -1496,7 +1496,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		return $cache_content;
 	}
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1617,7 +1617,7 @@ function category_link($id) {
 			return false;
 		}
 		//$this->load->model ( 'Content_model', 'content_model' );
-		$cms_db_tables = $table = c('db_tables');
+		 
 
 		$table = MW_TABLE_PREFIX . 'taxonomy';
 		$table_content = MW_TABLE_PREFIX . 'content';
@@ -1748,7 +1748,7 @@ function get_category_by_id($id = 0) {
 		return $cache_content;
 	}
 
-	$cms_db_tables = $table = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 
@@ -1773,7 +1773,7 @@ function get_category_by_id($id = 0) {
 }
 
 function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
-	$cms_db_tables = $table = c('db_tables');
+	 
 	$taxonomy_id = intval($parent_id);
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 
@@ -1888,7 +1888,7 @@ function get_category_parents($id = 0, $without_main_parrent = false, $data_type
 		return FALSE;
 	}
 
-	$cms_db_tables = $table = c('db_tables');
+	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 

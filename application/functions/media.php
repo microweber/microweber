@@ -186,7 +186,7 @@ function reorder_media($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	$tables = c('db_tables');
+	 
 
 	$table =  MW_TABLE_PREFIX . 'media';
 	foreach ($data as $value) {
@@ -266,7 +266,7 @@ function save_media($data) {
 		$t = db_escape_string($data['media_type']);
 		$s['media_type'] = $t;
 	}
-	$tables = c('db_tables');
+	 
 
 	// ->'table_content';
 	if (isset($s['to_table']) and isset($s['to_table_id'])) {
@@ -335,7 +335,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 }
 
 function get_pictures($params) {
-	$tables = c('db_tables');
+	 
 	$table =  MW_TABLE_PREFIX . 'media';
 	$params = parse_params($params);
 /*

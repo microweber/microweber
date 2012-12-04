@@ -14,23 +14,22 @@
     afterInput = function(url){   //what to do after image is uploaded (depending on the hash in the url)
 
 
-
-    parent.mw.exec(hash, url);
-
-
-    return false;
-
-      if(hash=='editimage'){
-        parent.mw.image.currentResizing.attr("src", url);
-        parent.mw.tools.modal.remove('mw_rte_image');
+      if(hash!==''){
+        if(hash=='editimage'){
+          parent.mw.image.currentResizing.attr("src", url);
+          parent.mw.tools.modal.remove('mw_rte_image');
+        }
+        else if(hash=='set_bg_image'){
+          parent.mw.wysiwyg.set_bg_image(url);
+          parent.mw.tools.modal.remove('mw_rte_image');
+        }
+        else{
+          parent.mw.exec(hash, url);
+        }
       }
-      else if(hash=='set_bg_image'){
-        parent.mw.wysiwyg.set_bg_image(url);
-        parent.mw.tools.modal.remove('mw_rte_image');
-      }
-      else{
+      else{ /*
         parent.mw.wysiwyg.restore_selection();
-        parent.mw.wysiwyg.insert_image(url, true);
+        parent.mw.wysiwyg.insert_image(url, true);      */
       }
     }
 

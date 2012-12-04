@@ -12,37 +12,40 @@
  
 
 
-$(document).ready(function(){
-   _mw_admin_files_manage();
-});
+
 
  
 
-_mw_admin_files_manage = function(){
-var attrs = mw.url.getHashParams(window.location.hash);
-var holder = mw.$('#files_admin_<? print $rand ?>');
-holder.removeAttr('search');
-for (var x in attrs){
-	if(x=='path'){
-	holder.attr(x, attrs[x]);
-	}
-	if(x=='search'){
-	holder.attr(x, attrs[x]);
-	}
-	if(x=='sort_by'){
-	holder.attr(x, attrs[x]);
-	}
-	if(x=='sort_order'){
-	holder.attr(x, attrs[x]);
-	}
-}
-mw.load_module('files/browser','#files_admin_<? print $rand ?>');
+_mw_admin_files_manage = function(param, value){
+    var holder = mw.$('#files_admin_<? print $rand ?>');
+    holder.removeAttr('search');
+    if(param === 'all'){
+      var attrs = mw.url.getHashParams(window.location.hash);
+      for (var x in attrs){
+      	if(x=='path'){
+      	    holder.attr(x, attrs[x]);
+      	}
+      	if(x=='search'){
+      	    holder.attr(x, attrs[x]);
+      	}
+      	if(x=='sort_by'){
+      	    holder.attr(x, attrs[x]);
+      	}
+      	if(x=='sort_order'){
+      	    holder.attr(x, attrs[x]);
+      	}
+      }
+    }
+    else{
+       holder.attr(param, value);
+    }
+    mw.load_module('files/browser','#files_admin_<? print $rand ?>');
 
 }
 
 
 $(window).bind("load", function(){
- _mw_admin_files_manage();
+ _mw_admin_files_manage('all');
 });
 
 
@@ -50,10 +53,24 @@ $(window).bind("load", function(){
 
 
  
-mw.on.hashParam('path', _mw_admin_files_manage);
-mw.on.hashParam('search', _mw_admin_files_manage);
-mw.on.hashParam('sort_by', _mw_admin_files_manage);
-mw.on.hashParam('sort_order', _mw_admin_files_manage);
+mw.on.hashParam('path', function(){
+  _mw_admin_files_manage('path', this);
+});
+mw.on.hashParam('search', function(){
+
+    _mw_admin_files_manage('search', this);
+
+});
+mw.on.hashParam('sort_by', function(){
+
+    _mw_admin_files_manage('sort_by', this);
+
+});
+mw.on.hashParam('sort_order', function(){
+
+    _mw_admin_files_manage('sort_order', this);
+
+});
  
 
 

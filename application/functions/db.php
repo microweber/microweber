@@ -27,7 +27,7 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	cache_clean_group($cg);
 	$q = db_q($q);
 
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table1 = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -82,13 +82,9 @@ function guess_cache_group($for = false) {
 }
 
 function guess_table_name($for = false, $guess_cache_group = false) {
-	$cms_db_tables = c('db_tables');
+	 
 
-	foreach ($cms_db_tables as $k => $cms_db_table) {
-		if (strtolower($k) == strtolower($for) or strtolower($k) == strtolower('table_' . $for)) {
-			$to_table = $cms_db_table;
-		}
-	}
+	 
 
 	if (stristr($for, 'table_') == false) {
 		switch ($for) {
@@ -423,7 +419,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -520,28 +517,18 @@ function db_get($table, $criteria, $cache_group = false) {
  * @author Peter Ivanov
  */
 function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
-	$cms_db_tables = c('db_tables');
+	 
 
 	if ($table == false) {
 
 		return false;
 	}
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-
-			// var_dump($k, $v);
-			if (strtolower($table) == strtolower($v)) {
-
-				$table_assoc_name = $k;
-			}
-		}
-	}
+	 
 	$to_search = false;
 	//  $table = db_g($table);
 	$table = db_get_real_table_name($table);
 
-	$aTable_assoc = db_get_table_name($table);
+	$aTable_assoc = $table_assoc_name = db_get_table_name($table);
 	$includeIds = array();
 	if (!empty($criteria)) {
 		if (isset($criteria['debug'])) {
@@ -1317,8 +1304,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1434,66 +1420,26 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 }
 
 function db_get_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
+	 
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-
-			// var_dump($k, $v);
-			if (strtolower($assoc_name) == strtolower($v)) {
-
-				// $table_assoc_name = $k;
-				return $v;
-			}
-		}
-
-		//return $assoc_name;
-	}
+	 
 	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
 	return $assoc_name;
 }
 
 function db_get_assoc_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
+	 
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-			if (trim(strtolower('table_' . $assoc_name)) == trim(strtolower($k))) {
-
-				$table_assoc_name = $k;
-				return $k;
-			}
-
-			if (trim(strtolower($assoc_name)) == trim(strtolower($v))) {
-
-				$table_assoc_name = $k;
-				return $k;
-			}
-		}
-
-	}
+	 
 	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
 
 	return $assoc_name;
 }
 
 function db_get_real_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
+	 
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-
-			if (trim(strtolower($assoc_name)) == trim(strtolower($k))) {
-
-				$table_assoc_name = $k;
-				return $v;
-			}
-		}
-
-	}
+	 
 	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
 	return $assoc_name;
 }
@@ -1696,7 +1642,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
  *
  */
 function save_data($table, $data, $data_to_save_options = false) {
-	$cms_db_tables = c('db_tables');
+	 
 
 	if (is_array($data) == false) {
 
@@ -2214,7 +2160,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	// adding custom fields
 
 	if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
-		$cms_db_tables = c('db_tables');
+		 
 		$custom_field_to_save = array();
 
 		foreach ($original_data as $k => $v) {
@@ -2387,7 +2333,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	 * microweber $rel_table = $data ['to_table']; $rel_table_id = $data
 	 * ['to_table_id']; if ($rel_table == false) { $rel_table =
 	 * $table_assoc_name; } if ($rel_table_id == false) { $rel_table_id =
-	 * $id_to_return; } global $cms_db_tables; $by = intval ( $data
+	 * $id_to_return; }   $by = intval ( $data
 	 * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
 	 * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
 	 * $users_table = $cms_db_tables ['table_users_log']; $q = " INSERT INTO
@@ -2521,7 +2467,9 @@ function import_sql_from_file($full_path_to_file) {
 
 		$i = 1;
 		foreach ($sql_query as $sql) {
-			d($sql);
+			$sql = trim($sql);
+
+			//d($sql);
 			$qz = db_q($sql);
 		}
 		cache_clean_group('db');
@@ -2635,7 +2583,7 @@ function split_sql_file($sql, $delimiter) {
 			} // else
 		}
 	}
-
+	$output = preg_replace('/\x{EF}\x{BB}\x{BF}/', '', $output);
 	return $output;
 }
 
@@ -2775,7 +2723,7 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
 		$q = "
 				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
 			";
-		 // var_dump($q);
+		// var_dump($q);
 		db_q($q);
 	}
 
@@ -2816,8 +2764,7 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns);
-		;
+		$fColumns = implode(',', $aForeignColumns); ;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 

@@ -21,20 +21,20 @@ $(document).ready(function(){
 	
 	 
 	 
-	 mw.$('#form_<? print $rand ?>').submit(function() { 
+	 $('#form_<? print $rand ?>').submit(function() { 
 
-  $data = mw.$('#form_<? print $rand ?>').serialize();
+  $data = $('#form_<? print $rand ?>').serialize();
 //  alert($data);
   //alert('<? print url_string() ?>');
   
   $.post("<? print url_string() ?>", $data,
    function(data) {
-	    mw.$('.mw_log').html('');
+	    $('.mw_log').html('');
 	   if(data != undefined){
 		 if(data == 'done'){
 			 window.location.href= '<? print site_url('admin') ?>'
 		 } else {
-		  mw.$('.mw_log').html(data);	
+		  $('.mw_log').html(data);	
 		 }
 		   
 	   }
@@ -79,32 +79,63 @@ $(document).ready(function(){
         <form method="GET" id="form_<? print $rand ?>">
           <table  cellspacing="5" cellpadding="5">
             <tr>
-              <td>DB_HOST</td>
-              <td><input name="DB_HOST"  /></td>
+              <td>Database host</td>
+              <td><input name="DB_HOST" <? if(isset($data['db'])== true and isset($data['db']['host'])== true): ?> value="<? print $data['db']['host'] ?>" <? endif; ?> /></td>
             </tr>
             <tr>
             <tr>
-              <td>DB_USER</td>
-              <td><input name="DB_USER" /></td>
+              <td>Database username</td>
+              <td><input name="DB_USER" <? if(isset($data['db'])== true and isset($data['db']['user'])== true): ?> value="<? print $data['db']['user'] ?>" <? endif; ?> /></td>
             </tr>
             <tr>
             <tr>
-              <td>DB_PASS</td>
-              <td><input name="DB_PASS" /></td>
+              <td>Database password</td>
+              <td><input name="DB_PASS" <? if(isset($data['db'])== true and isset($data['db']['pass'])== true): ?> value="<? print $data['db']['pass'] ?>" <? endif; ?> /></td>
             </tr>
             <tr>
-              <td>db name</td>
-              <td><input name="dbname" /></td>
+              <td>Database name</td>
+              <td><input name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> /></td>
             </tr>
-            
             <tr>
-              <td>Test</td>
-              <td></td>
+              <td>Time zone</td>
+              <td><? static $regions = array(
+    
+	
+	'Universal time' => DateTimeZone::UTC,
+	'America' => DateTimeZone::AMERICA,
+	'Europe' => DateTimeZone::EUROPE,
+	'Asia' => DateTimeZone::ASIA,
+	'Pacific' => DateTimeZone::PACIFIC,
+	'Africa' => DateTimeZone::AFRICA,
+    'Atlantic' => DateTimeZone::ATLANTIC,
+	'Indian' => DateTimeZone::INDIAN,
+  	'Antarctica' => DateTimeZone::ANTARCTICA
+   
+    
+);
+
+foreach ($regions as $name => $mask) {
+    $tzlist[$name] = DateTimeZone::listIdentifiers($mask);
+}
+ //print_r($tzlist);
+ ?>
+                <? if(isarr($tzlist )): ?>
+                <select name="default_timezone">
+                  <? foreach($tzlist  as $key=> $tzlist1): ?>
+                  <optgroup label="<? print $key ?>">
+                  <? foreach($tzlist1  as $key1=> $item1): ?>
+                  <option value="<? print $item1 ?>" <? if(isset($data['default_timezone'])== true and isset($data['default_timezone'])== $item1): ?> selected <? endif; ?>><? print $item1 ?></option>
+                  <? endforeach ; ?>
+                  </optgroup>
+                  <? endforeach ; ?>
+                </select>
+                <? endif; ?></td>
             </tr>
             <tr>
               <td>Save</td>
               <td><input type="submit" name="submit"  value="install">
-                <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<? print $rand ?>">
+                <input name="IS_INSTALLED" type="text" value="no" id="is_installed_<? print $rand ?>">
+                
                 <!--       <input type="submit" name="submit"  value="install" >--></td>
             </tr>
           </table>

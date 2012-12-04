@@ -1735,6 +1735,17 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   outline: 1px dotted #BAD7F6;
 }
 
+.mw_upload_frame{
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  overflow: hidden;
+}
+
 
 
 

@@ -67,7 +67,7 @@ function create_mw_default_options() {
 	if (($cache_content) == '--true--') {
 		return true;
 	}
-	$cms_db_tables = c('db_tables');
+	 
 
 	$table = MW_DB_TABLE_OPTIONS;
 
@@ -167,7 +167,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		return $cache_content;
 	}
 
-	$table = c('db_tables');
+	 
 	// ->'table_options';
 	$table = MW_DB_TABLE_OPTIONS;
 

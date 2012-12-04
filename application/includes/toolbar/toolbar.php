@@ -148,8 +148,7 @@
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:330px; z-index: 92000;">Refresh css &reg;</span>
 
 
-
-        <?php } ?>
+<?php } ?>
 
 
 
