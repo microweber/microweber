@@ -119,7 +119,7 @@
   <div class="mw_clear"></div>
   <div class="tab" id="drag_files_here">
     <center style="padding-top: 100px;">
-      <span class="bluebtn" id="rte_image_upload">Upload image from my computer</span>
+      <span class="mw-ui-btn-action" id="rte_image_upload">Upload image from my computer</span>
       <div class="drag_files_label">Drag your files here</div>
     </center>
   </div>
@@ -128,7 +128,7 @@
     <span class="fancy_input left">
     <input type="text" id="get_image_by_url" name="get_image_by_url" />
     <span id="image_status"></span> </span>
-    <button type="button" class="bluebtn" id="btn_inser_url_image">Insert</button>
+    <button type="button" class="mw-ui-btn-action" id="btn_inser_url_image">Insert</button>
     <p id="image_types_desc"> File must be a JPEG, GIF, PNG , BMP or TIFF <br />
       Example: http://mywebsite.com/image.jpg </p>
   </div>

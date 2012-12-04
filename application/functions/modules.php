@@ -327,8 +327,8 @@ function delete_elements_from_db() {
 
 		$table = $cms_db_tables['table_elements'];
 
-		$table_taxonomy = $cms_db_tables['table_taxonomy'];
-		$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 		$q = "delete from $table ";
 		//   d($q);
@@ -356,8 +356,8 @@ function delete_module_by_id($id) {
 	$cms_db_tables = c('db_tables');
 
 	$table = $cms_db_tables['table_modules'];
-	$table_taxonomy = $cms_db_tables['table_taxonomy'];
-	$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$q = "delete from $table where id={$id}";
 	db_q($q);
@@ -377,8 +377,8 @@ function delete_modules_from_db() {
 		$cms_db_tables = c('db_tables');
 
 		$table = $cms_db_tables['table_modules'];
-		$table_taxonomy = $cms_db_tables['table_taxonomy'];
-		$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 		$q = "delete from $table ";
 		db_q($q);

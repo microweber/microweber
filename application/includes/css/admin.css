@@ -34,7 +34,9 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 
-#mw-admin-container:after, .admin-main-wrapper:after{
+
+
+#mw-admin-container:after, .admin-main-wrapper:after, #mw-admin-content:after{
   content: ".";
   display: block;
   clear: both;
@@ -43,8 +45,8 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   height: 0;
 }
 
-.admin-main-wrapper{
-
+#mw-admin-content{
+  min-width: 1000px;
 }
 
 
@@ -426,6 +428,19 @@ form .shipping-country-row:first-child{
 .mw-set-payment-options{
   width:665px;
   padding: 25px;
+}
+
+#mw-login{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -220px;
+  width: 322px;
+  padding: 20px;
+}
+
+#mw-login .mw-ui-field{
+  width: 300px;
 }
 
 

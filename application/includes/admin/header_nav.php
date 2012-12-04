@@ -36,3 +36,4 @@ $past_page = content_link($past_page[0]['id']);
   <? endif; ?>
 </div>
 <div class="mw_clear">&nbsp;</div>
+<div id="mw-admin-content">

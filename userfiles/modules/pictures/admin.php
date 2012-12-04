@@ -36,8 +36,8 @@ function after_upld_<? print $rand ?>(a){
 </script>
 
 <script  type="text/javascript">
-    //mw.require('<? print $config['url_to_module'] ?>pictures.js');
-    mw.require('http://pecata/1k/userfiles/modules/pictures/pictures.js');
+    mw.require('<? print $config['url_to_module'] ?>pictures.js');
+   // 
 
 </script>
 

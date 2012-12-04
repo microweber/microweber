@@ -48,8 +48,7 @@ $config = array(
 
 
 $cms_db_tables = array();
-$cms_db_tables['table_cache'] = MW_TABLE_PREFIX . 'cache';
-$cms_db_tables['table_content'] = MW_TABLE_PREFIX . 'content';
+ $cms_db_tables['table_content'] = MW_TABLE_PREFIX . 'content';
 $cms_db_tables['table_taxonomy'] = $cms_db_tables['table_categories'] = MW_TABLE_PREFIX . 'taxonomy';
 $cms_db_tables['table_taxonomy_items'] = MW_TABLE_PREFIX . 'taxonomy_items';
 

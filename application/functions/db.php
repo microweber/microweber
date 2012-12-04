@@ -29,8 +29,8 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 
 	$cms_db_tables = c('db_tables');
 
-	$table1 = $cms_db_tables['table_taxonomy'];
-	$table_items = $cms_db_tables['table_taxonomy_items'];
+	$table1 = MW_TABLE_PREFIX . 'taxonomy';
+	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
 
@@ -1953,10 +1953,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 	// p ( $original_data );
 	if (isset($original_data['categories'])) {
-		$table_cats = $cms_db_tables['table_taxonomy'];
-		$table_cats_items = $cms_db_tables['table_taxonomy_items'];
-		$taxonomy_table = $cms_db_tables['table_taxonomy'];
-		$taxonomy_items_table = $cms_db_tables['table_taxonomy_items'];
+		$table_cats = MW_TABLE_PREFIX . 'taxonomy';
+		$table_cats_items = MW_TABLE_PREFIX . 'taxonomy_items';
+		$taxonomy_table = MW_TABLE_PREFIX . 'taxonomy';
+		$taxonomy_items_table = MW_TABLE_PREFIX . 'taxonomy_items';
 		$is_a = has_access('save_category');
 
 		if ($is_a == true and $table_assoc_name != 'table_taxonomy' and $table_assoc_name != 'table_taxonomy_items') {
@@ -2751,7 +2751,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
 /**
  * Add new table index if not exists
- * @example $this->addIndex('I_messages_parent_id', $table_name, array('parent_id'));
+ * @example db_add_table_index('title', $table_name, array('title'));
  *
  * @param unknown_type $aIndexName Index name
  * @param unknown_type $aTable Table name
@@ -2775,7 +2775,7 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
 		$q = "
 				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
 			";
-		//var_dump($q);
+		 // var_dump($q);
 		db_q($q);
 	}
 

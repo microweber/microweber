@@ -110,7 +110,8 @@ $(".mw_ex_tools").click(function(){
 });
 
 
-$(".ts_main_li").mouseenter(function(){
+mw.$(".ts_main_li").mouseenter(function(){
+  if(!mw.$("#design_bnav").hasClass('ui-draggable-dragging')){
   $(this).addClass("hovered");
   $(".ts_main_ul .ts_action").invisible();
   $(".ts_main_ul .ts_action").css({left:"100%", top:0});
@@ -129,7 +130,7 @@ $(".ts_main_li").mouseenter(function(){
        top:(offset.top+height-scroll)<window_h ? 0 : -(offset.top+height-scroll-window_h)
     });
 
-
+ }
 });
 $(".ts_main_li").mouseleave(function(){
     $(this).removeClass("hovered");
@@ -779,4 +780,5 @@ $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
     set_pagetab_size();
+    mw.designTool.position();
 });

@@ -1,5 +1,87 @@
 <?php
 
+
+if (!defined("MW_DB_TABLE_CONTENT")) {
+	define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
+}
+
+action_hook('mw_db_init', 'mw_db_init_content_table');
+
+function mw_db_init_content_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MW_DB_TABLE_CONTENT;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+		$fields_to_add[] = array('expires_on', 'datetime default NULL');
+	
+		$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	
+		$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	
+
+	$fields_to_add[] = array('content_type', 'TEXT default NULL');
+	$fields_to_add[] = array('url', 'longtext default NULL');
+	$fields_to_add[] = array('content_filename', 'TEXT default NULL');
+	$fields_to_add[] = array('title', 'longtext default NULL');
+	$fields_to_add[] = array('parent', 'int(11) default NULL');
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+
+
+	$fields_to_add[] = array('content', 'TEXT default NULL');
+	
+	$fields_to_add[] = array('is_active', "char(1) default 'y'");
+		$fields_to_add[] = array('is_home', "char(1) default 'n'");
+			$fields_to_add[] = array('is_pinged', "char(1) default 'n'");
+				$fields_to_add[] = array('is_shop', "char(1) default 'n'");
+					$fields_to_add[] = array('require_login', "char(1) default 'n'");
+	
+	
+	
+	$fields_to_add[] = array('subtype', 'TEXT default NULL');
+	$fields_to_add[] = array('subtype_value', 'TEXT default NULL');
+	$fields_to_add[] = array('original_link', 'TEXT default NULL');
+	$fields_to_add[] = array('layout_file', 'TEXT default NULL');
+	$fields_to_add[] = array('layout_name', 'TEXT default NULL');
+	$fields_to_add[] = array('layout_style', 'TEXT default NULL');
+	$fields_to_add[] = array('active_site_template', 'TEXT default NULL');
+	$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+	 set_db_table($table_name, $fields_to_add);
+
+
+	db_add_table_index('url', $table_name, array('url(255)'));
+	db_add_table_index('title', $table_name, array('title(255)'));
+
+
+	 //db_add_table_index('url', $table_name, array('url'));
+	 //db_add_table_index('title', $table_name, array('title'));
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
 function define_constants($content = false) {
 	$page_data = false;
 	if (is_array($content)) {
@@ -1533,7 +1615,7 @@ $check_ex = false;
 	if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {
 $cms_db_tables = c('db_tables');
 
-	$table_cats = $cms_db_tables['table_taxonomy'];
+	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
 		if ($data_to_save['subtype_value_new'] != '') {
 
 			if ($adm == true) {

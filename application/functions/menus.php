@@ -173,7 +173,7 @@ function old_get_menu_items($menu_id = false, $id = false) {
 	
 	$table_menus = MW_TABLE_PREFIX . 'menus';
 	
-	$table_content = $cms_db_tables ['table_content'];
+	$table_content = MW_TABLE_PREFIX . 'content';
 	
 	$data = false;
 	if ($id == false) {

@@ -1,4 +1,4 @@
-
+</div> <!--  /#mw-admin-content  -->
 
 </div> <!--  /#mw-admin-container -->
 <div id="footer">
