@@ -179,7 +179,6 @@ mw.drag = {
                     mw.SmallEditorIsDragging = false;
                     mw.smallEditor.invisible();
                     mw.bigEditor.visible();
-                    mw.bigEditor.animate({opacity:1}, 200);
                 }
            }
 

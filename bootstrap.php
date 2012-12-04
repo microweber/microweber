@@ -85,8 +85,6 @@ define('MW_BASEPATHSTATIC', MW_ROOTPATH . 'static/');
 
 #define ( 'MW_BASEPATHCONTENT', MW_BASEPATH . 'content/' );
 
-define('MW_TABLE_PREFIX', 'firecms_');
-
 define('MW_USERFILES_DIRNAME', 'userfiles');
 
 define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_DIRNAME . DS);
@@ -95,7 +93,7 @@ define("MW_USERFILES_URL", site_url('userfiles/'));
 
 define("MW_USERFILES_DIR", MW_USERFILES);
 
-define("MODULES_DIR", MW_USERFILES . 'modules'.DS);
+define("MODULES_DIR", MW_USERFILES . 'modules' . DS);
 
 define('TEMPLATEFILES_DIRNAME', 'templates');
 
@@ -138,8 +136,29 @@ if ($mw_config['site_url']) {
 } else {
 	define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
 }
+
+define('SITE_URL', SITEURL);
+
+
+define('CACHE_FILES_EXTENSION', '.php');
+
+define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
+
+define('CACHEDIR_ROOT', dirname((__FILE__)) . 'cache' . DIRECTORY_SEPARATOR);
+
+define('DATETIME_FORMAT', 'F j g:m a');
+
+define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
+define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
+if (isset($_GET['test_config'])) {
+	define('MW_CONFIG_FILE', MW_APPPATH_FULL . $_GET['test_config']);
+
+} else {
+	define('MW_CONFIG_FILE', MW_APPPATH_FULL . 'config.php');
+}
+
 $dnf = MW_ROOTPATH;
-$md5_conf = 'mw_cache_' . crc32($dnf . SITEURL);
+$md5_conf = 'mw_cache_' . crc32($dnf . SITEURL . MW_CONFIG_FILE);
 $cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
@@ -155,21 +174,7 @@ if (is_dir($cache_main_dir) == false) {
 }
 
 define('CACHEDIR', $cache_main_dir);
-define('SITE_URL', SITEURL);
-
 define('HISTORY_DIR', CACHEDIR . 'history' . DIRECTORY_SEPARATOR);
-
-define('CACHE_FILES_EXTENSION', '.php');
-
-define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
-
-define('CACHEDIR_ROOT', dirname((__FILE__)) . 'cache' . DIRECTORY_SEPARATOR);
-
-define('DATETIME_FORMAT', 'F j g:m a');
-
-define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
-define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
-//full filesystem path
 
 define('LIBSPATH', MW_APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
 define('DBPATH', 'db' . DS);
@@ -313,7 +318,7 @@ function site_url($add_string = false) {
 		}
 		$url_segs[] = '';
 		$mw_site_url = implode('/', $url_segs);
-	}  
+	}
 	//
 	return $mw_site_url . $add_string;
 }

@@ -36,10 +36,11 @@ mw.require('forms.js');
 
 <script  type="text/javascript">
 _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
+  mw.url.windowDeleteHashParam('edit-user');
 
  mw.form.post(mw.$('#users_edit_<? print $rand ?>') , '<? print site_url('api/save_user') ?>', function(){
 	 
-	 
+
 	// mw.reload_module('[data-type="categories"]');
 	  mw.reload_module('[data-type="users/manage"]');
 	 });
@@ -99,6 +100,6 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
       <td>&nbsp;</td>
     </tr>
   </table>
-  <button class="mw-ui-btn" onclick="_mw_admin_save_user_form<?  print $data['id']; ?>()">Button</button>
+  <button class="mw-ui-btn" onclick="_mw_admin_save_user_form<?  print $data['id']; ?>()"><?php _e("Save"); ?></button>
 </div>
 <? endif; ?>

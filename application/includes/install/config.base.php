@@ -9,6 +9,7 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => '{default_timezone}',
+	'table_prefix' => '{table_prefix}', 
     'installed' => '{IS_INSTALLED}',
     // Database Settings
     'db' => array(

@@ -9,9 +9,13 @@ if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.518);
 }
 
+if (!defined('MW_TABLE_PREFIX')) {
+	define('MW_TABLE_PREFIX', c('table_prefix'));
+}
+
 if (!defined('MW_UPDATE_SERV')) {
 	$test = site_url('update.php');
-	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php ');
+	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php');
 	//seperate by whitespace
 	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
@@ -36,8 +40,6 @@ function v(&$v, $d = NULL) {
 	return isset($v) ? $v : $d;
 }
 
- 
-
 function c($k, $no_static = false) {
 
 	if ($no_static == false) {
@@ -49,13 +51,19 @@ function c($k, $no_static = false) {
 	if (isset($c[$k])) {
 		return $c[$k];
 	} else {
+		//d(MW_CONFIG_FILE);
+		//if (is_file(MW_CONFIG_FILE)) {
+		include_once (MW_CONFIG_FILE);
+		if (isset($config)) {
+			$c = $config;
+			if (isset($c[$k])) {
 
-		require_once (MW_APPPATH_FULL . 'config.php');
-		$c = $config;
-		if (isset($c[$k])) {
-				
-			return $c[$k];
+				return $c[$k];
+			}
 		}
+		//	}
+		//d(MW_CONFIG_FILE);
+
 	}
 }
 
@@ -67,7 +75,6 @@ function dump($v) {
 	return '<pre>' . var_dump($v) . '</pre>';
 }
 
- 
 function _log($m) {
 	file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
 }

@@ -737,7 +737,7 @@ class MwController {
 
 	function install() {
 		$installed = MW_IS_INSTALLED;
-
+ 
 		if ($installed == false) {
 			$f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
 			require ($f);

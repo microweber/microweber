@@ -80,28 +80,24 @@ mw.load_module('users/edit_user','#user_edit_admin_<? print $rand  ?>');
 }
 
 
-  _mw_admin_users_manage = function(){
+_mw_admin_users_manage = function(){
 
- 
- 
-var attrs = mw.url.getHashParams(window.location.hash);
+    var attrs = mw.url.getHashParams(window.location.hash);
 
-var holder = mw.$('#users_admin_<? print $rand ?>');
+    var holder = mw.$('#users_admin_<? print $rand ?>');
 
-var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
+    var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
 
-var sync = ['ui','search','category','installed'];
+    var sync = ['ui','search','category','installed'];
 
-for(;i<l;i++){
-holder.removeAttr(arr[i]);
-}
-for (var x in attrs){
-if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
-holder.attr(x, attrs[x]);
-}
-mw.load_module('users/manage','#users_admin_<? print $rand ?>');
- 
- 
+    for(;i<l;i++){
+        holder.removeAttr(arr[i]);
+    }
+    for (var x in attrs){
+    if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
+        holder.attr(x, attrs[x]);
+    }
+    mw.load_module('users/manage','#users_admin_<? print $rand ?>');
 }
 
 
@@ -115,22 +111,30 @@ $(window).bind("load", function(){
 
 _mw_admin_user_edit = function(){
 
- 
- 
-var attrs = mw.url.getHashParams(window.location.hash);
 
-var holder = mw.$('#user_edit_admin_<? print $rand ?>');
- 
-for (var x in attrs){
-	if(x=='edit-user'){
-	holder.attr(x, attrs[x]);
-	}
-}
-mw.load_module('users/edit_user','#user_edit_admin_<? print $rand ?>');
+    var attrs = mw.url.getHashParams(window.location.hash);
+
+    mw.$('#user_edit_admin_<? print $rand ?>').remove();
+
+    $(".to_edit").html($(".to_edit").data('html'));
+    $(".to_edit").removeClass('to_edit')
 
 
+    var p = mw.$('#mw-admin-user-'+attrs['edit-user']).html();
+     mw.$('#mw-admin-user-'+attrs['edit-user']).addClass('to_edit').data('html', p);
 
- 
+    mw.$('#mw-admin-user-'+attrs['edit-user']).empty().html('<td colspan="6"><div id="user_edit_admin_<? print $rand ?>"></div></td>');
+
+    var holder = mw.$('#user_edit_admin_<? print $rand ?>');
+
+    for (var x in attrs){
+    	if(x=='edit-user'){
+    	    holder.attr(x, attrs[x]);
+    	}
+    }
+
+    mw.load_module('users/edit_user','#user_edit_admin_<? print $rand ?>');
+
 
 
 }
@@ -140,7 +144,9 @@ mw.on.hashParam('is_admin', _mw_admin_users_manage);
 mw.on.hashParam('search', _mw_admin_users_manage);
 mw.on.hashParam('is_active', _mw_admin_users_manage);
 mw.on.hashParam('sortby', _mw_admin_users_manage);
-mw.on.hashParam('edit-user', _mw_admin_user_edit);
+mw.on.hashParam('edit-user', function(){
+  !!this ? _mw_admin_user_edit() : '';
+});
 
 
 
@@ -214,7 +220,7 @@ mw.on.hashParam('edit-user', _mw_admin_user_edit);
     </div>
     <div class="vSpace"></div>
      <div id="users_admin_<? print $rand  ?>" ></div>
-      
+
      <div id="user_edit_admin_<? print $rand  ?>" ></div>
   </div>
 </div>

@@ -96,6 +96,10 @@ $(document).ready(function(){
               <td>Database name</td>
               <td><input name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> /></td>
             </tr>
+             <tr>
+              <td>Table prefix</td>
+              <td><input name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= ''): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> /></td>
+            </tr>
             <tr>
               <td>Time zone</td>
               <td><? static $regions = array(

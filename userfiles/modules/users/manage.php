@@ -30,7 +30,6 @@ $data = get_users($user_params);
           <th>Email</th>
           <th>Role</th>
           <th>Is Active</th>
-
           <th>Edit </th>
       </tr>
   </thead>
@@ -45,18 +44,16 @@ $data = get_users($user_params);
       </tr>
   </tfoot>
   <tbody>
-
   <? foreach($data  as $item): ?>
-     <tr>
+     <tr id="mw-admin-user-<?  print $item['id']; ?>">
           <td><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?></td>
           <td><?  print $item['username']; ?></td>
           <td><?  print $item['email']; ?></td>
-          <td> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
-          <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck"></span><?php else:  ?><span class="ico iRemove"><?php endif; ?></span></td>
+          <td align="center"> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
+          <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none"><?php endif; ?></span></td>
           <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#edit-user=<?  print $item['id']; ?>">Edit</a></td>
       </tr>
  <? endforeach ; ?>
-
   </tbody>
 </table>
 <? endif; ?>

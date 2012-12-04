@@ -11,7 +11,7 @@ function api_expose($function_name) {
 }
 
 function exec_action($api_function, $data = false) {
-
+	 
 	$hooks = action_hook(true);
 
 	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
@@ -26,8 +26,7 @@ function exec_action($api_function, $data = false) {
 					$hook_value();
 				}
 				//unset($hooks[$api_function][$hook_key]);
-				
-				
+
 			}
 		}
 	}
@@ -131,6 +130,7 @@ function parse_params($params) {
 	}
 	return $params;
 }
+
 $mw_var = array();
 function mw_var($key, $new_val = false) {
 	global $mw_var;

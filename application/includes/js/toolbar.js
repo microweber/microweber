@@ -666,9 +666,7 @@ mw.$(".mw_dropdown_action_format").change(function(){
     mw.$("#mw-text-editor").mouseleave(function(){
         if(mw.mouseDownOnEditor){
             mw.$("#mw_small_editor").visible();
-            mw.$("#mw-text-editor").animate({opacity:0}, function(){
-              $(this).invisible();
-            });
+            mw.$("#mw-text-editor").invisible();
             mw.$("#mw-text-editor").removeClass("hover");
         }
     });

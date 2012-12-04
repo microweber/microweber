@@ -120,7 +120,6 @@ function register_user($params) {
 			$data['password'] = $pass;
 			$data['is_active'] = 'n';
 
-			 
 			$table = MW_TABLE_PREFIX . 'users';
 
 			$q = " INSERT INTO  $table set email='$email',  password='$pass',   is_active='n' ";
@@ -156,7 +155,6 @@ function save_user($params) {
 	}
 
 	$data_to_save = $params;
-	 
 
 	$table = MW_TABLE_PREFIX . 'users';
 	$save = save_data($table, $data_to_save);
@@ -403,7 +401,9 @@ function has_access($function_name) {
 
 function is_admin() {
 	static $is = 0;
-
+	if (MW_IS_INSTALLED == false) {
+		return true;
+	}
 	if ($is != 0 or defined('USER_IS_ADMIN')) {
 		// var_dump( $is);
 		return $is;
@@ -483,7 +483,6 @@ function get_users($params = array()) {
 		$params = $params2;
 	}
 
-	 
 	$table = MW_TABLE_PREFIX . 'users';
 
 	$data = string_clean($params);
@@ -695,7 +694,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =    get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =     get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -710,7 +709,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =    get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =     get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -776,7 +775,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =    get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =     get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -820,7 +819,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =    get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =     get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -837,6 +836,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =    get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =     get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }
