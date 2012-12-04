@@ -21,17 +21,46 @@ $data = get_users($user_params);
 
  
  ?><? if(isarr($data )): ?>
+
+<table width="950" cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+  <thead>
+      <tr>
+          <th>Names</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Is Active</th>
+
+          <th>Edit </th>
+      </tr>
+  </thead>
+  <tfoot>
+      <tr>
+          <td>Name</td>
+          <td>Username</td>
+          <td>Email</td>
+          <td>Role</td>
+          <th>Is Active</th>
+          <th>Edit </th>
+      </tr>
+  </tfoot>
+  <tbody>
+
   <? foreach($data  as $item): ?>
-  <div>
-   
-  Username: <?  print $item['username']; ?><br />
-  email: <?  print $item['email']; ?><br />
-  first_name: <?  print $item['first_name']; ?><br />
-  last_name: <?  print $item['last_name']; ?><br />
-  is_active: <?  print $item['is_active']; ?><br />
-is_admin: <?  print $item['is_admin']; ?><br />
-  <a href="#edit-user=<?  print $item['id']; ?>" class="mw-ui-btn mw-ui-btn-small">Edit user</a>
- 
-</div>
+     <tr>
+          <td><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?></td>
+          <td><?  print $item['username']; ?></td>
+          <td><?  print $item['email']; ?></td>
+          <td> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
+          <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck"></span><?php else:  ?><span class="ico iRemove"><?php endif; ?></span></td>
+          <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#edit-user=<?  print $item['id']; ?>">Edit</a></td>
+      </tr>
  <? endforeach ; ?>
+
+  </tbody>
+</table>
 <? endif; ?>
+
+
+
+

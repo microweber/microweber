@@ -112,36 +112,15 @@ if (isset($to_save)) {
 set_time_limit ( 0 );
 
 
-
-
-
-
-
-
-$dbms_schema =  INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'default.sql';;
-
-$sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
-$sql_query = sql_remove_remarks($sql_query);
-
-$sql_query = sql_remove_comments($sql_query);
-$sql_query = split_sql_file($sql_query, ';');
- 
-
-$i=1;
-foreach($sql_query as $sql){ 
-	//$sql = str_ireplace('{dbname}', $to_save['dbname'], $sql); 
- //$qz = db_q($sql, $temp_db);
- // var_dump($qz);  
-}
-			}
+ 		}
 			  $save_config  =  $save_config_orig;
 			   $to_save['IS_INSTALLED'] = 'yes';
 			  foreach ($to_save as $k => $v) {
             $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
         }
-			 d($save_config);
+			// d($save_config);
 			
-			       //   file_put_contents($cfg, $save_config);
+			        file_put_contents($cfg, $save_config);
 clearstatcache();
 clearcache();
 			 
