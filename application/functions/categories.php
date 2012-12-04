@@ -207,7 +207,7 @@ function category_tree($params = false) {
 	}
 	$table = c('db_tables');
 
-	$table = $table['table_taxonomy'];
+	$table = MW_TABLE_PREFIX . 'taxonomy';
 	if (isset($params['for_page']) and $params['for_page'] != false) {
 		$page = get_page($params['for_page']);
 		$parent = $page['subtype_value'];
@@ -326,7 +326,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	$table = c('db_tables');
 	$table_content = MW_TABLE_PREFIX . 'content';
 
-	$table = $table_taxonomy = $table['table_taxonomy'];
+	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 
 	if ($parent == false) {
 
@@ -711,7 +711,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 	$table = c('db_tables');
 	$table_content = MW_TABLE_PREFIX . 'content';
 
-	$table = $table_taxonomy = $table['table_taxonomy'];
+	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 
 	if ($parent == false) {
 
@@ -1084,7 +1084,7 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
 	$tables = c('db_tables');
 
 	$table = $tables['table_taxonomy'];
-	$table_items = $tables['table_taxonomy_items'];
+	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$table_content = MW_TABLE_PREFIX . 'content';
 

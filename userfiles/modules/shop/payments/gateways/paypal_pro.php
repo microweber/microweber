@@ -48,7 +48,7 @@ function paypal_pro_checkout(data,selector){
     <td>year</td>
     <td><input name="cc_year"  type="text" value="" /></td>
   </tr>
-    </tr>
+ 
   
   <tr>
     <td>verification_code</td>

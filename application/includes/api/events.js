@@ -78,7 +78,7 @@ DOMChange:function(element, callback){
  }
 }
 
-
+mw.hashHistory = [window.location.hash]
 
 
 
@@ -96,10 +96,21 @@ $(window).bind("hashchange load", function(event){
    }
 
 
+   if(event.type=='hashchange'){
+     mw.hashHistory.push(mw.hash());
 
-   if((hash==='' || hash==='#' || hash==='#?') && event.type=='hashchange'){
-       window.location.href = mw.url.removeHash(window.location.href);
+     var size = mw.hashHistory.length;
+
+     var changes = mw.url.whichParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
+
+     if(l>0){
+       for( ; i<l; i++){
+          mw.on.hashParam(changes[i], "", true);
+       }
+     }
+
    }
+
 });
 
 

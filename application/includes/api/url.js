@@ -80,6 +80,15 @@ mw.url = {
     },
     windowDeleteHashParam:function(param){
        mw.hash(mw.url.deleteHashParam(window.location.hash, param));
+    },
+    whichParamsHasBeenRemoved:function(currHash, prevHash){
+        var curr = mw.url.getHashParams(currHash);
+        var prev = mw.url.getHashParams(prevHash);
+        var hashes = [];
+        for(var x in prev){
+          curr[x] === undefined ? hashes.push[x] : '';
+        }
+        return hashes;
     }
 }
 
@@ -137,7 +146,6 @@ mw.walker = function(context, callback){   //todo
     callback.call(walker.currentNode);
   }
 }
-
 
 
 

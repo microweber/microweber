@@ -57,7 +57,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 
 			$cms_db_tables = c('db_tables');
 
-			$table_custom_field = $cms_db_tables['table_custom_fields'];
+			$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 			$form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
 			$field_type = $form_data['custom_field_type'];
 			$form_data['id'] = 0;
@@ -108,7 +108,7 @@ function save_custom_field($data) {
 
 	$cms_db_tables = c('db_tables');
 
-	$table_custom_field = $cms_db_tables['table_custom_fields'];
+	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
 	if (isset($data_to_save['for'])) {
 		$data_to_save['to_table'] = guess_table_name($data_to_save['for']);
@@ -145,7 +145,7 @@ function reorder_custom_fields($data) {
 		error('Error: not logged in as admin.');
 	}
 	$tables = c('db_tables');
-	$table = $tables['table_custom_fields'];
+	$table = MW_TABLE_PREFIX . 'custom_fields';
 
 	foreach ($data as $value) {
 		if (is_arr($value)) {
@@ -190,7 +190,7 @@ function remove_field($id) {
 		return false;
 	}
 	$cms_db_tables = c('db_tables');
-	$custom_field_table = $cms_db_tables['table_custom_fields'];
+	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 	$q = "DELETE FROM $custom_field_table where id='$id'";
 
 	db_q($q);

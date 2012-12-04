@@ -711,7 +711,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 	if (!empty($criteria['custom_fields_criteria'])) {
 
-		$table_custom_fields = $cms_db_tables['table_custom_fields'];
+		$table_custom_fields = MW_TABLE_PREFIX . 'custom_fields';
 
 		$only_custom_fieldd_ids = array();
 
@@ -2239,7 +2239,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 		if (!empty($custom_field_to_save)) {
 			// p($is_quick);
-			$custom_field_table = $cms_db_tables['table_custom_fields'];
+			$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 			$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
 			if ($is_quick == false) {
 

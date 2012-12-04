@@ -188,7 +188,7 @@ function reorder_media($data) {
 	}
 	$tables = c('db_tables');
 
-	$table = $tables['table_media'];
+	$table =  MW_TABLE_PREFIX . 'media';
 	foreach ($data as $value) {
 		if (is_arr($value)) {
 			$indx = array();
@@ -270,12 +270,12 @@ function save_media($data) {
 
 	// ->'table_content';
 	if (isset($s['to_table']) and isset($s['to_table_id'])) {
-		$table = $tables['table_media'];
+		$table =  MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
 	} elseif (isset($s['id']) and isset($s['title'])) {
-		$table = $tables['table_media'];
+		$table =  MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
@@ -336,7 +336,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 function get_pictures($params) {
 	$tables = c('db_tables');
-	$table = $tables['table_media'];
+	$table =  MW_TABLE_PREFIX . 'media';
 	$params = parse_params($params);
 /*
 	// if (is_string($params)) {

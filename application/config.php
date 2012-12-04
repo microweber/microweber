@@ -48,18 +48,17 @@ $config = array(
 
 
 $cms_db_tables = array();
- $cms_db_tables['table_content'] = MW_TABLE_PREFIX . 'content';
-$cms_db_tables['table_taxonomy'] = $cms_db_tables['table_categories'] = MW_TABLE_PREFIX . 'taxonomy';
-$cms_db_tables['table_taxonomy_items'] = MW_TABLE_PREFIX . 'taxonomy_items';
+// $cms_db_tables['table_content'] = MW_TABLE_PREFIX . 'content';
+//$cms_db_tables['table_taxonomy'] = $cms_db_tables['table_categories'] = MW_TABLE_PREFIX . 'taxonomy';
+//$cms_db_tables['table_taxonomy_items'] = MW_TABLE_PREFIX . 'taxonomy_items';
 
 
  
 //$cms_db_tables['table_options'] = MW_TABLE_PREFIX . 'options';
-$cms_db_tables['table_media'] = MW_TABLE_PREFIX . 'media';
-$cms_db_tables['table_geodata'] = MW_TABLE_PREFIX . 'geodata';
-//$cms_db_tables['table_comments'] = MW_TABLE_PREFIX . 'comments';
-$cms_db_tables['table_votes'] = MW_TABLE_PREFIX . 'votes';
-$cms_db_tables['table_users'] = MW_TABLE_PREFIX . 'users';
+//$cms_db_tables['table_media'] = MW_TABLE_PREFIX . 'media';
+ //$cms_db_tables['table_comments'] = MW_TABLE_PREFIX . 'comments';
+//$cms_db_tables['table_votes'] = MW_TABLE_PREFIX . 'votes';
+//.$cms_db_tables['table_users'] = MW_TABLE_PREFIX . 'users';
 $cms_db_tables['table_messages'] = MW_TABLE_PREFIX . 'messages';
 $cms_db_tables['table_users_log'] = MW_TABLE_PREFIX . 'users_log';
 $cms_db_tables['table_users_statuses'] = MW_TABLE_PREFIX . 'users_statuses';

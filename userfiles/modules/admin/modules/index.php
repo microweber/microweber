@@ -121,7 +121,7 @@ mw.on.hashParam('installed', function(){
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
 
 
-  <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;Modules</h2>
+  <h2 style="padding:30px 0 19px 25px;"><span class="ico imanage-module"></span>&nbsp;Modules</h2>
 
   <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
 

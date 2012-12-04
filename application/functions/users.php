@@ -1,5 +1,75 @@
 <?php
 
+if (!defined("MW_DB_TABLE_USERS")) {
+	define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+}
+
+action_hook('mw_db_init', 'mw_db_init_users_table');
+
+function mw_db_init_users_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MW_DB_TABLE_USERS;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('expires_on', 'datetime default NULL');
+	$fields_to_add[] = array('last_login', 'datetime default NULL');
+
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('username', 'TEXT default NULL');
+
+	$fields_to_add[] = array('password', 'TEXT default NULL');
+	$fields_to_add[] = array('email', 'TEXT default NULL');
+
+	$fields_to_add[] = array('is_active', "char(1) default 'n'");
+	$fields_to_add[] = array('is_admin', "char(1) default 'n'");
+	$fields_to_add[] = array('is_verified', "char(1) default 'n'");
+	$fields_to_add[] = array('is_public', "char(1) default 'y'");
+
+	$fields_to_add[] = array('first_name', 'TEXT default NULL');
+	$fields_to_add[] = array('last_name', 'TEXT default NULL');
+
+	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
+
+	$fields_to_add[] = array('user_information', 'TEXT default NULL');
+	$fields_to_add[] = array('subscr_id', 'TEXT default NULL');
+	$fields_to_add[] = array('role', 'TEXT default NULL');
+	$fields_to_add[] = array('medium', 'TEXT default NULL');
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('username', $table_name, array('username(255)'));
+	db_add_table_index('email', $table_name, array('email(255)'));
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
 //api_expose('register_user');
 api_expose('register_user');
 
@@ -51,7 +121,7 @@ function register_user($params) {
 			$data['is_active'] = 'n';
 
 			$cms_db_tables = c('db_tables');
-			$table = $cms_db_tables['table_users'];
+			$table = MW_TABLE_PREFIX . 'users';
 
 			$q = " INSERT INTO  $table set email='$email',  password='$pass',   is_active='n' ";
 			$next = db_last_id($table);
@@ -70,9 +140,8 @@ VALUES ($next, '$email', '$pass', 'n')";
 	}
 }
 
- 
-	api_expose('save_user');
- 
+api_expose('save_user');
+
 function save_user($params) {
 
 	if (isset($params['id'])) {
@@ -89,7 +158,7 @@ function save_user($params) {
 	$data_to_save = $params;
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_users'];
+	$table = MW_TABLE_PREFIX . 'users';
 	$save = save_data($table, $data_to_save);
 	$id = $save;
 	cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
@@ -415,7 +484,7 @@ function get_users($params = array()) {
 	}
 
 	$table = c('db_tables');
-	$table = $table['table_users'];
+	$table = MW_TABLE_PREFIX . 'users';
 
 	$data = string_clean($params);
 	$orig_data = $data;
@@ -626,7 +695,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =  get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =    get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -641,7 +710,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =  get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =    get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -707,7 +776,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =  get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =    get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -751,7 +820,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =  get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =    get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -768,6 +837,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =  get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =    get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

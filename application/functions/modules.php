@@ -1,4 +1,84 @@
 <?php
+
+if (!defined("MW_DB_TABLE_MODULES")) {
+	define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
+}
+
+
+if (!defined("MW_DB_TABLE_ELEMENTS")) {
+	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
+}
+
+
+action_hook('mw_db_init', 'mw_db_init_modules_table');
+
+function mw_db_init_modules_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MW_DB_TABLE_MODULES;
+	$table_name2 = MW_DB_TABLE_ELEMENTS;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('expires_on', 'datetime default NULL');
+
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('name', 'TEXT default NULL');
+	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
+	$fields_to_add[] = array('module_id', 'TEXT default NULL');
+
+	$fields_to_add[] = array('module', 'TEXT default NULL');
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+	$fields_to_add[] = array('icon', 'TEXT default NULL');
+	$fields_to_add[] = array('author', 'TEXT default NULL');
+	$fields_to_add[] = array('website', 'TEXT default NULL');
+	$fields_to_add[] = array('help', 'TEXT default NULL');
+
+	$fields_to_add[] = array('installed', 'int(11) default NULL');
+	$fields_to_add[] = array('ui', 'int(11) default 0');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('as_element', 'int(11) default 0');
+	$fields_to_add[] = array('ui_admin', 'int(11) default 0');
+	$fields_to_add[] = array('notifications', 'int(11) default 0');
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('module', $table_name, array('module(255)'));
+	db_add_table_index('module_id', $table_name, array('module_id(255)'));
+	
+	set_db_table($table_name2, $fields_to_add);
+
+	db_add_table_index('module', $table_name2, array('module(255)'));
+	db_add_table_index('module_id', $table_name2, array('module_id(255)'));
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
 /**
  *
  * Modules functions API
@@ -205,7 +285,7 @@ function get_all_functions_files_for_modules($options = false) {
 function get_elements_from_db($params = false) {
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_elements'];
+	$table = MW_TABLE_PREFIX . 'elements';
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
@@ -231,7 +311,7 @@ function get_elements_from_db($params = false) {
 function get_modules_from_db($params = false) {
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_modules'];
+	$table = MW_TABLE_PREFIX . 'modules';
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
@@ -281,7 +361,7 @@ function save_element_to_db($data_to_save) {
 
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_elements'];
+	$table = MW_TABLE_PREFIX . 'elements';
 	$save = false;
 	// d($table);
 	//d($data_to_save);
@@ -325,7 +405,7 @@ function delete_elements_from_db() {
 	} else {
 		$cms_db_tables = c('db_tables');
 
-		$table = $cms_db_tables['table_elements'];
+		$table = MW_TABLE_PREFIX . 'elements';
 
 		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -355,7 +435,7 @@ function delete_module_by_id($id) {
 	$id = intval($id);
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_modules'];
+	$table = MW_TABLE_PREFIX . 'modules';
 	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -376,7 +456,7 @@ function delete_modules_from_db() {
 	} else {
 		$cms_db_tables = c('db_tables');
 
-		$table = $cms_db_tables['table_modules'];
+		$table = MW_TABLE_PREFIX . 'modules';
 		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -421,7 +501,7 @@ function is_module($module_name) {
 	if (!is_string($module_name)) {
 		return false;
 	}
-	if(trim($module_name) == ''){
+	if (trim($module_name) == '') {
 		return false;
 	}
 	$checked = array();
@@ -838,7 +918,7 @@ function save_module_to_db($data_to_save) {
 
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_modules'];
+	$table = MW_TABLE_PREFIX . 'modules';
 	$save = false;
 	// d($table);
 
@@ -1372,8 +1452,8 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
-				$config['module'] = $module_name;
-		
+		$config['module'] = $module_name;
+
 		$config['module_name_url_safe'] = module_name_encode($module_name);
 
 		$find_base_url = curent_url(1);

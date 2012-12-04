@@ -4,6 +4,13 @@
 if (!defined("MW_DB_TABLE_CONTENT")) {
 	define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
 }
+if (!defined("MW_DB_TABLE_MEDIA")) {
+	define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
+}
+
+if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
+}
 
 action_hook('mw_db_init', 'mw_db_init_content_table');
 
@@ -72,8 +79,93 @@ function mw_db_init_content_table() {
 	db_add_table_index('title', $table_name, array('title(255)'));
 
 
+
+
+
+
+
+
+
+
+$table_name = MW_DB_TABLE_MEDIA;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+
+	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+		$fields_to_add[] = array('media_type', 'TEXT default NULL');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('title', 'longtext default NULL');
+		$fields_to_add[] = array('description', 'TEXT default NULL');
+		$fields_to_add[] = array('embed_code', 'TEXT default NULL');
+			$fields_to_add[] = array('filename', 'TEXT default NULL');
+	
+	 
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('media_type', $table_name, array('media_type(55)'));
+	  
 	 //db_add_table_index('url', $table_name, array('url'));
 	 //db_add_table_index('title', $table_name, array('title'));
+	 
+	 
+	 
+	 
+	 
+	 $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
+
+	$fields_to_add = array();
+	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+
+	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+		$fields_to_add[] = array('position', 'int(11) default NULL');
+	
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	
+			$fields_to_add[] = array('custom_field_name', 'TEXT default NULL');
+	
+	
+			$fields_to_add[] = array('custom_field_value', 'TEXT default NULL');
+	
+	
+	
+		$fields_to_add[] = array('custom_field_type', 'TEXT default NULL');
+	$fields_to_add[] = array('custom_field_values', 'longtext default NULL');
+		$fields_to_add[] = array('field_for', 'TEXT default NULL');
+		$fields_to_add[] = array('custom_field_field_for', 'TEXT default NULL');
+			$fields_to_add[] = array('custom_field_help_text', 'TEXT default NULL');
+	
+	$fields_to_add[] = array('custom_field_is_active', "char(1) default 'y'");
+	 	$fields_to_add[] = array('custom_field_required', "char(1) default 'n'");
+	 
+	  
+	 
+	 
+	 	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+	 
+	 
+ 
+	 
+	 
+	 
 
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -393,7 +485,7 @@ function homepage_link() {
 function get_homepage() {
 	$table = c('db_tables');
 	// ->'table_content';
-	$table = $table['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 
 	$sql = "SELECT * from $table where is_home='y'  order by updated_on desc limit 0,1 ";
 
@@ -418,7 +510,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 
 	$table = c('db_tables');
 	// ->'table_content';
-	$table = $table['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 
 	// $url = strtolower($url);
 	//  $url = string_clean($url);
@@ -501,7 +593,7 @@ function get_content_by_id($id) {
 
 	$table = c('db_tables');
 	// ->'table_content';
-	$table = $table['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 
 	$id = intval($id);
 	if ($id == 0) {
@@ -687,7 +779,7 @@ if (isset($params['cache_group'])) {
 		// d($table);
 
 		$table = c('db_tables');
-		$table = $table['table_content'];
+		$table = MW_TABLE_PREFIX . 'content';
 		$get = db_get($table, $params, $cache_group );
 		if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
 			return $get;
@@ -1005,7 +1097,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 	$table_custom_field = c('db_tables');
 	// ->'table_custom_fields';
-	$table_custom_field = $table_custom_field['table_custom_fields'];
+	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
 	$the_data_with_custom_field__stuff = array();
 
@@ -1450,7 +1542,7 @@ function save_content($data, $delete_the_cache = true) {
 	$cats_modified = false;
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 
 	if (empty($data) or !isset($data['id'])) {
 
@@ -1749,7 +1841,7 @@ $cats_modified = true;
 					//	d($new_category);
 	}
 
-	$custom_field_table = $cms_db_tables['table_custom_fields'];
+	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 
 	$sid = session_id();
 
@@ -1768,7 +1860,7 @@ and (to_table_id=0 or to_table_id IS NULL)
 	db_q($clean);
 	cache_clean_group('custom_fields');
 
-	$media_table = $cms_db_tables['table_media'];
+	$media_table =  MW_TABLE_PREFIX . 'media';
 
 	$clean = " update $media_table set
 
@@ -1962,7 +2054,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_content'];
+	$table = MW_TABLE_PREFIX . 'content';
 
 	if ($parent == false) {
 

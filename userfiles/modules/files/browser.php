@@ -1,4 +1,4 @@
-<? 
+<?
 
 /**
  * Simple file browser

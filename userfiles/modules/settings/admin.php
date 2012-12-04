@@ -87,7 +87,7 @@ mw.on.hashParam('installed', function(){
       </div>
       <div style="padding-left: 46px">
         <div class="vSpace"></div>
-        <label class="mw-ui-label">Show: </label>
+        <label class="mw-ui-label">Show:</label>
         <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher"> <span class="mw-switch-handle"></span>
           <label>Installed
             <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
