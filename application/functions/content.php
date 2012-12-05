@@ -1076,9 +1076,9 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 }
 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
-
+ 
 	// $id = intval ( $id );
-	
+
 
 	$id = intval($id);
 	$table = db_escape_string($table);
@@ -1151,10 +1151,10 @@ $sid = session_id();
 		order by position asc
 		   ";
 
-		if ($debug != false) {
+			if ($debug != false) {
 			d($q);
 		}
-
+  
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));

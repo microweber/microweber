@@ -16,7 +16,9 @@
  }
  ?>
 <? if(isset($params['for_module_id'])): ?>
-<?	$more = get_custom_fields($for,$params['for_module_id'],1,false);    ?>
+<?   ?>
+<?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);    ?>
+<? // d($more); ?>
 <? if(!empty( $more)):  ?>
 
 <div class="custom-field-table" id="custom-field-main-table">
@@ -40,5 +42,4 @@
 <? else : ?>
 You dont have any custom fields
 <? endif; ?>
-
 <? endif; ?>

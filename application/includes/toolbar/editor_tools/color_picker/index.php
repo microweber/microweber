@@ -22,43 +22,40 @@
   position: relative;
   padding: 10px;
   margin: 0 10px 10px;
-  background: 12px;
+  background: white;
   overflow: hidden;
-  box-shadow: 2px 2px 1px #ccc;
+  box-shadow: 0px 0px 6px #CCCCCC;
 }
 
 #mwpicker{
   clear: both;
   position: relative;
-width: 240px; height: 130px;
+  width: 240px; height: 130px;
 }
 
 </style>
 
 
 	<script type="text/javascript" src="<? print pathToURL(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
+    <script>
+        mw.require('color.js');
+    </script>
     <script type="text/javascript">
 
-    visible = false;
 
-    toggle_picker = function(){
-      var p = $('#mwpicker');
-      if(visible){
-          visible = false;
-          p.hide();
-          parent.mw.$(".wysiwyg_external iframe").height(100);
-      }
-      else{
-        visible = true;
-        p.show();
-        parent.mw.$(".wysiwyg_external iframe").height(360);
-      }
-    }
+        _command = window.location.hash.replace("#", "");
+
+        _hide_selection = ['fontColor', 'fontbg'];
 
 
-        var command = window.location.hash.replace("#", "");
+
         $(document).ready(function(){
 
+
+        if(_hide_selection.indexOf(_command)!=-1){
+          mw.log(parent.mw.$(mwd.body))
+          $(parent.mwd.body).addClass('hide_selection');
+        }
 
 
         color_holder = mwd.getElementById('my-colors');
@@ -73,8 +70,11 @@ width: 240px; height: 130px;
 
         for(var x in document_colors){
             var span = mwd.createElement('span');
-            span.style.background = document_colors[x];
+            var color = mw.color.rgbToHex(document_colors[x])
+            span.style.background = color;
+            span.setAttribute('onclick', '_do("'+color+'");');
             color_holder.appendChild(span);
+
         }
 
 
@@ -88,17 +88,7 @@ width: 240px; height: 130px;
           });
 
 
-          /*
-          mw.$('#colorpicker').ColorPicker({
-            flat: true,
-            onChange:function(hsb, hex){
-              parent.mw.wysiwyg[command](hex);
-            },
-            onSubmit:function(hsb, hex){
-              parent.mw.wysiwyg[command]("transparent");
-            }
-          });
-                 */
+
 
 
         var input = mwd.getElementById('colorpicker');
@@ -108,9 +98,17 @@ width: 240px; height: 130px;
         picker.showPicker();
 
         });
+
+        _do = function(val){
+          parent.mw.wysiwyg[_command](val);
+        }
+
+
     </script>
 
 <div id="main_holder">
+
+<label class="mw-ui-label">Colors in This Page</label>
 
     <div id="my-colors">
 
@@ -119,10 +117,10 @@ width: 240px; height: 130px;
 
 
 
-    <input type="hidden" id="colorpicker" />
+    <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
+    <div class="vSpace"></div>
+<label class="mw-ui-label">Custom Color</label>
 
-    <a href="javascript:;" onclick="toggle_picker();" class="ed_btn">More</a>
-
-    <div id="mwpicker" style="display: none"></div>
+    <div id="mwpicker"></div>
 
 </div>

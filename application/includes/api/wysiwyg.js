@@ -246,12 +246,12 @@ mw.wysiwyg = {
     fontcolorpicker:function(){
         var el = ".mw_editor_font_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontColor");
-        $(mw.wysiwyg.external).find("iframe").width(360).height(180);
+        $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontbgcolorpicker:function(){
         var el = ".mw_editor_font_background_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontbg");
-        $(mw.wysiwyg.external).find("iframe").width(360).height(180);
+        $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontColor:function(color){
          mw.wysiwyg.execCommand('forecolor', null, color);

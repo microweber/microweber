@@ -637,6 +637,7 @@ mw.$(".mw_dropdown_action_format").change(function(){
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
         mw.wysiwyg.check_selection();
+        $(mwd.body).removeClass('hide_selection');
       }
       if(mw.$(".mw_dropdown.hover").length==0){
         mw.$("div.mw_dropdown_fields").hide();

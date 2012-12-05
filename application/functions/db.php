@@ -27,8 +27,6 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	cache_clean_group($cg);
 	$q = db_q($q);
 
-	 
-
 	$table1 = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -82,9 +80,6 @@ function guess_cache_group($for = false) {
 }
 
 function guess_table_name($for = false, $guess_cache_group = false) {
-	 
-
-	 
 
 	if (stristr($for, 'table_') == false) {
 		switch ($for) {
@@ -419,8 +414,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -517,13 +511,12 @@ function db_get($table, $criteria, $cache_group = false) {
  * @author Peter Ivanov
  */
 function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
-	 
 
 	if ($table == false) {
 
 		return false;
 	}
-	 
+
 	$to_search = false;
 	//  $table = db_g($table);
 	$table = db_get_real_table_name($table);
@@ -1304,7 +1297,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1420,26 +1414,26 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 }
 
 function db_get_table_name($assoc_name) {
-	 
 
-	 
 	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
 	return $assoc_name;
 }
 
 function db_get_assoc_table_name($assoc_name) {
-	 
 
-	 
 	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+	$is_assoc = substr($assoc_name, 0, 5);
+	if ($is_assoc != 'table_') {
+		$assoc_name = 'table_' . $assoc_name;
+	}
+	$assoc_name = str_replace('table_table_', 'table_', $assoc_name);
+	//	d($is_assoc);
 
 	return $assoc_name;
 }
 
 function db_get_real_table_name($assoc_name) {
-	 
 
-	 
 	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
 	return $assoc_name;
 }
@@ -1642,7 +1636,6 @@ function db_get_table_fields($table, $exclude_fields = false) {
  *
  */
 function save_data($table, $data, $data_to_save_options = false) {
-	 
 
 	if (is_array($data) == false) {
 
@@ -2160,7 +2153,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	// adding custom fields
 
 	if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
-		 
+
 		$custom_field_to_save = array();
 
 		foreach ($original_data as $k => $v) {
@@ -2764,7 +2757,8 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns); ;
+		$fColumns = implode(',', $aForeignColumns);
+		;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 

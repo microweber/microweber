@@ -267,9 +267,16 @@ if(isset($params['data-category-id'])){
 </script>
 <? endif; ?>
 <? else: ?>
+<? $cat_name = '';
+if( isset($params['category-id']) and intval($params['category-id']) > 0){
+	$cat = get('categories/'.$params['category-id']);
+	d($cat);
+}
+ ?>
 <div class="mw-no-posts-foot">
   <? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
   <h2>No Products Here</h2>
+  
   <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
   <? else: ?>
   <h2>No Posts Here</h2>

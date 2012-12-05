@@ -4,7 +4,7 @@ defined('T') or die();
 $installed = MW_IS_INSTALLED;
   
 if ($installed != false) {
-     if(is_admin() == false){
+     if(function_exists('is_admin') and is_admin() == false){
 		exit('Must be admin'); 
 	 }
 }
@@ -75,14 +75,13 @@ if (isset($_POST['IS_INSTALLED'])) {
 			if(isset($qz['error'])){
 				var_dump($qz); 
 			//	var_dump('asdasdasdasd'); 
-				
+				print ('error');
 			} else {
 				ini_set('memory_limit', '512M');
 set_time_limit ( 0 );
 
 
- 		}
-			  $save_config  =  $save_config_orig;
+ $save_config  =  $save_config_orig;
 			   $to_save['IS_INSTALLED'] = 'yes';
 			  foreach ($to_save as $k => $v) {
             $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
@@ -95,6 +94,10 @@ clearcache();
 			 
 			 
 		  print ('done');
+
+
+ 		}
+			 
 	exit();
 	 
 			
