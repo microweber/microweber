@@ -601,7 +601,7 @@ function recursive_remove_directory($directory, $empty = true) {
                 // if the new path is a directory
                 if (is_dir($path)) {
                     // we call this function with the new path
-                   // recursive_remove_directory($path, $empty);
+                  recursive_remove_directory($path, $empty);
                     // if the new path is a file
                 } else {
                  //   $path = normalize_path($path, false);

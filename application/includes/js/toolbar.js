@@ -234,7 +234,6 @@ mw.image = {
             resize:function(){
               var offset = mw.image.currentResizing.offset();
               $(this).css(offset);
-
             },
             aspectRatio: 16 / 9
         });

@@ -374,6 +374,12 @@ function mw_select_page_for_editing($p_id){
 
 
 mw.on.hashParam("action", function(){
+
+  if(this==false) {
+    mw.load_module('content/manage','#pages_edit_container');
+    return false;
+  }
+
   var arr = this.split(":");
 
   $(mwd.body).removeClass("action-Array");
@@ -382,7 +388,7 @@ mw.on.hashParam("action", function(){
 
 
 
-mw.$('#pages_edit_container').removeAttr('data-page-number');
+    mw.$('#pages_edit_container').removeAttr('data-page-number');
 	mw.$('#pages_edit_container').removeAttr('data-paging-param');
 
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
@@ -390,9 +396,6 @@ mw.$('#pages_edit_container').removeAttr('data-page-number');
 
 
   if(arr[0]==='new'){
-
-
-
 
       if(arr[1]==='page'){
         mw_select_page_for_editing(0);

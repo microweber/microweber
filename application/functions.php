@@ -9,9 +9,6 @@ if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.518);
 }
 
-if (!defined('MW_TABLE_PREFIX')) {
-	define('MW_TABLE_PREFIX', c('table_prefix'));
-}
 
 if (!defined('MW_UPDATE_SERV')) {
 	$test = site_url('update.php');

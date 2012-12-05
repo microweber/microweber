@@ -100,7 +100,7 @@ mw.on.hashParam('installed', function(){
         <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new settings</span></a> </div>
     </div>
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;width: 750px;">
+  <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="settings-index-bar"> <span class="mw-ui-label-help font-11 left">Sort settings:</span>
       <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="Search for settings"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>

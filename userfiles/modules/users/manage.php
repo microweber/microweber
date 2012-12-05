@@ -22,7 +22,7 @@ $data = get_users($user_params);
  
  ?><? if(isarr($data )): ?>
 
-<table width="950" cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
   <thead>
       <tr>
           <th>Names</th>

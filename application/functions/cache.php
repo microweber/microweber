@@ -25,7 +25,7 @@ if (!defined('APC_EXPIRES')) {
 }
 $mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
-global $mem ;
+	global $mem;
 	// return false;
 	//static $mem = array();
 	static $mem_hits = array();
@@ -114,10 +114,11 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
  * @author Peter Ivanov
  * @since Version 1.0
  */
+mw_var('is_cleaning_now', false);
 function cache_clean_group($cache_group = 'global') {
 	// return true;
 	$apc_exists = function_exists('apc_clear_cache');
-
+	mw_var('is_cleaning_now', true);
 	if ($apc_exists == true) {
 		apc_clear_cache('user');
 		//d('apc_clear_cache');
@@ -141,6 +142,7 @@ function cache_clean_group($cache_group = 'global') {
 		if (is_dir($dir)) {
 			@recursive_remove_from_cache_index($dir);
 		}
+		mw_var('is_cleaning_now', false);
 		// clearstatcache();
 		return true;
 	} catch (Exception $e) {
@@ -442,6 +444,10 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global') {
 }
 
 function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
+	if (mw_var('is_cleaning_now') == true) {
+		return false;
+	}
+
 	if ($data_to_cache == false) {
 
 		return false;
@@ -487,7 +493,10 @@ function cache_get_index_file_path($cache_group) {
 }
 
 function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
-	if (strval(trim($cache_id)) == '') {
+
+	$is_cleaning = mw_var('is_cleaning_now');
+
+	if (strval(trim($cache_id)) == '' or $is_cleaning == true) {
 
 		return false;
 	}
@@ -553,6 +562,7 @@ api_expose('clearcache');
 
 function clearcache() {
 	if (MW_IS_INSTALLED == false) {
+
 		recursive_remove_from_cache_index(CACHEDIR, true);
 		return true;
 	}
@@ -567,7 +577,7 @@ function clearcache() {
 }
 
 function recursive_remove_from_cache_index($directory, $empty = true) {
-
+	mw_var('is_cleaning_now', true);
 	static $recycle_bin;
 
 	//   if ($recycle_bin == false) {
@@ -583,7 +593,7 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 
 		//@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
 	}
-
+	mw_var('is_cleaning_now', false);
 	return true;
 
 	// if the path has a slash at the end we remove it here

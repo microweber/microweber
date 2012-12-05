@@ -26,6 +26,12 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 */
 
+
+#mw-admin-container{
+
+
+}
+
 #mw-admin-container.has_sidebar{
   background-image: url("../img/treebg.gif");
   background-repeat:  repeat-y;
@@ -46,7 +52,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 #mw-admin-content{
-  min-width: 1000px;
+  min-width: 980px;
 }
 
 

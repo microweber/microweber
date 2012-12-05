@@ -1,7 +1,7 @@
 <?
 
 if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
-    define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'module_stats_users_online');
+    define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
 }
 
 
@@ -26,7 +26,7 @@ function mw_print_stats_on_dashboard() {
 
 
 function mw_install_stats_module($config = false) {
-
+return true;
     if (is_admin() == false) {
         return false;
     }
@@ -45,7 +45,7 @@ function mw_install_stats_module($config = false) {
 
         return true;
     } elseif (is_array($is_installed) and !empty($is_installed)) {
-        return true;
+        
     } else {
 
         return false;
@@ -183,9 +183,9 @@ function stats_insert() {
     $data['last_page'] = $lp;
     //$data['debug'] = $lp;
 
-    if (!defined("FORCE_SAVE")) {
-        define('FORCE_SAVE', $table);
-    }
+   
+        mw_var('FORCE_SAVE', $table);
+   
 
     $save = save_data($table, $data);
 

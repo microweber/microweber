@@ -48,6 +48,7 @@ function mw_options_init_db() {
 
 	set_db_table($table_name, $fields_to_add);
 
+ 
 	//db_add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
 	//db_add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
@@ -71,7 +72,7 @@ function create_mw_default_options() {
 
 	$table = MW_DB_TABLE_OPTIONS;
 
-	define('FORCE_SAVE', $table);
+	mw_var('FORCE_SAVE', $table);
 	$datas = array();
 
 	$data = array();
@@ -134,7 +135,7 @@ function create_mw_default_options() {
 }
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-	if (!defined("MW_DB_TABLE_OPTIONS")) {
+	if (MW_IS_INSTALLED != true) {
 		return false;
 	}
 	if ($option_group != false) {
@@ -318,9 +319,7 @@ if (is_admin() != false) {
 
 function save_option($data) {
 	$is_admin = is_admin();
-	if ($is_admin == false or !defined('FORCE_SAVE')) {
-		//error('Error: not logged in as admin.');
-	}
+	 
 	// p($_POST);
 	$option_group = false;
 	if (isarr($data)) {

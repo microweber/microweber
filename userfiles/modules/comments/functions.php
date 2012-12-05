@@ -15,7 +15,7 @@ function post_comment($data) {
     $adm = is_admin();
  
     $table = MODULE_DB_TABLE_COMMENTS;
-    define('FORCE_SAVE', $table);
+    mw_var('FORCE_SAVE', $table);
 
     if (isset($data['id'])) {
         if ($adm == false) {

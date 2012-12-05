@@ -13,6 +13,13 @@ $done = false;
 $to_save = $_REQUEST;
  
 if (isset($_POST['IS_INSTALLED'])) {
+	
+	
+	 
+	
+	
+	
+	
     if (isset($to_save['IS_INSTALLED'])) {
         $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
         $save_config = file_get_contents($f);
@@ -81,18 +88,38 @@ if (isset($_POST['IS_INSTALLED'])) {
 set_time_limit ( 0 );
 
 
- $save_config  =  $save_config_orig;
-			   $to_save['IS_INSTALLED'] = 'yes';
-			  foreach ($to_save as $k => $v) {
-            $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
-        }
+$save_config  =  $save_config_orig;
+//$to_save['IS_INSTALLED'] = 'yes';
+foreach ($to_save as $k => $v) {
+$save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+}
 			// d($save_config);
+		clearstatcache();
+clearcache();	
+			         
+
+			 file_put_contents($cfg, $save_config);
 			
-			        file_put_contents($cfg, $save_config);
-clearstatcache();
-clearcache();
-			 
-			 
+			 include_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+			  include_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+exec_action('mw_db_init_options');
+	exec_action('mw_db_init_users');
+  include_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+   exec_action('mw_db_init_default');
+  exec_action('mw_db_init_modules');
+  exec_action('mw_scan_for_modules');
+// scan_for_modules();
+
+
+$save_config  =  $save_config_orig;
+$to_save['IS_INSTALLED'] = 'yes';
+foreach ($to_save as $k => $v) {
+$save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+}
+			 file_put_contents($cfg, $save_config);
+
+
+  // mw_create_default_content('install');
 		  print ('done');
 
 
@@ -126,7 +153,7 @@ clearcache();
 		$data = include($cfg);
 	//	
 	 }
-	 d($data);
+	 
 	  $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include($f);
  }

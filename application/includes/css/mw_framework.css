@@ -745,7 +745,7 @@ html.mw_pages, html.mw_pages body{
 
 .mw_edit_page_right{
   padding-bottom: 50px;
-  width: 720px;
+  width: 645px;
   float: left;
 }
 
@@ -1744,6 +1744,14 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   height: 100%;
   border: none;
 }
+
+
+
+
+ *:after{
+   overflow: hidden !important;
+   display: none !important;
+ }
 
 
 

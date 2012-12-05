@@ -25,7 +25,7 @@ $fields_to_add[] = array('comment_body', 'TEXT default NULL');
 $fields_to_add[] = array('comment_email', 'TEXT default NULL');
 $fields_to_add[] = array('comment_website', 'TEXT default NULL');
 $fields_to_add[] = array('is_moderated', "char(1) default 'n'");
-$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+ 
 $fields_to_add[] = array('for_newsletter', "char(1) default 'n'");
 $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
 $config['tables']['table_comments'] = $fields_to_add;

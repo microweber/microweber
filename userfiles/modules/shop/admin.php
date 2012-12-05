@@ -2,7 +2,7 @@
 $here = dirname(__FILE__);
 $here = $here.DS.'admin_views'.DS;
   $active_action = url_param('action'); ?>
-<? mw_create_default_content('shop') ?>
+<? mw_create_default_content('shop'); ?>
 <? include($here .'nav.php'); ?>
 <? $is_shop = 'y'; ?>
 <? 

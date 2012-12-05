@@ -17,10 +17,12 @@
   </div>
 </div>
 <script type="text/javascript">
-   mw.on.hashParam("clientorder", function(){
-      mw.$('#mw-order-table-holder').hide();
-      mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
-      mw.load_module('shop/orders/client_inner','#mw-clientorder', function(){
-      });
-    });
+  mw.on.hashParam("clientorder", function(){
+       if(!!this){
+          mw.$('#mw-order-table-holder').hide();
+          mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
+          mw.load_module('shop/orders/client_inner','#mw-clientorder', function(){
+       });
+     }
+  });
 </script>

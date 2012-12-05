@@ -139,7 +139,6 @@ if ($mw_config['site_url']) {
 
 define('SITE_URL', SITEURL);
 
-
 define('CACHE_FILES_EXTENSION', '.php');
 
 define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
@@ -150,8 +149,11 @@ define('DATETIME_FORMAT', 'F j g:m a');
 
 define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
-if (isset($_GET['test_config'])) {
-	define('MW_CONFIG_FILE', MW_APPPATH_FULL . $_GET['test_config']);
+$config_file_for_site = MW_APPPATH_FULL . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+// 
+//var_dump($config_file_for_site);
+if (is_file($config_file_for_site)) {
+	define('MW_CONFIG_FILE', $config_file_for_site);
 
 } else {
 	define('MW_CONFIG_FILE', MW_APPPATH_FULL . 'config.php');

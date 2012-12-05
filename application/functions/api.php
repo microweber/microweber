@@ -11,7 +11,7 @@ function api_expose($function_name) {
 }
 
 function exec_action($api_function, $data = false) {
-	 
+
 	$hooks = action_hook(true);
 
 	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
@@ -25,7 +25,7 @@ function exec_action($api_function, $data = false) {
 
 					$hook_value();
 				}
-				//unset($hooks[$api_function][$hook_key]);
+				unset($hooks[$api_function][$hook_key]);
 
 			}
 		}
@@ -131,19 +131,19 @@ function parse_params($params) {
 	return $params;
 }
 
-$mw_var = array();
+$mw_var_storage = array();
 function mw_var($key, $new_val = false) {
-	global $mw_var;
+	global $mw_var_storage;
 	$contstant = ($key);
 	if ($new_val == false) {
-		if (isset($defined[$contstant]) != false) {
-			return $defined[$contstant];
+		if (isset($mw_var_storage[$contstant]) != false) {
+			return $mw_var_storage[$contstant];
 		} else {
 			return false;
 		}
 	} else {
-		if (isset($defined[$contstant]) == false) {
-			$defined[$contstant] = $new_val;
+		if (isset($mw_var_storage[$contstant]) == false) {
+			$mw_var_storage[$contstant] = $new_val;
 			return $new_val;
 		}
 	}

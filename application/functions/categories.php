@@ -8,7 +8,7 @@ if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
 	define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'taxonomy_items');
 }
 
-action_hook('mw_db_init', 'mw_db_init_taxonomy_table');
+action_hook('mw_db_init_default', 'mw_db_init_taxonomy_table');
 
 function mw_db_init_taxonomy_table() {
 	$function_cache_id = false;
@@ -74,7 +74,7 @@ function mw_db_init_taxonomy_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	//db_add_table_index('to_table', $table_name, array('to_table(55)'));
 	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
 	db_add_table_index('parent_id', $table_name, array('parent_id'));
 

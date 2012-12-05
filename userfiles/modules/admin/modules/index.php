@@ -155,7 +155,7 @@ mw.on.hashParam('installed', function(){
 
 
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;width: 750px;">
+  <div class="mw_edit_page_right" style="padding: 20px;width: 730px;">
 
       <div class="modules-index-bar">
 

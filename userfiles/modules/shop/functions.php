@@ -376,8 +376,8 @@ function checkout_ipn($data) {
 		//$update_order['debug'] = 'y';
 		$update_order['order_completed'] = 'y';
 		$update_order['payment_gw'] = $data['payment_gw'];
-		define('FORCE_SAVE', $table_orders);
-		define('FORCE_ANON_UPDATE', $table_orders);
+		mw_var('FORCE_SAVE', $table_orders);
+		mw_var('FORCE_ANON_UPDATE', $table_orders);
 		save_data($table_orders, $update_order);
 
 		if ($ord > 0) {
@@ -758,7 +758,7 @@ function update_cart($data) {
 			}
 		}
 		//
-		define('FORCE_SAVE', $table);
+		mw_var('FORCE_SAVE', $table);
 
 		$cart_s = save_data($table, $cart);
 		return ($cart_s);
@@ -800,7 +800,7 @@ function update_cart_item_qty($data) {
 		// d($checkz);
 		$cart['qty'] = intval($data['qty']);
 		$table = MODULE_DB_TABLE_SHOP;
-		define('FORCE_SAVE', $table);
+		mw_var('FORCE_SAVE', $table);
 
 		$cart_s = save_data($table, $cart);
 		return ($cart_s);

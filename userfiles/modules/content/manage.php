@@ -192,9 +192,11 @@ if(isset($params['data-category-id'])){
 //$pics_module = is_module('pictures');
  
    $posts = module($posts_mod);
- 
+
+
   //d($params);
 ?>
+
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
   <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />

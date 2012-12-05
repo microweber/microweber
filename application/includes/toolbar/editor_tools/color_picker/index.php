@@ -70,9 +70,9 @@
 
         for(var x in document_colors){
             var span = mwd.createElement('span');
-            var color = mw.color.rgbToHex(document_colors[x])
+            var color = mw.color.rgbToHex(document_colors[x]);
             span.style.background = color;
-            span.setAttribute('onclick', '_do("'+color+'");');
+            span.setAttribute('onclick', '_do("'+color.replace(/#/g, '')+'");');
             color_holder.appendChild(span);
 
         }
@@ -108,7 +108,7 @@
 
 <div id="main_holder">
 
-<label class="mw-ui-label">Colors in This Page</label>
+<label class="mw-ui-label">Colors used in this page</label>
 
     <div id="my-colors">
 
@@ -119,7 +119,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
     <div class="vSpace"></div>
-<label class="mw-ui-label">Custom Color</label>
+<label class="mw-ui-label">Custom color</label>
 
     <div id="mwpicker"></div>
 

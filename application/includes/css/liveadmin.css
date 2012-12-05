@@ -86,6 +86,7 @@ body:-webkit-full-screen {
 
 #mw_toolbar_nav{
     width: 100%;
+    min-width:1000px;
     height:52px;
     position: relative;
     z-index: 2;
@@ -488,7 +489,7 @@ form.add-edit-page-post textarea{
   bottom: 0;
     left: 0;
     position: static;
-    width: 686px;
+    width: 610px;
 }
 
 .manage-ico{
@@ -1160,14 +1161,14 @@ body.loading, body.loading *{
 
 
 #mw-shop-menu{
-  padding: 20px;
+  padding: 20px 0 20px 20px;
   overflow: hidden;
   position: relative;
   background: white;
   border-bottom:1px solid #E2E2E2;
 }
 
-#mw-order-table-holder, .mw-admin-wrap{
+.mw-admin-wrap{
   padding: 20px;
   width: 960px;
 }
@@ -1177,9 +1178,7 @@ body.loading, body.loading *{
   background: #f7f7f7;
   border-radius:7px;
 }
-.mw-order-table{
-  width: 960px;
-}
+
 
 .mw-ui-admin-table td,
 .mw-ui-admin-table th{
@@ -1291,7 +1290,6 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 
 .mw-table-sorting-controller{
-  width: 960px;
   padding: 20px;
   overflow: hidden;
   position: relative;
@@ -1623,7 +1621,6 @@ select.mw-ui-simple-dropdown:focus{
 
 .mw-modules-admin li {
   list-style: none;
-  width: 750px;
 }
 .mw-modules-admin li > .module{
   padding: 13px 0 10px;

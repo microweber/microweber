@@ -177,8 +177,9 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	$error['error'] = array();
 	$results = false;
 	// if (MW_IS_INSTALLED != false) {
-	if ($cache_id != false and $only_query == false) {
+	if ($cache_id != false and $only_query == false and $cache_group != false) {
 		// $results =false;
+		 
 		$cache_id = $cache_id . crc32($q);
 		$results = cache_get_content($cache_id, $cache_group);
 		if ($results != false) {
@@ -257,7 +258,11 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 			return $error;
 		} else {
 			if ($only_query == false) {
+				if (is_bool($result)) {
+					return $result;
+				}
 				if (!empty($result)) {
+					//
 					while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 
 						$nwq[] = $row;
@@ -288,7 +293,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	// d($q);
 	//  unset($db);
 	// if (MW_IS_INSTALLED != false) {
-	if ($only_query == false and empty($q) or $q == false) {
+	if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
 		if ($cache_id != false) {
 
 			cache_store_data('---empty---', $cache_id, $cache_group);
@@ -297,7 +302,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	}
 	if ($only_query == false) {
 		// $result = $q;
-		if ($cache_id != false) {
+		if ($cache_id != false and $cache_group != false) {
 			if (isarr($q)) {
 
 				cache_save($q, $cache_id, $cache_group);
@@ -1342,9 +1347,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		// print($q);
 		//	return;
 	}
+	if ($original_cache_group != false) {
+		$result = db_query($q, $original_cache_id, $original_cache_group);
+	} else {
+		//d($q);
+		$result = db_query($q, false, false);
 
-	$result = db_query($q, $original_cache_id, $original_cache_group);
-
+	}
 	if ($count_only != true) {
 		if ($to_search != false) {
 			//	return $result;
@@ -1669,11 +1678,13 @@ function save_data($table, $data, $data_to_save_options = false) {
 	$user_sid = false;
 	if ($user_session == false) {
 
-		if (!defined("FORCE_SAVE")) {
+		if (mw_var("FORCE_SAVE") != false) {
+			//error('You can\'t save data when you are not logged in. ');
+		} else if (!defined("FORCE_SAVE")) {
 			error('You can\'t save data when you are not logged in. ');
 		} else {
 
-			if ($table != FORCE_SAVE) {
+			if ($table != FORCE_SAVE or $table != mw_var("FORCE_SAVE")) {
 				error('You can\'t save data to ' . $table);
 			}
 		}
@@ -1847,7 +1858,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$user_createdq = '';
 		$user_createdq1 = '';
 
-		if (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE) {
+		if ((mw_var('FORCE_ANON_UPDATE') != false and $table == mw_var('FORCE_ANON_UPDATE')) or (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE)) {
 			$user_createdq1 = " id={$data ['id']} ";
 		} else {
 
@@ -1860,9 +1871,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 			} else {
 				$user_createdq1 = " id={$data ['id']} ";
 			}
-
-			if ($user_sid != false) {
-				$user_sidq = " AND session_id='{$user_sid}' ";
+			if (isset($data['session_id'])) {
+				if ($user_sid != false) {
+					$user_sidq = " AND session_id='{$user_sid}' ";
+				}
 			}
 
 		}
@@ -1873,8 +1885,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	if ($dbg != false) {
-		d($q);
+
 	}
+	//d($q);
 	db_q($q);
 
 	if ($id_to_return == false) {
@@ -1916,11 +1929,22 @@ function save_data($table, $data, $data_to_save_options = false) {
 					$original_data['categories'] = str_replace('/', ',', $original_data['categories']);
 					$cz = explode(',', $original_data['categories']);
 					$j = 0;
+					$cz_int = array();
 					foreach ($cz as $cname_check) {
 
 						if (intval($cname_check) == 0) {
-							$str1 = 'no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
-							$is_ex = get($str1);
+							$cname_check = trim($cname_check);
+							$cname_check = db_escape_string($cname_check);
+						//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
+						//	$is_ex = get($str1);
+$cncheckq = "select id
+                    from $taxonomy_table where
+                    data_type='category' 
+                    and   to_table='{$table_assoc_name}'
+                    and   title='{$cname_check}'   ";
+                    $is_ex = db_query($cncheckq);
+                    
+                    
 							if (empty($is_ex)) {
 								$clean_q = "INSERT INTO
                      $taxonomy_table set
@@ -1937,24 +1961,32 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 							}
 
-							$is_ex = get($str1);
+							//$is_ex = get($str1);
 							if (!empty($is_ex) and isarr($is_ex[0])) {
 								$cz[$j] = $is_ex[0]['id'];
+								$cz_int[] = intval($is_ex[0]['id']);
 								//	d($is_ex);
 							}
 
 						}
 						$j++;
 					}
+
+					$parnotin = '';
+					if (!empty($cz_int)) {
+						$parnotin = implode(',', $cz_int);
+						$parnotin = " parent_id NOT IN ({$parnotin}) and";
+					}
+
 					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
-                    parent_id NOT IN ({$original_data['categories']}) and
+                   $parnotin
                     to_table_id={$id_to_return}  ";
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
-					//d($clean_q);
+					//d($clean_q); 
 					if ($dbg != false) {
 						d($clean_q);
 					}
@@ -1962,7 +1994,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
 				}
-				$cat_names_or_ids = array_trim($original_data['categories']);
+				$cat_names_or_ids = array_trim($cz_int);
 
 				$cats_data_modified = false;
 				$cats_data_items_modified = false;

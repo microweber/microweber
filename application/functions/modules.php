@@ -10,7 +10,7 @@ if (!defined("MW_DB_TABLE_ELEMENTS")) {
 }
 
 
-action_hook('mw_db_init', 'mw_db_init_modules_table');
+action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
 
 function mw_db_init_modules_table() {
 	$function_cache_id = false;
@@ -292,7 +292,7 @@ function get_elements_from_db($params = false) {
 	}
 	$params['table'] = $table;
 	$params['orderby'] = 'position asc';
-	// $params['debug'] = 1;
+	
 	$params['cache_group'] = 'elements/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
@@ -767,7 +767,7 @@ function uninstall_module($params) {
 			$to_save['installed'] = '0';
 			//  $to_save['keep_cache'] = '1';
 			//   $to_save['module'] = $module_name;
-			// $to_save['debug'] = '1';
+			
 			//d($to_save);
 			save_module_to_db($to_save);
 			// delete_module_by_id($id);
@@ -851,7 +851,27 @@ function install_module($params) {
 						set_db_table($table, $fields_to_add);
 					}
 				}
+if (is_array($config) and !empty($config)) {
 
+		if (isset($config['on_install'])) {
+
+			$func = $config['on_install'];
+
+			if (!function_exists($func)) {
+				if (is_file($loc_of_functions)) {
+					include_once ($loc_of_functions);
+				}
+			}
+
+			if (function_exists($func)) {
+ 
+				$res = $func();
+			//	return $res;
+			}
+		} else {
+			//return true;
+		}
+	}
 				if (isset($config['options']) and is_arr($config['options'])) {
 					$changes = false;
 					$tabl = $config['options'];
@@ -877,32 +897,11 @@ function install_module($params) {
 		}
 		$to_save['keep_cache'] = '1';
 		//   $to_save['module'] = $module_name;
-		// $to_save['debug'] = '1';
-		//d($to_save);
+		 
 		save_module_to_db($to_save);
 	}
 
-	if (is_array($cfg) and !empty($cfg)) {
-
-		if (isset($cfg['on_install'])) {
-
-			$func = $cfg['on_install'];
-
-			if (!function_exists($func)) {
-				if (is_file($loc_of_functions)) {
-					include_once ($loc_of_functions);
-				}
-			}
-
-			if (function_exists($func)) {
-
-				$res = $func();
-				return $res;
-			}
-		} else {
-			return true;
-		}
-	}
+	
 
 	// d($loc_of_functions);
 }
@@ -927,7 +926,7 @@ function save_module_to_db($data_to_save) {
 	if (!empty($data_to_save)) {
 		$s = $data_to_save;
 		// $s["module_name"] = $data_to_save["name"];
-		// $s["module_name"] = $data_to_save["name"];
+		// $s["debug"] = 1;
 		if (!isset($s["parent_id"])) {
 			$s["parent_id"] = 0;
 		}
@@ -935,12 +934,11 @@ function save_module_to_db($data_to_save) {
 			$s["module"] = $data_to_save["module"];
 			if (!isset($s["module_id"])) {
 				$save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
-				// d($s["module"]);
+				//  d($s);
 				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
-					//$s['debug'] = 1;
-					//d($s );
+					
 					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
@@ -968,7 +966,7 @@ function modules_list($options = false) {
 
 	return scan_for_modules($options);
 }
-
+action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false) {
 	ini_set("memory_limit", "160M");
 	if (!ini_get('safe_mode')) {

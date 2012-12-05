@@ -156,7 +156,7 @@ mw.on.hashParam('edit-user', function(){
 </script>
 
 <div id="mw_index_users">
-  <div class="mw_edit_page_left" id="mw_edit_page_left"> Role
+  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> Role
     <ul class="mw-ui-inline-selector">
       <li>
         <label class="mw-ui-check">
@@ -196,7 +196,7 @@ mw.on.hashParam('edit-user', function(){
     <br>
 <a href="javascript:mw.url.windowDeleteHashParam('edit-user');" class="mw-ui-btn mw-ui-btn-small">Show all</a></div>
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;width: 750px;">
+  <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;">
     <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
       <input name="module_keyword" class="mw-ui-searchfield right" type="text" default="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>

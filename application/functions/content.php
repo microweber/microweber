@@ -12,7 +12,7 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
 }
 
-action_hook('mw_db_init', 'mw_db_init_content_table');
+action_hook('mw_db_init_default', 'mw_db_init_content_table');
 
 function mw_db_init_content_table() {
 	$function_cache_id = false;
@@ -173,7 +173,11 @@ $table_name = MW_DB_TABLE_MEDIA;
 
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
 }
-
+action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
+function create_mw_default_pages_in_not_exist() {
+	 mw_create_default_content('default');
+	
+}
 function define_constants($content = false) {
 	$page_data = false;
 	if (is_array($content)) {
@@ -277,7 +281,7 @@ function define_constants($content = false) {
 	}
 
 	$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
-	// d($the_template_url);
+	 
 	$the_template_url = $the_template_url . '/';
 	if (defined('TEMPLATE_URL') == false) {
 		define("TEMPLATE_URL", $the_template_url);
@@ -303,7 +307,7 @@ function define_constants($content = false) {
 		$layouts_url = LAYOUTS_URL;
 	}
 
-	// d ( $the_active_site_template_dir );
+ 
 
 	return true;
 }
@@ -1403,8 +1407,7 @@ function save_edit($post_data) {
 							} else {
 								$to_save['custom_fields'][$field] = ($html_to_save);
 							}
-							// d($to_save);
-							//  exit;
+							 
 
 							if ($is_no_save != true) {
 								$json_print[] = $to_save;
@@ -1536,13 +1539,18 @@ api_expose('save_content');
 function save_content($data, $delete_the_cache = true) {
 
 	$adm = is_admin();
+	$table = MW_TABLE_PREFIX . 'content';
+	$checks = mw_var('FORCE_SAVE_CONTENT');
+	 
+	if($checks != $table){
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
+	}
 	}
 	$cats_modified = false;
 	 
 
-	$table = MW_TABLE_PREFIX . 'content';
+	
 
 	if (empty($data) or !isset($data['id'])) {
 
@@ -1670,12 +1678,10 @@ $check_ex = false;
 		if (isset($data_to_save['subtype_value']) and intval(trim($data_to_save['subtype_value'])) > 0) {
 
 			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));
-			//
-			//d($check_ex);
+			
 			if ($check_ex == false) {
 				if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
 					$test2 = get_taxonomy('data_type=category&to_table=table_content&to_table_id='.intval(($data_to_save['id'])));
-			//	d($test2);
 			
 			if(isset($test2[0])){
 				$check_ex = $test2[0];
@@ -1723,9 +1729,9 @@ $check_ex = false;
 				$new_category["title"] = $data_to_save['subtype_value_new'];
 				$new_category["parent_id"] = "0";
 				$cats_modified = true;
-				//d($new_category);
+				
 				$new_category = save_category($new_category);
-				// d($new_category);
+				
 				$data_to_save['subtype_value'] = $new_category;
 				$data_to_save['subtype'] = 'dynamic';
 			}
@@ -1778,8 +1784,8 @@ $check_ex = false;
 				$par_page_new['subtype'] = 'dynamic';
 				$par_page_new = save_data($table, $par_page_new);
 				 $cats_modified = true;
-				//d($par_page);
-				//exit();
+				
+
 				    
 			}
 			
@@ -1809,7 +1815,8 @@ $check_ex = false;
 							if (isset($cont_cat[0]) and isarr($cont_cat[0])) {
 								$cont_cat = $cont_cat[0];
 								if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
-									// d($cont_cat);
+									
+
 									$data_to_save['parent'] = $cont_cat["id"];
 									break;
 								}
@@ -1818,16 +1825,19 @@ $check_ex = false;
 						}
 					}
 				}
-				// d($c1);
+				
+
 			}
 		}
 	}
 
-	 //d($data_to_save);
+	
+
 $cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
-	// d($save);
+	
+
 	if (isset($new_category) and intval($new_category)> 0 ) {
 		$new_category_id = intval($new_category);
 	$new_category = array();
@@ -1838,7 +1848,8 @@ $cats_modified = true;
 				$new_category["parent_id"] = "0";
 						$cats_modified = true;
 			 			$new_category = save_category($new_category);
-					//	d($new_category);
+					
+
 	}
 
 	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
@@ -1855,7 +1866,7 @@ $cats_modified = true;
 and (to_table_id=0 or to_table_id IS NULL)
 
 				";
-	//d($clean);
+
 
 	db_q($clean);
 	cache_clean_group('custom_fields');
@@ -1870,7 +1881,8 @@ and (to_table_id=0 or to_table_id IS NULL)
 and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 
 				";
-	//   d($clean);
+	
+
 	cache_clean_group('media');
 
 	db_q($clean);
@@ -2050,7 +2062,8 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 
 	ob_start();
 
-	//d($params);
+	
+
 
 	 
 
@@ -2069,7 +2082,7 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
 		$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by created_on desc limit 0,100";
 	}
-	//d($sql);
+	
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
 
 	$cid = __FUNCTION__ . crc32($sql);
@@ -2335,7 +2348,7 @@ if(isset($active_code)){
 							$cat_params['max_level'] = $max_level;
 						}
 						if (isset($debug)) {
-						 //	d($cat_params);
+						
 						}
 						category_tree($cat_params);
 					}
@@ -2388,7 +2401,7 @@ function mw_create_default_content($what) {
 				clearcache();
 				//
 			} else {
-				//d($is_shop);
+				
 
 				$new_shop = $is_shop[0]['id'];
 			}
@@ -2406,7 +2419,33 @@ function mw_create_default_content($what) {
 				$new_shop = save_content($add_page);
 				clearcache();
 			}
-			//d($posts);
+			
+
+			break;
+			
+			case 'default' :
+			case 'install' :
+			$any = get_content('count=1&content_type=page&limit=1');
+				if(intval($any) == 0){
+				 
+				
+			$table = MW_TABLE_PREFIX . 'content';
+			mw_var('FORCE_SAVE_CONTENT', $table);
+			mw_var('FORCE_SAVE', $table);
+			
+		$add_page = array();
+				$add_page['id'] = 0;
+				$add_page['parent'] = 0;
+				$add_page['title'] = "Home";
+				$add_page['url'] = "home";
+				$add_page['content_type'] = "page";
+				$add_page['subtype'] = 'static';
+				$add_page['is_shop'] = 'n';
+				$add_page['debug'] = 1;
+				$add_page['is_home'] = 'y';
+				$add_page['active_site_template'] = 'default';
+				$new_shop = save_content($add_page);
+				}
 
 			break;
 
