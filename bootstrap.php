@@ -89,7 +89,7 @@ define('MW_USERFILES_DIRNAME', 'userfiles');
 
 define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_DIRNAME . DS);
 
-define("MW_USERFILES_URL", site_url('userfiles/'));
+define("MW_USERFILES_URL", site_url(MW_USERFILES_DIRNAME.'/'));
 
 define("MW_USERFILES_DIR", MW_USERFILES);
 

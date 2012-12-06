@@ -402,7 +402,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="vSpace"></div>
   <div class="mw-ui-field-holder mw_save_buttons_holder">
     <input type="submit" name="save"  style="width: 120px;" value="Save" />
-    <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+    <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go live edit" />
+
+
   </div>
   <div class="mw_clear"></div>
   <div class="vSpace"></div>

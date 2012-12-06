@@ -98,7 +98,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
 		$fields_to_add[] = array('media_type', 'TEXT default NULL');
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('title', 'longtext default NULL');
@@ -111,7 +111,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	set_db_table($table_name, $fields_to_add);
 
 	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
 	db_add_table_index('media_type', $table_name, array('media_type(55)'));
 	  
 	 //db_add_table_index('url', $table_name, array('url'));

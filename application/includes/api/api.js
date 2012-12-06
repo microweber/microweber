@@ -49,7 +49,7 @@ __mwextend = function(el){
   mw = {}
 
   mw.extend = function(el){
-    return new __mwextend(el);
+    return __mwextend(el);
   }
 
   mw.module = {} //Global Variable for modules scripts

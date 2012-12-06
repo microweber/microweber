@@ -8,8 +8,8 @@ $cart_items = array();
 if(isarr($ord[0])){
 	$ord = $ord[0];
 	$cart_items = get_cart('order_id='.$ord['id'].'&no_session_id=1');
-	
-	
+
+
 } else {
 	
 error("Invalid order id");	
@@ -84,7 +84,7 @@ error("Invalid order id");
     <div class="mw-o-box-header" style="background: none"> <span class="ico iorder"></span><span>Order Status</span> </div>
     <div class="order-status-selector"> <span class="font-11">What is the status of this order?</span>
       <label class="mw-ui-check">
-        <input <?php if($ord['order_status']=='y'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
+        <input <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
         <span></span> <span>Completed Order</span> </label>
       <label class="mw-ui-check">
         <input <?php if($ord['order_status']=='n'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="n"  />
@@ -105,7 +105,7 @@ error("Invalid order id");
   });
 </script>
     <div id="mw_order_status">
-      <div class="mw-notification mw-warning <?php if($ord['order_status']=='y'): ?>semi_hidden<?php endif; ?>">
+      <div class="mw-notification mw-warning <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>semi_hidden<?php endif; ?>">
         <div> Pending </div>
       </div>
       <div class="mw-notification mw-success <?php if($ord['order_status']=='n'): ?>semi_hidden<?php endif; ?>">

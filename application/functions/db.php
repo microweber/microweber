@@ -43,6 +43,22 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	//	d($q);
 }
 
+function db_copy_by_id($table, $id = 0, $field_name = 'id') {
+
+	$q = db_get_id($table, $id, $field_name);
+	//	d($q);
+	if (isset($q[$field_name])) {
+		$data = $q;
+		if (isset($data[$field_name])) {
+			unset($data[$field_name]);
+		}
+
+		$s = save_data($table, $data);
+		return $s;
+	}
+
+}
+
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
 	$id = intval($id);
@@ -58,7 +74,7 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
 	$table = db_get_real_table_name($table);
 	$table = db_get_table_name($table);
 
-	$q = "SELECT * from $table where {$field_name}=$id limit 1";
+	$q = "SELECT * from $table where {$field_name}='$id' limit 1";
 
 	$q = db_query($q);
 	if (isset($q[0])) {
@@ -179,7 +195,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	// if (MW_IS_INSTALLED != false) {
 	if ($cache_id != false and $only_query == false and $cache_group != false) {
 		// $results =false;
-		 
+
 		$cache_id = $cache_id . crc32($q);
 		$results = cache_get_content($cache_id, $cache_group);
 		if ($results != false) {
@@ -1935,16 +1951,15 @@ function save_data($table, $data, $data_to_save_options = false) {
 						if (intval($cname_check) == 0) {
 							$cname_check = trim($cname_check);
 							$cname_check = db_escape_string($cname_check);
-						//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
-						//	$is_ex = get($str1);
-$cncheckq = "select id
+							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
+							//	$is_ex = get($str1);
+							$cncheckq = "select id
                     from $taxonomy_table where
                     data_type='category' 
                     and   to_table='{$table_assoc_name}'
                     and   title='{$cname_check}'   ";
-                    $is_ex = db_query($cncheckq);
-                    
-                    
+							$is_ex = db_query($cncheckq);
+
 							if (empty($is_ex)) {
 								$clean_q = "INSERT INTO
                      $taxonomy_table set
@@ -1986,7 +2001,7 @@ $cncheckq = "select id
                     to_table_id={$id_to_return}  ";
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
-					//d($clean_q); 
+					//d($clean_q);
 					if ($dbg != false) {
 						d($clean_q);
 					}

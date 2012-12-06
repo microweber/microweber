@@ -156,7 +156,7 @@ $(document).ready(function() {
 
 <div class="mw-ui-field-holder mw-template-selector">
   <label class="mw-ui-label"><?php _e("Select Template"); ?></label>
-  <div class="mw-ui-select" style="width: 275px">
+  <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
       <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>

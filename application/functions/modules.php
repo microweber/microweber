@@ -4,11 +4,9 @@ if (!defined("MW_DB_TABLE_MODULES")) {
 	define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
 }
 
-
 if (!defined("MW_DB_TABLE_ELEMENTS")) {
 	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
 }
-
 
 action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
 
@@ -66,7 +64,7 @@ function mw_db_init_modules_table() {
 
 	db_add_table_index('module', $table_name, array('module(255)'));
 	db_add_table_index('module_id', $table_name, array('module_id(255)'));
-	
+
 	set_db_table($table_name2, $fields_to_add);
 
 	db_add_table_index('module', $table_name2, array('module(255)'));
@@ -283,7 +281,6 @@ function get_all_functions_files_for_modules($options = false) {
 }
 
 function get_elements_from_db($params = false) {
-	 
 
 	$table = MW_TABLE_PREFIX . 'elements';
 	if (is_string($params)) {
@@ -292,7 +289,7 @@ function get_elements_from_db($params = false) {
 	}
 	$params['table'] = $table;
 	$params['orderby'] = 'position asc';
-	
+
 	$params['cache_group'] = 'elements/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
@@ -309,7 +306,6 @@ function get_elements_from_db($params = false) {
 }
 
 function get_modules_from_db($params = false) {
-	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	if (is_string($params)) {
@@ -359,8 +355,6 @@ function save_element_to_db($data_to_save) {
 		exit(d($data_to_save));
 	}
 
-	 
-
 	$table = MW_TABLE_PREFIX . 'elements';
 	$save = false;
 	// d($table);
@@ -403,7 +397,6 @@ function delete_elements_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		 
 
 		$table = MW_TABLE_PREFIX . 'elements';
 
@@ -433,7 +426,6 @@ function delete_module_by_id($id) {
 		return false;
 	}
 	$id = intval($id);
-	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -454,7 +446,6 @@ function delete_modules_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		 
 
 		$table = MW_TABLE_PREFIX . 'modules';
 		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -767,7 +758,7 @@ function uninstall_module($params) {
 			$to_save['installed'] = '0';
 			//  $to_save['keep_cache'] = '1';
 			//   $to_save['module'] = $module_name;
-			
+
 			//d($to_save);
 			save_module_to_db($to_save);
 			// delete_module_by_id($id);
@@ -851,27 +842,27 @@ function install_module($params) {
 						set_db_table($table, $fields_to_add);
 					}
 				}
-if (is_array($config) and !empty($config)) {
+				if (is_array($config) and !empty($config)) {
 
-		if (isset($config['on_install'])) {
+					if (isset($config['on_install'])) {
 
-			$func = $config['on_install'];
+						$func = $config['on_install'];
 
-			if (!function_exists($func)) {
-				if (is_file($loc_of_functions)) {
-					include_once ($loc_of_functions);
+						if (!function_exists($func)) {
+							if (is_file($loc_of_functions)) {
+								include_once ($loc_of_functions);
+							}
+						}
+
+						if (function_exists($func)) {
+
+							$res = $func();
+							//	return $res;
+						}
+					} else {
+						//return true;
+					}
 				}
-			}
-
-			if (function_exists($func)) {
- 
-				$res = $func();
-			//	return $res;
-			}
-		} else {
-			//return true;
-		}
-	}
 				if (isset($config['options']) and is_arr($config['options'])) {
 					$changes = false;
 					$tabl = $config['options'];
@@ -897,11 +888,9 @@ if (is_array($config) and !empty($config)) {
 		}
 		$to_save['keep_cache'] = '1';
 		//   $to_save['module'] = $module_name;
-		 
+
 		save_module_to_db($to_save);
 	}
-
-	
 
 	// d($loc_of_functions);
 }
@@ -914,8 +903,6 @@ function save_module_to_db($data_to_save) {
 	if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
 		exit(d($data_to_save));
 	}
-
-	 
 
 	$table = MW_TABLE_PREFIX . 'modules';
 	$save = false;
@@ -938,7 +925,7 @@ function save_module_to_db($data_to_save) {
 				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
-					
+
 					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
@@ -966,6 +953,7 @@ function modules_list($options = false) {
 
 	return scan_for_modules($options);
 }
+
 action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false) {
 	ini_set("memory_limit", "160M");
@@ -1160,7 +1148,7 @@ function scan_for_modules($options = false) {
 		}
 
 		if ($modules_remove_old == true) {
-			 
+
 			$table = MW_DB_TABLE_OPTIONS;
 			$uninstall_lock = get_modules_from_db('ui=any');
 			if (!empty($uninstall_lock)) {
@@ -1476,9 +1464,22 @@ function load_module($module_name, $attrs = array()) {
 		}
 
 		if (!isset($attrs['id'])) {
-			$attrs1 = crc32(serialize($attrs));
 
-			$attrs['id'] = url_title($module_name . '-' . $attrs1);
+			$attrs1 = crc32(serialize($attrs));
+			$s1 = url_segment(0);
+			if ($s1 != false and trim($s1) != '') {
+				$attrs1 = $attrs1 . '-' . $s1;
+			} else if (defined('PAGE_ID') and PAGE_ID != false) {
+				$attrs1 = $attrs1 . '-' . PAGE_ID;
+			}
+
+			$attrs['id'] = ($config['module_class'] . '-' . $attrs1);
+
+		}
+		if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
+			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
+
+			//$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
 		}
 
 		//print(file_get_contents($try_file1));

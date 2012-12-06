@@ -1,4 +1,3 @@
-
 <?
 
 $for = 'table_content';
@@ -10,10 +9,17 @@ if(isset($params['for'])){
 $for =  db_get_assoc_table_name($for);
 
 
+
+
+if(!isset($params['for-id'])){
+	$params['for-id'] = $params['id'];
+}
+
 if(isset($params['for-id'])){
 	$for_id = $params['for-id'];
 }
 
+ 
 
  ?>
 <? $rand = uniqid(); ?>
@@ -26,7 +32,7 @@ function after_upld_<? print $rand ?>(a){
 	 data.media_type = 'picture';
 	 data.for_id = '<? print $for_id ?>';
 	 mw.module_pictures.after_upload(data);
-
+mw.reload_module('pictures/admin')
 }
 
 
@@ -34,31 +40,22 @@ function after_upld_<? print $rand ?>(a){
 
 
 </script>
-
 <script  type="text/javascript">
     mw.require('<? print $config['url_to_module'] ?>pictures.js');
    // 
 
 </script>
-
 <script  type="text/javascript">
 $(document).ready(function(){
    mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
 });
 </script>
-
-
-
 <?  if(!isset($data["thumbnail"])){
 	   $data['thumbnail'] = '';
 
   }?>
 
 <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
-
-
-
-
 <? 
 
 if(intval($for_id) >0){
@@ -69,24 +66,16 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 }
 
  ?>
-
-
- <div class="vSpace">&nbsp;</div>
-
- <label class="mw-ui-label">Add Images <small>(THE FIRST IMAGE WILL BE THUMBNAIL)</small></label>
-
-
-<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>"> <? if(isarr( $media)): ?>
-
-<?php $default_title = _e("Image title", true); ?>
-
+<div class="vSpace">&nbsp;</div>
+<label class="mw-ui-label">Add Images <small>(THE FIRST IMAGE WILL BE THUMBNAIL)</small></label>
+<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>">
+  <? if(isarr( $media)): ?>
+  <?php $default_title = _e("Image title", true); ?>
   <? foreach( $media as $item): ?>
   <div class="admin-thumb-item" id="admin-thumb-item-<? print $item['id'] ?>">
     <? $tn = thumbnail($item['filename'], 131, 131); ?>
-
     <span class="mw-post-media-img" style="background-image: url(<?php print $tn; ?>);"></span>
     <div class="mw-post-media-img-edit">
-
       <input
             type="text" autocomplete="off"
             value="<? if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
@@ -95,16 +84,14 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
-
-      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module_pictures.del('<? print $item['id'] ?>');"><?php _e("Delete"); ?></a>
-    </div>
+      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module_pictures.del('<? print $item['id'] ?>');">
+      <?php _e("Delete"); ?>
+      </a> </div>
   </div>
-  <? endforeach; ?> <? endif;?>
-
+  <? endforeach; ?>
+  <? endif;?>
   <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
 </div>
-
-
 <script type="text/javascript">
 
 
@@ -112,7 +99,14 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 mw.form.d(".mw-post-media-img-edit input")
 
 </script>
-
-
-
 <div class="mw_clear" style="padding-bottom: 20px;"></div>
+
+
+ <? if(isset($params['live_edit']) == true): ?>
+
+           <microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
+
+<? else : ?>
+
+<? endif; ?>
+

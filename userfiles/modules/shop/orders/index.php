@@ -20,7 +20,7 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
 <? if(isarr($orders)) :?>
 
 <div id="mw-order-table-holder">
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>

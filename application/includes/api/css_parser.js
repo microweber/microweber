@@ -1,6 +1,7 @@
 mw.CSSParser = function(el){
     var css = window.getComputedStyle(el, null);
 
+
     this.border = function(){
         return {
             top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},

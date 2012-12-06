@@ -48,7 +48,6 @@ function mw_options_init_db() {
 
 	set_db_table($table_name, $fields_to_add);
 
- 
 	//db_add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
 	//db_add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
@@ -68,7 +67,6 @@ function create_mw_default_options() {
 	if (($cache_content) == '--true--') {
 		return true;
 	}
-	 
 
 	$table = MW_DB_TABLE_OPTIONS;
 
@@ -96,7 +94,7 @@ function create_mw_default_options() {
 	$data = array();
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'curent_template';
-	$data['option_value'] = 'lab';
+	$data['option_value'] = 'default';
 	$data['position'] = '3';
 	$datas[] = $data;
 
@@ -168,7 +166,6 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		return $cache_content;
 	}
 
-	 
 	// ->'table_options';
 	$table = MW_DB_TABLE_OPTIONS;
 
@@ -310,6 +307,15 @@ function get_options($params = '') {
 		$data['limit'] = 1000;
 	}
 	$get = db_get($table, $data, $cache_group = 'options/global');
+
+	if (!empty($get)) {
+		foreach ($get as $key => $value) {
+			if (isset($get[$key]['field_values']) and $get[$key]['field_values'] != false) {
+				$get[$key]['field_values'] = unserialize(base64_decode($get[$key]['field_values']));
+			}
+		}
+	}
+
 	return $get;
 }
 
@@ -319,13 +325,51 @@ if (is_admin() != false) {
 
 function save_option($data) {
 	$is_admin = is_admin();
-	 
+
 	// p($_POST);
 	$option_group = false;
 	if (isarr($data)) {
+
+		if (isset($data['for_module_id']) and $data['for_module_id'] != false) {
+			//$data['option_group'] = $data['for_module_id'];
+			if (isset($data['id'])) {
+				//	unset($data['id']);
+			}
+		}
+
+		if (strval($data['option_key']) != '') {
+			if (strstr($data['option_key'], '|for_module|')) {
+				$ok1 = explode('|for_module|', $data['option_key']);
+				if (isset($ok1[0])) {
+					$data['option_key'] = $ok1[0];
+				}
+				if (isset($ok1[1])) {
+					$data['module'] = $ok1[1];
+
+					if (isset($data['id']) and intval($data['id']) > 0) {
+
+						$chck = get_options('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
+						if (isset($chck[0]) and isset($chck[0]['id'])) {
+
+							$data['id'] = $chck[0]['id'];
+						} else {
+
+							$table = MW_DB_TABLE_OPTIONS;
+							$copy = db_copy_by_id($table, $data['id']);
+							$data['id'] = $copy;
+						}
+
+					}
+				}
+
+				//d($ok1);
+			}
+		}
+
 		if (!isset($data['id']) or intval($data['id']) == 0) {
 			if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
 				$option_group = $data['option_group'];
+
 				delete_option_by_key($data['option_key'], $data['option_group']);
 			}
 		}
@@ -401,17 +445,23 @@ function save_option($data) {
 	}
 }
 
-function delete_option_by_key($key, $option_group = false) {
+function delete_option_by_key($key, $option_group = false, $module_id = false) {
 	$key = db_escape_string($key);
 
 	$table = MW_DB_TABLE_OPTIONS;
-
+	$option_group_q1 = '';
 	if ($option_group != false) {
 		$option_group = db_escape_string($option_group);
 		$option_group_q1 = "and option_group='{$option_group}'";
 	}
+	$module_id_q1 = '';
+	if ($module_id != false) {
+		$module_id = db_escape_string($module_id);
+		$module_id_q1 = "and module='{$module_id}'";
+	}
+
 	// $save = $this->saveData ( $table, $data );
-	$q = "delete from $table where option_key='$key' $option_group_q1 ";
+	$q = "delete from $table where option_key='$key' $option_group_q1 $module_id_q1 ";
 
 	db_q($q);
 	cache_clean_group('options');

@@ -663,6 +663,19 @@ mw.tools = {
     for ( ; i<l;i++){
         if(el===all[i]) return i;
     }
+  },
+  simpleRotator:function(rotator){
+    var all = mw.$('> *', rotator);
+    var l = all.length;
+    var w = 2 * (l * ($(all[0]).outerWidth(true)));
+    $(all).addClass('mw-simple-rotator-item');
+    $(rotator).width(w);
+    rotator.go = function(where){
+        var item = $(rotator).children()[where];
+        var item_left = $(item).offset().left;
+        var rleft =  $(rotator).offset().left;
+        $(rotator).animate({left:-(item_left-rleft)})
+    }
   }
 }
 
@@ -918,7 +931,20 @@ mw.switcher = {
 
 
 
-
+mw.walker = function(context, callback){   //todo
+  var context = mw.is.obj(context) ? context : mwd.body;
+  var callback = mw.is.func(context) ? context :  callback;
+  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
+  while (walker.nextNode()){
+    callback.call(walker.currentNode);
+  }
+}
+Array.prototype.remove = function(what){
+  var i=0, l=this.length;
+  for( ; i<l; i++){
+    this[i] === what ? this.splice(i, 1) : '';
+  }
+}
 
 
 

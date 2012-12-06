@@ -15,7 +15,10 @@
   height: 20px;
   margin: 5px;
   cursor: pointer;
-  box-shadow: 1px 1px 1px #ccc;
+  box-shadow: 0px 0px 2px #ccc;
+}
+#my-colors span:hover{
+  box-shadow: 0px 0px 2px #999;
 }
 
 #main_holder{
@@ -120,6 +123,8 @@
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
     <div class="vSpace"></div>
 <label class="mw-ui-label">Custom color</label>
+
+
 
     <div id="mwpicker"></div>
 

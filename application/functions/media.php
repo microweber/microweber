@@ -234,7 +234,7 @@ function save_media($data) {
 	}
 
 	if (isset($data['for-id'])) {
-		$t = intval($data['for-id']);
+		$t = trim($data['for-id']);
 		$s['to_table_id'] = $t;
 	}
 
@@ -258,7 +258,7 @@ function save_media($data) {
 	}
 
 	if (isset($data['for_id'])) {
-		$t = intval($data['for_id']);
+		$t = trim($data['for_id']);
 		$s['to_table_id'] = $t;
 	}
 

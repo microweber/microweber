@@ -25,7 +25,13 @@ mw.options = {
     save:function(el){
 
                 mw.extend(el);
+				
+				
+				
+				
                 var modal = el.getModal().container;
+				
+				mw.extend(modal);
 
                 var refresh_modules11 = el.attr('data-refresh');
 				if(refresh_modules11 == undefined){
@@ -46,9 +52,10 @@ mw.options = {
 					if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-option-group');
 				}
-				
+				//mw.log(modal);
 				if(refresh_modules11 == undefined && modal!==undefined){
-				    var refresh_modules11 = '#' + modal.attr('data-settings-for-module');
+				    var for_m_id = modal.attr('data-settings-for-module');
+					  
 				}
                 var a = ['data-module-id','data-settings-for-module','data-refresh','option-group','data-option-group'], i=0, l=a.length, og='';
          		var mname = modal!==undefined ? modal.attr('data-type'):undefined;
@@ -81,6 +88,9 @@ if(refresh_modules11 == undefined){
 				if(mname !== undefined){
 					o_data.module = mname;
 				}
+				if(for_m_id !== undefined){
+					o_data.for_module_id = for_m_id;
+				}
 				 if(og != undefined){
 				    o_data.id = have_id;
 				}
@@ -105,6 +115,15 @@ if(refresh_modules11 == undefined){
                                 }
                             }
                         }
+						 if (for_m_id != undefined && for_m_id != '') {
+                            refresh_modules11 = for_m_id.toString()
+                            if (window.mw != undefined) {
+                                if (window.mw.reload_module !== undefined) {
+                                    window.mw.reload_module(refresh_modules11);
+									window.mw.reload_module('#'+refresh_modules11);
+                                }
+                            }
+                        }
 
                          typeof callback==='function' ?  callback.call(data) : '';
 
@@ -115,7 +134,8 @@ if(refresh_modules11 == undefined){
 
 mw.options.form = function($selector, callback){
   //  mw.$($selector+" .mw_option_field").bind("change", function(){
-	  
+	  // mw.log($selector);
+	   mw.$($selector+" input,select,textarea").unbind("change");
 	   mw.$($selector+" input,select,textarea").bind("change", function(){
           mw.options.save(this);
     });

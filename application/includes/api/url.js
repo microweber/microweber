@@ -89,6 +89,19 @@ mw.url = {
             curr[x] === undefined ? hashes.push(x) : '';
         }
         return hashes;
+    },
+    mwParams:function(url){
+        var url = mw.url.removeHash(url);
+        var arr = url.split('/');
+        var obj = {};
+        var i=0,l=arr.length;
+        for( ; i<l; i++){
+            if(arr[i].indexOf(':') !== -1 && arr[i].indexOf('http') === -1){
+                var p = arr[i].split(':');
+                obj[p[0]] = p[1];
+            }
+        }
+        return obj;
     }
 }
 
@@ -138,14 +151,6 @@ mw.slug = {
   }
 }
 
-mw.walker = function(context, callback){   //todo
-  var context = mw.is.obj(context) ? context : mwd.body;
-  var callback = mw.is.func(context) ? context :  callback;
-  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
-  while (walker.nextNode()){
-    callback.call(walker.currentNode);
-  }
-}
 
 
 

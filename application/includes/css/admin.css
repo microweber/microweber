@@ -55,6 +55,11 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   min-width: 980px;
 }
 
+.admin-main-wrapper{
+    overflow: visible;
+    text-overflow:ellipsis;
+}
+
 
 
 
@@ -161,9 +166,9 @@ border-radius: 20px;
 
 .users_online{
   width: 150px;
-  height: 105px;
+  height: 110px;
   padding-top: 45px;
-  margin: 0 auto;
+  margin: 0;
   text-align: center;
   background:#D8FFC2;
   color: #4C7301;
@@ -186,14 +191,14 @@ border-radius: 20px;
 }
 
 #main.liquid #users_online{
-  width: 15%;
+  width: 175px;
 }
 #main.liquid #visits_info_table{
   width: 80%;
 }
 
 #main.liquid #visits_info_table table{
-  width: 100%;
+  width: 99%;
 }
 
 

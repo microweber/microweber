@@ -702,6 +702,7 @@ function mw_add_product(){
         });
 
 
+
     });
 
 
@@ -709,16 +710,8 @@ function mw_add_product(){
 
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
-        <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
-
-             <div class="vSpace"></div>
-
-
-
-
-
-
-
+        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+        <div class="vSpace"></div>
       </div>
        <?
 
@@ -736,8 +729,6 @@ function mw_add_product(){
 
        
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
-      
-       
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
       </div>
     </div>

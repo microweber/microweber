@@ -36,7 +36,7 @@ $orders = get_orders('order_by=created_on desc&is_paid=y&email='.$client['email'
        }
 
   </script>
-<div class="mw-admin-wrap">
+<div class="mw-admin-wrap" style="padding: 0;width: 960px">
   <div class="mw-o-box">
     <div class="mw-o-box-header"> <span class="ico iusers"></span> <span>Client Information</span> </div>
 
