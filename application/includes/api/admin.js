@@ -93,7 +93,7 @@ urlParams = mw.url.mwParams(window.location.href);
 $(window).bind('load resize', function(){
     mw.admin.menu.size();
 
-    if(urlParams.view === 'dashboard'){
+    if(urlParams.view === 'dashboard' || urlParams.view === undefined){
       var visitstable = mwd.getElementById('visits_info_table');
       var visitsnumb = mwd.getElementById('users_online');
       mw.admin.scale(visitstable, visitsnumb);
