@@ -112,10 +112,10 @@ function layouts_list($options = false) {
             if (is_dir($check_dir)) {
                 $the_active_site_template = $tmpl;
             } else {
-                $the_active_site_template = option_get('curent_template');
+                $the_active_site_template = get_option('curent_template');
             }
         } else {
-            $the_active_site_template = option_get('curent_template');
+            $the_active_site_template = get_option('curent_template');
         }
         $path = normalize_path(TEMPLATEFILES . $the_active_site_template);
     } else {

@@ -487,3 +487,7 @@ $language["user"]= 'User' ;
 $language["admin"]= 'Admin' ; 
 $language["admin"]= 'Admin' ; 
 $language["admin"]= 'Admin' ; 
+$language["search-for-modules"]= 'Search for modules :)) ' ; 
+$language["search-for-modules1"]= 'Search for modules1' ; 
+$language["search-for-settings"]= 'Search for settings' ; 
+$language["search-for-posts"]= 'Search for posts' ; 

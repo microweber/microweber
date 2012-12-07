@@ -1034,6 +1034,9 @@ function scan_for_modules($options = false) {
 	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
+	$dir_name_mods2 = ELEMENTS_DIR;
+	
+	
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
@@ -1057,6 +1060,7 @@ function scan_for_modules($options = false) {
 				//  d( $value_fn);
 
 				$value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
+				$value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);
 
 				//d( $value_fn);
 				//  $value_fn = reduce_double_slashes($value_fn);
@@ -1436,7 +1440,7 @@ function load_module($module_name, $attrs = array()) {
 			$attrs = $attrs2;
 		}
 
-		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
+		$config['path_to_module'] = $config['mp'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
 		$config['module'] = $module_name;
 

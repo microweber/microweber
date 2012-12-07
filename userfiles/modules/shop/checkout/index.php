@@ -13,7 +13,7 @@ $payment_success = true;
 mw.require("<?php print( module_url('shop')); ?>shop.js");
 </script> 
   Checkout module
-  <?php $cart_show_enanbled =  option_get('data-show-cart', $params['id']); ?>
+  <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
   <? if($cart_show_enanbled == 'y'): ?>
   <module type="shop/cart" id="cart_checkout_<? print $params['id']?>" data-checkout-link-enabled="n" />
   <? endif ;?>

@@ -45,6 +45,19 @@
 
     </script>
 
+    <script>
+
+    $(document).ready(function(){
+      $(mwd.body).ajaxStart(function(){
+        $(this).addClass('loading');
+      });
+      $(mwd.body).ajaxStop(function(){
+        $(this).removeClass('loading');
+      });
+    });
+
+    </script>
+
 </head>
 <body  contextmenu="mw-context-menu" class="is_admin view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
 <div id="mw-admin-container">

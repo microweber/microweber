@@ -2,7 +2,7 @@
 
 <? 
 
-  $menu_name = option_get('menu_name', $params['id']);  
+  $menu_name = get_option('menu_name', $params['id']);  
 
 if($menu_name != false){
 	$params['menu-name'] = $menu_name;

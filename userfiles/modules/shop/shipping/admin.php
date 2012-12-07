@@ -32,10 +32,10 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
         <span class="ico itruck"></span><span><? print $shipping_module['name'] ?></span>
 
 
-        <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable right <? if(option_get('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?>mw-switcher-off<?php endif; ?>">
+        <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable right <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?>mw-switcher-off<?php endif; ?>">
           <span class="mw-switch-handle"></span>
-          <label>Enabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="y" type="radio" <? if(option_get('shipping_gw_'.$shipping_module['module'], 'shipping') == 'y'): ?> checked="checked" <? endif; ?> /></label>
-          <label>Disabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="n" type="radio" <? if(option_get('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> checked="checked" <? endif; ?> /></label>
+          <label>Enabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="y" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') == 'y'): ?> checked="checked" <? endif; ?> /></label>
+          <label>Disabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="n" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> checked="checked" <? endif; ?> /></label>
       </div>
       <label class="mw-ui-label right" style="margin-right: 12px;">Enabled: </label>
 

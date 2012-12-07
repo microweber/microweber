@@ -30,7 +30,9 @@ mw.on = {
   hashParam : function(param, callback, trigger, isManual){
     if(isManual){
         var index = mw.on._hashparams.indexOf(param);
-        mw.on._hashparam_funcs[index].call(false);
+        if(mw.on._hashparam_funcs[index]!==undefined){
+          mw.on._hashparam_funcs[index].call(false);
+        }
         return false;
     }
     if(trigger==true){

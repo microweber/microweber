@@ -92,21 +92,11 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
   <? endif;?>
   <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
 </div>
-<script type="text/javascript">
 
-
-
-mw.form.d(".mw-post-media-img-edit input")
-
-</script>
 <div class="mw_clear" style="padding-bottom: 20px;"></div>
-
-
- <? if(isset($params['live_edit']) == true): ?>
-
-           <microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
-
+<? if(isset($params['live_edit']) == true): ?>
+<strong>Skin/Template</strong>
+<module type="admin/modules/templates"  />
+<microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
 <? else : ?>
-
 <? endif; ?>
-

@@ -32,7 +32,7 @@ if (isset($params['data-parent'])) {
      $params['parent'] = intval($params['parent']);
 } else {
     
-	 $o = option_get('data-parent', $params['id']);
+	 $o = get_option('data-parent', $params['id']);
 	 if($o != false and intval($o) >0){
 		 $params['parent'] =  $o;
 	 }
@@ -42,7 +42,7 @@ if (isset($params['data-include_categories'])) {
      $params['include_categories'] = intval($params['parent']);
 } else {
     
-	 $o = option_get('data-include_categories', $params['id']);
+	 $o = get_option('data-include_categories', $params['id']);
 	// d($o);
 	 if($o != false and intval($o) >0){
 		 $params['include_categories'] =  $o;

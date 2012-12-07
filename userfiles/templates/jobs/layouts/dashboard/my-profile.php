@@ -76,7 +76,7 @@ $form_values['custom_fields'] = $more;
       <br />
     </div>
     <div class="role1 item"> 2. <span class="role">Speciality</span>
-      <? $roles = option_get('user_roles');
+      <? $roles = get_option('user_roles');
    $roles = csv2array($roles);
    //p($roles);
      ?>

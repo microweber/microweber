@@ -15,7 +15,7 @@ Pages
 <?php print get_option('data-limit', $params['id']) ?>
 
 
-<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print option_get('data-limit', $params['id']) ?>" />
+<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print get_option('data-limit', $params['id']) ?>" />
 
  
  
@@ -24,7 +24,7 @@ Pages
 
 <? $rand = uniqid(); ?>
 <? $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
-<?php $posts_parent_page =  option_get('data-page-id', $params['id']); ?>
+<?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
 <strong>From page</strong>
 <select name="data-page-id" id="the_post_data-page-id<? print $rand ?>"  class="mw_option_field"  >
   <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -55,9 +55,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 </select>
 <br />
 <strong>Limit</strong>
-<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print option_get('data-limit', $params['id']) ?>" />
+<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print get_option('data-limit', $params['id']) ?>" />
 <br />
-<?php $show_fields =  option_get('data-show', $params['id']);
+<?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);	
 }
@@ -110,5 +110,5 @@ $show_fields = array();
 <br />
 <br />
 <strong>Thumbnail size</strong>
-<input name="data-thumbnail-size" class="mw_option_field"   type="text"    value="<?php print option_get('data-thumbnail-size', $params['id']) ?>" />
+<input name="data-thumbnail-size" class="mw_option_field"   type="text"    value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
 <small>ex: 250x200</small> <br />

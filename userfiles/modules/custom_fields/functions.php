@@ -55,8 +55,6 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 		$copy_from = $data['copy_from'];
 		if (is_admin() == true) {
 
-			 
-
 			$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 			$form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
 			$field_type = $form_data['custom_field_type'];
@@ -106,8 +104,6 @@ function save_custom_field($data) {
 	}
 	$data_to_save = ($data);
 
-	 
-
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
 	if (isset($data_to_save['for'])) {
@@ -144,7 +140,7 @@ function reorder_custom_fields($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	 
+
 	$table = MW_TABLE_PREFIX . 'custom_fields';
 
 	foreach ($data as $value) {
@@ -189,7 +185,7 @@ function remove_field($id) {
 
 		return false;
 	}
-	 
+
 	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 	$q = "DELETE FROM $custom_field_table where id='$id'";
 

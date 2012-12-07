@@ -23,16 +23,15 @@
  */
 mw.options = {
     save:function(el){
-
-                mw.extend(el);
+ 
+           //    mw.extend(el);
+			 
+				var el = el;
+				mw.extend(el);
 				
 				
-				
-				
-                var modal = el.getModal().container;
-				
-				mw.extend(modal);
-
+			
+ 
                 var refresh_modules11 = el.attr('data-refresh');
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-reload');
@@ -53,10 +52,19 @@ mw.options = {
 				    var refresh_modules11 = el.attr('data-option-group');
 				}
 				//mw.log(modal);
+				
+				
+					
+                var modal = el.getModal().container;
+				
+			
+				
 				if(refresh_modules11 == undefined && modal!==undefined){
+						mw.extend(modal);
 				    var for_m_id = modal.attr('data-settings-for-module');
-					  
+							  
 				}
+				
                 var a = ['data-module-id','data-settings-for-module','data-refresh','option-group','data-option-group'], i=0, l=a.length, og='';
          		var mname = modal!==undefined ? modal.attr('data-type'):undefined;
 
@@ -106,17 +114,17 @@ if(refresh_modules11 == undefined){
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
                     success: function (data) {
-                        if (refresh_modules11 != undefined && refresh_modules11 != '') {
-                            refresh_modules11 = refresh_modules11.toString()
+                      
+						 if (for_m_id != undefined && for_m_id != '') {
+                            for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
-                                    window.mw.reload_module(refresh_modules11);
-									window.mw.reload_module('#'+refresh_modules11);
+                                    
+									window.mw.reload_module('#'+for_m_id);
                                 }
                             }
-                        }
-						 if (for_m_id != undefined && for_m_id != '') {
-                            refresh_modules11 = for_m_id.toString()
+                        } else   if (refresh_modules11 != undefined && refresh_modules11 != '') {
+                            refresh_modules11 = refresh_modules11.toString()
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
                                     window.mw.reload_module(refresh_modules11);

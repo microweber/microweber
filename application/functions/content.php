@@ -2226,8 +2226,16 @@ if (isset($active_ids)){
 					$to_print = str_ireplace('{title}', $item['title'], $to_print);
 
 					$to_print = str_ireplace('{nest_level}', 'depth-' . $nest_level, $to_print);
-
+					if (strstr($to_print, '{link}')) {
 					$to_print = str_ireplace('{link}', page_link($item['id']), $to_print);
+					}
+					$empty1 =  intval($nest_level);
+					$empty = '';
+					for ($i1=0; $i1 < $empty1; $i1++) { 
+						$empty = $empty.'&nbsp;&nbsp;';
+					}
+									$to_print = str_replace('{empty}', $empty, $to_print);
+					
 
 					if (strstr($to_print, '{tn}')) {
 						$to_print = str_ireplace('{tn}', thumbnail($item['id'], 'original'), $to_print);

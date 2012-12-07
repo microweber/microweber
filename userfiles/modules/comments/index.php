@@ -33,7 +33,7 @@ $comments = get_comments($comments_data);
 //d($data);
 
 
-$template = option_get('data-template', $params['id']);
+$template = get_option('data-template', $params['id']);
 $template_file = false;
 if ($template != false and strtolower($template) != 'none') {
 //

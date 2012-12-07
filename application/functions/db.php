@@ -606,7 +606,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		static $cfg_default_limit;
 		if ($cfg_default_limit == false) {
 			if (function_exists('get_option')) {
-				$cfg_default_limit = get_option('items_pre_page ', 'website');
+				$cfg_default_limit = get_option('items_per_page ', 'website');
 			}
 		}
 		if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
@@ -974,7 +974,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 			}
 
-			$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+			$function_cache_id = __FUNCTION__ .$table. crc32($function_cache_id);
 
 			$cache_id = $function_cache_id;
 		}
@@ -1290,12 +1290,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 		}
 
-		$where .= " ID is not null ";
+		$where .= " id is not null ";
 	} else {
 
 		$where = " WHERE ";
 
-		$where .= " ID is not null ";
+		$where .= " id is not null ";
 	}
 
 	if ($is_in_table != false) {
@@ -1331,7 +1331,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	} else {
 
 		if ($count_only != true) {
-			$q .= " group by ID  ";
+			$q .= " group by id  ";
 		}
 	}
 	if ($order_by != false) {
@@ -2512,7 +2512,7 @@ function import_sql_from_file($full_path_to_file) {
 			//d($sql);
 			$qz = db_q($sql);
 		}
-		cache_clean_group('db');
+		//cache_clean_group('db');
 		return true;
 	} else {
 		return false;
@@ -2652,7 +2652,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
 	$function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db');
+	$cache_content = cache_get_content($function_cache_id, 'db/'.$table_name);
 
 	if (($cache_content) != false) {
 
@@ -2664,7 +2664,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 	if (!is_array($query)) {
 		$sql = "CREATE TABLE " . $table_name . " (
 		id int(11) NOT NULL auto_increment,
-		UNIQUE KEY id (id)
+		PRIMARY KEY (id)
 		
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 		 
@@ -2730,8 +2730,8 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 		}
 
 	}
-
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+ 
+	cache_store_data('--true--', $function_cache_id, $cache_group = 'db/'.$table_name);
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 	//set_db_tables

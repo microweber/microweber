@@ -177,7 +177,7 @@ $new = true;
 
       <span class="shipping-arrow"></span>
 
-      <label><?php _e("Shipping Price"); ?> <b><? print option_get('currency_sign', 'payments') ?></b></label>
+      <label><?php _e("Shipping Price"); ?> <b><? print get_option('currency_sign', 'payments') ?></b></label>
 
        <span class="mw-help-field">
           <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"  onblur="mw.form.fixNum(this);" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onfocus="if(this.value==='0')this.value='';" />
@@ -209,10 +209,10 @@ $new = true;
                 <span class="mw-ui-label-help">example $100</span>
             </span>
             <input class="mw-ui-field shipping-price-field right" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixNum(this);" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onfocus="if(this.value=='0')this.value='';">
-            <label class="right"><b><? print option_get('currency_sign', 'payments') ?></b></label>
+            <label class="right"><b><? print get_option('currency_sign', 'payments') ?></b></label>
            </div>
             <span class="shipping-arrow"></span>
-            <label><?php _e("Shipping Price"); ?> <b><? print option_get('currency_sign', 'payments') ?></b></label>
+            <label><?php _e("Shipping Price"); ?> <b><? print get_option('currency_sign', 'payments') ?></b></label>
             <span class="mw-help-field">
               <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixNum(this);" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';" />
               <span class="mw-ui-label-help">Type the price</span>

@@ -1,5 +1,5 @@
 
 
-Video <?php print option_get('title', $params['id']) ?>
-Embed <?php print option_get('embed', $params['id']) ?>
+Video <?php print get_option('title', $params['id']) ?>
+Embed <?php print get_option('embed', $params['id']) ?>
 

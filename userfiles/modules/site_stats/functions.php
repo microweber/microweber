@@ -41,7 +41,7 @@ return true;
     //d($is_installed);
     if ($is_installed == false) {
         $install = import_sql_from_file($sql);
-        cache_clean_group('db');
+     //   cache_clean_group('db');
 
         return true;
     } elseif (is_array($is_installed) and !empty($is_installed)) {
@@ -64,7 +64,7 @@ function mw_uninstall_stats_module() {
 
     db_q($q);
     cache_clean_group('stats');
-    cache_clean_group('db');
+  //  cache_clean_group('db');
 }
 
 document_ready('stats_append_image');

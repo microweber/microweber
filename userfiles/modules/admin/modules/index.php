@@ -86,7 +86,9 @@ _modulesSort = function(){
         if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
-    mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
+    mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>', function(){
+      $('#module_keyword').removeClass('loading');
+    });
 
 }
 
@@ -161,7 +163,20 @@ mw.on.hashParam('installed', function(){
 
         <span class="mw-ui-label-help font-11 left">Sort modules:</span>
 
-        <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+        <?php $def =  _e("Search for modules", true);  ?>
+
+        <input
+        name="module_keyword"
+        id="module_keyword"
+        autocomplete="off"
+        class="mw-ui-searchfield right"
+        type="text"
+        value="<?php print $def; ?>"
+        data-default='<?php print $def; ?>'
+        onfocus='mw.form.dstatic(event);'
+        onblur='mw.form.dstatic(event);'
+        onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+          />
 
         <div class="mw_clear"></div>
 

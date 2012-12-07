@@ -1,25 +1,10 @@
 
 
-$(document).ready(function(){
 
 
-$(window).resize(function(){
-  set_main_height()
-});
 
 
-    mw.admin.sidebar()
 
-   $(window).bind('hashchange', function(){
-     mw.admin.sidebar();
-   });
-
-});
-
-
-$(window).load(function(){
-      set_main_height();
-});
 
 
 set_main_height = function(){
@@ -38,7 +23,7 @@ mw.admin = {
   scale:function(obj, to){
     var css = mw.CSSParser(obj);
     var win = $(window).width();
-    var sum = win - parseFloat(css.get.padding().left) - parseFloat(css.get.padding().right) - parseFloat(css.get.margin().right) - parseFloat(css.get.margin().left);
+    var sum = win - css.get.padding(true).left - css.get.padding(true).right - css.get.margin(true).right - css.get.margin(true).left;
     if(!to){
       obj.style.width = sum + 'px';
     }
@@ -64,7 +49,7 @@ mw.admin = {
           }
       },
       dropItems:function(when){
-        if(when){ //no too responsive
+        if(when){ //not too responsive
           var context = mwd.getElementById('mw_tabs');
           var top = context.offsetTop;
           var items = context.getElementsByTagName('li'), l=items.length, i=0;
@@ -92,12 +77,27 @@ urlParams = mw.url.mwParams(window.location.href);
 
 $(window).bind('load resize', function(){
     mw.admin.menu.size();
-
+    set_main_height();
     if(urlParams.view === 'dashboard' || urlParams.view === undefined){
       var visitstable = mwd.getElementById('visits_info_table');
       var visitsnumb = mwd.getElementById('users_online');
       mw.admin.scale(visitstable, visitsnumb);
     }
+
+});
+
+
+$(document).ready(function(){
+
+   mw.$('#mw-menu-liquify').hide();
+   mw.admin.sidebar();
+   mw.$('#mw-menu-liquify').show();
+   mw.admin.menu.size();
+   $(window).bind('hashchange', function(){
+     mw.admin.sidebar();
+   });
+
+
 
 
 });

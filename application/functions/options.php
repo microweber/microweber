@@ -74,9 +74,14 @@ function create_mw_default_options() {
 	$datas = array();
 
 	$data = array();
+	
+	$data['name'] = 'Website name';
+	$data['help'] = 'This is very important for the search engines. Your website will be categorized by many criterias and the name is one of it.';
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_title';
 	$data['option_value'] = 'My website';
+	$data['field_type'] = 'text';
+	
 	$data['position'] = '1';
 	$datas[] = $data;
 
@@ -85,23 +90,35 @@ function create_mw_default_options() {
 	$data['option_key'] = 'website_description';
 	$data['option_value'] = 'My website\'s description';
 	$data['name'] = 'Website description';
-	$data['help'] = 'Describe your website here';
+	$data['help'] = 'Describe what is your website is about.';
 	$data['field_type'] = 'textarea';
 
 	$data['position'] = '2';
 	$datas[] = $data;
 
 	$data = array();
+	
+	$data['name'] = 'Website template';
+	$data['help'] = 'This is your current template. You can easy change it anytime.';
+	
+	
+	
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'curent_template';
 	$data['option_value'] = 'default';
+	$data['field_type'] = 'website_template';
 	$data['position'] = '3';
 	$datas[] = $data;
 
 	$data = array();
+	$data['name'] = 'Items per page';
+	$data['help'] = 'Select how many items you want to have per page? example 10,25,50...';
+	
 	$data['option_group'] = 'website';
-	$data['option_key'] = 'items_pre_page';
+	$data['option_key'] = 'items_per_page';
 	$data['option_value'] = '30';
+	$data['field_type'] = 'dropdown';
+	$data['field_values'] = array('10' => '10', '30' => '30', '50' => '50', '100' => '100', '200' => '200');
 	$data['position'] = '4';
 	$datas[] = $data;
 
@@ -254,9 +271,7 @@ function set_default_option($data) {
 	return $changes;
 }
 
-function option_get($key, $option_group = false, $return_full = false, $orderby = false) {
-	return get_option($key, $option_group, $return_full, $orderby);
-}
+ 
 
 function get_option_by_id($id) {
 	$id = intval($id);

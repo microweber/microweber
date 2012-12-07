@@ -1,4 +1,4 @@
-<?php $form_title = option_get('form_title', $params['id']);
+<?php $form_title = get_option('form_title', $params['id']);
  
   $temp_id = "mw_contact_form_".url_title($form_title) .'_'. rand(); 
  
@@ -33,10 +33,10 @@ $(document).ready(function(){
 My address
 </div>
 <form class="mw_form" data-temp-id="<? print $temp_id ?>" >
-  <? $save_as = option_get('form_save_as', $params['id']);
+  <? $save_as = get_option('form_save_as', $params['id']);
 
 if($save_as == false){
-$save_as = option_get('form_title', $params['id']);
+$save_as = get_option('form_title', $params['id']);
 }
  ?>
   <input  type="hidden" name="form_title" value="<? print $save_as; ?>" />

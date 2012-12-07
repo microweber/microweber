@@ -101,9 +101,9 @@ define('TEMPLATEFILES', MW_USERFILES . TEMPLATEFILES_DIRNAME . DS);
 
 define('MEDIAFILES', MW_USERFILES . 'media' . DS);
 
-define('ELEMENTS_DIR', MW_USERFILES . 'elements' . '/');
+define('ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
 
-define('STYLES_DIR', MW_USERFILES . 'styles' . '/');
+define('STYLES_DIR', MW_USERFILES . 'styles' . DS);
 
 define('PLUGINS_DIRNAME', MW_USERFILES . 'plugins' . '/');
 

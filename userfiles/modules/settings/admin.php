@@ -1,23 +1,7 @@
-<?php $rand = uniqid(); ?>
-<script  type="text/javascript">
+<?php $rand = $params['id']; ?>
 
-
- 
-
-
- 
-
- 
- 
-
-
-
-
-</script>
 <?  $option_groups = get_option_groups(); ?>
-<?
-
- $rand = uniqid(); ?>
+ 
 <script  type="text/javascript">
 
 
@@ -47,7 +31,9 @@ _settingsSort = function(){
         if(x==='data-option_group' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
-    mw.load_module('settings/list','#settings_admin_<? print $rand  ?>');
+    mw.load_module('settings/list','#settings_admin_<? print $rand  ?>', function(){
+      mw.$('#module_keyword').removeClass('loading');
+    });
 
 }
 
@@ -102,7 +88,10 @@ mw.on.hashParam('installed', function(){
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="settings-index-bar"> <span class="mw-ui-label-help font-11 left">Sort settings:</span>
-      <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="Search for settings"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+
+    <?php $def = _e("Search for settings", true); ?>
+
+      <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="<?php print $def; ?>" data-default='<?php print $def; ?>' onfocus='mw.form.dstatic(event);' onblur='mw.form.dstatic(event);'  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
       <ul class="mw-ui-inline-selector">
         <li>

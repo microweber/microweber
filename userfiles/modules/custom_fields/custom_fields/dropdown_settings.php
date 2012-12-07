@@ -23,7 +23,7 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 
 
   <label class="mw-ui-check left" style="margin-right: 7px;">
-    <input type="checkbox" class="mw_option_field" data-option-group="custom_fields" id="multiple_choices_<? print $data['id']; ?>" name="multiple_choices_<? print $data['id']; ?>" value="y" <? if(option_get('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> />
+    <input type="checkbox" class="mw_option_field" data-option-group="custom_fields" id="multiple_choices_<? print $data['id']; ?>" name="multiple_choices_<? print $data['id']; ?>" value="y" <? if(get_option('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> />
     <span></span>
   </label>
   <label for="multiple_choices_<? print $data['id']; ?>" class="mw-ui-label">Multiple Choices</label>
@@ -33,16 +33,16 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
     <?php /*
   Multiple Choices:
 <label class="mw-ui-check">
-<input name="multiple_choiceadass_<? print $data['id']; ?>"   class="mw_option_field" data-option-group="custom_fields" value="y" type="radio" <? if(option_get('multsssiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> >
+<input name="multiple_choiceadass_<? print $data['id']; ?>"   class="mw_option_field" data-option-group="custom_fields" value="y" type="radio" <? if(get_option('multsssiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> >
 <span></span>Yes</label>
 <label class="mw-ui-check">
-<input name="multiple_chasdoices_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields" value="n" type="radio" <? if(option_get('musssltiple_choices_'.$data['id'], 'custom_fields') == 'n'): ?> checked="checked" <? endif; ?> >
+<input name="multiple_chasdoices_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields" value="n" type="radio" <? if(get_option('musssltiple_choices_'.$data['id'], 'custom_fields') == 'n'): ?> checked="checked" <? endif; ?> >
 <span></span>No</label>
 
 
 
 
-            <input type="text" name="embed_code_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields"  value="<? print option_get('embed_code_'.$data['id'], 'custom_fields')   ?>" />
+            <input type="text" name="embed_code_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields"  value="<? print get_option('embed_code_'.$data['id'], 'custom_fields')   ?>" />
 
 
          */ ?>

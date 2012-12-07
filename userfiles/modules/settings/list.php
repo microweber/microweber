@@ -19,12 +19,18 @@ if(isset($orig_params['for_module_id'])){
 }
 if($opts == false and isset($params['for_module'])){
 $params['module'] = $params['for_module'];	
-$opts = get_options($params);
-
+$opts = get_options('module=' . $params['for_module']);
+} else {
+//	$opts = get_options($params);
 }
 
+
+if($opts == false){
+ 	$opts = get_options($params);
+}
+
+
 ?>
- 
 <? if(is_arr($opts)): ?>
 <? foreach($opts as $params): ?>
 <? include( $config['path_to_module'].'edit.php'); ?>

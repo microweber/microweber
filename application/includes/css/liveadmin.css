@@ -86,7 +86,6 @@ body:-webkit-full-screen {
 
 #mw_toolbar_nav{
     width: 100%;
-    min-width:1000px;
     height:52px;
     position: relative;
     z-index: 2;
@@ -131,8 +130,8 @@ body:-webkit-full-screen {
   min-width: 70px;
 }
 
-#mw_tabs li:last-child {
-  background-image: none;
+#mw_tabs li:first-child a{
+  background: url(../img/nav_item_border.jpg) no-repeat scroll left top transparent
 }
 
 #mw_tabs li.active{
@@ -907,12 +906,40 @@ form.add-edit-page-post{
   padding-left: 20px;
 }
 
-body.loading{
-  opacity:0.4;
+body.loading:after{
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    z-index: 99998;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0)/* url(../img/loader.svg) no-repeat center center*/;
 }
-body.loading, body.loading *{
-  cursor: progress !important;
+
+body.loading:before{
+    content: "Loading...";
+    position: fixed;
+    display: block;
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+    color: white;
+    cursor: default;
+    z-index: 99999;
+    bottom: 0;
+    left: 50%;
+    margin-left: -60px;
+    background:rgba(0,0,0,0.20);
+    -webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
 }
+
 
 .form-actions{
   padding: 10px 0 0;
@@ -1731,6 +1758,7 @@ select.mw-ui-simple-dropdown:focus{
 
 .admin-modules-list-buttons > *{
   margin-right: 10px;
+  float: left;
 }
 
 .mw_module_new{
@@ -2041,6 +2069,69 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
 
 #mw-clients-orders{
   width: 960px
+}
+
+
+
+
+.mw-switcher{
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  height:16px;
+  min-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  background: #D7D7D7;
+  border: 1px solid #CDCDCD;
+  border-top-color: #BABABA;
+  cursor: pointer;
+  border-radius:3px;
+  box-shadow:inset 0 1px 1px #CFCFCF;
+}
+.mw-switch-handle{
+  background: url("../img/onoff_slider.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  height: 16px;
+  position: absolute;
+  top: 1px;
+  right:0;
+  width: 23px;
+  z-index: 1;
+}
+
+.mw-switcher input{
+  display: none;
+}
+.mw-switcher label{
+  white-space: nowrap;
+  color: #6F6F6F;
+  cursor: pointer;
+  font-size: 10px;
+  float: left;
+  margin: 1px 0 0 1px;
+  line-height: 13px;
+  text-shadow: 1px 0 0 #FFFFFF;
+
+
+
+}
+
+.mw-switcher label:last-child{
+  visibility: hidden;
+  margin: 1px 0 0;
+  padding-right: 2px;
+  float: right;
+}
+.mw-switcher-off label{
+  visibility: hidden;
+}
+.mw-switcher-off label:last-child{
+  visibility: visible;
+}
+
+.mw-switcher-off .mw-switch-handle{
+    left: 0;
 }
 
 

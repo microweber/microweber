@@ -33,8 +33,6 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	if (is_bool($cache_id) and $cache_id == true) {
 		return $mem_hits;
 	}
-
-	//  d(APC_CACHE);
 	$cache_id_o = $cache_id;
 	$cache_group = (int) crc32($cache_group);
 	$cache_id = (int) crc32($cache_id);

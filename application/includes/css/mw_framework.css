@@ -1084,7 +1084,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 .post-thumb-uploader{
-  width : 133px;
+/*  width : 133px;
   float: left;
   margin-right: 5px;
   height: 38px;
@@ -1096,8 +1096,23 @@ a.mw-ui-btn, span.mw-ui-btn{
   font-size: 10px;
   color: #434343;
   padding-top:93px;
-  box-shadow:inset 0 0 1px #C8C8C8;
+  box-shadow:inset 0 0 1px #C8C8C8;*/
 }
+.post-thumb-uploader{
+  width: 129px;
+  height: 129px;
+  border: 2px dashed #ddd;
+  background:white url(../img/add_post_thumbnail.png) no-repeat center center;
+  text-indent: -100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.post-thumb-uploader:hover{
+  border-color: #C1C1C1;
+}
+
+
+
 
 .mw-ui-check{
   display: inline-block;
@@ -1176,17 +1191,10 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}
-.mw-ui-select .depth-1{padding-left: 30px;}
-.mw-ui-select .depth-2{padding-left: 50px;}
-.mw-ui-select .depth-3{padding-left: 70px;}
-.mw-ui-select .depth-4{padding-left: 80px;}
-.mw-ui-select .depth-5{padding-left: 100px;}
-.mw-ui-select .depth-6{padding-left: 120px;}
-.mw-ui-select .depth-7{padding-left: 140px;}
+
 
 
 .admin-thumbs-holder{
-  width: 770px;
   padding-top: 5px;
 }
 

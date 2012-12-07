@@ -693,12 +693,15 @@ function mw_add_product(){
 
     $(document).ready(function(){
 
-        var s = mw.$("#mw-search-field");
-        mw.form.d(s, 'Search for posts');
-       s.bind("keyup", function(){
-          mw.on.stopWriting(this, function(){
-             this.value !== 'Search for posts' ? mw.url.windowHashParam('search',this.value) : '';
-          });
+        var def = '<?php _e("Search for posts"); ?>';
+        var field = mw.$("#mw-search-field");
+        field.bind('keyup focus blur', function(event){
+           mw.form.dstatic(event, def);
+           if(event.type=='keyup'){
+              mw.on.stopWriting(this, function(){
+                 this.value !== def ? mw.url.windowHashParam('search',this.value) : '';
+              });
+           }
         });
 
 

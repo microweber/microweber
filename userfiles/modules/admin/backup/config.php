@@ -7,14 +7,4 @@ $config['no_cache'] = true;
 $config['version'] = 0.1;
 
 
-
-	$db = c('db');
  
-		
-// Settings
-$table = '*';
-$DBhost =  $db['host'];
-$DBuser =  $db['user'];
-$DBpass = $db['pass'];
-$DBName = $db['dbname'];
-?>

@@ -596,6 +596,7 @@ html.mw_pages #items_handle{
   border-left: 1px solid #BDBBBB;
   border-right: 1px solid #BDBBBB;
   border-bottom: 1px solid #B1B0B0;
+  float: left;
 }
 .ed_btn:hover{
   color: #595959;

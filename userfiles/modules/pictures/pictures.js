@@ -44,6 +44,7 @@ mw.module_pictures = {
             type:"post",
             data:serial
           })
+		  mw.reload_module('pictures')
         }
     });
   }

@@ -32,7 +32,7 @@ $(document).ready(function(){
 </script>
 
 <form class="form-horizontal" id="user_registration_form<? print $rand ?>" method="post">
-  <legend><?php print option_get('form_title', $params['id']) ?></legend>
+  <legend><?php print get_option('form_title', $params['id']) ?></legend>
   <div class="control-group">
     <label class="control-label" for="email">Email</label>
     <div class="controls">
@@ -56,7 +56,7 @@ $(document).ready(function(){
       <!-- <label class="checkbox">
         <input type="checkbox">
         Remember me </label>-->
-      <?php $form_btn_title =  option_get('form_btn_title', $params['id']);
+      <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		$form_btn_title = 'Register';
 		}

@@ -11,7 +11,7 @@ error('parent-module-id');
  $templates = module_templates($params['parent-module']);
 //$params['type'];
 //d($templates);
-$cur_template = option_get('data-template', $params['parent-module-id']);
+$cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?  if(is_arr( $templates)): ?>
 
 <select name="data-template"     class="mw_option_field" option_group="<? print $params['parent-module-id'] ?>"  data-refresh="<? print $params['parent-module-id'] ?>"  >
