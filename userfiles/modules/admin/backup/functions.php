@@ -1,15 +1,40 @@
 <?
 
-function mw_backups_list() {
+function mw_get_backups_location() {
 	if (!is_admin()) {error("must be admin");
 	};
+	static $loc;
+
+	if ($loc != false) {
+		return $loc;
+	}
 	$here = MW_ROOTPATH . "backup" . DS;
+	$here2 = module_option('backup_location', 'admin/backup');
+	if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
+		$here2 = normalize_path($here2, true);
+
+		if (!is_dir($here2)) {
+			mkdir_recursive($here2);
+		}
+
+		if (is_dir($here2)) {
+			$here = $here2;
+		}
+	}
 
 	if (!is_dir($here)) {
 		if (!mkdir($here)) {
 			return false;
 		}
 	}
+	$loc = $here;
+	return $here;
+}
+
+function mw_backups_list() {
+	if (!is_admin()) {error("must be admin");
+	};
+	$here = mw_get_backups_location();
 
 	$dir = opendir($here);
 	$backups = array();
@@ -50,9 +75,7 @@ function mw_backups_restore_tables() {
 		die();
 	}
 
-	// Include settings
-	include ("config.php");
-	$here = dirname(__FILE__) . DS;
+	$here = mw_get_backups_location();
 	// Generate filename and set error variables
 	$filename = $here . 'backup/' . $id . '.sql';
 	$sqlErrorText = '';
@@ -99,7 +122,8 @@ function mw_backups_restore_tables() {
 
 }
 
-function mw_backup_db_tables() {
+api_expose('admin_backup_db_tables');
+function admin_backup_db_tables() {
 	if (!is_admin()) {error("must be admin");
 	};
 	$db = c('db');
@@ -119,7 +143,7 @@ function mw_backup_db_tables() {
 		$extname = str_replace(" ", "_", $extname);
 	}
 
-	$here = MW_ROOTPATH . "backup" . DS;
+	$here = mw_get_backups_location();
 
 	if (!is_dir($here)) {
 		if (!mkdir($here)) {

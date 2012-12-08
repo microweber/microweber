@@ -9,7 +9,6 @@ if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.518);
 }
 
-
 if (!defined('MW_UPDATE_SERV')) {
 	$test = site_url('update.php');
 	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php');
@@ -17,11 +16,35 @@ if (!defined('MW_UPDATE_SERV')) {
 	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
 
-spl_autoload_register(function($className) {
-	require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
-});
+function mw_autoload($className) {
+	$className = ltrim($className, '\\');
+	$fileName = '';
+	$namespace = '';
+	if ($lastNsPos = strripos($className, '\\')) {
+		$namespace = substr($className, 0, $lastNsPos);
+		$className = substr($className, $lastNsPos + 1);
+		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+	}
+	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . get_include_path());
+	require $fileName;
+}
+
+ spl_autoload_register('mw_autoload');
+ 
+/*
+ spl_autoload_register(function($className) {
+
+ require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
+ });
+ */
+
+ 
+ 
+
+set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
+
+ 
 
 // Basic system functions
 function p($f) {
@@ -92,3 +115,5 @@ function registry($k, $v = null) {
 function utf8($s, $f = 'UTF-8') {
 	return @iconv($f, $f, $s);
 }
+
+ 

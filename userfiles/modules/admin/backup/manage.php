@@ -1,5 +1,19 @@
 <? if(!is_admin()){error("must be admin");}; ?>
+<?
 
+$var3 = api('admin/backup/api/get_bakup_location');
+ d($var3);
+ 
+ $var3 = api('admin/backup/api/get_bakup_location');
+ d($var3);
+ 
+ $var3 = api('admin/backup/api/get_bakup_location');
+ d($var3);
+ 
+ $var3 = api('admin/backup/api/get_bakup_location');
+ d($var3);
+
+ ?>
 <div id="backups_list" >
   <h2>Available Backups</h2>
   <table   cellspacing="0" cellpadding="0" class="mw-ui-admin-table">

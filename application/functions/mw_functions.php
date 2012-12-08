@@ -8,18 +8,16 @@ if (MW_IS_INSTALLED == true) {
 
 	}
 
-} elseif(isset($_POST['table_prefix'])) {
-	
+} elseif (isset($_POST['table_prefix'])) {
+
 	if (!defined('MW_TABLE_PREFIX')) {
-		 
 
 		define('MW_TABLE_PREFIX', strip_tags($_POST['table_prefix']));
- 
+
 	}
 
 } else {
 	if (!defined('MW_TABLE_PREFIX')) {
-		 
 
 		define('MW_TABLE_PREFIX', null);
 
@@ -80,5 +78,14 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 		exec_action('mw_db_init');
 	}
 }
+
+/*
+require (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'AggregateAutoloader.php');
+
+$loader = new AggregateAutoloader;
+$loader -> addLibrary('Modules', MODULES_DIR);
+$loader -> addLibrary('modules', MODULES_DIR);
+$loader -> register();*/
+
 
 // d($module_functions);

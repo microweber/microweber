@@ -74,14 +74,14 @@ function create_mw_default_options() {
 	$datas = array();
 
 	$data = array();
-	
+
 	$data['name'] = 'Website name';
 	$data['help'] = 'This is very important for the search engines. Your website will be categorized by many criterias and the name is one of it.';
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_title';
 	$data['option_value'] = 'My website';
 	$data['field_type'] = 'text';
-	
+
 	$data['position'] = '1';
 	$datas[] = $data;
 
@@ -97,12 +97,10 @@ function create_mw_default_options() {
 	$datas[] = $data;
 
 	$data = array();
-	
+
 	$data['name'] = 'Website template';
 	$data['help'] = 'This is your current template. You can easy change it anytime.';
-	
-	
-	
+
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'curent_template';
 	$data['option_value'] = 'default';
@@ -113,7 +111,7 @@ function create_mw_default_options() {
 	$data = array();
 	$data['name'] = 'Items per page';
 	$data['help'] = 'Select how many items you want to have per page? example 10,25,50...';
-	
+
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'items_per_page';
 	$data['option_value'] = '30';
@@ -147,6 +145,10 @@ function create_mw_default_options() {
 	cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
 
 	return true;
+}
+
+function module_option($key,$module, $option_group = false, $return_full = false, $orderby = false) {
+	return get_option($key, $option_group, $return_full, $orderby, $module);
 }
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
@@ -270,8 +272,6 @@ function set_default_option($data) {
 	}
 	return $changes;
 }
-
- 
 
 function get_option_by_id($id) {
 	$id = intval($id);

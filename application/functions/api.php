@@ -1,4 +1,18 @@
 <?php
+function api($function_name, $params = false) {
+	static $c;
+
+	if ($c == false) {
+		if (!defined('MW_API_RAW')) {
+			define('MW_API_RAW', true);
+		}
+		$c = new MwController();
+		
+	}
+	$res = $c -> api($function_name, $params);
+		return $res;
+
+}
 
 function api_expose($function_name) {
 	static $index = ' ';
