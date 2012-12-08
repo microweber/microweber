@@ -79,7 +79,8 @@ mw.$("#dd_elements_search").bind("keyup paste", function(event){
 
 
 
-mw.$("#design_bnav").addClass(mw.cookie.ui("designtool"));
+mw.$("#design_bnav, .mw_ex_tools").addClass(mw.cookie.ui("designtool"));
+
 
 var design_pos = mw.cookie.ui("designtool_position");
 

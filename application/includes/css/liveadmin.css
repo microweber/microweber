@@ -97,9 +97,8 @@ body:-webkit-full-screen {
 }
 
 #mw_toolbar_nav .mw-ui-btn{
-  margin-top: 7px;
-  margin-right: 10px;
-  height: 19px;
+    margin: 13px 0 0 12px;
+    padding: 5px 12px 6px;
 }
 
 
@@ -933,11 +932,11 @@ body.loading:before{
     margin-left: -60px;
     background:rgba(0,0,0,0.20);
     -webkit-border-top-left-radius: 5px;
--webkit-border-top-right-radius: 5px;
--moz-border-radius-topleft: 5px;
--moz-border-radius-topright: 5px;
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 

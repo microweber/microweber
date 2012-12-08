@@ -1,6 +1,8 @@
 window.onload = function() {
   mw.loaded = true;
   mwd.body.className+=' loaded';
+  mw.extend(mwd.body);
+  mwd.body.removeClass('loading');
 }
 
 
@@ -39,6 +41,12 @@ __mwextend = function(el){
               el.setAttribute(name, value);
               return el;
             }
+          }
+          el.addClass = function(cls){
+            return mw.tools.addClass(el, cls)
+          }
+          el.removeClass = function(cls){
+            return mw.tools.removeClass(el, cls)
           }
       }
     return el;
