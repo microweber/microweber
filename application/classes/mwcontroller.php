@@ -356,8 +356,8 @@ class MwController {
 					$loaded_classes[$try_class] = $res;
 				} else {
 					$res = $loaded_classes[$try_class];
-				//	d($res);
-				}    
+					//	d($res);
+				}
 
 				if (method_exists($res, $try_class_func)) {
 					$res = $res -> $try_class_func($data);
@@ -383,7 +383,7 @@ class MwController {
 					$try_class = str_replace('/', '\\', $mod_api_class);
 					$try_class_full = str_replace('/', '\\', $api_function_full);
 
-					if (in_array($try_class_full, $api_exposed)) {
+					if (defined('MW_API_RAW') or in_array($try_class_full, $api_exposed)) {
 
 						if (class_exists($try_class, false)) {
 							if ($params != false) {
@@ -433,47 +433,51 @@ class MwController {
 		if ($api_function == 'module' and $mod_class_api_called == false) {
 			$this -> module();
 		} else {
+			$err = false;
 			if (in_array($api_function, $api_exposed) or $mod_class_api_called == true) {
-				if (function_exists($api_function) or class_exists($api_function) or $mod_class_api_called == true) {
+				$err = true;
+			}
 
-					if ($mod_class_api_called == false) {
-						if (!$_POST and !$_GET) {
-							//  $data = url(2);
-							$data = url_params(true);
-							if (empty($data)) {
-								$data = url(2);
-							}
-						} else {
-							$data = $_REQUEST;
+			if ($err = false and function_exists($api_function) or class_exists($api_function) or $mod_class_api_called == true) {
+
+				if ($mod_class_api_called == false) {
+					if (!$_POST and !$_GET) {
+						//  $data = url(2);
+						$data = url_params(true);
+						if (empty($data)) {
+							$data = url(2);
 						}
+					} else {
+						$data = $_REQUEST;
+					}
 
-						if (function_exists($api_function)) {
-							$res = $api_function($data);
-						} elseif (class_exists($api_function, false)) {
-							//	d($api_function);
-							$segs = url();
-							$mmethod = array_pop($segs);
-							//d($segs);
-							$res = new $api_function($data);
-							if (method_exists($res, $mmethod)) {
-								$res = $res -> $mmethod($data);
-							}
-
+					if (function_exists($api_function)) {
+						$res = $api_function($data);
+					} elseif (class_exists($api_function, false)) {
+						//	d($api_function);
+						$segs = url();
+						$mmethod = array_pop($segs);
+						//d($segs);
+						$res = new $api_function($data);
+						if (method_exists($res, $mmethod)) {
+							$res = $res -> $mmethod($data);
 						}
 
 					}
-					$hooks = api_hook(true);
 
-					if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+				}
+				$hooks = api_hook(true);
 
-						foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-							if ($hook_value != false and $hook_value != null) {
-								//d($hook_value);
-								$hook_value($res);
-								//
-							}
+				if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+
+					foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+						if ($hook_value != false and $hook_value != null) {
+							//d($hook_value);
+							$hook_value($res);
+							//
 						}
 					}
+
 					//d($hooks);
 					if (!defined('MW_API_HTML_OUTPUT')) {
 						print json_encode($res);
@@ -639,7 +643,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

@@ -7,8 +7,8 @@ api_expose('admin\backup\api\get_bakup_location');
 class api {
 
 	function __construct() {
-//var_dump($_SERVER);
-	//	print 1;
+		//var_dump($_SERVER);
+		//	print 1;
 	}
 
 	/**
@@ -16,7 +16,6 @@ class api {
 	 */
 	function api() {
 
-		
 		//$container->addCompilerPass(new AddSpreadCompilerPass());
 		// $container->addCompilerPass(new AddFilterCompilerPass());
 	}
@@ -52,7 +51,7 @@ class api {
 		return $here;
 	}
 
-	function get() {
+	public function get() {
 		if (!is_admin()) {error("must be admin");
 		};
 		$here = mw_get_backups_location();
@@ -143,7 +142,7 @@ class api {
 
 	}
 
-	function create() {
+	function bacreate() {
 		if (!is_admin()) {error("must be admin");
 		};
 		$db = c('db');
