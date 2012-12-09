@@ -19,7 +19,7 @@ $go_to_install = false;
 if (!is_file($c_file)) {
 
 	$default_config = INCLUDES_PATH . DS . 'install' . DS . 'config.base.php';
-	//copy($default_config, $c_file);
+//	copy($default_config, $c_file);
 	$go_to_install = true;
 }
 

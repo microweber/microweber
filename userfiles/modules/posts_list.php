@@ -54,7 +54,7 @@ if (isset($post_params['data-show'])) {
 
     $show_fields = $post_params['data-show'];
 } else {
-    $show_fields = option_get('data-show', $params['id']);
+    $show_fields = get_option('data-show', $params['id']);
 }
 
 if ($show_fields != false and is_string($show_fields)) {
@@ -66,13 +66,13 @@ if ($show_fields != false and is_string($show_fields)) {
 
 
 if (!isset($post_params['data-limit'])) {
-    $post_params['limit'] = option_get('data-limit', $params['id']);
+    $post_params['limit'] = get_option('data-limit', $params['id']);
 }
 $cfg_page_id = false;
 if (isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
 } else {
-    $cfg_page_id = option_get('data-page-id', $params['id']);
+    $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
 
@@ -137,7 +137,7 @@ if (isset($post_params['data-thumbnail-size'])) {
         $tn_size = $temp;
     }
 } else {
-    $cfg_page_item = option_get('data-thumbnail-size', $params['id']);
+    $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
     if ($cfg_page_item != false) {
         $temp = explode('x', strtolower($cfg_page_item));
 

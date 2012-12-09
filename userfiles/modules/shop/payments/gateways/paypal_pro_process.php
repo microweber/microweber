@@ -47,10 +47,10 @@ $paymentAction = urlencode("Sale");
  
 $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
  
-$paypalpro_username = trim(option_get('paypalpro_username', 'payments'));
-$paypalpro_apikey = trim(option_get('paypalpro_apikey', 'payments'));
-$paypalpro_apipassword = trim(option_get('paypalpro_apipassword', 'payments'));
-$paypalpro_apisignature = trim(option_get('paypalpro_apisignature', 'payments'));
+$paypalpro_username = trim(get_option('paypalpro_username', 'payments'));
+$paypalpro_apikey = trim(get_option('paypalpro_apikey', 'payments'));
+$paypalpro_apipassword = trim(get_option('paypalpro_apipassword', 'payments'));
+$paypalpro_apisignature = trim(get_option('paypalpro_apisignature', 'payments'));
  
  
 

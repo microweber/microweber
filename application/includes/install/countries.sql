@@ -5,9 +5,11 @@
   continent LONGTEXT NOT NULL,
   surfacearea float NOT NULL,
   population int(11) NOT NULL,
-  localname TEXT NOT NULL  
-)  ;
- 
+  localname TEXT NOT NULL  ,
+PRIMARY KEY (id) 
+);
+
+   
 
 
 

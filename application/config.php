@@ -9,7 +9,7 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
-	'table_prefix' => 'mwa_', 
+	'table_prefix' => 'z', 
     'installed' => 'yes',
     // Database Settings
     'db' => array(

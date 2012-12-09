@@ -1,4 +1,7 @@
 <? if(!is_admin()){error("must be admin");}; ?>
+<script  type="text/javascript">
+    mw.require("<? print $config['url_to_module']; ?>backup.js");
+</script>
 
 <div id="mw_backups_settings">
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
@@ -12,7 +15,7 @@
       </div>
       <div style="padding-left: 46px">
         <div class="vSpace">&nbsp;</div>
-        <a href="<? print $config['url']; ?>?backup_action=new" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Make new backup</span></a> </div>
+        <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Make new backup</span></a> </div>
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">

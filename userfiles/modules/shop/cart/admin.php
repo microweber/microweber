@@ -1,6 +1,6 @@
  <strong>checkout link enabled?</strong>
  
- <?php $checkout_link_enanbled =  option_get('data-checkout-link-enabled', $params['id']); ?>
+ <?php $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']); ?>
  <select name="data-checkout-link-enabled"  class="mw_option_field"  >
   <option    value="y"  <? if(('n' != strval($checkout_link_enanbled))): ?>   selected="selected"  <? endif; ?>>Yes</option>
     <option    value="n"  <? if(('n' == strval($checkout_link_enanbled))): ?>   selected="selected"  <? endif; ?>>No</option>
@@ -13,7 +13,7 @@
 
 
 <?
-$selected_page=option_get('data-checkout-page', $params['id']);
+$selected_page=get_option('data-checkout-page', $params['id']);
 
 ?>
 

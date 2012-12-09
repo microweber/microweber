@@ -260,6 +260,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		}
 
 		// Performing SQL query
+		
 		$query = $q;
 		$result = mysql_query($query);
 		if (!$result) {

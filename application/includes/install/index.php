@@ -79,8 +79,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 				exec_action('mw_db_init_default');
 				exec_action('mw_db_init_modules');
 				exec_action('mw_scan_for_modules');
-			 // scan_for_modules();
-
+ 
 				$save_config = $save_config_orig;
 				$to_save['IS_INSTALLED'] = 'yes';
 				foreach ($to_save as $k => $v) {

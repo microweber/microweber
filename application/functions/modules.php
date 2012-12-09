@@ -1035,8 +1035,7 @@ function scan_for_modules($options = false) {
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
 	$dir_name_mods2 = ELEMENTS_DIR;
-	
-	
+
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
@@ -1177,6 +1176,8 @@ function scan_for_modules($options = false) {
 		return $c2;
 	}
 }
+
+action_hook('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array()) {
 
