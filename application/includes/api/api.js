@@ -1,3 +1,12 @@
+window.onload = function() {
+  mw.loaded = true;
+  mwd.body.className+=' loaded';
+  mw.extend(mwd.body);
+  mwd.body.removeClass('loading');
+}
+
+
+
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
   document.body.id = 'UnsupportedBrowser';
@@ -11,36 +20,34 @@ typeof mw === 'undefined' ?
 (function() {
 
 
-
-  mw = function() {
-    this.get = function() {
-      return {
-        modules: Modules_List_modules,
-        layouts: Modules_List_elements
-      }
-    }
-    return this;
-  }
-
 __mwextend = function(el){
-      el.getModal = function(){
-          var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-          if(!!modal){
-              return  {
-                   main:modal,
-                   container:modal.querySelector(".mw_modal_container")
+      if(el.attributes['data-extended']===undefined){
+          el.setAttribute('data-extended', true);
+          el.getModal = function(){
+              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
+              if(!!modal){
+                  return  {
+                       main:modal,
+                       container:modal.querySelector(".mw_modal_container")
+                  }
               }
+              else {return false};
           }
-          else {return false};
-      }
-      el.attr = function(name, value){
-        if(value===undefined){
-          return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : '';
-        }
-        else{
-          el.setAttribute(name, value);
-          return el;
-        }
+          el.attr = function(name, value){
+            if(value===undefined){
+              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+            }
+            else{
+              el.setAttribute(name, value);
+              return el;
+            }
+          }
+          el.addClass = function(cls){
+            return mw.tools.addClass(el, cls)
+          }
+          el.removeClass = function(cls){
+            return mw.tools.removeClass(el, cls)
+          }
       }
     return el;
 }
@@ -99,16 +106,16 @@ __mwextend = function(el){
 
 (function() {
     mw.required = [];
-    mw.require = function(url) { //Veyron
+    mw.require = function(url) {
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
-        if (!mw.loaded) {
-          t !== 'css' ? mwd.write("<script type='text/javascript' src='" + url + "'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='" + url + "' />");
+        var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+        if (document.readyState === 'loading' || document.readyState === 'interactive') {
+           mwd.write(string);
         } else {
-          var text = t !== 'css' ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-          $(mwd.body).append(text);
+          $(mwd.getElementsByTagName('head')[0]).append(string);
         }
       }
     }
@@ -128,35 +135,31 @@ __mwextend = function(el){
 
 
 
-  window.onload = function() {
-    mw.loaded = true;
-    mwd.body.className+=' loaded';
-  }
+
 
   mw.target = {} //
 
 
   mw.is = {
     obj: function(obj) {
-      return typeof obj === 'object'
+      return typeof obj === 'object';
     },
     func: function(obj) {
-      return typeof obj === 'function'
+      return typeof obj === 'function';
     },
     string: function(obj) {
-      return typeof obj === 'string'
+      return typeof obj === 'string';
     },
     defined: function(obj) {
-      return obj !== undefined
+      return obj !== undefined;
     },
     invisible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'hidden'
+      return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
     visible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'visible'
+      return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: /*@cc_on!@*/
-    false
+    ie: /*@cc_on!@*/false
   }
 
   if (window.console != undefined) {
@@ -251,8 +254,11 @@ __mwextend = function(el){
   }
 
 
-  mw.load_module = function($module_name, $update_element, callback) {
-    var attributes = {};
+  mw.load_module = function($module_name, $update_element, callback, attributes) {
+
+  if(attributes == undefined){
+   var attributes = {};
+   }
     attributes.module = $module_name;
     mw._({
       selector: $update_element,
@@ -279,16 +285,12 @@ __mwextend = function(el){
     if ($module_name == undefined) {
 
     } else {
-
-
       if (typeof $module_name == 'object') {
         mw._({
           selector: $module_name,
           done:done
         });
-
       } else {
-
         var module_name = $module_name.toString();
         var refresh_modules_explode = module_name.split(",");
         for (var i = 0; i < refresh_modules_explode.length; i++) {
@@ -297,13 +299,12 @@ __mwextend = function(el){
           if ($module_name != undefined) {
 			 $module_name = $module_name.replace(/##/g, '#');
 			   mw.log( $module_name );
-			  
+
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
               $mods = $($module_name);
             }
-
             $mods.each(function() {
               mw._({
                 selector: this,
@@ -378,22 +379,25 @@ __mwextend = function(el){
     }
   }
 
-  mw.$ = function(selector) {
+  mw.$ = function(selector, context) {
+    var context = context || mwd;
     if (mw.qsas) {
       if (mw.is.string(selector)) {
         try {
-          return jQuery(mwd.querySelectorAll(selector));
+          return jQuery(context.querySelectorAll(selector));
         } catch (e) {
-          return jQuery(selector);
+          return jQuery(selector, context);
         }
       } else {
-        return jQuery(selector);
+        return jQuery(selector, context);
       }
     } else {
-      return jQuery(selector);
+      return jQuery(selector, context);
     }
   };
 
 
 
-})() : '[]';
+})() : '';
+
+

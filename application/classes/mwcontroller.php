@@ -259,7 +259,7 @@ class MwController {
 			@touch($recycle_bin_f);
 		}
 
-		create_mw_default_options();
+		//create_mw_default_options();
 		define_constants();
 		$l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
 		$l = $l -> __toString();
@@ -283,13 +283,44 @@ class MwController {
 		$this -> api();
 	}
 
-	function api($api_function = false) {
+	function api($api_function = false, $params = false) {
 
 		if (!defined('MW_API_CALL')) {
 			define('MW_API_CALL', true);
 		}
-
+		$mod_class_api = false;
+		$mod_class_api_called = false;
+		$mod_class_api_class_exist = false;
+		$caller_commander = false;
 		define_constants();
+		if ($api_function == false) {
+			$api_function_full = url_string();
+			$api_function_full = substr($api_function_full, 4);
+		} else {
+			$api_function_full = $api_function;
+		}
+		$api_function_full = str_replace('..', '', $api_function_full);
+		$api_function_full = str_replace('\\', '/', $api_function_full);
+		$api_function_full = str_replace('//', '/', $api_function_full);
+		$api_function_full = db_escape_string($api_function_full);
+
+		$mod_api_class = explode('/', $api_function_full);
+		$try_class_func = array_pop($mod_api_class);
+		$mod_api_class = implode(DS, $mod_api_class);
+		$mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
+		//	d($mod_api_class1);
+
+		$try_class = str_replace('/', '\\', $mod_api_class);
+		if (class_exists($try_class, false)) {
+			$caller_commander = 'class_is_already_here';
+			$mod_class_api_class_exist = true;
+		} else {
+			//	d($mod_api_class1);
+			if (is_file($mod_api_class1)) {
+				$mod_class_api = true;
+				include ($mod_api_class1);
+			}
+		}
 		$api_exposed = '';
 
 		// user functions
@@ -303,19 +334,122 @@ class MwController {
 		$api_exposed = array_unique($api_exposed);
 		$api_exposed = array_trim($api_exposed);
 		if ($api_function == false) {
-			$api_function = url_segment(1);
+			$api_function = url_segment(1); 
 		}
+		switch ($caller_commander) {
+			case 'class_is_already_here' :
+				if ($params != false) {
+					$data = $params;
+				} else if (!$_POST and !$_GET) {
+					//  $data = url(2);
+					$data = url_params(true);
+					if (empty($data)) {
+						$data = url(2);
+					}
+				} else {
+					$data = $_REQUEST;
+				}
+
+				static $loaded_classes = array();
+				//$try_class_n = src_
+				if (isset($loaded_classes[$try_class]) == false) {
+					$res = new $try_class($data);
+					$loaded_classes[$try_class] = $res;
+				} else {
+					$res = $loaded_classes[$try_class];
+					//
+				}
+
+				if (method_exists($res, $try_class_func)) {
+					$res = $res -> $try_class_func($data);
+
+					if (defined('MW_API_RAW')) {
+						$mod_class_api_called = true;
+						return ($res);
+					}
+
+					if (!defined('MW_API_HTML_OUTPUT')) {
+						print json_encode($res);
+					} else {
+
+						print($res);
+					}
+					exit();
+				}
+
+				break;
+
+			default :
+				if ($mod_class_api == true and $mod_api_class != false) {
+
+					$try_class = str_replace('/', '\\', $mod_api_class);
+					$try_class_full = str_replace('/', '\\', $api_function_full);
+
+					if (defined('MW_API_RAW') or in_array($try_class_full, $api_exposed)) {
+
+						if (class_exists($try_class, false)) {
+							if ($params != false) {
+								$data = $params;
+							} else if (!$_POST and !$_GET) {
+								//  $data = url(2);
+								$data = url_params(true);
+								if (empty($data)) {
+									$data = url(2);
+								}
+							} else {
+								$data = $_REQUEST;
+							}
+
+							$res = new $try_class($data);
+							if (method_exists($res, $try_class_func)) {
+								$res = $res -> $try_class_func($data);
+								$mod_class_api_called = true;
+								if (defined('MW_API_RAW')) {
+									return ($res);
+								}
+
+								if (!defined('MW_API_HTML_OUTPUT')) {
+									print json_encode($res);
+								} else {
+
+									print($res);
+								}
+								exit();
+							}
+
+						}
+
+					}
+
+				}
+
+				break;
+		}
+
 		if ($api_function) {
 
 		} else {
 			$api_function = 'index';
 		}
 
-		if ($api_function == 'module') {
+		if ($api_function == 'module' and $mod_class_api_called == false) {
 			$this -> module();
 		} else {
-			if (in_array($api_function, $api_exposed)) {
-				if (function_exists($api_function) or class_exists($api_function)) {
+			$err = false;
+			if (!in_array($api_function, $api_exposed)) {
+				$err = true;
+			}
+			if ($err == true) {
+				foreach ($api_exposed as $api_exposed_item) {
+					if ($api_exposed_item == $api_function) {
+						$err = false;
+					}
+				}
+			}
+			 
+			if ($err == false) {
+				//
+				if ($mod_class_api_called == false) {
 					if (!$_POST and !$_GET) {
 						//  $data = url(2);
 						$data = url_params(true);
@@ -340,11 +474,16 @@ class MwController {
 
 					}
 
-					$hooks = api_hook(true);
-					if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-						foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-							$hook_value($res);
+				}
+				$hooks = api_hook(true);
+
+				if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+
+					foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+						if ($hook_value != false and $hook_value != null) {
 							//d($hook_value);
+							$hook_value($res);
+							//
 						}
 					}
 
@@ -716,10 +855,15 @@ class MwController {
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
+
 		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();
 		// var_dump($l);
-		$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
+
+		$l = str_replace('{SITE_URL}', site_url(), $l);
+		$l = str_replace('{SITEURL}', site_url(), $l);
+		$l = str_replace('%7BSITE_URL%7D', site_url(), $l);
+		//$l = parse_micrwober_tags($l, $options = array('parse_only_vars' => 1));
 		print $l;
 		exit();
 	}
@@ -760,7 +904,25 @@ class MwController {
 		} else {
 			$tool = 'index';
 		}
+		$page = false;
+		if (isset($_SERVER["HTTP_REFERER"])) {
+			$url = $_SERVER["HTTP_REFERER"];
+			$url = explode('?', $url);
+			$url = $url[0];
 
+			if (trim($url) == '' or trim($url) == site_url()) {
+				//$page = get_content_by_url($url);
+				$page = get_homepage();
+				// var_dump($page);
+			} else {
+
+				$page = get_content_by_url($url);
+			}
+		} else {
+			$url = url_string();
+		}
+
+		define_constants($page);
 		$tool = str_replace('..', '', $tool);
 
 		$p_index = INCLUDES_PATH . 'toolbar/editor_tools/index.php';

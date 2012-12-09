@@ -51,8 +51,8 @@ function old_save_menu($data) {
 	$menu = $menu->save ();
 }
 function old_get_menu($params = array()) {
-	$table = c ( 'db_tables' );
-	$table = $table ['table_menus'];
+	 
+	$table = MW_TABLE_PREFIX . 'menus';	
 	return db_get ( $table, $params, 'menus' );
 }
 function old_menu_tree($menu_id, $maxdepth = false) {
@@ -70,7 +70,7 @@ function old_menu_tree($menu_id, $maxdepth = false) {
 	}
 	$passed_ids = array ();
 	
-  $cms_db_tables 	 = c ( 'db_tables' ); ;
+   
 	
 	$params = array ();
 	$params ['item_parent'] = $menu_id;
@@ -80,7 +80,7 @@ function old_menu_tree($menu_id, $maxdepth = false) {
 	$params_order ['position'] = 'ASC';
 	
 	 
-	$table_menus = $cms_db_tables ['table_menus'];
+	$table_menus = MW_TABLE_PREFIX . 'menus';
 	
 	$sql = "SELECT id from {$table_menus}
 	where item_parent=$menu_id
@@ -169,11 +169,11 @@ function old_get_menu_items($menu_id = false, $id = false) {
 		return $cache_content;
 	}
 	
-	$cms_db_tables = c ( 'db_tables' );
+	 
 	
-	$table_menus = $cms_db_tables ['table_menus'];
+	$table_menus = MW_TABLE_PREFIX . 'menus';
 	
-	$table_content = $cms_db_tables ['table_content'];
+	$table_content = MW_TABLE_PREFIX . 'content';
 	
 	$data = false;
 	if ($id == false) {

@@ -159,7 +159,7 @@ function upload($data) {
 		//   var_dump($_FILES);
 	}
 
-	return $rerturn;
+	exit(json_encode($rerturn));
 	//var_dump($data);
 	//var_dump($_FILES);
 }
@@ -186,9 +186,9 @@ function reorder_media($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	$tables = c('db_tables');
+	 
 
-	$table = $tables['table_media'];
+	$table =  MW_TABLE_PREFIX . 'media';
 	foreach ($data as $value) {
 		if (is_arr($value)) {
 			$indx = array();
@@ -234,7 +234,7 @@ function save_media($data) {
 	}
 
 	if (isset($data['for-id'])) {
-		$t = intval($data['for-id']);
+		$t = trim($data['for-id']);
 		$s['to_table_id'] = $t;
 	}
 
@@ -258,7 +258,7 @@ function save_media($data) {
 	}
 
 	if (isset($data['for_id'])) {
-		$t = intval($data['for_id']);
+		$t = trim($data['for_id']);
 		$s['to_table_id'] = $t;
 	}
 
@@ -266,16 +266,16 @@ function save_media($data) {
 		$t = db_escape_string($data['media_type']);
 		$s['media_type'] = $t;
 	}
-	$tables = c('db_tables');
+	 
 
 	// ->'table_content';
 	if (isset($s['to_table']) and isset($s['to_table_id'])) {
-		$table = $tables['table_media'];
+		$table =  MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
 	} elseif (isset($s['id']) and isset($s['title'])) {
-		$table = $tables['table_media'];
+		$table =  MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
@@ -314,7 +314,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 	}
 
 	$cache = crc32($src . $width . $height) . basename($src);
-	
+
 	$cache = str_replace(' ', '_', $cache);
 	$cache_path = $cd . $cache;
 
@@ -335,13 +335,15 @@ function thumbnail($src, $width = 200, $height = 200) {
 }
 
 function get_pictures($params) {
-	$tables = c('db_tables');
-	$table = $tables['table_media'];
-	$params2 = array();
-	if (is_string($params)) {
-		$params = parse_str($params, $params2);
-		$params = $params2;
-	}
+	 
+	$table =  MW_TABLE_PREFIX . 'media';
+	$params = parse_params($params);
+/*
+	// if (is_string($params)) {
+		// $params = parse_str($params, $params2);
+		// $params = $params2;
+	// }*/
+
 
 	if (isset($params['for'])) {
 		$params['for'] = db_get_assoc_table_name($params['for']);

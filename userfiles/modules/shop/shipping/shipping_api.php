@@ -14,7 +14,11 @@ class shipping_api {
 	function __construct() {
 		$this -> here = dirname(__FILE__).DS.'gateways'.DS;;
   $here = $this -> here;
-$this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
+  
+  
+ 
+  
+ $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
 	}
 
 	// getInstance method
@@ -48,7 +52,7 @@ $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here
 $active = array();
 		 $m = $this->modules_list;
 		 foreach($m as $item){
-			 if(option_get('shipping_gw_'.$item['module'], 'shipping') == 'y'){
+			 if(get_option('shipping_gw_'.$item['module'], 'shipping') == 'y'){
 				$active [] =  $item; 
 			 }
 		 }

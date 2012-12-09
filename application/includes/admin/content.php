@@ -1,5 +1,53 @@
 <?php $rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
+
+
+<script type="text/javascript">
+
+
+  if(typeof toggle_cats_and_pages === 'undefined'){
+              toggle_cats_and_pages = function(){
+                  mw.cookie.ui('ToggleCatsAndPages', this.value);
+                  _toggle_cats_and_pages();
+              }
+              _toggle_cats_and_pages = function(callback){
+                  var state =  mw.cookie.ui('ToggleCatsAndPages');
+                  if(state == 'on'){
+                       mw.$(".page_posts_list_tree").show();
+                  }
+                  else{
+                      mw.$(".page_posts_list_tree").hide();
+                  }
+                  typeof callback === 'function' ? callback.call(state) : '';
+              }
+    }
+
+
+              $(document).ready(function(){
+                _toggle_cats_and_pages(function(){
+                  if(this=='on'){
+                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                  else{
+                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                });
+              });
+              $(document.body).ajaxStop(function(){
+                _toggle_cats_and_pages(function(){
+                  if(this=='on'){
+                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                  else{
+                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                });
+              });
+
+
+            </script>
+
+
 <script  type="text/javascript">
 
 
@@ -326,6 +374,12 @@ function mw_select_page_for_editing($p_id){
 
 
 mw.on.hashParam("action", function(){
+
+  if(this==false) {
+    mw.load_module('content/manage','#pages_edit_container');
+    return false;
+  }
+
   var arr = this.split(":");
 
   $(mwd.body).removeClass("action-Array");
@@ -334,7 +388,7 @@ mw.on.hashParam("action", function(){
 
 
 
-mw.$('#pages_edit_container').removeAttr('data-page-number');
+    mw.$('#pages_edit_container').removeAttr('data-page-number');
 	mw.$('#pages_edit_container').removeAttr('data-paging-param');
 
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
@@ -342,9 +396,6 @@ mw.$('#pages_edit_container').removeAttr('data-page-number');
 
 
   if(arr[0]==='new'){
-
-
-
 
       if(arr[1]==='page'){
         mw_select_page_for_editing(0);
@@ -642,13 +693,17 @@ function mw_add_product(){
 
     $(document).ready(function(){
 
-        var s = mw.$("#mw-search-field");
-        mw.form.d(s, 'Search for posts');
-       s.bind("keyup", function(){
-          mw.on.stopWriting(this, function(){
-             this.value !== 'Search for posts' ? mw.url.windowHashParam('search',this.value) : '';
-          });
+        var def = '<?php _e("Search for posts"); ?>';
+        var field = mw.$("#mw-search-field");
+        field.bind('keyup focus blur', function(event){
+           mw.form.dstatic(event, def);
+           if(event.type=='keyup'){
+              mw.on.stopWriting(this, function(){
+                 this.value !== def ? mw.url.windowHashParam('search',this.value) : '';
+              });
+           }
         });
+
 
 
     });
@@ -658,16 +713,8 @@ function mw_add_product(){
 
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
-        <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
-
-             <div class="vSpace"></div>
-
-
-
-
-
-
-
+        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+        <div class="vSpace"></div>
       </div>
        <?
 
@@ -685,8 +732,6 @@ function mw_add_product(){
 
        
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
-      
-       
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
       </div>
     </div>

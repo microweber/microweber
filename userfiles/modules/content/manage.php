@@ -1,17 +1,15 @@
 
-         <div class="vSpace"></div>
-
-            <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, false, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
-                <label>Show<input type="radio" value="on" checked="checked" name="born" /></label>
-                <label>Hide<input type="radio" value="off" name="born" /></label>
-            </div>
-
-
-            <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages</label>
-
-            <div class="mw_clear vSpace"></div>
-
-
+<div class="vSpace"></div>
+<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+  <label>Yes
+    <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
+  </label>
+  <label>No
+    <input type="radio" value="off" name="toggle_cats_and_pages" />
+  </label>
+</div>
+<label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
+<div class="mw_clear vSpace"></div>
 <script  type="text/javascript">
   mw.require('forms.js');
 
@@ -30,7 +28,9 @@ delete_selected_posts = function(){
   var master = mwd.getElementById('pages_edit_container');
   var arr = mw.check.collectChecked(master);
   mw.post.del(arr, function(){
-     mw.reload_module('#<? print $params['id'] ?>');
+     mw.reload_module('#<? print $params['id'] ?>', function(){
+       toggle_cats_and_pages()
+     });
   });
 }
 
@@ -68,12 +68,10 @@ mw.manage_content_sort = function(){
 
 
  </script>
- <div class="page_posts_list_tree" data-sortable="true">
-<?  if(isset($params['page-id'])):  ?>
-
-
+<div class="page_posts_list_tree" data-sortable="true" style="display:none;">
+  <?  if(isset($params['page-id'])):  ?>
   <?
-  
+
   
   
 
@@ -138,9 +136,7 @@ mw.manage_content_sort = function(){
   category_tree($pt_opts);
  ?>
   <? endif; ?>
-
-<? endif; ?>
-
+  <? endif; ?>
 </div>
 <?
 $posts_mod = array();
@@ -196,9 +192,11 @@ if(isset($params['data-category-id'])){
 //$pics_module = is_module('pictures');
  
    $posts = module($posts_mod);
- 
+
+
   //d($params);
 ?>
+
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
   <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
@@ -207,21 +205,13 @@ if(isset($params['data-category-id'])){
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">
- 
     <label class="mw-ui-check left">
       <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
       <span></span></label>
-      <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-      
-      
+    <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
     <?
 	$pic  = get_picture(  $item['id'],  'post'); ?>
- 
     <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-    
-       
-   
-    
     <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
     <? else : ?>
     <a class="manage-post-image manage-post-image-no-image left"></a>
@@ -279,37 +269,20 @@ if(isset($params['data-category-id'])){
 </script>
 <? endif; ?>
 <? else: ?>
-  <div class="mw-no-posts-foot">
+<? $cat_name = '';
+if( isset($params['category-id']) and intval($params['category-id']) > 0){
+	$cat = get('categories/'.$params['category-id']);
+	d($cat);
+}
+ ?>
+<div class="mw-no-posts-foot">
   <? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
-      <h2>No Products Here</h2>
-      <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
-   <? else: ?>
-      <h2>No Posts Here</h2>
-      <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a>
-  </div>
+  <h2>No Products Here</h2>
+  
+  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
+  <? else: ?>
+  <h2>No Posts Here</h2>
+  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a> </div>
+<? endif; ?>
 <? endif; ?>
 
-<? endif; ?>
-
-
-
-        <script type="text/javascript">
-
-              var pages_state = mw.cookie.ui('ToggleCatsAndPages');
-
-              if(pages_state!==''){
-                mw.switcher[pages_state](mwd.getElementById('toggle_cats_and_pages'));
-                pages_state == 'off' ? mw.$("#edit_content_admin .page_posts_list_tree").hide() : '';
-              }
-
-              toggle_cats_and_pages = function(){
-                  if(this.value === 'on'){
-                    mw.$("#edit_content_admin .page_posts_list_tree").hide();
-                    mw.cookie.ui('ToggleCatsAndPages', 'off');
-                  }
-                  else{
-                    mw.$("#edit_content_admin .page_posts_list_tree").show();
-                    mw.cookie.ui('ToggleCatsAndPages', 'on');
-                  }
-              }
-            </script>

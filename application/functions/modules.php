@@ -1,7 +1,103 @@
 <?php
 
+if (!defined("MW_DB_TABLE_MODULES")) {
+	define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
+}
+
+if (!defined("MW_DB_TABLE_ELEMENTS")) {
+	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
+}
+
+action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
+
+function mw_db_init_modules_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MW_DB_TABLE_MODULES;
+	$table_name2 = MW_DB_TABLE_ELEMENTS;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('expires_on', 'datetime default NULL');
+
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+
+	$fields_to_add[] = array('name', 'TEXT default NULL');
+	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
+	$fields_to_add[] = array('module_id', 'TEXT default NULL');
+
+	$fields_to_add[] = array('module', 'TEXT default NULL');
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+	$fields_to_add[] = array('icon', 'TEXT default NULL');
+	$fields_to_add[] = array('author', 'TEXT default NULL');
+	$fields_to_add[] = array('website', 'TEXT default NULL');
+	$fields_to_add[] = array('help', 'TEXT default NULL');
+
+	$fields_to_add[] = array('installed', 'int(11) default NULL');
+	$fields_to_add[] = array('ui', 'int(11) default 0');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('as_element', 'int(11) default 0');
+	$fields_to_add[] = array('ui_admin', 'int(11) default 0');
+	$fields_to_add[] = array('notifications', 'int(11) default 0');
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('module', $table_name, array('module(255)'));
+	db_add_table_index('module_id', $table_name, array('module_id(255)'));
+
+	set_db_table($table_name2, $fields_to_add);
+
+	db_add_table_index('module', $table_name2, array('module(255)'));
+	db_add_table_index('module_id', $table_name2, array('module_id(255)'));
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
+/**
+ *
+ * Modules functions API
+ *
+ * @package		modules
+ * @since		Version 0.1
+ */
+
+// ------------------------------------------------------------------------
+
 define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
 
+/**
+ * module_templates
+ *
+ * Gets all templates for a module
+ *
+ * @package		modules
+ * @subpackage	functions
+ * @category	modules api
+ */
 function module_templates($module_name, $template_name = false) {
 
 	$module_name_l = locate_module($module_name);
@@ -29,9 +125,19 @@ function module_templates($module_name, $template_name = false) {
 	}
 }
 
+function module_name_decode($module_name) {
+	$module_name = str_replace('__', '/', $module_name);
+	return $module_name;
+	//$module_name = str_replace('%20', '___', $module_name);
+
+	//$module_name = str_replace('/', '___', $module_name);
+}
+
 function module_name_encode($module_name) {
-	$module_name = str_replace('/', '___', $module_name);
-	$module_name = str_replace('%20', '___', $module_name);
+	$module_name = str_replace('/', '__', $module_name);
+	$module_name = str_replace('\\', '__', $module_name);
+	return $module_name;
+	//$module_name = str_replace('%20', '___', $module_name);
 
 	//$module_name = str_replace('/', '___', $module_name);
 }
@@ -92,7 +198,8 @@ function module($params) {
 	}
 
 	if (isset($params['wrap']) or isset($params['data-wrap'])) {
-		$res = "<div class='module' {$tags} data-type='{$module_name}'>" . $res . "</div>";
+		$module_cl = module_css_class($module_name);
+		$res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>" . $res . "</div>";
 	}
 
 	return $res;
@@ -101,14 +208,12 @@ function module($params) {
 function get_all_functions_files_for_modules($options = false) {
 	$args = func_get_args();
 	$function_cache_id = '';
-	foreach ($args as $k => $v) {
 
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-	}
+	$function_cache_id = serialize($options);
 
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_group = 'modules/global';
+	$cache_group = 'modules/functions';
 
 	$cache_content = cache_get_content($cache_id, $cache_group);
 
@@ -129,34 +234,38 @@ function get_all_functions_files_for_modules($options = false) {
 	} else {
 		$dir_name = normalize_path(MODULES_DIR);
 	}
+
 	$disabled_files = array();
 
-	$uninstall_lock = get_modules_from_db('ui=any&installed=0');
+	$uninstall_lock = get_modules_from_db('ui=any&installed=[int]0');
+
 	if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
 		foreach ($uninstall_lock as $value) {
 			$value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
 			$disabled_files[] = $value1;
 		}
 	}
-	//	 d($disabled_files);
 
 	$dir = rglob($glob_patern, 0, $dir_name);
 
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
-			$value = normalize_path($value, false);
 
-			$found = false;
-			foreach ($disabled_files as $disabled_file) {
-				if (strtolower($value) == strtolower($disabled_file)) {
-					$found = 1;
+			if (is_string($value)) {
+				$value = normalize_path($value, false);
+
+				$found = false;
+				foreach ($disabled_files as $disabled_file) {
+					//d($disabled_file);
+					if (strtolower($value) == strtolower($disabled_file)) {
+						$found = 1;
+					}
+				}
+				if ($found == false) {
+					$configs[] = $value;
 				}
 			}
-			if ($found == false) {
-				$configs[] = $value;
-			}
-
 			//d($value);
 			//if ($disabled_files !== null and !in_array($value, $disabled_files,1)) {
 			//
@@ -172,16 +281,15 @@ function get_all_functions_files_for_modules($options = false) {
 }
 
 function get_elements_from_db($params = false) {
-	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_elements'];
+	$table = MW_TABLE_PREFIX . 'elements';
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 	}
 	$params['table'] = $table;
 	$params['orderby'] = 'position asc';
-	// $params['debug'] = 1;
+
 	$params['cache_group'] = 'elements/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
@@ -198,9 +306,8 @@ function get_elements_from_db($params = false) {
 }
 
 function get_modules_from_db($params = false) {
-	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_modules'];
+	$table = MW_TABLE_PREFIX . 'modules';
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
@@ -248,9 +355,7 @@ function save_element_to_db($data_to_save) {
 		exit(d($data_to_save));
 	}
 
-	$cms_db_tables = c('db_tables');
-
-	$table = $cms_db_tables['table_elements'];
+	$table = MW_TABLE_PREFIX . 'elements';
 	$save = false;
 	// d($table);
 	//d($data_to_save);
@@ -292,12 +397,11 @@ function delete_elements_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		$cms_db_tables = c('db_tables');
 
-		$table = $cms_db_tables['table_elements'];
+		$table = MW_TABLE_PREFIX . 'elements';
 
-		$table_taxonomy = $cms_db_tables['table_taxonomy'];
-		$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 		$q = "delete from $table ";
 		//   d($q);
@@ -322,11 +426,10 @@ function delete_module_by_id($id) {
 		return false;
 	}
 	$id = intval($id);
-	$cms_db_tables = c('db_tables');
 
-	$table = $cms_db_tables['table_modules'];
-	$table_taxonomy = $cms_db_tables['table_taxonomy'];
-	$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+	$table = MW_TABLE_PREFIX . 'modules';
+	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$q = "delete from $table where id={$id}";
 	db_q($q);
@@ -343,11 +446,10 @@ function delete_modules_from_db() {
 	if (is_admin() == false) {
 		return false;
 	} else {
-		$cms_db_tables = c('db_tables');
 
-		$table = $cms_db_tables['table_modules'];
-		$table_taxonomy = $cms_db_tables['table_taxonomy'];
-		$table_taxonomy_items = $cms_db_tables['table_taxonomy_items'];
+		$table = MW_TABLE_PREFIX . 'modules';
+		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
+		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 		$q = "delete from $table ";
 		db_q($q);
@@ -364,8 +466,33 @@ function delete_modules_from_db() {
 	}
 }
 
+function is_module_installed($module_name) {
+
+	$module_name = trim($module_name);
+
+	$module_namei = $module_name;
+	if (strstr($module_name, 'admin')) {
+
+		$module_namei = str_ireplace('\\admin', '', $module_namei);
+		$module_namei = str_ireplace('/admin', '', $module_namei);
+	}
+
+	//$module_namei = str_ireplace($search, $replace, $subject)e
+
+	$uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
+
+	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function is_module($module_name) {
 	if (!is_string($module_name)) {
+		return false;
+	}
+	if (trim($module_name) == '') {
 		return false;
 	}
 	$checked = array();
@@ -474,7 +601,7 @@ function module_url($module_name) {
 
 }
 
-function locate_module($module_name, $custom_view = false) {
+function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false) {
 
 	if (!defined("ACTIVE_TEMPLATE_DIR")) {
 		define_constants();
@@ -503,9 +630,9 @@ function locate_module($module_name, $custom_view = false) {
 	} elseif (is_file($module_in_template_file)) {
 		$try_file1 = $module_in_template_file;
 		//d($try_file1);
-	} elseif (is_file($module_in_default_file12)) {
+	} elseif (is_file($module_in_default_file12) and $custom_view == false) {
 		$try_file1 = $module_in_default_file12;
-		//d($try_file1);
+		//	d($try_file1);
 	} else {
 
 		$module_in_default_dir = MODULES_DIR . $module_name . '';
@@ -524,10 +651,15 @@ function locate_module($module_name, $custom_view = false) {
 
 			if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
 				$try_file1 = $module_in_default_file_custom_view;
+				if ($no_fallback_to_view == true) {
+					return $try_file1;
+				}
+
 			} else {
 
 				//  $try_file1 = $module_in_default_file;
 			}
+
 		} else {
 			if (is_dir($module_in_default_dir)) {
 
@@ -536,7 +668,14 @@ function locate_module($module_name, $custom_view = false) {
 				if ($custom_view == true) {
 
 					$try_file1 = $mod_d1 . trim($custom_view) . '.php';
+					if ($no_fallback_to_view == true) {
+						return $try_file1;
+					}
 				} else {
+					if ($no_fallback_to_view == true) {
+						return false;
+					}
+
 					//temp
 					$try_file1 = $mod_d1 . 'index.php';
 				}
@@ -619,7 +758,7 @@ function uninstall_module($params) {
 			$to_save['installed'] = '0';
 			//  $to_save['keep_cache'] = '1';
 			//   $to_save['module'] = $module_name;
-			// $to_save['debug'] = '1';
+
 			//d($to_save);
 			save_module_to_db($to_save);
 			// delete_module_by_id($id);
@@ -637,22 +776,34 @@ function install_module($params) {
 	if (is_admin() == false) {
 		return false;
 	}
-	$module_name = $params['for_module'];
 
-	if (trim($module_name) == '') {
-		return false;
+	if (isset($params['for_module'])) {
+		$module_name = $params['for_module'];
+
+		if (trim($module_name) == '') {
+			return false;
+		}
 	}
 
-	$loc_of_config = locate_module($module_name, 'config');
+	if (isset($params['module'])) {
+		$module_name = $params['module'];
+
+		if (trim($module_name) == '') {
+			return false;
+		}
+	}
+
+	$loc_of_config = locate_module($module_name, 'config', 1);
+	//d($loc_of_config);
 	$res = array();
-	$loc_of_functions = locate_module($module_name, 'functions');
+	$loc_of_functions = locate_module($module_name, 'functions', 1);
 	$cfg = false;
-	if (is_file($loc_of_config)) {
+	if ($loc_of_config != false and is_file($loc_of_config)) {
 		include ($loc_of_config);
 		if (isset($config)) {
 			$cfg = $config;
 		}
-		// d($loc_of_config);
+
 	}
 
 	//    $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
@@ -671,34 +822,74 @@ function install_module($params) {
 	if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
 		$to_save = array();
 		$to_save['id'] = $this_module['id'];
-		$to_save['installed'] = '1';
-		//   $to_save['keep_cache'] = '1';
-		//   $to_save['module'] = $module_name;
-		// $to_save['debug'] = '1';
-		// d($to_save);
-		save_module_to_db($to_save);
-	}
-
-	if (is_array($cfg) and !empty($cfg)) {
-
-		if (isset($cfg['on_install'])) {
-
-			$func = $cfg['on_install'];
-
-			if (!function_exists($func)) {
-				if (is_file($loc_of_functions)) {
-					include_once ($loc_of_functions);
-				}
+		if (isset($params['installed']) and $params['installed'] == 'auto') {
+			if (isset($this_module['installed']) and $this_module['installed'] == '') {
+				$to_save['installed'] = '1';
+			} else if (isset($this_module['installed']) and $this_module['installed'] != '') {
+				$to_save['installed'] = $this_module['installed'];
 			}
 
-			if (function_exists($func)) {
-
-				$res = $func();
-				return $res;
-			}
 		} else {
-			return true;
+			$to_save['installed'] = '1';
+
 		}
+		if ($to_save['installed'] == '1') {
+			if (isset($config)) {
+				if (isset($config['tables']) and is_arr($config['tables'])) {
+					$tabl = $config['tables'];
+					foreach ($tabl as $key => $value) {
+						$table = db_get_real_table_name($key);
+						set_db_table($table, $fields_to_add);
+					}
+				}
+				if (is_array($config) and !empty($config)) {
+
+					if (isset($config['on_install'])) {
+
+						$func = $config['on_install'];
+
+						if (!function_exists($func)) {
+							if (is_file($loc_of_functions)) {
+								include_once ($loc_of_functions);
+							}
+						}
+
+						if (function_exists($func)) {
+
+							$res = $func();
+							//	return $res;
+						}
+					} else {
+						//return true;
+					}
+				}
+				if (isset($config['options']) and is_arr($config['options'])) {
+					$changes = false;
+					$tabl = $config['options'];
+					foreach ($tabl as $key => $value) {
+						//$table = db_get_real_table_name($key);
+						//d($value);
+						$value['module'] = $module_name;
+						$ch = set_default_option($value);
+						//	d($ch);
+						if ($ch == true) {
+							$changes = true;
+						}
+					}
+
+					if ($changes == true) {
+
+						cache_clean_group('options/global');
+					}
+				}
+
+				//
+			}
+		}
+		$to_save['keep_cache'] = '1';
+		//   $to_save['module'] = $module_name;
+
+		save_module_to_db($to_save);
 	}
 
 	// d($loc_of_functions);
@@ -713,9 +904,7 @@ function save_module_to_db($data_to_save) {
 		exit(d($data_to_save));
 	}
 
-	$cms_db_tables = c('db_tables');
-
-	$table = $cms_db_tables['table_modules'];
+	$table = MW_TABLE_PREFIX . 'modules';
 	$save = false;
 	// d($table);
 
@@ -724,7 +913,7 @@ function save_module_to_db($data_to_save) {
 	if (!empty($data_to_save)) {
 		$s = $data_to_save;
 		// $s["module_name"] = $data_to_save["name"];
-		// $s["module_name"] = $data_to_save["name"];
+		// $s["debug"] = 1;
 		if (!isset($s["parent_id"])) {
 			$s["parent_id"] = 0;
 		}
@@ -732,12 +921,11 @@ function save_module_to_db($data_to_save) {
 			$s["module"] = $data_to_save["module"];
 			if (!isset($s["module_id"])) {
 				$save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
-				// d($s["module"]);
+				//  d($s);
 				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
-					//$s['debug'] = 1;
-					//d($s );
+
 					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
@@ -750,6 +938,7 @@ function save_module_to_db($data_to_save) {
 		//
 		//d($s);
 	}
+	cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'functions');
 	if (!isset($data_to_save['keep_cache'])) {
 		if ($save != false) {
 			//   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
@@ -765,6 +954,7 @@ function modules_list($options = false) {
 	return scan_for_modules($options);
 }
 
+action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false) {
 	ini_set("memory_limit", "160M");
 	if (!ini_get('safe_mode')) {
@@ -805,18 +995,18 @@ function scan_for_modules($options = false) {
 	}
 
 	if (isset($options['reload_modules']) == true) {
-		// d($cache_group);
+		//
 	}
 
 	if (isset($options['cleanup_db']) == true) {
 
 		if (is_admin() == true) {
 			if ($cache_group == 'modules') {
-				delete_modules_from_db();
+				//	delete_modules_from_db();
 			}
 
 			if ($cache_group == 'elements') {
-				delete_elements_from_db();
+				//	delete_elements_from_db();
 			}
 
 			cache_clean_group('taxonomy');
@@ -841,9 +1031,12 @@ function scan_for_modules($options = false) {
 
 	//clearcache();
 	//clearstatcache();
-
+	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name);
-
+	$dir_name_mods = MODULES_DIR;
+	$dir_name_mods2 = ELEMENTS_DIR;
+	
+	
 	if (!empty($dir)) {
 		$configs = array();
 		foreach ($dir as $key => $value) {
@@ -866,12 +1059,12 @@ function scan_for_modules($options = false) {
 
 				//  d( $value_fn);
 
-				$value_fn = str_replace($dir_name, '', $value_fn);
+				$value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
+				$value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);
 
 				//d( $value_fn);
 				//  $value_fn = reduce_double_slashes($value_fn);
 
-				$try_icon = $mod_name . '.png';
 				$def_icon = MODULES_DIR . 'default.png';
 
 				ob_start();
@@ -883,15 +1076,23 @@ function scan_for_modules($options = false) {
 
 				$value_fn = rtrim($value_fn, '\\');
 				$value_fn = rtrim($value_fn, '/');
-
+				$value_fn = str_replace('\\', '/', $value_fn);
 				$config['module'] = $value_fn . '';
 				$config['module'] = rtrim($config['module'], '\\');
 				$config['module'] = rtrim($config['module'], '/');
 
 				$config['module_base'] = str_replace('admin/', '', $value_fn);
+				if (is_dir($mod_name)) {
+					$t1 = ($mod_name) . $value_fn;
 
+					$try_icon = $t1 . '.png';
+
+				} else {
+					$try_icon = $mod_name . '.png';
+				}
+				$try_icon = normalize_path($try_icon, false);
 				if (is_file($try_icon)) {
-					// p($try_icon);
+
 					$config['icon'] = pathToURL($try_icon);
 				} else {
 					$config['icon'] = pathToURL($def_icon);
@@ -922,9 +1123,13 @@ function scan_for_modules($options = false) {
 
 							save_element_to_db($config);
 						} else {
-							// d($config);
+							//d($config);
+							//if (isset($options['dir_name'])) {
 							save_module_to_db($config);
-							install_module($config['module']);
+							$modules_remove_old = true;
+							$config['installed'] = 'auto';
+							install_module($config);
+							//}
 						}
 					}
 				}
@@ -943,6 +1148,25 @@ function scan_for_modules($options = false) {
 		foreach ($cfg_ordered2 as $k => $item) {
 			foreach ($item as $ite) {
 				$cfg_ordered[] = $ite;
+			}
+		}
+
+		if ($modules_remove_old == true) {
+
+			$table = MW_DB_TABLE_OPTIONS;
+			$uninstall_lock = get_modules_from_db('ui=any');
+			if (!empty($uninstall_lock)) {
+				foreach ($uninstall_lock as $value) {
+					$ism = is_module($value['module']);
+					if ($ism == false) {
+						delete_module_by_id($value['id']);
+						$mn = $value['module'];
+						$q = "delete from $table where option_group='{$mn}'  ";
+
+						db_q($q);
+					}
+					//	d($ism);
+				}
 			}
 		}
 
@@ -1102,10 +1326,7 @@ function load_module($module_name, $attrs = array()) {
 	// // p((constant($cache_content)));
 	// return (constant($cache_content));
 	// }
-	//$uninstall_lock = get_modules_from_db('one=1&module=' . $module_name);
-	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
-		//return '';
-	}
+
 	//d($uninstall_lock);
 
 	$is_element = false;
@@ -1129,6 +1350,21 @@ function load_module($module_name, $attrs = array()) {
 	$module_name = str_replace('..', '', $module_name);
 	// prevent hack of the directory
 	$module_name = reduce_double_slashes($module_name);
+
+	$module_namei = $module_name;
+	if (strstr($module_name, 'admin')) {
+
+		$module_namei = str_ireplace('\\admin', '', $module_namei);
+		$module_namei = str_ireplace('/admin', '', $module_namei);
+	}
+
+	//$module_namei = str_ireplace($search, $replace, $subject)e
+
+	$uninstall_lock = get_modules_from_db('one=1&&ui=any&module=' . $module_namei);
+
+	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+		return '';
+	}
 
 	$module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
 	$module_in_template_dir = normalize_path($module_in_template_dir, 1);
@@ -1204,14 +1440,24 @@ function load_module($module_name, $attrs = array()) {
 			$attrs = $attrs2;
 		}
 
-		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
+		$config['path_to_module'] = $config['mp'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
+		$config['module'] = $module_name;
+
+		$config['module_name_url_safe'] = module_name_encode($module_name);
+
+		$find_base_url = curent_url(1);
+		if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
+			//	d($pos);
+			$find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
+		}
+		$config['url'] = $find_base_url;
 
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-		$config['module_class'] = str_replace('/', '-', $module_name);
-		;
+
+		$config['module_class'] = module_css_class($module_name);
 
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
@@ -1222,9 +1468,22 @@ function load_module($module_name, $attrs = array()) {
 		}
 
 		if (!isset($attrs['id'])) {
-			$attrs1 = crc32(serialize($attrs));
 
-			$attrs['id'] = url_title($module_name . '-' . $attrs1);
+			$attrs1 = crc32(serialize($attrs));
+			$s1 = url_segment(0);
+			if ($s1 != false and trim($s1) != '') {
+				$attrs1 = $attrs1 . '-' . $s1;
+			} else if (defined('PAGE_ID') and PAGE_ID != false) {
+				$attrs1 = $attrs1 . '-' . PAGE_ID;
+			}
+
+			$attrs['id'] = ($config['module_class'] . '-' . $attrs1);
+
+		}
+		if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
+			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
+
+			//$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
 		}
 
 		//print(file_get_contents($try_file1));
@@ -1275,5 +1534,24 @@ function load_module($module_name, $attrs = array()) {
 		//define($cache_content, FALSE);
 
 		return false;
+	}
+}
+
+function module_css_class($module_name) {
+	static $defined = array();
+
+	if (isset($defined[$module_name]) != false) {
+		return $defined[$module_name];
+	} else {
+
+		$module_class = str_replace('/', '-', $module_name);
+		$module_class = str_replace('\\', '-', $module_class);
+		$module_class = str_replace(' ', '-', $module_class);
+		$module_class = str_replace('%20', '-', $module_class);
+		$module_class = str_replace('_', '-', $module_class);
+		$module_class = 'module-' . $module_class;
+
+		$defined[$module_name] = $module_class;
+		return $module_class;
 	}
 }

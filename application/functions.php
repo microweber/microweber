@@ -11,16 +11,35 @@ if (!defined('MW_VERSION')) {
 
 if (!defined('MW_UPDATE_SERV')) {
 	$test = site_url('update.php');
-	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php ');
+	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php');
 	//seperate by whitespace
 	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
 
-spl_autoload_register(function($className) {
-	require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
-});
+function mw_autoload($className) {
+	$className = ltrim($className, '\\');
+	$fileName = '';
+	$namespace = '';
+	if ($lastNsPos = strripos($className, '\\')) {
+		$namespace = substr($className, 0, $lastNsPos);
+		$className = substr($className, $lastNsPos + 1);
+		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+	}
+	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . get_include_path());
+	require $fileName;
+}
+
+spl_autoload_register('mw_autoload');
+
+/*
+ spl_autoload_register(function($className) {
+
+ require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
+ });
+ */
+
+set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 // Basic system functions
 function p($f) {
@@ -36,10 +55,6 @@ function v(&$v, $d = NULL) {
 	return isset($v) ? $v : $d;
 }
 
-function eeeeeeee__autoload($c) {
-	//  require p("classes/$c");
-}
-
 function c($k, $no_static = false) {
 
 	if ($no_static == false) {
@@ -51,13 +66,21 @@ function c($k, $no_static = false) {
 	if (isset($c[$k])) {
 		return $c[$k];
 	} else {
+		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+			//d(MW_CONFIG_FILE);
+			//if (is_file(MW_CONFIG_FILE)) {
+			include_once (MW_CONFIG_FILE);
+			if (isset($config)) {
+				$c = $config;
+				if (isset($c[$k])) {
 
-		require_once (MW_APPPATH_FULL . 'config.php');
-		$c = $config;
-		if (isset($c[$k])) {
-				
-			return $c[$k];
+					return $c[$k];
+				}
+			}
 		}
+		//	}
+		//d(MW_CONFIG_FILE);
+
 	}
 }
 
@@ -67,11 +90,6 @@ function d($v) {
 
 function dump($v) {
 	return '<pre>' . var_dump($v) . '</pre>';
-}
-
-function post($k, $d = '', $s = 1) {
-	$v = v($_POST[$k], $d);
-	return ($s && is_string($v)) ? $v : (!$s && is_array($v) ? $v : $d);
 }
 
 function _log($m) {

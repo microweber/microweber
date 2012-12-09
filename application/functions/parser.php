@@ -308,7 +308,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (isset($_POST)) {
 			$parse_mode = 1;
 		}
-//$parse_mode = 10;
+		//$parse_mode = 10;
 		switch ($parse_mode) {
 			case 1 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
@@ -351,8 +351,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
 
 				break;
-				
-					case 10 :
+
+			case 10 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_with_cache.php');
 
 				break;
@@ -432,10 +432,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			$attrs = array();
 			foreach ($replaced_modules as $key => $value) {
 				if ($value != '') {
-
+					$attrs = array();
 					if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
 						foreach ($attrs1 as $item) {
-							//d($attrs1);
+							// d($item);
 							$m_tag = trim($item[0], "\x22\x27");
 							$m_tag = trim($m_tag, "\x27\x22");
 							$m_tag = explode('=', $m_tag);
@@ -490,7 +490,19 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$attrs['data-type'] = $attrs['data-module'];
 							unset($attrs['data-module']);
 						}
+						if (!isset($attrs['id'])) {
 
+							$attrs1 = crc32(serialize($attrs));
+							$s1 = url_segment(0);
+							if ($s1 != false) {
+								$attrs1 = $attrs1 . '-' . $s1;
+							} else if (defined('PAGE_ID') and PAGE_ID != false) {
+								$attrs1 = $attrs1 . '-' . PAGE_ID;
+							}
+
+							$attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
+
+						}
 						foreach ($attrs as $nn => $nv) {
 
 							if ($nn == 'class') {
@@ -565,13 +577,15 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 									$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
 								} else {
-
-									$module_html = str_replace('__MODULE_CLASS__', 'module', $module_html);
+									$module_class = module_css_class($module_name);
+									$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
 								}
 							} else {
 
 								$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
 							}
+							$module_class = module_css_class($module_name);
+							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
 
 							$coming_from_parentz = $module_name;
 							$coming_from_parent_str = false;
@@ -580,6 +594,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
 							}
 							if (isset($attrs['id']) == true) {
+
 								$coming_from_parent_strz1 = $attrs['id'];
 							}
 							if ($coming_from_parent_strz1 == true) {
@@ -589,15 +604,15 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$mod_content = load_module($module_name, $attrs);
 
 							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
-							if (trim($mod_content) != '') {
-								if ($mod_no_wrapper == false) {
-									$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
-								} else {
-									$module_html = $mod_content;
-								}
+							//if (trim($mod_content) != '') {
+							if ($mod_no_wrapper == false) {
+								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
 							} else {
-								$module_html = '';
+								$module_html = $mod_content;
 							}
+							//} else {
+							//	$module_html = '';
+							//}
 
 							$layout = str_replace($key, $module_html, $layout);
 						}

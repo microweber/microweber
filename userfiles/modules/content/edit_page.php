@@ -250,17 +250,9 @@ $pt_opts['actve_ids'] = $data['parent'];
         <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
         <?
 
-$pt_opts['link'] = "{title}";
+$pt_opts['link'] = "{empty}{title}";
 $pt_opts['list_tag'] = " ";
 $pt_opts['list_item_tag'] = "option";
-
-
-
-
-
-
-
-
 $pt_opts['remove_ids'] = $data['id'];
 if(isset($params['is_shop'])){
 //$pt_opts['is_shop'] = $params['is_shop'];
@@ -402,7 +394,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="vSpace"></div>
   <div class="mw-ui-field-holder mw_save_buttons_holder">
     <input type="submit" name="save"  style="width: 120px;" value="Save" />
-    <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go Go live edit" />
+    <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go live edit" />
+
+
   </div>
   <div class="mw_clear"></div>
   <div class="vSpace"></div>

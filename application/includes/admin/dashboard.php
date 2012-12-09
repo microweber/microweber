@@ -1,6 +1,8 @@
 <div id="main" class="liquid">
 
-<microweber module="site_stats" view="admin" />
+
+  <? exec_action('mw_admin_dashboard_main'); ?>
+
 
 
 <div class="mw_clear" style="padding-bottom: 20px;">&nbsp;</div>

@@ -85,27 +85,25 @@ define('MW_BASEPATHSTATIC', MW_ROOTPATH . 'static/');
 
 #define ( 'MW_BASEPATHCONTENT', MW_BASEPATH . 'content/' );
 
-define('MW_TABLE_PREFIX', 'firecms_');
-
 define('MW_USERFILES_DIRNAME', 'userfiles');
 
 define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_DIRNAME . DS);
 
-define("MW_USERFILES_URL", site_url('userfiles/'));
+define("MW_USERFILES_URL", site_url(MW_USERFILES_DIRNAME.'/'));
 
 define("MW_USERFILES_DIR", MW_USERFILES);
 
-define("MODULES_DIR", MW_USERFILES . 'modules/');
+define("MODULES_DIR", MW_USERFILES . 'modules' . DS);
 
 define('TEMPLATEFILES_DIRNAME', 'templates');
 
 define('TEMPLATEFILES', MW_USERFILES . TEMPLATEFILES_DIRNAME . DS);
 
-define('MEDIAFILES', MW_USERFILES . 'media' . '/');
+define('MEDIAFILES', MW_USERFILES . 'media' . DS);
 
-define('ELEMENTS_DIR', MW_USERFILES . 'elements' . '/');
+define('ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
 
-define('STYLES_DIR', MW_USERFILES . 'styles' . '/');
+define('STYLES_DIR', MW_USERFILES . 'styles' . DS);
 
 define('PLUGINS_DIRNAME', MW_USERFILES . 'plugins' . '/');
 
@@ -138,8 +136,31 @@ if ($mw_config['site_url']) {
 } else {
 	define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
 }
+
+define('SITE_URL', SITEURL);
+
+define('CACHE_FILES_EXTENSION', '.php');
+
+define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
+
+define('CACHEDIR_ROOT', dirname((__FILE__)) . 'cache' . DIRECTORY_SEPARATOR);
+
+define('DATETIME_FORMAT', 'F j g:m a');
+
+define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
+define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
+$config_file_for_site = MW_APPPATH_FULL . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+// 
+//var_dump($config_file_for_site);
+if (is_file($config_file_for_site)) {
+	define('MW_CONFIG_FILE', $config_file_for_site);
+
+} else {
+	define('MW_CONFIG_FILE', MW_APPPATH_FULL . 'config.php');
+}
+
 $dnf = MW_ROOTPATH;
-$md5_conf = 'mw_cache_' . crc32($dnf . SITEURL);
+$md5_conf = 'mw_cache_' . crc32($dnf . SITEURL . MW_CONFIG_FILE);
 $cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
@@ -155,21 +176,7 @@ if (is_dir($cache_main_dir) == false) {
 }
 
 define('CACHEDIR', $cache_main_dir);
-define('SITE_URL', SITEURL);
-
 define('HISTORY_DIR', CACHEDIR . 'history' . DIRECTORY_SEPARATOR);
-
-define('CACHE_FILES_EXTENSION', '.php');
-
-define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
-
-define('CACHEDIR_ROOT', dirname((__FILE__)) . 'cache' . DIRECTORY_SEPARATOR);
-
-define('DATETIME_FORMAT', 'F j g:m a');
-
-define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
-define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
-//full filesystem path
 
 define('LIBSPATH', MW_APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
 define('DBPATH', 'db' . DS);
@@ -237,10 +244,10 @@ if (defined('NO_MICROWEBER') == false) {
 	//rm(($file));
 	//require_once (MW_APPPATH . 'models/system_loader.php');
 }
-
+$mw_site_url = false;
 function site_url($add_string = false) {
-	static $u1;
-	if ($u1 == false) {
+	global $mw_site_url;
+	if ($mw_site_url == false) {
 		$pageURL = 'http';
 		if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
 			$pageURL .= "s";
@@ -312,8 +319,8 @@ function site_url($add_string = false) {
 			$i++;
 		}
 		$url_segs[] = '';
-		$u1 = implode('/', $url_segs);
+		$mw_site_url = implode('/', $url_segs);
 	}
-	//var_Dump($u1);
-	return $u1 . $add_string;
+	//
+	return $mw_site_url . $add_string;
 }

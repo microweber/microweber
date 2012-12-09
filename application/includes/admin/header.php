@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
@@ -37,6 +37,7 @@
       mw.require("keys.js");
 
 
+      mw.require("css_parser.js");
       mw.require("custom_fields.js");
 
 
@@ -44,8 +45,22 @@
 
     </script>
 
+    <script>
+
+    $(document).ready(function(){
+      $(mwd.body).ajaxStart(function(){
+        $(this).addClass('loading');
+      });
+      $(mwd.body).ajaxStop(function(){
+        $(this).removeClass('loading');
+      });
+    });
+    
+
+    </script>
+
 </head>
-<body class="is_admin view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
+<body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
 <div id="mw-admin-container">
 
 

@@ -4,6 +4,10 @@ FieldUnify = function(a){
   return mw.is.string(a) ? a : (mw.is.obj(a) ? a.value : '');
 }
 
+
+
+
+
 mw.form = {
   typeNumber:function(el){
     el.value = el.value.replace(/[^0-9\.,]/g,'');
@@ -23,18 +27,21 @@ mw.form = {
     }
 
   },
-  d:function(selector, d){
-    var el = mw.$(selector);
-    var e = el[0];
-    el.data("d",d);
-    if(!el.hasClass("binded")){
-       el.addClass("binded");
-       el.focus(function(){var d = el.data("d");e.value==d?e.value='':''});
-       el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
+  dstatic:function(event, d){
+    var d = d || $(event.target).dataset('default') || false;
+    if(!!d){
+        var type = event.type;
+        var target = event.target;
+        if(type=='focus'){
+           target.value==d?target.value='':'';
+        }
+        else if(type=='blur'){
+           target.value==''?target.value=d:'';
+        }
+        else if(type=='keyup'){
+           $(target).addClass('loading');
+        }
     }
-  },
-  dEach:function(selector){
-
   },
   post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
@@ -182,6 +189,6 @@ mw.form = {
       });
       return data;
  }
-}
+} ;
 
 

@@ -179,7 +179,6 @@ mw.drag = {
                     mw.SmallEditorIsDragging = false;
                     mw.smallEditor.invisible();
                     mw.bigEditor.visible();
-                    mw.bigEditor.animate({opacity:1}, 200);
                 }
            }
 
@@ -1112,17 +1111,18 @@ mw.drag = {
   //  data1.view = 'admin';
   if(data1['data-type'] != undefined){
 	 // alert(1);
-	 data1['data-type'] = data1['data-type']+'/admin';
+	 data1['data-type'] = data1['data-type']+'';
   }
   
     if(data1['type'] != undefined){
 	 // alert(1);
-	 data1['type'] = data1['type']+'/admin';
+	 data1['type'] = data1['type']+'';
   }
   
   
   
 	data1.live_edit = 'true';
+	data1.view = 'admin';
     mw.tools.modal.init({
 	html:"",
 	width:600,

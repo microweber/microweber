@@ -1,3 +1,4 @@
+<? //include_once($config['path_to_module'].'functions.php'); ?>
 <? $rand = uniqid(); ?>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -10,7 +11,7 @@
       $.post("<? print site_url('api/add_new_menu') ?>",  obj, function(data){
         mw.reload_module('<? print $params['type']; ?>');
       });
- 
+  
  }
  
  
@@ -36,7 +37,7 @@
     <button type="button" class="mw-ui-btn" onclick="mw.menu_save('#add_new_menu')">Save</button>
   </div>
 </fieldset>
-<?php $menu_name = option_get('menu_name', $params['id']);
+<?php $menu_name = get_option('menu_name', $params['id']);
 $menu_id = false;
 if($menu_name != false){
 $menu_id = get_menu_id('title='.$menu_name);	

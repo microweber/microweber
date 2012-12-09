@@ -1,10 +1,44 @@
 <?php
 
-function countries_list() {
+if (!defined("MW_DB_TABLE_COUNTRIES")) {
+	define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
+}
 
-	$table = c('db_tables');
-	// ->'table_content';
-	$table = $table['table_country'];
+action_hook('mw_db_init', 'mw_db_init_countries_table');
+
+function mw_db_init_countries_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_sql = INCLUDES_PATH . 'install' . DS . 'countries.sql';
+
+	import_sql_from_file($table_sql);
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+
+	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
+function countries_list() {
+  
+	$table = MW_DB_TABLE_COUNTRIES;
 
 	$sql = "SELECT country_name from $table   ";
 
@@ -23,7 +57,7 @@ function countries_list() {
 
 function save_form_data($data) {
 	$CI = get_instance();
-	global $cms_db_tables;
+	 
 
 	$table = $cms_db_tables['table_forms'];
 
@@ -43,7 +77,7 @@ function save_form_data($data) {
 		$custom_field_data['custom_field_value'] = $v;
 		$custom_field_data['field_for'] = $db_system_fields['form_title'];
 
-		$cf_data =    get_instance() -> core_model -> saveCustomField($custom_field_data);
+		$cf_data =      get_instance() -> core_model -> saveCustomField($custom_field_data);
 
 		//	$custom_field_data['to_table']  = 'table_forms';
 	}

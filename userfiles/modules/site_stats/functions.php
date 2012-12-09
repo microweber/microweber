@@ -1,11 +1,32 @@
 <?
 
 if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
-    define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'module_stats_users_online');
+    define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
 }
 
-function mw_install_stats_module($config = false) {
 
+action_hook('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
+
+function mw_print_stats_on_dashboard() {
+  $active = url_param('view');
+  $cls = '';
+  if($active == 'shop'){
+	//   $cls = ' class="active" ';
+  }
+	print '<microweber module="site_stats" view="admin" />';
+}
+
+
+
+
+
+
+
+
+
+
+function mw_install_stats_module($config = false) {
+return true;
     if (is_admin() == false) {
         return false;
     }
@@ -20,11 +41,11 @@ function mw_install_stats_module($config = false) {
     //d($is_installed);
     if ($is_installed == false) {
         $install = import_sql_from_file($sql);
-        cache_clean_group('db');
+     //   cache_clean_group('db');
 
         return true;
     } elseif (is_array($is_installed) and !empty($is_installed)) {
-        return true;
+        
     } else {
 
         return false;
@@ -43,7 +64,7 @@ function mw_uninstall_stats_module() {
 
     db_q($q);
     cache_clean_group('stats');
-    cache_clean_group('db');
+  //  cache_clean_group('db');
 }
 
 document_ready('stats_append_image');
@@ -162,9 +183,9 @@ function stats_insert() {
     $data['last_page'] = $lp;
     //$data['debug'] = $lp;
 
-    if (!defined("FORCE_SAVE")) {
-        define('FORCE_SAVE', $table);
-    }
+   
+        mw_var('FORCE_SAVE', $table);
+   
 
     $save = save_data($table, $data);
 

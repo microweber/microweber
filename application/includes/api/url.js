@@ -80,6 +80,28 @@ mw.url = {
     },
     windowDeleteHashParam:function(param){
        mw.hash(mw.url.deleteHashParam(window.location.hash, param));
+    },
+    whichHashParamsHasBeenRemoved:function(currHash, prevHash){
+        var curr = mw.url.getHashParams(currHash);
+        var prev = mw.url.getHashParams(prevHash);
+        var hashes = [];
+        for(var x in prev){
+            curr[x] === undefined ? hashes.push(x) : '';
+        }
+        return hashes;
+    },
+    mwParams:function(url){
+        var url = mw.url.removeHash(url);
+        var arr = url.split('/');
+        var obj = {};
+        var i=0,l=arr.length;
+        for( ; i<l; i++){
+            if(arr[i].indexOf(':') !== -1 && arr[i].indexOf('http') === -1){
+                var p = arr[i].split(':');
+                obj[p[0]] = p[1];
+            }
+        }
+        return obj;
     }
 }
 
@@ -126,15 +148,6 @@ mw.slug = {
     var val = mw.slug.create(el.value)
     el.value=val;
     mw.$(".view-post-slug").html(val)
-  }
-}
-
-mw.walker = function(context, callback){   //todo
-  var context = mw.is.obj(context) ? context : mwd.body;
-  var callback = mw.is.func(context) ? context :  callback;
-  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
-  while (walker.nextNode()){
-    callback.call(walker.currentNode);
   }
 }
 

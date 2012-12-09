@@ -8,13 +8,41 @@ $config['version'] = 0.1;
 
 
 
-	$db = c('db');
+
+$options = array();
+$option = array();
+
+$option['option_key'] = 'enable_automatic_backups';
+$option['name'] = 'Enable automatic backups';
+$option['help'] = 'You can enable or disable the automatic backups from here.';
+$option['option_value'] = 'n';
+$option['position'] = '3';
+$option['field_type'] = 'dropdown';
+$option['field_values'] = array( 'n' => 'no','daily' => 'daily','weekly' => 'weekly','monthly' => 'monthly');
+$config['options'][] = $option;
+
+
+$option = array();
+
+$option['option_key'] = 'backups_to_keep';
+$option['name'] = 'Backups to keep';
+$option['help'] = 'Set the number of backups we should keep.';
+$option['option_value'] = '7';
+$option['position'] = '3';
+$option['field_type'] = 'text';
+$config['options'][] = $option;
+
+
+$option = array();
+
+$option['option_key'] = 'backup_location';
+$option['name'] = 'Backup location';
+$option['help'] = 'Set where the backup files should be stored.';
+$option['option_value'] = 'default';
+$option['position'] = '3';
+$option['field_type'] = 'text';
+$config['options'][] = $option;
+
+
+
  
-		
-// Settings
-$table = '*';
-$DBhost =  $db['host'];
-$DBuser =  $db['user'];
-$DBpass = $db['pass'];
-$DBName = $db['dbname'];
-?>

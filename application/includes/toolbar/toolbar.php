@@ -1,12 +1,9 @@
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-
-
 <script type="text/javascript">
-
+  document.body.className+=' loading';
 
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
+  //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
@@ -75,10 +72,11 @@
           <? _e('Help'); ?>
           </a> </li>
       </ul>
-      <a href="#design_bnav" class="ed_btn mw_ex_tools" style="margin-top: 14px;"><span class="mw_ico mw_check left"></span>Design</a>
 
-      <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
-
+      <div id="mw-toolbar-right">
+        <a href="#design_bnav" class="mw-ui-btn-rect ed_btn mw_ex_tools" style="margin-top: 14px;"><span></span>Design</a>
+        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
+      </div>
       </div>
 
     <div id="tab_modules" class="mw_toolbar_tab">
@@ -146,8 +144,7 @@
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:330px; z-index: 92000;">Refresh css &reg;</span>
 
 
-
-        <?php } ?>
+<?php } ?>
 
 
 
