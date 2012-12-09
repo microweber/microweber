@@ -27,7 +27,10 @@ class api {
 	}
 
 	function get_bakup_location() {
-		if (!is_admin()) {error("must be admin");
+		
+		if (defined('MW_CRON_EXEC')) {
+
+		} else if (!is_admin()) {error("must be admin");
 		};
 		static $loc;
 
@@ -79,7 +82,7 @@ class api {
 				$bak['filename'] = $filenameboth;
 				$bak['date'] = $date;
 				$bak['time'] = str_replace('_', ':', $time); ;
-				$bak['size'] = filesize($here.$file);
+				$bak['size'] = filesize($here . $file);
 
 				$backups[] = $bak;
 			}
@@ -253,8 +256,15 @@ class api {
 	}
 
 	function create() {
-		if (!is_admin()) {error("must be admin");
-		};
+
+		if (defined('MW_CRON_EXEC')) {
+
+		} else {
+
+			if (!is_admin()) {error("must be admin");
+			};
+
+		}
 		$db = c('db');
 
 		// Settings
@@ -272,7 +282,7 @@ class api {
 			$extname = str_replace(" ", "_", $extname);
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 
 		if (!is_dir($here)) {
 			if (!mkdir($here)) {

@@ -276,6 +276,12 @@ class MwController {
 		exit();
 	}
 
+	function rss() {
+		if (MW_IS_INSTALLED == true) {
+			exec_action('mw_cron');
+		}
+	}
+
 	function api_html() {
 		if (!defined('MW_API_HTML_OUTPUT')) {
 			define('MW_API_HTML_OUTPUT', true);
@@ -334,7 +340,7 @@ class MwController {
 		$api_exposed = array_unique($api_exposed);
 		$api_exposed = array_trim($api_exposed);
 		if ($api_function == false) {
-			$api_function = url_segment(1); 
+			$api_function = url_segment(1);
 		}
 		switch ($caller_commander) {
 			case 'class_is_already_here' :
@@ -446,7 +452,7 @@ class MwController {
 					}
 				}
 			}
-			 
+
 			if ($err == false) {
 				//
 				if ($mod_class_api_called == false) {

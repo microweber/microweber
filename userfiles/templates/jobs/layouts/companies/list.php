@@ -6,7 +6,7 @@
 	 
 	  $speciality = url_param('speciality');
 	
-	 $roles = option_get('user_roles');
+	 $roles = get_option('user_roles');
    $roles = csv2array($roles);
    //p($roles);
    

@@ -76,8 +76,12 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 	}
 	if (MW_IS_INSTALLED == true) {
 		exec_action('mw_db_init');
+		exec_action('mw_cron');
+		
 	}
 }
+
+
 
 /*
 require (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'AggregateAutoloader.php');

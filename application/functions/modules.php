@@ -1367,6 +1367,10 @@ function load_module($module_name, $attrs = array()) {
 		return '';
 	}
 
+	if (!defined('ACTIVE_TEMPLATE_DIR')) {
+		define_constants();
+	}
+
 	$module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
 	$module_in_template_dir = normalize_path($module_in_template_dir, 1);
 	$module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
@@ -1554,5 +1558,49 @@ function module_css_class($module_name) {
 
 		$defined[$module_name] = $module_class;
 		return $module_class;
+	}
+}
+
+action_hook('mw_cron', 'mw_cron');
+function mw_cron() {
+	$file_loc = CACHEDIR_ROOT . "cron" . DS;
+
+	$some_hour = date('Ymd');
+	$file_loc_hour = $file_loc . 'cron_lock' . $some_hour . '.php';
+	if (is_file($file_loc_hour)) {
+		return true;
+	} else {
+
+		$opts = get_options("option_key2=cronjob");
+		if ($opts != false) {
+
+			//d($file_loc);
+			if (!is_dir($file_loc)) {
+				if (!mkdir($file_loc)) {
+					return false;
+				}
+			}
+
+			if (!defined('MW_CRON_EXEC')) {
+				define('MW_CRON_EXEC', true);
+			}
+
+			foreach ($opts as $item) {
+				if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
+					if (isset($item['option_value']) and $item['option_value'] != 'n') {
+						$when = strtotime($item['option_value']);
+						if ($when != false) {
+							$when_date = date('Ymd', $when);
+							$file_loc_date = $file_loc . '' . $item['option_key'] . $item['id'] . $when_date . '.php';
+							if (!is_file($file_loc_date)) {
+								touch($file_loc_date);
+								$md = module_data('module=' . $item['module'] . '/cron');
+							}
+						}
+					}
+				}
+			}
+			touch($file_loc_hour);
+		}
 	}
 }

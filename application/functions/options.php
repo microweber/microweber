@@ -125,7 +125,7 @@ function create_mw_default_options() {
 	$data['option_key'] = 'enable_user_registration';
 	$data['name'] = 'Enable user registration';
 	$data['help'] = 'You can enable or disable the regitration for new users';
-	$data['option_value'] = '0';
+	$data['option_value'] = 'y';
 	$data['position'] = '3';
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('y' => 'yes', 'n' => 'no');
@@ -147,7 +147,7 @@ function create_mw_default_options() {
 	return true;
 }
 
-function module_option($key,$module, $option_group = false, $return_full = false, $orderby = false) {
+function module_option($key, $module, $option_group = false, $return_full = false, $orderby = false) {
 	return get_option($key, $option_group, $return_full, $orderby, $module);
 }
 
@@ -482,3 +482,5 @@ function delete_option_by_key($key, $option_group = false, $module_id = false) {
 	cache_clean_group('options');
 	return true;
 }
+
+

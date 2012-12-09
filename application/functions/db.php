@@ -214,10 +214,11 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		$db = c('db');
 	}
 
-	if ($q == 'close') {
+	if (trim($q) == 'close') {
 		if (isset($link)) {
 			mysql_close($link);
 		}
+		return false;
 	}
 
 	//  var_dump($db);
@@ -260,7 +261,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		}
 
 		// Performing SQL query
-		
+
 		$query = $q;
 		$result = mysql_query($query);
 		if (!$result) {
@@ -975,7 +976,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 			}
 
-			$function_cache_id = __FUNCTION__ .$table. crc32($function_cache_id);
+			$function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
 
 			$cache_id = $function_cache_id;
 		}
@@ -2653,7 +2654,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
 	$function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db/'.$table_name);
+	$cache_content = cache_get_content($function_cache_id, 'db/' . $table_name);
 
 	if (($cache_content) != false) {
 
@@ -2731,8 +2732,8 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 		}
 
 	}
- 
-	cache_store_data('--true--', $function_cache_id, $cache_group = 'db/'.$table_name);
+
+	cache_store_data('--true--', $function_cache_id, $cache_group = 'db/' . $table_name);
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 	//set_db_tables
