@@ -1,3 +1,5 @@
+<?php if($_GET['preview'] != 'true'){ ?>
+
 <script type="text/javascript">
   document.body.className+=' loading';
 
@@ -76,6 +78,8 @@
       <div id="mw-toolbar-right">
         <a href="#design_bnav" class="mw-ui-btn-rect ed_btn mw_ex_tools" style="margin-top: 14px;"><span></span>Design</a>
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
+        <a onclick="mw.preview();" class="mw-ui-btn" href="javascript:;">Preview</a>
+        <a class="mw-ui-btn mw-ui-btn-blue" href="javascript:;">Publish</a>
       </div>
       </div>
 
@@ -154,4 +158,26 @@
 
 <?php   include "UI.php"; ?>
 
+
+<?php } else { ?>
+
+<script>
+
+  previewHTML = function(html, index){
+      mw.$('.edit').eq(index).html(html);
+  }
+
+
+  window.onload = function(){
+    parent.mw.$('.edit').each(function(i){
+        var html = $(this).html();
+        self.previewHTML(html, i);
+    });
+
+  }
+
+</script>
+
+
+<?php } ?>
 

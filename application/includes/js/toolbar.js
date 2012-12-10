@@ -532,6 +532,7 @@ $(document).ready(function(){
 
 
     mw.on.hashParam("tab", function(){
+      mw.tools.sidebar();
       var tab = this;
       mw.$(".mw_toolbar_tab").removeClass("mw_tab_active");
       mw.$("#tab_"+tab).addClass("mw_tab_active");
@@ -716,6 +717,8 @@ mw.$(".mw_dropdown_action_format").change(function(){
    }
 
 
+   mw.tools.sidebar();
+
 });
 
 
@@ -781,3 +784,16 @@ $(window).resize(function(){
     set_pagetab_size();
     mw.designTool.position();
 });
+
+
+
+
+mw.preview = function(){
+    var url = mw.url.removeHash(window.location.href);
+    var url = mw.url.set_param('preview', true, url);
+    mw.tools.modal.frame({
+      url:url,
+      width:$(window).width(),
+      height:$(window).height()
+    });
+}

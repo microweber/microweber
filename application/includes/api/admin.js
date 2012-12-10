@@ -14,12 +14,6 @@ set_main_height = function(){
 
 
 mw.admin = {
-  sidebar:function(){
-    if(mw.$("#mw_edit_page_left").length > 0){
-        $("#mw-admin-container").addClass('has_sidebar');
-        $("#mw-admin-container").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
-    }
-  },
   scale:function(obj, to){
     var css = mw.CSSParser(obj);
     var win = $(window).width();
@@ -90,11 +84,11 @@ $(window).bind('load resize', function(){
 $(document).ready(function(){
 
    mw.$('#mw-menu-liquify').hide();
-   mw.admin.sidebar();
+   mw.tools.sidebar();
    mw.$('#mw-menu-liquify').show();
    mw.admin.menu.size();
    $(window).bind('hashchange', function(){
-     mw.admin.sidebar();
+     mw.tools.sidebar();
    });
 
 

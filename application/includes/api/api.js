@@ -1,11 +1,3 @@
-window.onload = function() {
-  mw.loaded = true;
-  mwd.body.className+=' loaded';
-  mw.extend(mwd.body);
-  mwd.body.removeClass('loading');
-}
-
-
 
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
@@ -20,45 +12,13 @@ typeof mw === 'undefined' ?
 (function() {
 
 
-__mwextend = function(el){
-      if(el.attributes['data-extended']===undefined){
-          el.setAttribute('data-extended', true);
-          el.getModal = function(){
-              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-              if(!!modal){
-                  return  {
-                       main:modal,
-                       container:modal.querySelector(".mw_modal_container")
-                  }
-              }
-              else {return false};
-          }
-          el.attr = function(name, value){
-            if(value===undefined){
-              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
-            }
-            else{
-              el.setAttribute(name, value);
-              return el;
-            }
-          }
-          el.addClass = function(cls){
-            return mw.tools.addClass(el, cls)
-          }
-          el.removeClass = function(cls){
-            return mw.tools.removeClass(el, cls)
-          }
-      }
-    return el;
-}
+
 
 
 
   mw = {}
 
-  mw.extend = function(el){
-    return __mwextend(el);
-  }
+
 
   mw.module = {} //Global Variable for modules scripts
   mwd = document;

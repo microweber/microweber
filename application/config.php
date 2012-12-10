@@ -9,8 +9,8 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
+	'table_prefix' => 'firecms_', 
     'installed' => 'yes',
-    'table_prefix' => 'firecms_',
     // Database Settings
     'db' => array(
         'host' => 'localhost',

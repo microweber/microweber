@@ -3,8 +3,14 @@
 namespace admin\backup;
 
 api_expose('admin_backup_db_tables');
-api_expose('admin\backup\api\get_bakup_location');
+api_expose('admin\backup\api\delete');
+api_expose('admin\backup\api\create');
+api_expose('admin\backup\api\download');
+//api_expose('admin\backup\api\restore');
+//api_expose('admin\backup\api\get_bakup_location');
 class api {
+
+	private $file_q_sep = '; /* MW_TABLE_SEP */';
 
 	function __construct() {
 		//var_dump($_SERVER);
@@ -21,7 +27,10 @@ class api {
 	}
 
 	function get_bakup_location() {
-		if (!is_admin()) {error("must be admin");
+		
+		if (defined('MW_CRON_EXEC')) {
+
+		} else if (!is_admin()) {error("must be admin");
 		};
 		static $loc;
 
@@ -54,7 +63,7 @@ class api {
 	public function get() {
 		if (!is_admin()) {error("must be admin");
 		};
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 
 		$dir = opendir($here);
 		$backups = array();
@@ -72,8 +81,8 @@ class api {
 				$bak = array();
 				$bak['filename'] = $filenameboth;
 				$bak['date'] = $date;
-				$bak['time'] = $time;
-				//$bak['size'] = filesize( );
+				$bak['time'] = str_replace('_', ':', $time); ;
+				$bak['size'] = filesize($here . $file);
 
 				$backups[] = $bak;
 			}
@@ -82,11 +91,12 @@ class api {
 
 	}
 
-	function restore() {
+	function delete($params) {
 		if (!is_admin()) {error("must be admin");
 		};
+
 		// Get the provided arg
-		$id = $_GET['id'];
+		$id = $params['id'];
 
 		// Check if the file has needed args
 		if ($id == NULL) {
@@ -95,34 +105,136 @@ class api {
 			die();
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
+		$filename = $here . $id . '.sql';
+		if (is_file($filename)) {
+			unlink($filename);
+		}
+		print 'done';
+		//d($filename);
+	}
+
+	function download($params) {
+		if (!is_admin()) {error("must be admin");
+		};
+
+		if (isset($params['id'])) {
+			$id = $params['id'];
+		} else if (isset($_GET['filename'])) {
+			$id = $params['filename'];
+		} else if (isset($_GET['file'])) {
+			$id = $params['file'];
+		}
+
+		// Check if the file has needed args
+		if ($id == NULL) {
+
+			print("You have not provided a backup to restore.");
+			die();
+		}
+
+		$here = $this->get_bakup_location();
 		// Generate filename and set error variables
-		$filename = $here . 'backup/' . $id . '.sql';
+
+		$filename = $here . $id . '.sql';
+		if (!is_file($filename)) {
+			print("You have not provided a existising backup to restore.");
+			die();
+		}
+		// Check if the file exist.
+		if (file_exists($filename)) {
+			// Add headers
+			$name = basename($filename);
+			$type = 'sql';
+			header('Cache-Control: public');
+			header('Content-Description: File Transfer');
+			header('Content-Disposition: attachment; filename=' . $name);
+			header('Content-Length: ' . filesize($filename));
+			// Read file
+			readfile($filename);
+		} else {
+			die('File does not exist');
+		}
+	}
+
+	function restore($params) {
+		if (!is_admin()) {error("must be admin");
+		};
+
+		ini_set('memory_limit', '512M');
+		set_time_limit(0);
+
+		// Get the provided arg
+		if (isset($params['id'])) {
+			$id = $params['id'];
+		} else if (isset($_GET['filename'])) {
+			$id = $params['filename'];
+		} else if (isset($_GET['file'])) {
+			$id = $params['file'];
+		}
+
+		// Check if the file has needed args
+		if ($id == NULL) {
+
+			print("You have not provided a backup to restore.");
+			die();
+		}
+
+		$here = $this->get_bakup_location();
+		// Generate filename and set error variables
+
+		$filename = $here . $id . '.sql';
+		if (!is_file($filename)) {
+			print("You have not provided a existising backup to restore.");
+			die();
+		}
+
+		$db = c('db');
+
+		// Settings
+		$table = '*';
+		$host = $DBhost = $db['host'];
+		$user = $DBuser = $db['user'];
+		$pass = $DBpass = $db['pass'];
+		$name = $DBName = $db['dbname'];
+
 		$sqlErrorText = '';
 		$sqlErrorCode = 0;
 		$sqlStmt = '';
 
 		// Restore the backup
-		$con = mysql_connect($DBhost, $DBuser, $DBpass);
-		if ($con !== false) {
-			// Load and explode the sql file
-			mysql_select_db("$DBName");
-			$f = fopen($filename, "r+");
-			$sqlFile = fread($f, filesize($filename));
-			$sqlArray = explode(';<|||||||>', $sqlFile);
+		//	$con = mysql_connect($DBhost, $DBuser, $DBpass);
+		//if ($con !== false) {
+		// Load and explode the sql file
+	//	mysql_select_db("$DBName");
+		$f = fopen($filename, "r+");
+		$sqlFile = fread($f, filesize($filename));
+		$sqlArray = explode($this -> file_q_sep, $sqlFile);
 
-			// Process the sql file by statements
-			foreach ($sqlArray as $stmt) {
-				if (strlen($stmt) > 3) {
-					$result = mysql_query($stmt);
+		// Process the sql file by statements
+		foreach ($sqlArray as $stmt) {
+			$stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
+			if (strlen($stmt) > 3) {
+				try {
+					//$result = mysql_query($stmt);
+
+					db_q($stmt);
+					print $stmt;
+				} catch (Exception $e) {
+					print 'Caught exception: ' . $e -> getMessage() . "\n";
+					$sqlErrorCode = 1;
 				}
+
+				//d($stmt);
+				//
 			}
 		}
+		//}
 
 		// Print message (error or success)
 		if ($sqlErrorCode == 0) {
-			print("Database restored successfully!<br>\n");
-			print("Backup used: " . $filename . "<br>\n");
+			print("Database restored successfully!\n");
+			print("Backup used: " . $filename . "\n");
 		} else {
 			print("An error occurred while restoring backup!<br><br>\n");
 			print("Error code: $sqlErrorCode<br>\n");
@@ -131,20 +243,28 @@ class api {
 		}
 
 		// Close the connection
-		//mysql_close($con);
+		// mysql_close($con);
 
 		// Change the filename from sql to zip
-		$filename = str_replace('.sql', '.zip', $filename);
+		//$filename = str_replace('.sql', '.zip', $filename);
 
 		// Files restored successfully
 		print("Files restored successfully!<br>\n");
 		print("Backup used: " . $filename . "<br>\n");
+		clearcache();
 
 	}
 
-	function bacreate() {
-		if (!is_admin()) {error("must be admin");
-		};
+	function create() {
+
+		if (defined('MW_CRON_EXEC')) {
+
+		} else {
+
+			if (!is_admin()) {error("must be admin");
+			};
+
+		}
 		$db = c('db');
 
 		// Settings
@@ -162,7 +282,7 @@ class api {
 			$extname = str_replace(" ", "_", $extname);
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 
 		if (!is_dir($here)) {
 			if (!mkdir($here)) {
@@ -173,12 +293,22 @@ class api {
 		set_time_limit(0);
 		// Generate the filename for the backup file
 		$index1 = $here . 'index.php';
-		$filess = $here . 'dbbackup_' . date("d.m.Y_H_i_s") . uniqid() . '_' . $extname;
+		$filess = $here . 'dbbackup_' . date("d.m.Y_H_i_s") . uniqid() . '_' . $extname . '.sql';
 		touch($filess);
 		touch($index1);
 
-		$link = mysql_connect($host, $user, $pass);
-		mysql_select_db($name, $link);
+		$hta = $here . '.htaccess';
+		if (!is_file($hta)) {
+			touch($hta);
+			file_put_contents($hta, 'Deny from all');
+		}
+
+		static $link;
+		if ($link == false) {
+			$link = mysql_connect($host, $user, $pass);
+			mysql_select_db($name, $link);
+		}
+
 		$return = "";
 		$tables = '*';
 		// Get all of the tables
@@ -201,11 +331,11 @@ class api {
 			$num_fields = mysql_num_fields($result);
 
 			// First part of the output - remove the table
-			$return .= 'DROP TABLE ' . $table . ';<|||||||>';
+			$return .= 'DROP TABLE ' . $table . $this -> file_q_sep . "\n\n\n";
 
 			// Second part of the output - create table
 			$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
-			$return .= "\n\n" . $row2[1] . ";<|||||||>\n\n";
+			$return .= "\n\n" . $row2[1] . $this -> file_q_sep . "\n\n\n";
 
 			// Third part of the output - insert values into new table
 			for ($i = 0; $i < $num_fields; $i++) {
@@ -223,14 +353,14 @@ class api {
 							$return .= ',';
 						}
 					}
-					$return .= ");<|||||||>\n";
+					$return .= ")" . $this -> file_q_sep . "\n\n\n"; ;
 				}
 			}
 			$return .= "\n\n\n";
 		}
 
 		// Save the sql file
-		$handle = fopen($filess . '.sql', 'w+');
+		$handle = fopen($filess, 'w+');
 		fwrite($handle, $return);
 		fclose($handle);
 

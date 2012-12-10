@@ -10,6 +10,14 @@
 
 
 
+.has_sidebar{
+  background-image: url("../img/treebg.gif");
+  background-repeat:  repeat-y;
+  background-position:  -999px 0;
+  background-color: white;
+}
+
+
 
 
 
@@ -347,6 +355,15 @@ form.add-edit-page-post textarea{
   clear: both;
   color: #4D4D4D;
 }
+.manage-post-itemleft{
+  float: left;
+  width: 580px;
+}
+
+.manage-posts-holder{
+  border-top: 1px solid #E2E2E2;
+}
+
 .manage-post-item:hover{
   background-color:#f9f9f9;
 }
@@ -518,6 +535,12 @@ form.add-edit-page-post textarea{
 
 .manage-toolbar-top .mw-ui-btn{
   margin-right: 30px;
+  float: left;
+}
+
+.manage-toolbar-top .manage-search{
+  float: left;
+  margin-top: 3px;
 }
 
 .manage-toolbar-top{
@@ -527,6 +550,7 @@ form.add-edit-page-post textarea{
     left: 0;
     position: static;
     width: 610px;
+    overflow: hidden;
 }
 
 .manage-ico{
@@ -835,7 +859,7 @@ form.add-edit-page-post textarea{
 
 .custom-field-table input[type='text']{
     padding: 5px 10px;
-    width: 250px;
+    width: 190px;
 }
 .mw-custom-field-form-controls{
   padding: 5px 0;
@@ -2131,6 +2155,23 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
 
 .mw-switcher-off .mw-switch-handle{
     left: 0;
+}
+
+.mw-dump-list {
+color: #222222;
+    font-family: 'Courier New';
+    font-size: 15px;
+    font-weight: bold;
+    padding-left: 40px;
+}
+
+.mw-dump-list li:hover{
+  background: #EDEDED;
+}
+
+.mw-dump-list a{
+  text-decoration: underline;
+  color: #0D5D97;
 }
 
 

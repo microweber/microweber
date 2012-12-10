@@ -259,6 +259,11 @@ class MwController {
 			@touch($recycle_bin_f);
 		}
 
+		if (MW_IS_INSTALLED == true) {
+			//exec_action('mw_db_init');
+			exec_action('mw_cron');
+		}
+
 		//create_mw_default_options();
 		define_constants();
 		$l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
@@ -274,6 +279,12 @@ class MwController {
 
 		}
 		exit();
+	}
+
+	function rss() {
+		if (MW_IS_INSTALLED == true) {
+			exec_action('mw_cron');
+		}
 	}
 
 	function api_html() {
@@ -315,6 +326,7 @@ class MwController {
 			$caller_commander = 'class_is_already_here';
 			$mod_class_api_class_exist = true;
 		} else {
+			//	d($mod_api_class1);
 			if (is_file($mod_api_class1)) {
 				$mod_class_api = true;
 				include ($mod_api_class1);
@@ -356,13 +368,14 @@ class MwController {
 					$loaded_classes[$try_class] = $res;
 				} else {
 					$res = $loaded_classes[$try_class];
-					//	d($res);
+					//
 				}
 
 				if (method_exists($res, $try_class_func)) {
 					$res = $res -> $try_class_func($data);
-					$mod_class_api_called = true;
+
 					if (defined('MW_API_RAW')) {
+						$mod_class_api_called = true;
 						return ($res);
 					}
 
@@ -434,12 +447,19 @@ class MwController {
 			$this -> module();
 		} else {
 			$err = false;
-			if (in_array($api_function, $api_exposed) or $mod_class_api_called == true) {
+			if (!in_array($api_function, $api_exposed)) {
 				$err = true;
 			}
+			if ($err == true) {
+				foreach ($api_exposed as $api_exposed_item) {
+					if ($api_exposed_item == $api_function) {
+						$err = false;
+					}
+				}
+			}
 
-			if ($err = false and function_exists($api_function) or class_exists($api_function) or $mod_class_api_called == true) {
-
+			if ($err == false) {
+				//
 				if ($mod_class_api_called == false) {
 					if (!$_POST and !$_GET) {
 						//  $data = url(2);
@@ -486,12 +506,19 @@ class MwController {
 						print($res);
 					}
 				} else {
-					error('The api function does not exist', __FILE__, __LINE__);
+					//error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
 				}
 
 				// print $api_function;
 			} else {
 				error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+			}
+
+			if (!defined('MW_API_HTML_OUTPUT')) {
+				print json_encode($res);
+			} else {
+
+				print($res);
 			}
 			exit();
 		}
@@ -888,6 +915,12 @@ class MwController {
 		if (!defined('IN_ADMIN')) {
 			define('IN_ADMIN', true);
 		}
+
+		if (MW_IS_INSTALLED == true) {
+			//exec_action('mw_db_init');
+			exec_action('mw_cron');
+		}
+
 		$tool = url(1);
 
 		if ($tool) {

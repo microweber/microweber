@@ -84,7 +84,7 @@ mw.tools = {
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onclick="mw.tools.modal.remove(\''+id+'\')">Close</span>'
-            + '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');"></span>'
+            //+ '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -676,6 +676,18 @@ mw.tools = {
         var rleft =  $(rotator).offset().left;
         $(rotator).animate({left:-(item_left-rleft)})
     }
+  },
+  sidebar:function(){
+    if(mw.$("#mw_edit_page_left").length > 0){
+      if(mw.$("#mw-admin-container").length > 0){
+          $("#mw-admin-container").addClass('has_sidebar');
+          $("#mw-admin-container").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
+      }
+      else if(mw.$("#mw_edit_pages").length > 0){
+        $("#mw_edit_pages_content").addClass('has_sidebar');
+        $("#mw_edit_pages_content").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
+      }
+    }
   }
 }
 
@@ -840,6 +852,9 @@ mw.exec = function(str, a,b,c){
 
 
 
+
+
+
 /*
 
 $(document).ready(function(){
@@ -950,8 +965,91 @@ Array.prototype.remove = function(what){
 
 
 
+__mwextend = function(el){
+      if(el.attributes['data-extended']===undefined){
+          el.setAttribute('data-extended', true);
+          el.getModal = function(){
+              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
+              if(!!modal){
+                  return  {
+                       main:modal,
+                       container:modal.querySelector(".mw_modal_container")
+                  }
+              }
+              else {return false};
+          }
+          el.attr = function(name, value){
+            if(value===undefined){
+              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+            }
+            else{
+              el.setAttribute(name, value);
+              return el;
+            }
+          }
+          el.addClass = function(cls){
+            return mw.tools.addClass(el, cls)
+          }
+          el.removeClass = function(cls){
+            return mw.tools.removeClass(el, cls)
+          }
+      }
+    return el;
+}
 
 
+mw.extend = function(el){
+    return __mwextend(el);
+}
+
+$(window).load(function(){
+  mw.loaded = true;
+  mwd.body.className+=' loaded';
+  mw.tools.removeClass(mwd.body, 'loading');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mw._dump = function(obj){
+  var obj = obj || mw;
+  var html = '<ol class="mw-dump-list">'
+  $.each(obj, function(a,b){
+    if(typeof b==='function'){
+      var c = ''+b+'';
+      var c = c.split(')')[0];
+      var c = '<i>' + c + ')</i>';
+    }
+    else if(typeof b==='object'){
+       var c = '<a href="javascript:;" onclick="mw.tools.modal.init({html: \'<h2>mw.'+a+'</h2>\' + mw._dump(mw.'+a+')});"> + Object</a>';
+    }
+    else{
+      var c = b.toString()
+    }
+    html=html+'<li>' + a + ' : ' + c + '</li>';
+  });
+  html=html+ '</ol>';
+  return html;
+}
+
+mw.dump = function(){
+    mw.tools.modal.init({
+      html: mw._dump(),
+      width:800
+    });
+}
 
 
 

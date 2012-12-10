@@ -863,7 +863,7 @@ a:hover .mw_ed_tree_content{
     border-radius:10px;
     width: 625px;
 }
-.mw-ui-category-selector > .module{
+.mw-ui-category-selector div.module-categories-selector {
     overflow-y: auto;
     overflow-x:hidden;
     height: 172px;
@@ -871,7 +871,9 @@ a:hover .mw_ed_tree_content{
     padding: 15px;
     resize:vertical;
 }
-
+.mw-ui-category-selector div.module-categories-selector * {
+  resize:none; /* webkit strange inheritance bug for resize property */
+}
 
 .mw-ui-category-selector li{
   list-style: none;
@@ -1318,6 +1320,13 @@ a.mw-ui-btn, span.mw-ui-btn{
   background-position:  25px 50%;
   background-color: white;
   border-bottom: 1px solid #D9D9D9;
+}
+
+#pages_edit_container .page_posts_list_tree li:last-child > a{
+  border-bottom: none;
+}
+#pages_edit_container .page_posts_list_tree li:first-child > a{
+  border-top: 1px solid #D9D9D9;
 }
 
 body #pages_edit_container .page_posts_list_tree li a.depth-2{padding-left: 125px;background-position: 44px 50%;}

@@ -575,14 +575,16 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 
 .mw_ex_tools {
   padding: 5px 10px;
+  float: left;
 }
 
 .mw_ex_tools span{
   display: block;
   float: left;
+  overflow: hidden;
   width: 11px;
   height: 9px;
-  margin: 4px 6px 0 0;
+  margin: 3px 6px 0 0;
   background: url(../img/xtools.png) no-repeat 0 -9px;
 }
 .mw_ex_tools.active span{

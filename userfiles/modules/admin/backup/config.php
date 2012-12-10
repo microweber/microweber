@@ -13,12 +13,13 @@ $options = array();
 $option = array();
 
 $option['option_key'] = 'enable_automatic_backups';
+$option['option_key2'] = 'cronjob';
 $option['name'] = 'Enable automatic backups';
 $option['help'] = 'You can enable or disable the automatic backups from here.';
 $option['option_value'] = 'n';
 $option['position'] = '3';
 $option['field_type'] = 'dropdown';
-$option['field_values'] = array( 'n' => 'no','daily' => 'daily','weekly' => 'weekly','monthly' => 'monthly');
+$option['field_values'] = array( 'n' => 'No','1 day' => 'Daily','1 week' => 'Weekly','1 month' => 'Monthly');
 $config['options'][] = $option;
 
 

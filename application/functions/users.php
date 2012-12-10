@@ -66,14 +66,14 @@ function mw_db_init_users_table() {
 	if (MW_IS_INSTALLED != true) {
 
 		if (isset($_POST['admin_username']) and isset($_POST['admin_password'])) {
-			 
+
 			$new_admin = array();
 			$new_admin['username'] = $_POST['admin_username'];
 			$new_admin['password'] = $_POST['admin_password'];
 			$new_admin['is_active'] = 'y';
 			$new_admin['is_admin'] = 'y';
 			mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
-		 	save_user($new_admin);
+			save_user($new_admin);
 
 		}
 
@@ -90,7 +90,7 @@ function mw_db_init_users_table() {
 api_expose('register_user');
 
 function register_user($params) {
-	
+
 	$user = isset($params['username']) ? $params['username'] : false;
 	$pass = isset($params['password']) ? $params['password'] : false;
 	$email = isset($params['email']) ? $params['email'] : false;
@@ -196,7 +196,7 @@ function captcha() {
 	$roit1 = rand(1, 6);
 	$font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
 	$font = normalize_path($font, 0);
-	
+
 	header("Content-type: image/png");
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Cache-Control: post-check=0, pre-check=0", false);
@@ -313,7 +313,6 @@ function user_login($params) {
 				// $data ['debug'] = 1;
 
 				$data = get_users($data);
-				
 
 				if (isset($data[0])) {
 					$data = $data[0];
@@ -366,7 +365,9 @@ api_expose('logout');
 
 function logout() {
 
-	define("USER_ID", false);
+	if (!defined('USER_ID')) {
+		define("USER_ID", false);
+	}
 
 	// static $uid;
 	$aj = isAjax();
@@ -711,7 +712,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =         get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =          get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -726,7 +727,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =         get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =          get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -792,7 +793,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =         get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =          get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -836,7 +837,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =         get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =          get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -853,6 +854,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =         get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =          get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

@@ -17,7 +17,8 @@
 
 
     <script type="text/javascript">
-    mwAdmin = true;
+        mwAdmin = true;
+        admin_url  = '<?php print admin_url(); ?>';
     </script>
     <script type="text/javascript" src="<? print site_url(); ?>apijs"></script>
     <script type="text/javascript">
@@ -41,8 +42,6 @@
       mw.require("custom_fields.js");
 
 
-
-
     </script>
 
     <script>
@@ -55,7 +54,7 @@
         $(this).removeClass('loading');
       });
     });
-    
+
 
     </script>
 

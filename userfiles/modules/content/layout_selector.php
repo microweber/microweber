@@ -78,10 +78,10 @@ mw.templatePreview = {
     mw.$('.preview_frame_wrapper').toggleClass('zoom');
     mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
     if(zoom==='in'){
-      var overlay = mw.tools.modal.overlay();
+      /*var overlay = mw.tools.modal.overlay();
       overlay.onclick = function(){
          mw.templatePreview.zoom('out');
-      }
+      }  */
     }
     else{
       mw.$(".mw_overlay").remove();

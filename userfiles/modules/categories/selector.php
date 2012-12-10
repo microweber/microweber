@@ -104,9 +104,9 @@ if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
 
 $(document).ready(function(){
 
-    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+   // mw_load_post_cutom_fields_from_categories<? print $rand ?>()
     mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="categories"]').bind('change', function(e){
-    mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+   // mw_load_post_cutom_fields_from_categories<? print $rand ?>();
 
 
 

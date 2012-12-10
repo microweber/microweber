@@ -32,12 +32,6 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 }
 
-#mw-admin-container.has_sidebar{
-  background-image: url("../img/treebg.gif");
-  background-repeat:  repeat-y;
-  background-position:  -999px 0;
-  background-color: white;
-}
 
 
 

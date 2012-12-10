@@ -48,12 +48,12 @@ mw.url = {
         return decodeURIComponent (url + "?" + params_string + hash);
     },
     getHashParams:function(hash){
-        if(hash=='' || hash=='#' || hash =='#?'){
+        var hash = hash.replace(/\?/g, "");
+        if(hash=='' || hash=='#'){
           return {}
         }
         else{
           var hash = hash.replace(/#/g, "");
-          var hash = hash.replace(/\?/g, "");
           var arr = hash.split('&');
           var obj = {}, i=0, len = arr.length;
           for( ; i<len; i++){

@@ -16,7 +16,7 @@
 
 
 <meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
-
+  <span class="mw-ui-btn" onclick="mw.dump();">DUMP!</span>
 
   <table width="70%" id="qweqwe98989898">
    <col width="50%" />

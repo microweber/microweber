@@ -199,31 +199,44 @@ if(isset($params['data-category-id'])){
 
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
-  <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
+
+    <input
+            onfocus="mw.form.dstatic(event);"
+            onblur="mw.form.dstatic(event);"
+            value="<?php _e("Search for posts"); ?>"
+            data-default="<?php _e("Search for posts"); ?>"
+            type="text"
+            class="manage-search"
+            id="mw-search-field"
+    />
+
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">
-    <label class="mw-ui-check left">
-      <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
-      <span></span></label>
-    <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-    <?
-	$pic  = get_picture(  $item['id'],  'post'); ?>
-    <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-    <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
-    <? else : ?>
-    <a class="manage-post-image manage-post-image-no-image left"></a>
-    <? endif; ?>
-    <div class="manage-post-main">
-      <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
-      <small><? print content_link($item['id']); ?></small>
-      <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
-  ?> </div>
-      <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Go live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Settings</a> <a href="javascript:;">Delete</a> </div>
-    </div>
-    <div class="manage-post-item-author"><? print ($item['created_by']) ?></div>
+      <div class="manage-post-itemleft">
+        <label class="mw-ui-check left">
+          <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
+          <span></span></label>
+        <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+        <?
+    	$pic  = get_picture(  $item['id'],  'post'); ?>
+        <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
+        <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
+        <? else : ?>
+        <a class="manage-post-image manage-post-image-no-image left"></a>
+        <? endif; ?>
+        <div class="manage-post-main">
+          <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
+          <small><? print content_link($item['id']); ?></small>
+          <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
+      ?> </div>
+          <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Go live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Settings</a> <a href="javascript:;">Delete</a> </div>
+        </div>
+        <div class="manage-post-item-author"><? print ($item['created_by']) ?></div>
+
+        </div>
     <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
   </div>
   <? endforeach; ?>

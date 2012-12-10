@@ -1,11 +1,7 @@
-/* A Cool HTML5 WYSIWYG Editor */
+/* WYSIWYG Editor */
 
 
-String.prototype.toFragment = function(){
-  var f = document.createDocumentFragment();
-  f.appendChild(document.createTextNode(this));
-  return f;
-}
+
 
 
 

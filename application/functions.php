@@ -30,8 +30,8 @@ function mw_autoload($className) {
 	require $fileName;
 }
 
- spl_autoload_register('mw_autoload');
- 
+spl_autoload_register('mw_autoload');
+
 /*
  spl_autoload_register(function($className) {
 
@@ -39,12 +39,7 @@ function mw_autoload($className) {
  });
  */
 
- 
- 
-
 set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
-
- 
 
 // Basic system functions
 function p($f) {
@@ -71,14 +66,16 @@ function c($k, $no_static = false) {
 	if (isset($c[$k])) {
 		return $c[$k];
 	} else {
-		//d(MW_CONFIG_FILE);
-		//if (is_file(MW_CONFIG_FILE)) {
-		include_once (MW_CONFIG_FILE);
-		if (isset($config)) {
-			$c = $config;
-			if (isset($c[$k])) {
+		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+			//d(MW_CONFIG_FILE);
+			//if (is_file(MW_CONFIG_FILE)) {
+			include_once (MW_CONFIG_FILE);
+			if (isset($config)) {
+				$c = $config;
+				if (isset($c[$k])) {
 
-				return $c[$k];
+					return $c[$k];
+				}
 			}
 		}
 		//	}
@@ -115,5 +112,3 @@ function registry($k, $v = null) {
 function utf8($s, $f = 'UTF-8') {
 	return @iconv($f, $f, $s);
 }
-
- 

@@ -324,7 +324,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   </div>
   <script type="text/javascript">
     $(mwd).ready(function(){
+		if(mw.treeRenderer != undefined){
         mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
+		}
     });
   </script>
   <? endif; ?>
@@ -395,8 +397,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="mw-ui-field-holder mw_save_buttons_holder">
     <input type="submit" name="save"  style="width: 120px;" value="Save" />
     <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go live edit" />
-
-
   </div>
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
@@ -405,7 +405,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
-  <? if($edit_post_mode != false): ?>
+  <? // if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#the_custom_fields', this);">
   <?php _e("Custom Fields"); ?>
@@ -417,7 +417,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   </div>
   <br />
   <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
-  <? endif; ?>
+  <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
   <div class="advanced_settings"> <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
@@ -427,6 +427,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
        <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
     </a> */ ?>
     <div class="advanced_settings_holder">
+      <? if($edit_post_mode == false): ?>
+      <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+      <? endif; ?>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
@@ -437,7 +440,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
       </div>
       <? /* PAGES ONLY  */ ?>
       <? if($edit_post_mode == false): ?>
-      <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
       <div class="mw-ui-check-selector">
         <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
         <label class="mw-ui-check">
@@ -478,6 +480,12 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         </div>
       </div>
       <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
+      
+      
+      
+      
+      
+      
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder">
