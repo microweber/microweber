@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 set_main_height = function(){
   mw.$("#mw-admin-container").css("minHeight", $(window).height()-41)
 }
@@ -52,7 +43,8 @@ mw.admin = {
               var item = items[i];
               if(item.offsetTop > top){
                 mw.tools.addClass(item, 'dropped');
-                var html = html + item.innerHTML;
+                var span='<span class="'+ item.className +'">';
+                var html = html + span + item.innerHTML + '</span>';
               }
               else{
                 mw.tools.removeClass(item, 'dropped');
@@ -70,7 +62,11 @@ urlParams = mw.url.mwParams(window.location.href);
 
 
 $(window).bind('load resize', function(){
+
     mw.admin.menu.size();
+
+
+
     set_main_height();
     if(urlParams.view === 'dashboard' || urlParams.view === undefined){
       var visitstable = mwd.getElementById('visits_info_table');

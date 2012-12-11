@@ -77,6 +77,7 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
                             mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
 							 mw.url.windowHashParam("new_content", 'true');
+							 mw.reload_module('[data-type="pages_menu"]');
   <? else: ?>
  mw_after_content_save<? print $rand ?>();
                              <? endif; ?>
@@ -133,7 +134,7 @@ mw_before_content_save<? print $rand ?>()
 
 
 	  mw.on.hashParam("new_content", function(){
-   
+
      //alert(' mw_on_save_complete<? print $rand ?>')
 	 mw_on_save_complete<? print $rand ?>();
 	
@@ -184,10 +185,19 @@ mw_before_content_save<? print $rand ?>()
 		}
 </script>
 
-<form autocomplete="off" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
+<form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
+
+
+  <div class="mw-ui-field-holder mw_save_buttons_holder right" style="margin-top: -5px;">
+    <input type="submit" name="save" class="semi_hidden"  value="Save" />
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
+    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
+  </div>
+
+
       <? if(intval($data['id']) > 0): ?>
       <? $act = _e("Edit ", true); ;?>
       <? else : ?>
@@ -208,6 +218,9 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
  ?>
       <label class="mw-ui-label"><?php print ucfirst( $t); ?> Name</label>
+
+
+
       <? if(intval($data['id']) > 0): ?>
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
@@ -314,11 +327,14 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
     <?php _e("Select Category"); ?>
   </label>
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-    <div class="cat_selector_view_ctrl"> <span>View: </span> <a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
-    <? // d($data); ?>
+    <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? if(intval($data['id']) > 0): ?>
     <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  actve_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
+    <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
+		 
+		 $selected_parent_ategory_id = 'actve_ids="'.$params["parent-page-id"].'"';
+	 } ?>
     <microweber module="categories/selector"   id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
     <? endif; ?>
   </div>
@@ -393,11 +409,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? endif; ?>
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
-  <div class="vSpace"></div>
-  <div class="mw-ui-field-holder mw_save_buttons_holder">
-    <input type="submit" name="save"  style="width: 120px;" value="Save" />
-    <input type="button" onclick="return false;" style="width: 120px;margin: 0 10px;" id="go_live_edit_<? print $rand ?>" value="Go live edit" />
-  </div>
+
+
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
   <div class="mw-notification mw-success notification_<? print $rand ?> hidden">
@@ -407,16 +420,56 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
   <div class="vSpace"></div>
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#the_custom_fields', this);">
+  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand ?>', this);">
   <?php _e("Custom Fields"); ?>
   </a>
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div class="vSpace"></div>
   <div id="custom_fields_for_post_<? print $rand ?>" >
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
+    <script  type="text/javascript">
+$(document).ready(function(){
+
+		  mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+			mw.$('#categorories_selector_for_post_<? print $rand ?> input').bind('change', function(e){
+		   mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+		
+		
+		
+		
+		
+		});
+});
+
+function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
+ var vals = mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="parent"]:checked').val();
+ var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand ?>');
+ if(vals != undefined){
+	 i = 1;
+		 
+				 holder1.attr('for','table_content');
+				 holder1.attr('save_to_content_id','<? print $data['id'] ?>');
+				 holder1.attr('to_table_id',vals);
+				 
+		
+				 mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand ?>', function(){
+
+				 // holder1.find('[name="to_table_id"]').val('<? print $data['id'] ?>');
+					 });
+	 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+// mw.log(vals);
+	
+} 
+</script>
+    <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
-  <br />
-  <div id="custom_fields_from_categorories_selector_for_post_<? print $rand ?>" ></div>
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
@@ -480,12 +533,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         </div>
       </div>
       <input name="subtype_value"  type="hidden" value="<? print ($data['subtype_value'])?>" />
-      
-      
-      
-      
-      
-      
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder">
@@ -493,5 +540,14 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         <input name="password" style="width: 360px;" class="mw-ui-field" type="password" value="" />
       </div>
     </div>
+    <div class="mw_clear"></div>
+    <div class="vSpace"></div>
+  <div class="mw-ui-field-holder mw_save_buttons_holder" style="margin-top: 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;width: auto;float: none;padding: 6px 0 3px;text-align: right">
+    <input type="submit" name="save" class="semi_hidden"  value="Save" />
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
+    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
+  </div>
+
+
   </div>
 </form>

@@ -37,7 +37,7 @@
     <button type="button" class="right" onclick="mw.custom_fields.save('custom_fields_edit<? print $rand ?>');$('#create-custom-field-table').addClass('semi_hidden');"><?php _e('Save changes'); ?></button> 
    
    <?php else : ?>
-      <span class="mw-ui-delete right" onclick="mw.custom_fields.del('custom_fields_edit<? print $rand ?>');"><?php _e('Delete'); ?></span>
+      <span class="mw-ui-delete" onclick="mw.custom_fields.del('custom_fields_edit<? print $rand ?>');"><?php _e('Delete'); ?></span>
 
    <?php endif; ?>
 

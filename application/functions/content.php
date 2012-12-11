@@ -1910,6 +1910,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 		}
 	}
 	return $save;
+	//exit();
 	// if ($data_to_save ['content_type'] == 'page') {
 	// if (!empty($data_to_save['menus'])) {
 	//

@@ -37,7 +37,8 @@
  
   //$for_id =$params['id'];
  if(isset($params['to_table_id'])){
-$for_id =$params['to_table_id'];
+$for_id =$module_id = $params['to_table_id'];
+ 
  }
  
 $module_id = $for_id;
@@ -45,7 +46,7 @@ $rand = rand();
  
 ?>
 
-<div id="the_custom_fields"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
+<div id="the_custom_fields1"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
   <?php _e("Add New Custom Field"); ?>
   </span>
   <div class="vSpace"></div>
@@ -122,23 +123,34 @@ mw.custom_fields.create('price');
 mw.custom_fields.save = function(id){
     var obj = mw.form.serialize("#"+id);
     $.post("<? print site_url('api_html/save_custom_field') ?>", obj, function(data) {
-       
+       $cfadm_reload = false;
 	 
 	   
 	    if(obj.cf_id === undefined){
              mw.reload_module('.edit [data-parent-module="custom_fields"]');
 			  mw.reload_module('custom_fields/list');
-			  $('#create-custom-field-table').addClass('semi_hidden');
+			//  $('#create-custom-field-table').addClass('semi_hidden');
 			// $("#"+id).hide();
-			
+			  mw.$("#create-custom-field-table").addClass("semi_hidden");
 			$("#mw_custom_fields_list_<? print $params['id']; ?>").show();
 			
         }
         else {
+			
+			if(obj.copy_to_table_id === undefined){
+				
             $("#"+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
+				
+			} else {
+			 $cfadm_reload = true;   
+			   mw.reload_module('custom_fields/list');
+			}
+			
+			
+			
         }
 		
-		$cfadm_reload = false;
+		
          mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
          if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
 			// if(!mw.tools.hasParentsWithClass(this, 'mw_modal') ){
@@ -204,5 +216,5 @@ mw.custom_fields.sort_rows = function(){
 
 
 </script>
-  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

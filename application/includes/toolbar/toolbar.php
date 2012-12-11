@@ -1,4 +1,4 @@
-<?php if($_GET['preview'] != 'true'){ ?>
+<?php if(!isset($_GET['preview'])){ ?>
 
 <script type="text/javascript">
   document.body.className+=' loading';
@@ -74,9 +74,9 @@
           <? _e('Help'); ?>
           </a> </li>
       </ul>
-
+       <a href="#design_bnav" class="mw-ui-btn-rect mw-ui-btn-rect-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
       <div id="mw-toolbar-right">
-        <a href="#design_bnav" class="mw-ui-btn-rect ed_btn mw_ex_tools" style="margin-top: 14px;"><span></span>Design</a>
+
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
         <a onclick="mw.preview();" class="mw-ui-btn" href="javascript:;">Preview</a>
         <a class="mw-ui-btn mw-ui-btn-blue" href="javascript:;">Publish</a>

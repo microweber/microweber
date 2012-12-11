@@ -40,7 +40,7 @@ function countries_list() {
   
 	$table = MW_DB_TABLE_COUNTRIES;
 
-	$sql = "SELECT country_name from $table   ";
+	$sql = "SELECT name as country_name from $table   ";
 
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'db');
 	$res = array();

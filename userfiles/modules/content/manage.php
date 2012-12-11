@@ -255,7 +255,7 @@ if(isset($params['data-category-id'])){
 
      if(isset($posts['paging_links']) and isarr($posts['paging_links'])):  ?>
   <? $i=1; foreach ($posts['paging_links'] as $item): ?>
-  <a href="javascript:;" class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" onclick="mw.url.windowHashParam('<? print $posts['paging_param'] ?>','<? print $i; ?>');"><? print $i; ?></a>
+  <a href="#<? print $posts['paging_param'].'='.$i; ?>" class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" onclick="mw.url.windowHashParam("<? print $posts['paging_param'] .'","'. $i; ?>");return false;"><? print $i; ?></a>
   <? $i++; endforeach; ?>
   <? //d($posts['paging_links']); ?>
   <? // d($posts['paging_param']); ?>

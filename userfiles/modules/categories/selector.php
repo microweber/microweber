@@ -100,7 +100,7 @@ if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
 <script  type="text/javascript">
 
  
-
+/*
 
 $(document).ready(function(){
 
@@ -171,7 +171,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	
 }
 	
-}
+}*/
 </script>
 <script  type="text/javascript">
 

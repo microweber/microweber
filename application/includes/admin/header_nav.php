@@ -16,7 +16,7 @@
     </ul>
 
   </div>
-  <div id="menu-dropdown" class="unselectable" onclick="mw.$('#menu-dropdown-nav').toggle();">&darr;<div id="menu-dropdown-nav"></div></div>
+  <div id="menu-dropdown" class="unselectable" onclick="mw.$('#menu-dropdown-nav').toggle();$(this).toggleClass('active');"><div id="menu-dropdown-nav"></div></div>
   <?
 
 if(isset($_COOKIE['last_page'])){
@@ -35,5 +35,5 @@ $past_page = content_link($past_page[0]['id']);
  </div>
   <? endif; ?>
 </div>
-<div class="mw_clear">&nbsp;</div>
+<div class="mw_clear" style="height: 0;">&nbsp;</div>
 <div id="mw-admin-content">

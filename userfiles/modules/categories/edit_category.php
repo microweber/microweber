@@ -117,7 +117,7 @@ $(document).ready(function(){
    
 });
 </script>
-  <? if(intval($data['id']) == 0){
+<? if(intval($data['id']) == 0){
 	  if(isset($params['selected-category-id'])){
 		  $data['parent_id'] = intval($params['selected-category-id']);
 	  } elseif(isset($params['page-id'])){
@@ -127,8 +127,8 @@ $(document).ready(function(){
   }
  
   ?>
-  <? //d($params);?>
-  
+<? //d($params);?>
+
 <form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <input name="table" type="hidden" value="table_taxonomy" />
@@ -147,13 +147,10 @@ $(document).ready(function(){
   </label>
   <? 
   $is_shop = '';
-if (isset($params['is_shop'])) {
-	$is_shop = '&is_shop=' . $params['is_shop'];
+if (isset($params['is_shop'])) { 
+	//$is_shop = '&is_shop=' . $params['is_shop'];
 }
    ?>
-
-  
-  
   <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
   <div id="edit_category_set_par_<? print $form_rand_id ?>">
     <module style="width: 660px;" type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio" edit_category_set_parcat_<? print $form_rand_id ?> />
@@ -162,7 +159,6 @@ if (isset($params['is_shop'])) {
     <?php _e("Description"); ?>
   </label>
   <textarea style="width: 660px;height: 50px;" class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
-  
   <input name="position"  type="hidden" value="<? print ($data['position'])?>" />
   <div class="vSpace">&nbsp;</div>
   <input type="submit" class="mw-ui-btn" name="save" value="<?php _e("Save"); ?>" />

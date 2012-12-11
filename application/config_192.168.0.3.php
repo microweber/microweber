@@ -5,11 +5,11 @@ defined('T') or die();
 // Global site configuration
 $config = array(
     // In development, debug mode unlocks extra error info
-    'debug_mode' => true,
+    'debug_mode' => false,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
-	'table_prefix' => 'aaaa', 
+	'table_prefix' => 'bbbb', 
     'installed' => 'yes',
     // Database Settings
     'db' => array(

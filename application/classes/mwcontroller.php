@@ -472,9 +472,11 @@ class MwController {
 					}
 
 					if (function_exists($api_function)) {
+
 						$res = $api_function($data);
+
 					} elseif (class_exists($api_function, false)) {
-						//	d($api_function);
+						//
 						$segs = url();
 						$mmethod = array_pop($segs);
 						//d($segs);
@@ -498,13 +500,6 @@ class MwController {
 						}
 					}
 
-					//d($hooks);
-					if (!defined('MW_API_HTML_OUTPUT')) {
-						print json_encode($res);
-					} else {
-
-						print($res);
-					}
 				} else {
 					//error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
 				}
@@ -670,8 +665,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

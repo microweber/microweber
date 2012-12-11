@@ -67,7 +67,7 @@ mw.on.hashParam('installed', function(){
       <div id="settings_admin_categories_<? print $rand  ?>">
         <ul>
           <? foreach($option_groups as $item): ?>
-          <li><a href="#data-option_group=<? print $item ?>"><? print $item ?></a></li>
+          <li><a onclick="mw.url.windowHashParam('data-option_group', '<? print $item ?>');return false;" href="#data-option_group=<? print $item ?>"><? print $item ?></a></li>
           <? endforeach; ?>
         </ul>
       </div>

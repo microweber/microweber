@@ -39,6 +39,10 @@
       <td><textarea><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></textarea></td>
     </tr>
     <tr>
+      <td><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">medium Button</a></td>
+      <td><textarea><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">medium Button</a></textarea></td>
+    </tr>
+    <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>
         <td><textarea><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></textarea></td>
     </tr>

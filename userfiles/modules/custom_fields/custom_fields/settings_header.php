@@ -96,9 +96,13 @@ if (!isset($data['position'])) {
 	
 }
 
-
 if (isset($data['to_table_id'])) {
   $for_module_id = $data['to_table_id'];
+	
+}
+ 
+if (isset($data['save_to_content_id'])) {
+  $save_to_content_id = $data['save_to_content_id'];
 	
 }
 ?>
@@ -113,6 +117,13 @@ if (isset($data['to_table_id'])) {
 <input type="hidden" name="to_table" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
 <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
 <? endif; ?>
+<? if (isset($save_to_content_id)): ?>
+<input type="hidden" name="copy_to_table_id" value="<? print strval($save_to_content_id) ?>" />
+<? endif; ?>
+
+ 
+
+
 <input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<? print $data['position'] ?>" />
 

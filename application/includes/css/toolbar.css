@@ -576,6 +576,9 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 .mw_ex_tools {
   padding: 5px 10px;
   float: left;
+  font-size: 12px;
+  color: #212121;
+  text-shadow:1px 1px 0 white;
 }
 
 .mw_ex_tools span{

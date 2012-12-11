@@ -611,9 +611,13 @@ img.element{
   padding: 0;
 }
 
-.element-current{
+.element-current, .element-current:hover{
   outline: 1px solid #3D80AB !important;
-  outline-offset: -1px
+  outline-offset: -2px
+}
+.element:hover{
+  /*outline: 1px solid #7D7D7D;
+  outline-offset: -2px;*/
 }
 
 .lipsum{

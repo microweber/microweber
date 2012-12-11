@@ -478,6 +478,12 @@ mw.tools = {
        mw.tools.tree.remember(tree);
     },
     checker:function(el){
+		
+		var is_checkbox = el.getElementsByTagName('input')[0];
+		if(is_checkbox.type != 'checkbox'){
+		return false;	
+		}
+		
         var state = el.getElementsByTagName('input')[0].checked;
         if( state === true){
           mw.tools.foreachParents(el.parentNode, function(loop){

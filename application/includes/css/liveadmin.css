@@ -107,6 +107,7 @@ body:-webkit-full-screen {
 #mw_toolbar_nav .mw-ui-btn{
     margin: 13px 0 0 12px;
     padding: 5px 12px 6px;
+    height: 15px;
 }
 
 
@@ -126,7 +127,7 @@ body:-webkit-full-screen {
 
 #mw_tabs li a{
   display: block;
-  padding:19px 20px 19px;
+  padding:17px 20px 19px;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -160,7 +161,7 @@ body:-webkit-full-screen {
   width:159px;
   height: 29px;
   overflow: hidden;
-  margin: 12px 45px 0 20px;
+  margin: 12px 44px 0 20px;
 }
 
 #mw_logo_modules{
@@ -189,28 +190,49 @@ body:-webkit-full-screen {
   position: relative;
   z-index: 10;
   float: left;
-  width: 12px;
-  height:49px;
+  width: 21px;
+  height:48px;
   cursor: pointer;
-  background: #F0F0F0 ;
+  background:  url(../img/quick.icons.png) no-repeat -590px -1px;
   color: black;
 }
+
+#menu-dropdown.active{
+  background-position: -612px -2px;
+}
+
+
 #menu-dropdown-nav{
   position: absolute;
   top: 100%;
   right: 0;
   display: none;
-  box-shadow:0 0 1px #515151;
+  border-left:1px solid #D8D8D8;
+  border-right:1px solid #D8D8D8;
 }
 
 #menu-dropdown-nav a{
   display: block;
+  border-bottom: 1px solid #C2BFBF;
+  box-shadow:0 1px 0 0 #FFFFFF inset;
   padding: 5px 10px;
-  background:url("../img/navbg.jpg") repeat-x center;
+  background:url(../img/grad.php?top=F5F5F5&bot=E0E0E0) repeat-x center;
   color: #212121;
   text-decoration: none;
+  text-align: center;
   text-shadow: 1px 1px 0 white;
-  width: 150px;
+  min-width: 90px;
+  white-space: nowrap;
+}
+
+#menu-dropdown-nav a:hover{
+  box-shadow: 0 3px 3px -4px #6F6F6F inset;
+  background: #F9F9F9;
+}
+
+#menu-dropdown-nav a:active, #menu-dropdown-nav .active a{
+  box-shadow: 0 3px 3px -4px #212121 inset;
+  background: #F9F9F9;
 }
 
 
@@ -280,8 +302,7 @@ form.content-type-post .mw-ui-field[name='title']{width: 605px;}
 .mw_save_buttons_holder{
     float: right;
     overflow: hidden;
-    padding: 20px 0 0;
-    width: 230px;
+    padding: 0;
 }
 
 
@@ -850,6 +871,7 @@ form.add-edit-page-post textarea{
 }
 .mwoffice #UITU{
   display: block;
+  display: none !important;
   max-height: 90%;
   padding: 30px;
   overflow-y:scroll;
@@ -942,25 +964,27 @@ body.loading:after{
 }
 
 body.loading:before{
-    content: "Loading...";
-    position: fixed;
-    display: block;
-    width: 100px;
-    padding: 5px;
-    text-align: center;
-    color: white;
+    background: #D8FFC2 url(../img/load.gif) no-repeat center center;
+    background-size: 15px auto;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    content: " ";
     cursor: default;
-    z-index: 99999;
-    bottom: 0;
+    display: block;
+    height: 8px;
     left: 50%;
     margin-left: -60px;
-    background:rgba(0,0,0,0.20);
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    padding: 5px;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 56px;
+    z-index: 99999;
+    box-shadow: 0 0 2px #ccc;
 }
 
 

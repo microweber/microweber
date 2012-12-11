@@ -491,3 +491,5 @@ $language["search-for-modules"]= 'Search for modules :)) ' ;
 $language["search-for-modules1"]= 'Search for modules1' ; 
 $language["search-for-settings"]= 'Search for settings' ; 
 $language["search-for-posts"]= 'Search for posts' ; 
+$language["back"]= 'Back' ; 
+$language["mw"]= '(MW)' ; 
