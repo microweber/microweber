@@ -52,14 +52,26 @@ if($path_nav_pop  == false){
 } else {
 
 $path_nav_pop = $path_nav_pop.DS.$item;
- 
+
 }
  
  ?>
 
+
+
+
+ ?>
+
+
+
+
 <a href="#path=<? print urlencode($path_nav_pop) ?>"><span class="<? print $config['module_class']; ?> path-item"><? print ($item) ?></span><span class="<? print $config['module_class']; ?> ds"><? print DS ?></span></a>
 <? endforeach ; ?>
 <? endif; ?>
+<div class="mw-o-box">
+<div class="mw-o-box-header">
+<span class="ico ireport"></span><span>Hi I'm 'O' Box</span>  </div>
+<br /><br />
 <? if(isset($data['dirs'] )): ?>
 <ul>
   <? foreach($data['dirs']  as $item): ?>
@@ -70,7 +82,9 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 <? if(isset($data['files'] )): ?>
 <ul>
   <? foreach($data['files']  as $item): ?>
-  <li> <a href="#select-file=<? print dir2url($item) ?>"> <? print($item) ?> </a> </li>
+  <li> <a class="<?php print substr(strrchr($item,'.'),1); ?>" href="#select-file=<? print dir2url($item) ?>"> <? print($item) ?> </a> </li>
   <? endforeach ; ?>
 </ul>
 <? endif; ?>
+
+</div>

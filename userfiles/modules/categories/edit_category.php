@@ -32,7 +32,7 @@ mw.require('forms.js');
 	//   is_page = $sel.attr("data-page-id");  
 	    mw.log( $sel);
 	 if(is_cat != undefined){
-	 mw.$('#to_table_id_<? print $form_rand_id ?>').val(0);  
+	 mw.$('#to_table_id_<? print $form_rand_id ?>').val(0);
 
 		 mw.$('#parent_id_<? print $form_rand_id ?>').val(is_cat);  
 		 
@@ -125,7 +125,7 @@ $(document).ready(function(){
 	  }
 	  
   }
- 
+
   ?>
 <? //d($params);?>
 
@@ -140,27 +140,46 @@ $(document).ready(function(){
   <? else : ?>
   <? $act = 'Add new ' ;?>
   <? endif; ?>
-  <label class="mw-ui-label"><? print $act ?> category</label>
-  <input style="width: 660px;" class="mw-ui-field" name="title" type="text" value="<? print ($data['title'])?>" />
-  <label class="mw-ui-label">
-    <?php _e("Parent"); ?>
-  </label>
-  <? 
-  $is_shop = '';
-if (isset($params['is_shop'])) { 
-	//$is_shop = '&is_shop=' . $params['is_shop'];
-}
-   ?>
-  <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
-  <div id="edit_category_set_par_<? print $form_rand_id ?>">
-    <module style="width: 660px;" type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio" edit_category_set_parcat_<? print $form_rand_id ?> />
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label"><? print $act ?> category</label>
+    <input style="width: 600px;" class="mw-ui-field" name="title" type="text" value="<? print ($data['title'])?>" />
   </div>
+  <div class="mw-ui-field-holder">
+      <label class="mw-ui-label">
+        <?php _e("Parent"); ?>
+      </label>
+      <?
+      $is_shop = '';
+    if (isset($params['is_shop'])) {
+    	//$is_shop = '&is_shop=' . $params['is_shop'];
+    }
+       ?>
+      <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
+      <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">
+        <module  type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio" edit_category_set_parcat_<? print $form_rand_id ?> />
+      </div>
+
+  </div>
+  <script type="text/javascript">
+    $(mwd).ready(function(){
+        mw.treeRenderer.appendUI('#edit_category_set_par_<? print $form_rand_id ?>');
+        mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<? print $form_rand_id ?>'));
+    });
+  </script>
+  <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Description"); ?>
   </label>
-  <textarea style="width: 660px;height: 50px;" class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
+  <textarea style="width: 600px;height: 50px;" class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
+  </div>
   <input name="position"  type="hidden" value="<? print ($data['position'])?>" />
-  <div class="vSpace">&nbsp;</div>
-  <input type="submit" class="mw-ui-btn" name="save" value="<?php _e("Save"); ?>" />
+
+
+  <input type="submit" class="semi hidden" name="save" />
+
+
+ <span onclick="mw.$('form.add-edit-page-post').submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></span>
+
+
 </form>
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />

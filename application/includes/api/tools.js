@@ -418,7 +418,7 @@ mw.tools = {
     },
     detectType:function(tree_object){
       if(tree_object!==null && typeof tree_object === 'object'){
-        return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
+        return tree_object.querySelector('li input[type="checkbox"], li input[type="radio"]') !==null ? 'selector' : 'controller';
       }
     },
     remember : function(tree){

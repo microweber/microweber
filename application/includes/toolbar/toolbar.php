@@ -4,6 +4,7 @@
   document.body.className+=' loading';
 
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
+  mw.require("liveadmin.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
   //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
   mw.require("events.js");
@@ -47,6 +48,13 @@
             mw.tools.toolbar_slider.init();
 
 
+            mw.liveadmin.menu.size(130);
+
+            $(window).resize(function(){
+                 mw.liveadmin.menu.size(130);
+            });
+
+
 
         });
 
@@ -60,20 +68,21 @@
   <div class="mw" id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
-      <ul id="mw_tabs">
-        <li id="t_modules"> <a href="#modules">
-          <? _e('Modules'); ?>
-          </a> </li>
-        <li id="t_layouts"> <a href="#layouts">
-          <? _e('Layouts'); ?>
-          </a> </li>
-        <li id="t_pages"> <a href="#pages">
-          <? _e('Pages'); ?>
-          </a> </li>
-        <li id="t_help"> <a href="#help">
-          <? _e('Help'); ?>
-          </a> </li>
-      </ul>
+      <div id="mw-menu-liquify"><ul id="mw_tabs">
+        <li id="t_modules">
+            <a href="#tab=modules" onclick="mw.windowHashParam('tab', 'modules');return false;"><? _e('Modules'); ?></a>
+        </li>
+        <li id="t_layouts">
+            <a href="#tab=layouts" onclick="mw.windowHashParam('tab', 'layouts');return false;"><? _e('Layouts'); ?></a>
+        </li>
+        <li id="t_pages">
+            <a href="#tab=pages" onclick="mw.windowHashParam('tab', 'pages');return false;"><? _e('Pages'); ?></a>
+        </li>
+        <li id="t_help">
+          <a href="#tab=help" onclick="mw.windowHashParam('tab', 'help');return false;"><? _e('Help'); ?></a>
+        </li>
+      </ul></div>
+      <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
        <a href="#design_bnav" class="mw-ui-btn-rect mw-ui-btn-rect-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
       <div id="mw-toolbar-right">
 
@@ -166,7 +175,6 @@
   previewHTML = function(html, index){
       mw.$('.edit').eq(index).html(html);
   }
-
 
   window.onload = function(){
     parent.mw.$('.edit').each(function(i){

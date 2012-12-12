@@ -50,6 +50,8 @@ if(isarr( $diff) and isarr($more) ){
 ?>
 <? if(!empty( $more)):  ?>
 
+<hr />
+
 <div class="custom-field-table" id="custom-field-main-table">
   <? foreach( $more as $field): ?>
   <div class="custom-field-table-tr" data-field-id="<? print $field['id'] ?>">

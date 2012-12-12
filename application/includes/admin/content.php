@@ -384,7 +384,7 @@ mw.on.hashParam("action", function(){
 
   $(mwd.body).removeClass("action-Array");
 
-  $(mwd.body).addClass("loading");
+
 
 
 

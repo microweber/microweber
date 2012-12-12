@@ -96,7 +96,7 @@ $(document).ready(function(){
        </div>
 
       </div>
-          <input class="mw-ui-searchfield" style="width: 200px;margin: 20px;" type="text" value="Search for post"  onkeyup="$(this).addClass('loading');mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+          <input class="mw-ui-searchfield" style="width: 200px;margin: 20px;" type="text" value="<?php _e("Search for post"); ?>" data-default="<?php _e("Search for post"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
           <div class="mw-admin-side-nav-simple"><module type="comments/search_content" id="mw_admin_posts_with_comments"  /></div>
      </div>
           <div class="<? print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">

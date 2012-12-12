@@ -6,7 +6,7 @@ if(!isset($edit_post_mode)){
  
 
 
- 
+
 if(isset($params["data-content-id"])){
 	$params["data-page-id"] = $params["data-content-id"];
 }
@@ -191,11 +191,15 @@ mw_before_content_save<? print $rand ?>()
     <div class="mw-ui-field-holder">
 
 
-  <div class="mw-ui-field-holder mw_save_buttons_holder right" style="margin-top: -5px;">
+
+
+<?php if($data['content_type'] == 'post' or $data['content_type'] == 'product' ): ?>
+  <div class="mw-ui-field-holder post-save-top right">
     <input type="submit" name="save" class="semi_hidden"  value="Save" />
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
     <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
   </div>
+<?php endif; ?>
 
 
       <? if(intval($data['id']) > 0): ?>
@@ -217,7 +221,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 
  ?>
-      <label class="mw-ui-label"><?php print ucfirst( $t); ?> Name</label>
+      <label class="mw-ui-label" style="padding-top: 5px;"><?php print ucfirst( $t); ?> Name</label>
 
 
 
@@ -340,8 +344,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   </div>
   <script type="text/javascript">
     $(mwd).ready(function(){
-		if(mw.treeRenderer != undefined){
-        mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
+		if(!!mw.treeRenderer){
+            mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
 		}
     });
   </script>
@@ -470,6 +474,9 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 </script>
     <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
+
+  <div class="vSpace"></div>
+
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
@@ -540,9 +547,10 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
         <input name="password" style="width: 360px;" class="mw-ui-field" type="password" value="" />
       </div>
     </div>
-    <div class="mw_clear"></div>
-    <div class="vSpace"></div>
-  <div class="mw-ui-field-holder mw_save_buttons_holder" style="margin-top: 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;width: auto;float: none;padding: 6px 0 3px;text-align: right">
+    <div class="mw_clear vSpace"></div>
+
+
+  <div class="post-save-bottom">
     <input type="submit" name="save" class="semi_hidden"  value="Save" />
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
     <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>

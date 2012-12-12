@@ -58,10 +58,10 @@ $rand = rand();
       <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
-      <li><a href="#"><span class="ico iPhone"></span><span>Phone</span></a></li>
-      <li><a href="#"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
-      <li><a href="#"><span class="ico iEmail"></span><span>E-mail</span></a></li>
-      <li><a href="#"><span class="ico iUpload"></span><span>File Upload</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iPhone"></span><span>Phone</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iEmail"></span><span>E-mail</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iUpload"></span><span>File Upload</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
       <li><a href="javascript:;" onclick="mw.custom_fields.create('number');"><span class="ico iNumber"></span><span>Number</span></a></li>
@@ -70,7 +70,7 @@ $rand = rand();
       <li><a href="javascript:;" onclick="mw.custom_fields.create('date');"><span class="ico iDate"></span><span>Date</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
-      <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iTime"></span><span>Time</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('address');"><span class="ico iAddr"></span><span>Adress</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('hr');"><span class="ico iSpace"></span><span>Section Break</span></a></li>

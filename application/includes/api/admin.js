@@ -15,46 +15,7 @@ mw.admin = {
     else{
       obj.style.width = (sum-$(to).outerWidth(true)) + 'px';
     }
-  },
-  menu:{
-      size:function(){
-          //left side
-          var liquid = mw.$("#mw-menu-liquify");
-          if(liquid.size()>0){
-            var liquidleft = liquid.offset().left;
-            var liquidwidth = liquid.width();
-
-            //right side
-            var right = mw.$("#mw-toolbar-right");
-            var right_width = right.width();
-
-            var w = $(window).width();
-            liquid.width(w-liquidleft-right_width-50);
-            mw.admin.menu.dropItems(true);
-          }
-      },
-      dropItems:function(when){
-        if(when){ //not too responsive
-          var context = mwd.getElementById('mw_tabs');
-          var top = context.offsetTop;
-          var items = context.getElementsByTagName('li'), l=items.length, i=0;
-          var html = '';
-          for( ; i<l; i++){
-              var item = items[i];
-              if(item.offsetTop > top){
-                mw.tools.addClass(item, 'dropped');
-                var span='<span class="'+ item.className +'">';
-                var html = html + span + item.innerHTML + '</span>';
-              }
-              else{
-                mw.tools.removeClass(item, 'dropped');
-              }
-          }
-          html === '' ? mw.$("#menu-dropdown").hide() : mw.$("#menu-dropdown").show();
-          mw.$('#menu-dropdown-nav').html(html);
-        }
-      }
-    }
+  }
 }
 
 
@@ -63,7 +24,7 @@ urlParams = mw.url.mwParams(window.location.href);
 
 $(window).bind('load resize', function(){
 
-    mw.admin.menu.size();
+    mw.liveadmin.menu.size();
 
 
 
@@ -82,7 +43,7 @@ $(document).ready(function(){
    mw.$('#mw-menu-liquify').hide();
    mw.tools.sidebar();
    mw.$('#mw-menu-liquify').show();
-   mw.admin.menu.size();
+   mw.liveadmin.menu.size();
    $(window).bind('hashchange', function(){
      mw.tools.sidebar();
    });

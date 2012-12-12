@@ -53,6 +53,7 @@ mw.url = {
     getHashParams:function(hash){
         var r = new RegExp(mw.url.hashStart, "g");
         var hash = hash.replace(r, "");
+        var hash = hash.replace(/\?/g, "");
         if(hash=='' || hash=='#'){
           return {}
         }

@@ -692,25 +692,6 @@ mw.$(".mw_dropdown_action_format").change(function(){
 
 
 
-    $(mwd).ajaxStart(function(){
-      mw.tools.preloader('start');
-    });
-    $(mwd).ajaxStop(function(){
-      mw.tools.preloader('stop');
-    });
-
-
-
-
-
-
-
-
-    mw.$("#mw_tabs a").click(function(){
-      mw.url.windowHashParam("tab", $(this).attr("href").replace(/#/, ''));
-      return false;
-    });
-
 
    if(mw.hash()==='' || mw.url.getHashParams(mw.hash()).tab===undefined){
      mw.url.windowHashParam("tab", "modules");

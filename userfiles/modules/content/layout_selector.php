@@ -219,15 +219,21 @@ $(document).ready(function() {
       </ul>
     </div>
   </div>
+
+  <div class="vSpace"></div>
+
+<div class="mw-ui-field-holder mw_save_buttons_holder right" style="width: calc(100% - 15px);">
+    <input type="submit" name="save" class="semi_hidden"  value="Save" />
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live left"><?php _e("Go live edit"); ?></a>
+    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right"><?php _e("Save"); ?></a>
+  </div>
+
+
+
 </div>
 
 
 
-
-<div class="mw_save_buttons_holder">
-  <input type="submit" name="save" value="<?php _e("Save"); ?>" />
-  <input type="button" onclick="return false;" id="go_live_edit_<? print $rand ?>" value="<?php _e("Go live edit"); ?>" />
-</div>
 
 
 
