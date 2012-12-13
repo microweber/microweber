@@ -129,7 +129,7 @@ $(document).ready(function(){
   ?>
 <? //d($params);?>
 
-<form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
+<form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" name="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <input name="table" type="hidden" value="table_taxonomy" />
   <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
@@ -140,8 +140,17 @@ $(document).ready(function(){
   <? else : ?>
   <? $act = 'Add new ' ;?>
   <? endif; ?>
+
+
+
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label"><? print $act ?> category</label>
+
+  <div class="post-save-top">
+
+    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
+  </div>
+
+    <label class="mw-ui-label" style="padding-top: 5px;"><? print $act ?> category</label>
     <input style="width: 600px;" class="mw-ui-field" name="title" type="text" value="<? print ($data['title'])?>" />
   </div>
   <div class="mw-ui-field-holder">
@@ -178,8 +187,14 @@ $(document).ready(function(){
   <input type="submit" class="semi hidden" name="save" />
 
 
- <span onclick="mw.$('form.add-edit-page-post').submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></span>
+
 
 
 </form>
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />
+
+
+<div class="post-save-bottom">
+    <input type="submit" name="save" class="semi_hidden"  value="Save" />
+    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
+  </div>

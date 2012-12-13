@@ -493,3 +493,4 @@ $language["search-for-settings"]= 'Search for settings' ;
 $language["search-for-posts"]= 'Search for posts' ; 
 $language["back"]= 'Back' ; 
 $language["mw"]= '(MW)' ; 
+$language["all-changes-are-saved"]= 'All changes are saved' ; 

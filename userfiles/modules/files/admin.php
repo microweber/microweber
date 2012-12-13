@@ -71,14 +71,17 @@ mw.on.hashParam('sort_order', function(){
     _mw_admin_files_manage('sort_order', this);
 
 });
- 
+
 
 
 
 </script>
 
 <div id="mw_index_users">
-  <div id="mw_edit_page_left" class="mw_edit_page_left"> Sort by
+  <div id="mw_edit_page_left" class="mw_edit_page_left">
+
+
+    <span class="mw-ui-label-help">Sort by</span>
     <ul class="mw-ui-inline-selector">
       <li>
         <label class="mw-ui-check">
@@ -96,7 +99,7 @@ mw.on.hashParam('sort_order', function(){
           <span></span><span>Any</span></label>
       </li>
     </ul>
-    Sort order
+    <span class="mw-ui-label-help">Sort order</span>
     <ul class="mw-ui-inline-selector">
       <li>
         <label class="mw-ui-check">
@@ -115,9 +118,9 @@ mw.on.hashParam('sort_order', function(){
       </li>
     </ul>
   </div>
-  <div style="padding: 20px;width: 750px;" class="mw_edit_page_right">
-    <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
-      <input name="module_keyword" class="mw-ui-searchfield right" type="text" default="Search for modules"  onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+  <div style="padding: 20px;">
+    <div class="modules-index-bar">
+      <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="Search in server" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
     </div>
     <div class="vSpace"></div>

@@ -60,10 +60,17 @@ $(document).ready(function(){
 </script>
 
 <form class="admin-modules-list-form" id="module_admin_settings_form_<? print $rand ?>">
+
+
+
   <div class="admin-modules-list-image">
+  
+   <span class="ico iMove mw_admin_modules_sortable_handle"></span>
+  
+  
     <span class="mw_module_image_holder">
       <? if(isset($data['icon'])):  ?>
-        <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print $data['name']; }; ?> icon." />
+        <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
       <? endif; ?>
         <s class="mw_module_image_shadow"></s>
     </span>

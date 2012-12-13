@@ -26,7 +26,7 @@ TEMP
 }
 
 .mwoffice .vl, .mwoffice .hl{
-  display: block;
+  display: none;
 }
 
 .vl:hover, .hl:hover{
@@ -168,19 +168,24 @@ body:-webkit-full-screen {
 
 #mw_tabs li a{
   display: block;
-  padding:17px 20px 19px;
+  padding:19px 20px 19px;
   text-align: center;
   text-decoration: none;
   outline: none;
   color: #212121;
   text-shadow:1px 1px 0px white;
 }
+#mw_tabs li a:hover{
+  background-color: #bbb;
+}
+
 #mw_tabs li a:first-child{
   min-width: 70px;
 }
 
 #mw_tabs li:first-child a{
-  background: url(../img/nav_item_border.jpg) no-repeat scroll left top transparent
+  background-image: url(../img/nav_item_border.jpg);
+  background-repeat: no-repeat;
 }
 
 #mw_tabs li.active{
@@ -560,26 +565,7 @@ form.add-edit-page-post textarea{
 }
 
 
-.manage-search, .mw-ui-searchfield{
-  border-width:1px;
-  border-style:solid;
-  border-color: #EAE6E6 #C4C1C1 #C4C1C1 #C4C1C1;
-  padding: 4px 5px 4px 30px;
-  font-size:11px;
-  color: #777777;
-  box-shadow: 0 2px 2px -2px #CCCCCC;
-  background:white url(../img/manage_search.png) no-repeat 7px 3px;
-  border-radius:30px;
-}
 
-.mw-ui-searchfield.loading{
-  background:url("../img/img_check_loading.gif") no-repeat no-repeat 7px 3px
-}
-
-.manage-search:focus, .mw-ui-searchfield:focus{
-    box-shadow:inset  0px 0px  4px 0px #CCCCCC;
-    border-color: #D1C9C9 #BAB6B6 #BAB6B6 #BAB6B6;
-}
 
 .posts-selector{
   font-size: 11px;
@@ -653,98 +639,7 @@ form.add-edit-page-post textarea{
   padding-top: 12px;
 }
 
-/* icons */
 
-
-.ico{
-  display: inline-block;
-  text-indent: -100%;
-  float: left;
-  width: 25px;
-  height: 25px;
-  overflow: hidden;
-  position: relative;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-image: url(../img/quick.icons.png);
-}
-.ico[onclick]{
-  cursor: pointer;
-}
-
-/* icons */
-.ipage{background-position: 5px 2px}
-.ipost{background-position:4px -39px;}
-.icategory{background-position:3px -78px;}
-.iproduct{background-position:1px -120px;}
-.iorder{background-position:-227px 1px;}
-.icomment{background-position:-228px -42px;}
-.imanage-website{background-position:-225px -80px;}
-.imanage-module{background-position:-228px -119px;}
-.iupgrade{background-position:-495px 1px;}
-.inotification{background-position:-495px -42px;}
-.iupload{background-position:-497px -81px;}
-.itruck{background-position:-497px -114px;width: 28px;}
-.ireport{background-position:-749px 1px;}
-.isuggest{background-position:-749px -43px;}
-.ihelp{background-position:-749px -82px;}
-.iusers{background-position:-748px -115px;}
-.ilive{background-position:-875px 5px;}
-.ilogout{background-position:-880px -24px}
-.ipromo{background-position:-881px -83px}
-.ioptions{background-position:-880px -118px}
-
-/* Custom fields icons */
-
-.iSingleText{background-position:-976px -36px;}
-.iPText{background-position:-976px -66px;}
-.iRadio{background-position:-976px -98px;}
-.iName{background-position:-976px -129px;}
-.iPhone{background-position:-1013px -36px;}
-.iWebsite{background-position:-1012px -67px;}
-.iEmail{background-position:-1012px -96px;}
-.iUpload{background-position:-1011px -126px;}
-.iNumber{background-position:-1051px -33px;}
-.iChk{background-position:-1051px -63px;}
-.iDropdown{background-position:-1052px -96px;}
-.iDate{background-position:-1052px -126px;}
-.iTime{background-position:-1090px -32px;}
-.iAddr{background-position:-1091px -63px;}
-.iPrice{background-position:-1092px -93px;}
-
-
-
-.iSpace{background-position:-1092px -127px;}
-.iAdd{background-position:-976px 1px;}
-.iRemove{background-position:-1013px 1px;}
-.icheck{background-position: -1051px 2px;}
-.iplus{background-position: -1140px 2px;}
-
-.iset{background-position: -926px 0px;}
-.ilaquo{background-position: -927px -30px;}
-
-
-.iMove{
-  background-position: -1090px 2px;
-  cursor: move !important;
-  margin: 3px 0 0 3px;
-}
-
-
-
-
-.mw-ui-btn .ico, .mw-ui-btn-rect .ico{
-    margin-right: 7px;
-    top: -4px;
-}
-.mw-ui-btn-rect .ico{
-  margin-bottom: -7px;
-  margin-left: -4px;
-}
-
-.mw-ui-btn-rect .ico + .ico{
-  margin-left: -8px;
-}
 
 
 .mw-quick-links li {
@@ -1380,13 +1275,23 @@ body.still-loading:before{
 
 .mw-ui-admin-table td{
     padding: 10px;
+    text-align: center;
+}
+
+.mw-ui-admin-table th,
+.mw-ui-admin-table tfoot td{
+  font-size: 11px;
+  color: #666666;
+}
+.mw-ui-admin-table tr th:first-child,
+.mw-ui-admin-table tr td:first-child{
+  text-align: left;
 }
 
 .mw-ui-admin-table th, .mw-ui-admin-table tfoot td{
     font-weight: normal;
     text-align: center;
     padding: 10px;
-    background: #E5E5E5
 }
 .mw-ui-admin-table tbody tr:nth-child(2n+1){
   background: white;
@@ -1505,20 +1410,6 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   margin-right: 5px;
 }
 
-.backico{
-  display: inline-block;
-  position: relative;
-  top: 1px;
-  width: 5px;
-  height: 10px;
-  background: url(../img/backarr.png) no-repeat;
-  margin: 0 7px 0 0;
-}
-
-
-.hidden{
-  display: none;
-}
 
 .mw-no-posts-foot{
   clear: both;
@@ -1576,12 +1467,7 @@ select.mw-ui-simple-dropdown:focus{
 }
 .mw-ui-delete-x:hover{background-position: 3px -13px;}
 
-.mw-ui-label-help{
-  font-size:10px;
-  line-height: 12px;
-  display: block;
-  color: #8F8F8F;
-}
+
 
 .mw-help-field{
   display: inline-block;
@@ -1782,12 +1668,7 @@ select.mw-ui-simple-dropdown:focus{
 }
 
 
-.mw-ui-inline-selector li {
-  list-style: none;
-  display: inline;
-  margin-right: 10px;
-  font-size: 11px;
-}
+
 
 .modules-index-bar{
   padding-top: 12px;
@@ -2124,6 +2005,10 @@ color: #222222;
 .mw-dump-list a{
   text-decoration: underline;
   color: #0D5D97;
+}
+
+.post-save-top .mw-ui-btn, .post-save-bottom .mw-ui-btn{
+  margin-left: 7px;
 }
 
 

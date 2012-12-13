@@ -96,25 +96,21 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
  });
    
 
-    mw.$('#go_live_edit_<? print $rand ?>').click(function() {
+    mw.$('#admin_edit_page_form_<? print $form_rand_id ?> a.go-live').click(function() {
 	
 
 mw_before_content_save<? print $rand ?>()
 
- 	<? if(intval($data['id']) == 0): ?>
+  
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
-  //mw_after_content_save<? print $rand ?>(this);
+ mw_after_content_save<? print $rand ?>(this);
 
 
 
 
 });
 
-<? else: ?>
-  mw_after_content_save<? print $rand ?>('<? print $data['id'] ?>');
-
- <? endif; ?>
-
+ 
 
 
  return false;
@@ -145,7 +141,7 @@ mw_before_content_save<? print $rand ?>()
  
  function mw_on_save_complete<? print $rand ?>(){
 	//alert(1);
-	mw.$('.notification_<? print $rand ?>').fadeIn('slow').fadeOut(8000);
+    mw.notification.success("<?php _e('All changes are saved'); ?>.");
  }
 
 
@@ -189,19 +185,15 @@ mw_before_content_save<? print $rand ?>()
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-
-
-
-
-<?php if($data['content_type'] == 'post' or $data['content_type'] == 'product' ): ?>
-  <div class="mw-ui-field-holder post-save-top right">
-    <input type="submit" name="save" class="semi_hidden"  value="Save" />
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
-    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
-  </div>
-<?php endif; ?>
-
-
+      <?php if($data['content_type'] == 'post' or $data['content_type'] == 'product' ): ?>
+      <div class="mw-ui-field-holder post-save-top right">
+        <input type="submit" name="save" class="semi_hidden"  value="Save" />
+        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live">
+        <?php _e("Go live edit"); ?>
+        </a> <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+        <?php _e("Save"); ?>
+        </a> </div>
+      <?php endif; ?>
       <? if(intval($data['id']) > 0): ?>
       <? $act = _e("Edit ", true); ;?>
       <? else : ?>
@@ -222,9 +214,6 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
  ?>
       <label class="mw-ui-label" style="padding-top: 5px;"><?php print ucfirst( $t); ?> Name</label>
-
-
-
       <? if(intval($data['id']) > 0): ?>
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
@@ -413,13 +402,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <? endif; ?>
   <input name="content_type"  type="hidden"  value="<? print $data['content_type'] ?>" >
   <? if($edit_post_mode != false): ?>
-
-
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
-  <div class="mw-notification mw-success notification_<? print $rand ?> hidden">
-    <div> <span class="ico icheck"></span> <span>Changes are saved</span> </div>
-  </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
@@ -474,9 +458,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 </script>
     <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
-
   <div class="vSpace"></div>
-
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
@@ -548,14 +530,12 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       </div>
     </div>
     <div class="mw_clear vSpace"></div>
-
-
-  <div class="post-save-bottom">
-    <input type="submit" name="save" class="semi_hidden"  value="Save" />
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live"><?php _e("Go live edit"); ?></a>
-    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Save"); ?></a>
-  </div>
-
-
+    <div class="post-save-bottom">
+      <input type="submit" name="save" class="semi_hidden"  value="Save" />
+      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live">
+      <?php _e("Go live edit"); ?>
+      </a> <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+      <?php _e("Save"); ?>
+      </a> </div>
   </div>
 </form>

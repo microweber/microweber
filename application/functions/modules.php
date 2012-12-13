@@ -8,6 +8,36 @@ if (!defined("MW_DB_TABLE_ELEMENTS")) {
 	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
 }
 
+
+
+api_expose('reorder_modules');
+
+function reorder_modules($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	 
+
+	$table =  MW_TABLE_PREFIX . 'modules';
+	foreach ($data as $value) {
+		if (is_arr($value)) {
+			$indx = array();
+			$i = 0;
+			foreach ($value as $value2) {
+				$indx[$i] = $value2;
+				$i++;
+			}
+
+			db_update_position($table, $indx);
+			return true;
+			// d($indx);
+		}
+	}
+}
+
+
 action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
 
 function mw_db_init_modules_table() {

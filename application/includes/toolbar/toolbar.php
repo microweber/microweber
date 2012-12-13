@@ -87,8 +87,8 @@
       <div id="mw-toolbar-right">
 
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
-        <a onclick="mw.preview();" class="mw-ui-btn" href="javascript:;">Preview</a>
-        <a class="mw-ui-btn mw-ui-btn-blue" href="javascript:;">Publish</a>
+        <span onclick="mw.preview();" class="mw-ui-btn unselectable">Preview</span>
+        <span class="mw-ui-btn mw-ui-btn-blue">Publish</span>
       </div>
       </div>
 
@@ -141,23 +141,7 @@
 
 
 
-<?php if($_SERVER['REMOTE_ADDR']=='192.168.0.4'){ ?>
 
-
-<span class="mw_editor_btnz ed_btn" onclick="mw.$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
-        style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
-
-
-
-<span class="mw_editor_btnz" onclick="mw.$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
-
-
-        <span class="mw_editor_btnz" onclick="AutoRefreshCSS()"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:330px; z-index: 92000;">Refresh css &reg;</span>
-
-
-<?php } ?>
 
 
 

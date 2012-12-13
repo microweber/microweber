@@ -16,7 +16,7 @@
     </ul>
 
   </div>
-  <div id="menu-dropdown" class="unselectable" onclick="mw.tools.toogle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
+  <div id="menu-dropdown" class="unselectable" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
   <?
 
 if(isset($_COOKIE['last_page'])){

@@ -109,6 +109,15 @@
   });
 </script>
 
+
+<style type="text/css">
+
+.mw-o-box-content{
+  height: 150px;
+}
+
+</style>
+
 <div class="mw_simple_tabs mw_tabs_layout_simple" id="image_tabs">
   <ul class="mw_simple_tabs_nav">
     <li><a href="#">My Computer</a></li>
@@ -124,8 +133,8 @@
   </div>
   <div class="tab" id="get_image_from_url">
     <h3>Enter the URL of an image somewhere on the web</h3>
-    <span class="fancy_input left">
-    <input type="text" id="get_image_by_url" name="get_image_by_url" />
+    <span class="relative left">
+    <input type="text" id="get_image_by_url" class="mw-ui-field" name="get_image_by_url" />
     <span id="image_status"></span> </span>
     <button type="button" class="mw-ui-btn-action" id="btn_inser_url_image">Insert</button>
     <p id="image_types_desc"> File must be a JPEG, GIF, PNG , BMP or TIFF <br />

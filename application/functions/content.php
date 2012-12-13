@@ -2323,10 +2323,19 @@ if (isset($active_ids)){
 				}
 
 				if (isset($include_categories) and $include_categories == true) {
+					
+					$content_cats = array();
 					if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
-						$cat_params = array();
-						$cat_params['subtype_value'] = $item['subtype_value'];
 						
+					}
+					
+					
+					
+					
+						$cat_params = array();
+						if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+						$cat_params['subtype_value'] = $item['subtype_value'];
+					}
 						$cat_params['try_to_table_id'] = $item['id'];
 						
 						if(isset($categores_link)){
@@ -2360,7 +2369,7 @@ if(isset($active_code)){
 						
 						}
 						category_tree($cat_params);
-					}
+					
 				}
 			}
 			print "</{$list_item_tag}>";

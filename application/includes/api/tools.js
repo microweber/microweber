@@ -1057,6 +1057,34 @@ mw.dump = function(){
     });
 }
 
+mw.notification = {
+    build:function(type, text){
+        var div = mwd.createElement('div');
+        div.className = 'mw-notification mw-'+type;
+        div.innerHTML = '<div>'+text+'</div>'
+        return div;
+    },
+    append:function(type, text){
+        var div = mw.notification.build(type, text);
+        mw.$('#mw-notifications-holder').append(div);
+        setTimeout(function(){
+           div.style.opacity = 0;
+           setTimeout(function(){
+             $(div).remove()
+           }, 1000);
+        }, 1000);
+    },
+    success:function(text){
+      mw.notification.append('success', text);
+    },
+    error:function(text){
+      mw.notification.append('error', text);
+    },
+    warning:function(text){
+      mw.notification.append('warning', text);
+    }
+}
+
 
 
 

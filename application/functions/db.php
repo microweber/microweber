@@ -434,6 +434,7 @@ function get($params) {
 		$params = $params2;
 		extract($params);
 	}
+ 
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
@@ -478,7 +479,18 @@ function get($params) {
 	if (!isset($table) and isset($params['what'])) {
 		$table = db_get_real_table_name(guess_table_name($params['what']));
 
+	}  
+	
+	if (!isset($table)) {
+		print "error no table found in params";
+		d($params);
+	//print_r(debug_backtrace());
+		return false;
+		
 	}
+	
+	
+	
 	if ($cache_group == false and $debug == false) {
 		$cache_group = guess_cache_group($table);
 		if (!isset($criteria['id'])) {
@@ -1974,6 +1986,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 								$cats_data_items_modified = true;
 								$cats_data_modified = true;
 								//d($clean_q);
+								if ($dbg != false) {
+						d($clean_q);
+					}
 								db_q($clean_q);
 
 							}
