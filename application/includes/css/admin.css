@@ -438,6 +438,27 @@ form .shipping-country-row:first-child{
   width: 300px;
 }
 
+.mw-edit-user-table{
+ width: 100%;
+ border-top: none;
+ border-bottom: none;
+ border-radius:0;
+}
+
+.mw-edit-user-table td{
+  text-align: left;
+}
+
+.mw-edit-user-cell, .mw-ui-admin-table tr td.mw-edit-user-cell{
+   background: none repeat scroll 0 0 #EFECEC;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 0 6px #DDDDDD inset;
+    padding: 15px;
+}
+
+#mw-users-manage-edit-rotattor > div{
+  width:757px;
+}
 
 
 

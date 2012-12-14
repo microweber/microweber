@@ -11,6 +11,9 @@
 	right:30px;
 }
 
+#mw_tabs li.active a{padding:19px 20px 19px;}
+
+
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
 	padding-top:5px;
 	padding-bottom:5px;

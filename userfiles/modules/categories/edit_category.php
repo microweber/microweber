@@ -83,12 +83,13 @@ mw.require('forms.js');
 
 
 $(document).ready(function(){
-	//set_category_parent_<? print $form_rand_id ?>()
-	 
-	 onload_set_parent_<? print $form_rand_id ?>();
-	 
+	//
+	 <? if(intval($data['id']) == 0): ?>
+	// onload_set_parent_<? print $form_rand_id ?>();
+	// set_category_parent_<? print $form_rand_id ?>()
+	 <? endif; ?>
 	  mw.$('#admin_edit_category_form_<? print $form_rand_id ?> input').change(function() { 
-	  set_category_parent_<? print $form_rand_id ?>();
+	//   set_category_parent_<? print $form_rand_id ?>();
 	   });
 	    
 	 
@@ -97,7 +98,7 @@ $(document).ready(function(){
 	 
 	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
 
- set_category_parent_<? print $form_rand_id ?>();
+ // set_category_parent_<? print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
 	 
 	 
@@ -127,7 +128,7 @@ $(document).ready(function(){
   }
 
   ?>
-<? //d($params);?>
+<?  //d($params);?>
 
 <form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" name="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
@@ -162,10 +163,17 @@ $(document).ready(function(){
     if (isset($params['is_shop'])) {
     	//$is_shop = '&is_shop=' . $params['is_shop'];
     }
+	
+	 
+	 
        ?>
-      <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
+       <pre>
+       <? d($data); ?>
+       </pre>
+       
+      <input name="parent_id" type="text" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
       <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">
-        <module  type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio" edit_category_set_parcat_<? print $form_rand_id ?> />
+        <module  type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
       </div>
 
   </div>

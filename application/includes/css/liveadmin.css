@@ -168,16 +168,23 @@ body:-webkit-full-screen {
 
 #mw_tabs li a{
   display: block;
-  padding:19px 20px 19px;
+  padding: 19px 20px 14px;
   text-align: center;
   text-decoration: none;
   outline: none;
   color: #212121;
+  transition: box-shadow 0.09s linear;
+  -moz-transition: box-shadow 0.09s linear;
+  -webkit-transition: box-shadow 0.09s linear;
+  -o-transition: box-shadow 0.09s linear;
   text-shadow:1px 1px 0px white;
 }
 #mw_tabs li a:hover{
-  background-color: #bbb;
+  background-color: #dedede;
+
 }
+
+#mw_tabs li a:active{box-shadow: inset 0 0 5px #888;}
 
 #mw_tabs li a:first-child{
   min-width: 70px;
@@ -193,9 +200,11 @@ body:-webkit-full-screen {
   margin-left: -2px;
   padding-left: 2px;
 }
+#mw_tabs li.active a:active{
+  box-shadow : none;
+}
 
 #mw_tabs li.active a{
-
   background:url(../img/nav_active_right.jpg) no-repeat right top;
 }
 
@@ -1267,7 +1276,6 @@ body.still-loading:before{
 .mw-ui-admin-table tr td:last-child,
 .mw-ui-admin-table tr th:last-child{
   border-right: none;
-  text-align: center;
 }
 .mw-ui-admin-table tr:last-child td{
   /*border-bottom: none;*/
@@ -1297,7 +1305,7 @@ body.still-loading:before{
   background: white;
 }
 
-.mw-ui-admin-table tbody tr:hover{
+.mw-ui-admin-table tbody tr:not(.no-hover):hover{
   background: #D8FFC4;
 }
 
@@ -1446,14 +1454,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 
 
-select.mw-ui-simple-dropdown{
-  border: 1px solid #B9B9B9;
-  border-radius:3px;
-  padding: 4px;
-}
-select.mw-ui-simple-dropdown:focus{
-  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
-}
+
 
 
 .mw-ui-delete-x{
@@ -1501,20 +1502,21 @@ select.mw-ui-simple-dropdown:focus{
     margin-bottom: 5px;
 }
 
-.mw-admin-side-nav li a{
+.mw-admin-side-nav li a, .mw-admin-side-nav li label{
     display: block;
     text-transform: capitalize;
     border:1px solid transparent;
     padding:6px 6px 6px 45px;
     border-radius:5px;
 }
-.mw-admin-side-nav li a:hover{
+.mw-admin-side-nav li a:hover, .mw-admin-side-nav li label:hover{
     box-shadow:0 1px 0 0 #FFFFFF inset;
     border-color:#F0F0F0 #F0F0F0 #D3D2D2 #F0F0F0;
     background: url(../img/grad.php?top=F4F4F4&bot=ECECEC)
 }
 
-.mw-admin-side-nav li a.active, .mw-admin-side-nav li a.active:hover{
+.mw-admin-side-nav li a.active, .mw-admin-side-nav li a.active:hover,
+.mw-admin-side-nav li label.active, .mw-admin-side-nav li label.active:hover{
     box-shadow:0 1px 0 0 #FFFFFF inset;
     border-color:#E9E6E6 #C5C2C2 #A1A0A0 #C5C2C2;
     background: url(../img/grad.php?top=F4F4F4&bot=ECECEC)

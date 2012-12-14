@@ -141,6 +141,8 @@
       Example: http://mywebsite.com/image.jpg </p>
   </div>
   <div class="tab">
+
     <? exec_action('rte_image_editor_image_search'); ?>
+
   </div>
 </div>

@@ -1556,10 +1556,14 @@ function save_content($data, $delete_the_cache = true) {
 
 		return false;
 	}
+	
+	if(isset($data['content_url'])){
+		$data['url'] = $data['content_url'];
+	}
 	$data_to_save = $data;
 
 	$more_categories_to_delete = array();
-	if (intval($data['id']) != 0) {
+	if (!isset($data['url']) and intval($data['id']) != 0) {
 
 		$q = "SELECT * from $table where id='{$data_to_save['id']}' ";
 

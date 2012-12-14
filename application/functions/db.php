@@ -403,6 +403,41 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 if (is_admin() == true) {
 	api_expose('get');
 }
+function save($get_params, $save_params = false) {
+	if (is_admin() != true) {
+		error('only admin can save');
+	}
+	$get_params1 = parse_params($get_params);
+	$get_params1['return_criteria'] = 1;
+	$test = get($get_params1);
+	$upd = array();
+	if (isset($test['table'])) {
+		$save_params = parse_params($save_params);
+		if (!is_arr($save_params)) {
+			return 'error $save_params must be array';
+		}
+
+		$get = get($get_params);
+		if (!is_arr($get)) {
+			$upd[] = save_data($test['table'], $save_params);
+		} else {
+			foreach ($get as $value) {
+				$sp = $save_params;
+				if (isset($value['id'])) {
+					$sp['id'] = $value['id'];
+				}
+				$upd[] = save_data($test['table'], $sp);
+			}
+		}
+	} else {
+		error('could not find table');
+	}
+	if (!empty($upd)) {
+		return $upd;
+	} else {
+		return false;
+	}
+}
 
 /**
  *
@@ -434,7 +469,27 @@ function get($params) {
 		$params = $params2;
 		extract($params);
 	}
- 
+	if (!isset($params['from']) and isset($params['to']) and is_string($params['to'])) {
+		$params['from'] = $params['to'];
+	}
+	if (isset($params['from']) and is_string($params['from'])) {
+		$fr = $params['from'];
+		if (substr(strtolower($fr), 0, 6) != 'table_') {
+			$fr = 'table_' . $fr;
+		}
+		$params['table'] = $fr;
+		unset($params['from']);
+
+	}
+	/*
+	 if (isset($params['table']) and is_string($params['table'])) {
+	 $fr = $params['table'];
+	 if (substr(strtolower($fr), 0, 6) != 'table_') {
+	 $fr = 'table_' . $fr;
+	 }
+	 $params['table'] = $fr;
+	 }*/
+
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
@@ -479,18 +534,20 @@ function get($params) {
 	if (!isset($table) and isset($params['what'])) {
 		$table = db_get_real_table_name(guess_table_name($params['what']));
 
-	}  
-	
+	}
+
 	if (!isset($table)) {
 		print "error no table found in params";
 		d($params);
-	//print_r(debug_backtrace());
+		//print_r(debug_backtrace());
 		return false;
-		
+
 	}
-	
-	
-	
+
+	if (isset($params['return_criteria'])) {
+		return $criteria;
+	}
+
 	if ($cache_group == false and $debug == false) {
 		$cache_group = guess_cache_group($table);
 		if (!isset($criteria['id'])) {
@@ -1987,8 +2044,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 								$cats_data_modified = true;
 								//d($clean_q);
 								if ($dbg != false) {
-						d($clean_q);
-					}
+									d($clean_q);
+								}
 								db_q($clean_q);
 
 							}

@@ -75,7 +75,13 @@ mw.url = {
       return mw.url.hashStart + decodeURIComponent(json2url(obj));
     },
     windowHashParam:function(a,b){
-      mw.hash(mw.url.setHashParam(a,b));
+      if(b !== undefined){
+        mw.hash(mw.url.setHashParam(a,b));
+      }
+      else{
+        return mw.url.getHashParams()[a];
+      }
+
     },
     deleteHashParam:function(hash, param){
         var params = mw.url.getHashParams(hash);
@@ -94,6 +100,18 @@ mw.url = {
             curr[x] === undefined ? hashes.push(x) : '';
         }
         return hashes;
+    },
+    hashParamToActiveNode:function(param, classNamespace, context){
+        var context = context || mwd.body;
+        var val =  mw.url.windowHashParam(param);
+        mw.$('.'+classNamespace, context).removeClass('active');
+        var active = mw.$('.'+classNamespace + '-' + val, context);
+        if(active.length > 0){
+           active.addClass('active');
+        }
+        else{
+           mw.$('.'+classNamespace + '-none', context).addClass('active');
+        }
     },
     mwParams:function(url){
         var url = mw.url.removeHash(url);

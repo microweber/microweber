@@ -478,6 +478,20 @@ mw.on.hashParam("action", function(){
 
 
 function mw_select_category_for_editing($p_id){
+	
+	
+					  var  active_cat = $('#pages_tree_container_<?php print $my_tree_id; ?> li.category_element.active-bg').first();
+				   if(active_cat != undefined){
+						var active_cat = active_cat.attr('data-category-id');
+					   	 mw.$('#pages_edit_container').attr('data-selected-category-id',active_cat);
+				   } else {
+					   	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
+
+				   }
+	
+ 
+	
+	
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
   	 mw.load_module('categories/edit_category','#pages_edit_container');
 }

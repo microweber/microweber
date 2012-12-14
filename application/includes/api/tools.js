@@ -1,6 +1,6 @@
 
 
-
+"free mode";
 
 
 mw.simpletabs = function(){
@@ -671,17 +671,25 @@ mw.tools = {
     }
   },
   simpleRotator:function(rotator){
-    var all = mw.$('> *', rotator);
-    var l = all.length;
-    var w = 2 * (l * ($(all[0]).outerWidth(true)));
-    $(all).addClass('mw-simple-rotator-item');
-    $(rotator).width(w);
-    rotator.go = function(where){
-        var item = $(rotator).children()[where];
-        var item_left = $(item).offset().left;
-        var rleft =  $(rotator).offset().left;
-        $(rotator).animate({left:-(item_left-rleft)})
+    if(!$(rotator).hasClass('activated')){
+      $(rotator).addClass('activated')
+      var all = mw.$('> *', rotator);
+      var l = all.length;
+      var w = 2 * (l * ($(all[0]).outerWidth(true)));
+      $(all).addClass('mw-simple-rotator-item');
+      $(rotator).width(w);
+      rotator.go = function(where, callback){
+          var item = $(rotator).children()[where];
+          var item_left = $(item).offset().left;
+          var rleft =  $(rotator).offset().left;
+          $(rotator).animate({left:-(item_left-rleft)}, function(){
+            if(typeof callback === 'function'){
+              callback.call(rotator);
+            }
+          });
+      }
     }
+    return rotator;
   },
   sidebar:function(){
     if(mw.$("#mw_edit_page_left").length > 0){
@@ -694,11 +702,24 @@ mw.tools = {
         $("#mw_edit_pages_content").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
       }
     }
-  }
+  },
+  highlight:function(el, color){
+    var color = color || '#D8FFC4';
+    var speed = 777;
+    var curr = window.getComputedStyle(el, null).backgroundColor;
+    if(curr == 'transparent'){
+      var curr = '#ffffff';
+    }
+    $(el).css('boxShadow', '0 0 10px #ccc');
+    $(el).animate({ backgroundColor: color }, speed, function(){
+        $(el).animate({ backgroundColor: curr }, speed, function(){
+          $(el).css('backgroundColor', '');
+          $(el).css('boxShadow', '');
+        })
+    });
+  },
+  setActive:function(){}
 }
-
-
-
 
 
 
@@ -1084,6 +1105,12 @@ mw.notification = {
       mw.notification.append('warning', text);
     }
 }
+
+
+
+
+
+
 
 
 
