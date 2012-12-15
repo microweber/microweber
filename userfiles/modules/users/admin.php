@@ -188,8 +188,8 @@ mw.on.hashParam('edit-user', function(){
 
 
 <div id="mw_index_users">
-  <h2 class="mw-side-main-title">Users</h2>
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> <label class="mw-ui-label">Role</label>
+  <h2 class="mw-side-main-title"><span class="ico iusers-big"></span><span>Users</span></h2>
+  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> <label class="mw-ui-label black">Sort Users by Roles</label>
     <ul class="mw-admin-side-nav">
       <li>
         <a class="mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">User</a>
@@ -201,7 +201,7 @@ mw.on.hashParam('edit-user', function(){
           <a class="mw-users-is-admin mw-users-is-admin-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a>
       </li>
     </ul>
-    <label class="mw-ui-label">Status</label>
+    <label class="mw-ui-label">Sort Users by Status</label>
     <ul class="mw-admin-side-nav">
       <li>
         <a class="mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');">Active users</a>

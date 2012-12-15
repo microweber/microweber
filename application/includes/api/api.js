@@ -21,7 +21,9 @@ typeof mw === 'undefined' ?
 
 
   mw.module = {} //Global Variable for modules scripts
+
   mwd = document;
+  mww = window;
 
   mw.loaded = false;
 
@@ -361,22 +363,20 @@ typeof mw === 'undefined' ?
     var url = mw.settings.api_url + action;
     var type = typeof params;
     if(type === 'string'){
-        var obj = __mw_serialize(params);
+        var obj = mw.serializeFields(params);
     }
-    else if(type === 'object'){
+    else if(type === 'object' && !jQuery.isArray(params)){
         var obj = params;
     }
-
-    $.post(url, obj, function(data){
-        if(mw.is.func(callback)){
-            callback.call(data);
-        } else {
-            return data;
-        }
-    });
+    else{
+        mw.log('Error: "params" must be string or object');
+        return false;
+    }
+    $.post(url, obj)
+        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+      //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+        .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
   }
-
-
 
 
 
@@ -384,7 +384,7 @@ typeof mw === 'undefined' ?
 })() : '';
 
 
-__mw_serialize =  function(id){
+mw.serializeFields =  function(id){
       var el = mw.$(id);
       fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {}
@@ -408,16 +408,10 @@ __mw_serialize =  function(id){
  }
 
 
- mw.cache = {
-   get:function(key){
-    var item = localStorage.getItem(key);
-    return item !== null ? item : undefined;
-   },
-   save:function(key, val){
-     return localStorage.setItem(key, val)
-   },
-   remove:function(key){
-     return localStorage.removeItem(key);
-   }
- }
+
+
+
+
+
+
 

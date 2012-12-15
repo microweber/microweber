@@ -316,25 +316,45 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
   <? endif; ?>
+  
+  <? $categories_active_ids = ''; ?>
   <label class="mw-ui-label">
     <?php _e("Select Category"); ?>
   </label>
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
     <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? if(intval($data['id']) > 0): ?>
-    <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
+    
+    
+    <? $in_cats = get('from=taxonomy_items&fields=parent_id&to_table=table_content&to_table_id='.$data['id']);
+	if(isarr($in_cats)){
+	foreach($in_cats as $in_cat){
+		$categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
+	}
+	}
+	 // d($categories_active_ids);
+	 ?>
+    
+    
+    
+    
+    <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
     <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
 		 
 		 $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 	 } ?>
-    <microweber module="categories/selector"   id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
+     
+     
+     
+      
+    <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
     <? endif; ?>
   </div>
   <script type="text/javascript">
     $(mwd).ready(function(){
 		if(!!mw.treeRenderer){
-            mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
+             mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
 		}
     });
   </script>

@@ -112,11 +112,15 @@
 .iset{background-position: -926px 0px;}
 .ilaquo{background-position: -927px -30px;}
 
-
 .iMove{
   background-position: -1090px 2px;
   cursor: move !important;
   margin: 3px 0 0 3px;
+}
+.iusers-big{
+  width: 27px;
+  height: 26px;
+  background-position:-748px -115px;
 }
 
 

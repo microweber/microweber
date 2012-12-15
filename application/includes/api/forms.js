@@ -66,18 +66,10 @@ mw.form = {
 				//alert(data);
 				return data;
 			}
-			
-			
-			
+
         });
     }
 	return false;
-  },
-  
-  serialize : {
-      init:function(form){
-        return $(form).serialize();
-      }
   },
   validate:{
     checkbox: function(obj){
@@ -168,28 +160,9 @@ mw.form = {
     } 
   },
   serialize : function(id){
-      var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
-      var data = {}
-      $(fields, el).each(function(){
-          var el = this, _el = $(el);
-          var val = _el.val();
-          var name = el.name;
-          if(!el.name.contains("[]")){
-             data[name] = val;
-          }
-          else{
-            try {
-               data[name].push(val);
-            }
-            catch(e){
-              data[name] = [val];
-            }
-          }
-      });
-      return data;
- }
-} ;
+    return mw.serializeFields(id);
+  }
+}
 
 
 
