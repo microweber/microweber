@@ -227,14 +227,14 @@ foreach ($cats__parents as $item1) {
 
 	}
 	
-	if (isset($params['actve_ids'])) {
-		 $tree['actve_ids'] = $params['actve_ids'];
+	if (isset($params['active_ids'])) {
+		 $tree['active_ids'] = $params['active_ids'];
 
 	}
 	
 	
-	if (isset($params['categores_actve_ids'])) {
-		 $tree['categores_actve_ids'] = $params['categores_actve_ids'];
+	if (isset($params['categories_active_ids'])) {
+		 $tree['categories_active_ids'] = $params['categories_active_ids'];
 
 	}
 	
@@ -242,13 +242,13 @@ foreach ($cats__parents as $item1) {
 	
 	
 	if (!empty($active_cats1)) {
- 	 $tree['categores_actve_ids'] = $active_cats1;
+ 	 $tree['categories_active_ids'] = $active_cats1;
 		
 	} else {
  
 	if (!empty($cats_ids)) {
   $cats_ids[] = $item1;
-	// $tree['actve_ids'] = $cats_ids;
+	// $tree['active_ids'] = $cats_ids;
 		
 	}
 	}
@@ -274,9 +274,13 @@ foreach ($cats__parents as $item1) {
 	 $tree['active_code'] = 'checked="checked" ';
 	 $tree['active_code'] = 'checked="checked" ';
  
+ 
+  
+ 
+ 
 	$tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
  	$tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
-
+ 
  
 
 pages_tree($tree);

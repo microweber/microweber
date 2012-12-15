@@ -236,12 +236,12 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
   
   $pt_opts = array();
   if(intval($data['id']) > 0){
-$pt_opts['actve_ids'] = $data['parent'];	
+$pt_opts['active_ids'] = $data['parent'];	
 	
 } else {
 
  if(isset($params['parent-page-id']) and intval($data['parent']) == 0 and intval($params['parent-page-id']) > 0){
-	 $pt_opts['actve_ids'] = $data['parent']= $params['parent-page-id'];
+	 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
 }
 	
 	
@@ -322,11 +322,11 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
     <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? if(intval($data['id']) > 0): ?>
-    <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  actve_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
+    <microweber module="categories/selector" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
     <? else: ?>
     <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
 		 
-		 $selected_parent_ategory_id = 'actve_ids="'.$params["parent-page-id"].'"';
+		 $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 	 } ?>
     <microweber module="categories/selector"   id="categorories_selector_for_post_<? print $rand ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
     <? endif; ?>

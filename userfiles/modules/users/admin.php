@@ -139,6 +139,9 @@ _mw_admin_user_edit = function(){
     if(attrs['edit-user'] !== undefined && attrs['edit-user'] !== ''){
         holder.attr('edit-user', attrs['edit-user']);
         mw.load_module('users/edit_user','#user_edit_admin_<? print $rand ?>', function(){
+
+                mw.cache.save()
+
               if(typeof UsersRotator === 'undefined') {
                  UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
               }
@@ -152,12 +155,14 @@ _mw_admin_user_edit = function(){
 
 mw.on.hashParam('is_admin', function(){
   _mw_admin_users_manage();
+  mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
 });
 mw.on.hashParam('search', function(){
   _mw_admin_users_manage();
 });
 mw.on.hashParam('is_active', function(){
   _mw_admin_users_manage();
+  mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
 });
 mw.on.hashParam('sortby', function(){
   _mw_admin_users_manage();
@@ -172,21 +177,28 @@ mw.on.hashParam('edit-user', function(){
   }
 });
 
+
+
+
+
+
+
+
 </script>
 
 
 <div id="mw_index_users">
   <h2 class="mw-side-main-title">Users</h2>
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> Role
+  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> <label class="mw-ui-label">Role</label>
     <ul class="mw-admin-side-nav">
       <li>
-        <a class="mw-ui-check" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">User</a>
+        <a class="mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">User</a>
       </li>
       <li>
-          <a class="mw-ui-check" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">Admin</a>
+          <a class="mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">Admin</a>
       </li>
       <li>
-          <a class="mw-ui-check" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a>
+          <a class="mw-users-is-admin mw-users-is-admin-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a>
       </li>
     </ul>
     <label class="mw-ui-label">Status</label>

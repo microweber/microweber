@@ -217,7 +217,7 @@ typeof mw === 'undefined' ?
   mw.load_module = function($module_name, $update_element, callback, attributes) {
 
   if(attributes == undefined){
-   var attributes = {};
+    var attributes = {};
    }
     attributes.module = $module_name;
     mw._({
@@ -357,7 +357,67 @@ typeof mw === 'undefined' ?
   };
 
 
+  api = function(action, params, callback){
+    var url = mw.settings.api_url + action;
+    var type = typeof params;
+    if(type === 'string'){
+        var obj = __mw_serialize(params);
+    }
+    else if(type === 'object'){
+        var obj = params;
+    }
+
+    $.post(url, obj, function(data){
+        if(mw.is.func(callback)){
+            callback.call(data);
+        } else {
+            return data;
+        }
+    });
+  }
+
+
+
+
+
 
 })() : '';
 
+
+__mw_serialize =  function(id){
+      var el = mw.$(id);
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      var data = {}
+      $(fields, el).each(function(){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(!el.name.contains("[]")){
+             data[name] = val;
+          }
+          else{
+            try {
+               data[name].push(val);
+            }
+            catch(e){
+              data[name] = [val];
+            }
+          }
+      });
+      return data;
+ }
+
+
+ mw.cache = {
+   get:function(key){
+    var item = localStorage.getItem(key);
+    return item !== null ? item : undefined;
+   },
+   save:function(key, val){
+     return localStorage.setItem(key, val)
+   },
+   remove:function(key){
+     return localStorage.removeItem(key);
+   }
+ }
 

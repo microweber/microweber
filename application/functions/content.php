@@ -1991,7 +1991,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
  * $pt_opts['link'] = "{title}";
  * $pt_opts['list_tag'] = " ";
  * $pt_opts['list_item_tag'] = "option";
- * $pt_opts['actve_ids'] = $data['parent'];
+ * $pt_opts['active_ids'] = $data['parent'];
  * $pt_opts['active_code_tag'] = '   selected="selected"  ';
  *  pages_tree($pt_opts);
  *
@@ -2001,7 +2001,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
  * $pt_opts['id_prefix'] = 'my_id';
  */
 
-function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
+function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
 	$params2 = array();
 	$params = false;
@@ -2127,12 +2127,12 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 		$remove_ids = explode(',', $remove_ids);
 	}
 if (isset($active_ids)){
-	$actve_ids = $active_ids;
+	$active_ids = $active_ids;
 }
 	
 	
-	if (isset($actve_ids) and is_string($actve_ids)) {
-		$actve_ids = explode(',', $actve_ids);
+	if (isset($active_ids) and is_string($active_ids)) {
+		$active_ids = explode(',', $active_ids);
 	}
  
 	//	$params['debug'] = $parent;
@@ -2248,15 +2248,15 @@ if (isset($active_ids)){
 					foreach ($item as $item_k => $item_v) {
 						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);
 					}
-
-					if (is_array($actve_ids) == true) {
+ 
+					if (is_array($active_ids) == true) {
 
 						$is_there_active_ids = false;
 
-						foreach ($actve_ids as $active_id) {
+						foreach ($active_ids as $active_id) {
 
-							if (strval($item['id']) == strval($active_id)) {
-
+							if (intval($item['id']) == intval($active_id)) {
+ 
 								$is_there_active_ids = true;
 
 								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
@@ -2323,7 +2323,7 @@ if (isset($active_ids)){
 					$params['nest_level'] = $nest_level;
 					$children = pages_tree($params);
 				} else {
-					$children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
+					$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
 				}
 
 				if (isset($include_categories) and $include_categories == true) {
@@ -2347,8 +2347,8 @@ if (isset($active_ids)){
 							
 						}
 						
-							if(isset($categores_actve_ids)){
-													$cat_params['actve_ids'] = $categores_actve_ids;
+							if(isset($categories_active_ids)){
+													$cat_params['active_ids'] = $categories_active_ids;
 							
 						}
 

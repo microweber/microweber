@@ -88,8 +88,9 @@ $(document).ready(function(){
 	// onload_set_parent_<? print $form_rand_id ?>();
 	// set_category_parent_<? print $form_rand_id ?>()
 	 <? endif; ?>
-	  mw.$('#admin_edit_category_form_<? print $form_rand_id ?> input').change(function() { 
-	//   set_category_parent_<? print $form_rand_id ?>();
+	  mw.$('#edit_category_set_par_<? print $form_rand_id ?> input').change(function() { 
+	//  alert(1);
+	     set_category_parent_<? print $form_rand_id ?>();
 	   });
 	    
 	 
@@ -104,6 +105,12 @@ $(document).ready(function(){
 	 
 	 mw.reload_module('[data-type="categories"]');
 	  mw.reload_module('[data-type="pages_menu"]');
+	  <? if(intval($data['id']) == 0): ?>
+	 	mw.url.windowHashParam("action", "editcategory:" + this);
+<? endif; ?>
+	  
+	  
+	  
 	 });
 
  return false;
@@ -119,7 +126,7 @@ $(document).ready(function(){
 });
 </script>
 <? if(intval($data['id']) == 0){
-	  if(isset($params['selected-category-id'])){
+	  if(isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0){
 		  $data['parent_id'] = intval($params['selected-category-id']);
 	  } elseif(isset($params['page-id'])){
 		  $data['to_table_id'] = intval($params['page-id']);
@@ -167,13 +174,11 @@ $(document).ready(function(){
 	 
 	 
        ?>
-       <pre>
-       <? d($data); ?>
-       </pre>
        
-      <input name="parent_id" type="text" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
+       
+      <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
       <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">
-        <module  type="categories/selector"   categores_actve_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
+        <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
       </div>
 
   </div>

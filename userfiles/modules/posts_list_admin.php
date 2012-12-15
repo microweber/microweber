@@ -34,7 +34,7 @@ $pt_opts = array();
 $pt_opts['link'] = "{title}";
 $pt_opts['list_tag'] = " ";
 $pt_opts['list_item_tag'] = "option";
-$pt_opts['actve_ids'] = $posts_parent_page;
+$pt_opts['active_ids'] = $posts_parent_page;
 $pt_opts['remove_ids'] = $params['id'];
  
  

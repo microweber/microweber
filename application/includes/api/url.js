@@ -79,9 +79,8 @@ mw.url = {
         mw.hash(mw.url.setHashParam(a,b));
       }
       else{
-        return mw.url.getHashParams()[a];
+        return mw.url.getHashParams(mw.hash())[a];
       }
-
     },
     deleteHashParam:function(hash, param){
         var params = mw.url.getHashParams(hash);

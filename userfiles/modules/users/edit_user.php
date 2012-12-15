@@ -40,8 +40,8 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
  mw.form.post(mw.$('#users_edit_<? print $rand ?>') , '<? print site_url('api/save_user') ?>', function(){
 	 
-       UserId = this;
-	// mw.reload_module('[data-type="categories"]');
+      UserId = this;
+	  // mw.reload_module('[data-type="categories"]');
 	  mw.reload_module('[data-type="users/manage"]', function(){
 
 	    mw.url.windowDeleteHashParam('edit-user');
