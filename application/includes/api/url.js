@@ -6,6 +6,8 @@ json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURICompone
 
 
 
+
+
 mw.url = {
     hashStart: '',
     getDomain:function(url){
@@ -172,6 +174,11 @@ mw.slug = {
     mw.$(".view-post-slug").html(val)
   }
 }
+
+
+
+
+
 
 
 

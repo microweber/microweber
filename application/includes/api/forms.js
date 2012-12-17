@@ -1,7 +1,7 @@
 window.mw = window.mw ? window.mw : {};
 
 FieldUnify = function(a){
-  return mw.is.string(a) ? a : (mw.is.obj(a) ? a.value : '');
+  return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or DOM node.'));
 }
 
 
@@ -140,7 +140,7 @@ mw.form = {
              mw.form.validate.radio(this.name);
           }
           else{
-            mw.form.validate.proceed.field(this);
+             mw.form.validate.proceed.field(this);
           }
         });
         $(form).find(".required-email").each(function(){

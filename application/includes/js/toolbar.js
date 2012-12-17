@@ -461,33 +461,24 @@ mw.image = {
 
 
 
-  $.fn.notmouseenter = function() {
-    return this.filter(function(){
-      var el = $(el);
-      var events = el.data("events");
-      return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
-    });
-  };
+$.fn.notmouseenter = function() {
+  return this.filter(function(){
+    var el = $(el);
+    var events = el.data("events");
+    return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
+  });
+};
 
-  $.fn.notclick = function() {
-    return this.filter(function(){
-      var el = $(el);
-      var events = el.data("events");
-      return (events==undefined || events.click==undefined);
-    });
-  };
+$.fn.notclick = function() {
+  return this.filter(function(){
+    var el = $(el);
+    var events = el.data("events");
+    return (events==undefined || events.click==undefined);
+  });
+};
 
 
-  $.fn.visible = function() {
-    return this.css("visibility", "visible");
-  };
-  $.fn.visibilityDefault = function() {
-    return this.css("visibility", "");
-  };
 
-  $.fn.invisible = function() {
-    return this.css("visibility", "hidden");
-  };
 
 
 $.expr[':'].isHidden = function(obj, index, meta, stack){

@@ -16,14 +16,17 @@ if(isset($params['menu-name'])){
 		if($mt != false){
 			print ($mt);
 		} else {
-			print "There are no items in the menu <b>".$params['menu-name']. '</b>';	
+			pages_tree();
+			//print "There are no items in the menu <b>".$params['menu-name']. '</b>';	
 		}
 	} else {
-		print "Click on settings to edit this menu";	
+		pages_tree();
+		//print "Click on settings to edit this menu";	
 	}
 	
 } else {
-	print "Click on settings to edit this menu";	
+	pages_tree();
+	//print "Click on settings to edit this menu";	
 }
 
 

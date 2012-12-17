@@ -1573,6 +1573,20 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   width:100px;
   text-align: center;
 }
+.admin-modules-list-image .iMove{
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  opacity: 0.4;
+  visibility: hidden;
+}
+.admin-modules-list-image .iMove:hover{
+  opacity:1;
+}
+
+.mw-modules-admin li > .module:hover .iMove{
+  visibility: visible;
+}
 
 .admin-modules-list-image .mw_module_image_holder{
   margin:0 auto;
@@ -1628,7 +1642,9 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   position: absolute;
   z-index: 2;
   top: -7px;
+    top: -11px;
   left:15px;
+    left:7px;
   white-space: nowrap;
   color: #FF0000;
   text-transform: lowercase;
@@ -1993,7 +2009,7 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
 }
 
 .mw-dump-list {
-color: #222222;
+    color: #222222;
     font-family: 'Courier New';
     font-size: 15px;
     font-weight: bold;
@@ -2012,6 +2028,25 @@ color: #222222;
 .post-save-top .mw-ui-btn, .post-save-bottom .mw-ui-btn{
   margin-left: 7px;
 }
+
+.mw-side-nav-label{
+    color: #212121;
+    padding-bottom: 0;
+    padding-left: 12px;
+    padding-top: 12px;
+    display: block;
+    font-weight: bold;
+}
+
+h2.mw-side-main-title{
+  padding: 23px 0 10px 12px;
+}
+
+h2.mw-side-main-title .ico{
+  margin-right: 10px;
+}
+
+
 
 
 

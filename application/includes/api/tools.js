@@ -1,6 +1,6 @@
 
 
-"free mode";
+
 
 
 mw.simpletabs = function(){
@@ -666,8 +666,8 @@ mw.tools = {
     var selector = selector || el.tagName.toLowerCase();
     var parent = parent || el.parentNode;
     var all = parent.querySelectorAll(selector), i=0, l=all.length;
-    for ( ; i<l;i++){
-        if(el===all[i]) return i;
+    for ( ; i<l; i++){
+        if( el===all[i] ) return i;
     }
   },
   simpleRotator:function(rotator){
@@ -679,6 +679,7 @@ mw.tools = {
       $(all).addClass('mw-simple-rotator-item');
       $(rotator).width(w);
       rotator.go = function(where, callback){
+          $(rotator).dataset('state', where);
           var item = $(rotator).children()[where];
           var item_left = $(item).offset().left;
           var rleft =  $(rotator).offset().left;
@@ -688,6 +689,7 @@ mw.tools = {
             }
           });
       }
+      rotator.state = function(){return parseFloat($(rotator).dataset('state'))}
     }
     return rotator;
   },
@@ -718,7 +720,9 @@ mw.tools = {
         })
     });
   },
-  setActive:function(){}
+  toCamelCase:function(str){
+     return str.replace(/(\-[a-z])/g, function(a){return a.toUpperCase().replace('-','');})
+  }
 }
 
 
@@ -762,12 +766,13 @@ mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? tr
 
 $.fn.dataset = function(dataset, val){
   var el = this[0];
+  var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
   if(!val){
-     var dataset = mw.datassetSupport ? el.dataset[dataset] : $(el).attr("data-"+dataset);
+     var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-"+dataset);
      return dataset!==undefined ? dataset : "";
   }
   else{
-    mw.datassetSupport ? el.dataset[dataset] = val :  $(el).attr("data-"+dataset, val);
+    mw.datassetSupport ? el.dataset[_dataset] = val :  $(el).attr("data-"+dataset, val);
     return $(el)
   }
 }
@@ -1108,6 +1113,19 @@ mw.notification = {
 
 
 
+
+
+
+  $.fn.visible = function() {
+    return this.css("visibility", "visible");
+  };
+  $.fn.visibilityDefault = function() {
+    return this.css("visibility", "");
+  };
+
+  $.fn.invisible = function() {
+    return this.css("visibility", "hidden");
+  };
 
 
 

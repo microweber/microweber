@@ -340,6 +340,11 @@ typeof mw === 'undefined' ?
       console.log(what);
     }
   }
+  mw.error = function(what){
+    if (window.console && mw.settings.debug) {
+      console.error(what);
+    }
+  }
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
@@ -406,6 +411,10 @@ mw.serializeFields =  function(id){
       });
       return data;
  }
+
+
+
+
 
 
 

@@ -105,6 +105,9 @@ _mw_admin_users_manage = function(){
     if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(x, attrs[x]);
     }
+
+
+
     mw.load_module('users/manage','#users_admin_<? print $rand ?>', function(){
       TableLoadded = true;
       var params = mw.url.getHashParams(window.location.hash);
@@ -121,9 +124,15 @@ TableLoadded = false;
 
 $(window).bind("load", function(){
 
+  var hash = mw.url.getHashParams(window.location.hash);
+  if(hash['edit-user'] === undefined){
+    if(hash.sortby === undefined){
+       mw.url.windowHashParam('sortby', 'created_on desc');
+    }
+  }
+  else{
 
-
-  _mw_admin_users_manage();
+  }
 
 
 
@@ -139,9 +148,7 @@ _mw_admin_user_edit = function(){
     if(attrs['edit-user'] !== undefined && attrs['edit-user'] !== ''){
         holder.attr('edit-user', attrs['edit-user']);
         mw.load_module('users/edit_user','#user_edit_admin_<? print $rand ?>', function(){
-
-                mw.cache.save()
-
+              mw.cache.save();
               if(typeof UsersRotator === 'undefined') {
                  UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
               }
@@ -154,28 +161,31 @@ _mw_admin_user_edit = function(){
 
 
 mw.on.hashParam('is_admin', function(){
-  _mw_admin_users_manage();
-  mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
+    _mw_admin_users_manage();
+    mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
 });
 mw.on.hashParam('search', function(){
-  _mw_admin_users_manage();
+    _mw_admin_users_manage();
 });
 mw.on.hashParam('is_active', function(){
-  _mw_admin_users_manage();
-  mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
+    _mw_admin_users_manage();
+    mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
 });
 mw.on.hashParam('sortby', function(){
-  _mw_admin_users_manage();
+    _mw_admin_users_manage();
 });
 mw.on.hashParam('edit-user', function(){
   if(this == false){
      _mw_admin_users_manage();
      UsersRotator.go(0);
+     mw.$('.modules-index-bar, .manage-items').visible();
   }
   else if(this != false && TableLoadded){
       _mw_admin_user_edit();
+      mw.$('.modules-index-bar, .manage-items').invisible();
   }
 });
+
 
 
 
@@ -188,8 +198,24 @@ mw.on.hashParam('edit-user', function(){
 
 
 <div id="mw_index_users">
+
+
+
+  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
+
+
   <h2 class="mw-side-main-title"><span class="ico iusers-big"></span><span>Users</span></h2>
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px"> <label class="mw-ui-label black">Sort Users by Roles</label>
+
+  <div class="vSpace"></div>
+
+  <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn-rect" style="width: 144px;margin-left: 12px;">
+        <span class="ico iplus"></span><span>Add new user</span>
+  </a>
+
+  <div class="vSpace"></div>
+
+ <div class="manage-items">
+  <label class="mw-side-nav-label">Sort Users by Roles</label>
     <ul class="mw-admin-side-nav">
       <li>
         <a class="mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">User</a>
@@ -198,10 +224,10 @@ mw.on.hashParam('edit-user', function(){
           <a class="mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">Admin</a>
       </li>
       <li>
-          <a class="mw-users-is-admin mw-users-is-admin-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a>
+          <a class="mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a>
       </li>
     </ul>
-    <label class="mw-ui-label">Sort Users by Status</label>
+    <label class="mw-side-nav-label">Sort Users by Status</label>
     <ul class="mw-admin-side-nav">
       <li>
         <a class="mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');">Active users</a>
@@ -210,13 +236,11 @@ mw.on.hashParam('edit-user', function(){
         <a class="mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');">Disabled users</a>
       </li>
       <li>
-        <a class="mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">All users</a>
+        <a class="mw-users-is-active mw-users-is-active-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">All users</a>
       </li>
     </ul>
-        <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn-rect">
-        <span class="ico iplus"></span><span>Add new user</span></a>
-    <br>
-<a href="javascript:mw.url.windowDeleteHashParam('edit-user');" class="mw-ui-btn mw-ui-btn-small">Show all</a>
+  </div>
+
   </div>
   <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;width: 757px;">
     <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>

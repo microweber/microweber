@@ -118,9 +118,9 @@
   margin: 3px 0 0 3px;
 }
 .iusers-big{
-  width: 27px;
+  background-position: -712px -118px;
   height: 26px;
-  background-position:-748px -115px;
+  width: 28px;
 }
 
 
@@ -2022,6 +2022,8 @@ tr.mw-o-box-table-footer td:first-child{
   overflow: hidden;
   text-overflow:ellipsis;
 }
+
+
 
 
 

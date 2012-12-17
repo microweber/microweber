@@ -57,6 +57,9 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
  
  
 }
+
+
+
 </script>
 
 <div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_<? print $rand ?>">
