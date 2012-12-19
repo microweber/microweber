@@ -213,7 +213,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 
  ?>
-      <label class="mw-ui-label" style="padding-top: 5px;"><?php print ucfirst( $t); ?> Name</label>
+      <label class="mw-ui-label"><?php print ucfirst( $t); ?> Name</label>
       <? if(intval($data['id']) > 0): ?>
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
@@ -332,7 +332,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 		$categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
 	}
 	}
-	 // d($categories_active_ids);
+	 //d($categories_active_ids);
 	 ?>
     
     
@@ -439,7 +439,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 $(document).ready(function(){
 
 		  mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-			mw.$('#categorories_selector_for_post_<? print $rand ?> input').bind('change', function(e){
+			mw.$('#categorories_selector_for_post_<? print $rand ?> input[type="radio"]').bind('change', function(e){
 		   mw_load_post_cutom_fields_from_categories<? print $rand ?>();
 		
 		

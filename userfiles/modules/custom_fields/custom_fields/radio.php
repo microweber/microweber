@@ -21,7 +21,7 @@ include('empty_field_vals.php');
 	}
 	?>
   <div class="mw-custom-field-form-controls">
-    <input type="radio" name="<? print $data["custom_field_name"]; ?>"    data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> checked="checked" <? endif; ?> >
+    <input type="radio" name="<? print $data["custom_field_name"]; ?>"  <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>    data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> checked="checked" <? endif; ?> >
     <label for="field-<? print $data["id"]; ?>"><? print ($v); ?></label>
   </div>
   <? endforeach; ?>

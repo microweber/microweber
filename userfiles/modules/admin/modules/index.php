@@ -94,6 +94,7 @@ _modulesSort = function(){
         el.sortable({
 		handle: ".mw_admin_modules_sortable_handle",
 		items: "li",
+        axis:'y',
 		update: function(){
           var serial = el.sortable('serialize');
           $.ajax({

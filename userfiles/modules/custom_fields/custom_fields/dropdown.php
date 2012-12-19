@@ -22,7 +22,7 @@ include('empty_field_vals.php');
   <? if(isset($data['help']) == true and $data['help'] != ''): ?>
   <small  class="mw-custom-field-help"><? print $data['help'] ?></small>
   <? endif; ?>
-  <select <? if(get_option('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?>multiple="multiple"<? endif; ?> name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
+  <select <? if(get_option('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?>multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
     <? foreach($data['custom_field_values'] as $k=>$v): ?>
     <? if(is_string( $k)){
 	$kv =  $k;	

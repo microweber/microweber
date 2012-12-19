@@ -16,4 +16,19 @@
     </ul>
   </div>
 </div>
+<script>
 
+
+$(document).ready(function(){
+    // Set the active class immediately
+    var nav_lis = mw.$("#mw-admin-shop-navigation li");
+    nav_lis.click(function(){
+        if(!$(this).hasClass('active')){
+           nav_lis.removeClass('active');
+           $(this).addClass('active');
+        }
+    });
+
+});
+
+</script>

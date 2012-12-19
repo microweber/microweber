@@ -52,7 +52,7 @@ mw.cart = {
 	  
 	  
 	 //  data = mw.$(selector+' input').serialize();
-	  
+
 	   var obj = mw.form.serialize(selector);
      $.post(mw.settings.api_url+'checkout', obj ,
      function(data) {
@@ -78,6 +78,8 @@ mw.cart = {
   
   }
 }
+
+
 
 
 

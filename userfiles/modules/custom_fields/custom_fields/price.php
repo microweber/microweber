@@ -12,5 +12,5 @@
   </div>
 </div>
 <? else: ?>
- <option   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>  data-custom-field-id="<? print $data["id"]; ?>"  name="<? print $data["custom_field_type"]; ?>"   value="<? print $data["custom_field_value"]; ?>"><? print $data["custom_field_name"]; ?></option>
+ <option   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  data-custom-field-id="<? print $data["id"]; ?>"  name="<? print $data["custom_field_type"]; ?>"   value="<? print $data["custom_field_value"]; ?>"><? print $data["custom_field_name"]; ?></option>
 <? endif; ?>
