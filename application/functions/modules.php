@@ -8,8 +8,6 @@ if (!defined("MW_DB_TABLE_ELEMENTS")) {
 	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
 }
 
-
-
 api_expose('reorder_modules');
 
 function reorder_modules($data) {
@@ -18,9 +16,8 @@ function reorder_modules($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	 
 
-	$table =  MW_TABLE_PREFIX . 'modules';
+	$table = MW_TABLE_PREFIX . 'modules';
 	foreach ($data as $value) {
 		if (is_arr($value)) {
 			$indx = array();
@@ -36,7 +33,6 @@ function reorder_modules($data) {
 		}
 	}
 }
-
 
 action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
 
@@ -1494,7 +1490,7 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['module_class'] = module_css_class($module_name);
 
-		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
+		$config['url_to_module'] = pathToURL($config['path_to_module']);
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
 		$lic = load_module_lic($module_name);
 		//  $lic = 'valid';

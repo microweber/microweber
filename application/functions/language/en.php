@@ -423,3 +423,6 @@ $language["payment-information"]= 'Payment Information' ;
 $language["payment-method"]= 'Payment Method' ; 
 $language["transaction-id"]= 'Transaction ID' ; 
 $language["payment-status"]= 'Payment Status' ; 
+$language["your-name"]= 'Your Name' ; 
+$language["your-e-mail"]= 'Your E-mail' ; 
+$language["subscribe-me-now"]= 'Subscribe me Now' ; 

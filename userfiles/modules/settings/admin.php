@@ -1,7 +1,5 @@
 <?php $rand = $params['id']; ?>
-
 <?  $option_groups = get_option_groups(); ?>
- 
 <script  type="text/javascript">
 
 
@@ -60,6 +58,7 @@ mw.on.hashParam('installed', function(){
 
 });
 </script>
+
 <div id="mw_index_settings">
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
     <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;settings</h2>
@@ -88,9 +87,7 @@ mw.on.hashParam('installed', function(){
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="settings-index-bar"> <span class="mw-ui-label-help font-11 left">Sort settings:</span>
-
-    <?php $def = _e("Search for settings", true); ?>
-
+      <?php $def = _e("Search for settings", true); ?>
       <input name="module_keyword" id="module_keyword" class="mw-ui-searchfield right" type="text" value="<?php print $def; ?>" data-default='<?php print $def; ?>' onfocus='mw.form.dstatic(event);' onblur='mw.form.dstatic(event);'  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
       <ul class="mw-ui-inline-selector">
