@@ -22,7 +22,7 @@
  * @version 1.0
  */
 mw.options = {
-    save:function(el){
+    save:function(el, callback){
  
            //    mw.extend(el);
 			 
@@ -114,7 +114,7 @@ if(refresh_modules11 == undefined){
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
                     success: function (data) {
-                      
+
 						 if (for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
@@ -133,7 +133,7 @@ if(refresh_modules11 == undefined){
                             }
                         }
 
-                         typeof callback==='function' ?  callback.call(data) : '';
+                         typeof callback === 'function' ?  callback.call(data) : '';
 
                     }
           });
@@ -141,11 +141,16 @@ if(refresh_modules11 == undefined){
 };
 
 mw.options.form = function($selector, callback){
-  //  mw.$($selector+" .mw_option_field").bind("change", function(){
-	  // mw.log($selector);
-	   mw.$($selector+" input,select,textarea").unbind("change");
-	   mw.$($selector+" input,select,textarea").bind("change", function(){
-          mw.options.save(this);
-    });
+        var callback = callback || '';
+        var items = mw.$($selector).find("input, select, textarea");
+        items.each(function(){
+          var item = $(this);
+          if(!item.hasClass('mw-options-form-binded')){
+              item.addClass('mw-options-form-binded');
+              item.bind("change", function(){
+                  mw.options.save(this, callback);
+              });
+          }
+        });
 }
 

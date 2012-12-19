@@ -1887,7 +1887,11 @@ border-top-right-radius: 0px;
     text-overflow: ellipsis;
     top: 5px;
     white-space: nowrap;
-    width: calc(100% - 115px);
+
+}
+
+.mw-file-browser .mw-o-box-header > .ico + span{
+    max-width: calc(100% - 115px);
 }
 
 .mw-o-box-header > .ico + span > a{

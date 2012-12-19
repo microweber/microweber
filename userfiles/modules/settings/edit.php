@@ -43,7 +43,7 @@ if(!isset($data['name'])){
 
 <script  type="text/javascript">
 $(document).ready(function(){
-    mw.options.form('#opt_form_<? print $rand ?>', function(){
+    mw.options.form('#opt_form_<? print $rand ?>', function(){   
       mw.notification.success("<?php _e("All changes are saved"); ?>.")
     });
 });

@@ -1161,10 +1161,15 @@ mw.notification = {
 
 
 
+$(document).ready(function(){
+
+    mw.on.scrollOnBottom(mwd.getElementById('mw_edit_pages'), 100, function(){
+      mw.log(this);
+    })
 
 
 
-
+})
 
 
 
