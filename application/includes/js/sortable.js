@@ -192,7 +192,7 @@ mw.drag = {
 
 
            if(!mw.isDrag){
-               if(mw.mouse.x%2==0){ //not on every pixel
+               if(mw.mouse.x % 2 ===0 ){ //not on every pixel
                    //trigger on element
 
                    if(mw.$mm_target.hasClass("element")){

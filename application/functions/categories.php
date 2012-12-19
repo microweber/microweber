@@ -428,7 +428,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 	$output = '';
 	//$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
 	//
- 
+
 	//
 	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 
@@ -614,15 +614,22 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
 						$active_found = false;
+
+						if (is_string($active_ids)) {
+							$active_ids = explode(',', $active_ids);
+						}
+
 						if (is_array($active_ids) == true) {
 							$active_ids = array_trim($active_ids);
 							//d($active_ids);
 
 							foreach ($active_ids as $value_active_cat) {
-								$value_active_cat = intval($value_active_cat);
-								if (intval($item['id']) == $value_active_cat) {
-									$active_found = $value_active_cat;
-									//d($value_active_cat);
+								if ($value_active_cat != '') {
+									$value_active_cat = intval($value_active_cat);
+									if (intval($item['id']) == $value_active_cat) {
+										$active_found = $value_active_cat;
+										//d($value_active_cat);
+									}
 								}
 							}
 

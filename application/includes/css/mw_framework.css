@@ -67,6 +67,7 @@
 .icategory{background-position:3px -78px;}
 .iproduct{background-position:1px -120px;}
 .iorder{background-position:-227px 1px;}
+.iorder-big{background-position:-180px -2px;width:27px;height:26px;}
 .icomment{background-position:-228px -42px;}
 .imanage-website{background-position:-225px -80px;}
 .imanage-module{background-position:-228px -119px;}
@@ -1665,7 +1666,7 @@ border-top-right-radius: 0px;
 #mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification{ top:240px; }
 
 #mw_order_status{
-  padding: 0 0 25px 0;
+  padding: 0 0 15px 0;
 }
 
 #mw_order_status .mw-notification{
@@ -1908,7 +1909,7 @@ border-top-right-radius: 0px;
     border-top:1px solid #ECECEC;
     border-bottom:1px solid #ECECEC;
     clear: both;
-    font-size: 11px;
+    font-size: 12px;
     text-align: left;
 }
 
@@ -1917,6 +1918,13 @@ border-top-right-radius: 0px;
   border-right:1px solid #ECECEC;
   border-bottom:1px solid #ECECEC;
 }
+
+
+.mw-o-box-table tr > td:first-child,
+.mw-o-box-table tr > th:first-child{
+  padding-left: 15px;
+}
+
 .mw-o-box-table tr td:last-child{
   border-right: none;
 }
@@ -1929,6 +1937,7 @@ border-top-right-radius: 0px;
   font-size: 11px;
   font-weight: normal;
   white-space: nowrap;
+  color: #666;
 }
 
 tr.mw-o-box-table-footer td:first-child{

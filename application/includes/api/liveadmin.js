@@ -52,6 +52,8 @@ mw.liveadmin = {
 
 
 
+
+
     $(document).ready(function(){
 
       $(mwd.body).ajaxStart(function(){
@@ -75,10 +77,23 @@ mw.liveadmin = {
       });
 
 
-      $(mwd.body).append('<div class="vl"></div><div class="vl"></div><div class="hl"></div><div class="hl"></div>');
 
-      $(".vl").draggable({axis:'x'});
-      $(".hl").draggable({axis:'y'});
+
+      /*TEMP*/
+      $(mwd.body).append('<div class="vl"></div><div class="hl"></div>');
+
+
+       $("#UITU").prepend('<span class="mw-ui-btn" onclick="$(mwd.body).toggleClass(\'cross\')">Cross</span>');
+
+       $(".vl,.hl").click(function(){
+          $(mwd.body).toggleClass('cross');
+       })
+       $(mwd.body).mousemove(function(e){
+          $(".vl").css('left', e.pageX-$(window).scrollLeft());
+          $(".hl").css('top', e.pageY-$(window).scrollTop());
+       });
+
+       /* END of TEMP*/
 
 
     });

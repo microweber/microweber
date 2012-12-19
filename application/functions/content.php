@@ -2372,6 +2372,7 @@ if(isset($active_code)){
 						if (isset($debug)) {
 						
 						}
+						//d($cat_params);
 						category_tree($cat_params);
 					
 				}

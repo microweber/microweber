@@ -19,7 +19,17 @@ mw.cache = {
    }
 }
 
+mw.supports = {};
 
+
+(function(o){
+
+   var t = document.createElement('div');
+
+   o.mouseenter = t.onmouseenter === null ? true : false;
+
+
+})(mw.supports);
 
 
 

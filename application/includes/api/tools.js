@@ -722,6 +722,14 @@ mw.tools = {
   },
   toCamelCase:function(str){
      return str.replace(/(\-[a-z])/g, function(a){return a.toUpperCase().replace('-','');})
+  },
+  multihover:function(){
+    var l = arguments.length, i=1;
+    var type = arguments[0].type;
+    var check =  ( type ==='mouseover' ||  type ==='mouseenter');
+    for( ; i<l; i++) {
+      check  ?  $(arguments[i]).addClass('hovered')  :  $(arguments[i]).removeClass('hovered') ;
+    }
   }
 }
 
@@ -1126,6 +1134,29 @@ mw.notification = {
   $.fn.invisible = function() {
     return this.css("visibility", "hidden");
   };
+
+
+  mw.which = function(str, arr_obj, func){
+     if(arr_obj instanceof Array){
+       var l = arr_obj.length, i = 0;
+       for( ; i<l; i++){
+         if(arr_obj[i] === str){
+            func.call(arr_obj[i]);
+            return arr_obj[i];
+         }
+       }
+     }
+     else{
+       for(var i in arr_obj){
+         if(i===str){
+            func.call(arr_obj[i]);
+            return arr_obj[i];
+         }
+       }
+     }
+  }
+
+
 
 
 

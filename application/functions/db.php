@@ -493,7 +493,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1389,8 +1390,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -2024,15 +2024,19 @@ function save_data($table, $data, $data_to_save_options = false) {
 							$cname_check = db_escape_string($cname_check);
 							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
 							//	$is_ex = get($str1);
-							$cncheckq = "select id
+
+							if ($cname_check != '') {
+
+								$cncheckq = "select id
                     from $taxonomy_table where
                     data_type='category' 
                     and   to_table='{$table_assoc_name}'
                     and   title='{$cname_check}'   ";
-							$is_ex = db_query($cncheckq);
+								// d($cncheckq);
+								$is_ex = db_query($cncheckq);
 
-							if (empty($is_ex)) {
-								$clean_q = "INSERT INTO
+								if (empty($is_ex)) {
+									$clean_q = "INSERT INTO
                      $taxonomy_table set
                      title='{$cname_check}',
                       parent_id=0,
@@ -2040,14 +2044,15 @@ function save_data($table, $data, $data_to_save_options = false) {
                     data_type='category',
                     to_table='{$table_assoc_name}'
                     ";
-								$cats_data_items_modified = true;
-								$cats_data_modified = true;
-								//d($clean_q);
-								if ($dbg != false) {
-									d($clean_q);
-								}
-								db_q($clean_q);
+									$cats_data_items_modified = true;
+									$cats_data_modified = true;
+									//d($clean_q);
+									if ($dbg != false) {
+										d($clean_q);
+									}
+									db_q($clean_q);
 
+								}
 							}
 
 							//$is_ex = get($str1);
@@ -2075,7 +2080,7 @@ function save_data($table, $data, $data_to_save_options = false) {
                     to_table_id={$id_to_return}  ";
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
-					//d($clean_q);
+					// d($clean_q);
 					if ($dbg != false) {
 						d($clean_q);
 					}
@@ -2083,25 +2088,31 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
 				}
-				$cat_names_or_ids = array_trim($cz_int);
+				if (!empty($cz_int)) {
+					$cat_names_or_ids = array_trim($cz_int);
+				} else {
+					$cat_names_or_ids = $cz;
 
+				}
 				$cats_data_modified = false;
 				$cats_data_items_modified = false;
 				$keep_thosecat_items = array();
 				foreach ($cat_names_or_ids as $cat_name_or_id) {
-					$cat_name_or_id = db_escape_string($cat_name_or_id);
-
-					$q_cat1 = "INSERT INTO $taxonomy_items_table  set
+					$cat_name_or_id = db_escape_string(trim($cat_name_or_id));
+					if ($cat_name_or_id != '') {
+						$q_cat1 = "INSERT INTO $taxonomy_items_table  set
 
 					parent_id='{$cat_name_or_id}',
 					to_table='{$table_assoc_name}',
 					data_type='category_item',
 					to_table_id='{$id_to_return}'
 					";
-					if ($dbg != false) {
-						d($q_cat1);
+						if ($dbg != false) {
+							d($q_cat1);
+						}
+						// d($q_cat1);
+						db_q($q_cat1);
 					}
-					db_q($q_cat1);
 					// d($q_cat1);
 					// if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {
 					//
@@ -2714,6 +2725,7 @@ function split_sql_file($sql, $delimiter) {
  * @param		array $fields_to_add to add new column
  * @param		array $column_for_not_drop for not drop
  */
+
 function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array()) {
 	$function_cache_id = false;
 

@@ -763,9 +763,14 @@ $(window).resize(function(){
 mw.preview = function(){
     var url = mw.url.removeHash(window.location.href);
     var url = mw.url.set_param('preview', true, url);
+
+    window.open(url, '_blank');
+    window.focus();
+
+   /*
     mw.tools.modal.frame({
       url:url,
       width:$(window).width(),
       height:$(window).height()
-    });
+    }); */
 }

@@ -18,32 +18,39 @@ TEMP
 
 .vl, .hl{
   position: fixed;
-  display: none;
   z-index: 99999;
   overflow: hidden;
   background: #FF0000;
+  display: none;
   opacity:0.5;
 }
 
-.mwoffice .vl, .mwoffice .hl{
-  display: none;
+.cross .vl, .cross .hl{
+  display: block;
 }
 
 .vl:hover, .hl:hover{
   opacity:1;
 }
 
+body.cross{
+    cursor: crosshair;
+  cursor: none;
+}
+
 .vl{
   width: 2px;
   height: 100%;
-  cursor: move;
+  cursor: crosshair;
+  cursor: none;
   top: 0;
   left: 100px;
 }
 .hl{
   width:100% ;
   height: 2px;
-  cursor: move;
+  cursor: crosshair;
+  cursor: none;
 
   top: 400px;
   left: 0px;
@@ -253,7 +260,7 @@ body:-webkit-full-screen {
   color: black;
 }
 
-#menu-dropdown.active{
+#menu-dropdown.toggler-active{
   background-position: -612px -2px;
 }
 
@@ -453,14 +460,18 @@ form.add-edit-page-post textarea{
 
 .manage-posts-holder{
   border-top: 1px solid #E2E2E2;
+  position: relative;
 }
 
 .manage-post-item:hover{
   background-color:#f9f9f9;
 }
 
-.manage-post-item.ui-sortable-helper{
-  box-shadow:0 0 10px -5px #000;
+.manage-post-item.ui-sortable-helper,
+.page_posts_list_tree li.ui-sortable-helper,
+.mw-modules-admin li.ui-sortable-helper{
+  box-shadow:0px 5px 8px -7px #000000;
+  box-shadow:0px 5px 8px -7px #000000,  0px -5px 4px -6px #000000;
 }
 
 .manage-post-item a{
@@ -682,9 +693,7 @@ form.add-edit-page-post textarea{
   border-bottom-color: #A1A0A0;
 }
 
-.mw-quick-links li.active a{
-  background: #F5F5F5;
-}
+
 
 .custom_fields_selector .quick-links li a:hover{
   background: white;
@@ -1197,7 +1206,7 @@ body.still-loading:before{
 
 
 #mw-admin-shop-navigation{
-  width:780px;
+  width:781px;
   height: 65px;
   float: left;
   border: 1px solid #DCDCDC;
@@ -1213,14 +1222,22 @@ body.still-loading:before{
 #mw-admin-shop-navigation li{
   float: left;
   list-style: none;
-  margin: 0;
+  margin: 0 15px;
+}
+
+
+.order-table-info-list{
+  list-style: none;
+  font-size: 11px;
+  line-height: 19px;
+  padding-top: 12px;
 }
 
 .new-order-notification{
   min-width:130px;
   display: block;
-  height:58px;
-  padding: 9px 15px 0;
+  height:65px;
+  padding: 1px 15px 0;
   float: left;
   margin-right: 17px;
   text-align: center;
@@ -1363,12 +1380,12 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .mw-table-sorting li{
   list-style: none;
   float: left;
-  margin-right:25px;
+  margin-left:25px;
 }
 
 .mw-table-sorting li span{
   white-space: nowrap;
-  padding:0 15px 0 0;
+  padding:2px 15px 2px 0;
   color:#0B568D;
   background: url(../img/sort.png) no-repeat 100% 3px;
   cursor: pointer;
@@ -1389,17 +1406,17 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   clear: both;
 
 }
+
+.mw-table-sorting *{
+  font-size: 11px;
+}
+
 .mw-table-sorting label{
   float: left;
   color: #8B8B8B;
-  margin-right:20px;
   white-space: nowrap;
 }
-.mw-table-sorting-controller .manage-search{
-  margin-left: 173px;
-  width: 365px;
-  float: left;
-}
+
 
 .mw-table-sorting{
   padding-top: 5px;
@@ -1552,6 +1569,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 .mw-modules-admin li {
   list-style: none;
+  background: white;
 }
 .mw-modules-admin li > .module{
   padding: 13px 0 10px;
@@ -1563,9 +1581,12 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   min-height: 40px;
 }
 
+
 .mw-modules-admin li > .module:hover{
   background: url(../img/grad.php?top=FBFBFB&bot=F1F1F1)
 }
+
+
 
 .admin-modules-list-image{
   float: left;
@@ -2045,6 +2066,27 @@ h2.mw-side-main-title{
 h2.mw-side-main-title .ico{
   margin-right: 10px;
 }
+
+
+.mw-order-images{
+  padding: 0 10px 0 0;
+}
+
+.mw-order-images img{
+  margin: 0 0 10px 10px;
+  cursor: pointer;
+}
+
+.mw-order-images img:hover, .mw-order-images img.hovered{
+  outline: 1px solid #9F9F9F;
+  outline: 1px solid #4D7301;
+}
+
+tr.mw-order-item:hover, tr.mw-order-item.hovered{
+  background-color: #E6E6E6;
+  background-color: #D7FFC3;
+}
+
 
 
 

@@ -18,6 +18,8 @@
 
   //mw.require("keys.js");
 
+
+
 </script>
 
 
@@ -70,16 +72,16 @@
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
       <div id="mw-menu-liquify"><ul id="mw_tabs">
         <li id="t_modules">
-            <a href="#tab=modules" onclick="mw.windowHashParam('tab', 'modules');return false;"><? _e('Modules'); ?></a>
+            <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;"><? _e('Modules'); ?></a>
         </li>
         <li id="t_layouts">
-            <a href="#tab=layouts" onclick="mw.windowHashParam('tab', 'layouts');return false;"><? _e('Layouts'); ?></a>
+            <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;"><? _e('Layouts'); ?></a>
         </li>
         <li id="t_pages">
-            <a href="#tab=pages" onclick="mw.windowHashParam('tab', 'pages');return false;"><? _e('Pages'); ?></a>
+            <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;"><? _e('Pages'); ?></a>
         </li>
         <li id="t_help">
-          <a href="#tab=help" onclick="mw.windowHashParam('tab', 'help');return false;"><? _e('Help'); ?></a>
+          <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;"><? _e('Help'); ?></a>
         </li>
       </ul></div>
       <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
@@ -156,19 +158,29 @@
 
 <script>
 
+
   previewHTML = function(html, index){
       mw.$('.edit').eq(index).html(html);
   }
 
   window.onload = function(){
-    parent.mw.$('.edit').each(function(i){
-        var html = $(this).html();
-        self.previewHTML(html, i);
-    });
-
+    if(window.opener !== null){
+        window.opener.mw.$('.edit').each(function(i){
+            var html = $(this).html();
+            self.previewHTML(html, i);
+        });
+    }
   }
 
 </script>
+
+<style>
+
+.delete_column{
+  display: none;
+}
+
+</style>
 
 
 <?php } ?>
