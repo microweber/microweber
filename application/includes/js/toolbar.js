@@ -461,33 +461,24 @@ mw.image = {
 
 
 
-  $.fn.notmouseenter = function() {
-    return this.filter(function(){
-      var el = $(el);
-      var events = el.data("events");
-      return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
-    });
-  };
+$.fn.notmouseenter = function() {
+  return this.filter(function(){
+    var el = $(el);
+    var events = el.data("events");
+    return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
+  });
+};
 
-  $.fn.notclick = function() {
-    return this.filter(function(){
-      var el = $(el);
-      var events = el.data("events");
-      return (events==undefined || events.click==undefined);
-    });
-  };
+$.fn.notclick = function() {
+  return this.filter(function(){
+    var el = $(el);
+    var events = el.data("events");
+    return (events==undefined || events.click==undefined);
+  });
+};
 
 
-  $.fn.visible = function() {
-    return this.css("visibility", "visible");
-  };
-  $.fn.visibilityDefault = function() {
-    return this.css("visibility", "");
-  };
 
-  $.fn.invisible = function() {
-    return this.css("visibility", "hidden");
-  };
 
 
 $.expr[':'].isHidden = function(obj, index, meta, stack){
@@ -532,6 +523,7 @@ $(document).ready(function(){
 
 
     mw.on.hashParam("tab", function(){
+      mw.tools.sidebar();
       var tab = this;
       mw.$(".mw_toolbar_tab").removeClass("mw_tab_active");
       mw.$("#tab_"+tab).addClass("mw_tab_active");
@@ -691,30 +683,13 @@ mw.$(".mw_dropdown_action_format").change(function(){
 
 
 
-    $(mwd).ajaxStart(function(){
-      mw.tools.preloader('start');
-    });
-    $(mwd).ajaxStop(function(){
-      mw.tools.preloader('stop');
-    });
-
-
-
-
-
-
-
-
-    mw.$("#mw_tabs a").click(function(){
-      mw.url.windowHashParam("tab", $(this).attr("href").replace(/#/, ''));
-      return false;
-    });
-
 
    if(mw.hash()==='' || mw.url.getHashParams(mw.hash()).tab===undefined){
      mw.url.windowHashParam("tab", "modules");
    }
 
+
+   mw.tools.sidebar();
 
 });
 
@@ -754,6 +729,7 @@ mw.toggle_subpanel = function(){
      });
      mw.$(".mw_tab_active").slideDown(this.speed);
      mw.$("#mw_toolbar_nav").slideDown(this.speed);
+     $(mwd.body).animate({paddingTop:170});
   }
   else{
     el.addClass("state-off");
@@ -764,6 +740,7 @@ mw.toggle_subpanel = function(){
 
     mw.$(".mw_tab_active").slideUp(this.speed);
     mw.$("#mw_toolbar_nav").slideUp(this.speed);
+    $(mwd.body).animate({paddingTop:0});
   }
 }
 
@@ -781,3 +758,21 @@ $(window).resize(function(){
     set_pagetab_size();
     mw.designTool.position();
 });
+
+
+
+
+mw.preview = function(){
+    var url = mw.url.removeHash(window.location.href);
+    var url = mw.url.set_param('preview', true, url);
+
+    window.open(url, '_blank');
+    window.focus();
+
+   /*
+    mw.tools.modal.frame({
+      url:url,
+      width:$(window).width(),
+      height:$(window).height()
+    }); */
+}

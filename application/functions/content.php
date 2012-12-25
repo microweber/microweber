@@ -1556,10 +1556,14 @@ function save_content($data, $delete_the_cache = true) {
 
 		return false;
 	}
+	
+	if(isset($data['content_url']) and !isset($data['url'])){
+		$data['url'] = $data['content_url'];
+	}
 	$data_to_save = $data;
 
 	$more_categories_to_delete = array();
-	if (intval($data['id']) != 0) {
+	if (!isset($data['url']) and intval($data['id']) != 0) {
 
 		$q = "SELECT * from $table where id='{$data_to_save['id']}' ";
 
@@ -1579,35 +1583,17 @@ function save_content($data, $delete_the_cache = true) {
 		$thetitle = $data['title'];
 	}
 
-	if (isset($theurl) != false) {
-
-		if (isset($data['url']) and $data['url'] == $theurl) {
-
-			// print 'asd2';
-
-			$data['url'] = $theurl;
-		} else {
-
-		}
-
-		if (!isset($data['url']) or strval($data['url']) == '') {
-
-			// print 'asd1';
-
-			$data['url'] = $theurl;
-		}
-
-		if ((strval($data['url']) == '') and (strval($theurl) == '')) {
-
-			// print 'asd';
-
+	 
+	
+	if (isset($data['url']) and (strval($data['url']) == '')) {
 			$data['url'] = url_title($thetitle);
 		}
-	} else {
-		if ($thetitle != false) {
-			$data['url'] = url_title($thetitle);
-		}
-	}
+	
+	
+	
+	
+	
+	
 	if (isset($item['title'])) {
 		$item['title'] = htmlspecialchars_decode($item['title'], ENT_QUOTES);
 
@@ -1624,10 +1610,10 @@ function save_content($data, $delete_the_cache = true) {
 		$cats_modified = true;
 	}
 
-	if ($data['url'] != false) {
+	if (isset($data['url']) and $data['url'] != false) {
 		$data['url'] = url_title($data['url']);
 
-		if (strval($data['url']) == '') {
+		if (trim($data['url']) == '') {
 
 			$data['url'] = url_title($data['title']);
 		}
@@ -1832,7 +1818,7 @@ $check_ex = false;
 	}
 
 	
-
+ //d($data_to_save);
 $cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
@@ -1910,6 +1896,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 		}
 	}
 	return $save;
+	//exit();
 	// if ($data_to_save ['content_type'] == 'page') {
 	// if (!empty($data_to_save['menus'])) {
 	//
@@ -1986,7 +1973,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
  * $pt_opts['link'] = "{title}";
  * $pt_opts['list_tag'] = " ";
  * $pt_opts['list_item_tag'] = "option";
- * $pt_opts['actve_ids'] = $data['parent'];
+ * $pt_opts['active_ids'] = $data['parent'];
  * $pt_opts['active_code_tag'] = '   selected="selected"  ';
  *  pages_tree($pt_opts);
  *
@@ -1996,7 +1983,7 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
  * $pt_opts['id_prefix'] = 'my_id';
  */
 
-function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
+function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 
 	$params2 = array();
 	$params = false;
@@ -2122,12 +2109,12 @@ function pages_tree($parent = 0, $link = false, $actve_ids = false, $active_code
 		$remove_ids = explode(',', $remove_ids);
 	}
 if (isset($active_ids)){
-	$actve_ids = $active_ids;
+	$active_ids = $active_ids;
 }
 	
 	
-	if (isset($actve_ids) and is_string($actve_ids)) {
-		$actve_ids = explode(',', $actve_ids);
+	if (isset($active_ids) and is_string($active_ids)) {
+		$active_ids = explode(',', $active_ids);
 	}
  
 	//	$params['debug'] = $parent;
@@ -2243,15 +2230,15 @@ if (isset($active_ids)){
 					foreach ($item as $item_k => $item_v) {
 						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);
 					}
-
-					if (is_array($actve_ids) == true) {
+ 
+					if (is_array($active_ids) == true) {
 
 						$is_there_active_ids = false;
 
-						foreach ($actve_ids as $active_id) {
+						foreach ($active_ids as $active_id) {
 
-							if (strval($item['id']) == strval($active_id)) {
-
+							if (intval($item['id']) == intval($active_id)) {
+ 
 								$is_there_active_ids = true;
 
 								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
@@ -2318,14 +2305,23 @@ if (isset($active_ids)){
 					$params['nest_level'] = $nest_level;
 					$children = pages_tree($params);
 				} else {
-					$children = pages_tree(intval($item['id']), $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
+					$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
 				}
 
 				if (isset($include_categories) and $include_categories == true) {
+					
+					$content_cats = array();
 					if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
-						$cat_params = array();
-						$cat_params['subtype_value'] = $item['subtype_value'];
 						
+					}
+					
+					
+					
+					
+						$cat_params = array();
+						if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+						$cat_params['subtype_value'] = $item['subtype_value'];
+					}
 						$cat_params['try_to_table_id'] = $item['id'];
 						
 						if(isset($categores_link)){
@@ -2333,8 +2329,8 @@ if (isset($active_ids)){
 							
 						}
 						
-							if(isset($categores_actve_ids)){
-													$cat_params['actve_ids'] = $categores_actve_ids;
+							if(isset($categories_active_ids)){
+													$cat_params['active_ids'] = $categories_active_ids;
 							
 						}
 
@@ -2358,8 +2354,9 @@ if(isset($active_code)){
 						if (isset($debug)) {
 						
 						}
+						//d($cat_params);
 						category_tree($cat_params);
-					}
+					
 				}
 			}
 			print "</{$list_item_tag}>";
@@ -2385,18 +2382,21 @@ function mw_create_default_content($what) {
 	switch ($what) {
 		case 'shop' :
 			$is_shop = get_content('content_type=page&is_shop=y');
+			//$is_shop = false;
+			$new_shop = false;
 			if ($is_shop == false) {
 				$add_page = array();
 				$add_page['id'] = 0;
 				$add_page['parent'] = 0;
 
 				$add_page['title'] = "Online shop";
-				$add_page['url'] = "online-shop";
+				$add_page['url'] = "shop";
 				$add_page['content_type'] = "page";
 				$add_page['subtype'] = 'dynamic';
 				$add_page['is_shop'] = 'y';
 				$add_page['active_site_template'] = 'default';
 				$find_layout = layouts_list();
+				if(isarr($find_layout)){
 				foreach ($find_layout as $item) {
 					if (isset($item['layout_file']) and isset($item['is_shop']) and $item['is_shop'] == 'yes') {
 						$add_page['layout_file'] = $item['layout_file'];
@@ -2405,17 +2405,20 @@ function mw_create_default_content($what) {
 						}
 					}
 				}
-				$new_shop = save_content($add_page);
-				clearcache();
+				}
+				//d($add_page);
+			 	$new_shop = save_content($add_page);
+				 clearcache();
 				//
 			} else {
 				
-
+if(isset($is_shop[0])){
 				$new_shop = $is_shop[0]['id'];
+}
 			}
 
 			$posts = get_content('content_type=post&parent=' . $new_shop);
-			if ($posts == false) {
+			if ($posts == false and $new_shop != false) {
 				$add_page = array();
 				$add_page['id'] = 0;
 				$add_page['parent'] = $new_shop;

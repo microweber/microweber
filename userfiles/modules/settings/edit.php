@@ -40,31 +40,36 @@ if(!isset($data['name'])){
  
  ?>
 <?php $rand = uniqid().rand(); ?>
-<script type="text/javascript">
-mw.require("options.js");
-</script>
+
 <script  type="text/javascript">
 $(document).ready(function(){
-mw.options.form('#opt_form_<? print $rand ?>');
- 
+    mw.options.form('#opt_form_<? print $rand ?>', function(){
+      mw.notification.success("<?php _e("All changes are saved"); ?>.");
+    });
 });
 </script>
 
 <div class="option-item" id="opt_form_<? print $rand ?>">
   <div class="controls">
  <? if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
-      
+
       
       <? else : ?> 
-     
+
       <? endif; ?> 
      <input type="hidden" name="id" value="<? print $data['id'] ?>" />
-    <? if(isset($data['field_type']) == true and $data['field_type'] != '' and function_exists('make_custom_field')): ?>
+     <? // d($data); ?>
+    <? if( function_exists('make_field')): ?>
     <? 
   $data['save_in'] = 'table_options';
   $data['custom_field_name'] = $data['option_key'];
   $data['custom_field_value'] = $data['option_value'];
-   $data['custom_field_values'] = $data['field_values'];
+  $data['custom_field_values'] = $data['field_values'];
+  $data['input_class'] = 'mw-ui-field';  
+
+   //$data['title'] =  $data['name'];  
+   
+   
   if(isset($orig_params) and isset($orig_params['for_module_id']) ){
   $data['custom_field_name'] = $data['option_key'].'|for_module|'.$orig_params['for_module_id'];
 	
@@ -72,6 +77,7 @@ mw.options.form('#opt_form_<? print $rand ?>');
   
   print make_field($data); ?>
     <? else : ?>
+  
     <label class="control-label-title">
       <? if(isset($data['name']) == true and $data['name'] != ''): ?>
       <? print $data['name'] ?>

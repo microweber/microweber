@@ -143,13 +143,13 @@ foreach ($cats__parents as $item1) {
 
 	}
 	if (!empty($active_cats)) {
-		 $tree['actve_ids'] = $active_cats;
+		 $tree['active_ids'] = $active_cats;
 		
 	} else {
  
 	if (!empty($cats_ids)) {
   $cats_ids[] = $item1;
-	 $tree['actve_ids'] = $cats_ids;
+	 $tree['active_ids'] = $cats_ids;
 		
 	}
 	}

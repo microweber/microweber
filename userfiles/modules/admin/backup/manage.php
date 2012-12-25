@@ -4,6 +4,13 @@
 $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);
  
+$backs = new \admin\backup\api();
+$backs = $backs->get_bakup_location();
+d($backs);
+
+
+
+ 
  $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);
  

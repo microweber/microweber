@@ -95,7 +95,7 @@ function mw_db_init_taxonomy_table() {
  * @param $params = array();
  * @param  $params['parent'] = false; //parent id
  * @param  $params['link'] = false; // the link on for the <a href
- * @param  $params['actve_ids'] = array(); //ids of active categories
+ * @param  $params['active_ids'] = array(); //ids of active categories
  * @param  $params['active_code'] = false; //inserts this code for the active ids's
  * @param  $params['remove_ids'] = array(); //remove those caregory ids
  * @param   $params['ul_class_name'] = false; //class name for the ul
@@ -150,7 +150,7 @@ function category_tree($params = false) {
 		$link = "<a href='{taxonomy_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
 	}
 
-	$actve_ids = isset($params['actve_ids']) ? $params['actve_ids'] : array(CATEGORY_ID);
+	$active_ids = isset($params['active_ids']) ? $params['active_ids'] : array(CATEGORY_ID);
 	if (isset($params['active_code'])) {
 		$active_code = $params['active_code'];
 	} else {
@@ -205,7 +205,6 @@ function category_tree($params = false) {
 	} else {
 		$orderby = false;
 	}
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	if (isset($params['for_page']) and $params['for_page'] != false) {
@@ -284,12 +283,12 @@ function category_tree($params = false) {
 
 	if ($skip123 == false) {
 
-		content_helpers_getCaregoriesUlTree($parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 	} else {
 
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
-				content_helpers_getCaregoriesUlTree($cat['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+				content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 			}
 		}
 	}
@@ -322,8 +321,8 @@ function category_tree($params = false) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
-	 
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
+
 	$table_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -615,15 +614,22 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
 						$active_found = false;
-						if (is_array($actve_ids) == true) {
-							$actve_ids = array_trim($actve_ids);
-							//d($actve_ids);
 
-							foreach ($actve_ids as $value_active_cat) {
-								$value_active_cat = intval($value_active_cat);
-								if (intval($item['id']) == $value_active_cat) {
-									$active_found = $value_active_cat;
-									//d($value_active_cat);
+						if (is_string($active_ids)) {
+							$active_ids = explode(',', $active_ids);
+						}
+
+						if (is_array($active_ids) == true) {
+							$active_ids = array_trim($active_ids);
+							//d($active_ids);
+
+							foreach ($active_ids as $value_active_cat) {
+								if ($value_active_cat != '') {
+									$value_active_cat = intval($value_active_cat);
+									if (intval($item['id']) == $value_active_cat) {
+										$active_found = $value_active_cat;
+										//d($value_active_cat);
+									}
 								}
 							}
 
@@ -668,7 +674,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 						print $item['title'];
 					}
 
-					// $parent, $link = false, $actve_ids = false,
+					// $parent, $link = false, $active_ids = false,
 					// $active_code = false, $remove_ids = false,
 					// $removed_ids_code = false, $ul_class_name = false,
 					// $include_first = false, $content_type = false,
@@ -685,7 +691,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 							// $remove_ids[] = $children_of_the_main_par;
 							// $children = CI::model ( 'content'
 							// )->content_helpers_getCaregoriesUlTree (
-							// $children_of_the_main_par, $link, $actve_ids,
+							// $children_of_the_main_par, $link, $active_ids,
 							// $active_code, $remove_ids, $removed_ids_code,
 							// $ul_class_name, false, $content_type,
 							// $li_class_name, $add_ids, $orderby,
@@ -693,7 +699,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 						}
 					}
 
-					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 
 					print "</{$list_item_tag}>";
 				}
@@ -707,8 +713,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids 
 	}
 }
 
-function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
-	 
+function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
+
 	$table_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
@@ -993,9 +999,9 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
 
-						if (is_array($actve_ids) == true) {
+						if (is_array($active_ids) == true) {
 
-							if (in_array($item['id'], $actve_ids)) {
+							if (in_array($item['id'], $active_ids)) {
 
 								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
 							} else {
@@ -1036,7 +1042,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 						print $item['title'];
 					}
 
-					// $parent, $link = false, $actve_ids = false,
+					// $parent, $link = false, $active_ids = false,
 					// $active_code = false, $remove_ids = false,
 					// $removed_ids_code = false, $ul_class_name = false,
 					// $include_first = false, $content_type = false,
@@ -1053,7 +1059,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 							// $remove_ids[] = $children_of_the_main_par;
 							// $children = CI::model ( 'content'
 							// )->content_helpers_getCaregoriesUlTree (
-							// $children_of_the_main_par, $link, $actve_ids,
+							// $children_of_the_main_par, $link, $active_ids,
 							// $active_code, $remove_ids, $removed_ids_code,
 							// $ul_class_name, false, $content_type,
 							// $li_class_name, $add_ids, $orderby,
@@ -1061,7 +1067,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 						}
 					}
 
-					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 
 					print "</{$list_item_tag}>";
 				}
@@ -1076,12 +1082,10 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 }
 
 function get_category_items($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
-	 
+
 	$taxonomy_id = intval($parent_id);
 
 	$cache_group = 'taxonomy/' . $taxonomy_id;
-
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1174,8 +1178,6 @@ function get_category_items_ids($root, $limit = false) {
 		}
 	}
 
-	 
-
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -1252,8 +1254,6 @@ function save_category($data, $preserve_cache = false) {
 		error('Ony admin can save category');
 	}
 
-	 
-
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -1276,6 +1276,18 @@ function save_category($data, $preserve_cache = false) {
 	}
 	if (isset($data['table']) and ($data['table'] != '')) {
 		$table = $data['table'];
+	}
+	//$data['debug'] = '1';
+	//d($data);
+
+	if (isset($data['to_table']) and isset($data['to_table_id']) and trim($data['to_table']) == 'table_content' and intval($data['to_table_id']) != 0) {
+
+		$cs = array();
+		$cs['id'] = intval($data['to_table_id']);
+		$cs['subtype'] = 'dynamic';
+		$table_c = MW_TABLE_PREFIX . 'content';
+		$save = save_data($table_c, $cs);
+
 	}
 
 	$save = save_data($table, $data);
@@ -1374,8 +1386,6 @@ function get_taxonomy($params, $data_type = 'categories') {
 		extract($params);
 	}
 
-	 
-
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
@@ -1399,8 +1409,6 @@ function get_categories($params, $data_type = 'categories') {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 	}
-
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1451,7 +1459,6 @@ function reorder_categories($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	foreach ($data as $value) {
@@ -1495,8 +1502,6 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 
 		return $cache_content;
 	}
-
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1617,7 +1622,6 @@ function category_link($id) {
 			return false;
 		}
 		//$this->load->model ( 'Content_model', 'content_model' );
-		 
 
 		$table = MW_TABLE_PREFIX . 'taxonomy';
 		$table_content = MW_TABLE_PREFIX . 'content';
@@ -1748,8 +1752,6 @@ function get_category_by_id($id = 0) {
 		return $cache_content;
 	}
 
-	 
-
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 
 	$id = intval($id);
@@ -1773,7 +1775,7 @@ function get_category_by_id($id = 0) {
 }
 
 function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
-	 
+
 	$taxonomy_id = intval($parent_id);
 	$cache_group = 'taxonomy/' . $taxonomy_id;
 
@@ -1887,8 +1889,6 @@ function get_category_parents($id = 0, $without_main_parrent = false, $data_type
 
 		return FALSE;
 	}
-
-	 
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 

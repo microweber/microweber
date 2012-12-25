@@ -1,4 +1,6 @@
 <?
+
+ 
  $for = 'module';
  if(isset($params['for'])){
 	$for = $params['for'];
@@ -9,17 +11,46 @@
 	$live_edit = $params['live_edit'];
  }
  
+  if(isset($params['to_table_id'])){
+	 $params['for_module_id'] = $params['to_table_id'];
+ }
+ 
    if(!isset($params['for_module_id'])){
 	 if(isset($params['id'])){
 		 $params['for_module_id'] = $params['id'];
 	 }
  }
- ?>
-<? if(isset($params['for_module_id'])): ?>
-<?   ?>
-<?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);    ?>
-<? // d($more); ?>
+ 
+ 
+ $diff = false;
+
+  if(isset($params['save_to_content_id'])){
+			//  d($params['save_to_content_id']); 
+			 $diff = get_custom_fields($for,$params['save_to_content_id'],1,false,false);
+	   
+		  }
+		  
+?>
+<?
+
+ if(isset($params['for_module_id'])): ?>
+<?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);   
+ 
+if(isarr( $diff) and isarr($more) ){
+ foreach($diff as $item1){
+	 $i=0;
+	  foreach($more as $item2){
+	 if($item1['custom_field_name'] == $item2['custom_field_name']){
+		 unset($more[$i]);
+	 }
+	 $i++;
+ 		}
+ }
+}
+?>
 <? if(!empty( $more)):  ?>
+
+<hr />
 
 <div class="custom-field-table" id="custom-field-main-table">
   <? foreach( $more as $field): ?>
@@ -32,7 +63,15 @@
     <div class="second-col">
       <div class="custom-field-set-holder"> <span class="ico iMove custom-field-handle-row right" onmousedown="mw.custom_fields.sort_rows()"></span>
         <div class="custom-field-set">
-          <?  print  make_field($field, false, 2); ?>
+          <? 
+		  if(isset($params['save_to_content_id'])){
+			  
+			 $field['save_to_content_id']   = strval($params['save_to_content_id']);
+			 
+		  }
+		  
+		  
+		   print  make_field($field, false, 2); ?>
         </div>
       </div>
     </div>
@@ -40,6 +79,9 @@
   <? endforeach; ?>
 </div>
 <? else : ?>
+<? if(!isset($params['save_to_content_id'])): ?>
+
 You dont have any custom fields
+<? endif; ?>
 <? endif; ?>
 <? endif; ?>

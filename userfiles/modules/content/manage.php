@@ -199,31 +199,44 @@ if(isset($params['data-category-id'])){
 
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
-  <input value="Search for posts" type="text" class="manage-search" id="mw-search-field"  />
+
+    <input
+            onfocus="mw.form.dstatic(event);"
+            onblur="mw.form.dstatic(event);"
+            value="<?php _e("Search for posts"); ?>"
+            data-default="<?php _e("Search for posts"); ?>"
+            type="text"
+            class="manage-search"
+            id="mw-search-field"
+    />
+
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">
-    <label class="mw-ui-check left">
-      <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
-      <span></span></label>
-    <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-    <?
-	$pic  = get_picture(  $item['id'],  'post'); ?>
-    <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-    <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
-    <? else : ?>
-    <a class="manage-post-image manage-post-image-no-image left"></a>
-    <? endif; ?>
-    <div class="manage-post-main">
-      <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
-      <small><? print content_link($item['id']); ?></small>
-      <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
-  ?> </div>
-      <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Go live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Settings</a> <a href="javascript:;">Delete</a> </div>
-    </div>
-    <div class="manage-post-item-author"><? print ($item['created_by']) ?></div>
+      <div class="manage-post-itemleft">
+        <label class="mw-ui-check left">
+          <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
+          <span></span></label>
+        <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+        <?
+    	$pic  = get_picture(  $item['id'],  'post'); ?>
+        <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
+        <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
+        <? else : ?>
+        <a class="manage-post-image manage-post-image-no-image left"></a>
+        <? endif; ?>
+        <div class="manage-post-main">
+          <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
+          <small><? print content_link($item['id']); ?></small>
+          <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
+      ?> </div>
+          <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Go live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Settings</a> <a href="javascript:;">Delete</a> </div>
+        </div>
+        <div class="manage-post-item-author"><? print ($item['created_by']) ?></div>
+
+        </div>
     <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
   </div>
   <? endforeach; ?>
@@ -242,7 +255,7 @@ if(isset($params['data-category-id'])){
 
      if(isset($posts['paging_links']) and isarr($posts['paging_links'])):  ?>
   <? $i=1; foreach ($posts['paging_links'] as $item): ?>
-  <a href="javascript:;" class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" onclick="mw.url.windowHashParam('<? print $posts['paging_param'] ?>','<? print $i; ?>');"><? print $i; ?></a>
+  <a href="#<? print $posts['paging_param'].'='.$i; ?>" class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" onclick="mw.url.windowHashParam("<? print $posts['paging_param'] .'","'. $i; ?>");return false;"><? print $i; ?></a>
   <? $i++; endforeach; ?>
   <? //d($posts['paging_links']); ?>
   <? // d($posts['paging_param']); ?>
@@ -271,18 +284,21 @@ if(isset($params['data-category-id'])){
 <? else: ?>
 <? $cat_name = '';
 if( isset($params['category-id']) and intval($params['category-id']) > 0){
-	$cat = get('categories/'.$params['category-id']);
-	d($cat);
+	$cat = get('limit=1&table=categories&id='.$params['category-id']);
+	if(isarr($cat[0])){
+		 $cat_name = ' in '.$cat[0]['title'];
+	}
+//	d($cat);
 }
  ?>
 <div class="mw-no-posts-foot">
   <? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
   <h2>No Products Here</h2>
   
-  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product in <b id="tttt"><script>$('#tttt').html($('.item_97 > a span:first').text());</script></b></a>
+  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
   <? else: ?>
   <h2>No Posts Here</h2>
-  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post </a> </div>
+  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
 <? endif; ?>
 <? endif; ?>
 

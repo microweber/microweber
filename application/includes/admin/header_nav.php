@@ -14,9 +14,21 @@
        <li><a href="#">Help</a></li>
        <? exec_action('mw_admin_header_menu_end'); ?>
     </ul>
+    <script>
+
+    $(function(){
+       var navli = mw.$("#mw_tabs li");
+       navli.click(function(){
+         if(!$(this).hasClass('active')){
+         navli.removeClass('active');
+         $(this).addClass('active');}
+       });
+    });
+
+    </script>
 
   </div>
-  <div id="menu-dropdown" class="unselectable" onclick="mw.$('#menu-dropdown-nav').toggle();">&darr;<div id="menu-dropdown-nav"></div></div>
+  <div id="menu-dropdown" class="unselectable" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
   <?
 
 if(isset($_COOKIE['last_page'])){
@@ -30,10 +42,10 @@ $past_page = content_link($past_page[0]['id']);
 // d($past_page);
  ?>
  <div id="mw-toolbar-right">
-  <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 11px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a>
+  <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 13px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a>
   <a title="<?php _e("Go Live Edit"); ?>" class="mw-ui-btn right" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
  </div>
   <? endif; ?>
 </div>
-<div class="mw_clear">&nbsp;</div>
+<div class="mw_clear" style="height: 0;">&nbsp;</div>
 <div id="mw-admin-content">

@@ -61,28 +61,31 @@ body{
 }
 
 #image_types_desc{
-  text-align: center;
-  color: #B9B9B9;
-  font-size: 11px;
-  padding-top: 33px;
+     text-align: center;
+          color: #B9B9B9;
+      font-size: 11px;
+    padding-top: 33px;
 }
 
 #image_status{
-  display: block;
-  float: right;
-  width: 16px;
-  height: 16px;
-  margin: 8px 8px 0 0;
+
+       display : block;
+         width : 16px;
+        height : 16px;
+      position : relative;
+         right : 8px;
+           top : 9px;
+
 }
 
 #image_status.loading{
-  background: url(../img/img_check_loading.gif) no-repeat;
+  background: white url(../img/img_check_loading.gif) no-repeat;
 }
 #image_status.error{
-  background: url(../img/imginvalid.png) no-repeat;
+  background: white url(../img/imginvalid.png) no-repeat;
 }
 #image_status.valid{
-  background: url(../img/imgvalid.png) no-repeat;
+  background: white url(../img/imgvalid.png) no-repeat;
 }
 
 #pop_up_link .field_wrapper{
@@ -91,15 +94,15 @@ body{
 
 #pop_up_link .fancy_input input {
   margin: 9px 9px 0;
-    width: 226px;
+   width: 226px;
 }
 
 .popup_title{
-  font-size: 18px;
-  font-weight: normal;
-  background:#EEEEEE;
-  padding: 25px;
-  border-bottom: 1px solid #E0E0E0;
+      font-size : 18px;
+    font-weight : normal;
+     background : #EEEEEE;
+        padding : 25px;
+  border-bottom : 1px solid #E0E0E0;
 }
 
 #link_tool_holder{
@@ -139,13 +142,13 @@ body{
 }
 
 #file_link_progres{
-  height:100%;
-  background: #5B9FCB;
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
+      height : 100%;
+  background : #5B9FCB;
+     z-index : 0;
+    position : absolute;
+         top : 0;
+        left : 0;
+       width : 0;
 }
 
 
@@ -191,14 +194,14 @@ body{
   );
 }
 .field_wrapper.active, .field_wrapper.active:hover{
-  background-image: linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image: -o-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image: -moz-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image: -ms-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  box-shadow:0 0 0 transparent;
-  border-color:#3D80AB;
-  background-image: -webkit-gradient(
+  background-image : linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image : -o-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image : -moz-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image : -webkit-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+  background-image : -ms-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
+        box-shadow :0 0 0 transparent;
+      border-color :#3D80AB;
+  background-image : -webkit-gradient(
   	linear,
   	left bottom,
   	left top,
@@ -209,9 +212,9 @@ body{
 }
 
 .field_wrapper .mw-ui-check{
-  float: left;
-  margin:6px 10px 10px 5px;
-  position: relative;
-  z-index: 1;
+     float : left;
+    margin : 6px 10px 10px 5px;
+  position : relative;
+   z-index : 1;
 }
 

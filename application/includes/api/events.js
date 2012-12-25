@@ -82,7 +82,28 @@ DOMChange:function(element, callback){
      mw.on._stopWriting = setTimeout(function(){
        callback.call(el);
      }, 600);
- }
+ },
+ scrollBarOnBottom : function(obj, distance, callback){
+    if(typeof obj === 'function'){
+       var callback = obj;
+       var obj =  window;
+       var distance = 0;
+    }
+    if(typeof distance === 'function'){
+      var callback = distance;
+      var distance = 0;
+    }
+    obj._pauseCallback = false;
+    obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
+    obj.continueScrollCallback = function(){ obj._pauseCallback = false;}
+    $(obj).scroll(function(e){
+      var h = obj === window ? mwd.body.scrollHeight : obj.scrollHeight;
+      var calc = h - $(obj).scrollTop() - $(obj).height();
+      if(calc <= distance && !obj._pauseCallback){
+        callback.call(obj);
+      }
+    });
+  }
 }
 
 mw.hashHistory = [window.location.hash]
@@ -118,9 +139,7 @@ $(window).bind("hashchange load", function(event){
 });
 
 
-mw.hash = function(b){
-  return b===undefined ? window.location.hash : window.location.hash = b;
-}
+mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
 
 

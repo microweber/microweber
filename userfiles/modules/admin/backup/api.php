@@ -63,7 +63,7 @@ class api {
 	public function get() {
 		if (!is_admin()) {error("must be admin");
 		};
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 
 		$dir = opendir($here);
 		$backups = array();
@@ -105,7 +105,7 @@ class api {
 			die();
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 		$filename = $here . $id . '.sql';
 		if (is_file($filename)) {
 			unlink($filename);
@@ -133,7 +133,7 @@ class api {
 			die();
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 		// Generate filename and set error variables
 
 		$filename = $here . $id . '.sql';
@@ -180,7 +180,7 @@ class api {
 			die();
 		}
 
-		$here = mw_get_backups_location();
+		$here = $this->get_bakup_location();
 		// Generate filename and set error variables
 
 		$filename = $here . $id . '.sql';
@@ -206,7 +206,7 @@ class api {
 		//	$con = mysql_connect($DBhost, $DBuser, $DBpass);
 		//if ($con !== false) {
 		// Load and explode the sql file
-		mysql_select_db("$DBName");
+	//	mysql_select_db("$DBName");
 		$f = fopen($filename, "r+");
 		$sqlFile = fread($f, filesize($filename));
 		$sqlArray = explode($this -> file_q_sep, $sqlFile);

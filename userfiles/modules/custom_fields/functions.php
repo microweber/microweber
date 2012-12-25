@@ -111,6 +111,15 @@ function save_custom_field($data) {
 	}
 	if (isset($data_to_save['cf_id'])) {
 		$data_to_save['id'] = intval($data_to_save['cf_id']);
+
+		if (isset($data_to_save['copy_to_table_id'])) {
+
+			$cp = db_copy_by_id($table_custom_field, $data_to_save['cf_id']);
+			$data_to_save['id'] = $cp;
+			$data_to_save['to_table_id'] = $data_to_save['copy_to_table_id'];
+			//$data_to_save['id'] = intval($data_to_save['cf_id']);
+		}
+
 	}
 
 	if (!isset($data_to_save['to_table'])) {

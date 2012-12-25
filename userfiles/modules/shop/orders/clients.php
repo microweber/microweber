@@ -11,6 +11,9 @@
   $orders = get_orders('order_by=created_on desc&group=email&is_paid=y');
 
 ?>
+<div class="mw-table-sorting-controller">
+  <h2 class="mw-side-main-title" style="padding-top: 0"><span class="ico iusers-big"></span><span><?php _e("Clients List"); ?></span></h2>
+</div>
   <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
     <thead>
       <tr>

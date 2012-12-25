@@ -15,14 +15,14 @@ $user_params['is_active'] =$params['is_active'];
 if(isset($params['search'])){
 $user_params['search_by_keyword'] =$params['search'];
 }
- 
+
 //$user_params['debug'] = 1;
 $data = get_users($user_params);
 
  
  ?><? if(isarr($data )): ?>
 
-<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table" width="100%">
   <thead>
       <tr>
           <th>Names</th>
@@ -51,7 +51,10 @@ $data = get_users($user_params);
           <td><?  print $item['email']; ?></td>
           <td align="center"> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
           <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none"><?php endif; ?></span></td>
-          <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#edit-user=<?  print $item['id']; ?>">Edit</a></td>
+          <td>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
+            <span class="mw-ui-admin-table-show-on-hover del-row"></span>
+          </td>
       </tr>
  <? endforeach ; ?>
   </tbody>

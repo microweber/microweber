@@ -4,7 +4,12 @@
 
 json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false')};
 
+
+
+
+
 mw.url = {
+    hashStart: '',
     getDomain:function(url){
       return url.match(/:\/\/(www\.)?(.[^/:]+)/)[2];
     },
@@ -48,12 +53,14 @@ mw.url = {
         return decodeURIComponent (url + "?" + params_string + hash);
     },
     getHashParams:function(hash){
-        if(hash=='' || hash=='#' || hash =='#?'){
+        var r = new RegExp(mw.url.hashStart, "g");
+        var hash = hash.replace(r, "");
+        var hash = hash.replace(/\?/g, "");
+        if(hash=='' || hash=='#'){
           return {}
         }
         else{
           var hash = hash.replace(/#/g, "");
-          var hash = hash.replace(/\?/g, "");
           var arr = hash.split('&');
           var obj = {}, i=0, len = arr.length;
           for( ; i<len; i++){
@@ -67,15 +74,20 @@ mw.url = {
       var hash = hash || mw.hash();
       var obj = mw.url.getHashParams(hash);
       obj[param] = value;
-      return "?"+ decodeURIComponent(json2url(obj));
+      return mw.url.hashStart + decodeURIComponent(json2url(obj));
     },
     windowHashParam:function(a,b){
-      mw.hash(mw.url.setHashParam(a,b));
+      if(b !== undefined){
+        mw.hash(mw.url.setHashParam(a,b));
+      }
+      else{
+        return mw.url.getHashParams(mw.hash())[a];
+      }
     },
     deleteHashParam:function(hash, param){
         var params = mw.url.getHashParams(hash);
         delete params[param];
-        var params_string = decodeURIComponent("?"+json2url(params));
+        var params_string = decodeURIComponent(mw.url.hashStart+json2url(params));
         return params_string;
     },
     windowDeleteHashParam:function(param){
@@ -89,6 +101,18 @@ mw.url = {
             curr[x] === undefined ? hashes.push(x) : '';
         }
         return hashes;
+    },
+    hashParamToActiveNode:function(param, classNamespace, context){
+        var context = context || mwd.body;
+        var val =  mw.url.windowHashParam(param);
+        mw.$('.'+classNamespace, context).removeClass('active');
+        var active = mw.$('.'+classNamespace + '-' + val, context);
+        if(active.length > 0){
+           active.addClass('active');
+        }
+        else{
+           mw.$('.'+classNamespace + '-none', context).addClass('active');
+        }
     },
     mwParams:function(url){
         var url = mw.url.removeHash(url);
@@ -150,6 +174,11 @@ mw.slug = {
     mw.$(".view-post-slug").html(val)
   }
 }
+
+
+
+
+
 
 
 

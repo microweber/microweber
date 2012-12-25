@@ -259,6 +259,11 @@ class MwController {
 			@touch($recycle_bin_f);
 		}
 
+		if (MW_IS_INSTALLED == true) {
+			//exec_action('mw_db_init');
+			exec_action('mw_cron');
+		}
+
 		//create_mw_default_options();
 		define_constants();
 		$l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
@@ -467,9 +472,11 @@ class MwController {
 					}
 
 					if (function_exists($api_function)) {
+
 						$res = $api_function($data);
+
 					} elseif (class_exists($api_function, false)) {
-						//	d($api_function);
+						//
 						$segs = url();
 						$mmethod = array_pop($segs);
 						//d($segs);
@@ -493,20 +500,20 @@ class MwController {
 						}
 					}
 
-					//d($hooks);
-					if (!defined('MW_API_HTML_OUTPUT')) {
-						print json_encode($res);
-					} else {
-
-						print($res);
-					}
 				} else {
-					error('The api function does not exist', __FILE__, __LINE__);
+					//error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
 				}
 
 				// print $api_function;
 			} else {
 				error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+			}
+
+			if (!defined('MW_API_HTML_OUTPUT')) {
+				print json_encode($res);
+			} else {
+
+				print($res);
 			}
 			exit();
 		}
@@ -658,8 +665,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -903,6 +909,12 @@ class MwController {
 		if (!defined('IN_ADMIN')) {
 			define('IN_ADMIN', true);
 		}
+
+		if (MW_IS_INSTALLED == true) {
+			//exec_action('mw_db_init');
+			exec_action('mw_cron');
+		}
+
 		$tool = url(1);
 
 		if ($tool) {

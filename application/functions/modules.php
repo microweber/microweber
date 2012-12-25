@@ -8,6 +8,32 @@ if (!defined("MW_DB_TABLE_ELEMENTS")) {
 	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
 }
 
+api_expose('reorder_modules');
+
+function reorder_modules($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	$table = MW_TABLE_PREFIX . 'modules';
+	foreach ($data as $value) {
+		if (is_arr($value)) {
+			$indx = array();
+			$i = 0;
+			foreach ($value as $value2) {
+				$indx[$i] = $value2;
+				$i++;
+			}
+
+			db_update_position($table, $indx);
+			return true;
+			// d($indx);
+		}
+	}
+}
+
 action_hook('mw_db_init_modules', 'mw_db_init_modules_table');
 
 function mw_db_init_modules_table() {
@@ -1464,7 +1490,7 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['module_class'] = module_css_class($module_name);
 
-		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
+		$config['url_to_module'] = pathToURL($config['path_to_module']);
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
 		$lic = load_module_lic($module_name);
 		//  $lic = 'valid';
@@ -1574,7 +1600,7 @@ function mw_cron() {
 		$opts = get_options("option_key2=cronjob");
 		if ($opts != false) {
 
-			//d($file_loc);
+			 //d($file_loc);
 			if (!is_dir($file_loc)) {
 				if (!mkdir($file_loc)) {
 					return false;

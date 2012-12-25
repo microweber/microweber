@@ -1,11 +1,3 @@
-window.onload = function() {
-  mw.loaded = true;
-  mwd.body.className+=' loaded';
-  mw.extend(mwd.body);
-  mwd.body.removeClass('loading');
-}
-
-
 
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
@@ -20,48 +12,18 @@ typeof mw === 'undefined' ?
 (function() {
 
 
-__mwextend = function(el){
-      if(el.attributes['data-extended']===undefined){
-          el.setAttribute('data-extended', true);
-          el.getModal = function(){
-              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-              if(!!modal){
-                  return  {
-                       main:modal,
-                       container:modal.querySelector(".mw_modal_container")
-                  }
-              }
-              else {return false};
-          }
-          el.attr = function(name, value){
-            if(value===undefined){
-              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
-            }
-            else{
-              el.setAttribute(name, value);
-              return el;
-            }
-          }
-          el.addClass = function(cls){
-            return mw.tools.addClass(el, cls)
-          }
-          el.removeClass = function(cls){
-            return mw.tools.removeClass(el, cls)
-          }
-      }
-    return el;
-}
+
 
 
 
   mw = {}
 
-  mw.extend = function(el){
-    return __mwextend(el);
-  }
+
 
   mw.module = {} //Global Variable for modules scripts
+
   mwd = document;
+  mww = window;
 
   mw.loaded = false;
 
@@ -257,7 +219,7 @@ __mwextend = function(el){
   mw.load_module = function($module_name, $update_element, callback, attributes) {
 
   if(attributes == undefined){
-   var attributes = {};
+    var attributes = {};
    }
     attributes.module = $module_name;
     mw._({
@@ -378,6 +340,11 @@ __mwextend = function(el){
       console.log(what);
     }
   }
+  mw.error = function(what){
+    if (window.console && mw.settings.debug) {
+      console.error(what);
+    }
+  }
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
@@ -397,7 +364,65 @@ __mwextend = function(el){
   };
 
 
+  api = function(action, params, callback){
+    var url = mw.settings.api_url + action;
+    var type = typeof params;
+    if(type === 'string'){
+        var obj = mw.serializeFields(params);
+    }
+    else if(type === 'object' && !jQuery.isArray(params)){
+        var obj = params;
+    }
+    else{
+        mw.log('Error: "params" must be string or object');
+        return false;
+    }
+    $.post(url, obj)
+        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+      //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+        .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
+  }
+
+
+
 
 })() : '';
+
+
+mw.serializeFields =  function(id){
+      var el = mw.$(id);
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      var data = {}
+      $(fields, el).each(function(){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(!el.name.contains("[]")){
+             data[name] = val;
+          }
+          else{
+            try {
+               data[name].push(val);
+            }
+            catch(e){
+              data[name] = [val];
+            }
+          }
+      });
+      return data;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

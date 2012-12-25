@@ -88,6 +88,30 @@ _modulesSort = function(){
     }
     mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>', function(){
       $('#module_keyword').removeClass('loading');
+	  
+	  var el = $( "#modules_admin_<? print $rand ?> .mw-modules-admin" );
+ // $( "#modules_admin_<? print $rand ?> .mw-modules-admin" ).sortable('destroy');
+        el.sortable({
+		handle: ".mw_admin_modules_sortable_handle",
+		items: "li",
+        axis:'y',
+		update: function(){
+          var serial = el.sortable('serialize');
+          $.ajax({
+            url: mw.settings.api_url+'reorder_modules',
+            type:"post",
+            data:serial
+          })
+		  
+        }
+	 
+ 
+        
+    });
+ 
+	  
+	  
+	  
     });
 
 }
@@ -123,7 +147,7 @@ mw.on.hashParam('installed', function(){
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
 
 
-  <h2 style="padding:30px 0 19px 25px;"><span class="ico imanage-module"></span>&nbsp;Modules</h2>
+  <h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2>
 
   <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
 
@@ -183,12 +207,13 @@ mw.on.hashParam('installed', function(){
 
 
         <ul class="mw-ui-inline-selector">
+         
           <li>
-            <label class="mw-ui-check"><input name="module_show" class="mw_modules_filter_show" type="radio" value="admin" checked="checked" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Admin modules</span></label>
+            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit"  checked="checked" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Live edit modules</span></label>
 
           </li>
-          <li>
-            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Live edit modules</span></label>
+           <li>
+            <label class="mw-ui-check"><input name="module_show" class="mw_modules_filter_show" type="radio" value="admin" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Admin modules</span></label>
 
           </li>
           <li>

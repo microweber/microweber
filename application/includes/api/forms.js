@@ -1,7 +1,7 @@
 window.mw = window.mw ? window.mw : {};
 
 FieldUnify = function(a){
-  return mw.is.string(a) ? a : (mw.is.obj(a) ? a.value : '');
+  return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or DOM node.'));
 }
 
 
@@ -66,18 +66,10 @@ mw.form = {
 				//alert(data);
 				return data;
 			}
-			
-			
-			
+
         });
     }
 	return false;
-  },
-  
-  serialize : {
-      init:function(form){
-        return $(form).serialize();
-      }
   },
   validate:{
     checkbox: function(obj){
@@ -148,7 +140,7 @@ mw.form = {
              mw.form.validate.radio(this.name);
           }
           else{
-            mw.form.validate.proceed.field(this);
+             mw.form.validate.proceed.field(this);
           }
         });
         $(form).find(".required-email").each(function(){
@@ -168,27 +160,15 @@ mw.form = {
     } 
   },
   serialize : function(id){
-      var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
-      var data = {}
-      $(fields, el).each(function(){
-          var el = this, _el = $(el);
-          var val = _el.val();
-          var name = el.name;
-          if(!el.name.contains("[]")){
-             data[name] = val;
-          }
-          else{
-            try {
-               data[name].push(val);
-            }
-            catch(e){
-              data[name] = [val];
-            }
-          }
-      });
-      return data;
- }
-} ;
+    return mw.serializeFields(id);
+  }
+}
+
+
+
+
+
+
+
 
 

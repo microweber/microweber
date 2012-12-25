@@ -69,7 +69,8 @@ if(isset($params['installed'])){
 <? if(isarr($mods) == true): ?>
 <ul class="mw-modules-admin">
   <? foreach($mods as $k=>$item): ?>
-  <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>">
+  <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >
+ 
     <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
   </li>
   <? endforeach; ?>

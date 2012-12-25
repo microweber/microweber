@@ -76,20 +76,16 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 	}
 	if (MW_IS_INSTALLED == true) {
 		exec_action('mw_db_init');
-		exec_action('mw_cron');
-		
+		//exec_action('mw_cron');
 	}
 }
 
-
-
 /*
-require (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'AggregateAutoloader.php');
+ require (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'AggregateAutoloader.php');
 
-$loader = new AggregateAutoloader;
-$loader -> addLibrary('Modules', MODULES_DIR);
-$loader -> addLibrary('modules', MODULES_DIR);
-$loader -> register();*/
-
+ $loader = new AggregateAutoloader;
+ $loader -> addLibrary('Modules', MODULES_DIR);
+ $loader -> addLibrary('modules', MODULES_DIR);
+ $loader -> register();*/
 
 // d($module_functions);

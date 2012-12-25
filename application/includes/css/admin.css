@@ -32,18 +32,12 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 }
 
-#mw-admin-container.has_sidebar{
-  background-image: url("../img/treebg.gif");
-  background-repeat:  repeat-y;
-  background-position:  -999px 0;
-  background-color: white;
-}
 
 
 
 
 #mw-admin-container:after, .admin-main-wrapper:after, #mw-admin-content:after{
-  content: ".";
+  content: " ";
   display: block;
   clear: both;
   visibility: hidden;
@@ -67,8 +61,8 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   background-image: url(../img/logo_admin.png);
 }
 #mw_toolbar_nav{
-  height: 49px;
-  border-bottom: 1px solid #fff;
+  height: 48px;
+  background-image: url(../img/navbg_admin.jpg);
 }
 #mw_toolbar_nav .ilive{
   opacity:0.4;
@@ -78,6 +72,9 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   opacity:1;
 }
 
+#mw_tabs{
+  height: 49px;
+}
 
 #mw_tabs li a{
   padding: 15px 20px;
@@ -166,9 +163,9 @@ border-radius: 20px;
 
 .users_online{
   width: 150px;
-  height: 110px;
-  padding-top: 45px;
-  margin: 0;
+  height: 115px;
+  padding-top: 40px;
+  margin: 21px 0 0;
   text-align: center;
   background:#D8FFC2;
   color: #4C7301;
@@ -223,8 +220,7 @@ border-radius: 20px;
 
 #footer{
   clear: both;
-  background: #E9E9E9;
-  position: static;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -232,12 +228,58 @@ border-radius: 20px;
 #footer-content{
   overflow: hidden;
   position: relative;
-  padding:12px;
 }
 
+
+@media all and (max-width: 1020px){
+    #footer{
+      position: static;
+    }
+
+}
+
+
 #PowerdBy{
-  float: right;
   white-space: nowrap;
+  font-size: 11px;
+  position: static;
+  right: 0;
+  bottom: 0;
+}
+
+#PowerdByLink{
+    color: #6e6e6e;
+    float: right;
+    display: inline-block;
+    padding: 7px 10px;
+}
+
+#PowerdByInfo{
+  float: right;
+  visibility: hidden;
+  position: relative;
+  margin-right: 10px;
+  margin-top: 7px;
+  color: #A1A0A0;
+  white-space: nowrap;
+  opacity:0;
+  top: 8px;
+  overflow: hidden;
+  transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+
+#PowerdBy:hover #PowerdByInfo{
+    opacity:1;
+    top: 0;
+    visibility: visible;
+}
+
+#PowerdBy:hover #PowerdByLink{
+    background: #a8a8a8;
+    color: white;
 }
 
 
@@ -396,6 +438,29 @@ form .shipping-country-row:first-child{
   width: 300px;
 }
 
+.mw-edit-user-table{
+ width: 100%;
+ border-top: none;
+ border-bottom: none;
+ border-radius:0;
+}
+
+.mw-edit-user-table td{
+  text-align: left;
+}
+
+.mw-edit-user-cell, .mw-ui-admin-table tr td.mw-edit-user-cell{
+   background: none repeat scroll 0 0 #EFECEC;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 0 6px #DDDDDD inset;
+    padding: 15px;
+}
+
+#mw-users-manage-edit-rotattor > div{
+  width:757px;
+}
+
+#mw_index_users
 
 
 

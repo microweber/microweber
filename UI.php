@@ -16,7 +16,7 @@
 
 
 <meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
-
+  <span class="mw-ui-btn" onclick="mw.dump();">DUMP!</span>
 
   <table width="70%" id="qweqwe98989898">
    <col width="50%" />
@@ -37,6 +37,10 @@
     <tr>
       <td><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></td>
       <td><textarea><a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small Button</a></textarea></td>
+    </tr>
+    <tr>
+      <td><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">medium Button</a></td>
+      <td><textarea><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">medium Button</a></textarea></td>
     </tr>
     <tr>
         <td><a href="javascript:;" class="mw-ui-btn-rect">Rect link</a></td>

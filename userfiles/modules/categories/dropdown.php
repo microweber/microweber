@@ -25,7 +25,7 @@ $pt_opts['list_item_tag'] = "option";
 $pt_opts['include_categories'] = "true";
 $pt_opts['for'] = "table_content";
 
- $pt_opts['categores_actve_ids'] = $posts_parent_page;
+ $pt_opts['categories_active_ids'] = $posts_parent_page;
  $pt_opts['remove_ids'] = $params['id'];
 
 $pt_opts['active_code_tag'] = '   selected="selected"  ';

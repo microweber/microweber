@@ -23,25 +23,27 @@ $(document).ready(function(){
 	 $('#form_<? print $rand ?>').submit(function() {
 
 
-
+  mw_start_progress();
+   $('.mw-install-holder').fadeOut();
 
   $data = $('#form_<? print $rand ?>').serialize();
 //  alert($data);
   //alert('<? print url_string() ?>');
-
+ 
   $.post("<? print url_string() ?>", $data,
    function(data) {
+	  
 	    $('.mw_log').html('');
 	   if(data != undefined){
 		 if(data == 'done'){
 			 window.location.href= '<? print site_url('admin') ?>'
 		 } else {
 		  $('.mw_log').html(data);	
+		  $('.mw-install-holder').fadeIn();
 		 }
 		   
 	   }
-	 
-
+ $('.mw_install_progress').fadeOut();
    });
    
    
@@ -50,12 +52,35 @@ $(document).ready(function(){
 	 });
 
  
- 
+
  });
 
 
 
- 
+function mw_start_progress(){
+	
+	
+	$('.mw_install_progress').fadeIn();
+	
+ var interval = 2, //How much to increase the progressbar per frame
+        updatesPerSecond = 1000/60, //Set the nr of updates per second (fps)
+        progress =  $('#mw_install_progress_bar'),
+        animator = function(){
+            progress.val(progress.val()+interval);
+          //  $('#val').text(progress.val());
+            if ( progress.val()+interval < progress.attr('max')){
+               setTimeout(animator, updatesPerSecond);
+            } else { 
+              //  $('#val').text('Done');
+                progress.val(progress.attr('max'));
+            }
+        }
+
+    setTimeout(animator, updatesPerSecond);
+	
+	
+	
+}
 </script>
 <style>
 body {
@@ -74,6 +99,10 @@ input[type='text'], input[type='password'] {
 	width: 150px;
 	padding:6px 12px 0 0;
 }
+.mw_install_progress {
+ display: none;	
+}
+ 
 </style>
 </head>
 <body>
@@ -89,6 +118,23 @@ input[type='text'], input[type='password'] {
       <div class="demo" id="demo-one">
         <div class="description">
           <div class="mw_log"> </div>
+          <div class="mw_install_progress">
+          <progress max="5000" value="1" id="mw_install_progress_bar"></progress>
+ 
+          
+          </div>
+          
+         
+          
+          
+          
+          
+          
+          
+          
+          <div class="mw-install-holder">
+          
+          
           <? if ($done == false): ?>
           <form method="post" id="form_<? print $rand ?>">
             <h2>Database setup</h2>
@@ -134,6 +180,7 @@ input[type='text'], input[type='password'] {
           <h2>Done, </h2>
           <a href="<? print site_url('admin') ?>">click here to to to admin</a> <a href="<? print site_url() ?>">click here to to to site</a>
           <? endif; ?>
+           </div>
         </div>
         <!-- .description --> 
         

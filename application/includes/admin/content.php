@@ -384,7 +384,7 @@ mw.on.hashParam("action", function(){
 
   $(mwd.body).removeClass("action-Array");
 
-  $(mwd.body).addClass("loading");
+
 
 
 
@@ -478,6 +478,20 @@ mw.on.hashParam("action", function(){
 
 
 function mw_select_category_for_editing($p_id){
+	
+	
+					  var  active_cat = $('#pages_tree_container_<?php print $my_tree_id; ?> li.category_element.active-bg').first();
+				   if(active_cat != undefined){
+						var active_cat = active_cat.attr('data-category-id');
+					   	 mw.$('#pages_edit_container').attr('data-selected-category-id',active_cat);
+				   } else {
+					   	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
+
+				   }
+	
+ 
+	
+	
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
   	 mw.load_module('categories/edit_category','#pages_edit_container');
 }
@@ -659,16 +673,16 @@ function mw_add_product(){
           <?php _e("Website  Navigation"); ?>
         </a>
         <?php } ?>
-        <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
+        <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
-        </a> <a href="#?action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
+        </a> <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
         <label>Post</label>
         <button>&nbsp;</button>
-        </a> <a href="#?action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
+        </a> <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
         <label>Category</label>
         <button>&nbsp;</button>
-        </a> <a href="#?action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
+        </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
         <label>Product</label>
         <button>&nbsp;</button>
         </a>
@@ -713,7 +727,7 @@ function mw_add_product(){
 
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
-        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <br /><a href="#">You can see the tutorials here</a>.</div>
         <div class="vSpace"></div>
       </div>
        <?
