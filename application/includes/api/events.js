@@ -82,8 +82,22 @@ DOMChange:function(element, callback){
 
 
 
-$(window).bind("hashchange load", function(){
+$(window).bind("hashchange load", function(event){
    mw.on.hashParamEventInit();
+
+   var hash =  mw.hash();
+   if(hash.contains("showpostscat")){
+      mw.$(".manage-toolbar-top").show();
+      mw.$("html").addClass("showpostscat");
+   }
+   else{
+      mw.$(".manage-toolbar-top").hide();
+      mw.$("html").removeClass("showpostscat");
+   }
+   if((hash==='' || hash==='#') && event.type=='hashchange'){
+     window.location.href = window.location.href;
+   }
+
 });
 
 

@@ -10,8 +10,6 @@ mwd.body.className = mwd.body.className + " mw-live-edit";
 $(window).load(function(){
 
 
-
-
 $(".mw_dropdown_type_navigation a").each(function(){
   var el = $(this);
   var li = el.parent();
@@ -502,11 +500,6 @@ editablePurify = function(el){
 
 $(document).ready(function(){
 
-
-
-
-
-
     windowOnScroll.stop();
 
     mw.wysiwyg.prepare();
@@ -522,9 +515,11 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
-        if(!mw.templatePreview._once){
-          mw.templatePreview._once = true;
-          mw.templatePreview.generate();
+        if(!!mw.templatePreview){
+          if(!mw.templatePreview._once){
+            mw.templatePreview._once = true;
+            mw.templatePreview.generate();
+          }
         }
       }
       else{
@@ -787,7 +782,7 @@ mw.toggle_subpanel = function(){
   }
 }
 
-set_pagetab_size = function(){  
+set_pagetab_size = function(){
     mw.$("#mw_edit_pages").css({
        width:window.innerWidth,
        height:window.innerHeight-126

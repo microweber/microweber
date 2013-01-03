@@ -2,6 +2,8 @@
 api css
 */
 
+
+
 body.mw-live-edit{
     margin: 0;
     padding: 0;
@@ -557,6 +559,15 @@ margin-right: 6px;
   font-family: Verdana, sans-serif;
   font-size:12px;
 }
+
+html.mw_pages #mw_handle_module,
+html.mw_pages #mw_handle_row,
+html.mw_pages #mw_handle_element,
+html.mw_pages #items_handle{
+  display: none;
+}
+
+
 
 .mw_resizing > .column{
   height: auto !important;

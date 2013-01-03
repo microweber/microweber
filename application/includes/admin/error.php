@@ -1,9 +1,9 @@
-<?php defined('T') OR die(); headers_sent() OR header('HTTP/1.0 500 Internal Server Error'); ?>
-<h1>System Error</h1>
+<?php defined('T') OR die(); ?>
+<h1>Error</h1>
 <p><?php print $e; ?></p>
-<? if(isset($f)): ?>
+<? if(isset($f) and $f !=false): ?>
 <p>In <?php print str_replace(ROOTPATH,'',$f); ?> 
-<? if(isset($l)): ?>
+<? if(isset($l) and $l !=false): ?>
 on line <?php print $l; ?>
 <? endif ?>
 </p>

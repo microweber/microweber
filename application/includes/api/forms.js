@@ -6,7 +6,7 @@ FieldUnify = function(a){
 
 mw.form = {
   d:function(selector, d){
-    var el = $(selector);
+    var el = mw.$(selector);
     var e = el[0];
     el.data("d",d);
     if(!el.hasClass("binded")){
@@ -14,6 +14,9 @@ mw.form = {
        el.focus(function(){var d = el.data("d");e.value==d?e.value='':''});
        el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
     }
+  },
+  dEach:function(selector){
+
   },
   post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
@@ -28,7 +31,7 @@ mw.form = {
 	
 
     if(is_form_valid){
-        var obj = mw.form.serialize.init(selector);
+        var obj = mw.form.serialize(selector);
       	$.post(url_to_post, obj, function(data){
 			if(mw.is.func(callback)){
 				//callback.call(selector);
@@ -152,7 +155,7 @@ mw.form = {
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
-          if(el.type!=='checkbox'){
+          if(!el.name.contains("[]")){
              data[name] = val;
           }
           else{

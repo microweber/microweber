@@ -3,6 +3,8 @@ if (!window.CanvasRenderingContext2D) {
   document.body.id = 'UnsupportedBrowser';
 }
 
+document.getElementsByTagName('html')[0].className = window.location.href.indexOf('pecata/') !==-1 ?  document.getElementsByTagName('html')[0].className + ' mwoffice' : document.getElementsByTagName('html')[0].className;
+
 
 typeof mw === 'undefined' ?
 
@@ -57,7 +59,8 @@ typeof mw === 'undefined' ?
 
   if (!Array.indexOf) {
     Array.prototype.indexOf = function(obj) {
-      for (var i = 0; i < this.length; i++) {
+      var i=0, l=this.length;
+      for ( ; i < l; i++) {
         if (this[i] == obj) {
           return i;
         }
@@ -69,8 +72,7 @@ typeof mw === 'undefined' ?
 
 
 
-  (function() {
-
+(function() {
     mw.required = [];
     mw.require = function(url) { //Veyron
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
@@ -85,8 +87,7 @@ typeof mw === 'undefined' ?
         }
       }
     }
-
-  })();
+})();
 
 
 
@@ -104,6 +105,7 @@ typeof mw === 'undefined' ?
 
   window.onload = function() {
     mw.loaded = true;
+    mwd.body.className+=' loaded';
   }
 
   mw.target = {} //

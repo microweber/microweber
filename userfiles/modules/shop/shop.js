@@ -50,6 +50,49 @@ mw.cart = {
 		// mw.reload_module('shop/cart');
       //   mw.$('#tagline').html(data);
      });
+  },
+  
+    checkout : function(selector){
+	  
+	  
+	 //  data = mw.$(selector+' input').serialize();
+	  
+	   var obj = mw.form.serialize(selector);
+     $.post(mw.settings.api_url+'checkout', obj ,
+     function(data) {
+		 
+		 if(data != undefined){
+			 if(parseInt(data) > 0){
+			 
+			 
+			 mw.$(selector).parents('[data-type="shop/checkout"]').attr('view', 'completed');
+			 mw.reload_module('shop/checkout');
+			 mw.reload_module('shop/cart');
+			 
+			 } else {
+				 if(obj.payment_gw != undefined){
+					 
+					 var callback_func = obj.payment_gw+'_checkout';
+					 
+					 if(typeof window[callback_func] === 'function'){
+							 
+						window[callback_func](data,selector); 
+					 }
+				//	if(mw.is.func()) 
+				 }
+				// mw.log(obj);
+				 
+			//	alert(data); 
+				 
+			 }
+		 }
+		 
+		// mw.reload_module('shop/cart');
+      // mw.$('#sidebar').html(data);
+     });
+  
+  return false;
+  
   }
 }
 

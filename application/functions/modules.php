@@ -164,8 +164,8 @@ function get_elements_from_db($params = false) {
 	}
 	$params['table'] = $table;
 	$params['orderby'] = 'position asc';
-	//$params['debug'] = 1;
-	//   $params['cache_group'] = 'elements/global';
+	// $params['debug'] = 1;
+	$params['cache_group'] = 'elements/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
 	} else {
@@ -176,7 +176,7 @@ function get_elements_from_db($params = false) {
 		//   $params['ui'] = 1;
 	}
 	$s = get($params);
-	//d($params); d( $s);
+	// d($params); d( $s);
 	return $s;
 }
 
@@ -365,10 +365,75 @@ function is_module($module_name) {
 	return $checked[$module_name];
 }
 
+function module_dir($module_name) {
+	if (!is_string($module_name)) {
+		return false;
+	}
+
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_group = 'modules/global';
+
+	$cache_content = cache_get_content($cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$checked = array();
+
+	if (!isset($checked[$module_name])) {
+		$ch = locate_module($module_name, $custom_view = false);
+
+		if ($ch != false) {
+			$ch = dirname($ch);
+			//$ch = dir2url($ch);
+			$ch = normalize_path($ch, 1);
+			//	$ch = trim($ch,'\//');
+
+			$checked[$module_name] = $ch;
+		} else {
+			$checked[$module_name] = false;
+		}
+	}
+
+	cache_save($checked[$module_name], $function_cache_id, $cache_group);
+
+	return $checked[$module_name];
+
+}
+
 function module_url($module_name) {
 	if (!is_string($module_name)) {
 		return false;
 	}
+
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_group = 'modules/global';
+
+	$cache_content = cache_get_content($cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
 	$checked = array();
 
 	if (!isset($checked[$module_name])) {
@@ -386,7 +451,10 @@ function module_url($module_name) {
 		}
 	}
 
+	cache_save($checked[$module_name], $function_cache_id, $cache_group);
+
 	return $checked[$module_name];
+
 }
 
 function locate_module($module_name, $custom_view = false) {
@@ -633,6 +701,7 @@ function save_module_to_db($data_to_save) {
 	$table = $cms_db_tables['table_modules'];
 	$save = false;
 	// d($table);
+
 	//d($data_to_save);
 
 	if (!empty($data_to_save)) {
@@ -645,11 +714,14 @@ function save_module_to_db($data_to_save) {
 		if (!isset($s["id"]) and isset($s["module"])) {
 			$s["module"] = $data_to_save["module"];
 			if (!isset($s["module_id"])) {
-				$save = get_modules_from_db('ui=any&limit=1&module=' . $s["module"]);
+				$save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
 				// d($s["module"]);
-				// d($s );
+				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
+					//$s['debug'] = 1;
+					//d($s );
+					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
 				}
@@ -665,7 +737,7 @@ function save_module_to_db($data_to_save) {
 		if ($save != false) {
 			//   cache_clean_group('modules' . DIRECTORY_SEPARATOR . intval($save));
 			// cache_clean_group('modules' . DIRECTORY_SEPARATOR . 'global');
-			cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
+			//cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
 		}
 	}
 	return $save;
@@ -673,10 +745,10 @@ function save_module_to_db($data_to_save) {
 
 function modules_list($options = false) {
 
-	return scan_for_get_modules($options);
+	return scan_for_modules($options);
 }
 
-function scan_for_get_modules($options = false) {
+function scan_for_modules($options = false) {
 	ini_set("memory_limit", "160M");
 	if (!ini_get('safe_mode')) {
 		set_time_limit(250);
@@ -693,21 +765,30 @@ function scan_for_get_modules($options = false) {
 
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v) . serialize($params);
 	}
-
+	$list_as_element = false;
 	$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($options['dir_name'])) {
 		$dir_name = $options['dir_name'];
-		$list_as_element = true;
-		$cache_group = 'elements';
+		//$list_as_element = true;
+		$cache_group = 'elements/global';
 		//
 	} else {
 		$dir_name = normalize_path(MODULES_DIR);
 		$list_as_element = false;
-		$cache_group = 'modules';
+		$cache_group = 'modules/global';
+	}
+
+	if (isset($options['is_elements'])) {
+		$list_as_element = true;
+
+	}
+
+	if (isset($options['cache_group'])) {
+		$cache_group = $cache_group;
 	}
 
 	if (isset($options['reload_modules']) == true) {
-		//   d($cache_group);
+		// d($cache_group);
 	}
 
 	if (isset($options['cleanup_db']) == true) {
@@ -728,10 +809,11 @@ function scan_for_get_modules($options = false) {
 
 	if (isset($options['skip_cache']) == false) {
 
-		// $cache_content = cache_get_content($cache_id, $cache_group);
-		if (isset($cache_content) != false) {
+		$cache_content = cache_get_content($cache_id, $cache_group);
 
-			//  return $cache_content;
+		if (($cache_content) != false) {
+
+			return $cache_content;
 		}
 	}
 	if (isset($options['glob'])) {
@@ -740,8 +822,8 @@ function scan_for_get_modules($options = false) {
 		$glob_patern = '*config.php';
 	}
 
-	clearcache();
-	clearstatcache();
+	//clearcache();
+	//clearstatcache();
 
 	$dir = rglob($glob_patern, 0, $dir_name);
 
@@ -849,7 +931,7 @@ function scan_for_get_modules($options = false) {
 
 		$c2 = array_merge($cfg_ordered, $cfg);
 
-		// cache_save($c2, $function_cache_id, $cache_group);
+		cache_save($c2, $cache_id, $cache_group);
 
 		return $c2;
 	}
@@ -862,10 +944,10 @@ function get_elements($options = array()) {
 		$options = $params2;
 	}
 
-	// $options ['glob'] = '*.php';
+	$options['is_elements'] = 1;
 	$options['dir_name'] = normalize_path(ELEMENTS_DIR);
 
-	return scan_for_get_modules($options);
+	return scan_for_modules($options);
 
 	$args = func_get_args();
 	$function_cache_id = '';
@@ -1107,6 +1189,13 @@ function load_module($module_name, $attrs = array()) {
 
 		$config['path_to_module'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
+
+		$config['module_api'] = site_url('m/' . $module_name);
+
+		$config['ns'] = str_replace('/', '\\', $module_name);
+		$config['module_class'] = str_replace('/', '-', $module_name);
+		;
+
 		$config['url_to_module'] = pathToURL($config['path_to_module']) . '/';
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
 		$lic = load_module_lic($module_name);
@@ -1134,6 +1223,11 @@ function load_module($module_name, $attrs = array()) {
 			if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
 				$module_file = $l1 -> __get_vars();
 				return $module_file;
+			}
+			else if (isset($attrs['format']) && (trim($attrs['format']) == 'json')) {
+				$module_file = $l1 -> __get_vars();
+				header("Content-type: application/json");
+				exit(json_encode($module_file));
 			} else {
 				$module_file = $l1 -> __toString();
 			}

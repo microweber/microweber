@@ -1,5 +1,8 @@
 @import url("liveadmin.css");
 
+input, a, textarea, select{
+  outline: none;
+}
 
 h2{ /*  ask the designer */
     font-size: 18px;
@@ -17,6 +20,7 @@ h2{ /*  ask the designer */
 #mw-admin-container{
   background: url("../img/treebg.gif") repeat-y -167px 0;
 }
+body.action-orders #mw-admin-container{background-image:none;}
 
 
 #mw_toolbar_logo{
@@ -197,132 +201,11 @@ border-radius: 20px;
 }
 
 
-/* icons */
-
-
-.ico{
-  display: inline-block;
-  float: left;
-  width: 25px;
-  height: 25px;
-  overflow: hidden;
-  position: relative;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-image: url(../img/quick.icons.png);
-}
-/* icons */
-.ipage{background-position: 5px 2px}
-.ipost{background-position:4px -39px;}
-.icategory{background-position:3px -78px;}
-.iproduct{background-position:1px -120px;}
-.iorder{background-position:-227px 1px;}
-.icomment{background-position:-228px -42px;}
-.imanage-website{background-position:-225px -80px;}
-.imanage-module{background-position:-228px -119px;}
-.iupgrade{background-position:-495px 1px;}
-.inotification{background-position:-495px -42px;}
-.iupload{background-position:-497px -81px;}
-.ireport{background-position:-749px 1px;}
-.isuggest{background-position:-749px -43px;}
-.ihelp{background-position:-749px -82px;}
-.ilive{background-position:-875px 5px;}
-.ilogout{background-position:-880px -24px}
-
-/* Custom fields icons */
-
-.iSingleText{background-position:-976px -36px;}
-.iPText{background-position:-976px -66px;}
-.iRadio{background-position:-976px -98px;}
-.iName{background-position:-976px -129px;}
-.iPhone{background-position:-1013px -36px;}
 
 
 
 
 a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 
-.mw-ui-btn .ico{
-    margin-right: 7px;
-    top: -4px;
 
-}
-
-
-.quick-links li {
-  list-style: none;
-  display: block;
-  padding: 5px 0;
-}
-
-.quick-links li a{
-  position: relative;
-  list-style: none;
-  display: inline-block;
-  white-space: nowrap;
-  padding: 2px 14px 2px 7px;
-  margin-right: 20px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  border-top-color: transparent;
-  border-bottom-color: transparent;
-  color: #434343;
-  font-size: 11px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-}
-
-.quick-links li a:hover{
-  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
-  border: 1px solid #DFDDDD;
-  border-top-color: #E9E6E6;
-  border-bottom-color: #A1A0A0;
-}
-
-.quick-links li a:active{
-  box-shadow:inset 0 0 6px #ccc;
-}
-
-.quick-links li a span + span{
-  position: relative;
-  top: 5px;
-}
-
-.quick-links li a span.mw-ui-btn-plus{
-  position: absolute;
-  left: 10px;
-  top: 9px;
-}
-
-.quick-links li a span.mw-ui-btn-plus + span{
-  margin-left:23px;
-  top: 0;
-}
-
-.quick-links-case{
-  float: left;
-  width: 24%;
-}
-
-.quick-links-case .quick-links{
-  padding-top: 42px;
-}
-.quick-links-case > h2 + .quick-links{
-  padding-top: 0;
-}
-
-.quick-links .ico{
-  margin-right: 10px;
-  float: left;
-}
-
-
-
-
-.quick-lists{
-  padding:20px 0 0 20px;
-  border-top:1px solid #E5E5E5;
-  clear: both;
-}
 

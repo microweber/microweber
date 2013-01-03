@@ -57,11 +57,11 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
 	if ($field_name == false) {
 		$field_name = "id";
 	}
-
+	$table = db_get_real_table_name($table);
 	$table = db_get_table_name($table);
 
 	$q = "SELECT * from $table where {$field_name}=$id limit 1";
-	// d($q);
+
 	$q = db_query($q);
 	if (isset($q[0])) {
 		$q = $q[0];
@@ -408,7 +408,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -446,7 +446,10 @@ function get($params) {
 			$orderby = $v;
 		}
 	}
+	if (!isset($table) and isset($params['what'])) {
+		$table = db_get_real_table_name(guess_table_name($params['what']));
 
+	}
 	if ($cache_group == false and $debug == false) {
 		$cache_group = guess_cache_group($table);
 		if (!isset($criteria['id'])) {
@@ -819,44 +822,35 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		if (is_string($search_n_cats)) {
 			$search_n_cats = explode(',', $search_n_cats);
 		}
+		$is_in_category_items = false;
 		if (is_array($search_n_cats) and !empty($search_n_cats)) {
 
 			foreach ($search_n_cats as $cat_name_or_id) {
 
 				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-				$str1 = 'fields=id&limit=10000&what=categories&' . 'id=' . $cat_name_or_id;
+				$str1 = 'fields=id&limit=10000&table=table_taxonomy&' . 'id=' . $cat_name_or_id;
 
-				//d($str1);
-				$is_in_category = get($str1);
-				//d($is_in_category);
-				if (empty($is_in_category)) {
-					$is_in_category = get($str1);
-				}
+				$cat_name_or_id1 = intval($cat_name_or_id);
+				$str1_items = 'fields=to_table_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+				$is_in_category_items = get($str1_items);
 
-				if (!empty($is_in_category)) {
-					foreach ($is_in_category as $is_in_category_item) {
-						$cat_name_or_id1 = $is_in_category_item['id'];
-						$str1_items = 'fields=to_table_id&limit=10000&data_type=category_item&what=category_items&' . 'parent_id=' . $cat_name_or_id1 . '&to_table=' . $table_assoc_name;
-						$is_in_category_items = get($str1_items);
+				if (!empty($is_in_category_items)) {
 
-						if (!empty($is_in_category_items)) {
+					foreach ($is_in_category_items as $is_in_category_items_tt) {
 
-							foreach ($is_in_category_items as $is_in_category_items_tt) {
+						$includeIds[] = $is_in_category_items_tt["to_table_id"];
 
-								$includeIds[] = $is_in_category_items_tt["to_table_id"];
-								// d($includeIds);
-							}
-						}
-						// d($is_in_category_items);
-						//d($is_in_category_items);
 					}
-				} else {
-					return false;
 				}
+
 			}
 		}
 		// $is_in_category = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
 		//  $includeIds;
+		if ($is_in_category_items == false) {
+			return false;
+		}
+
 	}
 
 	if (isset($criteria['keyword'])) {
@@ -864,10 +858,25 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 
 	$groupby = false;
+
+	if (isset($criteria['group_by'])) {
+		$groupby = $criteria['group_by'];
+		if (is_string($groupby)) {
+			$groupby = db_escape_string($groupby);
+		}
+	}
+
 	if (isset($criteria['group'])) {
 		$groupby = $criteria['group'];
 		if (is_string($groupby)) {
 			$groupby = db_escape_string($groupby);
+		}
+	}
+
+	if (isset($criteria['order_by'])) {
+		$orderby = $criteria['order_by'];
+		if (is_string($orderby)) {
+			$orderby = db_escape_string($orderby);
 		}
 	}
 
@@ -1148,16 +1157,41 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 		foreach ($criteria as $k => $v) {
 			$compare_sign = '=';
+			$is_val_str = true;
+			$is_val_int = false;
 			if (stristr($v, '[lt]')) {
-				$compare_sign = '<=';
+				$compare_sign = '<';
 				$v = str_replace('[lt]', '', $v);
 			}
 
 			if (stristr($v, '[mt]')) {
 
-				$compare_sign = '>=';
+				$compare_sign = '>';
 
 				$v = str_replace('[mt]', '', $v);
+			}
+
+			
+			if (stristr($v, '[int]')) {
+
+				$is_val_str = false;
+				$is_val_int = true;
+
+				$v = str_replace('[int]', '', $v);
+			}
+
+			if (stristr($v, '[is]')) {
+
+				$compare_sign = ' IS ';
+
+				$v = str_replace('[is]', '', $v);
+			}
+
+			if (stristr($v, '[is_not]')) {
+
+				$compare_sign = ' IS NOT ';
+
+				$v = str_replace('[is_not]', '', $v);
 			}
 			/*
 			 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
@@ -1167,8 +1201,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$v = strtotime($v);
 				$v = date("Y-m-d H:i:s", $v);
 			}
+			if ($is_val_int == true and $is_val_str == false) {
+				$v = intval($v);
+				
+				$where .= "$k {$compare_sign} $v AND ";
+			} else {
+				$where .= "$k {$compare_sign} '$v' AND ";
 
-			$where .= "$k {$compare_sign} '$v' AND ";
+			}
 		}
 
 		$where .= " ID is not null ";
@@ -1583,7 +1623,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	$user_session = session_get('user_session');
-$table = db_get_real_table_name($table);
+	$table = db_get_real_table_name($table);
 	$user_sid = false;
 	if ($user_session == false) {
 
@@ -1657,6 +1697,7 @@ $table = db_get_real_table_name($table);
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
 		}
 	}
+
 	// var_dump($data);
 	if (intval($data['id']) == 0) {
 
@@ -1763,21 +1804,28 @@ $table = db_get_real_table_name($table);
 			}
 		}
 		$user_sidq = '';
-		if ($user_sid != false) {
-			$user_sidq = " AND session_id='{$user_sid}' ";
-		} else {
 
-		}
 		$user_createdq = '';
 		$user_createdq1 = '';
-		if (is_admin() == false and isset($data['created_by'])) {
-			$user_createdq = " AND created_by=$the_user_id ";
-		}
 
-		if (isset($data['edited_by'])) {
-			$user_createdq1 = " edited_by=$the_user_id ";
-		} else {
+		if (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE) {
 			$user_createdq1 = " id={$data ['id']} ";
+		} else {
+
+			if (is_admin() == false and isset($data['created_by'])) {
+				$user_createdq = " AND created_by=$the_user_id ";
+			}
+
+			if (isset($data['edited_by'])) {
+				$user_createdq1 = " edited_by=$the_user_id ";
+			} else {
+				$user_createdq1 = " id={$data ['id']} ";
+			}
+
+			if ($user_sid != false) {
+				$user_sidq = " AND session_id='{$user_sid}' ";
+			}
+
 		}
 
 		$q .= " $user_createdq1 WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
@@ -1826,9 +1874,9 @@ $table = db_get_real_table_name($table);
 			} else {
 
 				if (is_string($original_data['categories'])) {
-
+					$original_data['categories'] = str_replace('/', ',', $original_data['categories']);
 					$cz = explode(',', $original_data['categories']);
-					$j=0;
+					$j = 0;
 					foreach ($cz as $cname_check) {
 
 						if (intval($cname_check) == 0) {
@@ -1848,24 +1896,18 @@ $table = db_get_real_table_name($table);
 								//d($clean_q);
 								db_q($clean_q);
 
-
-
 							}
 
-
 							$is_ex = get($str1);
-								if (!empty($is_ex) and isarr($is_ex[0])) {
-									$cz[$j] = $is_ex[0]['id'];
+							if (!empty($is_ex) and isarr($is_ex[0])) {
+								$cz[$j] = $is_ex[0]['id'];
 								//	d($is_ex);
-								}
-
-
-
+							}
 
 						}
 						$j++;
 					}
-$original_data['categories'] = implode(',', $cz);
+					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
@@ -1874,6 +1916,9 @@ $original_data['categories'] = implode(',', $cz);
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
 					//d($clean_q);
+					if ($dbg != false) {
+						d($clean_q);
+					}
 					db_q($clean_q);
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
@@ -1893,6 +1938,9 @@ $original_data['categories'] = implode(',', $cz);
 					data_type='category_item',
 					to_table_id='{$id_to_return}'
 					";
+					if ($dbg != false) {
+						d($q_cat1);
+					}
 					db_q($q_cat1);
 					// d($q_cat1);
 					// if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {

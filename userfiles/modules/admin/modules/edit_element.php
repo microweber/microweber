@@ -102,7 +102,7 @@ $(document).ready(function(){
  position
  <input type="text" name="position" value="<? print $data['position'] ?>" />
  
-  <microweber module="categories/selector" for="elements"  to_table_id="<? print $data['id'] ?>" >
+  <microweber module="categories/selector" to_table="table_elements"  to_table_id="<? print $data['id'] ?>" >
  
  
  <input name="save" type="submit" value="save">
