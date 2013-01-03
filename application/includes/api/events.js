@@ -27,7 +27,14 @@ mw.on = {
   _hashrec : {},
   _hashparams : [],
   _hashparam_funcs : [],
-  hashParam : function(param, callback, trigger){
+  hashParam : function(param, callback, trigger, isManual){
+    if(isManual){
+        var index = mw.on._hashparams.indexOf(param);
+        if(mw.on._hashparam_funcs[index]!==undefined){
+          mw.on._hashparam_funcs[index].call(false);
+        }
+        return false;
+    }
     if(trigger==true){
         var index = mw.on._hashparams.indexOf(param);
         if(index != -1){
@@ -75,10 +82,31 @@ DOMChange:function(element, callback){
      mw.on._stopWriting = setTimeout(function(){
        callback.call(el);
      }, 600);
- }
+ },
+ scrollBarOnBottom : function(obj, distance, callback){
+    if(typeof obj === 'function'){
+       var callback = obj;
+       var obj =  window;
+       var distance = 0;
+    }
+    if(typeof distance === 'function'){
+      var callback = distance;
+      var distance = 0;
+    }
+    obj._pauseCallback = false;
+    obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
+    obj.continueScrollCallback = function(){ obj._pauseCallback = false;}
+    $(obj).scroll(function(e){
+      var h = obj === window ? mwd.body.scrollHeight : obj.scrollHeight;
+      var calc = h - $(obj).scrollTop() - $(obj).height();
+      if(calc <= distance && !obj._pauseCallback){
+        callback.call(obj);
+      }
+    });
+  }
 }
 
-
+mw.hashHistory = [window.location.hash]
 
 
 
@@ -94,16 +122,24 @@ $(window).bind("hashchange load", function(event){
       mw.$(".manage-toolbar-top").hide();
       mw.$("html").removeClass("showpostscat");
    }
-   if((hash==='' || hash==='#') && event.type=='hashchange'){
-     window.location.href = window.location.href;
+
+
+   if(event.type=='hashchange'){
+     mw.hashHistory.push(mw.hash());
+     //Check if current hash has lost params and bind the event with fasle
+     var size = mw.hashHistory.length;
+     var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
+     if(l>0){
+       for( ; i<l; i++){
+          mw.on.hashParam(changes[i], "", true, true);
+       }
+     }
    }
 
 });
 
 
-mw.hash = function(b){
-  return b===undefined ? window.location.hash : window.location.hash = b;
-}
+mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
 
 

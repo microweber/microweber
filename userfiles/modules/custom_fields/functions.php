@@ -55,9 +55,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 		$copy_from = $data['copy_from'];
 		if (is_admin() == true) {
 
-			$cms_db_tables = c('db_tables');
-
-			$table_custom_field = $cms_db_tables['table_custom_fields'];
+			$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 			$form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
 			$field_type = $form_data['custom_field_type'];
 			$form_data['id'] = 0;
@@ -79,7 +77,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 	}
 
 	define_constants();
-	$l = new View($file);
+	$l = new MwView($file);
 
 	$l -> params = $data;
 	$l -> data = $form_data;
@@ -106,18 +104,24 @@ function save_custom_field($data) {
 	}
 	$data_to_save = ($data);
 
-	$cms_db_tables = c('db_tables');
-
-	$table_custom_field = $cms_db_tables['table_custom_fields'];
+	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
 	if (isset($data_to_save['for'])) {
 		$data_to_save['to_table'] = guess_table_name($data_to_save['for']);
 	}
 	if (isset($data_to_save['cf_id'])) {
 		$data_to_save['id'] = intval($data_to_save['cf_id']);
+
+		if (isset($data_to_save['copy_to_table_id'])) {
+
+			$cp = db_copy_by_id($table_custom_field, $data_to_save['cf_id']);
+			$data_to_save['id'] = $cp;
+			$data_to_save['to_table_id'] = $data_to_save['copy_to_table_id'];
+			//$data_to_save['id'] = intval($data_to_save['cf_id']);
+		}
+
 	}
-	
-	
+
 	if (!isset($data_to_save['to_table'])) {
 		$data_to_save['to_table'] = 'table_content';
 	}
@@ -125,8 +129,7 @@ function save_custom_field($data) {
 	if (!isset($data_to_save['to_table_id'])) {
 		$data_to_save['to_table_id'] = '0';
 	}
-	
-	
+
 	//  $data_to_save['debug'] = 1;
 
 	$save = save_data($table_custom_field, $data_to_save);
@@ -137,32 +140,32 @@ function save_custom_field($data) {
 
 	//exit
 }
+
 api_expose('reorder_custom_fields');
 
 function reorder_custom_fields($data) {
 
-    $adm = is_admin();
-    if ($adm == false) {
-        error('Error: not logged in as admin.');
-    }
-    $tables = c('db_tables');
-	$table = $tables['table_custom_fields'];
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
 
-    
-    foreach ($data as $value) {
-        if (is_arr($value)) {
-            $indx = array();
-            $i = 0;
-            foreach ($value as $value2) {
-                $indx[$i] = $value2;
-                $i++;
-            }
+	$table = MW_TABLE_PREFIX . 'custom_fields';
 
-            db_update_position($table, $indx);
-            return true;
-            // d($indx);
-        }
-    }
+	foreach ($data as $value) {
+		if (is_arr($value)) {
+			$indx = array();
+			$i = 0;
+			foreach ($value as $value2) {
+				$indx[$i] = $value2;
+				$i++;
+			}
+
+			db_update_position($table, $indx);
+			return true;
+			// d($indx);
+		}
+	}
 }
 
 api_expose('remove_field');
@@ -183,13 +186,16 @@ function remove_field($id) {
 	}
 
 	$id = intval($id);
+	if (isset($cf_id)) {
+		$id = intval($cf_id);
+	}
 
 	if ($id == 0) {
 
 		return false;
 	}
-	$cms_db_tables = c('db_tables');
-	$custom_field_table = $cms_db_tables['table_custom_fields'];
+
+	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 	$q = "DELETE FROM $custom_field_table where id='$id'";
 
 	db_q($q);
@@ -218,21 +224,31 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 		}
 	} else {
 		if ($field_id != 0) {
-
-			//print $field_id;
-
 			$data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
-			//p($data);
-			//getById($table, $id = 0, $is_this_field = false)
-			//exit('$field_id' . $field_id);
 		}
 	}
-	if (isset($data['type'])) {
-		$field_type = $data['type'];
-	}
+
 	if (isset($data['custom_field_type'])) {
 		$field_type = $data['custom_field_type'];
 	}
+
+	if (!isset($data['custom_field_required'])) {
+		$data['custom_field_required'] = 'n';
+	}
+
+	if (isset($data['type'])) {
+		$field_type = $data['type'];
+	}
+
+	if (isset($data['field_type'])) {
+		$field_type = $data['field_type'];
+	}
+
+	if (isset($data['field_values']) and !isset($data['custom_field_value'])) {
+		$data['custom_field_values'] = $data['field_values'];
+	}
+
+	$data['custom_field_type'] = $field_type;
 
 	if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
 		if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
@@ -246,23 +262,24 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	$dir = dirname(__FILE__);
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);
-	if ($settings == true) {
+	if ($settings == true or isset($data['settings'])) {
 		$file = $dir . $field_type . '_settings.php';
 	} else {
 		$file = $dir . $field_type . '.php';
 	}
+	if (is_file($file)) {
+		$l = new MwView($file);
+		//
+		$l -> settings = $settings;
 
-	$l = new View($file);
-	//
-	$l -> settings = $settings;
+		if (isset($data) and !empty($data)) {
+			$l -> data = $data;
+		} else {
+			$l -> data = array();
+		}
 
-	if (isset($data) and !empty($data)) {
-		$l -> data = $data;
-	} else {
-		$l -> data = array();
+		$layout = $l -> __toString();
+
+		return $layout;
 	}
-
-	$layout = $l -> __toString();
-
-	return $layout;
 }

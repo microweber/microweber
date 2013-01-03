@@ -1,28 +1,53 @@
 window.mw = window.mw ? window.mw : {};
 
 FieldUnify = function(a){
-  return mw.is.string(a) ? a : (mw.is.obj(a) ? a.value : '');
+  return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or DOM node.'));
 }
 
-mw.form = {
-  d:function(selector, d){
-    var el = mw.$(selector);
-    var e = el[0];
-    el.data("d",d);
-    if(!el.hasClass("binded")){
-       el.addClass("binded");
-       el.focus(function(){var d = el.data("d");e.value==d?e.value='':''});
-       el.blur(function(){var d = el.data("d");e.value==''?e.value=d:''});
-    }
-  },
-  dEach:function(selector){
 
+
+
+
+mw.form = {
+  typeNumber:function(el){
+    el.value = el.value.replace(/[^0-9\.,]/g,'');
+  },
+  fixNum:function(el){
+    el.value = el.value.replace(/,/g,'');
+    var arr = el.value.split('.');
+    var len = arr.length;
+    if(len>1){
+      if(arr[len-1]===''){
+          arr[len-1] = '.00';
+      }
+      else{
+         arr[len-1] = '.' + arr[len-1];
+      }
+      el.value = arr.join('');
+    }
+
+  },
+  dstatic:function(event, d){
+    var d = d || $(event.target).dataset('default') || false;
+    if(!!d){
+        var type = event.type;
+        var target = event.target;
+        if(type=='focus'){
+           target.value==d?target.value='':'';
+        }
+        else if(type=='blur'){
+           target.value==''?target.value=d:'';
+        }
+        else if(type=='keyup'){
+           $(target).addClass('loading');
+        }
+    }
   },
   post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
 
 	if(!mw.is.defined(url_to_post)){
-		
+
 		url_to_post = mw.settings.site_url+'api/post_form';
 		
 	} else {
@@ -41,23 +66,10 @@ mw.form = {
 				//alert(data);
 				return data;
 			}
-			
-			
-			
+
         });
     }
 	return false;
-  },
-  
-  
-  
-  
-  
-  
-  serialize : {
-      init:function(form){
-        return $(form).serialize();
-      }
   },
   validate:{
     checkbox: function(obj){
@@ -75,9 +87,9 @@ mw.form = {
        return rurl.test(FieldUnify(FieldUnify(obj)));
     },
     radio:function(objname){
-        var radios = document.getElementsByName(objname);
+        var radios = document.getElementsByName(objname), i = 0, len = radios.length;
         this_radio_valid = false;
-        for(i=0; i < radios.length; i++){
+        for( ; i < len ; i++){
             if(radios[i].checked){
                 this_radio_valid = true;
                 break;
@@ -128,7 +140,7 @@ mw.form = {
              mw.form.validate.radio(this.name);
           }
           else{
-            mw.form.validate.proceed.field(this);
+             mw.form.validate.proceed.field(this);
           }
         });
         $(form).find(".required-email").each(function(){
@@ -148,27 +160,15 @@ mw.form = {
     } 
   },
   serialize : function(id){
-      var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
-      var data = {}
-      $(fields, el).each(function(){
-          var el = this, _el = $(el);
-          var val = _el.val();
-          var name = el.name;
-          if(!el.name.contains("[]")){
-             data[name] = val;
-          }
-          else{
-            try {
-               data[name].push(val);
-            }
-            catch(e){
-              data[name] = [val];
-            }
-          }
-      });
-      return data;
- }
+    return mw.serializeFields(id);
+  }
 }
+
+
+
+
+
+
+
 
 

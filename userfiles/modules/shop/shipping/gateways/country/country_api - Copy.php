@@ -11,7 +11,7 @@ class shipping_to_country {
 	// private constructor function
 	// to prevent external instantiation
 	function __construct() {
-		$this -> table = TABLE_PREFIX . 'cart_shipping';
+		$this -> table = MW_TABLE_PREFIX . 'cart_shipping';
 	}
 
 	// getInstance method

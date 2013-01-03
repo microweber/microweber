@@ -41,7 +41,7 @@
 
 
  
-  <?php $form_btn_text  = option_get('form_btn_text', $params['module_id']);
+  <?php $form_btn_text  = get_option('form_btn_text', $params['module_id']);
   
   if(trim($form_btn_text) == ''){
 	$form_btn_text = 'Send';  
@@ -52,8 +52,8 @@
   <form method="post" action="" id="contact_form<? print  $params['module_id'] ?>" class="uniForm"> 
   
   <div class="uniForm_header">
-        <h2><?php print option_get('form_title', $params['module_id']) ?></h2>
-        <p><?php print option_get('form_description', $params['module_id']) ?></p>
+        <h2><?php print get_option('form_title', $params['module_id']) ?></h2>
+        <p><?php print get_option('form_description', $params['module_id']) ?></p>
       </div>
       
       

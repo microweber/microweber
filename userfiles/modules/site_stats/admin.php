@@ -16,9 +16,9 @@ $v_monthly = get_visits('monthly');
 <div id="stats">
     <h2>Traffic Statistic</h2>
     <ul id="stats_nav">
-        <li><a href="#" data-stat='day' class="active">Daily</a></li>
-        <li><a href="#" data-stat='week'>Weekly</a></li>
-        <li><a href="#" data-stat='month'>Monthly</a></li>
+        <li><a href="javascript:;" data-stat='day' class="active">Daily</a></li>
+        <li><a href="javascript:;" data-stat='week'>Weekly</a></li>
+        <li><a href="javascript:;" data-stat='month'>Monthly</a></li>
     </ul>
 
     <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
@@ -27,7 +27,7 @@ $v_monthly = get_visits('monthly');
 
 
 
-<div class="vspace">&nbsp;</div>
+<div class="vSpace">&nbsp;</div>
 
 <div id="users_online">
 
@@ -37,7 +37,7 @@ $v_monthly = get_visits('monthly');
 
 </div>
 <div id="visits_info_table">
-<h2>User Info</h2>
+<h2><?php _e("User Info"); ?></h2>
 
 <? $users_last5 = get_visits('last5');
 

@@ -2,7 +2,7 @@
 
 
 
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'fdom' . DIRECTORY_SEPARATOR . 'autoload.php');
+require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'fdom' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 
 $dom = new TheSeer\fDOM\fDOMDOcument();

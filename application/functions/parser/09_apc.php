@@ -15,7 +15,7 @@ if ($use_apc == true) {
 
 
 
-        require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = phpQuery::newDocument($layout);
 

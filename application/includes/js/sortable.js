@@ -179,7 +179,6 @@ mw.drag = {
                     mw.SmallEditorIsDragging = false;
                     mw.smallEditor.invisible();
                     mw.bigEditor.visible();
-                    mw.bigEditor.animate({opacity:1}, 200);
                 }
            }
 
@@ -193,7 +192,7 @@ mw.drag = {
 
 
            if(!mw.isDrag){
-               if(mw.mouse.x%2==0){ //not on every pixel
+               if(mw.mouse.x % 2 ===0 ){ //not on every pixel
                    //trigger on element
 
                    if(mw.$mm_target.hasClass("element")){
@@ -810,6 +809,7 @@ mw.drag = {
                                $(mw.dragCurrent).removeAttr("id");
                             }
                             if(hovered.hasClass("empty-element")){
+
                                hovered.before(mw.dragCurrent);
                                $(mw.dragCurrent).removeClass("mw_drag_float");
                                $(mw.dragCurrent).removeClass("mw_drag_float_right");
@@ -1109,8 +1109,21 @@ mw.drag = {
 
 
     data1 = attributes
-    data1.view = 'admin';
-
+  //  data1.view = 'admin';
+  if(data1['data-type'] != undefined){
+	 // alert(1);
+	 data1['data-type'] = data1['data-type']+'';
+  }
+  
+    if(data1['type'] != undefined){
+	 // alert(1);
+	 data1['type'] = data1['type']+'';
+  }
+  
+  
+  
+	data1.live_edit = 'true';
+	data1.view = 'admin';
     mw.tools.modal.init({
 	html:"",
 	width:600,

@@ -1,7 +1,4 @@
-<? // d() ?>
-
-
-
+<? //  d($params) ?>
 <script type="text/javascript">
 
 
@@ -25,8 +22,8 @@
 	$copy_from = $params['copy_from'];
  }
   $hide_preview = '';
-  if(isset($params['contenteditable'])){
-	//$hide_preview = " data-hide-preview=true " ;
+  if(isset($params['live_edit'])){
+	 $hide_preview = " live_edit=true " ;
  }
 
 
@@ -40,7 +37,8 @@
  
   //$for_id =$params['id'];
  if(isset($params['to_table_id'])){
-$for_id =$params['to_table_id'];
+$for_id =$module_id = $params['to_table_id'];
+ 
  }
  
 $module_id = $for_id;
@@ -48,10 +46,7 @@ $rand = rand();
  
 ?>
 
-
-
-
-<div id="the_custom_fields"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
+<div id="the_custom_fields1"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
   <?php _e("Add New Custom Field"); ?>
   </span>
   <div class="vSpace"></div>
@@ -63,10 +58,10 @@ $rand = rand();
       <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
-      <li><a href="#"><span class="ico iPhone"></span><span>Phone</span></a></li>
-      <li><a href="#"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
-      <li><a href="#"><span class="ico iEmail"></span><span>E-mail</span></a></li>
-      <li><a href="#"><span class="ico iUpload"></span><span>File Upload</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iPhone"></span><span>Phone</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iEmail"></span><span>E-mail</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iUpload"></span><span>File Upload</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
       <li><a href="javascript:;" onclick="mw.custom_fields.create('number');"><span class="ico iNumber"></span><span>Number</span></a></li>
@@ -75,17 +70,18 @@ $rand = rand();
       <li><a href="javascript:;" onclick="mw.custom_fields.create('date');"><span class="ico iDate"></span><span>Date</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
-      <li><a href="#"><span class="ico iTime"></span><span>Time</span></a></li>
+      <li><a href="javascript:void(0);"><span class="ico iTime"></span><span>Time</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('address');"><span class="ico iAddr"></span><span>Adress</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('price');"><span class="ico iPrice"></span><span>Price</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('hr');"><span class="ico iSpace"></span><span>Section Break</span></a></li>
     </ul>
   </div>
-
   <div class="custom-field-table semi_hidden" id="create-custom-field-table">
     <div class="custom-field-table-tr active">
       <div class="custom-field-preview-cell"></div>
-      <div class="second-col"><div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div></div>
+      <div class="second-col">
+        <div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div>
+      </div>
     </div>
   </div>
   <script type="text/javascript">
@@ -112,28 +108,49 @@ $(document).ready(function(){
 <? endif; ?>
         //make_new_field()
 
+<? if(isset($params['content-subtype']) != false and trim($params['content-subtype'] == 'product') and intval($module_id) == 0): ?>
+mw.custom_fields.create('price');
+    //    mw.$(".custom_fields_selector").show();
+
+<? endif; ?>
+
+
+
     });
-</script>
-
-
-<script type="text/javascript">
+</script> 
+  <script type="text/javascript">
 
 mw.custom_fields.save = function(id){
     var obj = mw.form.serialize("#"+id);
     $.post("<? print site_url('api_html/save_custom_field') ?>", obj, function(data) {
-       
+       $cfadm_reload = false;
 	 
 	   
-	    if(obj.id === undefined){
-             mw.reload_module('[data-parent-module="custom_fields"]');
+	    if(obj.cf_id === undefined){
+             mw.reload_module('.edit [data-parent-module="custom_fields"]');
 			  mw.reload_module('custom_fields/list');
-			 $("#"+id).hide();
+			//  $('#create-custom-field-table').addClass('semi_hidden');
+			// $("#"+id).hide();
+			  mw.$("#create-custom-field-table").addClass("semi_hidden");
+			$("#mw_custom_fields_list_<? print $params['id']; ?>").show();
+			
         }
         else {
+			
+			if(obj.copy_to_table_id === undefined){
+				
             $("#"+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
+				
+			} else {
+			 $cfadm_reload = true;   
+			   mw.reload_module('custom_fields/list');
+			}
+			
+			
+			
         }
 		
-		$cfadm_reload = false;
+		
          mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
          if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
 			// if(!mw.tools.hasParentsWithClass(this, 'mw_modal') ){
@@ -199,5 +216,5 @@ mw.custom_fields.sort_rows = function(){
 
 
 </script>
-  <module type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

@@ -11,6 +11,9 @@
 	right:30px;
 }
 
+#mw_tabs li.active a{padding:19px 20px 19px;}
+
+
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
 	padding-top:5px;
 	padding-bottom:5px;
@@ -195,12 +198,4 @@ body .column > .ui-resizable-e *{
   margin-right: 120px;
   float: right;
 }
-#mw_toolbar_nav .back_to_admin span{
-  display: inline-block;
-  position: relative;
-  top: 1px;
-  width: 5px;
-  height: 10px;
-  background: url(../img/backarr.png) no-repeat;
-  margin: 0 7px 0 0;
-}
+

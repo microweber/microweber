@@ -3,25 +3,45 @@
 
 
 
-mw.simpletabs = function(context){
-    var context = context || document.body;
-    mw.$(".mw_simple_tabs_nav", context).each(function(){
-      var parent = $(this).parents(".mw_simple_tabs").eq(0);
-      parent.find(".tab").addClass("semi_hidden");
-      parent.find(".tab").eq(0).removeClass("semi_hidden");
-      $(this).find("a").eq(0).addClass("active");
-      $(this).find("a").click(function(){
-          var parent = $(this).parents(".mw_simple_tabs_nav").eq(0);
-          var parent_master =  $(this).parents(".mw_simple_tabs").eq(0);
-          parent.find("a").removeClass("active");
-          $(this).addClass("active");
-          parent_master.find(".tab").addClass("semi_hidden");
-          var index = parent.find("a").index(this);
-          parent_master.find(".tab").eq(index).removeClass("semi_hidden");
-          return false;
-      });
-    });
+mw.simpletabs = function(){
+  mw.$(".mw_simple_tabs_nav").each(function(){
+    if(!$(this).hasClass('activated')){
+        $(this).addClass('activated')
+        if(!$(this).hasClass('by-hash')){
+            var parent = $(this).parents(".mw_simple_tabs").eq(0);
+            parent.find(".tab").addClass("semi_hidden");
+            parent.find(".tab").eq(0).removeClass("semi_hidden");
+            $(this).find("a").eq(0).addClass("active");
+            $(this).find("a").click(function(){
+                mw.simpletab.set(this);
+                return false;
+            });
+        }
+        else{
+
+        }
+    }
+  });
 }
+
+mw.simpletab = {
+  set:function(el){
+    if(!$(el).hasClass('active')){
+      var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
+      var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
+      $(ul.querySelector('.active')).removeClass('active');
+      $(el).addClass('active');
+      var index = mw.tools.index(el, ul);
+      $(master.querySelectorAll('.tab')).addClass('semi_hidden');
+      $(master.querySelectorAll('.tab')[index]).removeClass('semi_hidden');
+    }
+  }
+}
+
+
+
+
+
 
 mw.external_tool = function(url){
   return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
@@ -64,7 +84,7 @@ mw.tools = {
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onclick="mw.tools.modal.remove(\''+id+'\')">Close</span>'
-            + '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');"></span>'
+            //+ '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -194,7 +214,7 @@ mw.tools = {
         + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="ed_btn" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
+        + '<td align="center" height="25"><span class="mw-ui-btn-action" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
         + '</tr>'
     + '</table>';
     return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
@@ -348,11 +368,11 @@ mw.tools = {
   },
   classNamespaceDelete:function(el_obj, namespace){
     if(el_obj ==='all'){
-      var all = mwd.querySelectorAll('.edit *'), i=0, len=all.length;
-      for( ;i<len; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      var all = mwd.querySelectorAll('.edit *'), i=0, l=all.length;
+      for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
       return;
     }
-    var clas =  el_obj.className!==undefined ? el_obj.className.split(" ") : '';
+    var clas = el_obj.className!==undefined ? el_obj.className.split(" ") : '';
     for(var i=0; i<clas.length; i++){
       if(clas[i].indexOf(namespace)==0){
            clas[i] = 'MWDeleteNameSpace';
@@ -377,28 +397,28 @@ mw.tools = {
       mw.tools.tree.remember(master);
     },
     del : function(id){
-      if(confirm('Are you sure you want to delete this?')){
-         $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
-            var todelete =  mw.$(".item_" + id);
-             todelete.fadeOut(function(){
-                 todelete.remove();
-             });
-		 });
-      }
+        mw.tools.confirm('Are you sure you want to delete this?', function(){
+           $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
+              var todelete =  mw.$(".item_" + id);
+               todelete.fadeOut(function(){
+                   todelete.remove();
+               });
+  		    });
+        })
     },
 	  del_category : function(id){
-      if(confirm('Are you sure you want to delete this?')){
+      mw.tools.confirm('Are you sure you want to delete this?', function(){
          $.post(mw.settings.site_url + "api/delete_category", {id:id}, function(data) {
             var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
                  todelete.remove();
              });
 		 });
-      }
+      })
     },
     detectType:function(tree_object){
-      if(tree_object!==null){
-        return tree_object.querySelector('li input[type="checkbox"]') !==null ? 'selector' : 'controller';
+      if(tree_object!==null && typeof tree_object === 'object'){
+        return tree_object.querySelector('li input[type="checkbox"], li input[type="radio"]') !==null ? 'selector' : 'controller';
       }
     },
     remember : function(tree){
@@ -458,6 +478,12 @@ mw.tools = {
        mw.tools.tree.remember(tree);
     },
     checker:function(el){
+		
+		var is_checkbox = el.getElementsByTagName('input')[0];
+		if(is_checkbox.type != 'checkbox'){
+		return false;	
+		}
+		
         var state = el.getElementsByTagName('input')[0].checked;
         if( state === true){
           mw.tools.foreachParents(el.parentNode, function(loop){
@@ -482,6 +508,12 @@ mw.tools = {
   },
   hasClass:function(classname, whattosearch){   //for strings
     return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
+  },
+  addClass:function(el, cls){
+   if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);
+  },
+  removeClass:function(el, cls){
+   if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
   },
   hasParentsWithClass:function(el, cls){
     var d = this;
@@ -534,14 +566,25 @@ mw.tools = {
       callback.call(window);
     }
   },
-  el_switch:function(arr){
-    $(arr).each(function(){
-      var el = $(this);
-      if(el.css('display')=='none'){
-        el.show();
-      }
-      else{el.hide()}
-    });
+  el_switch:function(arr, type){
+    if(type==='semi'){
+      $(arr).each(function(){
+        var el = $(this);
+        if(el.hasClass("semi_hidden")){
+          el.removeClass("semi_hidden");
+        }
+        else{el.addClass("semi_hidden");}
+      });
+    }
+    else{
+      $(arr).each(function(){
+        var el = $(this);
+        if(el.css('display')=='none'){
+          el.show();
+        }
+        else{el.hide();}
+      });
+    }
   },
   sort:function(obj){
     var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
@@ -589,9 +632,106 @@ mw.tools = {
 		 parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);
 	     mw.reload_module(parent_mod);
 	}
+  },
+  focus_on:function(el){
+    if(!$(el).hasClass('mw-focus')){
+      mw.$(".mw-focus").each(function(){
+         this!==el ? $(this).removeClass('mw-focus') : '';
+      });
+      $(el).addClass('mw-focus');
+    }
+  },
+  scrollTo:function(el, callback){
+    mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
+        typeof callback === 'function' ? callback.call(el) : '';
+    });
+  },
+  accordion:function(el, callback){
+    var speed = 200;
+    var container = el.querySelector('.mw-o-box-accordion-content');
+    if($(el).hasClass('mw-accordion-active')){
+        $(container).slideDown(speed, function(){
+          $(el).removeClass('mw-accordion-active');
+          typeof callback === 'function' ? callback.call(el, 'visible') : '';
+        });
+    }
+    else{
+      $(container).slideUp(speed, function(){
+          $(el).addClass('mw-accordion-active');
+          typeof callback === 'function' ? callback.call(el, 'hidden') : '';
+      });
+    }
+  },
+  index:function(el, parent, selector){
+    var selector = selector || el.tagName.toLowerCase();
+    var parent = parent || el.parentNode;
+    var all = parent.querySelectorAll(selector), i=0, l=all.length;
+    for ( ; i<l; i++){
+        if( el===all[i] ) return i;
+    }
+  },
+  simpleRotator:function(rotator){
+    if(!$(rotator).hasClass('activated')){
+      $(rotator).addClass('activated')
+      var all = mw.$('> *', rotator);
+      var l = all.length;
+      var w = 2 * (l * ($(all[0]).outerWidth(true)));
+      $(all).addClass('mw-simple-rotator-item');
+      $(rotator).width(w);
+      rotator.go = function(where, callback){
+          $(rotator).dataset('state', where);
+          var item = $(rotator).children()[where];
+          var item_left = $(item).offset().left;
+          var rleft =  $(rotator).offset().left;
+          $(rotator).animate({left:-(item_left-rleft)}, function(){
+            if(typeof callback === 'function'){
+              callback.call(rotator);
+            }
+          });
+      }
+      rotator.state = function(){return parseFloat($(rotator).dataset('state'))}
+    }
+    return rotator;
+  },
+  sidebar:function(){
+    if(mw.$("#mw_edit_page_left").length > 0){
+      if(mw.$("#mw-admin-container").length > 0){
+          $("#mw-admin-container").addClass('has_sidebar');
+          $("#mw-admin-container").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
+      }
+      else if(mw.$("#mw_edit_pages").length > 0){
+        $("#mw_edit_pages_content").addClass('has_sidebar');
+        $("#mw_edit_pages_content").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
+      }
+    }
+  },
+  highlight:function(el, color){
+    var color = color || '#D8FFC4';
+    var speed = 777;
+    var curr = window.getComputedStyle(el, null).backgroundColor;
+    if(curr == 'transparent'){
+      var curr = '#ffffff';
+    }
+    $(el).css('boxShadow', '0 0 10px #ccc');
+    $(el).animate({ backgroundColor: color }, speed, function(){
+        $(el).animate({ backgroundColor: curr }, speed, function(){
+          $(el).css('backgroundColor', '');
+          $(el).css('boxShadow', '');
+        })
+    });
+  },
+  toCamelCase:function(str){
+     return str.replace(/(\-[a-z])/g, function(a){return a.toUpperCase().replace('-','');})
+  },
+  multihover:function(){
+    var l = arguments.length, i=1;
+    var type = arguments[0].type;
+    var check =  ( type ==='mouseover' ||  type ==='mouseenter');
+    for( ; i<l; i++) {
+      check  ?  $(arguments[i]).addClass('hovered')  :  $(arguments[i]).removeClass('hovered') ;
+    }
   }
 }
-
 
 
 
@@ -634,12 +774,13 @@ mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? tr
 
 $.fn.dataset = function(dataset, val){
   var el = this[0];
+  var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
   if(!val){
-     var dataset = mw.datassetSupport ? el.dataset[dataset] : $(el).attr("data-"+dataset);
+     var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-"+dataset);
      return dataset!==undefined ? dataset : "";
   }
   else{
-    mw.datassetSupport ? el.dataset[dataset] = val :  $(el).attr("data-"+dataset, val);
+    mw.datassetSupport ? el.dataset[_dataset] = val :  $(el).attr("data-"+dataset, val);
     return $(el)
   }
 }
@@ -651,7 +792,7 @@ $.fn.commuter = function(a,b) {
   return this.each(function(){
     if(this.type==='checkbox'  || this.type==='radio' ){
       $(this).bind("change", function(){
-        this.checked==true ? a.call(this) : b.call(this);
+        this.checked === true ? a.call(this) : b.call(this);
       });
     }
   });
@@ -736,9 +877,22 @@ String.prototype._exec = function(a,b,c){
   }
 }
 
+
+String.prototype.toCamelCase = function() {
+    return this
+        .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
+        .replace(/\s/g, '')
+        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
+};
+
 mw.exec = function(str, a,b,c){
     return str._exec(a,b,c);
 }
+
+
+
+
+
 
 
 /*
@@ -773,6 +927,37 @@ $.fn.datas = function(){
     return toreturn;
 }
 
+mw.switcher = {
+  _switch:function(el, callback){
+    if($(el).hasClass("mw-switcher-off")){
+       mw.switcher.on(el);
+       var checked = el.getElementsByTagName('input')[0];
+    }
+    else{
+       mw.switcher.off(el);
+       var checked = el.getElementsByTagName('input')[1];
+    }
+    $(checked).trigger('change', checked);
+    if(typeof callback==='function'){
+      callback.call(checked);
+    }
+  },
+  on:function(el){
+    if(el){
+     var _el = $(el);
+     _el.removeClass('mw-switcher-off');
+     el.getElementsByTagName('input')[0].checked = true;
+    }
+  },
+  off:function(el){
+     if(el){
+     var _el = $(el);
+     _el.addClass('mw-switcher-off');
+     el.getElementsByTagName('input')[1].checked = true;
+     }
+  }
+}
+
 
 
 
@@ -786,8 +971,201 @@ $.fn.datas = function(){
       mw.$(selector).find("input[type='checkbox']").each(function(){
        this.checked = false;
     });
+   },
+   collectChecked:function(parent){
+     var arr = [];
+     var all = parent.querySelectorAll('input[type="checkbox"]'), i=0, l=all.length;
+     for( ; i<l; i++){
+        var el = all[i];
+        el.checked ? arr.push(el.value) : '';
+     }
+     return arr;
    }
  }
+
+
+
+
+mw.walker = function(context, callback){   //todo
+  var context = mw.is.obj(context) ? context : mwd.body;
+  var callback = mw.is.func(context) ? context :  callback;
+  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
+  while (walker.nextNode()){
+    callback.call(walker.currentNode);
+  }
+}
+Array.prototype.remove = function(what){
+  var i=0, l=this.length;
+  for( ; i<l; i++){
+    this[i] === what ? this.splice(i, 1) : '';
+  }
+}
+
+
+
+
+
+__mwextend = function(el){
+      if(el.attributes['data-extended']===undefined){
+          el.setAttribute('data-extended', true);
+          el.getModal = function(){
+              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
+              if(!!modal){
+                  return  {
+                       main:modal,
+                       container:modal.querySelector(".mw_modal_container")
+                  }
+              }
+              else {return false};
+          }
+          el.attr = function(name, value){
+            if(value===undefined){
+              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+            }
+            else{
+              el.setAttribute(name, value);
+              return el;
+            }
+          }
+          el.addClass = function(cls){
+            return mw.tools.addClass(el, cls)
+          }
+          el.removeClass = function(cls){
+            return mw.tools.removeClass(el, cls)
+          }
+      }
+    return el;
+}
+
+
+mw.extend = function(el){
+    return __mwextend(el);
+}
+
+$(window).load(function(){
+  mw.loaded = true;
+  mwd.body.className+=' loaded';
+  mw.tools.removeClass(mwd.body, 'loading');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mw._dump = function(obj){
+  var obj = obj || mw;
+  var html = '<ol class="mw-dump-list">'
+  $.each(obj, function(a,b){
+    if(typeof b==='function'){
+      var c = ''+b+'';
+      var c = c.split(')')[0];
+      var c = '<i>' + c + ')</i>';
+    }
+    else if(typeof b==='object'){
+       var c = '<a href="javascript:;" onclick="mw.tools.modal.init({html: \'<h2>mw.'+a+'</h2>\' + mw._dump(mw.'+a+')});"> + Object</a>';
+    }
+    else{
+      var c = b.toString()
+    }
+    html=html+'<li>' + a + ' : ' + c + '</li>';
+  });
+  html=html+ '</ol>';
+  return html;
+}
+
+mw.dump = function(){
+    mw.tools.modal.init({
+      html: mw._dump(),
+      width:800
+    });
+}
+
+mw.notification = {
+    build:function(type, text){
+        var div = mwd.createElement('div');
+        div.className = 'mw-notification mw-'+type;
+        div.innerHTML = '<div>'+text+'</div>'
+        return div;
+    },
+    append:function(type, text){
+        var div = mw.notification.build(type, text);
+        mw.$('#mw-notifications-holder').append(div);
+        setTimeout(function(){
+           div.style.opacity = 0;
+           setTimeout(function(){
+             $(div).remove()
+           }, 1000);
+        }, 1000);
+    },
+    success:function(text){
+      mw.notification.append('success', text);
+    },
+    error:function(text){
+      mw.notification.append('error', text);
+    },
+    warning:function(text){
+      mw.notification.append('warning', text);
+    }
+}
+
+
+
+
+
+
+  $.fn.visible = function() {
+    return this.css("visibility", "visible");
+  };
+  $.fn.visibilityDefault = function() {
+    return this.css("visibility", "");
+  };
+
+  $.fn.invisible = function() {
+    return this.css("visibility", "hidden");
+  };
+
+
+  mw.which = function(str, arr_obj, func){
+     if(arr_obj instanceof Array){
+       var l = arr_obj.length, i = 0;
+       for( ; i<l; i++){
+         if(arr_obj[i] === str){
+            func.call(arr_obj[i]);
+            return arr_obj[i];
+         }
+       }
+     }
+     else{
+       for(var i in arr_obj){
+         if(i===str){
+            func.call(arr_obj[i]);
+            return arr_obj[i];
+         }
+       }
+     }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

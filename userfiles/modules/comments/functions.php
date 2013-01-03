@@ -1,4 +1,7 @@
 <?
+if (!defined("MODULE_DB_TABLE_COMMENTS")) {
+	define('MODULE_DB_TABLE_COMMENTS', MW_TABLE_PREFIX . 'comments');
+}
 
 /**
  * post_comment
@@ -10,9 +13,9 @@ api_expose('post_comment');
 function post_comment($data) {
 
     $adm = is_admin();
-    $cms_db_tables = c('db_tables');
-    $table = $cms_db_tables['table_comments'];
-    define('FORCE_SAVE', $table);
+ 
+    $table = MODULE_DB_TABLE_COMMENTS;
+    mw_var('FORCE_SAVE', $table);
 
     if (isset($data['id'])) {
         if ($adm == false) {
@@ -98,9 +101,8 @@ function get_comments($params) {
     }
 
 
-    $cms_db_tables = c('db_tables');
-    $table = $cms_db_tables['table_comments'];
-
+    
+  $table = MODULE_DB_TABLE_COMMENTS;
     $params['table'] = $table;
 
     $params = get($params);

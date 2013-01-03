@@ -1,14 +1,62 @@
 <?php $rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
+
+
+<script type="text/javascript">
+
+
+  if(typeof toggle_cats_and_pages === 'undefined'){
+              toggle_cats_and_pages = function(){
+                  mw.cookie.ui('ToggleCatsAndPages', this.value);
+                  _toggle_cats_and_pages();
+              }
+              _toggle_cats_and_pages = function(callback){
+                  var state =  mw.cookie.ui('ToggleCatsAndPages');
+                  if(state == 'on'){
+                       mw.$(".page_posts_list_tree").show();
+                  }
+                  else{
+                      mw.$(".page_posts_list_tree").hide();
+                  }
+                  typeof callback === 'function' ? callback.call(state) : '';
+              }
+    }
+
+
+              $(document).ready(function(){
+                _toggle_cats_and_pages(function(){
+                  if(this=='on'){
+                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                  else{
+                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                });
+              });
+              $(document.body).ajaxStop(function(){
+                _toggle_cats_and_pages(function(){
+                  if(this=='on'){
+                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                  else{
+                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
+                  }
+                });
+              });
+
+
+            </script>
+
+
 <script  type="text/javascript">
 
 
 
 
 mw.treeRenderer = {
-  edit_buttons:function(type, id){
+  edit_buttons:function(type, id, sort_button){
       if(type==='page'){
-        return "\
+        var $str  = "\
         <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
               <?php _e("Delete"); ?>\
           </span>\
@@ -16,9 +64,16 @@ mw.treeRenderer = {
               <?php _e("Edit"); ?>\
           </span>\
           ";
+		  
+		  if(sort_button != undefined && sort_button == true){
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+		     $str = $str+$str2;
+		  }
+		  
+		  return  $str;
       }
       else if(type==='category'){
-          return "\
+           var $str  = "\
             <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del_category("+id+");' title='<?php _e("Delete"); ?>'>\
                   <?php _e("Delete"); ?>\
               </span>\
@@ -26,10 +81,86 @@ mw.treeRenderer = {
                   <?php _e("Edit"); ?>\
               </span>\
           ";
+		  
+
+		   if(sort_button != undefined && sort_button == true){
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+		  $str = $str+$str2;
+		  }
+		  return  $str;
+
       }
   },
 
+  makeSortable:function(handle){
+    var  $is_sort = mw.$(handle).parents('[data-sortable]').first();
+	if($is_sort != undefined){
+
+
+// mw.$($is_sort).children('.category_tree').each(function(){
+        //  var master = $(this);
+		
+		   var master = $is_sort;
+		  
+    		  if(!master.hasClass("ui-sortable")){
+
+
+
+               master.sortable({
+                   items: 'li',
+				     
+                   axis:'y',
+				   containment: master,
+				 // containment: '.category_tree',
+            	   //containment: $is_sort,
+                   handle:'.mw_sort_tree_handle',
+                   update:function(){
+                     var obj = {ids:[]}
+            		 var cont_found = false;
+                     $(this).find('[data-page-id]').each(function(){
+                         var id = this.attributes['data-page-id'].nodeValue;
+                        obj.ids.push(id);
+            			cont_found = true;
+                     });
+            		 if(cont_found == true){
+            		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){});
+            		 }
+            		 var cat_found = false;
+            		  var obj = {ids:[]}
+                     $(this).find('[data-category-id]').each(function(){
+                         var id = this.attributes['data-category-id'].nodeValue;
+                        obj.ids.push(id);
+            			cat_found = true;
+                     });
+
+            		 if(cat_found == true){
+            		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){});
+            		 }
+                   },
+                   start:function(a,ui){
+                          $(this).height($(this).outerHeight());
+                          $(ui.placeholder).height($(ui.item).outerHeight())
+                          $(ui.placeholder).width($(ui.item).outerWidth())
+                   },
+                   scroll:false,
+                   placeholder: "custom-field-main-table-placeholder"
+                });
+
+  			}
+
+
+//});
+
+
+
+	}
+ 
+  },
+
   rendController:function(holder){
+	 var  $is_sort = mw.$(holder).attr('data-sortable');
+
+	  
       mw.$(holder+' li').each(function(){
           var master = this;
           var el = master.querySelector('a');
@@ -52,16 +183,31 @@ mw.treeRenderer = {
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid) + toggle + show_posts;
+             
+			 var  sort_content = false;
+			  
+			if($is_sort != undefined){
+		    var sort_content = true;
+	  		}
+			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
+			  
+			  
           }
           else if(attr['data-category-id']!==undefined){
               var pageid = attr['data-category-id'].nodeValue;
               if($(el.parentNode).children('ul').length>0){
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
+			  	 var  sort_content = false;
+			  
+			if($is_sort != undefined){
+		    var sort_content = true;
+	  		}
+			
+			
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid) + toggle + show_posts;
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
 		  
@@ -69,6 +215,9 @@ mw.treeRenderer = {
 		  }
 		  
       });
+	  
+	  
+	  
   },
   rendSelector:function(holder){
        mw.$(holder+' li').each(function(){
@@ -111,8 +260,8 @@ mw.treeRenderer = {
            mw.treeRenderer.rendSelector(holder);
         }
         mw.tools.tree.recall(mwd.querySelector(holder));
-        mw.log(mwd.querySelector(holder).id);
-        mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
+       // mw.log(mwd.querySelector(holder).id);
+      //  mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
     }
   }
 }
@@ -126,10 +275,13 @@ $(document).ready(function(){
 
     mw.treeRenderer.appendUI();
 
-
+ mw.treeRenderer.appendUI('.page_posts_list_tree');
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
+
+
+
 
     mw.on.moduleReload("pages_tree_toolbar", function(){
         mw.treeRenderer.appendUI();
@@ -222,17 +374,29 @@ function mw_select_page_for_editing($p_id){
 
 
 mw.on.hashParam("action", function(){
-  var arr = this.split(":");
-  $(mwd.body).addClass("loading");
-  
 
-  
-  
+  if(this==false) {
+    mw.load_module('content/manage','#pages_edit_container');
+    return false;
+  }
+
+  var arr = this.split(":");
+
+  $(mwd.body).removeClass("action-Array");
+
+
+
+
+
+    mw.$('#pages_edit_container').removeAttr('data-page-number');
+	mw.$('#pages_edit_container').removeAttr('data-paging-param');
+
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
-  
-  
-  
+
+
+
   if(arr[0]==='new'){
+
       if(arr[1]==='page'){
         mw_select_page_for_editing(0);
       }
@@ -250,6 +414,7 @@ mw.on.hashParam("action", function(){
      mw.$(".mw_action_"+arr[1]).removeClass("not-active");
   }
   else{
+        //mw.url.windowHashParam("pg", 1);
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
       var active_item = mw.$(".item_"+arr[1]);
@@ -289,13 +454,6 @@ mw.on.hashParam("action", function(){
    }
    mw.reload_module('#pages_edit_container');
  });
-
-
-
-
-
-
-
 });
 
 
@@ -319,9 +477,21 @@ mw.on.hashParam("action", function(){
 
 
 
-
-
 function mw_select_category_for_editing($p_id){
+	
+	
+					  var  active_cat = $('#pages_tree_container_<?php print $my_tree_id; ?> li.category_element.active-bg').first();
+				   if(active_cat != undefined){
+						var active_cat = active_cat.attr('data-category-id');
+					   	 mw.$('#pages_edit_container').attr('data-selected-category-id',active_cat);
+				   } else {
+					   	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
+
+				   }
+	
+ 
+	
+	
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
   	 mw.load_module('categories/edit_category','#pages_edit_container');
 }
@@ -333,6 +503,7 @@ function mw_set_edit_posts($in_page, $is_cat){
        mw.$('#pages_edit_container').removeAttr('data-content-id');
 	 mw.$('#pages_edit_container').removeAttr('data-page-id');
       mw.$('#pages_edit_container').removeAttr('data-category-id');
+	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
 
 if($in_page != undefined && $is_cat == undefined){
  mw.$('#pages_edit_container').attr('data-page-id',$in_page);
@@ -340,6 +511,7 @@ if($in_page != undefined && $is_cat == undefined){
 
 if($in_page != undefined && $is_cat != undefined){
  mw.$('#pages_edit_container').attr('data-category-id',$in_page);
+ mw.$('#pages_edit_container').attr('data-selected-category-id',$in_page);
 }
 
 
@@ -369,28 +541,7 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 
-	 mw.$('#pages_edit_container .paging a').live('click',function() {
-
-	 $p_id = $(this).attr('data-page-number');
-	 $p_param = $(this).attr('data-paging-param');
-	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
-	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
-
-
-
-
-	 mw.load_module('posts','.mw_edit_page_right #pages_edit_container', function(){
-
-
-
-	 });
-
-
-
-
-		 return false;
-	 });
-
+	 
 
 
 
@@ -440,13 +591,18 @@ function mw_select_post_for_editing($p_id, $subtype){
 	 
 	 
 	 
-	   mw.$('#pages_edit_container').removeAttr('data-subtype');
-	 	
+	 mw.$('#pages_edit_container').removeAttr('data-subtype');
+	 mw.$('#pages_edit_container').removeAttr('is_shop');
 	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
 	 if($subtype != undefined){
+		 if($subtype == 'product'){
+			  mw.$('#pages_edit_container').attr('is_shop', 'y');
+		 }
+		 
+		 
 	 mw.$('#pages_edit_container').attr('data-subtype', $subtype);
 	 } else {
-		
+		mw.$('#pages_edit_container').attr('data-subtype', 'post');
 	 }
   	 mw.load_module('content/edit_post','#pages_edit_container');
 }
@@ -460,6 +616,40 @@ function mw_add_product(){
  
 }
 
+
+//paging
+  mw.on.hashParam("pg", function(){
+
+     var dis =  $p_id = this.trim();
+
+ mw.$('#pages_edit_container').attr("paging_param", 'pg');
+
+
+     if(dis!==''){
+       mw.$('#pages_edit_container').attr("pg", dis);
+        mw.$('#pages_edit_container').attr("data-page-number", dis);
+     }
+     else{
+        mw.$('#pages_edit_container').removeAttr("pg");
+        mw.$('#pages_edit_container').removeAttr("data-page-number");
+        mw.url.windowDeleteHashParam('pg');
+     }
+
+
+ $p_id = $(this).attr('data-page-number');
+	 $p_param = $(this).attr('data-paging-param');
+	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
+	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
+ mw.$('#pages_edit_container').removeAttr('data-content-id');
+
+
+  	 mw.load_module('content/manage','#pages_edit_container');
+
+	 //mw.reload_module('#pages_edit_container');
+ 
+
+
+ });
 
 
 
@@ -475,24 +665,24 @@ function mw_add_product(){
             $view = url_param('view');
             if($view=='shop'){
         ?>
-        <h2 class="mw_tree_title">
+        <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
           <?php _e("My Online Shop"); ?>
-        </h2>
+        </a>
         <?php } else { ?>
-        <h2 class="mw_tree_title">
+        <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
           <?php _e("Website  Navigation"); ?>
-        </h2>
+        </a>
         <?php } ?>
-        <a href="#?action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
+        <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
-        </a> <a href="#?action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
+        </a> <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
         <label>Post</label>
         <button>&nbsp;</button>
-        </a> <a href="#?action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
+        </a> <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
         <label>Category</label>
         <button>&nbsp;</button>
-        </a> <a href="#?action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
+        </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
         <label>Product</label>
         <button>&nbsp;</button>
         </a>
@@ -512,41 +702,54 @@ function mw_add_product(){
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    <div class="mw_edit_page_right"> 
+    <div class="mw_edit_page_right">
       <script>
 
     $(document).ready(function(){
 
-        var s = mw.$("#mw-search-field");
-        mw.form.d(s, 'Search for posts');
-       s.bind("keyup", function(){
-          mw.on.stopWriting(this, function(){
-             this.value !== 'Search for posts' ? mw.url.windowHashParam('search',this.value) : '';
-          });
+        var def = '<?php _e("Search for posts"); ?>';
+        var field = mw.$("#mw-search-field");
+        field.bind('keyup focus blur', function(event){
+           mw.form.dstatic(event, def);
+           if(event.type=='keyup'){
+              mw.on.stopWriting(this, function(){
+                 this.value !== def ? mw.url.windowHashParam('search',this.value) : '';
+              });
+           }
         });
+
 
 
     });
 
 
+
+
     </script>
       <div class="mw_edit_pages_nav" style="padding-left: 0;">
-        <div class="top_label">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</div>
+        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <br /><a href="#">You can see the tutorials here</a>.</div>
+        <div class="vSpace"></div>
       </div>
-      <div id="pages_edit_container">
-        <? $content_id = '';
+       <?
+
+		 $content_id = '';
 	    if(defined('PAGE_ID') == true){
-		  $content_id = ' data-content-id='.PAGE_ID.' ';
-		  
-	  }
-	  if(defined('POST_ID')== true and POST_ID != false){
-		 $content_id = ' data-content-id='.POST_ID.' ';
+		  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
 
 	  }
-	   
+	  if(defined('POST_ID')== true and POST_ID != false){
+		 $content_id = ' data-content-id='.intval(POST_ID).' ';
+
+	  }
+	   //d( $content_id );
 	   ?>
-        <module data-type="content/manage" page-id="global" id="edit_content_admin_" <? print  $content_id ?>  />
+
+       
+      <div id="pages_edit_container"  <? print $is_shop_str ?>>
+        <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
       </div>
     </div>
   </div>
+   
 </div>
+

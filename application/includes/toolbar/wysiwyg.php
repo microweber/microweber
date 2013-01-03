@@ -1,15 +1,15 @@
 <div id="mw-text-editor" class="mw_editor">
         <div class="editor_wrapper">
-            <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ed-ico"></span></span>
             <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="Font Color"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="Font Color"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="Font Background Color"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="Font Background Color"><span class="ed-ico"></span></span>
 
             <span class="mw_dlm"></span>
 
@@ -78,36 +78,36 @@
             <span class="mw_dlm"></span>
 
 
-            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="Ordered List"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="Unordered List"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="Ordered List"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="Unordered List"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ico"></span></span>
-
-
-
-            <span class="mw_dlm"></span>
-
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
-
-
-            <span class="mw_dlm"></span>
-
-
-            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ed-ico"></span></span>
 
 
 
             <span class="mw_dlm"></span>
 
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ed-ico"></span></span>
 
 
-            <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ico"></span></span>
+            <span class="mw_dlm"></span>
+
+
+            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ed-ico"></span></span>
+
+
+
+            <span class="mw_dlm"></span>
+
+
+
+            <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ed-ico"></span></span>
         </div>
 
 

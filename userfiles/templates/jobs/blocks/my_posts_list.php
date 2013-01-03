@@ -32,10 +32,9 @@ param_file: Module to display posts list.
 
 
 Example:
- @example:  
+ @usage:  
 
- <microweber module="posts/list" file="posts_list_games" category="<? print  $category['id'] ?>"></microweber>
- 
+  
 
 
  //params for the data

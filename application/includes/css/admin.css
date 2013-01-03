@@ -16,19 +16,53 @@ h2{ /*  ask the designer */
   overflow: hidden;
   position: relative;
 }
+/*
+
+
+body.view-shop.action-Array .mw-admin-wrapper,
+body.view-content .mw-admin-wrapper
+{background: url("../img/treebg.gif") repeat-y -167px 0;}
+body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-y -304px 0;}
+
+*/
+
 
 #mw-admin-container{
-  background: url("../img/treebg.gif") repeat-y -167px 0;
+
+
 }
-body.action-orders #mw-admin-container{background-image:none;}
+
+
+
+
+
+#mw-admin-container:after, .admin-main-wrapper:after, #mw-admin-content:after{
+  content: " ";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#mw-admin-content{
+  min-width: 980px;
+}
+
+.admin-main-wrapper{
+    overflow: visible;
+    text-overflow:ellipsis;
+}
+
+
 
 
 #mw_toolbar_logo{
   background-image: url(../img/logo_admin.png);
 }
 #mw_toolbar_nav{
-  height: 49px;
-  border-bottom: 1px solid #fff;
+  height: 48px;
+  background-image: url(../img/navbg_admin.jpg);
 }
 #mw_toolbar_nav .ilive{
   opacity:0.4;
@@ -38,9 +72,12 @@ body.action-orders #mw-admin-container{background-image:none;}
   opacity:1;
 }
 
+#mw_tabs{
+  height: 49px;
+}
 
 #mw_tabs li a{
-  padding: 17px 20px;
+  padding: 15px 20px;
 }
 
 #stats{
@@ -98,14 +135,14 @@ border-radius: 20px;
 }
 
 #main{
-  width: 1000px;
+  width: 960px;
   padding-bottom: 60px;
-  zoom:1;
+
 }
 
 #main.liquid{
   width: auto;
-  min-width: 1000px;
+  min-width: 960px;
   background: white; /* no sidebar */
 }
 
@@ -126,9 +163,9 @@ border-radius: 20px;
 
 .users_online{
   width: 150px;
-  height: 105px;
-  padding-top: 45px;
-  margin: 0 auto;
+  height: 115px;
+  padding-top: 40px;
+  margin: 21px 0 0;
   text-align: center;
   background:#D8FFC2;
   color: #4C7301;
@@ -151,14 +188,14 @@ border-radius: 20px;
 }
 
 #main.liquid #users_online{
-  width: 15%;
+  width: 175px;
 }
 #main.liquid #visits_info_table{
   width: 80%;
 }
 
 #main.liquid #visits_info_table table{
-  width: 100%;
+  width: 99%;
 }
 
 
@@ -183,8 +220,7 @@ border-radius: 20px;
 
 #footer{
   clear: both;
-  background: #E9E9E9;
-  position: static;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -192,20 +228,240 @@ border-radius: 20px;
 #footer-content{
   overflow: hidden;
   position: relative;
-  padding:12px;
 }
+
+
+@media all and (max-width: 1020px){
+    #footer{
+      position: static;
+    }
+
+}
+
 
 #PowerdBy{
-  float: right;
   white-space: nowrap;
+  font-size: 11px;
+  position: static;
+  right: 0;
+  bottom: 0;
 }
 
+#PowerdByLink{
+    color: #6e6e6e;
+    float: right;
+    display: inline-block;
+    padding: 7px 10px;
+}
 
+#PowerdByInfo{
+  float: right;
+  visibility: hidden;
+  position: relative;
+  margin-right: 10px;
+  margin-top: 7px;
+  color: #A1A0A0;
+  white-space: nowrap;
+  opacity:0;
+  top: 8px;
+  overflow: hidden;
+  transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
 
+#PowerdBy:hover #PowerdByInfo{
+    opacity:1;
+    top: 0;
+    visibility: visible;
+}
 
+#PowerdBy:hover #PowerdByLink{
+    background: #a8a8a8;
+    color: white;
+}
 
 
 a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
+
+
+.shipping-country-holder{
+  border: 1px solid #E8E8E8;
+  margin-bottom: 19px;
+  position: relative;
+  width: 774px;
+  clear: both;
+  outline: none;
+  background-color: white;
+  background-image:  url(../img/cf_middle_border.png), url(../img/shipping_supported.png);
+  background-position:  165px 50%, 5px 5px;
+  background-repeat:  repeat-y, no-repeat;
+}
+.shipping-country-holder.mw-focus{
+  box-shadow:0 0 1px 0px #235F99;
+}
+.country-id-0{
+  display: none;
+}
+
+.mw-shipping-items{
+  float: right;
+  width: 776px;
+}
+
+.mw-shipping-items{
+
+}
+
+.shipping-truck{
+  display: inline-block;
+  width: 111px;
+  height:61px;
+  background:url(../img/quick.icons.png) no-repeat -1148px -25px;
+}
+
+.mw-shipping-left-bar .shipping-truck{
+  margin-bottom: 12px;
+}
+
+.shipping-truck-red{
+  background-position: -1148px -86px
+}
+
+.mw-shipping-left-bar{
+  float: left;
+  width: 120px;
+}
+
+.shipping-country-row{
+  clear: none;
+  overflow: hidden;
+  position: relative;
+  width: 774px;
+}
+form .shipping-country-row:first-child{
+  border-bottom: 1px solid #ECECEC;
+}
+
+
+.shipping-country-row label{
+  white-space: nowrap;
+  float: left;
+  margin: 4px 7px 0 0;
+}
+.shipping-handle-field{
+  float: none;
+  position: absolute;
+  right: 17px;
+  top: -8px;
+}
+
+.shipping-country-row select{
+  width: 255px;
+  float: left;
+}
+.same-as-country-selector{
+  width: 255px;
+  float: left;
+}
+
+.shipping-country-row input[type='text'], .shipping-country-row input[type='number']{
+  float: left;
+  padding: 5px 10px;
+}
+
+
+.shipping-country-holder .shipping-arrow{
+  margin: 0 15px;
+}
+
+.shipping-country-holder .mw-ui-delete-x{
+  position: absolute;
+  top: 1px;
+  right: 2px;
+}
+
+.shipping-country-label{
+  float: left;
+  width: 165px;
+  text-align: center;
+  padding-top: 17px;
+}
+
+.shipping-country-setting{
+  float: left;
+  width: 580px;
+  padding: 12px;
+}
+
+
+.shipping-arrow{
+  display: block;
+  float: left;
+  width: 28px;
+  height: 28px;
+  background: url(../img/quick.icons.png) no-repeat -1280px 0;
+}
+
+.shipping-price-field{
+  width: 60px;
+}
+.shipping-country-holder .mw-ui-btn-small{
+  margin: -11px 13px 0 0;
+  padding: 2px 10px;
+  position: relative;
+  float: right;
+}
+
+
+
+.mw-set-shipping-gw-options{
+  position: relative;
+}
+
+.mw-set-payment-options{
+  width:665px;
+  padding: 25px;
+}
+
+#mw-login{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -220px;
+  width: 322px;
+  padding: 20px;
+}
+
+#mw-login .mw-ui-field{
+  width: 300px;
+}
+
+.mw-edit-user-table{
+ width: 100%;
+ border-top: none;
+ border-bottom: none;
+ border-radius:0;
+}
+
+.mw-edit-user-table td{
+  text-align: left;
+}
+
+.mw-edit-user-cell, .mw-ui-admin-table tr td.mw-edit-user-cell{
+   background: none repeat scroll 0 0 #EFECEC;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 0 6px #DDDDDD inset;
+    padding: 15px;
+}
+
+#mw-users-manage-edit-rotattor > div{
+  width:757px;
+}
+
+#mw_index_users
+
 
 
 

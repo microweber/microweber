@@ -1,7 +1,7 @@
 <?
 
 if(isset($params['option_key']) and isset($params['option_group']) ){
-	$data =  option_get($key = $params['option_key'], $option_group = $params['option_group'], $return_full = true, $orderby = false);
+	$data =  get_option($key = $params['option_key'], $option_group = $params['option_group'], $return_full = true, $orderby = false);
 	
 } else {
 	 d($params);

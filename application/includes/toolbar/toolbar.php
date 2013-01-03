@@ -1,12 +1,12 @@
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-
+<?php if(!isset($_GET['preview'])){ ?>
 
 <script type="text/javascript">
-
+  document.body.className+=' loading';
 
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
+  mw.require("liveadmin.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
+  //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
@@ -17,6 +17,8 @@
   mw.require("files.js");
 
   //mw.require("keys.js");
+
+
 
 </script>
 
@@ -48,6 +50,13 @@
             mw.tools.toolbar_slider.init();
 
 
+            mw.liveadmin.menu.size(130);
+
+            $(window).resize(function(){
+                 mw.liveadmin.menu.size(130);
+            });
+
+
 
         });
 
@@ -61,24 +70,28 @@
   <div class="mw" id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
-      <ul id="mw_tabs">
-        <li id="t_modules"> <a href="#modules">
-          <? _e('Modules'); ?>
-          </a> </li>
-        <li id="t_layouts"> <a href="#layouts">
-          <? _e('Layouts'); ?>
-          </a> </li>
-        <li id="t_pages"> <a href="#pages">
-          <? _e('Pages'); ?>
-          </a> </li>
-        <li id="t_help"> <a href="#help">
-          <? _e('Help'); ?>
-          </a> </li>
-      </ul>
-      <a href="#design_bnav" class="ed_btn mw_ex_tools" style="margin-top: 14px;"><span class="mw_ico mw_check left"></span>Design</a>
+      <div id="mw-menu-liquify"><ul id="mw_tabs">
+        <li id="t_modules">
+            <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;"><? _e('Modules'); ?></a>
+        </li>
+        <li id="t_layouts">
+            <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;"><? _e('Layouts'); ?></a>
+        </li>
+        <li id="t_pages">
+            <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;"><? _e('Pages'); ?></a>
+        </li>
+        <li id="t_help">
+          <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;"><? _e('Help'); ?></a>
+        </li>
+      </ul></div>
+      <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
+       <a href="#design_bnav" class="mw-ui-btn-rect mw-ui-btn-rect-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
+      <div id="mw-toolbar-right">
 
-      <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span></span>Back to Admin</a>
-
+        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
+        <span onclick="mw.preview();" class="mw-ui-btn unselectable">Preview</span>
+        <span class="mw-ui-btn mw-ui-btn-blue">Publish</span>
+      </div>
       </div>
 
     <div id="tab_modules" class="mw_toolbar_tab">
@@ -130,24 +143,7 @@
 
 
 
-<?php if($_SERVER['REMOTE_ADDR']=='192.168.0.4'){ ?>
 
-
-<span class="mw_editor_btnz ed_btn" onclick="mw.$('.edit:first').html('<div class=\'element\' style=\'height:50px;background:#ffffb9\'>Emptiness</div>')"
-        style="position: fixed;top: 133px;right:330px; z-index: 2000;">Empty</span>
-
-
-
-<span class="mw_editor_btnz" onclick="mw.$('.mw_modal iframe').each(function(){var src = this.src;this.src = '#';this.src =src});"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:130px; z-index: 92000;">Refresh iframes &reg;</span>
-
-
-        <span class="mw_editor_btnz" onclick="AutoRefreshCSS()"
-        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:330px; z-index: 92000;">Refresh css &reg;</span>
-
-
-
-        <?php } ?>
 
 
 
@@ -157,4 +153,35 @@
 
 <?php   include "UI.php"; ?>
 
+
+<?php } else { ?>
+
+<script>
+
+
+  previewHTML = function(html, index){
+      mw.$('.edit').eq(index).html(html);
+  }
+
+  window.onload = function(){
+    if(window.opener !== null){
+        window.opener.mw.$('.edit').each(function(i){
+            var html = $(this).html();
+            self.previewHTML(html, i);
+        });
+    }
+  }
+
+</script>
+
+<style>
+
+.delete_column{
+  display: none;
+}
+
+</style>
+
+
+<?php } ?>
 

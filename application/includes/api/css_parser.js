@@ -1,6 +1,7 @@
 mw.CSSParser = function(el){
     var css = window.getComputedStyle(el, null);
 
+
     this.border = function(){
         return {
             top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
@@ -20,30 +21,61 @@ mw.CSSParser = function(el){
             repeat:css.backgroundRepeat
         }
     }
-    this.margin = function(){
+    this.margin = function(parse){
+      if(!parse){
         return {
           top:css.marginTop,
           left:css.marginLeft,
           right:css.marginRight,
           bottom:css.marginBottom
         }
+      }
+      else{
+        return {
+          top:parseFloat(css.marginTop),
+          left:parseFloat(css.marginLeft),
+          right:parseFloat(css.marginRight),
+          bottom:parseFloat(css.marginBottom)
+        }
+      }
+
     }
-    this.padding = function(){
+    this.padding = function(parse){
+      if(!parse){
         return {
           top:css.paddingTop,
           left:css.paddingLeft,
           right:css.paddingRight,
           bottom:css.paddingBottom
         }
+      }
+      else{
+         return {
+          top:parseFloat(css.paddingTop),
+          left:parseFloat(css.paddingLeft),
+          right:parseFloat(css.paddingRight),
+          bottom:parseFloat(css.paddingBottom)
+        }
+      }
     }
     this.opacity = function(){return css.opacity}
 
-    this.radius = function(){
-      return {
-        tl:css.borderTopLeftRadius,
-        tr:css.borderTopRightRadius,
-        br:css.borderBottomRightRadius,
-        bl:css.borderBottomLeftRadius
+    this.radius = function(parse){
+      if(!parse){
+        return {
+          tl:css.borderTopLeftRadius,
+          tr:css.borderTopRightRadius,
+          br:css.borderBottomRightRadius,
+          bl:css.borderBottomLeftRadius
+        }
+      }
+      else{
+        return {
+          tl:parseFloat(css.borderTopLeftRadius),
+          tr:parseFloat(css.borderTopRightRadius),
+          br:parseFloat(css.borderBottomRightRadius),
+          bl:parseFloat(css.borderBottomLeftRadius)
+        }
       }
     }
 

@@ -28,6 +28,56 @@ function copy_directory($source, $destination) {
     }
 }
 
+
+// A much better and accurate version can be found
+// in Aidan's PHP Repository: 
+// http://aidanlister.com/repos/v/function.size_readable.php
+ 
+/**
+ * Returns a human readable filesize
+ *
+ * @author      wesman20 (php.net)
+ * @author      Jonas John
+ * @version     0.3
+ * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
+ */
+function file_size_nice($size) {
+ 
+    // Adapted from: http://www.php.net/manual/en/function.filesize.php
+ 
+    $mod = 1024;
+ 
+    $units = explode(' ','B KB MB GB TB PB');
+    for ($i = 0; $size > $mod; $i++) {
+        $size /= $mod;
+    }
+ 
+    return round($size, 2) . ' ' . $units[$i];
+}
+
+
+function character_limiter($str, $length, $minword = 3)
+{
+    $sub = '';
+    $len = 0;
+    
+    foreach (explode(' ', $str) as $word)
+    {
+        $part = (($sub != '') ? ' ' : '') . $word;
+        $sub .= $part;
+        $len += strlen($part);
+        
+        if (strlen($word) > $minword && strlen($sub) >= $length)
+        {
+            break;
+        }
+    }
+    
+    return $sub . (($len < strlen($str)) ? '...' : '');
+}
+
+ 
+
 function array_change_key($array, $search, $replace) {
 
     $arr = array();
@@ -83,6 +133,8 @@ function normalize_path($path, $slash_it = true) {
     // DIRECTORY_SEPARATOR is a system variable
     // which contains the right slash for the current
     // system (windows = \ or linux = /)
+ 
+  
     $path_original = $path;
     $s = DIRECTORY_SEPARATOR;
     $path = preg_replace('/[\/\\\]/', $s, $path);
@@ -271,7 +323,7 @@ if (!function_exists('pathToURL')) {
 
     function pathToURL($path) {
         // var_dump($path);
-        $path = str_ireplace(ROOTPATH, '', $path);
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         //var_dump($path);
@@ -577,10 +629,10 @@ function recursive_remove_directory($directory, $empty = true) {
                 // if the new path is a directory
                 if (is_dir($path)) {
                     // we call this function with the new path
-                    recursive_remove_directory($path, $empty);
+                  recursive_remove_directory($path, $empty);
                     // if the new path is a file
                 } else {
-                    $path = normalize_path($path, false);
+                 //   $path = normalize_path($path, false);
                     try {
 
                         @unlink($path);
@@ -623,10 +675,18 @@ function isarr($var) {
 }
 
 /**
+ * 
+ * 
  * Recursive glob()
- */
-
-/**
+ * 
+ * @access public
+ * @package utils
+ * @subpackage	files
+ * @category	files
+ * 
+ * @version 1.0
+ * 
+ * 
  * @param int $pattern
  * the pattern passed to glob()
  * @param int $flags
@@ -637,13 +697,20 @@ function isarr($var) {
  * an array of files in the given path matching the pattern.
  */
 function rglob($pattern = '*', $flags = 0, $path = '') {
-    $paths = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
-    $files = glob($path . $pattern, $flags);
-    foreach ($paths as $path) {
-        $files = array_merge($files, rglob($pattern, $flags, $path));
-    }
-    return $files;
+   
+     if (!$path && ($dir = dirname($pattern)) != '.') {
+	        if ($dir == '\\' || $dir == '/') $dir = '';
+	        return rglob(basename($pattern), $flags, $dir . DS);
+	    }
+	    $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+	    $files = glob($path . $pattern, $flags);
+	    foreach ($paths as $p) $files = array_merge($files, rglob($pattern, $flags, $p . DS));
+	    return $files;
+   
+   
+    
 }
+
 
 // ------------------------------------------------------------------------
 
@@ -662,7 +729,7 @@ function rglob($pattern = '*', $flags = 0, $path = '') {
  * @param	int		depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
  * @return	array
  */
-function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
+function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full_path = false) {
     if ($fp = @opendir($source_dir)) {
         $filedata = array();
         $new_depth = $directory_depth - 1;
@@ -675,9 +742,14 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
             }
 
             if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)) {
-                $filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden);
+                $filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden,$full_path);
             } else {
-                $filedata[] = $file;
+            	if($full_path == false){
+            		$filedata[] = $file;
+				} else {
+					$filedata[] = $source_dir.$file;
+				}
+                
             }
         }
 
@@ -688,6 +760,8 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE) {
     return FALSE;
 }
 
+
+ 
 function percent($num_amount, $num_total) {
     $count1 = $num_amount / $num_total;
     $count2 = $count1 * 100;

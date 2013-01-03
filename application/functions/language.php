@@ -21,7 +21,7 @@ function _e($k, $to_return = false) {
             if (trim($lang) == '') {
                 $lang = 'en';
             }
-            $lang_file = APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+            $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
             $lang_file = normalize_path($lang_file, false);
              
             if (is_file($lang_file)) {
@@ -31,7 +31,7 @@ function _e($k, $to_return = false) {
                     $b = '<?php ' . "\n " . '$language' . " = array(); \n";
                     @file_put_contents($lang_file, $b);
                 }
-                $lang_file = APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+                $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
                 $lang_file = normalize_path($lang_file, false);
                 include ($lang_file);
             }

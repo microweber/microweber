@@ -1,6 +1,6 @@
 // JavaScript Document
 
-mw.module.pictures = {
+mw.module_pictures = {
   after_upload : function(data){
      $.post(mw.settings.api_url+'save_media', data ,
      function(data) {
@@ -44,10 +44,14 @@ mw.module.pictures = {
             type:"post",
             data:serial
           })
+		  mw.reload_module('pictures')
         }
     });
   }
 }
+
+
+
 
 
 

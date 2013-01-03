@@ -18,7 +18,7 @@
 
 	$(document).ready(function () {
 
-		mw.$('.demo').each(function () {
+		$('.demo').each(function () {
 
 			var tabs = $(this).find('.tabs a'),
 					panels = $(this).find('.panel').hide(),
@@ -44,8 +44,8 @@
 
 		});
 
-		var nav = mw.$('.nav'),
-				footer = mw.$('.footer');
+		var nav = $('.nav'),
+				footer = $('.footer');
 
 		nav.find('.download a').prepend('<img src="' + myScriptSrc + 'bd.download.png">');
 		

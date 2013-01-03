@@ -27,10 +27,8 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	cache_clean_group($cg);
 	$q = db_q($q);
 
-	$cms_db_tables = c('db_tables');
-
-	$table1 = $cms_db_tables['table_taxonomy'];
-	$table_items = $cms_db_tables['table_taxonomy_items'];
+	$table1 = MW_TABLE_PREFIX . 'taxonomy';
+	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
 	$q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
 
@@ -43,6 +41,22 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 
 	//   cache_clean_group('taxonomy_items');
 	//	d($q);
+}
+
+function db_copy_by_id($table, $id = 0, $field_name = 'id') {
+
+	$q = db_get_id($table, $id, $field_name);
+	//	d($q);
+	if (isset($q[$field_name])) {
+		$data = $q;
+		if (isset($data[$field_name])) {
+			unset($data[$field_name]);
+		}
+
+		$s = save_data($table, $data);
+		return $s;
+	}
+
 }
 
 function db_get_id($table, $id = 0, $field_name = 'id') {
@@ -60,7 +74,7 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
 	$table = db_get_real_table_name($table);
 	$table = db_get_table_name($table);
 
-	$q = "SELECT * from $table where {$field_name}=$id limit 1";
+	$q = "SELECT * from $table where {$field_name}='$id' limit 1";
 
 	$q = db_query($q);
 	if (isset($q[0])) {
@@ -82,13 +96,6 @@ function guess_cache_group($for = false) {
 }
 
 function guess_table_name($for = false, $guess_cache_group = false) {
-	$cms_db_tables = c('db_tables');
-
-	foreach ($cms_db_tables as $k => $cms_db_table) {
-		if (strtolower($k) == strtolower($for) or strtolower($k) == strtolower('table_' . $for)) {
-			$to_table = $cms_db_table;
-		}
-	}
 
 	if (stristr($for, 'table_') == false) {
 		switch ($for) {
@@ -147,7 +154,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 	if ($guess_cache_group != false) {
 
 		$for = str_replace('table_', '', $for);
-		$for = str_replace(TABLE_PREFIX, '', $for);
+		$for = str_replace(MW_TABLE_PREFIX, '', $for);
 	}
 
 	return $for;
@@ -175,12 +182,7 @@ function db_q($q, $connection_settigns = false) {
 		$db = $connection_settigns;
 	}
 	$q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
-	//    $db = c('db');
-	//
-	//    $mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
-	//    db_query_log($q);
-	//    //   $mysqli->query("SET NAMES 'utf8'");
-	//    $q = $mysqli->query($q);
+
 	return $q;
 }
 
@@ -191,8 +193,9 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	$error['error'] = array();
 	$results = false;
 	// if (MW_IS_INSTALLED != false) {
-	if ($cache_id != false and $only_query == false) {
+	if ($cache_id != false and $only_query == false and $cache_group != false) {
 		// $results =false;
+
 		$cache_id = $cache_id . crc32($q);
 		$results = cache_get_content($cache_id, $cache_group);
 		if ($results != false) {
@@ -211,10 +214,11 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		$db = c('db');
 	}
 
-	if ($q == 'close') {
+	if (trim($q) == 'close') {
 		if (isset($link)) {
 			mysql_close($link);
 		}
+		return false;
 	}
 
 	//  var_dump($db);
@@ -257,6 +261,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		}
 
 		// Performing SQL query
+
 		$query = $q;
 		$result = mysql_query($query);
 		if (!$result) {
@@ -271,14 +276,20 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 			return $error;
 		} else {
 			if ($only_query == false) {
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-
-					$nwq[] = $row;
+				if (is_bool($result)) {
+					return $result;
 				}
-				$q = $nwq;
+				if (!empty($result)) {
+					//
+					while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+
+						$nwq[] = $row;
+					}
+					$q = $nwq;
+
+				}
 			}
 		}
-
 		// Free resultset
 		if ($only_query == false) {
 			if (is_array($result)) {
@@ -300,7 +311,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	// d($q);
 	//  unset($db);
 	// if (MW_IS_INSTALLED != false) {
-	if ($only_query == false and empty($q) or $q == false) {
+	if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
 		if ($cache_id != false) {
 
 			cache_store_data('---empty---', $cache_id, $cache_group);
@@ -309,7 +320,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	}
 	if ($only_query == false) {
 		// $result = $q;
-		if ($cache_id != false) {
+		if ($cache_id != false and $cache_group != false) {
 			if (isarr($q)) {
 
 				cache_save($q, $cache_id, $cache_group);
@@ -392,7 +403,60 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 if (is_admin() == true) {
 	api_expose('get');
 }
+function save($get_params, $save_params = false) {
+	if (is_admin() != true) {
+		error('only admin can save');
+	}
+	$get_params1 = parse_params($get_params);
+	$get_params1['return_criteria'] = 1;
+	$test = get($get_params1);
+	$upd = array();
+	if (isset($test['table'])) {
+		$save_params = parse_params($save_params);
+		if (!is_arr($save_params)) {
+			return 'error $save_params must be array';
+		}
 
+		$get = get($get_params);
+		if (!is_arr($get)) {
+			$upd[] = save_data($test['table'], $save_params);
+		} else {
+			foreach ($get as $value) {
+				$sp = $save_params;
+				if (isset($value['id'])) {
+					$sp['id'] = $value['id'];
+				}
+				$upd[] = save_data($test['table'], $sp);
+			}
+		}
+	} else {
+		error('could not find table');
+	}
+	if (!empty($upd)) {
+		return $upd;
+	} else {
+		return false;
+	}
+}
+
+/**
+ *
+ * Function to query the database
+ *
+ * @access public
+ * @package db
+ * @category  db
+ *
+ * @author Peter Ivanov
+ * @version 1.0
+ *
+ *
+ * @see db
+ * @since 0.320
+ * @return mixed Array with data or false
+ * @param array $params parameters for the DB
+ *
+ */
 function get($params) {
 	$orderby = false;
 	$cache_group = false;
@@ -405,10 +469,32 @@ function get($params) {
 		$params = $params2;
 		extract($params);
 	}
+	if (!isset($params['from']) and isset($params['to']) and is_string($params['to'])) {
+		$params['from'] = $params['to'];
+	}
+	if (isset($params['from']) and is_string($params['from'])) {
+		$fr = $params['from'];
+		if (substr(strtolower($fr), 0, 6) != 'table_') {
+			$fr = 'table_' . $fr;
+		}
+		$params['table'] = $fr;
+		unset($params['from']);
+
+	}
+	/*
+	 if (isset($params['table']) and is_string($params['table'])) {
+	 $fr = $params['table'];
+	 if (substr(strtolower($fr), 0, 6) != 'table_') {
+	 $fr = 'table_' . $fr;
+	 }
+	 $params['table'] = $fr;
+	 }*/
+
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -450,6 +536,19 @@ function get($params) {
 		$table = db_get_real_table_name(guess_table_name($params['what']));
 
 	}
+
+	if (!isset($table)) {
+		print "error no table found in params";
+		d($params);
+		//print_r(debug_backtrace());
+		return false;
+
+	}
+
+	if (isset($params['return_criteria'])) {
+		return $criteria;
+	}
+
 	if ($cache_group == false and $debug == false) {
 		$cache_group = guess_cache_group($table);
 		if (!isset($criteria['id'])) {
@@ -460,8 +559,29 @@ function get($params) {
 
 		// d($cache_group);
 	}
+	$mode = 1;
+	switch ($mode) {
+		case 1 :
+			static $results_map = array();
+			//static $results_map_hits = array();
+			$criteria_id = (int) crc32($table . serialize($criteria));
 
-	$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+			if (isset($results_map[$criteria_id])) {
+				$ge = $results_map[$criteria_id];
+				//$results_map_hits[$criteria_id]++;
+			} else {
+				$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+				//$results_map_hits[$criteria_id] = 1;
+				$results_map[$criteria_id] = $ge;
+			}
+			break;
+
+		default :
+			$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+
+			break;
+	}
+
 	//d($ge);
 	if ($getone == true) {
 		if (isset($ge[0])) {
@@ -484,28 +604,17 @@ function db_get($table, $criteria, $cache_group = false) {
  * @author Peter Ivanov
  */
 function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
-	$cms_db_tables = c('db_tables');
-	// ->'table_options';
-	// $this->db->query ( 'SET NAMES utf8' );
+
 	if ($table == false) {
 
 		return false;
 	}
-	if (!empty($cms_db_tables)) {
 
-		foreach ($cms_db_tables as $k => $v) {
-
-			// var_dump($k, $v);
-			if (strtolower($table) == strtolower($v)) {
-
-				$table_assoc_name = $k;
-			}
-		}
-	}
+	$to_search = false;
 	//  $table = db_g($table);
 	$table = db_get_real_table_name($table);
 
-	$aTable_assoc = db_get_table_name($table);
+	$aTable_assoc = $table_assoc_name = db_get_table_name($table);
 	$includeIds = array();
 	if (!empty($criteria)) {
 		if (isset($criteria['debug'])) {
@@ -566,8 +675,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 
 		$_default_limit = 30;
-
-		$cfg_default_limit = get_option('items_pre_page ', 'website');
+		static $cfg_default_limit;
+		if ($cfg_default_limit == false) {
+			if (function_exists('get_option')) {
+				$cfg_default_limit = get_option('items_per_page ', 'website');
+			}
+		}
 		if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
 			$_default_limit = intval($cfg_default_limit);
 		}
@@ -671,7 +784,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 	if (!empty($criteria['custom_fields_criteria'])) {
 
-		$table_custom_fields = $cms_db_tables['table_custom_fields'];
+		$table_custom_fields = MW_TABLE_PREFIX . 'custom_fields';
 
 		$only_custom_fieldd_ids = array();
 
@@ -812,7 +925,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 	}
 
-	$to_search = false;
 	if (isset($criteria['category-id'])) {
 		$criteria['category'] = $criteria['category-id'];
 	}
@@ -886,17 +998,30 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$orderby = db_escape_string($orderby);
 		}
 	}
+	$is_in_table = false;
+	if (isset($criteria['in_table'])) {
 
+		$is_in_table = db_escape_string($criteria['in_table']);
+
+	}
+	if (isset($criteria['keyword'])) {
+		$criteria['search_by_keyword'] = $criteria['keyword'];
+	}
 	if (isset($criteria['data-keyword'])) {
 		$criteria['search_by_keyword'] = $criteria['data-keyword'];
 	}
 
-	if (isset($criteria['search_by_keyword']) and strval(trim($criteria['search_by_keyword'])) != '') {
+	if (isset($criteria['search_by_keyword'])) {
 		$to_search = db_escape_string($criteria['search_by_keyword']);
 	}
 
+	$to_search_in_those_fields = array();
 	if (isset($criteria['search_in_fields'])) {
 		$criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
+	}
+
+	if (isset($criteria['search_by_keyword_in_fields'])) {
+		$to_search_in_those_fields = ($criteria['search_by_keyword_in_fields']);
 	}
 	$original_cache_id = false;
 	if ($cache_group != false) {
@@ -921,7 +1046,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 			}
 
-			$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+			$function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
 
 			$cache_id = $function_cache_id;
 		}
@@ -939,7 +1064,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			if ($count_only == true) {
 
-				$ret = $cache_content[0]['qty'];
+				$ret = intval($cache_content[0]['qty']);
 
 				return $ret;
 			} else {
@@ -1005,6 +1130,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		if (is_array($only_those_fields)) {
 
 			if (!empty($only_those_fields)) {
+
 				$ex_fields = db_get_table_fields($table);
 				$flds1 = array();
 				foreach ($ex_fields as $ex_field) {
@@ -1084,6 +1210,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$includeIds_idds = false;
 	}
 	// $to_search = false;
+
 	$where_search = '';
 	if ($to_search != false) {
 
@@ -1099,12 +1226,14 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			if (!empty($to_search_in_those_fields)) {
 
-				if (in_array($v, $to_search_in_those_fields) == false) {
+				if (array_search($v, $to_search_in_those_fields) == false) {
 
 					$add_to_seachq_q = false;
 				}
 			}
-
+			if ($debug == true) {
+				//d($add_to_seachq_q);
+			}
 			if ($add_to_seachq_q == true) {
 
 				if ($v != 'id' && $v != 'password') {
@@ -1112,7 +1241,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 					switch ($v) {
 						case 'title' :
 						case 'description' :
+						case 'name' :
+						case 'help' :
 						case 'content' :
+						case in_array($v, $to_search_in_those_fields) :
 							$where_q .= " $v REGEXP '$to_search' " . $where_post;
 							// $where_q .= " $v LIKE '%$to_search%' " . $where_post;
 							break;
@@ -1171,7 +1303,6 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$v = str_replace('[mt]', '', $v);
 			}
 
-			
 			if (stristr($v, '[int]')) {
 
 				$is_val_str = false;
@@ -1187,23 +1318,43 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				$v = str_replace('[is]', '', $v);
 			}
 
+			if (stristr($v, '[like]')) {
+
+				$compare_sign = ' LIKE ';
+
+				$v = str_replace('[like]', '', $v);
+			}
+
 			if (stristr($v, '[is_not]')) {
 
 				$compare_sign = ' IS NOT ';
 
 				$v = str_replace('[is_not]', '', $v);
 			}
+
 			/*
 			 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
 			 */
+
 			if (($k == 'updated_on') or ($k == 'created_on')) {
 
 				$v = strtotime($v);
 				$v = date("Y-m-d H:i:s", $v);
 			}
-			if ($is_val_int == true and $is_val_str == false) {
+			if (trim($v) == '[null]') {
+				$where .= "$k IS NULL AND ";
+			} else if ($k == 'module') {
+				$module_name = trim($v);
+				$module_name = str_replace('\\\\', DS, $module_name);
+				$module_name = str_replace('\\', DS, $module_name);
+				$module_name = str_replace('//', DS, $module_name);
+				$module_name = str_replace('\\', '/', $module_name);
+				$module_name = addslashes($module_name);
+				//$module_name = reduce_double_slashes($module_name);
+				$where .= "$k {$compare_sign} '{$module_name}' AND ";
+			} else if ($is_val_int == true and $is_val_str == false) {
 				$v = intval($v);
-				
+
 				$where .= "$k {$compare_sign} $v AND ";
 			} else {
 				$where .= "$k {$compare_sign} '$v' AND ";
@@ -1211,12 +1362,21 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 		}
 
-		$where .= " ID is not null ";
+		$where .= " id is not null ";
 	} else {
 
 		$where = " WHERE ";
 
-		$where .= " ID is not null ";
+		$where .= " id is not null ";
+	}
+
+	if ($is_in_table != false) {
+		$v1 = db_get_real_table_name($is_in_table);
+		$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
+		if ($v1 != false) {
+			$where .= " AND id in (select to_table_id from $v1 where $v1.to_table='{$aTable_assoc1}' and $v1.to_table_id=$table.id ) ";
+		}
+		// d($where);
 	}
 
 	if (!isset($idds)) {
@@ -1230,8 +1390,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1243,7 +1402,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	} else {
 
 		if ($count_only != true) {
-			$q .= " group by ID  ";
+			$q .= " group by id  ";
 		}
 	}
 	if ($order_by != false) {
@@ -1263,7 +1422,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 	if ($debug == true) {
 
-		var_dump($table, $q);
+		var_dump($table, $q, $is_in_table);
 	}
 
 	if ($to_search != false) {
@@ -1275,9 +1434,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		// print($q);
 		//	return;
 	}
+	if ($original_cache_group != false) {
+		$result = db_query($q, $original_cache_id, $original_cache_group);
+	} else {
+		//d($q);
+		$result = db_query($q, false, false);
 
-	$result = db_query($q, $original_cache_id, $original_cache_group);
-
+	}
 	if ($count_only != true) {
 		if ($to_search != false) {
 			//	return $result;
@@ -1347,64 +1510,28 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 }
 
 function db_get_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
-	// ->'table_options';
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-
-			// var_dump($k, $v);
-			if (strtolower($assoc_name) == strtolower($v)) {
-
-				// $table_assoc_name = $k;
-				return $v;
-			}
-		}
-
-		return $assoc_name;
-	}
+	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+	return $assoc_name;
 }
 
 function db_get_assoc_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-			if (trim(strtolower('table_' . $assoc_name)) == trim(strtolower($k))) {
-
-				$table_assoc_name = $k;
-				return $k;
-			}
-
-			if (trim(strtolower($assoc_name)) == trim(strtolower($v))) {
-
-				$table_assoc_name = $k;
-				return $k;
-			}
-		}
-
-		return $assoc_name;
+	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+	$is_assoc = substr($assoc_name, 0, 5);
+	if ($is_assoc != 'table_') {
+		$assoc_name = 'table_' . $assoc_name;
 	}
+	$assoc_name = str_replace('table_table_', 'table_', $assoc_name);
+	//	d($is_assoc);
+
+	return $assoc_name;
 }
 
 function db_get_real_table_name($assoc_name) {
-	$cms_db_tables = c('db_tables');
 
-	if (!empty($cms_db_tables)) {
-
-		foreach ($cms_db_tables as $k => $v) {
-
-			if (trim(strtolower($assoc_name)) == trim(strtolower($k))) {
-
-				$table_assoc_name = $k;
-				return $v;
-			}
-		}
-
-		return $assoc_name;
-	}
+	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+	return $assoc_name;
 }
 
 /**
@@ -1435,7 +1562,12 @@ function map_array_to_database_table($table, $array) {
 	}
 	// $table = db_get_table_name($table);
 
-	$fields = db_get_table_fields($table);
+	if (isset($arr_maps[$table])) {
+		$fields = $arr_maps[$table];
+	} else {
+		$fields = db_get_table_fields($table);
+		$arr_maps[$table] = $fields;
+	}
 
 	foreach ($fields as $field) {
 
@@ -1491,6 +1623,12 @@ function db_table_exist($table) {
  */
 function db_get_table_fields($table, $exclude_fields = false) {
 
+	static $ex_fields_static = array();
+	if (isset($ex_fields_static[$table])) {
+		return $ex_fields_static[$table];
+
+	}
+
 	$db_get_table_fields = array();
 	if (!$table) {
 
@@ -1535,6 +1673,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
 	$exisiting_fields = array();
 	if ($fields == false or $fields == NULL) {
+		$ex_fields_static[$table] = false;
 		return false;
 	}
 	foreach ($fields as $fivesdraft) {
@@ -1568,7 +1707,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 			$fields[] = $k;
 		}
 	}
-
+	$ex_fields_static[$table] = $fields;
 	cache_store_data($fields, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return $fields;
@@ -1593,7 +1732,6 @@ function db_get_table_fields($table, $exclude_fields = false) {
  *
  */
 function save_data($table, $data, $data_to_save_options = false) {
-	$cms_db_tables = c('db_tables');
 
 	if (is_array($data) == false) {
 
@@ -1627,11 +1765,13 @@ function save_data($table, $data, $data_to_save_options = false) {
 	$user_sid = false;
 	if ($user_session == false) {
 
-		if (!defined("FORCE_SAVE")) {
+		if (mw_var("FORCE_SAVE") != false) {
+			//error('You can\'t save data when you are not logged in. ');
+		} else if (!defined("FORCE_SAVE")) {
 			error('You can\'t save data when you are not logged in. ');
 		} else {
 
-			if ($table != FORCE_SAVE) {
+			if ($table != FORCE_SAVE or $table != mw_var("FORCE_SAVE")) {
 				error('You can\'t save data to ' . $table);
 			}
 		}
@@ -1677,8 +1817,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	if (isset($data['url']) == false) {
-		$url = url_string();
-		$data['url'] = $url;
+		//$url = url_string();
+		//$data['url'] = $url;
 	}
 
 	$data['user_ip'] = USER_IP;
@@ -1745,8 +1885,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$criteria['id'] = 0;
 	}
 	$criteria['id'] = intval($criteria['id']);
-	//  $db = new DB(c('db'));
-	// $criteria = $this->addSlashesToArray ( $criteria );
+
 	if (intval($criteria['id']) == 0) {
 
 		if (isset($original_data['new_id']) and intval($original_data['new_id']) != 0) {
@@ -1756,8 +1895,6 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 		// insert
 		$data = $criteria;
-
-		// $this->db->insert ( $table, $data );
 
 		if (DB_IS_SQLITE == false) {
 			$q = " INSERT INTO  $table set ";
@@ -1808,7 +1945,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$user_createdq = '';
 		$user_createdq1 = '';
 
-		if (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE) {
+		if ((mw_var('FORCE_ANON_UPDATE') != false and $table == mw_var('FORCE_ANON_UPDATE')) or (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE)) {
 			$user_createdq1 = " id={$data ['id']} ";
 		} else {
 
@@ -1821,9 +1958,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 			} else {
 				$user_createdq1 = " id={$data ['id']} ";
 			}
-
-			if ($user_sid != false) {
-				$user_sidq = " AND session_id='{$user_sid}' ";
+			if (isset($data['session_id'])) {
+				if ($user_sid != false) {
+					$user_sidq = " AND session_id='{$user_sid}' ";
+				}
 			}
 
 		}
@@ -1834,8 +1972,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	if ($dbg != false) {
-		d($q);
+
 	}
+	//d($q);
 	db_q($q);
 
 	if ($id_to_return == false) {
@@ -1853,10 +1992,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 	// p ( $original_data );
 	if (isset($original_data['categories'])) {
-		$table_cats = $cms_db_tables['table_taxonomy'];
-		$table_cats_items = $cms_db_tables['table_taxonomy_items'];
-		$taxonomy_table = $cms_db_tables['table_taxonomy'];
-		$taxonomy_items_table = $cms_db_tables['table_taxonomy_items'];
+		$table_cats = MW_TABLE_PREFIX . 'taxonomy';
+		$table_cats_items = MW_TABLE_PREFIX . 'taxonomy_items';
+		$taxonomy_table = MW_TABLE_PREFIX . 'taxonomy';
+		$taxonomy_items_table = MW_TABLE_PREFIX . 'taxonomy_items';
 		$is_a = has_access('save_category');
 
 		if ($is_a == true and $table_assoc_name != 'table_taxonomy' and $table_assoc_name != 'table_taxonomy_items') {
@@ -1877,13 +2016,27 @@ function save_data($table, $data, $data_to_save_options = false) {
 					$original_data['categories'] = str_replace('/', ',', $original_data['categories']);
 					$cz = explode(',', $original_data['categories']);
 					$j = 0;
+					$cz_int = array();
 					foreach ($cz as $cname_check) {
 
 						if (intval($cname_check) == 0) {
-							$str1 = 'no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
-							$is_ex = get($str1);
-							if (empty($is_ex)) {
-								$clean_q = "INSERT INTO
+							$cname_check = trim($cname_check);
+							$cname_check = db_escape_string($cname_check);
+							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
+							//	$is_ex = get($str1);
+
+							if ($cname_check != '') {
+
+								$cncheckq = "select id
+                    from $taxonomy_table where
+                    data_type='category' 
+                    and   to_table='{$table_assoc_name}'
+                    and   title='{$cname_check}'   ";
+								// d($cncheckq);
+								$is_ex = db_query($cncheckq);
+
+								if (empty($is_ex)) {
+									$clean_q = "INSERT INTO
                      $taxonomy_table set
                      title='{$cname_check}',
                       parent_id=0,
@@ -1891,31 +2044,43 @@ function save_data($table, $data, $data_to_save_options = false) {
                     data_type='category',
                     to_table='{$table_assoc_name}'
                     ";
-								$cats_data_items_modified = true;
-								$cats_data_modified = true;
-								//d($clean_q);
-								db_q($clean_q);
+									$cats_data_items_modified = true;
+									$cats_data_modified = true;
+									//d($clean_q);
+									if ($dbg != false) {
+										d($clean_q);
+									}
+									db_q($clean_q);
 
+								}
 							}
 
-							$is_ex = get($str1);
+							//$is_ex = get($str1);
 							if (!empty($is_ex) and isarr($is_ex[0])) {
 								$cz[$j] = $is_ex[0]['id'];
+								$cz_int[] = intval($is_ex[0]['id']);
 								//	d($is_ex);
 							}
 
 						}
 						$j++;
 					}
+
+					$parnotin = '';
+					if (!empty($cz_int)) {
+						$parnotin = implode(',', $cz_int);
+						$parnotin = " parent_id NOT IN ({$parnotin}) and";
+					}
+
 					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
                     from $taxonomy_items_table where                            data_type='category_item' and
                     to_table='{$table_assoc_name}' and
-                    parent_id NOT IN ({$original_data['categories']}) and
+                   $parnotin
                     to_table_id={$id_to_return}  ";
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
-					//d($clean_q);
+					// d($clean_q);
 					if ($dbg != false) {
 						d($clean_q);
 					}
@@ -1923,25 +2088,31 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 					$original_data['categories'] = explode(',', $original_data['categories']);
 				}
-				$cat_names_or_ids = array_trim($original_data['categories']);
+				if (!empty($cz_int)) {
+					$cat_names_or_ids = array_trim($cz_int);
+				} else {
+					$cat_names_or_ids = $cz;
 
+				}
 				$cats_data_modified = false;
 				$cats_data_items_modified = false;
 				$keep_thosecat_items = array();
 				foreach ($cat_names_or_ids as $cat_name_or_id) {
-					$cat_name_or_id = db_escape_string($cat_name_or_id);
-
-					$q_cat1 = "INSERT INTO $taxonomy_items_table  set
+					$cat_name_or_id = db_escape_string(trim($cat_name_or_id));
+					if ($cat_name_or_id != '') {
+						$q_cat1 = "INSERT INTO $taxonomy_items_table  set
 
 					parent_id='{$cat_name_or_id}',
 					to_table='{$table_assoc_name}',
 					data_type='category_item',
 					to_table_id='{$id_to_return}'
 					";
-					if ($dbg != false) {
-						d($q_cat1);
+						if ($dbg != false) {
+							d($q_cat1);
+						}
+						// d($q_cat1);
+						db_q($q_cat1);
 					}
-					db_q($q_cat1);
 					// d($q_cat1);
 					// if (trim($cat_name_or_id) == '5dd6d65d65d56d65d65d!!2###222656dd65d6565dd65#234242%#$#65d65d65d65d5d656d56d56d6d5') {
 					//
@@ -2114,7 +2285,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	// adding custom fields
 
 	if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
-		$cms_db_tables = c('db_tables');
+
 		$custom_field_to_save = array();
 
 		foreach ($original_data as $k => $v) {
@@ -2139,7 +2310,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 		if (!empty($custom_field_to_save)) {
 			// p($is_quick);
-			$custom_field_table = $cms_db_tables['table_custom_fields'];
+			$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 			$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
 			if ($is_quick == false) {
 
@@ -2177,6 +2348,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 						if (is_array($cf_v)) {
 							$custom_field_to_save['custom_field_values'] = base64_encode(json_encode($cf_v));
 							$cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
+						} else {
+							$cf_v = db_escape_string($cf_v);
 						}
 						$custom_field_to_save['custom_field_value'] = $cf_v;
 
@@ -2212,6 +2385,16 @@ function save_data($table, $data, $data_to_save_options = false) {
 			to_table_id ='{$custom_field_to_save ['to_table_id']}'
 			";
 
+						$add = " insert into $custom_field_table set
+                        
+			custom_field_name ='{$cf_k}',
+			$cfvq
+			custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+                         custom_field_type = 'content',
+			to_table ='{$custom_field_to_save ['to_table']}',
+			to_table_id ='{$custom_field_to_save ['to_table_id']}'
+			";
+
 						$cf_to_save = array();
 						$cf_to_save['id'] = $next_id;
 						$cf_to_save['custom_field_name'] = $cf_k;
@@ -2224,22 +2407,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
-						//d($add);
+						//	 d($add);
 						db_q($add);
 
-						if (DB_IS_SQLITE != false) {
-							//   $q = $db->insert($custom_field_table, $cf_to_save);
-							//   db_q($add);
-						} else {
-							//   db_q($add);
-						}
-
-						//  $q = $db->insert($custom_field_table, $cf_to_save);
-						//  print($add);
-						//  db_q($add);
 					}
 				}
-				cache_clean_group('custom_fields');
+				cache_clean_group('custom_fields/global');
 				// cache_clean_group ( 'global' );
 				//	cache_clean_group ( 'extract_tags' );
 			}
@@ -2247,9 +2420,15 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	$cg = guess_cache_group($table);
-	//   d($cg);
+	//
 	cache_clean_group($cg . '/global');
 	cache_clean_group($cg . '/' . $id_to_return);
+
+	if (isset($criteria['parent_id'])) {
+		//d($criteria['parent_id']);
+		cache_clean_group($cg . '/' . intval($criteria['parent_id']));
+	}
+
 	return $id_to_return;
 	if (intval($data['edited_by']) == 0) {
 
@@ -2279,7 +2458,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	 * microweber $rel_table = $data ['to_table']; $rel_table_id = $data
 	 * ['to_table_id']; if ($rel_table == false) { $rel_table =
 	 * $table_assoc_name; } if ($rel_table_id == false) { $rel_table_id =
-	 * $id_to_return; } global $cms_db_tables; $by = intval ( $data
+	 * $id_to_return; }   $by = intval ( $data
 	 * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
 	 * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
 	 * $users_table = $cms_db_tables ['table_users_log']; $q = " INSERT INTO
@@ -2405,7 +2584,7 @@ function import_sql_from_file($full_path_to_file) {
 
 	if (is_file($dbms_schema)) {
 		$sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
-		$sql_query = str_ireplace('{TABLE_PREFIX}', TABLE_PREFIX, $sql_query);
+		$sql_query = str_ireplace('{MW_TABLE_PREFIX}', MW_TABLE_PREFIX, $sql_query);
 		$sql_query = sql_remove_remarks($sql_query);
 
 		$sql_query = sql_remove_comments($sql_query);
@@ -2413,10 +2592,12 @@ function import_sql_from_file($full_path_to_file) {
 
 		$i = 1;
 		foreach ($sql_query as $sql) {
-			d($sql);
+			$sql = trim($sql);
+
+			//d($sql);
 			$qz = db_q($sql);
 		}
-		cache_clean_group('db');
+		//cache_clean_group('db');
 		return true;
 	} else {
 		return false;
@@ -2527,13 +2708,25 @@ function split_sql_file($sql, $delimiter) {
 			} // else
 		}
 	}
-
+	$output = preg_replace('/\x{EF}\x{BB}\x{BF}/', '', $output);
 	return $output;
 }
 
-function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
-	$cache_group = 'options/global';
-	//d($key);
+/**
+ * Function set_db_tables
+ *
+ * @desc refresh tables in DB
+ * @access		public
+ * @category	db
+ * @subpackage		tables
+ * @author		Peter Ivanov
+ * @link		http://ooyes.net
+ * @param		varchar $table_name to alter table
+ * @param		array $fields_to_add to add new column
+ * @param		array $column_for_not_drop for not drop
+ */
+
+function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array()) {
 	$function_cache_id = false;
 
 	$args = func_get_args();
@@ -2543,76 +2736,176 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 	}
 
-	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (($cache_content) == '--false--') {
-		return false;
-	}
-	// $cache_content = false;
+	$cache_content = cache_get_content($function_cache_id, 'db/' . $table_name);
+
 	if (($cache_content) != false) {
 
 		return $cache_content;
 	}
 
-	$table = c('db_tables');
-	// ->'table_options';
-	$table = $table['table_options'];
+	$query = db_query("show tables like '$table_name'");
 
-	if ($orderby == false) {
-
-		$orderby[0] = 'position';
-
-		$orderby[1] = 'ASC';
+	if (!is_array($query)) {
+		$sql = "CREATE TABLE " . $table_name . " (
+		id int(11) NOT NULL auto_increment,
+		PRIMARY KEY (id)
+		
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+		 
+		";
+		//
+		//if (isset($_GET['debug'])) {
+		//	d($sql);
+		db_q($sql);
+		//}
 	}
 
-	$data = array();
-	//   $data ['debug'] = 1;
-	if (is_array($key)) {
-		$data = $key;
-	} else {
-		$data['option_key'] = $key;
-	}
-	//   $cache_group = 'options/global/' . $function_cache_id;
-	$ok1 = '';
-	$ok2 = '';
-	if ($option_group != false) {
-		$option_group = db_escape_string($option_group);
-		$ok1 = " AND option_group='{$option_group}' ";
-	}
+	if ($table_name != 'firecms_sessions') {
+		if (empty($column_for_not_drop))
+			$column_for_not_drop = array('id');
 
-	if ($module != false) {
-		$module = db_escape_string($module);
-		$data['module'] = $module;
-		$ok1 = " AND module='{$module}' ";
-	}
-	$data['limit'] = 1;
-	// $get = db_get($table, $data, $cache_group);
-	$ok = db_escape_string($data['option_key']);
+		$sql = "show columns from $table_name";
 
-	$q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
-	$function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
-	//
+		$columns = db_query($sql);
 
-	$get = db_query($q, $function_cache_id_q, $cache_group);
-	//d($get);
+		$exisiting_fields = array();
+		$no_exisiting_fields = array();
 
-	if (!empty($get)) {
-
-		if ($return_full == false) {
-
-			$get = $get[0]['option_value'];
-
-			return $get;
-		} else {
-
-			$get = $get[0];
-
-			return $get;
+		foreach ($columns as $fivesdraft) {
+			$fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+			$exisiting_fields[strtolower($fivesdraft['field'])] = true;
 		}
-	} else {
-		cache_store_data('--false--', $function_cache_id, $cache_group);
 
-		return FALSE;
+		for ($i = 0; $i < count($columns); $i++) {
+			$column_to_move = true;
+			for ($j = 0; $j < count($fields_to_add); $j++) {
+				if (in_array($columns[$i]['Field'], $fields_to_add[$j])) {
+					$column_to_move = false;
+				}
+			}
+			$sql = false;
+			if ($column_to_move) {
+				if (!empty($column_for_not_drop)) {
+					if (!in_array($columns[$i]['Field'], $column_for_not_drop)) {
+						$sql = "alter table $table_name drop column {$columns[$i]['Field']} ";
+					}
+				} else {
+					$sql = "alter table $table_name drop column {$columns[$i]['Field']} ";
+				}
+				if ($sql) {
+					db_q($sql);
+
+				}
+			}
+		}
+
+		foreach ($fields_to_add as $the_field) {
+			$the_field[0] = strtolower($the_field[0]);
+
+			$sql = false;
+			if (isset($exisiting_fields[$the_field[0]]) != true) {
+				$sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
+				db_q($sql);
+			} else {
+				//$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+
+			}
+
+		}
+
 	}
+
+	cache_store_data('--true--', $function_cache_id, $cache_group = 'db/' . $table_name);
+	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	return true;
+	//set_db_tables
+}
+
+/**
+ * Add new table index if not exists
+ * @example db_add_table_index('title', $table_name, array('title'));
+ *
+ * @param unknown_type $aIndexName Index name
+ * @param unknown_type $aTable Table name
+ * @param unknown_type $aOnColumns Involved columns
+ */
+function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false) {
+	$columns = implode(',', $aOnColumns);
+
+	$query = db_query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+
+	if ($indexType != false) {
+
+		$index = $indexType;
+	} else {
+		$index = " INDEX ";
+
+		//FULLTEXT
+	}
+
+	if ($query == false) {
+		$q = "
+				ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
+			";
+		// var_dump($q);
+		db_q($q);
+	}
+
+}
+
+/**
+ * Set table's engine
+ *
+ * @param unknown_type $aTable
+ * @param unknown_type $aEngine
+ */
+function db_set_engine($aTable, $aEngine = 'MyISAM') {
+	db_q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+}
+
+/**
+ * Create foreign key if not exists
+ *
+ * @param unknown_type $aFKName Foreign key name
+ * @param unknown_type $aTable Source table name
+ * @param unknown_type $aColumns Source columns
+ * @param unknown_type $aForeignTable Foreign table name
+ * @param unknown_type $aForeignColumns Foreign columns
+ * @param unknown_type $aOptions On update and on delete options
+ */
+function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array()) {
+	$query = db_query("
+			SELECT
+				*
+			FROM
+				INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+			WHERE
+				CONSTRAINT_TYPE = 'FOREIGN KEY'
+ 			AND
+ 				constraint_name = '{$aFKName}'
+		;");
+
+	if ($query == false) {
+
+		$columns = implode(',', $aColumns);
+		$fColumns = implode(',', $aForeignColumns);
+		;
+		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
+		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
+
+		$q = "
+				ALTER TABLE {$aTable}
+			    ADD CONSTRAINT `{$aFKName}`
+			    FOREIGN KEY
+			    ({$columns})
+			    REFERENCES {$aForeignTable} ($fColumns)
+			    {$onDelete}
+			    {$onUpdate}
+			";
+
+		db_q($q);
+	}
+
 }

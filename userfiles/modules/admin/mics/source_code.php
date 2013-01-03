@@ -8,7 +8,7 @@
           <? $langs = array( "xhtml","php", "js",  "rb", "bsh", "c", "cc", "cpp", "cs", "csh", "cyc", "cv", "htm", "html",
     "java",  "m", "mxml", "perl", "pl", "pm", "py",  "sh", "xml", "xsl"); ?>
           
-          <?php $l_sel =  option_get('source_code_language', $params['module_id']); ?>  
+          <?php $l_sel =  get_option('source_code_language', $params['module_id']); ?>  
             <label  class="label">Source Code Language</label>
              
             
@@ -28,7 +28,7 @@
           <li class="">
       
           
-          <textarea name="source_code" cols=""  class="mw_option_field mw_tag_editor_textarea textarea" style="height:400px;" refresh_modules="mics/source_code"   option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('source_code', $params['module_id']) ?></textarea>
+          <textarea name="source_code" cols=""  class="mw_option_field mw_tag_editor_textarea textarea" style="height:400px;" refresh_modules="mics/source_code"   option_group="<? print $params['module_id'] ?>" rows="2"><?php print get_option('source_code', $params['module_id']) ?></textarea>
          
          
          

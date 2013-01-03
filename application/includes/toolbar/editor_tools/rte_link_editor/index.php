@@ -166,24 +166,25 @@
     <h3>Website URL</h3>
     <label><input type="checkbox" checked="false" id="is_target_blank" />Open link in new window</label>
     <div class="field_wrapper active">
-        <input type="radio" class="mw-ui" name="linktype" id="link_url_radio" checked="checked" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
+
+        <label class="mw-ui-check"><input type="radio" name="linktype" id="link_url_radio" checked="checked" value="" /><span></span></label>
 
         <div class="link_type_holder">
-            <span class="fancy_input white"><input type="text" id="link_url" /></span>
+            <input type="text" class="mw-ui-field" style="width: 242px;" id="link_url" />
         </div>
     </div>
   </div>
   <div class="link_type_to type_to_my_site">
-    <h3>Page on My Website</h3>
+    <h3>Pageon My Website</h3>
     <div class="field_wrapper relative z-2">
-        <input type="radio" class="mw-ui" name="linktype" id="dd_pages_search_radio" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
+        <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="dd_pages_search_radio" value="" /><span></span></label>
         <div class="link_type_holder">
             <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
                 <div class="mw_dropdown_fields">
                   <ul class="mw_simple_tabs_nav">
                     <li class="other-action" value="-1">
                       <div class="dd_search">
-                          <span class="fancy_input white"><input type="text" class="pages_search" id="dd_pages_search"><span class="tb_search_magnify"></span></span>
+                          <span class="fancy_input white"><input type="text" class="mw-ui-field pages_search" id="dd_pages_search"><span class="tb_search_magnify"></span></span>
                       </div>
                     </li>
                     <li value="<?php print site_url(); ?>"><a href="#">Home Page</a></li>
@@ -197,11 +198,11 @@
 
 
   <div class="link_type_to type_to_file">
-    <h3>File on My Website</h3>
+    <h3>File from my Computer</h3>
     <div class="field_wrapper relative">
         <div id="file_link_progres"></div>
-        <input type="radio" class="mw-ui" name="linktype" id="file_radio" value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
-        <div class="link_type_holder relative">
+        <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="file_radio" value="" /><span></span></label>
+        <div class="link_type_holder">
              No file. <span class="upload_file_link" id="Uploader">Upload a new file</span>
 
              <iframe scrolling="no" name="upload_file_link" id="upload_file_link" class="mw_upload_frame" frameborder="0" src="<? print SITE_URL; ?>editor_tools/plupload/"></iframe>
@@ -212,15 +213,15 @@
   <div class="link_type_to type_to_mail">
     <h3>Email Address</h3>
     <div class="field_wrapper">
-        <input type="radio" class="mw-ui" name="linktype" id="mail_radio"  value="" /><label class="left" style="margin: 10px 10px 10px 5px"></label>
+         <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="mail_radio"  value="" /><span></span></label>
         <div class="link_type_holder">
-            <span class="fancy_input white"><input type="text" id="mail_url" /></span>
+            <input type="text" id="mail_url" style="width: 242px;" class="mw-ui-field" />
         </div>
     </div>
   </div>
 
 
-  <span class="bluebtn right disabled" id="insert_link_btn">Insert</span>
+  <span class="mw-ui-btn-action right disabled" id="insert_link_btn">Insert</span>
 
 
   </div>

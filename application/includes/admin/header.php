@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
@@ -17,12 +17,14 @@
 
 
     <script type="text/javascript">
-    mwAdmin = true;
+        mwAdmin = true;
+        admin_url  = '<?php print admin_url(); ?>';
     </script>
     <script type="text/javascript" src="<? print site_url(); ?>apijs"></script>
     <script type="text/javascript">
 
       mw.require("<? print INCLUDES_URL; ?>js/jquery.js");
+      mw.require("liveadmin.js");
       mw.require("<? print INCLUDES_URL; ?>js/jquery-ui-1.8.20.custom.js");
 
       mw.require("<? print INCLUDES_URL; ?>css/admin.css");
@@ -37,15 +39,25 @@
       mw.require("keys.js");
 
 
-    mw.require("custom_fields.js");
+      mw.require("css_parser.js");
+      mw.require("custom_fields.js");
+
+
+
+      //Experiments !!!!!!!!!!!!!!!!!!!!!
+      mw.require("lab.js");
+
+
 
 
 
 
     </script>
 
+
+
 </head>
-<body class="is_admin view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include "UI.php"; ?>
+<body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
 <div id="mw-admin-container">
 
 

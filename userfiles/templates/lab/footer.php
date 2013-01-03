@@ -3,6 +3,20 @@
 <br>
 <br>
 
+<?
+
+
+//$test =  save('to=users&first_name=[null]', 'first_name=First '.rand());
+//d($test);
+
+//$s = array();
+//$s['is_active'] = 'n';
+// $test =  save('from=users&is_admin=n','is_active=n');
+//d($test);
+
+
+ ?>
+
 <!-- Footer
       ================================================== -->
 <footer class="footer"> <br />
@@ -20,4 +34,4 @@
 <!-- Placed at the end of the document so the pages load faster -->
 
 </body 
-</html>
+></html>

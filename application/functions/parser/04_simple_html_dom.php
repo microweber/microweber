@@ -1,6 +1,6 @@
 <?php
 
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'simple_html_dom.php');
+require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'simple_html_dom.php');
 $pattern = '@# match nested tag
 (?(DEFINE)
     (?<comment>     <!--.*?-->)

@@ -23,19 +23,17 @@ if (!defined('APC_EXPIRES')) {
 
 	define("APC_EXPIRES", 30);
 }
-
+$mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
-
+	global $mem;
 	// return false;
-	static $mem = array();
+	//static $mem = array();
 	static $mem_hits = array();
 
 	if (is_bool($cache_id) and $cache_id == true) {
 		return $mem_hits;
 	}
-
-	//  d(APC_CACHE);
-
+	$cache_id_o = $cache_id;
 	$cache_group = (int) crc32($cache_group);
 	$cache_id = (int) crc32($cache_id);
 
@@ -66,13 +64,13 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			if ($replace_with_new != false) {
 				$mem[$key] = $replace_with_new;
 
-				$mem_hits[$key] = 1;
+				$mem_hits[$cache_id_o] = 1;
 				// ksort($mem);
 				// ksort($mem_hits);
 			}
 
 			if (isset($mem[$key])) {
-				$mem_hits[$key]++;
+				$mem_hits[$cache_id_o]++;
 				return $mem[$key];
 			} else {
 				return false;
@@ -114,10 +112,11 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
  * @author Peter Ivanov
  * @since Version 1.0
  */
+mw_var('is_cleaning_now', false);
 function cache_clean_group($cache_group = 'global') {
 	// return true;
 	$apc_exists = function_exists('apc_clear_cache');
-
+	mw_var('is_cleaning_now', true);
 	if ($apc_exists == true) {
 		apc_clear_cache('user');
 		//d('apc_clear_cache');
@@ -141,6 +140,7 @@ function cache_clean_group($cache_group = 'global') {
 		if (is_dir($dir)) {
 			@recursive_remove_from_cache_index($dir);
 		}
+		mw_var('is_cleaning_now', false);
 		// clearstatcache();
 		return true;
 	} catch (Exception $e) {
@@ -325,6 +325,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
+
 				// this is faster
 				ob_start();
 				readfile($cache_file);
@@ -333,7 +334,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				ob_end_clean();
 
-				//$cache = file_get_contents($cache_file);
+				//$cache = file_get_contents($cache_file); // this is slower
 			}
 		}
 	} catch (Exception $e) {
@@ -367,7 +368,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 		if ($apc_apc_delete == false) {
 			$apc_apc_delete = function_exists('apc_delete');
 		}
-		if ($apc_apc_delete == true) {
+		if ($apc_apc_delete == true and $use_apc == true) {
 			apc_delete($cache_id);
 		}
 
@@ -441,6 +442,10 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global') {
 }
 
 function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
+	if (mw_var('is_cleaning_now') == true) {
+		return false;
+	}
+
 	if ($data_to_cache == false) {
 
 		return false;
@@ -486,7 +491,10 @@ function cache_get_index_file_path($cache_group) {
 }
 
 function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
-	if (strval(trim($cache_id)) == '') {
+
+	$is_cleaning = mw_var('is_cleaning_now');
+
+	if (strval(trim($cache_id)) == '' or $is_cleaning == true) {
 
 		return false;
 	}
@@ -552,6 +560,7 @@ api_expose('clearcache');
 
 function clearcache() {
 	if (MW_IS_INSTALLED == false) {
+
 		recursive_remove_from_cache_index(CACHEDIR, true);
 		return true;
 	}
@@ -566,7 +575,7 @@ function clearcache() {
 }
 
 function recursive_remove_from_cache_index($directory, $empty = true) {
-
+	mw_var('is_cleaning_now', true);
 	static $recycle_bin;
 
 	//   if ($recycle_bin == false) {
@@ -577,12 +586,12 @@ function recursive_remove_from_cache_index($directory, $empty = true) {
 	//           @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
 	//       }
 	//   }
-
+	recursive_remove_directory($directory);
 	foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
-		recursive_remove_directory($filename);
+
 		//@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
 	}
-
+	mw_var('is_cleaning_now', false);
 	return true;
 
 	// if the path has a slash at the end we remove it here

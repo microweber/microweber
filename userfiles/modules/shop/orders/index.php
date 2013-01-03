@@ -3,10 +3,9 @@
 $ord = '';
  
 
-    if(isset($params['order'])){
-               $ord   = '&order_by='.$params['order'];
-			  
-              }
+if(isset($params['order'])){
+$data['order_by'] =$params['order'];
+}
  
 
 $kw = '';
@@ -20,12 +19,12 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
 ?>
 <? if(isarr($orders)) :?>
 
-
 <div id="mw-order-table-holder">
-  <table class="mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>
+        <th><?php _e("Status"); ?></th>
         <th><?php _e("Amount"); ?></th>
         <th><?php _e("Names"); ?></th>
         <th><?php _e("Email"); ?></th>
@@ -37,6 +36,7 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
     <tfoot>
       <tr>
         <td><?php _e("Order ID"); ?></td>
+        <th><?php _e("Status"); ?></th>
         <td><?php _e("Amount"); ?></td>
         <td><?php _e("Names"); ?></td>
         <td><?php _e("Email"); ?></td>
@@ -49,16 +49,24 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
       <? foreach ($orders as $item) : ?>
       <tr class="mw-order-item mw-order-item-<? print $item['id'] ?>">
         <td class="mw-order-item-id"><a href="#vieworder=<? print ($item['id']) ?>"><span><? print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
-        <span class="mw-ord-id">ORD-<? print $item['id'] ?></span></a></td>
+          <span class="mw-ord-id">ORD-<? print $item['id'] ?></span></a></td>
+        <td class="mw-order-item-status"><?
+		 if($item['order_status'] == false): ?>
+          New
+          <? elseif($item['order_status'] == 'y'): ?>
+          Completed
+          <? else : ?>
+          Pending
+          <? endif; ?></td>
         <td class="mw-order-item-amount"><? print $item['amount'] ?></td>
         <td class="mw-order-item-names"><? print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>
         <td class="mw-order-item-country"><? print $item['country'] ?></td>
-        <td class="mw-order-item-edit"><span class="del-row"></span>
+        <td class="mw-order-item-edit"><span class="mw-ui-admin-table-show-on-hover del-row"></span>
           <div class="mw_clear"></div>
           <center>
-            <a class="mw-ui-btn" href="#vieworder=<? print ($item['id']) ?>">
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#vieworder=<? print ($item['id']) ?>">
             <?php _e("View order"); ?>
             </a>
           </center></td>

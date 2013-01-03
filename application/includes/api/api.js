@@ -1,3 +1,4 @@
+
 if (!window.CanvasRenderingContext2D) {
   document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
   document.body.id = 'UnsupportedBrowser';
@@ -12,24 +13,17 @@ typeof mw === 'undefined' ?
 
 
 
-  Microweber = function() {
-    this.get = function() {
-      return {
-        modules: Modules_List_modules,
-        layouts: Modules_List_elements
-      }
-    }
-    return this;
-  }
-
-
 
 
 
   mw = {}
 
+
+
   mw.module = {} //Global Variable for modules scripts
+
   mwd = document;
+  mww = window;
 
   mw.loaded = false;
 
@@ -74,16 +68,16 @@ typeof mw === 'undefined' ?
 
 (function() {
     mw.required = [];
-    mw.require = function(url) { //Veyron
+    mw.require = function(url) {
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
-        if (!mw.loaded) {
-          t !== 'css' ? mwd.write("<script type='text/javascript' src='" + url + "'></script>") : mwd.write("<link rel='stylesheet' type='text/css' href='" + url + "' />");
+        var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+        if (document.readyState === 'loading' || document.readyState === 'interactive') {
+           mwd.write(string);
         } else {
-          var text = t !== 'css' ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-          $(mwd.body).append(text);
+          $(mwd.getElementsByTagName('head')[0]).append(string);
         }
       }
     }
@@ -103,35 +97,31 @@ typeof mw === 'undefined' ?
 
 
 
-  window.onload = function() {
-    mw.loaded = true;
-    mwd.body.className+=' loaded';
-  }
+
 
   mw.target = {} //
 
 
   mw.is = {
     obj: function(obj) {
-      return typeof obj === 'object'
+      return typeof obj === 'object';
     },
     func: function(obj) {
-      return typeof obj === 'function'
+      return typeof obj === 'function';
     },
     string: function(obj) {
-      return typeof obj === 'string'
+      return typeof obj === 'string';
     },
     defined: function(obj) {
-      return obj !== undefined
+      return obj !== undefined;
     },
     invisible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'hidden'
+      return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
     visible: function(obj) {
-      return window.getComputedStyle(obj, null).visibility === 'visible'
+      return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: /*@cc_on!@*/
-    false
+    ie: /*@cc_on!@*/false
   }
 
   if (window.console != undefined) {
@@ -226,8 +216,11 @@ typeof mw === 'undefined' ?
   }
 
 
-  mw.load_module = function($module_name, $update_element, callback) {
+  mw.load_module = function($module_name, $update_element, callback, attributes) {
+
+  if(attributes == undefined){
     var attributes = {};
+   }
     attributes.module = $module_name;
     mw._({
       selector: $update_element,
@@ -249,19 +242,17 @@ typeof mw === 'undefined' ?
     t_reload_module_interval = setInterval("mw.reload_module('" + $module_name + "')", $interval);
   }
 
-  mw.reload_module = function($module_name) {
+  mw.reload_module = function($module_name, callback) {
+    var done = callback || false;
     if ($module_name == undefined) {
 
     } else {
-
-
       if (typeof $module_name == 'object') {
         mw._({
-          selector: $module_name
+          selector: $module_name,
+          done:done
         });
-
       } else {
-
         var module_name = $module_name.toString();
         var refresh_modules_explode = module_name.split(",");
         for (var i = 0; i < refresh_modules_explode.length; i++) {
@@ -270,7 +261,7 @@ typeof mw === 'undefined' ?
           if ($module_name != undefined) {
 			 $module_name = $module_name.replace(/##/g, '#');
 			   mw.log( $module_name );
-			  
+
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
@@ -278,7 +269,8 @@ typeof mw === 'undefined' ?
             }
             $mods.each(function() {
               mw._({
-                selector: this
+                selector: this,
+                done:done
               });
             });
           }
@@ -309,10 +301,15 @@ typeof mw === 'undefined' ?
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
     } else {
       for (var i in attrs) {
+		  
+		  if(attrs[i] != undefined){
         var name = attrs[i].name;
         var val = attrs[i].nodeValue;
         to_send[name] = val;
-      }
+		  }
+      } 
+	  
+	//  to_send = attrs;
     }
 
     $.post(url, to_send, function(data) {
@@ -320,7 +317,8 @@ typeof mw === 'undefined' ?
 
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
-      mw.is.defined(obj.done) ? obj.done.call(selector) : '';
+      typeof obj.done === 'function' ? obj.done.call(selector) : '';
+
 
       mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() : '';
       mw.is.defined(mw.drag) ? mw.drag.fix_placeholders(true) : '';
@@ -342,23 +340,89 @@ typeof mw === 'undefined' ?
       console.log(what);
     }
   }
+  mw.error = function(what){
+    if (window.console && mw.settings.debug) {
+      console.error(what);
+    }
+  }
 
-  mw.$ = function(selector) {
+  mw.$ = function(selector, context) {
+    var context = context || mwd;
     if (mw.qsas) {
       if (mw.is.string(selector)) {
         try {
-          return jQuery(mwd.querySelectorAll(selector));
+          return jQuery(context.querySelectorAll(selector));
         } catch (e) {
-          return jQuery(selector);
+          return jQuery(selector, context);
         }
       } else {
-        return jQuery(selector);
+        return jQuery(selector, context);
       }
     } else {
-      return jQuery(selector);
+      return jQuery(selector, context);
     }
   };
 
 
+  api = function(action, params, callback){
+    var url = mw.settings.api_url + action;
+    var type = typeof params;
+    if(type === 'string'){
+        var obj = mw.serializeFields(params);
+    }
+    else if(type === 'object' && !jQuery.isArray(params)){
+        var obj = params;
+    }
+    else{
+        mw.log('Error: "params" must be string or object');
+        return false;
+    }
+    $.post(url, obj)
+        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+      //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+        .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
+  }
 
-})() : '[]';
+
+
+
+})() : '';
+
+
+mw.serializeFields =  function(id){
+      var el = mw.$(id);
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      var data = {}
+      $(fields, el).each(function(){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(!el.name.contains("[]")){
+             data[name] = val;
+          }
+          else{
+            try {
+               data[name].push(val);
+            }
+            catch(e){
+              data[name] = [val];
+            }
+          }
+      });
+      return data;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

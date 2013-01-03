@@ -2,9 +2,9 @@
  
 
 
-$source_code =  option_get('source_code', $params['id']) ;
+$source_code =  get_option('source_code', $params['id']) ;
 
-$source_code_language =  option_get('source_code_language', $params['id']) ;
+$source_code_language =  get_option('source_code_language', $params['id']) ;
 
 
 

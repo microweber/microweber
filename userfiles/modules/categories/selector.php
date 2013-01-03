@@ -56,6 +56,7 @@ $cats_ids = array();
 $cats__parents = array();
 $is_ex1 = array();
  $for = db_get_assoc_table_name($for);
+ 
 	  if($for == 'conaaaaaaatent' or $for == 'table_content'){
 		  
 		  
@@ -96,17 +97,16 @@ if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
 } */ 
  
 ?>
- 
 <script  type="text/javascript">
 
  
-
+/*
 
 $(document).ready(function(){
 
-    mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+   // mw_load_post_cutom_fields_from_categories<? print $rand ?>()
     mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="categories"]').bind('change', function(e){
-    mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+   // mw_load_post_cutom_fields_from_categories<? print $rand ?>();
 
 
 
@@ -171,7 +171,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	
 }
 	
-}
+}*/
 </script>
 <script  type="text/javascript">
 
@@ -211,11 +211,11 @@ foreach ($cats__parents as $item1) {
 }
 	$tree = array();
 	 $tree['include_categories'] = 1;
-	 $tree['subtype'] = 'dynamic';
-	 $tree['parent'] = '[int]0';
+	// $tree['subtype'] = 'dynamic';
+	    $tree['parent'] = '[int]0';
 //	  $tree['include_first'] = 1;
 	//$tree['parent'] = $item1;
-//	$tree['to_table_id'] = '[gte]0';
+//	$tree['to_tabqqle_id'] = '[gte]0';
 	
 	 //  $tree['debug'] = 1;
 	if (isset($params['add_ids'])) {
@@ -227,35 +227,62 @@ foreach ($cats__parents as $item1) {
 
 	}
 	
-	if (isset($params['actve_ids'])) {
-		 $tree['actve_ids'] = $params['actve_ids'];
+	if (isset($params['active_ids'])) {
+		 $tree['active_ids'] = $params['active_ids'];
 
 	}
 	
- 
 	
-	
-	if (!empty($active_cats1)) {
- 	 $tree['categores_actve_ids'] = $active_cats1;
+	if (isset($params['categories_active_ids'])) {
+		 $tree['categories_active_ids'] = $params['categories_active_ids'];
+
+	} else if (!empty($active_cats1)) {
+ 	 // $tree['categories_active_ids'] = $active_cats1;
 		
 	} else {
  
+	
+	}
+	
+	
 	if (!empty($cats_ids)) {
   $cats_ids[] = $item1;
-	// $tree['actve_ids'] = $cats_ids;
+	// $tree['active_ids'] = $cats_ids;
 		
 	}
+	
+	
+	$input_name = " name='parent' ";
+	if(isset($params['input-name'])){
+		$input_name = " name='{$params['input-name']}' ";
+	}
+	
+	
+	$input_name_cats = "  ";
+	if(isset($params['input-name-categories'])){
+		$input_name_cats = " name='{$params['input-name-categories']}' ";
+	}
+	
+	
+	
+	$input_type_cats = "  type='checkbox'  ";
+	if(isset($params['input-type-categories'])){
+		$input_type_cats = " type='{$params['input-type-categories']}' ";
 	}
 	
 	
 	 $tree['active_code'] = 'checked="checked" ';
 	 $tree['active_code'] = 'checked="checked" ';
-//  $tree['debug'] = 1;
-	$tree['link'] = "<label class='mw-ui-check'><input type='radio' name='parent'  {active_code} value='{id}' id='mw_cat_selector_{$rand}' class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
- 	$tree['categores_link'] = "<label class='mw-ui-check'><input type='checkbox'    {active_code} value='{id}' id='mw_cat_selector_{$rand}' class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
-
  
-
+ 
+  
+ 
+ 
+	$tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
+ 	$tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
+ 
+ // d($tree);
+ 
 pages_tree($tree);
 ?>
 <? endif; ?>
