@@ -335,6 +335,9 @@ String.prototype.tonumber = function(){
 }
 
 mw.setCurrentStyles = function(el){
+
+
+
   var parser = mw.CSSParser(el);
   $("#width_slider").slider("value", parser.get.width().tonumber());
 
@@ -532,18 +535,12 @@ $(window).bind("onBodyClick", function(){
     });
 
 
-
-
     $("#ts_bg_repeat").bind("change", function(){
        mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
     });
     $("#ts_bg_position").bind("change", function(){
        mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue())
     });
-
-
-
-
 
 
     $("#ed_auto_width").commuter(function(){

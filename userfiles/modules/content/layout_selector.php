@@ -71,6 +71,15 @@ mw.templatePreview = {
     mw.templatePreview.selector.selectedIndex = which;
     mw.$("#layout_selector li.active").removeClass('active');
     mw.$("#layout_selector li").eq(which).addClass('active');
+	
+	
+	
+	
+	
+	
+	
+	
+	
     $(mw.templatePreview.selector).trigger('change');
   },
   zoom:function(in_or_out){
@@ -92,6 +101,33 @@ mw.templatePreview = {
 
 		var template = mw.$('#active_site_template_<? print $rand; ?>').val();
 		var layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
+		
+		
+		var is_shop = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-is-shop');
+		var ctype = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-content-type');
+		var root = mwd.querySelector('#active_site_layout_<? print $rand; ?>');
+			
+			var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+		 
+		if(is_shop != undefined && is_shop =='y'){
+			form.querySelector('input[name="is_shop"][value="y"]').checked = true;
+		} else {
+			form.querySelector('input[name="is_shop"][value="n"]').checked = true;	
+		}
+		
+		
+		if(ctype != undefined && ctype =='dynamic'){
+			
+			
+		} else {
+		ctype = 'static';
+		}
+		mw.$("select[name='subtype']", form).val(ctype);	
+	
+		
+		
+		
+		
 
 		var template = safe_chars_to_str(template);
 		var layout =  safe_chars_to_str(layout);
