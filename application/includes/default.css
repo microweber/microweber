@@ -7,6 +7,12 @@
  */
 
 
+* {
+   margin: 0;
+   padding: 0;
+}
+
+article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
 
 body.mw-preview{
   zoom: 0.36;
@@ -22,21 +28,6 @@ body.mw-preview{
   display: none !important;
 }
 
-.mw-reset, .mw-reset *{
-  margin: 0;
-  padding: 0;
-  line-height: normal;
-}
-.mw-reset img{
-  border: none;
-}
-.mw-reset div,
-.mw-reset input,
-.mw-reset select,
-.mw-reset textarea,
-.mw-reset button{
-  height: auto;
-}
 
 .col, .row, .element {
     position: relative;

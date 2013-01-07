@@ -75,6 +75,10 @@ DOMChange:function(element, callback){
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
+    element.addEventListener("DOMAttrModified", function(){
+        callback.call(this);
+    }, false);
+    typeof WebKitMutationObserver === 'function' ? element.onclick = callback : '' ;
  },
  _stopWriting:null,
  stopWriting:function(el,callback){
@@ -83,7 +87,7 @@ DOMChange:function(element, callback){
        callback.call(el);
      }, 600);
  },
- scrollOnBottom : function(obj, distance, callback){
+ scrollBarOnBottom : function(obj, distance, callback){
     if(typeof obj === 'function'){
        var callback = obj;
        var obj =  window;
@@ -91,14 +95,16 @@ DOMChange:function(element, callback){
     }
     if(typeof distance === 'function'){
       var callback = distance;
-       var distance = 0;
-
+      var distance = 0;
     }
+    obj._pauseCallback = false;
+    obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
+    obj.continueScrollCallback = function(){ obj._pauseCallback = false;}
     $(obj).scroll(function(e){
       var h = obj === window ? mwd.body.scrollHeight : obj.scrollHeight;
       var calc = h - $(obj).scrollTop() - $(obj).height();
-      if(calc <= distance){
-        typeof callback === 'function' ? callback.call(obj) : '';
+      if(calc <= distance && !obj._pauseCallback){
+        callback.call(obj);
       }
     });
   }
@@ -137,9 +143,7 @@ $(window).bind("hashchange load", function(event){
 });
 
 
-mw.hash = function(b){
-  return b===undefined ? window.location.hash : window.location.hash = b;
-}
+mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
 
 

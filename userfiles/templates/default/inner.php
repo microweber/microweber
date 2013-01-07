@@ -1,3 +1,16 @@
+<?php
+
+/*
+
+type: layout
+content_type: post
+name: Post inner layout
+
+description: Post inner layout
+
+*/
+
+?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 
 <article id="post-<? print POST_ID ?>" class="post">

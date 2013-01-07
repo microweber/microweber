@@ -2,11 +2,9 @@
  mw.require('options.js');
  </script>
 <script  type="text/javascript">
-
-$(document).ready(function(){
-mw.options.form('.mw-set-payment-options');
- 
-});
+  $(document).ready(function(){
+  mw.options.form('.mw-set-payment-options');
+  });
 </script>
 <?
 $here = dirname(__FILE__).DS.'gateways'.DS;
@@ -16,6 +14,13 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 
 <div class="vSpace"></div>
 
+
+<?
+/**
+ *
+ */
+
+?>
 
 <div class="mw-o-box mw-set-payment-options" style="background: #F7F7F7;" >
 
@@ -41,6 +46,4 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
   <? endforeach ; ?>
   <? endif; ?>
 </div>
-
-
 <div class="vSpace"></div>

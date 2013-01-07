@@ -345,6 +345,18 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 					}
 				}
 			}
+			if (isset($result['custom_fields_data']) and trim($result['custom_fields_data']) != '') {
+				$try_dec = base64_decode($result['custom_fields_data'], true);
+
+				if ($try_dec) {
+					$result['custom_fields_data'] = $try_dec;
+					// is valid
+				} else {
+					// not valid
+				}
+
+			}
+
 			$results[] = remove_slashes_from_array($result);
 		}
 	}
@@ -493,8 +505,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1390,7 +1401,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -1817,8 +1829,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	if (isset($data['url']) == false) {
-		$url = url_string();
-		$data['url'] = $url;
+		//$url = url_string();
+		//$data['url'] = $url;
 	}
 
 	$data['user_ip'] = USER_IP;
@@ -2890,8 +2902,7 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns);
-		;
+		$fColumns = implode(',', $aForeignColumns); ;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 

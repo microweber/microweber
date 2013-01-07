@@ -8,7 +8,7 @@
 <?php
 
   $clients = array();
-  $orders = get_orders('order_by=created_on desc&group=email&is_paid=y');
+  $orders = get_orders('order_by=created_on desc&group=email&is_completed=y');
 
 ?>
 <div class="mw-table-sorting-controller">
@@ -46,7 +46,7 @@
         <td><?php print $order['country']; ?></td>
         <td><?php print $order['city']; ?></td>
         <td>
-          <?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_paid=y'); ?>
+          <?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_completed=y'); ?>
           <?php print $total_ord; ?>
         </td>
         <td>

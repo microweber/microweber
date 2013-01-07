@@ -1,6 +1,6 @@
 <?php
 
-function get_picture($content_id, $for = 'post') {
+function get_picture($content_id, $for = 'post', $full = false) {
 	$arr = array();
 	$arr['to_table'] = 'table_content';
 	$arr['limit'] = '1';
@@ -8,7 +8,12 @@ function get_picture($content_id, $for = 'post') {
 	$imgages = get_pictures($arr);
 	//..p($imgages);
 	if (isset($imgages[0])) {
-		return $imgages[0];
+		if (isset($imgages[0]['filename']) and $full == false) {
+			return $imgages[0]['filename'];
+		} else {
+			return $imgages[0];
+		}
+
 	}
 }
 
@@ -186,9 +191,8 @@ function reorder_media($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	 
 
-	$table =  MW_TABLE_PREFIX . 'media';
+	$table = MW_TABLE_PREFIX . 'media';
 	foreach ($data as $value) {
 		if (is_arr($value)) {
 			$indx = array();
@@ -266,16 +270,15 @@ function save_media($data) {
 		$t = db_escape_string($data['media_type']);
 		$s['media_type'] = $t;
 	}
-	 
 
 	// ->'table_content';
 	if (isset($s['to_table']) and isset($s['to_table_id'])) {
-		$table =  MW_TABLE_PREFIX . 'media';
+		$table = MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
 	} elseif (isset($s['id']) and isset($s['title'])) {
-		$table =  MW_TABLE_PREFIX . 'media';
+		$table = MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
 		return ($s);
@@ -335,15 +338,14 @@ function thumbnail($src, $width = 200, $height = 200) {
 }
 
 function get_pictures($params) {
-	 
-	$table =  MW_TABLE_PREFIX . 'media';
-	$params = parse_params($params);
-/*
-	// if (is_string($params)) {
-		// $params = parse_str($params, $params2);
-		// $params = $params2;
-	// }*/
 
+	$table = MW_TABLE_PREFIX . 'media';
+	$params = parse_params($params);
+	/*
+	 // if (is_string($params)) {
+	 // $params = parse_str($params, $params2);
+	 // $params = $params2;
+	 // }*/
 
 	if (isset($params['for'])) {
 		$params['for'] = db_get_assoc_table_name($params['for']);

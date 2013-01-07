@@ -40,6 +40,10 @@ require (MW_APPPATH . 'functions' . DS . 'mw_functions.php');
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
+	
+	
+	
+	
 	$v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
 	$v -> e = $e;
 	$v -> f = $f;

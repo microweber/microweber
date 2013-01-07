@@ -1600,7 +1600,7 @@ function mw_cron() {
 		$opts = get_options("option_key2=cronjob");
 		if ($opts != false) {
 
-			//d($file_loc);
+			 //d($file_loc);
 			if (!is_dir($file_loc)) {
 				if (!mkdir($file_loc)) {
 					return false;

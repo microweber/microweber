@@ -167,8 +167,9 @@ body:-webkit-full-screen {
 
 #mw_tabs li{
   float: left;
-    background: url(../img/nav_item_border.jpg) no-repeat right top;
+  background: url(../img/nav_item_border.jpg) no-repeat right top;
 }
+
 #mw_tabs li.dropped{
     visibility: hidden;
 }
@@ -187,8 +188,7 @@ body:-webkit-full-screen {
   text-shadow:1px 1px 0px white;
 }
 #mw_tabs li a:hover{
-  background-color: #dedede;
-
+  background-color: #E8E8E8;
 }
 
 #mw_tabs li a:active{box-shadow: inset 0 0 5px #888;}
@@ -2086,6 +2086,8 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
   background-color: #E6E6E6;
   background-color: #D7FFC3;
 }
+
+
 
 
 

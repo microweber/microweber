@@ -23,25 +23,28 @@ error("Invalid order id");
   </a>
   <h2><span style="color: #0D5C98"><? print $ord['id'] ?> |</span> <span class="font-12"><? print $ord['created_on'] ?></span> </h2>
   <div class="mw-o-box mw-o-box-order-info">
-    <div class="mw-o-box-header"> <span class="ico iorder"></span><span><?php _e("Order Information"); ?></span> </div>
+    <div class="mw-o-box-header"> <span class="ico iorder"></span><span>
+      <?php _e("Order Information"); ?>
+      </span> </div>
     <? if(isarr($cart_items)) :?>
     <div class="mw-order-images">
       <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
-
-        <img
+      <? $p = get_picture($cart_items[$i]['to_table_id']); ?>
+      <? if($p != false): ?>
+      <img
             class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
             data-index="<?php print $i; ?>"
-            src="<?php print pixum(70,70); ?>"
+            src="<?php print thumbnail($p, 70,70); ?>"
         />
-
+      <? endif; ?>
       <?php } ?>
     </div>
     <table class="mw-o-box-table" cellspacing="0" cellpadding="0" width="100%">
       <thead>
         <tr>
           <th><?php _e("Product Name"); ?></th>
+          <th><?php _e("Custom fields"); ?></th>
           <th><?php _e("Price"); ?></th>
-          <th><?php _e("Shipping Price"); ?></th>
           <th><?php _e("QTY"); ?></th>
           <?php /* <th><?php _e("Promo Code"); ?></th> */ ?>
           <th><?php _e("Total"); ?></th>
@@ -49,21 +52,37 @@ error("Invalid order id");
       </thead>
       <tbody>
         <?php $subtotal = 0; ?>
-
         <? $index = -1; foreach ($cart_items as $item) : ?>
         <?php
             $index++;
             $item_total = floatval($item['qty']) * floatval($item['price']);
             $subtotal = $subtotal + $item_total;
           ?>
-
-
         <tr
             data-index = "<?php print $index; ?>"
             class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
           <td class="mw-order-item-id"><a href="javascript:;"><span><? print $item['title'] ?></span></a></td>
+          <td class="mw-order-item-fields"><? if(isset($item['custom_fields_data'])): 
+					
+					 
+					if (isset($item['custom_fields_data']) and trim($item['custom_fields_data']) != '') {
+						
+						$try_dec = decode_var($item['custom_fields_data']);
+
+				if (isarr($try_dec)) {
+					 foreach($try_dec as $k1=>$v1){
+						?><? print $k1 ?>: <? print $v1 ?><br />
+<?  
+	 				 }
+					 
+				} else {
+					 
+				}
+					}
+					
+					?>
+            <? endif; ?></td>
           <td class="mw-order-item-amount">$<? print $item['price'] ?></td>
-          <td class="mw-order-item-amount"> $256 </td>
           <td class="mw-order-item-count"><? print $item['qty'] ?></td>
           <?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>
           <td class="mw-order-item-count"><? print $item_total; ?></td>
@@ -82,27 +101,37 @@ error("Invalid order id");
         <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
           <td><?php _e("Shipping price"); ?></td>
-          <td class="mw-o-box-table-green">$20,00</td>
+          <td class="mw-o-box-table-green">$ <? print $ord['shipping']; ?></td>
         </tr>
         <tr class="mw-o-box-table-footer last">
           <td colspan="3">&nbsp;</td>
-          <td class="mw-o-box-table-green"><b><?php _e("Total:"); ?></b></td>
-          <td class="mw-o-box-table-green"><b><?php _e("$120,00"); ?></b></td>
+          <td class="mw-o-box-table-green"><b>
+            <?php _e("Total:"); ?>
+            </b></td>
+          <td class="mw-o-box-table-green"><b> $ <? print $ord['amount']; ?> </b></td>
         </tr>
       </tbody>
     </table>
     <? else: ?>
-    <h2><?php _e("The cart is empty"); ?></h2>
+    <h2>
+      <?php _e("The cart is empty"); ?>
+    </h2>
     <? endif;?>
     <div class="vSpace"></div>
     <div class="mw-o-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"> <span class="ico iorder"></span><span>Order Status</span> </div>
-    <div class="order-status-selector"> <span class="font-11"><?php _e("What is the status of this order"); ?>?</span>
+    <div class="order-status-selector"> <span class="font-11">
+      <?php _e("What is the status of this order"); ?>
+      ?</span>
       <label class="mw-ui-check">
         <input <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
-        <span></span> <span><?php _e("Completed Order"); ?></span> </label>
+        <span></span> <span>
+        <?php _e("Completed Order"); ?>
+        </span> </label>
       <label class="mw-ui-check">
         <input <?php if($ord['order_status']=='n'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="n"  />
-        <span></span> <span><?php _e("Pending"); ?></span> </label>
+        <span></span> <span>
+        <?php _e("Pending"); ?>
+        </span> </label>
     </div>
     <div class="vSpace" style="padding: 0 0 1px;"></div>
     <script type="text/javascript">
@@ -141,20 +170,26 @@ error("Invalid order id");
 </script>
     <div id="mw_order_status" style="overflow: hidden">
       <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-warning right <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>semi_hidden<?php endif; ?>">
-        <div style="height: 55px;"><?php _e("Pending"); ?></div>
+        <div style="height: 55px;">
+          <?php _e("Pending"); ?>
+        </div>
       </div>
       <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-success right <?php if($ord['order_status']=='n'): ?>semi_hidden<?php endif; ?>">
-        <div style="height: 55px;"> <span class="ico icheck"></span> <span><?php _e("Successfully Completed"); ?></span> </div>
+        <div style="height: 55px;"> <span class="ico icheck"></span> <span>
+          <?php _e("Successfully Completed"); ?>
+          </span> </div>
       </div>
     </div>
   </div>
   <div class="mw-o-box mw-o-box-client-info">
     <div class="mw-o-box-header"> <a href="<? print template_var('url'); ?>/../action:clients#?clientorder=<? print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
       <?php _e("Edit"); ?>
-      </a> <span class="ico iusers"></span><span><?php _e("Client Information"); ?></span> </div>
+      </a> <span class="ico iusers"></span><span>
+      <?php _e("Client Information"); ?>
+      </span> </div>
     <div class="mw-o-client-table" style="padding-top: 0;">
       <table cellspacing="0" cellpadding="0">
-      <col width="150" />
+        <col width="150" />
         <tr>
           <td><?php _e("Customer Name"); ?></td>
           <td><a href="#"><? print $ord['first_name'] .' '. $ord['last_name']; ?></a></td>
@@ -174,10 +209,9 @@ error("Invalid order id");
       <table cellspacing="0" cellpadding="0" class="right" style="width:400px">
         <col width="150" />
         <tr>
-          <td valign="top">
-
-            <p><b><?php _e("Shipping Address"); ?></b></p>
-
+          <td valign="top"><p><b>
+              <?php _e("Shipping Address"); ?>
+              </b></p>
             <ul class="order-table-info-list">
               <li><? print $ord['country'] ?></li>
               <li><? print $ord['city'] ?></li>
@@ -185,28 +219,17 @@ error("Invalid order id");
               <li><? print $ord['zip'] ?></li>
               <li><? print $ord['address'] ?></li>
               <li><? print $ord['address2'] ?></li>
-              <li><?php _e("Phone"); ?> <? print $ord['phone'] ?></li>
-            </ul>
-
-
-            </td>
-          <td>
-             <a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['country'].','.$ord['address']) ?>&safe=off">
-
-
-
-                  <img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/order.png|<? print urlencode($ord['country'].','.$ord['address']); ?>&sensor=true&center=<? print urlencode($ord['country'].','.$ord['address']); ?>" />
-
-
-
-
-              </a>
-              <div class="vSpace"></div>
-
-              <center><a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['country'].','.$ord['address']) ?>&safe=off">
+              <li>
+                <?php _e("Phone"); ?>
+                <? print $ord['phone'] ?></li>
+            </ul></td>
+          <td><a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['country'].','.$ord['address']) ?>&safe=off"> <img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/order.png|<? print urlencode($ord['country'].','.$ord['address']); ?>&sensor=true&center=<? print urlencode($ord['country'].','.$ord['address']); ?>" /> </a>
+            <div class="vSpace"></div>
+            <center>
+              <a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['country'].','.$ord['address']) ?>&safe=off">
               <?php _e("See Location on map"); ?>
-              </a></center>
-            </td>
+              </a>
+            </center></td>
         </tr>
       </table>
     </div>
@@ -215,49 +238,48 @@ error("Invalid order id");
       <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
         <col width="150" />
         <tr>
-          <td valign="top">
-
-
-          <p><b><?php _e("Billing Details"); ?></b></p>
-
-           <ul class="order-table-info-list">
-             <li><? print $ord['payment_name'] ?></li>
-             <li><? print $ord['payment_country'] ?></li>
-             <li><? print $ord['payment_email'] ?></li>
-             <li><? print $ord['payment_city'] ?></li>
-             <li><? print $ord['payment_state'] ?></li>
-             <li><? print $ord['payment_zip'] ?></li>
-             <li><? print $ord['payment_address'] ?></li>
-           </ul>
-             
-
-           </td>
-          <td  valign="top">
-            <img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/user.png|<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>&sensor=true&center=<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>" />
-          <center><a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>&safe=off">
+          <td valign="top"><p><b>
+              <?php _e("Billing Details"); ?>
+              </b></p>
+            <ul class="order-table-info-list">
+              <li><? print $ord['payment_name'] ?></li>
+              <li><? print $ord['payment_country'] ?></li>
+              <li><? print $ord['payment_email'] ?></li>
+              <li><? print $ord['payment_city'] ?></li>
+              <li><? print $ord['payment_state'] ?></li>
+              <li><? print $ord['payment_zip'] ?></li>
+              <li><? print $ord['payment_address'] ?></li>
+            </ul></td>
+          <td  valign="top"><img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/user.png|<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>&sensor=true&center=<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>" />
+            <center>
+              <a target="_blank" href="https://maps.google.com/maps?q=<? print urlencode($ord['payment_country'].','.$ord['payment_city'].','.$ord['payment_address']); ?>&safe=off">
               <?php _e("See Location on map"); ?>
-              </a></center>
-
-          </td>
+              </a>
+            </center></td>
         </tr>
       </table>
     </div>
     <div class="mw-o-box-hr"></div>
     <div class="mw-o-client-table">
-    <table cellspacing="0" cellpadding="0">
+      <table cellspacing="0" cellpadding="0">
         <tr>
-          <td>
-            <p><b><?php _e("Payment Information"); ?></b></p>
-        <ul class="order-table-info-list">
-          <li><?php _e("Payment Method"); ?>: <?php print $ord['payment_gw']; ?></li>
-          <li><?php _e("Transaction ID"); ?>: <?php print $ord['transaction_id']; ?></li>
-          <li><?php _e("Payment Status"); ?>: <?php print $ord['payment_status']; ?></li>
-        </ul>
-
-        </td>
+          <td><p><b>
+              <?php _e("Payment Information"); ?>
+              </b></p>
+            <ul class="order-table-info-list">
+              <li>
+                <?php _e("Payment Method"); ?>
+                : <?php print $ord['payment_gw']; ?></li>
+              <li>
+                <?php _e("Transaction ID"); ?>
+                : <?php print $ord['transaction_id']; ?></li>
+              <li>
+                <?php _e("Payment Status"); ?>
+                : <?php print $ord['payment_status']; ?></li>
+            </ul></td>
           <td>&nbsp;</td>
         </tr>
-       </table>
+      </table>
     </div>
   </div>
   <div class="mw_clear"></div>

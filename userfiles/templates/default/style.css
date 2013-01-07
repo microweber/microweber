@@ -1,11 +1,6 @@
-* {
-   margin: 0;
-   padding: 0;
-}
 
-article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
 
-/* the upper must be in default css */
+
 
 #container{
   background-color: #E8E8E8;
@@ -34,7 +29,7 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
 
 #main-navigation{
   width: 964px;
-  height: 55px;
+  height: 55px !important;
   position: relative;
   z-index: 2;
   margin-left: -8px;
@@ -64,23 +59,23 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
   right: 0px;
 }
 
-#main-navigation > .module-pages-menu > ul{
+#main-navigation  .module-pages-menu > ul{
   padding: 9px 0px 9px 7px;
   position: relative;
   width: 745px;
   float: left;
 }
 
-#main-navigation > .module-pages-menu li{
+#main-navigation  .module-pages-menu li{
   list-style: none;
 }
 
-#main-navigation > .module-pages-menu > ul > li{
+#main-navigation  .module-pages-menu > ul > li{
   float: left;
   position: relative;
   margin: 0 8px;
 }
-#main-navigation > .module-pages-menu li > a{
+#main-navigation  .module-pages-menu li > a{
   display: block;
   white-space: nowrap;
   padding:10px 12px;
@@ -90,7 +85,7 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
   border: 1px solid #fff;
   border-radius:2px;
 }
-#main-navigation > .module-pages-menu li a:hover{
+#main-navigation  .module-pages-menu li a:hover{
   background: #e9e9e9;
   background: -moz-linear-gradient(top, #ffffff 0%, #e9e9e9 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e9e9e9));
@@ -108,7 +103,7 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
 
 /* Sub Navigation list */
 
-#main-navigation > .module-pages-menu > ul > li > ul{
+#main-navigation  .module-pages-menu > ul > li > ul{
   position: absolute;
   top: 30px;
   visibility: hidden;
@@ -120,17 +115,17 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
   padding: 10px;
 }
 
-#main-navigation > .module-pages-menu > ul > li > ul > li > ul{
+#main-navigation  .module-pages-menu > ul > li > ul > li > ul{
   left: 100%;
   position: absolute;
   top: 0;
   visibility: hidden;
 }
 
-#main-navigation  > .module-pages-menu > ul > li:hover > ul{
+#main-navigation   .module-pages-menu > ul > li:hover > ul{
   visibility: visible;
 }
-#main-navigation > .module-pages-menu > ul > li > ul > li:hover > ul {
+#main-navigation  .module-pages-menu > ul > li > ul > li:hover > ul {
   visibility: visible;
 }
 
@@ -174,16 +169,20 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
 #header-cart-navigation a:hover{
   text-decoration: underline;
 }
+.mw-gallery-holder{
+  width: 100%;
+  height: 100%;
+}
 
 #rotator{
-  width: 950px;
+  width: 100%;
   height: 450px;
   position: relative;
   overflow: hidden;
   background: white;
 }
 #rotator img{
-  width: 950px;
+  width: 100%;
 }
 
 .mw-rotator-slide{

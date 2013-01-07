@@ -336,6 +336,7 @@ mw.tools = {
     }
   },
   toolbar_sorter : function(obj, value_to_search){
+    mw.$(".modules_bar").scrollLeft(0);
     for (var item in obj){
         var child_object = obj[item];
         var id = child_object.id;
@@ -351,7 +352,7 @@ mw.tools = {
   },
   toolbar_searh : function(obj, value){
     var value = value.toLowerCase();
-
+    mw.$(".modules_bar").scrollLeft(0);
       for (var item in obj){
           var child_object = obj[item];
           var id = child_object.id;
@@ -1161,15 +1162,7 @@ mw.notification = {
 
 
 
-$(document).ready(function(){
 
-    mw.on.scrollOnBottom(mwd.getElementById('mw_edit_pages'), 100, function(){
-      mw.log(this);
-    })
-
-
-
-})
 
 
 

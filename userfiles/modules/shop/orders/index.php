@@ -14,7 +14,7 @@ $kw = '';
     if(isset($params['keyword'])){
                 $kw   = '&keyword='.$params['keyword'];
               }
-$orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
+$orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
  
 ?>
 <? if(isarr($orders)) :?>
@@ -26,6 +26,7 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
         <th><?php _e("Order ID"); ?></th>
         <th><?php _e("Status"); ?></th>
         <th><?php _e("Amount"); ?></th>
+        <th><?php _e("Paid"); ?></th>
         <th><?php _e("Names"); ?></th>
         <th><?php _e("Email"); ?></th>
         <th><?php _e("Client Phone"); ?></th>
@@ -38,6 +39,7 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
         <td><?php _e("Order ID"); ?></td>
         <th><?php _e("Status"); ?></th>
         <td><?php _e("Amount"); ?></td>
+        <th><?php _e("Paid"); ?></th>
         <td><?php _e("Names"); ?></td>
         <td><?php _e("Email"); ?></td>
         <td><?php _e("Client Phone"); ?></td>
@@ -59,6 +61,11 @@ $orders = get_orders('order_completed=y&is_paid=y'.$ord.$kw);
           Pending
           <? endif; ?></td>
         <td class="mw-order-item-amount"><? print $item['amount'] ?></td>
+        <td class="mw-order-item-paid"><? if($item['is_paid'] == 'y'): ?>
+          Yes
+          <? else : ?>
+          No
+          <? endif; ?></td>
         <td class="mw-order-item-names"><? print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>

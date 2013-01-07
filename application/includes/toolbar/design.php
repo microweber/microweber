@@ -12,7 +12,16 @@
         <div class="ts_action_item"> <span class="ed_label left">Auto</span>
           <input type="checkbox" class="mwcheck" id="ed_auto_width" />
         </div>
+                <div class="ts_action_item"> <span class="ed_label left">Height</span>
+          <div class="ed_slider height-slider es_item left" id="height_slider" data-onstart="" data-max="999" data-min="10" data-type="height"></div>
+          <span class="slider_val">
+          <input type="text" name="height_slider" value="" />
+          <span class="slider_val_label">px</span> </span> </div>
+        <div class="ts_action_item"> <span class="ed_label left">Auto</span>
+          <input type="checkbox" class="mwcheck" id="ed_auto_height" />
+        </div>
       </div>
+
     </li>
     <li class="ts_main_li"> <a class="ts_main_a dd_design_spacing" href="javascript:;">Spacing</a>
       <div class="ts_action" style="width: 200px;">

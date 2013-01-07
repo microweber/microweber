@@ -14,6 +14,18 @@
        <li><a href="#">Help</a></li>
        <? exec_action('mw_admin_header_menu_end'); ?>
     </ul>
+    <script>
+
+    $(function(){
+       var navli = mw.$("#mw_tabs li");
+       navli.click(function(){
+         if(!$(this).hasClass('active')){
+         navli.removeClass('active');
+         $(this).addClass('active');}
+       });
+    });
+
+    </script>
 
   </div>
   <div id="menu-dropdown" class="unselectable" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>

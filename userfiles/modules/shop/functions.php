@@ -382,15 +382,15 @@ function checkout_ipn($data) {
 
 		if ($ord > 0) {
 
-			$q = " UPDATE $table_cart set 
-				order_completed='y', order_id='{$ord}' 
+			$q = " UPDATE $table_cart set
+				order_completed='y', order_id='{$ord}'
 				where order_completed='n'   ";
 			//d($q);
 			db_q($q);
 
-			$q = " UPDATE $table_orders set 
-				order_completed='y'   
-				where order_completed='n' and 
+			$q = " UPDATE $table_orders set
+				order_completed='y'
+				where order_completed='n' and
 				id='{$ord}'  ";
 			//	 d($q);
 			db_q($q);
@@ -426,16 +426,16 @@ function checkout($data) {
 		$_SESSION['mw_payment_success'] = true;
 		$ord = $_SESSION['order_id'];
 		if ($ord > 0) {
-			$q = " UPDATE $table_cart set 
-				order_completed='y', order_id='{$ord}' 
+			$q = " UPDATE $table_cart set
+				order_completed='y', order_id='{$ord}'
 				where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
 
-			$q = " UPDATE $table_orders set 
-				order_completed='y'   
-				where order_completed='n' and 
-				id='{$ord}' and 
+			$q = " UPDATE $table_orders set
+				order_completed='y'
+				where order_completed='n' and
+				id='{$ord}' and
 				session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
@@ -456,7 +456,10 @@ function checkout($data) {
 	} else {
 
 		if (!isset($data['payment_gw']) and $mw_process_payment == true) {
-			error('No payment method is specified');
+
+			$data['payment_gw'] = 'none';
+			//error('No payment method is specified');
+			//
 		} else {
 			if ($mw_process_payment == true) {
 				$gw_check = payment_options('payment_gw_' . $data['payment_gw']);
@@ -547,16 +550,23 @@ function checkout($data) {
 		if ($mw_process_payment == true) {
 			$shop_dir = module_dir('shop');
 			$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
-			$gw_process = $shop_dir . $data['payment_gw'] . '_process.php';
 
-			$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
-			$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
-			$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
+			if ($data['payment_gw'] != 'none') {
 
-			if (is_file($gw_process)) {
-				require_once $gw_process;
+				$gw_process = $shop_dir . $data['payment_gw'] . '_process.php';
+
+				$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
+				$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
+				$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
+
+				if (is_file($gw_process)) {
+					require_once $gw_process;
+				} else {
+					error('Payment gateway\'s process file not found.');
+				}
 			} else {
-				error('Payment gateway\'s process file not found.');
+				$place_order['order_completed'] = 'y';
+
 			}
 			// $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
 
@@ -565,29 +575,32 @@ function checkout($data) {
 			define('FORCE_SAVE', $table_orders);
 			$ord = save_data($table_orders, $place_order);
 
-			$q = " UPDATE $table_cart set 
-				order_id='{$ord}' 
+			$q = " UPDATE $table_cart set
+				order_id='{$ord}'
 				where order_completed='n'  and session_id='{$sid}'  ";
 
 			db_q($q);
 
 			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
-				if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
-					$q = " UPDATE $table_cart set 
-				order_completed='y', order_id='{$ord}' 
+				$q = " UPDATE $table_cart set
+				order_completed='y', order_id='{$ord}'
 				where order_completed='n'   ";
 
-					db_q($q);
+				db_q($q);
 
-					$q = " UPDATE $table_orders set 
-				order_completed='y'   
-				where order_completed='n' and 
+				if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
+
+					$q = " UPDATE $table_orders set
+				order_completed='y'
+				where order_completed='n' and
 				id='{$ord}'  ";
 
 					db_q($q);
-					cache_clean_group('cart/global');
-					cache_clean_group('cart_orders/global');
+
 				}
+
+				cache_clean_group('cart/global');
+				cache_clean_group('cart_orders/global');
 
 				//$_SESSION['mw_payment_success'] = true;
 			}
@@ -595,7 +608,7 @@ function checkout($data) {
 			$_SESSION['order_id'] = $ord;
 		}
 
-		exit();
+		//	exit();
 
 		return ($ord);
 
@@ -659,6 +672,7 @@ function update_cart($data) {
 	$found_price = false;
 	foreach ($data as $k => $item) {
 		$found = false;
+
 		foreach ($cfs as $cf) {
 			if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
 
@@ -683,7 +697,7 @@ function update_cart($data) {
 						// d($item);
 					} else {
 						if ($cf['custom_field_value'] != $item) {
-							unset($item);
+							//unset($item);
 						}
 					}
 					//   d($k);

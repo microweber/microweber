@@ -24,7 +24,7 @@ mw.require("<?php print( INCLUDES_URL); ?>js/jquery.js");
     
     
 
-     <header id="header">
+     <header id="header" class="edit">
           <a href="#" id="logo">New World</a>
           <span id="description">Different view for me and you...</span>
 
@@ -37,11 +37,24 @@ mw.require("<?php print( INCLUDES_URL); ?>js/jquery.js");
             <a href="#">Checkout</a>
           </div>
           <a href="#" id="header-cart">99</a>
-          <nav id="main-navigation">
-            <module type="pages_menu" id="main_menu" />
-            <form id="navigation-search">
-                <input autofocus type="search" />
-            </form>
+          <nav id="main-navigation" class="row">
+            <div class="column" style="min-height: 100%;width: 100%;">
+                <div class="row">
+                  <div class="column" style="width: 790px;min-height: 100%">
+                      <module type="pages_menu" id="main_menu" />
+                  </div>
+                  <div class="column" style="min-height: 100%">
+                     <div class="element">
+                       <form id="navigation-search">
+                        <input autofocus type="search" />
+                       </form>
+                     </div>
+                  </div>
+                  <div class="eement"></div>
+                </div>
+            </div>
+
+
           </nav>
       </header>
     

@@ -9,12 +9,12 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
-	'table_prefix' => 'firecms_', 
+	'table_prefix' => 'aaa', 
     'installed' => 'yes',
     // Database Settings
     'db' => array(
         'host' => 'localhost',
-        'dbname' => 'mw_install',
+        'dbname' => 'new_db',
         'user' => 'root',
         'pass' => '123456'
     )

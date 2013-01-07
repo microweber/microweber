@@ -1557,7 +1557,7 @@ function save_content($data, $delete_the_cache = true) {
 		return false;
 	}
 	
-	if(isset($data['content_url'])){
+	if(isset($data['content_url']) and !isset($data['url'])){
 		$data['url'] = $data['content_url'];
 	}
 	$data_to_save = $data;
@@ -1583,41 +1583,23 @@ function save_content($data, $delete_the_cache = true) {
 		$thetitle = $data['title'];
 	}
 
-	if (isset($theurl) != false) {
-
-		if (isset($data['url']) and $data['url'] == $theurl) {
-
-			// print 'asd2';
-
-			$data['url'] = $theurl;
-		} else {
-
-		}
-
-		if (!isset($data['url']) or strval($data['url']) == '') {
-
-			// print 'asd1';
-
-			$data['url'] = $theurl;
-		}
-
-		if ((strval($data['url']) == '') and (strval($theurl) == '')) {
-
-			// print 'asd';
-
+	 
+	
+	if (isset($data['url']) and (strval($data['url']) == '')) {
 			$data['url'] = url_title($thetitle);
 		}
-	} else {
-		if ($thetitle != false) {
-			$data['url'] = url_title($thetitle);
-		}
-	}
+	
+	
+	
+	
+	
+	
 	if (isset($item['title'])) {
 		$item['title'] = htmlspecialchars_decode($item['title'], ENT_QUOTES);
 
 		$item['title'] = strip_tags($item['title']);
 	}
-	if ($data['url'] != false) {
+	if (isset($data['url']) != false) {
 		// if (intval ( $data ['id'] ) == 0) {
 		$data_to_save['url'] = $data['url'];
 
@@ -1628,10 +1610,10 @@ function save_content($data, $delete_the_cache = true) {
 		$cats_modified = true;
 	}
 
-	if ($data['url'] != false) {
+	if (isset($data['url']) and $data['url'] != false) {
 		$data['url'] = url_title($data['url']);
 
-		if (strval($data['url']) == '') {
+		if (trim($data['url']) == '') {
 
 			$data['url'] = url_title($data['title']);
 		}
@@ -1836,7 +1818,7 @@ $check_ex = false;
 	}
 
 	
-
+ //d($data_to_save);
 $cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
@@ -2400,18 +2382,21 @@ function mw_create_default_content($what) {
 	switch ($what) {
 		case 'shop' :
 			$is_shop = get_content('content_type=page&is_shop=y');
+			//$is_shop = false;
+			$new_shop = false;
 			if ($is_shop == false) {
 				$add_page = array();
 				$add_page['id'] = 0;
 				$add_page['parent'] = 0;
 
 				$add_page['title'] = "Online shop";
-				$add_page['url'] = "online-shop";
+				$add_page['url'] = "shop";
 				$add_page['content_type'] = "page";
 				$add_page['subtype'] = 'dynamic';
 				$add_page['is_shop'] = 'y';
 				$add_page['active_site_template'] = 'default';
 				$find_layout = layouts_list();
+				if(isarr($find_layout)){
 				foreach ($find_layout as $item) {
 					if (isset($item['layout_file']) and isset($item['is_shop']) and $item['is_shop'] == 'yes') {
 						$add_page['layout_file'] = $item['layout_file'];
@@ -2420,17 +2405,20 @@ function mw_create_default_content($what) {
 						}
 					}
 				}
-				$new_shop = save_content($add_page);
-				clearcache();
+				}
+				//d($add_page);
+			 	$new_shop = save_content($add_page);
+				 clearcache();
 				//
 			} else {
 				
-
+if(isset($is_shop[0])){
 				$new_shop = $is_shop[0]['id'];
+}
 			}
 
 			$posts = get_content('content_type=post&parent=' . $new_shop);
-			if ($posts == false) {
+			if ($posts == false and $new_shop != false) {
 				$add_page = array();
 				$add_page['id'] = 0;
 				$add_page['parent'] = $new_shop;

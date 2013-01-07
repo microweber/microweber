@@ -282,7 +282,13 @@ mw.drag = {
                        }
                     }
                     else{
-                      mw.currentDragMouseOver =  null;
+                      if(mw.tools.hasClass(mw.mm_target.className, 'edit')){
+                          mw.currentDragMouseOver = mw.mm_target;
+                      }
+                      else{
+                         mw.currentDragMouseOver =  null;
+                      }
+
                     }
                }
              }
@@ -780,7 +786,7 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
-
+                       mw.log(mw.currentDragMouseOver);
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
                            if(position=='top'){
@@ -809,6 +815,7 @@ mw.drag = {
                                $(mw.dragCurrent).removeAttr("id");
                             }
                             if(hovered.hasClass("empty-element")){
+
                                hovered.before(mw.dragCurrent);
                                $(mw.dragCurrent).removeClass("mw_drag_float");
                                $(mw.dragCurrent).removeClass("mw_drag_float_right");

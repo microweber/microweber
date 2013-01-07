@@ -12,7 +12,12 @@
       <li <?php if($active_action == 'clients'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:clients"><span class="ico iusers"></span><span><?php _e("Clients"); ?></span></a></li>
       <li <?php if($active_action == 'shipping'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:shipping"><span class="ico itruck"></span><span><?php _e("Shipping"); ?></span></a></li>
 <!--      <li <?php if($active_action == 'promo_codes'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:promo_codes"><span class="ico ipromo"></span><span><?php _e("Promo codes"); ?></span></a></li>
--->      <li <?php if($active_action == 'options'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="ico ioptions"></span><span><?php _e("Options"); ?></span></a></li>
+-->
+
+<li <?php if($active_action == 'options'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="ico ioptions"></span><span><?php _e("Options"); ?></span></a></li>
+
+
+<li style="position: absolute;left: 950px;"><a href="javascript:;"><span class="ico"></span><span><?php _e("Multi Edit"); ?></span></a></li>
     </ul>
   </div>
 </div>

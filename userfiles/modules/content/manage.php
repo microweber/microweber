@@ -221,7 +221,7 @@ if(isset($params['data-category-id'])){
           <span></span></label>
         <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
         <?
-    	$pic  = get_picture(  $item['id'],  'post'); ?>
+    	$pic  = get_picture(  $item['id'],  'post', true); ?>
         <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
         <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
         <? else : ?>

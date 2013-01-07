@@ -729,6 +729,7 @@ mw.toggle_subpanel = function(){
      });
      mw.$(".mw_tab_active").slideDown(this.speed);
      mw.$("#mw_toolbar_nav").slideDown(this.speed);
+     $(mwd.body).animate({paddingTop:170});
   }
   else{
     el.addClass("state-off");
@@ -739,6 +740,7 @@ mw.toggle_subpanel = function(){
 
     mw.$(".mw_tab_active").slideUp(this.speed);
     mw.$("#mw_toolbar_nav").slideUp(this.speed);
+    $(mwd.body).animate({paddingTop:0});
   }
 }
 

@@ -124,6 +124,7 @@ function layouts_list($options = false) {
     $glob_patern = "*.php";
 
     $dir = rglob($glob_patern, 0, $path);
+	//d($dir);
     $configs = array();
     if (!empty($dir)) {
 
