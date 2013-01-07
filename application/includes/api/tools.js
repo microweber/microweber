@@ -532,6 +532,7 @@ mw.tools = {
     mw.tools.loop[loop] = false;
   },
   foreachParents:function(el, callback){
+     if(el === null) return false;
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.parentNode;

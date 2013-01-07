@@ -149,62 +149,10 @@ function mw_shop_module_init_db() {
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
-	/*$fields_to_add [] = array ('content_subtype', 'varchar(150) default "none"' );
-	 $fields_to_add [] = array ('content_subtype_value', 'varchar(150) default "none"' );
-
-	 $fields_to_add [] = array ('content_layout_file', 'varchar(150) default NULL' );
-	 $fields_to_add [] = array ('content_layout_name', 'varchar(50) default NULL' );
-	 $fields_to_add [] = array ('content_layout_style', 'varchar(50) default NULL' );
-
-	 $fields_to_add [] = array ('content_url', 'varchar(150) default NULL' );
-	 //$fields_to_add [] = array ('content_url_md5', 'varchar(33) default NULL' );
-
-	 $fields_to_add [] = array ('content_filename', 'varchar(150) default NULL' );
-	 $fields_to_add [] = array ('content_filename_sync_with_editor', 'char(1) default "n"' );
-	 //$fields_to_add [] = array ('model_group', 'varchar(150) default NULL' );
-	 $fields_to_add [] = array ('content_parent', 'int(11) default 0' );
-	 $fields_to_add [] = array ('content_title', 'varchar(150) default NULL' );
-	 $fields_to_add [] = array ('content_meta_title', 'varchar(600) default NULL' );
-	 $fields_to_add [] = array ('content_meta_description', 'TEXT default NULL' );
-	 $fields_to_add [] = array ('content_meta_keywords', 'TEXT default NULL' );
-
-	 $fields_to_add [] = array ('is_active', 'char(1) default "y"' );
-	 $fields_to_add [] = array ('is_home', 'char(1) default "n"' );
-	 $fields_to_add [] = array ('is_featured', 'char(1) default "n"' );
-	 $fields_to_add [] = array ('is_pinged', 'char(1) default "n"' );
-	 $fields_to_add [] = array ('comments_enabled', 'char(1) default "y"' );
-
-	 $fields_to_add [] = array ('expires_on', 'datetime default NULL' );
-
-	 $fields_to_add [] = array ('visible_on_frontend', 'char(1) default "y"' );
-
-	 $fields_to_add [] = array ('original_link', 'TEXT default NULL' );
-
-	 $fields_to_add [] = array ('require_login', "ENUM('n', 'y') default 'n'" );
-	 $fields_to_add [] = array ('created_by', 'int(11) default NULL' );
-	 $fields_to_add [] = array ('edited_by', 'int(11) default NULL' );
-	 $fields_to_add [] = array ('is_special', 'char(1) default "n"' );*/
-
-	//add fulltext search
-	//ALTER TABLE articles ADD FULLTEXT(body, title);
-	//$sql = "alter table $table_name add FULLTEXT (content_url, content_title, content_body)  ";
-	//$this->db->query ( $sql );
-
-	/*
-	 db_add_table_index ( 'content_type', $table_name, array ('content_type' ) );
-	 db_add_table_index( 'content_subtype', $table_name, array ('content_subtype' ) );
-	 db_add_table_index ( 'content_title', $table_name, array ('content_subtype' ), "FULLTEXT" );
-	 db_add_table_index ( 'content_body', $table_name, array ('content_body' ), "FULLTEXT" );
-	 db_add_table_index ( 'content_description', $table_name, array ('content_description' ), "FULLTEXT" );
-	 db_add_table_index ( 'content_url', $table_name, array ('content_url' ), "FULLTEXT" );
-
-	 db_add_table_index ( 'created_by', $table_name, array ('created_by' ) );
-	 db_add_table_index( 'edited_by', $table_name, array ('edited_by' ) );
-
-	 */
+	 
 
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
-	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+	 
 	return true;
 
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
@@ -219,6 +167,23 @@ function mw_print_admin_menu_shop_btn() {
 		$cls = ' class="active" ';
 	}
 	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">Online Shop</a></li>';
+}
+
+action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
+
+function mw_print_admin_dashboard_orders_btn() {
+	$active = url_param('view');
+	$cls = '';
+	if ($active == 'shop') {
+		$cls = ' class="active" ';
+	}
+
+	$ord_pending = get_orders('count=1&order_status=[null]&is_completed=y');
+	$neword = '';
+	if ($ord_pending > 0) {
+		$neword = '<span class="icounter">' . $ord_pending . ' new</span>';
+	}
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop/action:orders"><span class="ico iorder"></span>' . $neword . '<span>View Orders</span></a></li>';
 }
 
 api_expose('update_order');

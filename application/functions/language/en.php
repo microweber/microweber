@@ -438,3 +438,4 @@ $language["screenshot"]= 'screenshot' ;
 $language["multi-edit"]= 'Multi Edit' ; 
 $language["paid"]= 'Paid' ; 
 $language["paid"]= 'Paid' ; 
+$language["there-are-no-new-comments"]= 'There are no new comments' ; 

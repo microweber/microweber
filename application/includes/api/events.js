@@ -78,7 +78,6 @@ DOMChange:function(element, callback){
     element.addEventListener("DOMAttrModified", function(){
         callback.call(this);
     }, false);
-    typeof WebKitMutationObserver === 'function' ? element.onclick = callback : '' ;
  },
  _stopWriting:null,
  stopWriting:function(el,callback){

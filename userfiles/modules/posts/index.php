@@ -153,8 +153,17 @@ if (isset($post_params['data-thumbnail-size'])) {
 
  
 
-//$post_params['debug'] = 'posts';
-$post_params['content_type'] = 'post';
+
+// $post_params['debug'] = 'posts';
+$post_params['content_type'] = 'post';	
+if(isset($params['is_shop'])){
+	$post_params['subtype'] = 'product';
+	unset($post_params['is_shop']);
+} else {
+
+}
+
+
 $content   =$data = get_content($post_params);
 ?>
 <?
@@ -203,30 +212,43 @@ $pages_count = intval($pages);
                                 break;
 
                             case 'thumbnail':
-                                if (isset($item[$show_field])) {
+                               // if (isset($item[$show_field])) {
                                     $u = post_link($item['id']);
+									 if (!isset($tn_size) or $tn_size == false) {
+										 $tn_size = array();
+									 }
 
-                                    if (isset($tn_size[0])) {
-                                        $wstr = " width='{$tn_size[0]}' ";
-                                    } else {
-                                        $wstr = '';
-                                    }
+                                    if (!isset($tn_size[0])) {
+                                       $tn_size[0] = 180;
+                                    }  
+									
+									
+                                    if (!isset($tn_size[1])) {
+                                       $tn_size[1] = 120;
+                                    }  
+									
+									
+									 $wstr = " width='{$tn_size[0]}' ";
 
 
                                     if (isset($tn_size[1])) {
                                         $hstr = " height='{$tn_size[1]}' ";
-                                    } else {
-                                        $hstr = '';
-                                    }
+                                    }  
 
                                     //  d($hstr);
-
-                                    $iu = $item[$show_field];
+ $iu = get_picture($item['id'], $for = 'post', $full = false);
+  
+  
+  
+  
+  
+                                  //  $iu = $item[$show_field];
 									if(trim($iu != '')){
+										 $iu = thumbnail($iu,$tn_size[0],$tn_size[1] );
                                     $fv = $fv_i = "<img src='{$iu}' {$wstr} {$hstr} />";
 									}
                                     // $fv = "<a href='{$u}' class='thumbnail'>{$fv_i}</a>";
-                                }
+                               // }
 
                                 break;
 

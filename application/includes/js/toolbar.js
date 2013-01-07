@@ -112,6 +112,11 @@ mw.$(".mw_ex_tools").click(function(){
 
 
 mw.$(".ts_main_li").mouseenter(function(){
+
+  var selected_el = mwd.querySelector('.element-current');
+  var parentedit = mw.tools.firstParentWithClass(selected_el, 'edit');
+  $(parentedit).addClass('changed');
+
   if(!mw.$("#design_bnav").hasClass('ui-draggable-dragging')){
   $(this).addClass("hovered");
   mw.$(".ts_main_ul .ts_action").invisible();

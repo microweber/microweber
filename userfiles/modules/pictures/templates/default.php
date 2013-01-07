@@ -20,7 +20,7 @@ description: Pictures List
   <? endforeach ; ?>
 </ul>
  
- 
+
 <? else : ?>
 Please click on settings to upload your pictures.
 <? endif; ?>

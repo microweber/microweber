@@ -13,7 +13,8 @@
    }
 
 </style>
-
+<div style="position: absolute;top:10px;right: 10px">
+<label class="mw-ui-label left">Rel&nbsp;</label> <input type="text" onkeyup="$('.element-current').attr('rel', this.value);" />  </div>
 
 <meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
   <span class="mw-ui-btn" onclick="mw.dump();">DUMP!</span>

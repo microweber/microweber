@@ -3,6 +3,21 @@ if (!defined("MODULE_DB_TABLE_COMMENTS")) {
 	define('MODULE_DB_TABLE_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
 
+
+action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
+
+function mw_print_admin_dashboard_comments_btn() {
+	$active = url_param('view');
+	$cls = '';
+	if ($active == 'comments') {
+		$cls = ' class="active" ';
+	}
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment"></span><span>Comments</span></a></li>';
+}
+
+
+
+
 /**
  * post_comment
 

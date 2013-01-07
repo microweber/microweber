@@ -158,7 +158,10 @@ class MwController {
 
 		define_constants($content);
 
-		$render_file = get_layout_for_page($content);
+		$page_data = get_content_by_id(PAGE_ID);
+
+		//d($page_data);
+		$render_file = get_layout_for_page($page_data);
 
 		if ($render_file) {
 			$l = new MwView($render_file);
@@ -665,7 +668,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
