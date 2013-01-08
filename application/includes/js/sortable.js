@@ -97,7 +97,11 @@ mw.dropables = {
 
 
 
-
+window.onerror = function(a,b,c){
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
 
 
 
@@ -1349,6 +1353,15 @@ mw.drag = {
   //end cleaning the code
 
     var edits = mw.$(".edit.changed");
+	
+	// var edits2 = $('.edit *[rel]');
+/*mw.log(edits2);
+ 	if(edits2 != undefined){
+		var edits = $.merge(edits, edits2);
+		
+	}*/
+	
+	
 
     var master = {};
 

@@ -28,6 +28,7 @@ description: Pictures slider
 #<?php print $id; ?>{
   width:100%;
   height: 300px;
+  overflow: hidden;
 }
 #<?php print $id; ?> .mw-gallery-item{
   background-repeat: no-repeat;

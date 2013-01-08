@@ -158,10 +158,10 @@ class MwController {
 
 		define_constants($content);
 
-		$page_data = get_content_by_id(PAGE_ID);
+		//$page_data = get_content_by_id(PAGE_ID);
 
 		//d($page_data);
-		$render_file = get_layout_for_page($page_data);
+		$render_file = get_layout_for_page($content);
 
 		if ($render_file) {
 			$l = new MwView($render_file);

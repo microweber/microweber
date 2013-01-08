@@ -1,8 +1,5 @@
 <? include TEMPLATE_DIR. "header.php"; ?>
-
-<section id="river">
-  
-     <module type="shop/checkout" id="cart_checkout" /> 
-   
-</section>
+ 
+  <module type="shop/checkout" id="cart_checkout" />
+ 
 <? include   TEMPLATE_DIR.  "footer.php"; ?>

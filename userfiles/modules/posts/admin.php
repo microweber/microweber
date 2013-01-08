@@ -1,24 +1,5 @@
 admin posts
-<hr />
 
-Adrrsss
-<module type="settings" name="asdsadas" field_type="category_tree">
-
-
-
-
-Pages
-<module type="settings" name="asdsadas" field_type="pages_menu">
-
-
-<strong>Limit</strong>
-<?php print get_option('data-limit', $params['id']) ?>
-
-
-<input name="data-limit" class="mw_option_field"   type="text"    value="<?php print get_option('data-limit', $params['id']) ?>" />
-
- 
- 
 
 
 
@@ -112,3 +93,7 @@ $show_fields = array();
 <strong>Thumbnail size</strong>
 <input name="data-thumbnail-size" class="mw_option_field"   type="text"    value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
 <small>ex: 250x200</small> <br />
+
+
+<module type="admin/modules/templates"  />
+

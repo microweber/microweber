@@ -62,7 +62,7 @@ mw.wysiwyg = {
           }
           else{
               if(!mw.tools.hasParentsWithClass(target, "module")){
-                    !el.isContentEditable ? el.contentEditable = true :'';
+                !el.isContentEditable ? el.contentEditable = true :'';
               }
               else{
                 el.contentEditable = false;

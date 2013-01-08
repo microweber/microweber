@@ -1356,11 +1356,34 @@ function save_edit($post_data) {
 					} else {
 						$save_layout = false;
 					}
-
-					if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'content' and isset($the_field_data['attributes']['data-id'])) {
-						$save_global = false;
+ if(!isset($the_field_data['attributes']['data-id'])){
+ 	$the_field_data['attributes']['data-id'] = $content_id;
+ }
+					if (isset($the_field_data['attributes']['rel']) and isset($the_field_data['attributes']['data-id'])) {
+						
+					
+						
+							$rel_ch = trim($the_field_data['attributes']['rel']); 
+						switch ($rel_ch) {
+							case 'content':
+								
+								$save_global = false;
 						$save_layout = false;
 						$content_id = $the_field_data['attributes']['data-id'];
+								break;
+							  case 'page':
+									case 'post':
+										$save_global = false;
+						$save_layout = false;
+						$content_id = $page_id;
+										break;
+							default:
+								
+								break;
+						}
+					 
+							
+						
 					}
 					$save_layout = false;
 
@@ -1405,6 +1428,7 @@ function save_edit($post_data) {
 							if (in_array($field, $is_native_fld)) {
 								$to_save[$field] = ($html_to_save);
 							} else {
+								 
 								$to_save['custom_fields'][$field] = ($html_to_save);
 							}
 							 
@@ -1457,7 +1481,7 @@ function save_edit($post_data) {
 						}
 						if ($save_global == false and $save_layout == true) {
 
-							$d = TEMPLATE_DIR . 'layouts' . DIRECTORY_SEPARATOR . 'editabe' . DIRECTORY_SEPARATOR;
+							$d = TEMPLATE_DIR . 'layouts' . DIRECTORY_SEPARATOR . 'editable' . DIRECTORY_SEPARATOR;
 							$f = $d . $ref_page['id'] . '.php';
 							if (!is_dir($d)) {
 								mkdir_recursive($d);

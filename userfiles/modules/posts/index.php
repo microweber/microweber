@@ -190,7 +190,7 @@ $pages_count = intval($pages);
 </div>
 <? endif; ?>
 <? endif; ?>
-<hr>
+ 
 <div class="content-list">
   <? if (!empty($content)): ?>
   <? if ($show_fields == false): ?>

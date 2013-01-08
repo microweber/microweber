@@ -149,10 +149,8 @@ function mw_shop_module_init_db() {
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
-	 
-
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
-	 
+
 	return true;
 
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
@@ -368,6 +366,32 @@ function checkout_ipn($data) {
 	return false;
 }
 
+api_expose('checkout_send_confrimation_email');
+function checkout_send_confrimation_email($ord_id) {
+
+	if (intval($ord_id) == 0) {
+		return false;
+	} else {
+
+		if (get_option('order_email_enabled', 'orders') == 'y') {
+
+			$ord_get = get_orders('limit=1&id=' . $ord_id);
+			if (isset($ord_get[0]) and isarr($ord_get)) {
+				$ord = $ord_get[0];
+
+				$from = get_option('order_email_from', 'orders');
+				$from_name = get_option('order_email_name', 'orders');
+				$sj = get_option('order_email_subject', 'orders');
+				$mail_cont = get_option('order_email_content', 'orders');
+
+			}
+		}
+
+		//d($ord_get);
+	}
+
+}
+
 api_expose('checkout');
 
 function checkout($data) {
@@ -396,7 +420,7 @@ function checkout($data) {
 				where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
-
+			checkout_send_confrimation_email($ord);
 			$q = " UPDATE $table_orders set
 				order_completed='y'
 				where order_completed='n' and
@@ -404,6 +428,8 @@ function checkout($data) {
 				session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
+
+			checkout_send_confrimation_email($ord);
 
 		}
 

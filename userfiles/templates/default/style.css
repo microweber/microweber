@@ -288,10 +288,25 @@ form#navigation-search input[type='search']:focus{
 
 }
 
+/* Products */
 
+.mw-products-list{
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
 
+.mw-products-list .content-item{
+  float: left;
+  margin: 45px 45px 45px 0;
+  width: 230px;
+  height: 290px;
+  padding: 10px;
+  background: white;
+  box-shadow:0 0 4px #D2D2D2;
+}
 
-
+/* /End Products */
 
 
 #footer{
@@ -341,5 +356,8 @@ form#navigation-search input[type='search']:focus{
 #footer ul a:hover{
   text-decoration: underline
 }
+
+
+
 
 

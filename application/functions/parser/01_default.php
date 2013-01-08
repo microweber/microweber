@@ -4,10 +4,20 @@ require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECT
 
 $pq = phpQuery::newDocument($layout);
 
-$els = $pq ['.edit'];
+  $els = $pq ['.edit'];
+
+ //$els = $pq ['.edit *[rel!=""]'];
+ //d($els);
+//$els  = $pq ['.edit *[rel]'];
+//d($els2);
+//exit();
 // $els = pq('body')->find('.edit')->filter(':not(script)');
 
 foreach ($els as $elem) {
+	
+	
+	//$els2 = pq($elem)->find('[rel]')->filter(':not(script)');
+	//d($els2);
     // iteration returns PLAIN dom nodes, NOT phpQuery objects
     $tagName = $elem->tagName;
     $name = pq($elem)->attr('field');
@@ -27,7 +37,7 @@ foreach ($els as $elem) {
     if ($rel == false) {
         $rel = 'page';
     }
-
+ 
 
     $option_group = pq($elem)->attr('data-option_group');
     if ($option_group == false) {
