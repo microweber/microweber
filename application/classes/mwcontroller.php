@@ -169,6 +169,18 @@ class MwController {
 			// $l->set($l);
 			$l = $l -> __toString();
 
+			// $domain = TEMPLATE_URL;
+			// preg_match_all('/href\="(.*?)"/im', $l, $matches);
+			// foreach ($matches[1] as $n => $link) {
+				// if (substr($link, 0, 4) != 'http')
+					// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
+			// }
+			// preg_match_all('/src\="(.*?)"/im', $l, $matches);
+			// foreach ($matches[1] as $n => $link) {
+				// if (substr($link, 0, 4) != 'http')
+					// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
+			// }
+
 			// d($l);
 			//exit();
 
@@ -668,8 +680,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

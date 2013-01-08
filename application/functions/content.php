@@ -417,7 +417,19 @@ function get_layout_for_page($page = array()) {
 			$render_file = $template_view;
 		}
 	}
+	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+		$template_view = ACTIVE_TEMPLATE_DIR . 'index.html';
+		if (is_file($template_view) == true) {
+			$render_file = $template_view;
+		}
+	}
 	
+	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+		$template_view = ACTIVE_TEMPLATE_DIR . 'index.htm';
+		if (is_file($template_view) == true) {
+			$render_file = $template_view;
+		}
+	}
 	
 	if($template_view_set_inner != false){
 	$template_view_set_inner = normalize_path($template_view_set_inner, false);
