@@ -30,6 +30,7 @@
 
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <?php /*  */ ?>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>

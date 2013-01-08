@@ -296,6 +296,14 @@ form#navigation-search input[type='search']:focus{
   overflow: hidden;
 }
 
+.mw-products-list
+
+.mw-products-list .content-list{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .mw-products-list .content-item{
   float: left;
   margin: 45px 45px 45px 0;

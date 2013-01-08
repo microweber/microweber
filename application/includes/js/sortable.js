@@ -97,16 +97,6 @@ mw.dropables = {
 
 
 
-window.onerror = function(a,b,c){
-    console.log(a);
-    console.log(b);
-    console.log(c);
-}
-
-
-
-
-
 
 $(document).ready(function(){
    mw.drag.create();

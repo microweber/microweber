@@ -219,13 +219,14 @@ mw.tools = {
     + '</table>';
     return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
   },
-  dropdown:function(callback){
-    $(".mw_dropdown .other-action").hover(function(){
+  dropdown:function(root){
+    var root = root || mwd.body;
+    mw.$(".mw_dropdown .other-action", root).hover(function(){
       $(this).addClass("other-action-hover");
     }, function(){
       $(this).removeClass("other-action-hover");
     });
-    $(".mw_dropdown").mouseup(function(event){
+    mw.$(".mw_dropdown", root).mouseup(function(event){
       $(this).toggleClass("active");
       $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
       if($(this).find(".other-action-hover").length==0){
@@ -240,12 +241,12 @@ mw.tools = {
         }
       }
     });
-    $(".mw_dropdown").hover(function(){
+    mw.$(".mw_dropdown", root).hover(function(){
         $(this).addClass("hover");
     }, function(){
         $(this).removeClass("hover");
     });
-    $(".mw_dropdown a").mousedown(function(event){
+    mw.$(".mw_dropdown a", root).mousedown(function(event){
       mw.tools.dd_sub_set(this);
       return false;
     });

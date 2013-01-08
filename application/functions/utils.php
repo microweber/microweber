@@ -487,6 +487,13 @@ function str_replace_once($needle , $replace , $haystack){
     }
     return substr_replace($haystack, $replace, $pos, strlen($needle));
 }  
+
+function get_file_extension($LoSFileName){
+               $LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.')+1);
+                return $LoSFileExtensions;
+}  
+
+
 function no_ext($filename) {
 
     $filebroken = explode('.', $filename);

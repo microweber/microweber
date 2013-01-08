@@ -440,3 +440,4 @@ $language["paid"]= 'Paid' ;
 $language["paid"]= 'Paid' ; 
 $language["there-are-no-new-comments"]= 'There are no new comments' ; 
 $language["new-comment"]= 'New Comment' ; 
+$language["parent-page"]= 'Parent page' ; 

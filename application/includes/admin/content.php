@@ -726,8 +726,8 @@ function mw_add_product(){
 
 
     </script>
-      <div class="mw_edit_pages_nav" style="padding-left: 0;">
-        <div class="top_label">Here you can easily manage your website pages and posts. Try the functionality below. <br /><a href="#">You can see the tutorials here</a>.</div>
+      <div class="" style="padding-left: 0;">
+        <div class="top_label"><a href="#">See the tutorials here</a>.</div>
         <div class="vSpace"></div>
       </div>
        <?

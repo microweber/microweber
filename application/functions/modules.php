@@ -124,11 +124,15 @@ define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</di
  * @subpackage	functions
  * @category	modules api
  */
+
 function module_templates($module_name, $template_name = false) {
 
 	$module_name_l = locate_module($module_name);
 
 	$module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
+
+	$module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
+
 	if (!is_dir($module_name_l)) {
 		return false;
 	} else {
@@ -137,10 +141,43 @@ function module_templates($module_name, $template_name = false) {
 			$options['no_cache'] = 1;
 			$options['path'] = $module_name_l;
 			$module_name_l = layouts_list($options);
+			if (is_dir($module_name_l_theme)) {
+				$options['path'] = $module_name_l_theme;
+				$module_skins_from_theme = layouts_list($options);
+				if (isarr($module_skins_from_theme)) {
+					if (!is_arr($module_name_l)) {
+						$module_name_l = array();
+					}
+					$fnfound = array();
+					$comb = array_merge($module_skins_from_theme, $module_name_l);
+					array_unique($comb);
+					if (!empty($comb)) {
+						foreach ($comb as $k1 => $itm) {
+							if (!in_array($itm['layout_file'], $fnfound)) {
+								$fnfound[] = $itm['layout_file'];
+							} else {
+								unset($comb[$k1]);
+							}
+						}
+					}
+					$module_name_l = ($comb);
+				}
+				// d($module_skins_from_theme);
+			}
+
 			return $module_name_l;
 		} else {
+			$is_dot_php = get_file_extension($template_name);
+			if ($is_dot_php != false and $is_dot_php != 'php') {
+				$template_name = $template_name . '.php';
+			}
+
 			$tf = $module_name_l . $template_name;
-			if (is_file($tf)) {
+			$tf_theme = $module_name_l_theme . $template_name;
+			//d($tf_theme);
+			if (is_file($tf_theme)) {
+				return $tf_theme;
+			} else if (is_file($tf)) {
 				return $tf;
 			} else {
 				return false;
@@ -649,10 +686,13 @@ function locate_module($module_name, $custom_view = false, $no_fallback_to_view 
 
 	$try_file1 = false;
 
-	if (is_dir($module_in_template_dir)) {
-		$mod_d = $module_in_template_dir;
-		$mod_d1 = normalize_path($mod_d, 1);
-		$try_file1 = $mod_d1 . 'index.php';
+	$mod_d = $module_in_template_dir;
+	$mod_d1 = normalize_path($mod_d, 1);
+	$try_file1x = $mod_d1 . 'index.php';
+
+	if (is_file($try_file1x)) {
+
+		$try_file1 = $try_file1x;
 	} elseif (is_file($module_in_template_file)) {
 		$try_file1 = $module_in_template_file;
 		//d($try_file1);
@@ -1404,10 +1444,13 @@ function load_module($module_name, $attrs = array()) {
 
 	$try_file1 = false;
 
-	if (is_dir($module_in_template_dir)) {
-		$mod_d = $module_in_template_dir;
-		$mod_d1 = normalize_path($mod_d, 1);
-		$try_file1 = $mod_d1 . 'index.php';
+	$mod_d = $module_in_template_dir;
+	$mod_d1 = normalize_path($mod_d, 1);
+	$try_file1zz = $mod_d1 . 'index.php';
+
+	if (is_dir($module_in_template_dir) and is_file($try_file1zz)) {
+		$try_file1 = $try_file1zz;
+
 	} elseif (is_file($module_in_template_file)) {
 		$try_file1 = $module_in_template_file;
 	} else {
@@ -1474,23 +1517,34 @@ function load_module($module_name, $attrs = array()) {
 		$config['path_to_module'] = $config['mp'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
 		$config['module'] = $module_name;
-
 		$config['module_name_url_safe'] = module_name_encode($module_name);
-
 		$find_base_url = curent_url(1);
 		if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
 			//	d($pos);
 			$find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
 		}
 		$config['url'] = $find_base_url;
-
 		$config['module_api'] = site_url('m/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);
-
 		$config['module_class'] = module_css_class($module_name);
-
 		$config['url_to_module'] = pathToURL($config['path_to_module']);
+
+		if (isset($attrs['id'])) {
+
+			$template = get_option('data-template', $attrs['id']);
+			$template_file = false;
+			if ($template != false and strtolower($template) != 'none') {
+				$template_file = module_templates($module_name, $template);
+				//$config['template_file'] = $template_file;
+			} else {
+				$template_file = module_templates($module_name, 'default');
+
+			}
+
+			$config['template_file'] = $template_file;
+		}
+
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');
 		$lic = load_module_lic($module_name);
 		//  $lic = 'valid';
@@ -1600,7 +1654,7 @@ function mw_cron() {
 		$opts = get_options("option_key2=cronjob");
 		if ($opts != false) {
 
-			 //d($file_loc);
+			//d($file_loc);
 			if (!is_dir($file_loc)) {
 				if (!mkdir($file_loc)) {
 					return false;

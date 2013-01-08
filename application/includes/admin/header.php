@@ -27,6 +27,7 @@
       mw.require("liveadmin.js");
       mw.require("<? print INCLUDES_URL; ?>js/jquery-ui-1.8.20.custom.js");
 
+      mw.require("<? print INCLUDES_URL; ?>css/wysiwyg.css");
       mw.require("<? print INCLUDES_URL; ?>css/admin.css");
       mw.require("wysiwyg.js");
       mw.require("tools.js");
@@ -57,7 +58,7 @@
 
 
 </head>
-<body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php   include MW_ROOTPATH. "UI.php"; ?>
+<body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php include MW_ROOTPATH. "UI.php"; ?>
 <div id="mw-admin-container">
 
 

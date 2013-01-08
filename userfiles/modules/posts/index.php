@@ -148,7 +148,9 @@ if (isset($post_params['data-thumbnail-size'])) {
 }
 
 
-
+if ($show_fields == false) {
+$show_fields = array('thumbnail', 'title', 'description', 'read_more'); 
+}
 
 
  
@@ -164,51 +166,23 @@ if(isset($params['is_shop'])){
 }
 
 
-$content   =$data = get_content($post_params);
-?>
-<?
-$post_params_paging = $post_params;
-//$post_params_paging['count'] = true;
-
-
-
-
-$post_params_paging['page_count'] = true;
- $pages = get_content($post_params_paging);
+$content   = get_content($post_params);
+$data = array();
+if (!empty($content)){
  
-
-$pages_count = intval($pages);
-?>
-<? if (intval($pages) > 1): ?>
-<? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
-<? if (!empty($paging_links)): ?>
-
-<div class="paging">
-  <? foreach ($paging_links as $k => $v): ?>
-  <span class="paging-item" data-page-number="<? print $k; ?>" ><a  data-page-number="<? print $k; ?>" data-paging-param="<? print $paging_param; ?>" href="<? print $v; ?>"  class="paging-link"><? print $k; ?></a></span>
-  <? endforeach; ?>
-</div>
-<? endif; ?>
-<? endif; ?>
- 
-<div class="content-list">
-  <? if (!empty($content)): ?>
-  <? if ($show_fields == false): ?>
-  <? $show_fields = array('thumbnail', 'title', 'description', 'read_more'); ?>
-  <? endif; ?>
-  <? foreach ($content as $item): ?>
-  <div class="content-item" data-content-id="<? print ($item['id']) ?>">
-    <? if (is_array($content) and !empty($content)): ?>
-    <? foreach ($show_fields as $show_field): ?>
-    <?
-                        $show_field = trim($show_field);
-
- $fv = false;
+ if(!empty($show_fields)){
+	 
+	  foreach ($content as $item){
+	 
+	 foreach ($show_fields as $show_field){
+			 $show_field = trim($show_field);
+ 					$fv = false;
                         switch ($show_field) {
 
                             case 'read_more':
                                 $u = post_link($item['id']);
                                 $fv = "<a href='{$u}' class='read_more'>Read more</a>";
+								 $item[$show_field] =  $fv;
                                 break;
 
                             case 'thumbnail':
@@ -236,7 +210,7 @@ $pages_count = intval($pages);
                                     }  
 
                                     //  d($hstr);
- $iu = get_picture($item['id'], $for = 'post', $full = false);
+ 									$iu = get_picture($item['id'], $for = 'post', $full = false);
   
   
   
@@ -247,35 +221,44 @@ $pages_count = intval($pages);
 										 $iu = thumbnail($iu,$tn_size[0],$tn_size[1] );
                                     $fv = $fv_i = "<img src='{$iu}' {$wstr} {$hstr} />";
 									}
+									 $item[$show_field] =  $fv;
                                     // $fv = "<a href='{$u}' class='thumbnail'>{$fv_i}</a>";
                                // }
 
                                 break;
 
                             default:
-                                $fv = false;
-                                if (isset($item[$show_field])) {
-                                    $fv = $item[$show_field];
-                                } else {
-
-                                }
-
-
-
-
-
+                          
                                 break;
                         }
-                        ?>
-    <? if ($fv != false and trim($fv) != ''): ?>
-    <div class="post-field-<? print $show_field ?>"><? print $fv ?></div>
-    <? endif; ?>
-    <? endforeach; ?>
-    <? // d($show_fields); ?>
-    <? endif; ?>
-  </div>
-  <? endforeach; ?>
-  <? else: ?>
-  <div class="content-list-empty"> No posts </div>
-  <? endif; ?>
-</div>
+		 
+ 
+		 } 
+		 $data[] = $item;
+	 }
+ }
+ 
+ 
+ 
+}
+ 
+$post_params_paging = $post_params;
+$post_params_paging['page_count'] = true;
+$pages_of_posts = get_content($post_params_paging);
+$pages_count = intval($pages_of_posts);
+$paging_links  = false;
+if (intval($pages_count) > 1){
+	$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); 
+	
+}
+
+ //d($config['template_file']);
+
+if(isset($config['template_file']) and $config['template_file'] != false){
+	include($config['template_file']);
+} else {
+	
+	print 'No default template for posts is found';
+}
+
+ ?>

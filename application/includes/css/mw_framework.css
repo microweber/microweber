@@ -179,6 +179,117 @@
 }
 
 
+
+
+/* dropdowns */
+
+
+/*  Dropdown  */
+.mw_dropdown{
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+}
+.mw_dropdown.active{
+  z-index: 11;
+}
+
+  .mw_dropdown_fields{
+    position: absolute;
+    z-index: 9;
+    top: 27px;
+    left: 0;
+    width: 100%;
+    display: none;
+    padding-top: 5px;
+  }
+    .mw_dropdown_fields ul{
+        margin: 0;
+        padding: 0;
+    }
+    .mw_dropdown_fields > ul{
+      background: #f1f1f1 url(../img/dropdown_fields_bottom.png) no-repeat center bottom;
+      /*max-height: 250px;
+      overflow-x:hidden;
+      overflow-y:auto;*/
+      background-size: 100% 6px;
+      width: 100%;
+      box-shadow:1px 1px 0px #f0f0f0;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+    }
+      .mw_dropdown_fields li{
+          list-style: none;
+      }
+       .mw_dropdown_type_navigation li a{
+            display: block;
+            padding: 5px 6px 5px 13px;
+            text-transform: capitalize;
+            text-shadow:1px 1px 0px white;
+            font-size: 11px;
+            color: #212121;
+            text-decoration: none !important;
+       }
+       .mw_dropdown_type_navigation li li li a{
+         padding:3px 6px 3px 26px;
+       }
+
+       .mw_dropdown_type_navigation li:first-child a{
+          -webkit-border-top-left-radius: 5px;
+          -webkit-border-top-right-radius: 5px;
+          -moz-border-radius-topleft: 5px;
+          -moz-border-radius-topright: 5px;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+       }
+       .mw_dropdown_type_navigation li:last-child a{
+          -webkit-border-bottom-right-radius: 5px;
+          -webkit-border-bottom-left-radius: 5px;
+          -moz-border-radius-bottomright: 5px;
+          -moz-border-radius-bottomleft: 5px;
+          border-bottom-right-radius: 5px;
+          border-bottom-left-radius: 5px;
+       }
+
+       .mw_dropdown_type_navigation li a:hover{
+            border:1px solid #8CB2CA;
+            padding: 4px 5px 4px 12px;
+            background: -moz-linear-gradient(top,  #ffffff 0%, #b5d8ee 1%, #9ac0d9 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(1%,#b5d8ee), color-stop(100%,#9ac0d9));
+            background: -webkit-linear-gradient(top,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
+            background: -o-linear-gradient(top,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
+            background: -ms-linear-gradient(top,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
+            background: linear-gradient(to bottom,  #ffffff 0%,#b5d8ee 1%,#9ac0d9 100%);
+       }
+
+       .mw_dropdown_type_navigation li li li a:hover{
+         padding:2px 5px 2px 25px;
+       }
+
+    .mw_dropdown_val{
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 11px;
+
+    }
+
+    .mw_dropdown_type_navigation .mw_dropdown_val{
+        border: 1px solid #DCDCDC;
+        text-transform: capitalize;
+        border-top: none;
+        background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
+        padding: 8px 39px 7px 11px;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+        box-shadow:inset 0px 1px 0px #B8B8B8;
+    }
+
+
+
 /* /End of Microweber UI Elements  */
 
 
@@ -331,9 +442,7 @@
   z-index: 998;
 }
 
-.row{
-  margin-top: 30px;
-}
+
 
 .mw_dropable{
     position: absolute !important;
@@ -419,9 +528,7 @@
     padding: 0 !important;
 }
 
-.row{
-  margin: 0px !important;
-}
+
 
 .mw_image_resizer{
   position: absolute !important;
@@ -1581,13 +1688,15 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 .top_label{
   font-size: 11px;
   padding-top: 35px;
-  padding-top: 25px;
+  padding-top: 15px;
   padding-left: 30px;
+  text-align: right;
+  color: #ccc;
 
 }
 
 .top_label a{
-  color:#488BCD;
+  color:#ccc;
 }
 
 .top_label a:hover{
@@ -2035,6 +2144,25 @@ tr.mw-o-box-table-footer td:first-child{
   overflow: hidden;
   text-overflow:ellipsis;
 }
+
+
+
+.mw-ui-btn-action,
+.mw-ui-btn,
+.mw-ui-field,
+.mw-ui-simple-dropdown,
+.mw-ui-select,
+.mw-ui-select select,
+.mw-ui-btn-rect,
+.mw-ui-searchfield,
+.mw-notification,
+.mw-admin-side-nav li a,
+.mw-admin-side-nav li label,
+.mw-o-box,
+.mw-ui-admin-table{
+  border-radius:2px !important;
+}
+
 
 
 

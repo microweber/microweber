@@ -150,7 +150,7 @@ mw_before_content_save<? print $rand ?>()
 	mw.$('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]').empty();
  }
  
- 
+
  
 
 		 function mw_after_content_save<? print $rand ?>($id){
@@ -159,7 +159,7 @@ mw_before_content_save<? print $rand ?>()
 				  <? if($edit_post_mode != false): ?>
 					mw.reload_module('[data-type="posts"]');
 				  <? endif; ?>
-			
+
 			
 			
 				mw.reload_module('#admin_edit_page_form_<? print $form_rand_id ?> .module[data-type="custom_fields"]');
@@ -172,16 +172,31 @@ mw_before_content_save<? print $rand ?>()
 			
 				}
 			
-			
+
 			
 			mw_on_save_complete<? print $rand ?>()
 			
-	
+
 	
 		}
 </script>
 
 <form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+  $("#otest12").draggable()
+})
+</script>
+
+
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
@@ -228,6 +243,13 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
       <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
   </div>
+
+  <div class="mw-admin-editor">
+    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_admin.php'; ?>
+    <div class="mw-admin-editor-area" contenteditable="true"></div>
+  </div>
+
+
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
@@ -250,7 +272,7 @@ $pt_opts['active_ids'] = $data['parent'];
  
    ?>
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Parent page</label>
+    <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
     <div class="mw-ui-select" style="width: 364px;">
       <select name="parent">
         <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>

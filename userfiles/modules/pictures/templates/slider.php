@@ -35,6 +35,10 @@ description: Pictures slider
   background-position: center;
   background-size:100% auto;
 }
+#<?php print $id; ?> .mw-gallery-holder{
+  overflow: hidden;
+  position: relative;
+}
 
 </style>
 

@@ -179,9 +179,9 @@ mw.wysiwyg = {
 
 
     },
-    init:function(){
-
-      var mw_editor_btns = mw.$(".mw_editor_btn");
+    init:function(selector){
+      var selector = selector || ".mw_editor_btn";
+      var mw_editor_btns = mw.$(selector);
       mw_editor_btns.bind("mousedown mouseup click", function(event){
           event.preventDefault();
           if(event.type=='mouseup'){
