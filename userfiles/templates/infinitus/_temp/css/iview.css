@@ -1,0 +1,372 @@
+/*{
+	 defaults for resposive height container 
+	position: relative;
+	width: 100%;
+	height: 0;
+	
+	 39% being the ratio we are maintaining 
+	 * calculated by looking at the image 
+	 * ratio: 400/1024 = ~0.39 
+	padding: 0 0 39% 0;
+}*/
+
+.iosSlider {
+	width: 100%;	
+	/* this height ends up being your maximum height, 
+	 * if you want it to scale forever, set it to 
+	 * a very high number */
+	height: auto;
+}
+
+.iosSlider .slider {
+	width: 100%;
+	height: 100%;
+}
+
+.iosSlider .slider .item {
+	float: left;
+	position:relative;	
+	width: 100%;
+}
+
+.iosSlider .slider .item img {
+	width: 100%;
+	height: auto;
+	position:relative;
+	z-index:-1;
+}
+
+/* controls */
+.prevContainer, .nextContainer {
+	position: absolute;
+	width: 40px;
+	height:62px;
+	padding: 0 0 19.5% 0;
+	z-index: 10;
+}
+.prevContainer {
+	top: 0;
+	left: 0;
+}
+.nextContainer {
+	top: 0;
+	right: 0;	
+}
+.prevContainer .prev {
+	left: 0;
+	background-position:center left;
+}
+.nextContainer .next, .prevContainer .prev{
+	background-image:url(../images/sliders/flexslider_arrow.png);
+	background-repeat:no-repeat;
+	background-color:#3e4756;
+	position: absolute;
+	bottom: -10%;
+	width: 100%;
+	height: 20%;
+	text-indent:-99999px;
+	-webkit-transition: all 0.35s ease;
+	-moz-transition: all 0.35s ease;
+	-o-transition: all 0.35s ease;
+	transition: all 0.35s ease;
+}
+.nextContainer .next:hover, .prevContainer .prev:hover{
+	background-color:#0083b7;
+}
+.nextContainer .next {	
+	left: 0;	
+	background-position:center right;
+}
+.selectorsBlock {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	height: 5%;
+}
+.selectorsBlock .selectors {
+	position: relative;
+	top: 0;
+	left: 0;
+	margin: 0 auto;
+	width: 50%;
+	text-align:center;
+	height: 100%;
+}
+.selectorsBlock .selectors .item {
+	position: relative;
+	top: 0;
+	left: 0;
+	display:inline-block;
+	width: 10px;
+	height: 10px;
+	margin: 0 0 0 3px;
+	background: url(../images/sliders/slider_dots.png) no-repeat top left;
+}
+.selectorsBlock .selectors .selected, .selectorsBlock .selectors .item:hover {
+	background: url(../images/sliders/slider_dots.png) no-repeat bottom left;
+}
+.selectorsBlock .selectors .first {
+	margin-left: 0;
+}
+.container {
+	display: block;
+	margin: 0px auto;
+}
+#iview {
+	display: block;
+	max-width: 960px;
+	min-width: 300px;
+	background: #000;
+	background: rgba(0, 0, 0, 0.7);
+	padding: 5px;
+	border-radius: 5px;
+	position: relative;
+	-webkit-box-shadow: 0 38px 30px -18px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 38px 30px -18px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 38px 30px -18px rgba(0, 0, 0, 0.5);
+	margin: 40px auto;
+	overflow: hidden;
+}
+#iview .iviewSlider {
+	display: block;
+	width: 900px;
+	height: 400px;
+	overflow: hidden;
+	border-radius: 4px;
+}
+#iview div.iview-directionNav {
+	position: absolute;
+	top: 47%;
+	left: 0px;
+	z-index: 9;
+	width: 100%;
+}
+#iview div.iview-directionNav a {
+	display: block;
+	cursor: pointer;
+	position: absolute;
+	width: 27px;
+	height: 27px;
+	background-image: url(../images/iview/bg_direction_nav.png);
+	text-indent: -9999px;
+	-webkit-transition: left 0.3s ease-in-out;
+	-webkit-transition-property: left,right;
+	-moz-transition: left 0.3s ease-in-out;
+	-moz-transition-property: left,right;
+	-o-transition: left 0.3s ease-in-out;
+	-o-transition-property: left,right;
+	-ms-transition: left 0.3s ease-in-out;
+	-ms-transition-property: left,right;
+	transition: left 0.3s ease-in-out;
+	transition-property: left,right;
+}
+#iview div.iview-directionNav a.iview-nextNav {
+	right: -27px;
+	background-position: 27px 0px;
+}
+#iview div.iview-directionNav a.iview-prevNav {
+	left: -27px;
+	background-position: 0px 0px
+}
+#iview.iview-hover div.iview-directionNav a.iview-nextNav {
+	right: 20px;
+}
+#iview.iview-hover div.iview-directionNav a.iview-prevNav {
+	left: 20px;
+}
+.iview-caption {
+	background: url('../images/iview/caption-bg.png');
+	color: #FFF;
+	border-radius: 3px;
+	padding: 10px 15px;
+	font-family: Verdana;
+	font-size: 12px;
+	text-shadow: #000 1px 1px 0px;
+}
+.iview-caption.caption1 {
+	text-shadow: none;
+}
+.iview-caption.caption2 {
+	background: #FFF;
+	color: #000;
+	text-shadow: none;
+}
+.iview-caption.caption3 {
+	background: #c4302b;
+	box-shadow: rgba(0, 0, 0, 0.7) 10px 10px 15px 0px;
+	text-shadow: none;
+}
+#iview-preloader {
+	border: #666 1px solid;
+	width: 150px
+}
+#iview-preloader div {
+	background: #666;
+}
+#iview-timer {
+	border-radius: 10px;
+}
+#iview-timer div {
+	border-radius: 10px;
+}
+/* The slider */
+.iviewSlider {
+	overflow: hidden;
+}
+/* The timer in the Slider */
+#iview-timer {
+	position: absolute;
+	z-index: 100;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#iview-timer div {
+	border-radius: 3px;
+}
+/* The Preloader in the Slider */
+#iview-preloader {
+	position: absolute;
+	z-index: 1000;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: #000 1px solid;
+	padding: 1px;
+	width: 100px;
+	height: 3px;
+}
+#iview-preloader div {
+	float: left;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	height: 3px;
+	background: #000;
+	width: 0px;
+}
+/* The strips and boxes in the Slider */
+.iview-strip {
+	display:block;
+	position:absolute;
+	z-index:5;
+}
+.iview-block {
+	display:block;
+	position:absolute;
+	z-index:5;
+}
+/* Direction nav styles (e.g. Next & Prev) */
+.iview-directionNav a {
+	position:absolute;
+	top:45%;
+	z-index:9;
+	cursor:pointer;
+}
+.iview-prevNav {
+	left:0px;
+}
+.iview-nextNav {
+	right:0px;
+}
+/* Control nav styles (e.g. 1,2,3...) */
+.iview-controlNav {
+	position:absolute;
+	z-index:9;
+}
+.iview-controlNav a {
+	z-index:9;
+	cursor:pointer;
+}
+.iview-controlNav a.active {
+	font-weight:bold;
+}
+.iview-controlNav .iview-items ul {
+	list-style: none;
+}
+.iview-controlNav .iview-items ul li {
+	display: inline;
+	position: relative;
+}
+.iview-controlNav .iview-tooltip {
+	position: absolute;
+}
+
+/* The captions in the Slider */
+.iview-caption {
+	position:absolute;
+	z-index:4;
+	overflow: hidden;
+	cursor: default;
+}
+/* The video show in the Slider */
+.iview-video-show {
+	background: #000;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 101;
+}
+.iview-video-show .iview-video-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.iview-video-show .iview-video-container a.iview-video-close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	background: #222;
+	color: #FFF;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	line-height: 29px;
+	font-size: 22px;
+	font-weight: bold;
+	overflow: hidden;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+.iview-video-show .iview-video-container a.iview-video-close:hover {
+	background: #444;
+}
+.iosSlider .slider .item .text1, .iosSlider .slider .item .text2 {
+	opacity: 0;
+	color:#FFF;
+	filter: alpha(opacity:80);
+	text-shadow:0 1px 0 rgba(0,0,0, 0.7);
+	background: rgba(0,0,0,.8);
+	padding:10px;
+}
+.iosSlider .slider .item .text1 {
+	position: absolute;
+	top: 100px;
+	z-index:10000000;
+	left: 150px;
+	color: #fff;
+	font: bold 30px/40px "Dosis",Helvetica,Arial,sans-serif;
+}
+.iosSlider .slider .item .text2 {
+	position: absolute;
+	top: 170px;
+	z-index:10000000;
+	width:50%;
+	left: 0;
+	color: #fff;
+	font: normal 14px/18x "Dosis",Helvetica,Arial,sans-serif;
+}
+	@media only screen and (min-width: 480px) and (max-width: 767px) {
+		
+		.iosSlider .slider .item .text2, .iosSlider .slider .item .text1{
+			display:none;
+		}
+		
+		}
+	@media only screen and (min-width: 768px) and (max-width: 959px) {
+		
+		.iosSlider .slider .item .text2, .iosSlider .slider .item .text1{
+			display:none;
+		}
+		
+		}

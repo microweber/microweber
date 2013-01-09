@@ -32,6 +32,18 @@
                 </ul>
               </div>
             </div>
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">Font FX</span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="mw-textfx-3d"><a href="#">3D</a></li>
+                  <li value="mw-textfx-neon"><a href="#">Neon</a></li>
+                </ul>
+              </div>
+            </div>
 
 
 

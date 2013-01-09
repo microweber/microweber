@@ -2295,7 +2295,47 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 
 	// adding custom fields
+	$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
+	$media_table_modified = false;
 
+	if (isset($screenshot_url) and $screenshot_url != false and trim($screenshot_url) != '') {
+		$screenshot_url = preg_replace('/\\?.*/', '', $screenshot_url);
+		$url_check = getimagesize($screenshot_url);
+		if (!is_array($url_check)) {
+
+		} else {
+
+			$save_as = (basename($screenshot_url));
+			if ($save_as != false) {
+				$download_to = MEDIAFILES . DS . 'downloaded' . DS . $id_to_return . '_' . $save_as;
+				$dl = url_download($screenshot_url, $post_params = false, $save_to_file = $download_to);
+
+				if ($save_as != false) {
+					$picfn = replace_site_vars(dir2url($download_to));
+
+					$media_table = MW_TABLE_PREFIX . 'media';
+
+					$add = " insert into $media_table set
+                    position ='1', 
+					media_type ='picture',
+				 	filename ='{$picfn}',
+					to_table ='{$table_assoc_name}',
+					to_table_id ='{$id_to_return}' 	";
+					$media_table_modified = true;
+					db_q($add);
+				}
+
+			}
+
+			//..d($download_to);
+			//exit();
+			//
+
+			//d($url);
+			//exit();
+		}
+
+	}
 	if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
 
 		$custom_field_to_save = array();
@@ -2323,7 +2363,6 @@ function save_data($table, $data, $data_to_save_options = false) {
 		if (!empty($custom_field_to_save)) {
 			// p($is_quick);
 			$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
-			$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
 			if ($is_quick == false) {
 
 				$custom_field_to_delete['to_table'] = $table_assoc_name;
@@ -2433,6 +2472,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 	$cg = guess_cache_group($table);
 	//
+
+	if ($media_table_modified == true) {
+		cache_clean_group('media/global');
+
+	}
+
 	cache_clean_group($cg . '/global');
 	cache_clean_group($cg . '/' . $id_to_return);
 

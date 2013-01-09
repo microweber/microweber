@@ -1,0 +1,103 @@
+#bonfire-switcher-wrapper {
+	position: fixed;
+	max-width: 185px;
+	left: 0;
+	top: 120px;
+	z-index: 9999;
+}
+#bonfire-switcher {
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	background: #f9f9f9;
+	width: 100%;
+	font-size: 11px;
+	border: 1px solid #ddd;
+	border-top: none;
+	clear: both;
+	line-height: 18px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+#bonfire-switcher a {
+	text-decoration: none;
+	color: #222;
+}
+#bonfire-switcher .switcher-section {
+	border-top: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+#bonfire-switcher .switcher-section:nth-last-child(1) {
+	margin-bottom: 0px;
+}
+
+#bonfire-switcher .section-wrapper {
+	padding: 5px 10px 10px 15px;
+}
+
+#bonfire-switcher .section-label {
+	font-weight: bold;
+	padding: 5px 10px;
+	margin: 0;
+	margin-bottom: 5px;
+	background: #eee;
+	color: #333;
+	text-shadow: 1px 1px 0px rgba(255,255,255,1);
+	border-bottom: 1px solid #ddd;
+}
+
+#bonfire-switcher .list-image-switcher {
+	list-style: outside none;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 5px;
+	overflow: hidden;
+}
+#bonfire-switcher .list-image-switcher li {
+	float: left;
+	margin: 3px 10px 5px 0;
+}
+#bonfire-switcher .list-image-switcher li a {
+	text-indent: -9999px;
+	display: block;
+	outline: none;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 2px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 0 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.1);
+	-o-box-shadow: 0 0 2px rgba(0,0,0,0.1);
+	transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	-webkit-transition: all .2s linear;
+	-o-transition: all .2s linear;
+}
+#bonfire-switcher .list-image-switcher li a:hover {
+	border: 1px solid #aaa;
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+#bonfire-switcher .list-image-switcher li a img {
+	text-indent: -9999px;
+	background: #fff;
+	display: block;
+	width: 20px;
+	height: 20px;
+}
+#bonfire-switcher .list-image-title {
+	padding: 5px 0;
+	color: #222;
+}
+
+#switcher-toggle {
+	position: absolute;
+	top: 32px;
+	left: 100%;
+	width: 30px;
+	height: 30px;
+	background: url('../img/arrow-left.png') no-repeat center center #efefef;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}
+

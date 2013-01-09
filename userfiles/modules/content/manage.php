@@ -1,15 +1,29 @@
 
-<div class="vSpace"></div>
-<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
-  <label>Yes
-    <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
-  </label>
-  <label>No
-    <input type="radio" value="off" name="toggle_cats_and_pages" />
-  </label>
+
+<div class="mw-manageconten-nav">
+    <a class="mw-manage-btn mw-manage-btn-post-add" href="javascript:;"><span></span><strong>New Post</strong></a>
+    <a class="mw-manage-btn mw-manage-btn-category-add" href="javascript:;"><span></span><strong>New Category</strong></a>
+    <a class="mw-manage-btn mw-manage-btn-product-add" href="javascript:;"><span></span><strong>New Product</strong></a>
+    <a class="mw-manage-btn mw-manage-btn-page-edit" href="javascript:;"><span></span><strong>Edit Page</strong></a>
+    <a class="mw-manage-btn mw-manage-btn-category-edit" href="javascript:;"><span></span><strong>Edit Category</strong></a>
 </div>
-<label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
-<div class="mw_clear vSpace"></div>
+
+
+
+
+<div style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;">
+  <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+    <label>Yes
+      <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
+    </label>
+    <label>No
+      <input type="radio" value="off" name="toggle_cats_and_pages" />
+    </label>
+  </div>
+  <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
+</div>
+
+<div class="mw_clear"></div>
 <script  type="text/javascript">
   mw.require('forms.js');
 
@@ -68,6 +82,9 @@ mw.manage_content_sort = function(){
 
 
  </script>
+
+
+
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?  if(isset($params['page-id'])):  ?>
   <?
@@ -150,7 +167,7 @@ $posts_mod['data-page-id'] =$params['page-id'];
  $posts_mod['search_by_keyword'] =$params['keyword'];
  }
    if(isset($params['keyword'])){
- 
+
  }
  
    if(isset($params['is_shop']) and $params['is_shop']=='y'){
@@ -165,7 +182,7 @@ $posts_mod['data-page-id'] =$params['page-id'];
 		}
 	  }
  }
- 
+
   if(isset($params['category-id']) and $params['category-id']!='global'){
   $check_if_excist = get_page_for_category($params['category-id']);
   

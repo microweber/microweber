@@ -515,20 +515,36 @@ class URLify {
 function url_download($requestUrl, $post_params = false, $save_to_file = false) {
 
 	if ($post_params == false) {
-		$post_params = array('date' => date("YmdHis"));
+		//..$post_params = array('date' => date("YmdHis"));
 	}
-	if (is_array($post_params)) {
+	if ($post_params != false and is_array($post_params)) {
 		$postdata = http_build_query($post_params);
 	} else {
-		$postdata = ($post_params);
+		$postdata = false;
 
 	}
 	$ref = site_url();
+
 	$opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n" . 'Referer: ' . $ref . "\r\n", 'content' => $postdata));
 	$requestUrl = str_replace(' ', '%20', $requestUrl);
-	$context = stream_context_create($opts);
 
-	$result = file_get_contents($requestUrl, false, $context);
+	if (function_exists('curl_init')) {
+		$ch = curl_init($requestUrl);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		if ($post_params != false) {
+			curl_setopt($ch, CURLOPT_POST, count($post_params));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
+		}
+
+		$result = curl_exec($ch);
+
+		curl_close($ch);
+	} else {
+		$context = stream_context_create($opts);
+		$result = file_get_contents($requestUrl, false, $context);
+	}
+
 	if ($save_to_file == true) {
 		//  d($result);
 		file_put_contents($save_to_file, $result);

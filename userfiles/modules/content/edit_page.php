@@ -190,25 +190,13 @@ mw_before_content_save<? print $rand ?>()
 
 
 
-<script>
-$(document).ready(function(){
-  $("#otest12").draggable()
-})
-</script>
+
 
 
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-      <?php if($data['content_type'] == 'post' or $data['content_type'] == 'product' ): ?>
-      <div class="mw-ui-field-holder post-save-top right">
-        <input type="submit" name="save" class="semi_hidden"  value="Save" />
-        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live">
-        <?php _e("Go live edit"); ?>
-        </a> <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
-        <?php _e("Save"); ?>
-        </a> </div>
-      <?php endif; ?>
+
       <? if(intval($data['id']) > 0): ?>
       <? $act = _e("Edit ", true); ;?>
       <? else : ?>
@@ -219,7 +207,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 		  $data['subtype'] = $params['subtype'];
 		  $t =      $data['subtype'];
 	} else if($data['content_type'] == 'post'){
-		
+
      //   $data['subtype'] = 'post';
         $t =      $data['subtype'];
      } else {
@@ -228,15 +216,16 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 
  ?>
-      <label class="mw-ui-label"><?php print ucfirst( $t); ?> Name</label>
+
       <? if(intval($data['id']) > 0): ?>
+      <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
       <?
     //d($params);
 
-     ?>
-      <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> title" />
+     ?> <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
+      <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <? if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><? else : ?><?php _e("Name"); ?><? endif ?>" />
       <? endif; ?>
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
@@ -244,10 +233,25 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
   </div>
 
-  <div class="mw-admin-editor">
-    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_admin.php'; ?>
-    <div class="mw-admin-editor-area" contenteditable="true"></div>
+  <?
+    if(!isset($data['content'])){
+        $data['content'] = '';
+    }?>
+
+
+ <script>
+  $(document).ready(function(){
+    var area = mwd.getElementById('mw-editor');
+    mw.wysiwyg.iframe_editor(area, '<?php print $data['id']; ?>');
+  });
+</script>
+
+
+  <div id="mw-editor">
   </div>
+
+
+
 
 
   <? /* PAGES ONLY  */ ?>
@@ -255,21 +259,21 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
   <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   <? if($edit_post_mode == false): ?>
   <?   //  d($data);
-  
+
   $pt_opts = array();
   if(intval($data['id']) > 0){
 $pt_opts['active_ids'] = $data['parent'];	
 	
 } else {
 
- if(isset($params['parent-page-id']) and intval($data['parent']) == 0 and intval($params['parent-page-id']) > 0){
-	 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
-}
+  if(isset($params['parent-page-id']) and intval($data['parent']) == 0 and intval($params['parent-page-id']) > 0){
+    $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
+  }
 	
-	
+
 }
   
- 
+
    ?>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
@@ -285,7 +289,7 @@ $pt_opts['remove_ids'] = $data['id'];
 if(isset($params['is_shop'])){
 //$pt_opts['is_shop'] = $params['is_shop'];
 }
- 
+
  
 
 $pt_opts['active_code_tag'] = '   selected="selected"  ';

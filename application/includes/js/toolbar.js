@@ -593,18 +593,7 @@ $(window).load(function(){
 
 
 
-mw.$(".mw_dropdown_action_font_family").change(function(){
-    var val = $(this).getDropdownValue();
-     mw.wysiwyg.fontFamily(val);
-});
-mw.$(".mw_dropdown_action_font_size").change(function(){
-    var val = $(this).getDropdownValue();
-     mw.wysiwyg.fontSize(val);
-});
-mw.$(".mw_dropdown_action_format").change(function(){
-    var val = $(this).getDropdownValue();
-    mw.wysiwyg.format(val);
-});
+
 
 
 

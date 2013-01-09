@@ -172,13 +172,13 @@ class MwController {
 			// $domain = TEMPLATE_URL;
 			// preg_match_all('/href\="(.*?)"/im', $l, $matches);
 			// foreach ($matches[1] as $n => $link) {
-				// if (substr($link, 0, 4) != 'http')
-					// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
+			// if (substr($link, 0, 4) != 'http')
+			// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
 			// }
 			// preg_match_all('/src\="(.*?)"/im', $l, $matches);
 			// foreach ($matches[1] as $n => $link) {
-				// if (substr($link, 0, 4) != 'http')
-					// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
+			// if (substr($link, 0, 4) != 'http')
+			// $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
 			// }
 
 			// d($l);
@@ -310,6 +310,10 @@ class MwController {
 	}
 
 	function api($api_function = false, $params = false) {
+
+		if (isset($_REQUEST['api_key']) and user_id() == 0) {
+			api_login($_REQUEST['api_key']);
+		}
 
 		if (!defined('MW_API_CALL')) {
 			define('MW_API_CALL', true);
@@ -680,7 +684,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

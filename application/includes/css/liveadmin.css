@@ -334,20 +334,42 @@ body:-webkit-full-screen {
 
 /* Add/Edit Page */
 
-form.content-type-page .mw-ui-field[name='title']{width: 346px;}
 
-
-form.content-type-page #page_title_and_url{
+.mw-title-field-label{
+  display: block;
+  clear: both;
+  position: relative;
+  z-index: 1;
+  border-color:#C6C6C6 transparent #E6E6E6 #E6E6E6;
+  border-style:solid;
+  border-width:1px;
   float: left;
-  width: 372px;
-  margin-right: 10px;
+  width:45px;
+  height: 33px;
+  background-image:  url(../img/add_new_labels.png), url(../img/grad.php?top=FAFAFA&bot=EFEFEF);
+  background-repeat: no-repeat, repeat;
+  background-position:  15px 7px, 0 0;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+
+.mw-title-field-label-post{
+  background-position:  15px -32px, 0 0;
+}
+.mw-title-field-label-category{
+  background-position:  15px -69px, 0 0;
+}
+.mw-title-field-label-product{
+  background-position:  15px -106px, 0 0;
 }
 
 
 
-/* Add/Edit Post */
 
-form.content-type-post .mw-ui-field[name='title']{width: 605px;}
+
+
+/* Add/Edit Post */
 
 
 
@@ -362,12 +384,7 @@ form.content-type-post .mw-ui-field[name='title']{width: 605px;}
   padding: 10px 0;
   position: relative;
 }
-.post-save-top{
-    float: right;
-    overflow: hidden;
-    margin-top: -5px;
-    padding: 5px 0;
-}
+
 .post-save-bottom{
   clear: both;
 
@@ -681,9 +698,9 @@ form.add-edit-page-post textarea{
   border-bottom-color: transparent;
   color: #434343;
   font-size: 11px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 
 .mw-quick-links li a:hover, .mw-quick-links li.active a{
@@ -1828,7 +1845,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 
 .preview_frame_wrapper.loading{
-  background-image: url(../img/loader.png);
+  background-image: url(../img/img_check_loading.gif);
 }
 
 .preview_frame_wrapper.loading iframe{
@@ -1921,9 +1938,6 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
 }
 /*.layouts_box li:hover, */.layouts_box li.active{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);

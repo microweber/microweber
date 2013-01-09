@@ -162,7 +162,7 @@ if(isset($params['is_shop'])){
 	$post_params['subtype'] = 'product';
 	unset($post_params['is_shop']);
 } else {
-
+ $post_params['subtype'] = 'post';
 }
 
 
@@ -173,6 +173,13 @@ if (!empty($content)){
  if(!empty($show_fields)){
 	 
 	  foreach ($content as $item){
+		  
+		  
+		  $item['link'] = post_link($item['id']);
+		  	$iu = get_picture($item['id'], $for = 'post', $full = false);
+			if($iu != false){
+				 $item['image'] = $iu;
+			}
 	 
 	 foreach ($show_fields as $show_field){
 			 $show_field = trim($show_field);
@@ -210,7 +217,7 @@ if (!empty($content)){
                                     }  
 
                                     //  d($hstr);
- 									$iu = get_picture($item['id'], $for = 'post', $full = false);
+ 								
   
   
   
@@ -261,4 +268,3 @@ if(isset($config['template_file']) and $config['template_file'] != false){
 	print 'No default template for posts is found';
 }
 
- ?>

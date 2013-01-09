@@ -600,8 +600,23 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							if ($coming_from_parent_strz1 == true) {
 								//   $attrs['data-parent-module'] = $coming_from_parentz;
 							}
-
 							$mod_content = load_module($module_name, $attrs);
+							$plain_modules = mw_var('plain_modules');
+							if ($plain_modules != false) {
+								//d($plain_modules);
+								$module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
+								$mod_content = '';
+								if (isarr($module_db_data)) {
+									if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+
+									} else {
+										//d($module_db_data);
+
+										$mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+									}
+								}
+								//
+							}
 
 							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 							//if (trim($mod_content) != '') {

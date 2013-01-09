@@ -53,6 +53,8 @@ function mw_db_init_users_table() {
 
 	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
 
+	$fields_to_add[] = array('api_key', 'TEXT default NULL');
+
 	$fields_to_add[] = array('user_information', 'TEXT default NULL');
 	$fields_to_add[] = array('subscr_id', 'TEXT default NULL');
 	$fields_to_add[] = array('role', 'TEXT default NULL');
@@ -264,6 +266,48 @@ function captcha() {
 	imagedestroy($image);
 }
 
+function api_login($api_key = false) {
+
+	if ($api_key == false and isset($_REQUEST['api_key']) and user_id() == 0) {
+		$api_key = $_REQUEST['api_key'];
+	}
+
+	if ($api_key == false) {
+		return false;
+	} else {
+		if (trim($api_key) == '') {
+			return false;
+		} else {
+			$api_key = db_escape_string($api_key);
+			if (user_id() > 0) {
+				return true;
+			} else {
+				$data = array();
+				$data['api_key'] = $api_key;
+				$data['is_active'] = 'y';
+				$data['limit'] = 1;
+
+				$data = get_users($data);
+
+				if ($data != false) {
+					if (isset($data[0])) {
+						$data = $data[0];
+
+						if (isset($data['api_key']) and $data['api_key'] == $api_key) {
+							return user_login($data);
+
+						}
+
+					}
+
+				}
+			}
+
+		}
+	}
+
+}
+
 function user_login($params) {
 	$params2 = array();
 
@@ -277,6 +321,8 @@ function user_login($params) {
 		$user = isset($params['username']) ? $params['username'] : false;
 		$pass = isset($params['password']) ? $params['password'] : false;
 		$email = isset($params['email']) ? $params['email'] : false;
+
+		$api_key = isset($params['api_key']) ? $params['api_key'] : false;
 
 		$data = array();
 		$data['username'] = $user;
@@ -347,7 +393,7 @@ function user_login($params) {
 
 			$aj = isAjax();
 
-			if ($aj == false) {
+			if ($aj == false and $api_key == false) {
 				if (isset($_SERVER["HTTP_REFERER"])) {
 					safe_redirect($_SERVER["HTTP_REFERER"]);
 					exit();
@@ -712,7 +758,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =          get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                      get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -727,7 +773,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =          get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                      get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -793,7 +839,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =          get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                      get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -837,7 +883,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =          get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =                      get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -854,6 +900,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =          get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                      get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

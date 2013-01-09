@@ -16,8 +16,6 @@
   width: 100%;
   height:35px;
   background: #F5F5F5;
-  border-top: 1px solid white;
-  border-bottom: 1px solid #E5E5E5;
 }
 
 #mw-text-editor.hover{
@@ -307,6 +305,10 @@ margin-right: 6px;
   overflow: hidden;
   overflow-y:auto;
   padding: 10px;
+}
+.mw-admin-editor .mw-admin-editor-area ul,
+.mw-admin-editor .mw-admin-editor-area ol{
+  padding-left: 19px;
 }
 
 .mw-admin-editor{

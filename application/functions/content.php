@@ -179,6 +179,21 @@ function create_mw_default_pages_in_not_exist() {
 	
 }
 function define_constants($content = false) {
+						
+					if($content == false and isAjax()){
+						if (isset($_SERVER['HTTP_REFERER'])) {
+			$ref_page = $_SERVER['HTTP_REFERER'];
+			if ($ref_page != '') {
+				$ref_page = get_content_by_url($ref_page);
+				 if(!empty($ref_page)){
+				 	$content = $ref_page;
+				 }
+			}
+		}
+					}
+				
+			
+		
 	$page_data = false;
 	if (is_array($content)) {
 		if (isset($content['id'])) {
@@ -252,13 +267,14 @@ function define_constants($content = false) {
 	if (defined('MAIN_PAGE_ID') == false) {
 		define('MAIN_PAGE_ID', false);
 	}
-
+ 
 	if (isset($page) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 		$the_active_site_template = $page['active_site_template'];
 	} else {
 		$the_active_site_template = get_option('curent_template');
 	}
-	$the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . '/');
+ 
+	$the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . DS);
 
 	if (defined('ACTIVE_TEMPLATE_DIR') == false) {
 
@@ -307,7 +323,7 @@ function define_constants($content = false) {
 		$layouts_url = LAYOUTS_URL;
 	}
 
- 
+
 
 	return true;
 }
@@ -738,7 +754,23 @@ function get_content_admin($params) {
  * @param array $params parameters for the DB
  *
  */
+ 
+ 
+ api_expose('get_content');
+ 
 function get_content($params) {
+	
+	if(defined('MW_API_CALL')){
+		if (isset($_REQUEST['api_key']) and is_admin() == 0) {
+			api_login($_REQUEST['api_key']);
+			if(is_admin() == 0){
+				return false;
+			}
+		}
+		
+	}
+	
+	
 	$params2 = array();
 
 	if (is_string($params)) {
@@ -891,6 +923,7 @@ function page_link($id = false) {
  *
  *
  */
+
 function get_posts($params = false) {
 	$params2 = array();
 
@@ -1613,9 +1646,11 @@ function save_content($data, $delete_the_cache = true) {
 
 		$more_categories_to_delete = get_categories_for_content($data['id'], 'categories');
 	} else {
-
-		$theurl = $data['url'];
-
+		if(isset($data['url'])){
+			$theurl = $data['url'];
+		} else {
+			$theurl = $data['title'];
+		}
 		$thetitle = $data['title'];
 	}
 
@@ -1625,7 +1660,9 @@ function save_content($data, $delete_the_cache = true) {
 			$data['url'] = url_title($thetitle);
 		}
 	
-	
+	if (isset($data['url']) and (strval($data['url']) != '')) {
+		$data['url'] = url_title($data['url']);
+	}
 	
 	
 	

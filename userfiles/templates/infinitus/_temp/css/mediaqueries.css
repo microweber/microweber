@@ -1,0 +1,204 @@
+/* #Media Queries
+================================================== */
+
+	/* Smaller than standard 960 (devices and browsers) */
+	@media only screen and (max-width: 959px) {
+		
+		body{
+			background: red;
+		}
+		
+		}
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) {
+		
+		body{
+			background: green;
+		}
+		.service-styel2 h3 {
+			line-height: 24px !important;
+			padding: 5px 0 0;
+		}
+		.service-txt{
+			margin:0 9px 10px 0 !important;
+		}
+		
+		}
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {
+		
+		body{
+			background: blue;
+			margin:0;
+			padding:0;
+		}
+		.container {
+			width: 300px;
+			margin:0 auto;
+		}
+		.top-contact{
+			text-align:center;
+		}
+		nav{
+			background:none;
+			float:none;
+			margin:0 auto;
+		}
+		nav select {
+			display: block;
+			border:none;
+			width:98%;
+			margin:0 auto;
+			padding:10px;
+			font-weight:600;
+			font: 16px/21px 'Source Sans Pro';
+			color:#333;
+			height:100%;
+			box-shadow:0 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		nav ul{
+			display:none;
+		}
+		.search-box{
+			padding:0;
+		}
+		.search-box input{
+			margin:10px auto 15px auto;
+			width:98%;
+		}
+		.pull-right, .logo, .pull-left{
+			text-align:center;
+		}
+		.side-bg{
+			background:none;
+			padding-left:0;
+		}
+		.shadow-wrapper{
+			margin-top:18px;
+		}
+		
+		}
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {
+		
+		body{
+			background: orange;
+			margin:0;
+			padding:0;
+		}
+		.container {
+			width: 420px;
+		}
+		.top-contact{
+			text-align:center;
+		}
+		nav{
+			background:none;
+			float:none;
+			margin:0 auto;
+		}
+		nav select {
+			display: block;
+			border:none;
+			width:98%;
+			margin:0 auto;
+			padding:10px;
+			font-weight:600;
+			font: 16px/21px 'Source Sans Pro';
+			color:#333;
+			height:100%;
+			box-shadow:0 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		nav ul{
+			display:none;
+		}
+		.search-box input{
+			margin:10px auto 15px auto;
+			width:98%;
+		}
+		.pull-right, .logo, .pull-left{
+			text-align:center;
+		}
+		.search-box{
+			padding:0;
+			background:none;
+		}
+		.flex-viewport[{
+			padding-bottom:10px;
+		}
+		.blog-wrap .shadow-wrapper:before, .blog-wrap .shadow-wrapper:after {
+    		bottom: 4px;
+		}
+		.iosSlider .slider .item .text1{
+			display:none;
+		}
+		
+		}
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {
+		
+		body{
+			background: black;
+			margin:0;
+			padding:0;
+		}
+		.top-contact{
+			text-align:center;
+		}
+		.container {
+			width: 300px;
+		}
+		nav{
+			background:none;
+			float:none;			
+		}
+		nav select {
+			display: block;
+			border:none;
+			width:98%;
+			margin:0 auto;
+			padding:10px;
+			font-weight:600;
+			font: 16px/21px 'Source Sans Pro';
+			color:#333;
+			height:100%;
+			box-shadow:0 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		nav ul{
+			display:none;
+		}
+		.search-box input{
+			margin:10px auto 15px auto;
+			width:98%;
+		}
+		.pull-right, .logo, .pull-left{
+			text-align:center;
+		}
+		.search-box{
+			padding:0;
+			background:none;
+		}
+	}
+
+
+/* #Font-Face
+================================================== */
+/* 	This is the proper syntax for an @font-face file
+		Just create a "fonts" folder at the root,
+		copy your FontName into code below and remove
+		comment brackets */
+
+/*	@font-face {
+	    font-family: 'FontName';
+	    src: url('../fonts/FontName.eot');
+	    src: url('../fonts/FontName.eot?iefix') format('eot'),
+	         url('../fonts/FontName.woff') format('woff'),
+	         url('../fonts/FontName.ttf') format('truetype'),
+	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
+	    font-weight: normal;
+	    font-style: normal; }
+*/

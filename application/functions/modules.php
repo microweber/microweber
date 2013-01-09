@@ -132,7 +132,6 @@ function module_templates($module_name, $template_name = false) {
 	$module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
 
 	$module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
-
 	if (!is_dir($module_name_l)) {
 		return false;
 	} else {
@@ -143,6 +142,7 @@ function module_templates($module_name, $template_name = false) {
 			$module_name_l = layouts_list($options);
 			if (is_dir($module_name_l_theme)) {
 				$options['path'] = $module_name_l_theme;
+
 				$module_skins_from_theme = layouts_list($options);
 				if (isarr($module_skins_from_theme)) {
 					if (!is_arr($module_name_l)) {
@@ -1531,8 +1531,13 @@ function load_module($module_name, $attrs = array()) {
 		$config['url_to_module'] = pathToURL($config['path_to_module']);
 
 		if (isset($attrs['id'])) {
-
 			$template = get_option('data-template', $attrs['id']);
+
+			if ($template == false and isset($attrs['template'])) {
+				$template = $attrs['template'];
+			} else {
+
+			}
 			$template_file = false;
 			if ($template != false and strtolower($template) != 'none') {
 				$template_file = module_templates($module_name, $template);

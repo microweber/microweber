@@ -122,7 +122,7 @@ $(document).ready(function(){
 
 
  
-   
+
 });
 </script>
 <? if(intval($data['id']) == 0){
@@ -143,17 +143,12 @@ $(document).ready(function(){
   <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
   <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />
-  <? if(intval($data['id']) > 0): ?>
-  <? $act = 'Edit ' ;?>
-  <? else : ?>
-  <? $act = 'Add new ' ;?>
-  <? endif; ?>
+
   <div class="mw-ui-field-holder">
-    <div class="post-save-top"> <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
-      <?php _e("Save"); ?>
-      </a> </div>
-    <label class="mw-ui-label" style="padding-top: 5px;"><? print $act ?> category</label>
-    <input style="width: 600px;" class="mw-ui-field" name="title" type="text" value="<? print ($data['title'])?>" />
+
+
+    <span class="mw-title-field-label mw-title-field-label-category"></span>
+    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<? print ($data['title'])?>" />
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -166,7 +161,7 @@ $(document).ready(function(){
     }
 	
 	 
-	 
+
        ?>
     <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">

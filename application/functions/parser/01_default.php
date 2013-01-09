@@ -4,160 +4,163 @@ require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECT
 
 $pq = phpQuery::newDocument($layout);
 
-  $els = $pq ['.edit'];
+$els = $pq['.edit'];
 
- //$els = $pq ['.edit *[rel!=""]'];
- //d($els);
+//$els = $pq ['.edit *[rel!=""]'];
+//d($els);
 //$els  = $pq ['.edit *[rel]'];
 //d($els2);
 //exit();
 // $els = pq('body')->find('.edit')->filter(':not(script)');
 
 foreach ($els as $elem) {
-	
-	
+
 	//$els2 = pq($elem)->find('[rel]')->filter(':not(script)');
 	//d($els2);
-    // iteration returns PLAIN dom nodes, NOT phpQuery objects
-    $tagName = $elem->tagName;
-    $name = pq($elem)->attr('field');
+	// iteration returns PLAIN dom nodes, NOT phpQuery objects
+	$tagName = $elem -> tagName;
+	$name = pq($elem) -> attr('field');
 
-    if (strval($name) == '') {
-        $name = pq($elem)->attr('id');
-    }
+	if (strval($name) == '') {
+		$name = pq($elem) -> attr('id');
+	}
 
-    if (strval($name) == '') {
-        $name = pq($elem)->attr('data-field');
-    }
+	if (strval($name) == '') {
+		$name = pq($elem) -> attr('data-field');
+	}
 
+	// $fld_id = pq($elem)->attr('data-field-id');
 
-    // $fld_id = pq($elem)->attr('data-field-id');
+	$rel = pq($elem) -> attr('rel');
+	if ($rel == false) {
+		$rel = 'page';
+	}
 
-    $rel = pq($elem)->attr('rel');
-    if ($rel == false) {
-        $rel = 'page';
-    }
- 
+	$option_group = pq($elem) -> attr('data-option_group');
+	if ($option_group == false) {
+		$option_group = 'editable_region';
+	}
+	$data_id = pq($elem) -> attr('data-id');
+	if ($data_id == false) {
+		$data_id = pq($elem) -> attr('id');
+	}
 
-    $option_group = pq($elem)->attr('data-option_group');
-    if ($option_group == false) {
-        $option_group = 'editable_region';
-    }
-    $data_id = pq($elem)->attr('data-id');
-    if ($data_id == false) {
-        $data_id = pq($elem)->attr('id');
-    }
+	$option_mod = pq($elem) -> attr('data-module');
+	if ($option_mod == false) {
+		$option_mod = pq($elem) -> attr('data-type');
+	}
+	if ($option_mod == false) {
+		$option_mod = pq($elem) -> attr('type');
+	}
+	$name = trim($name);
+	$get_global = false;
+	//  $rel = 'page';
+	$field = $name;
+	$use_id_as_field = $name;
 
-    $option_mod = pq($elem)->attr('data-module');
-    if ($option_mod == false) {
-        $option_mod = pq($elem)->attr('data-type');
-    }
-    if ($option_mod == false) {
-        $option_mod = pq($elem)->attr('type');
-    }
+	if ($rel == 'global') {
+		$get_global = true;
+	} else {
+		$get_global = false;
+	}
 
+	if ($rel == 'module') {
+		$get_global = true;
+	}
+	if ($get_global == false) {
+		//  $rel = 'page';
+	}
 
+	if ($rel == 'content') {
+		if ($data_id != false) {
+			$get_global = false;
+			$data_id = intval($data_id);
+			$data = get_content_by_id($data_id);
+			$data['custom_fields'] = get_custom_fields_for_content($data_id, 0);
+		}
+	} else if ($rel == 'page') {
+		$data = get_page(PAGE_ID);
+		$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+		$get_global = false;
+	} else if ($rel == 'post') {
+		$data = get_content_by_id(POST_ID);
+		//d($data);
+		$get_global = false;
+		if ($data == false) {
+			$data = get_page($attr['post']);
+			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+		}
+	} else if (isset($attr['post'])) {
+		$get_global = false;
+		$data = get_post($attr['post']);
+		if ($data == false) {
+			$data = get_page($attr['post']);
+			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+		}
+	} else if (isset($attr['category'])) {
+		$get_global = false;
+		$data = get_category($attr['category']);
+	} else if (isset($attr['global'])) {
+		$get_global = true;
+	}
+	$cf = false;
+	$field_content = false;
 
-    $get_global = false;
-    //  $rel = 'page';
-    $field = $name;
-    $use_id_as_field = $name;
+	if ($get_global == true) {
 
-    if ($rel == 'global') {
-        $get_global = true;
-    } else {
-        $get_global = false;
-    }
+		if ($option_mod != false) {
 
-    if ($rel == 'module') {
-        $get_global = true;
-    }
-    if ($get_global == false) {
-        //  $rel = 'page';
-    }
+			$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+			//
+		} else {
+			$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+		}
+	} else {
 
+		if ($use_id_as_field != false) {
+			if (isset($data[$use_id_as_field])) {
+				$field_content = $data[$use_id_as_field];
+			}
+			if ($field_content == false) {
+				if (isset($data['custom_fields'][$use_id_as_field])) {
+					$field_content = $data['custom_fields'][$use_id_as_field];
+				}
+				// d($field_content);
+			}
+		}
 
-    if ($rel == 'content') {
-        if ($data_id != false) {
-            $data_id = intval($data_id);
-            $data = get_content_by_id($data_id);
-            $data ['custom_fields'] = get_custom_fields_for_content($data_id, 0);
-        }
-    } else if ($rel == 'page') {
-        $data = get_page(PAGE_ID);
-        $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-    } else if (isset($attr ['post'])) {
-        $data = get_post($attr ['post']);
-        if ($data == false) {
-            $data = get_page($attr ['post']);
-            $data ['custom_fields'] = get_custom_fields_for_content($data ['id'], 0);
-        }
-    } else if (isset($attr ['category'])) {
-        $data = get_category($attr ['category']);
-    } else if (isset($attr ['global'])) {
-        $get_global = true;
-    }
-    $cf = false;
-    $field_content = false;
+		//  if ($field_content == false) {
+		if (isset($data[$field])) {
 
-    if ($get_global == true) {
+			$field_content = $data[$field];
 
+		}
+		//}
+	}
+	 
+	if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
+		foreach ($data ['custom_fields'] as $kf => $vf) {
 
-        if ($option_mod != false) {
+			if ($kf == $field) {
 
+				$field_content = ($vf);
+			}
+		}
+	}
 
-            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
-            //
-        } else {
-            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
-        }
-    } else {
+	if ($field_content != false and $field_content != '') {
+		$field_content = htmlspecialchars_decode($field_content);
 
-        if ($use_id_as_field != false) {
-            if (isset($data [$use_id_as_field])) {
-                $field_content = $data [$use_id_as_field];
-            }
-            if ($field_content == false) {
-                if (isset($data ['custom_fields'] [$use_id_as_field])) {
-                    $field_content = $data ['custom_fields'] [$use_id_as_field];
-                }
-                // d($field_content);
-            }
-        }
+		//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
+		// d($field_content);
+		$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
-        //  if ($field_content == false) {
-        if (isset($data [$field])) {
+		pq($elem) -> html($field_content);
+	} else {
 
-            $field_content = $data [$field];
-        }
-        //}
-    }
-
-    if ($field_content == false and isset($data ['custom_fields']) and !empty($data ['custom_fields'])) {
-        foreach ($data ['custom_fields'] as $kf => $vf) {
-
-            if ($kf == $field) {
-
-                $field_content = ($vf);
-            }
-        }
-    }
-
-    //  d($field);
-
-    if ($field_content != false and $field_content != '') {
-        $field_content = htmlspecialchars_decode($field_content);
-
-        //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-        // d($field_content);
-        $field_content = parse_micrwober_tags($field_content, $options,$coming_from_parent , $coming_from_parent_id );
-
-        pq($elem)->html($field_content);
-    } else {
-
-    }
+	}
 }
-$layout = $pq->htmlOuter();
-$pq->__destruct();
+$layout = $pq -> htmlOuter();
+$pq -> __destruct();
 $pq = null;
 unset($pq);

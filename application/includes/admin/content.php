@@ -48,7 +48,7 @@
             </script>
 
 
-<script  type="text/javascript">
+<script type="text/javascript">
 
 
 
@@ -99,7 +99,7 @@ mw.treeRenderer = {
 
 // mw.$($is_sort).children('.category_tree').each(function(){
         //  var master = $(this);
-		
+
 		   var master = $is_sort;
 		  
     		  if(!master.hasClass("ui-sortable")){

@@ -20,6 +20,7 @@ $data['password'] = '';
 $data['email'] = '';
 $data['first_name'] = '';
 $data['last_name'] = '';
+$data['api_key'] = '';
 $data['is_active'] = 'y';
 $data['is_admin'] = 'n';
 } else {
@@ -128,6 +129,13 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
           </td>
         </tr>
+        
+          <tr>
+          <td><label class="mw-ui-label">Api key</label></td>
+          <td><input type="text" class="mw-ui-field" name="api_key" value="<?  print $data['api_key']; ?>"></td>
+        </tr>
+        
+        
         <tr class="no-hover">
           <td>&nbsp;</td>
           <td>
