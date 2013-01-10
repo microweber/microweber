@@ -456,8 +456,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 					$m_tag = rtrim($m_tag, "/>");
 					$m_tag = rtrim($m_tag);
-
-					$module_html = "<div class='__MODULE_CLASS__ __WRAP_NO_WRAP__' ";
+$userclass = '';
+					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' ";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";
 					$module_has_class = false;
@@ -506,7 +506,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						foreach ($attrs as $nn => $nv) {
 
 							if ($nn == 'class') {
-								$module_has_class = $nv;
+								$module_has_class = $userclass = $nv;
 
 								if (stristr($nv, 'module-as-element')) {
 									$mod_as_element = true;
@@ -586,6 +586,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							}
 							$module_class = module_css_class($module_name);
 							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
+							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
 							$coming_from_parentz = $module_name;
 							$coming_from_parent_str = false;

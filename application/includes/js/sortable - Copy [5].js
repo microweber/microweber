@@ -1491,6 +1491,7 @@ mw.delete_column = function(which){
 
 
 
+
 /**
  * Makes resizable columns
  *
