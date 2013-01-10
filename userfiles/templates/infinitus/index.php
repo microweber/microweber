@@ -41,7 +41,7 @@
     	<div class="container">
         	<div class="row">
                 <div class="column span3 logo">
-                    <a href="http://www.besthtmlcut.com/infinitus/index-layout2.html#"><img src="{TEMPLATE_URL}/infinitus_files/logo.png" alt="Infinitus"></a>
+                    <a href="javascript:;"><img class="element" src="{TEMPLATE_URL}/infinitus_files/logo.png" alt="Infinitus"></a>
                 </div>
                 <div class="column span9">
                     <div class="row show-grid">

@@ -279,6 +279,10 @@ $(document).ready(function(){
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
+	
+	
+	if(mw.url.windowHashParam ("action") === undefined){
+		}
 
 
 

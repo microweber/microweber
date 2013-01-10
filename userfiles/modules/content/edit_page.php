@@ -244,6 +244,17 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
     var area = mwd.getElementById('mw-editor');
     mw.wysiwyg.iframe_editor(area, '<?php print $data['id']; ?>');
   });
+
+  __loadpreview = function(){
+
+  if(!!mw.templatePreview){
+          if(!mw.templatePreview._once){
+            mw.templatePreview._once = true;
+            mw.templatePreview.generate();
+          }
+        }
+
+  }
 </script>
 
 
@@ -279,7 +290,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
-  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this);" href="javascript:;">Template</a>
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this, __loadpreview);" href="javascript:;">Template</a>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   </div>
@@ -495,7 +506,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
-  <div class="vSpace"></div>
+
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand ?>', this);">
   <?php _e("Custom Fields"); ?>
   </a>
@@ -513,7 +524,7 @@ $(document).ready(function(){
 		
 		
 		
-		
+
 		});
 });
 
@@ -546,7 +557,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 </script>
     <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
-  <div class="vSpace"></div>
+
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>

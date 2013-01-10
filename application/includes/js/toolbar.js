@@ -536,12 +536,7 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
-        if(!!mw.templatePreview){
-          if(!mw.templatePreview._once){
-            mw.templatePreview._once = true;
-            mw.templatePreview.generate();
-          }
-        }
+
       }
       else{
         mw.$("html").removeClass("mw_pages");
