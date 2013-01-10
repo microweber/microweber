@@ -565,14 +565,14 @@ mw.wysiwyg = {
         var url = mw.external_tool('wysiwyg?id='+id);
         var iframe = mwd.createElement('iframe');
         iframe.width = $(textarea).width();
-        iframe.height = 740;
-        iframe.scrolling = "auto";
-        iframe.frameborder = 0;
+        iframe.height = $(textarea).height();
+        iframe.scrolling = "no";
+        iframe.setAttribute('frameborder', 0);
         iframe.src = url;
+        iframe.style.resize = 'vertical';
         iframe.onload = function(){
           var b = $(this).contents().find("#mw-iframe-editor-area");
-          b[0].contenteditable = true;
-
+          b[0].contentEditable = true;
           b.bind("blur", function(){
             textarea.value = $(this).html();
           });

@@ -247,10 +247,25 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 </script>
 
 
-  <div id="mw-editor">
+  <div id="mw-editor" style="height: 300px;">
   </div>
 
 
+
+
+<div class="mw-postaction-bar">
+
+  <div class="left">
+      <span class="mw-ui-btn go-live">Go Live Edit</span>
+      <span class="mw-ui-btn">Save Draft</span>
+  </div>
+
+  <div class="right">
+    <span class="mw-ui-btn">Preview</span>
+    <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span>
+  </div>
+
+</div>
 
 
 
@@ -262,7 +277,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
   $pt_opts = array();
   if(intval($data['id']) > 0){
-$pt_opts['active_ids'] = $data['parent'];	
+$pt_opts['active_ids'] = $data['parent'];
 	
 } else {
 
@@ -275,34 +290,49 @@ $pt_opts['active_ids'] = $data['parent'];
   
 
    ?>
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
-    <div class="mw-ui-select" style="width: 364px;">
-      <select name="parent">
-        <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-        <?
-
-$pt_opts['link'] = "{empty}{title}";
-$pt_opts['list_tag'] = " ";
-$pt_opts['list_item_tag'] = "option";
-$pt_opts['remove_ids'] = $data['id'];
-if(isset($params['is_shop'])){
-//$pt_opts['is_shop'] = $params['is_shop'];
-}
-
- 
-
-$pt_opts['active_code_tag'] = '   selected="selected"  ';
- 
-
- 
- pages_tree($pt_opts);
 
 
-  ?>
-      </select>
-    </div>
+  <a href="javascript:;" onclick="mw.tools.toggle('.page_and_menus_holder', this);"  class="toggle_advanced_settings mw-ui-more">
+    <?php _e('Page and Menus'); ?>
+    </a>
+
+  <div class="page_and_menus_holder">
+
+        <div class="mw-ui-field-holder">
+          <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
+          <div class="mw-ui-select" style="width: 364px;">
+            <select name="parent">
+              <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
+              <?
+
+      $pt_opts['link'] = "{empty}{title}";
+      $pt_opts['list_tag'] = " ";
+      $pt_opts['list_item_tag'] = "option";
+      $pt_opts['remove_ids'] = $data['id'];
+      if(isset($params['is_shop'])){
+      //$pt_opts['is_shop'] = $params['is_shop'];
+      }
+
+
+
+      $pt_opts['active_code_tag'] = '   selected="selected"  ';
+
+
+
+       pages_tree($pt_opts);
+
+
+        ?>
+            </select>
+          </div>
+        </div>
+
+<? exec_action('mw_edit_page_admin_menus', $data); ?>
+
   </div>
+
+
+
   <? endif; ?>
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
@@ -404,7 +434,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 		   
 	  } else {
 		  $params['subtype'] = 'post';
-		  
+
 		  
 		  
 	  }
@@ -508,7 +538,8 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
-  <div class="advanced_settings"> <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
+  <div class="advanced_settings">
+    <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
     <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn-rect">
@@ -578,9 +609,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
     <div class="mw_clear vSpace"></div>
     <div class="post-save-bottom">
       <input type="submit" name="save" class="semi_hidden"  value="Save" />
-      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live">
-      <?php _e("Go live edit"); ?>
-      </a> <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+       <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
       <?php _e("Save"); ?>
       </a> </div>
   </div>

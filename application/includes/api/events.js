@@ -118,11 +118,11 @@ $(window).bind("hashchange load", function(event){
 
    var hash =  mw.hash();
    if(hash.contains("showpostscat")){
-      mw.$(".manage-toolbar-top").show();
+   //   mw.$(".manage-toolbar-top").show();
       mw.$("html").addClass("showpostscat");
    }
    else{
-      mw.$(".manage-toolbar-top").hide();
+   ///   mw.$(".manage-toolbar-top").hide();
       mw.$("html").removeClass("showpostscat");
    }
 

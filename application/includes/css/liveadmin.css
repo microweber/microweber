@@ -2101,6 +2101,54 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
   background-color: #D7FFC3;
 }
 
+.mw-postaction-bar{
+  clear: both;
+  overflow: hidden;
+  padding: 15px 0;
+}
+
+.mw-postaction-bar .left .mw-ui-btn{
+  margin-right: 10px;
+}
+.mw-postaction-bar .right .mw-ui-btn{
+  margin-left: 10px;
+}
+
+
+.mw-page-menu-selector{
+  width: 100%;
+  height: 31px;
+  overflow: visible;
+  z-index: 10;
+  background-image: none;
+}
+
+.mw-page-menu-selector ul{
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #E0E0E0;
+  padding:15px 0;
+}
+
+.mw-page-menu-selector li{
+  list-style: none;
+  float: left;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+#mw-selected-menus {
+  padding: 5px 2px;
+  display: inline-block;
+}
+
+#mw-selected-menus .mw-ui-btn{
+  margin: 1px 3px
+}
+
 
 
 

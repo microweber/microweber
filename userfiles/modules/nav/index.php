@@ -1,7 +1,10 @@
 <? //include_once($config['path_to_module'].'functions.php'); ?>
 
 <? 
-
+if(isset($params['name'])){
+	$params['menu-name'] = $params['name'];
+	
+}
   $menu_name = get_option('menu_name', $params['id']);  
 
 if($menu_name != false){
@@ -10,7 +13,7 @@ if($menu_name != false){
 
 if(isset($params['menu-name'])){
 	
-	$menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
+	$menu = get_menu('make_on_not_found=1&one=1&limit=1&title='.$params['menu-name']);
 	if(isarr($menu)){
 		$mt =  menu_tree($menu['id']);
 		if($mt != false){
@@ -29,5 +32,4 @@ if(isset($params['menu-name'])){
 	//print "Click on settings to edit this menu";	
 }
 
-
- ?>
+ 

@@ -1,16 +1,86 @@
+<?
+$posts_mod = array();
+$posts_mod['type'] = 'posts_list';
+  $posts_mod['display'] = 'custom';
+ if(isset($params['page-id'])){ 
+$posts_mod['data-page-id'] =$params['page-id'];
+ }
+ 
+  if(isset($params['keyword'])){
+ $posts_mod['search_by_keyword'] =$params['keyword'];
+ }
+   if(isset($params['keyword'])){
 
+ }
+ 
+   if(isset($params['is_shop']) and $params['is_shop']=='y'){
+	    $posts_mod['subtype'] = 'product';  
+ }  
+ 
+ if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
+  $check_if_excist = get_content_by_id($params['page-id']);
+	  if(isarr($check_if_excist)){
+		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
+			$posts_mod['subtype'] = 'product';  
+		}
+	  }
+ }
+
+  if(isset($params['category-id']) and $params['category-id']!='global'){
+  $check_if_excist = get_page_for_category($params['category-id']);
+  
+	  if(isarr($check_if_excist)){
+		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
+		 $posts_mod['subtype'] = 'product';
+		}
+	  }
+ }
+// $posts_mod['debug'] =1;
+ $posts_mod['paging_param'] ='pg';
+  $posts_mod['orderby'] ='created_on desc';
+ 
+ if(isset($params['pg'])){
+ $posts_mod['curent_page'] =$params['pg'];
+ }
+  $posts_mod['id'] = 'mw_admin_posts_manage';
+if(isset($params['data-category-id'])){
+        $posts_mod['category-id'] = $params['data-category-id'];
+}
+ $posts = array();
+ 
+
+//$pics_module = is_module('pictures');
+ 
+   $posts = module($posts_mod);
+
+
+  //d($params);
+?>
+<? //d($params); ?>
 
 <div class="mw-manageconten-nav">
-    <a class="mw-manage-btn mw-manage-btn-post-add" href="javascript:;"><span></span><strong>New Post</strong></a>
-    <a class="mw-manage-btn mw-manage-btn-category-add" href="javascript:;"><span></span><strong>New Category</strong></a>
-    <a class="mw-manage-btn mw-manage-btn-product-add" href="javascript:;"><span></span><strong>New Product</strong></a>
-    <a class="mw-manage-btn mw-manage-btn-page-edit" href="javascript:;"><span></span><strong>Edit Page</strong></a>
-    <a class="mw-manage-btn mw-manage-btn-category-edit" href="javascript:;"><span></span><strong>Edit Category</strong></a>
+  <? if(isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product'): ?>
+  <? if(isset($params["selected-category-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-product-add" href="#action=new:product&category_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>New Product</strong></a>
+  <? elseif(isset($params["page-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-product-add" href="#action=new:product&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Product</strong></a>
+  <? endif; ?>
+  <? else: ?>
+  <? if(isset($params["selected-category-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-post-add" href="#action=new:post&category_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>New Post</strong></a>
+  <? elseif(isset($params["page-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-post-add" href="#action=new:post&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Post</strong></a>
+  <? endif; ?>
+  <? endif; ?>
+  <? if(isset($params["selected-category-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-category-add" href="#action=new:category&parent_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>Sub Category</strong></a> <a class="mw-manage-btn mw-manage-btn-category-edit" href="#action=editcategory:<? print $params["selected-category-id"]; ?>"><span></span><strong>Edit Category</strong></a>
+  <? elseif(isset($params["page-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-category-add" href="#action=new:category&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Category</strong></a>
+  <? endif; ?>
+  <? if(isset($params["page-id"])): ?>
+  <a class="mw-manage-btn mw-manage-btn-page-edit" href="#action=editpage:<? print $params["page-id"]; ?>"><span></span><strong>Edit Page</strong></a>
+  <? endif; ?>
 </div>
-
-
-
-
 <div style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>Yes
@@ -22,7 +92,6 @@
   </div>
   <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
 </div>
-
 <div class="mw_clear"></div>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -82,9 +151,6 @@ mw.manage_content_sort = function(){
 
 
  </script>
-
-
-
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?  if(isset($params['page-id'])):  ?>
   <?
@@ -155,105 +221,44 @@ mw.manage_content_sort = function(){
   <? endif; ?>
   <? endif; ?>
 </div>
-<?
-$posts_mod = array();
-$posts_mod['type'] = 'posts_list';
-  $posts_mod['display'] = 'custom';
- if(isset($params['page-id'])){ 
-$posts_mod['data-page-id'] =$params['page-id'];
- }
- 
-  if(isset($params['keyword'])){
- $posts_mod['search_by_keyword'] =$params['keyword'];
- }
-   if(isset($params['keyword'])){
-
- }
- 
-   if(isset($params['is_shop']) and $params['is_shop']=='y'){
-	    $posts_mod['subtype'] = 'product';  
- }  
- 
- if(isset($params['page-id']) and $params['page-id']!='global'){
-  $check_if_excist = get_content_by_id($params['page-id']);
-	  if(isarr($check_if_excist)){
-		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
-			$posts_mod['subtype'] = 'product';  
-		}
-	  }
- }
-
-  if(isset($params['category-id']) and $params['category-id']!='global'){
-  $check_if_excist = get_page_for_category($params['category-id']);
-  
-	  if(isarr($check_if_excist)){
-		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
-		 $posts_mod['subtype'] = 'product';
-		}
-	  }
- }
-// $posts_mod['debug'] =1;
- $posts_mod['paging_param'] ='pg';
-  $posts_mod['orderby'] ='created_on desc';
- 
- if(isset($params['pg'])){
- $posts_mod['curent_page'] =$params['pg'];
- }
-  $posts_mod['id'] = 'mw_admin_posts_manage';
-if(isset($params['data-category-id'])){
-        $posts_mod['category-id'] = $params['data-category-id'];
-}
- $posts = array();
- 
-
-//$pics_module = is_module('pictures');
- 
-   $posts = module($posts_mod);
-
-
-  //d($params);
-?>
-
 <?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
-
-    <input
+  <input
             onfocus="mw.form.dstatic(event);"
             onblur="mw.form.dstatic(event);"
+             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
             value="<?php _e("Search for posts"); ?>"
             data-default="<?php _e("Search for posts"); ?>"
             type="text"
             class="manage-search"
             id="mw-search-field"
     />
-
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? foreach ($posts['data'] as $item): ?>
   <div class="manage-post-item">
-      <div class="manage-post-itemleft">
-        <label class="mw-ui-check left">
-          <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
-          <span></span></label>
-        <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-        <?
+    <div class="manage-post-itemleft">
+      <label class="mw-ui-check left">
+        <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
+        <span></span></label>
+      <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+      <?
     	$pic  = get_picture(  $item['id'],  'post', true); ?>
-        <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-        <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
-        <? else : ?>
-        <a class="manage-post-image manage-post-image-no-image left"></a>
-        <? endif; ?>
-        <div class="manage-post-main">
-          <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
-          <small><? print content_link($item['id']); ?></small>
-          <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
+      <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
+      <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
+      <? else : ?>
+      <a class="manage-post-image manage-post-image-no-image left"></a>
+      <? endif; ?>
+      <div class="manage-post-main">
+        <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
+        <small><a  class="manage-post-item-link-small" href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
+        <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-          <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Go live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Settings</a> <a href="javascript:;">Delete</a> </div>
-        </div>
-        <div class="manage-post-item-author"><? print ($item['created_by']) ?></div>
-
-        </div>
+        <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Edit</a> <a href="javascript:;">Delete</a> </div>
+      </div>
+      <div class="manage-post-item-author"><? print user_name($item['created_by']) ?></div>
+    </div>
     <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
   </div>
   <? endforeach; ?>
@@ -309,13 +314,13 @@ if( isset($params['category-id']) and intval($params['category-id']) > 0){
 }
  ?>
 <div class="mw-no-posts-foot">
-  <? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
-  <h2>No Products Here</h2>
-  
-  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
-  <? else: ?>
-  <h2>No Posts Here</h2>
-  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
+<? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
+<h2>No Products Here</h2>
+<!--  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
+-->
+<? else: ?>
+<h2>No Posts Here</h2>
+<!--  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
+-->
 <? endif; ?>
 <? endif; ?>
-

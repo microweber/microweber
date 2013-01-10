@@ -3,7 +3,7 @@
 <!-- Footer Start -->
 
 <footer class="footer">
-  <div class="container footer-container edit" id="footer_container" rel="global" field="footer">
+  <div class="container footer-container edit" id="footer_container" rel="global" field="footer_frenzy">
     <section class="row">
       <div class="column span4 visible-desktop">
         <div class="row footer-left"> 
@@ -113,30 +113,11 @@
       </div>
       <div class="column span3 footer-extra">
         <div class="footer-box">
-          <h4>From Sports</h4>
-          <ul>
-            <li><a class="" href="{TEMPLATE_URL}#">Championship Opening</a></li>
-            <li><a href="{TEMPLATE_URL}#">Ballon d’or Player</a></li>
-            <li><a href="{TEMPLATE_URL}#">EUFA Big Five</a></li>
-            <li><a href="{TEMPLATE_URL}#">Best Championship Match</a></li>
-            <li><a href="{TEMPLATE_URL}#">Interview With CR7</a></li>
-            <li><a href="{TEMPLATE_URL}#">EUFA Big Five</a></li>
-            <li><a href="{TEMPLATE_URL}#">Best Championship Match</a></li>
-            <li><a href="{TEMPLATE_URL}#">Interview With CR7</a></li>
-          </ul>
-        </div>
-        <div class="footer-box">
-          <h4>From Technology</h4>
-          <ul>
-            <li><a href="{TEMPLATE_URL}#">Ergo omni animali illud in eo</a></li>
-            <li><a href="{TEMPLATE_URL}#">An quisquam potest probare.</a></li>
-            <li><a href="{TEMPLATE_URL}#">Videmus in quodam volucrium</a></li>
-            <li><a href="{TEMPLATE_URL}#">Nonne videmus quanta perturbatio</a></li>
-            <li><a href="{TEMPLATE_URL}#">Nihilo magis.</a></li>
-            <li><a href="{TEMPLATE_URL}#">Lorem ipsum dolor sit amet</a></li>
-            <li><a href="{TEMPLATE_URL}#">Aliquam tincidunt mauris eu risus.</a></li>
-            <li><a href="{TEMPLATE_URL}#">Vestibulum auctor dapibus neque.</a></li>
-          </ul>
+          <h4>Navigation</h4>
+          
+          
+                     <microweber module="nav" name="footer" />
+
         </div>
       </div>
       <div class="column span3 footer-extra">
@@ -159,18 +140,8 @@
       <div class="column span2 footer-extra">
         <div class="footer-box">
           <h4>Quick Links</h4>
-          <ul>
-            <li><a href="{TEMPLATE_URL}#">Home</a></li>
-            <li><a href="{TEMPLATE_URL}#">Sports</a></li>
-            <li><a href="{TEMPLATE_URL}#">Fashions</a></li>
-            <li><a href="{TEMPLATE_URL}#">Business</a></li>
-            <li><a href="{TEMPLATE_URL}#">Celebrity</a></li>
-            <li><a href="{TEMPLATE_URL}#">Health</a></li>
-            <li><a href="{TEMPLATE_URL}#">International</a></li>
-            <li><a href="{TEMPLATE_URL}#">Politics</a></li>
-            <li><a href="{TEMPLATE_URL}#">Technology</a></li>
-            <li><a href="{TEMPLATE_URL}#">Lifestyle</a></li>
-          </ul>
+            <microweber module="nav" name="quick_links_footer" />
+           
         </div>
         <div class="footer-box">
           <h4>Follow Us</h4>

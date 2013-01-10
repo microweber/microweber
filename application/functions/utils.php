@@ -162,6 +162,16 @@ function normalize_path($path, $slash_it = true) {
     return $path;
 }
 
+function string_nice($var) {
+	$var=html_entity_decode($var) ;
+   $var=str_replace('-', ' ', $var) ;
+      $var=str_replace('_', ' ', $var) ;
+   
+    
+   return $var;
+}
+
+
 function string_clean($var) {
     if (is_array($var)) {
         foreach ($var as $key => $val) {
@@ -840,49 +850,7 @@ function pixum_img() {
         exit;
     }
 }
-
-function piasdasdxum_img() {
-    $mime_type = "image/png";
-    $extension = ".png";
-    $cache_folder = CACHEDIR . 'pixum' . DS;
-    if (!is_dir($cache_folder)) {
-        mkdir_recursive($cache_folder);
-    }
-
-    if (isset($_REQUEST['width'])) {
-        $w = $_REQUEST['width'];
-    } else {
-        $w = 1;
-    }
-
-    if (isset($_REQUEST['height'])) {
-        $h = $_REQUEST['height'];
-    } else {
-        $h = 1;
-    }
-
-    $hash = 'pixum-' . (intval($h) . 'x' . intval($w));
-    $cachefile = $cache_folder . '/' . $hash . $extension;
-
-
-    header("Content-Type: image/png");
-
-    # Generate cachefile for image, if it doesn't exist
-    if (!file_exists($cachefile)) {
-
-        $img = imagecreate($_REQUEST['width'], $_REQUEST['height']);
-        $bg = imagecolorallocate($img, 225, 226, 227);
-        //  header("Content-type: image/png");
-        imagepng($img, $cachefile);
-        imagecolordeallocate($bg);
-        imagedestroy($img);
-    } else {
-
-        $fp = fopen($cachefile, 'rb'); # stream the image directly from the cachefile
-        fpassthru($fp);
-        exit;
-    }
-}
+ 
 
 function pixum($width, $height) {
     return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;

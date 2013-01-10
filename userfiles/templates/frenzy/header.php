@@ -120,7 +120,7 @@ var assetPath = '{TEMPLATE_URL}img/assets/bg/',
           </ul>
         </nav>
         <nav id="main-navigation" class="visible-desktop">
-          <microweber module="pages_menu" />
+          <microweber module="nav" name="header_menu" />
           <!--<ul class="first-level">
             <li class="current"><a href="{TEMPLATE_URL}index-2.html">Home</a></li>
             <li><a href="{TEMPLATE_URL}#">Home Template <span class="icon awe-chevron-down"></span></a>

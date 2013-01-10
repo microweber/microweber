@@ -27,14 +27,14 @@ typeof mw === 'undefined' ?
 
   mw.loaded = false;
 
-  mw._random = 9999999;
+  mw._random = new Date().getTime();
 
   mw.random = function() {
     return mw._random++;
   }
 
   String.prototype.contains = function(a) {
-    return !!~this.indexOf(a)
+    return !!~this.indexOf(a);
   };
 
 
@@ -301,11 +301,10 @@ typeof mw === 'undefined' ?
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
     } else {
       for (var i in attrs) {
-		  
 		  if(attrs[i] != undefined){
-        var name = attrs[i].name;
-        var val = attrs[i].nodeValue;
-        to_send[name] = val;
+            var name = attrs[i].name;
+            var val = attrs[i].nodeValue;
+            to_send[name] = val;
 		  }
       } 
 	  

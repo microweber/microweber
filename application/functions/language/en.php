@@ -442,3 +442,5 @@ $language["there-are-no-new-comments"]= 'There are no new comments' ;
 $language["new-comment"]= 'New Comment' ; 
 $language["parent-page"]= 'Parent page' ; 
 $language["name"]= 'Name' ; 
+$language["page-and-menus"]= 'Page and Menus' ; 
+$language["add-to-navigation"]= 'Add to Navigation' ; 

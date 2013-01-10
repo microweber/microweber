@@ -5,6 +5,33 @@
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
 <script>mw.require("wysiwyg.js");</script>
+<script>
+
+$(document).ready(function(){
+
+$("#mw-iframe-editor-area").height($(window).height()-60)
+
+});
+
+</script>
+
+<style>
+.module{
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #efecec;
+  text-align: center;
+  margin: 5px;
+  font-size: 11px;
+}
+
+.mw-plain-module-name{
+  display: block;
+  padding-top: 5px;
+}
+
+</style>
 
 <?php
 mw_var('plain_modules', true);

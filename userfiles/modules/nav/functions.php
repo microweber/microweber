@@ -4,7 +4,7 @@ if (!defined("MODULE_DB_TABLE_SHOP")) {
 	define('MODULE_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
 }
 
-action_hook('mw_edit_page_admin', 'mw_print_admin_menu_selector');
+action_hook('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
 
 function mw_print_admin_menu_selector($params = false) {
 	//d($params);
@@ -12,7 +12,7 @@ function mw_print_admin_menu_selector($params = false) {
 	if (isset($params['id'])) {
 		$add = '&content_id=' . $params['id'];
 	}
-	print module('data-wrap=1&data-type=nav/edit_page_menus' . $add);
+	print module('view=edit_page_menus&type=nav' . $add);
 }
 
 function get_menu_items($params = false) {
@@ -64,15 +64,33 @@ function get_menu($params = false) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 	}
+
 	//$table = MODULE_DB_TABLE_SHOP_ORDERS;
 	$params['table'] = $table;
 	$params['item_type'] = 'menu';
 	//$params['debug'] = 'menu';
-	return get($params);
+	$menus = get($params);
+	if (!empty($menus)) {
+		return $menus;
+	} else {
+		if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
+			add_new_menu('id=0&title=' . $params['title']);
+		}
+
+	}
+
 }
 
 api_expose('add_new_menu');
 function add_new_menu($data_to_save) {
+	$params2 = array();
+	if ($data_to_save == false) {
+		$data_to_save = array();
+	}
+	if (is_string($data_to_save)) {
+		$params = parse_str($data_to_save, $params2);
+		$data_to_save = $params2;
+	}
 
 	$id = is_admin();
 	if ($id == false) {
