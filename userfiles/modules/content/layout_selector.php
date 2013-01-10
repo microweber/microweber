@@ -207,7 +207,7 @@ $(document).ready(function() {
     <? endif; ?>
   </div>
 </div>
-<div class="mw_clear" style="padding-bottom: 12px;">&nbsp;</div>
+
 <select name="layout_file" class="semi_hidden"   id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
   <? if(!empty($layouts)): ?>
@@ -256,13 +256,7 @@ $(document).ready(function() {
     </div>
   </div>
 
-  <div class="vSpace"></div>
 
-<div class="mw-ui-field-holder mw_save_buttons_holder right" style="width: calc(100% - 15px);">
-    <input type="submit" name="save" class="semi_hidden"  value="Save" />
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium go-live left"><?php _e("Go live edit"); ?></a>
-    <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right"><?php _e("Save"); ?></a>
-  </div>
 
 
 

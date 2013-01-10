@@ -1,7 +1,7 @@
 <?
 $posts_mod = array();
-$posts_mod['type'] = 'posts_list';
-  $posts_mod['display'] = 'custom';
+$posts_mod['type'] = 'content/admin_posts_list';
+ // $posts_mod['display'] = 'custom';
  if(isset($params['page-id'])){ 
 $posts_mod['data-page-id'] =$params['page-id'];
  }
@@ -35,7 +35,7 @@ $posts_mod['data-page-id'] =$params['page-id'];
 		}
 	  }
  }
-// $posts_mod['debug'] =1;
+  $posts_mod['wrap'] =1;
  $posts_mod['paging_param'] ='pg';
   $posts_mod['orderby'] ='created_on desc';
  
@@ -51,9 +51,8 @@ if(isset($params['data-category-id'])){
 
 //$pics_module = is_module('pictures');
  
-   $posts = module($posts_mod);
-
-
+ 
+//print $posts ;
   //d($params);
 ?>
 <? //d($params); ?>
@@ -221,70 +220,78 @@ mw.manage_content_sort = function(){
   <? endif; ?>
   <? endif; ?>
 </div>
-<?  if(isset($posts['data']) and isarr($posts['data'])):  ?>
-<div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
+<div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')">Select All</span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
   <input
             onfocus="mw.form.dstatic(event);"
             onblur="mw.form.dstatic(event);"
              onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
-            value="<?php _e("Search for posts"); ?>"
+            value="<?  if(isset($params['keyword']) and $params['keyword'] != false):  ?><? print $params['keyword'] ?><? else: ?><?php _e("Search for posts"); ?><? endif; ?>"
             data-default="<?php _e("Search for posts"); ?>"
             type="text"
             class="manage-search"
-            id="mw-search-field"
-    />
+            id="mw-search-field"   />
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
-<div class="manage-posts-holder" id="mw_admin_posts_sortable">
-  <? foreach ($posts['data'] as $item): ?>
-  <div class="manage-post-item">
-    <div class="manage-post-itemleft">
-      <label class="mw-ui-check left">
-        <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
-        <span></span></label>
-      <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-      <?
-    	$pic  = get_picture(  $item['id'],  'post', true); ?>
-      <? if($pic == true and isset($pic['filename']) and trim($pic['filename']) != ''): ?>
-      <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic['filename'], 108) ?>');"></a>
-      <? else : ?>
-      <a class="manage-post-image manage-post-image-no-image left"></a>
-      <? endif; ?>
-      <div class="manage-post-main">
-        <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
-        <small><a  class="manage-post-item-link-small" href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
-        <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
-      ?> </div>
-        <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Edit</a> <a href="javascript:;">Delete</a> </div>
-      </div>
-      <div class="manage-post-item-author"><? print user_name($item['created_by']) ?></div>
-    </div>
-    <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
-  </div>
-  <? endforeach; ?>
-</div>
-<div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn">Delete</a> </div>
-<div class="mw-paging">
-  <?
-
-        $numactive = 1;
- 
-     if(isset($params['data-page-number'])){
-                $numactive   = intval($params['data-page-number']);
-              }
-
-
-
-     if(isset($posts['paging_links']) and isarr($posts['paging_links'])):  ?>
-  <? $i=1; foreach ($posts['paging_links'] as $item): ?>
-  <a href="#<? print $posts['paging_param'].'='.$i; ?>" class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" onclick="mw.url.windowHashParam("<? print $posts['paging_param'] .'","'. $i; ?>");return false;"><? print $i; ?></a>
-  <? $i++; endforeach; ?>
-  <? //d($posts['paging_links']); ?>
-  <? // d($posts['paging_param']); ?>
+<?    print $posts = module( $posts_mod);  ?>
 </div>
 <script  type="text/javascript">
 
+//paging
+  mw.on.hashParam("pg", function(){
 
+     var dis =  $p_id = this;
+
+ mw.$('#mw_admin_posts_manage').attr("paging_param", 'pg');
+
+
+     if(dis!==''){
+       mw.$('#mw_admin_posts_manage').attr("pg", dis);
+        mw.$('#mw_admin_posts_manage').attr("data-page-number", dis);
+     }
+     else{
+       // mw.$('#mw_admin_posts_manage').removeAttr("pg");
+      //  mw.$('#mw_admin_posts_manage').removeAttr("data-page-number");
+       // mw.url.windowDeleteHashParam('pg');
+     }
+
+
+ $p_id = $(this).attr('data-page-number');
+	 $p_param = $(this).attr('data-paging-param');
+	 mw.$('#mw_admin_posts_manage').attr('data-page-number',$p_id);
+	 mw.$('#mw_admin_posts_manage').attr('data-page-param',$p_param);
+ mw.$('#mw_admin_posts_manage').removeAttr('data-content-id');
+
+
+  	// mw.load_module('content/admin_posts_list','#mw_admin_posts_manage');
+
+  mw.reload_module('#mw_admin_posts_manage');
+ 
+
+
+ });
+ 
+ 
+ 
+
+ mw.on.hashParam("search", function(){
+
+ mw.$('#mw_admin_posts_manage').attr("data-type",'content/admin_posts_list');
+
+   var dis = this;
+   if(dis!==''){
+     mw.$('#mw_admin_posts_manage').attr("data-keyword", dis);
+	  mw.url.windowDeleteHashParam('<? print $posts_mod['paging_param'] ?>')
+	//   mw.$('#mw_admin_posts_manage').removeAttr("<? print $posts_mod['paging_param'] ?>");
+	    mw.$('#mw_admin_posts_manage').attr("data-page-number", 1);
+			//    mw.$('#mw_admin_posts_manage').attr("data-page-number", 1);
+
+   }
+   else{
+      mw.$('#mw_admin_posts_manage').removeAttr("data-keyword");
+      mw.url.windowDeleteHashParam('search')
+   }
+   mw.reload_module('#mw_admin_posts_manage');
+ });
 
   mw.on.moduleReload('#<? print $params['id'] ?>', function(){
 
@@ -302,9 +309,7 @@ mw.manage_content_sort = function(){
 
 
 </script>
-<? endif; ?>
-<? else: ?>
-<? $cat_name = '';
+<? /*$cat_name = '';
 if( isset($params['category-id']) and intval($params['category-id']) > 0){
 	$cat = get('limit=1&table=categories&id='.$params['category-id']);
 	if(isarr($cat[0])){
@@ -312,15 +317,5 @@ if( isset($params['category-id']) and intval($params['category-id']) > 0){
 	}
 //	d($cat);
 }
- ?>
-<div class="mw-no-posts-foot">
-<? if( isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product') : ?>
-<h2>No Products Here</h2>
-<!--  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
--->
-<? else: ?>
-<h2>No Posts Here</h2>
-<!--  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
--->
-<? endif; ?>
-<? endif; ?>
+ 
+*/

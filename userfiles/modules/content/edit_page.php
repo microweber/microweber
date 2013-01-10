@@ -267,11 +267,23 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 </div>
 
+  <? if($edit_post_mode == false): ?>
+     <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+     <div class="pictures-editor-holder" style="display: none;">
+        <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+     </div>
+     <div class="vSpace"></div>
+  <? endif; ?>
+
 
 
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
-  <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this);" href="javascript:;">Template</a>
+  <div class="mw-layout-selector-holder" style="display: none;">
+    <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+  </div>
+  <div class="vSpace"></div>
   <? if($edit_post_mode == false): ?>
   <?   //  d($data);
 
@@ -284,7 +296,7 @@ $pt_opts['active_ids'] = $data['parent'];
   if(isset($params['parent-page-id']) and intval($data['parent']) == 0 and intval($params['parent-page-id']) > 0){
     $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
   }
-	
+
 
 }
   
@@ -296,7 +308,7 @@ $pt_opts['active_ids'] = $data['parent'];
     <?php _e('Page and Menus'); ?>
     </a>
 
-  <div class="page_and_menus_holder">
+  <div class="page_and_menus_holder" style="display: none;">
 
         <div class="mw-ui-field-holder">
           <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
@@ -331,7 +343,7 @@ $pt_opts['active_ids'] = $data['parent'];
 
   </div>
 
-
+   <div class="vSpace"></div>
 
   <? endif; ?>
   <? endif; ?>
@@ -355,7 +367,7 @@ $pt_opts['active_ids'] = $data['parent'];
 }
   
  $strz = '';
- 
+
  
   $selected_parent_ategory_id = '';
   if(isset($params["parent-category-id"])){
@@ -489,7 +501,7 @@ $pt_opts['active_ids'] = $data['parent'];
   </a>
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div class="vSpace"></div>
-  <div id="custom_fields_for_post_<? print $rand ?>" >
+  <div id="custom_fields_for_post_<? print $rand ?>"  style="display:none;">
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
     <script  type="text/javascript">
 $(document).ready(function(){
@@ -546,9 +558,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
        <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
     </a> */ ?>
     <div class="advanced_settings_holder">
-      <? if($edit_post_mode == false): ?>
-      <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
-      <? endif; ?>
+
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>

@@ -1112,7 +1112,7 @@ mw.drag = {
   //  data1.view = 'admin';
   if(data1['data-type'] != undefined){
 	 // alert(1);
-	 data1['data-type'] = data1['data-type']+'';
+	 data1['data-type'] = data1['data-type']+'/admin';
   }
   
     if(data1['type'] != undefined){

@@ -388,8 +388,8 @@ mw.on.hashParam("action", function(){
 
 
 
-    mw.$('#pages_edit_container').removeAttr('data-page-number');
-	mw.$('#pages_edit_container').removeAttr('data-paging-param');
+   // mw.$('#pages_edit_container').removeAttr('data-page-number');
+	//mw.$('#pages_edit_container').removeAttr('data-paging-param');
 
    // mw.$('#pages_edit_container').attr('data-active-item',active_item);
 
@@ -440,20 +440,7 @@ mw.on.hashParam("action", function(){
 
 
 
- mw.on.hashParam("search", function(){
 
- mw.$('#pages_edit_container').attr("data-type",'content/manage');
-
-   var dis = this.trim();
-   if(dis!==''){
-     mw.$('#pages_edit_container').attr("data-keyword", dis);
-   }
-   else{
-      mw.$('#pages_edit_container').removeAttr("data-keyword");
-      mw.url.windowDeleteHashParam('search')
-   }
-   mw.reload_module('#pages_edit_container');
- });
 });
 
 
@@ -617,39 +604,7 @@ function mw_add_product(){
 }
 
 
-//paging
-  mw.on.hashParam("pg", function(){
 
-     var dis =  $p_id = this.trim();
-
- mw.$('#pages_edit_container').attr("paging_param", 'pg');
-
-
-     if(dis!==''){
-       mw.$('#pages_edit_container').attr("pg", dis);
-        mw.$('#pages_edit_container').attr("data-page-number", dis);
-     }
-     else{
-        mw.$('#pages_edit_container').removeAttr("pg");
-        mw.$('#pages_edit_container').removeAttr("data-page-number");
-        mw.url.windowDeleteHashParam('pg');
-     }
-
-
- $p_id = $(this).attr('data-page-number');
-	 $p_param = $(this).attr('data-paging-param');
-	 mw.$('#pages_edit_container').attr('data-page-number',$p_id);
-	 mw.$('#pages_edit_container').attr('data-page-param',$p_param);
- mw.$('#pages_edit_container').removeAttr('data-content-id');
-
-
-  	 mw.load_module('content/manage','#pages_edit_container');
-
-	 //mw.reload_module('#pages_edit_container');
- 
-
-
- });
 
 
 
@@ -705,7 +660,7 @@ function mw_add_product(){
     <div class="mw_edit_page_right">
       <script>
 
-    $(document).ready(function(){
+  /*  $(document).ready(function(){
 
         var def = '<?php _e("Search for posts"); ?>';
         var field = mw.$("#mw-search-field");
@@ -721,7 +676,7 @@ function mw_add_product(){
 
 
     });
-
+*/
 
 
 

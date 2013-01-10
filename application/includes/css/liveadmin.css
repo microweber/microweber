@@ -1912,7 +1912,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   padding: 10px;
   min-height: 65px;
   width: 210px;
-  max-height: 282px;
+  max-height: 202px;
   overflow-x:hidden;
   overflow-y:auto;
   background:#EDEDED;
@@ -2117,20 +2117,24 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 
 .mw-page-menu-selector{
   width: 100%;
-  height: 31px;
-  overflow: visible;
+ height: auto;
+    min-height: 31px;
+    overflow: visible;
   z-index: 10;
   background-image: none;
 }
 
 .mw-page-menu-selector ul{
   position: absolute;
-  top: 35px;
+  display: none;
+  top: 101%;
   left: 0;
-  width: 100%;
+  width: 99.99%;
+  width: calc(100% - 2px);
   background: white;
   border: 1px solid #E0E0E0;
-  padding:15px 0;
+  padding: 15px 0 10px;
+  box-shadow: 0 0 1px #CCCCCC;
 }
 
 .mw-page-menu-selector li{
@@ -2138,6 +2142,7 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
   float: left;
   white-space: nowrap;
   margin-left: 15px;
+  margin-bottom: 5px;
 }
 
 #mw-selected-menus {
@@ -2146,7 +2151,14 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 }
 
 #mw-selected-menus .mw-ui-btn{
-  margin: 1px 3px
+  margin: 1px 3px 4px;
+}
+
+.mw-menuselector-menu-title{
+  color: #8C8C8C;
+  font-size: 11px;
+  position: relative;
+  top: -4px;
 }
 
 

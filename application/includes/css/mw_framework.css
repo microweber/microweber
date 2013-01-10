@@ -2190,6 +2190,8 @@ tr.mw-o-box-table-footer td:first-child{
 .mw-manageconten-nav{
   padding: 10px 0 10px 10px;
   overflow: hidden;
+  position: absolute;
+  top: 32px;
 }
 
 .mw-manageconten-nav a{
