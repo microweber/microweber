@@ -429,7 +429,20 @@ class MwController {
 					if (!in_array($try_class_full, $api_exposed)) {
 						$mod_api_err = true;
 						foreach ($api_exposed as $api_exposed_value) {
+							if ($mod_api_err == true) {
+								if ($api_exposed_value == $try_class_full) {
+									$mod_api_err = false;
+								} else {
+									$convert_slashes = str_replace('\\', '/', $try_class_full);
+									//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
+									//d($convert_slashes);
+									//d($try_class_full);
+									if ($convert_slashes == $api_exposed_value) {
+										$mod_api_err = false;
+									}
+								}
+							}
 						}
 					} else {
 						$mod_api_err = false;

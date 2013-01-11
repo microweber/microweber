@@ -1478,7 +1478,7 @@ textarea.mw-ui-field{
   overflow: hidden;
   border: 1px solid #DCDCDC;
   border-top: none;
-  background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
+  background: #F1F1F1;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -1502,6 +1502,17 @@ textarea.mw-ui-field{
   -webkit-appearance:none;
   -moz-appearance:none;
   appearance:none;
+}
+.mw-ui-select:after{
+  display: block;
+  content: "";
+  width: 28px;
+  height: 100%;
+  background: url(../img/dropdown.png) no-repeat right top;
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
 }
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}
