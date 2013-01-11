@@ -8,8 +8,6 @@ $config['on_uninstall'] = "mw_uninstall_stats_module";
 $config['position'] = 30;
 $config['version'] = 0.3;
 
-
-
 $config['tables'] = array();
 $fields_to_add = array();
 
@@ -19,8 +17,6 @@ $fields_to_add[] = array('user_ip', 'varchar(33)  default NULL ');
 $fields_to_add[] = array('visit_date', 'date default NULL');
 $fields_to_add[] = array('visit_time', 'time default NULL');
 $fields_to_add[] = array('last_page', 'varchar(255)  default NULL ');
- 
+$fields_to_add[] = array('country', 'varchar(255)  default NULL ');
+
 $config['tables']['table_stats_users_online'] = $fields_to_add;
-
-
- 

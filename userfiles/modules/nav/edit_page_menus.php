@@ -7,6 +7,7 @@
   <div class="mw-ui-select mw-page-menu-selector">
     <div id="mw-selected-menus">
         <input
+              id="mw-page-menu-selector-field"
               onfocus="mw.form.dstatic(event);"
               onblur="mw.form.dstatic(event);"
               onkeyup="mw.controllers.addToMenu.autoComplete(this);"
@@ -49,15 +50,18 @@ $menu_name = false;
             }
         },
         commute:function(){
+            var field = mw.$("#mw-page-menu-selector-field");
             mw.$(".mw-page-menu-selector input").commuter(function(){
                 mw.$('#mw-selected-menus label').remove();
                 var label = mw.$('.mw-menuselector-menu-title', this.parentNode).html();
+                field.val("").removeAttr('onfocus').removeAttr('onblur');
                 mw.$('#mw-selected-menus').prepend("<span id='id-"+this.value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.controllers.addToMenu.remove(this, "+this.value+");'></span></span>");
             }, function(){
 
                  mw.$('#id-'+this.value, mwd.getElementById('mw-selected-menus')).remove();
                  if(mw.$('#mw-selected-menus').html()==''){
                         mw.$('#mw-selected-menus').html('<label class="mw-ui-label">&nbsp;&nbsp;<small>Click here to add to navigation</small></label>');
+                        field.attr('onfocus', 'mw.form.dstatic(event)').attr('onblur', 'mw.form.dstatic(event)');
                  }
             });
         },
@@ -87,18 +91,23 @@ $menu_name = false;
             mw.controllers.addToMenu.init();
             mw.controllers.addToMenu.commute();
 
+            mw.$(".mw-page-menu-selector").hover(function(){
+              $(this).addClass('hover');
+            }, function(){
+              $(this).removeClass('hover');
+            });
+
+            $(mwd.body).mousedown(function(){
+              if(mw.$(".mw-page-menu-selector.hover").length == 0){
+                mw.$(".mw-page-menu-selector ul").hide();
+              }
+            });
 
             mw.$(".mw-page-menu-selector").click(function(e){
-
-                if($(e.target).hasClass('mw-page-menu-selector') || e.target.id == 'mw-selected-menus' || e.target.tagName === 'INPUT'){
-                     mw.$("ul", this).toggle();
+                     mw.$("ul", this).show();
                      if(e.target.tagName !== 'INPUT'){
                         $(this).find('input').focus();
                      }
-
-                }
-
-
             });
 
           });

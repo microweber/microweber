@@ -2140,7 +2140,11 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 #mw-selected-menus input{
   background: none;
   border: none;
-  margin: 0 0 0 7px;
+  margin: 4px 0 0 7px;
+  position: relative;
+    color: #8C8C8C;
+  font-size: 11px;
+  width:200px;
 }
 
 #mw-selected-menus .mw-ui-label{
@@ -2150,6 +2154,7 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 #mw-selected-menus .mw-ui-btn{
   margin: 1px 3px 4px;
   padding: 2px 17px 2px 7px;
+  float: left;
 }
 
 .mw-menuselector-menu-title{

@@ -209,11 +209,11 @@ mw.on.hashParam('installed', function(){
         <ul class="mw-ui-inline-selector">
          
           <li>
-            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit"  checked="checked" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Live edit modules</span></label>
+            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Live edit modules</span></label>
 
           </li>
            <li>
-            <label class="mw-ui-check"><input name="module_show" class="mw_modules_filter_show" type="radio" value="admin" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Admin modules</span></label>
+            <label class="mw-ui-check"><input name="module_show" class="mw_modules_filter_show" type="radio" value="admin"   checked="checked"  onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Admin modules</span></label>
 
           </li>
           <li>

@@ -90,7 +90,10 @@
        <a href="#design_bnav" class="mw-ui-btn-rect mw-ui-btn-rect-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
       <div id="mw-toolbar-right">
 
-        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/"><span class="backico"></span>Back to Admin</a>
+
+
+
+        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>?edit_content=<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
         <span onclick="mw.preview();" class="mw-ui-btn unselectable">Preview</span>
         <span class="mw-ui-btn mw-ui-btn-blue">Publish</span>
       </div>

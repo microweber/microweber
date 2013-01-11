@@ -1,7 +1,5 @@
 <?php $rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
-
-
 <script type="text/javascript">
 
 
@@ -46,8 +44,6 @@
 
 
             </script>
-
-
 <script type="text/javascript">
 
 
@@ -505,21 +501,6 @@ if($in_page != undefined && $is_cat != undefined){
  mw.$('#pages_edit_container').attr('data-selected-category-id',$in_page);
 }
 
-
-
-
-
-
-
-//	mw.$('#pages_tree_container_').empty();
-//	mw.$('#pages_edit_container').empty();
-//	 mw.$('#pages_tree_container_').attr('data-limit','10');
-
-
-
-
-
-
 	 mw.load_module('content/manage','#pages_edit_container', function(){
 
 
@@ -625,11 +606,11 @@ function mw_add_product(){
             if($view=='shop'){
         ?>
         <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
-          <?php _e("My Online Shop"); ?>
+        <?php _e("My Online Shop"); ?>
         </a>
         <?php } else { ?>
         <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
-          <?php _e("Website  Navigation"); ?>
+        <?php _e("Website  Navigation"); ?>
         </a>
         <?php } ?>
         <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
@@ -661,7 +642,7 @@ function mw_add_product(){
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    <div class="mw_edit_page_right">
+    <div class="mw_edit_page_right"> 
       <script>
 
   /*  $(document).ready(function(){
@@ -689,26 +670,38 @@ function mw_add_product(){
         <div class="top_label"><a href="#">See the tutorials here</a>.</div>
         <div class="vSpace"></div>
       </div>
-       <?
+      <?
+$ed_content = false;
+ $content_id = '';
 
-		 $content_id = '';
-	    if(defined('PAGE_ID') == true){
-		  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
-
-	  }
-	  if(defined('POST_ID')== true and POST_ID != false){
-		 $content_id = ' data-content-id='.intval(POST_ID).' ';
-
-	  }
-	   //d( $content_id );
+		if(isset($_GET['edit_content'])){
+			 $content_id = ' data-content-id='.intval($_GET['edit_content']).' ';
+			 $ed_content = true;
+		} else {
+				
+				if(defined('CONTENT_ID')== true and CONTENT_ID != false and CONTENT_ID != 0){
+					 $ed_content = true;
+				 $content_id = ' data-content-id='.intval(CONTENT_ID).' ';
+		
+			  } else   if(defined('POST_ID')== true and POST_ID != false and POST_ID != 0){
+				   $ed_content = true;
+				 $content_id = ' data-content-id='.intval(POST_ID).' ';
+		
+			  } else if(defined('PAGE_ID') == true and PAGE_ID != false and PAGE_ID != 0 ){
+				   $ed_content = true;
+				  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
+		
+			  }
+		}
+		 
 	   ?>
-
-       
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
+        <? if( $ed_content=== false): ?>
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
+        <? else: ?>
+        <module data-type="content/edit_page"  id="edit_content_admin" <? print  $content_id ?>  />
+        <? endif; ?>
       </div>
     </div>
   </div>
-   
 </div>
-
