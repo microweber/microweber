@@ -176,7 +176,7 @@ if (is_dir($cache_main_dir) == false) {
 }
 
 define('CACHEDIR', $cache_main_dir);
-define('HISTORY_DIR', CACHEDIR . 'history' . DIRECTORY_SEPARATOR);
+define('HISTORY_DIR', MW_USERFILES . 'history' . DIRECTORY_SEPARATOR);
 
 define('LIBSPATH', MW_APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
 define('DBPATH', 'db' . DS);

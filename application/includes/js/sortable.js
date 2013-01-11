@@ -1759,13 +1759,17 @@ mw.history = {
 		if ($base64fle != undefined) {
 			$.ajax({
 				type: 'POST',
-				url: mw.settings.site_url + "api/content/load_history_file",
+				url: mw.settings.site_url + "api/load_history_file",
 				data: {
 					history_file: $base64fle
 				},
 				dataType: "json",
 				success: function (data) {
 					$.each(data, function (i, d) {
+						var $what_is_the_content = ''
+						//if(this.page_element_id != un
+						
+						
 						if (window.console && window.console.log) {
 							window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);
 						}

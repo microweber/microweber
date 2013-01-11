@@ -1525,7 +1525,10 @@ function save_edit($post_data) {
 							// $history_to_save ['id'] = 'global';
 							$history_to_save['value'] = $field_content['option_value'];
 							$history_to_save['field'] = $field;
+							$history_to_save['page_element_id'] = $page_element_id;
+							
 							if ($is_no_save != true) {
+								save_history($history_to_save);
 								//  $this->core_model->saveHistory($history_to_save);
 							}
 						}

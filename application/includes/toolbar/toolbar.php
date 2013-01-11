@@ -45,7 +45,7 @@
          // mw.drag.create();
 
 
-           // mw.history.init();
+            mw.history.init();
             mw.tools.module_slider.init();
             mw.tools.dropdown();
 

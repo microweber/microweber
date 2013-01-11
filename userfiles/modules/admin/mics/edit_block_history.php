@@ -19,7 +19,7 @@
 		 
 		} else {
 		
- 
+ /*
 $the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
  $id = $params['id'];
  $page_id = $params['page_id'];
@@ -101,8 +101,10 @@ $history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
 		}
 			//p($history_dir);
 			
-			
-}			
+*/				
+}	
+
+	
 			?>
 
 <!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
