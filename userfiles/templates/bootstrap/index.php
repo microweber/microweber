@@ -41,7 +41,7 @@ description: Home site layout
 <body>
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
-    <div class="container-fluid"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a class="brand" href="#">Project name</a>
+    <div class="container-fluid"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a class="brand edit" rel="global" field="site-title" href="#">Project name</a>
       <div class="nav-collapse collapse">
         <p class="navbar-text pull-right"> Logged in as <a href="#" class="navbar-link">Username</a> </p>
         <module class="nav" type="nav" name="header_menu" id="bootstrap_head" />
@@ -54,7 +54,7 @@ description: Home site layout
   <div class="row-fluid">
     <div class="span3">
       <div class="well sidebar-nav">
-      <module type="pages_menu" />
+        <module type="pages_menu" />
         <ul class="nav nav-list">
           <li class="nav-header">Sidebar</li>
           <li class="active"><a href="#">Link</a></li>
@@ -78,54 +78,47 @@ description: Home site layout
     </div>
     <!--/span-->
     
-   
-      <div class="span9">
-        <div class="hero-unit"> <div class="edit" field="content" rel="content">
+    <div class="span9 edit" field="content" rel="content">
+      <div class="hero-unit element">
+         
           <h1>Hello, world!</h1>
           <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
           <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-           </div>
-        </div>
-         
- 
         
-        
-        
-        
-        
-        <div class="row-fluid">
-        
-        
-        <div class="edit" field="content2" rel="content">
- 
-        <div class="mw-row">
-
-          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div></div>
-
-
-          <!--/span-->
-          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div></div>
-          <!--/span-->
-          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div></div>
-          <!--/span-->
-</div>
-  </div>
-        </div>
-        <!--/row--> 
       </div>
-   
+      <div class="row-fluid">
+        <div class="edit" field="content2" rel="content">
+          <div class="mw-row">
+            <div class="mw-col" style="width: 33.33%">
+              <div class="element" style="padding:12px;">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+              </div>
+            </div>
+            
+            <!--/span-->
+            <div class="mw-col" style="width: 33.33%">
+              <div class="element" style="padding:12px;">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+              </div>
+            </div>
+            <!--/span-->
+            <div class="mw-col" style="width: 33.33%">
+              <div class="element" style="padding:12px;">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+              </div>
+            </div>
+            <!--/span--> 
+          </div>
+        </div>
+      </div>
+      <!--/row--> 
+    </div>
     
     <!--/span--> 
   </div>
