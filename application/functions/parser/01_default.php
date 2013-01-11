@@ -72,12 +72,14 @@ foreach ($els as $elem) {
 	}
 
 	if ($rel == 'content') {
-		if ($data_id != false) {
+		if (!isset($data_id) or $data_id== false) {
+			$data_id = CONTENT_ID;
+		}
 			$get_global = false;
 			$data_id = intval($data_id);
 			$data = get_content_by_id($data_id);
 			$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
-		}
+		
 	} else if ($rel == 'page') {
 		$data = get_page(PAGE_ID);
 		$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');

@@ -1,9 +1,10 @@
 <? include TEMPLATE_DIR. "header.php"; ?>
-<!-- Header End --> 
+<!-- Header End -->
 
-<!--///////////////////////////// Slider Area //////////////////////////////////--> 
+<!--///////////////////////////// Slider Area //////////////////////////////////-->
 
 <!-- Main Slider Start -->
+
 <div class="container hidden-phone" id="slideshow">
   <section id="slider" class="row">
     <div class="column span8"> 
@@ -138,36 +139,46 @@
 <!-- Main Content Wrapper Start -->
 <div class="container edit"  id="main" role="main" >
   <section id="popular-content" class="row visible-desktop">
-    <div class="popular-item span3">
-      <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/htmlcss.png" alt="image" /></a> </div>
-      <div class="popular-content">
-        <h4><a href="{TEMPLATE_URL}#" title="title">HTML5/CSS3</a></h4>
-        <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
-          Praesent a tellus vitae nisl vehicula semper. </p>
+    <div class="mw-row">
+      <div class="mw-col">
+        <div class="element popular-item span3">
+          <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/htmlcss.png" alt="image" /></a> </div>
+          <div class="popular-content">
+            <h4><a href="{TEMPLATE_URL}#" title="title">HTML5/CSS3</a></h4>
+            <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+              Praesent a tellus vitae nisl vehicula semper. </p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="popular-item span3">
-      <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/bootstrap.png" alt="image" /></a> </div>
-      <div class="popular-content">
-        <h4><a href="{TEMPLATE_URL}#" title="title">Build With Bootstrap</a></h4>
-        <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
-          Praesent a tellus vitae nisl vehicula semper. </p>
+      <div class="mw-col">
+        <div class="element popular-item span3">
+          <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/bootstrap.png" alt="image" /></a> </div>
+          <div class="popular-content">
+            <h4><a href="{TEMPLATE_URL}#" title="title">Build With Bootstrap</a></h4>
+            <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+              Praesent a tellus vitae nisl vehicula semper. </p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="popular-item span3">
-      <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/lesscss.png" alt="image" /></a> </div>
-      <div class="popular-content">
-        <h4><a href="{TEMPLATE_URL}#" title="title">Powered by LESSCSS</a></h4>
-        <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
-          Praesent a tellus vitae nisl vehicula semper. </p>
+      <div class="mw-col">
+        <div class="element popular-item span3">
+          <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/lesscss.png" alt="image" /></a> </div>
+          <div class="popular-content">
+            <h4><a href="{TEMPLATE_URL}#" title="title">Powered by LESSCSS</a></h4>
+            <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+              Praesent a tellus vitae nisl vehicula semper. </p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="popular-item span3">
-      <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/responsive.png" alt="image" /></a> </div>
-      <div class="popular-content">
-        <h4><a href="{TEMPLATE_URL}#" title="title">Responsive Ready</a></h4>
-        <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
-          Praesent a tellus vitae nisl vehicula semper. </p>
+      <div class="mw-col">
+        <div class="element popular-item span3">
+          <div class="popular-image"> <a href="{TEMPLATE_URL}#" title="title"><img src="{TEMPLATE_URL}img/assets/placeholder/responsive.png" alt="image" /></a> </div>
+          <div class="popular-content">
+            <h4><a href="{TEMPLATE_URL}#" title="title">Responsive Ready</a></h4>
+            <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+              Praesent a tellus vitae nisl vehicula semper. </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -187,7 +198,7 @@
           <h4>Latest News</h4>
           <div class="separator"></div>
         </div>
-         <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+        <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
           Praesent a tellus vitae nisl vehicula semper. </p>
         <module type="posts" template="sidebar_widget" />
       </div>
@@ -220,8 +231,8 @@
     
     <!-- Main Content -->
     <div id="content" class="column span6">
-     <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
-          Praesent a tellus vitae nisl vehicula semper. </p>
+      <p> Ut dignissim aliquet nibh tristique. Donec ullamcorper nulla quis 
+        Praesent a tellus vitae nisl vehicula semper. </p>
       <module type="posts" />
     </div>
     <!-- End Main Content --> 
@@ -293,5 +304,5 @@
     
   </section>
 </div>
-<!-- Main Content Wrapper End --> 
+<!-- Main Content Wrapper End -->
 <? include TEMPLATE_DIR. "footer.php"; ?>

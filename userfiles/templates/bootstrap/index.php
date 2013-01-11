@@ -52,8 +52,9 @@ description: Home site layout
 </div>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="column span3">
+    <div class="span3">
       <div class="well sidebar-nav">
+      <module type="pages_menu" />
         <ul class="nav nav-list">
           <li class="nav-header">Sidebar</li>
           <li class="active"><a href="#">Link</a></li>
@@ -77,57 +78,54 @@ description: Home site layout
     </div>
     <!--/span-->
     
-    <div class="edit" field="content" rel="content">
-      <div class="column span9">
-        <div class="hero-unit">
+   
+      <div class="span9">
+        <div class="hero-unit"> <div class="edit" field="content" rel="content">
           <h1>Hello, world!</h1>
           <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
           <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+           </div>
         </div>
-        <div class="row-fluid row">
-          <div class="column span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-          <!--/span-->
-          <div class="column span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-          <!--/span-->
-          <div class="column span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-          <!--/span--> 
-        </div>
-        <!--/row-->
+         
+ 
+        
+        
+        
+        
+        
         <div class="row-fluid">
-          <div class="column span4">
+        
+        
+        <div class="edit" field="content2" rel="content">
+ 
+        <div class="mw-row">
+
+          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
             <h2>Heading</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
             <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
+          </div></div>
+
+
           <!--/span-->
-          <div class="column span4">
+          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
             <h2>Heading</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
             <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
+          </div></div>
           <!--/span-->
-          <div class="column span4">
+          <div class="mw-col" style="width: 33.33%"><div class="element" style="padding:12px;">
             <h2>Heading</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
             <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-          <!--/span--> 
+          </div></div>
+          <!--/span-->
+</div>
+  </div>
         </div>
         <!--/row--> 
       </div>
-    </div>
+   
     
     <!--/span--> 
   </div>

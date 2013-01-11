@@ -212,7 +212,7 @@ mw.drag = {
 
 
                    //trigger on row
-                   if(mw.$mm_target.hasClass("row")){
+                   if(mw.$mm_target.hasClass("mw-row")){
                      $(window).trigger("onRowOver", mw.mm_target);
                    }
                    else if(mw.$mm_target.parents(".mw-row").length>0){
@@ -268,7 +268,7 @@ mw.drag = {
 
 
 
-               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("column") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
+               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("mw-col") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
                     if(mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'no-drop') && !mw.$mm_target.hasClass('no-drop')){
                        mw.currentDragMouseOver = mw.mm_target;
                        if(mw.$mm_target.hasClass("empty-element")){
@@ -335,7 +335,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region && !$(mw.dragCurrent).hasClass("row")/*&& $(mw.dragCurrent).hasClass("element-image")*/){
+            if(mw.drop_regions.global_drop_is_in_region && !$(mw.dragCurrent).hasClass("mw-row")/*&& $(mw.dragCurrent).hasClass("element-image")*/){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
@@ -358,7 +358,7 @@ mw.drag = {
             }
 
 
-            if(el.hasClass("element") || el.hasClass("row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
+            if(el.hasClass("element") || el.hasClass("mw-row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
                 }
@@ -876,9 +876,9 @@ mw.drag = {
                                     //hovered.before(mw.dragCurrent);
 
                                     var row = mwd.createElement('div');
-                                    row.className = 'row';
+                                    row.className = 'mw-row';
                                     row.id = "row_" + mw.random();
-                                    row.innerHTML = "<div class='column temp_column' style='width:50%'></div><div class='column' style='width:50%'></div>";
+                                    row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col' style='width:50%'></div>";
                                     hovered.before(row);
                                     hovered.addClass("element");
 
@@ -896,9 +896,9 @@ mw.drag = {
 
 
                                           var row = mwd.createElement('div');
-                                          row.className = 'row';
+                                          row.className = 'mw-row';
                                           row.id = "row_" + mw.random();
-                                          row.innerHTML = "<div class='column temp_column' style='width:50%'></div><div class='column temp_column' style='width:50%'></div>";
+                                          row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col temp_column' style='width:50%'></div>";
                                           hovered.before(row);
                                           hovered.addClass("element");
 
@@ -1289,7 +1289,7 @@ mw.drag = {
 				if ($numcols > $exisintg_num) {  //more columns
 					for (i = $exisintg_num; i < $numcols; i++) {
                         var new_col = mwd.createElement('div');
-                        new_col.className = 'column';
+                        new_col.className = 'mw-col';
                         mw.$('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
@@ -1424,7 +1424,7 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
 
 mw.px2pc = function(row){
 
- return false;
+
 
 
     var cache = [];
@@ -1607,6 +1607,8 @@ $(".edit .mw-row").each(function(){
 								"top": (event.pageY - el.offset().top) + "px"
 							});
 						});
+                        
+                        mw.px2pc(mw.tools.firstParentWithClass(this, 'mw-row'));
 					},
 					start: function (event, ui) {
 					  $(this).resizable("option", "maxWidth", 9999);
@@ -1796,24 +1798,6 @@ mw.drag.story = {
 
 
 
-_mwmatrix = {}
-
-mw.matrix = {
-  rec:function(){
-    var arr = document.querySelectorAll(".element");
-    var len = arr.length;
-    for(var i=0; i<len ;i++){
-        var el = arr[i];
-        _mwmatrix[i] = {
-            x:el.offsetLeft,
-            y:el.offsetTop,
-            w:el.offsetWidth,
-            h:el.offsetHeight,
-            index:i
-        }
-    }
-  }
-}
 
 
 
