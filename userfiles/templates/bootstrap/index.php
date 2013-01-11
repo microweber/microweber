@@ -73,6 +73,21 @@ description: Home site layout
           <li><a href="#">Link</a></li>
           <li><a href="#">Link</a></li>
         </ul>
+        
+        <div class="edit" field="sidebar_text" rel="alex">
+         <h5>I am the same</h5>
+          
+        </div>
+            <div class="edit" field="sidebar_text" rel="pecata">
+         <h5>pecata</h5>
+          
+        </div>
+        
+         <div class="edit" field="sidebar_text_2" rel="content" id="pecata1"  >
+         <h4>Hey! I am diferent on every page aaa </h4> 
+        </div>
+        
+        
       </div>
       <!--/.well --> 
     </div>

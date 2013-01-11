@@ -1986,7 +1986,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	if ($dbg != false) {
 
 	}
-	//d($q);
+	 
 	db_q($q);
 
 	if ($id_to_return == false) {

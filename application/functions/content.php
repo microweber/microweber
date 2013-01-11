@@ -4,6 +4,11 @@
 if (!defined("MW_DB_TABLE_CONTENT")) {
 	define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
 }
+
+if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
+	define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
+}
+
 if (!defined("MW_DB_TABLE_MEDIA")) {
 	define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
 }
@@ -13,6 +18,7 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 }
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
+//action_hook('mw_db_init', 'mw_db_init_content_table');
 
 function mw_db_init_content_table() {
 	$function_cache_id = false;
@@ -83,6 +89,29 @@ function mw_db_init_content_table() {
 
 
 
+$table_name = MW_DB_TABLE_CONTENT_FIELDS;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+ 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+
+	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('field', 'longtext default NULL');
+	 $fields_to_add[] = array('value', 'TEXT default NULL');
+	 
+	
+	 
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('name', $table_name, array('name(55)'));
 
 
 
@@ -1466,7 +1495,14 @@ function save_edit($post_data) {
 							if ($is_no_save != true) {
 								save_history($history_to_save);
 							}
-
+							$cont_field = array();
+							$cont_field['to_table'] = 'table_content';
+							$cont_field['to_table_id'] = $content_id;
+							$cont_field['value'] = $old;
+							$cont_field['field'] = $field;
+							if($field != 'content'){
+							$cont_field = save_content_field($cont_field);
+							}
 							$to_save = array();
 							$to_save['id'] = $content_id;
 
@@ -1492,6 +1528,21 @@ function save_edit($post_data) {
 							print(__FILE__ . __LINE__ . ' category is not implemented not ready yet');
 						}
 					} else {
+						
+						$cont_field = array();
+							$cont_field['to_table'] = $the_field_data['attributes']['rel'];
+						  $cont_field['to_table_id'] = 0;
+							$cont_field['value'] = make_microweber_tags($html_to_save);;
+							$cont_field['field'] = $the_field_data['attributes']['field'];
+							if($field != 'content'){
+						 //d($cont_field);
+							$cont_field = save_content_field($cont_field);
+							
+							}
+						
+						
+						
+						
 						if ($save_global == true and $save_layout == false) {
 
 							if (isset($the_field_data['attributes']['data-option_group'])) {
@@ -2032,7 +2083,104 @@ and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
 	// }
 	// return $save;
 }
+	
+	
+	//api_expose('save_content_field');
 
+function save_content_field($data, $delete_the_cache = true) {
+
+	$adm = is_admin();
+	$table = MW_DB_TABLE_CONTENT_FIELDS;
+	//$checks = mw_var('FORCE_SAVE_CONTENT');
+	 
+ 
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	 
+	if(!is_array($data)){
+		$data = array();
+	}
+	if(!isset($data['to_table']) or !isset($data['to_table_id'])){
+		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');
+	}
+	//if($data['to_table'] == 'global'){
+		if(isset($data['field'])){
+			$fld = db_escape_string($data['field']);
+				$fld_to_table = db_escape_string($data['to_table']);
+			$del_q = "delete from {$table} where to_table='$fld_to_table' and  field='$fld' ";
+			if(isset($data['to_table_id'])){
+				$i = db_escape_string($data['to_table_id']);
+											$del_q .= " and  to_table_id='$i' ";
+				
+			}
+			db_q($del_q);
+			
+			
+			
+		}
+	//}
+ 
+	$save = save_data($table, $data);
+	
+	
+	return $save;
+	
+	
+	 
+}
+function get_content_field($data) {
+
+ 
+	$table = MW_DB_TABLE_CONTENT_FIELDS;
+ 
+	 
+	 if(is_string($data)){
+		$data = parse_params($data);
+	}
+	 
+	 if(!is_array($data)){
+		$data = array();
+	}
+	//d($data);
+	if(!isset($data['to_table'])){
+		if(isset($data['rel'])){
+			$data['to_table'] = $data['rel'];
+	}
+	}
+	if(!isset($data['to_table_id'])){
+		if(isset($data['data-id'])){
+			$data['to_table_id'] = $data['data-id'];
+	} else {
+		
+	}
+	}
+if(!isset($data['to_table_id'])){
+	$data['to_table_id'] = 0;
+		}
+	
+	if(!isset($data['to_table']) or !isset($data['to_table_id'])){
+		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');
+	}
+	//if($data['to_table'] == 'global'){
+		if(isset($data['field'])){
+			 
+			  $data['limit'] = 1;
+			  	  $data['one'] = 1;
+		 $data['table'] = $table;
+				$get = get($data);
+	
+	if(isset($get['value'])){
+	return $get['value'];
+	}
+		}
+	//}
+ 
+return false;
+	
+	
+	 
+}
 /*
  *
  *

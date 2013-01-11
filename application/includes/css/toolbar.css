@@ -442,7 +442,9 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 
 
 #mw_history_files {
-  
+  height:50px;
+  overflow:scroll;
+  display:block;
 }
 
 
