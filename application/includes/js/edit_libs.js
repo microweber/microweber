@@ -28,16 +28,16 @@
 
 			 var shortestHeight = 10000;
 			 var biggestHeight = 0;
-			$this.children('.column' ).each(function(){
+			$this.children('.mw-col' ).each(function(){
 				shortestHeight = $(this).height() < shortestHeight ? $(this).height() : shortestHeight;
 				biggestHeight = $(this).outerHeight() > biggestHeight ? $(this).outerHeight() : biggestHeight;
 
 			});
-			$this.children('.column' ).height(biggestHeight);
+			$this.children('.mw-col' ).height(biggestHeight);
 		});
 	};//End of Plugin
 	$.fn.equalHeights.defaults = {
-		itemsToEqualize : '.column'
+		itemsToEqualize : '.mw-col'
  	};
 })(jQuery);
 
@@ -62,8 +62,8 @@
 				stripPadding: 'none' // options: 'child', 'grand-child', 'both'
 			},options);
 		return this.each(function(){
-			var child_count = $(this).children('.column').size();
-			var last_col = $(this).children('.column:last-child');
+			var child_count = $(this).children('.mw-col').size();
+			var last_col = $(this).children('.mw-col:last-child');
 	        var parent_row = $(this);
 
 			 // mw.$('.also-resize').removeClass('also-resize');
@@ -73,7 +73,7 @@
 
 
 
-				$(this).children('.column').each(function(index) {
+				$(this).children('.mw-col').each(function(index) {
 				   $(this).css({
 						width:  (100 )+"%",
 					 });
@@ -93,7 +93,7 @@
 								w_ch = 0;
 								w_parent_diff = w_parent;
 								$a = 1;
-								$(this).children('.column').each(function(index) {
+								$(this).children('.mw-col').each(function(index) {
 
 
 									if(mw.settings.empty_column_placeholder != undefined){
@@ -105,7 +105,7 @@
 											}
 									}
 									  var parent = parent_row;
-									//   var parent_column = parent.parent('.column');
+									//   var parent_column = parent.parent('.mw-col');
 									//  if(parent_column != undefined ){
 									//	  parent = parent_column
 									//  }

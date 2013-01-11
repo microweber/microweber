@@ -15,6 +15,28 @@ mw.custom_fields = {
 
     //});
   },
+  
+  
+   create: function($selector, $type, $copy,$module_id , callback){
+      var copy_str = '';
+      if($copy !== undefined && $copy !== false){
+        var copy_str = '/copy_from:'+ $copy;
+      }
+      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $module_id + '/for:'+ $module_id +'/custom_field_type:'+$type + copy_str , function(){
+        
+		
+		
+		mw.is.func(callback) ? callback.call($type) : '';
+		
+		
+		
+		
+       });
+
+  },
+  
+  
+  
   sort:function(group){
     var group = mwd.getElementById(group);
     $(group).sortable({

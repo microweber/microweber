@@ -38,7 +38,7 @@ body.mw-preview{
     clear: both !important;
     max-width:100%;
 }
-.element, .column, .mw_item{
+.element, .mw-col, .mw_item{
  -ms-transform-origin:50% 50%;
  -webkit-transform-origin:50% 50%;
  -moz-transform-origin:50% 50%;
@@ -51,7 +51,7 @@ body.mw-preview{
     clear: none;
     max-width: 100%;
 }
-.edit:after, .column:after, .element:after {
+.edit:after, .mw-col:after, .element:after {
     clear: both;
     content: ".";
     display: block;
@@ -59,16 +59,16 @@ body.mw-preview{
     line-height: 0;
     visibility: hidden;
 }
-.column {
+.mw-col {
     float: left !important;
     margin: 0 !important;
     padding: 0 !important;
 }
-.edit, .column {
+.edit, .mw-col {
     min-height: 50px;
     position: relative;
 }
-.edit .column img{
+.edit .mw-col img{
   height: auto !important;
   max-width: 100% !important;
 }

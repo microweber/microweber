@@ -146,7 +146,7 @@ typeof mw === 'undefined' ?
     upload_url: '<?php print site_url(); ?>api/upload/',
 
     api_url: '<?php print site_url(); ?>api/',
-	 api_html: '<?php print site_url(); ?>api_html/',
+    api_html: '<?php print site_url(); ?>api_html/',
 
 
     page_id: '<?php print intval(PAGE_ID) ?>',

@@ -382,7 +382,7 @@ mw.drag = {
         mw.drag.init();
 
 
-		mw.resizable_columns();
+	 mw.resizable_columns();
 
 
 
@@ -462,7 +462,7 @@ mw.drag = {
             width:width
           });
           $(mw.handle_row).data("curr", element);
-          var size =  $(element).children(".column").length;
+          var size =  $(element).children(".mw-col").length;
           $("a.mw-make-cols").removeClass("active");
           $("a.mw-make-cols").eq(size-1).addClass("active");
           element.id=="" ? element.id="row_"+mw.random() : "";
@@ -645,7 +645,7 @@ mw.drag = {
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
             $(mw.handle_row).draggable({
-               handle:".column_separator_title",
+               handle:".mw-col_separator_title",
                cursorAt:{
                  top:-30
                },
@@ -882,8 +882,8 @@ mw.drag = {
                                     hovered.before(row);
                                     hovered.addClass("element");
 
-                                    $(row).find(".column").eq(0).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                                    $(row).find(".column").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                    $(row).find(".mw-col").eq(0).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                    $(row).find(".mw-col").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
                                     if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
                                          setTimeout(function(){
@@ -902,8 +902,8 @@ mw.drag = {
                                           hovered.before(row);
                                           hovered.addClass("element");
 
-                                          $(row).find(".column").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                                          $(row).find(".column").eq(1).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                          $(row).find(".mw-col").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                                          $(row).find(".mw-col").eq(1).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
                                           if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
                                             setTimeout(function(){
@@ -917,7 +917,7 @@ mw.drag = {
                                  var row = curr_parent.parents(".row").eq(0);
                                  curr_parent.remove();
                                  row.find(".empty-element").remove();
-                                 row.replaceWith(row.find(".column").html());
+                                 row.replaceWith(row.find(".mw-col").html());
                             }
 
                         }
@@ -959,14 +959,14 @@ mw.drag = {
 	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
-		$(".column, .element, .row", '.edit').height('auto');
+		$(".mw-col, .element, .row", '.edit').height('auto');
         $(mw.dragCurrent).css({
           top:'',
           left:''
         });
 		//$(mw.dragCurrent).removeAttr('style');
 		//$(".element", '.edit').removeAttr('style');
-		$(".column", '.edit').each(function () {
+		$(".mw-col", '.edit').each(function () {
 			var el = $(this);
 			if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
 				if (el.height() < el.parent().height()) {
@@ -993,7 +993,7 @@ mw.drag = {
       if(isHard){ //append the empty elements
        $(selector).each(function(){
           var el = $(this);
-          el.children("div.column").each(function(){
+          el.children("div.mw-col").each(function(){
             var the_empty_child = $(this).children("div.empty-element");
             if(the_empty_child.length==0){
               $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
@@ -1270,13 +1270,13 @@ mw.drag = {
         if(!$(selector).hasClass("active")){
 
         var id = $(mw.handle_row).data("curr").id;
-        $(mw.handle_row).children(".column").removeClass("temp_column");
+        $(mw.handle_row).children(".mw-col").removeClass("temp_column");
         $(mw.handle_row).find("a").removeClass("active");
         $(selector).addClass("active")
          var $el_id = id!=''?id:mw.settings.row_id;
 
 			mw.settings.sortables_created = false;
-			var $exisintg_num = mw.$('#' + $el_id).children(".column").length;
+			var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").length;
 
 			if ($numcols == 0) {
 				$numcols = 1;
@@ -1298,8 +1298,8 @@ mw.drag = {
 				else {  //less columns
 					var $cols_to_remove = $exisintg_num - $numcols;
 					if ($cols_to_remove > 0) {
-                        var last_after_remove = mw.$('#' + $el_id).children(".column").eq($numcols-1);
-                        var elements_to_clone = mw.$('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        var last_after_remove = mw.$('#' + $el_id).children(".mw-col").eq($numcols-1);
+                        var elements_to_clone = mw.$('#' + $el_id).children(".mw-col:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
                             last_after_remove.find(".empty-element").before(el);
@@ -1311,10 +1311,10 @@ mw.drag = {
 					}
 				}
 
-				var $exisintg_num = mw.$('#' + $el_id).children(".column").size();
+				var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").size();
 				var $eq_w = 100 / $exisintg_num;
 				var $eq_w1 = $eq_w;
-				mw.$('#' + $el_id).children(".column").width($eq_w1 + '%');
+				mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
 			}
         }
 	},
@@ -1416,6 +1416,7 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
      if(final<100){
        mw.pcWidthExtend(selector, howMuch, cache, final, len);
      }
+     
   }
 
 }
@@ -1423,10 +1424,13 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
 
 mw.px2pc = function(row){
 
+ return false;
+
+
     var cache = [];
     var row = $(row);
     var width = row.width();
-    var cols = row.children(".column");
+    var cols = row.children(".mw-col");
     var len = cols.length;
     cols.each(function(){
         var el = $(this);
@@ -1453,7 +1457,7 @@ mw.px2pc = function(row){
 mw.scale_cols = function(){
   $(".row").each(function(){
     var el = $(this);
-    var cols = el.children(".column");
+    var cols = el.children(".mw-col");
     var len = cols.length;
     var width = el.width();
     var w = 0;
@@ -1475,12 +1479,12 @@ mw.scale_cols = function(){
 mw.delete_column = function(which){
   if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
      var row =  $(which).parents(".row").eq(0);
-     var col =  $(which).parents(".column").eq(0);
-     if(col.next(".column").length==0){
-        col.prev(".column").resizable("destroy");
+     var col =  $(which).parents(".mw-col").eq(0);
+     if(col.next(".mw-col").length==0){
+        col.prev(".mw-col").resizable("destroy");
      }
      col.remove();
-     if(row.find(".column").length==0){
+     if(row.find(".mw-col").length==0){
        row.remove();
      }
      else{
@@ -1503,7 +1507,7 @@ $(".edit .row").each(function(){
 });
 
 
-	mw.$('.edit .column').not(".ui-resizable").each(function () {
+	mw.$('.edit .mw-col').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1519,16 +1523,16 @@ $(".edit .row").each(function(){
 		$is_done = false;
 		if ($is_done == false) {
 
-			$inner_column = $(this).children(".column:first");
+			$inner_column = $(this).children(".mw-col:first");
 			$prow = $(this).parent('.row').attr('id');
 			$no_next = false;
 
 
-			$also = $(this).next(".column");
+			$also = $(this).next(".mw-col");
 			$also_check_exist = $also.size();
 			if ($also_check_exist == 0) {
 				$no_next = true;
-				$also = $(this).prev(".column");
+				$also = $(this).prev(".mw-col");
 			}
 
 
@@ -1545,8 +1549,8 @@ $(".edit .row").each(function(){
 
 
 
-		  //$(this).parents(".column").resizable("destroy");
-		  //$(this).children(".column").resizable("destroy");
+		  //$(this).parents(".mw-col").resizable("destroy");
+		  //$(this).children(".mw-col").resizable("destroy");
 
 			if ($no_next == false) {
 				$handles = 'e'
@@ -1558,7 +1562,7 @@ $(".edit .row").each(function(){
 
 			if ($no_next == false ) {
 
-				$last_c_w = $(this).parent('.row').children('.column').last().width();
+				$last_c_w = $(this).parent('.row').children('.mw-col').last().width();
 				$row_max_w = $(this).parent('.row').width();
 
 
@@ -1606,7 +1610,7 @@ $(".edit .row").each(function(){
 					},
 					start: function (event, ui) {
 					  $(this).resizable("option", "maxWidth", 9999);
-						$(".column", '.edit').each(function () {
+						$(".mw-col", '.edit').each(function () {
 							$(this).removeClass('selected');
 						});
 

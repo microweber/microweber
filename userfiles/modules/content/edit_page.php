@@ -241,8 +241,9 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
  <script>
   $(document).ready(function(){
-    var area = mwd.getElementById('mw-editor');
+    var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
     mw.wysiwyg.iframe_editor(area, '<?php print $data['id']; ?>');
+
   });
 
   __loadpreview = function(){
@@ -258,7 +259,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 </script>
 
 
-  <div id="mw-editor" style="height: 300px;">
+  <div id="mw-editor<?php print $rand; ?>" style="height: 300px;">
   </div>
 
 
@@ -542,7 +543,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 				 holder1.attr('for','table_content');
 				 holder1.attr('save_to_content_id','<? print $data['id'] ?>');
 				 holder1.attr('to_table_id',vals);
-				 
+
 		
 				 mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand ?>', function(){
 
@@ -629,7 +630,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <? endif; ?>
       <? /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Password</label>
+        <label class="mw-ui-label">Password <small>(Only the users which have a password can have a access)</small></label>
         <input name="password" style="width: 603px;" class="mw-ui-field" type="password" value="" />
       </div>
     </div>

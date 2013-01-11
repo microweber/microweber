@@ -89,7 +89,7 @@
 }
 
 
-.column .mw_drag_current:first-child+.empty-element{
+.mw-col .mw_drag_current:first-child+.empty-element{
   min-height: 100% !important;
   position: absolute !important;
   top: 0;
@@ -142,7 +142,7 @@
 
 
 
-body .column > .ui-resizable-e {
+body .mw-col > .ui-resizable-e {
 	width: 20px;
 	right: 0;
 	top: 0;
@@ -153,7 +153,7 @@ body .column > .ui-resizable-e {
     /*cursor: url(http://pecata/1k/application/includes/img/blank.gif), url(http://pecata/1k/application/includes/img/blank.cur), none;*/
     cursor: none;
 }
-body .column > .ui-resizable-e *{
+body .mw-col > .ui-resizable-e *{
   cursor: none;
 }
 

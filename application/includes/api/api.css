@@ -260,11 +260,11 @@ html.mw_pages #items_handle{
 
 
 
-.mw_resizing > .column{
+.mw_resizing > .mw-col{
   height: auto !important;
 }
-.column .empty-element:first-child .delete_column,
-.column .ui-resizable-e:first-child + .empty-element .delete_column{
+.mw-col .empty-element:first-child .delete_column,
+.mw-col .ui-resizable-e:first-child + .empty-element .delete_column{
   display: inline-block;
 }
 

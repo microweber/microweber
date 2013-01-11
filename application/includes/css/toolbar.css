@@ -50,7 +50,7 @@
 /*outline: 1px dotted #0CF;*/
 }
 
-.column-min-height {
+.mw-col-min-height {
 	min-height:100px;
 }
 .col, .row, .element {
@@ -384,7 +384,7 @@ padding:0px !important;
 
 
 
-.columns_set{
+.mw-cols_set{
   padding: 9px;
   display: none;
   display: inline-block;
@@ -395,7 +395,7 @@ padding:0px !important;
   font-size: 11px;
   color: #5A5A5A;
 }
-.column_separator_title{
+.mw-col_separator_title{
   display: inline-block;
   cursor: default;
   padding:0px 4px;
@@ -407,7 +407,7 @@ padding:0px !important;
   border-radius: 3px;
 }
 
-.mw-sorthandle-row:hover .columns_set{
+.mw-sorthandle-row:hover .mw-cols_set{
   display: block;
 }
 
@@ -492,10 +492,10 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 }
 
 
-.column .ui-resizable-handle{
+.mw-col .ui-resizable-handle{
     visibility:hidden;
 }
-.column:hover .ui-resizable-handle{
+.mw-col:hover .ui-resizable-handle{
     visibility:visible;
 }
 .element-active .mw-sorthandle:first-child{
