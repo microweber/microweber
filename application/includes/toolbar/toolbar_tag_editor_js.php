@@ -1001,7 +1001,7 @@ for (var i = 0; i < classes.length; i++) {
 		
 		$("#"+$element, '.edit').addClass("mw-custom-style");
 		$("#"+$element, '.edit').addClass("mw-style-"+$style_name);
- $(".row",'.edit').equalWidths().equalHeights();
+ $(".mw-row",'.edit').equalWidths().equalHeights();
  $(".mw-col",'.edit').height('auto');
 
 	

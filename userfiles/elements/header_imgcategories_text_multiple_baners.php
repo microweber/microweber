@@ -1,5 +1,5 @@
 <img class="element element-image layout-wide-img" src="<?php print pixum(800,120); ?>" />
-<div class="row">
+<div class="mw-row">
   <div class="mw-col" style="width: 20%">
     <module type="categories" for="content" />
   </div>

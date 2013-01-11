@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="mw-row">
   <div class="mw-col" style="width:33.33%" >
       <img class="element element-image layout-img" src="<?php print pixum(290, 150); ?>" alt="" />
       <h2 class="element layout-title lipsum">Three Coloms with Pictures</h2>

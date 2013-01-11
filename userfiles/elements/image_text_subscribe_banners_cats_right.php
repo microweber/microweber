@@ -1,9 +1,9 @@
 <img class="element element-image" width="100%" src="<?php print pixum(800,120); ?>" />
-<div class="row">
+<div class="mw-row">
     <div class="mw-col" style="width: 40%">
 
         <module style="margin-right:10px;" type="newsletter" />
-        <div class="row">
+        <div class="mw-row">
             <div class="mw-col" style="width: 50%">
                 <img class="element element-image layout-img" style="margin: 0;" src="<?php print pixum(200,200); ?>" />
                 <br />

@@ -215,8 +215,8 @@ mw.drag = {
                    if(mw.$mm_target.hasClass("row")){
                      $(window).trigger("onRowOver", mw.mm_target);
                    }
-                   else if(mw.$mm_target.parents(".row").length>0){
-                     $(window).trigger("onRowOver", mw.$mm_target.parents(".row:first")[0]);
+                   else if(mw.$mm_target.parents(".mw-row").length>0){
+                     $(window).trigger("onRowOver", mw.$mm_target.parents(".mw-row:first")[0]);
                    }
                    else if(mw.mm_target.id!='mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length==0){
                      $(window).trigger("onRowLeave", mw.mm_target);
@@ -914,7 +914,7 @@ mw.drag = {
                             }
 
                             if(curr_prev.length==0 && curr_next.hasClass("empty-element") && curr_parent.hasClass("temp_column") && !hovered.hasClass("empty-element")){
-                                 var row = curr_parent.parents(".row").eq(0);
+                                 var row = curr_parent.parents(".mw-row").eq(0);
                                  curr_parent.remove();
                                  row.find(".empty-element").remove();
                                  row.replaceWith(row.find(".mw-col").html());
@@ -959,7 +959,7 @@ mw.drag = {
 	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
-		$(".mw-col, .element, .row", '.edit').height('auto');
+		$(".mw-col, .element, .mw-row", '.edit').height('auto');
         $(mw.dragCurrent).css({
           top:'',
           left:''
@@ -979,7 +979,7 @@ mw.drag = {
 			else {
 				el.children('.empty-element').height('auto');
 				el.height('auto');
-				el.parents('.row:first').height('auto')
+				el.parents('.mw-row:first').height('auto')
 			}
 		});
 	},
@@ -989,7 +989,7 @@ mw.drag = {
 	 * @example mw.drag.fix_placeholders(isHard , selector)
 	 */
     fix_placeholders:function(isHard, selector){
-      var selector = selector || '.row';
+      var selector = selector || '.mw-row';
       if(isHard){ //append the empty elements
        $(selector).each(function(){
           var el = $(this);
@@ -1007,7 +1007,7 @@ mw.drag = {
       $("div.empty-element").parent().height('auto');
       $("div.empty-element").each(function(){
         var el = $(this);
-        var the_row_height = el.parents(".row").eq(0).height();
+        var the_row_height = el.parents(".mw-row").eq(0).height();
         var the_column_height = el.parent().height();
         el.css({height:the_row_height-the_column_height, position:'relative'});
       });
@@ -1273,7 +1273,7 @@ mw.drag = {
         $(mw.handle_row).children(".mw-col").removeClass("temp_column");
         $(mw.handle_row).find("a").removeClass("active");
         $(selector).addClass("active")
-         var $el_id = id!=''?id:mw.settings.row_id;
+         var $el_id = id!=''?id:mw.settings.mw-row_id;
 
 			mw.settings.sortables_created = false;
 			var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").length;
@@ -1301,7 +1301,7 @@ mw.drag = {
                         var last_after_remove = mw.$('#' + $el_id).children(".mw-col").eq($numcols-1);
                         var elements_to_clone = mw.$('#' + $el_id).children(".mw-col:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
-                            var el = $(this).children(".element, .module, .row, .mw-layout-holder");
+                            var el = $(this).children(".element, .module, .mw-row, .mw-layout-holder");
                             last_after_remove.find(".empty-element").before(el);
                            $("#"+this.id).remove();
                         });
@@ -1455,7 +1455,7 @@ mw.px2pc = function(row){
 
 
 mw.scale_cols = function(){
-  $(".row").each(function(){
+  $(".mw-row").each(function(){
     var el = $(this);
     var cols = el.children(".mw-col");
     var len = cols.length;
@@ -1478,7 +1478,7 @@ mw.scale_cols = function(){
 
 mw.delete_column = function(which){
   if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
-     var row =  $(which).parents(".row").eq(0);
+     var row =  $(which).parents(".mw-row").eq(0);
      var col =  $(which).parents(".mw-col").eq(0);
      if(col.next(".mw-col").length==0){
         col.prev(".mw-col").resizable("destroy");
@@ -1502,7 +1502,7 @@ mw.delete_column = function(which){
  */
 mw.resizable_columns = function () {
 
-$(".edit .row").each(function(){
+$(".edit .mw-row").each(function(){
     mw.px2pc(this);
 });
 
@@ -1524,7 +1524,7 @@ $(".edit .row").each(function(){
 		if ($is_done == false) {
 
 			$inner_column = $(this).children(".mw-col:first");
-			$prow = $(this).parent('.row').attr('id');
+			$prow = $(this).parent('.mw-row').attr('id');
 			$no_next = false;
 
 
@@ -1562,8 +1562,8 @@ $(".edit .row").each(function(){
 
 			if ($no_next == false ) {
 
-				$last_c_w = $(this).parent('.row').children('.mw-col').last().width();
-				$row_max_w = $(this).parent('.row').width();
+				$last_c_w = $(this).parent('.mw-row').children('.mw-col').last().width();
+				$row_max_w = $(this).parent('.mw-row').width();
 
 
 				$(this).attr("data-also-rezise-item", $also_reverse_id);
@@ -1618,7 +1618,7 @@ $(".edit .row").each(function(){
 
 						mw.global_resizes.sum = ui.size.width + mw.global_resizes.next.width();
 
-						$r = $(this).parent('.row');
+						$r = $(this).parent('.mw-row');
 
 						$row_w = $r.width();
 						mw.resizable_row_width = $row_w;
@@ -1636,7 +1636,7 @@ $(".edit .row").each(function(){
 						mw.drag.fixes();
 						mw.drag.fix_placeholders();
 
-                        mw.px2pc($(this).parents(".row")[0]);
+                        mw.px2pc($(this).parents(".mw-row")[0]);
 
                        //mw.scale_cols();
 					}

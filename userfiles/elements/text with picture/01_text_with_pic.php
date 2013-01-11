@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="mw-row">
   <div class="mw-col" style="width:25%" >
       <img class="element element-image layout-img" src="<?php print pixum(150, 150); ?>"    />
   </div>
