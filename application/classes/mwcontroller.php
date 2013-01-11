@@ -318,6 +318,7 @@ class MwController {
 		if (!defined('MW_API_CALL')) {
 			define('MW_API_CALL', true);
 		}
+
 		$mod_class_api = false;
 		$mod_class_api_called = false;
 		$mod_class_api_class_exist = false;
@@ -338,7 +339,7 @@ class MwController {
 		$try_class_func = array_pop($mod_api_class);
 		$mod_api_class = implode(DS, $mod_api_class);
 		$mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
-		//	d($mod_api_class1);
+		// ..d($mod_api_class1);
 
 		$try_class = str_replace('/', '\\', $mod_api_class);
 		if (class_exists($try_class, false)) {
@@ -348,7 +349,7 @@ class MwController {
 			//	d($mod_api_class1);
 			if (is_file($mod_api_class1)) {
 				$mod_class_api = true;
-				include ($mod_api_class1);
+				include_once ($mod_api_class1);
 			}
 		}
 		$api_exposed = '';
@@ -366,6 +367,14 @@ class MwController {
 		if ($api_function == false) {
 			$api_function = url_segment(1);
 		}
+
+		if ($mod_class_api != false) {
+			$url_segs = url_segment(-1);
+			// $api_function = ;
+			//d($api_functioan);
+			//d($try_class);
+		}
+
 		switch ($caller_commander) {
 			case 'class_is_already_here' :
 				if ($params != false) {
@@ -381,6 +390,7 @@ class MwController {
 				}
 
 				static $loaded_classes = array();
+
 				//$try_class_n = src_
 				if (isset($loaded_classes[$try_class]) == false) {
 					$res = new $try_class($data);
@@ -414,8 +424,29 @@ class MwController {
 
 					$try_class = str_replace('/', '\\', $mod_api_class);
 					$try_class_full = str_replace('/', '\\', $api_function_full);
+					$mod_api_err = false;
 
-					if (defined('MW_API_RAW') or in_array($try_class_full, $api_exposed)) {
+					if (!in_array($try_class_full, $api_exposed)) {
+						$mod_api_err = true;
+						foreach ($api_exposed as $api_exposed_value) {
+
+						}
+					} else {
+						$mod_api_err = false;
+
+					}
+
+					if ($mod_class_api and $mod_api_err == false) {
+
+						if (!class_exists($try_class, false)) {
+							$remove = $url_segs;
+							$last_seg = array_pop($remove);
+							$last_prev_seg = array_pop($remove);
+							if (class_exists($last_prev_seg, false)) {
+								$try_class = $last_prev_seg;
+							}
+
+						}
 
 						if (class_exists($try_class, false)) {
 							if ($params != false) {
@@ -446,6 +477,9 @@ class MwController {
 								}
 								exit();
 							}
+
+						} else {
+							error('The api class ' . $try_class . '  does not exist');
 
 						}
 
@@ -525,7 +559,9 @@ class MwController {
 
 				// print $api_function;
 			} else {
+
 				error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+
 			}
 
 			if (!defined('MW_API_HTML_OUTPUT')) {
@@ -859,9 +895,10 @@ class MwController {
 		if (!defined('MW_NO_OUTPUT')) {
 			print $res;
 		}
+
 		if ($url_last != __FUNCTION__) {
 			if (function_exists($url_last)) {
-				//d($url_last);
+				//
 				$this -> api($url_last);
 			} else if (isset($url_prev) and function_exists($url_prev)) {
 				$this -> api($url_last);

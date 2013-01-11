@@ -1358,8 +1358,9 @@ textarea.mw-ui-field{
 }
 
 .mw-ui-label small{
-  text-transform: uppercase;
-  font-size: 7px;
+  font-size: 11px;
+  color: #8E8E8E;
+  font-weight: normal;
 }
 
 .edit-url-ico{
@@ -1490,7 +1491,7 @@ textarea.mw-ui-field{
   height: 31px;
   padding: 7px 0 0 7px;
   font-size: 12px;
-  min-width: 110%;
+  min-width: 100%;
   outline: none;
   background: transparent;
   background-color: rgba(0,0,0,0);
@@ -1499,6 +1500,8 @@ textarea.mw-ui-field{
   -moz-border-radius: 2px;
   border-radius: 2px;
   -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
 }
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}

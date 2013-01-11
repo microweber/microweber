@@ -35,17 +35,16 @@ function url_segment($k = -1) {
 		//  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
 		if (!isset($u) or $u == false) {
 
-			//$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
 			$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-			//  $u = explode('/', $u1);
-			//$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', $u1), '/'));
-			//   $u = explode('/', $u1);
+
 		}
 
 		// $u = $u ? :
 	}
+ 
+		return $k != -1 ? v($u[$k]) : $u;
 
-	return $k != -1 ? v($u[$k]) : $u;
+	 
 }
 
 function site_hostname() {

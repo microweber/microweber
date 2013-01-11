@@ -97,7 +97,7 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
    
 
     mw.$('#admin_edit_page_form_<? print $form_rand_id ?> a.go-live').click(function() {
-	
+
 
 mw_before_content_save<? print $rand ?>()
 
@@ -267,13 +267,16 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 <div class="mw-postaction-bar">
 
   <div class="left">
-      <span class="mw-ui-btn go-live">Go Live Edit</span>
-      <span class="mw-ui-btn">Save Draft</span>
+
+
   </div>
 
   <div class="right">
-    <span class="mw-ui-btn">Preview</span>
-    <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span>
+<?php /*     <span class="mw-ui-btn">Preview</span>
+    <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
+    <span class="mw-ui-btn go-live">Go Live Edit</span>
+    <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;">Save</span>
+
   </div>
 
 </div>
@@ -628,10 +631,6 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       </div>
     </div>
     <div class="mw_clear vSpace"></div>
-    <div class="post-save-bottom">
-      <input type="submit" name="save" class="semi_hidden"  value="Save" />
-       <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['mw_edit_page_form']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
-      <?php _e("Save"); ?>
-      </a> </div>
+
   </div>
 </form>

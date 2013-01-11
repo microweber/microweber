@@ -1544,6 +1544,7 @@ $(".edit .row").each(function(){
 
 
 
+
 		  //$(this).parents(".column").resizable("destroy");
 		  //$(this).children(".column").resizable("destroy");
 
@@ -1809,7 +1810,6 @@ mw.matrix = {
     }
   }
 }
-
 
 
 

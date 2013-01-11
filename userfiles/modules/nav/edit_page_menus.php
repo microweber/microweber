@@ -5,7 +5,7 @@
     <?php _e("Add to Navigation"); ?>
   </label>
   <div class="mw-ui-select mw-page-menu-selector">
-    <div id="mw-selected-menus"></div>
+    <div id="mw-selected-menus"><label class="mw-ui-label">&nbsp;&nbsp;<small>Click here to add to navigation</small></label></div>
     <?
 $content_id = false;
  if(isset($params['content_id'])){
@@ -45,11 +45,15 @@ $menu_name = false;
             }
 
             mw.$(".mw-page-menu-selector input").commuter(function(){
+                mw.$('#mw-selected-menus label').remove();
                 var label = mw.$('.mw-menuselector-menu-title', this.parentNode).html();
                 mw.$('#mw-selected-menus').append("<span id='id-"+this.value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.removeFromMenu(this, "+this.value+");'></span></span>");
             }, function(){
 
                  mw.$('#id-'+this.value, mwd.getElementById('mw-selected-menus')).remove();
+                 if(mw.$('#mw-selected-menus').html()==''){
+                        mw.$('#mw-selected-menus').html('<label class="mw-ui-label">&nbsp;&nbsp;<small>Click here to add to navigation</small></label>');
+                 }
             });
 
             mw.$(".mw-page-menu-selector").click(function(e){

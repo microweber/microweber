@@ -456,7 +456,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 					$m_tag = rtrim($m_tag, "/>");
 					$m_tag = rtrim($m_tag);
-$userclass = '';
+					$userclass = '';
 					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' ";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";

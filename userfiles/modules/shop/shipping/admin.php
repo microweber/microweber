@@ -5,7 +5,7 @@
 <script  type="text/javascript">
 
 $(document).ready(function(){
-    mw.options.form('.mw-set-shipping-options');
+    mw.options.form('.mw-set-shipping-options-swticher');
 });
 
 
@@ -28,7 +28,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
     <? foreach($shipping_modules  as $shipping_module): ?>
  <? if(is_module_installed( $shipping_module['module'] )): ?>
 
-    <div class="mw-o-box-header">
+    <div class="mw-o-box-header mw-set-shipping-options-swticher">
         <span class="ico itruck"></span><span><? print $shipping_module['name'] ?></span>
 
 

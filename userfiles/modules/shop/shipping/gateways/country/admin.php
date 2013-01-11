@@ -99,7 +99,7 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
 SaveShipping = function(form, dataType){
     mw.form.post($(form) , '<? print $config['module_api']; ?>/shipping_to_country/save');
     if(dataType==='new'){
-       mw.reload_module('[data-parent-module="shop/shipping"]');
+       mw.reload_module('shop/shipping');
     }
     else{
        mw.reload_module(dataType);
