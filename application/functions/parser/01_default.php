@@ -76,11 +76,11 @@ foreach ($els as $elem) {
 			$get_global = false;
 			$data_id = intval($data_id);
 			$data = get_content_by_id($data_id);
-			$data['custom_fields'] = get_custom_fields_for_content($data_id, 0);
+			$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 		}
 	} else if ($rel == 'page') {
 		$data = get_page(PAGE_ID);
-		$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+		$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
 		$get_global = false;
 	} else if ($rel == 'post') {
 		$data = get_content_by_id(POST_ID);
@@ -88,14 +88,14 @@ foreach ($els as $elem) {
 		$get_global = false;
 		if ($data == false) {
 			$data = get_page($attr['post']);
-			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
 		}
 	} else if (isset($attr['post'])) {
 		$get_global = false;
 		$data = get_post($attr['post']);
 		if ($data == false) {
 			$data = get_page($attr['post']);
-			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+			$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
 		}
 	} else if (isset($attr['category'])) {
 		$get_global = false;
@@ -137,7 +137,7 @@ foreach ($els as $elem) {
 		}
 		//}
 	}
-	 
+
 	if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
 		foreach ($data ['custom_fields'] as $kf => $vf) {
 

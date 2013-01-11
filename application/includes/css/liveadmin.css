@@ -399,7 +399,7 @@ body:-webkit-full-screen {
 }
 
 form.add-edit-page-post textarea{
-  width: 346px;
+  width: 605px;
   height: 85px;
 }
 
@@ -779,6 +779,9 @@ form.add-edit-page-post textarea{
   width: 620px;
   position:relative;
   border-top: 1px solid #E2E2E2;
+}
+.module-custom-fields-admin-holder{
+  padding-bottom: 20px;
 }
 
 
@@ -1774,6 +1777,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   background-repeat: no-repeat;
   background-position: center center;
   overflow:hidden;
+  margin-top: 5px;
 }
 
 
@@ -1899,7 +1903,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .layouts_box{
   padding: 10px;
   min-height: 65px;
-  width: 210px;
+  width: 215px;
   max-height: 202px;
   overflow-x:hidden;
   overflow-y:auto;
@@ -2114,19 +2118,21 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 .mw-page-menu-selector ul{
   position: absolute;
   display: none;
-  top: 101%;
-  left: 0;
-  width: 99.99%;
-  width: calc(100% - 2px);
+  top: 100%;
+  left: -1px;
+  width:625px;
   background: white;
   border: 1px solid #E0E0E0;
   padding: 15px 0 10px;
-  box-shadow: 0 0 1px #CCCCCC;
+  -moz-columns:3 120px;
+  -webkit-columns:3 120px;
+  columns:3 120px;
+  border-bottom-right-radius: 2px;
+border-bottom-left-radius: 2px;
 }
 
 .mw-page-menu-selector li{
   list-style: none;
-  float: left;
   white-space: nowrap;
   margin-left: 15px;
   margin-bottom: 5px;
@@ -2140,9 +2146,10 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 #mw-selected-menus input{
   background: none;
   border: none;
-  margin: 4px 0 0 7px;
+  margin: 0 0 0 7px;
+  padding: 6px 0;
   position: relative;
-    color: #8C8C8C;
+  color: #8C8C8C;
   font-size: 11px;
   width:200px;
 }

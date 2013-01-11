@@ -1178,6 +1178,11 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		if ($field_type == false) {
 
 			$field_type_q = ' ';
+			$field_type_q = ' and custom_field_type!="content"  ';
+		} elseif ($field_type == 'all') {
+
+			$field_type_q = ' ';
+			 
 		} else {
 			$field_type = db_escape_string($field_type);
 			$field_type_q = ' and custom_field_type="' . $field_type . '"  ';

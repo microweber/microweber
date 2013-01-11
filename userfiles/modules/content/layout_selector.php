@@ -190,8 +190,11 @@ $(document).ready(function() {
 
 </script>
 
-<div class="mw-ui-field-holder mw-template-selector">
-  <label class="mw-ui-label"><?php _e("Select Template"); ?></label>
+<div class="vSpace"></div>
+<div class="vSpace"></div>
+
+<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0">
+  <label class="mw-ui-label"><?php _e("Template"); ?></label>
   <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
@@ -224,7 +227,7 @@ $(document).ready(function() {
 
 <div class="left">
 
-<label class="mw-ui-label"><?php _e("Preview Layout"); ?></label>
+
 <div class="preview_frame_wrapper loading left">
   <div class="preview_frame_ctrls">
     <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
@@ -241,7 +244,7 @@ $(document).ready(function() {
 
 
 <div class="layouts_box_holder">
-  <label class="mw-ui-label"><?php _e("Choose Page Layout"); ?></label>
+  <label class="mw-ui-label"><?php _e("Page Layout"); ?></label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector">
       <ul>

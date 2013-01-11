@@ -35,6 +35,7 @@
 
  if(isset($params['for_module_id'])): ?>
 <?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);   
+ 
 if(isarr( $diff) and isarr($more) ){
  foreach($diff as $item1){
 	 $i=0;
@@ -46,17 +47,12 @@ if(isarr( $diff) and isarr($more) ){
  		}
  }
 }
- 
 ?>
 <? if(!empty( $more)):  ?>
 
-<div class="custom-field-table">
-  <? if(isset($params['save_to_content_id']) and isset($params["to_table_id"]) and intval(($params["to_table_id"]) > 0)): ?>
-  <? $p = get_content_by_id($params["to_table_id"]); ?>
-  <? if(isset($p['title'])): ?>
-  <div class="mw-custom-fields-from-page-title"> From <span class="mw-custom-fields-from-page-title-text"><? print $p['title'] ?></span> </div>
-  <? endif; ?>
-  <? endif; ?>
+<hr />
+
+<div class="custom-field-table" id="custom-field-main-table">
   <? foreach( $more as $field): ?>
   <div class="custom-field-table-tr" data-field-id="<? print $field['id'] ?>">
     <div class="custom-field-preview-cell" onclick="$(this).parent().addClass('active')">
@@ -84,6 +80,7 @@ if(isarr( $diff) and isarr($more) ){
 </div>
 <? else : ?>
 <? if(!isset($params['save_to_content_id'])): ?>
+
 You dont have any custom fields
 <? endif; ?>
 <? endif; ?>

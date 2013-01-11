@@ -275,7 +275,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 <?php /*     <span class="mw-ui-btn">Preview</span>
     <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
     <span class="mw-ui-btn go-live">Go Live Edit</span>
-    <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;">Save</span>
+    <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span>
 
   </div>
 
@@ -323,7 +323,7 @@ $pt_opts['active_ids'] = $data['parent'];
     </a>
 
   <div class="page_and_menus_holder" style="display: none;">
-
+        <div class="vSpace"></div>
         <div class="mw-ui-field-holder">
           <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
           <div class="mw-ui-select" style="width: 100%;">
@@ -513,9 +513,11 @@ $pt_opts['active_ids'] = $data['parent'];
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand ?>', this);">
   <?php _e("Custom Fields"); ?>
   </a>
-  <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div class="vSpace"></div>
+  <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
+
   <div id="custom_fields_for_post_<? print $rand ?>"  style="display:none;">
+  <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
     <script  type="text/javascript">
 $(document).ready(function(){
@@ -556,7 +558,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
  
 // mw.log(vals);
 	
-} 
+}
 </script>
     <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
@@ -572,7 +574,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
        <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
     </a> */ ?>
     <div class="advanced_settings_holder">
-
+      <div class="vSpace"></div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
@@ -583,6 +585,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       </div>
       <? /* PAGES ONLY  */ ?>
       <? if($edit_post_mode == false): ?>
+      <div class="vSpace"></div>
       <div class="mw-ui-check-selector">
         <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
         <label class="mw-ui-check">

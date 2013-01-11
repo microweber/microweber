@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <? //  d($params) ?>
 <script type="text/javascript">
 
@@ -52,7 +46,7 @@ $rand = rand();
  
 ?>
 
-<div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
+<div id="the_custom_fields1"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
   <?php _e("Add New Custom Field"); ?>
   </span>
   <div class="vSpace"></div>

@@ -1343,6 +1343,7 @@ textarea.mw-ui-field{
 
 .mw-ui-more.toggler-active{
   background-position: 100% -33px;
+  font-weight: bold;
 }
 
 
