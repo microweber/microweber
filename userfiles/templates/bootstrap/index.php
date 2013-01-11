@@ -83,7 +83,7 @@ description: Home site layout
           
         </div>
         
-         <div class="edit" field="sidebar_text_2" rel="content" id="pecata1"  >
+         <div class="edit" field="pecata1_text" rel="content" id="pecata1"  >
          <h4>Hey! I am diferent on every page aaa </h4> 
         </div>
         

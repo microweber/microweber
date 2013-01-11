@@ -126,9 +126,9 @@ foreach ($els as $elem) {
 	} else {
 		$cont_field = false;
 		if (isset($data_id)) {
-			//d($data_id);
+			 //d($data_id);
 			$cont_field = get_content_field("rel={$rel}&field={$field}&to_table_id=$data_id");
-			//d($cont_field);
+			// d($cont_field);
 		} else {
 			$cont_field = get_content_field("rel={$rel}&field={$field}");
 		}

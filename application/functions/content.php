@@ -1414,7 +1414,7 @@ function save_edit($post_data) {
 
 					if ($field == false) {
 						if (isset($the_field_data['attributes']['id'])) {
-							$the_field_data['attributes']['field'] = $field = $the_field_data['attributes']['id'];
+						//	$the_field_data['attributes']['field'] = $field = $the_field_data['attributes']['id'];
 						}
 					}
 
@@ -1498,15 +1498,16 @@ function save_edit($post_data) {
 							$cont_field = array();
 							$cont_field['to_table'] = 'table_content';
 							$cont_field['to_table_id'] = $content_id;
-							$cont_field['value'] = $old;
+							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
 							if($field != 'content'){
+							//	d($cont_field);
 							$cont_field = save_content_field($cont_field);
 							}
 							$to_save = array();
 							$to_save['id'] = $content_id;
 
-						 $to_save['debug'] = $content_id;
+						// $to_save['debug'] = $content_id;
 
 							$to_save['page_element_id'] = $page_element_id;
 
@@ -2142,9 +2143,15 @@ function get_content_field($data) {
 	 if(!is_array($data)){
 		$data = array();
 	}
-	//d($data);
+	// d($data);
+	
+	
+	
 	if(!isset($data['to_table'])){
 		if(isset($data['rel'])){
+			if($data['rel'] == 'content'){
+				$data['rel']  = 'table_content';
+			}
 			$data['to_table'] = $data['rel'];
 	}
 	}
