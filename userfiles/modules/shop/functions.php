@@ -544,8 +544,8 @@ function checkout($data) {
 
 			if ($data['payment_gw'] != 'none') {
 
-				$gw_process = $shop_dir . $data['payment_gw'] . '_process.php';
-
+				$gw_process =  MODULES_DIR.$data['payment_gw'] . '_process.php';
+ 
 				$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
 				$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
 				$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
@@ -698,7 +698,8 @@ function update_cart($data) {
 				$prices[] = $cf['custom_field_value'];
 			}
 		}
-
+		 
+ 
 		if (isarr($prices)) {
 
 			foreach ($prices as $price) {
@@ -711,6 +712,10 @@ function update_cart($data) {
 				} else {
 					// unset($item);
 				}
+			}
+			if ($found_price == false) {
+				$found_price = $prices[0];
+
 			}
 
 			// d($prices);

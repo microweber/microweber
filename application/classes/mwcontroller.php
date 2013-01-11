@@ -368,11 +368,16 @@ class MwController {
 			$api_function = url_segment(1);
 		}
 
-		if ($mod_class_api != false) {
-			$url_segs = url_segment(-1);
-			// $api_function = ;
-			//d($api_functioan);
-			//d($try_class);
+		if (!defined('MW_API_RAW')) {
+			if ($mod_class_api != false) {
+				$url_segs = url_segment(-1);
+				// $api_function = ;
+				//d($api_functioan);
+				//d($try_class);
+			}
+		} else {
+			$url_segs = explode('/', $api_function);
+
 		}
 
 		switch ($caller_commander) {
@@ -425,36 +430,37 @@ class MwController {
 					$try_class = str_replace('/', '\\', $mod_api_class);
 					$try_class_full = str_replace('/', '\\', $api_function_full);
 					$mod_api_err = false;
-
-					if (!in_array($try_class_full, $api_exposed)) {
-						$mod_api_err = true;
-						foreach ($api_exposed as $api_exposed_value) {
-							if ($mod_api_err == true) {
-								if ($api_exposed_value == $try_class_full) {
-									$mod_api_err = false;
-								} else {
-									$convert_slashes = str_replace('\\', '/', $try_class_full);
-									//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
-
-									//d($convert_slashes);
-									//d($try_class_full);
-									if ($convert_slashes == $api_exposed_value) {
+					if (!defined('MW_API_RAW')) {
+						if (!in_array($try_class_full, $api_exposed)) {
+							$mod_api_err = true;
+							foreach ($api_exposed as $api_exposed_value) {
+								if ($mod_api_err == true) {
+									if ($api_exposed_value == $try_class_full) {
 										$mod_api_err = false;
+									} else {
+										$convert_slashes = str_replace('\\', '/', $try_class_full);
+										//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
+
+										//d($convert_slashes);
+										//d($try_class_full);
+										if ($convert_slashes == $api_exposed_value) {
+											$mod_api_err = false;
+										}
 									}
 								}
 							}
+						} else {
+							$mod_api_err = false;
+
 						}
-					} else {
-						$mod_api_err = false;
-
 					}
-
 					if ($mod_class_api and $mod_api_err == false) {
 
 						if (!class_exists($try_class, false)) {
 							$remove = $url_segs;
 							$last_seg = array_pop($remove);
 							$last_prev_seg = array_pop($remove);
+
 							if (class_exists($last_prev_seg, false)) {
 								$try_class = $last_prev_seg;
 							}

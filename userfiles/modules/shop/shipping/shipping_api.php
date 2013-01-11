@@ -1,7 +1,7 @@
 <?
 
-$ns = $config['ns'];
-api_expose('shipping_api');
+ 
+//api_expose('shipping_api');
  
 class shipping_api {
 

@@ -1,9 +1,9 @@
 <?
 
-$ns = $config['ns'];
+ 
 api_expose('shipping_to_country');
 api_expose('shipping_to_country/d');
-class shipping_to_country {
+class country_api {
 
 	// singleton instance
 	private static $table;

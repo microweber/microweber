@@ -319,14 +319,14 @@ $pt_opts['active_ids'] = $data['parent'];
 
 
   <a href="javascript:;" onclick="mw.tools.toggle('.page_and_menus_holder', this);"  class="toggle_advanced_settings mw-ui-more">
-    <?php _e('Page and Menus'); ?>
+    <?php _e('Page &amp; Menus'); ?>
     </a>
 
   <div class="page_and_menus_holder" style="display: none;">
 
         <div class="mw-ui-field-holder">
           <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
-          <div class="mw-ui-select" style="width: 364px;">
+          <div class="mw-ui-select" style="width: 100%;">
             <select name="parent">
               <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
               <?
@@ -627,7 +627,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <? /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Password</label>
-        <input name="password" style="width: 360px;" class="mw-ui-field" type="password" value="" />
+        <input name="password" style="width: 603px;" class="mw-ui-field" type="password" value="" />
       </div>
     </div>
     <div class="mw_clear vSpace"></div>

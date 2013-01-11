@@ -1,12 +1,10 @@
-<? require_once($config['path_to_module'].'country_api.php'); ?>
-
-<?  if (!defined('MW_API_CALL')) : ?>
+<? //  require_once($config['path_to_module'].'country_api.php'); ?>
 <? $rand = md5(serialize($params));
 
-  $shipping_to_country = new shipping_to_country(); 
+  
+ $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
  
  
- $data = $shipping_to_country->get('is_active=y');
  $countries_used = array();
  
  if( $data == false){
@@ -28,7 +26,7 @@
 $(document).ready(function(){
 	mw_shipping_<? print $rand ?>();
 mw.$('#<? print $rand ?>').change(function() {
-	mw_shipping_<? print $rand ?>();
+ mw_shipping_<? print $rand ?>();
 });
 
 }); 
@@ -43,7 +41,6 @@ mw.$('#<? print $rand ?>').change(function() {
     <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
     <? endforeach ; ?>
   </select>
-  <? endif; ?>
   <br />
   city
   <input name="city"  type="text" value="" />

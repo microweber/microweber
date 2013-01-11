@@ -1,6 +1,6 @@
 
 
-
+mw.controllers = {}
 
 
 mw.simpletabs = function(){
@@ -732,6 +732,13 @@ mw.tools = {
     var check =  ( type ==='mouseover' ||  type ==='mouseenter');
     for( ; i<l; i++) {
       check  ?  $(arguments[i]).addClass('hovered')  :  $(arguments[i]).removeClass('hovered') ;
+    }
+  },
+  search:function(string, selector, callback){
+    var string = string.toLowerCase();
+    var items = mwd.querySelectorAll(selector), i=0, l=items.length;
+    for( ; i<l; i++){
+      items[i].textContent.toLowerCase().contains(string) ? callback.call(items[i], true) : callback.call(items[i], false);
     }
   }
 }

@@ -69,6 +69,12 @@ mw.cart = {
 					 if(typeof window[callback_func] === 'function'){
 						window[callback_func](data,selector);
 					 }
+					 
+					 
+					 var callback_func = 'checkout_callback';
+					 if(typeof window[callback_func] === 'function'){
+						window[callback_func](data,selector);
+					 }
 				 }
 			 }
 		 }

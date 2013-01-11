@@ -1311,6 +1311,7 @@ a.mw-ui-btn, span.mw-ui-btn{
   padding:8px 10px;
   background: white;
   border-radius: 2px;
+  outline: none;
 }
 textarea.mw-ui-field{
   resize:vertical;
@@ -1333,7 +1334,7 @@ textarea.mw-ui-field{
 
 .mw-ui-more{
   color: #235F99;
-  font-weight: bold;
+  font-weight: normal;
   white-space: nowrap;
   padding-right: 20px;
   white-space: nowrap;
@@ -1513,6 +1514,9 @@ textarea.mw-ui-field{
   top: 0;
   right: 0;
   pointer-events: none;
+}
+.mw-page-menu-selector:after{
+  display: none;
 }
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}

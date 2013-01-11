@@ -1,10 +1,9 @@
 <?
 
  
-api_expose('shipping_to_country');
-api_expose('shipping_to_country/d');
-api_expose('shipping_to_country/save');
 api_expose('shop/shipping/gateways/country/shipping_to_country/save');
+api_expose('shop/shipping/gateways/country/shipping_to_country/set');
+
 class shipping_to_country {
 
 	// singleton instance

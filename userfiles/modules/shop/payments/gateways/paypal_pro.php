@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-function paypal_pro_checkout(data,selector){
+function checkout_callback(data,selector){
 	//
 	data = $.parseJSON(data);
 

@@ -213,6 +213,8 @@ body:-webkit-full-screen {
 
 #mw_tabs li.active a{
   background:url(../img/nav_active_right.jpg) no-repeat right top;
+  cursor: default;
+  pointer-events: none;
 }
 
 #mw_toolbar_logo{
@@ -2133,6 +2135,16 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 #mw-selected-menus {
   padding: 5px 2px 2px;
   display: inline-block;
+}
+
+#mw-selected-menus input{
+  background: none;
+  border: none;
+  margin: 0 0 0 7px;
+}
+
+#mw-selected-menus .mw-ui-label{
+  padding-bottom: 0;
 }
 
 #mw-selected-menus .mw-ui-btn{

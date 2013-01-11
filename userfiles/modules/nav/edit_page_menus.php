@@ -5,7 +5,14 @@
     <?php _e("Add to Navigation"); ?>
   </label>
   <div class="mw-ui-select mw-page-menu-selector">
-    <div id="mw-selected-menus"><label class="mw-ui-label">&nbsp;&nbsp;<small>Click here to add to navigation</small></label></div>
+    <div id="mw-selected-menus">
+        <input
+              onfocus="mw.form.dstatic(event);"
+              onblur="mw.form.dstatic(event);"
+              onkeyup="mw.controllers.addToMenu.autoComplete(this);"
+              data-default="Click here to add to navigation"
+              value="Click here to add to navigation" />
+    </div>
     <?
 $content_id = false;
  if(isset($params['content_id'])){
@@ -27,27 +34,25 @@ $menu_name = false;
   </div>
   <script>
 
-    mw.removeFromMenu = function(el, id){
-        $(el.parentNode).remove();
-        mwd.getElementById('menuid-' + id).checked = false;
-    }
-
-          $(document).ready(function(){
-
+    mw.controllers.addToMenu = {
+        remove: function(el, id){
+            $(el.parentNode).remove();
+            mwd.getElementById('menuid-' + id).checked = false;
+        },
+        init:function(){
             var inputs = mwd.querySelectorAll('.mw-page-menu-selector input:checked'), l = inputs.length, i = 0;
-
-
             if(l > 0){
               for( ; i<l; i++){
                  var label = mw.$('.mw-menuselector-menu-title', inputs[i].parentNode).html();
-                 mw.$('#mw-selected-menus').append("<span id='id-"+inputs[i].value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.removeFromMenu(this, "+inputs[i].value+");'></span></span>");
+                 mw.$('#mw-selected-menus').prepend("<span id='id-"+inputs[i].value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.controllers.addToMenu.remove(this, "+inputs[i].value+");'></span></span>");
               }
             }
-
+        },
+        commute:function(){
             mw.$(".mw-page-menu-selector input").commuter(function(){
                 mw.$('#mw-selected-menus label').remove();
                 var label = mw.$('.mw-menuselector-menu-title', this.parentNode).html();
-                mw.$('#mw-selected-menus').append("<span id='id-"+this.value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.removeFromMenu(this, "+this.value+");'></span></span>");
+                mw.$('#mw-selected-menus').prepend("<span id='id-"+this.value+"' class='mw-ui-btn mw-ui-btn-small'>"+label+"<span class='mw-ui-btnclose' onclick='mw.controllers.addToMenu.remove(this, "+this.value+");'></span></span>");
             }, function(){
 
                  mw.$('#id-'+this.value, mwd.getElementById('mw-selected-menus')).remove();
@@ -55,12 +60,44 @@ $menu_name = false;
                         mw.$('#mw-selected-menus').html('<label class="mw-ui-label">&nbsp;&nbsp;<small>Click here to add to navigation</small></label>');
                  }
             });
+        },
+        autoComplete:function(el){
+          var val = el.value.toLowerCase();
+          if(val==''){
+            mw.$(".mw-page-menu-selector .mw-ui-check").css('display','inline-block');
+            return false;
+          }
+          mw.tools.search(val, ".mw-page-menu-selector .mw-ui-check", function(found){
+            if(found){
+              this.style.display = 'inline-block';
+            }
+            else{
+               this.style.display = 'none';
+            }
+          });
+        }
+    }
+
+
+
+          $(document).ready(function(){
+
+
+
+            mw.controllers.addToMenu.init();
+            mw.controllers.addToMenu.commute();
+
 
             mw.$(".mw-page-menu-selector").click(function(e){
 
-                if($(e.target).hasClass('mw-page-menu-selector') || e.target.id == 'mw-selected-menus'){
+                if($(e.target).hasClass('mw-page-menu-selector') || e.target.id == 'mw-selected-menus' || e.target.tagName === 'INPUT'){
                      mw.$("ul", this).toggle();
+                     if(e.target.tagName !== 'INPUT'){
+                        $(this).find('input').focus();
+                     }
+
                 }
+
 
             });
 

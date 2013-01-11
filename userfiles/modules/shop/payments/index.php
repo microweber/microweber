@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 
 
-	 mw.load_module('shop/payments/gateways/'+$v,'#mw-payment-gateway-selected-<? print $params['id']; ?>');
+	 mw.load_module(''+$v,'#mw-payment-gateway-selected-<? print $params['id']; ?>');
 
 
 
@@ -26,7 +26,8 @@ $(document).ready(function(){
  
 });
 </script>
-
+ 
+ 
 <h3>Payment method</h3>
 <select name="payment_gw" class="mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
   <? foreach ($payment_options as $item) : ?>
@@ -34,6 +35,6 @@ $(document).ready(function(){
   <? endforeach; ?>
 </select>
 <div id="mw-payment-gateway-selected-<? print $params['id']; ?>">
-  <module type="shop/payments/gateways/<? print $payment_options[0]['gw_file'] ?>"  />
+  <module type="<? print $payment_options[0]['gw_file'] ?>"  />
 </div>
 <? endif;?>
