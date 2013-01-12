@@ -295,10 +295,10 @@ function ago($time, $granularity = 2) {
 }
 
 function debug_info() {
-    if (c('debug_mode')) {
+    //if (c('debug_mode')) {
 
         return include (ADMIN_VIEWS_PATH . 'debug.php');
-    }
+   // }
 }
 
 function remove_slashes_from_array($arr) {

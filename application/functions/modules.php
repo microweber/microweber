@@ -1531,7 +1531,8 @@ function load_module($module_name, $attrs = array()) {
 		$config['url_to_module'] = pathToURL($config['path_to_module']);
 
 		if (isset($attrs['id'])) {
-			$template = get_option('data-template', $attrs['id']);
+			$template = false;
+			//$template = get_option('data-template', $attrs['id']);
 
 			if ($template == false and isset($attrs['template'])) {
 				$template = $attrs['template'];

@@ -2114,9 +2114,12 @@ function save_content_field($data, $delete_the_cache = true) {
 				$i = db_escape_string($data['to_table_id']);
 											$del_q .= " and  to_table_id='$i' ";
 				
+			} else {
+				$data['to_table_id'] = 0;
 			}
+			$cache_group = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
 			db_q($del_q);
-			
+			cache_clean_group($cache_group);
 			
 			
 		}
@@ -2172,7 +2175,9 @@ if(!isset($data['to_table_id'])){
 	//if($data['to_table'] == 'global'){
 		if(isset($data['field'])){
 			 
-			  $data['limit'] = 1;
+			  $data['limit'] = 1; 
+			  $data['cache_group'] = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
+			//  d($data);
 			  	  $data['one'] = 1;
 		 $data['table'] = $table;
 				$get = get($data);

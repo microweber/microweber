@@ -244,7 +244,7 @@ class MwController {
 
 			print $l;
 
-			if (isset($_GET['test'])) {
+			if (isset($_GET['debug'])) {
 				debug_info();
 				$is_admin = is_admin();
 				if ($is_admin == true) {

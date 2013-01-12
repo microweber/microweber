@@ -568,8 +568,11 @@ function get($params) {
 			$cache_group = $cache_group . '/' . $criteria['id'];
 		}
 
-		// d($cache_group);
+	
+	} else {
+		$cache_group = guess_cache_group($cache_group);
 	}
+		// d($cache_group);
 	$mode = 1;
 	switch ($mode) {
 		case 1 :
