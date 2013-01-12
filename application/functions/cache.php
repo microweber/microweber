@@ -325,7 +325,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
-
+ 
 				// this is faster
 				ob_start();
 				readfile($cache_file);
@@ -404,8 +404,48 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
  * @since Version 1.0
  * @uses cache_get_content_encoded
  */
+ 
+ $mw_cache_get_content_memory = array();
+			//static $results_map_hits = array();
+			
+			
+			
+			
 function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
-	$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
+			
+			
+			$mode = 1;
+	switch ($mode) {
+		case 1 :
+			global $mw_cache_get_content_memory;
+		
+	$criteria_id = (int) crc32($cache_id .$cache_group);
+
+			if (isset($mw_cache_get_content_memory[$criteria_id])) {
+				$cache = $mw_cache_get_content_memory[$criteria_id];
+				//$results_map_hits[$criteria_id]++;
+			} else {
+				$cache =  cache_get_content_encoded($cache_id, $cache_group, $time);
+				$mw_cache_get_content_memory[$criteria_id] = $cache;
+			}	
+		
+			break;
+
+		default :
+			$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
+			break;
+	}
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 
 	if ($cache == '' or $cache == '--empty--') {
 

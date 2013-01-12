@@ -216,8 +216,8 @@ foreach ($els as $elem) {
 		$field_content = htmlspecialchars_decode($field_content);
 
 		//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
-		// d($field_content);
-		$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+		// pecata d($field_content);
+		 $field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
 		pq($elem) -> html($field_content);
 	} else {
