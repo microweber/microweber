@@ -120,6 +120,10 @@
 
 
             <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ed-ico"></span></span>
+            
+             <? exec_action('mw_editor_btn'); ?>
+            
+            
         </div>
 
 

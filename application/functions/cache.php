@@ -25,6 +25,7 @@ if (!defined('APC_EXPIRES')) {
 }
 $mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
+		
 	global $mem;
 	// return false;
 	//static $mem = array();
