@@ -23,6 +23,44 @@
          navli.removeClass('active');
          $(this).addClass('active');}
        });
+	   
+	   
+	   
+	    var go_livebtn_admin = mw.$("#mw-go_livebtn_admin");
+       go_livebtn_admin.click(function(event){
+		   
+		   
+		   
+		   var ex = mw.$(".mw_admin_edit_content_form").length;
+		   
+		   
+        	 if(ex > 0){
+				 
+				 var r=confirm("Do you want to save the changes?")
+if (r==true)
+  {
+  mw.$(".mw_admin_edit_content_form").find('.go-live').click();
+	   event.stopPropagation();
+	   event.preventDefault()
+
+	   return false;
+  }
+else
+  {
+   
+  }
+ 
+       
+	  
+	   
+	   
+	   		}
+       });
+	   
+	   
+	   
+	   
+	   
     });
 
     </script>
@@ -43,7 +81,7 @@ $past_page = content_link($past_page[0]['id']);
  ?>
  <div id="mw-toolbar-right">
   <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 13px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a>
-  <a title="<?php _e("Go Live Edit"); ?>" class="mw-ui-btn right" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
+  <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn right" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
  </div>
   <? endif; ?>
 </div>

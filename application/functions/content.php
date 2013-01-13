@@ -111,7 +111,7 @@ $table_name = MW_DB_TABLE_CONTENT_FIELDS;
 
 	db_add_table_index('to_table', $table_name, array('to_table(55)'));
 	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
-	db_add_table_index('name', $table_name, array('name(55)'));
+	db_add_table_index('field', $table_name, array('field(55)'));
 
 
 

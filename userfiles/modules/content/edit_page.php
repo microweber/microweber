@@ -49,7 +49,7 @@ if(isset($params["data-is-shop"])){
 
 
 
-$form_rand_id = $rand = uniqid();
+$form_rand_id = $rand = md5(serialize($data));
 ?>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -96,7 +96,7 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
  });
    
 
-    mw.$('#admin_edit_page_form_<? print $form_rand_id ?> a.go-live').click(function() {
+    mw.$('#admin_edit_page_form_<? print $form_rand_id ?>  .go-live').click(function() {
 
 
 mw_before_content_save<? print $rand ?>()
