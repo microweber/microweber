@@ -134,6 +134,13 @@ class MwController {
 			}
 			//
 		}
+
+		if (isset($_GET['content_id']) and $_GET['content_id'] != 0) {
+			$page = get_content_by_id($_GET['content_id']);
+		}
+		if (isset($_GET['parent_id']) and $_GET['parent_id'] != 0) {
+			$page['parent_id'] = intval($_GET['content_id']);
+		}
 		//
 
 		if ($page['content_type'] == "post") {
@@ -225,10 +232,24 @@ class MwController {
 				$this -> isolate_by_html_id = $is_embed;
 			}
 
+			if (isset($_REQUEST['isolate_content_field'])) {
+				$pq = phpQuery::newDocument($l);
+				
+				$isolated_head = pq('head') -> eq(0) -> htmlOuter();;
+				//d($isolated_head);
+				foreach ($pq ['[field=content]'] as $elem) {
+
+					$l = pq($elem) -> htmlOuter();
+				}
+				if($isolated_head != false){
+				 $l = 	$isolated_head.$l;
+				}
+			}
+
 			if ($this -> isolate_by_html_id != false) {
 				$id_sel = $this -> isolate_by_html_id;
 				$this -> isolate_by_html_id = false;
-				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+				//require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 				$pq = phpQuery::newDocument($l);
 				foreach ($pq ['#' . $id_sel] as $elem) {
 
@@ -739,8 +760,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

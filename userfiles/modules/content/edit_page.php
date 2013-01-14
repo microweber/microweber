@@ -49,7 +49,7 @@ if(isset($params["data-is-shop"])){
 
 
 
-$form_rand_id = $rand = md5(serialize($data));
+$form_rand_id = $rand = md5(serialize($data).serialize($params));
 ?>
 <script  type="text/javascript">
   mw.require('forms.js');
@@ -240,11 +240,75 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 
  <script>
+ 
+load_iframe_editor = function(){
+	  var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
+	  
+	  
+	 var  ifr_ed_url = '<? print content_link($data['id']) ?>';
+	  var  ifr_ed_url_more = '';
+	    <? if($edit_post_mode != false): ?>
+		
+		 var selpage = $('#categorories_selector_for_post_<? print $rand ?>');
+		if(selpage.length > 0){
+		selpage_find = 	selpage.find('[name="parent"]:checked').first().val();
+		if(selpage_find != undefined){
+			ifr_ed_url_more = '&parent_id='+selpage_find;
+		}
+		//mw.log('pecata   '+selpage_find);
+		
+		}
+		
+		
+		
+		
+		  <? else:  ?>
+		  
+		  
+		   if(!!mw.templatePreview){
+          var ifr_ed_url =  mw.templatePreview.generate(true);
+		 
+        }      
+		
+		
+			<? endif; ?>	
+	      	
+		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'?isolate_content_field=1&content_id=<? print  $data['id'] ?>&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>');
+
+		
+		
+		
+		
+		
+  }
+  
+
+	 
+ 
   $(document).ready(function(){
-    var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
-    mw.wysiwyg.iframe_editor(area, '<?php print $data['id']; ?>');
+// load_iframe_editor();
+   <? if($edit_post_mode != false): ?>
+		load_iframe_editor();
+		// $('#categorories_selector_for_post_<? print $rand ?>').find('input[type="radio"]').die('change.contentcat');
+		 $('#categorories_selector_for_post_<? print $rand ?>').find('input[type="radio"]').live('change.contentcat', function(e){
+		  load_iframe_editor();
+
+		});
+	<? endif; ?>	
+ 
+     
+     $(window).bind("templateChanged", function(e, el){
+   //alert(el);
+   load_iframe_editor();
+  });
+
+
+   
 
   });
+
+
+
 
   __loadpreview = function(){
 
@@ -259,7 +323,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 </script>
 
 
-  <div id="mw-editor<?php print $rand; ?>" style="height: 300px;">
+  <div id="mw-editor<?php print $rand; ?>" style="height: 300px;width:600px;">
   </div>
 
 

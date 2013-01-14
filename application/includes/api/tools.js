@@ -759,6 +759,21 @@ mw.tools = {
     tagholder.click(function(e){
       if(e.target.tagName != 'INPUT'){
         field.focus();
+        itemsWrapper.style.display = 'block';
+        mw.log(itemsWrapper.querySelector('input').binded)
+        if(itemsWrapper.querySelector('input').binded != true){
+            itemsWrapper.querySelector('input').binded = true;
+            var checks = itemsWrapper.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+
+
+
+             $(checks).commuter(function(){
+
+              }, function(){
+                  mw.log(this)
+              });
+
+        }
       }
     });
     field.keyup(function(){
@@ -772,6 +787,15 @@ mw.tools = {
             }
       });
     });
+
+
+
+
+    //itemsWrapper.style.display = 'none';
+
+
+
+
 
     return this;
 
@@ -924,7 +948,6 @@ String.prototype._exec = function(a,b,c){
     var len = arr.length-1;
     for(var i=1; i<=len; i++){
         var temp = temp[arr[i]];
-        mw.log(temp);
     }
     return mw.is.func(temp) ? temp(a,b,c) : temp;
   }
@@ -932,10 +955,7 @@ String.prototype._exec = function(a,b,c){
 
 
 String.prototype.toCamelCase = function() {
-    return this
-        .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
-        .replace(/\s/g, '')
-        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
+    return  mw.tools.toCamelCase(this);
 };
 
 mw.exec = function(str, a,b,c){

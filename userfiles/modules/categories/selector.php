@@ -177,13 +177,13 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 	$(document).ready(function(){
 
-mw.$('#<? print $params['id'] ?> .mw-ui-check').on('click', function(e){
+mw.$('#<? print $params['id'] ?> .mw-ui-check').bind('click', function(e){
 	// e.preventDefault(); //stop the default form action
 	var names = [];
 	mw.$('#<? print $params['id'] ?> .mw-ui-check-input-sel:checked').each(function() {
 	names.push($(this).val());
 	});
- 
+
 	if(names.length > 0){
 	mw.$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
 } else {

@@ -54,7 +54,7 @@ mw.templatePreview = {
     mw.$('.preview_frame_wrapper').removeClass("loading");
   },
   rend:function(url){
-    var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0" scrolling="no"></iframe>';
+     var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0" scrolling="no"></iframe>';
     mw.$('.preview_frame_container').html(frame);
   },
   next:function(){
@@ -71,15 +71,6 @@ mw.templatePreview = {
     mw.templatePreview.selector.selectedIndex = which;
     mw.$("#layout_selector li.active").removeClass('active');
     mw.$("#layout_selector li").eq(which).addClass('active');
-	
-	
-	
-	
-	
-	
-	
-	
-	
     $(mw.templatePreview.selector).trigger('change');
   },
   zoom:function(in_or_out){
@@ -96,7 +87,7 @@ mw.templatePreview = {
       mw.$(".mw_overlay").remove();
     }
   },
-  generate:function(){
+  generate:function(return_url){
         mw.$('.preview_frame_wrapper').addClass("loading");
 
 		var template = mw.$('#active_site_template_<? print $rand; ?>').val();
@@ -142,10 +133,18 @@ mw.templatePreview = {
 }
 
 ?>
+
+
+
 		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
+		
+if(return_url == undefined){
+		$(window).trigger('templateChanged', iframe_url);  
 
         mw.templatePreview.rend(iframe_url);
-
+} else {
+return(iframe_url);
+}
 
   },
   _once:false

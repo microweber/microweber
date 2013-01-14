@@ -561,7 +561,32 @@ mw.wysiwyg = {
         sel.removeAllRanges();
         sel.addRange(range);
     },
-    iframe_editor:function(textarea, id){
+	iframe_editor:function(textarea, iframe_url){
+     
+	 
+	    var id = $(textarea).attr("id");
+		$("#iframe_editor_"+id).remove();
+	    var url = iframe_url;
+        var iframe = mwd.createElement('iframe');
+		iframe.id = "iframe_editor_"+id;
+        iframe.width = $(textarea).width();
+        iframe.height = $(textarea).height();
+        iframe.scrolling = "no";
+        iframe.setAttribute('frameborder', 0);
+        iframe.src = url;
+        iframe.style.resize = 'vertical';
+        iframe.onload = function(){
+          var b = $(this).contents().find(".edit");
+          b[0].contentEditable = true;
+          b.bind("blur", function(){
+            textarea.value = $(this).html();
+          });
+        }
+        $(textarea).after(iframe);
+        $(textarea).hide();
+		//alert();
+    },
+    iframe_editor_old:function(textarea, id){
         var url = mw.external_tool('wysiwyg?id='+id);
         var iframe = mwd.createElement('iframe');
         iframe.width = $(textarea).width();
