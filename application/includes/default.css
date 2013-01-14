@@ -37,6 +37,10 @@ body.mw-preview{
     display: block;
     clear: both !important;
     max-width:100%;
+    -moz-transition: none !important;
+    -webkit-transition: none !important;
+    -o-transition: color 0 ease-in !important;
+    transition: none !important;
 }
 .element, .mw-col, .mw_item{
  -ms-transform-origin:50% 50%;

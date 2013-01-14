@@ -1,0 +1,139 @@
+
+/***************************************************
+	  portfolio
+***************************************************/
+.portfolio-item a { margin: 15px 0 15px 0; }
+
+.portfolio-item-meta { background: #5BB75B; display: block; padding: 4px 10px 12px 10px; font: italic 12px georgia, serif; color: #fff; text-align: center; width: auto\9; height: auto; max-width: 100%; -o-text-overflow: ellipsis; text-overflow:    ellipsis; overflow:hidden; white-space:nowrap; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; transition:all 0.5s ease; }
+
+.portfolio-item-meta a { font: normal 13px/30px "Open Sans", sans-serif; color: #fff; margin:0px 5px 5px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: block; text-transform: uppercase; -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; -ms-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; }
+
+.portfolio-item-meta a:hover { color: #ccc; text-decoration: none; }
+
+.portfolio-post-grid { margin: 0px; }
+
+.portfolio-post-grid li { list-style: none; float: left; margin-bottom: 25px; }
+
+.portfolio-post-grid li:hover { -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; transition:all 0.5s ease; }
+
+.portfolio-post-grid li:hover .portfolio-item-meta { background-color:#333; }
+
+.port-filters a:hover { color: #5BB75B; text-decoration: none; }
+
+.port-filters li a { color: #222; }
+
+.port-filters { margin: 40px 10px 30px 0; }
+
+.port-filters li { list-style: none; float: left; font-family: "Open Sans", sans-serif; font-size: 13px; padding: 0 10px 0 0; text-transform: uppercase; }
+
+.port-filters .last:after { content: ""; }
+
+.port-filters li:after { content: "\203A"; margin-left: 10px; color: #999; font-size: 18px; }
+
+.portfolio-single-slider { margin: 20px 0 0; }
+
+.portfolio-single h2 { margin: 15px 0 18px 0; }
+
+ @media screen and (max-width: 860px) {
+}
+ @media (max-width: 767px) {
+}
+
+/* This setting hides the lead  and button on an ipad*/
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+}
+
+/* This setting hides the lead and button on an ipad*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+}
+ @media (max-width: 480px) {
+.portfolio-item-meta {
+width: 250px;
+text-align: center;
+margin-left:auto;
+margin-right: auto;
+}
+.portfolio-post-grid {
+text-align: center
+}
+.portfolio {
+text-align: center;
+}
+.port-filters {
+display: none;
+}
+}
+
+/* Android landscape 320 x 240 */
+@media (max-width: 320px) {
+.portfolio-item-meta {
+width: 245px;
+text-align: center;
+margin-left:auto;
+margin-right: auto;
+}
+.portfolio-post-grid {
+text-align: center
+}
+.portfolio {
+text-align: center;
+}
+}
+
+/* Android portrait 240 x 320 */
+@media (max-width: 240px) {
+.portfolio-item-meta {
+width: 165px;
+text-align: center;
+margin-left:auto;
+margin-right: auto;
+}
+.portfolio-post-grid {
+text-align: center
+}
+.portfolio {
+text-align: center;
+}
+.port-filters {
+display: none;
+}
+}
+
+
+/* Android portrait 295 x 515 */
+@media (width: 295px) {
+.portfolio-item-meta {
+width: 220px;
+text-align: center;
+margin-left:auto;
+margin-right: auto;
+}
+.portfolio-post-grid {
+text-align: center
+}
+.portfolio {
+text-align: center;
+}
+.port-filters {
+display: none;
+}
+}
+
+/* Android landscape 515 x 295 */
+@media (width: 515px) {
+ .portfolio-item-meta {
+width: 250px;
+text-align: center;
+margin-left:auto;
+margin-right: auto;
+}
+ .portfolio-post-grid {
+text-align: center;
+}
+ .portfolio {
+text-align: center;
+}
+ .port-filters {
+display: none;
+}
+}

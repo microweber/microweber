@@ -736,10 +736,45 @@ mw.tools = {
   },
   search:function(string, selector, callback){
     var string = string.toLowerCase();
-    var items = mwd.querySelectorAll(selector), i=0, l=items.length;
+
+    if(typeof selector === 'object'){
+       var items = selector;
+    }
+    else{
+       var items = mwd.querySelectorAll(selector)
+    }
+
+    var i=0, l=items.length;
     for( ; i<l; i++){
       items[i].textContent.toLowerCase().contains(string) ? callback.call(items[i], true) : callback.call(items[i], false);
     }
+  },
+  tag:function(obj){
+    var itemsWrapper = obj.itemsWrapper;
+    var items = obj.itemsWrapper.querySelectorAll(obj.items);
+
+    var tagholder = $(obj.tagholder);
+    var field = mw.$('input[type="text"]', tagholder[0]);
+
+    tagholder.click(function(e){
+      if(e.target.tagName != 'INPUT'){
+        field.focus();
+      }
+    });
+    field.keyup(function(){
+      var val = $(this).val();
+      mw.tools.search(val, items, function(found){
+        if(found){
+              this.style.display = 'block';
+            }
+            else{
+               this.style.display = 'none';
+            }
+      });
+    });
+
+    return this;
+
   },
   iframeLinksToParent:function(iframe){
     $(iframe).contents().find('a').each(function(){

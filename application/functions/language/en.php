@@ -447,3 +447,4 @@ $language["add-to-navigation"]= 'Add to Navigation' ;
 $language["page-amp-menus"]= 'Page &amp; Menus' ; 
 $language["template"]= 'Template' ; 
 $language["page-layout"]= 'Page Layout' ; 
+$language["category"]= 'Category' ; 

@@ -365,11 +365,35 @@ $pt_opts['active_ids'] = $data['parent'];
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
+  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more"><?php _e("Category"); ?></a>
+  <div class="vSpace"></div>
+  <div id="edit_post_select_category" style="display: none">
+
+
+  <div class="mw-ui-field" id="mw-post-added">
+
+    <input type="text" class="mw-ui-invisible-field" />
+
+  </div>
+
+  <script>
+
+        $(document).ready(function(){
+          mw.tools.tag({
+            tagholder:'#mw-post-added',
+            items: ".mw-ui-check",
+            itemsWrapper: mwd.getElementById('categorories_selector_for_post_<? print $rand ?>')
+          });
+        });
+
+  </script>
+
+
   <?
-  
+
    $shopstr = '&is_shop=n';
    
-   
+
    if(isset($params["subtype"]) and $params["subtype"] == 'product'){
 	   $shopstr = '&is_shop=y';
 }
@@ -401,9 +425,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   
   <? $categories_active_ids = ''; ?>
-  <label class="mw-ui-label">
-    <?php _e("Select Category"); ?>
-  </label>
+
   <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
     <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? if(intval($data['id']) > 0): ?>
@@ -433,7 +455,7 @@ $pt_opts['active_ids'] = $data['parent'];
       
     <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
     <? endif; ?>
-  </div>
+  </div>    <div class="vSpace"></div>
   <script type="text/javascript">
     $(mwd).ready(function(){
 		if(!!mw.treeRenderer){
@@ -441,6 +463,8 @@ $pt_opts['active_ids'] = $data['parent'];
 		}
     });
   </script>
+  </div>
+
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
@@ -490,12 +514,16 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   <?
 
- 
+
 
 ?>
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
-  <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
+    <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+    <div class="pictures-editor-holder" style="display: none;">
+        <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
+    </div>
+
   <? endif; ?>
   <? exec_action('mw_edit_content_admin', $data); ?>
   <? if($edit_post_mode != false): ?>
@@ -619,7 +647,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Page type</label>
-        <div class="mw-ui-select" style="width: 364px;">
+        <div class="mw-ui-select" style="width: 220px;">
           <select name="subtype">
             <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
             <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>

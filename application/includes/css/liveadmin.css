@@ -98,6 +98,10 @@ body:-webkit-full-screen {
   line-height: normal;
   color: #212121;
 }
+.mw ul, .mw ol{
+  margin: 0;
+  padding: 0;
+}
 
 .mw *{
   line-height: normal;
@@ -1924,11 +1928,12 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   white-space: nowrap;
   height: 18px;
   padding: 4px 14px 2px;
+  margin: 9px 0;
   cursor: pointer;
   border: 1px solid transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
-  color: #434343;
+  color: #868686;
   font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1938,6 +1943,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
   border-bottom-color: #A1A0A0;
+  color: #111111;
 }
 
 .mw-simple-rotator{

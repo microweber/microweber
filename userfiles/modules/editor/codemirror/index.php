@@ -11,12 +11,16 @@
         float: left;
         width: 50%;
         border: 1px solid black;
+		
+		
+		
       }
 	  
 	   #module-<? print $config['module_class'] ?> {
 		  display: none;
 		  position:fixed;
 		  bottom:0px;
+ background-color:white;
 	   }
     
 	

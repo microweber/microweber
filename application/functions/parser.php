@@ -513,6 +513,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 									$userclass = str_replace('module-as-element', '', $userclass);
 								}
 								$userclass = str_replace('ui-sortable', '', $userclass);
+																$userclass = str_replace('module-item', '', $userclass);
+								
 							} else {
 								$module_html .= " {$nn}='{$nv}'  ";
 							}

@@ -43,12 +43,18 @@ if(!isset($data['name'])){
 
 <script  type="text/javascript">
 $(document).ready(function(){
-    mw.options.form('#opt_form_<? print $rand ?>', function(){
+	
+	<? if(isset($data['option_key']) and isset($data['option_key']) == 'curent_template'): ?>
+    
+	  
+      <? else : ?> 
+ mw.options.form('#opt_form_<? print $rand ?>', function(){
       mw.notification.success("<?php _e("All changes are saved"); ?>.");
     });
+      <? endif; ?> 
 });
 </script>
-
+ 
 <div class="option-item" id="opt_form_<? print $rand ?>">
   <div class="controls">
  <? if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
@@ -66,18 +72,22 @@ $(document).ready(function(){
   $data['custom_field_value'] = $data['option_value'];
   $data['custom_field_values'] = $data['field_values'];
   $data['input_class'] = 'mw-ui-field';  
+  if( $data['custom_field_name'] == 'curent_template'){
+	  $data['custom_field_type'] = 'website_template';
+  }
 
    //$data['title'] =  $data['name'];  
-   
+  // d($data);
    
   if(isset($orig_params) and isset($orig_params['for_module_id']) ){
   $data['custom_field_name'] = $data['option_key'].'|for_module|'.$orig_params['for_module_id'];
 	
 }
+
   
   print make_field($data); ?>
     <? else : ?>
-  
+ 
     <label class="control-label-title">
       <? if(isset($data['name']) == true and $data['name'] != ''): ?>
       <? print $data['name'] ?>

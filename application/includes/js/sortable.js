@@ -225,8 +225,11 @@ mw.drag = {
 
                    //trigger on item
                    if((mw.isDragItem(mw.mm_target) && mw.$mm_target.parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
-                        $(window).trigger("onItemOver", mw.mm_target);
-                        mw.$mm_target.addClass("mw_item");
+
+                        $(window).trigger("onItemOver", mw.tools.firstParentWithClass(mw.mm_target, 'edit'));
+
+                        //$(window).trigger("onItemOver", mw.mm_target);
+                        //mw.$mm_target.addClass("mw_item");
                    }
                    else if(mw.$mm_target.parents(".mw_item").length>0){
                        $(window).trigger("onItemOver", mw.$mm_target.parents(".mw_item")[0]);
@@ -780,7 +783,7 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
-                       mw.log(mw.currentDragMouseOver);
+
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
                            if(position=='top'){

@@ -108,13 +108,13 @@ mw.templatePreview = {
 		var root = mwd.querySelector('#active_site_layout_<? print $rand; ?>');
 			
 			var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-		 
+		 if(is_shop != undefined){
 		if(is_shop != undefined && is_shop =='y'){
 			form.querySelector('input[name="is_shop"][value="y"]').checked = true;
 		} else {
 			form.querySelector('input[name="is_shop"][value="n"]').checked = true;	
 		}
-		
+		 }
 		
 		if(ctype != undefined && ctype =='dynamic'){
 			
@@ -192,9 +192,10 @@ $(document).ready(function() {
 
 <div class="vSpace"></div>
 <div class="vSpace"></div>
-
 <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0">
-  <label class="mw-ui-label"><?php _e("Template"); ?></label>
+  <label class="mw-ui-label">
+    <?php _e("Template"); ?>
+  </label>
   <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
@@ -210,7 +211,6 @@ $(document).ready(function() {
     <? endif; ?>
   </div>
 </div>
-
 <select name="layout_file" class="semi_hidden"   id="active_site_layout_<? print $rand; ?>">
   <option value="inherit"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
   <? if(!empty($layouts)): ?>
@@ -221,30 +221,19 @@ $(document).ready(function() {
   <? endforeach; ?>
   <? endif; ?>
 </select>
-
-
-
-
 <div class="left">
-
-
-<div class="preview_frame_wrapper loading left">
-  <div class="preview_frame_ctrls">
-    <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
-    <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span>
-    <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span>
-    <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
+  <div class="preview_frame_wrapper loading left">
+    <div class="preview_frame_ctrls">
+      <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
+      <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
+    <div class="preview_frame_container"></div>
+    <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
   </div>
-  <div class="preview_frame_container"></div>
-  <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 </div>
-
-
-</div>
-
-
 <div class="layouts_box_holder" style="margin-top: 10px;">
-  <label class="mw-ui-label"><?php _e("Page Layout"); ?></label>
+  <label class="mw-ui-label">
+    <?php _e("Page Layout"); ?>
+  </label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector">
       <ul>
@@ -258,21 +247,6 @@ $(document).ready(function() {
       </ul>
     </div>
   </div>
-
-
-
-
-
 </div>
-
-
-
-
-
-
-
-
-
-
 <div class="mw_clear">&nbsp;</div>
 <div class="vSpace">&nbsp;</div>

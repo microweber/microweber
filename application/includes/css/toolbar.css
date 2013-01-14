@@ -60,6 +60,10 @@
 	position:relative;
 }
 
+.edit:hover{
+  z-index: 9;
+}
+
 .mw-sorthandle {
     z-index: 9;
     height: 1px;
@@ -149,6 +153,7 @@ background-image: -webkit-gradient(
 	overflow:hidden;
 	height: 75px;
     margin: 0;
+    padding: 0;
 }
 .modules-list img {
 	border: 0 none;

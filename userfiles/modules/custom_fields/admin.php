@@ -46,8 +46,10 @@ $rand = rand();
  
 ?>
 
-<div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
-  <?php _e("Add New Custom Field"); ?>
+<div class="<? print $config['module_class'] ?>-holder">
+  <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);">
+  <span class="ico iAdd"></span>
+  <span><?php _e("Add New Custom Field"); ?></span>
   </span>
   <div class="vSpace"></div>
   <div class="custom_fields_selector" style="display: none;">

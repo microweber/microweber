@@ -123,9 +123,9 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   border: 1px solid transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
-  -webkit-border-radius: 20px;
--moz-border-radius: 20px;
-border-radius: 20px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 #stats li a.active{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);

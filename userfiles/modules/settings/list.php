@@ -26,8 +26,7 @@ $opts = get_options('module=' . $params['for_module']);
 if($opts == false){
  	$opts = get_options($params);
 }
-
-
+ 
 ?>
 <? if(is_arr($opts)): ?>
 
