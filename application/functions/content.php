@@ -911,6 +911,9 @@ function content_link($id = false) {
 			$id = PAGE_ID;
 		}
 	}
+	if($id == 0){
+		return site_url();
+	}
 
 	$link = get_content_by_id($id);
 	if (strval($link['url']) == '') {
@@ -2331,7 +2334,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	}
 
 	if (isset($link) == false) {
-		$link = '<span data-page-id="{id}" class="pages_tree_link {nest_level}" href="{link}' . $append_to_link . '">{title}</span>';
+		$link = '<span data-page-id="{id}" class="pages_tree_link {nest_level} {active_class}" href="{link}' . $append_to_link . '">{title}</span>';
 	}
 
 	if (isset($list_tag) == false) {
@@ -2357,7 +2360,10 @@ if (isset($active_ids)){
 	if (isset($active_ids) and is_string($active_ids)) {
 		$active_ids = explode(',', $active_ids);
 	}
- 
+	$the_active_class='active';
+ if (isset($params['active_class'])) {
+		$the_active_class = $params['active_class'];
+	}
 	//	$params['debug'] = $parent;
 	$params['content_type'] = 'page';
 	if ($include_first == true) {
@@ -2483,8 +2489,8 @@ if (isset($active_ids)){
 								$is_there_active_ids = true;
 
 								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
-								$to_print = str_ireplace('{active_class}', 'active', $to_print);
-								$to_pr_2 = str_ireplace('{active_class}', 'active', $to_pr_2);
+								$to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
+								$to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
 								$to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
 							}
 						}

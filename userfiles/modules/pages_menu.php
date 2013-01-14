@@ -20,11 +20,11 @@ if(!isset($params['link'])){
 		$append_to_link = '';
 	}
 	 
-	$params['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}" href="{link}'.$append_to_link.'">{title}</a>';
+	$params['link'] = '<a data-page-id="{id}" class="{active_class} pages_tree_link {nest_level}" href="{link}'.$append_to_link.'">{title}</a>';
 	
 } else {
 	
-	$params['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="'.$params['link'].'">{title}</a>';
+	$params['link'] = '<a data-page-id="{id}" class="{active_class} pages_tree_link {nest_level}"  href="'.$params['link'].'">{title}</a>';
 }
 
 
