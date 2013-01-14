@@ -374,7 +374,7 @@ padding:0px !important;
   position: absolute;
   background: white;
   left: 0;
-  top: 74px;
+  top: -3px;
   overflow-x:hidden;
   overflow-y:auto;
 }

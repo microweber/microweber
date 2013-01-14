@@ -124,9 +124,16 @@
 
         <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
 
+        <iframe
+            onload="mw.tools.iframeLinksToParent(this);"
+            frameborder="0"
+            scrolling="auto"
+            id="mw_edit_pages"
+            src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
+        </iframe>
 
 
-      <? include(INCLUDES_DIR.'admin'.DS.'content.php') ?>
+
     </div>
     <div id="tab_help" class="mw_toolbar_tab">Help <a href="<?php print site_url('admin'); ?>">Admin</a></div>
     <div id="tab_style_editor" class="mw_toolbar_tab">

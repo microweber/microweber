@@ -61,10 +61,23 @@ if(isarr( $diff) and isarr($more) ){
   <div class="custom-field-table-tr" data-field-id="<? print $field['id'] ?>">
     <div class="custom-field-preview-cell" onclick="$(this).parent().addClass('active')">
       <div class="custom-field-preview">
-        <?   print  make_field($field); ?>
-        <span class="edit-custom-field-btn" title="<?php _e("Edit this field"); ?>"></span></div>
+ <?  //d(($field)); ?>
+        <a class="edit-custom-field-btn" href="javascript:mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>');">
+        <?php _e("Edit this field"); ?>
+        </a>
+        
+         Type <?    print  ($field['type']); ?><br  />
+         
+         Title <?    print  ($field['title']); ?><br  />
+         
+      
+        
+        
+        
+        <?  // print  make_field($field); ?>
+       <!-- <span class="edit-custom-field-btn" title="<?php _e("Edit this field"); ?>"></span>--></div>
     </div>
-    <div class="second-col">
+    <!--<div class="second-col">
       <div class="custom-field-set-holder"> <span class="ico iMove custom-field-handle-row right" onmousedown="mw.custom_fields.sort_rows()"></span>
         <div class="custom-field-set">
           <? 
@@ -75,10 +88,10 @@ if(isarr( $diff) and isarr($more) ){
 		  }
 		  
 		  
-		   print  make_field($field, false, 2); ?>
+		 //  print  make_field($field, false, 2); ?>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
   <? endforeach; ?>
 </div>

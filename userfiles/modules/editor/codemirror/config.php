@@ -1,12 +1,14 @@
 <?
 
 $config = array();
-$config['name'] = "Online shop";
-$config['author'] = "Microweber";
+$config['name'] = "Codemirror";
+$config['description'] = " Source code editor";
+$config['author'] = "Codemirror";
+
 $config['ui_admin'] = true;
 $config['ui'] = false;
 
 
-$config['categories'] = "online shop";
+$config['categories'] = "editor";
 $config['position'] = 2;
 $config['version'] = 0.3;

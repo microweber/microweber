@@ -740,6 +740,14 @@ mw.tools = {
     for( ; i<l; i++){
       items[i].textContent.toLowerCase().contains(string) ? callback.call(items[i], true) : callback.call(items[i], false);
     }
+  },
+  iframeLinksToParent:function(iframe){
+    $(iframe).contents().find('a').each(function(){
+       var href = this.href;
+       if(href.contains(mw.settings.site_url)){
+         this.target = '_parent';
+       }
+    });
   }
 }
 

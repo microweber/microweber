@@ -265,9 +265,7 @@ mw.treeRenderer = {
 
 
 $(document).ready(function(){
-    mw.onLive(function(){
-      set_pagetab_size();
-    });
+
 
     mw.treeRenderer.appendUI();
 

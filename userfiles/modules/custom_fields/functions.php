@@ -51,6 +51,21 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 			}
 		}
 	}
+
+	if (isset($data['field_id'])) {
+		$copy_from = $data['field_id'];
+		if (is_admin() == true) {
+
+			$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+			$form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+			if (isset($form_data['custom_field_type'])) {
+				$field_type = $data['type'] = $form_data['custom_field_type'];
+			}
+			//d($field_type);
+		}
+		// d($form_data);
+	}
+
 	if (isset($data['copy_from'])) {
 		$copy_from = $data['copy_from'];
 		if (is_admin() == true) {
@@ -62,7 +77,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 		}
 		//d($form_data);
 	}
-
+	$settings = false;
 	if (isset($data['settings'])) {
 		$settings = $data['settings'];
 	}
@@ -75,6 +90,8 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 	} else {
 		$file = $dir . $field_type . '.php';
 	}
+
+	return make_field($form_data, false, $settings);
 
 	define_constants();
 	$l = new MwView($file);

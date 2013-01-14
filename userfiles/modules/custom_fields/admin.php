@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <? //  d($params) ?>
 <script type="text/javascript">
 
@@ -58,14 +52,13 @@ $rand = rand();
   <div class="vSpace"></div>
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links left">
-    
-    
-     
-    
-    <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','text',false,'<? print $for  ?>');"><span class="ico iSingleText"></span><span>TEST</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','text',false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','paragraph',false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iSingleText"></span><span>Paragraph Text</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','radio',false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iSingleText"></span><span>Multiple Choice</span></a></li>
+      
+      <!--  <li><a href="javascript:;" onclick="mw.custom_fields.create('text');"><span class="ico iSingleText"></span><span>Single Line Text</span></a></li>
       <li><a href="javascript:;" onclick="mw.custom_fields.create('paragraph');"><span class="ico iPText"></span><span>Paragraph Text</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('radio');"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>
+      <li><a href="javascript:;" onclick="mw.custom_fields.create('radio');"><span class="ico iRadio"></span><span>Multiple Choice</span></a></li>-->
       <li><a href="#"><span class="ico iName"></span><span>Name</span></a></li>
     </ul>
     <ul class="mw-quick-links left">
@@ -87,7 +80,7 @@ $rand = rand();
       <li><a href="javascript:;" onclick="mw.custom_fields.create('hr');"><span class="ico iSpace"></span><span>Section Break</span></a></li>
     </ul>
   </div>
-  <div class="custom-field-table semi_hidden" id="create-custom-field-table">
+  <div class="custom-field-table create-custom-field-table">
     <div class="custom-field-table-tr active">
       <div class="custom-field-preview-cell"></div>
       <div class="second-col">
@@ -95,11 +88,8 @@ $rand = rand();
       </div>
     </div>
   </div>
-  
-  
-    <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
-    
-    
-    <div class="mw-admin-custom-field-edit-<? print $params['id']; ?>"></div>
-
+  <div  class="custom-field-edit">
+    <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?>"></div>
+  </div>
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> tssssso_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

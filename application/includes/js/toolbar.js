@@ -525,7 +525,7 @@ $(document).ready(function(){
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
 
-
+    set_pagetab_size();
 
     mw.on.hashParam("tab", function(){
       mw.tools.sidebar();
@@ -736,7 +736,7 @@ mw.toggle_subpanel = function(){
 set_pagetab_size = function(){
     mw.$("#mw_edit_pages").css({
        width:window.innerWidth,
-       height:window.innerHeight-126
+       height:window.innerHeight-49
      });
 }
 

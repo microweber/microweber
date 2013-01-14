@@ -16,13 +16,33 @@ mw.custom_fields = {
     //});
   },
   
+  edit: function($selector, $id, callback){
+	  
+	  var data = {};
+	  data.settings = 'y';
+	    data.field_id = $id;
+	  
+	  
+	   mw.$($selector).load(mw.settings.api_html+'make_custom_field',data , function(){
+        
+		
+		
+		mw.is.func(callback) ? callback.call($type) : '';
+		
+		
+		
+		
+       });
+	  
+  },
   
-   create: function($selector, $type, $copy,$module_id , callback){
+  
+   create: function($selector, $type, $copy,$for_table ,$for_id, callback){
       var copy_str = '';
       if($copy !== undefined && $copy !== false){
         var copy_str = '/copy_from:'+ $copy;
       }
-      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $module_id + '/for:'+ $module_id +'/custom_field_type:'+$type + copy_str , function(){
+      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
         
 		
 		
@@ -59,4 +79,69 @@ mw.custom_fields = {
          mw.custom_fields.save(id);
      });
   }
+}
+
+
+
+
+mw.custom_fields.save = function(id){
+    var obj = mw.form.serialize(id);
+    $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
+       $cfadm_reload = false;
+	 
+	   
+	    if(obj.cf_id === undefined){
+             mw.reload_module('.edit [data-parent-module="custom_fields"]');
+			 
+			//  $('#create-custom-field-table').addClass('semi_hidden');
+			// $("#"+id).hide();
+		 
+			 
+			
+        }
+        else {
+			
+			if(obj.copy_to_table_id === undefined){
+				
+           // $(""+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
+				
+			} else {
+			 $cfadm_reload = true;   
+			//   mw.reload_module('custom_fields/list');
+			}
+			
+			
+			
+        }
+		
+		
+         mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
+         if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
+			// if(!mw.tools.hasParentsWithClass(this, 'mw_modal') ){
+               mw.reload_module(this);
+           } else {
+			$cfadm_reload = true;   
+		   }
+        });
+		
+		
+		if($cfadm_reload  == true){
+	       // mw.reload_module('custom_fields/admin');
+		}
+		 mw.reload_module('custom_fields/list');
+
+		
+		
+    });
+}
+
+mw.custom_fields.del = function(id){
+    var q = "Are you sure you want to delete this?";
+    mw.tools.confirm(q, function(){
+      var obj = mw.form.serialize(id);
+      $.post(mw.settings.api_url+"remove_field",  obj, function(data){
+         mw.reload_module('custom_fields/list');
+      });
+    });
+
 }

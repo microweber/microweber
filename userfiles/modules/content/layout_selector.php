@@ -243,7 +243,7 @@ $(document).ready(function() {
 </div>
 
 
-<div class="layouts_box_holder">
+<div class="layouts_box_holder" style="margin-top: 10px;">
   <label class="mw-ui-label"><?php _e("Page Layout"); ?></label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector">

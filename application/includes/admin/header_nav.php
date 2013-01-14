@@ -1,3 +1,4 @@
+<? if(!isset($_REQUEST['no_toolbar'])): ?>
 <div id="mw_toolbar_nav"> <a href="<?php print admin_url(); ?>view:dashboard" id="mw_toolbar_logo"></a>
   <? if(is_admin()): ?>
   <?   $active = url_param('view'); ?>
@@ -85,5 +86,6 @@ $past_page = content_link($past_page[0]['id']);
  </div>
   <? endif; ?>
 </div>
+<? endif; ?>
 <div class="mw_clear" style="height: 0;">&nbsp;</div>
 <div id="mw-admin-content">

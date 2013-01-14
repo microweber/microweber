@@ -132,7 +132,7 @@ if (isset($data['save_to_content_id'])) {
     <?php _e('Field name'); ?>
   </label>
   <div class="mw-custom-field-form-controls">
-    <input type="text" class="mw-ui-field" <? if (isset($data['id']) and intval($data['id']) != 0): ?>onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"<?php endif; ?> value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
+    <input type="text" class="mw-ui-field" <? /* <? if (isset($data['id']) and intval($data['id']) != 0): ?>onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"<?php endif; ?>*/ ?> value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
   </div>
 </div>
  
