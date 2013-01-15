@@ -1,5 +1,5 @@
 <?
-// d($params);
+  
 
 $post_params = $params;
 
@@ -7,9 +7,10 @@ if (isset($post_params['id'])) {
     $paging_param = 'curent_page' . crc32($post_params['id']);
     unset($post_params['id']);
 } else {
-    $paging_param = 'curent_page';
+   
 }
 
+ $paging_param = 'curent_page';
 if (isset($post_params['paging_param'])) {
 	$paging_param = $post_params['paging_param'];
 }
@@ -17,6 +18,12 @@ if (isset($post_params['paging_param'])) {
 
 if (isset($params['curent_page'])) {
 	$curent_page = $params['curent_page'];
+} else {
+ $curent_page_from_url = url_param('curent_page');	
+  
+ if($curent_page_from_url != false){
+	 	$curent_page = $curent_page_from_url;
+ }
 }
 
 if (isset($post_params['data-page-number'])) {
@@ -34,7 +41,11 @@ if (isset($post_params['data-category-id'])) {
 }
 
 
-
+if(!isset($config['template_file'])){
+ 
+//$config['template'] = get_option('data-template', $config['id']);
+	//$config['template_file'] = 
+}
 
 
 
@@ -154,7 +165,10 @@ $show_fields = array('thumbnail', 'title', 'description', 'read_more');
 
 
  
+if(isset($curent_page) and intval($curent_page) > 0){
+	$post_params['curent_page'] = intval($curent_page);	
 
+}
 
 // $post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';	
@@ -179,6 +193,8 @@ if (!empty($content)){
 		  	$iu = get_picture($item['id'], $for = 'post', $full = false);
 			if($iu != false){
 				 $item['image'] = $iu;
+			} else {
+				 $item['image'] = false;
 			}
 	 
 	 foreach ($show_fields as $show_field){
@@ -257,12 +273,23 @@ $paging_links  = false;
 if (intval($pages_count) > 1){
 	$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); 
 	
+} 
+$module_template = get_option('data-template',$params['id']);
+if($module_template == false and isset($params['template'])){
+	$module_template =$params['template'];
+
+} 
+if($module_template != false){
+		$template_file = module_templates( $config['module'], $module_template);
+
+} else {
+		$template_file = module_templates( $config['module'], 'default');
+
 }
 
- //d($config['template_file']);
-
-if(isset($config['template_file']) and $config['template_file'] != false){
-	include($config['template_file']);
+//d($module_template );
+if(isset($template_file) and is_file($template_file) != false){
+ 	include($template_file);
 } else {
 	
 	print 'No default template for posts is found';

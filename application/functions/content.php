@@ -366,6 +366,7 @@ function get_layout_for_page($page = array()) {
 		if (isset($page['parent'])) {
 
 			$par_page = get_content_by_id($page['parent']);
+		//	d($par_page);
 			if (isarr($par_page)) {
 				$page = $par_page;
 			} else {
@@ -400,10 +401,14 @@ function get_layout_for_page($page = array()) {
 			if (strtolower($page['active_site_template']) == 'default') {
 				$template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
 			} else {
+				
 				$template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
 			}
+//.
 
+//d($template_view);
 			if (is_file($template_view) == true) {
+				
 				$render_file = $template_view;
 			} else {
 				$dn = dirname($template_view);

@@ -144,6 +144,44 @@ $(window).bind("hashchange load", function(event){
 
 mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
+mw.__bindMultiple__objects = [];
+mw.__bindMultiple__events = {};
+
+
+
+mw.bindMultiple = function(object, event, func){  //Bind events without overwriting
+    var dont_exists = mw.__bindMultiple__objects.indexOf(object) == -1;
+
+    if(dont_exists){
+       var len = mw.__bindMultiple__objects.push(object);
+    }
+    var pos = mw.__bindMultiple__objects.indexOf(object);
+
+    if(mw.__bindMultiple__events[pos] === undefined){
+       mw.__bindMultiple__events[pos] = [func];
+    }
+    else{
+       mw.__bindMultiple__events[pos].push(func);
+    }
+
+    if(dont_exists){
+      $(object).bind(event, function(){
+          var pos = len-1;
+          var funcs = mw.__bindMultiple__events[pos];
+          for(var x in funcs){
+             funcs[x].call(object, event);
+          }
+       });
+    }
+    return object;
+}
+
+$.fn.bindMultiple = function(event, callback){
+    return this.each(function(){
+       mw.bindMultiple(this, event, callback);
+    });
+}
+
 
 
 

@@ -196,6 +196,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	}
 
 	$data = array();
+
 	//   $data ['debug'] = 1;
 	if (is_array($key)) {
 		$data = $key;
@@ -226,10 +227,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	}
 	$function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
 	//
-
+	//
 	$get = db_query($q, $function_cache_id_q, $cache_group);
-	//d($get);
-
+	//
+	 
 	if (!empty($get)) {
 
 		if ($return_full == false) {
@@ -388,14 +389,24 @@ function save_option($data) {
 				delete_option_by_key($data['option_key'], $data['option_group']);
 			}
 		}
+		$table = MW_DB_TABLE_OPTIONS;
 		if (isset($data['field_values']) and $data['field_values'] != false) {
 			$data['field_values'] = base64_encode(serialize($data['field_values']));
 		}
-
+		if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
+			//$m = db_escape_string($data['module']);
+			$opt_gr = db_escape_string($data['option_group']);
+			$opt_key = db_escape_string($data['option_key']);
+			$clean = "delete from $table where      option_group='{$opt_gr}' and  option_key='{$opt_key}'";
+			db_q($clean);
+			$cache_group = 'options/' . $opt_gr;
+			cache_clean_group($cache_group);
+			//d($data);
+			//d($clean);
+		}
 		//}
 		if (strval($data['option_key']) != '') {
 
-			$table = MW_DB_TABLE_OPTIONS;
 			if (isset($data['option_group']) and strval($data['option_group']) == '') {
 
 				unset($data['option_group']);
@@ -482,5 +493,3 @@ function delete_option_by_key($key, $option_group = false, $module_id = false) {
 	cache_clean_group('options');
 	return true;
 }
-
-

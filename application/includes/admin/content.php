@@ -184,7 +184,7 @@ mw.treeRenderer = {
               if($(el.parentNode).children('ul').length>0){
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
-              var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
+              var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.top.location.href=\""+href+"/editmode:y\"'></span>";
              
 			 var  sort_content = false;
 			  

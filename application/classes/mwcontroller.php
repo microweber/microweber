@@ -14,7 +14,7 @@ class MwController {
 			$page_url = $this -> render_this_url;
 			$this -> render_this_url = false;
 		}
-
+		$page = false;
 		$page_url = rtrim($page_url, '/');
 		$is_admin = is_admin();
 
@@ -71,76 +71,111 @@ class MwController {
 			$page_url = url_param_unset('preview_layout', $page_url);
 		}
 
-		if (trim($page_url) == '') {
-			//
-			$page = get_homepage();
-		} else {
+		if ($is_preview_template == true or isset($_REQUEST['isolate_content_field'])) {
 
-			$page = get_page_by_url($page_url);
+			if (isset($_GET['content_id']) and intval($_GET['content_id']) != 0) {
+				$page = get_content_by_id($_GET['content_id']);
 
-			if (empty($page)) {
-				$page_url_segment_1 = url_segment(0);
+			} else {
 
-				$page_url_segment_2 = url_segment(1);
-
-				$td = TEMPLATEFILES . DS . $page_url_segment_1;
-
-				$fname1 = 'index.php';
-				$fname2 = $page_url_segment_2 . '.php';
-				$fname3 = $page_url_segment_2;
-
-				$tf1 = $td . DS . $fname1;
-				$tf2 = $td . DS . $fname2;
-				$tf3 = $td . DS . $fname3;
-
-				$the_new_page_file = false;
-
-				if (is_dir($td)) {
-
-					if (is_file($tf1)) {
-						$simply_a_file = $tf1;
-						$the_new_page_file = $fname1;
-					}
-
-					if (is_file($tf2)) {
-						$simply_a_file = $tf2;
-						$the_new_page_file = $fname2;
-					}
-					if (is_file($tf3)) {
-						$simply_a_file = $tf3;
-						$the_new_page_file = $fname3;
-					}
-
-					if (($simply_a_file) != false) {
-						$simply_a_file = str_replace('..', '', $simply_a_file);
-					}
-
-					//   d($simply_a_file);
+				$page['id'] = 0;
+				$page['content_type'] = 'page';
+				if (isset($_GET['content_type'])) {
+					$page['content_type'] = db_escape_string($_GET['content_type']);
 				}
-				if ($simply_a_file == false) {
-					$page = get_homepage();
+				//d($_GET);
+				//d($page);
+
+				template_var('new_content_type', $page['content_type']);
+				$page['parent'] = '0';
+
+				if (isset($_GET['parent_id']) and $_GET['parent_id'] != 0) {
+					$page['parent'] = intval($_GET['parent_id']);
+				}
+
+				//$page['url'] = url_string();
+				if (isset($is_preview_template) and $is_preview_template != false) {
+					$page['active_site_template'] = $is_preview_template;
 				} else {
-					$page['id'] = 0;
-					$page['content_type'] = 'page';
-					$page['parent'] = '0';
-					$page['url'] = url_string();
-					$page['active_site_template'] = $page_url_segment_1;
-					$page['layout_file'] = $the_new_page_file;
-					$page['simply_a_file'] = $simply_a_file;
 
-					template_var('new_page', $page);
-					//template_var('new_page');
 				}
+				if (isset($is_layout_file) and $is_layout_file != false) {
+					$page['layout_file'] = $is_layout_file;
+				}
+
+				//$page['active_site_template'] = $page_url_segment_1;
+				//$page['layout_file'] = $the_new_page_file;
+				//$page['simply_a_file'] = $simply_a_file;
+
+				template_var('new_page', $page);
 			}
-			//
+		}
+		if ($page == false) {
+			if (trim($page_url) == '') {
+				//
+				$page = get_homepage();
+			} else {
+
+				$page = get_page_by_url($page_url);
+
+				if (empty($page)) {
+					$page_url_segment_1 = url_segment(0);
+
+					$page_url_segment_2 = url_segment(1);
+
+					$td = TEMPLATEFILES . DS . $page_url_segment_1;
+
+					$fname1 = 'index.php';
+					$fname2 = $page_url_segment_2 . '.php';
+					$fname3 = $page_url_segment_2;
+
+					$tf1 = $td . DS . $fname1;
+					$tf2 = $td . DS . $fname2;
+					$tf3 = $td . DS . $fname3;
+
+					$the_new_page_file = false;
+
+					if (is_dir($td)) {
+
+						if (is_file($tf1)) {
+							$simply_a_file = $tf1;
+							$the_new_page_file = $fname1;
+						}
+
+						if (is_file($tf2)) {
+							$simply_a_file = $tf2;
+							$the_new_page_file = $fname2;
+						}
+						if (is_file($tf3)) {
+							$simply_a_file = $tf3;
+							$the_new_page_file = $fname3;
+						}
+
+						if (($simply_a_file) != false) {
+							$simply_a_file = str_replace('..', '', $simply_a_file);
+						}
+
+						//   d($simply_a_file);
+					}
+					if ($simply_a_file == false) {
+						$page = get_homepage();
+					} else {
+						$page['id'] = 0;
+						$page['content_type'] = 'page';
+						$page['parent'] = '0';
+						$page['url'] = url_string();
+						$page['active_site_template'] = $page_url_segment_1;
+						$page['layout_file'] = $the_new_page_file;
+						$page['simply_a_file'] = $simply_a_file;
+
+						template_var('new_page', $page);
+						//template_var('new_page');
+					}
+				}
+				//
+			}
 		}
 
-		if (isset($_GET['content_id']) and $_GET['content_id'] != 0) {
-			$page = get_content_by_id($_GET['content_id']);
-		}
-		if (isset($_GET['parent_id']) and $_GET['parent_id'] != 0) {
-			$page['parent_id'] = intval($_GET['content_id']);
-		}
 		//
 
 		if ($page['content_type'] == "post") {
@@ -149,7 +184,7 @@ class MwController {
 		} else {
 			$content = $page;
 		}
-
+		//d($content);
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
 			$content['active_site_template'] = $is_preview_template;
@@ -190,8 +225,10 @@ class MwController {
 
 			// d($l);
 			//exit();
-
+//mw_var('get_module_template_settings_from_options', 1);
 			$l = parse_micrwober_tags($l, $options = false);
+		//	mw_var('get_module_template_settings_from_options', 0);
+			
 			$apijs_loaded = site_url('apijs');
 
 			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
@@ -233,17 +270,45 @@ class MwController {
 			}
 
 			if (isset($_REQUEST['isolate_content_field'])) {
+				//d($_REQUEST);
 				$pq = phpQuery::newDocument($l);
-				
-				$isolated_head = pq('head') -> eq(0) -> htmlOuter();;
-				//d($isolated_head);
-				foreach ($pq ['[field=content]'] as $elem) {
 
-					$l = pq($elem) -> htmlOuter();
+				$isolated_head = pq('head') -> eq(0) -> html();
+
+				// d($isolated_head);
+				$found_field = false;
+
+				foreach ($pq ['[field=content]'] as $elem) {
+					//d($elem);
+					$isolated_el = $l = pq($elem) -> htmlOuter();
 				}
-				if($isolated_head != false){
-				 $l = 	$isolated_head.$l;
+
+				$is_admin = is_admin();
+				if ($is_admin == true) {
+
+					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
+					//$layout_toolbar = file_get_contents($filename);
+					$layout_toolbar = new MwView($tb);
+					$layout_toolbar = $layout_toolbar -> __toString();
+					if ($layout_toolbar != '') {
+
+						if (strstr($layout_toolbar, '{head}')) {
+							if ($isolated_head != false) {
+								//	d($isolated_head);
+								$layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
+							}
+						}
+
+						if (strpos($layout_toolbar, '{content}')) {
+
+							$l = str_replace('{content}', $l, $layout_toolbar);
+
+						}
+						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+
+					}
 				}
+
 			}
 
 			if ($this -> isolate_by_html_id != false) {
@@ -760,7 +825,8 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);

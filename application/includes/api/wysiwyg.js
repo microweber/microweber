@@ -577,10 +577,12 @@ mw.wysiwyg = {
         iframe.style.resize = 'vertical';
         iframe.onload = function(){
           var b = $(this).contents().find(".edit");
+		  if(b !== undefined  &&  b[0] != undefined){
           b[0].contentEditable = true;
           b.bind("blur", function(){
             textarea.value = $(this).html();
           });
+		  }
         }
         $(textarea).after(iframe);
         $(textarea).hide();

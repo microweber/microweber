@@ -18,7 +18,9 @@ typeof mw === 'undefined' ?
 
   mw = {}
 
+  mw.askusertostay = null;
 
+  window.onbeforeunload = function() { return mw.askusertostay; }
 
   mw.module = {} //Global Variable for modules scripts
 

@@ -50,7 +50,7 @@ $menu_name = false;
                    mw.$('#mw-selected-menus').prepend(html);
                  }
                  else{
-                    mw.$('#mw-selected-menus .mw-ui-btn:last').after(html)
+                    mw.$('#mw-selected-menus .mw-ui-btn:last').after(html);
                  }
 
               }

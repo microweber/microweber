@@ -174,7 +174,7 @@ mw.manage_content_sort = function(){
  
   $pt_opts['parent'] = $params['page-id'];  
  //  $pt_opts['id'] = "pgs_tree";
- 	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="{url}">{title}</a>';
+ 	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" href="{url}">{title}</a>';
 	 $pt_opts['max_level'] = 2;
  if($params['page-id'] == '0'){
 	  $pt_opts['include_first'] =  false;  

@@ -126,12 +126,13 @@ define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</di
  */
 
 function module_templates($module_name, $template_name = false) {
-
+	$module_name = str_replace('admin', '', $module_name);
 	$module_name_l = locate_module($module_name);
 
 	$module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
 
 	$module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
+	//	d($module_name_l_theme);
 	if (!is_dir($module_name_l)) {
 		return false;
 	} else {
@@ -142,8 +143,9 @@ function module_templates($module_name, $template_name = false) {
 			$module_name_l = layouts_list($options);
 			if (is_dir($module_name_l_theme)) {
 				$options['path'] = $module_name_l_theme;
-
+				//d($options);
 				$module_skins_from_theme = layouts_list($options);
+				//	d($module_skins_from_theme);
 				if (isarr($module_skins_from_theme)) {
 					if (!is_arr($module_name_l)) {
 						$module_name_l = array();
@@ -1529,26 +1531,31 @@ function load_module($module_name, $attrs = array()) {
 		$config['ns'] = str_replace('/', '\\', $module_name);
 		$config['module_class'] = module_css_class($module_name);
 		$config['url_to_module'] = pathToURL($config['path_to_module']);
-
+		$get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
+		//d($get_module_template_settings_from_options);
 		if (isset($attrs['id'])) {
-			$template = false;
-			//$template = get_option('data-template', $attrs['id']);
+			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
 
+			$template = false;
+			//d($attrs['id']);
+			 /*
 			if ($template == false and isset($attrs['template'])) {
 				$template = $attrs['template'];
+				$config['template_file'] = $template;
 			} else {
 
 			}
-			$template_file = false;
-			if ($template != false and strtolower($template) != 'none') {
-				$template_file = module_templates($module_name, $template);
-				//$config['template_file'] = $template_file;
-			} else {
-				$template_file = module_templates($module_name, 'default');
+			
+			 $template_file = false;
+			 if ($template != false and strtolower($template) != 'none') {
+			 $template_file = module_templates($module_name, $template);
+			 //$config['template_file'] = $template_file;
+			 } else {
+			 $template_file = module_templates($module_name, 'default');
 
-			}
+			 }*/
 
-			$config['template_file'] = $template_file;
+			//$config['template_file'] = $template_file;
 		}
 
 		//$config['url_to_module'] = rtrim($config['url_to_module'], '///');

@@ -150,7 +150,7 @@ body {
   background-color: #fff;
 }
 a {
-  color: #393;
+  color: #5BB75B;
   text-decoration: none;
 }
 a:hover {
@@ -864,7 +864,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: #393;
+  border-color: #5BB75B;
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
@@ -2323,7 +2323,7 @@ table [class*=span],
 .dropdown-submenu:hover > a {
   text-decoration: none;
   color: #ffffff;
-  background-color: #393;
+  background-color: #5bb75b;
   background-image: -moz-linear-gradient(top, #62c462, #51a351);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
   background-image: -webkit-linear-gradient(top, #62c462, #51a351);
@@ -2746,7 +2746,7 @@ input[type="button"].btn-block {
 .btn-success {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #393;
+  background-color: #5bb75b;
   background-image: -moz-linear-gradient(top, #62c462, #51a351);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
   background-image: -webkit-linear-gradient(top, #62c462, #51a351);
@@ -2873,7 +2873,7 @@ input[type="submit"].btn.btn-mini {
 .btn-link {
   border-color: transparent;
   cursor: pointer;
-  color: #393;
+  color: #5BB75B;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -3032,7 +3032,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #51a351;
 }
 .btn-group.open .btn-info.dropdown-toggle {
-  background-color: #393;
+  background-color: #5BB75B;
 }
 .btn-group.open .btn-inverse.dropdown-toggle {
   background-color: #525050;
@@ -3196,7 +3196,7 @@ input[type="submit"].btn.btn-mini {
 .nav-list > .active > a:hover {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  background-color: #393;
+  background-color: #5BB75B;
 }
 .nav-list [class^="icon-"] {
   margin-right: 2px;
@@ -3275,7 +3275,7 @@ input[type="submit"].btn.btn-mini {
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover {
   color: #ffffff;
-  background-color: #393;
+  background-color: #5BB75B;
 }
 .nav-stacked > li {
   float: none;
@@ -3329,8 +3329,8 @@ input[type="submit"].btn.btn-mini {
   border-radius: 6px;
 }
 .nav .dropdown-toggle .caret {
-  border-top-color: #393;
-  border-bottom-color: #393;
+  border-top-color: #5BB75B;
+  border-bottom-color: #5BB75B;
   margin-top: 6px;
 }
 .nav .dropdown-toggle:hover .caret {
@@ -4425,7 +4425,7 @@ input[type="submit"].btn.btn-mini {
   transition: all 0.2s ease-in-out;
 }
 a.thumbnail:hover {
-  border-color: #393;
+  border-color: #5BB75B;
   -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);

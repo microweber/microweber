@@ -44,8 +44,10 @@ if(!isset($data['name'])){
 <script  type="text/javascript">
 $(document).ready(function(){
 	
-	<? if(isset($data['option_key']) and isset($data['option_key']) == 'curent_template'): ?>
+	<? if(isset($data['option_key']) and  trim($data['option_key']) == 'curent_template'): ?>
     
+	
+	
 	  
       <? else : ?> 
  mw.options.form('#opt_form_<? print $rand ?>', function(){
@@ -77,7 +79,7 @@ $(document).ready(function(){
   }
 
    //$data['title'] =  $data['name'];  
-  // d($data);
+ // d($data);
    
   if(isset($orig_params) and isset($orig_params['for_module_id']) ){
   $data['custom_field_name'] = $data['option_key'].'|for_module|'.$orig_params['for_module_id'];

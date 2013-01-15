@@ -26,7 +26,7 @@ $pid = false;
 $data = false;
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
-$data = get_content_by_id(intval($params["data-page-id"])); 
+$data = get_content_by_id(intval($params["data-page-id"]));
 
 }
 
@@ -177,9 +177,11 @@ mw_before_content_save<? print $rand ?>()
 			mw_on_save_complete<? print $rand ?>()
 			
 
-	
+
 		}
 </script>
+
+
 
 <form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
 
@@ -250,12 +252,16 @@ load_iframe_editor = function(){
 	    <? if($edit_post_mode != false): ?>
 		
 		 var selpage = $('#categorories_selector_for_post_<? print $rand ?>');
+		 
+ 
+		 
 		if(selpage.length > 0){
-		selpage_find = 	selpage.find('[name="parent"]:checked').first().val();
+		selpage_find = 	selpage.find('input[type="radio"]:checked').first().val();
+		//mw.log('pecata   '+selpage_find);
 		if(selpage_find != undefined){
 			ifr_ed_url_more = '&parent_id='+selpage_find;
 		}
-		//mw.log('pecata   '+selpage_find);
+	// 
 		
 		}
 		
@@ -273,39 +279,16 @@ load_iframe_editor = function(){
 		
 			<? endif; ?>	
 	      	
-		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'?isolate_content_field=1&content_id=<? print  $data['id'] ?>&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>');
+		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'?isolate_content_field=1&content_id=<? print  $data['id'] ?>&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
 
 		
 		
 		
 		
-		
+
   }
   
 
-	 
- 
-  $(document).ready(function(){
-// load_iframe_editor();
-   <? if($edit_post_mode != false): ?>
-		load_iframe_editor();
-		// $('#categorories_selector_for_post_<? print $rand ?>').find('input[type="radio"]').die('change.contentcat');
-		 $('#categorories_selector_for_post_<? print $rand ?>').find('input[type="radio"]').live('change.contentcat', function(e){
-		  load_iframe_editor();
-
-		});
-	<? endif; ?>	
- 
-     
-     $(window).bind("templateChanged", function(e, el){
-   //alert(el);
-   load_iframe_editor();
-  });
-
-
-   
-
-  });
 
 
 
@@ -321,6 +304,9 @@ load_iframe_editor = function(){
 
   }
 </script>
+
+
+
 
 
   <div id="mw-editor<?php print $rand; ?>" style="height: 300px;width:600px;">
@@ -434,7 +420,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <div id="edit_post_select_category" style="display: none">
 
 
-  <div class="mw-ui-field" id="mw-post-added">
+  <div class="mw-ui-field mw-tag-selector" id="mw-post-added">
 
     <input type="text" class="mw-ui-invisible-field" />
 
@@ -443,11 +429,22 @@ $pt_opts['active_ids'] = $data['parent'];
   <script>
 
         $(document).ready(function(){
+
+
           mw.tools.tag({
             tagholder:'#mw-post-added',
             items: ".mw-ui-check",
-            itemsWrapper: mwd.getElementById('categorories_selector_for_post_<? print $rand ?>')
+            //itemsWrapper: mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'),
+            itemsWrapper: mwd.querySelector('.mw-ui-category-selector'),
+            onTag:function(){
+                load_iframe_editor();
+            },
+            onUntag:function(){
+                load_iframe_editor();
+            }
           });
+
+
         });
 
   </script>
@@ -613,17 +610,26 @@ $pt_opts['active_ids'] = $data['parent'];
   <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
     <script  type="text/javascript">
+
+
 $(document).ready(function(){
 
-		  mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-			mw.$('#categorories_selector_for_post_<? print $rand ?> input[type="radio"]').bind('change', function(e){
-		   mw_load_post_cutom_fields_from_categories<? print $rand ?>();
-		
-		
-		
-		
+		  mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+		  mw.$('#categorories_selector_for_post_<? print $rand ?> input[type="radio"]').bindMultiple('change', function(e){
+		    mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+          });
 
-		});
+
+    <? if($edit_post_mode != false): ?>
+
+	<? endif; ?>
+
+
+     $(window).bind("templateChanged", function(e, el){
+        load_iframe_editor();
+     });
+            		load_iframe_editor();
+
 });
 
 function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
@@ -631,7 +637,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
  var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand ?>');
  if(vals != undefined){
 	 i = 1;
-		 
+
 				 holder1.attr('for','table_content');
 				 holder1.attr('save_to_content_id','<? print $data['id'] ?>');
 				 holder1.attr('to_table_id',vals);
@@ -643,7 +649,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 					 });
 	 
  }
- 
+
  
  
  

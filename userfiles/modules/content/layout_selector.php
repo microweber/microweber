@@ -198,7 +198,10 @@ $(document).ready(function() {
   <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
+
       <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
+      <option value="inherit"   <? if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>From parent page</option>
+
       <? foreach($templates as $item): ?>
       <? $attrs = '';
        foreach($item as $k=>$v): ?>

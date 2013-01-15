@@ -287,8 +287,72 @@ function save_media($data) {
 	}
 }
 
-function thumbnail($src, $width = 200, $height = 200) {
+function pixum_img() {
+	$mime_type = "image/jpg";
+	$extension = ".jpg";
+	$cache_folder = CACHEDIR . 'pixum' . DS;
+	if (!is_dir($cache_folder)) {
+		mkdir_recursive($cache_folder);
+	}
 
+	if (isset($_REQUEST['width'])) {
+		$w = $_REQUEST['width'];
+	} else {
+		$w = 1;
+	}
+
+	if (isset($_REQUEST['height'])) {
+		$h = $_REQUEST['height'];
+	} else {
+		$h = 1;
+	}
+	$h = intval($h);
+	$w = intval($w);
+	if ($h == 0) {
+		$h = 1;
+	}
+
+	if ($w == 0) {
+		$w = 1;
+	}
+	$hash = 'pixum-' . ($h) . 'x' . $w;
+	$cachefile = $cache_folder . '/' . $hash . $extension;
+
+	header("Content-Type: image/jpg");
+
+	# Generate cachefile for image, if it doesn't exist
+	if (!file_exists($cachefile)) {
+
+		$img = imagecreatetruecolor($w, $h);
+
+		$bg = imagecolorallocate($img, 225, 226, 227);
+
+		imagefilledrectangle($img, 0, 0, $w, $h, $bg);
+		//  header("Content-type: image/png");
+		imagejpeg($img, $cachefile);
+		imagedestroy($img);
+
+		$fp = fopen($cachefile, 'rb');
+		# stream the image directly from the cachefile
+		fpassthru($fp);
+		exit ;
+	} else {
+
+		$fp = fopen($cachefile, 'rb');
+		# stream the image directly from the cachefile
+		fpassthru($fp);
+		exit ;
+	}
+}
+
+function pixum($width, $height) {
+	return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+}
+
+function thumbnail($src, $width = 200, $height = 200) {
+	if ($src == false) {
+		return pixum($width, $height);
+	}
 	//require_once ();
 	$surl = site_url();
 	$local = false;

@@ -1109,6 +1109,7 @@ a:hover .mw_ed_tree_content{
     overflow: hidden;
     border-radius:2px;
     width: 625px;
+    display: none;
 }
 .mw-ui-category-selector div.module-categories-selector {
     overflow-y: auto;
@@ -1156,6 +1157,19 @@ right: 15px;
     border-color:#BDBBBB;
 }
 
+
+.mw-tag-selector {
+  cursor: text;
+}
+.mw-tag-selector .mw-ui-invisible-field{
+  font-size: 11px;
+  padding: 2px 0;
+}
+
+.mw-tag-selector .mw-ui-btn{
+  float: left;
+  margin-right: 5px;
+}
 
 .mw-ui-btn,
 .mw-ui-form input[type='submit'],
@@ -1316,7 +1330,6 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-invisible-field{
   background: transparent;
   border: none;
-  padding:8px 10px;
 }
 
 textarea.mw-ui-field{
