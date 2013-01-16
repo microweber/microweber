@@ -1310,6 +1310,37 @@ mw.notification = {
 
 
 
+mw.googleFonts = {
+  params:'?key=AIzaSyApMgI8vW2EfAFAeVa4hDvaLoaW9A3WY94&subsets=latin&sort=alpha',
+  url:'https://www.googleapis.com/webfonts/v1/webfonts/',
+  get:function(format, callback){
+    var format = format || 'list';
+    jQuery.getJSON(mw.googleFonts.url + mw.googleFonts.params, function(data){
+
+        if(format==='list'){
+            var html = '<li><h2>Google Fonts:</h2></li>';
+            $.each(data.items, function(a,b){
+                html+='<li>' + b.family + '</li>';
+            });
+            html+='';
+
+            callback.call(html);
+        }
+    });
+  }
+}
+
+$(window).load(function(){
+  if(!window['mwAdmin']){
+    //mw.googleFonts.get('list', function(){
+       var ul = $("#font_family_selector_main ul")[0];
+       ul.innerHTML+=this
+   // });
+
+
+  }
+});
+
 
 
 

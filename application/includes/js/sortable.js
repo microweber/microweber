@@ -1123,7 +1123,9 @@ module_settings: function() {
   if(data1.style != undefined){
 	  delete(data1.style);
   }
-  
+  if(data1.contenteditable != undefined){
+	  delete(data1.contenteditable);
+  }
 	data1.live_edit = 'true';
 	data1.view = 'admin';
 	//data1.no_wrap = '1';
