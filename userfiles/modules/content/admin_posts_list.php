@@ -190,12 +190,15 @@ $pages_count = intval($pages);
       <? else : ?>
       <a class="manage-post-image manage-post-image-no-image left"></a>
       <? endif; ?>
+      
+      <? $edit_link = admin_url('view:content?edit_content='.$item['id']);  ?>
+      
       <div class="manage-post-main">
-        <h3 class="manage-post-item-title"><a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');"><? print strip_tags($item['title']) ?></a></h3>
-        <small><a  class="manage-post-item-link-small" href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
+        <h3 class="manage-post-item-title"><a target="_top" href="<? print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"><? print strip_tags($item['title']) ?></a></h3>
+        <small><a  class="manage-post-item-link-small" target="_top"  href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a href="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');">Edit</a> <a href="javascript:;">Delete</a> </div>
+        <div class="manage-post-item-links"> <a target="_top"  href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<? print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:;">Delete</a> </div>
       </div>
       <div class="manage-post-item-author"><? print user_name($item['created_by']) ?></div>
     </div>

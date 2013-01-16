@@ -27,14 +27,13 @@ description: Blog layout
     <div class="row"> 
       <!-------------- Blog post -------------->
       <div class="span8">
-        <module type="posts" template="blog" />
-        
-        
-        
+        <div class="edit"  field="sub_content" rel="page">
+          <module type="posts" template="blog"   />
+        </div>
       </div>
       <!------------ Sidebar -------------->
       <div class="span4">
-        <? include TEMPLATE_DIR. 'layouts' . DS."blog_sidebar.php"; ?>
+        <? include_once TEMPLATE_DIR. 'layouts' . DS."blog_sidebar.php"; ?>
       </div>
     </div>
   </div>

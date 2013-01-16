@@ -1096,14 +1096,68 @@ mw.drag = {
 
 
 
+module_settings: function() {
+    var curr = $("#mw_handle_module").data("curr");
+    var attributes = {};
+    $.each(curr.attributes, function(index, attr) {
+      attributes[attr.name] = attr.value;
+    });
 
+
+    data1 = attributes
+  //  data1.view = 'admin';
+  if(data1['data-type'] != undefined){
+	 // alert(1);
+	 data1['data-type'] = data1['data-type'];
+  }
+  
+    if(data1['type'] != undefined){
+	 // alert(1);
+	 data1['type'] = data1['type']+'';
+  }
+  
+  if(data1.class != undefined){
+	  delete(data1.class);
+  }
+  
+  if(data1.style != undefined){
+	  delete(data1.style);
+  }
+  
+	data1.live_edit = 'true';
+	data1.view = 'admin';
+	//data1.no_wrap = '1';
+    mw.tools.modal.init({
+	html:"",
+	width:600,
+	height:450,
+	callback:function() {
+      var id = this.main[0].id;
+	   var ifr_src = mw.settings.site_url + "api/module?"+json2url(data1);
+	  var ifr = '<iframe width="600" height="450" src="'+ifr_src+'" class="mw-module-settings-iframe"></iframe>'
+	  $(this.container).html(ifr);
+	    mw.drag.ModuleSettingsPopupLoaded(id);
+/*	  
+      $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
+      
+		mw.simpletabs(this.container);
+      });
+	  */
+	  
+	  
+	  
+      $(this.container).attr('data-settings-for-module', curr.id);
+    }
+	});
+
+  },
 
 /**
    * Loads module settings in lightbox
    *
    * @method mw.drag.module_settings()
    */
-  module_settings: function() {
+  module_settings_old: function() {
     var curr = $("#mw_handle_module").data("curr");
     var attributes = {};
     $.each(curr.attributes, function(index, attr) {
@@ -1127,6 +1181,7 @@ mw.drag = {
   
 	data1.live_edit = 'true';
 	data1.view = 'admin';
+	data1.no_wrap = '1';
     mw.tools.modal.init({
 	html:"",
 	width:600,
@@ -1135,6 +1190,7 @@ mw.drag = {
       var id = this.main[0].id;
       $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
         mw.drag.ModuleSettingsPopupLoaded(id);
+		mw.simpletabs(this.container);
       });
       $(this.container).attr('data-settings-for-module', curr.id);
     }

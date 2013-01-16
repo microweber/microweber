@@ -327,16 +327,12 @@ body:-webkit-full-screen {
 
 #mw_edit_pages_content{
   position: relative;
-  overflow: auto;
+  /*overflow: auto;*/
   width: 980px;
 }
 
 
-.semi_hidden{
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-}
+
 
 
 
@@ -2123,7 +2119,7 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
   cursor: text;
 }
 
-.mw-page-menu-selector ul{
+ul.mw-menu-selector-list{
   position: absolute;
   display: none;
   top: 100%;
@@ -2139,38 +2135,16 @@ tr.mw-order-item:hover, tr.mw-order-item.hovered{
 border-bottom-left-radius: 2px;
 }
 
-.mw-page-menu-selector li{
+ul.mw-menu-selector-list li{
   list-style: none;
   white-space: nowrap;
   margin-left: 15px;
   margin-bottom: 5px;
 }
 
-#mw-selected-menus {
-  padding: 5px 2px 2px;
-  display: inline-block;
-}
 
-#mw-selected-menus input{
-  background: none;
-  border: none;
-  margin: 0 0 0 7px;
-  padding: 6px 0;
-  position: relative;
-  color: #8C8C8C;
-  font-size: 11px;
-  width:200px;
-}
 
-#mw-selected-menus .mw-ui-label{
-  padding-bottom: 0;
-}
 
-#mw-selected-menus .mw-ui-btn{
-  margin: 1px 3px 4px;
-  padding: 2px 17px 2px 7px;
-  float: left;
-}
 
 .mw-menuselector-menu-title{
   color: #8C8C8C;

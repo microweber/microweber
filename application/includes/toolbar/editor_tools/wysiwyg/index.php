@@ -13,9 +13,15 @@
 <script>mw.require("wysiwyg.js");</script>
 <script>
 
-$(document).ready(function(){
+$(window).load(function(){
 
-$("#mw-iframe-editor-area").height($(window).height()-60)
+$("#mw-iframe-editor-area").height($(window).height()-60);
+
+__area = mwd.getElementById('mw-iframe-editor-area');
+
+
+
+
 
 });
 
@@ -39,6 +45,11 @@ $("#mw-iframe-editor-area").height($(window).height()-60)
 	display: block;
 	padding-top: 5px;
 }
+
+.mw-admin-editor{
+    background: none;
+}
+
 </style>
 </head>
 <body>
@@ -48,9 +59,10 @@ $("#mw-iframe-editor-area").height($(window).height()-60)
   exit('must be admin');
   }
  ?>
- <?php include INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+
 <div class="mw-admin-editor">
-  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" contenteditable="true">{content}</div>
+ <?php include INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" contenteditable="true" tabindex="0" autofocus="autofocus">{content}</div>
 </div>
 <? mw_var('plain_modules', false); ?>
 </body>

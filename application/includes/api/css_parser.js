@@ -1,4 +1,5 @@
 mw.CSSParser = function(el){
+    if(el.tagName === undefined) return false;
     var css = window.getComputedStyle(el, null);
 
 

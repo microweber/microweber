@@ -1538,14 +1538,14 @@ function load_module($module_name, $attrs = array()) {
 
 			$template = false;
 			//d($attrs['id']);
-			 /*
-			if ($template == false and isset($attrs['template'])) {
-				$template = $attrs['template'];
-				$config['template_file'] = $template;
-			} else {
+			/*
+			 if ($template == false and isset($attrs['template'])) {
+			 $template = $attrs['template'];
+			 $config['template_file'] = $template;
+			 } else {
 
-			}
-			
+			 }
+
 			 $template_file = false;
 			 if ($template != false and strtolower($template) != 'none') {
 			 $template_file = module_templates($module_name, $template);
@@ -1568,7 +1568,8 @@ function load_module($module_name, $attrs = array()) {
 		if (!isset($attrs['id'])) {
 
 			$attrs1 = crc32(serialize($attrs));
-			$s1 = url_segment(0);
+			//$s1 = url_segment(0);
+			$s1 = '';
 			if ($s1 != false and trim($s1) != '') {
 				$attrs1 = $attrs1 . '-' . $s1;
 			} else if (defined('PAGE_ID') and PAGE_ID != false) {

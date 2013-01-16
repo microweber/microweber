@@ -95,29 +95,24 @@ mw.wysiwyg = {
         }
       });
     },
-    _external:function(){  //global element for handelig the iframe tools
+    _external:function(){  //global element to handle the iframe tools
       var external = mwd.createElement('div');
       external.className='wysiwyg_external';
       mwd.body.appendChild(external);
       return external;
     },
     execCommand:function(a,b,c){
-     // if(mw.wysiwyg.isThereEditableContent){
         if(document.queryCommandSupported(a)){
-        var b = b || false;
-        var c = c || false;
-         $.browser.mozilla?mwd.designMode = 'on':'';  // for firefox
-         mwd.execCommand(a,b,c);
-         $.browser.mozilla?mwd.designMode = 'off':'';
+            var b = b || false;
+            var c = c || false;
+            var cac = window.getSelection().getRangeAt(0).commonAncestorContainer;
+            var isSelectionInEditable = cac.parentElement.isContentEditable || cac.isContentEditable;
+            if(isSelectionInEditable){
+               $.browser.mozilla?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
+               mwd.execCommand(a,b,c);
+               $.browser.mozilla?mwd.designMode = 'off':'';
+            }
         }
-     /* }
-      else if(mwd.querySelector(".element-current")!==null){
-        $(el).attr('contenteditable','true');
-        mw.wysiwyg.isThereEditableContent = true;
-        el.focus();
-        mw.wysiwyg.select_all(el);
-        mw.wysiwyg.execCommand(a,b,c);
-      } */
     },
     isThereEditableContent:function(){
         return true;
@@ -545,18 +540,26 @@ mw.wysiwyg = {
         if(before_after=='after'){
            var el = $(element)[0].nextSibling;
            var start = 0;
+           range.collapse(false);
         }
         else if(before_after=='before'){
            var el = $(element)[0].previousSibling;
            var start = el.data.length;
+           range.collapse(true);
         }
         else if(before_after=='end'){
            var el = element;
-           var start = $(element)[0].data.length;
+           range.selectNode(el);
+           range.collapse(false);
+        }
+        else if(before_after=='beginning'){
+           var el = element;
+           var start = 1;
+           range.collapse(true);
         }
         range.setStart(el,start);
         range.setEnd(el, start);
-        range.collapse(true);
+
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
@@ -568,6 +571,7 @@ mw.wysiwyg = {
 		$("#iframe_editor_"+id).remove();
 	    var url = iframe_url;
         var iframe = mwd.createElement('iframe');
+        iframe.className = 'mw-editor-iframe-loading';
 		iframe.id = "iframe_editor_"+id;
         iframe.width = $(textarea).width();
         iframe.height = $(textarea).height();
@@ -576,6 +580,7 @@ mw.wysiwyg = {
         iframe.src = url;
         iframe.style.resize = 'vertical';
         iframe.onload = function(){
+          iframe.className = 'mw-editor-iframe-loaded';
           var b = $(this).contents().find(".edit");
 		  if(b !== undefined  &&  b[0] != undefined){
           b[0].contentEditable = true;

@@ -288,6 +288,11 @@ margin-right: 6px;
   margin-right: 1px;
 }
 
+#mw-admin-text-editor{
+  position: relative;
+  z-index: 1;
+  box-shadow:0 1px 2px -1px #CCCCCC;
+}
 
 #mw-admin-text-editor .mw_dlm {
     margin-left: 1px;
@@ -295,8 +300,7 @@ margin-right: 6px;
 }
 
 #mw-admin-text-editor .editor_wrapper{
-  padding-left: 8px;
-  padding-right: 8px;
+    padding: 4px 0 4px 5px;
 }
 
 .mw-admin-editor .mw-admin-editor-area{
@@ -317,6 +321,11 @@ margin-right: 6px;
   background: white;
   border: 1px solid #D1D1D1;
   border-radius:2px;
+}
+
+
+.mw-editor-iframe-loading{
+  background: white url(../img/img_check_loading.gif) no-repeat center center;
 }
 
 

@@ -275,7 +275,7 @@ load_iframe_editor = function(){
           var ifr_ed_url =  mw.templatePreview.generate(true);
 		 
         }      
-		
+
 		
 			<? endif; ?>	
 	      	
@@ -309,8 +309,7 @@ load_iframe_editor = function(){
 
 
 
-  <div id="mw-editor<?php print $rand; ?>" style="height: 300px;width:600px;">
-  </div>
+  <div id="mw-editor<?php print $rand; ?>" style="height: 310px;width:623px;"></div>
 
 
 
@@ -415,14 +414,14 @@ $pt_opts['active_ids'] = $data['parent'];
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
-  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more"><?php _e("Category"); ?></a>
+  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more toggler-active"><?php _e("Add to Page &amp; Category"); ?></a>
   <div class="vSpace"></div>
-  <div id="edit_post_select_category" style="display: none">
+  <div id="edit_post_select_category" style="display: block">
 
 
-  <div class="mw-ui-field mw-tag-selector" id="mw-post-added">
+  <div class="mw-ui-field mw-tag-selector" id="mw-post-added-<? print $rand ?>">
 
-    <input type="text" class="mw-ui-invisible-field" />
+    <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." style="width:250px;" />
 
   </div>
 
@@ -432,10 +431,10 @@ $pt_opts['active_ids'] = $data['parent'];
 
 
           mw.tools.tag({
-            tagholder:'#mw-post-added',
+            tagholder:'#mw-post-added-<? print $rand ?>',
             items: ".mw-ui-check",
-            //itemsWrapper: mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'),
-            itemsWrapper: mwd.querySelector('.mw-ui-category-selector'),
+            itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand ?>'),
+            method:'parse',
             onTag:function(){
                 load_iframe_editor();
             },
@@ -487,7 +486,7 @@ $pt_opts['active_ids'] = $data['parent'];
   
   <? $categories_active_ids = ''; ?>
 
-  <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+  <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand ?>">
     <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
     <? if(intval($data['id']) > 0): ?>
     
@@ -676,11 +675,17 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <div class="vSpace"></div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
-        <textarea class="mw-ui-field" name="description"><? print ($data['description'])?></textarea>
+        <textarea
+            class="mw-ui-field" name="description"
+            onfocus="mw.form.dstatic(event);"
+            onblur="mw.form.dstatic(event);" data-default="Describe your page in short"><?php if($data['description']==''){print 'Describe your page in short';} else{print $data['description'];} ?></textarea>
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Meta Keywords</label>
-        <textarea class="mw-ui-field" name="metakeys">Some keywords</textarea>
+        <textarea class="mw-ui-field" name="metakeys"
+            onfocus="mw.form.dstatic(event);"
+            onblur="mw.form.dstatic(event);"
+            data-default="Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc.">Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc.</textarea>
       </div>
       <? /* PAGES ONLY  */ ?>
       <? if($edit_post_mode == false): ?>

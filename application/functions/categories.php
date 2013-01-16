@@ -221,6 +221,9 @@ function category_tree($params = false) {
 
 	$skip123 = false;
 	$fors = array();
+	if (!isset($params['for'])) {
+		$params['for'] = 'content';
+	}
 	if (isset($params['for']) and $params['for'] != false) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['for']);

@@ -22,10 +22,16 @@
  
  }
  </script>
- 
- 
 <? $menus = get_menu(); ?>
 
+<div class="mw_simple_tabs mw_tabs_layout_simple">
+  <ul class="mw_simple_tabs_nav">
+    <li><a href="javascript:;" class="active">Comments</a></li>
+    <li><a href="javascript:;">Settings</a></li>
+  </ul>
+  <div class="tab">tab 1</div>
+  <div class="tab">tab 2 :)</div>
+</div>
 <h2>Tab 1 - settings</h2>
 <fieldset id="add_new_menu">
   <div class="control-group">
@@ -53,8 +59,8 @@ $menu_id = get_menu_id('title='.$menu_name);
     <div class="controls">
       <label>
         <input name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav"  value="<? print $item['title'] ?>" <? if($menu_name == $item['title']): ?> checked="checked" <? endif; ?> />
-        <? print $item['title'] ?></label><a href="javascript:mw.menu_edit_items(<? print $item['id'] ?>, '#items_list_<?  print $rand ?>');"> | Edit menu items</a>
-    </div>
+        <? print $item['title'] ?></label>
+      <a href="javascript:mw.menu_edit_items(<? print $item['id'] ?>, '#items_list_<?  print $rand ?>');"> | Edit menu items</a> </div>
     <? endforeach ; ?>
   </div>
 </fieldset>

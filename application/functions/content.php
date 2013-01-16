@@ -1357,6 +1357,7 @@ function save_edit($post_data) {
 	$ref_page = $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page);
+		 
 		$page_id = $ref_page['id'];
 		$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
 	}
@@ -1473,6 +1474,14 @@ function save_edit($post_data) {
 						
 					}
 					$save_layout = false;
+					
+						if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){
+						 $content_id_for_con_field = intval($ref_page['parent']);
+						// d($content_id);
+					} else {
+												 $content_id_for_con_field = intval($ref_page['id']);
+						
+					}
 
 					$html_to_save = $the_field_data['html'];
 					$html_to_save = $content = make_microweber_tags($html_to_save);
@@ -1505,7 +1514,7 @@ function save_edit($post_data) {
 							}
 							$cont_field = array();
 							$cont_field['to_table'] = 'table_content';
-							$cont_field['to_table_id'] = $content_id;
+							$cont_field['to_table_id'] = $content_id_for_con_field;
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
 							if($field != 'content'){
@@ -1545,7 +1554,7 @@ function save_edit($post_data) {
 							$cont_field['field'] = $the_field_data['attributes']['field'];
 							if($field != 'content'){
 						 //d($cont_field);
-							$cont_field = save_content_field($cont_field);
+							$cont_field_new = save_content_field($cont_field);
 							
 							}
 						
@@ -1554,36 +1563,39 @@ function save_edit($post_data) {
 						
 						if ($save_global == true and $save_layout == false) {
 
+							/*
 							if (isset($the_field_data['attributes']['data-option_group'])) {
-								$og = $the_field_data['attributes']['data-option_group'];
-							} else {
-								$og = 'editable_region';
-							}
-
-							$field_content = get_option($the_field_data['attributes']['field'], $og, $return_full = true, $orderby = false);
-							$html_to_save = make_microweber_tags($html_to_save);
-							// p($html_to_save,1);
-							$to_save = $field_content;
-							$to_save['option_key'] = $the_field_data['attributes']['field'];
-							$to_save['option_value'] = $html_to_save;
-							//  $to_save['option_key2'] = 'editable_region';
-							$to_save['option_group'] = $og;
-							$to_save['page_element_id'] = $page_element_id;
-
-							if (isset($the_field_data['attributes']['data-module'])) {
-								$to_save['module'] = $the_field_data['attributes']['data-module'];
-							}
-
-							$opts_saved = true;
+															$og = $the_field_data['attributes']['data-option_group'];
+														} else {
+															$og = 'editable_region';
+														}
+							
+														$field_content = get_option($the_field_data['attributes']['field'], $og, $return_full = true, $orderby = false);
+														$html_to_save = make_microweber_tags($html_to_save);
+														// p($html_to_save,1);
+														$to_save = $field_content;
+														$to_save['option_key'] = $the_field_data['attributes']['field'];
+														$to_save['option_value'] = $html_to_save;
+														//  $to_save['option_key2'] = 'editable_region';
+														$to_save['option_group'] = $og;
+														$to_save['page_element_id'] = $page_element_id;
+							
+														if (isset($the_field_data['attributes']['data-module'])) {
+															$to_save['module'] = $the_field_data['attributes']['data-module'];
+														}
+							
+														$opts_saved = true;
+							
 
 							if ($is_no_save != true) {
 								save_option($to_save);
 							}
-							$json_print[] = $to_save;
+							 * */
+							$json_print[] = $cont_field;
 							$history_to_save = array();
 							$history_to_save['table'] = 'global';
 							// $history_to_save ['id'] = 'global';
-							$history_to_save['value'] = $field_content['option_value'];
+							$history_to_save['value'] = $cont_field['value'] ;
 							$history_to_save['field'] = $field;
 							$history_to_save['page_element_id'] = $page_element_id;
 							
@@ -2141,7 +2153,7 @@ function save_content_field($data, $delete_the_cache = true) {
 	
 	 
 }
-function get_content_field($data) {
+function get_content_field($data, $debug = false) {
 
  
 	$table = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2160,7 +2172,7 @@ function get_content_field($data) {
 	
 	if(!isset($data['to_table'])){
 		if(isset($data['rel'])){
-			if($data['rel'] == 'content'){
+			if($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post'){
 				$data['rel']  = 'table_content';
 			}
 			$data['to_table'] = $data['rel'];
@@ -2185,11 +2197,15 @@ if(!isset($data['to_table_id'])){
 			 
 			  $data['limit'] = 1; 
 			  $data['cache_group'] = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
-			//  d($data);
+			 
 			  	  $data['one'] = 1;
 		 $data['table'] = $table;
+		 if($debug!=false){
+		 	 $data['debug'] = 1;
+		 }
+		//  
 				$get = get($data);
-	
+//	d($get);
 	if(isset($get['value'])){
 	return $get['value'];
 	}

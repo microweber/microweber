@@ -273,7 +273,7 @@
       white-space: nowrap;
       overflow: hidden;
       font-size: 11px;
-
+      text-overflow:ellipsis;
     }
 
     .mw_dropdown_type_navigation .mw_dropdown_val{
@@ -1164,11 +1164,14 @@ right: 15px;
 .mw-tag-selector .mw-ui-invisible-field{
   font-size: 11px;
   padding: 2px 0;
+  color: #8C8C8C;
 }
 
 .mw-tag-selector .mw-ui-btn{
   float: left;
   margin-right: 5px;
+  margin-bottom: 5px;
+  padding-right: 16px;
 }
 
 .mw-ui-btn,
@@ -1327,6 +1330,14 @@ a.mw-ui-btn, span.mw-ui-btn{
   border-radius: 2px;
   outline: none;
 }
+
+.mw-ui-field[data-default]{
+  color: #8C8C8C;
+}
+.mw-ui-field[data-default]:focus{
+  color: #212121;
+}
+
 .mw-ui-invisible-field{
   background: transparent;
   border: none;

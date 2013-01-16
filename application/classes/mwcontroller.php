@@ -225,10 +225,10 @@ class MwController {
 
 			// d($l);
 			//exit();
-//mw_var('get_module_template_settings_from_options', 1);
+			//mw_var('get_module_template_settings_from_options', 1);
 			$l = parse_micrwober_tags($l, $options = false);
-		//	mw_var('get_module_template_settings_from_options', 0);
-			
+			//	mw_var('get_module_template_settings_from_options', 0);
+
 			$apijs_loaded = site_url('apijs');
 
 			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
@@ -825,8 +825,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-						;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -996,6 +995,16 @@ class MwController {
 			$layout = $l -> __toString();
 			$res = str_replace('{content}', $res, $layout);
 		}
+
+		if (isset($_REQUEST['live_edit'])) {
+			$p_index = INCLUDES_PATH . DS . 'toolbar' . DS . 'editor_tools'.DS . 'module_settings' . DS . 'index.php';
+			$p_index = normalize_path($p_index, false);
+			$l = new MwView($p_index);
+			$l -> params = $data;
+			$layout = $l -> __toString();
+			$res = str_replace('{content}', $res, $layout);
+		}
+
 		$res = execute_document_ready($res);
 		if (!defined('MW_NO_OUTPUT')) {
 			print $res;

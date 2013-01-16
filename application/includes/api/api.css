@@ -55,16 +55,15 @@ body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
 
 /* Track */
 .desc_area  ::-webkit-scrollbar-corner {
-background: purple;
+    background: purple;
 }
 
 /* Handle */
 .desc_area ::-webkit-scrollbar-corner {
-background: red;
-
+    background: red;
 }
 .desc_area  ::-webkit-resizer {
-background: blue
+    background: blue
 }
 
 
@@ -79,7 +78,11 @@ background: blue
   float: right ;
 }
 
-
+.semi_hidden{
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
 
 
 

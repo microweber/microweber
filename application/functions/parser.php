@@ -493,7 +493,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						if (!isset($attrs['id'])) {
 
 							$attrs1 = crc32(serialize($attrs));
-							$s1 = url_segment(0);
+							$s1 = false;
 							if ($s1 != false) {
 								$attrs1 = $attrs1 . '-' . $s1;
 							} else if (defined('PAGE_ID') and PAGE_ID != false) {
