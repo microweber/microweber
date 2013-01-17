@@ -973,8 +973,8 @@ class MwController {
 		}
 		if ($has_id == false) {
 
-			$mod_n = url_title($mod_n) . '-' . date("YmdHis");
-			$tags .= "id=\"$mod_n\" ";
+		//	$mod_n = url_title($mod_n) . '-' . date("YmdHis");
+		//	$tags .= "id=\"$mod_n\" ";
 		}
 
 		$tags = "<module {$tags} />";

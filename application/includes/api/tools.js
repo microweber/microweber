@@ -78,10 +78,11 @@ mw.tools = {
       width:600,
       height:500
     },
-    source:function(id){
+    source:function(id, template){
+      var template = template || 'mw_modal_default';
       var id = id || "modal_"+mw.random();
       var html = ''
-        + '<div class="mw_modal mw_modal_maximized" id="'+id+'">'
+        + '<div class="mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onclick="mw.tools.modal.remove(\''+id+'\')">Close</span>'
@@ -93,12 +94,12 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    _init:function(html, width, height, callback, title, name){
+    _init:function(html, width, height, callback, title, name, template){
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
 
-        var modal = mw.tools.modal.source(name);
+        var modal = mw.tools.modal.source(name, template);
 
         $(document.body).append(modal.html);
         var modal_object = $(document.getElementById(modal.id));
@@ -135,7 +136,7 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
-      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name);
+      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template);
     },
     minimize:function(id){
         var modal = $("#"+id);
@@ -186,7 +187,8 @@ mw.tools = {
           height:obj.height,
           callback:obj.callback,
           title:obj.title,
-          name:obj.name
+          name:obj.name,
+          template:obj.template
         });
         $(modal.main).addClass("mw_modal_type_iframe");
         mw.tools.modal.overlay(modal.main);
@@ -1313,8 +1315,9 @@ mw.notification = {
 mw.googleFonts = {
   params:'?key=AIzaSyApMgI8vW2EfAFAeVa4hDvaLoaW9A3WY94&subsets=latin&sort=alpha',
   url:'https://www.googleapis.com/webfonts/v1/webfonts/',
-  get:function(format, callback){
+  get:function(format, callback){  return false;
     var format = format || 'list';
+
     jQuery.getJSON(mw.googleFonts.url + mw.googleFonts.params, function(data){
 
         if(format==='list'){
@@ -1332,10 +1335,10 @@ mw.googleFonts = {
 
 $(window).load(function(){
   if(!window['mwAdmin']){
-    //mw.googleFonts.get('list', function(){
+    mw.googleFonts.get('list', function(){
        var ul = $("#font_family_selector_main ul")[0];
        ul.innerHTML+=this
-   // });
+    });
 
 
   }

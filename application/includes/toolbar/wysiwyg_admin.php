@@ -4,6 +4,18 @@
 $(document).ready(function(){
    mw.wysiwyg.init();
    mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
+
+
+   Editor = mw.$('#mw-admin-text-editor');
+   Editor.mousedown(function(e){e.preventDefault()})
+
+   Editor.hover(function(){
+      $(this).addClass('editor_hover');
+   }, function(){
+     $(this).removeClass('editor_hover');
+   });
+
+
 });
 
 </script>
@@ -119,8 +131,5 @@ $(document).ready(function(){
 
 
         </div>
-
-
-
 
     </div>

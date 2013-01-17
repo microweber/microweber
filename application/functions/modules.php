@@ -1567,14 +1567,16 @@ function load_module($module_name, $attrs = array()) {
 
 		if (!isset($attrs['id'])) {
 
-			$attrs1 = crc32(serialize($attrs));
-			//$s1 = url_segment(0);
-			$s1 = '';
+			$attrs1 = crc32(serialize($attrs).url_segment(0));
+		//	$s1 = crc32();
+			//$s1 = '';
+		/*
 			if ($s1 != false and trim($s1) != '') {
-				$attrs1 = $attrs1 . '-' . $s1;
-			} else if (defined('PAGE_ID') and PAGE_ID != false) {
-				$attrs1 = $attrs1 . '-' . PAGE_ID;
-			}
+						$attrs1 = $attrs1 . '-' . $s1;
+					} else if (defined('PAGE_ID') and PAGE_ID != false) {
+						$attrs1 = $attrs1 . '-' . PAGE_ID;
+					}*/
+		
 
 			$attrs['id'] = ($config['module_class'] . '-' . $attrs1);
 
@@ -1635,12 +1637,12 @@ function load_module($module_name, $attrs = array()) {
 		return false;
 	}
 }
-
+$mw_defined_module_classes = array();
 function module_css_class($module_name) {
-	static $defined = array();
+	global $mw_defined_module_classes;
 
-	if (isset($defined[$module_name]) != false) {
-		return $defined[$module_name];
+	if (isset($mw_defined_module_classes[$module_name]) != false) {
+		return $mw_defined_module_classes[$module_name];
 	} else {
 
 		$module_class = str_replace('/', '-', $module_name);
@@ -1650,7 +1652,7 @@ function module_css_class($module_name) {
 		$module_class = str_replace('_', '-', $module_class);
 		$module_class = 'module-' . $module_class;
 
-		$defined[$module_name] = $module_class;
+		$mw_defined_module_classes[$module_name] = $module_class;
 		return $module_class;
 	}
 }

@@ -490,19 +490,19 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$attrs['data-type'] = $attrs['data-module'];
 							unset($attrs['data-module']);
 						}
-						if (!isset($attrs['id'])) {
-
-							$attrs1 = crc32(serialize($attrs));
-							$s1 = false;
-							if ($s1 != false) {
-								$attrs1 = $attrs1 . '-' . $s1;
-							} else if (defined('PAGE_ID') and PAGE_ID != false) {
-								$attrs1 = $attrs1 . '-' . PAGE_ID;
-							}
-
-							$attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
-
-						}
+						// if (!isset($attrs['id'])) {
+// 
+							// $attrs1 = crc32(serialize($attrs));
+							// $s1 = false;
+							// if ($s1 != false) {
+								// $attrs1 = $attrs1 . '-' . $s1;
+							// } else if (defined('PAGE_ID') and PAGE_ID != false) {
+								// $attrs1 = $attrs1 . '-' . PAGE_ID;
+							// }
+// 
+							// $attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
+// 
+						// }
 						foreach ($attrs as $nn => $nv) {
 
 							if ($nn == 'class') {
@@ -513,8 +513,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 									$userclass = str_replace('module-as-element', '', $userclass);
 								}
 								$userclass = str_replace('ui-sortable', '', $userclass);
-																$userclass = str_replace('module-item', '', $userclass);
-								
+								$userclass = str_replace('module-item', '', $userclass);
+
 							} else {
 								$module_html .= " {$nn}='{$nv}'  ";
 							}

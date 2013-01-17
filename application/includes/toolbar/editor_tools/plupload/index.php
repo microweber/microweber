@@ -9,6 +9,9 @@
 	$uid =  uniqid() ; 
 	 
 		?>
+
+        <script>mw.require('tools.js');</script>
+        <script>mw.require('url.js');</script>
         <style type="text/css">
         html,body,#container,#pickfiles_<? print $uid  ?>{
           position: absolute;
@@ -38,7 +41,11 @@
 
             Name = this.name;
 
-            this_frame = parent.$("iframe[name='"+Name+"']");
+
+
+            Params = mw.url.getUrlParams(window.location.href);
+
+            this_frame = parent.mw.$("iframe[name='"+Name+"']");
 
             var uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
@@ -59,17 +66,23 @@
             });
 
             uploader.bind('UploadProgress', function(up, file) {
-               this_frame.trigger("progress", file.percent);
+               this_frame.trigger("progress", file);
             });
 
             uploader.bind('FileUploaded', function(up, files, info){
               this_frame.trigger("done", jQuery.parseJSON(info.response));
             });
 
+            uploader.bind('FilesAdded', function(up, files, info){
+              //this_frame.trigger("FilesAdded");
+            });
+
+
+
 
         $(document).ready(function(){
                $(document.body).click(function(){
-                     this_frame.trigger("click")
+                     this_frame.trigger("click");
                });
         });
 

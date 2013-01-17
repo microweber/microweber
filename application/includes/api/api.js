@@ -164,16 +164,6 @@ typeof mw === 'undefined' ?
     resize_started: false,
     sorthandle_click: false,
 
-    plupload: {
-      runtimes: 'html5,html4',
-      browse_button: 'pickfiles',
-      container: 'container',
-      max_file_size: '<?php print ini_get("upload_max_filesize"); ?>',
-      url: '<? print site_url("plupload"); ?>',
-      flash_swf_url: '<? print INCLUDES_URL; ?>toolbar/editor_tools/plupload/plupload.flash.swf',
-      multi_selection: true
-    },
-
     row_id: false,
 
     edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>',

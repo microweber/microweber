@@ -112,7 +112,7 @@ mw.wysiwyg = {
                $.browser.mozilla?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
                mwd.execCommand(a,b,c);
                $.browser.mozilla?mwd.designMode = 'off':'';
-            } } 
+            } }
         }
     },
     isThereEditableContent:function(){
@@ -438,9 +438,11 @@ mw.wysiwyg = {
     request_image:function(hash){
         mw.tools.modal.frame({
           url:"rte_image_editor"+hash,
-          title:"Upload Picture",
+          //title:"Upload Picture",
           name:"mw_rte_image",
-          width:430
+          width:430,
+          height:230,
+          template:'mw_modal_simple'
         });
     },
     image:function(hash){
@@ -497,9 +499,10 @@ mw.wysiwyg = {
         $("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
         mw.disable_selection("#"+id);
-        mw.drag.init("#"+id);
-        mw.drag.fix_handles();
-        mw.image.resize.init("#"+ id);
+        if(typeof mw.drag==='object'){
+          mw.drag.init("#"+id);
+          mw.image.resize.init("#"+ id);
+        }
         mw.wysiwyg.set_cursor('after', "#"+ id + " img");
         mw.wysiwyg.save_selection();
         return id;
@@ -538,23 +541,21 @@ mw.wysiwyg = {
     },
     set_cursor : function(before_after, element){
         var range = document.createRange();
+        var el = $(element)[0];
         if(before_after=='after'){
-           var el = $(element)[0].nextSibling;
            var start = 0;
            range.collapse(false);
         }
         else if(before_after=='before'){
-           var el = $(element)[0].previousSibling;
+           var el = el.previousSibling;
            var start = el.data.length;
            range.collapse(true);
         }
         else if(before_after=='end'){
-           var el = element;
            range.selectNode(el);
            range.collapse(false);
         }
         else if(before_after=='beginning'){
-           var el = element;
            var start = 1;
            range.collapse(true);
         }

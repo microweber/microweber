@@ -15,6 +15,7 @@ if (!defined('MW_UPDATE_SERV')) {
 	//seperate by whitespace
 	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
 }
+set_include_path(MW_APPPATH_FULL .  'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 function mw_autoload($className) {
 	$className = ltrim($className, '\\');
@@ -39,7 +40,6 @@ spl_autoload_register('mw_autoload');
  });
  */
 
-set_include_path(__DIR__ . DS . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 // Basic system functions
 function p($f) {

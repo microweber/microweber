@@ -79,7 +79,7 @@ api_expose('stats_image');
 
 function stats_image() {
 	stats_insert();
-	//exit();
+	 
 	$f = dirname(__FILE__);
 	$f = $f . DS . '1px.png';
 	$name = $f;
@@ -105,80 +105,69 @@ function stats_insert() {
 	if (($cache_content) == '--false--') {
 		//return false;
 	}
-	$cookie_name = md5($function_cache_id);
+	$cookie_name = 'mw-stats' . crc32($function_cache_id);
+	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
 
 	$vc1 = 1;
-	if (isset($_COOKIE[$cookie_name])) {
-		$vc1 = intval($_COOKIE[$cookie_name]) + 1;
-		setcookie($cookie_name, $vc1);
+	if (isset($_SESSION[$cookie_name])) {
+		$vc1 = intval($_SESSION[$cookie_name]) + 1;
+		$_SESSION[$cookie_name] = $vc1;
+		//	setcookie($cookie_name, $vc1);
 		//  return true;
-	} elseif (!isset($_COOKIE[$cookie_name])) {
-		setcookie($cookie_name, $vc1);
+	} elseif (!isset($_SESSION[$cookie_name])) {
+		//setcookie($cookie_name, $vc1);
+		$_SESSION[$cookie_name] = $vc1;
 		// return true;
 	}
 
-	// $cache_content = false;
-	if (($cache_content) != false) {
+	if (!isset($_COOKIE[$cookie_name_time])) {
+		$few_mins_ago_visit_date = date("Y-m-d H:i:s");
 
-		if (isset($cache_content["visit_time"])) {
-			$then = strtotime($cache_content["visit_time"]);
-			$few_mins_ago = strtotime("-1 minute");
+		setcookie($cookie_name_time, $few_mins_ago_visit_date,  time()+60);
 
-			$then_visit_date = date("Y-m-d", strtotime($cache_content["visit_date"]));
-			$few_mins_ago_visit_date = date("Y-m-d");
+		$data = array();
+		$data['visit_date'] = date("Y-m-d");
+		$data['visit_time'] = date("H:i:s");
+		//   $data['debug'] = date("H:i:s");
 
-			if ($then_visit_date == $few_mins_ago_visit_date) {
-				if ($then > $few_mins_ago) {
-					return true;
-
-					//d($cache_content);
-				} else {
-					//  exit('asdasd');
-				}
+		$table = MODULE_DB_TABLE_USERS_ONLINE;
+		$check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
+			$data['id'] = $check['id'];
+			$vc = 0;
+			if (isset($check['view_count'])) {
+				//	d($check);
+				$vc = ($check['view_count']);
 			}
-		}
-		//return $cache_content;
-	}
 
-	$data = array();
-	$data['visit_date'] = date("Y-m-d");
-	$data['visit_time'] = date("H:i:s");
-	//   $data['debug'] = date("H:i:s");
-
-	$table = MODULE_DB_TABLE_USERS_ONLINE;
-	$check = get("table={$table}&user_ip={$uip}&no_cache=1&one=1&limit=1&visit_date=" . $data['visit_date']);
-	if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
-		$data['id'] = $check['id'];
-		$vc = 0;
-		if (isset($check['view_count'])) {
-			//	d($check);
-			$vc = ($check['view_count']);
+			$vc1 = 0;
+			if (isset($_SESSION[$cookie_name])) {
+				$vc1 = intval($_SESSION[$cookie_name]);
+			}
+			$vc = $vc + $vc1;
+			$data['view_count'] = $vc;
 		}
-
-		$vc1 = 0;
-		if (isset($_COOKIE[$cookie_name])) {
-			$vc1 = intval($_COOKIE[$cookie_name]);
-			// setcookie($cookie_name, '', 1);
+		//d($data);
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			$lp = $_SERVER['HTTP_REFERER'];
+		} else {
+			$lp = $_SERVER['PHP_SELF'];
 		}
-		$vc = $vc + 1 + $vc1;
-		$data['view_count'] = $vc;
-	}
-	//d($data);
-	if (isset($_SERVER['HTTP_REFERER'])) {
-		$lp = $_SERVER['HTTP_REFERER'];
+		$data['last_page'] = $lp;
+		//	 $data['debug'] = $lp;
+
+		mw_var('FORCE_SAVE', $table);
+		 
+		$save = save_data($table, $data);
+		$_SESSION[$cookie_name] = 0;
+	//	setcookie($cookie_name, 1);
+
 	} else {
-		$lp = $_SERVER['PHP_SELF'];
+
 	}
-	$data['last_page'] = $lp;
-	//$data['debug'] = $lp;
-
-	mw_var('FORCE_SAVE', $table);
-
-	$save = save_data($table, $data);
-
-	cache_store_data($data, $function_cache_id, $cache_group = 'module_stats_users_online');
 	return true;
-	//d($save);
+
+	 
 }
 
 function get_visits($range = 'daily') {
@@ -245,7 +234,7 @@ function get_visits($range = 'daily') {
 	}
 	if (isarr($results)) {
 		foreach ($results as $item) {
-			 
+
 		}
 	}
 

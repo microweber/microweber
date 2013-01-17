@@ -104,6 +104,28 @@ mw.form = {
         }
         return this_radio_valid;
     },
+    image_url:function(url, valid, invalid){
+        var url = url.replace(/\s/gi,'');
+        if(url.length<6){
+            typeof invalid =='function'? invalid.call(url) : '';
+            return false;
+        }
+        else{
+          if(!url.contains('http')){var url = 'http://'+url}
+          if(!window.ImgTester){
+              window.ImgTester = new Image();
+              document.body.appendChild(window.ImgTester);
+              window.ImgTester.className = 'semi_hidden';
+              window.ImgTester.onload = function(){
+                typeof valid =='function'? valid.call(url) : '';
+              }
+              window.ImgTester.onerror = function(){
+                typeof invalid =='function'? invalid.call(url) : '';
+              }
+          }
+          window.ImgTester.src = url;
+        }
+    },
     proceed:{
       checkbox:function(obj){
         if(mw.form.validate.checkbox(obj)){
@@ -163,6 +185,10 @@ mw.form = {
     return mw.serializeFields(id);
   }
 }
+
+
+
+
 
 
 

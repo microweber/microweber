@@ -187,7 +187,5 @@ mw.on.hashParam('sort_order', function(){
 <div class="mw_clear"></div>
 <div class="vSpace"></div>
 <center>
-  <div class="mw-ui-btn-rect relative" style="width: 100px;height: 20px;">Upload Files
-    <iframe scrolling="no" frameborder="0" src="<? print site_url('editor_tools/plupload') ?>" class="mw_upload_frame" id="upload_file_link" name="upload_file_link"></iframe>
-  </div>
+  <div class="mw-ui-btn-rect relative" id="mw_folder_upload" style="width: 100px;height: 20px;">Upload Files</div>
 </center>

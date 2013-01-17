@@ -1,8 +1,12 @@
+
+<?php $path = INCLUDES_URL . "toolbar/editor_tools/rte_image_editor/"; ?>
+
 <script type="text/javascript">
 
      mw.require("forms.js");
      mw.require("files.js");
      mw.require("tools.js");
+     mw.require("url.js");
 
 </script>
 <script type="text/javascript">
@@ -38,75 +42,57 @@
 
         mw.simpletabs(document.getElementById('image_tabs'));
 
-        Uploader = mw.files.browser();
+        Progress =  mw.$('#mw-upload-progress');
+        ProgressBar = Progress.find('.mw-ui-progress-bar');
+        ProgressInfo = Progress.find('.mw-ui-progress-info');
+        ProgressPercent = Progress.find('.mw-ui-progress-percent');
+        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! All files have been uploaded.';
 
-        mw.filechange(Uploader, function(){
-        var is_valid = this.validate();
-        if(is_valid){
-            mw.files.upload(Uploader, {}, function(){
-              afterInput(this.src);
-            }, function(){
-                mw.log('all files are uploaded - ' + this);
-            });
-         }
-         else{
-           alert("Only: " + Uploader.filetypes + " are supported!");
-         }
-    });
-
-
-
-    mw.files.browser_connector("#rte_image_upload", Uploader);
-
-
-
-    mw.files.drag_from_pc({
-      selector:"#drag_files_here",
-      filetypes:'jpg,png,gif',
-      filesadded:function(){
-         mw.log(this); // this is "object FileList" of added files
-      },
-      fileuploaded:function(){
-        afterInput(this.src);
-      },
-      done:function(){
-        mw.log(this); //this is json object returned from server with all the files that are uploaded
-      },
-      skip:function(){
-        mw.log(this); // this is "object File" of the skipped file
-      }
-
-
-    });
-
-
-   //tab get image by url
-
-     var img_status = document.getElementById('image_status');
-
-     $("#get_image_by_url").bind("keyup change", function(){
-            img_status.className = 'loading';
-        mw.files.image_url_test(this.value, function(){
-          //is valid
-            img_status.className = 'valid';
-
-        }, function(){
-          //not valid
-          img_status.className = 'error';
-
+        mw.$(".mw-upload-filetypes li").each(function(){
+          var frame = mw.files.uploader();
+          frame.width = $(this).width();
+          frame.height = $(this).height();
+          $(frame).bind("progress", function(frame, file){
+              ProgressBar.width(file.percent+'%');
+              ProgressPercent.html(file.percent+'%');
+              ProgressInfo.html(file.name+'%');
+          });
+          $(frame).bind("done", function(frame, item){
+              ProgressBar.width('0%');
+              ProgressPercent.html('');
+              ProgressInfo.html(ProgressDoneHTML);
+              afterInput(item.src);
+          });
+          $(this).append(frame);
         });
-     });
 
-     $("#btn_inser_url_image").click(function(){
-          if(img_status.className == 'valid'){
-            var val =  $("#get_image_by_url").val();
-            afterInput(val);
-          }
-     });
+        var fu = mw.$('#mw_folder_upload');
+        var frame = mw.files.uploader({name:'upload_file_link'});
+        frame.className += ' mw_upload_frame';
+        frame.width = fu.width();
+        frame.height = fu.height();
+        fu.append(frame);
+
+        $(frame).bind("progress", function(frame, file){
+              ProgressBar.width(file.percent+'%');
+              ProgressPercent.html(file.percent+'%');
+        });
+        $(frame).bind("done", function(frame, item){
+              ProgressBar.width('0%');
+              ProgressPercent.html('');
+              ProgressInfo.html(ProgressDoneHTML);
+              afterInput(item.src);
+        });
+
+    });
 
 
 
-  });
+
+
+
+
+
 </script>
 
 
@@ -114,6 +100,51 @@
 
 .mw-o-box-content{
   height: 150px;
+}
+
+.mw-upload-filetypes{
+  list-style: none;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.mw-upload-filetypes li{
+  margin: 0 30px;
+  font-size:11px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  width: 80px;
+  text-align: center;
+  opacity:.4;
+}
+
+.mw-upload-filetypes .mw-upload-frame{
+  display: block;
+  width: 80px;
+  height: 66px;
+  background: url(<?php print $path; ?>buttons.png) no-repeat;
+
+}
+.mw-upload-filetypes li:hover{ opacity:1; }
+
+.mw-upload-filetypes li.mw-upload-filetype-video .mw-upload-frame{ background-position: -143px 0; }
+.mw-upload-filetypes li.mw-upload-filetype-file .mw-upload-frame{ background-position: -273px 0; }
+
+.mw-upload-filetypes li span{
+  display: block;
+  padding-top:10px;
+}
+
+.mw-upload-filetypes li iframe{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav{
+  padding-top: 0;
 }
 
 </style>
@@ -126,9 +157,26 @@
   </ul>
   <div class="mw_clear"></div>
   <div class="tab" id="drag_files_here">
-    <center style="padding-top: 100px;">
-      <span class="mw-ui-btn-action" id="rte_image_upload">Upload image from my computer</span>
-      <div class="drag_files_label">Drag your files here</div>
+    <center style="padding-top: 25px;">
+
+
+        <ul class="mw-upload-filetypes" id="">
+            <li class="mw-upload-filetype-image">
+                <div class="mw-upload-frame"></div>
+                <span>Image</span>
+            </li>
+            <li class="mw-upload-filetype-video">
+                <div class="mw-upload-frame"></div>
+                <span>Video</span></li>
+            <li class="mw-upload-filetype-file">
+                <div class="mw-upload-frame"></div>
+                <span>Files</span>
+            </li>
+        </ul>
+
+
+
+      <div class="drag_files_label" style="display: none;">Drag your files here</div>
     </center>
   </div>
   <div class="tab" id="get_image_from_url">
@@ -145,4 +193,14 @@
     <? exec_action('rte_image_editor_image_search'); ?>
 
   </div>
+
+</div>
+
+<div class="vSpace"></div>
+
+
+<div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
+    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
+    <div class="mw-ui-progress-info"></div>
+    <span class="mw-ui-progress-percent"></span>
 </div>

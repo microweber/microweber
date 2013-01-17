@@ -108,6 +108,7 @@
 .iAdd{background-position:-976px 1px;}
 .iRemove{background-position:-1013px 1px;}
 .icheck{background-position: -1051px 2px;}
+.iDone{background-position: -929px -57px;}
 .iplus{background-position: -1140px 2px;}
 
 .iset{background-position: -926px 0px;}
@@ -344,7 +345,7 @@
 
 }
 
-.mw_modal_close{
+.mw_modal_default .mw_modal_close{
   position: absolute;
   display: block;
   width: 27px;
@@ -354,6 +355,20 @@
   right: 1px;
   cursor: pointer;
   text-indent: -9999px;
+}
+.mw_modal_simple .mw_modal_close{
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: url(../img/delete_item.png) no-repeat;
+  right: 4px;
+  top: 6px;
+  cursor: pointer;
+  text-indent: -9999px;
+}
+.mw_modal_simple .mw_modal_close:hover{
+  background-position: 0 -16px;
 }
 
 .mw_modal_title{
@@ -416,7 +431,7 @@
   overflow: hidden;
 }
 
-.mw_modal_toolbar{
+.mw_modal_default .mw_modal_toolbar{
   height: 22px;
   width:100%;
   top: -1px;
@@ -428,6 +443,16 @@
   background-repeat: no-repeat, repeat;
   background-position: center center;
 }
+
+.mw_modal_simple .mw_modal_toolbar{
+  height: 20px;
+  width:100%;
+  top: 0px;
+  left: 0px;
+  position: relative;
+  background: #EEEEEE;
+}
+
 
 .empty-element{
   height: 0;
@@ -1132,6 +1157,8 @@ a:hover .mw_ed_tree_content{
 .mw-ui-category-selector ul ul ul ul{padding-left: 60px;}
 .mw-ui-category-selector ul ul ul ul ul{padding-left: 80px;}
 .mw-ui-category-selector ul ul ul ul ul ul{padding-left: 100px;}
+
+
 
 
 .cat_selector_view_ctrl{
@@ -2277,6 +2304,45 @@ tr.mw-o-box-table-footer td:first-child{
   position: absolute;
   top: 0;
   right: 0;
+}
+
+
+.mw-ui-progress{
+  position: relative;
+  height: 19px;
+  min-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.mw-ui-progress-bar{
+  max-width: 100%;
+  height: 100%;
+  background: #D7FFC3;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mw-ui-progress-info{
+    color: #AAAAAA;
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    max-width: 92%;
+    max-width: calc(100% - 33px);
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    padding-left: 10px;
+    z-index: 2;
+}
+.mw-ui-progress-percent{
+    font-weight: bold;
+    color: #618D0D;
+    margin-left: 5px;
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    z-index: 2;
 }
 
 
