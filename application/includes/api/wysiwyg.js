@@ -484,7 +484,7 @@ mw.wysiwyg = {
       }
     },
     selection_length:function(){
-      return (($(mw.wysiwyg.checker).html()).replace(/\s/g, "")).length;
+      return window.getSelection().getRangeAt(0).cloneContents().textContent.length;
     },
     insert_link:function(url){
       mw.wysiwyg.restore_selection();
