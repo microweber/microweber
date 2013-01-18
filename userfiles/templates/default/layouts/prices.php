@@ -18,7 +18,7 @@ description: Prices layout
   <div class="row">
     <div class="span12">
       <div class="page-header1">
-        <h2>Price Table <small><a href="#">Download Decision</a> or customize variables, components, javascript plugins, and more.</small></h2>
+        <h2 class="edit nodrop" rel="page"  field="title">Price Table</h2>
       </div>
       <p>Suspendisse vitae libero justo. Integer eu dui nulla. Duis in risus elit, ac vulputate purus. Quisque porttitor luctus risus ac pharetra. Donec pharetra, lectus nec dignissim pharetra, leo felis dapibus nunc, eu laoreet lorem nibh quis libero. Nulla facilisi. Sed pulvinar sem nec tortor congue dictum sed non nibh.</p>
     </div>

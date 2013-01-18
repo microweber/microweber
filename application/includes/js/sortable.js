@@ -320,7 +320,10 @@ mw.drag = {
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module')){
 
-
+            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver) || mw.tools.hasParentsWithClass('nodrop', mw.currentDragMouseOver)){
+              mw.currentDragMouseOver=null;
+              return false;
+            }
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
 
 

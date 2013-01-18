@@ -3,8 +3,8 @@
 
 $parser_mem_crc = 'parser_' . crc32($layout);
 
-$ch = mw_var($parser_mem_crc);
-//$ch = false;
+//$ch = mw_var($parser_mem_crc);
+ $ch = false;
 if ($ch != false) {
 	//print 1;
 	//$layout =
@@ -241,5 +241,6 @@ if ($ch != false) {
 	$pq = null;
 
 	unset($pq);
+	//if(strstr($haystack, $needle))
 	mw_var($parser_mem_crc, 1);
 }

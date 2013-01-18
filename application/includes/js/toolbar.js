@@ -524,6 +524,16 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
+		var mw_edit_pages_is_loaded = mw.$("#mw_edit_pages").attr('data-src');
+		if(mw_edit_pages_is_loaded != undefined){
+		
+		mw.$("#mw_edit_pages").attr('src',mw_edit_pages_is_loaded);
+			mw.$("#mw_edit_pages").removeAttr('data-src');
+		} else {
+			
+		}
+		
+		
 
       }
       else{

@@ -134,11 +134,11 @@ function layouts_list($options = false) {
 		foreach ($dir as $filename) {
 			$skip = false;
 			if (!isset($options['for_modules'])) {
-				if (strstr($filename, 'modules')) {
+				if (strstr($filename, 'modules'.DS)) {
 					$skip = true;
 				}
 			} else {
-				if (!strstr($filename, 'modules')) {
+				if (!strstr($filename, 'modules'.DS)) {
 					$skip = true;
 				}
 			}

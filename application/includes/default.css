@@ -122,6 +122,13 @@ body.mw-preview{
   position: absolute;
 }
 
+.mw-embed-iframe{
+  padding: 12px 0;
+}
+.mw-embed-iframe iframe{
+  max-width: 100%;
+}
+
 
 
 

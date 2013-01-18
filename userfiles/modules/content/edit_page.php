@@ -166,7 +166,7 @@ mw_before_content_save<? print $rand ?>()
 				if($id != undefined){
 							$id = $id.replace(/"/g, "");
 					$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
-						   window.location.href = data+'/editmode:y';
+						   window.top.location.href = data+'/editmode:y';
 			
 					});
 			

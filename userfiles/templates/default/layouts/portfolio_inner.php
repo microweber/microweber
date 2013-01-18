@@ -4,7 +4,7 @@
 
 type: layout
 content_type: post
-name: Portfolio layout
+name: Portfolio inner page
 
 description: Portfolio inner page
 

@@ -129,7 +129,7 @@
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-            src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
+            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
         </iframe>
 
 
