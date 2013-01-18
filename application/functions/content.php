@@ -1762,7 +1762,8 @@ function save_content($data, $delete_the_cache = true) {
 	if (isset($data['category']) or isset($data['categories'])) {
 		$cats_modified = true;
 	}
-
+	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
+	
 	if (isset($data['url']) and $data['url'] != false) {
 		$data['url'] = url_title($data['url']);
 
@@ -1814,7 +1815,7 @@ function save_content($data, $delete_the_cache = true) {
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
 $check_ex = false;
-		if (isset($data_to_save['subtype_value']) and intval(trim($data_to_save['subtype_value'])) > 0) {
+		if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(trim($data_to_save['subtype_value'])) > 0) {
 
 			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));
 			
@@ -1838,7 +1839,7 @@ $check_ex = false;
 			}
 		}
 
-		if ($check_ex == false) {
+		if (isset($check_ex) and $check_ex == false) {
 
 			if (!isset($data_to_save['subtype_value_new'])) {
 				if (isset($data_to_save['title'])) {
@@ -1849,10 +1850,10 @@ $check_ex = false;
 		}
 	}
 
+/*
 	if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {
  
 
-	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
 		if ($data_to_save['subtype_value_new'] != '') {
 
 			if ($adm == true) {
@@ -1868,8 +1869,8 @@ $check_ex = false;
 				$new_category["title"] = $data_to_save['subtype_value_new'];
 				$new_category["parent_id"] = "0";
 				$cats_modified = true;
-				
-				$new_category = save_category($new_category);
+				//@todo remove code here and around
+				//$new_category = save_category($new_category);
 				
 				$data_to_save['subtype_value'] = $new_category;
 				$data_to_save['subtype'] = 'dynamic';
@@ -1896,12 +1897,14 @@ $check_ex = false;
 				$new_scategory["table" ] = $table_cats;
 						$new_scategory["parent_id"] = intval($new_category);
 						$cats_modified = true;
-						$new_scategory = save_category($new_scategory);
+						//@todo remove code here and around
+					//	$new_scategory = save_category($new_scategory);
 					}
 				}
 			}
 		}
-	}
+	}*/
+
 	$par_page = false;
 	if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
 		if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
@@ -1921,6 +1924,7 @@ $check_ex = false;
 				$par_page_new = array();
 				$par_page_new['id'] = $par_page['id'];
 				$par_page_new['subtype'] = 'dynamic';
+				
 				$par_page_new = save_data($table, $par_page_new);
 				 $cats_modified = true;
 				
@@ -1951,6 +1955,7 @@ $check_ex = false;
 						$item = intval($item);
 						if ($item > 0) {
 							$cont_cat = get_content('limit=1&content_type=page&subtype=dynamic&subtype_value=' . $item);
+						//	d($cont_cat);
 							if (isset($cont_cat[0]) and isarr($cont_cat[0])) {
 								$cont_cat = $cont_cat[0];
 								if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
@@ -1975,22 +1980,25 @@ $check_ex = false;
 $cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
-	
-
-	if (isset($new_category) and intval($new_category)> 0 ) {
-		$new_category_id = intval($new_category);
+	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
+$new_category = get_categories_for_content($save);
+	if ($new_category == false ) {
+		//$new_category_id = intval($new_category);
 	$new_category = array();
 				$new_category["data_type"] = "category";
+				$new_category["to_table"] = 'table_content';
 				$new_category["to_table_id"] = $save;
 				$new_category["table" ] = $table_cats;
+				$new_category["id" ] = 0;
 				$new_category["title"] = $data_to_save['title'];
 				$new_category["parent_id"] = "0";
 						$cats_modified = true;
-			 			$new_category = save_category($new_category);
+					//	 d($new_category);
+			 			 $new_category = save_category($new_category);
 					
 
 	}
-
+}
 	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 
 	$sid = session_id();
@@ -2588,9 +2596,9 @@ if (isset($active_ids)){
 					
 						$cat_params = array();
 						if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
-						$cat_params['subtype_value'] = $item['subtype_value'];
+						//$cat_params['subtype_value'] = $item['subtype_value'];
 					}
-						$cat_params['try_to_table_id'] = $item['id'];
+						//$cat_params['try_to_table_id'] = $item['id'];
 						
 						if(isset($categores_link)){
 													$cat_params['link'] = $categores_link;
@@ -2613,6 +2621,8 @@ if(isset($active_code)){
 						//$cat_params['for'] = 'table_content';
 						$cat_params['list_tag'] = $list_tag;
 						$cat_params['list_item_tag'] = $list_item_tag;
+						$cat_params['to_table'] = 'table_content';
+						$cat_params['to_table_id'] = $item['id'];
 
 					 	$cat_params['include_first'] = 1;
 						$cat_params['nest_level'] = $nest_level;
@@ -2622,7 +2632,7 @@ if(isset($active_code)){
 						if (isset($debug)) {
 						
 						}
-						//d($cat_params);
+						 //d($cat_params);
 						category_tree($cat_params);
 					
 				}

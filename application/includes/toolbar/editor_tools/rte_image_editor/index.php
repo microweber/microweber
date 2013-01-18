@@ -130,13 +130,23 @@
           });
 
 
-          var urlSearcher = mw.$("#get_image_by_url");
+          var urlSearcher = mw.$("#media_search_field");
+          var submit = mw.$('#btn_insert');
+          var status = mw.$("#image_status");
+
           urlSearcher.bind('keyup paste', function(e){
              GlobalEmbed = false;
              if(e.type=='keyup'){
                mw.on.stopWriting(urlSearcher[0], function(){
                  var val = urlSearcher.val();
                  var type = mw.url.type(val);
+                 status[0].className = type;
+                 if(type!='image'){
+                    status.empty();
+                 }
+                 else{
+                   status.html('<img class="image_status_preview_image" src="'+val+'" />');
+                 }
                  GlobalEmbed = __generateEmbed(type, val);
                });
              }
@@ -145,14 +155,28 @@
                    var val = urlSearcher.val();
                    var type = mw.url.type(val);
                    GlobalEmbed = __generateEmbed(type, val);
-
-
-
-                   parent.mw.wysiwyg.insert_html(GlobalEmbed);
-                   parent.mw.tools.modal.remove('mw_rte_image');
+                   if(type!='link'){
+                       parent.mw.wysiwyg.insert_html(GlobalEmbed);
+                       parent.mw.tools.modal.remove('mw_rte_image');
+                   }
                  }, 500);
              }
 
+          });
+
+
+          submit.click(function(){
+
+
+              var val = urlSearcher.val();
+              var type = mw.url.type(val);
+              if(type!='link'){
+                parent.mw.wysiwyg.insert_html(GlobalEmbed);
+              }
+              else{
+                parent.mw.wysiwyg.insert_link(val);
+              }
+              parent.mw.tools.modal.remove('mw_rte_image');
           });
 
     });  //end document ready
@@ -173,6 +197,8 @@
          case 'vimeo':
          return  mw.embed.vimeo(url);
          break;
+         default:
+         return false;
        }
     }
 
@@ -278,12 +304,27 @@ mw.embed = {
   padding-top: 0;
 }
 
+#media_search_field{
+  float: right;
+  width: 202px;
+}
+
+#media-search-holder{
+  margin: 0 auto;
+  padding-top: 45px;
+  width: 350px;
+}
+.image_status_preview_image{
+  max-width:100%;
+  max-height: 100%;
+}
+
 </style>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple" id="image_tabs">
   <ul class="mw_simple_tabs_nav">
     <li><a href="#">My Computer</a></li>
-    <li><a href="#">Image URL</a></li>
+    <li><a href="#" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
     <li><a href="#">Search</a></li>
   </ul>
   <div class="mw_clear"></div>
@@ -312,11 +353,16 @@ mw.embed = {
   </div>
   <div class="tab" id="get_image_from_url">
 
-    <center><span class="relative">
-    <input type="text" id="get_image_by_url" class="mw-ui-field" name="get_image_by_url" />
-    <span id="image_status"></span> </span>
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue" id="btn_inser_url_image" style="font-size: 12px;width:80px;">Insert</button>
-   </center>
+
+    <div id="media-search-holder">
+    <div class="mw-ui-field left" style="width: 230px;" id="media_search">
+        <span id="image_status"></span>
+        <input type="text" id="media_search_field" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" data-default="URL" value="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
+     </div>
+    <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;">Insert</button>
+
+
+   </div>
 
   </div>
   <div class="tab">

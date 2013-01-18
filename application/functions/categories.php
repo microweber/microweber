@@ -276,6 +276,16 @@ function category_tree($params = false) {
 		$add_ids = explode(',', $add_ids);
 	}
 
+	if (isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
+
+		$table_assoc_name = db_get_assoc_table_name($params['to_table']);
+		$skip123 = true;
+
+		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'to_table_id=' . intval($params['to_table_id']) . '&to_table=' . $table_assoc_name;
+		$fors = get($str0);
+
+	}
+
 	//if (isset($params['debug'])) {
 	//	d($params);
 	//}

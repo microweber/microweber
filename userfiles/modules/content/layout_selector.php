@@ -16,6 +16,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 $data = get_content_by_id($params["data-page-id"]); 
 } 
+//d($data );
 
 if($data == false or empty($data )){
 include('_empty_content_data.php');	
@@ -49,6 +50,10 @@ safe_chars_to_str = function(str){ return str.replace(/\\/g,'____').replace(/\'/
 
 
 mw.templatePreview = {
+	
+	
+	
+	
   set:function(){
     mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
     mw.$('.preview_frame_wrapper').removeClass("loading");
@@ -68,9 +73,14 @@ mw.templatePreview = {
     mw.templatePreview.view(prev);
   },
   view:function(which){
+	  
+		  	//var $sel = mw.$('#active_site_layout_<? print $rand; ?> option:selected');
+ 
+	  
+	  
     mw.templatePreview.selector.selectedIndex = which;
-    mw.$("#layout_selector li.active").removeClass('active');
-    mw.$("#layout_selector li").eq(which).addClass('active');
+    mw.$("#layout_selector<? print $rand; ?> li.active").removeClass('active');
+    mw.$("#layout_selector<? print $rand; ?> li").eq(which).addClass('active');
     $(mw.templatePreview.selector).trigger('change');
   },
   zoom:function(in_or_out){
@@ -87,7 +97,54 @@ mw.templatePreview = {
       mw.$(".mw_overlay").remove();
     }
   },
+  
+  
+  prepare:function(){
+	  
+	  
+	var $sel = mw.$('#active_site_layout_<? print $rand; ?> option');
+	var $layout_list_rend = mw.$('#layout_selector<? print $rand; ?>');
+	var $layout_list_rend_str = '<ul>';
+	if($sel.length >0){
+	var indx = 0;
+	$sel.each(function() {
+		
+		
+		var  val = $(this).attr('value');
+		var  selected = $(this).attr('selected');
+		var  title = $(this).attr('title');
+	//	mw.log(val);
+		//mw.log(selected);
+		
+		 //var value=this.val();
+		 $layout_list_rend_str += '<li ';
+		  $layout_list_rend_str += ' onclick="mw.templatePreview.view('+indx+');" ';
+		if(val != undefined){
+		    $layout_list_rend_str += 'value="'+val+'" ';
+		}
+		if(val != undefined){
+		    $layout_list_rend_str += 'data-index="'+indx+'" ';
+		}
+		if(selected != undefined){
+		    $layout_list_rend_str += ' class="active" ';
+		}
+		 $layout_list_rend_str += '>';
+		 if(title != undefined){
+		    $layout_list_rend_str +=   title;
+		}
+         $layout_list_rend_str += ' </li>';
+   
+   
+   indx++;
+    });
+	   $layout_list_rend_str += '</ul>';
+		 $layout_list_rend.html($layout_list_rend_str);
+	}
+	//d($sel );
+	  
+  },
   generate:function(return_url){
+	  
         mw.$('.preview_frame_wrapper').addClass("loading");
 
 		var template = mw.$('#active_site_template_<? print $rand; ?>').val();
@@ -168,7 +225,7 @@ $(document).ready(function() {
 	 if(parent_module != undefined){
  parent_module.attr('data-active-site-template',$(this).val());
         mw.reload_module('<? print $params['type']?>', function(){
-           mw.templatePreview.view(0);
+           mw.templatePreview.view();
         });
 
 	 }
@@ -179,7 +236,7 @@ $(document).ready(function() {
     });
 
 
- ///mw.templatePreview.generate();
+  mw.templatePreview.prepare();
 
 	
 
@@ -198,7 +255,11 @@ $(document).ready(function() {
   <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
     <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
+<? if( trim($data['active_site_template']) != ''): ?>
 
+      <option value="<? print $data['active_site_template'] ?>"      selected="selected"   ><? print $data['active_site_template'] ?></option>
+
+<? endif ?>
       <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
       <option value="inherit"   <? if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>From parent page</option>
 
@@ -213,15 +274,28 @@ $(document).ready(function() {
     <? endif; ?>
   </div>
 </div>
-<select name="layout_file" class="semi_hidden"   id="active_site_layout_<? print $rand; ?>">
-  <option value="inherit"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</option>
+<? if(('' != trim($data['layout_file']))): ?>
+  <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
+<? endif; ?>
+ 
+<select name="layout_file" class="semi_hidden"   id="active_site_layout_<? print $rand; ?>" 
+autocomplete="off">
+
+ 
+
+
+
+
   <? if(!empty($layouts)): ?>
-  <? foreach($layouts as $item): ?>
-  <option value="<? print $item['layout_file'] ?>"  title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"  <? endif; ?> <? if(isset($item['content_type']) ): ?>   data-content-type="<? print $item['content_type'] ?>" <? else: ?> data-content-type="static"  <? endif; ?> <? if(isset($item['is_shop']) ): ?>   data-is-shop="<? print $item['is_shop'] ?>"  <? endif; ?>   >
-  <? print $item['name'] ?>
+  <? $i=0; foreach($layouts as $item): ?>
+  <? $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
+  <option value="<? print $item['layout_file'] ?>" data-index="<? print $i ?>"  data-layout_file="<? print $item['layout_file'] ?>"   <? if(crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) ): ?>   selected="selected"  <? endif; ?> <? if(isset($item['content_type']) ): ?>   data-content-type="<? print $item['content_type'] ?>" <? else: ?> data-content-type="static"  <? endif; ?> <? if(isset($item['is_shop']) ): ?>   data-is-shop="<? print $item['is_shop'] ?>"  <? endif; ?>  <? if(isset($item['name']) ): ?>   title="<? print $item['name'] ?>"  <? endif; ?>  >
+  <? print $item['name'] ?>   
   </option>
-  <? endforeach; ?>
+  <? $i++; endforeach; ?>
   <? endif; ?>
+    <option title="none" value="inherit"  <? if(trim($data['layout_file']) == ''): ?>   selected="selected"  <? endif; ?>>None</option>
+
 </select>
 <div class="left">
   <div class="preview_frame_wrapper loading left">
@@ -237,8 +311,9 @@ $(document).ready(function() {
     <?php _e("Page Layout"); ?>
   </label>
   <div class="layouts_box_container">
-    <div class="layouts_box" id="layout_selector">
-      <ul>
+    <div class="layouts_box" id="layout_selector<? print $rand; ?>">
+      <?
+	  /*<ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
         <? if(!empty($layouts)): ?>
         <? $i=0; foreach($layouts as $item): ?>
@@ -246,7 +321,9 @@ $(document).ready(function() {
         <li value="<? print $item['layout_file'] ?>"  onclick="mw.templatePreview.view(<?php print $i; ?>);"   title="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"   class="active"  <? endif; ?>   > <? print $item['name'] ?> </li>
         <? endforeach; ?>
         <? endif; ?>
-      </ul>
+      </ul>*/
+	  
+	   ?>
     </div>
   </div>
 </div>

@@ -1210,6 +1210,7 @@ right: 15px;
 .mw-ui-form button{
   display: inline-block;
   padding: 7px 14px 5px;
+  padding: 8px 14px 6px;
   cursor: pointer;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
   border-width: 1px;
@@ -1359,6 +1360,21 @@ a.mw-ui-btn, span.mw-ui-btn{
   background: white;
   border-radius: 2px;
   outline: none;
+  cursor: text;
+}
+
+
+div.mw-ui-field{
+  display: inline-block;
+}
+
+div.mw-ui-field:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .mw-ui-field[data-default]{
@@ -1371,6 +1387,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-invisible-field{
   background: transparent;
   border: none;
+  color: #868686;
+  font-size: 11px;
 }
 
 textarea.mw-ui-field{
@@ -1893,13 +1911,14 @@ border-top-right-radius: 0px;
   text-decoration: none;
   color: #212121;
   padding: 15px;
+  min-width: 62px;
   position: relative;
   top: 2px;
 }
 .mw_tabs_layout_simple .mw_simple_tabs_nav li a.active{
   border: 1px solid #D7D7D7;
   border-bottom: none;
-  padding: 14px 14px 15px;
+  padding: 14px 14px 14px;
   background: white;
 }
 

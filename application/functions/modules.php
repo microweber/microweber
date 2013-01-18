@@ -139,6 +139,7 @@ function module_templates($module_name, $template_name = false) {
 		if ($template_name == false) {
 			$options = array();
 			$options['no_cache'] = 1;
+			$options['for_modules'] = 1;
 			$options['path'] = $module_name_l;
 			$module_name_l = layouts_list($options);
 			if (is_dir($module_name_l_theme)) {

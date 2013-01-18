@@ -137,7 +137,8 @@ mw.url = {
       else if(extension=='pdf'){return 'pdf'}
       else if(url.contains('youtube.com') || url.contains('youtu.be')){return 'youtube'}
       else if(url.contains('vimeo.com')){return 'vimeo'}
-      else{return 'link';}
+
+      else{ return 'link'; }
     }
 }
 

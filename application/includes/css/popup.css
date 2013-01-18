@@ -59,14 +59,13 @@ body{
 #image_status{
 
        display: block;
-         width: 16px;
+         width: 20px;
         height: 16px;
-      position: relative;
-         right: 8px;
-           top: 9px;
+         float: left;
+         background: url(../img/image_status.png) no-repeat;
 
 }
-
+/*
 #image_status.loading{
   background: white url(../img/img_check_loading.gif) no-repeat;
 }
@@ -75,7 +74,11 @@ body{
 }
 #image_status.valid{
   background: white url(../img/imgvalid.png) no-repeat;
-}
+}*/
+
+#image_status.link{background-position: 0 -18px;}
+
+#image_status.youtube, #image_status.vimeo{background-position: 0 -40px;}
 
 #pop_up_link .field_wrapper{
   width: 300px;

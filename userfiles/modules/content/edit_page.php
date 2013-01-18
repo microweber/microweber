@@ -224,7 +224,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
       <?
-    //d($params);
+    
 
      ?> <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
       <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <? if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><? else : ?><?php _e("Name"); ?><? endif ?>" />
@@ -344,6 +344,7 @@ load_iframe_editor = function(){
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
   <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this, __loadpreview);" href="javascript:;">Template</a>
+   <?  //  d($data); ?>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   </div>
@@ -723,7 +724,10 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Page type</label>
         <div class="mw-ui-select" style="width: 220px;">
+       
           <select name="subtype">
+                      <option value="<? print $data['subtype'] ?>"   <? if(isset($data['subtype']) and trim($data['subtype']) != '' and trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static'  ): ?>   selected="selected"  <? endif; ?>><? print $data['subtype'] ?></option>
+
             <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
             <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
           </select>

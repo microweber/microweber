@@ -370,7 +370,7 @@ function mw_select_page_for_editing($p_id){
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('data-content-id');
     mw.load_module('content/edit_page','#pages_edit_container', function(){
-         mw.templatePreview.view(0);
+     //    mw.templatePreview.view(0);
     });
 }
 

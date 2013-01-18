@@ -9,7 +9,7 @@ $config = array(
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
-	'table_prefix' => 'update_', 
+	'table_prefix' => 'update1_', 
     'installed' => 'yes',
     // Database Settings
     'db' => array(

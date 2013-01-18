@@ -762,7 +762,6 @@ mw.tools = {
     var field = mw.$('input[type="text"]', tagholder[0]);
 
     var def =  field.dataset('default');
-    mw.log(field)
     o.createTag = function(el){
         var span_holder = mwd.createElement('span');
         var span_x = mwd.createElement('span');
@@ -1213,6 +1212,15 @@ $(window).load(function(){
   mw.loaded = true;
   mwd.body.className+=' loaded';
   mw.tools.removeClass(mwd.body, 'loading');
+
+
+  mw.$('div.mw-ui-field').click(function(e){
+    if(e.target.type!= 'text'){
+       this.querySelector('input[type="text"]').focus();
+    }
+ });
+
+
 });
 
 

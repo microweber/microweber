@@ -327,7 +327,7 @@ typeof mw === 'undefined' ?
   mw.qsas = mwd.querySelector;
 
 
-  mw.log = function(what) {
+  mw.log = d = function(what) {
     if (window.console && mw.settings.debug) {
       console.log(what);
     }
