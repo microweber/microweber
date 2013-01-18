@@ -289,7 +289,7 @@ autocomplete="off">
   <? if(!empty($layouts)): ?>
   <? $i=0; foreach($layouts as $item): ?>
   <? $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
-  <option value="<? print $item['layout_file'] ?>" data-index="<? print $i ?>"  data-layout_file="<? print $item['layout_file'] ?>"   <? if(crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) ): ?>   selected="selected"  <? endif; ?> <? if(isset($item['content_type']) ): ?>   data-content-type="<? print $item['content_type'] ?>" <? else: ?> data-content-type="static"  <? endif; ?> <? if(isset($item['is_shop']) ): ?>   data-is-shop="<? print $item['is_shop'] ?>"  <? endif; ?>  <? if(isset($item['name']) ): ?>   title="<? print $item['name'] ?>"  <? endif; ?>  >
+  <option value="<? print $item['layout_file'] ?>"  onclick="mw.templatePreview.view('<? print $i ?>');"  data-index="<? print $i ?>"  data-layout_file="<? print $item['layout_file'] ?>"   <? if(crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) ): ?>   selected="selected"  <? endif; ?> <? if(isset($item['content_type']) ): ?>   data-content-type="<? print $item['content_type'] ?>" <? else: ?> data-content-type="static"  <? endif; ?> <? if(isset($item['is_shop']) ): ?>   data-is-shop="<? print $item['is_shop'] ?>"  <? endif; ?>  <? if(isset($item['name']) ): ?>   title="<? print $item['name'] ?>"  <? endif; ?>  >
   <? print $item['name'] ?>   
   </option>
   <? $i++; endforeach; ?>
