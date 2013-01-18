@@ -23,13 +23,13 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="1"><a href="javascript:;">8pt</a></li>
-                  <li value="2"><a href="javascript:;">10pt</a></li>
-                  <li value="3"><a href="javascript:;">12pt</a></li>
-                  <li value="4"><a href="javascript:;">14pt</a></li>
-                  <li value="5"><a href="javascript:;">18pt</a></li>
-                  <li value="6"><a href="javascript:;">24pt</a></li>
-                  <li value="7"><a href="javascript:;">36pt</a></li>
+                  <li value="1"><a href="#" style="font-size: 8pt">8pt</a></li>
+                  <li value="2"><a href="#" style="font-size: 10pt">10pt</a></li>
+                  <li value="3"><a href="#" style="font-size: 12pt">12pt</a></li>
+                  <li value="4"><a href="#" style="font-size: 14pt">14pt</a></li>
+                  <li value="5"><a href="#" style="font-size: 18pt">18pt</a></li>
+                  <li value="6"><a href="#" style="font-size: 24pt">24pt</a></li>
+                  <li value="7"><a href="#" style="font-size: 36pt">36pt</a></li>
                 </ul>
               </div>
             </div>

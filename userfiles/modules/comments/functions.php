@@ -1,6 +1,6 @@
 <?
-if (!defined("MODULE_DB_TABLE_COMMENTS")) {
-	define('MODULE_DB_TABLE_COMMENTS', MW_TABLE_PREFIX . 'comments');
+if (!defined("MODULE_DB_COMMENTS")) {
+	define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
 
 
@@ -29,7 +29,7 @@ function post_comment($data) {
 
     $adm = is_admin();
  
-    $table = MODULE_DB_TABLE_COMMENTS;
+    $table = MODULE_DB_COMMENTS;
     mw_var('FORCE_SAVE', $table);
 
     if (isset($data['id'])) {
@@ -117,7 +117,7 @@ function get_comments($params) {
 
 
     
-  $table = MODULE_DB_TABLE_COMMENTS;
+  $table = MODULE_DB_COMMENTS;
     $params['table'] = $table;
 
     $params = get($params);

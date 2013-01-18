@@ -12,7 +12,7 @@
 <script type="text/javascript">
 
 
-
+    GlobalEmbed = false;
     hash = window.location.hash.replace(/#/g, '');
 
     afterInput = function(url){   //what to do after image is uploaded (depending on the hash in the url)
@@ -47,23 +47,52 @@
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
         ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! All files have been uploaded.';
+        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;Error! "'+filename+'" - Invalid filetype.';}
 
         mw.$(".mw-upload-filetypes li").each(function(){
-          var frame = mw.files.uploader();
-          frame.width = $(this).width();
-          frame.height = $(this).height();
+          var li = $(this);
+          var filetypes = li.dataset('type');
+
+          var frame = mw.files.uploader({filetypes:filetypes});
+          frame.width = li.width();
+          frame.height = li.height();
           $(frame).bind("progress", function(frame, file){
               ProgressBar.width(file.percent+'%');
               ProgressPercent.html(file.percent+'%');
-              ProgressInfo.html(file.name+'%');
+              ProgressInfo.html(file.name);
+              li.parent().find("li").addClass('disabled');
           });
           $(frame).bind("done", function(frame, item){
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
+              li.parent().find("li").removeClass('disabled');
               afterInput(item.src);
+
           });
-          $(this).append(frame);
+          $(frame).bind("error", function(frame, file){
+              ProgressBar.width('0%');
+              ProgressPercent.html('');
+              ProgressInfo.html(ProgressErrorHTML(file.name));
+              li.parent().find("li").removeClass('disabled');
+          });
+
+          $(frame).bind("FilesAdded", function(frame, files_array, runtime){
+              if(runtime == 'html4'){
+                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
+              }
+          });
+          li.append(frame);
+          li.hover(function(){
+            if(!li.hasClass('disabled')){
+               li.parent().find("li").not(this).addClass('hovered');
+            }
+
+          }, function(){
+            if(!li.hasClass('disabled')){
+                li.parent().find("li").removeClass('hovered');
+            }
+          });
         });
 
         var fu = mw.$('#mw_folder_upload');
@@ -76,21 +105,117 @@
         $(frame).bind("progress", function(frame, file){
               ProgressBar.width(file.percent+'%');
               ProgressPercent.html(file.percent+'%');
+
         });
         $(frame).bind("done", function(frame, item){
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
+
               afterInput(item.src);
+
         });
 
-    });
+        $(frame).bind("error", function(frame, file){
+              ProgressBar.width('0%');
+              ProgressPercent.html('');
+              ProgressInfo.html(ProgressErrorHTML(file.name));
+
+        });
+
+         $(frame).bind("FilesAdded", function(frame, files_array, runtime){
+              if(runtime == 'html4'){
+                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
+              }
+          });
+
+
+          var urlSearcher = mw.$("#get_image_by_url");
+          urlSearcher.bind('keyup paste', function(e){
+             GlobalEmbed = false;
+             if(e.type=='keyup'){
+               mw.on.stopWriting(urlSearcher[0], function(){
+                 var val = urlSearcher.val();
+                 var type = mw.url.type(val);
+                 GlobalEmbed = __generateEmbed(type, val);
+               });
+             }
+             else{
+                 setTimeout(function(){
+                   var val = urlSearcher.val();
+                   var type = mw.url.type(val);
+                   GlobalEmbed = __generateEmbed(type, val);
 
 
 
+                   parent.mw.wysiwyg.insert_html(GlobalEmbed);
+                   parent.mw.tools.modal.remove('mw_rte_image');
+                 }, 500);
+             }
+
+          });
+
+    });  //end document ready
 
 
 
+    __generateEmbed = function(type, url){
+       switch(type){
+         case 'link':
+           return mw.embed.link(url);
+           break;
+         case 'image':
+           return mw.embed.image(url);
+           break;
+         case 'youtube':
+            return mw.embed.youtube(url);
+           break;
+         case 'vimeo':
+         return  mw.embed.vimeo(url);
+         break;
+       }
+    }
+
+
+
+mw.embed = {
+  link:function(url, text){
+    if(!!text){
+      return '<a href="'+url+'" title="'+text+'">'+text+'</a>';
+    }
+    else{
+      return '<a href="'+url+'">'+url+'</a>';
+    }
+  },
+  image:function(url, text){
+    if(!!text){
+      return '<img src="'+url+'"  alt="'+text+'" title="'+text+'" />';
+    }
+    else{
+      return '<img src="'+url+'"  alt=""  />';
+    }
+  },
+  youtube:function(url){
+    if(url.contains('youtu.be')){
+      var id = url.split('/').pop();
+      if(id==''){
+        var id = id.pop();
+      }
+      return '<iframe width="560" height="315" src="http://www.youtube.com/embed/'+encodeURIComponent(id)+'?v=1" frameborder="0" allowfullscreen></iframe>';
+    }
+    else{
+      var id = mw.url.getUrlParams(url).v;
+      return '<iframe width="560" height="315" src="http://www.youtube.com/embed/'+encodeURIComponent(id)+'?v=1" frameborder="0" allowfullscreen></iframe>';
+    }
+  },
+  vimeo:function(url){
+    var id = url.split('/').pop();
+    if(id==''){
+      var id = id.pop();
+    }
+    return '<iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a" width="560" height="315" frameborder="0" allowFullScreen></iframe>';
+  }
+}
 
 
 </script>
@@ -114,10 +239,14 @@
   font-size:11px;
   display: inline-block;
   position: relative;
-  cursor: pointer;
+  cursor: default;
   width: 80px;
   text-align: center;
-  opacity:.4;
+  overflow: hidden;
+  transition: opacity 0.12s;
+  -moz-transition: opacity 0.12s;
+  -webkit-transition: opacity 0.12s;
+  -o-transition: opacity 0.12s;
 }
 
 .mw-upload-filetypes .mw-upload-frame{
@@ -127,7 +256,8 @@
   background: url(<?php print $path; ?>buttons.png) no-repeat;
 
 }
-.mw-upload-filetypes li:hover{ opacity:1; }
+.mw-upload-filetypes li.disabled, .mw-upload-filetypes li.hovered{ opacity:0.4; }
+
 
 .mw-upload-filetypes li.mw-upload-filetype-video .mw-upload-frame{ background-position: -143px 0; }
 .mw-upload-filetypes li.mw-upload-filetype-file .mw-upload-frame{ background-position: -273px 0; }
@@ -143,6 +273,7 @@
   top: 0;
   left: 0;
 }
+.mw-upload-filetypes li.disabled iframe, .mw-upload-filetypes li.hovered iframe{ left:-9999px; }
 .mw_tabs_layout_simple .mw_simple_tabs_nav{
   padding-top: 0;
 }
@@ -161,14 +292,14 @@
 
 
         <ul class="mw-upload-filetypes" id="">
-            <li class="mw-upload-filetype-image">
+            <li class="mw-upload-filetype-image" data-type="images">
                 <div class="mw-upload-frame"></div>
                 <span>Image</span>
             </li>
-            <li class="mw-upload-filetype-video">
+            <li class="mw-upload-filetype-video" data-type="videos">
                 <div class="mw-upload-frame"></div>
                 <span>Video</span></li>
-            <li class="mw-upload-filetype-file">
+            <li class="mw-upload-filetype-file" data-type="files">
                 <div class="mw-upload-frame"></div>
                 <span>Files</span>
             </li>
@@ -180,13 +311,13 @@
     </center>
   </div>
   <div class="tab" id="get_image_from_url">
-    <h3>Enter the URL of an image somewhere on the web</h3>
-    <span class="relative left">
+
+    <center><span class="relative">
     <input type="text" id="get_image_by_url" class="mw-ui-field" name="get_image_by_url" />
     <span id="image_status"></span> </span>
-    <button type="button" class="mw-ui-btn-action" id="btn_inser_url_image">Insert</button>
-    <p id="image_types_desc"> File must be a JPEG, GIF, PNG , BMP or TIFF <br />
-      Example: http://mywebsite.com/image.jpg </p>
+    <button type="button" class="mw-ui-btn mw-ui-btn-blue" id="btn_inser_url_image" style="font-size: 12px;width:80px;">Insert</button>
+   </center>
+
   </div>
   <div class="tab">
 

@@ -1,7 +1,7 @@
 <?
 
-if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
-	define('MODULE_DB_TABLE_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
+if (!defined("MODULE_DB_USERS_ONLINE")) {
+	define('MODULE_DB_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
 }
 
 action_hook('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
@@ -27,7 +27,7 @@ function mw_install_stats_module($config = false) {
 	$sql = $this_dir . DS . 'install.sql';
 	$cfg = $this_dir . DS . 'config.php';
 
-	$is_installed = db_table_exist(MODULE_DB_TABLE_USERS_ONLINE);
+	$is_installed = db_table_exist(MODULE_DB_USERS_ONLINE);
 	//d($is_installed);
 	if ($is_installed == false) {
 		$install = import_sql_from_file($sql);
@@ -48,7 +48,7 @@ function mw_uninstall_stats_module() {
 		return false;
 	}
 
-	$table = MODULE_DB_TABLE_USERS_ONLINE;
+	$table = MODULE_DB_USERS_ONLINE;
 	$q = "DROP TABLE IF EXISTS {$table}; ";
 	//d($q);
 
@@ -130,7 +130,7 @@ function stats_insert() {
 		$data['visit_time'] = date("H:i:s");
 		//   $data['debug'] = date("H:i:s");
 
-		$table = MODULE_DB_TABLE_USERS_ONLINE;
+		$table = MODULE_DB_USERS_ONLINE;
 		$check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
@@ -171,7 +171,7 @@ function stats_insert() {
 }
 
 function get_visits($range = 'daily') {
-	$table = MODULE_DB_TABLE_USERS_ONLINE;
+	$table = MODULE_DB_USERS_ONLINE;
 	$q = false;
 	$results = false;
 	switch ($range) {

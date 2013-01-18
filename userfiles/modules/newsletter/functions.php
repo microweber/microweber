@@ -12,8 +12,8 @@
 
 // ------------------------------------------------------------------------
 action_hook('mw_db_init', 'mw_newsletter_module_init_db');
-if (!defined("MODULE_DB_TABLE_USERS_ONLINE")) {
-    define('MODULE_DB_TABLE_NEWSLETTER', MW_TABLE_PREFIX . 'newsletter');
+if (!defined("MODULE_DB_USERS_ONLINE")) {
+    define('MODULE_DB_NEWSLETTER', MW_TABLE_PREFIX . 'newsletter');
 }
 function mw_newsletter_module_init_db() {
  	$function_cache_id = false;
@@ -40,7 +40,7 @@ function mw_newsletter_module_init_db() {
   if($active == 'settings'){
 	   $cls = ' class="active" ';
   }
-   $table_name = MODULE_DB_TABLE_NEWSLETTER;
+   $table_name = MODULE_DB_NEWSLETTER;
   
   
   $fields_to_add = array ();

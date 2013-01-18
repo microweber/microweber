@@ -5,7 +5,7 @@
 		
 	$here =	pathToURL($here).'/';
 	
-	
+
 	$uid =  uniqid() ; 
 	 
 		?>
@@ -45,6 +45,11 @@
 
             Params = mw.url.getUrlParams(window.location.href);
 
+
+            var filters = [
+                {title:"", extensions : Params.filters},
+            ]
+
             this_frame = parent.mw.$("iframe[name='"+Name+"']");
 
             var uploader = new plupload.Uploader({
@@ -53,7 +58,8 @@
                 debug : 1,
                 container: 'container',
 				chunk_size : '3mb',
-                url : '<? print site_url('plupload'); ?>'
+                url : '<? print site_url('plupload'); ?>',
+                filters:filters
             });
 
             uploader.init();
@@ -73,10 +79,13 @@
               this_frame.trigger("done", jQuery.parseJSON(info.response));
             });
 
-            uploader.bind('FilesAdded', function(up, files, info){
-              //this_frame.trigger("FilesAdded");
+            uploader.bind('FilesAdded', function(up, files){
+              this_frame.trigger("FilesAdded", [files, up.runtime]);
             });
 
+            uploader.bind('Error', function(up, err){
+             this_frame.trigger("error", err.file);
+	        });
 
 
 

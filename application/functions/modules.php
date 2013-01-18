@@ -1680,8 +1680,9 @@ function mw_cron() {
 			if (!defined('MW_CRON_EXEC')) {
 				define('MW_CRON_EXEC', true);
 			}
-
+ 
 			foreach ($opts as $item) {
+				
 				if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
 					if (isset($item['option_value']) and $item['option_value'] != 'n') {
 						$when = strtotime($item['option_value']);
@@ -1694,6 +1695,8 @@ function mw_cron() {
 							}
 						}
 					}
+				} else {
+				//	d($item);
 				}
 			}
 			touch($file_loc_hour);

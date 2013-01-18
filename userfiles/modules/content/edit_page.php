@@ -317,7 +317,7 @@ load_iframe_editor = function(){
 <div class="mw-postaction-bar">
 
   <div class="left">
-
+      <a href="javascript:;" onclick="mw.tools.fullscreen(mwd.getElementById('iframe_editor_mw-editor<?php print $rand; ?>'))">Fullscreen</a>
 
   </div>
 

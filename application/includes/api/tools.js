@@ -882,6 +882,22 @@ mw.tools = {
          this.target = '_parent';
        }
     });
+  },
+  fullscreen:function(el){
+      if (el.webkitRequestFullScreen) {
+        el.webkitRequestFullScreen();
+      } else if(el.mozRequestFullScreen){
+        el.mozRequestFullScreen();
+      }
+  },
+  get_filename:function(s) {
+    if(s.contains('.')){
+      var d = s.lastIndexOf('.');
+      return s.substring(s.lastIndexOf('/') + 1, d < 0 ? s.length : d);
+    }
+    else{
+      return undefined;
+    }
   }
 }
 

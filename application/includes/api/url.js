@@ -126,6 +126,18 @@ mw.url = {
             }
         }
         return obj;
+    },
+    type:function(url){
+      var extension = url.split('.').pop();
+      var images = 'jpg,png,gif,jpeg,bmp';
+      if(images.contains(extension)){
+        return 'image';
+      }
+      else if(extension=='swf'){return 'flash'}
+      else if(extension=='pdf'){return 'pdf'}
+      else if(url.contains('youtube.com') || url.contains('youtu.be')){return 'youtube'}
+      else if(url.contains('vimeo.com')){return 'vimeo'}
+      else{return 'link';}
     }
 }
 

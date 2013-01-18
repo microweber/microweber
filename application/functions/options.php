@@ -129,8 +129,29 @@ function create_mw_default_options() {
 	$data['position'] = '3';
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('y' => 'yes', 'n' => 'no');
-
 	$datas[] = $data;
+
+	$data = array();
+	$data['option_group'] = 'advanced';
+	$data['option_key'] = 'cache_location';
+	$data['name'] = 'Cache files location';
+	$data['help'] = 'You can set custom cache location. Directory must be writable.';
+	$data['option_value'] = 'default';
+	$data['field_type'] = 'text';
+	$datas[] = $data;
+
+	$data = array();
+	$data['option_group'] = 'advanced';
+	$data['option_key'] = 'cache_cleanup_interval';
+	$option['option_key2'] = 'cronjob';
+
+	$data['name'] = 'Cache cleanup interval in minutes';
+	$data['help'] = 'You can set custom cache cleanup interval. Type 0 to disable.';
+	$data['option_value'] = 'default';
+
+	$data['field_type'] = 'text';
+	$datas[] = $data;
+
 	$changes = false;
 	foreach ($datas as $value) {
 		$ch = set_default_option($value);
@@ -230,7 +251,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	//
 	$get = db_query($q, $function_cache_id_q, $cache_group);
 	//
-	 
+
 	if (!empty($get)) {
 
 		if ($return_full == false) {

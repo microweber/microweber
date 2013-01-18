@@ -464,11 +464,25 @@ mw.wysiwyg = {
       $(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
+      var html = '<iframe src="http://google.com"></iframe>';
+
+      var isiframe = html.contains('<iframe');
+      if(isiframe){
+        var id = 'frame-'+mw.random();
+        var frame = html;
+        var html = '<span id="'+id+'"></span>';
+      }
       if(!document.selection){
          mw.wysiwyg.execCommand('inserthtml', false, html);
       }
       else{
         document.selection.createRange().pasteHTML(html)
+      }
+      if(isiframe){
+        var el = mwd.getElementById(id);
+        el.parentNode.contentEditable = false;
+        $(el).replaceWith(frame);
+        
       }
     },
     selection_length:function(){
@@ -489,7 +503,7 @@ mw.wysiwyg = {
        mw.wysiwyg.applier('span', cls);
     },
     insert_image:function(url, autoclose){
-        var autoclose = autoclose || false;
+        var autoclose = autoclose || true;
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" class="element element-image" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);

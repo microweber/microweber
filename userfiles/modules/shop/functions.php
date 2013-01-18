@@ -11,12 +11,12 @@
 
 // ------------------------------------------------------------------------
 
-if (!defined("MODULE_DB_TABLE_SHOP")) {
-	define('MODULE_DB_TABLE_SHOP', MW_TABLE_PREFIX . 'cart');
+if (!defined("MODULE_DB_SHOP")) {
+	define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
 }
 
-if (!defined("MODULE_DB_TABLE_SHOP_ORDERS")) {
-	define('MODULE_DB_TABLE_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
+if (!defined("MODULE_DB_SHOP_ORDERS")) {
+	define('MODULE_DB_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
 
 action_hook('mw_db_init', 'mw_shop_module_init_db');
@@ -40,7 +40,7 @@ function mw_shop_module_init_db() {
 		return $cache_content;
 	}
 
-	$table_name = MODULE_DB_TABLE_SHOP;
+	$table_name = MODULE_DB_SHOP;
 
 	$fields_to_add = array();
 	$fields_to_add[] = array('title', 'TEXT default NULL');
@@ -68,7 +68,7 @@ function mw_shop_module_init_db() {
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
-	$table_name = MODULE_DB_TABLE_SHOP_ORDERS;
+	$table_name = MODULE_DB_SHOP_ORDERS;
 
 	$fields_to_add = array();
 
@@ -210,7 +210,7 @@ function update_order($params = false) {
 		error("You must be admin");
 	}
 
-	$table = MODULE_DB_TABLE_SHOP_ORDERS;
+	$table = MODULE_DB_SHOP_ORDERS;
 	$params['table'] = $table;
 
 	//  d($params);
@@ -233,7 +233,7 @@ function get_orders($params = false) {
 			error("You must be admin");
 	}
 
-	$table = MODULE_DB_TABLE_SHOP_ORDERS;
+	$table = MODULE_DB_SHOP_ORDERS;
 	$params['table'] = $table;
 
 	//  d($params);
@@ -249,7 +249,7 @@ function cart_sum($return_amount = true) {
 	$sid = session_id();
 	$diferent_items = 0;
 	$amount = floatval(0.00);
-	$table_cart = MODULE_DB_TABLE_SHOP;
+	$table_cart = MODULE_DB_SHOP;
 	$sumq = " SELECT  price, qty FROM $table_cart where order_completed='n'  and session_id='{$sid}'  ";
 	$sumq = db_query($sumq);
 	if (isarr($sumq)) {
@@ -322,8 +322,8 @@ function checkout_ipn($data) {
 	if (!isarr($payment_verify_token_data)) {
 		error('Invalid token.');
 	}
-	$table_cart = MODULE_DB_TABLE_SHOP;
-	$table_orders = MODULE_DB_TABLE_SHOP_ORDERS;
+	$table_cart = MODULE_DB_SHOP;
+	$table_orders = MODULE_DB_SHOP_ORDERS;
 
 	$shop_dir = module_dir('shop');
 	$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
@@ -400,8 +400,8 @@ function checkout($data) {
 	}
 	$sid = session_id();
 	$cart = array();
-	$table_cart = MODULE_DB_TABLE_SHOP;
-	$table_orders = MODULE_DB_TABLE_SHOP_ORDERS;
+	$table_cart = MODULE_DB_SHOP;
+	$table_orders = MODULE_DB_SHOP_ORDERS;
 	$cart['session_id'] = $sid;
 	$cart['order_completed'] = 'n';
 	$cart['limit'] = 1;
@@ -735,7 +735,7 @@ function update_cart($data) {
 	if (isarr($prices)) {
 		ksort($add);
 		asort($add);
-		$table = MODULE_DB_TABLE_SHOP;
+		$table = MODULE_DB_SHOP;
 		$cart = array();
 		$cart['to_table'] = ($data['for']);
 		$cart['to_table_id'] = intval($data['for_id']);
@@ -809,7 +809,7 @@ function update_cart_item_qty($data) {
 	if ($checkz != false and isarr($checkz)) {
 		// d($checkz);
 		$cart['qty'] = intval($data['qty']);
-		$table = MODULE_DB_TABLE_SHOP;
+		$table = MODULE_DB_SHOP;
 		mw_var('FORCE_SAVE', $table);
 
 		$cart_s = save_data($table, $cart);
@@ -844,7 +844,7 @@ function remove_cart_item($data) {
 
 	if ($checkz != false and isarr($checkz)) {
 		// d($checkz);
-		$table = MODULE_DB_TABLE_SHOP;
+		$table = MODULE_DB_SHOP;
 		db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
 	} else {
 
@@ -858,7 +858,7 @@ function get_cart($params) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 	}
-	$table = MODULE_DB_TABLE_SHOP;
+	$table = MODULE_DB_SHOP;
 	$params['table'] = $table;
 	$params['session_id'] = session_id();
 	if (isset($params['no_session_id']) and is_admin() == true) {

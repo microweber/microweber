@@ -276,6 +276,9 @@
       font-size: 11px;
       text-overflow:ellipsis;
     }
+    .mw_dropdown_val_holder{
+      white-space: nowrap;
+    }
 
     .mw_dropdown_type_navigation .mw_dropdown_val{
         border: 1px solid #DCDCDC;

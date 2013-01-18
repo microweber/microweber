@@ -1,6 +1,6 @@
 <?
-if (!defined("MODULE_DB_TABLE_SHOP_SHIPPING_TO_COUNTRY")) {
-	define('MODULE_DB_TABLE_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
+	define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
 }
 
 action_hook('mw_db_init', 'mw_shop_module_init_shipping_to_country_db');
@@ -24,7 +24,7 @@ function mw_shop_module_init_shipping_to_country_db() {
 		return $cache_content;
 	}
 
-	$table_name = MODULE_DB_TABLE_SHOP_SHIPPING_TO_COUNTRY;
+	$table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;
 
 	$fields_to_add = array();
 	$fields_to_add[] = array('updated_on', 'datetime default NULL');

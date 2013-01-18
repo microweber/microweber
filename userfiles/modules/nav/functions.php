@@ -1,7 +1,7 @@
 <?
 
-if (!defined("MODULE_DB_TABLE_SHOP")) {
-	define('MODULE_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
+if (!defined("MODULE_DB_MENUS")) {
+	define('MODULE_DB_MENUS', MW_TABLE_PREFIX . 'menus');
 }
 
 action_hook('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
@@ -16,7 +16,7 @@ function mw_print_admin_menu_selector($params = false) {
 }
 
 function get_menu_items($params = false) {
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 	$params2 = array();
 	if ($params == false) {
 		$params = array();
@@ -32,7 +32,7 @@ function get_menu_items($params = false) {
 
 function get_menu_id($params = false) {
 
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 
 	$params2 = array();
 	if ($params == false) {
@@ -54,7 +54,7 @@ function get_menu_id($params = false) {
 
 function get_menu($params = false) {
 
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 
 	$params2 = array();
 	if ($params == false) {
@@ -65,7 +65,7 @@ function get_menu($params = false) {
 		$params = $params2;
 	}
 
-	//$table = MODULE_DB_TABLE_SHOP_ORDERS;
+	//$table = MODULE_DB_SHOP_ORDERS;
 	$params['table'] = $table;
 	$params['item_type'] = 'menu';
 	//$params['debug'] = 'menu';
@@ -100,7 +100,7 @@ function add_new_menu($data_to_save) {
 	if (isset($data_to_save['menu_id'])) {
 		$data_to_save['id'] = intval($data_to_save['menu_id']);
 	}
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 
 	$data_to_save['table'] = $table;
 	$data_to_save['item_type'] = 'menu';
@@ -124,7 +124,7 @@ function edit_menu_item($data_to_save) {
 	if (isset($data_to_save['menu_id'])) {
 		$data_to_save['id'] = intval($data_to_save['menu_id']);
 	}
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 
 	$data_to_save['table'] = $table;
 	$data_to_save['item_type'] = 'menu_item';
@@ -145,7 +145,7 @@ function reorder_menu_items($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	$table = MODULE_DB_TABLE_MENUS;
+	$table = MODULE_DB_MENUS;
 
 	if (isset($data['ids_parents'])) {
 		$value = $data['ids_parents'];
@@ -200,7 +200,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$params_order = array();
 	$params_order['position'] = 'ASC';
 
-	$table_menus = MODULE_DB_TABLE_MENUS;
+	$table_menus = MODULE_DB_MENUS;
 
 	$sql = "SELECT * from {$table_menus}
 	where parent_id=$menu_id
@@ -306,7 +306,7 @@ function add_content_to_menu($content_id) {
 	if ($content_id == 0) {
 		return;
 	}
-	$table_menus = MODULE_DB_TABLE_MENUS;
+	$table_menus = MODULE_DB_MENUS;
 	if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
 		$add_to_menus = $_REQUEST['add_content_to_menu'];
 		$add_to_menus_int = array();

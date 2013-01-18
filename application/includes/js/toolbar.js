@@ -188,19 +188,7 @@ mw.$(".ts_action_item").mouseenter(function(){
 
 
 
-mw.extras = {
-  fullscreen:function(el){
-      if (el.webkitRequestFullScreen) {
-        el.webkitRequestFullScreen();
-      } else if(el.mozRequestFullScreen){
-        el.mozRequestFullScreen();
-      }
-  },
-  get_filename:function(s) {
-    var d = s.lastIndexOf('.');
-    return s.substring(s.lastIndexOf('/') + 1, d < 0 ? s.length : d);
-  }
-}
+
 
 
 

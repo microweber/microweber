@@ -332,11 +332,6 @@ body:-webkit-full-screen {
 }
 
 
-#font_family_selector_main ul{
-  max-height: 250px;
-  overflow-x:hidden;
-  overflow-y:auto;
-}
 
 
 

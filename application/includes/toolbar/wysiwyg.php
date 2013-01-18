@@ -22,13 +22,13 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="h1"><a href="#">Heading 1</a></li>
-                  <li value="h2"><a href="#">Heading 2</a></li>
-                  <li value="h3"><a href="#">Heading 3</a></li>
-                  <li value="h4"><a href="#">Heading 4</a></li>
-                  <li value="h5"><a href="#">Heading 5</a></li>
-                  <li value="h6"><a href="#">Heading 6</a></li>
-                  <li value="p"><a href="#">Paragraph</a></li>
+                  <li value="h1"><a href="#"><h1>Heading 1</h1></a></li>
+                  <li value="h2"><a href="#"><h2>Heading 2</h2></a></li>
+                  <li value="h3"><a href="#"><h3>Heading 3</h3></a></li>
+                  <li value="h4"><a href="#"><h4>Heading 4</h4></a></li>
+                  <li value="h5"><a href="#"><h5>Heading 5</h5></a></li>
+                  <li value="h6"><a href="#"><h6>Heading 6</h6></a></li>
+                  <li value="p"><a href="#"><p>Paragraph</p></a></li>
                 </ul>
               </div>
             </div>
@@ -74,13 +74,13 @@
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="1"><a href="#">8pt</a></li>
-                  <li value="2"><a href="#">10pt</a></li>
-                  <li value="3"><a href="#">12pt</a></li>
-                  <li value="4"><a href="#">14pt</a></li>
-                  <li value="5"><a href="#">18pt</a></li>
-                  <li value="6"><a href="#">24pt</a></li>
-                  <li value="7"><a href="#">36pt</a></li>
+                  <li value="1"><a href="#" style="font-size: 8pt">8pt</a></li>
+                  <li value="2"><a href="#" style="font-size: 10pt">10pt</a></li>
+                  <li value="3"><a href="#" style="font-size: 12pt">12pt</a></li>
+                  <li value="4"><a href="#" style="font-size: 14pt">14pt</a></li>
+                  <li value="5"><a href="#" style="font-size: 18pt">18pt</a></li>
+                  <li value="6"><a href="#" style="font-size: 24pt">24pt</a></li>
+                  <li value="7"><a href="#" style="font-size: 36pt">36pt</a></li>
                 </ul>
               </div>
             </div>
