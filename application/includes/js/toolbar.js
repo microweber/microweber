@@ -524,16 +524,31 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
-		var mw_edit_pages_is_loaded = mw.$("#mw_edit_pages").attr('data-src');
-		if(mw_edit_pages_is_loaded != undefined){
+		/*var mw_edit_pages_is_loaded = mw.$("#mw-iframe-admin-src").val();
 		
-		mw.$("#mw_edit_pages").attr('src',mw_edit_pages_is_loaded);
-			mw.$("#mw_edit_pages").removeAttr('data-src');
+		
+		d(mw_edit_pages_is_loaded);
+		
+		if(mw_edit_pages_is_loaded != undefined){
+			
+			var ifrsrc_mw_admin = ' <iframe ';
+           ifrsrc_mw_admin =+' onload="mw.tools.iframeLinksToParent(this);" ';
+             ifrsrc_mw_admin =+' frameborder="0" ';
+             ifrsrc_mw_admin =+' scrolling="auto" ';
+			 ifrsrc_mw_admin =+' src="'+mw_edit_pages_is_loaded+'" ';
+             ifrsrc_mw_admin =+' id="mw_edit_pages" ';
+            ifrsrc_mw_admin =+'  ></iframe>';
+			
+			 mw.$("#mw_edit_pages_iframe_holder").append(ifrsrc_mw_admin);
+			
+		
+		//mw.$("#mw_edit_pages").attr('src',mw_edit_pages_is_loaded);
+		//	 mw.$("#mw-iframe-admin-src").remove();
 		} else {
 			
 		}
 		
-		
+		*/
 
       }
       else{

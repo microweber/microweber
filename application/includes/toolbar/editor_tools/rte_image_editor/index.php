@@ -15,26 +15,41 @@
     GlobalEmbed = false;
     hash = window.location.hash.replace(/#/g, '');
 
-    afterInput = function(url){   //what to do after image is uploaded (depending on the hash in the url)
+    afterInput = function(url, todo){   //what to do after image is uploaded (depending on the hash in the url)
+
+      var todo = todo || false;
 
 
-      if(hash!==''){
-        if(hash=='editimage'){
-          parent.mw.image.currentResizing.attr("src", url);
+
+      if(!todo){
+          if(hash!==''){
+            if(hash=='editimage'){
+              parent.mw.image.currentResizing.attr("src", url);
+              parent.mw.tools.modal.remove('mw_rte_image');
+            }
+            else if(hash=='set_bg_image'){
+              parent.mw.wysiwyg.set_bg_image(url);
+              parent.mw.tools.modal.remove('mw_rte_image');
+            }
+            else{
+              parent.mw.exec(hash, url);
+            }
+          }
+          else{ /*
+            parent.mw.wysiwyg.restore_selection();
+            parent.mw.wysiwyg.insert_image(url, true);      */
+          }
+      }
+      else{
+        if(todo=='video'){
+          parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" loop="false" autoplay="false" width="560" height="315" src="'+url+'"></embed></div>');
           parent.mw.tools.modal.remove('mw_rte_image');
         }
-        else if(hash=='set_bg_image'){
-          parent.mw.wysiwyg.set_bg_image(url);
-          parent.mw.tools.modal.remove('mw_rte_image');
-        }
-        else{
-          parent.mw.exec(hash, url);
-        }
       }
-      else{ /*
-        parent.mw.wysiwyg.restore_selection();
-        parent.mw.wysiwyg.insert_image(url, true);      */
-      }
+
+
+
+
     }
 
 
@@ -67,7 +82,13 @@
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
               li.parent().find("li").removeClass('disabled');
-              afterInput(item.src);
+              if(filetypes!='videos'){
+                  afterInput(item.src);
+              }
+              else{
+                afterInput(item.src, 'video');
+              }
+
 
           });
           $(frame).bind("error", function(frame, file){
@@ -111,6 +132,7 @@
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
+
 
               afterInput(item.src);
 

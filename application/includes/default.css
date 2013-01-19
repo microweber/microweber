@@ -129,6 +129,15 @@ body.mw-preview{
   max-width: 100%;
 }
 
+.mw-embed-embed{
+  padding: 12px 0;
+}
+.mw-embed-embed embed, .mw-embed-embed object{
+  max-width: 100%;
+}
+
+
+
 
 
 

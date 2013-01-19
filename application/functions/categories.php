@@ -119,8 +119,8 @@ function category_tree($params = false) {
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 	$cache_group = 'taxonomy/global';
-	//$cache_content = cache_get_content($function_cache_id, $cache_group);
-	$cache_content = false;
+	 $cache_content = cache_get_content($function_cache_id, $cache_group);
+	//$cache_content = false;
 	//if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -443,8 +443,9 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 	//
 
 	//
-	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
-
+	//$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
+	$q = db_query($sql);
+	
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
 	// 'taxonomy/' . intval ( $parent ) );
@@ -1441,7 +1442,7 @@ function get_categories($params, $data_type = 'categories') {
 
 	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
 	$data['only_those_fields'] = array('parent_id');
-
+ 
 	$data = get($data);
 
 	//$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";

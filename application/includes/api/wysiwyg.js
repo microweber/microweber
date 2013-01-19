@@ -465,7 +465,7 @@ mw.wysiwyg = {
     },
     insert_html:function(html){
 
-      var isiframe = html.contains('<iframe');
+      var isiframe = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
       if(isiframe){
         var id = 'frame-'+mw.random();
         var frame = html;

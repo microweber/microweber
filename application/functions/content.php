@@ -2295,13 +2295,13 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	
 	//
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (!isset($_GET['debug'])) {
+//	if (!isset($_GET['debug'])) {
 		if (($cache_content) != false) {
 			print $cache_content;
 			return;
 			//  return $cache_content;
 		}
-	}
+	//}
 	$nest_level = 0;
 
 	if (isset($params['nest_level'])) {
@@ -2647,9 +2647,9 @@ if(isset($active_code)){
 	}
 
 	$content = ob_get_contents();
-	if (!isset($_GET['debug'])) {
+//	if (!isset($_GET['debug'])) {
 		cache_store_data($content, $function_cache_id, $cache_group);
-	}
+	//}
 	ob_end_clean();
 	print $content;
 	return;

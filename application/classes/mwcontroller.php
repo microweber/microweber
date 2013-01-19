@@ -236,6 +236,9 @@ class MwController {
 			// $l = str_ireplace('</head>', $default_css . '</head>', $l);
 			$l = str_ireplace('<head>', '<head>' . $default_css, $l);
 			if (!stristr($l, $apijs_loaded)) {
+				
+				//$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
+				
 				$default_css = '<script src="' . $apijs_loaded . '"></script>';
 
 				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
@@ -1028,13 +1031,19 @@ class MwController {
 	function apijs() {
 
 		$ref_page = false;
-		if (isset($_SERVER['HTTP_REFERER'])) {
+		
+		
+		if(isset($_GET['id'])){
+			$ref_page = get_content_by_id($_GET['id']);
+		} else if (isset($_SERVER['HTTP_REFERER'])) {
 			$ref_page = $_SERVER['HTTP_REFERER'];
 			if ($ref_page != '') {
-				$ref_page = $the_ref_page = get_content_by_url($ref_page);
+				$ref_page = get_content_by_url($ref_page);
 				$page_id = $ref_page['id'];
-				$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+			//	$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
 			}
+			
+			
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);

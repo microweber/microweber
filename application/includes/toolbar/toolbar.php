@@ -34,8 +34,8 @@
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <?php /*  */ ?>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+<script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 
@@ -123,13 +123,13 @@
         <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
 
         <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
-
+ 
         <iframe
             onload="mw.tools.iframeLinksToParent(this);"
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
+          src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
         </iframe>
 
 

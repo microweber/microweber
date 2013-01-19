@@ -628,7 +628,11 @@ $(document).ready(function(){
      $(window).bind("templateChanged", function(e, el){
         load_iframe_editor();
      });
-            		load_iframe_editor();
+        
+		
+	//	if(window.parent == undefined){
+		    		load_iframe_editor();
+		//}
 
 });
 
