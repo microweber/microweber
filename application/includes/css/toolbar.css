@@ -443,6 +443,7 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 
 #mw-history-panel{
   float: right;
+  display:none;
 }
 
 

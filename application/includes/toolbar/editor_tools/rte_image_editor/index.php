@@ -19,37 +19,47 @@
 
       var todo = todo || false;
 
+      if(url == false){
+          parent.mw.tools.modal.remove('mw_rte_image');
+          return false;
+      }
 
 
       if(!todo){
           if(hash!==''){
             if(hash=='editimage'){
               parent.mw.image.currentResizing.attr("src", url);
-              parent.mw.tools.modal.remove('mw_rte_image');
+
             }
             else if(hash=='set_bg_image'){
               parent.mw.wysiwyg.set_bg_image(url);
-              parent.mw.tools.modal.remove('mw_rte_image');
+
             }
             else{
               parent.mw.exec(hash, url);
             }
           }
-          else{ /*
-            parent.mw.wysiwyg.restore_selection();
-            parent.mw.wysiwyg.insert_image(url, true);      */
+          else{
+            /*
+              parent.mw.wysiwyg.restore_selection();
+              parent.mw.wysiwyg.insert_image(url, true);
+
+            */
           }
       }
       else{
         if(todo=='video'){
-          parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" loop="false" autoplay="false" width="560" height="315" src="'+url+'"></embed></div>');
-          parent.mw.tools.modal.remove('mw_rte_image');
+          parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" wmode="transparent" windowlessVideo="true" loop="false" autoplay="false" width="560" height="315" src="'+url+'"></embed></div>');
+
+        }
+        else if(todo=='files'){
+
+          var name = mw.tools.get_filename(url);
+          var extension = url.split(".").pop();
+          var html = "<a class='mw-uploaded-file mw-filetype-"+extension+"' href='" + url + "'><span></span>" + name + "." + extension + "</a>";
+          parent.mw.wysiwyg.insert_html(html);
         }
       }
-
-
-
-
     }
 
 
@@ -77,20 +87,27 @@
               ProgressInfo.html(file.name);
               li.parent().find("li").addClass('disabled');
           });
-          $(frame).bind("done", function(frame, item){
+          $(frame).bind("FileUploaded", function(frame, item){
+              li.parent().find("li").removeClass('disabled');
+              if(filetypes=='images'){
+                  afterInput(item.src);
+              }
+              else if(filetypes=='videos'){
+                  afterInput(item.src, 'video');
+              }
+              else if(filetypes=='files'){
+                  afterInput(item.src, 'files');
+              }
+          });
+
+           $(frame).bind("done", function(frame, item){
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
-              li.parent().find("li").removeClass('disabled');
-              if(filetypes!='videos'){
-                  afterInput(item.src);
-              }
-              else{
-                afterInput(item.src, 'video');
-              }
+              afterInput(false);
+           });
 
 
-          });
           $(frame).bind("error", function(frame, file){
               ProgressBar.width('0%');
               ProgressPercent.html('');
@@ -114,7 +131,7 @@
                 li.parent().find("li").removeClass('hovered');
             }
           });
-        });
+        }); // end each
 
         var fu = mw.$('#mw_folder_upload');
         var frame = mw.files.uploader({name:'upload_file_link'});
@@ -133,7 +150,6 @@
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
 
-
               afterInput(item.src);
 
         });
@@ -142,7 +158,6 @@
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressErrorHTML(file.name));
-
         });
 
          $(frame).bind("FilesAdded", function(frame, files_array, runtime){

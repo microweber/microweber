@@ -23,7 +23,7 @@ $(document).ready(function(){
 <div id="mw-admin-text-editor" class="mw_editor">
         <div class="editor_wrapper">
 
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Insert Media"><span class="ed-ico"></span></span>
 
             <span class="mw_dlm"></span>
 

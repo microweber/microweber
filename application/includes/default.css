@@ -136,6 +136,199 @@ body.mw-preview{
   max-width: 100%;
 }
 
+.mw-uploaded-file{
+  font-size: 12px;
+  text-decoration: underline;
+  color: #4688EC;
+  display: inline-block;
+  margin-right: 7px;
+}
+
+.mw-uploaded-file:hover{
+  text-decoration: none;
+}
+
+.mw_clear{
+  display: block;
+  height: 1px;
+  overflow: hidden;
+  clear: both;
+}
+
+
+
+
+/* FILETYPES  */
+
+
+/*Adding icons to pdf span, doc span, etc.mw-filetype-*/
+/*MICROSOFT*/
+/*MS Access*/
+.mw-filetype-ade span, .mw-filetype-adp span, .mw-filetype-adn span, .mw-filetype-accdb span, .mw-filetype-accdr span, .mw-filetype-accdt span, .mw-filetype-mdb span, .mw-filetype-mda span, .mw-filetype-mdn span, .mw-filetype-mdt span, .mw-filetype-mdw span, .mw-filetype-mdf span, .mw-filetype-mde span, .mw-filetype-accde span, .mw-filetype-mam span, .mw-filetype-maq span, .mw-filetype-mar span, .mw-filetype-mat span, .mw-filetype-maf span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/access.png') no-repeat center left;
+}
+/*MS Excel*/
+.mw-filetype-xls span, .mw-filetype-xlb span, .mw-filetype-xlc span, .mw-filetype-xld span, .mw-filetype-xlk span, .mw-filetype-xlt span, .mw-filetype-xlw span, .mw-filetype-xlsx span, .mw-filetype-xlsm span, .mw-filetype-xlsb span, .mw-filetype-xltm span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/excel.png') no-repeat center left;
+}
+/*MS Excel Scripts*/
+.mw-filetype-xla span, .mw-filetype-xll span, .mw-filetype-xlm span, .mw-filetype-xlv span, .mw-filetype-xlam span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/script-excel.png') no-repeat center left;
+}
+/*MS Excel CSV*/
+.mw-filetype-csv span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/excel-csv.png') no-repeat center left;
+}
+/*MS Outlook*/
+.mw-filetype-eml span, .mw-filetype-msg span, .mw-filetype-ost span, .mw-filetype-pst span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/outlook.png') no-repeat center left;
+}
+/*MS Powerpoint*/
+.mw-filetype-ppt span, .mw-filetype-pptx span, .mw-filetype-pps span, .mw-filetype-ppsx span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/powerpoint.png') no-repeat center left;
+}
+/*MS Word*/
+.mw-filetype-doc span, .mw-filetype-docx span, .mw-filetype-docm span, .mw-filetype-dotx span, .mw-filetype-dotm span, .mw-filetype-dot span, .mw-filetype-rtf span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/word.png') no-repeat center left;
+}
+/*MS Visual Studio ('Common Programming Languages')*/
+.mw-filetype-h span, .mw-filetype-hh span, .mw-filetype-hpp span, .mw-filetype-h++ span, .mw-filetype-cc span, .mw-filetype-cpp span, .mw-filetype-cxx span, .mw-filetype-c++ span, .mw-filetype-vb span, .mw-filetype-vbs span, .mw-filetype-cs span, .mw-filetype-h span, .mw-filetype-c span, .mw-filetype-f# span, .mw-filetype-fs span, .mw-filetype-fsi span, .mw-filetype-ml span, .mw-filetype-mli span, .mw-filetype-fsx span, .mw-filetype-fsscript span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/visual-studio.png') no-repeat center left;
+}
+/*ADOBE*/
+/*Public Data File (PDF)*/
+.mw-filetype-pdf span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/pdf.png') no-repeat center left;
+}
+/*Flash*/
+.mw-filetype-fla span, .mw-filetype-swf span, .mw-filetype-flv span, .mw-filetype-f4v span, .mw-filetype-f4p span, .mw-filetype-f4a span, .mw-filetype-f4b span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/flash.png') no-repeat center left;
+}
+/*Photoshop*/
+.mw-filetype-psd span, .mw-filetype-psb span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/photoshop.png') no-repeat center left;
+}
+/*Illustrator*/
+.mw-filetype-ai  span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/illustrator.png') no-repeat center left;
+}
+/*COREL*/
+/*WordPerfect*/
+.mw-filetype-wp span, .mw-filetype-wp7 span, .mw-filetype-wp6 span, .mw-filetype-wp5 span, .mw-filetype-wp4 span, .mw-filetype-wpd span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/wordperfect.png') no-repeat center left;
+}
+/*Presentations*/
+.mw-filetype-chs span, .mw-filetype-cmx span, .mw-filetype-mst span, .mw-filetype-pqf span, .mw-filetype-pqw span, .mw-filetype-prc span, .mw-filetype-shb span, .mw-filetype-shw span, .mw-filetype-wpg span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/presentations.png') no-repeat center left;
+}
+/*Quattro Pro*/
+.mw-filetype-clp span, .mw-filetype-mu span, .mw-filetype-mxe span, .mw-filetype-gbe span, .mw-filetype-gpw span, .mw-filetype-som span, .mw-filetype-trn span, .mw-filetype-vrm span, .mw-filetype-wb0 span, .mw-filetype-wb1 span, .mw-filetype-wb2 span, .mw-filetype-wb3 span, .mw-filetype-wb? span, .mw-filetype-wkg span, .mw-filetype-wg! span, .mw-filetype-wq1 span, .mw-filetype-wq2 span, .mw-filetype-wq? span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/quattropro.png') no-repeat center left;
+}
+/*OPEN OFFICE*/
+/*odf*/
+.mw-filetype-odf span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/opendocument.png') no-repeat center left;
+}
+/*Writer*/
+.mw-filetype-odt span, .mw-filetype-sxw span, .mw-filetype-ott span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/writer.png') no-repeat center left;
+}
+/*Draw*/
+.mw-filetype-odg span, .mw-filetype-otg span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/draw.png') no-repeat center left;
+}
+/*Math*/
+.mw-filetype-sms span, .mw-filetype-sxm span, .mw-filetype-mml span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/math.png') no-repeat center left;
+}
+/*Impress*/
+.mw-filetype-odp span, .mw-filetype-otp span, .mw-filetype-sdp span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/impress.png') no-repeat center left;
+}
+/*Base*/
+.mw-filetype-odb span {
+   padding-left: 18px;
+   background: transparent url('img/base.mw-filetype-png') no-repeat center left;
+}
+/*Calc*/
+.mw-filetype-ods span, .mw-filetype-sxc span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/calc.png') no-repeat center left;
+}
+/*BASIC FILE FORMATS*/
+/*Images (not even close to ALL image file formats span, just common ones)*/
+.mw-filetype-jpg span, .mw-filetype-jpeg span, .mw-filetype-png span, .mw-filetype-gif span, .mw-filetype-bmp span, .mw-filetype-tif span, .mw-filetype-tiff span, .mw-filetype-ink span, .mw-filetype-jpeg span, .mw-filetype-giff span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/image.png') no-repeat center left;
+}
+/*Icon*/
+.mw-filetype-ico span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/icon.png') no-repeat center left;
+}
+/*svg (Scalable Vector Graphics)*/
+.mw-filetype-svg span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/svg.png') no-repeat center left;
+}
+/*Video*/
+.mw-filetype-amv span, .mw-filetype-avi span, .mw-filetype-dv-avi span, .mw-filetype-m4v span, .mw-filetype-mpeg span, .mw-filetype-mpg span, .mw-filetype-mov span, .mw-filetype-qt span, .mw-filetype-mp4 span, .mw-filetype-wmv span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/video.png') no-repeat center left;
+}
+/*Music*/
+.mw-filetype-wav span, .mw-filetype-aiff span, .mw-filetype-flac span, .mw-filetype-mp3 span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/music.png') no-repeat center left;
+}
+/*Text*/
+.mw-filetype-txt span, .mw-filetype-text span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/text.png') no-repeat center left;
+}
+/*Executable/Binary*/
+.mw-filetype-bin span, .mw-filetype-exe span, .mw-filetype-bat span, .mw-filetype-msi span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/binary.png') no-repeat center left;
+}
+/*Zipped Folder*/
+.mw-filetype-tar span, .mw-filetype-gz span, .mw-filetype-zip span, .mw-filetype-7z span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/binary.png') no-repeat center left;
+}
+/*non-html web documents*/
+.mw-filetype-css span, .mw-filetype-js span, .mw-filetype-xml span, .mw-filetype-htm span, .mw-filetype-html span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/webdoc.png') no-repeat center left;
+}
+/*RSS Feeds*/
+.mw-filetype-rss span {
+   padding-left: 18px;
+   background: transparent url('img/filetypes/rss.png') no-repeat center left;
+}
+
+
 
 
 

@@ -284,7 +284,7 @@
         border: 1px solid #DCDCDC;
         text-transform: capitalize;
         border-top: none;
-        background: #F1F1F1;
+        background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
         padding: 8px 39px 7px 11px;
         -webkit-border-radius: 2px;
         -moz-border-radius: 2px;

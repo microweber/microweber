@@ -117,12 +117,7 @@ body:-webkit-full-screen {
   float: right !important;
 }
 
-.mw_clear{
-  display: block;
-  height: 1px;
-  overflow: hidden;
-  clear: both;
-}
+
 
 .clear{
   clear: both;

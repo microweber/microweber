@@ -1568,16 +1568,15 @@ function load_module($module_name, $attrs = array()) {
 
 		if (!isset($attrs['id'])) {
 
-			$attrs1 = crc32(serialize($attrs).url_segment(0));
-		//	$s1 = crc32();
+			$attrs1 = crc32(serialize($attrs) . url_segment(0));
+			//	$s1 = crc32();
 			//$s1 = '';
-		/*
-			if ($s1 != false and trim($s1) != '') {
-						$attrs1 = $attrs1 . '-' . $s1;
-					} else if (defined('PAGE_ID') and PAGE_ID != false) {
-						$attrs1 = $attrs1 . '-' . PAGE_ID;
-					}*/
-		
+			/*
+			 if ($s1 != false and trim($s1) != '') {
+			 $attrs1 = $attrs1 . '-' . $s1;
+			 } else if (defined('PAGE_ID') and PAGE_ID != false) {
+			 $attrs1 = $attrs1 . '-' . PAGE_ID;
+			 }*/
 
 			$attrs['id'] = ($config['module_class'] . '-' . $attrs1);
 
@@ -1595,6 +1594,18 @@ function load_module($module_name, $attrs = array()) {
 			foreach ($config as $key1 => $value1) {
 				template_var($key1, $value1);
 			}
+		}
+
+		if (!isset($attrs['module'])) {
+			$attrs['module'] = $module_name;
+		}
+
+		if (!isset($attrs['parent-module'])) {
+			$attrs['parent-module'] = $module_name;
+		}
+		
+		if (!isset($attrs['parent-module-id'])) {
+			$attrs['parent-module-id'] = $attrs['id'];
 		}
 
 		$l1 -> params = $attrs;
@@ -1638,6 +1649,7 @@ function load_module($module_name, $attrs = array()) {
 		return false;
 	}
 }
+
 $mw_defined_module_classes = array();
 function module_css_class($module_name) {
 	global $mw_defined_module_classes;
@@ -1681,9 +1693,9 @@ function mw_cron() {
 			if (!defined('MW_CRON_EXEC')) {
 				define('MW_CRON_EXEC', true);
 			}
- 
+
 			foreach ($opts as $item) {
-				
+
 				if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
 					if (isset($item['option_value']) and $item['option_value'] != 'n') {
 						$when = strtotime($item['option_value']);
@@ -1697,7 +1709,7 @@ function mw_cron() {
 						}
 					}
 				} else {
-				//	d($item);
+					//	d($item);
 				}
 			}
 			touch($file_loc_hour);

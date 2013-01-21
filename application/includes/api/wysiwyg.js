@@ -426,8 +426,9 @@ mw.wysiwyg = {
               url:"rte_link_editor",
               title:"Add/Edit Link",
               name:"mw_rte_link",
-              width:340,
-              height:535
+              template:'mw_modal_simple',
+              width:430,
+              height:230
             });
          }
       }
@@ -499,14 +500,10 @@ mw.wysiwyg = {
     fontFX:function(cls){
        mw.wysiwyg.applier('span', cls);
     },
-    insert_image:function(url, autoclose){
-        var autoclose = autoclose || true;
+    insert_image:function(url){
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" class="element element-image" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
-        if(autoclose){
-           mw.tools.modal.remove('mw_rte_image');
-        }
         $("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
         mw.disable_selection("#"+id);
@@ -550,7 +547,8 @@ mw.wysiwyg = {
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
-    set_cursor : function(before_after, element){
+    set_cursor : function(before_after, element){     return false;      //Currently disabled - gives errors
+
         var range = document.createRange();
         var el = $(element)[0];
         if(before_after=='after'){

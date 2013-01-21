@@ -64,9 +64,9 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
                     option_value: val
                    // chkboxes:checkboxes_obj
                 }
-				 
+				 <? if(isset( $params['module'])): ?>
 					o_data.module = '<? print $params['module'] ?>';
-				 
+				 <? endif; ?>
 
 
                 $.ajax({

@@ -568,11 +568,10 @@ function get($params) {
 			$cache_group = $cache_group . '/' . $criteria['id'];
 		}
 
-	
 	} else {
 		$cache_group = guess_cache_group($cache_group);
 	}
-		// d($cache_group);
+	// d($cache_group);
 	$mode = 1;
 	switch ($mode) {
 		case 1 :
@@ -1227,27 +1226,42 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 	$where_search = '';
 	if ($to_search != false) {
+		$to_search = db_escape_string(strip_tags($to_search));
+		$to_search = str_replace('[', ' ', $to_search);
+		$to_search = str_replace(']', ' ', $to_search);
+		$to_search = str_replace('*', ' ', $to_search);
+		$to_search = str_replace(';', ' ', $to_search);
 
+	}
+	if ($to_search != false and $to_search != '') {
 		$fieals = db_get_table_fields($table);
 
 		$where_post = ' OR ';
 
 		$where_q = '';
+		if (isset($to_search_in_those_fields) and is_string($to_search_in_those_fields)) {
+			$to_search_in_those_fields = explode(',', $to_search_in_those_fields);
+			//d($to_search_in_those_fields);
+		}
 
 		foreach ($fieals as $v) {
 
 			$add_to_seachq_q = true;
 
 			if (!empty($to_search_in_those_fields)) {
-
-				if (array_search($v, $to_search_in_those_fields) == false) {
-
-					$add_to_seachq_q = false;
+				$add_to_seachq_q = FALSE;
+				foreach ($to_search_in_those_fields as $fld1z) {
+					if ($fld1z == $v) {
+						$add_to_seachq_q = 1;
+					}
 				}
+
 			}
+			// d($add_to_seachq_q);
 			if ($debug == true) {
-				//d($add_to_seachq_q);
+
 			}
+
 			if ($add_to_seachq_q == true) {
 
 				if ($v != 'id' && $v != 'password') {
@@ -1989,7 +2003,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	if ($dbg != false) {
 
 	}
-	 
+
 	db_q($q);
 
 	if ($id_to_return == false) {

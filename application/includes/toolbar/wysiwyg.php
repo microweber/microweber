@@ -110,7 +110,7 @@
 
 
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Insert Media"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ed-ico"></span></span>
 
 

@@ -7,6 +7,7 @@ a, input, textarea, select{
 }
 html, body{
   overflow: hidden !important;
+  height: 100%;
 }
 
 body{
@@ -14,45 +15,7 @@ body{
 }
 
 
-.semi_hidden{
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
 
-
-
-.msie_uploader{
-  position: absolute;
-  z-index: 1;
-  top: -9999px;
-  font-size: 100px;
-  opacity:0;
-  filter:alpha(opacity=0);
-}
-.drag_files_label{
-  padding-top: 30px;
-  font-style: italic;
-  opacity:.5;
-}
-
-#drag_files_here.drag_files_over{
-  background: #ADDBF5
-}
-#drag_files_here.drag_files_over .drag_files_label{
-  font-style: normal;
-  opacity:1;
-}
-
-
-
-#get_image_from_url .fancy_input{
-  margin: 0 6px 0 22px;
-}
-
-#get_image_from_url .fancy_input input{
-  width: 250px;
-}
 
 
 
@@ -80,133 +43,6 @@ body{
 
 #image_status.youtube, #image_status.vimeo{background-position: 0 -40px;}
 
-#pop_up_link .field_wrapper{
-  width: 300px;
-}
-
-#pop_up_link .fancy_input input {
-  margin: 9px 9px 0;
-   width: 226px;
-}
-
-.popup_title{
-      font-size : 18px;
-    font-weight : normal;
-     background : #EEEEEE;
-        padding : 25px;
-  border-bottom : 1px solid #E0E0E0;
-}
-
-#link_tool_holder{
-  width: 302px;
-  margin: 10px auto;
-}
-
-#link_tool_holder #insert_link_list{
-    margin-top: 3px;
-}
-
-#link_tool_holder .mw_dropdown_val{
-  width:214px;
-}
-#link_tool_holder h3{
-  font-size: 18px;
-  font-weight: normal;
-  display: inline-block;
-  margin-bottom: 2px;
-}
 
 
-#pop_up_link .link_type_to{
-  margin-top: 25px;
-}
-
-.upload_file_link{
-  color: #5B9FCB;
-  cursor: pointer;
-}
-
-.field_wrapper.active .upload_file_link{
-  color: white;
-}
-.type_to_file .link_type_holder{
-  margin-top: 9px;
-}
-
-#file_link_progres{
-      height : 100%;
-  background : #5B9FCB;
-     z-index : 0;
-    position : absolute;
-         top : 0;
-        left : 0;
-       width : 0;
-}
-
-
-
-
-
-.field_wrapper{
-  display: inline-block;
-  border: 1px solid #F4F4F4;
-  cursor: pointer;
-  padding: 4px;
-  box-shadow:0 -1px 0 #EDEDED;
-  background-image: linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-  background-image: -o-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-  background-image: -moz-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-  background-image: -ms-linear-gradient(bottom, rgb(249,249,249) 0%, rgb(245,245,245) 100%);
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0, rgb(249,249,249)),
-  	color-stop(1, rgb(245,245,245))
-  );
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-.field_wrapper:hover{
-  border-color: #D5D5D5;
-  box-shadow:0 -1px 0 #BCBCBC;
-  background-image: linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
-  background-image: -o-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
-  background-image: -moz-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
-  background-image: -ms-linear-gradient(bottom, rgb(230,230,230) 37%, rgb(221,221,221) 100%);
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0.37, rgb(230,230,230)),
-  	color-stop(1, rgb(221,221,221))
-  );
-}
-.field_wrapper.active, .field_wrapper.active:hover{
-  background-image : linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image : -o-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image : -moz-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image : -webkit-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-  background-image : -ms-linear-gradient(bottom, rgb(83,154,198) 37%, rgb(136,196,237) 99%, rgb(203,230,247) 100%);
-        box-shadow :0 0 0 transparent;
-      border-color :#3D80AB;
-  background-image : -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0.37, rgb(83,154,198)),
-  	color-stop(0.99, rgb(136,196,237)),
-  	color-stop(1, rgb(203,230,247))
-  );
-}
-
-.field_wrapper .mw-ui-check{
-     float : left;
-    margin : 6px 10px 10px 5px;
-  position : relative;
-   z-index : 1;
-}
 

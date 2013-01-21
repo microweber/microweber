@@ -16,7 +16,9 @@
       is_searching = true;
       var obj = {
         limit:limit,
-        keyword:keyword
+        keyword:keyword,
+        order_by:'updated_on desc',
+        search_in_fields:'title'
       }
       $.post(mw.settings.site_url + "api/get_content_admin", obj, function(data){
         var json = $.parseJSON(data);
@@ -27,22 +29,32 @@
 
     mw.dd_autocomplete = function(id){
       var el = $(id);
-      el.bind("change keyup", function(){
+      el.bind("change keyup focus", function(event){
         if(!is_searching){
-          var val = el.val();
-          mw.search(val, 10, function(){
-            var lis = "";
-            var json = this;
-            for(var item in json){
-                var obj = json[item];
-                var title = obj.title;
-                var url = obj.url;
-                lis+= "<li value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
+            var val = el.val();
+            if(event.type=='focus'){
+              if(el.hasClass('inactive')){
+                el.removeClass('inactive')
+              }
+              else{
+                return false;
+              }
             }
-            var parent = el.parents("ul");
-            parent.find("li:gt(0)").remove();
-            parent.append(lis);
-          });
+            mw.search(val, 10, function(){
+              var lis = "";
+              var json = this;
+              for(var item in json){
+                  var obj = json[item];
+                  if(typeof obj === 'object'){
+                    var title = obj.title;
+                    var url = obj.url;
+                    lis+= "<li class='mw-dd-list-result' value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
+                  }
+              }
+              var parent = el.parents("ul");
+              parent.find("li:gt(0)").remove();
+              parent.append(lis);
+            });
         }
       });
     }
@@ -53,98 +65,7 @@
 
         mw.dd_autocomplete('#dd_pages_search');
 
-        $("#upload_file_link").bind("progress",function(obj,percents){
-            $("#file_link_progres").width(percents+"%");
-        });
-        $("#upload_file_link").bind("done",function(a,data){
-            $("#file_link_progres").width(0);
-            $("#file_radio").val(data.src);
-            $("#insert_link_btn").removeClass("disabled");
-        });
-
-
-  $(".field_wrapper, .field_wrapper iframe").click(function(){
-      var el = this.tagName.toLowerCase()=='iframe' ? $(this).parents(".field_wrapper").eq(0) : $(this);
-      if(!el.hasClass("active")){
-          el.parents(".link_type_holder_main").find(".field_wrapper").removeClass("active");
-          el.addClass("active");
-          el.find("input").attr("checked", true);
-      }
-  });
-
-  $(".field_wrapper input[type='text']").focus(function(){
-    $(this).parents(".field_wrapper").trigger("click");
-    if(this.id=='mail_url'){
-       if(mw.form.validate.email(this)){
-            $("#insert_link_btn").removeClass("disabled");
-       }
-       else{
-          $("#insert_link_btn").addClass("disabled");
-       }
-    }
-    else if(this.id=='link_url'){
-       if(mw.form.validate.url(this)){
-            $("#insert_link_btn").removeClass("disabled");
-       }
-       else{
-          $("#insert_link_btn").addClass("disabled");
-       }
-    }
-  });
-
-
-
-       $("#insert_link_btn").bind("mousedown mouseup click", function(event){
-           event.preventDefault();
-
-           if(event.type=='click'){
-             if(!$(this).hasClass("disabled")){
-
-                var val = $("input:radio:checked").val();
-                if(mw.form.validate.email(val)){
-                  var val = 'mailto:'+val;
-                }
-                parent.mw.wysiwyg[command](val);
-                parent.mw.tools.modal.remove('mw_rte_link');
-             }
-             else{
-
-             }
-           }
-       });
-
-
-
-
-       $("#link_url").keyup(function(){
-         if(mw.form.validate.url(this)){
-            $("#insert_link_btn").removeClass("disabled");
-            var val = (this.value.indexOf('http://')==0 || this.value.indexOf('https://')==0 || this.value.indexOf('ftp://')==0) ? this.value : 'http://'+this.value;
-            $("#link_url_radio").val(val);
-         }
-         else{
-           $("#insert_link_btn").addClass("disabled");
-         }
-       });
-
-
-       $("#mail_url").keyup(function(){
-           if(mw.form.validate.email(this)){
-                $("#insert_link_btn").removeClass("disabled");
-                $("#mail_radio").val(this.value);
-           }
-           else{
-              $("#insert_link_btn").addClass("disabled");
-           }
-       });
-
-
-       $("#insert_link_list").change(function(){
-         var val = $(this).getDropdownValue();
-         $("#dd_pages_search_radio").val(val);
-         $("#insert_link_btn").removeClass("disabled");
-       });
-
+        mw.simpletabs();
 
     });
 
@@ -152,80 +73,134 @@
 </script>
 
 
-<h2 class="popup_title">Link to: </h2>
+<style type="text/css">
 
-<div id="link_tool_holder">
-
-
-  <div class="create_link_box link_type_holder_main" id="pop_up_link">
+#insert_link_list{
 
 
+}
+#insert_link_list .mw_dropdown_val{
+  width: 250px;
+}
+
+#insert_link_list .mw-ui-field{
+  margin: 13px;
+  width: 255px;
+}
+
+.mw-dd-list-result {
+  border-bottom:1px solid #fff;
+}
+.mw-dd-list-result a{
+  border-bottom:1px solid #ddd;
+}
+
+ul li.mw-dd-list-result:last-child{
+  border-bottom: none;
+}
+ul li.mw-dd-list-result:last-child a{
+  border-bottom: none;
+}
+
+.mw_tabs_layout_simple .mw_simple_tabs_nav li{
+  margin: 0;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav li a{
+  min-width: 35px;
+}
+
+</style>
 
 
-  <div class="link_type_to type_to_url">
-    <h3>Website URL</h3>
-    <label><input type="checkbox" checked="false" id="is_target_blank" />Open link in new window</label>
-    <div class="field_wrapper active">
-
-        <label class="mw-ui-check"><input type="radio" name="linktype" id="link_url_radio" checked="checked" value="" /><span></span></label>
-
-        <div class="link_type_holder">
-            <input type="text" class="mw-ui-field" style="width: 242px;" id="link_url" />
+<div id="mw-popup-insertlink">
+    <div class="mw_simple_tabs mw_tabs_layout_simple">
+        <ul class="mw_simple_tabs_nav">
+            <li><a class="active" href="javascript:;">Website URL</a></li>
+            <li><a href="javascript:;">Page from My Website</a></li>
+            <li><a href="javascript:;">File</a></li>
+            <li><a href="javascript:;">Email</a></li>
+        </ul>
+        <!-- TAB 1 -->
+        <div class="tab">
+            <div class="mw-ui-field left">
+                <span id="image_status" class="link"></span>
+                <input type="text" style="width: 220px;" class="mw-ui-invisible-field" />
+            </div>
+            <span class="mw-ui-btn mw-ui-btn-blue left">Save</span>
+            <div class="mw_clear"></div>
+            <label class="mw-ui-check"><input type="checkbox"><span></span><span>Open link in new window</span></label>
         </div>
-    </div>
-  </div>
-  <div class="link_type_to type_to_my_site">
-    <h3>Pageon My Website</h3>
-    <div class="field_wrapper relative z-2">
-        <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="dd_pages_search_radio" value="" /><span></span></label>
-        <div class="link_type_holder">
-            <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
+
+        <!-- TAB 2 -->
+        <div class="tab">
+
+          <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
                 <div class="mw_dropdown_fields">
-                  <ul class="mw_simple_tabs_nav">
+                  <ul class="">
                     <li class="other-action" value="-1">
                       <div class="dd_search">
-                          <span class="fancy_input white"><input type="text" class="mw-ui-field pages_search" id="dd_pages_search"><span class="tb_search_magnify"></span></span>
+                          <input type="text" class="mw-ui-field  pages_search inactive dd_search" id="dd_pages_search">
                       </div>
                     </li>
-                    <li value="<?php print site_url(); ?>"><a href="#">Home Page</a></li>
-                    <li value="<?php print site_url(); ?>other-page"><a href="#">Other Page</a></li>
                   </ul>
                 </div>
             </div>
-        </div>
-    </div>
-  </div>
-
-
-  <div class="link_type_to type_to_file">
-    <h3>File from my Computer</h3>
-    <div class="field_wrapper relative">
-        <div id="file_link_progres"></div>
-        <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="file_radio" value="" /><span></span></label>
-        <div class="link_type_holder">
-             No file. <span class="upload_file_link" id="Uploader">Upload a new file</span>
-
-             <iframe scrolling="no" name="upload_file_link" id="upload_file_link" class="mw_upload_frame" frameborder="0" src="<? print SITE_URL; ?>editor_tools/plupload/"></iframe>
 
         </div>
-    </div>
-  </div>
-  <div class="link_type_to type_to_mail">
-    <h3>Email Address</h3>
-    <div class="field_wrapper">
-         <label class="mw-ui-check"><input type="radio" class="mw-ui" name="linktype" id="mail_radio"  value="" /><span></span></label>
-        <div class="link_type_holder">
-            <input type="text" id="mail_url" style="width: 242px;" class="mw-ui-field" />
+
+        <!-- TAB 3 -->
+        <div class="tab">
+
+
+
+
         </div>
+
+        <!-- TAB 4 -->
+        <div class="tab">tab 4 :)</div>
     </div>
-  </div>
+</div>
 
 
-  <span class="mw-ui-btn-action right disabled" id="insert_link_btn">Insert</span>
 
 
-  </div>
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

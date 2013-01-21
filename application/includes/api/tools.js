@@ -1361,7 +1361,7 @@ $(window).load(function(){
   if(!window['mwAdmin']){
     mw.googleFonts.get('list', function(){
        var ul = $("#font_family_selector_main ul")[0];
-       ul.innerHTML+=this
+       ul.innerHTML += this
     });
 
 

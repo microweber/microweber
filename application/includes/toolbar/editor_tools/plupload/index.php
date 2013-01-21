@@ -46,9 +46,7 @@
             Params = mw.url.getUrlParams(window.location.href);
 
 
-            var filters = [
-                {title:"", extensions : Params.filters},
-            ]
+            var filters = [ {title:"", extensions : Params.filters} ]
 
             this_frame = parent.mw.$("iframe[name='"+Name+"']");
 
@@ -65,9 +63,6 @@
             uploader.init();
 
             uploader.bind('FilesAdded', function(up, files) {
-                for (var i in files) {
-                    //$id('filelist').innerHTML += '<div id="' + files[i].id + '">' + files[i].name + ' (' + plupload.formatSize(files[i].size) + ') <b></b></div>';
-                }
                 uploader.start();
             });
 
@@ -76,7 +71,11 @@
             });
 
             uploader.bind('FileUploaded', function(up, files, info){
-              this_frame.trigger("done", jQuery.parseJSON(info.response));
+              this_frame.trigger("FileUploaded", jQuery.parseJSON(info.response));
+            });
+
+            uploader.bind('UploadComplete', function(up, files){
+              this_frame.trigger("done", files);
             });
 
             uploader.bind('FilesAdded', function(up, files){
@@ -87,13 +86,11 @@
              this_frame.trigger("error", err.file);
 	        });
 
-
-
-        $(document).ready(function(){
-               $(document.body).click(function(){
-                     this_frame.trigger("click");
-               });
-        });
+            $(document).ready(function(){
+                 $(document.body).click(function(){
+                       this_frame.trigger("click");
+                 });
+            });
 
         </script>
  
