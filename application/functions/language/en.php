@@ -450,3 +450,5 @@ $language["page-layout"]= 'Page Layout' ;
 $language["category"]= 'Category' ; 
 $language["add-to-page-amp-category"]= 'Add to Page &amp; Category' ; 
 $language["menu"]= 'Menu' ; 
+$language["menus"]= 'menus' ; 
+$language["add-new-menus"]= 'Add new menus' ; 

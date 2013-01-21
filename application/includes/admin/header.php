@@ -25,7 +25,8 @@
 
       mw.require("<? print INCLUDES_URL; ?>js/jquery.js");
       mw.require("liveadmin.js");
-      mw.require("<? print INCLUDES_URL; ?>js/jquery-ui-1.8.20.custom.js");
+
+      mw.require("jquery-ui.js");
 
       mw.require("<? print INCLUDES_URL; ?>css/wysiwyg.css");
       mw.require("<? print INCLUDES_URL; ?>css/admin.css");

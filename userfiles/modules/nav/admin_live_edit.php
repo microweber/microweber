@@ -6,7 +6,7 @@
 <script  type="text/javascript">
   mw.require('forms.js');
   mw.require('url.js');
-   mw.require('jquery-ui.js');
+  
   </script>
 <script type="text/javascript">
   mw.menu_save = function($selector){

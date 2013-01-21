@@ -14,6 +14,46 @@ function get_picture($content_id, $for = 'post', $full = false) {
 			return $imgages[0];
 		}
 
+	} else {
+		$cont_id = get_content_by_id($content_id);
+		if (isset($cont_id['content'])) {
+			$img = get_first_image_from_html($cont_id['content']);
+			//print $img;
+			if ($img != false) {
+				$surl = site_url();
+
+				$media_url = MEDIA_URL;
+				if (stristr($img, $surl)) {
+					return $img;
+				} else {
+					return false;
+					// $src = $img;
+					// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+					//
+					// if (!file_exists($dl_file)) {
+					// $is_dl = url_download($src, false, $dl_file);
+					// } else {
+					// $is_dl = 1;
+					// }
+					// if ($is_dl == true) {
+					// $src = $dl_file;
+					// return $src;
+					// } else {
+					//
+					// }
+
+				}
+
+			}
+		}
+	}
+}
+
+function get_first_image_from_html($html) {
+	if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)) {
+		return $matches[1];
+	} else {
+		return false;
 	}
 }
 
@@ -353,6 +393,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 	if ($src == false) {
 		return pixum($width, $height);
 	}
+
 	//require_once ();
 	$surl = site_url();
 	$local = false;
@@ -371,9 +412,19 @@ function thumbnail($src, $width = 200, $height = 200) {
 		$src = normalize_path($src, false);
 		//d($src);
 	} else {
-		$dl_file = MEDIAFILES . crc32($src) . basename($src);
-		url_download($src, false, $dl_file);
-		$src = $dl_file;
+		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+		//
+		// if (!file_exists($dl_file)) {
+		// $is_dl = url_download($src, false, $dl_file);
+		// } else {
+		// $is_dl = 1;
+		// }
+		// if ($is_dl == true) {
+		// $src = $dl_file;
+		// } else {
+		//
+		// }
+		return pixum($width, $height);
 	}
 	$cd = CACHEDIR . 'thumbnail' . DS;
 	if (!is_dir($cd)) {
@@ -388,16 +439,24 @@ function thumbnail($src, $width = 200, $height = 200) {
 	if (file_exists($cache_path)) {
 
 	} else {
+		//
+		//exit($src);
 		if (file_exists($src)) {
 
 			$tn = new Thumbnailer($src);
 			$thumbOptions = array('maxLength' => $height, 'width' => $width);
 			$tn -> createThumb($thumbOptions, $cache_path);
 		}
-	}
 
-	$cache_path = pathToURL($cache_path);
-	return $cache_path;
+	}
+	if (file_exists($cache_path)) {
+
+		$cache_path = pathToURL($cache_path);
+		return $cache_path;
+	} else {
+		return pixum($width, $height);
+	}
+	return false;
 	//d($src);
 }
 

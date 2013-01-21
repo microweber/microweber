@@ -119,7 +119,7 @@ function category_tree($params = false) {
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 	$cache_group = 'taxonomy/global';
-	 $cache_content = cache_get_content($function_cache_id, $cache_group);
+	$cache_content = cache_get_content($function_cache_id, $cache_group);
 	//$cache_content = false;
 	//if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
@@ -445,7 +445,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 	//
 	//$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
 	$q = db_query($sql);
-	
+
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
 	// 'taxonomy/' . intval ( $parent ) );
@@ -1442,7 +1442,7 @@ function get_categories($params, $data_type = 'categories') {
 
 	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
 	$data['only_those_fields'] = array('parent_id');
- 
+
 	$data = get($data);
 
 	//$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
@@ -1578,6 +1578,7 @@ function category_link($id) {
 
 		return $cache_content;
 	} else {
+		$table = MW_TABLE_PREFIX . 'taxonomy';
 
 		$content = get_page_for_category($id);
 
@@ -1594,6 +1595,11 @@ function category_link($id) {
 					$url = post_link($content['id']);
 				}
 			}
+		} else {
+			$c_infp = get_category_by_id($id);
+			if (!empty($c_infp) and isset($c_infp['to_table']) and trim($c_infp['to_table']) == 'table_content') {
+				db_delete_by_id($table, $id);
+			}
 		}
 
 		if (isset($url) != false) {
@@ -1605,6 +1611,9 @@ function category_link($id) {
 
 		return;
 	}
+
+	//todo delete
+
 	$function_cache_id = '';
 
 	$args = func_get_args();

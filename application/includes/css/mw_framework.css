@@ -1209,8 +1209,9 @@ right: 15px;
 .mw-ui-form input[type='button'],
 .mw-ui-form button{
   display: inline-block;
-  padding: 7px 14px 5px;
-  padding: 8px 14px 6px;
+/*  padding: 7px 14px 5px;
+  padding: 8px 14px 6px;*/
+  padding: 7px 10px;
   cursor: pointer;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
   border-width: 1px;

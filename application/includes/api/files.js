@@ -15,6 +15,12 @@ mw.files = {
         case 'files':
           return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
           break;
+        case 'all':
+          return '*';
+          break;
+        case '*':
+          return '*';
+          break;
         default:
           return mw.files.settings.filetypes;
         }

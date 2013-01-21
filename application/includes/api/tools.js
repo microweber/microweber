@@ -1026,6 +1026,7 @@ mw.recommend = {
 }
 
 String.prototype._exec = function(a,b,c){
+
   var a = a || "";
   var b = b || "";
   var c = c || "";
@@ -1216,7 +1217,8 @@ $(window).load(function(){
 
   mw.$('div.mw-ui-field').click(function(e){
     if(e.target.type!= 'text'){
-       this.querySelector('input[type="text"]').focus();
+       try{this.querySelector('input[type="text"]').focus();}
+       catch(e){}
     }
  });
 

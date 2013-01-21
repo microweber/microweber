@@ -631,11 +631,11 @@ $(document).ready(function(){
         
 		
 	//	if(window.parent == undefined){
-		    		load_iframe_editor();
+		    	
 		//}
 
 });
-
+	load_iframe_editor();
 function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
  var vals = mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="parent"]:checked').val();
  var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand ?>');

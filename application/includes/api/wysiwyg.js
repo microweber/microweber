@@ -493,7 +493,9 @@ mw.wysiwyg = {
          mw.wysiwyg.execCommand('createlink', false, url);
       }
       else{
-         var html = "<a href='" + url + "'>" + url + "</a>";
+         var name =  mw.tools.get_filename(url);
+         var extension = url.split('.').pop();
+         var html = "<a href='" + url + "'>" + name + "." + extension + "</a>";
          mw.wysiwyg.insert_html(html);
       }
     },

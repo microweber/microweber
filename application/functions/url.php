@@ -41,10 +41,9 @@ function url_segment($k = -1) {
 
 		// $u = $u ? :
 	}
- 
-		return $k != -1 ? v($u[$k]) : $u;
 
-	 
+	return $k != -1 ? v($u[$k]) : $u;
+
 }
 
 function site_hostname() {
@@ -529,13 +528,19 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
 
 	if (function_exists('curl_init')) {
 		$ch = curl_init($requestUrl);
+
+		curl_setopt($ch, CURLOPT_COOKIEJAR, CACHEDIR . "global/cookie.txt");
+		curl_setopt($ch, CURLOPT_COOKIEFILE, CACHEDIR . "global/cookie.txt");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Microweber " . MW_VERSION . ";)");
+
 		if ($post_params != false) {
 			curl_setopt($ch, CURLOPT_POST, count($post_params));
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
 		}
-
+	//	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+		//curl_setopt($ch, CURLOPT_TIMEOUT, 400);
 		$result = curl_exec($ch);
 
 		curl_close($ch);
@@ -550,6 +555,7 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
 	} else {
 		return $result;
 	}
+	return false;
 }
 
 function esip($ip_addr) {

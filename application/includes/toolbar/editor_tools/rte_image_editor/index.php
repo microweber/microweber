@@ -13,59 +13,14 @@
 
 
     GlobalEmbed = false;
-    hash = window.location.hash.replace(/#/g, '');
 
-    afterInput = function(url, todo){   //what to do after image is uploaded (depending on the hash in the url)
-
-      var todo = todo || false;
-
-      if(url == false){
-          parent.mw.tools.modal.remove('mw_rte_image');
-          return false;
-      }
-
-
-      if(!todo){
-          if(hash!==''){
-            if(hash=='editimage'){
-              parent.mw.image.currentResizing.attr("src", url);
-
-            }
-            else if(hash=='set_bg_image'){
-              parent.mw.wysiwyg.set_bg_image(url);
-
-            }
-            else{
-              parent.mw.exec(hash, url);
-            }
-          }
-          else{
-            /*
-              parent.mw.wysiwyg.restore_selection();
-              parent.mw.wysiwyg.insert_image(url, true);
-
-            */
-          }
-      }
-      else{
-        if(todo=='video'){
-          parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" wmode="transparent" windowlessVideo="true" loop="false" autoplay="false" width="560" height="315" src="'+url+'"></embed></div>');
-
-        }
-        else if(todo=='files'){
-
-          var name = mw.tools.get_filename(url);
-          var extension = url.split(".").pop();
-          var html = "<a class='mw-uploaded-file mw-filetype-"+extension+"' href='" + url + "'><span></span>" + name + "." + extension + "</a>";
-          parent.mw.wysiwyg.insert_html(html);
-        }
-      }
-    }
 
 
     $(document).ready(function(){
 
         mw.simpletabs(document.getElementById('image_tabs'));
+
+
 
         Progress =  mw.$('#mw-upload-progress');
         ProgressBar = Progress.find('.mw-ui-progress-bar');
@@ -73,6 +28,8 @@
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
         ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! All files have been uploaded.';
         ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;Error! "'+filename+'" - Invalid filetype.';}
+
+
 
         mw.$(".mw-upload-filetypes li").each(function(){
           var li = $(this);
@@ -133,6 +90,8 @@
           });
         }); // end each
 
+/*
+
         var fu = mw.$('#mw_folder_upload');
         var frame = mw.files.uploader({name:'upload_file_link'});
         frame.className += ' mw_upload_frame';
@@ -165,6 +124,9 @@
                 ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
               }
           });
+
+
+*/
 
 
           var urlSearcher = mw.$("#media_search_field");
