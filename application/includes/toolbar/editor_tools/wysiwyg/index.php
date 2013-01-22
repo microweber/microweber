@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/liveadmin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/wysiwyg.css"/>
-<script>mw.require("<? print INCLUDES_URL; ?>js/jquery-ui-1.8.20.custom.js");</script>
+<script>mw.require("jquery-ui.js");</script>
 <script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
@@ -17,16 +17,17 @@
 $(window).load(function(){
 
     $("#mw-iframe-editor-area").height($(window).height()-60);
-
-    __area = mwd.getElementById('mw-iframe-editor-area');
-
-
-
-
-
+     __area = mwd.getElementById('mw-iframe-editor-area');
+	// $('.edit').attr('contenteditable',true);
+	
+	 
 });
-
-</script>
+ 
+ 
+  </script>
+  
+  
+  
 <style>
 *{
   margin: 0;

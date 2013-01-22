@@ -177,7 +177,7 @@ $pages_count = intval($pages);
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? if(isarr($data)): ?>
   <? foreach ($data as $item): ?>
-  <div class="manage-post-item">
+  <div class="manage-post-item manage-post-item-<? print ($item['id']) ?>">
     <div class="manage-post-itemleft">
       <label class="mw-ui-check left">
         <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
@@ -198,7 +198,7 @@ $pages_count = intval($pages);
         <small><a  class="manage-post-item-link-small" target="_top"  href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a target="_top"  href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<? print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:;">Delete</a> </div>
+        <div class="manage-post-item-links"> <a target="_top"  href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<? print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:mw.delete_single_post('<? print ($item['id']) ?>');;">Delete</a> </div>
       </div>
       <div class="manage-post-item-author"><? print user_name($item['created_by']) ?></div>
     </div>

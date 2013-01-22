@@ -326,7 +326,7 @@ mw.embed = {
     <li><a href="#" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
     <li><a href="#">Search</a></li>
   </ul>
-  <div class="mw_clear"></div>
+  
   <div class="tab" id="drag_files_here">
     <center style="padding-top: 25px;">
 

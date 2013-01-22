@@ -1,7 +1,6 @@
 <?
 
- 
- $for = 'module';
+  $for = 'module';
  if(isset($params['for'])){
 	$for = $params['for'];
  }
@@ -35,6 +34,8 @@
 
  if(isset($params['for_module_id'])): ?>
 <?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);   
+
+ 
 if(isarr( $diff) and isarr($more) ){
  foreach($diff as $item1){
 	 $i=0;

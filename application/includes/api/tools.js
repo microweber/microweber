@@ -198,7 +198,7 @@ mw.tools = {
         $(document.getElementById(id)).remove();
         $("div.mw_overlay[rel='"+id+"']").remove();
     },
-    overlay:function(for_who, is_over_modal){
+    overlay:function(for_who, is_over_modal){  return false;
         var overlay = document.createElement('div');
         overlay.className = 'mw_overlay';
         var id = for_who ? $(for_who).attr("id") : 'none';
@@ -230,19 +230,24 @@ mw.tools = {
       $(this).removeClass("other-action-hover");
     });
     mw.$(".mw_dropdown", root).mouseup(function(event){
-      $(this).toggleClass("active");
-      $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
-      if($(this).find(".other-action-hover").length==0){
-        var item =  $(this).find(".mw_dropdown_fields");
-        if(item.is(":visible")){
-            item.hide();
-            item.focus();
-        }
-        else{
-            item.show();
-            item.find(".dd_search").focus();
+      if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields')){
+        $(this).toggleClass("active");
+        $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
+        if($(this).find(".other-action-hover").length==0){
+          var item =  $(this).find(".mw_dropdown_fields");
+
+          if(item.is(":visible")){
+              item.hide();
+              item.focus();
+          }
+          else{
+              item.show();
+              item[0].querySelector("input.dd_search").focus();
+          }
         }
       }
+
+
     });
     mw.$(".mw_dropdown", root).hover(function(){
         $(this).addClass("hover");

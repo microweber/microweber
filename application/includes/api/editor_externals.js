@@ -15,7 +15,7 @@
           if(hash!==''){
             if(hash=='editimage'){
               parent.mw.image.currentResizing.attr("src", url);
-
+              parent.mw.image.currentResizing.css('height', 'auto');
             }
             else if(hash=='set_bg_image'){
               parent.mw.wysiwyg.set_bg_image(url);

@@ -101,7 +101,7 @@ function create_mw_default_options() {
 	$data['name'] = 'Website template';
 	$data['help'] = 'This is your current template. You can easy change it anytime.';
 
-	$data['option_group'] = 'website';
+	$data['option_group'] = 'template';
 	$data['option_key'] = 'curent_template';
 	$data['option_value'] = 'default';
 	$data['field_type'] = 'website_template';
@@ -126,7 +126,7 @@ function create_mw_default_options() {
 	$data['name'] = 'Enable user registration';
 	$data['help'] = 'You can enable or disable the regitration for new users';
 	$data['option_value'] = 'y';
-	$data['position'] = '3';
+	$data['position'] = '10';
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('y' => 'yes', 'n' => 'no');
 	$datas[] = $data;
@@ -138,19 +138,21 @@ function create_mw_default_options() {
 	$data['help'] = 'You can set custom cache location. Directory must be writable.';
 	$data['option_value'] = 'default';
 	$data['field_type'] = 'text';
-	$datas[] = $data;
+	$data['position'] = '999';
+	//$datas[] = $data;
 
 	$data = array();
 	$data['option_group'] = 'advanced';
 	$data['option_key'] = 'cache_cleanup_interval';
-	$option['option_key2'] = 'cronjob';
+	$data['option_key2'] = 'cronjob';
+	$data['position'] = '999';
 
 	$data['name'] = 'Cache cleanup interval in minutes';
 	$data['help'] = 'You can set custom cache cleanup interval. Type 0 to disable.';
 	$data['option_value'] = 'default';
 
 	$data['field_type'] = 'text';
-	$datas[] = $data;
+	//$datas[] = $data;
 
 	$changes = false;
 	foreach ($datas as $value) {

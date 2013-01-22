@@ -210,8 +210,7 @@
 }
 
 #insert_link_list .mw-ui-field{
-  margin: 13px;
-  width: 225px;
+  width: 228px;
 }
 
 .mw-dd-list-result {
@@ -270,6 +269,20 @@ ul li.mw-dd-list-result:last-child a{
   font-size: 11px;
 }
 
+.mw_dropdown_type_navigation li a{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+
+
+.mw_dropdown_fields > ul{
+  height: 133px;
+}
+.mw_tabs_layout_simple .mw_simple_tabs_nav{
+  padding-top: 0;
+}
+
 </style>
 
 
@@ -285,7 +298,7 @@ ul li.mw-dd-list-result:last-child a{
         <div class="tab">
 
             <div class="media-search-holder">
-              <div class="mw-ui-field left">
+              <div class="mw-ui-field left" style="width: 260px;">
                   <span id="" class="image_status link"></span>
                   <input type="text" style="width: 220px;" class="mw-ui-invisible-field" />
               </div>
@@ -299,25 +312,26 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 2 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation left"> <span class="mw_dropdown_val">Home Page</span>
+                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
+                    <span class="mw_dropdown_val">Click here to select</span>
                     <div class="mw_dropdown_fields">
                       <ul class="">
                         <li class="other-action" value="-1">
-                          <div class="dd_search">
-                              <input type="text" class="mw-ui-field  pages_search inactive dd_search" id="dd_pages_search">
-                          </div>
+
+                              <input type="text" class="mw-ui-field  pages_search inactive dd_search" id="dd_pages_search" />
+
                         </li>
                       </ul>
                     </div>
                 </div>
-                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_from_dropdown">Insert</span>
+                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_from_dropdown" style="padding: 7px 10px;">Insert</span>
             </div>
         </div>
 
         <!-- TAB 3 -->
         <div class="tab">
             <div class="media-search-holder">
-              <div class="mw-ui-field relative left" style="width: 240px;">
+              <div class="mw-ui-field relative left" style="width: 328px;">
                   <span class="image_status link"></span>
                   <div id="upload_frame"></div>
                   <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 15px;position: absolute; right: -1px; top: -1px;">Upload</span>
@@ -335,7 +349,7 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 4 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div class="mw-ui-field left">
+                <div class="mw-ui-field left" style="width: 260px;">
                     <span id="" class="image_status link"></span>
                     <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="email_field" />
                 </div>

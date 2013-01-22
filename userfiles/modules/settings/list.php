@@ -14,6 +14,13 @@ if(isset($orig_params['for_module_id'])){
 	 
 	}
 
+} else if(isset($orig_params['option_group'])){
+	$chck =   get_options('option_group=' . $orig_params['option_group']);
+	if (isset($chck[0]) and isset($chck[0]['id'])) {
+	$opts = $chck;
+	 
+	}
+	
 }
 if($opts == false and isset($params['for_module'])){
 $params['module'] = $params['for_module'];	

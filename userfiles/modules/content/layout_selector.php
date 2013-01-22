@@ -46,7 +46,16 @@ if(isset($data['active_site_template']) and $data['active_site_template'] == '')
 <script>
 
 
-safe_chars_to_str = function(str){ return str.replace(/\\/g,'____').replace(/\'/g,'\\\'').replace(/\"/g,'\\"').replace(/\0/g,'____');}
+safe_chars_to_str = function(str){ 
+if(str == undefined){
+return;	
+}
+
+
+return str.replace(/\\/g,'____').replace(/\'/g,'\\\'').replace(/\"/g,'\\"').replace(/\0/g,'____');
+
+
+}
 
 
 mw.templatePreview = {
@@ -183,7 +192,6 @@ mw.templatePreview = {
 		var template = template.replace('/','___');;
 		var layout = layout.replace('/','___');;
 <? if($data['id'] ==0){
-	
 	$iframe_start = site_url('home');
 } else {
 	$iframe_start = page_link($data['id']);
@@ -237,9 +245,9 @@ $(document).ready(function() {
 
 
   mw.templatePreview.prepare();
-
-	
-
+<? if(isset($params["autoload"]) and intval($params["autoload"]) != 0) : ?>
+mw.templatePreview.generate();
+<? endif; ?>
 
 
 });

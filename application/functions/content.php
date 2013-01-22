@@ -1243,9 +1243,9 @@ $sid = session_id();
 		   ";
 
 			if ($debug != false) {
-			d($q);
+			
 		}
-  
+ 
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));
@@ -1746,7 +1746,6 @@ function save_content($data, $delete_the_cache = true) {
 	
 	
 	
-	
 	if (isset($item['title'])) {
 		$item['title'] = htmlspecialchars_decode($item['title'], ENT_QUOTES);
 
@@ -1975,6 +1974,12 @@ $check_ex = false;
 		}
 	}
 
+	if (isset($data_to_save['content'])) {
+	 if(trim($data_to_save['content']) == '' or $data_to_save['content'] == false){
+	 	unset($data_to_save['content']);
+	//	 d($data_to_save);
+	 }
+	}
 	
  //d($data_to_save);
 $cats_modified = true;

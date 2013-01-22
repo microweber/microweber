@@ -75,8 +75,11 @@ DOMChange:function(element, callback){
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
-    element.addEventListener("DOMAttrModified", function(){
-        callback.call(this);
+    element.addEventListener("DOMAttrModified", function(e){
+        var attr = e.attrName;
+        if(attr != "contenteditable"){
+           callback.call(this);
+        }
     }, false);
  },
  _stopWriting:null,

@@ -9,50 +9,30 @@ mw.custom_fields = {
   },
   remove:function(el){
     var q = "Are you sure you want to remove this field?";
-
-    //mw.tools.confirm(q, function(){
-        $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
-
-    //});
+    $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
   },
   
   edit: function($selector, $id, callback){
-	  
-	  var data = {};
-	  data.settings = 'y';
-	    data.field_id = $id;
-	  
-	  
-	   mw.$($selector).load(mw.settings.api_html+'make_custom_field',data , function(){
-        
-		
-		
-		mw.is.func(callback) ? callback.call($type) : '';
-		
-		
-		
-		
-       });
+
+      var data = {};
+      data.settings = 'y';
+      data.field_id = $id;
+
+      mw.$($selector).load(mw.settings.api_html+'make_custom_field',data , function(){
+        mw.is.func(callback) ? callback.call($type) : '';
+      });
 	  
   },
   
   
-   create: function($selector, $type, $copy,$for_table ,$for_id, callback){
+   create: function($selector, $type, $copy, $for_table, $for_id, callback){
       var copy_str = '';
       if($copy !== undefined && $copy !== false){
         var copy_str = '/copy_from:'+ $copy;
       }
       mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
-        
-		
-		
 		mw.is.func(callback) ? callback.call($type) : '';
-		
-		
-		
-		
-       });
-
+      });
   },
   
   

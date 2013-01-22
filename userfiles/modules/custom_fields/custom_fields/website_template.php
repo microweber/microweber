@@ -25,7 +25,7 @@ function mw_set_default_template(){
  
 $(document).ready(function(){
 	
-  mw.templatePreview.generate();
+  //mw.templatePreview.generate();
 });
  
 </script>
@@ -37,6 +37,6 @@ $(document).ready(function(){
 -->
   
   <input name="<? print  $data['option_key']; ?>" style="display:none;" class="mw_option_field mw-ui-field"   type="text" option-group="<? print  $data['option_group']; ?>"  value="<? print  $data['option_value']; ?>" />
-  <module type="content/layout_selector" data-active-site-template="<? print $data['option_value'] ?>"  />
+  <module type="content/layout_selector" data-active-site-template="<? print $data['option_value'] ?>" autoload="1"  />
   <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()">Apply Template</button>
 </div>

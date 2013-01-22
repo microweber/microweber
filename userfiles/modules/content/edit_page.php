@@ -66,8 +66,9 @@ $(document).ready(function(){
 
 mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
+	 
 
-
+ 
 
  mw_before_content_save<? print $rand ?>();
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
@@ -100,7 +101,19 @@ mw.$('#admin_edit_page_form_<? print $form_rand_id ?>').submit(function() {
 
 
 mw_before_content_save<? print $rand ?>()
+ var ed_area = $('#iframe_editor_mw-editor<?php print $rand; ?>');
+	  	  var ed_area_src = mw.$('#mw-editor<?php print $rand; ?>_src');
 
+	  if(ed_area != undefined && ed_area.length > 0){
+		  
+		 var ed_area_ch =  ed_area.contents().find('.changed[field="content"]').first();  
+		 d(ed_area_ch);
+		   if(ed_area_ch != undefined && ed_area_src != undefined){
+			   var changed_html = ed_area_ch.html();
+			 //  d(changed_html);
+			   ed_area_src.val(changed_html);
+		   }
+	  }
   
  mw.form.post(mw.$('#admin_edit_page_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_content') ?>', function(){
  mw_after_content_save<? print $rand ?>(this);
@@ -310,7 +323,7 @@ load_iframe_editor = function(){
 
 
   <div id="mw-editor<?php print $rand; ?>" style="height: 310px;width:623px;"></div>
-
+<textarea name="content"  style="display:none" id="mw-editor<?php print $rand; ?>_src"></textarea>
 
 
 

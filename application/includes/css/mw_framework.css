@@ -292,6 +292,20 @@
         box-shadow:inset 0px 1px 0px #B8B8B8;
     }
 
+    .mw_dropdown_autocomplete .mw-ui-field{
+        left: 0;
+        margin: 0;
+        position: absolute;
+        top: -27px;
+        width: 90%;
+        padding: 7px 7px 6px;
+    }
+
+    .mw_dropdown_autocomplete ul{
+      overflow-y:auto;
+      overflow-x:hidden;
+    }
+
 
 
 /* /End of Microweber UI Elements  */
@@ -1888,6 +1902,7 @@ border-top-right-radius: 0px;
   z-index: 1;
   padding-top: 15px;
   background:#EEEEEE;
+  height: 46px;
 }
 .mw_tabs_layout_simple .mw_simple_tabs_nav:after{
     content: ".";
@@ -1912,15 +1927,16 @@ border-top-right-radius: 0px;
   text-decoration: none;
   color: #212121;
   padding: 15px;
-  min-width: 62px;
   position: relative;
-  top: 2px;
+  height: 17px;
+  overflow: hidden;
+  line-height: normal !important;
 }
 .mw_tabs_layout_simple .mw_simple_tabs_nav li a.active{
   border: 1px solid #D7D7D7;
   border-bottom: none;
-  padding: 14px 14px 14px;
   background: white;
+  padding: 14px 14px 15px 14px;
 }
 
 

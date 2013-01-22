@@ -424,11 +424,11 @@ mw.wysiwyg = {
              mw.wysiwyg.save_selection();
              mw.tools.modal.frame({
               url:"rte_link_editor",
-              title:"Add/Edit Link",
+              title:"",
               name:"mw_rte_link",
               template:'mw_modal_simple',
               width:430,
-              height:230
+              height:300
             });
          }
       }

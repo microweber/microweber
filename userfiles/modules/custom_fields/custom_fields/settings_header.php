@@ -33,7 +33,6 @@ if (!empty($params)) {
     }
 }
 ?>
-
 <?php
 if (!isset($data['id'])) {
     $data['id'] = 0;
@@ -100,6 +99,13 @@ if (isset($data['to_table_id'])) {
   $for_module_id = $data['to_table_id'];
 	
 }
+
+
+
+if (isset($data['for_module_id'])) {
+  $for_module_id = $data['for_module_id'];
+	
+}
  
 if (isset($data['save_to_content_id'])) {
   $save_to_content_id = $data['save_to_content_id'];
@@ -108,11 +114,10 @@ if (isset($data['save_to_content_id'])) {
 ?>
 
 <div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand ?>" >
-
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
 <input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>
-<? if (isset($for_module_id) and $for_module_id != false): ?>
+<? if (isset($data['for']) and $data['for'] != false): ?>
 <? $db_t = $for; ?>
 <input type="hidden" name="to_table" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
 <input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
@@ -120,13 +125,8 @@ if (isset($data['save_to_content_id'])) {
 <? if (isset($save_to_content_id)): ?>
 <input type="hidden" name="copy_to_table_id" value="<? print strval($save_to_content_id) ?>" />
 <? endif; ?>
-
- 
-
-
 <input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<? print $data['position'] ?>" />
-
 <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Field name'); ?>
@@ -135,4 +135,3 @@ if (isset($data['save_to_content_id'])) {
     <input type="text" class="mw-ui-field" <? /* <? if (isset($data['id']) and intval($data['id']) != 0): ?>onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"<?php endif; ?>*/ ?> value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
   </div>
 </div>
- 

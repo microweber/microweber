@@ -117,6 +117,21 @@ delete_selected_posts = function(){
 }
 
 
+mw.delete_single_post = function(id){
+	 var r=confirm("Do you want to delete this post?")
+	if (r==true) {
+		 var arr = id;
+		  mw.post.del(arr, function(){
+			 mw.$(".manage-post-item-"+id).fadeOut();
+		  });
+	   //return false;
+	  }	else {
+		//return false;
+	  }
+
+}
+
+
 
 
 mw.manage_content_sort = function(){

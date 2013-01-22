@@ -27,8 +27,10 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 	$data = false;
 	$form_data = array();
 	if (is_array($field_id)) {
+
 		if (!empty($field_id)) {
 			$data = $field_id;
+			return make_field($field_id, false,'y');
 		}
 	} else {
 		if ($field_id != 0) {
@@ -243,6 +245,14 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 		if ($field_id != 0) {
 			$data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
 		}
+	}
+	if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
+
+		$settings == true;
+	}
+	if (isset($data['field_id'])) {
+
+		$data = db_get_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
 	}
 
 	if (isset($data['custom_field_type'])) {
