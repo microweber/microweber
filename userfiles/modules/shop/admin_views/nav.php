@@ -17,7 +17,7 @@
 <li <?php if($active_action == 'options'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="ico ioptions"></span><span><?php _e("Options"); ?></span></a></li>
 
 
-<li style="position: absolute;left: 950px;"><a href="javascript:;"><span class="ico"></span><span><?php _e("Multi Edit"); ?></span></a></li>
+
     </ul>
   </div>
 </div>

@@ -152,13 +152,28 @@
 
     mw.$("#insert_email, #insert_url").click(function(){
 
+        var target = '_self';
+
          var val = this.parentNode.querySelector('input[type="text"]').value;
 
          if(this.id == 'insert_email'){
             var val = 'mailto:'+val;
          }
 
-         parent.mw.wysiwyg[hash](val);
+         if(this.id == 'insert_url' && hash=='insert_link'){
+
+           if(mwd.getElementById('url_target').checked == true){
+             var target = '_blank';
+           }
+
+            parent.mw.wysiwyg.insert_link(val, target);
+         }
+         else{
+            parent.mw.wysiwyg[hash](val);
+         }
+
+
+
 
          parent.mw.tools.modal.remove('mw_rte_link');
 
@@ -276,7 +291,7 @@ ul li.mw-dd-list-result:last-child a{
               </div>
               <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url">Insert</span>
               <div class="mw_clear" style="padding-bottom: 5px;"></div>
-              <label class="mw-ui-check"><input type="checkbox"><span></span><span>Open link in new window</span></label>
+              <label class="mw-ui-check"><input type="checkbox" id="url_target"><span></span><span>Open link in new window</span></label>
             </div>
 
         </div>
@@ -305,7 +320,7 @@ ul li.mw-dd-list-result:last-child a{
               <div class="mw-ui-field relative left" style="width: 240px;">
                   <span class="image_status link"></span>
                   <div id="upload_frame"></div>
-                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 18px;position: absolute; right: -1px; top: -1px;">Upload</span>
+                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 15px;position: absolute; right: -1px; top: -1px;">Upload</span>
               </div>
             </div>
 

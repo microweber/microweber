@@ -487,15 +487,18 @@ mw.wysiwyg = {
     selection_length:function(){
       return window.getSelection().getRangeAt(0).cloneContents().textContent.length;
     },
-    insert_link:function(url){
+    insert_link:function(url, target){
+      var target = target || '_self';
       mw.wysiwyg.restore_selection();
       if(mw.wysiwyg.selection_length()>0){
-         mw.wysiwyg.execCommand('createlink', false, url);
+         var text = window.getSelection().getRangeAt(0).cloneContents().textContent;
+         var html = "<a href='" + url + "' target='"+target+"'>" + text + "</a>";
+         mw.wysiwyg.insert_html(html);
       }
       else{
          var name =  mw.tools.get_filename(url);
          var extension = url.split('.').pop();
-         var html = "<a href='" + url + "'>" + name + "." + extension + "</a>";
+         var html = "<a href='" + url + "' target='"+target+"'>" + name + "." + extension + "</a>";
          mw.wysiwyg.insert_html(html);
       }
     },
