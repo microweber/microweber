@@ -64,9 +64,12 @@ function stats_append_image($layout) {
 	//if (!defined('IN_ADMIN')) {
 	//<table(?=[^>]*class="details")[^>]*>
 	//$selector = '<body>';
-	$selector = '/<\/body>/si';
-	$rand = date("Y-m-d");
-	$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
+	if(!isset($_REQUEST['isolate_content_field'])){
+		stats_insert();
+	//$selector = '/<\/body>/si';
+	//$rand = date("Y-m-d");
+	//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
+	}
 	//}
 	//$layout = mw_dom($layout, 'ul.mw-quick-links:last', '<li><a href="#"><span class="ico ihelp"></span><span>I am dynamic</span></a></li>');
 
@@ -95,16 +98,19 @@ function stats_image() {
 }
 
 function stats_insert() {
+	 
+	
+	
 	$function_cache_id = false;
 	$uip = $_SERVER['REMOTE_ADDR'];
 	$function_cache_id = $function_cache_id . $uip . USER_IP;
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
-	if (($cache_content) == '--false--') {
+	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
+	//if (($cache_content) == '--false--') {
 		//return false;
-	}
+//	}
 	$cookie_name = 'mw-stats' . crc32($function_cache_id);
 	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
 

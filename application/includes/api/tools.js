@@ -886,6 +886,19 @@ mw.tools = {
          this.target = '_parent';
        }
     });
+	
+	/* $(iframe).bind("mouseenter", function(){
+		 var ifrid1= this.getAttribute('id')
+		// d(ifrid1);
+		var ifrid = document.getElementById(ifrid1).contentWindow;
+if(ifrid.load_iframe_editor != undefined){
+	ifrid.load_iframe_editor();
+}
+		$(this).unbind("mouseenter"); 
+       
+      });*/
+	
+	
   },
   fullscreen:function(el){
       if (el.webkitRequestFullScreen) {

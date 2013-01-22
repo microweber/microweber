@@ -225,55 +225,11 @@ class MwController {
 
 			// d($l);
 			//exit();
-			//mw_var('get_module_template_settings_from_options', 1);
-			$l = parse_micrwober_tags($l, $options = false);
-			//	mw_var('get_module_template_settings_from_options', 0);
-
-			$apijs_loaded = site_url('apijs');
-
-			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
-
-			// $l = str_ireplace('</head>', $default_css . '</head>', $l);
-			$l = str_ireplace('<head>', '<head>' . $default_css, $l);
-			if (!stristr($l, $apijs_loaded)) {
-				
-				//$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
-				
-				$default_css = '<script src="' . $apijs_loaded . '"></script>';
-
-				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
-			}
-			if ($is_editmode == true and $this -> isolate_by_html_id == false) {
-				$is_admin = is_admin();
-				if ($is_admin == true) {
-
-					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
-
-					$layout_toolbar = new MwView($tb);
-					$layout_toolbar = $layout_toolbar -> __toString();
-					if ($layout_toolbar != '') {
-						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
-
-						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
-					}
-				}
-			}
-
-			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
-
-			// d(TEMPLATE_URL);
-
-			$l = execute_document_ready($l);
-
-			$is_embed = url_param('embed');
-
-			if ($is_embed != false) {
-				$this -> isolate_by_html_id = $is_embed;
-			}
-
+			
+			
 			if (isset($_REQUEST['isolate_content_field'])) {
 				//d($_REQUEST);
+				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 				$pq = phpQuery::newDocument($l);
 
 				$isolated_head = pq('head') -> eq(0) -> html();
@@ -307,12 +263,61 @@ class MwController {
 							$l = str_replace('{content}', $l, $layout_toolbar);
 
 						}
-						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+						//$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
 
 					}
 				}
 
 			}
+			
+			//mw_var('get_module_template_settings_from_options', 1);
+			$l = parse_micrwober_tags($l, $options = false);
+			//	mw_var('get_module_template_settings_from_options', 0);
+
+			$apijs_loaded = site_url('apijs');
+
+			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
+
+			// $l = str_ireplace('</head>', $default_css . '</head>', $l);
+			$l = str_ireplace('<head>', '<head>' . $default_css, $l);
+			if (!stristr($l, $apijs_loaded)) {
+				
+				//$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
+				
+				$default_css = '<script src="' . $apijs_loaded . '"></script>';
+
+				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
+			}
+			if ($is_editmode == true and $this -> isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
+				$is_admin = is_admin();
+				if ($is_admin == true) {
+
+					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
+
+					$layout_toolbar = new MwView($tb);
+					$layout_toolbar = $layout_toolbar -> __toString();
+					if ($layout_toolbar != '') {
+						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+
+						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
+					}
+				}
+			}
+
+			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+
+			// d(TEMPLATE_URL);
+
+			$l = execute_document_ready($l);
+
+			$is_embed = url_param('embed');
+
+			if ($is_embed != false) {
+				$this -> isolate_by_html_id = $is_embed;
+			}
+
+			
 
 			if ($this -> isolate_by_html_id != false) {
 				$id_sel = $this -> isolate_by_html_id;

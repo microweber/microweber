@@ -6,10 +6,10 @@
 
 
 
-    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
+   <!-- <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:content" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:shop" />
-    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:settings" />
+    <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:settings" />-->
 
 
 

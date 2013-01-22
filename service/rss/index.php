@@ -36,7 +36,7 @@
 		$numberOfDaysInSeconds = ($numberOfDays * 24 * 60 * 60);
 		$expireDate = time() - $numberOfDaysInSeconds;
 
-		$urls = array('http://feeds.feedburner.com/thr/news','http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
+		$urls = array('http://cnet.tumblr.com/rss','http://feeds.feedburner.com/thr/news','http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
 		$feed = new SimplePie();
 		$feed -> set_feed_url($urls);
 		$feed -> set_cache_duration(10000);
@@ -190,7 +190,7 @@ $i['content'] = $item -> get_content();
 
 				//	var_dump($i);
 
-				$is_there = "http://pecata/1k/api/get_content?api_key=aaa&original_link=" . $i['original_link'];
+				$is_there = "http://pecata/1k/api/get_content?api_key=aaa&title=" . $i['title'];
 
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $is_there);
