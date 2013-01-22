@@ -518,38 +518,16 @@ $(document).ready(function(){
     mw.on.hashParam("tab", function(){
       mw.tools.sidebar();
       var tab = this;
+      if(tab==false){
+        mw.url.windowHashParam('tab', 'modules');
+        return false;
+      }
       mw.$(".mw_toolbar_tab").removeClass("mw_tab_active");
       mw.$("#tab_"+tab).addClass("mw_tab_active");
       mw.$("#mw_tabs li").removeClass("active");
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
-		/*var mw_edit_pages_is_loaded = mw.$("#mw-iframe-admin-src").val();
-		
-		
-		d(mw_edit_pages_is_loaded);
-		
-		if(mw_edit_pages_is_loaded != undefined){
-			
-			var ifrsrc_mw_admin = ' <iframe ';
-           ifrsrc_mw_admin =+' onload="mw.tools.iframeLinksToParent(this);" ';
-             ifrsrc_mw_admin =+' frameborder="0" ';
-             ifrsrc_mw_admin =+' scrolling="auto" ';
-			 ifrsrc_mw_admin =+' src="'+mw_edit_pages_is_loaded+'" ';
-             ifrsrc_mw_admin =+' id="mw_edit_pages" ';
-            ifrsrc_mw_admin =+'  ></iframe>';
-			
-			 mw.$("#mw_edit_pages_iframe_holder").append(ifrsrc_mw_admin);
-			
-		
-		//mw.$("#mw_edit_pages").attr('src',mw_edit_pages_is_loaded);
-		//	 mw.$("#mw-iframe-admin-src").remove();
-		} else {
-			
-		}
-		
-		*/
-
       }
       else{
         mw.$("html").removeClass("mw_pages");

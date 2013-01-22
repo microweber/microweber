@@ -1,11 +1,13 @@
 <?
 
 $config = array();
-$config['name'] = "Contact Form";
+$config['name'] = "Contact form";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
-$config['position'] = 2;
 $config['ui'] = true;
-$config['version'] = 0.3;
+$config['ui_admin'] = true;
 $config['categories'] = "forms";
+$config['position'] = 4;
+$config['version'] = 0.2;
+
 

@@ -4,8 +4,8 @@ $rand = rand();
 $rand = round($rand);
 
 $add_remove_controls = ''.
-'<span class="ico iAdd mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
-'<span class="ico iRemove mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
+'<span class="ico iAdd2 mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
+'<span class="ico iRemove2 mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
 '<span class="ico iMove custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
 
 
@@ -127,11 +127,4 @@ if (isset($data['save_to_content_id'])) {
 <? endif; ?>
 <input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<? print $data['position'] ?>" />
-<div class="mw-custom-field-group ">
-  <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
-    <?php _e('Field name'); ?>
-  </label>
-  <div class="mw-custom-field-form-controls">
-    <input type="text" class="mw-ui-field" <? /* <? if (isset($data['id']) and intval($data['id']) != 0): ?>onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"<?php endif; ?>*/ ?> value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
-  </div>
-</div>
+

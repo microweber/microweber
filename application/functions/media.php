@@ -6,7 +6,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 	$arr['limit'] = '1';
 	$arr['to_table_id'] = $content_id;
 	$imgages = get_pictures($arr);
-	//..p($imgages);
+	// d($imgages);
 	if (isset($imgages[0])) {
 		if (isset($imgages[0]['filename']) and $full == false) {
 			return $imgages[0]['filename'];
@@ -18,7 +18,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 		$cont_id = get_content_by_id($content_id);
 		if (isset($cont_id['content'])) {
 			$img = get_first_image_from_html($cont_id['content']);
-			//print $img;
+			  
 			if ($img != false) {
 				$surl = site_url();
 

@@ -36,7 +36,7 @@
 		$numberOfDaysInSeconds = ($numberOfDays * 24 * 60 * 60);
 		$expireDate = time() - $numberOfDaysInSeconds;
 
-		$urls = array('http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
+		$urls = array('http://feeds.feedburner.com/thr/news','http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
 		$feed = new SimplePie();
 		$feed -> set_feed_url($urls);
 		$feed -> set_cache_duration(10000);
@@ -156,7 +156,7 @@
 			$i['url'] = str_replace(' ', '-', htmlentities($i['title']));
 			$zxzz1 = $i['screenshot_url'] = get_first_image_url($item -> get_content());
 
-			if ($zxzz1 != false) {
+			if ($zxzz1 != false and strstr($zxzz1,'.jpg')) {
 				$thefn = md5($zxzz1) . basename($zxzz1);
 				$rem_image_1 = $rem_image . $thefn;
 				if (!file_exists($rem_image_1)) {
@@ -172,16 +172,17 @@
 			}
 			$i['screenshot_url'] = false;
 			//file_get_contents($i['screenshot_url']);
-
+$i['content'] = $item -> get_content();
 			//if ($i['screenshot_url'] != false) {
-			if ($zxzz1 != false and file_exists($rem_image_1)) {
+			if ($zxzz1 != false and strstr($zxzz1,'.jpg') and file_exists($rem_image_1) and $i['content']  != '') {
 
 				$i['original_link'] = $item -> get_link();
 				//$i['author'] = '';
 				//$author = $item -> get_author();
 
 				$i['created_on'] = $item -> get_date('U');
-				$i['content'] = $item -> get_content();
+				
+				$i['created_on'] = date("Y-m-d H:i:s");
 				$i['content'] = str_replace($zxzz1, '{SITE_URL}userfiles/media/downloaded/' . $thefn, $i['content']);
 				//	$feed = $item -> get_feed();
 				//	$i['feed_link'] = $feed -> get_permalink();

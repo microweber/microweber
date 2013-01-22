@@ -184,7 +184,10 @@ $pages_count = intval($pages);
         <span></span></label>
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
       <?
-    	$pic  = get_picture(  $item['id']); ?>
+    	$pic  = get_picture(  $item['id']);
+	 
+		
+		 ?>
       <? if($pic == true ): ?>
       <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic, 108) ?>');"></a>
       <? else : ?>

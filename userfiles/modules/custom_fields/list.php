@@ -51,7 +51,7 @@ if(isarr( $diff) and isarr($more) ){
 ?>
 <? if(!empty( $more)):  ?>
 
-<div class="custom-field-table">
+<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags">
   <? if(isset($params['save_to_content_id']) and isset($params["to_table_id"]) and intval(($params["to_table_id"]) > 0)): ?>
   <? $p = get_content_by_id($params["to_table_id"]); ?>
   <? if(isset($p['title'])): ?>
@@ -59,41 +59,21 @@ if(isarr( $diff) and isarr($more) ){
   <? endif; ?>
   <? endif; ?>
   <? foreach( $more as $field): ?>
-  <div class="custom-field-table-tr" data-field-id="<? print $field['id'] ?>">
-    <div class="custom-field-preview-cell" onclick="$(this).parent().addClass('active')">
-      <div class="custom-field-preview">
- <?  //d(($field)); ?>
-        <a class="edit-custom-field-btn" href="javascript:mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>');">
-        <?php _e("Edit this field"); ?>
-        </a>
-        
-         Type <?    print  ($field['type']); ?><br  />
-         
-         Title <?    print  ($field['title']); ?><br  />
-         
-      
-        
-        
-        
-        <?  // print  make_field($field); ?>
-       <!-- <span class="edit-custom-field-btn" title="<?php _e("Edit this field"); ?>"></span>--></div>
-    </div>
-    <!--<div class="second-col">
-      <div class="custom-field-set-holder"> <span class="ico iMove custom-field-handle-row right" onmousedown="mw.custom_fields.sort_rows()"></span>
-        <div class="custom-field-set">
-          <? 
-		  if(isset($params['save_to_content_id'])){
-			  
-			 $field['save_to_content_id']   = strval($params['save_to_content_id']);
-			 
-		  }
-		  
-		  
-		 //  print  make_field($field, false, 2); ?>
-        </div>
-      </div>
-    </div>-->
-  </div>
+
+
+
+
+
+            <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);">
+                <? print ($field['title']); ?>
+                <span class="mw-ui-btnclose"></span>
+            </a>
+
+
+
+
+
+
   <? endforeach; ?>
 </div>
 <? else : ?>

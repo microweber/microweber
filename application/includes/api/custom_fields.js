@@ -9,21 +9,48 @@ mw.custom_fields = {
   },
   remove:function(el){
     var q = "Are you sure you want to remove this field?";
-    $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
+
+    //mw.tools.confirm(q, function(){
+        $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
+
+    //});
   },
-  
-  edit: function($selector, $id, callback){
+
+  edit: function($selector, $id, callback, event){
+
+    if(!!event){
+        var curr = event.target;
+        if(mw.tools.hasClass(curr.className, 'mw-ui-btn-blue')){
+            return false;
+        }
+        if(mw.tools.hasClass(curr.className, 'mw-ui-btnclose')){
+            return false;
+        }
+        else if(mw.tools.hasClass(curr.className, 'mw-ui-btn-small')){
+            $(curr.parentNode.querySelectorAll('a')).removeClass('mw-ui-btn-blue');
+            $(curr).addClass('mw-ui-btn-blue')
+        }
+      }
 
       var data = {};
       data.settings = 'y';
       data.field_id = $id;
 
-      mw.$($selector).load(mw.settings.api_html+'make_custom_field',data , function(){
+      var holder = mw.$("#custom-field-editor");
+
+      holder.show();
+      if(!!event){
+        holder.find('.custom-field-edit-title').html(event.target.textContent);
+      }
+
+      mw.$($selector).load(mw.settings.api_html+ 'make_custom_field',data , function(){
         mw.is.func(callback) ? callback.call($type) : '';
       });
+
+
 	  
   },
-  
+
   
    create: function($selector, $type, $copy, $for_table, $for_id, callback){
       var copy_str = '';

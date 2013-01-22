@@ -663,6 +663,12 @@ form.add-edit-page-post textarea{
 
 
 
+.mw-quick-links-cols-4{
+  columns: 4 auto;
+  -webkit-columns: 4 auto;
+  -moz-columns: 4 auto;
+}
+
 .mw-quick-links li {
   list-style: none;
   display: block;
@@ -685,6 +691,17 @@ form.add-edit-page-post textarea{
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+}
+
+
+.mw-quick-links-cols-4 li a{
+  margin-right: 0;
+}
+
+.custom_fields_selector .mw-quick-links li a{
+  display: block;
+  padding: 0 14px 0 7px;
+  overflow: hidden;
 }
 
 .mw-quick-links li a:hover, .mw-quick-links li.active a{
@@ -769,43 +786,11 @@ form.add-edit-page-post textarea{
 
 .custom_fields_selector .mw-quick-links li{
   padding: 0;
-}
-
-.custom-field-table{
-  width: 620px;
-  position:relative;
-  border-top: 1px solid #E2E2E2;
-}
-.module-custom-fields-admin-holder{
-  padding-bottom: 20px;
-}
-
-
-
-.custom-field-table .custom-field-preview-cell, .custom-field-table .second-col{
-  padding: 12px;
-  float: left;
-  width: 285px;
-}
-
-.custom-field-set-holder{
-  width: 285px;
-  position: relative;
+  overflow: hidden;
 }
 
 .custom-field-set{
   display: none;
-}
-.custom-field-main-table-placeholder{
-  background: #FFFFB9;
-  height: 100px;
-  width: 700px;
-  display: block;
-}
-.custom-fields-placeholder{
-  width:340px;
-  height: 30px;
-  background: #FFFFB9;
 }
 
 .custom-field-table div.active .custom-field-set{
@@ -815,28 +800,9 @@ form.add-edit-page-post textarea{
   position: relative;
 }
 
-.edit-custom-field-btn{
-    display: block;
-    position: relative;
-    z-index: 2;
-    float: right;
-    height: 19px;
-    text-indent: -9999px;
-    visibility: hidden;
-    width: 19px;
-    background: url(../img/admin_tree_icons.png) no-repeat -28px 5px;
-}
-
-.custom-field-table .custom-field-preview-cell:hover .edit-custom-field-btn{
-  visibility: visible;
-}
-
-.custom-fields-form-actions button{
-  margin: 0 69px 0 0;
-}
-
-.custom-fields-form-actions .mw-ui-delete{
-  margin: 7px 10px 0 0;
+.custom-field-edit-header{
+  height: 25px;
+  background: url(../img/grad.php?top=D7EEFA&bot=B8DBF2)
 }
 
 #UITU{
@@ -852,8 +818,8 @@ form.add-edit-page-post textarea{
 }
 
 .custom-field-table input[type='text']{
-    padding: 5px 10px;
-    width: 190px;
+  padding: 5px 10px;
+  width: 190px;
 }
 .mw-custom-field-form-controls{
   padding: 5px 0;
@@ -866,7 +832,7 @@ form.add-edit-page-post textarea{
 }
 
 .mw-custom-field-group{
-  padding-top: 10px;
+  padding-top: 0;
 }
 form.add-edit-page-post .mw-custom-field-group textarea{
   width: 280px;
@@ -875,11 +841,46 @@ form.add-edit-page-post .mw-custom-field-group textarea{
 .mw-custom-field-group input.mw-ui-field{
   float: left;
   margin-right: 5px;
+  width: 170px;
 }
 .mw-custom-field-form-controls .ico{
   float: left;
-  margin-right: -5px;
+  margin-right: 0px;
   opacity:0.62;
+}
+
+.mw-custom-field-form-controls .iAdd2,
+.mw-custom-field-form-controls .iRemove2{
+  top: 4px;
+}
+
+.custom-field-edit{
+    border: 1px solid #82B6D6;
+    margin-bottom: 18px;
+}
+.mw-admin-custom-field-edit-item{
+  padding: 15px;
+}
+
+.mw-admin-custom-field-edit-item{
+
+  position: relative;
+}
+.mw-admin-custom-field-edit-item:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.custom-field-edit-title{
+  color: #8B8B8B;
+  text-shadow:0 1px 0 #fff;
+  text-transform: capitalize;
+  display: inline-block;
+  padding: 3px 10px;
 }
 
 
@@ -892,6 +893,13 @@ form.add-edit-page-post .mw-custom-field-group textarea{
   position: relative;
   overflow: hidden;
   width: 280px;
+}
+
+.custom-field-col.left{
+  width: 40%;
+}
+.custom-field-col.right{
+  width: 60%;
 }
 
 .custom-field-preview:after{
@@ -981,13 +989,7 @@ body.still-loading:before{
   right: 10px;
   z-index: 2;
 }
-.custom-field-table-tr{
-  overflow: hidden;
-  position: relative;
-  clear: both;
-  border-bottom: 1px solid #E2E2E2;
-  background: white url(../img/cf_middle_border.png) repeat-y center;
-}
+
 
 .custom-field-table-tr.ui-sortable-helper{
   box-shadow:0 0px 10px -5px #000000;

@@ -105,8 +105,13 @@
 
 
 .iSpace{background-position:-1092px -127px;}
+
 .iAdd{background-position:-976px 1px;}
 .iRemove{background-position:-1013px 1px;}
+
+.iAdd2{background-position:-798px 4px;}
+.iRemove2{background-position:-822px 4px;}
+
 .icheck{background-position: -1051px 2px;}
 .iDone{background-position: -929px -57px;}
 .iplus{background-position: -1140px 2px;}
@@ -1205,6 +1210,12 @@ right: 15px;
 .mw-tag-selector {
   cursor: text;
 }
+
+div.mw-custom-fields-tags{
+  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  margin-bottom: 14px;
+}
+
 .mw-tag-selector .mw-ui-invisible-field{
   font-size: 11px;
   padding: 2px 0;

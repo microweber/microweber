@@ -158,12 +158,21 @@ if (isset($post_params['data-thumbnail-size'])) {
     }
 }
 
-
-if ($show_fields == false) {
-$show_fields = array('thumbnail', 'title', 'description', 'read_more'); 
+$character_limit = 120;
+$cfg_character_limit = get_option('data-character-limit', $params['id']);
+if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
+	$character_limit = intval($cfg_character_limit);
 }
 
+if ($show_fields == false) {
+//$show_fields = array('thumbnail', 'title', 'description', 'read_more'); 
+}
 
+if(is_arr($show_fields)){
+
+  $show_fields = array_trim( $show_fields);
+
+}
  
 if(isset($curent_page) and intval($curent_page) > 0){
 	$post_params['curent_page'] = intval($curent_page);	
@@ -183,92 +192,43 @@ if(isset($params['is_shop'])){
 $content   = get_content($post_params);
 $data = array();
 if (!empty($content)){
- 
- if(!empty($show_fields)){
-	 
+// $data = $content;
+//  if(!empty($show_fields)){
+	  
 	  foreach ($content as $item){
-		  
-		  
-		  $item['link'] = post_link($item['id']);
-		  	$iu = get_picture($item['id'], $for = 'post', $full = false);
+		  $iu = get_picture($item['id'], $for = 'post', $full = false);
 			if($iu != false){
 				 $item['image'] = $iu;
 			} else {
 				 $item['image'] = false;
 			}
-	 
-	 foreach ($show_fields as $show_field){
-			 $show_field = trim($show_field);
- 					$fv = false;
-                        switch ($show_field) {
-
-                            case 'read_more':
-                                $u = post_link($item['id']);
-                                $fv = "<a href='{$u}' class='read_more'>Read more</a>";
-								 $item[$show_field] =  $fv;
-                                break;
-
-                            case 'thumbnail':
-                               // if (isset($item[$show_field])) {
-                                    $u = post_link($item['id']);
-									 if (!isset($tn_size) or $tn_size == false) {
-										 $tn_size = array();
-									 }
-
-                                    if (!isset($tn_size[0])) {
-                                       $tn_size[0] = 180;
-                                    }  
-									
-									
-                                    if (!isset($tn_size[1])) {
-                                       $tn_size[1] = 120;
-                                    }  
-									
-									
-									 $wstr = " width='{$tn_size[0]}' ";
-
-
-                                    if (isset($tn_size[1])) {
-                                        $hstr = " height='{$tn_size[1]}' ";
-                                    }  
-
-                                    //  d($hstr);
- 								
-  
-  
-  
-  
-  
-                                  //  $iu = $item[$show_field];
-									if(trim($iu != '')){
-										 $iu = thumbnail($iu,$tn_size[0],$tn_size[1] );
-                                    $fv = $fv_i = "<img src='{$iu}' {$wstr} {$hstr} />";
-									}
-									 $item[$show_field] =  $fv;
-                                    // $fv = "<a href='{$u}' class='thumbnail'>{$fv_i}</a>";
-                               // }
-
-                                break;
-
-                            default:
-                          
-                                break;
-                        }
-		 
- 
-		 } 
+			$item['link'] = content_link($item['id']);
+			if(!isset( $item['description']) or $item['description'] == ''){
+				if(isset( $item['content']) and $item['content'] != ''){
+					$item['description'] = character_limiter(strip_tags( $item['content']),$character_limit);
+				}
+				
+			}
+			
+			
 		 $data[] = $item;
 	 }
- }
- 
- 
- 
+// } 
 }
  
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
+
+$cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
+
+
+if($cfg_data_hide_paging != 'y'){
 $pages_of_posts = get_content($post_params_paging);
-$pages_count = intval($pages_of_posts);
+$pages_count = intval($pages_of_posts);	
+} else {
+	$pages_count  = 0;
+}
+
 $paging_links  = false;
 if (intval($pages_count) > 1){
 	$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); 
@@ -277,8 +237,13 @@ if (intval($pages_count) > 1){
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
-
 } 
+$read_more_text = get_option('data-read-more-text',$params['id']);
+
+
+
+
+
 if($module_template != false){
 		$template_file = module_templates( $config['module'], $module_template);
 

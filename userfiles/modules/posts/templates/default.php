@@ -14,7 +14,13 @@ description: Posts list
   <? if (!empty($data)): ?>
   <? foreach ($data as $item): ?>
   <div class="content-item content-<? print $item['id'] ?>">
+  
+  
+  
     <h2 class="content-item-title"><? print $item['title'] ?></h2>
+    
+    
+    
     <div class="content-item-image"><? print $item['thumbnail'] ?></div>
     <div class="content-item-description"><? print $item['description'] ?><? print $item['read_more'] ?></div>
   </div>
