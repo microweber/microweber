@@ -20,6 +20,9 @@ mw.custom_fields = {
 
     if(!!event){
         var curr = event.target;
+        if(mw.tools.hasClass(curr.className, 'ui-sortable-helper')){
+          return false;
+        }
         if(mw.tools.hasClass(curr.className, 'mw-ui-btn-blue')){
             return false;
         }
@@ -59,10 +62,23 @@ mw.custom_fields = {
       }
       mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
 		mw.is.func(callback) ? callback.call($type) : '';
+		mw.$('#custom-field-editor').show();
       });
   },
   
-  
+  copy_field_by_id: function($copy, $for_table, $for_id, callback){
+      var data = {};
+      data.copy_from =$copy;
+	        data.save_on_copy =1;
+			 data.to_table =$for_table;
+			  data.to_table_id =$for_id;
+
+ 
+      $.post(mw.settings.api_html+'make_custom_field' , data , function(){
+		  mw.reload_module('custom_fields/list');
+		mw.is.func(callback) ? callback.call($type) : '';
+      });
+  },
   
   sort:function(group){
     var group = mwd.getElementById(group);
@@ -77,13 +93,21 @@ mw.custom_fields = {
         },
         scroll:false,
         update:function(){
-          mw.custom_fields.save(this.parentNode.id);
+          mw.custom_fields.save(this.parentNode.id, function(){
+            if(typeof __sort_fields === 'function'){
+                 __sort_fields();
+               }
+          });
         }
     });
   },
   autoSaveOnWriting:function(el, id){
      mw.on.stopWriting(el, function(){
-         mw.custom_fields.save(id);
+         mw.custom_fields.save(id, function(){
+            if(typeof __sort_fields === 'function'){
+                 __sort_fields();
+               }
+          });
      });
   }
 }
@@ -91,63 +115,45 @@ mw.custom_fields = {
 
 
 
-mw.custom_fields.save = function(id){
+mw.custom_fields.save = function(id, callback){
     var obj = mw.form.serialize(id);
     $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
-       $cfadm_reload = false;
-	 
-	   
-	    if(obj.cf_id === undefined){
-             mw.reload_module('.edit [data-parent-module="custom_fields"]');
-			 
-			//  $('#create-custom-field-table').addClass('semi_hidden');
-			// $("#"+id).hide();
-		 
-			 
-			
-        }
-        else {
-			
-			if(obj.copy_to_table_id === undefined){
-				
-           // $(""+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
-				
-			} else {
-			 $cfadm_reload = true;   
-			//   mw.reload_module('custom_fields/list');
-			}
-			
-			
-			
-        }
-		
-		
+         var $cfadm_reload = false;
+         if(obj.cf_id === undefined){
+            mw.reload_module('.edit [data-parent-module="custom_fields"]', function(){
+                if(!!callback) callback.call(data)
+    	    });
+         }
          mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
          if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
-			// if(!mw.tools.hasParentsWithClass(this, 'mw_modal') ){
-               mw.reload_module(this);
+               mw.reload_module(this, function(){
+                   if(!!callback) callback.call(data)
+               });
            } else {
-			$cfadm_reload = true;   
+			  var $cfadm_reload = true;
 		   }
         });
-		
-		
-		if($cfadm_reload  == true){
-	       // mw.reload_module('custom_fields/admin');
-		}
-		 mw.reload_module('custom_fields/list');
-
-		
-		
+    	mw.reload_module('custom_fields/list', function(){
+            if(!!callback) callback.call(data)
+    	});
     });
 }
 
-mw.custom_fields.del = function(id){
+mw.custom_fields.del = function(id, toremove){
     var q = "Are you sure you want to delete this?";
     mw.tools.confirm(q, function(){
-      var obj = mw.form.serialize(id);
+      var obj = {
+        id:id
+      }
       $.post(mw.settings.api_url+"remove_field",  obj, function(data){
-         mw.reload_module('custom_fields/list');
+         mw.reload_module('custom_fields/list', function(){
+            if(typeof __sort_fields === 'function'){
+                 __sort_fields();
+               }
+            if(!!toremove){
+              $(toremove).remove();
+            }
+         });
       });
     });
 

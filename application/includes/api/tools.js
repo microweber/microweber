@@ -198,7 +198,7 @@ mw.tools = {
         $(document.getElementById(id)).remove();
         $("div.mw_overlay[rel='"+id+"']").remove();
     },
-    overlay:function(for_who, is_over_modal){  return false;
+    overlay:function(for_who, is_over_modal){
         var overlay = document.createElement('div');
         overlay.className = 'mw_overlay';
         var id = for_who ? $(for_who).attr("id") : 'none';
@@ -224,13 +224,14 @@ mw.tools = {
   },
   dropdown:function(root){
     var root = root || mwd.body;
+
     mw.$(".mw_dropdown .other-action", root).hover(function(){
       $(this).addClass("other-action-hover");
     }, function(){
       $(this).removeClass("other-action-hover");
     });
     mw.$(".mw_dropdown", root).mouseup(function(event){
-      if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields')){
+      if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){
         $(this).toggleClass("active");
         $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
         if($(this).find(".other-action-hover").length==0){
@@ -242,12 +243,14 @@ mw.tools = {
           }
           else{
               item.show();
-              item[0].querySelector("input.dd_search").focus();
+              if(event.target.type!='text'){
+                 
+                 try{this.querySelector("input.dd_search").focus();}catch(e){}
+
+              }
           }
         }
       }
-
-
     });
     mw.$(".mw_dropdown", root).hover(function(){
         $(this).addClass("hover");
@@ -258,6 +261,17 @@ mw.tools = {
       mw.tools.dd_sub_set(this);
       return false;
     });
+
+    if(typeof __dd_activated === 'undefined'){
+      __dd_activated = true;
+      $(mwd.body).mousedown(function(){
+        if(mw.$('.mw_dropdown.hover').length==0){
+           mw.$(".mw_dropdown").removeClass("active");
+           mw.$(".mw_dropdown_fields").hide();
+        }
+      });
+    }
+
   },
   dd_sub_set:function(item){
       var html = $(item).html();

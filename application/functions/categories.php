@@ -1399,6 +1399,9 @@ function get_taxonomy($params, $data_type = 'categories') {
 		$params = $options = $params2;
 		extract($params);
 	}
+	if (isset($params['to_table_id'])) {
+		$to_table_id = $params['to_table_id'];
+	}
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
@@ -1407,8 +1410,12 @@ function get_taxonomy($params, $data_type = 'categories') {
 	$data_type_q = false;
 
 	$data['table'] = $table;
+	if (isset($params['id'])) {
+		$data['cache_group'] = $cache_group = 'taxonomy/' . $params['id'];
+	} else {
+		$data['cache_group'] = $cache_group = 'taxonomy/global';
 
-	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
+	}
 	//$data['only_those_fields'] = array('parent_id');
 
 	$data = get($data);
@@ -1497,6 +1504,8 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		return false;
 	}
 
+	$get_category = get_taxonomy('data_type=category&to_table=table_content&to_table_id=' . ($content_id));
+	return $get_category;
 	$function_cache_id = false;
 
 	$args = func_get_args();

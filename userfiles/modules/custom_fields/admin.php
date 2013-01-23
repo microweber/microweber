@@ -9,7 +9,9 @@
 
 
 
-    </script>
+</script>
+
+
 <?
  $for = 'module';
  
@@ -34,7 +36,7 @@
  } else  if(isset($params['id'])){
 	$for_id = $params['id'];
  }
- 
+
   //$for_id =$params['id'];
  if(isset($params['to_table_id'])){
 $for_id =$module_id = $params['to_table_id'];
@@ -45,6 +47,31 @@ $module_id = $for_id;
 $rand = rand();
  
 ?>
+
+
+<script>
+
+
+    __sort_fields = function(){
+        var sortable_holder = mw.$(".mw-custom-fields-tags").eq(0);
+        if(!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('a.mw-ui-btn-small').length>1){
+          sortable_holder.sortable({
+            items:'a.mw-ui-btn-small',
+            change:function(event,ui){
+
+            },
+            containment: "parent"
+          });
+        }
+        return sortable_holder;
+    }
+
+    $(document).ready(function(){
+       __sort_fields();
+
+    });
+
+</script>
 
 <div class="<? print $config['module_class'] ?>-holder">
   <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;">
@@ -77,16 +104,17 @@ $rand = rand();
     </div>
   </div>
 
+  <module
+        data-type="custom_fields/list" <? print $hide_preview  ?>
+        for="<? print $for  ?>"
+        for_module_id="<? print $module_id ?>"
+        <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
+        id="mw_custom_fields_list_<? print $params['id']; ?>"
+  />
 
-      <module
-        data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
-
-
-  <div class="custom-field-edit" id="custom-field-editor" style="display: none">
+  <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
        <div class="custom-field-edit-title"></div>
-
-
     </div>
     <div class="mw-admin-custom-field-edit-item-wrapper"><div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?>"></div></div>
   </div>

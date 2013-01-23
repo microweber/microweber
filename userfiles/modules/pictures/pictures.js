@@ -33,7 +33,8 @@ mw.module_pictures = {
    }
   },
   init:function(selector){
-    var el = mw.$(selector);
+    var el = $(selector);
+	d(el);
     el.sortable({
         items:".admin-thumb-item",
         placeholder:'admin-thumb-item-placeholder',

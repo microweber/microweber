@@ -4,8 +4,9 @@
 
 
 
- RewriteRule ^userfiles/media - [L,NC]
- RewriteRule ^cache/ - [L,NC]
+	RewriteRule ^userfiles/media - [L,NC]
+	RewriteRule ^cache/ - [L,NC]
+ 
     #prevents the db from being downloaded
     RewriteCond %{REQUEST_URI} (.*).db [NC]
     RewriteRule ^(.*)$ 404.html [R=404,L]

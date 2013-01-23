@@ -298,12 +298,17 @@
     }
 
     .mw_dropdown_autocomplete .mw-ui-field{
-        left: 0;
+        left: -9999px;
         margin: 0;
         position: absolute;
-        top: -27px;
+        top: 0 ;
         width: 90%;
         padding: 7px 7px 6px;
+        height: calc(100% - 18px);
+
+    }
+    .mw_dropdown_autocomplete.active .mw-ui-field{
+      left: 0;
     }
 
     .mw_dropdown_autocomplete ul{
@@ -1209,6 +1214,7 @@ right: 15px;
 
 .mw-tag-selector {
   cursor: text;
+  width: 602px;
 }
 
 div.mw-custom-fields-tags{
@@ -1384,10 +1390,19 @@ a.mw-ui-btn, span.mw-ui-btn{
   border-top-color: #C6C6C6;
   padding:8px 10px;
   background: white;
-  border-radius: 2px;
   outline: none;
   cursor: text;
+
 }
+
+
+input.mw-ui-field{
+    font-family: inherit;
+    font-size: 100%;
+    line-height: normal;
+}
+
+
 
 
 div.mw-ui-field{

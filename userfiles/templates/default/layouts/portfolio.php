@@ -3,7 +3,7 @@
 /*
 
 type: layout
-content_type: static
+content_type: dynamic
 name: Portfolio layout
 
 description: Portfolio layout

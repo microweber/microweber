@@ -30,7 +30,7 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 
 		if (!empty($field_id)) {
 			$data = $field_id;
-			return make_field($field_id, false,'y');
+			return make_field($field_id, false, 'y');
 		}
 	} else {
 		if ($field_id != 0) {
@@ -130,6 +130,17 @@ function save_custom_field($data) {
 	}
 	if (isset($data_to_save['cf_id'])) {
 		$data_to_save['id'] = intval($data_to_save['cf_id']);
+
+		$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+		$form_data_from_id = db_get_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+		if (isset($form_data_from_id['id'])) {
+			if (!isset($data_to_save['to_table'])) {
+				$data_to_save['to_table'] = $form_data_from_id['to_table'];
+			}
+			if (!isset($data_to_save['to_table_id'])) {
+				$data_to_save['to_table_id'] = $form_data_from_id['to_table_id'];
+			}
+		}
 
 		if (isset($data_to_save['copy_to_table_id'])) {
 
@@ -250,7 +261,39 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 
 		$settings == true;
 	}
-	if (isset($data['field_id'])) {
+
+	if (isset($data['copy_from'])) {
+		$copy_from = intval($data['copy_from']);
+		if (is_admin() == true) {
+
+			$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+			$form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+			if (is_arr($form_data)) {
+
+				$field_type = $form_data['custom_field_type'];
+				$data['id'] = 0;
+				if (isset($data['save_on_copy'])) {
+
+					$cp = $form_data;
+					$cp['id'] = 0;
+					$cp['copy_of_field'] = $copy_from;
+					if (isset($data['to_table'])) {
+						$cp['to_table'] = ($data['to_table']);
+					}
+					if (isset($data['to_table_id'])) {
+						$cp['to_table_id'] = ($data['to_table_id']);
+					}
+					save_custom_field($cp);
+					$data = $cp;
+				} else {
+					$data = $form_data;
+				}
+
+			}
+
+		}
+		//d($form_data);
+	} else if (isset($data['field_id'])) {
 
 		$data = db_get_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
 	}

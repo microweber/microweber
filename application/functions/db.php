@@ -594,7 +594,9 @@ function get($params) {
 
 			break;
 	}
-
+if(empty($ge)){
+	return false;
+}
 	//d($ge);
 	if ($getone == true) {
 		if (isset($ge[0])) {

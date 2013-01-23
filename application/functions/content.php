@@ -180,6 +180,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	
 	$fields_to_add[] = array('custom_field_is_active', "char(1) default 'y'");
 	 	$fields_to_add[] = array('custom_field_required', "char(1) default 'n'");
+	 	$fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 	 
 	  
 	 
@@ -1814,10 +1815,10 @@ function save_content($data, $delete_the_cache = true) {
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
 $check_ex = false;
-		if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(trim($data_to_save['subtype_value'])) > 0) {
+		if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(($data_to_save['subtype_value'])) > 0) {
 
 			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));
-			
+		}
 			if ($check_ex == false) {
 				if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
 					$test2 = get_taxonomy('data_type=category&to_table=table_content&to_table_id='.intval(($data_to_save['id'])));
@@ -1836,14 +1837,14 @@ $check_ex = false;
 
 				unset($data_to_save['subtype_value']);
 			}
-		}
+		
 
 		if (isset($check_ex) and $check_ex == false) {
 
 			if (!isset($data_to_save['subtype_value_new'])) {
 				if (isset($data_to_save['title'])) {
-					$cats_modified = true;
-					$data_to_save['subtype_value_new'] = $data_to_save['title'];
+					//$cats_modified = true;
+					//$data_to_save['subtype_value_new'] = $data_to_save['title'];
 				}
 			}
 		}
@@ -1987,6 +1988,7 @@ $cats_modified = true;
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
 $new_category = get_categories_for_content($save);
+		 
 	if ($new_category == false ) {
 		//$new_category_id = intval($new_category);
 	$new_category = array();

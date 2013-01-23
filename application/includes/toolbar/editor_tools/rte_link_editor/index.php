@@ -56,9 +56,9 @@
                     lis+= "<li class='mw-dd-list-result' value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
                   }
               }
-              var parent = el.parents("ul");
-              parent.find("li:gt(0)").remove();
-              parent.append(lis);
+              var ul = el.parent().find("ul");
+              ul.find("li:gt(0)").remove();
+              ul.append(lis);
             });
         }
       });
@@ -314,13 +314,10 @@ ul li.mw-dd-list-result:last-child a{
             <div class="media-search-holder">
                 <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
                     <span class="mw_dropdown_val">Click here to select</span>
+                    <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
                     <div class="mw_dropdown_fields">
                       <ul class="">
-                        <li class="other-action" value="-1">
-
-                              <input type="text" class="mw-ui-field  pages_search inactive dd_search" id="dd_pages_search" />
-
-                        </li>
+                        <li class="other-action" value="-1"></li>
                       </ul>
                     </div>
                 </div>

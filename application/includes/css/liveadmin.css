@@ -804,6 +804,16 @@ form.add-edit-page-post textarea{
   height: 25px;
   background: url(../img/grad.php?top=D7EEFA&bot=B8DBF2)
 }
+.mw-custom-fields-from-page-title-text{
+  display: block;
+  padding: 5px 0;
+  color: #595959;
+  font-size:11px;
+}
+
+.mw-custom-fields-from-page-title-text strong{
+  text-transform: capitalize;
+}
 
 #UITU{
   display: none;

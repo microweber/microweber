@@ -79,11 +79,11 @@ if ($show_fields != false and is_string($show_fields)) {
 if (!isset($post_params['data-limit'])) {
     $post_params['limit'] = get_option('data-limit', $params['id']);
 }
-$cfg_page_id = false;
-if (isset($post_params['data-page-id'])) {
+$cfg_page_id = get_option('data-page-id', $params['id']);
+if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
 } else {
-    $cfg_page_id = get_option('data-page-id', $params['id']);
+   // $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
 
@@ -234,11 +234,15 @@ if (intval($pages_count) > 1){
 	$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); 
 	
 } 
+
+$read_more_text = get_option('data-read-more-text',$params['id']);
+
+
+
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
 } 
-$read_more_text = get_option('data-read-more-text',$params['id']);
 
 
 

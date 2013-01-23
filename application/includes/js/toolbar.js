@@ -611,9 +611,7 @@ $(window).load(function(){
         mw.wysiwyg.check_selection();
         $(mwd.body).removeClass('hide_selection');
       }
-      if(mw.$(".mw_dropdown.hover").length==0){
-        mw.$("div.mw_dropdown_fields").hide();
-      }
+
     });
 
 

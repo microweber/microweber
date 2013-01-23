@@ -24,6 +24,11 @@ if(isset($params['for-id'])){
  ?>
 <? $rand = uniqid(); ?>
 <script  type="text/javascript">
+
+
+
+
+
 function after_upld_<? print $rand ?>(a){
 
 	 var data = {};

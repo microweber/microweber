@@ -7,6 +7,10 @@
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
           <script type="text/javascript">
+		  
+		     mw.require('jquery-ui.js');
+		  </script>
+		   <script type="text/javascript">
   //document.body.className+=' loading';
  
  
@@ -14,8 +18,8 @@
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
+ mw.require('wysiwyg.js');
  
- mw.require('jquery-ui.js');
 
 
 			</script>

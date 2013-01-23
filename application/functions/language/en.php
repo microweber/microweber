@@ -452,3 +452,6 @@ $language["add-to-page-amp-category"]= 'Add to Page &amp; Category' ;
 $language["menu"]= 'Menu' ; 
 $language["menus"]= 'menus' ; 
 $language["add-new-menus"]= 'Add new menus' ; 
+$language["from"]= 'From' ; 
+$language["you-dont-have-any-custom-fields"]= 'You dont have any custom fields' ; 
+$language["define-title"]= 'Define Title' ; 

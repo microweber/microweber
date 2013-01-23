@@ -292,7 +292,7 @@ function url_title($text) {
 
 	// Convert letters that we have left to the closest ASCII representation
 	if (function_exists('iconv')) {
-		$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+	//	$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
 	}
 	$text = URLify::filter($text);
 	// Make text lowercase

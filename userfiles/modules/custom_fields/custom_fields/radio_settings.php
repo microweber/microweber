@@ -26,7 +26,7 @@
 </div>
 </div>
 
- <div class="custom-field-col right">   
+ <div class="custom-field-col right">
 
    <label class="mw-ui-label">Values</label>
    
