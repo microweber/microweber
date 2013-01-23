@@ -42,7 +42,7 @@
     <button type="button" class="right" onclick="__save();"><?php _e('Save changes'); ?></button>
 
 
-    
+
 
 
     <script>

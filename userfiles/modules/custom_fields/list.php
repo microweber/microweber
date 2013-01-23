@@ -96,7 +96,7 @@ if(isarr( $diff) and isarr($more) ){
   <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"> <? print ($field['title']); ?> <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span> </a>
    <? endif; ?>
   
-  
+
   <? endforeach; ?>
 </div>
 <? else : ?>
@@ -111,7 +111,7 @@ if(isarr( $diff) and isarr($more) ){
 
 <div class="mw-custom-fields-from-page-title">
 
-  <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?></span>
+  <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?>.</span>
 
 </div>
 

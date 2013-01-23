@@ -19,5 +19,11 @@ description: Pictures List
   <? endforeach ; ?>
 </ul>
 <? else : ?>
-Please click on settings to upload your pictures.
-<? endif; ?>
+
+<div class="mw-notification mw-success">
+    <div>
+      <span class="ico ioptions"></span>
+      <span>Please click on settings to upload your pictures.</span>
+    </div>
+  </div>
+ <? endif; ?>

@@ -1,11 +1,18 @@
 <?
- 
+  
 if(!isset($params['to_table_id'])){
 	$params['to_table_id'] = $params['id']; 
 }
 
+if(isset($params['for'])){
+	 $for = 'post';
+} else {
+ $for = 'table_modules';	
+}
+
+
  if(isset($params['to_table_id']) == true): ?>
-<? $data = get_pictures($content_id = $params['to_table_id'], $for = 'post'); 
+<? $data = get_pictures('to_table_id='.$params['to_table_id'].'&for='.$for); 
  
 
 
@@ -30,7 +37,14 @@ if($module_template != false){
 if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
+	?>
+    <div class="mw-notification mw-warning">
+    <div>
+      <span class="ico ioptions"></span>
+      <span><? print 'No default template for module '.$config['module'].' is found'; ?></span>
+    </div>
+  </div>
+    <?
 	
-	print 'No default template for module '.$config['module'].' is found';
 } ?><? endif; ?>
   

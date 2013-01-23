@@ -1,11 +1,23 @@
+ 
+<script  type="text/javascript">
+    mw.require('<? print $config['url_to_module'] ?>pictures.js');
+
+</script>
 <?
+ 
 
 $for = 'table_content';
 $for_id = 0;
+ 
 
 if(isset($params['for'])){
-	$for = $params['for']; 
+	 $for = 'table_content';
+} else {
+ $for = 'table_modules';	
 }
+
+
+
 $for =  db_get_assoc_table_name($for);
 
 
@@ -37,7 +49,12 @@ function after_upld_<? print $rand ?>(a){
 	 data.media_type = 'picture';
 	 data.for_id = '<? print $for_id ?>';
 	 mw.module_pictures.after_upload(data);
-mw.reload_module('pictures/admin')
+ mw.reload_module('pictures/admin');
+ 
+ if(window.parent != undefined && window.parent.mw != undefined){
+	 window.parent.mw.reload_module('pictures');
+ }
+ 
 }
 
 
@@ -45,11 +62,7 @@ mw.reload_module('pictures/admin')
 
 
 </script>
-<script  type="text/javascript">
-    mw.require('<? print $config['url_to_module'] ?>pictures.js');
-   // 
 
-</script>
 <script  type="text/javascript">
 $(document).ready(function(){
    mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');

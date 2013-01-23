@@ -14,46 +14,27 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 </script>
 
 
+   <div class="custom-field-col left">
 
+  <div class="mw-custom-field-group ">
+  <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
+    <?php _e('Define Title'); ?>
+  </label>
+  <div class="mw-custom-field-form-controls">
+    <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
+  </div>
   <div class="vSpace"></div>
-
-    <div id="dropdown_opts_<?php print $rand; ?>">
-
-
-
-
-  <label class="mw-ui-check left" style="margin-right: 7px;">
+    <label class="mw-ui-check left" style="margin-right: 7px;">
     <input type="checkbox" class="mw_option_field" data-option-group="custom_fields" id="multiple_choices_<? print $data['id']; ?>" name="multiple_choices_<? print $data['id']; ?>" value="y" <? if(get_option('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> />
     <span></span>
   </label>
-  <label for="multiple_choices_<? print $data['id']; ?>" class="mw-ui-label">Multiple Choices</label>
+  <label for="multiple_choices_<? print $data['id']; ?>" class="mw-ui-label">Allow Multiple Choices</label>
+</div>
+</div>
 
 
 
-    <?php /*
-  Multiple Choices:
-<label class="mw-ui-check">
-<input name="multiple_choiceadass_<? print $data['id']; ?>"   class="mw_option_field" data-option-group="custom_fields" value="y" type="radio" <? if(get_option('multsssiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> >
-<span></span>Yes</label>
-<label class="mw-ui-check">
-<input name="multiple_chasdoices_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields" value="n" type="radio" <? if(get_option('musssltiple_choices_'.$data['id'], 'custom_fields') == 'n'): ?> checked="checked" <? endif; ?> >
-<span></span>No</label>
-
-
-
-
-            <input type="text" name="embed_code_<? print $data['id']; ?>" class="mw_option_field" data-option-group="custom_fields"  value="<? print get_option('embed_code_'.$data['id'], 'custom_fields')   ?>" />
-
-
-         */ ?>
-
-
-
-
-
-
-
- </div>
+   <div class="custom-field-col right">
 
 
 
@@ -64,7 +45,10 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 
 
 
-  <div class="vSpace"></div>
+
+
+
+  
   <label class="mw-ui-label">Values</label>
   <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
     <? if(isarr($data['custom_field_values'])) : ?>
@@ -81,5 +65,6 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
     <script type="text/javascript">
         mw.custom_fields.sort("fields<?php print $rand; ?>");
     </script>
+  </div>
   </div>
   <? include('settings_footer.php'); ?>
