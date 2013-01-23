@@ -22,7 +22,7 @@ mw.module_pictures = {
      $.post(mw.settings.api_url+'save_media', data ,
      function(data) {
 		 
-		$('#admin-thumb-item-'+id).fadeOut(); 
+		
 		 
 		 
 	    if(window.parent != undefined && window.parent.mw != undefined){
@@ -34,6 +34,7 @@ mw.module_pictures = {
   del: function($id){
    if(confirm('Are you sure you want to delete this image?')){
      $.post(mw.settings.api_url+'delete_media', { id: $id  }, function(data) {
+		 $('.admin-thumb-item-'+$id).fadeOut(); 
         mw.reload_module('pictures');
 			    if(window.parent != undefined && window.parent.mw != undefined){
   	 window.parent.mw.reload_module('pictures');

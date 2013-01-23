@@ -27,17 +27,97 @@ description: Pictures slider
 <style type="text/css">
 #<?php print $id; ?>{
   width:100%;
-  height: 300px;
+  min-height: 300px;
   overflow: hidden;
 }
 #<?php print $id; ?> .mw-gallery-item{
   background-repeat: no-repeat;
   background-position: center;
   background-size:100% auto;
+  width:100%;
+  min-height:300px;
+  
 }
 #<?php print $id; ?> .mw-gallery-holder{
   overflow: hidden;
   position: relative;
+    width:100%;
+  min-height: 300px;
+}
+
+#<?php print $id; ?> .mw-rotator-slide{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  opacity:0;
+  transform: scale(1.15);
+  -moz-transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+  -o-transform: scale(1.15);
+  transition: all 0.6s linear;
+  -webkit-transition: all 0.6s linear;
+  -moz-transition: all 0.6s linear;
+  -o-transition: all 0.6s linear;
+}
+#<?php print $id; ?> .mw-rotator-slide.active{
+  opacity:1;
+  -transform: scale(1);
+  -moz-transform: scale(1);
+  -webkit-transform: scale(1);
+  -o-transform: scale(1);
+}
+
+.rotator-next,
+.rotator-prev{
+  position: absolute;
+  top: 50%;
+  right: 45px;
+  margin-top: -15px;
+  display: block;
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+  background: url(ico.png) no-repeat 0 -38px;
+  visibility: hidden;
+}
+
+.rotator-index-control{
+  position: absolute;
+  visibility: hidden;
+  bottom:20px;
+  right: 20px;
+  white-space: nowrap;
+}
+.rotator-index-control a{
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  text-shadow:0 0 1px #000;
+  padding: 1px 4px;
+  margin: 0 3px;
+  border-radius: 3px;
+
+}
+.rotator-index-control a.active{
+  background:white;
+  color:#353535;
+  text-shadow:0 0 0px #000;
+  box-shadow:0 0 2px #000;
+}
+
+
+.rotator-prev{
+  background-position: -30px -38px;
+  left: 45px;
+}
+
+
+#<?php print $id; ?>:hover .rotator-next,
+#<?php print $id; ?>:hover .rotator-index-control,
+#<?php print $id; ?>:hover .rotator-prev{
+  visibility: visible;
 }
 
 </style>
