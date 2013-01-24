@@ -53,21 +53,60 @@ function countries_list() {
 }
 
 api_expose('post_form');
-function post_form($data) {
-	$table = MW_TABLE_PREFIX . 'forms';
+function post_form($params) {
 
 	$adm = is_admin();
 
-	$table = MODULE_DB_COMMENTS;
+	$table = MW_DB_TABLE_FORMS;
 	mw_var('FORCE_SAVE', $table);
 
-	if (isset($data['id'])) {
+	if (isset($params['id'])) {
 		if ($adm == false) {
-			error('Error: Only admin can edit comments!');
+			error('Error: Only admin can edit forms!');
 		}
-
 	}
-	
-	print json_encode($data);
+	$for = 'module';
+	if (isset($params['for'])) {
+		$for = $params['for'];
+	}
+
+	if (isset($params['for_id'])) {
+		$for_id = $params['for_id'];
+	} else if (isset($params['data-id'])) {
+		$for_id = $params['data-id'];
+	} else if (isset($params['id'])) {
+		$for_id = $params['id'];
+	}
+
+	if ($for == 'module') {
+		$form_name = get_option('form_name', $for_id);
+	}
+	if ($form_name == false) {
+		$form_name = $for_id;
+	}
+
+	//$for_id =$params['id'];
+	if (isset($params['to_table_id'])) {
+		$for_id = $params['to_table_id'];
+	}
+	$fields_data = array();
+	$more = get_custom_fields($for, $for_id, 1);
+	if (!empty($more)) {
+		foreach ($more as $item) {
+			if (isset($item['custom_field_name'])) {
+				$cfn = ($item['custom_field_name']);
+				$cfn2 = str_replace(' ', '_', $cfn);
+
+				if (isset($params[$cfn2])) {
+					$fields_data[$cfn2] = $params[$cfn2];
+				} elseif (isset($params[$cfn])) {
+					$fields_data[$cfn] = $params[$cfn];
+				}
+
+			}
+		}
+	}
+
+	return ($fields_data);
 
 }

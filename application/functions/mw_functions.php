@@ -42,6 +42,8 @@ if (MW_IS_INSTALLED == true) {
 include_once (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
 
 include_once (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'content.php');
+include_once (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
+
 include_once (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 
 include_once (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'menus.php');

@@ -36,9 +36,9 @@
           <?php print $add_remove_controls; ?> </div>
         <? endforeach; ?>
         <? else: ?>
-    
+        <div class="mw-custom-field-form-controls">
           <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="" />
-          <?php print $add_remove_controls; ?>
+          <?php print $add_remove_controls; ?> </div>
         <? endif; ?>
         <script type="text/javascript">
         mw.custom_fields.sort("fields<?php print $rand; ?>");
