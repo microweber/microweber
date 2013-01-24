@@ -1,5 +1,5 @@
 <? include('settings_header.php'); ?>
- <div class="custom-field-col left">
+ <div class="custom-field-col-left">
 
   <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
@@ -13,12 +13,12 @@
 
 
 
-   <div class="custom-field-col right">
+   <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
       <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">Value</label>
       <div class="mw-custom-field-form-controls">
         <input type="text" class="mw-ui-field"  name="custom_field_value" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"   value="<? print ($data['custom_field_value']) ?>" id="custom_field_value<? print $rand ?>">
       </div>
-    </div>
+    </div> <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
     </div>
     <? include('settings_footer.php'); ?>

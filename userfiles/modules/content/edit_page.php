@@ -134,8 +134,16 @@ mw_before_content_save<? print $rand ?>()
 
 
 
-  
-
+  var el_par_page =$('#parent_page_select_<? print $form_rand_id ?>');
+	 if(el_par_page.length >0){
+		 __set_content_parent_info<? print $rand ?>()
+			el_par_page.bind('change', function() {
+				
+				 __set_content_parent_info<? print $rand ?>()
+				
+			})
+		 
+	 }
 
 
 
@@ -146,11 +154,39 @@ mw_before_content_save<? print $rand ?>()
 
      //alert(' mw_on_save_complete<? print $rand ?>')
 	 mw_on_save_complete<? print $rand ?>();
+	 
+	 
 	
 //mw.url.windowDeleteHashParam("new_content")
  });
  
+ 
+ function __set_content_parent_info<? print $rand ?>(){
+	 
+	 mw.$('#admin_edit_page_form_content_parent_info<? print $rand ?>').empty();
+	var el =$('#parent_page_select_<? print $form_rand_id ?> option:selected');
+	 if(el.length >0){
+		var val = el.val(); 
+		var title = el.attr('title'); 
+		if(title != undefined){
+			 mw.$('#admin_edit_page_form_content_parent_info<? print $rand ?>').html('<a href="javascript:edit_page_open_page_and_menus<? print $rand ?>()">Parent: '+ title+'</a>');
+		}
 
+	 }
+ }
+ 
+ function edit_page_open_page_and_menus<? print $rand ?>(){
+	   mw.$('.ed_page_and_menus_opener_link').addClass('active');
+   		mw.$('.page_and_menus_holder').show();
+   
+  		 var sel_hl = mw.$('.mw_parent_page_sel_holder')[0];
+		 
+		  mw.tools.scrollTo(sel_hl)
+	 		 mw.tools.highlight(sel_hl, '#d8ffc3',300,5000)
+	 
+	 
+	 
+ }
  
  function mw_on_save_complete<? print $rand ?>(){
 	//alert(1);
@@ -194,24 +230,10 @@ mw_before_content_save<? print $rand ?>()
 		}
 </script>
 
-
-
 <form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $form_rand_id ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
-
-
-
-
-
-
-
-
-
-
-
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
-
       <? if(intval($data['id']) > 0): ?>
       <? $act = _e("Edit ", true); ;?>
       <? else : ?>
@@ -231,7 +253,6 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
 
 
  ?>
-
       <? if(intval($data['id']) > 0): ?>
       <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
@@ -239,22 +260,21 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
       <?
     
 
-     ?> <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
+     ?>
+      <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
       <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <? if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><? else : ?><?php _e("Name"); ?><? endif ?>" />
       <? endif; ?>
     </div>
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
+    <div class="admin_edit_page_content_parent" id="admin_edit_page_form_content_parent_info<? print $rand ?>"></div>
   </div>
-
   <?
     if(!isset($data['content'])){
         $data['content'] = '';
     }?>
-
-
- <script>
+  <script>
  
 load_iframe_editor = function(){
 	  var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
@@ -317,47 +337,26 @@ load_iframe_editor = function(){
 
   }
 </script>
-
-
-
-
-
   <div id="mw-editor<?php print $rand; ?>" style="height: 310px;width:623px;"></div>
-<textarea name="content"  style="display:none" id="mw-editor<?php print $rand; ?>_src"></textarea>
-
-
-
-<div class="mw-postaction-bar">
-
-  <div class="left">
-      <a href="javascript:;" onclick="mw.tools.fullscreen(mwd.getElementById('iframe_editor_mw-editor<?php print $rand; ?>'))">Fullscreen</a>
-
-  </div>
-
-  <div class="right">
-<?php /*     <span class="mw-ui-btn">Preview</span>
+  <textarea name="content"  style="display:none" id="mw-editor<?php print $rand; ?>_src"></textarea>
+  <div class="mw-postaction-bar">
+    <div class="left"> <a href="javascript:;" onclick="mw.tools.fullscreen(mwd.getElementById('iframe_editor_mw-editor<?php print $rand; ?>'))">Fullscreen</a> </div>
+    <div class="right">
+      <?php /*     <span class="mw-ui-btn">Preview</span>
     <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
-    <span class="mw-ui-btn go-live">Go Live Edit</span>
-    <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span>
-
+      <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span> </div>
   </div>
-
-</div>
-
   <? if($edit_post_mode == false): ?>
-     <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
-     <div class="pictures-editor-holder" style="display: none;">
-        <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
-     </div>
-     <div class="vSpace"></div>
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+  <div class="pictures-editor-holder" style="display: none;">
+    <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+  </div>
+  <div class="vSpace"></div>
   <? endif; ?>
-
-
-
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
   <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this, __loadpreview);" href="javascript:;">Template</a>
-   <?  //  d($data); ?>
+  <?  //  d($data); ?>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
   </div>
@@ -380,20 +379,19 @@ $pt_opts['active_ids'] = $data['parent'];
   
 
    ?>
-
-
-  <a href="javascript:;" onclick="mw.tools.toggle('.page_and_menus_holder', this);"  class="toggle_advanced_settings mw-ui-more">
-    <?php _e('Page &amp; Menus'); ?>
-    </a>
-
+  <a href="javascript:;" onclick="mw.tools.toggle('.page_and_menus_holder', this);"  class="toggle_advanced_settings mw-ui-more ed_page_and_menus_opener_link">
+  <?php _e('Page &amp; Menus'); ?>
+  </a>
   <div class="page_and_menus_holder" style="display: none;">
-        <div class="vSpace"></div>
-        <div class="mw-ui-field-holder">
-          <label class="mw-ui-label"><?php _e("Parent page"); ?></label>
-          <div class="mw-ui-select" style="width: 100%;">
-            <select name="parent">
-              <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?>>None</option>
-              <?
+    <div class="vSpace"></div>
+    <div class="mw-ui-field-holder mw_parent_page_sel_holder">
+      <label class="mw-ui-label">
+        <?php _e("Parent page"); ?>
+      </label>
+      <div class="mw-ui-select" style="width: 100%;">
+        <select name="parent" id="parent_page_select_<? print $rand ?>">
+          <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?> title="None">None</option>
+          <?
 
       $pt_opts['link'] = "{empty}{title}";
       $pt_opts['list_tag'] = " ";
@@ -413,33 +411,26 @@ $pt_opts['active_ids'] = $data['parent'];
 
 
         ?>
-            </select>
-          </div>
-        </div>
-
-<? exec_action('mw_edit_page_admin_menus', $data); ?>
-
+        </select>
+      </div>
+    </div>
+    <? exec_action('mw_edit_page_admin_menus', $data); ?>
   </div>
-
-   <div class="vSpace"></div>
-
+  <div class="vSpace"></div>
   <? endif; ?>
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
-  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more toggler-active"><?php _e("Add to Page &amp; Category"); ?></a>
+  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more toggler-active">
+  <?php _e("Add to Page &amp; Category"); ?>
+  </a>
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">
-
-
-  <div class="mw-ui-field mw-tag-selector" id="mw-post-added-<? print $rand ?>">
-
-    <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." style="width:250px;" />
-
-  </div>
-
-  <script>
+    <div class="mw-ui-field mw-tag-selector" id="mw-post-added-<? print $rand ?>">
+      <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." style="width:250px;" />
+    </div>
+    <script>
 
         $(document).ready(function(){
 
@@ -461,9 +452,7 @@ $pt_opts['active_ids'] = $data['parent'];
         });
 
   </script>
-
-
-  <?
+    <?
 
    $shopstr = '&is_shop=n';
    
@@ -493,19 +482,15 @@ $pt_opts['active_ids'] = $data['parent'];
  
  
   if(isset($include_categories_in_cat_selector)): ?>
-  <?
+    <?
  $x = implode(',',$include_categories_in_cat_selector);
  $strz = ' add_ids="'.$x.'" ';   ?>
-  <? endif; ?>
-  
-  <? $categories_active_ids = ''; ?>
-
-  <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand ?>">
-    <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
-    <? if(intval($data['id']) > 0): ?>
-    
-    
-    <? $in_cats = get('from=taxonomy_items&fields=parent_id&to_table=table_content&to_table_id='.$data['id']);
+    <? endif; ?>
+    <? $categories_active_ids = ''; ?>
+    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand ?>">
+      <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
+      <? if(intval($data['id']) > 0): ?>
+      <? $in_cats = get('from=taxonomy_items&fields=parent_id&to_table=table_content&to_table_id='.$data['id']);
 	if(isarr($in_cats)){
 	foreach($in_cats as $in_cat){
 		$categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
@@ -513,32 +498,24 @@ $pt_opts['active_ids'] = $data['parent'];
 	}
 	 //d($categories_active_ids);
 	 ?>
-    
-    
-    
-    
-    <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
-    <? else: ?>
-    <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
+      <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
+      <? else: ?>
+      <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
 		 
 		 $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 	 } ?>
-     
-     
-     
-      
-    <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
-    <? endif; ?>
-  </div>    <div class="vSpace"></div>
-  <script type="text/javascript">
+      <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
+      <? endif; ?>
+    </div>
+    <div class="vSpace"></div>
+    <script type="text/javascript">
     $(mwd).ready(function(){
 		if(!!mw.treeRenderer){
              mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand ?>');
 		}
     });
-  </script>
+  </script> 
   </div>
-
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
@@ -593,11 +570,10 @@ $pt_opts['active_ids'] = $data['parent'];
 ?>
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
-    <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
-    <div class="pictures-editor-holder" style="display: none;">
-        <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
-    </div>
-
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+  <div class="pictures-editor-holder" style="display: none;">
+    <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
+  </div>
   <? endif; ?>
   <? exec_action('mw_edit_content_admin', $data); ?>
   <? if($edit_post_mode != false): ?>
@@ -612,15 +588,13 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
-
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand ?>', this);">
   <?php _e("Custom Fields"); ?>
   </a>
   <div class="vSpace"></div>
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
-
   <div id="custom_fields_for_post_<? print $rand ?>"  style="display:none;">
-  <div class="vSpace"></div>
+    <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand ?>" content-subtype="<? print $data['subtype'] ?>" />
     <script  type="text/javascript">
 
@@ -695,12 +669,10 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
 </script>
     <div id="custom_fields_from_categorories_selector_for_post_1<? print $rand ?>" ></div>
   </div>
-
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
-  <div class="advanced_settings">
-    <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
+  <div class="advanced_settings"> <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
     <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn-rect">
@@ -713,7 +685,8 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
         <textarea
             class="mw-ui-field" name="description"
             onfocus="mw.form.dstatic(event);"
-            onblur="mw.form.dstatic(event);" data-default="Describe your page in short"><?php if($data['description']==''){print 'Describe your page in short';} else{print $data['description'];} ?></textarea>
+            onblur="mw.form.dstatic(event);" data-default="Describe your page in short"><?php if($data['description']==''){print 'Describe your page in short';} else{print $data['description'];} ?>
+</textarea>
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Meta Keywords</label>
@@ -758,10 +731,8 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Page type</label>
         <div class="mw-ui-select" style="width: 220px;">
-       
           <select name="subtype">
-                      <option value="<? print $data['subtype'] ?>"   <? if(isset($data['subtype']) and trim($data['subtype']) != '' and trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static'  ): ?>   selected="selected"  <? endif; ?>><? print $data['subtype'] ?></option>
-
+            <option value="<? print $data['subtype'] ?>"   <? if(isset($data['subtype']) and trim($data['subtype']) != '' and trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static'  ): ?>   selected="selected"  <? endif; ?>><? print $data['subtype'] ?></option>
             <option value="static"   <? if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <? endif; ?>>static</option>
             <option value="dynamic"   <? if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <? endif; ?>>dynamic</option>
           </select>
@@ -776,6 +747,5 @@ function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
       </div>
     </div>
     <div class="mw_clear vSpace"></div>
-
   </div>
 </form>

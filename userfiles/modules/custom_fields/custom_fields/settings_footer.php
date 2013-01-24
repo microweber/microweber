@@ -31,33 +31,18 @@
 </div>
 <div class="form-actions custom-fields-form-actions">
 
-
-   <? if (isset($data['id']) and intval($data['id']) == 0): ?>
-    <?php else : ?>
-     <?php endif; ?>
-
-
-     <div class="vSpace"></div>
-     <div class="vSpace"></div>
-    <button type="button" class="right" onclick="__save();"><?php _e('Save changes'); ?></button>
-
-
-
-
-
     <script>
 
         __save = function(){
              mw.custom_fields.save('#custom_fields_edit<? print $rand ?>', function(){
                if(typeof __sort_fields === 'function'){
-                 mw.log(__sort_fields());
+                 __sort_fields();
                }
              });
              $('#create-custom-field-table').addClass('semi_hidden');
         }
 
     </script>
-
 
 </div>
 

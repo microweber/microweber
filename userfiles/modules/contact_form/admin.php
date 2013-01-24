@@ -1,19 +1,5 @@
-
-<h2>Tab 1 Fields</h2>
-<module type="custom_fields" id="<? print $params['id'] ?>" view="admin" />
-<h2>Tab 2 - settings</h2>
-<fieldset>
-  <legend>Form settings</legend>
-  <div class="control-group">
-    <label class="control-label">Form Title</label>
-    <div class="controls">
-      <input name="form_title" class="mw_option_field"   type="text" data-refresh="contact_form"  value="<?php print get_option('form_title', $params['id']) ?>" />
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label">form_save_as</label>
-    <div class="controls">
-      <input name="form_save_as" class="mw_option_field"   type="text" data-refresh="contact_form"  value="<?php print get_option('form_save_as', $params['id']) ?>" />
-    </div>
-  </div>
-</fieldset>
+<? if(!isset($params['live_edit'])): ?>
+<? include_once($config['path_to_module'].'admin_backend.php'); ?>
+<? else: ?>
+<? include_once($config['path_to_module'].'admin_live_edit.php'); ?>
+<? endif; ?>

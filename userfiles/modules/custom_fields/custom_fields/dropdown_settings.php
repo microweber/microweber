@@ -14,7 +14,7 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 </script>
 
 
-   <div class="custom-field-col left">
+   <div class="custom-field-col-left">
 
   <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
@@ -34,7 +34,7 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 
 
 
-   <div class="custom-field-col right">
+   <div class="custom-field-col-right">
 
 
 
@@ -48,7 +48,7 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
 
 
 
-  
+
   <label class="mw-ui-label">Values</label>
   <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
     <? if(isarr($data['custom_field_values'])) : ?>
@@ -66,5 +66,6 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
         mw.custom_fields.sort("fields<?php print $rand; ?>");
     </script>
   </div>
+  <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
   </div>
   <? include('settings_footer.php'); ?>

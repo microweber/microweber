@@ -8,6 +8,8 @@
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
+                    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
+
      
 		   <script type="text/javascript">
   //document.body.className+=' loading';
@@ -17,6 +19,7 @@
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
+   mw.require("forms.js");
  mw.require('wysiwyg.js');
  
 

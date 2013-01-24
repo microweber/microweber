@@ -7,7 +7,9 @@
  
   if(isset($params['for_id'])){
 	$for_id = $params['for_id'];
- } else  if(isset($params['id'])){
+ }  else if(isset($params['data-id'])){
+		 $for_id = $params['data-id'];
+	 } else  if(isset($params['id'])){
 	$for_id = $params['id'];
  }
  
@@ -15,11 +17,9 @@
  if(isset($params['to_table_id'])){
 $for_id =$params['to_table_id'];
  }
- 
- 
+   
  $more = get_custom_fields($for ,$for_id,1); 
- 
- 
+  
  ?>
 
 <input type="hidden" name="for_id" value="<? print $for_id?>" />

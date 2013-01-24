@@ -1,16 +1,15 @@
 <?php
 
-
 $parser_mem_crc = 'parser_' . crc32($layout);
 
-//$ch = mw_var($parser_mem_crc);
- $ch = false;
+// $ch = mw_var($parser_mem_crc);
+$ch = false;
 if ($ch != false) {
 	//print 1;
 	//$layout =
 } else {
 	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-	
+
 	$pq = phpQuery::newDocument($layout);
 	$els = $pq['.edit'];
 	//$els = $pq ['.edit *[rel!=""]'];
@@ -138,7 +137,7 @@ if ($ch != false) {
 			$cont_field = false;
 			if (isset($data_id)) {
 				//d($data_id);
-				 
+
 				$cont_field = get_content_field("rel={$rel}&field={$field}&to_table_id=$data_id");
 				// d($cont_field);
 			} else {
@@ -229,9 +228,19 @@ if ($ch != false) {
 
 			//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 			// pecata d($field_content);
-			$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
-			pq($elem) -> html($field_content);
+			$parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
+
+			$ch2 = mw_var($parser_mem_crc);
+
+			if ($ch2 == false) {
+				$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+
+				pq($elem) -> html($field_content);
+
+			}
+			mw_var($parser_mem_crc2, 1);
+
 		} else {
 
 		}

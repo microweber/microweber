@@ -17,8 +17,12 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
 }
 
+if (!defined("MW_DB_TABLE_FORMS")) {
+	define('MW_DB_TABLE_FORMS', MW_TABLE_PREFIX . 'forms');
+}
+
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
-//action_hook('mw_db_init', 'mw_db_init_content_table');
+ //action_hook('mw_db_init', 'mw_db_init_content_table');
 
 function mw_db_init_content_table() {
 	$function_cache_id = false;
@@ -115,6 +119,34 @@ $table_name = MW_DB_TABLE_CONTENT_FIELDS;
 
 
 
+$table_name = MW_DB_TABLE_FORMS;
+
+	$fields_to_add = array();
+
+	//$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	//$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+ 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	//$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('form_name', 'longtext default NULL');
+	$fields_to_add[] = array('form_values', 'TEXT default NULL');
+	 	$fields_to_add[] = array('url', 'TEXT default NULL');
+	 	 	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
+	 
+	
+	 
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('form_name', $table_name, array('form_name(55)'));
+
+
+
+
 
 $table_name = MW_DB_TABLE_MEDIA;
 
@@ -155,7 +187,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	$fields_to_add = array();
 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
 		$fields_to_add[] = array('position', 'int(11) default NULL');
 	
@@ -188,7 +220,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	 	set_db_table($table_name, $fields_to_add);
 
 	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id(55)'));
 	db_add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 	 
 	 
@@ -1167,7 +1199,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	// $id = intval ( $id );
 
 
-	$id = intval($id);
+	$id = trim($id);
 	$table = db_escape_string($table);
 	$table_assoc_name = false;
 	if ($table != false) {
@@ -1189,7 +1221,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	$the_data_with_custom_field__stuff = array();
 
 	if (strval($table_assoc_name) != '') {
-
+ 
 		if ($field_for != false) {
 			$field_for = trim($field_for);
 			$field_for_q = " and  (field_for='{$field_for} OR custom_field_name='{$field_for}')'";
@@ -1228,8 +1260,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 $sidq= '';
 if ($id == 0) {
+	if(is_admin()){
 $sid = session_id();
-		$sidq = ' and session_id="' . $sid . '"  '; 
+		$sidq = ' and session_id="' . $sid . '"  ';
+	} 
 	}
 
 
@@ -1445,9 +1479,12 @@ function save_edit($post_data) {
 					} else {
 						$save_layout = false;
 					}
- if(!isset($the_field_data['attributes']['data-id'])){
- 	$the_field_data['attributes']['data-id'] = $content_id;
- }
+					 if(!isset($the_field_data['attributes']['data-id'])){
+					 	$the_field_data['attributes']['data-id'] = $content_id;
+					 }
+									
+					$save_global = 1;
+				
 					if (isset($the_field_data['attributes']['rel']) and isset($the_field_data['attributes']['data-id'])) {
 						
 					
@@ -1480,7 +1517,7 @@ function save_edit($post_data) {
 						 $content_id_for_con_field = intval($ref_page['parent']);
 						// d($content_id);
 					} else {
-												 $content_id_for_con_field = intval($ref_page['id']);
+						 $content_id_for_con_field = intval($ref_page['id']);
 						
 					}
 
@@ -1550,11 +1587,22 @@ function save_edit($post_data) {
 						
 						$cont_field = array();
 							$cont_field['to_table'] = $the_field_data['attributes']['rel'];
-						  $cont_field['to_table_id'] = 0;
+							$cont_field['to_table_id'] = 0;
+							if(isset($the_field_data['attributes']['data-id'])){
+						  $cont_field['to_table_id'] = $the_field_data['attributes']['data-id']; 
+							}
 							$cont_field['value'] = make_microweber_tags($html_to_save);;
+							if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){
+								$the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
+							}
 							$cont_field['field'] = $the_field_data['attributes']['field'];
+							
+							
+							 
+							
+							
 							if($field != 'content'){
-						 //d($cont_field);
+						 
 							$cont_field_new = save_content_field($cont_field);
 							
 							}
@@ -2017,7 +2065,7 @@ $new_category = get_categories_for_content($save);
 				, to_table_id =\"{$id}\"
 				where
 				session_id =\"{$sid}\"
-and (to_table_id=0 or to_table_id IS NULL)
+and (to_table_id=0 or to_table_id IS NULL) and to_table =\"table_content\"
 
 				";
 
@@ -2487,7 +2535,7 @@ if (isset($active_ids)){
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
-				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}' {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  >";
+				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
 

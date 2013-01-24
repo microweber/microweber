@@ -832,9 +832,20 @@ form.add-edit-page-post textarea{
   width: 190px;
 }
 .mw-custom-field-form-controls{
-  padding: 5px 0;
-  overflow: hidden;
   clear: both;
+  padding: 8px 0;
+}
+div .mw-custom-field-form-controls:last-child{
+  padding-bottom: 0;
+}
+
+.mw-custom-field-form-controls:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
@@ -844,15 +855,18 @@ form.add-edit-page-post textarea{
 .mw-custom-field-group{
   padding-top: 0;
 }
-form.add-edit-page-post .mw-custom-field-group textarea{
-  width: 280px;
+
+
+.custom-field-col-right .mw-ui-field{
+    width: calc(100% - 22px);
 }
 
-.mw-custom-field-group input.mw-ui-field{
-  float: left;
-  margin-right: 5px;
-  width: 170px;
+.custom-field-col-right .mw-custom-field-form-controls input.mw-ui-field{
+   width: calc(100% - 115px);
+   float: left;
+   margin-right: 10px;
 }
+
 .mw-custom-field-form-controls .ico{
   float: left;
   margin-right: 0px;
@@ -905,35 +919,23 @@ form.add-edit-page-post .mw-custom-field-group textarea{
   width: 280px;
 }
 
-.custom-field-col.left{
-  width: 40%;
+.custom-field-col-left{
+  width: 190px;
+  float: left;
 }
-.custom-field-col.right{
-  width: 60%;
-}
-
-.custom-field-preview:after{
-  content: ".";
-  display: block;
-  line-height: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background: white;
-  opacity:0.1;
-
-  display: none !important;
+.custom-field-col-right{
+  width: 270px;
+  position: relative;
+  float: left;
+  margin-left: 20px;
 }
 
-.custom-field-preview-cell{
-  cursor: pointer;
-}
-
-.active .custom-field-preview-cell{
-  cursor: default;
+.mw-custom-fields-save{
+    position: absolute;
+    left: 100%;
+    margin-left: 15px;
+    white-space: nowrap;
+    bottom: 0;
 }
 
 
@@ -989,31 +991,6 @@ body.still-loading:before{
 }
 
 
-.form-actions{
-  padding: 10px 0 0;
-}
-
-.custom-field-handle-row{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-}
-
-
-.custom-field-table-tr.ui-sortable-helper{
-  box-shadow:0 0px 10px -5px #000000;
-}
-
-.custom-field-preview input[type='checkbox'], .custom-field-preview input[type='radio']{
-  position: relative;
-  top: 1px;
-  margin-right: 2px;
-}
-
-.custom-field-preview select{
-  padding: 5px;
-}
 
 
 
@@ -1071,149 +1048,6 @@ body.still-loading:before{
 /* /Datepick */
 
 
-
-
-/* DatePicker Container */
-.ui-datepicker {
-	width: 216px;
-    padding: 0;
-	height: auto;
-	margin: 5px auto 0;
-	font: 9pt Arial, sans-serif;
-	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-	-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-}
-.ui-datepicker a {
-	text-decoration: none;
-}
-/* DatePicker Table */
-.ui-datepicker table {
-	width: 100%;
-}
-.ui-datepicker-header {
-	background: url('http://media02.hongkiat.com/jquery-ui-datepicker/demo/datepicker/css/../img/dark_leather.png') repeat 0 0 #000;
-	color: #e0e0e0;
-	font-weight: bold;
-	-webkit-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, 2);
-	-moz-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
-	box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
-	text-shadow: 1px -1px 0px #000;
-	filter: dropshadow(color=#000, offx=1, offy=-1);
-	line-height: 30px;
-	border-width: 1px 0 0 0;
-	border-style: solid;
-	border-color: #111;
-}
-.ui-datepicker-title {
-	text-align: center;
-}
-.ui-datepicker-prev, .ui-datepicker-next {
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	cursor: pointer;
-	background-image: url('http://media02.hongkiat.com/jquery-ui-datepicker/demo/datepicker/css/../img/arrow.png');
-	background-repeat: no-repeat;
-	line-height: 600%;
-	overflow: hidden;
-}
-.ui-datepicker-prev {
-	float: left;
-	background-position: center -30px;
-}
-.ui-datepicker-next {
-	float: right;
-	background-position: center 0px;
-}
-.ui-datepicker thead {
-	background-color: #f7f7f7;
-	background-image: -moz-linear-gradient(top,  #f7f7f7 0%, #f1f1f1 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#f1f1f1));
-	background-image: -webkit-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
-	background-image: -o-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
-	background-image: -ms-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
-	background-image: linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#f1f1f1',GradientType=0 );
-	border-bottom: 1px solid #bbb;
-}
-.ui-datepicker th {
-	text-transform: uppercase;
-	font-size: 6pt;
-	padding: 5px 0;
-	color: #666666;
-	text-shadow: 1px 0px 0px #fff;
-	filter: dropshadow(color=#fff, offx=1, offy=0);
-}
-.ui-datepicker tbody td {
-	padding: 0;
-	border-right: 1px solid #bbb;
-}
-.ui-datepicker tbody td:last-child {
-	border-right: 0px;
-}
-.ui-datepicker tbody tr {
-	border-bottom: 1px solid #bbb;
-}
-.ui-datepicker tbody tr:last-child {
-	border-bottom: 0px;
-}
-.ui-datepicker td span, .ui-datepicker td a {
-	display: inline-block;
-	font-weight: bold;
-	text-align: center;
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
-	color: #666666;
-	text-shadow: 1px 1px 0px #fff;
-	filter: dropshadow(color=#fff, offx=1, offy=1);
-}
-.ui-datepicker-calendar .ui-state-default {
-	background: #ededed;
-	background: -moz-linear-gradient(top,  #ededed 0%, #dedede 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#dedede));
-	background: -webkit-linear-gradient(top,  #ededed 0%,#dedede 100%);
-	background: -o-linear-gradient(top,  #ededed 0%,#dedede 100%);
-	background: -ms-linear-gradient(top,  #ededed 0%,#dedede 100%);
-	background: linear-gradient(top,  #ededed 0%,#dedede 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#dedede',GradientType=0 );
-	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(250, 250, 250, .5);
-	-moz-box-shadow: inset 1px 1px 0px 0px rgba(250, 250, 250, .5);
-	box-shadow: inset 1px 1px 0px 0px rgba(250, 250, 250, .5);
-}
-.ui-datepicker-calendar .ui-state-hover {
-	background: #f7f7f7;
-}
-.ui-datepicker-calendar .ui-state-active {
-	background: #6eafbf;
-	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-	-moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-	box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-	color: #e0e0e0;
-	text-shadow: 0px 1px 0px #4d7a85;
-	filter: dropshadow(color=#4d7a85, offx=0, offy=1);
-	border: 1px solid #55838f;
-	position: relative;
-	margin: -1px;
-}
-.ui-datepicker-unselectable .ui-state-default {
-	background: #f4f4f4;
-	color: #b4b3b3;
-}
-.ui-datepicker-calendar td:first-child .ui-state-active {
-	width: 29px;
-	margin-left: 0;
-}
-.ui-datepicker-calendar td:last-child .ui-state-active {
-	width: 29px;
-	margin-right: 0;
-}
-.ui-datepicker-calendar tr:last-child .ui-state-active {
-	height: 29px;
-	margin-bottom: 0;
-}
 
 
 
@@ -2148,16 +1982,41 @@ ul.mw-menu-selector-list li{
   margin-bottom: 5px;
 }
 
-
-
-
-
 .mw-menuselector-menu-title{
   color: #8C8C8C;
   font-size: 11px;
   position: relative;
   top: -4px;
 }
+
+
+/*
+.edit *:before  , .edit *:after{
+  color: #235F99;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: 'Courier New';
+}
+
+.edit p:before{content:'<p>'} .edit p:after{content:'</p>'}
+.edit b:before{content:'<b>'} .edit b:after{content:'</b>'}
+.edit strong:before{content:'<strong>'} .edit b:after{content:'</strong>'}
+.edit li:before{content:'<li>'} .edit li:after{content:'</li>'}
+.edit ul:before{content:'<ul>'} .edit ul:after{content:'</ul>'}
+.edit span:before{content:'<span>'} .edit span:after{content:'</span>'}
+.edit em:before{content:'<em>'} .edit em:after{content:'</em>'}
+.edit i:before{content:'<i>'} .edit i:after{content:'</i>'}
+.edit h1:before{content:'<h1>'} .edit h1:after{content:'</h1>'}
+.edit h2:before{content:'<h2>'} .edit h2:after{content:'</h2>'}
+.edit h3:before{content:'<h3>'} .edit h3:after{content:'</h3>'}
+.edit h4:before{content:'<h4>'} .edit h4:after{content:'</h4>'}
+.edit h5:before{content:'<h5>'} .edit h5:after{content:'</h5>'}
+.edit h6:before{content:'<h6>'} .edit h6:after{content:'</h6>'}
+
+
+*/
+
+
 
 
 

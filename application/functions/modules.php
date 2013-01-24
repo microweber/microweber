@@ -1565,10 +1565,10 @@ function load_module($module_name, $attrs = array()) {
 		if ($lic != false) {
 			$config['license'] = $lic;
 		}
-
+ 
 		if (!isset($attrs['id'])) {
 
-			$attrs1 = crc32(serialize($attrs) . url_segment(0));
+			$attrs1 = crc32(serialize($attrs) . url_segment(0).date('YmdHis'));
 			//	$s1 = crc32();
 			//$s1 = '';
 			/*

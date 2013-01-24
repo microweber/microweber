@@ -284,7 +284,7 @@ class MwController {
 				
 				//$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
 				
-				$default_css = '<script src="' . $apijs_loaded . '"></script>';
+				$default_css = '<script src="' . $apijs_loaded . '"></script>'."\r\n";
 
 				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
 			}

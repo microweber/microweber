@@ -30,14 +30,11 @@ function mw_db_init_countries_table() {
 	import_sql_from_file($table_sql);
 
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
-	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
-
-	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
 }
 
 function countries_list() {
-  
+
 	$table = MW_DB_TABLE_COUNTRIES;
 
 	$sql = "SELECT name as country_name from $table   ";
@@ -55,36 +52,22 @@ function countries_list() {
 
 }
 
-function save_form_data($data) {
-	$CI = get_instance();
-	 
+api_expose('post_form');
+function post_form($data) {
+	$table = MW_TABLE_PREFIX . 'forms';
 
-	$table = $cms_db_tables['table_forms'];
+	$adm = is_admin();
 
-	$db_system_fields = $CI -> core_model -> mapArrayToDatabaseTable($table, $data);
+	$table = MODULE_DB_COMMENTS;
+	mw_var('FORCE_SAVE', $table);
 
-	$form_fields = array_diff($data, $db_system_fields);
+	if (isset($data['id'])) {
+		if ($adm == false) {
+			error('Error: Only admin can edit comments!');
+		}
 
-	$add_enrty = save_data($table, $db_system_fields);
-
-	$fields_data = array();
-
-	foreach ($form_fields as $k => $v) {
-		$custom_field_data = array();
-		$custom_field_data['to_table'] = 'table_forms';
-		$custom_field_data['to_table_id'] = $add_enrty;
-		$custom_field_data['custom_field_name'] = $k;
-		$custom_field_data['custom_field_value'] = $v;
-		$custom_field_data['field_for'] = $db_system_fields['form_title'];
-
-		$cf_data =      get_instance() -> core_model -> saveCustomField($custom_field_data);
-
-		//	$custom_field_data['to_table']  = 'table_forms';
 	}
+	
+	print json_encode($data);
 
-	p($add_enrty);
-
-	//	p($table);
-	p($cf_data);
-	//	p($form_fields);
 }

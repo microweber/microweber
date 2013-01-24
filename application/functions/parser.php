@@ -457,7 +457,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 					$m_tag = rtrim($m_tag, "/>");
 					$m_tag = rtrim($m_tag);
 					$userclass = '';
-					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' ";
+					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";
 					$module_has_class = false;
@@ -491,17 +491,17 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							unset($attrs['data-module']);
 						}
 						// if (!isset($attrs['id'])) {
-// 
-							// $attrs1 = crc32(serialize($attrs));
-							// $s1 = false;
-							// if ($s1 != false) {
-								// $attrs1 = $attrs1 . '-' . $s1;
-							// } else if (defined('PAGE_ID') and PAGE_ID != false) {
-								// $attrs1 = $attrs1 . '-' . PAGE_ID;
-							// }
-// 
-							// $attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
-// 
+						//
+						// $attrs1 = crc32(serialize($attrs));
+						// $s1 = false;
+						// if ($s1 != false) {
+						// $attrs1 = $attrs1 . '-' . $s1;
+						// } else if (defined('PAGE_ID') and PAGE_ID != false) {
+						// $attrs1 = $attrs1 . '-' . PAGE_ID;
+						// }
+						//
+						// $attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
+						//
 						// }
 						foreach ($attrs as $nn => $nv) {
 
@@ -559,6 +559,16 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 							$z++;
 						}
+						if (isset($module_name)) {
+							$module_class = module_css_class($module_name);
+							if (!isset($attrs['id'])) {
+								$attrs['id'] = $module_class . '-' . (date('YmdHis'));
+								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+
+							} else {
+								$module_html = str_replace('__MODULE_ID__', '', $module_html);
+							}
+						}
 
 						//                        if (!isset($module_name)) {
 						//                            if (isset($_POST['module'])) {
@@ -567,6 +577,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						//                        }
 
 						if (isset($module_name)) {
+
 							if (strstr($module_name, 'admin')) {
 
 								$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
@@ -581,14 +592,14 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 									$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
 								} else {
-									$module_class = module_css_class($module_name);
+
 									$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
 								}
 							} else {
 
 								$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
 							}
-							$module_class = module_css_class($module_name);
+							//
 							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
 							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 

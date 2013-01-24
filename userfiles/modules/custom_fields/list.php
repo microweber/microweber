@@ -18,6 +18,11 @@
 	 if(isset($params['id'])){
 		 $params['for_module_id'] = $params['id'];
 	 }
+	 
+	 
+	 if(isset($params['data-id'])){
+		 $params['for_module_id'] = $params['data-id'];
+	 }
  }
  
  
@@ -29,7 +34,7 @@
 	   
 		  }
  	  
-	//d($params ); 	  
+// d($params ); 	  
 ?>
 <?
 $data = array();
@@ -82,44 +87,26 @@ if(isarr( $diff) and isarr($more) ){
   <? if(isset($params['save_to_content_id']) and isset($params["to_table_id"]) and intval(($params["to_table_id"]) > 0)): ?>
   <? $p = get_content_by_id($params["to_table_id"]); ?>
   <? if(isset($p['title'])): ?>
-<div class="mw-custom-fields-from-page-title">
-
-  <span class="mw-custom-fields-from-page-title-text"><?php _e("From"); ?> <strong><? print $p['title'] ?></strong></span>
-
-</div>
+  <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
+    <?php _e("From"); ?>
+    <strong><? print $p['title'] ?></strong></span> </div>
   <? endif; ?>
   <? endif; ?>
   <? foreach( $more as $field): ?>
   <? if(isset($params['save_to_content_id'])): ?>
-  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"> <? print ($field['title']); ?>  </a>
+  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"> <? print ($field['title']); ?> </a>
   <? else: ?>
   <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"> <? print ($field['title']); ?> <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span> </a>
-   <? endif; ?>
-  
-
+  <? endif; ?>
   <? endforeach; ?>
 </div>
 <? else : ?>
 <? if(!isset($params['save_to_content_id'])): ?>
-
-
-
-
-
-
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags">
-
-<div class="mw-custom-fields-from-page-title">
-
-  <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?>.</span>
-
+  <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
+    <?php _e("You dont have any custom fields"); ?>
+    .</span> </div>
 </div>
-
-</div>
-
-
-
-
 <? endif; ?>
 <? endif; ?>
 <? endif; ?>

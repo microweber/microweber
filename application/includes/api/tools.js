@@ -244,7 +244,7 @@ mw.tools = {
           else{
               item.show();
               if(event.target.type!='text'){
-                 
+
                  try{this.querySelector("input.dd_search").focus();}catch(e){}
 
               }
@@ -730,16 +730,18 @@ mw.tools = {
       }
     }
   },
-  highlight:function(el, color){
+  highlight:function(el, color, speed1, speed2){
+    $(el).stop();
     var color = color || '#D8FFC4';
-    var speed = 777;
+    var speed1 = speed1 || 777;
+    var speed2 = speed2 || 777;
     var curr = window.getComputedStyle(el, null).backgroundColor;
     if(curr == 'transparent'){
       var curr = '#ffffff';
     }
     $(el).css('boxShadow', '0 0 10px #ccc');
-    $(el).animate({ backgroundColor: color }, speed, function(){
-        $(el).animate({ backgroundColor: curr }, speed, function(){
+    $(el).animate({ backgroundColor: color }, speed1, function(){
+        $(el).animate({ backgroundColor: curr }, speed2, function(){
           $(el).css('backgroundColor', '');
           $(el).css('boxShadow', '');
         })
@@ -900,19 +902,6 @@ mw.tools = {
          this.target = '_parent';
        }
     });
-	
-	/* $(iframe).bind("mouseenter", function(){
-		 var ifrid1= this.getAttribute('id')
-		// d(ifrid1);
-		var ifrid = document.getElementById(ifrid1).contentWindow;
-if(ifrid.load_iframe_editor != undefined){
-	ifrid.load_iframe_editor();
-}
-		$(this).unbind("mouseenter"); 
-       
-      });*/
-	
-	
   },
   fullscreen:function(el){
       if (el.webkitRequestFullScreen) {
@@ -929,11 +918,30 @@ if(ifrid.load_iframe_editor != undefined){
     else{
       return undefined;
     }
+  },
+  is_field:function(obj){
+    var t = obj.tagName.toLowerCase();
+    if(t=='input' || t=='textarea' || t=='select') return true;
+    return false;
+  },
+  getAttrs : function(el){
+    var attrs = el.attributes;
+    var obj = {}
+    for(var x in attrs){
+      var dis = attrs[x];
+      obj[dis.nodeName] = dis.nodeValue
+    }
+    return obj;
+  },
+  migrateAttributes:function(from, to, except){
+    var except = except || [];
+    var attrs = mw.tools.getAttrs(from);
+    if(mw.tools.is_field(from) && mw.tools.is_field(to)) to.value = from.value;
+    for(var x in attrs){
+       ( $.inArray(x, except) == -1 && x != 'undefined')? to.setAttribute(x, attrs[x]): '';
+    }
   }
 }
-
-
-
 
 
 

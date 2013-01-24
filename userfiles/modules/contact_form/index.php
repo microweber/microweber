@@ -1,45 +1,41 @@
-<?php $form_title = get_option('form_title', $params['id']);
- 
-  $temp_id = "mw_contact_form_".url_title($form_title) .'_'. rand(); 
- 
- if($form_title == '' or $form_title == false){
-	$form_title = "My form title"; 
- }
+<?php  $form_id = "mw_contact_form_". rand();  ?>
+<? $save_as = get_option('form_name', $params['id']);
 
+if($save_as == false){
+$save_as = $params['id'];
+}
  ?>
 <script  type="text/javascript">
+  mw.require("forms.js");
+</script>
 
-
-// mw.require("forms.js");
-
+<script  type="text/javascript">
 $(document).ready(function(){
 
-  mw.$('form[data-temp-id="<? print $temp_id ?>"]').submit(function() {
-  //  mw.form.post('form[data-temp-id="<? print $temp_id ?>"]')
-   // return false;
+  $('form[data-form-id="<? print $form_id ?>"]').submit(function() {
+ 
+	
+     mw.form.post('form[data-form-id="<? print $form_id ?>"]');
+    return false;
   });
 });
 </script>
 
-<div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
-  <h1>This is My editable title</h1>
+<div class="edit nodrop" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
+  <h1>My form title</h1>
 </div>
-
-<div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
-  My form decription
+<div class="edit nodrop" data-field="form_desc" rel="module" data-id="<? print $params['id'] ?>">
+  <p>My form description</p>
 </div>
-
-<div class="edit" field="data-address"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
-My address
-</div>
-<form class="mw_form" data-temp-id="<? print $temp_id ?>" >
-  <? $save_as = get_option('form_save_as', $params['id']);
-
-if($save_as == false){
-$save_as = get_option('form_title', $params['id']);
-}
- ?>
-  <input  type="hidden" name="form_title" value="<? print $save_as; ?>" />
-  <module type="custom_fields" id="<? print $params['id'] ?>"   />
+<form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
+  <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
+  <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
+  <div class="mw-custom-field-group">
+    <label class="mw-custom-field-label">Security code</label>
+    <div class="mw-custom-field-form-controls"> <img  class="mw-captcha-img" src="<? print api_url('captcha') ?>" />
+      <input name="captcha" type="text"  class="mw-captcha-input"/>
+    </div>
+  </div>
+  <?  endif;?>
   <input type="submit"  value="submit" />
 </form>

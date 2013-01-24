@@ -79,27 +79,33 @@ mw.custom_fields = {
 		mw.is.func(callback) ? callback.call($type) : '';
       });
   },
-  
+
   sort:function(group){
     var group = mwd.getElementById(group);
-    $(group).sortable({
-        handle:'.custom-fields-handle-field',
-        placeholder:'custom-fields-placeholder',
-        //containment: "parent",
-        axis:'y',
-        items:".mw-custom-field-form-controls",
-        start:function(a,ui){
-            $(ui.placeholder).height($(ui.item).outerHeight())
-        },
-        scroll:false,
-        update:function(){
-          mw.custom_fields.save(this.parentNode.id, function(){
-            if(typeof __sort_fields === 'function'){
-                 __sort_fields();
-               }
-          });
-        }
-    });
+
+    if(group.querySelectorAll('.mw-custom-field-form-controls').length>0){
+        $(group).sortable({
+            handle:'.custom-fields-handle-field',
+            placeholder:'custom-fields-placeholder',
+            //containment: "parent",
+            axis:'y',
+            items:".mw-custom-field-form-controls",
+            start:function(a,ui){
+                $(ui.placeholder).height($(ui.item).outerHeight())
+            },
+            scroll:false,
+            update:function(){
+              mw.custom_fields.save(this.parentNode.id, function(){
+                if(typeof __sort_fields === 'function'){
+                     __sort_fields();
+                   }
+              });
+            }
+        });
+    }
+
+
+
   },
   autoSaveOnWriting:function(el, id){
      mw.on.stopWriting(el, function(){
@@ -134,7 +140,9 @@ mw.custom_fields.save = function(id, callback){
 		   }
         });
     	mw.reload_module('custom_fields/list', function(){
-            if(!!callback) callback.call(data)
+            if(!!callback) callback.call(data);
+
+            $(window).trigger('customFieldSaved', id);
     	});
     });
 }
@@ -153,6 +161,7 @@ mw.custom_fields.del = function(id, toremove){
             if(!!toremove){
               $(toremove).remove();
             }
+            $(window).trigger('customFieldSaved', id);
          });
       });
     });

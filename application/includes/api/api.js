@@ -13,6 +13,12 @@ typeof mw === 'undefined' ?
 
 
 
+window.onerror = function(a,b,c){
+  console.log(a);
+  console.log(b);
+  console.log(c);
+  return false;
+}
 
 
 
@@ -115,7 +121,7 @@ typeof mw === 'undefined' ?
       return typeof obj === 'string';
     },
     defined: function(obj) {
-      return obj !== undefined;
+       return typeof obj !== 'undefined';
     },
     invisible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'hidden';

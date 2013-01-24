@@ -1235,10 +1235,7 @@ div.mw-custom-fields-tags{
   padding-right: 16px;
 }
 
-.mw-ui-btn,
-.mw-ui-form input[type='submit'],
-.mw-ui-form input[type='button'],
-.mw-ui-form button{
+.mw-ui-btn{
   display: inline-block;
 /*  padding: 7px 14px 5px;
   padding: 8px 14px 6px;*/
@@ -1263,10 +1260,7 @@ div.mw-custom-fields-tags{
 
 
 
-.mw-ui-btn:disabled,
-.mw-ui-form input[type='submit']:disabled,
-.mw-ui-form input[type='button']:disabled,
-.mw-ui-form button:disabled{
+.mw-ui-btn:disabled{
   cursor: default !important;
   opacity:0.55;
 }
@@ -1348,17 +1342,11 @@ a.mw-ui-btn, span.mw-ui-btn{
     box-shadow:none;
 }
 
-.mw-ui-btn:hover, .mw-ui-btn-rect:hover,
-.mw-ui-form button,
-.mw-ui-form input[type='button']:hover,
-.mw-ui-form input[type='submit']:hover{
+.mw-ui-btn:hover, .mw-ui-btn-rect:hover{
  background: url(../img/grad.php?top=F5F5F5&bot=EBEBEB) no-repeat;
 }
 
-.mw-ui-btn:active, .mw-ui-btn-rect:active,
-.mw-ui-form active,
-.mw-ui-form input[type='button']:active,
-.mw-ui-form input[type='submit']:active{
+.mw-ui-btn:active, .mw-ui-btn-rect:active{
     box-shadow:inset 0 0 5px #ccc;
 }
 
@@ -1430,6 +1418,9 @@ div.mw-ui-field:after{
   border: none;
   color: #868686;
   font-size: 11px;
+}
+select.mw-ui-invisible-field{
+  opacity:0;
 }
 
 textarea.mw-ui-field{

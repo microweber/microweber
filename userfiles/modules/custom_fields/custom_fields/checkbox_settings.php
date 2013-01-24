@@ -11,21 +11,21 @@
    ?>
 
 
- <div class="custom-field-col left">
+ <div class="custom-field-col-left">
 
   <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Define Title'); ?>
   </label>
-  <div class="mw-custom-field-form-controls">
+
     <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
-  </div>
+
 </div>
 </div>
 
 
 
-   <div class="custom-field-col right">
+   <div class="custom-field-col-right">
 
       <label class="mw-ui-label">Values</label>
       <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
@@ -36,14 +36,14 @@
           <?php print $add_remove_controls; ?> </div>
         <? endforeach; ?>
         <? else: ?>
-        <div class="mw-custom-field-form-controls">
+    
           <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="" />
-          <?php print $add_remove_controls; ?> </div>
+          <?php print $add_remove_controls; ?>
         <? endif; ?>
         <script type="text/javascript">
         mw.custom_fields.sort("fields<?php print $rand; ?>");
       </script>
       </div>
-
+      <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
   </div>
   <? include('settings_footer.php'); ?>
