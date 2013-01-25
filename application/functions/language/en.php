@@ -455,3 +455,4 @@ $language["add-new-menus"]= 'Add new menus' ;
 $language["from"]= 'From' ; 
 $language["you-dont-have-any-custom-fields"]= 'You dont have any custom fields' ; 
 $language["define-title"]= 'Define Title' ; 
+$language["text"]= 'Text' ; 

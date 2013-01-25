@@ -5,9 +5,12 @@ if(isset($params['id'])){
 unset($params['id']);	
 }
 $opts = false;
+$is_system = '';
+if(isset($orig_params['is_system'])){
+$is_system = '&is_system='.intval($orig_params['is_system']);;	
+}
 if(isset($orig_params['for_module_id'])){
-	
-	
+
 	$chck =   get_options('module=' . $orig_params['for_module_id']);
 	if (isset($chck[0]) and isset($chck[0]['id'])) {
 	$opts = $chck;
@@ -15,7 +18,7 @@ if(isset($orig_params['for_module_id'])){
 	}
 
 } else if(isset($orig_params['option_group'])){
-	$chck =   get_options('option_group=' . $orig_params['option_group']);
+	$chck =   get_options('option_group=' . $orig_params['option_group'].$is_system);
 	if (isset($chck[0]) and isset($chck[0]['id'])) {
 	$opts = $chck;
 	 

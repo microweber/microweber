@@ -35,11 +35,17 @@
 
         __save = function(){
              mw.custom_fields.save('#custom_fields_edit<? print $rand ?>', function(){
-               if(typeof __sort_fields === 'function'){
-                 __sort_fields();
+               if(mw.$("#custom-field-editor").hasClass('mw-custom-field-created')){
+
+                    mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
+                        __sort_fields();
+                    });
+                    mw.$("#custom-field-editor").removeClass('mw-custom-field-created')
+               }
+               else{
+                  __sort_fields();
                }
              });
-             $('#create-custom-field-table').addClass('semi_hidden');
         }
 
     </script>

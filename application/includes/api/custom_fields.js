@@ -47,36 +47,37 @@ mw.custom_fields = {
       }
 
       mw.$($selector).load(mw.settings.api_html+ 'make_custom_field',data , function(){
-        mw.is.func(callback) ? callback.call($type) : '';
+        mw.is.func(callback) ? callback.call(this) : '';
       });
 
 
 	  
   },
 
-  
-   create: function($selector, $type, $copy, $for_table, $for_id, callback){
+
+   _create: function($selector, $type, $copy, $for_table, $for_id, callback, event){
       var copy_str = '';
       if($copy !== undefined && $copy !== false){
         var copy_str = '/copy_from:'+ $copy;
       }
       mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
 		mw.is.func(callback) ? callback.call($type) : '';
-		mw.$('#custom-field-editor').show();
       });
   },
-  
+  create:function(obj){
+    return mw.custom_fields._create(obj.selector, obj.type, obj.copy, obj.table, obj.id, obj.onCreate, obj.event);
+  },
   copy_field_by_id: function($copy, $for_table, $for_id, callback){
       var data = {};
       data.copy_from =$copy;
-	        data.save_on_copy =1;
-			 data.to_table =$for_table;
-			  data.to_table_id =$for_id;
+      data.save_on_copy =1;
+      data.to_table =$for_table;
+      data.to_table_id =$for_id;
 
  
       $.post(mw.settings.api_html+'make_custom_field' , data , function(){
 		  mw.reload_module('custom_fields/list');
-		mw.is.func(callback) ? callback.call($type) : '';
+		  mw.is.func(callback) ? callback.call($type) : '';
       });
   },
 
@@ -122,27 +123,28 @@ mw.custom_fields = {
 
 
 mw.custom_fields.save = function(id, callback){
-    var obj = mw.form.serialize(id);
+    var obj = mw.form.serialize(id, true);
     $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
          var $cfadm_reload = false;
          if(obj.cf_id === undefined){
-            mw.reload_module('.edit [data-parent-module="custom_fields"]', function(){
-                if(!!callback) callback.call(data)
-    	    });
+            mw.reload_module('.edit [data-parent-module="custom_fields"]');
          }
          mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
          if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
-               mw.reload_module(this, function(){
-                   if(!!callback) callback.call(data)
-               });
+               mw.reload_module(this);
            } else {
 			  var $cfadm_reload = true;
 		   }
         });
+
+		if(window.parent != undefined && window.parent.mw != undefined){
+				 window.parent.mw.reload_module('custom_fields');
+			 }
+		
+		
     	mw.reload_module('custom_fields/list', function(){
             if(!!callback) callback.call(data);
-
-            $(window).trigger('customFieldSaved', id);
+            $(window).trigger('customFieldSaved', [id, data]);
     	});
     });
 }
@@ -167,3 +169,41 @@ mw.custom_fields.del = function(id, toremove){
     });
 
 }
+
+
+$(document).ready(function(){
+  mw.$("#custom-field-editor").keyup(function(e){
+    if(e.target.name == 'custom_field_name'){
+        $(this).find('.custom-field-edit-title').html(e.target.value);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

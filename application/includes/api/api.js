@@ -400,24 +400,32 @@ window.onerror = function(a,b,c){
 })() : '';
 
 
-mw.serializeFields =  function(id){
+mw.serializeFields =  function(id, all){
       var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      if(all!=true){
+         fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      }
+      else{
+          fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox'], input[type='radio']:checked";
+      }
+
       var data = {}
       $(fields, el).each(function(){
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
-          if(!el.name.contains("[]")){
-             data[name] = val;
-          }
-          else{
+          if(el.name.contains("[") && el.name.contains("]") ){
+              mw.log('AAAAAAAAAAAAAAAAA - ' +  val)
             try {
                data[name].push(val);
             }
             catch(e){
               data[name] = [val];
             }
+
+          }
+          else{
+            data[name] = val;
           }
       });
       return data;

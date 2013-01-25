@@ -6,7 +6,7 @@ $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['categories'] = "navigation";
-$config['position'] = 2;
+$config['position'] = 6;
 $config['version'] = 0.3;
 
 

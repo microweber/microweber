@@ -55,7 +55,7 @@
         <span style="height: 15px;position: absolute; right: -1px; top: -1px;" id="insert_email" class="mw-ui-btn">Browse</span>
     </div>
     
-   <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+   <?php print $savebtn; ?>
 
 </div>
 

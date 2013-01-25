@@ -882,6 +882,14 @@ div .mw-custom-field-form-controls:last-child{
     border: 1px solid #82B6D6;
     margin-bottom: 18px;
 }
+
+.custom-field-edit .mw-ui-check input + span + span{
+  font-size: 11px;
+}
+.custom-field-edit .mw-ui-check input + span {
+  top: 6px;
+}
+
 .mw-admin-custom-field-edit-item{
   padding: 15px;
 }
@@ -922,12 +930,14 @@ div .mw-custom-field-form-controls:last-child{
 .custom-field-col-left{
   width: 190px;
   float: left;
+  min-height: 60px;
 }
 .custom-field-col-right{
   width: 270px;
   position: relative;
   float: left;
   margin-left: 20px;
+  min-height: 60px;
 }
 
 .mw-custom-fields-save{
@@ -936,6 +946,7 @@ div .mw-custom-field-form-controls:last-child{
     margin-left: 15px;
     white-space: nowrap;
     bottom: 0;
+    width: 80px;
 }
 
 

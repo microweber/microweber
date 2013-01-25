@@ -132,6 +132,8 @@ $table_name = MW_DB_TABLE_FORMS;
 	//$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('form_name', 'longtext default NULL');
 	$fields_to_add[] = array('form_values', 'TEXT default NULL');
+		$fields_to_add[] = array('module_name', 'TEXT default NULL');
+	
 	 	$fields_to_add[] = array('url', 'TEXT default NULL');
 	 	 	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
 	 
@@ -209,6 +211,8 @@ $table_name = MW_DB_TABLE_MEDIA;
 		$fields_to_add[] = array('field_for', 'TEXT default NULL');
 		$fields_to_add[] = array('custom_field_field_for', 'TEXT default NULL');
 			$fields_to_add[] = array('custom_field_help_text', 'TEXT default NULL');
+						$fields_to_add[] = array('options', 'TEXT default NULL');
+			
 	
 	$fields_to_add[] = array('custom_field_is_active', "char(1) default 'y'");
 	 	$fields_to_add[] = array('custom_field_required', "char(1) default 'n'");

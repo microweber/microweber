@@ -34,6 +34,6 @@
     <input class="mw-ui-field" type="text" value="ex.: 001-8892345678" />
 
 
-       <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+       <?php print $savebtn; ?>
   </div>
   <? include('settings_footer.php'); ?>

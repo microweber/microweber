@@ -161,13 +161,15 @@ function save_custom_field($data) {
 	if (!isset($data_to_save['to_table_id'])) {
 		$data_to_save['to_table_id'] = '0';
 	}
-
+	if (isset($data['options'])) {
+		$data_to_save['options'] = encode_var($data['options']);
+	}
 	//  $data_to_save['debug'] = 1;
 
 	$save = save_data($table_custom_field, $data_to_save);
 
 	cache_clean_group('custom_fields');
-	$save = make_field($save);
+	//	$save = make_field($save);
 	return $save;
 
 	//exit
@@ -330,7 +332,9 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 			}
 		}
 	}
-
+	if (isset($data['options']) and $data['options'] != '') {
+		$data['options'] = decode_var($data['options']);
+	}
 	$dir = INCLUDES_DIR;
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);

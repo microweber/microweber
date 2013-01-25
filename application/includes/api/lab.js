@@ -9,7 +9,7 @@ mw.cache = {
    save:function(key, val){
      return localStorage.setItem(key, val)
    },
-   clear:function(key){
+   remove:function(key){
      return localStorage.removeItem(key);
    },
    clearAll:function(){

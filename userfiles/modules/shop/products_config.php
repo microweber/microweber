@@ -7,6 +7,6 @@ $config['no_cache'] = true;
 $config['ui'] = true;
 $config['categories'] = "online shop";
 $config['version'] = 0.4;
-$config['position'] = 1;
+$config['position'] = 4;
 
 

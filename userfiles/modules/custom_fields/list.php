@@ -94,9 +94,17 @@ if(isarr( $diff) and isarr($more) ){
   <? endif; ?>
   <? foreach( $more as $field): ?>
   <? if(isset($params['save_to_content_id'])): ?>
-  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"> <? print ($field['title']); ?> </a>
+  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
+    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"> <? print ($field['title']); ?>
+  </a>
   <? else: ?>
-  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"> <? print ($field['title']); ?> <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span> </a>
+
+  <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
+    data-id="<? print $field['id'] ?>"
+    onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"><? print ($field['title']); ?>
+    <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
+  </a>
+
   <? endif; ?>
   <? endforeach; ?>
 </div>

@@ -52,6 +52,13 @@ function countries_list() {
 
 }
 
+function get_form_data($params) {
+	$table = MW_DB_TABLE_FORMS;
+	$params['table'] = $table;
+
+	return get($params);
+}
+
 api_expose('post_form');
 function post_form($params) {
 
@@ -89,6 +96,7 @@ function post_form($params) {
 	if (isset($params['to_table_id'])) {
 		$for_id = $params['to_table_id'];
 	}
+	$to_save = array();
 	$fields_data = array();
 	$more = get_custom_fields($for, $for_id, 1);
 	if (!empty($more)) {
@@ -96,17 +104,28 @@ function post_form($params) {
 			if (isset($item['custom_field_name'])) {
 				$cfn = ($item['custom_field_name']);
 				$cfn2 = str_replace(' ', '_', $cfn);
-
+				$fffound = false;
 				if (isset($params[$cfn2])) {
 					$fields_data[$cfn2] = $params[$cfn2];
+					$fffound = 1;
 				} elseif (isset($params[$cfn])) {
 					$fields_data[$cfn] = $params[$cfn];
+					$fffound = 1;
 				}
 
 			}
 		}
 	}
+	$to_save['form_name'] = $form_name;
+	$to_save['to_table_id'] = $form_name;
+	$to_save['to_table'] = $for;
+	$to_save['custom_fields'] = $fields_data;
+	if (isset($params['module_name'])) {
+		$to_save['module_name'] = $params['module_name'];
+	}
 
-	return ($fields_data);
+	$save = save_data($table, $to_save);
+
+	return ($save);
 
 }

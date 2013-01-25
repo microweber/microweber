@@ -45,6 +45,7 @@ function mw_options_init_db() {
 	$fields_to_add[] = array('field_values', 'TEXT default NULL');
 
 	$fields_to_add[] = array('module', 'TEXT default NULL');
+	$fields_to_add[] = array('is_system', 'int(1) default 0');
 
 	set_db_table($table_name, $fields_to_add);
 
@@ -83,6 +84,8 @@ function create_mw_default_options() {
 	$data['field_type'] = 'text';
 
 	$data['position'] = '1';
+	$data['is_system'] = '1';
+
 	$datas[] = $data;
 
 	$data = array();
@@ -92,6 +95,7 @@ function create_mw_default_options() {
 	$data['name'] = 'Website description';
 	$data['help'] = 'Describe what is your website is about.';
 	$data['field_type'] = 'textarea';
+	$data['is_system'] = '1';
 
 	$data['position'] = '2';
 	$datas[] = $data;
@@ -106,6 +110,8 @@ function create_mw_default_options() {
 	$data['option_value'] = 'default';
 	$data['field_type'] = 'website_template';
 	$data['position'] = '3';
+	$data['is_system'] = '1';
+
 	$datas[] = $data;
 
 	$data = array();
@@ -118,6 +124,8 @@ function create_mw_default_options() {
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('10' => '10', '30' => '30', '50' => '50', '100' => '100', '200' => '200');
 	$data['position'] = '4';
+	$data['is_system'] = '1';
+
 	$datas[] = $data;
 
 	$data = array();
@@ -127,32 +135,36 @@ function create_mw_default_options() {
 	$data['help'] = 'You can enable or disable the regitration for new users';
 	$data['option_value'] = 'y';
 	$data['position'] = '10';
+	$data['is_system'] = '1';
+
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('y' => 'yes', 'n' => 'no');
 	$datas[] = $data;
 
-	$data = array();
-	$data['option_group'] = 'advanced';
-	$data['option_key'] = 'cache_location';
-	$data['name'] = 'Cache files location';
-	$data['help'] = 'You can set custom cache location. Directory must be writable.';
-	$data['option_value'] = 'default';
-	$data['field_type'] = 'text';
-	$data['position'] = '999';
-	//$datas[] = $data;
+	/*
+	 $data = array();
+	 $data['option_group'] = 'advanced';
+	 $data['option_key'] = 'cache_location';
+	 $data['name'] = 'Cache files location';
+	 $data['help'] = 'You can set custom cache location. Directory must be writable.';
+	 $data['option_value'] = 'default';
+	 $data['field_type'] = 'text';
+	 $data['position'] = '999';
+	 //$datas[] = $data;
 
-	$data = array();
-	$data['option_group'] = 'advanced';
-	$data['option_key'] = 'cache_cleanup_interval';
-	$data['option_key2'] = 'cronjob';
-	$data['position'] = '999';
+	 $data = array();
+	 $data['option_group'] = 'advanced';
+	 $data['option_key'] = 'cache_cleanup_interval';
+	 $data['option_key2'] = 'cronjob';
+	 $data['position'] = '999';
 
-	$data['name'] = 'Cache cleanup interval in minutes';
-	$data['help'] = 'You can set custom cache cleanup interval. Type 0 to disable.';
-	$data['option_value'] = 'default';
+	 $data['name'] = 'Cache cleanup interval in minutes';
+	 $data['help'] = 'You can set custom cache cleanup interval. Type 0 to disable.';
+	 $data['option_value'] = 'default';
 
-	$data['field_type'] = 'text';
-	//$datas[] = $data;
+	 $data['field_type'] = 'text';
+	 //$datas[] = $data;
+	 */
 
 	$changes = false;
 	foreach ($datas as $value) {

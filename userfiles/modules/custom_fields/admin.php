@@ -66,6 +66,21 @@ $rand = rand();
     $(document).ready(function(){
        __sort_fields();
 
+       mw.$(".custom_fields_selector a").click(function(){
+            var el = this;
+            mw.custom_fields.create({
+              selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
+              type:$(el).dataset('type'),
+              copy:false,
+              table:'<? print $for  ?>',
+              id:'<? print $module_id  ?>',
+              onCreate:function(){
+                mw.$(".custom-field-edit-title").html(el.textContent);
+                mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
+              }
+            });
+       });
+
     });
 
 </script>
@@ -76,34 +91,29 @@ $rand = rand();
   <div class="vSpace"></div>
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links mw-quick-links-cols-4">
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','text',    false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iSingleText"></span><span>Text Field</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','number',  false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iNumber"></span><span>Number</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','price',   false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iPrice"></span><span>Price</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','phone',   false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iPhone"></span><span>Phone</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','site', false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','email',   false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iEmail"></span><span>E-mail</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','address', false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iAddr"></span><span>Adress</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','date',    false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iDate"></span><span>Date</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','upload',  false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iUpload"></span><span>File Upload</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','radio',   false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iRadio"></span><span>Single Choice</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','dropdown',false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
-      <li><a href="javascript:;" onclick="mw.custom_fields.create('.mw-admin-custom-field-edit-<? print $params['id']; ?>','checkbox',false,'<? print $for  ?>','<? print $module_id  ?>');"><span class="ico iChk"></span><span>Multiple choices</span></a></li>
+      <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></li>
+      <li><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></li>
+      <li><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></li>
+      <li><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span>Phone</span></a></li>
+      <li><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
+      <li><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span>E-mail</span></a></li>
+      <li><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span>Adress</span></a></li>
+      <li><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span>Date</span></a></li>
+      <li><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span>File Upload</span></a></li>
+      <li><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span>Single Choice</span></a></li>
+      <li><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
+      <li><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span>Multiple choices</span></a></li>
     </ul>
   </div>
-  <div class="custom-field-table create-custom-field-table">
-    <div class="custom-field-table-tr active">
-      <div class="custom-field-preview-cell"></div>
-      <div class="second-col">
-        <div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div>
-      </div>
-    </div>
-  </div>
+
   <module
         data-type="custom_fields/list" <? print $hide_preview  ?>
         for="<? print $for  ?>"
         for_module_id="<? print $module_id ?>"
         <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
-        id="mw_custom_fields_list_<? print $params['id']; ?>"
+        id
+
+        ="mw_custom_fields_list_<? print $params['id']; ?>"
   />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">

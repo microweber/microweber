@@ -33,20 +33,10 @@ description: Portfolio inner page
     <div class="container">
       <div class="span12"> 
         <!-- portfolio starts -->
-        <div class="row"> 
-          <!-- 1 -->
+        <div class="row">
           <div class="span8">
-            <div id="myCarousel" class="carousel slide portfolio-single-slider">
-              <div class="carousel-inner">
-                <div class="item active"><img class="img-circle" alt="" src="{TEMPLATE_URL}img/portfolio/port-single1.jpg"></div>
-                <div class="item"><img class="img-circle" alt="" src="{TEMPLATE_URL}img/portfolio/port-single2.jpg"></div>
-                <div class="item"><img class="img-circle" alt="" src="{TEMPLATE_URL}img/portfolio/port-single3.jpg"></div>
-              </div>
-              <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a> <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a> </div>
-          </div>
-          <!-- 2 -->
-          <div class="span4">
-            <div class="portfolio-single span4">
+            <div class="portfolio-single">
+              <h1 class="edit" field="title" rel="content">Post title</h1>
               <div class="edit" field="content" rel="content">
                 <h2>Case studie</h2>
                 <p>Donec tristique rhoncus libero vitae cursus. Morbi commodo, massa non lobortis rutrum, tortor risus viverra. Donec cursus fringilla aliquet. </p>

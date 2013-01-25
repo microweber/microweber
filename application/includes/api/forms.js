@@ -1,4 +1,4 @@
- 
+
 FieldUnify = function(a){
   return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or DOM node.'));
 }
@@ -183,8 +183,8 @@ mw.form = {
         }
     } 
   },
-  serialize : function(id){
-    return mw.serializeFields(id);
+  serialize : function(id, all){
+    return mw.serializeFields(id, all);
   }
 }
 

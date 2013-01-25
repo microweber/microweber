@@ -8,8 +8,8 @@ $config['website'] = "http://microweber.com/";
 $config['help'] = "http://microweber.info/modules/title";
 $config['version'] = 0.2;
 $config['ui'] = true;
-$config['position'] = 3;
+$config['position'] = 20;
 $config['as_element'] = 1;
-$config['categories'] = "content, recommended";
+$config['categories'] = "content";
 
 

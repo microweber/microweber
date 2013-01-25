@@ -9,7 +9,7 @@ $add_remove_controls = ''.
 '<span class="ico iMove custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
 
 
-
+$savebtn = '<button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();">'. _e('Save', true). '</button>';
 
 
 if(!isset($settings)){

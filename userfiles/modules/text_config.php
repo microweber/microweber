@@ -1,11 +1,9 @@
 <?
 
 $config = array();
-$config['name'] = "Title";
+$config['name'] = "Text";
 $config['author'] = "Microweber";
-$config['description'] = "Microweber";
-$config['website'] = "http://microweber.com/"; 
-$config['help'] = "http://microweber.info/modules/title"; 
+$config['description'] = "Simple text";
 $config['version'] = 0.2;
 $config['ui'] = true;
 $config['position'] = 2; 

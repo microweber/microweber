@@ -10,5 +10,5 @@ $config['ui'] = false;
 
 
 $config['categories'] = "editor";
-$config['position'] = 2;
+$config['position'] = 200;
 $config['version'] = 0.3;

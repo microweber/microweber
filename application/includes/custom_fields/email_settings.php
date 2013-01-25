@@ -22,7 +22,7 @@
         <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"  name="custom_field_value"  value="my@email.com" id="custom_field_value<? print $rand ?>">
 
     </div>
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+    <?php print $savebtn; ?>
     </div>
 
     <? include('settings_footer.php'); ?>

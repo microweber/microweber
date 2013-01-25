@@ -66,6 +66,6 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
         mw.custom_fields.sort("fields<?php print $rand; ?>");
     </script>
   </div>
-  <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+  <?php print $savebtn; ?>
   </div>
   <? include('settings_footer.php'); ?>

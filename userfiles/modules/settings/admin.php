@@ -16,6 +16,7 @@ if(hash.option_group != undefined){
  mw.$('#settings_admin_<? print $rand  ?>').attr('option_group',hash.option_group);	
  
 }
+mw.$('#settings_admin_<? print $rand  ?>').attr('is_system',1);	
 
     mw.load_module('settings/list','#settings_admin_<? print $rand  ?>', function(){
     
@@ -70,7 +71,7 @@ mw.on.hashParam('installed', function(){
      
     <div class="vSpace"></div>
     <div id="settings_admin_<? print $rand  ?>" >
-      <microweber module="settings/list" option_group="website" id="options_list_<? print $rand  ?>">
+      <microweber module="settings/list" option_group="website" is_system="1" id="options_list_<? print $rand  ?>">
     </div>
   </div>
 </div>

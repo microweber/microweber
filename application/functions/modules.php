@@ -380,7 +380,7 @@ function get_modules_from_db($params = false) {
 	}
 	$params['table'] = $table;
 
-	$params['orderby'] = 'position asc';
+	$params['order_by'] = 'position asc';
 	$params['cache_group'] = 'modules/global';
 	if (isset($params['id'])) {
 		$params['limit'] = 1;
@@ -390,6 +390,7 @@ function get_modules_from_db($params = false) {
 
 	if (!isset($params['ui'])) {
 		$params['ui'] = 1;
+		//$params['debug'] = 1;
 	}
 
 	if (isset($params['ui']) and $params['ui'] == 'any') {

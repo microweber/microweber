@@ -76,7 +76,7 @@ body.mw-live-edit.dragStart .edit:before{
 	margin-top:30px;
 	height: 150px;
 }
- 
+
 
 .empty-element-edit-area{
 	 background-color:#FF0000 !important;
@@ -106,7 +106,8 @@ body.mw-live-edit.dragStart .edit:before{
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	width:100%;	
+	width:100%;
+    min-height: 40px;
 
 }
 

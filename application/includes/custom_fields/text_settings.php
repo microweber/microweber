@@ -18,7 +18,6 @@ $(document).ready(function(){
      var curr = mwd.querySelector('#mw-custom-fields-text-holder textarea');
      mw.tools.migrateAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
      curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
-
   });
 });
 
@@ -39,8 +38,8 @@ $(document).ready(function(){
 
     <input type="text" onkeyup="" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
 
-
-    <label class="mw-ui-check"><input type="checkbox" id="mw-custom-fields-text-switch"><span></span><span>Use as Text Area</span></label>
+    <div class="vSpace"></div>                                      
+    <label class="mw-ui-check"><input type="checkbox" name="options[as_text_area]"  id="mw-custom-fields-text-switch"><span></span><span>Use as Text Area</span></label>
 
 </div>
 
@@ -54,7 +53,7 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+    <?php print $savebtn; ?>
     </div>
 
     <? include('settings_footer.php'); ?>

@@ -13,7 +13,8 @@ $save_as = $params['id'];
 $(document).ready(function(){
 
   $('form[data-form-id="<? print $form_id ?>"]').submit(function() {
- 
+ var append_to_form = '<input type="hidden" name="module_name" value="<? print $params['module'] ?>" />';
+ 	$(this).append(append_to_form); 
 	
      mw.form.post('form[data-form-id="<? print $form_id ?>"]');
     return false;

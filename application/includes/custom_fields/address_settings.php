@@ -103,6 +103,6 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 
 
     </div>
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();"><?php _e('Save changes'); ?></button>
+    <?php print $savebtn; ?>
     </div>
 <? include('settings_footer.php'); ?>
