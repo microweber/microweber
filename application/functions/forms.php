@@ -3,8 +3,8 @@
 if (!defined("MW_DB_TABLE_COUNTRIES")) {
 	define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
 }
-if (!defined("MW_DB_TABLE_FORMS")) {
-	define('MW_DB_TABLE_FORMS', MW_TABLE_PREFIX . 'forms');
+if (!defined("MW_DB_TABLE_FORMS_LISTS")) {
+	define('MW_DB_TABLE_FORMS_LISTS', MW_TABLE_PREFIX . 'forms_lists');
 }
 
 if (!defined("MW_DB_TABLE_FORMS_DATA")) {
@@ -44,7 +44,7 @@ function mw_db_init_forms_table() {
 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
 	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
 	//$fields_to_add[] = array('position', 'int(11) default NULL');
-	$fields_to_add[] = array('form_id', 'int(11) default NULL');
+	$fields_to_add[] = array('list_id', 'int(11) default 0');
 	$fields_to_add[] = array('form_values', 'TEXT default NULL');
 	$fields_to_add[] = array('module_name', 'TEXT default NULL');
 
@@ -55,22 +55,26 @@ function mw_db_init_forms_table() {
 
 	db_add_table_index('to_table', $table_name, array('to_table(55)'));
 	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
-	db_add_table_index('form_id', $table_name, array('form_id'));
+	db_add_table_index('list_id', $table_name, array('list_id'));
 
-	$table_name = MW_DB_TABLE_FORMS;
+	$table_name = MW_DB_TABLE_FORMS_LISTS;
 
 	$fields_to_add = array();
 
 	//$fields_to_add[] = array('updated_on', 'datetime default NULL');
 	$fields_to_add[] = array('created_on', 'datetime default NULL');
 	$fields_to_add[] = array('created_by', 'int(11) default NULL');
-	$fields_to_add[] = array('form_name', 'longtext default NULL');
-	$fields_to_add[] = array('form_values', 'TEXT default NULL');
+	$fields_to_add[] = array('title', 'longtext default NULL');
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+	$fields_to_add[] = array('custom_data', 'TEXT default NULL');
+
 	$fields_to_add[] = array('module_name', 'TEXT default NULL');
+	$fields_to_add[] = array('last_export', 'datetime default NULL');
+	$fields_to_add[] = array('last_sent', 'datetime default NULL');
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('form_name', $table_name, array('form_name(55)'));
+	db_add_table_index('title', $table_name, array('title(55)'));
 
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
 	return true;
@@ -125,21 +129,40 @@ function countries_list() {
 
 }
 
-function get_form_info($params) {
-	$table = MW_DB_TABLE_FORMS;
-	$params['table'] = $table;
+api_expose('save_form_list');
+function save_form_list($params) {
+	$adm = is_admin();
+	if ($adm == false) {
+		exit('You must be admin');
+	}
 
-	return get($params);
+	$table = MW_DB_TABLE_FORMS_LISTS;
+
+	if (isset($params['mw_new_forms_list'])) {
+		$params['id'] = 0;
+		$params['id'] = 0;
+		$params['title'] = $params['mw_new_forms_list'];
+	}
+	if (isset($params['for_module'])) {
+		$params['module_name'] = $params['for_module'];
+	}
+
+	$params['table'] = $table;
+	$id = save_data($table, $params);
+	if (isset($params['for_module_id'])) {
+		$opts = array();
+		$data['module'] = $params['module_name'];
+		$data['option_group'] = $params['for_module_id'];
+		$data['option_key'] = 'list_id';
+		$data['option_value'] = $id;
+		save_option($data);
+	}
+	return $params;
 }
 
-function save_form_info($params) {
-	$table = MW_DB_TABLE_FORMS;
-	$params['table'] = $table;
-
-}
-
-function get_form_data($params) {
-	$table = MW_DB_TABLE_FORMS_DATA;
+function get_form_lists($params) {
+	$params = parse_params($params);
+	$table = MW_DB_TABLE_FORMS_LISTS;
 	$params['table'] = $table;
 
 	return get($params);
@@ -150,7 +173,7 @@ function post_form($params) {
 
 	$adm = is_admin();
 
-	$table = MW_DB_TABLE_FORMS;
+	$table = MW_DB_TABLE_FORMS_DATA;
 	mw_var('FORCE_SAVE', $table);
 
 	if (isset($params['id'])) {
@@ -171,17 +194,17 @@ function post_form($params) {
 		$for_id = $params['id'];
 	}
 
-	if ($for == 'module') {
-		$form_name = get_option('form_name', $for_id);
-	}
-
 	//$for_id =$params['id'];
 	if (isset($params['to_table_id'])) {
 		$for_id = $params['to_table_id'];
 	}
 
-	if ($form_name == false) {
-		$form_name = $for_id;
+	if ($for == 'module') {
+		$list_id = get_option('list_id', $for_id);
+	}
+
+	if ($list_id == false) {
+		$list_id = 0;
 	}
 
 	$to_save = array();
@@ -204,12 +227,16 @@ function post_form($params) {
 			}
 		}
 	}
-	$to_save['form_name'] = $form_name;
-	$to_save['to_table_id'] = $form_name;
+	$to_save['list_id'] = $list_id;
+	$to_save['to_table_id'] = $for_id;
 	$to_save['to_table'] = $for;
 	$to_save['custom_fields'] = $fields_data;
 	if (isset($params['module_name'])) {
 		$to_save['module_name'] = $params['module_name'];
+	}
+
+	if (isset($params['form_values'])) {
+		$to_save['form_values'] = $params['form_values'];
 	}
 
 	$save = save_data($table, $to_save);

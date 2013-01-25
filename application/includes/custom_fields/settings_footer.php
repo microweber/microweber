@@ -33,20 +33,9 @@
 
     <script>
 
-        __save = function(){
-             mw.custom_fields.save('#custom_fields_edit<? print $rand ?>', function(){
-               if(mw.$("#custom-field-editor").hasClass('mw-custom-field-created')){
+         __save__global_id = '#custom_fields_edit<? print $rand ?>';
 
-                    mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
-                        __sort_fields();
-                    });
-                    mw.$("#custom-field-editor").removeClass('mw-custom-field-created')
-               }
-               else{
-                  __sort_fields();
-               }
-             });
-        }
+
 
     </script>
 

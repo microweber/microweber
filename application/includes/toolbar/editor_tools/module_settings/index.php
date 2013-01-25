@@ -1,6 +1,14 @@
 <!DOCTYPE HTML>
 <html>
           <head>
+          
+          <?  $module_info = false;
+		  if(isset($params['module'])): ?>
+           <? $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
+           <? endif; ?>
+       
+          
+
           <script type="text/javascript" src="<?php   print(INCLUDES_URL); ?>js/jquery.js"></script>
                     <script type="text/javascript" src="<?php   print(INCLUDES_URL); ?>api/jquery-ui.js"></script>
 
@@ -10,18 +18,34 @@
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
                     <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
 
-     
+
 		   <script type="text/javascript">
   //document.body.className+=' loading';
- 
+
  
   //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
+
+
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
    mw.require("forms.js");
  mw.require('wysiwyg.js');
  
+</script>
+
+ <script type="text/javascript">
+         <? if(isarr( $module_info)): ?>
+
+           mw_module_settings_info  = <? print json_encode($module_info); ?>
+
+
+           typeof thismodal != 'undefined' ? $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name) : '';
+
+
+          <? endif; ?>
+
+
 
 
 			</script>
@@ -110,6 +134,9 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
           </script>
           </head>
           <body>
+
+
+
           <div class="mw-module-live-edit-settings <? print $params['id'] ?>" id="<? print $params['id'] ?>">{content}</div>
 </body>
 </html>

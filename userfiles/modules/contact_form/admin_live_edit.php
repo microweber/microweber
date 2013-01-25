@@ -37,20 +37,10 @@
   
   
   
-  <module type="forms/edit_for_module"  data-for-module="<? print $config['module_name'] ?>"  data-for-module-id="<? print $params['id'] ?>" />
+  <module type="forms/assign_list_to_module"  data-for-module="<? print $config['module_name'] ?>"  data-for-module-id="<? print $params['id'] ?>" />
   
   
-  
-  
-  
-      <legend>Form settings</legend>
-      <div class="control-group">
-        <label class="control-label">Form name</label>
-        <div class="controls">
-          <input name="form_name" class="mw_option_field"   type="text" data-refresh="contact_form"  value="<?php print get_option('form_name', $params['id']) ?>" />
-        </div>
-      </div>
-      
+   
       
    <label>
       <input type="checkbox" name="disable_captcha" value="y" class="mw_option_field" <? if(get_option('disable_captcha', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> />

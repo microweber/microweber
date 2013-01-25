@@ -180,7 +180,7 @@ mw.tools = {
     },
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
-        var frame = "<iframe width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "' scrolling='auto' frameborder='0'></iframe>";
+        var frame = "<iframe  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "' scrolling='auto' frameborder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
@@ -191,10 +191,15 @@ mw.tools = {
           template:obj.template
         });
         $(modal.main).addClass("mw_modal_type_iframe");
+
+        modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
+
+
         mw.tools.modal.overlay(modal.main);
         return modal;
     },
     remove:function(id){
+        if(typeof id == 'object') var id = $(id)[0].id;
         $(document.getElementById(id)).remove();
         $("div.mw_overlay[rel='"+id+"']").remove();
     },

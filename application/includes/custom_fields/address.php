@@ -1,13 +1,40 @@
 <?
-
 $rand = rand();
-
-
+if (!isset($data['id'])) {
+include('empty_field_vals.php');
+}
 ?>
+<?
 
-<div class="mw-custom-field-group">
-  <label class="mw-custom-field-label" for="custom_field_help_text<? print $rand ?>"><? print $data["custom_field_name"]; ?></label>
-  <div class="mw-custom-field-form-controls">
-    <input type="text"   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>  data-custom-field-id="<? print $data["id"]; ?>"  name="<? print $data["custom_field_name"]; ?>" id="custom_field_help_text<? print $rand ?>" value="<? print $data["custom_field_value"]; ?>">
-  </div>
+
+//print $data["custom_field_value"]; ?>
+<? if(!empty($data['custom_field_values'])) : ?>
+
+<div class="mw-custom-field-group mw-custom-field-group-checkbox custom-field-preview">
+  <label class="mw-ui-label mw-custom-field-label">
+    <? if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <? print $data['name'] ?>
+    <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
+    <? print $data['custom_field_name'] ?>
+    <? else : ?>
+    <? endif; ?>
+  </label>
+  <? if(isset($data['help']) == true and $data['help'] != ''): ?>
+  <small  class="mw-custom-field-help"><? print $data['help'] ?></small>
+  <? endif; ?>
+ 
+    <? foreach($data['custom_field_values'] as $k=>$v): ?>
+    <? if(is_string( $k)){
+	$kv =  $k;	
+	} else {
+	$kv =  $v;	
+	}
+	?>
+     <label class="mw-ui-label mw-custom-field-label">
+     <? print ($k); ?>
+    <input  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <? endif; ?>  value="<? print ($v); ?>" />
+    </label>
+    <? endforeach; ?>
+   
 </div>
+<? endif; ?>

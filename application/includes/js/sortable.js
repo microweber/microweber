@@ -1135,9 +1135,13 @@ module_settings: function() {
 
 
   var src = mw.settings.site_url + "api/module?"+json2url(data1);
+
+
+
   var modal = mw.tools.modal.frame({
     url:src,
     width:750,
+    title:$(curr).dataset('type'),
     callback:function(){
         mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
         $(this.container).attr('data-settings-for-module', curr.id);

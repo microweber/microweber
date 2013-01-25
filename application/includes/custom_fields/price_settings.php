@@ -17,7 +17,11 @@
     <div class="mw-custom-field-group">
       <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">Value</label>
 
-        <input type="text" class="mw-ui-field"  name="custom_field_value" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"   value="<? print ($data['custom_field_value']) ?>" id="custom_field_value<? print $rand ?>">
+        <input type="text"
+            class="mw-ui-field"
+            name="custom_field_value"
+            onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"
+            value="<? print ($data['custom_field_value']) ?>" />
 
     </div> <?php print $savebtn; ?>
     </div>

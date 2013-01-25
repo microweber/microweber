@@ -412,7 +412,7 @@ mw.serializeFields =  function(id){
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
-          if(el.name.contains("[") && el.name.contains("]") ){
+          if(el.name.contains("[]")){
             try {
                data[name].push(val);
             }

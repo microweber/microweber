@@ -387,7 +387,9 @@ function get_modules_from_db($params = false) {
 	} else {
 		$params['limit'] = 1000;
 	}
-
+	if (isset($params['module'])) {
+		$params['module'] = str_replace('/admin', '', $params['module']);
+	}
 	if (!isset($params['ui'])) {
 		$params['ui'] = 1;
 		//$params['debug'] = 1;

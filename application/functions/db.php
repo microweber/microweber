@@ -505,7 +505,8 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v); ;
+			$table = guess_table_name($v);
+			;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -594,9 +595,9 @@ function get($params) {
 
 			break;
 	}
-if(empty($ge)){
-	return false;
-}
+	if (empty($ge)) {
+		return false;
+	}
 	//d($ge);
 	if ($getone == true) {
 		if (isset($ge[0])) {
@@ -1420,8 +1421,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search;
-		;
+		$q = $q . $includeIds_idds . $where_search; ;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -2477,7 +2477,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
-					 	// d($add);
+						// d($add);
 						db_q($add);
 
 					}
@@ -2583,8 +2583,11 @@ function db_update_position($table, $data = array()) {
 	$i = 0;
 	if (isarr($data)) {
 		foreach ($data as $value) {
-			$q = "UPDATE $table_real set position={$i} where id={$value} ";
-			$q = db_q($q);
+			$value = intval($value);
+			if ($value != 0) {
+				$q = "UPDATE $table_real set position={$i} where id={$value} ";
+				$q = db_q($q);
+			}
 			$i++;
 		}
 	}
@@ -2966,7 +2969,8 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns); ;
+		$fColumns = implode(',', $aForeignColumns);
+		;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 

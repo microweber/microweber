@@ -77,27 +77,27 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 
    <div id="mw-custom-fields-address-fields-country">
         <label class="mw-ui-label">Country</label>
-        <input type="text" class="mw-ui-field"  />
+        <input type="text" class="mw-ui-field" name="custom_field_value[country]"  />
     </div>
 
     <div id="mw-custom-fields-address-fields-city">
         <label class="mw-ui-label">City</label>
-        <input type="text" class="mw-ui-field" />
+        <input type="text" class="mw-ui-field" name="custom_field_value[city]" />
     </div>
 
     <div id="mw-custom-fields-address-fields-addr">
         <label class="mw-ui-label">Address</label>
-        <input type="text" class="mw-ui-field" />
+        <input type="text" class="mw-ui-field" name="custom_field_value[address]" />
     </div>
 
     <div id="mw-custom-fields-address-fields-state">
         <label class="mw-ui-label">State/Province</label>
-        <input type="text" class="mw-ui-field" />
+        <input type="text" class="mw-ui-field" name="custom_field_value[state]" />
     </div>
 
     <div id="mw-custom-fields-address-fields-zip">
         <label class="mw-ui-label">Zip/Postal Code</label>
-        <input type="text" class="mw-ui-field" />
+        <input type="text" class="mw-ui-field" name="custom_field_value[zip]" />
     </div>
 
 
