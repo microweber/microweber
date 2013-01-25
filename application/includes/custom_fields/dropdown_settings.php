@@ -20,15 +20,16 @@ mw.options.form('#dropdown_opts_<?php print $rand; ?>',function() {
   <label class="mw-ui-label" for="input_field_label<? print $rand ?>">
     <?php _e('Define Title'); ?>
   </label>
-  <div class="mw-custom-field-form-controls">
+
     <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand ?>">
-  </div>
+
   <div class="vSpace"></div>
     <label class="mw-ui-check left" style="margin-right: 7px;">
     <input type="checkbox" class="mw_option_field" data-option-group="custom_fields" id="multiple_choices_<? print $data['id']; ?>" name="multiple_choices_<? print $data['id']; ?>" value="y" <? if(get_option('multiple_choices_'.$data['id'], 'custom_fields') == 'y'): ?> checked="checked" <? endif; ?> />
     <span></span>
+    <span>Allow Multiple Choices</span>
   </label>
-  <label for="multiple_choices_<? print $data['id']; ?>" class="mw-ui-label">Allow Multiple Choices</label>
+
 </div>
 </div>
 

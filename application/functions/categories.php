@@ -443,8 +443,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 	//
 
 	//
-	//$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
-	$q = db_query($sql);
+	$q = db_query($sql, $cache_id = 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . crc32($sql), 'taxonomy/' . intval($parent));
+	//$q = db_query($sql);
 
 	// $q = $this->core_model->dbQuery ( $sql, $cache_id =
 	// 'content_helpers_getCaregoriesUlTree_parent_cats_q_' . md5 ( $sql ),
@@ -1588,6 +1588,14 @@ function category_link($id) {
 		return $cache_content;
 	} else {
 		$table = MW_TABLE_PREFIX . 'taxonomy';
+		$c_infp = get_category_by_id($id);
+		if (!isset($c_infp['to_table'])) {
+			return;
+		}
+
+		if (trim($c_infp['to_table']) != 'table_content') {
+			return;
+		}
 
 		$content = get_page_for_category($id);
 
@@ -1605,7 +1613,6 @@ function category_link($id) {
 				}
 			}
 		} else {
-			$c_infp = get_category_by_id($id);
 			if (!empty($c_infp) and isset($c_infp['to_table']) and trim($c_infp['to_table']) == 'table_content') {
 				db_delete_by_id($table, $id);
 			}

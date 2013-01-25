@@ -293,6 +293,32 @@ function ago($time, $granularity = 2) {
     }
     return '' . $retval . ' ago';
 }
+function mw_warning($text, $exit = false) {
+	return mw_warn($text, $exit);
+}
+function mw_warn($text, $exit = false) {
+          include (ADMIN_VIEWS_PATH . 'mw_warning.php');
+		  if($exit == true){
+			die();
+		}
+}
+
+function mw_notification($text, $exit = false) {
+	return mw_notif($text, $exit);
+}
+function mw_notif($text,$exit = false) {
+         include (ADMIN_VIEWS_PATH . 'mw_notification.php');
+		if($exit == true){
+			die();
+		}
+}
+
+function mw_error($text, $exit = false) {
+          include (ADMIN_VIEWS_PATH . 'mw_error.php');
+		if($exit == true){
+			die();
+		}
+}
 
 function debug_info() {
     //if (c('debug_mode')) {

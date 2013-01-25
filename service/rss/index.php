@@ -36,7 +36,7 @@
 		$numberOfDaysInSeconds = ($numberOfDays * 24 * 60 * 60);
 		$expireDate = time() - $numberOfDaysInSeconds;
 
-		$urls = array('http://www.behance.net/feeds/projects','http://cnet.tumblr.com/rss','http://feeds.feedburner.com/thr/news','http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
+		$urls = array('http://feeds.feedburner.com/dezeen','http://www.behance.net/feeds/projects','http://cnet.tumblr.com/rss','http://feeds.feedburner.com/thr/news','http://feeds.gawker.com/Gizmodo/full', 'http://www.engadget.com/rss.xml');
 		$feed = new SimplePie();
 		$feed -> set_feed_url($urls);
 		$feed -> set_cache_duration(10000);

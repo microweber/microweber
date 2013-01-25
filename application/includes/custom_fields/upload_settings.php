@@ -19,19 +19,23 @@
     <div class="mw-custom-fields-upload-filetypes">
 
       <label class="mw-ui-check">
-          <input type="checkbox" />
+
+
+
+
+          <input type="checkbox"  name="options[file_types]" value="images"  />
           <span></span>
           <span>Images Files</span>
       </label>
       <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox" />
+          <input type="checkbox"  name="options[file_types]" value="documents" />
           <span></span>
           <span>Document Files</span>
       </label>
        <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox" />
+          <input type="checkbox"  name="options[file_types]" value="archives" />
           <span></span>
           <span>Archive Files</span>
       </label>
@@ -41,7 +45,7 @@
 
       <label class="mw-ui-label">Custom File Types</label>
 
-      <input type="text" class="mw-ui-field" value="psd,html,css" data-default='psd,html,css' onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
+      <input type="text" class="mw-ui-field"  name="options[other]" value="images" value="psd,html,css" data-default='psd,html,css' onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
 
     </div>
 

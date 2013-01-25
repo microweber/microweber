@@ -1132,28 +1132,19 @@ module_settings: function() {
 	data1.live_edit = 'true';
 	data1.view = 'admin';
 	//data1.no_wrap = '1';
-    mw.tools.modal.init({
-	html:"",
-	width:600,
-	height:450,
-	callback:function() {
-      var id = this.main[0].id;
-	   var ifr_src = mw.settings.site_url + "api/module?"+json2url(data1);
-	  var ifr = '<iframe width="600" height="450" src="'+ifr_src+'" class="mw-module-settings-iframe"></iframe>'
-	  $(this.container).html(ifr);
-	    mw.drag.ModuleSettingsPopupLoaded(id);
-/*	  
-      $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
-      
-		mw.simpletabs(this.container);
-      });
-	  */
-	  
-	  
-	  
-      $(this.container).attr('data-settings-for-module', curr.id);
+
+
+  var src = mw.settings.site_url + "api/module?"+json2url(data1);
+  var modal = mw.tools.modal.frame({
+    url:src,
+    width:750,
+    callback:function(){
+        mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
+        $(this.container).attr('data-settings-for-module', curr.id);
     }
-	});
+  });
+
+  return modal;
 
   },
 

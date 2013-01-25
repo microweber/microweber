@@ -3,6 +3,79 @@
 if (!defined("MW_DB_TABLE_COUNTRIES")) {
 	define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
 }
+if (!defined("MW_DB_TABLE_FORMS")) {
+	define('MW_DB_TABLE_FORMS', MW_TABLE_PREFIX . 'forms');
+}
+
+if (!defined("MW_DB_TABLE_FORMS_DATA")) {
+	define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
+}
+
+//action_hook('mw_db_init_default', 'mw_db_init_forms_table');
+action_hook('mw_db_init', 'mw_db_init_forms_table');
+
+function mw_db_init_forms_table() {
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db');
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+	$table_name = MW_DB_TABLE_FORMS_DATA;
+
+	$fields_to_add = array();
+
+	//$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	//$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	//$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('form_id', 'int(11) default NULL');
+	$fields_to_add[] = array('form_values', 'TEXT default NULL');
+	$fields_to_add[] = array('module_name', 'TEXT default NULL');
+
+	$fields_to_add[] = array('url', 'TEXT default NULL');
+	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('to_table', $table_name, array('to_table(55)'));
+	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('form_id', $table_name, array('form_id'));
+
+	$table_name = MW_DB_TABLE_FORMS;
+
+	$fields_to_add = array();
+
+	//$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('form_name', 'longtext default NULL');
+	$fields_to_add[] = array('form_values', 'TEXT default NULL');
+	$fields_to_add[] = array('module_name', 'TEXT default NULL');
+
+	set_db_table($table_name, $fields_to_add);
+
+	db_add_table_index('form_name', $table_name, array('form_name(55)'));
+
+	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	return true;
+
+}
 
 action_hook('mw_db_init', 'mw_db_init_countries_table');
 
@@ -52,8 +125,21 @@ function countries_list() {
 
 }
 
-function get_form_data($params) {
+function get_form_info($params) {
 	$table = MW_DB_TABLE_FORMS;
+	$params['table'] = $table;
+
+	return get($params);
+}
+
+function save_form_info($params) {
+	$table = MW_DB_TABLE_FORMS;
+	$params['table'] = $table;
+
+}
+
+function get_form_data($params) {
+	$table = MW_DB_TABLE_FORMS_DATA;
 	$params['table'] = $table;
 
 	return get($params);
@@ -88,14 +174,16 @@ function post_form($params) {
 	if ($for == 'module') {
 		$form_name = get_option('form_name', $for_id);
 	}
-	if ($form_name == false) {
-		$form_name = $for_id;
-	}
 
 	//$for_id =$params['id'];
 	if (isset($params['to_table_id'])) {
 		$for_id = $params['to_table_id'];
 	}
+
+	if ($form_name == false) {
+		$form_name = $for_id;
+	}
+
 	$to_save = array();
 	$fields_data = array();
 	$more = get_custom_fields($for, $for_id, 1);

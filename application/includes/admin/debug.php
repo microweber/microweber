@@ -56,5 +56,15 @@ print_r(apc_cache_info('user'));
 
 
 <? endif; ?>
+<?
+/*
+	<b>Api exposed functions</b>
+  <pre><?php print d(explode(' ',api_expose(true))); ?></pre>
+  
+*/
+
+ ?>
+  
+		 
 
 </div>

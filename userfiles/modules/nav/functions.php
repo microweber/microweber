@@ -305,13 +305,16 @@ function menu_tree($menu_id, $maxdepth = false) {
 			if (isarr($cont)) {
 				$title = $cont['title'];
 				$url = category_link($cont['id']);
+			} else {
+				db_delete_by_id($table_menus, $item['id']);
+				$title = false;
+				$item['title'] = false;
 			}
 		} else {
 			$title = $item['title'];
 			$url = $item['url'];
 		}
 
-		$item['url'] = $url;
 		if ($item['title'] == '') {
 			$item['title'] = $title;
 		} else {
@@ -319,6 +322,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		}
 
 		if ($title != '') {
+			$item['url'] = $url;
 			//$full_item['the_url'] = page_link($full_item['content_id']);
 			$to_print .= '<li   class="' . $li_class . ' ' . ' ' . $active_class . '" data-item-id="' . $item['id'] . '" >';
 

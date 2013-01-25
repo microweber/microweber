@@ -17,9 +17,7 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
 }
 
-if (!defined("MW_DB_TABLE_FORMS")) {
-	define('MW_DB_TABLE_FORMS', MW_TABLE_PREFIX . 'forms');
-}
+
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
  //action_hook('mw_db_init', 'mw_db_init_content_table');
@@ -118,36 +116,7 @@ $table_name = MW_DB_TABLE_CONTENT_FIELDS;
 	db_add_table_index('field', $table_name, array('field(55)'));
 
 
-
-$table_name = MW_DB_TABLE_FORMS;
-
-	$fields_to_add = array();
-
-	//$fields_to_add[] = array('updated_on', 'datetime default NULL');
-	$fields_to_add[] = array('created_on', 'datetime default NULL');
-	$fields_to_add[] = array('created_by', 'int(11) default NULL');
-	//$fields_to_add[] = array('edited_by', 'int(11) default NULL');
- 	$fields_to_add[] = array('to_table', 'TEXT default NULL');
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
-	//$fields_to_add[] = array('position', 'int(11) default NULL');
-	$fields_to_add[] = array('form_name', 'longtext default NULL');
-	$fields_to_add[] = array('form_values', 'TEXT default NULL');
-		$fields_to_add[] = array('module_name', 'TEXT default NULL');
-	
-	 	$fields_to_add[] = array('url', 'TEXT default NULL');
-	 	 	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
-	 
-	
-	 
-
-	set_db_table($table_name, $fields_to_add);
-
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
-	db_add_table_index('form_name', $table_name, array('form_name(55)'));
-
-
-
+ 
 
 
 $table_name = MW_DB_TABLE_MEDIA;
@@ -234,11 +203,9 @@ $table_name = MW_DB_TABLE_MEDIA;
 	 
 
 	cache_store_data(true, $function_cache_id, $cache_group = 'db');
-	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
-	return true;
+ 	return true;
 
-	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
-}
+ }
 action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
 function create_mw_default_pages_in_not_exist() {
 	 mw_create_default_content('default');

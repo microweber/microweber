@@ -1,5 +1,5 @@
 <div class="mw-custom-field-group">
- <? //  d($data); ?>
+ <?  // d($data); ?>
   <label class="mw-custom-field-label">
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print ucwords(str_replace('_', ' ', $data['name'])); ?>

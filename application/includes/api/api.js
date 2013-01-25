@@ -14,19 +14,23 @@ typeof mw === 'undefined' ?
 
 
 window.onerror = function(a,b,c){
-  console.log(a);
-  console.log(b);
-  console.log(c);
-  return false;
+  console.log(a + b + c);
 }
-
-
 
   mw = {}
 
-  mw.askusertostay = null;
+  if (top === self){
 
-  window.onbeforeunload = function() { return mw.askusertostay; }
+
+    window.onbeforeunload = function() {
+        if(typeof mw.askusertostay != 'undefined'){
+            return true;
+        }
+    }
+
+
+
+  }
 
   mw.module = {} //Global Variable for modules scripts
 
@@ -400,22 +404,15 @@ window.onerror = function(a,b,c){
 })() : '';
 
 
-mw.serializeFields =  function(id, all){
+mw.serializeFields =  function(id){
       var el = mw.$(id);
-      if(all!=true){
-         fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
-      }
-      else{
-          fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox'], input[type='radio']:checked";
-      }
-
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {}
       $(fields, el).each(function(){
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
           if(el.name.contains("[") && el.name.contains("]") ){
-              mw.log('AAAAAAAAAAAAAAAAA - ' +  val)
             try {
                data[name].push(val);
             }

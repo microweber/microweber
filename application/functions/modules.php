@@ -1521,6 +1521,9 @@ function load_module($module_name, $attrs = array()) {
 		$config['path_to_module'] = $config['mp'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
 		$config['module'] = $module_name;
+
+		$config['module_name'] = dirname($module_name);
+
 		$config['module_name_url_safe'] = module_name_encode($module_name);
 		$find_base_url = curent_url(1);
 		if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
@@ -1566,10 +1569,10 @@ function load_module($module_name, $attrs = array()) {
 		if ($lic != false) {
 			$config['license'] = $lic;
 		}
- 
+
 		if (!isset($attrs['id'])) {
 
-			$attrs1 = crc32(serialize($attrs) . url_segment(0).date('YmdHis'));
+			$attrs1 = crc32(serialize($attrs) . url_segment(0) . date('YmdHis'));
 			//	$s1 = crc32();
 			//$s1 = '';
 			/*
@@ -1604,7 +1607,7 @@ function load_module($module_name, $attrs = array()) {
 		if (!isset($attrs['parent-module'])) {
 			$attrs['parent-module'] = $module_name;
 		}
-		
+
 		if (!isset($attrs['parent-module-id'])) {
 			$attrs['parent-module-id'] = $attrs['id'];
 		}

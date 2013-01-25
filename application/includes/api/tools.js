@@ -940,6 +940,12 @@ mw.tools = {
     for(var x in attrs){
        ( $.inArray(x, except) == -1 && x != 'undefined')? to.setAttribute(x, attrs[x]): '';
     }
+  },
+  isEmptyObject:function(obj){
+     for (var a in obj) {
+        if(obj.hasOwnProperty(a)) return false;
+     }
+     return true;
   }
 }
 

@@ -22,6 +22,8 @@
     <li><a href="javascript:;">Options</a></li>
      
   </ul>
+    <a href="<? print admin_url('view:').$params['module']  ?>" class="mw-ui-link" target="_blank">See form entires</a>
+
   <div class="tab">
     <module type="custom_fields"  view="admin" data-for="module" data-id="<? print $params['id'] ?>" />
   </div>
@@ -30,10 +32,17 @@
   </div>
   <div class="tab">
  <br />
-  <a href="<? print admin_url('view:').$params['module']  ?>" class="mw-ui-link" target="_blank">See form entires</a>
   <br />
   <br />  <br />
-    <fieldset>
+  
+  
+  
+  <module type="forms/edit_for_module"  data-for-module="<? print $config['module_name'] ?>"  data-for-module-id="<? print $params['id'] ?>" />
+  
+  
+  
+  
+  
       <legend>Form settings</legend>
       <div class="control-group">
         <label class="control-label">Form name</label>
@@ -41,11 +50,11 @@
           <input name="form_name" class="mw_option_field"   type="text" data-refresh="contact_form"  value="<?php print get_option('form_name', $params['id']) ?>" />
         </div>
       </div>
-      <label>
+      
+      
+   <label>
       <input type="checkbox" name="disable_captcha" value="y" class="mw_option_field" <? if(get_option('disable_captcha', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> />
       Disable captcha</label>
-      
-    </fieldset>
     <microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
   </div>
 </div>

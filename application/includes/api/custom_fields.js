@@ -122,8 +122,33 @@ mw.custom_fields = {
 
 
 
+
+
+mw.custom_fields.serialize = function(id){
+      var el = mw.$(id);
+      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      var data = {};
+      data.options = {};
+      $(fields, el).each(function(){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(_el.hasClass('mw-custom-field-option')){
+            data.options[name] = val;
+          }
+          else{
+            data[name] = val;
+          }
+      });
+      if(mw.tools.isEmptyObject(data.options)){
+        data.options = '';
+      }
+      return data;
+}
+
+
 mw.custom_fields.save = function(id, callback){
-    var obj = mw.form.serialize(id, true);
+    var obj = mw.custom_fields.serialize(id);
     $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
          var $cfadm_reload = false;
          if(obj.cf_id === undefined){

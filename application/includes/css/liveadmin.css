@@ -214,8 +214,6 @@ body:-webkit-full-screen {
 
 #mw_tabs li.active a{
   background:url(../img/nav_active_right.jpg) no-repeat right top;
-  cursor: default;
-  pointer-events: none;
 }
 
 #mw_toolbar_logo{
@@ -834,6 +832,9 @@ form.add-edit-page-post textarea{
 .mw-custom-field-form-controls{
   clear: both;
   padding: 8px 0;
+}
+div .mw-custom-field-form-controls:first-child{
+  padding-top: 0;
 }
 div .mw-custom-field-form-controls:last-child{
   padding-bottom: 0;
