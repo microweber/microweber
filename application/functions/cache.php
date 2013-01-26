@@ -11,7 +11,7 @@ if (!defined('APC_CACHE')) {
 	if (isset($_POST) and isarr($_POST)) {
 		$apc_exists = false;
 	}
-	$apc_exists = false;
+	 $apc_exists = false;
 	//    if (isset($_COOKIE['editmode'])) {
 	//
 	//    }
@@ -24,10 +24,10 @@ if (!defined('APC_EXPIRES')) {
 
 	define("APC_EXPIRES", 30);
 }
-$mem = array();
-function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 
-	global $mem;
+function _old_cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
+
+	global $mw_cache_get_content_memory;
 	// return false;
 	//static $mem = array();
 	static $mem_hits = array();
@@ -45,15 +45,15 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	switch ($mode) {
 		case 1 :
 			if ($replace_with_new != false) {
-				$mem[$cache_group][$cache_id] = $replace_with_new;
+				$mw_cache_get_content_memory[$cache_group][$cache_id] = $replace_with_new;
 				//   asort($mem[$cache_group]);
 				$mem_hits[$cache_group][$cache_id] = 1;
 				// asort($mem);
 			}
 
-			if (isset($mem[$cache_group][$cache_id])) {
+			if (isset($mw_cache_get_content_memory[$cache_group][$cache_id])) {
 				$mem_hits[$cache_group][$cache_id]++;
-				return $mem[$cache_group][$cache_id];
+				return $mw_cache_get_content_memory[$cache_group][$cache_id];
 			} else {
 				return false;
 			}
@@ -64,16 +64,139 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			$key = $cache_group + $cache_id;
 			$key = intval($key);
 			if ($replace_with_new != false) {
-				$mem[$key] = $replace_with_new;
+				$mw_cache_get_content_memory[$key] = $replace_with_new;
 
 				$mem_hits[$cache_id_o] = 1;
 				// ksort($mem);
 				// ksort($mem_hits);
 			}
 
-			if (isset($mem[$key])) {
+			if (isset($mw_cache_get_content_memory[$key])) {
 				$mem_hits[$cache_id_o]++;
-				return $mem[$key];
+				return $mw_cache_get_content_memory[$key];
+			} else {
+				return false;
+			}
+
+			break;
+
+		default :
+			break;
+	}
+}
+
+//$mw_cache_mem = array();
+function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
+	global $mw_skip_memory;
+	static $mw_cache_mem = array();
+	;
+	// return false;
+	//static $mw_cache_mem = array();
+	static $mw_cache_mem_hits = array();
+
+	if (is_bool($cache_id) and $cache_id == true) {
+		return $mw_cache_mem_hits;
+	}
+
+	$cache_id_o = $cache_id;
+	$cache_group = (int) crc32($cache_group);
+	$cache_id = (int) crc32($cache_id);
+
+	//$cache_group = 'gr' . crc32($cache_group);
+	// $cache_id = 'id' . crc32($cache_id);
+	$mode = 2;
+	switch ($mode) {
+		case 0 :
+			if ($replace_with_new != false) {
+				$mw_cache_mem[$cache_group][$cache_id] = $replace_with_new;
+
+				if ($replace_with_new != false) {
+					$cache_group_index = cache_get_file_path('index', $cache_group);
+					$mw_skip_memory[] = $cache_id;
+					//d($cache_group_index);
+					//@unlink($cache_group_index);
+				}
+				//   asort($mw_cache_mem[$cache_group]);
+				$mw_cache_mem_hits[$cache_group][$cache_id] = 1;
+				// asort($mw_cache_mem);
+			} else {
+
+				if (!isset($mw_cache_mem[$cache_group][$cache_id])) {
+
+					$criteria_id = $cache_id;
+
+					$cache_group_index = cache_get_file_path('index', $cache_group);
+
+					$cache_content1 = CACHE_CONTENT_PREPEND;
+					$mw_sep_for_index_cache = '_____|||||||||||||||-mw-sep-for-cache-file-|||||||||||||||_____';
+					$mw_sep_for_cache_id = '-||-mw-sep-for-cache-id||--';
+
+					if (is_file($cache_group_index) == false) {
+						file_put_contents($cache_group_index, $cache_content1);
+					} else {
+						$cache_group_index_file_contents = file_get_contents($cache_group_index);
+						$cache_group_index_file_contents_array = explode($mw_sep_for_index_cache, $cache_group_index_file_contents);
+						if (!empty($cache_group_index_file_contents_array)) {
+							foreach ($cache_group_index_file_contents_array as $key => $value) {
+								$compiled_cache = explode($mw_sep_for_cache_id, $value);
+								if (!empty($compiled_cache)) {
+									if (isset($compiled_cache[0]) and $compiled_cache[0] != '') {
+										if (isset($compiled_cache[1]) and $compiled_cache[1] != false) {
+											$mw_cache_mem[$cache_group][$compiled_cache[0]] = $compiled_cache[1];
+										}
+									}
+								}
+								//d($compiled_cache);
+
+							}
+
+							//
+						}
+
+					}
+				}
+			}
+
+			if (isset($mw_cache_mem[$cache_group][$cache_id])) {
+				$mw_cache_mem_hits[$cache_group][$cache_id]++;
+				return $mw_cache_mem[$cache_group][$cache_id];
+			} else {
+				return false;
+			}
+
+			break;
+
+		case 1 :
+			if ($replace_with_new != false) {
+				$mw_cache_mem[$cache_group][$cache_id] = $replace_with_new;
+				//   asort($mw_cache_mem[$cache_group]);
+				$mw_cache_mem_hits[$cache_group][$cache_id] = 1;
+				// asort($mw_cache_mem);
+			}
+
+			if (isset($mw_cache_mem[$cache_group][$cache_id])) {
+				$mw_cache_mem_hits[$cache_group][$cache_id]++;
+				return $mw_cache_mem[$cache_group][$cache_id];
+			} else {
+				return false;
+			}
+
+			break;
+
+		case 2 :
+			$key = $cache_group + $cache_id;
+			$key = intval($key);
+			if ($replace_with_new != false) {
+				$mw_cache_mem[$key] = $replace_with_new;
+
+				$mw_cache_mem_hits[$cache_id_o] = 1;
+				// ksort($mw_cache_mem);
+				// ksort($mw_cache_mem_hits);
+			}
+
+			if (isset($mw_cache_mem[$key])) {
+				$mw_cache_mem_hits[$cache_id_o]++;
+				return $mw_cache_mem[$key];
 			} else {
 				return false;
 			}
@@ -142,11 +265,10 @@ function cache_clean_group($cache_group = 'global') {
 		}
 		$cache_group_index = cache_get_file_path('index', $cache_group);
 		//@rename($cache_group_index,$cache_group_index.rand());
-		
-	//	rename("/tmp/tmp_file.txt", "/home/user/login/docs/my_file.txt");
-		
-// @unlink($cache_group_index);
-		 
+
+		//	rename("/tmp/tmp_file.txt", "/home/user/login/docs/my_file.txt");
+
+		// @unlink($cache_group_index);
 
 		$dir = cache_get_dir('global');
 
@@ -317,7 +439,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 	$cache_group = reduce_double_slashes($cache_group);
 	if ($use_apc == false) {
 		$mem = cache_get_content_from_memory($cache_id, $cache_group);
-		// d($mem);
+		//d($mem);
 		if ($mem != false) {
 			//d($cache_id);
 			// exit();
@@ -343,6 +465,10 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
+				/*
+				 static $ct=0;
+				 $ct++;
+				 d($ct);*/
 
 				// this is faster
 				ob_start();
@@ -380,19 +506,21 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 		//gc_collect_cycles();
 		if ($use_apc == false) {
-			cache_get_content_from_memory($cache_id, $cache_group, $replace_with_new = $cache);
-		}
-		static $apc_apc_delete;
-		if ($apc_apc_delete == false) {
-			$apc_apc_delete = function_exists('apc_delete');
-		}
-		if ($apc_apc_delete == true and $use_apc == true) {
-			apc_delete($cache_id);
-		}
 
-		if ($use_apc == true) {
+			cache_get_content_from_memory($cache_id, $cache_group, $cache);
+		} else {
+			static $apc_apc_delete;
+			if ($apc_apc_delete == false) {
+				$apc_apc_delete = function_exists('apc_delete');
+			}
+			if ($apc_apc_delete == true and $use_apc == true) {
+				apc_delete($cache_id);
+			}
 
-			@apc_store($cache_id, $cache, APC_EXPIRES);
+			if ($use_apc == true) {
+
+				@apc_store($cache_id, $cache, APC_EXPIRES);
+			}
 		}
 		return $cache;
 	}
@@ -428,10 +556,9 @@ $mw_cache_get_content_memory = array();
 
 function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 	//
-	
-	
+
 	$is_cl = mw_var('is_cleaning_now');
-	if($is_cl == true){
+	if ($is_cl == true) {
 		$is_cl = mw_var('is_cleaning_now', false);
 		return false;
 	}
@@ -439,9 +566,11 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 	$mode = 2;
 
 	if (!strstr($cache_group, 'global')) {
-		$mode = 2;
+		$mode = 1;
 	}
 
+	$mode = 4;
+ 
 	switch ($mode) {
 
 		case 1 :
@@ -463,15 +592,15 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 					$cache_group_index_file_contents_array = explode($mw_sep_for_index_cache, $cache_group_index_file_contents);
 					if (!empty($cache_group_index_file_contents_array)) {
 						foreach ($cache_group_index_file_contents_array as $key => $value) {
-							$cache_group_index_file_contents_array2 = explode($mw_sep_for_cache_id, $value);
-							if (!empty($cache_group_index_file_contents_array2)) {
-								if (isset($cache_group_index_file_contents_array2[0]) and $cache_group_index_file_contents_array2[0] != '') {
-									if (isset($cache_group_index_file_contents_array2[1]) and $cache_group_index_file_contents_array2[1] != false) {
-										$mw_cache_get_content_memory[$cache_group_index_file_contents_array2[0]] = $cache_group_index_file_contents_array2[1];
+							$compiled_cache = explode($mw_sep_for_cache_id, $value);
+							if (!empty($compiled_cache)) {
+								if (isset($compiled_cache[0]) and $compiled_cache[0] != '') {
+									if (isset($compiled_cache[1]) and $compiled_cache[1] != false) {
+										$mw_cache_get_content_memory[$compiled_cache[0]] = $compiled_cache[1];
 									}
 								}
 							}
-							//d($cache_group_index_file_contents_array2);
+							//d($compiled_cache);
 
 						}
 
@@ -499,8 +628,8 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 		case 2 :
 			global $mw_cache_get_content_memory;
 
-			$criteria_id = (int) crc32($cache_id . $cache_group);
-
+			//	$criteria_id = (int) crc32($cache_id . $cache_group);
+			$criteria_id = ($cache_id);
 			if (isset($mw_cache_get_content_memory[$criteria_id])) {
 				$cache = $mw_cache_get_content_memory[$criteria_id];
 				//$results_map_hits[$criteria_id]++;
@@ -516,7 +645,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 			break;
 	}
 
-	if ($cache == '' or $cache == '--empty--') {
+	if ($cache == '' or $cache == '---empty---' or $cache == '---false---') {
 
 		return false;
 	} else {
