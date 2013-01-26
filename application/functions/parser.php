@@ -600,6 +600,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
 							}
 							//
+
+							$userclass = str_replace($module_class, '', $userclass);
+							$userclass = str_replace('module  module', '', $userclass);
+							$userclass = str_replace('module module', 'module', $userclass);
+
 							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
 							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 

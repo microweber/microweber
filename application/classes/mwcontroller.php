@@ -310,6 +310,12 @@ class MwController {
 			// d(TEMPLATE_URL);
 
 			$l = execute_document_ready($l);
+			
+			
+		 	exec_action('frontend');
+		 
+			
+			
 
 			$is_embed = url_param('embed');
 

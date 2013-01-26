@@ -152,11 +152,11 @@ mw.custom_fields.save = function(id, callback){
     $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
          var $cfadm_reload = false;
          if(obj.cf_id === undefined){
-            mw.reload_module('.edit [data-parent-module="custom_fields"]');
+      //      mw.reload_module('.edit [data-parent-module="custom_fields"]');
          }
          mw.$(".mw-live-edit [data-type='custom_fields']").each(function(){
          if(!mw.tools.hasParentsWithClass(this, 'mw_modal') && !mw.tools.hasParentsWithClass(this, 'is_admin')){
-               mw.reload_module(this);
+               //mw.reload_module(this);
            } else {
 			  var $cfadm_reload = true;
 		   }

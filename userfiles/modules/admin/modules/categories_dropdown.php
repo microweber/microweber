@@ -1,4 +1,4 @@
-<? $rand = uniqid();
+<? $rand = crc32($params['id']);
 if(isset($params['data-for'])){
 	
 $for =  $for2 =	$params['data-for'];

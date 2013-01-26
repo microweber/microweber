@@ -57,32 +57,34 @@ function mw_uninstall_stats_module() {
 	//  cache_clean_group('db');
 }
 
-document_ready('stats_append_image');
+//document_ready('stats_append_image');
 
-function stats_append_image($layout) {
+action_hook('frontend', 'stats_append_image');
+
+function stats_append_image($layout = false) {
 
 	//if (!defined('IN_ADMIN')) {
 	//<table(?=[^>]*class="details")[^>]*>
 	//$selector = '<body>';
-	if(!isset($_REQUEST['isolate_content_field'])){
+	if (!isset($_REQUEST['isolate_content_field'])) {
 		stats_insert();
-	//$selector = '/<\/body>/si';
-	//$rand = date("Y-m-d");
-	//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
+		//$selector = '/<\/body>/si';
+		//$rand = date("Y-m-d");
+		//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
 	}
 	//}
 	//$layout = mw_dom($layout, 'ul.mw-quick-links:last', '<li><a href="#"><span class="ico ihelp"></span><span>I am dynamic</span></a></li>');
 
 	//   $layout = modify_html($layout, $selector = '.editor_wrapper', 'append', 'ivan');
 	//$layout = modify_html2($layout, $selector = '<div class="editor_wrapper">', '');
-	return $layout;
+	//return $layout;
 }
 
 api_expose('stats_image');
 
 function stats_image() {
 	stats_insert();
-	 
+
 	$f = dirname(__FILE__);
 	$f = $f . DS . '1px.png';
 	$name = $f;
@@ -98,9 +100,7 @@ function stats_image() {
 }
 
 function stats_insert() {
-	 
-	
-	
+
 	$function_cache_id = false;
 	$uip = $_SERVER['REMOTE_ADDR'];
 	$function_cache_id = $function_cache_id . $uip . USER_IP;
@@ -109,8 +109,8 @@ function stats_insert() {
 
 	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
 	//if (($cache_content) == '--false--') {
-		//return false;
-//	}
+	//return false;
+	//	}
 	$cookie_name = 'mw-stats' . crc32($function_cache_id);
 	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
 
@@ -129,7 +129,7 @@ function stats_insert() {
 	if (!isset($_COOKIE[$cookie_name_time])) {
 		$few_mins_ago_visit_date = date("Y-m-d H:i:s");
 
-		setcookie($cookie_name_time, $few_mins_ago_visit_date,  time()+60);
+		setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
 
 		$data = array();
 		$data['visit_date'] = date("Y-m-d");
@@ -137,7 +137,7 @@ function stats_insert() {
 		//   $data['debug'] = date("H:i:s");
 
 		$table = MODULE_DB_USERS_ONLINE;
-		$check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
 			$vc = 0;
@@ -163,17 +163,17 @@ function stats_insert() {
 		//	 $data['debug'] = $lp;
 
 		mw_var('FORCE_SAVE', $table);
-		 
+		mw_var('apc_no_clear', 1);
 		$save = save_data($table, $data);
 		$_SESSION[$cookie_name] = 0;
-	//	setcookie($cookie_name, 1);
+		mw_var('apc_no_clear', 0);
+		//	setcookie($cookie_name, 1);
 
 	} else {
 
 	}
 	return true;
 
-	 
 }
 
 function get_visits($range = 'daily') {

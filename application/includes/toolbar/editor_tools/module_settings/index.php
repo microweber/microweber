@@ -7,12 +7,16 @@
            <? $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
            <? endif; ?>
        
-          
-
-          <script type="text/javascript" src="<?php   print(INCLUDES_URL); ?>js/jquery.js"></script>
-                    <script type="text/javascript" src="<?php   print(INCLUDES_URL); ?>api/jquery-ui.js"></script>
-
           <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
+          
+          <script type="text/javascript">
+          mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
+		  mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
+          </script>
+
+         
+
+          
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>

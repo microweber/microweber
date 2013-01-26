@@ -168,7 +168,7 @@ mw.custom_fields.save = function(id){
 		
 		
 		if($cfadm_reload  == true){
-	        mw.reload_module('custom_fields/admin');
+	       // mw.reload_module('custom_fields/admin');
 		}
 
 		

@@ -16,6 +16,7 @@ if (!defined('APC_CACHE')) {
 	//
 	//    }
 	//$apc_exists = isset($_GET['test_cookie']);
+	//d($apc_exists);
 	define("APC_CACHE", $apc_exists);
 }
 
@@ -25,7 +26,7 @@ if (!defined('APC_EXPIRES')) {
 }
 $mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
-		
+
 	global $mem;
 	// return false;
 	//static $mem = array();
@@ -116,12 +117,21 @@ function cache_get_file_path($cache_id, $cache_group = 'global') {
 mw_var('is_cleaning_now', false);
 function cache_clean_group($cache_group = 'global') {
 	// return true;
-	$apc_exists = function_exists('apc_clear_cache');
-	mw_var('is_cleaning_now', true);
-	if ($apc_exists == true) {
-		apc_clear_cache('user');
-		//d('apc_clear_cache');
+	//mw_notif(__FUNCTION__.$cache_group);
+	$use_apc = false;
+	if (APC_CACHE == true) {
+		$apc_no_clear = mw_var('apc_no_clear');
+
+		if ($apc_no_clear == false) {
+			$apc_exists = function_exists('apc_clear_cache');
+			if ($apc_exists == true) {
+				apc_clear_cache('user');
+				//d('apc_clear_cache');
+			}
+		}
 	}
+
+	mw_var('is_cleaning_now', true);
 
 	try {
 
@@ -326,7 +336,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
- 
+
 				// this is faster
 				ob_start();
 				readfile($cache_file);
@@ -405,48 +415,33 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
  * @since Version 1.0
  * @uses cache_get_content_encoded
  */
- 
- $mw_cache_get_content_memory = array();
-			//static $results_map_hits = array();
-			
-			
-			
-			
+
+$mw_cache_get_content_memory = array();
+//static $results_map_hits = array();
+
 function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
-			
-			
-			$mode = 1;
+
+	$mode = 1;
 	switch ($mode) {
 		case 1 :
 			global $mw_cache_get_content_memory;
-		
-	$criteria_id = (int) crc32($cache_id .$cache_group);
+
+			$criteria_id = (int) crc32($cache_id . $cache_group);
 
 			if (isset($mw_cache_get_content_memory[$criteria_id])) {
 				$cache = $mw_cache_get_content_memory[$criteria_id];
 				//$results_map_hits[$criteria_id]++;
 			} else {
-				$cache =  cache_get_content_encoded($cache_id, $cache_group, $time);
+				$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
 				$mw_cache_get_content_memory[$criteria_id] = $cache;
-			}	
-		
+			}
+
 			break;
 
 		default :
 			$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
 			break;
 	}
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 
 	if ($cache == '' or $cache == '--empty--') {
 
@@ -549,9 +544,9 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 
 		return false;
 	} else {
-		$cache_index = CACHEDIR . 'index.html';
+		$cache_index = CACHEDIR . 'index.php';
 
-		$cache_content1 = 'CACHE_INDEX_FILE_' . crc32($cache_index);
+		$cache_content1 = CACHE_CONTENT_PREPEND;
 
 		if (!defined($cache_content1)) {
 
@@ -568,14 +563,20 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 
 		$content1 = CACHE_CONTENT_PREPEND . $content;
 		// var_dump ( $cache_file, $content );
+		if (is_dir($see_if_dir_is_there) == false) {
+			mkdir_recursive($see_if_dir_is_there);
+		}
 		try {
 
-			if (is_dir($see_if_dir_is_there) == false) {
-
-				mkdir_recursive($see_if_dir_is_there);
-			}
-
 			$cache = file_put_contents($cache_file, $content1);
+			
+			
+			
+			
+			
+			
+			
+			
 		} catch (Exception $e) {
 			// $this -> cache_storage[$cache_id] = $content;
 			$cache = false;

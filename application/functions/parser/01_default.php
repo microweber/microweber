@@ -1,12 +1,12 @@
 <?php
 
 $parser_mem_crc = 'parser_' . crc32($layout);
-
-// $ch = mw_var($parser_mem_crc);
-$ch = false;
+//d($parser_mem_crc);
+  $ch = mw_var($parser_mem_crc);
+ 
 if ($ch != false) {
 	//print 1;
-	//$layout =
+	 $layout =$ch;
 } else {
 	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
@@ -230,14 +230,30 @@ if ($ch != false) {
 			// pecata d($field_content);
 
 			$parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
-
 			$ch2 = mw_var($parser_mem_crc);
+
+			if ($use_apc == true) {
+
+				$cache_id_apc = $parser_mem_crc2;
+
+				$apc_field_content = apc_fetch($cache_id_apc);
+
+				if ($apc_field_content != false) {
+					$ch2 = true;
+					$field_content = $apc_field_content;
+				//	d($field_content);
+					pq($elem) -> html($field_content);
+				}
+			}
 
 			if ($ch2 == false) {
 				$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
 				pq($elem) -> html($field_content);
 
+				if ($use_apc == true) {
+					@apc_store($cache_id_apc, $field_content, APC_EXPIRES);
+				}
 			}
 			mw_var($parser_mem_crc2, 1);
 
@@ -251,5 +267,5 @@ if ($ch != false) {
 
 	unset($pq);
 	//if(strstr($haystack, $needle))
-	mw_var($parser_mem_crc, 1);
+	mw_var($parser_mem_crc, $layout);
 }
