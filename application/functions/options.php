@@ -210,15 +210,17 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
+	/*
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (($cache_content) == '--false--') {
-		return false;
-	}
-	// $cache_content = false;
-	if (($cache_content) != false) {
-
-		return $cache_content;
-	}
+		if (($cache_content) == '--false--') {
+			return false;
+		}
+		// $cache_content = false;
+		if (($cache_content) != false) {
+	
+			return $cache_content;
+		}*/
+	
 
 	// ->'table_options';
 	$table = MW_DB_TABLE_OPTIONS;
@@ -284,7 +286,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 			return $get;
 		}
 	} else {
-		cache_store_data('--false--', $function_cache_id, $cache_group);
+		//cache_store_data('--false--', $function_cache_id, $cache_group);
 
 		return FALSE;
 	}

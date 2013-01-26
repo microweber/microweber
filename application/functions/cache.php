@@ -140,6 +140,13 @@ function cache_clean_group($cache_group = 'global') {
 			cache_clear_recycle();
 			@touch($recycle_bin_f);
 		}
+		$cache_group_index = cache_get_file_path('index', $cache_group);
+		//@rename($cache_group_index,$cache_group_index.rand());
+		
+	//	rename("/tmp/tmp_file.txt", "/home/user/login/docs/my_file.txt");
+		
+// @unlink($cache_group_index);
+		 
 
 		$dir = cache_get_dir('global');
 
@@ -420,10 +427,76 @@ $mw_cache_get_content_memory = array();
 //static $results_map_hits = array();
 
 function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
+	//
+	
+	
+	$is_cl = mw_var('is_cleaning_now');
+	if($is_cl == true){
+		$is_cl = mw_var('is_cleaning_now', false);
+		return false;
+	}
 
-	$mode = 1;
+	$mode = 2;
+
+	if (!strstr($cache_group, 'global')) {
+		$mode = 2;
+	}
+
 	switch ($mode) {
+
 		case 1 :
+			global $mw_cache_get_content_memory;
+
+			$criteria_id = 'cache_id_' . (int) crc32($cache_id . $cache_group);
+
+			$cache_group_index = cache_get_file_path('index', $cache_group);
+
+			$cache_content1 = CACHE_CONTENT_PREPEND;
+			$mw_sep_for_index_cache = '_____|||||||||||||||-mw-sep-for-cache-file-|||||||||||||||_____';
+			$mw_sep_for_cache_id = '-||-mw-sep-for-cache-id||--';
+			if (!isset($mw_cache_get_content_memory[$criteria_id])) {
+
+				if (is_file($cache_group_index) == false) {
+					file_put_contents($cache_group_index, $cache_content1);
+				} else {
+					$cache_group_index_file_contents = file_get_contents($cache_group_index);
+					$cache_group_index_file_contents_array = explode($mw_sep_for_index_cache, $cache_group_index_file_contents);
+					if (!empty($cache_group_index_file_contents_array)) {
+						foreach ($cache_group_index_file_contents_array as $key => $value) {
+							$cache_group_index_file_contents_array2 = explode($mw_sep_for_cache_id, $value);
+							if (!empty($cache_group_index_file_contents_array2)) {
+								if (isset($cache_group_index_file_contents_array2[0]) and $cache_group_index_file_contents_array2[0] != '') {
+									if (isset($cache_group_index_file_contents_array2[1]) and $cache_group_index_file_contents_array2[1] != false) {
+										$mw_cache_get_content_memory[$cache_group_index_file_contents_array2[0]] = $cache_group_index_file_contents_array2[1];
+									}
+								}
+							}
+							//d($cache_group_index_file_contents_array2);
+
+						}
+
+						//
+					}
+
+				}
+			}
+			// 	d(           ($cache_group_index));
+
+			if (isset($mw_cache_get_content_memory[$criteria_id])) {
+				$cache = $mw_cache_get_content_memory[$criteria_id];
+				//$results_map_hits[$criteria_id]++;
+			} else {
+				$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
+				$mw_cache_get_content_memory[$criteria_id] = $cache;
+				if ($cache != false) {
+					//	d($cache);
+					file_put_contents($cache_group_index, $mw_sep_for_index_cache . $criteria_id . $mw_sep_for_cache_id . $cache, FILE_APPEND);
+				}
+			}
+
+			break;
+
+		case 2 :
 			global $mw_cache_get_content_memory;
 
 			$criteria_id = (int) crc32($cache_id . $cache_group);
@@ -535,8 +608,6 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 		return false;
 	}
 
-	$cache_group_index = cache_get_index_file_path($cache_group);
-
 	$cache_file = cache_get_file_path($cache_id, $cache_group);
 	$cache_file = normalize_path($cache_file, false);
 
@@ -548,15 +619,12 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 
 		$cache_content1 = CACHE_CONTENT_PREPEND;
 
-		if (!defined($cache_content1)) {
+		if ($cache_content1) {
 
 			if (is_file($cache_index) == false) {
+				file_put_contents($cache_index, $cache_content1);
+			}
 
-				@touch($cache_index);
-			}
-			if (!defined($cache_content1)) {
-				define($cache_content1, 1);
-			}
 		}
 
 		$see_if_dir_is_there = dirname($cache_file);
@@ -569,14 +637,7 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 		try {
 
 			$cache = file_put_contents($cache_file, $content1);
-			
-			
-			
-			
-			
-			
-			
-			
+
 		} catch (Exception $e) {
 			// $this -> cache_storage[$cache_id] = $content;
 			$cache = false;

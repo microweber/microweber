@@ -33,6 +33,9 @@ ab -n 100 -c 10 -r "http://pecata/1k/peter?test_cookie=9"
 ab -n 100 -c 10 -r "http://pecata/1k/peter"
 
 ab -n 100 -c 10 -r "http://pecata/1k/title-20121011104847?test_cookie=9"
+ab -n 100 -c 10 -r "http://pecata/1k/metodi-page"
+
+ 
 
 ab -n 1000 -c 100 -r "http://pecata/1k/sdfsdfsdfsdfsd"
 

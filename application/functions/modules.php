@@ -1379,6 +1379,7 @@ function load_module_lic($module_name = false) {
 	return false;
 }
 
+$mw_mod_counter = 0;
 function load_module($module_name, $attrs = array()) {
 	$function_cache_id = false;
 	//if (defined('PAGE_ID') == false) {
@@ -1573,8 +1574,9 @@ function load_module($module_name, $attrs = array()) {
 		}
 
 		if (!isset($attrs['id'])) {
-
-			$attrs1 = crc32(serialize($attrs) . url_segment(0) . date('YmdHis'));
+			global $mw_mod_counter;
+			$mw_mod_counter++;
+			$attrs1 = crc32(serialize($attrs) . url_segment(0) . $mw_mod_counter);
 			//	$s1 = crc32();
 			//$s1 = '';
 			/*

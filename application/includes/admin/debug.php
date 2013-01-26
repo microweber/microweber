@@ -56,7 +56,14 @@ print_r(apc_cache_info('user'));
 
 
 <? endif; ?>
+<b>Cache memory</b>
+  <pre><?php 
+  global $mw_cache_get_content_memory;
+d($mw_cache_get_content_memory);
+   ?></pre>
+  
 <?
+
 /*
 	<b>Api exposed functions</b>
   <pre><?php print d(explode(' ',api_expose(true))); ?></pre>

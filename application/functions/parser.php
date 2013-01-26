@@ -562,7 +562,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						if (isset($module_name)) {
 							$module_class = module_css_class($module_name);
 							if (!isset($attrs['id'])) {
-								$attrs['id'] = $module_class . '-' . (date('YmdHis'));
+
+								global $mw_mod_counter;
+								$mw_mod_counter++;
+
+								$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter);
 								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
 							} else {

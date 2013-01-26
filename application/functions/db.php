@@ -193,11 +193,12 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	$error['error'] = array();
 	$results = false;
 	// if (MW_IS_INSTALLED != false) {
-	if ($cache_id != false and $only_query == false and $cache_group != false) {
+	if ($cache_id != false and $cache_group != false) {
 		// $results =false;
 
 		$cache_id = $cache_id . crc32($q);
 		$results = cache_get_content($cache_id, $cache_group);
+		//d($results);
 		if ($results != false) {
 			if ($results == '---empty---') {
 				return false;
@@ -321,7 +322,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	if ($only_query == false) {
 		// $result = $q;
 		if ($cache_id != false and $cache_group != false) {
-			if (isarr($q)) {
+			if (isarr($q) and !empty($q)) {
 
 				cache_save($q, $cache_id, $cache_group);
 			} else {
@@ -330,6 +331,9 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		}
 	}
 	// }
+	if ($cache_id != false) {
+		cache_save($q, $cache_id, $cache_group);
+	}
 	return $q;
 	//remove below
 	$results = array();
@@ -505,8 +509,7 @@ function get($params) {
 	$criteria = array();
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
-			$table = guess_table_name($v);
-			;
+			$table = guess_table_name($v); ;
 		}
 
 		if ($k == 'what' and !isset($params['to_table'])) {
@@ -1421,7 +1424,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . " WHERE " . $idds . $exclude_idds . $where_search;
 	}
 	if ($includeIds_idds != false) {
-		$q = $q . $includeIds_idds . $where_search; ;
+		$q = $q . $includeIds_idds . $where_search;
+		;
 	}
 	if ($where_search != '') {
 		//	$where_search = " AND {$where_search} ";
@@ -2969,8 +2973,7 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
 	if ($query == false) {
 
 		$columns = implode(',', $aColumns);
-		$fColumns = implode(',', $aForeignColumns);
-		;
+		$fColumns = implode(',', $aForeignColumns); ;
 		$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 		$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 
