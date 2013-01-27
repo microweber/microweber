@@ -147,7 +147,7 @@ if ($ch != false) {
 				$field_content = $cont_field;
 			}
 		}
-
+ 
 		if ($field_content == false) {
 			if ($get_global == true) {
 

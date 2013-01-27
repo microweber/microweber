@@ -106,7 +106,7 @@ function execute_document_ready($l) {
 			}
 		}
 	}
-	$l = parse_micrwober_tags($l, $options = false);
+	//$l = parse_micrwober_tags($l, $options = false);
 
 	return $l;
 }

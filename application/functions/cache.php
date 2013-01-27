@@ -11,7 +11,7 @@ if (!defined('APC_CACHE')) {
 	if (isset($_POST) and isarr($_POST)) {
 		$apc_exists = false;
 	}
-	 $apc_exists = false;
+	$apc_exists = false;
 	//    if (isset($_COOKIE['editmode'])) {
 	//
 	//    }
@@ -89,7 +89,7 @@ function _old_cache_get_content_from_memory($cache_id, $cache_group = false, $re
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 	global $mw_skip_memory;
 	static $mw_cache_mem = array();
-	;
+
 	// return false;
 	//static $mw_cache_mem = array();
 	static $mw_cache_mem_hits = array();
@@ -99,23 +99,34 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	}
 
 	$cache_id_o = $cache_id;
-	$cache_group = (int) crc32($cache_group);
-	$cache_id = (int) crc32($cache_id);
 
 	//$cache_group = 'gr' . crc32($cache_group);
 	// $cache_id = 'id' . crc32($cache_id);
 	$mode = 2;
 	switch ($mode) {
 		case 0 :
+			$criteria_id = $cache_id;
+			
+			$cache_group_index = cache_get_file_path('index', $cache_group);
+
+			$cache_content1 = CACHE_CONTENT_PREPEND;
+			$mw_sep_for_index_cache = '_____|||||||||||||||-mw-sep-for-cache-file-|||||||||||||||_____';
+			$mw_sep_for_cache_id = '-||-mw-sep-for-cache-id||--';
+
 			if ($replace_with_new != false) {
 				$mw_cache_mem[$cache_group][$cache_id] = $replace_with_new;
 
 				if ($replace_with_new != false) {
 					$cache_group_index = cache_get_file_path('index', $cache_group);
 					$mw_skip_memory[] = $cache_id;
-					//d($cache_group_index);
-					//@unlink($cache_group_index);
+
+					if ($replace_with_new != false) {
+						//	d($cache);
+						file_put_contents($cache_group_index, $mw_sep_for_index_cache . $criteria_id . $mw_sep_for_cache_id . $replace_with_new, FILE_APPEND);
+					}
+
 				}
+
 				//   asort($mw_cache_mem[$cache_group]);
 				$mw_cache_mem_hits[$cache_group][$cache_id] = 1;
 				// asort($mw_cache_mem);
@@ -123,14 +134,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 
 				if (!isset($mw_cache_mem[$cache_group][$cache_id])) {
 
-					$criteria_id = $cache_id;
-
-					$cache_group_index = cache_get_file_path('index', $cache_group);
-
-					$cache_content1 = CACHE_CONTENT_PREPEND;
-					$mw_sep_for_index_cache = '_____|||||||||||||||-mw-sep-for-cache-file-|||||||||||||||_____';
-					$mw_sep_for_cache_id = '-||-mw-sep-for-cache-id||--';
-
+					
 					if (is_file($cache_group_index) == false) {
 						file_put_contents($cache_group_index, $cache_content1);
 					} else {
@@ -146,7 +150,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 										}
 									}
 								}
-								//d($compiled_cache);
+							//	 d($compiled_cache);
 
 							}
 
@@ -184,6 +188,9 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			break;
 
 		case 2 :
+			$cache_group = (int) crc32($cache_group);
+			$cache_id = (int) crc32($cache_id);
+
 			$key = $cache_group + $cache_id;
 			$key = intval($key);
 			if ($replace_with_new != false) {
@@ -465,10 +472,12 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
+
 				/*
 				 static $ct=0;
 				 $ct++;
-				 d($ct);*/
+				 d($ct);
+				 */
 
 				// this is faster
 				ob_start();
@@ -570,7 +579,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 	}
 
 	$mode = 4;
- 
+
 	switch ($mode) {
 
 		case 1 :
