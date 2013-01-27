@@ -15,6 +15,7 @@ if ($ch != false) {
 
 	$pq = phpQuery::newDocument($layout);
 	$els = $pq['.edit'];
+	//d($ch);
 	//$els = $pq ['.edit *[rel!=""]'];
 	//d($els);
 	//$els  = $pq ['.edit *[rel]'];
