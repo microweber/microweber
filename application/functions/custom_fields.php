@@ -252,6 +252,7 @@ function remove_field($id) {
  * @param array $settings
  */
 function make_field($field_id = 0, $field_type = 'text', $settings = false) {
+			 
 	if (is_array($field_id)) {
 		if (!empty($field_id)) {
 			$data = $field_id;
@@ -335,6 +336,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	if (isset($data['options']) and $data['options'] != '') {
 		$data['options'] = decode_var($data['options']);
 	}
+
 	$dir = INCLUDES_DIR;
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);

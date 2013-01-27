@@ -288,7 +288,7 @@ function cache_clean_group($cache_group = 'global') {
 		// @unlink($cache_group_index);
 
 		$dir = cache_get_dir('global');
-
+ 
 		if (is_dir($dir)) {
 			@recursive_remove_from_cache_index($dir);
 		}

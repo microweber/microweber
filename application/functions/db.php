@@ -1776,6 +1776,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 	$original_data = $data;
 
 	$is_quick = isset($original_data['quick_save']);
+	
+		$skip_cache = isset($original_data['skip_cache']);
+	
 
 	if ($is_quick == false) {
 		if (isset($data['updated_on']) == false) {
@@ -1784,7 +1787,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 		}
 	}
 
-	if (isset($data_to_save_options) and !empty($data_to_save_options)) {
+	if ($skip_cache == false and isset($data_to_save_options) and !empty($data_to_save_options)) {
 
 		if (isset($data_to_save_options['delete_cache_groups']) and !empty($data_to_save_options['delete_cache_groups'])) {
 
@@ -2493,22 +2496,25 @@ function save_data($table, $data, $data_to_save_options = false) {
 		}
 	}
 
-	$cg = guess_cache_group($table);
-	//
 
-	if ($media_table_modified == true) {
-		cache_clean_group('media/global');
 
+	if($skip_cache == false){
+		$cg = guess_cache_group($table);
+		//
+	
+		if ($media_table_modified == true) {
+			cache_clean_group('media/global');
+	
+		}
+	
+		cache_clean_group($cg . '/global');
+		cache_clean_group($cg . '/' . $id_to_return);
+	
+		if (isset($criteria['parent_id'])) {
+			//d($criteria['parent_id']);
+			cache_clean_group($cg . '/' . intval($criteria['parent_id']));
+		}
 	}
-
-	cache_clean_group($cg . '/global');
-	cache_clean_group($cg . '/' . $id_to_return);
-
-	if (isset($criteria['parent_id'])) {
-		//d($criteria['parent_id']);
-		cache_clean_group($cg . '/' . intval($criteria['parent_id']));
-	}
-
 	return $id_to_return;
 	if (intval($data['edited_by']) == 0) {
 

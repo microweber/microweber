@@ -1231,10 +1231,12 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 $sidq= '';
 if ($id == 0) {
-	if(is_admin()){
-$sid = session_id();
-		$sidq = ' and session_id="' . $sid . '"  ';
-	} 
+	if(is_admin() != false){
+		$sid = session_id();
+				//$sidq = ' and session_id="' . $sid . '"  ';
+			} 
+	} else {
+		$sidq= '';
 	}
 
 
@@ -1251,7 +1253,7 @@ $sid = session_id();
 			if ($debug != false) {
 			
 		}
- 
+	 
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));

@@ -308,7 +308,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (isset($_POST)) {
 			$parse_mode = 1;
 		}
-		//$parse_mode = 10;
+	 $parse_mode = 3;
 		switch ($parse_mode) {
 			case 1 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
@@ -316,11 +316,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				break;
 
 			case 2 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_dom.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
 
 				break;
 			case 3 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_regex.php');
+				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
 
 				break;
 
@@ -664,6 +664,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			}
 		}
 	}
+				//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+	
 	$layout = str_replace('{SITE_URL}', site_url(), $layout);
 	$layout = str_replace('{SITEURL}', site_url(), $layout);
 	$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);

@@ -19,7 +19,7 @@ $for_id =$params['to_table_id'];
  }
    
  $more = get_custom_fields($for ,$for_id,1); 
-  
+ 
  ?>
 
 <input type="hidden" name="for_id" value="<? print $for_id?>" />

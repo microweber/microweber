@@ -160,6 +160,7 @@ function stats_insert() {
 			$lp = $_SERVER['PHP_SELF'];
 		}
 		$data['last_page'] = $lp;
+		$data['skip_cache'] = 1;
 		//	 $data['debug'] = $lp;
 
 		mw_var('FORCE_SAVE', $table);
