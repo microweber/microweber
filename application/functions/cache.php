@@ -85,6 +85,7 @@ function _old_cache_get_content_from_memory($cache_id, $cache_group = false, $re
 	}
 }
 
+
 //$mw_cache_mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 	global $mw_skip_memory;
@@ -105,8 +106,13 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	$mode = 2;
 	switch ($mode) {
 		case 0 :
-			$criteria_id = $cache_id;
-			
+
+			//$cache_group = (int) crc32($cache_group);
+			//	$cache_id = 'compiled_caache'.(int) crc32($cache_id);
+
+			$criteria_id = 'compiled_cache' . (int) crc32($cache_id);
+			;
+
 			$cache_group_index = cache_get_file_path('index', $cache_group);
 
 			$cache_content1 = CACHE_CONTENT_PREPEND;
@@ -118,7 +124,6 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 
 				if ($replace_with_new != false) {
 					$cache_group_index = cache_get_file_path('index', $cache_group);
-					$mw_skip_memory[] = $cache_id;
 
 					if ($replace_with_new != false) {
 						//	d($cache);
@@ -129,12 +134,12 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 
 				//   asort($mw_cache_mem[$cache_group]);
 				$mw_cache_mem_hits[$cache_group][$cache_id] = 1;
+
 				// asort($mw_cache_mem);
 			} else {
 
 				if (!isset($mw_cache_mem[$cache_group][$cache_id])) {
 
-					
 					if (is_file($cache_group_index) == false) {
 						file_put_contents($cache_group_index, $cache_content1);
 					} else {
@@ -146,11 +151,13 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 								if (!empty($compiled_cache)) {
 									if (isset($compiled_cache[0]) and $compiled_cache[0] != '') {
 										if (isset($compiled_cache[1]) and $compiled_cache[1] != false) {
+										//	d($compiled_cache[0]);
 											$mw_cache_mem[$cache_group][$compiled_cache[0]] = $compiled_cache[1];
+											$mw_cache_mem_hits[$cache_group][$compiled_cache[0]] = 1;
 										}
 									}
 								}
-							//	 d($compiled_cache);
+								// d($compiled_cache);
 
 							}
 
@@ -202,6 +209,9 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			}
 
 			if (isset($mw_cache_mem[$key])) {
+				 
+				
+				
 				$mw_cache_mem_hits[$cache_id_o]++;
 				return $mw_cache_mem[$key];
 			} else {
