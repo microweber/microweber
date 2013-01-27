@@ -146,6 +146,10 @@ function parse_params($params) {
 }
 
 $mw_var_storage = array();
+function mw_vars_destroy() {
+	global $mw_var_storage;
+	$mw_var_storage = array();
+}
 function mw_var($key, $new_val = false) {
 	global $mw_var_storage;
 	$contstant = ($key);

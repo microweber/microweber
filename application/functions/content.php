@@ -1232,7 +1232,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 $sidq= '';
 if ($id == 0) {
 	if(is_admin() != false){
-		$sid = session_id();
+		//$sid = session_id();
 				//$sidq = ' and session_id="' . $sid . '"  ';
 			} 
 	} else {
