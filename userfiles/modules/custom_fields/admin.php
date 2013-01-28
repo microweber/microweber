@@ -61,7 +61,7 @@ $rand = rand();
                     obj.ids.push(id);
                 });
                 $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
-                                                      	if(window.parent != undefined && window.parent.mw != undefined){
+            if(window.parent != undefined && window.parent.mw != undefined){
 				 window.parent.mw.reload_module('custom_fields');
 			 }
                 });
@@ -86,6 +86,7 @@ $rand = rand();
               onCreate:function(){
                 mw.$(".custom-field-edit-title").html(el.textContent);
                 mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
+                mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
               }
             });
        });

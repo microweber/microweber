@@ -1,21 +1,26 @@
 <?
-  
+
 if(!isset($params['to_table_id'])){
 	$params['to_table_id'] = $params['id']; 
 }
 
 if(isset($params['for'])){
-	 $for = 'post';
+	 $for = 'content';
 } else {
  $for = 'table_modules';	
 }
 
+if(isset($params['content-id'])){
+	$params['to_table_id'] = $params['content-id']; 
+	 $for = 'content';
+}
 
+ 
  if(isset($params['to_table_id']) == true): ?>
 <? $data = get_pictures('to_table_id='.$params['to_table_id'].'&for='.$for); 
  
-
-
+ 
+ 
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
@@ -38,13 +43,11 @@ if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
 	?>
-    <div class="mw-notification mw-warning">
-    <div>
-      <span class="ico ioptions"></span>
-      <span><? print 'No default template for module '.$config['module'].' is found'; ?></span>
-    </div>
-  </div>
-    <?
+
+<div class="mw-notification mw-warning">
+  <div> <span class="ico ioptions"></span> <span><? print 'No default template for module '.$config['module'].' is found'; ?></span> </div>
+</div>
+<?
 	
-} ?><? endif; ?>
-  
+} ?>
+<? endif; ?>

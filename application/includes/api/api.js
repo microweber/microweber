@@ -429,6 +429,25 @@ mw.serializeFields =  function(id){
  }
 
 
+ mw.supports = {};
+
+
+(function(o){
+
+   var t = mwd.createElement('div');
+   var c = mwd.createElement('canvas');
+   var i = mwd.createElement('input');
+
+   o.mouseenter = t.onmouseenter === null ? true : false;
+   o.localstorage = o.localStorage = 'localStorage' in window;
+   o.canvas = !!c.getContext;
+   o.placeholder = 'placeholder' in i;
+
+
+
+})(mw.supports);
+
+
 
 
 

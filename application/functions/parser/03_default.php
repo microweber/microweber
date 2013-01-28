@@ -106,12 +106,7 @@ if ($ch != false) {
 			}
 			$data = get_content_by_id($data_id);
 
-			//d($data);
-			$get_global = false;
-			if ($data == false) {
-				$data = get_page($attr['post']);
-				//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
-			}
+			 
 		} else if (isset($attr['post'])) {
 			$get_global = false;
 			$data = get_post($attr['post']);

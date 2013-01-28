@@ -27,11 +27,17 @@
 
    <div class="custom-field-col-right">
 
-   <label class="mw-ui-label">Code<span style="margin-left: 45px;">Number</span></label>
+   <label class="mw-ui-label">Default Value</label>
 
 
 
-    <input class="mw-ui-field" type="text" value="ex.: 001-8892345678" />
+    <input
+        class="mw-ui-field" type="text"
+        data-default="ex.: 001-8892345678"
+        onfocus="mw.form.dstatic(event)"
+        onblur="mw.form.dstatic(event)"
+        name="custom_field_value"
+        value="<?php if($data['custom_field_value']==''): ?>ex.: 001-8892345678<?php else : print $data['custom_field_value'];endif; ?>" />
 
 
        <?php print $savebtn; ?>

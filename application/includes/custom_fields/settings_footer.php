@@ -34,7 +34,17 @@
     <script>
 
          __save__global_id = '#custom_fields_edit<? print $rand ?>';
+         $(document).ready(function(){
+           if(typeof __custom_fields_editor_binded == 'undefined'){
+                __custom_fields_editor_binded = true;
+                mw.$("#custom-field-editor").keyup(function(e){
+                  if(e.target.name == 'custom_field_name'){
+                      $(this).find('.custom-field-edit-title').html(e.target.value);
+                  }
+                });
+           }
 
+        });
 
 
     </script>

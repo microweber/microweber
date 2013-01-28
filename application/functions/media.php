@@ -473,6 +473,7 @@ function get_pictures($params) {
 	if (isset($params['for'])) {
 		$params['for'] = db_get_assoc_table_name($params['for']);
 	}
+	//$params['debug'] = $table;
 
 	$params['table'] = $table;
 	$params['orderby'] = 'position ASC';

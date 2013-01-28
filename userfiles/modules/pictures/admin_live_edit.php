@@ -1,4 +1,12 @@
+<?
+$for = $config['module'];
+$for_module_id = $params['id'];
+if(isset($params['content-id'])){
+	$for_module_id = $params['content-id']; 
+	 $for = 'table_content';
+}
 
+ ?>
  
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">

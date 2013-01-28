@@ -1122,7 +1122,7 @@ module_settings: function() {
   if(data1.class != undefined){
 	  delete(data1.class);
   }
-  
+
   if(data1.style != undefined){
 	  delete(data1.style);
   }
@@ -1140,7 +1140,7 @@ module_settings: function() {
 
   var modal = mw.tools.modal.frame({
     url:src,
-    width:750,
+    width:432,
     title:$(curr).dataset('type'),
     callback:function(){
         mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
@@ -1183,17 +1183,17 @@ module_settings: function() {
 	data1.view = 'admin';
 	data1.no_wrap = '1';
     mw.tools.modal.init({
-	html:"",
-	width:600,
-	height:450,
-	callback:function() {
-      var id = this.main[0].id;
-      $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
-        mw.drag.ModuleSettingsPopupLoaded(id);
-		mw.simpletabs(this.container);
-      });
-      $(this.container).attr('data-settings-for-module', curr.id);
-    }
+    	html:"",
+    	width:600,
+    	height:450,
+    	callback:function() {
+          var id = this.main[0].id;
+          $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
+            mw.drag.ModuleSettingsPopupLoaded(id);
+    		mw.simpletabs(this.container);
+          });
+          $(this.container).attr('data-settings-for-module', curr.id);
+        }
 	});
 
   },

@@ -1,8 +1,17 @@
 <?  
+
+ 
  $for = 'module';
  if(isset($params['for'])){
 	$for = $params['for'];
  }
+
+  if(isset($params['content-id'])){
+	$for_id = $params['content-id'];
+	 $for = 'content';
+ }   else {
+ 
+ 
  
  
   if(isset($params['for_id'])){
@@ -17,7 +26,14 @@
  if(isset($params['to_table_id'])){
 $for_id =$params['to_table_id'];
  }
-   
+ }
+ 
+ if(isset($params['content-id'])){
+	$for_id = $params['content-id']; 
+	 $for = 'table_content';
+}
+
+
  $more = get_custom_fields($for ,$for_id,1); 
  
  ?>

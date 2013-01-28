@@ -4,6 +4,14 @@ FieldUnify = function(a){
 }
 
 
+//Cross-browser placeholder
+
+if(!mw.supports.placeholder){
+
+
+}
+
+
 
 
 
@@ -11,7 +19,7 @@ mw.form = {
   typeNumber:function(el){
     el.value = el.value.replace(/[^0-9\.,]/g,'');
   },
-  fixNum:function(el){
+  fixPrice:function(el){
     el.value = el.value.replace(/,/g,'');
     var arr = el.value.split('.');
     var len = arr.length;
@@ -24,7 +32,6 @@ mw.form = {
       }
       el.value = arr.join('');
     }
-
   },
   dstatic:function(event, d){
     var d = d || $(event.target).dataset('default') || false;
@@ -43,9 +50,6 @@ mw.form = {
     }
   },
   post:function(selector, url_to_post, callback){
-	  
-
-	  
     var is_form_valid = mw.form.validate.init(selector);
  
 	if(url_to_post == undefined){

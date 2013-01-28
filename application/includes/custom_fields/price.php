@@ -15,7 +15,12 @@
   <div class="mw-custom-field-form-controls">
 
 
-   <input type="text"   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>   data-custom-field-id="<? print $data["id"]; ?>"  name="<? print $data["custom_field_name"]; ?>"  value="<? print $data["custom_field_value"]; ?>">
+   <input type="text" onkeyup="mw.form.typeNumber(this);"
+        <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
+        <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>
+        data-custom-field-id="<? print $data["id"]; ?>"
+        name="<? print $data["custom_field_name"]; ?>"
+        value="<? print $data["custom_field_value"]; ?>" />
 
 
   </div>

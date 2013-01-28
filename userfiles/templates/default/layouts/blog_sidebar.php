@@ -38,34 +38,6 @@
           <span>- Patrick Pool<br>
           client</span> </div>
       </div>
-      <div class="tab-pane fade" id="recent">
-        <ul class="footer-list-news">
-          <li>
-            <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
-            <div class="extra-wrap">
-              <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-              <span>12 October 2012</span> </div>
-          </li>
-          <li>
-            <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
-            <div class="extra-wrap">
-              <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-              <span>12 October 2012</span> </div>
-          </li>
-          <li>
-            <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
-            <div class="extra-wrap">
-              <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-              <span>12 October 2012</span> </div>
-          </li>
-          <li class="p0">
-            <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
-            <div class="extra-wrap">
-              <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-              <span>12 October 2012</span> </div>
-          </li>
-        </ul>
-      </div>
       <div class="tab-pane fade" id="list">
         <ul class="list">
           <li><a href="#">Quisque diam lorem sectetuer adipiscing</a></li>
@@ -77,5 +49,35 @@
         </ul>
       </div>
     </div>
+  </div>
+</div>
+<div class="edit"  field="blog_sidebar3" rel="page">
+  <div class="tab-pane fade" id="recent">
+    <ul class="footer-list-news">
+      <li>
+        <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+        <div class="extra-wrap">
+          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
+          <span>12 October 2012</span> </div>
+      </li>
+      <li>
+        <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+        <div class="extra-wrap">
+          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
+          <span>12 October 2012</span> </div>
+      </li>
+      <li>
+        <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+        <div class="extra-wrap">
+          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
+          <span>12 October 2012</span> </div>
+      </li>
+      <li class="p0">
+        <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+        <div class="extra-wrap">
+          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
+          <span>12 October 2012</span> </div>
+      </li>
+    </ul>
   </div>
 </div>

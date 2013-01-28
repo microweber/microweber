@@ -20,7 +20,6 @@
         <input type="text"
             class="mw-ui-field"
             name="custom_field_value"
-            onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"
             value="<? print ($data['custom_field_value']) ?>" />
 
     </div> <?php print $savebtn; ?>

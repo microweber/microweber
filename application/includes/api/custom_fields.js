@@ -196,13 +196,7 @@ mw.custom_fields.del = function(id, toremove){
 }
 
 
-$(document).ready(function(){
-  mw.$("#custom-field-editor").keyup(function(e){
-    if(e.target.name == 'custom_field_name'){
-        $(this).find('.custom-field-edit-title').html(e.target.value);
-    }
-  });
-});
+
 
 __save = function(){
              mw.custom_fields.save(__save__global_id, function(){

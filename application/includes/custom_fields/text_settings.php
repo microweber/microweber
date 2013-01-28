@@ -50,7 +50,7 @@ $(document).ready(function(){
 
    <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">Value</label>
+      <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">Default Value</label>
         <div id="mw-custom-fields-text-holder">
             <input type="text" class="mw-ui-field" name="custom_field_value"  value="<? print ($data['custom_field_value']) ?>"  />
         </div>

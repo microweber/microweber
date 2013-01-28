@@ -225,8 +225,7 @@ class MwController {
 
 			// d($l);
 			//exit();
-			
-			
+
 			if (isset($_REQUEST['isolate_content_field'])) {
 				//d($_REQUEST);
 				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
@@ -269,7 +268,7 @@ class MwController {
 				}
 
 			}
-			
+
 			//mw_var('get_module_template_settings_from_options', 1);
 			$l = parse_micrwober_tags($l, $options = false);
 			//	mw_var('get_module_template_settings_from_options', 0);
@@ -281,10 +280,10 @@ class MwController {
 			// $l = str_ireplace('</head>', $default_css . '</head>', $l);
 			$l = str_ireplace('<head>', '<head>' . $default_css, $l);
 			if (!stristr($l, $apijs_loaded)) {
-				
+
 				//$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
-				
-				$default_css = '<script src="' . $apijs_loaded . '"></script>'."\r\n";
+
+				$default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
 
 				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
 			}
@@ -310,20 +309,14 @@ class MwController {
 			// d(TEMPLATE_URL);
 
 			$l = execute_document_ready($l);
-			
-			
-		 	exec_action('frontend');
-		 
-			
-			
+
+			exec_action('frontend');
 
 			$is_embed = url_param('embed');
 
 			if ($is_embed != false) {
 				$this -> isolate_by_html_id = $is_embed;
 			}
-
-			
 
 			if ($this -> isolate_by_html_id != false) {
 				$id_sel = $this -> isolate_by_html_id;
@@ -839,7 +832,7 @@ class MwController {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -873,6 +866,10 @@ class MwController {
 					}
 				}
 			}
+		}
+
+		if (!isset($_POST['id']) and !isset($data['id']) and isset($_REQUEST['id'])) {
+			//	$data['id'] = $_REQUEST['id'];
 		}
 
 		$is_page_id = url_param('page_id', true);
@@ -969,6 +966,10 @@ class MwController {
 			$data['module'] = ($mod_from_url);
 		}
 
+		if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
+			$data['id'] = $_REQUEST['id'];
+		}
+
 		$has_id = false;
 		if (isset($data) and isarr($data)) {
 			foreach ($data as $k => $v) {
@@ -987,8 +988,8 @@ class MwController {
 		}
 		if ($has_id == false) {
 
-		//	$mod_n = url_title($mod_n) . '-' . date("YmdHis");
-		//	$tags .= "id=\"$mod_n\" ";
+			//	$mod_n = url_title($mod_n) . '-' . date("YmdHis");
+			//	$tags .= "id=\"$mod_n\" ";
 		}
 
 		$tags = "<module {$tags} />";
@@ -1011,7 +1012,7 @@ class MwController {
 		}
 
 		if (isset($_REQUEST['live_edit'])) {
-			$p_index = INCLUDES_PATH . DS . 'toolbar' . DS . 'editor_tools'.DS . 'module_settings' . DS . 'index.php';
+			$p_index = INCLUDES_PATH . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
 			$p_index = normalize_path($p_index, false);
 			$l = new MwView($p_index);
 			$l -> params = $data;
@@ -1042,19 +1043,17 @@ class MwController {
 	function apijs() {
 
 		$ref_page = false;
-		
-		
-		if(isset($_GET['id'])){
+
+		if (isset($_GET['id'])) {
 			$ref_page = get_content_by_id($_GET['id']);
 		} else if (isset($_SERVER['HTTP_REFERER'])) {
 			$ref_page = $_SERVER['HTTP_REFERER'];
 			if ($ref_page != '') {
 				$ref_page = get_content_by_url($ref_page);
 				$page_id = $ref_page['id'];
-			//	$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+				//	$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
 			}
-			
-			
+
 		}
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
@@ -1062,7 +1061,7 @@ class MwController {
 		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();
 		// var_dump($l);
-
+		//session_write_close();
 		$l = str_replace('{SITE_URL}', site_url(), $l);
 		$l = str_replace('{SITEURL}', site_url(), $l);
 		$l = str_replace('%7BSITE_URL%7D', site_url(), $l);

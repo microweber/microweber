@@ -32,6 +32,10 @@ if(isset($params['for-id'])){
 }
 
  
+if(isset($params['content-id'])){
+	$for_id = $for_module_id = $params['content-id']; 
+	 $for = 'table_content';
+}
 
  ?>
 <? $rand = uniqid(); ?>

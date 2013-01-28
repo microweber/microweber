@@ -19,25 +19,7 @@ mw.cache = {
    }
 }
 
-mw.supports = {};
 
-
-(function(o){
-
-   var t = mwd.createElement('div');
-   var c = mwd.createElement('canvas');
-
-   o.mouseenter = t.onmouseenter === null ? true : false;
-   o.localstorage = o.localStorage = 'localStorage' in window;
-   o.canvas = !!c.getContext;
-
-
-
-
-   delete t;
-   delete c;
-
-})(mw.supports);
 
 
 
