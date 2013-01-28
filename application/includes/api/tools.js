@@ -94,7 +94,7 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    _init:function(html, width, height, callback, title, name, template){
+    _init:function(html, width, height, callback, title, name, template, overlay){
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
@@ -132,11 +132,14 @@ mw.tools = {
         typeof callback==='function'?callback.call(modal_return):'';
         typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';
         typeof name==='string'?$(modal_object).attr("name", name):'';
+
+        if(overlay==true)mw.tools.modal.overlay(modal.main);
+
         return modal_return;
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
-      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template);
+      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay);
     },
     minimize:function(id){
         var modal = $("#"+id);
@@ -188,14 +191,13 @@ mw.tools = {
           callback:obj.callback,
           title:obj.title,
           name:obj.name,
+          overlay:obj.overlay,
           template:obj.template
         });
         $(modal.main).addClass("mw_modal_type_iframe");
 
         modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
 
-
-        mw.tools.modal.overlay(modal.main);
         return modal;
     },
     remove:function(id){

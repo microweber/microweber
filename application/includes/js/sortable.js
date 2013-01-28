@@ -1186,6 +1186,7 @@ module_settings: function() {
     	html:"",
     	width:600,
     	height:450,
+        overlay:false,
     	callback:function() {
           var id = this.main[0].id;
           $(this.container).load(mw.settings.site_url + "api/module", data1, function(){

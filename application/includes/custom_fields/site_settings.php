@@ -17,9 +17,9 @@
 
    <div class="custom-field-col-right">
 
-      <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">http://www.yourwebsite.com</label>
+      <label class="mw-ui-label" for="custom_field_value<? print $rand ?>">Default Value</label>
 
-        <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<? print $rand ?>');"  name="custom_field_value"  value="yourwebsite.com" id="custom_field_value<? print $rand ?>">
+        <input type="text" class="mw-ui-field"  name="custom_field_value"  value="<? print ($data['custom_field_value']) ?>" id="custom_field_value<? print $rand ?>">
 
 
     <?php print $savebtn; ?>

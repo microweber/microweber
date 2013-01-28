@@ -108,7 +108,7 @@ mw.custom_fields = {
 
 
   },
-  autoSaveOnWriting:function(el, id){
+  autoSaveOnWriting:function(el, id){  return false;
      mw.on.stopWriting(el, function(){
          mw.custom_fields.save(id, function(){
             if(typeof __sort_fields === 'function'){
@@ -137,7 +137,24 @@ mw.custom_fields.serialize = function(id){
             data.options[name] = val;
           }
           else{
-            data[name] = val;
+            if(name.contains("[")){
+                if(name.contains('[]')){
+                  var name = name.replace(/[\[\]']+/g, '');
+                  try{data[name].push(val)}
+                  catch(e){data[name] = [val]}
+                }
+                else{
+                  var i1 = name.indexOf("[");
+                  var i2 = name.indexOf("]");
+                  var name = name.slice(i1+1, i2);
+                  try{data[name].push(val)}
+                  catch(e){data[name] = [val]}
+                }
+            }
+            else{
+               data[name] = val;
+            }
+
           }
       });
       if(mw.tools.isEmptyObject(data.options)){

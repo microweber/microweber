@@ -44,13 +44,6 @@ $for_id =$module_id = $params['to_table_id'];
 
  }
  
- 
- 
- 
- if(isset($params['content-id'])){
-	$for_id = $for_module_id = $params['content-id']; 
-	 $for = 'table_content';
-}
 $module_id = $for_id;
 $rand = rand();
  
@@ -123,11 +116,15 @@ $rand = rand();
     </ul>
   </div>
 
-  <module  data-type="custom_fields/list" <? print $hide_preview  ?>
+  <module
+        data-type="custom_fields/list" <? print $hide_preview  ?>
         for="<? print $for  ?>"
         for_module_id="<? print $module_id ?>"
         <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
-        id="mw_custom_fields_list_<? print $params['id']; ?>"  />
+        id
+
+        ="mw_custom_fields_list_<? print $params['id']; ?>"
+  />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
       <div class="custom-field-edit-title"></div>

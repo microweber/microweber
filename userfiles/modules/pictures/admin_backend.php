@@ -53,11 +53,14 @@ function after_upld_<? print $rand ?>(a){
 	 data.media_type = 'picture';
 	 data.for_id = '<? print $for_id ?>';
 	 mw.module_pictures.after_upload(data);
+	 
+	 
+	 
  mw.reload_module('pictures/admin');
  
- if(window.parent != undefined && window.parent.mw != undefined){
-	 window.parent.mw.reload_module('pictures');
- }
+	 if(window.parent != undefined && window.parent.mw != undefined){
+		 window.parent.mw.reload_module('pictures');
+	 }
  
 }
 

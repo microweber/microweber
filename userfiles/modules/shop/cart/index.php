@@ -16,6 +16,14 @@ if ($template != false and strtolower($template) != 'none') {
 
 
 ?>
+<?
+$cart = array();
+$cart['session_id'] = session_id();
+$cart['order_completed'] = 'n';
+ 
+ $data = get_cart($cart);
+ //d($cart);
+ ?>
 <?php
 switch ($template_file):
     case true:
@@ -36,38 +44,37 @@ switch ($template_file):
   <div class="mw-cart-title mw-cart-<? print $params['id']?>">
     <?   _e('My cart') ?>
   </div>
-  <?
-$cart = array();
-$cart['session_id'] = session_id();
-$cart['order_completed'] = 'n';
- 
- $data = get_cart($cart);
- //d($cart);
- ?>
   <? if(isarr($data)) :?>
-  <? foreach ($data as $item) : ?>
-  <div class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
-    <div class="mw-cart-item-title"> Title: <? print $item['title'] ?></div>
-    price: <? print $item['price'] ?> <br />
-    
-    qty:
-    <input type="text" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" />
-    <a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a> </div>
-  <? endforeach; ?>
-  
-  
-  
-  <? 
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <? foreach ($data as $item) : ?>
+      <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
+        <td><? print $item['title'] ?></td>
+        <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
+        <td><? print $item['price'] ?></td>
+        <td><a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a></td>
+      </tr>
+      <? endforeach; ?>
+    </tbody>
+  </table>
+  <?  
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
   } else {
 	   $checkout_link_enanbled = $params['checkout-link-enabled'];
   }
    ?>
-   
-   <? if($checkout_link_enanbled != 'n') :?>
-   <? $checkout_page =get_option('data-checkout-page', $params['id']); ?>
-   <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
+  <? if($checkout_link_enanbled != 'n') :?>
+  <? $checkout_page =get_option('data-checkout-page', $params['id']); ?>
+  <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 	   
 	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
@@ -76,10 +83,7 @@ $cart['order_completed'] = 'n';
    }
    
    ?>
- 
- 
-   <a href="<? print $checkout_page_link; ?>">Checkout</a> 
-   
+  <a href="<? print $checkout_page_link; ?>">Checkout</a>
   <? endif ; ?>
   <? else : ?>
   <div class="mw-cart-empty mw-cart-<? print $params['id']?>">

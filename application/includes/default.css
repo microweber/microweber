@@ -329,6 +329,16 @@ body.mw-preview{
 }
 
 
+@media screen and (-webkit-min-device-pixel-ratio : 1.5), screen and (min-device-pixel-ratio : 1.5) {
+    body .edit .mw-col{
+      width: auto !important;
+      clear: both !important;
+      float: none !important;
+    }
+
+}
+
+
 
 
 

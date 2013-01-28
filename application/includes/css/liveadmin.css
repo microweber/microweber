@@ -864,12 +864,10 @@ div .mw-custom-field-form-controls:last-child{
 }
 
 
-.custom-field-col-right .mw-ui-field{
-    width: calc(100% - 22px);
-}
+
 
 .custom-field-col-right .mw-custom-field-form-controls input.mw-ui-field{
-   width: calc(100% - 115px);
+   width: calc(100% - 198px);
    float: left;
    margin-right: 10px;
 }
@@ -892,6 +890,7 @@ div .mw-custom-field-form-controls:last-child{
 
 .custom-field-edit .mw-ui-check input + span + span{
   font-size: 11px;
+  white-space: nowrap;
 }
 .custom-field-edit .mw-ui-check input + span {
   top: 6px;
@@ -935,25 +934,50 @@ div .mw-custom-field-form-controls:last-child{
 }
 
 .custom-field-col-left{
-  width: 190px;
+  width: 40%;
   float: left;
   min-height: 60px;
 }
+.custom-field-col-left input.mw-ui-field{
+  width:calc(100% - 22px);
+}
+
+.custom-field-col-right .mw-ui-field{
+    width: calc(100% - 120px);
+}
+
+.mw-module-live-edit-settings .custom-field-col-right .mw-ui-field{
+    width: calc(100% - 22px);
+}
+.mw-module-live-edit-settings .custom-field-col-right .mw-custom-field-form-controls input.mw-ui-field{
+  width:calc(100% - 111px);
+}
+
+.mw-module-live-edit-settings .tab{
+  padding: 20px;
+}
+
 .custom-field-col-right{
-  width: 270px;
-  position: relative;
-  float: left;
-  margin-left: 20px;
-  min-height: 60px;
+    float: right;
+    min-height: 60px;
+    position: relative;
+    width: 55%;
 }
+
 
 .mw-custom-fields-save{
     position: absolute;
-    left: 100%;
-    margin-left: 15px;
+    right: 0;
     white-space: nowrap;
     bottom: 0;
     width: 80px;
+}
+
+.mw-module-live-edit-settings .mw-custom-fields-save{
+  position: relative;
+  clear: both;
+  float: right;
+  margin-top: 5px;
 }
 
 

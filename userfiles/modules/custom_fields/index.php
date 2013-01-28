@@ -46,6 +46,7 @@ if(!empty($more )): ?>
 <? $price_fields = array(); ?>
 <? foreach($more  as $field): ?>
 <? 
+ 
 if(isset($field['custom_field_type']) and $field['custom_field_type'] =='price'){
 	$price_fields[] = $field;
 } else {
@@ -58,15 +59,8 @@ print  make_field($field);
 <? if($price_fields_c >1) : ?>
 <select name="price">
   <? endif; ?>
-  <? 
-
- 
-foreach($price_fields  as $field): ?>
-  <?
-if($price_fields_c >1){
-	$field['make_select'] = true;
-}
- ?>
+  <? foreach($price_fields  as $field): ?>
+  <? if($price_fields_c >1){ $field['make_select'] = true; } ?>
   <? print  make_field($field);   ?>
   <? endforeach; ?>
   <? if($price_fields_c >1) : ?>
@@ -74,5 +68,5 @@ if($price_fields_c >1){
 <? endif; ?>
 <? endif; ?>
 <? else: ?>
-<? //_e("You don't have any custom fields."); ?>
+<? mw_notif("You don't have any custom fields."); ?>
 <? endif; ?>

@@ -1212,28 +1212,7 @@ right: 15px;
 }
 
 
-.mw-tag-selector {
-  cursor: text;
-  width: 602px;
-}
 
-div.mw-custom-fields-tags{
-  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
-  margin-bottom: 14px;
-}
-
-.mw-tag-selector .mw-ui-invisible-field{
-  font-size: 11px;
-  padding: 2px 0;
-  color: #8C8C8C;
-}
-
-.mw-tag-selector .mw-ui-btn{
-  float: left;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding-right: 16px;
-}
 
 .mw-ui-btn{
   display: inline-block;
@@ -1397,6 +1376,8 @@ div.mw-ui-field{
   display: inline-block;
 }
 
+
+
 div.mw-ui-field:after{
   content: ".";
   display: block;
@@ -1405,6 +1386,34 @@ div.mw-ui-field:after{
   line-height: 0;
   height: 0;
 }
+
+
+.mw-tag-selector {
+  cursor: text;
+  width: auto;
+  display: block;
+}
+
+
+div.mw-custom-fields-tags{
+  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  margin-bottom: 14px;
+  display: block;
+}
+
+.mw-tag-selector .mw-ui-invisible-field{
+  font-size: 11px;
+  padding: 2px 0;
+  color: #8C8C8C;
+}
+
+.mw-tag-selector .mw-ui-btn{
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding-right: 16px;
+}
+
 
 .mw-ui-field[data-default]{
   color: #8C8C8C;
