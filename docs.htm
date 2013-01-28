@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title></title>
+
+  <style>
+
+  *{
+    margin:0;
+    padding: 0;
+  }
+  body{
+    font-family: Segoe UI;
+    color: #666666;
+  }
+
+  #wrapper{
+    width: 850px;
+    margin: 20px auto;
+    padding: 40px;
+    min-height:200px;
+    box-shadow: 0 0 4px #ccc;
+  }
+  h2{
+    font-size: 23px;
+    font-weight: normal;
+    padding-bottom:20px;
+    margin-bottom:20px;
+    border-bottom: 1px solid #ccc;
+  }
+  ul{
+    list-style: none;
+  }
+
+  li{
+    padding: 10px 0;
+    color: #333333
+  }
+
+  li span{
+    font-family: Courier New;
+    font-size: 19px;
+
+  }
+
+  li strong{
+    color: #1D8AC5;
+    font-size: 17px;
+  }
+
+  li p{
+    padding-left: 40px;
+  }
+
+  </style>
+</head>
+
+<body>
+
+
+<div id="wrapper">
+
+   <h2>mw.tools</h2>
+
+   <ul>
+    <li><span>.isEmptyObject(<strong>Object</strong>)</span><p>checks if <strong>Object</strong> has any properties</p></li>
+    <li><span>.migrateAttributes(<strong>from</strong>, <strong>to</strong>, <strong>except</strong>)</span> <p>Copies attributes from one element to another. The first to parameters are required. The <strong>except</strong> attribute is an array with parameters that you don't want to copy</p></li>
+    <li><span>.getAttrs(<strong>node</strong>)</span> <p>Collects all attributes from a node in an Object<em> (ex: {title:'Some title'})</em></p></li>
+    <li><span>.get_filename(<strong>String</strong>)</span> <p>Returns file name from a given url string <em> (ex: example.com/image.jpg - returns 'image.jpg')</em></p></li>
+    <li><span>.fullscreen(<strong>node</strong>)</span> <p>Puts node element in fullscreen mode</p></li>
+
+   </ul>
+
+
+</div>
+
+
+</body>
+
+</html>
