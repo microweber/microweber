@@ -5,7 +5,7 @@
 //d($params);
  
   
-$rand = uniqid().rand().rand();
+//$rand = uniqid().rand().rand();
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
@@ -83,13 +83,13 @@ mw.templatePreview = {
   },
   view:function(which){
 	  
-		  	//var $sel = mw.$('#active_site_layout_<? print $rand; ?> option:selected');
+		  	//var $sel = mw.$('#active_site_layout_{rand} option:selected');
  
 	  
 	  
     mw.templatePreview.selector.selectedIndex = which;
-    mw.$("#layout_selector<? print $rand; ?> li.active").removeClass('active');
-    mw.$("#layout_selector<? print $rand; ?> li").eq(which).addClass('active');
+    mw.$("#layout_selector{rand} li.active").removeClass('active');
+    mw.$("#layout_selector{rand} li").eq(which).addClass('active');
     $(mw.templatePreview.selector).trigger('change');
   },
   zoom:function(in_or_out){
@@ -111,8 +111,8 @@ mw.templatePreview = {
   prepare:function(){
 	  
 	  
-	var $sel = mw.$('#active_site_layout_<? print $rand; ?> option');
-	var $layout_list_rend = mw.$('#layout_selector<? print $rand; ?>');
+	var $sel = mw.$('#active_site_layout_{rand} option');
+	var $layout_list_rend = mw.$('#layout_selector{rand}');
 	var $layout_list_rend_str = '<ul>';
 	if($sel.length >0){
 	var indx = 0;
@@ -156,13 +156,13 @@ mw.templatePreview = {
 	  
         mw.$('.preview_frame_wrapper').addClass("loading");
 
-		var template = mw.$('#active_site_template_<? print $rand; ?>').val();
-		var layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
+		var template = mw.$('#active_site_template_{rand}').val();
+		var layout = mw.$('#active_site_layout_{rand}').val();
 		
 		
-		var is_shop = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-is-shop');
-		var ctype = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-content-type');
-		var root = mwd.querySelector('#active_site_layout_<? print $rand; ?>');
+		var is_shop = mw.$('#active_site_layout_{rand} option:selected').attr('data-is-shop');
+		var ctype = mw.$('#active_site_layout_{rand} option:selected').attr('data-content-type');
+		var root = mwd.querySelector('#active_site_layout_{rand}');
 			
 			var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
 		 if(is_shop != undefined){
@@ -226,9 +226,9 @@ $(document).ready(function() {
 
 
 
-    mw.templatePreview.selector = mwd.getElementById('active_site_layout_<? print $rand; ?>');
+    mw.templatePreview.selector = mwd.getElementById('active_site_layout_{rand}');
 
-	mw.$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
+	mw.$('#active_site_template_{rand}').bind("change", function(e) {
 	 var parent_module = $(this).parents('.module').first();
 	 if(parent_module != undefined){
  parent_module.attr('data-active-site-template',$(this).val());
@@ -239,7 +239,7 @@ $(document).ready(function() {
 	 }
     });
 
-	mw.$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
+	mw.$('#active_site_layout_{rand}').bind("change", function(e) {
 		mw.templatePreview.generate();
     });
 
@@ -262,7 +262,7 @@ mw.templatePreview.generate();
   </label>
   <div class="mw-ui-select" style="width: 235px">
     <? if($templates != false and !empty($templates)): ?>
-    <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
+    <select name="active_site_template" id="active_site_template_{rand}">
 <? if( trim($data['active_site_template']) != ''): ?>
 
       <option value="<? print $data['active_site_template'] ?>"      selected="selected"   ><? print $data['active_site_template'] ?></option>
@@ -286,7 +286,7 @@ mw.templatePreview.generate();
   <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
 <? endif; ?>
  
-<select name="layout_file" class="semi_hidden"   id="active_site_layout_<? print $rand; ?>" 
+<select name="layout_file" class="semi_hidden"   id="active_site_layout_{rand}" 
 autocomplete="off">
 
  
@@ -319,7 +319,7 @@ autocomplete="off">
     <?php _e("Page Layout"); ?>
   </label>
   <div class="layouts_box_container">
-    <div class="layouts_box" id="layout_selector<? print $rand; ?>">
+    <div class="layouts_box" id="layout_selector{rand}">
       <?
 	  /*<ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>

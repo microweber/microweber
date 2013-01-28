@@ -1,4 +1,4 @@
-<?php $rand = uniqid(); ?>
+<?php //$rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
 <? $active_content_id = 0;
 if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){

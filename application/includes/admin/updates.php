@@ -1,6 +1,6 @@
 <?
 
- $rand = uniqid(); ?>
+ //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -36,10 +36,10 @@ function receiveMessage(evt)
 
 function mw_reload_all_updates(){
 
-	mw.$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
+	mw.$('#modules_admin_{rand}').attr('reload_modules',1);
 		 
 		 
-  	 mw.load_module('admin/updates','#modules_admin_<? print $rand  ?>');
+  	 mw.load_module('admin/updates','#modules_admin_{rand}');
 	
 }
 
@@ -57,7 +57,7 @@ function mw_reload_all_updates(){
 <table width=" 100%" border="1">
   <tr>
     
-    <td><module type="admin/updates" id="modules_admin_<? print $rand  ?>"   /></td>
+    <td><module type="admin/updates" id="modules_admin_{rand}"   /></td>
   </tr>
 </table>
 

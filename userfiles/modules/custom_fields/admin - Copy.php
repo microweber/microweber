@@ -48,7 +48,7 @@ $for_id =$module_id = $params['to_table_id'];
  }
  
 $module_id = $for_id;
-$rand = rand();
+//$rand = rand();
  
 ?>
 
@@ -86,7 +86,7 @@ $rand = rand();
     <div class="custom-field-table-tr active">
       <div class="custom-field-preview-cell"></div>
       <div class="second-col">
-        <div class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"> </div>
+        <div class="custom-fields-form-wrap custom-fields-form-wrap-{rand}" id="custom-fields-form-wrap-{rand}"> </div>
       </div>
     </div>
   </div>
@@ -98,7 +98,7 @@ mw.custom_fields.create = function($type, $copy, callback){
       if($copy !== undefined){
         var copy_str = '/copy_from:'+ $copy;
       }
-      mw.$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type + copy_str, function(){
+      mw.$('#custom-fields-form-wrap-{rand}').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type + copy_str, function(){
         mw.is.func(callback) ? callback.call($type) : '';
         mw.$("#create-custom-field-table").removeClass("semi_hidden");
       });

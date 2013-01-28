@@ -2,7 +2,7 @@
 
 // d($params);
  
-$rand = uniqid();
+//$rand = uniqid();
 if (!isset($params['for'])) {
 
 	$for = 'content';
@@ -104,9 +104,9 @@ if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
 
 $(document).ready(function(){
 
-   // mw_load_post_cutom_fields_from_categories<? print $rand ?>()
-    mw.$('#categorories_selector_for_post_<? print $rand ?> input[name="categories"]').bind('change', function(e){
-   // mw_load_post_cutom_fields_from_categories<? print $rand ?>();
+   // mw_load_post_cutom_fields_from_categories{rand}()
+    mw.$('#categorories_selector_for_post_{rand} input[name="categories"]').bind('change', function(e){
+   // mw_load_post_cutom_fields_from_categories{rand}();
 
 
 
@@ -121,9 +121,9 @@ $(document).ready(function(){
    
 });
 
-function mw_load_post_cutom_fields_from_categories<? print $rand ?>(){
-var a =	mw.$('#categorories_selector_for_post_<? print $rand ?> *[name="categories"]').val();
-var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_<? print $rand ?>')
+function mw_load_post_cutom_fields_from_categories{rand}(){
+var a =	mw.$('#categorories_selector_for_post_{rand} *[name="categories"]').val();
+var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_{rand}')
 if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	holder1.empty();
 	
@@ -133,7 +133,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	var i = 1;
 	$.each(cf_cats, function(index, value) { 
 	
-	$new_div_id = 'cf_post_cat_hold_<? print $rand  ?>_'+i+mw.random();
+	$new_div_id = 'cf_post_cat_hold_{rand}_'+i+mw.random();
 	$new_div = '<div id="'+$new_div_id+'"></div>'
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
   holder1.append($new_div);
@@ -147,11 +147,11 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 			$(this).find('.control-group').append($new_use_btn);
 			mw.$('.use_'+$new_div_id).unbind('click');
 					mw.$('.use_'+$new_div_id).bind('click', function(e){
-						//   mw_load_post_cutom_fields_from_categories<? print $rand ?>()
+						//   mw_load_post_cutom_fields_from_categories{rand}()
 						$closest =$(this).parent('.control-group').find('*[data-custom-field-id]:first');
 						$closest= $closest.attr('data-custom-field-id');
-						mw.$('#fields_for_post_<? print $rand  ?>').attr('copy_from',$closest);
-						mw.reload_module('#fields_for_post_<? print $rand  ?>');
+						mw.$('#fields_for_post_{rand}').attr('copy_from',$closest);
+						mw.reload_module('#fields_for_post_{rand}');
 					 	mw.log($closest );
 						 
 						return false;
@@ -185,9 +185,9 @@ mw.$('#<? print $params['id'] ?> .mw-ui-check').bind('click', function(e){
 	});
 
 	if(names.length > 0){
-	mw.$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
+	mw.$('#mw_cat_selected_{rand}').val(names.join(',')).change();
 } else {
-        mw.$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__').change();
+        mw.$('#mw_cat_selected_{rand}').val('__EMPTY_CATEGORIES__').change();
 	}
 
 	//mw.log(names);
@@ -327,4 +327,4 @@ pages_tree($tree);
    ?>
 <? $cats_str = implode(',', $active_cats); ?>
 
-<input type="hidden" name="categories" id="mw_cat_selected_<? print $rand ?>" value="<? print $cats_str ?>" />
+<input type="hidden" name="categories" id="mw_cat_selected_{rand}" value="<? print $cats_str ?>" />

@@ -1,4 +1,4 @@
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 mw.require('forms.js');
@@ -8,10 +8,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 mw.$('#user_registration_form<? print $rand ?>').submit(function() { 
+	 mw.$('#user_registration_form{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#user_registration_form<? print $rand ?>') , '<? print site_url('api') ?>/register_user', function(){
+ mw.form.post(mw.$('#user_registration_form{rand}') , '<? print site_url('api') ?>/register_user', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');
@@ -31,7 +31,7 @@ $(document).ready(function(){
 });
 </script>
 
-<form class="form-horizontal" id="user_registration_form<? print $rand ?>" method="post">
+<form class="form-horizontal" id="user_registration_form{rand}" method="post">
   <legend><?php print get_option('form_title', $params['id']) ?></legend>
   <div class="control-group">
     <label class="control-label" for="email">Email</label>

@@ -1,5 +1,5 @@
 <h1>Pages tree admin</h1>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <? $pages = get_content('content_type=page&limit=1000');   ?>
 <?php $posts_parent_page =  get_option('data-parent', $params['id']); ?>
 <strong>From page</strong>

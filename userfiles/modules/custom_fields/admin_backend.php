@@ -45,7 +45,7 @@ $for_id =$module_id = $params['to_table_id'];
  }
  
 $module_id = $for_id;
-$rand = rand();
+//$rand = rand();
  
 ?>
 <script type="text/javascript">

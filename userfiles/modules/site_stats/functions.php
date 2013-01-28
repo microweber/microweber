@@ -69,7 +69,7 @@ function stats_append_image($layout = false) {
 	if (!isset($_REQUEST['isolate_content_field'])) {
 		stats_insert();
 		//$selector = '/<\/body>/si';
-		//$rand = date("Y-m-d");
+		////$rand = date("Y-m-d");
 		//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
 	}
 	//}

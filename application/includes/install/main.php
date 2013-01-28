@@ -10,7 +10,7 @@
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/admin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
 <script type="text/javascript" src="<? print INCLUDES_URL; ?>js/jquery.js"></script>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
  
@@ -20,13 +20,13 @@ $(document).ready(function(){
 
 
 	 
-	 $('#form_<? print $rand ?>').submit(function() {
+	 $('#form_{rand}').submit(function() {
 
 
   mw_start_progress();
    $('.mw-install-holder').fadeOut();
 
-  $data = $('#form_<? print $rand ?>').serialize();
+  $data = $('#form_{rand}').serialize();
 //  alert($data);
   //alert('<? print url_string() ?>');
  
@@ -136,7 +136,7 @@ input[type='text'], input[type='password'] {
           
           
           <? if ($done == false): ?>
-          <form method="post" id="form_<? print $rand ?>">
+          <form method="post" id="form_{rand}">
             <h2>Database setup</h2>
             <div class="hr"></div>
             <div class="mw-ui-field-holder">
@@ -173,7 +173,7 @@ input[type='text'], input[type='password'] {
               <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
             </div>
             <div class="mw_clear"></div>
-            <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<? print $rand ?>">
+            <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_{rand}">
             <input type="hidden" value="UTC" name="default_timezone" />
           </form>
           <? else: ?>

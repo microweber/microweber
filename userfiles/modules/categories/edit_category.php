@@ -1,5 +1,5 @@
 <?
-$form_rand_id  = uniqid();
+$form_rand_id  = '';
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;
 }
@@ -21,9 +21,9 @@ mw.require('forms.js');
 
 </script>
 <script  type="text/javascript">
- function set_category_parent_<? print $form_rand_id ?>(){
+ function set_category_parent_{rand}(){
 	 
-	 $sel = mw.$('#edit_category_set_par_<? print $form_rand_id ?> input:checked').parents('li').first();
+	 $sel = mw.$('#edit_category_set_par_{rand} input:checked').parents('li').first();
 
 	 
 	
@@ -32,9 +32,9 @@ mw.require('forms.js');
 	//   is_page = $sel.attr("data-page-id");  
 	    mw.log( $sel);
 	 if(is_cat != undefined){
-	 mw.$('#to_table_id_<? print $form_rand_id ?>').val(0);
+	 mw.$('#to_table_id_{rand}').val(0);
 
-		 mw.$('#parent_id_<? print $form_rand_id ?>').val(is_cat);  
+		 mw.$('#parent_id_{rand}').val(is_cat);  
 		 
 		 
 		
@@ -45,9 +45,9 @@ mw.require('forms.js');
 		 
 		 
 		  if(is_page != undefined){
-		 mw.$('#to_table_id_<? print $form_rand_id ?>').val(is_page);  
+		 mw.$('#to_table_id_{rand}').val(is_page);  
 		 
-		  mw.$('#parent_id_<? print $form_rand_id ?>').val(0);
+		  mw.$('#parent_id_{rand}').val(0);
 		 
 		 
 	 }
@@ -60,19 +60,19 @@ mw.require('forms.js');
  }
  
 
-  function onload_set_parent_<? print $form_rand_id ?>(){
-	   var tti = mw.$('#to_table_id_<? print $form_rand_id ?>').val();
+  function onload_set_parent_{rand}(){
+	   var tti = mw.$('#to_table_id_{rand}').val();
 
-		 var par_cat   = mw.$('#parent_id_<? print $form_rand_id ?>').val();
+		 var par_cat   = mw.$('#parent_id_{rand}').val();
 		// mw.log(par_cat);
 		 if(par_cat != undefined && parseFloat(par_cat) > 0 ){
-		    var tree =  mwd.getElementById('edit_category_set_par_<? print $form_rand_id ?>');
+		    var tree =  mwd.getElementById('edit_category_set_par_{rand}');
             var li =  tree.querySelector('li[data-category-id="'+par_cat+'"]');
             var radio = li.querySelector('input[type="radio"]');
             radio.checked = true;
 
 		 }  else  if(tti != undefined && parseFloat(tti) > 0 ){
-                   var tree =  mwd.getElementById('edit_category_set_par_<? print $form_rand_id ?>');
+                   var tree =  mwd.getElementById('edit_category_set_par_{rand}');
             var li =  tree.querySelector('li[data-page-id="'+tti+'"]');
             var radio = li.querySelector('input[type="radio"]');
             radio.checked = true;
@@ -85,22 +85,22 @@ mw.require('forms.js');
 $(document).ready(function(){
 	//
 	 <? if(intval($data['id']) == 0): ?>
-	// onload_set_parent_<? print $form_rand_id ?>();
-	// set_category_parent_<? print $form_rand_id ?>()
+	// onload_set_parent_{rand}();
+	// set_category_parent_{rand}()
 	 <? endif; ?>
-	  mw.$('#edit_category_set_par_<? print $form_rand_id ?> input').change(function() { 
+	  mw.$('#edit_category_set_par_{rand} input').change(function() { 
 	//  alert(1);
-	     set_category_parent_<? print $form_rand_id ?>();
+	     set_category_parent_{rand}();
 	   });
 	    
 	 
 	 
 	 
 	 
-	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
+	 mw.$('#admin_edit_category_form_{rand}').submit(function() { 
 
- // set_category_parent_<? print $form_rand_id ?>();
- mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
+ // set_category_parent_{rand}();
+ mw.form.post(mw.$('#admin_edit_category_form_{rand}') , '<? print site_url('api/save_category') ?>', function(){
 	 
 	 
 	 mw.reload_module('[data-type="categories"]');
@@ -137,11 +137,11 @@ $(document).ready(function(){
   ?>
 <?  //d($params);?>
 
-<form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" name="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
+<form class="add-edit-page-post" id="admin_edit_category_form_{rand}" name="admin_edit_category_form_{rand}" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <input name="table" type="hidden" value="table_taxonomy" />
   <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
-  <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
+  <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_{rand}"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />
 
   <div class="mw-ui-field-holder">
@@ -163,15 +163,15 @@ $(document).ready(function(){
 	 
 
        ?>
-    <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
-    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">
-      <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
+    <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_{rand}" />
+    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_{rand}">
+      <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_{rand}" input-name-categories='temp_{rand}' input-type-categories="radio"   />
     </div>
   </div>
   <script type="text/javascript">
     $(mwd).ready(function(){
-        mw.treeRenderer.appendUI('#edit_category_set_par_<? print $form_rand_id ?>');
-        mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<? print $form_rand_id ?>'));
+        mw.treeRenderer.appendUI('#edit_category_set_par_{rand}');
+        mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_{rand}'));
     });
   </script>
   <div class="mw-ui-field-holder">
@@ -186,6 +186,6 @@ $(document).ready(function(){
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />
 <div class="post-save-bottom">
   <input type="submit" name="save" class="semi_hidden"  value="Save" />
-  <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+  <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_{rand}']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
   <?php _e("Save"); ?>
   </a> </div>

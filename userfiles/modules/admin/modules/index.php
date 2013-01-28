@@ -1,6 +1,6 @@
 <?
 
- $rand = uniqid(); ?>
+ //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -16,9 +16,9 @@ $(document).ready(function(){
     }
 
 
-    mw.$('#modules_categories_tree_<? print $rand  ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
+    mw.$('#modules_categories_tree_{rand}').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
 
-    mw.$('#modules_categories_tree_<? print $rand  ?> li a').each(function(){
+    mw.$('#modules_categories_tree_{rand} li a').each(function(){
         var el = this;
         var id = el.attributes['data-category-id'].nodeValue;
         el.href = '#?category=' + id;
@@ -56,11 +56,11 @@ else{
 <script  type="text/javascript">
 function mw_reload_all_modules(){
 
-	mw.$('#modules_admin_<? print $rand  ?>').attr('reload_modules',1);
-	mw.$('#modules_admin_<? print $rand  ?>').attr('cleanup_db',1);
+	mw.$('#modules_admin_{rand}').attr('reload_modules',1);
+	mw.$('#modules_admin_{rand}').attr('cleanup_db',1);
 
-  	 mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>');
-	// mw.$('#modules_admin_<? print $rand  ?>').removeAttr('cleanup_db');
+  	 mw.load_module('admin/modules/manage','#modules_admin_{rand}');
+	// mw.$('#modules_admin_{rand}').removeAttr('cleanup_db');
 
 }
 
@@ -73,7 +73,7 @@ _modulesSort = function(){
     hash.category === undefined ? mw.url.windowHashParam('category', '0') : '' ;
 
     var attrs  = mw.url.getHashParams(window.location.hash);
-    var holder = mw.$('#modules_admin_<? print $rand  ?>');
+    var holder = mw.$('#modules_admin_{rand}');
 
     var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
 
@@ -86,11 +86,11 @@ _modulesSort = function(){
         if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
-    mw.load_module('admin/modules/manage','#modules_admin_<? print $rand  ?>', function(){
+    mw.load_module('admin/modules/manage','#modules_admin_{rand}', function(){
       $('#module_keyword').removeClass('loading');
 	  
-	  var el = $( "#modules_admin_<? print $rand ?> .mw-modules-admin" );
- // $( "#modules_admin_<? print $rand ?> .mw-modules-admin" ).sortable('destroy');
+	  var el = $( "#modules_admin_{rand} .mw-modules-admin" );
+ // $( "#modules_admin_{rand} .mw-modules-admin" ).sortable('destroy');
         el.sortable({
 		handle: ".mw_admin_modules_sortable_handle",
 		items: "li",
@@ -149,11 +149,11 @@ mw.on.hashParam('installed', function(){
 
   <h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2>
 
-  <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $rand  ?>" >
+  <div class="mw-admin-side-nav" id="modules_categories_tree_{rand}" >
 
 
 
-      <module type="categories" data-for="modules" id="modules_admin_categories_<? print $rand  ?>" />
+      <module type="categories" data-for="modules" id="modules_admin_categories_{rand}" />
 
 
 
@@ -231,7 +231,7 @@ mw.on.hashParam('installed', function(){
       <div class="vSpace"></div>
 
     <div id="pages_edit_container" > </div>
-    <div id="modules_admin_<? print $rand  ?>" ></div>
+    <div id="modules_admin_{rand}" ></div>
   </div>
 </div>
 <button onclick="mw_reload_all_modules()">Reload modules</button>

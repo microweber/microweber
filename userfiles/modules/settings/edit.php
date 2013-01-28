@@ -39,7 +39,7 @@ if(!isset($data['name'])){
 
  
  ?>
-<?php $rand = uniqid().rand(); ?>
+<?php //$rand = uniqid().rand(); ?>
 
 <script  type="text/javascript">
 $(document).ready(function(){
@@ -50,14 +50,14 @@ $(document).ready(function(){
 	
 	  
       <? else : ?> 
- mw.options.form('#opt_form_<? print $rand ?>', function(){
+ mw.options.form('#opt_form_{rand}', function(){
       mw.notification.success("<?php _e("All changes are saved"); ?>.");
     });
       <? endif; ?> 
 });
 </script>
  
-<div class="option-item" id="opt_form_<? print $rand ?>">
+<div class="option-item" id="opt_form_{rand}">
   <div class="controls">
  <? if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
 

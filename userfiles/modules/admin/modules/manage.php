@@ -1,7 +1,7 @@
 <? if(!is_admin()){error("must be admin");}; ?>
 <?
 
- $rand = uniqid(); ?>
+ //$rand = uniqid(); ?>
 <? $load_module = url_param('load_module');
  if($load_module == true): ?>
 <?

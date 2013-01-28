@@ -1,5 +1,5 @@
 <? //  require_once($config['path_to_module'].'country_api.php'); ?>
-<? $rand = md5(serialize($params));
+<? //$rand = md5(serialize($params));
 
   
  $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
@@ -17,16 +17,16 @@
 </script>
 <script type="text/javascript">
 
-  function mw_shipping_<? print $rand ?>(){
-    mw.form.post( '#<? print $rand ?>', '<? print $config['module_api']; ?>/shipping_to_country/set');
+  function mw_shipping_{rand}(){
+    mw.form.post( '#{rand}', '<? print $config['module_api']; ?>/shipping_to_country/set');
   }
   
   
 
 $(document).ready(function(){
-	mw_shipping_<? print $rand ?>();
-mw.$('#<? print $rand ?>').change(function() {
- mw_shipping_<? print $rand ?>();
+	mw_shipping_{rand}();
+mw.$('#{rand}').change(function() {
+ mw_shipping_{rand}();
 });
 
 }); 
@@ -35,7 +35,7 @@ mw.$('#<? print $rand ?>').change(function() {
  
 </script>
 
-<div class="<? print $config['module_class'] ?>" id="<? print $rand ?>"> Choose country:
+<div class="<? print $config['module_class'] ?>" id="{rand}"> Choose country:
   <select name="country" class="mw-ui-simple-dropdown">
     <? foreach($data  as $item): ?>
     <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>

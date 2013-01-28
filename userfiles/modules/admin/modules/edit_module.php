@@ -15,7 +15,7 @@ if($id != false){
 
   ?>
 <? if(!empty($data)):  ?>
-<? $rand = uniqid().$data['id']; ?>
+<? //$rand = uniqid().$data['id']; ?>
 <script  type="text/javascript">
 
 
@@ -23,9 +23,9 @@ if($id != false){
 
 $(document).ready(function(){
 
-	 mw.$('#module_admin_settings_form_<? print $rand ?>').submit(function() {
+	 mw.$('#module_admin_settings_form_{rand}').submit(function() {
 
-     mw.form.post(mw.$('#module_admin_settings_form_<? print $rand ?>') , '<? print site_url('api') ?>/save_settings_md', function(){
+     mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<? print site_url('api') ?>/save_settings_md', function(){
 
 	 });
 
@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 
 	 
-	 mw.$('#module_uninstall_<? print $rand ?>').click(function() {
+	 mw.$('#module_uninstall_{rand}').click(function() {
        var for_module = {}
        for_module.id =  $(this).attr('data-module-id');
        $.post('<? print site_url('api') ?>/uninstall_module/', for_module, function(data) {
@@ -46,7 +46,7 @@ $(document).ready(function(){
        });
        return false;
 	 });
-	 mw.$('#module_install_<? print $rand ?>').click(function() {
+	 mw.$('#module_install_{rand}').click(function() {
          var for_module = {}
          for_module.for_module =  $(this).attr('data-module-name');
          $.post('<? print site_url('api') ?>/install_module/', for_module,  function(data) {
@@ -59,7 +59,7 @@ $(document).ready(function(){
 });
 </script>
 
-<form class="admin-modules-list-form" id="module_admin_settings_form_<? print $rand ?>">
+<form class="admin-modules-list-form" id="module_admin_settings_form_{rand}">
 
 
 
@@ -108,9 +108,9 @@ $(document).ready(function(){
 
     <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($data['module']) ?>" class="mw-ui-btn"><?php _e("Settings"); ?></a>
     <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
-      <input class="mw-ui-btn" name="install" type="button" id="module_install_<? print $rand ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Install"); ?>">
+      <input class="mw-ui-btn" name="install" type="button" id="module_install_{rand}" data-module-name="<? print $data['module'] ?>" value="<?php _e("Install"); ?>">
     <? else : ?>
-      <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<? print $rand ?>" data-module-id="<? print $data['id'] ?>" value="<?php _e("Uninstall"); ?>">
+      <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_{rand}" data-module-id="<? print $data['id'] ?>" value="<?php _e("Uninstall"); ?>">
     <? endif; ?>
 
   </span>

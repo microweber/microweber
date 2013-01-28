@@ -106,9 +106,9 @@ $item['position']= '999';
 $new = true;
  ?>
   <? endif;?>
-  <? $rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
+  <? //$rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
   <div data-field-id="<? print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<? print $item['id']; ?>">
-    <form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<? print $config['module_api']; ?>/shipping_add_to_country" id="<? print $rand ?>" data-field-id="<? print $item['id']; ?>">
+    <form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<? print $config['module_api']; ?>/shipping_add_to_country" id="{rand}" data-field-id="<? print $item['id']; ?>">
       <div class="shipping-country-row">
         <div class="shipping-country-label">
           <? if($new == true): ?>

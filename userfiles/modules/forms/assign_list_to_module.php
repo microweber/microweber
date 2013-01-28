@@ -5,15 +5,15 @@
 <script  type="text/javascript">
   mw.require("forms.js");
 </script>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
  
 
 
 
-function mw_create_new_list_<? print $rand ?>(){
+function mw_create_new_list_{rand}(){
 	
-	  mw.form.post('.mw_create_new_forms_list<? print $rand ?>', '<? print api_url('save_form_list'); ?>');
+	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>');
     
 	mw.reload_module('<? print $config['module'] ?>');
 	return false;
@@ -36,10 +36,10 @@ $data = get_form_lists('module_name='.$params['for-module']);;
   <? endforeach ; ?>
 </select>
 <? endif; ?>
-<div class="mw_create_new_forms_list<? print $rand ?>">
+<div class="mw_create_new_forms_list{rand}">
   <legend>Create new list</legend>
   <input type="text" name="mw_new_forms_list" value="" />
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
-  <button class="mw-ui-btn" onclick="mw_create_new_list_<? print $rand ?>()">Create</button>
+  <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
 </div>

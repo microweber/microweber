@@ -1,6 +1,6 @@
 <?
  if(is_admin() == false) { error("Must be admin"); }
- $rand = uniqid(); ?>
+ //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -46,43 +46,43 @@ var ui = mw.url.getHashParams(window.location.hash).ui;
 
 
     if(ui  !== undefined){
-    	mw.$('#users_admin_<? print $rand  ?>').attr('data-show-ui',ui);
+    	mw.$('#users_admin_{rand}').attr('data-show-ui',ui);
     }
 
     else {
-    	mw.$('#users_admin_<? print $rand  ?>').removeAttr('data-show-ui');
+    	mw.$('#users_admin_{rand}').removeAttr('data-show-ui');
     }
 
  
  
  var search = mw.url.getHashParams(window.location.hash).search;
   if(search  !== undefined){
-    	mw.$('#users_admin_<? print $rand  ?>').attr('data-search-keyword',search);
+    	mw.$('#users_admin_{rand}').attr('data-search-keyword',search);
     } else {
-    	mw.$('#users_admin_<? print $rand  ?>').removeAttr('data-search-keyword');
+    	mw.$('#users_admin_{rand}').removeAttr('data-search-keyword');
     }
 	
 	
 	 var is_admin = mw.url.getHashParams(window.location.hash).is_admin;
 	 if(is_admin  !== undefined && parseInt(is_admin)  !== 0){
-  	mw.$('#users_admin_<? print $rand  ?>').attr('data-is_admin',is_admin);
+  	mw.$('#users_admin_{rand}').attr('data-is_admin',is_admin);
   } else {
-  	mw.$('#users_admin_<? print $rand  ?>').removeAttr('data-is_admin');
+  	mw.$('#users_admin_{rand}').removeAttr('data-is_admin');
   }
 
   
   	 var installed = mw.url.getHashParams(window.location.hash).installed;
 	 if(installed  !== undefined){
-  	mw.$('#users_admin_<? print $rand  ?>').attr('data-installed',installed);
+  	mw.$('#users_admin_{rand}').attr('data-installed',installed);
   } else {
-  	mw.$('#users_admin_<? print $rand  ?>').removeAttr('data-installed');
+  	mw.$('#users_admin_{rand}').removeAttr('data-installed');
   }
   
 	
 
-// mw.reload_module('#users_admin_<? print $rand  ?>');
+// mw.reload_module('#users_admin_{rand}');
 
-mw.load_module('users/edit_user','#user_edit_admin_<? print $rand  ?>');
+mw.load_module('users/edit_user','#user_edit_admin_{rand}');
 
 
 }
@@ -92,7 +92,7 @@ _mw_admin_users_manage = function(){
 
     var attrs = mw.url.getHashParams(window.location.hash);
 
-    var holder = mw.$('#users_admin_<? print $rand ?>');
+    var holder = mw.$('#users_admin_{rand}');
 
     var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
 
@@ -108,7 +108,7 @@ _mw_admin_users_manage = function(){
 
 
 
-    mw.load_module('users/manage','#users_admin_<? print $rand ?>', function(){
+    mw.load_module('users/manage','#users_admin_{rand}', function(){
       TableLoadded = true;
       var params = mw.url.getHashParams(window.location.hash);
       if(params['edit-user'] !== undefined){
@@ -144,10 +144,10 @@ $(window).bind("load", function(){
 
 _mw_admin_user_edit = function(){
     var attrs = mw.url.getHashParams(window.location.hash);
-    var holder = mw.$('#user_edit_admin_<? print $rand ?>');
+    var holder = mw.$('#user_edit_admin_{rand}');
     if(attrs['edit-user'] !== undefined && attrs['edit-user'] !== ''){
         holder.attr('edit-user', attrs['edit-user']);
-        mw.load_module('users/edit_user','#user_edit_admin_<? print $rand ?>', function(){
+        mw.load_module('users/edit_user','#user_edit_admin_{rand}', function(){
               mw.cache.save();
               if(typeof UsersRotator === 'undefined') {
                  UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
@@ -267,8 +267,8 @@ mw.on.hashParam('edit-user', function(){
      <div class="vSpace"></div>
     <div class="mw-simple-rotator" style="width: 757px">
       <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
-         <div id="users_admin_<? print $rand  ?>" ></div>
-         <div id="user_edit_admin_<? print $rand  ?>" ></div>
+         <div id="users_admin_{rand}" ></div>
+         <div id="user_edit_admin_{rand}" ></div>
       </div>
     </div>
 

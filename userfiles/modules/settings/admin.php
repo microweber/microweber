@@ -1,4 +1,4 @@
-<?php $rand = $params['id']; ?>
+<?php //$rand = $params['id']; ?>
 <?  $option_groups = get_option_groups(); ?>
 <script  type="text/javascript">
 
@@ -13,12 +13,12 @@ _settingsSort = function(){
     var hash = mw.url.getHashParams(window.location.hash);
 
 if(hash.option_group != undefined){
- mw.$('#settings_admin_<? print $rand  ?>').attr('option_group',hash.option_group);	
+ mw.$('#settings_admin_{rand}').attr('option_group',hash.option_group);	
  
 }
-mw.$('#settings_admin_<? print $rand  ?>').attr('is_system',1);	
+mw.$('#settings_admin_{rand}').attr('is_system',1);	
 
-    mw.load_module('settings/list','#settings_admin_<? print $rand  ?>', function(){
+    mw.load_module('settings/list','#settings_admin_{rand}', function(){
     
     });
 
@@ -42,8 +42,8 @@ mw.on.hashParam('installed', function(){
     <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;
       <?php _e("Settings"); ?>
     </h2>
-    <div class="mw-admin-side-nav" id="settings_categories_tree_<? print $rand  ?>" >
-      <div id="settings_admin_categories_<? print $rand  ?>">
+    <div class="mw-admin-side-nav" id="settings_categories_tree_{rand}" >
+      <div id="settings_admin_categories_{rand}">
         <ul>
           <? foreach($option_groups as $item): ?>
           <li><a onclick="mw.url.windowHashParam('option_group', '<? print $item ?>');return false;" href="#option_group=<? print $item ?>"><? print $item ?></a></li>
@@ -70,8 +70,8 @@ mw.on.hashParam('installed', function(){
   <div class="mw_edit_page_right" style="padding: 20px;">
      
     <div class="vSpace"></div>
-    <div id="settings_admin_<? print $rand  ?>" >
-      <microweber module="settings/list" option_group="website" is_system="1" id="options_list_<? print $rand  ?>">
+    <div id="settings_admin_{rand}" >
+      <microweber module="settings/list" option_group="website" is_system="1" id="options_list_{rand}">
     </div>
   </div>
 </div>

@@ -2,7 +2,7 @@
 
 // d($params);
  
-$rand = uniqid();
+//$rand = uniqid();
 if (!isset($params['for'])) {
 
 	$for = 'content';
@@ -111,9 +111,9 @@ mw.$('#<? print $params['id'] ?> .mw-ui-check').on('click', function(e){
 	});
 mw.log('<? print $params['id'] ?>');
 	if(names.length > 0){
-	mw.$('#mw_cat_selected_<? print $rand ?>').val(names.join(',')).change();
+	mw.$('#mw_cat_selected_{rand}').val(names.join(',')).change();
 } else {
-        mw.$('#mw_cat_selected_<? print $rand ?>').val('__EMPTY_CATEGORIES__').change();
+        mw.$('#mw_cat_selected_{rand}').val('__EMPTY_CATEGORIES__').change();
 	}
 
 	//mw.log(names);
@@ -205,4 +205,4 @@ foreach ($cats__parents as $item1) {
    ?>
 <? $cats_str = implode(',', $active_cats); ?>
 
-<input type="text" name="categories" id="mw_cat_selected_<? print $rand ?>" value="<? print $cats_str ?>" />
+<input type="text" name="categories" id="mw_cat_selected_{rand}" value="<? print $cats_str ?>" />

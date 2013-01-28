@@ -1,6 +1,6 @@
 <?
  if(is_admin() == false) { error("Must be admin"); }
- $rand = uniqid(); ?>
+ //$rand = uniqid(); ?>
 <script type="text/javascript">
     mw.require("events.js");
     mw.require("url.js");
@@ -24,7 +24,7 @@
 
 
 _mw_admin_files_manage = function(param, value){
-    var holder = mw.$('#files_admin_<? print $rand ?>');
+    var holder = mw.$('#files_admin_{rand}');
     holder.removeAttr('search');
     if(param === 'all'){
       var attrs = mw.url.getHashParams(window.location.hash);
@@ -46,7 +46,7 @@ _mw_admin_files_manage = function(param, value){
     else{
        holder.attr(param, value);
     }
-    mw.load_module('files/browser','#files_admin_<? print $rand ?>');
+    mw.load_module('files/browser','#files_admin_{rand}');
 
 }
 
@@ -180,8 +180,8 @@ mw.on.hashParam('sort_order', function(){
 
 
     <div class="vSpace"></div>
-    <div id="files_admin_<? print $rand  ?>" ></div>
-    <div id="user_edit_admin_<? print $rand  ?>" ></div>
+    <div id="files_admin_{rand}" ></div>
+    <div id="user_edit_admin_{rand}" ></div>
 
 </div>
 <div class="mw_clear"></div>

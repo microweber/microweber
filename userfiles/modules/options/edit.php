@@ -19,10 +19,10 @@ if(!isset($data['name'])){
 
  
  ?>
-<?php $rand = uniqid().rand(); ?>
+<?php //$rand = uniqid().rand(); ?>
 <script  type="text/javascript">
 $(document).ready(function(){
-mw.options.form('#opt_form_<? print $rand ?>');
+mw.options.form('#opt_form_{rand}');
  
 });
 </script>
@@ -30,7 +30,7 @@ mw.options.form('#opt_form_<? print $rand ?>');
  
 
  ?>
-<div class="option-item" id="opt_form_<? print $rand ?>">
+<div class="option-item" id="opt_form_{rand}">
   <label class="control-label"><? print $data['option_key'] ?></label>
   <div class="controls">
     <input name="<? print $data['option_key'] ?>" class="mw_option_field"   type="text" data-refresh="<? print $data['option_group'] ?>"  value="<? print $data['option_value'] ?>" />

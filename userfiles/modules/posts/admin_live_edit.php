@@ -4,11 +4,11 @@
     <li><a href="javascript:;">Skin/Template</a></li>
   </ul>
   <div class="tab">
-    <? $rand = uniqid(); ?>
+    <? //$rand = uniqid(); ?>
     <? $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
     <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
     <strong>Display posts from</strong>
-    <select name="data-page-id" id="the_post_data-page-id<? print $rand ?>"  class="mw_option_field"  >
+    <select name="data-page-id" id="the_post_data-page-id{rand}"  class="mw_option_field"  >
       <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
       <?
 $pt_opts = array();
@@ -36,12 +36,12 @@ $show_fields = array();
  ?>
     <script>
     $(function() {
-        $( "#post_fields_sort_<? print $rand ?>" ).sortable({
+        $( "#post_fields_sort_{rand}" ).sortable({
 		
 		containment: "parent",
 		stop: function( event, ui ){
 		
-		 $( "#post_fields_sort_<? print $rand ?> name['data-show']:first" ).trigger('change');
+		 $( "#post_fields_sort_{rand} name['data-show']:first" ).trigger('change');
 			
 		}
 		}
@@ -51,7 +51,7 @@ $show_fields = array();
     </script> 
     <br />
     <strong>Show fields</strong> <br />
-    <ul id="post_fields_sort_<? print $rand ?>">
+    <ul id="post_fields_sort_{rand}">
       <li>
         <label>
           <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />

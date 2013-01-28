@@ -33,7 +33,7 @@ if( $id != 0){
  
 ?>
 <? if($data != false): ?>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
   mw.require('forms.js');
   </script>
@@ -81,8 +81,8 @@ if( $id != 0){
 <script  type="text/javascript">
 
 	$(document).ready(function(){
-	mw.$('#add_new_content_to_menu<? print $rand ?>').find('input[type="radio"]').unbind('change')
-	mw.$('#add_new_content_to_menu<? print $rand ?>').find('input[type="radio"]').bind('change', function(e){
+	mw.$('#add_new_content_to_menu{rand}').find('input[type="radio"]').unbind('change')
+	mw.$('#add_new_content_to_menu{rand}').find('input[type="radio"]').bind('change', function(e){
 	// d();
 	
 		var $sel_data = $(this).parents('li').first();
@@ -90,8 +90,8 @@ if( $id != 0){
 		
 		
 		
-		var the_new_page = mw.$('#mw_edit_menu_item_<? print $rand ?>').find('input[name="content_id"]');
-				var the_new_cat = mw.$('#mw_edit_menu_item_<? print $rand ?>').find('input[name="taxonomy_id"]');
+		var the_new_page = mw.$('#mw_edit_menu_item_{rand}').find('input[name="content_id"]');
+				var the_new_cat = mw.$('#mw_edit_menu_item_{rand}').find('input[name="taxonomy_id"]');
 
 		
 		if(is_cat != undefined){
@@ -116,7 +116,7 @@ if( $id != 0){
 <div class="<? print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?  print $rand ?>"> <a href="javascript:mw.menu_<?  print $rand ?>add_new_menu_item_from_content()" class="mw-ui-btn-rect">New link</a> <a href="javascript:mw.menu_<?  print $rand ?>add_new_menu_item_custom()" class="mw-ui-btn-rect">Custom link</a> <br />
   <br />
   <div id="mw-menu-add-link-from-content" style="display:none">
-    <microweber module="categories/selector"  for="content" id="add_new_content_to_menu<? print $rand ?>" input-type-categories="radio" input-name="content_id"   input-name-categories="content_id"  />
+    <microweber module="categories/selector"  for="content" id="add_new_content_to_menu{rand}" input-type-categories="radio" input-name="content_id"   input-name-categories="content_id"  />
     <br />
     <br />
     <br />

@@ -1,7 +1,7 @@
 <?
 
-$rand = rand();
-$rand = round($rand);
+//$rand = rand();
+//$rand = round($rand);
 
 $add_remove_controls = ''.
 '<span class="ico iAdd2 mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
@@ -113,7 +113,7 @@ if (isset($data['save_to_content_id'])) {
 }
 ?>
 
-<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand ?>" >
+<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit{rand}" >
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
 <input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>

@@ -1,12 +1,12 @@
-<?  $rand = $params['id']; ?>
+<?  //$rand = $params['id']; ?>
 <div id="mw_index_menus">
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
     <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;
       <?php _e("Menus"); ?>
     </h2>
     
-    <div class="mw-admin-side-nav" id="menus_categories_tree_<? print $rand  ?>" >
-      <div id="menus_admin_categories_<? print $rand  ?>">
+    <div class="mw-admin-side-nav" id="menus_categories_tree_{rand}" >
+      <div id="menus_admin_categories_{rand}">
       <? $menus = get_menu(); ?>
 
         <ul>
@@ -26,6 +26,6 @@
   <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="menus-index-bar"> asdasdasd </div>
     <div class="vSpace"></div>
-    <div id="menus_admin_<? print $rand  ?>" > </div>
+    <div id="menus_admin_{rand}" > </div>
   </div>
 </div>

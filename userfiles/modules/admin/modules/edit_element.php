@@ -17,7 +17,7 @@ if($id != false){
   ?>
  <? if(!empty($data)):  ?>
  
- <? $rand = uniqid().$data['id']; ?>
+ <? //$rand = uniqid().$data['id']; ?>
  
  <script  type="text/javascript">
 
@@ -28,10 +28,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 mw.$('#module_admin_settings_form_<? print $rand ?>').submit(function() { 
+	 mw.$('#module_admin_settings_form_{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#module_admin_settings_form_<? print $rand ?>') , '<? print site_url('api') ?>/save_settings_el', function(){
+ mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<? print site_url('api') ?>/save_settings_el', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');
@@ -68,7 +68,7 @@ $(document).ready(function(){
  
  
  
- <form  id="module_admin_settings_form_<? print $rand ?>">
+ <form  id="module_admin_settings_form_{rand}">
   <? if(isset($data['icon'])):  ?>
  <img src="<? print $data['icon'] ?>"> <br />
 <? endif; ?>

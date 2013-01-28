@@ -1,17 +1,17 @@
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <?  $iudates =  mw_check_for_update();
 
 //d($iudates);
 ?>
 
 <? if(!empty($iudates)): ?>
- <pre id="update_lddog_<? print $rand ?>">
+ <pre id="update_lddog_{rand}">
 <? d($iudates); ?>
 </pre>
 
 <? if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
  <? foreach($iudates["license_check"]["modules"] as  $item): ?>
- <pre id="update_log_<? print $rand ?>">
+ <pre id="update_log_{rand}">
 <? d($item); ?>
 </pre>
  <? endforeach; ?>
@@ -25,10 +25,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 mw.$('#mw_form1_updates<? print $rand ?>').submit(function() { 
+	 mw.$('#mw_form1_updates{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#mw_form1_updates<? print $rand ?>') , '<? print site_url('api') ?>/mw_apply_updates', function(){
+ mw.form.post(mw.$('#mw_form1_updates{rand}') , '<? print site_url('api') ?>/mw_apply_updates', function(){
 	 
 var obj =  (this);
 
@@ -36,13 +36,13 @@ var obj =  (this);
 
 
 	 if(mw.is.defined(obj) && obj != null){
-	 mw.$('#update_log_<? print $rand ?>').empty();
+	 mw.$('#update_log_{rand}').empty();
 	 $.each(obj, function(index, value) { 
 	 
  
 	 
 	 
-mw.$('#update_log_<? print $rand ?>').append(value);
+mw.$('#update_log_{rand}').append(value);
 });
 	  }
 	// mw.log(this);
@@ -73,7 +73,7 @@ mw.$('#update_log_<? print $rand ?>').append(value);
 
 
 
-<form id="mw_form1_updates<? print $rand ?>" name="form1" method="post">
+<form id="mw_form1_updates{rand}" name="form1" method="post">
   <? if(isset($iudates["mw_new_version_download"])): ?>
   <h3>New Microweber version available</h3> 
   

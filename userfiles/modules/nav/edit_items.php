@@ -28,7 +28,7 @@ $data = menu_tree( $menu_params);
 ?>
 
 <? if($data != false): ?>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
   mw.require('forms.js');
   mw.require('<? print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js');
@@ -41,7 +41,7 @@ mw.menu_item_delete = function($item_id){
 	
 	
 	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
-		 	mw.$('#mw_admin_menu_items_sort_<? print $rand ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
+		 	mw.$('#mw_admin_menu_items_sort_{rand}').find('li[data-item-id="'+$item_id+'"]').fadeOut();
  if(window.parent != undefined && window.parent.mw != undefined){
 		 
 		      window.parent.mw.reload_module('nav');
@@ -57,7 +57,7 @@ mw.menu_item_delete = function($item_id){
  
 mw.menu_items_set_edit = function($item_id){
 	
-var the_li = mw.$('#mw_admin_menu_items_sort_<? print $rand ?>').find('li[data-item-id="'+$item_id+'"]');
+var the_li = mw.$('#mw_admin_menu_items_sort_{rand}').find('li[data-item-id="'+$item_id+'"]');
 var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
  
  if(edit_wrap.length ==0){
@@ -76,14 +76,14 @@ var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
  
  
 
-mw.menu_items_sort_<? print $rand ?> = function(){
-  if(!mw.$("#mw_admin_menu_items_sort_<? print $rand ?>").hasClass("ui-sortable")){
+mw.menu_items_sort_{rand} = function(){
+  if(!mw.$("#mw_admin_menu_items_sort_{rand}").hasClass("ui-sortable")){
 	  
 	  
 	  
 	  
 	  
-  $("#mw_admin_menu_items_sort_<? print $rand ?> ul").nestedSortable({
+  $("#mw_admin_menu_items_sort_{rand} ul").nestedSortable({
        items: 'li',
 	   listType: 'ul',
 	   handle: 'a',
@@ -107,7 +107,7 @@ mw.menu_items_sort_<? print $rand ?> = function(){
 			
          });
 		 
-		// obj = $("#mw_admin_menu_items_sort_<? print $rand ?> ul").nestedSortable('serialize');
+		// obj = $("#mw_admin_menu_items_sort_{rand} ul").nestedSortable('serialize');
 
          $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj, function(){
 			 if(window.parent != undefined && window.parent.mw != undefined){
@@ -132,7 +132,7 @@ mw.menu_items_sort_<? print $rand ?> = function(){
 }
 
 
-mw.menu_items_sort_<? print $rand ?>()
+mw.menu_items_sort_{rand}()
  </script>
 
 
@@ -158,7 +158,7 @@ mw.menu_items_sort_<? print $rand ?>()
 
 
 
-<div id="mw_admin_menu_items_sort_<? print $rand ?>">
+<div id="mw_admin_menu_items_sort_{rand}">
 <? print $data; ?>
 </div>
 

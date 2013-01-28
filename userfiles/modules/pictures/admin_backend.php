@@ -38,14 +38,14 @@ if(isset($params['content-id'])){
 }
 
  ?>
-<? $rand = uniqid(); ?>
+<? //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
 
 
 
-function after_upld_<? print $rand ?>(a){
+function after_upld_{rand}(a){
 
 	 var data = {};
 	 data.for = '<? print $for ?>';
@@ -72,7 +72,7 @@ function after_upld_<? print $rand ?>(a){
 
 <script  type="text/javascript">
 $(document).ready(function(){
-   mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand ?>');
+   mw.module_pictures.init('#admin-thumbs-holder-sort-{rand}');
 });
 </script>
 <?  if(!isset($data["thumbnail"])){
@@ -93,7 +93,7 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
  ?>
 <div class="vSpace">&nbsp;</div>
 <label class="mw-ui-label">Add Images <small>(The first image will be thumbnail)</small></label>
-<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand ?>">
+<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-{rand}">
   <? if(isarr( $media)): ?>
   <?php $default_title = _e("Image title", true); ?>
   <? foreach( $media as $item): ?>
@@ -115,6 +115,6 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
   </div>
   <? endforeach; ?>
   <? endif;?>
-  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand ?>');"> Add Image </div>
+  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_{rand}');"> Add Image </div>
 </div>
  

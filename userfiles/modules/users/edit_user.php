@@ -1,7 +1,7 @@
 <? if(is_admin() == false) { error("Must be admin"); }
 
 $uid = 0;
-$rand = uniqid();
+//$rand = uniqid();
 
 $user_params = array();
 $user_params['id'] = 0;
@@ -39,7 +39,7 @@ mw.require('forms.js');
 _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
 
- mw.form.post(mw.$('#users_edit_<? print $rand ?>') , '<? print site_url('api/save_user') ?>', function(){
+ mw.form.post(mw.$('#users_edit_{rand}') , '<? print site_url('api/save_user') ?>', function(){
 	 
       UserId = this;
 	  // mw.reload_module('[data-type="categories"]');
@@ -63,7 +63,7 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
 </script>
 
-<div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_<? print $rand ?>">
+<div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_{rand}">
 
  <div class="mw-o-box-header" style="margin-bottom: 0;">
     <span class="ico iusers"></span>

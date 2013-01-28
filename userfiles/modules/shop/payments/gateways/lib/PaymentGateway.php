@@ -113,7 +113,7 @@ abstract class PaymentGateway
 
         $this->prepareSubmit();
 
-$rand = uniqid();
+//$rand = uniqid();
 
 $aj = isAjax();
 
@@ -129,7 +129,7 @@ if($aj  == false){
 $(document).ready(function(){
  
  
- $('#gateway_form_<? print $rand; ?>').submit();
+ $('#gateway_form_{rand}').submit();
 
 });
 </script>

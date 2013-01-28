@@ -1,4 +1,4 @@
-<?  $rand = uniqid(); ?>
+<?  //$rand = uniqid(); ?>
 <script  type="text/javascript">
     $r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
     mw.require($r1);
@@ -21,7 +21,7 @@ $v_monthly = get_visits('monthly');
         <li><a href="javascript:;" data-stat='month'>Monthly</a></li>
     </ul>
 
-    <div class="dashboard_stats" id="stats_<? print $rand ?>"></div>
+    <div class="dashboard_stats" id="stats_{rand}"></div>
 
 </div>
 
@@ -96,7 +96,7 @@ curr_users_numb <= 10 ? _rendvisits() : '';
 mw.stat = {
   draw:function(data, obj){
 
-    var el = obj || mwd.getElementById('stats_<? print $rand ?>');
+    var el = obj || mwd.getElementById('stats_{rand}');
     $(el).empty().removeClass('graph-initialised');
     Morris.Line({
       element: el,

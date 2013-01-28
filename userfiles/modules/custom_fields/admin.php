@@ -52,7 +52,7 @@ $for_id =$module_id = $params['to_table_id'];
 	 $for = 'table_content';
 }
 $module_id = $for_id;
-$rand = rand();
+//$rand = rand();
  
 ?>
 <script type="text/javascript">
