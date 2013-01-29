@@ -858,9 +858,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			} else {
 				$cfvq = "custom_field_value LIKE '$v'  ";
 			}
+			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
 			$q = "SELECT  to_table_id from $table_custom_fields where
 
-			to_table = '$aTable_assoc' and
+			to_table = '$table_assoc_name1' and
 
 			custom_field_name = '$k' and
 
@@ -869,15 +870,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$ids_q   $only_custom_fieldd_ids_q
 
 
-			$my_limit_q
-
-			order by field_order asc
+			 
 
 			";
 
 			$q2 = $q;
-			// p($q);
-			$q = $this -> core_model -> dbQuery($q, md5($q), 'custom_fields');
+
+			$q = db_query($q, md5($q), 'custom_fields/global');
 			//
 
 			if (!empty($q)) {
@@ -1454,7 +1453,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 		$q = $q . $limit;
 	}
- 
+
 	if ($debug == true) {
 
 		var_dump($table, $q, $is_in_table);
@@ -1776,9 +1775,8 @@ function save_data($table, $data, $data_to_save_options = false) {
 	$original_data = $data;
 
 	$is_quick = isset($original_data['quick_save']);
-	
-		$skip_cache = isset($original_data['skip_cache']);
-	
+
+	$skip_cache = isset($original_data['skip_cache']);
 
 	if ($is_quick == false) {
 		if (isset($data['updated_on']) == false) {
@@ -1870,9 +1868,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 	if (isset($data['custom_field_value'])) {
 		if (is_array($data['custom_field_value'])) {
+			$data['custom_field_values_plain'] = db_escape_string(array_pop(array_values($data['custom_field_value'])));
 			$data['custom_field_values'] = base64_encode(serialize($data['custom_field_value']));
 			$data['custom_field_value'] = 'Array';
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
+		} else if (is_string($data['custom_field_value'])) {
+			$data['custom_field_values_plain'] = db_escape_string((strip_tags($data['custom_field_value'])));
 		}
 	}
 
@@ -2424,7 +2425,10 @@ function save_data($table, $data, $data_to_save_options = false) {
 						$custom_field_to_save['custom_field_name'] = $cf_k;
 						if (is_array($cf_v)) {
 							$custom_field_to_save['custom_field_values'] = base64_encode(json_encode($cf_v));
+							$custom_field_to_save['custom_field_values_plain'] = db_escape_string(array_pop(array_values($cf_v)));
 							$cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
+							$cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
+
 						} else {
 							$cf_v = db_escape_string($cf_v);
 						}
@@ -2484,7 +2488,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
-						// d($add);
+
 						db_q($add);
 
 					}
@@ -2496,20 +2500,18 @@ function save_data($table, $data, $data_to_save_options = false) {
 		}
 	}
 
-
-
-	if($skip_cache == false){
+	if ($skip_cache == false) {
 		$cg = guess_cache_group($table);
 		//
-	
+
 		if ($media_table_modified == true) {
 			cache_clean_group('media/global');
-	
+
 		}
-	
+
 		cache_clean_group($cg . '/global');
 		cache_clean_group($cg . '/' . $id_to_return);
-	
+
 		if (isset($criteria['parent_id'])) {
 			//d($criteria['parent_id']);
 			cache_clean_group($cg . '/' . intval($criteria['parent_id']));

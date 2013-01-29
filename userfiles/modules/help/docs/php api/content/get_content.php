@@ -117,7 +117,7 @@ $pt_opts['list_tag'] = " ";
             <td>Is the content homepage</td>
           </tr>
           <tr>
-            <td><a id="get_content_custom_fields_t" href="#messages">1</a></td>
+            <td><a id="get_content_custom_fields_t" href="#messages">Custom fields</a></td>
             <td>      <div   style="display:none" id="get_content_custom_fields" class="mw-exec-custom-fields">
             
             <? $cfs = custom_field_names_for_table('content'); ?>

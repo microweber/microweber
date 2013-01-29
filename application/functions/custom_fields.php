@@ -34,10 +34,10 @@ function custom_field_names_for_table($table) {
 	//d($q);
 	$crc = (crc32($q));
 
-		$cache_id = __FUNCTION__ . '_' . $crc;
+	$cache_id = __FUNCTION__ . '_' . $crc;
 
-		$results = db_query($q, $cache_id, 'custom_fields/global');
- 
+	$results = db_query($q, $cache_id, 'custom_fields/global');
+
 	if (isarr($results)) {
 		return $results;
 	}
@@ -186,7 +186,7 @@ function save_custom_field($data) {
 		$data_to_save['options'] = encode_var($data['options']);
 	}
 	//  $data_to_save['debug'] = 1;
-
+ 
 	$save = save_data($table_custom_field, $data_to_save);
 
 	cache_clean_group('custom_fields');
